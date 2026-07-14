@@ -2,3600 +2,3244 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3709C44515
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:20 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1654.1784055853921531514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4004DC4450F
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:31 +0000 (UTC)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1669.1784055867883589778
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 12:04:14 -0700
+ Tue, 14 Jul 2026 12:04:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=hkj0yfqY;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-451e2a978a3so816705fac.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=B3cABCv1;
+ spf=pass (domain: gmail.com, ip: 209.85.210.47, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7eb1dc6bd53so2540542a34.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784055853; x=1784660653; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Vfcs/JPUPQVmVnAhNtPZgc2cwMcCR4nr8o5cWkLM2v8=;
-        b=hkj0yfqYZfhasXdvWaPHWodiZI6e+phKVa17cZcHZFFTk1xPT6lJxPCBWQB6SrTrg3
-         EJkm21bBlw+3NQCvaEPedf/ub5Dhyet4Bbz6fGkFxXF1QQqP7dwFyyo6S59cwEky9rmS
-         RG3wTpK3iHhpfSdA95IoNLjElUQ3UjJtJ3S1E83uGHQ7AYZGxwNI19LaVQNAUfjnnS6y
-         KR9R3jsg6v9diJmg7XZw1d84iGpUr5p4dmlsVo8kErx2V9hw+QG17RTuqg8od2uu8kJm
-         OeFlS9+ymCZGimcd8wlUcnmSGNf4hCoY4jsy9cCwHj2X8ez2pQaQDKBv7SJx5P5yguty
-         FjxQ==
+        d=gmail.com; s=20251104; t=1784055867; x=1784660667; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zOQDx3C+YlpyQo3jujzfJbQt4Htk4WwGyc/aGJ+M5oc=;
+        b=B3cABCv1Zk8vil9I/IKRGgJ4Q4uxn/Ixs6bq7xyI1pmWEBbF4xThSHQG27rOWIoD1J
+         xG6s17rCBg/QMKUJ5zd7xSBtrzh15I3Eh++iy7TWmnb+zrfx5SY+Ia8VjcTUq7uv2DNe
+         ScUiEbZk1GT+yX5lBthlE1mToNFDZ/UkUsXPCxn9jcyB/kXhyiteHvf8VuHDds+Kytjz
+         OmDmwUkVGdWlaGZ7cHVoUnNBY2UYfkDYr9uLm5Vl64pLCipWe8fjoZ7Zon0C3cNKRRY5
+         yF/+A9IQBTNK0zKMZs6DHpubdpGhJkIyhvO/DpbZLZ8WtKp4yIDDeNcsxdBBAhBcCfxH
+         ITnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784055853; x=1784660653;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Vfcs/JPUPQVmVnAhNtPZgc2cwMcCR4nr8o5cWkLM2v8=;
-        b=sfgPckeNmCrjIu5Gji339ukcAkc9Z3C8Mrm/kPmuOQ91BWFjuCIbBT0NPd0fJhEGq3
-         0/fNGDsj+2Y2po3EVbnXizYZebxYelqudtDxF0yQ3fbT2RrnlsuYKgv68AWAvqMm1Lz7
-         Hw0Xmr7fqVIJFhCvNKBvB7FgI/0G1FWGeTbbtcK8yWQuhNoS5qLfkZD0oQi+7BJXghw5
-         YyuPssSm9q9L1Ah/egzFXgRYLmUO7yGyx8FI2sDeora131OTqsCDwhJpAPyCICXDYdVq
-         g4Rb1BB5tLMwkwlNTIRV04d7UNp0VsFcC6TUH0WDJF9bScLUMVy7G2KA+3dzGtORdct+
-         jMug==
-X-Gm-Message-State: AOJu0YwQBeGClb8Cm9iNgIDxLSxCqG1hB2mVmkF6cuCNXL3u1wcV4Gqf
-	r42zqKKwt4ZVIQFup3ggMYJDkqheGWJfDxvF/IdgL6jomYEHw4tMy2YUohfYWA==
-X-Gm-Gg: AfdE7cniAveoSRCFwHNC4+FQo672y0wNKk8YbAXOij/pG59dsLJz9y8MLt59LjIwf0U
-	LBNcS98IFm9eX+heDp9qNBsAls92jW2JHHP10G1bQxsY1BHBPiaE8IO95LQi4oWolR82GqOp7Ug
-	la69AACZ68AkbgKo0ZcOuTZru3CQQkICsCweZIRdEVDNELYs5g0yJVb0kCeXm8G6ByGHfiEwE07
-	fcnxLbVOGkwb30b+JAr65CLReE9lXspJ9KXEZCOTK5CoSbBYKXXXzGd4M9R5ZYn99sgDyQ2ZaQo
-	rRaRuy634M2dqg8gCeWaCxjz4f1lzccF9wq28rYetmLA3U6ZndMoG0RB0V0ouUS+yyYHAy2kY7m
-	xpC0KApXiXqzhGOQ+sPa1f5TYgWHTYLuAYr014cOctB6bAC+Gu2ex8ewxL9l1a5PWLgZK08lo+s
-	Gg+0zHHMurflJbIwEKIhFo
-X-Received: by 2002:a05:6870:5ba0:b0:451:3852:25a9 with SMTP id 586e51a60fabf-451f13c8191mr8955438fac.21.1784055850272;
-        Tue, 14 Jul 2026 12:04:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784055867; x=1784660667;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zOQDx3C+YlpyQo3jujzfJbQt4Htk4WwGyc/aGJ+M5oc=;
+        b=JOCK0v1Mca3n8u5QSbghXQRhjB4Is4vZsnnGcDyYVISHHGqj5UXcy1we170+YKrRdF
+         PmLdwZeq4hL8wtJT1A1rAIBngYLRJgKCkWdtJ/Nzg2n8ohY5ZzG3EJKHumJ4TWfoZRfw
+         CyOxzAjV4VZeeWtD8f2fpk6Lbbfzsnyv39oktCUPFGKrVnaj104dh7UqGtTAGzq7px+d
+         Efp0uWpPPJKNHkkErZ7YbPx5gMHyJZdPmVBGD0S1q0OI/Rro6hBOVu9ED7Vtgxg5VKuU
+         rJNAYifxBMLuQy19PgTGb2P1h9fk5co/v93raFqve8eJc1WdYOn9uSHHI+A5uVaRRRNW
+         73EA==
+X-Gm-Message-State: AOJu0YwtFmWfQ0bneA0xwoIaByxNfm8fRVSGl0DjrmPA+92+JeU8Tr1T
+	W//NFyUZb5B68Z+a/S0ZYKCVqBOriLG7+T+sqIUJ35Mm59wvsdH1I+MhNaoikA==
+X-Gm-Gg: AfdE7cmfSWiqzboq7zoNLVrKpwj+0WC4uRdy/37b1Ni70GDZX+1BWltJUBcaWckh018
+	Tznn70278c06YekLwCO12xd0ezVJvACME9JgcMniExyaChBETKWOH3ZkAX5TXh39hjHubG3cFNh
+	RZIs3rabQp22E/Vj901IG6S1yrduUTIpmvxrAXOZ55ePkfI/50YzZrmxj0MPf/dUFpbYyLy3jlc
+	gDutZXDESvqWtF0XdErcJs2oho5aIzm5koriN2f5YJn1faRz0lRHYt/SqtGkPVWY5TFCdH2Ne24
+	dyHE5/fHetmPqmZbyfykIK/mo9WUkYFOZMqpKTMreFxyfyRr7Hhyy/s8mM/vZa9MYdnlz3Xq6M8
+	qLvIBH/lq4QwkCUPJUaVL2yddUwQ+0KujAN2GVfN+QAVWvvwwJPHEXNPfH7WKRnGtj6XGe1jv61
+	NujByTSFTh/A==
+X-Received: by 2002:a05:6820:4c06:b0:6a3:94bc:bdb9 with SMTP id 006d021491bc7-6a3cbae1787mr1944412eaf.25.1784055864474;
+        Tue, 14 Jul 2026 12:04:24 -0700 (PDT)
 Received: from localhost.localdomain ([2601:283:4b02:22d0::7b52])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.09
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 12:04:09 -0700 (PDT)
+        Tue, 14 Jul 2026 12:04:23 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 02/22] Add SPDX License Exceptions
-Date: Tue, 14 Jul 2026 12:31:12 -0600
-Message-ID: <20260714190405.3328796-3-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 21/22] Convert licenses to SPDX expressions
+Date: Tue, 14 Jul 2026 12:31:31 -0600
+Message-ID: <20260714190405.3328796-22-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260714190405.3328796-1-JPEWhacker@gmail.com>
 References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240912
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240930
 
-Adds the JSON file that lists the SPDX license exceptions, as well as
-the exception license files themselves.
-
-This was done automatically using the pull-spdx-licenses.py script
+Automatically convert all licenses to valid SPDX license expressions
+using convert-spdx-licenses.py
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/files/common-licenses/389-exception      |   7 +
- meta/files/common-licenses/Asterisk-exception |   5 +
- .../Asterisk-linking-protocols-exception      |  13 +
- .../common-licenses/Autoconf-exception-2.0    |   5 +
- .../common-licenses/Autoconf-exception-3.0    |  26 +
- .../Autoconf-exception-generic                |   4 +
- .../Autoconf-exception-generic-3.0            |   6 +
- .../common-licenses/Autoconf-exception-macro  |  12 +
- .../common-licenses/Bison-exception-1.24      |   4 +
- .../files/common-licenses/Bison-exception-2.2 |   5 +
- .../common-licenses/Bootloader-exception      |  10 +
- .../common-licenses/CGAL-linking-exception    |   4 +
- .../files/common-licenses/CLISP-exception-2.0 |  15 +
- .../common-licenses/Classpath-exception-2.0   |   3 +
- .../Classpath-exception-2.0-short             |  11 +
- .../common-licenses/DigiRule-FOSS-exception   |  54 +
- .../Digia-Qt-LGPL-exception-1.1               |   9 +
- meta/files/common-licenses/FLTK-exception     |  17 +
- .../common-licenses/Fawkes-Runtime-exception  |   1 +
- meta/files/common-licenses/Font-exception-2.0 |   1 +
- meta/files/common-licenses/GCC-exception-2.0  |   1 +
- .../common-licenses/GCC-exception-2.0-note    |  16 +
- meta/files/common-licenses/GCC-exception-3.1  |  33 +
- meta/files/common-licenses/GNAT-exception     |   6 +
- .../common-licenses/GNOME-examples-exception  |   1 +
- .../common-licenses/GNU-compiler-exception    |   6 +
- .../GPL-3.0-389-ds-base-exception             |  10 +
- .../GPL-3.0-interface-exception               |   7 +
- .../common-licenses/GPL-3.0-linking-exception |   3 +
- .../GPL-3.0-linking-source-exception          |   3 +
- meta/files/common-licenses/GPL-CC-1.0         |  46 +
- .../common-licenses/GStreamer-exception-2005  |   1 +
- .../common-licenses/GStreamer-exception-2008  |   1 +
- meta/files/common-licenses/Gmsh-exception     |  16 +
- .../Independent-modules-exception             |  18 +
- .../common-licenses/KiCad-libraries-exception |   1 +
- .../LGPL-3.0-linking-exception                |  16 +
- meta/files/common-licenses/LLGPL              |  56 +
- meta/files/common-licenses/LLVM-exception     |  15 +
- meta/files/common-licenses/LZMA-exception     |   3 +
- meta/files/common-licenses/Libtool-exception  |   1 +
- meta/files/common-licenses/Linux-syscall-note |  12 +
- meta/files/common-licenses/OCCT-exception-1.0 |   3 +
- .../OCaml-LGPL-linking-exception              |   1 +
- .../OpenJDK-assembly-exception-1.0            |  31 +
- meta/files/common-licenses/PCRE2-exception    |   8 +
- .../PS-or-PDF-font-exception-20170817         |   8 +
- .../QPL-1.0-INRIA-2004-exception              |   5 +
- .../common-licenses/Qt-GPL-exception-1.0      |  21 +
- .../common-licenses/Qt-LGPL-exception-1.1     |  22 +
- meta/files/common-licenses/Qwt-exception-1.0  |  12 +
- .../RRDtool-FLOSS-exception-2.0               |  66 ++
- meta/files/common-licenses/SANE-exception     |  20 +
- meta/files/common-licenses/SHL-2.0            |  22 +
- meta/files/common-licenses/SHL-2.1            |  49 +
- meta/files/common-licenses/SWI-exception      |   7 +
- .../Simple-Library-Usage-exception            |  33 +
- meta/files/common-licenses/Swift-exception    |   6 +
- meta/files/common-licenses/Texinfo-exception  |   4 +
- meta/files/common-licenses/UBDL-exception     |  59 ++
- .../Universal-FOSS-exception-1.0              |  11 +
- .../common-licenses/WxWindows-exception-3.1   |   9 +
- .../cryptsetup-OpenSSL-exception              |  12 +
- meta/files/common-licenses/eCos-exception-2.0 |   3 +
- .../erlang-otp-linking-exception              |  11 +
- meta/files/common-licenses/fmt-exception      |   6 +
- .../common-licenses/freertos-exception-2.0    |  19 +
- .../common-licenses/gnu-javamail-exception    |   1 +
- meta/files/common-licenses/harbour-exception  |  23 +
- .../common-licenses/i2p-gpl-java-exception    |   1 +
- .../common-licenses/kvirc-openssl-exception   |  30 +
- .../common-licenses/libpri-OpenH323-exception |   4 +
- meta/files/common-licenses/mif-exception      |   1 +
- meta/files/common-licenses/mxml-exception     |  16 +
- .../common-licenses/openvpn-openssl-exception |   3 +
- .../files/common-licenses/polyparse-exception |   7 +
- meta/files/common-licenses/romic-exception    |   6 +
- .../common-licenses/rsync-linking-exception   |   6 +
- .../sqlitestudio-OpenSSL-exception            |   9 +
- meta/files/common-licenses/stunnel-exception  |   5 +
- .../common-licenses/u-boot-exception-2.0      |   6 +
- .../common-licenses/vsftpd-openssl-exception  |   5 +
- .../common-licenses/x11vnc-openssl-exception  |   9 +
- meta/files/spdx-exceptions.json               | 971 ++++++++++++++++++
- 84 files changed, 2035 insertions(+)
- create mode 100644 meta/files/common-licenses/389-exception
- create mode 100644 meta/files/common-licenses/Asterisk-exception
- create mode 100644 meta/files/common-licenses/Asterisk-linking-protocols-e=
-xception
- create mode 100644 meta/files/common-licenses/Autoconf-exception-2.0
- create mode 100644 meta/files/common-licenses/Autoconf-exception-3.0
- create mode 100644 meta/files/common-licenses/Autoconf-exception-generic
- create mode 100644 meta/files/common-licenses/Autoconf-exception-generic-3=
-.0
- create mode 100644 meta/files/common-licenses/Autoconf-exception-macro
- create mode 100644 meta/files/common-licenses/Bison-exception-1.24
- create mode 100644 meta/files/common-licenses/Bison-exception-2.2
- create mode 100644 meta/files/common-licenses/Bootloader-exception
- create mode 100644 meta/files/common-licenses/CGAL-linking-exception
- create mode 100644 meta/files/common-licenses/CLISP-exception-2.0
- create mode 100644 meta/files/common-licenses/Classpath-exception-2.0
- create mode 100644 meta/files/common-licenses/Classpath-exception-2.0-short
- create mode 100644 meta/files/common-licenses/DigiRule-FOSS-exception
- create mode 100644 meta/files/common-licenses/Digia-Qt-LGPL-exception-1.1
- create mode 100644 meta/files/common-licenses/FLTK-exception
- create mode 100644 meta/files/common-licenses/Fawkes-Runtime-exception
- create mode 100644 meta/files/common-licenses/Font-exception-2.0
- create mode 100644 meta/files/common-licenses/GCC-exception-2.0
- create mode 100644 meta/files/common-licenses/GCC-exception-2.0-note
- create mode 100644 meta/files/common-licenses/GCC-exception-3.1
- create mode 100644 meta/files/common-licenses/GNAT-exception
- create mode 100644 meta/files/common-licenses/GNOME-examples-exception
- create mode 100644 meta/files/common-licenses/GNU-compiler-exception
- create mode 100644 meta/files/common-licenses/GPL-3.0-389-ds-base-exception
- create mode 100644 meta/files/common-licenses/GPL-3.0-interface-exception
- create mode 100644 meta/files/common-licenses/GPL-3.0-linking-exception
- create mode 100644 meta/files/common-licenses/GPL-3.0-linking-source-excep=
-tion
- create mode 100644 meta/files/common-licenses/GPL-CC-1.0
- create mode 100644 meta/files/common-licenses/GStreamer-exception-2005
- create mode 100644 meta/files/common-licenses/GStreamer-exception-2008
- create mode 100644 meta/files/common-licenses/Gmsh-exception
- create mode 100644 meta/files/common-licenses/Independent-modules-exception
- create mode 100644 meta/files/common-licenses/KiCad-libraries-exception
- create mode 100644 meta/files/common-licenses/LGPL-3.0-linking-exception
- create mode 100644 meta/files/common-licenses/LLGPL
- create mode 100644 meta/files/common-licenses/LLVM-exception
- create mode 100644 meta/files/common-licenses/LZMA-exception
- create mode 100644 meta/files/common-licenses/Libtool-exception
- create mode 100644 meta/files/common-licenses/Linux-syscall-note
- create mode 100644 meta/files/common-licenses/OCCT-exception-1.0
- create mode 100644 meta/files/common-licenses/OCaml-LGPL-linking-exception
- create mode 100644 meta/files/common-licenses/OpenJDK-assembly-exception-1=
-.0
- create mode 100644 meta/files/common-licenses/PCRE2-exception
- create mode 100644 meta/files/common-licenses/PS-or-PDF-font-exception-201=
-70817
- create mode 100644 meta/files/common-licenses/QPL-1.0-INRIA-2004-exception
- create mode 100644 meta/files/common-licenses/Qt-GPL-exception-1.0
- create mode 100644 meta/files/common-licenses/Qt-LGPL-exception-1.1
- create mode 100644 meta/files/common-licenses/Qwt-exception-1.0
- create mode 100644 meta/files/common-licenses/RRDtool-FLOSS-exception-2.0
- create mode 100644 meta/files/common-licenses/SANE-exception
- create mode 100644 meta/files/common-licenses/SHL-2.0
- create mode 100644 meta/files/common-licenses/SHL-2.1
- create mode 100644 meta/files/common-licenses/SWI-exception
- create mode 100644 meta/files/common-licenses/Simple-Library-Usage-excepti=
-on
- create mode 100644 meta/files/common-licenses/Swift-exception
- create mode 100644 meta/files/common-licenses/Texinfo-exception
- create mode 100644 meta/files/common-licenses/UBDL-exception
- create mode 100644 meta/files/common-licenses/Universal-FOSS-exception-1.0
- create mode 100644 meta/files/common-licenses/WxWindows-exception-3.1
- create mode 100644 meta/files/common-licenses/cryptsetup-OpenSSL-exception
- create mode 100644 meta/files/common-licenses/eCos-exception-2.0
- create mode 100644 meta/files/common-licenses/erlang-otp-linking-exception
- create mode 100644 meta/files/common-licenses/fmt-exception
- create mode 100644 meta/files/common-licenses/freertos-exception-2.0
- create mode 100644 meta/files/common-licenses/gnu-javamail-exception
- create mode 100644 meta/files/common-licenses/harbour-exception
- create mode 100644 meta/files/common-licenses/i2p-gpl-java-exception
- create mode 100644 meta/files/common-licenses/kvirc-openssl-exception
- create mode 100644 meta/files/common-licenses/libpri-OpenH323-exception
- create mode 100644 meta/files/common-licenses/mif-exception
- create mode 100644 meta/files/common-licenses/mxml-exception
- create mode 100644 meta/files/common-licenses/openvpn-openssl-exception
- create mode 100644 meta/files/common-licenses/polyparse-exception
- create mode 100644 meta/files/common-licenses/romic-exception
- create mode 100644 meta/files/common-licenses/rsync-linking-exception
- create mode 100644 meta/files/common-licenses/sqlitestudio-OpenSSL-excepti=
-on
- create mode 100644 meta/files/common-licenses/stunnel-exception
- create mode 100644 meta/files/common-licenses/u-boot-exception-2.0
- create mode 100644 meta/files/common-licenses/vsftpd-openssl-exception
- create mode 100644 meta/files/common-licenses/x11vnc-openssl-exception
- create mode 100644 meta/files/spdx-exceptions.json
+ .../python/python3-guessing-game_git.bb       |  2 +-
+ .../python3-guessing-game_git.bb.upgraded     |  2 +-
+ .../sysdig/sysdig-selftest_0.28.0.bb          |  2 +-
+ .../recipes-test/aspell/aspell_0.0.0.1.bb     |  2 +-
+ .../license/incompatible-license-alias.bb     |  2 +-
+ .../license/incompatible-licenses.bb          |  2 +-
+ .../license/incompatible-nonspdx-license.bb   |  2 +-
+ meta/recipes-bsp/alsa-state/alsa-state.bb     |  2 +-
+ meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb     |  2 +-
+ meta/recipes-bsp/usbutils/usbutils_019.bb     |  4 +--
+ meta/recipes-connectivity/avahi/avahi_0.9.bb  |  2 +-
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  2 +-
+ .../connman/connman-gnome_0.7.bb              |  2 +-
+ .../nfs-utils/nfs-utils_2.9.1.bb              |  2 +-
+ .../openssh/openssh_10.4p1.bb                 |  2 +-
+ meta/recipes-connectivity/ppp/ppp_2.5.3.bb    |  2 +-
+ .../slirp/libslirp_4.9.3.bb                   |  2 +-
+ .../socat/socat_1.8.1.3.bb                    |  3 +-
+ meta/recipes-core/busybox/busybox.inc         |  2 +-
+ meta/recipes-core/dbus/dbus-glib_0.114.bb     |  2 +-
+ meta/recipes-core/dbus/dbus_1.16.2.bb         |  2 +-
+ .../recipes-core/dropbear/dropbear_2026.92.bb |  2 +-
+ meta/recipes-core/gettext/gettext_1.0.bb      |  2 +-
+ meta/recipes-core/glib-2.0/glib.inc           |  2 +-
+ meta/recipes-core/glibc/glibc-common.inc      |  2 +-
+ .../initscripts/init-system-helpers_1.69.bb   |  2 +-
+ meta/recipes-core/kbd/kbd_2.10.0.bb           |  4 +--
+ meta/recipes-core/libxcrypt/libxcrypt.inc     |  2 +-
+ meta/recipes-core/musl/bsd-headers.bb         |  2 +-
+ meta/recipes-core/musl/musl-locales_git.bb    |  2 +-
+ meta/recipes-core/musl/musl-utils.bb          |  2 +-
+ meta/recipes-core/newlib/newlib.inc           |  2 +-
+ meta/recipes-core/picolibc/picolibc.inc       |  2 +-
+ .../sysfsutils/sysfsutils_2.1.1.bb            |  2 +-
+ meta/recipes-core/systemd/systemd.inc         |  2 +-
+ meta/recipes-core/udev/eudev_3.2.14.bb        |  2 +-
+ .../util-linux/util-linux_2.42.2.bb           | 36 +++++++++----------
+ .../btrfs-tools/btrfs-tools_7.0.bb            |  2 +-
+ meta/recipes-devtools/ccache/ccache_4.13.6.bb |  2 +-
+ .../cdrtools/cdrtools-native_3.01.bb          |  2 +-
+ meta/recipes-devtools/clang/common.inc        |  2 +-
+ meta/recipes-devtools/clang/llvm_git.bb       |  2 +-
+ .../clang/nativesdk-clang-glue.bb             |  2 +-
+ .../debugedit/debugedit_5.3.bb                |  2 +-
+ .../docbook-xml/docbook-xml-dtd4_4.5.bb       |  2 +-
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |  2 +-
+ .../elfutils/elfutils_0.195.bb                | 10 +++---
+ .../erofs-utils/erofs-utils_1.9.2.bb          |  2 +-
+ meta/recipes-devtools/expect/expect_5.45.4.bb |  2 +-
+ .../fastfloat/fastfloat_8.2.10.bb             |  2 +-
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  2 +-
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc  |  2 +-
+ meta/recipes-devtools/gdb/gdb.inc             |  2 +-
+ meta/recipes-devtools/git/git_2.55.0.bb       |  2 +-
+ .../i2c-tools/i2c-tools_4.4.bb                |  2 +-
+ .../libtool/libtool-2.5.4.inc                 |  2 +-
+ .../log4cplus/log4cplus_2.2.0.1.bb            |  2 +-
+ meta/recipes-devtools/orc/orc_0.4.42.bb       |  2 +-
+ .../perl-cross/perlcross_1.6.4.bb             |  2 +-
+ .../perl/libmodule-build-perl_0.4234.bb       |  2 +-
+ .../perl/libtest-fatal-perl_0.018.bb          |  2 +-
+ .../perl/libtest-needs-perl_0.002010.bb       |  2 +-
+ .../perl/libtest-warnings-perl_0.038.bb       |  2 +-
+ .../recipes-devtools/perl/libxml-perl_0.08.bb |  2 +-
+ .../perl/libxml-simple-perl_2.25.bb           |  2 +-
+ meta/recipes-devtools/perl/perl_5.42.2.bb     |  2 +-
+ .../python/python-pycryptodome.inc            |  2 +-
+ .../python/python3-cryptography-vectors.bb    |  2 +-
+ .../python/python3-cryptography.bb            |  2 +-
+ .../python/python3-docutils_0.23.bb           |  4 +--
+ .../python/python3-dtc_1.8.1.bb               |  2 +-
+ .../python/python3-idna_3.18.bb               |  2 +-
+ .../python/python3-lxml_6.1.1.bb              |  2 +-
+ .../python/python3-maturin_1.14.1.bb          |  2 +-
+ .../python/python3-numpy_2.5.0.bb             |  2 +-
+ .../python/python3-packaging_26.2.bb          |  2 +-
+ .../python/python3-pip_26.1.2.bb              |  2 +-
+ .../python/python3-poetry-core_2.4.1.bb       |  2 +-
+ .../python/python3-pycairo_1.29.0.bb          |  2 +-
+ .../python/python3-roman-numerals_4.1.0.bb    |  2 +-
+ .../python/python3-sphinx-rtd-theme_3.1.0.bb  |  2 +-
+ .../python/python3-sphinx_9.1.0.bb            |  2 +-
+ .../python/python3-subunit_1.4.4.bb           |  2 +-
+ .../python/python3-uv-build_0.11.28.bb        |  2 +-
+ .../qemu/python3-qemu-qmp_0.0.6.bb            |  2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +-
+ .../rpm-sequoia/rpm-sequoia_1.10.2.bb         |  2 +-
+ meta/recipes-devtools/ruby/ruby_4.0.5.bb      |  2 +-
+ meta/recipes-devtools/rust/cargo_1.96.1.bb    |  2 +-
+ .../recipes-devtools/rust/libstd-rs_1.96.1.bb |  2 +-
+ meta/recipes-devtools/rust/rust_1.96.1.bb     |  2 +-
+ meta/recipes-devtools/strace/strace_7.1.bb    |  2 +-
+ .../subversion/subversion_1.14.5.bb           |  2 +-
+ meta/recipes-devtools/swig/swig_4.4.1.bb      |  2 +-
+ .../systemd-bootchart_235.bb                  |  2 +-
+ .../tcf-agent/tcf-agent_1.11.0.bb             |  2 +-
+ meta/recipes-devtools/tcltk/tcl_9.0.4.bb      |  2 +-
+ meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb   |  2 +-
+ .../valgrind/valgrind_3.27.1.bb               |  2 +-
+ .../acpica/acpica_20260408.bb                 |  2 +-
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  4 +--
+ meta/recipes-extended/cronie/cronie_1.7.2.bb  |  2 +-
+ meta/recipes-extended/gawk/gawk_5.4.1.bb      |  2 +-
+ meta/recipes-extended/hdparm/hdparm_9.65.bb   |  6 ++--
+ .../iputils/iputils_20250605.bb               |  2 +-
+ .../jansson/jansson_2.15.1.bb                 |  2 +-
+ meta/recipes-extended/less/less_704.bb        |  2 +-
+ meta/recipes-extended/libidn/libidn2_2.3.8.bb |  4 +--
+ meta/recipes-extended/ltp/ltp_20260529.bb     |  2 +-
+ meta/recipes-extended/man-db/man-db_2.13.1.bb |  2 +-
+ .../man-pages/man-pages_6.18.bb               |  2 +-
+ meta/recipes-extended/mdadm/mdadm_4.6.bb      |  2 +-
+ meta/recipes-extended/pam/libpam_1.7.2.bb     |  2 +-
+ .../perl/libconvert-asn1-perl_0.34.bb         |  2 +-
+ .../perl/libtimedate-perl_2.30.bb             |  2 +-
+ .../perl/libxml-namespacesupport-perl_1.12.bb |  2 +-
+ .../perl/libxml-sax-base-perl_1.09.bb         |  2 +-
+ .../perl/libxml-sax-perl_1.02.bb              |  2 +-
+ meta/recipes-extended/pigz/pigz_2.8.bb        |  2 +-
+ meta/recipes-extended/procps/procps_4.0.6.bb  |  2 +-
+ meta/recipes-extended/quota/quota_4.11.bb     |  2 +-
+ .../shadow/shadow-sysroot_4.6.bb              |  2 +-
+ meta/recipes-extended/sudo/sudo.inc           |  2 +-
+ meta/recipes-extended/timezone/timezone.inc   |  2 +-
+ meta/recipes-extended/zstd/zstd_1.5.7.bb      |  2 +-
+ .../gi-docgen/gi-docgen_2026.1.bb             |  2 +-
+ .../gnome/adwaita-icon-theme_50.0.bb          |  2 +-
+ .../gobject-introspection_1.86.0.bb           |  2 +-
+ meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb      |  2 +-
+ meta/recipes-gnome/gtk+/gtk4_4.22.4.bb        |  2 +-
+ meta/recipes-graphics/cairo/cairo_1.18.4.bb   | 12 +++----
+ .../cantarell-fonts_0.303.1.bb                |  2 +-
+ .../fontconfig/fontconfig_2.18.2.bb           |  2 +-
+ .../freetype/freetype_2.14.3.bb               |  2 +-
+ .../glslang/glslang_1.4.350.1.bb              |  2 +-
+ .../jpeg/libjpeg-turbo_3.2.0.bb               |  2 +-
+ .../libmatchbox/libmatchbox_1.14.bb           |  2 +-
+ .../libsdl2/libsdl2_2.32.10.bb                |  2 +-
+ .../recipes-graphics/mesa/mesa-demos_9.0.0.bb |  2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb    |  2 +-
+ .../spir/spirv-headers_1.4.350.1.bb           |  2 +-
+ .../vulkan/vulkan-headers_1.4.350.1.bb        |  2 +-
+ .../vulkan-validation-layers_1.4.350.1.bb     |  2 +-
+ .../xorg-font/encodings_1.1.0.bb              |  2 +-
+ .../xorg-font/font-util_1.4.2.bb              |  2 +-
+ .../xorg-font/xorg-minimal-fonts.bb           |  2 +-
+ .../xorg-lib/libx11-compose-data_1.8.12.bb    |  2 +-
+ .../xorg-lib/libx11_1.8.13.bb                 |  2 +-
+ .../xorg-lib/libxfont2_2.0.8.bb               |  2 +-
+ .../xorg-lib/libxfont_1.5.4.bb                |  2 +-
+ meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb |  2 +-
+ .../xorg-lib/libxkbcommon_1.13.2.bb           |  2 +-
+ .../recipes-graphics/xorg-lib/libxmu_1.3.1.bb |  2 +-
+ meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb |  2 +-
+ .../xorg-lib/pixman_0.46.4.bb                 |  2 +-
+ .../xorg-lib/xkeyboard-config_2.48.bb         |  2 +-
+ .../xorg-xserver/xserver-xorg.inc             |  2 +-
+ .../xwayland/xwayland_24.1.13.bb              |  2 +-
+ meta/recipes-kernel/dtc/dtc_1.8.1.bb          |  2 +-
+ .../kern-tools/kern-tools-native_git.bb       |  2 +-
+ meta/recipes-kernel/kmod/kmod_34.2.bb         |  2 +-
+ .../libtraceevent/libtraceevent_1.9.0.bb      |  2 +-
+ .../linux/linux-yocto-fitimage.bb             |  2 +-
+ meta/recipes-kernel/linux/linux-yocto.inc     |  2 +-
+ .../recipes-kernel/lttng/babeltrace2_2.1.2.bb |  2 +-
+ .../lttng/lttng-modules_2.15.2.bb             |  2 +-
+ .../lttng/lttng-tools_2.15.1.bb               |  2 +-
+ meta/recipes-kernel/lttng/lttng-ust_2.15.1.bb |  2 +-
+ .../alsa/alsa-lib_1.2.16.1.bb                 |  2 +-
+ .../alsa/alsa-plugins_1.2.12.bb               |  2 +-
+ .../alsa/alsa-tools_1.2.15.bb                 |  2 +-
+ .../recipes-multimedia/ffmpeg/ffmpeg_8.1.2.bb |  2 +-
+ .../gstreamer1.0-plugins-bad_1.28.4.bb        |  2 +-
+ .../gstreamer1.0-plugins-ugly_1.28.4.bb       |  2 +-
+ meta/recipes-multimedia/libtiff/tiff_4.7.2.bb |  2 +-
+ .../pulseaudio/pulseaudio.inc                 |  2 +-
+ meta/recipes-multimedia/sbc/sbc_2.2.bb        |  2 +-
+ meta/recipes-rt/rt-tests/rt-tests_git.bb      |  2 +-
+ .../matchbox-desktop/matchbox-desktop_2.3.bb  |  2 +-
+ meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb    |  2 +-
+ .../sato-screenshot/sato-screenshot_0.3.bb    |  2 +-
+ meta/recipes-sato/webkit/webkitgtk_2.52.5.bb  |  2 +-
+ .../recipes-support/aspell/aspell_0.60.8.2.bb |  2 +-
+ meta/recipes-support/attr/acl_2.4.0.bb        |  2 +-
+ meta/recipes-support/attr/attr_2.6.0.bb       |  2 +-
+ meta/recipes-support/boost/boost-1.91.0.inc   |  2 +-
+ .../ca-certificates_20260601.bb               |  2 +-
+ .../debianutils/debianutils_5.23.2.bb         |  2 +-
+ meta/recipes-support/gmp/gmp_6.3.0.bb         |  2 +-
+ meta/recipes-support/gnupg/gnupg_2.5.20.bb    |  2 +-
+ meta/recipes-support/gnutls/gnutls_3.8.13.bb  |  2 +-
+ .../recipes-support/gnutls/libtasn1_4.21.0.bb |  2 +-
+ meta/recipes-support/gpgme/gpgme_2.1.2.bb     |  4 +--
+ meta/recipes-support/hwdata/hwdata_0.409.bb   |  2 +-
+ meta/recipes-support/icu/icu_78.3.bb          |  2 +-
+ .../libassuan/libassuan_3.0.2.bb              |  2 +-
+ .../libatomic-ops/libatomic-ops_7.10.0.bb     |  2 +-
+ meta/recipes-support/libbsd/libbsd_0.12.2.bb  |  2 +-
+ meta/recipes-support/libcap-ng/libcap-ng.inc  |  2 +-
+ .../libevent/libevent_2.1.13.bb               |  2 +-
+ meta/recipes-support/libfm/libfm_1.3.2.bb     |  2 +-
+ .../libgcrypt/libgcrypt_1.12.2.bb             |  6 ++--
+ .../libgpg-error/libgpg-error_1.61.bb         |  2 +-
+ meta/recipes-support/libical/libical_4.0.3.bb |  2 +-
+ .../libjitterentropy_3.6.3.bb                 |  2 +-
+ meta/recipes-support/libksba/libksba_1.8.0.bb |  4 +--
+ meta/recipes-support/libmd/libmd_1.2.0.bb     |  2 +-
+ .../recipes-support/libpcre/libpcre2_10.47.bb |  2 +-
+ .../libunistring/libunistring_1.4.2.bb        |  2 +-
+ .../recipes-support/liburcu/liburcu_0.15.6.bb |  2 +-
+ meta/recipes-support/lz4/lz4_1.10.0.bb        |  2 +-
+ meta/recipes-support/nettle/nettle_4.0.bb     |  2 +-
+ .../recipes-support/numactl/numactl_2.0.19.bb |  2 +-
+ meta/recipes-support/re2c/re2c_4.5.1.bb       |  2 +-
+ meta/recipes-support/taglib/taglib_2.3.bb     |  2 +-
+ meta/recipes-support/utfcpp/utfcpp_4.1.1.bb   |  4 +--
+ meta/recipes-support/vte/vte_0.84.0.bb        |  2 +-
+ meta/recipes-support/xxhash/xxhash_0.8.3.bb   |  2 +-
+ 218 files changed, 257 insertions(+), 256 deletions(-)
 
-diff --git a/meta/files/common-licenses/389-exception b/meta/files/common-l=
-icenses/389-exception
-new file mode 100644
-index 0000000000..fe5bff900a
---- /dev/null
-+++ b/meta/files/common-licenses/389-exception
-@@ -0,0 +1,7 @@
-+This Program is free software; you can redistribute it and/or modify it un=
-der the terms of the GNU General Public License as published by the Free So=
-ftware Foundation; version 2 of the License.
-+
-+This Program is distributed in the hope that it will be useful, but WITHOU=
-T ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FIT=
-NESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more =
-details.
-+
-+You should have received a copy of the GNU General Public License along wi=
-th this Program; if not, write to the Free Software Foundation, Inc., 59 Te=
-mple Place, Suite 330, Boston, MA 02111-1307 USA.
-+
-+In addition, as a special exception, Red Hat, Inc. gives You the additiona=
-l right to link the code of this Program with code not covered under the GN=
-U General Public License ("Non-GPL Code") and to distribute linked combinat=
-ions including the two, subject to the limitations in this paragraph. Non-G=
-PL Code permitted under this exception must only link to the code of this P=
-rogram through those well defined interfaces identified in the file named E=
-XCEPTION found in the source code files (the "Approved Interfaces"). The fi=
-les of Non-GPL Code may instantiate templates or use macros or inline funct=
-ions from the Approved Interfaces without causing the resulting work to be =
-covered by the GNU General Public License. Only Red Hat, Inc. may make chan=
-ges or additions to the list of Approved Interfaces. You must obey the GNU =
-General Public License in all respects for all of the Program code and othe=
-r code used in conjunction with the Program except the Non-GPL Code covered=
- by this exception. If you modify this file, you may extend this exception =
-to your version of the file, but you are not obligated to do so. If you do =
-not wish to provide this exception without modification, you must delete th=
-is exception statement from your version and license this file solely under=
- the GPL without exception.
-diff --git a/meta/files/common-licenses/Asterisk-exception b/meta/files/com=
-mon-licenses/Asterisk-exception
-new file mode 100644
-index 0000000000..88253f12d3
---- /dev/null
-+++ b/meta/files/common-licenses/Asterisk-exception
-@@ -0,0 +1,5 @@
-+In addition, when this program is distributed with Asterisk in any=20
-+form that would qualify as a 'combined work' or as a 'derivative work'=20
-+(but not mere aggregation), you can redistribute and/or modify the=20
-+combination under the terms of the license provided with that copy=20
-+of Asterisk, instead of the license terms granted here.
-diff --git a/meta/files/common-licenses/Asterisk-linking-protocols-exceptio=
-n b/meta/files/common-licenses/Asterisk-linking-protocols-exception
-new file mode 100644
-index 0000000000..6705829f47
---- /dev/null
-+++ b/meta/files/common-licenses/Asterisk-linking-protocols-exception
-@@ -0,0 +1,13 @@
-+Specific permission is also granted to link Asterisk with OpenSSL, OpenH323
-+UniMRCP, and/or the UW IMAP Toolkit and distribute the resulting binary fi=
-les.
-+
-+In addition, Asterisk implements several management/control protocols.
-+This includes the Asterisk Manager Interface (AMI), the Asterisk Gateway
-+Interface (AGI), and the Asterisk REST Interface (ARI). It is our belief
-+that applications using these protocols to manage or control an Asterisk
-+instance do not have to be licensed under the GPL or a compatible license,
-+as we believe these protocols do not create a 'derivative work' as referred
-+to in the GPL. However, should any court or other judiciary body find that
-+these protocols do fall under the terms of the GPL, then we hereby grant y=
-ou a
-+license to use these protocols in combination with Asterisk in external
-+applications licensed under any license you wish.
-diff --git a/meta/files/common-licenses/Autoconf-exception-2.0 b/meta/files=
-/common-licenses/Autoconf-exception-2.0
-new file mode 100644
-index 0000000000..00cddeba4d
---- /dev/null
-+++ b/meta/files/common-licenses/Autoconf-exception-2.0
-@@ -0,0 +1,5 @@
-+As a special exception, the Free Software Foundation gives unlimited permi=
-ssion to copy, distribute and modify the configure scripts that are the out=
-put of Autoconf. You need not follow the terms of the GNU General Public Li=
-cense when using or distributing such scripts, even though portions of the =
-text of Autoconf appear in them. The GNU General Public License (GPL) does =
-govern all other use of the material that constitutes the Autoconf program.
-+
-+Certain portions of the Autoconf source text are designed to be copied (in=
- certain cases, depending on the input) into the output of Autoconf. We cal=
-l these the "data" portions. The rest of the Autoconf source text consists =
-of comments plus executable code that decides which of the data portions to=
- output in any given case. We call these comments and executable code the "=
-non-data" portions. Autoconf never copies any of the non-data portions into=
- its output.
-+
-+This special exception to the GPL applies to versions of Autoconf released=
- by the Free Software Foundation. When you make and distribute a modified v=
-ersion of Autoconf, you may extend this special exception to the GPL to app=
-ly to your modified version as well, *unless* your modified version has the=
- potential to copy into its output some of the text that was the non-data p=
-ortion of the version that you started with. (In other words, unless your c=
-hange moves or copies text from the non-data portions to the data portions.=
-) If your modification has such potential, you must delete any notice of th=
-is special exception to the GPL from your modified version.
-diff --git a/meta/files/common-licenses/Autoconf-exception-3.0 b/meta/files=
-/common-licenses/Autoconf-exception-3.0
-new file mode 100644
-index 0000000000..f212f9c7bc
---- /dev/null
-+++ b/meta/files/common-licenses/Autoconf-exception-3.0
-@@ -0,0 +1,26 @@
-+AUTOCONF CONFIGURE SCRIPT EXCEPTION
-+
-+Version 3.0, 18 August 2009
-+Copyright =C2=A9 2009 Free Software Foundation, Inc. <http://fsf.org/>
-+
-+Everyone is permitted to copy and distribute verbatim copies of this licen=
-se document, but changing it is not allowed.
-+
-+This Exception is an additional permission under section 7 of the GNU Gene=
-ral Public License, version 3 ("GPLv3"). It applies to a given file that be=
-ars a notice placed by the copyright holder of the file stating that the fi=
-le is governed by GPLv3 along with this Exception.
-+
-+The purpose of this Exception is to allow distribution of Autoconf's typic=
-al output under terms of the recipient's choice (including proprietary).
-+
-+0. Definitions.
-+
-+"Covered Code" is the source or object code of a version of Autoconf that =
-is a covered work under this License.
-+
-+"Normally Copied Code" for a version of Autoconf means all parts of its Co=
-vered Code which that version can copy from its code (i.e., not from its in=
-put file) into its minimally verbose, non-debugging and non-tracing output.
-+
-+"Ineligible Code" is Covered Code that is not Normally Copied Code.
-+
-+1. Grant of Additional Permission.
-+
-+You have permission to propagate output of Autoconf, even if such propagat=
-ion would otherwise violate the terms of GPLv3. However, if by modifying Au=
-toconf you cause any Ineligible Code of the version you received to become =
-Normally Copied Code of your modified version, then you void this Exception=
- for the resulting covered work. If you convey that resulting covered work,=
- you must remove this Exception in accordance with the second paragraph of =
-Section 7 of GPLv3.
-+
-+2. No Weakening of Autoconf Copyleft.
-+
-+The availability of this Exception does not imply any general presumption =
-that third-party software is unaffected by the copyleft requirements of the=
- license of Autoconf.
-diff --git a/meta/files/common-licenses/Autoconf-exception-generic b/meta/f=
-iles/common-licenses/Autoconf-exception-generic
-new file mode 100644
-index 0000000000..b39f827673
---- /dev/null
-+++ b/meta/files/common-licenses/Autoconf-exception-generic
-@@ -0,0 +1,4 @@
-+As a special exception to the GNU General Public License,=20
-+if you distribute this file as part of a program that contains=20
-+a configuration script generated by Autoconf, you may include=20
-+it under the same distribution terms that you use for the rest of that pro=
-gram.
-diff --git a/meta/files/common-licenses/Autoconf-exception-generic-3.0 b/me=
-ta/files/common-licenses/Autoconf-exception-generic-3.0
-new file mode 100644
-index 0000000000..2d3036772c
---- /dev/null
-+++ b/meta/files/common-licenses/Autoconf-exception-generic-3.0
-@@ -0,0 +1,6 @@
-+As a special exception to the GNU General Public License, if you=20
-+distribute this file as part of a program that contains a=20=20
-+configuration script generated by Autoconf, you may include it under=20=20
-+the same distribution terms that you use for the rest of that=20
-+program.  This Exception is an additional permission under section 7=20=20
-+of the GNU General Public License, version 3 ("GPLv3").
-diff --git a/meta/files/common-licenses/Autoconf-exception-macro b/meta/fil=
-es/common-licenses/Autoconf-exception-macro
-new file mode 100644
-index 0000000000..8b5b4677f3
---- /dev/null
-+++ b/meta/files/common-licenses/Autoconf-exception-macro
-@@ -0,0 +1,12 @@
-+As a special exception, the respective Autoconf Macro's copyright owner
-+gives unlimited permission to copy, distribute and modify the configure
-+scripts that are the output of Autoconf when processing the Macro. You
-+need not follow the terms of the GNU General Public License when using
-+or distributing such scripts, even though portions of the text of the
-+Macro appear in them. The GNU General Public License (GPL) does govern
-+all other use of the material that constitutes the Autoconf Macro.
-+
-+This special exception to the GPL applies to versions of the Autoconf
-+Macro released by the Autoconf Archive. When you make and distribute a
-+modified version of the Autoconf Macro, you may extend this special
-+exception to the GPL to apply to your modified version as well.
-diff --git a/meta/files/common-licenses/Bison-exception-1.24 b/meta/files/c=
-ommon-licenses/Bison-exception-1.24
-new file mode 100644
-index 0000000000..7f3c3009ee
---- /dev/null
-+++ b/meta/files/common-licenses/Bison-exception-1.24
-@@ -0,0 +1,4 @@
-+As a special exception, when this file is copied by Bison into a
-+Bison output file, you may use that output file without restriction.
-+This special exception was added by the Free Software Foundation
-+in version 1.24 of Bison.
-diff --git a/meta/files/common-licenses/Bison-exception-2.2 b/meta/files/co=
-mmon-licenses/Bison-exception-2.2
-new file mode 100644
-index 0000000000..91140decee
---- /dev/null
-+++ b/meta/files/common-licenses/Bison-exception-2.2
-@@ -0,0 +1,5 @@
-+Bison Exception
-+
-+As a special exception, you may create a larger work that contains part or=
- all of the Bison parser skeleton and distribute that work under terms of y=
-our choice, so long as that work isn't itself a parser generator using the =
-skeleton or a modified version thereof as a parser skeleton. Alternatively,=
- if you modify or redistribute the parser skeleton itself, you may (at your=
- option) remove this special exception, which will cause the skeleton and t=
-he resulting Bison output files to be licensed under the GNU General Public=
- License without this special exception.
-+
-+This special exception was added by the Free Software Foundation in versio=
-n 2.2 of Bison.
-diff --git a/meta/files/common-licenses/Bootloader-exception b/meta/files/c=
-ommon-licenses/Bootloader-exception
-new file mode 100644
-index 0000000000..c557826705
---- /dev/null
-+++ b/meta/files/common-licenses/Bootloader-exception
-@@ -0,0 +1,10 @@
-+Bootloader Exception
-+--------------------
-+
-+In addition to the permissions in the GNU General Public License, the
-+authors give you unlimited permission to link or embed compiled bootloader
-+and related files into combinations with other programs, and to distribute
-+those combinations without any restriction coming from the use of those
-+files. (The General Public License restrictions do apply in other respects;
-+for example, they cover modification of the files, and distribution when
-+not linked into a combine executable.)
-diff --git a/meta/files/common-licenses/CGAL-linking-exception b/meta/files=
-/common-licenses/CGAL-linking-exception
-new file mode 100644
-index 0000000000..c6dbd55ca6
---- /dev/null
-+++ b/meta/files/common-licenses/CGAL-linking-exception
-@@ -0,0 +1,4 @@
-+As a special exception, you have permission to link this library
-+with the CGAL library (http://www.cgal.org) and distribute executables,
-+as long as you follow the requirements of the GNU GPL in regard to
-+all of the software in the executable aside from CGAL.
-diff --git a/meta/files/common-licenses/CLISP-exception-2.0 b/meta/files/co=
-mmon-licenses/CLISP-exception-2.0
-new file mode 100644
-index 0000000000..9c981f9b97
---- /dev/null
-+++ b/meta/files/common-licenses/CLISP-exception-2.0
-@@ -0,0 +1,15 @@
-+Summary:
-+
-+This program is free software; you can redistribute it and/or modify it un=
-der the terms of the GNU General Public License version 2 as published by t=
-he Free Software Foundation; see file GNU-GPL.
-+
-+This program is distributed in the hope that it will be useful, but WITHOU=
-T ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FIT=
-NESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more =
-details.
-+
-+You should have received a copy of the GNU General Public License along wi=
-th this program; if not, write to the Free Software Foundation, Inc., 51 Fr=
-anklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-+
-+Note:
-+
-+This copyright does NOT cover user programs that run in CLISP and third-pa=
-rty packages not part of CLISP, if a) They only reference external symbols =
-in CLISP's public packages that define API also provided by many other Comm=
-on Lisp implementations (namely the packages COMMON-LISP, COMMON-LISP-USER,=
- KEYWORD, CLOS, GRAY, EXT), i.e. if they don't rely on CLISP internals and =
-would as well run in any other Common Lisp implementation. Or b) They only =
-reference external symbols in CLISP's public packages that define API also =
-provided by many other Common Lisp implementations (namely the packages COM=
-MON-LISP, COMMON-LISP-USER, KEYWORD, CLOS, GRAY, EXT) and some external, no=
-t CLISP specific, symbols in third-party packages that are released with so=
-urce code under a GPL compatible license and that run in a great number of =
-Common Lisp implementations, i.e. if they rely on CLISP internals only to t=
-he extent needed for gaining some functionality also available in a great n=
-umber of Common Lisp implementations. Such user programs are not covered by=
- the term """"derived work"""" used in the GNU GPL. Neither is their compil=
-ed code, i.e. the result of compiling them by use of the function COMPILE-F=
-ILE. We refer to such user programs as """"independent work"""".
-+
-+You may copy and distribute memory image files generated by the function S=
-AVEINITMEM, if it was generated only from CLISP and independent work, and p=
-rovided that you accompany them, in the sense of section 3 of the GNU GPL, =
-with the source code of CLISP - precisely the same CLISP version that was u=
-sed to build the memory image -, the source or compiled code of the user pr=
-ograms needed to rebuild the memory image (source code for all the parts th=
-at are not independent work, see above), and a precise description how to r=
-ebuild the memory image from these.
-+
-+Foreign non-Lisp code that is linked with CLISP or loaded into CLISP throu=
-gh dynamic linking is not exempted from this copyright. I.e. such code, whe=
-n distributed for use with CLISP, must be distributed under the GPL.
-diff --git a/meta/files/common-licenses/Classpath-exception-2.0 b/meta/file=
-s/common-licenses/Classpath-exception-2.0
-new file mode 100644
-index 0000000000..1a0045415c
---- /dev/null
-+++ b/meta/files/common-licenses/Classpath-exception-2.0
-@@ -0,0 +1,3 @@
-+Linking this library statically or dynamically with other modules is makin=
-g a combined work based on this library. Thus, the terms and conditions of =
-the GNU General Public License cover the whole combination.
-+
-+As a special exception, the copyright holders of this library give you per=
-mission to link this library with independent modules to produce an executa=
-ble, regardless of the license terms of these independent modules, and to c=
-opy and distribute the resulting executable under terms of your choice, pro=
-vided that you also meet, for each linked independent module, the terms and=
- conditions of the license of that module. An independent module is a modul=
-e which is not derived from or based on this library. If you modify this li=
-brary, you may extend this exception to your version of the library, but yo=
-u are not obligated to do so. If you do not wish to do so, delete this exce=
-ption statement from your version.
-diff --git a/meta/files/common-licenses/Classpath-exception-2.0-short b/met=
-a/files/common-licenses/Classpath-exception-2.0-short
-new file mode 100644
-index 0000000000..2e7df40484
---- /dev/null
-+++ b/meta/files/common-licenses/Classpath-exception-2.0-short
-@@ -0,0 +1,11 @@
-+As a special exception, the copyright holders of this library give
-+you permission to link this library with independent modules to
-+produce an executable, regardless of the license terms of these
-+independent modules, and to copy and distribute the resulting
-+executable under terms of your choice, provided that you also
-+meet, for each linked independent module, the terms and conditions
-+of the license of that module. An independent module is a module
-+which is not derived from or based on this library. If you modify
-+this library, you may extend this exception to your version of
-+the library, but you are not obligated to do so. If you do not
-+wish to do so, delete this exception statement from your version.
-diff --git a/meta/files/common-licenses/DigiRule-FOSS-exception b/meta/file=
-s/common-licenses/DigiRule-FOSS-exception
-new file mode 100644
-index 0000000000..2fa106b38e
---- /dev/null
-+++ b/meta/files/common-licenses/DigiRule-FOSS-exception
-@@ -0,0 +1,54 @@
-+DigiRule Solutions=E2=80=99s FOSS License Exception Terms and Conditions
-+
-+1. Definitions.
-+
-+=E2=80=9CDerivative Work=E2=80=9D means a derivative work, as defined unde=
-r applicable copyright law, formed entirely from the Program and one or mor=
-e FOSS Applications.
-+
-+=E2=80=9CFOSS Application=E2=80=9D means a free and open source software a=
-pplication distributed subject to a license listed in the section below tit=
-led =E2=80=9CFOSS License List.=E2=80=9D
-+
-+=E2=80=9CFOSS Notice=E2=80=9D means a notice placed by DigiRule Solutions =
-in a copy of the Client Libraries stating that such copy of the Client Libr=
-aries may be distributed under DigiRule Solutions's or FOSS License Excepti=
-on.
-+
-+=E2=80=9CIndependent Work=E2=80=9D means portions of the Derivative Work t=
-hat are not derived from the Program and can reasonably be considered indep=
-endent and separate works.
-+
-+=E2=80=9CProgram=E2=80=9D means a copy of DigiRule Solutions=E2=80=99s Cli=
-ent Libraries that contain a FOSS Notice.
-+
-+2. A FOSS application developer (=E2=80=9Cyou=E2=80=9D or =E2=80=9Cyour=E2=
-=80=9D) may distribute a Derivative Work provided that you and the Derivati=
-ve Work meet all of the following conditions:
-+
-+     1. You obey the GPL in all respects for the Program and all portions =
-(including modifications) of the Program included in the Derivative Work (p=
-rovided that this condition does not apply to Independent Works);
-+
-+     2. The Derivative Work does not include any work licensed under the G=
-PL other than the Program;
-+
-+     3. You distribute Independent Works subject to a license listed in th=
-e section below titled =E2=80=9CFOSS License List=E2=80=9D;
-+
-+     4. You distribute Independent Works in object code or executable form=
- with the complete corresponding machine-readable source code on the same m=
-edium and under the same FOSS license applying to the object code or execut=
-able forms;
-+
-+     5. All works that are aggregated with the Program or the Derivative W=
-ork on a medium or volume of storage are not derivative works of the Progra=
-m, Derivative Work or FOSS Application, and must reasonably be considered i=
-ndependent and separate works.
-+
-+3. DigiRule Solutions reserves all rights not expressly granted in these t=
-erms and conditions. If all of the above conditions are not met, then this =
-FOSS License Exception does not apply to you or your Derivative Work.
-+
-+FOSS License List
-+License Name Version(s)/Copyright Date
-+Release Early Certified Software
-+Academic Free License 2.0
-+Apache Software License 1.0/1.1/2.0
-+Apple Public Source License 2.0
-+Artistic license From Perl 5.8.0
-+BSD license =E2=80=9CJuly 22 1999=E2=80=9D
-+Common Development and Distribution License (CDDL) 1.0
-+Common Public License 1.0
-+Eclipse Public License 1.0
-+GNU Library or =E2=80=9CLesser=E2=80=9D General Public License (LGPL) 2.0/=
-2.1/3.0
-+Jabber Open Source License 1.0
-+MIT License (As listed in file MIT-License.txt) -
-+Mozilla Public License (MPL) 1.0/1.1
-+Open Software License 2.0
-+OpenSSL license (with original SSLeay license) =E2=80=9C2003=E2=80=9D (=E2=
-=80=9C1998=E2=80=9D)
-+PHP License 3.0/3.01
-+Python license (CNRI Python License) -
-+Python Software Foundation License 2.1.1
-+Sleepycat License =E2=80=9C1999=E2=80=9D
-+University of Illinois/NCSA Open Source License -
-+W3C License =E2=80=9C2001=E2=80=9D
-+X11 License =E2=80=9C2001=E2=80=9D
-+Zlib/libpng License -
-+Zope Public License 2.0
-diff --git a/meta/files/common-licenses/Digia-Qt-LGPL-exception-1.1 b/meta/=
-files/common-licenses/Digia-Qt-LGPL-exception-1.1
-new file mode 100644
-index 0000000000..66cddd38aa
---- /dev/null
-+++ b/meta/files/common-licenses/Digia-Qt-LGPL-exception-1.1
-@@ -0,0 +1,9 @@
-+Digia Qt LGPL Exception version 1.1
-+
-+As a special exception to the GNU Lesser General Public License version 2.=
-1,
-+the object code form of a "work that uses the Library" may incorporate mat=
-erial
-+from a header file that is part of the Library. You may distribute such ob=
-ject
-+code under terms of your choice, provided that the incorporated material (=
-i)
-+does not exceed more than 5% of the total size of the Library; and (ii) is
-+limited to numerical parameters, data structure layouts, accessors, macros,
-+inline functions and templates.
-diff --git a/meta/files/common-licenses/FLTK-exception b/meta/files/common-=
-licenses/FLTK-exception
-new file mode 100644
-index 0000000000..836c954b33
---- /dev/null
-+++ b/meta/files/common-licenses/FLTK-exception
-@@ -0,0 +1,17 @@
-+The FLTK library and included programs are provided under the terms of the=
- GNU Library General Public License (LGPL) with the following exceptions:
-+
-+Modifications to the FLTK configure script, config header file, and makefi=
-les by themselves to support a specific platform do not constitute a modifi=
-ed or derivative work.
-+
-+The authors do request that such modifications be contributed to the FLTK =
-project - send all contributions to "fltk-bugs@fltk.org".
-+
-+Widgets that are subclassed from FLTK widgets do not constitute a derivati=
-ve work.
-+
-+Static linking of applications and widgets to the FLTK library does not co=
-nstitute a derivative work and does not require the author to provide sourc=
-e code for the application or widget, use the shared FLTK libraries, or lin=
-k their applications or widgets against a user-supplied version of FLTK.
-+
-+If you link the application or widget to a modified version of FLTK, then =
-the changes to FLTK must be provided under the terms of the LGPL in section=
-s 1, 2, and 4.
-+
-+You do not have to provide a copy of the FLTK license with programs that a=
-re linked to the FLTK library, nor do you have to identify the FLTK license=
- in your program or documentation as required by section 6 of the LGPL.
-+
-+However, programs must still identify their use of FLTK. The following exa=
-mple statement can be included in user documentation to satisfy this requir=
-ement:
-+
-+[program/widget] is based in part on the work of the FLTK project (http://=
-www.fltk.org).
-diff --git a/meta/files/common-licenses/Fawkes-Runtime-exception b/meta/fil=
-es/common-licenses/Fawkes-Runtime-exception
-new file mode 100644
-index 0000000000..0ec93c748b
---- /dev/null
-+++ b/meta/files/common-licenses/Fawkes-Runtime-exception
-@@ -0,0 +1 @@
-+Linking this library statically or dynamically with other modules is makin=
-g a combined work based on this library. Thus, the terms and conditions of =
-the GNU General Public License cover the whole combination. As a special ex=
-ception, the copyright holders of this library give you permission to link =
-this library with independent modules to produce an executable, regardless =
-of the license terms of these independent modules, and to copy and distribu=
-te the resulting executable under terms of your choice, provided that you a=
-lso meet, for each linked independent module, the terms and conditions of t=
-he license of that module. An independent module is a module which is not d=
-erived from or based on this library. If you modify this library, you may e=
-xtend this exception to your version of the library, but you are not obliga=
-ted to do so. If you do not wish to do so, delete this exception statement =
-from your version. Additionally if other files instantiate templates or use=
- macros or inline functions from this file, or you compile this file and li=
-nk it with other files to produce an executable, this file does not by itse=
-lf cause the resulting executable to be covered by the GNU General Public L=
-icense. This exception does not however invalidate any other reasons why th=
-e executable file might be covered by the GNU General Public License.
-diff --git a/meta/files/common-licenses/Font-exception-2.0 b/meta/files/com=
-mon-licenses/Font-exception-2.0
-new file mode 100644
-index 0000000000..a78eeae73c
---- /dev/null
-+++ b/meta/files/common-licenses/Font-exception-2.0
-@@ -0,0 +1 @@
-+As a special exception, if you create a document which uses this font, and=
- embed this font or unaltered portions of this font into the document, this=
- font does not by itself cause the resulting document to be covered by the =
-GNU General Public License. This exception does not however invalidate any =
-other reasons why the document might be covered by the GNU General Public L=
-icense. If you modify this font, you may extend this exception to your vers=
-ion of the font, but you are not obligated to do so. If you do not wish to =
-do so, delete this exception statement from your version.
-diff --git a/meta/files/common-licenses/GCC-exception-2.0 b/meta/files/comm=
-on-licenses/GCC-exception-2.0
-new file mode 100644
-index 0000000000..642ecdd736
---- /dev/null
-+++ b/meta/files/common-licenses/GCC-exception-2.0
-@@ -0,0 +1 @@
-+In addition to the permissions in the GNU General Public License, the Free=
- Software Foundation gives you unlimited permission to link the compiled ve=
-rsion of this file into combinations with other programs, and to distribute=
- those combinations without any restriction coming from the use of this fil=
-e. (The General Public License restrictions do apply in other respects; for=
- example, they cover modification of the file, and distribution when not li=
-nked into a combine executable.)
-diff --git a/meta/files/common-licenses/GCC-exception-2.0-note b/meta/files=
-/common-licenses/GCC-exception-2.0-note
-new file mode 100644
-index 0000000000..654099aac0
---- /dev/null
-+++ b/meta/files/common-licenses/GCC-exception-2.0-note
-@@ -0,0 +1,16 @@
-+ In addition to the permissions in the GNU Lesser General Public
-+   License, the Free Software Foundation gives you unlimited
-+   permission to link the compiled version of this file with other
-+   programs, and to distribute those programs without any restriction
-+   coming from the use of this file. (The GNU Lesser General Public
-+   License restrictions do apply in other respects; for example, they
-+   cover modification of the file, and distribution when not linked
-+   into another program.)
-+
-+   Note that people who make modified versions of this file are not
-+   obligated to grant this special exception for their modified
-+   versions; it is their choice whether to do so. The GNU Lesser
-+   General Public License gives permission to release a modified
-+   version without this exception; this exception also makes it
-+   possible to release a modified version which carries forward this
-+   exception.
-diff --git a/meta/files/common-licenses/GCC-exception-3.1 b/meta/files/comm=
-on-licenses/GCC-exception-3.1
-new file mode 100644
-index 0000000000..3d8345bec5
---- /dev/null
-+++ b/meta/files/common-licenses/GCC-exception-3.1
-@@ -0,0 +1,33 @@
-+GCC RUNTIME LIBRARY EXCEPTION
-+
-+Version 3.1, 31 March 2009
-+
-+General information: http://www.gnu.org/licenses/gcc-exception.html
-+Copyright (C) 2009 Free Software Foundation, Inc. <http://fsf.org/>
-+
-+Everyone is permitted to copy and distribute verbatim copies of this licen=
-se document, but changing it is not allowed.
-+This GCC Runtime Library Exception ("Exception") is an additional permissi=
-on under section 7 of the GNU General Public License, version 3 ("GPLv3"). =
-It applies to a given file (the "Runtime Library") that bears a notice plac=
-ed by the copyright holder of the file stating that the file is governed by=
- GPLv3 along with this Exception.
-+
-+When you use GCC to compile a program, GCC may combine portions of certain=
- GCC header files and runtime libraries with the compiled program. The purp=
-ose of this Exception is to allow compilation of non-GPL (including proprie=
-tary) programs to use, in this way, the header files and runtime libraries =
-covered by this Exception.
-+
-+0. Definitions.
-+
-+A file is an "Independent Module" if it either requires the Runtime Librar=
-y for execution after a Compilation Process, or makes use of an interface p=
-rovided by the Runtime Library, but is not otherwise based on the Runtime L=
-ibrary.
-+
-+"GCC" means a version of the GNU Compiler Collection, with or without modi=
-fications, governed by version 3 (or a specified later version) of the GNU =
-General Public License (GPL) with the option of using any subsequent versio=
-ns published by the FSF.
-+
-+"GPL-compatible Software" is software whose conditions of propagation, mod=
-ification and use would permit combination with GCC in accord with the lice=
-nse of GCC.
-+
-+"Target Code" refers to output from any compiler for a real or virtual tar=
-get processor architecture, in executable form or suitable for input to an =
-assembler, loader, linker and/or execution phase. Notwithstanding that, Tar=
-get Code does not include data in any format that is used as a compiler int=
-ermediate representation, or used for producing a compiler intermediate rep=
-resentation.
-+
-+The "Compilation Process" transforms code entirely represented in non-inte=
-rmediate languages designed for human-written code, and/or in Java Virtual =
-Machine byte code, into Target Code. Thus, for example, use of source code =
-generators and preprocessors need not be considered part of the Compilation=
- Process, since the Compilation Process can be understood as starting with =
-the output of the generators or preprocessors.
-+
-+A Compilation Process is "Eligible" if it is done using GCC, alone or with=
- other GPL-compatible software, or if it is done without using any work bas=
-ed on GCC. For example, using non-GPL-compatible Software to optimize any G=
-CC intermediate representations would not qualify as an Eligible Compilatio=
-n Process.
-+
-+1. Grant of Additional Permission.
-+
-+You have permission to propagate a work of Target Code formed by combining=
- the Runtime Library with Independent Modules, even if such propagation wou=
-ld otherwise violate the terms of GPLv3, provided that all Target Code was =
-generated by Eligible Compilation Processes. You may then convey such a com=
-bination under terms of your choice, consistent with the licensing of the I=
-ndependent Modules.
-+
-+2. No Weakening of GCC Copyleft.
-+
-+The availability of this Exception does not imply any general presumption =
-that third-party software is unaffected by the copyleft requirements of the=
- license of GCC.
-diff --git a/meta/files/common-licenses/GNAT-exception b/meta/files/common-=
-licenses/GNAT-exception
-new file mode 100644
-index 0000000000..2b5a96a62b
---- /dev/null
-+++ b/meta/files/common-licenses/GNAT-exception
-@@ -0,0 +1,6 @@
-+As a special exception, if other files instantiate generics from this
-+unit, or you link this unit with other files to produce an executable,
-+this unit does not by itself cause the resulting executable to be
-+covered by the GNU General Public License. This exception does not
-+however invalidate any other reasons why the executable file might be
-+covered by the GNU Public License.
-diff --git a/meta/files/common-licenses/GNOME-examples-exception b/meta/fil=
-es/common-licenses/GNOME-examples-exception
-new file mode 100644
-index 0000000000..0f0cd53b50
---- /dev/null
-+++ b/meta/files/common-licenses/GNOME-examples-exception
-@@ -0,0 +1 @@
-+As a special exception, the copyright holders give you permission to copy,=
- modify, and distribute the example code contained in this document under t=
-he terms of your choosing, without restriction.
-diff --git a/meta/files/common-licenses/GNU-compiler-exception b/meta/files=
-/common-licenses/GNU-compiler-exception
-new file mode 100644
-index 0000000000..684833ffb4
---- /dev/null
-+++ b/meta/files/common-licenses/GNU-compiler-exception
-@@ -0,0 +1,6 @@
-+As a special exception, if you link this library with files
-+compiled with a GNU compiler to produce an executable, this
-+does not cause the resulting executable to be covered by
-+the GNU General Public License. This exception does not
-+however invalidate any other reasons why the executable
-+file might be covered by the GNU General Public License.
-diff --git a/meta/files/common-licenses/GPL-3.0-389-ds-base-exception b/met=
-a/files/common-licenses/GPL-3.0-389-ds-base-exception
-new file mode 100644
-index 0000000000..52be470c10
---- /dev/null
-+++ b/meta/files/common-licenses/GPL-3.0-389-ds-base-exception
-@@ -0,0 +1,10 @@
-+Additional permission under GPLv3 section 7:
-+
-+If you modify this Program, or any covered work, by
-+linking or combining it with OpenSSL, or a modified
-+version of OpenSSL licensed under the OpenSSL license
-+(https://www.openssl.org/source/license.html), the licensors of this
-+Program grant you additional permission to convey the resulting work.=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-+Corresponding Source for a non-source form of such a combination
-+shall include the source code for the parts that are licensed
-+under the OpenSSL license as well as that of the covered work.
-diff --git a/meta/files/common-licenses/GPL-3.0-interface-exception b/meta/=
-files/common-licenses/GPL-3.0-interface-exception
-new file mode 100644
-index 0000000000..a86a7fffd7
---- /dev/null
-+++ b/meta/files/common-licenses/GPL-3.0-interface-exception
-@@ -0,0 +1,7 @@
-+Linking [name of library] statically or dynamically with other modules is =
-making a combined work based on [name of library]. Thus, the terms and cond=
-itions of the GNU General Public License cover the whole combination.
-+
-+As a special exception, the copyright holders of [name of library] give yo=
-u permission to combine [name of library] program with free software progra=
-ms or libraries that are released under the GNU LGPL and with independent m=
-odules that communicate with [name of library] solely through the [name of =
-library's interface] interface. You may copy and distribute such a system f=
-ollowing the terms of the GNU GPL for [name of library] and the licenses of=
- the other code concerned, provided that you include the source code of tha=
-t other code when and as the GNU GPL requires distribution of source code a=
-nd provided that you do not modify the [name of library's interface] interf=
-ace.
-+
-+Note that people who make modified versions of [name of library] are not o=
-bligated to grant this special exception for their modified versions; it is=
- their choice whether to do so. The GNU General Public License gives permis=
-sion to release a modified version without this exception; this exception a=
-lso makes it possible to release a modified version which carries forward t=
-his exception. If you modify the [name of library's interface] interface, t=
-his exception does not apply to your modified version of [name of library],=
- and you must remove this exception when you distribute your modified versi=
-on.
-+
-+This exception is an additional permission under section 7 of the GNU Gene=
-ral Public License, version 3 ("GPLv3")
-diff --git a/meta/files/common-licenses/GPL-3.0-linking-exception b/meta/fi=
-les/common-licenses/GPL-3.0-linking-exception
-new file mode 100644
-index 0000000000..56096c0706
---- /dev/null
-+++ b/meta/files/common-licenses/GPL-3.0-linking-exception
-@@ -0,0 +1,3 @@
-+Additional permission under GNU GPL version 3 section 7
-+
-+If you modify this Program, or any covered work, by linking or combining i=
-t with [name of library] (or a modified version of that library), containin=
-g parts covered by the terms of [name of library's license], the licensors =
-of this Program grant you additional permission to convey the resulting wor=
-k.
-diff --git a/meta/files/common-licenses/GPL-3.0-linking-source-exception b/=
-meta/files/common-licenses/GPL-3.0-linking-source-exception
-new file mode 100644
-index 0000000000..58a1d1b3a4
---- /dev/null
-+++ b/meta/files/common-licenses/GPL-3.0-linking-source-exception
-@@ -0,0 +1,3 @@
-+Additional permission under GNU GPL version 3 section 7
-+
-+If you modify this Program, or any covered work, by linking or combining i=
-t with [name of library] (or a modified version of that library), containin=
-g parts covered by the terms of [name of library's license], the licensors =
-of this Program grant you additional permission to convey the resulting wor=
-k. Corresponding Source for a non-source form of such a combination shall i=
-nclude the source code for the parts of [name of library] used as well as t=
-hat of the covered work.
-diff --git a/meta/files/common-licenses/GPL-CC-1.0 b/meta/files/common-lice=
-nses/GPL-CC-1.0
-new file mode 100644
-index 0000000000..a687e0ddb6
---- /dev/null
-+++ b/meta/files/common-licenses/GPL-CC-1.0
-@@ -0,0 +1,46 @@
-+GPL Cooperation Commitment
-+Version 1.0
-+
-+Before filing or continuing to prosecute any legal proceeding or claim
-+(other than a Defensive Action) arising from termination of a Covered
-+License, we commit to extend to the person or entity ('you') accused
-+of violating the Covered License the following provisions regarding
-+cure and reinstatement, taken from GPL version 3. As used here, the
-+term 'this License' refers to the specific Covered License being
-+enforced.
-+
-+    However, if you cease all violation of this License, then your
-+    license from a particular copyright holder is reinstated (a)
-+    provisionally, unless and until the copyright holder explicitly
-+    and finally terminates your license, and (b) permanently, if the
-+    copyright holder fails to notify you of the violation by some
-+    reasonable means prior to 60 days after the cessation.
-+
-+    Moreover, your license from a particular copyright holder is
-+    reinstated permanently if the copyright holder notifies you of the
-+    violation by some reasonable means, this is the first time you
-+    have received notice of violation of this License (for any work)
-+    from that copyright holder, and you cure the violation prior to 30
-+    days after your receipt of the notice.
-+
-+We intend this Commitment to be irrevocable, and binding and
-+enforceable against us and assignees of or successors to our
-+copyrights.
-+
-+Definitions
-+
-+'Covered License' means the GNU General Public License, version 2
-+(GPLv2), the GNU Lesser General Public License, version 2.1
-+(LGPLv2.1), or the GNU Library General Public License, version 2
-+(LGPLv2), all as published by the Free Software Foundation.
-+
-+'Defensive Action' means a legal proceeding or claim that We bring
-+against you in response to a prior proceeding or claim initiated by
-+you or your affiliate.
-+
-+'We' means each contributor to this repository as of the date of
-+inclusion of this file, including subsidiaries of a corporate
-+contributor.
-+
-+This work is available under a Creative Commons Attribution-ShareAlike
-+4.0 International license (https://creativecommons.org/licenses/by-sa/4.0/=
-).
-diff --git a/meta/files/common-licenses/GStreamer-exception-2005 b/meta/fil=
-es/common-licenses/GStreamer-exception-2005
-new file mode 100644
-index 0000000000..95ff750da3
---- /dev/null
-+++ b/meta/files/common-licenses/GStreamer-exception-2005
-@@ -0,0 +1 @@
-+The Totem project hereby grant permission for non-gpl compatible GStreamer=
- plugins to be used and distributed together with GStreamer and Totem. This=
- permission are above and beyond the permissions granted by the GPL license=
- Totem is covered by.
-diff --git a/meta/files/common-licenses/GStreamer-exception-2008 b/meta/fil=
-es/common-licenses/GStreamer-exception-2008
-new file mode 100644
-index 0000000000..28927e533e
---- /dev/null
-+++ b/meta/files/common-licenses/GStreamer-exception-2008
-@@ -0,0 +1 @@
-+This project hereby grants permission for non-GPL compatible GStreamer plu=
-gins to be used and distributed together with GStreamer and this project. T=
-his permission is above and beyond the permissions granted by the GPL licen=
-se by which this project is covered. If you modify this code, you may exten=
-d this exception to your version of the code, but you are not obligated to =
-do so.  If you do not wish to do so, delete this exception statement from y=
-our version.
-diff --git a/meta/files/common-licenses/Gmsh-exception b/meta/files/common-=
-licenses/Gmsh-exception
-new file mode 100644
-index 0000000000..6d28f704e4
---- /dev/null
-+++ b/meta/files/common-licenses/Gmsh-exception
-@@ -0,0 +1,16 @@
-+The copyright holders of Gmsh give you permission to combine Gmsh
-+  with code included in the standard release of Netgen (from Joachim
-+  Sch"oberl), METIS (from George Karypis at the University of
-+  Minnesota), OpenCASCADE (from Open CASCADE S.A.S) and ParaView
-+  (from Kitware, Inc.) under their respective licenses. You may copy
-+  and distribute such a system following the terms of the GNU GPL for
-+  Gmsh and the licenses of the other code concerned, provided that
-+  you include the source code of that other code when and as the GNU
-+  GPL requires distribution of source code.
-+
-+  Note that people who make modified versions of Gmsh are not
-+  obligated to grant this special exception for their modified
-+  versions; it is their choice whether to do so. The GNU General
-+  Public License gives permission to release a modified version
-+  without this exception; this exception also makes it possible to
-+  release a modified version which carries forward this exception.
-diff --git a/meta/files/common-licenses/Independent-modules-exception b/met=
-a/files/common-licenses/Independent-modules-exception
-new file mode 100644
-index 0000000000..8f66dba6ab
---- /dev/null
-+++ b/meta/files/common-licenses/Independent-modules-exception
-@@ -0,0 +1,18 @@
-+This is the file COPYING.FPC, it applies to the Free Pascal Run-Time Libra=
-ry=20
-+(RTL) and packages (packages) distributed by members of the Free Pascal=20
-+Development Team.
-+
-+The source code of the Free Pascal Runtime Libraries and packages are=20
-+distributed under the Library GNU General Public License=20
-+(see the file COPYING) with the following modification:
-+
-+As a special exception, the copyright holders of this library give you
-+permission to link this library with independent modules to produce an
-+executable, regardless of the license terms of these independent modules,
-+and to copy and distribute the resulting executable under terms of your ch=
-oice,
-+provided that you also meet, for each linked independent module, the terms
-+and conditions of the license of that module. An independent module is a m=
-odule
-+which is not derived from or based on this library. If you modify this
-+library, you may extend this exception to your version of the library, but=
- you are
-+not obligated to do so. If you do not wish to do so, delete this exception
-+statement from your version.
-diff --git a/meta/files/common-licenses/KiCad-libraries-exception b/meta/fi=
-les/common-licenses/KiCad-libraries-exception
-new file mode 100644
-index 0000000000..ae8854b119
---- /dev/null
-+++ b/meta/files/common-licenses/KiCad-libraries-exception
-@@ -0,0 +1 @@
-+To the extent that the creation of electronic designs that use 'Licensed M=
-aterial' can be considered to be 'Adapted Material', then the copyright hol=
-der waives article 3 of the license with respect to these designs and any g=
-enerated files which use data provided as part of the 'Licensed Material'.
-diff --git a/meta/files/common-licenses/LGPL-3.0-linking-exception b/meta/f=
-iles/common-licenses/LGPL-3.0-linking-exception
-new file mode 100644
-index 0000000000..186456fb0e
---- /dev/null
-+++ b/meta/files/common-licenses/LGPL-3.0-linking-exception
-@@ -0,0 +1,16 @@
-+As a special exception to the GNU Lesser General Public License version 3
-+("LGPL3"), the copyright holders of this Library give you permission to
-+convey to a third party a Combined Work that links statically or dynamical=
-ly
-+to this Library without providing any Minimal Corresponding Source or
-+Minimal Application Code as set out in 4d or providing the installation
-+information set out in section 4e, provided that you comply with the other
-+provisions of LGPL3 and provided that you meet, for the Application the
-+terms and conditions of the license(s) which apply to the Application.
-+
-+Except as stated in this special exception, the provisions of LGPL3 will
-+continue to comply in full to this Library. If you modify this Library, you
-+may apply this exception to your version of this Library, but you are not
-+obliged to do so. If you do not wish to do so, delete this exception
-+statement from your version. This exception does not (and cannot) modify a=
-ny
-+license terms which apply to the Application, with which you must still
-+comply.
-diff --git a/meta/files/common-licenses/LLGPL b/meta/files/common-licenses/=
-LLGPL
-new file mode 100644
-index 0000000000..889d0b92e5
---- /dev/null
-+++ b/meta/files/common-licenses/LLGPL
-@@ -0,0 +1,56 @@
-+Preamble to the Gnu Lesser General Public License
-+
-+Copyright (c) 2016 Franz Inc., Berkeley, CA 94704
-+
-+The concept of the GNU Lesser General Public License version 2.1 ("LGPL")=
-=20
-+has been adopted to govern the use and distribution of above-mentioned=20
-+application. However, the LGPL uses terminology that is more appropriate=20
-+for a program written in C than one written in Lisp. Nevertheless, the
-+LGPL can still be applied to a Lisp program if certain clarifications=20
-+are made. This document details those clarifications. Accordingly, the=20
-+license for the open-source Lisp applications consists of this document=20
-+plus the LGPL. Wherever there is a conflict between this document and=20
-+the LGPL, this document takes precedence over the LGPL.
-+
-+A "Library" in Lisp is a collection of Lisp functions, data and foreign=20
-+modules. The form of the Library can be Lisp source code (for processing=20
-+by an interpreter) or object code (usually the result of compilation of=20
-+source code or built with some other mechanisms). Foreign modules are=20
-+object code in a form that can be linked into a Lisp executable. When=20
-+we speak of functions we do so in the most general way to include, in=20
-+addition, methods and unnamed functions. Lisp "data" is also a general=20
-+term that includes the data structures resulting from defining Lisp=20
-+classes. A Lisp application may include the same set of Lisp objects=20
-+as does a Library, but this does not mean that the application is=20
-+necessarily a "work based on the Library" it contains.
-+
-+The Library consists of everything in the distribution file set before=20
-+any modifications are made to the files. If any of the functions or=20
-+classes in the Library are redefined in other files, then those=20
-+redefinitions ARE considered a work based on the Library. If additional=20
-+methods are added to generic functions in the Library, those additional=20
-+methods are NOT considered a work based on the Library. If Library classes=
-=20
-+are subclassed, these subclasses are NOT considered a work based on the Li=
-brary.=20
-+If the Library is modified to explicitly call other functions that are nei=
-ther=20
-+part of Lisp itself nor an available add-on module to Lisp, then the funct=
-ions=20
-+called by the modified Library ARE considered a work based on the Library.=
-=20
-+The goal is to ensure that the Library will compile and run without gettin=
-g=20
-+undefined function errors.
-+
-+It is permitted to add proprietary source code to the Library, but it must=
-=20
-+be done in a way such that the Library will still run without that proprie=
-tary=20
-+code present. Section 5 of the LGPL distinguishes between the case of a=20
-+library being dynamically linked at runtime and one being statically linke=
-d=20
-+at build time. Section 5 of the LGPL states that the former results in an=
-=20
-+executable that is a "work that uses the Library." Section 5 of the LGPL=20
-+states that the latter results in one that is a "derivative of the Library=
-",=20
-+which is therefore covered by the LGPL. Since Lisp only offers one choice,=
-=20
-+which is to link the Library into an executable at build time, we declare =
-that,=20
-+for the purpose applying the LGPL to the Library, an executable that resul=
-ts=20
-+from linking a "work that uses the Library" with the Library is considered=
- a=20
-+"work that uses the Library" and is therefore NOT covered by the LGPL.
-+
-+Because of this declaration, section 6 of LGPL is not applicable to the Li=
-brary.=20
-+However, in connection with each distribution of this executable, you must=
- also=20
-+deliver, in accordance with the terms and conditions of the LGPL, the sour=
-ce code=20
-+of Library (or your derivative thereof) that is incorporated into this exe=
-cutable.
-diff --git a/meta/files/common-licenses/LLVM-exception b/meta/files/common-=
-licenses/LLVM-exception
-new file mode 100644
-index 0000000000..fa4b725a0e
---- /dev/null
-+++ b/meta/files/common-licenses/LLVM-exception
-@@ -0,0 +1,15 @@
-+---- LLVM Exceptions to the Apache 2.0 License ----
-+
-+   As an exception, if, as a result of your compiling your source code, po=
-rtions
-+   of this Software are embedded into an Object form of such source code, =
-you
-+   may redistribute such embedded portions in such Object form without com=
-plying
-+   with the conditions of Sections 4(a), 4(b) and 4(d) of the License.
-+
-+   In addition, if you combine or link compiled forms of this Software with
-+   software that is licensed under the GPLv2 ("Combined Software") and if a
-+   court of competent jurisdiction determines that the patent provision (S=
-ection
-+   3), the indemnity provision (Section 9) or other Section of the License
-+   conflicts with the conditions of the GPLv2, you may retroactively and
-+   prospectively choose to deem waived or otherwise exclude such Section(s=
-) of
-+   the License, but only in their entirety and only with respect to the Co=
-mbined
-+   Software.
-diff --git a/meta/files/common-licenses/LZMA-exception b/meta/files/common-=
-licenses/LZMA-exception
-new file mode 100644
-index 0000000000..6fc9c1352b
---- /dev/null
-+++ b/meta/files/common-licenses/LZMA-exception
-@@ -0,0 +1,3 @@
-+I.6 Special exception for LZMA compression module
-+
-+Igor Pavlov and Amir Szekely, the authors of the LZMA compression module f=
-or NSIS, expressly permit you to statically or dynamically link your code (=
-or bind by name) to the files from the LZMA compression module for NSIS wit=
-hout subjecting your linked code to the terms of the Common Public license =
-version 1.0. Any modifications or additions to files from the LZMA compress=
-ion module for NSIS, however, are subject to the terms of the Common Public=
- License version 1.0.
-diff --git a/meta/files/common-licenses/Libtool-exception b/meta/files/comm=
-on-licenses/Libtool-exception
-new file mode 100644
-index 0000000000..729b1e9530
---- /dev/null
-+++ b/meta/files/common-licenses/Libtool-exception
-@@ -0,0 +1 @@
-+As a special exception to the GNU General Public License, if you distribut=
-e this file as part of a program or library that is built using GNU Libtool=
-, you may include this file under the same distribution terms that you use =
-for the rest of that program.
-diff --git a/meta/files/common-licenses/Linux-syscall-note b/meta/files/com=
-mon-licenses/Linux-syscall-note
-new file mode 100644
-index 0000000000..fcd056364e
---- /dev/null
-+++ b/meta/files/common-licenses/Linux-syscall-note
-@@ -0,0 +1,12 @@
-+   NOTE! This copyright does *not* cover user programs that use kernel
-+ services by normal system calls - this is merely considered normal use
-+ of the kernel, and does *not* fall under the heading of "derived work".
-+ Also note that the GPL below is copyrighted by the Free Software
-+ Foundation, but the instance of code that it refers to (the Linux
-+ kernel) is copyrighted by me and others who actually wrote it.
-+
-+ Also note that the only valid version of the GPL as far as the kernel
-+ is concerned is _this_ particular version of the license (ie v2, not
-+ v2.2 or v3.x or whatever), unless explicitly otherwise stated.
-+
-+			Linus Torvalds
-diff --git a/meta/files/common-licenses/OCCT-exception-1.0 b/meta/files/com=
-mon-licenses/OCCT-exception-1.0
-new file mode 100644
-index 0000000000..d41c35bff5
---- /dev/null
-+++ b/meta/files/common-licenses/OCCT-exception-1.0
-@@ -0,0 +1,3 @@
-+Open CASCADE Exception (version 1.0) to GNU LGPL version 2.1.
-+
-+The object code (i.e. not a source) form of a "work that uses the Library"=
- can incorporate material from a header file that is part of the Library. A=
-s a special exception to the GNU Lesser General Public License version 2.1,=
- you may distribute such object code incorporating material from header fil=
-es provided with the Open CASCADE Technology libraries (including code of C=
-DL generic classes) under terms of your choice, provided that you give prom=
-inent notice in supporting documentation to this code that it makes use of =
-or is based on facilities provided by the Open CASCADE Technology software.
-diff --git a/meta/files/common-licenses/OCaml-LGPL-linking-exception b/meta=
-/files/common-licenses/OCaml-LGPL-linking-exception
-new file mode 100644
-index 0000000000..7fc88d7307
---- /dev/null
-+++ b/meta/files/common-licenses/OCaml-LGPL-linking-exception
-@@ -0,0 +1 @@
-+As a special exception to the GNU Lesser General Public License, you may l=
-ink, statically or dynamically, a "work that uses the OCaml Core System" wi=
-th a publicly distributed version of the OCaml Core System to produce an ex=
-ecutable file containing portions of the OCaml Core System, and distribute =
-that executable file under terms of your choice, without any of the additio=
-nal requirements listed in clause 6 of the GNU Lesser General Public Licens=
-e. By "a publicly distributed version of the OCaml Core System", we mean ei=
-ther the unmodified OCaml Core System as distributed by INRIA, or a modifie=
-d version of the OCaml Core System that is distributed under the conditions=
- defined in clause 2 of the GNU Lesser General Public License. This excepti=
-on does not however invalidate any other reasons why the executable file mi=
-ght be covered by the GNU Lesser General Public License.
-diff --git a/meta/files/common-licenses/OpenJDK-assembly-exception-1.0 b/me=
-ta/files/common-licenses/OpenJDK-assembly-exception-1.0
-new file mode 100644
-index 0000000000..3a35f11ed2
---- /dev/null
-+++ b/meta/files/common-licenses/OpenJDK-assembly-exception-1.0
-@@ -0,0 +1,31 @@
-+The OpenJDK source code made available by Oracle America, Inc.
-+(Oracle) at openjdk.java.net ("OpenJDK Code") is distributed
-+under the terms of the GNU General Public License
-+<http://www.gnu.org/copyleft/gpl.html> version 2 only
-+("GPL2"), with the following clarification and special
-+exception.
-+
-+Linking this OpenJDK Code statically or dynamically with
-+other code is making a combined work based on this
-+library. Thus, the terms and conditions of GPL2 cover the
-+whole combination.
-+
-+As a special exception, Oracle gives you permission to
-+link this OpenJDK Code with certain code licensed by
-+Oracle as indicated at
-+http://openjdk.java.net/legal/exception-modules-2007-05-08.html
-+("Designated Exception Modules") to produce an
-+executable, regardless of the license terms of the
-+Designated Exception Modules, and to copy and distribute
-+the resulting executable under GPL2, provided that the
-+Designated Exception Modules continue to be governed by
-+the licenses under which they were offered by Oracle.
-+
-+As such, it allows licensees and sublicensees of Oracle's GPL2
-+OpenJDK Code to build an executable that includes those
-+portions of necessary code that Oracle could not provide under
-+GPL2 (or that Oracle has provided under GPL2 with the Classpath
-+exception). If you modify or add to the OpenJDK code, that new
-+GPL2 code may still be combined with Designated Exception
-+Modules if the new code is made subject to this exception by
-+its copyright holder.
-diff --git a/meta/files/common-licenses/PCRE2-exception b/meta/files/common=
--licenses/PCRE2-exception
-new file mode 100644
-index 0000000000..eb7fd11767
---- /dev/null
-+++ b/meta/files/common-licenses/PCRE2-exception
-@@ -0,0 +1,8 @@
-+EXEMPTION FOR BINARY LIBRARY-LIKE PACKAGES
-+------------------------------------------
-+
-+The second condition in the BSD licence (covering binary redistributions) =
-does
-+not apply all the way down a chain of software. If binary package A includ=
-es
-+PCRE2, it must respect the condition, but if package B is software that
-+includes package A, the condition is not imposed on package B unless it us=
-es
-+PCRE2 independently.
-diff --git a/meta/files/common-licenses/PS-or-PDF-font-exception-20170817 b=
-/meta/files/common-licenses/PS-or-PDF-font-exception-20170817
-new file mode 100644
-index 0000000000..cf22439fff
---- /dev/null
-+++ b/meta/files/common-licenses/PS-or-PDF-font-exception-20170817
-@@ -0,0 +1,8 @@
-+The font and related files in this directory are distributed under the
-+GNU AFFERO GENERAL PUBLIC LICENSE Version 3 (see the file COPYING), with
-+the following exemption:
-+
-+As a special exception, permission is granted to include these font
-+programs in a Postscript or PDF file that consists of a document that
-+contains text to be displayed or printed using this font, regardless
-+of the conditions or license applying to the document itself.
-diff --git a/meta/files/common-licenses/QPL-1.0-INRIA-2004-exception b/meta=
-/files/common-licenses/QPL-1.0-INRIA-2004-exception
-new file mode 100644
-index 0000000000..2418a26377
---- /dev/null
-+++ b/meta/files/common-licenses/QPL-1.0-INRIA-2004-exception
-@@ -0,0 +1,5 @@
-+As a special exception to the Q Public Licence, you may develop
-+application programs, reusable components and other software items
-+that link with the original or modified versions of the Software
-+and are not made available to the general public, without any of the
-+additional requirements listed in clause 6c of the Q Public licence.
-diff --git a/meta/files/common-licenses/Qt-GPL-exception-1.0 b/meta/files/c=
-ommon-licenses/Qt-GPL-exception-1.0
-new file mode 100644
-index 0000000000..761d0327a4
---- /dev/null
-+++ b/meta/files/common-licenses/Qt-GPL-exception-1.0
-@@ -0,0 +1,21 @@
-+The Qt Company GPL Exception 1.0
-+
-+Exception 1:
-+
-+As a special exception you may create a larger work which contains the
-+output of this application and distribute that work under terms of your
-+choice, so long as the work is not otherwise derived from or based on
-+this application and so long as the work does not in itself generate
-+output that contains the output from this application in its original
-+or modified form.
-+
-+Exception 2:
-+
-+As a special exception, you have permission to combine this application
-+with Plugins licensed under the terms of your choice, to produce an
-+executable, and to copy and distribute the resulting executable under
-+the terms of your choice. However, the executable must be accompanied
-+by a prominent notice offering all users of the executable the entire
-+source code to this application, excluding the source code of the
-+independent modules, but including any changes you have made to this
-+application, under the terms of this license.
-diff --git a/meta/files/common-licenses/Qt-LGPL-exception-1.1 b/meta/files/=
-common-licenses/Qt-LGPL-exception-1.1
-new file mode 100644
-index 0000000000..bd94b5538f
---- /dev/null
-+++ b/meta/files/common-licenses/Qt-LGPL-exception-1.1
-@@ -0,0 +1,22 @@
-+The Qt Company Qt LGPL Exception version 1.1
-+
-+As an additional permission to the GNU Lesser General Public License versi=
-on
-+2.1, the object code form of a "work that uses the Library" may incorporate
-+material from a header file that is part of the Library.  You may distribu=
-te
-+such object code under terms of your choice, provided that:
-+    (i)   the header files of the Library have not been modified; and
-+    (ii)  the incorporated material is limited to numerical parameters, da=
-ta
-+          structure layouts, accessors, macros, inline functions and
-+          templates; and
-+    (iii) you comply with the terms of Section 6 of the GNU Lesser General
-+          Public License version 2.1.
-+
-+Moreover, you may apply this exception to a modified version of the Librar=
-y,
-+provided that such modification does not involve copying material from the
-+Library into the modified Library's header files unless such material is
-+limited to (i) numerical parameters; (ii) data structure layouts;
-+(iii) accessors; and (iv) small macros, templates and inline functions of
-+five lines or less in length.
-+
-+Furthermore, you are not required to apply this additional permission to a
-+modified version of the Library.
-diff --git a/meta/files/common-licenses/Qwt-exception-1.0 b/meta/files/comm=
-on-licenses/Qwt-exception-1.0
-new file mode 100644
-index 0000000000..b45cdd0b54
---- /dev/null
-+++ b/meta/files/common-licenses/Qwt-exception-1.0
-@@ -0,0 +1,12 @@
-+Qwt License Version 1.0,
-+January 1, 2003
-+
-+The Qwt library and included programs are provided under the terms of the =
-GNU LESSER GENERAL PUBLIC LICENSE (LGPL) with the following exceptions:
-+
-+1. Widgets that are subclassed from Qwt widgets do not constitute a deriva=
-tive work.
-+
-+2. Static linking of applications and widgets to the Qwt library does not =
-constitute a derivative work and does not require the author to provide sou=
-rce code for the application or widget, use the shared Qwt libraries, or li=
-nk their applications or widgets against a user-supplied version of Qwt. If=
- you link the application or widget to a modified version of Qwt, then the =
-changes to Qwt must be provided under the terms of the LGPL in sections 1, =
-2, and 4.
-+
-+3. You do not have to provide a copy of the Qwt license with programs that=
- are linked to the Qwt library, nor do you have to identify the Qwt license=
- in your program or documentation as required by section 6 of the LGPL.
-+
-+However, programs must still identify their use of Qwt. The following exam=
-ple statement can be included in user documentation to satisfy this require=
-ment: [program/widget] is based in part on the work of the Qwt project (htt=
-p://qwt.sf.net)."
-diff --git a/meta/files/common-licenses/RRDtool-FLOSS-exception-2.0 b/meta/=
-files/common-licenses/RRDtool-FLOSS-exception-2.0
-new file mode 100644
-index 0000000000..d88dae5868
---- /dev/null
-+++ b/meta/files/common-licenses/RRDtool-FLOSS-exception-2.0
-@@ -0,0 +1,66 @@
-+FLOSS License Exception=20
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+(Adapted from http://www.mysql.com/company/legal/licensing/foss-exception.=
-html)
-+
-+I want specified Free/Libre and Open Source Software ("FLOSS")
-+applications to be able to use specified GPL-licensed RRDtool
-+libraries (the "Program") despite the fact that not all FLOSS licenses are
-+compatible with version 2 of the GNU General Public License (the "GPL").
-+
-+As a special exception to the terms and conditions of version 2.0 of the G=
-PL:
-+
-+You are free to distribute a Derivative Work that is formed entirely from
-+the Program and one or more works (each, a "FLOSS Work") licensed under one
-+or more of the licenses listed below, as long as:
-+
-+1. You obey the GPL in all respects for the Program and the Derivative
-+Work, except for identifiable sections of the Derivative Work which are
-+not derived from the Program, and which can reasonably be considered
-+independent and separate works in themselves,
-+
-+2. all identifiable sections of the Derivative Work which are not derived
-+from the Program, and which can reasonably be considered independent and
-+separate works in themselves,
-+
-+1. are distributed subject to one of the FLOSS licenses listed
-+below, and
-+
-+2. the object code or executable form of those sections are
-+accompanied by the complete corresponding machine-readable source
-+code for those sections on the same medium and under the same FLOSS
-+license as the corresponding object code or executable forms of
-+those sections, and
-+
-+3. any works which are aggregated with the Program or with a Derivative
-+Work on a volume of a storage or distribution medium in accordance with
-+the GPL, can reasonably be considered independent and separate works in
-+themselves which are not derivatives of either the Program, a Derivative
-+Work or a FLOSS Work.
-+
-+If the above conditions are not met, then the Program may only be copied,
-+modified, distributed or used under the terms and conditions of the GPL.
-+
-+FLOSS License List
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+License name	Version(s)/Copyright Date
-+Academic Free License		2.0
-+Apache Software License	1.0/1.1/2.0
-+Apple Public Source License	2.0
-+Artistic license		From Perl 5.8.0
-+BSD license			"July 22 1999"
-+Common Public License		1.0
-+GNU Library or "Lesser" General Public License (LGPL)	2.0/2.1
-+IBM Public License, Version    1.0
-+Jabber Open Source License	1.0
-+MIT License (As listed in file MIT-License.txt)	-
-+Mozilla Public License (MPL)	1.0/1.1
-+Open Software License		2.0
-+OpenSSL license (with original SSLeay license)	"2003" ("1998")
-+PHP License			3.01
-+Python license (CNRI Python License)	-
-+Python Software Foundation License	2.1.1
-+Sleepycat License		"1999"
-+W3C License			"2001"
-+X11 License			"2001"
-+Zlib/libpng License		-
-+Zope Public License		2.0/2.1
-diff --git a/meta/files/common-licenses/SANE-exception b/meta/files/common-=
-licenses/SANE-exception
-new file mode 100644
-index 0000000000..198a8c67cc
---- /dev/null
-+++ b/meta/files/common-licenses/SANE-exception
-@@ -0,0 +1,20 @@
-+As a special exception, the authors of sane-airscan give permission for
-+additional uses of the libraries contained in this release of sane-airscan.
-+
-+The exception is that, if you link a sane-airscan library with other files
-+to produce an executable, this does not by itself cause the
-+resulting executable to be covered by the GNU General Public
-+License. Your use of that executable is in no way restricted on
-+account of linking the sane-airscan library code into it.
-+
-+This exception does not, however, invalidate any other reasons why
-+the executable file might be covered by the GNU General Public
-+License.
-+
-+If you submit changes to sane-airscan to the maintainers to be included in
-+a subsequent release, you agree by submitting the changes that
-+those changes may be distributed with this exception intact.
-+
-+If you write modifications of your own for sane-airscan, it is your choice
-+whether to permit this exception to apply to your modifications.
-+If you do not wish that, delete this exception notice.
-diff --git a/meta/files/common-licenses/SHL-2.0 b/meta/files/common-license=
-s/SHL-2.0
-new file mode 100644
-index 0000000000..9218b47a72
---- /dev/null
-+++ b/meta/files/common-licenses/SHL-2.0
-@@ -0,0 +1,22 @@
-+# Solderpad Hardware Licence Version 2.0
-+
-+This licence (the =E2=80=9CLicence=E2=80=9D) operates as a wraparound lice=
-nce to the Apache License Version 2.0 (the =E2=80=9CApache License=E2=80=9D=
-) and grants to You the rights, and imposes the obligations, set out in the=
- Apache License (which can be found here: http://apache.org/licenses/LICENS=
-E-2.0), with the following extensions. It must be read in conjunction with =
-the Apache License. Section 1 below modifies definitions in the Apache Lice=
-nse, and section 2 below replaces sections 2 of the Apache License. You may=
-, at your option, choose to treat any Work released under this License as r=
-eleased under the Apache License (thus ignoring all sections written below =
-entirely). Words in italics indicate changes rom the Apache License, but ar=
-e indicative and not to be taken into account in interpretation.
-+
-+1. The definitions set out in the Apache License are modified as follows:
-+
-+Copyright any reference to =E2=80=98copyright=E2=80=99 (whether capitalise=
-d or not) includes =E2=80=98Rights=E2=80=99 (as defined below).
-+
-+Contribution also includes any design, as well as any work of authorship.
-+
-+Derivative Works shall not include works that remain reversibly separable =
-from, or merely link (or bind by name) or physically connect to or interope=
-rate with the interfaces of the Work and Derivative Works thereof.
-+
-+Object form shall mean any form resulting from mechanical transformation o=
-r translation of a Source form or the application of a Source form to physi=
-cal material, including but not limited to compiled object code, generated =
-documentation, the instantiation of a hardware design or physical object an=
-d conversions to other media types, including intermediate forms such as by=
-tecodes, FPGA bitstreams, moulds, artwork and semiconductor topographies (m=
-ask works).
-+
-+Rights means copyright and any similar right including design right (wheth=
-er registered or unregistered), semiconductor topography (mask) rights and =
-database rights (but excluding Patents and Trademarks).
-+
-+Source form shall mean the preferred form for making modifications, includ=
-ing but not limited to source code, net lists, board layouts, CAD files, do=
-cumentation source, and configuration files.
-+Work also includes a design or work of authorship, whether in Source form =
-or other Object form.
-+
-+2. Grant of Licence
-+
-+2.1 Subject to the terms and conditions of this License, each Contributor =
-hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, roya=
-lty-free, irrevocable license under the Rights to reproduce, prepare Deriva=
-tive Works of, make, adapt, repair, publicly display, publicly perform, sub=
-license, and distribute the Work and such Derivative Works in Source or Obj=
-ect form and do anything in relation to the Work as if the Rights did not e=
-xist.
-diff --git a/meta/files/common-licenses/SHL-2.1 b/meta/files/common-license=
-s/SHL-2.1
-new file mode 100644
-index 0000000000..de45054588
---- /dev/null
-+++ b/meta/files/common-licenses/SHL-2.1
-@@ -0,0 +1,49 @@
-+SOLDERPAD HARDWARE LICENSE VERSION 2.1
-+
-+This license operates as a wraparound license to the Apache License Versio=
-n 2.0 (the "Apache License") and incorporates the terms and conditions of t=
-he Apache License (which can be found here: http://apache.org/licenses/LICE=
-NSE-2.0), with the following additions and modifications. It must be read i=
-n conjunction with the Apache License. Section 1 below modifies definitions=
- and terminology in the Apache License and Section 2 below replaces Section=
- 2 of the Apache License. The Appendix replaces the Appendix in the Apache =
-License. You may, at your option, choose to treat any Work released under t=
-his license as released under the Apache License (thus ignoring all section=
-s written below entirely).
-+
-+1.	Terminology in the Apache License is supplemented or modified as follow=
-s:
-+
-+"Authorship": any reference to 'authorship' shall be taken to read "author=
-ship or design".
-+
-+"Copyright owner": any reference to 'copyright owner' shall be taken to re=
-ad "Rights owner".
-+
-+"Copyright statement": the reference to 'copyright statement' shall be tak=
-en to read 'copyright or other statement pertaining to Rights'
-+
-+The following new definition shall be added to the Definitions section of =
-the Apache License:
-+
-+"Rights" means copyright and any similar right including design right (whe=
-ther registered or unregistered), rights in semiconductor topographies (mas=
-k works) and database rights (but excluding Patents and Trademarks).
-+
-+The following definitions shall replace the corresponding definitions in t=
-he Apache License:
-+
-+"License" shall mean this Solderpad Hardware License version 2.1, being th=
-e terms and conditions for use, manufacture, instantiation, adaptation, rep=
-roduction, and distribution as defined by Sections 1 through 9 of this docu=
-ment.
-+
-+"Licensor" shall mean the Rights owner or entity authorized by the Rights =
-owner that is granting the License.
-+=20
-+"Derivative Works" shall mean any work, whether in Source or Object form, =
-that is based on (or derived from) the Work and for which the editorial rev=
-isions, annotations, elaborations, or other modifications represent, as a w=
-hole, an original work of authorship or design. For the purposes of this Li=
-cense, Derivative Works shall not include works that remain reversibly sepa=
-rable from, or merely link (or bind by name) or physically connect to or in=
-teroperate with the Work and Derivative Works thereof.
-+
-+"Object" form shall mean any form resulting from mechanical transformation=
- or translation of a Source form or the application of a Source form to phy=
-sical material, including but not limited to compiled object code, generate=
-d documentation, the instantiation of a hardware design or physical object =
-or material and conversions to other media types, including intermediate fo=
-rms such as bytecodes, FPGA bitstreams, moulds, artwork and semiconductor t=
-opographies (mask works).
-+
-+"Source" form shall mean the preferred form for making modifications, incl=
-uding but not limited to source code, net lists, board layouts, CAD files, =
-documentation source, and configuration files.
-+
-+"Work" shall mean the work of authorship or design, whether in Source or O=
-bject form, made available under the License, as indicated by a notice rela=
-ting to Rights that is included in or attached to the work (an example is p=
-rovided in the Appendix below).
-+
-+2.	Grant of License. Subject to the terms and conditions of this License, =
-each Contributor hereby grants to You a perpetual, worldwide, non-exclusive=
-, no-charge, royalty-free, irrevocable license under the Rights to reproduc=
-e, prepare Derivative Works of, make, adapt, repair, publicly display, publ=
-icly perform, sublicense, and distribute the Work and such Derivative Works=
- in Source or Object form and do anything in relation to the Work as if the=
- Rights did not exist.
-+
-+
-+APPENDIX
-+
-+Copyright [yyyy] [name of copyright owner]
-+SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
-+
-+Licensed under the Solderpad Hardware License v 2.1 (the "License"); you m=
-ay not use this file except in compliance with the License, or, at your opt=
-ion, the Apache License version 2.0.
-+You may obtain a copy of the License at
-+
-+https://solderpad.org/licenses/SHL-2.1/
-+=20=20=20
-+Unless required by applicable law or agreed to in writing, any work distri=
-buted under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANT=
-IES OR CONDITIONS OF ANY KIND, either express or implied.
-+See the License for the specific language governing permissions and limita=
-tions under the License.
-+
-+
-+
-+
-diff --git a/meta/files/common-licenses/SWI-exception b/meta/files/common-l=
-icenses/SWI-exception
-new file mode 100644
-index 0000000000..f2d1482789
---- /dev/null
-+++ b/meta/files/common-licenses/SWI-exception
-@@ -0,0 +1,7 @@
-+As a special exception, if you link this library with other files,
-+compiled with a Free Software compiler, to produce an executable, this
-+library does not by itself cause the resulting executable to be covered
-+by the GNU General Public License. This exception does not however
-+invalidate any other reasons why the executable file might be covered by
-+the GNU General Public License.
-+
-diff --git a/meta/files/common-licenses/Simple-Library-Usage-exception b/me=
-ta/files/common-licenses/Simple-Library-Usage-exception
-new file mode 100644
-index 0000000000..2db2bbe10f
---- /dev/null
-+++ b/meta/files/common-licenses/Simple-Library-Usage-exception
-@@ -0,0 +1,33 @@
-+EXCEPTION NOTICE
-+
-+1. As a special exception, the copyright holders of this library give
-+permission for additional uses of the text contained in this release
-+of the library as licensed under the Simple Library Usage License,
-+applying either version 1 of the License, or (at your option) any
-+later version of the License as published by the copyright holders of
-+version 1 of the License document.
-+
-+2. The exception is that you may combine or link a "work that uses the
-+Library" (as defined by the LGPL) with the Library to produce a work
-+containing portions of the Library in binary form, and distribute that
-+work under terms of your choice, provided that:
-+
-+  a) You give prominent notice with each copy of the work that the
-+  Library is used in it.
-+
-+  b) If the work during execution displays copyright notices, you must
-+  include the copyright notice for the Library among them.
-+
-+3. If you copy code from files distributed under the terms of the GNU
-+General Public License or the GNU Lesser General Public License into a
-+copy of this library, as this license permits, the exception does not
-+apply to the code that you add in this way.  To avoid misleading
-+anyone as to the status of such modified files, you must delete this
-+exception notice from such code and/or adjust the licensing conditions
-+notice accordingly.
-+
-+4. If you write modifications of your own for this library, it is your
-+choice whether to permit this exception to apply to your
-+modifications.  If you do not wish that, you must delete the exception
-+notice from such code and/or adjust the licensing conditions notice
-+accordingly.
-diff --git a/meta/files/common-licenses/Swift-exception b/meta/files/common=
--licenses/Swift-exception
-new file mode 100644
-index 0000000000..32b573cea5
---- /dev/null
-+++ b/meta/files/common-licenses/Swift-exception
-@@ -0,0 +1,6 @@
-+### Runtime Library Exception to the Apache 2.0 License: ###
-+
-+As an exception, if you use this Software to compile your source code and
-+portions of this Software are embedded into the binary product as a result,
-+you may redistribute such product without providing attribution as would
-+otherwise be required by Sections 4(a), 4(b) and 4(d) of the License.
-diff --git a/meta/files/common-licenses/Texinfo-exception b/meta/files/comm=
-on-licenses/Texinfo-exception
-new file mode 100644
-index 0000000000..931a4070b4
---- /dev/null
-+++ b/meta/files/common-licenses/Texinfo-exception
-@@ -0,0 +1,4 @@
-+As a special exception, when this file is read by TeX when
-+processing a Texinfo source document, you may use the result without
-+restriction. This Exception is an additional permission under
-+section 7 of the GNU General Public License, version 3 ("GPLv3").
-diff --git a/meta/files/common-licenses/UBDL-exception b/meta/files/common-=
-licenses/UBDL-exception
-new file mode 100644
-index 0000000000..780ddcd775
---- /dev/null
-+++ b/meta/files/common-licenses/UBDL-exception
-@@ -0,0 +1,59 @@
-+UNMODIFIED BINARY DISTRIBUTION LICENCE
-+
-+
-+PREAMBLE
-+
-+The GNU General Public License provides a legal guarantee that
-+software covered by it remains free (in the sense of freedom, not
-+price).  It achieves this guarantee by imposing obligations on anyone
-+who chooses to distribute the software.
-+
-+Some of these obligations may be seen as unnecessarily burdensome.  In
-+particular, when the source code for the software is already publicly
-+and freely available, there is minimal value in imposing upon each
-+distributor the obligation to provide the complete source code (or an
-+equivalent written offer to provide the complete source code).
-+
-+This Licence allows for the distribution of unmodified binaries built
-+from publicly available source code, without imposing the obligations
-+of the GNU General Public License upon anyone who chooses to
-+distribute only the unmodified binaries built from that source code.
-+
-+The extra permissions granted by this Licence apply only to unmodified
-+binaries built from source code which has already been made available
-+to the public in accordance with the terms of the GNU General Public
-+Licence.  Nothing in this Licence allows for the creation of
-+closed-source modified versions of the Program.  Any modified versions
-+of the Program are subject to the usual terms and conditions of the
-+GNU General Public License.
-+
-+
-+TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-+
-+This Licence applies to any Program or other work which contains a
-+notice placed by the copyright holder saying it may be distributed
-+under the terms of this Unmodified Binary Distribution Licence.  All
-+terms used in the text of this Licence are to be interpreted as they
-+are used in version 2 of the GNU General Public License as published
-+by the Free Software Foundation.
-+
-+If you have made this Program available to the public in both source
-+code and executable form in accordance with the terms of the GNU
-+General Public License as published by the Free Software Foundation;
-+either version 2 of the License, or (at your option) any later
-+version, then you are hereby granted an additional permission to use,
-+copy, and distribute the unmodified executable form of this Program
-+(the "Unmodified Binary") without restriction, including the right to
-+permit persons to whom the Unmodified Binary is furnished to do
-+likewise, subject to the following conditions:
-+
-+- when started running, the Program must display an announcement which
-+  includes the details of your existing publication of the Program
-+  made in accordance with the terms of the GNU General Public License.
-+  For example, the Program could display the URL of the publicly
-+  available source code from which the Unmodified Binary was built.
-+
-+- when exercising your right to grant permissions under this Licence,
-+  you do not need to refer directly to the text of this Licence, but
-+  you may not grant permissions beyond those granted to you by this
-+  Licence.
-diff --git a/meta/files/common-licenses/Universal-FOSS-exception-1.0 b/meta=
-/files/common-licenses/Universal-FOSS-exception-1.0
-new file mode 100644
-index 0000000000..4a79cbdcf6
---- /dev/null
-+++ b/meta/files/common-licenses/Universal-FOSS-exception-1.0
-@@ -0,0 +1,11 @@
-+The Universal FOSS Exception, Version 1.0
-+=20
-+In addition to the rights set forth in the other license(s) included in th=
-e distribution for this software, data, and/or documentation (collectively =
-the "Software," and such licenses collectively with this additional permiss=
-ion the "Software License"), the copyright holders wish to facilitate inter=
-operability with other software, data, and/or documentation distributed wit=
-h complete corresponding source under a license that is OSI-approved and/or=
- categorized by the FSF as free (collectively "Other FOSS").  We therefore =
-hereby grant the following additional permission with respect to the use an=
-d distribution of the Software with Other FOSS, and the constants, function=
- signatures, data structures and other invocation methods used to run or in=
-teract with each of them (as to each, such software's "Interfaces"):
-+=20
-+(i) The Software's Interfaces may, to the extent permitted by the license =
-of the Other FOSS, be copied into, used and distributed in the Other FOSS i=
-n order to enable interoperability, without requiring a change to the licen=
-se of the Other FOSS other than as to any Interfaces of the Software embedd=
-ed therein.  The Software's Interfaces remain at all times under the Softwa=
-re License, including without limitation as used in the Other FOSS (which u=
-pon any such use also then contains a portion of the Software under the Sof=
-tware License).
-+=20
-+(ii) The Other FOSS's Interfaces may, to the extent permitted by the licen=
-se of the Other FOSS, be copied into, used and distributed in the Software =
-in order to enable interoperability, without requiring that such Interfaces=
- be licensed under the terms of the Software License or otherwise altering =
-their original terms, if this does not require any portion of the Software =
-other than such Interfaces to be licensed under the terms other than the So=
-ftware License.
-+=20
-+(iii) If only Interfaces and no other code is copied between the Software =
-and the Other FOSS in either direction, the use and/or distribution of the =
-Software with the Other FOSS shall not be deemed to require that the Other =
-FOSS be licensed under the license of the Software, other than as to any In=
-terfaces of the Software copied into the Other FOSS.  This includes, by way=
- of example and without limitation, statically or dynamically linking the S=
-oftware together with Other FOSS after enabling interoperability using the =
-Interfaces of one or both, and distributing the resulting combination under=
- different licenses for the respective portions thereof.
-+=20
-+For avoidance of doubt, a license which is OSI-approved or categorized by =
-the FSF as free, includes, for the purpose of this permission, such license=
-s with additional permissions, and any license that has previously been so-=
-approved or categorized as free, even if now deprecated or otherwise no lon=
-ger recognized as approved or free.  Nothing in this additional permission =
-grants any right to distribute any portion of the Software on terms other t=
-han those of the Software License or grants any additional permission of an=
-y kind for use or distribution of the Software in conjunction with software=
- other than Other FOSS.
-diff --git a/meta/files/common-licenses/WxWindows-exception-3.1 b/meta/file=
-s/common-licenses/WxWindows-exception-3.1
-new file mode 100644
-index 0000000000..9e71b0ae3f
---- /dev/null
-+++ b/meta/files/common-licenses/WxWindows-exception-3.1
-@@ -0,0 +1,9 @@
-+EXCEPTION NOTICE
-+
-+1. As a special exception, the copyright holders of this library give perm=
-ission for additional uses of the text contained in this release of the lib=
-rary as licenced under the wxWindows Library Licence, applying either versi=
-on 3.1 of the Licence, or (at your option) any later version of the Licence=
- as published by the copyright holders of version 3.1 of the Licence docume=
-nt.
-+
-+2. The exception is that you may use, copy, link, modify and distribute un=
-der your own terms, binary object code versions of works based on the Libra=
-ry.
-+
-+3. If you copy code from files distributed under the terms of the GNU Gene=
-ral Public Licence or the GNU Library General Public Licence into a copy of=
- this library, as this licence permits, the exception does not apply to the=
- code that you add in this way. To avoid misleading anyone as to the status=
- of such modified files, you must delete this exception notice from such co=
-de and/or adjust the licensing conditions notice accordingly.
-+
-+4. If you write modifications of your own for this library, it is your cho=
-ice whether to permit this exception to apply to your modifications. If you=
- do not wish that, you must delete the exception notice from such code and/=
-or adjust the licensing conditions notice accordingly.
-diff --git a/meta/files/common-licenses/cryptsetup-OpenSSL-exception b/meta=
-/files/common-licenses/cryptsetup-OpenSSL-exception
-new file mode 100644
-index 0000000000..25c1c420d2
---- /dev/null
-+++ b/meta/files/common-licenses/cryptsetup-OpenSSL-exception
-@@ -0,0 +1,12 @@
-+In addition, as a special exception, the copyright holders give
-+permission to link the code of portions of this program with the OpenSSL
-+library under certain conditions as described in each individual source
-+file, and distribute linked combinations including the two.
-+
-+You must obey the GNU General Public License in all respects for all of
-+the code used other than OpenSSL. If you modify file(s) with this
-+exception, you may extend this exception to your version of the file(s),
-+but you are not obligated to do so. If you do not wish to do so, delete
-+this exception statement from your version. If you delete this exception
-+statement from all source files in the program, then also delete it
-+here.
-diff --git a/meta/files/common-licenses/eCos-exception-2.0 b/meta/files/com=
-mon-licenses/eCos-exception-2.0
-new file mode 100644
-index 0000000000..a0bf0077c5
---- /dev/null
-+++ b/meta/files/common-licenses/eCos-exception-2.0
-@@ -0,0 +1,3 @@
-+As a special exception, if other files instantiate templates or use macros=
- or inline functions from this file, or you compile this file and link it w=
-ith other works to produce a work based on this file, this file does not by=
- itself cause the resulting work to be covered by the GNU General Public Li=
-cense. However the source code for this file must still be made available i=
-n accordance with section (3) of the GNU General Public License.
-+
-+This exception does not invalidate any other reasons why a work based on t=
-his file might be covered by the GNU General Public License.
-diff --git a/meta/files/common-licenses/erlang-otp-linking-exception b/meta=
-/files/common-licenses/erlang-otp-linking-exception
-new file mode 100644
-index 0000000000..ca8b775480
---- /dev/null
-+++ b/meta/files/common-licenses/erlang-otp-linking-exception
-@@ -0,0 +1,11 @@
-+If you modify this Program, or any covered work, by linking or
-+combining it with runtime libraries of Erlang/OTP as released by
-+Ericsson on https://www.erlang.org (or a modified version of these
-+libraries), containing parts covered by the terms of the Erlang Public
-+License (https://www.erlang.org/EPLICENSE), the licensors of this
-+Program grant you additional permission to convey the resulting work
-+without the need to license the runtime libraries of Erlang/OTP under
-+the GNU Affero General Public License. Corresponding Source for a
-+non-source form of such a combination shall include the source code
-+for the parts of the runtime libraries of Erlang/OTP used as well as
-+that of the covered work.
-diff --git a/meta/files/common-licenses/fmt-exception b/meta/files/common-l=
-icenses/fmt-exception
-new file mode 100644
-index 0000000000..6036f7d360
---- /dev/null
-+++ b/meta/files/common-licenses/fmt-exception
-@@ -0,0 +1,6 @@
-+--- Optional exception to the license ---
-+
-+As an exception, if, as a result of your compiling your source code, porti=
-ons
-+of this Software are embedded into a machine-executable object form of such
-+source code, you may redistribute such embedded portions in such object fo=
-rm
-+without including the above copyright and permission notices.
-diff --git a/meta/files/common-licenses/freertos-exception-2.0 b/meta/files=
-/common-licenses/freertos-exception-2.0
-new file mode 100644
-index 0000000000..0105e95971
---- /dev/null
-+++ b/meta/files/common-licenses/freertos-exception-2.0
-@@ -0,0 +1,19 @@
-+Any FreeRTOS source code, whether modified or in its original release form=
-, or whether in whole or in part, can only be distributed by you under the =
-terms of the GNU General Public License plus this exception. An independent=
- module is a module which is not derived from or based on FreeRTOS.
-+
-+EXCEPTION TEXT:
-+
-+Clause 1
-+
-+Linking FreeRTOS statically or dynamically with other modules is making a =
-combined work based on FreeRTOS. Thus, the terms and conditions of the GNU =
-General Public License cover the whole combination.
-+
-+As a special exception, the copyright holder of FreeRTOS gives you permiss=
-ion to link FreeRTOS with independent modules that communicate with FreeRTO=
-S solely through the FreeRTOS API interface, regardless of the license term=
-s of these independent modules, and to copy and distribute the resulting co=
-mbined work under terms of your choice, provided that
-+
-+Every copy of the combined work is accompanied by a written statement that=
- details to the recipient the version of FreeRTOS used and an offer by your=
-self to provide the FreeRTOS source code (including any modifications you m=
-ay have made) should the recipient request it.
-+
-+The combined work is not itself an RTOS, scheduler, kernel or related prod=
-uct.
-+
-+The independent modules add significant and primary functionality to FreeR=
-TOS and do not merely extend the existing functionality already present in =
-FreeRTOS.
-+
-+Clause 2
-+
-+FreeRTOS may not be used for any competitive or comparative purpose, inclu=
-ding the publication of any form of run time or compile time metric, withou=
-t the express permission of Real Time Engineers Ltd. (this is the norm with=
-in the industry and is intended to ensure information accuracy).
-diff --git a/meta/files/common-licenses/gnu-javamail-exception b/meta/files=
-/common-licenses/gnu-javamail-exception
-new file mode 100644
-index 0000000000..8f3b9ab0d0
---- /dev/null
-+++ b/meta/files/common-licenses/gnu-javamail-exception
-@@ -0,0 +1 @@
-+As a special exception, if you link this library with other files to produ=
-ce an executable, this library does not by itself cause the resulting execu=
-table to be covered by the GNU General Public License. This exception does =
-not however invalidate any other reasons why the executable file might be c=
-overed by the GNU General Public License.
-diff --git a/meta/files/common-licenses/harbour-exception b/meta/files/comm=
-on-licenses/harbour-exception
-new file mode 100644
-index 0000000000..25d75e9fc7
---- /dev/null
-+++ b/meta/files/common-licenses/harbour-exception
-@@ -0,0 +1,23 @@
-+As a special exception, the Harbour Project gives permission for
-+additional uses of the text contained in its release of Harbour.
-+
-+The exception is that, if you link the Harbour libraries with other
-+files to produce an executable, this does not by itself cause the
-+resulting executable to be covered by the GNU General Public License.
-+Your use of that executable is in no way restricted on account of
-+linking the Harbour library code into it.
-+
-+This exception does not however invalidate any other reasons why
-+the executable file might be covered by the GNU General Public License.
-+
-+This exception applies only to the code released by the Harbour
-+Project under the name Harbour.  If you copy code from other
-+Harbour Project or Free Software Foundation releases into a copy of
-+Harbour, as the General Public License permits, the exception does
-+not apply to the code that you add in this way.  To avoid misleading
-+anyone as to the status of such modified files, you must delete
-+this exception notice from them.
-+
-+If you write modifications of your own for Harbour, it is your choice
-+whether to permit this exception to apply to your modifications.
-+If you do not wish that, delete this exception notice.
-diff --git a/meta/files/common-licenses/i2p-gpl-java-exception b/meta/files=
-/common-licenses/i2p-gpl-java-exception
-new file mode 100644
-index 0000000000..2b7277d778
---- /dev/null
-+++ b/meta/files/common-licenses/i2p-gpl-java-exception
-@@ -0,0 +1 @@
-+In addition, as a special exception, <<var;name=3Dlicensor;original=3DXXXX=
-;match=3D.+>> gives permission to link the code of this program with the pr=
-oprietary Java implementation provided by Sun (or other vendors as well), a=
-nd distribute linked combinations including the two. You must obey the GNU =
-General Public License in all respects for all of the code used other than =
-the proprietary Java implementation. If you modify this file, you may exten=
-d this exception to your version of the file, but you are not obligated to =
-do so. If you do not wish to do so, delete this exception statement from yo=
-ur version.
-diff --git a/meta/files/common-licenses/kvirc-openssl-exception b/meta/file=
-s/common-licenses/kvirc-openssl-exception
-new file mode 100644
-index 0000000000..beb605b8bd
---- /dev/null
-+++ b/meta/files/common-licenses/kvirc-openssl-exception
-@@ -0,0 +1,30 @@
-+                       _OpenSSL Exception_
-+
-+0. Definitions
-+
-+"KVIrc" means KVIrc software licensed under version 2 or any later
-+version of the GNU General Public License (collectively, "GPL"), or a
-+work based on such software and licensed under the GPL.
-+
-+"OpenSSL" means OpenSSL toolkit software distributed by the OpenSSL
-+Project and licensed under the OpenSSL Licenses, or a work based on such
-+software and licensed under the OpenSSL Licenses.
-+
-+"OpenSSL Licenses" means the OpenSSL License and Original SSLeay License
-+under which the OpenSSL Project distributes the OpenSSL toolkit software,
-+as those licenses appear in the file LICENSE-OPENSSL.
-+
-+1. Exception
-+
-+You have permission to copy, modify, propagate, and distribute a work
-+formed by combining OpenSSL with KVIrc, or a work derivative of such a
-+combination, even if such copying, modification, propagation, or
-+distribution would otherwise violate the terms of the GPL. You must
-+comply with the GPL in all respects for all of the code used other than
-+OpenSSL.
-+
-+You may include this OpenSSL Exception and its grant of permissions when
-+you distribute KVIrc. Inclusion of this notice with such a
-+distribution constitutes a grant of such permission. If you do not wish
-+to grant these permissions, remove this section entitled "OpenSSL
-+Exception" from your distribution.
-diff --git a/meta/files/common-licenses/libpri-OpenH323-exception b/meta/fi=
-les/common-licenses/libpri-OpenH323-exception
-new file mode 100644
-index 0000000000..490d9596d6
---- /dev/null
-+++ b/meta/files/common-licenses/libpri-OpenH323-exception
-@@ -0,0 +1,4 @@
-+As a special exception, libpri may also be linked to the
-+OpenH323 library, so long as the entirity of the derivative
-+work (as defined within the GPL) is licensed either under
-+the MPL of the OpenH323 license or the GPL of libpri.
-diff --git a/meta/files/common-licenses/mif-exception b/meta/files/common-l=
-icenses/mif-exception
-new file mode 100644
-index 0000000000..ceb2626c6f
---- /dev/null
-+++ b/meta/files/common-licenses/mif-exception
-@@ -0,0 +1 @@
-+As a special exception, you may use this file as part of a free software l=
-ibrary without restriction. Specifically, if other files instantiate templa=
-tes or use macros or inline functions from this file, or you compile this f=
-ile and link it with other files to produce an executable, this file does n=
-ot by itself cause the resulting executable to be covered by the GNU Genera=
-l Public License. This exception does not however invalidate any other reas=
-ons why the executable file might be covered by the GNU General Public Lice=
-nse.
-diff --git a/meta/files/common-licenses/mxml-exception b/meta/files/common-=
-licenses/mxml-exception
-new file mode 100644
-index 0000000000..32928e8dd6
---- /dev/null
-+++ b/meta/files/common-licenses/mxml-exception
-@@ -0,0 +1,16 @@
-+Mini-XML
-+
-+Copyright =C2=A9 2003-2024 by Michael R Sweet
-+
-+
-+(Optional) Exceptions to the Apache 2.0 License:
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+In addition, if you combine or link compiled forms of this Software with
-+software that is licensed under the GPLv2 or LGPLv2 (=E2=80=9CCombined Sof=
-tware=E2=80=9D) and if
-+a court of competent jurisdiction determines that the patent provision (Se=
-ction
-+3), the indemnity provision (Section 9) or other Section of the License
-+conflicts with the conditions of the GPLv2 or LGPLv2, you may retroactivel=
-y and
-+prospectively choose to deem waived or otherwise exclude such Section(s) o=
-f the
-+License, but only in their entirety and only with respect to the Combined
-+Software.
-diff --git a/meta/files/common-licenses/openvpn-openssl-exception b/meta/fi=
-les/common-licenses/openvpn-openssl-exception
-new file mode 100644
-index 0000000000..e9e0a367ea
---- /dev/null
-+++ b/meta/files/common-licenses/openvpn-openssl-exception
-@@ -0,0 +1,3 @@
-+Special exception for linking OpenVPN with OpenSSL:
-+
-+In addition, as a special exception, OpenVPN Technologies, Inc. gives perm=
-ission to link the code of this program with the OpenSSL Library (or with m=
-odified versions of OpenSSL that use the same license as OpenSSL), and dist=
-ribute linked combinations including the two. You must obey the GNU General=
- Public License in all respects for all of the code used other than OpenSSL=
-. If you modify this file, you may extend this exception to your version of=
- the file, but you are not obligated to do so. If you do not wish to do so,=
- delete this exception statement from your version.
-diff --git a/meta/files/common-licenses/polyparse-exception b/meta/files/co=
-mmon-licenses/polyparse-exception
-new file mode 100644
-index 0000000000..55ed918bb9
---- /dev/null
-+++ b/meta/files/common-licenses/polyparse-exception
-@@ -0,0 +1,7 @@
-+As a relaxation of clause 6 of the LGPL, the copyright holders of this
-+library give permission to use, copy, link, modify, and distribute,
-+binary-only object-code versions of an executable linked with the
-+original unmodified Library, without requiring the supply of any
-+mechanism to modify or replace the Library and relink (clauses 6a,
-+6b, 6c, 6d, 6e), provided that all the other terms of clause 6 are
-+complied with.
-diff --git a/meta/files/common-licenses/romic-exception b/meta/files/common=
--licenses/romic-exception
-new file mode 100644
-index 0000000000..57def44818
---- /dev/null
-+++ b/meta/files/common-licenses/romic-exception
-@@ -0,0 +1,6 @@
-+Additional permission under the GNU Affero GPL version 3 section 7:
-+
-+If you modify this Program, or any covered work, by linking or
-+combining it with other code, such other code is not for that reason
-+alone subject to any of the requirements of the GNU Affero GPL
-+version 3.
-diff --git a/meta/files/common-licenses/rsync-linking-exception b/meta/file=
-s/common-licenses/rsync-linking-exception
-new file mode 100644
-index 0000000000..ddad55cb28
---- /dev/null
-+++ b/meta/files/common-licenses/rsync-linking-exception
-@@ -0,0 +1,6 @@
-+In addition, as a special exception, the copyright holders give
-+permission to dynamically link rsync with the OpenSSL and xxhash
-+libraries when those libraries are being distributed in compliance
-+with their license terms, and to distribute a dynamically linked
-+combination of rsync and these libraries.  This is also considered
-+to be covered under the GPL's System Libraries exception.
-diff --git a/meta/files/common-licenses/sqlitestudio-OpenSSL-exception b/me=
-ta/files/common-licenses/sqlitestudio-OpenSSL-exception
-new file mode 100644
-index 0000000000..07fdc13f98
---- /dev/null
-+++ b/meta/files/common-licenses/sqlitestudio-OpenSSL-exception
-@@ -0,0 +1,9 @@
-+In addition, as a special exception, the copyright holders give
-+permission to link the code of portions of this program with the OpenSSL
-+library.
-+You must obey the GNU General Public License in all respects for all of
-+the code used other than OpenSSL. If you modify file(s) with this
-+exception, you may extend this exception to your version of the file(s),
-+but you are not obligated to do so. If you do not wish to do so, delete
-+this exception statement from your version. If you delete this exception
-+statement from all source files in the program, then also delete it here.=
-=20=20
-diff --git a/meta/files/common-licenses/stunnel-exception b/meta/files/comm=
-on-licenses/stunnel-exception
-new file mode 100644
-index 0000000000..5e38d00a0f
---- /dev/null
-+++ b/meta/files/common-licenses/stunnel-exception
-@@ -0,0 +1,5 @@
-+Linking stunnel statically or dynamically with other modules is making a c=
-ombined work based on stunnel. Thus, the terms and conditions of the GNU Ge=
-neral Public License cover the whole combination.
-+
-+In addition, as a special exception, the copyright holder of stunnel gives=
- you permission to combine stunnel with free software programs or libraries=
- that are released under the GNU LGPL and with code included in the standar=
-d release of OpenSSL under the OpenSSL License (or modified versions of suc=
-h code, with unchanged license). You may copy and distribute such a system =
-following the terms of the GNU GPL for stunnel and the licenses of the othe=
-r code concerned.
-+
-+Note that people who make modified versions of stunnel are not obligated t=
-o grant this special exception for their modified versions; it is their cho=
-ice whether to do so. The GNU General Public License gives permission to re=
-lease a modified version without this exception; this exception also makes =
-it possible to release a modified version which carries forward this except=
-ion.
-diff --git a/meta/files/common-licenses/u-boot-exception-2.0 b/meta/files/c=
-ommon-licenses/u-boot-exception-2.0
-new file mode 100644
-index 0000000000..3158dade32
---- /dev/null
-+++ b/meta/files/common-licenses/u-boot-exception-2.0
-@@ -0,0 +1,6 @@
-+The U-Boot License Exception:
-+
-+Even though U-Boot in general is covered by the GPL-2.0/GPL-2.0+, this doe=
-s *not* cover the so-called "standalone" applications that use U-Boot servi=
-ces by means of the jump table provided by U-Boot exactly for this purpose =
-- this is merely considered normal use of U-Boot, and does *not* fall under=
- the heading of "derived work".
-+
-+The header files "include/image.h" and "arch/*/include/asm/u-boot.h" defin=
-e interfaces to U-Boot. Including these (unmodified) header files in anothe=
-r file is considered normal use of U-Boot, and does *not* fall under the he=
-ading of "derived work".
-+-- Wolfgang Denk
-diff --git a/meta/files/common-licenses/vsftpd-openssl-exception b/meta/fil=
-es/common-licenses/vsftpd-openssl-exception
-new file mode 100644
-index 0000000000..a864761e48
---- /dev/null
-+++ b/meta/files/common-licenses/vsftpd-openssl-exception
-@@ -0,0 +1,5 @@
-+vsftpd is licensed under version 2 of the GNU GPL.
-+As copyright holder, I give permission for vsftpd to be linked to the Open=
-SSL
-+libraries. This includes permission for vsftpd binaries to be distributed
-+linked against the OpenSSL libraries. All other obligations under the GPL =
-v2
-+remain intact.
-diff --git a/meta/files/common-licenses/x11vnc-openssl-exception b/meta/fil=
-es/common-licenses/x11vnc-openssl-exception
-new file mode 100644
-index 0000000000..040e31c7a9
---- /dev/null
-+++ b/meta/files/common-licenses/x11vnc-openssl-exception
-@@ -0,0 +1,9 @@
-+In addition, as a special exception, Karl J. Runge
-+gives permission to link the code of its release of x11vnc with the
-+OpenSSL project's "OpenSSL" library (or with modified versions of it
-+that use the same license as the "OpenSSL" library), and distribute
-+the linked executables.  You must obey the GNU General Public License
-+in all respects for all of the code used other than "OpenSSL".  If you
-+modify this file, you may extend this exception to your version of the
-+file, but you are not obligated to do so.  If you do not wish to do
-+so, delete this exception statement from your version.
-diff --git a/meta/files/spdx-exceptions.json b/meta/files/spdx-exceptions.j=
-son
-new file mode 100644
-index 0000000000..f9a5bc74b2
---- /dev/null
-+++ b/meta/files/spdx-exceptions.json
-@@ -0,0 +1,971 @@
-+{
-+  "exceptions": [
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/389-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "389-exception",
-+      "name": "389 Directory Server Exception",
-+      "reference": "https://spdx.org/licenses/389-exception.html",
-+      "referenceNumber": 49,
-+      "seeAlso": [
-+        "http://directory.fedoraproject.org/wiki/GPL_Exception_License_Tex=
-t",
-+        "https://web.archive.org/web/20080828121337/http://directory.fedor=
-aproject.org/wiki/GPL_Exception_License_Text"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Asterisk-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Asterisk-exception",
-+      "name": "Asterisk exception",
-+      "reference": "https://spdx.org/licenses/Asterisk-exception.html",
-+      "referenceNumber": 3,
-+      "seeAlso": [
-+        "https://github.com/asterisk/libpri/blob/7f91151e6bd10957c746c031c=
-1f4a030e8146e9a/pri.c#L22",
-+        "https://github.com/asterisk/libss7/blob/03e81bcd0d28ff25d4c77c783=
-51ddadc82ff5c3f/ss7.c#L24"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Asterisk-linking-protocols-=
-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Asterisk-linking-protocols-exception",
-+      "name": "Asterisk linking protocols exception",
-+      "reference": "https://spdx.org/licenses/Asterisk-linking-protocols-e=
-xception.html",
-+      "referenceNumber": 4,
-+      "seeAlso": [
-+        "https://github.com/asterisk/asterisk/blob/115d7c01e32ccf4566a99e9=
-d74e2b88830985a0b/LICENSE#L27"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Autoconf-exception-2.0.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Autoconf-exception-2.0",
-+      "name": "Autoconf exception 2.0",
-+      "reference": "https://spdx.org/licenses/Autoconf-exception-2.0.html",
-+      "referenceNumber": 30,
-+      "seeAlso": [
-+        "http://ac-archive.sourceforge.net/doc/copyright.html",
-+        "http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Autoconf-exception-3.0.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Autoconf-exception-3.0",
-+      "name": "Autoconf exception 3.0",
-+      "reference": "https://spdx.org/licenses/Autoconf-exception-3.0.html",
-+      "referenceNumber": 51,
-+      "seeAlso": [
-+        "http://www.gnu.org/licenses/autoconf-exception-3.0.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Autoconf-exception-generic.=
-json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Autoconf-exception-generic",
-+      "name": "Autoconf generic exception",
-+      "reference": "https://spdx.org/licenses/Autoconf-exception-generic.h=
-tml",
-+      "referenceNumber": 28,
-+      "seeAlso": [
-+        "https://launchpad.net/ubuntu/precise/+source/xmltooling/+copyrigh=
-t",
-+        "https://tracker.debian.org/media/packages/s/sipwitch/copyright-1.=
-9.15-3",
-+        "https://opensource.apple.com/source/launchd/launchd-258.1/launchd=
-/compile.auto.html",
-+        "https://git.savannah.gnu.org/gitweb/?p=3Dgnulib.git;a=3Dblob;f=3D=
-gnulib-tool;h=3D029a8cf377ad8d8f2d9e54061bf2f20496ad2eef;hb=3D73c74ba0197e6=
-566da6882c87b1adee63e24d75c#l407"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Autoconf-exception-generic-=
-3.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Autoconf-exception-generic-3.0",
-+      "name": "Autoconf generic exception for GPL-3.0",
-+      "reference": "https://spdx.org/licenses/Autoconf-exception-generic-3=
-.0.html",
-+      "referenceNumber": 37,
-+      "seeAlso": [
-+        "https://src.fedoraproject.org/rpms/redhat-rpm-config/blob/rawhide=
-/f/config.guess"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Autoconf-exception-macro.js=
-on",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Autoconf-exception-macro",
-+      "name": "Autoconf macro exception",
-+      "reference": "https://spdx.org/licenses/Autoconf-exception-macro.htm=
-l",
-+      "referenceNumber": 27,
-+      "seeAlso": [
-+        "https://github.com/freedesktop/xorg-macros/blob/39f07f7db58ebbf3d=
-cb64a2bf9098ed5cf3d1223/xorg-macros.m4.in",
-+        "https://www.gnu.org/software/autoconf-archive/ax_pthread.html",
-+        "https://launchpad.net/ubuntu/precise/+source/xmltooling/+copyrigh=
-t"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Bison-exception-1.24.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Bison-exception-1.24",
-+      "name": "Bison exception 1.24",
-+      "reference": "https://spdx.org/licenses/Bison-exception-1.24.html",
-+      "referenceNumber": 15,
-+      "seeAlso": [
-+        "https://github.com/arineng/rwhoisd/blob/master/rwhoisd/mkdb/y.tab=
-.c#L180"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Bison-exception-2.2.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Bison-exception-2.2",
-+      "name": "Bison exception 2.2",
-+      "reference": "https://spdx.org/licenses/Bison-exception-2.2.html",
-+      "referenceNumber": 74,
-+      "seeAlso": [
-+        "http://git.savannah.gnu.org/cgit/bison.git/tree/data/yacc.c?id=3D=
-193d7c7054ba7197b0789e14965b739162319b5e#n141"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Bootloader-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Bootloader-exception",
-+      "name": "Bootloader Distribution Exception",
-+      "reference": "https://spdx.org/licenses/Bootloader-exception.html",
-+      "referenceNumber": 29,
-+      "seeAlso": [
-+        "https://github.com/pyinstaller/pyinstaller/blob/develop/COPYING.t=
-xt"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/CGAL-linking-exception.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "CGAL-linking-exception",
-+      "name": "CGAL Linking Exception",
-+      "reference": "https://spdx.org/licenses/CGAL-linking-exception.html",
-+      "referenceNumber": 62,
-+      "seeAlso": [
-+        "https://github.com/openscad/openscad/blob/openscad-2021.01/COPYIN=
-G#L3",
-+        "https://github.com/floriankirsch/OpenCSG/blob/opencsg-1-4-2-relea=
-se/license.txt#L3"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Classpath-exception-2.0.jso=
-n",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Classpath-exception-2.0",
-+      "name": "Classpath exception 2.0",
-+      "reference": "https://spdx.org/licenses/Classpath-exception-2.0.html=
-",
-+      "referenceNumber": 2,
-+      "seeAlso": [
-+        "http://www.gnu.org/software/classpath/license.html",
-+        "https://fedoraproject.org/wiki/Licensing/GPL_Classpath_Exception"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Classpath-exception-2.0-sho=
-rt.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Classpath-exception-2.0-short",
-+      "name": "Classpath exception 2.0 - short",
-+      "reference": "https://spdx.org/licenses/Classpath-exception-2.0-shor=
-t.html",
-+      "referenceNumber": 52,
-+      "seeAlso": [
-+        "https://sourceforge.net/projects/lazarus/files/Lazarus%20Zip%20_%=
-20GZip/Lazarus%204.2/lazarus-4.2-0.tar.gz/download"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/CLISP-exception-2.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "CLISP-exception-2.0",
-+      "name": "CLISP exception 2.0",
-+      "reference": "https://spdx.org/licenses/CLISP-exception-2.0.html",
-+      "referenceNumber": 21,
-+      "seeAlso": [
-+        "http://sourceforge.net/p/clisp/clisp/ci/default/tree/COPYRIGHT"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/cryptsetup-OpenSSL-exceptio=
-n.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "cryptsetup-OpenSSL-exception",
-+      "name": "cryptsetup OpenSSL exception",
-+      "reference": "https://spdx.org/licenses/cryptsetup-OpenSSL-exception=
-.html",
-+      "referenceNumber": 1,
-+      "seeAlso": [
-+        "https://gitlab.com/cryptsetup/cryptsetup/-/blob/main/COPYING",
-+        "https://gitlab.nic.cz/datovka/datovka/-/blob/develop/COPYING",
-+        "https://github.com/nbs-system/naxsi/blob/951123ad456bdf5ac94e8d88=
-19342fe3d49bc002/naxsi_src/naxsi_raw.c",
-+        "http://web.mit.edu/jgross/arch/amd64_deb60/bin/mosh",
-+        "https://sourceforge.net/p/linux-ima/ima-evm-utils/ci/master/tree/=
-src/evmctl.c#l30",
-+        "https://github.com/ocaml-omake/omake/blob/master/LICENSE.OMake#L2=
-0"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Digia-Qt-LGPL-exception-1.1=
-.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Digia-Qt-LGPL-exception-1.1",
-+      "name": "Digia Qt LGPL Exception version 1.1",
-+      "reference": "https://spdx.org/licenses/Digia-Qt-LGPL-exception-1.1.=
-html",
-+      "referenceNumber": 5,
-+      "seeAlso": [
-+        "https://src.fedoraproject.org/rpms/qtlockedfile/blob/rawhide/f/LG=
-PL_EXCEPTION"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/DigiRule-FOSS-exception.jso=
-n",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "DigiRule-FOSS-exception",
-+      "name": "DigiRule FOSS License Exception",
-+      "reference": "https://spdx.org/licenses/DigiRule-FOSS-exception.html=
-",
-+      "referenceNumber": 80,
-+      "seeAlso": [
-+        "http://www.digirulesolutions.com/drupal/foss"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/eCos-exception-2.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "eCos-exception-2.0",
-+      "name": "eCos exception 2.0",
-+      "reference": "https://spdx.org/licenses/eCos-exception-2.0.html",
-+      "referenceNumber": 36,
-+      "seeAlso": [
-+        "http://ecos.sourceware.org/license-overview.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/erlang-otp-linking-exceptio=
-n.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "erlang-otp-linking-exception",
-+      "name": "Erlang/OTP Linking Exception",
-+      "reference": "https://spdx.org/licenses/erlang-otp-linking-exception=
-.html",
-+      "referenceNumber": 26,
-+      "seeAlso": [
-+        "https://www.gnu.org/licenses/gpl-faq.en.html#GPLIncompatibleLibs",
-+        "https://erlang.org/pipermail/erlang-questions/2012-May/066355.htm=
-l",
-+        "https://gitea.osmocom.org/erlang/osmo_ss7/src/commit/2286c1b8738d=
-715950026650bf53f19a69d6ed0e/src/ss7_links.erl#L20"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Fawkes-Runtime-exception.js=
-on",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Fawkes-Runtime-exception",
-+      "name": "Fawkes Runtime Exception",
-+      "reference": "https://spdx.org/licenses/Fawkes-Runtime-exception.htm=
-l",
-+      "referenceNumber": 25,
-+      "seeAlso": [
-+        "http://www.fawkesrobotics.org/about/license/"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/FLTK-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "FLTK-exception",
-+      "name": "FLTK exception",
-+      "reference": "https://spdx.org/licenses/FLTK-exception.html",
-+      "referenceNumber": 32,
-+      "seeAlso": [
-+        "http://www.fltk.org/COPYING.php"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/fmt-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "fmt-exception",
-+      "name": "fmt exception",
-+      "reference": "https://spdx.org/licenses/fmt-exception.html",
-+      "referenceNumber": 72,
-+      "seeAlso": [
-+        "https://github.com/fmtlib/fmt/blob/master/LICENSE",
-+        "https://github.com/fmtlib/fmt/blob/2eb363297b24cd71a68ccfb20ff755=
-430f17e60f/LICENSE#L22C1-L27C62"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Font-exception-2.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Font-exception-2.0",
-+      "name": "Font exception 2.0",
-+      "reference": "https://spdx.org/licenses/Font-exception-2.0.html",
-+      "referenceNumber": 39,
-+      "seeAlso": [
-+        "http://www.gnu.org/licenses/gpl-faq.html#FontException"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/freertos-exception-2.0.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "freertos-exception-2.0",
-+      "name": "FreeRTOS Exception 2.0",
-+      "reference": "https://spdx.org/licenses/freertos-exception-2.0.html",
-+      "referenceNumber": 38,
-+      "seeAlso": [
-+        "https://web.archive.org/web/20060809182744/http://www.freertos.or=
-g/a00114.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GCC-exception-2.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GCC-exception-2.0",
-+      "name": "GCC Runtime Library exception 2.0",
-+      "reference": "https://spdx.org/licenses/GCC-exception-2.0.html",
-+      "referenceNumber": 78,
-+      "seeAlso": [
-+        "https://gcc.gnu.org/git/?p=3Dgcc.git;a=3Dblob;f=3Dgcc/libgcc1.c;h=
-=3D762f5143fc6eed57b6797c82710f3538aa52b40b;hb=3Dcb143a3ce4fb417c68f5fa2691=
-a1b1b1053dfba9#l10",
-+        "https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dcsu/abi-no=
-te.c;h=3Dc2ec208e94fbe91f63d3c375bd254b884695d190;hb=3DHEAD"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GCC-exception-2.0-note.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GCC-exception-2.0-note",
-+      "name": "GCC    Runtime Library exception 2.0 - note variant",
-+      "reference": "https://spdx.org/licenses/GCC-exception-2.0-note.html",
-+      "referenceNumber": 53,
-+      "seeAlso": [
-+        "https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/x8=
-6_64/start.S"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GCC-exception-3.1.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GCC-exception-3.1",
-+      "name": "GCC Runtime Library exception 3.1",
-+      "reference": "https://spdx.org/licenses/GCC-exception-3.1.html",
-+      "referenceNumber": 48,
-+      "seeAlso": [
-+        "http://www.gnu.org/licenses/gcc-exception-3.1.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Gmsh-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Gmsh-exception",
-+      "name": "Gmsh exception",
-+      "reference": "https://spdx.org/licenses/Gmsh-exception.html",
-+      "referenceNumber": 22,
-+      "seeAlso": [
-+        "https://gitlab.onelab.info/gmsh/gmsh/-/raw/master/LICENSE.txt"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GNAT-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GNAT-exception",
-+      "name": "GNAT exception",
-+      "reference": "https://spdx.org/licenses/GNAT-exception.html",
-+      "referenceNumber": 20,
-+      "seeAlso": [
-+        "https://github.com/AdaCore/florist/blob/master/libsrc/posix-confi=
-gurable_file_limits.adb"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GNOME-examples-exception.js=
-on",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GNOME-examples-exception",
-+      "name": "GNOME examples exception",
-+      "reference": "https://spdx.org/licenses/GNOME-examples-exception.htm=
-l",
-+      "referenceNumber": 35,
-+      "seeAlso": [
-+        "https://gitlab.gnome.org/Archive/gnome-devel-docs/-/blob/master/p=
-latform-demos/C/legal.xml?ref_type=3Dheads",
-+        "http://meldmerge.org/help/"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GNU-compiler-exception.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GNU-compiler-exception",
-+      "name": "GNU Compiler Exception",
-+      "reference": "https://spdx.org/licenses/GNU-compiler-exception.html",
-+      "referenceNumber": 19,
-+      "seeAlso": [
-+        "https://sourceware.org/git?p=3Dbinutils-gdb.git;a=3Dblob;f=3Dlibi=
-berty/unlink-if-ordinary.c;h=3De49f2f2f67bfdb10d6b2bd579b0e01cad0fd708e;hb=
-=3DHEAD#l19",
-+        "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/tree/arch/powerpc/lib/crtsavres.S?h=3Dv6.16-rc6#n34"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/gnu-javamail-exception.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "gnu-javamail-exception",
-+      "name": "GNU JavaMail exception",
-+      "reference": "https://spdx.org/licenses/gnu-javamail-exception.html",
-+      "referenceNumber": 71,
-+      "seeAlso": [
-+        "http://www.gnu.org/software/classpathx/javamail/javamail.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GPL-3.0-389-ds-base-excepti=
-on.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GPL-3.0-389-ds-base-exception",
-+      "name": "GPL-3.0 389 DS Base Exception",
-+      "reference": "https://spdx.org/licenses/GPL-3.0-389-ds-base-exceptio=
-n.html",
-+      "referenceNumber": 13,
-+      "seeAlso": []
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GPL-3.0-interface-exception=
-.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GPL-3.0-interface-exception",
-+      "name": "GPL-3.0 Interface Exception",
-+      "reference": "https://spdx.org/licenses/GPL-3.0-interface-exception.=
-html",
-+      "referenceNumber": 11,
-+      "seeAlso": [
-+        "https://www.gnu.org/licenses/gpl-faq.en.html#LinkingOverControlle=
-dInterface"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GPL-3.0-linking-exception.j=
-son",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GPL-3.0-linking-exception",
-+      "name": "GPL-3.0 Linking Exception",
-+      "reference": "https://spdx.org/licenses/GPL-3.0-linking-exception.ht=
-ml",
-+      "referenceNumber": 59,
-+      "seeAlso": [
-+        "https://www.gnu.org/licenses/gpl-faq.en.html#GPLIncompatibleLibs"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GPL-3.0-linking-source-exce=
-ption.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GPL-3.0-linking-source-exception",
-+      "name": "GPL-3.0 Linking Exception (with Corresponding Source)",
-+      "reference": "https://spdx.org/licenses/GPL-3.0-linking-source-excep=
-tion.html",
-+      "referenceNumber": 69,
-+      "seeAlso": [
-+        "https://www.gnu.org/licenses/gpl-faq.en.html#GPLIncompatibleLibs",
-+        "https://github.com/mirror/wget/blob/master/src/http.c#L20"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GPL-CC-1.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GPL-CC-1.0",
-+      "name": "GPL Cooperation Commitment 1.0",
-+      "reference": "https://spdx.org/licenses/GPL-CC-1.0.html",
-+      "referenceNumber": 40,
-+      "seeAlso": [
-+        "https://github.com/gplcc/gplcc/blob/master/Project/COMMITMENT",
-+        "https://gplcc.github.io/gplcc/Project/README-PROJECT.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GStreamer-exception-2005.js=
-on",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GStreamer-exception-2005",
-+      "name": "GStreamer Exception (2005)",
-+      "reference": "https://spdx.org/licenses/GStreamer-exception-2005.htm=
-l",
-+      "referenceNumber": 16,
-+      "seeAlso": [
-+        "https://gstreamer.freedesktop.org/documentation/frequently-asked-=
-questions/licensing.html?gi-language=3Dc#licensing-of-applications-using-gs=
-treamer"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/GStreamer-exception-2008.js=
-on",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "GStreamer-exception-2008",
-+      "name": "GStreamer Exception (2008)",
-+      "reference": "https://spdx.org/licenses/GStreamer-exception-2008.htm=
-l",
-+      "referenceNumber": 41,
-+      "seeAlso": [
-+        "https://gstreamer.freedesktop.org/documentation/frequently-asked-=
-questions/licensing.html?gi-language=3Dc#licensing-of-applications-using-gs=
-treamer"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/harbour-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "harbour-exception",
-+      "name": "harbour exception",
-+      "reference": "https://spdx.org/licenses/harbour-exception.html",
-+      "referenceNumber": 60,
-+      "seeAlso": [
-+        "https://github.com/harbour/core/blob/master/LICENSE.txt#L44-L66"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/i2p-gpl-java-exception.json=
-",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "i2p-gpl-java-exception",
-+      "name": "i2p GPL+Java Exception",
-+      "reference": "https://spdx.org/licenses/i2p-gpl-java-exception.html",
-+      "referenceNumber": 58,
-+      "seeAlso": [
-+        "http://geti2p.net/en/get-involved/develop/licenses#java_exception"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Independent-modules-excepti=
-on.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Independent-modules-exception",
-+      "name": "Independent Module Linking exception",
-+      "reference": "https://spdx.org/licenses/Independent-modules-exceptio=
-n.html",
-+      "referenceNumber": 9,
-+      "seeAlso": [
-+        "https://gitlab.com/freepascal.org/fpc/source/-/blob/release_3_2_2=
-/rtl/COPYING.FPC"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/KiCad-libraries-exception.j=
-son",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "KiCad-libraries-exception",
-+      "name": "KiCad Libraries Exception",
-+      "reference": "https://spdx.org/licenses/KiCad-libraries-exception.ht=
-ml",
-+      "referenceNumber": 46,
-+      "seeAlso": [
-+        "https://www.kicad.org/libraries/license/"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/kvirc-openssl-exception.jso=
-n",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "kvirc-openssl-exception",
-+      "name": "kvirc OpenSSL Exception",
-+      "reference": "https://spdx.org/licenses/kvirc-openssl-exception.html=
-",
-+      "referenceNumber": 34,
-+      "seeAlso": [
-+        "https://github.com/kvirc/KVIrc/blob/ba18690abb4f5ce77bb10164ee083=
-5cc150f4a2a/doc/ABOUT-LICENSE#L34"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/LGPL-3.0-linking-exception.=
-json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "LGPL-3.0-linking-exception",
-+      "name": "LGPL-3.0 Linking Exception",
-+      "reference": "https://spdx.org/licenses/LGPL-3.0-linking-exception.h=
-tml",
-+      "referenceNumber": 56,
-+      "seeAlso": [
-+        "https://raw.githubusercontent.com/go-xmlpath/xmlpath/v2/LICENSE",
-+        "https://github.com/goamz/goamz/blob/master/LICENSE",
-+        "https://github.com/juju/errors/blob/master/LICENSE"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/libpri-OpenH323-exception.j=
-son",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "libpri-OpenH323-exception",
-+      "name": "libpri OpenH323 exception",
-+      "reference": "https://spdx.org/licenses/libpri-OpenH323-exception.ht=
-ml",
-+      "referenceNumber": 81,
-+      "seeAlso": [
-+        "https://github.com/asterisk/libpri/blob/1.6.0/README#L19-L22"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Libtool-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Libtool-exception",
-+      "name": "Libtool Exception",
-+      "reference": "https://spdx.org/licenses/Libtool-exception.html",
-+      "referenceNumber": 14,
-+      "seeAlso": [
-+        "http://git.savannah.gnu.org/cgit/libtool.git/tree/m4/libtool.m4",
-+        "https://git.savannah.gnu.org/cgit/libtool.git/tree/libltdl/lt__al=
-loc.c#n15"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Linux-syscall-note.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Linux-syscall-note",
-+      "name": "Linux Syscall Note",
-+      "reference": "https://spdx.org/licenses/Linux-syscall-note.html",
-+      "referenceNumber": 44,
-+      "seeAlso": [
-+        "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/tree/COPYING"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/LLGPL.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "LLGPL",
-+      "name": "LLGPL Preamble",
-+      "reference": "https://spdx.org/licenses/LLGPL.html",
-+      "referenceNumber": 47,
-+      "seeAlso": [
-+        "http://opensource.franz.com/preamble.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/LLVM-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "LLVM-exception",
-+      "name": "LLVM Exception",
-+      "reference": "https://spdx.org/licenses/LLVM-exception.html",
-+      "referenceNumber": 82,
-+      "seeAlso": [
-+        "http://llvm.org/foundation/relicensing/LICENSE.txt",
-+        "https://web.archive.org/web/20240423023852/https://foundation.llv=
-m.org/relicensing/LICENSE.txt"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/LZMA-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "LZMA-exception",
-+      "name": "LZMA exception",
-+      "reference": "https://spdx.org/licenses/LZMA-exception.html",
-+      "referenceNumber": 83,
-+      "seeAlso": [
-+        "http://nsis.sourceforge.net/Docs/AppendixI.html#I.6"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/mif-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "mif-exception",
-+      "name": "Macros and Inline Functions Exception",
-+      "reference": "https://spdx.org/licenses/mif-exception.html",
-+      "referenceNumber": 43,
-+      "seeAlso": [
-+        "http://www.scs.stanford.edu/histar/src/lib/cppsup/exception",
-+        "http://dev.bertos.org/doxygen/",
-+        "https://www.threadingbuildingblocks.org/licensing"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/mxml-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "mxml-exception",
-+      "name": "mxml Exception",
-+      "reference": "https://spdx.org/licenses/mxml-exception.html",
-+      "referenceNumber": 61,
-+      "seeAlso": [
-+        "https://github.com/michaelrsweet/mxml/blob/master/NOTICE",
-+        "https://github.com/michaelrsweet/mxml/blob/master/LICENSE"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Nokia-Qt-exception-1.1.json=
-",
-+      "isDeprecatedLicenseId": true,
-+      "licenseExceptionId": "Nokia-Qt-exception-1.1",
-+      "name": "Nokia Qt LGPL exception 1.1",
-+      "reference": "https://spdx.org/licenses/Nokia-Qt-exception-1.1.html",
-+      "referenceNumber": 7,
-+      "seeAlso": [
-+        "https://www.keepassx.org/dev/projects/keepassx/repository/revisio=
-ns/b8dfb9cc4d5133e0f09cd7533d15a4f1c19a40f2/entry/LICENSE.NOKIA-LGPL-EXCEPT=
-ION"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/OCaml-LGPL-linking-exceptio=
-n.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "OCaml-LGPL-linking-exception",
-+      "name": "OCaml LGPL Linking Exception",
-+      "reference": "https://spdx.org/licenses/OCaml-LGPL-linking-exception=
-.html",
-+      "referenceNumber": 54,
-+      "seeAlso": [
-+        "https://caml.inria.fr/ocaml/license.en.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/OCCT-exception-1.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "OCCT-exception-1.0",
-+      "name": "Open CASCADE Exception 1.0",
-+      "reference": "https://spdx.org/licenses/OCCT-exception-1.0.html",
-+      "referenceNumber": 67,
-+      "seeAlso": [
-+        "http://www.opencascade.com/content/licensing"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/OpenJDK-assembly-exception-=
-1.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "OpenJDK-assembly-exception-1.0",
-+      "name": "OpenJDK Assembly exception 1.0",
-+      "reference": "https://spdx.org/licenses/OpenJDK-assembly-exception-1=
-.0.html",
-+      "referenceNumber": 23,
-+      "seeAlso": [
-+        "http://openjdk.java.net/legal/assembly-exception.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/openvpn-openssl-exception.j=
-son",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "openvpn-openssl-exception",
-+      "name": "OpenVPN OpenSSL Exception",
-+      "reference": "https://spdx.org/licenses/openvpn-openssl-exception.ht=
-ml",
-+      "referenceNumber": 18,
-+      "seeAlso": [
-+        "http://openvpn.net/index.php/license.html",
-+        "https://github.com/psycopg/psycopg2/blob/2_9_3/LICENSE#L14"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/PCRE2-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "PCRE2-exception",
-+      "name": "PCRE2 exception",
-+      "reference": "https://spdx.org/licenses/PCRE2-exception.html",
-+      "referenceNumber": 55,
-+      "seeAlso": [
-+        "https://www.pcre.org/licence.txt"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/polyparse-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "polyparse-exception",
-+      "name": "Polyparse Exception",
-+      "reference": "https://spdx.org/licenses/polyparse-exception.html",
-+      "referenceNumber": 6,
-+      "seeAlso": [
-+        "https://hackage.haskell.org/package/polyparse-1.13/src/COPYRIGHT"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/PS-or-PDF-font-exception-20=
-170817.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "PS-or-PDF-font-exception-20170817",
-+      "name": "PS/PDF font exception (2017-08-17)",
-+      "reference": "https://spdx.org/licenses/PS-or-PDF-font-exception-201=
-70817.html",
-+      "referenceNumber": 66,
-+      "seeAlso": [
-+        "https://github.com/ArtifexSoftware/urw-base35-fonts/blob/65962e27=
-febc3883a17e651cdb23e783668c996f/LICENSE"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/QPL-1.0-INRIA-2004-exceptio=
-n.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "QPL-1.0-INRIA-2004-exception",
-+      "name": "INRIA QPL 1.0 2004 variant exception",
-+      "reference": "https://spdx.org/licenses/QPL-1.0-INRIA-2004-exception=
-.html",
-+      "referenceNumber": 10,
-+      "seeAlso": [
-+        "https://git.frama-c.com/pub/frama-c/-/blob/master/licenses/Q_MODI=
-FIED_LICENSE",
-+        "https://github.com/maranget/hevea/blob/master/LICENSE"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Qt-GPL-exception-1.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Qt-GPL-exception-1.0",
-+      "name": "Qt GPL exception 1.0",
-+      "reference": "https://spdx.org/licenses/Qt-GPL-exception-1.0.html",
-+      "referenceNumber": 64,
-+      "seeAlso": [
-+        "http://code.qt.io/cgit/qt/qtbase.git/tree/LICENSE.GPL3-EXCEPT"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Qt-LGPL-exception-1.1.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Qt-LGPL-exception-1.1",
-+      "name": "Qt LGPL exception 1.1",
-+      "reference": "https://spdx.org/licenses/Qt-LGPL-exception-1.1.html",
-+      "referenceNumber": 79,
-+      "seeAlso": [
-+        "http://code.qt.io/cgit/qt/qtbase.git/tree/LGPL_EXCEPTION.txt"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Qwt-exception-1.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Qwt-exception-1.0",
-+      "name": "Qwt exception 1.0",
-+      "reference": "https://spdx.org/licenses/Qwt-exception-1.0.html",
-+      "referenceNumber": 75,
-+      "seeAlso": [
-+        "http://qwt.sourceforge.net/qwtlicense.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/romic-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "romic-exception",
-+      "name": "Romic Exception",
-+      "reference": "https://spdx.org/licenses/romic-exception.html",
-+      "referenceNumber": 76,
-+      "seeAlso": [
-+        "https://web.archive.org/web/20210124015834/http://mo.morsi.org/bl=
-og/2009/08/13/lesser_affero_gplv3/",
-+        "https://sourceforge.net/p/romic/code/ci/3ab2856180cf0d8b007609af5=
-3154cf092efc58f/tree/COPYING",
-+        "https://github.com/moll/node-mitm/blob/bbf24b8bd7596dc6e091e62536=
-3161ce91984fc7/LICENSE#L8-L11",
-+        "https://github.com/zenbones/SmallMind/blob/3c62b5995fe7f27c453f14=
-0ff9b60560a0893f2a/COPYRIGHT#L25-L30",
-+        "https://github.com/CubeArtisan/cubeartisan/blob/2c6ab53455237b88a=
-3ea07be02a838a135c4ab79/LICENSE.LESSER#L10-L15",
-+        "https://github.com/savearray2/py.js/blob/b781273c08c8afa89f4954de=
-4ecf42ec01429bae/README.md#license"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/RRDtool-FLOSS-exception-2.0=
-.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "RRDtool-FLOSS-exception-2.0",
-+      "name": "RRDtool FLOSS exception 2.0",
-+      "reference": "https://spdx.org/licenses/RRDtool-FLOSS-exception-2.0.=
-html",
-+      "referenceNumber": 70,
-+      "seeAlso": [
-+        "https://github.com/oetiker/rrdtool-1.x/blob/master/COPYRIGHT#L25-=
-L90",
-+        "https://oss.oetiker.ch/rrdtool/license.en.html"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/rsync-linking-exception.jso=
-n",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "rsync-linking-exception",
-+      "name": "rsync Linking Exception",
-+      "reference": "https://spdx.org/licenses/rsync-linking-exception.html=
-",
-+      "referenceNumber": 33,
-+      "seeAlso": [
-+        "https://github.com/RsyncProject/rsync/blob/master/COPYING"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/SANE-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "SANE-exception",
-+      "name": "SANE Exception",
-+      "reference": "https://spdx.org/licenses/SANE-exception.html",
-+      "referenceNumber": 63,
-+      "seeAlso": [
-+        "https://github.com/alexpevzner/sane-airscan/blob/master/LICENSE",
-+        "https://gitlab.com/sane-project/backends/-/blob/master/sanei/sane=
-i_pp.c?ref_type=3Dheads",
-+        "https://gitlab.com/sane-project/frontends/-/blob/master/sanei/san=
-ei_codec_ascii.c?ref_type=3Dheads"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/SHL-2.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "SHL-2.0",
-+      "name": "Solderpad Hardware License v2.0",
-+      "reference": "https://spdx.org/licenses/SHL-2.0.html",
-+      "referenceNumber": 24,
-+      "seeAlso": [
-+        "https://solderpad.org/licenses/SHL-2.0/"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/SHL-2.1.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "SHL-2.1",
-+      "name": "Solderpad Hardware License v2.1",
-+      "reference": "https://spdx.org/licenses/SHL-2.1.html",
-+      "referenceNumber": 45,
-+      "seeAlso": [
-+        "https://solderpad.org/licenses/SHL-2.1/"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Simple-Library-Usage-except=
-ion.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Simple-Library-Usage-exception",
-+      "name": "Simple Library Usage Exception",
-+      "reference": "https://spdx.org/licenses/Simple-Library-Usage-excepti=
-on.html",
-+      "referenceNumber": 8,
-+      "seeAlso": [
-+        "https://sourceforge.net/p/teem/code/HEAD/tree/teem/trunk/LICENSE.=
-txt"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/sqlitestudio-OpenSSL-except=
-ion.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "sqlitestudio-OpenSSL-exception",
-+      "name": "sqlitestudio OpenSSL exception",
-+      "reference": "https://spdx.org/licenses/sqlitestudio-OpenSSL-excepti=
-on.html",
-+      "referenceNumber": 12,
-+      "seeAlso": [
-+        "https://github.com/pawelsalawa/sqlitestudio/blob/master/LICENSE"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/stunnel-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "stunnel-exception",
-+      "name": "stunnel Exception",
-+      "reference": "https://spdx.org/licenses/stunnel-exception.html",
-+      "referenceNumber": 68,
-+      "seeAlso": [
-+        "https://github.com/mtrojnar/stunnel/blob/master/COPYING.md"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/SWI-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "SWI-exception",
-+      "name": "SWI exception",
-+      "reference": "https://spdx.org/licenses/SWI-exception.html",
-+      "referenceNumber": 77,
-+      "seeAlso": [
-+        "https://github.com/SWI-Prolog/packages-clpqr/blob/bfa80b9270274f0=
-800120d5b8e6fef42ac2dc6a5/clpqr/class.pl"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Swift-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Swift-exception",
-+      "name": "Swift Exception",
-+      "reference": "https://spdx.org/licenses/Swift-exception.html",
-+      "referenceNumber": 57,
-+      "seeAlso": [
-+        "https://swift.org/LICENSE.txt",
-+        "https://github.com/apple/swift-package-manager/blob/7ab2275f447a5=
-eb37497ed63a9340f8a6d1e488b/LICENSE.txt#L205"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Texinfo-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Texinfo-exception",
-+      "name": "Texinfo exception",
-+      "reference": "https://spdx.org/licenses/Texinfo-exception.html",
-+      "referenceNumber": 73,
-+      "seeAlso": [
-+        "https://git.savannah.gnu.org/cgit/automake.git/tree/lib/texinfo.t=
-ex?h=3Dv1.16.5#n23"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/u-boot-exception-2.0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "u-boot-exception-2.0",
-+      "name": "U-Boot exception 2.0",
-+      "reference": "https://spdx.org/licenses/u-boot-exception-2.0.html",
-+      "referenceNumber": 84,
-+      "seeAlso": [
-+        "http://git.denx.de/?p=3Du-boot.git;a=3Dblob;f=3DLicenses/Exceptio=
-ns"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/UBDL-exception.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "UBDL-exception",
-+      "name": "Unmodified Binary Distribution exception",
-+      "reference": "https://spdx.org/licenses/UBDL-exception.html",
-+      "referenceNumber": 31,
-+      "seeAlso": [
-+        "https://github.com/ipxe/ipxe/blob/master/COPYING.UBDL"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/Universal-FOSS-exception-1.=
-0.json",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "Universal-FOSS-exception-1.0",
-+      "name": "Universal FOSS Exception, Version 1.0",
-+      "reference": "https://spdx.org/licenses/Universal-FOSS-exception-1.0=
-.html",
-+      "referenceNumber": 50,
-+      "seeAlso": [
-+        "https://oss.oracle.com/licenses/universal-foss-exception/"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/vsftpd-openssl-exception.js=
-on",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "vsftpd-openssl-exception",
-+      "name": "vsftpd OpenSSL exception",
-+      "reference": "https://spdx.org/licenses/vsftpd-openssl-exception.htm=
-l",
-+      "referenceNumber": 65,
-+      "seeAlso": [
-+        "https://git.stg.centos.org/source-git/vsftpd/blob/f727873674d9c9c=
-d7afcae6677aa782eb54c8362/f/LICENSE",
-+        "https://launchpad.net/debian/squeeze/+source/vsftpd/+copyright",
-+        "https://github.com/richardcochran/vsftpd/blob/master/COPYING"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/WxWindows-exception-3.1.jso=
-n",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "WxWindows-exception-3.1",
-+      "name": "WxWindows Library Exception 3.1",
-+      "reference": "https://spdx.org/licenses/WxWindows-exception-3.1.html=
-",
-+      "referenceNumber": 17,
-+      "seeAlso": [
-+        "http://www.opensource.org/licenses/WXwindows"
-+      ]
-+    },
-+    {
-+      "detailsUrl": "https://spdx.org/licenses/x11vnc-openssl-exception.js=
-on",
-+      "isDeprecatedLicenseId": false,
-+      "licenseExceptionId": "x11vnc-openssl-exception",
-+      "name": "x11vnc OpenSSL Exception",
-+      "reference": "https://spdx.org/licenses/x11vnc-openssl-exception.htm=
-l",
-+      "referenceNumber": 42,
-+      "seeAlso": [
-+        "https://github.com/LibVNC/x11vnc/blob/master/src/8to24.c#L22"
-+      ]
-+    }
-+  ],
-+  "licenseListVersion": "3.28.0",
-+  "releaseDate": "2026-02-20T00:00:00Z"
-+}
-\ No newline at end of file
---=20
+diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb
+index 12afec8b1b..a942d7d517 100644
+--- a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb
++++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Wrap a version of the guessing game from The Rust Book \
+ to run in Python using pyo3."
+ HOMEPAGE = "https://www.maturin.rs/tutorial"
+ SECTION = "devel/python"
+-LICENSE = "MIT & Apache-2.0"
++LICENSE = "Apache-2.0 AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=1836efb2eb779966696f473ee8540542 \
+                     file://LICENSE-MIT;md5=85fd3b67069cff784d98ebfc7d5c0797"
+ 
+diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
+index 194a8efe83..4676c32037 100644
+--- a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
++++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.upgraded
+@@ -3,7 +3,7 @@ DESCRIPTION = "Wrap a version of the guessing game from The Rust Book \
+ to run in Python using pyo3."
+ HOMEPAGE = "https://www.maturin.rs/tutorial"
+ SECTION = "devel/python"
+-LICENSE = "MIT & Apache-2.0"
++LICENSE = "Apache-2.0 AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=1836efb2eb779966696f473ee8540542 \
+                     file://LICENSE-MIT;md5=85fd3b67069cff784d98ebfc7d5c0797"
+ 
+diff --git a/meta-selftest/recipes-extended/sysdig/sysdig-selftest_0.28.0.bb b/meta-selftest/recipes-extended/sysdig/sysdig-selftest_0.28.0.bb
+index ea9a78dd1b..d30668826e 100644
+--- a/meta-selftest/recipes-extended/sysdig/sysdig-selftest_0.28.0.bb
++++ b/meta-selftest/recipes-extended/sysdig/sysdig-selftest_0.28.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Sysdig is open source, system-level exploration: capture \
+ system state and activity from a running Linux instance, then save, \
+ filter and analyze."
+ HOMEPAGE = "http://www.sysdig.org/"
+-LICENSE = "Apache-2.0 & (MIT | GPL-2.0-only)"
++LICENSE = "Apache-2.0 AND (GPL-2.0-only OR MIT)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f8fee3d59797546cffab04f3b88b2d44"
+ 
+ inherit cmake pkgconfig
+diff --git a/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb b/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb
+index e1e473fe80..9b7e10f6bd 100644
+--- a/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb
++++ b/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb
+@@ -6,7 +6,7 @@ SUMMARY = "GNU Aspell spell-checker"
+ SECTION = "console/utils"
+ HOMEPAGE = "https://ftp.gnu.org/gnu/aspell/"
+ 
+-LICENSE = "LGPL-2.0-only | LGPL-2.1-only"
++LICENSE = "LGPL-2.0-only OR LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
+diff --git a/meta-selftest/recipes-test/license/incompatible-license-alias.bb b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
+index 1af99e7809..45ebbb7407 100644
+--- a/meta-selftest/recipes-test/license/incompatible-license-alias.bb
++++ b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Recipe with an alias of an SPDX license"
+ DESCRIPTION = "Is licensed with an alias of an SPDX license to be used for testing"
+-LICENSE = "GPLv3"
++LICENSE = "GPL-3.0-only"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/license/incompatible-licenses.bb b/meta-selftest/recipes-test/license/incompatible-licenses.bb
+index 47bd8d7c00..2e73ac6407 100644
+--- a/meta-selftest/recipes-test/license/incompatible-licenses.bb
++++ b/meta-selftest/recipes-test/license/incompatible-licenses.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Recipe with multiple SPDX licenses"
+ DESCRIPTION = "Is licensed with multiple SPDX licenses to be used for testing"
+-LICENSE = "GPL-2.0-only & GPL-3.0-only & LGPL-3.0-only"
++LICENSE = "GPL-2.0-only AND GPL-3.0-only AND LGPL-3.0-only"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
+index 128f313e1f..4c9c3bb308 100644
+--- a/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
++++ b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Recipe with a non-SPDX license"
+ DESCRIPTION = "Is licensed with a non-SPDX license to be used for testing"
+-LICENSE = "FooLicense"
++LICENSE = "LicenseRef-FooLicense"
+ NO_GENERIC_LICENSE[FooLicense] = "LICENSE"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
+index 9452a1a4ce..8e93c564a6 100644
+--- a/meta/recipes-bsp/alsa-state/alsa-state.bb
++++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
+@@ -8,7 +8,7 @@ SUMMARY = "Alsa scenario files to enable alsa state restoration"
+ HOMEPAGE = "http://www.alsa-project.org/"
+ DESCRIPTION = "Alsa Scenario Files - an init script and state files to restore \
+ sound state at system boot and save it at system shut down."
+-LICENSE = "MIT & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND MIT"
+ LIC_FILES_CHKSUM = " \
+     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420 \
+     file://alsa-state-init;beginline=3;endline=4;md5=3ff7ecbf534d7d503941abe8e268ef50 \
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb
+index 0f493b8414..9075487b92 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Libraries for producing EFI binaries"
+ HOMEPAGE = "http://sourceforge.net/projects/gnu-efi/"
+ DESCRIPTION = "GNU-EFI aims to Develop EFI applications for ARM-64, ARM-32, x86_64, IA-64 (IPF), IA-32 (x86), and MIPS platforms using the GNU toolchain and the EFI development environment."
+ SECTION = "devel"
+-LICENSE = "GPL-2.0-or-later & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://gnuefi/crt0-efi-arm.S;beginline=4;endline=16;md5=8b0a86085b86eda7a3c7e8a1eb7ec753 \
+                     file://gnuefi/crt0-efi-aarch64.S;beginline=4;endline=16;md5=8b0a86085b86eda7a3c7e8a1eb7ec753 \
+                     file://inc/efishellintf.h;beginline=13;endline=20;md5=ee14c1530c341a7050837adead6bc9a5 \
+diff --git a/meta/recipes-bsp/usbutils/usbutils_019.bb b/meta/recipes-bsp/usbutils/usbutils_019.bb
+index 6aa5c5f5c2..164445ac4e 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_019.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_019.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Contains the lsusb utility for inspecting the devices connected t
+ HOMEPAGE = "http://www.linux-usb.org"
+ SECTION = "base"
+ 
+-LICENSE = "GPL-2.0-or-later & (GPL-2.0-only | GPL-3.0-only) & CC0-1.0 & LGPL-2.1-or-later & MIT"
++LICENSE = "CC0-1.0 AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND (GPL-2.0-only OR GPL-3.0-only)"
+ LIC_FILES_CHKSUM = "file://LICENSES/CC0-1.0.txt;md5=cf1af55fc6f5b9a23e12086005298dcd \
+ 		    file://LICENSES/GPL-2.0-only.txt;md5=c89d4ad08368966d8df5a90ea96bebe4 \
+ 		    file://LICENSES/GPL-2.0-or-later.txt;md5=c89d4ad08368966d8df5a90ea96bebe4 \
+@@ -25,7 +25,7 @@ ALTERNATIVE_PRIORITY = "100"
+ # The binaries are mostly GPL-2.0-or-later apart from lsusb.py which is
+ # GPL-2.0-only or GPL-3.0-only.
+ LICENSE:${PN} = "GPL-2.0-or-later"
+-LICENSE:${PN}-python = "GPL-2.0-only | GPL-3.0-only"
++LICENSE:${PN}-python = "GPL-2.0-only OR GPL-3.0-only"
+ 
+ RRECOMMENDS:${PN} = "udev-hwdb"
+ 
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.9.bb b/meta/recipes-connectivity/avahi/avahi_0.9.bb
+index 308ddc1822..7cf0eb2b71 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.9.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.9.bb
+@@ -11,7 +11,7 @@ SECTION = "network"
+ 
+ # major part is under LGPL-2.1-or-later, but several .dtd, .xsl, initscripts and
+ # python scripts are under GPL-2.0-or-later
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://avahi-common/address.h;endline=25;md5=b1d1d2cda1c07eb848ea7d6215712d9d \
+                     file://avahi-core/dns.h;endline=23;md5=6fe82590b81aa0ddea5095b548e2fdcb \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 6a98d769dd..a1f20f4432 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Linux Bluetooth Stack Userland V5"
+ DESCRIPTION = "Linux Bluetooth stack V5 userland components.  These include a system configurations, daemons, tools and system libraries."
+ HOMEPAGE = "http://www.bluez.org"
+ SECTION = "libs"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+                     file://src/main.c;beginline=1;endline=24;md5=0ad83ca0dc37ab08af448777c581e7ac"
+diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+index 8bfc1540b3..0c6e823ea2 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
++++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "GTK+ frontend for the ConnMan network connection manager"
+ HOMEPAGE = "http://connman.net/"
+ SECTION = "libs/network"
+-LICENSE = "GPL-2.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
+                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+index 6f00bee0d8..06e4fcb6e0 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
+@@ -4,7 +4,7 @@ NFS server and related tools."
+ HOMEPAGE = "http://nfs.sourceforge.net/"
+ SECTION = "console/network"
+ 
+-LICENSE = "MIT & GPL-2.0-or-later & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND GPL-2.0-or-later AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
+ 
+ # util-linux for libblkid
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.4p1.bb b/meta/recipes-connectivity/openssh/openssh_10.4p1.bb
+index da08a97fca..f8cedb8c8e 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.4p1.bb
+@@ -5,7 +5,7 @@ Ssh (Secure Shell) is a program for logging into a remote machine \
+ and for executing commands on a remote machine."
+ HOMEPAGE = "http://www.openssh.com/"
+ SECTION = "console/network"
+-LICENSE = "BSD-2-Clause & BSD-3-Clause & ISC & MIT"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND ISC AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=78ffb36e5a48c0d8c5648603a3b6c8eb"
+ 
+ DEPENDS = "zlib openssl virtual/crypt"
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.3.bb b/meta/recipes-connectivity/ppp/ppp_2.5.3.bb
+index 88217f03b1..3718fabbe8 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.5.3.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.5.3.bb
+@@ -5,7 +5,7 @@ SECTION = "console/network"
+ HOMEPAGE = "http://samba.org/ppp/"
+ BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
+ DEPENDS = "libpcap virtual/crypt"
+-LICENSE = "BSD-2-Clause & GPL-2.0-or-later & LGPL-2.0-or-later & RSA-MD & MIT"
++LICENSE = "BSD-2-Clause AND GPL-2.0-or-later AND LGPL-2.0-or-later AND MIT AND RSA-MD"
+ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=25;md5=f0463bd67ae70535c709fca554089bd8 \
+                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
+                     file://chat/chat.c;beginline=1;endline=1;md5=234d7d4edd08962c0144e4604050e0b6 \
+diff --git a/meta/recipes-connectivity/slirp/libslirp_4.9.3.bb b/meta/recipes-connectivity/slirp/libslirp_4.9.3.bb
+index 734e59a59b..a13b4b55ab 100644
+--- a/meta/recipes-connectivity/slirp/libslirp_4.9.3.bb
++++ b/meta/recipes-connectivity/slirp/libslirp_4.9.3.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "A general purpose TCP-IP emulator"
+ DESCRIPTION = "A general purpose TCP-IP emulator used by virtual machine hypervisors to provide virtual networking services."
+ HOMEPAGE = "https://gitlab.freedesktop.org/slirp/libslirp"
+-LICENSE = "BSD-3-Clause & MIT"
++LICENSE = "BSD-3-Clause AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=f95a9bf4a7e411164fe843697ccda59e \
+                     file://LICENSE;md5=cfea6044642fd63b90ce9d79f5db64d9"
+ 
+diff --git a/meta/recipes-connectivity/socat/socat_1.8.1.3.bb b/meta/recipes-connectivity/socat/socat_1.8.1.3.bb
+index 636c75b117..e485c7d28d 100644
+--- a/meta/recipes-connectivity/socat/socat_1.8.1.3.bb
++++ b/meta/recipes-connectivity/socat/socat_1.8.1.3.bb
+@@ -5,7 +5,8 @@ HOMEPAGE = "http://www.dest-unreach.org/socat/"
+ 
+ SECTION = "console/network"
+ 
+-LICENSE = "GPL-2.0-with-OpenSSL-exception"
++# https://github.com/spdx/license-list-XML/issues/3009
++LICENSE = "LicenseRef-GPL-2.0-with-OpenSSL-exception"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://README;beginline=252;endline=282;md5=338c05eadd013872abb1d6e198e10a3f"
+ 
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index bacbe7616d..6d4c9fb28a 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -8,7 +8,7 @@ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux', '',
+ 
+ # bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
+ # the GPL is version 2 only
+-LICENSE = "GPL-2.0-only & bzip2-1.0.6"
++LICENSE = "GPL-2.0-only AND bzip2-1.0.6"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
+                     file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
+ 
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.114.bb b/meta/recipes-core/dbus/dbus-glib_0.114.bb
+index cc15cafe49..c6824d5688 100644
+--- a/meta/recipes-core/dbus/dbus-glib_0.114.bb
++++ b/meta/recipes-core/dbus/dbus-glib_0.114.bb
+@@ -2,7 +2,7 @@ SUMMARY = "High level language (GLib) binding for D-Bus"
+ DESCRIPTION = "GLib bindings for the D-Bus message bus that integrate \
+ the D-Bus library with the GLib thread abstraction and main loop."
+ HOMEPAGE = "https://www.freedesktop.org/Software/dbus"
+-LICENSE = "(AFL-2.1 & LGPL-2.0-or-later & MIT) | (GPL-2.0-or-later & LGPL-2.0-or-later & MIT)"
++LICENSE = "AFL-2.1 AND LGPL-2.0-or-later AND MIT OR GPL-2.0-or-later AND LGPL-2.0-or-later AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=267b04646da5ce3ea2df7a38a07c3f0b \
+                     file://LICENSES/AFL-2.1.txt;md5=f3ad2f482ec639b440413665cfb9e714 \
+                     file://LICENSES/GPL-2.0-or-later.txt;md5=3d26203303a722dedc6bf909d95ba815 \
+diff --git a/meta/recipes-core/dbus/dbus_1.16.2.bb b/meta/recipes-core/dbus/dbus_1.16.2.bb
+index 7425bd2364..bfb0f22f95 100644
+--- a/meta/recipes-core/dbus/dbus_1.16.2.bb
++++ b/meta/recipes-core/dbus/dbus_1.16.2.bb
+@@ -5,7 +5,7 @@ SECTION = "base"
+ 
+ inherit meson pkgconfig gettext upstream-version-is-even ptest-gnome
+ 
+-LICENSE = "AFL-2.1 | GPL-2.0-or-later"
++LICENSE = "AFL-2.1 OR GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb0ffc69a965797a3d6686baa153ef05 \
+                     file://dbus/dbus.h;beginline=6;endline=22;md5=df4251a6c6e15e6a9e3c77b2ac30065d \
+                     "
+diff --git a/meta/recipes-core/dropbear/dropbear_2026.92.bb b/meta/recipes-core/dropbear/dropbear_2026.92.bb
+index 44a4dcde03..4d9a9e10eb 100644
+--- a/meta/recipes-core/dropbear/dropbear_2026.92.bb
++++ b/meta/recipes-core/dropbear/dropbear_2026.92.bb
+@@ -6,7 +6,7 @@ SECTION = "console/network"
+ # some files are from other projects and have others license terms:
+ #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+ # The 'public-domain' file is headered as MIT
+-LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & WTFPL & Unlicense"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND MIT AND Unlicense AND WTFPL"
+ LIC_FILES_CHKSUM = " \
+     file://LICENSE;md5=25cf44512b7bc8966a48b6b1a9b7605f \
+     file://libtomcrypt/LICENSE;md5=71baacc459522324ef3e2b9e052e8180 \
+diff --git a/meta/recipes-core/gettext/gettext_1.0.bb b/meta/recipes-core/gettext/gettext_1.0.bb
+index 8a11a55570..696fcc3bb7 100644
+--- a/meta/recipes-core/gettext/gettext_1.0.bb
++++ b/meta/recipes-core/gettext/gettext_1.0.bb
+@@ -4,7 +4,7 @@ These tools include a set of conventions about how programs should be written to
+ naming organization for the message catalogs themselves, a runtime library supporting the retrieval of translated messages, and \
+ a few stand-alone programs to massage in various ways the sets of translatable and already translated strings."
+ SECTION = "libs"
+-LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-3.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
+ 
+ # without libxml in PACKAGECONFIG vendor copy of the lib will be used
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index d49ae13168..fafb7e3391 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://developer.gnome.org/glib/"
+ 
+ # pcre is under BSD;
+ # docs/reference/COPYING is with a 'public domain'-like license!
+-LICENSE = "LGPL-2.1-or-later & BSD-3-Clause & GCR-docs"
++LICENSE = "BSD-3-Clause AND GCR-docs AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=41890f71f740302b785c27661123bff5 \
+                     file://glib/glib.h;beginline=4;endline=17;md5=72f7cc2847407f65d8981ef112e4e630 \
+                     file://LICENSES/LGPL-2.1-or-later.txt;md5=41890f71f740302b785c27661123bff5 \
+diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core/glibc/glibc-common.inc
+index 2eedd2950e..4722440447 100644
+--- a/meta/recipes-core/glibc/glibc-common.inc
++++ b/meta/recipes-core/glibc/glibc-common.inc
+@@ -2,7 +2,7 @@ SUMMARY = "GLIBC (GNU C Library)"
+ DESCRIPTION = "The GNU C Library is used as the system C library in most systems with the Linux kernel."
+ HOMEPAGE = "http://www.gnu.org/software/libc/libc.html"
+ SECTION = "libs"
+-LICENSE = "GPL-2.0-only & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-or-later"
+ 
+ LIC_FILES_CHKSUM ?= "file://LICENSES;md5=df6e0948b55669789c30764c5fd9bc41 \
+       file://COPYINGv2;md5=570a9b3749dd0463a1778803b12a6dce \
+diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.69.bb b/meta/recipes-core/initscripts/init-system-helpers_1.69.bb
+index c4843747b7..50fa17befb 100644
+--- a/meta/recipes-core/initscripts/init-system-helpers_1.69.bb
++++ b/meta/recipes-core/initscripts/init-system-helpers_1.69.bb
+@@ -13,7 +13,7 @@ specific to systemd at all. Maintainers of other init systems are welcome to \
+ include their helpers in this package."
+ HOMEPAGE = "https://salsa.debian.org/debian/init-system-helpers"
+ SECTION = "base"
+-LICENSE = "BSD-3-Clause & GPL-2.0-only"
++LICENSE = "BSD-3-Clause AND GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=c4ec20aa158fa9de26ee1accf78dcaae"
+ 
+ SRCREV = "592518fcedf96c9b763f214a9acbdc1109aaa385"
+diff --git a/meta/recipes-core/kbd/kbd_2.10.0.bb b/meta/recipes-core/kbd/kbd_2.10.0.bb
+index 5a877b9c04..fbdc1c3c19 100644
+--- a/meta/recipes-core/kbd/kbd_2.10.0.bb
++++ b/meta/recipes-core/kbd/kbd_2.10.0.bb
+@@ -3,12 +3,12 @@ HOMEPAGE = "http://www.kbd-project.org/"
+ DESCRIPTION = "The kbd project contains tools for managing Linux console (Linux console, virtual terminals, keyboard, etc.) - mainly, what they do is loading console fonts and keyboard maps."
+ 
+ # consolefonts and keymaps contain also some public domain and author notice licenses
+-LICENSE = "GPL-2.0-or-later & LGPL-2.0-or-later & GPL-3.0-or-later"
++LICENSE = "GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.0-or-later"
+ LIC_FILES_CHKSUM = " \
+     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+     file://data/keymaps/pine/en.map;beginline=2;endline=15;md5=20914a59c0546a7b77ebf959bc88ad5d \
+ "
+-LICENSE:${PN} = "GPL-2.0-or-later & LGPL-2.0-or-later"
++LICENSE:${PN} = "GPL-2.0-or-later AND LGPL-2.0-or-later"
+ LICENSE:${PN}-consolefonts = "GPL-2.0-or-later"
+ LICENSE:${PN}-consoletrans = "GPL-2.0-or-later"
+ LICENSE:${PN}-keymaps-pine = "GPL-3.0-or-later"
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index a86735255f..0a51851bf9 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Extended cryptographic library (from glibc)"
+ DESCRIPTION = "Forked code from glibc libary to extract only crypto part."
+ HOMEPAGE = "https://github.com/besser82/libxcrypt"
+ SECTION = "libs"
+-LICENSE = "LGPL-2.1-only & 0BSD & BSD-3-Clause"
++LICENSE = "0BSD AND BSD-3-Clause AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://LICENSING;md5=b65434749329c34b5d32c2df3f1b4112 \
+                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+                     "
+diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes-core/musl/bsd-headers.bb
+index ad9ba81e4f..3a3d37be7d 100644
+--- a/meta/recipes-core/musl/bsd-headers.bb
++++ b/meta/recipes-core/musl/bsd-headers.bb
+@@ -2,7 +2,7 @@
+ # Released under the MIT license (see COPYING.MIT for the terms)
+ 
+ SUMMARY = "BSD compatible headers"
+-LICENSE = "BSD-3-Clause & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://sys-queue.h;beginline=1;endline=32;md5=c6352b0f03bb448600456547d334b56f"
+ SECTION = "devel"
+ 
+diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-core/musl/musl-locales_git.bb
+index f8369509e7..3485b0781e 100644
+--- a/meta/recipes-core/musl/musl-locales_git.bb
++++ b/meta/recipes-core/musl/musl-locales_git.bb
+@@ -3,7 +3,7 @@
+ #
+ SUMMARY = "Locales support for musl"
+ HOMEPAGE = "https://git.adelielinux.org/adelie/musl-locales/-/wikis/home"
+-LICENSE = "MIT & LGPL-3.0-or-later"
++LICENSE = "LGPL-3.0-or-later AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=cf5713fba707073020b1db2acaa73e78 \
+                     file://LICENSE.MIT;md5=a4f1c6864a83ddf4b754cdab7d593523"
+ 
+diff --git a/meta/recipes-core/musl/musl-utils.bb b/meta/recipes-core/musl/musl-utils.bb
+index 4b685640c8..9a49820a3c 100644
+--- a/meta/recipes-core/musl/musl-utils.bb
++++ b/meta/recipes-core/musl/musl-utils.bb
+@@ -3,7 +3,7 @@
+ 
+ SUMMARY = "getconf, getent and iconv implementations for musl"
+ HOMEPAGE = "https://git.alpinelinux.org/cgit/aports/tree/main/musl"
+-LICENSE = "BSD-2-Clause & GPL-2.0-or-later"
++LICENSE = "BSD-2-Clause AND GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9d08215e611db87b357e8674b4b42564"
+ SECTION = "utils"
+ 
+diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
+index 56e9eeb099..4336f1bfdb 100644
+--- a/meta/recipes-core/newlib/newlib.inc
++++ b/meta/recipes-core/newlib/newlib.inc
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://sourceware.org/newlib/"
+ DESCRIPTION = "C library intended for use on embedded systems. It is a conglomeration of several library parts, all under free software licenses that make them easily usable on embedded products."
+ SECTION = "libs"
+ 
+-LICENSE = "GPL-2.0-only & LGPL-3.0-only & GPL-3.0-only & LGPL-2.0-only & BSD-2-Clause & BSD-3-Clause & TCL & Apache-2.0-with-LLVM-exception"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-only AND GPL-3.0-only AND LGPL-2.0-only AND LGPL-3.0-only AND TCL AND Apache-2.0 WITH LLVM-exception"
+ LIC_FILES_CHKSUM = " \
+ 		file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+diff --git a/meta/recipes-core/picolibc/picolibc.inc b/meta/recipes-core/picolibc/picolibc.inc
+index ffbc90b660..750098ca60 100644
+--- a/meta/recipes-core/picolibc/picolibc.inc
++++ b/meta/recipes-core/picolibc/picolibc.inc
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ 
+ # Newlib based code but GPL related bits removed, test/printf-tests.c and test/testcases.c
+ # are GPLv2 and GeneratePicolibcCrossFile.sh is AGPL3 but not part of the artifacts.
+-LICENSE = "BSD-2-Clause & BSD-3-Clause"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause"
+ LIC_FILES_CHKSUM = " \
+ 		file://COPYING.picolibc;md5=e44132dded508048efb22b15ccd40d7d \
+ 		"
+diff --git a/meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb b/meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb
+index 5040d8864e..f1975e46a6 100644
+--- a/meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb
++++ b/meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Tools for working with sysfs"
+ DESCRIPTION = "Tools for working with the sysfs virtual filesystem.  The tool 'systool' can query devices by bus, class and topology."
+ HOMEPAGE = "http://linux-diag.sourceforge.net/Sysfsutils.html"
+ 
+-LICENSE = "GPL-2.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+ LICENSE:${PN} = "GPL-2.0-only"
+ LICENSE:libsysfs = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=dcc19fa9307a50017fca61423a7d9754 \
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index f107c4c5da..efd7826684 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -10,7 +10,7 @@ state, maintains mount and automount points and implements an \
+ elaborate transactional dependency-based service control logic. It can \
+ work as a drop-in replacement for sysvinit."
+ 
+-LICENSE = "GPL-2.0-only & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-or-later"
+ LICENSE:libsystemd = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=c09786363500a9acc29b147e6e72d2c6 \
+                     file://LICENSE.LGPL2.1;md5=be0aaf4a380f73f7e00b420a007368f2"
+diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core/udev/eudev_3.2.14.bb
+index a2d222e655..3e4972694a 100644
+--- a/meta/recipes-core/udev/eudev_3.2.14.bb
++++ b/meta/recipes-core/udev/eudev_3.2.14.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "eudev is a fork of systemd's udev"
+ HOMEPAGE = "https://github.com/eudev-project/eudev"
+ DESCRIPTION = "eudev is Gentoo's fork of udev, systemd's device file manager for the Linux kernel. It manages device nodes in /dev and handles all user space actions when adding or removing devices."
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:libudev = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+diff --git a/meta/recipes-core/util-linux/util-linux_2.42.2.bb b/meta/recipes-core/util-linux/util-linux_2.42.2.bb
+index b3d466dc80..65577e6e6c 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.42.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.42.2.bb
+@@ -7,37 +7,37 @@ LIBCOMMON_LICENSES = "LGPL-2.1-or-later AND BSD-2-Clause AND BSD-3-Clause AND MI
+ # The default license is GPL-2.0-or-later
+ DEFAULT_LICENSES = "GPL-2.0-or-later AND ${LIBCOMMON_LICENSES}"
+ 
+-LICENSE = "GPL-1.0-or-later & GPL-2.0-only & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause-UC & MIT & EUPL-1.2"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND EUPL-1.2 AND GPL-1.0-or-later AND GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT"
+ LICENSE:${PN}-bash-completion = "GPL-2.0-or-later"
+ LICENSE:${PN}-dev = "${LIBCOMMON_LICENSES}"
+ # All dynamic packages use ${DEFAULT_LICENSES} with the following exceptions
+-LICENSE:${PN}-cal = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-col = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-cal = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-col = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
+ LICENSE:${PN}-colcrt = "BSD-4-Clause-UC"
+-LICENSE:${PN}-colrm = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-column = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-coresched = "EUPL-1.2 & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-fdisk = "GPL-1.0-or-later & ${DEFAULT_LICENSES}"
++LICENSE:${PN}-colrm = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-column = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-coresched = "EUPL-1.2 AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-fdisk = "GPL-1.0-or-later AND ${DEFAULT_LICENSES}"
+ LICENSE:${PN}-fsfreeze = "GPL-1.0-or-later"
+-LICENSE:${PN}-hexdump = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-kill = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-hexdump = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-kill = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
+ LICENSE:${PN}-libblkid = "${LIBCOMMON_LICENSES}"
+ LICENSE:${PN}-libfdisk = "${LIBCOMMON_LICENSES}"
+ LICENSE:${PN}-libmount = "${LIBCOMMON_LICENSES}"
+ LICENSE:${PN}-libsmartcols = "${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-logger = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-logger = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
+ LICENSE:${PN}-look = "BSD-4-Clause-UC"
+-LICENSE:${PN}-lscpu = "GPL-2.0-only & ${DEFAULT_LICENSES}"
+-LICENSE:${PN}-mesg = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-nsenter = "GPL-2.0-only & ${DEFAULT_LICENSES}"
++LICENSE:${PN}-lscpu = "GPL-2.0-only AND ${DEFAULT_LICENSES}"
++LICENSE:${PN}-mesg = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-nsenter = "GPL-2.0-only AND ${DEFAULT_LICENSES}"
+ LICENSE:${PN}-renice = "BSD-4-Clause-UC"
+ LICENSE:${PN}-rev = "BSD-4-Clause-UC"
+-LICENSE:${PN}-script = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-script = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
+ LICENSE:${PN}-ul = "BSD-4-Clause-UC"
+-LICENSE:${PN}-vipw = "BSD-4-Clause-UC & ${DEFAULT_LICENSES}"
+-LICENSE:${PN}-wall = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-whereis = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
+-LICENSE:${PN}-write = "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-vipw = "BSD-4-Clause-UC AND ${DEFAULT_LICENSES}"
++LICENSE:${PN}-wall = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-whereis = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
++LICENSE:${PN}-write = "BSD-4-Clause-UC AND ${LIBCOMMON_LICENSES}"
+ 
+ LIC_FILES_CHKSUM = "file://README.licensing;md5=55e895a80bdd4ffc65e167a76d2e7569 \
+                     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
+index 72b5575703..912d20cae7 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
+@@ -7,7 +7,7 @@ btrfs and an utility (btrfs-convert) to make a btrfs filesystem from an ext3."
+ 
+ HOMEPAGE = "https://btrfs.wiki.kernel.org"
+ 
+-LICENSE = "GPL-2.0-only & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = " \
+     file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067 \
+     file://libbtrfsutil/COPYING;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-devtools/ccache/ccache_4.13.6.bb b/meta/recipes-devtools/ccache/ccache_4.13.6.bb
+index 789440f761..21bd193c20 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.13.6.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.13.6.bb
+@@ -6,7 +6,7 @@ Objective-C and Objective-C++."
+ HOMEPAGE = "http://ccache.samba.org"
+ SECTION = "devel"
+ 
+-LICENSE = "GPL-3.0-or-later & MIT & BSL-1.0 & ISC"
++LICENSE = "BSL-1.0 AND GPL-3.0-or-later AND ISC AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=e89f26e9f97d14068047871bdb2b3118 \
+                     file://src/third_party/cpp-httplib/httplib.h;endline=6;md5=663aca6f84e7d67ade228aad32afc0ea \
+                     file://src/third_party/win32-compat/win32/mktemp.c;endline=17;md5=d287e9c1f1cd2bb2bd164490e1cf449a \
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+index fb7c29e242..231f5cdd28 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
+@@ -5,7 +5,7 @@ SUMMARY = "A set of tools for CD recording, including cdrecord"
+ HOMEPAGE = "http://sourceforge.net/projects/cdrtools/"
+ DESCRIPTION = "cdrecord tool is Highly portable CD/DVD/BluRay command line recording software."
+ SECTION = "console/utils"
+-LICENSE = "GPL-2.0-only & CDDL-1.0 & LGPL-2.1-or-later"
++LICENSE = "CDDL-1.0 AND GPL-2.0-only AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
+ 
+ DEPENDS += "gnu-config-native"
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index 441ea099a9..4e9400757c 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -3,7 +3,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/clang:"
+ LIC_FILES_CHKSUM = "file://llvm/LICENSE.TXT;md5=${LLVMMD5SUM} \
+                     file://clang/LICENSE.TXT;md5=${CLANGMD5SUM} \
+ "
+-LICENSE = "Apache-2.0-with-LLVM-exception"
++LICENSE = "Apache-2.0 WITH LLVM-exception"
+ 
+ # Snapshot
+ #RELEASE ?= "108df0694cc12fa496f63faa3a8762e7cc1a3b37"
+diff --git a/meta/recipes-devtools/clang/llvm_git.bb b/meta/recipes-devtools/clang/llvm_git.bb
+index 96ea383731..bfdf4cfcd9 100644
+--- a/meta/recipes-devtools/clang/llvm_git.bb
++++ b/meta/recipes-devtools/clang/llvm_git.bb
+@@ -3,7 +3,7 @@
+ 
+ SUMMARY = "The LLVM Compiler Infrastructure"
+ HOMEPAGE = "http://llvm.org"
+-LICENSE = "Apache-2.0-with-LLVM-exception"
++LICENSE = "Apache-2.0 WITH LLVM-exception"
+ SECTION = "devel"
+ 
+ require common-clang.inc
+diff --git a/meta/recipes-devtools/clang/nativesdk-clang-glue.bb b/meta/recipes-devtools/clang/nativesdk-clang-glue.bb
+index d113b6cd9a..08a637924c 100644
+--- a/meta/recipes-devtools/clang/nativesdk-clang-glue.bb
++++ b/meta/recipes-devtools/clang/nativesdk-clang-glue.bb
+@@ -3,7 +3,7 @@
+ 
+ SUMMARY = "SDK Cross compiler wrappers for LLVM based C/C++ compiler"
+ HOMEPAGE = "http://clang.llvm.org/"
+-LICENSE = "Apache-2.0-with-LLVM-exception"
++LICENSE = "Apache-2.0 WITH LLVM-exception"
+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0-with-LLVM-exception;md5=0bcd48c3bdfef0c9d9fd17726e4b7dab"
+ SECTION = "devel"
+ 
+diff --git a/meta/recipes-devtools/debugedit/debugedit_5.3.bb b/meta/recipes-devtools/debugedit/debugedit_5.3.bb
+index 7732dde52a..6b5f2aa99e 100644
+--- a/meta/recipes-devtools/debugedit/debugedit_5.3.bb
++++ b/meta/recipes-devtools/debugedit/debugedit_5.3.bb
+@@ -4,7 +4,7 @@ debuginfo and source file distributions, collect build-ids and rewrite \
+ source paths in DWARF data for debugging, tracing and profiling."
+ HOMEPAGE = "https://sourceware.org/debugedit/"
+ 
+-LICENSE = "GPL-2.0-only & GPL-3.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only AND GPL-3.0-only AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://COPYING3;md5=d32239bcb673463ab874e80d47fae504"
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+index ea0861823d..a53159bf1d 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Document type definitions for verification of XML data \
+ files against the DocBook rule set."
+ HOMEPAGE = "https://docbook.org"
+ 
+-LICENSE = "DocBook"
++LICENSE = "LicenseRef-DocBook"
+ NO_GENERIC_LICENSE[DocBook] = "LICENSE-OASIS"
+ 
+ LIC_FILES_CHKSUM = "file://docbook-4.5/docbookx.dtd;beginline=15;endline=30;md5=ab12da76ad94a41d04e1587693ebd9b6 \
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+index cce6e5f1ac..e83e8b6afa 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+@@ -3,7 +3,7 @@ DESCRIPTION = "The Ext2 Filesystem Utilities (e2fsprogs) contain all of the stan
+ fixing, configuring , and debugging ext2 filesystems."
+ HOMEPAGE = "http://e2fsprogs.sourceforge.net/"
+ 
+-LICENSE = "GPL-2.0-only & LGPL-2.0-only & BSD-3-Clause & MIT"
++LICENSE = "BSD-3-Clause AND GPL-2.0-only AND LGPL-2.0-only AND MIT"
+ LICENSE:e2fsprogs-dumpe2fs = "GPL-2.0-only"
+ LICENSE:e2fsprogs-e2fsck = "GPL-2.0-only"
+ LICENSE:e2fsprogs-mke2fs = "GPL-2.0-only"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.195.bb b/meta/recipes-devtools/elfutils/elfutils_0.195.bb
+index bfc648d69f..2093e1e924 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.195.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.195.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Utilities and libraries for handling compiled object files"
+ HOMEPAGE = "https://sourceware.org/elfutils"
+ DESCRIPTION = "elfutils is a collection of utilities and libraries to read, create and modify ELF binary files, find and handle DWARF debug data, symbols, thread state and stacktraces for processes and core files on GNU/Linux."
+ SECTION = "base"
+-LICENSE = "( GPL-2.0-or-later | LGPL-3.0-or-later ) & GPL-3.0-or-later"
++LICENSE = "GPL-3.0-or-later AND (GPL-2.0-or-later OR LGPL-3.0-or-later)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://debuginfod/debuginfod-client.c;endline=28;md5=6b7b0a4b25197d7f2e12b2f4aa1c86b8 \
+                     "
+@@ -120,10 +120,10 @@ PACKAGES =+ "${PN}-binutils libelf libasm libdw libdebuginfod"
+ # are GPLv3+."
+ LICENSE:${PN}-binutils = "GPL-3.0-or-later"
+ LICENSE:${PN} = "GPL-3.0-or-later"
+-LICENSE:libelf = "GPL-2.0-or-later | LGPL-3.0-or-later"
+-LICENSE:libasm = "GPL-2.0-or-later | LGPL-3.0-or-later"
+-LICENSE:libdw = "GPL-2.0-or-later | LGPL-3.0-or-later"
+-LICENSE:libdebuginfod = "GPL-2.0-or-later | LGPL-3.0-or-later"
++LICENSE:libelf = "GPL-2.0-or-later OR LGPL-3.0-or-later"
++LICENSE:libasm = "GPL-2.0-or-later OR LGPL-3.0-or-later"
++LICENSE:libdw = "GPL-2.0-or-later OR LGPL-3.0-or-later"
++LICENSE:libdebuginfod = "GPL-2.0-or-later OR LGPL-3.0-or-later"
+ 
+ FILES:${PN} += "${datadir}/fish"
+ FILES:${PN}-binutils = "\
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.2.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.2.bb
+index 801da3d6c9..3119627adf 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.2.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.2.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Tools for erofs filesystems"
+-LICENSE = "(GPL-2.0-or-later | MIT) & MIT"
++LICENSE = "MIT AND (GPL-2.0-or-later OR MIT)"
+ SECTION = "base"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=63afa010baddc7d0905f9c31ac759f51"
+ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index f24dd3b7c8..42b210ad97 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -8,7 +8,7 @@ structures to direct the dialogue. In addition, the user can take control and \
+ interact directly when desired, afterward returning control to the script. \
+ "
+ HOMEPAGE = "http://sourceforge.net/projects/expect/"
+-LICENSE = "PD"
++LICENSE = "LicenseRef-PD"
+ SECTION = "devel"
+ 
+ LIC_FILES_CHKSUM = "file://license.terms;md5=fbf2de7e9102505b1439db06fc36ce5c"
+diff --git a/meta/recipes-devtools/fastfloat/fastfloat_8.2.10.bb b/meta/recipes-devtools/fastfloat/fastfloat_8.2.10.bb
+index f537bab56c..3a5635bdeb 100644
+--- a/meta/recipes-devtools/fastfloat/fastfloat_8.2.10.bb
++++ b/meta/recipes-devtools/fastfloat/fastfloat_8.2.10.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "fast_float number parsing library: 4x faster than strtod"
+ HOMEPAGE = "https://github.com/fastfloat/fast_float"
+-LICENSE = "Apache-2.0 & BSL-1.0 & MIT"
++LICENSE = "Apache-2.0 AND BSL-1.0 AND MIT"
+ LIC_FILES_CHKSUM = " \
+ 	file://LICENSE-MIT;md5=32b11d50c7d9788d4270f6a83f3e68eb \
+ 	file://LICENSE-APACHE;md5=81db248e90379bcfc0582b578b009bc3 \
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index bbaa6f3998..ca040442af 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Flex is a fast lexical analyser generator.  Flex is a tool for ge
+ lexical patterns in text."
+ HOMEPAGE = "http://sourceforge.net/projects/flex/"
+ SECTION = "devel"
+-LICENSE = "BSD-3-Clause & LGPL-2.0-or-later"
++LICENSE = "BSD-3-Clause AND LGPL-2.0-or-later"
+ LICENSE:${PN}-libfl = "BSD-3-Clause"
+ 
+ DEPENDS = "${@bb.utils.contains('PTEST_ENABLED', '1', 'bison-native flex-native', '', d)}"
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index 6c81d30243..db89a733de 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -1,6 +1,6 @@
+ require gcc-configure-common.inc
+ 
+-LICENSE = "NCSA | MIT"
++LICENSE = "MIT OR NCSA"
+ 
+ LIC_FILES_CHKSUM = "\
+     file://libsanitizer/LICENSE.TXT;md5=0249c37748936faf5b1efd5789587909 \
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index cbb5885459..52c6fc531e 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -1,4 +1,4 @@
+-LICENSE = "GPL-2.0-only & GPL-3.0-only & LGPL-2.0-only & LGPL-3.0-only"
++LICENSE = "GPL-2.0-only AND GPL-3.0-only AND LGPL-2.0-only AND LGPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+diff --git a/meta/recipes-devtools/git/git_2.55.0.bb b/meta/recipes-devtools/git/git_2.55.0.bb
+index 9198bb06c9..426cc13371 100644
+--- a/meta/recipes-devtools/git/git_2.55.0.bb
++++ b/meta/recipes-devtools/git/git_2.55.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Distributed version control system"
+ HOMEPAGE = "http://git-scm.com"
+ DESCRIPTION = "Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency."
+ SECTION = "console/utils"
+-LICENSE = "GPL-2.0-only & GPL-2.0-or-later & BSD-3-Clause & MIT & LGPL-2.1-or-later"
++LICENSE = "BSD-3-Clause AND GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT"
+ DEPENDS = "openssl zlib"
+ 
+ PROVIDES:append:class-native = " git-replacement-native"
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
+index 55d434ed21..2e1a37e0ec 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Set of i2c tools for linux"
+ HOMEPAGE = "https://i2c.wiki.kernel.org/index.php/I2C_Tools"
+ DESCRIPTION = "The i2c-tools package contains a heterogeneous set of I2C tools for Linux: a bus probing tool, a chip dumper, register-level SMBus access helpers, EEPROM decoding scripts, EEPROM programming tools, and a python module for SMBus access. All versions of Linux are supported, as long as I2C support is included in the kernel."
+ SECTION = "base"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c"
+ 
+diff --git a/meta/recipes-devtools/libtool/libtool-2.5.4.inc b/meta/recipes-devtools/libtool/libtool-2.5.4.inc
+index 4d9a822de2..c646ed33d6 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.5.4.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.5.4.inc
+@@ -4,7 +4,7 @@ Libtool hides the complexity of generating special library types \
+ (such as shared libraries) behind a consistent interface."
+ HOMEPAGE = "http://www.gnu.org/software/libtool/libtool.html"
+ SECTION = "devel"
+-LICENSE = "GPL-2.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=570a9b3749dd0463a1778803b12a6dce \
+     file://libltdl/COPYING.LIB;md5=4bf661c1e3793e55c8d1051bc5e0ae21 "
+ 
+diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
+index 9ba83d8d64..a10dd175a2 100644
+--- a/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
++++ b/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/log4cplus/log4cplus"
+ DESCRIPTION = "log4cplus is a simple to use C++ logging API providing thread-safe, flexible, and arbitrarily granular control over log management and configuration. It is modelled after the Java log4j API."
+ BUGTRACKER = "https://github.com/log4cplus/log4cplus/issues"
+ 
+-LICENSE = "Apache-2.0 & BSD-2-Clause"
++LICENSE = "Apache-2.0 AND BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
+ 
+ # Replace dots with underscores to match GitHub's tag format (e.g., 2.2.0.1 -> REL_2_2_0_1)
+diff --git a/meta/recipes-devtools/orc/orc_0.4.42.bb b/meta/recipes-devtools/orc/orc_0.4.42.bb
+index 55b8db28aa..89e879e1cc 100644
+--- a/meta/recipes-devtools/orc/orc_0.4.42.bb
++++ b/meta/recipes-devtools/orc/orc_0.4.42.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Optimised Inner Loop Runtime Compiler"
+ HOMEPAGE = "http://gstreamer.freedesktop.org/modules/orc.html"
+ DESCRIPTION = "Optimised Inner Loop Runtime Compiler is a Library and set of tools for compiling and executing SIMD assembly language-like programs that operate on arrays of data."
+-LICENSE = "BSD-2-Clause & BSD-3-Clause"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
+ 
+ SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb b/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
+index bb6c1b908a..bc5bb4f4d7 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/arsv/perl-cross"
+ DESCRIPTION = "perl-cross provides configure script, top-level Makefile and some auxiliary files for perl, \
+ with the primary emphasis on cross-compiling the source."
+ SECTION = "devel"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ # README.md is taken from https://github.com/arsv/perl-cross/blob/master/README.md
+ # but is not provided inside the release tarballs
+ LIC_FILES_CHKSUM = "file://${UNPACKDIR}/README.md;md5=252fcce2026b765fee1ad74d2fb07a3b"
+diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
+index b27a8c15e6..1c01a59f5d 100644
+--- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
++++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
+@@ -10,7 +10,7 @@ SECTION = "libs"
+ 
+ HOMEPAGE = "https://metacpan.org/release/Module-Build"
+ 
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ LIC_FILES_CHKSUM = "file://README;beginline=881;endline=886;md5=3027f56c664545e54678c26b7f1ac19c"
+ 
+ SRC_URI = "${CPAN_MIRROR}/authors/id/L/LE/LEONT/Module-Build-${PV}.tar.gz \
+diff --git a/meta/recipes-devtools/perl/libtest-fatal-perl_0.018.bb b/meta/recipes-devtools/perl/libtest-fatal-perl_0.018.bb
+index a128567ec7..68940567ac 100644
+--- a/meta/recipes-devtools/perl/libtest-fatal-perl_0.018.bb
++++ b/meta/recipes-devtools/perl/libtest-fatal-perl_0.018.bb
+@@ -5,7 +5,7 @@ exception-throwing code with about the same amount of typing."
+ HOMEPAGE = "https://github.com/rjbs/Test-Fatal"
+ BUGTRACKER = "https://github.com/rjbs/Test-Fatal/issues"
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0-Perl | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0-Perl OR GPL-1.0-or-later"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f7fc7d4b26ddae0843b09ba56109e65a"
+ 
+diff --git a/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb b/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb
+index 0045e575af..fe437386b6 100644
+--- a/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb
++++ b/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb
+@@ -6,7 +6,7 @@ that are found but fail to compile will exit with an error rather than skip."
+ 
+ HOMEPAGE = "https://metacpan.org/release/Test-Needs"
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ 
+ CPAN_NAME = "Test-Needs"
+ CPAN_AUTHOR = "HAARG"
+diff --git a/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb b/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb
+index 2eccf40999..58f819846f 100644
+--- a/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb
++++ b/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb
+@@ -9,7 +9,7 @@ demonstration.)"
+ HOMEPAGE = "https://github.com/karenetheridge/Test-Warnings"
+ BUGTRACKER = "https://rt.cpan.org/Public/Dist/Display.html?Name=Test-Warnings"
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0-Perl | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0-Perl OR GPL-1.0-or-later"
+ 
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=f98106ac3cc05d9cbebcdb8fbf7b7815"
+ 
+diff --git a/meta/recipes-devtools/perl/libxml-perl_0.08.bb b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
+index 728b606ed2..7f92f92436 100644
+--- a/meta/recipes-devtools/perl/libxml-perl_0.08.bb
++++ b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
+@@ -5,7 +5,7 @@ XML::Grove and others."
+ HOMEPAGE = "https://metacpan.org/dist/libxml-perl/"
+ SUMMARY = "Collection of Perl modules for working with XML"
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ 
+ LIC_FILES_CHKSUM = "file://README;beginline=33;endline=35;md5=1705549eef7577a3d6ba71123a1f0ce8"
+ 
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+index f5fd2d3f0e..d4f0062cc6 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+@@ -6,7 +6,7 @@ on top of an underlying XML parsing module to maintain XML files \
+ where the original uses plain Perl or SAX parsers."
+ HOMEPAGE = "https://metacpan.org/release/MARKOV/XML-LibXML-Simple-0.93/view/lib/XML/LibXML/Simple.pod"
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=cf206df8c9fe775f1d4c484386491eac"
+ DEPENDS += "libxml-parser-perl"
+ 
+diff --git a/meta/recipes-devtools/perl/perl_5.42.2.bb b/meta/recipes-devtools/perl/perl_5.42.2.bb
+index f1f026579b..30e707df0a 100644
+--- a/meta/recipes-devtools/perl/perl_5.42.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.42.2.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Perl scripting language"
+ HOMEPAGE = "http://www.perl.org/"
+ DESCRIPTION = "Perl is a highly capable, feature-rich programming language"
+ SECTION = "devel"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ LIC_FILES_CHKSUM = "file://Copying;md5=8f7dd0873e59530abbb36503972afcdb \
+                     file://Artistic;md5=71a4d5d9acc18c0952a6df2218bb68da \
+                     "
+diff --git a/meta/recipes-devtools/python/python-pycryptodome.inc b/meta/recipes-devtools/python/python-pycryptodome.inc
+index 466da553e7..a0181874cd 100644
+--- a/meta/recipes-devtools/python/python-pycryptodome.inc
++++ b/meta/recipes-devtools/python/python-pycryptodome.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Cryptographic library for Python"
+ DESCRIPTION = "PyCryptodome is a self-contained Python package of low-level\
+  cryptographic primitives."
+ HOMEPAGE = "http://www.pycryptodome.org"
+-LICENSE = "Unlicense & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND Unlicense"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=29242a70410a4eeff488a28164e7ab93"
+ 
+ inherit pypi
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+index fe4307a4d9..f5dd5757a4 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Test vectors for the cryptography package."
+ HOMEPAGE = "https://cryptography.io/"
+ SECTION = "devel/python"
+-LICENSE = "Apache-2.0 | BSD-3-Clause"
++LICENSE = "Apache-2.0 OR BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+                     file://LICENSE.APACHE;md5=4e168cce331e5c827d4c2b68a6200e1b \
+                     file://LICENSE.BSD;md5=5ae30ba4123bc4f2fa49aa0b0dce887b"
+diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
+index 4730c34997..aad95dfab8 100644
+--- a/meta/recipes-devtools/python/python3-cryptography.bb
++++ b/meta/recipes-devtools/python/python3-cryptography.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Provides cryptographic recipes and primitives to python developers"
+ HOMEPAGE = "https://cryptography.io/"
+ SECTION = "devel/python"
+-LICENSE = "Apache-2.0 | BSD-3-Clause"
++LICENSE = "Apache-2.0 OR BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+                     file://LICENSE.APACHE;md5=4e168cce331e5c827d4c2b68a6200e1b \
+                     file://LICENSE.BSD;md5=5ae30ba4123bc4f2fa49aa0b0dce887b \
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.23.bb b/meta/recipes-devtools/python/python3-docutils_0.23.bb
+index 91592d470c..27ed6c5514 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.23.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.23.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Docutils is a modular system for processing documentation into useful formats"
+ HOMEPAGE = "http://docutils.sourceforge.net"
+ SECTION = "devel/python"
+-LICENSE = "CC0-1.0 & BSD-2-Clause & GPL-3.0-only"
++LICENSE = "BSD-2-Clause AND CC0-1.0 AND GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING.rst;md5=ce467b04b35c7ac3429b6908fc8b318e"
+ 
+ SRC_URI[sha256sum] = "746f5060322511280a1e50eb76846ed6bf2342984b2ac04dc42caa1a8d78799e"
+@@ -11,6 +11,6 @@ inherit pypi python_flit_core
+ RDEPENDS:${PN} += "python3-pprint"
+ 
+ # We don't install the emacs lisp, which is the only piece of GPLv3
+-LICENSE:${PN} = "CC0-1.0 & BSD-2-Clause"
++LICENSE:${PN} = "BSD-2-Clause AND CC0-1.0"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb b/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
+index 314107883f..1576b233eb 100644
+--- a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
++++ b/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Python Library for the Device Tree Compiler"
+ HOMEPAGE = "https://devicetree.org/"
+ DESCRIPTION = "A python library for the Device Tree Compiler, a tool used to manipulate Device Tree files which contain a data structure for describing hardware."
+ SECTION = "bootloader"
+-LICENSE = "GPL-2.0-only | BSD-2-Clause"
++LICENSE = "BSD-2-Clause OR GPL-2.0-only"
+ 
+ DEPENDS = "flex-native bison-native swig-native python3-setuptools-scm-native libyaml dtc"
+ 
+diff --git a/meta/recipes-devtools/python/python3-idna_3.18.bb b/meta/recipes-devtools/python/python3-idna_3.18.bb
+index 3d5e79d0f7..cac86a8594 100644
+--- a/meta/recipes-devtools/python/python3-idna_3.18.bb
++++ b/meta/recipes-devtools/python/python3-idna_3.18.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Internationalised Domain Names in Applications"
+ HOMEPAGE = "https://github.com/kjd/idna"
+-LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-TOU"
++LICENSE = "BSD-3-Clause AND Python-2.0 AND Unicode-TOU"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9a6c29079fc90c29d80332f44d2625f2"
+ 
+ SRC_URI[sha256sum] = "ffb385a7e039654cef1ab9ef32c6fafe283c0c0467bba1d9029738ce4a14a848"
+diff --git a/meta/recipes-devtools/python/python3-lxml_6.1.1.bb b/meta/recipes-devtools/python/python3-lxml_6.1.1.bb
+index 77386ebdd0..4ca7f08b39 100644
+--- a/meta/recipes-devtools/python/python3-lxml_6.1.1.bb
++++ b/meta/recipes-devtools/python/python3-lxml_6.1.1.bb
+@@ -6,7 +6,7 @@ significantly to offer support for XPath, RelaxNG, XML Schema, XSLT, \
+ C14N and much more."
+ HOMEPAGE = "https://lxml.de/"
+ SECTION = "devel/python"
+-LICENSE = "BSD-3-Clause & GPL-2.0-only & MIT & PSF-2.0"
++LICENSE = "BSD-3-Clause AND GPL-2.0-only AND MIT AND PSF-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
+                     file://doc/licenses/elementtree.txt;md5=eb34d036a6e3d56314ee49a6852ac891 \
+                     file://doc/licenses/BSD.txt;md5=700a1fc17f4797d4f2d34970c8ee694b \
+diff --git a/meta/recipes-devtools/python/python3-maturin_1.14.1.bb b/meta/recipes-devtools/python/python3-maturin_1.14.1.bb
+index b690a57772..88ba336022 100644
+--- a/meta/recipes-devtools/python/python3-maturin_1.14.1.bb
++++ b/meta/recipes-devtools/python/python3-maturin_1.14.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Build and publish crates with pyo3, rust-cpython, cffi bindings and rust binaries as python packages"
+ HOMEPAGE = "https://github.com/pyo3/maturin"
+ SECTION = "devel/python"
+-LICENSE = "MIT | Apache-2.0"
++LICENSE = "Apache-2.0 OR MIT"
+ LIC_FILES_CHKSUM = "file://license-apache;md5=1836efb2eb779966696f473ee8540542 \
+                     file://license-mit;md5=85fd3b67069cff784d98ebfc7d5c0797"
+ 
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.5.0.bb b/meta/recipes-devtools/python/python3-numpy_2.5.0.bb
+index 32c1acafdd..43ecdb2c42 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.5.0.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.5.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "A sophisticated Numeric Processing Package for Python"
+ HOMEPAGE = "https://numpy.org/"
+ DESCRIPTION = "NumPy is the fundamental package needed for scientific computing with Python."
+ SECTION = "devel/python"
+-LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF-2.0 & Apache-2.0 & MIT"
++LICENSE = "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND PSF-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=26080bf81b2662c7119d3ef28ae197fd"
+ 
+ SRCNAME = "numpy"
+diff --git a/meta/recipes-devtools/python/python3-packaging_26.2.bb b/meta/recipes-devtools/python/python3-packaging_26.2.bb
+index eadd70602a..81ae6f2732 100644
+--- a/meta/recipes-devtools/python/python3-packaging_26.2.bb
++++ b/meta/recipes-devtools/python/python3-packaging_26.2.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Core utilities for Python packages"
+ HOMEPAGE = "https://github.com/pypa/packaging"
+-LICENSE = "Apache-2.0 | BSD-2-Clause"
++LICENSE = "Apache-2.0 OR BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
+ 
+ SRC_URI[sha256sum] = "ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661"
+diff --git a/meta/recipes-devtools/python/python3-pip_26.1.2.bb b/meta/recipes-devtools/python/python3-pip_26.1.2.bb
+index dd1895ed55..9a02409298 100644
+--- a/meta/recipes-devtools/python/python3-pip_26.1.2.bb
++++ b/meta/recipes-devtools/python/python3-pip_26.1.2.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "The PyPA recommended tool for installing Python packages"
+ HOMEPAGE = "https://pypi.org/project/pip"
+ SECTION = "devel/python"
+-LICENSE = "MIT & Apache-2.0 & MPL-2.0 & LGPL-2.1-only & BSD-3-Clause & PSF-2.0 & BSD-2-Clause"
++LICENSE = "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND LGPL-2.1-only AND MIT AND MPL-2.0 AND PSF-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=63ec52baf95163b597008bb46db68030 \
+                     file://src/pip/_vendor/cachecontrol/LICENSE.txt;md5=6572692148079ebbbd800be4b9f36c6d \
+                     file://src/pip/_vendor/certifi/LICENSE;md5=11618cb6a975948679286b1211bd573c \
+diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb b/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb
+index a428214b87..d063f7e23c 100644
+--- a/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb
++++ b/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/python-poetry/poetry-core"
+ BUGTRACKER = "https://github.com/python-poetry/poetry-core"
+ CHANGELOG = "https://github.com/python-poetry/poetry-core/blob/master/CHANGELOG.md"
+ 
+-LICENSE = "Apache-2.0 & BSD-2-Clause & BSD-3-Clause & MIT"
++LICENSE = "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT"
+ LIC_FILES_CHKSUM = "\
+     file://LICENSE;md5=78c39cfd009863ae44237a7ab1f9cedc \
+     file://src/poetry/core/_vendor/fastjsonschema/LICENSE;md5=18950e8362b69c0c617b42b8bd8e7532 \
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb b/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb
+index 9b78e4f3d3..2d018e676a 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.29.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Python bindings for the Cairo canvas library"
+ HOMEPAGE = "http://cairographics.org/pycairo"
+ BUGTRACKER = "http://bugs.freedesktop.org"
+ SECTION = "python-devel"
+-LICENSE = "LGPL-2.1-only & MPL-1.1"
++LICENSE = "LGPL-2.1-only AND MPL-1.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f3713ca2c28d9312ad718520b6dc3eee \
+                     file://COPYING-LGPL-2.1;md5=fad9b3332be894bab9bc501572864b29 \
+                     file://COPYING-MPL-1.1;md5=bfe1f75d606912a4111c90743d6c7325"
+diff --git a/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb b/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb
+index 4cab76a2b1..08af23d765 100644
+--- a/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb
++++ b/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Manipulate roman numerals"
+ HOMEPAGE = "https://github.com/AA-Turner/roman-numerals/"
+-LICENSE = "0BSD & CC0-1.0"
++LICENSE = "0BSD AND CC0-1.0"
+ LIC_FILES_CHKSUM = "file://LICENCE.rst;md5=bfcc8b16e42929aafeb9d414360bc2fd"
+ 
+ SRC_URI[sha256sum] = "1af8b147eb1405d5839e78aeb93131690495fe9da5c91856cb33ad55a7f1e5b2"
+diff --git a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
+index 77fcae2546..927664c5fb 100644
+--- a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Sphinx Theme reader"
+ HOMEPAGE = "https://github.com/readthedocs/sphinx_rtd_theme"
+ SECTION = "devel/python"
+-LICENSE = "MIT & OFL-1.1"
++LICENSE = "MIT AND OFL-1.1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a1db7d4ef426c2935227264e1d4ae8f9 \
+                     file://OFL-License.txt;md5=4534c22e0147eadb6828bd9fe86d4868 \
+                     file://Apache-License-2.0.txt;md5=8a75796f0ef19c3f601d69857f5a9a5b"
+diff --git a/meta/recipes-devtools/python/python3-sphinx_9.1.0.bb b/meta/recipes-devtools/python/python3-sphinx_9.1.0.bb
+index 76f904d708..dcf769724f 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_9.1.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_9.1.0.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Python documentation generator"
+ HOMEPAGE = "http://sphinx-doc.org/"
+ SECTION = "devel/python"
+-LICENSE = "BSD-2-Clause & MIT"
++LICENSE = "BSD-2-Clause AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=e30c37a2b7fb0afa3adc0d72b85e8b04"
+ 
+ SRC_URI[sha256sum] = "7741722357dd75f8190766926071fed3bdc211c74dd2d7d4df5404da95930ddb"
+diff --git a/meta/recipes-devtools/python/python3-subunit_1.4.4.bb b/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
+index 269b057427..0ff02ef3b8 100644
+--- a/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
++++ b/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Python implementation of subunit test streaming protocol"
+ HOMEPAGE = "https://pypi.org/project/python-subunit/"
+ SECTION = "devel/python"
+-LICENSE = "Apache-2.0 | BSD-3-Clause"
++LICENSE = "Apache-2.0 OR BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;beginline=1;endline=20;md5=b1121e68d06c8d9ea544fcd895df0d39"
+ 
+ PYPI_PACKAGE = "python-subunit"
+diff --git a/meta/recipes-devtools/python/python3-uv-build_0.11.28.bb b/meta/recipes-devtools/python/python3-uv-build_0.11.28.bb
+index 08ab097482..9523f573ed 100644
+--- a/meta/recipes-devtools/python/python3-uv-build_0.11.28.bb
++++ b/meta/recipes-devtools/python/python3-uv-build_0.11.28.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "The build backend part of an 'An extremely fast Python package and project manager, written in Rust.'"
+ HOMEPAGE = "https://pypi.org/project/uv-build/"
+ 
+-LICENSE = "Apache-2.0 & BSD-2-Clause & MIT"
++LICENSE = "Apache-2.0 AND BSD-2-Clause AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
+                     file://LICENSE-MIT;md5=45674e482567aa99fe883d3270b11184 \
+                     file://crates/uv-build/LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
+diff --git a/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb b/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
+index 4b3bbe6670..4092b3e8b7 100644
+--- a/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
++++ b/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "An asyncio library for communicating with QEMU Monitor Protocol (
+ This library was split out of the QEMU source tree to provide a reference QMP \
+ implementation usable both within and outside of the QEMU source tree."
+ HOMEPAGE = "https://gitlab.com/qemu-project/python-qemu-qmp"
+-LICENSE = "LGPL-2.0-only & GPL-2.0-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=4cf66a4984120007c9881cc871cf49db"
+ 
+ inherit pypi python_setuptools_build_meta
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 0fb77250f8..6fca6bc499 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -5,7 +5,7 @@ of different hardware and device models for the machine, enabling it to run \
+ a variety of guest operating systems"
+ HOMEPAGE = "http://qemu.org"
+ BUGTRACKER = "https://gitlab.com/qemu-project/qemu/-/issues"
+-LICENSE = "GPL-2.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+ 
+ DEPENDS += "bison-native meson-native ninja-native"
+ 
+diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.2.bb b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.2.bb
+index a6b32bb007..0251b0b92c 100644
+--- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.2.bb
++++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.2.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://sequoia-pgp.org/"
+ # The license line is taken verbatim from Fedora's specfile
+ # with formatting differences for Yocto. (AND -> &, OR -> |)
+ # https://src.fedoraproject.org/rpms/rust-rpm-sequoia/blob/rawhide/f/rust-rpm-sequoia.spec
+-LICENSE = "LGPL-2.0-or-later & Apache-2.0 & BSL-1.0 & MIT & Unicode-DFS-2016 & (Apache-2.0 | MIT) & (MIT | Apache-2.0 | Zlib) & (Unlicense | MIT)"
++LICENSE = "Apache-2.0 AND BSL-1.0 AND LGPL-2.0-or-later AND MIT AND Unicode-DFS-2016 AND (Apache-2.0 OR MIT) AND (Apache-2.0 OR MIT OR Zlib) AND (MIT OR Unlicense)"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f0ff5ff7747cf7d394079c6ae87f5f0c"
+ 
+diff --git a/meta/recipes-devtools/ruby/ruby_4.0.5.bb b/meta/recipes-devtools/ruby/ruby_4.0.5.bb
+index a0981bf622..fef3e351a2 100644
+--- a/meta/recipes-devtools/ruby/ruby_4.0.5.bb
++++ b/meta/recipes-devtools/ruby/ruby_4.0.5.bb
+@@ -6,7 +6,7 @@ It is simple, straight-forward, and extensible. \
+ "
+ HOMEPAGE = "http://www.ruby-lang.org/"
+ SECTION = "devel/ruby"
+-LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT | BSL-1.0 | Apache-2.0"
++LICENSE = "Apache-2.0 OR BSD-2-Clause OR BSD-3-Clause OR BSL-1.0 OR GPL-2.0-only OR ISC OR MIT OR Ruby"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7674b1080a488809841b13eb57ffb719 \
+                     file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
+                     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-devtools/rust/cargo_1.96.1.bb b/meta/recipes-devtools/rust/cargo_1.96.1.bb
+index f16688fc76..adc1f0d331 100644
+--- a/meta/recipes-devtools/rust/cargo_1.96.1.bb
++++ b/meta/recipes-devtools/rust/cargo_1.96.1.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Cargo, a package manager for Rust."
+ HOMEPAGE = "https://crates.io"
+-LICENSE = "MIT | Apache-2.0"
++LICENSE = "Apache-2.0 OR MIT"
+ SECTION = "devel"
+ 
+ DEPENDS = "openssl zlib curl ca-certificates libssh2"
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb b/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb
+index 2a5e977a5e..1ecd6bff3f 100644
+--- a/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb
++++ b/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Rust standard libaries"
+ HOMEPAGE = "http://www.rust-lang.org"
+ SECTION = "devel"
+-LICENSE = "(MIT | Apache-2.0) & Unicode-3.0"
++LICENSE = "Unicode-3.0 AND (Apache-2.0 OR MIT)"
+ LIC_FILES_CHKSUM = "file://../../COPYRIGHT;md5=11a3899825f4376896e438c8c753f8dc"
+ 
+ require rust-source.inc
+diff --git a/meta/recipes-devtools/rust/rust_1.96.1.bb b/meta/recipes-devtools/rust/rust_1.96.1.bb
+index 8b0f1d1459..fa8777826f 100644
+--- a/meta/recipes-devtools/rust/rust_1.96.1.bb
++++ b/meta/recipes-devtools/rust/rust_1.96.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Rust compiler and runtime libaries"
+ HOMEPAGE = "http://www.rust-lang.org"
+ SECTION = "devel"
+-LICENSE = "(MIT | Apache-2.0) & Unicode-3.0"
++LICENSE = "Unicode-3.0 AND (Apache-2.0 OR MIT)"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=11a3899825f4376896e438c8c753f8dc"
+ 
+ inherit rust
+diff --git a/meta/recipes-devtools/strace/strace_7.1.bb b/meta/recipes-devtools/strace/strace_7.1.bb
+index c4ca3a7f27..b5c6543da0 100644
+--- a/meta/recipes-devtools/strace/strace_7.1.bb
++++ b/meta/recipes-devtools/strace/strace_7.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "System call tracing tool"
+ HOMEPAGE = "http://strace.io"
+ DESCRIPTION = "strace is a diagnostic, debugging and instructional userspace utility for Linux. It is used to monitor and tamper with interactions between processes and the Linux kernel, which include system calls, signal deliveries, and changes of process state."
+ SECTION = "console/utils"
+-LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=9259131ce5420f9790214be1c20a83a9"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
+diff --git a/meta/recipes-devtools/subversion/subversion_1.14.5.bb b/meta/recipes-devtools/subversion/subversion_1.14.5.bb
+index 05f80b3319..f6a5b9950f 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.14.5.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.14.5.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Subversion (svn) version control system client"
+ HOMEPAGE = "http://subversion.apache.org"
+ DESCRIPTION = "Subversion is an open source version control system."
+ SECTION = "console/network"
+-LICENSE = "Apache-2.0 & MIT"
++LICENSE = "Apache-2.0 AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=6487ae7094d359fa90fb9c4096e52e2b"
+ 
+ DEPENDS = "apr-util serf sqlite3 file lz4 expat"
+diff --git a/meta/recipes-devtools/swig/swig_4.4.1.bb b/meta/recipes-devtools/swig/swig_4.4.1.bb
+index f71a92d931..842a7b0945 100644
+--- a/meta/recipes-devtools/swig/swig_4.4.1.bb
++++ b/meta/recipes-devtools/swig/swig_4.4.1.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "SWIG is a compiler that makes it easy to integrate C and C++ \
+ code with other languages including Perl, Tcl, Ruby, Python, Java, Guile, \
+ Mzscheme, Chicken, OCaml, Pike, and C#."
+ HOMEPAGE = "http://swig.sourceforge.net/"
+-LICENSE = "BSD-3-Clause & GPL-3.0-only"
++LICENSE = "BSD-3-Clause AND GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7807a6282784a7dde4c846626b08fc6 \
+                     file://LICENSE-GPL;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://LICENSE-UNIVERSITIES;md5=8ce9dcc8f7c994de4a408b205c72ba08"
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
+index 31f3add89f..a8976f8a3e 100644
+--- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "For systemd-bootchart, several proc debug interfaces are required
+ below is optional, for additional info: \
+   CONFIG_SCHED_DEBUG"
+ HOMEPAGE = "https://github.com/systemd/systemd-bootchart"
+-LICENSE = "LGPL-2.1-only & GPL-2.0-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c \
+                     file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe"
+ 
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
+index 6e9c7fc0ad..b04c7aea06 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://wiki.eclipse.org/TCF"
+ DESCRIPTION = "TCF is a vendor-neutral, lightweight, extensible network protocol mainly for communicating with embedded systems (targets)."
+ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ 
+-LICENSE = "EPL-1.0 | BSD-3-Clause"
++LICENSE = "BSD-3-Clause OR EPL-1.0"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ 
+ SRCREV = "3051a4806ac4b041ec7c49ffc6d07f0014b8480c"
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+index 8cabd77d7f..5b4809ed6b 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "Tool Command Language, is an open-source multi-purpose C library
+ SECTION = "devel/tcltk"
+ 
+ # http://www.tcl.tk/software/tcltk/license.html
+-LICENSE = "TCL & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND TCL"
+ LIC_FILES_CHKSUM = "file://license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+     file://compat/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+     file://library/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+index 545c1cdc60..0382d4239c 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "Tool Command Language, is an open-source multi-purpose C library
+ SECTION = "devel/tcltk"
+ 
+ # http://www.tcl.tk/software/tcltk/license.html
+-LICENSE = "TCL & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND TCL"
+ LIC_FILES_CHKSUM = "file://license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+     file://compat/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+     file://library/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.27.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.27.1.bb
+index 1b08f2fc5f..829b6c96a8 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.27.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.27.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Valgrind memory debugger and instrumentation framework"
+ HOMEPAGE = "http://valgrind.org/"
+ DESCRIPTION = "Valgrind is an instrumentation framework for building dynamic analysis tools. There are Valgrind tools that can automatically detect many memory management and threading bugs, and profile your programs in detail."
+ BUGTRACKER = "http://valgrind.org/support/bug_reports.html"
+-LICENSE = "GPL-2.0-only & GPL-2.0-or-later & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND GPL-2.0-only AND GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://include/pub_tool_basics.h;beginline=6;endline=29;md5=9ba449d120f6845e6a432073278d6e3a \
+                     file://include/valgrind.h;beginline=1;endline=56;md5=993563aaa122558df9c5d743de074d04 \
+diff --git a/meta/recipes-extended/acpica/acpica_20260408.bb b/meta/recipes-extended/acpica/acpica_20260408.bb
+index 4c65630015..1e6326720f 100644
+--- a/meta/recipes-extended/acpica/acpica_20260408.bb
++++ b/meta/recipes-extended/acpica/acpica_20260408.bb
+@@ -9,7 +9,7 @@ ACPI tables."
+ HOMEPAGE = "https://www.intel.com/content/www/us/en/developer/topic-technology/open/acpica/overview.html"
+ SECTION = "console/tools"
+ 
+-LICENSE = "Intel | BSD-3-Clause | GPL-2.0-only"
++LICENSE = "BSD-3-Clause OR GPL-2.0-only OR Intel"
+ LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=4877caee45a613e9706946c3205a6fb9"
+ 
+ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 36267e5073..39f0f6749d 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -4,14 +4,14 @@ Huffman coding. Compression is generally considerably better than that achieved
+ LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
+ HOMEPAGE = "https://sourceware.org/bzip2/"
+ SECTION = "console/utils"
+-LICENSE = "bzip2-1.0.6 & GPL-3.0-or-later & Apache-2.0 & MS-PL & BSD-3-Clause & Zlib"
++LICENSE = "Apache-2.0 AND BSD-3-Clause AND GPL-3.0-or-later AND MS-PL AND Zlib AND bzip2-1.0.6"
+ LICENSE:${PN} = "bzip2-1.0.6"
+ LICENSE:${PN}-dev = "bzip2-1.0.6"
+ LICENSE:${PN}-dbg = "bzip2-1.0.6"
+ LICENSE:${PN}-doc = "bzip2-1.0.6"
+ LICENSE:${PN}-src = "bzip2-1.0.6"
+ LICENSE:libbz2 = "bzip2-1.0.6"
+-LICENSE:${PN}-ptest = "bzip2-1.0.6 & GPL-3.0-or-later & Apache-2.0 & MS-PL & BSD-3-Clause & Zlib"
++LICENSE:${PN}-ptest = "Apache-2.0 AND BSD-3-Clause AND GPL-3.0-or-later AND MS-PL AND Zlib AND bzip2-1.0.6"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664 \
+                     file://${UNPACKDIR}/bzip2-tests/commons-compress/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327 \
+diff --git a/meta/recipes-extended/cronie/cronie_1.7.2.bb b/meta/recipes-extended/cronie/cronie_1.7.2.bb
+index b250717ab8..d480407bc4 100644
+--- a/meta/recipes-extended/cronie/cronie_1.7.2.bb
++++ b/meta/recipes-extended/cronie/cronie_1.7.2.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "https://github.com/cronie-crond/cronie/"
+ BUGTRACKER = "https://bugzilla.redhat.com"
+ 
+ # Internet Systems Consortium License
+-LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & GPL-2.0-or-later"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-or-later AND ISC"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=dd2a592170760e1386c769e1043b3722 \
+                     file://src/cron.c;endline=20;md5=b425c334265026177128353a142633b4 \
+                     file://src/popen.c;beginline=3;endline=31;md5=edd50742d8def712e9472dba353668a9"
+diff --git a/meta/recipes-extended/gawk/gawk_5.4.1.bb b/meta/recipes-extended/gawk/gawk_5.4.1.bb
+index 8e8bc34152..56930498e3 100644
+--- a/meta/recipes-extended/gawk/gawk_5.4.1.bb
++++ b/meta/recipes-extended/gawk/gawk_5.4.1.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://www.gnu.org/software/gawk/"
+ BUGTRACKER  = "bug-gawk@gnu.org"
+ SECTION = "console/utils"
+ 
+-LICENSE = "GPL-3.0-or-later & AGPL-3.0-or-later"
++LICENSE = "AGPL-3.0-or-later AND GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://support/pma.c;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19 \
+                     file://support/pma.h;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19"
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.65.bb b/meta/recipes-extended/hdparm/hdparm_9.65.bb
+index e541d58fa5..0c84801c43 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.65.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.65.bb
+@@ -4,9 +4,9 @@ DESCRIPTION = "hdparm is a Linux shell utility for viewing \
+ and manipulating various IDE drive and driver parameters."
+ SECTION = "console/utils"
+ 
+-LICENSE = "BSD-2-Clause & GPL-2.0-only & hdparm"
+-LICENSE:${PN} = "BSD-2-Clause & hdparm"
+-LICENSE:${PN}-dbg = "BSD-2-Clause & hdparm"
++LICENSE = "BSD-2-Clause AND GPL-2.0-only AND hdparm"
++LICENSE:${PN} = "BSD-2-Clause AND hdparm"
++LICENSE:${PN}-dbg = "BSD-2-Clause AND hdparm"
+ LICENSE:wiper = "GPL-2.0-only"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=495d03e50dc6c89d6a30107ab0df5b03 \
+diff --git a/meta/recipes-extended/iputils/iputils_20250605.bb b/meta/recipes-extended/iputils/iputils_20250605.bb
+index baeda55659..cdebf28ca3 100644
+--- a/meta/recipes-extended/iputils/iputils_20250605.bb
++++ b/meta/recipes-extended/iputils/iputils_20250605.bb
+@@ -4,7 +4,7 @@ tracepath, tracepath6, ping, ping6 and arping."
+ HOMEPAGE = "https://github.com/iputils/iputils"
+ SECTION = "console/network"
+ 
+-LICENSE = "BSD-3-Clause & GPL-2.0-or-later"
++LICENSE = "BSD-3-Clause AND GPL-2.0-or-later"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=627cc07ec86a45951d43e30658bbd819"
+ 
+diff --git a/meta/recipes-extended/jansson/jansson_2.15.1.bb b/meta/recipes-extended/jansson/jansson_2.15.1.bb
+index 60bbc5ba6d..517dd6023b 100644
+--- a/meta/recipes-extended/jansson/jansson_2.15.1.bb
++++ b/meta/recipes-extended/jansson/jansson_2.15.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Jansson is a C library for encoding, decoding and manipulating JSON data"
+ HOMEPAGE = "http://www.digip.org/jansson/"
+ BUGTRACKER = "https://github.com/akheron/jansson/issues"
+-LICENSE = "MIT & dtoa"
++LICENSE = "MIT AND dtoa"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d9911525d4128bee234ee2d3ccaa2537"
+ 
+ GITHUB_BASE_URI = "https://github.com/akheron/jansson/releases"
+diff --git a/meta/recipes-extended/less/less_704.bb b/meta/recipes-extended/less/less_704.bb
+index 500a39b327..dc841a9ae6 100644
+--- a/meta/recipes-extended/less/less_704.bb
++++ b/meta/recipes-extended/less/less_704.bb
+@@ -19,7 +19,7 @@ SECTION = "console/utils"
+ # --Mark
+ #
+ 
+-LICENSE = "GPL-3.0-or-later | BSD-2-Clause"
++LICENSE = "BSD-2-Clause OR GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://LICENSE;md5=bee5763a5e2bccdcdbd9bfe982ffc82b \
+                     "
+diff --git a/meta/recipes-extended/libidn/libidn2_2.3.8.bb b/meta/recipes-extended/libidn/libidn2_2.3.8.bb
+index a53ac47d66..37703aa929 100644
+--- a/meta/recipes-extended/libidn/libidn2_2.3.8.bb
++++ b/meta/recipes-extended/libidn/libidn2_2.3.8.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Internationalized Domain Name support library"
+ DESCRIPTION = "Implementation of the Stringprep, Punycode and IDNA specifications defined by the IETF Internationalized Domain Names (IDN) working group."
+ HOMEPAGE = "http://www.gnu.org/software/libidn/"
+ SECTION = "libs"
+-LICENSE = "(GPL-2.0-or-later | LGPL-3.0-only) & GPL-3.0-or-later & Unicode-DFS-2016"
++LICENSE = "GPL-3.0-or-later AND Unicode-DFS-2016 AND (GPL-2.0-or-later OR LGPL-3.0-only)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://COPYING.LESSERv3;md5=3000208d539ec061b899bce1d9ce9404 \
+                     file://COPYINGv2;md5=570a9b3749dd0463a1778803b12a6dce \
+@@ -27,7 +27,7 @@ do_install:append() {
+ 	sed -i -e 's|-L${STAGING_LIBDIR}||' -e 's/  */ /g' ${D}${libdir}/pkgconfig/libidn2.pc
+ }
+ 
+-LICENSE:${PN} = "(GPL-2.0-or-later | LGPL-3.0-only) & Unicode-DFS-2016"
++LICENSE:${PN} = "Unicode-DFS-2016 AND (GPL-2.0-or-later OR LGPL-3.0-only)"
+ LICENSE:${PN}-bin = "GPL-3.0-or-later"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/ltp/ltp_20260529.bb b/meta/recipes-extended/ltp/ltp_20260529.bb
+index e863503200..0fc3946aa4 100644
+--- a/meta/recipes-extended/ltp/ltp_20260529.bb
++++ b/meta/recipes-extended/ltp/ltp_20260529.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Linux Test Project"
+ DESCRIPTION = "The Linux Test Project is a joint project with SGI, IBM, OSDL, and Bull with a goal to deliver test suites to the open source community that validate the reliability, robustness, and stability of Linux. The Linux Test Project is a collection of tools for testing the Linux kernel and related features."
+ HOMEPAGE = "https://linux-test-project.github.io/"
+ SECTION = "console/utils"
+-LICENSE = "GPL-2.0-only & GPL-2.0-or-later & LGPL-2.0-or-later & LGPL-2.1-or-later & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "\
+     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+     file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947 \
+diff --git a/meta/recipes-extended/man-db/man-db_2.13.1.bb b/meta/recipes-extended/man-db/man-db_2.13.1.bb
+index f044a47f7d..7fcad2ed4b 100644
+--- a/meta/recipes-extended/man-db/man-db_2.13.1.bb
++++ b/meta/recipes-extended/man-db/man-db_2.13.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "An implementation of the standard Unix documentation system accessed using the man command"
+ HOMEPAGE = "http://man-db.nongnu.org/"
+ DESCRIPTION = "man-db is an implementation of the standard Unix documentation system accessed using the man command. It uses a Berkeley DB database in place of the traditional flat-text whatis databases."
+-LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later & GPL-3.0-or-later"
++LICENSE = "GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://docs/COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://docs/COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-extended/man-pages/man-pages_6.18.bb b/meta/recipes-extended/man-pages/man-pages_6.18.bb
+index 3e2eb66156..5d6504b85b 100644
+--- a/meta/recipes-extended/man-pages/man-pages_6.18.bb
++++ b/meta/recipes-extended/man-pages/man-pages_6.18.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Linux man-pages"
+ DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user programs"
+ SECTION = "console/utils"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
+-LICENSE = "GPL-2.0-or-later & GPL-2.0-only & GPL-1.0-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause-UC & MIT"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND GPL-1.0-or-later AND GPL-2.0-only AND GPL-2.0-or-later AND MIT"
+ 
+ LIC_FILES_CHKSUM = "file://README;md5=e4d3c4124726a2b7763489612768c03c \
+                     file://LICENSES/BSD-2-Clause.txt;md5=9e16594a228301089d759b4f178db91f \
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.6.bb b/meta/recipes-extended/mdadm/mdadm_4.6.bb
+index b1d0a27c7f..e289fb9a17 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.6.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.6.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.kernel.org/pub/linux/utils/raid/mdadm/"
+ DESCRIPTION = "mdadm is a Linux utility used to manage and monitor software RAID devices."
+ 
+ # Some files are GPL-2.0-only while others are GPL-2.0-or-later.
+-LICENSE = "GPL-2.0-only & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-only AND GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
+                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
+diff --git a/meta/recipes-extended/pam/libpam_1.7.2.bb b/meta/recipes-extended/pam/libpam_1.7.2.bb
+index 6955a5f2f6..ecaee30d1a 100644
+--- a/meta/recipes-extended/pam/libpam_1.7.2.bb
++++ b/meta/recipes-extended/pam/libpam_1.7.2.bb
+@@ -7,7 +7,7 @@ SECTION = "base"
+ # PAM is dual licensed under GPL and BSD.
+ # /etc/pam.d comes from Debian libpam-runtime in 2009-11 (at that time
+ # libpam-runtime-1.0.1 is GPL-2.0-or-later), by openembedded
+-LICENSE = "GPL-2.0-or-later | BSD-3-Clause"
++LICENSE = "BSD-3-Clause OR GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7eb5c1bf854e8881005d673599ee74d3 \
+                     file://libpamc/License;md5=a4da476a14c093fdc73be3c3c9ba8fb3 \
+                     "
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
+index c1d83139d7..88f22fff37 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Convert::ASN1 - Perl ASN.1 Encode/Decode library"
+ SECTION = "libs"
+ HOMEPAGE = "https://metacpan.org/dist/Convert-ASN1/"
+ DESCRIPTION = "Convert::ASN1 is a perl library for encoding/decoding data using ASN.1 definitions."
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8e8e0d3d23e096a63f"
+ 
+ SRC_URI = "${CPAN_MIRROR}/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz"
+diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+index 590b5bd0b8..028630ba90 100644
+--- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
++++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://metacpan.org/release/TimeDate"
+ DESCRIPTION = "This is the perl5 TimeDate distribution. It requires perl version 5.003 or later."
+ SECTION = "libs"
+ # You can redistribute it and/or modify it under the same terms as Perl itself.
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ LIC_FILES_CHKSUM = "file://README;beginline=21;md5=576b7cb41e5e821501a01ed66f0f9d9e"
+ 
+ SRC_URI = "${CPAN_MIRROR}/authors/id/G/GB/GBARR/TimeDate-${PV}.tar.gz"
+diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+index 9653cb427b..8306206abe 100644
+--- a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
++++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-ba
+                 basic checks. "
+ 
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ 
+ SRCNAME = "XML-NamespaceSupport"
+ 
+diff --git a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
+index a4b4116973..499720539c 100644
+--- a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
++++ b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
+@@ -7,7 +7,7 @@ use this module as a base class so you don't have to, for example, \
+ implement the characters() callback."
+ 
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ RDEPENDS:${PN} += "perl-module-extutils-makemaker"
+ 
+ LIC_FILES_CHKSUM = "file://dist.ini;endline=5;md5=8f9c9a55340aefaee6e9704c88466446"
+diff --git a/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb b/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
+index 5f982a4c4c..167591145c 100644
+--- a/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
++++ b/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
+@@ -9,7 +9,7 @@ come from the Java JAXP specification (SAX part), only without the \
+ javaness."
+ 
+ SECTION = "libs"
+-LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
++LICENSE = "Artistic-1.0 OR GPL-1.0-or-later"
+ DEPENDS += "libxml-namespacesupport-perl-native"
+ RDEPENDS:${PN} += "libxml-namespacesupport-perl libxml-sax-base-perl perl-module-file-temp"
+ 
+diff --git a/meta/recipes-extended/pigz/pigz_2.8.bb b/meta/recipes-extended/pigz/pigz_2.8.bb
+index fcf0c93e41..9c949097c4 100644
+--- a/meta/recipes-extended/pigz/pigz_2.8.bb
++++ b/meta/recipes-extended/pigz/pigz_2.8.bb
+@@ -5,7 +5,7 @@ multiple cores to the hilt when compressing data. pigz was written by Mark \
+ Adler, and uses the zlib and pthread libraries."
+ HOMEPAGE = "http://zlib.net/pigz/"
+ SECTION = "console/utils"
+-LICENSE = "Zlib & Apache-2.0"
++LICENSE = "Apache-2.0 AND Zlib"
+ LIC_FILES_CHKSUM = "file://pigz.c;md5=9ae6dee8ceba9610596ed0ada493d142;beginline=7;endline=21"
+ 
+ SRC_URI = "http://zlib.net/${BPN}/fossils/${BP}.tar.gz"
+diff --git a/meta/recipes-extended/procps/procps_4.0.6.bb b/meta/recipes-extended/procps/procps_4.0.6.bb
+index a9ec3f39d6..2437be1c3a 100644
+--- a/meta/recipes-extended/procps/procps_4.0.6.bb
++++ b/meta/recipes-extended/procps/procps_4.0.6.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Procps contains a set of system utilities that provide system inf
+ the /proc filesystem. The package includes the programs ps, top, vmstat, w, kill, and skill."
+ HOMEPAGE = "https://gitlab.com/procps-ng/procps"
+ SECTION = "base"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LIB;md5=4cf66a4984120007c9881cc871cf49db \
+                     "
+diff --git a/meta/recipes-extended/quota/quota_4.11.bb b/meta/recipes-extended/quota/quota_4.11.bb
+index 811056f1f7..de6a7a56e5 100644
+--- a/meta/recipes-extended/quota/quota_4.11.bb
++++ b/meta/recipes-extended/quota/quota_4.11.bb
+@@ -3,7 +3,7 @@ SECTION = "base"
+ HOMEPAGE = "http://sourceforge.net/projects/linuxquota/"
+ DESCRIPTION = "Tools and patches for the Linux Diskquota system as part of the Linux kernel"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=18136&atid=118136"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://rquota_server.c;beginline=1;endline=20;md5=fe7e0d7e11c6f820f8fa62a5af71230f \
+                     file://svc_socket.c;beginline=1;endline=17;md5=24d5a8792da45910786eeac750be8ceb"
+ 
+diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
+index d66ef1e6a4..54ef18479e 100644
+--- a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
++++ b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Shadow utils requirements for useradd.bbclass"
+ HOMEPAGE = "http://github.com/shadow-maint/shadow"
+ BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
+ SECTION = "base utils"
+-LICENSE = "BSD-3-Clause | Artistic-1.0"
++LICENSE = "Artistic-1.0 OR BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://login.defs_shadow-sysroot;endline=1;md5=ceddfb61608e4db87012499555184aed"
+ 
+ DEPENDS = "base-passwd"
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index a23de1fcf7..f80a35539e 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -3,7 +3,7 @@ DESCRIPTION = "Sudo (superuser do) allows a system administrator to give certain
+ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+-LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND ISC AND Zlib"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=2841c822e587db145364ca95e9be2ffa \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 47f9ac2855..8939cd2cb5 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -3,7 +3,7 @@ DESCRIPTION = "The Time Zone Database contains code and data that represent \
+ the history of local time for many representative locations around the globe."
+ HOMEPAGE = "http://www.iana.org/time-zones"
+ SECTION = "base"
+-LICENSE = "PD & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+ PV = "2026c"
+diff --git a/meta/recipes-extended/zstd/zstd_1.5.7.bb b/meta/recipes-extended/zstd/zstd_1.5.7.bb
+index e5088e2d0d..4960ed5b48 100644
+--- a/meta/recipes-extended/zstd/zstd_1.5.7.bb
++++ b/meta/recipes-extended/zstd/zstd_1.5.7.bb
+@@ -7,7 +7,7 @@ SECTION = "console/utils"
+ 
+ PROVIDES += "zstd-decompress"
+ 
+-LICENSE = "BSD-3-Clause | GPL-2.0-only"
++LICENSE = "BSD-3-Clause OR GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=0822a32f7acdbe013606746641746ee8 \
+                     file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0 \
+                     "
+diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_2026.1.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_2026.1.bb
+index 5d3fc40374..7d4e903bfa 100644
+--- a/meta/recipes-gnome/gi-docgen/gi-docgen_2026.1.bb
++++ b/meta/recipes-gnome/gi-docgen/gi-docgen_2026.1.bb
+@@ -5,7 +5,7 @@ introspection data generated by GObject-based libraries to generate the API \
+ reference of these libraries, as well as other ancillary documentation."
+ HOMEPAGE = "https://gnome.pages.gitlab.gnome.org/gi-docgen/"
+ 
+-LICENSE = "GPL-3.0-or-later & Apache-2.0"
++LICENSE = "Apache-2.0 AND GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://gi-docgen.py;beginline=1;endline=5;md5=2dc0f1f01202478cfe813c0e7f80b326"
+ 
+ SRC_URI = "git://gitlab.gnome.org/GNOME/gi-docgen.git;protocol=https;branch=main;tag=${PV}"
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_50.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_50.0.bb
+index 8d26aae75c..b0dc59353d 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_50.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_50.0.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://gitlab.gnome.org/GNOME/adwaita-icon-theme"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/adwaita-icon-theme/issues"
+ SECTION = "x11/gnome"
+ 
+-LICENSE = "LGPL-3.0-only | CC-BY-SA-3.0"
++LICENSE = "CC-BY-SA-3.0 OR LGPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
+                     file://COPYING_CCBYSA3;md5=96143d33de3a79321b1006c4e8ed07e7 \
+                     file://COPYING_LGPL;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+index 51cae5fff6..91525f99b7 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+@@ -6,7 +6,7 @@ generation for bindings, API verification and documentation generation."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/gobject-introspection"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gobject-introspection/issues"
+ SECTION = "libs"
+-LICENSE = "LGPL-2.0-or-later & GPL-2.0-or-later & MIT"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.0-or-later AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+                     file://tools/compiler.c;endline=20;md5=fc5007fc20022720e6c0b0cdde41fabd \
+                     file://giscanner/sourcescanner.c;endline=22;md5=194d6e0c1d00662f32d030ce44de8d39 \
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb
+index 1fcc08443d..f385901bef 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb
+@@ -13,7 +13,7 @@ CVE_PRODUCT = "gnome:gtk gtk:gtk+"
+ 
+ DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf gdk-pixbuf-native"
+ 
+-LICENSE = "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "LGPL-2.0-only AND LGPL-2.0-or-later AND LGPL-2.1-or-later"
+ 
+ GNOMEBN = "gtk"
+ 
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb b/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb
+index bb2e041595..1d2e4bf9b8 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb
+@@ -25,7 +25,7 @@ DEPENDS = " \
+     tiff \
+ "
+ 
+-LICENSE = "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "LGPL-2.0-only AND LGPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = " \
+     file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+     file://gtk/gtk.h;endline=25;md5=61900d77e8d5bc67cf15ad93de9a3490 \
+diff --git a/meta/recipes-graphics/cairo/cairo_1.18.4.bb b/meta/recipes-graphics/cairo/cairo_1.18.4.bb
+index 0ed81166b5..ae448101d9 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.18.4.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.18.4.bb
+@@ -10,12 +10,12 @@ HOMEPAGE = "http://cairographics.org"
+ BUGTRACKER = "https://gitlab.freedesktop.org/cairo/cairo/-/issues"
+ SECTION = "libs"
+ 
+-LICENSE = "(MPL-1.1 | LGPL-2.1-only) & GPL-3.0-or-later"
+-LICENSE:${PN} = "MPL-1.1 | LGPL-2.1-only"
+-LICENSE:${PN}-dev = "MPL-1.1 | LGPL-2.1-only"
+-LICENSE:${PN}-doc = "MPL-1.1 | LGPL-2.1-only"
+-LICENSE:${PN}-gobject = "MPL-1.1 | LGPL-2.1-only"
+-LICENSE:${PN}-script-interpreter = "MPL-1.1 | LGPL-2.1-only"
++LICENSE = "GPL-3.0-or-later AND (LGPL-2.1-only OR MPL-1.1)"
++LICENSE:${PN} = "LGPL-2.1-only OR MPL-1.1"
++LICENSE:${PN}-dev = "LGPL-2.1-only OR MPL-1.1"
++LICENSE:${PN}-doc = "LGPL-2.1-only OR MPL-1.1"
++LICENSE:${PN}-gobject = "LGPL-2.1-only OR MPL-1.1"
++LICENSE:${PN}-script-interpreter = "LGPL-2.1-only OR MPL-1.1"
+ LICENSE:${PN}-perf-utils = "GPL-3.0-or-later"
+ # Adapt the licenses for cairo-dbg and cairo-src depending on whether
+ # cairo-trace is being built.
+diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb
+index 6e32d1b861..be961f4d33 100644
+--- a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb
++++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb
+@@ -7,7 +7,7 @@ DESCRIPTION = "The Cantarell font typeface is designed as a \
+ 
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/cantarell-fonts/"
+ SECTION = "fonts"
+-LICENSE = "OFL-1.1 & Apache-2.0"
++LICENSE = "Apache-2.0 AND OFL-1.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fb1ef92b6909969a472a6ea3c4e99cb7"
+ 
+ inherit gnomebase allarch fontcache
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.18.2.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.18.2.bb
+index d2b6050081..792d44b7f0 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.18.2.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.18.2.bb
+@@ -11,7 +11,7 @@ rasterize fonts."
+ HOMEPAGE = "http://www.fontconfig.org"
+ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig"
+ 
+-LICENSE = "MIT & PD"
++LICENSE = "MIT AND LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=00252fd272bf2e722925613ad74cb6c7 \
+                     file://src/fcfreetype.c;endline=23;md5=f7c0140c1b0387cf4cf45420b059847c \
+                     "
+diff --git a/meta/recipes-graphics/freetype/freetype_2.14.3.bb b/meta/recipes-graphics/freetype/freetype_2.14.3.bb
+index a7a8585b15..924bcbfc4f 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.14.3.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.14.3.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "https://freetype.org/"
+ BUGTRACKER = "https://gitlab.freedesktop.org/groups/freetype/-/issues"
+ SECTION = "libs"
+ 
+-LICENSE = "(FTL | GPL-2.0-or-later) & MIT"
++LICENSE = "MIT AND (FTL OR GPL-2.0-or-later)"
+ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=eeb073d5fb86d23c52bb9b84aa256307 \
+                     file://docs/FTL.TXT;md5=72d844cd2f3bcaf6a85244b508032be7 \
+                     file://docs/GPLv2.TXT;md5=8ef380476f642c20ebf40fecb0add2ec \
+diff --git a/meta/recipes-graphics/glslang/glslang_1.4.350.1.bb b/meta/recipes-graphics/glslang/glslang_1.4.350.1.bb
+index bc33931b3c..4d31a19e76 100644
+--- a/meta/recipes-graphics/glslang/glslang_1.4.350.1.bb
++++ b/meta/recipes-graphics/glslang/glslang_1.4.350.1.bb
+@@ -5,7 +5,7 @@ of the specifications for these languages. It is open and free for anyone to use
+ either from a command line or programmatically."
+ SECTION = "graphics"
+ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+-LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
++LICENSE = "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND GPL-3.0-or-later WITH Bison-exception-2.2"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=50ff9d0fcde2d5b953ebe431c48e34e3"
+ 
+ SRCREV = "275822a6261ee689aadb1da5f09a0ec2f058685c"
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
+index 98e2f00a57..8950441976 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Hardware accelerated JPEG compression/decompression library"
+ DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructions (MMX, SSE2, NEON) to accelerate baseline JPEG compression and decompression"
+ HOMEPAGE = "http://libjpeg-turbo.org/"
+ 
+-LICENSE = "IJG & BSD-3-Clause & Zlib"
++LICENSE = "BSD-3-Clause AND IJG AND Zlib"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=d21daef3b4b318f77062055059c72934"
+ 
+ DEPENDS:append:x86-64:class-target = " nasm-native"
+diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.14.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.14.bb
+index 9de44d4c95..0712e9ecac 100644
+--- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.14.bb
++++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.14.bb
+@@ -7,7 +7,7 @@ SECTION = "x11/libs"
+ HOMEPAGE = "http://matchbox-project.org/"
+ BUGTRACKER = "http://bugzilla.yoctoproject.com/"
+ 
+-LICENSE = "LGPL-2.0-or-later & HPND"
++LICENSE = "HPND AND LGPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87712c91ca9a2c2d475a0604c00f8f54 \
+                     file://COPYING.HPND;md5=508defeea3622831e69c4827a31d6db0"
+ 
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+index 091ce8ed8b..6038d3eb1d 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+@@ -7,7 +7,7 @@ BUGTRACKER = "http://bugzilla.libsdl.org/"
+ 
+ SECTION = "libs"
+ 
+-LICENSE = "Zlib & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND Zlib"
+ LIC_FILES_CHKSUM = "\
+     file://LICENSE.txt;md5=cbf0e3161523f9a9315b6b915c5c4457 \
+     file://src/hidapi/LICENSE.txt;md5=7c3949a631240cb6c31c50f3eb696077 \
+diff --git a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
+index e7fb297448..ad17f7632b 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
++++ b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://mesa3d.org"
+ BUGTRACKER = "https://bugs.freedesktop.org"
+ SECTION = "x11"
+ 
+-LICENSE = "MIT & PD"
++LICENSE = "MIT AND LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=5;md5=2c456e2fe0a0a05d31a72e076d404528 \
+                     file://src/xdemos/glxdemo.c;beginline=1;endline=8;md5=b01d5ab1aee94d35b7efaa2ef48e1a06"
+ 
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index a020d67bbf..a3203464d1 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Piglit is an open-source test suite for OpenGL and OpenCL \
+ implementations."
+ HOMEPAGE = "https://gitlab.freedesktop.org/mesa/piglit"
+ BUGTRACKER = "https://gitlab.freedesktop.org/mesa/piglit/-/issues"
+-LICENSE = "MIT & LGPL-2.0-or-later & GPL-3.0-only & GPL-2.0-or-later & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND GPL-2.0-or-later AND GPL-3.0-only AND LGPL-2.0-or-later AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ 
+ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=main \
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.4.350.1.bb b/meta/recipes-graphics/spir/spirv-headers_1.4.350.1.bb
+index c4a7be4045..c4af29652d 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.4.350.1.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.4.350.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Machine-readable files for the SPIR-V Registry"
+ SECTION = "graphics"
+ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+-LICENSE = "MIT & CC-BY-4.0"
++LICENSE = "CC-BY-4.0 AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a0dcaa512cc2dee95fe0fd791ee83a18"
+ 
+ SRCREV = "ad9184e76a66b1001c29db9b0a3e87f646c64de0"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.1.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.1.bb
+index ff5108e013..f6d797cae7 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.1.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.1.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "https://www.khronos.org/vulkan/"
+ BUGTRACKER = "https://github.com/KhronosGroup/Vulkan-Headers"
+ SECTION = "libs"
+ 
+-LICENSE = "Apache-2.0 & MIT"
++LICENSE = "Apache-2.0 AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https;tag=vulkan-sdk-${PV}"
+ 
+diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb
+index 367438e1e1..163fe0beea 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://www.khronos.org/vulkan/"
+ BUGTRACKER = "https://github.com/KhronosGroup/Vulkan-ValidationLayers"
+ SECTION = "libs"
+ 
+-LICENSE = "Apache-2.0 & MIT & BSL-1.0 "
++LICENSE = "Apache-2.0 AND BSL-1.0 AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b1a17d548e004bfbbfaa0c40988b6b31"
+ 
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.4.350;protocol=https;tag=vulkan-sdk-${PV}"
+diff --git a/meta/recipes-graphics/xorg-font/encodings_1.1.0.bb b/meta/recipes-graphics/xorg-font/encodings_1.1.0.bb
+index 7432c08ec0..4f240d17a6 100644
+--- a/meta/recipes-graphics/xorg-font/encodings_1.1.0.bb
++++ b/meta/recipes-graphics/xorg-font/encodings_1.1.0.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "The encodings that map to specific characters for a \
+ number of Xorg and common fonts."
+ 
+ require xorg-font-common.inc
+-LICENSE = "PD"
++LICENSE = "LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=9da93f2daf2d5572faa2bfaf0dbd9e76"
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-font/font-util_1.4.2.bb b/meta/recipes-graphics/xorg-font/font-util_1.4.2.bb
+index 2b38c10ad3..05f246bf20 100644
+--- a/meta/recipes-graphics/xorg-font/font-util_1.4.2.bb
++++ b/meta/recipes-graphics/xorg-font/font-util_1.4.2.bb
+@@ -2,7 +2,7 @@ SUMMARY = "X.Org font package creation/installation utilities"
+ 
+ require xorg-font-common.inc
+ 
+-LICENSE = "Unicode-TOU & MIT & X11 & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND MIT AND Unicode-TOU AND X11"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=756e7412ee04c80f5833cd2f35242f7a \
+                     file://ucs2any.c;endline=28;md5=8357dc567fc628bd12696f15b2a33bcb \
+                     file://bdftruncate.c;endline=26;md5=4f82ffc101a1b165eae9c6998abff937 \
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+index 97c8be0a07..4e48b92fb2 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
++++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://www.x.org"
+ SECTION = "x11/fonts"
+ 
+ # Compiled fonts from https://gitlab.freedesktop.org/xorg/font/misc-misc/
+-LICENSE = "PD"
++LICENSE = "LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://../misc/fonts.dir;md5=82a143d94d6a974aafe97132d2d519ab \
+                     file://../misc/cursor.pcf.gz;md5=40bc81001fef4c21ca08df4305014a2a"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb
+index 4bf9f07aba..fc0c602b96 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "This package provides the compose data files for libx11."
+ 
+ require xorg-lib-common.inc
+ 
+-LICENSE = "MIT & BSD-1-Clause & HPND & HPND-sell-variant & ISC"
++LICENSE = "BSD-1-Clause AND HPND AND HPND-sell-variant AND ISC AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1d49cdd2b386c5db11ec636d680b7116"
+ 
+ XORG_PN = "libX11"
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb
+index f5c27e0102..c06832e35e 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb
+@@ -6,7 +6,7 @@ basic functions of the window system."
+ 
+ require xorg-lib-common.inc
+ 
+-LICENSE = "MIT & BSD-1-Clause & HPND & HPND-sell-variant & ISC"
++LICENSE = "BSD-1-Clause AND HPND AND HPND-sell-variant AND ISC AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8f2a1d92c4a50eedcf7c12672b908851"
+ 
+ DEPENDS += "xorgproto \
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.8.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.8.bb
+index 192c41d41c..33cf5816e0 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.8.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.8.bb
+@@ -6,7 +6,7 @@ such as freetype)."
+ 
+ require xorg-lib-common.inc
+ 
+-LICENSE = "MIT & MIT & BSD-4-Clause-UC & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND BSD-4-Clause-UC AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a5d1388c9d40be70dbad35fa440443f7"
+ 
+ DEPENDS += "freetype xtrans xorgproto libfontenc zlib"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+index 9ec7cc30f5..f70b4e2ad3 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+@@ -6,7 +6,7 @@ such as freetype)."
+ 
+ require xorg-lib-common.inc
+ 
+-LICENSE = "MIT & MIT & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a46c8040f2f737bcd0c435feb2ab1c2c"
+ 
+ DEPENDS += "freetype xtrans xorgproto libfontenc zlib"
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb b/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
+index d7e778610e..240215379f 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
+@@ -7,7 +7,7 @@ input devices other than the core X keyboard and pointer.  It allows \
+ client programs to select input from these devices independently from \
+ each other and independently from the core devices."
+ 
+-LICENSE = "MIT & MIT"
++LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=17b064789fab936a1c58c4e13d965b0f \
+                     file://src/XIGetDevFocus.c;endline=23;md5=cdfb0d435a33ec57ea0d1e8e395b729f"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb
+index ac02ad87c8..45e1352761 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
+ processes a reduced subset of keymaps as defined by the XKB specification."
+ HOMEPAGE = "http://www.xkbcommon.org"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=70eff33050c59f900f5b83275dcf1211"
+-LICENSE = "MIT & MIT-open-group & HPND & HPND-sell-variant & X11"
++LICENSE = "HPND AND HPND-sell-variant AND MIT AND MIT-open-group AND X11"
+ 
+ DEPENDS = "flex-native bison-native"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxmu_1.3.1.bb b/meta/recipes-graphics/xorg-lib/libxmu_1.3.1.bb
+index 9f0c65ee94..bd29691826 100644
+--- a/meta/recipes-graphics/xorg-lib/libxmu_1.3.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxmu_1.3.1.bb
+@@ -9,7 +9,7 @@ second library, libXmuu."
+ 
+ require xorg-lib-common.inc
+ 
+-LICENSE = "MIT & MIT"
++LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e79ad4fcc53b9bfe0fc38507a56446b9"
+ 
+ DEPENDS += "libxt libxext"
+diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb b/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb
+index 97323ad282..5503605e7e 100644
+--- a/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb
+@@ -12,7 +12,7 @@ independent of any particular user interface policy or style."
+ 
+ require xorg-lib-common.inc
+ 
+-LICENSE = "MIT & MIT"
++LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d6e9ca2c4b2276625afe025b0a2a4d8c"
+ 
+ DEPENDS += "util-linux libxcb libsm virtual/libx11 xorgproto libxdmcp"
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
+index 468871f114..d86aa78b9a 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
+@@ -15,7 +15,7 @@ UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+ 
+ PE = "1"
+ 
+-LICENSE = "MIT & HPND-sell-variant"
++LICENSE = "HPND-sell-variant AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
+                     file://pixman/pixman-matrix.c;endline=21;md5=4a018dff3e4e25302724c88ff95c2456 \
+                     file://pixman/pixman-arm-neon-asm.h;endline=24;md5=9a9cc1e51abbf1da58f4d9528ec9d49b \
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb
+index dc0d1e1677..ef3579464d 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb
+@@ -9,7 +9,7 @@ systems."
+ HOMEPAGE = "http://freedesktop.org/wiki/Software/XKeyboardConfig"
+ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-config"
+ 
+-LICENSE = "MIT & MIT"
++LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=faa756e04053029ddc602caf99e5ef1d"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 782c1f76ca..7c0a24e58b 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -1,7 +1,7 @@
+ SUMMARY = "The X.Org X server"
+ HOMEPAGE = "http://www.x.org"
+ SECTION = "x11/base"
+-LICENSE = "MIT & Adobe-Display-PostScript & BSD-3-Clause & DEC-3-Clause & HPND & HPND-Netrek & HPND-sell-MIT-disclaimer-xserver & HPND-sell-variant & HPND-UC & ICU & ISC & MIT-open-group & NTP & SGI-B-2.0 & SMLNJ & X11 & X11-no-permit-persons"
++LICENSE = "Adobe-Display-PostScript AND BSD-3-Clause AND DEC-3-Clause AND HPND AND HPND-Netrek AND HPND-UC AND HPND-sell-MIT-disclaimer-xserver AND HPND-sell-variant AND ICU AND ISC AND MIT AND MIT-open-group AND NTP AND SGI-B-2.0 AND SMLNJ AND X11 AND X11-no-permit-persons"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f8778cfcd90ece0e4b225f30182227ca"
+ 
+ # xf86-*-* packages depend on an X server built with the xfree86 DDX
+diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.13.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.13.bb
+index 41bf1687a2..1f32177ec5 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_24.1.13.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_24.1.13.bb
+@@ -6,7 +6,7 @@ the transition from X Window System to Wayland environments, providing \
+ a way to run unported applications in the meantime."
+ HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
+ 
+-LICENSE = "MIT & Adobe-Display-PostScript & BSD-3-Clause & DEC-3-Clause & HPND & HPND-Netrek & HPND-sell-MIT-disclaimer-xserver & HPND-sell-variant & HPND-UC & ICU & ISC & MIT-open-group & NTP & SGI-B-2.0 & SMLNJ & X11 & X11-no-permit-persons"
++LICENSE = "Adobe-Display-PostScript AND BSD-3-Clause AND DEC-3-Clause AND HPND AND HPND-Netrek AND HPND-UC AND HPND-sell-MIT-disclaimer-xserver AND HPND-sell-variant AND ICU AND ISC AND MIT AND MIT-open-group AND NTP AND SGI-B-2.0 AND SMLNJ AND X11 AND X11-no-permit-persons"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f8778cfcd90ece0e4b225f30182227ca"
+ 
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+diff --git a/meta/recipes-kernel/dtc/dtc_1.8.1.bb b/meta/recipes-kernel/dtc/dtc_1.8.1.bb
+index 5c3b1d7a6d..e2c7edcc46 100644
+--- a/meta/recipes-kernel/dtc/dtc_1.8.1.bb
++++ b/meta/recipes-kernel/dtc/dtc_1.8.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Device Tree Compiler"
+ HOMEPAGE = "https://devicetree.org/"
+ DESCRIPTION = "The Device Tree Compiler is a toolchain for working with device tree source and binary files."
+ SECTION = "bootloader"
+-LICENSE = "GPL-2.0-only | BSD-2-Clause"
++LICENSE = "BSD-2-Clause OR GPL-2.0-only"
+ 
+ LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://BSD-2-Clause;md5=5d6306d1b08f8df623178dfd81880927 \
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 2e13e4ca31..cb09800535 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Powerful set of tools or managing Yocto Linux kernel sources \
+ and configuration data. You can use these tools to make a single configuration \
+ change, apply multiple patches, or work with your own kernel sources."
+ HOMEPAGE = "https://www.yoctoproject.org/"
+-LICENSE = "GPL-2.0-only & MIT"
++LICENSE = "GPL-2.0-only AND MIT"
+ LIC_FILES_CHKSUM = "\
+ 	file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249624278c3e343e501 \
+ 	file://Kconfiglib/LICENSE.txt;md5=712177a72a3937909543eda3ad1bfb7c \
+diff --git a/meta/recipes-kernel/kmod/kmod_34.2.bb b/meta/recipes-kernel/kmod/kmod_34.2.bb
+index e5923a64cf..892468a87e 100644
+--- a/meta/recipes-kernel/kmod/kmod_34.2.bb
++++ b/meta/recipes-kernel/kmod/kmod_34.2.bb
+@@ -5,7 +5,7 @@ SUMMARY = "Tools for managing Linux kernel modules"
+ DESCRIPTION = "kmod is a set of tools to handle common tasks with Linux kernel modules like \
+                insert, remove, list, check properties, resolve dependencies and aliases."
+ HOMEPAGE = "http://kernel.org/pub/linux/utils/kernel/kmod/"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:libkmod = "LGPL-2.1-or-later"
+ SECTION = "base"
+ 
+diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
+index 0dee0ebcc2..a44253a567 100644
+--- a/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
++++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.9.0.bb
+@@ -3,7 +3,7 @@
+ 
+ SUMMARY = "API to access the kernel tracefs directory"
+ HOMEPAGE = "https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97 \
+                     file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
+ SECTION = "libs"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-fitimage.bb b/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
+index 6ce1960a87..4dcffb6209 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
+@@ -3,7 +3,7 @@ SECTION = "kernel"
+ 
+ # If an initramfs is included in the FIT image more licenses apply.
+ # But also the kernel uses more than one license (see Documentation/process/license-rules.rst)
+-LICENSE = "GPL-2.0-with-Linux-syscall-note"
++LICENSE = "GPL-2.0-only WITH Linux-syscall-note"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note;md5=0bad96c422c41c3a94009dcfe1bff992"
+ 
+ inherit linux-kernel-base kernel-fit-image
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 4e230d405a..477eecb0ee 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -1,6 +1,6 @@
+ SUMMARY = "Linux kernel"
+ SECTION = "kernel"
+-LICENSE = "GPL-2.0-with-Linux-syscall-note"
++LICENSE = "GPL-2.0-only WITH Linux-syscall-note"
+ HOMEPAGE = "https://www.yoctoproject.org/"
+ 
+ LIC_FILES_CHKSUM ?= "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
+index b0cd6efde1..7c151bf729 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Babeltrace2 - Trace Format Babel Tower"
+ DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
+ HOMEPAGE = "http://babeltrace.org/"
+ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+-LICENSE = "MIT & GPL-2.0-only & LGPL-2.1-only & BSD-2-Clause & BSD-4-Clause & GPL-3.0-or-later & CC-BY-SA-4.0 & PSF-2.0"
++LICENSE = "BSD-2-Clause AND BSD-4-Clause AND CC-BY-SA-4.0 AND GPL-2.0-only AND GPL-3.0-or-later AND LGPL-2.1-only AND MIT AND PSF-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6b015e4f388d6e78adb1b1f9a887d06"
+ 
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native virtual/libiconv swig-native"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb
+index e281ed2fd8..49f2bc8eb2 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb
+@@ -2,7 +2,7 @@ SECTION = "devel"
+ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+ DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
+ HOMEPAGE = "https://lttng.org/"
+-LICENSE = "LGPL-2.1-only & GPL-2.0-only & MIT"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=018e002dbdda3306682e394ddd65fa32"
+ 
+ inherit module
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
+index 9fdb0ede72..9a56d1711b 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
+@@ -5,7 +5,7 @@ to extract program execution details from the Linux operating system \
+ and interpret them."
+ HOMEPAGE = "https://github.com/lttng/lttng-tools"
+ 
+-LICENSE = "GPL-2.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=40ef17463fbd6f377db3c47b1cbaded8 \
+                     file://LICENSES/GPL-2.0;md5=e68f69a54b44ba526ad7cb963e18fbce \
+                     file://LICENSES/LGPL-2.1;md5=9920968d0f2ff585ce61fae30344dd95"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.15.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.15.1.bb
+index d731aa2eb0..9f1d0961a1 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.15.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.15.1.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "The LTTng UST 2.x package contains the userspace tracer library t
+ HOMEPAGE = "http://lttng.org/ust"
+ BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
+ 
+-LICENSE = "LGPL-2.1-or-later & MIT & GPL-2.0-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-or-later AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b04e8f34dbcf08198c6618d05e8fe7b"
+ 
+ PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+index 0c81e3cb3b..1033250204 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+@@ -4,7 +4,7 @@ provides a level of abstraction over the /dev interfaces provided by the kernel
+ HOMEPAGE = "http://www.alsa-project.org"
+ BUGTRACKER = "http://alsa-project.org/main/index.php/Bug_Tracking"
+ SECTION = "libs/multimedia"
+-LICENSE = "LGPL-2.1-only & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     file://src/socket.c;md5=285675b45e83f571c6a957fe4ab79c93;beginline=9;endline=24 \
+                     "
+diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.12.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.12.bb
+index 7db0c4d677..793f6a7eba 100644
+--- a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.12.bb
++++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.12.bb
+@@ -16,7 +16,7 @@ CVE_PRODUCT = "alsa"
+ # consistent with the libsamplerate license. However, if the licensee has a
+ # commercial license for libsamplerate, the samplerate plugin may be used under
+ # the terms of LGPL-2.1-only like the rest of the plugins.
+-LICENSE = "LGPL-2.1-only & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     file://COPYING.GPL;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://m4/attributes.m4;endline=33;md5=bb8c6b2a67ac15156961e242fec33e50 \
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.2.15.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.2.15.bb
+index 1228176fb9..b58f106cec 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.2.15.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.2.15.bb
+@@ -5,7 +5,7 @@ firmware loaders for pcmcia, USB and the hdsp devices."
+ HOMEPAGE = "http://www.alsa-project.org"
+ BUGTRACKER = "http://alsa-project.org/main/index.php/Bug_Tracking"
+ SECTION = "console/utils"
+-LICENSE = "GPL-2.0-only & LGPL-2.0-or-later"
++LICENSE = "GPL-2.0-only AND LGPL-2.0-or-later"
+ DEPENDS = "alsa-lib"
+ 
+ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.2.bb
+index 38eccbf2ad..26614762e5 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.2.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "FFmpeg is the leading multimedia framework, able to decode, encod
+ HOMEPAGE = "https://www.ffmpeg.org/"
+ SECTION = "libs"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & ISC & MIT & BSD-2-Clause & BSD-3-Clause & IJG"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-or-later AND IJG AND ISC AND LGPL-2.1-or-later AND MIT"
+ LICENSE:${PN} = "GPL-2.0-or-later"
+ LICENSE:libavcodec = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-later', 'LGPL-2.1-or-later', d)}"
+ LICENSE:libavdevice = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-later', 'LGPL-2.1-or-later', d)}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
+index a406f4783f..4051bcf7f2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
+@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "332b7320f30c60f2d5941446d03b9d05e3781f2c2561befbe88718bd77
+ 
+ S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
+ 
+-LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ DEPENDS += "gstreamer1.0-plugins-base"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
+index 4c0811a056..04df81f6d8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-ugly/-/issues
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                    "
+ 
+-LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LICENSE_FLAGS = "commercial"
+ 
+ SRC_URI = " \
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
+index 3462803cb2..47f1b3f4dc 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Library provides support for the Tag Image File Format \
+ (TIFF), a widely used format for storing image data.  This library \
+ provide means to easily access and create TIFF image files."
+ HOMEPAGE = "http://www.libtiff.org/"
+-LICENSE = "libtiff & BSD-4.3TAHOE"
++LICENSE = "BSD-4.3TAHOE AND libtiff"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ab490c3088a0acff254eb2f8c577547"
+ 
+ CVE_PRODUCT = "libtiff"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 30305fa44a..975929918f 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -45,7 +45,7 @@ SECTION = "libs/multimedia"
+ # libdbus is a system library that is covered by the "special exception" in
+ # GPLv2's section 3, and therefore libdbus's GPL license doesn't affect
+ # PulseAudio.
+-LICENSE = "LGPL-2.1-or-later & MIT & BSD-3-Clause"
++LICENSE = "BSD-3-Clause AND LGPL-2.1-or-later AND MIT"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5cd938de1a7a53ea5adac38cc10c39 \
+                     file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+diff --git a/meta/recipes-multimedia/sbc/sbc_2.2.bb b/meta/recipes-multimedia/sbc/sbc_2.2.bb
+index ace764d5d3..0050144c21 100644
+--- a/meta/recipes-multimedia/sbc/sbc_2.2.bb
++++ b/meta/recipes-multimedia/sbc/sbc_2.2.bb
+@@ -2,7 +2,7 @@ SUMMARY = "SBC Audio Codec"
+ DESCRIPTION = "Bluetooth low-complexity, subband codec (SBC) library."
+ HOMEPAGE = "https://www.bluez.org"
+ SECTION = "libs"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+ LICENSE:${PN}-examples = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_git.bb b/meta/recipes-rt/rt-tests/rt-tests_git.bb
+index 1f48e143d4..aea3d82e20 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests_git.bb
++++ b/meta/recipes-rt/rt-tests/rt-tests_git.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://wiki.linuxfoundation.org/realtime/documentation/start"
+ DESCRIPTION = "The main aim of the PREEMPT_RT patch is to minimize the amount of kernel code that is non-preemptible Therefore several substitution mechanisms and new mechanisms are implemented."
+ SECTION = "tests"
+ DEPENDS = "linux-libc-headers virtual/libc numactl"
+-LICENSE = "GPL-2.0-only & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-only AND GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+ require rt-tests.inc
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.3.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.3.bb
+index 85e5300520..69a8c7472f 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.3.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.3.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "A lightweight windows manager for embedded systems. It uses the d
+ HOMEPAGE = "http://matchbox-project.org/"
+ BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://src/desktop.c;endline=20;md5=2e488557570c7dee53bfd0567e4273a9 \
+                     file://src/main.c;endline=19;md5=5d2234b35efa927ab3ae36ebac52ba59"
+diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
+index 2e463cd7b3..844589d43f 100644
+--- a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
++++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.2.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Fast lightweight tabbed filemanager"
+ DESCRIPTION = "A free file manager application and the standard file manager of LXDE."
+ HOMEPAGE = "http://pcmanfm.sourceforge.net/"
+ 
+-LICENSE = "GPL-2.0-only & GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/pcmanfm.h;endline=22;md5=417b3855771a3a87f8ad753d994491f0 \
+                     file://src/gseal-gtk-compat.h;endline=21;md5=46922c8691f58d124f9420fe16149ce2"
+diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
+index a2af4faed3..27850a8b98 100644
+--- a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
++++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Ultra-simple screen capture utility, aimed at handheld devices"
+ HOMEPAGE = "http://www.o-hand.com"
+ BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+ 
+-LICENSE = "GPL-2.0-only & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-only AND GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://main.c;endline=9;md5=023e14d6404d0a961eb97cbd011fc141 \
+                     file://screenshot-ui.h;endline=9;md5=638d9ffa83e9325a36df224166ed6ad0"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb
+index 1a834733ce..945d7b77cb 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb
+@@ -2,7 +2,7 @@ SUMMARY = "WebKit web rendering engine for the GTK+ platform"
+ HOMEPAGE = "https://www.webkitgtk.org/"
+ BUGTRACKER = "https://bugs.webkit.org/"
+ 
+-LICENSE = "BSD-2-Clause & LGPL-2.0-or-later"
++LICENSE = "BSD-2-Clause AND LGPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d84286dda758da57bd691 \
+                     file://Source/WebCore/LICENSE-APPLE;md5=4646f90082c40bcf298c285f8bab0b12 \
+                     file://Source/WebCore/LICENSE-LGPL-2;md5=36357ffde2b64ae177b2494445b79d21 \
+diff --git a/meta/recipes-support/aspell/aspell_0.60.8.2.bb b/meta/recipes-support/aspell/aspell_0.60.8.2.bb
+index 5b4fab7c35..60d3376678 100644
+--- a/meta/recipes-support/aspell/aspell_0.60.8.2.bb
++++ b/meta/recipes-support/aspell/aspell_0.60.8.2.bb
+@@ -10,7 +10,7 @@ SECTION = "console/utils"
+ 
+ HOMEPAGE = "http://aspell.net/"
+ 
+-LICENSE = "LGPL-2.0-only | LGPL-2.1-only"
++LICENSE = "LGPL-2.0-only OR LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
+diff --git a/meta/recipes-support/attr/acl_2.4.0.bb b/meta/recipes-support/attr/acl_2.4.0.bb
+index ef9ee492a0..d470989acc 100644
+--- a/meta/recipes-support/attr/acl_2.4.0.bb
++++ b/meta/recipes-support/attr/acl_2.4.0.bb
+@@ -7,7 +7,7 @@ BUGTRACKER = "http://savannah.nongnu.org/bugs/?group=acl"
+ 
+ SECTION = "libs"
+ 
+-LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:${PN} = "GPL-2.0-or-later"
+ LICENSE:lib${BPN} = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
+diff --git a/meta/recipes-support/attr/attr_2.6.0.bb b/meta/recipes-support/attr/attr_2.6.0.bb
+index aa5e7eb98f..4af6c4fac2 100644
+--- a/meta/recipes-support/attr/attr_2.6.0.bb
++++ b/meta/recipes-support/attr/attr_2.6.0.bb
+@@ -6,7 +6,7 @@ SECTION = "libs"
+ 
+ DEPENDS = "virtual/libintl"
+ 
+-LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:${PN} = "GPL-2.0-or-later"
+ LICENSE:lib${BPN} = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
+diff --git a/meta/recipes-support/boost/boost-1.91.0.inc b/meta/recipes-support/boost/boost-1.91.0.inc
+index ba3f6062f3..dc68d7a336 100644
+--- a/meta/recipes-support/boost/boost-1.91.0.inc
++++ b/meta/recipes-support/boost/boost-1.91.0.inc
+@@ -4,7 +4,7 @@
+ # intended to be widely useful, and are in regular use by
+ # thousands of programmers across a broad spectrum of applications.
+ HOMEPAGE = "http://www.boost.org/"
+-LICENSE = "BSL-1.0 & MIT & Python-2.0"
++LICENSE = "BSL-1.0 AND MIT AND Python-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
+ 
+ BOOST_VER = "${@"_".join(d.getVar("PV").split("."))}"
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20260601.bb b/meta/recipes-support/ca-certificates/ca-certificates_20260601.bb
+index 1bc64fe34a..90a8568947 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20260601.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20260601.bb
+@@ -4,7 +4,7 @@ SSL-based applications to check for the authenticity of SSL connections. \
+ This derived from Debian's CA Certificates."
+ HOMEPAGE = "http://packages.debian.org/sid/ca-certificates"
+ SECTION = "misc"
+-LICENSE = "GPL-2.0-or-later & MPL-2.0"
++LICENSE = "GPL-2.0-or-later AND MPL-2.0"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=dab7c7cea776d1a1648deb0052c72647"
+ 
+ # This is needed to ensure we can run the postinst at image creation time
+diff --git a/meta/recipes-support/debianutils/debianutils_5.23.2.bb b/meta/recipes-support/debianutils/debianutils_5.23.2.bb
+index 29581c2b95..06bc4060c9 100644
+--- a/meta/recipes-support/debianutils/debianutils_5.23.2.bb
++++ b/meta/recipes-support/debianutils/debianutils_5.23.2.bb
+@@ -5,7 +5,7 @@ you may use them directly. "
+ HOMEPAGE = "https://packages.debian.org/sid/debianutils"
+ BUGTRACKER = "https://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=debianutils;dist=unstable"
+ SECTION = "base"
+-LICENSE = "GPL-2.0-only & SMAIL-GPL"
++LICENSE = "GPL-2.0-only AND SMAIL-GPL"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=4b667f30411d21bc8fd7db85d502a8e9"
+ 
+ SRC_URI = "git://salsa.debian.org/debian/debianutils.git;protocol=https;branch=master;tag=debian/${PV} \
+diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support/gmp/gmp_6.3.0.bb
+index 8f18bdca1b..579e112fc2 100644
+--- a/meta/recipes-support/gmp/gmp_6.3.0.bb
++++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
+@@ -1,6 +1,6 @@
+ require gmp.inc
+ 
+-LICENSE = "GPL-2.0-or-later | LGPL-3.0-or-later"
++LICENSE = "GPL-2.0-or-later OR LGPL-3.0-or-later"
+ 
+ LIC_FILES_CHKSUM = "\
+         file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+diff --git a/meta/recipes-support/gnupg/gnupg_2.5.20.bb b/meta/recipes-support/gnupg/gnupg_2.5.20.bb
+index 4146b12824..fc594793cc 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.5.20.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.5.20.bb
+@@ -5,7 +5,7 @@ and sign your data and communications; it features a versatile key \
+ management system, along with access modules for all kinds of public \
+ key directories."
+ HOMEPAGE = "http://www.gnupg.org/"
+-LICENSE = "GPL-3.0-only & LGPL-3.0-only"
++LICENSE = "GPL-3.0-only AND LGPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=189af8afca6d6075ba6c9e0aa8077626 \
+                     file://COPYING.LGPL3;md5=a2b6bf2cb38ee52619e60f30a1fc7257"
+ 
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.13.bb b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+index 943864d4ba..e360db6fff 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.13.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+@@ -4,7 +4,7 @@ TLS and DTLS protocols and technologies around them."
+ HOMEPAGE = "https://gnutls.org/"
+ BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+ 
+-LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-3.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+ LICENSE:${PN}-xx = "LGPL-2.1-or-later"
+ LICENSE:${PN}-bin = "GPL-3.0-or-later"
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.21.0.bb b/meta/recipes-support/gnutls/libtasn1_4.21.0.bb
+index 4570488c4c..236948a861 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.21.0.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.21.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "A highly portable C library that encodes and decodes \
+ DER/BER data following an ASN.1 schema. "
+ HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
+ 
+-LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-3.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:${PN}-bin = "GPL-3.0-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+diff --git a/meta/recipes-support/gpgme/gpgme_2.1.2.bb b/meta/recipes-support/gpgme/gpgme_2.1.2.bb
+index 328b544212..32db75fdfd 100644
+--- a/meta/recipes-support/gpgme/gpgme_2.1.2.bb
++++ b/meta/recipes-support/gpgme/gpgme_2.1.2.bb
+@@ -3,8 +3,8 @@ DESCRIPTION = "GnuPG Made Easy (GPGME) is a library designed to make access to G
+ HOMEPAGE = "http://www.gnupg.org/gpgme.html"
+ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & GPL-3.0-or-later"
+-LICENSE:${PN} = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later"
++LICENSE:${PN} = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:${PN}-tool = "GPL-3.0-or-later"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+diff --git a/meta/recipes-support/hwdata/hwdata_0.409.bb b/meta/recipes-support/hwdata/hwdata_0.409.bb
+index 543d24dc4e..7117c0857c 100644
+--- a/meta/recipes-support/hwdata/hwdata_0.409.bb
++++ b/meta/recipes-support/hwdata/hwdata_0.409.bb
+@@ -4,7 +4,7 @@ configuration data, such as the pci.ids and usb.ids databases."
+ HOMEPAGE = "https://github.com/vcrhonek/hwdata"
+ SECTION = "System/Base"
+ 
+-LICENSE = "GPL-2.0-or-later | X11"
++LICENSE = "GPL-2.0-or-later OR X11"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
+ 
+ SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https;tag=v${PV}"
+diff --git a/meta/recipes-support/icu/icu_78.3.bb b/meta/recipes-support/icu/icu_78.3.bb
+index ad920f3ef4..c057505e3c 100644
+--- a/meta/recipes-support/icu/icu_78.3.bb
++++ b/meta/recipes-support/icu/icu_78.3.bb
+@@ -5,7 +5,7 @@ internationalization (I18N) and globalization (G11N), giving applications the \
+ same results on all platforms."
+ HOMEPAGE = "https://icu.unicode.org/"
+ 
+-LICENSE = "ICU & MIT"
++LICENSE = "ICU AND MIT"
+ DEPENDS = "icu-native"
+ 
+ CVE_PRODUCT = "international_components_for_unicode"
+diff --git a/meta/recipes-support/libassuan/libassuan_3.0.2.bb b/meta/recipes-support/libassuan/libassuan_3.0.2.bb
+index 2ae2fa77cb..3c4ce4f1a3 100644
+--- a/meta/recipes-support/libassuan/libassuan_3.0.2.bb
++++ b/meta/recipes-support/libassuan/libassuan_3.0.2.bb
+@@ -5,7 +5,7 @@ Both, server and client side functions are provided. "
+ HOMEPAGE = "http://www.gnupg.org/related_software/libassuan/"
+ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ 
+-LICENSE = "GPL-3.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-3.0-or-later AND LGPL-2.1-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+ LICENSE:${PN}-doc = "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb
+index 82adf417a3..6bb25fcec5 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Package provides semi-portable access to hardware-provided atomic
+ HOMEPAGE = "https://github.com/bdwgc/libatomic_ops/"
+ SECTION = "optional"
+ PROVIDES += "libatomics-ops"
+-LICENSE = "GPL-2.0-only & MIT"
++LICENSE = "GPL-2.0-only AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://LICENSE;md5=5700d28353dfa2f191ca9b1bd707865e \
+                     "
+diff --git a/meta/recipes-support/libbsd/libbsd_0.12.2.bb b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
+index 39ecda26af..2ebc3e1003 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.12.2.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.12.2.bb
+@@ -21,7 +21,7 @@ HOMEPAGE = "https://libbsd.freedesktop.org/wiki/"
+ # License: ISC
+ # License: ISC-Original
+ # License: public-domain
+-LICENSE = "BSD-3-Clause & ISC & PD"
++LICENSE = "BSD-3-Clause AND ISC AND LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=9b087a0981a1fcad42efbba6d4925a0f"
+ 
+ SECTION = "libs"
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index 32f37987d9..5c1a7fdfea 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -3,7 +3,7 @@ DESCRIPTION = "The libcap-ng library is intended to make programming \
+ with POSIX capabilities much easier than the traditional libcap library."
+ HOMEPAGE = "https://github.com/stevegrubb/libcap-ng"
+ SECTION = "base"
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+ 
+diff --git a/meta/recipes-support/libevent/libevent_2.1.13.bb b/meta/recipes-support/libevent/libevent_2.1.13.bb
+index 431018f0f3..6566e73bbd 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.13.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.13.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "http://libevent.org/"
+ BUGTRACKER = "https://github.com/libevent/libevent/issues"
+ SECTION = "libs"
+ 
+-LICENSE = "BSD-3-Clause & MIT"
++LICENSE = "BSD-3-Clause AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=17f20574c0b154d12236d5fbe964f549"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/release-${PV}-stable/${BP}-stable.tar.gz \
+diff --git a/meta/recipes-support/libfm/libfm_1.3.2.bb b/meta/recipes-support/libfm/libfm_1.3.2.bb
+index ab29ce4b40..95f821eee7 100644
+--- a/meta/recipes-support/libfm/libfm_1.3.2.bb
++++ b/meta/recipes-support/libfm/libfm_1.3.2.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "LibFM provides file management functions built on top of Glib/GIO
+ giving a convenient higher-level API."
+ HOMEPAGE = "http://pcmanfm.sourceforge.net/"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b \
+                     file://src/fm.h;beginline=8;endline=21;md5=ef1f84da64b3c01cca447212f7ef6007 \
+                     file://src/base/fm-config.h;beginline=10;endline=23;md5=ef1f84da64b3c01cca447212f7ef6007 \
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb
+index 1eb6c472a3..697deed607 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb
+@@ -6,9 +6,9 @@ HOMEPAGE = "http://directory.fsf.org/project/libgcrypt/"
+ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ SECTION = "libs"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause"
+-LICENSE:${PN} = "LGPL-2.1-or-later & BSD-3-Clause"
+-LICENSE:${PN}-dev = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "BSD-3-Clause AND GPL-2.0-or-later AND LGPL-2.1-or-later"
++LICENSE:${PN} = "BSD-3-Clause AND LGPL-2.1-or-later"
++LICENSE:${PN}-dev = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=570a9b3749dd0463a1778803b12a6dce \
+                     file://COPYING.LIB;md5=4bf661c1e3793e55c8d1051bc5e0ae21 \
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb
+index de3918a998..982f6edc63 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Contains common error codes and error handling functions used by
+ HOMEPAGE = "http://www.gnupg.org/related_software/libgpg-error/"
+ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ 
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://src/gpg-error.h.in;beginline=2;endline=18;md5=f146974b5d59380f15c9f0eaaac4cbec \
+diff --git a/meta/recipes-support/libical/libical_4.0.3.bb b/meta/recipes-support/libical/libical_4.0.3.bb
+index d7001d4a8c..dff79bcc4f 100644
+--- a/meta/recipes-support/libical/libical_4.0.3.bb
++++ b/meta/recipes-support/libical/libical_4.0.3.bb
+@@ -5,7 +5,7 @@ calendar clients can communicate with calendar servers so users can store \
+ their calendar data and arrange meetings with other users. "
+ HOMEPAGE = "https://github.com/libical/libical"
+ BUGTRACKER = "https://github.com/libical/libical/issues"
+-LICENSE = "LGPL-2.1-only | MPL-2.0"
++LICENSE = "LGPL-2.1-only OR MPL-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6d9294493d031c817783b0400a126c89 \
+                     "
+ SECTION = "libs"
+diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb
+index 36721d201c..776cfe9785 100644
+--- a/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb
++++ b/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb
+@@ -4,7 +4,7 @@ It does not depend on any system resource other than a high-resolution time \
+ stamp. It is a small-scale, yet fast entropy source that is viable in almost \
+ all environments and on a lot of CPU architectures."
+ HOMEPAGE = "http://www.chronox.de/jent.html"
+-LICENSE = "BSD-3-Clause | GPL-2.0-only"
++LICENSE = "BSD-3-Clause OR GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e01027c4ad1fe5a4768f8488c945d491 \
+                     file://LICENSE.gplv2;md5=eb723b61539feef013de476e68b5c50a \
+                     file://LICENSE.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
+diff --git a/meta/recipes-support/libksba/libksba_1.8.0.bb b/meta/recipes-support/libksba/libksba_1.8.0.bb
+index 938bda67f5..553fd336cc 100644
+--- a/meta/recipes-support/libksba/libksba_1.8.0.bb
++++ b/meta/recipes-support/libksba/libksba_1.8.0.bb
+@@ -5,8 +5,8 @@ the implemented protocols and presents the data in a consistent way. The \
+ library does not rely on another cryptographic library but provides \
+ hooks for easy integration with Libgcrypt. "
+ HOMEPAGE = "http://www.gnupg.org/related_software/libksba/"
+-LICENSE = "GPL-3.0-or-later & (GPL-2.0-or-later | LGPL-3.0-or-later)"
+-LICENSE:${PN} = "GPL-2.0-or-later | LGPL-3.0-or-later"
++LICENSE = "GPL-3.0-or-later AND (GPL-2.0-or-later OR LGPL-3.0-or-later)"
++LICENSE:${PN} = "GPL-2.0-or-later OR LGPL-3.0-or-later"
+ LICENSE:${PN}-doc = "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fd541d83f75d038c4e0617b672ed8bda \
+                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-support/libmd/libmd_1.2.0.bb b/meta/recipes-support/libmd/libmd_1.2.0.bb
+index 1aee94a054..b630708961 100644
+--- a/meta/recipes-support/libmd/libmd_1.2.0.bb
++++ b/meta/recipes-support/libmd/libmd_1.2.0.bb
+@@ -5,7 +5,7 @@ libmd (FreeBSD, DragonflyBSD, macOS, Solaris) libraries and \
+ lacking on others like GNU systems."
+ HOMEPAGE = "https://www.hadrons.org/software/libmd/"
+ 
+-LICENSE = "BSD-3-Clause & BSD-2-Clause"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=261bf22602270e2b29c53930d409a3ca"
+ 
+ SRC_URI = "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.xz \
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+index 70079e0b65..35330845d1 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+@@ -7,7 +7,7 @@ not the original PCRE 8.x series."
+ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+-LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0 \
+                     file://deps/sljit/LICENSE;md5=97268427d235c41c0be238ce8e5fda17 \
+                     "
+diff --git a/meta/recipes-support/libunistring/libunistring_1.4.2.bb b/meta/recipes-support/libunistring/libunistring_1.4.2.bb
+index 8f6cc27193..d3bfe976c9 100644
+--- a/meta/recipes-support/libunistring/libunistring_1.4.2.bb
++++ b/meta/recipes-support/libunistring/libunistring_1.4.2.bb
+@@ -13,7 +13,7 @@ DESCRIPTION = "Text files are nowadays usually encoded in Unicode, and may\
+ 
+ HOMEPAGE = "http://www.gnu.org/software/libunistring/"
+ SECTION = "devel"
+-LICENSE = "LGPL-3.0-or-later | GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later OR LGPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+                     file://README;beginline=45;endline=65;md5=3a896a943b4da2c551e6be1af27eff8d \
+                     file://doc/libunistring.texi;md5=55cc91e1fe09c7aec78b6dc932202300 \
+diff --git a/meta/recipes-support/liburcu/liburcu_0.15.6.bb b/meta/recipes-support/liburcu/liburcu_0.15.6.bb
+index 1cb349f55d..140488eaa3 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.15.6.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.15.6.bb
+@@ -5,7 +5,7 @@ with the number of cores. "
+ HOMEPAGE = "http://lttng.org/urcu"
+ BUGTRACKER = "http://lttng.org/project/issues"
+ 
+-LICENSE = "LGPL-2.1-or-later & MIT"
++LICENSE = "LGPL-2.1-or-later AND MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c2a92498b6e88e276f986877995425b8 \
+                     file://include/urcu/urcu.h;beginline=1;endline=18;md5=d35fe8cc2613ca70e0a624ed8bf6fef9 \
+                     file://include/urcu/uatomic/x86.h;beginline=1;endline=6;md5=358d69272ba7b5f85e29e342430d440c \
+diff --git a/meta/recipes-support/lz4/lz4_1.10.0.bb b/meta/recipes-support/lz4/lz4_1.10.0.bb
+index fae5796c2b..61a7237f83 100644
+--- a/meta/recipes-support/lz4/lz4_1.10.0.bb
++++ b/meta/recipes-support/lz4/lz4_1.10.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Extremely Fast Compression algorithm"
+ DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+ HOMEPAGE = "https://github.com/lz4/lz4"
+ 
+-LICENSE = "BSD-2-Clause | GPL-2.0-or-later"
++LICENSE = "BSD-2-Clause OR GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=5cd5f851b52ec832b10eedb3f01f885a \
+                     file://programs/COPYING;md5=492daf447d6db0e5eb344a7922e7ec25 \
+                     file://LICENSE;md5=c111c47e301c2ffe8776729b40b44477 \
+diff --git a/meta/recipes-support/nettle/nettle_4.0.bb b/meta/recipes-support/nettle/nettle_4.0.bb
+index c66677c08a..0e05804057 100644
+--- a/meta/recipes-support/nettle/nettle_4.0.bb
++++ b/meta/recipes-support/nettle/nettle_4.0.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "It tries to solve a problem of providing a common set of \
+ cryptographic algorithms for higher-level applications by implementing a \
+ context-independent set of cryptographic algorithms"
+ SECTION = "libs"
+-LICENSE = "LGPL-3.0-or-later | GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later OR LGPL-3.0-or-later"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING.LESSERv3;md5=3000208d539ec061b899bce1d9ce9404 \
+                     file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-support/numactl/numactl_2.0.19.bb b/meta/recipes-support/numactl/numactl_2.0.19.bb
+index 38c09199c3..5fd35f1770 100644
+--- a/meta/recipes-support/numactl/numactl_2.0.19.bb
++++ b/meta/recipes-support/numactl/numactl_2.0.19.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://oss.sgi.com/projects/libnuma/"
+ DESCRIPTION = "Simple NUMA policy support. It consists of a numactl program \
+ to run other programs with a specific NUMA policy and a libnuma to do \
+ allocations with NUMA policy in applications."
+-LICENSE = "GPL-2.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+ SECTION = "apps"
+ 
+ inherit autotools-brokensep ptest
+diff --git a/meta/recipes-support/re2c/re2c_4.5.1.bb b/meta/recipes-support/re2c/re2c_4.5.1.bb
+index ee3774017f..ad33ef6a0b 100644
+--- a/meta/recipes-support/re2c/re2c_4.5.1.bb
++++ b/meta/recipes-support/re2c/re2c_4.5.1.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "A free and open-source lexer generator for C, C++ and Go. It comp
+ HOMEPAGE = "http://re2c.org/"
+ BUGTRACKER = "https://github.com/skvadrik/re2c/issues"
+ SECTION = "devel"
+-LICENSE = "PD"
++LICENSE = "LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+diff --git a/meta/recipes-support/taglib/taglib_2.3.bb b/meta/recipes-support/taglib/taglib_2.3.bb
+index b29f28702d..26839cdbdb 100644
+--- a/meta/recipes-support/taglib/taglib_2.3.bb
++++ b/meta/recipes-support/taglib/taglib_2.3.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Library for reading and editing the meta-data of popular audio format
+ DESCRIPTION = "Platform-independent library (tested on Windows/Linux) for reading and writing metadata in media files, including video, audio, and photo formats. This is a convenient one-stop-shop to present or tag all your media collection, regardless of which format/container these might use. You can read/write the standard or more common tags/properties of a media, or you can also create and retrieve your own custom tags."
+ SECTION = "libs/multimedia"
+ HOMEPAGE = "http://taglib.github.io/"
+-LICENSE = "LGPL-2.1-only | MPL-1.1"
++LICENSE = "LGPL-2.1-only OR MPL-1.1"
+ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
+                     file://COPYING.MPL;md5=bfe1f75d606912a4111c90743d6c7325 \
+                     file://taglib/audioproperties.h;beginline=1;endline=24;md5=9df2c7399519b7310568a7c55042ecee"
+diff --git a/meta/recipes-support/utfcpp/utfcpp_4.1.1.bb b/meta/recipes-support/utfcpp/utfcpp_4.1.1.bb
+index 80da59bf90..c2ad0939a1 100644
+--- a/meta/recipes-support/utfcpp/utfcpp_4.1.1.bb
++++ b/meta/recipes-support/utfcpp/utfcpp_4.1.1.bb
+@@ -1,9 +1,9 @@
+ SUMMARY = " UTF-8 with C++ in a Portable Way"
+ HOMEPAGE = "https://github.com/nemtrif/utfcpp"
+ 
+-LICENSE = "BSL-1.0 & MIT"
++LICENSE = "BSL-1.0 AND MIT"
+ LICENSE:${PN} = "BSL-1.0"
+-LICENSE:${PN}-ptest = "BSL-1.0 & MIT"
++LICENSE:${PN}-ptest = "BSL-1.0 AND MIT"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c \
+                     file://tests/ftest.h;endline=25;md5=d33c6488d3b003723a5f17ac984db030"
+diff --git a/meta/recipes-support/vte/vte_0.84.0.bb b/meta/recipes-support/vte/vte_0.84.0.bb
+index 70cc6b3c99..43aa280c56 100644
+--- a/meta/recipes-support/vte/vte_0.84.0.bb
++++ b/meta/recipes-support/vte/vte_0.84.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Virtual terminal emulator GTK+ widget library"
+ DESCRIPTION = "VTE provides a virtual terminal widget for GTK applications."
+ HOMEPAGE = "https://wiki.gnome.org/Apps/Terminal/VTE"
+ BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
+-LICENSE = "GPL-3.0-only & LGPL-3.0-or-later & MIT"
++LICENSE = "GPL-3.0-only AND LGPL-3.0-or-later AND MIT"
+ LICENSE:libvte = "LGPL-3.0-or-later"
+ 
+ LIC_FILES_CHKSUM = " \
+diff --git a/meta/recipes-support/xxhash/xxhash_0.8.3.bb b/meta/recipes-support/xxhash/xxhash_0.8.3.bb
+index 15436113b1..75b34bb0a2 100644
+--- a/meta/recipes-support/xxhash/xxhash_0.8.3.bb
++++ b/meta/recipes-support/xxhash/xxhash_0.8.3.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Extremely fast non-cryptographic hash algorithm"
+ DESCRIPTION = "xxHash is an extremely fast non-cryptographic hash algorithm, \
+ working at speeds close to RAM limits."
+ HOMEPAGE = "http://www.xxhash.com/"
+-LICENSE = "BSD-2-Clause & GPL-2.0-only"
++LICENSE = "BSD-2-Clause AND GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=13be6b481ff5616f77dda971191bb29b \
+                     file://cli/COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     "
+-- 
 2.54.0
 
 
