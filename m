@@ -2,172 +2,170 @@ Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE75C44512
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 06:40:34 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.138])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6960.1784184028264115339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D825C44501
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 06:40:44 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.120])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6849.1784184042952640436
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 23:40:28 -0700
+ Wed, 15 Jul 2026 23:40:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@navimatix.de header.s=selector1 header.b=r5cHDwIb;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=ZZS4SYen;
- spf=pass (domain: navimatix.de, ip: 40.107.159.138, mailfrom: joerg.sommer@navimatix.de)
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=4CyjxNil;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=MAadt4Jk;
+ spf=pass (domain: navimatix.de, ip: 40.107.162.120, mailfrom: joerg.sommer@navimatix.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tWL5FhGRii6uiK/Ctp0bFH52Dxutk9+7XWIYTMbzrCk=;
- b=r5cHDwIb+1tTnnwPRM9/UjxKhqn9TjLE4hflDXju4lwyg06HBw+SEvqAb7Y4dIZLeK152vepxZQWURDdv8jKteinI0ZDMAfDL0lPLCdtvuosTbZE5lzSXm7lsqDG9vIFiJj4/fHQf67hs/n2HU5yvEbHAgOeOnRpMErSZrZxXII=
+ bh=OQKjzGLTYUbIczIItYtIJnpR+8ePAuerofj/EWbT56k=;
+ b=4CyjxNilnM5PPGms9hL3+Agu7IqTcAAmxP4v8c2HiRoPTo//I09anXh5KPCHgqpbfTyx4FD3hM4PTQut0jCY3dzR6yow2XsoGb19WDCI8JNcesUCUW8eyukCX1g6VclbwYs6BTeUro6ynmj18Bjh0qcBvlTLKZZoQyVt6Ucbzgc=
 Authentication-Results: dkim=error (no key for signature)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8) by DB8PR01MB6518.eurprd01.prod.exchangelabs.com
  (2603:10a6:10:15c::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Thu, 16 Jul
- 2026 06:40:24 +0000
+ 2026 06:40:40 +0000
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  ([fe80::d5c3:2dea:3d98:25fd]) by
  GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
- with mapi id 15.21.0223.011; Thu, 16 Jul 2026 06:40:24 +0000
+ with mapi id 15.21.0223.011; Thu, 16 Jul 2026 06:40:40 +0000
 Resent-From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Resent-Date: Thu, 16 Jul 2026 08:40:22 +0200
-Resent-Message-ID: <alh81or8qz7MXuwZ@navimatix.de>
+Resent-Date: Thu, 16 Jul 2026 08:40:38 +0200
+Resent-Message-ID: <alh85oIsJOuaNrZz@navimatix.de>
 Resent-To: openembedded-core@lists.openembedded.org
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wIDLwzgshTcUGUF3CICZKe2clKwKFMJmxDClknX8TOQDF4N+r+aAv0r1g21TQKrnkMc1NNFeuo+mVVGwuIrDZTTzlLtb5ykBWbFd/8YeuLkG2dqDKSL5VBkS4HN6QB2Dpsf0OkX5jbT5PnzXFatRvAvMo+OkpU3HVX91xCGSv7Carx1tJr1t0xIgcm6jXr6byRPV1y8qkFM92Y1iRq8v0RQfJE4p0Za9ixhgVwBwDLCuqGvrMV7tpEBHWDCGWkZuHuLM618LR5G4VdBYwMvLk7sofv1DB3yFcMaG2/GNeyBdY9AtHI9qTWBDNKk6X/BJ8ji0s9s7MdD084+Hs55JVw==
+ b=bAKvzH7FAC8P6SIfAxjXygGhm6E7a1MRoaPT/xVJfxvUcrpk8pywwp1AAOlZWHuusjsPZtNKoI4NEdHzVQpa2td9Qa318PeOIXndy6q4MVrVG6mQucZZyLgdVQqukbiy8pgh2N8XKycMikqUa98wGPzpoprVp4ATuf2mBiQhdMwv4nlV+FZ6ZMkln1R3BFHFrmaXBuWdUq+ZJCprSrYoeGg/wuhGk2AK2QKpcIT3Jb4J63V1Rwvn+E7jsanqsboF/HeV4XqIaPvN5DHFveNeegU8+abYYeb4TwtrfuJg0R3/P3mq3HPtRcLlLXwHzn3Py30ZZPRnlSmIZNuEMvzfxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P7Jwmhy3Et137CdtfVBtbfxB2rGUA9gEi9pyqXhbInU=;
- b=MrdzEiMkWzh+9wgAKsB5+e2qIFWu/SFlsU80ivQPiczw9P2lBypoCMzrczVmPITaXfusrpzhj2ZloSNnLWhPQUEFInyTxGv2b2UEhRSEzGBig3UBO+7AZnjcUSrygopQ7k2bcWGJMQcxUdFrJX1SHu+/iJWJehksr9SB1jsP3lmdc6Shu9qLe6pPdxHcT1bwsT09fVl26/OTDRpTky71ZZAJmljriZhKzSQnBVWfGQoARM9/L8pQCMTgtWMoPGsQWFKEDADThgAxf/Gdbv9+3Gs4oyPgls3C/gGdKDUAQ4kSR+/1BicPrZuMd5rV47K+E6z3zgIl1gmXGjovms4+Ag==
+ bh=2OhAx9k3cv5xE4IYTkn60+JVg1KiseMPtIYCdmyzD+Q=;
+ b=SxrDG+kS/n7E4BtV5k2Sz7sFcNAQYnozogosZUjK7MAMZHZqdftMO5hyf8bxRrfSILqF8CBVrOOb9YeWx5BScNJt3pX6M+w6JorA3zXKH52FshOctvtbXsRqB+QiQK6K4ktctCh75Dp9KdiHsEbmutnwL5rgMQcdvGzneU7WoYBqiVtQQsLD2Wsi1ElftQ7bBWc0ClAsmA1wufLhwoz/N4uhrR4wcRfkRcoon1vkmoikQYe3V8Lrj5HpUabZ8br3jEZh3kHsm0RxUUqU6CdqQavbtda7P8jjrrg/AsMnz1l/mtAfoMclvIQTAOOGkmewwz3K5iA7DFc/eHbiQve11A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
  dkim=pass header.d=navimatix.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7Jwmhy3Et137CdtfVBtbfxB2rGUA9gEi9pyqXhbInU=;
- b=ZZS4SYenGd/8qxbKMGua4NwVdDOTlVV+thZNM2+aHnlId3Ss3+XGV6ogGFlVK0q1uvta6NdKfyxJDRVnvgnaOt9sb8Dqm8v+I7g/nsmYw5Mi+ByBVshM/OeIvvHW1RxuBZNIMhpDNO9haLYiNRfcwA9GEJC438KR+PfUJVm+tsg=
+ bh=2OhAx9k3cv5xE4IYTkn60+JVg1KiseMPtIYCdmyzD+Q=;
+ b=MAadt4JkuhDzPdzhT4rXj6GVHuhOb4yVG2xDqroM/zL6Lci3jzep8ljLi/sgkv05W4vaACF331TMChmD3a0dvd4Lxcp4KhecBL9Yqezuafjd3psOtd4fBJd3MLC7pU9tq4OiVEX1eXan2j2N21HGpQp9U0IS6/7GJRnOodo9ziE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
-Date: Tue, 14 Jul 2026 16:41:39 +0200
+Date: Tue, 14 Jul 2026 16:41:41 +0200
 From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
 To: <openembedded-core@lists.openembedded.org>, <joerg.sommer@navimatix.de>
 CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [PATCH 3/6] rpm: Enable PACKAGECONFIG[acl audit selinux] by
+Subject: [PATCH 4/6] cronie: Enable PACKAGECONFIG[audit selinux] by
  DISTRO_FEATURES
-Message-ID: <831673f23f130b01228e0252fbb750b459062fcb.1784039919.git.joerg.sommer@navimatix.de>
+Message-ID: <502a2e4689a9a733c41b98548155891cee179422.1784039919.git.joerg.sommer@navimatix.de>
 X-Mailer: git-send-email 2.53.0
 References: <4fb61a12d8843e728054e9c46c6bc09c50aa2957.1784039919.git.joerg.sommer@navimatix.de>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <4fb61a12d8843e728054e9c46c6bc09c50aa2957.1784039919.git.joerg.sommer@navimatix.de>
-X-ClientProxiedBy: BE1P281CA0230.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:8c::15) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-ClientProxiedBy: BE1P281CA0087.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:78::17) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8)
 X-MS-TrafficTypeDiagnostic: 
-	GV2PR01MB11835:EE_|PAXPR01MB8872:EE_|AM8PR01MB7731:EE_|DB9PR01MB9932:EE_|GV1PR01MB10913:EE_|GV2PR01MB11835:EE_|DB8PR01MB6518:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab1fb6aa-179b-4caf-ea49-08dee3051da1
+	GV2PR01MB11835:EE_|PAXPR01MB8872:EE_|AM7PPF270311C46:EE_|AMBPR01MB12682:EE_|DB9PR01MB8189:EE_|GV2PR01MB11835:EE_|DB8PR01MB6518:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ec677fd-b1bf-4aac-6781-08dee305270f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|35042699022|14060799003|1800799024|366016|376014|23010399003|56012099006|6133799003|18002099003|22082099003|10067099003;
 X-Microsoft-Antispam-Message-Info: 
-	rVWXJPw35xAUdGG2hYiv19qxwCVahKa4M3sr+3UirsJ3mo7DWnYbcF9gksPODtGkJH66dBKLotwGGpzD7SsDYdzg4eepY1tF/VUZHhMQD8FkM64tUY/0a8utnuTLlhSmgrDXgK6mwwm++VOvGsZnA4eA7Vvmq3sH9pfB0bv53BekgJQJ3xtGWHMSch2Tj+PmTJFDv857hHais5k5BZFOAoXDjblgzFBLffbpnlwPMBLh5ks6rOSv+uf70Iz0VxLDNX71AkHQUGE9hFcQlUYERuIEIoGAbVQwBa3rd+jtGJTpdxCqaxJrvkBFDyg5Runhjmnu0DoFl6BViLVgtYrHl+6/1jOutZg7BybsuNSQqXCco30hNOxXmuDi66azRAarsvt1O6kt4L0kV9MMaV+Z7mDvpVOVuWCjSYuhMcUKMswsFL8sLsjpbltntY7yEl61AypkoHkIAquMUwIpyX1yUwykDB4ZZIcCLcQ1mju4xwciJzf3EvJFUNivwyZH3DkW8SiI8RnF2UvEcNo/bsCDnijnCD0jN8/lzRiNEkSRURLX5lidC5DD6fV1KHR7eM6RfX76oaiHmVKeDOEESRoVjrl2HTWofWmCRbsTdn3Hdt9RA3Yvc3Ml4EYznWailsz+jbjiJ2lEgvPwVnFjNh0YeeWFQeisosjFKEOcEjORw1U=
+	Debrdj9OgSvUY3ZYv6SYoth9KOx2zEthSZFwgcRDgyM02B0xHKRqat7E4oWVCtWI0nuUOhcoEuw9iShqVZwJDPUn3MwP9Q5x9JzIrECJfU8AC0oDjGo8PlyD9kM6H3OG0QOvB2LhuIJanE73CwKJ2Vd26WkFb2pqu93FEYjPMUhtFm6rIlJwyh1tvqDGP1DCfOpsSnLcFNAmX6naR4Sr9P9hO5F7snRff7FLVqk+tGdQNqiPfUIqL5rYkMMhpsQUQnL8h8DjXVWSXivDERyYiqG+40vwy+2V4FG/1wfg6w2fcGOdB6oTTh4tYGYx+B+FE2ykP1rxyG9tF2E89HTya7tfB4mS9HikTtCZM6gElPfcyEqx4K6ptJJrtpPQNYcffavHmbUhZDGGHavVkW1GnLtfXg/tgVXWPr9DzVRXsE/b4z4wIjL5La8t0w6gxoU6QbABn0/NQziEgrIrubuFxn/uSGjyEkQckk4/kE//+CHJQEFzfgHYQGQirf/bffPuWgdaEDoYQc8wA4ncR+WlMkfYq96ckq0obWJMvlSzV/0aYP4CsOpRgU13wLWGGJrr4KMUFhoSTRu4KkUQu/5PhoArj+5qxXOE6DzVC0rHSZw37vuM2ZITZHr/27ijkkKI+2Q54OhdfVyq6PnMD5Av3dEufBf/rdihPK6cPaS/iuw=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(35042699022)(14060799003)(1800799024)(366016)(376014)(23010399003)(56012099006)(6133799003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-CrossTenant-Network-Message-Id: d73982dc-a77a-40bb-b1fc-08dee1b60448
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8102104d-7f87-4e0b-982f-08dee1b6058c
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2026 14:41:40.7337
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2026 14:41:42.7627
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UBvTpVireON36TkqT33u6J1lXxzlN4y9AeA0+n8c5WIN12k8/bmgGkS1AFpEAe5w4WAYHiGUjuRe68Yi91PTvvudMYJAy9amurq8gYF+ffE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9wZJZ7P+QmGLS+hBogzN/QKvfFhDtoF+W2TTA9ZqbyJsfPqOWd2NMqbirTDHn0VnO9lhNM4Vhc+A8S4LyMULpPL8HlOaAro1m/Fog1YlU+o=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR01MB8872
-X-ClientProxiedBy: BE1P281CA0063.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:26::8) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-ClientProxiedBy: BE1P281CA0190.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8d::9) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	d73982dc-a77a-40bb-b1fc-08dee1b60448
+	8102104d-7f87-4e0b-982f-08dee1b6058c
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?iso-8859-1?Q?XCq+AernhjyFmcy0nOXEQIvI6cZldMoX8NHZZnsEsVH0O4YaqNYDcOxZof?=
- =?iso-8859-1?Q?6k3D8aTuEwQ/stmuK5aHbDZPDVeQsfP71097/YCzSidUFIlbKzttAVeTdv?=
- =?iso-8859-1?Q?82Rs09Q9akncK9qsIUCLBDjPVqoJX1ORdaB5PBHA7fvp+AHNo8YuIgesKg?=
- =?iso-8859-1?Q?2XjdAF/hgOWxdnhNAJsqwoUYbrmv7bEVN2bqdZaUCVIZJ1dMFda31ywoi7?=
- =?iso-8859-1?Q?JbM02S2XgSIcGNBUPJ0uJWYHRwBLqOtG/sEIRtAmNMng5j8E4+N3QZDrAy?=
- =?iso-8859-1?Q?Gm4CqA7oNvohzagii2DekXYbCy41kEGbtMwH5EnOp0NfKmQ+02W97C4UKT?=
- =?iso-8859-1?Q?yA8rrhEqY5tAsD75+8MKYXKFTFyZRJrZTKSW+GQhb7bTvFCxE7uyt9oJJX?=
- =?iso-8859-1?Q?fYAwv/JrkDk/7zTEUff9WkWKSCd1goMhZFrt2gZxCDq8Q96Nte8/4Lhurw?=
- =?iso-8859-1?Q?7c10LF+S3b0hTO6+S+r7tHzuBu/vogsoNea+XM7Qw0oN9pJVT8I5BBSMvs?=
- =?iso-8859-1?Q?6C2DnnEdJSvbMDpeIyNoBRuxgiR4TEfaoNBksUDmaBPkT5z2d0p4cPWzZC?=
- =?iso-8859-1?Q?UZ7kNrjofa5Ts3cHoIdxYnHuSoW2saFZEUYX1qVQyJbR5BZDXo8VvT+CCb?=
- =?iso-8859-1?Q?RBlCmleqQlv0tLEquFebolvnnAYQqvEEmi5D+JtZWCP8ZyNJMgT0gzLSNI?=
- =?iso-8859-1?Q?KDx7TUS7InNcJ7LQ2kmsH4VRRZ3Zj1GU9frMBC0mI30SCpK+gkh1sN/AGk?=
- =?iso-8859-1?Q?PZGNQM2YANJA/eMHTzMtZQZ9ana6kPBQugJDXdACzTaSA1Yi6jGdwUlOiB?=
- =?iso-8859-1?Q?AK3gOAHrntjbSkm26VX11lht/hU7Zs1PjjXX2EC6Bdy8ZbtxIAXqnMQ9k3?=
- =?iso-8859-1?Q?CwMbh0zPlbleXNATcUFUlVjSZaCHVBVyI0yIyExtunJvg+/dkxJf+5DAPf?=
- =?iso-8859-1?Q?5xmOXuTE5zl4VvEtYuDYfRLWHa/xbEJ+Tsi2bJLYg5o6oQoc4KHrneDG2C?=
- =?iso-8859-1?Q?yOHN6ZRxWOnDiMrvsEfBQDdt8RM/y8KHMCTqx0dJde/JKPgUsod9mYSS4R?=
- =?iso-8859-1?Q?FOPpfy0QQxdvUm+Uf6I1DwXDVGkAZlqHZBFi5rl0dv1uTBAjksHLYbgYEE?=
- =?iso-8859-1?Q?y9uWySKoawtAVK1Lm1uLZzV6Q/I8+p+9aHz4207tToT0GfJjL5uWA4JMnD?=
- =?iso-8859-1?Q?rMQOluIWI2QG7dcopDgdAPnzsV/GdgFE9lMVntCciwAkN+kDg1QQ/xSgkH?=
- =?iso-8859-1?Q?W3LW5OQfxJuXY5IlwpGpnmR/3RE1Tf79mKNa7zANQxsSDIPpf7V1toUAEK?=
- =?iso-8859-1?Q?tkoId1Y/BygFLB4k8Pbkw86rArKhBNYZHI+W+IFX1K4tIAASHGBlovn7ID?=
- =?iso-8859-1?Q?kf7rC9hDT87pFTZ3sgeyID1UZAhmnuSE9rwxl8wrYN5qh/0dCQSuq6Xb3k?=
- =?iso-8859-1?Q?hPxGjVGmazQBmInTxt2v9OVBvxczp3QeqmvNQShQtUedLvu5AVXxujOvtN?=
- =?iso-8859-1?Q?7pQUi7CW9MwP0JsqeBIhGlhRWK50YJfi9ydOE5/WTMuvp4UwsADBzhL52a?=
- =?iso-8859-1?Q?fZubncuNtOpm/TwlQqv4fKuZKef1HYqKzKf6HriGK71nhkTZgwGoQmWR7N?=
- =?iso-8859-1?Q?+/4VSRlpMYNOZYNuEuyZlYMKNm2zzxgIAGDotO9/sh3Q3cz1ZjxYQ6RMUy?=
- =?iso-8859-1?Q?nQhr9c4Lft6P5ZbJMfsfEoe5f9u9tHbM33hng2FbM0YVC7AZxCJq1O6we6?=
- =?iso-8859-1?Q?G3kROQUySz/p7Jvd9WHZRF13MtHv75bNpQmnmqTP9/Oujfv7MUXtSqWhur?=
- =?iso-8859-1?Q?X9dKHy3f0poGHmUO/0MOnMLNaaWiMWo=3D?=
+	=?iso-8859-1?Q?kfaxwRWvp7MPV2Ci3D8c+UJz425NxTEI58D+LHS2vcaWI3vQpwGmcFP7Bk?=
+ =?iso-8859-1?Q?4Q9Tb2Tx1JTFS5O5ige7LgzFqFt5fEibfdJUSIm1ZqiJ5rZ+Vlo9drlBNl?=
+ =?iso-8859-1?Q?pznt6JAYiN4AFvpAdxgMw/iqO2IfWiOWDVabHNa7f801wqRac4v6WGZgjx?=
+ =?iso-8859-1?Q?CCg3HOeGp5jo/NomvNgszadq3JpXtIWYTl6hb4VpMNsk106Ts8jtRCzQck?=
+ =?iso-8859-1?Q?3o5CWZmJgGt+ItAIMkZEQTNaPUKEPX/N9/MqHfM82TkLMjJebWZSPnupbh?=
+ =?iso-8859-1?Q?sAxH7A8y91sFU1PZ+nLGSm3cy9np3FVQS5rzOYmaQMTE/K66a/p45BGONr?=
+ =?iso-8859-1?Q?EbSsFRhpZlToiVHEfh9VhyWj2IEa5eznbkCscWkjLOagoP63l8N1+HuG81?=
+ =?iso-8859-1?Q?4YGU7KvXfgnSCdM0x9bHX8w0TE8lsSp9LhoHBF5bmZGdP5PfOhJs01sBe1?=
+ =?iso-8859-1?Q?HWG+nB6t+HybJPgapD9w3D/tXyjKVi8Fn9woD2OzSHQVHt5jCmh7GBi3CO?=
+ =?iso-8859-1?Q?pUxr/WDIl2nHsDEEPpZiiwaqLum/tXPUEu/Mj0IY2w+Zhf9Wq2C33XoEsh?=
+ =?iso-8859-1?Q?5GgX1Maqo6FZguf+imUC+9gVgaTQFKAzqyxSzoXW6X+ybAbRkZxVQxZ9Z5?=
+ =?iso-8859-1?Q?aekxA/VDMQkJaT+JZRcXMqh61CE/GX3wvALYESbRsccqhkDuHH1z/sMyoK?=
+ =?iso-8859-1?Q?Lyk/CIN9tFoyhmHLHTHGO1YqnfYKczhud6WFP8ni4GDqpQn3zCkvtx+UVJ?=
+ =?iso-8859-1?Q?30ahjWXJan18Goaqqjfh6x8LW0tSAeK8Xa9V4/Fd/P/DdTYCncPCh3WCth?=
+ =?iso-8859-1?Q?EdrMtCEgXFHVv4pLoCYZ69NFCapzLxiSehiNXWoQM+lxZUvHL8eDcP5eiJ?=
+ =?iso-8859-1?Q?ABVXJ8tLEh8ELXpv7xJU+mBVjbg00NhUw90imRMKW4tlZ+rptOG0eT3D/Y?=
+ =?iso-8859-1?Q?Nv8ov39ssPPtzWURtAMg0x9/EyZ6weNCupXgeO85w0z4t8XpAHe/VC5iV7?=
+ =?iso-8859-1?Q?9Teug02A+Lf/HZ4ajCeLExf2A2oyYqPH7iBYLtjiXLew0S/yJeL3edijU7?=
+ =?iso-8859-1?Q?drtvtWDi+nmjo/tTO96fnAMhIrmH7zEEKlMaQHxo2QBFvrNInc5GRWOnz7?=
+ =?iso-8859-1?Q?d/2IdssNq32L4B+cXAuYoNLWIACZMTAnayp9tR55Mt25bSDwlCM1JIBHs8?=
+ =?iso-8859-1?Q?QaR20SU/Ly5XHnuojI0lrr95+VlU+gGDDiJeRYAADH0dPNIwOOXFz5dcPC?=
+ =?iso-8859-1?Q?C837rF2reuG4L8EAGm52VKlX90MW/7xNTZuU5AnDlzyfy2l11ogJyUNa4K?=
+ =?iso-8859-1?Q?MEjfhF5HeHDP38xVmdbR549K4NHAJ6Qmgn70N0qjnxnuHHIoA8Q04zWSZz?=
+ =?iso-8859-1?Q?UoFs32dYhRzsbzv8mjBEBRNWn/Giatd9f5uI4GeJnbzvjqgvEXadBU7VgP?=
+ =?iso-8859-1?Q?zgWIyLl8Kl2PG8FXxhIWmb3DKghFo/IdHgd0Ab50PVeuGS21/sDWUHQ0oA?=
+ =?iso-8859-1?Q?vkBDw7hfIbZZcrGA5CNWT1PeY2ttomedTJM5R1YFBuMcLHCM0gACkWnYL/?=
+ =?iso-8859-1?Q?O1MkgEnWtF0GN+fTRuhVCNPZ/VPJvRh9cC7pRfeFAVRYd8ZsbgxJ2jRGEA?=
+ =?iso-8859-1?Q?035+DhtSVXfNFWZD6zeil8RMu82LqcG+FPH4VstV2ogrWmtlQ5lWXPgTLo?=
+ =?iso-8859-1?Q?lfbmgwLfAYd3W5VTApQihK3q8Sjbfh0SgjTobqKoXTjUkWI1TRBEnbw50Q?=
+ =?iso-8859-1?Q?UJQ99Mch8mZ5noTTb8qnSyxmX7j9g8uhbxXtC2XGMQuePybru5wzDDNFvm?=
+ =?iso-8859-1?Q?GMhnKCygpmOzh2CvjJGuOaDMRo+dqeo=3D?=
 X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab1fb6aa-179b-4caf-ea49-08dee3051da1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ec677fd-b1bf-4aac-6781-08dee305270f
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 06:40:24.6419
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 06:40:40.4145
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lod7sD2x73CMTHFyN16r5GYo8dUwK35HO67edCuYKvIFtRvynFsSktOFx+EFhCQZyBk6hhzQuCS14BgZvHtpIg18ODR9rICAczZTMhethRI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: kV56NdcBbIfgijxsJO5aC9/7SHQ9GYFIHz8v3pEzCmIyVDAopQYoDSHutYi/O2voxSuiYcVTXQ+DK4aRGAD1pimB3gjK/EDGzmyggn/UOaw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR01MB6518
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 06:40:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241058
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 06:40:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241059
 
 From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
 Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 ---
- meta/recipes-devtools/rpm/rpm_4.20.1.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-extended/cronie/cronie_1.7.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtool=
-s/rpm/rpm_4.20.1.bb
-index ba967ec1fa..17e75c3e14 100644
---- a/meta/recipes-devtools/rpm/rpm_4.20.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.20.1.bb
-@@ -64,7 +64,10 @@ BBCLASSEXTEND =3D "native nativesdk"
- # https://github.com/llvm/llvm-project/issues/82541
- TOOLCHAIN =3D "gcc"
+diff --git a/meta/recipes-extended/cronie/cronie_1.7.2.bb b/meta/recipes-ex=
+tended/cronie/cronie_1.7.2.bb
+index b250717ab8..50cb895cf8 100644
+--- a/meta/recipes-extended/cronie/cronie_1.7.2.bb
++++ b/meta/recipes-extended/cronie/cronie_1.7.2.bb
+@@ -31,7 +31,7 @@ SRC_URI[sha256sum] =3D "f1da374a15ba7605cf378347f96bc8b67=
+8d3d7c0765269c8242cfe5b07
+ inherit autotools update-rc.d useradd systemd github-releases
+ UPSTREAM_CHECK_REGEX =3D "releases/tag/cronie-(?P<pver>\d+(\.\d+)+)"
 =20
--PACKAGECONFIG ??=3D "archive"
-+PACKAGECONFIG ??=3D "\
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit selinux', d)} \
-+    archive \
-+"
+-PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
++PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'audit pam selin=
+ux', d)}"
 =20
- PACKAGECONFIG[plugins] =3D "-DENABLE_PLUGINS=3DON,-DENABLE_PLUGINS=3DOFF"
- PACKAGECONFIG[testsuite] =3D "-DENABLE_TESTSUITE=3DON,-DENABLE_TESTSUITE=
-=3DOFF"
+ PACKAGECONFIG[audit] =3D "--with-audit,--without-audit,audit,"
+ PACKAGECONFIG[pam] =3D "--with-pam,--without-pam,libpam,${PAM_DEPS}"
 --=20
 2.53.0
 
