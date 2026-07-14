@@ -1,167 +1,132 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4950C43458
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 12:54:32 +0000 (UTC)
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9070.1784033672350462288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DA0C43458
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 13:22:53 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9368.1784035371470459556
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 05:54:32 -0700
+ Tue, 14 Jul 2026 06:22:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Go5CQGQ5;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ZKnIImow;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 64817EC003B;
-	Tue, 14 Jul 2026 08:54:31 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Tue, 14 Jul 2026 08:54:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1784033671; x=1784120071; bh=yt82Zdipdu
-	ojFfV/ijDLF70r+mPMP/5Sza0k69PyauE=; b=Go5CQGQ56tynPHODQHPfrgoJ16
-	W1Nf1zeH9FHxww3QinHnOePbJFV4esJOgcMN8E14aN98bRxJSXFNkZn8i6XMakRg
-	hprzaHhuPM77SBgNQgA0isksrLoCxr5gHRoVMn82/KCunmTXRfHD1q3runTJf8YG
-	+0FxY4hUR8Tj7uhvaAoSx/iltECyGorxgcPiumevwfoobA0sVbXFMrMUpw7mjqBB
-	L0CqAObwYBuPyuDiXF3LRz2py+T2XBr0UavFuWJrOYnL77tNZo/enexRCW01SKZG
-	uLQFJyJ/yUDkrQoqOwug32Qayi9l3DivCSwUSeey/pMmICL3B395IOYSkKnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784033671; x=1784120071; bh=yt82ZdipduojFfV/ijDLF70r+mPMP/5Sza0
-	k69PyauE=; b=ZKnIImowdR2d8uZBp0XSHKU4b4NgewZ06XJHiEco6fdMtK2htoq
-	dGXB7pzbp587EnZBSx5ewMs9zPXYAXye92pg/GQtMev9VuDrz3Z8P7QOI7FziiV4
-	FblIgG+uoTx+KPJLJF7zqR8hPOMjGQQJBoSZRWIwqh3AJw+FwCyInSDic700Vnxb
-	lnuc/D+R3w2Ui4yEc2+5ppGj24ydeafQ6Pn3GZm7x55HM9oB9XmdiK6P6Zs1c6Rz
-	apZbIjHPVrWCZh7iFGTWz+fCSTzSU0g2h3Y1/XLhWwbdvl2O9RZWQqGaDaQuhKT7
-	aXkb3+20xjirbBXAa7zl5G81h5JFrQfhB+w==
-X-ME-Sender: <xms:hzFWaiCcn9XoClDS8g4qafdMveqv5qgGar4esPc0wEXotmed6X7b6g>
-    <xme:hzFWaijZTeHbjoG3wRX3UXX-7Is938-fHKozhtCh3vXb5j0iAptDT-nrxkIPasnIX
-    do7suhbinUNkOipm-96RKmy3cnuhrf9cRrECKpk0qMNKxVRachVjhor>
-X-ME-Received: <xmr:hzFWajNcaPSPhbSWcLF24ZrfrVP0ucsBvLXGj5s0zBqZwEFs5sVpxcuVCkWNIUsF2NFdVgulsj2l9RrtLwQ8PFSQH9a2fBPjPV6iusI>
-X-ME-Proxy-Cause: dmFkZTEtv5v5PibcqoB/39AVdXXwI9zACrEi4hnjn55hmz02YGgesHYeTFtIg4HoE4jDyh
-    X8WXFczf8wXuoUODLZ+k+RjcykxPgjqjPndaArwT7Wb8jO5vBnggqN2OLpUir8ezwra8R1
-    IjKCqq8756CPOTSLW+IlGJsw8ljTmmgkkMhqHSFcpk8JPwjBSBQanFeCaBQ66DBmHYJ6nb
-    Fm8dgE6hKgyWXN8huH42IzJu710F7nlk5O+Vv1qkPNiPT2qTd1nMPXX7rFaSo7kdhHur9s
-    jRG/zvQGj07MVXRJWWn3QOfwZ3uq7xPB56q6HNKA5VaU8T1EFLrkfjCrcrbLi0+95Q/AWR
-    bb1WTxuoUUwX/BR8SkoEArvgZNeGQcI488hpXG2HSOwAxRdEZQ2uf+2An0iVd0gAuAMY12
-    Xs5qkVsqgvn3E3mTmLfByF6/ROPb7i05LdQmRsJDUj0aAUq9X+d76z85jwybzlOqGvv3I4
-    yIflAy/lrfmzx2U9Mr/GtyU1QSP6QJPgbEs2mPI8QQ5vnW+QWishAkJgbje3sMaAX/Qi8U
-    U8NbXG6Nau/6gUyK69gZ1pI2LCZlsNgDbp0Ivvp7VBtRttWfanTk/GmJYRcpV+y0l7LGWs
-    UV7Y4rxHuEakhDRlR4ifeMSApItwfk16sfN4uaS3JTfaSs5FfGVf/N7N3o6w
-X-ME-Proxy: <xmx:hzFWar5cIzRlW11SGX_UQFGAxhHQi2E-Dfvt8UzyZoXGVpmp6x7jnw>
-    <xmx:hzFWap2uTyVKsqAXXqxKk6-RKzijHuc1tgfn6FL35VmgXXylGCw7DQ>
-    <xmx:hzFWakZSIjbN1IlwxIh09kr0jTGdIY8UsU2iN1ckF_8f_eRmprRcTg>
-    <xmx:hzFWapCepEoDTQqlAXO0Cd9sGZghsiQ3HIUs3Sbti1vwmY1OYMeQKQ>
-    <xmx:hzFWammrzwI7kMWEcGQ86BpWmUFuI1A7YogryiMOpHP0AoSQ-t9ZXTsy>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jul 2026 08:54:30 -0400 (EDT)
-Message-ID: <0d568ca133423aa58db4c63c5e55e4f5e3fa33bf.camel@pbarker.dev>
-Subject: Re: [OE-core][scarthgap 06/25] binutils: Add CVE-2025-69646 to
- "CVE:" tag
-From: Paul Barker <paul@pbarker.dev>
-To: Yoann Congal <yoann.congal@smile.fr>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jul 2026 13:54:27 +0100
-In-Reply-To: <a05c20091169759c01e70bf2e31dd7d0164368c9.1783590688.git.yoann.congal@smile.fr>
-References: <cover.1783590688.git.yoann.congal@smile.fr>
-	 <a05c20091169759c01e70bf2e31dd7d0164368c9.1783590688.git.yoann.congal@smile.fr>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-d3MfZf/CcHQ0BhuC1LJi"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=LHDCMPX5;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8ee88fce572so13242186d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 06:22:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784035370; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nRhF8DOAqaSALhAuwD/LHt4Vjsz8yrkKhU0qJF2c9DLL+v1Ya2biov0TWTdbw7lsHv
+         MeSmcVWM7wEpvi4EMa/Hijf7W7TZA13v3BQtA7xD1AVt42bnVSVv54E6/0njt24Cv/kw
+         AGyZ9tyLQv3mBfWRHcJSdaJp6zBe6JbfRaS8YARkgAZzgCfAA0pKYmX2mcsiikX50N0a
+         a/m3vmwaHcKOdExWtLkUJ0tFIAaMNbI9OKXnivREFal8LIW5QswPkPr0GoXr7WrKcqja
+         jhAqEKxpgdqs47h6bi2gXvxXERlphQ0tDJNOkTrgSHR3hBwsZ2pxty42p+1xfbGpGUg+
+         q5cQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=PBUoO2LRCD2/Z+GvBvJB4dytwjaJhdPDhVwogHT7qg0=;
+        fh=kBRKN7kC4mpkge2i2CKgDOCGU6M1x53xUWupSWl7I14=;
+        b=j87YhgcBfJuOP1LWJjkmonWE+V00CNFQl9Ro2cvo1hSNFcFYp6bcA2GcKEHDcpSPbk
+         QAWAE1jjPT7moSJgzn2APsFrHFxV/wePmbKpUOHQ1XKtP8UQMPHB1bjQIhK84QSu+UFl
+         FoLw1QEv2vvTi+L6D8/Z0WuSmIu7FlIlukJz7Q0eJY4TcwJDt1hXW+SMy5je9/mNmwGN
+         eU5aJPvDumvS8tHTdeRElk+ImZ7Zuu1NxYcWN+6RHSdO0doLv6nKlSo8Y0Pd2Uf1am+2
+         IPD66608cC76ESXvLsQHLChBfFfflxc3VAARhAjtQxzXFWtTS9/5BbRqf/55slyXzyft
+         Isew==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784035370; x=1784640170; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PBUoO2LRCD2/Z+GvBvJB4dytwjaJhdPDhVwogHT7qg0=;
+        b=LHDCMPX5+kj+TNk3Jeh8oM8ojw9ehiLSP43JhkL64tJ+bpOFaAw7xqG/v7Q3907Izz
+         Ngtxz10vNQAJQG65yxBsVH+briIQ0XavZKeNF216mX3hdFKgxLr5jjOcFFivlhb/0L8/
+         B4nhBLw3vDhQ6yxk7M14GnW3cD82qwPdR4BsqgbaAXVBsLJd6i+M815Y13CMQmQ/SMbz
+         ZaYC133IkItakzQeEx85pzI0uZIqYaEwDFddOR+fTqe2dpCpOkkbCMDWh9m34p8DeLmG
+         jkkd4oJA8Cf8ONX4VOFNdNH9WeSsMWczf0V6l+rkkz2uDzNgnZ1AXyrVHSWadH1ZSZPu
+         an1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784035370; x=1784640170;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PBUoO2LRCD2/Z+GvBvJB4dytwjaJhdPDhVwogHT7qg0=;
+        b=nxJODqXcjYP8o49ZC3Xo9aUrcvVHpwMDFZfUARmsn2v5UGNPDo4Xx7EqnRPA8PxbjQ
+         /2diYO6gBoGKF4LKvGjB8vm9KADkUHho0g14/6czigqTuzMF/fyEZuW0Lr0WJALTLePw
+         NWXX9uQWRPjBPVaal9dPUbKIW4zy+BZgvqgf7CCEsmdNEv5B9cvElqX+lubBd6JD0405
+         XtJ0gjDsbR0g1GJPBmVyD0NkOyAFji8lgPwdpok1OY6yh8muYu9TuWNmwNQdgmfihH01
+         i0I23CMW9Te/FllpjxcvCW3RLhcLRbStHDqX4sDtIe4YVHrQF34lQauXuViZatsKHcF+
+         uadw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro98agAA5qA3QrhTwdF/aA/pcrJ+5Tbhip7yKGaRGsGTkUSdueCR/uGmXrzk+viJpGflVLDLvpvE+l54Yes4r5xYw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxx6a5xmdvrLzEsnfTeYrnPhRXLy4H0A9nTEf7+G2bM0dD0DNlO
+	HkNXjBBdoz0cX7tFhxXKem1PWo+UZDibzbGdbLOm5B0IwhFomThm+0G3ZcQs//lmPFOHqUiJ82e
+	5+IVVWU33QX/XeS7T/TXH6lAela0vRhE=
+X-Gm-Gg: AfdE7cmAhopkbbMH3tQcPo/URwE9DLciXJS50j0RMe23/ybck38U6vpX4uhWVOovTpR
+	TzMatDBIf9bYI/cs/DLUlbqIhmDvMOoeWOnZZrggPJUxMpS5XtSNGPglE2wgrRiROY11gQf7A/C
+	1u0mSrwUPUHHIepvW+9jFYI+1DygTSthIR+9i+ck0xmEyuaQbZAd7Ud7sWvOZLj2jLmjnMl2bNb
+	hF1NUywzYKvDBnn/vQwuZ1Os0CVAfSvmt2b3RNmFE6QLH0QsUUka7lYPxj19Gu2MopDFAPgkJoB
+	5CkgLfbV3rqz/djUoJULqbYSUEUxyL0=
+X-Received: by 2002:a05:6214:3016:b0:8e9:f5de:d61f with SMTP id
+ 6a1803df08f44-90403a59eb6mr144839796d6.46.1784035370343; Tue, 14 Jul 2026
+ 06:22:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260708092252.1211669-1-HimaniRamesh.Barde@windriver.com>
+ <20260708092252.1211669-3-HimaniRamesh.Barde@windriver.com>
+ <DJT3J5GX38YG.338OF4LLBVU92@bootlin.com> <CH3PR11MB8774FCDCE3E2497D8793893B8FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
+ <CH3PR11MB8774C007D411DA9C4E26E9858FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
+In-Reply-To: <CH3PR11MB8774C007D411DA9C4E26E9858FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Jul 2026 15:22:39 +0200
+X-Gm-Features: AUfX_mxU0VjCj6s38ZuyWrisraZ8Towf3wqc8rM0gtZY47U7xB8HHu0VrPfAS8A
+Message-ID: <CANNYZj9DOhHjoT=LZCk+Q+JDVQo-SeViwRmKkSo1UcX1dsQmZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 -> 10.1.2
+To: HimaniRamesh.Barde@windriver.com
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"tgamblin@baylibre.com" <tgamblin@baylibre.com>, "MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
+	"Komati, Shiva" <Shiva.Komati@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:54:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240885
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 13:22:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240886
 
+On Tue, 14 Jul 2026 at 14:21, Barde, Himani Ramesh via
+lists.openembedded.org
+<HimaniRamesh.Barde=windriver.com@lists.openembedded.org> wrote:
+> The error occurs when building python3-setuptools-scm >= 10.1.2.
+>
+> This was reported by the AUH on June 23 (subject: "[OE-core] [AUH] python3-setuptools-scm: upgrading to 10.1.2 FAILED"):
+>
+> File ".../setuptools_scm-10.1.2/src/setuptools_scm/_get_version.py", line 55, in get_version
+>     from vcs_versioning._environment import VcsEnvironment
+> ModuleNotFoundError: No module named 'vcs_versioning._environment'
+>
+> ERROR Backend subprocess exited when trying to invoke get_requires_for_build_wheel
+>
+> setuptools-scm's build backend calls get_version() during get_requires_for_build_wheel, which tries to import vcs_versioning._environment (a vcs-versioning 2.x API). The sysroot has vcs-versioning 1.1.1, which lacks that module.
+>
+> SETUPTOOLS_SCM_PRETEND_VERSION is setuptools-scm's own documented mechanism for this situation. But if you prefer a different approach (e.g., upgrading vcs-versioning to 2.x), happy to defer.
 
---=-d3MfZf/CcHQ0BhuC1LJi
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks! The issue is that newer setuptools-scm needs newer
+vcs-versioning as well -  but this was not clear from the commit with
+the 'pretend_version' fix or your comment to Mathieu. The point I
+wanted to make for the future is:
 
-On Thu, 2026-07-09 at 12:06 +0200, Yoann Congal wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->=20
-> CVE-2025-69648 was marked as a duplicate of CVE-2025-69646. The
-> existing patch already fixes the issue associated with both CVEs.
->=20
-> Update the "CVE:" tag to reference both identifiers.
->=20
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+- it's better to include any error you see into the commit with the
+fix, so the error is documented together with the fix and can be seen
+by reviewers
 
-Hi Yoann,
+- if there's a choice between a workaround, and version update for a
+dependency, it's better to update the versions in lockstep.
+Workarounds tend to be forgotten, they linger around long after the
+issue is otherwise fixed, and it becomes difficult to understand why
+they are there and test whether they're still needed.
 
-Please drop this, I have replied to the original patch.
+In any case, both updates have already landed in master, so nothing
+needs to be done.
 
-Best regards,
-
---=20
-Paul Barker
-
-
---=-d3MfZf/CcHQ0BhuC1LJi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalYxgxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bjV6AQCbBV8BBAf0iolLglCu7Ktqh/BfXEnZOVe7
-ydfLNNvoXQD+M+5awSsmh4FRu0TV4zhs/a1Qgyq1QbLK7FkwS7lb5Aw=
-=xitN
------END PGP SIGNATURE-----
-
---=-d3MfZf/CcHQ0BhuC1LJi--
+Alex
 
