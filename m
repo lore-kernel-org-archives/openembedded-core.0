@@ -1,552 +1,188 @@
-Return-Path: <Ishaan.Desai@ibm.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF76C44501
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 15:50:18 +0000 (UTC)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12061.1784044217338883128
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B308CC44508
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 16:11:17 +0000 (UTC)
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.367.1784045468926350181
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 08:50:17 -0700
+ Tue, 14 Jul 2026 09:11:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ibm.com header.s=pp1 header.b=PMj7afpj;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: ibm.com, ip: 148.163.156.1, mailfrom: ishaan.desai@ibm.com)
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66EEfeGw1608161
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=cRRzoLrepK93lU6+I49kurxCLzoVw2s7tGWGGXjqj
-	Ds=; b=PMj7afpjQwjzEYN7IRbV4UgjXkOnd23gBqS7ntTVSpYlH0I56ifGlc5P/
-	Tal8YELW2/BjKqtcGtX3a/s8G6PWb7gOFKMWgLerbrWQzpcddOa1CJ35h4BL2/I/
-	86u2oJIS2LxpeWG+gJV++Eewu2iLtOkGq9KYhLzRMOdVlZkyeBEvN0MKdp54kY6V
-	u2lwKZ0w1XsC3fNnn8thxcXAseT0q64/w/tJLeAnmervDqrwRwiYqYDrMC4V4kHh
-	xHgmGEHCcmITzStZ3c8CT/vU4vVNx4F792Qpn96x7np9TM0i0iMNVMXhwZBNxg9i
-	zyHxIdPX14LZ6upyIzOocLH+padGw==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbepxf139-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:16 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66EFnclO029559
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:15 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fc0hw3nud-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:15 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66EFo73h26411768
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Jul 2026 15:50:07 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4D0B358055;
-	Tue, 14 Jul 2026 15:50:07 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 120AD5805F;
-	Tue, 14 Jul 2026 15:50:07 +0000 (GMT)
-Received: from pfw153.pfw.tadn.ibm.com (unknown [9.5.7.52])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 14 Jul 2026 15:50:06 +0000 (GMT)
-From: Ishaan Desai <Ishaan.Desai@ibm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ishaan Desai <Ishaan.Desai@ibm.com>
-Subject: [PATCH v3] memory-control: add recipe and bbclass for cgroup v2 memory limiting
-Date: Tue, 14 Jul 2026 10:45:45 -0500
-Message-ID: <20260714154545.4037040-1-Ishaan.Desai@ibm.com>
-X-Mailer: git-send-email 2.51.0
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Hv6mqcJI;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=BuXGIb8U;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.149, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id DE050EC017B;
+	Tue, 14 Jul 2026 12:11:07 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Tue, 14 Jul 2026 12:11:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1784045467; x=1784131867; bh=vd4Cq5rBMu
+	XHVPQC4gA3mYoPSd481hYDksiiU06D1Aw=; b=Hv6mqcJI2XaE7xOiJmYWH7GRQ4
+	tkQpMZlVonb8Rcn6TIsqB8u96/S+OZq3EwkHBBWRgLSBiSdJwDZp89rYac5SGyY6
+	oZLqkoMH3GryPnrA6wCMEii08YW775X4/D43khGOEQNLcbDPGtW0VoH3m5hdEMgH
+	EUmEoq8t1jNhle1XFE6KbJO8TfSOb1CSlPoZTCl7+eDFloT+eGqlVGSHMX1KEWU2
+	x9R23r9XVtO2cdGu9BcofTE93SnZNEuDfuc+qke4Jbyj/KQnKbo0rXzFwdOlLZzF
+	xsxonZc+pacc/WWWGCX1tKryuWverthZ7Pvda6y3MkMmbWvWSmRQ+dwJdYxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1784045467; x=1784131867; bh=vd4Cq5rBMuXHVPQC4gA3mYoPSd481hYDksi
+	iU06D1Aw=; b=BuXGIb8U9eBduHyfVkWCQhHvPv/w5Xix530imtvvE1ECca74toV
+	zR6k0wmeZN72AVGQ0ql773Lgz+V0OZwDHPJsKSnBU8yAa7JFL4/LfHV24XYJpGZt
+	Ny4t78cVPn3QVAUK16ldBK9qFyIZmd+YDSfu0g82rPzf9O/SiP1khJQxiZjy1Tle
+	ScIBgtD235fagJbV6S7w5lPQPtbeH0Ilsh7Jd4lW6s4RParxayz208ngMEmVJhMh
+	4X791evVTWlVo5JtgCgoegPSBt5LFaeGIh5oizRhXlYszCBG9GoeOpVF0d+Tv453
+	hKRzmb/O+Erz68SREm7NF0J58EUuAXnqVNQ==
+X-ME-Sender: <xms:m19WaidC9s0na8IwtsUIXtD577nGBPOE8NZEnbO7IgpB7ZDwGQZSiw>
+    <xme:m19WaiPU0Jf5e058eV3DkmVMGJp45gqT1pCi3z5TGO5wjCzm9lEBtArCNQpiJbOqD
+    vXjwIWZrRltM_T7AFoARRWGAxeGXaFsNMLtRPQ0wa9-ylKwe36hnMc>
+X-ME-Received: <xmr:m19WahK7DmFnvwL-KsrgI0tChdFwIFnwFoe-dPFexYGLueE6AutBBgcfOa9pc8f34iVWpDpNqvKcUZP04ilpdLLmt0_mmak5uhGD0Nk>
+X-ME-Proxy-Cause: dmFkZTFXxXMIfrbxLLqO23dxU6yzxUQSL33/PnrECEip7P8XsDgw7Pm0hb9SIQ4HqFfjs5
+    p9PkRQPO2NOpAOhilkh7n0cXX+etDRS/H5ZrmjOXjHw+nm2AWyNxvLVcgdyDgSuxtssIDV
+    c64a5LsNrK1QdlFF3/x0eEKVBcz8gYI1+3vvatcDbXF7ANZRa53Vi7nWqEo/N7L6DBqp9s
+    IGNlY0igdk1J3km8OV1xPe4qsr+0YWBy1IJxwcNheMx0YH6+RyAsxSJbVUP1kCM30PKwWr
+    isHxi9FS104N4euc668BK4QJGjyKVSFs/O9GygD9WdZpzhPhiZW/5zg7k3O0pzQYukmIhN
+    6CqBEiPDZePvtJ8uaVw/9laBrGcnOOUGklNOSaWKy6Mj5V2sx9EzVHyi7SlNjVjAcWKAgK
+    vn5GRKdxDLt3YY/flW6IX0Y8ViKWOEoOoVnuNLLmkhIv2RBfIMrTwsNDuaJyfqg6+Ru68O
+    GvctMFI/mOSgyBzPOTRDBHGPfuPTWNi3UMQkrnMD/h/3Yy2iYY7XiOPmVHnK2YSHcg5WAX
+    WWf2LffQ2HWbjY+FZKysyEKqccluWzixAamcyu6LlppV+RvgUBPoBk6+jT2T8StQVT+z87
+    5SvNsMzmcRsHHayfHbFvuHxK2ZmT9Segj42ZDvPQ/7gknkqqVx7KT98J53bQ
+X-ME-Proxy: <xmx:m19WarEbysfnSYYIHG3zw-aTnHmoPObPbnv3iJ0ld62wY6D6m6Keew>
+    <xmx:m19WahRO4ZS0He0OlI6GdZ6YlfXenzQRrrq1GYCVYu28R-mRZnHZHA>
+    <xmx:m19WavEhHMDiNU0idYlDet5Dv-JBFIJ9tYUI8wJOHlT26CDElR2iJA>
+    <xmx:m19Wal-sOTbfh_GSLhnJqgdmUCjAKivHMlbIVz6fNt7d2inJgea7Rg>
+    <xmx:m19WamAwPNHvXWOJFd6HtFq6PB8W7m8xHSozYsE-FQ7PME6kJ58PE0vD>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Jul 2026 12:11:07 -0400 (EDT)
+Message-ID: <cdbffad91a78bae213734628ef57315779609b21.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v3] memory-control: add recipe and bbclass for
+ cgroup v2 memory limiting
+From: Paul Barker <paul@pbarker.dev>
+To: Ishaan.Desai@ibm.com, openembedded-core@lists.openembedded.org
+Date: Tue, 14 Jul 2026 17:11:03 +0100
+In-Reply-To: <20260714154545.4037040-1-Ishaan.Desai@ibm.com>
+References: <20260714154545.4037040-1-Ishaan.Desai@ibm.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
+ DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
+ NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
+ YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
+ auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
+ C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
+ UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
+ F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
+ pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
+ bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
+ EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAgU
+ JCxiQFgAKCRB0l1yBt+ZrrLhdD/sH+qTaxCDUg47eW329yJWCDZmO+iuYzNSyHMs1x0DHKNIQQ8zN
+ pA2S/de4jElQuPHjw/IS8B3VmM62Wuq5vHuxNlFv9IMwrwqi6zhCDui8+nCN/AQGGXousJI/SeZjm
+ Y5gS9cqh4vNY+huqEEfdTFXIfTBRkmnvYozSO2uDB3EMuiWgBlw2uLrtmkvPLn/m/GvEouLNox6wv
+ tcJcIbL59a0+3jv/m7pnWoZXOkWmKQnfFWikqjuKCISNU0gzBSL4UOj8gtQ2z+vu7ffi29b6SV5IL
+ m1yzdbkigEn4HL44lz3N+oHZ3wWsRqqeyGSX5fCfx3tGWg6scZQrpsjT5yq+LiffiXVNpjeJ9KzQw
+ 0cbAZ/9uhk1sWBroP+/gMhsWjlbFYXVlRvkNKGPI22eZtOEz4jF6OrOONyOoY3i26niJUyIgdBpca
+ H0hKUSVQ8VnG7qVTNrQk9BbeoSszqRwViN7lfyVtK9b1TCFuGewOETGn0TPvSzruYCtD3CLm7mjuX
+ AMBpIGoRUiCFVmF1hlOgqDyH4F6zRTHhKLpfmNzfQcg+Uo147Q2IHpoh0mJsL4FEZEI8hFyecX1Pq
+ 7HqnvxGD2OhCof1Z6LDxptX0wbgocnYFNxN5S1owcXZUQOFnzYLlLugrcEjlGCm4Gn7k4SiFERSBj
+ UFsQgIhw/7lVVn4o4rQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
+ D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAw
+ UJCxiQFgAKCRB0l1yBt+ZrrHy+EADNMt+ewz8H7BUKpEMMhpaA1VxyXO5IqlKXS0gElMgHYXl7L7C
+ 0/qLfRH96vwVD33zM+f0Vl9aWWkom/k8s42tLyPvX7D5zTrj3r5muJ+d9dXWGwBFXxXlE9YjSP26K
+ bYfRusmRHbbEPlLPSnrr9KYS2FGVD6ViRNhhVguflgPv2i18+fNBE3YyByfNCiQgO/SgaSdh172Ql
+ tuYE1Chk6FD45tCUv3dI9lO2PlVwrciiVYvIv/jiTDEwZOISOClTE/Ha18pxDJfLhS8QQnLWuBNX6
+ HUkLi78fVmVYbcWIkTuSHjfNoGTMaFijMg9Wl6poFrY++Pl0S40681zEIrwZhW5pKoqXoaElt29Yf
+ OwVo6BIsSOLEqKiWsdP7PJTaJYU1ovnshBcOmuXMgc13AjQ4AhEGqI1TaEJ/E1jEDDyTQFeWgrfew
+ YaWdqpgiDmRMTj/tIGVj9iy7qZQICUUtlfm0QK6w6M7qq0GdO2o+S3uVF6y2AxQo8l9LSHiW9O35I
+ juR37zeqv72puYyOteVYJsJaw999HUmhXc/X/J9FQFw8twxPKDLLu+w8MqDo9bhllzR93Zy/OShuG
+ yGybcX3DKO2R+AQ90tXLbxKmHLtrnG/zyDPhLv/LGD480v5hEoT+IS0u9wPD2vP5q36a5DtzqXA/7
+ t9PCamLoCvZLleg7GY7QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJeBDABCgBIFiEEmLKq
+ wQCsP4K7XVRndJdcgbfma6wFAmlqDRwqHSBwYnJrci51ayBkb21haW4gd2lsbCBiZSBhbGxvd2VkI
+ HRvIGxhcHNlAAoJEHSXXIG35muspk0P/1G08N6zGSdw2p8+8f/1HhaYEb9KdQHT1JmQfZUrIHIpD2
+ ELNb91Z6Pz197d/igGpox1dzYOwE0WolWo44ZHX2yw+p9V+HJAUKRe0SPc1iNLkTzaAZ7oYJ1DnFh
+ aaqZi4VtKKabKeorJjcDvl2apMwT0agRuDklU97n++ZUuXIEo1Z9uRqEvXz0iTSY7wPxwfoVOQsgf
+ dN1cBLd9OpoOtJRdDJzQUYqjNoQi+5M6KRfBxPLZkmYb4uCGlp1H4AV50eC61j84LBg1ItvU2u+Fx
+ X2JB7lHTswubprD2ZsSwp1VziU6pUj3vtslMWKpBGslpLtnaO561dihGyElayMd4VFg7VR/TsglJv
+ A10EDs2DMhoYPfRQWvwlr5+jPP6s9H8KSTCGFvQt438rP/gk0lcEZUJK0iE2/yq5gQfaCNI5FLN7C
+ q8LVr00oS4doXfmFFxMq6z1rs5SXZorWssjG7v5DILnPxLqYloQK/ebM5Ixbzm0Lq/8vWL7sw7yOH
+ JVYCHCApGzKNii6rYyHdi0K8UwvpD++GCWLyvbgP/H3l5FqL63gAN0Rw1CO5r22+SmG7aOmekJH3N
+ ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-6gxxzZWZKe9QfJd++bFR"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: onO83JG4f0tWE_5t55GsRxjgnlkxlz88
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDE2MyBTYWx0ZWRfXy9ZBFiop0A8B
- eqkqjyvWVP25afBIVgy/ZI6gne+XeR9Qak/Pqz4oiOwkxKVBAtNcBpUPImRKrUhI2t89bcBuoAy
- eRbfytU94ylmboTw29KOtD0n+lPW8gs=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDE2MyBTYWx0ZWRfX/3EPGNSg+5hd
- HACZ2uEeLU0oSV2EVdrQWIGxQCjj0+Cze13E+hzFaE8M8a3XqNlDGIAjUIV96SjTDYwroyaPcGb
- eDLyYv9DvvAi3BViK+0TpqlmienDhraEfg1RXZZ3JbueFDlSmLhdZYzN3LwrDBcReKbv21EY2I3
- gZvgQTq99iSAdvgPQp99CsnSNUgo4QzNS1BAgHhiqconHJVZDohUqJeSGWYwzls0PGoDz09ugEY
- gvqbfgAETS8pePvqwpvoSuKRn5O2aAGcCcHJ0Z7s+EyoHNra+rDFHPkQJk3qkSLlzbRmpdgydYO
- 3mX0YkYmOnKZuwIbwVR+tt0FlI9CCXv4gE9Fuct7OlftlmNoOfLkiMLx/FV1jJ+BDolqBXj03g3
- xPTpW9ZZMOddgqJrIbNQ9etrnXl0s9XQaN6xaO+XR1WyC2O4Qy1uaF2OllIi7udejwictUMgmt7
- tkgtuhoz4fBYsu3Ekwg==
-X-Authority-Analysis: v=2.4 cv=XbS5Co55 c=1 sm=1 tr=0 ts=6a565ab8 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=iQ6ETzBq9ecOQQE5vZCe:22 a=Q4-j1AaZAAAA:8 a=iGHA9ds3AAAA:8 a=VnNF1IyMAAAA:8
- a=7CQSdrXTAAAA:8 a=NlPfdOwJ_zJYpz0BUKoA:9 a=IzD9Hpi7bwxJFrhR:21
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: onO83JG4f0tWE_5t55GsRxjgnlkxlz88
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-14_03,2026-07-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607140163
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240897
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 16:11:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240898
 
-Adds a CLI tool and bbclass for applying per-service memory limits via
-systemd resource control and Linux cgroups v2.
 
-The memory-control command inspects MemoryMax and MemoryHigh settings
-for any running systemd service and lists all services with a drop-in
-applied.
+--=-6gxxzZWZKe9QfJd++bFR
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-memory-control.bbclass allows any recipe to set a memory limit at build
-time by inheriting the class and setting MEMORY_LIMIT. Two OOM policies
-are available via MEMORY_OOM_POLICY: "reboot" (default) reboots on OOM,
-and "kill" terminates only the offending process.
+On Tue, 2026-07-14 at 10:45 -0500, Ishaan Desai via
+lists.openembedded.org wrote:
+> Adds a CLI tool and bbclass for applying per-service memory limits via
+> systemd resource control and Linux cgroups v2.
+>=20
+> The memory-control command inspects MemoryMax and MemoryHigh settings
+> for any running systemd service and lists all services with a drop-in
+> applied.
+>=20
+> memory-control.bbclass allows any recipe to set a memory limit at build
+> time by inheriting the class and setting MEMORY_LIMIT. Two OOM policies
+> are available via MEMORY_OOM_POLICY: "reboot" (default) reboots on OOM,
+> and "kill" terminates only the offending process.
+>=20
+> The recipe requires the systemd DISTRO_FEATURE via features_check so it
+> is cleanly skipped on non-systemd distros. The bbclass guards its
+> RDEPENDS injection with bb.utils.contains for the same reason.
+> S is set to ${UNPACKDIR} since all sources are local file:// URIs with
+> no upstream tarball to unpack into a versioned subdirectory.
+>=20
+> AI-Generated: Uses IBM Bob
+>=20
+> Signed-off-by: Ishaan Desai <Ishaan.Desai@ibm.com>
 
-The recipe requires the systemd DISTRO_FEATURE via features_check so it
-is cleanly skipped on non-systemd distros. The bbclass guards its
-RDEPENDS injection with bb.utils.contains for the same reason.
-S is set to ${UNPACKDIR} since all sources are local file:// URIs with
-no upstream tarball to unpack into a versioned subdirectory.
+Hi Ishaan,
 
-AI-Generated: Uses IBM Bob
+The previous versions of this patch which you have sent have had
+questions. Please engage with the discussion instead of just spinning a
+new version of the patch without clarifying anything.
 
-Signed-off-by: Ishaan Desai <Ishaan.Desai@ibm.com>
----
- meta/classes-recipe/memory-control.bbclass    |  97 +++++++++
- meta/conf/distro/include/maintainers.inc      |   1 +
- .../memory-control/cgroups-v2.cfg             |  19 ++
- .../memory-control/memory-control.sh          | 196 ++++++++++++++++++
- .../memory-control/memory-control@.service    |  13 ++
- .../memory-control/memory-control_1.0.bb      |  57 +++++
- 6 files changed, 383 insertions(+)
- create mode 100644 meta/classes-recipe/memory-control.bbclass
- create mode 100644 meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
- create mode 100755 meta/recipes-support/memory-control/memory-control/memory-control.sh
- create mode 100644 meta/recipes-support/memory-control/memory-control/memory-control@.service
- create mode 100644 meta/recipes-support/memory-control/memory-control_1.0.bb
+Please also include a patch change log to document the differences
+between each version of the series.
 
-diff --git a/meta/classes-recipe/memory-control.bbclass b/meta/classes-recipe/memory-control.bbclass
-new file mode 100644
-index 0000000000..ebde5ed46b
---- /dev/null
-+++ b/meta/classes-recipe/memory-control.bbclass
-@@ -0,0 +1,97 @@
-+# memory-control.bbclass - write a systemd drop-in memory limit into the image
-+#
-+# Usage:
-+#   inherit memory-control
-+#   MEMORY_LIMIT = "512M"           # required; K/M/G or raw bytes
-+#   MEMORY_OOM_POLICY = "kill"      # optional; "reboot" (default) or "kill"
-+#
-+# "reboot": system reboots on OOM (vm.panic_on_oom=2; typical platform default).
-+# "kill":   only the offending process is killed, system keeps running.
-+#           Writes /etc/sysctl.d/memory-control.conf with vm.panic_on_oom=1,
-+#           which sorts after vm.conf and overrides it at boot.
-+#
-+# MemoryHigh is set to 70% of MemoryMax so the kernel has room to reclaim
-+# file-backed pages before hitting the hard ceiling.
-+#
-+# Kernel config prerequisite:
-+#   CONFIG_CGROUPS=y and CONFIG_MEMCG=y must be enabled.  A reference kernel
-+#   config fragment is installed to ${datadir}/memory-control/cgroups-v2.cfg.
-+#   To apply it, copy the fragment to your kernel recipe's files directory and
-+#   add it to SRC_URI in your kernel bbappend:
-+#
-+#     SRC_URI:append:<machine> = " file://cgroups-v2.cfg"
-+
-+MEMORY_LIMIT ?= ""
-+MEMORY_LIMIT_SERVICE ?= "${PN}.service"
-+MEMORY_OOM_POLICY ?= "reboot"
-+
-+# Only inject the runtime dependency when the distro actually has systemd;
-+# memory-control itself requires the systemd DISTRO_FEATURE.
-+RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'memory-control', '', d)}"
-+
-+python memory_control_do_install() {
-+    import os
-+
-+    limit_str = d.getVar('MEMORY_LIMIT') or ''
-+    if not limit_str:
-+        return
-+
-+    service    = d.getVar('MEMORY_LIMIT_SERVICE')
-+    destdir    = d.getVar('D')
-+    oom_policy = (d.getVar('MEMORY_OOM_POLICY') or 'reboot').strip().lower()
-+
-+    if oom_policy not in ('reboot', 'kill'):
-+        bb.fatal("memory-control: MEMORY_OOM_POLICY='%s' is invalid; "
-+                 "use 'reboot' or 'kill'" % oom_policy)
-+
-+    limit_str = limit_str.strip()
-+    units = {'K': 1024, 'KB': 1024,
-+             'M': 1024**2, 'MB': 1024**2,
-+             'G': 1024**3, 'GB': 1024**3}
-+    number_part = ''.join(c for c in limit_str if c.isdigit())
-+    unit_part   = ''.join(c for c in limit_str if not c.isdigit()).upper()
-+
-+    if not number_part:
-+        bb.fatal("memory-control: MEMORY_LIMIT='%s' is not a valid size" % limit_str)
-+
-+    bytes_val  = int(number_part) * units.get(unit_part, 1)
-+    bytes_high = int(bytes_val * 0.7)
-+
-+    dropin_dir = os.path.join(destdir, 'etc', 'systemd', 'system', service + '.d')
-+    os.makedirs(dropin_dir, exist_ok=True)
-+
-+    dropin_path = os.path.join(dropin_dir, 'memory-control.conf')
-+    with open(dropin_path, 'w') as f:
-+        f.write('# generated by memory-control.bbclass\n')
-+        f.write('# MEMORY_LIMIT = "%s"  MEMORY_OOM_POLICY = "%s"\n' % (limit_str, oom_policy))
-+        f.write('[Service]\n')
-+        f.write('MemoryMax=%d\n' % bytes_val)
-+        f.write('MemoryHigh=%d\n' % bytes_high)
-+        f.write('MemorySwapMax=0\n')
-+        if oom_policy == 'kill':
-+            # keep the unit alive after the cgroup OOM kill
-+            f.write('OOMPolicy=continue\n')
-+            # make this unit the preferred victim for the system-wide OOM killer
-+            # so it is killed as a process rather than causing a kernel panic
-+            f.write('OOMScoreAdjust=500\n')
-+
-+    bb.note("memory-control: wrote %s for %s (%s, policy=%s)" % (
-+            dropin_path, service, limit_str, oom_policy))
-+
-+    if oom_policy == 'kill':
-+        # override vm.panic_on_oom=2 from vm.conf; value 1 kills only the
-+        # process inside the cgroup that hit MemoryMax instead of panicking.
-+        sysctl_dir  = os.path.join(destdir, 'etc', 'sysctl.d')
-+        os.makedirs(sysctl_dir, exist_ok=True)
-+        sysctl_path = os.path.join(sysctl_dir, 'memory-control.conf')
-+        if not os.path.exists(sysctl_path):
-+            with open(sysctl_path, 'w') as f:
-+                f.write('# generated by memory-control.bbclass\n')
-+                f.write('vm.panic_on_oom=1\n')
-+            bb.note("memory-control: wrote %s" % sysctl_path)
-+}
-+
-+do_install[postfuncs] += "memory_control_do_install"
-+
-+FILES:${PN} += "/etc/systemd/system/${MEMORY_LIMIT_SERVICE}.d/memory-control.conf"
-+FILES:${PN} += "${@ '/etc/sysctl.d/memory-control.conf' if (d.getVar('MEMORY_OOM_POLICY') or 'reboot').strip().lower() == 'kill' else '' }"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4c6307086c..8589a67fa4 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -520,6 +520,7 @@ RECIPE_MAINTAINER:pn-matchbox-wm = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-mc = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-mdadm = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-menu-cache = "Ross Burton <ross.burton@arm.com>"
-+RECIPE_MAINTAINER:pn-memory-control = "Ishaan Desai <Ishaan.Desai@ibm.com>"
- RECIPE_MAINTAINER:pn-mesa = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-mesa-demos = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-mesa-gl = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg b/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
-new file mode 100644
-index 0000000000..00661668de
---- /dev/null
-+++ b/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
-@@ -0,0 +1,19 @@
-+# kernel config fragment required for cgroup v2 memory accounting
-+
-+CONFIG_CGROUPS=y
-+CONFIG_MEMCG=y
-+CONFIG_MEMCG_SWAP=y
-+CONFIG_MEMCG_KMEM=y
-+CONFIG_CGROUP_SCHED=y
-+CONFIG_FAIR_GROUP_SCHED=y
-+CONFIG_CFS_BANDWIDTH=y
-+CONFIG_CGROUP_PIDS=y
-+CONFIG_CGROUP_FREEZER=y
-+CONFIG_CGROUP_DEVICE=y
-+CONFIG_CGROUP_CPUACCT=y
-+CONFIG_CGROUP_PERF=y
-+CONFIG_CGROUP_BPF=y
-+CONFIG_BLK_CGROUP=y
-+CONFIG_PSI=y
-+CONFIG_PSI_DEFAULT_DISABLED=n
-+CONFIG_SWAP=y
-diff --git a/meta/recipes-support/memory-control/memory-control/memory-control.sh b/meta/recipes-support/memory-control/memory-control/memory-control.sh
-new file mode 100755
-index 0000000000..251c902ca6
---- /dev/null
-+++ b/meta/recipes-support/memory-control/memory-control/memory-control.sh
-@@ -0,0 +1,196 @@
-+#!/bin/bash
-+# memory-control - inspect cgroup v2 memory limits for systemd services
-+#
-+# requires: kernel CONFIG_MEMCG=y + cgroups v2 (mount | grep cgroup2),
-+#           systemd 243+, bash 4.0+
-+#
-+# usage:
-+#   memory-control get <service>     show MemoryMax/MemoryHigh
-+#   memory-control status <service>  show live usage and memory.stat
-+#   memory-control list              list services with a drop-in
-+#   .service suffix is optional
-+#
-+# build-time configuration (recipe or .bbappend):
-+#
-+#   inherit memory-control
-+#   MEMORY_LIMIT      = "512M"       # K/M/G or raw bytes
-+#   MEMORY_OOM_POLICY = "kill"       # "reboot" (default) or "kill"
-+#
-+#   machine overrides work as normal bitbake syntax:
-+#     MEMORY_LIMIT:mymachine = "512M"
-+#
-+#   if the unit name differs from <PN>.service:
-+#     MEMORY_LIMIT_SERVICE = "my-custom-unit.service"
-+#
-+#   accepted sizes: 256K  512M  1G  536870912 (raw bytes)
-+#
-+# what gets written at build time:
-+#
-+#   /etc/systemd/system/<service>.service.d/memory-control.conf  (always)
-+#     MemoryMax=<bytes>        hard limit; cgroup OOM killer fires if exceeded
-+#     MemoryHigh=<70% of max>  reclaim/throttle starts here; 30% gap to max
-+#     MemorySwapMax=0          swap disabled
-+#     OOMPolicy=continue       kill policy only; unit stays alive after kill
-+#     OOMScoreAdjust=500       kill policy only; preferred system-wide OOM target
-+#
-+#   /etc/sysctl.d/memory-control.conf  (kill policy only)
-+#     vm.panic_on_oom=1        sorts after vm.conf, overrides =2 at boot
-+#
-+# oom policy:
-+#   reboot  BMC reboots on OOM; matches vm.panic_on_oom=2 (platform default)
-+#   kill    only the offending process dies; BMC keeps running
-+#           when MemoryMax is hit:
-+#             - cgroup OOM killer fires (scoped to this cgroup only),
-+#               vm.panic_on_oom is not consulted
-+#             - OOMPolicy=continue keeps the unit alive after the kill
-+#             - OOMScoreAdjust=500 makes this the preferred target if global
-+#               RAM is also exhausted, avoiding a kernel panic
-+#
-+# troubleshooting:
-+#   cgroups v2 not mounted:
-+#     mount | grep cgroup2
-+#     # add systemd.unified_cgroup_hierarchy=1 to kernel cmdline if missing
-+#
-+#   memory controller missing:
-+#     cat /sys/fs/cgroup/cgroup.controllers   # "memory" must appear
-+#     # rebuild kernel with CONFIG_MEMCG=y if not
-+#
-+#   drop-in not loaded:
-+#     systemctl cat <service>                 # check for memory-control.conf
-+#     systemctl daemon-reload && systemctl restart <service>
-+#
-+#   check kill policy is active:
-+#     systemctl show <service> -p OOMPolicy -p MemoryMax -p MemoryHigh
-+#     sysctl vm.panic_on_oom                  # should be 1
-+#
-+#   MemoryMax shows infinity after daemon-reload:
-+#     ls /etc/systemd/system/<service>.service.d/
-+#     ls /usr/lib/systemd/system/<service>.service.d/
-+#     # look for a conflicting drop-in
-+#
-+#   service keeps getting killed (limit too low):
-+#     watch memory-control status <service>   # find peak usage
-+#     # set MEMORY_LIMIT to peak + ~30% in the .bbappend and rebuild
-+set -e
-+
-+CGROUP_BASE=/sys/fs/cgroup
-+
-+usage() {
-+    cat <<EOF
-+usage: $(basename "$0") <command> [service]
-+
-+  get <service>    show MemoryMax/MemoryHigh
-+  status <service> show live usage and memory.stat
-+  list             list services with a memory-control drop-in
-+  -h, --help       show this text
-+
-+Limits are set at build time:
-+  inherit memory-control
-+  MEMORY_LIMIT      = "512M"
-+  MEMORY_OOM_POLICY = "kill"
-+
-+Drop-in location:
-+  /etc/systemd/system/<service>.service.d/memory-control.conf
-+EOF
-+    exit 0
-+}
-+
-+to_human() {
-+    local val=$1
-+    case "$val" in
-+        max|infinity|"") echo "unlimited"; return ;;
-+    esac
-+    [[ "$val" =~ ^[0-9]+[KMG]$ ]] && { echo "$val"; return; }
-+    [[ "$val" =~ ^[0-9]+$ ]] || { echo "unlimited"; return; }
-+    if   (( val >= 1024**3 )); then echo "$((val / 1024**3))G"
-+    elif (( val >= 1024**2 )); then echo "$((val / 1024**2))M"
-+    elif (( val >= 1024    )); then echo "$((val / 1024))K"
-+    else echo "${val}B"
-+    fi
-+}
-+
-+resolve_service() {
-+    local input=$1
-+    [[ "$input" =~ \.service$ ]] || input="${input}.service"
-+
-+    local fragment
-+    fragment=$(systemctl show "$input" -p FragmentPath --value 2>/dev/null)
-+
-+    if [[ -z "$fragment" || ! -f "$fragment" ]]; then
-+        for dir in /etc/systemd/system /lib/systemd/system /usr/lib/systemd/system; do
-+            [[ -f "$dir/$input" ]] && { fragment="$dir/$input"; break; }
-+        done
-+    fi
-+
-+    if [[ -z "$fragment" || ! -f "$fragment" ]]; then
-+        echo "error: no unit file found for '$input'" >&2
-+        return 1
-+    fi
-+
-+    service=$(basename "$fragment")
-+}
-+
-+cmd_get() {
-+    local service=$1
-+    [[ -n "$service" ]] || { echo "error: service name required" >&2; exit 1; }
-+    resolve_service "$service" || exit 1
-+
-+    echo "service:    $service"
-+    echo "MemoryMax:  $(to_human "$(systemctl show "$service" -p MemoryMax  --value)")"
-+    echo "MemoryHigh: $(to_human "$(systemctl show "$service" -p MemoryHigh --value)")"
-+}
-+
-+cmd_status() {
-+    local service=$1
-+    [[ -n "$service" ]] || { echo "error: service name required" >&2; exit 1; }
-+    resolve_service "$service" || exit 1
-+
-+    local state
-+    state=$(systemctl is-active "$service" 2>/dev/null || true)
-+    echo "service: $service"
-+    echo "state:   $state"
-+
-+    if [[ "$state" == "active" ]]; then
-+        local mem_max mem_high mem_cur
-+        mem_max=$(systemctl show "$service"  -p MemoryMax     --value)
-+        mem_high=$(systemctl show "$service" -p MemoryHigh    --value)
-+        mem_cur=$(systemctl show "$service"  -p MemoryCurrent --value)
-+        echo "current: $(to_human "$mem_cur")"
-+        echo "high:    $(to_human "$mem_high")"
-+        echo "max:     $(to_human "$mem_max")"
-+        [[ "$mem_max" =~ ^[0-9]+$ ]] && echo "usage:   $(( mem_cur * 100 / mem_max ))%"
-+    fi
-+
-+    local cgroup_path
-+    cgroup_path=$(systemctl show "$service" -p ControlGroup --value)
-+    [[ -z "$cgroup_path" ]] && return
-+    printf "\ncgroup: %s\n" "$cgroup_path"
-+
-+    local mem_stat="${CGROUP_BASE}${cgroup_path}/memory.stat"
-+    [[ -f "$mem_stat" ]] || return
-+    printf "\nmemory.stat:\n"
-+    grep -E "^(anon|file|shmem|kernel)" "$mem_stat" | while read -r key val; do
-+        printf "  %-20s %s\n" "$key" "$(to_human "$val")"
-+    done
-+}
-+
-+cmd_list() {
-+    local found=0
-+    for dir in /etc/systemd/system/*.service.d; do
-+        [[ -d "$dir" && -f "$dir/memory-control.conf" ]] || continue
-+        local unit
-+        unit=$(basename "$dir" .d)
-+        printf "%-40s %s\n" "${unit%.service}" \
-+            "$(to_human "$(systemctl show "$unit" -p MemoryMax --value 2>/dev/null || echo unknown)")"
-+        found=1
-+    done
-+    (( found )) || echo "no services with memory-control drop-ins found"
-+}
-+
-+case "${1:-}" in
-+    get)       cmd_get    "$2" ;;
-+    status)    cmd_status "$2" ;;
-+    list)      cmd_list ;;
-+    -h|--help) usage ;;
-+    *)         usage ;;
-+esac
-diff --git a/meta/recipes-support/memory-control/memory-control/memory-control@.service b/meta/recipes-support/memory-control/memory-control/memory-control@.service
-new file mode 100644
-index 0000000000..20efea5a9c
---- /dev/null
-+++ b/meta/recipes-support/memory-control/memory-control/memory-control@.service
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Memory Control for %i
-+Documentation=man:systemd.resource-control(5)
-+Before=%i.service
-+PartOf=%i.service
-+
-+[Service]
-+Type=oneshot
-+RemainAfterExit=yes
-+ExecStart=/bin/true
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-support/memory-control/memory-control_1.0.bb b/meta/recipes-support/memory-control/memory-control_1.0.bb
-new file mode 100644
-index 0000000000..1b196e1b85
---- /dev/null
-+++ b/meta/recipes-support/memory-control/memory-control_1.0.bb
-@@ -0,0 +1,57 @@
-+SUMMARY = "Inspect and apply cgroup v2 memory limits for systemd services"
-+DESCRIPTION = "Provides a CLI tool to inspect MemoryMax/MemoryHigh settings \
-+for any systemd service, and a bbclass to bake per-service drop-ins into an \
-+image at build time."
-+HOMEPAGE = "https://www.openembedded.org"
-+BUGTRACKER = "https://bugzilla.yoctoproject.org"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+inherit systemd features_check
-+
-+REQUIRED_DISTRO_FEATURES = "systemd"
-+
-+SRC_URI = " \
-+    file://memory-control.sh \
-+    file://memory-control@.service \
-+    file://cgroups-v2.cfg \
-+"
-+
-+S = "${UNPACKDIR}"
-+
-+SYSTEMD_SERVICE:${PN} = ""
-+SYSTEMD_AUTO_ENABLE = "disable"
-+
-+RDEPENDS:${PN} = "bash"
-+
-+do_install() {
-+    install -d ${D}${bindir}
-+    install -m 0755 ${UNPACKDIR}/memory-control.sh ${D}${bindir}/memory-control
-+
-+    install -d ${D}${systemd_system_unitdir}
-+    install -m 0644 ${UNPACKDIR}/memory-control@.service \
-+                    ${D}${systemd_system_unitdir}/
-+
-+    install -d ${D}${datadir}/memory-control
-+    install -m 0644 ${UNPACKDIR}/cgroups-v2.cfg \
-+                    ${D}${datadir}/memory-control/
-+}
-+
-+pkg_postinst:${PN}() {
-+    #!/bin/sh
-+    if [ -n "$D" ]; then
-+        exit 0
-+    fi
-+    if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
-+        grep -q memory /sys/fs/cgroup/cgroup.controllers || \
-+            echo "memory-control: WARNING: memory controller not available in cgroups v2"
-+    else
-+        echo "memory-control: WARNING: cgroups v2 not detected"
-+    fi
-+}
-+
-+FILES:${PN} = " \
-+    ${bindir}/memory-control \
-+    ${systemd_system_unitdir}/memory-control@.service \
-+    ${datadir}/memory-control \
-+"
+You can find more information in our contributor guide:
+
+  https://docs.yoctoproject.org/contributor-guide/submit-changes.html#takin=
+g-patch-review-into-account
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-6gxxzZWZKe9QfJd++bFR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalZflxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bhf+AP41RW5bmEPJyeO4hnTfc5VoVkLNOUGXok3M
+L8tayoIsrgEAl7RBr1q9SrIrw/rMPr8fwPnRj51QBj8YlKmMM/+/Qw4=
+=SVR4
+-----END PGP SIGNATURE-----
+
+--=-6gxxzZWZKe9QfJd++bFR--
 
