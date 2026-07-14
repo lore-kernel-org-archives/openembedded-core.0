@@ -1,125 +1,105 @@
-Return-Path: <Ishaan.Desai@ibm.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501C3C44507
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 18:33:39 +0000 (UTC)
-Subject: Re: [PATCH] memory-control: add recipe and bbclass for cgroup v2 memory limiting
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B67C1C4450B
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:19 +0000 (UTC)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1644.1784055857637854841
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 14 Jul 2026 12:04:17 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=tMpVF49G;
+ spf=pass (domain: gmail.com, ip: 209.85.161.42, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6a31b9a492aso3013106eaf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784055857; x=1784660657; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yYZLGk1BPmORRGJtFaeGw4yV+7JMpyQK1nsifcd6obc=;
+        b=tMpVF49GHJ/m+WcMaEicgI/scxnOuD9zJhG/v1Pkd8m6UuXbSYfV61PHDtAdBWzKhK
+         iPjQkGpy++/pOq9Xz1G7Ae3G4E2Kg7kyATjKVzmW0EnRj6T+bfgy2D1LOwYAF9xl4rbQ
+         ZCo2q28Td3wzojylYaRNCyjKXr6wR0PN6hwKehJtk7IrgSuzN5ZLlsPrmlvLZV0TftWY
+         wdUOQuNridn/w6dfHYyGyX6Bg1mFsK2Oe47TcaKpKDlELN/5jiOtE00OCqLfmosjef0x
+         DYxV43y7zS+H27bg1m9DQnWDhCS5dGlt2N3kvvKP90UIGgDUpIIXMxcA8NasAb8YSfn4
+         M1Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784055857; x=1784660657;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yYZLGk1BPmORRGJtFaeGw4yV+7JMpyQK1nsifcd6obc=;
+        b=XHXmS6B/ppLae+mftsFd2ixIk9bECkmHfr0Bjs27hksGD9Oqfdz+48EJqSl7ibiunq
+         8EiP69ioyYjYqADOROkyUky04cz4SgifMFu30C/ExtQb9K7wvbkalFetKqGD71hXvhvI
+         Q3tnyFeOmYEEMrPB0LloxreZw15UfpRdNv/QXE34WvkwSIOzE4u7xwVPy36tA3deqDO/
+         6ISnBZ8cIXTNewVtNX4Jz7xWdM9hPdjaisb6kRvYH+ojf7vScmhMIb7BY/ZEqaN2q5BE
+         gCUJvzu/IyzyPsws5QqYUmtuK4ZsPSOQ5o8LT1TtCtZnWyYVf4m8pnrW1EkGhXg7kLa7
+         0Rhg==
+X-Gm-Message-State: AOJu0YxiCU0iRq+QjtGCGLfq3M+69VaDDxJ0gDSG6W0pmrI4Zz7Jj3xx
+	JeNkRuqx8f8y6tp5GbVey/EvYjkJrpmJwJWX8eiCfXN+Xs3hA8nww7bQY9PPFQ==
+X-Gm-Gg: AfdE7cm3LHjrs6xAk2J5zuVzLWRy80QCafUIUmyVfKsWhxcXc3zuniruD7om0JCWrit
+	Ez5mCzqyhguI3ILY11vGRmKetaNm6eM8RnHfOtuslIcRMdlBnQqeJiPAmw0/70uAUY0idGFpEgu
+	ULw0/65CvQs1qVCk6A4xIPRRe6W6ILQs+oSwMpjVODmxz72RMVuWBShnBJsZ1vvyWjgAML9KZAz
+	LQfqpKCi1io/pHOyzEXllLAYMek0zLXGhHhhiAwqoZGP3KXDySxVSKsLyfGeysskqPam5BIju0O
+	NQWLW6JZh+v9NQROgVtVY9/9XMZFdjjcRCfUsX6TPUJOL3f9Or0EZc4KGLI8PBxZNWDen66mssB
+	cL9ZfNoiECBqmHzE2PPzQc3OvY3fecC0WQY2+/0mHrLW86wCBGTob7Elvxq2aUGWBxt9UfkZ4Us
+	BqviQhdiT2CZicfWMh8k+l
+X-Received: by 2002:a05:6820:f022:b0:6a1:4592:eded with SMTP id 006d021491bc7-6a3cb7dc9dfmr1858735eaf.0.1784055856737;
+        Tue, 14 Jul 2026 12:04:16 -0700 (PDT)
+Received: from localhost.localdomain ([2601:283:4b02:22d0::7b52])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 12:04:16 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-From: "Ishaan Desai" <Ishaan.Desai@ibm.com>
-X-Originating-Location: New York, US (129.41.86.2)
-X-Originating-Platform: Mac Safari 26.5
-User-Agent: GROUPS.IO Web Poster
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 10/22] xz: Replace deprecated SPDX identifier
+Date: Tue, 14 Jul 2026 12:31:20 -0600
+Message-ID: <20260714190405.3328796-11-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260714190405.3328796-1-JPEWhacker@gmail.com>
+References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Date: Tue, 14 Jul 2026 11:33:33 -0700
-References: <20260713185154.4171585-1-Ishaan.Desai@ibm.com> <CANNYZj_HBsupBnzMvb_z1OxE3f38MAf+7x9N1FSPGKQKVumqJw@mail.gmail.com> <777420.1784046906500517885@lists.openembedded.org> <CANNYZj-iVhChLSJxraiwHo3f5Unvu-N6MyQo1KcHSuNKRG2EzA@mail.gmail.com>
-In-Reply-To: <CANNYZj-iVhChLSJxraiwHo3f5Unvu-N6MyQo1KcHSuNKRG2EzA@mail.gmail.com>
-Message-ID: <783427.1784054013995242828@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="IpP1Do6dnXGVE3ts0z83"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 18:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240907
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240918
 
---IpP1Do6dnXGVE3ts0z83
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+The GPL-3.0-with-autoconf-exception license is a deprecated SPDX license
+identifier, so replace it with "GPL-3.0-or-later WITH
+Autoconf-exception-macro"
 
-Hi Alexander,
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-extended/xz/xz_5.8.3.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks for the feedback. I'll move this out of OE-Core. Is there an existin=
-g small layer this would fit into, or would you expect this to warrant a ne=
-w dedicated layer? I'll also add tests and usage examples before resubmitti=
-ng. I'll drop the bbclass and implement a memory-control-config recipe that=
- installs the needed systemd configuration without touching the recipes tha=
-t provide the actual services.
+diff --git a/meta/recipes-extended/xz/xz_5.8.3.bb b/meta/recipes-extended/xz/xz_5.8.3.bb
+index 0c0886fa7a..b76b1726e4 100644
+--- a/meta/recipes-extended/xz/xz_5.8.3.bb
++++ b/meta/recipes-extended/xz/xz_5.8.3.bb
+@@ -10,11 +10,11 @@ PROVIDES += "xz-decompress"
+ # packages, and the LGPL bits are under lib/, which appears to be used for
+ # libgnu, which appears to be used for DOS builds. So we're left with
+ # GPL-2.0-or-later and 0BSD.
+-LICENSE = "GPL-2.0-or-later & GPL-3.0-with-autoconf-exception & LGPL-2.1-or-later & 0BSD"
+-LICENSE:${PN} = "0BSD & GPL-2.0-or-later"
+-LICENSE:${PN}-dev = "0BSD & GPL-2.0-or-later"
++LICENSE = "GPL-2.0-or-later AND GPL-3.0-or-later WITH Autoconf-exception-macro AND LGPL-2.1-or-later AND 0BSD"
++LICENSE:${PN} = "0BSD AND GPL-2.0-or-later"
++LICENSE:${PN}-dev = "0BSD AND GPL-2.0-or-later"
+ LICENSE:${PN}-staticdev = "GPL-2.0-or-later"
+-LICENSE:${PN}-doc = "0BSD & GPL-2.0-or-later"
++LICENSE:${PN}-doc = "0BSD AND GPL-2.0-or-later"
+ LICENSE:${PN}-dbg = "GPL-2.0-or-later"
+ LICENSE:${PN}-locale = "GPL-2.0-or-later"
+ LICENSE:liblzma = "0BSD"
+-- 
+2.54.0
 
-I hadn't fully considered the licensing implications there. I'll rewrite th=
-e control logic to avoid a bash dependency by extending the existing system=
-d tooling directly rather than shipping a separate CLI. I'll put together a=
- revised version along these lines and send it out for another look. Thanks=
- again for the advice.
-
-Thanks,
-Ishaan Desai
-
-**
-
---IpP1Do6dnXGVE3ts0z83
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>
-<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
- 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
-if; color: #000000; background-color: transparent; font-weight: 400; font-s=
-tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
-nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
-rtical-align: baseline; white-space: pre-wrap;">Hi Alexander,</span></p>
-<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
- 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
-if; color: #000000; background-color: transparent; font-weight: 400; font-s=
-tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
-nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
-rtical-align: baseline; white-space: pre-wrap;">Thanks for the feedback. I'=
-ll move this out of OE-Core. </span><span style=3D"font-size: 12pt; font-fa=
-mily: 'Times New Roman', serif; color: #000000; background-color: transpare=
-nt; font-weight: 400; font-style: normal; font-variant-ligatures: normal; f=
-ont-variant-caps: normal; font-variant-alternates: normal; font-variant-num=
-eric: normal; font-variant-east-asian: normal; font-variant-position: norma=
-l; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"=
->Is there an existing small layer this would fit into, or would you expect =
-this to warrant a new dedicated layer? </span><span style=3D"font-size: 11p=
-t; font-family: 'Times New Roman', serif; color: #000000; background-color:=
- transparent; font-weight: 400; font-style: normal; font-variant-ligatures:=
- normal; font-variant-caps: normal; font-variant-alternates: normal; font-v=
-ariant-numeric: normal; font-variant-east-asian: normal; font-variant-posit=
-ion: normal; text-decoration: none; vertical-align: baseline; white-space: =
-pre-wrap;">I'll also add tests and usage examples before resubmitting. I'll=
- drop the bbclass and implement a memory-control-config recipe that install=
-s the needed systemd configuration without touching the recipes that provid=
-e the actual services.</span></p>
-<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
- 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
-if; color: #000000; background-color: transparent; font-weight: 400; font-s=
-tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
-nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
-rtical-align: baseline; white-space: pre-wrap;">I hadn't fully considered t=
-he licensing implications there. I'll rewrite the control logic to avoid a =
-bash dependency by extending the existing systemd tooling directly rather t=
-han shipping a separate CLI. I'll put together a revised version along thes=
-e lines and send it out for another look. Thanks again for the advice.</spa=
-n></p>
-<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
- 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
-if; color: #000000; background-color: transparent; font-weight: 400; font-s=
-tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
-nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
-rtical-align: baseline; white-space: pre-wrap;">Thanks,</span><span style=
-=3D"font-size: 11pt; font-family: 'Times New Roman', serif; color: #000000;=
- background-color: transparent; font-weight: 400; font-style: normal; font-=
-variant-ligatures: normal; font-variant-caps: normal; font-variant-alternat=
-es: normal; font-variant-numeric: normal; font-variant-east-asian: normal; =
-font-variant-position: normal; text-decoration: none; vertical-align: basel=
-ine; white-space: pre-wrap;"><br /></span><span style=3D"font-size: 11pt; f=
-ont-family: 'Times New Roman', serif; color: #000000; background-color: tra=
-nsparent; font-weight: 400; font-style: normal; font-variant-ligatures: nor=
-mal; font-variant-caps: normal; font-variant-alternates: normal; font-varia=
-nt-numeric: normal; font-variant-east-asian: normal; font-variant-position:=
- normal; text-decoration: none; vertical-align: baseline; white-space: pre-=
-wrap;">Ishaan Desai</span></p>
-<strong id=3D"docs-internal-guid-6e6142e0-7fff-b641-ee17-efe277436302" styl=
-e=3D"font-style: normal; font-variant-caps: normal; letter-spacing: normal;=
- orphans: 2; text-align: start; text-indent: 0px; text-transform: none; whi=
-te-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
-0px; text-decoration-line: none; text-decoration-thickness: auto; text-deco=
-ration-style: solid; caret-color: #000000; color: #000000; font-weight: nor=
-mal;"></strong></div>
-
---IpP1Do6dnXGVE3ts0z83--
 
