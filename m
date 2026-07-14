@@ -1,141 +1,125 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <Ishaan.Desai@ibm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63DB8C4450A
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 18:19:19 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.762.1784053153194715255
- for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 11:19:15 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=dMJL2IMi;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260714181909d26777d7b300020792-zamcrn@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260714181909d26777d7b300020792
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 14 Jul 2026 20:19:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=tw7eAHTHdUaJYQn9lbTfWIVzTS5a0TsdC1yPr9JHupM=;
- b=dMJL2IMi0Muh2C7sWC42NvBwIINjBKmT1SafWS2wnRbPIjtET7notChkRTilWxCbI9548h
- +E0q8sJIaC49MBFPLtTWdCjtSifWvKIJeTwIdSic34UYEjB80jaL8/SbRHZNF+Ya4/wAbXiz
- vWoJccTdNLP2AbKmtqvCT6Cp3u4Au7DIUI4b7+zpKkieAKO+vAb9I0LapjpGxb2gYVwaiYQT
- jZRDV8YISaDlDdDvWghcvW4Q0jv4sFEu51o+TA2dRCAtsu2+e/ZQmmhcXMd6ZwEc0LDNe+LN
- HNp8uCcvokOFj8PZpkbEfx4T5/3hudiD69ABdYpTDRPbdFPtOtmDshdg==;
-From: Peter Marko <peter.marko@siemens.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 501C3C44507
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 18:33:39 +0000 (UTC)
+Subject: Re: [PATCH] memory-control: add recipe and bbclass for cgroup v2 memory limiting
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] go: upgrade 1.26.4 -> 1.26.5
-Date: Tue, 14 Jul 2026 20:18:50 +0200
-Message-ID: <20260714181850.5195-1-peter.marko@siemens.com>
+From: "Ishaan Desai" <Ishaan.Desai@ibm.com>
+X-Originating-Location: New York, US (129.41.86.2)
+X-Originating-Platform: Mac Safari 26.5
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Date: Tue, 14 Jul 2026 11:33:33 -0700
+References: <20260713185154.4171585-1-Ishaan.Desai@ibm.com> <CANNYZj_HBsupBnzMvb_z1OxE3f38MAf+7x9N1FSPGKQKVumqJw@mail.gmail.com> <777420.1784046906500517885@lists.openembedded.org> <CANNYZj-iVhChLSJxraiwHo3f5Unvu-N6MyQo1KcHSuNKRG2EzA@mail.gmail.com>
+In-Reply-To: <CANNYZj-iVhChLSJxraiwHo3f5Unvu-N6MyQo1KcHSuNKRG2EzA@mail.gmail.com>
+Message-ID: <783427.1784054013995242828@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="IpP1Do6dnXGVE3ts0z83"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 18:19:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240906
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 18:33:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240907
 
-From: Peter Marko <peter.marko@siemens.com>
+--IpP1Do6dnXGVE3ts0z83
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upgrade to latest 1.26.x release [1]:
+Hi Alexander,
 
-$ git --no-pager log --oneline go1.26.4..go1.26.5
-c19862e5f8 (tag: go1.26.5) [release-branch.go1.26] go1.26.5
-f9ef7f5598 [release-branch.go1.26] os: properly handle trailing slashes in paths in Root
-ca8ca590cc [release-branch.go1.26] crypto/tls: omit PSK in ECH outer client hello
-7397dd7495 [release-branch.go1.26] net: fix TestLookupCNAME
-044c995af7 [release-branch.go1.26] runtime: tolerate vendor suffixes in Linux kernel release strings
-814591410b [release-branch.go1.26] cmd/compile,sync/atomic: make Add And & Or SQCST on PPC64
-2055b1a15d [release-branch.go1.26] syscall: add //go:norace to rawSyscall on darwin
-d7c9c818f9 [release-branch.go1.26] runtime: in moveSliceNoCap, round size down to a whole multiple of element size
-dc80258a97 [release-branch.go1.26] internal/runtime/gc: require AVX512DQ for greentea
-6efcff6602 [release-branch.go1.26] os/signal: make NotifyContext Cause match context.Canceled
-fe91cea4f2 [release-branch.go1.26] cmd/go: use fsys.ReadDir for IsStandardPackage
-ec988a9af1 [release-branch.go1.26] os: notify testlog from (*File).Chdir
+Thanks for the feedback. I'll move this out of OE-Core. Is there an existin=
+g small layer this would fit into, or would you expect this to warrant a ne=
+w dedicated layer? I'll also add tests and usage examples before resubmitti=
+ng. I'll drop the bbclass and implement a memory-control-config recipe that=
+ installs the needed systemd configuration without touching the recipes tha=
+t provide the actual services.
 
-Fixes CVE-2026-39822 and CVE-2026-42505.
+I hadn't fully considered the licensing implications there. I'll rewrite th=
+e control logic to avoid a bash dependency by extending the existing system=
+d tooling directly rather than shipping a separate CLI. I'll put together a=
+ revised version along these lines and send it out for another look. Thanks=
+ again for the advice.
 
-Release information: [2]
+Thanks,
+Ishaan Desai
 
-[1] https://github.com/golang/go/compare/go1.26.4...go1.26.5
-[2] https://groups.google.com/g/golang-announce/c/OrmQE_Yp5Sc
+**
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: b498f6d6d93e0adb3f0e9439aa55a2abfcb9b063)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/go/{go-1.26.4.inc => go-1.26.5.inc}   | 2 +-
- ...o-binary-native_1.26.4.bb => go-binary-native_1.26.5.bb} | 6 +++---
- ...cross-canadian_1.26.4.bb => go-cross-canadian_1.26.5.bb} | 0
- .../go/{go-cross_1.26.4.bb => go-cross_1.26.5.bb}           | 0
- .../go/{go-crosssdk_1.26.4.bb => go-crosssdk_1.26.5.bb}     | 0
- .../go/{go-runtime_1.26.4.bb => go-runtime_1.26.5.bb}       | 0
- meta/recipes-devtools/go/{go_1.26.4.bb => go_1.26.5.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.26.4.inc => go-1.26.5.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.4.bb => go-binary-native_1.26.5.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.4.bb => go-cross-canadian_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.4.bb => go-cross_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.4.bb => go-crosssdk_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.4.bb => go-runtime_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.4.bb => go_1.26.5.bb} (100%)
+--IpP1Do6dnXGVE3ts0z83
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/go/go-1.26.4.inc b/meta/recipes-devtools/go/go-1.26.5.inc
-similarity index 90%
-rename from meta/recipes-devtools/go/go-1.26.4.inc
-rename to meta/recipes-devtools/go/go-1.26.5.inc
-index 8bc6f4d4de..a4302b2790 100644
---- a/meta/recipes-devtools/go/go-1.26.4.inc
-+++ b/meta/recipes-devtools/go/go-1.26.5.inc
-@@ -16,4 +16,4 @@ SRC_URI += "\
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
- "
--SRC_URI[main.sha256sum] = "4f668a32fbfc1132e6a881fb968c2f1dada631492a339211735fbb255a42602d"
-+SRC_URI[main.sha256sum] = "495be4bc87176ac567392e5b4116abd98466d33d7b49d41e764ccc6976b2dc42"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.4.bb b/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-similarity index 80%
-rename from meta/recipes-devtools/go/go-binary-native_1.26.4.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-index 3757b9f6a5..97a8270be2 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.26.4.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "1153d3d50e0ac764b447adfe05c2bcf08e889d42a02e0fe0259bd47f6733ad7f"
--SRC_URI[go_linux_arm64.sha256sum] = "ef758ae7c6cf9267c9c0ef080b8965f453d89ab2d25d9eb22de4405925238768"
--SRC_URI[go_linux_ppc64le.sha256sum] = "53f49b8c7eace2d30389327b4a516b13321f90377fdf5929a6b63174609bc22e"
-+SRC_URI[go_linux_amd64.sha256sum] = "5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053"
-+SRC_URI[go_linux_arm64.sha256sum] = "fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "c5d60e2b303bb612f20cd82786594b64874e73b35134025e27d3390bf284ae43"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.4.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.26.4.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.26.4.bb b/meta/recipes-devtools/go/go-cross_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.26.4.bb
-rename to meta/recipes-devtools/go/go-cross_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.4.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.26.4.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.26.4.bb b/meta/recipes-devtools/go/go-runtime_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.26.4.bb
-rename to meta/recipes-devtools/go/go-runtime_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go_1.26.4.bb b/meta/recipes-devtools/go/go_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.26.4.bb
-rename to meta/recipes-devtools/go/go_1.26.5.bb
+<div>
+<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
+ 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
+if; color: #000000; background-color: transparent; font-weight: 400; font-s=
+tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
+rtical-align: baseline; white-space: pre-wrap;">Hi Alexander,</span></p>
+<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
+ 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
+if; color: #000000; background-color: transparent; font-weight: 400; font-s=
+tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
+rtical-align: baseline; white-space: pre-wrap;">Thanks for the feedback. I'=
+ll move this out of OE-Core. </span><span style=3D"font-size: 12pt; font-fa=
+mily: 'Times New Roman', serif; color: #000000; background-color: transpare=
+nt; font-weight: 400; font-style: normal; font-variant-ligatures: normal; f=
+ont-variant-caps: normal; font-variant-alternates: normal; font-variant-num=
+eric: normal; font-variant-east-asian: normal; font-variant-position: norma=
+l; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"=
+>Is there an existing small layer this would fit into, or would you expect =
+this to warrant a new dedicated layer? </span><span style=3D"font-size: 11p=
+t; font-family: 'Times New Roman', serif; color: #000000; background-color:=
+ transparent; font-weight: 400; font-style: normal; font-variant-ligatures:=
+ normal; font-variant-caps: normal; font-variant-alternates: normal; font-v=
+ariant-numeric: normal; font-variant-east-asian: normal; font-variant-posit=
+ion: normal; text-decoration: none; vertical-align: baseline; white-space: =
+pre-wrap;">I'll also add tests and usage examples before resubmitting. I'll=
+ drop the bbclass and implement a memory-control-config recipe that install=
+s the needed systemd configuration without touching the recipes that provid=
+e the actual services.</span></p>
+<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
+ 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
+if; color: #000000; background-color: transparent; font-weight: 400; font-s=
+tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
+rtical-align: baseline; white-space: pre-wrap;">I hadn't fully considered t=
+he licensing implications there. I'll rewrite the control logic to avoid a =
+bash dependency by extending the existing systemd tooling directly rather t=
+han shipping a separate CLI. I'll put together a revised version along thes=
+e lines and send it out for another look. Thanks again for the advice.</spa=
+n></p>
+<p dir=3D"ltr" style=3D"line-height: 1.38; margin-top: 12pt; margin-bottom:=
+ 12pt;"><span style=3D"font-size: 11pt; font-family: 'Times New Roman', ser=
+if; color: #000000; background-color: transparent; font-weight: 400; font-s=
+tyle: normal; font-variant-ligatures: normal; font-variant-caps: normal; fo=
+nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
+ast-asian: normal; font-variant-position: normal; text-decoration: none; ve=
+rtical-align: baseline; white-space: pre-wrap;">Thanks,</span><span style=
+=3D"font-size: 11pt; font-family: 'Times New Roman', serif; color: #000000;=
+ background-color: transparent; font-weight: 400; font-style: normal; font-=
+variant-ligatures: normal; font-variant-caps: normal; font-variant-alternat=
+es: normal; font-variant-numeric: normal; font-variant-east-asian: normal; =
+font-variant-position: normal; text-decoration: none; vertical-align: basel=
+ine; white-space: pre-wrap;"><br /></span><span style=3D"font-size: 11pt; f=
+ont-family: 'Times New Roman', serif; color: #000000; background-color: tra=
+nsparent; font-weight: 400; font-style: normal; font-variant-ligatures: nor=
+mal; font-variant-caps: normal; font-variant-alternates: normal; font-varia=
+nt-numeric: normal; font-variant-east-asian: normal; font-variant-position:=
+ normal; text-decoration: none; vertical-align: baseline; white-space: pre-=
+wrap;">Ishaan Desai</span></p>
+<strong id=3D"docs-internal-guid-6e6142e0-7fff-b641-ee17-efe277436302" styl=
+e=3D"font-style: normal; font-variant-caps: normal; letter-spacing: normal;=
+ orphans: 2; text-align: start; text-indent: 0px; text-transform: none; whi=
+te-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px; text-decoration-line: none; text-decoration-thickness: auto; text-deco=
+ration-style: solid; caret-color: #000000; color: #000000; font-weight: nor=
+mal;"></strong></div>
+
+--IpP1Do6dnXGVE3ts0z83--
 
