@@ -2,63 +2,63 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 335C9C44516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 204A3C44517
 	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:21 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1647.1784055860522018244
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1660.1784055859637981974
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 12:04:20 -0700
+ Tue, 14 Jul 2026 12:04:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=NgwaQsfb;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-4518ad44e83so804128fac.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=UEanwvEy;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-6a377223171so1771065eaf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784055860; x=1784660660; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784055859; x=1784660659; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rVKYgZMn2YW3UXizd9MBZQFO2yYMxvtWcDky6NE6Vog=;
-        b=NgwaQsfbWnmlf13r70tF0zE3oqxqIKSXwRW57XFhMIiC/evwEhhARcbGBO14s8Z90E
-         iVmH54Ycvo8lihcx1EEyxw6w7ZweyrlA+vkTO9y36WZuePZKhdQVJ1an98wDddxJC6uS
-         nfcGzJQ0rTdJP7W8iGoycvtLhwH8KBdzSzcWSq1dp5yV0KS2JMl3HzlhD7NJQ4EILCC9
-         UTsk70o2PlqNmIqgFfxcsAPo7WvKQF7vjucGUpbH6YMyISuSjz7XtuVBeBH9SmdGLGpB
-         AcZg/7G73z5LHC8IzBhe67lX5OKb3/CRgTmsVaEMrcwwTx+WVPdl25Z172psLs7s17Nx
-         Dj5g==
+        bh=3YcguJPta/omuBiVVpDFi9Yub8DnXbvMRzffU2mkxfk=;
+        b=UEanwvEyJgBXXxyFymBQihQlHBY28zmNX/FUWsMy+43WRIabF5Ilob8Frr9IOhtbjm
+         uM7m9nbBTi+RY8DMyo4ZXmT8knNnBSir5SGQVW0uJ4uRukn9iMoUnUFfOsBMMqRHIPlR
+         iiTdkSDeHQMa0d0IbKsY/xRpPomVEdQ791SRixY0TUESPgVcXIpB9RS/UscW5O2K63z1
+         oCBvHND/IRcQ+Oa5+13zJiDeIlRU45PkXmEG0+f7xBRe5mz3fpChn4Sx4qJUdOYnmCAt
+         ThpxPi/h/vGJsaRq/a6KbDSeOC8sezUHUtN9enV4YfZDgjSgYS6BVjvlQAbZkRbhk6ub
+         64IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784055860; x=1784660660;
+        d=1e100.net; s=20251104; t=1784055859; x=1784660659;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rVKYgZMn2YW3UXizd9MBZQFO2yYMxvtWcDky6NE6Vog=;
-        b=tP2iNJxzjkp/uThA0iINpMfNyX6KPF2ED6MfRUFyWM5Mh3DwzqMEfmQZh+W3smPZXj
-         lnhgHxIhovqa5BGnWPipmBZ0lOCwz9EfsCsGylIYe3E7XFuT6c8yZedn37ENm/15XGav
-         Xy9pHygWJKWuMGbXa8q5DFA02wmYH6jNwEItWrt7eoh1/NXjJbQxqqsW1ryXOlcZQtvj
-         r9liOFmp6rlT53AAEX6UgPlpNQCrMoLHTmATkCrL96Dn3+kd3KGbS06MWd22ZKVtag1f
-         Gu/3yZOsRUybjS5dzQpAI+xwMJXXA8d6X+tp5rWZ4FX2/PDNYY2ay9UqfFTrkUK/IHoR
-         +BOw==
-X-Gm-Message-State: AOJu0Yx3yeuJvdnZiIkz0K/faiwCCvmBViTDEU1WrBuFfEw/7xmxhLXU
-	gJN6RF6Ji9p9qpZogz+CI6mjAW+Z+Uff+P2We04naiaKP7T2t9/9PJgEUfL9Wg==
-X-Gm-Gg: AfdE7clUaauqAxu7sQctZPu/b5uH2wLjH65nDCnbX1uADVtdvQms62fIQeFg/3mMxs/
-	vc1NY9SZuxbieAE2ETjE7X260AGH8+dtYWA+1WmbxCMPTC0pxwVIhU4BSdggwMnRyDNpWBaH52o
-	85JQ4FqDTHQ4ltoGpCl5UCIrJo4TPNNfgPOwxEH9qNv7V38/y/kpQNkbeveDyS+lH7IxYUAmn8k
-	GJp0S13KD47Z2Ai/LkJr0j5vprLdwSxoDCxcezEQ74MxR3HN4MQ/mEWjHUwEm7KmyjptpM8PTU6
-	yi3h21khPdlrUpaqrod6/s+cxyythtl7CV3J8u+xo1mqt7gW/AZybMRb8FNxLWH7tY+I8kp+wV5
-	uSgczGd+6NXQZs2NsZS3XwtBYYP8CxyN2RxN38tWJARuw6084HUCJsCM7DhmMBwKWiUDocwHtOa
-	/Su+SdAmmqCA==
-X-Received: by 2002:a05:6871:3391:b0:448:c1db:f582 with SMTP id 586e51a60fabf-451f10d2261mr8344603fac.10.1784055859555;
-        Tue, 14 Jul 2026 12:04:19 -0700 (PDT)
+        bh=3YcguJPta/omuBiVVpDFi9Yub8DnXbvMRzffU2mkxfk=;
+        b=b7fvNewsKVaovFQw8VVl9v58qkUuLK4hsTTxuKfkXrUuK/t0tIYvv80wXUevSXqE51
+         k9irWYY0SpcxQtpf50ZBxm9BILttKXBOHZxrX3eFgHZbcT0/52Ko77rj6bpRocGF7nyj
+         5OipI7+JH7m4LOB9dmbA/N9Yf0jDK6VnC1g7NPSY5SRRsUucajMtU+zA2hKCpn0Dx7c/
+         iAq1EhWSWLArfv0e5kzxPlLkwxgZcs5E77wg0Znom1LWe9iOM2+3lASRW5OohWKCFaMi
+         iVXamtS2ZKEzSz18YhWs+T7MASFziD0d3HXtn/wZ9/NXCbXDiFa7bKBhs6u4e34FOzth
+         Hhfg==
+X-Gm-Message-State: AOJu0YxLESgbi5zqgdo+/aAPilUR9klfkkCG+qdct0ShGWtafWXzCNJH
+	o9KqlI5dJaOvn0jZuIsmiyG33x+RPsgzpi5BxySSzQWxgB3JbLJ5zpecDnsadg==
+X-Gm-Gg: AfdE7clIm+u0Qsjt0rMnYZIl7dqchx5WmBxIGUpjU0YM1JvGYT5zMqomU4i/SfZcI/Q
+	TJ1sT7BitZJvCSF2I4MU1s9upb8k1bYCHNyGIalU+sW+p59Cm6H2Uuz9u9WwGBuppVe2IRNVhy0
+	sjUI8GINUKzCgD0d12dtqiDV8IATzSK+XOtVXXXbF/LuvFrhrufRbFJDgXBvnj7lutfdjwedFAX
+	5xxguI2At6/5wm/3ssbxRH7XwYnyD6oitjLFh3jpBnOEZcFHr+httBDmq16FQ9X+B9ll5+jw1Vk
+	8VxCUtlsiJXGylvRxSuZHVXPiynYdtcLPFug/2fHR5UBOtf+RbR1m1m31h9WT5JERJU4WYP/QaS
+	7y93go0rHgm4U+1t2rugUsWOQs2BQHfo5Ph7pGgDN8/OXqZQGFfHwVbmPWFPhxgwPLWmf5jyZAe
+	KzBZz+4c49Zg==
+X-Received: by 2002:a05:6820:1350:b0:6a3:c6f8:4c9d with SMTP id 006d021491bc7-6a3cba99caamr1950531eaf.68.1784055858839;
+        Tue, 14 Jul 2026 12:04:18 -0700 (PDT)
 Received: from localhost.localdomain ([2601:283:4b02:22d0::7b52])
         by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 12:04:19 -0700 (PDT)
+        Tue, 14 Jul 2026 12:04:18 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 14/22] flac: Replace deprecated SPDX identifier
-Date: Tue, 14 Jul 2026 12:31:24 -0600
-Message-ID: <20260714190405.3328796-15-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 13/22] libglvnd: Replace deprecated SPDX identifier
+Date: Tue, 14 Jul 2026 12:31:23 -0600
+Message-ID: <20260714190405.3328796-14-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260714190405.3328796-1-JPEWhacker@gmail.com>
 References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
@@ -68,29 +68,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240922
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240921
 
-GFDL-1.3 is a deprecated SPDX license identifier. Replace it with
-"GFDL-1.3-no-invariants-or-later".
+GPL-3.0-with-autoconf-exception is a deprecated license identifier.
+Replace it with "GPL-3.0-or-later WITH Autoconf-exception-macro".
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-multimedia/flac/flac_1.5.0.bb | 2 +-
+ meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/flac/flac_1.5.0.bb b/meta/recipes-multimedia/flac/flac_1.5.0.bb
-index d55e157a9d..d982825f7f 100644
---- a/meta/recipes-multimedia/flac/flac_1.5.0.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.5.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "FLAC stands for Free Lossless Audio Codec, a lossless audio compr
- HOMEPAGE = "https://xiph.org/flac/"
- BUGTRACKER = "https://github.com/xiph/flac/issues"
- SECTION = "libs"
--LICENSE = "GFDL-1.3 & GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause"
-+LICENSE = "GFDL-1.3-no-invariants-or-later AND GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=802e79e394e372d01e863e3f4058cf40 \
-                     file://src/Makefile.am;beginline=1;endline=17;md5=9c882153132df8f3a1cb1a8ca1f2350f \
-                     file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb b/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
+index c76763f811..e2cdd81b46 100644
+--- a/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
++++ b/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "the GL Vendor-Neutral Dispatch library"
+ DESCRIPTION = "libglvnd is a vendor-neutral dispatch layer for arbitrating \
+ OpenGL API calls between multiple vendors."
+ HOMEPAGE = "https://gitlab.freedesktop.org/glvnd/libglvnd"
+-LICENSE = "MIT & BSD-1-Clause & BSD-3-Clause & GPL-3.0-with-autoconf-exception"
++LICENSE = "MIT AND BSD-1-Clause AND BSD-3-Clause AND GPL-3.0-or-later WITH Autoconf-exception-macro"
+ LIC_FILES_CHKSUM = "file://README.md;beginline=323;md5=7ac5f0111f648b92fe5427efeb08e8c4"
+ 
+ SRC_URI = "git://gitlab.freedesktop.org/glvnd/libglvnd.git;protocol=https;branch=master"
 -- 
 2.54.0
 
