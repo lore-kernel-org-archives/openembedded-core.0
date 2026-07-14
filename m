@@ -2,63 +2,63 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25503C4450F
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:20 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1650.1784055849940238000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3F40C4450D
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:19 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1657.1784055855576136514
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 12:04:10 -0700
+ Tue, 14 Jul 2026 12:04:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=mvRZhPEX;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-44aeefa1c00so2032431fac.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=XQ+aoUf1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-4472500e25fso2256978fac.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784055849; x=1784660649; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784055855; x=1784660655; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2SU1qe1JkusScSXM4S28nNRpp91kZihUrs1kQlMebpI=;
-        b=mvRZhPEXyN1UnYbvibZVHgaspJsH1RYfwnx+gJhT2/YVnvp+i3ZgLG08tjRF+zXzGc
-         gnzuym3AkZuAJsYjdGI8TnyB0wWJlN18jBUBM3vXlLNxeovg/dcMN1nDUoJL7e6twKeD
-         LRLBJTAqmQo4rOmDzYoOwl25BzyihLWc8Pxn1pYZF3YauLV6jneHoTr/w4YVHamu0esa
-         LyollEHujGpWrkO2y1o34xgii48/1RK4BwTw9be51fyQ8UxH5garOXK73aJRKyVTKFr9
-         kaubbVxWpkfCAU82dyhraOKrH5pbMom+AY96KHLsE0hXugnQ+mIEYic/5fgKvJHCDsZ9
-         XILQ==
+        bh=Pi4/ryKBVPflVsFdajeMnwoWzrRBrJEW4iBcNy6E3IQ=;
+        b=XQ+aoUf1sQbQu30DeWbZyIBLe0ffixZS/Vwa84hURxX//vPdMuesQwt88s0wZb7Nt4
+         cHtYi+YwvbTt7MO+skyOkf+qi8UBLlnTadNE277S9J3GHdl4Z2tfhcM3k8yLiQl71uLG
+         k7xtMIF14aS/BF467BsJO1mIjf6zUoXFFuo4vDjL/q8M1ZlGr7wQKvsjQa88BrxupNgz
+         KX9/5BlxFedzgyesZ20ExlxnBvVm0Rib8xbmG51ID2Er2Y9VljVi6Q5uj7sd2fbvp9FS
+         lL8LNYT+wfarWhFpd8LTC5Sk5kHdY6G517bbxXfDK0TnVZ7NVXE4XzJhaPNf9T9cGv26
+         dc9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784055849; x=1784660649;
+        d=1e100.net; s=20251104; t=1784055855; x=1784660655;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2SU1qe1JkusScSXM4S28nNRpp91kZihUrs1kQlMebpI=;
-        b=atLBuT8lrZZhXxxG3es0mtuDt1H8doulreD2DNoxCHTxhadnDsly8PIAemyil3qMTK
-         vcf/U9tDBZUzSyc58ckUKX4Z2+f0zvhmOktlYwJvlpqHpVm+/e8jenwmjAO0TrkL1xcV
-         shlRZtTuuXkh9Mg7Yz10vAo5A+sBctNtRgzYQ/FDtp05oKQSnkdHFBDyK0apUYPbC7da
-         GnbHl+aWUBZ/PiS3fOXbspzTAl5AyR3/yY3j0ZNjIzJI7FCuD0o+Fw1v+C3DAXICBpLb
-         J+6fKe6y7K71yjUyAK09cZjHv04BuKv6fAzGPm4LfHJIze5veVpofEgrtXP5S8V0C7Lo
-         CQyA==
-X-Gm-Message-State: AOJu0YxeVV54nN33HKCs2A39/tp/SMB5jpVfUcq/Ricjbsx1K5xeS8Uu
-	bE3ukDefI4P7fJ/23eDiPE4Nqypo7+SiwCwHZ1zGrzbye95we+jQ9+QDaJjcLA==
-X-Gm-Gg: AfdE7clKPrunn6DRNeDy21ZpfREZFgu/777klPGG6VT9jkPi1TXNUF/6Dcz0S8dOxbc
-	IKCPV3Sfd9aMst6vTMXvBsYyd07vhX/3WkS8vGzdZnnGKzRMqxD7/XB6xnUSYfJx/DFFpe9pxNg
-	qCdr3PSF6U852F86Te9OkGG8u9bXK3VSugFnZEuPLRP4nDpAMjNCwqCjOGUM2IIjab8eD1xeCVM
-	YimmQH1+XTHGjuuMC2tUUW5JX+LT10SdXjw+SfK3MEyBA55EWHQqbO+iFxpbg2NC8BpgBlU1s7i
-	pcBKd77UWjMzTzIitP6lnS4J8VRyfNV3GZ93hny273Dat49mOd8e8qnmSavmHbrWJTX+oamAlfC
-	Q4VRYolZIeqxKnHlxrhp0XGFxN9h8AEACn/oGUc6Lui/2NUpO74pTpWEGvllFQUMpJONorxWcNk
-	jxyJu3BjBvZQ==
-X-Received: by 2002:a05:6870:d201:b0:43d:1c8a:5977 with SMTP id 586e51a60fabf-451bb1d97f0mr9670777fac.24.1784055849058;
-        Tue, 14 Jul 2026 12:04:09 -0700 (PDT)
+        bh=Pi4/ryKBVPflVsFdajeMnwoWzrRBrJEW4iBcNy6E3IQ=;
+        b=i/S7xnUeqHQZiE750DSlKGmwzi7LTUN9xugU3Xpb8aCR4/mXBdMBSK/elK1WryfrJp
+         wOsB9H7ZsVsDO7wnBfcs8/MycymZUX0OwAVudW6wWqY3+WVji8otN0u9JsgejA65aUvi
+         K1f6EfPrvg2yKdYpPibTGTFbX0I3iDXPIdOQLRFFw081Q6O4KijKp4UQXBCxF4sx9jBG
+         rxq5j8wXL6oc46et5JDkv9hjzw/pdFYm0OyqqUMjjydGt5Hn5CTowsRR6/zXHNHkfLqt
+         Pm77QYm5qygzuOmcEXQH0jOhOLxdoYIJPX5uCCG5e2+rW8aSenDM+9rURm4Fkp5M8dtH
+         7Hxg==
+X-Gm-Message-State: AOJu0Yy2x14aRl+HNctHR/XGVnq79q3kClIUExw+Gwyee4t4YXSEFmpY
+	SWnSaGw7MODbsxfx7RHGFtkKUy+Yu9mWB94/RE4g2xgwOhBStSglyVPBfLbqaQ==
+X-Gm-Gg: AfdE7cmc2jzTZIyZd1WBzyipdhaZ0SZlhMfhJMhlTNlb0/b4RJFQAOhvayCh7CQHYkL
+	Zn1kPy1kqKdOEDzFfe1wqa8D10cLBJdaecu5wbjgmUzRzZF6B2VUj2XbrMQ+DtqXcwhGg/WtosP
+	TsZoi84iijYwZpIWSvdNj21n/hfAtv2qJfwsPk0hG5dH8tdRjTDhx5aU29UtSpzpriP4O7N1+5j
+	nirOjjotgZNyoMp1wKnRaiuZDWgscI/KJTxq+5CbTPLTi8M6SHKYofw4JP04JKPS7q1ZzbO6cQ6
+	Yq9rC8G4WM1bBi91GFi/ecXLYD7/ntXX1r/RRnO01STEDaH3lkxGByJJPqOeYgptoI2LoyD0K6E
+	TOMkGhI4HAV2NuMSzNkTDAIF09SU19t0a3KdX5SevlInhZJiZoc7AGNyfo8ypbOMp+E/cD2wTLv
+	mTYb+cjLV04w==
+X-Received: by 2002:a05:6870:4788:b0:448:7da5:4468 with SMTP id 586e51a60fabf-4562b222ddemr36788fac.7.1784055854648;
+        Tue, 14 Jul 2026 12:04:14 -0700 (PDT)
 Received: from localhost.localdomain ([2601:283:4b02:22d0::7b52])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.08
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 12:04:08 -0700 (PDT)
+        Tue, 14 Jul 2026 12:04:14 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 01/22] scripts/pull-spdx-licenses.py: Add exceptions
-Date: Tue, 14 Jul 2026 12:31:11 -0600
-Message-ID: <20260714190405.3328796-2-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 07/22] convert-spdx-licenses: Convert to valid SPDX expressions
+Date: Tue, 14 Jul 2026 12:31:17 -0600
+Message-ID: <20260714190405.3328796-8-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260714190405.3328796-1-JPEWhacker@gmail.com>
 References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
@@ -67,158 +67,313 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240909
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240914
 
-Adds exceptions to the script that updates the SPDX license files
+Reworks the script to re-write LICENSE lines as valid SPDX license
+expressions in addition to remapping the license names
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- scripts/pull-spdx-licenses.py | 124 ++++++++++++++++++++++++----------
- 1 file changed, 87 insertions(+), 37 deletions(-)
+ scripts/contrib/convert-spdx-licenses.py | 254 +++++++++++++++--------
+ 1 file changed, 162 insertions(+), 92 deletions(-)
 
-diff --git a/scripts/pull-spdx-licenses.py b/scripts/pull-spdx-licenses.py
-index 597a62133f..7d1715ff24 100755
---- a/scripts/pull-spdx-licenses.py
-+++ b/scripts/pull-spdx-licenses.py
-@@ -13,6 +13,88 @@ from pathlib import Path
- TOP_DIR = Path(__file__).parent.parent
+diff --git a/scripts/contrib/convert-spdx-licenses.py b/scripts/contrib/convert-spdx-licenses.py
+index 13cf12a33f..39cbbb28e5 100755
+--- a/scripts/contrib/convert-spdx-licenses.py
++++ b/scripts/contrib/convert-spdx-licenses.py
+@@ -7,113 +7,175 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
  
+-import re
++
++from abc import abstractmethod, ABC
++from enum import Enum
++from pathlib import Path
++import json
++import mimetypes
+ import os
++import re
++import shutil
+ import sys
+ import tempfile
+-import shutil
+-import mimetypes
++
++THIS_DIR = Path(__file__).parent
++
++sys.path.insert(0, str(THIS_DIR.parent.parent / "meta" / "lib"))
++import oe.spdx_license
  
-+def update_licenses(dest, version, overwrite, deprecated):
-+    print(f"Pulling SPDX license list version {version}")
-+    req = urllib.request.Request(
-+        f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/licenses.json"
-+    )
-+    with urllib.request.urlopen(req) as response:
-+        spdx_licenses = json.load(response)
-+
-+    with (TOP_DIR / "meta" / "files" / "spdx-licenses.json").open("w") as f:
-+        json.dump(spdx_licenses, f, sort_keys=True, indent=2)
-+
-+    total_count = len(spdx_licenses["licenses"])
-+    updated = 0
-+    for idx, lic in enumerate(spdx_licenses["licenses"]):
-+        lic_id = lic["licenseId"]
-+
-+        print(f"[{idx + 1} of {total_count}] ", end="")
-+
-+        dest_license_file = dest / lic_id
-+        if dest_license_file.is_file() and not overwrite:
-+            print(f"Skipping {lic_id} since it already exists")
-+            continue
-+
-+        print(f"Fetching {lic_id}... ", end="", flush=True)
-+
-+        req = urllib.request.Request(lic["detailsUrl"])
-+        with urllib.request.urlopen(req) as response:
-+            lic_data = json.load(response)
-+
-+        if lic_data["isDeprecatedLicenseId"] and not deprecated:
-+            print("Skipping (deprecated)")
-+            continue
-+
-+        with dest_license_file.open("w") as f:
-+            f.write(lic_data["licenseText"])
-+        updated += 1
-+        print("done")
-+
-+    return updated
-+
-+
-+def update_exceptions(dest, version, overwrite, deprecated):
-+    print(f"Pulling SPDX license exceptions list version {version}")
-+    req = urllib.request.Request(
-+        f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/exceptions.json"
-+    )
-+    with urllib.request.urlopen(req) as response:
-+        spdx_exceptions = json.load(response)
-+
-+    with (TOP_DIR / "meta" / "files" / "spdx-exceptions.json").open("w") as f:
-+        json.dump(spdx_exceptions, f, sort_keys=True, indent=2)
-+
-+    total_count = len(spdx_exceptions["exceptions"])
-+    updated = 0
-+    for idx, lic in enumerate(spdx_exceptions["exceptions"]):
-+        lic_id = lic["licenseExceptionId"]
-+
-+        print(f"[{idx + 1} of {total_count}] ", end="")
-+
-+        dest_license_file = dest / lic_id
-+        if dest_license_file.is_file() and not overwrite:
-+            print(f"Skipping {lic_id} since it already exists")
-+            continue
-+
-+        print(f"Fetching {lic_id}... ", end="", flush=True)
-+
-+        req = urllib.request.Request(lic["detailsUrl"])
-+        with urllib.request.urlopen(req) as response:
-+            lic_data = json.load(response)
-+
-+        if lic_data["isDeprecatedLicenseId"] and not deprecated:
-+            print("Skipping (deprecated)")
-+            continue
-+
-+        with dest_license_file.open("w") as f:
-+            f.write(lic_data["licenseExceptionText"])
-+        updated += 1
-+        print("done")
-+
-+    return updated
-+
-+
- def main():
-     parser = argparse.ArgumentParser(
-         description="Update SPDX License files from upstream"
-@@ -55,44 +137,12 @@ def main():
-             data = json.load(response)
-             version = data["tag_name"]
+ if len(sys.argv) < 2:
+     print("Please specify a directory to run the conversion script against.")
+     sys.exit(1)
  
--    print(f"Pulling SPDX license list version {version}")
--    req = urllib.request.Request(
--        f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/licenses.json"
-+    license_count = update_licenses(args.dest, version, args.overwrite, args.deprecated)
-+    exception_count = update_exceptions(
-+        args.dest, version, args.overwrite, args.deprecated
-     )
--    with urllib.request.urlopen(req) as response:
--        spdx_licenses = json.load(response)
--
--    with (TOP_DIR / "meta" / "files" / "spdx-licenses.json").open("w") as f:
--        json.dump(spdx_licenses, f, sort_keys=True, indent=2)
--
--    total_count = len(spdx_licenses["licenses"])
--    updated = 0
--    for idx, lic in enumerate(spdx_licenses["licenses"]):
--        lic_id = lic["licenseId"]
--
--        print(f"[{idx + 1} of {total_count}] ", end="")
--
--        dest_license_file = args.dest / lic_id
--        if dest_license_file.is_file() and not args.overwrite:
--            print(f"Skipping {lic_id} since it already exists")
--            continue
--
--        print(f"Fetching {lic_id}... ", end="", flush=True)
--
--        req = urllib.request.Request(lic["detailsUrl"])
--        with urllib.request.urlopen(req) as response:
--            lic_data = json.load(response)
--
--        if lic_data["isDeprecatedLicenseId"] and not args.deprecated:
--            print("Skipping (deprecated)")
--            continue
--
--        with dest_license_file.open("w") as f:
--            f.write(lic_data["licenseText"])
--        updated += 1
--        print("done")
--
--    print(f"Updated {updated} licenses")
-+    print(f"Updated {license_count} licenses")
-+    print(f"Updated {exception_count} exceptions")
+-license_map = {
+-"AGPL-3" : "AGPL-3.0-only",
+-"AGPL-3+" : "AGPL-3.0-or-later",
+-"AGPLv3" : "AGPL-3.0-only",
+-"AGPLv3+" : "AGPL-3.0-or-later",
+-"AGPLv3.0" : "AGPL-3.0-only",
+-"AGPLv3.0+" : "AGPL-3.0-or-later",
+-"AGPL-3.0" : "AGPL-3.0-only",
+-"AGPL-3.0+" : "AGPL-3.0-or-later",
+-"BSD-0-Clause" : "0BSD",
+-"GPL-1" : "GPL-1.0-only",
+-"GPL-1+" : "GPL-1.0-or-later",
+-"GPLv1" : "GPL-1.0-only",
+-"GPLv1+" : "GPL-1.0-or-later",
+-"GPLv1.0" : "GPL-1.0-only",
+-"GPLv1.0+" : "GPL-1.0-or-later",
+-"GPL-1.0" : "GPL-1.0-only",
+-"GPL-1.0+" : "GPL-1.0-or-later",
+-"GPL-2" : "GPL-2.0-only",
+-"GPL-2+" : "GPL-2.0-or-later",
+-"GPLv2" : "GPL-2.0-only",
+-"GPLv2+" : "GPL-2.0-or-later",
+-"GPLv2.0" : "GPL-2.0-only",
+-"GPLv2.0+" : "GPL-2.0-or-later",
+-"GPL-2.0" : "GPL-2.0-only",
+-"GPL-2.0+" : "GPL-2.0-or-later",
+-"GPL-3" : "GPL-3.0-only",
+-"GPL-3+" : "GPL-3.0-or-later",
+-"GPLv3" : "GPL-3.0-only",
+-"GPLv3+" : "GPL-3.0-or-later",
+-"GPLv3.0" : "GPL-3.0-only",
+-"GPLv3.0+" : "GPL-3.0-or-later",
+-"GPL-3.0" : "GPL-3.0-only",
+-"GPL-3.0+" : "GPL-3.0-or-later",
+-"LGPLv2" : "LGPL-2.0-only",
+-"LGPLv2+" : "LGPL-2.0-or-later",
+-"LGPLv2.0" : "LGPL-2.0-only",
+-"LGPLv2.0+" : "LGPL-2.0-or-later",
+-"LGPL-2.0" : "LGPL-2.0-only",
+-"LGPL-2.0+" : "LGPL-2.0-or-later",
+-"LGPL2.1" : "LGPL-2.1-only",
+-"LGPL2.1+" : "LGPL-2.1-or-later",
+-"LGPLv2.1" : "LGPL-2.1-only",
+-"LGPLv2.1+" : "LGPL-2.1-or-later",
+-"LGPL-2.1" : "LGPL-2.1-only",
+-"LGPL-2.1+" : "LGPL-2.1-or-later",
+-"LGPLv3" : "LGPL-3.0-only",
+-"LGPLv3+" : "LGPL-3.0-or-later",
+-"LGPL-3.0" : "LGPL-3.0-only",
+-"LGPL-3.0+" : "LGPL-3.0-or-later",
+-"MPL-1" : "MPL-1.0",
+-"MPLv1" : "MPL-1.0",
+-"MPLv1.1" : "MPL-1.1",
+-"MPLv2" : "MPL-2.0",
+-"MIT-X" : "MIT",
+-"MIT-style" : "MIT",
+-"openssl" : "OpenSSL",
+-"PSF" : "PSF-2.0",
+-"PSFv2" : "PSF-2.0",
+-"Python-2" : "Python-2.0",
+-"Apachev2" : "Apache-2.0",
+-"Apache-2" : "Apache-2.0",
+-"Artisticv1" : "Artistic-1.0",
+-"Artistic-1" : "Artistic-1.0",
+-"AFL-2" : "AFL-2.0",
+-"AFL-1" : "AFL-1.2",
+-"AFLv2" : "AFL-2.0",
+-"AFLv1" : "AFL-1.2",
+-"CDDLv1" : "CDDL-1.0",
+-"CDDL-1" : "CDDL-1.0",
+-"EPLv1.0" : "EPL-1.0",
+-"FreeType" : "FTL",
+-"Nauman" : "Naumen",
+-"tcl" : "TCL",
+-"vim" : "Vim",
+-"SGIv1" : "SGI-OpenGL",
++LICENSE_MAP = {
++    "AGPL-3": "AGPL-3.0-only",
++    "AGPL-3+": "AGPL-3.0-or-later",
++    "AGPLv3": "AGPL-3.0-only",
++    "AGPLv3+": "AGPL-3.0-or-later",
++    "AGPLv3.0": "AGPL-3.0-only",
++    "AGPLv3.0+": "AGPL-3.0-or-later",
++    "AGPL-3.0": "AGPL-3.0-only",
++    "AGPL-3.0+": "AGPL-3.0-or-later",
++    "BSD-0-Clause": "0BSD",
++    "GPL-1": "GPL-1.0-only",
++    "GPL-1+": "GPL-1.0-or-later",
++    "GPLv1": "GPL-1.0-only",
++    "GPLv1+": "GPL-1.0-or-later",
++    "GPLv1.0": "GPL-1.0-only",
++    "GPLv1.0+": "GPL-1.0-or-later",
++    "GPL-1.0": "GPL-1.0-only",
++    "GPL-1.0+": "GPL-1.0-or-later",
++    "GPL-2": "GPL-2.0-only",
++    "GPL-2+": "GPL-2.0-or-later",
++    "GPLv2": "GPL-2.0-only",
++    "GPLv2+": "GPL-2.0-or-later",
++    "GPLv2.0": "GPL-2.0-only",
++    "GPLv2.0+": "GPL-2.0-or-later",
++    "GPL-2.0": "GPL-2.0-only",
++    "GPL-2.0+": "GPL-2.0-or-later",
++    "GPL-3": "GPL-3.0-only",
++    "GPL-3+": "GPL-3.0-or-later",
++    "GPLv3": "GPL-3.0-only",
++    "GPLv3+": "GPL-3.0-or-later",
++    "GPLv3.0": "GPL-3.0-only",
++    "GPLv3.0+": "GPL-3.0-or-later",
++    "GPL-3.0": "GPL-3.0-only",
++    "GPL-3.0+": "GPL-3.0-or-later",
++    "LGPLv2": "LGPL-2.0-only",
++    "LGPLv2+": "LGPL-2.0-or-later",
++    "LGPLv2.0": "LGPL-2.0-only",
++    "LGPLv2.0+": "LGPL-2.0-or-later",
++    "LGPL-2.0": "LGPL-2.0-only",
++    "LGPL-2.0+": "LGPL-2.0-or-later",
++    "LGPL2.1": "LGPL-2.1-only",
++    "LGPL2.1+": "LGPL-2.1-or-later",
++    "LGPLv2.1": "LGPL-2.1-only",
++    "LGPLv2.1+": "LGPL-2.1-or-later",
++    "LGPL-2.1": "LGPL-2.1-only",
++    "LGPL-2.1+": "LGPL-2.1-or-later",
++    "LGPLv3": "LGPL-3.0-only",
++    "LGPLv3+": "LGPL-3.0-or-later",
++    "LGPL-3.0": "LGPL-3.0-only",
++    "LGPL-3.0+": "LGPL-3.0-or-later",
++    "MPL-1": "MPL-1.0",
++    "MPLv1": "MPL-1.0",
++    "MPLv1.1": "MPL-1.1",
++    "MPLv2": "MPL-2.0",
++    "MIT-X": "MIT",
++    "MIT-style": "MIT",
++    "openssl": "OpenSSL",
++    "PSF": "PSF-2.0",
++    "PSFv2": "PSF-2.0",
++    "Python-2": "Python-2.0",
++    "Apachev2": "Apache-2.0",
++    "Apache-2": "Apache-2.0",
++    "Artisticv1": "Artistic-1.0",
++    "Artistic-1": "Artistic-1.0",
++    "AFL-2": "AFL-2.0",
++    "AFL-1": "AFL-1.2",
++    "AFLv2": "AFL-2.0",
++    "AFLv1": "AFL-1.2",
++    "CDDLv1": "CDDL-1.0",
++    "CDDL-1": "CDDL-1.0",
++    "EPLv1.0": "EPL-1.0",
++    "FreeType": "FTL",
++    "Nauman": "Naumen",
++    "tcl": "TCL",
++    "vim": "Vim",
++    "SGIv1": "SGI-OpenGL",
++    "Apache-2.0-with-LLVM-exception": "Apache-2.0 WITH LLVM-exception",
++    "GPL-3-with-bison-exception": "GPL-3.0-or-later WITH Bison-exception-2.2",
++    "GPL-2.0-with-Linux-syscall-note": "GPL-2.0-only WITH Linux-syscall-note",
+ }
  
-     return 0
++
++LINE_RE = re.compile(r'^(?P<var>LICENSE[\s:].*=.*)"(?P<expression>.*)"')
++
++
++def convert_unknown(node):
++    node.children = [convert_unknown(c) for c in node.children]
++
++    if not isinstance(node, oe.spdx_license.UnknownId):
++        return node
++
++    if node.ident.startswith("$"):
++        return node
++
++    if node.ident in LICENSE_MAP:
++        return oe.spdx_license.parse(LICENSE_MAP[node.ident])
++
++    ident = re.sub(r"[^a-zA-Z0-9\.\-]", "-", node.ident)
++
++    return oe.spdx_license.LicenseRef("LicenseRef-" + ident, ident, token=node.token)
++
++
+ def processfile(fn):
+-    print("processing file '%s'" % fn)
++    # print("processing file '%s'" % fn)
+     try:
+         fh, abs_path = tempfile.mkstemp()
++        if os.path.basename(fn) == "bitbake.conf":
++            return
++
+         modified = False
+-        with os.fdopen(fh, 'w') as new_file:
++        with os.fdopen(fh, "w") as new_file:
+             with open(fn, "r") as old_file:
+-                for line in old_file:
+-                    if not line.startswith("LICENSE"):
++                for lineno, line in enumerate(old_file):
++                    m = LINE_RE.match(line)
++                    if m is None:
++                        new_file.write(line)
++                        continue
++
++                    if "[doc]" in m.group("var"):
++                        new_file.write(line)
++                        continue
++
++                    expression = (
++                        m.group("expression").replace("|", " OR ").replace("&", " AND ")
++                    ).strip()
++                    if not expression or expression == "CLOSED":
+                         new_file.write(line)
+                         continue
+-                    orig = line
+-                    for license in sorted(license_map, key=len, reverse=True):
+-                        for ending in ['"', "'", " ", ")"]:
+-                            line = line.replace(license + ending, license_map[license] + ending)
+-                    if orig != line:
+-                        modified = True
+-                    new_file.write(line)
++
++                    try:
++                        t = oe.spdx_license.parse(expression, allow_unknown=True)
++                        if t is None:
++                            new_file.write(line)
++                            continue
++                        t = convert_unknown(t)
++                    except oe.spdx_license.ParseError as e:
++                        print(f"Cannot convert {fn}:{lineno + 1}")
++                        print(e.format())
++                        new_file.write(line)
++                        continue
++
++                    if t.to_string() == expression:
++                        new_file.write(line)
++                        continue
++
++                    new_line = m.group("var") + '"' + t.sort().to_string() + '"\n'
++                    new_file.write(new_line)
++                    modified = True
+         new_file.close()
+         if modified:
+             shutil.copymode(fn, abs_path)
+@@ -122,8 +184,9 @@ def processfile(fn):
+     except UnicodeDecodeError:
+         pass
+ 
++
+ ourname = os.path.basename(sys.argv[0])
+-ourversion = "0.01"
++ourversion = "0.02"
+ 
+ if os.path.isfile(sys.argv[1]):
+     processfile(sys.argv[1])
+@@ -138,7 +201,14 @@ for targetdir in sys.argv[1:]:
+             fn = os.path.join(root, name)
+             if os.path.islink(fn):
+                 continue
+-            if "/.git/" in fn or fn.endswith(".html") or fn.endswith(".patch") or fn.endswith(".m4") or fn.endswith(".diff") or fn.endswith(".orig"):
++            if (
++                "/.git/" in fn
++                or fn.endswith(".html")
++                or fn.endswith(".patch")
++                or fn.endswith(".m4")
++                or fn.endswith(".diff")
++                or fn.endswith(".orig")
++            ):
+                 continue
+             processfile(fn)
  
 -- 
 2.54.0
