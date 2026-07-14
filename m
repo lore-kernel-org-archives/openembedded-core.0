@@ -2,55 +2,56 @@ Return-Path: <bbnpreetsingh@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 857E3C43458
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 05:01:10 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3447.1784005269033853199
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0108C44501
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 05:01:11 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3448.1784005269623401370
  for <openembedded-core@lists.openembedded.org>;
  Mon, 13 Jul 2026 22:01:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=l5wEJuHF;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: bbnpreetsingh@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so2593155a91.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2026 22:01:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=W5sE+Kxr;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: bbnpreetsingh@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cace91f112so34300275ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2026 22:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784005268; x=1784610068; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7QL+UtH0WUu7j/JNDmF+xynCl4MwiM33Q1g6YwcvGB8=;
-        b=l5wEJuHFYOflMHuS7+CVM7kX3Drc/SOYt3E8rcNhFARXVhSL/eS2lYIVQ0+rDgGXK2
-         bIwdtCG8Sa0YeklhgN2FL6xW1O592cOGElLemUmRFUuFh/rSDEVHH+4JRCUtcr008ZVu
-         dM9ikcMVd7iXVsyM65mIx2cMzCGswY/hi9vdfoVh3SX1b/Frb/28t43lOknQ92yiT8dj
-         F4q6D9xdX285fn1VRkp47J9YH+afFiWKcTiE8scarxguA1r+SOBvgQ3ZyJ1n9g7e07AE
-         I0G9CLwzzvOiEOQ52Z1go0IQ0rd4HkuScNCNmegQKQ9dPb9yJPRTIm17GF3fxjnNkJ/z
-         ffgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784005268; x=1784610068;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1784005269; x=1784610069; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7QL+UtH0WUu7j/JNDmF+xynCl4MwiM33Q1g6YwcvGB8=;
-        b=mLXerMyI/Azeb4RR45m7XIzvc0xNdN4mDBvBzzPX2O4LIYK/8JcU10k+JcNzTXkh6Z
-         Hho1pbIrNjl8z+yYSU3mLF4qVknEsCHZmY46G+eCz38ZVklfc2eiDoXB2lu+fDla/176
-         R5GJRja4eIYvtxPDOHyXARJ8Msypacs5S+ZcMCIQ4cGVBXbNQXOURntsowtFGuB7S1GV
-         8WmeNWINgugx2YjmFKLgOPH/RXNhKXp4O+rEjGKW1eM74S3D+gFQpTYtjHEH9oF1UAVn
-         sVQdbNrsUxxJDaMY2TGkhcWJkO/zj3gmLB4iPc/83Kptk1B4KOQHQA3Oqpw123C5pIUv
-         E1VQ==
-X-Gm-Message-State: AOJu0YwHAWyWKZ435edZhf5WDLPF30S8jNF0r1ENdofSYbGYYqUoYP+5
-	ivjl6sQsACzLR/XiheqQ5ASGPF2hqW3j86ouZYNCrK7uwpkHT5BcPv3kT7L+4pPeWgg=
-X-Gm-Gg: AfdE7cke83P8w8ZNItX8K9T9q+3wfqk1mkPlTMQ4iNoFs2a5YgRXDI+2AZ2dMH9qlPR
-	OCrE3mQV+OGA5H431R+3ojW502ZxsJOBZSgMVX/uUXk3EIolx7RQLYD/wNlAPPWV7j9wOJV6uG2
-	VVbAlQIja4XQCFH1bldkqyOsssQFINRxRmMDH6RTmPXbtExMU8+uRNq0lW1lCUd7bh1MWddpir0
-	OUhe5nzSayS3q9SZrj0QGaTodCocuJXyNoUts3TKT7u1dYbzAEYEY+piPMfKAMQwBEO72yjSrde
-	seycvc0GBic7UXz/344NSNT6i13RGEt52lymUNkgZqjxolq71neerZ5uklQutvOcdM4SSolNxV+
-	2UWmcdwoqzwhKa9x6ctNH21CWJUHBTQPF+Wx1EUjp8nQLY1BaucaJgGkcmEwvcKIaW+rT45ELhG
-	VqztwjRUgT6s9L
-X-Received: by 2002:a17:90b:184b:b0:381:152b:d596 with SMTP id 98e67ed59e1d1-38e1ae9fabcmr1204957a91.11.1784005268169;
+        bh=04q+loF4V+vFTxm+fwoaWotiTPTHPGQJVQspvYl7aE0=;
+        b=W5sE+KxrSoxWOJ0OlDalxgLQ0G6rQjfXFZNUu1sovsedQBbRco7xVuCnQGwxIhYFJm
+         22aVkuaW5oExQSc9cIh/Dzi8hC6Ta54caParn5I8/8tbeCB2nY6OMkDeGIEbP3XD69fF
+         xBo0BrH5a1Z1652O1lCm6+WHUm0fEhfqUmB8nLwxfn7Z0z+YdZrZhQiRHZwcbe5zqbAl
+         xz1beDWAozNDLgw8e/fvC+7pSl7PEszJn/XcpcAz500wovOqkKDujjGIytg+hbbgDRdX
+         wvaP57hbdp1U0/3PwJxke4ZvvtU4EJB7LyMzk008l5L5H++qLPUg2jS8jA83irjIv8iL
+         RUyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784005269; x=1784610069;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=04q+loF4V+vFTxm+fwoaWotiTPTHPGQJVQspvYl7aE0=;
+        b=ejKCKsoNoEdtLC6a8E5SFI1lgmYkELrjsBf9tV/ScVfloe0eZCu8P6Y59Me2OkRYme
+         /UnSB0PiR0L/D/UQ2Xz6vKGlg2TKYf24Ye6tN7ajb51rnwTtqc3JJCrWiLdYoQ9jDXjQ
+         5KiJ/u70D8qfM/ggp+BlGZngmaY1G+pZbliZ3kjjw8f8BnRVr9OaaN147S4Bhq74kAfS
+         ztV9sX7EfT3vYTkTkzDLcflD3PQASj9cpaV9H/Zi9iY7qzJNjXRuEbL4grAtlQxReYwU
+         spEswNKoErv3hWkQaWenqRGm4n0BuDZlUI5p7hVdJkrm/FCVl+VE2vhj1B8QVEsaIVHg
+         gHDg==
+X-Gm-Message-State: AOJu0Yz9JxMSjB84HVDg2nr/u8SoNRTn67gW6ZHGdDwkc7X/QAUZfito
+	4T8sKSxLQRwD+jkIdCLNGLNXAL9lnMEeJk2PmtqZtH1/CI8713lKUTgApBOXq/mKdu8=
+X-Gm-Gg: AfdE7cmvd63UQxoDGgtIIRIo2H/A6GSpC37eBb35+QZ1C7vieX204VFAPQQ09yC+FOz
+	lFChaF0xrr896MAlk/1inpen6uFRHhOmBzMCQPuScXueyUTxSsPUYnp+mbW2NRelzq0n9h5OMSU
+	ju8FRRht0Zcx0QBF9t1UYOdBkogis7WhI9OdI4SfJTxFxal8FUORDqMxYGUNJDpkzFP34S0Bz7g
+	hlhjeVrcK5ySpTaX0KxOsBkVDfZKlzto5Yo+cALZnTO5gj10vMYHv62Lf+sL8R6Bo6qVddx5nbQ
+	kAOpBGlPEyqmWKhtsTi75NrOTmLBDGXkc8lVIDuiuaPTfXpM9DMligonMW4okMJf2Fdwi44sOf8
+	RDrAWSXdaJBj5PwYNxr63tA41753RRrdkLb+F34jrfob2YSlvv2MFNEMK4q+vGHhDY4nAWOFrUk
+	/YnxQGF9iJCC5V
+X-Received: by 2002:a17:902:fc8f:b0:2c9:c6f3:457a with SMTP id d9443c01a7336-2ce9f01d68fmr105696425ad.31.1784005268915;
         Mon, 13 Jul 2026 22:01:08 -0700 (PDT)
 Received: from ydev.. ([108.180.130.139])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb72fsm109720255ad.6.2026.07.13.22.01.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb72fsm109720255ad.6.2026.07.13.22.01.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 22:01:07 -0700 (PDT)
+        Mon, 13 Jul 2026 22:01:08 -0700 (PDT)
 From: Babanpreet Singh <bbnpreetsingh@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Julien Stephan <jstephan@baylibre.com>,
@@ -59,58 +60,71 @@ Cc: Julien Stephan <jstephan@baylibre.com>,
 	Adrian Freihofer <adrian.freihofer@siemens.com>,
 	Peter Kjellerstedt <pkj@axis.com>,
 	Babanpreet Singh <bbnpreetsingh@gmail.com>
-Subject: [PATCH 1/2] devtool: standard: fix update-recipe/finish --initial-rev override
-Date: Tue, 14 Jul 2026 05:01:05 +0000
-Message-ID: <20260714050107.7-1-bbnpreetsingh@gmail.com>
+Subject: [PATCH 2/2] oeqa/selftest/devtool: cover update-recipe --initial-rev
+Date: Tue, 14 Jul 2026 05:01:06 +0000
+Message-ID: <20260714050107.7-2-bbnpreetsingh@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260714050107.7-1-bbnpreetsingh@gmail.com>
+References: <20260714050107.7-1-bbnpreetsingh@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 05:01:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240863
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 05:01:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240864
 
-Since 900129cbdf ("devtool: add support for git submodules") the
---initial-rev option of update-recipe and finish has been broken: the
-parse loop in _get_patchset_revs() deliberately skips the recorded
-"# initial_rev ." entry from the workspace bbappend when an override
-is passed, but the override value itself is never inserted into the
-initial_revs dict. For a recipe without submodules the dict therefore
-ends up empty and update-recipe/finish fails in patch mode with:
+The --initial-rev option had no selftest coverage, which let the
+regression fixed by the previous commit go unnoticed since 2023.
+Extend test_devtool_update_recipe to run update-recipe twice more with
+--initial-rev: once with the recorded initial revision, which must
+produce the same result as not passing the option, and once with a
+revision in the middle of the local commits, which must export only
+the commits after it.
 
-  ERROR: Unable to find initial revision - please specify it with
-  --initial-rev
-
-i.e. passing --initial-rev produces the very error message that
-instructs the user to pass --initial-rev. Before 900129cbdf the passed
-value simply took precedence over the one recorded in the bbappend.
-
-Seed initial_revs with the override before parsing so the option
-behaves as documented again; recorded values are still used for
-submodules and for the main repo when no override is given.
+Without the fix in the previous commit, the first --initial-rev
+invocation fails with "Unable to find initial revision - please
+specify it with --initial-rev".
 
 AI-Generated: Uses Claude (claude-fable-5)
 Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
 ---
- scripts/lib/devtool/standard.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oeqa/selftest/cases/devtool.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 2a3a62d081..cae8793307 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1200,6 +1200,10 @@ def _get_patchset_revs(srctree, recipe_path, initial_rev=None, force_patch_refre
-     commits = {}
-     patches = []
-     initial_revs = {}
-+    if initial_rev:
-+        # A user-specified override applies to the main repo ("."); the
-+        # parse loop below leaves it in place of the recorded value
-+        initial_revs["."] = initial_rev
-     with open(recipe_path, 'r') as f:
-         for line in f:
-             pattern = r'^#\s.*\s(.*):\s([0-9a-fA-F]+)$'
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index b2cd13e9a5..1bad223278 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1286,6 +1286,28 @@ class DevtoolUpdateTests(DevtoolBase):
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+         result = runCmd(cleanup_cmd)
+         self._check_repo_status(os.path.dirname(recipefile), [])
++        # Now try the same passing --initial-rev: the recorded initial
++        # revision must give the same result as not passing the option, and a
++        # later revision must export only the commits after it
++        result = runCmd('git rev-parse devtool-base', cwd=tempdir)
++        initial_rev = result.output.strip()
++        result = runCmd('devtool update-recipe --initial-rev %s %s' % (initial_rev, testrecipe))
++        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
++        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
++                           ('A ', '.*/0001-Change-the-README.patch$'),
++                           ('A ', '.*/0002-Add-a-new-file.patch$')]
++        self._check_repo_status(os.path.dirname(recipefile), expected_status)
++        result = runCmd(cleanup_cmd)
++        self._check_repo_status(os.path.dirname(recipefile), [])
++        result = runCmd('git rev-parse HEAD~1', cwd=tempdir)
++        midpoint_rev = result.output.strip()
++        result = runCmd('devtool update-recipe --initial-rev %s %s' % (midpoint_rev, testrecipe))
++        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
++        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
++                           ('A ', '.*/0001-Add-a-new-file.patch$')]
++        self._check_repo_status(os.path.dirname(recipefile), expected_status)
++        result = runCmd(cleanup_cmd)
++        self._check_repo_status(os.path.dirname(recipefile), [])
+ 
+     def test_devtool_update_recipe_git(self):
+         # Check preconditions
 -- 
 2.43.0
 
