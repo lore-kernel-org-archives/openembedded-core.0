@@ -1,217 +1,198 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE35AC44508
-	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 13:58:54 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6517.1784123931251669841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A76C1C44508
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 14:03:54 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6547.1784124198802475910
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 06:58:52 -0700
+ Wed, 15 Jul 2026 07:03:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=trkqwngG;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 29E804E40DE3
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 13:58:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EDA876035C;
-	Wed, 15 Jul 2026 13:58:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 97FEC11BD2C30;
-	Wed, 15 Jul 2026 15:58:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784123928; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=eZero4mY0FXSWRVpZjwUUI1sgLpa33qQYDAJKwiLksk=;
-	b=trkqwngG6HLeZFLIVKbcvUGiNre4zttAybCEGRyF6hb7mBrF7n5fm6ygXYIEL7iNln0cH0
-	Kj3vVK2D3Yh+E8ig4pwj3f1/HC3DRY7mCJFpAb9r+KHvuOskjPgYSOP0iKhPHvA3rjwdRk
-	sk83fwLryAc35b+hzLTGtLXRY7SWJmQPKJ5yxr8OfJM//vkS+dGG6f64Sq8Ygl69UjdNQ2
-	bpwvKFHgTiSZN0EwI6zhhbaVDxTEBfeOWgfDlKHCPWRW/6QgPV6YNxn9UDIfSdV7RUCyFw
-	YJWEXKbUOgbw0HB1hnPOFcmbq7HOW3uxVJEHTNI+kNMiZJafIxTVmQsntyXZuw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Jul 2026 15:58:46 +0200
-Message-Id: <DJZ75D2F3LYF.38E5Q51FTY2G3@bootlin.com>
-Subject: Re: [OE-core][PATCH 00/22] Rework LICENSE to be SPDX License
- Expressions
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
-In-Reply-To: <20260714190405.3328796-1-JPEWhacker@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=EvrXFYH8;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=16566a739c=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66FBdAJo370259
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 14:03:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=rH1vdr28K
+	xmBM2fjfcJoRFWqY91UgdOXYMRZRxhBBSA=; b=EvrXFYH8yBuJjT6qlCllDH5Js
+	rGL0okw9Z2EkPInUFMKlt1kcBkzu19G/eRMl2pwpmHydJsge8YTZ85z6DEMNYx8y
+	VJm+hpCllo9TPWqGn3tUFEb1rBBSSq0+VgkpJuthnYwU1rnQS5n6Yxuwz3ghX6OT
+	/L2EjLIxYX8btcLnQKamsSx/GzV0d8iJVHSXirdgPV0oQJKJRsCNYvBziVWQkSf0
+	RoWP8aFxgK9fZVBrzoOIsGcc0ISmtyypIgwTFBl3UscFSSggICPo5LDVIbLYMjk1
+	43QkG4mXAtDc3NJhMnLaUSS835Li9tc1Cc+VbjJe0iad5TSxw+MI1A21JODrA==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013045.outbound.protection.outlook.com [40.107.201.45])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fbcpn67mr-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 14:03:17 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zG7VsKKYtATm7t8IxTmX1FeAoYLThv2dvwuZlL81pf7DbgfNI2s8G2FV5zGk44FBzzc0sL/OwWWCIBL4814Psq5kwNGw74gL1tksepJsthezr8vUFdgzufJ/6NDCh5jRRaf7euft970Bo8yD4XC3FeTYPuTXO6fwUR3Giqkq3qAfZpbZKsitiwHpU2or6hDqb/tXyCmRNLn4ogXoHU106MRSMOvHlIYleqgKS936Tq6atYaeJefwDz/ikTqm+lkMoNFPqgVQfMOnJWivYRPIF/FzHkbFh++t5kesfqhWnOJmLsAIrig2GPiHL10mQLnS7UtLydDbOjclNt5WFOSnLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rH1vdr28KxmBM2fjfcJoRFWqY91UgdOXYMRZRxhBBSA=;
+ b=t3igtJgUMTzSWMJKuLgW6T+s8yrMFiJxI23gFY1Ecmst3vxUKas/WFYtx6ipzoIHOZSAb9p6Mk9nSxJUH1jJZAApiNJj7PH9P6z6GCsAgdUylKDbB3Br3rQ6H+oc3dzjKO14T6GSx+0PjGCJYEcJDTzGemJ6P4/NpQkuUNxbY5VLN3H/mg6V/7NG3B3TuHBKqHboKzv7WpgihX5WXTCbLc8E+ku36/WUwT0hD6XWwTsUreLfeOGPLf160FaEvfOfAcpbIcLT5i9czMc2DUVTdWyVhXRlhnAjwFbq2++53M68er0mDdhifOzecaLW51+udL5gtwgHHj2hjI5ilzRDfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by DS3PR11MB9820.namprd11.prod.outlook.com (2603:10b6:8:366::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Wed, 15 Jul
+ 2026 14:03:15 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0223.011; Wed, 15 Jul 2026
+ 14:03:15 +0000
+From: Harish.Sadineni@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Subject: [PATCH] kernel-yocto-rust: add clang toolchain check and lld dependency for riscv64
+Date: Wed, 15 Jul 2026 07:02:51 -0700
+Message-ID: <20260715140251.209123-1-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ2PR07CA0009.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::6) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DS3PR11MB9820:EE_
+X-MS-Office365-Filtering-Correlation-Id: c3415326-b1fa-4756-4772-08dee279d0c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|376014|23010399003|366016|1800799024|38350700014|13003099007|18002099003|10067099003|56012099006|3023799007|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	pkwewQFGwzVo8yrAKhL4rWM19uq/hwNJNMP7HUt4RuJkBR1LiRBonsFn+0BI0RBvEbVPiGwOu3BMEU4roIsrRazk0ImFiIlIy8PhQpR3G8Q+6WBNxWjqmmNjIekflfPB6Wmq+VJya3N4ikQZ0RnvqoPAiV0jz4KoPm5iMNVaE+amKbifQqS75gBtZBvqqavmrNuoWZbR5lUL0IkptFt0yM3+eRcTc6pOzPjLW+bZHbnlZUNWn9PsVgITeVoPXq48wEamlbma3wDwnwdbZb42ycs4X1oV8hdJDN/sR53fUZ5qYmvwfDTp1n4wOWQmIvhQH9dBA9QUP9hEPwzV71Mg/UlNPlwbkOuUs+wb1X2hUe6XbrZh28sqJPrfhocAzNAsM1ZLGcV/ZTapnwF9tpw3yUu1I16M0cot57rzNaaB9EUS/yMLlBgh7Xyqfayez3j14Reo/IFZpnAy2xyV2TMr4glZ9IJO6pkVMmB8B/+lY8Cy/2JezT6WXbRHz4dWX977xMyCCQdjJlNNzIh98o3iH4aFpJiZ5I30WLhxCxm+udDu6CWgf0eiTAUPHxuyzf5Q2qIAH6VcC5yTgA/8k9hNIrmBgAmDH3BGbqREdab9YpOkhKVsahcoCjJdAQMR2PTf2I1pQoOeZS5RbwdkQAKtYrjxEkCbRRTbhE8iCtaxa6Q=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(366016)(1800799024)(38350700014)(13003099007)(18002099003)(10067099003)(56012099006)(3023799007)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?9wbUKOseCGG3X498gVwpr3cjYullDfgHpsjncfC/PPM0AkN44tB75D5/4ZrD?=
+ =?us-ascii?Q?e8ShlNSQaVVf76rYth2Nd3SLSaCwxqKBOeYHNuYExXm697tZtRDleeBwgOFz?=
+ =?us-ascii?Q?zR65QEOg82m/uhFJGVf73fonfeeNcJLRh8ruGvC0Z0NqTtyyzl7COHQnwgKa?=
+ =?us-ascii?Q?AuFUZRJdOpIJ/zluMHmkTMUbCsRZd8HQ/J6L1C0v/cLecdipx2U6ZExcZDZ0?=
+ =?us-ascii?Q?EevDdiiO1urATmcb43xLN3shhogLHwTG5DLTZFE8/9sypAc5EnYebjJQ7K0x?=
+ =?us-ascii?Q?pEB387EvLj2yeZS9nKLH3fbPzFG4/P8I3F4XWCmFURQA852xdKhoSCCw69lD?=
+ =?us-ascii?Q?XlXSDFYNgeBIas6xTNMiahXrBbhnbb+kx3wjj+9pvAKHlBWjQxHGxw/LEa8K?=
+ =?us-ascii?Q?GGOjB2FNZ79WFWMmoztoOOQBNFoKoF4S/L2Ojw7UiFZAjAHMx1PqI3IpKzdD?=
+ =?us-ascii?Q?TdYzUandErDsQQGV8gQmAwwVBhTdD0xcO6peYraXGUe/hgZh8hzifnZQv1Oa?=
+ =?us-ascii?Q?la+lMfamB7JaH+t0ockxkK2TYS0AACuUi6TaIiyjChnpj6dOjEhuWsszRYJ1?=
+ =?us-ascii?Q?ZE38c9JTSRX3gcNY+tCf7QQwWuwq3shBtVpQgKe+0IuAntqZR3oLH7TnTi/C?=
+ =?us-ascii?Q?Jk1qGBua1Bu5lrtHsVD+e6SdTY/hbIZJ1tWanLEznbjQmKbSg8ZN5YDssXFB?=
+ =?us-ascii?Q?HUeB7LtFmMc8fxvCLdQWJuLZzJVjPl7RsZm9Ew6IC7plP1tdm3PYFl0fhPpt?=
+ =?us-ascii?Q?0/QCsRWOj0CqZLrRhg6atEYX8Ck5Qrj7styX4TIJOJz/9+ThL9xBoRDfZAys?=
+ =?us-ascii?Q?QO5LsEEUL08zdp7rf7oYR0Sxu8s/9oQmms7IXalG3lJRdtmLlVLr3MAIFffk?=
+ =?us-ascii?Q?b1YS2y+CPa/qpBx1F0llvYke0iwC2UfxgoWNgrPr+btbJoHJDOKggEULye+0?=
+ =?us-ascii?Q?/Kynu8aYqsWGQl1IUOIXV+xbfg31uF07VZjSUFWh3NQzSiZhJvAzkwEDwhXZ?=
+ =?us-ascii?Q?yP7UDS8H+ZFvgSqJ7Y871rIxmK/2GyqVj0KnMAXUHJIOfZNK0jk/PGT53pRd?=
+ =?us-ascii?Q?hLbkEws4Aw0mLfs1fTpTxyXyjrs43EROyrXu3TB1W+R+yNVtFgb+0BOdf32Z?=
+ =?us-ascii?Q?NidLUCyF3JwhAb8AYknCjZQoY78Ian++IVJA9XLwCgTupMV1W545V/YlasIf?=
+ =?us-ascii?Q?rv51w4WH4M0q8kLwEY/qSC2AsdpbcsbigLiBDWx7Oputth8M09nYGneEEWrS?=
+ =?us-ascii?Q?HCBlbOcCBmBruxAuuyYfV6jwRjxzdHA1beESCYlwwr3nsoSxNPdngM/ghTw1?=
+ =?us-ascii?Q?qiZ+UyXI8kGaGdzG5JFKk8WalG8Z4UVgvZXismLOL/NpMV8I2FrPHQPCXw/n?=
+ =?us-ascii?Q?54/Vi6nAz6UzrQ5YK94ws24S0h2wnPECz+mZ88vUfAM2lQtAPnjPh+orBfSS?=
+ =?us-ascii?Q?AQKfMZPygbd8trdCsvoAZgb6w7UXXehzHf9Aox4Hht3JjdfzRlMopM2g34c8?=
+ =?us-ascii?Q?akHxWcwfnoqjzRS2dA+3Hbhg4LPChhkqOeUfuXv+U1FqmBGh22MgiVglstSz?=
+ =?us-ascii?Q?Kn+hExh47zyTaSZGl93JbTwTgGi+ej/BXwV2795cmhmN/ELVQNP2Y4NzTpgU?=
+ =?us-ascii?Q?T1VuFv6b95uEVacNTodO9im/Lu4GPIB3TeIxDopciPVUiuMTLArHwA/nADnJ?=
+ =?us-ascii?Q?cf5lk7s+MXWVIGarpa0b75Rvhuu+qf9ZlCDURMd5oCDD/03po0VPWEpB3ROy?=
+ =?us-ascii?Q?rSvgtiedGMP7bYce9B/XqtmvdngpmdU=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	JjBYeyBwwZ26msxdqwih1Kf+HcwuxSeBKcHE2SWbh7u+kqZfklbI5PoI2+Q7jCa/aCEWkVl9m/DRDBXvcT7CuqxPMzgdk4SXLIrJhDeRcLz04nrkdPoCz0Rs4rQxA62oK4FD3lOEvvH8sl0mBARLlLoF926xYL/oONu4TZE+VE0EwcgIVYnA+QOaNsb66Q+9iif3xIFCWAje28WYtHKKxboQNt1Y2KTDUH0J5Ex7WczHRp792ev7Z2TfmgQhfRzQovv6FJxFq2R/IL71RizgfYaodREqdMNu3kGSQfCxkZ4YB4TxiV2udox39zP0ZwcOZFGUa6IAI+NUV1P3V0CzaQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3415326-b1fa-4756-4772-08dee279d0c6
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 14:03:15.6160
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n2mBMmeA3RHW38WzKSq1kH2Sk0XOKq5u4S17CpSyY0aXedMXyo4F5mPy17nB3ib/HH7q1dhYSLSfGYP4Ac2wqjte+nmzJIoHtdvi5oStMt4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS3PR11MB9820
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDE0MCBTYWx0ZWRfX5WTGPx0o7xat
+ JwPXwHE1I6yk+grQUgG2vL5zlfBs8BP0yASsgonNYz8YXyceU8hxuhsmOFXprMUafrjddVK4cFq
+ yh89qlC9IBbk8hpKI83YV2cvQLqBXRcn/3UrA7FzqRVxl9ak3m91F8yLEubzVmPKxQIm9p2lNoO
+ 2Xt+V8rXjNV0d4ixPW0nwSkRVmOQJ7ZWjrr19DYoJb+juJQKsp5FLqJQ7uDLqQecH0PyT7qIxG1
+ lOoa+IWHTJozGv6GNVsiG4KrbBVkSgpiasQizR4lEVtVZbWf0bGTXEJ3bcljzbnmT4L3MazrR6V
+ ddQFn8Rug30y7jQWmd7Zrh8hO8xHE7gGNlWk5I4gjnOzjsRnDYppdQ4QWu4oKDTCWtOC9VQX4Gk
+ gQWPczDdTDKclbUVMd1ErgnrgnJwlVuoKkiI3CcYsCMZi5/WWcuivEG4RegYjD/4KHmZ23UqdGs
+ qY8i1dVmAyhogt91gFA==
+X-Proofpoint-GUID: lnwRdcLZC7jkWvl3yyOdL_o56nnRwP6b
+X-Proofpoint-ORIG-GUID: lnwRdcLZC7jkWvl3yyOdL_o56nnRwP6b
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDE0MCBTYWx0ZWRfX67WnafK1JRY2
+ k+P377fzVfbKmE+sRX2cbxjfghd0j51Btf35BrfwQ30SceMT6aLKQnWYzqvfGTiRHKNhSiD59tH
+ uJMRcSqcctKQ9WBWoEyqK9/RPfiNRaY1cur/cf753xMBoz8yFBYF
+X-Authority-Analysis: v=2.4 cv=JNsLdcKb c=1 sm=1 tr=0 ts=6a579325 cx=c_pps
+ a=IhFJ2QRitvxj7yHj5jvJkw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=VwQbUJbxAAAA:8
+ a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=fgaXjlHw1wGW8GctxtkA:9
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-15_02,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0 phishscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607150140
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 13:58:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240958
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 14:03:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240959
 
-On Tue Jul 14, 2026 at 8:31 PM CEST, Joshua Watt via lists.openembedded.org=
- wrote:
-> Reworks the way that the LICENSE variable is used so that it uses valid
-> SPDX License Expressions instead of the custom expressions that were
-> used previously (which are based on Python syntax). This includes
-> support for the SPDX "WITH" operator which allows a license exception to
-> be attached to a license identifier.
->
-> The old licenses expressions are still allowed, and will still be
-> correctly parsed, however a warning will be issued that indicates the
-> new license string that should be used.
->
-> Most layers should be able to use the newly-revised
-> scripts/contrib/convert-spdx-licenses.py script to do the majority of
-> the conversion work, although some manual work may still be required if
-> conditional or complex LICENSE expressions are encountered.
->
-> SPDX License Expressions require that all licenses listed are either a
-> known identifier (e.g. "GPL-2.0-or-later") or start with the prefix
-> "LicenseRef-" which indicates a custom license. When converting from old
-> expressions to new one this will need to be followed (the suggested new
-> license in the warning and the conversion script will automatically add
-> this prefix for any unrecognized license identifiers). This will most
-> commonly be the case for NO_GENERIC_LICENSE files; for a good example of
-> what needs to be done here see the changes to the linux-firmware recipe.
-> When adding new LicenseRef- licenses to a recipe, the actual license
-> name should be prefixed with the name of the recipe (e.g.
-> "LicenseRef-myrecipe-mylicense") to prevent conflicts when merging
-> multiple license documents together (e.g. in an image).
->
-> SPDX also introduces the "WITH" operator to add an exception to a
-> license instead of using a bespoke identifier to combine the two, as was
-> done with the legacy license expressions. Because of this, the logic for
-> dealing with the INCOMPATIBLE_LICENSE family of variables has changed
-> slightly. The main difference is that INCOMPATIBLE_LICENSE will now
-> match the LHS of a "WITH" expression (where as previously this was
-> "ignored" since it was a bespoke license ID). In order to allow a
-> license that would normally be rejected, but can be allowed with an
-> exception, specifically allowed exceptions can be added to the
-> INCOMPATIBLE_LICENSE_EXCEPTIONS variable (keep in mind, EXCEPTIONS here
-> means "exceptions to INCOMPATIBLE_LICENSES", not specifically SPDX
-> License Exceptions). If an SPDX exception is present here, any license
-> that has that exception will be allowed, even if it would normally match
-> INCOMPATIBLE_LICENSE. For example, to disallow all GPLv3 except for
-> those with the GCC exception, use:
->
->     INCOMPATIBLE_LICENSE =3D "GPL-3.0* LGPL-3.0*"
->     INCOMPATIBLE_LICENSE_EXCEPTIONS =3D "GCC-exception-3.1" # This new li=
-ne is required
->
->
-> Additionally, "PD" ("Public Domain") is not allowed as a generic license
-> identifier. Aside from "PD" not being a valid SPDX License Identifier,
-> most "Public Domain" licenses do have some sort of text associated with
-> them (see the HPND family of SPDX Licenses, or use the [1](SPDX License
-> Match Website) ). In addition, the meaning of "Public Domain" can vary
-> by jurisdiction, so the actual text with a LicenseRef- or a SPDX License
-> Identifier needs to be used instead.
->
-> Finally, "CLOSED" is also no longer allowed as a license expression
-> (since it is not a valid SPDX License Identifier). Instead use a
-> LicenseRef- to point to a file that contains the actual license text
-> (usually something like "Copyright <name>, all rights reserved")
->
-> [1]: https://tools.spdx.org/app/check_license/
->
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-Hi Joshua,
+Rust support in the upstream kernel on riscv64 currently only works
+with the LLVM/Clang toolchain, not gcc [1]. Add a sanity check that
+fails the build with a clear error message if TOOLCHAIN is not set
+to "clang" when building a riscv64 kernel with rust support enabled,
+pointing the user to the required local.conf/recipe override.
 
-So We have some warnings as expected, but we also have two errors:
+Also add lld-native as a dependency for riscv64, since
+lld is required when linking the kernel with clang.
 
-First, on the bbtests.BitbakeTests.test_non_gplv3 selftest:
+[1] https://docs.kernel.org/rust/arch-support.html
 
-2026-07-15 13:29:46,060 - oe-selftest - INFO - FAIL: bbtests.BitbakeTests.t=
-est_non_gplv3 (subunit.RemotedTestCase)
-...
-ERROR: Nothing PROVIDES 'virtual/compilerlibs' (but /srv/pokybuild/yocto-wo=
-rker/oe-selftest-debian/build/build-st-207485/meta-selftest/recipes-test/se=
-lftest-ed/selftest-ed_1.20.2.bb DEPENDS on or otherwise requires it)
-gcc-runtime PROVIDES virtual/compilerlibs but was skipped: it has incompati=
-ble license(s): GPL-3.0-or-later GPL-3.0-or-later WITH GCC-exception-3.1
-ERROR: Required build target 'selftest-ed' has no buildable providers.
-Missing or unbuildable dependency chain was: ['selftest-ed', 'virtual/compi=
-lerlibs']
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+---
+ meta/classes-recipe/kernel-yocto-rust.bbclass | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-
-But also on layerappend.LayerAppendTests.test_layer_appends:
-
-ERROR: layerappendtest-1.0-r0 do_create_spdx: Error executing a python func=
-tion in exec_func_python() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_create_spdx(d)
-     0003:
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/classes/create-spdx-3.0.bbclass', lineno: 213, function: do_=
-create_spdx
-     0209:addtask do_create_recipe_spdx_setscene
-     0210:
-     0211:python do_create_spdx() {
-     0212:    import oe.spdx30_tasks
- *** 0213:    oe.spdx30_tasks.create_spdx(d)
-     0214:}
-     0215:addtask do_create_spdx after \
-     0216:    do_unpack \
-     0217:    do_patch \
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/lib/oe/spdx30_tasks.py', lineno: 825, function: create_spdx
-     0821:            oe.spdx30.RelationshipType.hasDeclaredLicense,
-     0822:            [oe.sbom30.get_element_link_id(recipe_spdx_license)],
-     0823:        )
-     0824:    else:
- *** 0825:        build_objset.new_relationship(
-     0826:            source_files,
-     0827:            oe.spdx30.RelationshipType.hasDeclaredLicense,
-     0828:            None,
-     0829:        )
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/lib/oe/sbom30.py', lineno: 560, function: new_relationship
-     0556:
-     0557:        return ret
-     0558:
-     0559:    def new_relationship(self, from_, typ, to):
- *** 0560:        return self._new_relationship(oe.spdx30.Relationship, fro=
-m_, typ, to)
-     0561:
-     0562:    def new_scoped_relationship(self, from_, typ, scope, to):
-     0563:        return self._new_relationship(
-     0564:            oe.spdx30.LifecycleScopedRelationship,
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/lib/oe/sbom30.py', lineno: 529, function: _new_relationship
-     0525:        spdxid_name=3D"relationship",
-     0526:        **props,
-     0527:    ):
-     0528:        from_ =3D to_list(from_)
- *** 0529:        to =3D to_list(to)
-     0530:
-     0531:        if not from_:
-     0532:            return []
-     0533:
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/lib/oe/sbom30.py', lineno: 187, function: to_list
-     0183:    if isinstance(l, set):
-     0184:        l =3D sorted(list(l))
-     0185:
-     0186:    if not isinstance(l, (list, tuple)):
- *** 0187:        raise TypeError("Must be a list or tuple. Got %s" % type(=
-l))
-     0188:
-     0189:    return l
-     0190:
-     0191:
-Exception: TypeError: Must be a list or tuple. Got <class 'NoneType'>
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4285
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
+index 49f2bfc1ae..3f9b2ef6ee 100644
+--- a/meta/classes-recipe/kernel-yocto-rust.bbclass
++++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
+@@ -25,3 +25,19 @@ do_kernel_configme:append () {
+ # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
+ # Disable ccache for kernel build if kernel rust support is enabled to workaround this.
+ CCACHE_DISABLE ?= "1"
++
++# Rust support in the kernel on riscv64 only works with the LLVM/Clang
++# toolchain, not gcc:
++# https://docs.kernel.org/rust/arch-support.html
++#
++python () {
++    if d.getVar('TARGET_ARCH') == 'riscv64' and d.getVar('TOOLCHAIN') != 'clang':
++        bb.fatal("Rust support in the kernel on riscv64 requires the clang toolchain, " \
++                 "but TOOLCHAIN is set to '%s'. Set TOOLCHAIN:riscv64 = \"clang\" in kernel recipe (or)" \
++                 "set TOOLCHAIN:pn-linux-yocto = \"clang\" in local.conf to build a riscv64 kernel with rust enabled. "\
++                 "see https://docs.kernel.org/rust/arch-support.html for details." % d.getVar('TOOLCHAIN'))
++}
++
++# lld is required when building the kernel with clang.
++DEPENDS:append:riscv64 = " lld-native"
++RUST_KERNEL_TASK_DEPENDS:append:riscv64 = " lld-native:do_populate_sysroot"
+-- 
+2.51.0
 
 
