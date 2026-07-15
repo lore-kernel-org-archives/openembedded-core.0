@@ -2,35 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E4F9C44507
-	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 21:03:18 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1121.1784149391784281578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC6DC4450A
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 21:59:18 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.128.1784152757423877580
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 14:03:12 -0700
+ Wed, 15 Jul 2026 14:59:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZvnVRRfs;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20260715210309e61db125cd00020746-vdqybm@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260715210309e61db125cd00020746
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GdwS85zC;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260715215914b913e78b54000207dc-civtiv@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260715215914b913e78b54000207dc
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 15 Jul 2026 23:03:09 +0200
+        Wed, 15 Jul 2026 23:59:15 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=3rliYb1DwtNIJx0Vodj7HsTrbQWRWWk4Xc0GKUnq32I=;
- b=ZvnVRRfsu01Nz21FxZq6NbtdmIyXcQLkIzC2ONqMyfk1d1yGGoIVL6fIOjbhq8mBC7XqAR
- yy+Hocy53tVRL2grTpLdbtBE3uq4Zs5PCNx1ZGV6XT8KF3V/7Kkn1sJFlTu0rQ+xWs9YNFVm
- xyMnd9jeLJ3bQpGvSzqC5p+8ZFoUl67sz80gBZe5ItsD7K6Dr3VioQhaK4aoCj9VFCx7MpGn
- nCbPpGgzk5vhySvP4y8hC/C3Z3dG/KCjQQb0/d0miybSeuIlXTIFG5mB2hrpg+Cz9Y8t1R17
- DG4KJ3SxeNL1GEW6qxI51uw84OodLe9kDrd8n8UwLgw7Cp7MRwTXsiSA==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=8H2LfEfsZev2Bz244Vdd0pGogJOqBtC5RFs73QJva/A=;
+ b=GdwS85zC53nZ1N3xf5eVISL7X5sk+2QjrSaogC3eMHMGU4rrFmckfSxEt63gQqXpABX+ts
+ 0ixLUvEGIkbiqGoO5mAWlD2NFLuP4DbDwf2supBsWRkbkLUt8Cfjr5Mcg3TXOwEQddV4/LHt
+ ZYk2JM5W6nZ0knizVqQ/el8tfuyMjURpXy8Y9V6a92pmpOjSAKK5XfAt7ONihhEHRORsTtxL
+ ehuoroaWbLvD/uvrA+89k+cnMhSl1+vjF/y9XMI7IWYJqNd7JudCiCRusGeVvYR1FpYpRHeN
+ 1Aji4S7ZvfTu5Tpbcrcw+zVnYomFjZWFZiZ0EsWJfM3keNPejC18Tcjg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH 2/2] flac: make documentation build deterministic
-Date: Wed, 15 Jul 2026 23:02:41 +0200
-Message-ID: <20260715210241.5032-2-peter.marko@siemens.com>
-In-Reply-To: <20260715210241.5032-1-peter.marko@siemens.com>
-References: <20260715210241.5032-1-peter.marko@siemens.com>
+Subject: [PATCH] libxfont: remove recipe
+Date: Wed, 15 Jul 2026 23:58:51 +0200
+Message-ID: <20260715215851.367313-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -38,34 +36,62 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 21:03:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241041
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 21:59:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241042
 
 From: Peter Marko <peter.marko@siemens.com>
 
-doxygen is autodetected (e.g. from HOSTTOOLS or a transient dependency).
-Add a knob to make it deterministic when the documentation is being built.
-Keep it disabled by default to preserve current default behavior.
+This recipe is obsolete and successor libxfont2 is available.
+Nothing in oe-core or meta-openembedded depends on it anymore.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: facd4a7561f9e4c8b4b36329115634a586a0f7e1)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-multimedia/flac/flac_1.5.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../xorg-lib/libxfont_1.5.4.bb                | 25 -------------------
+ 2 files changed, 26 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
 
-diff --git a/meta/recipes-multimedia/flac/flac_1.5.0.bb b/meta/recipes-multimedia/flac/flac_1.5.0.bb
-index a667ea9f62..d55e157a9d 100644
---- a/meta/recipes-multimedia/flac/flac_1.5.0.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.5.0.bb
-@@ -34,6 +34,7 @@ PACKAGECONFIG ??= " \
-     ogg \
- "
- PACKAGECONFIG[avx] = "--enable-avx,--disable-avx"
-+PACKAGECONFIG[doxygen-docs] = "--enable-doxygen-docs,--disable-doxygen-docs,doxygen-native"
- PACKAGECONFIG[ogg] = "--enable-ogg --with-ogg=${STAGING_DIR_HOST},--disable-ogg,libogg"
- 
- PACKAGES += "libflac libflac++"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 4c6307086c..3fe741520d 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -441,7 +441,6 @@ RECIPE_MAINTAINER:pn-libxdamage = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxdmcp = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxext = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxfixes = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-libxfont = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxfont2 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxft = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libxi = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+deleted file mode 100644
+index 9ec7cc30f5..0000000000
+--- a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
++++ /dev/null
+@@ -1,25 +0,0 @@
+-SUMMARY = "XFont: X Font rasterisation library"
+-
+-DESCRIPTION = "libXfont provides various services for X servers, most \
+-notably font selection and rasterisation (through external libraries \
+-such as freetype)."
+-
+-require xorg-lib-common.inc
+-
+-LICENSE = "MIT & MIT & BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a46c8040f2f737bcd0c435feb2ab1c2c"
+-
+-DEPENDS += "freetype xtrans xorgproto libfontenc zlib"
+-PROVIDES = "xfont"
+-
+-PE = "1"
+-
+-XORG_PN = "libXfont"
+-XORG_EXT = "tar.bz2"
+-
+-BBCLASSEXTEND = "native"
+-
+-SRC_URI[sha256sum] = "1a7f7490774c87f2052d146d1e0e64518d32e6848184a18654e8d0bb57883242"
+-
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
 
