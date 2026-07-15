@@ -1,193 +1,430 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E67AC44501
-	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 18:45:37 +0000 (UTC)
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1182.1784141135318217034
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66CF5C44501
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 18:52:07 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1334.1784141521696641474
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 11:45:35 -0700
+ Wed, 15 Jul 2026 11:52:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=j4yIjidx;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=PLab7Ju/;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.153, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 6AF2F7A007C;
-	Wed, 15 Jul 2026 14:45:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 15 Jul 2026 14:45:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1784141134; x=1784227534; bh=/poCutLFW2
-	7oOSqg83na5WydzFZd570lpqscdjsHteQ=; b=j4yIjidxFRQuQY0pTB/wkOmtVl
-	AuhL65IrKWJppsHeaHwLORsdGtYu8av+X+QdEN/X2awscuxftVdurU/owRIX3O3h
-	0v+3b1wQJgYO85BvMoP6Zkb/edAWNlrIgMWiEQe4V4VTxMno702cj4EvbCl1hNTU
-	zbudZz4W2aqPbp5gycrKES75IQ/6/b9C+toR2jyksdHxW8XHB/oLJaQpwb9jFTKF
-	AxycgUbc2DjyNOMrx3BdamgrzKuyPbYyXRcrvqGPJ4SRsuc3zEDRMHr324DTRmxk
-	ILjaPmtYL/yv1RQbYQemZWfnJb8awA9fqRxljouuWiQWoaJ/bfr0k5aoLyIw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784141134; x=1784227534; bh=/poCutLFW27oOSqg83na5WydzFZd570lpqs
-	cdjsHteQ=; b=PLab7Ju/rAtp5fNN/xV6Et9KgMNl8jj6SW2CZFrgJOzfZ7s1+DU
-	nL7bpsPTEb/MqV1u1WC8WTzxW2a44eVlpMUTBjEdV0u2qGsvUN/Eu4+euylFqLtE
-	NvcWeY56ZrzYcJ+Ypuq4LfQU1MVISS36jXQ4wNMhe1aJyFlOyR0GgQsgvPbLi5PZ
-	n6RsBtMOCwBJsc9SM5aAwuqQExAFBadJ1hbdFaUTgKkkOVCnslLGLxM0UFRCuQEI
-	z8Coaeu3OvgqWaCqG+6Sav22rkfqg9JAbMywFVLPmunrhpNSjpMb97ic+4vXMJ5h
-	cyzcEthL6sj4SDmel6IKabsX/auyVpTAdUw==
-X-ME-Sender: <xms:TtVXaslsYRiP2sHvpbUUn0uBbY_U5jqT377h0ZKYkdYtDIe6gfdxKw>
-    <xme:TtVXah2HF1k48ulAniiKB_2UrmM7sqqyEd22393rnS_aglyxC53XpS5Jq41Pw9mB6
-    ZY-PDm6XAeLa_9vlhbRoYXIdWDdzRE_Z_UdO4AnkpkYbXchWNts6fzU>
-X-ME-Received: <xmr:TtVXaoSLbfteTjcCHCY9cRCOpQ_B8CqPxU7vI2ROnsjKZXfLn6LGPX6Zv9EOZnNb7FhjpUmRO31KBviBbziPH4kzqLZ7hnJSR1zo3ZQl6rVs>
-X-ME-Proxy-Cause: dmFkZTEuP+0fgfhRdgAZTMi/OMHhyS9/awsc0XxFmeunvUKuNchRz9vSw+M29kKbY4OAbI
-    UR5KjQat64M3Z2FxXoZ7A/6OxiDn/kf4BgzXpP3FEYzRBmec14aQwCFeS4QOkwnTwCoh84
-    4FxawLEJFi+oTY4uJWUOBOCuzcu0XRq1G6kkJBUijgBbDUe/WLLghN/7LITieiG0nLeYHd
-    moft2JKQwKWUD/u6eiUcKiEFa4mQnbf96lxGsGAPgpi/B5j4z41FXSU6XX91jtVgFNLvnN
-    DEPtzsk9t69qmv2fs1dEYjdpY2g8qsop2z+Ddjji0KIvqzUCaQQStGpMbCkw1voXl4CtRh
-    EDbgu6rGvpitr1SKD72VEOQTvAGdQAfu4hvqYLd6ip/Gf+mNKWiXjIWYpQEdw65j5XHf/t
-    h9suNt9/LckzRpDrotiZUf1n69ZgBTva8/7eQPUrzc5TF62qvtZX5jRMnReK+JNRmf49gy
-    JLyfF7d0S6NT7D1hdv17PJR30sv8CTSePzCsMylVBcr8HhV9BQBXQstaZ+5tQATcK8gbmX
-    WHrG8Y9kRHc9si/lZZMT7kztZhb9kIlOzxbVnfXl3NoS/O9H7tCOi2TXhVBlrQHM1RaUQ0
-    x/6/+sIl4mBSZX3KEEaY8mFp7fqiE+ig/6KecYblT3YoSu1yDHkumOH6ZLgA
-X-ME-Proxy: <xmx:TtVXajtIh7YgV_1eEMWMsWKPRig1kQAjv60D6uq4uuNFYm_Wigin6w>
-    <xmx:TtVXatZAqeygziYqvN92JnySRnXfYIt45dIscEf1xuS56nudu5hHRA>
-    <xmx:TtVXaovKMMsl5zkPRcPBWJt8Ny6gYJMPlP8OTKkCmnx7wRqIAxd6qA>
-    <xmx:TtVXavHRd3d_ZAxeWOh72r8AdmZtYBqCNezkfS7JdGUwappaPfE1cw>
-    <xmx:TtVXauE1DDJMZH7nQaCsSatEtkw_P4rErvm_4Ip9YkYSb8UqbiocJSmg>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Jul 2026 14:45:33 -0400 (EDT)
-Message-ID: <e2046a9aa4ac8f06f084e41765fe4e8062fc849f.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH] u-boot: Update git server and branch
-From: Paul Barker <paul@pbarker.dev>
-To: reatmon@ti.com, openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jul 2026 19:45:28 +0100
-In-Reply-To: <20260715181725.936386-1-reatmon@ti.com>
-References: <20260715181725.936386-1-reatmon@ti.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-KvljcQtmuIjeBnL03Z++"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=SHonMlWC;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8111c0c7561so79862877b3.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 11:52:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784141521; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Q5qUj17mWVgM92LiHxZSxTtM/woVoxCwV3iAxYgvtWuGgfDvDuozMlD/OIJjBWCIsa
+         eL67Sn6W8oonK0EYPRzyCRf9hG/xBmXdczZv6Q4CeAeZi55VvxnDt3b7oJYjhSLgiRXu
+         a3ZB+b0I8Je5ZLUG5hf/5RLJHyBSunh/OSXyxmSrdFdkZpjr+xqU9RKjlVIW4pukMtYw
+         1ZGl4bIjzkyy6yzfIdY7ywKi2sXSnzqY8W//hoj2YnG423hrS/zKVxxbYY8/Sm0QlUh4
+         3bT2Twl2SBOSOUiizS2/HAg6bA1HZx45UNM+M6wTfXekKWMglJ/gqPG2TbtiHJTot4uI
+         Bisg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Ae7d7ZuhB3Pj4W7yqvHFqTOIT9m5SiG88Ix11+NGQI8=;
+        fh=E22hnrDeFOhblX6O88lo3ne3xDOhxPQXcBK1pwgmqrY=;
+        b=VyhxhujkyuszrqZj+jqeu3OViZicOZo7NJqf3tEc4o3cIDWTsN+RijsqgM/GX3uDeh
+         U5u/QiGSLRAfdET4OgfxS7ow1EyS7CZ/92QMctO1/8BcybFU0YMjBG3fRfwqCF+Q+ygd
+         EwihFXxNnB8KjlD2e5BHdtT/Eff+p33lwgKmHC7IM7yr4ko7QusUbvpMv++NpUMVswr+
+         +5Az0IAR+9TtxvMMWOK/OtpawSJh6kEstfH1uWQKH4A2ANtANwzk818STslrQd2DqhyG
+         eDhaHsXrFXxgs8KJXq5cYm+2xVLh/GB5m2k8PuF9QXCjZCXDM1JWZCxRmbXrT1TVQFEw
+         Z8oA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784141521; x=1784746321; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ae7d7ZuhB3Pj4W7yqvHFqTOIT9m5SiG88Ix11+NGQI8=;
+        b=SHonMlWChek419TfjEz7EH1Fj5Arbisfnkq6C6xCwatBuXIwRJpnbsByjunn90v6V1
+         RPyx/BhRE//VzmCqkcrpjmiTMEB4zho5Ivtj07hT6OBKe7+DzZIG+yYn5w4PKLQDDk7i
+         J58zTReibyBohfryAhH0aFkQvkEoH8BnZYxFzOebkXGQ/X4StN2SBS+vf0cH6SwON9PR
+         OOCkt7fcI4sSDPvFwNuRm4+wfZYelGhuq3jSFQeO6HZnwXNFYBkHwonQPWtxwkH5bAQl
+         97qzK7dTtz5iKsuOY3M7zCCkFOscw6pWLoduf75CYL3z0O28uyG+tal9p2accocVHxlL
+         3nCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784141521; x=1784746321;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ae7d7ZuhB3Pj4W7yqvHFqTOIT9m5SiG88Ix11+NGQI8=;
+        b=U5hT41DvCYdKs73e2jDpoVqnzWUzH3WRptYztoO1ugaPzKFDRY/g71oEKB4g44qKFX
+         1TUthdOcXMAK0345PNRxMgYJJBEGVRyUIB6H4BeRz0YHjhS2GmmkujL0T2EqSL6jOLcC
+         5jkmJoTe/yy99LloGvQdhkytV4fNhyJxmXR//zuSxa/9NSeoZvZabbTnfpVwXvq53Brk
+         hML1TonQNNqfr6jJ3xz2ufHV9njkUL7EKjNoFvtbSZwU3FvobAVFQcD/UDKosTYPv2/I
+         C/P2QSRvXu7erqANwCB6fMG7CKAo4BM4S2QF+5uuOqf+u72HG2ZtVzQJFIxVEDeUS0Nu
+         ZPlQ==
+X-Gm-Message-State: AOJu0Yz7CLEsjQgRJAhsX8tkFeh8YHC0PIWd3Q056+eFyFAk/Gi+4Jrf
+	TSxqekWlsD1bJKwdE+5nBsfYmg+/ldPnxDTYZJ5X9jMEZ/8ZY6bUXZprTkY1GLA4R6RsvjKfdUS
+	NTeuqhuzhb+4tPgfWCx5fpuJGus/UkeI=
+X-Gm-Gg: AfdE7cm63/S7y4Cne4/9Gu/8mv0NTEw2brlpNWYHRQMcuv9ERHWLosHCT3htpoL+Snw
+	DlTbm8XP89sa3DrSGylMqJrRY3zA3BARiTPMvGwyOm9na1Jna1gZ4LB3UeSPN9/j7eKjAe8O5fg
+	R/4mtiQncj0ubkwj9ZAxypR/A0HL/N6RUUIQKzEMaUT27xen/zmvlEMr0LRcpepfV5GI7r7/HbM
+	NsxJN+4cF/xnu5spAgasSuFfgmoI++zXKEAOlRA0+rnMFAsd1KizpplT16J1uXACiLYFlbd6IxP
+	2m6LO2aPicE=
+X-Received: by 2002:a05:690c:450b:b0:7dd:3463:6872 with SMTP id
+ 00721157ae682-81ec0078186mr55964017b3.41.1784141520567; Wed, 15 Jul 2026
+ 11:52:00 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
+ <20260715164739.364323-1-JPEWhacker@gmail.com> <b6095f7ae705b87895634e1d8143e2ca399e0618.camel@pbarker.dev>
+ <CAJdd5GaMjP_dUwRUKVQf7FCVgn1HrC6xULmWhpp52kEyPJ2B=w@mail.gmail.com>
+In-Reply-To: <CAJdd5GaMjP_dUwRUKVQf7FCVgn1HrC6xULmWhpp52kEyPJ2B=w@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Wed, 15 Jul 2026 12:51:49 -0600
+X-Gm-Features: AUfX_mxW3S3-BnXs3Od6kIpQPVtRGIvcl9g30KbbZReJbpEDs_LruoLlMQ4TLVw
+Message-ID: <CAJdd5GbJtbrNskX2m9azcsDG25fHy0cjG4hHovmadvhjsGM63g@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2 00/25] Rework LICENSE to be SPDX License Expressions
+To: Paul Barker <paul@pbarker.dev>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000090013c0656aad156"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 18:45:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241034
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 18:52:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241035
 
-
---=-KvljcQtmuIjeBnL03Z++
+--00000000000090013c0656aad156
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-07-15 at 13:17 -0500, Ryan Eatmon via
-lists.openembedded.org wrote:
-> The u-boot project has moved to a new official git repository server [1] =
-for
-> all of their work and switch from master to main for the default branch.
->=20
-> [1] https://git.u-boot-project.org/u-boot/u-boot/-/commit/2a6ca4ad04e6448=
-8ac41c3683cacd44173a96d24
->=20
-> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot-common.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp=
-/u-boot/u-boot-common.inc
-> index 574768b9f8..55f33efc98 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> @@ -14,7 +14,7 @@ PE =3D "1"
->  # repo during parse
->  SRCREV =3D "88dc2788777babfd6322fa655df549a019aa1e69"
-> =20
-> -SRC_URI =3D "git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;bra=
-nch=3Dmaster;tag=3Dv${PV}"
-> +SRC_URI =3D "git://git.u-boot-project.org/u-boot/u-boot.git;protocol=3Dh=
-ttps;branch=3Dmain;tag=3Dv${PV}"
-> =20
->  B =3D "${WORKDIR}/build"
+On Wed, Jul 15, 2026 at 11:56=E2=80=AFAM Joshua Watt <jpewhacker@gmail.com>=
+ wrote:
 
-=46rom #u-boot on irc.libera.chat today:
+>
+>
+> On Wed, Jul 15, 2026 at 11:11=E2=80=AFAM Paul Barker <paul@pbarker.dev> w=
+rote:
+>
+>> On Wed, 2026-07-15 at 10:44 -0600, Joshua Watt via
+>> lists.openembedded.org wrote:
+>> > Reworks the way that the LICENSE variable is used so that it uses vali=
+d
+>> > SPDX License Expressions instead of the custom expressions that were
+>> > used previously (which are based on Python syntax). This includes
+>> > support for the SPDX "WITH" operator which allows a license exception =
+to
+>> > be attached to a license identifier.
+>> >
+>> > The old licenses expressions are still allowed, and will still be
+>> > correctly parsed, however a warning will be issued that indicates the
+>> > new license string that should be used.
+>> >
+>> > Most layers should be able to use the newly-revised
+>> > scripts/contrib/convert-spdx-licenses.py script to do the majority of
+>> > the conversion work, although some manual work may still be required i=
+f
+>> > conditional or complex LICENSE expressions are encountered.
+>> >
+>> > SPDX License Expressions require that all licenses listed are either a
+>> > known identifier (e.g. "GPL-2.0-or-later") or start with the prefix
+>> > "LicenseRef-" which indicates a custom license. When converting from o=
+ld
+>> > expressions to new one this will need to be followed (the suggested ne=
+w
+>> > license in the warning and the conversion script will automatically ad=
+d
+>> > this prefix for any unrecognized license identifiers). This will most
+>> > commonly be the case for NO_GENERIC_LICENSE files; for a good example =
+of
+>> > what needs to be done here see the changes to the linux-firmware recip=
+e.
+>> > When adding new LicenseRef- licenses to a recipe, the actual license
+>> > name should be prefixed with the name of the recipe (e.g.
+>> > "LicenseRef-myrecipe-mylicense") to prevent conflicts when merging
+>> > multiple license documents together (e.g. in an image).
+>> >
+>> > SPDX also introduces the "WITH" operator to add an exception to a
+>> > license instead of using a bespoke identifier to combine the two, as w=
+as
+>> > done with the legacy license expressions. Because of this, the logic f=
+or
+>> > dealing with the INCOMPATIBLE_LICENSE family of variables has changed
+>> > slightly. The main difference is that INCOMPATIBLE_LICENSE will now
+>> > match the LHS of a "WITH" expression (where as previously this was
+>> > "ignored" since it was a bespoke license ID). In order to allow a
+>> > license that would normally be rejected, but can be allowed with an
+>> > exception, specifically allowed exceptions can be added to the
+>> > INCOMPATIBLE_LICENSE_EXCEPTIONS variable (keep in mind, EXCEPTIONS her=
+e
+>> > means "exceptions to INCOMPATIBLE_LICENSES", not specifically SPDX
+>> > License Exceptions). If an SPDX exception is present here, any license
+>> > that has that exception will be allowed, even if it would normally mat=
+ch
+>> > INCOMPATIBLE_LICENSE. For example, to disallow all GPLv3 except for
+>> > those with the GCC exception, use:
+>> >
+>> >     INCOMPATIBLE_LICENSE =3D "GPL-3.0* LGPL-3.0*"
+>> >     INCOMPATIBLE_LICENSE_EXCEPTIONS =3D "GCC-exception-3.1" # This new
+>> line is required
+>> >
+>> >
+>> > Additionally, "PD" ("Public Domain") is not allowed as a generic licen=
+se
+>> > identifier. Aside from "PD" not being a valid SPDX License Identifier,
+>> > most "Public Domain" licenses do have some sort of text associated wit=
+h
+>> > them (see the HPND family of SPDX Licenses, or use the (SPDX License
+>> > Match Website)[1] ). In addition, the meaning of "Public Domain" can
+>> vary
+>> > by jurisdiction, so the actual text with a LicenseRef- or a SPDX Licen=
+se
+>> > Identifier needs to be used instead.
+>> >
+>> > Finally, "CLOSED" is also no longer allowed as a license expression
+>> > (since it is not a valid SPDX License Identifier). Instead use a
+>> > LicenseRef- to point to a file that contains the actual license text
+>> > (usually something like "Copyright <name>, all rights reserved")
+>>
+>> Hi Joshua,
+>>
+>> I've had a skim through but not reviewed in detail, this looks good in
+>> general.
+>>
+>> I'm concerned about removing support for "CLOSED" as a license
+>> expression though, that has been used extensively on downstream projects
+>> I've worked on over the years. It's helpful to be able to bypass license
+>> checking where it may not be needed.
+>>
+>
+> My reason for getting rid of it was along the same lines as trying to get
+> rid of "PD" as a license; there is certainly some license text that is
+> relevant, and the exact text might vary by jurisdiction so having a singl=
+e
+> identifier that tries to lump it all together may not be a good idea. For
+> example, in the US, I might have something like "Copyright Joshua Watt, a=
+ll
+> rights reserved". It should be noted that a LicenseRef- licenses can
+> reference something in a layer LICENSE_DIR, so I can for example create a
+> file named "JoshuaProprietaryLicense" in my layer, then use
+> "LicenseRef-JoshuaProprietaryLicense" in my LICENSE expression to refer t=
+o
+> it as necessary. We _could_ potentially make a "CLOSED" file in oe-core
+> with the text "All rights reserved" in it, then recipes could use
+> "LicenseRef-CLOSED" in it; but that strays into legal territory and I don=
+'t
+> really want to assume that's the correct "closed" license text in all
+> jurisdictions.
+>
+> CLOSED is not a valid SPDX license identifier, so it can't really be
+> propagated around in SPDX license expressions. That said, if we want to
+> treat the line 'LICENSE =3D "CLOSED"' to effectively mean "no license" (w=
+here
+> you simply get no SPDX license expression when you parse it) that should =
+be
+> doable.
+>
 
-  14:52:10 <marex> Tartarus: can we already start using the git.u-b-p.org a=
-s a primary git tree ?
-  14:59:18 <Tartarus> marex: My hope was to switch over officially next wee=
-k. I need to see what else needs to be done before we can fully switch over
-  15:11:52 <marex> Tartarus: ACK
-  16:19:06 <bryanb> Tartarus: I noticed the commit too. should yocto people=
- start switching things over for their CI/CD stuff as well or should they h=
-old off?
-  16:19:58 <Tartarus> bryanb: Hold off a bit more
+FWIW, the code was already really close to doing this. I implemented it
+quickly here:
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djpew/spd=
+x-licenses&id=3D7f9837f6ca5b016610674d3ed72f4572990f087d
 
-So, we should probably wait a week or two before taking this.
-
-Best regards,
-
---=20
-Paul Barker
+so see if that makes sense.
 
 
---=-KvljcQtmuIjeBnL03Z++
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+>
+>
+>>
+>> After applying this series there is still handling for "CLOSED" in
+>> several places such as populate_lic_qa_checksum() in insane.bbclass.
+>>
+>
+> Some of them are kept around for compatibility with "legacy" license
+> expressions, and some I probably just missed.
+>
+>
+>>
+>> Best regards,
+>>
+>> --
+>> Paul Barker
+>>
+>>
 
------BEGIN PGP SIGNATURE-----
+--00000000000090013c0656aad156
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalfVSBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0boARAQCkK2PCGhpnWJhj5qIh8s27GdYtCyPOJtN2
-qwHeaIM27wEAmzesgfjlN+EJW9wl3T6tcxPDt8aCIyKNvyR5yf6PQgE=
-=MnGh
------END PGP SIGNATURE-----
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 15,=
+ 2026 at 11:56=E2=80=AFAM Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmai=
+l.com">jpewhacker@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Ju=
+l 15, 2026 at 11:11=E2=80=AFAM Paul Barker &lt;<a href=3D"mailto:paul@pbark=
+er.dev" target=3D"_blank">paul@pbarker.dev</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">On Wed, 2026-07-15 at 10:44 -0600=
+, Joshua Watt via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> wrote:<br>
+&gt; Reworks the way that the LICENSE variable is used so that it uses vali=
+d<br>
+&gt; SPDX License Expressions instead of the custom expressions that were<b=
+r>
+&gt; used previously (which are based on Python syntax). This includes<br>
+&gt; support for the SPDX &quot;WITH&quot; operator which allows a license =
+exception to<br>
+&gt; be attached to a license identifier.<br>
+&gt; <br>
+&gt; The old licenses expressions are still allowed, and will still be<br>
+&gt; correctly parsed, however a warning will be issued that indicates the<=
+br>
+&gt; new license string that should be used.<br>
+&gt; <br>
+&gt; Most layers should be able to use the newly-revised<br>
+&gt; scripts/contrib/convert-spdx-licenses.py script to do the majority of<=
+br>
+&gt; the conversion work, although some manual work may still be required i=
+f<br>
+&gt; conditional or complex LICENSE expressions are encountered.<br>
+&gt; <br>
+&gt; SPDX License Expressions require that all licenses listed are either a=
+<br>
+&gt; known identifier (e.g. &quot;GPL-2.0-or-later&quot;) or start with the=
+ prefix<br>
+&gt; &quot;LicenseRef-&quot; which indicates a custom license. When convert=
+ing from old<br>
+&gt; expressions to new one this will need to be followed (the suggested ne=
+w<br>
+&gt; license in the warning and the conversion script will automatically ad=
+d<br>
+&gt; this prefix for any unrecognized license identifiers). This will most<=
+br>
+&gt; commonly be the case for NO_GENERIC_LICENSE files; for a good example =
+of<br>
+&gt; what needs to be done here see the changes to the linux-firmware recip=
+e.<br>
+&gt; When adding new LicenseRef- licenses to a recipe, the actual license<b=
+r>
+&gt; name should be prefixed with the name of the recipe (e.g.<br>
+&gt; &quot;LicenseRef-myrecipe-mylicense&quot;) to prevent conflicts when m=
+erging<br>
+&gt; multiple license documents together (e.g. in an image).<br>
+&gt; <br>
+&gt; SPDX also introduces the &quot;WITH&quot; operator to add an exception=
+ to a<br>
+&gt; license instead of using a bespoke identifier to combine the two, as w=
+as<br>
+&gt; done with the legacy license expressions. Because of this, the logic f=
+or<br>
+&gt; dealing with the INCOMPATIBLE_LICENSE family of variables has changed<=
+br>
+&gt; slightly. The main difference is that INCOMPATIBLE_LICENSE will now<br=
+>
+&gt; match the LHS of a &quot;WITH&quot; expression (where as previously th=
+is was<br>
+&gt; &quot;ignored&quot; since it was a bespoke license ID). In order to al=
+low a<br>
+&gt; license that would normally be rejected, but can be allowed with an<br=
+>
+&gt; exception, specifically allowed exceptions can be added to the<br>
+&gt; INCOMPATIBLE_LICENSE_EXCEPTIONS variable (keep in mind, EXCEPTIONS her=
+e<br>
+&gt; means &quot;exceptions to INCOMPATIBLE_LICENSES&quot;, not specificall=
+y SPDX<br>
+&gt; License Exceptions). If an SPDX exception is present here, any license=
+<br>
+&gt; that has that exception will be allowed, even if it would normally mat=
+ch<br>
+&gt; INCOMPATIBLE_LICENSE. For example, to disallow all GPLv3 except for<br=
+>
+&gt; those with the GCC exception, use:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0INCOMPATIBLE_LICENSE =3D &quot;GPL-3.0* LGPL-3.0*&q=
+uot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0INCOMPATIBLE_LICENSE_EXCEPTIONS =3D &quot;GCC-excep=
+tion-3.1&quot; # This new line is required<br>
+&gt; <br>
+&gt; <br>
+&gt; Additionally, &quot;PD&quot; (&quot;Public Domain&quot;) is not allowe=
+d as a generic license<br>
+&gt; identifier. Aside from &quot;PD&quot; not being a valid SPDX License I=
+dentifier,<br>
+&gt; most &quot;Public Domain&quot; licenses do have some sort of text asso=
+ciated with<br>
+&gt; them (see the HPND family of SPDX Licenses, or use the (SPDX License<b=
+r>
+&gt; Match Website)[1] ). In addition, the meaning of &quot;Public Domain&q=
+uot; can vary<br>
+&gt; by jurisdiction, so the actual text with a LicenseRef- or a SPDX Licen=
+se<br>
+&gt; Identifier needs to be used instead.<br>
+&gt; <br>
+&gt; Finally, &quot;CLOSED&quot; is also no longer allowed as a license exp=
+ression<br>
+&gt; (since it is not a valid SPDX License Identifier). Instead use a<br>
+&gt; LicenseRef- to point to a file that contains the actual license text<b=
+r>
+&gt; (usually something like &quot;Copyright &lt;name&gt;, all rights reser=
+ved&quot;)<br>
+<br>
+Hi Joshua,<br>
+<br>
+I&#39;ve had a skim through but not reviewed in detail, this looks good in<=
+br>
+general.<br>
+<br>
+I&#39;m concerned about removing support for &quot;CLOSED&quot; as a licens=
+e<br>
+expression though, that has been used extensively on downstream projects<br=
+>
+I&#39;ve worked on over the years. It&#39;s helpful to be able to bypass li=
+cense<br>
+checking where it may not be needed.<br></blockquote><div><br></div><div>My=
+ reason for getting rid of it was along the same lines as trying to get rid=
+ of &quot;PD&quot; as a license; there is certainly=C2=A0some license text =
+that is relevant, and the exact text might vary by jurisdiction=C2=A0so hav=
+ing a single identifier that tries to lump it all together may not be a goo=
+d idea. For example, in the US, I might have something like &quot;Copyright=
+ Joshua Watt, all rights reserved&quot;. It should be noted that a LicenseR=
+ef- licenses can reference something in a layer LICENSE_DIR, so I can for e=
+xample create a file named &quot;JoshuaProprietaryLicense&quot; in my=C2=A0=
+layer, then use &quot;LicenseRef-JoshuaProprietaryLicense&quot; in my LICEN=
+SE expression to refer to it as necessary. We _could_ potentially make a &q=
+uot;CLOSED&quot; file in oe-core with the text &quot;All rights reserved&qu=
+ot; in it, then recipes could use &quot;LicenseRef-CLOSED&quot; in it; but =
+that strays into legal territory and I don&#39;t really want to assume that=
+&#39;s the correct &quot;closed&quot; license text in all jurisdictions.</d=
+iv><div><br></div><div>CLOSED is not a valid SPDX license identifier, so it=
+ can&#39;t really be propagated around in SPDX license expressions. That sa=
+id, if we want to treat the line &#39;LICENSE =3D &quot;CLOSED&quot;&#39; t=
+o effectively mean &quot;no license&quot; (where you simply get no SPDX lic=
+ense expression when you parse it) that should be doable.</div></div></div>=
+</blockquote><div><br></div><div>FWIW, the code was already really close to=
+ doing this. I implemented it quickly here:=C2=A0</div><div><a href=3D"http=
+s://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djpew/spdx-li=
+censes&amp;id=3D7f9837f6ca5b016610674d3ed72f4572990f087d">https://git.opene=
+mbedded.org/openembedded-core-contrib/commit/?h=3Djpew/spdx-licenses&amp;id=
+=3D7f9837f6ca5b016610674d3ed72f4572990f087d</a>=C2=A0</div><div>so see if t=
+hat makes sense.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>=C2=A0</div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+After applying this series there is still handling for &quot;CLOSED&quot; i=
+n<br>
+several places such as populate_lic_qa_checksum() in insane.bbclass.<br></b=
+lockquote><div><br></div><div>Some of them are kept around for compatibilit=
+y with &quot;legacy&quot; license expressions, and some I probably just mis=
+sed.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+<br>
+Best regards,<br>
+<br>
+-- <br>
+Paul Barker<br>
+<br>
+</blockquote></div></div>
+</blockquote></div></div>
 
---=-KvljcQtmuIjeBnL03Z++--
+--00000000000090013c0656aad156--
 
