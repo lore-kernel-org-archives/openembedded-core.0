@@ -2,75 +2,75 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B333C4450E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A068C44501
 	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 17:22:11 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.373.1784136129372618327
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.394.1784136121418463913
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 10:22:09 -0700
+ Wed, 15 Jul 2026 10:22:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NUd9NR76;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=XaSyrShs;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=9556; q=dns/txt;
-  s=iport01; t=1784136129; x=1785345729;
+  d=cisco.com; i=@cisco.com; l=4222; q=dns/txt;
+  s=iport01; t=1784136121; x=1785345721;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=LbNSY/3foQvgK3kS7yMJCC9GYUsI1esYG0ZYuG5DRUQ=;
-  b=NUd9NR76HlDR5oJ233kvQcGLExd6pd1P+8W1cR0umiDTYLfbyLOJ9qr4
-   Gs+NyE9JtS/c6nZXn1yQjEBZ3kXZdbp5Bxyt+7YQEzWXd3RY4kbh/pZ6X
-   fMvWqy8/Sd1I4n7s2tYkYjMBnR+5IvyG8XiKlxbQ6agCekBlbhSu+dz06
-   /Yra7eJhXZWiW2jeIjidCmThyXqicAGfUGdG2WVm8dsKIAoDbFY/kBYZo
-   V0RS6jGmHddTp2f5KcOE0LFnM+bGbsMy+Ww6VkXjeG0hVy4LhkZgV8qJn
-   TPIsf6fj9G1li/Q9k/hoPyRQt7DIqcE1HpFLmPQw0CihOz5IsVVoMiZKa
-   w==;
-X-CSE-ConnectionGUID: YQ5NaR6iQUKMZEOV1Gmwfw==
-X-CSE-MsgGUID: +fTRmwSVSMGDhNfhad6WBg==
-X-IPAS-Result: =?us-ascii?q?A0BJAgD+wFdq/4z/Ja1aHgEBCxIMggULgld0X0JJhFePU?=
- =?us-ascii?q?oIhA54bgX4PAQEBD0QNBAEBhQUCjVECJjQJDgECBAMCAwEBAQEBAQEBAQEBC?=
- =?us-ascii?q?wEBBQEBAQIBBwWBDhOGTw2GWgECAQMjBAsBVhwDAQIDAiYCAisjCBEIgwIBg?=
- =?us-ascii?q?nQDEb0Fen8zgQGDaAJDUNsuAQUGFAGBCi6FP4MdAYUCXBgBhHwnGxuBcoEVg?=
- =?us-ascii?q?2mBBYFcAYU8gmoEgiKBDIFagiSNckiBAhwDWSwBVRMNCgsHBYFmAzUSKhVuM?=
- =?us-ascii?q?h2BIz4XNFgbBwWBHYFQgQKEdiMfAzl/gTB1SnctahIXgVGCFIEYAwsYDUgRL?=
- =?us-ascii?q?DcUGwQ9AW4HjUklgjgGAYEECgErIn6BLpMTAQmSNKESCiiDdYwhlToaM4QEl?=
- =?us-ascii?q?BeSUQuYfY4Klg5ChGmBaDyBRAMLB3AVO4JnUxkPjioDCwuFX4MUyQU8NQsyA?=
- =?us-ascii?q?QEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:J4/A/64z8KZlZZyaVfBEZgxRtGnGchMFZxGqfqrLsTDasY5as4F+v
- mMdUDyDM/yKYzOmLoh2bty+8U4B7JWAy4UwS1E/+3o3Zn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo/qUzBHf/g2Qqaj1NtvrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eDLRF3O9NX2B3y
- N89Gh0qUEmsgv243+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGcuFSKTR7tge1zA17ixMNa+BP
- IxCNnw1MUmGOkEXUrsUIMpWcOOAinTyaTREqFW9rqss6G+Vxwt0uFToGIeNK4DSHZ0IxC50o
- EqF8VjDBw4hCue65haF1Hysj+ORogn0Ddd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBfCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:O+VzcatbhcIZScW5+qi1LiKn7skDVNV00zEX/kB9WHVpm6uj5q
+  bh=O4Awg/bbx3qhjSb8cfk2Nv88A0jqvqgIS+e0DKndBpM=;
+  b=XaSyrShsDdFf7A+ukzdiRaiUBLPlF3Wpnady4bHiYCH2jb5qNGV6LsEf
+   l8ww4pxfkqAPWeQhaZRpQHac+WWa1+pEaUr+QCDgPj7p9sCaNCVl+XOre
+   7f42ZDfqiQm9RAVhBBD9oCx06mItojNoHnsgPeqp4ndPtB5mc4dasdprx
+   bM9VDvUIBmkypByIolZ6MD3vWuDDQ00BlAz0N7J2HtilyLAPXI9RfUMtb
+   r2HSHGCi/+bbZRd3GbWC4RqogipfIM7bm95JCmwxA8ZQKnJUJ+cldq0x6
+   PP3mBAyNY6R0nD6tChEV3IzC8Dq0ckAn8Hdl0RB9R8zeGfT03OP3nAzXC
+   Q==;
+X-CSE-ConnectionGUID: uF3FuWi5Tr2IRBZR/osg7w==
+X-CSE-MsgGUID: EOeYuCQPRk2v9Qo4SRPKJw==
+X-IPAS-Result: =?us-ascii?q?A0BLAgCFwFdq/5X/Ja1aglmCV3RfQkmEV49SgiEDgROdC?=
+ =?us-ascii?q?IF+DwEBAQ9EDQQBAYUFAo1RAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBA?=
+ =?us-ascii?q?QECAQcFgQ4Thk8NhloBAgEDIwQLAVYcAwECAwImAgIrIwgQAQiDAgGCdAMRv?=
+ =?us-ascii?q?R16fzOBAYNoAkNQ2y4BBQYUAYEKLoU/gx0BhQJcGAGEfCcbG4FygRWCc3aBB?=
+ =?us-ascii?q?YFcAYEohBSCagSCIoEMgVqQFkiBAhwDWSwBVRMNCgsHBYFmAzUSKhVuMh2BI?=
+ =?us-ascii?q?z4XNFgbBwWBHYFQgQKEdiMfAzl/gTB1SnctahIXgVGCFIEYAwsYDUgRLDcUG?=
+ =?us-ascii?q?wQ9AW4HjUklgjgHgQ4BKxeCOaVPoRIKKIN1jCGVOhozqmwLmH2OCpVzXYRpg?=
+ =?us-ascii?q?Wg8gUcLB3AVgyJTGQ+OLQsLhV+DFMkvPDULMgEBBwIHDgMLgWiQAAImB4FPA?=
+ =?us-ascii?q?QE?=
+IronPort-Data: A9a23:ld951avDLFIzB0AnMh0Jo9yt5efnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKT/Va/yOZzPxeYt3YYyw9U0Gu5LSyYRgS1RvrX9nQXgUgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZTdJ5xYuajhKs/3a9Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw58gsL3xx9
+ KEkMmosVDqxvaWx273kVbw57igjBJGD0II3oHpsy3TdSP0hW52GGv+M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtGYH49tL/Aan3XfzBVsluJpa0f6GnIxws327/oWDbQUoHTHZ0KwB3C9
+ woq+UzUJRwrKfem8QCGqGz9v+iTphnDe6ANQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2cbLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:ptnMgqvkmtdqKRymRwE+AHcI7skDVNV00zEX/kB9WHVpm6uj5q
  eTdZUgpHvJYVkqNk3I9ersBEDEewK+yXcX2/h1AV7dZmjbUQKTRekIh7cKgQeQeREWndQz6U
  4PScRD4aXLbWRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaDZ2JK2xCe36m+oocfng+OaYE
-X-Talos-CUID: =?us-ascii?q?9a23=3Ate0H9GrdE+9pJK3s0PELAvTmUfEcL1vU9inRGnK?=
- =?us-ascii?q?bLFREb4PMZlqP9rwxxg=3D=3D?=
-X-Talos-MUID: 9a23:psiyNwgvpZRVnharvr9ilMMpd8lU2aGxM342tLoqu++KNSV8ZQi3g2Hi
+X-Talos-CUID: =?us-ascii?q?9a23=3ACNjbrml0+IfbgTo05oNST7PYnhXXOWDzl1nNHE7?=
+ =?us-ascii?q?lNXwzaYe/e2XX/7hrzNU7zg=3D=3D?=
+X-Talos-MUID: 9a23:0gWvZAjldU+tvFApScNW6cMpGeBl0rmFMXg3ks8Y6vCDaRdKAxS/k2Hi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,165,1779148800"; 
-   d="scan'208";a="509400052"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Jul 2026 17:22:08 +0000
+   d="scan'208";a="510076329"
+Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Jul 2026 17:22:00 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 179B0180001C0
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 17:22:08 +0000 (GMT)
+	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 3FC7E180001F7
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 17:22:00 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id 39B86CC037D; Wed, 15 Jul 2026 22:52:06 +0530 (IST)
+	id 5FA4ECC037D; Wed, 15 Jul 2026 22:51:58 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 3/6] glib-2.0: Fix CVE-2026-58012
-Date: Wed, 15 Jul 2026 22:51:39 +0530
-Message-Id: <20260715172142.1146263-3-deeratho@cisco.com>
+Subject: [OE-core][wrynose][PATCH 2/6] glib-2.0: Fix CVE-2026-58011
+Date: Wed, 15 Jul 2026 22:51:38 +0530
+Message-Id: <20260715172142.1146263-2-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260715172142.1146263-1-deeratho@cisco.com>
 References: <20260715172142.1146263-1-deeratho@cisco.com>
@@ -79,272 +79,122 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+X-Outbound-Node: rcdn-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 17:22:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241022
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241021
 
 From: Deepak Rathore <deeratho@cisco.com>
 
 This patch applies the upstream 2.88.1 backport for
-CVE-2026-58012. The upstream fix commit is referenced in [1],
+CVE-2026-58011. The upstream fix commit is referenced in [1],
 and the public CVE advisory is referenced in [2].
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/commit/e680a53224e23cc8037dcf54761d6dad0f3396f9
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58012
+[1] https://gitlab.gnome.org/GNOME/glib/-/commit/5627b376381f7bfe98f4c64bc2d9d363457ddb82
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58011
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../glib-2.0/files/CVE-2026-58012.patch       | 228 ++++++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc           |   1 +
- 2 files changed, 229 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-58012.patch
+ .../glib-2.0/files/CVE-2026-58011.patch       | 78 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib.inc           |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-58011.patch
 
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58012.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58012.patch
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58011.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58011.patch
 new file mode 100644
-index 0000000000..b76098a9a5
+index 0000000000..e90891bffe
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58012.patch
-@@ -0,0 +1,228 @@
-+From ad9d1b063a6e46d5541e40198725d21f0804de9f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58011.patch
+@@ -0,0 +1,78 @@
++From 456bd48b32bfc79ebb69a5dcc8d86b0ce99f71d6 Mon Sep 17 00:00:00 2001
 +From: Philip Withnall <pwithnall@gnome.org>
-+Date: Tue, 31 Mar 2026 16:13:57 +0100
-+Subject: [PATCH] gregex: Fix case changing substitutions with G_REGEX_RAW
++Date: Sun, 29 Mar 2026 23:46:17 +0100
++Subject: [PATCH] gdatetime: Add missing range validation to
++ g_date_time_add_full()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+In `G_REGEX_RAW` mode, the input string is treated as a byte array
-+(basically ASCII) rather than a unichar array. Accordingly, the case
-+changing code for substitutions needs to operate on bytes with
-+`G_REGEX_RAW`, rather than operating on unichars.
++Otherwise it’s possible to create a non-`NULL` but invalid `GDateTime`,
++which breaks all kinds of internal assumptions.
 +
-+This fixes a potential buffer overflow when trying to do a case change
-+on a match of a set of bytes which are a truncated multi-byte UTF-8
-+encoding at the end of the input buffer.
++Spotted by linhlhq as #YWH-PGM9867-191. Thanks to them for providing a
++suggested fix and a test case, which I have adapted and validated.
 +
-+Spotted by linhlhq as #YWH-PGM9867-193. I adapted their reproducer as
-+the unit test, but implemented the fix in `gregex.c` independently.
++Fixes: #3917
 +
-+Fixes: #3918
++CVE: CVE-2026-58011
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/5627b376381f7bfe98f4c64bc2d9d363457ddb82]
 +
-+CVE: CVE-2026-58012
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/e680a53224e23cc8037dcf54761d6dad0f3396f9]
++Backport Changes:
++- Used the target branch's existing literal day bounds because it does
++  not have upstream's MIN_DAYS/MAX_DAYS helper macros.
 +
 +Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+(cherry picked from commit e680a53224e23cc8037dcf54761d6dad0f3396f9)
++(cherry picked from commit 5627b376381f7bfe98f4c64bc2d9d363457ddb82)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ glib/gregex.c      | 59 ++++++++++++++++++++++++++++++++++------------
-+ glib/tests/regex.c | 53 +++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 97 insertions(+), 15 deletions(-)
++ glib/gdatetime.c       |  4 +++-
++ glib/tests/gdatetime.c | 18 ++++++++++++++++++
++ 2 files changed, 21 insertions(+), 1 deletion(-)
 +
-+diff --git a/glib/gregex.c b/glib/gregex.c
-+index 52d09f1e4..c26171415 100644
-+--- a/glib/gregex.c
-++++ b/glib/gregex.c
-+@@ -3422,19 +3422,25 @@ split_replacement (const gchar  *replacement,
-+   return g_list_reverse (list);
++diff --git a/glib/gdatetime.c b/glib/gdatetime.c
++index 8d67354cf..cca2cdae3 100644
++--- a/glib/gdatetime.c
+++++ b/glib/gdatetime.c
++@@ -2076,7 +2076,9 @@ g_date_time_add_full (GDateTime *datetime,
++   new->days = full_time / USEC_PER_DAY;
++   new->usec = full_time % USEC_PER_DAY;
++ 
++-  /* XXX validate */
+++  /* Validate it’s still in the range 0001-01-01 to 9999-12-31 */
+++  if (new->days < 1 || new->days > 3652059)
+++    g_clear_pointer (&new, g_date_time_unref);
++ 
++   return new;
++ }
++diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
++index 08e4075e9..d003a5445 100644
++--- a/glib/tests/gdatetime.c
+++++ b/glib/tests/gdatetime.c
++@@ -1146,6 +1146,24 @@ test_GDateTime_add_full (void)
++   TEST_ADD_FULL (2010,  8, 25, 22, 45, 0,
++                     0,  1,  6,  1, 25, 0,
++                  2010, 10,  2,  0, 10, 0);
+++
+++#define TEST_ADD_FULL_ERROR(y,m,d,h,mi,s,ay,am,ad,ah,ami,as) G_STMT_START { \
+++  GDateTime *dt; \
+++  dt = g_date_time_new_utc (y, m, d, h, mi, s); \
+++  g_assert_null (g_date_time_add_full (dt, ay, am, ad, ah, ami, as)); \
+++  g_date_time_unref (dt); \
+++} G_STMT_END
+++
+++  TEST_ADD_FULL_ERROR (     1, 12,  1,  0,  0, 0,
+++                           -1,  0,  0,  0,  0, 0);
+++  TEST_ADD_FULL_ERROR (     1, 12,  1,  0,  0, 0,
+++                        10000,  0,  0,  0,  0, 0);
+++  TEST_ADD_FULL_ERROR (  9999, 12,  1,  0,  0, 0,
+++                       -10000,  0,  0,  0,  0, 0);
+++  TEST_ADD_FULL_ERROR (     1, 12,  1,  0,  0, 0,
+++                            0,  0, 3660001,  0,  0, 0);
+++  TEST_ADD_FULL_ERROR (  9999, 12,  1,  0,  0, 0,
+++                            0,  0, -3660001,  0,  0, 0);
 + }
 + 
-+-/* Change the case of c based on change_case. */
-+-#define CHANGE_CASE(c, change_case) \
-++/* Change the case of c based on change_case.
-++ * g_ascii_to*() will happily pass through non-ASCII bytes unchanged. */
-++#define UTF8_CHANGE_CASE(c, change_case) \
-+         (((change_case) & CHANGE_CASE_LOWER_MASK) ? \
-+                 g_unichar_tolower (c) : \
-+                 g_unichar_toupper (c))
-++#define RAW_CHANGE_CASE(c, change_case) \
-++        (((change_case) & CHANGE_CASE_LOWER_MASK) ? \
-++                g_ascii_tolower (c) : \
-++                g_ascii_toupper (c))
-+ 
-++/* If @text_is_raw is set, @text might not be valid UTF-8 (but will be
-++ * nul-terminated). */
 + static void
-+ string_append (GString     *string,
-+                const gchar *text,
-++               gboolean     text_is_raw,
-+                ChangeCase  *change_case)
-+ {
-+-  gunichar c;
-+-
-+   if (text[0] == '\0')
-+     return;
-+ 
-+@@ -3444,22 +3450,44 @@ string_append (GString     *string,
-+     }
-+   else if (*change_case & CHANGE_CASE_SINGLE_MASK)
-+     {
-+-      c = g_utf8_get_char (text);
-+-      g_string_append_unichar (string, CHANGE_CASE (c, *change_case));
-+-      g_string_append (string, g_utf8_next_char (text));
-++      if (!text_is_raw)
-++        {
-++          gunichar c = g_utf8_get_char (text);
-++          g_string_append_unichar (string, UTF8_CHANGE_CASE (c, *change_case));
-++          g_string_append (string, g_utf8_next_char (text));
-++        }
-++      else
-++        {
-++          g_string_append_c (string, RAW_CHANGE_CASE (text[0], *change_case));
-++          g_string_append (string, text + 1);
-++        }
-++
-+       *change_case = CHANGE_CASE_NONE;
-+     }
-+   else
-+     {
-+-      while (*text != '\0')
-++      if (!text_is_raw)
-+         {
-+-          c = g_utf8_get_char (text);
-+-          g_string_append_unichar (string, CHANGE_CASE (c, *change_case));
-+-          text = g_utf8_next_char (text);
-++          while (*text != '\0')
-++            {
-++              gunichar c = g_utf8_get_char (text);
-++              g_string_append_unichar (string, UTF8_CHANGE_CASE (c, *change_case));
-++              text = g_utf8_next_char (text);
-++            }
-++        }
-++      else
-++        {
-++          while (*text != '\0')
-++            {
-++              char c = *text;
-++              g_string_append_c (string, RAW_CHANGE_CASE (c, *change_case));
-++              text++;
-++            }
-+         }
-+     }
-+ }
-+ 
-++/* @match_info is (nullable) */
-+ static gboolean
-+ interpolate_replacement (const GMatchInfo *match_info,
-+                          GString          *result,
-+@@ -3469,6 +3497,7 @@ interpolate_replacement (const GMatchInfo *match_info,
-+   InterpolationData *idata;
-+   gchar *match;
-+   ChangeCase change_case = CHANGE_CASE_NONE;
-++  gboolean is_raw = (match_info != NULL && (match_info->regex->orig_compile_opts & G_REGEX_RAW));
-+ 
-+   for (list = data; list; list = list->next)
-+     {
-+@@ -3476,10 +3505,10 @@ interpolate_replacement (const GMatchInfo *match_info,
-+       switch (idata->type)
-+         {
-+         case REPL_TYPE_STRING:
-+-          string_append (result, idata->text, &change_case);
-++          string_append (result, idata->text, is_raw, &change_case);
-+           break;
-+         case REPL_TYPE_CHARACTER:
-+-          g_string_append_c (result, CHANGE_CASE (idata->c, change_case));
-++          g_string_append_c (result, UTF8_CHANGE_CASE (idata->c, change_case));
-+           if (change_case & CHANGE_CASE_SINGLE_MASK)
-+             change_case = CHANGE_CASE_NONE;
-+           break;
-+@@ -3487,7 +3516,7 @@ interpolate_replacement (const GMatchInfo *match_info,
-+           match = g_match_info_fetch (match_info, idata->num);
-+           if (match)
-+             {
-+-              string_append (result, match, &change_case);
-++              string_append (result, match, is_raw, &change_case);
-+               g_free (match);
-+             }
-+           break;
-+@@ -3495,7 +3524,7 @@ interpolate_replacement (const GMatchInfo *match_info,
-+           match = g_match_info_fetch_named (match_info, idata->text);
-+           if (match)
-+             {
-+-              string_append (result, match, &change_case);
-++              string_append (result, match, is_raw, &change_case);
-+               g_free (match);
-+             }
-+           break;
-+diff --git a/glib/tests/regex.c b/glib/tests/regex.c
-+index a774683f7..ed1585141 100644
-+--- a/glib/tests/regex.c
-++++ b/glib/tests/regex.c
-+@@ -2531,6 +2531,58 @@ test_compiled_regex_after_jit_failure (void)
-+   g_regex_unref (regex);
-+ }
-+ 
-++static void
-++test_replace_raw_change_case (void)
-++{
-++  GError *local_error = NULL;
-++  GRegex *regex = NULL;
-++
-++  g_test_bug ("https://gitlab.gnome.org/GNOME/glib/-/issues/3918");
-++  g_test_summary ("Test that case changes as part of a replacement are handled correctly in G_REGEX_RAW mode");
-++
-++  /*
-++   * Match a multi-byte sequence in RAW mode. The pattern matches
-++   * exactly 2 bytes. The subject contains a 4-byte UTF-8 lead (0xF4)
-++   * followed by only one continuation byte, then NUL.
-++   *
-++   * The matched substring will be "\xf4\x80" (2 bytes, heap-allocated
-++   * as 3-byte buffer with NUL). If the code regresses and tries to handle
-++   * the replacement as UTF-8 then g_utf8_get_char() would see 0xF4 and try
-++   * to read 4 bytes, going 1 byte past the NUL into OOB territory.
-++   */
-++  regex = g_regex_new ("..", G_REGEX_RAW, 0, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  /*
-++   * Build a subject string with truncated UTF-8.
-++   * \xF4 = 4-byte UTF-8 lead byte
-++   * \x80 = continuation byte
-++   * No 3rd/4th continuation bytes — the match is only 2 bytes.
-++   *
-++   * \U\0 = uppercase the entire match → triggers string_append()
-++   * with case change on the 2-byte non-UTF-8 match.
-++   */
-++  char subject[] = "\xf4\x80";
-++  char *result = g_regex_replace (regex, subject, -1, 0, "\\U\\0", 0, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  g_clear_pointer (&result, g_free);
-++  g_clear_pointer (&regex, g_regex_unref);
-++
-++  /*
-++   * Second variant: single-char case change \u with \0 backreference.
-++   */
-++  regex = g_regex_new (".", G_REGEX_RAW, 0, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  char subject2[] = "\xe6\xb0";  /* 3-byte UTF-8 lead, only 2 bytes */
-++  result = g_regex_replace (regex, subject2, -1, 0, "\\u\\0", 0, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  g_clear_pointer (&result, g_free);
-++  g_clear_pointer (&regex, g_regex_unref);
-++}
-++
-+ int
-+ main (int argc, char *argv[])
-+ {
-+@@ -2552,6 +2604,7 @@ main (int argc, char *argv[])
-+   g_test_add_func ("/regex/jit-unsupported-matching", test_jit_unsupported_matching_options);
-+   g_test_add_func ("/regex/unmatched-named-subpattern", test_unmatched_named_subpattern);
-+   g_test_add_func ("/regex/compiled-regex-after-jit-failure", test_compiled_regex_after_jit_failure);
-++  g_test_add_func ("/regex/replace-raw-change-case", test_replace_raw_change_case);
-+ 
-+   /* TEST_NEW(pattern, compile_opts, match_opts) */
-+   TEST_NEW("[A-Z]+", G_REGEX_CASELESS | G_REGEX_EXTENDED | G_REGEX_OPTIMIZE, G_REGEX_MATCH_NOTBOL | G_REGEX_MATCH_PARTIAL);
 +-- 
 +2.35.6
 diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index c961dbf660..767f63d6d9 100644
+index 36c837dc79..c961dbf660 100644
 --- a/meta/recipes-core/glib-2.0/glib.inc
 +++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -235,6 +235,7 @@ SRC_URI += "\
+@@ -234,6 +234,7 @@ SRC_URI += "\
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
             file://skip-timeout.patch \
             file://CVE-2026-58010.patch \
-            file://CVE-2026-58011.patch \
-+           file://CVE-2026-58012.patch \
++           file://CVE-2026-58011.patch \
             "
  SRC_URI:append:class-native = " file://relocate-modules.patch \
                                  file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
