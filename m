@@ -1,183 +1,193 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29620C44508
-	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 18:17:57 +0000 (UTC)
-Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.586.1784139469261051440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E67AC44501
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 18:45:37 +0000 (UTC)
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1182.1784141135318217034
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 11:17:49 -0700
+ Wed, 15 Jul 2026 11:45:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=proofpoint-05-2026 header.b=AvXM7/uX;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=VVUSuol3;
- spf=pass (domain: ti.com, ip: 148.163.150.75, mailfrom: reatmon@ti.com)
-Received: from pps.filterd (m0384305.ppops.net [127.0.0.1])
-	by m0384305.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 66FHB6P1007632
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 13:17:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=proofpoint-05-2026; bh=bKQtdbP+FqOC4
-	LKNb3tle/eQnglE2/Cwky0PPtvMtBA=; b=AvXM7/uXD2IBwexFALoTM58/9eoKI
-	4YBaSGPSGXevWQz+NhNVRSsaCXDiDN60KqNbY6nf2mSzkUbtmnP3TOK/1Rjg0JjZ
-	6HRdhej2NFdJ/Xi5aGpXgf2MgkXC0USAJJgrRjCyFHHKqG5C7hAXlY3SD4Wk2zwv
-	2tJFFbj+uyPV47b/S0o3HcEZFK6rPs97qiM/vlhh2RSHyoOAmc42oBe7Q3iIJHTo
-	PKzXLVswmyvNNtqFcGmIkpkzp5M28O8Omg8QnCyuWmiYg+/tE/kHrurD96YSk4Vb
-	dFI2MUrfkhBiav/zUCNUJgb9qzGUfT/79Lrk4dKuRy02zeNIku797UpWQ==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011033.outbound.protection.outlook.com [52.101.57.33])
-	by m0384305.ppops.net (PPS) with ESMTPS id 4fe05058wb-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 13:17:48 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MSphLk5MhkQJoMzfk+3vlHFWfxHuXH0RshE3Bmq1ZeFQUpAfYmPBiMF422pJmSySDuGrizZEdT3qj9tKRyFpNQWKROKruMrH9vBBP3es1uf0rgvATaSg1bQds3iyTQ3uZbY4dx/DE/aAioPK6bkixsWAqD39Hefcj4xZ7b32vQBTHBoooqVtivg8W1vHh8xHWxaYpGIXlQH6MttGxF5tu53WlEOqtqmHJr6lxGXCMOvTZfqCmP4W46eE5VgJoT7qjV32wVvAiyCrLkXGQYBozjNBV/QYjdll3U7gungM/ipt/ZlhY/mvU3FfN9jZSmEfPstG8ZrvYLzltVxS96Mg6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bKQtdbP+FqOC4LKNb3tle/eQnglE2/Cwky0PPtvMtBA=;
- b=hvMXvonRJYvjsICKEbPYrMUrrg/th7BdIW0MmFrvZ5XeHt6OK64FZqZSMGoFJq/RxNG1b79mjbxV4dx2p5OyDho7hxe2GgtFbV2ZTRs3hBONDec2b9sR4HjT1lyrgguqAgk4hQyocjlkHELfxhEeidGtoCDGtEHhyzC/1C4GMihmpiTXPiwFcQ0uFoVJnSPcr8Ek/VhV47BfN39rRAbhyj8ynuRa/XULXbh/i/geBGcFSu46n8BMuypiY2MLzOX6q6lJPUnW+PvK8RxTKqW0k/BnkWjymtZncbuL52kjigLvrSvYY6D1Znf8z/sq6mwx99K0gYwz1CdQXF60CQNQng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bKQtdbP+FqOC4LKNb3tle/eQnglE2/Cwky0PPtvMtBA=;
- b=VVUSuol3Pm+L+yAgjtruG7gaEMXzsvAFBJYyPTWBWdcdEprzch4nj6ek7XjRyERxGsenvGMFzfiJKKlpbzv1aQjsfVDgNm2taJ0CIZ+hWxv6DP/3lWa6a1RUybhecTSHWmI/wE2WmxxPtGvJJHXfQgWNcxInXN3kVEnqLIymJ7Y=
-Received: from SA9PR10CA0028.namprd10.prod.outlook.com (2603:10b6:806:a7::33)
- by MN6PR10MB7492.namprd10.prod.outlook.com (2603:10b6:208:471::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Wed, 15 Jul
- 2026 18:17:43 +0000
-Received: from SA2PEPF00001508.namprd04.prod.outlook.com
- (2603:10b6:806:a7:cafe::95) by SA9PR10CA0028.outlook.office365.com
- (2603:10b6:806:a7::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.11 via Frontend Transport; Wed,
- 15 Jul 2026 18:17:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- SA2PEPF00001508.mail.protection.outlook.com (10.167.242.40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.223.9 via Frontend Transport; Wed, 15 Jul 2026 18:17:42 +0000
-Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 15 Jul
- 2026 13:17:25 -0500
-Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE207.ent.ti.com
- (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 15 Jul
- 2026 13:17:25 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE215.ent.ti.com
- (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Wed, 15 Jul 2026 13:17:25 -0500
-Received: from grumpy (grumpy.dhcp.ti.com [128.247.81.229])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 66FIHPfv3075422
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 13:17:25 -0500
-Received: from reatmon by grumpy with local (Exim 4.97)
-	(envelope-from <reatmon@ti.com>)
-	id 1wk4Af-00000003vbB-1C9L
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jul 2026 13:17:25 -0500
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] u-boot: Update git server and branch
-Date: Wed, 15 Jul 2026 13:17:25 -0500
-Message-ID: <20260715181725.936386-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=j4yIjidx;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=PLab7Ju/;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.153, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 6AF2F7A007C;
+	Wed, 15 Jul 2026 14:45:34 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 15 Jul 2026 14:45:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1784141134; x=1784227534; bh=/poCutLFW2
+	7oOSqg83na5WydzFZd570lpqscdjsHteQ=; b=j4yIjidxFRQuQY0pTB/wkOmtVl
+	AuhL65IrKWJppsHeaHwLORsdGtYu8av+X+QdEN/X2awscuxftVdurU/owRIX3O3h
+	0v+3b1wQJgYO85BvMoP6Zkb/edAWNlrIgMWiEQe4V4VTxMno702cj4EvbCl1hNTU
+	zbudZz4W2aqPbp5gycrKES75IQ/6/b9C+toR2jyksdHxW8XHB/oLJaQpwb9jFTKF
+	AxycgUbc2DjyNOMrx3BdamgrzKuyPbYyXRcrvqGPJ4SRsuc3zEDRMHr324DTRmxk
+	ILjaPmtYL/yv1RQbYQemZWfnJb8awA9fqRxljouuWiQWoaJ/bfr0k5aoLyIw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1784141134; x=1784227534; bh=/poCutLFW27oOSqg83na5WydzFZd570lpqs
+	cdjsHteQ=; b=PLab7Ju/rAtp5fNN/xV6Et9KgMNl8jj6SW2CZFrgJOzfZ7s1+DU
+	nL7bpsPTEb/MqV1u1WC8WTzxW2a44eVlpMUTBjEdV0u2qGsvUN/Eu4+euylFqLtE
+	NvcWeY56ZrzYcJ+Ypuq4LfQU1MVISS36jXQ4wNMhe1aJyFlOyR0GgQsgvPbLi5PZ
+	n6RsBtMOCwBJsc9SM5aAwuqQExAFBadJ1hbdFaUTgKkkOVCnslLGLxM0UFRCuQEI
+	z8Coaeu3OvgqWaCqG+6Sav22rkfqg9JAbMywFVLPmunrhpNSjpMb97ic+4vXMJ5h
+	cyzcEthL6sj4SDmel6IKabsX/auyVpTAdUw==
+X-ME-Sender: <xms:TtVXaslsYRiP2sHvpbUUn0uBbY_U5jqT377h0ZKYkdYtDIe6gfdxKw>
+    <xme:TtVXah2HF1k48ulAniiKB_2UrmM7sqqyEd22393rnS_aglyxC53XpS5Jq41Pw9mB6
+    ZY-PDm6XAeLa_9vlhbRoYXIdWDdzRE_Z_UdO4AnkpkYbXchWNts6fzU>
+X-ME-Received: <xmr:TtVXaoSLbfteTjcCHCY9cRCOpQ_B8CqPxU7vI2ROnsjKZXfLn6LGPX6Zv9EOZnNb7FhjpUmRO31KBviBbziPH4kzqLZ7hnJSR1zo3ZQl6rVs>
+X-ME-Proxy-Cause: dmFkZTEuP+0fgfhRdgAZTMi/OMHhyS9/awsc0XxFmeunvUKuNchRz9vSw+M29kKbY4OAbI
+    UR5KjQat64M3Z2FxXoZ7A/6OxiDn/kf4BgzXpP3FEYzRBmec14aQwCFeS4QOkwnTwCoh84
+    4FxawLEJFi+oTY4uJWUOBOCuzcu0XRq1G6kkJBUijgBbDUe/WLLghN/7LITieiG0nLeYHd
+    moft2JKQwKWUD/u6eiUcKiEFa4mQnbf96lxGsGAPgpi/B5j4z41FXSU6XX91jtVgFNLvnN
+    DEPtzsk9t69qmv2fs1dEYjdpY2g8qsop2z+Ddjji0KIvqzUCaQQStGpMbCkw1voXl4CtRh
+    EDbgu6rGvpitr1SKD72VEOQTvAGdQAfu4hvqYLd6ip/Gf+mNKWiXjIWYpQEdw65j5XHf/t
+    h9suNt9/LckzRpDrotiZUf1n69ZgBTva8/7eQPUrzc5TF62qvtZX5jRMnReK+JNRmf49gy
+    JLyfF7d0S6NT7D1hdv17PJR30sv8CTSePzCsMylVBcr8HhV9BQBXQstaZ+5tQATcK8gbmX
+    WHrG8Y9kRHc9si/lZZMT7kztZhb9kIlOzxbVnfXl3NoS/O9H7tCOi2TXhVBlrQHM1RaUQ0
+    x/6/+sIl4mBSZX3KEEaY8mFp7fqiE+ig/6KecYblT3YoSu1yDHkumOH6ZLgA
+X-ME-Proxy: <xmx:TtVXajtIh7YgV_1eEMWMsWKPRig1kQAjv60D6uq4uuNFYm_Wigin6w>
+    <xmx:TtVXatZAqeygziYqvN92JnySRnXfYIt45dIscEf1xuS56nudu5hHRA>
+    <xmx:TtVXaovKMMsl5zkPRcPBWJt8Ny6gYJMPlP8OTKkCmnx7wRqIAxd6qA>
+    <xmx:TtVXavHRd3d_ZAxeWOh72r8AdmZtYBqCNezkfS7JdGUwappaPfE1cw>
+    <xmx:TtVXauE1DDJMZH7nQaCsSatEtkw_P4rErvm_4Ip9YkYSb8UqbiocJSmg>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 15 Jul 2026 14:45:33 -0400 (EDT)
+Message-ID: <e2046a9aa4ac8f06f084e41765fe4e8062fc849f.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH] u-boot: Update git server and branch
+From: Paul Barker <paul@pbarker.dev>
+To: reatmon@ti.com, openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jul 2026 19:45:28 +0100
+In-Reply-To: <20260715181725.936386-1-reatmon@ti.com>
+References: <20260715181725.936386-1-reatmon@ti.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-KvljcQtmuIjeBnL03Z++"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001508:EE_|MN6PR10MB7492:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2388621-6814-4855-06f2-08dee29d5ce3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|36860700016|82310400026|23010399003|56012099006|18002099003|3023799007|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	HL2RnMkPdJEEIKWeF8GrQvQSFNwQiQuRmIj+NclCwsz+YmlbGCbHiBo1U1i2KhR4GpzoKZIisJZnQ6be3tl0d3a+7BnoJmgKeeIAq5jlvcE4TEhe4gAQOlIjSUIf89xB9K5WrZMaGQQX/3Q+uDC7xHwIrerz51QoYMznaoma/t/tpIezWHMaUjMwxwaB1zrZdOYHS7h2zPrtF9+LkGVcr1v4+hEcTzhi91z1mFCYdgW2H2NFYFNYd9ALP8a+SQ4Uuiorioh01zMRmFchX+yLlRfZ08PKswFr6A//HG7nSW6y9xTl03oQ2r6AaMJuWOnaJDRt+hm5DBOWtOi25A9vKv7V9y1/Dt+L7khcrRzeSZ1BfPZjPhQ9Hht746qRHK6Gl6H6pjIek7zaP5/rOLWWl5MsDJZAlzKGumy7z9c9G2vb6EcUpONdrayWu/wGUp6KFteIt/hh26toU4RRP6O4U5kaZ7GdYV+E2HnVf1OEvX/gVIXyZH7lu4AAoMa+ygu6iYvxOyQtV4aG/BCU0T/EW8ZHUqXUbMvaFHpiNrSEvt2q3ElbHdAe/AGWa0f1+sq2glnp9ty0KEfmS4OaYw4eCs5HG9US7ScXqRVVhCbB1ePzfTVOzo1GZxcBnVJ8NHzEJSkheriumHoUhqFmGASoAw==
-X-Forefront-Antispam-Report: 
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700016)(82310400026)(23010399003)(56012099006)(18002099003)(3023799007)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	VKujzNL9cxwIkkCzRGBXEKjIsDjCXR/23ikOVrymHNT/2RqGUrncyCHHaCl4+xEs9txb67Q2JBBUmoigS+GmZeDieOQDx3BQfjJ2QM0rj5/ZX5J6PH2TW47CWrzGw/DorkkZNHnpDXgdoiTVDIeqTwV/e79jQk5s7mlXt7T65x8Y2w0Q4rHecKDPKkgvQU9+PNPtRPDfBYqWHa88kqoKWnx+jrj5JkKqSENxlGzj55l6nXDV/szn4TYapNmMPeBevXgSt8+jTkytCLEHZ70tXzCUDWyJAW0hD9qKDyw6uYW4kSI9ZvWyb+qGc3r1c5Pbmi74GekUIi4wQGL2dA9V0fHUbnDiXysb6bgvAar5gtxMCCbrR6wLlZuw3rXQN3QsP+m2v+264HEkqFNzlEc2D1icSGOxX3i4aZwsCtrCPB7QE1LyEKmd82LwZh8q4Ubd
-X-Exchange-RoutingPolicyChecked: 
-	OYtHjuQi+/FyfylySwYy4DWkzlha7vcr79oggQLPCtrI/TAJLkeiO245P1AL32POsJur7NW3XxXh7ZKovD2qcWDEh6RUEnf4rdF25outjcHYUsmgUD7Hk+icioaYDCg1TEfjNX8s1CfwuxB9LrMJ5m491wztC4A9bUSA9y87A84QCefzmW/RueGdIsYJkwMSeWmMKRNes9tD43dwPmulPkEBOrEVkB5Bq9jLiDdLGEkqVcBLDw02eEtpCV06fYNwnp4qkthwdOlyh5afSn4/N4UZSh6+r+QEBilQLZInlmO1ySzRpmfMYIryqB9d0V86QJkgQeJk1JwuvdpJWyeDdA==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 18:17:42.8549
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2388621-6814-4855-06f2-08dee29d5ce3
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SA2PEPF00001508.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB7492
-X-Proofpoint-ORIG-GUID: j6Ou25Rus4XN3CqwlJ9siyK3drh5EtD3
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDE4MiBTYWx0ZWRfX9VZ2Oqg+eQ6T
- 3Oe6FckujtI6wacNsyzPUzQY+uiTDpjK3iV7DcvAkYR9gzGWnZ4S+q3jn/0vTzpvbfO++DrCjHC
- SdrNHB0mzpdK8s0LtaXXYdD1LDIQsAY=
-X-Authority-Analysis: v=2.4 cv=KfLidwYD c=1 sm=1 tr=0 ts=6a57cecc cx=c_pps
- a=G7eB82wliUXyOHlZhtkITg==:117 a=iwqwCZQqcuTv3JOpYdM7/Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=RAioF0-LDSMA:10 a=V5UXEbMT0ywA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22 a=taLDd7a_hP9WKsMzeGRc:22
- a=1VxDqnHFAAAA:8 a=sozttTNsAAAA:8 a=3rTs3wSnXqb80svz7OMA:9
- a=aZ5uHUMKh6B-zo3GvD48:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDE4MiBTYWx0ZWRfX3gXQqdNbkNkz
- 3Mxtu/nDQABGN59NEJdbcWxkuy3QImx+NSF4Kezc30ySu3blEsb4RG75zHWY+AhYPnN+N6e36sE
- 4v9EZQHaqCF0VJN4ThYOxcQI0O4IiSDnkN8AicznyLG7ZX2sCkb8EMxkJD5ARQY5Mm7j4wd4LsW
- iFMdbL+qpOTqgUom5F6Mp79hALka/cUQQFRrI9i2BIZwjeXfY1BP+dVQO74DuAJQUYj/gzUyDDU
- rVduPCuWkFzIDJFwQxRiXqK05o9M47OMN+vlCidQTp0W6V7d0uwkgw7Eqm9WgEAgxc0MU4ckKe5
- 3AgQ8dm8Pgwg0uxuWw4K7DxooOApRUZo0MW6xLFBOSJE92NQEnJap/XlKESUgPZjCLYE/TdHMBs
- yOyJbvowma38kB4tP72j2UALISvLVgx30ds+nMSt2J+Sq6rUwpGLLR4m4fDLyj+Ov/FwW6r6Qdi
- B/Nk5X6WWG8uBPTpRqA==
-X-Proofpoint-GUID: j6Ou25Rus4XN3CqwlJ9siyK3drh5EtD3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-15_04,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607150182
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 18:17:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241033
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 18:45:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241034
 
-The u-boot project has moved to a new official git repository server [1] for
-all of their work and switch from master to main for the default branch.
 
-[1] https://git.u-boot-project.org/u-boot/u-boot/-/commit/2a6ca4ad04e64488ac41c3683cacd44173a96d24
+--=-KvljcQtmuIjeBnL03Z++
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
----
- meta/recipes-bsp/u-boot/u-boot-common.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 2026-07-15 at 13:17 -0500, Ryan Eatmon via
+lists.openembedded.org wrote:
+> The u-boot project has moved to a new official git repository server [1] =
+for
+> all of their work and switch from master to main for the default branch.
+>=20
+> [1] https://git.u-boot-project.org/u-boot/u-boot/-/commit/2a6ca4ad04e6448=
+8ac41c3683cacd44173a96d24
+>=20
+> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-common.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp=
+/u-boot/u-boot-common.inc
+> index 574768b9f8..55f33efc98 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+> @@ -14,7 +14,7 @@ PE =3D "1"
+>  # repo during parse
+>  SRCREV =3D "88dc2788777babfd6322fa655df549a019aa1e69"
+> =20
+> -SRC_URI =3D "git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;bra=
+nch=3Dmaster;tag=3Dv${PV}"
+> +SRC_URI =3D "git://git.u-boot-project.org/u-boot/u-boot.git;protocol=3Dh=
+ttps;branch=3Dmain;tag=3Dv${PV}"
+> =20
+>  B =3D "${WORKDIR}/build"
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 574768b9f8..55f33efc98 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -14,7 +14,7 @@ PE = "1"
- # repo during parse
- SRCREV = "88dc2788777babfd6322fa655df549a019aa1e69"
- 
--SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
-+SRC_URI = "git://git.u-boot-project.org/u-boot/u-boot.git;protocol=https;branch=main;tag=v${PV}"
- 
- B = "${WORKDIR}/build"
- 
--- 
-2.43.0
+=46rom #u-boot on irc.libera.chat today:
 
+  14:52:10 <marex> Tartarus: can we already start using the git.u-b-p.org a=
+s a primary git tree ?
+  14:59:18 <Tartarus> marex: My hope was to switch over officially next wee=
+k. I need to see what else needs to be done before we can fully switch over
+  15:11:52 <marex> Tartarus: ACK
+  16:19:06 <bryanb> Tartarus: I noticed the commit too. should yocto people=
+ start switching things over for their CI/CD stuff as well or should they h=
+old off?
+  16:19:58 <Tartarus> bryanb: Hold off a bit more
+
+So, we should probably wait a week or two before taking this.
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-KvljcQtmuIjeBnL03Z++
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalfVSBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0boARAQCkK2PCGhpnWJhj5qIh8s27GdYtCyPOJtN2
+qwHeaIM27wEAmzesgfjlN+EJW9wl3T6tcxPDt8aCIyKNvyR5yf6PQgE=
+=MnGh
+-----END PGP SIGNATURE-----
+
+--=-KvljcQtmuIjeBnL03Z++--
 
