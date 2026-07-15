@@ -1,229 +1,226 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0DFC43458
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 20:26:04 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3237.1784060761117345248
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A058EC4450A
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 05:40:03 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.469.1784093993716785973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 13:26:02 -0700
+ Tue, 14 Jul 2026 22:39:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=CyhImaZH;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260714202557667750bee70002078c-8oxofm@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260714202557667750bee70002078c
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 14 Jul 2026 22:25:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=61XvBwFnUWw5HdeTzMWOwCc2rwm62KggiZOLXWTnfr0=;
- b=CyhImaZHSHbeFPN0dIo7gF2rJTI7xJukgto6TuerK/SQ/eyxR94ECduv1ahkw9oAny/iRw
- kO7qiobO+Tj314H73oY/rXqYfHxBcUaK8CYlzJg12rrDahCsCEGj26Hhkz2uo0cTzDpqxIga
- KlkNT8nqy+4jpU9nWoHIynO+KNnUfBkNDQWbc+WV8DCEdIKTeLnE/LXcGODq+YKBnvLmZo0z
- uQUZzWnC6U3XvAd1ijynBZHXIA82XA79j8Wcv5l6NBG/m4CMuSJWoXq95Ut5dCnOn+01WwFz
- eyYcO4XsAJrq3sKWPYXxkSIGHt1GtcSJvjdNvLbQRnLb+CjBw8zQ812Q==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] socat: patch CVE-2026-56123
-Date: Tue, 14 Jul 2026 22:25:22 +0200
-Message-ID: <20260714202524.30706-1-peter.marko@siemens.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tfveL/jt;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rVtsgvMg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019f6449e73e-b3f8efc9-7506-4b8b-a1e0-a97543dbbbdd-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1784093992;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=PjzYspycWHacXsOMBmeTgWel7Vu1IQb6Qv6sfz4EvG4=;
+	b=tfveL/jttTy9jeUl8+aZOX6NoIFjOojgVUgStT3UE0n1UHyfZgWPJOYw3/f+KhtX
+	RqzFdXZzxl81svLO6BqcXk3E3646f9GvoOeQPSbmiGo5098sbloyBFsJ+PIIggpnohr
+	xJO2GrAcCOPVKhjyhc3KUqcnO0I/O9dlrlmpYKVw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784093992;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=PjzYspycWHacXsOMBmeTgWel7Vu1IQb6Qv6sfz4EvG4=;
+	b=rVtsgvMgsJSyr75QXYQBSKzaHJlEL5bQ2KXkXWYzwzz97k14oW2+DumI2Fl9x3Rp
+	sTphYRd2MU0Plx7CtbIRB7YvYqHPEZgbAkLlLLOACRH9IUpU4cZzmoPG7ljnpsDDsVU
+	CQl38s2lwSirwnexyDgl7ndLSZFHWONePVCbPeko=
+Content-Type: multipart/mixed; boundary="===============8017123840774255265=="
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+From: auh@yoctoproject.org
+To: Wang Mingyu <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] btrfs-tools: upgrading to 7.1 SUCCEEDED
+Message-ID: <0101019f6449e73e-b3f8efc9-7506-4b8b-a1e0-a97543dbbbdd-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Jul 2026 05:39:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.07.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 20:26:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240931
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 05:40:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240932
 
-From: Peter Marko <peter.marko@siemens.com>
+--===============8017123840774255265==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Pick the only commit in release 1.8.1.2.
-This release has a note for this CVE which was added by this commit.
+Hello,
 
-Drop change in VERSION file (as we're not upgrading).
-Resolve minor conflicts in CHANGES and test.sh.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *7.1* has Succeeded.
 
-Since we're not running tests, it's not worth to pick next commit from
-1.8.1.3 which is fixing test on non-bash shell systems.
+Next steps:
+    - apply the patch: git am 0001-btrfs-tools-upgrade-7.0-7.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From d59ad0119192dd0b98b4cd157d9cea9bd218bdf1 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 Jul 2026 05:18:39 +0000
+Subject: [PATCH] btrfs-tools: upgrade 7.0 -> 7.1
+
 ---
- .../socat/files/CVE-2026-56123.patch          | 150 ++++++++++++++++++
- .../socat/socat_1.8.0.0.bb                    |   1 +
- 2 files changed, 151 insertions(+)
- create mode 100644 meta/recipes-connectivity/socat/files/CVE-2026-56123.patch
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../btrfs-tools/{btrfs-tools_7.0.bb => btrfs-tools_7.1.bb}  | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_7.0.bb => btrfs-tools_7.1.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/socat/files/CVE-2026-56123.patch b/meta/recipes-connectivity/socat/files/CVE-2026-56123.patch
-new file mode 100644
-index 00000000000..e2552a74451
---- /dev/null
-+++ b/meta/recipes-connectivity/socat/files/CVE-2026-56123.patch
-@@ -0,0 +1,150 @@
-+From d44cd1cc4fbb70a9ae9e71890024ae8367fcb912 Mon Sep 17 00:00:00 2001
-+From: Gerhard Rieger <gerhard@dest-unreach.org>
-+Date: Thu, 25 Jun 2026 14:55:59 +0200
-+Subject: [PATCH] Version 1.8.1.2 - fixed SOCKS5 client buffer overflow
-+ (CVE-2026-56123)
-+
-+CVE: CVE-2026-56123
-+Upstream-Status: Backport [repo.or.cz/socat.git/commitdiff/d44cd1cc4fbb70a9ae9e71890024ae8367fcb912]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ CHANGES      | 13 ++++++++++
-+ test.sh      | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ xio-socks5.h |  4 +--
-+ 3 files changed, 88 insertions(+), 2 deletions(-)
-+
-+diff --git a/CHANGES b/CHANGES
-+index ba82024..3c2f230 100644
-+--- a/CHANGES
-++++ b/CHANGES
-+@@ -1,4 +1,17 @@
-+ ﻿
-++Security:
-++	Socat security advisory 10
-++	CVE-2026-56123
-++	There was a possible heap overflow in the socks5 client code. It could
-++	be triggered by connecting to a malicious socks5 server that expected
-++	this connection and had knowledge about details of the client binary
-++	code.
-++	Only builds with C signed char (vs.unsigned char) are affected.
-++	Thanks to Tristan Madani for finding and reporting this issue, and for
-++	conveying the process.
-++	Test: SOCKS5_OVERFL
-++
-++
-+ ####################### V 1.8.0.0
-+ 
-+ Security:
-+diff --git a/test.sh b/test.sh
-+index 53bbb2a..467ac57 100755
-+--- a/test.sh
-++++ b/test.sh
-+@@ -601,6 +601,9 @@ rm -rf "$TD" || (echo "cannot rm $TD" >&2; exit 1)
-+ mkdir -p "$TD"
-+ #trap "rm -r $TD" 0 3
-+ 
-++BINDIR=$td/bin
-++mkdir -p $BINDIR
-++
-+ echo "Using temp directory $TD"
-+ 
-+ case "$TESTS" in
-+@@ -19217,6 +19220,76 @@ fi # NUMCOND
-+ esac
-+ N=$((N+1))
-+ 
-++# Above tests introduced with 1.8.1.0 (none with 1.8.1.1)
-++#==============================================================================
-++# Below tests introduced with 1.8.1.2
-++
-++
-++# Test socks5 client buffer overflow (CVE-2026-56123)
-++NAME=SOCKS5_OVERFL
-++case "$TESTS" in
-++*%$N%*|*%functions%*|*%bugs%*|*%security%*|*%socks5%*|*%socks%*|*%%*|*%%*|*%socket%*|*%$NAME%*)
-++#*%internet%*|*%root%*|*%listen%*|*%fork%*|*%ip4%*|*%tcp4%*|*%bug%*|...
-++TEST="$NAME: socks5 client buffer overflow"
-++# Start a listener that emulates a malicious socks5 server, using a temporary
-++# shell script;
-++# connect using Socat with socks5 client;
-++# when is terminates with rc=0 the test succeeded (not vulnerable)
-++if ! eval $NUMCOND; then :
-++# Check if this test can be performed meaningfully
-++elif ! cond=$(checkconds \
-++		  "" \
-++		  "" \
-++		  "" \
-++		  "IP4 TCP LISTEN SHELL GOPEN SOCKS5" \
-++		  "TCP4-LISTEN SHELL GOPEN SOCKS5" \
-++		  "socksport" \
-++		  "tcp4" ); then
-++    $PRINTF "test $F_n $TEST... ${YELLOW}$cond${NORMAL}\n" $N
-++    cant
-++else
-++    mkdir -p "$BINDIR"
-++    tf="$td/test$N.stdout"
-++    te="$td/test$N.stderr"
-++    tdiff="$td/test$N.diff"
-++    tsh="$BINDIR/test$N.sh"
-++    cat >"$tsh" <<__EOF__
-++$ECHO -n "\\x05\\x00"
-++relsleep 1
-++$ECHO -n "\\x05\\x00\\x00\\x03\\xfdAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-++__EOF__
-++    chmod a+x "$tsh"
-++    newport tcp4 	# -> PORT
-++    CMD0="$TRACE $SOCAT $opts TCP4-LISTEN:$PORT SHELL:$tsh"
-++    CMD1="$TRACE $SOCAT $opts /dev/null SOCKS5:$LOCALHOST4:17.34.51.68:85,socksport=$PORT"
-++    printf "test $F_n $TEST... " $N
-++    $CMD0 >/dev/null 2>"${te}0" &
-++    pid0=$!
-++    waittcp4port $PORT 1
-++    $CMD1 >"${tf}1" 2>"${te}1"
-++    rc1=$?
-++    kill $pid0 2>/dev/null; wait
-++    if [ "$rc1" -ne 0 ]; then
-++	$PRINTF "$FAILED (rc1=$rc1)\n"
-++	echo "$CMD0 &"
-++	cat "${te}0" >&2
-++	echo "$CMD1"
-++	cat "${te}1" >&2
-++	failed
-++    else
-++	$PRINTF "$OK\n"
-++	if [ "$VERBOSE" ]; then echo "$CMD0 &"; fi
-++	if [ "$DEBUG" ];   then cat "${te}0" >&2; fi
-++	if [ "$VERBOSE" ]; then echo "$CMD1"; fi
-++	if [ "$DEBUG" ];   then cat "${te}1" >&2; fi
-++	ok
-++    fi
-++fi # NUMCOND
-++ ;;
-++esac
-++N=$((N+1))
-++
-++
-+ # end of common tests
-+ 
-+ ##################################################################################
-+diff --git a/xio-socks5.h b/xio-socks5.h
-+index 4dab76b..d4712d2 100644
-+--- a/xio-socks5.h
-++++ b/xio-socks5.h
-+@@ -23,7 +23,7 @@ struct socks5_request {
-+ 	uint8_t command;
-+ 	uint8_t reserved;
-+ 	uint8_t	address_type;
-+-	char	dstdata[];
-++	unsigned char dstdata[];
-+ };
-+ 
-+ struct socks5_reply {
-+@@ -31,7 +31,7 @@ struct socks5_reply {
-+ 	uint8_t reply;
-+ 	uint8_t reserved;
-+ 	uint8_t address_type;
-+-	char	dstdata[];
-++	unsigned char dstdata[];
-+ };
-+ 
-+ extern const struct addrdesc xioaddr_socks5_connect;
-diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
-index bb39730005a..156fd590aee 100644
---- a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
-            file://0001-fix-compile-procan.c-failed.patch \
-            file://CVE-2024-54661.patch \
-+           file://CVE-2026-56123.patch \
- "
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 7272c27c6c..91ff8a70f5 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From 7edcee57078769b7752275e0e5f35aefbfefc9eb Mon Sep 17 00:00:00 2001
++From 7bd2fff36ce967b4aab6b06c409c178ff66aca3d Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI[sha256sum] = "e1de683dd22ee0e3a6c6bbff269abe18ab0c9d7eb650204f125155b9005faca7"
+ diff --git a/Makefile b/Makefile
+-index 96c11830..3f2585cb 100644
++index e1c03f9a..d291cbc1 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -997,7 +997,7 @@ endif
++@@ -993,7 +993,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
+index 72b5575703..36934c158c 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "9c5987432906daebde23f9703c0f6f90c35fa9da"
++SRCREV = "4ab0e80be9e3bb1db2e6038e6d4316d35fb7ba8b"
+ 
+ PACKAGECONFIG ??= " \
+     programs \
+-- 
+2.47.1
+
+
+--===============8017123840774255265==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 27852272 to 27920632 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "7.0" to "7.1"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "7.0" to "7.1"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "7.0" to "7.1"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "7.0" to "7.1"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/7.0/image -> /usr/src/debug/btrfs-tools/7.1/image, directory renamed /usr/src/debug/btrfs-tools/7.0/convert -> /usr/src/debug/btrfs-tools/7.1/convert, directory renamed /usr/src/debug/btrfs-tools/7.0/cmds -> /usr/src/debug/btrfs-tools/7.1/cmds, directory renamed /usr/src/debug/btrfs-tools/7.0/include -> /usr/src/debug/btrfs-tools/7.1/include, directory renamed /usr/src/debug/btrfs-tools/7.0/tune -> /usr/src/debug/btrfs-tools/7.1/tune, directory renamed /usr/src/debug/btrfs-tools/7.0/libbtrfs -> /usr/src/debug/btrfs-tools/7.1/libbtrfs, directory renamed /usr/src/debug/btrfs-tools/7.0 -> /usr/src/debug/btrfs-tools/7.1, directory renamed /usr/src/debug/btrfs-tools/7.0/crypto -> /usr/src/debug/btrfs-tools/7.1/crypto, directory renamed /usr/src/debug/btrfs-tools/7.0/kernel-lib -> /usr/src/debug/btrfs-tools/7.1/kernel-lib, directory renamed /usr/src/debug/btrfs-tools/7.0/mkfs -
+ > /usr/src/debug/btrfs-tools/7.1/mkfs, directory renamed /usr/src/debug/btrfs-tools/7.0/common -> /usr/src/debug/btrfs-tools/7.1/common, directory renamed /usr/src/debug/btrfs-tools/7.0/kernel-shared/uapi -> /usr/src/debug/btrfs-tools/7.1/kernel-shared/uapi, directory renamed /usr/src/debug/btrfs-tools/7.0/check -> /usr/src/debug/btrfs-tools/7.1/check, directory renamed /usr/src/debug/btrfs-tools/7.0/kernel-shared -> /usr/src/debug/btrfs-tools/7.1/kernel-shared, removed "/usr/src/debug/btrfs-tools/7.0/libbtrfsutil/btrfsutil.h /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/filesystem.c /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/qgroup.c /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/btrfs.h /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/errors.c /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/stubs.c /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/subvolume.c /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/btrfsutil_internal.h /usr/src/debug/btrfs-tools/7.0/libbtrfsutil/btrfs_tree.h", added "/usr/src/de
+ bug/btrfs-tools/7.1/libbtrfsutil/btrfsutil.h /usr/src/debug/btrfs-tools/7.1/libbtrfsutil/filesystem.c /usr/src/debug/btrfs-tools/7.1/libbtrfsutil/qgroup.c /usr/src/debug/btrfs-tools/7.1/libbtrfsutil/btrfs.h /usr/src/debug/btrfs-tools/7.1/libbtrfsutil/errors.c /usr/src/debug/btrfs-tools/7.1/libbtrfsutil/subvolume.c /usr/src/debug/btrfs-tools/7.1/libbtrfsutil/btrfsutil_internal.h /usr/src/debug/btrfs-tools/7.1/libbtrfsutil/btrfs_tree.h"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4327127 to 4339284 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "7.0" to "7.1"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "7.0" to "7.1"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info -> /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6107368 to 6111464 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PV changed from "7.0" to "7.1"
+packages/x86-64-v3-poky-linux/btrfs-tools: SRC_URI changed from "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v7.0 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch" to "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v7.1 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch"
+packages/x86-64-v3-poky-linux/btrfs-tools: PKGV changed from 7.0 [default] to 7.1 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools: PV changed from "7.0" to "7.1"
+Changes to packages/x86-64-v3-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info moved to /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info
+
+--===============8017123840774255265==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info -> /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info
+Changes to packages/x86-64-v3-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info moved to /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info
+
+--===============8017123840774255265==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-btrfs-tools-upgrade-7.0-7.1.patch"
+
+RnJvbSBkNTlhZDAxMTkxOTJkZDBiOThiNGNkMTU3ZDljZWE5YmQyMThiZGYxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgSnVsIDIwMjYgMDU6MTg6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+dHJmcy10b29sczogdXBncmFkZSA3LjAgLT4gNy4xCgotLS0KIC4uLmQtYS1wb3NzaWJpbGl0eS10
+by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIHwgNiArKystLS0KIC4uLi9i
+dHJmcy10b29scy97YnRyZnMtdG9vbHNfNy4wLmJiID0+IGJ0cmZzLXRvb2xzXzcuMS5iYn0gIHwg
+MiArLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL3tidHJmcy10b29sc183LjAu
+YmIgPT4gYnRyZnMtdG9vbHNfNy4xLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5
+LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10
+by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCmluZGV4IDcyNzJjMjdjNmMu
+LjkxZmY4YTcwZjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29s
+cy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0
+aG9uLW1vZHVsZXMtYXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRv
+b2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lmeS13aGVyZS1w
+eXRob24tbW9kdWxlcy1hci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gN2VkY2VlNTcwNzg3
+NjliNzc1MjI3NWUwZTVmMzVhZWZiZmVmYzllYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
+b20gN2JkMmZmZjM2Y2U5NjdiNGFhYjZiMDZjNDA5YzE3OGZmNjZhY2EzZCBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwu
+Y29tPgogRGF0ZTogV2VkLCAyMyBNYXkgMjAxOCAyMToyMDozNSArMDMwMAogU3ViamVjdDogW1BB
+VENIXSBBZGQgYSBwb3NzaWJpbGl0eSB0byBzcGVjaWZ5IHdoZXJlIHB5dGhvbiBtb2R1bGVzIGFy
+ZQpAQCAtMTEsMTAgKzExLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxh
+bGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
+MSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQotaW5kZXgg
+OTZjMTE4MzAuLjNmMjU4NWNiIDEwMDY0NAoraW5kZXggZTFjMDNmOWEuLmQyOTFjYmMxIDEwMDY0
+NAogLS0tIGEvTWFrZWZpbGUKICsrKyBiL01ha2VmaWxlCi1AQCAtOTk3LDcgKzk5Nyw3IEBAIGVu
+ZGlmCitAQCAtOTkzLDcgKzk5Myw3IEBAIGVuZGlmCiAgaWZlcSAoJChQWVRIT05fQklORElOR1Mp
+LDEpCiAgaW5zdGFsbF9weXRob246IGxpYmJ0cmZzdXRpbF9weXRob24KICAJJChRKWNkIGxpYmJ0
+cmZzdXRpbC9weXRob247IFwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJm
+cy10b29scy9idHJmcy10b29sc183LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMt
+dG9vbHMvYnRyZnMtdG9vbHNfNy4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc183LjAuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc183LjEu
+YmIKaW5kZXggNzJiNTU3NTcwMy4uMzY5MzRjMTU4YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzcuMC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNy4xLmJiCkBAIC0xOCw3ICsxOCw3
+IEBAIERFUEVORFMgPSAidXRpbC1saW51eCB6bGliIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIu
+Y29tL2tkYXZlL2J0cmZzLXByb2dzLmdpdDticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzO3Rh
+Zz12JHtQVn0gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1z
+cGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JD
+UkVWID0gIjljNTk4NzQzMjkwNmRhZWJkZTIzZjk3MDNjMGY2ZjkwYzM1ZmE5ZGEiCitTUkNSRVYg
+PSAiNGFiMGU4MGJlOWUzYmIxZGIyZTYwMzhlNmQ0MzE2ZDM1ZmI3YmE4YiIKIAogUEFDS0FHRUNP
+TkZJRyA/Pz0gIiBcCiAgICAgcHJvZ3JhbXMgXAotLSAKMi40Ny4xCgo=
+
+--===============8017123840774255265==--
 
