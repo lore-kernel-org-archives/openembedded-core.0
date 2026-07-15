@@ -1,228 +1,236 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 788C9C44508
-	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 17:11:21 +0000 (UTC)
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.128.1784135475323986927
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99734C44508
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 17:22:01 +0000 (UTC)
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.364.1784136112203994310
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 10:11:15 -0700
+ Wed, 15 Jul 2026 10:21:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=BrI/tl+P;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=X3WQgOas;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.150, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 3848B1D00081;
-	Wed, 15 Jul 2026 13:11:14 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 15 Jul 2026 13:11:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1784135474; x=1784221874; bh=kbVHOY9qUm
-	bFIDt3BiBApxVFmet8PLqkDTB+A0LA5ts=; b=BrI/tl+PbxNqL8dkGLNrevo5In
-	JEqLG/AGg4xX1jV9VMZD5PqY0d/++5oHNhWG3wZQAdNx1w6uxN9UqaUuzqEZIAOf
-	IECMiGKICzZRlXhsL/QUqP555UxNzLlmrFvAcNZpCoraDtHuL1+6uKz/t0BFrbbp
-	L0fsRlfoLnkCpT6t7UNDqlu1Kc5mnPIrKfWD1AhFsg8oUd4vdlPthzE80PWh/8ET
-	ZC4JdhppIC+rjHaJXFoJfrtdZcbMp3GhqHagqnqQJ1wPuqtt/UYPjCwQWdPm7OWS
-	kzenzboGV8w07WQ0PVjNrd4umm1/bYTbOoGeG+iJ3wI8klBCy4Ju4W+csyDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784135474; x=1784221874; bh=kbVHOY9qUmbFIDt3BiBApxVFmet8PLqkDTB
-	+A0LA5ts=; b=X3WQgOasD8mfoMcteE+j9qMzECeNQU6mZeG5t3qveeKcfXU0Gxh
-	XFHS7uUezvA+R0x2kmDlqvSorCsim3SRhYuMvRyVMTft4Pt+9qygnEWXPAxpjvfn
-	DrlYd20ixU33QGvA+1faLLggqKS4ES51155ZoFnQqwm5vtxhRpEjZ+BeElvsQCd9
-	3R99nahDo5ZEyRugwzeZ1Nbkfb3eqd10ujS+5P+xiNh0V2RBgW5ANOYm2ZlrQb7i
-	5opAMyf+btgeKkvJz2l4fkpZQoKJWd5aWk7CFmXm7IPRqPsQMGzvoLfwtAfk7SjW
-	EEnCZYD7h9bPNo2EHgbt3ToW/zhRkfKP5RQ==
-X-ME-Sender: <xms:Mb9XatcEHo-mTDzJwXZ-c7xbUCkBnC4qj9UDlvapQLXwHU1XYD8W-w>
-    <xme:Mb9XahPZ6KhzHrY7a0NZsnnzMVX9sOFo8z6OJyrwAk1e4183wAAvI7UTkv_oak2vJ
-    KBVsJRH3q-VCSwiCyXX-gJTg3j_USGN767Wj3in6L61d3BbJlAiYio>
-X-ME-Received: <xmr:Mb9XakJ1-OnwwrvruyKvma4ki_Pku9v_ilu9avsu7CrR_ASb2tPsxEmMNlBMyLIkTKALuO9DpX2ptBllCAOnOYBft_DPkBoZUguSTYre0FsJ>
-X-ME-Proxy-Cause: dmFkZTF2IvutW2DoQUZ7avUj59D7et/2ObLelZu93n1D6fp+d4AcKM2P6NtTFJ1qabbwtD
-    08HCi7yFTDBccrDmlb924L9RvogJiCHrimwFkiyhemLIE3DmAViZ22vr+Nw6JTU1Gtkh4Y
-    N/++Xac9xKRV311uVPRf7tdJBVCEiTIGpZpJYLnwFjn2zOkH56FeID7TjwWAbGKWGtuOVl
-    ZoNnFF06OvgEpziHvKFquPTGkv+b079r+o/dXZQ99md+EjyVk4NMhv4OTr8aY0rOnLIo/6
-    1E28UpMqHuOPWB07ecyaaH8h3dyikyvM5dg+NVsl9bB24rVWk9E2aFG9N/+Lepa6u9rGrV
-    GEX6FDXsfKSX94BJPhOov4b4iQnYBuxsA6hYTayZY/eyS4V0FSmSA1NHqbOIXL5i7j95ta
-    H4MEQR9OHbA54glMqP4a+oEbS5czY5Mg5f7kUxRlThj+ihq6aYn0Y0RD5Jl75tRVbJGaxW
-    cLVbx3OPLYTlYhj2bHhDp87wTVwNdjcvqU4y3qWGAJ7lJx4f4hniEYrjo33LFsaUothhA1
-    pvG/BywCaAn7Nvk7m/12jdntdjlb0tBNEZEv3Hzh+qjCIJQ5AZ3cl6DwDPcHHrx/2jCzW+
-    wI1c87rCYPt908Xmn9dSNEiUNNGv+7R4am6kt26EOvN0e2zncc5nDYzPP2uw
-X-ME-Proxy: <xmx:Mb9XaiGC1VS9OyI4DUAv2DXGcm83ppGvRZ7-eWo8dYhUaX05UsBQfA>
-    <xmx:Mb9XasSLBHC7IwthJxeuZp-mG5RTjAO4P2yap9kQqyBEYNop1b7MtQ>
-    <xmx:Mb9XauGFyTWWa5FxkVUINr7qjgWc884CEqBWL4UA-_SI1o7JI3hUPw>
-    <xmx:Mb9Xao_ZFlrC7mwBrFJ59zW_XXNmg_cAnyYWqP8uN3fWkUpSAgKsFQ>
-    <xmx:Mr9XaitJeS6ZjcUFdZpjNrU0Q1LiebaVfxWHD2eP1jHf4-mz6X8nDhDI>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Jul 2026 13:11:13 -0400 (EDT)
-Message-ID: <b6095f7ae705b87895634e1d8143e2ca399e0618.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH v2 00/25] Rework LICENSE to be SPDX License
- Expressions
-From: Paul Barker <paul@pbarker.dev>
-To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jul 2026 18:11:07 +0100
-In-Reply-To: <20260715164739.364323-1-JPEWhacker@gmail.com>
-References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
-	 <20260715164739.364323-1-JPEWhacker@gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-E841IuR9kGP0jIrwt60F"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=geRniJOm;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=5962; q=dns/txt;
+  s=iport01; t=1784136112; x=1785345712;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jHkNSgkr0zsSPd6CdATF0oirU3BigwlKllvsFhzBjNs=;
+  b=geRniJOmXQb5SoIC2oJeFUQtHZp08wFbRrR2KDizSStMBi0pxj5ylkqT
+   5BF01ENeSINOf6wXXCMDi3OEk73bzcm9E1+pwZ6sbKYPfXEf92YMuiLwO
+   fwbeJFD2I9YiII3yeSkCA6py2XsNQ32JAu4zwsOFOIY4riPyS3w3YhgS8
+   HkfHo7JGCMrOujYYAj+G1AlPI436VaeSx4LpMQnfswphjxN+WXOLRfYf8
+   ND3DCtlM/NTE/i5t7uOVLz6bZrsg7/z474L2HOjYhEPuY/Bwgd03edvt3
+   4KJw6ToltrnU+2AmaxQ8o10BXMmzGFyJihR8gWJOiCUUxAwOv8YjpI1N/
+   Q==;
+X-CSE-ConnectionGUID: mnn4d6ECSMimtt9h2KLH/Q==
+X-CSE-MsgGUID: L1pjBApAR82KzhpNMzJ5DA==
+X-IPAS-Result: =?us-ascii?q?A0BFAgD+wFdq/5L/Ja1aHgEBCxIMggULgld0X0JJhFePU?=
+ =?us-ascii?q?oIhnh6Bfg8BAQEPRA0EAQGSWAImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDYZaASkPAXIDAQIDAiYCLSMYAQiDAgGCdAMRvQV6gTKBA?=
+ =?us-ascii?q?YNoAkNQ2y4BBQYUAYEKLoU/gx0BhQJcGAGEfCcbG4FygRWDaYEFgVwBgSiEF?=
+ =?us-ascii?q?IJqBIIigQyBWpAWSIECHANZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPhc0WBsHB?=
+ =?us-ascii?q?YEdgVCBAoR2Ix8DOX+BMHVKdy1qEheBUYIUgRgDCxgNSBEsNxQbBD0BbgeNS?=
+ =?us-ascii?q?SWCPwEeXBMBCiEigWMnIpMTkj6hEgoog3WMIZU6GjOEBJQXklELmH2OCpZQh?=
+ =?us-ascii?q?GmBaDyBRwsHcBWDIlMZD44qAwsLhV+DFMkFPDULMgEBBwIHDgMLgWiQAIF+A?=
+ =?us-ascii?q?QE?=
+IronPort-Data: A9a23:TyomjaA5Q6rS9BVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApGwj1jBTz
+ jdJWj2FOqyLYGX8edsjPt6xp0wP6JPSmoJlOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXmthh
+ fuo+5eBYAD8hmYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TExvNoUE1oEKYj3+dyHX0f9
+ aY7DBBKV0XW7w626OrTpuhEnM8vKozveYgYoHwllWCfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGYxBPjDS0Un1lM/BJ8zhu60hn7XeDxDo1XTrq0yi4TW5FAgjei2aICFI7RmQ+1xx16aj
+ Eve1l6pWDIINMS57Cinr16F07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KFpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOT9pa61nltMkQ6PBA==
+IronPort-HdrOrdr: A9a23:zvfa5qDNMGsazKblHema55DYdb4zR+YMi2TDsHoBLCC9E/bo9f
+ xG88506faZslsssRIb6LO90de7IE80nKQdieJ6AV7IZmbbUQWTQL2KlbGD/xTQXwvj6+Vaya
+ BsN4J6CNH2EBxGqPyS2njdLz7lq+P3lpxBQozlvhBQcT0=
+X-Talos-CUID: 9a23:IHpIC2xxSWmiLkaXMO0KBgURHMZ5fiPw50z1IkqkFTdpEp6xaRiprfY=
+X-Talos-MUID: 9a23:lZ3i3wqjBkh2nfdnsUwezxU7LMVCyryHMhBXsocGo++hJw4tFx7I2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,165,1779148800"; 
+   d="scan'208";a="495830281"
+Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Jul 2026 17:21:51 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id D557E18000238
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 17:21:50 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id F02F0CC037D; Wed, 15 Jul 2026 22:51:48 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][wrynose][PATCH 1/6] glib-2.0: Fix CVE-2026-58010
+Date: Wed, 15 Jul 2026 22:51:37 +0530
+Message-Id: <20260715172142.1146263-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: rcdn-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 17:11:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241019
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 17:22:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241020
 
+From: Deepak Rathore <deeratho@cisco.com>
 
---=-E841IuR9kGP0jIrwt60F
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This patch applies the upstream 2.88.1 backport for
+CVE-2026-58010. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2].
 
-On Wed, 2026-07-15 at 10:44 -0600, Joshua Watt via
-lists.openembedded.org wrote:
-> Reworks the way that the LICENSE variable is used so that it uses valid
-> SPDX License Expressions instead of the custom expressions that were
-> used previously (which are based on Python syntax). This includes
-> support for the SPDX "WITH" operator which allows a license exception to
-> be attached to a license identifier.
->=20
-> The old licenses expressions are still allowed, and will still be
-> correctly parsed, however a warning will be issued that indicates the
-> new license string that should be used.
->=20
-> Most layers should be able to use the newly-revised
-> scripts/contrib/convert-spdx-licenses.py script to do the majority of
-> the conversion work, although some manual work may still be required if
-> conditional or complex LICENSE expressions are encountered.
->=20
-> SPDX License Expressions require that all licenses listed are either a
-> known identifier (e.g. "GPL-2.0-or-later") or start with the prefix
-> "LicenseRef-" which indicates a custom license. When converting from old
-> expressions to new one this will need to be followed (the suggested new
-> license in the warning and the conversion script will automatically add
-> this prefix for any unrecognized license identifiers). This will most
-> commonly be the case for NO_GENERIC_LICENSE files; for a good example of
-> what needs to be done here see the changes to the linux-firmware recipe.
-> When adding new LicenseRef- licenses to a recipe, the actual license
-> name should be prefixed with the name of the recipe (e.g.
-> "LicenseRef-myrecipe-mylicense") to prevent conflicts when merging
-> multiple license documents together (e.g. in an image).
->=20
-> SPDX also introduces the "WITH" operator to add an exception to a
-> license instead of using a bespoke identifier to combine the two, as was
-> done with the legacy license expressions. Because of this, the logic for
-> dealing with the INCOMPATIBLE_LICENSE family of variables has changed
-> slightly. The main difference is that INCOMPATIBLE_LICENSE will now
-> match the LHS of a "WITH" expression (where as previously this was
-> "ignored" since it was a bespoke license ID). In order to allow a
-> license that would normally be rejected, but can be allowed with an
-> exception, specifically allowed exceptions can be added to the
-> INCOMPATIBLE_LICENSE_EXCEPTIONS variable (keep in mind, EXCEPTIONS here
-> means "exceptions to INCOMPATIBLE_LICENSES", not specifically SPDX
-> License Exceptions). If an SPDX exception is present here, any license
-> that has that exception will be allowed, even if it would normally match
-> INCOMPATIBLE_LICENSE. For example, to disallow all GPLv3 except for
-> those with the GCC exception, use:
->=20
->     INCOMPATIBLE_LICENSE =3D "GPL-3.0* LGPL-3.0*"
->     INCOMPATIBLE_LICENSE_EXCEPTIONS =3D "GCC-exception-3.1" # This new li=
-ne is required
->=20
->=20
-> Additionally, "PD" ("Public Domain") is not allowed as a generic license
-> identifier. Aside from "PD" not being a valid SPDX License Identifier,
-> most "Public Domain" licenses do have some sort of text associated with
-> them (see the HPND family of SPDX Licenses, or use the (SPDX License
-> Match Website)[1] ). In addition, the meaning of "Public Domain" can vary
-> by jurisdiction, so the actual text with a LicenseRef- or a SPDX License
-> Identifier needs to be used instead.
->=20
-> Finally, "CLOSED" is also no longer allowed as a license expression
-> (since it is not a valid SPDX License Identifier). Instead use a
-> LicenseRef- to point to a file that contains the actual license text
-> (usually something like "Copyright <name>, all rights reserved")
+[1] https://gitlab.gnome.org/GNOME/glib/-/commit/be85f9429bb66412a9775440a88cb115803ba897
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58010
 
-Hi Joshua,
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+---
+ .../glib-2.0/files/CVE-2026-58010.patch       | 113 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib.inc           |   1 +
+ 2 files changed, 114 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-58010.patch
 
-I've had a skim through but not reviewed in detail, this looks good in
-general.
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58010.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58010.patch
+new file mode 100644
+index 0000000000..9e56c8892d
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58010.patch
+@@ -0,0 +1,113 @@
++From b1368983fea922237bc49f2651ed817f18472280 Mon Sep 17 00:00:00 2001
++From: Philip Withnall <pwithnall@gnome.org>
++Date: Sun, 29 Mar 2026 19:10:41 +0100
++Subject: [PATCH] gvariant: Fix an off-by-one error in an offset comparison
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++This allows a single byte out-of-bounds read off the end of the
++(potentially untrusted) byte array backing a `GVariant` when it’s
++being checked for normal form.
++
++I can’t see how this could practically be exploited, but it’s certainly
++a security bug as the `GVariant` normal form checking code is supposed
++to be robust to malicious inputs.
++
++Spotted by linhlhq as #YWH-PGM9867-190, and fix and reproducer provided
++by them too, thanks. Confirmed and turned into a unit test by me.
++
++Fixes: #3915
++
++CVE: CVE-2026-58010
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/be85f9429bb66412a9775440a88cb115803ba897]
++
++Signed-off-by: Philip Withnall <pwithnall@gnome.org>
++(cherry picked from commit be85f9429bb66412a9775440a88cb115803ba897)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ glib/gvariant-serialiser.c |  2 +-
++ glib/tests/gvariant.c      | 48 ++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 49 insertions(+), 1 deletion(-)
++
++diff --git a/glib/gvariant-serialiser.c b/glib/gvariant-serialiser.c
++index 1a050c40b..73f78a072 100644
++--- a/glib/gvariant-serialiser.c
+++++ b/glib/gvariant-serialiser.c
++@@ -1250,7 +1250,7 @@ gvs_tuple_is_normal (GVariantSerialised value)
++ 
++       while (offset & alignment)
++         {
++-          if (offset > value.size || value.data[offset] != '\0')
+++          if (offset >= value.size || value.data[offset] != '\0')
++             return FALSE;
++           offset++;
++         }
++diff --git a/glib/tests/gvariant.c b/glib/tests/gvariant.c
++index c1d66e824..04925ae41 100644
++--- a/glib/tests/gvariant.c
+++++ b/glib/tests/gvariant.c
++@@ -5779,6 +5779,52 @@ test_normal_checking_tuple_offsets5 (void)
++   g_variant_unref (variant);
++ }
++ 
+++/* This is a regression test that looping over the padding bytes in a short
+++ * (non-normal) tuple doesn’t overflow the input data.
+++ *
+++ * See https://gitlab.gnome.org/GNOME/glib/-/issues/3915 */
+++static void
+++test_normal_checking_tuple_offsets6 (void)
+++{
+++  /*
+++   * Type: (ynqiuxthdsog) — 12 members, first member 'y' (byte) has
+++   * alignment 0, second 'n' (int16) has alignment 1.
+++   * With 1 byte of data (0x28), after reading the first byte member,
+++   * offset=1, alignment check for 'n' requires offset to be even,
+++   * so the while loop checks value.data[1] — but size is only 1.
+++   *
+++   * Use heap allocation via GBytes so ASan reports heap-buffer-overflow.
+++   */
+++  uint8_t *heap_data = NULL;
+++  GBytes *bytes = NULL;
+++  const GVariantType *data_type = G_VARIANT_TYPE ("(ynqiuxthdsog)");
+++  GVariant *variant = NULL;
+++  GVariant *normal_variant = NULL;
+++  GVariant *expected = NULL;
+++
+++  g_test_bug ("https://gitlab.gnome.org/GNOME/glib/-/issues/3915");
+++
+++  heap_data = g_malloc (1);
+++  heap_data[0] = 0x28;
+++  bytes = g_bytes_new_take (heap_data, 1);
+++
+++  variant = g_variant_new_from_bytes (data_type, bytes, FALSE);
+++  g_assert_nonnull (variant);
+++
+++  g_assert_false (g_variant_is_normal_form (variant));
+++
+++  normal_variant = g_variant_get_normal_form (variant);
+++  g_assert_nonnull (normal_variant);
+++
+++  expected = g_variant_new_parsed ("(byte 0x28, int16 0, uint16 0, 0, uint32 0, int64 0, uint64 0, handle 0, 0.0, '', objectpath '/', signature '')");
+++  g_assert_cmpvariant (expected, variant);
+++  g_assert_cmpvariant (expected, normal_variant);
+++
+++  g_variant_unref (expected);
+++  g_variant_unref (normal_variant);
+++  g_variant_unref (variant);
+++}
+++
++ /* Test that an otherwise-valid serialised GVariant is considered non-normal if
++  * its offset table entries are too wide.
++  *
++@@ -6057,6 +6103,8 @@ main (int argc, char **argv)
++                    test_normal_checking_tuple_offsets4);
++   g_test_add_func ("/gvariant/normal-checking/tuple-offsets5",
++                    test_normal_checking_tuple_offsets5);
+++  g_test_add_func ("/gvariant/normal-checking/tuple-offsets6",
+++                   test_normal_checking_tuple_offsets6);
++   g_test_add_func ("/gvariant/normal-checking/tuple-offsets/minimal-sized",
++                    test_normal_checking_tuple_offsets_minimal_sized);
++   g_test_add_func ("/gvariant/normal-checking/empty-object-path",
++-- 
++2.35.6
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index dee94ec060..36c837dc79 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -233,6 +233,7 @@ SRC_URI += "\
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://skip-timeout.patch \
++           file://CVE-2026-58010.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+-- 
+2.35.6
 
-I'm concerned about removing support for "CLOSED" as a license
-expression though, that has been used extensively on downstream projects
-I've worked on over the years. It's helpful to be able to bypass license
-checking where it may not be needed.
-
-After applying this series there is still handling for "CLOSED" in
-several places such as populate_lic_qa_checksum() in insane.bbclass.
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-E841IuR9kGP0jIrwt60F
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCale/KxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bkjZAQDOhW44munuiN8BRnx733zoR3mFJc6mnlcO
-actT0fXXTAD/ae6xLWgRXbLdj3ff0unnM4WD/Ts9/zWl68NQmhthvgk=
-=ZjUe
------END PGP SIGNATURE-----
-
---=-E841IuR9kGP0jIrwt60F--
 
