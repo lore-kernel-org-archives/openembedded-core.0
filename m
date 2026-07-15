@@ -1,203 +1,318 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <ravineet.a.singh@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E68DC44508
-	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 15:54:38 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.5])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10669.1784130870282044810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56207C44508
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 15:55:08 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.11])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10515.1784130904817634086
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 08:54:30 -0700
+ Wed, 15 Jul 2026 08:55:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=cP8pqrpW;
- spf=pass (domain: siemens.com, ip: 52.101.70.5, mailfrom: peter.marko@siemens.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=qAb0RcuB;
+ spf=pass (domain: est.tech, ip: 52.101.84.11, mailfrom: ravineet.a.singh@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SF+86QQCuMVk4NbVXEUFuVGego7ix5V01KPtndOBRMbs5eZRV8ZZYzHX1NftAhWHXZxBK0ifsibOlSybRTXszWZWgTlCIlAYWB7hbHKCcfC7rxDocWIQYmF/U3wq2/Ycnqi0Rh+lwTAPlaPIobV6Tdh81dcrbIVUh+BA0Cj5t7bZw/c1Bgd1sVzFz6bOJ7hWhVm5ZB5n5izKZbemXIjJw5ftkBIoLe6ma5zYN9Nv2OSFYaCr1HGLSK/g72ReMWacZl8nqNFY1q13tBCHlN8+NaDUJI3ETDiPRWnu865Cr0UiWWCppIu9a5noV3RH5Yx/xvRD0vZIj+X9u1cCkEci/Q==
+ b=O5E8Rp+DPqIq2uEITiZWLO6/7vNwPh8N27XWUc8MvmZTmXeZdN1J0liTZCXEvY0eIriU+AeBy9YjgkaUuCEJXw03cZDUERvCgoURbV9lTrH9IHTr8yC/OiijVuW/wCpHKv55XKCuCvWb0Sng08SJNrd5tr+6AMIDC4Q4VEAZTpgD4Y3kize/mg3BmDbWD9ScmUqBZQ7VxaowSm0HPOWj9psCGZEo6cClsYacs9/6lsQkMDO+PTy8tM7VgVcYE4h7u57azZaBoqgW2JahB9hOKuljZGWoDVf8/RNcyzl57yainXNTTSzS9J2TWumJe8bHuCy3wIrsaosGnHgxKsieyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sh5miRYAWNNX5dz0m3sAfMVguA4z8e32/Z++IVfq/ok=;
- b=QEGYdMikCxL3rizPQHHRvzXN3oAu0ZW3ndvgdcpZYO0ACxDmYuEnTndDL4a5pdkanX+U4s9nhRXLoZW7VHCrCFIWMZ3z5wrkH8GeJtD+bR0T3MTvTlpluOrGxaSuyjhKlVlZB40oXZLxlEvb57YGKSj2nyT+5n2A3y075POKJSTnXcWszgGvGJgIk6q+kewiDo3yRPEo9oM9zCo4yCfsq/b/6jtY5ke7wLWArFCZRPS1yrhFDHFx/3oODlRTzyVVO47sjwrF67Gt22kfDJkis0+z25a/iRUJNAwXNcY5wisFXUDOvsWD0G+skjD9EHxgnMKaoJXzxmwpVt4IGhbRGA==
+ bh=YdqaYiDVxh0QwLmKurwqwG+d8PEiOggewfzqWqcJ1Eo=;
+ b=x7smFAMQoP+QDYQ4CGVp0TNBh+EykNTcTvPf9IYraEEMiAGr/705+CPHhnVGQX4NbymALeDOZvi7vPNJ/IF0kTH3yH4nqQj9KEsWSqyGgK3l+52VEtT6sSmYCGynV24vipajcDYkJkVsvqLI0zatiuIbwh4F15vifJ/ZoXH1twdLmtvGugeMEdQTnY61woriXaNbx7wBA+/k/jMGYjI7sqhbNK0ioPNdvLHAtRVKN7tDUWgXqDntbamMtk1LQG87z3BOemzYvrl388i0mIQCmKkpJRJ5ORtGl8xBlTPfCTy3+QEKoVZT47lvJMC2ey7Kc0dkNgrU3nfHFf9REkVAmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sh5miRYAWNNX5dz0m3sAfMVguA4z8e32/Z++IVfq/ok=;
- b=cP8pqrpW/zCuW+y1JgnDA0hblmtByHFHCiJT7pB3UG+a+Ix7NDqh3Hy900AbOhoP4Rg3RFle7A2WEbKeiZlwsvOB0v6A6OAy2XYeUqEK4FvDr+VekhlILHyavpZlRIt0giqTWa2W641Jl2zX+TrmNTy2NVaXBrfBS69CyJKf7Esgl6oqdRAO2l+bj/7Av08qrLWvWZjt+RAbdznFwbmlliotwXFuqFG6y7M2s9fOepuERK2J7+fFpzoD/ceVhWWOWSc1Lcl3sSx6H3DQhZ+1MGVpehNy8mWW9DZfHrFeoCT3cewmutRXm3Qf1Lhr6N21/MM1zSdjcC/LIC4rarGMxw==
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
- by VI1PR10MB3661.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:137::13) with
+ bh=YdqaYiDVxh0QwLmKurwqwG+d8PEiOggewfzqWqcJ1Eo=;
+ b=qAb0RcuBfiv5JTYl4J7Zg2cbXIC/TW/twoYxqRwiwYCky3/MjMqmb2J8NHml/nPwsg6pXOUW0PNnP+Ij3Z+wsI+ssp2yauQolCYJ2NSD/eeamzCOqN4k7Nk5SIp+J6B0kkUeEYwdWertwGKic05ZniPtWKJBsXFZ1Q6TJWy5q7tqCTQlokxlV1YkdilUQ3MMBU24EDVrhzAyQcfzGfaY+4ILaoFN7sP6ybXu3CoecbVjyX+LafOHNxNMPwky92J6U6Wf1SF3oV+odnz1L+0wD9TaZqqhJ3K6OAnPiX6aszQxJ2SSzCdBsKE8LpsMYcaXREcLQdntVsA2zhnEy59Fyg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6c::22)
+ by DB4P189MB2438.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3f6::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Wed, 15 Jul
- 2026 14:10:58 +0000
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0181.019; Wed, 15 Jul 2026
- 14:10:58 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "Harish.Sadineni@windriver.com" <Harish.Sadineni@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Sundeep.Kokkonda@windriver.com" <Sundeep.Kokkonda@windriver.com>
-Subject: RE: [OE-core] [PATCH] kernel-yocto-rust: add clang toolchain check
- and lld dependency for riscv64
-Thread-Topic: [OE-core] [PATCH] kernel-yocto-rust: add clang toolchain check
- and lld dependency for riscv64
-Thread-Index: AQHdFGK4RQcq+CEuGkyD37bcxx8UDLZunZkQ
-Date: Wed, 15 Jul 2026 14:10:58 +0000
-Message-ID: 
- <AS8PR10MB5073A2354106A5B1EA004D8EFDF82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260715140251.209123-1-Harish.Sadineni@windriver.com>
-In-Reply-To: <20260715140251.209123-1-Harish.Sadineni@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=8198a6f2-d93a-4393-b517-1c5731fad7c9;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-07-15T14:06:52Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|VI1PR10MB3661:EE_
-x-ms-office365-filtering-correlation-id: 61a179d5-d3ea-44e5-0473-08dee27ae4b3
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|11063799006|56012099006|10067099003|3023799007|22082099003|55112099003|18002099003|13003099007|38070700021;
-x-microsoft-antispam-message-info: 
- o1ML47nTRGDdWvrBNx+YLNg7u9D0NH8p4UKlPqoOXMscjjbedzr5dC4PwzGS2GTB+B7MZ7DEuCBBLKm4zKqZoO6selAp/f0V/No2Y3zNol7BRKYEkRtlwuaXVJD7TYn2L3tTqTy6VCKpbcmqRiY0dLcyxhFqmnN5l6xxLYmiK3WKPiGAo1GqiSr5Qz33Jx4onuBRVTVYFolBE001mOUujTteUXw5BQX1Th8iA1D+tKQvZlboNo/4fLvR3q9IsQ6gOw5Qrzmuc3sEaKKvZIrrSxDNBiIoMTvUmx6J4/IycAK3AHecIf7FLjVjEn4WF6hw1DCTWZFsVQSLndUk9ELhET4xnH5T0tuSiYraYyA+is6XItatEX/5RQvPUTDRiPUJwCY8acidEFHVZ7954ApM8xrFMWPJoNNanEFKv0WFf/5IKrn3fsThFketiWxj31n37oz0auMphZuSr/weO+97O0tavWChjCFViaB7HizfIlKiHT6P504wsdi3FAjRGZJQ0z2a0DPmytY1/OUH0owqYhPR3WmsS2z+HAIc7z+y2bL21TEavyMGr9K+oML8W3J/PsYuDKyptRky5EmwwZjGN+AkE5eD3QEeHse+i0YEW0CnSDg6+P7aZ9/z7n2apRqDadRUSbchuyHeQ054Ev9Zob8HqKP93sQAynzq/oXy1X8=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(11063799006)(56012099006)(10067099003)(3023799007)(22082099003)(55112099003)(18002099003)(13003099007)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?DMnyI36wkHwcYWQFT1uky9mfb6UyUXMkuB/vuuoKrlPPBjY7WMEcb9itpUGE?=
- =?us-ascii?Q?nSlIYE2+KfQDq4FtpK1LtXf/7StJtjH7B7RLjWQkJlIWaqIhDKitWiO2Tm3a?=
- =?us-ascii?Q?5RWGORrungh/oqk6W5p5VR4uGTaOqwKd+oDaz7TqT4MF6RwLZYzZ1w58q9Kh?=
- =?us-ascii?Q?B4qlvsCj22DilyUYWLNb2QEyxh+xYveDAi9v33P3rhIGtknuGf4LnePtZNB2?=
- =?us-ascii?Q?+SdFHMwbaYBNhFAkPJblSh/cE1e6R04R9s+A8w1jq5YLpZFPqJYkzritoxgz?=
- =?us-ascii?Q?F+/oNvtyx4+oeWRy4YPwA/3g1JHNE/U7WGnEnZzV9E9KFwOLqNqrLs5xAIZm?=
- =?us-ascii?Q?0X9XSrv6uQe0+gJGNET/yl8Ltm2QLrUvgaHUT4jC5utNQf+Zv3dUKCH5CWqL?=
- =?us-ascii?Q?Lwqe5Pb97x9T8icV9bHXfnNOYt0ntwHjNaWd94q/+9EyL6690nNqrBf9yhko?=
- =?us-ascii?Q?7x/QkzKWZKHEWB5ui+Q3/qQJczCm+vM73+gd6niv+LvKYzzVlBJdLDRV8I0u?=
- =?us-ascii?Q?doSByWTt6eRWQ9UFLsgXzq2CH+8dAN2Ls95EO5i55FE1z8ob6c1m2PCYWNiz?=
- =?us-ascii?Q?OfwHhSA5GHG3YtO4ewsPLVZO/nOzThs/iqyj/5Zzptsm9h2YvEsdm0Cy8EL9?=
- =?us-ascii?Q?IK+4UXJCN5HR5AnbCb953LvseN/3QiFPzLk0HTD57D0lY0skPKoIzcACpk4Z?=
- =?us-ascii?Q?ESPsHjRHTOyyEsbBQVgMHTdWJ8vpwU2iqT4Ka36Va+5afqGD7saGu/hxyi0Z?=
- =?us-ascii?Q?29KlMzsgmjeKUp8PXOekryyQStnAge805tdrsmIHws7xt9uBPXP5MKjCvPnT?=
- =?us-ascii?Q?xbZsNJ/kEr4Mb2/gsbcEjbpGbEanL3UEmVV52zmhDUu98Cjb/jm/bR7T9Y3X?=
- =?us-ascii?Q?FVOTJhXhPF7LA/Hw2vwtXRk6jrkn3OR9AgjimDzfkaqp7A+lRWFJ+URi6/eG?=
- =?us-ascii?Q?i15aT+w6/ARbBkTv6J/W4sUEQXpkkA02++uQxjngVf0zjVuW1BoepXoR0lgr?=
- =?us-ascii?Q?yyZvjR05NOJ2clC6JhMM0MHQgTs6ic4fuf38cA/B0WmzOwMvCDSS4kq58r/f?=
- =?us-ascii?Q?Q+yhB+AVi+Agz3JGdckAkzp7yTF3wygGpdmggdwa22MwqsiFjmGPbwO8AImP?=
- =?us-ascii?Q?E5j8vz61ujHt5RlHloqaILD31kZD7Etcei7KiuGF3j61WaEDtsLyc+6POjEN?=
- =?us-ascii?Q?8ueXXQ6OpAmXFaVn79F2sDyQBquHttT2ltvWKJ+p25f+NpIyi51H5wi0nRSG?=
- =?us-ascii?Q?1qMMiGQ+x9GrABGEz1dixfLxJsab7EnlC0/qls9zz/QUtExR5P+EJVMNkpOJ?=
- =?us-ascii?Q?HKSCAcrgD9Wuh+y80+FmT9yZIptJHur40RTEg20/73E5QPBlsoGsYrVHgwJY?=
- =?us-ascii?Q?uxLf/Hb+7e8Az7pGy6oLG1AVWJtSaHI1EVGOh4QoKrbzjjsW0HJcFsOWU8PZ?=
- =?us-ascii?Q?tqhDaj8iReqOPaAMfWCh93Dz27or/8uRZ4La3bosw6ebNEliwwliZpGYyKib?=
- =?us-ascii?Q?46jr1vUK5S5XQb3jIxZ9S8nAzYhvjAWQAUe5UyAzOvuL4PCG1xboPq/PRriE?=
- =?us-ascii?Q?4uTdYxrt3jYl5ptzPLcOrVLgB65ykwr7FJ3gr0DzH95nlr+QVjYNxqZ4ULR1?=
- =?us-ascii?Q?q2nEqVKpEj4uZQ1Oayt4YEYsrC4fCwjljX7TmtsMn2Jr+n8GBSl1JuW1HiGi?=
- =?us-ascii?Q?SEhSgIoMo11K2FEoln2Pl/CCl4g6th287kArMq4pq8+ioarpOnU0idH2KcIW?=
- =?us-ascii?Q?h+SjiLntsA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.8; Wed, 15 Jul
+ 2026 08:02:00 +0000
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04]) by GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04%5]) with mapi id 15.21.0223.008; Wed, 15 Jul 2026
+ 08:01:59 +0000
+From: Ravineet Singh <ravineet.a.singh@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap] util-linux: fix CVE-2026-13595
+Date: Wed, 15 Jul 2026 10:01:48 +0200
+Message-ID: <20260715080149.343827-1-ravineet.a.singh@est.tech>
+X-Mailer: git-send-email 2.43.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0565.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:33b::19) To GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:6c::22)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXP189MB2053:EE_|DB4P189MB2438:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b28e39b-d290-4d5a-c673-08dee24758d7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|13003099007|6133799003|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info: k5THWFxr8t8dFMEe4EjWCwYM0CE9+Z1cF5Jo4EA2n2AGwbJW34CvGxToURz5qoyW6XL8h7ROXZol49+6L4DBxQKbPr9h8EAlX4UIel3HixK1a32vUy6vRY9rpoRcWb38Wz4gLM43WKxbkfG4v+SFfYM8XET25fkcn2JuUWcvn+uqC73d8c4Rkib9TRB+h5Kink4okc5/Q25i2L8G8xr42gu/rW8P3Bn7rsLM+AeNUr1sa+tSwDierTiVFeZJFlu+DHhuW8VfccqM2BtO0hq4yJIeFKTXhFdG0PSxOQdmCARoEvzznSPOGvQTupldrg5fa90GEGQ5UZqlYNE9C4GcuNgAka4GXb6Jr4nexRpdy9S1s5BLlkyJGADXHk3lgJYFmhuhyCGZWNXlUsLsGde8y7mJiKEO9k99NmV/fIzDeIgtCB4TTvFdSNFPAyWs/xV5KCYsUHdnHMHubCQVGhRjtYrsB17ZdeSbRbqacxBGCMC2ehDBuKU8pMCzUQmcJRz9Wux45lnRV83tLbEJsvh/DRj4pZa0NZtiP4ghqIECwl+95fLylHl2MtUPd8O3Wf6TNlXidvNEALrio0Wj0G2+y3acsG43uJWRa1lWbbeubrSIxLcdkcgLR51UZrdYtCBbA4cy4sPOHViygXJcnN9KrOlvj5vVnEMrsprGPAiKeUs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXP189MB2053.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(13003099007)(6133799003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CR2mXPrnglxIssuaiUPEMINmDtaZWYDjOKQwmFhpyEWLDVppMvj78zYBt0CQ?=
+ =?us-ascii?Q?i2hmPveDNTTVTIAh47wAATurAYXPEd8HenWNW4mW1wLK/WWrdEtTgAmFYqpN?=
+ =?us-ascii?Q?RK8P/Zvp4O7K0gZ6b1NY+/VXUOqTx8mj2H20mkLh8a+v182dTfLHq+W3OdVa?=
+ =?us-ascii?Q?zXfhkwVxbGoHZDde+vpahDL4mO1i0tybb26m7+/Tu9LAhhTjRt5wi+zguWFp?=
+ =?us-ascii?Q?yF9qin2n6PKneG1cgJlJhKkH4FCrDiQWkJY3vEH2uC2eTFF+Gjt7zIpn27SE?=
+ =?us-ascii?Q?8lSlb/Qh53sSZATu3dsCDvkpyoLuLZXNjQn5l4aLa1kmvV6UZhxf/MGZJq4X?=
+ =?us-ascii?Q?rN7kRy9Db+OxaPvvxwAzLZ6kDAs6+/1HAVv5JkqJAImyj4ZxD45UuAYU5+iC?=
+ =?us-ascii?Q?RY+GwZADoI88pmwuATYBweOS82FUqbvRq2iY0/VHxwxt6GqwHBZKYSMMYypc?=
+ =?us-ascii?Q?IqEdH2wuxY2hqnWa+ReRFbaSVFOVDelPrWD2oEwuEl3QwQYMOwI3ep3BXa/+?=
+ =?us-ascii?Q?Lctu9ExqSkLiZ1Xjv5giHvtca8LUcf4S17D/Clvpag2jQmA2qve9ju0fbcA3?=
+ =?us-ascii?Q?OwmMVMrsm0vDlc5aUF6o9/KI1TD4/yd3xtLRpihoU9MgOY5lTE5YrlBpQt6h?=
+ =?us-ascii?Q?yOH+npYiNDlcOa9e7LdkANblUCUUMFdZokmqodDIz03lGd1ZVKpb3ZlSCfUx?=
+ =?us-ascii?Q?y37p5LSMBpjCmfmZimNhjlMO1Sx6FGmVCzCuf4YNZ3oD1iYxTP3rferIA4vq?=
+ =?us-ascii?Q?fp+YsaIPjmIunFuJPvzFq1dZS6ULLY5lTMbnQuORkG/dVHHQOH3OzylTv8YK?=
+ =?us-ascii?Q?LLc91bSosGL7e5LJF9U0WDRwmAUgHkbvxjJ1eTzsz0u7ghvdniQguziEwcXo?=
+ =?us-ascii?Q?2TxpUoKOgy4liiOteDeNknvjZvYMPY75jm0wYuees+DWGhd/TP8kaRooOcI+?=
+ =?us-ascii?Q?ExuW4cm206lekm7Wz+mU+Y4Ie0Kot1CZc91xBnMm2EybiHtSjbSKKbjtK15X?=
+ =?us-ascii?Q?9dQv2IdgmarXiIPY3DFIEOxOSqktgLRkBJxNeomFPC7Pm+zY3ids6pU0aqTO?=
+ =?us-ascii?Q?kwBBvRNpemZnoOabjcH/JEQBJdGiaRcXf9B+tip6sYpxUDCAxsDiLmJj4XVN?=
+ =?us-ascii?Q?yQEaX0aHTGUjgvJl0Qhk9WKc3LeVOScdCjhklDaA2F5b9y3U+0c+IIt23Jpq?=
+ =?us-ascii?Q?G9+vrkJ8yBehpzd+Km2HlwxXZbPVDo0XzHB7xX6bMgJNjMLImwT2BK5UwAGG?=
+ =?us-ascii?Q?G5DB/38ClbiHiIkLvdi0XdHniALGjqoZUjAgJxtieLyt9XeVS6DIYZF550oG?=
+ =?us-ascii?Q?JRnj7md2j5S6QwzgI+allbYJUYcLOmQ9iyOOIOgZV5imPCiFR8Y9AVRk/k0a?=
+ =?us-ascii?Q?SVpP07tg9eGIKatTqeSmpkZPLFY0K/091ITxCrhRbKIdP2NKzTTBOiyLbvd9?=
+ =?us-ascii?Q?VfMfizT6lEh1dxCY6RVGtQBaO/KPnieiaRaCgtv39EbEhMbOs2Tcvjtbokrh?=
+ =?us-ascii?Q?PXWAXIw8l4yMBqP3RSkyne7DoV9Y0R4HImSQSY6xzr8buVR3sqKSqjQhLC1D?=
+ =?us-ascii?Q?q192tMMWvMpohWekx96fd89MrheZdXXgKZcCg9Sk/ZyQQ4ikvET3iv1tBZVT?=
+ =?us-ascii?Q?5qKm/DeBFQjwWIDzZL8CvuKIrU83F+2mPOEpZRsGkR+AokiJ7CPbvc1FUGJU?=
+ =?us-ascii?Q?xOYraHY5FlipJbAj1QXylQC6kz1sh0AGFKIM7dysdKP1wRNsfE6vJEyEAVbV?=
+ =?us-ascii?Q?KT9Uu4PcQlw0/HEPyboppC2sNo675BU=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b28e39b-d290-4d5a-c673-08dee24758d7
+X-MS-Exchange-CrossTenant-AuthSource: GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61a179d5-d3ea-44e5-0473-08dee27ae4b3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2026 14:10:58.3528
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 08:01:59.6032
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xdeofZfg/NtFY/JfH0fR5edBGKZe4LzFvmkVc6sEw1WX8X0dMjyq7Ug0SPjzWOeipt1f5SJ4AYDnZ2WF2Qv2JQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3661
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qYDJ+S5jihPR/2YWR5jC+jGbzrevZ+q+Af2DTC3Rd3TruMRDEk5+GStGZbfeJC3hicx35nUI66w1eM/Xojwd2A0nfI/Kf84SQD6Xpv+DkM0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4P189MB2438
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 15:54:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240985
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 15:55:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240986
 
+  The BSD, Minix, Solaris x86, and UnixWare probers cached a raw
+  pointer to a parent partition entry that could become stale when
+  the entry array was reallocated, causing a heap use-after-free
+  read. A crafted block device image can trigger this via
+  udev/udisks without user interaction.
+  Re-fetch the parent entry after each addition instead of caching it.
 
+Backport patch to fix CVE-2026-13595
+  https://nvd.nist.gov/vuln/detail/CVE-2026-13595
 
------Original Message-----
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Sadineni, Harish via lists.openembedded.org
-Sent: Wednesday, July 15, 2026 4:03 PM
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Subject: [OE-core] [PATCH] kernel-yocto-rust: add clang toolchain check and=
- lld dependency for riscv64
+  Upstream fix:
+    https://github.com/util-linux/util-linux/commit/c0186f14fbdb02f64c8e0ba=
+701ce727ea764ff4c
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+    Tested with ptest on QEMU x86_64:
+     All 256 tests PASSED
 
-Rust support in the upstream kernel on riscv64 currently only works
-with the LLVM/Clang toolchain, not gcc [1]. Add a sanity check that
-fails the build with a clear error message if TOOLCHAIN is not set
-to "clang" when building a riscv64 kernel with rust support enabled,
-pointing the user to the required local.conf/recipe override.
-
-Also add lld-native as a dependency for riscv64, since
-lld is required when linking the kernel with clang.
-
-[1] https://docs.kernel.org/rust/arch-support.html
-
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tech>
 ---
- meta/classes-recipe/kernel-yocto-rust.bbclass | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../util-linux/CVE-2026-13595.patch           | 154 ++++++++++++++++++
+ 2 files changed, 155 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-13595.=
+patch
 
-diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-r=
-ecipe/kernel-yocto-rust.bbclass
-index 49f2bfc1ae..3f9b2ef6ee 100644
---- a/meta/classes-recipe/kernel-yocto-rust.bbclass
-+++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
-@@ -25,3 +25,19 @@ do_kernel_configme:append () {
- # More details in: https://lists.openembedded.org/g/openembedded-core/mess=
-age/229336
- # Disable ccache for kernel build if kernel rust support is enabled to wor=
-karound this.
- CCACHE_DISABLE ?=3D "1"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-cor=
+e/util-linux/util-linux.inc
+index 8380419634..753d032976 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -47,6 +47,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux/v=
+${MAJOR_VERSION}/util-lin
+            file://CVE-2025-14104-01.patch \
+            file://CVE-2025-14104-02.patch \
+            file://CVE-2026-27456.patch \
++           file://CVE-2026-13595.patch \
+            "
+=20
+ SRC_URI[sha256sum] =3D "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810b=
+d572e167dfed0f"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch b=
+/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
+new file mode 100644
+index 0000000000..a38bf93ace
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
+@@ -0,0 +1,154 @@
++From 0bf0391bc10c04ac7fa2807d72a5f96f4b164fa5 Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Thu, 7 May 2026 12:50:48 +0200
++Subject: [PATCH] libblkid: fix use-after-free in nested partition probing
 +
-+# Rust support in the kernel on riscv64 only works with the LLVM/Clang
-+# toolchain, not gcc:
-+# https://docs.kernel.org/rust/arch-support.html
-+#
-+python () {
-+    if d.getVar('TARGET_ARCH') =3D=3D 'riscv64' and d.getVar('TOOLCHAIN') =
-!=3D 'clang':
-+        bb.fatal("Rust support in the kernel on riscv64 requires the clang=
- toolchain, " \
-+                 "but TOOLCHAIN is set to '%s'. Set TOOLCHAIN:riscv64 =3D =
-\"clang\" in kernel recipe (or)" \
-+                 "set TOOLCHAIN:pn-linux-yocto =3D \"clang\" in local.conf=
- to build a riscv64 kernel with rust enabled. "\
-+                 "see https://docs.kernel.org/rust/arch-support.html for d=
-etails." % d.getVar('TOOLCHAIN'))
-+}
-
-This is not a good idea.
-It will prevent the layer from being parsed when riscv64 machine is selecte=
-d and it contains kernel recipe for different machine where rust is enabled=
-.
-
-Maybe switch bb.fatal to bbskipRecipe?
-Or put this to a real qa task, not to anonymous python evaluated at parsing=
- time.
-
-Peter
-
++The partitions list stores partitions in a contiguous array grown by
++reallocarray(). When the array is reallocated to a new address, all
++existing blkid_partition pointers (tab->parent, ls->next_parent, local
++parent variables in nested probers) become dangling.
 +
-+# lld is required when building the kernel with clang.
-+DEPENDS:append:riscv64 =3D " lld-native"
-+RUST_KERNEL_TASK_DEPENDS:append:riscv64 =3D " lld-native:do_populate_sysro=
-ot"
---=20
-2.51.0
-
++Fix this by changing the storage from an array of structs to an array
++of pointers, where each partition is individually allocated via
++calloc(). This makes all blkid_partition pointers stable across
++reallocations -- only the pointer array itself may move, which is
++harmless since no code caches pointers into the pointer array.
++
++This eliminates the need for callers to re-fetch parent pointers after
++every blkid_partlist_add_partition() call.
++
++Reported-by: Thai Duong <thaidn@gmail.com>
++Signed-off-by: Karel Zak <kzak@redhat.com>
++
++CVE: CVE-2026-13595
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit=
+/c0186f14fbdb02f64c8e0ba701ce727ea764ff4c]
++Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tech>
++---
++ libblkid/src/partitions/partitions.c | 38 +++++++++++++++++-----------
++ 1 file changed, 23 insertions(+), 15 deletions(-)
++
++diff --git a/libblkid/src/partitions/partitions.c b/libblkid/src/partition=
+s/partitions.c
++index 1c344fd30..36e528837 100644
++--- a/libblkid/src/partitions/partitions.c
+++++ b/libblkid/src/partitions/partitions.c
++@@ -197,7 +197,7 @@ struct blkid_struct_partlist {
++=20
++ 	int		nparts;		/* number of partitions */
++ 	int		nparts_max;	/* max.number of partitions */
++-	blkid_partition	parts;		/* array of partitions */
+++	blkid_partition	*parts;		/* array of pointers to partitions */
++=20
++ 	struct list_head l_tabs;	/* list of partition tables */
++ };
++@@ -356,13 +356,16 @@ static void reset_partlist(blkid_partlist ls)
++ 	free_parttables(ls);
++=20
++ 	if (ls->next_partno) {
++-		/* already initialized - reset */
++-		int tmp_nparts =3D ls->nparts_max;
++-		blkid_partition tmp_parts =3D ls->parts;
+++		/* already initialized - free individually allocated partitions */
+++		int i, tmp_nparts_max =3D ls->nparts_max;
+++		blkid_partition *tmp_parts =3D ls->parts;
+++
+++		for (i =3D 0; i < ls->nparts; i++)
+++			free(ls->parts[i]);
++=20
++ 		memset(ls, 0, sizeof(struct blkid_struct_partlist));
++=20
++-		ls->nparts_max =3D tmp_nparts;
+++		ls->nparts_max =3D tmp_nparts_max;
++ 		ls->parts =3D tmp_parts;
++ 	}
++=20
++@@ -397,6 +400,7 @@ static void partitions_free_data(blkid_probe pr __attr=
+ibute__((__unused__)),
++ 				 void *data)
++ {
++ 	blkid_partlist ls =3D (blkid_partlist) data;
+++	int i;
++=20
++ 	if (!ls)
++ 		return;
++@@ -404,6 +408,8 @@ static void partitions_free_data(blkid_probe pr __attr=
+ibute__((__unused__)),
++ 	free_parttables(ls);
++=20
++ 	/* deallocate partitions and partlist */
+++	for (i =3D 0; i < ls->nparts; i++)
+++		free(ls->parts[i]);
++ 	free(ls->parts);
++ 	free(ls);
++ }
++@@ -436,16 +442,19 @@ static blkid_partition new_partition(blkid_partlist =
+ls, blkid_parttable tab)
++ 		/* Linux kernel has DISK_MAX_PARTS=3D256, but it's too much for
++ 		 * generic Linux machine -- let start with 32 partitions.
++ 		 */
++-		void *tmp =3D realloc(ls->parts, (ls->nparts_max + 32) *
++-					sizeof(struct blkid_struct_partition));
+++		void *tmp =3D reallocarray(ls->parts, ls->nparts_max + 32,
+++					 sizeof(blkid_partition));
+++
++ 		if (!tmp)
++ 			return NULL;
++ 		ls->parts =3D tmp;
++ 		ls->nparts_max +=3D 32;
++ 	}
++=20
++-	par =3D &ls->parts[ls->nparts++];
++-	memset(par, 0, sizeof(struct blkid_struct_partition));
+++	par =3D calloc(1, sizeof(struct blkid_struct_partition));
+++	if (!par)
+++		return NULL;
+++	ls->parts[ls->nparts++] =3D par;
++=20
++ 	ref_parttable(tab);
++ 	par->tab =3D tab;
++@@ -848,7 +857,7 @@ int blkid_probe_is_covered_by_pt(blkid_probe pr,
++=20
++ 	/* check if the partition table fits into the device */
++ 	for (i =3D 0; i < nparts; i++) {
++-		blkid_partition par =3D &ls->parts[i];
+++		blkid_partition par =3D ls->parts[i];
++=20
++ 		if (par->start + par->size > (pr->size >> 9)) {
++ 			DBG(LOWPROBE, ul_debug("partition #%d overflows "
++@@ -860,7 +869,7 @@ int blkid_probe_is_covered_by_pt(blkid_probe pr,
++=20
++ 	/* check if the requested area is covered by PT */
++ 	for (i =3D 0; i < nparts; i++) {
++-		blkid_partition par =3D &ls->parts[i];
+++		blkid_partition par =3D ls->parts[i];
++=20
++ 		if (start >=3D par->start && end <=3D par->start + par->size) {
++ 			rc =3D 1;
++@@ -959,7 +968,7 @@ blkid_partition blkid_partlist_get_partition(blkid_par=
+tlist ls, int n)
++ 	if (n < 0 || n >=3D ls->nparts)
++ 		return NULL;
++=20
++-	return &ls->parts[n];
+++	return ls->parts[n];
++ }
++=20
++ blkid_partition blkid_partlist_get_partition_by_start(blkid_partlist ls, =
+uint64_t start)
++@@ -1071,7 +1080,7 @@ blkid_partition blkid_partlist_devno_to_partition(bl=
+kid_partlist ls, dev_t devno
++ 		 * and an entry in partition table.
++ 		 */
++ 		 for (i =3D 0; i < ls->nparts; i++) {
++-			 blkid_partition par =3D &ls->parts[i];
+++			 blkid_partition par =3D ls->parts[i];
++=20
++ 			 if (partno !=3D blkid_partition_get_partno(par))
++ 				 continue;
++@@ -1087,7 +1096,7 @@ blkid_partition blkid_partlist_devno_to_partition(bl=
+kid_partlist ls, dev_t devno
++ 	DBG(LOWPROBE, ul_debug("searching by offset/size"));
++=20
++ 	for (i =3D 0; i < ls->nparts; i++) {
++-		blkid_partition par =3D &ls->parts[i];
+++		blkid_partition par =3D ls->parts[i];
++=20
++ 		if ((uint64_t)blkid_partition_get_start(par) =3D=3D start &&
++ 		    (uint64_t)blkid_partition_get_size(par) =3D=3D size)
++@@ -1528,4 +1537,3 @@ unsigned long long blkid_partition_get_flags(blkid_p=
+artition par)
++ {
++ 	return par->flags;
++ }
++-
 
