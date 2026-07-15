@@ -1,437 +1,367 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB70C4450E
-	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 05:40:05 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.470.1784093996785564608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E97C4450A
+	for <webhook@archiver.kernel.org>; Wed, 15 Jul 2026 05:54:15 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.578.1784094845794876748
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 22:39:56 -0700
+ Tue, 14 Jul 2026 22:54:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Yeo/YFZN;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ESX5SVPu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019f6449f39f-a6a6234e-d635-4cdd-9667-55ce7ca7215e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784093996;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lkcjdV094VDleLL2L94kQgJX/JxtRsuaGKgmMQOYG7I=;
-	b=Yeo/YFZN3YffQE8eentLYmHPErNTW9a2XUkUt5Gbl+RlKgeSOMwxZ6Y5wMVGni3t
-	m2zO8sJc812dHXnuPiBBJgH6UgORuPvrJRmO7oLQ2dUD6gUlnEjnWwcgv8e+888TKM2
-	LBKrna6g+6Kr6EmPgAr7ulrQraXXMRhQFtMRzWOQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784093996;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lkcjdV094VDleLL2L94kQgJX/JxtRsuaGKgmMQOYG7I=;
-	b=ESX5SVPuuBdni5v9YAy55Om5TsBUese+gLFnMG49QlcvJyyLbGp54O8qWY0qIyTN
-	ut3tL+LiYowtSRVRDrbBk6yh9qKidxeItrLrhQBnQKz+26hM7EqfoHJRRqtcK8phDjH
-	MR2wQlNAZ+wEkt+jFkWT2H5fVAKpW4OfTAqtKdMo=
-Content-Type: multipart/mixed; boundary="===============5695273694634532051=="
+ dkim=pass header.i=@mvista.com header.s=google header.b=f5PzvKI0;
+ spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: hprajapati@mvista.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c9d1fc053e0so1543599a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 22:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1784094845; x=1784699645; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qzWa2+fj81mfvbnRQnpqySdU9swZEaWRVcEAQJZgSkw=;
+        b=f5PzvKI0sQqcwq3UycIdX0ujXbpmbB8XvP3mEWlDJA1yfR+NJAnXnn7hclWM2LpyUu
+         RnYkcUaXuGgC8uGI2P1kFGtiu09Npj/42c4O0DJs47Sowh1orXxGUbtwrhWp9K8cqS90
+         b+Tml6/yp283zMGE4ufHzRmNHMWosAQLkKc3o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784094845; x=1784699645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qzWa2+fj81mfvbnRQnpqySdU9swZEaWRVcEAQJZgSkw=;
+        b=DQVjOulAc90vnSDkq5ePAmragFsAy2c82yORKsbywJ2yfN5iK0p8pUy20fHWsdZSgf
+         343H0meePUC9p2JdTo4hJps/Jte4X8tU1aW7QCpjG59GwWIdfBKEofmy8LVpOXI65obB
+         bpV3I5T5FfGaYGdCTLrc5XNI9cd/VPLACkwsIH8OCYvIHidj0SOurw+SS/kMPLTCkbWp
+         R/HVZ5Zvd2+NfFEozpkex69iQ24l5NrEJsZc6wuSAPSoCxuL7M249kAocwdxVMUpvSGB
+         3VCrevIrklp+POVXk9LsPTEmrzDs4CNsf+ng6tlbMcAGm70BuYzNKVunql6MdX+xd2ks
+         Kpig==
+X-Gm-Message-State: AOJu0YydOhqe5IL8jvf2WLOu08/cNEDNlS/lJVOFX+V306RnliF+E1Z3
+	LqobfONx1o74kOKcqm9sfLHdQ6zsTkkMqmY+EXj0AMT3FewITK9lqD4zalLV1LbqNNlHT6ZP04A
+	32gdZgjM=
+X-Gm-Gg: AfdE7ckTMBwIlZMvryUO83n8I+P4tZ1Q3E2a+HjoV58UAIdPLC++2WCWW3VhYJNMF/q
+	PT2O4C7T4UF83n5/XeMVUlLXFLzCTPs2j3EoYWtYOg7zuYTE0xjB02zHkVByg6uReCWoSBrX5Nz
+	ziIqt2cnwsW2hSo+LLBFBOU3S3a1Z+FiFt/1g8nisUpKzWitGDTcmxP0A09TyBSpjAGF2jW/Ihk
+	w9rEOOAH9oRPI6/TuA2wDCpmcYJlWNTkKWVNr3wlaSRFVVwjw4rquJLi9l3+vjvgnCztjMai0o4
+	Zujmvi1TmGIkH+K2yszcURWN3dJB6L0o66Ki/VrsnLc+KPKrTy2g3zi/qzu3lSC7NMHmDCLYiu0
+	N/FVmC63tLlSOoq6ppATThKetsuBBHLZi9AmFX1MnZ9KwoFAgju+VF4wLZsrW0BW5bJAfwFocWF
+	a2+M+pOvBcM/7DoTBBYHRb/j09uA==
+X-Received: by 2002:a05:6a20:d12e:b0:3bf:bcef:fedd with SMTP id adf61e73a8af0-3c110775a66mr18449692637.39.1784094844941;
+        Tue, 14 Jul 2026 22:54:04 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.139])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b8deb2a21sm35702168c88.3.2026.07.14.22.54.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 22:54:04 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [wrynose][PATCH] python3-pyasn1: Fix for CVE-2026-30922
+Date: Wed, 15 Jul 2026 11:23:55 +0530
+Message-ID: <20260715055355.20351-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo-c: upgrading to 0.10.24+cargo-0.98.0 FAILED
-Message-ID: <0101019f6449f39f-a6a6234e-d635-4cdd-9667-55ce7ca7215e-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Jul 2026 05:39:55 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.15-54.240.27.192
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 05:40:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240935
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2026 05:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240937
 
---===============5695273694634532051==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Pick patch from [1] also mentioned at Debian report in [2]
 
-Hello,
+[1] https://github.com/pyasn1/pyasn1/commit/25ad481c19fdb006e20485ef3fc2e5b3eff30ef0
+[2] https://security-tracker.debian.org/tracker/CVE-2026-30922
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cargo-c* to *0.10.24+cargo-0.98.0* has Failed (devtool error).
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2026-30922
 
-Detailed error information:
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../python3-pyasn1/CVE-2026-30922.patch       | 261 ++++++++++++++++++
+ .../python/python3-pyasn1_0.6.2.bb            |   4 +
+ 2 files changed, 265 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch
 
-The following devtool command failed:  upgrade cargo-c -V 0.10.24+cargo-0.98.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1979 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+diff --git a/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch
+new file mode 100644
+index 0000000000..69de7fdce8
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch
+@@ -0,0 +1,261 @@
++From 25ad481c19fdb006e20485ef3fc2e5b3eff30ef0 Mon Sep 17 00:00:00 2001
++From: Simon Pichugin <simon.pichugin@gmail.com>
++Date: Mon, 16 Mar 2026 17:23:11 -0700
++Subject: [PATCH] Merge commit from fork
++
++CVE: CVE-2026-30922
++Upstream-Status: Backport [https://github.com/pyasn1/pyasn1/commit/25ad481c19fdb006e20485ef3fc2e5b3eff30ef0]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ pyasn1/codec/ber/decoder.py     |  10 +++
++ tests/codec/ber/test_decoder.py | 116 ++++++++++++++++++++++++++++++++
++ tests/codec/cer/test_decoder.py |  24 +++++++
++ tests/codec/der/test_decoder.py |  42 ++++++++++++
++ 4 files changed, 192 insertions(+)
++
++diff --git a/pyasn1/codec/ber/decoder.py b/pyasn1/codec/ber/decoder.py
++index 853e837..47da67c 100644
++--- a/pyasn1/codec/ber/decoder.py
+++++ b/pyasn1/codec/ber/decoder.py
++@@ -36,6 +36,7 @@ SubstrateUnderrunError = error.SubstrateUnderrunError
++ # Maximum number of continuation octets (high-bit set) allowed per OID arc.
++ # 20 octets allows up to 140-bit integers, supporting UUID-based OIDs
++ MAX_OID_ARC_CONTINUATION_OCTETS = 20
+++MAX_NESTING_DEPTH = 100
++ 
++ 
++ class AbstractPayloadDecoder(object):
++@@ -1565,6 +1566,15 @@ class SingleItemDecoder(object):
++                  decodeFun=None, substrateFun=None,
++                  **options):
++ 
+++        _nestingLevel = options.get('_nestingLevel', 0)
+++
+++        if _nestingLevel > MAX_NESTING_DEPTH:
+++            raise error.PyAsn1Error(
+++                'ASN.1 structure nesting depth exceeds limit (%d)' % MAX_NESTING_DEPTH
+++            )
+++
+++        options['_nestingLevel'] = _nestingLevel + 1
+++
++         allowEoo = options.pop('allowEoo', False)
++ 
++         if LOG:
++diff --git a/tests/codec/ber/test_decoder.py b/tests/codec/ber/test_decoder.py
++index 741605f..3e0e09a 100644
++--- a/tests/codec/ber/test_decoder.py
+++++ b/tests/codec/ber/test_decoder.py
++@@ -2117,6 +2117,122 @@ class CompressedFilesTestCase(BaseTestCase):
++             os.remove(path)
++ 
++ 
+++class NestingDepthLimitTestCase(BaseTestCase):
+++    """Test protection against deeply nested ASN.1 structures (CVE prevention)."""
+++
+++    def testIndefLenSequenceNesting(self):
+++        """Deeply nested indefinite-length SEQUENCEs must raise PyAsn1Error."""
+++        # Each \x30\x80 opens a new indefinite-length SEQUENCE
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested indef-length SEQUENCEs not rejected'
+++
+++    def testIndefLenSetNesting(self):
+++        """Deeply nested indefinite-length SETs must raise PyAsn1Error."""
+++        # Each \x31\x80 opens a new indefinite-length SET
+++        payload = b'\x31\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested indef-length SETs not rejected'
+++
+++    def testDefiniteLenNesting(self):
+++        """Deeply nested definite-length SEQUENCEs must raise PyAsn1Error."""
+++        inner = b'\x05\x00'  # NULL
+++        for _ in range(200):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        try:
+++            decoder.decode(inner)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested definite-length SEQUENCEs not rejected'
+++
+++    def testNestingUnderLimitWorks(self):
+++        """Nesting within the limit must decode successfully."""
+++        inner = b'\x05\x00'  # NULL
+++        for _ in range(50):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        asn1Object, _ = decoder.decode(inner)
+++        assert asn1Object is not None, 'Valid nested structure rejected'
+++
+++    def testSiblingsDontIncreaseDepth(self):
+++        """Sibling elements at the same level must not inflate depth count."""
+++        # SEQUENCE containing 200 INTEGER siblings - should decode fine
+++        components = b'\x02\x01\x01' * 200  # 200 x INTEGER(1)
+++        length = len(components)
+++        length_bytes = length.to_bytes(
+++            (length.bit_length() + 7) // 8, 'big')
+++        payload = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++            length_bytes + components
+++        asn1Object, _ = decoder.decode(payload)
+++        assert asn1Object is not None, 'Siblings incorrectly rejected'
+++
+++    def testErrorMessageContainsLimit(self):
+++        """Error message must indicate the nesting depth limit."""
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error as exc:
+++            assert 'nesting depth' in str(exc).lower(), \
+++                'Error message missing depth info: %s' % exc
+++        else:
+++            assert False, 'Expected PyAsn1Error'
+++
+++    def testNoRecursionError(self):
+++        """Must raise PyAsn1Error, not RecursionError."""
+++        payload = b'\x30\x80' * 50000
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        except RecursionError:
+++            assert False, 'Got RecursionError instead of PyAsn1Error'
+++
+++    def testMixedNesting(self):
+++        """Mixed SEQUENCE and SET nesting must be caught."""
+++        # Alternate SEQUENCE (0x30) and SET (0x31) with indef length
+++        payload = b''
+++        for i in range(200):
+++            payload += b'\x30\x80' if i % 2 == 0 else b'\x31\x80'
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Mixed nesting not rejected'
+++
+++    def testWithSchema(self):
+++        """Deeply nested structures must be caught even with schema."""
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload, asn1Spec=univ.Sequence())
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested with schema not rejected'
+++
+++
++ class NonStreamingCompatibilityTestCase(BaseTestCase):
++     def setUp(self):
++         from pyasn1 import debug
++diff --git a/tests/codec/cer/test_decoder.py b/tests/codec/cer/test_decoder.py
++index 864bffb..24d1999 100644
++--- a/tests/codec/cer/test_decoder.py
+++++ b/tests/codec/cer/test_decoder.py
++@@ -363,6 +363,30 @@ class SequenceDecoderWithExplicitlyTaggedSetOfOpenTypesTestCase(BaseTestCase):
++         assert s[1][0] == univ.OctetString(hexValue='02010C')
++ 
++ 
+++class NestingDepthLimitTestCase(BaseTestCase):
+++    """Test CER decoder protection against deeply nested structures."""
+++
+++    def testIndefLenNesting(self):
+++        """Deeply nested indefinite-length SEQUENCEs must raise PyAsn1Error."""
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested indef-length SEQUENCEs not rejected'
+++
+++    def testNoRecursionError(self):
+++        """Must raise PyAsn1Error, not RecursionError."""
+++        payload = b'\x30\x80' * 50000
+++        try:
+++            decoder.decode(payload)
+++        except PyAsn1Error:
+++            pass
+++        except RecursionError:
+++            assert False, 'Got RecursionError instead of PyAsn1Error'
+++
+++
++ suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
++ 
++ if __name__ == '__main__':
++diff --git a/tests/codec/der/test_decoder.py b/tests/codec/der/test_decoder.py
++index 96eb3cd..ab24c07 100644
++--- a/tests/codec/der/test_decoder.py
+++++ b/tests/codec/der/test_decoder.py
++@@ -361,6 +361,48 @@ class SequenceDecoderWithExplicitlyTaggedSetOfOpenTypesTestCase(BaseTestCase):
++         assert s[1][0] == univ.OctetString(hexValue='02010C')
++ 
++ 
+++class NestingDepthLimitTestCase(BaseTestCase):
+++    """Test DER decoder protection against deeply nested structures."""
+++
+++    def testDefiniteLenNesting(self):
+++        """Deeply nested definite-length SEQUENCEs must raise PyAsn1Error."""
+++        inner = b'\x05\x00'  # NULL
+++        for _ in range(200):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        try:
+++            decoder.decode(inner)
+++        except PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested definite-length SEQUENCEs not rejected'
+++
+++    def testNoRecursionError(self):
+++        """Must raise PyAsn1Error, not RecursionError."""
+++        inner = b'\x05\x00'
+++        for _ in range(200):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        try:
+++            decoder.decode(inner)
+++        except PyAsn1Error:
+++            pass
+++        except RecursionError:
+++            assert False, 'Got RecursionError instead of PyAsn1Error'
+++
+++
++ suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
++ 
++ if __name__ == '__main__':
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/python/python3-pyasn1_0.6.2.bb b/meta/recipes-devtools/python/python3-pyasn1_0.6.2.bb
+index 01157e251e..119d632d1f 100644
+--- a/meta/recipes-devtools/python/python3-pyasn1_0.6.2.bb
++++ b/meta/recipes-devtools/python/python3-pyasn1_0.6.2.bb
+@@ -7,6 +7,10 @@ SRC_URI[sha256sum] = "9b59a2b25ba7e4f8197db7686c09fb33e658b98339fadb826e95126290
+ 
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
++SRC_URI += " \
++           file://CVE-2026-30922.patch \
++"
++
+ RDEPENDS:${PN}:class-target += " \
+     python3-codecs \
+     python3-logging \
+-- 
+2.50.1
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-75ddd3bb4c04a36973db1dca1e21617be9329363"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:75ddd3bb4c04a36973db1dca1e21617be9329363"
-meta-yocto-bsp       
-meta-poky            = "master:8a8f9ad79e3d50312566620998dadff0aa29c7a7"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 952 .bb files complete (0 cached, 952 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-75ddd3bb4c04a36973db1dca1e21617be9329363"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:75ddd3bb4c04a36973db1dca1e21617be9329363"
-meta-yocto-bsp       
-meta-poky            = "master:8a8f9ad79e3d50312566620998dadff0aa29c7a7"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:00:40
-Adding changed files:   0% |                                    | ETA:  0:00:29
-Adding changed files:   1% |                                    | ETA:  0:00:26
-Adding changed files:   1% |                                    | ETA:  0:00:24
-Adding changed files:   1% |                                    | ETA:  0:00:23
-Adding changed files:   2% |                                    | ETA:  0:00:22
-Adding changed files:   2% |                                    | ETA:  0:00:21
-Adding changed files:   2% |                                    | ETA:  0:00:21
-Adding changed files:   3% |#                                   | ETA:  0:00:20
-Adding changed files:   3% |#                                   | ETA:  0:00:20
-Adding changed files:   3% |#                                   | ETA:  0:00:20
-Adding changed files:   4% |#                                   | ETA:  0:00:20
-Adding changed files:   4% |#                                   | ETA:  0:00:19
-Adding changed files:   4% |#                                   | ETA:  0:00:19
-Adding changed files:   5% |#                                   | ETA:  0:00:19
-Adding changed files:   5% |#                                   | ETA:  0:00:19
-Adding changed files:   5% |##                                  | ETA:  0:00:19
-Adding changed files:   6% |##                                  | ETA:  0:00:19
-Adding changed files:   6% |##                                  | ETA:  0:00:18
-Adding changed files:   6% |##                                  | ETA:  0:00:18
-Adding changed files:   7% |##                                  | ETA:  0:00:18
-Adding changed files:   7% |##                                  | ETA:  0:00:18
-Adding changed files:   7% |##                                  | ETA:  0:00:18
-Adding changed files:   8% |##                                  | ETA:  0:00:18
-Adding changed files:   8% |###                                 | ETA:  0:00:18
-Adding changed files:   8% |###                                 | ETA:  0:00:18
-Adding changed files:   9% |###                                 | ETA:  0:00:18
-Adding changed files:   9% |###                                 | ETA:  0:00:17
-Adding changed files:   9% |###                                 | ETA:  0:00:17
-Adding changed files:  10% |###                                 | ETA:  0:00:17
-Adding changed files:  10% |###                                 | ETA:  0:00:17
-Adding changed files:  10% |###                                 | ETA:  0:00:17
-Adding changed files:  11% |###                                 | ETA:  0:00:17
-Adding changed files:  11% |####                                | ETA:  0:00:17
-Adding changed files:  11% |####                                | ETA:  0:00:17
-Adding changed files:  12% |####                                | ETA:  0:00:17
-Adding changed files:  12% |####                                | ETA:  0:00:17
-Adding changed files:  12% |####                                | ETA:  0:00:17
-Adding changed files:  13% |####                                | ETA:  0:00:16
-Adding changed files:  13% |####                                | ETA:  0:00:16
-Adding changed files:  13% |####                                | ETA:  0:00:16
-Adding changed files:  14% |#####                               | ETA:  0:00:16
-Adding changed files:  14% |#####                               | ETA:  0:00:16
-Adding changed files:  14% |#####                               | ETA:  0:00:16
-Adding changed files:  15% |#####                               | ETA:  0:00:16
-Adding changed files:  15% |#####                               | ETA:  0:00:16
-Adding changed files:  15% |#####                               | ETA:  0:00:16
-Adding changed files:  16% |#####                               | ETA:  0:00:16
-Adding changed files:  16% |#####                               | ETA:  0:00:16
-Adding changed files:  16% |######                              | ETA:  0:00:16
-Adding changed files:  17% |######                              | ETA:  0:00:15
-Adding changed files:  17% |######                              | ETA:  0:00:15
-Adding changed files:  17% |######                              | ETA:  0:00:15
-Adding changed files:  18% |######                              | ETA:  0:00:15
-Adding changed files:  18% |######                              | ETA:  0:00:15
-Adding changed files:  18% |######                              | ETA:  0:00:15
-Adding changed files:  19% |######                              | ETA:  0:00:15
-Adding changed files:  19% |#######                             | ETA:  0:00:15
-Adding changed files:  19% |#######                             | ETA:  0:00:15
-Adding changed files:  20% |#######                             | ETA:  0:00:15
-Adding changed files:  20% |#######                             | ETA:  0:00:15
-Adding changed files:  20% |#######                             | ETA:  0:00:15
-Adding changed files:  21% |#######                             | ETA:  0:00:14
-Adding changed files:  21% |#######                             | ETA:  0:00:14
-Adding changed files:  21% |#######                             | ETA:  0:00:14
-Adding changed files:  22% |#######                             | ETA:  0:00:14
-Adding changed files:  22% |########                            | ETA:  0:00:14
-Adding changed files:  22% |########                            | ETA:  0:00:14
-Adding changed files:  23% |########                            | ETA:  0:00:14
-Adding changed files:  23% |########                            | ETA:  0:00:14
-Adding changed files:  23% |########                            | ETA:  0:00:14
-Adding changed files:  24% |########                            | ETA:  0:00:14
-Adding changed files:  24% |########                            | ETA:  0:00:14
-Adding changed files:  24% |########                            | ETA:  0:00:14
-Adding changed files:  25% |#########                           | ETA:  0:00:14
-Adding changed files:  25% |#########                           | ETA:  0:00:13
-Adding changed files:  25% |#########                           | ETA:  0:00:13
-Adding changed files:  26% |#########                           | ETA:  0:00:13
-Adding changed files:  26% |#########                           | ETA:  0:00:13
-Adding changed files:  26% |#########                           | ETA:  0:00:13
-Adding changed files:  27% |#########                           | ETA:  0:00:13
-Adding changed files:  27% |#########                           | ETA:  0:00:13
-Adding changed files:  27% |##########                          | ETA:  0:00:13
-Adding changed files:  28% |##########                          | ETA:  0:00:13
-Adding changed files:  28% |##########                          | ETA:  0:00:13
-Adding changed files:  28% |##########                          | ETA:  0:00:13
-Adding changed files:  29% |##########                          | ETA:  0:00:13
-Adding changed files:  29% |##########                          | ETA:  0:00:13
-Adding changed files:  29% |##########                          | ETA:  0:00:12
-Adding changed files:  30% |##########                          | ETA:  0:00:12
-Adding changed files:  30% |##########                          | ETA:  0:00:12
-Adding changed files:  30% |###########                         | ETA:  0:00:12
-Adding changed files:  31% |###########                         | ETA:  0:00:12
-Adding changed files:  31% |###########                         | ETA:  0:00:12
-Adding changed files:  31% |###########                         | ETA:  0:00:12
-Adding changed files:  32% |###########                         | ETA:  0:00:12
-Adding changed files:  32% |###########                         | ETA:  0:00:12
-Adding changed files:  32% |###########                         | ETA:  0:00:12
-Adding changed files:  33% |###########                         | ETA:  0:00:12
-Adding changed files:  33% |############                        | ETA:  0:00:12
-Adding changed files:  33% |############                        | ETA:  0:00:12
-Adding changed files:  34% |############                        | ETA:  0:00:12
-Adding changed files:  34% |############                        | ETA:  0:00:11
-Adding changed files:  34% |############                        | ETA:  0:00:11
-Adding changed files:  35% |############                        | ETA:  0:00:11
-Adding changed files:  35% |############                        | ETA:  0:00:11
-Adding changed files:  35% |############                        | ETA:  0:00:11
-Adding changed files:  36% |#############                       | ETA:  0:00:11
-Adding changed files:  36% |#############                       | ETA:  0:00:11
-Adding changed files:  36% |#############                       | ETA:  0:00:11
-Adding changed files:  37% |#############                       | ETA:  0:00:11
-Adding changed files:  37% |#############                       | ETA:  0:00:11
-Adding changed files:  37% |#############                       | ETA:  0:00:11
-Adding changed files:  38% |#############                       | ETA:  0:00:11
-Adding changed files:  38% |#############                       | ETA:  0:00:11
-Adding changed files:  38% |##############                      | ETA:  0:00:11
-Adding changed files:  39% |##############                      | ETA:  0:00:11
-Adding changed files:  39% |##############                      | ETA:  0:00:10
-Adding changed files:  39% |##############                      | ETA:  0:00:10
-Adding changed files:  40% |##############                      | ETA:  0:00:10
-Adding changed files:  40% |##############                      | ETA:  0:00:10
-Adding changed files:  40% |##############                      | ETA:  0:00:10
-Adding changed files:  41% |##############                      | ETA:  0:00:10
-Adding changed files:  41% |##############                      | ETA:  0:00:10
-Adding changed files:  41% |###############                     | ETA:  0:00:10
-Adding changed files:  42% |###############                     | ETA:  0:00:10
-Adding changed files:  42% |###############                     | ETA:  0:00:10
-Adding changed files:  42% |###############                     | ETA:  0:00:10
-Adding changed files:  43% |###############                     | ETA:  0:00:10
-Adding changed files:  43% |###############                     | ETA:  0:00:10
-Adding changed files:  43% |###############                     | ETA:  0:00:10
-Adding changed files:  44% |###############                     | ETA:  0:00:10
-Adding changed files:  44% |################                    | ETA:  0:00:09
-Adding changed files:  44% |################                    | ETA:  0:00:09
-Adding changed files:  45% |################                    | ETA:  0:00:09
-Adding changed files:  45% |################                    | ETA:  0:00:09
-Adding changed files:  45% |################                    | ETA:  0:00:09
-Adding changed files:  46% |################                    | ETA:  0:00:09
-Adding changed files:  46% |################                    | ETA:  0:00:09
-Adding changed files:  46% |################                    | ETA:  0:00:09
-Adding changed files:  47% |#################                   | ETA:  0:00:09
-Adding changed files:  47% |#################                   | ETA:  0:00:09
-Adding changed files:  47% |#################                   | ETA:  0:00:09
-Adding changed files:  48% |#################                   | ETA:  0:00:09
-Adding changed files:  48% |#################                   | ETA:  0:00:09
-Adding changed files:  48% |#################                   | ETA:  0:00:09
-Adding changed files:  49% |#################                   | ETA:  0:00:09
-Adding changed files:  49% |#################                   | ETA:  0:00:08
-Adding changed files:  49% |#################                   | ETA:  0:00:08
-Adding changed files:  50% |##################                  | ETA:  0:00:08
-Adding changed files:  50% |##################                  | ETA:  0:00:08
-Adding changed files:  50% |##################                  | ETA:  0:00:08
-Adding changed files:  51% |##################                  | ETA:  0:00:08
-Adding changed files:  51% |##################                  | ETA:  0:00:08
-Adding changed files:  51% |##################                  | ETA:  0:00:08
-Adding changed files:  52% |##################                  | ETA:  0:00:08
-Adding changed files:  52% |##################                  | ETA:  0:00:08
-Adding changed files:  53% |###################                 | ETA:  0:00:08
-Adding changed files:  53% |###################                 | ETA:  0:00:08
-Adding changed files:  53% |###################                 | ETA:  0:00:08
-Adding changed files:  54% |###################                 | ETA:  0:00:08
-Adding changed files:  54% |###################                 | ETA:  0:00:08
-Adding changed files:  54% |###################                 | ETA:  0:00:07
-Adding changed files:  55% |###################                 | ETA:  0:00:07
-Adding changed files:  55% |###################                 | ETA:  0:00:07
-Adding changed files:  55% |####################                | ETA:  0:00:07
-Adding changed files:  56% |####################                | ETA:  0:00:07
-Adding changed files:  56% |####################                | ETA:  0:00:07
-Adding changed files:  56% |####################                | ETA:  0:00:07
-Adding changed files:  57% |####################                | ETA:  0:00:07
-Adding changed files:  57% |####################                | ETA:  0:00:07
-Adding changed files:  57% |####################                | ETA:  0:00:07
-Adding changed files:  58% |####################                | ETA:  0:00:07
-Adding changed files:  58% |#####################               | ETA:  0:00:07
-Adding changed files:  58% |#####################               | ETA:  0:00:07
-Adding changed files:  59% |#####################               | ETA:  0:00:07
-Adding changed files:  59% |#####################               | ETA:  0:00:07
-Adding changed files:  59% |#####################               | ETA:  0:00:06
-Adding changed files:  60% |#####################               | ETA:  0:00:06
-Adding changed files:  60% |#####################               | ETA:  0:00:06
-Adding changed files:  60% |#####################               | ETA:  0:00:06
-Adding changed files:  61% |#####################               | ETA:  0:00:06
-Adding changed files:  61% |######################              | ETA:  0:00:06
-Adding changed files:  61% |######################              | ETA:  0:00:06
-Adding changed files:  62% |######################              | ETA:  0:00:06
-Adding changed files:  62% |######################              | ETA:  0:00:06
-Adding changed files:  62% |######################              | ETA:  0:00:06
-Adding changed files:  63% |######################              | ETA:  0:00:06
-Adding changed files:  63% |######################              | ETA:  0:00:06
-Adding changed files:  63% |######################              | ETA:  0:00:06
-Adding changed files:  64% |#######################             | ETA:  0:00:06
-Adding changed files:  64% |#######################             | ETA:  0:00:06
-Adding changed files:  64% |#######################             | ETA:  0:00:06
-Adding changed files:  65% |#######################             | ETA:  0:00:05
-Adding changed files:  65% |#######################             | ETA:  0:00:05
-Adding changed files:  65% |#######################             | ETA:  0:00:05
-Adding changed files:  66% |#######################             | ETA:  0:00:05
-Adding changed files:  66% |#######################             | ETA:  0:00:05
-Adding changed files:  66% |########################            | ETA:  0:00:05
-Adding changed files:  67% |########################            | ETA:  0:00:05
-Adding changed files:  67% |########################            | ETA:  0:00:05
-Adding changed files:  67% |########################            | ETA:  0:00:05
-Adding changed files:  68% |########################            | ETA:  0:00:05
-Adding changed files:  68% |########################            | ETA:  0:00:05
-Adding changed files:  68% |########################            | ETA:  0:00:05
-Adding changed files:  69% |########################            | ETA:  0:00:05
-Adding changed files:  69% |########################            | ETA:  0:00:05
-Adding changed files:  69% |#########################           | ETA:  0:00:05
-Adding changed files:  70% |#########################           | ETA:  0:00:05
-Adding changed files:  70% |#########################           | ETA:  0:00:05
-Adding changed files:  70% |#########################           | ETA:  0:00:04
-Adding changed files:  71% |#########################           | ETA:  0:00:04
-Adding changed files:  71% |#########################           | ETA:  0:00:04
-Adding changed files:  71% |#########################           | ETA:  0:00:04
-Adding changed files:  72% |#########################           | ETA:  0:00:04
-Adding changed files:  72% |##########################          | ETA:  0:00:04
-Adding changed files:  72% |##########################          | ETA:  0:00:04
-Adding changed files:  73% |##########################          | ETA:  0:00:04
-Adding changed files:  73% |##########################          | ETA:  0:00:04
-Adding changed files:  73% |##########################          | ETA:  0:00:04
-Adding changed files:  74% |##########################          | ETA:  0:00:04
-Adding changed files:  74% |##########################          | ETA:  0:00:04
-Adding changed files:  74% |##########################          | ETA:  0:00:04
-Adding changed files:  75% |###########################         | ETA:  0:00:04
-Adding changed files:  75% |###########################         | ETA:  0:00:04
-Adding changed files:  75% |###########################         | ETA:  0:00:04
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |############################        | ETA:  0:00:03
-Adding changed files:  78% |############################        | ETA:  0:00:03
-Adding changed files:  78% |############################        | ETA:  0:00:03
-Adding changed files:  78% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  80% |############################        | ETA:  0:00:03
-Adding changed files:  80% |############################        | ETA:  0:00:03
-Adding changed files:  80% |#############################       | ETA:  0:00:03
-Adding changed files:  81% |#############################       | ETA:  0:00:03
-Adding changed files:  81% |#############################       | ETA:  0:00:03
-Adding changed files:  81% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  83% |#############################       | ETA:  0:00:02
-Adding changed files:  83% |##############################      | ETA:  0:00:02
-Adding changed files:  83% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  85% |##############################      | ETA:  0:00:02
-Adding changed files:  85% |##############################      | ETA:  0:00:02
-Adding changed files:  85% |##############################      | ETA:  0:00:02
-Adding changed files:  86% |###############################     | ETA:  0:00:02
-Adding changed files:  86% |###############################     | ETA:  0:00:02
-Adding changed files:  86% |###############################     | ETA:  0:00:02
-Adding changed files:  87% |###############################     | ETA:  0:00:02
-Adding changed files:  87% |###############################     | ETA:  0:00:02
-Adding changed files:  87% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |################################    | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  91% |#################################   | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  93% |#################################   | ETA:  0:00:01
-Adding changed files:  93% |#################################   | ETA:  0:00:01
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:15
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching crate://crates.io/cargo-c/0.10.24+cargo-0.98.0;name=cargo-c...
-INFO: Rebasing devtool onto 33f65036c3abb9d7cc460e09bdc10791939cbb45
-WARNING: Command 'git rebase 33f65036c3abb9d7cc460e09bdc10791939cbb45' failed:
-CONFLICT (modify/delete): bitbake/parking_lot_core-0.9.12/src/thread_parker/linux.rs deleted in HEAD and modified in 9615ed15 (Use libc::SYS_futex_time64 on riscv32/musl).  Version 9615ed15 (Use libc::SYS_futex_time64 on riscv32/musl) of bitbake/parking_lot_core-0.9.12/src/thread_parker/linux.rs left in tree.
-
-ERROR: Execution of 'git checkout devtool' failed with exit code 1:
-error: you need to resolve your current index first
-bitbake/parking_lot_core-0.9.12/src/thread_parker/linux.rs: needs merge
-
-
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============5695273694634532051==--
 
