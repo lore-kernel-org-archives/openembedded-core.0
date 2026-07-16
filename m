@@ -2,1552 +2,1980 @@ Return-Path: <lianux.mm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2D2C4450A
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 07:20:14 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7287.1784186412583155945
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C53A5C4450A
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 07:51:54 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7684.1784188313921258187
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 00:20:12 -0700
+ Thu, 16 Jul 2026 00:51:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=RAz8o8HF;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: lianux.mm@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-848743155bcso1254456b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 00:20:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=huMFNlGC;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: lianux.mm@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38e041ea211so3733130a91.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 00:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784186412; x=1784791212; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P6c0DC04p9i1ZBMlX2fceIFD9WX0f+pw/T2qGoemtEA=;
-        b=RAz8o8HFbEdYmF0WbLKPXgWUiPgZIVoHnRj+HalAdOp6e6Qp+iQ9SgPoI/jsINksg9
-         UXoymAC7pZl85e3BadB3RkRCcJy0D/YDpu/EgXPyjv8Y43msHs0B7NbAj6QH3MMNUptP
-         6Ia8V61Z/g8w2A0XTmeNTK6GVNxjlK2ucCgDH0jx5QeSqmuzWO6i4naN7BaAGAlJCa4C
-         x8ak5mmG+WVDoeYZKL+/xeNYNfFI+OoZgoXH2eLFdDsIi8omOKC412DuRIydjcz9PQgi
-         vO0Lrn/ElQSJcg6dVzoSxvBFIS7nXz13n+1koCkWEwGL/JbgO7IxxkHFiNGtVsBv1KLD
-         FDDQ==
+        d=gmail.com; s=20251104; t=1784188313; x=1784793113; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rlpHJOk4XZz9/vpJZtv2hRIznAZZ2+eJ7XbztucmMuY=;
+        b=huMFNlGCVgXav8F4Q7kEo4SyXsYUbCrWST5PkJsNQHYUWQL4jb76B67uj1QbfcTpOZ
+         7mxYj4slaMNZX1Bf94nLvcHAoh48g08NLvJKcuyY+NXd2rlmFqf6zf0vmTfkbPbAxGzX
+         w5HuUmdHctU7PGqK9ajZ+0WD6wLRQZCi6LdRYakNQQKJ+MsCJt1hN5EZxYuwLueLlnds
+         30aOKVOe6sQoh2iezM1bgyTaHVpAI98EUm/DBWwOH8QEHCds0i1bd/BMsN3NdKTItsqb
+         23Sr6hKny4fBkw37vlciBhw3+aqf7LiNofD2YQAgA2ItZnxzBatSFbPb1qWtUlju8Vnb
+         0j+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784186412; x=1784791212;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P6c0DC04p9i1ZBMlX2fceIFD9WX0f+pw/T2qGoemtEA=;
-        b=CeXKF5LYva+zV9Q23q2BdDfQRu2aq/C2pS3jgmdlYI9GeOsDVQX39jx54qS36/ANJN
-         MKs0ZM2RRVootDIQRkfHZb/qg/aiROdBgyTQFmnn/wxQ2ufCinRm3AaX8yWZPeclXq7F
-         utgnCa8dBR+6+IfF9GNZPBaO7oJGv4xmVLWiswQXCHRQraIyllrxivBDlSCkiJlirF6y
-         RVhHV8cEE8FsE6qCOqTzkGIOoZv8uIaw88RIrXamcTUF/gdqUsTdlBMCCiHw33fdis69
-         wuxa5XwWd5+i+cuPMLD/unBKFeeNpnKml4y0s/2FZ7Mz5qH9n7dprkHZiJTt3hVKWptD
-         QVxg==
-X-Gm-Message-State: AOJu0YzKWE/EiYWxlBr8nMWpsAWFsY5hoN48Qg/gwHVP3GpKyIliabun
-	GBuvWWFBM8jMyNLb8CVTfLF2oBd5+2dgipzabYOWp2d4cvWwmpjNBCYX1PYdXPXNEB4QuQ==
-X-Gm-Gg: AfdE7cldW3tzPKWc1GRAfv20ETdCYAbwzDYfQd4vbyMMTRSPkTCrTLmg5+8RQA+nWwJ
-	B0saTKcivVHRAbNfN5mZrF8EQQBrtlkSDgkJLUcUiHKwgeq3EgBFcmZNJyPYy39ru1VDu7DnlJq
-	3GVc3SabInj/eBgNr2lWcqNhiJ+pAyyTxs6SutgPgiuwv4+KwaOR2boQVO343yKFtLzzkyGuh19
-	XmiO2GxuafR/6v8N5+Q7sBuv6MK/8VoiAyrqHTpbw7Isi9sO9bJISjAwhVpOk1g1cCRRg+AuZVk
-	SxCEmeA9D7hmFRD808e29cV28EnWuCdTjQslEiGmAD7R+J5W7t6vEAFdh33lecrfWkyyeW5EG1g
-	N2KKRaw+unCKNGDtYpe2sE6X5xhd5mYzHCaEeAlvihksNdQMgGCDCVTv4EcbIjr2bUZs0osklAE
-	pg89YjFxn1/g==
-X-Received: by 2002:a05:6a21:32a2:b0:3bf:6237:4d4a with SMTP id adf61e73a8af0-3c1108c0ad0mr23893458637.24.1784186411223;
-        Thu, 16 Jul 2026 00:20:11 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784188313; x=1784793113;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rlpHJOk4XZz9/vpJZtv2hRIznAZZ2+eJ7XbztucmMuY=;
+        b=NYutDjMs6QlZu12iqb+QLNTTfb+XA0ZYUWP5O/tvShMLBImqmYtPuhp2mu4SJyekJK
+         AmA+pYD9IXx+oNPrptPHboxSFPdzM2zfbbAjNAZLQfci8uydnWzuugr6IUb4/ZFXwOvc
+         cn2ZqzfO9+DNzIeSUivYma7lEGgYbcWFENQa75f2H0Wm67aCsUYtmzXuGm7elWLiRMpa
+         Q9MDJcqSsd5q+wEOdI+KNBkm8MCdibsYg3u9bZ4yZT3yXB4ilYweDyV4ereJKTEKQAoU
+         xiF7H+/atRjqznODlbBwtg2RurtrPPjcVcoMeCs574iK5XG+ZbL52/6yy3pYzwPjjR0T
+         LQwA==
+X-Gm-Message-State: AOJu0YzkJyZDWunqaoQA0LU/aqXFBKQgVzqIs1SG/YKgJhCf5C1I5z9U
+	gNDqgd7tX/3KTWqwdLmH2b6KDVPRkP+Y+uIEJ3AqNZjBFp1JtBeEXHffsPoqEyDd8OU=
+X-Gm-Gg: AfdE7cnuUweaUqwreUEvugrJ7BrdWIAsO1lNHKE8/qWgbpV4hozpB6/+713/2KUemOA
+	JfwNawDSAsXmGlej221hvGt+f6S3HMZH66rg2B5L7NceHXFex2eolJS7Wn9nAECwP5bTyG6oHq4
+	tXti7CE5PuZAxUUvwcD6J1ybkawwI1wdu70brdCBWFzlrETIDm7CEWrfN4GhkLSDSURdxbz64hH
+	1Mpu5GjAHsSSYFKzM0fVml8SZ0Xkti1oNN2m1VPzdeMWyP6AWuOmQc7QaYT2csZ9FKLbjtPBCty
+	U/h9kaUJTPsGj+IW8Q728eeviqdJ5Ai7gP4PKd0mWKG8hQpE57z9hwen4InBxuBCT81iapuC7w7
+	GzYEVZo/oT8D2m31a6TNetQYhTU/lrIjuSNpt9tWdNjrXaHSqmLht1XCl0hoZG+HP+3kDrNDT4n
+	nWdYEQg3xJcw==
+X-Received: by 2002:a17:90b:5830:b0:387:e0bb:57f7 with SMTP id 98e67ed59e1d1-38e1af72937mr9453364a91.40.1784188311455;
+        Thu, 16 Jul 2026 00:51:51 -0700 (PDT)
 Received: from localhost.localdomain ([2605:a141:2231:7698::1])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cb258fcfbafsm1416752a12.21.2026.07.16.00.20.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e3a0d7a5bsm879524a91.9.2026.07.16.00.51.48
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 16 Jul 2026 00:20:10 -0700 (PDT)
+        Thu, 16 Jul 2026 00:51:51 -0700 (PDT)
 From: Lian Wang <lianux.mm@gmail.com>
 X-Google-Original-From: Lian Wang <lianux.wang@processmission.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Lian Wang <lianux.wang@processmission.com>
-Subject: [PATCH] rsync: upgrade 3.2.7 -> 3.4.4
-Date: Thu, 16 Jul 2026 15:19:42 +0800
-Message-ID: <20260716071942.16681-1-lianux.wang@processmission.com>
+Subject: [PATCH] libpng: upgrade 1.6.42 -> 1.6.58
+Date: Thu, 16 Jul 2026 15:51:37 +0800
+Message-ID: <20260716075137.18584-1-lianux.wang@processmission.com>
 X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 07:20:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241065
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 07:51:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241066
 
-- Drop 14 CVE patches fixed upstream in 3.4.x series
-- Refresh prototypes patch for 3.4.4
-- All CVE-2024-12084 through CVE-2024-12088, CVE-2024-12747,
-  CVE-2025-10158, CVE-2026-41035 resolved in this release
+- Drop 17 CVE patches fixed upstream in 1.6.54 through 1.6.58
+- Update LICENSE checksum (copyright year updated)
+- All CVE-2025-64505, CVE-2025-64506, CVE-2025-64720,
+  CVE-2025-65018, CVE-2025-66293, CVE-2026-22695,
+  CVE-2026-22801, CVE-2026-25646, CVE-2026-33416,
+  CVE-2026-33636 resolved in this release
 
 Signed-off-by: Lian Wang <lianux.wang@processmission.com>
 ---
- ...-prototypes-to-function-declarations.patch | 171 ----------------
- .../files/0001-Add-missing-prototypes.patch   |  81 ++++++++
- .../rsync/files/CVE-2024-12084-0001.patch     | 156 --------------
- .../rsync/files/CVE-2024-12084-0002.patch     |  43 ----
- .../rsync/files/CVE-2024-12085.patch          |  32 ---
- .../rsync/files/CVE-2024-12086-0001.patch     |  42 ----
- .../rsync/files/CVE-2024-12086-0002.patch     | 108 ----------
- .../rsync/files/CVE-2024-12086-0003.patch     | 108 ----------
- .../rsync/files/CVE-2024-12086-0004.patch     |  41 ----
- .../rsync/files/CVE-2024-12087-0001.patch     |  49 -----
- .../rsync/files/CVE-2024-12087-0002.patch     |  31 ---
- .../rsync/files/CVE-2024-12087-0003.patch     |  40 ----
- .../rsync/files/CVE-2024-12088.patch          | 141 -------------
- .../rsync/files/CVE-2024-12747.patch          | 192 ------------------
- .../rsync/files/CVE-2025-10158.patch          |  36 ----
- .../rsync/files/CVE-2026-41035.patch          |  39 ----
- .../rsync/{rsync_3.2.7.bb => rsync_3.4.4.bb}  |  18 +-
- 17 files changed, 83 insertions(+), 1245 deletions(-)
- delete mode 100644 meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
- create mode 100644 meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0001.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0002.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12087-0003.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2025-10158.patch
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
- rename meta/recipes-devtools/rsync/{rsync_3.2.7.bb => rsync_3.4.4.bb} (77%)
+ .../libpng/files/CVE-2025-64505-01.patch      | 111 -----------
+ .../libpng/files/CVE-2025-64505-02.patch      | 163 -----------------
+ .../libpng/files/CVE-2025-64505-03.patch      |  52 ------
+ .../libpng/files/CVE-2025-64506.patch         |  57 ------
+ .../libpng/files/CVE-2025-64720.patch         | 103 -----------
+ .../libpng/files/CVE-2025-65018-01.patch      |  60 ------
+ .../libpng/files/CVE-2025-65018-02.patch      | 163 -----------------
+ .../libpng/files/CVE-2025-66293-01.patch      |  60 ------
+ .../libpng/files/CVE-2025-66293-02.patch      | 125 -------------
+ .../libpng/files/CVE-2026-22695.patch         |  77 --------
+ .../libpng/files/CVE-2026-22801.patch         | 173 ------------------
+ .../libpng/files/CVE-2026-25646.patch         |  61 ------
+ .../libpng/files/CVE-2026-33416-01.patch      | 143 ---------------
+ .../libpng/files/CVE-2026-33416-02.patch      |  53 ------
+ .../libpng/files/CVE-2026-33416-03.patch      | 163 -----------------
+ .../libpng/files/CVE-2026-33416-04.patch      |  53 ------
+ .../libpng/files/CVE-2026-33636.patch         |  99 ----------
+ .../{libpng_1.6.42.bb => libpng_1.6.58.bb}    |  21 +--
+ 18 files changed, 2 insertions(+), 1735 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.42.bb => libpng_1.6.58.bb} (77%)
 
-diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
 deleted file mode 100644
-index 8895ada..0000000
---- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
+index 1e7d122..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
 +++ /dev/null
-@@ -1,171 +0,0 @@
--From 651425fced0691d9063fe417388ba6ca1c38c40b Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 29 Aug 2022 19:53:28 -0700
--Subject: [PATCH] Add missing prototypes to function declarations
+@@ -1,111 +0,0 @@
+-From 0fa3c0f698c2ca618a0fa44e10a822678df85373 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Thu, 15 Feb 2024 21:53:24 +0200
+-Subject: [PATCH] chore: Clean up the spurious uses of `sizeof(png_byte)`; fix
+- the manual
 -
--With Clang 15+ compiler -Wstrict-prototypes is triggering warnings which
--are turned into errors with -Werror, this fixes the problem by adding
--missing prototypes
+-By definition, `sizeof(png_byte)` is 1.
 -
--Fixes errors like
--| log.c:134:24: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
--| static void syslog_init()
--|                        ^
--|                         void
+-Remove all the occurences of `sizeof(png_byte)` from the code, and fix
+-a related typo in the libpng manual.
 -
--Upstream-Status: Submitted [https://lists.samba.org/archive/rsync/2022-August/032858.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Also update the main .editorconfig file to reflect the fixing expected
+-by a FIXME note.
 -
+-CVE: CVE-2025-64505
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/0fa3c0f698c2ca618a0fa44e10a822678df85373]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- checksum.c       | 2 +-
-- exclude.c        | 2 +-
-- hlink.c          | 3 +--
-- lib/pool_alloc.c | 2 +-
-- log.c            | 2 +-
-- main.c           | 2 +-
-- syscall.c        | 4 ++--
-- zlib/crc32.c     | 2 +-
-- zlib/trees.c     | 2 +-
-- zlib/zutil.c     | 4 ++--
-- 10 files changed, 12 insertions(+), 13 deletions(-)
+- libpng-manual.txt |  4 ++--
+- libpng.3          |  4 ++--
+- pngrtran.c        | 17 +++++++----------
+- 3 files changed, 11 insertions(+), 14 deletions(-)
 -
--diff --git a/checksum.c b/checksum.c
--index 60de365..67a9e16 100644
----- a/checksum.c
--+++ b/checksum.c
--@@ -778,7 +778,7 @@ static void verify_digest(struct name_num_item *nni, BOOL check_auth_list)
-- }
-- #endif
+-diff --git a/libpng-manual.txt b/libpng-manual.txt
+-index eb24ef483..d2918ce31 100644
+---- a/libpng-manual.txt
+-+++ b/libpng-manual.txt
+-@@ -1178,11 +1178,11 @@ where row_pointers is an array of pointers to the pixel data for each row:
+- If you know your image size and pixel size ahead of time, you can allocate
+- row_pointers prior to calling png_read_png() with
 - 
---void init_checksum_choices()
--+void init_checksum_choices(void)
-- {
-- #if defined SUPPORT_XXH3 || defined USE_OPENSSL
-- 	struct name_num_item *nni;
--diff --git a/exclude.c b/exclude.c
--index ffe55b1..a85ea76 100644
----- a/exclude.c
--+++ b/exclude.c
--@@ -363,7 +363,7 @@ void implied_include_partial_string(const char *s_start, const char *s_end)
-- 	memcpy(partial_string_buf, s_start, partial_string_len);
-- }
+--   if (height > PNG_UINT_32_MAX/(sizeof (png_byte)))
+-+   if (height > PNG_UINT_32_MAX / (sizeof (png_bytep)))
+-       png_error(png_ptr,
+-           "Image is too tall to process in memory");
 - 
---void free_implied_include_partial_string()
--+void free_implied_include_partial_string(void)
-- {
-- 	if (partial_string_buf) {
-- 		if (partial_string_len)
--diff --git a/hlink.c b/hlink.c
--index 20291f2..5c26a6b 100644
----- a/hlink.c
--+++ b/hlink.c
--@@ -117,8 +117,7 @@ static void match_gnums(int32 *ndx_list, int ndx_count)
-- 	struct ht_int32_node *node = NULL;
-- 	int32 gnum, gnum_next;
+--   if (width > PNG_UINT_32_MAX/pixel_size)
+-+   if (width > PNG_UINT_32_MAX / pixel_size)
+-       png_error(png_ptr,
+-           "Image is too wide to process in memory");
 - 
---	qsort(ndx_list, ndx_count, sizeof ndx_list[0], (int (*)()) hlink_compare_gnum);
+-diff --git a/libpng.3 b/libpng.3
+-index 57d06f2db..8875b219a 100644
+---- a/libpng.3
+-+++ b/libpng.3
+-@@ -1697,11 +1697,11 @@ where row_pointers is an array of pointers to the pixel data for each row:
+- If you know your image size and pixel size ahead of time, you can allocate
+- row_pointers prior to calling png_read_png() with
+- 
+--   if (height > PNG_UINT_32_MAX/(sizeof (png_byte)))
+-+   if (height > PNG_UINT_32_MAX / (sizeof (png_bytep)))
+-       png_error(png_ptr,
+-           "Image is too tall to process in memory");
+- 
+--   if (width > PNG_UINT_32_MAX/pixel_size)
+-+   if (width > PNG_UINT_32_MAX / pixel_size)
+-       png_error(png_ptr,
+-           "Image is too wide to process in memory");
+- 
+-diff --git a/pngrtran.c b/pngrtran.c
+-index 74cca476b..041f9306c 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -441,7 +441,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-       int i;
+- 
+-       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
+--          (png_alloc_size_t)((png_uint_32)num_palette * (sizeof (png_byte))));
+-+          (png_alloc_size_t)num_palette);
+-       for (i = 0; i < num_palette; i++)
+-          png_ptr->quantize_index[i] = (png_byte)i;
+-    }
+-@@ -458,7 +458,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+- 
+-          /* Initialize an array to sort colors */
+-          png_ptr->quantize_sort = (png_bytep)png_malloc(png_ptr,
+--             (png_alloc_size_t)((png_uint_32)num_palette * (sizeof (png_byte))));
+-+             (png_alloc_size_t)num_palette);
+- 
+-          /* Initialize the quantize_sort array */
+-          for (i = 0; i < num_palette; i++)
+-@@ -592,11 +592,9 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+- 
+-          /* Initialize palette index arrays */
+-          png_ptr->index_to_palette = (png_bytep)png_malloc(png_ptr,
+--             (png_alloc_size_t)((png_uint_32)num_palette *
+--             (sizeof (png_byte))));
+-+             (png_alloc_size_t)num_palette);
+-          png_ptr->palette_to_index = (png_bytep)png_malloc(png_ptr,
+--             (png_alloc_size_t)((png_uint_32)num_palette *
+--             (sizeof (png_byte))));
+-+             (png_alloc_size_t)num_palette);
+- 
+-          /* Initialize the sort array */
+-          for (i = 0; i < num_palette; i++)
+-@@ -761,12 +759,11 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-       size_t num_entries = ((size_t)1 << total_bits);
+- 
+-       png_ptr->palette_lookup = (png_bytep)png_calloc(png_ptr,
+--          (png_alloc_size_t)(num_entries * (sizeof (png_byte))));
+-+          (png_alloc_size_t)(num_entries));
+- 
+--      distance = (png_bytep)png_malloc(png_ptr, (png_alloc_size_t)(num_entries *
+--          (sizeof (png_byte))));
+-+      distance = (png_bytep)png_malloc(png_ptr, (png_alloc_size_t)num_entries);
+- 
+--      memset(distance, 0xff, num_entries * (sizeof (png_byte)));
+-+      memset(distance, 0xff, num_entries);
+- 
+-       for (i = 0; i < num_palette; i++)
+-       {
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
+deleted file mode 100644
+index 5a3e50b..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
++++ /dev/null
+@@ -1,163 +0,0 @@
+-From ea094764f3436e3c6524622724c2d342a3eff235 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Sat, 8 Nov 2025 17:16:59 +0200
+-Subject: [PATCH] Fix a memory leak in function `png_set_quantize`; refactor
+-
+-Release the previously-allocated array `quantize_index` before
+-reallocating it. This avoids leaking memory when the function
+-`png_set_quantize` is called multiple times on the same `png_struct`.
+-
+-This function assumed single-call usage, but fuzzing revealed that
+-repeated calls would overwrite the pointers without freeing the
+-original allocations, leaking 256 bytes per call for `quantize_index`
+-and additional memory for `quantize_sort` when histogram-based
+-quantization is used.
+-
+-Also remove the array `quantize_sort` from the list of `png_struct`
+-members and make it a local variable. This array is initialized,
+-used and released exclusively inside the function `png_set_quantize`.
+-
+-Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
+-Analyzed-by: degrigis <degrigis@users.noreply.github.com>
+-Reviewed-by: John Bowler <jbowler@acm.org>
+-
+-CVE: CVE-2025-64505
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/ea094764f3436e3c6524622724c2d342a3eff235]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- pngrtran.c  | 43 +++++++++++++++++++++++--------------------
+- pngstruct.h |  1 -
+- 2 files changed, 23 insertions(+), 21 deletions(-)
+-
+-diff --git a/pngrtran.c b/pngrtran.c
+-index 1809db704..4632dd521 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -440,6 +440,12 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-    {
+-       int i;
+- 
+-+      /* Initialize the array to index colors.
+-+       *
+-+       * Be careful to avoid leaking memory. Applications are allowed to call
+-+       * this function more than once per png_struct.
+-+       */
+-+      png_free(png_ptr, png_ptr->quantize_index);
+-       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
+-           (png_alloc_size_t)num_palette);
+-       for (i = 0; i < num_palette; i++)
+-@@ -454,15 +460,14 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-           * Perhaps not the best solution, but good enough.
+-           */
+- 
+--         int i;
+-+         png_bytep quantize_sort;
+-+         int i, j;
+- 
+--         /* Initialize an array to sort colors */
+--         png_ptr->quantize_sort = (png_bytep)png_malloc(png_ptr,
+-+         /* Initialize the local array to sort colors. */
+-+         quantize_sort = (png_bytep)png_malloc(png_ptr,
+-              (png_alloc_size_t)num_palette);
 --
--+	qsort(ndx_list, ndx_count, sizeof ndx_list[0], (int (*)(const void *, const void *)) hlink_compare_gnum);
-- 	for (from = 0; from < ndx_count; from++) {
-- 		file = hlink_flist->sorted[ndx_list[from]];
-- 		gnum = F_HL_GNUM(file);
--diff --git a/lib/pool_alloc.c b/lib/pool_alloc.c
--index a1a7245..4eae062 100644
----- a/lib/pool_alloc.c
--+++ b/lib/pool_alloc.c
--@@ -9,7 +9,7 @@ struct alloc_pool
-- 	size_t			size;		/* extent size		*/
-- 	size_t			quantum;	/* allocation quantum	*/
-- 	struct pool_extent	*extents;	/* top extent is "live" */
---	void			(*bomb)();	/* called if malloc fails */
--+	void			(*bomb)(const char *, const char *, int);	/* called if malloc fails */
-- 	int			flags;
+--         /* Initialize the quantize_sort array */
+-          for (i = 0; i < num_palette; i++)
+--            png_ptr->quantize_sort[i] = (png_byte)i;
+-+            quantize_sort[i] = (png_byte)i;
 - 
-- 	/* statistical data */
--diff --git a/log.c b/log.c
--index e4ba1cc..8482b71 100644
----- a/log.c
--+++ b/log.c
--@@ -131,7 +131,7 @@ static void logit(int priority, const char *buf)
-- 	}
-- }
+-          /* Find the least used palette entries by starting a
+-           * bubble sort, and running it until we have sorted
+-@@ -474,19 +479,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-          for (i = num_palette - 1; i >= maximum_colors; i--)
+-          {
+-             int done; /* To stop early if the list is pre-sorted */
+--            int j;
 - 
---static void syslog_init()
--+static void syslog_init(void)
-- {
-- 	int options = LOG_PID;
+-             done = 1;
+-             for (j = 0; j < i; j++)
+-             {
+--               if (histogram[png_ptr->quantize_sort[j]]
+--                   < histogram[png_ptr->quantize_sort[j + 1]])
+-+               if (histogram[quantize_sort[j]]
+-+                   < histogram[quantize_sort[j + 1]])
+-                {
+-                   png_byte t;
 - 
--diff --git a/main.c b/main.c
--index d2a7b9b..c50af45 100644
----- a/main.c
--+++ b/main.c
--@@ -244,7 +244,7 @@ void read_del_stats(int f)
-- 	stats.deleted_files += stats.deleted_specials = read_varint(f);
-- }
+--                  t = png_ptr->quantize_sort[j];
+--                  png_ptr->quantize_sort[j] = png_ptr->quantize_sort[j + 1];
+--                  png_ptr->quantize_sort[j + 1] = t;
+-+                  t = quantize_sort[j];
+-+                  quantize_sort[j] = quantize_sort[j + 1];
+-+                  quantize_sort[j + 1] = t;
+-                   done = 0;
+-                }
+-             }
+-@@ -498,18 +502,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-          /* Swap the palette around, and set up a table, if necessary */
+-          if (full_quantize != 0)
+-          {
+--            int j = num_palette;
+-+            j = num_palette;
 - 
---static void become_copy_as_user()
--+static void become_copy_as_user(void)
-- {
-- 	char *gname;
-- 	uid_t uid;
--diff --git a/syscall.c b/syscall.c
--index d92074a..92ca86d 100644
----- a/syscall.c
--+++ b/syscall.c
--@@ -389,9 +389,9 @@ OFF_T do_lseek(int fd, OFF_T offset, int whence)
-- {
-- #ifdef HAVE_LSEEK64
-- #if !SIZEOF_OFF64_T
---	OFF_T lseek64();
--+	OFF_T lseek64(int fd, OFF_T offset, int whence);
-- #else
---	off64_t lseek64();
--+	off64_t lseek64(int fd, off64_t offset, int whence);
-- #endif
-- 	return lseek64(fd, offset, whence);
-- #else
--diff --git a/zlib/crc32.c b/zlib/crc32.c
--index 05733f4..50c6c02 100644
----- a/zlib/crc32.c
--+++ b/zlib/crc32.c
--@@ -187,7 +187,7 @@ local void write_table(out, table)
-- /* =========================================================================
--  * This function can be used by asm versions of crc32()
--  */
---const z_crc_t FAR * ZEXPORT get_crc_table()
--+const z_crc_t FAR * ZEXPORT get_crc_table(void)
-- {
-- #ifdef DYNAMIC_CRC_TABLE
--     if (crc_table_empty)
--diff --git a/zlib/trees.c b/zlib/trees.c
--index 9c66770..0d9047e 100644
----- a/zlib/trees.c
--+++ b/zlib/trees.c
--@@ -231,7 +231,7 @@ local void send_bits(s, value, length)
-- /* ===========================================================================
--  * Initialize the various 'constant' tables.
--  */
---local void tr_static_init()
--+local void tr_static_init(void)
-- {
-- #if defined(GEN_TREES_H) || !defined(STDC)
--     static int static_init_done = 0;
--diff --git a/zlib/zutil.c b/zlib/zutil.c
--index bbba7b2..61f8dc9 100644
----- a/zlib/zutil.c
--+++ b/zlib/zutil.c
--@@ -27,12 +27,12 @@ z_const char * const z_errmsg[10] = {
-- ""};
+-             /* Put all the useful colors within the max, but don't
+-              * move the others.
+-              */
+-             for (i = 0; i < maximum_colors; i++)
+-             {
+--               if ((int)png_ptr->quantize_sort[i] >= maximum_colors)
+-+               if ((int)quantize_sort[i] >= maximum_colors)
+-                {
+-                   do
+-                      j--;
+--                  while ((int)png_ptr->quantize_sort[j] >= maximum_colors);
+-+                  while ((int)quantize_sort[j] >= maximum_colors);
 - 
+-                   palette[i] = palette[j];
+-                }
+-@@ -517,7 +521,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-          }
+-          else
+-          {
+--            int j = num_palette;
+-+            j = num_palette;
 - 
---const char * ZEXPORT zlibVersion()
--+const char * ZEXPORT zlibVersion(void)
-- {
--     return ZLIB_VERSION;
-- }
+-             /* Move all the used colors inside the max limit, and
+-              * develop a translation table.
+-@@ -525,13 +529,13 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-             for (i = 0; i < maximum_colors; i++)
+-             {
+-                /* Only move the colors we need to */
+--               if ((int)png_ptr->quantize_sort[i] >= maximum_colors)
+-+               if ((int)quantize_sort[i] >= maximum_colors)
+-                {
+-                   png_color tmp_color;
 - 
---uLong ZEXPORT zlibCompileFlags()
--+uLong ZEXPORT zlibCompileFlags(void)
-- {
--     uLong flags;
+-                   do
+-                      j--;
+--                  while ((int)png_ptr->quantize_sort[j] >= maximum_colors);
+-+                  while ((int)quantize_sort[j] >= maximum_colors);
 - 
-diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes.patch b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes.patch
-new file mode 100644
-index 0000000..58fc1f6
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes.patch
-@@ -0,0 +1,81 @@
-+diff --color -ruN rsync-3.4.4-orig/checksum.c rsync-3.4.4/checksum.c
-+--- rsync-3.4.4-orig/checksum.c	2026-07-16 14:25:22
-++++ rsync-3.4.4/checksum.c	2026-07-16 14:25:22
-+@@ -778,7 +778,7 @@
-+ }
-+ #endif
-+ 
-+-void init_checksum_choices()
-++void init_checksum_choices(void)
-+ {
-+ #if defined SUPPORT_XXH3 || defined USE_OPENSSL
-+ 	struct name_num_item *nni;
-+diff --color -ruN rsync-3.4.4-orig/compat.c rsync-3.4.4/compat.c
-+--- rsync-3.4.4-orig/compat.c	2026-07-16 14:25:22
-++++ rsync-3.4.4/compat.c	2026-07-16 14:25:22
-+@@ -882,7 +882,7 @@
-+ 	}
-+ }
-+ 
-+-int get_subprotocol_version()
-++int get_subprotocol_version(void)
-+ {
-+ #if SUBPROTOCOL_VERSION != 0
-+ 	return protocol_version < PROTOCOL_VERSION ? 0 : SUBPROTOCOL_VERSION;
-+diff --color -ruN rsync-3.4.4-orig/exclude.c rsync-3.4.4/exclude.c
-+--- rsync-3.4.4-orig/exclude.c	2026-07-16 14:25:22
-++++ rsync-3.4.4/exclude.c	2026-07-16 14:25:22
-+@@ -363,7 +363,7 @@
-+ 	memcpy(partial_string_buf, s_start, partial_string_len);
-+ }
-+ 
-+-void free_implied_include_partial_string()
-++void free_implied_include_partial_string(void)
-+ {
-+ 	if (partial_string_buf) {
-+ 		if (partial_string_len)
-+diff --color -ruN rsync-3.4.4-orig/log.c rsync-3.4.4/log.c
-+--- rsync-3.4.4-orig/log.c	2026-07-16 14:25:22
-++++ rsync-3.4.4/log.c	2026-07-16 14:25:22
-+@@ -131,7 +131,7 @@
-+ 	}
-+ }
-+ 
-+-static void syslog_init()
-++static void syslog_init(void)
-+ {
-+ 	int options = LOG_PID;
-+ 
-+diff --color -ruN rsync-3.4.4-orig/main.c rsync-3.4.4/main.c
-+--- rsync-3.4.4-orig/main.c	2026-07-16 14:25:22
-++++ rsync-3.4.4/main.c	2026-07-16 14:25:22
-+@@ -246,7 +246,7 @@
-+ 	stats.deleted_files += stats.deleted_specials = read_varint_bounded(f, 0, MAX_WIRE_DEL_STAT, "deleted_specials");
-+ }
-+ 
-+-static void become_copy_as_user()
-++static void become_copy_as_user(void)
-+ {
-+ 	char *gname;
-+ 	uid_t uid;
-+@@ -673,7 +673,7 @@
-+ 
-+ /* Older versions turn an empty string as a reference to the current directory.
-+  * We now treat this as an error unless --old-args was used. */
-+-static char *dot_dir_or_error()
-++static char *dot_dir_or_error(void)
-+ {
-+ 	if (old_style_args || am_server)
-+ 		return ".";
-+diff --color -ruN rsync-3.4.4-orig/zlib/inflate.c rsync-3.4.4/zlib/inflate.c
-+--- rsync-3.4.4-orig/zlib/inflate.c	2026-07-16 14:25:22
-++++ rsync-3.4.4/zlib/inflate.c	2026-07-16 14:25:22
-+@@ -307,7 +307,7 @@
-+ 
-+     a.out > inffixed.h
-+  */
-+-void makefixed()
-++void makefixed(void)
-+ {
-+     unsigned low, size;
-+     struct inflate_state state;
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
+-                   tmp_color = palette[j];
+-                   palette[j] = palette[i];
+-@@ -569,8 +573,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-                }
+-             }
+-          }
+--         png_free(png_ptr, png_ptr->quantize_sort);
+--         png_ptr->quantize_sort = NULL;
+-+         png_free(png_ptr, quantize_sort);
+-       }
+-       else
+-       {
+-diff --git a/pngstruct.h b/pngstruct.h
+-index 084422bc1..fe5fa0415 100644
+---- a/pngstruct.h
+-+++ b/pngstruct.h
+-@@ -413,7 +413,6 @@ struct png_struct_def
+- 
+- #ifdef PNG_READ_QUANTIZE_SUPPORTED
+- /* The following three members were added at version 1.0.14 and 1.2.4 */
+--   png_bytep quantize_sort;          /* working sort array */
+-    png_bytep index_to_palette;       /* where the original index currently is
+-                                         in the palette */
+-    png_bytep palette_to_index;       /* which original index points to this
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
 deleted file mode 100644
-index d654067..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12084-0001.patch
+index ddda867..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
 +++ /dev/null
-@@ -1,156 +0,0 @@
--From 0902b52f6687b1f7952422080d50b93108742e53 Mon Sep 17 00:00:00 2001
--From: Wayne Davison <wayne@opencoder.net>
--Date: Tue, 29 Oct 2024 22:55:29 -0700
--Subject: [PATCH] Some checksum buffer fixes.
+@@ -1,52 +0,0 @@
+-From 6a528eb5fd0dd7f6de1c39d30de0e41473431c37 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Sat, 8 Nov 2025 23:58:26 +0200
+-Subject: [PATCH] Fix a buffer overflow in `png_do_quantize`
 -
--- Put sum2_array into sum_struct to hold an array of sum2 checksums
--  that are each xfer_sum_len bytes.
--- Remove sum2 buf from sum_buf.
--- Add macro sum2_at() to access each sum2 array element.
--- Throw an error if a sums header has an s2length larger than
--  xfer_sum_len.
+-Allocate the quantize_index array to PNG_MAX_PALETTE_LENGTH (256 bytes)
+-instead of num_palette bytes. This approach matches the allocation
+-pattern for `palette[]`, `trans_alpha[]` and `riffled_palette[]` which
+-were similarly oversized in libpng 1.2.1 to prevent buffer overflows
+-from malformed PNG files with out-of-range palette indices.
 -
--CVE: CVE-2024-12084
+-Out-of-range palette indices `index >= num_palette` will now read
+-identity-mapped values from the `quantize_index` array (where index N
+-maps to palette entry N). This prevents undefined behavior while
+-avoiding runtime bounds checking overhead in the performance-critical
+-pixel processing loop.
 -
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=0902b52f6687b1f7952422080d50b93108742e53]
+-Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
+-Analyzed-by: degrigis <degrigis@users.noreply.github.com>
 -
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+-CVE: CVE-2025-64505
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/6a528eb5fd0dd7f6de1c39d30de0e41473431c37]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- io.c     | 3 ++-
-- match.c  | 8 ++++----
-- rsync.c  | 5 ++++-
-- rsync.h  | 4 +++-
-- sender.c | 4 +++-
-- 5 files changed, 16 insertions(+), 8 deletions(-)
+- pngrtran.c | 8 ++++++--
+- 1 file changed, 6 insertions(+), 2 deletions(-)
 -
--diff --git a/io.c b/io.c
--index a99ac0ec..bb60eeca 100644
----- a/io.c
--+++ b/io.c
--@@ -55,6 +55,7 @@ extern int read_batch;
-- extern int compat_flags;
-- extern int protect_args;
-- extern int checksum_seed;
--+extern int xfer_sum_len;
-- extern int daemon_connection;
-- extern int protocol_version;
-- extern int remove_source_files;
--@@ -1977,7 +1978,7 @@ void read_sum_head(int f, struct sum_struct *sum)
--		exit_cleanup(RERR_PROTOCOL);
--	}
--	sum->s2length = protocol_version < 27 ? csum_length : (int)read_int(f);
---	if (sum->s2length < 0 || sum->s2length > MAX_DIGEST_LEN) {
--+	if (sum->s2length < 0 || sum->s2length > xfer_sum_len) {
--		rprintf(FERROR, "Invalid checksum length %d [%s]\n",
--			sum->s2length, who_am_i());
--		exit_cleanup(RERR_PROTOCOL);
--diff --git a/match.c b/match.c
--index cdb30a15..36e78ed2 100644
----- a/match.c
--+++ b/match.c
--@@ -232,7 +232,7 @@ static void hash_search(int f,struct sum_struct *s,
--				done_csum2 = 1;
--			}
+-diff --git a/pngrtran.c b/pngrtran.c
+-index 4632dd521..9c2475fde 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -441,14 +441,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-       int i;
+- 
+-       /* Initialize the array to index colors.
+-+       *
+-+       * Ensure quantize_index can fit 256 elements (PNG_MAX_PALETTE_LENGTH)
+-+       * rather than num_palette elements. This is to prevent buffer overflows
+-+       * caused by malformed PNG files with out-of-range palette indices.
+-        *
+-        * Be careful to avoid leaking memory. Applications are allowed to call
+-        * this function more than once per png_struct.
+-        */
+-       png_free(png_ptr, png_ptr->quantize_index);
+-       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
+--          (png_alloc_size_t)num_palette);
+--      for (i = 0; i < num_palette; i++)
+-+          PNG_MAX_PALETTE_LENGTH);
+-+      for (i = 0; i < PNG_MAX_PALETTE_LENGTH; i++)
+-          png_ptr->quantize_index[i] = (png_byte)i;
+-    }
+- 
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch
+deleted file mode 100644
+index dc7fe00..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 2bd84c019c300b78e811743fbcddb67c9d9bf821 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Fri, 7 Nov 2025 22:40:05 +0200
+-Subject: [PATCH] Fix a heap buffer overflow in `png_write_image_8bit`
 -
---			if (memcmp(sum2,s->sums[i].sum2,s->s2length) != 0) {
--+			if (memcmp(sum2, sum2_at(s, i), s->s2length) != 0) {
--				false_alarms++;
--				continue;
--			}
--@@ -252,7 +252,7 @@ static void hash_search(int f,struct sum_struct *s,
--					if (i != aligned_i) {
--						if (sum != s->sums[aligned_i].sum1
--						 || l != s->sums[aligned_i].len
---						 || memcmp(sum2, s->sums[aligned_i].sum2, s->s2length) != 0)
--+						 || memcmp(sum2, sum2_at(s, aligned_i), s->s2length) != 0)
--							goto check_want_i;
--						i = aligned_i;
--					}
--@@ -271,7 +271,7 @@ static void hash_search(int f,struct sum_struct *s,
--						if (sum != s->sums[i].sum1)
--							goto check_want_i;
--						get_checksum2((char *)map, l, sum2);
---						if (memcmp(sum2, s->sums[i].sum2, s->s2length) != 0)
--+						if (memcmp(sum2, sum2_at(s, i), s->s2length) != 0)
--							goto check_want_i;
--						/* OK, we have a re-alignment match.  Bump the offset
--						 * forward to the new match point. */
--@@ -290,7 +290,7 @@ static void hash_search(int f,struct sum_struct *s,
--			 && (!updating_basis_file || s->sums[want_i].offset >= offset
--			  || s->sums[want_i].flags & SUMFLG_SAME_OFFSET)
--			 && sum == s->sums[want_i].sum1
---			 && memcmp(sum2, s->sums[want_i].sum2, s->s2length) == 0) {
--+			 && memcmp(sum2, sum2_at(s, want_i), s->s2length) == 0) {
--				/* we've found an adjacent match - the RLL coder
--				 * will be happy */
--				i = want_i;
--diff --git a/rsync.c b/rsync.c
--index cd288f57..b130aba5 100644
----- a/rsync.c
--+++ b/rsync.c
--@@ -437,7 +437,10 @@ int read_ndx_and_attrs(int f_in, int f_out, int *iflag_ptr, uchar *type_ptr, cha
--   */
-- void free_sums(struct sum_struct *s)
-- {
---	if (s->sums) free(s->sums);
--+	if (s->sums) {
--+		free(s->sums);
--+		free(s->sum2_array);
--+	}
--	free(s);
-- }
+-The condition guarding the pre-transform path incorrectly allowed 8-bit
+-input data to enter `png_write_image_8bit` which expects 16-bit input.
+-This caused out-of-bounds reads when processing 8-bit grayscale+alpha
+-images (GitHub #688), or 8-bit RGB or RGB+alpha images (GitHub #746),
+-with the `convert_to_8bit` flag set (an invalid combination that should
+-bypass the pre-transform path).
 -
--diff --git a/rsync.h b/rsync.h
--index d3709fe0..8ddbe702 100644
----- a/rsync.h
--+++ b/rsync.h
--@@ -958,12 +958,12 @@ struct sum_buf {
--	uint32 sum1;	        /**< simple checksum */
--	int32 chain;		/**< next hash-table collision */
--	short flags;		/**< flag bits */
---	char sum2[SUM_LENGTH];	/**< checksum  */
-- };
+-The second part of the condition, i.e.
 -
-- struct sum_struct {
--	OFF_T flength;		/**< total file length */
--	struct sum_buf *sums;	/**< points to info for each chunk */
--+	char *sum2_array;	/**< checksums of length xfer_sum_len */
--	int32 count;		/**< how many chunks */
--	int32 blength;		/**< block_length */
--	int32 remainder;	/**< flength % block_length */
--@@ -982,6 +982,8 @@ struct map_struct {
--	int status;		/* first errno from read errors		*/
-- };
+-    colormap == 0 && convert_to_8bit != 0
 -
--+#define sum2_at(s, i)	((s)->sum2_array + ((OFF_T)(i) * xfer_sum_len))
+-failed to verify that input was 16-bit, i.e.
+-
+-    linear != 0
+-
+-contradicting the comment "This only applies when the input is 16-bit".
+-
+-The fix consists in restructuring the condition to ensure both the
+-`alpha` path and the `convert_to_8bit` path require linear (16-bit)
+-input. The corrected condition, i.e.
+-
+-    linear != 0 && (alpha != 0 || display->convert_to_8bit != 0)
+-
+-matches the expectation of the `png_write_image_8bit` function and
+-prevents treating 8-bit buffers as 16-bit data.
+-
+-Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
+-Reported-by: weijinjinnihao <weijinjinnihao@users.noreply.github.com>
+-Analyzed-by: degrigis <degrigis@users.noreply.github.com>
+-Reviewed-by: John Bowler <jbowler@acm.org>
+-
+-CVE: CVE-2025-64506
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/2bd84c019c300b78e811743fbcddb67c9d9bf821]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- pngwrite.c | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-diff --git a/pngwrite.c b/pngwrite.c
+-index 35a5d17b6..83148960e 100644
+---- a/pngwrite.c
+-+++ b/pngwrite.c
+-@@ -2142,8 +2142,7 @@ png_image_write_main(png_voidp argument)
+-     * before it is written.  This only applies when the input is 16-bit and
+-     * either there is an alpha channel or it is converted to 8-bit.
+-     */
+--   if ((linear != 0 && alpha != 0 ) ||
+--       (colormap == 0 && display->convert_to_8bit != 0))
+-+   if (linear != 0 && (alpha != 0 || display->convert_to_8bit != 0))
+-    {
+-       png_bytep row = png_voidcast(png_bytep, png_malloc(png_ptr,
+-           png_get_rowbytes(png_ptr, info_ptr)));
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch
+deleted file mode 100644
+index 08df7c3..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-From 08da33b4c88cfcd36e5a706558a8d7e0e4773643 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Wed, 12 Nov 2025 13:46:23 +0200
+-Subject: [PATCH] Fix a buffer overflow in `png_init_read_transformations`
+-
+-The palette compositing code in `png_init_read_transformations` was
+-incorrectly applying background compositing when PNG_FLAG_OPTIMIZE_ALPHA
+-was set. This violated the premultiplied alpha invariant
+-`component <= alpha` expected by `png_image_read_composite`, causing
+-values that exceeded the valid range for the PNG_sRGB_FROM_LINEAR lookup
+-tables.
+-
+-When PNG_ALPHA_OPTIMIZED is active, palette entries should contain pure
+-premultiplied RGB values without background compositing. The background
+-compositing must happen later in `png_image_read_composite` where the
+-actual background color from the PNG file is available.
+-
+-The fix consists in introducing conditional behavior based on
+-PNG_FLAG_OPTIMIZE_ALPHA: when set, the code performs only
+-premultiplication using the formula `component * alpha + 127) / 255`
+-with proper gamma correction. When not set, the original background
+-compositing calculation based on the `png_composite` macro is preserved.
+-
+-This prevents buffer overflows in `png_image_read_composite` where
+-out-of-range premultiplied values would cause out-of-bounds array access
+-in `png_sRGB_base[]` and `png_sRGB_delta[]`.
+-
+-Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
+-Analyzed-by: John Bowler <jbowler@acm.org>
+-
+-CVE: CVE-2025-64720
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/08da33b4c88cfcd36e5a706558a8d7e0e4773643]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- pngrtran.c | 52 ++++++++++++++++++++++++++++++++++++++++++----------
+- 1 file changed, 42 insertions(+), 10 deletions(-)
+-
+-diff --git a/pngrtran.c b/pngrtran.c
+-index 548780030..2f5202255 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -1698,19 +1698,51 @@ png_init_read_transformations(png_structrp png_ptr)
+-                   }
+-                   else /* if (png_ptr->trans_alpha[i] != 0xff) */
+-                   {
+--                     png_byte v, w;
+-+                     if ((png_ptr->flags & PNG_FLAG_OPTIMIZE_ALPHA) != 0)
+-+                     {
+-+                        /* Premultiply only:
+-+                         * component = round((component * alpha) / 255)
+-+                         */
+-+                        png_uint_32 component;
+- 
+--                     v = png_ptr->gamma_to_1[palette[i].red];
+--                     png_composite(w, v, png_ptr->trans_alpha[i], back_1.red);
+--                     palette[i].red = png_ptr->gamma_from_1[w];
+-+                        component = png_ptr->gamma_to_1[palette[i].red];
+-+                        component =
+-+                            (component * png_ptr->trans_alpha[i] + 128) / 255;
+-+                        palette[i].red = png_ptr->gamma_from_1[component];
+- 
+--                     v = png_ptr->gamma_to_1[palette[i].green];
+--                     png_composite(w, v, png_ptr->trans_alpha[i], back_1.green);
+--                     palette[i].green = png_ptr->gamma_from_1[w];
+-+                        component = png_ptr->gamma_to_1[palette[i].green];
+-+                        component =
+-+                            (component * png_ptr->trans_alpha[i] + 128) / 255;
+-+                        palette[i].green = png_ptr->gamma_from_1[component];
+- 
+--                     v = png_ptr->gamma_to_1[palette[i].blue];
+--                     png_composite(w, v, png_ptr->trans_alpha[i], back_1.blue);
+--                     palette[i].blue = png_ptr->gamma_from_1[w];
+-+                        component = png_ptr->gamma_to_1[palette[i].blue];
+-+                        component =
+-+                            (component * png_ptr->trans_alpha[i] + 128) / 255;
+-+                        palette[i].blue = png_ptr->gamma_from_1[component];
+-+                     }
+-+                     else
+-+                     {
+-+                        /* Composite with background color:
+-+                         * component =
+-+                         *    alpha * component + (1 - alpha) * background
+-+                         */
+-+                        png_byte v, w;
 -+
-- #define NAME_IS_FILE		(0)    /* filter name as a file */
-- #define NAME_IS_DIR		(1<<0) /* filter name as a dir */
-- #define NAME_IS_XATTR		(1<<2) /* filter name as an xattr */
--diff --git a/sender.c b/sender.c
--index 3d4f052e..ab205341 100644
----- a/sender.c
--+++ b/sender.c
--@@ -31,6 +31,7 @@ extern int log_before_transfer;
-- extern int stdout_format_has_i;
-- extern int logfile_format_has_i;
-- extern int want_xattr_optim;
--+extern int xfer_sum_len;
-- extern int csum_length;
-- extern int append_mode;
-- extern int copy_links;
--@@ -94,10 +95,11 @@ static struct sum_struct *receive_sums(int f)
--		return(s);
--
--	s->sums = new_array(struct sum_buf, s->count);
--+	s->sum2_array = new_array(char, s->count * xfer_sum_len);
--
--	for (i = 0; i < s->count; i++) {
--		s->sums[i].sum1 = read_int(f);
---		read_buf(f, s->sums[i].sum2, s->s2length);
--+		read_buf(f, sum2_at(s, i), s->s2length);
--
--		s->sums[i].offset = offset;
--		s->sums[i].flags = 0;
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
-deleted file mode 100644
-index 266b80c..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12084-0002.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 42e2b56c4ede3ab164f9a5c6dae02aa84606a6c1 Mon Sep 17 00:00:00 2001
--From: Wayne Davison <wayne@opencoder.net>
--Date: Tue, 5 Nov 2024 11:01:03 -0800
--Subject: [PATCH] Another cast when multiplying integers.
--
--CVE: CVE-2024-12084
--
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=42e2b56c4ede3ab164f9a5c6dae02aa84606a6c1]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- rsync.h  | 2 +-
-- sender.c | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/rsync.h b/rsync.h
--index 8ddbe702..0f9e277f 100644
----- a/rsync.h
--+++ b/rsync.h
--@@ -982,7 +982,7 @@ struct map_struct {
--	int status;		/* first errno from read errors		*/
-- };
--
---#define sum2_at(s, i)	((s)->sum2_array + ((OFF_T)(i) * xfer_sum_len))
--+#define sum2_at(s, i)	((s)->sum2_array + ((size_t)(i) * xfer_sum_len))
--
-- #define NAME_IS_FILE		(0)    /* filter name as a file */
-- #define NAME_IS_DIR		(1<<0) /* filter name as a dir */
--diff --git a/sender.c b/sender.c
--index ab205341..2bbff2fa 100644
----- a/sender.c
--+++ b/sender.c
--@@ -95,7 +95,7 @@ static struct sum_struct *receive_sums(int f)
--		return(s);
--
--	s->sums = new_array(struct sum_buf, s->count);
---	s->sum2_array = new_array(char, s->count * xfer_sum_len);
--+	s->sum2_array = new_array(char, (size_t)s->count * xfer_sum_len);
--
--	for (i = 0; i < s->count; i++) {
--		s->sums[i].sum1 = read_int(f);
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12085.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
-deleted file mode 100644
-index 165d5a6..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12085.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 589b0691e59f761ccb05ddb8e1124991440db2c7 Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Thu, 14 Nov 2024 09:57:08 +1100
--Subject: [PATCH] prevent information leak off the stack
--
--prevent leak of uninitialised stack data in hash_search
--
--CVE: CVE-2024-12085
--
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=589b0691e59f761ccb05ddb8e1124991440db2c7]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- match.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/match.c b/match.c
--index 36e78ed2..dfd6af2c 100644
----- a/match.c
--+++ b/match.c
--@@ -147,6 +147,9 @@ static void hash_search(int f,struct sum_struct *s,
--	int more;
--	schar *map;
--
--+	// prevent possible memory leaks
--+	memset(sum2, 0, sizeof sum2);
+-+                        v = png_ptr->gamma_to_1[palette[i].red];
+-+                        png_composite(w, v,
+-+                            png_ptr->trans_alpha[i], back_1.red);
+-+                        palette[i].red = png_ptr->gamma_from_1[w];
 -+
--	/* want_i is used to encourage adjacent matches, allowing the RLL
--	 * coding of the output to work more efficiently. */
--	want_i = 0;
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
-deleted file mode 100644
-index 958a25a..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0001.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 8ad4b5d912fad1df29717dddaa775724da77d299 Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Sat, 23 Nov 2024 11:08:03 +1100
--Subject: [PATCH] refuse fuzzy options when fuzzy not selected
--
--this prevents a malicious server providing a file to compare to when
--the user has not given the fuzzy option
--
--CVE: CVE-2024-12086
--
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=8ad4b5d912fad1df29717dddaa775724da77d299]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- receiver.c | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/receiver.c b/receiver.c
--index 6b4b369e..2d7f6033 100644
----- a/receiver.c
--+++ b/receiver.c
--@@ -66,6 +66,7 @@ extern char sender_file_sum[MAX_DIGEST_LEN];
-- extern struct file_list *cur_flist, *first_flist, *dir_flist;
-- extern filter_rule_list daemon_filter_list;
-- extern OFF_T preallocated_len;
--+extern int fuzzy_basis;
--
-- extern struct name_num_item *xfer_sum_nni;
-- extern int xfer_sum_len;
--@@ -716,6 +717,10 @@ int recv_files(int f_in, int f_out, char *local_name)
--				fnamecmp = get_backup_name(fname);
--				break;
--			case FNAMECMP_FUZZY:
--+				if (fuzzy_basis == 0) {
--+					rprintf(FERROR_XFER, "rsync: refusing malicious fuzzy operation for %s\n", xname);
--+					exit_cleanup(RERR_PROTOCOL);
--+				}
--				if (file->dirname) {
--					pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, file->dirname, xname);
--					fnamecmp = fnamecmpbuf;
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
-deleted file mode 100644
-index 5d25f12..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0002.patch
-+++ /dev/null
-@@ -1,108 +0,0 @@
--From b4a27ca25d0abb6fcf14f41b7e11f3a6e1d8a4ff Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Sat, 23 Nov 2024 12:26:10 +1100
--Subject: [PATCH] added secure_relative_open()
--
--this is an open that enforces no symlink following for all path
--components in a relative path
--
--CVE: CVE-2024-12086
--
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=b4a27ca25d0abb6fcf14f41b7e11f3a6e1d8a4ff]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- syscall.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-- 1 file changed, 74 insertions(+)
--
--diff --git a/syscall.c b/syscall.c
--index b4b0f1f1..cffc814b 100644
----- a/syscall.c
--+++ b/syscall.c
--@@ -33,6 +33,8 @@
-- #include <sys/syscall.h>
-- #endif
--
--+#include "ifuncs.h"
+-+                        v = png_ptr->gamma_to_1[palette[i].green];
+-+                        png_composite(w, v,
+-+                            png_ptr->trans_alpha[i], back_1.green);
+-+                        palette[i].green = png_ptr->gamma_from_1[w];
 -+
-- extern int dry_run;
-- extern int am_root;
-- extern int am_sender;
--@@ -707,3 +709,75 @@ int do_open_nofollow(const char *pathname, int flags)
+-+                        v = png_ptr->gamma_to_1[palette[i].blue];
+-+                        png_composite(w, v,
+-+                            png_ptr->trans_alpha[i], back_1.blue);
+-+                        palette[i].blue = png_ptr->gamma_from_1[w];
+-+                     }
+-                   }
+-                }
+-                else
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
+deleted file mode 100644
+index cdee6c7..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-From 16b5e3823918840aae65c0a6da57c78a5a496a4d Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Mon, 17 Nov 2025 20:38:47 +0200
+-Subject: [PATCH] Fix a buffer overflow in `png_image_finish_read`
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
--	return fd;
+-Reject bit-depth mismatches between IHDR and the requested output
+-format. When a 16-bit PNG is processed with an 8-bit output format
+-request, `png_combine_row` writes using the IHDR depth before
+-transformation, causing writes beyond the buffer allocated via
+-`PNG_IMAGE_SIZE(image)`.
+-
+-The validation establishes a safe API contract where
+-`PNG_IMAGE_SIZE(image)` is guaranteed to be sufficient across the
+-transformation pipeline.
+-
+-Example overflow (32×32 pixels, 16-bit RGB to 8-bit RGBA):
+-- Input format: 16 bits/channel × 3 channels = 6144 bytes
+-- Output buffer: 8 bits/channel × 4 channels = 4096 bytes
+-- Overflow: 6144 bytes - 4096 bytes = 2048 bytes
+-
+-Larger images produce proportionally larger overflows. For example,
+-for 256×256 pixels, the overflow is 131072 bytes.
+-
+-Reported-by: yosiimich <yosiimich@users.noreply.github.com>
+-
+-CVE: CVE-2025-65018
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/16b5e3823918840aae65c0a6da57c78a5a496a4d]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- pngread.c | 14 ++++++++++++++
+- 1 file changed, 14 insertions(+)
+-
+-diff --git a/pngread.c b/pngread.c
+-index 212afb7d2..92571ec33 100644
+---- a/pngread.c
+-+++ b/pngread.c
+-@@ -4166,6 +4166,20 @@ png_image_finish_read(png_imagep image, png_const_colorp background,
+-                   int result;
+-                   png_image_read_control display;
+- 
+-+                  /* Reject bit depth mismatches to avoid buffer overflows. */
+-+                  png_uint_32 ihdr_bit_depth =
+-+                      image->opaque->png_ptr->bit_depth;
+-+                  int requested_linear =
+-+                      (image->format & PNG_FORMAT_FLAG_LINEAR) != 0;
+-+                  if (ihdr_bit_depth == 16 && !requested_linear)
+-+                     return png_image_error(image,
+-+                         "png_image_finish_read: "
+-+                         "16-bit PNG must use 16-bit output format");
+-+                  if (ihdr_bit_depth < 16 && requested_linear)
+-+                     return png_image_error(image,
+-+                         "png_image_finish_read: "
+-+                         "8-bit PNG must not use 16-bit output format");
+-+
+-                   memset(&display, 0, (sizeof display));
+-                   display.image = image;
+-                   display.buffer = buffer;
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
+deleted file mode 100644
+index 891cd20..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
++++ /dev/null
+@@ -1,163 +0,0 @@
+-From 218612ddd6b17944e21eda56caf8b4bf7779d1ea Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Wed, 19 Nov 2025 21:45:13 +0200
+-Subject: [PATCH] Rearchitect the fix to the buffer overflow in
+- `png_image_finish_read`
+-
+-Undo the fix from commit 16b5e3823918840aae65c0a6da57c78a5a496a4d.
+-That fix turned out to be unnecessarily limiting. It rejected all
+-16-to-8 bit transformations, although the vulnerability only affects
+-interlaced PNGs where `png_combine_row` writes using IHDR bit-depth
+-before the transformation completes.
+-
+-The proper solution is to add an intermediate `local_row` buffer,
+-specifically for the slow but necessary step of 16-to-8 bit conversion
+-of interlaced images. (The processing of non-interlaced images remains
+-intact, using the fast path.) We added the flag `do_local_scale` and
+-the function `png_image_read_direct_scaled`, following the pattern that
+-involves `do_local_compose`.
+-
+-In conclusion:
+-- The 16-to-8 bit transformations of interlaced images are now safe,
+-  as they use an intermediate buffer.
+-- The 16-to-8 bit transformations of non-interlaced images remain safe,
+-  as the fast path remains unchanged.
+-- All our regression tests are now passing.
+-
+-CVE: CVE-2025-65018
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/218612ddd6b17944e21eda56caf8b4bf7779d1ea]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- pngread.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++---------
+- 1 file changed, 75 insertions(+), 14 deletions(-)
+-
+-diff --git a/pngread.c b/pngread.c
+-index 92571ec33..79917daaa 100644
+---- a/pngread.c
+-+++ b/pngread.c
+-@@ -3262,6 +3262,54 @@ png_image_read_colormapped(png_voidp argument)
+-    }
 - }
--+
--+/*
--+  open a file relative to a base directory. The basedir can be NULL,
--+  in which case the current working directory is used. The relpath
--+  must be a relative path, and the relpath must not contain any
--+  elements in the path which follow symlinks (ie. like O_NOFOLLOW, but
--+  applies to all path components, not just the last component)
--+*/
--+int secure_relative_open(const char *basedir, const char *relpath, int flags, mode_t mode)
+- 
+-+/* Row reading for interlaced 16-to-8 bit depth conversion with local buffer. */
+-+static int
+-+png_image_read_direct_scaled(png_voidp argument)
 -+{
--+	if (!relpath || relpath[0] == '/') {
--+		// must be a relative path
--+		errno = EINVAL;
--+		return -1;
--+	}
+-+   png_image_read_control *display = png_voidcast(png_image_read_control*,
+-+       argument);
+-+   png_imagep image = display->image;
+-+   png_structrp png_ptr = image->opaque->png_ptr;
+-+   png_bytep local_row = png_voidcast(png_bytep, display->local_row);
+-+   png_bytep first_row = png_voidcast(png_bytep, display->first_row);
+-+   ptrdiff_t row_bytes = display->row_bytes;
+-+   int passes;
 -+
--+#if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY)
--+	// really old system, all we can do is live with the risks
--+	if (!basedir) {
--+		return open(relpath, flags, mode);
--+	}
--+	char fullpath[MAXPATHLEN];
--+	pathjoin(fullpath, sizeof fullpath, basedir, relpath);
--+	return open(fullpath, flags, mode);
--+#else
--+	int dirfd = AT_FDCWD;
--+	if (basedir != NULL) {
--+		dirfd = openat(AT_FDCWD, basedir, O_RDONLY | O_DIRECTORY);
--+		if (dirfd == -1) {
--+			return -1;
--+		}
--+	}
--+	int retfd = -1;
+-+   /* Handle interlacing. */
+-+   switch (png_ptr->interlaced)
+-+   {
+-+      case PNG_INTERLACE_NONE:
+-+         passes = 1;
+-+         break;
 -+
--+	char *path_copy = my_strdup(relpath, __FILE__, __LINE__);
--+	if (!path_copy) {
--+		return -1;
--+	}
+-+      case PNG_INTERLACE_ADAM7:
+-+         passes = PNG_INTERLACE_ADAM7_PASSES;
+-+         break;
 -+
--+	for (const char *part = strtok(path_copy, "/");
--+	     part != NULL;
--+	     part = strtok(NULL, "/"))
--+	{
--+		int next_fd = openat(dirfd, part, O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
--+		if (next_fd == -1 && errno == ENOTDIR) {
--+			if (strtok(NULL, "/") != NULL) {
--+				// this is not the last component of the path
--+				errno = ELOOP;
--+				goto cleanup;
--+			}
--+			// this could be the last component of the path, try as a file
--+			retfd = openat(dirfd, part, flags | O_NOFOLLOW, mode);
--+			goto cleanup;
--+		}
--+		if (next_fd == -1) {
--+			goto cleanup;
--+		}
--+		if (dirfd != AT_FDCWD) close(dirfd);
--+		dirfd = next_fd;
--+	}
+-+      default:
+-+         png_error(png_ptr, "unknown interlace type");
+-+   }
 -+
--+	// the path must be a directory
--+	errno = EINVAL;
+-+   /* Read each pass using local_row as intermediate buffer. */
+-+   while (--passes >= 0)
+-+   {
+-+      png_uint_32 y = image->height;
+-+      png_bytep output_row = first_row;
 -+
--+cleanup:
--+	free(path_copy);
--+	if (dirfd != AT_FDCWD) {
--+		close(dirfd);
--+	}
--+	return retfd;
--+#endif // O_NOFOLLOW, O_DIRECTORY
+-+      for (; y > 0; --y)
+-+      {
+-+         /* Read into local_row (gets transformed 8-bit data). */
+-+         png_read_row(png_ptr, local_row, NULL);
+-+
+-+         /* Copy from local_row to user buffer. */
+-+         memcpy(output_row, local_row, (size_t)row_bytes);
+-+         output_row += row_bytes;
+-+      }
+-+   }
+-+
+-+   return 1;
 -+}
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
-deleted file mode 100644
-index de1747a..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0003.patch
-+++ /dev/null
-@@ -1,108 +0,0 @@
--From c35e28331f10ba6eba370611abd78bde32d54da7 Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Sat, 23 Nov 2024 12:28:13 +1100
--Subject: [PATCH] receiver: use secure_relative_open() for basis file
--
--this prevents attacks where the basis file is manipulated by a
--malicious sender to gain information about files outside the
--destination tree
--
--CVE: CVE-2024-12086
--
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=c35e28331f10ba6eba370611abd78bde32d54da7]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- receiver.c | 42 ++++++++++++++++++++++++++----------------
-- 1 file changed, 26 insertions(+), 16 deletions(-)
--
--diff --git a/receiver.c b/receiver.c
--index 2d7f6033..8031b8f4 100644
----- a/receiver.c
--+++ b/receiver.c
--@@ -552,6 +552,8 @@ int recv_files(int f_in, int f_out, char *local_name)
--	progress_init();
--
--	while (1) {
--+		const char *basedir = NULL;
 -+
--		cleanup_disable();
--
--		/* This call also sets cur_flist. */
--@@ -722,27 +724,29 @@ int recv_files(int f_in, int f_out, char *local_name)
--					exit_cleanup(RERR_PROTOCOL);
--				}
--				if (file->dirname) {
---					pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, file->dirname, xname);
---					fnamecmp = fnamecmpbuf;
---				} else
---					fnamecmp = xname;
--+					basedir = file->dirname;
--+				}
--+				fnamecmp = xname;
--				break;
--			default:
--				if (fnamecmp_type > FNAMECMP_FUZZY && fnamecmp_type-FNAMECMP_FUZZY <= basis_dir_cnt) {
--					fnamecmp_type -= FNAMECMP_FUZZY + 1;
--					if (file->dirname) {
---						stringjoin(fnamecmpbuf, sizeof fnamecmpbuf,
---							   basis_dir[fnamecmp_type], "/", file->dirname, "/", xname, NULL);
---					} else
---						pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basis_dir[fnamecmp_type], xname);
--+						pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basis_dir[fnamecmp_type], file->dirname);
--+						basedir = fnamecmpbuf;
--+					} else {
--+						basedir = basis_dir[fnamecmp_type];
--+					}
--+					fnamecmp = xname;
--				} else if (fnamecmp_type >= basis_dir_cnt) {
--					rprintf(FERROR,
--						"invalid basis_dir index: %d.\n",
--						fnamecmp_type);
--					exit_cleanup(RERR_PROTOCOL);
---				} else
---					pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basis_dir[fnamecmp_type], fname);
---				fnamecmp = fnamecmpbuf;
--+				} else {
--+					basedir = basis_dir[fnamecmp_type];
--+					fnamecmp = fname;
--+				}
--				break;
--			}
--			if (!fnamecmp || (daemon_filter_list.head
--@@ -765,7 +769,7 @@ int recv_files(int f_in, int f_out, char *local_name)
--		}
--
--		/* open the file */
---		fd1 = do_open(fnamecmp, O_RDONLY, 0);
--+		fd1 = secure_relative_open(basedir, fnamecmp, O_RDONLY, 0);
--
--		if (fd1 == -1 && protocol_version < 29) {
--			if (fnamecmp != fname) {
--@@ -776,14 +780,20 @@ int recv_files(int f_in, int f_out, char *local_name)
--
--			if (fd1 == -1 && basis_dir[0]) {
--				/* pre-29 allowed only one alternate basis */
---				pathjoin(fnamecmpbuf, sizeof fnamecmpbuf,
---					 basis_dir[0], fname);
---				fnamecmp = fnamecmpbuf;
--+				basedir = basis_dir[0];
--+				fnamecmp = fname;
--				fnamecmp_type = FNAMECMP_BASIS_DIR_LOW;
---				fd1 = do_open(fnamecmp, O_RDONLY, 0);
--+				fd1 = secure_relative_open(basedir, fnamecmp, O_RDONLY, 0);
--			}
--		}
--
--+		if (basedir) {
--+			// for the following code we need the full
--+			// path name as a single string
--+			pathjoin(fnamecmpbuf, sizeof fnamecmpbuf, basedir, fnamecmp);
--+			fnamecmp = fnamecmpbuf;
--+		}
+- /* Just the row reading part of png_image_read. */
+- static int
+- png_image_read_composite(png_voidp argument)
+-@@ -3680,6 +3728,7 @@ png_image_read_direct(png_voidp argument)
+-    int linear = (format & PNG_FORMAT_FLAG_LINEAR) != 0;
+-    int do_local_compose = 0;
+-    int do_local_background = 0; /* to avoid double gamma correction bug */
+-+   int do_local_scale = 0; /* for interlaced 16-to-8 bit conversion */
+-    int passes = 0;
+- 
+-    /* Add transforms to ensure the correct output format is produced then check
+-@@ -3806,8 +3855,16 @@ png_image_read_direct(png_voidp argument)
+-             png_set_expand_16(png_ptr);
+- 
+-          else /* 8-bit output */
+-+         {
+-             png_set_scale_16(png_ptr);
+- 
+-+            /* For interlaced images, use local_row buffer to avoid overflow
+-+             * in png_combine_row() which writes using IHDR bit-depth.
+-+             */
+-+            if (png_ptr->interlaced != 0)
+-+               do_local_scale = 1;
+-+         }
 -+
--		one_inplace = inplace_partial && fnamecmp_type == FNAMECMP_PARTIAL_DIR;
--		updating_basis_or_equiv = one_inplace
--		    || (inplace && (fnamecmp == fname || fnamecmp_type == FNAMECMP_BACKUP));
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
-deleted file mode 100644
-index b85e1df..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12086-0004.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 9f86ddc9652247233f32b241a79d5aa4fb9d4afa Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Tue, 26 Nov 2024 09:16:31 +1100
--Subject: [PATCH] disallow ../ elements in relpath for secure_relative_open
--
--CVE: CVE-2024-12086
--
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=9f86ddc9652247233f32b241a79d5aa4fb9d4afa]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- syscall.c | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/syscall.c b/syscall.c
--index cffc814b..081357bb 100644
----- a/syscall.c
--+++ b/syscall.c
--@@ -716,6 +716,8 @@ int do_open_nofollow(const char *pathname, int flags)
--   must be a relative path, and the relpath must not contain any
--   elements in the path which follow symlinks (ie. like O_NOFOLLOW, but
--   applies to all path components, not just the last component)
+-          change &= ~PNG_FORMAT_FLAG_LINEAR;
+-       }
+- 
+-@@ -4083,6 +4140,24 @@ png_image_read_direct(png_voidp argument)
+-       return result;
+-    }
+- 
+-+   else if (do_local_scale != 0)
+-+   {
+-+      /* For interlaced 16-to-8 conversion, use an intermediate row buffer
+-+       * to avoid buffer overflows in png_combine_row. The local_row is sized
+-+       * for the transformed (8-bit) output, preventing the overflow that would
+-+       * occur if png_combine_row wrote 16-bit data directly to the user buffer.
+-+       */
+-+      int result;
+-+      png_voidp row = png_malloc(png_ptr, png_get_rowbytes(png_ptr, info_ptr));
 -+
--+  The relpath must also not contain any ../ elements in the path
-- */
-- int secure_relative_open(const char *basedir, const char *relpath, int flags, mode_t mode)
-- {
--@@ -724,6 +726,11 @@ int secure_relative_open(const char *basedir, const char *relpath, int flags, mo
--		errno = EINVAL;
--		return -1;
--	}
--+	if (strncmp(relpath, "../", 3) == 0 || strstr(relpath, "/../")) {
--+		// no ../ elements allowed in the relpath
--+		errno = EINVAL;
--+		return -1;
--+	}
--
-- #if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY)
--	// really old system, all we can do is live with the risks
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12087-0001.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12087-0001.patch
-deleted file mode 100644
-index 67abc64..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12087-0001.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 688f5c379a433038bde36897a156d589be373a98 Mon Sep 17 00:00:00 2001
--From: Wayne Davison <wayne@opencoder.net>
--Date: Thu, 14 Nov 2024 15:46:50 -0800
--Subject: [PATCH] Refuse a duplicate dirlist.
--
--CVE: CVE-2024-12087
--
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=688f5c379a433038bde36897a156d589be373a98]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- flist.c | 9 +++++++++
-- rsync.h | 1 +
-- 2 files changed, 10 insertions(+)
--
--diff --git a/flist.c b/flist.c
--index 464d556e..847b1054 100644
----- a/flist.c
--+++ b/flist.c
--@@ -2584,6 +2584,15 @@ struct file_list *recv_file_list(int f, int dir_ndx)
--		init_hard_links();
-- #endif
--
--+	if (inc_recurse && dir_ndx >= 0) {
--+		struct file_struct *file = dir_flist->files[dir_ndx];
--+		if (file->flags & FLAG_GOT_DIR_FLIST) {
--+			rprintf(FERROR_XFER, "rsync: refusing malicious duplicate flist for dir %d\n", dir_ndx);
--+			exit_cleanup(RERR_PROTOCOL);
--+		}
--+		file->flags |= FLAG_GOT_DIR_FLIST;
--+	}
+-+      display->local_row = row;
+-+      result = png_safe_execute(image, png_image_read_direct_scaled, display);
+-+      display->local_row = NULL;
+-+      png_free(png_ptr, row);
 -+
--	flist = flist_new(0, "recv_file_list");
--	flist_expand(flist, FLIST_START_LARGE);
--
--diff --git a/rsync.h b/rsync.h
--index 0f9e277f..b9a7101a 100644
----- a/rsync.h
--+++ b/rsync.h
--@@ -84,6 +84,7 @@
-- #define FLAG_DUPLICATE (1<<4)	/* sender */
-- #define FLAG_MISSING_DIR (1<<4)	/* generator */
-- #define FLAG_HLINKED (1<<5)	/* receiver/generator (checked on all types) */
--+#define FLAG_GOT_DIR_FLIST (1<<5)/* sender/receiver/generator - dir_flist only */
-- #define FLAG_HLINK_FIRST (1<<6)	/* receiver/generator (w/FLAG_HLINKED) */
-- #define FLAG_IMPLIED_DIR (1<<6)	/* sender/receiver/generator (dirs only) */
-- #define FLAG_HLINK_LAST (1<<7)	/* receiver/generator */
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12087-0002.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12087-0002.patch
+-+      return result;
+-+   }
+-+
+-    else
+-    {
+-       png_alloc_size_t row_bytes = (png_alloc_size_t)display->row_bytes;
+-@@ -4166,20 +4241,6 @@ png_image_finish_read(png_imagep image, png_const_colorp background,
+-                   int result;
+-                   png_image_read_control display;
+- 
+--                  /* Reject bit depth mismatches to avoid buffer overflows. */
+--                  png_uint_32 ihdr_bit_depth =
+--                      image->opaque->png_ptr->bit_depth;
+--                  int requested_linear =
+--                      (image->format & PNG_FORMAT_FLAG_LINEAR) != 0;
+--                  if (ihdr_bit_depth == 16 && !requested_linear)
+--                     return png_image_error(image,
+--                         "png_image_finish_read: "
+--                         "16-bit PNG must use 16-bit output format");
+--                  if (ihdr_bit_depth < 16 && requested_linear)
+--                     return png_image_error(image,
+--                         "png_image_finish_read: "
+--                         "8-bit PNG must not use 16-bit output format");
+--
+-                   memset(&display, 0, (sizeof display));
+-                   display.image = image;
+-                   display.buffer = buffer;
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
 deleted file mode 100644
-index 8a22e0c..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12087-0002.patch
+index 0b958b9..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
 +++ /dev/null
-@@ -1,31 +0,0 @@
--From 344327385fa47fa5bb67a32c237735e6240cfb93 Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Tue, 26 Nov 2024 16:12:45 +1100
--Subject: [PATCH] range check dir_ndx before use
+@@ -1,60 +0,0 @@
+-From 788a624d7387a758ffd5c7ab010f1870dea753a1 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Sat, 29 Nov 2025 00:39:16 +0200
+-Subject: [PATCH] Fix an out-of-bounds read in `png_image_read_composite`
 -
--CVE: CVE-2024-12087
+-Add a defensive bounds check before calling PNG_sRGB_FROM_LINEAR to
+-prevent reading up to 506 entries (1012 bytes) past `png_sRGB_base[]`.
 -
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=344327385fa47fa5bb67a32c237735e6240cfb93]
+-For palette images with gamma, `png_init_read_transformations`
+-clears PNG_COMPOSE after compositing on the palette, but it leaves
+-PNG_FLAG_OPTIMIZE_ALPHA set. The simplified API then calls
+-`png_image_read_composite` with sRGB data (not linear premultiplied),
+-causing the index to reach 1017. (The maximum valid index is 511.)
 -
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+-NOTE:
+-This is a defensive fix that addresses the security issue (out-of-bounds
+-read) but *NOT* the correctness issue (wrong output). When the clamp
+-triggers, the affected pixels are clamped to white instead of the
+-correct composited color. Valid PNG images may render incorrectly with
+-the simplified API.
+-
+-TODO:
+-We already know the root cause is a flag synchronization error.
+-For palette images with gamma, `png_init_read_transformations`
+-clears PNG_COMPOSE but leaves PNG_FLAG_OPTIMIZE_ALPHA set, causing
+-`png_image_read_composite` to misinterpret sRGB data as linear
+-premultiplied. However, we have yet to implement an architectural fix
+-that requires coordinating the simplified API with the transformation
+-pipeline.
+-
+-Reported-by: flyfish101 <flyfish101@users.noreply.github.com>
+-
+-CVE: CVE-2025-66293
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/788a624d7387a758ffd5c7ab010f1870dea753a1]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- flist.c | 4 ++++
-- 1 file changed, 4 insertions(+)
+- pngread.c | 9 +++++++--
+- 1 file changed, 7 insertions(+), 2 deletions(-)
 -
--diff --git a/flist.c b/flist.c
--index 847b1054..087f9da6 100644
----- a/flist.c
--+++ b/flist.c
--@@ -2585,6 +2585,10 @@ struct file_list *recv_file_list(int f, int dir_ndx)
-- #endif
--
--	if (inc_recurse && dir_ndx >= 0) {
--+		if (dir_ndx >= dir_flist->used) {
--+			rprintf(FERROR_XFER, "rsync: refusing invalid dir_ndx %u >= %u\n", dir_ndx, dir_flist->used);
--+			exit_cleanup(RERR_PROTOCOL);
--+		}
--		struct file_struct *file = dir_flist->files[dir_ndx];
--		if (file->flags & FLAG_GOT_DIR_FLIST) {
--			rprintf(FERROR_XFER, "rsync: refusing malicious duplicate flist for dir %d\n", dir_ndx);
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12087-0003.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12087-0003.patch
+-diff --git a/pngread.c b/pngread.c
+-index 79917daaa..ab62edd9d 100644
+---- a/pngread.c
+-+++ b/pngread.c
+-@@ -3406,9 +3406,14 @@ png_image_read_composite(png_voidp argument)
+-                         component += (255-alpha)*png_sRGB_table[outrow[c]];
+- 
+-                         /* So 'component' is scaled by 255*65535 and is
+--                         * therefore appropriate for the sRGB to linear
+--                         * conversion table.
+-+                         * therefore appropriate for the sRGB-to-linear
+-+                         * conversion table.  Clamp to the valid range
+-+                         * as a defensive measure against an internal
+-+                         * libpng bug where the data is sRGB rather than
+-+                         * linear premultiplied.
+-                          */
+-+                        if (component > 255*65535)
+-+                           component = 255*65535;
+-                         component = PNG_sRGB_FROM_LINEAR(component);
+-                      }
+- 
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
 deleted file mode 100644
-index 0ece69c..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12087-0003.patch
+index ba563e1..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
 +++ /dev/null
-@@ -1,40 +0,0 @@
--From 996af4a79f9afe4d7158ecdd87c78cee382c6b39 Mon Sep 17 00:00:00 2001
--From: Natanael Copa <ncopa@alpinelinux.org>
--Date: Wed, 15 Jan 2025 15:10:24 +0100
--Subject: [PATCH] Fix FLAG_GOT_DIR_FLIST collission with FLAG_HLINKED
+@@ -1,125 +0,0 @@
+-From a05a48b756de63e3234ea6b3b938b8f5f862484a Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Mon, 1 Dec 2025 22:31:54 +0200
+-Subject: [PATCH] Finalize the fix for out-of-bounds read in
+- `png_image_read_composite`
 -
--fixes commit 688f5c379a43 (Refuse a duplicate dirlist.)
+-Following up on commit 788a624d7387a758ffd5c7ab010f1870dea753a1.
 -
--Fixes: https://github.com/RsyncProject/rsync/issues/702
--Fixes: https://github.com/RsyncProject/rsync/issues/697
--CVE: CVE-2024-12087
+-The previous commit added a defensive bounds check to address the
+-security issue (out-of-bounds read), but noted that the correctness
+-issue remained: when the clamp triggered, the affected pixels were
+-clamped to white instead of the correct composited color.
 -
--Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/996af4a79f9afe4d7158ecdd87c78cee382c6b39]
+-This commit addresses the correctness issue by fixing the flag
+-synchronization error identified in the previous commit's TODO:
 -
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+-1. In `png_init_read_transformations`:
+-   Clear PNG_FLAG_OPTIMIZE_ALPHA when clearing PNG_COMPOSE for palette
+-   images. This correctly signals that the data is sRGB, not linear
+-   premultiplied.
+-
+-2. In `png_image_read_composite`:
+-   Check PNG_FLAG_OPTIMIZE_ALPHA and use the appropriate composition
+-   formula. When set, use the existing linear composition. When cleared
+-   (palette composition already done), use sRGB composition to match
+-   what was done to the palette.
+-
+-Retain the previous clamp to the valid range as belt-and-suspenders
+-protection against any other unforeseen cases.
+-
+-CVE: CVE-2025-66293
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/a05a48b756de63e3234ea6b3b938b8f5f862484a]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- rsync.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- pngread.c  | 56 ++++++++++++++++++++++++++++++++++++------------------
+- pngrtran.c |  1 +
+- 2 files changed, 39 insertions(+), 18 deletions(-)
 -
--diff --git a/rsync.h b/rsync.h
--index 9be1297b..479ac484 100644
----- a/rsync.h
--+++ b/rsync.h
--@@ -84,7 +84,6 @@
-- #define FLAG_DUPLICATE (1<<4)	/* sender */
-- #define FLAG_MISSING_DIR (1<<4)	/* generator */
-- #define FLAG_HLINKED (1<<5)	/* receiver/generator (checked on all types) */
---#define FLAG_GOT_DIR_FLIST (1<<5)/* sender/receiver/generator - dir_flist only */
-- #define FLAG_HLINK_FIRST (1<<6)	/* receiver/generator (w/FLAG_HLINKED) */
-- #define FLAG_IMPLIED_DIR (1<<6)	/* sender/receiver/generator (dirs only) */
-- #define FLAG_HLINK_LAST (1<<7)	/* receiver/generator */
--@@ -93,6 +92,7 @@
-- #define FLAG_SKIP_GROUP (1<<10)	/* receiver/generator */
-- #define FLAG_TIME_FAILED (1<<11)/* generator */
-- #define FLAG_MOD_NSEC (1<<12)	/* sender/receiver/generator */
--+#define FLAG_GOT_DIR_FLIST (1<<13)/* sender/receiver/generator - dir_flist only */
--
-- /* These flags are passed to functions but not stored. */
--
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12088.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
+-diff --git a/pngread.c b/pngread.c
+-index ab62edd9d..f8ca2b7e3 100644
+---- a/pngread.c
+-+++ b/pngread.c
+-@@ -3340,6 +3340,7 @@ png_image_read_composite(png_voidp argument)
+-       ptrdiff_t    step_row = display->row_bytes;
+-       unsigned int channels =
+-           (image->format & PNG_FORMAT_FLAG_COLOR) != 0 ? 3 : 1;
+-+      int optimize_alpha = (png_ptr->flags & PNG_FLAG_OPTIMIZE_ALPHA) != 0;
+-       int pass;
+- 
+-       for (pass = 0; pass < passes; ++pass)
+-@@ -3396,25 +3397,44 @@ png_image_read_composite(png_voidp argument)
+- 
+-                      if (alpha < 255) /* else just use component */
+-                      {
+--                        /* This is PNG_OPTIMIZED_ALPHA, the component value
+--                         * is a linear 8-bit value.  Combine this with the
+--                         * current outrow[c] value which is sRGB encoded.
+--                         * Arithmetic here is 16-bits to preserve the output
+--                         * values correctly.
+--                         */
+--                        component *= 257*255; /* =65535 */
+--                        component += (255-alpha)*png_sRGB_table[outrow[c]];
+-+                        if (optimize_alpha != 0)
+-+                        {
+-+                           /* This is PNG_OPTIMIZED_ALPHA, the component value
+-+                            * is a linear 8-bit value.  Combine this with the
+-+                            * current outrow[c] value which is sRGB encoded.
+-+                            * Arithmetic here is 16-bits to preserve the output
+-+                            * values correctly.
+-+                            */
+-+                           component *= 257*255; /* =65535 */
+-+                           component += (255-alpha)*png_sRGB_table[outrow[c]];
+- 
+--                        /* So 'component' is scaled by 255*65535 and is
+--                         * therefore appropriate for the sRGB-to-linear
+--                         * conversion table.  Clamp to the valid range
+--                         * as a defensive measure against an internal
+--                         * libpng bug where the data is sRGB rather than
+--                         * linear premultiplied.
+--                         */
+--                        if (component > 255*65535)
+--                           component = 255*65535;
+--                        component = PNG_sRGB_FROM_LINEAR(component);
+-+                           /* Clamp to the valid range to defend against
+-+                            * unforeseen cases where the data might be sRGB
+-+                            * instead of linear premultiplied.
+-+                            * (Belt-and-suspenders for GitHub Issue #764.)
+-+                            */
+-+                           if (component > 255*65535)
+-+                              component = 255*65535;
+-+
+-+                           /* So 'component' is scaled by 255*65535 and is
+-+                            * therefore appropriate for the sRGB-to-linear
+-+                            * conversion table.
+-+                            */
+-+                           component = PNG_sRGB_FROM_LINEAR(component);
+-+                        }
+-+                        else
+-+                        {
+-+                           /* Compositing was already done on the palette
+-+                            * entries.  The data is sRGB premultiplied on black.
+-+                            * Composite with the background in sRGB space.
+-+                            * This is not gamma-correct, but matches what was
+-+                            * done to the palette.
+-+                            */
+-+                           png_uint_32 background = outrow[c];
+-+                           component += ((255-alpha) * background + 127) / 255;
+-+                           if (component > 255)
+-+                              component = 255;
+-+                        }
+-                      }
+- 
+-                      outrow[c] = (png_byte)component;
+-diff --git a/pngrtran.c b/pngrtran.c
+-index 2f5202255..507d11381 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -1760,6 +1760,7 @@ png_init_read_transformations(png_structrp png_ptr)
+-              * transformations elsewhere.
+-              */
+-             png_ptr->transformations &= ~(PNG_COMPOSE | PNG_GAMMA);
+-+            png_ptr->flags &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+-          } /* color_type == PNG_COLOR_TYPE_PALETTE */
+- 
+-          /* if (png_ptr->background_gamma_type!=PNG_BACKGROUND_GAMMA_UNKNOWN) */
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
 deleted file mode 100644
-index b2a3a86..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12088.patch
+index 6456b6c..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
 +++ /dev/null
-@@ -1,141 +0,0 @@
--From 407c71c7ce562137230e8ba19149c81ccc47c387 Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Sat, 23 Nov 2024 15:15:53 +1100
--Subject: [PATCH] make --safe-links stricter
+@@ -1,77 +0,0 @@
+-From e4f7ad4ea2a471776c81dda4846b7691925d9786 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Fri, 9 Jan 2026 20:51:53 +0200
+-Subject: [PATCH] Fix a heap buffer over-read in `png_image_read_direct_scaled`
 -
--when --safe-links is used also reject links where a '../' component is
--included in the destination as other than the leading part of the
--filename
+-Fix a regression from commit 218612ddd6b17944e21eda56caf8b4bf7779d1ea.
 -
--CVE: CVE-2024-12088
+-The function `png_image_read_direct_scaled`, introduced by the fix for
+-CVE-2025-65018, copies transformed row data from an intermediate buffer
+-(`local_row`) to the user's output buffer. The copy incorrectly used
+-`row_bytes` (the caller's stride) as the size parameter to memcpy, even
+-though `local_row` is only `png_get_rowbytes()` bytes long.
 -
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=407c71c7ce562137230e8ba19149c81ccc47c387]
+-This causes a heap buffer over-read when:
 -
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+-1. The caller provides a padded stride (e.g., for memory alignment):
+-   memcpy reads past the end of `local_row` by `stride - row_width`
+-   bytes.
+-
+-2. The caller provides a negative stride (for bottom-up layouts):
+-   casting ptrdiff_t to size_t produces ~2^64, causing memcpy to
+-   attempt reading exabytes, resulting in an immediate crash.
+-
+-The fix consists in using the size of the row buffer for the copy and
+-using the stride for pointer advancement only.
+-
+-Reported-by: Petr Simecek <simecek@users.noreply.github.com>
+-Analyzed-by: Stanislav Fort
+-Analyzed-by: Pavel Kohout
+-Co-authored-by: Petr Simecek <simecek@users.noreply.github.com>
+-Signed-off-by: Cosmin Truta <ctruta@gmail.com>
+-
+-CVE: CVE-2026-22695
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/e4f7ad4ea2a471776c81dda4846b7691925d9786]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- testsuite/safe-links.test    | 55 ++++++++++++++++++++++++++++++++++++
-- testsuite/unsafe-byname.test |  2 +-
-- util1.c                      | 26 ++++++++++++++++-
-- 3 files changed, 81 insertions(+), 2 deletions(-)
-- create mode 100644 testsuite/safe-links.test
+- AUTHORS   | 1 +
+- pngread.c | 4 +++-
+- 2 files changed, 4 insertions(+), 1 deletion(-)
 -
--diff --git a/testsuite/safe-links.test b/testsuite/safe-links.test
--new file mode 100644
--index 00000000..6e95a4b9
+-diff --git a/AUTHORS b/AUTHORS
+-index 26b7bb50f..b9c0fffcf 100644
+---- a/AUTHORS
+-+++ b/AUTHORS
+-@@ -23,6 +23,7 @@ Authors, for copyright and licensing purposes.
+-  * Mike Klein
+-  * Pascal Massimino
+-  * Paul Schmidt
+-+ * Petr Simecek
+-  * Philippe Antoine
+-  * Qiang Zhou
+-  * Sam Bushell
+-diff --git a/pngread.c b/pngread.c
+-index e3426292b..9d86b01dc 100644
+---- a/pngread.c
+-+++ b/pngread.c
+-@@ -3270,9 +3270,11 @@ png_image_read_direct_scaled(png_voidp argument)
+-        argument);
+-    png_imagep image = display->image;
+-    png_structrp png_ptr = image->opaque->png_ptr;
+-+   png_inforp info_ptr = image->opaque->info_ptr;
+-    png_bytep local_row = png_voidcast(png_bytep, display->local_row);
+-    png_bytep first_row = png_voidcast(png_bytep, display->first_row);
+-    ptrdiff_t row_bytes = display->row_bytes;
+-+   size_t copy_bytes = png_get_rowbytes(png_ptr, info_ptr);
+-    int passes;
+- 
+-    /* Handle interlacing. */
+-@@ -3302,7 +3304,7 @@ png_image_read_direct_scaled(png_voidp argument)
+-          png_read_row(png_ptr, local_row, NULL);
+- 
+-          /* Copy from local_row to user buffer. */
+--         memcpy(output_row, local_row, (size_t)row_bytes);
+-+         memcpy(output_row, local_row, copy_bytes);
+-          output_row += row_bytes;
+-       }
+-    }
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
+deleted file mode 100644
+index 8a611ac..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
++++ /dev/null
+@@ -1,173 +0,0 @@
+-From cf155de014fc6c5cb199dd681dd5c8fb70429072 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Sat, 10 Jan 2026 15:20:18 +0200
+-Subject: [PATCH] fix: Remove incorrect truncation casts from
+- `png_write_image_*`
+-
+-The type of the row stride (`display->row_bytes`) is ptrdiff_t. Casting
+-to png_uint_16 before division will truncate large strides, causing
+-incorrect pointer arithmetic for images exceeding 65535 bytes per row.
+-For bottom-up images (negative stride), the truncation also corrupts
+-the sign, advancing the row pointer forward instead of backward.
+-
+-Remove the erroneous casts and let the compiler handle the pointer
+-arithmetic correctly. Also replace `sizeof (png_uint_16)` with 2.
+-
+-Add regression test via `pngstest --stride-extra N` where N > 32767
+-triggers the affected code paths.
+-
+-A NOTE ABOUT HISTORY:
+-The original code in libpng 1.5.6 (2011) had no such casts. They were
+-introduced in libpng 1.6.26 (2016), likely to silence compiler warnings
+-on 16-bit systems where the cast would be a no-op. On 32/64-bit systems
+-the cast truncates the strides above 65535 and corrupts the negative
+-strides.
+-
+-CVE: CVE-2026-22801
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/cf155de014fc6c5cb199dd681dd5c8fb70429072]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- CMakeLists.txt              |  9 ++++++++-
+- contrib/libtests/pngstest.c | 29 ++++++++++++++++++++++++++++-
+- pngwrite.c                  | 10 +++++-----
+- tests/pngstest-large-stride |  8 ++++++++
+- 4 files changed, 49 insertions(+), 7 deletions(-)
+- create mode 100755 tests/pngstest-large-stride
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index a8cd82402..a595ed91d 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -1,7 +1,7 @@
+- 
+- # CMakeLists.txt - CMake lists for libpng
+- #
+--# Copyright (c) 2018-2024 Cosmin Truta.
+-+# Copyright (c) 2018-2026 Cosmin Truta
+- # Copyright (c) 2007-2018 Glenn Randers-Pehrson.
+- # Originally written by Christian Ehrlicher, 2007.
+- #
+-@@ -859,6 +859,13 @@ if(PNG_TESTS AND PNG_SHARED)
+-     endforeach()
+-   endforeach()
+- 
+-+  # Regression test:
+-+  # Use stride_extra > 32767 to trigger row_bytes > 65535 for linear images.
+-+  png_add_test(NAME pngstest-large-stride
+-+               COMMAND pngstest
+-+               OPTIONS --stride-extra 33000 --tmpfile "large-stride-" --log
+-+               FILES "${CMAKE_CURRENT_SOURCE_DIR}/contrib/testpngs/rgb-alpha-16-linear.png")
+-+
+-   add_executable(pngunknown ${pngunknown_sources})
+-   target_link_libraries(pngunknown PRIVATE png_shared)
+- 
+-diff --git a/contrib/libtests/pngstest.c b/contrib/libtests/pngstest.c
+-index ff4c2b24a..2f29afee2 100644
+---- a/contrib/libtests/pngstest.c
+-+++ b/contrib/libtests/pngstest.c
+-@@ -1,7 +1,7 @@
+- 
+- /* pngstest.c
+-  *
+-- * Copyright (c) 2021 Cosmin Truta
+-+ * Copyright (c) 2021-2026 Cosmin Truta
+-  * Copyright (c) 2013-2017 John Cunningham Bowler
+-  *
+-  * This code is released under the libpng license.
+-@@ -3571,6 +3571,33 @@ main(int argc, char **argv)
+-          opts |= NO_RESEED;
+-       else if (strcmp(arg, "--fault-gbg-warning") == 0)
+-          opts |= GBG_ERROR;
+-+      else if (strcmp(arg, "--stride-extra") == 0)
+-+      {
+-+         if (c+1 < argc)
+-+         {
+-+            char *ep;
+-+            unsigned long val = strtoul(argv[++c], &ep, 0);
+-+
+-+            if (ep > argv[c] && *ep == 0 && val <= 65535)
+-+               stride_extra = (int)val;
+-+
+-+            else
+-+            {
+-+               fflush(stdout);
+-+               fprintf(stderr, "%s: bad argument for --stride-extra: %s\n",
+-+                  argv[0], argv[c]);
+-+               exit(99);
+-+            }
+-+         }
+-+
+-+         else
+-+         {
+-+            fflush(stdout);
+-+            fprintf(stderr, "%s: missing argument for --stride-extra\n",
+-+               argv[0]);
+-+            exit(99);
+-+         }
+-+      }
+-       else if (strcmp(arg, "--tmpfile") == 0)
+-       {
+-          if (c+1 < argc)
+-diff --git a/pngwrite.c b/pngwrite.c
+-index 08066bcc4..a95b846c8 100644
+---- a/pngwrite.c
+-+++ b/pngwrite.c
+-@@ -1,7 +1,7 @@
+- 
+- /* pngwrite.c - general routines to write a PNG file
+-  *
+-- * Copyright (c) 2018-2024 Cosmin Truta
+-+ * Copyright (c) 2018-2026 Cosmin Truta
+-  * Copyright (c) 1998-2002,2004,2006-2018 Glenn Randers-Pehrson
+-  * Copyright (c) 1996-1997 Andreas Dilger
+-  * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
+-@@ -1645,7 +1645,7 @@ png_write_image_16bit(png_voidp argument)
+-       }
+- 
+-       png_write_row(png_ptr, png_voidcast(png_const_bytep, display->local_row));
+--      input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
+-+      input_row += display->row_bytes / 2;
+-    }
+- 
+-    return 1;
+-@@ -1771,7 +1771,7 @@ png_write_image_8bit(png_voidp argument)
+- 
+-          png_write_row(png_ptr, png_voidcast(png_const_bytep,
+-              display->local_row));
+--         input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
+-+         input_row += display->row_bytes / 2;
+-       } /* while y */
+-    }
+- 
+-@@ -1796,7 +1796,7 @@ png_write_image_8bit(png_voidp argument)
+-          }
+- 
+-          png_write_row(png_ptr, output_row);
+--         input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
+-+         input_row += display->row_bytes / 2;
+-       }
+-    }
+- 
+-@@ -2115,7 +2115,7 @@ png_image_write_main(png_voidp argument)
+-       ptrdiff_t row_bytes = display->row_stride;
+- 
+-       if (linear != 0)
+--         row_bytes *= (sizeof (png_uint_16));
+-+         row_bytes *= 2;
+- 
+-       if (row_bytes < 0)
+-          row += (image->height-1) * (-row_bytes);
+-diff --git a/tests/pngstest-large-stride b/tests/pngstest-large-stride
+-new file mode 100755
+-index 000000000..7958c5b42
 ---- /dev/null
--+++ b/testsuite/safe-links.test
--@@ -0,0 +1,55 @@
+-+++ b/tests/pngstest-large-stride
+-@@ -0,0 +1,8 @@
 -+#!/bin/sh
 -+
--+. "$suitedir/rsync.fns"
--+
--+test_symlink() {
--+	is_a_link "$1" || test_fail "File $1 is not a symlink"
--+}
--+
--+test_regular() {
--+	if [ ! -f "$1" ]; then
--+		test_fail "File $1 is not regular file or not exists"
--+	fi
--+}
--+
--+test_notexist() {
--+        if [ -e "$1" ]; then
--+                test_fail "File $1 exists"
--+	fi
--+        if [ -h "$1" ]; then
--+                test_fail "File $1 exists as a symlink"
--+	fi
--+}
--+
--+cd "$tmpdir"
--+
--+mkdir from
--+
--+mkdir "from/safe"
--+mkdir "from/unsafe"
--+
--+mkdir "from/safe/files"
--+mkdir "from/safe/links"
--+
--+touch "from/safe/files/file1"
--+touch "from/safe/files/file2"
--+touch "from/unsafe/unsafefile"
--+
--+ln -s ../files/file1 "from/safe/links/"
--+ln -s ../files/file2 "from/safe/links/"
--+ln -s ../../unsafe/unsafefile "from/safe/links/"
--+ln -s a/a/a/../../../unsafe2 "from/safe/links/"
--+
--+#echo "LISTING FROM"
--+#ls -lR from
--+
--+echo "rsync with relative path and just -a"
--+$RSYNC -avv --safe-links from/safe/ to
--+
--+#echo "LISTING TO"
--+#ls -lR to
--+
--+test_symlink to/links/file1
--+test_symlink to/links/file2
--+test_notexist to/links/unsafefile
--+test_notexist to/links/unsafe2
--diff --git a/testsuite/unsafe-byname.test b/testsuite/unsafe-byname.test
--index 75e72014..d2e318ef 100644
----- a/testsuite/unsafe-byname.test
--+++ b/testsuite/unsafe-byname.test
--@@ -40,7 +40,7 @@ test_unsafe ..//../dest 		from/dir			unsafe
-- test_unsafe ..				from/file			safe
-- test_unsafe ../..			from/file			unsafe
-- test_unsafe ..//..			from//file			unsafe
---test_unsafe dir/..			from				safe
--+test_unsafe dir/..			from				unsafe
-- test_unsafe dir/../..			from				unsafe
-- test_unsafe dir/..//..			from				unsafe
+-+# Regression test:
+-+# Use stride_extra > 32767 to trigger row_bytes > 65535 for linear images.
+-+exec ./pngstest \
+-+     --stride-extra 33000 \
+-+     --tmpfile "large-stride-" \
+-+     --log "${srcdir}/contrib/testpngs/rgb-alpha-16-linear.png"
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
+deleted file mode 100644
+index 5fbf5eb..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-From 01d03b8453eb30ade759cd45c707e5a1c7277d88 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Fri, 6 Feb 2026 19:11:54 +0200
+-Subject: [PATCH] Fix a heap buffer overflow in `png_set_quantize`
 -
--diff --git a/util1.c b/util1.c
--index da50ff1e..f260d398 100644
----- a/util1.c
--+++ b/util1.c
--@@ -1318,7 +1318,14 @@ int handle_partial_dir(const char *fname, int create)
+-The color distance hash table stored the current palette indices, but
+-the color-pruning loop assumed the original indices. When colors were
+-eliminated and indices changed, the stored indices became stale. This
+-caused the loop bound `max_d` to grow past the 769-element hash array.
+-
+-The fix consists in storing the original indices via `palette_to_index`
+-to match the pruning loop's expectations.
+-
+-Reported-by: Joshua Inscoe <pwnalone@users.noreply.github.com>
+-Co-authored-by: Joshua Inscoe <pwnalone@users.noreply.github.com>
+-Signed-off-by: Cosmin Truta <ctruta@gmail.com>
+-
+-CVE: CVE-2026-25646
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/01d03b8453eb30ade759cd45c707e5a1c7277d88]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- AUTHORS    | 1 +
+- pngrtran.c | 6 +++---
+- 2 files changed, 4 insertions(+), 3 deletions(-)
+-
+-diff --git a/AUTHORS b/AUTHORS
+-index b9c0fffcf..4094f4a57 100644
+---- a/AUTHORS
+-+++ b/AUTHORS
+-@@ -15,6 +15,7 @@ Authors, for copyright and licensing purposes.
+-  * Guy Eric Schalnat
+-  * James Yu
+-  * John Bowler
+-+ * Joshua Inscoe
+-  * Kevin Bracey
+-  * Magnus Holmgren
+-  * Mandar Sahastrabuddhe
+-diff --git a/pngrtran.c b/pngrtran.c
+-index fe8f9d32c..1fce9af12 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -1,7 +1,7 @@
+- 
+- /* pngrtran.c - transforms the data in a row for PNG readers
 -  *
--  * "src" is the top source directory currently applicable at the level
--  * of the referenced symlink.  This is usually the symlink's full path
--- * (including its name), as referenced from the root of the transfer. */
--+ * (including its name), as referenced from the root of the transfer.
--+ *
--+ * NOTE: this also rejects dest names with a .. component in other
--+ * than the first component of the name ie. it rejects names such as
--+ * a/b/../x/y. This needs to be done as the leading subpaths 'a' or
--+ * 'b' could later be replaced with symlinks such as a link to '.'
--+ * resulting in the link being transferred now becoming unsafe
--+ */
-- int unsafe_symlink(const char *dest, const char *src)
-- {
--	const char *name, *slash;
--@@ -1328,6 +1335,23 @@ int unsafe_symlink(const char *dest, const char *src)
--	if (!dest || !*dest || *dest == '/')
--		return 1;
--
--+	// reject destinations with /../ in the name other than at the start of the name
--+	const char *dest2 = dest;
--+	while (strncmp(dest2, "../", 3) == 0) {
--+	    dest2 += 3;
--+	    while (*dest2 == '/') {
--+		// allow for ..//..///../foo
--+		dest2++;
--+	    }
--+	}
--+	if (strstr(dest2, "/../"))
--+	    return 1;
--+
--+	// reject if the destination ends in /..
--+	const size_t dlen = strlen(dest);
--+	if (dlen > 3 && strcmp(&dest[dlen-3], "/..") == 0)
--+	    return 1;
--+
--	/* find out what our safety margin is */
--	for (name = src; (slash = strchr(name, '/')) != 0; name = slash+1) {
--		/* ".." segment starts the count over.  "." segment is ignored. */
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2024-12747.patch b/meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
+-- * Copyright (c) 2018-2024 Cosmin Truta
+-+ * Copyright (c) 2018-2026 Cosmin Truta
+-  * Copyright (c) 1998-2002,2004,2006-2018 Glenn Randers-Pehrson
+-  * Copyright (c) 1996-1997 Andreas Dilger
+-  * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
+-@@ -647,8 +647,8 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
+-                          break;
+- 
+-                      t->next = hash[d];
+--                     t->left = (png_byte)i;
+--                     t->right = (png_byte)j;
+-+                     t->left = png_ptr->palette_to_index[i];
+-+                     t->right = png_ptr->palette_to_index[j];
+-                      hash[d] = t;
+-                   }
+-                }
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch
 deleted file mode 100644
-index b1dd0a0..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2024-12747.patch
+index a60a8d6..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch
 +++ /dev/null
-@@ -1,192 +0,0 @@
--From 0590b09d9a34ae72741b91ec0708a820650198b0 Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Wed, 18 Dec 2024 08:59:42 +1100
--Subject: [PATCH] fixed symlink race condition in sender
+@@ -1,143 +0,0 @@
+-From 23019269764e35ed8458e517f1897bd3c54820eb Mon Sep 17 00:00:00 2001
+-From: Oblivionsage <cookieandcream560@gmail.com>
+-Date: Sun, 15 Mar 2026 10:35:29 +0100
+-Subject: [PATCH] fix: Resolve use-after-free on `png_ptr->trans_alpha`
 -
--when we open a file that we don't expect to be a symlink use
--O_NOFOLLOW to prevent a race condition where an attacker could change
--a file between being a normal file and a symlink
+-The function `png_set_tRNS` sets `png_ptr->trans_alpha` to point at
+-`info_ptr->trans_alpha` directly, so both structs share the same heap
+-buffer. If the application calls `png_free_data(PNG_FREE_TRNS)`, or if
+-`png_set_tRNS` is called a second time, the buffer is freed through
+-`info_ptr` while `png_ptr` still holds a dangling reference. Any
+-subsequent row read that hits the function `png_do_expand_palette` will
+-dereference freed memory.
 -
--CVE: CVE-2024-12747
+-The fix gives `png_struct` its own allocation instead of aliasing the
+-`info_ptr` pointer. This was already flagged with a TODO in
+-`png_handle_tRNS` ("horrible side effect ... Fix this.") but it was
+-never addressed.
 -
--Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=0590b09d9a34ae72741b91ec0708a820650198b0]
+-Verified with AddressSanitizer. All 34 existing tests pass without
+-regressions.
 -
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+-CVE: CVE-2026-33416
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/23019269764e35ed8458e517f1897bd3c54820eb]
+-Comment: Refreshed hunk to match latest scarthgap
+-
+-Reviewed-by: Cosmin Truta <ctruta@gmail.com>
+-Signed-off-by: Cosmin Truta <ctruta@gmail.com>
+-Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
+-Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
 ----
-- checksum.c  |  2 +-
-- flist.c     |  2 +-
-- generator.c |  4 ++--
-- receiver.c  |  2 +-
-- sender.c    |  2 +-
-- syscall.c   | 20 ++++++++++++++++++++
-- t_unsafe.c  |  3 +++
-- tls.c       |  3 +++
-- trimslash.c |  2 ++
-- util1.c     |  2 +-
-- 10 files changed, 35 insertions(+), 7 deletions(-)
+- pngread.c  | 11 +++++------
+- pngrutil.c |  4 ----
+- pngset.c   | 31 +++++++++++++++++++------------
+- pngwrite.c |  6 ++++++
+- 4 files changed, 30 insertions(+), 22 deletions(-)
 -
--diff --git a/checksum.c b/checksum.c
--index cb21882c..66e80896 100644
----- a/checksum.c
--+++ b/checksum.c
--@@ -406,7 +406,7 @@ void file_checksum(const char *fname, const STRUCT_STAT *st_p, char *sum)
--	int32 remainder;
--	int fd;
--
---	fd = do_open(fname, O_RDONLY, 0);
--+	fd = do_open_checklinks(fname);
--	if (fd == -1) {
--		memset(sum, 0, file_sum_len);
--		return;
--diff --git a/flist.c b/flist.c
--index 087f9da6..17832533 100644
----- a/flist.c
--+++ b/flist.c
--@@ -1390,7 +1390,7 @@ struct file_struct *make_file(const char *fname, struct file_list *flist,
--
--	if (copy_devices && am_sender && IS_DEVICE(st.st_mode)) {
--		if (st.st_size == 0) {
---			int fd = do_open(fname, O_RDONLY, 0);
--+			int fd = do_open_checklinks(fname);
--			if (fd >= 0) {
--				st.st_size = get_device_size(fd, fname);
--				close(fd);
--diff --git a/generator.c b/generator.c
--index 110db28f..3f13bb95 100644
----- a/generator.c
--+++ b/generator.c
--@@ -1798,7 +1798,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
--
--	if (write_devices && IS_DEVICE(sx.st.st_mode) && sx.st.st_size == 0) {
--		/* This early open into fd skips the regular open below. */
---		if ((fd = do_open(fnamecmp, O_RDONLY, 0)) >= 0)
--+		if ((fd = do_open_nofollow(fnamecmp, O_RDONLY)) >= 0)
--			real_sx.st.st_size = sx.st.st_size = get_device_size(fd, fnamecmp);
--	}
--
--@@ -1867,7 +1867,7 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
--	}
--
--	/* open the file */
---	if (fd < 0 && (fd = do_open(fnamecmp, O_RDONLY, 0)) < 0) {
--+	if (fd < 0 && (fd = do_open_checklinks(fnamecmp)) < 0) {
--		rsyserr(FERROR, errno, "failed to open %s, continuing",
--			full_fname(fnamecmp));
--	  pretend_missing:
--diff --git a/receiver.c b/receiver.c
--index 8031b8f4..edfbb210 100644
----- a/receiver.c
--+++ b/receiver.c
--@@ -775,7 +775,7 @@ int recv_files(int f_in, int f_out, char *local_name)
--			if (fnamecmp != fname) {
--				fnamecmp = fname;
--				fnamecmp_type = FNAMECMP_FNAME;
---				fd1 = do_open(fnamecmp, O_RDONLY, 0);
--+				fd1 = do_open_nofollow(fnamecmp, O_RDONLY);
--			}
--
--			if (fd1 == -1 && basis_dir[0]) {
--diff --git a/sender.c b/sender.c
--index 2bbff2fa..a4d46c39 100644
----- a/sender.c
--+++ b/sender.c
--@@ -350,7 +350,7 @@ void send_files(int f_in, int f_out)
--			exit_cleanup(RERR_PROTOCOL);
--		}
--
---		fd = do_open(fname, O_RDONLY, 0);
--+		fd = do_open_checklinks(fname);
--		if (fd == -1) {
--			if (errno == ENOENT) {
--				enum logcode c = am_daemon && protocol_version < 28 ? FERROR : FWARNING;
--diff --git a/syscall.c b/syscall.c
--index 081357bb..8cea2900 100644
----- a/syscall.c
--+++ b/syscall.c
--@@ -45,6 +45,8 @@ extern int preallocate_files;
-- extern int preserve_perms;
-- extern int preserve_executability;
-- extern int open_noatime;
--+extern int copy_links;
--+extern int copy_unsafe_links;
--
-- #ifndef S_BLKSIZE
-- # if defined hpux || defined __hpux__ || defined __hpux
--@@ -788,3 +790,21 @@ cleanup:
--	return retfd;
-- #endif // O_NOFOLLOW, O_DIRECTORY
+-diff --git a/pngread.c b/pngread.c
+-index 01b731d8eb..0086edf6cf 100644
+---- a/pngread.c
+-+++ b/pngread.c
+-@@ -968,12 +968,11 @@ png_read_destroy(png_structrp png_ptr)
+- 
+- #if defined(PNG_tRNS_SUPPORTED) || \
+-     defined(PNG_READ_EXPAND_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
+--   if ((png_ptr->free_me & PNG_FREE_TRNS) != 0)
+--   {
+--      png_free(png_ptr, png_ptr->trans_alpha);
+--      png_ptr->trans_alpha = NULL;
+--   }
+--   png_ptr->free_me &= ~PNG_FREE_TRNS;
+-+   /* png_ptr->trans_alpha is always independently allocated (not aliased
+-+    * with info_ptr->trans_alpha), so free it unconditionally.
+-+    */
+-+   png_free(png_ptr, png_ptr->trans_alpha);
+-+   png_ptr->trans_alpha = NULL;
+- #endif
+- 
+-    inflateEnd(&png_ptr->zstream);
+-diff --git a/pngrutil.c b/pngrutil.c
+-index 366379b991..a19507bf1b 100644
+---- a/pngrutil.c
+-+++ b/pngrutil.c
+-@@ -1905,10 +1905,6 @@ png_handle_tRNS(png_structrp png_ptr, pn
+-       return;
+-    }
+- 
+--   /* TODO: this is a horrible side effect in the palette case because the
+--    * png_struct ends up with a pointer to the tRNS buffer owned by the
+--    * png_info.  Fix this.
+--    */
+-    png_set_tRNS(png_ptr, info_ptr, readbuf, png_ptr->num_trans,
+-        &(png_ptr->trans_color));
 - }
+-diff --git a/pngset.c b/pngset.c
+-index 4b78b8960c..47883684e4 100644
+---- a/pngset.c
+-+++ b/pngset.c
+-@@ -990,28 +990,36 @@ png_set_tRNS(png_structrp png_ptr, png_i
+- 
+-    if (trans_alpha != NULL)
+-    {
+--       /* It may not actually be necessary to set png_ptr->trans_alpha here;
+--        * we do it for backward compatibility with the way the png_handle_tRNS
+--        * function used to do the allocation.
+--        *
+--        * 1.6.0: The above statement is incorrect; png_handle_tRNS effectively
+--        * relies on png_set_tRNS storing the information in png_struct
+--        * (otherwise it won't be there for the code in pngrtran.c).
+--        */
+--
+-        png_free_data(png_ptr, info_ptr, PNG_FREE_TRNS, 0);
+- 
+-        if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
+-        {
+--         /* Changed from num_trans to PNG_MAX_PALETTE_LENGTH in version 1.2.1 */
+-+          /* Allocate info_ptr's copy of the transparency data. */
+-           info_ptr->trans_alpha = png_voidcast(png_bytep,
+-               png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
+-           memcpy(info_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
+--
+-           info_ptr->free_me |= PNG_FREE_TRNS;
+-           info_ptr->valid |= PNG_INFO_tRNS;
 -+
--+/*
--+  varient of do_open/do_open_nofollow which does do_open() if the
--+  copy_links or copy_unsafe_links options are set and does
--+  do_open_nofollow() otherwise
 -+
--+  This is used to prevent a race condition where an attacker could be
--+  switching a file between being a symlink and being a normal file
+-+          /* Allocate an independent copy for png_struct, so that the
+-+           * lifetime of png_ptr->trans_alpha is decoupled from the
+-+           * lifetime of info_ptr->trans_alpha.  Previously these two
+-+           * pointers were aliased, which caused a use-after-free if
+-+           * png_free_data freed info_ptr->trans_alpha while
+-+           * png_ptr->trans_alpha was still in use by the row transform
+-+           * functions (e.g. png_do_expand_palette).
+-+           */
+-+          png_free(png_ptr, png_ptr->trans_alpha);
+-+          png_ptr->trans_alpha = png_voidcast(png_bytep,
+-+              png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
+-+          memcpy(png_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
+-+       }
+-+       else
+-+       {
+-+          png_free(png_ptr, png_ptr->trans_alpha);
+-+          png_ptr->trans_alpha = NULL;
+-        }
+--       png_ptr->trans_alpha = info_ptr->trans_alpha;
+-    }
+- 
+-    if (trans_color != NULL)
+-diff --git a/pngwrite.c b/pngwrite.c
+-index 5fc77d91f7..84af1e73fb 100644
+---- a/pngwrite.c
+-+++ b/pngwrite.c
+-@@ -977,6 +977,12 @@ png_write_destroy(png_structrp png_ptr)
+-    png_ptr->chunk_list = NULL;
+- #endif
+- 
+-+#if defined(PNG_tRNS_SUPPORTED)
+-+   /* Free the independent copy of trans_alpha owned by png_struct. */
+-+   png_free(png_ptr, png_ptr->trans_alpha);
+-+   png_ptr->trans_alpha = NULL;
+-+#endif
 -+
--+  The open is always done with O_RDONLY flags
--+ */
--+int do_open_checklinks(const char *pathname)
--+{
--+	if (copy_links || copy_unsafe_links) {
--+		return do_open(pathname, O_RDONLY, 0);
--+	}
--+	return do_open_nofollow(pathname, O_RDONLY);
--+}
--diff --git a/t_unsafe.c b/t_unsafe.c
--index 010cac50..e10619a2 100644
----- a/t_unsafe.c
--+++ b/t_unsafe.c
--@@ -28,6 +28,9 @@ int am_root = 0;
-- int am_sender = 1;
-- int read_only = 0;
-- int list_only = 0;
--+int copy_links = 0;
--+int copy_unsafe_links = 0;
--+
-- short info_levels[COUNT_INFO], debug_levels[COUNT_DEBUG];
--
-- int
--diff --git a/tls.c b/tls.c
--index e6b0708a..858f8f10 100644
----- a/tls.c
--+++ b/tls.c
--@@ -49,6 +49,9 @@ int list_only = 0;
-- int link_times = 0;
-- int link_owner = 0;
-- int nsec_times = 0;
--+int safe_symlinks = 0;
--+int copy_links = 0;
--+int copy_unsafe_links = 0;
--
-- #ifdef SUPPORT_XATTRS
--
--diff --git a/trimslash.c b/trimslash.c
--index 1ec928ca..f2774cd7 100644
----- a/trimslash.c
--+++ b/trimslash.c
--@@ -26,6 +26,8 @@ int am_root = 0;
-- int am_sender = 1;
-- int read_only = 1;
-- int list_only = 0;
--+int copy_links = 0;
--+int copy_unsafe_links = 0;
--
-- int
-- main(int argc, char **argv)
--diff --git a/util1.c b/util1.c
--index f260d398..d84bc414 100644
----- a/util1.c
--+++ b/util1.c
--@@ -365,7 +365,7 @@ int copy_file(const char *source, const char *dest, int tmpfilefd, mode_t mode)
--	int len;   /* Number of bytes read into `buf'. */
--	OFF_T prealloc_len = 0, offset = 0;
--
---	if ((ifd = do_open(source, O_RDONLY, 0)) < 0) {
--+	if ((ifd = do_open_nofollow(source, O_RDONLY)) < 0) {
--		int save_errno = errno;
--		rsyserr(FERROR_XFER, errno, "open %s", full_fname(source));
--		errno = save_errno;
----
--2.40.0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2025-10158.patch b/meta/recipes-devtools/rsync/files/CVE-2025-10158.patch
+-    /* The error handling and memory handling information is left intact at this
+-     * point: the jmp_buf may still have to be freed.  See png_destroy_png_struct
+-     * for how this happens.
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch
 deleted file mode 100644
-index a19cc15..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2025-10158.patch
+index e746293..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch
 +++ /dev/null
-@@ -1,36 +0,0 @@
--From 797e17fc4a6f15e3b1756538a9f812b63942686f Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Sat, 23 Aug 2025 17:26:53 +1000
--Subject: [PATCH] fixed an invalid access to files array
+@@ -1,53 +0,0 @@
+-From a3a21443ed12bfa1ef46fa0d4fb2b74a0fa34a25 Mon Sep 17 00:00:00 2001
+-From: Oblivionsage <cookieandcream560@gmail.com>
+-Date: Tue, 17 Mar 2026 08:55:18 +0100
+-Subject: [PATCH] fix: Initialize tail bytes in `trans_alpha` buffers
 -
+-Although the arrays `info_ptr->trans_alpha` and `png_ptr->trans_alpha`
+-are allocated 256 bytes, only `num_trans` bytes are copied.
+-The remaining entries were left uninitialized. Set them to 0xff (fully
+-opaque) before copying, which matches the conventional treatment of
+-entries beyond `num_trans`.
 -
--this was found by Calum Hutton from Rapid7. It is a real bug, but
--analysis shows it can't be leverged into an exploit. Worth fixing
--though.
+-This is a follow-up to the previous use-after-free fix.
 -
--Many thanks to Calum and Rapid7 for finding and reporting this
+-CVE: CVE-2026-33416
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/a3a21443ed12bfa1ef46fa0d4fb2b74a0fa34a25]
+-Comment: Refreshed hunk to match latest scarthgap
 -
--CVE: CVE-2025-10158
--Upstream-Status: Backport
--[https://github.com/RsyncProject/rsync/commit/797e17fc4a6f15e3b1756538a9f812b63942686f]
--Signed-off-by: Adarsh Jagadish Kamini<adarsh.jagadish.kamini@est.tech>
+-Reported-by: Cosmin Truta <ctruta@gmail.com>
+-Reviewed-by: Cosmin Truta <ctruta@gmail.com>
+-Signed-off-by: Cosmin Truta <ctruta@gmail.com>
+-Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
+-Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
 ----
-- sender.c | 2 ++
-- 1 file changed, 2 insertions(+)
+- pngset.c | 7 ++++++-
+- 1 file changed, 6 insertions(+), 1 deletion(-)
 -
--diff --git a/sender.c b/sender.c
--index 2bbff2fa..5528071e 100644
----- a/sender.c
--+++ b/sender.c
--@@ -262,6 +262,8 @@ void send_files(int f_in, int f_out)
+-diff --git a/pngset.c b/pngset.c
+-index 47883684e4..dccc6498d7 100644
+---- a/pngset.c
+-+++ b/pngset.c
+-@@ -994,9 +994,13 @@ png_set_tRNS(png_structrp png_ptr, png_i
 - 
-- 		if (ndx - cur_flist->ndx_start >= 0)
-- 			file = cur_flist->files[ndx - cur_flist->ndx_start];
--+		else if (cur_flist->parent_ndx < 0)
--+			exit_cleanup(RERR_PROTOCOL);
-- 		else
-- 			file = dir_flist->files[cur_flist->parent_ndx];
-- 		if (F_PATHNAME(file)) {
---- 
--2.44.1
--
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch b/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
+-        if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
+-        {
+--          /* Allocate info_ptr's copy of the transparency data. */
+-+	       /* Allocate info_ptr's copy of the transparency data.
+-+           * Initialize all entries to fully opaque (0xff), then overwrite
+-+           * the first num_trans entries with the actual values.
+-+           */
+-           info_ptr->trans_alpha = png_voidcast(png_bytep,
+-               png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
+-+	       memset(info_ptr->trans_alpha, 0xff, PNG_MAX_PALETTE_LENGTH);
+-           memcpy(info_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
+-           info_ptr->free_me |= PNG_FREE_TRNS;
+-           info_ptr->valid |= PNG_INFO_tRNS;
+-@@ -1013,6 +1017,7 @@ png_set_tRNS(png_structrp png_ptr, png_i
+-           png_free(png_ptr, png_ptr->trans_alpha);
+-           png_ptr->trans_alpha = png_voidcast(png_bytep,
+-               png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
+-+	       memset(png_ptr->trans_alpha, 0xff, PNG_MAX_PALETTE_LENGTH);
+-           memcpy(png_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
+-        }
+-        else
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch
 deleted file mode 100644
-index 66b1b93..0000000
---- a/meta/recipes-devtools/rsync/files/CVE-2026-41035.patch
+index 21ce35d..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch
 +++ /dev/null
-@@ -1,39 +0,0 @@
--From bb0a8118c2d2ab01140bac5e4e327e5e1ef90c9c Mon Sep 17 00:00:00 2001
--From: Andrew Tridgell <andrew@tridgell.net>
--Date: Wed, 22 Apr 2026 09:57:45 +1000
--Subject: [PATCH] xattrs: fixed count in qsort
+@@ -1,163 +0,0 @@
+-From 7ea9eea884a2328cc7fdcb3c0c00246a50d90667 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Fri, 20 Mar 2026 17:37:22 +0200
+-Subject: [PATCH] fix: Resolve use-after-free on `png_ptr->palette`
 -
--this fixes the count passed to the sort of the xattr list. This issue
--was reported here:
+-Give `png_struct` its own independently-allocated copy of the palette
+-buffer, decoupling it from `info_struct`'s palette. Allocate both
+-copies with `png_calloc` to zero-fill, because the ARM NEON palette
+-riffle reads all 256 entries unconditionally.
 -
--https://www.openwall.com/lists/oss-security/2026/04/16/2
+-In function `png_set_PLTE`, `png_ptr->palette` was aliased directly to
+-`info_ptr->palette`: a single heap buffer shared across two structs
+-with independent lifetimes. If the buffer was freed through `info_ptr`
+-(via `png_free_data(PNG_FREE_PLTE)` or a second call to `png_set_PLTE`),
+-`png_ptr->palette` became a dangling pointer. Subsequent row reads,
+-performed in `png_do_expand_palette` and in other transform functions,
+-dereferenced (and in the bit-shift path, wrote to) freed memory.
 -
--the bug is not exploitable due to the fork-per-connection design of
--rsync, the attack is the equivalent of the user closing the socket
--themselves.
+-Also fix `png_set_quantize` to allocate an owned copy of the caller's
+-palette rather than aliasing the user pointer, so that the unconditional
+-free in `png_read_destroy` does not free unmanaged memory.
 -
--CVE: CVE-2026-41035
--Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/bb0a8118c2d2ab01140bac5e4e327e5e1ef90c9c]
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+-CVE: CVE-2026-33416
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/7ea9eea884a2328cc7fdcb3c0c00246a50d90667]
+-Comment: Refreshed hunk to match latest scarthgap
+-
+-Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
+-Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
 ----
-- xattrs.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- pngread.c  | 11 +++++------
+- pngrtran.c |  8 +++++++-
+- pngrutil.c | 13 -------------
+- pngset.c   | 28 +++++++++++++++++++---------
+- pngwrite.c |  4 ++++
+- 5 files changed, 35 insertions(+), 29 deletions(-)
 -
--diff --git a/xattrs.c b/xattrs.c
--index 26e50a6..65166ee 100644
----- a/xattrs.c
--+++ b/xattrs.c
--@@ -860,8 +860,8 @@ void receive_xattr(int f, struct file_struct *file)
-- 		rxa->num = num;
-- 	}
+-diff --git a/pngread.c b/pngread.c
+-index 0086edf6cf..e1d38d578a 100644
+---- a/pngread.c
+-+++ b/pngread.c
+-@@ -959,12 +959,11 @@ png_read_destroy(png_structrp png_ptr)
+-    png_ptr->quantize_index = NULL;
+- #endif
 - 
---	if (need_sort && count > 1)
---		qsort(temp_xattr.items, count, sizeof (rsync_xa), rsync_xal_compare_names);
--+	if (need_sort && temp_xattr.count > 1)
--+		qsort(temp_xattr.items, temp_xattr.count, sizeof (rsync_xa), rsync_xal_compare_names);
+--   if ((png_ptr->free_me & PNG_FREE_PLTE) != 0)
+--   {
+--      png_zfree(png_ptr, png_ptr->palette);
+--      png_ptr->palette = NULL;
+--   }
+--   png_ptr->free_me &= ~PNG_FREE_PLTE;
+-+   /* png_ptr->palette is always independently allocated (not aliased
+-+    * with info_ptr->palette), so free it unconditionally.
+-+    */
+-+   png_free(png_ptr, png_ptr->palette);
+-+   png_ptr->palette = NULL;
 - 
-- 	ndx = rsync_xal_store(&temp_xattr); /* adds item to rsync_xal_l */
+- #if defined(PNG_tRNS_SUPPORTED) || \
+-     defined(PNG_READ_EXPAND_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
+-diff --git a/pngrtran.c b/pngrtran.c
+-index bfb7d423b7..fd736ab672 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -750,7 +750,13 @@ png_set_quantize(png_structrp png_ptr, p
+-    }
+-    if (png_ptr->palette == NULL)
+-    {
+--      png_ptr->palette = palette;
+-+      /* Allocate an owned copy rather than aliasing the caller's pointer,
+-+       * so that png_read_destroy can free png_ptr->palette unconditionally.
+-+       */
+-+      png_ptr->palette = png_voidcast(png_colorp, png_calloc(png_ptr,
+-+          PNG_MAX_PALETTE_LENGTH * (sizeof (png_color))));
+-+      memcpy(png_ptr->palette, palette, (unsigned int)num_palette *
+-+          (sizeof (png_color)));
+-    }
+-    png_ptr->num_palette = (png_uint_16)num_palette;
+-
+-diff --git a/pngrutil.c b/pngrutil.c
+-index a19507bf1b..3a35fe9de2 100644
+---- a/pngrutil.c
+-+++ b/pngrutil.c
+-@@ -1047,14 +1047,6 @@ png_handle_PLTE(png_structrp png_ptr, pn
+-    }
+- #endif
 - 
+--   /* TODO: png_set_PLTE has the side effect of setting png_ptr->palette to its
+--    * own copy of the palette.  This has the side effect that when png_start_row
+--    * is called (this happens after any call to png_read_update_info) the
+--    * info_ptr palette gets changed.  This is extremely unexpected and
+--    * confusing.
+--    *
+--    * Fix this by not sharing the palette in this way.
+--    */
+-    png_set_PLTE(png_ptr, info_ptr, palette, num);
+- 
+-    /* The three chunks, bKGD, hIST and tRNS *must* appear after PLTE and before
+-diff --git a/pngset.c b/pngset.c
+-index dccc6498d7..b9ccb7fb15 100644
+---- a/pngset.c
+-+++ b/pngset.c
+-@@ -595,28 +595,38 @@ png_set_PLTE(png_structrp png_ptr, png_i
+-       png_error(png_ptr, "Invalid palette");
+-    }
+- 
+--   /* It may not actually be necessary to set png_ptr->palette here;
+--    * we do it for backward compatibility with the way the png_handle_tRNS
+--    * function used to do the allocation.
+--    *
+--    * 1.6.0: the above statement appears to be incorrect; something has to set
+--    * the palette inside png_struct on read.
+--    */
+-    png_free_data(png_ptr, info_ptr, PNG_FREE_PLTE, 0);
+- 
+-    /* Changed in libpng-1.2.1 to allocate PNG_MAX_PALETTE_LENGTH instead
+-     * of num_palette entries, in case of an invalid PNG file or incorrect
+-     * call to png_set_PLTE() with too-large sample values.
+-+    *
+-+    * Allocate independent buffers for info_ptr and png_ptr so that the
+-+    * lifetime of png_ptr->palette is decoupled from the lifetime of
+-+    * info_ptr->palette.  Previously, these two pointers were aliased,
+-+    * which caused a use-after-free vulnerability if png_free_data freed
+-+    * info_ptr->palette while png_ptr->palette was still in use by the
+-+    * row transform functions (e.g. png_do_expand_palette).
+-+    *
+-+    * Both buffers are allocated with png_calloc to zero-fill, because
+-+    * the ARM NEON palette riffle reads all 256 entries unconditionally,
+-+    * regardless of num_palette.
+-     */
+-+   png_free(png_ptr, png_ptr->palette);
+-    png_ptr->palette = png_voidcast(png_colorp, png_calloc(png_ptr,
+-        PNG_MAX_PALETTE_LENGTH * (sizeof (png_color))));
+-+   info_ptr->palette = png_voidcast(png_colorp, png_calloc(png_ptr,
+-+       PNG_MAX_PALETTE_LENGTH * (sizeof (png_color))));
+-+   png_ptr->num_palette = info_ptr->num_palette = (png_uint_16)num_palette;
+- 
+-    if (num_palette > 0)
+-+      {
+-+      memcpy(info_ptr->palette, palette, (unsigned int)num_palette *
+-+          (sizeof (png_color)));
+-       memcpy(png_ptr->palette, palette, (unsigned int)num_palette *
+-           (sizeof (png_color)));
+-+      }
+- 
+--   info_ptr->palette = png_ptr->palette;
+--   info_ptr->num_palette = png_ptr->num_palette = (png_uint_16)num_palette;
+-    info_ptr->free_me |= PNG_FREE_PLTE;
+-    info_ptr->valid |= PNG_INFO_PLTE;
+- }
+-diff --git a/pngwrite.c b/pngwrite.c
+-index 84af1e73fb..348763e940 100644
+---- a/pngwrite.c
+-+++ b/pngwrite.c
+-@@ -982,6 +982,10 @@ png_write_destroy(png_structrp png_ptr)
+-    png_free(png_ptr, png_ptr->trans_alpha);
+-    png_ptr->trans_alpha = NULL;
+- #endif
+-+   
+-+   /* Free the independent copy of the palette owned by png_struct. */
+-+   png_free(png_ptr, png_ptr->palette);
+-+   png_ptr->palette = NULL;
+- 
+-    /* The error handling and memory handling information is left intact at this
+-     * point: the jmp_buf may still have to be freed.  See png_destroy_png_struct
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch
+deleted file mode 100644
+index ff7db53..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From c1b0318b393c90679e6fa5bc1d329fd5d5012ec1 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Fri, 20 Mar 2026 21:25:12 +0200
+-Subject: [PATCH] fix: Sync `info_ptr->palette` after in-place transforms
+-
+-Copy `png_ptr->palette` into `info_ptr->palette` upon entering
+-the function that runs immediately after the in-place transforms.
+-
+-The palette decoupling in the previous commit gave `png_struct`
+-and `png_info` independently-allocated palette buffers, fixing a
+-use-after-free vulnerability. However, `png_init_read_transformations`
+-modifies `png_ptr->palette` in place (e.g. for gamma correction or
+-background compositing), and the old aliasing made those modifications
+-visible through `png_get_PLTE`. With independent buffers,
+-`info_ptr->palette` retained the original values, causing our tests to
+-fail on indexed-colour background compositing.
+-
+-CVE: CVE-2026-33416
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/c1b0318b393c90679e6fa5bc1d329fd5d5012ec1]
+-Comment: Refreshed hunk to match latest scarthgap
+-
+-Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
+-Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
+----
+- pngrtran.c | 15 +++++++++++++++
+- 1 file changed, 15 insertions(+)
+-
+-diff --git a/pngrtran.c b/pngrtran.c
+-index fd736ab672..978dac5888 100644
+---- a/pngrtran.c
+-+++ b/pngrtran.c
+-@@ -1984,6 +1984,21 @@ png_read_transform_info(png_structrp png
+- {
+-    png_debug(1, "in png_read_transform_info");
+- 
+-+   if (png_ptr->transformations != 0)
+-+   {
+-+      if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE &&
+-+          info_ptr->palette != NULL && png_ptr->palette != NULL)
+-+      {
+-+         /* Sync info_ptr->palette with png_ptr->palette.
+-+          * The function png_init_read_transformations may have modified
+-+          * png_ptr->palette in place (e.g. for gamma correction or for
+-+          * background compositing).
+-+          */
+-+         memcpy(info_ptr->palette, png_ptr->palette,
+-+             PNG_MAX_PALETTE_LENGTH * (sizeof (png_color)));
+-+      }
+-+   }
+-+
+- #ifdef PNG_READ_EXPAND_SUPPORTED
+-    if ((png_ptr->transformations & PNG_EXPAND) != 0)
+-    {
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch
+deleted file mode 100644
+index 3bd6aae..0000000
+--- a/meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch
++++ /dev/null
+@@ -1,99 +0,0 @@
+-From 9ff847dfcbb54f6dee3fd4e408150ae944278391 Mon Sep 17 00:00:00 2001
+-From: Cosmin Truta <ctruta@gmail.com>
+-Date: Sat, 21 Mar 2026 23:48:49 +0200
+-Subject: [PATCH] fix(arm): Resolve out-of-bounds read/write in NEON palette
+- expansion
+-
+-Both `png_do_expand_palette_rgba8_neon` and
+-`png_do_expand_palette_rgb8_neon` advanced in fixed-size chunks without
+-guarding the final iteration, allowing out-of-bounds reads and writes
+-when the row width is not a multiple of the chunk size.
+-
+-Restrict the NEON loop to full chunks only, remove the now-unnecessary
+-post-loop adjustment, and undo the `*ddp` pre-adjustment before the
+-pointer handoff to the scalar fallback.
+-
+-CVE: CVE-2026-33636
+-Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/aba9f18eba870d14fb52c5ba5d73451349e339c3]
+-
+-Reported-by: Amemoyoi <Amemoyoi@users.noreply.github.com>
+-Co-authored-by: Amemoyoi <Amemoyoi@users.noreply.github.com>
+-Signed-off-by: Cosmin Truta <ctruta@gmail.com>
+-(cherry picked from commit aba9f18eba870d14fb52c5ba5d73451349e339c3)
+-Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+----
+- arm/palette_neon_intrinsics.c | 29 +++++++++++++----------------
+- 1 file changed, 13 insertions(+), 16 deletions(-)
+-
+-diff --git a/arm/palette_neon_intrinsics.c b/arm/palette_neon_intrinsics.c
+-index 92c7d6f9f..bdd15849d 100644
+---- a/arm/palette_neon_intrinsics.c
+-+++ b/arm/palette_neon_intrinsics.c
+-@@ -1,7 +1,7 @@
+- 
+- /* palette_neon_intrinsics.c - NEON optimised palette expansion functions
+-  *
+-- * Copyright (c) 2018-2019 Cosmin Truta
+-+ * Copyright (c) 2018-2026 Cosmin Truta
+-  * Copyright (c) 2017-2018 Arm Holdings. All rights reserved.
+-  * Written by Richard Townsend <Richard.Townsend@arm.com>, February 2017.
+-  *
+-@@ -80,7 +80,7 @@ png_do_expand_palette_rgba8_neon(png_structrp png_ptr, png_row_infop row_info,
+-     */
+-    *ddp = *ddp - ((pixels_per_chunk * sizeof(png_uint_32)) - 1);
+- 
+--   for (i = 0; i < row_width; i += pixels_per_chunk)
+-+   for (i = 0; i + pixels_per_chunk <= row_width; i += pixels_per_chunk)
+-    {
+-       uint32x4_t cur;
+-       png_bytep sp = *ssp - i, dp = *ddp - (i << 2);
+-@@ -90,13 +90,12 @@ png_do_expand_palette_rgba8_neon(png_structrp png_ptr, png_row_infop row_info,
+-       cur = vld1q_lane_u32(riffled_palette + *(sp - 0), cur, 3);
+-       vst1q_u32((void *)dp, cur);
+-    }
+--   if (i != row_width)
+--   {
+--      /* Remove the amount that wasn't processed. */
+--      i -= pixels_per_chunk;
+--   }
+- 
+--   /* Decrement output pointers. */
+-+   /* Undo the pre-adjustment of *ddp before the pointer handoff,
+-+    * so the scalar fallback in pngrtran.c receives a dp that points
+-+    * to the correct position.
+-+    */
+-+   *ddp = *ddp + (pixels_per_chunk * 4 - 1);
+-    *ssp = *ssp - i;
+-    *ddp = *ddp - (i << 2);
+-    return i;
+-@@ -121,7 +120,7 @@ png_do_expand_palette_rgb8_neon(png_structrp png_ptr, png_row_infop row_info,
+-    /* Seeking this back by 8 pixels x 3 bytes. */
+-    *ddp = *ddp - ((pixels_per_chunk * sizeof(png_color)) - 1);
+- 
+--   for (i = 0; i < row_width; i += pixels_per_chunk)
+-+   for (i = 0; i + pixels_per_chunk <= row_width; i += pixels_per_chunk)
+-    {
+-       uint8x8x3_t cur;
+-       png_bytep sp = *ssp - i, dp = *ddp - ((i << 1) + i);
+-@@ -136,13 +135,11 @@ png_do_expand_palette_rgb8_neon(png_structrp png_ptr, png_row_infop row_info,
+-       vst3_u8((void *)dp, cur);
+-    }
+- 
+--   if (i != row_width)
+--   {
+--      /* Remove the amount that wasn't processed. */
+--      i -= pixels_per_chunk;
+--   }
+--
+--   /* Decrement output pointers. */
+-+   /* Undo the pre-adjustment of *ddp before the pointer handoff,
+-+    * so the scalar fallback in pngrtran.c receives a dp that points
+-+    * to the correct position.
+-+    */
+-+   *ddp = *ddp + (pixels_per_chunk * 3 - 1);
+-    *ssp = *ssp - i;
+-    *ddp = *ddp - ((i << 1) + i);
+-    return i;
 --- 
--2.50.1
+-2.44.4
 -
-diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-devtools/rsync/rsync_3.4.4.bb
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
 similarity index 77%
-rename from meta/recipes-devtools/rsync/rsync_3.2.7.bb
-rename to meta/recipes-devtools/rsync/rsync_3.4.4.bb
-index 2a1c3d9..c6f3c80 100644
---- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.4.4.bb
-@@ -14,23 +14,9 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://rsyncd.conf \
-            file://makefile-no-rebuild.patch \
-            file://determism.patch \
--           file://0001-Add-missing-prototypes-to-function-declarations.patch \
--           file://CVE-2024-12084-0001.patch \
--           file://CVE-2024-12084-0002.patch \
--           file://CVE-2024-12085.patch \
--           file://CVE-2024-12086-0001.patch \
--           file://CVE-2024-12086-0002.patch \
--           file://CVE-2024-12086-0003.patch \
--           file://CVE-2024-12086-0004.patch \
--           file://CVE-2024-12087-0001.patch \
--           file://CVE-2024-12087-0002.patch \
--           file://CVE-2024-12087-0003.patch \
--           file://CVE-2024-12088.patch \
--           file://CVE-2024-12747.patch \
--           file://CVE-2025-10158.patch \
--           file://CVE-2026-41035.patch \
-+           file://0001-Add-missing-prototypes.patch \
-            "
--SRC_URI[sha256sum] = "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
-+SRC_URI[sha256sum] = "bd88cf82fa653da32314fb229136407c5c90f80d1758d8f4b091767877d8fa96"
+rename from meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.58.bb
+index e4cc636..9e6a991 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
+@@ -5,33 +5,16 @@ library for use in applications that read, create, and manipulate PNG \
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=0fdbfbe10fc294a6fca24dc76134222a"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=9dc350edbbbee660c7d9af79487168f2"
+ DEPENDS = "zlib"
  
- inherit autotools-brokensep
+ LIBV = "16"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz \
+            file://run-ptest \
+-           file://CVE-2025-64505-01.patch \
+-           file://CVE-2025-64505-02.patch \
+-           file://CVE-2025-64505-03.patch \
+-           file://CVE-2025-64506.patch \
+-           file://CVE-2025-64720.patch \
+-           file://CVE-2025-65018-01.patch \
+-           file://CVE-2025-65018-02.patch \
+-           file://CVE-2025-66293-01.patch \
+-           file://CVE-2025-66293-02.patch \
+-           file://CVE-2026-22695.patch \
+-           file://CVE-2026-22801.patch \
+-           file://CVE-2026-25646.patch \
+-           file://CVE-2026-33636.patch \
+-           file://CVE-2026-33416-01.patch \
+-           file://CVE-2026-33416-02.patch \
+-           file://CVE-2026-33416-03.patch \
+-           file://CVE-2026-33416-04.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
++SRC_URI[sha256sum] = "28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775"
+ 
+ MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
  
 -- 
 2.55.0
