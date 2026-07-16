@@ -1,217 +1,214 @@
-Return-Path: <enoch.ng@windriver.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C27EEC4450A
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 14:25:22 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14157.1784211920589578835
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA2FC44512
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 14:58:02 +0000 (UTC)
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14876.1784213881601962813
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 07:25:20 -0700
+ Thu, 16 Jul 2026 07:58:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=E9OvXPIB;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1657a5b283=enoch.ng@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66GDKgGw3048689
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 14:25:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=7CHEDBLFZns6IOSaK218
-	xCsVnMqzeyeIgESqw1q1i9A=; b=E9OvXPIBmzXu5dtTcMbavtlbnXZYvBs3cjXg
-	g84+C5Uk4rCkwKdhly3gNY7P1xDXgO/jCkk/xb3OlSWlQIcA6GmIQNySKe+nKPVp
-	oAiLTxNz0CF9+Y09dxC7sMoErbfStfDyIupbwxDkzLgwVKlH8/4iYUUET0FhLxnL
-	/hvqG+M3fYQXcyXKy7B2CjioJ3EHe1agjHJrx/D0Dv1p4GR2p/Razu0zZfGxIEyg
-	DJtmyZbNeVoR92jXZjcv7Pr72z6fPsKKjYjhkS9fCUCprPYz5wM3DzSRasq7AHKS
-	Sk/dDQXqWjysrIHXTmWtgvUQWQFZItfv8QoL3OEICLs1lCNewA==
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010051.outbound.protection.outlook.com [52.101.46.51])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fbcpn89t8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 14:25:19 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WZnzB55BZkLnXNPjbHMsFDvD7Lzt8DXWrUuMXze51kXJQ5s9/HuftwgDy3xPcdXjTvPqwH3F++4eClYJcBYv0XamYGO/23sOmuYyd5mSYK5jl84ltcZ6Dvlb5Mk+0krf5dvKHlBkWl/g+ZglRND7iKba7qsz5Md58sYrp4ZyTm4k7pXO0rbLs+q5A5VxOGWPyymFEXJyEWOlGmwG7JZCqiPxWv8mhDvYpWtvRnNh9xkPMVubJye43W0mWuWTCoQEMAi9tqPLZGLc21QEpXa4itiMKl7O+HQPoegJqpeyntxlpM56V7LbohWkJS9NYGQAbZjCfZ/EbV54oSTmlWnMoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7CHEDBLFZns6IOSaK218xCsVnMqzeyeIgESqw1q1i9A=;
- b=Dnhio5ufDNkmSuiSDwQr1cIxAFMObJ3Eb1iWMWnhiENlW6tAJbdvGVVSGk/LbHzEtvauUurn2jsnVi+guwleQBxnsDYO/PEPySYoO0Hq9Hmn/PogWpDBD4zN4Y0ngLkGpH0pibosLcIKgG6zHnIiHmI5C59SjJV2pYea9c2778r2bULEoNuCgGLFYXtZHnwCggPh+xLfLUgvA2DMw6gOc9QZm1hDwpI0iDQlCQc64JPFLjYkyUp6/ZBNT/fpXXnLUrsvuVzJn6JC0WJ2E/NbAT6oOqgbqNWkbtjgryzXlUCXOCmbN5LWBbL1w5QRXwOl7GWKv9FpslZik2jlCtK2eA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS4PPF10012BF96.namprd11.prod.outlook.com (2603:10b6:f:fc02::a)
- by CHXPR11MB9627.namprd11.prod.outlook.com (2603:10b6:610:2f9::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 14:25:16 +0000
-Received: from DS4PPF10012BF96.namprd11.prod.outlook.com
- ([fe80::3dc1:8afd:aab9:763e]) by DS4PPF10012BF96.namprd11.prod.outlook.com
- ([fe80::3dc1:8afd:aab9:763e%3]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
- 14:25:16 +0000
-From: Enoch Ng <enoch.ng@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH] libxpm: upgrade 3.5.17 -> 3.5.19
-Date: Thu, 16 Jul 2026 09:25:29 -0500
-Message-ID: <20260716142529.2686271-1-enoch.ng@windriver.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0012.namprd05.prod.outlook.com
- (2603:10b6:a03:254::17) To DS4PPF10012BF96.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::a)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DC2guxB4;
+ spf=pass (domain: gmail.com, ip: 74.125.224.45, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-66826484b67so1422666d50.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 07:58:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784213881; cv=none;
+        d=google.com; s=arc-20260327;
+        b=V7Xe2DIff96exA26a9DsG0cjf3T7AIgwi8tndkrKzvUNxvLw31YDY35EW16/5yxEqG
+         +3ZFAiqb8WHH1SDtiSjyRcpB6PwNfPeDVVbZtLnxx3cwALuY2upQrw4niPgrzUrlUzT7
+         78Liq8fxnZl/Mo5/2EkUbi4AcZ9AzTXuC5raA0TWewrIN7EKJMymIvW53CbftL5m1thZ
+         Dp7maMc5V4Z0GizO3hAKR+b/XV8805eM6m5M83q9vIrW//m451fbH+V6A3oHobssYUSY
+         hzZBiVUD8uTjvmwWHyswo0UlZ3tkazOUAe6I+TbP7ssGhTph7tScbV5I3QKn8ASoMY7p
+         aNDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aaCocvdHV2LKSM+yAiPLsT1ihYVl5MfB+KpDTCRCbhY=;
+        fh=qBGF+mCe7pJqWslyU3y2+S0GKhyjCAH5b0SlfgGlM3I=;
+        b=njRYncD2JzDqY7qtEYsxMFdrYLTiTk0jQVh9PxZSuYGa4NKATXba/anPB2ngqKIIPm
+         wVKsUNoh99KOROEnBj1UiUFEfCfF2s7mQOplWqjVxjohHZ2voZTLygdf/l0rsj2e8YL6
+         CzlZ61UaXzUWcpJ+SgFwTaNxUuyyfdDp4k0mHQkkrQmCBRTtcXhYjfb1+xqaf+JewuWM
+         GZbYVNypPHTxIh9bg3srOVbI6V6t4lsHM4G6WCeK5aYBrZxtHWItUa3zAyKsZQHmHJd6
+         80y2V6PyvaJ4HG6sF46E4YnjAp0C3vaWrjVEuy3AoZhnw9c6hPRIn87cAFAQm3huUSkN
+         zS0A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784213881; x=1784818681; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aaCocvdHV2LKSM+yAiPLsT1ihYVl5MfB+KpDTCRCbhY=;
+        b=DC2guxB4/ZsyBgqYZXgKiv51i6k8H1Rp346/rqVDa/uzNGr6uU2wMTWjTNVG/Rrv3P
+         BnUy8VOoZfG75b5WgkZbXjyKHlUDX2nK2447qfQLzdOZ7LvN7KF+KiO7If0MMsH9N2mi
+         j9E9LOSTBy43Y9IuG5GNcX5Dgdg9jnpYF6OYnsCXANlVT/z1qTb3df6cSJawdZ18ZQPu
+         K5kwB2OJCXUQ67egBW39YdTau+TLgf5T+1nQ1O1n0cJhrF53ECcTyybgpjROxfBdbidh
+         iW/XSAHcI6JV6Msfmc0FV6LZ+z8X3z52INKx0K7cWFc7WxCsMmXDbwcx6it8yZ1UjoZP
+         TzDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784213881; x=1784818681;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=aaCocvdHV2LKSM+yAiPLsT1ihYVl5MfB+KpDTCRCbhY=;
+        b=n4kgK00J65Fek7LimmLbdx4+RHXVIFPQQ+k8mvE8bQ++NeqE+HeyX0/vfkK9I0DJDv
+         A+PWo5ABx9+y1wTm0D9Z8+onh9ZIok9mn/MxDDIAIix650lFVilba68HcoZl0W1LvIKn
+         P/4iF36hwwfudK15xVFWjQFLi3ROUfxJsR6OePsyEWKykVYeJHt0JTZniCCoIw/6FJwO
+         XrFRpS7CPmM50Pc32eerduyVZXrycmg1VwCkW800Rc7TdZVbi+dXUfwFiX+b6oy101dL
+         eNJpX/f8m5I0aq65cTvR2F9GbXgNNqJXlNlU2nSvCCEzFRYYLM+Ytm3cFbeCqLEUQJxo
+         v+bg==
+X-Gm-Message-State: AOJu0YxcvVIwd7Rsg40ZyFKOa2XP3W2CViTDfEzdvshmEfLanw7jlnfJ
+	GABPNAjOn5IauHxFi1+5tzG4bQf93Y7IezMArBE//KJwF1jP3Un6LPA97qVaAxlsXe4ScMaklLY
+	Lt8oxZlWIKRSnrfg3ICIioGooA3tHfUk=
+X-Gm-Gg: AfdE7cnpwUE/0dgx59zBnvQISq0CiRS7KZiq3CWIXL2SsdWLuBiKevSAcDZuQn0JY9O
+	YvydJDS/aQ0swvQnjJElGl/5GouN/oNHW9U5yVOSURhIAWqN6mAv+pCFCvXloXDPaPt8U4okX46
+	m2kJiRy69K+20mJE+ztBJ2+hoRLU57nj7dWlJXad54Al4XllS1WVyaRP2549JlPUEDX4e23lK8R
+	lVmgf03z0ccOGi/UNPy6fIlvuQ12wy0qxpmEIwm797wBc9lG+gIrDB9dha16tTKMicYQ/aMwNbd
+	6G6ZAiVAhTU=
+X-Received: by 2002:a05:690e:1505:b0:660:4473:6eba with SMTP id
+ 956f58d0204a3-66807775852mr7438387d50.47.1784213880565; Thu, 16 Jul 2026
+ 07:58:00 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF10012BF96:EE_|CHXPR11MB9627:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bedd8e3-0ca3-40cc-9546-08dee3460e1c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|10070799003|366016|23010399003|11063799006|56012099006|3023799007|18002099003|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	fyjWZ8f/XFtVapwFsc6ObnfB2IPfzmvJu/btDLL1glylY5jVCrbWerTf5jt9RBX0IYSeiFLM6GQjarqq5nkX6DTMzyUm37O0guuuX3xlK2yEAu2yJVgWPAXq92BFU+FByVj7UthBpVtvf7eNCW9N97e6n36/l4Rm4dy/3SgQtWGuR9uv9PeeQT5FTDoWwMIGlS8EFtAS4V5VWbiwI/i1u/WvkliTsYKTKUuJkj9jh+Gl5V/6T1yhsOIhshMuhEnVUTnIwmybA28dBML7AQWcAmVxRyOSIS4iyGfyUH5JvtAX11bWefyvOEO0+gGZ2CmTOv3OMZaB/x1kolF3brpI8+Nk/ZI/rFDk4XdL0J1nCgbba3UpDyI6j8ex/TVPFFOczCY6Ut7sXaeGc8xwpHiY0gOvind0LvAPbxR4KHr6RByrJ2oopQO5PrQGEnkxOEs6ydrHiEHvEp65GWqVMcz+Mr8tfBc/wPOE5c88NJ8vbroF1fRUYbh3v3OufUkUbbmFJik2b1Con8UZRNvb9RcNN72J1bPYZevbkft3AwAATcGDhnrgcIJ2hfQuD9xdFH5qpDjC5xjZ7EJXr0Zug7owevriMJfPSGXf4zKQYIleeGkqrwjHKg1Id8Rov/w74fCX+ckYDcZh/qDOj5WU3N4GlRIkVCpMObZyaeq6Kx6wNF4=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF10012BF96.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(10070799003)(366016)(23010399003)(11063799006)(56012099006)(3023799007)(18002099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ihYGQJQLY3KWaMn1EuRJrlNtdcV8GTd4nLY6vcGoo9G04VM6hTjq57ZHGt5s?=
- =?us-ascii?Q?ocWdLKipyIm/zAcBmyxuXpD58gLls2GPI3AGqEJ3YywsQShRXIu6H1ZXc5qV?=
- =?us-ascii?Q?NQsHczgXdUxj6prvFe/UBheBk6Id6sWupQJF/RjVrtOj3Eq6X9rby3sTX21Z?=
- =?us-ascii?Q?wGTwTNnJLoWHEUKdvOhr9YRqHOQERT+PLSQnafLnUCGr9QoilHqpQcl4BW8L?=
- =?us-ascii?Q?trol4eR2vc2EYf/K+/iOPLitDtqRRQ4JuB76emzPV65PRo2ufbk/WT/8bhBY?=
- =?us-ascii?Q?1nDvm61PUgEnBbyaBXHFkiJvHAPJdGiYhV0nmyLCjjSW4JaGhF23/mMem3Q1?=
- =?us-ascii?Q?bIVKZqvvwyp4Pk3VYY2yS5ftnA4sWLipH2b3RaPaDE5LqjSxYlAfMuhVSSuM?=
- =?us-ascii?Q?l3cHF9cieX0GjM/j08i+C9IFCHrj+XQxGZb9Wfj7r7+8qqZIB4dpImbUh/0T?=
- =?us-ascii?Q?gfjVAL0SbEImZFymkwDbpaKSGLT6ekB0GlB5KAZ86bHNk4SG0z3sz0Ybbizz?=
- =?us-ascii?Q?dyfSYkxrZ2yqjpIdOxC6mKrTP8shIMCi4lb7AgGAz/bhCT2sg/PTPXzhlGZ7?=
- =?us-ascii?Q?kwFxbgyHLTdjwNFNLDYc6hqc9OGKzcfl9QkqAMp92Db6RRXmAkoCH/S6AARP?=
- =?us-ascii?Q?pNT58ecF8kk65bvr01qRFiXofRi6hZ2UYRWVIPoEt3Qe8EzlVD0XtNVXhKI1?=
- =?us-ascii?Q?+cDrNA1dr2uJyxGuGQPRMSvGnGlHAxooudeWTIzw6KJzwHeyc/S6sGC0wOWB?=
- =?us-ascii?Q?Ut46XI6rF5ujk8t64QYKAVXpJFZIvaKYyRl5ad1HAbJLhL5OeHKaZYfUrjj5?=
- =?us-ascii?Q?pz4UR2F2FW+g6cnOkZEL7ePWyfDPatOea7bz8pPzTdpDZ3DIg/dc0e4n2eB2?=
- =?us-ascii?Q?iLecLcoUCG8qgnFCkPtPFTnVEFvN+fHW64+0TjFxeLE4sA2a13imMFvq7EPZ?=
- =?us-ascii?Q?CZioTKjSKJaFuNTZaGHXazhzdWNoF8AY7jzBKwwwRczxflcrf+0YQv7ukKG3?=
- =?us-ascii?Q?kl5VzVmiBET0uzlx4sNFhIyzh3cgLOTGtzT5s/zHbDKp8v9HxkJ+t1QgZbAq?=
- =?us-ascii?Q?wjqRddbOXt9Y9Ahx1m2fAwd77sYxdDJOBxMFWioO09XDhuiTsTDzsrYndkGd?=
- =?us-ascii?Q?4SUvigZb3c8ne40DpKdj2dsNfGOp1kO2/sDsWxJhh6UBEqCFC8cGvr76QDcH?=
- =?us-ascii?Q?F0ooqTeF5XUdjUQ678wHb1cEXu/t2hoDfkdwdBgJqIvEVGRrSuxTPrncchaf?=
- =?us-ascii?Q?DKgZnAq0j++Q85hqY1QcVTVZ/2ktVE6ll4Adf5cXra6SOqaSZS+BqXUAqIkX?=
- =?us-ascii?Q?RXqgJGKAbH6GQ2MyZhODzCBafOACl4HErON7q6dJoBLXhz9noAIF/7HMDH5S?=
- =?us-ascii?Q?lsMoAt06uhiY0jCKmYHldoaLmuxf/F8mFhtxQ4Vy7KR3Yb2IYOtRQkiRNfBC?=
- =?us-ascii?Q?GhRAc70nQz7vb2qZ7wQRlPYm5Q1SbhrRtIdGze5NpTiNSjzS6o18CwjTbQbo?=
- =?us-ascii?Q?ZznxcTD/HUWtY6IjFgYkwkOm2pZ3ovNWEU9MucvnudtTvwHuJqWgmb/hcuRX?=
- =?us-ascii?Q?O2/BfyAOrUG7HcEppxuZoqnWIWv40C+hP/xaIfnfvyKsSSkt590tqnK+PaVZ?=
- =?us-ascii?Q?HIvfcDd+EqU5tvkrdMGSMxBigL/CQIJeNdsSUzk28dF5m0vxHYms6d/dF8mY?=
- =?us-ascii?Q?RpmrUinV8afC6ytIglavYfZoiXhLqF2gtkI0mabu7sbckeYRpdmD16bvuNIC?=
- =?us-ascii?Q?QHFOtrWqzao0/YwPsrOxEVus4Uv5OmlcNciLE6GAZUDWrER1+UjMdqrxe0UZ?=
-X-MS-Exchange-AntiSpam-MessageData-1: fT/daotNh/K7sQ==
-X-Exchange-RoutingPolicyChecked: 
-	UoEzS7j9Jp9A4tnfyh1ps7JMlFOivzcVhf+8nrFEgTR8yh4c6yVm+HKgQJyWAtBv+DOZznf74n19mCCSx/NtekBQuwQvzV2BjDvEoPubfyjecuUGjfK6f1N95BIVvHcaB3bnBhe07gG7Nh4+myPAhHEiGrL7JEJX+zjr7e8e/ylgSnTZ/bTKhTslbB4x9UmQryh2AQJ1ghYOUQc+8fjIBeriDnKMsOs2SB8gQeu8dZyNZ8gTUMtcFqlWze+d1UUnkS9fTcTAd8Wb9614uZttisGPJ7FVgItJ0O+AL6KqXN/6fqQmbZzzr0XzzxuT+JZ6/+G9PLbQYxPOmRMKFpl6Rg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bedd8e3-0ca3-40cc-9546-08dee3460e1c
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF10012BF96.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 14:25:15.8986
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QbP8ipHSHMcAqbG94C8mG/MdpLUrxsj9XTxrOtKbfX1Ycx9yW5CNyN2fdYdMHLgEbv7t7zvoPWxp59Mqu7EV2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHXPR11MB9627
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE2MDE0OCBTYWx0ZWRfXxxCAXYNAAKne
- fVHfUEB+h47uZxyiuhkhjELbMHkcE6uKTjfa3Ek2bbSXsgBbOS8xJzPK/meAHdqw4cXj+edbtCz
- 02tRU1/n0hVeh+hi69+KU5NJGs3KScI4dJumBkOxG4TqY/xdbkaTuTbgXsG1ig8waP5NAbSgVOB
- dDAUQI+niJ9RQCwH4aqvNj0lh4NPzL1OjjQLmFYM8BJr9rJujTyn+myEGpFCRuk92xKJJuuXcj5
- IeRvn0WjrBkPUbPrnfzCIiAX0e1t3avpY7xozV3pLjLrKBZp++rKuoeYwja1izuknx0CQxn/9Ge
- oKUVj18vW/SqEfbA85MKJTgQkpE0rIFZKlezNyKO68w0rEOz3tuZWzjEajztmZxw0WgRHK/jAsp
- jfBkCpRpEHvbM9pYccdo9fvEHPRstwoTtT63gSTOd5SLYycmhZoqF+hXYRm9uHXejZnoBIbBwWj
- se+RR9SwldA4OlZIa3g==
-X-Proofpoint-GUID: si_xy4l59QFDe68NgAaE1C6g9rkJQ8pQ
-X-Proofpoint-ORIG-GUID: si_xy4l59QFDe68NgAaE1C6g9rkJQ8pQ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE2MDE0OCBTYWx0ZWRfX7fqWjRskOWsY
- +Zpfj4IC0b3RG6MpxoqD4Yzq7PHxk5FMMTuU5GnDTKSY491KWSSCKVJeXKaSXDtvvgVMt3dW8mo
- w/NT9AFMVliSBNnSh5ljurs2+shN7+Fo/++O7PXD0kfbsjw/OET4
-X-Authority-Analysis: v=2.4 cv=JNsLdcKb c=1 sm=1 tr=0 ts=6a58e9cf cx=c_pps
- a=6wX/tLcgNF/HagpTIcwFsg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=omOdbC7AAAAA:8
- a=P-IC7800AAAA:8 a=7CQSdrXTAAAA:8 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8
- a=YQ1XnR2lMZ286m2He9QA:9 a=d3PnA9EDa4IxuAV0gXij:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-16_05,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0 phishscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607160148
+References: <20260710160238.214808-1-jose.quaresma@oss.qualcomm.com>
+In-Reply-To: <20260710160238.214808-1-jose.quaresma@oss.qualcomm.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 16 Jul 2026 08:57:48 -0600
+X-Gm-Features: AUfX_myhDVQCHzjHImVVYgKW5kLvRSwuvXE1tofdjPh8Dxm8oub11Pj45i6Rw0Y
+Message-ID: <CAJdd5GY3dfgb=SXPcisj4HuV8HehFhN4hm8Xo31goZpEBXeHqQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oe/spdx30_tasks: fix image deploy dir
+To: jose.quaresma@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008df0970656bbaaf1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 14:25:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241092
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 14:58:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241093
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+--0000000000008df0970656bbaaf1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Squashed backport of two upgrades:
-1fc25a668e libxpm: upgrade 3.5.18 -> 3.5.19
-767f686226 libxpm: upgrade 3.5.17 -> 3.5.18
+On Fri, Jul 10, 2026 at 10:02=E2=80=AFAM Jose Quaresma via lists.openembedd=
+ed.org
+<jose.quaresma=3Doss.qualcomm.com@lists.openembedded.org> wrote:
 
-A vulnerability in the `xpmNextWord()` function could cause an
-internal pointer to read beyond the file's end due to improper
-validation of file boundaries. This issue was fixed in libXpm 3.5.19.
+> IMGDEPLOYDIR is not populated when the artifacts comes from sstate-cache.
+>
+> Instead of the task input, we should use the output because the input is
+> not guaranteed to remain in the file system. For example, `rm_work`
+> also deletes the IMGDEPLOYDIR file.
+>
 
-The changes between 3.5.17 and 3.5.19 contain the fix to
-CVE-2026-4367 along with other changes that should be safe to
-backport as shown here:
+LGTM, thanks.
 
-$ git log --oneline libXpm-3.5.17..libXpm-3.5.19
-9a05472 (HEAD -> master, tag: libXpm-3.5.19, origin/master,
-        origin/HEAD) libXpm 3.5.19
-5448e1b Fix CVE-2026-4367: Out-of-bounds read in xpmNextWord()
-5b7e903 (tag: libXpm-3.5.18) libXpm 3.5.18
-a5549ac gitlab CI: drop the ci-fairy check-mr job
-10070a4 Strip trailing whitespace from source files
-5679dd6 tests: poll for stable compressed output
-7ce3959 man pages: adjust line breaks in source files
-60ee362 man pages: remove .PP after .SH or .SS lines
-3ba5d81 man pages: ensure .BR macro has multiple arguments
-3aa8a1e man pages: make indentation arguments to .IP be numeric
-854c23a XpmCreateBuffer.3: editorial changes for this man page
-        [Debian bug #1102886]
-b7309b4 Fix build with current Windows headers
-2803929 Use _stricmp() instead of strcasecmp() on Windows
-bdb6c75 Remove xpmstrdup fallback for strdup
-73b69d7 Remove xpmstrcasecmp fallback for strcasecmp
-b30fd09 Remove ancient port to 16-bit Windows without X11 libraries
-0224b43 Remove ancient Amiga support
-b72af4e unifdef VAX11C
-02702c2 unifdef sequent
-b4e2177 Remove outdated ifdef checks for including stdint.h
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Enoch Ng <enoch.ng@windriver.com>
----
- .../xorg-lib/{libxpm_3.5.17.bb => libxpm_3.5.19.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.17.bb => libxpm_3.5.19.bb} (88%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
-rename to meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-index 8e15ecc0d4..32e052fd42 100644
---- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-@@ -22,6 +22,6 @@ PACKAGES =+ "sxpm cxpm"
- FILES:cxpm = "${bindir}/cxpm"
- FILES:sxpm = "${bindir}/sxpm"
- 
--SRC_URI[sha256sum] = "64b31f81019e7d388c822b0b28af8d51c4622b83f1f0cb6fa3fc95e271226e43"
-+SRC_URI[sha256sum] = "ad3576d689221a39dc728f0e0dc02ca7bb6a0d724c9a77fd1bfa1e9af83be900"
- 
- BBCLASSEXTEND = "native"
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+> ---
+>  meta/lib/oe/spdx30_tasks.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 79e18db11d..52255108a6 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -1435,7 +1435,7 @@ def create_rootfs_spdx(d):
+>  def create_image_spdx(d):
+>      import oe.sbom30
+>
+> -    image_deploy_dir =3D Path(d.getVar("IMGDEPLOYDIR"))
+> +    image_deploy_dir =3D Path(d.getVar("DEPLOY_DIR_IMAGE"))
+>      manifest_path =3D Path(d.getVar("IMAGE_OUTPUT_MANIFEST"))
+>      spdx_work_dir =3D Path(d.getVar("SPDXIMAGEWORK"))
+>
+> --
+> 2.55.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#240660):
+> https://lists.openembedded.org/g/openembedded-core/message/240660
+> Mute This Topic: https://lists.openembedded.org/mt/120209270/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> JPEWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000008df0970656bbaaf1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 10,=
+ 2026 at 10:02=E2=80=AFAM Jose Quaresma via <a href=3D"http://lists.openemb=
+edded.org">lists.openembedded.org</a> &lt;jose.quaresma=3D<a href=3D"mailto=
+:oss.qualcomm.com@lists.openembedded.org">oss.qualcomm.com@lists.openembedd=
+ed.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">IMGDEPLOYDIR is not populated when the artifacts comes from sstate-ca=
+che.<br>
+<br>
+Instead of the task input, we should use the output because the input is<br=
+>
+not guaranteed to remain in the file system. For example, `rm_work`<br>
+also deletes the IMGDEPLOYDIR file.<br></blockquote><div><br></div><div>LGT=
+M, thanks.</div><div><br></div><div>Reviewed-by: Joshua Watt &lt;<a href=3D=
+"mailto:JPEWhacker@gmail.com">JPEWhacker@gmail.com</a>&gt;</div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@oss.qualco=
+mm.com" target=3D"_blank">jose.quaresma@oss.qualcomm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oe/spdx30_tasks.py | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py<br>
+index 79e18db11d..52255108a6 100644<br>
+--- a/meta/lib/oe/spdx30_tasks.py<br>
++++ b/meta/lib/oe/spdx30_tasks.py<br>
+@@ -1435,7 +1435,7 @@ def create_rootfs_spdx(d):<br>
+=C2=A0def create_image_spdx(d):<br>
+=C2=A0 =C2=A0 =C2=A0import oe.sbom30<br>
+<br>
+-=C2=A0 =C2=A0 image_deploy_dir =3D Path(d.getVar(&quot;IMGDEPLOYDIR&quot;)=
+)<br>
++=C2=A0 =C2=A0 image_deploy_dir =3D Path(d.getVar(&quot;DEPLOY_DIR_IMAGE&qu=
+ot;))<br>
+=C2=A0 =C2=A0 =C2=A0manifest_path =3D Path(d.getVar(&quot;IMAGE_OUTPUT_MANI=
+FEST&quot;))<br>
+=C2=A0 =C2=A0 =C2=A0spdx_work_dir =3D Path(d.getVar(&quot;SPDXIMAGEWORK&quo=
+t;))<br>
+<br>
+-- <br>
+2.55.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#240660): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/240660" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/240660</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120209270/361=
+6693" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/120209270/3616693</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:JPEWhacker@gmail.com" targ=
+et=3D"_blank">JPEWhacker@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000008df0970656bbaaf1--
 
