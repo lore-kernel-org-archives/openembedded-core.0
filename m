@@ -1,96 +1,110 @@
-Return-Path: <trini@konsulko.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC326C44515
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 18:27:50 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1874.1784226461658979919
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09007C44512
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 18:56:41 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2469.1784228198431434290
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 11:27:41 -0700
+ Thu, 16 Jul 2026 11:56:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=fbqN/aje;
- spf=pass (domain: konsulko.com, ip: 209.85.167.177, mailfrom: trini@konsulko.com)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-492046a3313so2408171b6e.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 11:27:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=gllWRl0t;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-902fc790cd5so69006066d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 11:56:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784228197; cv=none;
+        d=google.com; s=arc-20260327;
+        b=P+GjhvJ6v8BvGi/nwDLhXp7KS/DCNLGWL5yNCZoSRd1Kr9EUtUdlRlUUREDDIPYB6f
+         1GClhBJgb0SNJZ0kwvGKWdkfiskDV2pPnq539ZshxdXJlXzuq8m5uFOhlYxbnelzbZ6/
+         crGAoZXwD4MbZ+yUlKGUutQi/ng3ez13gMrBaZkzBJYIoed0irY1zw0TE61xhBCWM5ni
+         dFUo63YZ0Wk/CEe+9AmmCbb8UmBKrXE1JPu7HQdTHaiKYuLr0vxWqb4iq1a9NuN1l3gK
+         kITRQlggvpZfF+ouXLkpOzdd3G2EqBUblarrfAH8EDiHUe0SpQlbZtVgP+xH/v3XHNoF
+         JlKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5+zfn18f4W+jYuGX8RkqwswFNPn1qoNYToBlUIDExKM=;
+        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
+        b=Z69DEbdgNKvd0/KQpbddpcs5FlItwyla1eXJXNpWWQPFLSOi+yCBI0srWHI+uVSzAY
+         MrJzPQR7jhUM6s27hO34HCseoay7RMcCztFHhyj9/av0r7noynLu3dfqnRfoprCjPXaN
+         tvPxNp1EgaMIILfK2oABPhEYnBXgWLPeEMoXmVMHDSAVgEnzcEmNgWuSSkV3k9DcRoe/
+         NXFVi4UOGY8oPmDW1loBaMH3II9Bjykbk/zd+60JubdrTZY0R0KPdr9HCm9MVDLe6Jg3
+         n37z+e3ig2ttyfcFVOh4GlusXbD5ByL1FBxORK/WWS31suU4Q/ujt/oVkqKGYoHPGqDI
+         TYLQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1784226461; x=1784831261; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DxOwhCmeBfgsEczUl42pN/BLpJM5zWMxISQdqN5TOsM=;
-        b=fbqN/ajeDFZYC/Yxd/tjiChBxD9mNefhq+ekh39fDRQSPxkiVPBOFXXIzRs7oybP5W
-         dxYRzChEemS4UodvQGAUedNhL5nh5AmvuY0ZMWaidwP9lkzm5yPlkfFTbOclbY7AFNx0
-         1fPmPrIBCHoD4htI7MsHLZdkK34UMFNR1k9r0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784226461; x=1784831261;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784228197; x=1784832997; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DxOwhCmeBfgsEczUl42pN/BLpJM5zWMxISQdqN5TOsM=;
-        b=VBA4z0IdEiDd+EbqAiyEQITw9PP8pi32ePRIYRf070zMDhpVfB2F/TZ+1kd08caBJt
-         duGRX4dqOMxViWdm3AkK8rfZnW6sOnjL9/t9ED+qd1mTcGNBQA0gMmV6Ak2n238/QwAw
-         4ISbLIuGTQfZblxXUvmwbXqc1rVid5j8TqA59Uw9pmSRFPWagtN1XkYxCBw6U/ffp5im
-         cFFtnUvtg+L3AFDnTxDcJWwhU9klDFt1dBzFX5KrRBUxRhcfVf6z8SfV3++KQO4C4s+8
-         wAS+7gA0SpIiczlhwBwHUeFLACdzCQg4SEX4+GfBjVNRBYf+lcpctOvjwdz7bJZhphtU
-         Syrw==
-X-Forwarded-Encrypted: i=1; AHgh+RpkUPbUDI9QiU13LHsCCcu9oBKqpwKqnem83xltKF54pSCljKSj4S1ANWjeQkmg+9IO/8H78VgzOCqnzskxdGWXHg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwTsWSyeUpIkADPbUaghrypXR1e6LGXjVDcCK77Fs9ac2ZZyMd7
-	f1XH17tF+iShfXE9eTetyuwDE3sWDNKBI4jlPmXiw3tPsMyAgL8+VhjJNzdaUUs1h/E=
-X-Gm-Gg: AfdE7cmU9XmBSfTJwDRjdXSzQVX6VMuEUp8d95vZEhrekfZDAMMf6b8XqTuOVkJqeIN
-	xEzFfwmCAlOUY9RZdPAvrwr4StkfxYMtR30YlocggrScVcJtBsLvDvq3cB9pq9KFglqb4+Wq4rb
-	OYDia3KLcECMUpF8gdMpoCfX01ASKdq4Okst3imoNQRnQMFz6l8+YLwfn/W+kPxrIRu0hu5KWTz
-	kRMOA1vEBFXYVL9Vx0ajDttRzs6M6fAuhL5tKoWw0s/Vlo1i9nUzMmY1PcXMZBYz6n8j3mfo/c6
-	PI8RChUE29Hp8AqQLXSut1xL8oVIoG0u+AK/QLD5JDIUKJGMtsP4oSqQod1P+VqsCMLzXmlRQ3I
-	TycIBwgzMnLNJ2jIrPGMoV/HYhyeCNxBy9gGrwqs88twZfZukQpFkGcFKDOCE0rLW3CU5btc/3k
-	85VFDkRKchbhe2Sp/9ps3eaF3syQXHsgj3xhDqaSpcaFUvucPSWklYo89rviCfOxO4aDhiAttY6
-	rRZycVEJzgMTCt5pLO4Hx9MVAI=
-X-Received: by 2002:a05:6808:2389:b0:495:ff85:d33d with SMTP id 5614622812f47-4a4c86669e1mr569879b6e.12.1784226460841;
-        Thu, 16 Jul 2026 11:27:40 -0700 (PDT)
-Received: from bill-the-cat (fixed-189-203-100-56.totalplay.net. [189.203.100.56])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a4099ace01sm15231436b6e.18.2026.07.16.11.27.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 11:27:40 -0700 (PDT)
-Date: Thu, 16 Jul 2026 12:27:37 -0600
-From: Tom Rini <trini@konsulko.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: leon.anavi@konsulko.com, openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [[PATCHv3] meta: Add pam to the defaults if using
- systemd
-Message-ID: <20260716182737.GP749385@bill-the-cat>
-References: <20260708143704.2643050-1-leon.anavi@konsulko.com>
- <7e6827804a7b8da37204e54171d8fb9f7b490b35.camel@linuxfoundation.org>
+        bh=5+zfn18f4W+jYuGX8RkqwswFNPn1qoNYToBlUIDExKM=;
+        b=gllWRl0txmX97bcWd9ge+1VBXL/YcZrTVUpa8a/xUpDC4Lq1bSyX7DenTUp7IodQXT
+         qIkORmbp0vUk+JwAYChbM3L67lkpYwNxIvr0IOqPeu5kJbXBfTbaQGdiET+XsrClxvEr
+         cMDRuhA+qMSe7rFFNEW9ItH8GIXa94MH3wD9zr2JedysBhnPKw3F5QQfxcYQgTp4nKB3
+         VfwpknlZyqiX14aJKkzVw3MZy7PBzBMZQVeG2IefyR78M+U3oe0Y+sqLZzCFq/mxFMvH
+         O/u0WsL+OPrRfp027QQ3lgM0yvgIUvoU8+qfEQv1AYjBsHZtUh3fp68pGlwSMlAhDdP+
+         QVVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784228197; x=1784832997;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5+zfn18f4W+jYuGX8RkqwswFNPn1qoNYToBlUIDExKM=;
+        b=ftT7QIHW+fnhcCQdAcBNOST1TTjY2USpHlmLKfUh56JXTSXt/lpLwfgoBRj8O9+kB/
+         XQWlWxqYyJgMOfXmeVzkVqD61lvkdnNiucKSGviDrTCi+9fIHylWpuTlFyxxKZVPU6Bz
+         Ef9Xbp4P/+3QGX+r6CcPTPXHq+v8u2eHwNlBgbN1Rt50mBxL0KQvCzAhG9Atb4YUgy7J
+         DiY0mwR+HLFOJdKSxrqw0lyrV+kvA8uHYXNB6PYLhIeDlwNFwbt77l01KnN2qWZE3zKK
+         uvnXxWvvNqr2otParKfASgXq2LLywThg2vGHfsqEVmpcP/AWOls/JQRTSXhnHFm1QuGQ
+         /OXg==
+X-Gm-Message-State: AOJu0Yy/RALTtZ15Y9jDwjEMv/iWqGkXugDa08NxtF3Y159U2BaX4BTB
+	Q3XKk/zO2vo6vf/AiYUNrkEGrIPa8EviR4JMOrt7kkKWtzCPX8lbnhuqg68ExIOWlH91QSTXrU8
+	aNIcPp3+kAjFSfsw9TxE6vlDP7lDN5wAXYQ==
+X-Gm-Gg: AfdE7cnr9O8oQJ17r+U88VvOhjJCmsbgTrGZ7nHW0eWfyoqFFT4/JcMw0N/nqU5Rflj
+	U3jrScE+V4Ul7wRYqAPw542/mLq7w9LmIxVR8fEwkSbYp1CI1nOZtKBqkhB/9EpGK2TxJCaBfO9
+	kcjobH17pHXYvbQSbz3QT3Jh6ZHjmXWrSvyvw8ahKx2HmAww+rKqwcc5tTixC5KrHmJ6Yl3TSaO
+	R/MzEmE+Qo0ZoyACWuggaeScz9TSPzJmtP7bGtunQlCcWYrHQlBfzRpthj4Skn6C8QCYtj814jW
+	1oiOhNWQDw9kmF6z+r54
+X-Received: by 2002:a05:6214:21e4:b0:8f3:b922:b54f with SMTP id
+ 6a1803df08f44-90747cf51bcmr164825576d6.51.1784228197103; Thu, 16 Jul 2026
+ 11:56:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e6827804a7b8da37204e54171d8fb9f7b490b35.camel@linuxfoundation.org>
-X-Clacks-Overhead: GNU Terry Pratchett
+References: <20260710185207.3999639-2-yoann.congal@smile.fr>
+ <CANNYZj8SEdTeTZDr5dyQfMxQ5cm_3CcXEc_5Vs22tYMP5Tb8Og@mail.gmail.com> <DK05T1YBIVAY.6B2L4BKB3HAF@smile.fr>
+In-Reply-To: <DK05T1YBIVAY.6B2L4BKB3HAF@smile.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 16 Jul 2026 20:56:25 +0200
+X-Gm-Features: AUfX_my2Uyv2CX55BQg9VVD_EpL44PhAjMDkcRp-CLy_jq4xlF16xlADDvBpEIM
+Message-ID: <CANNYZj_q-EHN+GxGT0--7BcnpYWptBT-8DC8Mi6CvGnXaMQfNg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] lib/oe/patch: avoid duplicated "From:" in
+ generated patches
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 18:27:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241101
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 18:56:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241102
 
-On Thu, Jul 16, 2026 at 12:25:00PM +0100, Richard Purdie wrote:
-> On Wed, 2026-07-08 at 17:37 +0300, Leon Anavi via lists.openembedded.org wrote:
-> > This fixes issues with test_machine_world when running the
-> > yocto-check-layer script for BSP layers that include weston in the
-> > dependency chain, for example meta-tegra:
-> > 
-> > ERROR: Required build target 'meta-world-pkgdata' has no buildable
-> > providers.
-> > Missing or unbuildable dependency chain was: ['meta-world-pkgdata',
-> > 'l4t-graphics-demos', 'weston']
-> 
-> Why wouldn't l4t-graphics-demos just list pam as a required distro
-> feature for that recipe?
+On Thu, 16 Jul 2026 at 19:08, Yoann Congal <yoann.congal@smile.fr> wrote:
+> >> To fix the double "From:" header, use the --no-from option for
+> >> git-format-patch to override this configuration and generate only one
+> >> "From: Original Author <...>" header.
+> >
+> > I don't understand. Why is the above problematic and why does it need fixing?
+> >
+> I really don't like this double "From:" header and I manually remove it
+> every time I (re)generate a patch with devtool.
+>
+> I admit this is a matter of taste and that the problem only appears in
+> my configuration (it seems).
+>
+> I won't mind is this patch is dropped, but, on the other hand it only
+> does force the default (--no-from)
 
-Because it doesn't come from l4t-graphics-demos it comes from weston?
-And l4t-graphics-demos supports wayland or x11. Doing something here
-would be the not satisfying approach Paul mentioned on v1 or so of this
-thread. It shuts yocto-check-layer up while doing nothing of value.
+Can you provide a reproducer? What is the sequence of steps where this happens?
 
--- 
-Tom
+Alex
 
