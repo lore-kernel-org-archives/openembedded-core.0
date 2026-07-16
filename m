@@ -1,437 +1,163 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB7DC44511
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 16:19:33 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17064.1784218764427551781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F1E7C44511
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 16:35:53 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17412.1784219749215022905
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 09:19:26 -0700
+ Thu, 16 Jul 2026 09:35:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=RJpLSSKF;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2026071616192107510c8cf600020771-7qxv2y@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026071616192107510c8cf600020771
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 16 Jul 2026 18:19:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=yE+NFIXkqBp9lXl7fPLDLFh8aMkOPktlBfQBcQS9aD0=;
- b=RJpLSSKF0yPmFyimZkFrc2gKft8IZHrMB34pmdUoKsMpmFna1H+ZOpgizWzSaOuVjvbpVR
- DXaDGsIHUf1wKbrK96ATsqqGIutA63prVIXhycQ7qGW7RWVxPQ97/UW0sUkq0tDiecqM6zS0
- O6Nsm17vJHUctWrXVdz6dBs0i9vNAXeThY1HUCt2+UypSTr/2pi5/pXjPu3Bi8o8qaSiNX0g
- EAB+UFj6VsOqgF/ZCKFnZMIZ5ptalm5cnUDlGBHQ4zsKKHyORVglGMmMceOjg8lwDLquVNYR
- rsv7cEd5ZObF9lxN6kJ7do+mZWkC+jkEceoxfMk8OtYX9lotYoaxImGQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] libsoup: patch CVE-2026-4271
-Date: Thu, 16 Jul 2026 18:18:42 +0200
-Message-ID: <20260716161842.791090-1-peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WZzEDcCW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493ece78b0cso48774725e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 09:35:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1784219747; x=1784824547; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type:date
+         :cc:to:from:subject:message-id:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=RO5+SmwwBFAmxuXjBK/QBa9qOzF6XtzT7YOGFgV45UM=;
+        b=WZzEDcCWT5W3PTzustN1xF53GVzx49jMvxEXLf2v0gvtTSysrJ12z5Vc+zj0w8cssG
+         aeY0N32caFfzwFDctpsrB0IeL6jOiXkjnlNxaG/fTVvrKvwS5if+cuRkgXWHv56j0EYK
+         5gnij2MMi0Dz85OcuymXNfuS4zxyOpInBDImY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784219747; x=1784824547;
+        h=mime-version:user-agent:content-transfer-encoding:content-type:date
+         :cc:to:from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=RO5+SmwwBFAmxuXjBK/QBa9qOzF6XtzT7YOGFgV45UM=;
+        b=HqpYC909Yvp+fpWgf7Mj2f+WT0dqOUjiheSe8/KRGhVuI5duwCL7Rm+MnN8P5NGXiy
+         cuGMjjdYDK4z5QQgKA5HVb3eV6DIunIuaoM025JDTljnp+ZQVeSRI7A8Gv0oPjK3gMqF
+         xvWFCeKomKxFdJUUDlFwwtQBu80dRHsG3uTZoYifOpdV6SpRXE8o4UhpuAB/yvavsYcQ
+         Jw61cxs4LgIPUGZYL2mfTCiczw8z3CD1uQOEVRdTyE+mtgji9ivFYruT8dwcq8NVljlb
+         TrORj9tvUzktbAZnc2xxqETvD9To5v9kkd458BZMQwLK9ods/ouZ4SbwB8sAON0HW62a
+         qd9w==
+X-Gm-Message-State: AOJu0Yz/sC4QNsdZUB/fbcDCvg5403JdW3NmUSrtpc5VF59xokkb1Wrw
+	OWHwa+XunJFAhxjVlyAV4pTGcBcYFhTbWMvcaqInOawv06vKXInU8/Nl0XwumrHhv6/96zrDNVb
+	LiWrTHys=
+X-Gm-Gg: AfdE7ck0ZWuWvLm7LifirD/ZLnOQoqNEtRYYfJP1lQhU8rZQck7qOibV34LRvILfgrn
+	pAKQAa4HswaADfRAAy0psTnBMygLQvBFGj39+PLtVOLLTSFM6rSXuPH9Rbpl8z4y3muO8HqrLa+
+	bzLpGK8tvalmypxNhAPYQGRZCihO4yP5lqBnK3rQH6M3oY6vzugTsI+4zNdXaVCvkp+BPMYZlov
+	xEPitKOKB8HhH6TJQVlJugx92GqSDZBKh4nNtyfmC7XnEcPaKNzZazLeVJ8JclJGW+N/7ZFtB99
+	ECTA7VPqA7OFNXmey+f04uVuLMALm6qxq89ns4nyf+3CxnQiCgEBdqTl+y67R/4EsDRAvNsGLWW
+	Y11JDpRowQZheWcbAqWUhXU9r2JDALr886Ikvk6qAd1TE+agETivZnP/rzovYFYcEaAE5DgukOr
+	7SHS9diYP4s/aPUwRKheGcJAHUrojLe9aMNywshbeRCc9kWrXik7DmbTdQ/ihR/eM+jLc=
+X-Received: by 2002:a05:600d:6443:10b0:493:f762:45d4 with SMTP id 5b1f17b1804b1-495158c693bmr126889725e9.2.1784219747279;
+        Thu, 16 Jul 2026 09:35:47 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a03c:6417:d88d:c21a? ([2001:8b0:aba:5f3c:a03c:6417:d88d:c21a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49541e7d799sm65773305e9.3.2026.07.16.09.35.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 09:35:46 -0700 (PDT)
+Message-ID: <69fa5e90b4238c1c2cc38c82323c009ef0a3eed3.camel@linuxfoundation.org>
+Subject: Running large numbers of testimage tasks in parallel
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Ross Burton <ross.burton@arm.com>, Jon Mason <Jon.Mason@arm.com>
+Date: Thu, 16 Jul 2026 17:35:44 +0100
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 16:19:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241097
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 16:35:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241098
 
-From: Peter Marko <peter.marko@siemens.com>
+In order to try and attempt to reproduce the autobuilder qemuarm*
+hangs, I wanted to share a quick guide on how to hack things to make
+running multiple testimage tasks in parallel easy.
 
-Pick patch which has closed gitlab issue for the CVE [1].
-The issue is also referenced in [2]
+Firstly, I added:
 
-[1] https://gitlab.gnome.org/GNOME/libsoup/-/work_items/496
-[2] https://security-tracker.debian.org/tracker/CVE-2026-4271
+BBCLASSEXTEND =3D "${@' '.join(['mcextend:'+str(x) for x in range(0,100)])}=
+"
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../libsoup/libsoup/CVE-2026-4271.patch       | 362 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.6.6.bb |   1 +
- 2 files changed, 363 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch
+to core-image-sato.bb
 
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch b/meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch
-new file mode 100644
-index 0000000000..ca377e0355
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch
-@@ -0,0 +1,362 @@
-+From 489affa74c8a229b8a4dd541710d4a5debedb7b4 Mon Sep 17 00:00:00 2001
-+From: Carlos Garcia Campos <cgarcia@igalia.com>
-+Date: Mon, 16 Feb 2026 12:09:08 +0100
-+Subject: [PATCH] server: protect message io while reading and writing
-+
-+Ensure the nghttp2 session is not destroyed while being used.
-+
-+Closes #496
-+
-+CVE: CVE-2026-4271
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/489affa74c8a229b8a4dd541710d4a5debedb7b4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ .../http2/soup-server-message-io-http2.c      | 117 +++++++++++++-----
-+ tests/http2-test.c                            |  54 ++++++++
-+ 2 files changed, 141 insertions(+), 30 deletions(-)
-+
-+diff --git a/libsoup/server/http2/soup-server-message-io-http2.c b/libsoup/server/http2/soup-server-message-io-http2.c
-+index 913afb46..6f8d1bb6 100644
-+--- a/libsoup/server/http2/soup-server-message-io-http2.c
-++++ b/libsoup/server/http2/soup-server-message-io-http2.c
-+@@ -69,6 +69,8 @@ typedef struct {
-+         GHashTable *messages;
-+ 
-+         guint in_callback;
-++        guint protected;
-++        gboolean destroyed;
-+ } SoupServerMessageIOHTTP2;
-+ 
-+ static void soup_server_message_io_http2_send_response (SoupServerMessageIOHTTP2 *io,
-+@@ -146,6 +148,8 @@ soup_server_message_io_http2_destroy (SoupServerMessageIO *iface)
-+ {
-+         SoupServerMessageIOHTTP2 *io = (SoupServerMessageIOHTTP2 *)iface;
-+ 
-++        io->destroyed = TRUE;
-++
-+         if (io->read_source) {
-+                 g_source_destroy (io->read_source);
-+                 g_source_unref (io->read_source);
-+@@ -160,10 +164,14 @@ soup_server_message_io_http2_destroy (SoupServerMessageIO *iface)
-+         }
-+ 
-+         g_clear_object (&io->iostream);
-+-        g_clear_pointer (&io->session, nghttp2_session_del);
-+-        g_clear_pointer (&io->messages, g_hash_table_unref);
-++        io->istream = NULL;
-++        io->ostream = NULL;
-+ 
-+-        g_free (io);
-++        if (io->protected == 0) {
-++                g_clear_pointer (&io->session, nghttp2_session_del);
-++                g_clear_pointer (&io->messages, g_hash_table_unref);
-++                g_free (io);
-++        }
-+ }
-+ 
-+ static void
-+@@ -321,7 +329,33 @@ static const SoupServerMessageIOFuncs io_funcs = {
-+         soup_server_message_io_http2_is_paused
-+ };
-+ 
-++static void
-++soup_server_message_io_http2_protect (SoupServerMessageIOHTTP2 *io)
-++{
-++        io->protected++;
-++        g_object_ref (io->conn);
-++}
-++
-+ static gboolean
-++soup_server_message_io_http2_unprotect (SoupServerMessageIOHTTP2 *io)
-++{
-++        g_object_unref (io->conn);
-++
-++        if (--io->protected > 0)
-++                return FALSE;
-++
-++        if (io->destroyed) {
-++                g_clear_pointer (&io->session, nghttp2_session_del);
-++                g_clear_pointer (&io->messages, g_hash_table_unref);
-++                g_free (io);
-++
-++                return TRUE;
-++        }
-++
-++        return FALSE;
-++}
-++
-++static void
-+ io_write (SoupServerMessageIOHTTP2 *io,
-+           GError                  **error)
-+ {
-+@@ -336,51 +370,57 @@ io_write (SoupServerMessageIOHTTP2 *io,
-+                 if (io->write_buffer_size == 0) {
-+                         /* Done */
-+                         io->write_buffer = NULL;
-+-                        return TRUE;
-++                        return;
-+                 }
-+         }
-+ 
-++        if (!io->ostream)
-++                return;
-++
-+         gssize ret = g_pollable_stream_write (io->ostream,
-+                                               io->write_buffer + io->written_bytes,
-+                                               io->write_buffer_size - io->written_bytes,
-+                                               FALSE, NULL, error);
-+-        if (ret < 0)
-+-                return FALSE;
-+-
-+-        io->written_bytes += ret;
-+-        return TRUE;
-++        if (ret > 0)
-++                io->written_bytes += ret;
-+ }
-+ 
-+ static gboolean
-+ io_write_ready (GObject                  *stream,
-+                 SoupServerMessageIOHTTP2 *io)
-+ {
-+-        SoupServerConnection *conn = io->conn;
-+         GError *error = NULL;
-+ 
-+-        g_object_ref (conn);
-++        soup_server_message_io_http2_protect (io);
-++
-++        while (!error) {
-++                if (io->destroyed)
-++                        break;
-++
-++                if (!nghttp2_session_want_write (io->session))
-++                        break;
-+ 
-+-        while (!error && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io && nghttp2_session_want_write (io->session))
-+                 io_write (io, &error);
-++        }
-+ 
-+         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK)) {
-+                 g_error_free (error);
-+-                g_object_unref (conn);
-++                soup_server_message_io_http2_unprotect (io);
-+                 return G_SOURCE_CONTINUE;
-+         }
-+ 
-+-        if (soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
-++        if (!io->destroyed) {
-+                 if (error)
-+                         h2_debug (io, NULL, "[SESSION] IO error: %s", error->message);
-+ 
-+                 g_clear_pointer (&io->write_source, g_source_unref);
-+ 
-+                 if (error || (!nghttp2_session_want_read (io->session) && !nghttp2_session_want_write (io->session)))
-+-                        soup_server_connection_disconnect (conn);
-++                        soup_server_connection_disconnect (io->conn);
-+         }
-+ 
-+         g_clear_error (&error);
-+-        g_object_unref (conn);
-++        soup_server_message_io_http2_unprotect (io);
-+ 
-+         return G_SOURCE_REMOVE;
-+ }
-+@@ -390,13 +430,12 @@ static gboolean io_write_idle_cb (SoupServerMessageIOHTTP2* io);
-+ static void
-+ io_try_write (SoupServerMessageIOHTTP2 *io)
-+ {
-+-        SoupServerConnection *conn = io->conn;
-+         GError *error = NULL;
-+ 
-+         if (io->write_source)
-+                 return;
-+ 
-+-        if (io->in_callback && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
-++        if (io->in_callback && !io->destroyed) {
-+                 if (!nghttp2_session_want_write (io->session))
-+                         return;
-+ 
-+@@ -416,12 +455,19 @@ io_try_write (SoupServerMessageIOHTTP2 *io)
-+                 g_clear_pointer (&io->write_idle_source, g_source_unref);
-+         }
-+ 
-+-        g_object_ref (conn);
-++        soup_server_message_io_http2_protect (io);
-++
-++        while (!error) {
-++                if (io->destroyed)
-++                        break;
-++
-++                if (!nghttp2_session_want_write (io->session))
-++                        break;
-+ 
-+-        while (!error && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io && !io->in_callback && nghttp2_session_want_write (io->session))
-+                 io_write (io, &error);
-++        }
-+ 
-+-        if (soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
-++        if (!io->destroyed) {
-+                 if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK)) {
-+                         g_clear_error (&error);
-+                         io->write_source = g_pollable_output_stream_create_source (G_POLLABLE_OUTPUT_STREAM (io->ostream), NULL);
-+@@ -434,11 +480,11 @@ io_try_write (SoupServerMessageIOHTTP2 *io)
-+                         h2_debug (io, NULL, "[SESSION] IO error: %s", error->message);
-+ 
-+                 if (error || (!nghttp2_session_want_read (io->session) && !nghttp2_session_want_write (io->session)))
-+-                        soup_server_connection_disconnect (conn);
-++                        soup_server_connection_disconnect (io->conn);
-+         }
-+ 
-+         g_clear_error (&error);
-+-        g_object_unref (conn);
-++        soup_server_message_io_http2_unprotect (io);
-+ }
-+ 
-+ static gboolean
-+@@ -481,31 +527,37 @@ static gboolean
-+ io_read_ready (GObject                  *stream,
-+                SoupServerMessageIOHTTP2 *io)
-+ {
-+-        SoupServerConnection *conn = io->conn;
-+         gboolean progress = TRUE;
-+         GError *error = NULL;
-+ 
-+-        g_object_ref (conn);
-++        soup_server_message_io_http2_protect (io);
-++
-++        while (progress) {
-++                if (io->destroyed)
-++                        break;
-++
-++                if (!nghttp2_session_want_read (io->session))
-++                        break;
-+ 
-+-        while (progress && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io && nghttp2_session_want_read (io->session))
-+                 progress = io_read (io, &error);
-++        }
-+ 
-+         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK)) {
-+                 g_error_free (error);
-+-                g_object_unref (conn);
-++                soup_server_message_io_http2_unprotect (io);
-+                 return G_SOURCE_CONTINUE;
-+         }
-+ 
-+-        if (soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
-++        if (!io->destroyed) {
-+                 if (error)
-+                         h2_debug (io, NULL, "[SESSION] IO error: %s", error->message);
-+ 
-+                 if (error || (!nghttp2_session_want_read (io->session) && !nghttp2_session_want_write (io->session)))
-+-                        soup_server_connection_disconnect (conn);
-++                        soup_server_connection_disconnect (io->conn);
-+         }
-+ 
-+         g_clear_error (&error);
-+-        g_object_unref (conn);
-++        soup_server_message_io_http2_unprotect (io);
-+ 
-+         return G_SOURCE_REMOVE;
-+ }
-+@@ -931,5 +983,10 @@ soup_server_message_io_http2_new (SoupServerConnection  *conn,
-+         nghttp2_submit_settings (io->session, NGHTTP2_FLAG_NONE, settings, G_N_ELEMENTS (settings));
-+         io_try_write (io);
-+ 
-++#ifdef __clang_analyzer__
-++        // Suppress false positive about io being destroyed here, since at this point we have only
-++        // send the initial settings and not callback is called.
-++        [[clang::suppress]]
-++#endif
-+         return (SoupServerMessageIO *)io;
-+ }
-+diff --git a/tests/http2-test.c b/tests/http2-test.c
-+index 0846a0a6..d12b4bf7 100644
-+--- a/tests/http2-test.c
-++++ b/tests/http2-test.c
-+@@ -1268,6 +1268,40 @@ do_broken_pseudo_header_test (Test *test, gconstpointer data)
-+ 	g_uri_unref (uri);
-+ }
-+ 
-++static void
-++disconnect_on_got_headers (SoupServerMessage *msg, gpointer user_data)
-++{
-++        GUri *uri;
-++        SoupServerConnection *conn;
-++
-++        uri = soup_server_message_get_uri (msg);
-++        if (!g_str_equal (g_uri_get_path (uri), "/close-on-got-headers"))
-++                return;
-++
-++        conn = soup_server_message_get_connection (msg);
-++        soup_server_connection_disconnect (conn);
-++}
-++
-++static void
-++do_server_disconnect_on_got_headers_test (Test *test, gconstpointer data)
-++{
-++        SoupMessage *msg;
-++        GUri *uri;
-++        GBytes *response;
-++        GError *error = NULL;
-++
-++        uri = g_uri_parse_relative (base_uri, "/close-on-got-headers", SOUP_HTTP_URI_FLAGS, NULL);
-++        msg = soup_message_new_from_uri (SOUP_METHOD_GET, uri);
-++
-++        response = soup_test_session_async_send (test->session, msg, NULL, &error);
-++        g_assert_error (error, G_IO_ERROR, G_IO_ERROR_PARTIAL_INPUT);
-++
-++        g_clear_error (&error);
-++        g_bytes_unref (response);
-++        g_object_unref (msg);
-++        g_uri_unref (uri);
-++}
-++
-+ static gboolean
-+ unpause_message (SoupServerMessage *msg)
-+ {
-+@@ -1396,12 +1430,26 @@ server_handler (SoupServer        *server,
-+                 shutdown (fd, SHUT_WR);
-+ #endif
-+ 
-++                soup_server_message_set_response (msg, "text/plain",
-++                                                  SOUP_MEMORY_STATIC,
-++                                                  "Success!", 8);
-++        } else if (strcmp (path, "/close-on-got-headers") == 0) {
-+                 soup_server_message_set_response (msg, "text/plain",
-+                                                   SOUP_MEMORY_STATIC,
-+                                                   "Success!", 8);
-+         }
-+ }
-+ 
-++static void
-++server_request_started (SoupServer           *server,
-++                        SoupServerMessage    *msg,
-++                        SoupServerConnection *conn,
-++                        gpointer              user_data)
-++{
-++        g_signal_connect (msg, "got-headers",
-++                          G_CALLBACK (disconnect_on_got_headers), NULL);
-++}
-++
-+ static gboolean
-+ server_basic_auth_callback (SoupAuthDomain    *auth_domain,
-+                             SoupServerMessage *msg,
-+@@ -1428,6 +1476,8 @@ main (int argc, char **argv)
-+                 return 0;
-+ 
-+         server = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD | SOUP_TEST_SERVER_HTTP2);
-++        g_signal_connect (server, "request-started",
-++                          G_CALLBACK (server_request_started), NULL);
-+         auth = soup_auth_domain_basic_new ("realm", "http2-test",
-+                                            "auth-callback", server_basic_auth_callback,
-+                                            NULL);
-+@@ -1584,6 +1634,10 @@ main (int argc, char **argv)
-+                     setup_session,
-+                     do_broken_pseudo_header_test,
-+                     teardown_session);
-++        g_test_add ("/http2/server-disconnect-on-got-headers", Test, NULL,
-++                    setup_session,
-++                    do_server_disconnect_on_got_headers_test,
-++                    teardown_session);
-+ 
-+ 	ret = g_test_run ();
-+ 
-diff --git a/meta/recipes-support/libsoup/libsoup_3.6.6.bb b/meta/recipes-support/libsoup/libsoup_3.6.6.bb
-index d18a16379b..e5c2d18ded 100644
---- a/meta/recipes-support/libsoup/libsoup_3.6.6.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.6.6.bb
-@@ -20,6 +20,7 @@ SRC_URI += "file://CVE-2025-32049-1.patch \
-             file://CVE-2026-1539.patch \
-             file://CVE-2026-5119.patch \
-             file://CVE-2026-2708.patch \
-+            file://CVE-2026-4271.patch \
- "
- 
- PROVIDES = "libsoup-3.0"
+I then deleted the test case files listed at the end of the email to
+make the tests run faster. The hangs are generally in the boot process
+before login so if we reach that point, it isn't a hang scenario. I
+could have probably set TEST_SUITES instead.
+
+I then ran "bitbake core-image-sato" to get a base image to run the
+tests with. After that, I used the following script fragment:
+
+cd tmp/deploy/images/qemuarm64
+for i in `seq 1 100`
+do
+    ln -s core-image-sato{,-$i}-qemuarm64.rootfs.manifest
+    ln -s core-image-sato{,-$i}-qemuarm64.rootfs.ext4.zst
+    ln -s core-image-sato{,-$i}-qemuarm64.rootfs.testdata.json=20
+done
+
+I could the run 100 testimages in parallel with:
+
+bitbake `for ((i=3D1; i<=3D80; i++)); do echo -n "core-image-sato-$i "; don=
+e` -c testimage
+
+(which will run BB_NUMBER_THREADS in parallel)
+
+I'm sure there are neater ways to do it but this basically works.
+
+I haven't had any luck reproducing hangs with qemuarm64 with this yet.
+I did have to switch from using a DISPLAY over ssh to unsetting DISPLAY
+and using qemu's local vnc as otherwise the display traffic over ssh
+was limiting the CPU load I could trigger on my server.
+
+Hope someone finds this useful!
+
+Cheers,
+
+Richard
+
+
+	deleted:    meta-
+selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+	deleted:    meta/lib/oeqa/runtime/cases/_qemutiny.py
+	deleted:    meta/lib/oeqa/runtime/cases/apt.py
+	deleted:    meta/lib/oeqa/runtime/cases/buildcpio.py
+	deleted:    meta/lib/oeqa/runtime/cases/buildgalculator.py
+	deleted:    meta/lib/oeqa/runtime/cases/buildlzip.py
+	deleted:    meta/lib/oeqa/runtime/cases/connman.py
+	deleted:    meta/lib/oeqa/runtime/cases/dnf.py
+	deleted:    meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py
+	deleted:    meta/lib/oeqa/runtime/cases/gcc.py
+	deleted:    meta/lib/oeqa/runtime/cases/gi.py
+	deleted:    meta/lib/oeqa/runtime/cases/go.py
+	deleted:    meta/lib/oeqa/runtime/cases/gstreamer.py
+	deleted:    meta/lib/oeqa/runtime/cases/kernelmodule.py
+	deleted:    meta/lib/oeqa/runtime/cases/ksample.py
+	deleted:    meta/lib/oeqa/runtime/cases/ldd.py
+	deleted:    meta/lib/oeqa/runtime/cases/logrotate.py
+	deleted:    meta/lib/oeqa/runtime/cases/ltp.py
+	deleted:    meta/lib/oeqa/runtime/cases/ltp_compliance.py
+	deleted:    meta/lib/oeqa/runtime/cases/ltp_stress.py
+	deleted:    meta/lib/oeqa/runtime/cases/maturin.py
+	deleted:    meta/lib/oeqa/runtime/cases/multilib.py
+	deleted:    meta/lib/oeqa/runtime/cases/oe_syslog.py
+	deleted:    meta/lib/oeqa/runtime/cases/opkg.py
+	deleted:    meta/lib/oeqa/runtime/cases/pam.py
+	deleted:    meta/lib/oeqa/runtime/cases/ptest.py
+	deleted:    meta/lib/oeqa/runtime/cases/python.py
+	deleted:    meta/lib/oeqa/runtime/cases/rpm.py
+	deleted:    meta/lib/oeqa/runtime/cases/rt.py
+	deleted:    meta/lib/oeqa/runtime/cases/rtc.py
+	deleted:    meta/lib/oeqa/runtime/cases/rust.py
+	deleted:    meta/lib/oeqa/runtime/cases/scons.py
+	deleted:    meta/lib/oeqa/runtime/cases/stap.py
+	deleted:    meta/lib/oeqa/runtime/cases/storage.py
+	deleted:    meta/lib/oeqa/runtime/cases/suspend.py
+	deleted:    meta/lib/oeqa/runtime/cases/systemd.py
+	deleted:    meta/lib/oeqa/runtime/cases/terminal.py
+	deleted:    meta/lib/oeqa/runtime/cases/uki.py
+	deleted:    meta/lib/oeqa/runtime/cases/usb_hid.py
+	deleted:    meta/lib/oeqa/runtime/cases/weston.py
+	deleted:    meta/lib/oeqa/runtime/cases/x32lib.py
+
+
+
+
 
