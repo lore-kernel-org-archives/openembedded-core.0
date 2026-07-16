@@ -2,125 +2,167 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4546CC44501
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 06:31:54 +0000 (UTC)
-Received: from mailer113.gate185.sl.smtp.com (mailer113.gate185.sl.smtp.com [192.40.185.113])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6527.1784181854701480468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B0BC44512
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 06:35:54 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6907.1784183696991952790
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2026 23:04:15 -0700
+ Wed, 15 Jul 2026 23:34:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@centricular.com header.s=201701 header.b=OVG6/7G9;
- dkim=pass header.i=@smtpsendemail.com header.s=smtpcustomer header.b=aAIH2YMr;
- spf=pass (domain: centricular.com, ip: 192.40.185.113, mailfrom: tarun@centricular.com)
-X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
- about your feedback. Please contact abuse@smtp.com for further investigation.
-Received: from [10.0.16.72] (unknown [10.138.12.203])
-	by mtl-mta03-out2 (Halon) with ESMTP
-	id 8c3063a0-c007-4c39-84b9-a74fbe75c3d7;
-	Thu, 16 Jul 2026 06:04:13 +0000 (UTC)
-Received: Received from 10.138.12.155 by Caffeine
- (s0-aws-app2-swarm-manager-3) with SMTP id
- b2ef8cc7-6cdf-4931-a775-a8f91e0f4346  for
- openembedded-core@lists.openembedded.org;
-  Thu, 16 Jul 2026 06:03:19 +0000 (UTC)
-Feedback-ID: 9075006:SMTPCOM
-Received: from hermes.centricular.com (unknown [138.201.245.53])
-	by s0-aws-app2-mta-in-1 (Halon) with ESMTPSA
-	id b2ef8cc7-6cdf-4931-a775-a8f91e0f4346;
-	Thu, 16 Jul 2026 06:03:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 20AA59D264;
-	Thu, 16 Jul 2026 08:03:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=centricular.com;
-	s=201701; t=1784181798;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=FA0XW9bXsaVSjtdPPq4Q34OcErOuCDX96mCwfwZDCEw=;
-	b=OVG6/7G95DYOKmsV7bljLSlDd/O62OBtlqaM15kd9i/iIuLGQXwqJWj3X1rE947GxpKTZt
-	1SWTOIzo/+4iXls+Esw77E7zJRqChu9GiVTRWvvjbtl5stocrSfxJpfOxova+Qvigu5H9p
-	s5IuH1OjcP1KNLJMjnFLK0u9IYHXcpZac0TmMFd+QAlqYQhyJ517wYzHoSbdZhVhRsPHzv
-	GNm2qZkgeyhSFk5mEOxXq+K/CpSTODvZ9ynGpFBbIiF+jP3avldq9ahnkx59wTb1IYEh8g
-	6kvyhQA8/eBnfYQKqMEH8hn521iL5MhCLI53n+ogQyF31sGkOS25MX7Rh/lcag==
-Message-ID: <d460480501e19d59ac2a7bec0f15020692f0b855.camel@centricular.com>
-Subject: Re: [OE-core] [PATCH v5 2/2] gstreamer1.0-plugins-rs: add new package
-From: Taruntej Kanakamalla <tarun@centricular.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	openembedded-core@lists.openembedded.org
-Cc: sebastian@centricular.com, nirbheek@centricular.com
-Date: Thu, 16 Jul 2026 11:33:11 +0530
-In-Reply-To: <DJZ6ZB5JTYSV.ZUCFUNHW05GN@bootlin.com>
-References: <20260707081701.1525114-1-tarun@centricular.com>
-	 <20260714105541.2812170-1-tarun@centricular.com>
-	 <20260714105541.2812170-2-tarun@centricular.com>
-	 <DJZ45A2IL6XB.172T8CGXQUIPH@bootlin.com>
-	 <DJZ6ZB5JTYSV.ZUCFUNHW05GN@bootlin.com>
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Bm3Vq4hv;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1657c3127e=himaniramesh.barde@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66G3x5fM1844095
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 06:15:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=/5RiNHNkR
+	8xgJz/jEZ9p8e9LxnR4MsrrJK0N/bVVWas=; b=Bm3Vq4hv81r1PJyhzMsnKKexe
+	4zJ7Grm8CvVlwQRFcgrkXi7RPDcKQ3ivcaNJ9wvCCfs/9zWzV0InNIpEymLSoibo
+	PDGw/dFD5m5U9cb49ptCjNIQYb/vKxdROX581aE9WrlveK3QWQCaDGEwuZ+FpfXc
+	DwoiaJjJNZ+0E5h2DIHni+SuhmeVvKCamQqND3zi9jNfS3+E8byYYd5slqCYUCHw
+	d4JeQWc2KhypGnQulCBplIsj/qusTJxeZTOKTpuvrKCzF+CfC39kDXCiESOiR09S
+	0ZpEBZ4PuZVFypQFzf+jsYYX4x/Q7BjN2Li/a+oZxkQ81GJPtuKCS1cWj9K+w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fbct4qmfy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 06:15:21 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 15 Jul 2026 23:15:19 -0700
+Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 15 Jul 2026 23:15:19 -0700
+From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Randy.MacLeod@windriver.com>, <Shiva.Komati@windriver.com>,
+        "Himani
+ Ramesh Barde" <HimaniRamesh.Barde@windriver.com>
+Subject: [PATCH] systemd.bbclass: fix service enablement for cross-install scenarios
+Date: Thu, 16 Jul 2026 06:15:19 +0000
+Message-ID: <20260716061519.765593-1-HimaniRamesh.Barde@windriver.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
-X-SMTPCOM-Sender-ID: 9075006
-X-SMTPCOM-Tracking-Number: b2ef8cc7-6cdf-4931-a775-a8f91e0f4346
-X-SMTPCOM-Message-ID: 4c87e121-4edf-40e6-8662-33279bd004a7
-X-SMTPCOM-Payload: 
- h82vWlG1CWl1d8sME_qnvVdLb18tSwvsxBhZHgvAMea39K9XAVNOF0nP-R_D6plSMsKvRatdrJrMNGfe2Npdb-AYxsS9GzJCSc2qlhg1LRRpRP06nd44SSpm-b2kXgZ5LD9bEgEh5ZbRXtJHwslpV1tAPhwz8dDrnVaqVTbWxcjsaNabXfeQbTqn3idBn6I_UMBqQg6StkVzxruF87_VSA==
-List-Unsubscribe: 
- <mailto:abuse@abuse.smtp.com?subject=MailStop&body=4c87e121-4edf-40e6-8662-33279bd004a7_9075006>,
- <https://api.smtp.com/v4/unsubscribe?mid=4c87e121-4edf-40e6-8662-33279bd004a7&sid=9075006>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpsendemail.com;
- i=@smtpsendemail.com; q=dns/txt; s=smtpcustomer; t=1784181821;
- h=feedback-id : message-id : subject : from : to : cc : date :
- in-reply-to : references : content-type : content-transfer-encoding :
- mime-version : list-unsubscribe : list-unsubscribe-post : subject :
- from : to : cc : date;
- bh=FA0XW9bXsaVSjtdPPq4Q34OcErOuCDX96mCwfwZDCEw=;
- b=aAIH2YMrKF8Je/W2t2aBnrL3Gix/1whh5GzO9yJijskXG3lI2ExEw5RbM/fZ3D66vuRr8
- g1yei3OIOaFZdZ6sHxZqyiHp7uLaRc86llgWW9QOORneOGiEK2WAkIRd4xAB9RzQPMiMLKD
- CQzjyXA4YD2khqx69fzohiU1ScnQl//qb4MZB7mZqwuHYsnFjTgjWAmPoSouOvUt//3eu+s
- a3rOm3/aRUyxcA/3yIW1YsdVA/JM05gwZE5dRvzGzut1jsU/hNYU83KQpZ6wEv61Lg17ozG
- Mmn2lHwXkyAChrk39xrdlE1QFZFDgDgxtO6NZCYhOUIrePfGMVUqKg3v1uXA==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=J9CaKgnS c=1 sm=1 tr=0 ts=6a5876f9 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8 a=eqJagXuFR_UGHyBZsbkA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE2MDA2MiBTYWx0ZWRfXwN9KMRL/NI3l
+ Zroftk5Akh9XdINtD8j+aoVQz3UAplwjaYHt/lts5nc96EXFD7jJM817e4mHMUYcL9rlkuPEERV
+ tHp+bgodrYFGkeb23Dj/B+YuROg8ZqCwht0kydElQpN2wyye9pRe
+X-Proofpoint-ORIG-GUID: t4wKy7d7FHoQkINgyWQ45eWKLcKDRxef
+X-Proofpoint-GUID: t4wKy7d7FHoQkINgyWQ45eWKLcKDRxef
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE2MDA2MiBTYWx0ZWRfX4YKUazAkRfNa
+ +xdHXRl6ICMOvoQO6Bf+/P76oWAplMa84Tsq8I1V/fEspjPSOPzL3W5NY1BsRBAr/RiCwM9WnOs
+ wN1cR6xSpskwUDKPqhB6rZNIGfbhWf1iGuCRTLIp72TkVgTs3EpopdQjA/TTub3g6wlLWYcl2oL
+ CChLG/787IttWgAVASZDkpDAU+kxjMEDC7FwW6t+nA+ei7fBDwvxeTxvkZtW0/dVExDY57/gxnL
+ mLl6JwYZ1v+D5NOJDt8ZJJ8aHgu7eyOyOgBlP6/nFnohhYPSe16rRuDcolMSthnRZMDoeMtJAKX
+ VFRPvBRHFTu0fq2Nc5TWGo36d2jue3x8DciC2w4yIrGGKeZdE84RWPZ7sA1GnWa4MTQUTcPmGoQ
+ UhyAp6oNi8yf0G7WJmYJx6KHcbcxydNTC4/dQ7UDLS+ODsm/UIsZxPSSB9xrThFis9MipHQNp3j
+ fct95Llxf8fK7+6NGog==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-16_02,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 phishscore=0
+ impostorscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607160062
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 06:31:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241052
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 06:35:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241053
 
-Hi Mathieu,
+When packages are installed outside of Yocto's normal image creation
+(e.g., using multistrap, debootstrap, or dpkg directly on a host),
+the postinst script fails to enable systemd services.
 
-On Wed, 2026-07-15 at 15:50 +0200, Mathieu Dubois-Briand wrote:
-> On Wed Jul 15, 2026 at 1:37 PM CEST, Mathieu Dubois-Briand wrote:
->=20
-> >=20
-> > Hi Taruntej,
-> >=20
-> > Thanks for your patch.
-> >=20
-> >=20
-> > > +LICENSE =3D "MPL-2.0 | Apache-2.0"
-> > > +
-> >=20
-> >=20
-> > This should be "Apache-2.0 OR MPL-2.0". You should get a warning about
-> > it during the build:
-> >=20
-> > WARNING: /tmp/devtoolqa93fsj3gg/core-copy/meta/recipes-multimedia/gstre=
-amer/gstreamer1.0-plugins-rs_0.15.3.bb: gstreamer1.0-plugins-rs: LICENSE is=
- using an old syntax and should be upgraded to: "Apache-2.0 OR MPL-2.0"
-> >=20
-> > Thanks,
-> > Mathieu
->=20
->=20
-> Sorry, this comes from Joshua series and is not merged so far. We will =
-=20
-> probably handle the fix on our side.
->=20
-> No action needed on your side so far.
+The issue is that the entire enable logic is gated behind
+"if systemctl >/dev/null 2>/dev/null". In cross-install scenarios:
+- If systemctl is absent on the host: the check fails, script is skipped
+- If host systemctl is present: it cannot find target unit files
 
-Thanks for update, the patch is in still in "Changes Requested" state thoug=
-h. Just want to check if that is expected.
+Fix this by separating the offline ($D set) and online ($D unset)
+code paths into distinct branches. The previous code used a single
+OPTS variable to switch between "--root=$D" (offline) and "" (online)
+within one unified block. This variable is removed because the two
+scenarios now have dedicated branches with different logic:
 
-Thanks,
-Tarun
+- Offline ($D set): Tries "systemctl --root=$D preset" first, which
+  reads preset files from the target rootfs and creates symlinks
+  without needing the host systemctl to understand the target's unit
+  files. Falls back to "systemctl --root=$D enable" per service.
+
+- Online ($D unset): Same as before - enable, daemon-reload, preset,
+  restart. No behavioral change for on-target installs.
+
+The OPTS variable is no longer needed because each branch now directly
+uses the appropriate systemctl invocation for its context, making the
+intent clearer and the offline path functional.
+
+Fixes [YOCTO #14118]
+
+Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
+---
+ meta/classes-recipe/systemd.bbclass | 32 +++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
+
+diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
+index 0f7e3b5..2f655c4 100644
+--- a/meta/classes-recipe/systemd.bbclass
++++ b/meta/classes-recipe/systemd.bbclass
+@@ -29,26 +29,32 @@ python __anonymous() {
+ }
+ 
+ systemd_postinst() {
+-if systemctl >/dev/null 2>/dev/null; then
+-	OPTS=""
+-
+-	if [ -n "$D" ]; then
+-		OPTS="--root=$D"
++if [ -n "$D" ]; then
++	# Offline/cross-install: apply presets to the target rootfs.
++	# This handles multistrap, debootstrap, and similar tools that
++	# install packages outside of Yocto's normal image creation.
++	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
++		if systemctl --root=$D preset ${SYSTEMD_SERVICE_ESCAPED} 2>/dev/null; then
++			:
++		elif systemctl >/dev/null 2>/dev/null; then
++			for service in ${SYSTEMD_SERVICE_ESCAPED}; do
++				systemctl --root=$D enable "$service" 2>/dev/null || true
++			done
++		fi
+ 	fi
+-
++elif systemctl >/dev/null 2>/dev/null; then
++	# Online: running on the target system
+ 	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+ 		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
+-			systemctl ${OPTS} enable "$service"
++			systemctl enable "$service"
+ 		done
+ 	fi
+ 
+-	if [ -z "$D" ]; then
+-		systemctl daemon-reload
+-		systemctl preset ${SYSTEMD_SERVICE_ESCAPED}
++	systemctl daemon-reload
++	systemctl preset ${SYSTEMD_SERVICE_ESCAPED}
+ 
+-		if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+-			systemctl --no-block restart ${SYSTEMD_SERVICE_ESCAPED}
+-		fi
++	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
++		systemctl --no-block restart ${SYSTEMD_SERVICE_ESCAPED}
+ 	fi
+ fi
+ }
+-- 
+2.54.0
+
 
