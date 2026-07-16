@@ -1,151 +1,143 @@
-Return-Path: <joerg.sommer@navimatix.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E099C44512
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 20:07:01 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.95])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3905.1784232414811342458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B195C44512
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 20:28:41 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4315.1784233711063401798
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 13:06:55 -0700
+ Thu, 16 Jul 2026 13:28:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=au87F6Cz;
- spf=pass (domain: navimatix.de, ip: 52.101.66.95, mailfrom: joerg.sommer@navimatix.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N8xealxbFDzG938yDThN7XD0lC9RxrPb4OSJayTgdXu0hCdH+ur557mB1qA9gQm/niYZkHszILHeMMDTLiRzr+Ad4JVjNQJl3QKje3lGzdzaMoNpktcjX0xsRcyXbaK/c1n+UIZmF6qEXtZkbVNG+eOX4HcMYLnbVzoUKySRAIIowBzTjY6Zmc5UoN84sbPUXGbfTonCfDkXolFsXlxin8JC6Zss1SAsx5WbdoxWHIzhLx4vbKhjKFzD/FEgj6SUJzPfDl6aKQjaaRf8oz3CRzCXWI1iX8nB54L6t5AfPgrXhbLUU1uAczFGlpuw5PDZ5qoG1VtYvhVzwi+U67fCYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4YV2tj+y9Ai71ClXNR0eYD8ciq1h+saozY7/LornOfE=;
- b=eN7HBEX28UC1ZWWZy1wH6cZHcf/J1gql9mcIG/2if6UBm36oCL41AKqgANTvF97VbEheCUI+vtU8igYCyuceSt7Ydk6d6nsHMgb8+NkhRwZNHV8BeqNb+Nm2Qba7b/2RpOLGLL4iHROH6BroMrtrdlfVdAa8SDf3XSDscIkS6vV9+NHukJwneemhxhamU+CT2V10LO9luDeFfpSE5fpfTjU3i3ufHYPYTSlzHk+4wT3aD6zHI9jbi8tiWTwdfGXmuZoIQVoZg5seHwdrd94eMAkuG0YHixfmLQii1Ptgm8TpbjTHigr1cemNTYOfAI8tF6xcsgP/evIM4dHZdgGKng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
- dkim=pass header.d=navimatix.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4YV2tj+y9Ai71ClXNR0eYD8ciq1h+saozY7/LornOfE=;
- b=au87F6Czkv+kG0PY/c54PpkWl84Qo+saPkOnZ4F/pQVhbMaRtn5MFVYutnePZxXnzQYTqDVd7s64bgaWpu5Gnvwl++NNyvEBc/dNH4pPrgHqAkcBfVEM+WHAMRBW2VHXYBqK0ymLH936dGCijdcdas4ZIywZo/rPPTHaHGTmrto=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=navimatix.de;
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by MATPR01MB12542.eurprd01.prod.exchangelabs.com
- (2603:10a6:250:4e::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 20:06:48 +0000
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- ([fe80::d5c3:2dea:3d98:25fd]) by
- GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
- with mapi id 15.21.0223.011; Thu, 16 Jul 2026 20:06:48 +0000
-Date: Thu, 16 Jul 2026 22:06:47 +0200
-From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-To: openembedded-core@lists.openembedded.org, jpewhacker@gmail.com, 
-	joerg.sommer@navimatix.de
-CC: Joshua Watt <jpewhacker@gmail.com>, 
-	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [PATCH v2] base-files: Install /etc/mtab in a systemd-friendly way
-Message-ID: <8b2633f8540d0417d0014b0a3803c4e8b0a37a92.1784232384.git.joerg.sommer@navimatix.de>
-X-Mailer: git-send-email 2.53.0
-References: <CAJdd5GYCYRiXjb9c9DNhvXJhAMt22hLtEVrseh-4N6t237+Gog@mail.gmail.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FQ0xkJXl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47c2b362ee2so6253478f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 13:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1784233709; x=1784838509; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=q76GO3Mntjf6BPfcdqzp+jq/+aQIikTTgwWm+D15d9A=;
+        b=FQ0xkJXlKXKqbFDYgv1Z1SMHPASoCXXzTyzao0E6NLMzHwgmFnFE8w2dtgJ/3EnYHi
+         jkLweoQXuh9P197rMG2n9E1zNt/+hPtDDrYtIQ9ZZC2YWm+/+RbFtmTsYH4OaghmvHgt
+         G9SWYHW8I0J4IcUSRG3GMlOiITvXVKqH+pg7w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784233709; x=1784838509;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=q76GO3Mntjf6BPfcdqzp+jq/+aQIikTTgwWm+D15d9A=;
+        b=Cowmq1ycsooOiBMLkqKgC+wEYdGsF6hSvxFVRIlY0XOd/rxin8GYJJ4SK+lJcoLZjG
+         OharGf4z5TEHGsSq8sf/Hv8FPe1ljM804ilx5/mD54zxYSLof3yLR9adKwgi6lOUJxag
+         5JRsBTY/sZgMlvWvRygMNNrAeOQ9SWlsrVUGN6o2Onwblb+BWTRJs9L8jxHynRMX1x56
+         AEaOvFTZ+VRoyYJFlacwS1S1gGhvjRm2p/WdnL4yLUSBanimHY3YINPy9dQzOqBRfFhw
+         LtRFUWsyIjea6aBFz6go9Mnaa0Hn6HduWaP2jjVh+jlbyPHDsk3dZrrpCslfogKG2lep
+         RaGg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpx67EsyMSbo21WfgSiUGyKfZ/ODx+C1N63Ihfl22H9QfOywUXjZeVQ5yYYsFydNZn8LUhEu7IWgK2Qc3iWklU6Fg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzFRAivlmoJMRj5+ZQtmBWXpnTYF3Ed4m9sfMTex4yovnElHnbT
+	375H7wRUy3OWffszKZ35sjt4cR2CnwZj2Sv3gd5uj6uRnc0jwAhIk+mqC7TrRB05rds=
+X-Gm-Gg: AfdE7clfZmvTKXkan7w/NsrGwLRYNAWqjjSWLEV00qL/ZGv4cQ2Eh6g035GDvYvDS0B
+	9plbb/3xEZ6V7LJ0PqxGERX6OlOjpaZZi7D0GHLs6+Sg2MhA5anaJitTS6nK16o4OqbtErjyhMC
+	EjqzGE0x4/B0xMtFIA88y3gzerAf/7kCgBbuaJYVDqExAM14TveAtG2el/4T13PPSkg0kd/94ql
+	N/J7U32yxo8uMy+6Y9nQmAiBa2RXZ+xkj5xeIVGvK3nrOb4w/MmukCkOI+xJNu3j3MLGRf4/mBB
+	99qrrmdDMgSJpvTUakjmFZpnrzTjk4mqxxOVv4pvhyYDd34tWEOLDBRx6V/ABg5G+ruTo4OYCL3
+	fGBVDDQGoIRHcbcHogKmD//b2P/lC3TQq7p7PSC7WRN6vI5fM+GUsf1DCbRRVZxr1//FJE1zxga
+	0BxfVNjUL33DxpW8VzFUzGJP42nuIDl05e3Z8SD6IFvgoP2/gfKTZQXlBt4XyI23uedW7hexAuR
+	m3WDQ==
+X-Received: by 2002:adf:e184:0:b0:472:79bc:3919 with SMTP id ffacd0b85a97d-47f4fd113bemr11224064f8f.39.1784233709191;
+        Thu, 16 Jul 2026 13:28:29 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e015:73b8:9d1c:3a0a? ([2001:8b0:aba:5f3c:e015:73b8:9d1c:3a0a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f464c25b2sm26681967f8f.30.2026.07.16.13.28.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 13:28:28 -0700 (PDT)
+Message-ID: <ea3daf0012f4f0d582081fef8f4b6f0a7e2a9556.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [[PATCHv3] meta: Add pam to the defaults if using
+ systemd
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tom Rini <trini@konsulko.com>
+Cc: leon.anavi@konsulko.com, openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jul 2026 21:28:26 +0100
+In-Reply-To: <20260716182737.GP749385@bill-the-cat>
+References: <20260708143704.2643050-1-leon.anavi@konsulko.com>
+	 <7e6827804a7b8da37204e54171d8fb9f7b490b35.camel@linuxfoundation.org>
+	 <20260716182737.GP749385@bill-the-cat>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAJdd5GYCYRiXjb9c9DNhvXJhAMt22hLtEVrseh-4N6t237+Gog@mail.gmail.com>
-X-ClientProxiedBy: BE1P281CA0175.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:66::8) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8)
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|MATPR01MB12542:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ba8df65-dc76-4333-d343-08dee375c4b7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	9ydfCDeTif0QZ9FhtlbwFhgON7kKRk8ekA2gxWc2l8wtC011pwQgRscG/QaA9qdvtI2i2IqRPflaj4eupS6F7FmvKltUjKgekxaU+8yo+/lspXvqr7Es6g/mOl1cPiaU2F6cH2PqG5vp55gTO2Gd+3wq3ggDMS0BmeBPsz9GpMQDNZ7MxpnXqcWTanQ4moF89+V9+8iig67aJSPf8+RHIqgTOzzw6rkOjp2ga2Vs5qw5sIwcfHOgR6v/tU8cgelf268zYirgiuge54RK07hWlfy6PkIdY5mgbpcZNQ00a9fv1wxQvEUm2xTICeQvrd7HDYovvHOrp0IU1IuwWzj1etd4009M7EAbk0Wk0NkZDRV1OidnWWgBZsDYTHOK1tpCAYnhJVkCsrkUf/HcwheIWmUAJPaU+7/I6+GTpxuQ0huq7h0P85WZHWFwMjhyndfTECbNooOKcE9TTwoaaBJz3pEj7qStkCCfMt/+H+fx3i0/rfsh9tEUC/Zcy9GuGwoGoXGiPWwmhwR6Ps7aoasratUNDLQFnjjK4rK1o664jKJ6GHSa1uBrsocYh9SLdrYgZIVVI5oZxw/7FqMoKkdNtgsCCEQgSTxAo+UK3zVqfPW2TnHDGso7Ey56QOb+7Txnjy7E5NpMJQ7SJu26eFbqgyZyHR4MVeEi3Br469p/EVY=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?8UN3e5vpTsb/9zINgWTbZa9dXK1OUawcOX7O1AcguF623OlAzCP8l2nj6XvH?=
- =?us-ascii?Q?DaHaDpH5W9GADIpYZsFqPyBecGpU37Pbkp1V/u3mNhgtlOXMd4gLOSMLjidw?=
- =?us-ascii?Q?omg91lKs3V93c6EhN9DJW/9d0hNzvomB50sgTShLEbJfpudoZbhrNQfTPgA6?=
- =?us-ascii?Q?76p2IrXR2TRF2oeS2FpxF4u3sYEfSVv49s0GKtRwbNbC5hY9t6V4qu/Cxlnz?=
- =?us-ascii?Q?pRkjgblWEkPec8eMUlABHSMg2uAoJQvb+hRtWAhvxHAmN+wBuZVAfG3Do+MV?=
- =?us-ascii?Q?30KYqOU/O8RUzKE+/YDR2Nc5ymwRaHXdMKtCBfwYCeEn2LM+qJcUFNmP6+UC?=
- =?us-ascii?Q?AMmmnYLI9uo3OBNIrfgNFDrH+9unf42jHZxmQX1kxbPwOGlQsN6jOUb2unGE?=
- =?us-ascii?Q?2mfEiuXpnPpXoLCtVz37HwHXEQDjlh3+kI9qso+Rz38Dj1qz3XULWrNPdNAF?=
- =?us-ascii?Q?vdpNmlsTgIRVUgmQdC8v/V2qnr5xMHaL8S6lNhVWW6rcERW4sU4qYkkPqwVL?=
- =?us-ascii?Q?/0jgvY0i3OXs78PeTE5IEtmqFkQbDoGOpT2gTjzUKXX6HX9HaO2E6ZhuKaKK?=
- =?us-ascii?Q?lp3jhEspWOO6bpfTdiwM/VuIJyyvNLNuL0VUEKhqmzap9V5Ntru2kmQfBslH?=
- =?us-ascii?Q?k+qsjEhHfv2yULdEBeTh9t8zxaN+xvIEgs5pn2L2veqEaiXO/K1jg3RjqMuz?=
- =?us-ascii?Q?/wxvbDL+qZ9pxMv940Ihv5jTDsqLu6qsfxDrg3nP8k/LSHmNa8vGlGZ64ICj?=
- =?us-ascii?Q?292WZxezA/xRuOPCw0pTjttqNMNm7FtvlQpgkvakUDvwSIKAdIc6MNDqY2tm?=
- =?us-ascii?Q?DUOIg9hDPYLXBs70jUTWiBr/nI6W48Jhgqwku3ikCOGKk7x1KhqgSJBv/6gc?=
- =?us-ascii?Q?/7y9nahbR84W4waLmv5ti+2Xtf75JDl/kkqPDzB2NTkHVQ0W9LEUjQ0txHnc?=
- =?us-ascii?Q?8GyP2bBwoomNDf6VFlDMHufAclawc4NbcaqQEsXQGfzOMzuTCkWVCuYRzkl6?=
- =?us-ascii?Q?D+Esid7CmmTlJgVOz+VvaGAQvs/aLcv3x7ixG6J2P5Ry/DLebJObBhqTVkAC?=
- =?us-ascii?Q?yqem01nww3ZrqIDxjhYK83p4OlK3BA0ewMxRk329ml9n+yD8Zui0UJ8AI6HI?=
- =?us-ascii?Q?PZs9H6gbBwCYeYgkhPBQwAMaXk+O63fmmVwio66/ATVqM/FRbk8F6ZyUy09i?=
- =?us-ascii?Q?rL72VlViqMfpdn+IjJEuhsMSzND1OBORXAT9zGSTaKtaMyjaRyf6+NoBYTZK?=
- =?us-ascii?Q?k8/CZ0m/u+j8/luM8rmQQMtzeqPgA5Lh8GadnfE7wVfobWBvhUBG75sEN1Qp?=
- =?us-ascii?Q?0n+hc8v4s58MZfGktrui5qjfIfsRw4twY6J4BFamasXflin9xxuD43f5kr2N?=
- =?us-ascii?Q?ZO4fbVrMaUO372CZOLeOLMitp6bd3aP+HRknFdXmasCiXGQ/ZA++Sp1V677b?=
- =?us-ascii?Q?y6M1HQQ4xvAzzcwhMYqeuzH21kE2cp7aXFMPUnm7aJlqK1g2k4wDBLdzVGQW?=
- =?us-ascii?Q?qfuqosTbKHGvhTpetOoGzP3tguOHmZEtustBCgWOy7WEJ69SowgREBPpEXPC?=
- =?us-ascii?Q?tpnayzm88XL0VW7c90jdjbY9pj0PwXR9U3rITGgIFjZ4xDpQF3LYm8eOcbod?=
- =?us-ascii?Q?tdoAHOOx+R5vv6aenq2NCMRIVI+TT8MG45gW7mcoi5mj3L7F7yKjW0Lr9rxc?=
- =?us-ascii?Q?1cQc9xuvyXrMGmQFPLzWYvuZqjPzsNCSOVU3EEhtjRfwwkeZCgiy2MyNPihf?=
- =?us-ascii?Q?0mNhvEx9RKPru1ced/1DdI47Azhlpr8=3D?=
-X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ba8df65-dc76-4333-d343-08dee375c4b7
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 20:06:48.8351
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ftaxyEbFAwCuFBMFDiYBSanhHAycnPsR9kxIYasE3UGt3rWdp/MLIq6999aPcFWyZGwQgWMbRUWksk5f6XGtKZjnzlBL4DAecufF0mLnNNU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MATPR01MB12542
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 20:07:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241107
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 20:28:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241108
 
-From: J=F6rg Sommer <joerg.sommer@navimatix.de>
+On Thu, 2026-07-16 at 12:27 -0600, Tom Rini wrote:
+> On Thu, Jul 16, 2026 at 12:25:00PM +0100, Richard Purdie wrote:
+> > On Wed, 2026-07-08 at 17:37 +0300, Leon Anavi via
+> > lists.openembedded.org wrote:
+> > > This fixes issues with test_machine_world when running the
+> > > yocto-check-layer script for BSP layers that include weston in
+> > > the
+> > > dependency chain, for example meta-tegra:
+> > >=20
+> > > ERROR: Required build target 'meta-world-pkgdata' has no
+> > > buildable
+> > > providers.
+> > > Missing or unbuildable dependency chain was: ['meta-world-
+> > > pkgdata',
+> > > 'l4t-graphics-demos', 'weston']
+> >=20
+> > Why wouldn't l4t-graphics-demos just list pam as a required distro
+> > feature for that recipe?
+>=20
+> Because it doesn't come from l4t-graphics-demos it comes from weston?
+> And l4t-graphics-demos supports wayland or x11. Doing something here
+> would be the not satisfying approach Paul mentioned on v1 or so of
+> this thread. It shuts yocto-check-layer up while doing nothing of
+> value.
 
-The old mtab pointed to /proc/mounts which itself is a symlink. Systemd
-therefore tries to replace it with a symlink to /proc/self/mounts, but fail=
-s
-on a read-only rootfs:
+I should explain a little about the unfortunate way that
+REQUIRED_DISTRO_FEATURES works.
 
-    systemd-tmpfiles: symlink(../proc/self/mounts, /etc/mtab) failed: Read-=
-only file system
+Anything that needs a specific distro feature uses that but it has a
+unfortunate ripple side effect where anything with that recipe as a
+dependency, must also then have the same REQUIRED_DISTRO_FEATURES line
+(or more restrictive).
 
-Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+This was discussed extensively in the past and you will see this in the
+way x11 is rippled through recipes.
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recip=
-es-core/base-files/base-files_3.0.14.bb
-index 99ac19eb58..87814b8e12 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -109,7 +109,8 @@ do_install () {
- 	install -m 0644 ${S}/host.conf ${D}${sysconfdir}/host.conf
- 	install -m 0644 ${S}/motd ${D}${sysconfdir}/motd
-=20
--	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
-+	# systemd likes to have a relative link
-+	ln -sf --relative ${D}/proc/self/mounts ${D}${sysconfdir}/mtab
-=20
- 	# deal with hostname
- 	if [ "${hostname}" ]; then
---=20
-2.53.0
+I appreciate you will then argue this should be automatic as obviously
+anything depending on X will require Y as a DISTRO_FEATURE. I have
+refused to implement any such magic as it turns out it can misfire
+spectacularly badly and end up just masking every recipe out as a
+ripple effect for a poorly thought out change as the worst case
+scenario. There are plenty of scenarios where unexpected bad things can
+happen which would be hard to spot. This was discussed in the past too.
+
+So, my point is that if you have weston-init as a dependency, even
+indirectly, you have the required distro features requirement passed to
+that recipe and need to mark the recipe as such.
+
+No, it isn't great, but the alternatives can go spectacularly wrong too
+and you can't work out how to do this correctly automatically in a safe
+way.
+
+You are doing something of value, you're clearly marking the
+requirement of the recipe (which it has via it's dependencies).
+
+I think the question is marking the recipe in question to say it
+requires "pam+systemd+weston" or "x11", which might mean anonymous
+python but is definitely doable.
+
+Cheers,
+
+Richard
+
+
+
+
 
 
