@@ -1,1983 +1,1671 @@
-Return-Path: <lianux.mm@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C53A5C4450A
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 07:51:54 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7684.1784188313921258187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9032C44501
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 07:58:34 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.6])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7807.1784188708060209686
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 00:51:54 -0700
+ Thu, 16 Jul 2026 00:58:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=huMFNlGC;
- spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: lianux.mm@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38e041ea211so3733130a91.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 00:51:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784188313; x=1784793113; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rlpHJOk4XZz9/vpJZtv2hRIznAZZ2+eJ7XbztucmMuY=;
-        b=huMFNlGCVgXav8F4Q7kEo4SyXsYUbCrWST5PkJsNQHYUWQL4jb76B67uj1QbfcTpOZ
-         7mxYj4slaMNZX1Bf94nLvcHAoh48g08NLvJKcuyY+NXd2rlmFqf6zf0vmTfkbPbAxGzX
-         w5HuUmdHctU7PGqK9ajZ+0WD6wLRQZCi6LdRYakNQQKJ+MsCJt1hN5EZxYuwLueLlnds
-         30aOKVOe6sQoh2iezM1bgyTaHVpAI98EUm/DBWwOH8QEHCds0i1bd/BMsN3NdKTItsqb
-         23Sr6hKny4fBkw37vlciBhw3+aqf7LiNofD2YQAgA2ItZnxzBatSFbPb1qWtUlju8Vnb
-         0j+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784188313; x=1784793113;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rlpHJOk4XZz9/vpJZtv2hRIznAZZ2+eJ7XbztucmMuY=;
-        b=NYutDjMs6QlZu12iqb+QLNTTfb+XA0ZYUWP5O/tvShMLBImqmYtPuhp2mu4SJyekJK
-         AmA+pYD9IXx+oNPrptPHboxSFPdzM2zfbbAjNAZLQfci8uydnWzuugr6IUb4/ZFXwOvc
-         cn2ZqzfO9+DNzIeSUivYma7lEGgYbcWFENQa75f2H0Wm67aCsUYtmzXuGm7elWLiRMpa
-         Q9MDJcqSsd5q+wEOdI+KNBkm8MCdibsYg3u9bZ4yZT3yXB4ilYweDyV4ereJKTEKQAoU
-         xiF7H+/atRjqznODlbBwtg2RurtrPPjcVcoMeCs574iK5XG+ZbL52/6yy3pYzwPjjR0T
-         LQwA==
-X-Gm-Message-State: AOJu0YzkJyZDWunqaoQA0LU/aqXFBKQgVzqIs1SG/YKgJhCf5C1I5z9U
-	gNDqgd7tX/3KTWqwdLmH2b6KDVPRkP+Y+uIEJ3AqNZjBFp1JtBeEXHffsPoqEyDd8OU=
-X-Gm-Gg: AfdE7cnuUweaUqwreUEvugrJ7BrdWIAsO1lNHKE8/qWgbpV4hozpB6/+713/2KUemOA
-	JfwNawDSAsXmGlej221hvGt+f6S3HMZH66rg2B5L7NceHXFex2eolJS7Wn9nAECwP5bTyG6oHq4
-	tXti7CE5PuZAxUUvwcD6J1ybkawwI1wdu70brdCBWFzlrETIDm7CEWrfN4GhkLSDSURdxbz64hH
-	1Mpu5GjAHsSSYFKzM0fVml8SZ0Xkti1oNN2m1VPzdeMWyP6AWuOmQc7QaYT2csZ9FKLbjtPBCty
-	U/h9kaUJTPsGj+IW8Q728eeviqdJ5Ai7gP4PKd0mWKG8hQpE57z9hwen4InBxuBCT81iapuC7w7
-	GzYEVZo/oT8D2m31a6TNetQYhTU/lrIjuSNpt9tWdNjrXaHSqmLht1XCl0hoZG+HP+3kDrNDT4n
-	nWdYEQg3xJcw==
-X-Received: by 2002:a17:90b:5830:b0:387:e0bb:57f7 with SMTP id 98e67ed59e1d1-38e1af72937mr9453364a91.40.1784188311455;
-        Thu, 16 Jul 2026 00:51:51 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a141:2231:7698::1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e3a0d7a5bsm879524a91.9.2026.07.16.00.51.48
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 16 Jul 2026 00:51:51 -0700 (PDT)
-From: Lian Wang <lianux.mm@gmail.com>
-X-Google-Original-From: Lian Wang <lianux.wang@processmission.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Lian Wang <lianux.wang@processmission.com>
-Subject: [PATCH] libpng: upgrade 1.6.42 -> 1.6.58
-Date: Thu, 16 Jul 2026 15:51:37 +0800
-Message-ID: <20260716075137.18584-1-lianux.wang@processmission.com>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=M/YqhASJ;
+ spf=pass (domain: siemens.com, ip: 52.101.83.6, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lDCznKw4jEWimL1yPBaaeG/chN5zs5OKesgwUByMNEZ1Am/ds5CXnrxGV+tOUE1AJNzry0vjIOUuCyJCDJnYJOBH0wP0kTKRfsMxZEPT+MzHd7nGb1INznVAl1ZVK3ONQ1Ksv03WYq73acSdxgPgDZgIZ3hKjJIpfAxT7qT2xCq42ZiwNmArVTcE0NjUW0JxGTet6IZT245Kdj0ZXeHmtGZ+0SGTglH52sG6RyKgkuflHpD5joLR7s+AilKIjur1KD8bl4tvGFTCmlpkQ+1Z6UDfHN7RptnBNLA6kbZsTHIj4qS40D0uhg7+KrdtAAbxLkjq6OB0qJMBWjZsd0f3eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EkOSgUJY6cRCfbzEljiZ3z6tlBMUjWMn+ofrYgQ2sg8=;
+ b=ONYg+uH0LhqeGxTPZY2xvTj2wQ+i5nXLGuAU+gxeui3deUSPX4FzrXW868T23EfqFByQJFAfLZw5pVmhEJ5YuNoeh/ODpUfPAAV+dy0VRxhM0zlXRS0i2m/CxTND8vjv9ruLIDxGcj8gu9tLwZShQwdG13701Bbr7ZtWJLlbu0Xy9JKyBVfFybZM/NSEnAiXDpTNQvXSOXYmKDZ9BS3/Cru/5wArht30NARwaM8/rPvJr0hhUY/GMsfrAxG2QifWatgDXv7HId8N8cJGey/t5wr1gmRYXSCK/3FvkMbbv5KqAXRtHoe4wbmzh6UNuy8KOC7LMRKgA58bICCTW/Rd4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EkOSgUJY6cRCfbzEljiZ3z6tlBMUjWMn+ofrYgQ2sg8=;
+ b=M/YqhASJfaPAY7rPlXX6Azcwt1zRq1kkF1odkvwaMQ1rRFLYM+6FA/TvfGGUgtihDpqExXW3YkvuXOeW6cYPdVVqKU8ftXCyi5OdFvOYgFCqF8ixsyUP48EYf/FtYKW3ceEZTBH4ARrL0Ki4NnnCCvTIXiF5+96FqU7Pg+FFPrry6JlhgUeubpRm8KJCG+O6pM/o6g4UAKDJIPqi/iZg24udhnuG1ViQ3gbSLjrji/0o3AESboIWUyPocY1KylMd3uXVEI+YsuvM5JJQsoZ8D89K/xqgdwfzG6oXP+Q2F6YfED+x6/TN3Q324aTWcyPeDI+kYcbPi9IeNBnwd+EHTA==
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
+ by PAXSPRMB0044.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:287::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Thu, 16 Jul
+ 2026 07:58:19 +0000
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0181.019; Thu, 16 Jul 2026
+ 07:58:18 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "lianux.mm@gmail.com" <lianux.mm@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Lian Wang <lianux.wang@processmission.com>
+Subject: RE: [OE-core] [PATCH] libpng: upgrade 1.6.42 -> 1.6.58
+Thread-Topic: [OE-core] [PATCH] libpng: upgrade 1.6.42 -> 1.6.58
+Thread-Index: AQHdFPgAJOS3VD1WiEi0/UA8qLCP2rZvxzZg
+Date: Thu, 16 Jul 2026 07:58:17 +0000
+Message-ID: 
+ <AS8PR10MB50732DE564DF990E85B9B25DFDC72@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260716075137.18584-1-lianux.wang@processmission.com>
+In-Reply-To: <20260716075137.18584-1-lianux.wang@processmission.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=f4406f69-35df-4750-b79f-4b04a93707ce;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-07-16T07:56:14Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|PAXSPRMB0044:EE_
+x-ms-office365-filtering-correlation-id: 5a153cb2-505f-4a02-7f28-08dee30fff51
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|3023799007|18002099003|22082099003|11063799006|6133799003|56012099006|10067099003|55112099003|38070700021;
+x-microsoft-antispam-message-info: 
+ 399TPcFRDdDB77Hf2yTGy1Fxc7vCFBN8Qjd0KIPlYLZgPF4rG8GUhptFfcrYyOSJFMwhBtErHNn3A34TWRyZq3tdjAlEJ3ANnCM8O3pyiddjvzgQpl18v/G3XBmq2ynrpUISXAbyCuUF/1E0/zzMQmSXF6H/dMVqtZd0S+JNuMTPwe/Jc0VHy4NHQykchtQxsJ0ALDEOAgcU8ha6Ct1ow+quhbpkeMTm2qiFzFufr7YsXfhlT7/aW1M5h2H9VCTDgvAq8Ubfn47pZFypmpx26H0Sz0anKOFoFcuTKN90P0vIYSpgNeKW5R7bPWUOyR+eq+Uoxx59+br5HTS+O/+FDfV0EAnNe3c8O8zSmuLaBgC9U4Y3gdsk8PXU7G1qupKWbtC9S9hj9HufC73W2vwH0bkvTAmrYfpyG9MsD5fimKGB7qlaFRi8Cjm3M+nhgOzP5bkk8fgNtpJk+TVEy+PvbBq+NxyYpNKPpALcJYICRw4MtHPgJDgWA97pKzuKBxZ0xV8HTEQrMRZfHg5ONkhAeNnZXKfIwsr6vJTMFiWeiXoa8COK8PTzXCdwl+DzH+Dn4hWMwgI922JBMDNHMkbxEfXUao7sXxgbnRy7+oJZsYnebsSjI0/jVaztBL9w9Uracj9MARPVvaYuA6A9+jNqQ1wP5TDSKHJvmXOw/RS5Tiw=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(3023799007)(18002099003)(22082099003)(11063799006)(6133799003)(56012099006)(10067099003)(55112099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?emV4Z1d6akh1OUQwc1NUWk8vRklnNmdTVm9vUnIxZTJ6U3lEM2VYNVpTWWpR?=
+ =?utf-8?B?ZXFDZm9sVjcwKzhPQzl6eGtWMUEwd2pDNHk0WVloVXRESFlvRDg5QVdGMUtz?=
+ =?utf-8?B?d282ZGZUUm9lS3hxK3E4YXlwWUI1L3ZzelJoTkZucDUzUlB4aDM2STc1Y3Er?=
+ =?utf-8?B?Sk9rc1pIcmxiTG90blF5TFA5NjgwZFZVSU11V0JsL1h3cWxHQmx3YzE5Q095?=
+ =?utf-8?B?RnE0WWhmQVlXQVlJWmVlUmdFbVZBd04wTHZSTXFqcEZOSXdTTC8zVGhNNGJp?=
+ =?utf-8?B?WUdHZm9BdzJjODdUT2NvbmtFWm9DeEVsekJsQ3crZ0dWcVRGTWNpbjVwS0dB?=
+ =?utf-8?B?SEtYWVlWR0h1emczV1VwU256elRpYXEweGFTWUlXZDNmUnhad0F3dWMxT251?=
+ =?utf-8?B?b01XRlNXajhoOEFyZWd0UHZwVTFUSXMxdnlsQW43NmtSS0hBWGtKY283SVN0?=
+ =?utf-8?B?dFRPNjBQc1ltSzd1bklGL2Z1MnRtSE1zcXFPZWhoNkNwMi9RbGF3cTlrOHZI?=
+ =?utf-8?B?Znd5RXVBRXVkclZJZTJodGZRUVQrd2xjeXZsM1FTYVE5dkdUS2RMVkp5VlRE?=
+ =?utf-8?B?Rk1DSDhiWFRDMVI1NkVRWkdkMnV3NnFoMzZBdnRvS0VLSXlyMUtqRkQwVWNt?=
+ =?utf-8?B?ckp0S1RqM2lTZkRNcTRKNVBVdDg3b1N5ZDgyTDVHdjkvNnVva2l3N3Qwdm0x?=
+ =?utf-8?B?VWU0SFZjSmlIVVk0eFhxWkc5bExNYVAwN2sxb3lSWDlza1ovNURGbU1nNEZ2?=
+ =?utf-8?B?ejhWVUFhQ1lBcTk0YjVTT3k0VmNNbEhnYVVERFhTdHkwVFlUNHF0Y2luRzY1?=
+ =?utf-8?B?WENUa2tNV2RHR3VIV0tLZ2pocDZGaUJsUWh5ODZBeFFkSC9xVG04R3hzTHc3?=
+ =?utf-8?B?UEdjSHdENzdza3VqaEZnUWh1R3VDWk9ianYvM2hPN1hnZHNMdFpPVmthOTFF?=
+ =?utf-8?B?RU13V3NxaDdQRkhyTlBFQlFQSDd0T2VSUHd1MVdUVFVJZDVmQ21QNGUzeW85?=
+ =?utf-8?B?eFBYd1FjOTYxa0hSa0ozK1lkRGR2enpOdmRlcHJxTnFRR01rRGl4ZTdLS3Br?=
+ =?utf-8?B?NGxwUlp5Y0tGWlFTWEpQQksxYVZucGEzUXo0aHRKNW9iMmhRNG1sK1UzTmwx?=
+ =?utf-8?B?NTI1TEVpeXRVUDdUWG5LNDdUdFlSSjVnQnJZUCtDWUhsbElZWUNrVGo1cU1v?=
+ =?utf-8?B?Y1lBU2plaEtDYURUajNGN1IyZHo4ZHhyQ3JpVFZzdXZYNlI5STBiUElzWUcr?=
+ =?utf-8?B?d2R5V1pWa1hJT3Y3dFY0Z3FOUlVicWRYZHp1SmljMnhKY25rK0E3U1MrMUwz?=
+ =?utf-8?B?UlpxRW53cit2QlpvcHlyUnB4SW5OdFRmNUppeDd2ZG9DNm15UW5Hd2xXYkxU?=
+ =?utf-8?B?Y3h6U0pzUTRXVERuN0lwaDBqc2w1and2QW9mK1ZoMzgweFRRZHhsZWRrMUNi?=
+ =?utf-8?B?SzdLWmRMTCtpTi9SMWt1YWxHLzBlSGtFc1o1MlRmRlk1TlpoTzkvNnZ2L01T?=
+ =?utf-8?B?YWNQZXNHd2ZqNkxMOCsyNHkrNlFzbEg0aVppNkRldnlYQzJHL2J0ZGdJZWNX?=
+ =?utf-8?B?MkVzQmRUN3ZpWU5GTlRYeUVkRXM5Q1Z0WUdrWE1wRUxRRzdKWkI1UVdjMzJ5?=
+ =?utf-8?B?ZGlRaWt0VWVKV0pwZ1JXcHZ6YjNxYTRhSzJyVHo2YXVJV1FnMnNoenVJM3Ew?=
+ =?utf-8?B?enc2dU4vL3VrZmV0WUdDU3RLSE1pNzJoWTNjRUVuM0FPdmNwSDJlZ2V1MkU1?=
+ =?utf-8?B?WFZlZWF2b3ZzWllUaU5lajRwbzM0aW1mS0xiY0lyY2VuN1BuNHRuYkx4WFZS?=
+ =?utf-8?B?dUtOUDZ0M0RiK3VtSWUxZy9FMFFMSUR0WVpyWlUzL1Z5YmV1YVJpRDgxMlR3?=
+ =?utf-8?B?T1Jpa2s4WXBHYXRoZWs1UWZlK3dWcU5CQk9ZcmMvR3FERGdaWC9ia3VZU0Fi?=
+ =?utf-8?B?WWZOSXpDam5hZVJtYmlEN1h1bVlQOUF2Yy84R0ZmcyttaFRBVHRCaHMwZzBY?=
+ =?utf-8?B?TzJaaXAwV3hoYVZFNVk4Z0IxaUozd2pGeGZsUFpLSklkc2JwN3htNi9FOCtn?=
+ =?utf-8?B?N2JxMThRbCtHZE1yN3BsT1dXTnBYd2tnZWVOdEFIc1Q0eDJ0MTNqUmpjUjg0?=
+ =?utf-8?B?MkNPdFVOS1pCQ0pUUzZvY1l2eGRZK1FtNjVRdnZsWE1ZMFBpTHdmazBXNXlj?=
+ =?utf-8?B?a2NjM1Z1YWpmRjlkN1ZwTmNwdTRRYnZPOVJabXE5N0RyUWZoemk2V25ML3hn?=
+ =?utf-8?B?QU9ZaGxWME8rQnBNWjhXSVFSU0ppcXFVeWpwYy93WVBjK1VJTERQdG9icnhx?=
+ =?utf-8?B?WU13dFRzWk9JOUVZTm8zVDF4dk5xcVdwbSt6TEFCb2Y1Yy9iMGFWUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a153cb2-505f-4a02-7f28-08dee30fff51
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 07:58:18.0220
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ftwlNLlusATtXwSpbi0Wi+Z24KL+A4uquMsP5x2O81i5o4BubJa6X2gSs7WA5AQEaF+0V2kGYK8sA6g3bVgCtg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXSPRMB0044
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 07:51:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241066
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 07:58:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241067
 
-- Drop 17 CVE patches fixed upstream in 1.6.54 through 1.6.58
-- Update LICENSE checksum (copyright year updated)
-- All CVE-2025-64505, CVE-2025-64506, CVE-2025-64720,
-  CVE-2025-65018, CVE-2025-66293, CVE-2026-22695,
-  CVE-2026-22801, CVE-2026-25646, CVE-2026-33416,
-  CVE-2026-33636 resolved in this release
-
-Signed-off-by: Lian Wang <lianux.wang@processmission.com>
----
- .../libpng/files/CVE-2025-64505-01.patch      | 111 -----------
- .../libpng/files/CVE-2025-64505-02.patch      | 163 -----------------
- .../libpng/files/CVE-2025-64505-03.patch      |  52 ------
- .../libpng/files/CVE-2025-64506.patch         |  57 ------
- .../libpng/files/CVE-2025-64720.patch         | 103 -----------
- .../libpng/files/CVE-2025-65018-01.patch      |  60 ------
- .../libpng/files/CVE-2025-65018-02.patch      | 163 -----------------
- .../libpng/files/CVE-2025-66293-01.patch      |  60 ------
- .../libpng/files/CVE-2025-66293-02.patch      | 125 -------------
- .../libpng/files/CVE-2026-22695.patch         |  77 --------
- .../libpng/files/CVE-2026-22801.patch         | 173 ------------------
- .../libpng/files/CVE-2026-25646.patch         |  61 ------
- .../libpng/files/CVE-2026-33416-01.patch      | 143 ---------------
- .../libpng/files/CVE-2026-33416-02.patch      |  53 ------
- .../libpng/files/CVE-2026-33416-03.patch      | 163 -----------------
- .../libpng/files/CVE-2026-33416-04.patch      |  53 ------
- .../libpng/files/CVE-2026-33636.patch         |  99 ----------
- .../{libpng_1.6.42.bb => libpng_1.6.58.bb}    |  21 +--
- 18 files changed, 2 insertions(+), 1735 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch
- rename meta/recipes-multimedia/libpng/{libpng_1.6.42.bb => libpng_1.6.58.bb} (77%)
-
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
-deleted file mode 100644
-index 1e7d122..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
-+++ /dev/null
-@@ -1,111 +0,0 @@
--From 0fa3c0f698c2ca618a0fa44e10a822678df85373 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Thu, 15 Feb 2024 21:53:24 +0200
--Subject: [PATCH] chore: Clean up the spurious uses of `sizeof(png_byte)`; fix
-- the manual
--
--By definition, `sizeof(png_byte)` is 1.
--
--Remove all the occurences of `sizeof(png_byte)` from the code, and fix
--a related typo in the libpng manual.
--
--Also update the main .editorconfig file to reflect the fixing expected
--by a FIXME note.
--
--CVE: CVE-2025-64505
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/0fa3c0f698c2ca618a0fa44e10a822678df85373]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- libpng-manual.txt |  4 ++--
-- libpng.3          |  4 ++--
-- pngrtran.c        | 17 +++++++----------
-- 3 files changed, 11 insertions(+), 14 deletions(-)
--
--diff --git a/libpng-manual.txt b/libpng-manual.txt
--index eb24ef483..d2918ce31 100644
----- a/libpng-manual.txt
--+++ b/libpng-manual.txt
--@@ -1178,11 +1178,11 @@ where row_pointers is an array of pointers to the pixel data for each row:
-- If you know your image size and pixel size ahead of time, you can allocate
-- row_pointers prior to calling png_read_png() with
-- 
---   if (height > PNG_UINT_32_MAX/(sizeof (png_byte)))
--+   if (height > PNG_UINT_32_MAX / (sizeof (png_bytep)))
--       png_error(png_ptr,
--           "Image is too tall to process in memory");
-- 
---   if (width > PNG_UINT_32_MAX/pixel_size)
--+   if (width > PNG_UINT_32_MAX / pixel_size)
--       png_error(png_ptr,
--           "Image is too wide to process in memory");
-- 
--diff --git a/libpng.3 b/libpng.3
--index 57d06f2db..8875b219a 100644
----- a/libpng.3
--+++ b/libpng.3
--@@ -1697,11 +1697,11 @@ where row_pointers is an array of pointers to the pixel data for each row:
-- If you know your image size and pixel size ahead of time, you can allocate
-- row_pointers prior to calling png_read_png() with
-- 
---   if (height > PNG_UINT_32_MAX/(sizeof (png_byte)))
--+   if (height > PNG_UINT_32_MAX / (sizeof (png_bytep)))
--       png_error(png_ptr,
--           "Image is too tall to process in memory");
-- 
---   if (width > PNG_UINT_32_MAX/pixel_size)
--+   if (width > PNG_UINT_32_MAX / pixel_size)
--       png_error(png_ptr,
--           "Image is too wide to process in memory");
-- 
--diff --git a/pngrtran.c b/pngrtran.c
--index 74cca476b..041f9306c 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -441,7 +441,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--       int i;
-- 
--       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
---          (png_alloc_size_t)((png_uint_32)num_palette * (sizeof (png_byte))));
--+          (png_alloc_size_t)num_palette);
--       for (i = 0; i < num_palette; i++)
--          png_ptr->quantize_index[i] = (png_byte)i;
--    }
--@@ -458,7 +458,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
-- 
--          /* Initialize an array to sort colors */
--          png_ptr->quantize_sort = (png_bytep)png_malloc(png_ptr,
---             (png_alloc_size_t)((png_uint_32)num_palette * (sizeof (png_byte))));
--+             (png_alloc_size_t)num_palette);
-- 
--          /* Initialize the quantize_sort array */
--          for (i = 0; i < num_palette; i++)
--@@ -592,11 +592,9 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
-- 
--          /* Initialize palette index arrays */
--          png_ptr->index_to_palette = (png_bytep)png_malloc(png_ptr,
---             (png_alloc_size_t)((png_uint_32)num_palette *
---             (sizeof (png_byte))));
--+             (png_alloc_size_t)num_palette);
--          png_ptr->palette_to_index = (png_bytep)png_malloc(png_ptr,
---             (png_alloc_size_t)((png_uint_32)num_palette *
---             (sizeof (png_byte))));
--+             (png_alloc_size_t)num_palette);
-- 
--          /* Initialize the sort array */
--          for (i = 0; i < num_palette; i++)
--@@ -761,12 +759,11 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--       size_t num_entries = ((size_t)1 << total_bits);
-- 
--       png_ptr->palette_lookup = (png_bytep)png_calloc(png_ptr,
---          (png_alloc_size_t)(num_entries * (sizeof (png_byte))));
--+          (png_alloc_size_t)(num_entries));
-- 
---      distance = (png_bytep)png_malloc(png_ptr, (png_alloc_size_t)(num_entries *
---          (sizeof (png_byte))));
--+      distance = (png_bytep)png_malloc(png_ptr, (png_alloc_size_t)num_entries);
-- 
---      memset(distance, 0xff, num_entries * (sizeof (png_byte)));
--+      memset(distance, 0xff, num_entries);
-- 
--       for (i = 0; i < num_palette; i++)
--       {
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
-deleted file mode 100644
-index 5a3e50b..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
-+++ /dev/null
-@@ -1,163 +0,0 @@
--From ea094764f3436e3c6524622724c2d342a3eff235 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Sat, 8 Nov 2025 17:16:59 +0200
--Subject: [PATCH] Fix a memory leak in function `png_set_quantize`; refactor
--
--Release the previously-allocated array `quantize_index` before
--reallocating it. This avoids leaking memory when the function
--`png_set_quantize` is called multiple times on the same `png_struct`.
--
--This function assumed single-call usage, but fuzzing revealed that
--repeated calls would overwrite the pointers without freeing the
--original allocations, leaking 256 bytes per call for `quantize_index`
--and additional memory for `quantize_sort` when histogram-based
--quantization is used.
--
--Also remove the array `quantize_sort` from the list of `png_struct`
--members and make it a local variable. This array is initialized,
--used and released exclusively inside the function `png_set_quantize`.
--
--Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
--Analyzed-by: degrigis <degrigis@users.noreply.github.com>
--Reviewed-by: John Bowler <jbowler@acm.org>
--
--CVE: CVE-2025-64505
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/ea094764f3436e3c6524622724c2d342a3eff235]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngrtran.c  | 43 +++++++++++++++++++++++--------------------
-- pngstruct.h |  1 -
-- 2 files changed, 23 insertions(+), 21 deletions(-)
--
--diff --git a/pngrtran.c b/pngrtran.c
--index 1809db704..4632dd521 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -440,6 +440,12 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--    {
--       int i;
-- 
--+      /* Initialize the array to index colors.
--+       *
--+       * Be careful to avoid leaking memory. Applications are allowed to call
--+       * this function more than once per png_struct.
--+       */
--+      png_free(png_ptr, png_ptr->quantize_index);
--       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
--           (png_alloc_size_t)num_palette);
--       for (i = 0; i < num_palette; i++)
--@@ -454,15 +460,14 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--           * Perhaps not the best solution, but good enough.
--           */
-- 
---         int i;
--+         png_bytep quantize_sort;
--+         int i, j;
-- 
---         /* Initialize an array to sort colors */
---         png_ptr->quantize_sort = (png_bytep)png_malloc(png_ptr,
--+         /* Initialize the local array to sort colors. */
--+         quantize_sort = (png_bytep)png_malloc(png_ptr,
--              (png_alloc_size_t)num_palette);
---
---         /* Initialize the quantize_sort array */
--          for (i = 0; i < num_palette; i++)
---            png_ptr->quantize_sort[i] = (png_byte)i;
--+            quantize_sort[i] = (png_byte)i;
-- 
--          /* Find the least used palette entries by starting a
--           * bubble sort, and running it until we have sorted
--@@ -474,19 +479,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--          for (i = num_palette - 1; i >= maximum_colors; i--)
--          {
--             int done; /* To stop early if the list is pre-sorted */
---            int j;
-- 
--             done = 1;
--             for (j = 0; j < i; j++)
--             {
---               if (histogram[png_ptr->quantize_sort[j]]
---                   < histogram[png_ptr->quantize_sort[j + 1]])
--+               if (histogram[quantize_sort[j]]
--+                   < histogram[quantize_sort[j + 1]])
--                {
--                   png_byte t;
-- 
---                  t = png_ptr->quantize_sort[j];
---                  png_ptr->quantize_sort[j] = png_ptr->quantize_sort[j + 1];
---                  png_ptr->quantize_sort[j + 1] = t;
--+                  t = quantize_sort[j];
--+                  quantize_sort[j] = quantize_sort[j + 1];
--+                  quantize_sort[j + 1] = t;
--                   done = 0;
--                }
--             }
--@@ -498,18 +502,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--          /* Swap the palette around, and set up a table, if necessary */
--          if (full_quantize != 0)
--          {
---            int j = num_palette;
--+            j = num_palette;
-- 
--             /* Put all the useful colors within the max, but don't
--              * move the others.
--              */
--             for (i = 0; i < maximum_colors; i++)
--             {
---               if ((int)png_ptr->quantize_sort[i] >= maximum_colors)
--+               if ((int)quantize_sort[i] >= maximum_colors)
--                {
--                   do
--                      j--;
---                  while ((int)png_ptr->quantize_sort[j] >= maximum_colors);
--+                  while ((int)quantize_sort[j] >= maximum_colors);
-- 
--                   palette[i] = palette[j];
--                }
--@@ -517,7 +521,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--          }
--          else
--          {
---            int j = num_palette;
--+            j = num_palette;
-- 
--             /* Move all the used colors inside the max limit, and
--              * develop a translation table.
--@@ -525,13 +529,13 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--             for (i = 0; i < maximum_colors; i++)
--             {
--                /* Only move the colors we need to */
---               if ((int)png_ptr->quantize_sort[i] >= maximum_colors)
--+               if ((int)quantize_sort[i] >= maximum_colors)
--                {
--                   png_color tmp_color;
-- 
--                   do
--                      j--;
---                  while ((int)png_ptr->quantize_sort[j] >= maximum_colors);
--+                  while ((int)quantize_sort[j] >= maximum_colors);
-- 
--                   tmp_color = palette[j];
--                   palette[j] = palette[i];
--@@ -569,8 +573,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--                }
--             }
--          }
---         png_free(png_ptr, png_ptr->quantize_sort);
---         png_ptr->quantize_sort = NULL;
--+         png_free(png_ptr, quantize_sort);
--       }
--       else
--       {
--diff --git a/pngstruct.h b/pngstruct.h
--index 084422bc1..fe5fa0415 100644
----- a/pngstruct.h
--+++ b/pngstruct.h
--@@ -413,7 +413,6 @@ struct png_struct_def
-- 
-- #ifdef PNG_READ_QUANTIZE_SUPPORTED
-- /* The following three members were added at version 1.0.14 and 1.2.4 */
---   png_bytep quantize_sort;          /* working sort array */
--    png_bytep index_to_palette;       /* where the original index currently is
--                                         in the palette */
--    png_bytep palette_to_index;       /* which original index points to this
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
-deleted file mode 100644
-index ddda867..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 6a528eb5fd0dd7f6de1c39d30de0e41473431c37 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Sat, 8 Nov 2025 23:58:26 +0200
--Subject: [PATCH] Fix a buffer overflow in `png_do_quantize`
--
--Allocate the quantize_index array to PNG_MAX_PALETTE_LENGTH (256 bytes)
--instead of num_palette bytes. This approach matches the allocation
--pattern for `palette[]`, `trans_alpha[]` and `riffled_palette[]` which
--were similarly oversized in libpng 1.2.1 to prevent buffer overflows
--from malformed PNG files with out-of-range palette indices.
--
--Out-of-range palette indices `index >= num_palette` will now read
--identity-mapped values from the `quantize_index` array (where index N
--maps to palette entry N). This prevents undefined behavior while
--avoiding runtime bounds checking overhead in the performance-critical
--pixel processing loop.
--
--Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
--Analyzed-by: degrigis <degrigis@users.noreply.github.com>
--
--CVE: CVE-2025-64505
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/6a528eb5fd0dd7f6de1c39d30de0e41473431c37]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngrtran.c | 8 ++++++--
-- 1 file changed, 6 insertions(+), 2 deletions(-)
--
--diff --git a/pngrtran.c b/pngrtran.c
--index 4632dd521..9c2475fde 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -441,14 +441,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--       int i;
-- 
--       /* Initialize the array to index colors.
--+       *
--+       * Ensure quantize_index can fit 256 elements (PNG_MAX_PALETTE_LENGTH)
--+       * rather than num_palette elements. This is to prevent buffer overflows
--+       * caused by malformed PNG files with out-of-range palette indices.
--        *
--        * Be careful to avoid leaking memory. Applications are allowed to call
--        * this function more than once per png_struct.
--        */
--       png_free(png_ptr, png_ptr->quantize_index);
--       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
---          (png_alloc_size_t)num_palette);
---      for (i = 0; i < num_palette; i++)
--+          PNG_MAX_PALETTE_LENGTH);
--+      for (i = 0; i < PNG_MAX_PALETTE_LENGTH; i++)
--          png_ptr->quantize_index[i] = (png_byte)i;
--    }
-- 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch
-deleted file mode 100644
-index dc7fe00..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From 2bd84c019c300b78e811743fbcddb67c9d9bf821 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Fri, 7 Nov 2025 22:40:05 +0200
--Subject: [PATCH] Fix a heap buffer overflow in `png_write_image_8bit`
--
--The condition guarding the pre-transform path incorrectly allowed 8-bit
--input data to enter `png_write_image_8bit` which expects 16-bit input.
--This caused out-of-bounds reads when processing 8-bit grayscale+alpha
--images (GitHub #688), or 8-bit RGB or RGB+alpha images (GitHub #746),
--with the `convert_to_8bit` flag set (an invalid combination that should
--bypass the pre-transform path).
--
--The second part of the condition, i.e.
--
--    colormap == 0 && convert_to_8bit != 0
--
--failed to verify that input was 16-bit, i.e.
--
--    linear != 0
--
--contradicting the comment "This only applies when the input is 16-bit".
--
--The fix consists in restructuring the condition to ensure both the
--`alpha` path and the `convert_to_8bit` path require linear (16-bit)
--input. The corrected condition, i.e.
--
--    linear != 0 && (alpha != 0 || display->convert_to_8bit != 0)
--
--matches the expectation of the `png_write_image_8bit` function and
--prevents treating 8-bit buffers as 16-bit data.
--
--Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
--Reported-by: weijinjinnihao <weijinjinnihao@users.noreply.github.com>
--Analyzed-by: degrigis <degrigis@users.noreply.github.com>
--Reviewed-by: John Bowler <jbowler@acm.org>
--
--CVE: CVE-2025-64506
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/2bd84c019c300b78e811743fbcddb67c9d9bf821]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngwrite.c | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/pngwrite.c b/pngwrite.c
--index 35a5d17b6..83148960e 100644
----- a/pngwrite.c
--+++ b/pngwrite.c
--@@ -2142,8 +2142,7 @@ png_image_write_main(png_voidp argument)
--     * before it is written.  This only applies when the input is 16-bit and
--     * either there is an alpha channel or it is converted to 8-bit.
--     */
---   if ((linear != 0 && alpha != 0 ) ||
---       (colormap == 0 && display->convert_to_8bit != 0))
--+   if (linear != 0 && (alpha != 0 || display->convert_to_8bit != 0))
--    {
--       png_bytep row = png_voidcast(png_bytep, png_malloc(png_ptr,
--           png_get_rowbytes(png_ptr, info_ptr)));
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch
-deleted file mode 100644
-index 08df7c3..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch
-+++ /dev/null
-@@ -1,103 +0,0 @@
--From 08da33b4c88cfcd36e5a706558a8d7e0e4773643 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Wed, 12 Nov 2025 13:46:23 +0200
--Subject: [PATCH] Fix a buffer overflow in `png_init_read_transformations`
--
--The palette compositing code in `png_init_read_transformations` was
--incorrectly applying background compositing when PNG_FLAG_OPTIMIZE_ALPHA
--was set. This violated the premultiplied alpha invariant
--`component <= alpha` expected by `png_image_read_composite`, causing
--values that exceeded the valid range for the PNG_sRGB_FROM_LINEAR lookup
--tables.
--
--When PNG_ALPHA_OPTIMIZED is active, palette entries should contain pure
--premultiplied RGB values without background compositing. The background
--compositing must happen later in `png_image_read_composite` where the
--actual background color from the PNG file is available.
--
--The fix consists in introducing conditional behavior based on
--PNG_FLAG_OPTIMIZE_ALPHA: when set, the code performs only
--premultiplication using the formula `component * alpha + 127) / 255`
--with proper gamma correction. When not set, the original background
--compositing calculation based on the `png_composite` macro is preserved.
--
--This prevents buffer overflows in `png_image_read_composite` where
--out-of-range premultiplied values would cause out-of-bounds array access
--in `png_sRGB_base[]` and `png_sRGB_delta[]`.
--
--Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
--Analyzed-by: John Bowler <jbowler@acm.org>
--
--CVE: CVE-2025-64720
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/08da33b4c88cfcd36e5a706558a8d7e0e4773643]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngrtran.c | 52 ++++++++++++++++++++++++++++++++++++++++++----------
-- 1 file changed, 42 insertions(+), 10 deletions(-)
--
--diff --git a/pngrtran.c b/pngrtran.c
--index 548780030..2f5202255 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -1698,19 +1698,51 @@ png_init_read_transformations(png_structrp png_ptr)
--                   }
--                   else /* if (png_ptr->trans_alpha[i] != 0xff) */
--                   {
---                     png_byte v, w;
--+                     if ((png_ptr->flags & PNG_FLAG_OPTIMIZE_ALPHA) != 0)
--+                     {
--+                        /* Premultiply only:
--+                         * component = round((component * alpha) / 255)
--+                         */
--+                        png_uint_32 component;
-- 
---                     v = png_ptr->gamma_to_1[palette[i].red];
---                     png_composite(w, v, png_ptr->trans_alpha[i], back_1.red);
---                     palette[i].red = png_ptr->gamma_from_1[w];
--+                        component = png_ptr->gamma_to_1[palette[i].red];
--+                        component =
--+                            (component * png_ptr->trans_alpha[i] + 128) / 255;
--+                        palette[i].red = png_ptr->gamma_from_1[component];
-- 
---                     v = png_ptr->gamma_to_1[palette[i].green];
---                     png_composite(w, v, png_ptr->trans_alpha[i], back_1.green);
---                     palette[i].green = png_ptr->gamma_from_1[w];
--+                        component = png_ptr->gamma_to_1[palette[i].green];
--+                        component =
--+                            (component * png_ptr->trans_alpha[i] + 128) / 255;
--+                        palette[i].green = png_ptr->gamma_from_1[component];
-- 
---                     v = png_ptr->gamma_to_1[palette[i].blue];
---                     png_composite(w, v, png_ptr->trans_alpha[i], back_1.blue);
---                     palette[i].blue = png_ptr->gamma_from_1[w];
--+                        component = png_ptr->gamma_to_1[palette[i].blue];
--+                        component =
--+                            (component * png_ptr->trans_alpha[i] + 128) / 255;
--+                        palette[i].blue = png_ptr->gamma_from_1[component];
--+                     }
--+                     else
--+                     {
--+                        /* Composite with background color:
--+                         * component =
--+                         *    alpha * component + (1 - alpha) * background
--+                         */
--+                        png_byte v, w;
--+
--+                        v = png_ptr->gamma_to_1[palette[i].red];
--+                        png_composite(w, v,
--+                            png_ptr->trans_alpha[i], back_1.red);
--+                        palette[i].red = png_ptr->gamma_from_1[w];
--+
--+                        v = png_ptr->gamma_to_1[palette[i].green];
--+                        png_composite(w, v,
--+                            png_ptr->trans_alpha[i], back_1.green);
--+                        palette[i].green = png_ptr->gamma_from_1[w];
--+
--+                        v = png_ptr->gamma_to_1[palette[i].blue];
--+                        png_composite(w, v,
--+                            png_ptr->trans_alpha[i], back_1.blue);
--+                        palette[i].blue = png_ptr->gamma_from_1[w];
--+                     }
--                   }
--                }
--                else
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
-deleted file mode 100644
-index cdee6c7..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From 16b5e3823918840aae65c0a6da57c78a5a496a4d Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Mon, 17 Nov 2025 20:38:47 +0200
--Subject: [PATCH] Fix a buffer overflow in `png_image_finish_read`
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Reject bit-depth mismatches between IHDR and the requested output
--format. When a 16-bit PNG is processed with an 8-bit output format
--request, `png_combine_row` writes using the IHDR depth before
--transformation, causing writes beyond the buffer allocated via
--`PNG_IMAGE_SIZE(image)`.
--
--The validation establishes a safe API contract where
--`PNG_IMAGE_SIZE(image)` is guaranteed to be sufficient across the
--transformation pipeline.
--
--Example overflow (32×32 pixels, 16-bit RGB to 8-bit RGBA):
--- Input format: 16 bits/channel × 3 channels = 6144 bytes
--- Output buffer: 8 bits/channel × 4 channels = 4096 bytes
--- Overflow: 6144 bytes - 4096 bytes = 2048 bytes
--
--Larger images produce proportionally larger overflows. For example,
--for 256×256 pixels, the overflow is 131072 bytes.
--
--Reported-by: yosiimich <yosiimich@users.noreply.github.com>
--
--CVE: CVE-2025-65018
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/16b5e3823918840aae65c0a6da57c78a5a496a4d]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngread.c | 14 ++++++++++++++
-- 1 file changed, 14 insertions(+)
--
--diff --git a/pngread.c b/pngread.c
--index 212afb7d2..92571ec33 100644
----- a/pngread.c
--+++ b/pngread.c
--@@ -4166,6 +4166,20 @@ png_image_finish_read(png_imagep image, png_const_colorp background,
--                   int result;
--                   png_image_read_control display;
-- 
--+                  /* Reject bit depth mismatches to avoid buffer overflows. */
--+                  png_uint_32 ihdr_bit_depth =
--+                      image->opaque->png_ptr->bit_depth;
--+                  int requested_linear =
--+                      (image->format & PNG_FORMAT_FLAG_LINEAR) != 0;
--+                  if (ihdr_bit_depth == 16 && !requested_linear)
--+                     return png_image_error(image,
--+                         "png_image_finish_read: "
--+                         "16-bit PNG must use 16-bit output format");
--+                  if (ihdr_bit_depth < 16 && requested_linear)
--+                     return png_image_error(image,
--+                         "png_image_finish_read: "
--+                         "8-bit PNG must not use 16-bit output format");
--+
--                   memset(&display, 0, (sizeof display));
--                   display.image = image;
--                   display.buffer = buffer;
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
-deleted file mode 100644
-index 891cd20..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
-+++ /dev/null
-@@ -1,163 +0,0 @@
--From 218612ddd6b17944e21eda56caf8b4bf7779d1ea Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Wed, 19 Nov 2025 21:45:13 +0200
--Subject: [PATCH] Rearchitect the fix to the buffer overflow in
-- `png_image_finish_read`
--
--Undo the fix from commit 16b5e3823918840aae65c0a6da57c78a5a496a4d.
--That fix turned out to be unnecessarily limiting. It rejected all
--16-to-8 bit transformations, although the vulnerability only affects
--interlaced PNGs where `png_combine_row` writes using IHDR bit-depth
--before the transformation completes.
--
--The proper solution is to add an intermediate `local_row` buffer,
--specifically for the slow but necessary step of 16-to-8 bit conversion
--of interlaced images. (The processing of non-interlaced images remains
--intact, using the fast path.) We added the flag `do_local_scale` and
--the function `png_image_read_direct_scaled`, following the pattern that
--involves `do_local_compose`.
--
--In conclusion:
--- The 16-to-8 bit transformations of interlaced images are now safe,
--  as they use an intermediate buffer.
--- The 16-to-8 bit transformations of non-interlaced images remain safe,
--  as the fast path remains unchanged.
--- All our regression tests are now passing.
--
--CVE: CVE-2025-65018
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/218612ddd6b17944e21eda56caf8b4bf7779d1ea]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngread.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++---------
-- 1 file changed, 75 insertions(+), 14 deletions(-)
--
--diff --git a/pngread.c b/pngread.c
--index 92571ec33..79917daaa 100644
----- a/pngread.c
--+++ b/pngread.c
--@@ -3262,6 +3262,54 @@ png_image_read_colormapped(png_voidp argument)
--    }
-- }
-- 
--+/* Row reading for interlaced 16-to-8 bit depth conversion with local buffer. */
--+static int
--+png_image_read_direct_scaled(png_voidp argument)
--+{
--+   png_image_read_control *display = png_voidcast(png_image_read_control*,
--+       argument);
--+   png_imagep image = display->image;
--+   png_structrp png_ptr = image->opaque->png_ptr;
--+   png_bytep local_row = png_voidcast(png_bytep, display->local_row);
--+   png_bytep first_row = png_voidcast(png_bytep, display->first_row);
--+   ptrdiff_t row_bytes = display->row_bytes;
--+   int passes;
--+
--+   /* Handle interlacing. */
--+   switch (png_ptr->interlaced)
--+   {
--+      case PNG_INTERLACE_NONE:
--+         passes = 1;
--+         break;
--+
--+      case PNG_INTERLACE_ADAM7:
--+         passes = PNG_INTERLACE_ADAM7_PASSES;
--+         break;
--+
--+      default:
--+         png_error(png_ptr, "unknown interlace type");
--+   }
--+
--+   /* Read each pass using local_row as intermediate buffer. */
--+   while (--passes >= 0)
--+   {
--+      png_uint_32 y = image->height;
--+      png_bytep output_row = first_row;
--+
--+      for (; y > 0; --y)
--+      {
--+         /* Read into local_row (gets transformed 8-bit data). */
--+         png_read_row(png_ptr, local_row, NULL);
--+
--+         /* Copy from local_row to user buffer. */
--+         memcpy(output_row, local_row, (size_t)row_bytes);
--+         output_row += row_bytes;
--+      }
--+   }
--+
--+   return 1;
--+}
--+
-- /* Just the row reading part of png_image_read. */
-- static int
-- png_image_read_composite(png_voidp argument)
--@@ -3680,6 +3728,7 @@ png_image_read_direct(png_voidp argument)
--    int linear = (format & PNG_FORMAT_FLAG_LINEAR) != 0;
--    int do_local_compose = 0;
--    int do_local_background = 0; /* to avoid double gamma correction bug */
--+   int do_local_scale = 0; /* for interlaced 16-to-8 bit conversion */
--    int passes = 0;
-- 
--    /* Add transforms to ensure the correct output format is produced then check
--@@ -3806,8 +3855,16 @@ png_image_read_direct(png_voidp argument)
--             png_set_expand_16(png_ptr);
-- 
--          else /* 8-bit output */
--+         {
--             png_set_scale_16(png_ptr);
-- 
--+            /* For interlaced images, use local_row buffer to avoid overflow
--+             * in png_combine_row() which writes using IHDR bit-depth.
--+             */
--+            if (png_ptr->interlaced != 0)
--+               do_local_scale = 1;
--+         }
--+
--          change &= ~PNG_FORMAT_FLAG_LINEAR;
--       }
-- 
--@@ -4083,6 +4140,24 @@ png_image_read_direct(png_voidp argument)
--       return result;
--    }
-- 
--+   else if (do_local_scale != 0)
--+   {
--+      /* For interlaced 16-to-8 conversion, use an intermediate row buffer
--+       * to avoid buffer overflows in png_combine_row. The local_row is sized
--+       * for the transformed (8-bit) output, preventing the overflow that would
--+       * occur if png_combine_row wrote 16-bit data directly to the user buffer.
--+       */
--+      int result;
--+      png_voidp row = png_malloc(png_ptr, png_get_rowbytes(png_ptr, info_ptr));
--+
--+      display->local_row = row;
--+      result = png_safe_execute(image, png_image_read_direct_scaled, display);
--+      display->local_row = NULL;
--+      png_free(png_ptr, row);
--+
--+      return result;
--+   }
--+
--    else
--    {
--       png_alloc_size_t row_bytes = (png_alloc_size_t)display->row_bytes;
--@@ -4166,20 +4241,6 @@ png_image_finish_read(png_imagep image, png_const_colorp background,
--                   int result;
--                   png_image_read_control display;
-- 
---                  /* Reject bit depth mismatches to avoid buffer overflows. */
---                  png_uint_32 ihdr_bit_depth =
---                      image->opaque->png_ptr->bit_depth;
---                  int requested_linear =
---                      (image->format & PNG_FORMAT_FLAG_LINEAR) != 0;
---                  if (ihdr_bit_depth == 16 && !requested_linear)
---                     return png_image_error(image,
---                         "png_image_finish_read: "
---                         "16-bit PNG must use 16-bit output format");
---                  if (ihdr_bit_depth < 16 && requested_linear)
---                     return png_image_error(image,
---                         "png_image_finish_read: "
---                         "8-bit PNG must not use 16-bit output format");
---
--                   memset(&display, 0, (sizeof display));
--                   display.image = image;
--                   display.buffer = buffer;
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
-deleted file mode 100644
-index 0b958b9..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From 788a624d7387a758ffd5c7ab010f1870dea753a1 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Sat, 29 Nov 2025 00:39:16 +0200
--Subject: [PATCH] Fix an out-of-bounds read in `png_image_read_composite`
--
--Add a defensive bounds check before calling PNG_sRGB_FROM_LINEAR to
--prevent reading up to 506 entries (1012 bytes) past `png_sRGB_base[]`.
--
--For palette images with gamma, `png_init_read_transformations`
--clears PNG_COMPOSE after compositing on the palette, but it leaves
--PNG_FLAG_OPTIMIZE_ALPHA set. The simplified API then calls
--`png_image_read_composite` with sRGB data (not linear premultiplied),
--causing the index to reach 1017. (The maximum valid index is 511.)
--
--NOTE:
--This is a defensive fix that addresses the security issue (out-of-bounds
--read) but *NOT* the correctness issue (wrong output). When the clamp
--triggers, the affected pixels are clamped to white instead of the
--correct composited color. Valid PNG images may render incorrectly with
--the simplified API.
--
--TODO:
--We already know the root cause is a flag synchronization error.
--For palette images with gamma, `png_init_read_transformations`
--clears PNG_COMPOSE but leaves PNG_FLAG_OPTIMIZE_ALPHA set, causing
--`png_image_read_composite` to misinterpret sRGB data as linear
--premultiplied. However, we have yet to implement an architectural fix
--that requires coordinating the simplified API with the transformation
--pipeline.
--
--Reported-by: flyfish101 <flyfish101@users.noreply.github.com>
--
--CVE: CVE-2025-66293
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/788a624d7387a758ffd5c7ab010f1870dea753a1]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngread.c | 9 +++++++--
-- 1 file changed, 7 insertions(+), 2 deletions(-)
--
--diff --git a/pngread.c b/pngread.c
--index 79917daaa..ab62edd9d 100644
----- a/pngread.c
--+++ b/pngread.c
--@@ -3406,9 +3406,14 @@ png_image_read_composite(png_voidp argument)
--                         component += (255-alpha)*png_sRGB_table[outrow[c]];
-- 
--                         /* So 'component' is scaled by 255*65535 and is
---                         * therefore appropriate for the sRGB to linear
---                         * conversion table.
--+                         * therefore appropriate for the sRGB-to-linear
--+                         * conversion table.  Clamp to the valid range
--+                         * as a defensive measure against an internal
--+                         * libpng bug where the data is sRGB rather than
--+                         * linear premultiplied.
--                          */
--+                        if (component > 255*65535)
--+                           component = 255*65535;
--                         component = PNG_sRGB_FROM_LINEAR(component);
--                      }
-- 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
-deleted file mode 100644
-index ba563e1..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
-+++ /dev/null
-@@ -1,125 +0,0 @@
--From a05a48b756de63e3234ea6b3b938b8f5f862484a Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Mon, 1 Dec 2025 22:31:54 +0200
--Subject: [PATCH] Finalize the fix for out-of-bounds read in
-- `png_image_read_composite`
--
--Following up on commit 788a624d7387a758ffd5c7ab010f1870dea753a1.
--
--The previous commit added a defensive bounds check to address the
--security issue (out-of-bounds read), but noted that the correctness
--issue remained: when the clamp triggered, the affected pixels were
--clamped to white instead of the correct composited color.
--
--This commit addresses the correctness issue by fixing the flag
--synchronization error identified in the previous commit's TODO:
--
--1. In `png_init_read_transformations`:
--   Clear PNG_FLAG_OPTIMIZE_ALPHA when clearing PNG_COMPOSE for palette
--   images. This correctly signals that the data is sRGB, not linear
--   premultiplied.
--
--2. In `png_image_read_composite`:
--   Check PNG_FLAG_OPTIMIZE_ALPHA and use the appropriate composition
--   formula. When set, use the existing linear composition. When cleared
--   (palette composition already done), use sRGB composition to match
--   what was done to the palette.
--
--Retain the previous clamp to the valid range as belt-and-suspenders
--protection against any other unforeseen cases.
--
--CVE: CVE-2025-66293
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/a05a48b756de63e3234ea6b3b938b8f5f862484a]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- pngread.c  | 56 ++++++++++++++++++++++++++++++++++++------------------
-- pngrtran.c |  1 +
-- 2 files changed, 39 insertions(+), 18 deletions(-)
--
--diff --git a/pngread.c b/pngread.c
--index ab62edd9d..f8ca2b7e3 100644
----- a/pngread.c
--+++ b/pngread.c
--@@ -3340,6 +3340,7 @@ png_image_read_composite(png_voidp argument)
--       ptrdiff_t    step_row = display->row_bytes;
--       unsigned int channels =
--           (image->format & PNG_FORMAT_FLAG_COLOR) != 0 ? 3 : 1;
--+      int optimize_alpha = (png_ptr->flags & PNG_FLAG_OPTIMIZE_ALPHA) != 0;
--       int pass;
-- 
--       for (pass = 0; pass < passes; ++pass)
--@@ -3396,25 +3397,44 @@ png_image_read_composite(png_voidp argument)
-- 
--                      if (alpha < 255) /* else just use component */
--                      {
---                        /* This is PNG_OPTIMIZED_ALPHA, the component value
---                         * is a linear 8-bit value.  Combine this with the
---                         * current outrow[c] value which is sRGB encoded.
---                         * Arithmetic here is 16-bits to preserve the output
---                         * values correctly.
---                         */
---                        component *= 257*255; /* =65535 */
---                        component += (255-alpha)*png_sRGB_table[outrow[c]];
--+                        if (optimize_alpha != 0)
--+                        {
--+                           /* This is PNG_OPTIMIZED_ALPHA, the component value
--+                            * is a linear 8-bit value.  Combine this with the
--+                            * current outrow[c] value which is sRGB encoded.
--+                            * Arithmetic here is 16-bits to preserve the output
--+                            * values correctly.
--+                            */
--+                           component *= 257*255; /* =65535 */
--+                           component += (255-alpha)*png_sRGB_table[outrow[c]];
-- 
---                        /* So 'component' is scaled by 255*65535 and is
---                         * therefore appropriate for the sRGB-to-linear
---                         * conversion table.  Clamp to the valid range
---                         * as a defensive measure against an internal
---                         * libpng bug where the data is sRGB rather than
---                         * linear premultiplied.
---                         */
---                        if (component > 255*65535)
---                           component = 255*65535;
---                        component = PNG_sRGB_FROM_LINEAR(component);
--+                           /* Clamp to the valid range to defend against
--+                            * unforeseen cases where the data might be sRGB
--+                            * instead of linear premultiplied.
--+                            * (Belt-and-suspenders for GitHub Issue #764.)
--+                            */
--+                           if (component > 255*65535)
--+                              component = 255*65535;
--+
--+                           /* So 'component' is scaled by 255*65535 and is
--+                            * therefore appropriate for the sRGB-to-linear
--+                            * conversion table.
--+                            */
--+                           component = PNG_sRGB_FROM_LINEAR(component);
--+                        }
--+                        else
--+                        {
--+                           /* Compositing was already done on the palette
--+                            * entries.  The data is sRGB premultiplied on black.
--+                            * Composite with the background in sRGB space.
--+                            * This is not gamma-correct, but matches what was
--+                            * done to the palette.
--+                            */
--+                           png_uint_32 background = outrow[c];
--+                           component += ((255-alpha) * background + 127) / 255;
--+                           if (component > 255)
--+                              component = 255;
--+                        }
--                      }
-- 
--                      outrow[c] = (png_byte)component;
--diff --git a/pngrtran.c b/pngrtran.c
--index 2f5202255..507d11381 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -1760,6 +1760,7 @@ png_init_read_transformations(png_structrp png_ptr)
--              * transformations elsewhere.
--              */
--             png_ptr->transformations &= ~(PNG_COMPOSE | PNG_GAMMA);
--+            png_ptr->flags &= ~PNG_FLAG_OPTIMIZE_ALPHA;
--          } /* color_type == PNG_COLOR_TYPE_PALETTE */
-- 
--          /* if (png_ptr->background_gamma_type!=PNG_BACKGROUND_GAMMA_UNKNOWN) */
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
-deleted file mode 100644
-index 6456b6c..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-22695.patch
-+++ /dev/null
-@@ -1,77 +0,0 @@
--From e4f7ad4ea2a471776c81dda4846b7691925d9786 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Fri, 9 Jan 2026 20:51:53 +0200
--Subject: [PATCH] Fix a heap buffer over-read in `png_image_read_direct_scaled`
--
--Fix a regression from commit 218612ddd6b17944e21eda56caf8b4bf7779d1ea.
--
--The function `png_image_read_direct_scaled`, introduced by the fix for
--CVE-2025-65018, copies transformed row data from an intermediate buffer
--(`local_row`) to the user's output buffer. The copy incorrectly used
--`row_bytes` (the caller's stride) as the size parameter to memcpy, even
--though `local_row` is only `png_get_rowbytes()` bytes long.
--
--This causes a heap buffer over-read when:
--
--1. The caller provides a padded stride (e.g., for memory alignment):
--   memcpy reads past the end of `local_row` by `stride - row_width`
--   bytes.
--
--2. The caller provides a negative stride (for bottom-up layouts):
--   casting ptrdiff_t to size_t produces ~2^64, causing memcpy to
--   attempt reading exabytes, resulting in an immediate crash.
--
--The fix consists in using the size of the row buffer for the copy and
--using the stride for pointer advancement only.
--
--Reported-by: Petr Simecek <simecek@users.noreply.github.com>
--Analyzed-by: Stanislav Fort
--Analyzed-by: Pavel Kohout
--Co-authored-by: Petr Simecek <simecek@users.noreply.github.com>
--Signed-off-by: Cosmin Truta <ctruta@gmail.com>
--
--CVE: CVE-2026-22695
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/e4f7ad4ea2a471776c81dda4846b7691925d9786]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- AUTHORS   | 1 +
-- pngread.c | 4 +++-
-- 2 files changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/AUTHORS b/AUTHORS
--index 26b7bb50f..b9c0fffcf 100644
----- a/AUTHORS
--+++ b/AUTHORS
--@@ -23,6 +23,7 @@ Authors, for copyright and licensing purposes.
--  * Mike Klein
--  * Pascal Massimino
--  * Paul Schmidt
--+ * Petr Simecek
--  * Philippe Antoine
--  * Qiang Zhou
--  * Sam Bushell
--diff --git a/pngread.c b/pngread.c
--index e3426292b..9d86b01dc 100644
----- a/pngread.c
--+++ b/pngread.c
--@@ -3270,9 +3270,11 @@ png_image_read_direct_scaled(png_voidp argument)
--        argument);
--    png_imagep image = display->image;
--    png_structrp png_ptr = image->opaque->png_ptr;
--+   png_inforp info_ptr = image->opaque->info_ptr;
--    png_bytep local_row = png_voidcast(png_bytep, display->local_row);
--    png_bytep first_row = png_voidcast(png_bytep, display->first_row);
--    ptrdiff_t row_bytes = display->row_bytes;
--+   size_t copy_bytes = png_get_rowbytes(png_ptr, info_ptr);
--    int passes;
-- 
--    /* Handle interlacing. */
--@@ -3302,7 +3304,7 @@ png_image_read_direct_scaled(png_voidp argument)
--          png_read_row(png_ptr, local_row, NULL);
-- 
--          /* Copy from local_row to user buffer. */
---         memcpy(output_row, local_row, (size_t)row_bytes);
--+         memcpy(output_row, local_row, copy_bytes);
--          output_row += row_bytes;
--       }
--    }
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
-deleted file mode 100644
-index 8a611ac..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-22801.patch
-+++ /dev/null
-@@ -1,173 +0,0 @@
--From cf155de014fc6c5cb199dd681dd5c8fb70429072 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Sat, 10 Jan 2026 15:20:18 +0200
--Subject: [PATCH] fix: Remove incorrect truncation casts from
-- `png_write_image_*`
--
--The type of the row stride (`display->row_bytes`) is ptrdiff_t. Casting
--to png_uint_16 before division will truncate large strides, causing
--incorrect pointer arithmetic for images exceeding 65535 bytes per row.
--For bottom-up images (negative stride), the truncation also corrupts
--the sign, advancing the row pointer forward instead of backward.
--
--Remove the erroneous casts and let the compiler handle the pointer
--arithmetic correctly. Also replace `sizeof (png_uint_16)` with 2.
--
--Add regression test via `pngstest --stride-extra N` where N > 32767
--triggers the affected code paths.
--
--A NOTE ABOUT HISTORY:
--The original code in libpng 1.5.6 (2011) had no such casts. They were
--introduced in libpng 1.6.26 (2016), likely to silence compiler warnings
--on 16-bit systems where the cast would be a no-op. On 32/64-bit systems
--the cast truncates the strides above 65535 and corrupts the negative
--strides.
--
--CVE: CVE-2026-22801
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/cf155de014fc6c5cb199dd681dd5c8fb70429072]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- CMakeLists.txt              |  9 ++++++++-
-- contrib/libtests/pngstest.c | 29 ++++++++++++++++++++++++++++-
-- pngwrite.c                  | 10 +++++-----
-- tests/pngstest-large-stride |  8 ++++++++
-- 4 files changed, 49 insertions(+), 7 deletions(-)
-- create mode 100755 tests/pngstest-large-stride
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index a8cd82402..a595ed91d 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -1,7 +1,7 @@
-- 
-- # CMakeLists.txt - CMake lists for libpng
-- #
---# Copyright (c) 2018-2024 Cosmin Truta.
--+# Copyright (c) 2018-2026 Cosmin Truta
-- # Copyright (c) 2007-2018 Glenn Randers-Pehrson.
-- # Originally written by Christian Ehrlicher, 2007.
-- #
--@@ -859,6 +859,13 @@ if(PNG_TESTS AND PNG_SHARED)
--     endforeach()
--   endforeach()
-- 
--+  # Regression test:
--+  # Use stride_extra > 32767 to trigger row_bytes > 65535 for linear images.
--+  png_add_test(NAME pngstest-large-stride
--+               COMMAND pngstest
--+               OPTIONS --stride-extra 33000 --tmpfile "large-stride-" --log
--+               FILES "${CMAKE_CURRENT_SOURCE_DIR}/contrib/testpngs/rgb-alpha-16-linear.png")
--+
--   add_executable(pngunknown ${pngunknown_sources})
--   target_link_libraries(pngunknown PRIVATE png_shared)
-- 
--diff --git a/contrib/libtests/pngstest.c b/contrib/libtests/pngstest.c
--index ff4c2b24a..2f29afee2 100644
----- a/contrib/libtests/pngstest.c
--+++ b/contrib/libtests/pngstest.c
--@@ -1,7 +1,7 @@
-- 
-- /* pngstest.c
--  *
--- * Copyright (c) 2021 Cosmin Truta
--+ * Copyright (c) 2021-2026 Cosmin Truta
--  * Copyright (c) 2013-2017 John Cunningham Bowler
--  *
--  * This code is released under the libpng license.
--@@ -3571,6 +3571,33 @@ main(int argc, char **argv)
--          opts |= NO_RESEED;
--       else if (strcmp(arg, "--fault-gbg-warning") == 0)
--          opts |= GBG_ERROR;
--+      else if (strcmp(arg, "--stride-extra") == 0)
--+      {
--+         if (c+1 < argc)
--+         {
--+            char *ep;
--+            unsigned long val = strtoul(argv[++c], &ep, 0);
--+
--+            if (ep > argv[c] && *ep == 0 && val <= 65535)
--+               stride_extra = (int)val;
--+
--+            else
--+            {
--+               fflush(stdout);
--+               fprintf(stderr, "%s: bad argument for --stride-extra: %s\n",
--+                  argv[0], argv[c]);
--+               exit(99);
--+            }
--+         }
--+
--+         else
--+         {
--+            fflush(stdout);
--+            fprintf(stderr, "%s: missing argument for --stride-extra\n",
--+               argv[0]);
--+            exit(99);
--+         }
--+      }
--       else if (strcmp(arg, "--tmpfile") == 0)
--       {
--          if (c+1 < argc)
--diff --git a/pngwrite.c b/pngwrite.c
--index 08066bcc4..a95b846c8 100644
----- a/pngwrite.c
--+++ b/pngwrite.c
--@@ -1,7 +1,7 @@
-- 
-- /* pngwrite.c - general routines to write a PNG file
--  *
--- * Copyright (c) 2018-2024 Cosmin Truta
--+ * Copyright (c) 2018-2026 Cosmin Truta
--  * Copyright (c) 1998-2002,2004,2006-2018 Glenn Randers-Pehrson
--  * Copyright (c) 1996-1997 Andreas Dilger
--  * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
--@@ -1645,7 +1645,7 @@ png_write_image_16bit(png_voidp argument)
--       }
-- 
--       png_write_row(png_ptr, png_voidcast(png_const_bytep, display->local_row));
---      input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
--+      input_row += display->row_bytes / 2;
--    }
-- 
--    return 1;
--@@ -1771,7 +1771,7 @@ png_write_image_8bit(png_voidp argument)
-- 
--          png_write_row(png_ptr, png_voidcast(png_const_bytep,
--              display->local_row));
---         input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
--+         input_row += display->row_bytes / 2;
--       } /* while y */
--    }
-- 
--@@ -1796,7 +1796,7 @@ png_write_image_8bit(png_voidp argument)
--          }
-- 
--          png_write_row(png_ptr, output_row);
---         input_row += (png_uint_16)display->row_bytes/(sizeof (png_uint_16));
--+         input_row += display->row_bytes / 2;
--       }
--    }
-- 
--@@ -2115,7 +2115,7 @@ png_image_write_main(png_voidp argument)
--       ptrdiff_t row_bytes = display->row_stride;
-- 
--       if (linear != 0)
---         row_bytes *= (sizeof (png_uint_16));
--+         row_bytes *= 2;
-- 
--       if (row_bytes < 0)
--          row += (image->height-1) * (-row_bytes);
--diff --git a/tests/pngstest-large-stride b/tests/pngstest-large-stride
--new file mode 100755
--index 000000000..7958c5b42
----- /dev/null
--+++ b/tests/pngstest-large-stride
--@@ -0,0 +1,8 @@
--+#!/bin/sh
--+
--+# Regression test:
--+# Use stride_extra > 32767 to trigger row_bytes > 65535 for linear images.
--+exec ./pngstest \
--+     --stride-extra 33000 \
--+     --tmpfile "large-stride-" \
--+     --log "${srcdir}/contrib/testpngs/rgb-alpha-16-linear.png"
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
-deleted file mode 100644
-index 5fbf5eb..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-25646.patch
-+++ /dev/null
-@@ -1,61 +0,0 @@
--From 01d03b8453eb30ade759cd45c707e5a1c7277d88 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Fri, 6 Feb 2026 19:11:54 +0200
--Subject: [PATCH] Fix a heap buffer overflow in `png_set_quantize`
--
--The color distance hash table stored the current palette indices, but
--the color-pruning loop assumed the original indices. When colors were
--eliminated and indices changed, the stored indices became stale. This
--caused the loop bound `max_d` to grow past the 769-element hash array.
--
--The fix consists in storing the original indices via `palette_to_index`
--to match the pruning loop's expectations.
--
--Reported-by: Joshua Inscoe <pwnalone@users.noreply.github.com>
--Co-authored-by: Joshua Inscoe <pwnalone@users.noreply.github.com>
--Signed-off-by: Cosmin Truta <ctruta@gmail.com>
--
--CVE: CVE-2026-25646
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/01d03b8453eb30ade759cd45c707e5a1c7277d88]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- AUTHORS    | 1 +
-- pngrtran.c | 6 +++---
-- 2 files changed, 4 insertions(+), 3 deletions(-)
--
--diff --git a/AUTHORS b/AUTHORS
--index b9c0fffcf..4094f4a57 100644
----- a/AUTHORS
--+++ b/AUTHORS
--@@ -15,6 +15,7 @@ Authors, for copyright and licensing purposes.
--  * Guy Eric Schalnat
--  * James Yu
--  * John Bowler
--+ * Joshua Inscoe
--  * Kevin Bracey
--  * Magnus Holmgren
--  * Mandar Sahastrabuddhe
--diff --git a/pngrtran.c b/pngrtran.c
--index fe8f9d32c..1fce9af12 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -1,7 +1,7 @@
-- 
-- /* pngrtran.c - transforms the data in a row for PNG readers
--  *
--- * Copyright (c) 2018-2024 Cosmin Truta
--+ * Copyright (c) 2018-2026 Cosmin Truta
--  * Copyright (c) 1998-2002,2004,2006-2018 Glenn Randers-Pehrson
--  * Copyright (c) 1996-1997 Andreas Dilger
--  * Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
--@@ -647,8 +647,8 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
--                          break;
-- 
--                      t->next = hash[d];
---                     t->left = (png_byte)i;
---                     t->right = (png_byte)j;
--+                     t->left = png_ptr->palette_to_index[i];
--+                     t->right = png_ptr->palette_to_index[j];
--                      hash[d] = t;
--                   }
--                }
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch
-deleted file mode 100644
-index a60a8d6..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch
-+++ /dev/null
-@@ -1,143 +0,0 @@
--From 23019269764e35ed8458e517f1897bd3c54820eb Mon Sep 17 00:00:00 2001
--From: Oblivionsage <cookieandcream560@gmail.com>
--Date: Sun, 15 Mar 2026 10:35:29 +0100
--Subject: [PATCH] fix: Resolve use-after-free on `png_ptr->trans_alpha`
--
--The function `png_set_tRNS` sets `png_ptr->trans_alpha` to point at
--`info_ptr->trans_alpha` directly, so both structs share the same heap
--buffer. If the application calls `png_free_data(PNG_FREE_TRNS)`, or if
--`png_set_tRNS` is called a second time, the buffer is freed through
--`info_ptr` while `png_ptr` still holds a dangling reference. Any
--subsequent row read that hits the function `png_do_expand_palette` will
--dereference freed memory.
--
--The fix gives `png_struct` its own allocation instead of aliasing the
--`info_ptr` pointer. This was already flagged with a TODO in
--`png_handle_tRNS` ("horrible side effect ... Fix this.") but it was
--never addressed.
--
--Verified with AddressSanitizer. All 34 existing tests pass without
--regressions.
--
--CVE: CVE-2026-33416
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/23019269764e35ed8458e517f1897bd3c54820eb]
--Comment: Refreshed hunk to match latest scarthgap
--
--Reviewed-by: Cosmin Truta <ctruta@gmail.com>
--Signed-off-by: Cosmin Truta <ctruta@gmail.com>
--Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
--Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
-----
-- pngread.c  | 11 +++++------
-- pngrutil.c |  4 ----
-- pngset.c   | 31 +++++++++++++++++++------------
-- pngwrite.c |  6 ++++++
-- 4 files changed, 30 insertions(+), 22 deletions(-)
--
--diff --git a/pngread.c b/pngread.c
--index 01b731d8eb..0086edf6cf 100644
----- a/pngread.c
--+++ b/pngread.c
--@@ -968,12 +968,11 @@ png_read_destroy(png_structrp png_ptr)
-- 
-- #if defined(PNG_tRNS_SUPPORTED) || \
--     defined(PNG_READ_EXPAND_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
---   if ((png_ptr->free_me & PNG_FREE_TRNS) != 0)
---   {
---      png_free(png_ptr, png_ptr->trans_alpha);
---      png_ptr->trans_alpha = NULL;
---   }
---   png_ptr->free_me &= ~PNG_FREE_TRNS;
--+   /* png_ptr->trans_alpha is always independently allocated (not aliased
--+    * with info_ptr->trans_alpha), so free it unconditionally.
--+    */
--+   png_free(png_ptr, png_ptr->trans_alpha);
--+   png_ptr->trans_alpha = NULL;
-- #endif
-- 
--    inflateEnd(&png_ptr->zstream);
--diff --git a/pngrutil.c b/pngrutil.c
--index 366379b991..a19507bf1b 100644
----- a/pngrutil.c
--+++ b/pngrutil.c
--@@ -1905,10 +1905,6 @@ png_handle_tRNS(png_structrp png_ptr, pn
--       return;
--    }
-- 
---   /* TODO: this is a horrible side effect in the palette case because the
---    * png_struct ends up with a pointer to the tRNS buffer owned by the
---    * png_info.  Fix this.
---    */
--    png_set_tRNS(png_ptr, info_ptr, readbuf, png_ptr->num_trans,
--        &(png_ptr->trans_color));
-- }
--diff --git a/pngset.c b/pngset.c
--index 4b78b8960c..47883684e4 100644
----- a/pngset.c
--+++ b/pngset.c
--@@ -990,28 +990,36 @@ png_set_tRNS(png_structrp png_ptr, png_i
-- 
--    if (trans_alpha != NULL)
--    {
---       /* It may not actually be necessary to set png_ptr->trans_alpha here;
---        * we do it for backward compatibility with the way the png_handle_tRNS
---        * function used to do the allocation.
---        *
---        * 1.6.0: The above statement is incorrect; png_handle_tRNS effectively
---        * relies on png_set_tRNS storing the information in png_struct
---        * (otherwise it won't be there for the code in pngrtran.c).
---        */
---
--        png_free_data(png_ptr, info_ptr, PNG_FREE_TRNS, 0);
-- 
--        if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
--        {
---         /* Changed from num_trans to PNG_MAX_PALETTE_LENGTH in version 1.2.1 */
--+          /* Allocate info_ptr's copy of the transparency data. */
--           info_ptr->trans_alpha = png_voidcast(png_bytep,
--               png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
--           memcpy(info_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
---
--           info_ptr->free_me |= PNG_FREE_TRNS;
--           info_ptr->valid |= PNG_INFO_tRNS;
--+
--+
--+          /* Allocate an independent copy for png_struct, so that the
--+           * lifetime of png_ptr->trans_alpha is decoupled from the
--+           * lifetime of info_ptr->trans_alpha.  Previously these two
--+           * pointers were aliased, which caused a use-after-free if
--+           * png_free_data freed info_ptr->trans_alpha while
--+           * png_ptr->trans_alpha was still in use by the row transform
--+           * functions (e.g. png_do_expand_palette).
--+           */
--+          png_free(png_ptr, png_ptr->trans_alpha);
--+          png_ptr->trans_alpha = png_voidcast(png_bytep,
--+              png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
--+          memcpy(png_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
--+       }
--+       else
--+       {
--+          png_free(png_ptr, png_ptr->trans_alpha);
--+          png_ptr->trans_alpha = NULL;
--        }
---       png_ptr->trans_alpha = info_ptr->trans_alpha;
--    }
-- 
--    if (trans_color != NULL)
--diff --git a/pngwrite.c b/pngwrite.c
--index 5fc77d91f7..84af1e73fb 100644
----- a/pngwrite.c
--+++ b/pngwrite.c
--@@ -977,6 +977,12 @@ png_write_destroy(png_structrp png_ptr)
--    png_ptr->chunk_list = NULL;
-- #endif
-- 
--+#if defined(PNG_tRNS_SUPPORTED)
--+   /* Free the independent copy of trans_alpha owned by png_struct. */
--+   png_free(png_ptr, png_ptr->trans_alpha);
--+   png_ptr->trans_alpha = NULL;
--+#endif
--+
--    /* The error handling and memory handling information is left intact at this
--     * point: the jmp_buf may still have to be freed.  See png_destroy_png_struct
--     * for how this happens.
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch
-deleted file mode 100644
-index e746293..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From a3a21443ed12bfa1ef46fa0d4fb2b74a0fa34a25 Mon Sep 17 00:00:00 2001
--From: Oblivionsage <cookieandcream560@gmail.com>
--Date: Tue, 17 Mar 2026 08:55:18 +0100
--Subject: [PATCH] fix: Initialize tail bytes in `trans_alpha` buffers
--
--Although the arrays `info_ptr->trans_alpha` and `png_ptr->trans_alpha`
--are allocated 256 bytes, only `num_trans` bytes are copied.
--The remaining entries were left uninitialized. Set them to 0xff (fully
--opaque) before copying, which matches the conventional treatment of
--entries beyond `num_trans`.
--
--This is a follow-up to the previous use-after-free fix.
--
--CVE: CVE-2026-33416
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/a3a21443ed12bfa1ef46fa0d4fb2b74a0fa34a25]
--Comment: Refreshed hunk to match latest scarthgap
--
--Reported-by: Cosmin Truta <ctruta@gmail.com>
--Reviewed-by: Cosmin Truta <ctruta@gmail.com>
--Signed-off-by: Cosmin Truta <ctruta@gmail.com>
--Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
--Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
-----
-- pngset.c | 7 ++++++-
-- 1 file changed, 6 insertions(+), 1 deletion(-)
--
--diff --git a/pngset.c b/pngset.c
--index 47883684e4..dccc6498d7 100644
----- a/pngset.c
--+++ b/pngset.c
--@@ -994,9 +994,13 @@ png_set_tRNS(png_structrp png_ptr, png_i
-- 
--        if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
--        {
---          /* Allocate info_ptr's copy of the transparency data. */
--+	       /* Allocate info_ptr's copy of the transparency data.
--+           * Initialize all entries to fully opaque (0xff), then overwrite
--+           * the first num_trans entries with the actual values.
--+           */
--           info_ptr->trans_alpha = png_voidcast(png_bytep,
--               png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
--+	       memset(info_ptr->trans_alpha, 0xff, PNG_MAX_PALETTE_LENGTH);
--           memcpy(info_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
--           info_ptr->free_me |= PNG_FREE_TRNS;
--           info_ptr->valid |= PNG_INFO_tRNS;
--@@ -1013,6 +1017,7 @@ png_set_tRNS(png_structrp png_ptr, png_i
--           png_free(png_ptr, png_ptr->trans_alpha);
--           png_ptr->trans_alpha = png_voidcast(png_bytep,
--               png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH));
--+	       memset(png_ptr->trans_alpha, 0xff, PNG_MAX_PALETTE_LENGTH);
--           memcpy(png_ptr->trans_alpha, trans_alpha, (size_t)num_trans);
--        }
--        else
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch
-deleted file mode 100644
-index 21ce35d..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch
-+++ /dev/null
-@@ -1,163 +0,0 @@
--From 7ea9eea884a2328cc7fdcb3c0c00246a50d90667 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Fri, 20 Mar 2026 17:37:22 +0200
--Subject: [PATCH] fix: Resolve use-after-free on `png_ptr->palette`
--
--Give `png_struct` its own independently-allocated copy of the palette
--buffer, decoupling it from `info_struct`'s palette. Allocate both
--copies with `png_calloc` to zero-fill, because the ARM NEON palette
--riffle reads all 256 entries unconditionally.
--
--In function `png_set_PLTE`, `png_ptr->palette` was aliased directly to
--`info_ptr->palette`: a single heap buffer shared across two structs
--with independent lifetimes. If the buffer was freed through `info_ptr`
--(via `png_free_data(PNG_FREE_PLTE)` or a second call to `png_set_PLTE`),
--`png_ptr->palette` became a dangling pointer. Subsequent row reads,
--performed in `png_do_expand_palette` and in other transform functions,
--dereferenced (and in the bit-shift path, wrote to) freed memory.
--
--Also fix `png_set_quantize` to allocate an owned copy of the caller's
--palette rather than aliasing the user pointer, so that the unconditional
--free in `png_read_destroy` does not free unmanaged memory.
--
--CVE: CVE-2026-33416
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/7ea9eea884a2328cc7fdcb3c0c00246a50d90667]
--Comment: Refreshed hunk to match latest scarthgap
--
--Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
--Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
-----
-- pngread.c  | 11 +++++------
-- pngrtran.c |  8 +++++++-
-- pngrutil.c | 13 -------------
-- pngset.c   | 28 +++++++++++++++++++---------
-- pngwrite.c |  4 ++++
-- 5 files changed, 35 insertions(+), 29 deletions(-)
--
--diff --git a/pngread.c b/pngread.c
--index 0086edf6cf..e1d38d578a 100644
----- a/pngread.c
--+++ b/pngread.c
--@@ -959,12 +959,11 @@ png_read_destroy(png_structrp png_ptr)
--    png_ptr->quantize_index = NULL;
-- #endif
-- 
---   if ((png_ptr->free_me & PNG_FREE_PLTE) != 0)
---   {
---      png_zfree(png_ptr, png_ptr->palette);
---      png_ptr->palette = NULL;
---   }
---   png_ptr->free_me &= ~PNG_FREE_PLTE;
--+   /* png_ptr->palette is always independently allocated (not aliased
--+    * with info_ptr->palette), so free it unconditionally.
--+    */
--+   png_free(png_ptr, png_ptr->palette);
--+   png_ptr->palette = NULL;
-- 
-- #if defined(PNG_tRNS_SUPPORTED) || \
--     defined(PNG_READ_EXPAND_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
--diff --git a/pngrtran.c b/pngrtran.c
--index bfb7d423b7..fd736ab672 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -750,7 +750,13 @@ png_set_quantize(png_structrp png_ptr, p
--    }
--    if (png_ptr->palette == NULL)
--    {
---      png_ptr->palette = palette;
--+      /* Allocate an owned copy rather than aliasing the caller's pointer,
--+       * so that png_read_destroy can free png_ptr->palette unconditionally.
--+       */
--+      png_ptr->palette = png_voidcast(png_colorp, png_calloc(png_ptr,
--+          PNG_MAX_PALETTE_LENGTH * (sizeof (png_color))));
--+      memcpy(png_ptr->palette, palette, (unsigned int)num_palette *
--+          (sizeof (png_color)));
--    }
--    png_ptr->num_palette = (png_uint_16)num_palette;
--
--diff --git a/pngrutil.c b/pngrutil.c
--index a19507bf1b..3a35fe9de2 100644
----- a/pngrutil.c
--+++ b/pngrutil.c
--@@ -1047,14 +1047,6 @@ png_handle_PLTE(png_structrp png_ptr, pn
--    }
-- #endif
-- 
---   /* TODO: png_set_PLTE has the side effect of setting png_ptr->palette to its
---    * own copy of the palette.  This has the side effect that when png_start_row
---    * is called (this happens after any call to png_read_update_info) the
---    * info_ptr palette gets changed.  This is extremely unexpected and
---    * confusing.
---    *
---    * Fix this by not sharing the palette in this way.
---    */
--    png_set_PLTE(png_ptr, info_ptr, palette, num);
-- 
--    /* The three chunks, bKGD, hIST and tRNS *must* appear after PLTE and before
--diff --git a/pngset.c b/pngset.c
--index dccc6498d7..b9ccb7fb15 100644
----- a/pngset.c
--+++ b/pngset.c
--@@ -595,28 +595,38 @@ png_set_PLTE(png_structrp png_ptr, png_i
--       png_error(png_ptr, "Invalid palette");
--    }
-- 
---   /* It may not actually be necessary to set png_ptr->palette here;
---    * we do it for backward compatibility with the way the png_handle_tRNS
---    * function used to do the allocation.
---    *
---    * 1.6.0: the above statement appears to be incorrect; something has to set
---    * the palette inside png_struct on read.
---    */
--    png_free_data(png_ptr, info_ptr, PNG_FREE_PLTE, 0);
-- 
--    /* Changed in libpng-1.2.1 to allocate PNG_MAX_PALETTE_LENGTH instead
--     * of num_palette entries, in case of an invalid PNG file or incorrect
--     * call to png_set_PLTE() with too-large sample values.
--+    *
--+    * Allocate independent buffers for info_ptr and png_ptr so that the
--+    * lifetime of png_ptr->palette is decoupled from the lifetime of
--+    * info_ptr->palette.  Previously, these two pointers were aliased,
--+    * which caused a use-after-free vulnerability if png_free_data freed
--+    * info_ptr->palette while png_ptr->palette was still in use by the
--+    * row transform functions (e.g. png_do_expand_palette).
--+    *
--+    * Both buffers are allocated with png_calloc to zero-fill, because
--+    * the ARM NEON palette riffle reads all 256 entries unconditionally,
--+    * regardless of num_palette.
--     */
--+   png_free(png_ptr, png_ptr->palette);
--    png_ptr->palette = png_voidcast(png_colorp, png_calloc(png_ptr,
--        PNG_MAX_PALETTE_LENGTH * (sizeof (png_color))));
--+   info_ptr->palette = png_voidcast(png_colorp, png_calloc(png_ptr,
--+       PNG_MAX_PALETTE_LENGTH * (sizeof (png_color))));
--+   png_ptr->num_palette = info_ptr->num_palette = (png_uint_16)num_palette;
-- 
--    if (num_palette > 0)
--+      {
--+      memcpy(info_ptr->palette, palette, (unsigned int)num_palette *
--+          (sizeof (png_color)));
--       memcpy(png_ptr->palette, palette, (unsigned int)num_palette *
--           (sizeof (png_color)));
--+      }
-- 
---   info_ptr->palette = png_ptr->palette;
---   info_ptr->num_palette = png_ptr->num_palette = (png_uint_16)num_palette;
--    info_ptr->free_me |= PNG_FREE_PLTE;
--    info_ptr->valid |= PNG_INFO_PLTE;
-- }
--diff --git a/pngwrite.c b/pngwrite.c
--index 84af1e73fb..348763e940 100644
----- a/pngwrite.c
--+++ b/pngwrite.c
--@@ -982,6 +982,10 @@ png_write_destroy(png_structrp png_ptr)
--    png_free(png_ptr, png_ptr->trans_alpha);
--    png_ptr->trans_alpha = NULL;
-- #endif
--+   
--+   /* Free the independent copy of the palette owned by png_struct. */
--+   png_free(png_ptr, png_ptr->palette);
--+   png_ptr->palette = NULL;
-- 
--    /* The error handling and memory handling information is left intact at this
--     * point: the jmp_buf may still have to be freed.  See png_destroy_png_struct
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch
-deleted file mode 100644
-index ff7db53..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From c1b0318b393c90679e6fa5bc1d329fd5d5012ec1 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Fri, 20 Mar 2026 21:25:12 +0200
--Subject: [PATCH] fix: Sync `info_ptr->palette` after in-place transforms
--
--Copy `png_ptr->palette` into `info_ptr->palette` upon entering
--the function that runs immediately after the in-place transforms.
--
--The palette decoupling in the previous commit gave `png_struct`
--and `png_info` independently-allocated palette buffers, fixing a
--use-after-free vulnerability. However, `png_init_read_transformations`
--modifies `png_ptr->palette` in place (e.g. for gamma correction or
--background compositing), and the old aliasing made those modifications
--visible through `png_get_PLTE`. With independent buffers,
--`info_ptr->palette` retained the original values, causing our tests to
--fail on indexed-colour background compositing.
--
--CVE: CVE-2026-33416
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/c1b0318b393c90679e6fa5bc1d329fd5d5012ec1]
--Comment: Refreshed hunk to match latest scarthgap
--
--Signed-off-by: Sourav Kumar Pramanik <Souravkumar.Pramanik@bmwtechworks.in>
--Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
-----
-- pngrtran.c | 15 +++++++++++++++
-- 1 file changed, 15 insertions(+)
--
--diff --git a/pngrtran.c b/pngrtran.c
--index fd736ab672..978dac5888 100644
----- a/pngrtran.c
--+++ b/pngrtran.c
--@@ -1984,6 +1984,21 @@ png_read_transform_info(png_structrp png
-- {
--    png_debug(1, "in png_read_transform_info");
-- 
--+   if (png_ptr->transformations != 0)
--+   {
--+      if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE &&
--+          info_ptr->palette != NULL && png_ptr->palette != NULL)
--+      {
--+         /* Sync info_ptr->palette with png_ptr->palette.
--+          * The function png_init_read_transformations may have modified
--+          * png_ptr->palette in place (e.g. for gamma correction or for
--+          * background compositing).
--+          */
--+         memcpy(info_ptr->palette, png_ptr->palette,
--+             PNG_MAX_PALETTE_LENGTH * (sizeof (png_color)));
--+      }
--+   }
--+
-- #ifdef PNG_READ_EXPAND_SUPPORTED
--    if ((png_ptr->transformations & PNG_EXPAND) != 0)
--    {
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch
-deleted file mode 100644
-index 3bd6aae..0000000
---- a/meta/recipes-multimedia/libpng/files/CVE-2026-33636.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--From 9ff847dfcbb54f6dee3fd4e408150ae944278391 Mon Sep 17 00:00:00 2001
--From: Cosmin Truta <ctruta@gmail.com>
--Date: Sat, 21 Mar 2026 23:48:49 +0200
--Subject: [PATCH] fix(arm): Resolve out-of-bounds read/write in NEON palette
-- expansion
--
--Both `png_do_expand_palette_rgba8_neon` and
--`png_do_expand_palette_rgb8_neon` advanced in fixed-size chunks without
--guarding the final iteration, allowing out-of-bounds reads and writes
--when the row width is not a multiple of the chunk size.
--
--Restrict the NEON loop to full chunks only, remove the now-unnecessary
--post-loop adjustment, and undo the `*ddp` pre-adjustment before the
--pointer handoff to the scalar fallback.
--
--CVE: CVE-2026-33636
--Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/aba9f18eba870d14fb52c5ba5d73451349e339c3]
--
--Reported-by: Amemoyoi <Amemoyoi@users.noreply.github.com>
--Co-authored-by: Amemoyoi <Amemoyoi@users.noreply.github.com>
--Signed-off-by: Cosmin Truta <ctruta@gmail.com>
--(cherry picked from commit aba9f18eba870d14fb52c5ba5d73451349e339c3)
--Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-----
-- arm/palette_neon_intrinsics.c | 29 +++++++++++++----------------
-- 1 file changed, 13 insertions(+), 16 deletions(-)
--
--diff --git a/arm/palette_neon_intrinsics.c b/arm/palette_neon_intrinsics.c
--index 92c7d6f9f..bdd15849d 100644
----- a/arm/palette_neon_intrinsics.c
--+++ b/arm/palette_neon_intrinsics.c
--@@ -1,7 +1,7 @@
-- 
-- /* palette_neon_intrinsics.c - NEON optimised palette expansion functions
--  *
--- * Copyright (c) 2018-2019 Cosmin Truta
--+ * Copyright (c) 2018-2026 Cosmin Truta
--  * Copyright (c) 2017-2018 Arm Holdings. All rights reserved.
--  * Written by Richard Townsend <Richard.Townsend@arm.com>, February 2017.
--  *
--@@ -80,7 +80,7 @@ png_do_expand_palette_rgba8_neon(png_structrp png_ptr, png_row_infop row_info,
--     */
--    *ddp = *ddp - ((pixels_per_chunk * sizeof(png_uint_32)) - 1);
-- 
---   for (i = 0; i < row_width; i += pixels_per_chunk)
--+   for (i = 0; i + pixels_per_chunk <= row_width; i += pixels_per_chunk)
--    {
--       uint32x4_t cur;
--       png_bytep sp = *ssp - i, dp = *ddp - (i << 2);
--@@ -90,13 +90,12 @@ png_do_expand_palette_rgba8_neon(png_structrp png_ptr, png_row_infop row_info,
--       cur = vld1q_lane_u32(riffled_palette + *(sp - 0), cur, 3);
--       vst1q_u32((void *)dp, cur);
--    }
---   if (i != row_width)
---   {
---      /* Remove the amount that wasn't processed. */
---      i -= pixels_per_chunk;
---   }
-- 
---   /* Decrement output pointers. */
--+   /* Undo the pre-adjustment of *ddp before the pointer handoff,
--+    * so the scalar fallback in pngrtran.c receives a dp that points
--+    * to the correct position.
--+    */
--+   *ddp = *ddp + (pixels_per_chunk * 4 - 1);
--    *ssp = *ssp - i;
--    *ddp = *ddp - (i << 2);
--    return i;
--@@ -121,7 +120,7 @@ png_do_expand_palette_rgb8_neon(png_structrp png_ptr, png_row_infop row_info,
--    /* Seeking this back by 8 pixels x 3 bytes. */
--    *ddp = *ddp - ((pixels_per_chunk * sizeof(png_color)) - 1);
-- 
---   for (i = 0; i < row_width; i += pixels_per_chunk)
--+   for (i = 0; i + pixels_per_chunk <= row_width; i += pixels_per_chunk)
--    {
--       uint8x8x3_t cur;
--       png_bytep sp = *ssp - i, dp = *ddp - ((i << 1) + i);
--@@ -136,13 +135,11 @@ png_do_expand_palette_rgb8_neon(png_structrp png_ptr, png_row_infop row_info,
--       vst3_u8((void *)dp, cur);
--    }
-- 
---   if (i != row_width)
---   {
---      /* Remove the amount that wasn't processed. */
---      i -= pixels_per_chunk;
---   }
---
---   /* Decrement output pointers. */
--+   /* Undo the pre-adjustment of *ddp before the pointer handoff,
--+    * so the scalar fallback in pngrtran.c receives a dp that points
--+    * to the correct position.
--+    */
--+   *ddp = *ddp + (pixels_per_chunk * 3 - 1);
--    *ssp = *ssp - i;
--    *ddp = *ddp - ((i << 1) + i);
--    return i;
---- 
--2.44.4
--
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
-similarity index 77%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.58.bb
-index e4cc636..9e6a991 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
-@@ -5,33 +5,16 @@ library for use in applications that read, create, and manipulate PNG \
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0fdbfbe10fc294a6fca24dc76134222a"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=9dc350edbbbee660c7d9af79487168f2"
- DEPENDS = "zlib"
- 
- LIBV = "16"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz \
-            file://run-ptest \
--           file://CVE-2025-64505-01.patch \
--           file://CVE-2025-64505-02.patch \
--           file://CVE-2025-64505-03.patch \
--           file://CVE-2025-64506.patch \
--           file://CVE-2025-64720.patch \
--           file://CVE-2025-65018-01.patch \
--           file://CVE-2025-65018-02.patch \
--           file://CVE-2025-66293-01.patch \
--           file://CVE-2025-66293-02.patch \
--           file://CVE-2026-22695.patch \
--           file://CVE-2026-22801.patch \
--           file://CVE-2026-25646.patch \
--           file://CVE-2026-33636.patch \
--           file://CVE-2026-33416-01.patch \
--           file://CVE-2026-33416-02.patch \
--           file://CVE-2026-33416-03.patch \
--           file://CVE-2026-33416-04.patch \
- "
- 
--SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
-+SRC_URI[sha256sum] = "28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775"
- 
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
- 
--- 
-2.55.0
-
+VGhpcyBpcyBtaXNzaW5nIFtzY2FydGhnYXBdIHRhZy4NCkJ1dCBpdCB3aWxsIG5vdCBiZSBhY2Nl
+cHRlZCBhcyB0aGlzIHVwZ3JhZGUgZG9lcyBub3QgY29udGFpbiBvbmx5IGJ1Z2ZpeGVzLg0KUGxl
+YXNlIHNlbmQgcGF0Y2ggYmFja3BvcnRzIGluc3RlYWQuDQoNClBldGVyDQoNCj4gLS0tLS1Pcmln
+aW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+IE9uIEJlaGFsZiBPZiB3YW5nIGxpYW4gdmlhDQo+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
+U2VudDogVGh1cnNkYXksIEp1bHkgMTYsIDIwMjYgOTo1MiBBTQ0KPiBUbzogb3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBDYzogTGlhbiBXYW5nIDxsaWFudXgud2Fu
+Z0Bwcm9jZXNzbWlzc2lvbi5jb20+DQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0hdIGxpYnBu
+ZzogdXBncmFkZSAxLjYuNDIgLT4gMS42LjU4DQo+IA0KPiAtIERyb3AgMTcgQ1ZFIHBhdGNoZXMg
+Zml4ZWQgdXBzdHJlYW0gaW4gMS42LjU0IHRocm91Z2ggMS42LjU4DQo+IC0gVXBkYXRlIExJQ0VO
+U0UgY2hlY2tzdW0gKGNvcHlyaWdodCB5ZWFyIHVwZGF0ZWQpDQo+IC0gQWxsIENWRS0yMDI1LTY0
+NTA1LCBDVkUtMjAyNS02NDUwNiwgQ1ZFLTIwMjUtNjQ3MjAsDQo+ICAgQ1ZFLTIwMjUtNjUwMTgs
+IENWRS0yMDI1LTY2MjkzLCBDVkUtMjAyNi0yMjY5NSwNCj4gICBDVkUtMjAyNi0yMjgwMSwgQ1ZF
+LTIwMjYtMjU2NDYsIENWRS0yMDI2LTMzNDE2LA0KPiAgIENWRS0yMDI2LTMzNjM2IHJlc29sdmVk
+IGluIHRoaXMgcmVsZWFzZQ0KPiANCj4gU2lnbmVkLW9mZi1ieTogTGlhbiBXYW5nIDxsaWFudXgu
+d2FuZ0Bwcm9jZXNzbWlzc2lvbi5jb20+DQo+IC0tLQ0KPiAgLi4uL2xpYnBuZy9maWxlcy9DVkUt
+MjAyNS02NDUwNS0wMS5wYXRjaCAgICAgIHwgMTExIC0tLS0tLS0tLS0tDQo+ICAuLi4vbGlicG5n
+L2ZpbGVzL0NWRS0yMDI1LTY0NTA1LTAyLnBhdGNoICAgICAgfCAxNjMgLS0tLS0tLS0tLS0tLS0t
+LS0NCj4gIC4uLi9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDUtMDMucGF0Y2ggICAgICB8ICA1
+MiAtLS0tLS0NCj4gIC4uLi9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDYucGF0Y2ggICAgICAg
+ICB8ICA1NyAtLS0tLS0NCj4gIC4uLi9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ3MjAucGF0Y2gg
+ICAgICAgICB8IDEwMyAtLS0tLS0tLS0tLQ0KPiAgLi4uL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02
+NTAxOC0wMS5wYXRjaCAgICAgIHwgIDYwIC0tLS0tLQ0KPiAgLi4uL2xpYnBuZy9maWxlcy9DVkUt
+MjAyNS02NTAxOC0wMi5wYXRjaCAgICAgIHwgMTYzIC0tLS0tLS0tLS0tLS0tLS0tDQo+ICAuLi4v
+bGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY2MjkzLTAxLnBhdGNoICAgICAgfCAgNjAgLS0tLS0tDQo+
+ICAuLi4vbGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY2MjkzLTAyLnBhdGNoICAgICAgfCAxMjUgLS0t
+LS0tLS0tLS0tLQ0KPiAgLi4uL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0yMjY5NS5wYXRjaCAgICAg
+ICAgIHwgIDc3IC0tLS0tLS0tDQo+ICAuLi4vbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTIyODAxLnBh
+dGNoICAgICAgICAgfCAxNzMgLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAuLi4vbGlicG5nL2ZpbGVz
+L0NWRS0yMDI2LTI1NjQ2LnBhdGNoICAgICAgICAgfCAgNjEgLS0tLS0tDQo+ICAuLi4vbGlicG5n
+L2ZpbGVzL0NWRS0yMDI2LTMzNDE2LTAxLnBhdGNoICAgICAgfCAxNDMgLS0tLS0tLS0tLS0tLS0t
+DQo+ICAuLi4vbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNDE2LTAyLnBhdGNoICAgICAgfCAgNTMg
+LS0tLS0tDQo+ICAuLi4vbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNDE2LTAzLnBhdGNoICAgICAg
+fCAxNjMgLS0tLS0tLS0tLS0tLS0tLS0NCj4gIC4uLi9saWJwbmcvZmlsZXMvQ1ZFLTIwMjYtMzM0
+MTYtMDQucGF0Y2ggICAgICB8ICA1MyAtLS0tLS0NCj4gIC4uLi9saWJwbmcvZmlsZXMvQ1ZFLTIw
+MjYtMzM2MzYucGF0Y2ggICAgICAgICB8ICA5OSAtLS0tLS0tLS0tDQo+ICAuLi4ve2xpYnBuZ18x
+LjYuNDIuYmIgPT4gbGlicG5nXzEuNi41OC5iYn0gICAgfCAgMjEgKy0tDQo+ICAxOCBmaWxlcyBj
+aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDE3MzUgZGVsZXRpb25zKC0pDQo+ICBkZWxldGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY0
+NTA1LQ0KPiAwMS5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1tdWx0
+aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NDUwNS0NCj4gMDIucGF0Y2gNCj4gIGRlbGV0
+ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIw
+MjUtNjQ1MDUtDQo+IDAzLnBhdGNoDQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVz
+LW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1LQ0KPiA2NDUwNi5wYXRjaA0KPiAgZGVs
+ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUt
+MjAyNS0NCj4gNjQ3MjAucGF0Y2gNCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjUwMTgtDQo+IDAxLnBhdGNoDQo+ICBk
+ZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NW
+RS0yMDI1LTY1MDE4LQ0KPiAwMi5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NjI5My0NCj4gMDEucGF0Y2gN
+Cj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmls
+ZXMvQ1ZFLTIwMjUtNjYyOTMtDQo+IDAyLnBhdGNoDQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LQ0KPiAyMjY5NS5wYXRj
+aA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9m
+aWxlcy9DVkUtMjAyNi0NCj4gMjI4MDEucGF0Y2gNCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjYtDQo+IDI1NjQ2LnBhdGNo
+DQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2Zp
+bGVzL0NWRS0yMDI2LTMzNDE2LQ0KPiAwMS5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0zMzQxNi0NCj4gMDIu
+cGF0Y2gNCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJw
+bmcvZmlsZXMvQ1ZFLTIwMjYtMzM0MTYtDQo+IDAzLnBhdGNoDQo+ICBkZWxldGUgbW9kZSAxMDA2
+NDQgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNDE2LQ0K
+PiAwNC5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
+L2xpYnBuZy9maWxlcy9DVkUtMjAyNi0NCj4gMzM2MzYucGF0Y2gNCj4gIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9saWJwbmcve2xpYnBuZ18xLjYuNDIuYmIgPT4gbGlicG5nXzEuNi41
+OC5iYn0NCj4gKDc3JSkNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDUtMDEucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDUtMDEucGF0Y2gNCj4gZGVsZXRl
+ZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDFlN2QxMjIuLjAwMDAwMDANCj4gLS0tIGEvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY0NTA1LTAxLnBhdGNo
+DQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsMTExICswLDAgQEANCj4gLUZyb20gMGZhM2MwZjY5
+OGMyY2E2MThhMGZhNDRlMTBhODIyNjc4ZGY4NTM3MyBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIw
+MDENCj4gLUZyb206IENvc21pbiBUcnV0YSA8Y3RydXRhQGdtYWlsLmNvbT4NCj4gLURhdGU6IFRo
+dSwgMTUgRmViIDIwMjQgMjE6NTM6MjQgKzAyMDANCj4gLVN1YmplY3Q6IFtQQVRDSF0gY2hvcmU6
+IENsZWFuIHVwIHRoZSBzcHVyaW91cyB1c2VzIG9mIGBzaXplb2YocG5nX2J5dGUpYDsgZml4DQo+
+IC0gdGhlIG1hbnVhbA0KPiAtDQo+IC1CeSBkZWZpbml0aW9uLCBgc2l6ZW9mKHBuZ19ieXRlKWAg
+aXMgMS4NCj4gLQ0KPiAtUmVtb3ZlIGFsbCB0aGUgb2NjdXJlbmNlcyBvZiBgc2l6ZW9mKHBuZ19i
+eXRlKWAgZnJvbSB0aGUgY29kZSwgYW5kIGZpeA0KPiAtYSByZWxhdGVkIHR5cG8gaW4gdGhlIGxp
+YnBuZyBtYW51YWwuDQo+IC0NCj4gLUFsc28gdXBkYXRlIHRoZSBtYWluIC5lZGl0b3Jjb25maWcg
+ZmlsZSB0byByZWZsZWN0IHRoZSBmaXhpbmcgZXhwZWN0ZWQNCj4gLWJ5IGEgRklYTUUgbm90ZS4N
+Cj4gLQ0KPiAtQ1ZFOiBDVkUtMjAyNS02NDUwNQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9y
+dA0KPiBbaHR0cHM6Ly9naXRodWIuY29tL3BuZ2dyb3VwL2xpYnBuZy9jb21taXQvMGZhM2MwZjY5
+OGMyY2E2MThhMGZhNDRlMTBhODIyNg0KPiA3OGRmODUzNzNdDQo+IC1TaWduZWQtb2ZmLWJ5OiBQ
+ZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+IC0tLS0NCj4gLSBsaWJwbmct
+bWFudWFsLnR4dCB8ICA0ICsrLS0NCj4gLSBsaWJwbmcuMyAgICAgICAgICB8ICA0ICsrLS0NCj4g
+LSBwbmdydHJhbi5jICAgICAgICB8IDE3ICsrKysrKystLS0tLS0tLS0tDQo+IC0gMyBmaWxlcyBj
+aGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlmZiAt
+LWdpdCBhL2xpYnBuZy1tYW51YWwudHh0IGIvbGlicG5nLW1hbnVhbC50eHQNCj4gLWluZGV4IGVi
+MjRlZjQ4My4uZDI5MThjZTMxIDEwMDY0NA0KPiAtLS0tIGEvbGlicG5nLW1hbnVhbC50eHQNCj4g
+LSsrKyBiL2xpYnBuZy1tYW51YWwudHh0DQo+IC1AQCAtMTE3OCwxMSArMTE3OCwxMSBAQCB3aGVy
+ZSByb3dfcG9pbnRlcnMgaXMgYW4gYXJyYXkgb2YgcG9pbnRlcnMgdG8gdGhlDQo+IHBpeGVsIGRh
+dGEgZm9yIGVhY2ggcm93Og0KPiAtIElmIHlvdSBrbm93IHlvdXIgaW1hZ2Ugc2l6ZSBhbmQgcGl4
+ZWwgc2l6ZSBhaGVhZCBvZiB0aW1lLCB5b3UgY2FuIGFsbG9jYXRlDQo+IC0gcm93X3BvaW50ZXJz
+IHByaW9yIHRvIGNhbGxpbmcgcG5nX3JlYWRfcG5nKCkgd2l0aA0KPiAtDQo+IC0tICAgaWYgKGhl
+aWdodCA+IFBOR19VSU5UXzMyX01BWC8oc2l6ZW9mIChwbmdfYnl0ZSkpKQ0KPiAtKyAgIGlmICho
+ZWlnaHQgPiBQTkdfVUlOVF8zMl9NQVggLyAoc2l6ZW9mIChwbmdfYnl0ZXApKSkNCj4gLSAgICAg
+ICBwbmdfZXJyb3IocG5nX3B0ciwNCj4gLSAgICAgICAgICAgIkltYWdlIGlzIHRvbyB0YWxsIHRv
+IHByb2Nlc3MgaW4gbWVtb3J5Iik7DQo+IC0NCj4gLS0gICBpZiAod2lkdGggPiBQTkdfVUlOVF8z
+Ml9NQVgvcGl4ZWxfc2l6ZSkNCj4gLSsgICBpZiAod2lkdGggPiBQTkdfVUlOVF8zMl9NQVggLyBw
+aXhlbF9zaXplKQ0KPiAtICAgICAgIHBuZ19lcnJvcihwbmdfcHRyLA0KPiAtICAgICAgICAgICAi
+SW1hZ2UgaXMgdG9vIHdpZGUgdG8gcHJvY2VzcyBpbiBtZW1vcnkiKTsNCj4gLQ0KPiAtZGlmZiAt
+LWdpdCBhL2xpYnBuZy4zIGIvbGlicG5nLjMNCj4gLWluZGV4IDU3ZDA2ZjJkYi4uODg3NWIyMTlh
+IDEwMDY0NA0KPiAtLS0tIGEvbGlicG5nLjMNCj4gLSsrKyBiL2xpYnBuZy4zDQo+IC1AQCAtMTY5
+NywxMSArMTY5NywxMSBAQCB3aGVyZSByb3dfcG9pbnRlcnMgaXMgYW4gYXJyYXkgb2YgcG9pbnRl
+cnMgdG8gdGhlDQo+IHBpeGVsIGRhdGEgZm9yIGVhY2ggcm93Og0KPiAtIElmIHlvdSBrbm93IHlv
+dXIgaW1hZ2Ugc2l6ZSBhbmQgcGl4ZWwgc2l6ZSBhaGVhZCBvZiB0aW1lLCB5b3UgY2FuIGFsbG9j
+YXRlDQo+IC0gcm93X3BvaW50ZXJzIHByaW9yIHRvIGNhbGxpbmcgcG5nX3JlYWRfcG5nKCkgd2l0
+aA0KPiAtDQo+IC0tICAgaWYgKGhlaWdodCA+IFBOR19VSU5UXzMyX01BWC8oc2l6ZW9mIChwbmdf
+Ynl0ZSkpKQ0KPiAtKyAgIGlmIChoZWlnaHQgPiBQTkdfVUlOVF8zMl9NQVggLyAoc2l6ZW9mIChw
+bmdfYnl0ZXApKSkNCj4gLSAgICAgICBwbmdfZXJyb3IocG5nX3B0ciwNCj4gLSAgICAgICAgICAg
+IkltYWdlIGlzIHRvbyB0YWxsIHRvIHByb2Nlc3MgaW4gbWVtb3J5Iik7DQo+IC0NCj4gLS0gICBp
+ZiAod2lkdGggPiBQTkdfVUlOVF8zMl9NQVgvcGl4ZWxfc2l6ZSkNCj4gLSsgICBpZiAod2lkdGgg
+PiBQTkdfVUlOVF8zMl9NQVggLyBwaXhlbF9zaXplKQ0KPiAtICAgICAgIHBuZ19lcnJvcihwbmdf
+cHRyLA0KPiAtICAgICAgICAgICAiSW1hZ2UgaXMgdG9vIHdpZGUgdG8gcHJvY2VzcyBpbiBtZW1v
+cnkiKTsNCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL3BuZ3J0cmFuLmMgYi9wbmdydHJhbi5jDQo+IC1p
+bmRleCA3NGNjYTQ3NmIuLjA0MWY5MzA2YyAxMDA2NDQNCj4gLS0tLSBhL3BuZ3J0cmFuLmMNCj4g
+LSsrKyBiL3BuZ3J0cmFuLmMNCj4gLUBAIC00NDEsNyArNDQxLDcgQEAgcG5nX3NldF9xdWFudGl6
+ZShwbmdfc3RydWN0cnAgcG5nX3B0ciwgcG5nX2NvbG9ycA0KPiBwYWxldHRlLA0KPiAtICAgICAg
+IGludCBpOw0KPiAtDQo+IC0gICAgICAgcG5nX3B0ci0+cXVhbnRpemVfaW5kZXggPSAocG5nX2J5
+dGVwKXBuZ19tYWxsb2MocG5nX3B0ciwNCj4gLS0gICAgICAgICAgKHBuZ19hbGxvY19zaXplX3Qp
+KChwbmdfdWludF8zMiludW1fcGFsZXR0ZSAqIChzaXplb2YgKHBuZ19ieXRlKSkpKTsNCj4gLSsg
+ICAgICAgICAgKHBuZ19hbGxvY19zaXplX3QpbnVtX3BhbGV0dGUpOw0KPiAtICAgICAgIGZvciAo
+aSA9IDA7IGkgPCBudW1fcGFsZXR0ZTsgaSsrKQ0KPiAtICAgICAgICAgIHBuZ19wdHItPnF1YW50
+aXplX2luZGV4W2ldID0gKHBuZ19ieXRlKWk7DQo+IC0gICAgfQ0KPiAtQEAgLTQ1OCw3ICs0NTgs
+NyBAQCBwbmdfc2V0X3F1YW50aXplKHBuZ19zdHJ1Y3RycCBwbmdfcHRyLCBwbmdfY29sb3JwDQo+
+IHBhbGV0dGUsDQo+IC0NCj4gLSAgICAgICAgICAvKiBJbml0aWFsaXplIGFuIGFycmF5IHRvIHNv
+cnQgY29sb3JzICovDQo+IC0gICAgICAgICAgcG5nX3B0ci0+cXVhbnRpemVfc29ydCA9IChwbmdf
+Ynl0ZXApcG5nX21hbGxvYyhwbmdfcHRyLA0KPiAtLSAgICAgICAgICAgICAocG5nX2FsbG9jX3Np
+emVfdCkoKHBuZ191aW50XzMyKW51bV9wYWxldHRlICogKHNpemVvZiAocG5nX2J5dGUpKSkpOw0K
+PiAtKyAgICAgICAgICAgICAocG5nX2FsbG9jX3NpemVfdCludW1fcGFsZXR0ZSk7DQo+IC0NCj4g
+LSAgICAgICAgICAvKiBJbml0aWFsaXplIHRoZSBxdWFudGl6ZV9zb3J0IGFycmF5ICovDQo+IC0g
+ICAgICAgICAgZm9yIChpID0gMDsgaSA8IG51bV9wYWxldHRlOyBpKyspDQo+IC1AQCAtNTkyLDEx
+ICs1OTIsOSBAQCBwbmdfc2V0X3F1YW50aXplKHBuZ19zdHJ1Y3RycCBwbmdfcHRyLCBwbmdfY29s
+b3JwDQo+IHBhbGV0dGUsDQo+IC0NCj4gLSAgICAgICAgICAvKiBJbml0aWFsaXplIHBhbGV0dGUg
+aW5kZXggYXJyYXlzICovDQo+IC0gICAgICAgICAgcG5nX3B0ci0+aW5kZXhfdG9fcGFsZXR0ZSA9
+IChwbmdfYnl0ZXApcG5nX21hbGxvYyhwbmdfcHRyLA0KPiAtLSAgICAgICAgICAgICAocG5nX2Fs
+bG9jX3NpemVfdCkoKHBuZ191aW50XzMyKW51bV9wYWxldHRlICoNCj4gLS0gICAgICAgICAgICAg
+KHNpemVvZiAocG5nX2J5dGUpKSkpOw0KPiAtKyAgICAgICAgICAgICAocG5nX2FsbG9jX3NpemVf
+dCludW1fcGFsZXR0ZSk7DQo+IC0gICAgICAgICAgcG5nX3B0ci0+cGFsZXR0ZV90b19pbmRleCA9
+IChwbmdfYnl0ZXApcG5nX21hbGxvYyhwbmdfcHRyLA0KPiAtLSAgICAgICAgICAgICAocG5nX2Fs
+bG9jX3NpemVfdCkoKHBuZ191aW50XzMyKW51bV9wYWxldHRlICoNCj4gLS0gICAgICAgICAgICAg
+KHNpemVvZiAocG5nX2J5dGUpKSkpOw0KPiAtKyAgICAgICAgICAgICAocG5nX2FsbG9jX3NpemVf
+dCludW1fcGFsZXR0ZSk7DQo+IC0NCj4gLSAgICAgICAgICAvKiBJbml0aWFsaXplIHRoZSBzb3J0
+IGFycmF5ICovDQo+IC0gICAgICAgICAgZm9yIChpID0gMDsgaSA8IG51bV9wYWxldHRlOyBpKysp
+DQo+IC1AQCAtNzYxLDEyICs3NTksMTEgQEAgcG5nX3NldF9xdWFudGl6ZShwbmdfc3RydWN0cnAg
+cG5nX3B0ciwgcG5nX2NvbG9ycA0KPiBwYWxldHRlLA0KPiAtICAgICAgIHNpemVfdCBudW1fZW50
+cmllcyA9ICgoc2l6ZV90KTEgPDwgdG90YWxfYml0cyk7DQo+IC0NCj4gLSAgICAgICBwbmdfcHRy
+LT5wYWxldHRlX2xvb2t1cCA9IChwbmdfYnl0ZXApcG5nX2NhbGxvYyhwbmdfcHRyLA0KPiAtLSAg
+ICAgICAgICAocG5nX2FsbG9jX3NpemVfdCkobnVtX2VudHJpZXMgKiAoc2l6ZW9mIChwbmdfYnl0
+ZSkpKSk7DQo+IC0rICAgICAgICAgIChwbmdfYWxsb2Nfc2l6ZV90KShudW1fZW50cmllcykpOw0K
+PiAtDQo+IC0tICAgICAgZGlzdGFuY2UgPSAocG5nX2J5dGVwKXBuZ19tYWxsb2MocG5nX3B0ciwg
+KHBuZ19hbGxvY19zaXplX3QpKG51bV9lbnRyaWVzDQo+ICoNCj4gLS0gICAgICAgICAgKHNpemVv
+ZiAocG5nX2J5dGUpKSkpOw0KPiAtKyAgICAgIGRpc3RhbmNlID0gKHBuZ19ieXRlcClwbmdfbWFs
+bG9jKHBuZ19wdHIsDQo+IChwbmdfYWxsb2Nfc2l6ZV90KW51bV9lbnRyaWVzKTsNCj4gLQ0KPiAt
+LSAgICAgIG1lbXNldChkaXN0YW5jZSwgMHhmZiwgbnVtX2VudHJpZXMgKiAoc2l6ZW9mIChwbmdf
+Ynl0ZSkpKTsNCj4gLSsgICAgICBtZW1zZXQoZGlzdGFuY2UsIDB4ZmYsIG51bV9lbnRyaWVzKTsN
+Cj4gLQ0KPiAtICAgICAgIGZvciAoaSA9IDA7IGkgPCBudW1fcGFsZXR0ZTsgaSsrKQ0KPiAtICAg
+ICAgIHsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxl
+cy9DVkUtMjAyNS02NDUwNS0wMi5wYXRjaA0KPiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xp
+YnBuZy9maWxlcy9DVkUtMjAyNS02NDUwNS0wMi5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9kZSAx
+MDA2NDQNCj4gaW5kZXggNWEzZTUwYi4uMDAwMDAwMA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtbXVs
+dGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDUtMDIucGF0Y2gNCj4gKysrIC9kZXYv
+bnVsbA0KPiBAQCAtMSwxNjMgKzAsMCBAQA0KPiAtRnJvbSBlYTA5NDc2NGYzNDM2ZTNjNjUyNDYy
+MjcyNGMyZDM0MmEzZWZmMjM1IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiAtRnJvbTog
+Q29zbWluIFRydXRhIDxjdHJ1dGFAZ21haWwuY29tPg0KPiAtRGF0ZTogU2F0LCA4IE5vdiAyMDI1
+IDE3OjE2OjU5ICswMjAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIEZpeCBhIG1lbW9yeSBsZWFrIGlu
+IGZ1bmN0aW9uIGBwbmdfc2V0X3F1YW50aXplYDsgcmVmYWN0b3INCj4gLQ0KPiAtUmVsZWFzZSB0
+aGUgcHJldmlvdXNseS1hbGxvY2F0ZWQgYXJyYXkgYHF1YW50aXplX2luZGV4YCBiZWZvcmUNCj4g
+LXJlYWxsb2NhdGluZyBpdC4gVGhpcyBhdm9pZHMgbGVha2luZyBtZW1vcnkgd2hlbiB0aGUgZnVu
+Y3Rpb24NCj4gLWBwbmdfc2V0X3F1YW50aXplYCBpcyBjYWxsZWQgbXVsdGlwbGUgdGltZXMgb24g
+dGhlIHNhbWUgYHBuZ19zdHJ1Y3RgLg0KPiAtDQo+IC1UaGlzIGZ1bmN0aW9uIGFzc3VtZWQgc2lu
+Z2xlLWNhbGwgdXNhZ2UsIGJ1dCBmdXp6aW5nIHJldmVhbGVkIHRoYXQNCj4gLXJlcGVhdGVkIGNh
+bGxzIHdvdWxkIG92ZXJ3cml0ZSB0aGUgcG9pbnRlcnMgd2l0aG91dCBmcmVlaW5nIHRoZQ0KPiAt
+b3JpZ2luYWwgYWxsb2NhdGlvbnMsIGxlYWtpbmcgMjU2IGJ5dGVzIHBlciBjYWxsIGZvciBgcXVh
+bnRpemVfaW5kZXhgDQo+IC1hbmQgYWRkaXRpb25hbCBtZW1vcnkgZm9yIGBxdWFudGl6ZV9zb3J0
+YCB3aGVuIGhpc3RvZ3JhbS1iYXNlZA0KPiAtcXVhbnRpemF0aW9uIGlzIHVzZWQuDQo+IC0NCj4g
+LUFsc28gcmVtb3ZlIHRoZSBhcnJheSBgcXVhbnRpemVfc29ydGAgZnJvbSB0aGUgbGlzdCBvZiBg
+cG5nX3N0cnVjdGANCj4gLW1lbWJlcnMgYW5kIG1ha2UgaXQgYSBsb2NhbCB2YXJpYWJsZS4gVGhp
+cyBhcnJheSBpcyBpbml0aWFsaXplZCwNCj4gLXVzZWQgYW5kIHJlbGVhc2VkIGV4Y2x1c2l2ZWx5
+IGluc2lkZSB0aGUgZnVuY3Rpb24gYHBuZ19zZXRfcXVhbnRpemVgLg0KPiAtDQo+IC1SZXBvcnRl
+ZC1ieTogU2Ftc3VuZy1QRU5URVNUIDxTYW1zdW5nLQ0KPiBQRU5URVNUQHVzZXJzLm5vcmVwbHku
+Z2l0aHViLmNvbT4NCj4gLUFuYWx5emVkLWJ5OiBkZWdyaWdpcyA8ZGVncmlnaXNAdXNlcnMubm9y
+ZXBseS5naXRodWIuY29tPg0KPiAtUmV2aWV3ZWQtYnk6IEpvaG4gQm93bGVyIDxqYm93bGVyQGFj
+bS5vcmc+DQo+IC0NCj4gLUNWRTogQ1ZFLTIwMjUtNjQ1MDUNCj4gLVVwc3RyZWFtLVN0YXR1czog
+QmFja3BvcnQNCj4gW2h0dHBzOi8vZ2l0aHViLmNvbS9wbmdncm91cC9saWJwbmcvY29tbWl0L2Vh
+MDk0NzY0ZjM0MzZlM2M2NTI0NjIyNzI0YzJkMw0KPiA0MmEzZWZmMjM1XQ0KPiAtU2lnbmVkLW9m
+Zi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiAtLS0tDQo+IC0g
+cG5ncnRyYW4uYyAgfCA0MyArKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0t
+LS0tDQo+IC0gcG5nc3RydWN0LmggfCAgMSAtDQo+IC0gMiBmaWxlcyBjaGFuZ2VkLCAyMyBpbnNl
+cnRpb25zKCspLCAyMSBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL3BuZ3J0cmFu
+LmMgYi9wbmdydHJhbi5jDQo+IC1pbmRleCAxODA5ZGI3MDQuLjQ2MzJkZDUyMSAxMDA2NDQNCj4g
+LS0tLSBhL3BuZ3J0cmFuLmMNCj4gLSsrKyBiL3BuZ3J0cmFuLmMNCj4gLUBAIC00NDAsNiArNDQw
+LDEyIEBAIHBuZ19zZXRfcXVhbnRpemUocG5nX3N0cnVjdHJwIHBuZ19wdHIsIHBuZ19jb2xvcnAN
+Cj4gcGFsZXR0ZSwNCj4gLSAgICB7DQo+IC0gICAgICAgaW50IGk7DQo+IC0NCj4gLSsgICAgICAv
+KiBJbml0aWFsaXplIHRoZSBhcnJheSB0byBpbmRleCBjb2xvcnMuDQo+IC0rICAgICAgICoNCj4g
+LSsgICAgICAgKiBCZSBjYXJlZnVsIHRvIGF2b2lkIGxlYWtpbmcgbWVtb3J5LiBBcHBsaWNhdGlv
+bnMgYXJlIGFsbG93ZWQgdG8gY2FsbA0KPiAtKyAgICAgICAqIHRoaXMgZnVuY3Rpb24gbW9yZSB0
+aGFuIG9uY2UgcGVyIHBuZ19zdHJ1Y3QuDQo+IC0rICAgICAgICovDQo+IC0rICAgICAgcG5nX2Zy
+ZWUocG5nX3B0ciwgcG5nX3B0ci0+cXVhbnRpemVfaW5kZXgpOw0KPiAtICAgICAgIHBuZ19wdHIt
+PnF1YW50aXplX2luZGV4ID0gKHBuZ19ieXRlcClwbmdfbWFsbG9jKHBuZ19wdHIsDQo+IC0gICAg
+ICAgICAgIChwbmdfYWxsb2Nfc2l6ZV90KW51bV9wYWxldHRlKTsNCj4gLSAgICAgICBmb3IgKGkg
+PSAwOyBpIDwgbnVtX3BhbGV0dGU7IGkrKykNCj4gLUBAIC00NTQsMTUgKzQ2MCwxNCBAQCBwbmdf
+c2V0X3F1YW50aXplKHBuZ19zdHJ1Y3RycCBwbmdfcHRyLCBwbmdfY29sb3JwDQo+IHBhbGV0dGUs
+DQo+IC0gICAgICAgICAgICogUGVyaGFwcyBub3QgdGhlIGJlc3Qgc29sdXRpb24sIGJ1dCBnb29k
+IGVub3VnaC4NCj4gLSAgICAgICAgICAgKi8NCj4gLQ0KPiAtLSAgICAgICAgIGludCBpOw0KPiAt
+KyAgICAgICAgIHBuZ19ieXRlcCBxdWFudGl6ZV9zb3J0Ow0KPiAtKyAgICAgICAgIGludCBpLCBq
+Ow0KPiAtDQo+IC0tICAgICAgICAgLyogSW5pdGlhbGl6ZSBhbiBhcnJheSB0byBzb3J0IGNvbG9y
+cyAqLw0KPiAtLSAgICAgICAgIHBuZ19wdHItPnF1YW50aXplX3NvcnQgPSAocG5nX2J5dGVwKXBu
+Z19tYWxsb2MocG5nX3B0ciwNCj4gLSsgICAgICAgICAvKiBJbml0aWFsaXplIHRoZSBsb2NhbCBh
+cnJheSB0byBzb3J0IGNvbG9ycy4gKi8NCj4gLSsgICAgICAgICBxdWFudGl6ZV9zb3J0ID0gKHBu
+Z19ieXRlcClwbmdfbWFsbG9jKHBuZ19wdHIsDQo+IC0gICAgICAgICAgICAgIChwbmdfYWxsb2Nf
+c2l6ZV90KW51bV9wYWxldHRlKTsNCj4gLS0NCj4gLS0gICAgICAgICAvKiBJbml0aWFsaXplIHRo
+ZSBxdWFudGl6ZV9zb3J0IGFycmF5ICovDQo+IC0gICAgICAgICAgZm9yIChpID0gMDsgaSA8IG51
+bV9wYWxldHRlOyBpKyspDQo+IC0tICAgICAgICAgICAgcG5nX3B0ci0+cXVhbnRpemVfc29ydFtp
+XSA9IChwbmdfYnl0ZSlpOw0KPiAtKyAgICAgICAgICAgIHF1YW50aXplX3NvcnRbaV0gPSAocG5n
+X2J5dGUpaTsNCj4gLQ0KPiAtICAgICAgICAgIC8qIEZpbmQgdGhlIGxlYXN0IHVzZWQgcGFsZXR0
+ZSBlbnRyaWVzIGJ5IHN0YXJ0aW5nIGENCj4gLSAgICAgICAgICAgKiBidWJibGUgc29ydCwgYW5k
+IHJ1bm5pbmcgaXQgdW50aWwgd2UgaGF2ZSBzb3J0ZWQNCj4gLUBAIC00NzQsMTkgKzQ3OSwxOCBA
+QCBwbmdfc2V0X3F1YW50aXplKHBuZ19zdHJ1Y3RycCBwbmdfcHRyLCBwbmdfY29sb3JwDQo+IHBh
+bGV0dGUsDQo+IC0gICAgICAgICAgZm9yIChpID0gbnVtX3BhbGV0dGUgLSAxOyBpID49IG1heGlt
+dW1fY29sb3JzOyBpLS0pDQo+IC0gICAgICAgICAgew0KPiAtICAgICAgICAgICAgIGludCBkb25l
+OyAvKiBUbyBzdG9wIGVhcmx5IGlmIHRoZSBsaXN0IGlzIHByZS1zb3J0ZWQgKi8NCj4gLS0gICAg
+ICAgICAgICBpbnQgajsNCj4gLQ0KPiAtICAgICAgICAgICAgIGRvbmUgPSAxOw0KPiAtICAgICAg
+ICAgICAgIGZvciAoaiA9IDA7IGogPCBpOyBqKyspDQo+IC0gICAgICAgICAgICAgew0KPiAtLSAg
+ICAgICAgICAgICAgIGlmIChoaXN0b2dyYW1bcG5nX3B0ci0+cXVhbnRpemVfc29ydFtqXV0NCj4g
+LS0gICAgICAgICAgICAgICAgICAgPCBoaXN0b2dyYW1bcG5nX3B0ci0+cXVhbnRpemVfc29ydFtq
+ICsgMV1dKQ0KPiAtKyAgICAgICAgICAgICAgIGlmIChoaXN0b2dyYW1bcXVhbnRpemVfc29ydFtq
+XV0NCj4gLSsgICAgICAgICAgICAgICAgICAgPCBoaXN0b2dyYW1bcXVhbnRpemVfc29ydFtqICsg
+MV1dKQ0KPiAtICAgICAgICAgICAgICAgIHsNCj4gLSAgICAgICAgICAgICAgICAgICBwbmdfYnl0
+ZSB0Ow0KPiAtDQo+IC0tICAgICAgICAgICAgICAgICAgdCA9IHBuZ19wdHItPnF1YW50aXplX3Nv
+cnRbal07DQo+IC0tICAgICAgICAgICAgICAgICAgcG5nX3B0ci0+cXVhbnRpemVfc29ydFtqXSA9
+IHBuZ19wdHItPnF1YW50aXplX3NvcnRbaiArIDFdOw0KPiAtLSAgICAgICAgICAgICAgICAgIHBu
+Z19wdHItPnF1YW50aXplX3NvcnRbaiArIDFdID0gdDsNCj4gLSsgICAgICAgICAgICAgICAgICB0
+ID0gcXVhbnRpemVfc29ydFtqXTsNCj4gLSsgICAgICAgICAgICAgICAgICBxdWFudGl6ZV9zb3J0
+W2pdID0gcXVhbnRpemVfc29ydFtqICsgMV07DQo+IC0rICAgICAgICAgICAgICAgICAgcXVhbnRp
+emVfc29ydFtqICsgMV0gPSB0Ow0KPiAtICAgICAgICAgICAgICAgICAgIGRvbmUgPSAwOw0KPiAt
+ICAgICAgICAgICAgICAgIH0NCj4gLSAgICAgICAgICAgICB9DQo+IC1AQCAtNDk4LDE4ICs1MDIs
+MTggQEAgcG5nX3NldF9xdWFudGl6ZShwbmdfc3RydWN0cnAgcG5nX3B0ciwgcG5nX2NvbG9ycA0K
+PiBwYWxldHRlLA0KPiAtICAgICAgICAgIC8qIFN3YXAgdGhlIHBhbGV0dGUgYXJvdW5kLCBhbmQg
+c2V0IHVwIGEgdGFibGUsIGlmIG5lY2Vzc2FyeSAqLw0KPiAtICAgICAgICAgIGlmIChmdWxsX3F1
+YW50aXplICE9IDApDQo+IC0gICAgICAgICAgew0KPiAtLSAgICAgICAgICAgIGludCBqID0gbnVt
+X3BhbGV0dGU7DQo+IC0rICAgICAgICAgICAgaiA9IG51bV9wYWxldHRlOw0KPiAtDQo+IC0gICAg
+ICAgICAgICAgLyogUHV0IGFsbCB0aGUgdXNlZnVsIGNvbG9ycyB3aXRoaW4gdGhlIG1heCwgYnV0
+IGRvbid0DQo+IC0gICAgICAgICAgICAgICogbW92ZSB0aGUgb3RoZXJzLg0KPiAtICAgICAgICAg
+ICAgICAqLw0KPiAtICAgICAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBtYXhpbXVtX2NvbG9yczsg
+aSsrKQ0KPiAtICAgICAgICAgICAgIHsNCj4gLS0gICAgICAgICAgICAgICBpZiAoKGludClwbmdf
+cHRyLT5xdWFudGl6ZV9zb3J0W2ldID49IG1heGltdW1fY29sb3JzKQ0KPiAtKyAgICAgICAgICAg
+ICAgIGlmICgoaW50KXF1YW50aXplX3NvcnRbaV0gPj0gbWF4aW11bV9jb2xvcnMpDQo+IC0gICAg
+ICAgICAgICAgICAgew0KPiAtICAgICAgICAgICAgICAgICAgIGRvDQo+IC0gICAgICAgICAgICAg
+ICAgICAgICAgai0tOw0KPiAtLSAgICAgICAgICAgICAgICAgIHdoaWxlICgoaW50KXBuZ19wdHIt
+PnF1YW50aXplX3NvcnRbal0gPj0gbWF4aW11bV9jb2xvcnMpOw0KPiAtKyAgICAgICAgICAgICAg
+ICAgIHdoaWxlICgoaW50KXF1YW50aXplX3NvcnRbal0gPj0gbWF4aW11bV9jb2xvcnMpOw0KPiAt
+DQo+IC0gICAgICAgICAgICAgICAgICAgcGFsZXR0ZVtpXSA9IHBhbGV0dGVbal07DQo+IC0gICAg
+ICAgICAgICAgICAgfQ0KPiAtQEAgLTUxNyw3ICs1MjEsNyBAQCBwbmdfc2V0X3F1YW50aXplKHBu
+Z19zdHJ1Y3RycCBwbmdfcHRyLCBwbmdfY29sb3JwDQo+IHBhbGV0dGUsDQo+IC0gICAgICAgICAg
+fQ0KPiAtICAgICAgICAgIGVsc2UNCj4gLSAgICAgICAgICB7DQo+IC0tICAgICAgICAgICAgaW50
+IGogPSBudW1fcGFsZXR0ZTsNCj4gLSsgICAgICAgICAgICBqID0gbnVtX3BhbGV0dGU7DQo+IC0N
+Cj4gLSAgICAgICAgICAgICAvKiBNb3ZlIGFsbCB0aGUgdXNlZCBjb2xvcnMgaW5zaWRlIHRoZSBt
+YXggbGltaXQsIGFuZA0KPiAtICAgICAgICAgICAgICAqIGRldmVsb3AgYSB0cmFuc2xhdGlvbiB0
+YWJsZS4NCj4gLUBAIC01MjUsMTMgKzUyOSwxMyBAQCBwbmdfc2V0X3F1YW50aXplKHBuZ19zdHJ1
+Y3RycCBwbmdfcHRyLCBwbmdfY29sb3JwDQo+IHBhbGV0dGUsDQo+IC0gICAgICAgICAgICAgZm9y
+IChpID0gMDsgaSA8IG1heGltdW1fY29sb3JzOyBpKyspDQo+IC0gICAgICAgICAgICAgew0KPiAt
+ICAgICAgICAgICAgICAgIC8qIE9ubHkgbW92ZSB0aGUgY29sb3JzIHdlIG5lZWQgdG8gKi8NCj4g
+LS0gICAgICAgICAgICAgICBpZiAoKGludClwbmdfcHRyLT5xdWFudGl6ZV9zb3J0W2ldID49IG1h
+eGltdW1fY29sb3JzKQ0KPiAtKyAgICAgICAgICAgICAgIGlmICgoaW50KXF1YW50aXplX3NvcnRb
+aV0gPj0gbWF4aW11bV9jb2xvcnMpDQo+IC0gICAgICAgICAgICAgICAgew0KPiAtICAgICAgICAg
+ICAgICAgICAgIHBuZ19jb2xvciB0bXBfY29sb3I7DQo+IC0NCj4gLSAgICAgICAgICAgICAgICAg
+ICBkbw0KPiAtICAgICAgICAgICAgICAgICAgICAgIGotLTsNCj4gLS0gICAgICAgICAgICAgICAg
+ICB3aGlsZSAoKGludClwbmdfcHRyLT5xdWFudGl6ZV9zb3J0W2pdID49IG1heGltdW1fY29sb3Jz
+KTsNCj4gLSsgICAgICAgICAgICAgICAgICB3aGlsZSAoKGludClxdWFudGl6ZV9zb3J0W2pdID49
+IG1heGltdW1fY29sb3JzKTsNCj4gLQ0KPiAtICAgICAgICAgICAgICAgICAgIHRtcF9jb2xvciA9
+IHBhbGV0dGVbal07DQo+IC0gICAgICAgICAgICAgICAgICAgcGFsZXR0ZVtqXSA9IHBhbGV0dGVb
+aV07DQo+IC1AQCAtNTY5LDggKzU3Myw3IEBAIHBuZ19zZXRfcXVhbnRpemUocG5nX3N0cnVjdHJw
+IHBuZ19wdHIsIHBuZ19jb2xvcnANCj4gcGFsZXR0ZSwNCj4gLSAgICAgICAgICAgICAgICB9DQo+
+IC0gICAgICAgICAgICAgfQ0KPiAtICAgICAgICAgIH0NCj4gLS0gICAgICAgICBwbmdfZnJlZShw
+bmdfcHRyLCBwbmdfcHRyLT5xdWFudGl6ZV9zb3J0KTsNCj4gLS0gICAgICAgICBwbmdfcHRyLT5x
+dWFudGl6ZV9zb3J0ID0gTlVMTDsNCj4gLSsgICAgICAgICBwbmdfZnJlZShwbmdfcHRyLCBxdWFu
+dGl6ZV9zb3J0KTsNCj4gLSAgICAgICB9DQo+IC0gICAgICAgZWxzZQ0KPiAtICAgICAgIHsNCj4g
+LWRpZmYgLS1naXQgYS9wbmdzdHJ1Y3QuaCBiL3BuZ3N0cnVjdC5oDQo+IC1pbmRleCAwODQ0MjJi
+YzEuLmZlNWZhMDQxNSAxMDA2NDQNCj4gLS0tLSBhL3BuZ3N0cnVjdC5oDQo+IC0rKysgYi9wbmdz
+dHJ1Y3QuaA0KPiAtQEAgLTQxMyw3ICs0MTMsNiBAQCBzdHJ1Y3QgcG5nX3N0cnVjdF9kZWYNCj4g
+LQ0KPiAtICNpZmRlZiBQTkdfUkVBRF9RVUFOVElaRV9TVVBQT1JURUQNCj4gLSAvKiBUaGUgZm9s
+bG93aW5nIHRocmVlIG1lbWJlcnMgd2VyZSBhZGRlZCBhdCB2ZXJzaW9uIDEuMC4xNCBhbmQgMS4y
+LjQgKi8NCj4gLS0gICBwbmdfYnl0ZXAgcXVhbnRpemVfc29ydDsgICAgICAgICAgLyogd29ya2lu
+ZyBzb3J0IGFycmF5ICovDQo+IC0gICAgcG5nX2J5dGVwIGluZGV4X3RvX3BhbGV0dGU7ICAgICAg
+IC8qIHdoZXJlIHRoZSBvcmlnaW5hbCBpbmRleCBjdXJyZW50bHkgaXMNCj4gLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW4gdGhlIHBhbGV0dGUgKi8NCj4gLSAgICBw
+bmdfYnl0ZXAgcGFsZXR0ZV90b19pbmRleDsgICAgICAgLyogd2hpY2ggb3JpZ2luYWwgaW5kZXgg
+cG9pbnRzIHRvIHRoaXMNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xp
+YnBuZy9maWxlcy9DVkUtMjAyNS02NDUwNS0wMy5wYXRjaA0KPiBiL21ldGEvcmVjaXBlcy1tdWx0
+aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NDUwNS0wMy5wYXRjaA0KPiBkZWxldGVkIGZp
+bGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggZGRkYTg2Ny4uMDAwMDAwMA0KPiAtLS0gYS9tZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDUtMDMucGF0Y2gNCj4g
+KysrIC9kZXYvbnVsbA0KPiBAQCAtMSw1MiArMCwwIEBADQo+IC1Gcm9tIDZhNTI4ZWI1ZmQwZGQ3
+ZjZkZTFjMzlkMzBkZTBlNDE0NzM0MzFjMzcgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+
+IC1Gcm9tOiBDb3NtaW4gVHJ1dGEgPGN0cnV0YUBnbWFpbC5jb20+DQo+IC1EYXRlOiBTYXQsIDgg
+Tm92IDIwMjUgMjM6NTg6MjYgKzAyMDANCj4gLVN1YmplY3Q6IFtQQVRDSF0gRml4IGEgYnVmZmVy
+IG92ZXJmbG93IGluIGBwbmdfZG9fcXVhbnRpemVgDQo+IC0NCj4gLUFsbG9jYXRlIHRoZSBxdWFu
+dGl6ZV9pbmRleCBhcnJheSB0byBQTkdfTUFYX1BBTEVUVEVfTEVOR1RIICgyNTYgYnl0ZXMpDQo+
+IC1pbnN0ZWFkIG9mIG51bV9wYWxldHRlIGJ5dGVzLiBUaGlzIGFwcHJvYWNoIG1hdGNoZXMgdGhl
+IGFsbG9jYXRpb24NCj4gLXBhdHRlcm4gZm9yIGBwYWxldHRlW11gLCBgdHJhbnNfYWxwaGFbXWAg
+YW5kIGByaWZmbGVkX3BhbGV0dGVbXWAgd2hpY2gNCj4gLXdlcmUgc2ltaWxhcmx5IG92ZXJzaXpl
+ZCBpbiBsaWJwbmcgMS4yLjEgdG8gcHJldmVudCBidWZmZXIgb3ZlcmZsb3dzDQo+IC1mcm9tIG1h
+bGZvcm1lZCBQTkcgZmlsZXMgd2l0aCBvdXQtb2YtcmFuZ2UgcGFsZXR0ZSBpbmRpY2VzLg0KPiAt
+DQo+IC1PdXQtb2YtcmFuZ2UgcGFsZXR0ZSBpbmRpY2VzIGBpbmRleCA+PSBudW1fcGFsZXR0ZWAg
+d2lsbCBub3cgcmVhZA0KPiAtaWRlbnRpdHktbWFwcGVkIHZhbHVlcyBmcm9tIHRoZSBgcXVhbnRp
+emVfaW5kZXhgIGFycmF5ICh3aGVyZSBpbmRleCBODQo+IC1tYXBzIHRvIHBhbGV0dGUgZW50cnkg
+TikuIFRoaXMgcHJldmVudHMgdW5kZWZpbmVkIGJlaGF2aW9yIHdoaWxlDQo+IC1hdm9pZGluZyBy
+dW50aW1lIGJvdW5kcyBjaGVja2luZyBvdmVyaGVhZCBpbiB0aGUgcGVyZm9ybWFuY2UtY3JpdGlj
+YWwNCj4gLXBpeGVsIHByb2Nlc3NpbmcgbG9vcC4NCj4gLQ0KPiAtUmVwb3J0ZWQtYnk6IFNhbXN1
+bmctUEVOVEVTVCA8U2Ftc3VuZy0NCj4gUEVOVEVTVEB1c2Vycy5ub3JlcGx5LmdpdGh1Yi5jb20+
+DQo+IC1BbmFseXplZC1ieTogZGVncmlnaXMgPGRlZ3JpZ2lzQHVzZXJzLm5vcmVwbHkuZ2l0aHVi
+LmNvbT4NCj4gLQ0KPiAtQ1ZFOiBDVkUtMjAyNS02NDUwNQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBC
+YWNrcG9ydA0KPiBbaHR0cHM6Ly9naXRodWIuY29tL3BuZ2dyb3VwL2xpYnBuZy9jb21taXQvNmE1
+MjhlYjVmZDBkZDdmNmRlMWMzOWQzMGRlMGU0DQo+IDE0NzM0MzFjMzddDQo+IC1TaWduZWQtb2Zm
+LWJ5OiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+IC0tLS0NCj4gLSBw
+bmdydHJhbi5jIHwgOCArKysrKystLQ0KPiAtIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMo
+KyksIDIgZGVsZXRpb25zKC0pDQo+IC0NCj4gLWRpZmYgLS1naXQgYS9wbmdydHJhbi5jIGIvcG5n
+cnRyYW4uYw0KPiAtaW5kZXggNDYzMmRkNTIxLi45YzI0NzVmZGUgMTAwNjQ0DQo+IC0tLS0gYS9w
+bmdydHJhbi5jDQo+IC0rKysgYi9wbmdydHJhbi5jDQo+IC1AQCAtNDQxLDE0ICs0NDEsMTggQEAg
+cG5nX3NldF9xdWFudGl6ZShwbmdfc3RydWN0cnAgcG5nX3B0ciwgcG5nX2NvbG9ycA0KPiBwYWxl
+dHRlLA0KPiAtICAgICAgIGludCBpOw0KPiAtDQo+IC0gICAgICAgLyogSW5pdGlhbGl6ZSB0aGUg
+YXJyYXkgdG8gaW5kZXggY29sb3JzLg0KPiAtKyAgICAgICAqDQo+IC0rICAgICAgICogRW5zdXJl
+IHF1YW50aXplX2luZGV4IGNhbiBmaXQgMjU2IGVsZW1lbnRzDQo+IChQTkdfTUFYX1BBTEVUVEVf
+TEVOR1RIKQ0KPiAtKyAgICAgICAqIHJhdGhlciB0aGFuIG51bV9wYWxldHRlIGVsZW1lbnRzLiBU
+aGlzIGlzIHRvIHByZXZlbnQgYnVmZmVyIG92ZXJmbG93cw0KPiAtKyAgICAgICAqIGNhdXNlZCBi
+eSBtYWxmb3JtZWQgUE5HIGZpbGVzIHdpdGggb3V0LW9mLXJhbmdlIHBhbGV0dGUgaW5kaWNlcy4N
+Cj4gLSAgICAgICAgKg0KPiAtICAgICAgICAqIEJlIGNhcmVmdWwgdG8gYXZvaWQgbGVha2luZyBt
+ZW1vcnkuIEFwcGxpY2F0aW9ucyBhcmUgYWxsb3dlZCB0byBjYWxsDQo+IC0gICAgICAgICogdGhp
+cyBmdW5jdGlvbiBtb3JlIHRoYW4gb25jZSBwZXIgcG5nX3N0cnVjdC4NCj4gLSAgICAgICAgKi8N
+Cj4gLSAgICAgICBwbmdfZnJlZShwbmdfcHRyLCBwbmdfcHRyLT5xdWFudGl6ZV9pbmRleCk7DQo+
+IC0gICAgICAgcG5nX3B0ci0+cXVhbnRpemVfaW5kZXggPSAocG5nX2J5dGVwKXBuZ19tYWxsb2Mo
+cG5nX3B0ciwNCj4gLS0gICAgICAgICAgKHBuZ19hbGxvY19zaXplX3QpbnVtX3BhbGV0dGUpOw0K
+PiAtLSAgICAgIGZvciAoaSA9IDA7IGkgPCBudW1fcGFsZXR0ZTsgaSsrKQ0KPiAtKyAgICAgICAg
+ICBQTkdfTUFYX1BBTEVUVEVfTEVOR1RIKTsNCj4gLSsgICAgICBmb3IgKGkgPSAwOyBpIDwgUE5H
+X01BWF9QQUxFVFRFX0xFTkdUSDsgaSsrKQ0KPiAtICAgICAgICAgIHBuZ19wdHItPnF1YW50aXpl
+X2luZGV4W2ldID0gKHBuZ19ieXRlKWk7DQo+IC0gICAgfQ0KPiAtDQo+IGRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDYucGF0Y2gN
+Cj4gYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjQ1MDYu
+cGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IGRjN2ZlMDAuLjAwMDAw
+MDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1
+LTY0NTA2LnBhdGNoDQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsNTcgKzAsMCBAQA0KPiAtRnJv
+bSAyYmQ4NGMwMTljMzAwYjc4ZTgxMTc0M2ZiY2RkYjY3YzlkOWJmODIxIE1vbiBTZXAgMTcgMDA6
+MDA6MDANCj4gMjAwMQ0KPiAtRnJvbTogQ29zbWluIFRydXRhIDxjdHJ1dGFAZ21haWwuY29tPg0K
+PiAtRGF0ZTogRnJpLCA3IE5vdiAyMDI1IDIyOjQwOjA1ICswMjAwDQo+IC1TdWJqZWN0OiBbUEFU
+Q0hdIEZpeCBhIGhlYXAgYnVmZmVyIG92ZXJmbG93IGluIGBwbmdfd3JpdGVfaW1hZ2VfOGJpdGAN
+Cj4gLQ0KPiAtVGhlIGNvbmRpdGlvbiBndWFyZGluZyB0aGUgcHJlLXRyYW5zZm9ybSBwYXRoIGlu
+Y29ycmVjdGx5IGFsbG93ZWQgOC1iaXQNCj4gLWlucHV0IGRhdGEgdG8gZW50ZXIgYHBuZ193cml0
+ZV9pbWFnZV84Yml0YCB3aGljaCBleHBlY3RzIDE2LWJpdCBpbnB1dC4NCj4gLVRoaXMgY2F1c2Vk
+IG91dC1vZi1ib3VuZHMgcmVhZHMgd2hlbiBwcm9jZXNzaW5nIDgtYml0IGdyYXlzY2FsZSthbHBo
+YQ0KPiAtaW1hZ2VzIChHaXRIdWIgIzY4OCksIG9yIDgtYml0IFJHQiBvciBSR0IrYWxwaGEgaW1h
+Z2VzIChHaXRIdWIgIzc0NiksDQo+IC13aXRoIHRoZSBgY29udmVydF90b184Yml0YCBmbGFnIHNl
+dCAoYW4gaW52YWxpZCBjb21iaW5hdGlvbiB0aGF0IHNob3VsZA0KPiAtYnlwYXNzIHRoZSBwcmUt
+dHJhbnNmb3JtIHBhdGgpLg0KPiAtDQo+IC1UaGUgc2Vjb25kIHBhcnQgb2YgdGhlIGNvbmRpdGlv
+biwgaS5lLg0KPiAtDQo+IC0gICAgY29sb3JtYXAgPT0gMCAmJiBjb252ZXJ0X3RvXzhiaXQgIT0g
+MA0KPiAtDQo+IC1mYWlsZWQgdG8gdmVyaWZ5IHRoYXQgaW5wdXQgd2FzIDE2LWJpdCwgaS5lLg0K
+PiAtDQo+IC0gICAgbGluZWFyICE9IDANCj4gLQ0KPiAtY29udHJhZGljdGluZyB0aGUgY29tbWVu
+dCAiVGhpcyBvbmx5IGFwcGxpZXMgd2hlbiB0aGUgaW5wdXQgaXMgMTYtYml0Ii4NCj4gLQ0KPiAt
+VGhlIGZpeCBjb25zaXN0cyBpbiByZXN0cnVjdHVyaW5nIHRoZSBjb25kaXRpb24gdG8gZW5zdXJl
+IGJvdGggdGhlDQo+IC1gYWxwaGFgIHBhdGggYW5kIHRoZSBgY29udmVydF90b184Yml0YCBwYXRo
+IHJlcXVpcmUgbGluZWFyICgxNi1iaXQpDQo+IC1pbnB1dC4gVGhlIGNvcnJlY3RlZCBjb25kaXRp
+b24sIGkuZS4NCj4gLQ0KPiAtICAgIGxpbmVhciAhPSAwICYmIChhbHBoYSAhPSAwIHx8IGRpc3Bs
+YXktPmNvbnZlcnRfdG9fOGJpdCAhPSAwKQ0KPiAtDQo+IC1tYXRjaGVzIHRoZSBleHBlY3RhdGlv
+biBvZiB0aGUgYHBuZ193cml0ZV9pbWFnZV84Yml0YCBmdW5jdGlvbiBhbmQNCj4gLXByZXZlbnRz
+IHRyZWF0aW5nIDgtYml0IGJ1ZmZlcnMgYXMgMTYtYml0IGRhdGEuDQo+IC0NCj4gLVJlcG9ydGVk
+LWJ5OiBTYW1zdW5nLVBFTlRFU1QgPFNhbXN1bmctDQo+IFBFTlRFU1RAdXNlcnMubm9yZXBseS5n
+aXRodWIuY29tPg0KPiAtUmVwb3J0ZWQtYnk6IHdlaWppbmppbm5paGFvIDx3ZWlqaW5qaW5uaWhh
+b0B1c2Vycy5ub3JlcGx5LmdpdGh1Yi5jb20+DQo+IC1BbmFseXplZC1ieTogZGVncmlnaXMgPGRl
+Z3JpZ2lzQHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4NCj4gLVJldmlld2VkLWJ5OiBKb2huIEJv
+d2xlciA8amJvd2xlckBhY20ub3JnPg0KPiAtDQo+IC1DVkU6IENWRS0yMDI1LTY0NTA2DQo+IC1V
+cHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+IFtodHRwczovL2dpdGh1Yi5jb20vcG5nZ3JvdXAv
+bGlicG5nL2NvbW1pdC8yYmQ4NGMwMTljMzAwYjc4ZTgxMTc0M2ZiY2RkYjYNCj4gN2M5ZDliZjgy
+MV0NCj4gLVNpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5zLmNv
+bT4NCj4gLS0tLQ0KPiAtIHBuZ3dyaXRlLmMgfCAzICstLQ0KPiAtIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL3BuZ3dy
+aXRlLmMgYi9wbmd3cml0ZS5jDQo+IC1pbmRleCAzNWE1ZDE3YjYuLjgzMTQ4OTYwZSAxMDA2NDQN
+Cj4gLS0tLSBhL3BuZ3dyaXRlLmMNCj4gLSsrKyBiL3BuZ3dyaXRlLmMNCj4gLUBAIC0yMTQyLDgg
+KzIxNDIsNyBAQCBwbmdfaW1hZ2Vfd3JpdGVfbWFpbihwbmdfdm9pZHAgYXJndW1lbnQpDQo+IC0g
+ICAgICogYmVmb3JlIGl0IGlzIHdyaXR0ZW4uICBUaGlzIG9ubHkgYXBwbGllcyB3aGVuIHRoZSBp
+bnB1dCBpcyAxNi1iaXQgYW5kDQo+IC0gICAgICogZWl0aGVyIHRoZXJlIGlzIGFuIGFscGhhIGNo
+YW5uZWwgb3IgaXQgaXMgY29udmVydGVkIHRvIDgtYml0Lg0KPiAtICAgICAqLw0KPiAtLSAgIGlm
+ICgobGluZWFyICE9IDAgJiYgYWxwaGEgIT0gMCApIHx8DQo+IC0tICAgICAgIChjb2xvcm1hcCA9
+PSAwICYmIGRpc3BsYXktPmNvbnZlcnRfdG9fOGJpdCAhPSAwKSkNCj4gLSsgICBpZiAobGluZWFy
+ICE9IDAgJiYgKGFscGhhICE9IDAgfHwgZGlzcGxheS0+Y29udmVydF90b184Yml0ICE9IDApKQ0K
+PiAtICAgIHsNCj4gLSAgICAgICBwbmdfYnl0ZXAgcm93ID0gcG5nX3ZvaWRjYXN0KHBuZ19ieXRl
+cCwgcG5nX21hbGxvYyhwbmdfcHRyLA0KPiAtICAgICAgICAgICBwbmdfZ2V0X3Jvd2J5dGVzKHBu
+Z19wdHIsIGluZm9fcHRyKSkpOw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY0NzIwLnBhdGNoDQo+IGIvbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY0NzIwLnBhdGNoDQo+IGRlbGV0ZWQgZmls
+ZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwOGRmN2MzLi4wMDAwMDAwDQo+IC0tLSBhL21ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NDcyMC5wYXRjaA0KPiArKysg
+L2Rldi9udWxsDQo+IEBAIC0xLDEwMyArMCwwIEBADQo+IC1Gcm9tIDA4ZGEzM2I0Yzg4Y2ZjZDM2
+ZTVhNzA2NTU4YThkN2UwZTQ3NzM2NDMgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+IC1G
+cm9tOiBDb3NtaW4gVHJ1dGEgPGN0cnV0YUBnbWFpbC5jb20+DQo+IC1EYXRlOiBXZWQsIDEyIE5v
+diAyMDI1IDEzOjQ2OjIzICswMjAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIEZpeCBhIGJ1ZmZlciBv
+dmVyZmxvdyBpbiBgcG5nX2luaXRfcmVhZF90cmFuc2Zvcm1hdGlvbnNgDQo+IC0NCj4gLVRoZSBw
+YWxldHRlIGNvbXBvc2l0aW5nIGNvZGUgaW4gYHBuZ19pbml0X3JlYWRfdHJhbnNmb3JtYXRpb25z
+YCB3YXMNCj4gLWluY29ycmVjdGx5IGFwcGx5aW5nIGJhY2tncm91bmQgY29tcG9zaXRpbmcgd2hl
+bg0KPiBQTkdfRkxBR19PUFRJTUlaRV9BTFBIQQ0KPiAtd2FzIHNldC4gVGhpcyB2aW9sYXRlZCB0
+aGUgcHJlbXVsdGlwbGllZCBhbHBoYSBpbnZhcmlhbnQNCj4gLWBjb21wb25lbnQgPD0gYWxwaGFg
+IGV4cGVjdGVkIGJ5IGBwbmdfaW1hZ2VfcmVhZF9jb21wb3NpdGVgLCBjYXVzaW5nDQo+IC12YWx1
+ZXMgdGhhdCBleGNlZWRlZCB0aGUgdmFsaWQgcmFuZ2UgZm9yIHRoZSBQTkdfc1JHQl9GUk9NX0xJ
+TkVBUiBsb29rdXANCj4gLXRhYmxlcy4NCj4gLQ0KPiAtV2hlbiBQTkdfQUxQSEFfT1BUSU1JWkVE
+IGlzIGFjdGl2ZSwgcGFsZXR0ZSBlbnRyaWVzIHNob3VsZCBjb250YWluIHB1cmUNCj4gLXByZW11
+bHRpcGxpZWQgUkdCIHZhbHVlcyB3aXRob3V0IGJhY2tncm91bmQgY29tcG9zaXRpbmcuIFRoZSBi
+YWNrZ3JvdW5kDQo+IC1jb21wb3NpdGluZyBtdXN0IGhhcHBlbiBsYXRlciBpbiBgcG5nX2ltYWdl
+X3JlYWRfY29tcG9zaXRlYCB3aGVyZSB0aGUNCj4gLWFjdHVhbCBiYWNrZ3JvdW5kIGNvbG9yIGZy
+b20gdGhlIFBORyBmaWxlIGlzIGF2YWlsYWJsZS4NCj4gLQ0KPiAtVGhlIGZpeCBjb25zaXN0cyBp
+biBpbnRyb2R1Y2luZyBjb25kaXRpb25hbCBiZWhhdmlvciBiYXNlZCBvbg0KPiAtUE5HX0ZMQUdf
+T1BUSU1JWkVfQUxQSEE6IHdoZW4gc2V0LCB0aGUgY29kZSBwZXJmb3JtcyBvbmx5DQo+IC1wcmVt
+dWx0aXBsaWNhdGlvbiB1c2luZyB0aGUgZm9ybXVsYSBgY29tcG9uZW50ICogYWxwaGEgKyAxMjcp
+IC8gMjU1YA0KPiAtd2l0aCBwcm9wZXIgZ2FtbWEgY29ycmVjdGlvbi4gV2hlbiBub3Qgc2V0LCB0
+aGUgb3JpZ2luYWwgYmFja2dyb3VuZA0KPiAtY29tcG9zaXRpbmcgY2FsY3VsYXRpb24gYmFzZWQg
+b24gdGhlIGBwbmdfY29tcG9zaXRlYCBtYWNybyBpcyBwcmVzZXJ2ZWQuDQo+IC0NCj4gLVRoaXMg
+cHJldmVudHMgYnVmZmVyIG92ZXJmbG93cyBpbiBgcG5nX2ltYWdlX3JlYWRfY29tcG9zaXRlYCB3
+aGVyZQ0KPiAtb3V0LW9mLXJhbmdlIHByZW11bHRpcGxpZWQgdmFsdWVzIHdvdWxkIGNhdXNlIG91
+dC1vZi1ib3VuZHMgYXJyYXkgYWNjZXNzDQo+IC1pbiBgcG5nX3NSR0JfYmFzZVtdYCBhbmQgYHBu
+Z19zUkdCX2RlbHRhW11gLg0KPiAtDQo+IC1SZXBvcnRlZC1ieTogU2Ftc3VuZy1QRU5URVNUIDxT
+YW1zdW5nLQ0KPiBQRU5URVNUQHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4NCj4gLUFuYWx5emVk
+LWJ5OiBKb2huIEJvd2xlciA8amJvd2xlckBhY20ub3JnPg0KPiAtDQo+IC1DVkU6IENWRS0yMDI1
+LTY0NzIwDQo+IC1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+IFtodHRwczovL2dpdGh1Yi5j
+b20vcG5nZ3JvdXAvbGlicG5nL2NvbW1pdC8wOGRhMzNiNGM4OGNmY2QzNmU1YTcwNjU1OGE4ZDcN
+Cj4gZTBlNDc3MzY0M10NCj4gLVNpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJr
+b0BzaWVtZW5zLmNvbT4NCj4gLS0tLQ0KPiAtIHBuZ3J0cmFuLmMgfCA1MiArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tDQo+IC0gMSBmaWxlIGNoYW5n
+ZWQsIDQyIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQ0KPiAtDQo+IC1kaWZmIC0tZ2l0
+IGEvcG5ncnRyYW4uYyBiL3BuZ3J0cmFuLmMNCj4gLWluZGV4IDU0ODc4MDAzMC4uMmY1MjAyMjU1
+IDEwMDY0NA0KPiAtLS0tIGEvcG5ncnRyYW4uYw0KPiAtKysrIGIvcG5ncnRyYW4uYw0KPiAtQEAg
+LTE2OTgsMTkgKzE2OTgsNTEgQEAgcG5nX2luaXRfcmVhZF90cmFuc2Zvcm1hdGlvbnMocG5nX3N0
+cnVjdHJwDQo+IHBuZ19wdHIpDQo+IC0gICAgICAgICAgICAgICAgICAgfQ0KPiAtICAgICAgICAg
+ICAgICAgICAgIGVsc2UgLyogaWYgKHBuZ19wdHItPnRyYW5zX2FscGhhW2ldICE9IDB4ZmYpICov
+DQo+IC0gICAgICAgICAgICAgICAgICAgew0KPiAtLSAgICAgICAgICAgICAgICAgICAgIHBuZ19i
+eXRlIHYsIHc7DQo+IC0rICAgICAgICAgICAgICAgICAgICAgaWYgKChwbmdfcHRyLT5mbGFncyAm
+IFBOR19GTEFHX09QVElNSVpFX0FMUEhBKSAhPSAwKQ0KPiAtKyAgICAgICAgICAgICAgICAgICAg
+IHsNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAvKiBQcmVtdWx0aXBseSBvbmx5Og0KPiAt
+KyAgICAgICAgICAgICAgICAgICAgICAgICAqIGNvbXBvbmVudCA9IHJvdW5kKChjb21wb25lbnQg
+KiBhbHBoYSkgLyAyNTUpDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICovDQo+IC0rICAg
+ICAgICAgICAgICAgICAgICAgICAgcG5nX3VpbnRfMzIgY29tcG9uZW50Ow0KPiAtDQo+IC0tICAg
+ICAgICAgICAgICAgICAgICAgdiA9IHBuZ19wdHItPmdhbW1hX3RvXzFbcGFsZXR0ZVtpXS5yZWRd
+Ow0KPiAtLSAgICAgICAgICAgICAgICAgICAgIHBuZ19jb21wb3NpdGUodywgdiwgcG5nX3B0ci0+
+dHJhbnNfYWxwaGFbaV0sIGJhY2tfMS5yZWQpOw0KPiAtLSAgICAgICAgICAgICAgICAgICAgIHBh
+bGV0dGVbaV0ucmVkID0gcG5nX3B0ci0+Z2FtbWFfZnJvbV8xW3ddOw0KPiAtKyAgICAgICAgICAg
+ICAgICAgICAgICAgIGNvbXBvbmVudCA9IHBuZ19wdHItPmdhbW1hX3RvXzFbcGFsZXR0ZVtpXS5y
+ZWRdOw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIGNvbXBvbmVudCA9DQo+IC0rICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIChjb21wb25lbnQgKiBwbmdfcHRyLT50cmFuc19hbHBoYVtp
+XSArIDEyOCkgLyAyNTU7DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgcGFsZXR0ZVtpXS5y
+ZWQgPSBwbmdfcHRyLT5nYW1tYV9mcm9tXzFbY29tcG9uZW50XTsNCj4gLQ0KPiAtLSAgICAgICAg
+ICAgICAgICAgICAgIHYgPSBwbmdfcHRyLT5nYW1tYV90b18xW3BhbGV0dGVbaV0uZ3JlZW5dOw0K
+PiAtLSAgICAgICAgICAgICAgICAgICAgIHBuZ19jb21wb3NpdGUodywgdiwgcG5nX3B0ci0+dHJh
+bnNfYWxwaGFbaV0sIGJhY2tfMS5ncmVlbik7DQo+IC0tICAgICAgICAgICAgICAgICAgICAgcGFs
+ZXR0ZVtpXS5ncmVlbiA9IHBuZ19wdHItPmdhbW1hX2Zyb21fMVt3XTsNCj4gLSsgICAgICAgICAg
+ICAgICAgICAgICAgICBjb21wb25lbnQgPSBwbmdfcHRyLT5nYW1tYV90b18xW3BhbGV0dGVbaV0u
+Z3JlZW5dOw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIGNvbXBvbmVudCA9DQo+IC0rICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIChjb21wb25lbnQgKiBwbmdfcHRyLT50cmFuc19hbHBo
+YVtpXSArIDEyOCkgLyAyNTU7DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgcGFsZXR0ZVtp
+XS5ncmVlbiA9IHBuZ19wdHItPmdhbW1hX2Zyb21fMVtjb21wb25lbnRdOw0KPiAtDQo+IC0tICAg
+ICAgICAgICAgICAgICAgICAgdiA9IHBuZ19wdHItPmdhbW1hX3RvXzFbcGFsZXR0ZVtpXS5ibHVl
+XTsNCj4gLS0gICAgICAgICAgICAgICAgICAgICBwbmdfY29tcG9zaXRlKHcsIHYsIHBuZ19wdHIt
+PnRyYW5zX2FscGhhW2ldLCBiYWNrXzEuYmx1ZSk7DQo+IC0tICAgICAgICAgICAgICAgICAgICAg
+cGFsZXR0ZVtpXS5ibHVlID0gcG5nX3B0ci0+Z2FtbWFfZnJvbV8xW3ddOw0KPiAtKyAgICAgICAg
+ICAgICAgICAgICAgICAgIGNvbXBvbmVudCA9IHBuZ19wdHItPmdhbW1hX3RvXzFbcGFsZXR0ZVtp
+XS5ibHVlXTsNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICBjb21wb25lbnQgPQ0KPiAtKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAoY29tcG9uZW50ICogcG5nX3B0ci0+dHJhbnNfYWxw
+aGFbaV0gKyAxMjgpIC8gMjU1Ow0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIHBhbGV0dGVb
+aV0uYmx1ZSA9IHBuZ19wdHItPmdhbW1hX2Zyb21fMVtjb21wb25lbnRdOw0KPiAtKyAgICAgICAg
+ICAgICAgICAgICAgIH0NCj4gLSsgICAgICAgICAgICAgICAgICAgICBlbHNlDQo+IC0rICAgICAg
+ICAgICAgICAgICAgICAgew0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIC8qIENvbXBvc2l0
+ZSB3aXRoIGJhY2tncm91bmQgY29sb3I6DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICog
+Y29tcG9uZW50ID0NCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgKiAgICBhbHBoYSAqIGNv
+bXBvbmVudCArICgxIC0gYWxwaGEpICogYmFja2dyb3VuZA0KPiAtKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAqLw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIHBuZ19ieXRlIHYsIHc7DQo+
+IC0rDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgdiA9IHBuZ19wdHItPmdhbW1hX3RvXzFb
+cGFsZXR0ZVtpXS5yZWRdOw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIHBuZ19jb21wb3Np
+dGUodywgdiwNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgICAgcG5nX3B0ci0+dHJhbnNf
+YWxwaGFbaV0sIGJhY2tfMS5yZWQpOw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIHBhbGV0
+dGVbaV0ucmVkID0gcG5nX3B0ci0+Z2FtbWFfZnJvbV8xW3ddOw0KPiAtKw0KPiAtKyAgICAgICAg
+ICAgICAgICAgICAgICAgIHYgPSBwbmdfcHRyLT5nYW1tYV90b18xW3BhbGV0dGVbaV0uZ3JlZW5d
+Ow0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIHBuZ19jb21wb3NpdGUodywgdiwNCj4gLSsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgcG5nX3B0ci0+dHJhbnNfYWxwaGFbaV0sIGJhY2tf
+MS5ncmVlbik7DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgcGFsZXR0ZVtpXS5ncmVlbiA9
+IHBuZ19wdHItPmdhbW1hX2Zyb21fMVt3XTsNCj4gLSsNCj4gLSsgICAgICAgICAgICAgICAgICAg
+ICAgICB2ID0gcG5nX3B0ci0+Z2FtbWFfdG9fMVtwYWxldHRlW2ldLmJsdWVdOw0KPiAtKyAgICAg
+ICAgICAgICAgICAgICAgICAgIHBuZ19jb21wb3NpdGUodywgdiwNCj4gLSsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgcG5nX3B0ci0+dHJhbnNfYWxwaGFbaV0sIGJhY2tfMS5ibHVlKTsNCj4g
+LSsgICAgICAgICAgICAgICAgICAgICAgICBwYWxldHRlW2ldLmJsdWUgPSBwbmdfcHRyLT5nYW1t
+YV9mcm9tXzFbd107DQo+IC0rICAgICAgICAgICAgICAgICAgICAgfQ0KPiAtICAgICAgICAgICAg
+ICAgICAgIH0NCj4gLSAgICAgICAgICAgICAgICB9DQo+IC0gICAgICAgICAgICAgICAgZWxzZQ0K
+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0y
+MDI1LTY1MDE4LTAxLnBhdGNoDQo+IGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2Zp
+bGVzL0NWRS0yMDI1LTY1MDE4LTAxLnBhdGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0K
+PiBpbmRleCBjZGVlNmM3Li4wMDAwMDAwDQo+IC0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
+L2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NTAxOC0wMS5wYXRjaA0KPiArKysgL2Rldi9udWxsDQo+
+IEBAIC0xLDYwICswLDAgQEANCj4gLUZyb20gMTZiNWUzODIzOTE4ODQwYWFlNjVjMGE2ZGE1N2M3
+OGE1YTQ5NmE0ZCBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gLUZyb206IENvc21pbiBU
+cnV0YSA8Y3RydXRhQGdtYWlsLmNvbT4NCj4gLURhdGU6IE1vbiwgMTcgTm92IDIwMjUgMjA6Mzg6
+NDcgKzAyMDANCj4gLVN1YmplY3Q6IFtQQVRDSF0gRml4IGEgYnVmZmVyIG92ZXJmbG93IGluIGBw
+bmdfaW1hZ2VfZmluaXNoX3JlYWRgDQo+IC1NSU1FLVZlcnNpb246IDEuMA0KPiAtQ29udGVudC1U
+eXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04DQo+IC1Db250ZW50LVRyYW5zZmVyLUVuY29k
+aW5nOiA4Yml0DQo+IC0NCj4gLVJlamVjdCBiaXQtZGVwdGggbWlzbWF0Y2hlcyBiZXR3ZWVuIElI
+RFIgYW5kIHRoZSByZXF1ZXN0ZWQgb3V0cHV0DQo+IC1mb3JtYXQuIFdoZW4gYSAxNi1iaXQgUE5H
+IGlzIHByb2Nlc3NlZCB3aXRoIGFuIDgtYml0IG91dHB1dCBmb3JtYXQNCj4gLXJlcXVlc3QsIGBw
+bmdfY29tYmluZV9yb3dgIHdyaXRlcyB1c2luZyB0aGUgSUhEUiBkZXB0aCBiZWZvcmUNCj4gLXRy
+YW5zZm9ybWF0aW9uLCBjYXVzaW5nIHdyaXRlcyBiZXlvbmQgdGhlIGJ1ZmZlciBhbGxvY2F0ZWQg
+dmlhDQo+IC1gUE5HX0lNQUdFX1NJWkUoaW1hZ2UpYC4NCj4gLQ0KPiAtVGhlIHZhbGlkYXRpb24g
+ZXN0YWJsaXNoZXMgYSBzYWZlIEFQSSBjb250cmFjdCB3aGVyZQ0KPiAtYFBOR19JTUFHRV9TSVpF
+KGltYWdlKWAgaXMgZ3VhcmFudGVlZCB0byBiZSBzdWZmaWNpZW50IGFjcm9zcyB0aGUNCj4gLXRy
+YW5zZm9ybWF0aW9uIHBpcGVsaW5lLg0KPiAtDQo+IC1FeGFtcGxlIG92ZXJmbG93ICgzMsOXMzIg
+cGl4ZWxzLCAxNi1iaXQgUkdCIHRvIDgtYml0IFJHQkEpOg0KPiAtLSBJbnB1dCBmb3JtYXQ6IDE2
+IGJpdHMvY2hhbm5lbCDDlyAzIGNoYW5uZWxzID0gNjE0NCBieXRlcw0KPiAtLSBPdXRwdXQgYnVm
+ZmVyOiA4IGJpdHMvY2hhbm5lbCDDlyA0IGNoYW5uZWxzID0gNDA5NiBieXRlcw0KPiAtLSBPdmVy
+ZmxvdzogNjE0NCBieXRlcyAtIDQwOTYgYnl0ZXMgPSAyMDQ4IGJ5dGVzDQo+IC0NCj4gLUxhcmdl
+ciBpbWFnZXMgcHJvZHVjZSBwcm9wb3J0aW9uYWxseSBsYXJnZXIgb3ZlcmZsb3dzLiBGb3IgZXhh
+bXBsZSwNCj4gLWZvciAyNTbDlzI1NiBwaXhlbHMsIHRoZSBvdmVyZmxvdyBpcyAxMzEwNzIgYnl0
+ZXMuDQo+IC0NCj4gLVJlcG9ydGVkLWJ5OiB5b3NpaW1pY2ggPHlvc2lpbWljaEB1c2Vycy5ub3Jl
+cGx5LmdpdGh1Yi5jb20+DQo+IC0NCj4gLUNWRTogQ1ZFLTIwMjUtNjUwMTgNCj4gLVVwc3RyZWFt
+LVN0YXR1czogQmFja3BvcnQNCj4gW2h0dHBzOi8vZ2l0aHViLmNvbS9wbmdncm91cC9saWJwbmcv
+Y29tbWl0LzE2YjVlMzgyMzkxODg0MGFhZTY1YzBhNmRhNTdjDQo+IDc4YTVhNDk2YTRkXQ0KPiAt
+U2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiAt
+LS0tDQo+IC0gcG5ncmVhZC5jIHwgMTQgKysrKysrKysrKysrKysNCj4gLSAxIGZpbGUgY2hhbmdl
+ZCwgMTQgaW5zZXJ0aW9ucygrKQ0KPiAtDQo+IC1kaWZmIC0tZ2l0IGEvcG5ncmVhZC5jIGIvcG5n
+cmVhZC5jDQo+IC1pbmRleCAyMTJhZmI3ZDIuLjkyNTcxZWMzMyAxMDA2NDQNCj4gLS0tLSBhL3Bu
+Z3JlYWQuYw0KPiAtKysrIGIvcG5ncmVhZC5jDQo+IC1AQCAtNDE2Niw2ICs0MTY2LDIwIEBAIHBu
+Z19pbWFnZV9maW5pc2hfcmVhZChwbmdfaW1hZ2VwIGltYWdlLA0KPiBwbmdfY29uc3RfY29sb3Jw
+IGJhY2tncm91bmQsDQo+IC0gICAgICAgICAgICAgICAgICAgaW50IHJlc3VsdDsNCj4gLSAgICAg
+ICAgICAgICAgICAgICBwbmdfaW1hZ2VfcmVhZF9jb250cm9sIGRpc3BsYXk7DQo+IC0NCj4gLSsg
+ICAgICAgICAgICAgICAgICAvKiBSZWplY3QgYml0IGRlcHRoIG1pc21hdGNoZXMgdG8gYXZvaWQg
+YnVmZmVyIG92ZXJmbG93cy4gKi8NCj4gLSsgICAgICAgICAgICAgICAgICBwbmdfdWludF8zMiBp
+aGRyX2JpdF9kZXB0aCA9DQo+IC0rICAgICAgICAgICAgICAgICAgICAgIGltYWdlLT5vcGFxdWUt
+PnBuZ19wdHItPmJpdF9kZXB0aDsNCj4gLSsgICAgICAgICAgICAgICAgICBpbnQgcmVxdWVzdGVk
+X2xpbmVhciA9DQo+IC0rICAgICAgICAgICAgICAgICAgICAgIChpbWFnZS0+Zm9ybWF0ICYgUE5H
+X0ZPUk1BVF9GTEFHX0xJTkVBUikgIT0gMDsNCj4gLSsgICAgICAgICAgICAgICAgICBpZiAoaWhk
+cl9iaXRfZGVwdGggPT0gMTYgJiYgIXJlcXVlc3RlZF9saW5lYXIpDQo+IC0rICAgICAgICAgICAg
+ICAgICAgICAgcmV0dXJuIHBuZ19pbWFnZV9lcnJvcihpbWFnZSwNCj4gLSsgICAgICAgICAgICAg
+ICAgICAgICAgICAgInBuZ19pbWFnZV9maW5pc2hfcmVhZDogIg0KPiAtKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAiMTYtYml0IFBORyBtdXN0IHVzZSAxNi1iaXQgb3V0cHV0IGZvcm1hdCIpOw0K
+PiAtKyAgICAgICAgICAgICAgICAgIGlmIChpaGRyX2JpdF9kZXB0aCA8IDE2ICYmIHJlcXVlc3Rl
+ZF9saW5lYXIpDQo+IC0rICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHBuZ19pbWFnZV9lcnJv
+cihpbWFnZSwNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgInBuZ19pbWFnZV9maW5pc2hf
+cmVhZDogIg0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAiOC1iaXQgUE5HIG11c3Qgbm90
+IHVzZSAxNi1iaXQgb3V0cHV0IGZvcm1hdCIpOw0KPiAtKw0KPiAtICAgICAgICAgICAgICAgICAg
+IG1lbXNldCgmZGlzcGxheSwgMCwgKHNpemVvZiBkaXNwbGF5KSk7DQo+IC0gICAgICAgICAgICAg
+ICAgICAgZGlzcGxheS5pbWFnZSA9IGltYWdlOw0KPiAtICAgICAgICAgICAgICAgICAgIGRpc3Bs
+YXkuYnVmZmVyID0gYnVmZmVyOw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY1MDE4LTAyLnBhdGNoDQo+IGIvbWV0YS9yZWNpcGVz
+LW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI1LTY1MDE4LTAyLnBhdGNoDQo+IGRlbGV0
+ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCA4OTFjZDIwLi4wMDAwMDAwDQo+IC0tLSBhL21l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NTAxOC0wMi5wYXRj
+aA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDE2MyArMCwwIEBADQo+IC1Gcm9tIDIxODYxMmRk
+ZDZiMTc5NDRlMjFlZGE1NmNhZjhiNGJmNzc3OWQxZWEgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAy
+MDAxDQo+IC1Gcm9tOiBDb3NtaW4gVHJ1dGEgPGN0cnV0YUBnbWFpbC5jb20+DQo+IC1EYXRlOiBX
+ZWQsIDE5IE5vdiAyMDI1IDIxOjQ1OjEzICswMjAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIFJlYXJj
+aGl0ZWN0IHRoZSBmaXggdG8gdGhlIGJ1ZmZlciBvdmVyZmxvdyBpbg0KPiAtIGBwbmdfaW1hZ2Vf
+ZmluaXNoX3JlYWRgDQo+IC0NCj4gLVVuZG8gdGhlIGZpeCBmcm9tIGNvbW1pdCAxNmI1ZTM4MjM5
+MTg4NDBhYWU2NWMwYTZkYTU3Yzc4YTVhNDk2YTRkLg0KPiAtVGhhdCBmaXggdHVybmVkIG91dCB0
+byBiZSB1bm5lY2Vzc2FyaWx5IGxpbWl0aW5nLiBJdCByZWplY3RlZCBhbGwNCj4gLTE2LXRvLTgg
+Yml0IHRyYW5zZm9ybWF0aW9ucywgYWx0aG91Z2ggdGhlIHZ1bG5lcmFiaWxpdHkgb25seSBhZmZl
+Y3RzDQo+IC1pbnRlcmxhY2VkIFBOR3Mgd2hlcmUgYHBuZ19jb21iaW5lX3Jvd2Agd3JpdGVzIHVz
+aW5nIElIRFIgYml0LWRlcHRoDQo+IC1iZWZvcmUgdGhlIHRyYW5zZm9ybWF0aW9uIGNvbXBsZXRl
+cy4NCj4gLQ0KPiAtVGhlIHByb3BlciBzb2x1dGlvbiBpcyB0byBhZGQgYW4gaW50ZXJtZWRpYXRl
+IGBsb2NhbF9yb3dgIGJ1ZmZlciwNCj4gLXNwZWNpZmljYWxseSBmb3IgdGhlIHNsb3cgYnV0IG5l
+Y2Vzc2FyeSBzdGVwIG9mIDE2LXRvLTggYml0IGNvbnZlcnNpb24NCj4gLW9mIGludGVybGFjZWQg
+aW1hZ2VzLiAoVGhlIHByb2Nlc3Npbmcgb2Ygbm9uLWludGVybGFjZWQgaW1hZ2VzIHJlbWFpbnMN
+Cj4gLWludGFjdCwgdXNpbmcgdGhlIGZhc3QgcGF0aC4pIFdlIGFkZGVkIHRoZSBmbGFnIGBkb19s
+b2NhbF9zY2FsZWAgYW5kDQo+IC10aGUgZnVuY3Rpb24gYHBuZ19pbWFnZV9yZWFkX2RpcmVjdF9z
+Y2FsZWRgLCBmb2xsb3dpbmcgdGhlIHBhdHRlcm4gdGhhdA0KPiAtaW52b2x2ZXMgYGRvX2xvY2Fs
+X2NvbXBvc2VgLg0KPiAtDQo+IC1JbiBjb25jbHVzaW9uOg0KPiAtLSBUaGUgMTYtdG8tOCBiaXQg
+dHJhbnNmb3JtYXRpb25zIG9mIGludGVybGFjZWQgaW1hZ2VzIGFyZSBub3cgc2FmZSwNCj4gLSAg
+YXMgdGhleSB1c2UgYW4gaW50ZXJtZWRpYXRlIGJ1ZmZlci4NCj4gLS0gVGhlIDE2LXRvLTggYml0
+IHRyYW5zZm9ybWF0aW9ucyBvZiBub24taW50ZXJsYWNlZCBpbWFnZXMgcmVtYWluIHNhZmUsDQo+
+IC0gIGFzIHRoZSBmYXN0IHBhdGggcmVtYWlucyB1bmNoYW5nZWQuDQo+IC0tIEFsbCBvdXIgcmVn
+cmVzc2lvbiB0ZXN0cyBhcmUgbm93IHBhc3NpbmcuDQo+IC0NCj4gLUNWRTogQ1ZFLTIwMjUtNjUw
+MTgNCj4gLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2h0dHBzOi8vZ2l0aHViLmNvbS9w
+bmdncm91cC9saWJwbmcvY29tbWl0LzIxODYxMmRkZDZiMTc5NDRlMjFlZGE1NmNhZjhiNA0KPiBi
+Zjc3NzlkMWVhXQ0KPiAtU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNp
+ZW1lbnMuY29tPg0KPiAtLS0tDQo+IC0gcG5ncmVhZC5jIHwgODkgKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tDQo+IC0NCj4gLSAxIGZpbGUgY2hh
+bmdlZCwgNzUgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pDQo+IC0NCj4gLWRpZmYgLS1n
+aXQgYS9wbmdyZWFkLmMgYi9wbmdyZWFkLmMNCj4gLWluZGV4IDkyNTcxZWMzMy4uNzk5MTdkYWFh
+IDEwMDY0NA0KPiAtLS0tIGEvcG5ncmVhZC5jDQo+IC0rKysgYi9wbmdyZWFkLmMNCj4gLUBAIC0z
+MjYyLDYgKzMyNjIsNTQgQEAgcG5nX2ltYWdlX3JlYWRfY29sb3JtYXBwZWQocG5nX3ZvaWRwDQo+
+IGFyZ3VtZW50KQ0KPiAtICAgIH0NCj4gLSB9DQo+IC0NCj4gLSsvKiBSb3cgcmVhZGluZyBmb3Ig
+aW50ZXJsYWNlZCAxNi10by04IGJpdCBkZXB0aCBjb252ZXJzaW9uIHdpdGggbG9jYWwgYnVmZmVy
+LiAqLw0KPiAtK3N0YXRpYyBpbnQNCj4gLStwbmdfaW1hZ2VfcmVhZF9kaXJlY3Rfc2NhbGVkKHBu
+Z192b2lkcCBhcmd1bWVudCkNCj4gLSt7DQo+IC0rICAgcG5nX2ltYWdlX3JlYWRfY29udHJvbCAq
+ZGlzcGxheSA9IHBuZ192b2lkY2FzdChwbmdfaW1hZ2VfcmVhZF9jb250cm9sKiwNCj4gLSsgICAg
+ICAgYXJndW1lbnQpOw0KPiAtKyAgIHBuZ19pbWFnZXAgaW1hZ2UgPSBkaXNwbGF5LT5pbWFnZTsN
+Cj4gLSsgICBwbmdfc3RydWN0cnAgcG5nX3B0ciA9IGltYWdlLT5vcGFxdWUtPnBuZ19wdHI7DQo+
+IC0rICAgcG5nX2J5dGVwIGxvY2FsX3JvdyA9IHBuZ192b2lkY2FzdChwbmdfYnl0ZXAsIGRpc3Bs
+YXktPmxvY2FsX3Jvdyk7DQo+IC0rICAgcG5nX2J5dGVwIGZpcnN0X3JvdyA9IHBuZ192b2lkY2Fz
+dChwbmdfYnl0ZXAsIGRpc3BsYXktPmZpcnN0X3Jvdyk7DQo+IC0rICAgcHRyZGlmZl90IHJvd19i
+eXRlcyA9IGRpc3BsYXktPnJvd19ieXRlczsNCj4gLSsgICBpbnQgcGFzc2VzOw0KPiAtKw0KPiAt
+KyAgIC8qIEhhbmRsZSBpbnRlcmxhY2luZy4gKi8NCj4gLSsgICBzd2l0Y2ggKHBuZ19wdHItPmlu
+dGVybGFjZWQpDQo+IC0rICAgew0KPiAtKyAgICAgIGNhc2UgUE5HX0lOVEVSTEFDRV9OT05FOg0K
+PiAtKyAgICAgICAgIHBhc3NlcyA9IDE7DQo+IC0rICAgICAgICAgYnJlYWs7DQo+IC0rDQo+IC0r
+ICAgICAgY2FzZSBQTkdfSU5URVJMQUNFX0FEQU03Og0KPiAtKyAgICAgICAgIHBhc3NlcyA9IFBO
+R19JTlRFUkxBQ0VfQURBTTdfUEFTU0VTOw0KPiAtKyAgICAgICAgIGJyZWFrOw0KPiAtKw0KPiAt
+KyAgICAgIGRlZmF1bHQ6DQo+IC0rICAgICAgICAgcG5nX2Vycm9yKHBuZ19wdHIsICJ1bmtub3du
+IGludGVybGFjZSB0eXBlIik7DQo+IC0rICAgfQ0KPiAtKw0KPiAtKyAgIC8qIFJlYWQgZWFjaCBw
+YXNzIHVzaW5nIGxvY2FsX3JvdyBhcyBpbnRlcm1lZGlhdGUgYnVmZmVyLiAqLw0KPiAtKyAgIHdo
+aWxlICgtLXBhc3NlcyA+PSAwKQ0KPiAtKyAgIHsNCj4gLSsgICAgICBwbmdfdWludF8zMiB5ID0g
+aW1hZ2UtPmhlaWdodDsNCj4gLSsgICAgICBwbmdfYnl0ZXAgb3V0cHV0X3JvdyA9IGZpcnN0X3Jv
+dzsNCj4gLSsNCj4gLSsgICAgICBmb3IgKDsgeSA+IDA7IC0teSkNCj4gLSsgICAgICB7DQo+IC0r
+ICAgICAgICAgLyogUmVhZCBpbnRvIGxvY2FsX3JvdyAoZ2V0cyB0cmFuc2Zvcm1lZCA4LWJpdCBk
+YXRhKS4gKi8NCj4gLSsgICAgICAgICBwbmdfcmVhZF9yb3cocG5nX3B0ciwgbG9jYWxfcm93LCBO
+VUxMKTsNCj4gLSsNCj4gLSsgICAgICAgICAvKiBDb3B5IGZyb20gbG9jYWxfcm93IHRvIHVzZXIg
+YnVmZmVyLiAqLw0KPiAtKyAgICAgICAgIG1lbWNweShvdXRwdXRfcm93LCBsb2NhbF9yb3csIChz
+aXplX3Qpcm93X2J5dGVzKTsNCj4gLSsgICAgICAgICBvdXRwdXRfcm93ICs9IHJvd19ieXRlczsN
+Cj4gLSsgICAgICB9DQo+IC0rICAgfQ0KPiAtKw0KPiAtKyAgIHJldHVybiAxOw0KPiAtK30NCj4g
+LSsNCj4gLSAvKiBKdXN0IHRoZSByb3cgcmVhZGluZyBwYXJ0IG9mIHBuZ19pbWFnZV9yZWFkLiAq
+Lw0KPiAtIHN0YXRpYyBpbnQNCj4gLSBwbmdfaW1hZ2VfcmVhZF9jb21wb3NpdGUocG5nX3ZvaWRw
+IGFyZ3VtZW50KQ0KPiAtQEAgLTM2ODAsNiArMzcyOCw3IEBAIHBuZ19pbWFnZV9yZWFkX2RpcmVj
+dChwbmdfdm9pZHAgYXJndW1lbnQpDQo+IC0gICAgaW50IGxpbmVhciA9IChmb3JtYXQgJiBQTkdf
+Rk9STUFUX0ZMQUdfTElORUFSKSAhPSAwOw0KPiAtICAgIGludCBkb19sb2NhbF9jb21wb3NlID0g
+MDsNCj4gLSAgICBpbnQgZG9fbG9jYWxfYmFja2dyb3VuZCA9IDA7IC8qIHRvIGF2b2lkIGRvdWJs
+ZSBnYW1tYSBjb3JyZWN0aW9uIGJ1ZyAqLw0KPiAtKyAgIGludCBkb19sb2NhbF9zY2FsZSA9IDA7
+IC8qIGZvciBpbnRlcmxhY2VkIDE2LXRvLTggYml0IGNvbnZlcnNpb24gKi8NCj4gLSAgICBpbnQg
+cGFzc2VzID0gMDsNCj4gLQ0KPiAtICAgIC8qIEFkZCB0cmFuc2Zvcm1zIHRvIGVuc3VyZSB0aGUg
+Y29ycmVjdCBvdXRwdXQgZm9ybWF0IGlzIHByb2R1Y2VkIHRoZW4gY2hlY2sNCj4gLUBAIC0zODA2
+LDggKzM4NTUsMTYgQEAgcG5nX2ltYWdlX3JlYWRfZGlyZWN0KHBuZ192b2lkcCBhcmd1bWVudCkN
+Cj4gLSAgICAgICAgICAgICBwbmdfc2V0X2V4cGFuZF8xNihwbmdfcHRyKTsNCj4gLQ0KPiAtICAg
+ICAgICAgIGVsc2UgLyogOC1iaXQgb3V0cHV0ICovDQo+IC0rICAgICAgICAgew0KPiAtICAgICAg
+ICAgICAgIHBuZ19zZXRfc2NhbGVfMTYocG5nX3B0cik7DQo+IC0NCj4gLSsgICAgICAgICAgICAv
+KiBGb3IgaW50ZXJsYWNlZCBpbWFnZXMsIHVzZSBsb2NhbF9yb3cgYnVmZmVyIHRvIGF2b2lkIG92
+ZXJmbG93DQo+IC0rICAgICAgICAgICAgICogaW4gcG5nX2NvbWJpbmVfcm93KCkgd2hpY2ggd3Jp
+dGVzIHVzaW5nIElIRFIgYml0LWRlcHRoLg0KPiAtKyAgICAgICAgICAgICAqLw0KPiAtKyAgICAg
+ICAgICAgIGlmIChwbmdfcHRyLT5pbnRlcmxhY2VkICE9IDApDQo+IC0rICAgICAgICAgICAgICAg
+ZG9fbG9jYWxfc2NhbGUgPSAxOw0KPiAtKyAgICAgICAgIH0NCj4gLSsNCj4gLSAgICAgICAgICBj
+aGFuZ2UgJj0gflBOR19GT1JNQVRfRkxBR19MSU5FQVI7DQo+IC0gICAgICAgfQ0KPiAtDQo+IC1A
+QCAtNDA4Myw2ICs0MTQwLDI0IEBAIHBuZ19pbWFnZV9yZWFkX2RpcmVjdChwbmdfdm9pZHAgYXJn
+dW1lbnQpDQo+IC0gICAgICAgcmV0dXJuIHJlc3VsdDsNCj4gLSAgICB9DQo+IC0NCj4gLSsgICBl
+bHNlIGlmIChkb19sb2NhbF9zY2FsZSAhPSAwKQ0KPiAtKyAgIHsNCj4gLSsgICAgICAvKiBGb3Ig
+aW50ZXJsYWNlZCAxNi10by04IGNvbnZlcnNpb24sIHVzZSBhbiBpbnRlcm1lZGlhdGUgcm93IGJ1
+ZmZlcg0KPiAtKyAgICAgICAqIHRvIGF2b2lkIGJ1ZmZlciBvdmVyZmxvd3MgaW4gcG5nX2NvbWJp
+bmVfcm93LiBUaGUgbG9jYWxfcm93IGlzIHNpemVkDQo+IC0rICAgICAgICogZm9yIHRoZSB0cmFu
+c2Zvcm1lZCAoOC1iaXQpIG91dHB1dCwgcHJldmVudGluZyB0aGUgb3ZlcmZsb3cgdGhhdCB3b3Vs
+ZA0KPiAtKyAgICAgICAqIG9jY3VyIGlmIHBuZ19jb21iaW5lX3JvdyB3cm90ZSAxNi1iaXQgZGF0
+YSBkaXJlY3RseSB0byB0aGUgdXNlciBidWZmZXIuDQo+IC0rICAgICAgICovDQo+IC0rICAgICAg
+aW50IHJlc3VsdDsNCj4gLSsgICAgICBwbmdfdm9pZHAgcm93ID0gcG5nX21hbGxvYyhwbmdfcHRy
+LCBwbmdfZ2V0X3Jvd2J5dGVzKHBuZ19wdHIsIGluZm9fcHRyKSk7DQo+IC0rDQo+IC0rICAgICAg
+ZGlzcGxheS0+bG9jYWxfcm93ID0gcm93Ow0KPiAtKyAgICAgIHJlc3VsdCA9IHBuZ19zYWZlX2V4
+ZWN1dGUoaW1hZ2UsIHBuZ19pbWFnZV9yZWFkX2RpcmVjdF9zY2FsZWQsDQo+IGRpc3BsYXkpOw0K
+PiAtKyAgICAgIGRpc3BsYXktPmxvY2FsX3JvdyA9IE5VTEw7DQo+IC0rICAgICAgcG5nX2ZyZWUo
+cG5nX3B0ciwgcm93KTsNCj4gLSsNCj4gLSsgICAgICByZXR1cm4gcmVzdWx0Ow0KPiAtKyAgIH0N
+Cj4gLSsNCj4gLSAgICBlbHNlDQo+IC0gICAgew0KPiAtICAgICAgIHBuZ19hbGxvY19zaXplX3Qg
+cm93X2J5dGVzID0gKHBuZ19hbGxvY19zaXplX3QpZGlzcGxheS0+cm93X2J5dGVzOw0KPiAtQEAg
+LTQxNjYsMjAgKzQyNDEsNiBAQCBwbmdfaW1hZ2VfZmluaXNoX3JlYWQocG5nX2ltYWdlcCBpbWFn
+ZSwNCj4gcG5nX2NvbnN0X2NvbG9ycCBiYWNrZ3JvdW5kLA0KPiAtICAgICAgICAgICAgICAgICAg
+IGludCByZXN1bHQ7DQo+IC0gICAgICAgICAgICAgICAgICAgcG5nX2ltYWdlX3JlYWRfY29udHJv
+bCBkaXNwbGF5Ow0KPiAtDQo+IC0tICAgICAgICAgICAgICAgICAgLyogUmVqZWN0IGJpdCBkZXB0
+aCBtaXNtYXRjaGVzIHRvIGF2b2lkIGJ1ZmZlciBvdmVyZmxvd3MuICovDQo+IC0tICAgICAgICAg
+ICAgICAgICAgcG5nX3VpbnRfMzIgaWhkcl9iaXRfZGVwdGggPQ0KPiAtLSAgICAgICAgICAgICAg
+ICAgICAgICBpbWFnZS0+b3BhcXVlLT5wbmdfcHRyLT5iaXRfZGVwdGg7DQo+IC0tICAgICAgICAg
+ICAgICAgICAgaW50IHJlcXVlc3RlZF9saW5lYXIgPQ0KPiAtLSAgICAgICAgICAgICAgICAgICAg
+ICAoaW1hZ2UtPmZvcm1hdCAmIFBOR19GT1JNQVRfRkxBR19MSU5FQVIpICE9IDA7DQo+IC0tICAg
+ICAgICAgICAgICAgICAgaWYgKGloZHJfYml0X2RlcHRoID09IDE2ICYmICFyZXF1ZXN0ZWRfbGlu
+ZWFyKQ0KPiAtLSAgICAgICAgICAgICAgICAgICAgIHJldHVybiBwbmdfaW1hZ2VfZXJyb3IoaW1h
+Z2UsDQo+IC0tICAgICAgICAgICAgICAgICAgICAgICAgICJwbmdfaW1hZ2VfZmluaXNoX3JlYWQ6
+ICINCj4gLS0gICAgICAgICAgICAgICAgICAgICAgICAgIjE2LWJpdCBQTkcgbXVzdCB1c2UgMTYt
+Yml0IG91dHB1dCBmb3JtYXQiKTsNCj4gLS0gICAgICAgICAgICAgICAgICBpZiAoaWhkcl9iaXRf
+ZGVwdGggPCAxNiAmJiByZXF1ZXN0ZWRfbGluZWFyKQ0KPiAtLSAgICAgICAgICAgICAgICAgICAg
+IHJldHVybiBwbmdfaW1hZ2VfZXJyb3IoaW1hZ2UsDQo+IC0tICAgICAgICAgICAgICAgICAgICAg
+ICAgICJwbmdfaW1hZ2VfZmluaXNoX3JlYWQ6ICINCj4gLS0gICAgICAgICAgICAgICAgICAgICAg
+ICAgIjgtYml0IFBORyBtdXN0IG5vdCB1c2UgMTYtYml0IG91dHB1dCBmb3JtYXQiKTsNCj4gLS0N
+Cj4gLSAgICAgICAgICAgICAgICAgICBtZW1zZXQoJmRpc3BsYXksIDAsIChzaXplb2YgZGlzcGxh
+eSkpOw0KPiAtICAgICAgICAgICAgICAgICAgIGRpc3BsYXkuaW1hZ2UgPSBpbWFnZTsNCj4gLSAg
+ICAgICAgICAgICAgICAgICBkaXNwbGF5LmJ1ZmZlciA9IGJ1ZmZlcjsNCj4gZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NjI5My0wMS5w
+YXRjaA0KPiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02
+NjI5My0wMS5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMGI5NThi
+OS4uMDAwMDAwMA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMv
+Q1ZFLTIwMjUtNjYyOTMtMDEucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSw2MCArMCww
+IEBADQo+IC1Gcm9tIDc4OGE2MjRkNzM4N2E3NThmZmQ1YzdhYjAxMGYxODcwZGVhNzUzYTEgTW9u
+IFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBDb3NtaW4gVHJ1dGEgPGN0cnV0YUBn
+bWFpbC5jb20+DQo+IC1EYXRlOiBTYXQsIDI5IE5vdiAyMDI1IDAwOjM5OjE2ICswMjAwDQo+IC1T
+dWJqZWN0OiBbUEFUQ0hdIEZpeCBhbiBvdXQtb2YtYm91bmRzIHJlYWQgaW4gYHBuZ19pbWFnZV9y
+ZWFkX2NvbXBvc2l0ZWANCj4gLQ0KPiAtQWRkIGEgZGVmZW5zaXZlIGJvdW5kcyBjaGVjayBiZWZv
+cmUgY2FsbGluZyBQTkdfc1JHQl9GUk9NX0xJTkVBUiB0bw0KPiAtcHJldmVudCByZWFkaW5nIHVw
+IHRvIDUwNiBlbnRyaWVzICgxMDEyIGJ5dGVzKSBwYXN0IGBwbmdfc1JHQl9iYXNlW11gLg0KPiAt
+DQo+IC1Gb3IgcGFsZXR0ZSBpbWFnZXMgd2l0aCBnYW1tYSwgYHBuZ19pbml0X3JlYWRfdHJhbnNm
+b3JtYXRpb25zYA0KPiAtY2xlYXJzIFBOR19DT01QT1NFIGFmdGVyIGNvbXBvc2l0aW5nIG9uIHRo
+ZSBwYWxldHRlLCBidXQgaXQgbGVhdmVzDQo+IC1QTkdfRkxBR19PUFRJTUlaRV9BTFBIQSBzZXQu
+IFRoZSBzaW1wbGlmaWVkIEFQSSB0aGVuIGNhbGxzDQo+IC1gcG5nX2ltYWdlX3JlYWRfY29tcG9z
+aXRlYCB3aXRoIHNSR0IgZGF0YSAobm90IGxpbmVhciBwcmVtdWx0aXBsaWVkKSwNCj4gLWNhdXNp
+bmcgdGhlIGluZGV4IHRvIHJlYWNoIDEwMTcuIChUaGUgbWF4aW11bSB2YWxpZCBpbmRleCBpcyA1
+MTEuKQ0KPiAtDQo+IC1OT1RFOg0KPiAtVGhpcyBpcyBhIGRlZmVuc2l2ZSBmaXggdGhhdCBhZGRy
+ZXNzZXMgdGhlIHNlY3VyaXR5IGlzc3VlIChvdXQtb2YtYm91bmRzDQo+IC1yZWFkKSBidXQgKk5P
+VCogdGhlIGNvcnJlY3RuZXNzIGlzc3VlICh3cm9uZyBvdXRwdXQpLiBXaGVuIHRoZSBjbGFtcA0K
+PiAtdHJpZ2dlcnMsIHRoZSBhZmZlY3RlZCBwaXhlbHMgYXJlIGNsYW1wZWQgdG8gd2hpdGUgaW5z
+dGVhZCBvZiB0aGUNCj4gLWNvcnJlY3QgY29tcG9zaXRlZCBjb2xvci4gVmFsaWQgUE5HIGltYWdl
+cyBtYXkgcmVuZGVyIGluY29ycmVjdGx5IHdpdGgNCj4gLXRoZSBzaW1wbGlmaWVkIEFQSS4NCj4g
+LQ0KPiAtVE9ETzoNCj4gLVdlIGFscmVhZHkga25vdyB0aGUgcm9vdCBjYXVzZSBpcyBhIGZsYWcg
+c3luY2hyb25pemF0aW9uIGVycm9yLg0KPiAtRm9yIHBhbGV0dGUgaW1hZ2VzIHdpdGggZ2FtbWEs
+IGBwbmdfaW5pdF9yZWFkX3RyYW5zZm9ybWF0aW9uc2ANCj4gLWNsZWFycyBQTkdfQ09NUE9TRSBi
+dXQgbGVhdmVzIFBOR19GTEFHX09QVElNSVpFX0FMUEhBIHNldCwgY2F1c2luZw0KPiAtYHBuZ19p
+bWFnZV9yZWFkX2NvbXBvc2l0ZWAgdG8gbWlzaW50ZXJwcmV0IHNSR0IgZGF0YSBhcyBsaW5lYXIN
+Cj4gLXByZW11bHRpcGxpZWQuIEhvd2V2ZXIsIHdlIGhhdmUgeWV0IHRvIGltcGxlbWVudCBhbiBh
+cmNoaXRlY3R1cmFsIGZpeA0KPiAtdGhhdCByZXF1aXJlcyBjb29yZGluYXRpbmcgdGhlIHNpbXBs
+aWZpZWQgQVBJIHdpdGggdGhlIHRyYW5zZm9ybWF0aW9uDQo+IC1waXBlbGluZS4NCj4gLQ0KPiAt
+UmVwb3J0ZWQtYnk6IGZseWZpc2gxMDEgPGZseWZpc2gxMDFAdXNlcnMubm9yZXBseS5naXRodWIu
+Y29tPg0KPiAtDQo+IC1DVkU6IENWRS0yMDI1LTY2MjkzDQo+IC1VcHN0cmVhbS1TdGF0dXM6IEJh
+Y2twb3J0DQo+IFtodHRwczovL2dpdGh1Yi5jb20vcG5nZ3JvdXAvbGlicG5nL2NvbW1pdC83ODhh
+NjI0ZDczODdhNzU4ZmZkNWM3YWIwMTBmMTg3DQo+IDBkZWE3NTNhMV0NCj4gLVNpZ25lZC1vZmYt
+Ynk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5zLmNvbT4NCj4gLS0tLQ0KPiAtIHBu
+Z3JlYWQuYyB8IDkgKysrKysrKy0tDQo+IC0gMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL3BuZ3JlYWQuYyBiL3BuZ3Jl
+YWQuYw0KPiAtaW5kZXggNzk5MTdkYWFhLi5hYjYyZWRkOWQgMTAwNjQ0DQo+IC0tLS0gYS9wbmdy
+ZWFkLmMNCj4gLSsrKyBiL3BuZ3JlYWQuYw0KPiAtQEAgLTM0MDYsOSArMzQwNiwxNCBAQCBwbmdf
+aW1hZ2VfcmVhZF9jb21wb3NpdGUocG5nX3ZvaWRwIGFyZ3VtZW50KQ0KPiAtICAgICAgICAgICAg
+ICAgICAgICAgICAgIGNvbXBvbmVudCArPSAoMjU1LWFscGhhKSpwbmdfc1JHQl90YWJsZVtvdXRy
+b3dbY11dOw0KPiAtDQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgLyogU28gJ2NvbXBvbmVu
+dCcgaXMgc2NhbGVkIGJ5IDI1NSo2NTUzNSBhbmQgaXMNCj4gLS0gICAgICAgICAgICAgICAgICAg
+ICAgICAgKiB0aGVyZWZvcmUgYXBwcm9wcmlhdGUgZm9yIHRoZSBzUkdCIHRvIGxpbmVhcg0KPiAt
+LSAgICAgICAgICAgICAgICAgICAgICAgICAqIGNvbnZlcnNpb24gdGFibGUuDQo+IC0rICAgICAg
+ICAgICAgICAgICAgICAgICAgICogdGhlcmVmb3JlIGFwcHJvcHJpYXRlIGZvciB0aGUgc1JHQi10
+by1saW5lYXINCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgKiBjb252ZXJzaW9uIHRhYmxl
+LiAgQ2xhbXAgdG8gdGhlIHZhbGlkIHJhbmdlDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAg
+ICogYXMgYSBkZWZlbnNpdmUgbWVhc3VyZSBhZ2FpbnN0IGFuIGludGVybmFsDQo+IC0rICAgICAg
+ICAgICAgICAgICAgICAgICAgICogbGlicG5nIGJ1ZyB3aGVyZSB0aGUgZGF0YSBpcyBzUkdCIHJh
+dGhlciB0aGFuDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICogbGluZWFyIHByZW11bHRp
+cGxpZWQuDQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICovDQo+IC0rICAgICAgICAgICAg
+ICAgICAgICAgICAgaWYgKGNvbXBvbmVudCA+IDI1NSo2NTUzNSkNCj4gLSsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBjb21wb25lbnQgPSAyNTUqNjU1MzU7DQo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgICAgY29tcG9uZW50ID0gUE5HX3NSR0JfRlJPTV9MSU5FQVIoY29tcG9uZW50KTsNCj4g
+LSAgICAgICAgICAgICAgICAgICAgICB9DQo+IC0NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NjI5My0wMi5wYXRjaA0KPiBiL21l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNS02NjI5My0wMi5wYXRj
+aA0KPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggYmE1NjNlMS4uMDAwMDAwMA0K
+PiAtLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjUtNjYy
+OTMtMDIucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwxMjUgKzAsMCBAQA0KPiAtRnJv
+bSBhMDVhNDhiNzU2ZGU2M2UzMjM0ZWE2YjNiOTM4YjhmNWY4NjI0ODRhIE1vbiBTZXAgMTcgMDA6
+MDA6MDANCj4gMjAwMQ0KPiAtRnJvbTogQ29zbWluIFRydXRhIDxjdHJ1dGFAZ21haWwuY29tPg0K
+PiAtRGF0ZTogTW9uLCAxIERlYyAyMDI1IDIyOjMxOjU0ICswMjAwDQo+IC1TdWJqZWN0OiBbUEFU
+Q0hdIEZpbmFsaXplIHRoZSBmaXggZm9yIG91dC1vZi1ib3VuZHMgcmVhZCBpbg0KPiAtIGBwbmdf
+aW1hZ2VfcmVhZF9jb21wb3NpdGVgDQo+IC0NCj4gLUZvbGxvd2luZyB1cCBvbiBjb21taXQgNzg4
+YTYyNGQ3Mzg3YTc1OGZmZDVjN2FiMDEwZjE4NzBkZWE3NTNhMS4NCj4gLQ0KPiAtVGhlIHByZXZp
+b3VzIGNvbW1pdCBhZGRlZCBhIGRlZmVuc2l2ZSBib3VuZHMgY2hlY2sgdG8gYWRkcmVzcyB0aGUN
+Cj4gLXNlY3VyaXR5IGlzc3VlIChvdXQtb2YtYm91bmRzIHJlYWQpLCBidXQgbm90ZWQgdGhhdCB0
+aGUgY29ycmVjdG5lc3MNCj4gLWlzc3VlIHJlbWFpbmVkOiB3aGVuIHRoZSBjbGFtcCB0cmlnZ2Vy
+ZWQsIHRoZSBhZmZlY3RlZCBwaXhlbHMgd2VyZQ0KPiAtY2xhbXBlZCB0byB3aGl0ZSBpbnN0ZWFk
+IG9mIHRoZSBjb3JyZWN0IGNvbXBvc2l0ZWQgY29sb3IuDQo+IC0NCj4gLVRoaXMgY29tbWl0IGFk
+ZHJlc3NlcyB0aGUgY29ycmVjdG5lc3MgaXNzdWUgYnkgZml4aW5nIHRoZSBmbGFnDQo+IC1zeW5j
+aHJvbml6YXRpb24gZXJyb3IgaWRlbnRpZmllZCBpbiB0aGUgcHJldmlvdXMgY29tbWl0J3MgVE9E
+TzoNCj4gLQ0KPiAtMS4gSW4gYHBuZ19pbml0X3JlYWRfdHJhbnNmb3JtYXRpb25zYDoNCj4gLSAg
+IENsZWFyIFBOR19GTEFHX09QVElNSVpFX0FMUEhBIHdoZW4gY2xlYXJpbmcgUE5HX0NPTVBPU0Ug
+Zm9yDQo+IHBhbGV0dGUNCj4gLSAgIGltYWdlcy4gVGhpcyBjb3JyZWN0bHkgc2lnbmFscyB0aGF0
+IHRoZSBkYXRhIGlzIHNSR0IsIG5vdCBsaW5lYXINCj4gLSAgIHByZW11bHRpcGxpZWQuDQo+IC0N
+Cj4gLTIuIEluIGBwbmdfaW1hZ2VfcmVhZF9jb21wb3NpdGVgOg0KPiAtICAgQ2hlY2sgUE5HX0ZM
+QUdfT1BUSU1JWkVfQUxQSEEgYW5kIHVzZSB0aGUgYXBwcm9wcmlhdGUgY29tcG9zaXRpb24NCj4g
+LSAgIGZvcm11bGEuIFdoZW4gc2V0LCB1c2UgdGhlIGV4aXN0aW5nIGxpbmVhciBjb21wb3NpdGlv
+bi4gV2hlbiBjbGVhcmVkDQo+IC0gICAocGFsZXR0ZSBjb21wb3NpdGlvbiBhbHJlYWR5IGRvbmUp
+LCB1c2Ugc1JHQiBjb21wb3NpdGlvbiB0byBtYXRjaA0KPiAtICAgd2hhdCB3YXMgZG9uZSB0byB0
+aGUgcGFsZXR0ZS4NCj4gLQ0KPiAtUmV0YWluIHRoZSBwcmV2aW91cyBjbGFtcCB0byB0aGUgdmFs
+aWQgcmFuZ2UgYXMgYmVsdC1hbmQtc3VzcGVuZGVycw0KPiAtcHJvdGVjdGlvbiBhZ2FpbnN0IGFu
+eSBvdGhlciB1bmZvcmVzZWVuIGNhc2VzLg0KPiAtDQo+IC1DVkU6IENWRS0yMDI1LTY2MjkzDQo+
+IC1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+IFtodHRwczovL2dpdGh1Yi5jb20vcG5nZ3Jv
+dXAvbGlicG5nL2NvbW1pdC9hMDVhNDhiNzU2ZGU2M2UzMjM0ZWE2YjNiOTM4Yg0KPiA4ZjVmODYy
+NDg0YV0NCj4gLVNpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5z
+LmNvbT4NCj4gLS0tLQ0KPiAtIHBuZ3JlYWQuYyAgfCA1NiArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0NCj4gLSBwbmdydHJhbi5jIHwgIDEgKw0K
+PiAtIDIgZmlsZXMgY2hhbmdlZCwgMzkgaW5zZXJ0aW9ucygrKSwgMTggZGVsZXRpb25zKC0pDQo+
+IC0NCj4gLWRpZmYgLS1naXQgYS9wbmdyZWFkLmMgYi9wbmdyZWFkLmMNCj4gLWluZGV4IGFiNjJl
+ZGQ5ZC4uZjhjYTJiN2UzIDEwMDY0NA0KPiAtLS0tIGEvcG5ncmVhZC5jDQo+IC0rKysgYi9wbmdy
+ZWFkLmMNCj4gLUBAIC0zMzQwLDYgKzMzNDAsNyBAQCBwbmdfaW1hZ2VfcmVhZF9jb21wb3NpdGUo
+cG5nX3ZvaWRwIGFyZ3VtZW50KQ0KPiAtICAgICAgIHB0cmRpZmZfdCAgICBzdGVwX3JvdyA9IGRp
+c3BsYXktPnJvd19ieXRlczsNCj4gLSAgICAgICB1bnNpZ25lZCBpbnQgY2hhbm5lbHMgPQ0KPiAt
+ICAgICAgICAgICAoaW1hZ2UtPmZvcm1hdCAmIFBOR19GT1JNQVRfRkxBR19DT0xPUikgIT0gMCA/
+IDMgOiAxOw0KPiAtKyAgICAgIGludCBvcHRpbWl6ZV9hbHBoYSA9IChwbmdfcHRyLT5mbGFncyAm
+IFBOR19GTEFHX09QVElNSVpFX0FMUEhBKSAhPSAwOw0KPiAtICAgICAgIGludCBwYXNzOw0KPiAt
+DQo+IC0gICAgICAgZm9yIChwYXNzID0gMDsgcGFzcyA8IHBhc3NlczsgKytwYXNzKQ0KPiAtQEAg
+LTMzOTYsMjUgKzMzOTcsNDQgQEAgcG5nX2ltYWdlX3JlYWRfY29tcG9zaXRlKHBuZ192b2lkcA0K
+PiBhcmd1bWVudCkNCj4gLQ0KPiAtICAgICAgICAgICAgICAgICAgICAgIGlmIChhbHBoYSA8IDI1
+NSkgLyogZWxzZSBqdXN0IHVzZSBjb21wb25lbnQgKi8NCj4gLSAgICAgICAgICAgICAgICAgICAg
+ICB7DQo+IC0tICAgICAgICAgICAgICAgICAgICAgICAgLyogVGhpcyBpcyBQTkdfT1BUSU1JWkVE
+X0FMUEhBLCB0aGUgY29tcG9uZW50IHZhbHVlDQo+IC0tICAgICAgICAgICAgICAgICAgICAgICAg
+ICogaXMgYSBsaW5lYXIgOC1iaXQgdmFsdWUuICBDb21iaW5lIHRoaXMgd2l0aCB0aGUNCj4gLS0g
+ICAgICAgICAgICAgICAgICAgICAgICAgKiBjdXJyZW50IG91dHJvd1tjXSB2YWx1ZSB3aGljaCBp
+cyBzUkdCIGVuY29kZWQuDQo+IC0tICAgICAgICAgICAgICAgICAgICAgICAgICogQXJpdGhtZXRp
+YyBoZXJlIGlzIDE2LWJpdHMgdG8gcHJlc2VydmUgdGhlIG91dHB1dA0KPiAtLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAqIHZhbHVlcyBjb3JyZWN0bHkuDQo+IC0tICAgICAgICAgICAgICAgICAg
+ICAgICAgICovDQo+IC0tICAgICAgICAgICAgICAgICAgICAgICAgY29tcG9uZW50ICo9IDI1Nyoy
+NTU7IC8qID02NTUzNSAqLw0KPiAtLSAgICAgICAgICAgICAgICAgICAgICAgIGNvbXBvbmVudCAr
+PSAoMjU1LWFscGhhKSpwbmdfc1JHQl90YWJsZVtvdXRyb3dbY11dOw0KPiAtKyAgICAgICAgICAg
+ICAgICAgICAgICAgIGlmIChvcHRpbWl6ZV9hbHBoYSAhPSAwKQ0KPiAtKyAgICAgICAgICAgICAg
+ICAgICAgICAgIHsNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgICAvKiBUaGlzIGlzIFBO
+R19PUFRJTUlaRURfQUxQSEEsIHRoZSBjb21wb25lbnQgdmFsdWUNCj4gLSsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgKiBpcyBhIGxpbmVhciA4LWJpdCB2YWx1ZS4gIENvbWJpbmUgdGhpcyB3
+aXRoIHRoZQ0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAqIGN1cnJlbnQgb3V0cm93
+W2NdIHZhbHVlIHdoaWNoIGlzIHNSR0IgZW5jb2RlZC4NCj4gLSsgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgKiBBcml0aG1ldGljIGhlcmUgaXMgMTYtYml0cyB0byBwcmVzZXJ2ZSB0aGUgb3V0
+cHV0DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICAgICogdmFsdWVzIGNvcnJlY3RseS4N
+Cj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgICAgKi8NCj4gLSsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBjb21wb25lbnQgKj0gMjU3KjI1NTsgLyogPTY1NTM1ICovDQo+IC0rICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgY29tcG9uZW50ICs9ICgyNTUtYWxwaGEpKnBuZ19zUkdCX3Rh
+YmxlW291dHJvd1tjXV07DQo+IC0NCj4gLS0gICAgICAgICAgICAgICAgICAgICAgICAvKiBTbyAn
+Y29tcG9uZW50JyBpcyBzY2FsZWQgYnkgMjU1KjY1NTM1IGFuZCBpcw0KPiAtLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAqIHRoZXJlZm9yZSBhcHByb3ByaWF0ZSBmb3IgdGhlIHNSR0ItdG8tbGlu
+ZWFyDQo+IC0tICAgICAgICAgICAgICAgICAgICAgICAgICogY29udmVyc2lvbiB0YWJsZS4gIENs
+YW1wIHRvIHRoZSB2YWxpZCByYW5nZQ0KPiAtLSAgICAgICAgICAgICAgICAgICAgICAgICAqIGFz
+IGEgZGVmZW5zaXZlIG1lYXN1cmUgYWdhaW5zdCBhbiBpbnRlcm5hbA0KPiAtLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAqIGxpYnBuZyBidWcgd2hlcmUgdGhlIGRhdGEgaXMgc1JHQiByYXRoZXIg
+dGhhbg0KPiAtLSAgICAgICAgICAgICAgICAgICAgICAgICAqIGxpbmVhciBwcmVtdWx0aXBsaWVk
+Lg0KPiAtLSAgICAgICAgICAgICAgICAgICAgICAgICAqLw0KPiAtLSAgICAgICAgICAgICAgICAg
+ICAgICAgIGlmIChjb21wb25lbnQgPiAyNTUqNjU1MzUpDQo+IC0tICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgY29tcG9uZW50ID0gMjU1KjY1NTM1Ow0KPiAtLSAgICAgICAgICAgICAgICAgICAg
+ICAgIGNvbXBvbmVudCA9IFBOR19zUkdCX0ZST01fTElORUFSKGNvbXBvbmVudCk7DQo+IC0rICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgLyogQ2xhbXAgdG8gdGhlIHZhbGlkIHJhbmdlIHRvIGRl
+ZmVuZCBhZ2FpbnN0DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICAgICogdW5mb3Jlc2Vl
+biBjYXNlcyB3aGVyZSB0aGUgZGF0YSBtaWdodCBiZSBzUkdCDQo+IC0rICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICogaW5zdGVhZCBvZiBsaW5lYXIgcHJlbXVsdGlwbGllZC4NCj4gLSsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgKiAoQmVsdC1hbmQtc3VzcGVuZGVycyBmb3IgR2l0SHVi
+IElzc3VlICM3NjQuKQ0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAqLw0KPiAtKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChjb21wb25lbnQgPiAyNTUqNjU1MzUpDQo+IC0r
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29tcG9uZW50ID0gMjU1KjY1NTM1Ow0KPiAt
+Kw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAgIC8qIFNvICdjb21wb25lbnQnIGlzIHNj
+YWxlZCBieSAyNTUqNjU1MzUgYW5kIGlzDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICogdGhlcmVmb3JlIGFwcHJvcHJpYXRlIGZvciB0aGUgc1JHQi10by1saW5lYXINCj4gLSsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgKiBjb252ZXJzaW9uIHRhYmxlLg0KPiAtKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAqLw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAgIGNv
+bXBvbmVudCA9IFBOR19zUkdCX0ZST01fTElORUFSKGNvbXBvbmVudCk7DQo+IC0rICAgICAgICAg
+ICAgICAgICAgICAgICAgfQ0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgIGVsc2UNCj4gLSsg
+ICAgICAgICAgICAgICAgICAgICAgICB7DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICAg
+LyogQ29tcG9zaXRpbmcgd2FzIGFscmVhZHkgZG9uZSBvbiB0aGUgcGFsZXR0ZQ0KPiAtKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAqIGVudHJpZXMuICBUaGUgZGF0YSBpcyBzUkdCIHByZW11
+bHRpcGxpZWQgb24gYmxhY2suDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICAgICogQ29t
+cG9zaXRlIHdpdGggdGhlIGJhY2tncm91bmQgaW4gc1JHQiBzcGFjZS4NCj4gLSsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgKiBUaGlzIGlzIG5vdCBnYW1tYS1jb3JyZWN0LCBidXQgbWF0Y2hl
+cyB3aGF0IHdhcw0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAqIGRvbmUgdG8gdGhl
+IHBhbGV0dGUuDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICAgICovDQo+IC0rICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgcG5nX3VpbnRfMzIgYmFja2dyb3VuZCA9IG91dHJvd1tjXTsN
+Cj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgICBjb21wb25lbnQgKz0gKCgyNTUtYWxwaGEp
+ICogYmFja2dyb3VuZCArIDEyNykgLyAyNTU7DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgaWYgKGNvbXBvbmVudCA+IDI1NSkNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBjb21wb25lbnQgPSAyNTU7DQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgfQ0KPiAtICAg
+ICAgICAgICAgICAgICAgICAgIH0NCj4gLQ0KPiAtICAgICAgICAgICAgICAgICAgICAgIG91dHJv
+d1tjXSA9IChwbmdfYnl0ZSljb21wb25lbnQ7DQo+IC1kaWZmIC0tZ2l0IGEvcG5ncnRyYW4uYyBi
+L3BuZ3J0cmFuLmMNCj4gLWluZGV4IDJmNTIwMjI1NS4uNTA3ZDExMzgxIDEwMDY0NA0KPiAtLS0t
+IGEvcG5ncnRyYW4uYw0KPiAtKysrIGIvcG5ncnRyYW4uYw0KPiAtQEAgLTE3NjAsNiArMTc2MCw3
+IEBAIHBuZ19pbml0X3JlYWRfdHJhbnNmb3JtYXRpb25zKHBuZ19zdHJ1Y3RycCBwbmdfcHRyKQ0K
+PiAtICAgICAgICAgICAgICAqIHRyYW5zZm9ybWF0aW9ucyBlbHNld2hlcmUuDQo+IC0gICAgICAg
+ICAgICAgICovDQo+IC0gICAgICAgICAgICAgcG5nX3B0ci0+dHJhbnNmb3JtYXRpb25zICY9IH4o
+UE5HX0NPTVBPU0UgfCBQTkdfR0FNTUEpOw0KPiAtKyAgICAgICAgICAgIHBuZ19wdHItPmZsYWdz
+ICY9IH5QTkdfRkxBR19PUFRJTUlaRV9BTFBIQTsNCj4gLSAgICAgICAgICB9IC8qIGNvbG9yX3R5
+cGUgPT0gUE5HX0NPTE9SX1RZUEVfUEFMRVRURSAqLw0KPiAtDQo+IC0gICAgICAgICAgLyogaWYg
+KHBuZ19wdHItDQo+ID5iYWNrZ3JvdW5kX2dhbW1hX3R5cGUhPVBOR19CQUNLR1JPVU5EX0dBTU1B
+X1VOS05PV04pICovDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJw
+bmcvZmlsZXMvQ1ZFLTIwMjYtMjI2OTUucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjYtMjI2OTUucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUg
+MTAwNjQ0DQo+IGluZGV4IDY0NTZiNmMuLjAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTIyNjk1LnBhdGNoDQo+ICsrKyAvZGV2L251
+bGwNCj4gQEAgLTEsNzcgKzAsMCBAQA0KPiAtRnJvbSBlNGY3YWQ0ZWEyYTQ3MTc3NmM4MWRkYTQ4
+NDZiNzY5MTkyNWQ5Nzg2IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiAtRnJvbTogQ29z
+bWluIFRydXRhIDxjdHJ1dGFAZ21haWwuY29tPg0KPiAtRGF0ZTogRnJpLCA5IEphbiAyMDI2IDIw
+OjUxOjUzICswMjAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIEZpeCBhIGhlYXAgYnVmZmVyIG92ZXIt
+cmVhZCBpbg0KPiBgcG5nX2ltYWdlX3JlYWRfZGlyZWN0X3NjYWxlZGANCj4gLQ0KPiAtRml4IGEg
+cmVncmVzc2lvbiBmcm9tIGNvbW1pdCAyMTg2MTJkZGQ2YjE3OTQ0ZTIxZWRhNTZjYWY4YjRiZjc3
+NzlkMWVhLg0KPiAtDQo+IC1UaGUgZnVuY3Rpb24gYHBuZ19pbWFnZV9yZWFkX2RpcmVjdF9zY2Fs
+ZWRgLCBpbnRyb2R1Y2VkIGJ5IHRoZSBmaXggZm9yDQo+IC1DVkUtMjAyNS02NTAxOCwgY29waWVz
+IHRyYW5zZm9ybWVkIHJvdyBkYXRhIGZyb20gYW4gaW50ZXJtZWRpYXRlIGJ1ZmZlcg0KPiAtKGBs
+b2NhbF9yb3dgKSB0byB0aGUgdXNlcidzIG91dHB1dCBidWZmZXIuIFRoZSBjb3B5IGluY29ycmVj
+dGx5IHVzZWQNCj4gLWByb3dfYnl0ZXNgICh0aGUgY2FsbGVyJ3Mgc3RyaWRlKSBhcyB0aGUgc2l6
+ZSBwYXJhbWV0ZXIgdG8gbWVtY3B5LCBldmVuDQo+IC10aG91Z2ggYGxvY2FsX3Jvd2AgaXMgb25s
+eSBgcG5nX2dldF9yb3dieXRlcygpYCBieXRlcyBsb25nLg0KPiAtDQo+IC1UaGlzIGNhdXNlcyBh
+IGhlYXAgYnVmZmVyIG92ZXItcmVhZCB3aGVuOg0KPiAtDQo+IC0xLiBUaGUgY2FsbGVyIHByb3Zp
+ZGVzIGEgcGFkZGVkIHN0cmlkZSAoZS5nLiwgZm9yIG1lbW9yeSBhbGlnbm1lbnQpOg0KPiAtICAg
+bWVtY3B5IHJlYWRzIHBhc3QgdGhlIGVuZCBvZiBgbG9jYWxfcm93YCBieSBgc3RyaWRlIC0gcm93
+X3dpZHRoYA0KPiAtICAgYnl0ZXMuDQo+IC0NCj4gLTIuIFRoZSBjYWxsZXIgcHJvdmlkZXMgYSBu
+ZWdhdGl2ZSBzdHJpZGUgKGZvciBib3R0b20tdXAgbGF5b3V0cyk6DQo+IC0gICBjYXN0aW5nIHB0
+cmRpZmZfdCB0byBzaXplX3QgcHJvZHVjZXMgfjJeNjQsIGNhdXNpbmcgbWVtY3B5IHRvDQo+IC0g
+ICBhdHRlbXB0IHJlYWRpbmcgZXhhYnl0ZXMsIHJlc3VsdGluZyBpbiBhbiBpbW1lZGlhdGUgY3Jh
+c2guDQo+IC0NCj4gLVRoZSBmaXggY29uc2lzdHMgaW4gdXNpbmcgdGhlIHNpemUgb2YgdGhlIHJv
+dyBidWZmZXIgZm9yIHRoZSBjb3B5IGFuZA0KPiAtdXNpbmcgdGhlIHN0cmlkZSBmb3IgcG9pbnRl
+ciBhZHZhbmNlbWVudCBvbmx5Lg0KPiAtDQo+IC1SZXBvcnRlZC1ieTogUGV0ciBTaW1lY2VrIDxz
+aW1lY2VrQHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4NCj4gLUFuYWx5emVkLWJ5OiBTdGFuaXNs
+YXYgRm9ydA0KPiAtQW5hbHl6ZWQtYnk6IFBhdmVsIEtvaG91dA0KPiAtQ28tYXV0aG9yZWQtYnk6
+IFBldHIgU2ltZWNlayA8c2ltZWNla0B1c2Vycy5ub3JlcGx5LmdpdGh1Yi5jb20+DQo+IC1TaWdu
+ZWQtb2ZmLWJ5OiBDb3NtaW4gVHJ1dGEgPGN0cnV0YUBnbWFpbC5jb20+DQo+IC0NCj4gLUNWRTog
+Q1ZFLTIwMjYtMjI2OTUNCj4gLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2h0dHBzOi8v
+Z2l0aHViLmNvbS9wbmdncm91cC9saWJwbmcvY29tbWl0L2U0ZjdhZDRlYTJhNDcxNzc2YzgxZGRh
+NDg0NmI3Ng0KPiA5MTkyNWQ5Nzg2XQ0KPiAtU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBl
+dGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiAtLS0tDQo+IC0gQVVUSE9SUyAgIHwgMSArDQo+IC0g
+cG5ncmVhZC5jIHwgNCArKystDQo+IC0gMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyks
+IDEgZGVsZXRpb24oLSkNCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL0FVVEhPUlMgYi9BVVRIT1JTDQo+
+IC1pbmRleCAyNmI3YmI1MGYuLmI5YzBmZmZjZiAxMDA2NDQNCj4gLS0tLSBhL0FVVEhPUlMNCj4g
+LSsrKyBiL0FVVEhPUlMNCj4gLUBAIC0yMyw2ICsyMyw3IEBAIEF1dGhvcnMsIGZvciBjb3B5cmln
+aHQgYW5kIGxpY2Vuc2luZyBwdXJwb3Nlcy4NCj4gLSAgKiBNaWtlIEtsZWluDQo+IC0gICogUGFz
+Y2FsIE1hc3NpbWlubw0KPiAtICAqIFBhdWwgU2NobWlkdA0KPiAtKyAqIFBldHIgU2ltZWNlaw0K
+PiAtICAqIFBoaWxpcHBlIEFudG9pbmUNCj4gLSAgKiBRaWFuZyBaaG91DQo+IC0gICogU2FtIEJ1
+c2hlbGwNCj4gLWRpZmYgLS1naXQgYS9wbmdyZWFkLmMgYi9wbmdyZWFkLmMNCj4gLWluZGV4IGUz
+NDI2MjkyYi4uOWQ4NmIwMWRjIDEwMDY0NA0KPiAtLS0tIGEvcG5ncmVhZC5jDQo+IC0rKysgYi9w
+bmdyZWFkLmMNCj4gLUBAIC0zMjcwLDkgKzMyNzAsMTEgQEAgcG5nX2ltYWdlX3JlYWRfZGlyZWN0
+X3NjYWxlZChwbmdfdm9pZHANCj4gYXJndW1lbnQpDQo+IC0gICAgICAgIGFyZ3VtZW50KTsNCj4g
+LSAgICBwbmdfaW1hZ2VwIGltYWdlID0gZGlzcGxheS0+aW1hZ2U7DQo+IC0gICAgcG5nX3N0cnVj
+dHJwIHBuZ19wdHIgPSBpbWFnZS0+b3BhcXVlLT5wbmdfcHRyOw0KPiAtKyAgIHBuZ19pbmZvcnAg
+aW5mb19wdHIgPSBpbWFnZS0+b3BhcXVlLT5pbmZvX3B0cjsNCj4gLSAgICBwbmdfYnl0ZXAgbG9j
+YWxfcm93ID0gcG5nX3ZvaWRjYXN0KHBuZ19ieXRlcCwgZGlzcGxheS0+bG9jYWxfcm93KTsNCj4g
+LSAgICBwbmdfYnl0ZXAgZmlyc3Rfcm93ID0gcG5nX3ZvaWRjYXN0KHBuZ19ieXRlcCwgZGlzcGxh
+eS0+Zmlyc3Rfcm93KTsNCj4gLSAgICBwdHJkaWZmX3Qgcm93X2J5dGVzID0gZGlzcGxheS0+cm93
+X2J5dGVzOw0KPiAtKyAgIHNpemVfdCBjb3B5X2J5dGVzID0gcG5nX2dldF9yb3dieXRlcyhwbmdf
+cHRyLCBpbmZvX3B0cik7DQo+IC0gICAgaW50IHBhc3NlczsNCj4gLQ0KPiAtICAgIC8qIEhhbmRs
+ZSBpbnRlcmxhY2luZy4gKi8NCj4gLUBAIC0zMzAyLDcgKzMzMDQsNyBAQCBwbmdfaW1hZ2VfcmVh
+ZF9kaXJlY3Rfc2NhbGVkKHBuZ192b2lkcA0KPiBhcmd1bWVudCkNCj4gLSAgICAgICAgICBwbmdf
+cmVhZF9yb3cocG5nX3B0ciwgbG9jYWxfcm93LCBOVUxMKTsNCj4gLQ0KPiAtICAgICAgICAgIC8q
+IENvcHkgZnJvbSBsb2NhbF9yb3cgdG8gdXNlciBidWZmZXIuICovDQo+IC0tICAgICAgICAgbWVt
+Y3B5KG91dHB1dF9yb3csIGxvY2FsX3JvdywgKHNpemVfdClyb3dfYnl0ZXMpOw0KPiAtKyAgICAg
+ICAgIG1lbWNweShvdXRwdXRfcm93LCBsb2NhbF9yb3csIGNvcHlfYnl0ZXMpOw0KPiAtICAgICAg
+ICAgIG91dHB1dF9yb3cgKz0gcm93X2J5dGVzOw0KPiAtICAgICAgIH0NCj4gLSAgICB9DQo+IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjYt
+MjI4MDEucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZF
+LTIwMjYtMjI4MDEucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDhh
+NjExYWMuLjAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2Zp
+bGVzL0NWRS0yMDI2LTIyODAxLnBhdGNoDQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsMTczICsw
+LDAgQEANCj4gLUZyb20gY2YxNTVkZTAxNGZjNmM1Y2IxOTlkZDY4MWRkNWM4ZmI3MDQyOTA3MiBN
+b24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gLUZyb206IENvc21pbiBUcnV0YSA8Y3RydXRh
+QGdtYWlsLmNvbT4NCj4gLURhdGU6IFNhdCwgMTAgSmFuIDIwMjYgMTU6MjA6MTggKzAyMDANCj4g
+LVN1YmplY3Q6IFtQQVRDSF0gZml4OiBSZW1vdmUgaW5jb3JyZWN0IHRydW5jYXRpb24gY2FzdHMg
+ZnJvbQ0KPiAtIGBwbmdfd3JpdGVfaW1hZ2VfKmANCj4gLQ0KPiAtVGhlIHR5cGUgb2YgdGhlIHJv
+dyBzdHJpZGUgKGBkaXNwbGF5LT5yb3dfYnl0ZXNgKSBpcyBwdHJkaWZmX3QuIENhc3RpbmcNCj4g
+LXRvIHBuZ191aW50XzE2IGJlZm9yZSBkaXZpc2lvbiB3aWxsIHRydW5jYXRlIGxhcmdlIHN0cmlk
+ZXMsIGNhdXNpbmcNCj4gLWluY29ycmVjdCBwb2ludGVyIGFyaXRobWV0aWMgZm9yIGltYWdlcyBl
+eGNlZWRpbmcgNjU1MzUgYnl0ZXMgcGVyIHJvdy4NCj4gLUZvciBib3R0b20tdXAgaW1hZ2VzIChu
+ZWdhdGl2ZSBzdHJpZGUpLCB0aGUgdHJ1bmNhdGlvbiBhbHNvIGNvcnJ1cHRzDQo+IC10aGUgc2ln
+biwgYWR2YW5jaW5nIHRoZSByb3cgcG9pbnRlciBmb3J3YXJkIGluc3RlYWQgb2YgYmFja3dhcmQu
+DQo+IC0NCj4gLVJlbW92ZSB0aGUgZXJyb25lb3VzIGNhc3RzIGFuZCBsZXQgdGhlIGNvbXBpbGVy
+IGhhbmRsZSB0aGUgcG9pbnRlcg0KPiAtYXJpdGhtZXRpYyBjb3JyZWN0bHkuIEFsc28gcmVwbGFj
+ZSBgc2l6ZW9mIChwbmdfdWludF8xNilgIHdpdGggMi4NCj4gLQ0KPiAtQWRkIHJlZ3Jlc3Npb24g
+dGVzdCB2aWEgYHBuZ3N0ZXN0IC0tc3RyaWRlLWV4dHJhIE5gIHdoZXJlIE4gPiAzMjc2Nw0KPiAt
+dHJpZ2dlcnMgdGhlIGFmZmVjdGVkIGNvZGUgcGF0aHMuDQo+IC0NCj4gLUEgTk9URSBBQk9VVCBI
+SVNUT1JZOg0KPiAtVGhlIG9yaWdpbmFsIGNvZGUgaW4gbGlicG5nIDEuNS42ICgyMDExKSBoYWQg
+bm8gc3VjaCBjYXN0cy4gVGhleSB3ZXJlDQo+IC1pbnRyb2R1Y2VkIGluIGxpYnBuZyAxLjYuMjYg
+KDIwMTYpLCBsaWtlbHkgdG8gc2lsZW5jZSBjb21waWxlciB3YXJuaW5ncw0KPiAtb24gMTYtYml0
+IHN5c3RlbXMgd2hlcmUgdGhlIGNhc3Qgd291bGQgYmUgYSBuby1vcC4gT24gMzIvNjQtYml0IHN5
+c3RlbXMNCj4gLXRoZSBjYXN0IHRydW5jYXRlcyB0aGUgc3RyaWRlcyBhYm92ZSA2NTUzNSBhbmQg
+Y29ycnVwdHMgdGhlIG5lZ2F0aXZlDQo+IC1zdHJpZGVzLg0KPiAtDQo+IC1DVkU6IENWRS0yMDI2
+LTIyODAxDQo+IC1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+IFtodHRwczovL2dpdGh1Yi5j
+b20vcG5nZ3JvdXAvbGlicG5nL2NvbW1pdC9jZjE1NWRlMDE0ZmM2YzVjYjE5OWRkNjgxZGQ1Yzhm
+DQo+IGI3MDQyOTA3Ml0NCj4gLVNpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJr
+b0BzaWVtZW5zLmNvbT4NCj4gLS0tLQ0KPiAtIENNYWtlTGlzdHMudHh0ICAgICAgICAgICAgICB8
+ICA5ICsrKysrKysrLQ0KPiAtIGNvbnRyaWIvbGlidGVzdHMvcG5nc3Rlc3QuYyB8IDI5ICsrKysr
+KysrKysrKysrKysrKysrKysrKysrKystDQo+IC0gcG5nd3JpdGUuYyAgICAgICAgICAgICAgICAg
+IHwgMTAgKysrKystLS0tLQ0KPiAtIHRlc3RzL3BuZ3N0ZXN0LWxhcmdlLXN0cmlkZSB8ICA4ICsr
+KysrKysrDQo+IC0gNCBmaWxlcyBjaGFuZ2VkLCA0OSBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9u
+cygtKQ0KPiAtIGNyZWF0ZSBtb2RlIDEwMDc1NSB0ZXN0cy9wbmdzdGVzdC1sYXJnZS1zdHJpZGUN
+Cj4gLQ0KPiAtZGlmZiAtLWdpdCBhL0NNYWtlTGlzdHMudHh0IGIvQ01ha2VMaXN0cy50eHQNCj4g
+LWluZGV4IGE4Y2Q4MjQwMi4uYTU5NWVkOTFkIDEwMDY0NA0KPiAtLS0tIGEvQ01ha2VMaXN0cy50
+eHQNCj4gLSsrKyBiL0NNYWtlTGlzdHMudHh0DQo+IC1AQCAtMSw3ICsxLDcgQEANCj4gLQ0KPiAt
+ICMgQ01ha2VMaXN0cy50eHQgLSBDTWFrZSBsaXN0cyBmb3IgbGlicG5nDQo+IC0gIw0KPiAtLSMg
+Q29weXJpZ2h0IChjKSAyMDE4LTIwMjQgQ29zbWluIFRydXRhLg0KPiAtKyMgQ29weXJpZ2h0IChj
+KSAyMDE4LTIwMjYgQ29zbWluIFRydXRhDQo+IC0gIyBDb3B5cmlnaHQgKGMpIDIwMDctMjAxOCBH
+bGVubiBSYW5kZXJzLVBlaHJzb24uDQo+IC0gIyBPcmlnaW5hbGx5IHdyaXR0ZW4gYnkgQ2hyaXN0
+aWFuIEVocmxpY2hlciwgMjAwNy4NCj4gLSAjDQo+IC1AQCAtODU5LDYgKzg1OSwxMyBAQCBpZihQ
+TkdfVEVTVFMgQU5EIFBOR19TSEFSRUQpDQo+IC0gICAgIGVuZGZvcmVhY2goKQ0KPiAtICAgZW5k
+Zm9yZWFjaCgpDQo+IC0NCj4gLSsgICMgUmVncmVzc2lvbiB0ZXN0Og0KPiAtKyAgIyBVc2Ugc3Ry
+aWRlX2V4dHJhID4gMzI3NjcgdG8gdHJpZ2dlciByb3dfYnl0ZXMgPiA2NTUzNSBmb3IgbGluZWFy
+IGltYWdlcy4NCj4gLSsgIHBuZ19hZGRfdGVzdChOQU1FIHBuZ3N0ZXN0LWxhcmdlLXN0cmlkZQ0K
+PiAtKyAgICAgICAgICAgICAgIENPTU1BTkQgcG5nc3Rlc3QNCj4gLSsgICAgICAgICAgICAgICBP
+UFRJT05TIC0tc3RyaWRlLWV4dHJhIDMzMDAwIC0tdG1wZmlsZSAibGFyZ2Utc3RyaWRlLSIgLS1s
+b2cNCj4gLSsgICAgICAgICAgICAgICBGSUxFUyAiJHtDTUFLRV9DVVJSRU5UX1NPVVJDRV9ESVJ9
+L2NvbnRyaWIvdGVzdHBuZ3MvcmdiLQ0KPiBhbHBoYS0xNi1saW5lYXIucG5nIikNCj4gLSsNCj4g
+LSAgIGFkZF9leGVjdXRhYmxlKHBuZ3Vua25vd24gJHtwbmd1bmtub3duX3NvdXJjZXN9KQ0KPiAt
+ICAgdGFyZ2V0X2xpbmtfbGlicmFyaWVzKHBuZ3Vua25vd24gUFJJVkFURSBwbmdfc2hhcmVkKQ0K
+PiAtDQo+IC1kaWZmIC0tZ2l0IGEvY29udHJpYi9saWJ0ZXN0cy9wbmdzdGVzdC5jIGIvY29udHJp
+Yi9saWJ0ZXN0cy9wbmdzdGVzdC5jDQo+IC1pbmRleCBmZjRjMmIyNGEuLjJmMjlhZmVlMiAxMDA2
+NDQNCj4gLS0tLSBhL2NvbnRyaWIvbGlidGVzdHMvcG5nc3Rlc3QuYw0KPiAtKysrIGIvY29udHJp
+Yi9saWJ0ZXN0cy9wbmdzdGVzdC5jDQo+IC1AQCAtMSw3ICsxLDcgQEANCj4gLQ0KPiAtIC8qIHBu
+Z3N0ZXN0LmMNCj4gLSAgKg0KPiAtLSAqIENvcHlyaWdodCAoYykgMjAyMSBDb3NtaW4gVHJ1dGEN
+Cj4gLSsgKiBDb3B5cmlnaHQgKGMpIDIwMjEtMjAyNiBDb3NtaW4gVHJ1dGENCj4gLSAgKiBDb3B5
+cmlnaHQgKGMpIDIwMTMtMjAxNyBKb2huIEN1bm5pbmdoYW0gQm93bGVyDQo+IC0gICoNCj4gLSAg
+KiBUaGlzIGNvZGUgaXMgcmVsZWFzZWQgdW5kZXIgdGhlIGxpYnBuZyBsaWNlbnNlLg0KPiAtQEAg
+LTM1NzEsNiArMzU3MSwzMyBAQCBtYWluKGludCBhcmdjLCBjaGFyICoqYXJndikNCj4gLSAgICAg
+ICAgICBvcHRzIHw9IE5PX1JFU0VFRDsNCj4gLSAgICAgICBlbHNlIGlmIChzdHJjbXAoYXJnLCAi
+LS1mYXVsdC1nYmctd2FybmluZyIpID09IDApDQo+IC0gICAgICAgICAgb3B0cyB8PSBHQkdfRVJS
+T1I7DQo+IC0rICAgICAgZWxzZSBpZiAoc3RyY21wKGFyZywgIi0tc3RyaWRlLWV4dHJhIikgPT0g
+MCkNCj4gLSsgICAgICB7DQo+IC0rICAgICAgICAgaWYgKGMrMSA8IGFyZ2MpDQo+IC0rICAgICAg
+ICAgew0KPiAtKyAgICAgICAgICAgIGNoYXIgKmVwOw0KPiAtKyAgICAgICAgICAgIHVuc2lnbmVk
+IGxvbmcgdmFsID0gc3RydG91bChhcmd2WysrY10sICZlcCwgMCk7DQo+IC0rDQo+IC0rICAgICAg
+ICAgICAgaWYgKGVwID4gYXJndltjXSAmJiAqZXAgPT0gMCAmJiB2YWwgPD0gNjU1MzUpDQo+IC0r
+ICAgICAgICAgICAgICAgc3RyaWRlX2V4dHJhID0gKGludCl2YWw7DQo+IC0rDQo+IC0rICAgICAg
+ICAgICAgZWxzZQ0KPiAtKyAgICAgICAgICAgIHsNCj4gLSsgICAgICAgICAgICAgICBmZmx1c2go
+c3Rkb3V0KTsNCj4gLSsgICAgICAgICAgICAgICBmcHJpbnRmKHN0ZGVyciwgIiVzOiBiYWQgYXJn
+dW1lbnQgZm9yIC0tc3RyaWRlLWV4dHJhOiAlc1xuIiwNCj4gLSsgICAgICAgICAgICAgICAgICBh
+cmd2WzBdLCBhcmd2W2NdKTsNCj4gLSsgICAgICAgICAgICAgICBleGl0KDk5KTsNCj4gLSsgICAg
+ICAgICAgICB9DQo+IC0rICAgICAgICAgfQ0KPiAtKw0KPiAtKyAgICAgICAgIGVsc2UNCj4gLSsg
+ICAgICAgICB7DQo+IC0rICAgICAgICAgICAgZmZsdXNoKHN0ZG91dCk7DQo+IC0rICAgICAgICAg
+ICAgZnByaW50ZihzdGRlcnIsICIlczogbWlzc2luZyBhcmd1bWVudCBmb3IgLS1zdHJpZGUtZXh0
+cmFcbiIsDQo+IC0rICAgICAgICAgICAgICAgYXJndlswXSk7DQo+IC0rICAgICAgICAgICAgZXhp
+dCg5OSk7DQo+IC0rICAgICAgICAgfQ0KPiAtKyAgICAgIH0NCj4gLSAgICAgICBlbHNlIGlmIChz
+dHJjbXAoYXJnLCAiLS10bXBmaWxlIikgPT0gMCkNCj4gLSAgICAgICB7DQo+IC0gICAgICAgICAg
+aWYgKGMrMSA8IGFyZ2MpDQo+IC1kaWZmIC0tZ2l0IGEvcG5nd3JpdGUuYyBiL3BuZ3dyaXRlLmMN
+Cj4gLWluZGV4IDA4MDY2YmNjNC4uYTk1Yjg0NmM4IDEwMDY0NA0KPiAtLS0tIGEvcG5nd3JpdGUu
+Yw0KPiAtKysrIGIvcG5nd3JpdGUuYw0KPiAtQEAgLTEsNyArMSw3IEBADQo+IC0NCj4gLSAvKiBw
+bmd3cml0ZS5jIC0gZ2VuZXJhbCByb3V0aW5lcyB0byB3cml0ZSBhIFBORyBmaWxlDQo+IC0gICoN
+Cj4gLS0gKiBDb3B5cmlnaHQgKGMpIDIwMTgtMjAyNCBDb3NtaW4gVHJ1dGENCj4gLSsgKiBDb3B5
+cmlnaHQgKGMpIDIwMTgtMjAyNiBDb3NtaW4gVHJ1dGENCj4gLSAgKiBDb3B5cmlnaHQgKGMpIDE5
+OTgtMjAwMiwyMDA0LDIwMDYtMjAxOCBHbGVubiBSYW5kZXJzLVBlaHJzb24NCj4gLSAgKiBDb3B5
+cmlnaHQgKGMpIDE5OTYtMTk5NyBBbmRyZWFzIERpbGdlcg0KPiAtICAqIENvcHlyaWdodCAoYykg
+MTk5NS0xOTk2IEd1eSBFcmljIFNjaGFsbmF0LCBHcm91cCA0MiwgSW5jLg0KPiAtQEAgLTE2NDUs
+NyArMTY0NSw3IEBAIHBuZ193cml0ZV9pbWFnZV8xNmJpdChwbmdfdm9pZHAgYXJndW1lbnQpDQo+
+IC0gICAgICAgfQ0KPiAtDQo+IC0gICAgICAgcG5nX3dyaXRlX3JvdyhwbmdfcHRyLCBwbmdfdm9p
+ZGNhc3QocG5nX2NvbnN0X2J5dGVwLCBkaXNwbGF5LQ0KPiA+bG9jYWxfcm93KSk7DQo+IC0tICAg
+ICAgaW5wdXRfcm93ICs9IChwbmdfdWludF8xNilkaXNwbGF5LT5yb3dfYnl0ZXMvKHNpemVvZiAo
+cG5nX3VpbnRfMTYpKTsNCj4gLSsgICAgICBpbnB1dF9yb3cgKz0gZGlzcGxheS0+cm93X2J5dGVz
+IC8gMjsNCj4gLSAgICB9DQo+IC0NCj4gLSAgICByZXR1cm4gMTsNCj4gLUBAIC0xNzcxLDcgKzE3
+NzEsNyBAQCBwbmdfd3JpdGVfaW1hZ2VfOGJpdChwbmdfdm9pZHAgYXJndW1lbnQpDQo+IC0NCj4g
+LSAgICAgICAgICBwbmdfd3JpdGVfcm93KHBuZ19wdHIsIHBuZ192b2lkY2FzdChwbmdfY29uc3Rf
+Ynl0ZXAsDQo+IC0gICAgICAgICAgICAgIGRpc3BsYXktPmxvY2FsX3JvdykpOw0KPiAtLSAgICAg
+ICAgIGlucHV0X3JvdyArPSAocG5nX3VpbnRfMTYpZGlzcGxheS0+cm93X2J5dGVzLyhzaXplb2Yg
+KHBuZ191aW50XzE2KSk7DQo+IC0rICAgICAgICAgaW5wdXRfcm93ICs9IGRpc3BsYXktPnJvd19i
+eXRlcyAvIDI7DQo+IC0gICAgICAgfSAvKiB3aGlsZSB5ICovDQo+IC0gICAgfQ0KPiAtDQo+IC1A
+QCAtMTc5Niw3ICsxNzk2LDcgQEAgcG5nX3dyaXRlX2ltYWdlXzhiaXQocG5nX3ZvaWRwIGFyZ3Vt
+ZW50KQ0KPiAtICAgICAgICAgIH0NCj4gLQ0KPiAtICAgICAgICAgIHBuZ193cml0ZV9yb3cocG5n
+X3B0ciwgb3V0cHV0X3Jvdyk7DQo+IC0tICAgICAgICAgaW5wdXRfcm93ICs9IChwbmdfdWludF8x
+NilkaXNwbGF5LT5yb3dfYnl0ZXMvKHNpemVvZiAocG5nX3VpbnRfMTYpKTsNCj4gLSsgICAgICAg
+ICBpbnB1dF9yb3cgKz0gZGlzcGxheS0+cm93X2J5dGVzIC8gMjsNCj4gLSAgICAgICB9DQo+IC0g
+ICAgfQ0KPiAtDQo+IC1AQCAtMjExNSw3ICsyMTE1LDcgQEAgcG5nX2ltYWdlX3dyaXRlX21haW4o
+cG5nX3ZvaWRwIGFyZ3VtZW50KQ0KPiAtICAgICAgIHB0cmRpZmZfdCByb3dfYnl0ZXMgPSBkaXNw
+bGF5LT5yb3dfc3RyaWRlOw0KPiAtDQo+IC0gICAgICAgaWYgKGxpbmVhciAhPSAwKQ0KPiAtLSAg
+ICAgICAgIHJvd19ieXRlcyAqPSAoc2l6ZW9mIChwbmdfdWludF8xNikpOw0KPiAtKyAgICAgICAg
+IHJvd19ieXRlcyAqPSAyOw0KPiAtDQo+IC0gICAgICAgaWYgKHJvd19ieXRlcyA8IDApDQo+IC0g
+ICAgICAgICAgcm93ICs9IChpbWFnZS0+aGVpZ2h0LTEpICogKC1yb3dfYnl0ZXMpOw0KPiAtZGlm
+ZiAtLWdpdCBhL3Rlc3RzL3BuZ3N0ZXN0LWxhcmdlLXN0cmlkZSBiL3Rlc3RzL3BuZ3N0ZXN0LWxh
+cmdlLXN0cmlkZQ0KPiAtbmV3IGZpbGUgbW9kZSAxMDA3NTUNCj4gLWluZGV4IDAwMDAwMDAwMC4u
+Nzk1OGM1YjQyDQo+IC0tLS0gL2Rldi9udWxsDQo+IC0rKysgYi90ZXN0cy9wbmdzdGVzdC1sYXJn
+ZS1zdHJpZGUNCj4gLUBAIC0wLDAgKzEsOCBAQA0KPiAtKyMhL2Jpbi9zaA0KPiAtKw0KPiAtKyMg
+UmVncmVzc2lvbiB0ZXN0Og0KPiAtKyMgVXNlIHN0cmlkZV9leHRyYSA+IDMyNzY3IHRvIHRyaWdn
+ZXIgcm93X2J5dGVzID4gNjU1MzUgZm9yIGxpbmVhciBpbWFnZXMuDQo+IC0rZXhlYyAuL3BuZ3N0
+ZXN0IFwNCj4gLSsgICAgIC0tc3RyaWRlLWV4dHJhIDMzMDAwIFwNCj4gLSsgICAgIC0tdG1wZmls
+ZSAibGFyZ2Utc3RyaWRlLSIgXA0KPiAtKyAgICAgLS1sb2cgIiR7c3JjZGlyfS9jb250cmliL3Rl
+c3RwbmdzL3JnYi1hbHBoYS0xNi1saW5lYXIucG5nIg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTI1NjQ2LnBhdGNoDQo+IGIvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTI1NjQ2LnBhdGNoDQo+
+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCA1ZmJmNWViLi4wMDAwMDAwDQo+IC0t
+LSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0yNTY0Ni5w
+YXRjaA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDYxICswLDAgQEANCj4gLUZyb20gMDFkMDNi
+ODQ1M2ViMzBhZGU3NTljZDQ1YzcwN2U1YTFjNzI3N2Q4OCBNb24gU2VwIDE3IDAwOjAwOjAwDQo+
+IDIwMDENCj4gLUZyb206IENvc21pbiBUcnV0YSA8Y3RydXRhQGdtYWlsLmNvbT4NCj4gLURhdGU6
+IEZyaSwgNiBGZWIgMjAyNiAxOToxMTo1NCArMDIwMA0KPiAtU3ViamVjdDogW1BBVENIXSBGaXgg
+YSBoZWFwIGJ1ZmZlciBvdmVyZmxvdyBpbiBgcG5nX3NldF9xdWFudGl6ZWANCj4gLQ0KPiAtVGhl
+IGNvbG9yIGRpc3RhbmNlIGhhc2ggdGFibGUgc3RvcmVkIHRoZSBjdXJyZW50IHBhbGV0dGUgaW5k
+aWNlcywgYnV0DQo+IC10aGUgY29sb3ItcHJ1bmluZyBsb29wIGFzc3VtZWQgdGhlIG9yaWdpbmFs
+IGluZGljZXMuIFdoZW4gY29sb3JzIHdlcmUNCj4gLWVsaW1pbmF0ZWQgYW5kIGluZGljZXMgY2hh
+bmdlZCwgdGhlIHN0b3JlZCBpbmRpY2VzIGJlY2FtZSBzdGFsZS4gVGhpcw0KPiAtY2F1c2VkIHRo
+ZSBsb29wIGJvdW5kIGBtYXhfZGAgdG8gZ3JvdyBwYXN0IHRoZSA3NjktZWxlbWVudCBoYXNoIGFy
+cmF5Lg0KPiAtDQo+IC1UaGUgZml4IGNvbnNpc3RzIGluIHN0b3JpbmcgdGhlIG9yaWdpbmFsIGlu
+ZGljZXMgdmlhIGBwYWxldHRlX3RvX2luZGV4YA0KPiAtdG8gbWF0Y2ggdGhlIHBydW5pbmcgbG9v
+cCdzIGV4cGVjdGF0aW9ucy4NCj4gLQ0KPiAtUmVwb3J0ZWQtYnk6IEpvc2h1YSBJbnNjb2UgPHB3
+bmFsb25lQHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4NCj4gLUNvLWF1dGhvcmVkLWJ5OiBKb3No
+dWEgSW5zY29lIDxwd25hbG9uZUB1c2Vycy5ub3JlcGx5LmdpdGh1Yi5jb20+DQo+IC1TaWduZWQt
+b2ZmLWJ5OiBDb3NtaW4gVHJ1dGEgPGN0cnV0YUBnbWFpbC5jb20+DQo+IC0NCj4gLUNWRTogQ1ZF
+LTIwMjYtMjU2NDYNCj4gLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2h0dHBzOi8vZ2l0
+aHViLmNvbS9wbmdncm91cC9saWJwbmcvY29tbWl0LzAxZDAzYjg0NTNlYjMwYWRlNzU5Y2Q0NWM3
+MDdlDQo+IDVhMWM3Mjc3ZDg4XQ0KPiAtU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVy
+Lm1hcmtvQHNpZW1lbnMuY29tPg0KPiAtLS0tDQo+IC0gQVVUSE9SUyAgICB8IDEgKw0KPiAtIHBu
+Z3J0cmFuLmMgfCA2ICsrKy0tLQ0KPiAtIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCsp
+LCAzIGRlbGV0aW9ucygtKQ0KPiAtDQo+IC1kaWZmIC0tZ2l0IGEvQVVUSE9SUyBiL0FVVEhPUlMN
+Cj4gLWluZGV4IGI5YzBmZmZjZi4uNDA5NGY0YTU3IDEwMDY0NA0KPiAtLS0tIGEvQVVUSE9SUw0K
+PiAtKysrIGIvQVVUSE9SUw0KPiAtQEAgLTE1LDYgKzE1LDcgQEAgQXV0aG9ycywgZm9yIGNvcHly
+aWdodCBhbmQgbGljZW5zaW5nIHB1cnBvc2VzLg0KPiAtICAqIEd1eSBFcmljIFNjaGFsbmF0DQo+
+IC0gICogSmFtZXMgWXUNCj4gLSAgKiBKb2huIEJvd2xlcg0KPiAtKyAqIEpvc2h1YSBJbnNjb2UN
+Cj4gLSAgKiBLZXZpbiBCcmFjZXkNCj4gLSAgKiBNYWdudXMgSG9sbWdyZW4NCj4gLSAgKiBNYW5k
+YXIgU2FoYXN0cmFidWRkaGUNCj4gLWRpZmYgLS1naXQgYS9wbmdydHJhbi5jIGIvcG5ncnRyYW4u
+Yw0KPiAtaW5kZXggZmU4ZjlkMzJjLi4xZmNlOWFmMTIgMTAwNjQ0DQo+IC0tLS0gYS9wbmdydHJh
+bi5jDQo+IC0rKysgYi9wbmdydHJhbi5jDQo+IC1AQCAtMSw3ICsxLDcgQEANCj4gLQ0KPiAtIC8q
+IHBuZ3J0cmFuLmMgLSB0cmFuc2Zvcm1zIHRoZSBkYXRhIGluIGEgcm93IGZvciBQTkcgcmVhZGVy
+cw0KPiAtICAqDQo+IC0tICogQ29weXJpZ2h0IChjKSAyMDE4LTIwMjQgQ29zbWluIFRydXRhDQo+
+IC0rICogQ29weXJpZ2h0IChjKSAyMDE4LTIwMjYgQ29zbWluIFRydXRhDQo+IC0gICogQ29weXJp
+Z2h0IChjKSAxOTk4LTIwMDIsMjAwNCwyMDA2LTIwMTggR2xlbm4gUmFuZGVycy1QZWhyc29uDQo+
+IC0gICogQ29weXJpZ2h0IChjKSAxOTk2LTE5OTcgQW5kcmVhcyBEaWxnZXINCj4gLSAgKiBDb3B5
+cmlnaHQgKGMpIDE5OTUtMTk5NiBHdXkgRXJpYyBTY2hhbG5hdCwgR3JvdXAgNDIsIEluYy4NCj4g
+LUBAIC02NDcsOCArNjQ3LDggQEAgcG5nX3NldF9xdWFudGl6ZShwbmdfc3RydWN0cnAgcG5nX3B0
+ciwgcG5nX2NvbG9ycA0KPiBwYWxldHRlLA0KPiAtICAgICAgICAgICAgICAgICAgICAgICAgICBi
+cmVhazsNCj4gLQ0KPiAtICAgICAgICAgICAgICAgICAgICAgIHQtPm5leHQgPSBoYXNoW2RdOw0K
+PiAtLSAgICAgICAgICAgICAgICAgICAgIHQtPmxlZnQgPSAocG5nX2J5dGUpaTsNCj4gLS0gICAg
+ICAgICAgICAgICAgICAgICB0LT5yaWdodCA9IChwbmdfYnl0ZSlqOw0KPiAtKyAgICAgICAgICAg
+ICAgICAgICAgIHQtPmxlZnQgPSBwbmdfcHRyLT5wYWxldHRlX3RvX2luZGV4W2ldOw0KPiAtKyAg
+ICAgICAgICAgICAgICAgICAgIHQtPnJpZ2h0ID0gcG5nX3B0ci0+cGFsZXR0ZV90b19pbmRleFtq
+XTsNCj4gLSAgICAgICAgICAgICAgICAgICAgICBoYXNoW2RdID0gdDsNCj4gLSAgICAgICAgICAg
+ICAgICAgICB9DQo+IC0gICAgICAgICAgICAgICAgfQ0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNDE2LTAxLnBhdGNoDQo+IGIv
+bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNDE2LTAxLnBh
+dGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCBhNjBhOGQ2Li4wMDAwMDAw
+DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0z
+MzQxNi0wMS5wYXRjaA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDE0MyArMCwwIEBADQo+IC1G
+cm9tIDIzMDE5MjY5NzY0ZTM1ZWQ4NDU4ZTUxN2YxODk3YmQzYzU0ODIwZWIgTW9uIFNlcCAxNyAw
+MDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBPYmxpdmlvbnNhZ2UgPGNvb2tpZWFuZGNyZWFtNTYw
+QGdtYWlsLmNvbT4NCj4gLURhdGU6IFN1biwgMTUgTWFyIDIwMjYgMTA6MzU6MjkgKzAxMDANCj4g
+LVN1YmplY3Q6IFtQQVRDSF0gZml4OiBSZXNvbHZlIHVzZS1hZnRlci1mcmVlIG9uIGBwbmdfcHRy
+LT50cmFuc19hbHBoYWANCj4gLQ0KPiAtVGhlIGZ1bmN0aW9uIGBwbmdfc2V0X3RSTlNgIHNldHMg
+YHBuZ19wdHItPnRyYW5zX2FscGhhYCB0byBwb2ludCBhdA0KPiAtYGluZm9fcHRyLT50cmFuc19h
+bHBoYWAgZGlyZWN0bHksIHNvIGJvdGggc3RydWN0cyBzaGFyZSB0aGUgc2FtZSBoZWFwDQo+IC1i
+dWZmZXIuIElmIHRoZSBhcHBsaWNhdGlvbiBjYWxscyBgcG5nX2ZyZWVfZGF0YShQTkdfRlJFRV9U
+Uk5TKWAsIG9yIGlmDQo+IC1gcG5nX3NldF90Uk5TYCBpcyBjYWxsZWQgYSBzZWNvbmQgdGltZSwg
+dGhlIGJ1ZmZlciBpcyBmcmVlZCB0aHJvdWdoDQo+IC1gaW5mb19wdHJgIHdoaWxlIGBwbmdfcHRy
+YCBzdGlsbCBob2xkcyBhIGRhbmdsaW5nIHJlZmVyZW5jZS4gQW55DQo+IC1zdWJzZXF1ZW50IHJv
+dyByZWFkIHRoYXQgaGl0cyB0aGUgZnVuY3Rpb24gYHBuZ19kb19leHBhbmRfcGFsZXR0ZWAgd2ls
+bA0KPiAtZGVyZWZlcmVuY2UgZnJlZWQgbWVtb3J5Lg0KPiAtDQo+IC1UaGUgZml4IGdpdmVzIGBw
+bmdfc3RydWN0YCBpdHMgb3duIGFsbG9jYXRpb24gaW5zdGVhZCBvZiBhbGlhc2luZyB0aGUNCj4g
+LWBpbmZvX3B0cmAgcG9pbnRlci4gVGhpcyB3YXMgYWxyZWFkeSBmbGFnZ2VkIHdpdGggYSBUT0RP
+IGluDQo+IC1gcG5nX2hhbmRsZV90Uk5TYCAoImhvcnJpYmxlIHNpZGUgZWZmZWN0IC4uLiBGaXgg
+dGhpcy4iKSBidXQgaXQgd2FzDQo+IC1uZXZlciBhZGRyZXNzZWQuDQo+IC0NCj4gLVZlcmlmaWVk
+IHdpdGggQWRkcmVzc1Nhbml0aXplci4gQWxsIDM0IGV4aXN0aW5nIHRlc3RzIHBhc3Mgd2l0aG91
+dA0KPiAtcmVncmVzc2lvbnMuDQo+IC0NCj4gLUNWRTogQ1ZFLTIwMjYtMzM0MTYNCj4gLVVwc3Ry
+ZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2h0dHBzOi8vZ2l0aHViLmNvbS9wbmdncm91cC9saWJw
+bmcvY29tbWl0LzIzMDE5MjY5NzY0ZTM1ZWQ4NDU4ZTUxN2YxODk3Yg0KPiBkM2M1NDgyMGViXQ0K
+PiAtQ29tbWVudDogUmVmcmVzaGVkIGh1bmsgdG8gbWF0Y2ggbGF0ZXN0IHNjYXJ0aGdhcA0KPiAt
+DQo+IC1SZXZpZXdlZC1ieTogQ29zbWluIFRydXRhIDxjdHJ1dGFAZ21haWwuY29tPg0KPiAtU2ln
+bmVkLW9mZi1ieTogQ29zbWluIFRydXRhIDxjdHJ1dGFAZ21haWwuY29tPg0KPiAtU2lnbmVkLW9m
+Zi1ieTogU291cmF2IEt1bWFyIFByYW1hbmlrDQo+IDxTb3VyYXZrdW1hci5QcmFtYW5pa0BibXd0
+ZWNod29ya3MuaW4+DQo+IC1TaWduZWQtb2ZmLWJ5OiBaYWhpciBIdXNzYWluIDx6YWhpci5iYXNo
+YUBrcGl0LmNvbT4NCj4gLS0tLQ0KPiAtIHBuZ3JlYWQuYyAgfCAxMSArKysrKy0tLS0tLQ0KPiAt
+IHBuZ3J1dGlsLmMgfCAgNCAtLS0tDQo+IC0gcG5nc2V0LmMgICB8IDMxICsrKysrKysrKysrKysr
+KysrKystLS0tLS0tLS0tLS0NCj4gLSBwbmd3cml0ZS5jIHwgIDYgKysrKysrDQo+IC0gNCBmaWxl
+cyBjaGFuZ2VkLCAzMCBpbnNlcnRpb25zKCspLCAyMiBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlm
+ZiAtLWdpdCBhL3BuZ3JlYWQuYyBiL3BuZ3JlYWQuYw0KPiAtaW5kZXggMDFiNzMxZDhlYi4uMDA4
+NmVkZjZjZiAxMDA2NDQNCj4gLS0tLSBhL3BuZ3JlYWQuYw0KPiAtKysrIGIvcG5ncmVhZC5jDQo+
+IC1AQCAtOTY4LDEyICs5NjgsMTEgQEAgcG5nX3JlYWRfZGVzdHJveShwbmdfc3RydWN0cnAgcG5n
+X3B0cikNCj4gLQ0KPiAtICNpZiBkZWZpbmVkKFBOR190Uk5TX1NVUFBPUlRFRCkgfHwgXA0KPiAt
+ICAgICBkZWZpbmVkKFBOR19SRUFEX0VYUEFORF9TVVBQT1JURUQpIHx8DQo+IGRlZmluZWQoUE5H
+X1JFQURfQkFDS0dST1VORF9TVVBQT1JURUQpDQo+IC0tICAgaWYgKChwbmdfcHRyLT5mcmVlX21l
+ICYgUE5HX0ZSRUVfVFJOUykgIT0gMCkNCj4gLS0gICB7DQo+IC0tICAgICAgcG5nX2ZyZWUocG5n
+X3B0ciwgcG5nX3B0ci0+dHJhbnNfYWxwaGEpOw0KPiAtLSAgICAgIHBuZ19wdHItPnRyYW5zX2Fs
+cGhhID0gTlVMTDsNCj4gLS0gICB9DQo+IC0tICAgcG5nX3B0ci0+ZnJlZV9tZSAmPSB+UE5HX0ZS
+RUVfVFJOUzsNCj4gLSsgICAvKiBwbmdfcHRyLT50cmFuc19hbHBoYSBpcyBhbHdheXMgaW5kZXBl
+bmRlbnRseSBhbGxvY2F0ZWQgKG5vdCBhbGlhc2VkDQo+IC0rICAgICogd2l0aCBpbmZvX3B0ci0+
+dHJhbnNfYWxwaGEpLCBzbyBmcmVlIGl0IHVuY29uZGl0aW9uYWxseS4NCj4gLSsgICAgKi8NCj4g
+LSsgICBwbmdfZnJlZShwbmdfcHRyLCBwbmdfcHRyLT50cmFuc19hbHBoYSk7DQo+IC0rICAgcG5n
+X3B0ci0+dHJhbnNfYWxwaGEgPSBOVUxMOw0KPiAtICNlbmRpZg0KPiAtDQo+IC0gICAgaW5mbGF0
+ZUVuZCgmcG5nX3B0ci0+enN0cmVhbSk7DQo+IC1kaWZmIC0tZ2l0IGEvcG5ncnV0aWwuYyBiL3Bu
+Z3J1dGlsLmMNCj4gLWluZGV4IDM2NjM3OWI5OTEuLmExOTUwN2JmMWIgMTAwNjQ0DQo+IC0tLS0g
+YS9wbmdydXRpbC5jDQo+IC0rKysgYi9wbmdydXRpbC5jDQo+IC1AQCAtMTkwNSwxMCArMTkwNSw2
+IEBAIHBuZ19oYW5kbGVfdFJOUyhwbmdfc3RydWN0cnAgcG5nX3B0ciwgcG4NCj4gLSAgICAgICBy
+ZXR1cm47DQo+IC0gICAgfQ0KPiAtDQo+IC0tICAgLyogVE9ETzogdGhpcyBpcyBhIGhvcnJpYmxl
+IHNpZGUgZWZmZWN0IGluIHRoZSBwYWxldHRlIGNhc2UgYmVjYXVzZSB0aGUNCj4gLS0gICAgKiBw
+bmdfc3RydWN0IGVuZHMgdXAgd2l0aCBhIHBvaW50ZXIgdG8gdGhlIHRSTlMgYnVmZmVyIG93bmVk
+IGJ5IHRoZQ0KPiAtLSAgICAqIHBuZ19pbmZvLiAgRml4IHRoaXMuDQo+IC0tICAgICovDQo+IC0g
+ICAgcG5nX3NldF90Uk5TKHBuZ19wdHIsIGluZm9fcHRyLCByZWFkYnVmLCBwbmdfcHRyLT5udW1f
+dHJhbnMsDQo+IC0gICAgICAgICYocG5nX3B0ci0+dHJhbnNfY29sb3IpKTsNCj4gLSB9DQo+IC1k
+aWZmIC0tZ2l0IGEvcG5nc2V0LmMgYi9wbmdzZXQuYw0KPiAtaW5kZXggNGI3OGI4OTYwYy4uNDc4
+ODM2ODRlNCAxMDA2NDQNCj4gLS0tLSBhL3BuZ3NldC5jDQo+IC0rKysgYi9wbmdzZXQuYw0KPiAt
+QEAgLTk5MCwyOCArOTkwLDM2IEBAIHBuZ19zZXRfdFJOUyhwbmdfc3RydWN0cnAgcG5nX3B0ciwg
+cG5nX2kNCj4gLQ0KPiAtICAgIGlmICh0cmFuc19hbHBoYSAhPSBOVUxMKQ0KPiAtICAgIHsNCj4g
+LS0gICAgICAgLyogSXQgbWF5IG5vdCBhY3R1YWxseSBiZSBuZWNlc3NhcnkgdG8gc2V0IHBuZ19w
+dHItPnRyYW5zX2FscGhhIGhlcmU7DQo+IC0tICAgICAgICAqIHdlIGRvIGl0IGZvciBiYWNrd2Fy
+ZCBjb21wYXRpYmlsaXR5IHdpdGggdGhlIHdheSB0aGUgcG5nX2hhbmRsZV90Uk5TDQo+IC0tICAg
+ICAgICAqIGZ1bmN0aW9uIHVzZWQgdG8gZG8gdGhlIGFsbG9jYXRpb24uDQo+IC0tICAgICAgICAq
+DQo+IC0tICAgICAgICAqIDEuNi4wOiBUaGUgYWJvdmUgc3RhdGVtZW50IGlzIGluY29ycmVjdDsg
+cG5nX2hhbmRsZV90Uk5TIGVmZmVjdGl2ZWx5DQo+IC0tICAgICAgICAqIHJlbGllcyBvbiBwbmdf
+c2V0X3RSTlMgc3RvcmluZyB0aGUgaW5mb3JtYXRpb24gaW4gcG5nX3N0cnVjdA0KPiAtLSAgICAg
+ICAgKiAob3RoZXJ3aXNlIGl0IHdvbid0IGJlIHRoZXJlIGZvciB0aGUgY29kZSBpbiBwbmdydHJh
+bi5jKS4NCj4gLS0gICAgICAgICovDQo+IC0tDQo+IC0gICAgICAgIHBuZ19mcmVlX2RhdGEocG5n
+X3B0ciwgaW5mb19wdHIsIFBOR19GUkVFX1RSTlMsIDApOw0KPiAtDQo+IC0gICAgICAgIGlmIChu
+dW1fdHJhbnMgPiAwICYmIG51bV90cmFucyA8PSBQTkdfTUFYX1BBTEVUVEVfTEVOR1RIKQ0KPiAt
+ICAgICAgICB7DQo+IC0tICAgICAgICAgLyogQ2hhbmdlZCBmcm9tIG51bV90cmFucyB0byBQTkdf
+TUFYX1BBTEVUVEVfTEVOR1RIIGluIHZlcnNpb24NCj4gMS4yLjEgKi8NCj4gLSsgICAgICAgICAg
+LyogQWxsb2NhdGUgaW5mb19wdHIncyBjb3B5IG9mIHRoZSB0cmFuc3BhcmVuY3kgZGF0YS4gKi8N
+Cj4gLSAgICAgICAgICAgaW5mb19wdHItPnRyYW5zX2FscGhhID0gcG5nX3ZvaWRjYXN0KHBuZ19i
+eXRlcCwNCj4gLSAgICAgICAgICAgICAgIHBuZ19tYWxsb2MocG5nX3B0ciwgUE5HX01BWF9QQUxF
+VFRFX0xFTkdUSCkpOw0KPiAtICAgICAgICAgICBtZW1jcHkoaW5mb19wdHItPnRyYW5zX2FscGhh
+LCB0cmFuc19hbHBoYSwgKHNpemVfdCludW1fdHJhbnMpOw0KPiAtLQ0KPiAtICAgICAgICAgICBp
+bmZvX3B0ci0+ZnJlZV9tZSB8PSBQTkdfRlJFRV9UUk5TOw0KPiAtICAgICAgICAgICBpbmZvX3B0
+ci0+dmFsaWQgfD0gUE5HX0lORk9fdFJOUzsNCj4gLSsNCj4gLSsNCj4gLSsgICAgICAgICAgLyog
+QWxsb2NhdGUgYW4gaW5kZXBlbmRlbnQgY29weSBmb3IgcG5nX3N0cnVjdCwgc28gdGhhdCB0aGUN
+Cj4gLSsgICAgICAgICAgICogbGlmZXRpbWUgb2YgcG5nX3B0ci0+dHJhbnNfYWxwaGEgaXMgZGVj
+b3VwbGVkIGZyb20gdGhlDQo+IC0rICAgICAgICAgICAqIGxpZmV0aW1lIG9mIGluZm9fcHRyLT50
+cmFuc19hbHBoYS4gIFByZXZpb3VzbHkgdGhlc2UgdHdvDQo+IC0rICAgICAgICAgICAqIHBvaW50
+ZXJzIHdlcmUgYWxpYXNlZCwgd2hpY2ggY2F1c2VkIGEgdXNlLWFmdGVyLWZyZWUgaWYNCj4gLSsg
+ICAgICAgICAgICogcG5nX2ZyZWVfZGF0YSBmcmVlZCBpbmZvX3B0ci0+dHJhbnNfYWxwaGEgd2hp
+bGUNCj4gLSsgICAgICAgICAgICogcG5nX3B0ci0+dHJhbnNfYWxwaGEgd2FzIHN0aWxsIGluIHVz
+ZSBieSB0aGUgcm93IHRyYW5zZm9ybQ0KPiAtKyAgICAgICAgICAgKiBmdW5jdGlvbnMgKGUuZy4g
+cG5nX2RvX2V4cGFuZF9wYWxldHRlKS4NCj4gLSsgICAgICAgICAgICovDQo+IC0rICAgICAgICAg
+IHBuZ19mcmVlKHBuZ19wdHIsIHBuZ19wdHItPnRyYW5zX2FscGhhKTsNCj4gLSsgICAgICAgICAg
+cG5nX3B0ci0+dHJhbnNfYWxwaGEgPSBwbmdfdm9pZGNhc3QocG5nX2J5dGVwLA0KPiAtKyAgICAg
+ICAgICAgICAgcG5nX21hbGxvYyhwbmdfcHRyLCBQTkdfTUFYX1BBTEVUVEVfTEVOR1RIKSk7DQo+
+IC0rICAgICAgICAgIG1lbWNweShwbmdfcHRyLT50cmFuc19hbHBoYSwgdHJhbnNfYWxwaGEsIChz
+aXplX3QpbnVtX3RyYW5zKTsNCj4gLSsgICAgICAgfQ0KPiAtKyAgICAgICBlbHNlDQo+IC0rICAg
+ICAgIHsNCj4gLSsgICAgICAgICAgcG5nX2ZyZWUocG5nX3B0ciwgcG5nX3B0ci0+dHJhbnNfYWxw
+aGEpOw0KPiAtKyAgICAgICAgICBwbmdfcHRyLT50cmFuc19hbHBoYSA9IE5VTEw7DQo+IC0gICAg
+ICAgIH0NCj4gLS0gICAgICAgcG5nX3B0ci0+dHJhbnNfYWxwaGEgPSBpbmZvX3B0ci0+dHJhbnNf
+YWxwaGE7DQo+IC0gICAgfQ0KPiAtDQo+IC0gICAgaWYgKHRyYW5zX2NvbG9yICE9IE5VTEwpDQo+
+IC1kaWZmIC0tZ2l0IGEvcG5nd3JpdGUuYyBiL3BuZ3dyaXRlLmMNCj4gLWluZGV4IDVmYzc3ZDkx
+ZjcuLjg0YWYxZTczZmIgMTAwNjQ0DQo+IC0tLS0gYS9wbmd3cml0ZS5jDQo+IC0rKysgYi9wbmd3
+cml0ZS5jDQo+IC1AQCAtOTc3LDYgKzk3NywxMiBAQCBwbmdfd3JpdGVfZGVzdHJveShwbmdfc3Ry
+dWN0cnAgcG5nX3B0cikNCj4gLSAgICBwbmdfcHRyLT5jaHVua19saXN0ID0gTlVMTDsNCj4gLSAj
+ZW5kaWYNCj4gLQ0KPiAtKyNpZiBkZWZpbmVkKFBOR190Uk5TX1NVUFBPUlRFRCkNCj4gLSsgICAv
+KiBGcmVlIHRoZSBpbmRlcGVuZGVudCBjb3B5IG9mIHRyYW5zX2FscGhhIG93bmVkIGJ5IHBuZ19z
+dHJ1Y3QuICovDQo+IC0rICAgcG5nX2ZyZWUocG5nX3B0ciwgcG5nX3B0ci0+dHJhbnNfYWxwaGEp
+Ow0KPiAtKyAgIHBuZ19wdHItPnRyYW5zX2FscGhhID0gTlVMTDsNCj4gLSsjZW5kaWYNCj4gLSsN
+Cj4gLSAgICAvKiBUaGUgZXJyb3IgaGFuZGxpbmcgYW5kIG1lbW9yeSBoYW5kbGluZyBpbmZvcm1h
+dGlvbiBpcyBsZWZ0IGludGFjdCBhdCB0aGlzDQo+IC0gICAgICogcG9pbnQ6IHRoZSBqbXBfYnVm
+IG1heSBzdGlsbCBoYXZlIHRvIGJlIGZyZWVkLiAgU2VlIHBuZ19kZXN0cm95X3BuZ19zdHJ1Y3QN
+Cj4gLSAgICAgKiBmb3IgaG93IHRoaXMgaGFwcGVucy4NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0zMzQxNi0wMi5wYXRjaA0KPiBi
+L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0zMzQxNi0wMi5w
+YXRjaA0KPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggZTc0NjI5My4uMDAwMDAw
+MA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMvQ1ZFLTIwMjYt
+MzM0MTYtMDIucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSw1MyArMCwwIEBADQo+IC1G
+cm9tIGEzYTIxNDQzZWQxMmJmYTFlZjQ2ZmEwZDRmYjJiNzRhMGZhMzRhMjUgTW9uIFNlcCAxNyAw
+MDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBPYmxpdmlvbnNhZ2UgPGNvb2tpZWFuZGNyZWFtNTYw
+QGdtYWlsLmNvbT4NCj4gLURhdGU6IFR1ZSwgMTcgTWFyIDIwMjYgMDg6NTU6MTggKzAxMDANCj4g
+LVN1YmplY3Q6IFtQQVRDSF0gZml4OiBJbml0aWFsaXplIHRhaWwgYnl0ZXMgaW4gYHRyYW5zX2Fs
+cGhhYCBidWZmZXJzDQo+IC0NCj4gLUFsdGhvdWdoIHRoZSBhcnJheXMgYGluZm9fcHRyLT50cmFu
+c19hbHBoYWAgYW5kIGBwbmdfcHRyLT50cmFuc19hbHBoYWANCj4gLWFyZSBhbGxvY2F0ZWQgMjU2
+IGJ5dGVzLCBvbmx5IGBudW1fdHJhbnNgIGJ5dGVzIGFyZSBjb3BpZWQuDQo+IC1UaGUgcmVtYWlu
+aW5nIGVudHJpZXMgd2VyZSBsZWZ0IHVuaW5pdGlhbGl6ZWQuIFNldCB0aGVtIHRvIDB4ZmYgKGZ1
+bGx5DQo+IC1vcGFxdWUpIGJlZm9yZSBjb3B5aW5nLCB3aGljaCBtYXRjaGVzIHRoZSBjb252ZW50
+aW9uYWwgdHJlYXRtZW50IG9mDQo+IC1lbnRyaWVzIGJleW9uZCBgbnVtX3RyYW5zYC4NCj4gLQ0K
+PiAtVGhpcyBpcyBhIGZvbGxvdy11cCB0byB0aGUgcHJldmlvdXMgdXNlLWFmdGVyLWZyZWUgZml4
+Lg0KPiAtDQo+IC1DVkU6IENWRS0yMDI2LTMzNDE2DQo+IC1VcHN0cmVhbS1TdGF0dXM6IEJhY2tw
+b3J0DQo+IFtodHRwczovL2dpdGh1Yi5jb20vcG5nZ3JvdXAvbGlicG5nL2NvbW1pdC9hM2EyMTQ0
+M2VkMTJiZmExZWY0NmZhMGQ0ZmIyYjc0DQo+IGEwZmEzNGEyNV0NCj4gLUNvbW1lbnQ6IFJlZnJl
+c2hlZCBodW5rIHRvIG1hdGNoIGxhdGVzdCBzY2FydGhnYXANCj4gLQ0KPiAtUmVwb3J0ZWQtYnk6
+IENvc21pbiBUcnV0YSA8Y3RydXRhQGdtYWlsLmNvbT4NCj4gLVJldmlld2VkLWJ5OiBDb3NtaW4g
+VHJ1dGEgPGN0cnV0YUBnbWFpbC5jb20+DQo+IC1TaWduZWQtb2ZmLWJ5OiBDb3NtaW4gVHJ1dGEg
+PGN0cnV0YUBnbWFpbC5jb20+DQo+IC1TaWduZWQtb2ZmLWJ5OiBTb3VyYXYgS3VtYXIgUHJhbWFu
+aWsNCj4gPFNvdXJhdmt1bWFyLlByYW1hbmlrQGJtd3RlY2h3b3Jrcy5pbj4NCj4gLVNpZ25lZC1v
+ZmYtYnk6IFphaGlyIEh1c3NhaW4gPHphaGlyLmJhc2hhQGtwaXQuY29tPg0KPiAtLS0tDQo+IC0g
+cG5nc2V0LmMgfCA3ICsrKysrKy0NCj4gLSAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCsp
+LCAxIGRlbGV0aW9uKC0pDQo+IC0NCj4gLWRpZmYgLS1naXQgYS9wbmdzZXQuYyBiL3BuZ3NldC5j
+DQo+IC1pbmRleCA0Nzg4MzY4NGU0Li5kY2NjNjQ5OGQ3IDEwMDY0NA0KPiAtLS0tIGEvcG5nc2V0
+LmMNCj4gLSsrKyBiL3BuZ3NldC5jDQo+IC1AQCAtOTk0LDkgKzk5NCwxMyBAQCBwbmdfc2V0X3RS
+TlMocG5nX3N0cnVjdHJwIHBuZ19wdHIsIHBuZ19pDQo+IC0NCj4gLSAgICAgICAgaWYgKG51bV90
+cmFucyA+IDAgJiYgbnVtX3RyYW5zIDw9IFBOR19NQVhfUEFMRVRURV9MRU5HVEgpDQo+IC0gICAg
+ICAgIHsNCj4gLS0gICAgICAgICAgLyogQWxsb2NhdGUgaW5mb19wdHIncyBjb3B5IG9mIHRoZSB0
+cmFuc3BhcmVuY3kgZGF0YS4gKi8NCj4gLSsJICAgICAgIC8qIEFsbG9jYXRlIGluZm9fcHRyJ3Mg
+Y29weSBvZiB0aGUgdHJhbnNwYXJlbmN5IGRhdGEuDQo+IC0rICAgICAgICAgICAqIEluaXRpYWxp
+emUgYWxsIGVudHJpZXMgdG8gZnVsbHkgb3BhcXVlICgweGZmKSwgdGhlbiBvdmVyd3JpdGUNCj4g
+LSsgICAgICAgICAgICogdGhlIGZpcnN0IG51bV90cmFucyBlbnRyaWVzIHdpdGggdGhlIGFjdHVh
+bCB2YWx1ZXMuDQo+IC0rICAgICAgICAgICAqLw0KPiAtICAgICAgICAgICBpbmZvX3B0ci0+dHJh
+bnNfYWxwaGEgPSBwbmdfdm9pZGNhc3QocG5nX2J5dGVwLA0KPiAtICAgICAgICAgICAgICAgcG5n
+X21hbGxvYyhwbmdfcHRyLCBQTkdfTUFYX1BBTEVUVEVfTEVOR1RIKSk7DQo+IC0rCSAgICAgICBt
+ZW1zZXQoaW5mb19wdHItPnRyYW5zX2FscGhhLCAweGZmLCBQTkdfTUFYX1BBTEVUVEVfTEVOR1RI
+KTsNCj4gLSAgICAgICAgICAgbWVtY3B5KGluZm9fcHRyLT50cmFuc19hbHBoYSwgdHJhbnNfYWxw
+aGEsIChzaXplX3QpbnVtX3RyYW5zKTsNCj4gLSAgICAgICAgICAgaW5mb19wdHItPmZyZWVfbWUg
+fD0gUE5HX0ZSRUVfVFJOUzsNCj4gLSAgICAgICAgICAgaW5mb19wdHItPnZhbGlkIHw9IFBOR19J
+TkZPX3RSTlM7DQo+IC1AQCAtMTAxMyw2ICsxMDE3LDcgQEAgcG5nX3NldF90Uk5TKHBuZ19zdHJ1
+Y3RycCBwbmdfcHRyLCBwbmdfaQ0KPiAtICAgICAgICAgICBwbmdfZnJlZShwbmdfcHRyLCBwbmdf
+cHRyLT50cmFuc19hbHBoYSk7DQo+IC0gICAgICAgICAgIHBuZ19wdHItPnRyYW5zX2FscGhhID0g
+cG5nX3ZvaWRjYXN0KHBuZ19ieXRlcCwNCj4gLSAgICAgICAgICAgICAgIHBuZ19tYWxsb2MocG5n
+X3B0ciwgUE5HX01BWF9QQUxFVFRFX0xFTkdUSCkpOw0KPiAtKwkgICAgICAgbWVtc2V0KHBuZ19w
+dHItPnRyYW5zX2FscGhhLCAweGZmLCBQTkdfTUFYX1BBTEVUVEVfTEVOR1RIKTsNCj4gLSAgICAg
+ICAgICAgbWVtY3B5KHBuZ19wdHItPnRyYW5zX2FscGhhLCB0cmFuc19hbHBoYSwgKHNpemVfdClu
+dW1fdHJhbnMpOw0KPiAtICAgICAgICB9DQo+IC0gICAgICAgIGVsc2UNCj4gZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0zMzQxNi0wMy5w
+YXRjaA0KPiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0z
+MzQxNi0wMy5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMjFjZTM1
+ZC4uMDAwMDAwMA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmlsZXMv
+Q1ZFLTIwMjYtMzM0MTYtMDMucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwxNjMgKzAs
+MCBAQA0KPiAtRnJvbSA3ZWE5ZWVhODg0YTIzMjhjYzdmZGNiM2MwYzAwMjQ2YTUwZDkwNjY3IE1v
+biBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiAtRnJvbTogQ29zbWluIFRydXRhIDxjdHJ1dGFA
+Z21haWwuY29tPg0KPiAtRGF0ZTogRnJpLCAyMCBNYXIgMjAyNiAxNzozNzoyMiArMDIwMA0KPiAt
+U3ViamVjdDogW1BBVENIXSBmaXg6IFJlc29sdmUgdXNlLWFmdGVyLWZyZWUgb24gYHBuZ19wdHIt
+PnBhbGV0dGVgDQo+IC0NCj4gLUdpdmUgYHBuZ19zdHJ1Y3RgIGl0cyBvd24gaW5kZXBlbmRlbnRs
+eS1hbGxvY2F0ZWQgY29weSBvZiB0aGUgcGFsZXR0ZQ0KPiAtYnVmZmVyLCBkZWNvdXBsaW5nIGl0
+IGZyb20gYGluZm9fc3RydWN0YCdzIHBhbGV0dGUuIEFsbG9jYXRlIGJvdGgNCj4gLWNvcGllcyB3
+aXRoIGBwbmdfY2FsbG9jYCB0byB6ZXJvLWZpbGwsIGJlY2F1c2UgdGhlIEFSTSBORU9OIHBhbGV0
+dGUNCj4gLXJpZmZsZSByZWFkcyBhbGwgMjU2IGVudHJpZXMgdW5jb25kaXRpb25hbGx5Lg0KPiAt
+DQo+IC1JbiBmdW5jdGlvbiBgcG5nX3NldF9QTFRFYCwgYHBuZ19wdHItPnBhbGV0dGVgIHdhcyBh
+bGlhc2VkIGRpcmVjdGx5IHRvDQo+IC1gaW5mb19wdHItPnBhbGV0dGVgOiBhIHNpbmdsZSBoZWFw
+IGJ1ZmZlciBzaGFyZWQgYWNyb3NzIHR3byBzdHJ1Y3RzDQo+IC13aXRoIGluZGVwZW5kZW50IGxp
+ZmV0aW1lcy4gSWYgdGhlIGJ1ZmZlciB3YXMgZnJlZWQgdGhyb3VnaCBgaW5mb19wdHJgDQo+IC0o
+dmlhIGBwbmdfZnJlZV9kYXRhKFBOR19GUkVFX1BMVEUpYCBvciBhIHNlY29uZCBjYWxsIHRvIGBw
+bmdfc2V0X1BMVEVgKSwNCj4gLWBwbmdfcHRyLT5wYWxldHRlYCBiZWNhbWUgYSBkYW5nbGluZyBw
+b2ludGVyLiBTdWJzZXF1ZW50IHJvdyByZWFkcywNCj4gLXBlcmZvcm1lZCBpbiBgcG5nX2RvX2V4
+cGFuZF9wYWxldHRlYCBhbmQgaW4gb3RoZXIgdHJhbnNmb3JtIGZ1bmN0aW9ucywNCj4gLWRlcmVm
+ZXJlbmNlZCAoYW5kIGluIHRoZSBiaXQtc2hpZnQgcGF0aCwgd3JvdGUgdG8pIGZyZWVkIG1lbW9y
+eS4NCj4gLQ0KPiAtQWxzbyBmaXggYHBuZ19zZXRfcXVhbnRpemVgIHRvIGFsbG9jYXRlIGFuIG93
+bmVkIGNvcHkgb2YgdGhlIGNhbGxlcidzDQo+IC1wYWxldHRlIHJhdGhlciB0aGFuIGFsaWFzaW5n
+IHRoZSB1c2VyIHBvaW50ZXIsIHNvIHRoYXQgdGhlIHVuY29uZGl0aW9uYWwNCj4gLWZyZWUgaW4g
+YHBuZ19yZWFkX2Rlc3Ryb3lgIGRvZXMgbm90IGZyZWUgdW5tYW5hZ2VkIG1lbW9yeS4NCj4gLQ0K
+PiAtQ1ZFOiBDVkUtMjAyNi0zMzQxNg0KPiAtVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0KPiBb
+aHR0cHM6Ly9naXRodWIuY29tL3BuZ2dyb3VwL2xpYnBuZy9jb21taXQvN2VhOWVlYTg4NGEyMzI4
+Y2M3ZmRjYjNjMGMwMDI0DQo+IDZhNTBkOTA2NjddDQo+IC1Db21tZW50OiBSZWZyZXNoZWQgaHVu
+ayB0byBtYXRjaCBsYXRlc3Qgc2NhcnRoZ2FwDQo+IC0NCj4gLVNpZ25lZC1vZmYtYnk6IFNvdXJh
+diBLdW1hciBQcmFtYW5paw0KPiA8U291cmF2a3VtYXIuUHJhbWFuaWtAYm13dGVjaHdvcmtzLmlu
+Pg0KPiAtU2lnbmVkLW9mZi1ieTogWmFoaXIgSHVzc2FpbiA8emFoaXIuYmFzaGFAa3BpdC5jb20+
+DQo+IC0tLS0NCj4gLSBwbmdyZWFkLmMgIHwgMTEgKysrKystLS0tLS0NCj4gLSBwbmdydHJhbi5j
+IHwgIDggKysrKysrKy0NCj4gLSBwbmdydXRpbC5jIHwgMTMgLS0tLS0tLS0tLS0tLQ0KPiAtIHBu
+Z3NldC5jICAgfCAyOCArKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tDQo+IC0gcG5nd3JpdGUu
+YyB8ICA0ICsrKysNCj4gLSA1IGZpbGVzIGNoYW5nZWQsIDM1IGluc2VydGlvbnMoKyksIDI5IGRl
+bGV0aW9ucygtKQ0KPiAtDQo+IC1kaWZmIC0tZ2l0IGEvcG5ncmVhZC5jIGIvcG5ncmVhZC5jDQo+
+IC1pbmRleCAwMDg2ZWRmNmNmLi5lMWQzOGQ1NzhhIDEwMDY0NA0KPiAtLS0tIGEvcG5ncmVhZC5j
+DQo+IC0rKysgYi9wbmdyZWFkLmMNCj4gLUBAIC05NTksMTIgKzk1OSwxMSBAQCBwbmdfcmVhZF9k
+ZXN0cm95KHBuZ19zdHJ1Y3RycCBwbmdfcHRyKQ0KPiAtICAgIHBuZ19wdHItPnF1YW50aXplX2lu
+ZGV4ID0gTlVMTDsNCj4gLSAjZW5kaWYNCj4gLQ0KPiAtLSAgIGlmICgocG5nX3B0ci0+ZnJlZV9t
+ZSAmIFBOR19GUkVFX1BMVEUpICE9IDApDQo+IC0tICAgew0KPiAtLSAgICAgIHBuZ196ZnJlZShw
+bmdfcHRyLCBwbmdfcHRyLT5wYWxldHRlKTsNCj4gLS0gICAgICBwbmdfcHRyLT5wYWxldHRlID0g
+TlVMTDsNCj4gLS0gICB9DQo+IC0tICAgcG5nX3B0ci0+ZnJlZV9tZSAmPSB+UE5HX0ZSRUVfUExU
+RTsNCj4gLSsgICAvKiBwbmdfcHRyLT5wYWxldHRlIGlzIGFsd2F5cyBpbmRlcGVuZGVudGx5IGFs
+bG9jYXRlZCAobm90IGFsaWFzZWQNCj4gLSsgICAgKiB3aXRoIGluZm9fcHRyLT5wYWxldHRlKSwg
+c28gZnJlZSBpdCB1bmNvbmRpdGlvbmFsbHkuDQo+IC0rICAgICovDQo+IC0rICAgcG5nX2ZyZWUo
+cG5nX3B0ciwgcG5nX3B0ci0+cGFsZXR0ZSk7DQo+IC0rICAgcG5nX3B0ci0+cGFsZXR0ZSA9IE5V
+TEw7DQo+IC0NCj4gLSAjaWYgZGVmaW5lZChQTkdfdFJOU19TVVBQT1JURUQpIHx8IFwNCj4gLSAg
+ICAgZGVmaW5lZChQTkdfUkVBRF9FWFBBTkRfU1VQUE9SVEVEKSB8fA0KPiBkZWZpbmVkKFBOR19S
+RUFEX0JBQ0tHUk9VTkRfU1VQUE9SVEVEKQ0KPiAtZGlmZiAtLWdpdCBhL3BuZ3J0cmFuLmMgYi9w
+bmdydHJhbi5jDQo+IC1pbmRleCBiZmI3ZDQyM2I3Li5mZDczNmFiNjcyIDEwMDY0NA0KPiAtLS0t
+IGEvcG5ncnRyYW4uYw0KPiAtKysrIGIvcG5ncnRyYW4uYw0KPiAtQEAgLTc1MCw3ICs3NTAsMTMg
+QEAgcG5nX3NldF9xdWFudGl6ZShwbmdfc3RydWN0cnAgcG5nX3B0ciwgcA0KPiAtICAgIH0NCj4g
+LSAgICBpZiAocG5nX3B0ci0+cGFsZXR0ZSA9PSBOVUxMKQ0KPiAtICAgIHsNCj4gLS0gICAgICBw
+bmdfcHRyLT5wYWxldHRlID0gcGFsZXR0ZTsNCj4gLSsgICAgICAvKiBBbGxvY2F0ZSBhbiBvd25l
+ZCBjb3B5IHJhdGhlciB0aGFuIGFsaWFzaW5nIHRoZSBjYWxsZXIncyBwb2ludGVyLA0KPiAtKyAg
+ICAgICAqIHNvIHRoYXQgcG5nX3JlYWRfZGVzdHJveSBjYW4gZnJlZSBwbmdfcHRyLT5wYWxldHRl
+IHVuY29uZGl0aW9uYWxseS4NCj4gLSsgICAgICAgKi8NCj4gLSsgICAgICBwbmdfcHRyLT5wYWxl
+dHRlID0gcG5nX3ZvaWRjYXN0KHBuZ19jb2xvcnAsIHBuZ19jYWxsb2MocG5nX3B0ciwNCj4gLSsg
+ICAgICAgICAgUE5HX01BWF9QQUxFVFRFX0xFTkdUSCAqIChzaXplb2YgKHBuZ19jb2xvcikpKSk7
+DQo+IC0rICAgICAgbWVtY3B5KHBuZ19wdHItPnBhbGV0dGUsIHBhbGV0dGUsICh1bnNpZ25lZCBp
+bnQpbnVtX3BhbGV0dGUgKg0KPiAtKyAgICAgICAgICAoc2l6ZW9mIChwbmdfY29sb3IpKSk7DQo+
+IC0gICAgfQ0KPiAtICAgIHBuZ19wdHItPm51bV9wYWxldHRlID0gKHBuZ191aW50XzE2KW51bV9w
+YWxldHRlOw0KPiAtDQo+IC1kaWZmIC0tZ2l0IGEvcG5ncnV0aWwuYyBiL3BuZ3J1dGlsLmMNCj4g
+LWluZGV4IGExOTUwN2JmMWIuLjNhMzVmZTlkZTIgMTAwNjQ0DQo+IC0tLS0gYS9wbmdydXRpbC5j
+DQo+IC0rKysgYi9wbmdydXRpbC5jDQo+IC1AQCAtMTA0NywxNCArMTA0Nyw2IEBAIHBuZ19oYW5k
+bGVfUExURShwbmdfc3RydWN0cnAgcG5nX3B0ciwgcG4NCj4gLSAgICB9DQo+IC0gI2VuZGlmDQo+
+IC0NCj4gLS0gICAvKiBUT0RPOiBwbmdfc2V0X1BMVEUgaGFzIHRoZSBzaWRlIGVmZmVjdCBvZiBz
+ZXR0aW5nIHBuZ19wdHItPnBhbGV0dGUgdG8gaXRzDQo+IC0tICAgICogb3duIGNvcHkgb2YgdGhl
+IHBhbGV0dGUuICBUaGlzIGhhcyB0aGUgc2lkZSBlZmZlY3QgdGhhdCB3aGVuIHBuZ19zdGFydF9y
+b3cNCj4gLS0gICAgKiBpcyBjYWxsZWQgKHRoaXMgaGFwcGVucyBhZnRlciBhbnkgY2FsbCB0byBw
+bmdfcmVhZF91cGRhdGVfaW5mbykgdGhlDQo+IC0tICAgICogaW5mb19wdHIgcGFsZXR0ZSBnZXRz
+IGNoYW5nZWQuICBUaGlzIGlzIGV4dHJlbWVseSB1bmV4cGVjdGVkIGFuZA0KPiAtLSAgICAqIGNv
+bmZ1c2luZy4NCj4gLS0gICAgKg0KPiAtLSAgICAqIEZpeCB0aGlzIGJ5IG5vdCBzaGFyaW5nIHRo
+ZSBwYWxldHRlIGluIHRoaXMgd2F5Lg0KPiAtLSAgICAqLw0KPiAtICAgIHBuZ19zZXRfUExURShw
+bmdfcHRyLCBpbmZvX3B0ciwgcGFsZXR0ZSwgbnVtKTsNCj4gLQ0KPiAtICAgIC8qIFRoZSB0aHJl
+ZSBjaHVua3MsIGJLR0QsIGhJU1QgYW5kIHRSTlMgKm11c3QqIGFwcGVhciBhZnRlciBQTFRFIGFu
+ZA0KPiBiZWZvcmUNCj4gLWRpZmYgLS1naXQgYS9wbmdzZXQuYyBiL3BuZ3NldC5jDQo+IC1pbmRl
+eCBkY2NjNjQ5OGQ3Li5iOWNjYjdmYjE1IDEwMDY0NA0KPiAtLS0tIGEvcG5nc2V0LmMNCj4gLSsr
+KyBiL3BuZ3NldC5jDQo+IC1AQCAtNTk1LDI4ICs1OTUsMzggQEAgcG5nX3NldF9QTFRFKHBuZ19z
+dHJ1Y3RycCBwbmdfcHRyLCBwbmdfaQ0KPiAtICAgICAgIHBuZ19lcnJvcihwbmdfcHRyLCAiSW52
+YWxpZCBwYWxldHRlIik7DQo+IC0gICAgfQ0KPiAtDQo+IC0tICAgLyogSXQgbWF5IG5vdCBhY3R1
+YWxseSBiZSBuZWNlc3NhcnkgdG8gc2V0IHBuZ19wdHItPnBhbGV0dGUgaGVyZTsNCj4gLS0gICAg
+KiB3ZSBkbyBpdCBmb3IgYmFja3dhcmQgY29tcGF0aWJpbGl0eSB3aXRoIHRoZSB3YXkgdGhlIHBu
+Z19oYW5kbGVfdFJOUw0KPiAtLSAgICAqIGZ1bmN0aW9uIHVzZWQgdG8gZG8gdGhlIGFsbG9jYXRp
+b24uDQo+IC0tICAgICoNCj4gLS0gICAgKiAxLjYuMDogdGhlIGFib3ZlIHN0YXRlbWVudCBhcHBl
+YXJzIHRvIGJlIGluY29ycmVjdDsgc29tZXRoaW5nIGhhcyB0byBzZXQNCj4gLS0gICAgKiB0aGUg
+cGFsZXR0ZSBpbnNpZGUgcG5nX3N0cnVjdCBvbiByZWFkLg0KPiAtLSAgICAqLw0KPiAtICAgIHBu
+Z19mcmVlX2RhdGEocG5nX3B0ciwgaW5mb19wdHIsIFBOR19GUkVFX1BMVEUsIDApOw0KPiAtDQo+
+IC0gICAgLyogQ2hhbmdlZCBpbiBsaWJwbmctMS4yLjEgdG8gYWxsb2NhdGUgUE5HX01BWF9QQUxF
+VFRFX0xFTkdUSCBpbnN0ZWFkDQo+IC0gICAgICogb2YgbnVtX3BhbGV0dGUgZW50cmllcywgaW4g
+Y2FzZSBvZiBhbiBpbnZhbGlkIFBORyBmaWxlIG9yIGluY29ycmVjdA0KPiAtICAgICAqIGNhbGwg
+dG8gcG5nX3NldF9QTFRFKCkgd2l0aCB0b28tbGFyZ2Ugc2FtcGxlIHZhbHVlcy4NCj4gLSsgICAg
+Kg0KPiAtKyAgICAqIEFsbG9jYXRlIGluZGVwZW5kZW50IGJ1ZmZlcnMgZm9yIGluZm9fcHRyIGFu
+ZCBwbmdfcHRyIHNvIHRoYXQgdGhlDQo+IC0rICAgICogbGlmZXRpbWUgb2YgcG5nX3B0ci0+cGFs
+ZXR0ZSBpcyBkZWNvdXBsZWQgZnJvbSB0aGUgbGlmZXRpbWUgb2YNCj4gLSsgICAgKiBpbmZvX3B0
+ci0+cGFsZXR0ZS4gIFByZXZpb3VzbHksIHRoZXNlIHR3byBwb2ludGVycyB3ZXJlIGFsaWFzZWQs
+DQo+IC0rICAgICogd2hpY2ggY2F1c2VkIGEgdXNlLWFmdGVyLWZyZWUgdnVsbmVyYWJpbGl0eSBp
+ZiBwbmdfZnJlZV9kYXRhIGZyZWVkDQo+IC0rICAgICogaW5mb19wdHItPnBhbGV0dGUgd2hpbGUg
+cG5nX3B0ci0+cGFsZXR0ZSB3YXMgc3RpbGwgaW4gdXNlIGJ5IHRoZQ0KPiAtKyAgICAqIHJvdyB0
+cmFuc2Zvcm0gZnVuY3Rpb25zIChlLmcuIHBuZ19kb19leHBhbmRfcGFsZXR0ZSkuDQo+IC0rICAg
+ICoNCj4gLSsgICAgKiBCb3RoIGJ1ZmZlcnMgYXJlIGFsbG9jYXRlZCB3aXRoIHBuZ19jYWxsb2Mg
+dG8gemVyby1maWxsLCBiZWNhdXNlDQo+IC0rICAgICogdGhlIEFSTSBORU9OIHBhbGV0dGUgcmlm
+ZmxlIHJlYWRzIGFsbCAyNTYgZW50cmllcyB1bmNvbmRpdGlvbmFsbHksDQo+IC0rICAgICogcmVn
+YXJkbGVzcyBvZiBudW1fcGFsZXR0ZS4NCj4gLSAgICAgKi8NCj4gLSsgICBwbmdfZnJlZShwbmdf
+cHRyLCBwbmdfcHRyLT5wYWxldHRlKTsNCj4gLSAgICBwbmdfcHRyLT5wYWxldHRlID0gcG5nX3Zv
+aWRjYXN0KHBuZ19jb2xvcnAsIHBuZ19jYWxsb2MocG5nX3B0ciwNCj4gLSAgICAgICAgUE5HX01B
+WF9QQUxFVFRFX0xFTkdUSCAqIChzaXplb2YgKHBuZ19jb2xvcikpKSk7DQo+IC0rICAgaW5mb19w
+dHItPnBhbGV0dGUgPSBwbmdfdm9pZGNhc3QocG5nX2NvbG9ycCwgcG5nX2NhbGxvYyhwbmdfcHRy
+LA0KPiAtKyAgICAgICBQTkdfTUFYX1BBTEVUVEVfTEVOR1RIICogKHNpemVvZiAocG5nX2NvbG9y
+KSkpKTsNCj4gLSsgICBwbmdfcHRyLT5udW1fcGFsZXR0ZSA9IGluZm9fcHRyLT5udW1fcGFsZXR0
+ZSA9IChwbmdfdWludF8xNiludW1fcGFsZXR0ZTsNCj4gLQ0KPiAtICAgIGlmIChudW1fcGFsZXR0
+ZSA+IDApDQo+IC0rICAgICAgew0KPiAtKyAgICAgIG1lbWNweShpbmZvX3B0ci0+cGFsZXR0ZSwg
+cGFsZXR0ZSwgKHVuc2lnbmVkIGludCludW1fcGFsZXR0ZSAqDQo+IC0rICAgICAgICAgIChzaXpl
+b2YgKHBuZ19jb2xvcikpKTsNCj4gLSAgICAgICBtZW1jcHkocG5nX3B0ci0+cGFsZXR0ZSwgcGFs
+ZXR0ZSwgKHVuc2lnbmVkIGludCludW1fcGFsZXR0ZSAqDQo+IC0gICAgICAgICAgIChzaXplb2Yg
+KHBuZ19jb2xvcikpKTsNCj4gLSsgICAgICB9DQo+IC0NCj4gLS0gICBpbmZvX3B0ci0+cGFsZXR0
+ZSA9IHBuZ19wdHItPnBhbGV0dGU7DQo+IC0tICAgaW5mb19wdHItPm51bV9wYWxldHRlID0gcG5n
+X3B0ci0+bnVtX3BhbGV0dGUgPSAocG5nX3VpbnRfMTYpbnVtX3BhbGV0dGU7DQo+IC0gICAgaW5m
+b19wdHItPmZyZWVfbWUgfD0gUE5HX0ZSRUVfUExURTsNCj4gLSAgICBpbmZvX3B0ci0+dmFsaWQg
+fD0gUE5HX0lORk9fUExURTsNCj4gLSB9DQo+IC1kaWZmIC0tZ2l0IGEvcG5nd3JpdGUuYyBiL3Bu
+Z3dyaXRlLmMNCj4gLWluZGV4IDg0YWYxZTczZmIuLjM0ODc2M2U5NDAgMTAwNjQ0DQo+IC0tLS0g
+YS9wbmd3cml0ZS5jDQo+IC0rKysgYi9wbmd3cml0ZS5jDQo+IC1AQCAtOTgyLDYgKzk4MiwxMCBA
+QCBwbmdfd3JpdGVfZGVzdHJveShwbmdfc3RydWN0cnAgcG5nX3B0cikNCj4gLSAgICBwbmdfZnJl
+ZShwbmdfcHRyLCBwbmdfcHRyLT50cmFuc19hbHBoYSk7DQo+IC0gICAgcG5nX3B0ci0+dHJhbnNf
+YWxwaGEgPSBOVUxMOw0KPiAtICNlbmRpZg0KPiAtKw0KPiAtKyAgIC8qIEZyZWUgdGhlIGluZGVw
+ZW5kZW50IGNvcHkgb2YgdGhlIHBhbGV0dGUgb3duZWQgYnkgcG5nX3N0cnVjdC4gKi8NCj4gLSsg
+ICBwbmdfZnJlZShwbmdfcHRyLCBwbmdfcHRyLT5wYWxldHRlKTsNCj4gLSsgICBwbmdfcHRyLT5w
+YWxldHRlID0gTlVMTDsNCj4gLQ0KPiAtICAgIC8qIFRoZSBlcnJvciBoYW5kbGluZyBhbmQgbWVt
+b3J5IGhhbmRsaW5nIGluZm9ybWF0aW9uIGlzIGxlZnQgaW50YWN0IGF0IHRoaXMNCj4gLSAgICAg
+KiBwb2ludDogdGhlIGptcF9idWYgbWF5IHN0aWxsIGhhdmUgdG8gYmUgZnJlZWQuICBTZWUgcG5n
+X2Rlc3Ryb3lfcG5nX3N0cnVjdA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNDE2LTA0LnBhdGNoDQo+IGIvbWV0YS9yZWNpcGVz
+LW11bHRpbWVkaWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNDE2LTA0LnBhdGNoDQo+IGRlbGV0
+ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCBmZjdkYjUzLi4wMDAwMDAwDQo+IC0tLSBhL21l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9maWxlcy9DVkUtMjAyNi0zMzQxNi0wNC5wYXRj
+aA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDUzICswLDAgQEANCj4gLUZyb20gYzFiMDMxOGIz
+OTNjOTA2NzllNmZhNWJjMWQzMjlmZDVkNTAxMmVjMSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIw
+MDENCj4gLUZyb206IENvc21pbiBUcnV0YSA8Y3RydXRhQGdtYWlsLmNvbT4NCj4gLURhdGU6IEZy
+aSwgMjAgTWFyIDIwMjYgMjE6MjU6MTIgKzAyMDANCj4gLVN1YmplY3Q6IFtQQVRDSF0gZml4OiBT
+eW5jIGBpbmZvX3B0ci0+cGFsZXR0ZWAgYWZ0ZXIgaW4tcGxhY2UgdHJhbnNmb3Jtcw0KPiAtDQo+
+IC1Db3B5IGBwbmdfcHRyLT5wYWxldHRlYCBpbnRvIGBpbmZvX3B0ci0+cGFsZXR0ZWAgdXBvbiBl
+bnRlcmluZw0KPiAtdGhlIGZ1bmN0aW9uIHRoYXQgcnVucyBpbW1lZGlhdGVseSBhZnRlciB0aGUg
+aW4tcGxhY2UgdHJhbnNmb3Jtcy4NCj4gLQ0KPiAtVGhlIHBhbGV0dGUgZGVjb3VwbGluZyBpbiB0
+aGUgcHJldmlvdXMgY29tbWl0IGdhdmUgYHBuZ19zdHJ1Y3RgDQo+IC1hbmQgYHBuZ19pbmZvYCBp
+bmRlcGVuZGVudGx5LWFsbG9jYXRlZCBwYWxldHRlIGJ1ZmZlcnMsIGZpeGluZyBhDQo+IC11c2Ut
+YWZ0ZXItZnJlZSB2dWxuZXJhYmlsaXR5LiBIb3dldmVyLCBgcG5nX2luaXRfcmVhZF90cmFuc2Zv
+cm1hdGlvbnNgDQo+IC1tb2RpZmllcyBgcG5nX3B0ci0+cGFsZXR0ZWAgaW4gcGxhY2UgKGUuZy4g
+Zm9yIGdhbW1hIGNvcnJlY3Rpb24gb3INCj4gLWJhY2tncm91bmQgY29tcG9zaXRpbmcpLCBhbmQg
+dGhlIG9sZCBhbGlhc2luZyBtYWRlIHRob3NlIG1vZGlmaWNhdGlvbnMNCj4gLXZpc2libGUgdGhy
+b3VnaCBgcG5nX2dldF9QTFRFYC4gV2l0aCBpbmRlcGVuZGVudCBidWZmZXJzLA0KPiAtYGluZm9f
+cHRyLT5wYWxldHRlYCByZXRhaW5lZCB0aGUgb3JpZ2luYWwgdmFsdWVzLCBjYXVzaW5nIG91ciB0
+ZXN0cyB0bw0KPiAtZmFpbCBvbiBpbmRleGVkLWNvbG91ciBiYWNrZ3JvdW5kIGNvbXBvc2l0aW5n
+Lg0KPiAtDQo+IC1DVkU6IENWRS0yMDI2LTMzNDE2DQo+IC1VcHN0cmVhbS1TdGF0dXM6IEJhY2tw
+b3J0DQo+IFtodHRwczovL2dpdGh1Yi5jb20vcG5nZ3JvdXAvbGlicG5nL2NvbW1pdC9jMWIwMzE4
+YjM5M2M5MDY3OWU2ZmE1YmMxZDMyOWZkDQo+IDVkNTAxMmVjMV0NCj4gLUNvbW1lbnQ6IFJlZnJl
+c2hlZCBodW5rIHRvIG1hdGNoIGxhdGVzdCBzY2FydGhnYXANCj4gLQ0KPiAtU2lnbmVkLW9mZi1i
+eTogU291cmF2IEt1bWFyIFByYW1hbmlrDQo+IDxTb3VyYXZrdW1hci5QcmFtYW5pa0BibXd0ZWNo
+d29ya3MuaW4+DQo+IC1TaWduZWQtb2ZmLWJ5OiBaYWhpciBIdXNzYWluIDx6YWhpci5iYXNoYUBr
+cGl0LmNvbT4NCj4gLS0tLQ0KPiAtIHBuZ3J0cmFuLmMgfCAxNSArKysrKysrKysrKysrKysNCj4g
+LSAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKQ0KPiAtDQo+IC1kaWZmIC0tZ2l0IGEv
+cG5ncnRyYW4uYyBiL3BuZ3J0cmFuLmMNCj4gLWluZGV4IGZkNzM2YWI2NzIuLjk3OGRhYzU4ODgg
+MTAwNjQ0DQo+IC0tLS0gYS9wbmdydHJhbi5jDQo+IC0rKysgYi9wbmdydHJhbi5jDQo+IC1AQCAt
+MTk4NCw2ICsxOTg0LDIxIEBAIHBuZ19yZWFkX3RyYW5zZm9ybV9pbmZvKHBuZ19zdHJ1Y3RycCBw
+bmcNCj4gLSB7DQo+IC0gICAgcG5nX2RlYnVnKDEsICJpbiBwbmdfcmVhZF90cmFuc2Zvcm1faW5m
+byIpOw0KPiAtDQo+IC0rICAgaWYgKHBuZ19wdHItPnRyYW5zZm9ybWF0aW9ucyAhPSAwKQ0KPiAt
+KyAgIHsNCj4gLSsgICAgICBpZiAoaW5mb19wdHItPmNvbG9yX3R5cGUgPT0gUE5HX0NPTE9SX1RZ
+UEVfUEFMRVRURSAmJg0KPiAtKyAgICAgICAgICBpbmZvX3B0ci0+cGFsZXR0ZSAhPSBOVUxMICYm
+IHBuZ19wdHItPnBhbGV0dGUgIT0gTlVMTCkNCj4gLSsgICAgICB7DQo+IC0rICAgICAgICAgLyog
+U3luYyBpbmZvX3B0ci0+cGFsZXR0ZSB3aXRoIHBuZ19wdHItPnBhbGV0dGUuDQo+IC0rICAgICAg
+ICAgICogVGhlIGZ1bmN0aW9uIHBuZ19pbml0X3JlYWRfdHJhbnNmb3JtYXRpb25zIG1heSBoYXZl
+IG1vZGlmaWVkDQo+IC0rICAgICAgICAgICogcG5nX3B0ci0+cGFsZXR0ZSBpbiBwbGFjZSAoZS5n
+LiBmb3IgZ2FtbWEgY29ycmVjdGlvbiBvciBmb3INCj4gLSsgICAgICAgICAgKiBiYWNrZ3JvdW5k
+IGNvbXBvc2l0aW5nKS4NCj4gLSsgICAgICAgICAgKi8NCj4gLSsgICAgICAgICBtZW1jcHkoaW5m
+b19wdHItPnBhbGV0dGUsIHBuZ19wdHItPnBhbGV0dGUsDQo+IC0rICAgICAgICAgICAgIFBOR19N
+QVhfUEFMRVRURV9MRU5HVEggKiAoc2l6ZW9mIChwbmdfY29sb3IpKSk7DQo+IC0rICAgICAgfQ0K
+PiAtKyAgIH0NCj4gLSsNCj4gLSAjaWZkZWYgUE5HX1JFQURfRVhQQU5EX1NVUFBPUlRFRA0KPiAt
+ICAgIGlmICgocG5nX3B0ci0+dHJhbnNmb3JtYXRpb25zICYgUE5HX0VYUEFORCkgIT0gMCkNCj4g
+LSAgICB7DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvZmls
+ZXMvQ1ZFLTIwMjYtMzM2MzYucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJw
+bmcvZmlsZXMvQ1ZFLTIwMjYtMzM2MzYucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0
+DQo+IGluZGV4IDNiZDZhYWUuLjAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvbGlicG5nL2ZpbGVzL0NWRS0yMDI2LTMzNjM2LnBhdGNoDQo+ICsrKyAvZGV2L251bGwNCj4g
+QEAgLTEsOTkgKzAsMCBAQA0KPiAtRnJvbSA5ZmY4NDdkZmNiYjU0ZjZkZWUzZmQ0ZTQwODE1MGFl
+OTQ0Mjc4MzkxIE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiAtRnJvbTogQ29zbWluIFRy
+dXRhIDxjdHJ1dGFAZ21haWwuY29tPg0KPiAtRGF0ZTogU2F0LCAyMSBNYXIgMjAyNiAyMzo0ODo0
+OSArMDIwMA0KPiAtU3ViamVjdDogW1BBVENIXSBmaXgoYXJtKTogUmVzb2x2ZSBvdXQtb2YtYm91
+bmRzIHJlYWQvd3JpdGUgaW4gTkVPTiBwYWxldHRlDQo+IC0gZXhwYW5zaW9uDQo+IC0NCj4gLUJv
+dGggYHBuZ19kb19leHBhbmRfcGFsZXR0ZV9yZ2JhOF9uZW9uYCBhbmQNCj4gLWBwbmdfZG9fZXhw
+YW5kX3BhbGV0dGVfcmdiOF9uZW9uYCBhZHZhbmNlZCBpbiBmaXhlZC1zaXplIGNodW5rcyB3aXRo
+b3V0DQo+IC1ndWFyZGluZyB0aGUgZmluYWwgaXRlcmF0aW9uLCBhbGxvd2luZyBvdXQtb2YtYm91
+bmRzIHJlYWRzIGFuZCB3cml0ZXMNCj4gLXdoZW4gdGhlIHJvdyB3aWR0aCBpcyBub3QgYSBtdWx0
+aXBsZSBvZiB0aGUgY2h1bmsgc2l6ZS4NCj4gLQ0KPiAtUmVzdHJpY3QgdGhlIE5FT04gbG9vcCB0
+byBmdWxsIGNodW5rcyBvbmx5LCByZW1vdmUgdGhlIG5vdy11bm5lY2Vzc2FyeQ0KPiAtcG9zdC1s
+b29wIGFkanVzdG1lbnQsIGFuZCB1bmRvIHRoZSBgKmRkcGAgcHJlLWFkanVzdG1lbnQgYmVmb3Jl
+IHRoZQ0KPiAtcG9pbnRlciBoYW5kb2ZmIHRvIHRoZSBzY2FsYXIgZmFsbGJhY2suDQo+IC0NCj4g
+LUNWRTogQ1ZFLTIwMjYtMzM2MzYNCj4gLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2h0
+dHBzOi8vZ2l0aHViLmNvbS9wbmdncm91cC9saWJwbmcvY29tbWl0L2FiYTlmMThlYmE4NzBkMTRm
+YjUyYzViYTVkNzM0NQ0KPiAxMzQ5ZTMzOWMzXQ0KPiAtDQo+IC1SZXBvcnRlZC1ieTogQW1lbW95
+b2kgPEFtZW1veW9pQHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4NCj4gLUNvLWF1dGhvcmVkLWJ5
+OiBBbWVtb3lvaSA8QW1lbW95b2lAdXNlcnMubm9yZXBseS5naXRodWIuY29tPg0KPiAtU2lnbmVk
+LW9mZi1ieTogQ29zbWluIFRydXRhIDxjdHJ1dGFAZ21haWwuY29tPg0KPiAtKGNoZXJyeSBwaWNr
+ZWQgZnJvbSBjb21taXQgYWJhOWYxOGViYTg3MGQxNGZiNTJjNWJhNWQ3MzQ1MTM0OWUzMzljMykN
+Cj4gLVNpZ25lZC1vZmYtYnk6IFN1ZGhpciBEdW1iaGFyZSA8c3VkdW1iaGFAY2lzY28uY29tPg0K
+PiAtLS0tDQo+IC0gYXJtL3BhbGV0dGVfbmVvbl9pbnRyaW5zaWNzLmMgfCAyOSArKysrKysrKysr
+KysrLS0tLS0tLS0tLS0tLS0tLQ0KPiAtIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCsp
+LCAxNiBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL2FybS9wYWxldHRlX25lb25f
+aW50cmluc2ljcy5jIGIvYXJtL3BhbGV0dGVfbmVvbl9pbnRyaW5zaWNzLmMNCj4gLWluZGV4IDky
+YzdkNmY5Zi4uYmRkMTU4NDlkIDEwMDY0NA0KPiAtLS0tIGEvYXJtL3BhbGV0dGVfbmVvbl9pbnRy
+aW5zaWNzLmMNCj4gLSsrKyBiL2FybS9wYWxldHRlX25lb25faW50cmluc2ljcy5jDQo+IC1AQCAt
+MSw3ICsxLDcgQEANCj4gLQ0KPiAtIC8qIHBhbGV0dGVfbmVvbl9pbnRyaW5zaWNzLmMgLSBORU9O
+IG9wdGltaXNlZCBwYWxldHRlIGV4cGFuc2lvbiBmdW5jdGlvbnMNCj4gLSAgKg0KPiAtLSAqIENv
+cHlyaWdodCAoYykgMjAxOC0yMDE5IENvc21pbiBUcnV0YQ0KPiAtKyAqIENvcHlyaWdodCAoYykg
+MjAxOC0yMDI2IENvc21pbiBUcnV0YQ0KPiAtICAqIENvcHlyaWdodCAoYykgMjAxNy0yMDE4IEFy
+bSBIb2xkaW5ncy4gQWxsIHJpZ2h0cyByZXNlcnZlZC4NCj4gLSAgKiBXcml0dGVuIGJ5IFJpY2hh
+cmQgVG93bnNlbmQgPFJpY2hhcmQuVG93bnNlbmRAYXJtLmNvbT4sIEZlYnJ1YXJ5DQo+IDIwMTcu
+DQo+IC0gICoNCj4gLUBAIC04MCw3ICs4MCw3IEBAIHBuZ19kb19leHBhbmRfcGFsZXR0ZV9yZ2Jh
+OF9uZW9uKHBuZ19zdHJ1Y3RycA0KPiBwbmdfcHRyLCBwbmdfcm93X2luZm9wIHJvd19pbmZvLA0K
+PiAtICAgICAqLw0KPiAtICAgICpkZHAgPSAqZGRwIC0gKChwaXhlbHNfcGVyX2NodW5rICogc2l6
+ZW9mKHBuZ191aW50XzMyKSkgLSAxKTsNCj4gLQ0KPiAtLSAgIGZvciAoaSA9IDA7IGkgPCByb3df
+d2lkdGg7IGkgKz0gcGl4ZWxzX3Blcl9jaHVuaykNCj4gLSsgICBmb3IgKGkgPSAwOyBpICsgcGl4
+ZWxzX3Blcl9jaHVuayA8PSByb3dfd2lkdGg7IGkgKz0gcGl4ZWxzX3Blcl9jaHVuaykNCj4gLSAg
+ICB7DQo+IC0gICAgICAgdWludDMyeDRfdCBjdXI7DQo+IC0gICAgICAgcG5nX2J5dGVwIHNwID0g
+KnNzcCAtIGksIGRwID0gKmRkcCAtIChpIDw8IDIpOw0KPiAtQEAgLTkwLDEzICs5MCwxMiBAQCBw
+bmdfZG9fZXhwYW5kX3BhbGV0dGVfcmdiYThfbmVvbihwbmdfc3RydWN0cnANCj4gcG5nX3B0ciwg
+cG5nX3Jvd19pbmZvcCByb3dfaW5mbywNCj4gLSAgICAgICBjdXIgPSB2bGQxcV9sYW5lX3UzMihy
+aWZmbGVkX3BhbGV0dGUgKyAqKHNwIC0gMCksIGN1ciwgMyk7DQo+IC0gICAgICAgdnN0MXFfdTMy
+KCh2b2lkICopZHAsIGN1cik7DQo+IC0gICAgfQ0KPiAtLSAgIGlmIChpICE9IHJvd193aWR0aCkN
+Cj4gLS0gICB7DQo+IC0tICAgICAgLyogUmVtb3ZlIHRoZSBhbW91bnQgdGhhdCB3YXNuJ3QgcHJv
+Y2Vzc2VkLiAqLw0KPiAtLSAgICAgIGkgLT0gcGl4ZWxzX3Blcl9jaHVuazsNCj4gLS0gICB9DQo+
+IC0NCj4gLS0gICAvKiBEZWNyZW1lbnQgb3V0cHV0IHBvaW50ZXJzLiAqLw0KPiAtKyAgIC8qIFVu
+ZG8gdGhlIHByZS1hZGp1c3RtZW50IG9mICpkZHAgYmVmb3JlIHRoZSBwb2ludGVyIGhhbmRvZmYs
+DQo+IC0rICAgICogc28gdGhlIHNjYWxhciBmYWxsYmFjayBpbiBwbmdydHJhbi5jIHJlY2VpdmVz
+IGEgZHAgdGhhdCBwb2ludHMNCj4gLSsgICAgKiB0byB0aGUgY29ycmVjdCBwb3NpdGlvbi4NCj4g
+LSsgICAgKi8NCj4gLSsgICAqZGRwID0gKmRkcCArIChwaXhlbHNfcGVyX2NodW5rICogNCAtIDEp
+Ow0KPiAtICAgICpzc3AgPSAqc3NwIC0gaTsNCj4gLSAgICAqZGRwID0gKmRkcCAtIChpIDw8IDIp
+Ow0KPiAtICAgIHJldHVybiBpOw0KPiAtQEAgLTEyMSw3ICsxMjAsNyBAQCBwbmdfZG9fZXhwYW5k
+X3BhbGV0dGVfcmdiOF9uZW9uKHBuZ19zdHJ1Y3RycA0KPiBwbmdfcHRyLCBwbmdfcm93X2luZm9w
+IHJvd19pbmZvLA0KPiAtICAgIC8qIFNlZWtpbmcgdGhpcyBiYWNrIGJ5IDggcGl4ZWxzIHggMyBi
+eXRlcy4gKi8NCj4gLSAgICAqZGRwID0gKmRkcCAtICgocGl4ZWxzX3Blcl9jaHVuayAqIHNpemVv
+ZihwbmdfY29sb3IpKSAtIDEpOw0KPiAtDQo+IC0tICAgZm9yIChpID0gMDsgaSA8IHJvd193aWR0
+aDsgaSArPSBwaXhlbHNfcGVyX2NodW5rKQ0KPiAtKyAgIGZvciAoaSA9IDA7IGkgKyBwaXhlbHNf
+cGVyX2NodW5rIDw9IHJvd193aWR0aDsgaSArPSBwaXhlbHNfcGVyX2NodW5rKQ0KPiAtICAgIHsN
+Cj4gLSAgICAgICB1aW50OHg4eDNfdCBjdXI7DQo+IC0gICAgICAgcG5nX2J5dGVwIHNwID0gKnNz
+cCAtIGksIGRwID0gKmRkcCAtICgoaSA8PCAxKSArIGkpOw0KPiAtQEAgLTEzNiwxMyArMTM1LDEx
+IEBAIHBuZ19kb19leHBhbmRfcGFsZXR0ZV9yZ2I4X25lb24ocG5nX3N0cnVjdHJwDQo+IHBuZ19w
+dHIsIHBuZ19yb3dfaW5mb3Agcm93X2luZm8sDQo+IC0gICAgICAgdnN0M191OCgodm9pZCAqKWRw
+LCBjdXIpOw0KPiAtICAgIH0NCj4gLQ0KPiAtLSAgIGlmIChpICE9IHJvd193aWR0aCkNCj4gLS0g
+ICB7DQo+IC0tICAgICAgLyogUmVtb3ZlIHRoZSBhbW91bnQgdGhhdCB3YXNuJ3QgcHJvY2Vzc2Vk
+LiAqLw0KPiAtLSAgICAgIGkgLT0gcGl4ZWxzX3Blcl9jaHVuazsNCj4gLS0gICB9DQo+IC0tDQo+
+IC0tICAgLyogRGVjcmVtZW50IG91dHB1dCBwb2ludGVycy4gKi8NCj4gLSsgICAvKiBVbmRvIHRo
+ZSBwcmUtYWRqdXN0bWVudCBvZiAqZGRwIGJlZm9yZSB0aGUgcG9pbnRlciBoYW5kb2ZmLA0KPiAt
+KyAgICAqIHNvIHRoZSBzY2FsYXIgZmFsbGJhY2sgaW4gcG5ncnRyYW4uYyByZWNlaXZlcyBhIGRw
+IHRoYXQgcG9pbnRzDQo+IC0rICAgICogdG8gdGhlIGNvcnJlY3QgcG9zaXRpb24uDQo+IC0rICAg
+ICovDQo+IC0rICAgKmRkcCA9ICpkZHAgKyAocGl4ZWxzX3Blcl9jaHVuayAqIDMgLSAxKTsNCj4g
+LSAgICAqc3NwID0gKnNzcCAtIGk7DQo+IC0gICAgKmRkcCA9ICpkZHAgLSAoKGkgPDwgMSkgKyBp
+KTsNCj4gLSAgICByZXR1cm4gaTsNCj4gLS0tDQo+IC0yLjQ0LjQNCj4gLQ0KPiBkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2xpYnBuZ18xLjYuNDIuYmIgYi9tZXRh
+L3JlY2lwZXMtDQo+IG11bHRpbWVkaWEvbGlicG5nL2xpYnBuZ18xLjYuNTguYmINCj4gc2ltaWxh
+cml0eSBpbmRleCA3NyUNCj4gcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGli
+cG5nL2xpYnBuZ18xLjYuNDIuYmINCj4gcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
+L2xpYnBuZy9saWJwbmdfMS42LjU4LmJiDQo+IGluZGV4IGU0Y2M2MzYuLjllNmE5OTEgMTAwNjQ0
+DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjQyLmJi
+DQo+ICsrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjU4LmJi
+DQo+IEBAIC01LDMzICs1LDE2IEBAIGxpYnJhcnkgZm9yIHVzZSBpbiBhcHBsaWNhdGlvbnMgdGhh
+dCByZWFkLCBjcmVhdGUsIGFuZA0KPiBtYW5pcHVsYXRlIFBORyBcDQo+ICBIT01FUEFHRSA9ICJo
+dHRwOi8vd3d3LmxpYnBuZy5vcmcvIg0KPiAgU0VDVElPTiA9ICJsaWJzIg0KPiAgTElDRU5TRSA9
+ICJMaWJwbmciDQo+IC1MSUNfRklMRVNfQ0hLU1VNID0NCj4gImZpbGU6Ly9MSUNFTlNFO21kNT0w
+ZmRiZmJlMTBmYzI5NGE2ZmNhMjRkYzc2MTM0MjIyYSINCj4gK0xJQ19GSUxFU19DSEtTVU0gPQ0K
+PiAiZmlsZTovL0xJQ0VOU0U7bWQ1PTlkYzM1MGVkYmJiZWU2NjBjN2Q5YWY3OTQ4NzE2OGYyIg0K
+PiAgREVQRU5EUyA9ICJ6bGliIg0KPiANCj4gIExJQlYgPSAiMTYiDQo+IA0KPiAgU1JDX1VSSSA9
+DQo+ICIke1NPVVJDRUZPUkdFX01JUlJPUn0vcHJvamVjdC8ke0JQTn0vJHtCUE59JHtMSUJWfS8k
+e1BWfS8ke0JQfS50YXIueHogXA0KPiAgICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwNCj4g
+LSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI1LTY0NTA1LTAxLnBhdGNoIFwNCj4gLSAgICAgICAg
+ICAgZmlsZTovL0NWRS0yMDI1LTY0NTA1LTAyLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTov
+L0NWRS0yMDI1LTY0NTA1LTAzLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI1
+LTY0NTA2LnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI1LTY0NzIwLnBhdGNo
+IFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI1LTY1MDE4LTAxLnBhdGNoIFwNCj4gLSAg
+ICAgICAgICAgZmlsZTovL0NWRS0yMDI1LTY1MDE4LTAyLnBhdGNoIFwNCj4gLSAgICAgICAgICAg
+ZmlsZTovL0NWRS0yMDI1LTY2MjkzLTAxLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NW
+RS0yMDI1LTY2MjkzLTAyLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI2LTIy
+Njk1LnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI2LTIyODAxLnBhdGNoIFwN
+Cj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI2LTI1NjQ2LnBhdGNoIFwNCj4gLSAgICAgICAg
+ICAgZmlsZTovL0NWRS0yMDI2LTMzNjM2LnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NW
+RS0yMDI2LTMzNDE2LTAxLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI2LTMz
+NDE2LTAyLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI2LTMzNDE2LTAzLnBh
+dGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovL0NWRS0yMDI2LTMzNDE2LTA0LnBhdGNoIFwNCj4g
+ICINCj4gDQo+IC1TUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiYzkxOWRiYzExZjRjMDNiMDVhYmEz
+Zjg4ODRkOGViN2FkZmUzNTcyYWQyMjhhZjk3MmJiNjAwNTdiZGI0ODQ1MCINCj4gK1NSQ19VUklb
+c2hhMjU2c3VtXSA9DQo+ICIyOGViNDAzZjUxZjBmNzQwNTI0OTEzMmNlY2ZlODJlYTVjMGVmOTdm
+MWIzMmM1YTY1ODI4ODE0YWUwZDM0Nzc1Ig0KPiANCj4gIE1JUlJPUlMgKz0gIiR7U09VUkNFRk9S
+R0VfTUlSUk9SfS9wcm9qZWN0LyR7QlBOfS8ke0JQTn0ke0xJQlZ9Lw0KPiAke1NPVVJDRUZPUkdF
+X01JUlJPUn0vcHJvamVjdC8ke0JQTn0vJHtCUE59JHtMSUJWfS9vbGRlci1yZWxlYXNlcy8iDQo+
+IA0KPiAtLQ0KPiAyLjU1LjANCg0K
 
