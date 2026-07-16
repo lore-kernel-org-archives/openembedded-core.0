@@ -1,124 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <p.zabel@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C93F8C4450A
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 10:44:40 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9989.1784198671662644611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1691EC4450A
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 11:13:51 +0000 (UTC)
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10412.1784200420546319856
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 03:44:32 -0700
+ Thu, 16 Jul 2026 04:13:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XAQ6phmZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c167aa9500dso220600366b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 03:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1784198670; x=1784803470; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=yfV22wJyCO16tELMtheWdpWTCSZlaV33LxgV1Cjaytk=;
-        b=XAQ6phmZJA8lLdT3Yg11SO2YKK1eD57cmYNTBUzZPzAOz00WVTwZw0qinoAnmTGmQ/
-         BTG9c/XQHPfO9yYrb+XjmPR2NcYhUIzrsHgh7s6HW1fC0/VfYd9Rve1MlPrzznQbfNil
-         9pJ29Vl9pDEV54d/EQNrP5nHJ2e9TqZxDugRU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784198670; x=1784803470;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yfV22wJyCO16tELMtheWdpWTCSZlaV33LxgV1Cjaytk=;
-        b=Xaz/vakn7Pn18BfM6QhlzqOlqyOCA3oQTynqJEWWKGLhBAZHGSlv2RsfJ0rb5flqUx
-         hoCMg61k1s96+hUROZA1L+4dvRV0DM7XxS4J0GuEZqjJlsLyoV73El4KVVwHCShHIX87
-         x8f0Tldu+b/HEJkeRiF3AbJCgZcnEGlysx3ypthA7CVfQit4MV26P11KkXJRedmL4lwF
-         DSpdIIHjRsDC/x1hGm6f9MysG7Ux/jDVYU4p89vxW/Cr+3H4vc3hgovPne8PYQDlMC9c
-         8bkfapDU+VZ9tbgr7F6Kbth11bw7Xj7DN5qVfJItGicZmAroYgwOgoYgrTDL3jWivq+4
-         j8WA==
-X-Forwarded-Encrypted: i=1; AHgh+RpSDlw6Zg4IMdP84pmUS5zeQuIM+h2kHYbJIX8cc4wMOedNAOlkCB5Cdbt/Qq16SeZALaEcVR64WIcP0QjsUnZCNQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxiM29seBHtsH+CHkIrFaHe1n9TndjfBv+VMs/10a9JOjexmXGV
-	+D36zkVkOYWQAKBz7+zZlIM12udNDQf7nFqjSnIphkg7x3TDfhQDGXGB/4+Doc57Kh8=
-X-Gm-Gg: AfdE7cnxn+UIzrf9Qmz8guou8H+8le9xJ+o/poUK0GHcN3Ei4qHRuPGJM04rnJyV3zX
-	Pu6grybTt4kvXQg8+yxuFvW5EKR2a1AGswgVNsUmeknYWVWgQ6pVvFkf6RqRhJWdiCaKt9Mz5HI
-	mS7gl1RE6n/CYhejSqFIPVVYnB1oH7EqmQtrHqL7DsQQ1MqvR6dUpDPPpwM5Be0BBY4Cpr/si9R
-	e94pT7yBB7sBHZytIiQib7E0IcWqGQaAgE1Vk4p+jJ/wFYPb3vG91CMKl8GkWHEviPFy4VJ9xE9
-	gIFcg6GMTrJVQcu6C6DSO0a/fQivm95CVlBBc/i+GIcw7fS+yMCkFttTT13QdIMOgwzGKNNr/rR
-	1zpg5GEAZZgwJNf3Xxers3CX8gCsENwYiHwm6yzaDVPa+UQ8cPJqZcVw5rLQE6nGWvJB5/1Ic58
-	yTxE8bffAQlY4yXOk4K77vtSLyztivJzxZfeq1OUEbVYvbG7tTzL7/uAGnPsH/Qtg/4sY=
-X-Received: by 2002:a17:907:c1e:b0:c15:f4aa:f30c with SMTP id a640c23a62f3a-c166188a6b5mr658687966b.42.1784198669914;
-        Thu, 16 Jul 2026 03:44:29 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a03c:6417:d88d:c21a? ([2001:8b0:aba:5f3c:a03c:6417:d88d:c21a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c16874a27f7sm181260766b.57.2026.07.16.03.44.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 03:44:29 -0700 (PDT)
-Message-ID: <cfde322b512c0666e480b8febac22481afb7734e.camel@linuxfoundation.org>
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: p.zabel@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 2B6E02007C0;
+	Thu, 16 Jul 2026 13:13:37 +0200 (CEST)
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1wkK25-0025lr-0H;
+	Thu, 16 Jul 2026 13:13:37 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1wkK25-00000000A4J-03nO;
+	Thu, 16 Jul 2026 13:13:37 +0200
+Message-ID: <490aa6b947a8701f102846683c99f1b226f71e04.camel@pengutronix.de>
 Subject: Re: [OE-core] [[PATCHv3] meta: Add pam to the defaults if using
  systemd
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: leon.anavi@konsulko.com, Joshua Watt <jpewhacker@gmail.com>, Paul Barker
-	 <paul@pbarker.dev>
-Cc: p.zabel@pengutronix.de, openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2026 11:44:27 +0100
-In-Reply-To: <CALtQ3O1pW9C_DJNf2SjTBG=QZ1EteAt6_3KHGaOJAHbCTp0+SQ@mail.gmail.com>
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: Leon Anavi <leon.anavi@konsulko.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jul 2026 13:13:36 +0200
+In-Reply-To: <CAJdd5GaqWhzsOS-5DVxDGyS8ORd-hmDqW3PKYu95H2XcKCyERg@mail.gmail.com>
 References: <20260708143704.2643050-1-leon.anavi@konsulko.com>
 	 <c068df721aaa08116114fca946a3eaa6936b4f76.camel@pengutronix.de>
 	 <CAJdd5GaqWhzsOS-5DVxDGyS8ORd-hmDqW3PKYu95H2XcKCyERg@mail.gmail.com>
-	 <CALtQ3O1pW9C_DJNf2SjTBG=QZ1EteAt6_3KHGaOJAHbCTp0+SQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+User-Agent: Evolution 3.56.2-0+deb13u1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 10:44:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241080
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 11:13:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241081
 
-On Thu, 2026-07-16 at 13:02 +0300, Leon Anavi via lists.openembedded.org wr=
-ote:
-> Hi Paul, Joshua, Philipp,
+On Mo, 2026-07-13 at 14:30 -0600, Joshua Watt wrote:
+> On Thu, Jul 9, 2026 at 2:45=E2=80=AFAM Philipp Zabel via lists.openembedd=
+ed.org
+> <p.zabel=3Dpengutronix.de@lists.openembedded.org> wrote:
 >=20
-> Philipp, Joshua thank you for the code review and for the insights
-> regarding weston and weston-init. In the long term, discussing
-> modifications to weston and weston-init probably makes sense.
-> However, for the moment, I think my single-line change to add pam to
-> the defaults is simple and makes sense, especially considering that
-> this fix is also suitable for cherry-picking to release Wrynose.
-
-I have to disagree, whilst it is a single line change, it does have
-significant implications as it changes the distro feature configuration
-and may require the user to take specific actions if they don't want or
-need pam in their system.
-
-Changing such a thing in an LTS release series now is not a change we
-can undertake lightly. So yes, it might backport easily but that
-doesn't mean it means the policy criteria.
-
-I'm afraid we need to work out and resolve this issue properly, not
-rushing a fix. I will push back harder on taking this if merging will
-make it an instant backport request!
-
-I should also highlight that as soon as I did merge this patch,
-everyone would move on and do something else leaving the other
-questions unresolved. That is another reason I don't think I should
-merge something which I don't think is the right/complete fix.
-
-> Paul, following your initial code review, could you please have a
-> look at the third iteration of this patch? I would appreciate your
-> feedback on whether any additional modifications on my side are
-> necessary to get it merged in the upstream.
+> > On Mi, 2026-07-08 at 17:37 +0300, Leon Anavi wrote:
+> > > Add pam to DISTRO_FEATURES_DEFAULTS in init-manager-systemd.inc.
+> > > This way pam will available if variable VIRTUAL-RUNTIME_init_manager
+> > > has been set to systemd. Otherwise having systemd in conjunction
+> > > with wayland but without pam leads to a conflict with the
+> > > REQUIRED_DISTRO_FEATURES for weston related recipes.
+> >=20
+> > I think these requirements are partially incorrect, btw.
+> >=20
+> > Weston itself only requires PAM for the VNC password, so if
+> > PACKAGECONFIG[vnc] is disabled, there is no PAM dependency from
+> > weston_15.0.1.bb at all, and if vnc is enabled, the PAM dependency has
+> > nothing to do with systemd being enabled or used as init system.
+> >=20
+> > The PAM dependency in weston-init.bb comes from the PAMName=3Dweston-
+> > autologin option in weston.service and the corresponding weston-
+> > autologin PAM configuration. Those files are always installed if
+> > DISTRO_FEATURES has systemd, even if VIRTUAL-RUNTIME_init_manager is
+> > set to something else.
+> > Shouldn't either the pam distro feature depend on the systemd distro
+> > feature, or should the weston.service/weston-autologin files be
+> > installed at all if the systemd distro feature is enabled but
+> > init_manager is set to something else?
+> > I think it wouldn't be even better to remove the PAM requirement from
+> > weston-init if VNC is disabled, as Weston doesn't need the PAM login in
+> > that case.
+> >=20
 >=20
-> Please note that my modification through DISTRO_FEATURES_DEFAULTS
-> targets the nodistro and the yocto-check-layer use case. I consider
-> this change to be safe because in my opinion Poky or custom
-> distributions are expected to define an explicit DISTRO_FEATURES. So
-> (most) other cases will remain unaffected by this adjustment of the
-> defaults.
+> I believe weston-init needs PAM regardless of VNC being enabled.
 
-That isn't the case, people can take the defaults and adjust them. They
-don't expect the defaults to change underneath them.
+Yes. I failed to realize weston-init relies on pam_systemd.so to set
+XDG_RUNTIME_DIR (which weston needs to create the wayland socket) in
+its current state. The weston.service could just as well pass it via
+the environment, though, for example:
 
-Cheers,
+RuntimeDirectory=3Dweston
+Environment=3DXDG_RUNTIME_DIR=3D/run/weston
 
-Richard
+We've used this with an explicit socket path and WAYLAND_DISPLAY
+exported via the systemd environment:
+
+ExecStart=3D/usr/bin/weston --socket=3D${RUNTIME_DIRECTORY}/wayland-1 ...
+ExecStartPost=3D+/usr/bin/systemctl set-environment WAYLAND_DISPLAY=3D${RUN=
+TIME_DIRECTORY}/wayland-1
+
+
+regards
+Philipp
 
