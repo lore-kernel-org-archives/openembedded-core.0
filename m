@@ -1,287 +1,310 @@
-Return-Path: <roland.kovacs@est.tech>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C21C44501
-	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 09:59:10 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.28])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9298.1784195941061774578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6BAFC4450A
+	for <webhook@archiver.kernel.org>; Thu, 16 Jul 2026 10:02:50 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9355.1784196166763593500
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 02:59:01 -0700
+ Thu, 16 Jul 2026 03:02:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=gE7UXJqW;
- spf=pass (domain: est.tech, ip: 52.101.66.28, mailfrom: roland.kovacs@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RqGMJDMX6mmXwDujNhL1fTJdZET1oXKEX8tPxJvHcY+ZlJO6s2f3l5O8JS4p36FeN3+ejCgQ3Lc9iuraGbiSu3agbuGMjIRZPi7ahez492wMcTceTaY0g31nq0I67kcgmYE8nR3rds51a1XhEXEE8vdHUjSI5Fn2XCMO/gHYmImKjRRtHC+YHqJPUn5KXwdHH80fUgLMUv1zfzvEmbUtvzP7ENQerovELVia4rCcu8IYR7Et/OusQsWYjh9m4FGcyB/4W3Z1cCZgBMZBMMQE67ubWmrfG9nqf4w8d2h9Kx2ffh9mJYs7eEEX7JBPSc5ymfw47KSH0kkeuOGp44By1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ue/o2Ol6M3HQ1/5Ki4+/QRbETEnp6Hc5nYsbPdnisMY=;
- b=P/82KnASKp4Pu6VgtHDWE66m8NaqL+ZCmDShox8Y5zjj93rMThH2aTwVSq0ctc+wB/FeS2ybetW6+E+gIXrBiI7PBwRPctYqbQj7UHeTpgpjuuwXGKzFb46H0FWQzeHRQUstWRTehG/7/fVXqqJiYZWCNtzEoE8W+wh3LENUkniE6ANJ4kzl5MH+otJHgPmv7Z1kSoIQJENxtDvsZmTlfzymOImEU0FggAyOUwaCtBf9QV7pNCc7x2OqI6ZLZJKAcDZJ/dZl6HY2xp72yhW7zn7DIV3MDPSrVrq9k93xR3D9eC03256zvvjNeziRR65mzJYVAaVoSQW66nim2hNeDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ue/o2Ol6M3HQ1/5Ki4+/QRbETEnp6Hc5nYsbPdnisMY=;
- b=gE7UXJqWTOE8KtJxMzoN9fioPdYetk0YQIpJZoYEOhTHa8MezDfHk91zsUxBVWfGvwLV6o2BGNS777wsCC15wrfd8FD5JBayQpsImnMc6wJR8evEsKYYCOf8khfDwiSOWEfxrDQHBnawiWWwwAKL72rUbD+SQEMQkeDYRqWtWteBP46YZgsM1IV8lKR/HHIvlYTfdWWQDimCzqkuvJd99d9cZAFjh/efpthG1umeIBEDUCFVV0OsKVHa993VUCMDKQflRqva3mBPXPzPJgzxTQ8DznqpGB6Z3zsg86mtKQOivLPpWR7scH+//La0o4sRryKmwiWeJr/qszpHzam1rQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:111::20)
- by AS4P189MB1919.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:4b7::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.4; Thu, 16 Jul
- 2026 09:58:57 +0000
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::ab4f:3151:4330:625d]) by AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::ab4f:3151:4330:625d%5]) with mapi id 15.21.0245.003; Thu, 16 Jul 2026
- 09:58:56 +0000
-From: Roland Kovacs <roland.kovacs@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH] binutils: fix CVE-2025-69645
-Date: Thu, 16 Jul 2026 11:58:54 +0200
-Message-ID: <20260716095854.65840-1-roland.kovacs@est.tech>
-X-Mailer: git-send-email 2.55.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO6P123CA0031.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2fe::11) To AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:111::20)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=KeyxBbkq;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.169, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8487088510aso6562467b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 03:02:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784196166; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hjXQM0GLekZHwJP6MQjzzmrKoNTN2yQwIDFGz+POztsNdr6hdOHlxbILaPROqb0QeW
+         XIAVo9VXivp88kfmUnM71FjSUOz3MjGxdM/rMsVTnjC0/G2wFCBLggph4YIKmhChmaDn
+         mzjYqVzJHKxNf9CftntaLuXCffbqqJsGJEDqhnBowPbyd9EYoNSU3qYkV1qT0Frt6EGf
+         ryqR/ey7CeRjV0UYdWqldUYECEgyGzIwNVnTg7NJN+d7lPpwZXNYl50ZouwTBYgiq4sz
+         9GsrypLbRQL/9e+kix58FFh/mFmPoLCRiuiGmDY+cX3Fmy/Cza0rj/Oj7rC0BVtfEvQa
+         GhoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YDLHpmPSt4ni9N6VZyWdJQlJr2l/cCdqfIcEnRTKoBI=;
+        fh=YIhvX7OJyTJc7Xdw9mD9Qaae1OIABeR4T+HCRYeklD8=;
+        b=RpFOms31hYD49jTexuldTxAZ0ngqxNQW8ljQHqWlQE90IxSiRXYHk+L9qXumZBD1qM
+         Jm62nzHpjQTQo1c3uZcbgBwea4gmhcNwunm2sLFa8OZiT3GEvkvhWb6ECrtq5JDU4yTF
+         iG7pjXjTHGuwIVI1iIhp+UJwJeRJ4U8jOtnB4enDTor8Y4GUTktvESlMnf2QDyM4cmz+
+         dcZPoldjt/ibbN2wpu7wFNOibWqyTstBL+VVvQ2zKuAA+jsV63E/TwgiJ4HCnkamIcbJ
+         +7I3m7Z+OJ+4Uvzk/TPyQuEngmtygm2cK9b182z7m0RqHN9lPztXSyPytaSrdQR2yr6s
+         +FSA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1784196166; x=1784800966; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YDLHpmPSt4ni9N6VZyWdJQlJr2l/cCdqfIcEnRTKoBI=;
+        b=KeyxBbkqGcbOVYtGvk1EjdbRE1J1mAnjgJEBX9QtK2QQ2iVwbS1Gjk+FPwW3kkBeAS
+         c1z6uWjPVqJjvajoy4yrPocNPbzXUb4BNoyqYLQXolNmsOqnF5xQrAKOohtz0r2B43oD
+         1LJYb+1wDWmACFHKsAqgNaBL6vr7LDQSkur7c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784196166; x=1784800966;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YDLHpmPSt4ni9N6VZyWdJQlJr2l/cCdqfIcEnRTKoBI=;
+        b=C6P5G9yMJq1Bt+DEacQkPxJ9JilZRqIODVMUnU0NXn6SN5IvF/iE8xa9ZUnhy01LjA
+         0y+zfZ3AuScB4kzUgI7zTVo+cfYQkrTY+ez6h1zFXiC54+7w4pgp+Yr+X9oaplUDTkYA
+         YCuxjfTub1+urltOvXjbhx98Z80gEyJQYbEBxHor6dKn9ZCtLcYOAkRLZs0UGi7LyUW2
+         ddW9QEHdtjPb6j2hlab4MLA21iR/Yap2wUIfZaN0GnAtK8sXlSb7Jipi6RNh39OuAFJT
+         eMdQ48d7XIgSUzXCqAfmgBkK11HUcvPerbnSPgh33lX/FcVQ+f0biqfNdU8Lsi/TVLev
+         oJRg==
+X-Forwarded-Encrypted: i=1; AHgh+RokNk3eydhY4M9/Utr3GNHA4TWsU3FIvQaKhafKnwouQKajmltTQ00Zpm/fcMohc8zFkBwaNj7nnf9uZFUeur1Sbw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yznx8u6OgnKkJVFHtip9qdDmkVoh6S0eK0PVM2iSVR1ZJaH3Mjz
+	jDJkDZsbGoyl2zFZ2wXF3xN1WsbC6Thg0PUTAAprytAOacK6o8AH85LfW0g9dgApdT3kBcmLbeM
+	d9uGR/DYobsRPDLpyvgK/foSyBZrvhS6H7SpuxlZFcQ==
+X-Gm-Gg: AfdE7cnHh+OQR+lRDShyNAiTl0Hn+k2ZCd0pNEjjbKCrJrvlECfaJkFkUzvcaclSCwR
+	fcTZkjfqNk/clz7AfSIxg1MhMiOTbfHLXxCKFwzZ7lCSHLmlZfy63bKjNQqXwDcv7ynJRlKD1nM
+	Za/4CAX3fDe36siN6dyUZNsu7dbGIsw+7EYkFUanglhhDDol4UsPGdxdyaE5gzqiL7fV9iJ/WR0
+	IDzCn6NC/g3ddbozzqC8gUOtLm8MTv55V35Okww4wFhWYu1sFADc3e9YB17fI8cgvIzrh+rA26d
+	0bKM0y3ahApBzx+RsPUMz9vq/12Ba5u4tA/m88sPKGIFy05cM2GleNVb6HELhqvBLXnVxFo5
+X-Received: by 2002:a05:6a00:1942:b0:847:99b4:d011 with SMTP id
+ d2e1a72fcca58-84a51605710mr10089320b3a.39.1784196165961; Thu, 16 Jul 2026
+ 03:02:45 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7P189MB0725:EE_|AS4P189MB1919:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8934445a-dec4-40f5-e3a4-08dee320d9f1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|10067099003|18002099003|56012099006|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info: 
-	NEBq5ieCDffkRJC3yUy0Z4bW9Te1tB1UE22Ya0enugtreIY1XnPzsYfUfFcpj84YKgpmT07NIrUNoIuJA9zDmOsILBDtjTTApIhuRXMjwkbEiG0M7MwFWRbt6MizLRwNmROKFhmtNnI38dbhgHMLDRoVTXaVRaaBwxxXcmbjuSU/0HgX6fQKwHVL44+qDueUB7M3m6zTDvuA+mWAYIUmZTu6WmskMF8zFfmUXvBOoQLPHiP/tTiPjU8qtRZtdCiNxKAjbbrnjhpIOkKqaqRlkFs4JzNRZAysnOsCto0QFtRwHgXa9mUwdFsOn0zHy3MCpH+5ftaBWTfXqzGHM9z8J2vkiPVjKBiKZhM69Fg3EST0rrb+IXpPxnqeQG4ZME0KF2VLhhAkhIrTxx9o95KywJmMGe0YEYSwrxc0lZjlycoF3GiGTAjUbLJGZJQGWnocdDObQRHlxvYXwcKlrcq7gL0nLrOl+fFKkHLcNp/wFBMr92nkRWQYxS8mSq4hKfSjGHRKNZYwDcn4BCARnqguApCot+xRrxeGw/qmBXp5Hv4PZmj9uF80QqmKE5ytJHgyxUz03MqXGXkZlCAKcbJfDjn/Y7wonnAOKbK8jRAYFKw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7P189MB0725.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(10067099003)(18002099003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?WxVgeTbqHYtLoXvN+A+xAbidvlf5znrmfq3zfHN9ilNPG1cRSno9y/fde34n?=
- =?us-ascii?Q?ICr7XiBX/vXqRCeOxAzye1mgjJnod5doHpzYfHAmYydp6wk6zwsMIuYlnv39?=
- =?us-ascii?Q?UCFV1Krntk9B7DbcoA1I+JjoZrLVIMTZa2je7eNSck1+flieeRnXwSqIEFvC?=
- =?us-ascii?Q?+upiqYO6a0OppOqIkgpmnHdlYv0Y1L+fHS+etV/x/WnQL09u6JB8whBdfCUK?=
- =?us-ascii?Q?7TLKq+5naHzvn9SdmQJDel91NiLkUVtNL5P5ZdIer+wKYCb2Zdaw8OINDyWO?=
- =?us-ascii?Q?v77y4Lw2qmLB4hE5mA1JEN5Ok9Cc8dNOdwO0Xkj1m2XhZytMctk5FFXNVw6L?=
- =?us-ascii?Q?ak/7bOCSRB8agh8hlrFqld2XEEHT/an5q5q0DWcH/FhEDAHdYG5g8ITTpdH+?=
- =?us-ascii?Q?yMjAPSRszIT5IpFLtYsqjlIZxLYLH0aZJncZe6f7vDT2DMq2A8qmnuaxuVTP?=
- =?us-ascii?Q?ihdzhTrVuXswRvJA+aCmET64zZ+PXSxRuRzJ7/YzKTvcTXao++N5RnkA8Lh4?=
- =?us-ascii?Q?6ZPW2A1Sk0XY8POoKikUJqbD5fJHAS4pOfZpatb2HnH/Wa7eeYUddZGw+6lA?=
- =?us-ascii?Q?l5lWE4m9/DHg1owf5MzNy6RoeYJ2PgIYZ3oszkmJjdA/S6iG0bxvPG4MoPRe?=
- =?us-ascii?Q?bi3XyOPw99mLyzaU3dzT7z+bpD13bMbk78wtWEELph1GTl5W+L7W+mebqnW0?=
- =?us-ascii?Q?HvRBBXPY85pNYJuBSavsRqgg8uXyS2u3Y/RReQ5ZfND4i0yHgWYsqwqzXaJO?=
- =?us-ascii?Q?xtuQy1JRR45FUtZGCp+K87qFAUH5drDBRPtH6w12JEZtwiF0TIDLvqQVyY9p?=
- =?us-ascii?Q?Dqlf+27FK/h6DfzeuYZnW4oaXt3Y5oZzVuhYH/ppHBnzWAHfAXF/J3qgNz3b?=
- =?us-ascii?Q?+TM+5JUdWOWx6c203f3mo/2NEM44wwIOFl/W5mLX7MJBebRVJA5epbd8ybXi?=
- =?us-ascii?Q?dNBYnIv31Fm+c2pkm7sJ/huWdqiGcKZ6uiHRU98NUOBH2YUc5K3ZJaXcLuOF?=
- =?us-ascii?Q?iu+XRbW4dwTe/H1mygyiXUNhi2mgIBLxm3C85g96NCn9FKEVPWdp8ei9nlB3?=
- =?us-ascii?Q?tqxeYxbUVdvk9VFaJmcYk5Q2FZmHNLT0KyK0NIn4yLoO/fsLoZ0Q6Zp0UGNL?=
- =?us-ascii?Q?93jUoV9PwTG530QqRTxKTpOYETufK0Lv+lQOHK3tDijq0e1VkXlRqJFg/Uob?=
- =?us-ascii?Q?ZWrpwXjzCW43kkckRu5SHcbRstpfV5hP0H+lXBlsbT8HVIkiCrO7IgtVgrQq?=
- =?us-ascii?Q?U4i+0kI5L8xXXkzNBTWGFKe777bdKwjMzTBZxcX5QGlMGZswxOH2qu8J8skE?=
- =?us-ascii?Q?I2cotQH2zpFq9NihhGZz4UVxrb++c5SJM5Xq8uIaRwO1eYEWPUTSYnY6lBjP?=
- =?us-ascii?Q?h6ZepAh4GZritTbaz07nO7iYW1+IGQX/BkFfuwhBGFrXNeFakqcsI+xSdJXp?=
- =?us-ascii?Q?T+JIQf9b1PCkg71eWo4y+VgNao4IS1MJYuZtB2zd4IFO/G6PDbWizkiBC6m1?=
- =?us-ascii?Q?P7OwhecDiO/0V27JXYcy2ofKePNIniN7eKUGEw8feV2lzJuSO9rdQpSxxttf?=
- =?us-ascii?Q?5hw5TZh17hmQ9niUSxfXJ7jHe83XiA9fruDrZotArRLr1SU79+jl7fZ5CF8M?=
- =?us-ascii?Q?ab6KF3v9NUTqIOYlE4wbcSA+62HN81jFC6wvUNGmtS9TAxW3XDfm686OVsT9?=
- =?us-ascii?Q?+PfspLztoqbeoc0J2vYxxVfT5U0j/31bM3AKs1yJ5uBirnW93Tu1qc6JFEWW?=
- =?us-ascii?Q?CXwk+TINgQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8934445a-dec4-40f5-e3a4-08dee320d9f1
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 09:58:56.9329
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pasRypriVYabtbrqkxEF0tm4IwOKITxgRWtErjIcr+rmg38/3gH+wiOnEMediVqmLL0yB08JzAswJOZzpoJ2lQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB1919
+References: <20260708143704.2643050-1-leon.anavi@konsulko.com>
+ <c068df721aaa08116114fca946a3eaa6936b4f76.camel@pengutronix.de> <CAJdd5GaqWhzsOS-5DVxDGyS8ORd-hmDqW3PKYu95H2XcKCyERg@mail.gmail.com>
+In-Reply-To: <CAJdd5GaqWhzsOS-5DVxDGyS8ORd-hmDqW3PKYu95H2XcKCyERg@mail.gmail.com>
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Thu, 16 Jul 2026 13:02:35 +0300
+X-Gm-Features: AUfX_mwM6t3K3jTxL7xJ59YQ6o10qP4Nbdo8QHec2OUkilwipzwMtxW_jlQkgY8
+Message-ID: <CALtQ3O1pW9C_DJNf2SjTBG=QZ1EteAt6_3KHGaOJAHbCTp0+SQ@mail.gmail.com>
+Subject: Re: [OE-core] [[PATCHv3] meta: Add pam to the defaults if using systemd
+To: Joshua Watt <jpewhacker@gmail.com>, Paul Barker <paul@pbarker.dev>
+Cc: p.zabel@pengutronix.de, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000ae9d430656b78a27"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 09:59:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241075
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 10:02:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241076
 
-Binutils objdump contains a denial-of-service vulnerability when processing
-a crafted binary with malformed DWARF debug information. A logic error in
-the handling of DWARF compilation units can result in an invalid offset_siz=
-e
-value being used inside byte_get_little_endian, leading to an abort (SIGABR=
-T).
-A local attacker can trigger the crash by supplying a malicious input file.
+--000000000000ae9d430656b78a27
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
----
- .../binutils/binutils-2.42.inc                |   1 +
- .../binutils/binutils/CVE-2025-69645.patch    | 135 ++++++++++++++++++
- 2 files changed, 136 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69645.=
-patch
+Hi Paul, Joshua, Philipp,
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
-s-devtools/binutils/binutils-2.42.inc
-index 7e83f72632..8f775f20e7 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -74,5 +74,6 @@ SRC_URI =3D "\
-      file://0030-CVE-2025-11840.patch \
-      file://CVE-2025-69644-CVE-2025-69647.patch \
-      file://CVE-2025-69648.patch \
-+     file://CVE-2025-69645.patch \
- "
- S  =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69645.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2025-69645.patch
-new file mode 100644
-index 0000000000..78d2d62a50
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69645.patch
-@@ -0,0 +1,135 @@
-+From 3fe207e0625a76c8cba932e435762bfb5f544131 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 30 Nov 2025 12:51:54 +1030
-+Subject: [PATCH] PR 33637, abort in byte_get
-+
-+When DWARF5 support was added to binutils in commit 77145576fadc,
-+the loop over CUs in process_debug_info set do_types when finding a
-+DW_UT_type unit, in order to process the signature and type offset
-+entries.  Unfortunately that broke debug_information/debug_info_p
-+handling, which previously was allocated and initialised for each unit
-+in .debug_info.  debug_info_p was NULL when processing a DWARF4
-+.debug_types section.  After the 77145576fadc change it was possible
-+for debug_infp_p to be non-NULL but point to zeroed data, in
-+particular a zeroed offset_size.  A zero for offset_size led to the
-+byte_get_little_endian abort triggered by the fuzzer testcase.
-+
-+I haven't investigated whether there is any need for a valid
-+offset_size when processing a non-fuzzed DWARF4 .debug_types section.
-+Presumably we'd have found that out in the last 6 years if that was
-+the case.  We don't want to change debug_information[] for
-+.debug_types!
-+
-+	PR 33637
-+	* dwarf.c (process_debug_info): Don't change DO_TYPES flag bit
-+	depending on cu_unit_type.  Instead test cu_unit_type along
-+	with DO_TYPES to handle signature and type_offset for a type
-+	unit.  Move find_cu_tu_set_v2 call a little later.
-+
-+CVE: CVE-2025-69645
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
-ils-gdb.git;h=3Dcdb728d4da6184631989b192f1022c219dea7677]
-+
-+Note:
-+  Backported patch differs from upstream as commit
-+  1f7e70ddd2c49dd5442b8873dd6ef29b0a10fdc3 is not cherry-picked
-+  just to introduce `do_flags` instead of the separate `do_type`
-+  and `do_loc` booleans for it to apply cleanly.
-+
-+Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-+---
-+ binutils/dwarf.c | 18 ++++++------------
-+ 1 file changed, 6 insertions(+), 12 deletions(-)
-+
-+diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-+index 615e051b2bf..836872f1b26 100644
-+--- a/binutils/dwarf.c
-++++ b/binutils/dwarf.c
-+@@ -3865,8 +3865,6 @@ process_debug_info (struct dwarf_section * section,
-+=20
-+       SAFE_BYTE_GET_AND_INC (compunit.cu_version, hdrptr, 2, end_cu);
-+=20
-+-      this_set =3D find_cu_tu_set_v2 (cu_offset, do_types);
-+-
-+       if (compunit.cu_version < 5)
-+ 	{
-+ 	  compunit.cu_unit_type =3D DW_UT_compile;
-+@@ -3876,8 +3874,6 @@ process_debug_info (struct dwarf_section * section,
-+       else
-+ 	{
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_unit_type, hdrptr, 1, end_cu);
-+-	  do_types =3D (compunit.cu_unit_type =3D=3D DW_UT_type);
-+-
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_pointer_size, hdrptr, 1, end_cu);
-+ 	}
-+=20
-+@@ -3891,6 +3887,7 @@ process_debug_info (struct dwarf_section * section,
-+ 	  SAFE_BYTE_GET_AND_INC (dwo_id, hdrptr, 8, end_cu);
-+ 	}
-+=20
-++      this_set =3D find_cu_tu_set_v2 (cu_offset, do_types);
-+       if (this_set =3D=3D NULL)
-+ 	{
-+ 	  abbrev_base =3D 0;
-+@@ -3947,8 +3944,6 @@ process_debug_info (struct dwarf_section * section,
-+=20
-+       SAFE_BYTE_GET_AND_INC (compunit.cu_version, hdrptr, 2, end_cu);
-+=20
-+-      this_set =3D find_cu_tu_set_v2 (cu_offset, do_types);
-+-
-+       if (compunit.cu_version < 5)
-+ 	{
-+ 	  compunit.cu_unit_type =3D DW_UT_compile;
-+@@ -3958,13 +3953,12 @@ process_debug_info (struct dwarf_section * section=
-,
-+       else
-+ 	{
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_unit_type, hdrptr, 1, end_cu);
-+-	  do_types =3D (compunit.cu_unit_type =3D=3D DW_UT_type);
-+-
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_pointer_size, hdrptr, 1, end_cu);
-+ 	}
-+=20
-+       SAFE_BYTE_GET_AND_INC (compunit.cu_abbrev_offset, hdrptr, offset_si=
-ze, end_cu);
-+=20
-++      this_set =3D find_cu_tu_set_v2 (cu_offset, do_types);
-+       if (this_set =3D=3D NULL)
-+ 	{
-+ 	  abbrev_base =3D 0;
-+@@ -3996,7 +3990,7 @@ process_debug_info (struct dwarf_section * section,
-+ 	  compunit.cu_pointer_size =3D offset_size;
-+ 	}
-+=20
-+-      if (do_types)
-++      if (do_types || compunit.cu_unit_type =3D=3D DW_UT_type)
-+ 	{
-+ 	  SAFE_BYTE_GET_AND_INC (signature, hdrptr, 8, end_cu);
-+ 	  SAFE_BYTE_GET_AND_INC (type_offset, hdrptr, offset_size, end_cu);
-+@@ -4011,7 +4005,7 @@ process_debug_info (struct dwarf_section * section,
-+       if ((do_loc || do_debug_loc || do_debug_ranges || do_debug_info)
-+ 	  && num_debug_info_entries =3D=3D 0
-+ 	  && alloc_num_debug_info_entries > unit
-+-	  && ! do_types)
-++	  && !do_types)
-+ 	{
-+ 	  free_debug_information (&debug_information[unit]);
-+ 	  memset (&debug_information[unit], 0, sizeof (*debug_information));
-+@@ -4042,7 +4036,7 @@ process_debug_info (struct dwarf_section * section,
-+ 	  printf (_("   Abbrev Offset: %#" PRIx64 "\n"),
-+ 		  compunit.cu_abbrev_offset);
-+ 	  printf (_("   Pointer Size:  %d\n"), compunit.cu_pointer_size);
-+-	  if (do_types)
-++	  if (do_types || compunit.cu_unit_type =3D=3D DW_UT_type)
-+ 	    {
-+ 	      printf (_("   Signature:     %#" PRIx64 "\n"), signature);
-+ 	      printf (_("   Type Offset:   %#" PRIx64 "\n"), type_offset);
-+@@ -4319,7 +4313,7 @@ process_debug_info (struct dwarf_section * section,
-+      we need to process .debug_loc and .debug_ranges sections.  */
-+   if ((do_loc || do_debug_loc || do_debug_ranges || do_debug_info)
-+       && num_debug_info_entries =3D=3D 0
-+-      && ! do_types)
-++      && !do_types)
-+     {
-+       if (num_units > alloc_num_debug_info_entries)
-+ 	num_debug_info_entries =3D alloc_num_debug_info_entries;
-+--=20
-+2.34.1
-+
---=20
-2.34.1
+Philipp, Joshua thank you for the code review and for the insights
+regarding weston and weston-init. In the long term, discussing
+modifications to weston and weston-init probably makes sense. However, for
+the moment, I think my single-line change to add pam to the defaults is
+simple and makes sense, especially considering that this fix is also
+suitable for cherry-picking to release Wrynose.
 
+Paul, following your initial code review, could you please have a look at
+the third iteration of this patch? I would appreciate your feedback on
+whether any additional modifications on my side are necessary to get it
+merged in the upstream.
+
+Please note that my modification through DISTRO_FEATURES_DEFAULTS targets
+the nodistro and the yocto-check-layer use case. I consider this change to
+be safe because in my opinion Poky or custom distributions are expected to
+define an explicit DISTRO_FEATURES. So (most) other cases will remain
+unaffected by this adjustment of the defaults.
+
+Thanks, Leon
+
+On Mon, Jul 13, 2026 at 11:30=E2=80=AFPM Joshua Watt <jpewhacker@gmail.com>=
+ wrote:
+
+>
+>
+> On Thu, Jul 9, 2026 at 2:45=E2=80=AFAM Philipp Zabel via lists.openembedd=
+ed.org
+> <p.zabel=3Dpengutronix.de@lists.openembedded.org> wrote:
+>
+>> On Mi, 2026-07-08 at 17:37 +0300, Leon Anavi wrote:
+>> > Add pam to DISTRO_FEATURES_DEFAULTS in init-manager-systemd.inc.
+>> > This way pam will available if variable VIRTUAL-RUNTIME_init_manager
+>> > has been set to systemd. Otherwise having systemd in conjunction
+>> > with wayland but without pam leads to a conflict with the
+>> > REQUIRED_DISTRO_FEATURES for weston related recipes.
+>>
+>> I think these requirements are partially incorrect, btw.
+>>
+>> Weston itself only requires PAM for the VNC password, so if
+>> PACKAGECONFIG[vnc] is disabled, there is no PAM dependency from
+>> weston_15.0.1.bb at all, and if vnc is enabled, the PAM dependency has
+>> nothing to do with systemd being enabled or used as init system.
+>>
+>> The PAM dependency in weston-init.bb comes from the PAMName=3Dweston-
+>> autologin option in weston.service and the corresponding weston-
+>> autologin PAM configuration. Those files are always installed if
+>> DISTRO_FEATURES has systemd, even if VIRTUAL-RUNTIME_init_manager is
+>> set to something else.
+>> Shouldn't either the pam distro feature depend on the systemd distro
+>> feature, or should the weston.service/weston-autologin files be
+>> installed at all if the systemd distro feature is enabled but
+>> init_manager is set to something else?
+>> I think it wouldn't be even better to remove the PAM requirement from
+>> weston-init if VNC is disabled, as Weston doesn't need the PAM login in
+>> that case.
+>>
+>
+> I believe weston-init needs PAM regardless of VNC being enabled.
+>
+> The intention of weston-init is to provide a minimal setup to start westo=
+n
+> on boot and not run as root (since that's a huge pain). There are
+> certainly other ways of starting weston (such as a login manager), but th=
+is
+> one has been around for a while and is nice because it "just works" even =
+on
+> devices with no keyboard for (e.g. a user login in a login manager), has =
+a
+> good security model (not running as root), aside from PAM has almost no
+> dependencies, and is quite simple. IMHO, It works well for an embedded
+> device because you can set the weston shell to the kiosk shell and
+> immediately start your application as a client to show your UI, but it's
+> not really great for a "desktop" experience (but I never found that a
+> useful experience on an embedded device outside of demonstration purposes=
+).
+> It's more or less a copy of a similar system I use in my day job and I ha=
+d
+> lofty goals of removing our version for the upstream one, but I'm beginni=
+ng
+> to think this is an unrealistic goal.
+>
+> Regardless, if we continue to use weston-init, we probably need PAM by
+> default - not because of weston, but because of weston-init. Alternativel=
+y,
+> we can do something other than weston-init, but I don't really have any
+> idea what that should be, what it would take to switch, or how useful it
+> would be in the real world.
+>
+>
+>
+>>
+>> regards
+>> Philipp
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#240546):
+>> https://lists.openembedded.org/g/openembedded-core/message/240546
+>> Mute This Topic: https://lists.openembedded.org/mt/120174368/3616693
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>> JPEWhacker@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
+
+--000000000000ae9d430656b78a27
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Paul, Joshua, Philipp,<br><br>Philipp, Joshua thank you=
+ for the code review and for the insights regarding weston and weston-init.=
+ In the long term, discussing modifications to weston and weston-init proba=
+bly makes sense. However, for the moment, I think my single-line change to =
+add pam to the defaults is simple and makes sense, especially considering t=
+hat this fix is also suitable for cherry-picking to release Wrynose.<br><br=
+>Paul, following your initial code review, could you please have a look at =
+the third iteration of this patch? I would appreciate your feedback on whet=
+her any additional modifications on my side are necessary to get it merged =
+in the upstream.<br><br>Please note that my modification through DISTRO_FEA=
+TURES_DEFAULTS targets the nodistro and the yocto-check-layer use case. I c=
+onsider this change to be safe because in my opinion Poky or custom distrib=
+utions are expected to define an explicit DISTRO_FEATURES. So (most) other =
+cases will remain unaffected by this adjustment of the defaults.<br><br>Tha=
+nks, Leon</div><br><div class=3D"gmail_quote gmail_quote_container"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Mon, Jul 13, 2026 at 11:30=E2=80=AFPM Jos=
+hua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com">jpewhacker@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
+iv dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 9, 2026 at 2:45=E2=80=AFAM =
+Philipp Zabel via <a href=3D"http://lists.openembedded.org" target=3D"_blan=
+k">lists.openembedded.org</a> &lt;p.zabel=3D<a href=3D"mailto:pengutronix.d=
+e@lists.openembedded.org" target=3D"_blank">pengutronix.de@lists.openembedd=
+ed.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Mi, 2026-07-08 at 17:37 +0300, Leon Anavi wrote:<br>
+&gt; Add pam to DISTRO_FEATURES_DEFAULTS in init-manager-systemd.inc.<br>
+&gt; This way pam will available if variable VIRTUAL-RUNTIME_init_manager<b=
+r>
+&gt; has been set to systemd. Otherwise having systemd in conjunction<br>
+&gt; with wayland but without pam leads to a conflict with the<br>
+&gt; REQUIRED_DISTRO_FEATURES for weston related recipes.<br>
+<br>
+I think these requirements are partially incorrect, btw.<br>
+<br>
+Weston itself only requires PAM for the VNC password, so if<br>
+PACKAGECONFIG[vnc] is disabled, there is no PAM dependency from<br>
+<a href=3D"http://weston_15.0.1.bb" rel=3D"noreferrer" target=3D"_blank">we=
+ston_15.0.1.bb</a> at all, and if vnc is enabled, the PAM dependency has<br=
+>
+nothing to do with systemd being enabled or used as init system.<br>
+<br>
+The PAM dependency in <a href=3D"http://weston-init.bb" rel=3D"noreferrer" =
+target=3D"_blank">weston-init.bb</a> comes from the PAMName=3Dweston-<br>
+autologin option in weston.service and the corresponding weston-<br>
+autologin PAM configuration. Those files are always installed if<br>
+DISTRO_FEATURES has systemd, even if VIRTUAL-RUNTIME_init_manager is<br>
+set to something else.<br>
+Shouldn&#39;t either the pam distro feature depend on the systemd distro<br=
+>
+feature, or should the weston.service/weston-autologin files be<br>
+installed at all if the systemd distro feature is enabled but<br>
+init_manager is set to something else?<br>
+I think it wouldn&#39;t be even better to remove the PAM requirement from<b=
+r>
+weston-init if VNC is disabled, as Weston doesn&#39;t need the PAM login in=
+<br>
+that case.<br></blockquote><div><br></div><div>I believe=C2=A0weston-init n=
+eeds PAM regardless of VNC being enabled.</div><div><br></div><div>The inte=
+ntion of weston-init is to provide a minimal setup to start weston on boot =
+and not run as root (since that&#39;s a huge pain). There are certainly=C2=
+=A0other ways of starting weston (such as a login manager), but this one ha=
+s been around for a while and is nice because it &quot;just works&quot; eve=
+n on devices with no keyboard for (e.g. a user login in a login manager), h=
+as a good security model (not running as root), aside from PAM has almost n=
+o dependencies, and is quite simple. IMHO, It works well for an embedded de=
+vice because you can set the weston shell to the kiosk shell and immediatel=
+y=C2=A0start your application as a client to=C2=A0show your UI,=C2=A0but it=
+&#39;s not really great for a &quot;desktop&quot; experience (but I never f=
+ound that a useful=C2=A0experience on an embedded device outside of demonst=
+ration purposes). It&#39;s more or less a copy of a similar system I use in=
+ my day job and I had lofty goals of removing our version for the upstream =
+one, but I&#39;m beginning to think this is an unrealistic goal.</div><div>=
+<br></div><div>Regardless, if we continue to use weston-init, we probably n=
+eed PAM by default - not because of weston, but because of weston-init. Alt=
+ernatively, we can do something other than weston-init, but I don&#39;t rea=
+lly have any idea what that should be, what it would take to switch, or how=
+ useful it would be in the real world.</div><div></div><div><br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+regards<br>
+Philipp<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#240546): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/240546" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/240546</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120174368/361=
+6693" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/120174368/3616693</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:JPEWhacker@gmail.com" targ=
+et=3D"_blank">JPEWhacker@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
+
+--000000000000ae9d430656b78a27--
 
