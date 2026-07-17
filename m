@@ -2,62 +2,62 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D5E5C44521
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 13:34:42 +0000 (UTC)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13736.1784295276465903684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF7F6C4451C
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 13:34:52 +0000 (UTC)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13610.1784295283459732666
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 06:34:36 -0700
+ Fri, 17 Jul 2026 06:34:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ImhlF4SP;
- spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: twoerner@gmail.com)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-6cf48482ddeso2160027137.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:34:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=SuJWE1ly;
+ spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: twoerner@gmail.com)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-736eea06c3eso2494275137.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784295275; x=1784900075; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784295282; x=1784900082; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=MdysAh0RTvZZt1vmAeOhRr1h74KZZWBwzKXgDV1QgUw=;
-        b=ImhlF4SPkAt7GLH1Jj7jJkxScuDUP5kiSYuOeNeJsB5gxIbVLDlK1mzwJbOel7dEJA
-         6UtKMVgWqgkrpZNoVetJID1WU0dQMkthko0JaFEWvKHHG3GjxHhuHRg+mO8/MStgjlDk
-         e9+hAquCfJdD3C7tky6n6QbMjNBdvcNo9qI/pMDwCpspaWODrax4k3RgX8OQFXOTkmff
-         vPu+RbmpnTx6c/s6QvL9sDvXeihBmG2EsmyAhpbWBPwIgjYNXUev95SgHxW7G8vs1oW2
-         9V8xuzJ27RAD5fZ23csfGC1w1zDlD7dpEbxG+HabQ5/Z22mJX5aevm4GHiQ/p67qzPFJ
-         mMWA==
+        bh=Ss0BmXYP/5NJnMPbwsdT/QXBmFaCIwl55D7pgyk6EA0=;
+        b=SuJWE1lyF+g8nLerYBaI0FpanDx3LQCGBJxQU/6DD0734OTGEydB0DYjHKSMM6SxbS
+         ZXFH/i+GBco90Npt3r9rYrdPmYfifzHm08kIbDTs4ME/M9bLz6jKvYY4DiSRL0/69I8S
+         mL9viUm605vsHNg2WjFgfrTBUadym7MN3iU7xG9AoJUmQJtUwd8utAJ3YP5S2tKTo9bT
+         mAC/NIFLmaeFQ8uNL/KBE1N51IP4Mf0O5TNsbyx3yxvABnegEuM49vfHKQT4vOAzwPdy
+         kpBtKvT/ZvL8At880hHfYaq8MmBas6HZKui2uhJbEUZSc1IquVVkP6E0jdvpnFPTqmIk
+         pdvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784295275; x=1784900075;
+        d=1e100.net; s=20251104; t=1784295282; x=1784900082;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=MdysAh0RTvZZt1vmAeOhRr1h74KZZWBwzKXgDV1QgUw=;
-        b=GWEUd40Qs0xZ6l4jWNGY0q2AV/8xZkwjlmR0w2nqOeeBNb0XHhln9ZWZR1uQiuMmJm
-         2ReSbP2DCfa51NuC71UBU1RcQXbwI1IhrHHXN5AfTqNfjpaK07b050FCVmDrhtiVUqCc
-         Ohx/f2RJTkknbYKF3atWpDbDJYN4aVlwUceZefjoQfNhQKwGsharUWqZ4MDgc6g0tMCt
-         nZMlxwKZo7ZwJ2XcGdtOfleN614q//gO99Yf8qf1Qvxomh2vh7tFnkMs/rHit7ksdRyW
-         MYJAmy0t6PDRk3+e9ftXyBFEJcMWBp7hGqph4T+VghHPf7VUDI3HrqdlpxZJHGECp93T
-         6opA==
-X-Gm-Message-State: AOJu0YyDTMNJpiG2Ttlw3va+z8EtcPk+a+SFzCleRaCIYtN4qnHsGXc/
-	pxDDGeK85DnAByI5O9Y+R8QQobjy249AW7ibBOHyJHO442xXBhBxbmy+mJA6wA==
-X-Gm-Gg: AfdE7cmaAk0IdRSP4wl+488vh8FUqDOV+gPP4tsroqbfqCZa4NWpWfDw0tyhGx4HqN6
-	iGJrJcl5a4rXevSXKLD2DhLcbx67idyT2JPxxSxX2kDOHnbua/JTUpJVZ1sgADYkeCLgfrZ2Yv3
-	o2pyTtEpQp+F0v0JF+LKAxUeXi/CqDuGpisXiDs5alTuBtYmY11xzEatX8nj8w1td4PRa6Z1i2P
-	4ht9UVAN3D0/VLQmUjnMyAUmiYKklQQxoo2ptDf+K008Z/pH/ryMWPI2kG1GELJ9ghf6YCToKBe
-	RPyxGJxIp26fMGWIihoQMbvPO8Mekz+0vG5bSTdKb/SZzVceNDBAWJZ0Rt3mCa5cLBWiAa6vETi
-	kUqiMk5QkZRjn/mpW73xG0dZWShIyMuY8IxOh+X9DgvuX/n6AM/PkRFWDGS7TENGexrmboj6ex2
-	5OTrr70Gro8wlU+U5FdVJgF0rhKl341M6YEztQuGloBdt6
-X-Received: by 2002:a05:6102:3f54:b0:728:53be:7c87 with SMTP id ada2fe7eead31-747534fef2emr478458137.7.1784295275265;
-        Fri, 17 Jul 2026 06:34:35 -0700 (PDT)
+        bh=Ss0BmXYP/5NJnMPbwsdT/QXBmFaCIwl55D7pgyk6EA0=;
+        b=hlKI7DE737iuZecDnK8mESvdp4AGzYZGURmdwDq23J6eUw5JYUCfilkHTbAVg8cD8j
+         zSAOTSw2XN61tEXnWlJxMegUbc94i+FOhjGI05D+vybCyVkHnj9UgcawQmP32dL4WQtT
+         wHaaYxRKJTkdzVcTrDBJResG7ivaqjOoo0RmNo0lCSifE4bIdpTotarTT0CxchTwf9+B
+         F2yXk+AMGP/Iy+NJu89OSrZlij+YImI9nx4pKR24sCBE1wVJUoWEvks29bBbBDZ411PD
+         wvizXyG2yrMIY4Ybo8L7vSnGSSqKZcXXKeK7RBPlTdwyE/gJ36wVrIqn5OgO4SN5NNky
+         OanA==
+X-Gm-Message-State: AOJu0YwweOR7CkPjYtEV7RTPNm1cyBTAfZzMzjMpFbDNmgGK7i3xmEsL
+	50gni/glAO2VBUtuTFEvjSycmTqTorHZMAG3Is8orImpP8OKYIsdFkgolb6tvQ==
+X-Gm-Gg: AfdE7ckfuKvchxwqVF56TL94aDokRn7vd7drj8L8062grIYzMdsEb0a/ig4e5Bpt/7o
+	VSXt08T3O4bxPvZq9M819Pwaq3csqkYC5WAhj2YNqRcMBQErtx0/qXvfLDZEe6Nob+k6rAV5qcw
+	ev5/cG3gw8ewKrlz+vTMMssFmbXSILEtPdzMEwPdmQIjwji1jfO0wkJh7UwS/MSnaEIZaBLXZjg
+	05RGa4cXKudkDE9j/SwAQaYivPdrIisB1InVPyEZ/kph1eV90YVvyMvPKda1O+rsMmvv+u3aHR4
+	ZL2GlMol83OaquOAS0mR6AlIC5SugYohnZcHWPFInrvJj3P5FmVaCLXUn7AZb3wvKc2jj9H56Qp
+	F448mof1H1UR8z3WHBAJaSleqDP2h/FSJEMtqmqM1bHav66liLY/s8olCxNrPwgD/M85APwZfqn
+	lfutDGWs7qnQOX+UNdz9i4INXO2as03LkZoSIjaNfiQGmc77JU8SvGX4dNvKYvFpnxUw==
+X-Received: by 2002:a05:6102:560f:b0:738:8022:d74c with SMTP id ada2fe7eead31-7475360e095mr483995137.15.1784295282390;
+        Fri, 17 Jul 2026 06:34:42 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-976fc3688e1sm565059241.3.2026.07.17.06.34.33
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-976fc3688e1sm565059241.3.2026.07.17.06.34.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 06:34:34 -0700 (PDT)
+        Fri, 17 Jul 2026 06:34:39 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 3/6] nativesdk-packagegroup-sdk-host: gate qemu behind SDK_FEATURES
-Date: Fri, 17 Jul 2026 09:34:18 -0400
-Message-ID: <20260717133421.3510970-4-twoerner@gmail.com>
+Subject: [PATCH v3 6/6] nativesdk-packagegroup-sdk-host: add an lldb SDK feature
+Date: Fri, 17 Jul 2026 09:34:21 -0400
+Message-ID: <20260717133421.3510970-7-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260717133421.3510970-1-twoerner@gmail.com>
 References: <20260717133421.3510970-1-twoerner@gmail.com>
@@ -66,18 +66,16 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 13:34:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241185
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 13:34:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241188
 
-qemu (with its helper) is added to every standalone SDK on the
-architectures where it builds. It is only useful for running target
-binaries on the host via qemu-usermode, which not every SDK user wants,
-and it is a large thing to carry when they do not.
+The SDK ships the cross gdb (see the "gdb" feature), but some developers
+prefer lldb. It is a large addition and not wanted by default, so make
+it opt-in.
 
-Move it behind the "qemu" SDK feature, which is enabled by default so an
-unmodified configuration still gets qemu exactly as before on the same
-architectures; the architecture guard is retained. A configuration that
-does not want it removes the "qemu" feature from SDK_FEATURES.
+Add an "lldb" SDK feature that pulls in nativesdk-lldb. It is not enabled
+by default; a configuration that wants it adds the "lldb" feature to
+SDK_FEATURES.
 
 AI-Generated: codex/claude-opus 4.8 (xhigh)
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
@@ -85,36 +83,21 @@ Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 changes in v3:
 - new in v3
 ---
- meta/conf/bitbake.conf                                          | 2 +-
- .../packagegroups/nativesdk-packagegroup-sdk-host.bb            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../packagegroups/nativesdk-packagegroup-sdk-host.bb             | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b7bc74887b69..c9317bc9722a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -898,7 +898,7 @@ OES_BITBAKE_CONF = "1"
- 
- MACHINE_FEATURES:append = " ${@oe.utils.filter_default_features('MACHINE_FEATURES', d)}"
- SDK_MACHINE_FEATURES ?= ""
--SDK_FEATURES ?= ""
-+SDK_FEATURES ?= "qemu"
- 
- DISTRO_FEATURES:append = " ${@oe.utils.filter_default_features('DISTRO_FEATURES', d)}"
- 
 diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index c2974a57fe3e..7205599288a2 100644
+index 31559eb2cd82..bf9de4201810 100644
 --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
 +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -13,7 +13,7 @@ PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
- # build some recent linux kernels (5.14+) for arm
- RDEPENDS:${PN} = "\
-     nativesdk-pkgconfig \
--    ${@'nativesdk-qemu nativesdk-qemu-helper' if d.getVar('SDK_ARCH') in ['x86_64', 'aarch64', 'ppc64', 'ppc64le', 'riscv64', 'loongarch64', 'mips64', 's390x', 'sparc64'] else ''} \
-+    ${@'nativesdk-qemu nativesdk-qemu-helper' if bb.utils.contains('SDK_FEATURES', 'qemu', True, False, d) and d.getVar('SDK_ARCH') in ['x86_64', 'aarch64', 'ppc64', 'ppc64le', 'riscv64', 'loongarch64', 'mips64', 's390x', 'sparc64'] else ''} \
-     nativesdk-pseudo \
-     nativesdk-unfs3 \
-     nativesdk-opkg \
+@@ -31,6 +31,7 @@ RDEPENDS:${PN} = "\
+     nativesdk-perl-module-integer \
+     ${@bb.utils.contains('SDK_FEATURES', 'wic', 'nativesdk-wic', '', d)} \
+     ${@bb.utils.contains('SDK_FEATURES', 'sbom', 'nativesdk-python3-spdx-tools nativesdk-python3-sbom-cve-check', '', d)} \
++    ${@bb.utils.contains('SDK_FEATURES', 'lldb', 'nativesdk-lldb', '', d)} \
+     "
+ 
+ RDEPENDS:${PN}:darwin = "\
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
