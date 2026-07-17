@@ -1,104 +1,162 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E8CC4451C
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 14:53:36 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15372.1784300013819340823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C31F5C4451C
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 14:59:56 +0000 (UTC)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15505.1784300395208547235
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 07:53:33 -0700
+ Fri, 17 Jul 2026 07:59:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=LY9sV+Xz;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8efef6533aaso44361616d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 07:53:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784300013; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=KpmZx2mO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-80cebd41372so75875127b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 07:59:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784300394; cv=none;
         d=google.com; s=arc-20260327;
-        b=LQ2fZVCFl+rOHGOcJddP0nrD3T+0S2VA0x+IvoAiOrFtUGze0ub19gwX5dAKGUptpf
-         Q7tcBHFt7Dt/AF5UDNbwRC2yltA0OG20Fo6xFH7qCbV97kh4wDLhUSRFkVbQvOrG8UpZ
-         ZQld6T7PPrajLDKPvLETK1v9FLEoZnU0NDlxn3sGDQp9slA0mgbBJViIXeR+GxHiS85N
-         SUAK0FRplyZpXZm79CTyHSEsxpemzJQm6auKHYfDqKBRFqHoGG7UAGGTrxQTjbqOVUMT
-         FOqvi3XHj11gm9GL0yp6m6DEKb10gNtTy4SsHNwZXYpgUEgX8sNCfF9DcMZCXeFrGxyA
-         W5mg==
+        b=LakiOwvjz+8dvku6voeObeaNJtUYxBvqDYRdejNZ3eYSY1BWCX7Jh+tNPuwU6UljIS
+         SxWjHY+zKOF9HeWQpQLi0kmGIaJucU6YEWTKJJt8crV9134l7rB1hMDeRe6rki0w/ite
+         CV5pKpnIvo3864Vn4g7IUTItWz4UbY1bgOTG6FBbaWn/LzvJV/v9i8iAexUr5Nn3WWIv
+         Tskz83zlb/1Q22GkQ0KSNeIDZunSVg34ygmJA9eJId4gwBKXxgH3zNa5e6btGjj4pyGC
+         DNZSw6zmCcrWCkK3inrxlkbaD09ZFP599zqsS2HYvgulWcws1+g/VNG/qt52f3tY1iXN
+         RFKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=7Znq6B1KG7Gm7EiAzFR3zs11HFuSzhxmpumKp68cAdQ=;
-        fh=JhwpbyHLlW2kAdWl7OYmYdGmK+rcdV7LEjWyEKW6Pwk=;
-        b=N32806xaoQIV0o88ATLv/EuvpOCgEeAOMZj/CW5vU2KDqYbSqnY1Mhr4KPbwWCuOn/
-         HjMPFxfuJHA33ax3QFQAigBX5EYAlkOU5rEnQmFPthAHUMjKrFpF9yaZmG4C/6TrBy51
-         4CGdflQct230hCKvOo15JaoIQ+93MONDqFqU3FpMR8Ax8BRXNom1kLTVmJe9cLbC9olD
-         k6TZUU63VOFVP55cVkQ9Z9wPG0WHIyMC2djGtOQ9dZ1kgjq5vmwazyP0RKjkk5aRuUFC
-         FcJMejmFSJrMAPmPsRn6X0LdWjNC1BJBfAWIljvtMs32PSQFnrkjmM2BGxayUOhstMWe
-         /4bg==;
+        bh=m3SlJHVEqgdZZcxIWXI1LOBt8/IsG3wioP9Swejui3g=;
+        fh=fGH/q3gN1FSW9CUIi9E4Z32b0labO7L5BOdg6QCAdBI=;
+        b=LNInCGKR4lutd1/hhDkNrgZnUKB6rBDXD7q+Hk91eZNWyhtXOTn8aLJRjCpla4XWs3
+         fPMPTB2XGmLdpDr59sf1yxB5DyiyYMP942nCLi+PpbokmthHOJp9MbxhbH9TTKKRMjVP
+         2L5piyGe3dbN3vuul1VI0UNifNvoR4nOjrgkzM09i+bA2KA6t0/Rdw2frSdsDkYMW3YH
+         HHmaGwtTLrkEHOHTSXyTp0EiMQ7Vtw5dVUhARmm9oOi+POkgcGofpCfhHpK5yynPmNPI
+         eLHqOVjGe4Lp4QvtuTcIP0II2DlGmPtM2a7d53bYVOYN+ErHpI2v44E8TjoZSdwOjqeq
+         Dtnw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784300013; x=1784904813; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784300394; x=1784905194; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7Znq6B1KG7Gm7EiAzFR3zs11HFuSzhxmpumKp68cAdQ=;
-        b=LY9sV+Xz84mNJd3Z6NlefB9a//I4Yl1U7G7/KXvby+scII73lRH67srfTIHdCAui8/
-         /pGFBwU/pqUBBDYuZWWY+yzo46EH+IBESjM7tqLhWa4VDBnRtDkZMc4PKI654xidZW0m
-         6h1WxxgBGjgNNELn1Y6eeRkJS5Sq/QVeV3p47PxJuH3kRCKHvzIvuguYA/EcMS9jfkvn
-         3/pxVXD/hgCouG7OMOKVJYqWYP3qmGhJqbomkF4wgiM92FFchQjfu9zGCZcpNo4kdz+e
-         df7g0SCNRqrN64ODlYijIWud6sh0yM0jSZia79x6xSIYTkCpf5HMLJYzlKBrm79hCr1Z
-         sdFg==
+        bh=m3SlJHVEqgdZZcxIWXI1LOBt8/IsG3wioP9Swejui3g=;
+        b=KpmZx2mOs1n3HO3JGVoYLewvYYxyUeTgVeBkEsJrVnEyez3l7WyMUEdO2H/w5d30SF
+         +x+gA0kZDSy/j2VN5IQd0dgcT6jkSEsOMZHdnW7sb+Da025oB1KPrTUttae686McghxD
+         7dz5F0B/2X9JVyBVPymSwnP+NSVAPTrz0i+FubuK7xrpCeVxz/qZ2FPxuwu3JqqdxUpM
+         o/t0hRNHPQRcuN1yWgEKdQWUcvMMDutKh+rg5lUbSc1JOnKO6dI23vHcVhsuA/dHgfq9
+         +dryzGP4ZUgHgQBwFWjD+n2qEoDpFRODOuPHY9MX39Hfo6qx+NhiqI6AqksA0ePiYdkQ
+         4dHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784300013; x=1784904813;
+        d=1e100.net; s=20251104; t=1784300394; x=1784905194;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=7Znq6B1KG7Gm7EiAzFR3zs11HFuSzhxmpumKp68cAdQ=;
-        b=IC04x/4Xj56gEms6xYe20wXLXiULIrHpiAteRLi0s1YG7M7vEPTgmvnArCDqJrb63g
-         mPn1zBaYHKPiFfHvuUndlRvVVJtVyoq/AAhbKvBv/VfsvsLTBO5GYrX+ZKW0Dtnoi1s6
-         L5Ibx4u/cBaJLjYA3h0RRK9uWlfLyC+vDtj7+3veietuazfyDeJ/TSUhNXLFBNIOZay2
-         D0WsApnD8Zg7vxf0bEU0k4RF2Zq54GSiNuL4tLnERIiGancNTywc900vDZN2zS2boWws
-         wf/+4LVBIKP44sYl+8e/Xk4/f5hN5BwCUKsXKaxF125o8oD6PFojaiIrsgmKV59n5Hc+
-         EXdg==
-X-Forwarded-Encrypted: i=1; AHgh+RrW5Vud7pol/vmUfTjwO2lkQiEgUuMI+uW2NmuJPiHBVRU+8k9cA/QeGbTGRWZv7GX/obzo5J/RwcU0aM21Rq8Keg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwmqCBTuyd6kcAThJBcWKBwjVNa3e5r6BnqCB16fZ2bi4b0ivIq
-	gy3VB5Rq000hSK/f6ieHMBj7muby/m20acu1diDkTkpqlzqJOQvP2NPIm+BobZF9QeiiXlkd6qo
-	OnbtL1E0Aanz0+iI8Cm48F7lVk6oxqzk=
-X-Gm-Gg: AfdE7ckVKaAb1cSDOluFxYc1REZIw19Mb7HdwE2+cjt06JtziwLMdhIOyImI4IOVvvA
-	SOQyNo6W5mW7bxzLTxB4vbl/IY3UKaCk4zOtAz6L/LNNntUycFgvT9CJ+QZOXWZhe3oJF9wAyig
-	L8eF752l1MYvI29mydqFjhmCKh67Bh1SoBdkf6IPuBpp9fyAGQ4h31DjJjDF/oj+RNElRDyQKc5
-	wCJMz0Y3pq1gePxL2axsWj+5FoSNTMkvMSPSkN48gzzF7mjiC3O2XIwy9swxg/LlrJDqmbD1ieQ
-	K/S5eOiwQoaSIWYVFO/E
-X-Received: by 2002:a05:6214:e6f:b0:8f1:ddcb:baa1 with SMTP id
- 6a1803df08f44-9077836830dmr31759786d6.19.1784300012512; Fri, 17 Jul 2026
- 07:53:32 -0700 (PDT)
+        bh=m3SlJHVEqgdZZcxIWXI1LOBt8/IsG3wioP9Swejui3g=;
+        b=a5IHA5ZApysCEWJTa8K4RjBac3PAGJh73/TvcwHykdNXB8Sum61+1B6UbC/8+cdG5E
+         bWxv6AbNmqaJvz6w9D05Qqv35GcbbQNXN98DJ3gBDpaR31wizStlSn4MIMjSLawK4zc5
+         16Hwe500MI47CjmOHFz1zdYcphxPLtV5WqyMCTj2m7lokaNnkzzy+lnomj22feHTxgJ1
+         oWY2GE1HE7eWCAhOwB8/qp1skM275HXKiC0HQHIdOygHVmEkmBGjFAyO68TUt5KZ8R/h
+         QcJDd+pzOHzaNN4BkudA9rPOBEQjEd2YwBJ0/zeQ9psqiG+hAsiRmuzUK7rtOTMvSvrW
+         g2Pg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpf8x3PodAEX8lpnsuBp3mpEh42p9JyrgFQsVxiEgkvJxUALzFApRhFvTft+c2udxEn6smYzwZCbkqkNCEQvEJudg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwN7v+fUhhPSvVySq4Gute48t7XsyyBwWjvIjgrDvsxh4/U2O+V
+	EtQp3dVoaWOy4HeU2A31gPwMgWQ3De9jLzvHFdRobrMMabO9rUC80JzxXmH4I3HGrdsM4a3wwyV
+	SyiI7hezdGwW3kB9DyipZAXaOTN20KC0=
+X-Gm-Gg: AfdE7ck7xQSAteOCxmfsvCn906jskaQwC7DqZE86plUFY7+O6lRwWnLcscy97KWGPEu
+	MO8+0ZV72shv7IV1/pux/p2XoD3ai4QZLzDLAEdNoCKyvKMt7FPoGdtPPfDAIv2ZGrxM6XK65cv
+	SzgfMnGNMR1eEPhkMTfT2jsvgkmlnrE8zORg/f08RZl5Tt96Y8HF0hOd52pOTmnqiJ38Gu/HqTe
+	4YmuLBsZHy5rXO4MpS8j2patw7KCqwWUPcq9Jv8r8i1QkAh+2iYNQfKdrtKstIfp/P0TrLCQOo0
+	mAV4mGqIyVIdVtmQ5WFITeJR0fAOR5feylZM8d27YX9CcDPIiR3osS2zPTvWdyYFkAT0Pjh9P51
+	4QIy1pcfL7pz55KoGjucqg3PUXQtaXFp0nv/ewM839VOp9hXGN+uE77iwZPI=
+X-Received: by 2002:a05:690c:660c:b0:81e:6915:b442 with SMTP id
+ 00721157ae682-81ef25378a6mr9132687b3.31.1784300393226; Fri, 17 Jul 2026
+ 07:59:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260715140507.2329605-1-ross.burton@arm.com> <20260715140507.2329605-4-ross.burton@arm.com>
- <CAMKF1soJNFHLg3ChGnfT7DHNdR8XF9WeTrHqLVxY5e48a_Q4Eg@mail.gmail.com>
-In-Reply-To: <CAMKF1soJNFHLg3ChGnfT7DHNdR8XF9WeTrHqLVxY5e48a_Q4Eg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 17 Jul 2026 16:53:21 +0200
-X-Gm-Features: AUfX_mw9b06xLw5opRUgBfYn0sV4okplapONM-J0N5ky7HO8qbTTA0B6KHhwklY
-Message-ID: <CANNYZj9jKGugpVhDSXVadnpjMy6VxsfX+c4dbM0dcUj=qk9QmA@mail.gmail.com>
+ <CAMKF1soJNFHLg3ChGnfT7DHNdR8XF9WeTrHqLVxY5e48a_Q4Eg@mail.gmail.com> <CANNYZj9jKGugpVhDSXVadnpjMy6VxsfX+c4dbM0dcUj=qk9QmA@mail.gmail.com>
+In-Reply-To: <CANNYZj9jKGugpVhDSXVadnpjMy6VxsfX+c4dbM0dcUj=qk9QmA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 17 Jul 2026 07:59:41 -0700
+X-Gm-Features: AUfX_mwVUJC_Rt6YOLAwmU3ghouRpAXCFx5d6GqEV5E0Xu4Pkc93duxcwbLKqEA
+Message-ID: <CAMKF1srnoZO0x_UWQ-kWf8PyEbJzg9dRbAtNmS1TGPzvxmiA8g@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 04/12] patchelf: build with meson
-To: raj.khem@gmail.com
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Ross Burton <ross.burton@arm.com>, 
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/alternative; boundary="0000000000001c65480656cfcf7b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 14:53:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241202
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 14:59:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241203
 
-On Fri, 17 Jul 2026 at 04:30, Khem Raj via lists.openembedded.org
-<raj.khem=gmail.com@lists.openembedded.org> wrote:
+--0000000000001c65480656cfcf7b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> README "Compiling and Testing" documents them in order: Autotools first, then CMake, then Meson. It seems meson is still work in progress
-> E.g. tests support is TODO I wonder if its too early for distros to use it
+On Fri, Jul 17, 2026, 7:53=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmail=
+.com>
+wrote:
 
-I assure you, even experimental and incomplete meson is a better
-choice than autotools. Especialy 'mature' autotools which tends to
-grow so many custom warts that we have to figure various
-'Inappropriate' ways to patch them out.
+> On Fri, 17 Jul 2026 at 04:30, Khem Raj via lists.openembedded.org
+> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> > README "Compiling and Testing" documents them in order: Autotools first=
+,
+> then CMake, then Meson. It seems meson is still work in progress
+> > E.g. tests support is TODO I wonder if its too early for distros to use
+> it
+>
+> I assure you, even experimental and incomplete meson is a better
+> choice than autotools. Especialy 'mature' autotools which tends to
+> grow so many custom warts that we have to figure various
+> 'Inappropriate' ways to patch them out.
+>
 
-Alex
+Perhaps it will be better to get a sense of it from patchelf developers
+upstream. If it is where they are headed that might justify early switch a
+little bit
+
+>
+> Alex
+>
+
+--0000000000001c65480656cfcf7b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote gmail_quote_contai=
+ner"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 17, 2026, 7:53=E2=80=
+=AFAM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.=
+kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On Fri, 17 Jul 2026 at 04:30, Khem Raj via <a href=3D"http=
+://lists.openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">=
+lists.openembedded.org</a><br>
+&lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
+=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt; wro=
+te:<br>
+<br>
+&gt; README &quot;Compiling and Testing&quot; documents them in order: Auto=
+tools first, then CMake, then Meson. It seems meson is still work in progre=
+ss<br>
+&gt; E.g. tests support is TODO I wonder if its too early for distros to us=
+e it<br>
+<br>
+I assure you, even experimental and incomplete meson is a better<br>
+choice than autotools. Especialy &#39;mature&#39; autotools which tends to<=
+br>
+grow so many custom warts that we have to figure various<br>
+&#39;Inappropriate&#39; ways to patch them out.<br></blockquote></div></div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">Perhaps it will be better to=
+ get a sense of it from patchelf developers upstream. If it is where they a=
+re headed that might justify early switch a little bit=C2=A0</div><div dir=
+=3D"auto"><div class=3D"gmail_quote gmail_quote_container"><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+<br>
+Alex<br>
+</blockquote></div></div></div>
+
+--0000000000001c65480656cfcf7b--
 
