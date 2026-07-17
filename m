@@ -1,264 +1,209 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BBDC44519
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 05:31:57 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7367.1784266306190638446
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 930F8C4450F
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 05:35:27 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7401.1784266519020159238
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 22:31:46 -0700
+ Thu, 16 Jul 2026 22:35:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RWEOq8Cx;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=w5p4l+98;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019f6e8f2e81-618229b6-7ba9-4ac7-9f7c-950dde066535-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784266305;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=a3CvaipiuZv+GIMV+t6ryk6yJaBVrsIl1xaESqrlwX4=;
-	b=RWEOq8Cx4JzHuw+r7NIH3eL/XA1QOZZsA0AGNdcqcubxyHossAFutvGPQL8Jh3r5
-	z4kO4Apo776Qh6YML/0HQIk0rYu5erAGmWEVe5rqdpadaKkNAQAN8dE1LuM7qGoaZ2T
-	5bnv8ZxOABzUhT4cXvT9wDVuvPZCFOQP2bRYADg8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784266305;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=a3CvaipiuZv+GIMV+t6ryk6yJaBVrsIl1xaESqrlwX4=;
-	b=w5p4l+98+10xzp6Yz31lY88tVk4RU2NDrE/aOcnQaET03eEbll5ewhPED+EReCHO
-	Q5fgdjfBkDwe7GcoMQknw4FvBCETPlBIAo0sVTy5hCuvxrQGXEWlviolXSBJ2lieCe1
-	/4YhvcU2V7IbW5g71/T/LcXzH1Z51vQ7flSf3JY4=
-Content-Type: multipart/mixed; boundary="===============6191922141344271067=="
-MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wayland: upgrading to 1.26.0 SUCCEEDED
-Message-ID: <0101019f6e8f2e81-618229b6-7ba9-4ac7-9f7c-950dde066535-000000@us-west-2.amazonses.com>
-Date: Fri, 17 Jul 2026 05:31:45 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.17-54.240.27.23
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=j216jPFm;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id AE4D71A1039;
+	Fri, 17 Jul 2026 05:35:16 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7439660361;
+	Fri, 17 Jul 2026 05:35:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0DCB911BD3D0A;
+	Fri, 17 Jul 2026 07:35:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1784266515; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=dsFZECD4ON7Jp5NWbNP4NVNylqwxWa7yNp6tmhadLYg=;
+	b=j216jPFmiD5TVUVULyQPc6bEGM4B929ct/SJuVrFkILYTypPWptX+O0cTWqWfs6f+m/t6+
+	Q4MBR+dgwDevUrm3uMhusBKxdB9NEqDPQO3+CeuBhvDFXMYpebtQG6wTTdIpIcBgxhvGd0
+	YFsW5lgmDRmK5NPQXvXhaVLpUA3EfpKjA5mOgbmGKUkZfunck7YGf4zWDw5JpXESm/a6AK
+	HIQHTX7jBSzwREX93dRboEC3IThcgYtCAwVCR6I/P/oB/acGqzZdrp7ck9eJJ+9wfmpBVm
+	r1zPBH4uQzv8RrVG25xYXoij5sCKfk5AI/wrPITr8u88+UsJHnnjBADVAA7wfA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 17 Jul 2026 07:35:13 +0200
+Message-Id: <DK0LOWOXHOHF.T6NXM98XR1SO@bootlin.com>
+Subject: Re: [OE-core] [PATCH 1/2] gnutls: Enable p11-kit by default
+Cc: <marex@nabladev.com>, "Fabio Estevam" <festevam@nabladev.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <festevam@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260716122219.569673-1-festevam@gmail.com>
+In-Reply-To: <20260716122219.569673-1-festevam@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:31:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241128
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:35:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241129
 
---===============6191922141344271067==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Thu Jul 16, 2026 at 2:22 PM CEST, Fabio Estevam via lists.openembedded.o=
+rg wrote:
+> From: Fabio Estevam <festevam@nabladev.com>
+>
+> U-Boot 2026.07 enables the mkeficapsule tool by default. During its
+> build, mkeficapsule links against libgnutls and requires PKCS#11
+> symbols such as gnutls_pkcs11_init().
+>
+> Commit e9f12f64279c ("gnutls: Add p11-kit for native builds") enabled
+> p11-kit only for gnutls-native. However, this is not sufficient to
+> build u-boot-tools, which still fails to link mkeficapsule with
+> undefined references to the PKCS#11 API.
+>
+> Enable p11-kit in the default PACKAGECONFIG so that the required
+> symbols are available and u-boot-tools builds successfully.
+>
+> Signed-off-by: Fabio Estevam <festevam@nabladev.com>
+> ---
 
-Hello,
+Hi Fabio,
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *wayland* to *1.26.0* has Succeeded.
+Thanks for your patch.
 
-Next steps:
-    - apply the patch: git am 0001-wayland-upgrade-1.25.0-1.26.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+It looks like this is breaking the
+minidebuginfo.Minidebuginfo.test_minidebuginfo_qemu selftest, beacause
+of circular dependencies. It's possible the issue comes from the test
+itself:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+2026-07-16 16:32:31,930 - oe-selftest - INFO - minidebuginfo.Minidebuginfo.=
+test_minidebuginfo_qemu (subunit.RemotedTestCase)
+2026-07-16 16:32:31,931 - oe-selftest - INFO -  ... FAIL
+...
+Initialising tasks...ERROR: 2129 unbuildable tasks were found.
+These are usually caused by circular dependencies and any circular dependen=
+cy chains found will be printed below. Increase the debug level to see a li=
+st of unbuildable tasks.
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+Identifying dependency loops (this may take a short while)...
 
-Regards,
-The Upgrade Helper
+ERROR:
+Dependency loop #1 found:
+  Task /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
+dded-core/meta/recipes-core/systemd/systemd_261.bb:do_create_spdx (dependen=
+t Tasks ['systemd_261.bb:do_deploy_source_date_epoch', 'ninja_1.13.2.bb:do_=
+create_spdx', 'meson_1.11.2.bb:do_create_spdx', 'patch_2.8.bb:do_populate_s=
+ysroot', 'shadow-sysroot_4.6.bb:do_create_spdx', 'glibc_2.43.bb:do_create_s=
+pdx', 'systemd_261.bb:do_unpack', 'gcc-runtime_16.1.bb:do_create_spdx', 'ut=
+il-linux_2.42.2.bb:do_create_spdx', 'base-files_3.0.14.bb:do_create_spdx', =
+'shared-mime-info_2.5.1.bb:do_create_spdx', 'bash-completion_2.17.0.bb:do_c=
+reate_spdx', 'systemd_261.bb:do_populate_sysroot', 'perl_5.42.2.bb:do_creat=
+e_spdx', 'python3-jinja2_3.1.6.bb:do_create_spdx', 'gperf_3.3.bb:do_create_=
+spdx', 'zstd_1.5.7.bb:do_create_spdx', 'gettext_1.0.bb:do_create_spdx', 'py=
+thon3_3.14.6.bb:do_create_spdx', 'acl_2.4.0.bb:do_create_spdx', 'elfutils_0=
+.195.bb:do_create_spdx', 'libxkbcommon_1.13.2.bb:do_create_spdx', 'systemd_=
+261.bb:do_create_recipe_spdx', 'systemd_261.bb:do_patch', 'pkgconf_3.0.3.bb=
+:do_create_spdx', 'kmod_34.2.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_cr=
+eate_spdx', 'shadow_4.19.4.bb:do_create_spdx', 'shadow_4.19.4.bb:do_create_=
+spdx', 'qemu-native_11.0.2.bb:do_create_spdx', 'libcap_2.78.bb:do_create_sp=
+dx', 'systemd_261.bb:do_packagedata', 'base-passwd_3.6.8.bb:do_create_spdx'=
+, 'gcc-cross_16.1.bb:do_create_spdx', 'libseccomp_2.6.0.bb:do_create_spdx',=
+ 'systemd_261.bb:do_package', 'quilt-native_0.69.bb:do_populate_sysroot'])
+  Task /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
+dded-core/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb:do_create_spdx (de=
+pendent Tasks ['ninja_1.13.2.bb:do_create_spdx', 'meson_1.11.2.bb:do_create=
+_spdx', 'patch_2.8.bb:do_populate_sysroot', 'glibc_2.43.bb:do_create_spdx',=
+ 'p11-kit_0.26.4.bb:do_populate_sysroot', 'systemd_261.bb:do_create_spdx', =
+'bash-completion_2.17.0.bb:do_create_spdx', 'p11-kit_0.26.4.bb:do_packageda=
+ta', 'libffi_3.7.1.bb:do_create_spdx', 'p11-kit_0.26.4.bb:do_deploy_source_=
+date_epoch', 'gettext_1.0.bb:do_create_spdx', 'python3_3.14.6.bb:do_create_=
+spdx', 'gtk-doc_1.36.1.bb:do_create_spdx', 'p11-kit_0.26.4.bb:do_create_rec=
+ipe_spdx', 'pkgconf_3.0.3.bb:do_create_spdx', 'libtasn1_4.21.0.bb:do_create=
+_spdx', 'quilt-native_0.69.bb:do_populate_sysroot', 'p11-kit_0.26.4.bb:do_p=
+atch', 'p11-kit_0.26.4.bb:do_package', 'qemu-native_11.0.2.bb:do_create_spd=
+x', 'p11-kit_0.26.4.bb:do_unpack', 'gcc-cross_16.1.bb:do_create_spdx', 'gcc=
+-runtime_16.1.bb:do_create_spdx', 'libtasn1_4.21.0.bb:do_create_spdx'])
+  Task /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
+dded-core/meta/recipes-support/gnutls/gnutls_3.8.13.bb:do_create_spdx (depe=
+ndent Tasks ['texinfo-dummy-native.bb:do_create_spdx', 'patch_2.8.bb:do_pop=
+ulate_sysroot', 'glibc_2.43.bb:do_create_spdx', 'gnutls_3.8.13.bb:do_patch'=
+, 'gnutls_3.8.13.bb:do_deploy_source_date_epoch', 'libunistring_1.4.2.bb:do=
+_create_spdx', 'libtool-cross_2.5.4.bb:do_create_spdx', 'libidn2_2.3.8.bb:d=
+o_create_spdx', 'gnutls_3.8.13.bb:do_unpack', 'libtool-native_2.5.4.bb:do_c=
+reate_spdx', 'gnutls_3.8.13.bb:do_package', 'gettext_1.0.bb:do_create_spdx'=
+, 'nettle_4.0.bb:do_create_spdx', 'gtk-doc_1.36.1.bb:do_create_spdx', 'gnut=
+ls_3.8.13.bb:do_packagedata', 'pkgconf_3.0.3.bb:do_create_spdx', 'p11-kit_0=
+.26.4.bb:do_create_spdx', 'quilt-native_0.69.bb:do_populate_sysroot', 'gnut=
+ls_3.8.13.bb:do_populate_sysroot', 'gnutls_3.8.13.bb:do_create_recipe_spdx'=
+, 'gmp_6.3.0.bb:do_create_spdx', 'autoconf_2.73.bb:do_create_spdx', 'automa=
+ke_1.18.1.bb:do_create_spdx', 'gcc-cross_16.1.bb:do_create_spdx', 'libsecco=
+mp_2.6.0.bb:do_create_spdx', 'gcc-runtime_16.1.bb:do_create_spdx', 'libtasn=
+1_4.21.0.bb:do_create_spdx'])
+  Task /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
+dded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.6.bb:do_crea=
+te_spdx (dependent Tasks ['patch_2.8.bb:do_populate_sysroot', 'curl_8.21.0.=
+bb:do_create_spdx', 'glibc_2.43.bb:do_create_spdx', 'gnutls_3.8.13.bb:do_cr=
+eate_spdx', 'libmicrohttpd_1.0.6.bb:do_deploy_source_date_epoch', 'libtool-=
+cross_2.5.4.bb:do_create_spdx', 'libmicrohttpd_1.0.6.bb:do_patch', 'libtool=
+-native_2.5.4.bb:do_create_spdx', 'gettext_1.0.bb:do_create_spdx', 'libmicr=
+ohttpd_1.0.6.bb:do_package', 'file_5.48.bb:do_create_spdx', 'libmicrohttpd_=
+1.0.6.bb:do_unpack', 'pkgconf_3.0.3.bb:do_create_spdx', 'libmicrohttpd_1.0.=
+6.bb:do_packagedata', 'autoconf_2.73.bb:do_create_spdx', 'libgcrypt_1.12.2.=
+bb:do_create_spdx', 'libmicrohttpd_1.0.6.bb:do_create_recipe_spdx', 'automa=
+ke_1.18.1.bb:do_create_spdx', 'gcc-cross_16.1.bb:do_create_spdx', 'gcc-runt=
+ime_16.1.bb:do_create_spdx', 'quilt-native_0.69.bb:do_populate_sysroot', 'l=
+ibmicrohttpd_1.0.6.bb:do_populate_sysroot'])
+  Task /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
+dded-core/meta/recipes-devtools/elfutils/elfutils_0.195.bb:do_create_spdx (=
+dependent Tasks ['patch_2.8.bb:do_populate_sysroot', 'curl_8.21.0.bb:do_cre=
+ate_spdx', 'glibc_2.43.bb:do_create_spdx', 'elfutils_0.195.bb:do_packagedat=
+a', 'libtool-cross_2.5.4.bb:do_create_spdx', 'elfutils_0.195.bb:do_unpack',=
+ 'elfutils_0.195.bb:do_package', 'libtool-native_2.5.4.bb:do_create_spdx', =
+'xz_5.8.3.bb:do_create_spdx', 'elfutils_0.195.bb:do_populate_sysroot', 'elf=
+utils_0.195.bb:do_create_recipe_spdx', 'gettext_1.0.bb:do_create_spdx', 'el=
+futils_0.195.bb:do_deploy_source_date_epoch', 'pkgconf_3.0.3.bb:do_create_s=
+pdx', 'libmicrohttpd_1.0.6.bb:do_create_spdx', 'elfutils_0.195.bb:do_patch'=
+, 'zlib_1.3.2.bb:do_create_spdx', 'autoconf_2.73.bb:do_create_spdx', 'sqlit=
+e3_3.53.3.bb:do_create_spdx', 'json-c_0.19.bb:do_create_spdx', 'automake_1.=
+18.1.bb:do_create_spdx', 'gcc-cross_16.1.bb:do_create_spdx', 'libarchive_3.=
+8.8.bb:do_create_spdx', 'gcc-runtime_16.1.bb:do_create_spdx', 'quilt-native=
+_0.69.bb:do_populate_sysroot'])
 
--- >8 --
-From 03365f276d84d6f5a28ea30cdef4adea6315dd03 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 17 Jul 2026 05:31:38 +0000
-Subject: [PATCH] wayland: upgrade 1.25.0 -> 1.26.0
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4112
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4347
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4293
 
----
- .../wayland/0001-build-Fix-strndup-detection-on-MinGW.patch   | 4 ++--
- .../wayland/0001-tests-Remove-event_loop_timer-test.patch     | 2 +-
- .../wayland/{wayland_1.25.0.bb => wayland_1.26.0.bb}          | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland_1.25.0.bb => wayland_1.26.0.bb} (96%)
+I also note some failing ptests:
 
-diff --git a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-index d402fbf8b4..c60d01708c 100644
---- a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-+++ b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-@@ -1,4 +1,4 @@
--From b4a3b9f913e06f9b71966cd695df1ab14a031ed0 Mon Sep 17 00:00:00 2001
-+From a3239f480eecc8d45bd15b8c0f6774424249a295 Mon Sep 17 00:00:00 2001
- From: Joshua Watt <JPEWhacker@gmail.com>
- Date: Thu, 20 Feb 2020 15:20:45 -0600
- Subject: [PATCH] build: Fix strndup detection on MinGW
-@@ -20,7 +20,7 @@ Signed-off-by: Denys Dmytriyenko <denis@denix.org>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/meson.build b/meson.build
--index 33653e7..e05eaef 100644
-+index 2c010be..3b6f8d7 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -49,12 +49,12 @@ have_funcs = [
-diff --git a/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
-index b225bec96d..3de3047314 100644
---- a/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
-+++ b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
-@@ -1,4 +1,4 @@
--From 46da8d01e695f415aeb4a8442dbc13ae0898912c Mon Sep 17 00:00:00 2001
-+From 022ef36fa8a9fe57a117a6cbc55d8b81bf0fa023 Mon Sep 17 00:00:00 2001
- From: Joshua Watt <JPEWhacker@gmail.com>
- Date: Thu, 6 Nov 2025 08:35:26 -0700
- Subject: [PATCH] tests: Remove event_loop_timer test
-diff --git a/meta/recipes-graphics/wayland/wayland_1.25.0.bb b/meta/recipes-graphics/wayland/wayland_1.26.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/wayland/wayland_1.25.0.bb
-rename to meta/recipes-graphics/wayland/wayland_1.26.0.bb
-index a0bc13df56..c4e3c8b0f6 100644
---- a/meta/recipes-graphics/wayland/wayland_1.25.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.26.0.bb
-@@ -17,7 +17,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downl
-            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
-            file://0001-tests-Remove-event_loop_timer-test.patch \
-            "
--SRC_URI[sha256sum] = "c065f040afdff3177680600f249727e41a1afc22fccf27222f15f5306faa1f03"
-+SRC_URI[sha256sum] = "64176eaa46e4969903e286f8e5ef8331affc17fdf03ac9b58381d2b23162b7a3"
- 
- UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/tags"
- UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
--- 
-2.47.1
+Failed ptests:
+{'gnutls': ['pkcs11-cert-import-url-exts',
+            'pkcs11-cert-import-url4-exts',
+            'pkcs11-get-exts',
+            'pkcs11-get-raw-issuer-exts',
+            'pkcs11-import-url-privkey',
+            'pkcs11-import-url-privkey-caps',
+            'pkcs11-mechanisms',
+            'pkcs11-obj-get-pk-algorithm',
+            'pkcs11-obj-raw',
+            'pkcs11-privkey-always-auth',
+            'pkcs11-privkey-export',
+            'pkcs11-privkey-fork',
+            'pkcs11-privkey-fork-reinit',
+            'pkcs11-privkey-pthread',
+            'pkcs11-privkey-safenet-always-auth',
+            'pkcs11-token-raw']}
 
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/1930
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/4028
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4042
 
---===============6191922141344271067==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-wayland-upgrade-1.25.0-1.26.0.patch"
+Can you have a look at the issues?
 
-RnJvbSAwMzM2NWYyNzZkODRkNmY1YTI4ZWEzMGNkZWY0YWRlYTYzMTVkZDAzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTcgSnVsIDIwMjYgMDU6MzE6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-YXlsYW5kOiB1cGdyYWRlIDEuMjUuMCAtPiAxLjI2LjAKCi0tLQogLi4uL3dheWxhbmQvMDAwMS1i
-dWlsZC1GaXgtc3RybmR1cC1kZXRlY3Rpb24tb24tTWluR1cucGF0Y2ggICB8IDQgKystLQogLi4u
-L3dheWxhbmQvMDAwMS10ZXN0cy1SZW1vdmUtZXZlbnRfbG9vcF90aW1lci10ZXN0LnBhdGNoICAg
-ICB8IDIgKy0KIC4uLi93YXlsYW5kL3t3YXlsYW5kXzEuMjUuMC5iYiA9PiB3YXlsYW5kXzEuMjYu
-MC5iYn0gICAgICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwg
-NCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC97d2F5
-bGFuZF8xLjI1LjAuYmIgPT4gd2F5bGFuZF8xLjI2LjAuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC8wMDAxLWJ1aWxkLUZpeC1zdHJu
-ZHVwLWRldGVjdGlvbi1vbi1NaW5HVy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXls
-YW5kL3dheWxhbmQvMDAwMS1idWlsZC1GaXgtc3RybmR1cC1kZXRlY3Rpb24tb24tTWluR1cucGF0
-Y2gKaW5kZXggZDQwMmZiZjhiNC4uYzYwZDAxNzA4YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC8wMDAxLWJ1aWxkLUZpeC1zdHJuZHVwLWRldGVjdGlv
-bi1vbi1NaW5HVy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXls
-YW5kLzAwMDEtYnVpbGQtRml4LXN0cm5kdXAtZGV0ZWN0aW9uLW9uLU1pbkdXLnBhdGNoCkBAIC0x
-LDQgKzEsNCBAQAotRnJvbSBiNGEzYjlmOTEzZTA2ZjliNzE5NjZjZDY5NWRmMWFiMTRhMDMxZWQw
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhMzIzOWY0ODBlZWNjOGQ0NWJkMTViOGMw
-ZjY3NzQ0MjQyNDlhMjk1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9zaHVhIFdh
-dHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPgogRGF0ZTogVGh1LCAyMCBGZWIgMjAyMCAxNToyMDo0
-NSAtMDYwMAogU3ViamVjdDogW1BBVENIXSBidWlsZDogRml4IHN0cm5kdXAgZGV0ZWN0aW9uIG9u
-IE1pbkdXCkBAIC0yMCw3ICsyMCw3IEBAIFNpZ25lZC1vZmYtYnk6IERlbnlzIERteXRyaXllbmtv
-IDxkZW5pc0BkZW5peC5vcmc+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRl
-eCAzMzY1M2U3Li5lMDVlYWVmIDEwMDY0NAoraW5kZXggMmMwMTBiZS4uM2I2ZjhkNyAxMDA2NDQK
-IC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAogQEAgLTQ5LDEyICs0OSwxMiBA
-QCBoYXZlX2Z1bmNzID0gWwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxh
-bmQvd2F5bGFuZC8wMDAxLXRlc3RzLVJlbW92ZS1ldmVudF9sb29wX3RpbWVyLXRlc3QucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLzAwMDEtdGVzdHMtUmVtb3Zl
-LWV2ZW50X2xvb3BfdGltZXItdGVzdC5wYXRjaAppbmRleCBiMjI1YmVjOTZkLi4zZGUzMDQ3MzE0
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLzAwMDEt
-dGVzdHMtUmVtb3ZlLWV2ZW50X2xvb3BfdGltZXItdGVzdC5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLzAwMDEtdGVzdHMtUmVtb3ZlLWV2ZW50X2xvb3Bf
-dGltZXItdGVzdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDZkYThkMDFlNjk1ZjQxNWFl
-YjRhODQ0MmRiYzEzYWUwODk4OTEyYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMDIy
-ZWYzNmZhOGE5ZmU1N2ExMTdhNmNiYzU1ZDhiODFiZjBmYTAyMyBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IEpvc2h1YSBXYXR0IDxKUEVXaGFja2VyQGdtYWlsLmNvbT4KIERhdGU6IFRo
-dSwgNiBOb3YgMjAyNSAwODozNToyNiAtMDcwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0czogUmVt
-b3ZlIGV2ZW50X2xvb3BfdGltZXIgdGVzdApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL3dheWxhbmQvd2F5bGFuZF8xLjI1LjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5
-bGFuZC93YXlsYW5kXzEuMjYuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kXzEuMjUuMC5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZF8xLjI2LjAuYmIKaW5kZXggYTBi
-YzEzZGY1Ni4uYzRlM2M4YjBmNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dh
-eWxhbmQvd2F5bGFuZF8xLjI1LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxh
-bmQvd2F5bGFuZF8xLjI2LjAuYmIKQEAgLTE3LDcgKzE3LDcgQEAgU1JDX1VSSSA9ICJodHRwczov
-L2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93YXlsYW5kLy0vcmVsZWFzZXMvJHtQVn0v
-ZG93bmwKICAgICAgICAgICAgZmlsZTovLzAwMDEtYnVpbGQtRml4LXN0cm5kdXAtZGV0ZWN0aW9u
-LW9uLU1pbkdXLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtdGVzdHMtUmVtb3ZlLWV2
-ZW50X2xvb3BfdGltZXItdGVzdC5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2
-c3VtXSA9ICJjMDY1ZjA0MGFmZGZmMzE3NzY4MDYwMGYyNDk3MjdlNDFhMWFmYzIyZmNjZjI3MjIy
-ZjE1ZjUzMDZmYWExZjAzIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY0MTc2ZWFhNDZlNDk2OTkw
-M2UyODZmOGU1ZWY4MzMxYWZmYzE3ZmRmMDNhYzliNTgzODFkMmIyMzE2MmI3YTMiCiAKIFVQU1RS
-RUFNX0NIRUNLX1VSSSA9ICJodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93
-YXlsYW5kLy0vdGFncyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzLyg/UDxwdmVy
-PlxkK1wuXGQrXC4oPyE5XGQrKVxkKykiCi0tIAoyLjQ3LjEKCg==
+Thanks,
+Mathieu
 
---===============6191922141344271067==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Changes to packages/x86-64-v3-poky-linux/wayland (sysroot):
-  /usr/lib/libwayland-client.so.0 changed symlink target from libwayland-client.so.0.25.0 to libwayland-client.so.0.26.0
-  /usr/lib/libwayland-cursor.so.0 changed symlink target from libwayland-cursor.so.0.25.0 to libwayland-cursor.so.0.26.0
-  /usr/lib/libwayland-egl.so.1 changed symlink target from libwayland-egl.so.1.25.0 to libwayland-egl.so.1.26.0
-  /usr/lib/libwayland-server.so.0 changed symlink target from libwayland-server.so.0.25.0 to libwayland-server.so.0.26.0
-  /usr/lib/libwayland-client.so.0.25.0 moved to /usr/lib/libwayland-client.so.0.26.0
-  /usr/lib/libwayland-cursor.so.0.25.0 moved to /usr/lib/libwayland-cursor.so.0.26.0
-  /usr/lib/libwayland-egl.so.1.25.0 moved to /usr/lib/libwayland-egl.so.1.26.0
-  /usr/lib/libwayland-server.so.0.25.0 moved to /usr/lib/libwayland-server.so.0.26.0
-packages/x86-64-v3-poky-linux/wayland/wayland: FILELIST: removed "/usr/lib/libwayland-client.so.0.25.0 /usr/lib/libwayland-egl.so.1.25.0 /usr/lib/libwayland-server.so.0.25.0 /usr/lib/libwayland-cursor.so.0.25.0", added "/usr/lib/libwayland-egl.so.1.26.0 /usr/lib/libwayland-server.so.0.26.0 /usr/lib/libwayland-cursor.so.0.26.0 /usr/lib/libwayland-client.so.0.26.0"
-
---===============6191922141344271067==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/wayland: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.25.0/downloads/wayland-1.25.0.tar.xz file://run-ptest file://0001-build-Fix-strndup-detection-on-MinGW.patch file://0001-tests-Remove-event_loop_timer-test.patch" to "https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.26.0/downloads/wayland-1.26.0.tar.xz file://run-ptest file://0001-build-Fix-strndup-detection-on-MinGW.patch file://0001-tests-Remove-event_loop_timer-test.patch"
-packages/x86-64-v3-poky-linux/wayland: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland: PV changed from "1.25.0" to "1.26.0"
-Changes to packages/x86-64-v3-poky-linux/wayland (sysroot):
-  /usr/lib/libwayland-client.so.0 changed symlink target from libwayland-client.so.0.25.0 to libwayland-client.so.0.26.0
-  /usr/lib/libwayland-cursor.so.0 changed symlink target from libwayland-cursor.so.0.25.0 to libwayland-cursor.so.0.26.0
-  /usr/lib/libwayland-egl.so.1 changed symlink target from libwayland-egl.so.1.25.0 to libwayland-egl.so.1.26.0
-  /usr/lib/libwayland-server.so.0 changed symlink target from libwayland-server.so.0.25.0 to libwayland-server.so.0.26.0
-  /usr/lib/libwayland-client.so.0.25.0 moved to /usr/lib/libwayland-client.so.0.26.0
-  /usr/lib/libwayland-cursor.so.0.25.0 moved to /usr/lib/libwayland-cursor.so.0.26.0
-  /usr/lib/libwayland-egl.so.1.25.0 moved to /usr/lib/libwayland-egl.so.1.26.0
-  /usr/lib/libwayland-server.so.0.25.0 moved to /usr/lib/libwayland-server.so.0.26.0
-packages/x86-64-v3-poky-linux/wayland/wayland-dbg: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-dbg: FILELIST: removed "/usr/lib/.debug/libwayland-egl.so.1.25.0 /usr/lib/.debug/libwayland-cursor.so.0.25.0 /usr/lib/.debug/libwayland-server.so.0.25.0 /usr/lib/.debug/libwayland-client.so.0.25.0", added "/usr/lib/.debug/libwayland-cursor.so.0.26.0 /usr/lib/.debug/libwayland-client.so.0.26.0 /usr/lib/.debug/libwayland-server.so.0.26.0 /usr/lib/.debug/libwayland-egl.so.1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-dbg: PKGSIZE changed from 2721216 to 2742784 (+1%)
-packages/x86-64-v3-poky-linux/wayland/wayland-dbg: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-dev: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-dev: PKGSIZE changed from 475419 to 484063 (+2%)
-packages/x86-64-v3-poky-linux/wayland/wayland-dev: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-doc: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-doc: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-locale: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-locale: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-ptest: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-ptest: PKGSIZE changed from 1399544 to 1407906 (+1%)
-packages/x86-64-v3-poky-linux/wayland/wayland-ptest: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-src: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-src: FILELIST: directory renamed /usr/src/debug/wayland/1.25.0/src -> /usr/src/debug/wayland/1.26.0/src, directory renamed /usr/src/debug/wayland/1.25.0/egl -> /usr/src/debug/wayland/1.26.0/egl, directory renamed /usr/src/debug/wayland/1.25.0/cursor -> /usr/src/debug/wayland/1.26.0/cursor, directory renamed /usr/src/debug/wayland/1.25.0/tests -> /usr/src/debug/wayland/1.26.0/tests, directory renamed /usr/src/debug/wayland/1.25.0/tests/data -> /usr/src/debug/wayland/1.26.0/tests/data
-packages/x86-64-v3-poky-linux/wayland/wayland-src: PKGSIZE changed from 1149985 to 1170883 (+2%)
-packages/x86-64-v3-poky-linux/wayland/wayland-src: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-staticdev: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-staticdev: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland-tools: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland-tools: PV changed from "1.25.0" to "1.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland: PKGV changed from 1.25.0 [default] to 1.26.0 [default]
-packages/x86-64-v3-poky-linux/wayland/wayland: FILELIST: removed "/usr/lib/libwayland-cursor.so.0.25.0 /usr/lib/libwayland-client.so.0.25.0 /usr/lib/libwayland-server.so.0.25.0 /usr/lib/libwayland-egl.so.1.25.0", added "/usr/lib/libwayland-egl.so.1.26.0 /usr/lib/libwayland-server.so.0.26.0 /usr/lib/libwayland-client.so.0.26.0 /usr/lib/libwayland-cursor.so.0.26.0"
-packages/x86-64-v3-poky-linux/wayland/wayland: PKGSIZE changed from 393981 to 401690 (+2%)
-packages/x86-64-v3-poky-linux/wayland/wayland: PV changed from "1.25.0" to "1.26.0"
-
---===============6191922141344271067==--
 
