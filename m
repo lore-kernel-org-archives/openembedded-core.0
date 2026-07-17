@@ -2,280 +2,207 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 907E5C44507
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 05:55:47 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7576.1784267747073922453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA0BCC4450F
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 06:04:57 +0000 (UTC)
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7795.1784268291989127846
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 22:55:47 -0700
+ Thu, 16 Jul 2026 23:04:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ZNKQIuZ0;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=jGy9Kn4l;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7679; q=dns/txt;
-  s=iport01; t=1784267747; x=1785477347;
+  d=cisco.com; i=@cisco.com; l=6756; q=dns/txt;
+  s=iport01; t=1784268292; x=1785477892;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=EjFJJUJ+R6mDxvh7iIjAXVZ1ubOr3kgct+/T3ywJcqg=;
-  b=ZNKQIuZ0RHSJVKQpGyqcV1e+ljN0bI5xLFxBrVl7c54d3SJBIygAlAAM
-   wsbmdTlS0L3HlkXSMoDbvYtLurCSO/44qQlTQ0zAQC7nwBTre9MSDoxgI
-   CFSvT6l8ZZOMMbFfoYqwnL1/4l1Y3GwLPFDhMqY+iDIbQPYkGzhdbbzfQ
-   6SG3e/gY5G0QFOugch7BEv+WYunBqityODg0pArKApvNVJ6DIMMSXAItz
-   JuAQjEB+Zf2KdY0Z5G2WMV04oBvfZdo31Ete9eQufWFl0wbTQYLntiElr
-   RLW058kmNgKz5vVD3NCqmCmMbuGFBufP91KwIwaXoMDV/lhHKw0r9IIT9
-   Q==;
-X-CSE-ConnectionGUID: aSS9gKLvRRq46jEIfZqwxg==
-X-CSE-MsgGUID: FDJKEVHoQj+DrT0OqRAiWQ==
-X-IPAS-Result: =?us-ascii?q?A0BFAgBWw1lq/4v/Ja1aglmCV3RfQkkDlCaCIYEWilGSN?=
- =?us-ascii?q?xSBag8BAQEPRA0EAQGSWQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDYZaAS0LAXIDAQJPCyMZCIMCAYI6AzcDEb1LgXkzgQGDaAJDU?=
- =?us-ascii?q?NhJDYJYAQUGFAGBOIU/gn2FI1wYAYR8JxsbgXKBFYJzdoEFgRpCAoFHA4ZbB?=
- =?us-ascii?q?IIigQyBWh6BfI4FSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EMGwcFg?=
- =?us-ascii?q?R2BOoEAhHYjHwM5f4EvdUp3LWoSF4FOghSBPgMLGA1IESw3FBsEPm4HjUgjg?=
- =?us-ascii?q?U1yASxhARMYewqBJ5M3AQeSNJ5OgVNxCiiDdYwhjz6FfBozqmwLmH2OCoQJk?=
- =?us-ascii?q?StNT4RpgWg8gVlwFTuCZ1MZD1aNVwsLg2DOQDw1CwMvAQEHAgcOAwuBaJABg?=
- =?us-ascii?q?X0BAQ?=
-IronPort-Data: A9a23:/Hz0oqw512GLtC8ehnd6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUPy
- mUbXmrTaK6PZWb2Kd8gPo2w/EIF7JHcztIxG1Rp/1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 46aT/H3Ygf/hWYrazxMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEgNBtwX2cJpO1tXq
- aIaBREDXAmcl+3jldpXSsE07igiBNPgMIVavjRryivUSK58B5vCWK7No9Rf2V/chOgXQq2YP
- JVfM2cyKk2bMnWjOX9PYH46tOuli2P2bz1fgFmUvqEwpWPUyWSd1ZCxYYSFJY3WHJ49ckCwi
- E7k3EnHIhYjNp+z0wbd1WuWr+7wpHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
- lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBXC4PTyVKb5ots8peqSEW6
- 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
-IronPort-HdrOrdr: A9a23:ntFJdqi5x6kW7GoE39/q9W/VHXBQXuoji2hC6mlwRA09TyX+rb
- HNoB1173HJYVoqNU3I+urwW5VoP0m8yXcd2+B4Vt2ftWLd11dAQrsP0WKb+V3dMhy70PJB3q
- F9dKU7ItjxAV9myfve2mCDYrMdKB3tytHOuQ8YpE0dKT1XVw==
-X-Talos-CUID: 9a23:kIX36WE51UxaisfWqmJuz3VFFeMBbEfn1SuOIWKZB1RwV62aHAo=
-X-Talos-MUID: 9a23:nrE7SQXOBA4VhHzq/BHAphJPCudv2qbtJFoxybIfgeCFChUlbg==
+  bh=TdrD7mXr4NvJK2CtaEJPRiosCvNHRTaCvvaLkE3+lsY=;
+  b=jGy9Kn4l9pFmIl58dVsMmwU3lLXpm4U+MOV+lx+MUZ7eRd53gOEt6XR9
+   47IS0hfj0BtDhwd9N7wbvgvxrKRLmbJ3SqONr/DK4uE/fv2NZJd2oGD/Q
+   5mT1eHqZEq6UntVRHxyzANMpYXWyw3P04Mienkj+J+MS/uRXWpYsw2pU8
+   moTvs6wS0VsVmrnPQXrtzdLfw6cQa6OZ9eX9TUWWR9Qv8Ec2ZJaE21b6L
+   OEYUboDi2c5VK4LS2kDTr1Klh+BDTNC6tOtAWZGGYrEby+TTlmNIEbx0y
+   WHD9qhuzcTX7oMNCkuZoBmDHlGEKOwN3UKtZtv4dMzSHpGOtI01HCirZM
+   A==;
+X-CSE-ConnectionGUID: rKPN3uMzQUaR7TlqWQcO3w==
+X-CSE-MsgGUID: pmPktkMmTE6viBCyytxn7Q==
+X-IPAS-Result: =?us-ascii?q?A0BbAwBIxVlq/4z/Ja1aglmDS19CSZNZAU+CIZ4egX4PA?=
+ =?us-ascii?q?QEBD0QNBAEBhD+OGgImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZPDYcTARgBG0JcPAiDAgGCdAMRvUuCLIEBgygBgVTbOhWBOIU/iCB1h?=
+ =?us-ascii?q?HwnGxuBcoR+gmECgUoHhlQEgg0VehKDdIUriFpIgR4DWSwBVRMNCgsHBYFmA?=
+ =?us-ascii?q?zUSKhVuMh2BIz4XgQwbBwWBHYE6gQCEdiMfAzl/gS91SnctahIXgU6CFIE+A?=
+ =?us-ascii?q?wsYDUgRLDcUGwQ+bgeNSCOCPwEwXQEHJAWBUlUYkyCQHYIeoRIKKIN1jCGVO?=
+ =?us-ascii?q?hozqmyZCI4KlXMNUIRpgWg8gUMPB3AVO4JnCUoZD5IjzkA8NQIJMgIHAgcOA?=
+ =?us-ascii?q?wuRaQEmB4FPAQE?=
+IronPort-Data: A9a23:qq/AEqmMDg/LJW2PLPdC2G7o5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJJDWDTM/iLYGajKd8iO96x/RxT7MfXyIdmGVBorCxnF1tH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZC31GONgWYubDpLsvzb8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FZc7wsAsHERcz
+ MEREm8xagm8vumRm63uH4GAhux7RCXqFJkUtnclyXTSCuwrBMiYBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTYj/7C7pm9AusrnXyfidRtFKSjaE2+GPUigd21dABNfKII4XWHJQPxxrwS
+ mTu52HBAQ0ZEdmj5GSb81iHl/7TjSWkYddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cFXhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:3/BW2q1u9fIcGqOt7ZWJ/QqjBIIkLtp133Aq2lEZdPUzSL37qy
+ nAppomPHPP5Qr5O0tQ+uxoRpPgfZq0z/cciuMs1NyZMzUO1lHFEGgb1+vf6gylPTHi/ehA0q
+ olWa1/BNrsSWVet6/BkWyF+xJK+qjhzEhu7t2uq0tQcQ==
+X-Talos-CUID: =?us-ascii?q?9a23=3A/eDQumnWQHjNefcbLdw9qVrzj+/XOWf+9FGLPmq?=
+ =?us-ascii?q?qMFtgcuKpTUavwahDyNU7zg=3D=3D?=
+X-Talos-MUID: 9a23:neVUAgS7JvIDbkyeRXT0gQlhKMRN5piDVl4Mu74XqtWUM3NJbmI=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,168,1779148800"; 
-   d="scan'208";a="496879413"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Jul 2026 05:55:44 +0000
+   d="scan'208";a="511419214"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Jul 2026 06:04:51 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 26B3418000200
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:55:44 +0000 (GMT)
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id A7EFB180001C7
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:04:50 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id 4837BCC037D; Fri, 17 Jul 2026 11:25:42 +0530 (IST)
+	id ED33BCC037D; Fri, 17 Jul 2026 11:34:47 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH] util-linux: fix CVE-2026-13595
-Date: Fri, 17 Jul 2026 11:25:36 +0530
-Message-Id: <20260717055536.2902083-1-deeratho@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 0/10] expat: Security fixes
+Date: Fri, 17 Jul 2026 11:34:27 +0530
+Message-Id: <20260717060437.2910653-1-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:55:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241138
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:04:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241139
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-This patch applies the upstream stable/v2.41 backport for
-CVE-2026-13595. The upstream fix merge or commit is referenced in [1],
-and the public CVE advisory is referenced in [2]. The individual
-backported commit links are recorded in the embedded patch headers
-when the fix expands to multiple commits.
+This series backports security fixes for Expat 2.6.4 in Scarthgap.
+The listed CVEs affect versions before 2.8.2, so this series carries
+the relevant upstream fixes instead of upgrading the stable-branch
+recipe.
 
-[1] https://github.com/util-linux/util-linux/commit/132d9c8aa15a8efd0a23d8ca7ed8b98f365e84fa
-[2] https://access.redhat.com/security/cve/CVE-2026-13595
+- CVE-2026-56403: Signed integer overflow in storeAtts namespace URI
+  construction, with related xcsdup overflow hardening from the same
+  upstream pull request. Fixed by adding overflow guards before length
+  conversion, allocation, and copy operations.
+  Upstream: https://github.com/libexpat/libexpat/commit/12dc6d8d3d65f79471a94d8565f6bf1cf245f648
+            https://github.com/libexpat/libexpat/commit/147c8f36d6277d5c6011c098370a8362aed47b15
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
----
- meta/recipes-core/util-linux/util-linux.inc   |   1 +
- .../util-linux/CVE-2026-13595.patch           | 157 ++++++++++++++++++
- 2 files changed, 158 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
+- CVE-2026-56408: copyString could overflow while calculating the
+  allocation size for a copied string. Fixed by adding the upstream
+  allocation overflow guard while keeping the Scarthgap 2.6.4 loop
+  structure.
+  Upstream: https://github.com/libexpat/libexpat/commit/16e2efd867ea8567ffa012210b52ef5918e20817
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 8380419634..753d032976 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -47,6 +47,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://CVE-2025-14104-01.patch \
-            file://CVE-2025-14104-02.patch \
-            file://CVE-2026-27456.patch \
-+           file://CVE-2026-13595.patch \
-            "
- 
- SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
-new file mode 100644
-index 0000000000..36e8658f69
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
-@@ -0,0 +1,157 @@
-+From faf717ca4ed3b603eb213915fe15c6804c4b92d4 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Thu, 7 May 2026 12:50:48 +0200
-+Subject: [PATCH] libblkid: fix use-after-free in nested partition probing
-+
-+The partitions list stores partitions in a contiguous array grown by
-+realloc(). When the array is reallocated to a new address, all
-+existing blkid_partition pointers (tab->parent, ls->next_parent, local
-+parent variables in nested probers) become dangling.
-+
-+Fix this by changing the storage from an array of structs to an array
-+of pointers, where each partition is individually allocated via
-+calloc(). This makes all blkid_partition pointers stable across
-+reallocations -- only the pointer array itself may move, which is
-+harmless since no code caches pointers into the pointer array.
-+
-+This eliminates the need for callers to re-fetch parent pointers after
-+every blkid_partlist_add_partition() call.
-+
-+CVE: CVE-2026-13595
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/132d9c8aa15a8efd0a23d8ca7ed8b98f365e84fa]
-+
-+Backport Changes:
-+- Scarthgap util-linux 2.39.3 still uses realloc() at this allocation site,
-+  so this backport keeps realloc() and changes only the element size to
-+  sizeof(*ls->parts) instead of adopting upstream's reallocarray() style.
-+- The commit text was adjusted from reallocarray() to realloc() to match the
-+  target source context.
-+
-+Reported-by: Thai Duong <thaidn@gmail.com>
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+(cherry picked from commit c0186f14fbdb02f64c8e0ba701ce727ea764ff4c)
-+(cherry picked from commit 132d9c8aa15a8efd0a23d8ca7ed8b98f365e84fa)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ libblkid/src/partitions/partitions.c | 36 ++++++++++++++++++----------
-+ 1 file changed, 22 insertions(+), 14 deletions(-)
-+
-+diff --git a/libblkid/src/partitions/partitions.c b/libblkid/src/partitions/partitions.c
-+index 8ebf480f5..6089028a8 100644
-+--- a/libblkid/src/partitions/partitions.c
-++++ b/libblkid/src/partitions/partitions.c
-+@@ -197,7 +197,7 @@ struct blkid_struct_partlist {
-+ 
-+ 	int		nparts;		/* number of partitions */
-+ 	int		nparts_max;	/* max.number of partitions */
-+-	blkid_partition	parts;		/* array of partitions */
-++	blkid_partition	*parts;		/* array of pointers to partitions */
-+ 
-+ 	struct list_head l_tabs;	/* list of partition tables */
-+ };
-+@@ -356,13 +356,16 @@ static void reset_partlist(blkid_partlist ls)
-+ 	free_parttables(ls);
-+ 
-+ 	if (ls->next_partno) {
-+-		/* already initialized - reset */
-+-		int tmp_nparts = ls->nparts_max;
-+-		blkid_partition tmp_parts = ls->parts;
-++		/* already initialized - free individually allocated partitions */
-++		int i, tmp_nparts_max = ls->nparts_max;
-++		blkid_partition *tmp_parts = ls->parts;
-++
-++		for (i = 0; i < ls->nparts; i++)
-++			free(ls->parts[i]);
-+ 
-+ 		memset(ls, 0, sizeof(struct blkid_struct_partlist));
-+ 
-+-		ls->nparts_max = tmp_nparts;
-++		ls->nparts_max = tmp_nparts_max;
-+ 		ls->parts = tmp_parts;
-+ 	}
-+ 
-+@@ -397,6 +400,7 @@ static void partitions_free_data(blkid_probe pr __attribute__((__unused__)),
-+ 				 void *data)
-+ {
-+ 	blkid_partlist ls = (blkid_partlist) data;
-++	int i;
-+ 
-+ 	if (!ls)
-+ 		return;
-+@@ -404,6 +408,8 @@ static void partitions_free_data(blkid_probe pr __attribute__((__unused__)),
-+ 	free_parttables(ls);
-+ 
-+ 	/* deallocate partitions and partlist */
-++	for (i = 0; i < ls->nparts; i++)
-++		free(ls->parts[i]);
-+ 	free(ls->parts);
-+ 	free(ls);
-+ }
-+@@ -436,16 +442,18 @@ static blkid_partition new_partition(blkid_partlist ls, blkid_parttable tab)
-+ 		/* Linux kernel has DISK_MAX_PARTS=256, but it's too much for
-+ 		 * generic Linux machine -- let start with 32 partitions.
-+ 		 */
-+-		void *tmp = realloc(ls->parts, (ls->nparts_max + 32) *
-+-					sizeof(struct blkid_struct_partition));
-++		void *tmp = realloc(ls->parts, (ls->nparts_max + 32) *
-++					sizeof(*ls->parts));
-+ 		if (!tmp)
-+ 			return NULL;
-+ 		ls->parts = tmp;
-+ 		ls->nparts_max += 32;
-+ 	}
-+ 
-+-	par = &ls->parts[ls->nparts++];
-+-	memset(par, 0, sizeof(struct blkid_struct_partition));
-++	par = calloc(1, sizeof(struct blkid_struct_partition));
-++	if (!par)
-++		return NULL;
-++	ls->parts[ls->nparts++] = par;
-+ 
-+ 	ref_parttable(tab);
-+ 	par->tab = tab;
-+@@ -849,7 +857,7 @@ int blkid_probe_is_covered_by_pt(blkid_probe pr,
-+ 
-+ 	/* check if the partition table fits into the device */
-+ 	for (i = 0; i < nparts; i++) {
-+-		blkid_partition par = &ls->parts[i];
-++		blkid_partition par = ls->parts[i];
-+ 
-+ 		if (par->start + par->size > (pr->size >> 9)) {
-+ 			DBG(LOWPROBE, ul_debug("partition #%d overflows "
-+@@ -861,7 +869,7 @@ int blkid_probe_is_covered_by_pt(blkid_probe pr,
-+ 
-+ 	/* check if the requested area is covered by PT */
-+ 	for (i = 0; i < nparts; i++) {
-+-		blkid_partition par = &ls->parts[i];
-++		blkid_partition par = ls->parts[i];
-+ 
-+ 		if (start >= par->start && end <= par->start + par->size) {
-+ 			rc = 1;
-+@@ -960,7 +968,7 @@ blkid_partition blkid_partlist_get_partition(blkid_partlist ls, int n)
-+ 	if (n < 0 || n >= ls->nparts)
-+ 		return NULL;
-+ 
-+-	return &ls->parts[n];
-++	return ls->parts[n];
-+ }
-+ 
-+ blkid_partition blkid_partlist_get_partition_by_start(blkid_partlist ls, uint64_t start)
-+@@ -1072,7 +1080,7 @@ blkid_partition blkid_partlist_devno_to_partition(blkid_partlist ls, dev_t devno
-+ 		 * and an entry in partition table.
-+ 		 */
-+ 		 for (i = 0; i < ls->nparts; i++) {
-+-			 blkid_partition par = &ls->parts[i];
-++			 blkid_partition par = ls->parts[i];
-+ 
-+ 			 if (partno != blkid_partition_get_partno(par))
-+ 				 continue;
-+@@ -1088,7 +1096,7 @@ blkid_partition blkid_partlist_devno_to_partition(blkid_partlist ls, dev_t devno
-+ 	DBG(LOWPROBE, ul_debug("searching by offset/size"));
-+ 
-+ 	for (i = 0; i < ls->nparts; i++) {
-+-		blkid_partition par = &ls->parts[i];
-++		blkid_partition par = ls->parts[i];
-+ 
-+ 		if ((uint64_t)blkid_partition_get_start(par) == start &&
-+ 		    (uint64_t)blkid_partition_get_size(par) == size)
--- 
+- CVE-2026-56404: addBinding could hit signed integer overflow while
+  calculating namespace binding lengths. Fixed by adding upstream
+  length and allocation bounds checks in the binding path.
+  Upstream: https://github.com/libexpat/libexpat/commit/babfc48090977cbf7be24b2c48f6053dca75c164
+
+- CVE-2026-56405: getAttributeId could hit signed integer overflow
+  while sizing attribute ID storage. Fixed by applying the upstream
+  overflow checks around the attribute name allocation.
+  Upstream: https://github.com/libexpat/libexpat/commit/2c6c42d33689f6b266a5267b639e03cde17e53c0
+
+- CVE-2026-56410: xmlwf resolveSystemId could overflow while joining
+  base and system identifiers. Fixed by guarding both the length sum
+  and the allocation multiplication.
+  Upstream: https://github.com/libexpat/libexpat/commit/deeb97f7c88d17a16b0ea2521a13733abc283347
+            https://github.com/libexpat/libexpat/commit/cee20e91bf14dc7f6d2fc48f0d70d86b2dc3afea
+
+- CVE-2026-56406: XML_ParseBuffer was missing the overflow protection
+  already used by XML_Parse. Fixed by adding the XML_Index overflow
+  check, with the prerequisite XML_INDEX_MAX helper backported first.
+  Upstream: https://github.com/libexpat/libexpat/commit/252ff1a307b1490ce0f430632791e7e52d7e43fd
+            https://github.com/libexpat/libexpat/commit/99d8454fdf900a6d00c2a52748e6c0eeb507574d
+
+- CVE-2026-56409: xmlwf output path construction could overflow while
+  joining output directory and file name components. Fixed by adding
+  upstream bounds checks before allocation.
+  Upstream: https://github.com/libexpat/libexpat/commit/61f7cdda22546c4bee38dd2d3fa3d6e4aa64d33e
+
+- CVE-2026-56411: xmlwf notation list allocation could overflow while
+  sizing the notation table. Fixed by applying the upstream allocation
+  checks and adapting cleanup to the Scarthgap 2.6.4 code path.
+  Upstream: https://github.com/libexpat/libexpat/commit/528a4e5017e1bd3b48b689fd0c131df940ae3ea5
+
+- CVE-2026-56407: Entity textLen handling could exceed signed integer
+  limits. Fixed by capping entity textLen before storing it in the
+  signed field.
+  Upstream: https://github.com/libexpat/libexpat/commit/30c2fc179ce5d2b1b1bae30bbe0dfddeac894e13
+
+- CVE-2026-56132: Shared DTD scaffolding could store past the
+  scaffIndex allocation after parser-specific group sizes diverged.
+  Fixed by tracking scaffIndexSize separately, growing scaffIndex from
+  its actual allocation size, and backporting the regression test and
+  related follow-up cleanups.
+  Upstream: https://github.com/libexpat/libexpat/commit/3a4eaf47af8fd7abda38ea2c08308c91152061f3
+            https://github.com/libexpat/libexpat/commit/58400483d7c97be316d7a77739c0a6af5d55932e
+            https://github.com/libexpat/libexpat/commit/353919b3b9f2174073a557ac7d517a5f3cd0cbbf
+            https://github.com/libexpat/libexpat/commit/bca93b4ba9e15fd84425568d772b69baebf790e4
+            https://github.com/libexpat/libexpat/commit/08baa7ef9d168b99094249998fd78f8d190526e5
+
+Validation:
+- Built expat successfully after applying the full series.
+- Built core-image-minimal successfully with ptest packages enabled.
+
+Deepak Rathore (10):
+  expat: fix CVE-2026-56403
+  expat: fix CVE-2026-56408
+  expat: fix CVE-2026-56404
+  expat: fix CVE-2026-56405
+  expat: fix CVE-2026-56410
+  expat: fix CVE-2026-56406
+  expat: fix CVE-2026-56409
+  expat: fix CVE-2026-56411
+  expat: fix CVE-2026-56407
+  expat: fix CVE-2026-56132
+
+ .../expat/expat/CVE-2026-56132_p1.patch       | 80 +++++++++++++++++
+ .../expat/expat/CVE-2026-56132_p2.patch       | 60 +++++++++++++
+ .../expat/expat/CVE-2026-56132_p3.patch       | 74 ++++++++++++++++
+ .../expat/expat/CVE-2026-56132_p4.patch       | 60 +++++++++++++
+ .../expat/expat/CVE-2026-56132_p5.patch       | 56 ++++++++++++
+ .../expat/expat/CVE-2026-56403_p1.patch       | 81 ++++++++++++++++++
+ .../expat/expat/CVE-2026-56403_p2.patch       | 52 +++++++++++
+ .../expat/expat/CVE-2026-56404.patch          | 45 ++++++++++
+ .../expat/expat/CVE-2026-56405.patch          | 30 +++++++
+ .../expat/CVE-2026-56406-dependent.patch      | 59 +++++++++++++
+ .../expat/expat/CVE-2026-56406.patch          | 34 ++++++++
+ .../expat/expat/CVE-2026-56407.patch          | 41 +++++++++
+ .../expat/expat/CVE-2026-56408.patch          | 33 ++++++++
+ .../expat/expat/CVE-2026-56409.patch          | 51 +++++++++++
+ .../expat/expat/CVE-2026-56410_p1.patch       | 46 ++++++++++
+ .../expat/expat/CVE-2026-56410_p2.patch       | 39 +++++++++
+ .../expat/expat/CVE-2026-56411.patch          | 50 +++++++++++
+ meta/recipes-core/expat/expat_2.6.4.bb        | 17 ++++
+ 18 files changed, 908 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56404.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56405.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56407.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56408.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56409.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56411.patch
+
+--
 2.35.6
-
 
