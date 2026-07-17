@@ -1,162 +1,204 @@
-Return-Path: <rasmus.villemoes@prevas.dk>
+Return-Path: <jose.quaresma@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 462EAC44514
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 11:26:27 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11277.1784287577604848456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50576C44516
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 11:40:07 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11562.1784288397388382383
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 04:26:19 -0700
+ Fri, 17 Jul 2026 04:39:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@prevas.dk header.s=selector1 header.b=RiHSz7gB;
- spf=pass (domain: prevas.dk, ip: 52.101.72.53, mailfrom: rasmus.villemoes@prevas.dk)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XuvN9xqNTgI33RLKsulIr6XTgTMiVxm4E7afYu/7ZZPrFsZdoklQ6/9iCSPUKWKa7arSGM6iKJpQ78gycfWEl5OJuBJwfWu9SVVs5sL20KiPd1HuB/unoelY8lJzgtdr5dlu3ixlS5IrEo/4DigKRmwwQS+o5s6Px6bTN5KsCdEP2pv+CzmzbIzjDhS0ScTgUZQXjxVz/UhIYlwW54/BIHekrDkkchHAVdH+d2h9a6v0uRFMKcgAGcGVoAzGGbI4hm+5usVGcR0X/zJUzlun6cjdyCe4gw7a2pF8bUPJUqOotRbqRTzcj+dfFeq+gmuW2vZJDFvOPfDKkFxlLWOUaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BEcmUrjra3laAgwD49qs+oHn3pwIuBN1+fqB9ZY8MuM=;
- b=W674VpORgl1nGJ9gB207Xh0Z8JgHXFnM6tkjdi2lVxbI9X+chM09Jt5YrIsV80izFB1+YjmNyVwQ+iXQjAETb/hb+XcsKPXX0QAyRs2BLtJ0ODkifSF1jxF4UMEAlCzlcVwtF5WT4mefl7LMPcwUGwAyBWa/vbR8EXwoZwLn0IAQQ94u0zd3ARgiT4mVeNQ1kTOM/6CDZH0rQrJjVHOr29GgXisCVaorJqhB421DPEq4dVlm7sF7W5pFE013FCehacA3Q+gXC1deo8gJOB6X4BbMYFQ+aeGMTsxcIewDribnZ8NIpxyomAVP8M6NhTRpFj+hpsvxTfQSQMlV/nj92A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BEcmUrjra3laAgwD49qs+oHn3pwIuBN1+fqB9ZY8MuM=;
- b=RiHSz7gB3UrZp89bGBMxf2xb8BVGeaPv/j6tgTJX7n7oNO6imfYsZ7QDLSnltSWsckDCKumCmix0m6n5L9J8BFDf5pr7tu9BYs2DlbVj4cG13XTnT+273rkf3Dywp+gx+13rAIJp62uECg8C1vmxVFPCktG2COMMKl0SCT3kijU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prevas.dk;
-Received: from AS5PR10MB8243.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:681::18)
- by PR3PR10MB3833.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:4a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Fri, 17 Jul
- 2026 11:26:12 +0000
-Received: from AS5PR10MB8243.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::ebc6:4e0d:5d6b:95d8]) by AS5PR10MB8243.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::ebc6:4e0d:5d6b:95d8%6]) with mapi id 15.21.0223.011; Fri, 17 Jul 2026
- 11:26:12 +0000
-From: Rasmus Villemoes <ravi@prevas.dk>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=BjLdyWm4;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=bAqrv3U9;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: jose.quaresma@oss.qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HASk2E1323638
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 11:39:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=BZh6sPI2UfoJjPSOef20Um1GLbRg3feOGU4
+	Wx2Mqz4k=; b=BjLdyWm4lMNlUFAPimgdy+yYhh0n9n7B7zEnI0Wr7I6o+Dod9nI
+	ZuhARp6jsXbjMgMJ3onoEvvj1RaEDZFnISdUg+umWDsbzSL8rOFDmKVglSPwzp7v
+	iIIdO4mIUkHNxYQTTdkxXhmw8vv45tFtS6kQDXH+0w0sBCHzZRnRWz5PDh7LUfCp
+	ah5I2hhYlp4wcIH36JnJkvQLrQaB0FO/Kejc8jSV1DWCSWLIuyKFWA/OsubUF4yc
+	1bvg0Yo7zfu86k3C+2rD/7gC8h+iuUFf6I8oLe17xBqdxoyasl0X1MQAe/9eX5SX
+	a2GVD1igwyvX8QC1ATuyhbLuK2aFyfqfH8w==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ff3u8kgxt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 11:39:56 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92e632390d2so874552485a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 04:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784288395; x=1784893195; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BZh6sPI2UfoJjPSOef20Um1GLbRg3feOGU4Wx2Mqz4k=;
+        b=bAqrv3U9OArj2t95RpjSyTpiE9O+r9Djd9aAGBjIFPdgIKHBok5bqk2H99LLcbddwo
+         GdcelliWz9JNz8buNJ5mhfF3/hEI/ZzKYW9yX8e8e2nTQtfP2sgdixfTbrAJvfSGc+H6
+         onU9MsyEh0J96E+VzPUfQZZxhQ//1wFvbuGkLcHQSnKlETPs0MrsOIYaCyTIT3brooE1
+         G2pr0ITzHDGbgM9xp1dN8Cq0owuQL4w8XsBnF9fRo7iHIIr0paIPmrkH+eRJnJWe03u4
+         7/H2Mm/eu1C/lsnMaKvnyiYDy0tQkVKUVr/sfIbZ3eTQQZQ9eDzD/4MlhBD4i3MuK3mg
+         sBNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784288395; x=1784893195;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BZh6sPI2UfoJjPSOef20Um1GLbRg3feOGU4Wx2Mqz4k=;
+        b=l2BRlJf+hODOEBL95pVt2dpAHl0F3jFI7kEh/NtFCy8XzEO66PxYf7hwIXWdHhkAHm
+         sFWsV2MduEvLwzZ2RtywR9IA28E2eEUikBwwAWgnbL3QGBc1Db9rq8smV/ypvHe8X6Q5
+         jujapwEEzq7Xk1a5JKsJ3WLhlOH77sGmLl9pmOL0iUrO+C1u36ErI6rIbMGTqKs1Jvmn
+         GtjnO0AQUKCBXRdK4J3H1OTFGFkXuJGGBMQzEejD6mAVvaZoEvotLmEtIFEK0jEeQJQP
+         8bZjLThPJyVUSbO2b64ql0O94bvfoNTt5IHO0+yjnPZdG7QRO3ZAhcBvyV9E7BpbwWoY
+         /H0A==
+X-Gm-Message-State: AOJu0YytjOcBOaQLgOBTAH0RP/bxLfwYcQszGabiajBhk63LIeDwfsOy
+	S0qb9N5u8sF041xuLRPvwYFwjtjlH9acUXeFQnt7IqPHkO0xZdAyx/Y7p8FCl/Bw2YfueORlAM8
+	Kdd6dZcL+aiQ5F1hnYoDayA7/Yem/Pc/7ODifeusoWMoxwddhdvMSaxIIsVARANsF9w6odqy7je
+	0TjwwCTnvSBqVmVvo=
+X-Gm-Gg: AfdE7clMYbXe8hqgg0jYtAIOpXIBkeECtEEZwc41Tx6y83xzp+I9Y6EqbrimCJy9FDI
+	9pdWkPTsc+/EW6x2UjFD71fKWP8OgCB6aQeYVM/dA9wakxhIuA6nDpaOCfW1dJ8Z+RhJog5X993
+	Y0Cd/rb+IWWk/q3BOqxCzT0p/f49cT/G9eZbkCio/kNAO5+9Is5dCESIJoXjC4h7FpqBe13qcQJ
+	CViOz1SdibCxcanMFiJrQBPrMICBEVMg7W0AiD6oazYTIx/k8fwS69eLfBqqbnXDVJP8gJzCSIm
+	auboPExsVzCSSjAPYTnJQtNd+SZPcEGpYNRaP63h9J5w/Dvmhzh2HHub+PfsSHJw+y+Ug5ElM37
+	4WnmVevbIGzBXZUk=
+X-Received: by 2002:ac8:5e4e:0:b0:51c:1327:5068 with SMTP id d75a77b69052e-5213d1bee85mr17452221cf.1.1784288395498;
+        Fri, 17 Jul 2026 04:39:55 -0700 (PDT)
+X-Received: by 2002:ac8:5e4e:0:b0:51c:1327:5068 with SMTP id d75a77b69052e-5213d1bee85mr17452081cf.1.1784288395062;
+        Fri, 17 Jul 2026 04:39:55 -0700 (PDT)
+Received: from toster.lan ([185.228.162.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63edda9bsm3003265f8f.31.2026.07.17.04.39.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 04:39:54 -0700 (PDT)
+From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: PACKAGE_EXCLUDE_COMPLEMENTARY question
-Organization: Prevas
-Date: Fri, 17 Jul 2026 13:26:10 +0200
-Message-ID: <87bjc5svql.fsf@prevas.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-Content-Type: text/plain
-X-ClientProxiedBy: GV3P280CA0080.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:a::29) To AS5PR10MB8243.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:681::18)
+Cc: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+Subject: [PATCH] shaderc: upgrade 2026.2 -> 2026.3
+Date: Fri, 17 Jul 2026 12:39:42 +0100
+Message-ID: <20260717113942.67640-1-jose.quaresma@oss.qualcomm.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS5PR10MB8243:EE_|PR3PR10MB3833:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1ccc867-fe71-41e3-621a-08dee3f634d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|56012099006|11063799006|10067099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	Qcewtjcl4olgfB3NyyeP6jC2vCtr6rjc3i6hA1oDvAwZOyjY8EvpAT9yInk8LE3Q+ZuBriO9KZzzypVkZzOrrHJ/34OBK315vXHsSLdwmrIUJzS+D9eIXfVR+lYl4HTySMNENEPN4egkq3rcInQkckgmuzoHZk5+020yR0ByvNlAq+fWHpjxqVhuuPUYIa8pY2tup9rn8jJmKtXoDsCviJ/msT0DEHGiqgbDZmcNT7klgmjw4btrv4IYXc6RqDJ/CYP9dFm4vzVKExhmSzBjt49UVsvIM81ygrzkpZHzTDKk6ASB7sJ+0gaw/OmguXoh+uEy3/1ZpFVap+SM5yxqKIUsV7ip8qpZa/Teexjf7mJhBsYxtigz+ZzLEi8Uh+6ojfiYuihroUmcUWePJtPomCEm7VSitWwUTWKz92sNqpsPri45ZUlxgSL8P5B10SjmvbFeIHQ5q4qciuhMj7PvyWrwsDM+cFV3U+rw9F8sHvW4JH3hJhUpKKj97MNa/KqadF+odEtUVzuGaMvsNU/nfzNOskCxgVQZdEouMkBr/+iEnGfeu6+EHQ6ey+HH/+nreAopMj8Q7fL4liY/AWrER/Zn57EC2bTvLL4MLby+w6LL193MJd0jLEP3ERl7FJp6okxj8IqDfwt6DPt5pdImcW1MlrQ3/ajfsD+SRdHB+GU=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS5PR10MB8243.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(56012099006)(11063799006)(10067099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?WTWYJd2UWeI7UVqXqW2ELDJAI4xQC3qSnIKRLemv+WGt6IYbB1TsVB/TS8Cq?=
- =?us-ascii?Q?+ZE74UZdGJTIJrp5yUC2ZHTBwcYyL0NdnkjX2FNJB8ryHWO7WX8+FKRJ6Lsg?=
- =?us-ascii?Q?1oZi0Z5jB1/Bek0ftQ0nh1FHYqiN/5X21O8iiu6PtZ0ZDy9b1goPSzRl51jR?=
- =?us-ascii?Q?uSJhR1L71QHYGTQDu3VeorEGzwQww4agNc0DBl+UrYwEXPL7RufcSlshHa07?=
- =?us-ascii?Q?oiy73uUlVJoWBxpdJSZLYl1pQK3y2s1rxFfHIbNf1986bt946CRzRElm3ApF?=
- =?us-ascii?Q?OmFY8ANygG5W5ZaA/jw/IGSIPNm8TX9RqdD1ouwlSe0Bf5ZfxASjS0HxGPOU?=
- =?us-ascii?Q?2+pOBG/Fg5VKJmTF04WkW9eo78UHIBHxuK62WMgXeM/QRbpT2YIsi5tK8bKH?=
- =?us-ascii?Q?Ulo/t/qmGaCroqQyCuIjXaSxjLO/epPk0YNSr92MO5DTmeK0A80LapyC+yOC?=
- =?us-ascii?Q?S4Ox8ah8qUwI+F3m9Ymf07pSqaSkpPWqrv33pVu6i+uYANMPhsK8PxJsfJTf?=
- =?us-ascii?Q?StyRpTWDCi0vfjDibRL+ESD21tMCRYDMOKuhYybNZVXqLaPHsZPYGPsptZ2Y?=
- =?us-ascii?Q?MyGUV9SjwVs7xDio0LOPPU64Rl/zGb2Ku8TUxLjznb4Ew5u2INYWsD1XA69f?=
- =?us-ascii?Q?1U3tRqPym4f3qrIOEDGCRHZ9wNDsdJXacNPEPbuRZ09EgmW9rKvqJvZ8Dotr?=
- =?us-ascii?Q?wYzc7/KdusFEn9U5hpDmw/Ngy62kdyVOg1usbLLw38M9MLtOM65p9jEJvD5b?=
- =?us-ascii?Q?DVGfUcViY+wpiyjxOZ90UgZTbb/iw3WzTTQdqJEuIh3ItswGsUYSOE1JTTIJ?=
- =?us-ascii?Q?TnKFFFdChcsfcb+sLDv2WRdoi0bwva+63kpriqZ7d+B4L5Uu83M2CIJbiGaL?=
- =?us-ascii?Q?z+p6MEomef7oEey0X9RCs6zEmpotl/+9y+Q89nFyM0N7W6/a+0UiUhR2AK1F?=
- =?us-ascii?Q?IE5kWn6yElPtC0+e3yoCzfJNClT/2wu/1XTKOxs5eh2VJBQsSs+DYqMFl67n?=
- =?us-ascii?Q?YeZmFsbKYTp5DTYi535nZ5WCP5fYMG2PILXoRNHghWOZ6h3o6kMOKlmFhfrt?=
- =?us-ascii?Q?dhHrJHAm+YpHe6ddfK4qUovs2iztG7Wcn4C5XzcFL3iaieffFkMvgOfQoiCO?=
- =?us-ascii?Q?jIQWu/stPbY38OooMrUQ2QR/mtQip63RmiYPZg5NS5/RalwL166TSpU4Ip7K?=
- =?us-ascii?Q?4vSfcbIOwGbyyg8s3cA/DldEbFQgD7+u1p+4D7v1PaCw8dfij/KUHirc20iu?=
- =?us-ascii?Q?Be/LHbp0ejmnKkjeZVOU0vulYaos7wisq+40tibC7zGGb7sNLwKN4QTjh5SY?=
- =?us-ascii?Q?lvqhde+qbDDHdPCf02ssuOvcc+L/Yx3VPB3dFPFOfukH7HUDHykmcUTIovsu?=
- =?us-ascii?Q?0+sZRaUzd/qjezEQVCLbsnHLwpfHO7kBduL7bFKHbexa3PqTbgnO7dZpojDi?=
- =?us-ascii?Q?h5tt9zWBEuKXNgvKvoxyrLiiV6wAYlRA9yA+8viIxProDwAwX06ht40/K3NJ?=
- =?us-ascii?Q?OLUn6JR6vjxYFWBdhLeBquR50idpSi2FaHw+NZm9EttWUH7R6FQwIykQeL1u?=
- =?us-ascii?Q?BFvJj9uU4Ba9HXOP6roagn6kVHTf/f7UegeJ9r8ibKHe/lbf7OLIiv2SmQEQ?=
- =?us-ascii?Q?i0BcgOMFnRxaUIwS/d0UB+Jl4THsr0vbN2jhlbnxIs/z/T+plyoqdBkqqGEV?=
- =?us-ascii?Q?24q7rOI6tKDEYsfyJYCvhlGglyiffIbTDxc7LNZrI7In8QIGg0jPcBvGSZKK?=
- =?us-ascii?Q?oJT297LYl7CxVz46Tj5hIPLvgy/wHLY=3D?=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1ccc867-fe71-41e3-621a-08dee3f634d1
-X-MS-Exchange-CrossTenant-AuthSource: AS5PR10MB8243.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 11:26:12.2539
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8mBeHxKXrW6Jcw5aIw5haketFjHlaIuaUtTVY13qCzGOyGhEdV6RGQX0JPqSq2TeT2q5ArA4dRVPruNYHDVGwC/nrgCTtk1g2AHEl/Ikl0k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR10MB3833
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: PtQmln4PUGDKLGpV-4VGdhC3HikLzHah
+X-Proofpoint-ORIG-GUID: PtQmln4PUGDKLGpV-4VGdhC3HikLzHah
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDExOCBTYWx0ZWRfX+XwGPjIRhWpn
+ 6+FznqgHuV8Kmw1Di/Vv6VDvK5XZA2UDrLLh+oOsph05iNx0Os9r+lwR2JXweUTgTOTkmx76GDZ
+ TFHNxPRFS6ZqUQQyog+aym292Pk10WM=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDExOCBTYWx0ZWRfX/iTCgHm0lVK3
+ 9wqcDsy5QOlR4c+IxCSkQ+19TLO0OMWrSTvXS+Zdn1eJJgCWXNL1afeIehNOSLHYka6SxcbaXNL
+ XSjxHmmW1hKa1oytG1u9qwJpzg90VsL4/0kjrynSE7deXlwILBD6zT36X7ED/vY5piRnPXP/NbH
+ 7EM+A3UcD4opkVLWtVkl1ZAx40R5rbp0Fs3LBsRYvJpIWMek7LzfaDweEnjPDkxBryXQf2ZYtWt
+ jTGpRr8S7bE71r3jupq2/WyIcsqhW9twKe4Oj7XkVZiZ6VBVMR3+NOLE99E1A3VznAvI3B161CU
+ yZtBW4NVoKsloehARVAGK80yjWvoQU83Eg1EqAgCx5kFunwsH5MA3z5lG1kDoemq5jxeOWCPvis
+ dih4PmdPM8026wnteRvjOfpUxP+lv3+zkdrU0aFq7FFCXbzC2NZVnG3JAk6Srkbo1eIrgpxwCch
+ fgg2A1kv+MegsAPvj+Q==
+X-Authority-Analysis: v=2.4 cv=TL11jVla c=1 sm=1 tr=0 ts=6a5a148c cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=YIx/k7VQn7/pPcQ+xNwIKQ==:17
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=NEAV23lmAAAA:8
+ a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=ezQQ7er8JOjSBbkXI-EA:9
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-17_03,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 clxscore=1015 lowpriorityscore=0
+ spamscore=0 bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607170118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 11:26:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241162
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 11:40:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241163
 
-Hi
+Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+---
+ ...-cmake-disable-building-external-dependencies.patch | 10 +++++-----
+ ...shaderc_util-fix-glslang-header-file-location.patch |  4 ++--
+ .../shaderc/{shaderc_2026.2.bb => shaderc_2026.3.bb}   |  2 +-
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-graphics/shaderc/{shaderc_2026.2.bb => shaderc_2026.3.bb} (95%)
 
-I was playing around with adding ptest packages to our rootfs to see how
-many of those tests would actually succeed on our targets, and if the
-rate was high enough, I'd do it permanently and run them as part of our
-normal test suite.
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+index f9731a8eaa..bc324b5c0d 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+@@ -1,4 +1,4 @@
+-From adf7927c3fa5055d33c3970be53fdf1a8853b617 Mon Sep 17 00:00:00 2001
++From b2d321b9c493a6e36203c50ad20adb655485c951 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] cmake: disable building external dependencies
+@@ -15,10 +15,10 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  2 files changed, 25 insertions(+), 10 deletions(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 06f5395..39b8869 100644
++index 51b5469..8557714 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -72,6 +72,7 @@ else()
++@@ -77,6 +77,7 @@ else()
+  endif()
+  
+  option(SHADERC_ENABLE_WERROR_COMPILE "Enable passing -Werror to compiler, if available" ON)
+@@ -26,7 +26,7 @@ index 06f5395..39b8869 100644
+  
+  set (CMAKE_CXX_STANDARD 17)
+  
+-@@ -129,8 +130,14 @@ endif(MSVC)
++@@ -134,8 +135,14 @@ endif(MSVC)
+  
+  
+  # Configure subdirectories.
+@@ -43,7 +43,7 @@ index 06f5395..39b8869 100644
+  
+  add_subdirectory(libshaderc_util)
+  add_subdirectory(libshaderc)
+-@@ -142,7 +149,7 @@ endif()
++@@ -147,7 +154,7 @@ endif()
+  add_custom_target(build-version
+    ${Python_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
+diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
+index d639635766..fb11fae014 100644
+--- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
++++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
+@@ -1,4 +1,4 @@
+-From f3915766d382d30c83da6d8077bf183e930a4789 Mon Sep 17 00:00:00 2001
++From 8f2350e4172758bf6ef3464c998352864b90988f Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] libshaderc_util: fix glslang header file location
+@@ -11,7 +11,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/libshaderc_util/src/compiler.cc b/libshaderc_util/src/compiler.cc
+-index f2ed3c7..59b262a 100644
++index 41bdba7..db7f329 100644
+ --- a/libshaderc_util/src/compiler.cc
+ +++ b/libshaderc_util/src/compiler.cc
+ @@ -20,7 +20,7 @@
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2026.2.bb b/meta/recipes-graphics/shaderc/shaderc_2026.3.bb
+similarity index 95%
+rename from meta/recipes-graphics/shaderc/shaderc_2026.2.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2026.3.bb
+index 644db97969..063bafaa04 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2026.2.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2026.3.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+-SRCREV = "baec0c74d6dca70c52d937e2e5bf6ffcd449e430"
++SRCREV = "82757e4f72af8518fb679604d352623450cb761f"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v${PV} \
+            file://0001-cmake-disable-building-external-dependencies.patch \
+            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+-- 
+2.55.0
 
-But it turns out I can't simply turn on ptest-pkgs, as it blows up the
-rootfs beyond what there's room for on many of our targets. One of the
-biggest offenders is openssl-ptest, weighing in at +650M (roughly 3x the
-size of the rootfs before adding any ptest packages...). So I looked
-around for a knob to say "yes, to install most -ptest packages, but not
-these...". There's PACKAGE_EXCLUDE_COMPLEMENTARY, which sort-of seems to
-be intended for this (though undocumented).
-
-However, just adding "openssl" to that variable does not elide
-openssl-ptest from the image. After adding --debug to the
-'oe-pkgdata-util glob' invocation in install_complementary(), I see that
-yes,
-
-DEBUG: openssl -> !!
-
-the openssl package itself gets ignored, but there are two "aliases"
-(for lack of the proper word) which do end up pulling in openssl-ptest:
-
-DEBUG: libcrypto3 (*-ptest) -> openssl-ptest
-DEBUG: libssl3 (*-ptest) -> openssl-ptest
-
-I suppose adding those as well to PACKAGE_EXCLUDE_COMPLEMENTARY would do
-the job, but playing that game of whack-a-mole can't be how it's meant
-to be.
-
-Coding-wise, this seems to come down to skipregex not being used at all
-in the "# Main processing loop", in particular not after reading the pn
-which a given package came from. But I have no idea how to modify that
-code to take skipregex into account or what could/would break if one did
-that.
-
-Also, had there been for example a openssl-bash-completion package, I
-didn't really want to exclude that from the complementary package
-list. IOW, what I'd really want is not a filter on the input to the
-globbing, but a filter on the output from the "oe-pkgdata-util
-glob". Perhaps something like a PACKAGE_IGNORE_COMPLEMENTARY which would
-be subtracted from complementary_pkgs in install_complementary()? Or
-just use the existing PACKAGE_EXCLUDE and subtract that from the list to
-be installed? Adding openssl-ptest to PACKAGE_EXCLUDE currently fails
-hard because we end up asking the backend to both install and exclude
-the same package.
-
-Rasmus
 
