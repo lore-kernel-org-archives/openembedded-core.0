@@ -2,62 +2,62 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C92C4451C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6390CC44520
 	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 13:34:42 +0000 (UTC)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13731.1784295273008890063
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13735.1784295274927264632
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 06:34:33 -0700
+ Fri, 17 Jul 2026 06:34:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=CxfSDfyE;
- spf=pass (domain: gmail.com, ip: 209.85.222.53, mailfrom: twoerner@gmail.com)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-97622cc1f40so3571177241.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:34:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mKovVwGn;
+ spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: twoerner@gmail.com)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-9696319e14dso2725302241.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784295272; x=1784900072; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784295274; x=1784900074; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=bTXYp5YAiFNEVIhcVF0RPuZrSCAr89IdFG3s8yRr8Vs=;
-        b=CxfSDfyEfMgWZtSoDd5uxRfZHPPcAss65zQNIcZImuExHJSxUOea8RNhVVoLFrBSw3
-         Wdrg5Ne3VtpQ9dtt27kg99rwz5WSyrx40tuBL9sJEyRzaAyr7V8x7RNlsdlYT6BFNl0/
-         YWr/H/fBMTIJzDZ/DiKkN10T8Mt39M9xvd/Ep2zR8uIohDvqsmTHJ+9nO3m/1A88csmd
-         Lm0OgExUDDYUheLtBS/JJFzFvy1DPrXOF6+xZKr3F9YxqKf+o2NlWJifU/cArs0WIAUG
-         7ZDym7aU72z7K7FMt0U9I/jWuzR854VZlQhcGbxPqKhFxh1kHsVGNLIVFMIUzyhWsHWZ
-         2icw==
+        bh=LMbixBlwElxwtWJTJyI7L88D3tifLNe9vh2wAVJ7ff0=;
+        b=mKovVwGnx6xu+pVRqNG8XJvRNNPBiSu6ljO8mrHAZw8Xv7INW/TwE008GO8QckKR9e
+         gtoZMZnSnECIzLQsJdV+068i6CsPyhdxXRGrRkTxbvq0lHvNA2Bm6NDaAYWKYN8UftEq
+         vjN/WOftn29k/CkrTTRcPinpXWPBVwbuHteRGibrgOJrqTi9nXL8sAVL22p4StdZeRPl
+         ssQHrsGWeJGOxFUFyQLIBJQVYr+kfaevn4fyP7MGYYdmQWOxVkWarOvkE0AN9IAzcunn
+         z6Mvf7yZP4G9AoOaj+FoqhlC9QfvJNFeLasK/wpeB0TxkOiB9VxGRfsLJrjP76YvBLmF
+         rs0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784295272; x=1784900072;
+        d=1e100.net; s=20251104; t=1784295274; x=1784900074;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=bTXYp5YAiFNEVIhcVF0RPuZrSCAr89IdFG3s8yRr8Vs=;
-        b=QA3Ke5FNxG5UsXRIAxUrbA+66QAq0s4luqROF9Nk5FRJnaqfwyuc/3SG9da7s979tu
-         aNBACZJN8onfN0h78VWXMx/AImNNjZiaWepKUmUIfQa2lPYYG+PbZLHRVD2AnEWhMGdU
-         IDcLLoJJN5z3NGUSC/mqhGCIoxus5DKPp77yPnx6eMAT9mUETkX/Sv+ksPVIFCM1tkv2
-         pg6pgijxykqlJv3ei068/CyH8rA6vQisM7rQ0+44sszZsHgY27+m0i2nXr00zj5rBN7o
-         x2GSNMTXky2pINzgCyBoCci/NtMOGclnl90XSE/dfXfzA4FvdFhA2eAH3hXqxhlowovr
-         ltQw==
-X-Gm-Message-State: AOJu0YzLmBxixZze8YD72eKa3IfsopsmQlxPWQ4aUIwpIYKsVR+TYm0e
-	H6woAHYMGZVQqhlH4zxydjJHe7WOzzg2KILxtbEsm6x+EnMDgxAy6DBgu+aiDg==
-X-Gm-Gg: AfdE7ckKul8ppK+MAAvhwR7vVPNUL2oeO9redUaxy8I2hOpq7/75UHMfiy2x3ahUKzh
-	B59OIfbJ37as6a+TEnagnnFDUDObBp3tgGUtN7ZLIPciYn2ZGq9zIaLJfYE0n78EE99Ni+ijjHa
-	eNKbjF/EuG8fuIvHvZGUFV4eLQcl/4f4UvKgFtrMRn+/uXjtvBIOVIgRfS5CGfewKvoCmjRgEAQ
-	nfKYufsqVLNnA42dNd+ALIHbRxw9CvO8+rbtex3m++kKUswx+iSl0RWfEdoemVvU/LBqfpoJvDd
-	oNBtquQZ7ysOxnSvKPKd93adaA0qSiVOTKJcdrqpNcw2zFgm3yxJgWFKI7KahR84rIFjGbcWfH0
-	h8Z4DubruW9i4orMuMbAmZSbhsnRwktqYHrDk3gNkArb/UCcMUjE29VoHPdVF3dQwH+mERt1OP1
-	9rvzcAHvNyYS/xgcKKkFN+QCGyIsQWFmGg2W5CDDBbc3Pw
-X-Received: by 2002:a05:6102:5694:b0:738:fd01:5b60 with SMTP id ada2fe7eead31-7475343a577mr579077137.3.1784295271756;
-        Fri, 17 Jul 2026 06:34:31 -0700 (PDT)
+        bh=LMbixBlwElxwtWJTJyI7L88D3tifLNe9vh2wAVJ7ff0=;
+        b=qd4a1p3I5Ss1IAj5WixCjDA7dJB5HAbUMiQLZ9HXeOi4Cadz2+osYgQOj1s9c3NR/h
+         93zr9lafqM+1Z4lgS9VvpIGEvGfn3pVwYTcAIEPCRE4VWb0KBXHj/sw83xW/2iPqqBnE
+         BPV1kHqrwvXRk3+eSCUueTPOISBnX/5ieCCCF4yh4IVFUCDg4vN0fkKZHVm1zuWqGc1u
+         JSZQrSHKkT2M4mxkdJReAyTpB3NK5O+FVARYUro14gIohXUmQTYgZtufoLa+qeLcdY6e
+         Uk4Pe65cHmoNeIhLoKtVb2RtSojo+9n4NGfdwTOBb54qTW/yMV8XVBqDhRekTkg2P7+S
+         1Xbw==
+X-Gm-Message-State: AOJu0YxJjYe/HTvA+LFmNT3F+LBr0bHlNZtKpA3AMmJWPrbaMDNUktBa
+	6oABe6ATQ58n2cAProI6OqZcn5+aq/NfAyU+nQ4TDDvXzVF0ySICwGzaykGpiA==
+X-Gm-Gg: AfdE7ck4ZbBJp/7I2kYuruptb5WsrC+XGXMjg9+ydgKd/idSB9qLconQBiKYQbHR76R
+	laAVPI21Q7KE2jEt9R6Se5erjjdPHD0UGwJX8YQHQAzvHqF7mtTdLOxXeUENxPCuscLn8wKmypU
+	scW0a8B6FtJklF9SNYhHdNS51dyUpP6TcT4VtjQz7WDgO5PaYZME53dIVIOfY0D52NVynfWixS1
+	YspwLo77h0AMqg1M1Q8IXW8yRitWab5j2SZHmtefFQ/NBDdyZRR2icQhDNjopBCpF2M/NkON6lh
+	YVfhdIeYPWVv5WkZyVGjiBu1EFRXV+0OfSZDD2hK/rGbvzth5MXy3Bq/vH/PYwTyoPgQXtIIT/h
+	gw5jJwkcLdFMTgtFFyBCz3CoW+6mIfqBF2hmrDj2lMCL8jGXzNXemAE94s4mcNc6t+fXr+UAuwu
+	4SM08tS+OC21o0ztHruIxctI0Oc3bBcjsfZDN3bgcOvRg4WFqOxKvOqfc=
+X-Received: by 2002:a05:6102:a46:b0:747:4d96:dbb5 with SMTP id ada2fe7eead31-74753532c7cmr499039137.12.1784295273766;
+        Fri, 17 Jul 2026 06:34:33 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-976fc3688e1sm565059241.3.2026.07.17.06.34.30
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-976fc3688e1sm565059241.3.2026.07.17.06.34.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 06:34:30 -0700 (PDT)
+        Fri, 17 Jul 2026 06:34:32 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 1/6] wic: add runtime dependencies on the tools it invokes
-Date: Fri, 17 Jul 2026 09:34:16 -0400
-Message-ID: <20260717133421.3510970-2-twoerner@gmail.com>
+Subject: [PATCH v3 2/6] nativesdk-packagegroup-sdk-host: add wic via a new SDK_FEATURES lever
+Date: Fri, 17 Jul 2026 09:34:17 -0400
+Message-ID: <20260717133421.3510970-3-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260717133421.3510970-1-twoerner@gmail.com>
 References: <20260717133421.3510970-1-twoerner@gmail.com>
@@ -67,85 +67,81 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 13:34:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241183
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241184
 
-wic shells out to a number of host-side tools to do its work: parted,
-mkdosfs, mcopy, the mkfs.* family, sfdisk, e2fsck, resize2fs, debugfs,
-blkid and more, depending on the operation and on the partition types
-in the image.
+wic is useful from an installed SDK for assembling or inspecting a wic
+image, but adding it is not free: nativesdk-wic pulls in the tools it
+runs (parted, gptfdisk, dosfstools, mtools, bmaptool, grub, btrfs-tools,
+squashfs-tools, e2fsprogs, util-linux, tar, erofs-utils, and syslinux on
+x86). Most SDKs do not need any of that, so wic should not be in the
+host packagegroup unconditionally.
 
-None of these are declared as dependencies of wic. For the bitbake
-do_image_wic task this is handled by the wic-tools recipe, which builds
-the tools into a native sysroot. Wherever else wic is installed as a
-package it gets none of them, and its offline lookup (wic ls/cp/write)
-resolves each tool over a search path that falls back to the host PATH,
-so on a machine that happens to have the tool installed system-wide wic
-succeeds while on a machine without it wic fails:
+Introduce SDK_FEATURES, a list of optional additions to the SDK host
+tools, in the same spirit as DISTRO_FEATURES, MACHINE_FEATURES and
+IMAGE_FEATURES: a developer reads the setting and knows exactly what is
+being included.
 
-  wic.WicError: Can't find executable 'mcopy'
-
-Falling back to the host is unreliable even when the tool is found: wic
-depends on specific minimum versions of some of these tools, and an
-arbitrary host copy may be too old, so wic can pick up a tool that does
-not behave as it needs. Declaring the tools as dependencies pins
-known-good versions instead of trusting whatever the host provides.
-
-Add the tools wic runs as RDEPENDS so they are installed alongside it.
-resize2fs is listed on its own because e2fsprogs packages it separately
-as e2fsprogs-resize2fs, which e2fsprogs does not pull in, and wic needs
-it for the cp/write resize path.
-
-syslinux (with its isohybrid helper) is only available on x86, so it is
-gated to those hosts; cdrtools (mkisofs) is native-only with no
-nativesdk variant and is only needed for ISO images, so it is not
-listed here.
+Gate wic in the host packagegroup on the "wic" feature, which is not
+enabled by default. A configuration that wants wic in its SDK adds the
+"wic" feature to SDK_FEATURES and gets a working wic, together with the
+tools it invokes, in the SDK.
 
 AI-Generated: codex/claude-opus 4.8 (xhigh)
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
 changes in v3:
-- list the tools on all variants rather than only the nativesdk variant
+- replace the SDK_INCLUDE_WIC yes/no knob with a new general SDK_FEATURES list; gate wic on the "wic" feature
+- add the SDK_FEATURES default and documentation.conf entry
 
 changes in v2:
-- merge the tool list from the v1 "wic-tools.inc: add" patch into this recipe as RDEPENDS; the separate .inc is dropped
-- list the tools inline rather than via a shared WIC_TOOLS variable
-- note in the commit log that a host tool may also be the wrong version, not merely absent
+- gate nativesdk-wic behind a new SDK_INCLUDE_WIC knob (default "no") instead of adding it unconditionally as in v1
 ---
- meta/recipes-support/wic/wic_0.3.1.bb | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ meta/conf/bitbake.conf                                          | 2 +-
+ meta/conf/documentation.conf                                    | 1 +
+ .../packagegroups/nativesdk-packagegroup-sdk-host.bb            | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/wic/wic_0.3.1.bb b/meta/recipes-support/wic/wic_0.3.1.bb
-index d9b4cc05c4bd..0911a2ae35d7 100644
---- a/meta/recipes-support/wic/wic_0.3.1.bb
-+++ b/meta/recipes-support/wic/wic_0.3.1.bb
-@@ -17,4 +17,27 @@ RDEPENDS:${PN} += " \
-     python3-misc \
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index bdf37d0da247..b7bc74887b69 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -898,6 +898,7 @@ OES_BITBAKE_CONF = "1"
+ 
+ MACHINE_FEATURES:append = " ${@oe.utils.filter_default_features('MACHINE_FEATURES', d)}"
+ SDK_MACHINE_FEATURES ?= ""
++SDK_FEATURES ?= ""
+ 
+ DISTRO_FEATURES:append = " ${@oe.utils.filter_default_features('DISTRO_FEATURES', d)}"
+ 
+@@ -992,4 +993,3 @@ MULTILIB_VARIANTS ??= ""
+ # what it would be anyway if the signature generator (e.g. OEEquivHash) doesn't
+ # support unihashes.
+ BB_UNIHASH ?= "${BB_TASKHASH}"
+-
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 842cf31739de..604c51322813 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -361,6 +361,7 @@ SANITY_TESTED_DISTROS[doc] = "A list of the host distribution identifiers that t
+ SDK_ARCH[doc] = "The target architecture for the SDK."
+ SDK_DEPLOY[doc] = "The directory set up and used by the populate_sdk_base to which the SDK is deployed."
+ SDK_DIR[doc] = "The parent directory used by the OpenEmbedded build system when creating SDK output."
++SDK_FEATURES[doc] = "The list of optional features to add to the standalone SDK's host tools, for example 'wic'. Analogous to IMAGE_FEATURES but for the SDK host side."
+ SDK_NAME[doc] = "The base name for SDK output files."
+ SDK_OUTPUT[doc] = "The location used by the OpenEmbedded build system when creating SDK output."
+ SDKIMAGE_FEATURES[doc] = "Equivalent to IMAGE_FEATURES. However, this variable applies to the SDK generated from an image using the command 'bitbake -c populate_sdk imagename'."
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 51e48f250b19..c2974a57fe3e 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -29,6 +29,7 @@ RDEPENDS:${PN} = "\
+     nativesdk-bison \
+     nativesdk-flex \
+     nativesdk-perl-module-integer \
++    ${@bb.utils.contains('SDK_FEATURES', 'wic', 'nativesdk-wic', '', d)} \
      "
  
-+# wic shells out to these host-side tools when it runs, so they must be
-+# installed alongside it.
-+RDEPENDS:${PN} += " \
-+    parted \
-+    gptfdisk \
-+    dosfstools \
-+    mtools \
-+    bmaptool \
-+    grub \
-+    btrfs-tools \
-+    squashfs-tools \
-+    e2fsprogs \
-+    e2fsprogs-resize2fs \
-+    util-linux \
-+    tar \
-+    erofs-utils \
-+"
-+
-+# syslinux (with its isohybrid helper) is only available on x86.
-+RDEPENDS:${PN}:append:x86 = " syslinux syslinux-misc"
-+RDEPENDS:${PN}:append:x86-64 = " syslinux syslinux-misc"
-+RDEPENDS:${PN}:append:x86-x32 = " syslinux syslinux-misc"
-+
- BBCLASSEXTEND = "native nativesdk"
+ RDEPENDS:${PN}:darwin = "\
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
