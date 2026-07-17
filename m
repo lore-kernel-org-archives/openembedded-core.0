@@ -1,216 +1,111 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEC6C4451B
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 16:34:58 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.660.1784306092023169070
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D0CC4451B
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 16:36:48 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.771.1784306203973693587
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 09:34:53 -0700
+ Fri, 17 Jul 2026 09:36:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=V34aiRET;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id AFE1E4E40E20
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 16:34:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 77CE960361;
-	Fri, 17 Jul 2026 16:34:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EB0C911BD0B36;
-	Fri, 17 Jul 2026 18:34:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784306088; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=J8cWGi47DCpkYT+jXLTWYwDin1OIk8+6A2TvGLmbTU4=;
-	b=V34aiRETKkJ/1nm0KAqhLgFt0JeNX3oCl4PAyZAWOhO0wilAMtpQoQIy3BjMojunkdmaF/
-	Eidx2F336vWx3K+QTwNYW2R5T3RmQ1rbYbfMy/I2roPtjwT5A1HBFi+FzFTswrK6gyq4IV
-	3WR1r/ujh7nRbbBEoNy9c4jbAuHOGrhunrrRMgRQwNXKYg1R/dc1dFyOQh8woUwg1IY+r8
-	HGHm+QyRFWpX8VgYJSWs7jELhos1xuxTIhySTTAcuk3zkA+t11UMf9a4W8CYYOdl5CEzEt
-	DjTt/CvxFwe22xt0cT0o95ohdSTeKybxnUf85QCax7JCimXxdleV6PbzcLmh0w==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Jul 2026 18:34:46 +0200
-Message-Id: <DK0ZPVXMPKPY.2MGH4LE6B96SB@bootlin.com>
-Subject: Re: [OE-core][PATCH v2 00/25] Rework LICENSE to be SPDX License
- Expressions
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
- <20260715164739.364323-1-JPEWhacker@gmail.com>
-In-Reply-To: <20260715164739.364323-1-JPEWhacker@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=TYP4z1Fw;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8efcfdb2b43so76477916d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 09:36:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784306203; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qTKJvR9O4eN+Q7l6dHkZT0woRHsP9JMxZAC/c/3+OXIzXGOFx6xYqvW68/XvqLE8d1
+         5+E82CRnV8nii2STlv+aWSNnV/9jLilcJrfpjRKKK0EoESQIei5eUy3o8ub3CY+yBcqC
+         1iriK5NDJMF7RCdeKrPMPByDelQNvGfSEC7Ozi5ql+zA31dbqoHWN964FzeSzFmwbH3J
+         PVMDNekE7FMiPv6+FOE+q80BNiEuJNdmsb+WichRJo+oUxSh08Dg6TizH3hFb/TtHfC1
+         JpduGNP704/t+CT4wpwBeetlxJ5f/1D8A2Qq4eVsNG0PEHVytky2cghFI/6Y2OjPyjka
+         dlDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=SFYFGDrWjFYQEe2N4DGdd3PCeDm7GVxbprWgxXms/Gk=;
+        fh=OmeYm01zPsUkL6WbgLAcVtMuhVwpe7PTs0GHS/J6wtA=;
+        b=mWKOnV8qqdver6mjGRvTqsi8QcT54aeI3JqAUbkZ6DQPdVbir/hxrOktE29e+9p5HZ
+         0UCYY5C0zxpnPQkmZ7rPBdte8wTPYrVy1F9Di2cxxdcvwyagxfHxunPq2LWvC+pc9Pey
+         yQRjQjPpWFXIo8RUceQHjughh4VurQ2EjpnRcPzWZ88iSbDMHzq507hoNVEaU5MfQsKe
+         bOt5Le8urIYnmwKTDBa40uec4WVebQfnVCN7WUDkEx/6vjMZZi6iuPRbo/uljkGMG34G
+         ZkJ77rsfs4ykh+B2YUNs3Ob+IAh/NLN/DWfRG9TY8pfBUvBJXnRNOuAg1edQvqCXXQVE
+         CVOw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784306203; x=1784911003; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SFYFGDrWjFYQEe2N4DGdd3PCeDm7GVxbprWgxXms/Gk=;
+        b=TYP4z1FwoYb4DcgF3O3lvLTvMfelU6gHIJInliNttk0DAqAjkzOZfyiB6QrNq9jul4
+         ISRQTMZhffWqBXDuR6F9xKy0IG4KpGLiXVbOP11w1mkicLcs8D0xgwxyBVaiEjBFTJp6
+         YCUMgpzY8MBuORdIRQcBZgs2DTl7C4b+bNt8NarjY6Dn2g0U35dVxQNe7Bmu+1yCdciT
+         p6J0Zgz7teOUQNx0F2yQGlPP/BeUWQ3UbSEfKVx2JYEW/i0raXPnc3zJOxzMlfU0KPck
+         Y/3vtudYmR6vjwqbIuBWi8Ps3AR3SKaMl/PY11PtzPPA9WH03UdwFLUdioeXgy8RUkY9
+         XU2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784306203; x=1784911003;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SFYFGDrWjFYQEe2N4DGdd3PCeDm7GVxbprWgxXms/Gk=;
+        b=DCMErUwyTnilmOJrXlEWkyo7Z+Y759FyVIiPvqPXxaxBZ885D3HCikWJnjRYQXWUIf
+         f/nBHbJYtut+hUxfnmH6M2wk/ocJ3GcndGM+om6U83AgmiHUt0gEe5azqf086h58+Wbt
+         GZPp78QxXTqh9q63eJvZZqtdmSphj/Wy7WoD/4sn5bgldCKAuxff8O9t54dSsfBskIKJ
+         diu6RbPu6mRXxDuFrzYy94OAgYtNN0N5yf4NNh76HkdlLuPgPvtqeBW4rk6/kWvyLCNa
+         JTiPG61AmYCtjofFi/zo+3dP28uBQ155ChyyvhS3jxcYPOtx7yk43rwLJ+2hzFQaKW6I
+         +fRA==
+X-Forwarded-Encrypted: i=1; AHgh+RrHRxlMXCQLnQ+Ho0Ii+zLqO4w5Db1nOXAdupw+o1u75eY5kgx79+8o3QeQaQC8UnYskOnaz6eFPPegIvEIQislrg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YybQ2HRUTI7a/n36/PaKHU1o+BNoNzHqzzvskzxuX5WtP99VR9I
+	V74V7hTVFlxYFyNnXkWKL8Nyf/VIlMhzeN1+RtmHYBEFnrAx3/08d9kdMM7Y4segl5IicMUx6ZI
+	Q1cP+nE9ZDmoXh9cEEQzrRFjmOEA/zE0=
+X-Gm-Gg: AfdE7cmRSFC9Dw/oG1oDEK2PWEiHqnRlqZinXcEJkWnGCzso68JdIGRTNeglT1WAS0D
+	UhR/uevCh41CNcPrAIi7+XfrTyw3H0P5emcGDn3aTHy498KugOQBzo7neCOYsjTATaywZh9NsXO
+	O8wIk2l0DPYos+1bSqpwC+FbSsL0+nhAbH17E41nACS0ThbNUAZnScut5kP5bkIOlI9a4c9PP0R
+	9rORFsrPO1gr9xvSKdZwsne6sc+RsmLLfEsVExDvKAs4Rboo/yjSoapzdi+mOht7IdkDta3w/ZK
+	wLuVhSuvz34fARI4qEcz
+X-Received: by 2002:a05:6214:5f0b:b0:8f3:ba0f:e7b9 with SMTP id
+ 6a1803df08f44-9077836dcd8mr35864466d6.18.1784306202704; Fri, 17 Jul 2026
+ 09:36:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1773324129.git.liezhi.yang@windriver.com>
+ <DH0XA8PQOXXR.12KPIBAF43RZ3@bootlin.com> <1f50dc21-bf2a-4b2f-9a39-9ef5137f26c6@windriver.com>
+ <189C7BAFC42D9B2E.1443259@lists.openembedded.org> <DH2B7SIOV4KX.3PZ5RW0V6NOSR@bootlin.com>
+ <daed6c1a-6db7-48cf-94dc-ffd74af4181e@windriver.com>
+In-Reply-To: <daed6c1a-6db7-48cf-94dc-ffd74af4181e@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 17 Jul 2026 18:36:31 +0200
+X-Gm-Features: AUfX_myGdvmK7v7xnVKn-VwDXYzCjUCqXoW-NFJq4gnXXoKTetCwM9tHeRQH2gY
+Message-ID: <CANNYZj-hrPf-CVJwTaEJ6dgUuWnipYKKiPZ3r_t1_HPYhCKvYg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v8 0/9] rpm: 4.20.1 -> 6.0.1
+To: randy.macleod@windriver.com
+Cc: mathieu.dubois-briand@bootlin.com, Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org, 
+	"Gavini, Sumanth" <sumanth.gavini@windriver.com>, mattware@cisco.com, esparlin@cisco.com, 
+	peter.marko@siemens.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 16:34:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241218
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 16:36:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241219
 
-On Wed Jul 15, 2026 at 6:44 PM CEST, Joshua Watt via lists.openembedded.org=
- wrote:
-> Reworks the way that the LICENSE variable is used so that it uses valid
-> SPDX License Expressions instead of the custom expressions that were
-> used previously (which are based on Python syntax). This includes
-> support for the SPDX "WITH" operator which allows a license exception to
-> be attached to a license identifier.
->
-> The old licenses expressions are still allowed, and will still be
-> correctly parsed, however a warning will be issued that indicates the
-> new license string that should be used.
->
-> Most layers should be able to use the newly-revised
-> scripts/contrib/convert-spdx-licenses.py script to do the majority of
-> the conversion work, although some manual work may still be required if
-> conditional or complex LICENSE expressions are encountered.
->
-> SPDX License Expressions require that all licenses listed are either a
-> known identifier (e.g. "GPL-2.0-or-later") or start with the prefix
-> "LicenseRef-" which indicates a custom license. When converting from old
-> expressions to new one this will need to be followed (the suggested new
-> license in the warning and the conversion script will automatically add
-> this prefix for any unrecognized license identifiers). This will most
-> commonly be the case for NO_GENERIC_LICENSE files; for a good example of
-> what needs to be done here see the changes to the linux-firmware recipe.
-> When adding new LicenseRef- licenses to a recipe, the actual license
-> name should be prefixed with the name of the recipe (e.g.
-> "LicenseRef-myrecipe-mylicense") to prevent conflicts when merging
-> multiple license documents together (e.g. in an image).
->
-> SPDX also introduces the "WITH" operator to add an exception to a
-> license instead of using a bespoke identifier to combine the two, as was
-> done with the legacy license expressions. Because of this, the logic for
-> dealing with the INCOMPATIBLE_LICENSE family of variables has changed
-> slightly. The main difference is that INCOMPATIBLE_LICENSE will now
-> match the LHS of a "WITH" expression (where as previously this was
-> "ignored" since it was a bespoke license ID). In order to allow a
-> license that would normally be rejected, but can be allowed with an
-> exception, specifically allowed exceptions can be added to the
-> INCOMPATIBLE_LICENSE_EXCEPTIONS variable (keep in mind, EXCEPTIONS here
-> means "exceptions to INCOMPATIBLE_LICENSES", not specifically SPDX
-> License Exceptions). If an SPDX exception is present here, any license
-> that has that exception will be allowed, even if it would normally match
-> INCOMPATIBLE_LICENSE. For example, to disallow all GPLv3 except for
-> those with the GCC exception, use:
->
->     INCOMPATIBLE_LICENSE =3D "GPL-3.0* LGPL-3.0*"
->     INCOMPATIBLE_LICENSE_EXCEPTIONS =3D "GCC-exception-3.1" # This new li=
-ne is required
+On Fri, 17 Jul 2026 at 18:22, Randy MacLeod via lists.openembedded.org
+<randy.macleod=windriver.com@lists.openembedded.org> wrote:
+> Sumanth (CCed) has joined Wind River and will pick up where Robert left off unless someone has
+> things underway already. Sumanth doesn't have Robert's deep knowledge of rpm but
+> he is an experienced developer and will make this a top priority immediately.
 >
 >
-> Additionally, "PD" ("Public Domain") is not allowed as a generic license
-> identifier. Aside from "PD" not being a valid SPDX License Identifier,
-> most "Public Domain" licenses do have some sort of text associated with
-> them (see the HPND family of SPDX Licenses, or use the (SPDX License
-> Match Website)[1] ). In addition, the meaning of "Public Domain" can vary
-> by jurisdiction, so the actual text with a LicenseRef- or a SPDX License
-> Identifier needs to be used instead.
->
-> Finally, "CLOSED" is also no longer allowed as a license expression
-> (since it is not a valid SPDX License Identifier). Instead use a
-> LicenseRef- to point to a file that contains the actual license text
-> (usually something like "Copyright <name>, all rights reserved")
->
-> [1]: https://tools.spdx.org/app/check_license/
->
-> V2: Fix errors found while testing
->
-> Joshua Watt (25):
->   scripts/pull-spdx-licenses.py: Add exceptions
->   Add SPDX License Exceptions
->   Add SPDX license library
->   Parse LICENSE as SPDX Expression
->   linux-firmware: Convert to SPDX license strings
->   meta-selftest: Add NO_GENERIC_LICENSE
->   convert-spdx-licenses: Convert to valid SPDX expressions
->   gcc-common.inc: Remove LICENSE
->   gcc: Update license
->   xz: Replace deprecated SPDX identifier
->   autoconf-archive: Replace deprecated SPDX identifier
->   gnu-config: Replace deprecated SPDX identifier
->   libglvnd: Replace deprecated SPDX identifier
->   flac: Replace deprecated SPDX identifier
->   libgit2: Replace deprecated SPDX identifier
->   Fix up licenses
->   lib: oe: license: Rework package licenses matching
->   classes/go-mod-update-modules: Switch to SPDX license
->   license: Remove tidy_licenses()
->   meta-selftest: Change license on test recipes
->   Convert licenses to SPDX expressions
->   meta-selftest: libxpm: Fix license
->   lib: oe: sbom30: Handle None in Relationship
->   oeqa: selftest: bbtest: Fix license exception
->   scripts/contrib: Add reuse-get-license.py
->
+> The first step will be to refresh the patchset locally without changing much but then
+> he'll update to either 6.0.2 or 6.1-rc2. What do people advise for the version?
 
-Hi Joshua,
+Thanks! As tempting as it is to push for the latest version, I'd say
+6.0.2 first. This way there's less rebasing, a less steep learning
+curve, and Sumanth won't be overwhelmed by failures.
 
-Thanks for the v2. It looks like now we have
-layerappend.LayerAppendTests.test_layer_appends failing:
-
-2026-07-17 13:41:58,606 - oe-selftest - INFO - layerappend.LayerAppendTests=
-.test_layer_appends (subunit.RemotedTestCase)
-2026-07-17 13:41:58,613 - oe-selftest - INFO -  ... FAIL
-...
-ERROR: layerappendtest-1.0-r0 do_package_qa: Error executing a python funct=
-ion in exec_func_python() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_package_qa(d)
-     0003:
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/classes-global/insane.bbclass', lineno: 1116, function: do_p=
-ackage_qa
-     1112:python do_package_qa () {
-     1113:    import oe.packagedata
-     1114:
-     1115:    # Check for obsolete license references in main LICENSE (pack=
-ages are checked below for any changes)
- *** 1116:    main_licenses =3D oe.license.list_licenses(d.getVar('LICENSE'=
-), d)
-     1117:    obsolete =3D set(oe.license.obsolete_license_list()) & main_l=
-icenses
-     1118:    if obsolete:
-     1119:        oe.qa.handle_error("obsolete-license", "Recipe LICENSE in=
-cludes obsolete licenses %s" % ' '.join(obsolete), d)
-     1120:
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/lib/oe/license.py', lineno: 238, function: list_licenses
-     0234:
-     0235:        for child in node.children:
-     0236:            walk_license(child)
-     0237:
- *** 0238:    walk_license(parse_legacy_license(d, licensestr))
-     0239:    return set(licenses)
-     0240:
-     0241:def return_spdx(d, license):
-     0242:    """
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembe=
-dded-core/meta/lib/oe/license.py', lineno: 235, function: walk_license
-     0231:        nonlocal licenses
-     0232:        if isinstance(node, oe.spdx_license.Identifier):
-     0233:            licenses.append(node.ident)
-     0234:
- *** 0235:        for child in node.children:
-     0236:            walk_license(child)
-     0237:
-     0238:    walk_license(parse_legacy_license(d, licensestr))
-     0239:    return set(licenses)
-Exception: AttributeError: 'NoneType' object has no attribute 'children'
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4302
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4122
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Alex
 
