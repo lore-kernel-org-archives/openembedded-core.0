@@ -2,64 +2,64 @@ Return-Path: <michalwsieron@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B43C44516
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 12:54:18 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12717.1784292853920656550
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06BA6C4451C
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 12:54:19 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12842.1784292856761912499
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 05:54:14 -0700
+ Fri, 17 Jul 2026 05:54:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=eVLuufaY;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: michalwsieron@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-698e5859a3cso3548353a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:54:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=IrgYDJmB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6984169c126so14647660a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784292852; x=1784897652; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784292855; x=1784897655; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=27Uq1c8QUTbNu7F27lqurTGRTe/vERORHyfzt2Wms1M=;
-        b=eVLuufaYCQa3cvzvvQJzJpig1CpVLqV0/AMrw02FvpT8U44/p6PjiMorPgu1Mpng3u
-         GHUb0JeCeXA62/TFJua0/FsAoMoh/S40u2BEDgrWMQrCelET4VBsm9tVXAQk/QWFN3At
-         BOnCC3y/V+6u34fcuYnpJ/EgpNtN/wrLc+i0EKvqBAwq+1A8sYGrBIw3LAPk5APqbo70
-         pJMaa7vlNwZFFcxQrG9rT2ED9SCV0gLlEMWX+ILAIPY3EJUf7Pr0bcfABTXj87yI4w9o
-         93+DsM2pwmlJJLBFBh1mMUWDNkhHIJeYwaeDMjeo4TiK4Esx1KK3paAO1pRjDxR3cjm3
-         /YbA==
+        bh=vKomplvgI6oLM97udThXRZWLNw7XsoZZQqEFTMIbv0Y=;
+        b=IrgYDJmB1eyYMtfLZ8PLUn1bSOTjlv+pHPW/aZPsCdxZdNsd9D31M+ig6FgGesDmkC
+         aO9w8S/8D0IJSLIqaNKsN2HgIXI8J11cM59uPSrV4BQiWd6DG7pLktQSMfvEdWZJoLUc
+         sQLfZJvVmsTrliGn3pC5QhxCbxesD+h5CRttM8/f6J1P7myDCqixIKZLnRRqu8WhyVJ9
+         rY77xuyecfXl7xqYw8CH8olNN2NNQsovn1pYUOwBf6ox9jC72TPt6CWAVTM3ZVpxIP5k
+         oYwIw+xOm4uSEZuahiPT5BPyXMEMLaxn5dewDqvmNvQv+b2XhvicIH87VJOVrhN26XXQ
+         e13Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784292852; x=1784897652;
+        d=1e100.net; s=20251104; t=1784292855; x=1784897655;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=27Uq1c8QUTbNu7F27lqurTGRTe/vERORHyfzt2Wms1M=;
-        b=aAxODXM7w6+gmjOYBCB+I33Cs/18IQc1TbQT0XFb5w5VhNXaFH+FL7uFuBrcep5MG4
-         DudipxDQMUSJdBzc5qsyDgbkjkFtBxZvfxcWex41md1yth6ydzTflcQHgLbnKR3iBq43
-         U51qVc3/lOPIOh9fdYzFEU/O3P3XaXVrYv680R1RIcX3JF8GPXLarFtTvQzb3QVRjO7H
-         1HN+G6FzwqXKS12gZXgcv8lGDux4M5kUlVhtq/fb+A7P3vzPatrgEtW8lnJUr03W4jol
-         CPucOoTB/UDAVHTo01Zq7Ux8ZANQY8P3xGc4Zowy5bd7QDLe8IdgINxNQhiT8YNW0r5p
-         fhVA==
-X-Gm-Message-State: AOJu0YzxFAwTcWEywL43pjnsLOJ/EtwoFO+oGE4jDKsUFXnK6BAteK4B
-	0IRrDik52xidoM+5jCYbleajX3NN3ep+IXlxwnS9cI2WdPpJMqkkg6aufK/q3w==
-X-Gm-Gg: AfdE7cn7LTkrddVg4phbfMCH6pxhBZCVXgzfhQ7ZfoDISXdJ7irB6FDpAxeAxG6VTRu
-	Jfhig5EbawzhpXxUXQ04h0CfqoDhQebxbLylTuzuTomfu1gLIvuc9Vy9DSdC+KLqX50nVeemcSh
-	ct1ruMgNg5KguYfuZIT6hTJq3Xjef8FC2FoTy7wr8jXMDQHcOLpkT0RTpdYGycNXwlhDWWrusne
-	Cf/1iZF92dR43c42k04BQ6r4pLNJKSSsmWPqorx27rUwOzdeVEHm8iwnqCtTctMpIev6KnIO7po
-	o6mK/mdA27S2aCJx3lM47fx7QpXHA69oJ7OFfegXRcOjuOsvk9fHD+nXFsafQH0FpE+DQxbZKU3
-	qSktcnRmUHGhvkegskJGE/8g4eDpz+Z04enzOr+Lw07rsZK4rhD6AjH86N2HE7u8I2Wu/GbxP39
-	cGS0Q2ySlX0Lcb225grze6nkrRQ2+ZoaL0vNVR7LcqkjLzkFGXJkv2
-X-Received: by 2002:a05:6402:380e:b0:697:dc30:8fbf with SMTP id 4fb4d7f45d1cf-69e64dce810mr1101384a12.6.1784292851828;
-        Fri, 17 Jul 2026 05:54:11 -0700 (PDT)
+        bh=vKomplvgI6oLM97udThXRZWLNw7XsoZZQqEFTMIbv0Y=;
+        b=P4lrP3b2De4jD7PHu/tHA2zj1PUwL3KFHQL7nQvc5aSR/4fT5FPJTuhN+seqciPRXb
+         ISXanaLkaV1riwg0LYqDnNo202D2H4OutO7jmLo/+ORCS/VECSZmJCDDixhGv1Cbwlcu
+         J0ruzLRkumBPYEf/ThKH72hnMZ55qpLHNP+RQdIuMELpkD7KxE9QQ47RSIpVgnbIXcUH
+         SLYUPDio04R1jIlFdrd/ng6YsUXRPfKk6+TbtDysgsWoscQ77pizCWXEy1SPM5qaPw4f
+         ICIxObKrAcQePXipXa8WCF5Waa+18irLC5yxozDij01cAJp5V7R4df4rBSSxPOBUhTj6
+         vTEA==
+X-Gm-Message-State: AOJu0YzoWWkpqinp9i99z0xX5zkrpFxT4b6BBxOYF6EEI9xntdBmgSNB
+	31Y5tIiw/azTxi/6X29oJKNDTicY0k12wpRiPh2OApD8SS6mDDEG6HaqpZvRsw==
+X-Gm-Gg: AfdE7clKdHK7mgrUbuANk2Znl2HEhI0RQ5Zp3rMNE7BlY4uFwj630PtsVZv+pkKe3qX
+	8NpOAT19D4ZpllkRpLoMQi+46DQK1tuCV8VpOywAxSWEcHtkvqLF2z7vHbNYkzaKaCMuhexpgdl
+	luifWzW6DpKkV1c2G+k9+PlOm9YBMVQBJcTN289tEec8CGxAD0CBRQv0G5Scaq8l1NFScm7yPl+
+	MuA9+J5IKqWEz3rlirUOosCEQnCD048JFMR9OYIePeU/HpqWGHujzVdNnF+T5PlESR8ZSsNpKit
+	UITEHK4RcND6TZt7UqOCa/+onJ3K/erHjwDTfKPs1TsTRqmkuZ/6E6VWC9Re0vyGR/2jAu6ebCR
+	YCFeDAgk1RELHbmzAE13A7TpvIxuT0qgkDQr1YEzeZw7PdxHJxJYNNk8t3pB55AEPjc+pWl6Ye7
+	TbNMpX0HzydfOEmCbidjgRs1suf7ITeKfOsoDA7pR+Tg==
+X-Received: by 2002:a05:6402:3889:b0:695:822c:1083 with SMTP id 4fb4d7f45d1cf-69e652f5ed6mr1026500a12.28.1784292854690;
+        Fri, 17 Jul 2026 05:54:14 -0700 (PDT)
 Received: from [127.0.1.1] (185-164-140-173.cgnat.inetia.pl. [185.164.140.173])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffbbf4dsm618199a12.16.2026.07.17.05.54.10
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffbbf4dsm618199a12.16.2026.07.17.05.54.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 05:54:11 -0700 (PDT)
+        Fri, 17 Jul 2026 05:54:13 -0700 (PDT)
 From: Michal Sieron <michalwsieron@gmail.com>
-Date: Fri, 17 Jul 2026 14:53:53 +0200
-Subject: [PATCH 1/4] rpcbind: Drop dependency on quota
+Date: Fri, 17 Jul 2026 14:53:55 +0200
+Subject: [PATCH 3/4] quota: Move e2fsprogs dependency to PACKAGECONFIG
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260717-rpcbind-quota-dep-v1-1-55bc86f09e41@gmail.com>
+Message-Id: <20260717-rpcbind-quota-dep-v1-3-55bc86f09e41@gmail.com>
 References: <20260717-rpcbind-quota-dep-v1-0-55bc86f09e41@gmail.com>
 In-Reply-To: <20260717-rpcbind-quota-dep-v1-0-55bc86f09e41@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,38 +68,43 @@ X-Mailer: b4 0.15.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 12:54:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241172
-
-Originally added to provide rpcsvc/rquota.h header [1], it is no longer
-needed since at least v1.2.6 where [2] was merged.
-Not sure why, but distros like Arch and Ubuntu (possibly others too) did
-not have this dependency at any point from what I could find.
-Anyway, this builds just fine without quota present.
-
-[1]: https://git.openembedded.org/openembedded-core/commit/?h=4771f4af5926d724958ba7cf46b937c53babfc7c
-[2]: git://linux-nfs.org/~steved/rpcbind
-     8bf0ce4a1858b5cd00440e416ecfe0fd74662a01
-     rpcbind: always use inline rpcsvc constants
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 12:54:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241174
 
 Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
 ---
- meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/quota/quota_4.11.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
-index 692c421cd9..000ffe3704 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "The rpcbind utility is a server that converts RPC \
- SECTION = "console/network"
- HOMEPAGE = "http://sourceforge.net/projects/rpcbind/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=201237&atid=976751"
--DEPENDS = "libtirpc quota"
-+DEPENDS = "libtirpc"
+diff --git a/meta/recipes-extended/quota/quota_4.11.bb b/meta/recipes-extended/quota/quota_4.11.bb
+index e120833850..8f9464f130 100644
+--- a/meta/recipes-extended/quota/quota_4.11.bb
++++ b/meta/recipes-extended/quota/quota_4.11.bb
+@@ -15,7 +15,7 @@ CVE_PRODUCT = "linux_diskquota"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/linuxquota/files/quota-tools/"
+ UPSTREAM_CHECK_REGEX = "/quota-tools/(?P<pver>(\d+[\.\-_]*)+)/"
  
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
+-DEPENDS = "e2fsprogs libnl dbus"
++DEPENDS = "libnl dbus"
+ 
+ inherit autotools-brokensep gettext pkgconfig
+ 
+@@ -23,8 +23,8 @@ CFLAGS += "${@bb.utils.contains('PACKAGECONFIG', 'rpc', '-I${STAGING_INCDIR}/tir
+ LDFLAGS += "${@bb.utils.contains('PACKAGECONFIG', 'rpc', '-ltirpc', '', d)}"
+ ASNEEDED = ""
+ 
+-PACKAGECONFIG ??= "rpc bsd"
+-PACKAGECONFIG:libc-musl = "rpc"
++PACKAGECONFIG ??= "rpc bsd ext2direct"
++PACKAGECONFIG:libc-musl = "rpc ext2direct"
+ 
+ # rpcgen execs its preprocessor as a single program; OE's multi-word $CPP fails,
+ # so point it at the cross cpp instead.
+@@ -33,3 +33,4 @@ export RPCGEN_CPP = "${TARGET_PREFIX}cpp"
+ PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,libtirpc rpcsvc-proto-native"
+ PACKAGECONFIG[bsd] = "--enable-bsd_behaviour=yes,--enable-bsd_behaviour=no,"
+ PACKAGECONFIG[ldapmail] = "--enable-ldapmail,--disable-ldapmail,openldap"
++PACKAGECONFIG[ext2direct] = "--enable-ext2direct,--disable-ext2direct,e2fsprogs"
 
 -- 
 2.43.0
