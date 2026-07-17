@@ -2,93 +2,92 @@ Return-Path: <asparmar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86418C44507
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 05:40:47 +0000 (UTC)
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7463.1784266844121607277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84C8EC44507
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 05:40:57 +0000 (UTC)
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7465.1784266849769091482
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 22:40:44 -0700
+ Thu, 16 Jul 2026 22:40:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=av0mAUEB;
- spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=H94bNzpI;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=27147; q=dns/txt;
-  s=iport01; t=1784266844; x=1785476444;
+  d=cisco.com; i=@cisco.com; l=22432; q=dns/txt;
+  s=iport01; t=1784266849; x=1785476449;
   h=from:to:subject:date:message-id:references:in-reply-to:
    mime-version;
-  bh=qIgiJG2VexmUQyki9U4dxEjyTfCOYddgfB88DL1PeJI=;
-  b=av0mAUEBQWVjr61pV4+gX7vvKRQU0YJgl6DnbUq0Cx34kz7DaLV+GkVa
-   jN+ukhUYsxtfb9ws+MeZqptlwsAS2JUG85vF80oAB/v7MtdOIo1Qpb1JL
-   V6iutWCCQk4DXzxfqo/uC89FqQN4HN1UZHQE6KRjD8WvOKMYLyJmo29eK
-   DuKC93OvjrplyWzZx2YJn+pz0OPL0P+HQ3hLgpDslh9Pm6MwArYa7G+3M
-   kx8FcFJTI/i4SWLi77RxyVYnfLJmZqAcVwwgrolwPBmZZqpTwsD+AUNgq
-   IkMrxCDvZJ9xG2rD9l63WhW0bveobq+cXZJTQlXoS9KhGsQPhl5YuMem1
-   w==;
-X-CSE-ConnectionGUID: +TOXKlMqSIOgHsaE0A038Q==
-X-CSE-MsgGUID: gQCkyGaqRJWlBKjCH34n2A==
-X-IPAS-Result: =?us-ascii?q?A0AcAAByt1lq/47/Ja1aHAEBAQEBAQcBARIBAQQEAQFlg?=
- =?us-ascii?q?RcHAQELAYE8ATBTFnICgSFJA4ggA4RMX4ZYgiEDnhsUgWoPAQEBDQIuARUNB?=
- =?us-ascii?q?AEBhQUCjVICJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGT?=
- =?us-ascii?q?wEMhloBAQEBAwEROQE9AgEIEQMBAQEhDicKHQgCBAoJCBqCYYIdFkEDAQIOs?=
- =?us-ascii?q?WEBgT0CiVkaN3iBNIEBgygBPwJD234BCxQBgTgBhT6DHAEBKoE1gl2BIhgBR?=
- =?us-ascii?q?IQ4JxsbgXKBFUJ5L4FBPoEFgVwCA4EgFCseg3WCMASCInoSG4E/HjKBSn1ig?=
- =?us-ascii?q?RiLDlJyIgMmMywBVRMXCwcFgSNDAyovLSNLBS0dgSMhHRcWHlgbBwUSICpBR?=
- =?us-ascii?q?SMDTz04C0MFgVYCgghOIx8DOX+BL3VKdy1qAhAXaUEkghSBPgMLbT03FBsDB?=
- =?us-ascii?q?IE1BYxcB1sjgU9pBwF6EwErBEIJMDUdGxwXDQYWHhGSVwwbJ36OIEeDVopDl?=
- =?us-ascii?q?RcKKIN1jCGNPoIEhi4XhASNFIcDklELmH0jjWeVNIVaAgQCBAUCEAEBBoFoP?=
- =?us-ascii?q?CuBLnAVO4JnCUoZD44oBRaDYIUTySV5AgkDLwEBBwIHDgMLgWiQAIF+AQE?=
-IronPort-PHdr: A9a23:uTwEOxN72fy/n5qcYbUl6nc2WUAX0o4cdiYP4ZYhzrVWfbvmo9LpP
- VfU4rNmi1qaFYnY6vcRk+PNqOigQm0P55+drWoPOIJBTR4LiMga3kQgDceJBFe9LavCZC0hF
- 8MEX1hgl0w=
-IronPort-Data: A9a23:CdLZO6ru5lHE7kEruDay8UNiQ1xeBmJDZBIvgKrLsJaIsI4StFCzt
- garIBmGPaqPazb1f4snb9jgpkgOvJeAz9NrSwBpqSExFC9EpePIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgLNNwJcaDpOtfrc8U035pwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0qVLJlFt8
- dkBExEqYTCYjs/u6ergGtA506zPLOGzVG8ekmtrwTecCbMtRorOBv2Xo9RZxzw3wMtJGJ4yZ
- eJANmEpN0uGOUASfA5LUvrSn8/w7pX7WzRDsFuPoKMty2PS1wd2lrPqNbI5f/TXHJ0OxBbD+
- jiuE2LRDSgxN82wwCO/0E2orMzNtgOgBIRIPejtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
- EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sZNZottdQ9Qnoh0
- Vrhc87VOAGDeYa9EBq13ryVtji1fyMSKAc/ieUsFGPpP/GLTFkPsy/y
-IronPort-HdrOrdr: A9a23:8Plqqan0gfXce7/NF7gd+BLe997pDfMliWdD5ihNYBxZY6Wkfp
- +V7ZcmPE7P6Ar5BktApTnZAtj+fZq9z/JICPoqTMmftWjdySeVxe5ZnPDfKlHbaknDH6tmpN
- tdmstFeZLN5DpB/LzHCWCDer5KrqjkgcWVbKXlvgpQpGpRGsddBnJCe36m+zpNNXB77PQCZf
- 2hz/sCjQCNPV4QacO2DGQEWe/sm/3n/aiNXTc2QzQcxE2rlz2H1J7WeiL04j4uFx9fy7Yr9m
- bI1zf++riitP+DzBrd3X/47phdmtfto+EzSvBkjPJ7FhzcziKTIKhxUbyLuz445Mu17kwxrd
- XKqxA8e+xu9nL4ZAiO0FvQ8jil9Axrx27pyFeej3emi9f+XigGB81Igp8cWgfF6nAnoMp33M
- twriGkXttsfFH9dRbGlpz1viJR5w2JSL0Z4KguZklkIM4jgXlq3NUiFQ1uYc899WnBmfEa+a
- FVfbHhDbBtABKnRkGcmHVzy9qxWXl2NBKHTk8e/vGx6VFt7StEJ49y/r1Dop/Gn6hNEaWt64
- n/Q9dVvaALQckMYa1nAuAdBcOxF2zWWBrJdHmfOFL9Ccg8SjnwQrPMkfwIDduRCdQ15Yp3nI
- 6EXEJTtGY0dU6rAcqS3IdT+hSIRGmmRzzixsxX+pA849THNffWGDzGTEprn9qrov0ZDMGeU/
- GvOIhOC/umKWf1A45G0wD3RpEXI3gDV88evMo9Rju104j2A5yvsvaefOfYJbLrHzphUmTjAm
- EbVDy2P8lE5lDDYA6PvPEQYQKbRqXSx+MFLEGBxZlg9GEkDPw4jjQo
-X-Talos-CUID: 9a23:5cJLcGMi35No7O5DGxVAxG0QP9keU1rS7GzZDheRUT05cejA
-X-Talos-MUID: =?us-ascii?q?9a23=3A5ubFNA7asaiGjiAnwinzDE6Sxoxn2o+tGW8EiK8?=
- =?us-ascii?q?khM2uFi5bG2zBim6eF9o=3D?=
+  bh=vjbOp3NuAYsbcYPZgublaRKQYm1XhzCXXk2nCdYMv14=;
+  b=H94bNzpI6bHuI19XJXTMuC+u4FHRsla/2JHRVF0EVCXA7ayI4FYS/ihh
+   E673+B7acr5yKtlq3LrJ6Qs9QKzM4iiCK+zXG1HJi5jSKwn4MxHg3BWgY
+   RmuS3XMiCvu//XJXIm3KcD6PxkWirR2mFdSRf1t7xssbMaPmEgOuu4x/H
+   Wg2tbZSBlsUZw3Ze2+I9x8Am5rJtQ4Re8RMhB+HY0jFbkrFSgdy9fAyjO
+   8oXLSWFA8uz42HR0v8wXnh0gpbLouJ4TZGHyy264nmCPsTMDOfEB/MKUy
+   8q+2Wj4LcKMUScAQnpn58gQ9NvBXKcPb7PpdLwpTbAb5uBkCaB2Dutur+
+   g==;
+X-CSE-ConnectionGUID: EXHiroM4SciCCqVKKlHjsA==
+X-CSE-MsgGUID: YDnudk+jT+ySAT6D4Bl0jQ==
+X-IPAS-Result: =?us-ascii?q?A0BqAgByt1lq/4wQJK1agS6BK4E9ATBTFnICgSFJA4ggA?=
+ =?us-ascii?q?4UrhliCIQOeG4F+DwEBAQ0CLgEVDQQBAYUFAo1SAiY0CQ4BAgQDAgMBAQEBA?=
+ =?us-ascii?q?QEBAQEBAQsBAQUBAQECAQcFgQ4Thk8BDIZaAQEBAQMBERUkAT0CAQgRAwEBA?=
+ =?us-ascii?q?S8nCh0IAgQKCQgagmGCHRZBAwECDrFhAYE9AolZGjd4gQEzgQGDKAE/AkPbf?=
+ =?us-ascii?q?gELFAGBOIU/gxwBASqBNYJdgSIYAYJJgjMnGxuBcoEVQnkvgUE+gQWBXAIDg?=
+ =?us-ascii?q?SQQERoeg3WCMASCInoSG4E8Ax6BfIFfgRiLDlJyIgMmMywBVRMXCwcFgSNDA?=
+ =?us-ascii?q?yovLSNLBS0dgSMhHRcWHlgbBwUSICpBRSMDTz04C0MFgVYCgghOIx8DOX+BL?=
+ =?us-ascii?q?3VKdy1qAhAXaUEkghSBPgMLbT03FBsDBIE1BYxcB1sjgh8gAR5vASsEEzgwG?=
+ =?us-ascii?q?YEUBpRojiCOYJUXCiiDdYwhjT6CBIYuF4QEjRSHA5JRC5h9I4I2izGVNIVaA?=
+ =?us-ascii?q?gQCBAUCEAEBBoFoPCuBLnAVgyIJShkPji0Wg2CFE8kleQIJAy8BAQcCBw4DC?=
+ =?us-ascii?q?4FokAACJgeBTwEB?=
+IronPort-PHdr: A9a23:dKAGbRBn4idSONTYUAIMUyQVXRdPi9zP1kY9454jjfdJaqu8us6kN
+ 03E7vIrh1jMDs3X6PNB3vLfqLuoGXcB7pCIrG0YfdRSWgUEh8Qbk01oAMOMBUDhav+/Ryc7B
+ 89FElRi+hmG
+IronPort-Data: A9a23:NQAYVanQXZ7JNXbzjj4zZ9To5gzZJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJKCDyEPPaLZzGjft93a43jp0kEu8TQydBnQQQ5pCs1FFtH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZC31GONgWYubDpLsvzb8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FaAo2udtBkQSz
+ vcZAxsUUDOgg8K025vuH4GAhux7RCXqFIobvnclyXTSCuwrBMiYBa7L/tRfmjw3g6iiH96HO
+ JFfMmQpNUqGOkEXUrsUIMpWcOOAj2LneiddoUi9rqss6G+Vxwt0uFToGIWFI4zaFZwKxy50o
+ Er302LkDhJZNuDc2AGsziyA2sXLxSHCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q+7AfIzu/f5ByUQzBfCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ22JW9QnOG/bDSpjS3URX550dYDcPYZWPpO+Xenbw=
+IronPort-HdrOrdr: A9a23:yNaIraozv5B3c0o+ZDsZAUsaV5siLNV00zEX/kB9WHVpm5Oj5q
+ OTdaUgtSMc1gxxZJh5o6H+BEDhex/hHO1OkPcs1NaZLUXbUQSTXfpfBOfZslnd8mjFh5JgPM
+ RbAudD4b/LfCJHZK/BiWHSfadDsby6GeKT9JrjJhxWPGdXgtRbnn9E43GgYzRLrWd9dP0EPa
+ vZzPBq4xCnfnMaZNm6AH4qY8jvzuegqLvWJTQ9K1oC8gehsROEgYSWLzGomjsOWTJGxrkvtV
+ PCjxH44aubtfS6wA/31mPY7Zha8eGRhOerAvbituElbhHXziq4boVoXLOP+Bovpvu01VosmN
+ 7Q5z89IsVa8RrqDyGIiCqo/zOl/Ccl6nfkx1Pdq2Dku9bFSDUzDNcErZ5FcyHe91ErsLhHoe
+ F2NiOixthq5CH77WDADuvzJlZXf42P0DwfeNso/jliuE0lGeZsRMIkjRto+dw7bVPHAcgcYZ
+ lT5YfnlbdrWGLfSWzFtW9yx9HpdHEyEhCaBnUmgKWuomNrdLQT9TpE+CTZ9U1wrq7UR/R/lp
+ f5G7Utm7dUQsAMa6VhQO8HXMusE2TIBQnBKWSIPD3cZeo60l/22tfKCY8OlamXUY1NyIF3lI
+ XKUVteu2J3c0XyCdeW1JkO9hzWWm2yUTnk18kbvvFCy/DBbauuNTfGREElksOmrflaCsrHW+
+ yrMJYTB/P4N2PhFYtAwgW7UZhPLnsVVtETp78AKhizi9OOLpevuv3Qcf7VKraoGTE4WnnnCn
+ 9GRzT3LNUo1DHcZpY5ummnZ5rAQD2KwXsrKtmpwwE68vl5CrFx
+X-Talos-CUID: 9a23:5lf1dm8Jcv+vL4qlmSyVv2MkOsE/dViB93zRCGShN0VKTJ2XUnbFrQ==
+X-Talos-MUID: 9a23:tShl3wXW+XREsJjq/A7AgixuN4Rq3+e/M2kxz7lakc3cNxUlbg==
 X-IronPort-Anti-Spam-Filtered: true
-Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
-  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Jul 2026 05:40:42 +0000
-Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
+Received: from alln-l-core-03.cisco.com ([173.36.16.140])
+  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Jul 2026 05:40:48 +0000
+Received: from alln-opgw-2.cisco.com (alln-opgw-2.cisco.com [173.37.147.250])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id B5E1118000221
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:40:42 +0000 (GMT)
-X-CSE-ConnectionGUID: V72SbqnTQtaYZ/JaXY86KA==
-X-CSE-MsgGUID: vE0zM/wRQ1CatUolCKGVEw==
-Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+	by alln-l-core-03.cisco.com (Postfix) with ESMTPS id B0D80180001FA
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:40:48 +0000 (GMT)
+X-CSE-ConnectionGUID: DN1f5oitSuqBZ0rOdb/v7g==
+X-CSE-MsgGUID: TbJH7+iIT12tLjEY4zN71g==
+Authentication-Results: alln-opgw-2.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
 X-IronPort-AV: E=Sophos;i="6.25,168,1779148800"; 
-   d="scan'208,217";a="88415023"
-Received: from mail-westcentralusazon11010023.outbound.protection.outlook.com (HELO CY7PR03CU001.outbound.protection.outlook.com) ([40.93.198.23])
-  by rcdn-opgw-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Jul 2026 05:40:42 +0000
+   d="scan'208,217";a="55965047"
+Received: from mail-westcentralusazon11010068.outbound.protection.outlook.com (HELO CY7PR03CU001.outbound.protection.outlook.com) ([40.93.198.68])
+  by alln-opgw-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Jul 2026 05:40:48 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pgD/k5oaK4hM4VeJwsv/OiJo4hn/eogBpod8TeVHfcClYl8hINr909zoDt8KObbA13BDcPwgAzt3Le4Py86UfelFNZS0GDkDZc5vKBCcfcFK2vh0Oso9zR0eotvNawbPFyX46M1Ga+xMZp0E+t8qKPRCbc/2x9dsuBFlUCeD5lGdzA+ogGqU2fxz0mMJAq81LfK0Lau138WeLDRabhsd2jbKyCe3kPbXRjGR7mMgNkRtllLcr8+zRvG9Brx3rTzMYBqG5qMKZL1otwxcliVQVK0KYChhtINVrC4cXvGAS2mU/Z6jwykHwwiEXi9WdxJJQQsoJUjotlWHHWXahrfPwg==
+ b=TenUa61511Ljcm2JDLvNe1/XV9gxcTxvgbpj5WHDvP4dEJFmwnUAEcxj+K8FjjdDtEcmZBvZkuUrY85jFJVfEhXrbcKomhEMu8vNjRmESqJVqyfRIyeNLP3VWyT+XMttBR7/WE36MjGivCaMVQ6JAbBr86T9j/6+0pEYZv58oJ3HevvLU1ViYGf0rOgp63/8oRazWZuRwxcwRPWOk/3+GtJDf9OGxJXHQnbQ3dpPs0PSERP38Qxhhw1BE2sW+7YzLHIPcUbgeJQi0JfZqKCMzViEr72OfIfRcBQslHl4HXn03hd/bpLunKctssyaR2tbhN0fMsgwCypVjQ04tmdJmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qIgiJG2VexmUQyki9U4dxEjyTfCOYddgfB88DL1PeJI=;
- b=mTVWg3pjvGuF64+s/1oQkBUxSIlSpJqahJSvXmWbQ3Nuo1ugoQkC5tJkEHf+HpXacpdHT48JJ5pMFZDLmN2B1jt+14MYWxMNYDzdITFnok3Mc1eCwFU6enUwKLnym03BfldsuEID69xI5DQyUaErc/8kUd3T+x2XCzh9lQ3NNDxD91Jy6u/U7VYyA/OdWoXJnCSmdE4BxZG6X+NbJJPiKKLOVfYkeCQ3RnHKIrc/pARADMWPrYpDkon/i3siUxPBCvjQFQHw6XMYLzBYKamHltbdIR2VdRGSJkNYt2MlpQ0zapYMYa8oE3XECdAtOTtu0Wehl+e0eCel1WyqnroH1Q==
+ bh=vjbOp3NuAYsbcYPZgublaRKQYm1XhzCXXk2nCdYMv14=;
+ b=odboCzNUOsUbxNw7oUS15Wcd0b8mEHcQ5SmFJ2UGmjvzOyyv5ku10xFugmp8/gSLFjlhQYG6Ihd2I7WzsyjYyqJHaoX8PAkKR2x/+18uJvCe3CCvKYbvseb9rDZS9ELs9vWA0CSUYwSo8tAjZ5kGYHmBIyAKSotfEXTgIGfZ+xKiaT9pldsSB5089tjDjHw7U6kZM21E52dEPKmPmn2zvXUNHJFxF1sgLxm5SSA8DAjtGsXLOpsTdRqnsjZld+taNsQE3Fkn+KEMrPv7AAJClhrJdODK32m1IIvPEk1IY4ZukdddeAtGIKdU26RqHsl47QFM61s74yocJpXKw9K5LQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
  dkim=pass header.d=cisco.com; arc=none
@@ -96,24 +95,24 @@ Received: from PH0PR11MB5902.namprd11.prod.outlook.com (2603:10b6:510:14d::19)
  by MN2PR11MB4744.namprd11.prod.outlook.com (2603:10b6:208:263::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Fri, 17 Jul
- 2026 05:40:40 +0000
+ 2026 05:40:46 +0000
 Received: from PH0PR11MB5902.namprd11.prod.outlook.com
  ([fe80::f95a:602a:34d3:5d37]) by PH0PR11MB5902.namprd11.prod.outlook.com
  ([fe80::f95a:602a:34d3:5d37%4]) with mapi id 15.21.0223.011; Fri, 17 Jul 2026
- 05:40:40 +0000
+ 05:40:46 +0000
 From: "Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at
  Cisco)" <asparmar@cisco.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [wrynose][PATCH v2 5/6] rsync: Fix CVE-2026-43617
-Thread-Topic: [wrynose][PATCH v2 5/6] rsync: Fix CVE-2026-43617
-Thread-Index: AQHdFawTZKU7JqWCo0m0bkLxJSyP/LZxMjt0
-Date: Fri, 17 Jul 2026 05:40:40 +0000
+Subject: Re: [wrynose][PATCH v2 4/6] rsync: Fix CVE-2026-43620
+Thread-Topic: [wrynose][PATCH v2 4/6] rsync: Fix CVE-2026-43620
+Thread-Index: AQHdFawTzq5X50lzZka0yCWhbh/PjbZxMkew
+Date: Fri, 17 Jul 2026 05:40:46 +0000
 Message-ID: 
- <PH0PR11MB59023E69BE443516978B3F84CFC62@PH0PR11MB5902.namprd11.prod.outlook.com>
+ <PH0PR11MB5902C9F6C333AEBFCB6A673BCFC62@PH0PR11MB5902.namprd11.prod.outlook.com>
 References: <20260717052059.773645-1-asparmar@cisco.com>
- <20260717052059.773645-6-asparmar@cisco.com>
-In-Reply-To: <20260717052059.773645-6-asparmar@cisco.com>
+ <20260717052059.773645-5-asparmar@cisco.com>
+In-Reply-To: <20260717052059.773645-5-asparmar@cisco.com>
 Accept-Language: en-IN, en-US
 Content-Language: en-IN
 X-MS-Has-Attach: 
@@ -121,72 +120,72 @@ X-MS-TNEF-Correlator:
 msip_labels: 
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PH0PR11MB5902:EE_|MN2PR11MB4744:EE_
-x-ms-office365-filtering-correlation-id: 7afbc4ad-e7e2-4be9-3fa1-08dee3c5eff1
+x-ms-office365-filtering-correlation-id: aab51c99-ffea-4ecd-2797-08dee3c5f380
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
  BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|12006099003|16056099006|13003099007|22082099003|38070700021|18002099003|8096899003|56012099006|11063799006|10067099003|3023799007|4143699003|6133799003;
 x-microsoft-antispam-message-info: 
- Cftoyk4B5/6YgwVirjAzLV2QURlgWXU67fzKdOfg+Ae73ekIqpAExgOKMOs+Py65SyeXoWQLsIw7/XbeoG3pMJk9M91AqVxu81ofLt19AGqvRa5bf4g/8GdNFIffNAlOpPPdjM+3Eg7dvyaRJuhsMcyAaMys9q42zREWMzQV5o5ezu9llLM5zMciYdlGLCjYn39pyuiyxfkXs9hlaFGNNYE9mpO5uC4Lr7+HvQtRgC1YgozUGRdZjHWHEfhazt1JA1xGplwSn495tLuZ0XsKY2Tu032ns4l/+IQuvynYjhAMT+vlw6fsL3pZCz41EeKdQ0tB9pcy4IOCkBVL9k9gszBLZdwLtZA8s9FUBNLy37hBt2M7H673j1yOs5JVYCW3Ty33YTTiRDooWWVtKbgPMssPI1TAUKMmVD1kUaeLHv+XL+0XQR4FwvU2nfb9S/HO8XPYprdh+cobN5flY9eqIzdZT3HQ7VZEqJ2KGelBVtgn0WGlQ0YWTWBgkDHSrXvI0m3xZ4bfL0zKOhHNF8Z1bds1YHaE+fM7Q+krSMaEK1BoYbEFUP/q5oOIe1uidUcJ/yMpovO1P+ID1bM4HSzreS9ih12Hvpg1cUExM2ijpiPCQdoTL5c3U8iK1s5b8ZBAgCA7iYLe+Lte3LpGv95bmBbNcZ3Q9ejtKhgR7slhFaE=
+ CGxmdizCilWP4g0aY3i2pDeL7UUcuogvFxKXWccdk3whTu8xvJE0gM5JwEhnZycuvhB5efOrEWDXfqOzF4eWzgMYZmXC5srWP0MfiGKd1DD1EcGSCyGGGUcMwvgWAxSip7Qb9tnK7DsIJV0EQ1MULUln9UhdjrPlaihWGBBeZpRJx90otf8CksLzVEatpe8KROr3FKbpFZa7C7A2Z9RWXQOHMd5/To5/qiqUc06ogQE7RWgdzDYzNiXzbKyQzeXdMs3B7P4HE3iLNnn/YVPofr+lcSfUMO30SQbRtGC269x20u6S7lu/39RCSphufTOaQBmFexSi9jckfm1BtIDwpZyeV9LypPZ/Bq4yDufLGz8atc8E9l8UPfCDY7+qpIXnf5M6eURgLeOhsKeYBgwkRFg5EGzvW8nDr5A0BJTNMoCXD5da1fqJ7e86hY2dLxXgGKtfMtq5cO7vEe+GK06yBkSk5nNOde4BJuP859qzX4GMYCX01QnZo4fDYSz8GUy+DyEOCzqjIpxmUJULp3n7cayV7vGBEItWHqU0ozYlxMWIVmt8T9avhRe06ba47KQseYsIL7cTlSdEqUdpoPUjPve6Bn7qmp7nIwvpSqqNMZ+DuFVLzD8T0GZNKoxoj3xIIe7ciVowQu5UF5iKhESppH3E3CwuzDs+AAQWvHEUy1w=
 x-forefront-antispam-report: 
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5902.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(12006099003)(16056099006)(13003099007)(22082099003)(38070700021)(18002099003)(8096899003)(56012099006)(11063799006)(10067099003)(3023799007)(4143699003)(6133799003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?IxY4tSaO25Ku4hWBCjGOVi+MYczngdeSrG/CHwYwMdelLhWkZq/MpbpQAGJv?=
- =?us-ascii?Q?/QNusX3iNPcKmEcVMJpsveUL//xlVWfA1IR3cb+lMdQ2Gea+TU0l3Za+9L5p?=
- =?us-ascii?Q?4p+WwTTtO5XKi7RnlgYKjV6Zvh3LkuSVP+lq1GNJivOAxmhJ5ttw+oJkoUq8?=
- =?us-ascii?Q?uHl7NvMz35jJxtlpwx6pvILzDPtR6//xClCh6Uzc4HgVnT7QPN+DGOBYbMGT?=
- =?us-ascii?Q?Bk2je2SY7gZ26i6EopWLe+UcaknQodueov5WCLFHiakiT2lMJmRnNg3btGZd?=
- =?us-ascii?Q?ivqPm8mxuCgZwbVFQ3wL6XRsT0TIg9at0uqjZ43e4QjVfIRCvC5nLjZW7ac0?=
- =?us-ascii?Q?neNxIKewvyGZ6ueec2czPG5cVcDqszqQRaN91dOrSZP6a06QF9hmrwZTfFmm?=
- =?us-ascii?Q?0mCx91uLN8qoHSFyddd9SCgdgdFWI5PCUyRokOACAObBPw9wckcsm3+FmvG9?=
- =?us-ascii?Q?LaauECH8HsD84V9OU1gZ+dkmw2V08PLVqsXW6RHbQQxdhh+p+/xbsmETc/+m?=
- =?us-ascii?Q?SBnlsj4ZR0KIEPsg6onFMjZMHIXfhphQbkyQZofYRU8qO20mHpyYOeMgYxt9?=
- =?us-ascii?Q?wx3w6Lj3vNeT2tc6L8ZBItURgq2oK2So0ITI/buMxL1RJTLsXVpJB8Vv8fqy?=
- =?us-ascii?Q?nzcHrvW914bdQJbzds1/p2/MasNAandl+uvQ5GsP8hj9xF3aVREZwJam22GC?=
- =?us-ascii?Q?4+dW0KAk3l7cUqxuZytDBpVA0iGU6wGlsDISaNUtCezaVzToiQu/5N1885XH?=
- =?us-ascii?Q?ejmVbNBh8BDMbKoGufu+n1d214FeAn4TXRyG1nzWBHx0ifCaRvjItyD24HHJ?=
- =?us-ascii?Q?CdrqFJ2LW/5Psg0KOxhmNvxDSdJWFr7ww1tDwbEaGp5ZjX53q/4Y2c0GyPSY?=
- =?us-ascii?Q?+QqP3HWOjqAPonkM35evgpCVCrKk4mCZyvy8J1ykhkfX1IPZajRr0UJtd+b+?=
- =?us-ascii?Q?FGTc22xiZLC+IyNexWKbJm9mPQGpktSKLt+JOTMooWMf7kGK/qTF7JhmRTzE?=
- =?us-ascii?Q?o8y24f4qUOC8mPlmzUTtyBdLvQdY01Vav+VEPyhEnMJFZ8SF0Iuf13hwHxRA?=
- =?us-ascii?Q?ErRQ6cKOeOdVbRk14iqlC7fRefV4io6GTdLPyp14yXZhgbg89cPkOmfi9b2R?=
- =?us-ascii?Q?oNjuLweLtBz3kVk/+OEgZQ0KBagTjoaSDWFpkG2knH7V4ueQvL0yG4qaAGbA?=
- =?us-ascii?Q?hcgR4R+5uu/dlWTiPbeA9HwzbRXayTElpQy9ZQvBKfzZNybAhQHFb1Ihnxha?=
- =?us-ascii?Q?AukaufU78YppCu2STjwDI6U4r6Mij7mTGHn8Fz4kWFpYf1D7nC2Jz8YUhr+b?=
- =?us-ascii?Q?D77CJSOCKBb/y73BW0++AHhvn3jK+MEYsjg9p3LZ7WNDqS2vlawS5AYMrgJu?=
- =?us-ascii?Q?yWAn1y3XLMdqPoyTAlv6VXgSJKMjVqZ9YLMTPkm8ISoRAHLnbuVO5RjCzm5N?=
- =?us-ascii?Q?yb/HWMWHtSlAuqFs1PUEELp/b5yh7VKduv4vWF12z6PfoOppjMXCGpscjHeE?=
- =?us-ascii?Q?fsGaPlBVO6qI8WnVtRLvwmJRDjZv0A6Su9RKnFcRlCVjD1yU45ZEVlrwP07A?=
- =?us-ascii?Q?ITKX+1W0dv//Eql8FoKl3twA04r97mFBJARpzf8FwCeKjlPkmYmECDYYU4xG?=
- =?us-ascii?Q?nD32xEA7OGOeQ+2TIS5gPRa5pZCrMz2B+qReFI+ZRUzTGBEnG0wIrd0St+vG?=
- =?us-ascii?Q?KlbJmcaUJky4WBAFp9f/qUrAmr92nxMdQrJ8lp5z9l2rF8AT?=
+ =?us-ascii?Q?gZzOLQ7Yoo+Mt+iLQ1yC4l0rC2cjQTOS42n//M3D5AqITUj8xmG0kXUySZ0R?=
+ =?us-ascii?Q?5ouShCWC6Bf3ABYlIKsEWQDakkuHIN0JJOCTgOkAr3Bv4FH2XuQUWM5Zfpx3?=
+ =?us-ascii?Q?SUJW/l173i3NX/Hqr8M49CR0nJ9xXjA/HnU4M7L+DcjeHwrDEF2RgZZajOuT?=
+ =?us-ascii?Q?t4tEu428eTYKTUk3jdiH0byyiVkBvhMOCTSfiCIfR1EjvDXgSGxBTSCGU25D?=
+ =?us-ascii?Q?YlNYWSpEo8y2HjiQ4rP8JPzDqGX7CjdMw6hqFxPAuMfUi72lXAQa1QZvNJt3?=
+ =?us-ascii?Q?9P0bfPCU2Culykkn8MNfxBEbhMX7qj/JHdcdUT15+2v1hQjn5k5rwF5qQCZg?=
+ =?us-ascii?Q?/kz+wioxY/ETZ7OfY/9IBlcbvVieVK7PYbIyx6ds4fTeS/aUHNI9347rPDBd?=
+ =?us-ascii?Q?lMbpakvHzEgcMPskhpDyrR6c0e2cMlHzf3jabplAviE4ru8oxLId279TKdc4?=
+ =?us-ascii?Q?NjmL1BD6LmBIqz5LmeeMM2Kd+sbQiS1s2POcV3a9XEwC0S3h82G0wTCarTMz?=
+ =?us-ascii?Q?VvrbXcR3uP2cyXA2JRQ3y83K27upQSZMCvZLrb2NSmMtWRd4f10S7ZkohAAg?=
+ =?us-ascii?Q?scxeGxflxZyZ6HOA3oCc7g6oAxXW2at17UoT0RGitgMF0KGUVj/75esf82bk?=
+ =?us-ascii?Q?5quaGt+kuL8D3Sbm+pUjTPFpTEPsSdpe9gH9jUe06qZ4/zRvcW8gk9LGI4QP?=
+ =?us-ascii?Q?uOoG/rpz/KxtvBNeX1gv+HajQ/Br3tv4GHUBDIx4A6RBaiIPxmcglXQ/lfVO?=
+ =?us-ascii?Q?HYKG/c5sHjBHvRsoxnRwwcpvnno507C0zNjQyzvXFNSkS/r6t3qxqf4PvLjV?=
+ =?us-ascii?Q?PueIRyz7yx4b4JTZba7zZQgk2M14d+LFWXJT+LlJwp0LukDERsFxKQNKQDew?=
+ =?us-ascii?Q?WcqC6frwRRG6aXp815rUp0W+tEOJvE8eNZJX4ylzk1ksNAb3ExCJnIvlxVm3?=
+ =?us-ascii?Q?3P4aYj6jPCVyXFdUD25jJqh/Aa+6cBHPC7XEUfC3khau2gXY7PxoreXuTeEx?=
+ =?us-ascii?Q?HpdJ4Ul9lwNFFMlKZIaQUGGX5FHql/GRoIVyg3gqPPnP3oP00ecAUXW62/Cz?=
+ =?us-ascii?Q?MmvLgyM15vQm4sLQ5MqSTEH03Dxg/UoAVrLIHv1y3IvY0t9dbTcGEdovGcIr?=
+ =?us-ascii?Q?HwxvQt55vqDF3tVlFl/J3SXuoC5e1fhG/D2yCcd/JC3n7kUv71wSri8nJLph?=
+ =?us-ascii?Q?O/vaCyxOTMH4Kqcb9OqIAnlAtADQaM6QgFOwB0s0t8pDleQA5Ln5LKJJXZV/?=
+ =?us-ascii?Q?kQv69POqItxezqoSsWz6RFPnlaWDQc8hjH1FfI1ci/dh6qwy7M0B4pvGDxXu?=
+ =?us-ascii?Q?d8c2w6v62gd8LrXTu8EU3kbYDYaJhWIrmgwTARX97hGQkpuqlAY/txdMQ2uY?=
+ =?us-ascii?Q?L+Q4ZF+M4kuEB7OeB23e8JBBQA063/LzfuhB9WRarq5AS/mBgZYmMUdJxU2j?=
+ =?us-ascii?Q?fuDsgXexDyXJ3DZJULB83H/DIBaLGT+Ngc9KS7MvII60GJOG889YH30rvkv2?=
+ =?us-ascii?Q?H6ExTiPofQms3iembbwRaC6WiLZjBI3OfoAuY7bjFQXFyqyZndK5rpOi5mEY?=
+ =?us-ascii?Q?qW4XY8Wo3TTohg0aoLU5RgepzxXy4oh/p4UU4vzWMRu9hn7x45E9d3q6Dd1t?=
+ =?us-ascii?Q?1RZnx2NwcagS7sGfrtwVNr7k6pElbCeWAyvVXDzSY2FX2tXxfZSXvtfxi3Y8?=
+ =?us-ascii?Q?EsY8U7jkNxO7xeyhgOow0IebYAHnU2mMxrsKMPIcQ4CRxKmz?=
 Content-Type: multipart/alternative;
-	boundary="_000_PH0PR11MB59023E69BE443516978B3F84CFC62PH0PR11MB5902namp_"
+	boundary="_000_PH0PR11MB5902C9F6C333AEBFCB6A673BCFC62PH0PR11MB5902namp_"
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	CLcEddSz0e5oBeyIZRoIRCI5Mkvc57d5jrp+eh64JpQJSvLnn8VZhPgPHY1dSufDogB0I6yuXvpgw9I4t5ARBDyFot0pbeIxnhjTmB6URcNROBO01OoX+EUl58TMeDt49CjQ4gdTyHTGFZtTiUd1ZE3bYRhWRCvUwb//Q23nLntLo/Jv/BJwp9dKmrvuTaupabpwcY2WcO14Cy+FgQtTYQ6NiZwodKZpcyQ6tNPX88I+1QJdN4BPK8VJEd4DOIIO7nnYtuGwmczBvlzomDNYD84voza5D32VfOeIFyetqEpbvdmahFeiei/QVsi6MaLw9bbPCXtZ4ybr7aDqE/gjsQ==
+	hC2IFeQo1j0eLLldiZ4pUcOHp/w0MK9WKTkEYys9tcQbZSJk1aJtChjQNIAcb8vEt1TzhkH6bbDDsfseJVqbm4saRxBodUhLWDgFKaMdL0SmJryYW5Izs9KC1ZXUrq0o6he5AcqvJnkyaTGQURitqEADQgD7+YIzYrJk4/KB0QHaxBl1awo/BziATYM9kesml0miZQO6Uyt8hzEGW5K6rWvorGQXlZWCLDxAco4aoVett+8g7MocXeBSYoY8arXHyX77QBsPnnks/qyWOmup0t3oofuGra0oiqbFkd+fl2hYNGDr+o48y0MFKIlh+8jKZmZQLc3twOaUC/7VsZeNsw==
 X-OriginatorOrg: cisco.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5902.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7afbc4ad-e7e2-4be9-3fa1-08dee3c5eff1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2026 05:40:40.6576
+X-MS-Exchange-CrossTenant-Network-Message-Id: aab51c99-ffea-4ecd-2797-08dee3c5f380
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2026 05:40:46.6302
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zQLoVSr/9p9l1BePMqxJ9cPnNgYbHVS1U9Beavhd9rnC58NkncyZ0bH7mmbr2dF4JtigcljMKMbt9hzW7RVV7A==
+X-MS-Exchange-CrossTenant-userprincipalname: VqWYt0HR6tLRFx5O6Nj7Y5XYR0GQ0MeLoHZxcYycJmeas1eGlgJqLHwiWPlqLv+gZ0b7eX+LYsros+bfYcfnGw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4744
-X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-4.cisco.com [72.163.7.165];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
-X-Outbound-Node: rcdn-l-core-05.cisco.com
+X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-2.cisco.com [173.37.147.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 173.37.147.250, alln-opgw-2.cisco.com
+X-Outbound-Node: alln-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:40:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241131
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:40:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241132
 
---_000_PH0PR11MB59023E69BE443516978B3F84CFC62PH0PR11MB5902namp_
+--_000_PH0PR11MB5902C9F6C333AEBFCB6A673BCFC62PH0PR11MB5902namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -205,257 +204,177 @@ To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
 mbedded.org>
 Cc: Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)=
  <asparmar@cisco.com>
-Subject: [wrynose][PATCH v2 5/6] rsync: Fix CVE-2026-43617
+Subject: [wrynose][PATCH v2 4/6] rsync: Fix CVE-2026-43620
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
 This patch applies the upstream v3.4.3 backport for
-CVE-2026-43617. The upstream fix commit is referenced in [1],
+CVE-2026-43620. The upstream fix commit is referenced in [1],
 and the public CVE advisory is referenced in [2].
 
-[1] https://github.com/RsyncProject/rsync/commit/c38f20c5ffabacd0c0c483786a=
-b224a36e14bf43
-[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-rjfm-3w2=
-m-jf4f
+[1] https://github.com/RsyncProject/rsync/commit/0cf200ecbb8baaf58070d825c4=
+fbd892b4a63b69
+[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-28pw-r56=
+3-rxvm
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../rsync/files/CVE-2026-43617.patch          | 201 ++++++++++++++++++
+ .../rsync/files/CVE-2026-43620.patch          | 122 ++++++++++++++++++
  meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   1 +
- 2 files changed, 202 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
+ 2 files changed, 123 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch b/meta/=
-recipes-devtools/rsync/files/CVE-2026-43617.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch b/meta/=
+recipes-devtools/rsync/files/CVE-2026-43620.patch
 new file mode 100644
-index 0000000000..5b3190224e
+index 0000000000..2852b74b8d
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
-@@ -0,0 +1,201 @@
-+From d811094dc63486a8b6acf23963daccc23e9dbf43 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
+@@ -0,0 +1,122 @@
++From 271771f089f5f7acff5cce1ca3242849b0f6a6a0 Mon Sep 17 00:00:00 2001
 +From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Wed, 31 Dec 2025 13:50:35 +1100
-+Subject: [PATCH] clientserver: fix hostname ACL bypass when using daemon
-+ chroot
++Date: Tue, 5 May 2026 16:48:16 +1000
++Subject: [PATCH] receiver: add parent_ndx<0 guard, mirroring 797e17f
 +
-+On an rsync daemon configured with "daemon chroot", the reverse-DNS
-+lookup of the connecting client was performed *after* the chroot
-+had been entered. If the chroot did not contain the files glibc
-+needs for resolution (/etc/resolv.conf, /etc/nsswitch.conf,
-+/etc/hosts, NSS service modules), the lookup failed and
-+client_name() returned "UNKNOWN". Hostname-based deny rules
-+("hosts deny =3D *.evil.example") therefore could not match, and
-+an attacker controlling their PTR record could connect from a
-+hostname the administrator had intended to deny. IP-based ACLs
-+were unaffected.
++Commit 797e17f ("fixed an invalid access to files array") added a
++parent_ndx < 0 guard to send_files() in sender.c, but the visually-
++identical block in recv_files() in receiver.c was not updated. A
++malicious rsync:// server can therefore drive any connecting client
++into the same out-of-bounds dir_flist->files[-1] read followed by a
++file_struct dereference in f_name() one line later.
 +
-+Do the reverse DNS lookup before chroot/setuid; client_name()
-+caches its result, so the post-chroot call uses the cached value
-+and hostname-based ACLs work even when DNS is unavailable
-+post-chroot.
++Reach: protocol-30+ default (inc_recurse) makes flist.c:2745 set
++parent_ndx =3D -1 on the first received flist when the sender omits a
++leading "." entry; rsync.c flist_for_ndx() does not reject ndx =3D=3D 0
++in that state because the range check evaluates 0 < 0 =3D false; and
++read_ndx_and_attrs() only validates ndx with the ITEM_TRANSFER bit
++set, so iflags=3DITEM_IS_NEW (or any other non-transfer iflag word)
++bypasses the check.
 +
-+Adds testsuite/daemon-chroot-acl.test as end-to-end regression
-+coverage. The test sets up an empty chroot directory, configures
-+"hosts deny =3D <localhost-resolved-name>" with daemon chroot, and
-+asserts the connection is refused with @ERROR access denied.
-+Uses unshare --user --map-root-user for non-root CAP_SYS_CHROOT;
-+skips cleanly on non-Linux or when user namespaces aren't
-+available.
++Apply the same guard receiver-side. Confirmed: the same PoC (a
++minimal Python rsyncd that handshakes with CF_INC_RECURSE, sends a
++no-leading-"." flist, and emits ndx=3D0 with ITEM_IS_NEW) crashes
++unpatched 3.4.2 with SEGV_MAPERR si_addr=3D0x4101a-class in the
++receiver child; with this guard it exits cleanly with code 2
++(RERR_PROTOCOL).
 +
-+Reporter: Joshua Rogers (MegaManSec).
++The attack surface delta over the sender variant is large:
++the original was malicious-client -> daemon, this is
++malicious-server -> any rsync client doing a normal rsync://
++or remote-shell pull.
++
++Reported by Pratham Gupta (alchemy1729).
 +
 +Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 +
-+CVE: CVE-2026-43617
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/c3=
-8f20c5ffabacd0c0c483786ab224a36e14bf43]
++CVE: CVE-2026-43620
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/0c=
+f200ecbb8baaf58070d825c4fbd892b4a63b69]
 +
-+Backport Changes:
-+- Omitted upstream .github/workflows/macos-build.yml because the
-+  Yocto recipe does not carry upstream CI workflow files. That
-+  upstream hunk only adds daemon-chroot-acl to the macOS
-+  RSYNC_EXPECT_SKIPPED list and has no rsync source/runtime effect.
-+
-+(cherry picked from commit c38f20c5ffabacd0c0c483786ab224a36e14bf43)
++(cherry picked from commit 0cf200ecbb8baaf58070d825c4fbd892b4a63b69)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ clientserver.c                   |  22 ++++++
-+ testsuite/daemon-chroot-acl.test | 111 +++++++++++++++++++++++++++++++
-+ 2 files changed, 133 insertions(+)
-+ create mode 100644 testsuite/daemon-chroot-acl.test
++ generator.c | 4 ++++
++ io.c        | 3 +++
++ receiver.c  | 7 ++++++-
++ sender.c    | 2 ++
++ 4 files changed, 15 insertions(+), 1 deletion(-)
 +
-+diff --git a/clientserver.c b/clientserver.c
-+index b6eba098..3333aa96 100644
-+--- a/clientserver.c
-++++ b/clientserver.c
-+@@ -1310,6 +1310,28 @@ int start_daemon(int f_in, int f_out)
-+        if (lp_proxy_protocol() && !read_proxy_protocol_header(f_in))
-+                return -1;
++diff --git a/generator.c b/generator.c
++index 311e9b78..89f99db4 100644
++--- a/generator.c
+++++ b/generator.c
++@@ -2146,6 +2146,8 @@ void check_for_finished_files(int itemizing, enum lo=
+gcode code, int check_redo)
++                        if (send_failed)
++                                ndx =3D get_hlink_num();
++                        flist =3D flist_for_ndx(ndx, "check_for_finished_f=
+iles.1");
+++                      if (ndx < flist->ndx_start)
+++                              exit_cleanup(RERR_PROTOCOL);
++                        file =3D flist->files[ndx - flist->ndx_start];
++                        assert(file->flags & FLAG_HLINKED);
++                        if (send_failed)
++@@ -2174,6 +2176,8 @@ void check_for_finished_files(int itemizing, enum lo=
+gcode code, int check_redo)
 +
-++      /* Do reverse DNS lookup before chroot/setuid. The result is cached=
-,
-++       * so the later client_name() call will use this cached value. This
-++       * ensures hostname-based ACLs work even when DNS is unavailable
-++       * after chroot.
-++       *
-++       * "reverse lookup" can be set globally OR per-module, so we also
-++       * scan each module: a deployment with "reverse lookup =3D no" in t=
-he
-++       * global section but "reverse lookup =3D yes" in a specific module
-++       * still triggers a post-chroot lookup at access-check time
-++       * (rsync_module() in this file), which would also fail in the
-++       * chroot and turn hostname-based deny rules into silent bypasses. =
-*/
-++      {
-++              int need_reverse =3D lp_reverse_lookup(-1);
-++              int j, num_modules =3D lp_num_modules();
-++              for (j =3D 0; !need_reverse && j < num_modules; j++) {
-++                      if (lp_reverse_lookup(j))
-++                              need_reverse =3D 1;
-++              }
-++              if (need_reverse)
-++                      (void)client_name(client_addr(f_in));
-++      }
++                        flist =3D cur_flist;
++                        cur_flist =3D flist_for_ndx(ndx, "check_for_finish=
+ed_files.2");
+++                      if (ndx < cur_flist->ndx_start)
+++                              exit_cleanup(RERR_PROTOCOL);
++
++                        file =3D cur_flist->files[ndx - cur_flist->ndx_sta=
+rt];
++                        if (solo_file)
++diff --git a/io.c b/io.c
++index bb60eeca..c654a7ba 100644
++--- a/io.c
+++++ b/io.c
++@@ -1090,6 +1090,9 @@ static void got_flist_entry_status(enum festatus sta=
+tus, int ndx)
++ {
++        struct file_list *flist =3D flist_for_ndx(ndx, "got_flist_entry_st=
+atus");
++
+++      if (ndx < flist->ndx_start)
+++              exit_cleanup(RERR_PROTOCOL);
 ++
-+        p =3D lp_daemon_chroot();
-+        if (*p) {
-+                log_init(0); /* Make use we've initialized syslog before c=
-hrooting. */
-+diff --git a/testsuite/daemon-chroot-acl.test b/testsuite/daemon-chroot-ac=
-l.test
-+new file mode 100644
-+index 00000000..9d1c1b63
-+--- /dev/null
-++++ b/testsuite/daemon-chroot-acl.test
-+@@ -0,0 +1,111 @@
-++#!/bin/sh
-++
-++# Copyright (C) 2026 by Andrew Tridgell
-++
-++# This program is distributable under the terms of the GNU GPL (see
-++# COPYING).
-++
-++# Regression test for GHSA-rjfm-3w2m-jf4f: a hostname-based "hosts deny"
-++# rule must still match when the daemon performs a 'daemon chroot' and
-++# the chroot does not contain the NSS files glibc needs for reverse DNS.
-++#
-++# Pre-fix, reverse DNS happened *after* the daemon chroot. With an empty
-++# chroot the NSS lookup failed, client_name() returned "UNKNOWN", and a
-++# deny rule referring to the connecting hostname silently failed to
-++# match.
-++#
-++# Two scenarios are exercised so we can distinguish the case the fix
-++# definitely covers from the per-module path that may still be
-++# vulnerable:
-++#   A. global  "reverse lookup =3D yes"           (covered by b6abdb4c)
-++#   B. only module "reverse lookup =3D yes"       (gap to verify)
-++
-++. "$suitedir/rsync.fns"
-++
-++case `uname -s` in
-++Linux*) ;;
-++*) test_skipped "test is Linux-specific (uses chroot+unshare)" ;;
-++esac
-++
-++# We need CAP_SYS_CHROOT. Re-exec under a user namespace if not root.
-++if ! chroot / /bin/true 2>/dev/null; then
-++    if [ -z "$RSYNC_UNSHARED" ] && unshare --user --map-root-user true 2>=
-/dev/null; then
-++      echo "Re-running under unshare --user --map-root-user..."
-++      RSYNC_UNSHARED=3D1 exec unshare --user --map-root-user "$SHELL_PATH=
-" $RUNSHFLAGS "$0"
-++    fi
-++    test_skipped "need CAP_SYS_CHROOT (root or unshare --user --map-root-=
-user)"
-++fi
-++
-++# We need 127.0.0.1 to reverse-resolve to a real hostname while NSS is
-++# still working (i.e. before the daemon's chroot). The daemon will
-++# look that name up itself as part of its hostname-based ACL check;
-++# we then deny that name and assert the connection is rejected.
-++client_hostname=3D`getent hosts 127.0.0.1 2>/dev/null | awk 'NR=3D=3D1 {p=
-rint $2}'`
-++if [ -z "$client_hostname" ] || [ "$client_hostname" =3D "127.0.0.1" ]; t=
-hen
-++    test_skipped "no reverse DNS for 127.0.0.1"
-++fi
-++
-++chrootdir=3D"$scratchdir/chroot"
-++rm -rf "$chrootdir"
-++mkdir -p "$chrootdir/modroot"
-++echo "from chroot" > "$chrootdir/modroot/file1"
-++
-++conf=3D"$scratchdir/test-rsyncd.conf"
-++logfile=3D"$scratchdir/rsyncd.log"
-++
-++write_conf() {
-++    cat >"$conf" <<EOF
-++use chroot =3D no
-++log file =3D $logfile
-++daemon chroot =3D $chrootdir
-++reverse lookup =3D $1
-++hosts deny =3D $client_hostname
-++max verbosity =3D 4
-++
-++[chrootmod]
-++    path =3D /modroot
-++    read only =3D yes
-++    reverse lookup =3D $2
-++EOF
-++}
-++
-++# Run a transfer and return 0 if the daemon refused with @ERROR access
-++# denied (the expected outcome when the deny rule matches).
-++run_check() {
-++    label=3D"$1"
-++
-++    rm -f "$logfile"
-++    rm -rf "$todir"
-++    mkdir -p "$todir"
-++
-++    out=3D"$scratchdir/run.out"
-++
-++    RSYNC_CONNECT_PROG=3D"$RSYNC --config=3D$conf --daemon" \
-++      $RSYNC -av localhost::chrootmod/ "$todir/" >"$out" 2>&1
-++    rc=3D$?
-++
-++    echo "----- $label (rsync exit $rc):"
-++    cat "$out"
-++    echo "----- daemon log:"
-++    [ -f "$logfile" ] && cat "$logfile"
-++    echo "-----"
-++
-++    grep -q '@ERROR.*access denied' "$out"
-++}
-++
-++# Scenario A: global reverse lookup. Covered by b6abdb4c.
-++write_conf yes yes
-++if ! run_check "Scenario A (global reverse lookup =3D yes)"; then
-++    test_fail "Scenario A: hostname deny rule was bypassed"
-++fi
-++
-++# Scenario B: only the per-module reverse-lookup setting is enabled.
-++# The b6abdb4c fix only pre-warms client_name()'s cache when the
-++# global setting is on, so the post-chroot lookup in this path may
-++# still produce "UNKNOWN" and bypass the deny rule.
-++write_conf no yes
-++if ! run_check "Scenario B (per-module reverse lookup only)"; then
-++    test_fail "Scenario B: hostname deny rule was bypassed (per-module re=
-verse lookup with daemon chroot still has the bypass)"
-++fi
-++
-++exit 0
++        if (remove_source_files) {
++                active_filecnt--;
++                active_bytecnt -=3D F_LENGTH(flist->files[ndx - flist->ndx=
+_start]);
++diff --git a/receiver.c b/receiver.c
++index a487ad5a..3fa68d71 100644
++--- a/receiver.c
+++++ b/receiver.c
++@@ -467,7 +467,10 @@ static void handle_delayed_updates(char *local_name)
++ static void no_batched_update(int ndx, BOOL is_redo)
++ {
++        struct file_list *flist =3D flist_for_ndx(ndx, "no_batched_update"=
+);
++-      struct file_struct *file =3D flist->files[ndx - flist->ndx_start];
+++      struct file_struct *file;
+++      if (ndx < flist->ndx_start)
+++              exit_cleanup(RERR_PROTOCOL);
+++      file =3D flist->files[ndx - flist->ndx_start];
++
++        rprintf(FERROR_XFER, "(No batched update for%s \"%s\")\n",
++                is_redo ? " resend of" : "", f_name(file, NULL));
++@@ -604,6 +607,8 @@ int recv_files(int f_in, int f_out, char *local_name)
++
++                if (ndx - cur_flist->ndx_start >=3D 0)
++                        file =3D cur_flist->files[ndx - cur_flist->ndx_sta=
+rt];
+++              else if (cur_flist->parent_ndx < 0)
+++                      exit_cleanup(RERR_PROTOCOL);
++                else
++                        file =3D dir_flist->files[cur_flist->parent_ndx];
++                fname =3D local_name ? local_name : f_name(file, fbuf);
++diff --git a/sender.c b/sender.c
++index 99f431fe..033f87e5 100644
++--- a/sender.c
+++++ b/sender.c
++@@ -140,6 +140,8 @@ void successful_send(int ndx)
++                return;
++
++        flist =3D flist_for_ndx(ndx, "successful_send");
+++      if (ndx < flist->ndx_start)
+++              exit_cleanup(RERR_PROTOCOL);
++        file =3D flist->files[ndx - flist->ndx_start];
++        if (!change_pathname(file, NULL, 0))
++                return;
 diff --git a/meta/recipes-devtools/rsync/rsync_3.4.1.bb b/meta/recipes-devt=
 ools/rsync/rsync_3.4.1.bb
-index 2145d4ce7e..d0d57defe8 100644
+index f84f269692..2145d4ce7e 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.4.1.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-@@ -28,6 +28,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/src/${=
+@@ -27,6 +27,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/src/${=
 BP}.tar.gz \
+            file://CVE-2026-43619_p5.patch \
             file://CVE-2026-43619_p6.patch \
             file://CVE-2026-43618.patch \
-            file://CVE-2026-43620.patch \
-+           file://CVE-2026-43617.patch \
++           file://CVE-2026-43620.patch \
             "
  SRC_URI[sha256sum] =3D "2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf6=
 9850d65fd88c52"
@@ -463,7 +382,7 @@ BP}.tar.gz \
 --
 2.35.6
 
---_000_PH0PR11MB59023E69BE443516978B3F84CFC62PH0PR11MB5902namp_
+--_000_PH0PR11MB5902C9F6C333AEBFCB6A673BCFC62PH0PR11MB5902namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -517,7 +436,7 @@ yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Ashishkumar Parmar X =
 ists.openembedded.org&gt;<br>
 <b>Cc:</b> Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at=
  Cisco) &lt;asparmar@cisco.com&gt;<br>
-<b>Subject:</b> [wrynose][PATCH v2 5/6] rsync: Fix CVE-2026-43617</font>
+<b>Subject:</b> [wrynose][PATCH v2 4/6] rsync: Fix CVE-2026-43620</font>
 <div>&nbsp;</div>
 </div>
 <div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
@@ -526,314 +445,244 @@ ists.openembedded.org&gt;<br>
 ;<br>
 <br>
 This patch applies the upstream v3.4.3 backport for<br>
-CVE-2026-43617. The upstream fix commit is referenced in [1],<br>
+CVE-2026-43620. The upstream fix commit is referenced in [1],<br>
 and the public CVE advisory is referenced in [2].<br>
 <br>
-[1] <a href=3D"https://github.com/RsyncProject/rsync/commit/c38f20c5ffabacd=
-0c0c483786ab224a36e14bf43">
-https://github.com/RsyncProject/rsync/commit/c38f20c5ffabacd0c0c483786ab224=
-a36e14bf43</a><br>
+[1] <a href=3D"https://github.com/RsyncProject/rsync/commit/0cf200ecbb8baaf=
+58070d825c4fbd892b4a63b69">
+https://github.com/RsyncProject/rsync/commit/0cf200ecbb8baaf58070d825c4fbd8=
+92b4a63b69</a><br>
 [2] <a href=3D"https://github.com/RsyncProject/rsync/security/advisories/GH=
-SA-rjfm-3w2m-jf4f">
-https://github.com/RsyncProject/rsync/security/advisories/GHSA-rjfm-3w2m-jf=
-4f</a><br>
+SA-28pw-r563-rxvm">
+https://github.com/RsyncProject/rsync/security/advisories/GHSA-28pw-r563-rx=
+vm</a><br>
 <br>
 Signed-off-by: Ashishkumar Parmar &lt;asparmar@cisco.com&gt;<br>
 ---<br>
-&nbsp;.../rsync/files/CVE-2026-43617.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 201 ++++++++++++++++++<br>
+&nbsp;.../rsync/files/CVE-2026-43620.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; | 122 ++++++++++++++++++<br>
 &nbsp;meta/recipes-devtools/rsync/rsync_3.4.1.bb&nbsp;&nbsp;&nbsp; |&nbsp;&=
 nbsp; 1 +<br>
-&nbsp;2 files changed, 202 insertions(+)<br>
-&nbsp;create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43617.p=
+&nbsp;2 files changed, 123 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43620.p=
 atch<br>
 <br>
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch b/meta/=
-recipes-devtools/rsync/files/CVE-2026-43617.patch<br>
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch b/meta/=
+recipes-devtools/rsync/files/CVE-2026-43620.patch<br>
 new file mode 100644<br>
-index 0000000000..5b3190224e<br>
+index 0000000000..2852b74b8d<br>
 --- /dev/null<br>
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch<br>
-@@ -0,0 +1,201 @@<br>
-+From d811094dc63486a8b6acf23963daccc23e9dbf43 Mon Sep 17 00:00:00 2001<br>
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch<br>
+@@ -0,0 +1,122 @@<br>
++From 271771f089f5f7acff5cce1ca3242849b0f6a6a0 Mon Sep 17 00:00:00 2001<br>
 +From: Andrew Tridgell &lt;andrew@tridgell.net&gt;<br>
-+Date: Wed, 31 Dec 2025 13:50:35 +1100<br>
-+Subject: [PATCH] clientserver: fix hostname ACL bypass when using daemon<b=
-r>
-+ chroot<br>
++Date: Tue, 5 May 2026 16:48:16 +1000<br>
++Subject: [PATCH] receiver: add parent_ndx&lt;0 guard, mirroring 797e17f<br=
+>
 +<br>
-+On an rsync daemon configured with &quot;daemon chroot&quot;, the reverse-=
-DNS<br>
-+lookup of the connecting client was performed *after* the chroot<br>
-+had been entered. If the chroot did not contain the files glibc<br>
-+needs for resolution (/etc/resolv.conf, /etc/nsswitch.conf,<br>
-+/etc/hosts, NSS service modules), the lookup failed and<br>
-+client_name() returned &quot;UNKNOWN&quot;. Hostname-based deny rules<br>
-+(&quot;hosts deny =3D *.evil.example&quot;) therefore could not match, and=
-<br>
-+an attacker controlling their PTR record could connect from a<br>
-+hostname the administrator had intended to deny. IP-based ACLs<br>
-+were unaffected.<br>
++Commit 797e17f (&quot;fixed an invalid access to files array&quot;) added =
+a<br>
++parent_ndx &lt; 0 guard to send_files() in sender.c, but the visually-<br>
++identical block in recv_files() in receiver.c was not updated. A<br>
++malicious rsync:// server can therefore drive any connecting client<br>
++into the same out-of-bounds dir_flist-&gt;files[-1] read followed by a<br>
++file_struct dereference in f_name() one line later.<br>
 +<br>
-+Do the reverse DNS lookup before chroot/setuid; client_name()<br>
-+caches its result, so the post-chroot call uses the cached value<br>
-+and hostname-based ACLs work even when DNS is unavailable<br>
-+post-chroot.<br>
++Reach: protocol-30+ default (inc_recurse) makes flist.c:2745 set<br>
++parent_ndx =3D -1 on the first received flist when the sender omits a<br>
++leading &quot;.&quot; entry; rsync.c flist_for_ndx() does not reject ndx =
+=3D=3D 0<br>
++in that state because the range check evaluates 0 &lt; 0 =3D false; and<br=
+>
++read_ndx_and_attrs() only validates ndx with the ITEM_TRANSFER bit<br>
++set, so iflags=3DITEM_IS_NEW (or any other non-transfer iflag word)<br>
++bypasses the check.<br>
 +<br>
-+Adds testsuite/daemon-chroot-acl.test as end-to-end regression<br>
-+coverage. The test sets up an empty chroot directory, configures<br>
-+&quot;hosts deny =3D &lt;localhost-resolved-name&gt;&quot; with daemon chr=
-oot, and<br>
-+asserts the connection is refused with @ERROR access denied.<br>
-+Uses unshare --user --map-root-user for non-root CAP_SYS_CHROOT;<br>
-+skips cleanly on non-Linux or when user namespaces aren't<br>
-+available.<br>
++Apply the same guard receiver-side. Confirmed: the same PoC (a<br>
++minimal Python rsyncd that handshakes with CF_INC_RECURSE, sends a<br>
++no-leading-&quot;.&quot; flist, and emits ndx=3D0 with ITEM_IS_NEW) crashe=
+s<br>
++unpatched 3.4.2 with SEGV_MAPERR si_addr=3D0x4101a-class in the<br>
++receiver child; with this guard it exits cleanly with code 2<br>
++(RERR_PROTOCOL).<br>
 +<br>
-+Reporter: Joshua Rogers (MegaManSec).<br>
++The attack surface delta over the sender variant is large:<br>
++the original was malicious-client -&gt; daemon, this is<br>
++malicious-server -&gt; any rsync client doing a normal rsync://<br>
++or remote-shell pull.<br>
++<br>
++Reported by Pratham Gupta (alchemy1729).<br>
 +<br>
 +Co-Authored-By: Claude Opus 4.7 (1M context) &lt;noreply@anthropic.com&gt;=
 <br>
 +<br>
-+CVE: CVE-2026-43617<br>
++CVE: CVE-2026-43620<br>
 +Upstream-Status: Backport [<a href=3D"https://github.com/RsyncProject/rsyn=
-c/commit/c38f20c5ffabacd0c0c483786ab224a36e14bf43">https://github.com/Rsync=
-Project/rsync/commit/c38f20c5ffabacd0c0c483786ab224a36e14bf43</a>]<br>
+c/commit/0cf200ecbb8baaf58070d825c4fbd892b4a63b69">https://github.com/Rsync=
+Project/rsync/commit/0cf200ecbb8baaf58070d825c4fbd892b4a63b69</a>]<br>
 +<br>
-+Backport Changes:<br>
-+- Omitted upstream .github/workflows/macos-build.yml because the<br>
-+&nbsp; Yocto recipe does not carry upstream CI workflow files. That<br>
-+&nbsp; upstream hunk only adds daemon-chroot-acl to the macOS<br>
-+&nbsp; RSYNC_EXPECT_SKIPPED list and has no rsync source/runtime effect.<b=
-r>
-+<br>
-+(cherry picked from commit c38f20c5ffabacd0c0c483786ab224a36e14bf43)<br>
++(cherry picked from commit 0cf200ecbb8baaf58070d825c4fbd892b4a63b69)<br>
 +Signed-off-by: Ashishkumar Parmar &lt;asparmar@cisco.com&gt;<br>
 +---<br>
-+ clientserver.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 22 ++++++<br>
-+ testsuite/daemon-chroot-acl.test | 111 +++++++++++++++++++++++++++++++<br=
->
-+ 2 files changed, 133 insertions(+)<br>
-+ create mode 100644 testsuite/daemon-chroot-acl.test<br>
++ generator.c | 4 ++++<br>
++ io.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3 +++<br>
++ receiver.c&nbsp; | 7 ++++++-<br>
++ sender.c&nbsp;&nbsp;&nbsp; | 2 ++<br>
++ 4 files changed, 15 insertions(+), 1 deletion(-)<br>
 +<br>
-+diff --git a/clientserver.c b/clientserver.c<br>
-+index b6eba098..3333aa96 100644<br>
-+--- a/clientserver.c<br>
-++++ b/clientserver.c<br>
-+@@ -1310,6 +1310,28 @@ int start_daemon(int f_in, int f_out)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (lp_proxy_protocol() &amp;&a=
-mp; !read_proxy_protocol_header(f_in))<br>
++diff --git a/generator.c b/generator.c<br>
++index 311e9b78..89f99db4 100644<br>
++--- a/generator.c<br>
+++++ b/generator.c<br>
++@@ -2146,6 +2146,8 @@ void check_for_finished_files(int itemizing, enum lo=
+gcode code, int check_redo)<br>
 +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; return -1;<br>
-+ <br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Do reverse DNS lookup before chroot/set=
-uid. The result is cached,<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * so the later client_name() call wi=
-ll use this cached value. This<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * ensures hostname-based ACLs work e=
-ven when DNS is unavailable<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * after chroot.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * &quot;reverse lookup&quot; can be =
-set globally OR per-module, so we also<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * scan each module: a deployment wit=
-h &quot;reverse lookup =3D no&quot; in the<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * global section but &quot;reverse l=
-ookup =3D yes&quot; in a specific module<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * still triggers a post-chroot looku=
-p at access-check time<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * (rsync_module() in this file), whi=
-ch would also fail in the<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * chroot and turn hostname-based den=
-y rules into silent bypasses. */<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (send_f=
+ailed)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ndx =3D get_hlink_num();<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flist =3D =
+flist_for_ndx(ndx, &quot;check_for_finished_files.1&quot;);<br>
 ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; int need_reverse =3D lp_reverse_lookup(-1);<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; int j, num_modules =3D lp_num_modules();<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; for (j =3D 0; !need_reverse &amp;&amp; j &lt; num_modules; j++) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (lp_reverse_lookup=
-(j))<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ndx &lt; flist-&g=
+t;ndx_start)<br>
 ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
 nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp; need_reverse =3D 1;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; }<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp; if (need_reverse)<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (void)client_name(cli=
-ent_addr(f_in));<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-++<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p =3D lp_daemon_chroot();<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (*p) {<br>
+p;&nbsp;&nbsp;&nbsp;&nbsp; exit_cleanup(RERR_PROTOCOL);<br>
 +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; log_init(0); /* Make use we've initialized syslog before c=
-hrooting. */<br>
-+diff --git a/testsuite/daemon-chroot-acl.test b/testsuite/daemon-chroot-ac=
-l.test<br>
-+new file mode 100644<br>
-+index 00000000..9d1c1b63<br>
-+--- /dev/null<br>
-++++ b/testsuite/daemon-chroot-acl.test<br>
-+@@ -0,0 +1,111 @@<br>
-++#!/bin/sh<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file =3D f=
+list-&gt;files[ndx - flist-&gt;ndx_start];<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; assert(fil=
+e-&gt;flags &amp; FLAG_HLINKED);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (send_f=
+ailed)<br>
++@@ -2174,6 +2176,8 @@ void check_for_finished_files(int itemizing, enum lo=
+gcode code, int check_redo)<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flist =3D =
+cur_flist;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cur_flist =
+=3D flist_for_ndx(ndx, &quot;check_for_finished_files.2&quot;);<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ndx &lt; cur_flis=
+t-&gt;ndx_start)<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; exit_cleanup(RERR_PROTOCOL);<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file =3D c=
+ur_flist-&gt;files[ndx - cur_flist-&gt;ndx_start];<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (solo_f=
+ile)<br>
++diff --git a/io.c b/io.c<br>
++index bb60eeca..c654a7ba 100644<br>
++--- a/io.c<br>
+++++ b/io.c<br>
++@@ -1090,6 +1090,9 @@ static void got_flist_entry_status(enum festatus sta=
+tus, int ndx)<br>
++ {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct file_list *flist =3D fli=
+st_for_ndx(ndx, &quot;got_flist_entry_status&quot;);<br>
++ <br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ndx &lt; flist-&gt;ndx_start)<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; exit_cleanup(RERR_PROTOCOL);<br>
 ++<br>
-++# Copyright (C) 2026 by Andrew Tridgell<br>
-++<br>
-++# This program is distributable under the terms of the GNU GPL (see<br>
-++# COPYING).<br>
-++<br>
-++# Regression test for GHSA-rjfm-3w2m-jf4f: a hostname-based &quot;hosts d=
-eny&quot;<br>
-++# rule must still match when the daemon performs a 'daemon chroot' and<br=
->
-++# the chroot does not contain the NSS files glibc needs for reverse DNS.<=
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (remove_source_files) {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; active_filecnt--;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; active_bytecnt -=3D F_LENGTH(flist-&gt;files[ndx - flist-&=
+gt;ndx_start]);<br>
++diff --git a/receiver.c b/receiver.c<br>
++index a487ad5a..3fa68d71 100644<br>
++--- a/receiver.c<br>
+++++ b/receiver.c<br>
++@@ -467,7 +467,10 @@ static void handle_delayed_updates(char *local_name)<=
 br>
-++#<br>
-++# Pre-fix, reverse DNS happened *after* the daemon chroot. With an empty<=
++ static void no_batched_update(int ndx, BOOL is_redo)<br>
++ {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct file_list *flist =3D fli=
+st_for_ndx(ndx, &quot;no_batched_update&quot;);<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct file_struct *file =3D flist-&gt;fil=
+es[ndx - flist-&gt;ndx_start];<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct file_struct *file;<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ndx &lt; flist-&gt;ndx_start)<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; exit_cleanup(RERR_PROTOCOL);<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file =3D flist-&gt;files[ndx - flist-&gt;n=
+dx_start];<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rprintf(FERROR_XFER, &quot;(No =
+batched update for%s \&quot;%s\&quot;)\n&quot;,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; is_redo ? &quot; resend of&quot; : &quot;&quot;, f_name(fi=
+le, NULL));<br>
++@@ -604,6 +607,8 @@ int recv_files(int f_in, int f_out, char *local_name)<=
 br>
-++# chroot the NSS lookup failed, client_name() returned &quot;UNKNOWN&quot=
-;, and a<br>
-++# deny rule referring to the connecting hostname silently failed to<br>
-++# match.<br>
-++#<br>
-++# Two scenarios are exercised so we can distinguish the case the fix<br>
-++# definitely covers from the per-module path that may still be<br>
-++# vulnerable:<br>
-++#&nbsp;&nbsp; A. global&nbsp; &quot;reverse lookup =3D yes&quot;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (covered by b6abdb4c)<b=
-r>
-++#&nbsp;&nbsp; B. only module &quot;reverse lookup =3D yes&quot;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp; (gap to verify)<br>
-++<br>
-++. &quot;$suitedir/rsync.fns&quot;<br>
-++<br>
-++case `uname -s` in<br>
-++Linux*) ;;<br>
-++*) test_skipped &quot;test is Linux-specific (uses chroot+unshare)&quot; =
-;;<br>
-++esac<br>
-++<br>
-++# We need CAP_SYS_CHROOT. Re-exec under a user namespace if not root.<br>
-++if ! chroot / /bin/true 2&gt;/dev/null; then<br>
-++&nbsp;&nbsp;&nbsp; if [ -z &quot;$RSYNC_UNSHARED&quot; ] &amp;&amp; unsha=
-re --user --map-root-user true 2&gt;/dev/null; then<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo &quot;Re-running under unshare --user=
- --map-root-user...&quot;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RSYNC_UNSHARED=3D1 exec unshare --user --m=
-ap-root-user &quot;$SHELL_PATH&quot; $RUNSHFLAGS &quot;$0&quot;<br>
-++&nbsp;&nbsp;&nbsp; fi<br>
-++&nbsp;&nbsp;&nbsp; test_skipped &quot;need CAP_SYS_CHROOT (root or unshar=
-e --user --map-root-user)&quot;<br>
-++fi<br>
-++<br>
-++# We need 127.0.0.1 to reverse-resolve to a real hostname while NSS is<br=
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; if (ndx - cur_flist-&gt;ndx_start &gt;=3D 0)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file =3D c=
+ur_flist-&gt;files[ndx - cur_flist-&gt;ndx_start];<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; else if (cur_flist-&gt;parent_ndx &lt; 0)<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit_cleanup(RERR_PRO=
+TOCOL);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; else<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file =3D d=
+ir_flist-&gt;files[cur_flist-&gt;parent_ndx];<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; fname =3D local_name ? local_name : f_name(file, fbuf);<br=
 >
-++# still working (i.e. before the daemon's chroot). The daemon will<br>
-++# look that name up itself as part of its hostname-based ACL check;<br>
-++# we then deny that name and assert the connection is rejected.<br>
-++client_hostname=3D`getent hosts 127.0.0.1 2&gt;/dev/null | awk 'NR=3D=3D1=
- {print $2}'`<br>
-++if [ -z &quot;$client_hostname&quot; ] || [ &quot;$client_hostname&quot; =
-=3D &quot;127.0.0.1&quot; ]; then<br>
-++&nbsp;&nbsp;&nbsp; test_skipped &quot;no reverse DNS for 127.0.0.1&quot;<=
-br>
-++fi<br>
-++<br>
-++chrootdir=3D&quot;$scratchdir/chroot&quot;<br>
-++rm -rf &quot;$chrootdir&quot;<br>
-++mkdir -p &quot;$chrootdir/modroot&quot;<br>
-++echo &quot;from chroot&quot; &gt; &quot;$chrootdir/modroot/file1&quot;<br=
->
-++<br>
-++conf=3D&quot;$scratchdir/test-rsyncd.conf&quot;<br>
-++logfile=3D&quot;$scratchdir/rsyncd.log&quot;<br>
-++<br>
-++write_conf() {<br>
-++&nbsp;&nbsp;&nbsp; cat &gt;&quot;$conf&quot; &lt;&lt;EOF<br>
-++use chroot =3D no<br>
-++log file =3D $logfile<br>
-++daemon chroot =3D $chrootdir<br>
-++reverse lookup =3D $1<br>
-++hosts deny =3D $client_hostname<br>
-++max verbosity =3D 4<br>
-++<br>
-++[chrootmod]<br>
-++&nbsp;&nbsp;&nbsp; path =3D /modroot<br>
-++&nbsp;&nbsp;&nbsp; read only =3D yes<br>
-++&nbsp;&nbsp;&nbsp; reverse lookup =3D $2<br>
-++EOF<br>
-++}<br>
-++<br>
-++# Run a transfer and return 0 if the daemon refused with @ERROR access<br=
->
-++# denied (the expected outcome when the deny rule matches).<br>
-++run_check() {<br>
-++&nbsp;&nbsp;&nbsp; label=3D&quot;$1&quot;<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; rm -f &quot;$logfile&quot;<br>
-++&nbsp;&nbsp;&nbsp; rm -rf &quot;$todir&quot;<br>
-++&nbsp;&nbsp;&nbsp; mkdir -p &quot;$todir&quot;<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; out=3D&quot;$scratchdir/run.out&quot;<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; RSYNC_CONNECT_PROG=3D&quot;$RSYNC --config=3D$conf --d=
-aemon&quot; \<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $RSYNC -av localhost::chrootmod/ &quot;$to=
-dir/&quot; &gt;&quot;$out&quot; 2&gt;&amp;1<br>
-++&nbsp;&nbsp;&nbsp; rc=3D$?<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; echo &quot;----- $label (rsync exit $rc):&quot;<br>
-++&nbsp;&nbsp;&nbsp; cat &quot;$out&quot;<br>
-++&nbsp;&nbsp;&nbsp; echo &quot;----- daemon log:&quot;<br>
-++&nbsp;&nbsp;&nbsp; [ -f &quot;$logfile&quot; ] &amp;&amp; cat &quot;$logf=
-ile&quot;<br>
-++&nbsp;&nbsp;&nbsp; echo &quot;-----&quot;<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; grep -q '@ERROR.*access denied' &quot;$out&quot;<br>
-++}<br>
-++<br>
-++# Scenario A: global reverse lookup. Covered by b6abdb4c.<br>
-++write_conf yes yes<br>
-++if ! run_check &quot;Scenario A (global reverse lookup =3D yes)&quot;; th=
-en<br>
-++&nbsp;&nbsp;&nbsp; test_fail &quot;Scenario A: hostname deny rule was byp=
-assed&quot;<br>
-++fi<br>
-++<br>
-++# Scenario B: only the per-module reverse-lookup setting is enabled.<br>
-++# The b6abdb4c fix only pre-warms client_name()'s cache when the<br>
-++# global setting is on, so the post-chroot lookup in this path may<br>
-++# still produce &quot;UNKNOWN&quot; and bypass the deny rule.<br>
-++write_conf no yes<br>
-++if ! run_check &quot;Scenario B (per-module reverse lookup only)&quot;; t=
-hen<br>
-++&nbsp;&nbsp;&nbsp; test_fail &quot;Scenario B: hostname deny rule was byp=
-assed (per-module reverse lookup with daemon chroot still has the bypass)&q=
-uot;<br>
-++fi<br>
-++<br>
-++exit 0<br>
++diff --git a/sender.c b/sender.c<br>
++index 99f431fe..033f87e5 100644<br>
++--- a/sender.c<br>
+++++ b/sender.c<br>
++@@ -140,6 +140,8 @@ void successful_send(int ndx)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; return;<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; flist =3D flist_for_ndx(ndx, &q=
+uot;successful_send&quot;);<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (ndx &lt; flist-&gt;ndx_start)<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; exit_cleanup(RERR_PROTOCOL);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file =3D flist-&gt;files[ndx - =
+flist-&gt;ndx_start];<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!change_pathname(file, NULL=
+, 0))<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; return;<br>
 diff --git a/meta/recipes-devtools/rsync/rsync_3.4.1.bb b/meta/recipes-devt=
 ools/rsync/rsync_3.4.1.bb<br>
-index 2145d4ce7e..d0d57defe8 100644<br>
+index f84f269692..2145d4ce7e 100644<br>
 --- a/meta/recipes-devtools/rsync/rsync_3.4.1.bb<br>
 +++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb<br>
-@@ -28,6 +28,7 @@ SRC_URI =3D &quot;<a href=3D""></a>https://download.samba=
+@@ -27,6 +27,7 @@ SRC_URI =3D &quot;<a href=3D""></a>https://download.samba=
 .org/pub/${BPN}/src/${BP}.tar.gz \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2026-43619_p5.patch">file://CVE-2026-43619_p5.patch</a> \<br=
+>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
 =3D"file://CVE-2026-43619_p6.patch">file://CVE-2026-43619_p6.patch</a> \<br=
 >
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
 =3D"file://CVE-2026-43618.patch">file://CVE-2026-43618.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2026-43620.patch">file://CVE-2026-43620.patch</a> \<br>
 +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2026-43617.patch">file://CVE-2026-43617.patch</a> \<br>
+le://CVE-2026-43620.patch">file://CVE-2026-43620.patch</a> \<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
 r>
 &nbsp;SRC_URI[sha256sum] =3D &quot;2924bcb3a1ed8b551fc101f740b9f0fe0a202b11=
@@ -846,5 +695,5 @@ r>
 </body>
 </html>
 
---_000_PH0PR11MB59023E69BE443516978B3F84CFC62PH0PR11MB5902namp_--
+--_000_PH0PR11MB5902C9F6C333AEBFCB6A673BCFC62PH0PR11MB5902namp_--
 
