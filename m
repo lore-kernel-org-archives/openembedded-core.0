@@ -2,85 +2,83 @@ Return-Path: <lianux.mm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20804C4450F
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 06:45:28 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8075.1784270726744612397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED656C44507
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 06:45:37 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8156.1784270734556433578
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2026 23:45:26 -0700
+ Thu, 16 Jul 2026 23:45:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=MZeaxzZt;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: lianux.mm@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38e4beb7cc0so250921a91.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 23:45:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=UyDvWjb2;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: lianux.mm@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso7406338a91.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2026 23:45:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784270726; x=1784875526; darn=lists.openembedded.org;
-        h=cc:references:in-reply-to:date:subject:to:content-transfer-encoding
+        d=gmail.com; s=20251104; t=1784270734; x=1784875534; darn=lists.openembedded.org;
+        h=references:in-reply-to:date:subject:to:content-transfer-encoding
          :mime-version:content-type:from:message-id:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xMDJIkOZKXykrNARDijn+TEz85pXP8OzpeV6Oaplwog=;
-        b=MZeaxzZtn8y+sv5mq0GdlYiRlzuNca+PSs3TiFtzASvJ9SJUpMazbB7AXYY533Y2Jk
-         k/CiWkvzziONQnbtwa+yr2gmTspZUP7bdUaf+vEa/KQkRd1hSzjKHYEZQ6IoRddgLS4W
-         JXyuNBdhXmO5oHsM092JH9niMgWUFhQA/0gI93UH9d+TQ36nqWshmFVMUMAxjKHQl4Fh
-         tzAtx5aLXFv9QhBqI/OGEuH0HV+xttpQD6bv7hxImHRB3JLmI2+mT8agcVQlfCF36nZW
-         t6GLVswgOOchr9k765mmqYNDvfIZ5d7rIrCiPGgVJ/MpnyyO7D+jnVt4bhGvPtDjSKLY
-         T8JA==
+        bh=M3El8zJh/fMfcd0Ufudy5lojcuUvSt53le6fJEskhuM=;
+        b=UyDvWjb2ilfcX18sEZFTVqQKCmOKHzwjvQxBa5Oe4EyhOV6CovFcAXu44zAah71eMq
+         t6ghPQ4V0KODmV5ztzZzylyb/TEGNa3qOxbu8hZ9B5QqirjRl/rLY/xorN/jDWdKhjZi
+         6yiuILI4ESpmBcW+LSFN1JBN/hk+qJnHLzznIYGRucVi/w8ohWei8PeUK1lHbjiAcGZ2
+         //6MDKPzaooUgiJbgsgD6rWjV5oxPzW73Sk5YDlU1aNKZ/jBp/xY7p1hZtSL5c73Emwy
+         1gWZVFdOgYxvuznqvkqlOAcJ/+ipknU5tvHoQ3dddAZsoa6aTa4TKVUTzklWcT2AYRwl
+         298Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784270726; x=1784875526;
-        h=cc:references:in-reply-to:date:subject:to:content-transfer-encoding
+        d=1e100.net; s=20251104; t=1784270734; x=1784875534;
+        h=references:in-reply-to:date:subject:to:content-transfer-encoding
          :mime-version:content-type:from:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xMDJIkOZKXykrNARDijn+TEz85pXP8OzpeV6Oaplwog=;
-        b=rwoDG57W6UbUZzMcCF9pDZgZwi7I8gGwfetpDQd7UkbAM7uWyx03b4Z3eCwoJYMqlR
-         QXQhOp1pdUW0T7PUwvgDdJhb7khrNob71ZWLD/0HjZXcC2ijnVJJV3ZsY2bkr2ZSlUXf
-         +wbZ1RjnW8GHcnNOdw/6d0aKlp6QiKZiAGBVduMxJkHrhfJP5SucwCu5dJ0DCyaHDnHc
-         fXzpD03eSzqrxHhcgcY668kiUFIB2VSiYwaM9IudTT7G2q+NCm19mgDC2FbXFLI1msKI
-         iEnFszUSnCQjtnlHvNjBg+ub/8CMylh4Q3Xa00shPfZxq/jr9abqT4r7TFvr8RnTnx3m
-         0IPw==
-X-Gm-Message-State: AOJu0Yw33jq/vqLR0ZujUjZeoTAJ98lrLqLHob7VLuNQHHnHNgQn2Dql
-	l5RJ6lmLcPYCMfF/bn7u2Gd0mG84CEd9aDtYxkf5UujyNMM+wxZqpUm7Y8QbFcwyb7I=
-X-Gm-Gg: AfdE7cmIiZoUXcvFVRs/uCWr6sQBMib0S0d/QlrSQ8eh4j2+YHTmU44lFCyPhAW20Qk
-	dhN3gyJdU7fCsZidGih15rbu/cxLR/VEneSkpF5g8aQaNCrjKEDIIw7ONTY7d3ZMmORBUpDCZht
-	q1mojYfc/3r8KxzHT7pO8ySGC8R0JkDwhALWV8S8o7QbtPQqBt+kgmiBC9DIuc9CkijPgnPLseu
-	DuNzpq5KgPJ6pdwvCuwPcyGTG4CjsgNSxr04z9R+FieuLGBqkZtxcm+fa5fky78/kz/cD/XDYY9
-	ubzWyHbtRuvMIhK+Oa1q0yhhkC9932UIGUXQHYBKjSjvcUalZVHPLP8g53NHsDjnR3xxa87LMHO
-	y+mSMQMx9JFJcAxM3jUEAruKXkmya6Xwt3Xjqu63LbbgPwcuBoK5fNlmIMXGoBjlnfHJX17o5/L
-	5sJFP7OAP30Fs=
-X-Received: by 2002:a17:90b:2692:b0:38e:79f:76ad with SMTP id 98e67ed59e1d1-38e4b52efd9mr1331643a91.23.1784270726010;
-        Thu, 16 Jul 2026 23:45:26 -0700 (PDT)
+        bh=M3El8zJh/fMfcd0Ufudy5lojcuUvSt53le6fJEskhuM=;
+        b=sr3mDN8bow35BE9QbfnPi0vdwkVIZnHu6bzpvXsPIrr1L/DCpPq99jwrxZ11LVgyB3
+         xiMLuAMiZpIp2daqH8tm9x1mCdt7wXKrb33gmMxYSNr7Q/MZ9W5LrMEUgGrW6ObVe/iB
+         cJebmmK9Inl4mQkkc5JuAEaERdGXwRbUR3Zz5tgRnPlsFkmc2qt3M+9BT28RuuHppENT
+         gscyrX0YWJamlYYDeXsaFb5F4xPMnXLa+1WBhsTU5qs31NeG+QuxNIBD3NyLwSf1dZ77
+         NRHD4SENI03HxhzZWXLA/3su4X6Pa8zkWllYL3qeAjK+PAa92y4rJGp5WP19YvCIdFxG
+         9Hcg==
+X-Gm-Message-State: AOJu0YwRqWwqdBVf52+oxqGBWZ6oNiquXEDm1iBnr+p6VRuUbibFbzwm
+	tgerzs+EgjYwzkj/dp8rRJIBs3LQqP2VgvV4F2Nr+9RBW/zIRz91BwK4QR3QHP2dzUw=
+X-Gm-Gg: AfdE7ckle8oYszAKJjsCkIEUE2j+CrgWynLaLIZD5UnkM3LhY94YJyKglfitX8W8qqy
+	fa9OWQgLFfxsKAtO2B2c8Y19BZ14Pgx060TYqP6nA/McfrFmgjAUh26ZyxDtQvZ98Nz1/AhVr0r
+	brLl0zobOZ0wFSg0FbC92fVE+TGW3kMNK8Glz+E/YSfp3oAXlVfRbudeElzCsJ+mL13NY+bQyam
+	7IfAirkqMnI9YdHqJzBJZemgF1AT6SkMVZHHqO49GZk2K0GooXN4zJpQGbdgjOGbuE4zHFVyrzs
+	pqzLQ6TFMArpFkXEgxvvMtMDQDJP2/60lKzTwW5z/ioUN04F7be2wLJFStER7khCfT8q702V8p8
+	vfLq7nqyA4CJDBir/EScwrWCOnhlQKV5Q7kt/6iHzhf0eAb6rdykM0UO+2fLV5jH5pW+OqfrF0m
+	BI
+X-Received: by 2002:a05:6a20:b786:b0:3c3:8d86:9856 with SMTP id adf61e73a8af0-3c3ad66b65dmr1366606637.14.1784270733772;
+        Thu, 16 Jul 2026 23:45:33 -0700 (PDT)
 Received: from lianux-2.local ([2605:a141:2231:7698::1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e39de7790sm2409380a91.3.2026.07.16.23.45.24
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cb517f8f04asm366484a12.8.2026.07.16.23.45.32
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 23:45:25 -0700 (PDT)
-Message-ID: <6a59cf85.07a3e4bc.43de0.edb9@mx.google.com>
+        Thu, 16 Jul 2026 23:45:33 -0700 (PDT)
+Message-ID: <6a59cf8d.8a854648.30daff.11e6@mx.google.com>
 From: Lian Wang <lianux.mm@gmail.com>
 X-Google-Original-From: Lian Wang <lianux.wang@processmission.com>
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpng: upgrade 1.6.42 -> 1.6.58
-Date: Fri, 17 Jul 2026 14:45:15 +0800
-In-Reply-To: <20260716075137.18584-1-lianux.wang@processmission.com>
-References: <20260716075137.18584-1-lianux.wang@processmission.com>
-Cc: Peter.Marko@siemens.com
+Subject: Re: [PATCH] rsync: upgrade 3.2.7 -> 3.4.4
+Date: Fri, 17 Jul 2026 14:45:26 +0800
+In-Reply-To: <20260716071942.16681-1-lianux.wang@processmission.com>
+References: <20260716071942.16681-1-lianux.wang@processmission.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:45:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241151
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 06:45:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241152
 
-Hi Peter,
+Hi,
 
-Thank you for the review and guidance on the stable branch policy.
+Thank you for maintaining the stable branch. Per the stable branch
+policy, please ignore this version upgrade patch. The existing 14 CVE
+backport patches already cover the listed CVEs in the recipe.
 
-I understand that version upgrades are not accepted on the scarthgap
-stable branch. Please ignore this patch - the existing 17 CVE backport
-patches already cover the listed CVEs in the current recipe.
-
-I will follow the stable branch rules going forward and send individual
-CVE backport patches for any new CVEs that need to be addressed.
+I will follow the stable branch rules and send individual CVE backport
+patches for any new CVEs going forward.
 
 Thanks,
 Lian
