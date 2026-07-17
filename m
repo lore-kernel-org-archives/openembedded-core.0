@@ -1,121 +1,104 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55A04C4451B
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 14:37:36 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15135.1784299053596916177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E8CC4451C
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 14:53:36 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15372.1784300013819340823
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 07:37:33 -0700
+ Fri, 17 Jul 2026 07:53:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=DMXoIbSc;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493f25d47dcso29278885e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 07:37:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=LY9sV+Xz;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8efef6533aaso44361616d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 07:53:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784300013; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LQ2fZVCFl+rOHGOcJddP0nrD3T+0S2VA0x+IvoAiOrFtUGze0ub19gwX5dAKGUptpf
+         Q7tcBHFt7Dt/AF5UDNbwRC2yltA0OG20Fo6xFH7qCbV97kh4wDLhUSRFkVbQvOrG8UpZ
+         ZQld6T7PPrajLDKPvLETK1v9FLEoZnU0NDlxn3sGDQp9slA0mgbBJViIXeR+GxHiS85N
+         SUAK0FRplyZpXZm79CTyHSEsxpemzJQm6auKHYfDqKBRFqHoGG7UAGGTrxQTjbqOVUMT
+         FOqvi3XHj11gm9GL0yp6m6DEKb10gNtTy4SsHNwZXYpgUEgX8sNCfF9DcMZCXeFrGxyA
+         W5mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7Znq6B1KG7Gm7EiAzFR3zs11HFuSzhxmpumKp68cAdQ=;
+        fh=JhwpbyHLlW2kAdWl7OYmYdGmK+rcdV7LEjWyEKW6Pwk=;
+        b=N32806xaoQIV0o88ATLv/EuvpOCgEeAOMZj/CW5vU2KDqYbSqnY1Mhr4KPbwWCuOn/
+         HjMPFxfuJHA33ax3QFQAigBX5EYAlkOU5rEnQmFPthAHUMjKrFpF9yaZmG4C/6TrBy51
+         4CGdflQct230hCKvOo15JaoIQ+93MONDqFqU3FpMR8Ax8BRXNom1kLTVmJe9cLbC9olD
+         k6TZUU63VOFVP55cVkQ9Z9wPG0WHIyMC2djGtOQ9dZ1kgjq5vmwazyP0RKjkk5aRuUFC
+         FcJMejmFSJrMAPmPsRn6X0LdWjNC1BJBfAWIljvtMs32PSQFnrkjmM2BGxayUOhstMWe
+         /4bg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784299052; x=1784903852; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gntGFLtNjvkJUPjx05kFSHddfK5ZNmbu6ezibqWpjYM=;
-        b=DMXoIbSc08f4murN9HHWh1fRYbZ9SryqjsxXaft1BjzSaxV6VpVOzDfOI3RCAuLgJQ
-         +Wi0jG1gPj43wl5tYUEc+ywZeWrVqw1Ms0VUpzZPls7J72pXlugC92oAk+VKwOh+UBm9
-         IZYNFy9J/7XoWyo/XloqrblWQVrBkniDGkZ+8=
+        d=gmail.com; s=20251104; t=1784300013; x=1784904813; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7Znq6B1KG7Gm7EiAzFR3zs11HFuSzhxmpumKp68cAdQ=;
+        b=LY9sV+Xz84mNJd3Z6NlefB9a//I4Yl1U7G7/KXvby+scII73lRH67srfTIHdCAui8/
+         /pGFBwU/pqUBBDYuZWWY+yzo46EH+IBESjM7tqLhWa4VDBnRtDkZMc4PKI654xidZW0m
+         6h1WxxgBGjgNNELn1Y6eeRkJS5Sq/QVeV3p47PxJuH3kRCKHvzIvuguYA/EcMS9jfkvn
+         3/pxVXD/hgCouG7OMOKVJYqWYP3qmGhJqbomkF4wgiM92FFchQjfu9zGCZcpNo4kdz+e
+         df7g0SCNRqrN64ODlYijIWud6sh0yM0jSZia79x6xSIYTkCpf5HMLJYzlKBrm79hCr1Z
+         sdFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784299052; x=1784903852;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gntGFLtNjvkJUPjx05kFSHddfK5ZNmbu6ezibqWpjYM=;
-        b=Bp616J0WphgOhKW2MvGz95295wLwS1z4OfS7n0FN6Ov1+z1itD7bQ8jH4Wy4PFqYHM
-         Nj+v6y3gpFzuCACB36vT55Rc7+Xaph0VP1YhKKvl0mgCKROp4NPj2KN7QH23b3Zm2dwv
-         CjIC8LMIs17NuWDb6aHtFA7ZSxlcPf7o+pIeMvk6C7n4+sCC0Q4I4q/KPf1/jYlW1Dh8
-         nNIgSrQ4Ptb70CZIgmCHURcdejP5jdXeL2ZGPKlVaRgQcdpwulz4QNcypdv7ragFnrdZ
-         svia1mqDe396lXqcchviZ1CRisea+PiYYb8I36Sfud1hMrojcORrn2c6xhahxC5bP+qm
-         b0xA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpdvsv1NIdgAY5h8px7Qx/cWC9dCp/V/lqTYIwviZyTaHog7+iOchZB5pMSLwHHh8dXAW2DdnSmJYKEMBaT5Qkrug==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxHdlsg038WbD+Z/91xzUwjlbi46jxUh9K6NWWn2lu55Pbju415
-	hAU9mD+R259ggtbPfvlYfJ88fvaDMp4ElXw4DQB8ypIDZwOnwnaoKbwwxtYI090ghmc=
-X-Gm-Gg: AfdE7clrFbvF4L9Hk0+eo/ZQpKsivaNw2TFlSM0GPbCCEb46cUqVMv8nHQ7KOTEaftR
-	i9MHCyyRvGGpYtN0R2MXhAsG9xRQ14bfgKfkiQgkmvWen640hf2yVqp0Wlo8SjynK5fkwAHnb04
-	+p5O5UsT/ja0E72hF/e91GKVVv9pj3PwezxhqojTfdd6D0OGGdt4MUO42yMsq23rDBpzpSw7vNx
-	xkI4KL+RwUbQ7JJsBjCVFs9lNir/3D9qHlWLwksckV2S5U5cy4LQpZqZyT6jrWK/U5jeBQ+/uZB
-	JIAtrhnaPcC1+5tOmZD5SEUp6HCM0srq5KZAXV7MEO15QDItSJ982Pg2ZGvn+6zY0SthVP+IYZr
-	dXTMkp7hWjIJL8nm6Pzfn5ufJqeubRnjJjVZMOdaqi6vzgwnvQd4bzFnUjql2LrLtmW4Imdb8Ol
-	+2myOeQ/qRNncz8iUiZo4QUAv8cs9cRQsvnHWE9v2W+gp1CdsNIZv9gp5g17OdQs+gYUBPJmach
-	5OPuA==
-X-Received: by 2002:a05:600c:3153:b0:493:e97c:216e with SMTP id 5b1f17b1804b1-4954a41382fmr40816395e9.39.1784299051646;
-        Fri, 17 Jul 2026 07:37:31 -0700 (PDT)
-Received: from localhost (2a01cb001331aa0093f4151e9fe9f4b8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:93f4:151e:9fe9:f4b8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b074csm54766455e9.6.2026.07.17.07.37.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jul 2026 07:37:30 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Jul 2026 16:37:30 +0200
-Message-Id: <DK0X83RP88XU.1TF6MFXVOZMYZ@smile.fr>
-To: <sudumbha@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH 2/2] gnutls: Fix CVE-2026-42009
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260710095422.3042774-1-sudumbha@cisco.com>
-In-Reply-To: <20260710095422.3042774-1-sudumbha@cisco.com>
+        d=1e100.net; s=20251104; t=1784300013; x=1784904813;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=7Znq6B1KG7Gm7EiAzFR3zs11HFuSzhxmpumKp68cAdQ=;
+        b=IC04x/4Xj56gEms6xYe20wXLXiULIrHpiAteRLi0s1YG7M7vEPTgmvnArCDqJrb63g
+         mPn1zBaYHKPiFfHvuUndlRvVVJtVyoq/AAhbKvBv/VfsvsLTBO5GYrX+ZKW0Dtnoi1s6
+         L5Ibx4u/cBaJLjYA3h0RRK9uWlfLyC+vDtj7+3veietuazfyDeJ/TSUhNXLFBNIOZay2
+         D0WsApnD8Zg7vxf0bEU0k4RF2Zq54GSiNuL4tLnERIiGancNTywc900vDZN2zS2boWws
+         wf/+4LVBIKP44sYl+8e/Xk4/f5hN5BwCUKsXKaxF125o8oD6PFojaiIrsgmKV59n5Hc+
+         EXdg==
+X-Forwarded-Encrypted: i=1; AHgh+RrW5Vud7pol/vmUfTjwO2lkQiEgUuMI+uW2NmuJPiHBVRU+8k9cA/QeGbTGRWZv7GX/obzo5J/RwcU0aM21Rq8Keg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwmqCBTuyd6kcAThJBcWKBwjVNa3e5r6BnqCB16fZ2bi4b0ivIq
+	gy3VB5Rq000hSK/f6ieHMBj7muby/m20acu1diDkTkpqlzqJOQvP2NPIm+BobZF9QeiiXlkd6qo
+	OnbtL1E0Aanz0+iI8Cm48F7lVk6oxqzk=
+X-Gm-Gg: AfdE7ckVKaAb1cSDOluFxYc1REZIw19Mb7HdwE2+cjt06JtziwLMdhIOyImI4IOVvvA
+	SOQyNo6W5mW7bxzLTxB4vbl/IY3UKaCk4zOtAz6L/LNNntUycFgvT9CJ+QZOXWZhe3oJF9wAyig
+	L8eF752l1MYvI29mydqFjhmCKh67Bh1SoBdkf6IPuBpp9fyAGQ4h31DjJjDF/oj+RNElRDyQKc5
+	wCJMz0Y3pq1gePxL2axsWj+5FoSNTMkvMSPSkN48gzzF7mjiC3O2XIwy9swxg/LlrJDqmbD1ieQ
+	K/S5eOiwQoaSIWYVFO/E
+X-Received: by 2002:a05:6214:e6f:b0:8f1:ddcb:baa1 with SMTP id
+ 6a1803df08f44-9077836830dmr31759786d6.19.1784300012512; Fri, 17 Jul 2026
+ 07:53:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260715140507.2329605-1-ross.burton@arm.com> <20260715140507.2329605-4-ross.burton@arm.com>
+ <CAMKF1soJNFHLg3ChGnfT7DHNdR8XF9WeTrHqLVxY5e48a_Q4Eg@mail.gmail.com>
+In-Reply-To: <CAMKF1soJNFHLg3ChGnfT7DHNdR8XF9WeTrHqLVxY5e48a_Q4Eg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 17 Jul 2026 16:53:21 +0200
+X-Gm-Features: AUfX_mw9b06xLw5opRUgBfYn0sV4okplapONM-J0N5ky7HO8qbTTA0B6KHhwklY
+Message-ID: <CANNYZj9jKGugpVhDSXVadnpjMy6VxsfX+c4dbM0dcUj=qk9QmA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/12] patchelf: build with meson
+To: raj.khem@gmail.com
+Cc: Ross Burton <ross.burton@arm.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 14:37:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241201
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 14:53:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241202
 
-On Fri Jul 10, 2026 at 11:54 AM CEST, Sudhir Dumbhare via lists.openembedde=
-d.org wrote:
-> From: Sudhir Dumbhare <sudumbha@cisco.com>
->
-> This patch applies the upstream fix [1] and [2], as referenced in [3],
-> to address a DTLS packet reordering flaw where duplicate sequence numbers
-> could lead to unstable ordering or undefined behavior.
->
-> [1] https://gitlab.com/gnutls/gnutls/-/commit/f01e21441e29052a6f096384079=
-4c41d3b3ee66d
-> [2] https://gitlab.com/gnutls/gnutls/-/commit/f341441fad91142897d83b44a17=
-5ffc8f925b76f
-> [3] https://security-tracker.debian.org/tracker/CVE-2026-42009
->
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2026-42009
->
-> Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+On Fri, 17 Jul 2026 at 04:30, Khem Raj via lists.openembedded.org
+<raj.khem=gmail.com@lists.openembedded.org> wrote:
 
-Hello,
+> README "Compiling and Testing" documents them in order: Autotools first, then CMake, then Meson. It seems meson is still work in progress
+> E.g. tests support is TODO I wonder if its too early for distros to use it
 
-I guess a recent gnutls patch broke this series:
-ERROR: gnutls-3.8.12-r0 do_patch: Applying patch '.../wrynose/bitbake-build=
-s/poky-wrynose/layers/openembedded-core/meta/recipes-support/gnutls/gnutls/=
-CVE-2026-42009_p1.patch' on target directory '.../wrynose/bitbake-builds/po=
-ky-wrynose/build/tmp/work/x86-64-v3-poky-linux/gnutls/3.8.12/sources/gnutls=
--3.8.12'
-CmdError('quilt --quiltrc .../wrynose/bitbake-builds/poky-wrynose/build/tmp=
-/work/x86-64-v3-poky-linux/gnutls/3.8.12/recipe-sysroot-native/etc/quiltrc =
-push', 0, 'stdout: Applying patch CVE-2026-42009_p1.patch
-patching file lib/buffers.c
-Hunk #1 FAILED at 968.
-1 out of 1 hunk FAILED -- rejects in file lib/buffers.c
-Patch CVE-2026-42009_p1.patch does not apply (enforce with -f)
+I assure you, even experimental and incomplete meson is a better
+choice than autotools. Especialy 'mature' autotools which tends to
+grow so many custom warts that we have to figure various
+'Inappropriate' ways to patch them out.
 
-stderr: ')
-ERROR: Logfile of failure stored in: .../wrynose/bitbake-builds/poky-wrynos=
-e/build/tmp/work/x86-64-v3-poky-linux/gnutls/3.8.12/temp/log.do_patch.25292=
-06
-ERROR: Task (.../wrynose/bitbake-builds/poky-wrynose/layers/openembedded-co=
-re/meta/recipes-support/gnutls/gnutls_3.8.12.bb:do_patch) failed with exit =
-code '1'
-
-Can you rebase on the recently merged wrynose and resend?
-
-Thanks!
---=20
-Yoann Congal
-Smile ECS
-
+Alex
 
