@@ -1,373 +1,521 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB15C44515
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 16:01:44 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.8])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.422.1784304100414666538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93598C4451C
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 16:22:48 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.390.1784305367908785542
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 09:01:40 -0700
+ Fri, 17 Jul 2026 09:22:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=gnXL391y;
- spf=pass (domain: est.tech, ip: 52.101.66.8, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QZX2WAXU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1658d8e000=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HE7D3R1302150
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 09:22:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=FQ7/L5oHB+1grAHsze32Jo
+	rndDi6GUyqJOHpF4Nfb+Q=; b=QZX2WAXUyciTLD1vX3OaKXznknrYdl/5Xtl7W7
+	ox4G0UBYHtiZT4b6u4GKqTtG4SHUcISOuSQRT8C3p4T0V6Q/+5xVxW+ejm4EVlyy
+	+EzhodpVTq/HfQC0fO5vCoUS2ps7TSm1EYifMeF98jUS3jTLNjpot0UKZQgA9eWy
+	qbV3cWeaCACjXWxGgSkwL31gupJGhbkDYGQ386BCUDqLmcSSpn/iF07t0zRH4GjC
+	r9UkrK6gvXC9aybtbKkOSQEFX+Ssj9JwO30+rZ96ghBMQgLqiYH9kwo0GYQ8XGPH
+	FUn0oFMUNcsoKAEoduTnA3KhwnwGyv9ziymwpYhvWshL030g==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013059.outbound.protection.outlook.com [40.107.201.59])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ffgn58rx7-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 17 Jul 2026 09:22:46 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WK3U6xyAySQEgMMAB+cGneOQqNbpTwIlZr5vnVh+GEkmW7rXlu+KLfsCGQzcx0fUrGZG/X/zu34AmHmlBr1cPppDUQprNPzSGKmQPVa8pCdhshONomUsvERKBptQqNH4OG9iUBxfcAC4m1eqd8xBeRG/H6atTcsyQ+du8mXHViTJDX3I8Vsp97wIY1PqHiM1dsJk7rt/nEa2mYRyL7CYSICUFAdzEWQqrQQPCjIy6hY/ZD3aSSmX3gN39ltn8gBxC+Fi1YVkbnjSasgEhc/GDyebx7yjkSf39Z8yk1h8zJnIaGKf8ckInVwhVFDrLU7iDdsZdTO8oiK9xTPtajhHHg==
+ b=GdYlOEVqJc/zmsWqIH2KVR4jQKuODpcvFBrD7mvPdUfzye6v9YI8DV6I6EuYaq4N0F9wIEjhtMyZsOhZu2R62sbccfkm/9yuDC3llwrN0uoVLkdHwh+WPuPSSwdFEclmno3SASsaJi5UYEYV7MT3XxosiwcrZ3wz1aPi1zjPk6Hlmer6neb+pMDA4TFmKoeTxA9CG/YQHTQF6FF8reAQ6rrdZVUk9sJxN+5tHVo1Ilf54tkSU8qA5+VFNZ3JdbxefFsbRzD410TTXjt1j1PXorf/Mi/3te2uNRVPCcz1D/uSL31TgMqk38gs4VPBrI34gcWRlfdxlj61KygzXQ/FvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lC1XigxzTrFvOlfWnPMdlioeTDsmdwtfG8EFLfTSs1E=;
- b=PqQuvL3LJsx7sesAD/B6617lGLU6FCl3B+28KS4HQ2FhgoYOGSXcjBnV3PHroauMm1HinDElFjeC4Dmhko+xGQfpx8uaijz3IKHRfpAMj+CSPqRme9RIIgSX7DRvCYtKSPAKnBpcwWMrcZ4fAqBaVSHOcZwkl/tF/xYwqR43tp9bzJ92VfVnMg1e0a5knLBqMPPkX7AKFiTBig3g0SajpSIzqmEvOD/Cl7/OkLSL5e1StAIHgsaVJ8D6TbzsDo4n5J9cBq4zETKkxePC+3hELZR3tXo8mKVCHL1UWVXZFX925RhtKCTc188PTNprkhRXgEF+ndX987wq5soa2MAlWg==
+ bh=FQ7/L5oHB+1grAHsze32JorndDi6GUyqJOHpF4Nfb+Q=;
+ b=fQSF5/XsAGL+qcRvF70NFSLl7Ox+mnPcCkqQvErx03Hl/KT9ERllct4ZoLw9kOOdF6sJ9FIT8Jd22fDH9AaqbW9HaKl33qy5wLLjr0/LLCNJAw970+Qnkei2atTWZWE/aLH4lffYUwHobrszCZlTGYy+6KXDXexZ2zl/SFswPGCrjYy220Q8TcL4Q8k9R17ZhRpfUCutfhP3CYyhVjPe0A/ugJbD0+tN4YZvA8jZqtMhMMZd7d4kNWii5+IaEEvK7vuaA6bPOZMhxR8J1KHTSc99JLw8X3p4of5mFbWmy78X+Q9KpXTI/gmUlnajqkYOyUctOXGDwnM37131bwXkPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lC1XigxzTrFvOlfWnPMdlioeTDsmdwtfG8EFLfTSs1E=;
- b=gnXL391yDlrYMr/vrfFr4fQDVv8uhIY+2uvIdEyRXnsJXW1f39z231M8f7z2LlUw1WhqHoW3i8rU/5p6NLlFpQFsVLJ7Nsng49V0/UJ5ArDk9i9/9hQ1leKYPgP62/ghBP3JaLNbobsO7ow6Ph+AtosCuHe8ww8T9tpW5YtQNa/3LfYYGr3KcX34k6+YBDl/evpGGg24Z9Rj4VO6hcCNW5pX8wfiMLXiAhg/NBKgNwQyJTdW1IpJeAAsI2aE0Zfj8f9fp5qoxukP7pmvKzo25CzMiK6GD5A5E4lLIQKibeqtceJ8YndizDSo3RVocqWhdkXr4hV4cEWCc4jRplsCqw==
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by DBBP189MB1212.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::22) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by CH3PR11MB8752.namprd11.prod.outlook.com (2603:10b6:610:1c2::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.6; Fri, 17 Jul
- 2026 16:01:36 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0245.003; Fri, 17 Jul 2026
- 16:01:36 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
-	<yoann.congal@smile.fr>
-Subject: Re: [scarthgap][PATCH] glibc: stable 2.39 branch updates
-Thread-Topic: [scarthgap][PATCH] glibc: stable 2.39 branch updates
-Thread-Index: AQHdDtF8A43Bdt/8KkOh9rh6x5AAArZx7Siz
-Date: Fri, 17 Jul 2026 16:01:36 +0000
-Message-ID: 
- <DU7PPF66507B2D7CF934D9C435C88A84E13F3C62@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
-References: <20260708120108.73199-1-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260708120108.73199-1-jaipaul.cheernam@est.tech>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU7PPF66507B2D7:EE_|DBBP189MB1212:EE_
-x-ms-office365-filtering-correlation-id: 4072d73e-d5a2-47c7-ec95-08dee41cae2b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|23010399003|18002099003|22082099003|38070700021|3023799007|8096899003|11063799006|10067099003|56012099006;
-x-microsoft-antispam-message-info: 
- 2/xHqibZhQBZ0mCUIMgCdz4GtYQ4/bvP+SmdhYHU3Lx//2a0QQZ2KKVieI5rrt/7Eu4ojZEYE6zrsvmCTJEko3bY69i5iWh6Y2yHJO+sDAEET1qEXjCX3iEsWVa4Rmk52PFcynNu/i5JnIwuW7wjtKwXx8XMDK9cbowbGUp3kuPy0L+HmxUnpnJ9lxEUppBGVAgQ1rfzFNCy0wkQFMIs2cFQRLSJnzRcJnYeN3Y2IayS6bFy7LVNIxW0ldzE16XHgQArF+YrW56xba8qbf81n9vtqpuPJJo4OMJtH/T46qU4dnuHHTTZedGudMy4QncIZygblN9po/O10tcddvKl9+FZU2LnklcbcHSermxlGnV1lmEbwQrJZkcIhO5LXdwgeWqtRX9j6udTfxSXDpXZgxoOWeW9udAljadN5WEgtJyEZCKzKmbFDad3ZC4jJBkBV3WoOejWkCUTM/9GQjtZFqFvZAm6fTnHRPMt0aTVmvfUHmOD626NctSwZVFOZ8AR8iSQxVK6wFOZ3CEGgcP6jGwxvSzsLK0d0QzLAiwuuDIj0IXt3UQuDJR7OEDKKzyNmVjshA+a2DVC84l2z1/yFfRuPAoJkQBL2izyAOoQMSiVc5blOTNi01UggH9Y2008b0fLA2ZypoK7gyY11RtIoTIIHr+oc+s0T7rT0ywnmAOQVy/H+/WN3BN4aH9V+jsP7rPVSXlElgxlipbz9UaXEA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(23010399003)(18002099003)(22082099003)(38070700021)(3023799007)(8096899003)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?9kbuXmu+Z+qvNkE0HadQ2/rVJK/aZTWH07RxcHnIwdl8/s5Vtok0HJqgzO?=
- =?iso-8859-1?Q?ARciAut9FENcCQMGt/ZNiC5DhGd9n2RSyzYBeJMPogWhQozz7bpjzk/Hvl?=
- =?iso-8859-1?Q?bH+fjPWBZAhJ4BMwCgz+3XrbH/JVsdJEPxcPnwTKuyJF+mx+FfdTiN9Af6?=
- =?iso-8859-1?Q?sBLcy4+tro2IKB7sw3eXEDnP3II2ChfZHr3iGgjLZfAQi1i4amW+uGmxzt?=
- =?iso-8859-1?Q?TTI7OUFJZiVqpbQbcm1AzBAAljNzH6BImWuDB2RceMQUs7onlJlKb3/2yI?=
- =?iso-8859-1?Q?ywIEF9wW9pgknrL5yl4je/qgsshiUHONZ9vU5yECYyk0GZ9kcxUl23Pxjk?=
- =?iso-8859-1?Q?txKP35XZNv4/+Z+6+topwMqHBOtDAOUwrZbAoO3vhxYX8y9k7feewn4F7l?=
- =?iso-8859-1?Q?/KQeOfCYeySqzmjGoqoon+IRJ5l5ck+DpHVpTj9yxmfBOQf52FvxB2OljV?=
- =?iso-8859-1?Q?39aiBglGFrms+TjJh/CbDXFkHyGzgenx4URMV+j3vzI0bbwVkfLvwvlCDF?=
- =?iso-8859-1?Q?ceifMzNcfu8Kjfa516/KfmtaOwRjEQpfT/jf187aqQt56FqjmoPIKm/X53?=
- =?iso-8859-1?Q?a35vZbV716UQlYVzFs+EkbknGbQl7+4LXsG4QXQEiEY1sYRwbSuaU39k3y?=
- =?iso-8859-1?Q?ybN75+0/GoQ3TUSPhOq02Vdk+BaR4pWJ6HoMUwqc8OYL8f64xcrTWNmnrC?=
- =?iso-8859-1?Q?7d+oDFNylUz48CsrkjZ40LrrW6/TScTK376jqoIdVVwrjtnVlIB4bbTAyE?=
- =?iso-8859-1?Q?RPXPNdSzySmQsB51/l/0XEp3KURSPdHHID6M/A5GtkTUTNnVlIGdqZ4cTc?=
- =?iso-8859-1?Q?d20lit30O09ijc7urOc0ZA/nxIbQXHSw1epici/WE67vaJRMc2pQ1U2UF3?=
- =?iso-8859-1?Q?n5YNypUR8fOL7lAxV9nQbM9O8UhOQjLyJEdLcfysWRrA+nVqnoZhClWo4c?=
- =?iso-8859-1?Q?04kEDuz5h2ufSysH2XLdE9vSV8hHf//8MfzaOGw/rSEXX3hSbedHF5HZiQ?=
- =?iso-8859-1?Q?KytFHJxGZgWogRnja6RR58+SHPelhcm1UUT2nyhl14p5/s4pR33OzIFKso?=
- =?iso-8859-1?Q?sNNj9RhG3iVlanYLP/h7EYChPJDK4aJwZ5uNNNRKAybtD2IPCt9nV86mb8?=
- =?iso-8859-1?Q?r1GWXlsxeH4XwwMA86CLdk5039qsGR4we/Ckdkg9IWjKtaX8h6jcisZWZF?=
- =?iso-8859-1?Q?3qe9H/jq54HbvxOLb+wdvCjDQV6s29iI+8s0b58ps0iG5CX/AfgffK9JHF?=
- =?iso-8859-1?Q?Zvhpe+VEggXu7l0qkuWX3M2Wl+r+xvIrgkeVISDRLaZSIpJBCbkB5PIs1s?=
- =?iso-8859-1?Q?yougZIvCP+k2Cae1HhwMUdXs8kk4tmAtZ2ofCmnFLUHRDHdWiZx2EAcMxK?=
- =?iso-8859-1?Q?FAMacyfXBcgoR6+KY9y9Se49YO8VwqDbAjVVmytCXT/KdAkpMINkPqN8+K?=
- =?iso-8859-1?Q?8HgWS3hLS08mPT3YVLrSb4QX0qisKyEyey8IqiTFiLV+vD2Jl6hiC2s4Ex?=
- =?iso-8859-1?Q?mT0P9tYFQ+FpBK4V5JXL3zOUuVGvfU8H7XNn38DNaZMpsxwWdc4Su+PdPK?=
- =?iso-8859-1?Q?C+nQsh/R4uor21Tgbowil40/YAb7114hWPcq2QSmxrUyEQLXDQetPF6/u0?=
- =?iso-8859-1?Q?+IECZQ/9cGJ+IeI55PwVYdrBGZjzDxGkcSHzynK5/ezvdD5HgXN7+gkShK?=
- =?iso-8859-1?Q?ZvBG6+KrWv2OY5rwMYCEouLboNZEWK5J+p3Wh+mYGxZ+s4OgwQWuVCkqjA?=
- =?iso-8859-1?Q?gJ8hOfquAajTk6L+1Pc8LZOOiJNU2cBakmutmcASBgVEps6TygFsD0uWQS?=
- =?iso-8859-1?Q?PCYheAFT2EYRB+MRacGePSVyj8RPzyDBJwbLeH04Bc9O9Nf/lQxyZ7hosj?=
- =?iso-8859-1?Q?rg?=
-x-ms-exchange-antispam-messagedata-1: 0o4kQX7RNq7/zw==
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.13; Fri, 17 Jul
+ 2026 16:22:40 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555%4]) with mapi id 15.21.0181.014; Fri, 17 Jul 2026
+ 16:22:39 +0000
 Content-Type: multipart/alternative;
-	boundary="_000_DU7PPF66507B2D7CF934D9C435C88A84E13F3C62DU7PPF66507B2D7_"
+ boundary="------------FCeGmWnE1ZAEB7V80P0edZiJ"
+Message-ID: <daed6c1a-6db7-48cf-94dc-ffd74af4181e@windriver.com>
+Date: Fri, 17 Jul 2026 12:22:37 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v8 0/9] rpm: 4.20.1 -> 6.0.1
+To: mathieu.dubois-briand@bootlin.com,
+        Robert Yang
+ <liezhi.yang@windriver.com>,
+        openembedded-core@lists.openembedded.org,
+        "Gavini, Sumanth" <sumanth.gavini@windriver.com>
+Cc: alex.kanavin@gmail.com, mattware@cisco.com, esparlin@cisco.com,
+        peter.marko@siemens.com
+References: <cover.1773324129.git.liezhi.yang@windriver.com>
+ <DH0XA8PQOXXR.12KPIBAF43RZ3@bootlin.com>
+ <1f50dc21-bf2a-4b2f-9a39-9ef5137f26c6@windriver.com>
+ <189C7BAFC42D9B2E.1443259@lists.openembedded.org>
+ <DH2B7SIOV4KX.3PZ5RW0V6NOSR@bootlin.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <DH2B7SIOV4KX.3PZ5RW0V6NOSR@bootlin.com>
+X-ClientProxiedBy: YT1PR01CA0116.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::25) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|CH3PR11MB8752:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec38aaaa-d9dd-4be3-ec8d-08dee41f9f03
+X-LD-Processed: 8ddb2873-a1ad-4a18-ae4e-4644631433be,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|366016|4022899009|1800799024|23010399003|13003099007|4143699003|11063799006|56012099006|10067099003|22082099003|18002099003|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	iwIzeLugDESkhK6m8lk6/YCSn1q6TgG9F+C5LQZYDQRnu3XKjZU4DcbiqTm8CDuSNJf7YHXhFwDlsbXhF1aN2Vsbkj3B0m0e9FPYTNR6joPqj5RabWKtscHkZddKWZpRWsxkkeDVHsssbIdn9m6iSiJM/8yAbbQTTF+Z3cy8gmLcOL8c821aNRVnDG56ArAlu1dEJNnM3f+Cw68xDuDNL+ZJKycjuip/rRMYwsqE4IiGMYX3s5Nae5rTl1GEAh4wTWdczKYM6WGmJQ1n9QAMbHCMKIXQMwolQ0sbsAzvWZEM1hmiDBtecP64zIwP/Mdxmk3OwRjxMmFQctmsDVkVFT1+qrbHWfo0azKbCJryoZ35gFm9zyxT7GcWN0biTjiVqgLYMVfeV0/QDyvSeHgsqWW2gogY5jF0FxTjxpPtNqudobYd0SX9WUZdE05KYjzXebcKua8C9CvX3bx1Fd7vgZOAmBNt2Q7mni+aiqSxvoI602jArmd8oXUier9N/d9txNB7VNP6UdSNDSdfjmc0/ncpm7ub+O9YLe+7BQQ2d9VY1ctztRJxwYgltrUiM4Q1VYJQEnGCVGFbUu+iMMZXpK/ZIvgcIxq7GAxZkWtWeSY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(4022899009)(1800799024)(23010399003)(13003099007)(4143699003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?SjB5U1drRzZiY1RWMHYvR1ZLSWNqcjI1YlBkWUdCek54bWw0azMzdzBPcVJI?=
+ =?utf-8?B?RGxKWTc0NFh6VjdRd1hkNnJkOVcybisrNmJtaDV3b1dvZGdqSm1vVnpkY1Jy?=
+ =?utf-8?B?R2hvTjYvWi9iVFg5VVh5ZTg3dU5NSlpIbkF1dTc0WlBHYXBSUlNDOVQ5YlJi?=
+ =?utf-8?B?TS9hT3AzMzc3ZjFZMlpPbUx2SG1OV0VpNThFV1Fnc0U4bFFJak4wR25QMVMz?=
+ =?utf-8?B?aHdWTnRJU2N4RzJNc1kvWXgxYnJlQjJaUVIwMFVzN2pobkZVMDRPeVI0T0Jn?=
+ =?utf-8?B?Vzc0aHhSNHpiZXBqNEhjWVUvU0VrUENBU1ZmcFJjeTZ2MVJRSEJ6TVdCbG04?=
+ =?utf-8?B?SGhud3lvcWtpSVRveS9lbFBFNGM3ZUEvZW9OVzZZT3dsU1J4Nllsekx0bVVz?=
+ =?utf-8?B?MmwwdnJJYVpMbWhCSFpybnF4eExpTlFvZk1Md0hkUkdhUittQVRXakp0WG5q?=
+ =?utf-8?B?N1kreC9LcE1TOG1meXMrTFBpbk9sUitGb21lR1I2aG5JQm5qT1lwdHZFam9P?=
+ =?utf-8?B?dWtPeVFueWI4TWN5ZUovV0FncHNjUjdYU0tjb1BHNk1vVmUwYTh1WWtBNUJX?=
+ =?utf-8?B?NkVoUnV1T0tZM1JVaDRTTmVZL2VOUm1OTUxoQmMzck5oakdQRmZUcmpPdFNN?=
+ =?utf-8?B?WGVoRWgxTXdDRytQcUhaYlUwMGIxdFpnaDlEZFJHb2k3R3JVSU1XYk9uTjBO?=
+ =?utf-8?B?b1MxWklsYytjZC9nbThGZGNXRW0xYVFra0VXbmQwd29uR3BjNG1xZUt2STd3?=
+ =?utf-8?B?cmoyWUc1V0hiNUo1M3FvelAxb2pWUzZsNFZMaHdsSERJQmZBTGdKMG9GR2Nl?=
+ =?utf-8?B?RXJoNDkwZW1welJodDBCSFlsU2RKNGhuY2pJaDZDdGdqRTNhb2lWcHpQbHJx?=
+ =?utf-8?B?aFdrQ1Rod0t6VUs0L3BVcWc4ankvUmIwN2xjdkZ0UjBWMEFqdGVCK3Bmc253?=
+ =?utf-8?B?SFhPajh0eHdWa1pvaVM0Vk0wbENBM2JMV3hUVzFnbnpDZnNzMVVzQm9qM21a?=
+ =?utf-8?B?N1Nka0VESGxLYjllNUJ4d2x4V1FEME1UV1JZeXZKWDFYL1Njelc5aDRJS3BH?=
+ =?utf-8?B?UzdLck5EVWNRb0xTaTI1amlsRER2UFVZb1NZN1Z3VTdBT2tHNzFGUGNDQ3BI?=
+ =?utf-8?B?amRNcWZHT0cvOXVjNW1pY1l1OVI5U0hKNERud0YwYTlvRk9NT29JMkdMeUdL?=
+ =?utf-8?B?NzNacHBxd2NjUG8zRElzbmViN1c5V0MwbkVjNlFMTUc2b3hSU3cvNTZWOHZN?=
+ =?utf-8?B?RU02Z2FnSzB3REp6bUJER0MvcWNDVEZycW1sUXdnMFV4eXA5WWtOdzYwVE1j?=
+ =?utf-8?B?cSs1UG5FbEVYQ2UvWC83djFNOVVlT2pmaGNtTjJodXVQOE5yTTN2WGl4WEFV?=
+ =?utf-8?B?MHlKL3p2WERSajAzb0VtZzNYaEdBdTR2WmJ4U21nT09aRWJxbTdxSHpOYmIv?=
+ =?utf-8?B?WE04YXo3ZExsaFRmSUlhL1JwRGlPOFFra0xSOXVuZ3I4UjhRZ21QcWpsWmRl?=
+ =?utf-8?B?U2VLcnBYWUtNSXk4MVRLR1VxRE96VnZPNFpJbmRObmFRMWxLaml3dm5uRk1o?=
+ =?utf-8?B?U2V2ZXRad1RreHcxWkErRkQ2MDFYY1I3RDRpM0hSeG8yS3doZWtCTHJ5S2Jk?=
+ =?utf-8?B?Y1VZRXJaOHN2amNxb2F0M2RoUUgyMVZ1UVpLbDZsbG1peHF2SC96cm40Y1hy?=
+ =?utf-8?B?aTFpc1NhWXpGUFJyZzdOaFMzQ1QwclF5RzBsQnpBOEhkNVlZNFBMQTlrcWYv?=
+ =?utf-8?B?NU01S3VBVkw5N1ViOXpjUEh3cTRwZk41TitUOXNzM0p5Y09TNDVZL0p6Zllk?=
+ =?utf-8?B?YytDVC93SDhvNXpKZkY0dW1UWm51L3dvYy9Xa20yTW9IRElOUjc0UDMwb3Jy?=
+ =?utf-8?B?QjJ2aFB4MGI0ejl6S055TW1EVHRQQzNIY1RCVTNwTm42bWg4MjkzcjVlVlRK?=
+ =?utf-8?B?bU5oWk5oT2k2SlowTG9tbllKT20zZDlmWVdOYlJRYmRNUDdLTE1qK3I4VnFL?=
+ =?utf-8?B?T0ZDUjFhM3ZqWnQwRmYxcVNHNk05QVBwUW5JWjZ3NlY5Qmh3UXRLZkx3aUo4?=
+ =?utf-8?B?cjlyTThEMW56aTRqdHhvcklmNFRHcWpLcU9DdnoyUXJYbzBWdFB0Y2NUczZn?=
+ =?utf-8?B?S1JKVng3eU1lSDNHOHpzQTFqWjVyQjVITmR6YnNsamQ3VUVsZ1FaYUI1SjdF?=
+ =?utf-8?B?eTZwMjBIT1dpSllPWnByR2l4eHV5RU5teTg4YjVyZ1JHRFQwYm5kTWdlQSs3?=
+ =?utf-8?B?dEVPRE5YbTZieWc4eXJXbUgvV0M2WnBIOXg0REo4K1NHWWVCZFpZcUF3NmtW?=
+ =?utf-8?B?Z2pGalpZdjBXUSswd0xFdjdURXczdjFHRnAxNE1yTXdqRnJiSjVNVmlPMWZl?=
+ =?utf-8?Q?70HB2535uEd2AqeY=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	TsFBDJMhMNVOvCL7WSP8O44PMyd9UzRA5k5u2k19/aO4XK7v12V0flf/ZudvRzi+4Qo5cF4PnTJFsIKnPTEslt6xk7w0axpQ7j9M8MzUdolgsGVhLpSj9Vm2rmKro6wQL1whhjBjl4Q8FBRKCzVF2jUyjUJfPbZa14jiiBusL8GOUIXbxaAfxYnqX/dcHSDEd2V8/8zUuYgMQAxNsU291bwqMk1ece0RdgDp/ofkwiEEXjXP9cdRmTNvm2uJ3WCO9BFDqCEPAC5qv4JUov1aKqDhHi3SLyd5HweiCiv6quTOH109ksxZwXGua+rmsH+3HMwh1IfUITrhrPr39ick5Q==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec38aaaa-d9dd-4be3-ec8d-08dee41f9f03
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4072d73e-d5a2-47c7-ec95-08dee41cae2b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2026 16:01:36.5396
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 16:22:39.8370
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QzNZQjD3QsDH8rnsfZNhAPr5bqZtjnmVQ5R+NbPHrfBkBonvSgRimvvoVoehj/DuLf5x+SSefqID5s6z4bkHFm3auuTSvTGRX7smaHPRB6c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBP189MB1212
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jo4ah8HUjbYziVQbd78wBNLiRFkOErurMcHFMOHDlVfJ76ZQSRfGT0H0LvhlTYVoK10wvN3iH7W1V2z0+AC9Wg9kqEf/A+2zb6oupzC5lsE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8752
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=eYQNubEH c=1 sm=1 tr=0 ts=6a5a56d7 cx=c_pps
+ a=xAoCywwWBQ/pNZbveyboNg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8
+ a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=neLBuZkd3ITohzi8UGEA:9
+ a=QEXdDO2ut3YA:10 a=P-IC7800AAAA:8 a=r6-ERZ6UWyl8cCneKWsA:9
+ a=qwMPqfJ5lc6bRvwJ:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-ORIG-GUID: BOYWTGvAUH-OLOgAzUedjPcTly3eEwuy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDE2NyBTYWx0ZWRfXz5X6pA6MYXvo
+ xM5iRX//gja18VMVZsx0N19OXqD68uUXYUPULsZ0aNvbmeHG/lldQwns/RUzSUqqzPUchdEYenG
+ 1k3+vMmae5eJLw20Lbfge0yghR9pI/N6CVdl8rh9GbAkyh3r4E/Um/Qerh5imyPVyVb9y1PJpgW
+ Nd34wtPKcS8W/WrLJSBT8H0yBIdDoDV8uE2znz1p7XoXciXfRVO+1+5rQmM5T79z1YdFGMS/qGX
+ gDyAi0dJkKmSDh6XCIxKWe49+3lkOoob7WdNe1tmx1WFGZFr7dLfYp+9mkp/pFa1qqCyP/f3PBx
+ kEgu7JbYWbnF7dtUtPRFFKZnl0tNOLBhwYuztLwszUFI/f9brD0R57G2r/oA9e9zmyKutRp80Rc
+ PiEr4gBd2z1WQ//5hbPNdLBkbmuB90Gr8RS/IvSOKSMM6jMMwBf3V8tzSThqLATERScfK/dG4y6
+ Jkyn55aP5fWYqdi4vpg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDE2NyBTYWx0ZWRfX1Ysc/RKmvxOj
+ KQD3jX7R52RLRQ538cwVTBl/RN10nd/XgECM5eRs6mEin0xVhCyKRYLEi1jK7s1bpwjTsqdy/5d
+ Lf2M6O3C1ZgT6DMm9WmN4q0bfIJ8lXGankbNZYxIvxk2jQwWeIJL
+X-Proofpoint-GUID: cUPL6A4FmsBC7FRVfnSrUozqUdBCnQF6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-17_04,2026-07-17_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607170167
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 16:01:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241215
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 16:22:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241216
 
---_000_DU7PPF66507B2D7CF934D9C435C88A84E13F3C62DU7PPF66507B2D7_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+--------------FCeGmWnE1ZAEB7V80P0edZiJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi Everyone,
 
-Hi Yoann,
-
-May I know did you get a chance to review this patch and another patch for =
-glibc from me ?
-
-Regards,
-Jaipaul
-
-________________________________
-From: Jaipaul Cheernam
-Sent: Wednesday, July 8, 2026 2:01 PM
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Cc: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [scarthgap][PATCH] glibc: stable 2.39 branch updates
-
-git log --oneline ce65d944e38a20cb70af2a48a4b8aa5d8fabe1cc..be1e627cd72db31=
-161a3b4ce1c8114674f0895eb
-be1e627cd7 Linux: Only define OPEN_TREE_* macros in <sys/mount.h> if undefi=
-ned (bug 33921)
-98bc06a361 include: isolate __O_CLOEXEC flag for sys/mount.h and fcntl.h
-3e13579841 Use pending character state in IBM1390, IBM1399 character sets (=
-CVE-2026-4046)
-0dc95ae109 elf: parse /proc/self/maps as the last resort to find the gap fo=
-r tst-link-map-contiguous-ldso
-9344c796f7 resolv: Check hostname for validity (CVE-2026-4438)
-5663ab0b83 resolv: Count records correctly (CVE-2026-4437)
-c53cd6e738 posix: Run tst-wordexp-reuse-mem test
-2760e4c5ed iconvdata: Fix invalid pointer arithmetic in ANSI_X3.110 module
-ba29a36aa3 posix: Fix invalid flags test for p{write,read}v2
-60b039bf6a socket: Add new test for shutdown
-
-Testing Results:
-             Before    After    Diff
-PASS         4892      4896     +4
-XPASS        4         4         0
-FAIL         371       372      +1
-XFAIL        16        16        0
-UNSUPPORTED  224       224       0
-
-Changes in testcases:
-
-testcase-name                                before  after
-posix/tst-wordexp-reuse-mem(new)               -     PASS (native)
-
-[Note: posix/tst-wordexp-reuse-mem is a new test added by this uplift
-(c53cd6e738). It fails under QEMU user-mode because the test-wrapper
-cannot support LD_PRELOAD and MALLOC_TRACE needed for mtrace. Running
-natively with LD_PRELOAD=3Dlibc_malloc_debug.so confirms the test passes
-with no memory leaks.
-
-nptl/tst-getpid3 is a flaky test under QEMU user-mode (passes 7/10
-re-runs). No nptl code was changed in this uplift.]
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- meta/recipes-core/glibc/glibc_2.39.bb     | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
-glibc/glibc-version.inc
-index 03a8e5d01e..5d57dafed0 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?=3D "release/2.39/master"
- PV =3D "2.39+git"
--SRCREV_glibc ?=3D "ce65d944e38a20cb70af2a48a4b8aa5d8fabe1cc"
-+SRCREV_glibc ?=3D "be1e627cd72db31161a3b4ce1c8114674f0895eb"
- SRCREV_localedef ?=3D "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
-
- GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glib=
-c/glibc_2.39.bb
-index 7958d64eed..f6be1b5fc9 100644
---- a/meta/recipes-core/glibc/glibc_2.39.bb
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -18,7 +18,8 @@ easier access for another. 'ASLR bypass itself is not a v=
-ulnerability.'"
-
- CVE_STATUS_GROUPS +=3D "CVE_STATUS_STABLE_BACKPORTS"
- CVE_STATUS_STABLE_BACKPORTS =3D "CVE-2024-2961 CVE-2024-33599 CVE-2024-336=
-00 CVE-2024-33601 CVE-2024-33602 CVE-2025-0395 \
--    CVE-2025-4802 CVE-2025-5702 CVE-2025-8058 CVE-2025-15281 CVE-2026-0861=
- CVE-2026-0915"
-+    CVE-2025-4802 CVE-2025-5702 CVE-2025-8058 CVE-2025-15281 CVE-2026-0861=
- CVE-2026-0915 \
-+    CVE-2026-4046 CVE-2026-4437 CVE-2026-4438"
- CVE_STATUS_STABLE_BACKPORTS[status] =3D "cpe-stable-backport: fix availabl=
-e in used git hash"
-
- DEPENDS +=3D "gperf-native bison-native"
---
-2.34.1
+Sumanth (CCed) has joined Wind River and will pick up where Robert left 
+off unless someone has
+things underway already. Sumanth doesn't have Robert's deep knowledge of 
+rpm but
+he is an experienced developer and will make this a top priority 
+immediately.
 
 
---_000_DU7PPF66507B2D7CF934D9C435C88A84E13F3C62DU7PPF66507B2D7_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+The first step will be to refresh the patchset locally without changing 
+much but then
+he'll update to either 6.0.2 or 6.1-rc2. What do people advise for the 
+version?
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-</head>
-<body>
-<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
-kground-color: transparent;">
-</div>
-<br>
-<div>Hi Yoann,&nbsp;</div>
-<div><br>
-</div>
-<div>May I know did you get a chance to review this patch and another patch=
- for glibc from me ?&nbsp;</div>
-<div><br>
-</div>
-<div id=3D"editor-signature">
-<div>
-<div style=3D"font-family:Aptos,&quot;Aptos_EmbeddedFont&quot;,&quot;Aptos_=
-MSFontService&quot;,Calibri,Helvetica,sans-serif; font-size:12pt; color:rgb=
-(0,0,0)">
-Regards,</div>
-<div style=3D"font-family:Aptos,&quot;Aptos_EmbeddedFont&quot;,&quot;Aptos_=
-MSFontService&quot;,Calibri,Helvetica,sans-serif; font-size:12pt; color:rgb=
-(0,0,0)">
-Jaipaul</div>
-</div>
-</div>
-<div></div>
-<br>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Jaipaul Cheernam<br>
-<b>Sent:</b> Wednesday, July 8, 2026 2:01 PM<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Cc:</b> Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
-<b>Subject:</b> [scarthgap][PATCH] glibc: stable 2.39 branch updates</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">git log --oneline ce65d944e38a20cb70af2a48a4b8aa5d=
-8fabe1cc..be1e627cd72db31161a3b4ce1c8114674f0895eb<br>
-be1e627cd7 Linux: Only define OPEN_TREE_* macros in &lt;sys/mount.h&gt; if =
-undefined (bug 33921)<br>
-98bc06a361 include: isolate __O_CLOEXEC flag for sys/mount.h and fcntl.h<br=
+../Randy
+
+
+On 2026-03-14 03:00, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+> On Fri Mar 13, 2026 at 7:58 PM CET, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+>> On Fri Mar 13, 2026 at 5:54 AM CET, Robert Yang wrote:
+>>> Hi Mathieu,
+>>>
+>>> On 3/12/26 23:52, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+>>>> On Thu Mar 12, 2026 at 3:09 PM CET, liezhi.yang wrote:
+>>>>> From: Robert Yang<liezhi.yang@windriver.com>
+>>>>>
+>>>>> * V8:
+>>>>>     - Fix build with systemd (Check patch 7 for detailes)
+>>>>>     - Make rpmbuild can find the pkgconfig (.pc) files in /usr/share/pkgconfig
+>>>>>       (Check patch 7 for detailes)
+>>>>>     - Backport a PULL from git/libarchive to fix oe-selftest failures.
+>>>>>
+>>>>> * V7:
+>>>>>     - Add 0001-scripts-pkgconfigdeps.sh-Use-pkg-config-from-PATH.patch:
+>>>>>       To fix "bitbake core-image-sato -cpopulate_sdk" error on Ubuntu 24.04 when
+>>>>>       pkg-config is installed on host, now the host contamination has been fixed,
+>>>>>       and the patch has been submitted to upstream:
+>>>>>       https://github.com/rpm-software-management/rpm/pull/4127
+>>>>>
+>>>>> * V6
+>>>>>     - Fix -cpopulate_sdk error when DISTRO = "poky"
+>>>>>
+>>>>> * V5
+>>>>>     - Fix RP's comments: Don't hardcode libc6 into package_rpm.bbclass
+>>>>>     - Use SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} to fix the loop dependencies
+>>>>>       between /bin/sh and libc.so.
+>>>>>
+>>>>> * V4
+>>>>>     - Fix loop dependencies issues for libc6 and busybox
+>>>>>     - Fix issues for can't find pkg-config files (.pc) on qemux86-64.
+>>>>>
+>>>>> * V3
+>>>>>     - Fix Alexender's comments
+>>>>>       a) Suppot rpm 6
+>>>>>       b) Move rpm-setup-autosign to rpm-build
+>>>>>       c) Remove -DLIBELF_FOUND=False
+>>>>>
+>>>>>     - Fix build for nativesdk-rpm
+>>>>>
+>>>>>     - Drop patch for createrepo-c since it has been upgraded (rev:
+>>>>>       804a238c8a4e86c2bcfb2192d54cb861d5fd32a6)
+>>>>>
+>>>>> * V1 & V2
+>>>>>     - Initial version
+>>>>>
+>>>>> // Robert
+>>>>>
+>>>> Hi Robert,
+>>>>
+>>>> Thanks for the new version.
+>>>>
+>>>> I suspect I still need to get some gettext patch with it. Either yours
+>>>> or the one from the glibc upgrade series. Is that right?
+>>> I think you meat the following oe-selftest error:
+>>>
+>>> ERROR: glib-2.0-1_2.86.4-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on
+>>> locale-base-c, but it isn't a build dependency? [build-deps]
+>>>
+>>>
+>>> I can reproduce it with pure master branch: (rev:
+>>> 438afb3ded629408172c4bd7d556c5d2abacd631)
+>>> PACKAGE_CLASSES = "package_rpm"
+>>> OE_FRAGMENTS += 'core/yocto-autobuilder/autobuilder'
+>>> MACHINE = 'qemux86-64'
+>>>
+>>> IMAGE_INSTALL:append = " glibc-utils localedef"
+>>> GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8 en_US.ISO-8859-1 de_DE.UTF-8
+>>> fr_FR.ISO-8859-1 zh_HK.BIG5-HKSCS tr_TR.UTF-8"
+>>> IMAGE_LINGUAS:append = " en-us fr-fr"
+>>>
+>>> $ bitbake glibc-2.0
+>>>
+>>> So I don't think it's caused by rpm 6 or gettext upgrading, and we don't need
+>>> other patches.
+>>>
+>>> I will check how to fix the glib-2.0 issues, but it's not related to rpm 6.
+>>>
+>>> // Robert
+>>>
+>> Hi Robert,
+>>
+>> So yes, I have this issue, and I'm not having it without your series:
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3399
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3290
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3517
+>>
+>> And some reproducibility error:
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3579
+>>
+>> I will try to build just your series on top of master and compare with
+>> master. Maybe some strange combination with the glibc upgrade.
+>>
+> Ok, so here is an a-full build with RPM patches applied directly on top
+> of master: we have the same issues as yesterday:
 >
-3e13579841 Use pending character state in IBM1390, IBM1399 character sets (=
-CVE-2026-4046)<br>
-0dc95ae109 elf: parse /proc/self/maps as the last resort to find the gap fo=
-r tst-link-map-contiguous-ldso<br>
-9344c796f7 resolv: Check hostname for validity (CVE-2026-4438)<br>
-5663ab0b83 resolv: Count records correctly (CVE-2026-4437)<br>
-c53cd6e738 posix: Run tst-wordexp-reuse-mem test<br>
-2760e4c5ed iconvdata: Fix invalid pointer arithmetic in ANSI_X3.110 module<=
-br>
-ba29a36aa3 posix: Fix invalid flags test for p{write,read}v2<br>
-60b039bf6a socket: Add new test for shutdown<br>
-<br>
-Testing Results:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Be=
-fore&nbsp;&nbsp;&nbsp; After&nbsp;&nbsp;&nbsp; Diff<br>
-PASS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4892&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp; 4896&nbsp;&nbsp;&nbsp;&nbsp; +4<br>
-XPASS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0<=
-br>
-FAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 371&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; 372&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +1<br>
-XFAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 16&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; 16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0<br>
-UNSUPPORTED&nbsp; 224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 224&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; 0<br>
-<br>
-Changes in testcases:<br>
-<br>
-testcase-name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before&nbsp; after<br>
-posix/tst-wordexp-reuse-mem(new)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp;&nbsp; PASS (n=
-ative)<br>
-<br>
-[Note: posix/tst-wordexp-reuse-mem is a new test added by this uplift<br>
-(c53cd6e738). It fails under QEMU user-mode because the test-wrapper<br>
-cannot support LD_PRELOAD and MALLOC_TRACE needed for mtrace. Running<br>
-natively with LD_PRELOAD=3Dlibc_malloc_debug.so confirms the test passes<br=
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3410
 >
-with no memory leaks.<br>
-<br>
-nptl/tst-getpid3 is a flaky test under QEMU user-mode (passes 7/10<br>
-re-runs). No nptl code was changed in this uplift.]<br>
-<br>
-Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
----<br>
-&nbsp;meta/recipes-core/glibc/glibc-version.inc | 2 +-<br>
-&nbsp;meta/recipes-core/glibc/glibc_2.39.bb&nbsp;&nbsp;&nbsp;&nbsp; | 3 ++-=
-<br>
-&nbsp;2 files changed, 3 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
-glibc/glibc-version.inc<br>
-index 03a8e5d01e..5d57dafed0 100644<br>
---- a/meta/recipes-core/glibc/glibc-version.inc<br>
-+++ b/meta/recipes-core/glibc/glibc-version.inc<br>
-@@ -1,6 +1,6 @@<br>
-&nbsp;SRCBRANCH ?=3D &quot;release/2.39/master&quot;<br>
-&nbsp;PV =3D &quot;2.39+git&quot;<br>
--SRCREV_glibc ?=3D &quot;ce65d944e38a20cb70af2a48a4b8aa5d8fabe1cc&quot;<br>
-+SRCREV_glibc ?=3D &quot;be1e627cd72db31161a3b4ce1c8114674f0895eb&quot;<br>
-&nbsp;SRCREV_localedef ?=3D &quot;cba02c503d7c853a38ccfb83c57e343ca5ecd7e5&=
-quot;<br>
-&nbsp;<br>
-&nbsp;GLIBC_GIT_URI ?=3D &quot;git://sourceware.org/git/glibc.git;protocol=
-=3Dhttps&quot;<br>
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glib=
-c/glibc_2.39.bb<br>
-index 7958d64eed..f6be1b5fc9 100644<br>
---- a/meta/recipes-core/glibc/glibc_2.39.bb<br>
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb<br>
-@@ -18,7 +18,8 @@ easier access for another. 'ASLR bypass itself is not a v=
-ulnerability.'&quot;<br>
-&nbsp;<br>
-&nbsp;CVE_STATUS_GROUPS +=3D &quot;CVE_STATUS_STABLE_BACKPORTS&quot;<br>
-&nbsp;CVE_STATUS_STABLE_BACKPORTS =3D &quot;CVE-2024-2961 CVE-2024-33599 CV=
-E-2024-33600 CVE-2024-33601 CVE-2024-33602 CVE-2025-0395 \<br>
--&nbsp;&nbsp;&nbsp; CVE-2025-4802 CVE-2025-5702 CVE-2025-8058 CVE-2025-1528=
-1 CVE-2026-0861 CVE-2026-0915&quot;<br>
-+&nbsp;&nbsp;&nbsp; CVE-2025-4802 CVE-2025-5702 CVE-2025-8058 CVE-2025-1528=
-1 CVE-2026-0861 CVE-2026-0915 \<br>
-+&nbsp;&nbsp;&nbsp; CVE-2026-4046 CVE-2026-4437 CVE-2026-4438&quot;<br>
-&nbsp;CVE_STATUS_STABLE_BACKPORTS[status] =3D &quot;cpe-stable-backport: fi=
-x available in used git hash&quot;<br>
-&nbsp;<br>
-&nbsp;DEPENDS +=3D &quot;gperf-native bison-native&quot;<br>
--- <br>
-2.34.1<br>
-<br>
-</div>
-</span></font></div>
-</body>
+> selftests:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3526
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3420
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3298
+>
+> reproducible:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3592
+>
+> By comparison, here is an a-full build on master:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3414
+>
+> I there any test I can do to help you?
+>
+> Thanks,
+> Mathieu
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#233072):https://lists.openembedded.org/g/openembedded-core/message/233072
+> Mute This Topic:https://lists.openembedded.org/mt/118279443/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
+--------------FCeGmWnE1ZAEB7V80P0edZiJ
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <head>
+
+    
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Hi Everyone,<br>
+      <br>
+    </div>
+    <div class="moz-cite-prefix">Sumanth (CCed) has joined Wind River
+      and will pick up where Robert left off unless someone has<br>
+      things underway already. Sumanth doesn't have Robert's deep
+      knowledge of rpm but&nbsp;<br>
+      he is an experienced developer and will make this a top priority
+      immediately.<br>
+      <br>
+      <br>
+      The first step will be to refresh the patchset locally without
+      changing much but then&nbsp;<br>
+      he'll update to either 6.0.2 or 6.1-rc2. What do people advise for
+      the version?<br>
+      <br>
+      ../Randy</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">On 2026-03-14 03:00, Mathieu
+      Dubois-Briand via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:DH2B7SIOV4KX.3PZ5RW0V6NOSR@bootlin.com">
+      <pre wrap="" class="moz-quote-pre">On Fri Mar 13, 2026 at 7:58 PM CET, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">On Fri Mar 13, 2026 at 5:54 AM CET, Robert Yang wrote:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">Hi Mathieu,
+
+On 3/12/26 23:52, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+</pre>
+          <blockquote type="cite">
+            <pre wrap="" class="moz-quote-pre">On Thu Mar 12, 2026 at 3:09 PM CET, liezhi.yang wrote:
+</pre>
+            <blockquote type="cite">
+              <pre wrap="" class="moz-quote-pre">From: Robert Yang <a class="moz-txt-link-rfc2396E" href="mailto:liezhi.yang@windriver.com">&lt;liezhi.yang@windriver.com&gt;</a>
+
+* V8:
+   - Fix build with systemd (Check patch 7 for detailes)
+   - Make rpmbuild can find the pkgconfig (.pc) files in /usr/share/pkgconfig
+     (Check patch 7 for detailes)
+   - Backport a PULL from git/libarchive to fix oe-selftest failures.
+
+* V7:
+   - Add 0001-scripts-pkgconfigdeps.sh-Use-pkg-config-from-PATH.patch:
+     To fix &quot;bitbake core-image-sato -cpopulate_sdk&quot; error on Ubuntu 24.04 when
+     pkg-config is installed on host, now the host contamination has been fixed,
+     and the patch has been submitted to upstream:
+     <a class="moz-txt-link-freetext" href="https://github.com/rpm-software-management/rpm/pull/4127">https://github.com/rpm-software-management/rpm/pull/4127</a>
+
+* V6
+   - Fix -cpopulate_sdk error when DISTRO = &quot;poky&quot;
+
+* V5
+   - Fix RP's comments: Don't hardcode libc6 into package_rpm.bbclass
+   - Use SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} to fix the loop dependencies
+     between /bin/sh and libc.so.
+
+* V4
+   - Fix loop dependencies issues for libc6 and busybox
+   - Fix issues for can't find pkg-config files (.pc) on qemux86-64.
+
+* V3
+   - Fix Alexender's comments
+     a) Suppot rpm 6
+     b) Move rpm-setup-autosign to rpm-build
+     c) Remove -DLIBELF_FOUND=False
+
+   - Fix build for nativesdk-rpm
+
+   - Drop patch for createrepo-c since it has been upgraded (rev:
+     804a238c8a4e86c2bcfb2192d54cb861d5fd32a6)
+
+* V1 &amp; V2
+   - Initial version
+
+// Robert
+
+</pre>
+            </blockquote>
+            <pre wrap="" class="moz-quote-pre">Hi Robert,
+
+Thanks for the new version.
+
+I suspect I still need to get some gettext patch with it. Either yours
+or the one from the glibc upgrade series. Is that right?
+</pre>
+          </blockquote>
+          <pre wrap="" class="moz-quote-pre">I think you meat the following oe-selftest error:
+
+ERROR: glib-2.0-1_2.86.4-r0 do_package_qa: QA Issue: glib-2.0-ptest rdepends on 
+locale-base-c, but it isn't a build dependency? [build-deps]
+
+
+I can reproduce it with pure master branch: (rev: 
+438afb3ded629408172c4bd7d556c5d2abacd631)
+PACKAGE_CLASSES = &quot;package_rpm&quot;
+OE_FRAGMENTS += 'core/yocto-autobuilder/autobuilder'
+MACHINE = 'qemux86-64'
+
+IMAGE_INSTALL:append = &quot; glibc-utils localedef&quot;
+GLIBC_GENERATE_LOCALES = &quot;en_US.UTF-8 fr_FR.UTF-8 en_US.ISO-8859-1 de_DE.UTF-8 
+fr_FR.ISO-8859-1 zh_HK.BIG5-HKSCS tr_TR.UTF-8&quot;
+IMAGE_LINGUAS:append = &quot; en-us fr-fr&quot;
+
+$ bitbake glibc-2.0
+
+So I don't think it's caused by rpm 6 or gettext upgrading, and we don't need
+other patches.
+
+I will check how to fix the glib-2.0 issues, but it's not related to rpm 6.
+
+// Robert
+
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">Hi Robert,
+
+So yes, I have this issue, and I'm not having it without your series:
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3399">https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3399</a>
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3290">https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3290</a>
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3517">https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3517</a>
+
+And some reproducibility error:
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3579">https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3579</a>
+
+I will try to build just your series on top of master and compare with
+master. Maybe some strange combination with the glibc upgrade.
+
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">Ok, so here is an a-full build with RPM patches applied directly on top
+of master: we have the same issues as yesterday:
+
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3410">https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3410</a>
+
+selftests:
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3526">https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3526</a>
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3420">https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3420</a>
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3298">https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3298</a>
+
+reproducible:
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3592">https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3592</a>
+
+By comparison, here is an a-full build on master:
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3414">https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3414</a>
+
+I there any test I can do to help you?
+
+Thanks,
+Mathieu
+
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre wrap="" class="moz-quote-pre">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#233072): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/233072">https://lists.openembedded.org/g/openembedded-core/message/233072</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/118279443/3616765">https://lists.openembedded.org/mt/118279443/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
 </html>
 
---_000_DU7PPF66507B2D7CF934D9C435C88A84E13F3C62DU7PPF66507B2D7_--
+--------------FCeGmWnE1ZAEB7V80P0edZiJ--
 
