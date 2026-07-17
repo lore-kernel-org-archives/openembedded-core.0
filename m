@@ -1,162 +1,143 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04799C4451B
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 15:05:27 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.51.1784300722502946344
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A9DDC4451C
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 15:23:27 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.425.1784301802611227199
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 08:05:22 -0700
+ Fri, 17 Jul 2026 08:23:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=dHpEWDz9;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4a46a53abc9so2917109b6e.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 08:05:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784300722; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mZcax3vxok59Gw1+24UiJlY8pHLxJs/f6URbLxqXBKfQXcVU2O0W16OUkAd+9yS85Q
-         QxlYvzjRUhdZLON6me8Ym0f6FYzWiMg7/BknU01uOK4RfM85L2rF1lFry81KP3l8Bdv9
-         RbQ9aOgBk/Tg/c0fdIWgrkFrmXF0FkuAvDgly1nQaBrTxIFfsGOg28jCzW0KOsywC+ZR
-         DoFPqUZgHfm55/TdJd1xCkYXC3g3DWMKA7yKMyyHnNOI5qqGPrg5EFKHUsuKDCCRW/XS
-         2LXFh9BX+ga3dZqO1rWgq13HoV26wlFF7ryELyoTqUwGrwWX2M+H1W+0KPQhOgDGKz6Q
-         PwNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZuUtoUCPognh56f8SUr+mgRP4U8IyM3+UYUZKnfa+ng=;
-        fh=rdKmjCQKNQNb8apMRFYA9kwA8M3ChUWLa1NIBv1xMgc=;
-        b=c5/av+LctMJHa51tpT4idfaHQBXlKdZ3MJKKk0WumYAPBpSaWJIMt9/lsN02RVjNyA
-         WD3Cn4pxT57op1KYzemu+F/hs8yo6H9zBOYOcKNLyPX6xd7NBqR9zoyu2YXaqa27dDUn
-         uOtn5rHmGob7chLn5SuOL9AzOi1NuACSaZr1TqRFcfuHu19DVZKV3vzKH7ImUJC0KKnv
-         KRPpWcriFFLLXMogasHcq/Uz7PsuIsd5DUDSijOqoJ1zNcrLTTrhCH039TR0JL+0wAcQ
-         TOoz5Mx6sM1PJ7YHLHw6Gj3zZe1aw5YeUKkdSPqQkQheEvqFQrYd7TautrnPu7qkGx4E
-         ZHRA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=HQ6ZesHN;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4720d22c94aso5121256f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 08:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784300722; x=1784905522; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZuUtoUCPognh56f8SUr+mgRP4U8IyM3+UYUZKnfa+ng=;
-        b=dHpEWDz9rLE6G6I+q6NJ25Vg6cYv0rkTY0Wdefw+wBWbh6qYBKKF5oml9XNoYV4xas
-         xzlzHyhYY2Pzx09/5sTl4QnuQaT9fi443ZMHgr9XjPUH5mdPlM0RI6ewrJiZlcwfpMhg
-         XzW7tyPCJPAe14I9n6dBTP9Kb2Fv+J1pBA1t5j2Qj0gBlQdny0h2Q0oWwgRtzVh9L++i
-         3dzEvYDB4AI0n6ZXBKkLef383xV/zy/srwTJgMkFUIsB/AYAqeMmSgDupZt/DR5cXllP
-         0D4wgFAduSIAgMFtX96YdQDl9IXnlIP1HDEEUG8rjHYIqwzGBAn8TRj+5S/ej+LNoVgF
-         tN+Q==
+        d=smile.fr; s=google; t=1784301801; x=1784906601; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uZglh1xHJPcHt3k/RsmeMTPy0kecnYPMfYx3l3kggjw=;
+        b=HQ6ZesHNK9LUW/pfc2ftuMNfI5UKh63Qhpod/HLouvKo7LxPxo9AkNDnTcOWazSJN+
+         t0+6QvroXCIBaU0dJ0zOyNSKZCUBtGW1BFhe6qPZKo42lVPMEewcdHHKUl1z+ol48Rb/
+         v3DmyuFPNm+ujHzP2TPXRRxMaXyYAe7oC711I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784300722; x=1784905522;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZuUtoUCPognh56f8SUr+mgRP4U8IyM3+UYUZKnfa+ng=;
-        b=BGVoK+uUMOb9eq8XYw7a4x8v8kKrhpg5PKDGN7vcbWHFn4ZpK/9j7TYqf/UQYjw9sQ
-         STwi39uvFHyW8/vZZvPB5MH25mhwan2FHOlhKRNHse2zPrAe6VLbgQJrLzAbsgjGitSX
-         GY0azn/3cMeueK+utA9+pbzlX47J5SbCheSb1YTRB7Li1DkIhEojKMpu1GtIARitdgbb
-         EaWFMV4wHgCOYcK49xmncrqBLarW67z/2K60DuavjgC2WbN/PP0W66c5p0GwM5WBdkZO
-         a9AD5pLCkxTgUXBWrQKpH77FMuTyFcQ1EUbCEJv0s4FVs+sgEz8dG1B3bfsraTZIHx5f
-         DqwQ==
-X-Gm-Message-State: AOJu0Ywx3EBFBqIAyxTj+9cK6e2QuuSEmJlvhCSUJLWCacKYKekWb8Vu
-	cMmw1VXBmR5m4YVh3nVoIBoppp+VRJ2GUU5lePek+cSwHmjBUGSHflEzms26D1QkEcStWQdENJF
-	/B7b495MDlAIco5v4qLUvK1tw3/jvoeq5Vg==
-X-Gm-Gg: AfdE7ckKxtAmciFmx5xPAc7SDDkO/3gIbiF3w9gVw++H3TwAV2n59WOQ5PFkewsPAKH
-	1Q5bVwpcC4hc8jCO7Fx6oZFj33hojLE2xYC9fjonTp/hOal1LpxlmCa3j4ASIWBWpZ4ypiG7CrJ
-	HBjAlT4QDIVAaIDBhiKnmByo1yNvSqx81iU6BXAddHYOTYZMFFtXxsPbBEexxeD0f//ndW9teFP
-	9cJN1w4D+yS/fQfo9XBDCrUmUpTnxFVnZGPu62CJnscx2MS4gpEwSwAlnvJyQClL80UlGpUW+Sg
-	wn/OINGHbvsrq/SDf9ga
-X-Received: by 2002:a53:dcd2:0:b0:664:dbfc:e46d with SMTP id
- 956f58d0204a3-6683bba41e5mr643667d50.35.1784300624450; Fri, 17 Jul 2026
- 08:03:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <87bjc5svql.fsf@prevas.dk>
-In-Reply-To: <87bjc5svql.fsf@prevas.dk>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 17 Jul 2026 17:03:32 +0200
-X-Gm-Features: AUfX_mxxoBPRcRJAube8q4rvl9ZgEmcmHix6qxl933Y-Pkb9An8x2_ozwRd2WDs
-Message-ID: <CANNYZj_mOTsggRo6ORQHwrLxNShTmiEa6XV9JCmoqzz3SjuwNg@mail.gmail.com>
-Subject: Re: [OE-core] PACKAGE_EXCLUDE_COMPLEMENTARY question
-To: rasmus.villemoes@prevas.dk
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20251104; t=1784301801; x=1784906601;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uZglh1xHJPcHt3k/RsmeMTPy0kecnYPMfYx3l3kggjw=;
+        b=EP8yTky9+qz9GZEweQpxy9ik5jio5Lr0m6c/JAi3RzTENtaG0GSlCnwW35rF+jBZiX
+         F1+m327doPpM+XkUMBRJeDcYAJ6iBW1IBWTND8BkyYx5EJH8XzpF4vAnkhpKQk94Mc0t
+         YFuXfeKlqhp4hGw+CSF//JrVFbrvcg+jK/EBbb7YzT+wE9LS2tZgRckPY2U3cNaCWaqZ
+         3K8h1n4NkuHAlGuXB5Ot2jrGCzsW/CzeShUvAMh3lvJc1BCUbylTYYw64xxCpAhZ8aKU
+         szYZfrFBzyijkl7dzdyFjAzPfsmT9XU+4p+4IpX6EpH6HNnGwuq/acPqdKb7epRYzfHc
+         pmkg==
+X-Forwarded-Encrypted: i=1; AHgh+RrCT4oIHb5p9oIrrXvgVJP0KlonIDJECVR9Oo79jHHmDwZv/gjkccEGri7Au/xHxna+a2CYxwi5TLBU7jDdLRzO8w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxD4pZ+7ySil/kUYStbCC2OMh8MKP8nc3CPjqq0jWQ4+UxNe3vh
+	CKnR3jZm2r3URyvNfJb9T2J2My55WKrvfoojcH57YLW9DScOymmHIF5HBWz4HlTBajg=
+X-Gm-Gg: AfdE7ckVJKIX71pN3Kssia/6wwoiD8ItisxBTcdwZvp+U5jekfgTuwSth/Y1KnJl+3Z
+	k3WLK2T4Pj893+CMdklxMAvHzwj1JU5LmR2sZkUMuT+HC12kN0M3ZHhX4dP1XX38nqSgy6oKSN+
+	Dd73ESo2I5aJzgc3tUonS9LF7MEF+zcllbeyrLtIz4SZtsQGULKjTco3GVuo4QSsyyCuxaRsQpv
+	vyaeAM555btQll87e9jTjhYph6A8A/ozGkIzX1oo7ZgCyX1vuNA3EoSvmXutQxOLIsDOoqvcmah
+	R4k/dOA0Q6cdcvG+qo+9por+MaWWcqGzsjGRPeZ+/dZ6e5hYImvchBP3ADWK0WBGF1UX8fj67rK
+	XcliTHTj99EL4K7p5kOjIj/J5QqaDdLec8T8LEHLd2ieMkgv5XO0WMSbgFdme72JbGm+DVJZAiD
+	j7YI2IgokDO63h54Ucp5N4bGdi+UDCeDOd6ZoIbtcUZZPRyGjz7JKbrZMDMJ+pr09dG5EAMUlny
+	/J45A==
+X-Received: by 2002:a05:6000:2f85:b0:47e:693d:6cca with SMTP id ffacd0b85a97d-47f623225a6mr4105418f8f.42.1784301800546;
+        Fri, 17 Jul 2026 08:23:20 -0700 (PDT)
+Received: from localhost (2a01cb001331aa0093f4151e9fe9f4b8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:93f4:151e:9fe9:f4b8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63ed1911sm4674371f8f.22.2026.07.17.08.23.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2026 08:23:20 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 17 Jul 2026 17:23:19 +0200
+Message-Id: <DK0Y76VFY9IE.2KH0G9SO8XT0U@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH 01/10] expat: fix CVE-2026-56403
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <deeratho@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260710130809.2817559-1-deeratho@cisco.com>
+In-Reply-To: <20260710130809.2817559-1-deeratho@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 15:05:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241204
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 15:23:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241205
 
-Yocto CI is using a different approach: each ptest package gets its
-own image, and they're all built with a meta-target
-core-image-ptest-all. Then they're tested in parallel with bitbake -c
-testimage core-image-ptest-all. I'd say this scales better and runs
-the tests faster than shoving all of ptest into a single image, so I
-would explore in that direction, e.g. you can write a custom version
-of core-image-ptest-all with exclusion lists.
+On Fri Jul 10, 2026 at 3:08 PM CEST, Deepak Rathore via lists.openembedded.=
+org wrote:
+> From: Deepak Rathore <deeratho@cisco.com>
+>
+> These patches apply the upstream fixes shown in [1] and [2], as
+> referenced by [3].
+>
+> [1] https://github.com/libexpat/libexpat/commit/12dc6d8d3d65f79471a94d856=
+5f6bf1cf245f648
+> [2] https://github.com/libexpat/libexpat/commit/147c8f36d6277d5c6011c0983=
+70a8362aed47b15
+> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-56403
+>
+> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+>
+> [...]
+> diff --git a/meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch b/meta=
+/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+> new file mode 100644
+> index 0000000000..a17e3a8b3a
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+> @@ -0,0 +1,52 @@
+> +From e8100827a4f68c70d8cadf446bb82bec7cbebbac Mon Sep 17 00:00:00 2001
+> +From: Sebastian Pipping <sebastian@pipping.org>
+> +Date: Fri, 22 May 2026 00:43:52 +0200
+> +Subject: [PATCH] xmlwf: Protect function `xcsdup` from signed integer ov=
+erflow
+> +
+> +CVE: CVE-2026-56403
+> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/1=
+47c8f36d6277d5c6011c098370a8362aed47b15]
+> +
+> +Backport Changes:
+> +- Include stdint.h explicitly because Expat 2.7.5 does not expose SIZE_M=
+AX
+> +  to xmlwf.c.
+> +
+> +(cherry picked from commit 147c8f36d6277d5c6011c098370a8362aed47b15)
+> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> +---
+> + expat/xmlwf/xmlwf.c | 8 +++++++-
+> + 1 file changed, 7 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/expat/xmlwf/xmlwf.c b/expat/xmlwf/xmlwf.c
+> +index 2d0c4f8e..934473ce 100644
+> +--- a/expat/xmlwf/xmlwf.c
+> ++++ b/expat/xmlwf/xmlwf.c
+> +@@ -46,6 +46,7 @@
+> +=20
+> + #include <assert.h>
+> + #include <stdio.h>
+> ++#include <stdint.h>
 
-Alex
+Hello,
 
-On Fri, 17 Jul 2026 at 13:26, Rasmus Villemoes via
-lists.openembedded.org
-<rasmus.villemoes=prevas.dk@lists.openembedded.org> wrote:
->
-> Hi
->
-> I was playing around with adding ptest packages to our rootfs to see how
-> many of those tests would actually succeed on our targets, and if the
-> rate was high enough, I'd do it permanently and run them as part of our
-> normal test suite.
->
-> But it turns out I can't simply turn on ptest-pkgs, as it blows up the
-> rootfs beyond what there's room for on many of our targets. One of the
-> biggest offenders is openssl-ptest, weighing in at +650M (roughly 3x the
-> size of the rootfs before adding any ptest packages...). So I looked
-> around for a knob to say "yes, to install most -ptest packages, but not
-> these...". There's PACKAGE_EXCLUDE_COMPLEMENTARY, which sort-of seems to
-> be intended for this (though undocumented).
->
-> However, just adding "openssl" to that variable does not elide
-> openssl-ptest from the image. After adding --debug to the
-> 'oe-pkgdata-util glob' invocation in install_complementary(), I see that
-> yes,
->
-> DEBUG: openssl -> !!
->
-> the openssl package itself gets ignored, but there are two "aliases"
-> (for lack of the proper word) which do end up pulling in openssl-ptest:
->
-> DEBUG: libcrypto3 (*-ptest) -> openssl-ptest
-> DEBUG: libssl3 (*-ptest) -> openssl-ptest
->
-> I suppose adding those as well to PACKAGE_EXCLUDE_COMPLEMENTARY would do
-> the job, but playing that game of whack-a-mole can't be how it's meant
-> to be.
->
-> Coding-wise, this seems to come down to skipregex not being used at all
-> in the "# Main processing loop", in particular not after reading the pn
-> which a given package came from. But I have no idea how to modify that
-> code to take skipregex into account or what could/would break if one did
-> that.
->
-> Also, had there been for example a openssl-bash-completion package, I
-> didn't really want to exclude that from the complementary package
-> list. IOW, what I'd really want is not a filter on the input to the
-> globbing, but a filter on the output from the "oe-pkgdata-util
-> glob". Perhaps something like a PACKAGE_IGNORE_COMPLEMENTARY which would
-> be subtracted from complementary_pkgs in install_complementary()? Or
-> just use the existing PACKAGE_EXCLUDE and subtract that from the list to
-> be installed? Adding openssl-ptest to PACKAGE_EXCLUDE currently fails
-> hard because we end up asking the backend to both install and exclude
-> the same package.
->
-> Rasmus
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#241162): https://lists.openembedded.org/g/openembedded-core/message/241162
-> Mute This Topic: https://lists.openembedded.org/mt/120313077/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+I *think* you don't need this backport change anymore since:
+https://git.openembedded.org/openembedded-core/commit/?h=3Dwrynose&id=3D210=
+42df15008ce90b76958d74200298d09d71254
+(added stdint.h into expat.h)
+
+This may also apply to
+meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch in a later patch
+of this series.
+
+Can you check and send a v2 of the whole fixed series?
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
