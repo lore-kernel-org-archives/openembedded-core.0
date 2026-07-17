@@ -1,224 +1,120 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC5AAC44507
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 09:59:56 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10266.1784282391112053746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11AAFC44507
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 10:32:57 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10642.1784284371024402002
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 02:59:51 -0700
+ Fri, 17 Jul 2026 03:32:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=es/LEmsl;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4954a9e8490so1840875e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 02:59:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784282389; x=1784887189; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aMtdl1E2m4qKEYKxu8+OS+UY3u4XmTiZrpHE3Wa6VG8=;
-        b=es/LEmsllgUk4V0YoqOUm5EcyVtfQ6uN2uneEmSnwzy518E/M3dDpKmqTljFU/PgQG
-         InjxE8RHuPa3Iva/VtfWYXqeBjTFdPKQx9F86my3KVK0PxJRx9xZZLQfK90D/rvCX96o
-         Q9Wqy751k6a67WM91GmRBiGdsAtWrIwcIKigU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784282389; x=1784887189;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aMtdl1E2m4qKEYKxu8+OS+UY3u4XmTiZrpHE3Wa6VG8=;
-        b=JiQ6U6knmHrfxXAJEm+nVky+1roTaVYer8f66eS6uBMpxm0+vKgXhwGShUw79d1+D6
-         oN40YtTIc0GC5RryMrF4d8Nr/FtjXJmpqjBbT+F2me+EHhqQwGK0TSEK+PMBeL+JxVx1
-         VXC3YDM45HljVSxdI3hs0c4shbIzUx/vjA9t+Z1Qd9CN8aNfHYhAtiKDoRUErw9vBnqj
-         d35SU4vFT+2O9UMXAmL+cHUKI+Qf0SJo7Hw2Q1+0H3kvs24RogvhEJVxPQyMPxEjlpjy
-         WSOtpVd+hmMzGZz/xGKkoC4qTSIozIrl5NuGetnfYyA+UOom4UOUkuHHtZcMT+poOjp5
-         8sTA==
-X-Gm-Message-State: AOJu0YxdYsJf4dGRP4jxz3jklGgQw5EcjqBEXlL6lloqFvF/VLvQKMS/
-	3umYmozMuj7BxC6eUYySGTKazVi3wGnbGC0Rc298Z3iNj0RssRXOGeNOPmXQf80ySamATDHZbjx
-	KU4vsDkA=
-X-Gm-Gg: AfdE7cnRuwB6PNQKYwMi0pw2gxWPG4o1XIP3vMm0MesmbuTdgUwKNzDaGCWAIy1fBBn
-	H5F0mlAGtDFuRbGfnkfB7fYmLCfsw6AyodvJT3z7lL1kQVF+grg6V2FZ9sZWjMqMn0W0xMICvoj
-	AN14d9VgxF7ZiU13TMxPKaGq+pEYRWBS1Yra6b9COyRT+7AzwpbFGfdnBKAFudms2KhAsLs35xz
-	vnuHnwFJcGL52QZmkuT73LnZ3CRNjWEL+IrcbbioizcIqA8c8uLaj6hIvDsRyrCENIsje3iVRAq
-	qIKgoEqaqEqQBTcliWebyZBu3KWI6PAQpuwd3mRqzvl8OHuyO3/rVZJH2pVxzwSrf1ZI4eEQ15E
-	+HatPcWYtJA6MF9DewLH82MF58PyRG3NEwXXjh3TDpv32wpJzOKc1l5MQc/IjdbZvKDMbhkjKb5
-	RrGpesi5cWzjPMRqW8LS5WdDQHIjnzrS53ImWz6LUb3i19Ir6FrdjVJuMNHWddBj4jzqF7T99w0
-	kMLG9CIgzTPM/YFkw==
-X-Received: by 2002:a05:600c:46c7:b0:493:f783:c46a with SMTP id 5b1f17b1804b1-4954a323acfmr21407235e9.6.1784282389062;
-        Fri, 17 Jul 2026 02:59:49 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa0093f4151e9fe9f4b8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:93f4:151e:9fe9:f4b8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49549c96fecsm43034595e9.11.2026.07.17.02.59.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 02:59:48 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=pass header.i=peter.tatrai.ext@siemens.com header.s=fm1 header.b=hIvzhTOx;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1328017-202607171032457702de660f000207d3-0bzj__@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202607171032457702de660f000207d3
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 17 Jul 2026 12:32:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.tatrai.ext@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=sC1VP9vclBXg5NtZ4J98D4n5w4fXBR9umLY5YcK1nlY=;
+ b=hIvzhTOx4NQ+6HfbGSoSQuM1gjIfw+4fdR+jGpTplUCvssUQ5uws+crSHWB7nCBQjwsHsZ
+ lMi/MnPBErwq/LGjYCiCIoHAEM7I9IPlonawXOXA+7sW5hWwMV1CQGJR3+AcWBhM6BNhvszq
+ eKj3tYqDNFzT4yeBOLjxsta1SvM3TPqdQchhMKdFvo2GlQ28Tf762ft5lPrGh2CiPBE9AQbh
+ TQ+9kY4zzB92LckhbR+hHas6T4C3gQQQrQKwA8dsaBcJOCP3qoXdl06bw6scLIHbtUErsdo4
+ sqJW9BSAzo46Fcydh9Agiez8KKhARvehtxfVNbYGuv/fI9vvuTGndd5w==;
+From: "P. Tatrai" <peter.tatrai.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][wrynose 00/17] Pull request (cover letter only)
-Date: Fri, 17 Jul 2026 11:59:43 +0200
-Message-ID: <cover.1784282125.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
+Cc: Ross.Burton@arm.com,
+	alex.kanavin@gmail.com,
+	Peter Tatrai <peter.tatrai.ext@siemens.com>
+Subject: [PATCH v2] testimage: handle bootlog variants on failed qemu tests
+Date: Fri, 17 Jul 2026 12:32:42 +0200
+Message-Id: <20260717103242.1822201-1-peter.tatrai.ext@siemens.com>
+In-Reply-To: <20260518142235.2077-1-peter.tatrai.ext@siemens.com>
+References: <20260518142235.2077-1-peter.tatrai.ext@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1328017:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 09:59:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241159
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 10:32:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241160
 
-Those are the patches from the last patch review:
-https://lore.kernel.org/all/cover.1783697455.git.yoann.congal@smile.fr/
-Removed "util-linux: upgrade 2.41.3 -> 2.41.5" per Paul's review.
+From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4214
+The failure summary path assumed the unsuffixed bootlog file always
+exists and unconditionally opened it.
 
-The following changes since commit c2746a4a165fd99c2d1aafed17533555787f37ce:
+This is not guaranteed when SERIAL_CONSOLES has fewer than two
+entries (including empty), where qemurunner can produce only
+bootlog suffix variants (for example .2 or .stdout).
 
-  clang/llvm: Upgrade to 22.1.8 release (2026-07-09 16:58:55 +0100)
+On test failures, collect snippets from all existing files matching
+bootlog and bootlog.* and prefix each snippet with its filename.
+Also skip creating a symlink for a missing bootlog path.
 
-are available in the Git repository at:
+This prevents FileNotFoundError from masking the original test
+failure and improves diagnostics across qemu serial configurations.
 
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-next
+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+---
+ meta/classes-recipe/testimage.bbclass | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-for you to fetch changes up to 6f5681afb324aed2cba4e5b819ffc878f74a2bac:
-
-  gnutls: fix CVE-2026-33846 (2026-07-16 20:54:12 +0200)
-
-----------------------------------------------------------------
-
-Amaury Couderc (1):
-  expat: fix CVE-2026-41080
-
-Benjamin Robin (Schneider Electric) (3):
-  python3: fix CVE-2026-11940
-  python3: fix CVE-2026-11972
-  glib-2.0: fix CVE-2026-58016
-
-Deepak Rathore (1):
-  libcap: Fix CVE-2026-4878
-
-Deepesh Varatharajan (1):
-  gdb: Upgrade 17.1 -> 17.2
-
-Eilís 'pidge' Ní Fhlannagáin (1):
-  ovmf: fix tpm PACKAGECONFIG to use TPM2_ENABLE
-
-Eric Meyers (1):
-  create-spdx-image-3.0: correct SSTATE_SKIP_CREATION key for
-    do_create_image_sbom_spdx
-
-Gustavo Henrique Nihei (1):
-  opensbi: don't override ELFFLAGS, silence ldflags QA for bare-metal
-    ELFs
-
-Hitendra Prajapati (1):
-  vim: Fix for CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
-
-Jaipaul Cheernam (1):
-  curl: fix CVE-2026-5773 - wrong reuse of SMB connection
-
-Peter Marko (1):
-  python3: upgrade 3.14.5 -> 3.14.6
-
-Pritam Srichandan Sahoo (1):
-  gnutls: fix CVE-2026-33846
-
-Ross Burton (1):
-  xmlto: update SRC_URI
-
-Sudhir Dumbhare (2):
-  python3-urllib3: Fix CVE-2026-44431
-  socat: upgrade 1.8.1.1 -> 1.8.1.3
-
-Theo Gaige (Schneider Electric) (1):
-  expat: patch CVE-2026-45186
-
- .../create-spdx-image-3.0.bbclass             |   2 +-
- meta/classes-recipe/nospdx.bbclass            |   2 +-
- meta/recipes-bsp/opensbi/opensbi_1.8.1.bb     |   6 +-
- .../{socat_1.8.1.1.bb => socat_1.8.1.3.bb}    |   2 +-
- .../expat/expat/CVE-2026-41080-1.patch        | 517 ++++++++++++++++++
- .../expat/expat/CVE-2026-41080-2.patch        |  33 ++
- .../expat/expat/CVE-2026-45186-01.patch       |  70 +++
- .../expat/expat/CVE-2026-45186-02.patch       | 318 +++++++++++
- .../expat/expat/CVE-2026-45186-03.patch       |  46 ++
- .../expat/expat/CVE-2026-45186-04.patch       |  32 ++
- .../expat/expat/CVE-2026-45186-05.patch       |  32 ++
- .../expat/expat/CVE-2026-45186-06.patch       |  87 +++
- .../expat/expat/CVE-2026-45186-07.patch       |  52 ++
- meta/recipes-core/expat/expat_2.7.5.bb        |   9 +
- .../glib-2.0/files/CVE-2026-58016-1.patch     |  94 ++++
- .../glib-2.0/files/CVE-2026-58016-2.patch     |  98 ++++
- meta/recipes-core/glib-2.0/glib.inc           |   2 +
- meta/recipes-core/ovmf/ovmf_git.bb            |   2 +-
- ...ian_17.1.bb => gdb-cross-canadian_17.2.bb} |   0
- .../{gdb-cross_17.1.bb => gdb-cross_17.2.bb}  |   0
- meta/recipes-devtools/gdb/gdb.inc             |   4 +-
- ...-ser-unix-modernize-Linux-custom-bau.patch | 248 ---------
- ...ux-Fix-build-failure-on-musl-systems.patch | 196 -------
- .../gdb/{gdb_17.1.bb => gdb_17.2.bb}          |   0
- .../python3-urllib3/CVE-2026-44431.patch      | 157 ++++++
- .../python/python3-urllib3_2.6.3.bb           |   3 +
- ...eadingMock-call-count-race-condition.patch |  37 --
- .../python/python3/CVE-2026-11940.patch       |  67 +++
- .../python/python3/CVE-2026-11972.patch       |  61 +++
- .../{python3_3.14.5.bb => python3_3.14.6.bb}  |   9 +-
- meta/recipes-devtools/xmlto/xmlto_0.0.29.bb   |   2 +-
- .../curl/curl/CVE-2026-5773.patch             |  47 ++
- meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
- ...fragments-implement-a-basic-DTLS-tes.patch | 258 +++++++++
- ...merge_handshake_packet-using-recv_bu.patch |  96 ++++
- ...s-add-more-checks-to-DTLS-reassembly.patch |  65 +++
- ...fragments-extend-with-a-1816-reprodu.patch | 159 ++++++
- ...fragments-extend-with-fragmenting-Cl.patch | 149 +++++
- ...ch-DTLS-datagrams-by-sequence-number.patch |  42 ++
- ...fragments-1839-mismatching-message_s.patch | 104 ++++
- ...ts-mini-dtls-framents-link-to-gnulib.patch |  27 +
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   8 +
- .../libcap/files/CVE-2026-4878.patch          | 163 ++++++
- meta/recipes-support/libcap/libcap_2.77.bb    |   4 +-
- .../vim/files/CVE-2026-52858.patch            | 167 ++++++
- .../vim/files/CVE-2026-52859.patch            | 274 ++++++++++
- .../vim/files/CVE-2026-52860.patch            | 446 +++++++++++++++
- meta/recipes-support/vim/vim.inc              |   3 +
- 48 files changed, 3705 insertions(+), 496 deletions(-)
- rename meta/recipes-connectivity/socat/{socat_1.8.1.1.bb => socat_1.8.1.3.bb} (94%)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-1.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-2.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_17.1.bb => gdb-cross-canadian_17.2.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_17.1.bb => gdb-cross_17.2.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-modernize-Linux-custom-bau.patch
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0010-GDB-aarch64-linux-Fix-build-failure-on-musl-systems.patch
- rename meta/recipes-devtools/gdb/{gdb_17.1.bb => gdb_17.2.bb} (100%)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-44431.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-11940.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-11972.patch
- rename meta/recipes-devtools/python/{python3_3.14.5.bb => python3_3.14.6.bb} (98%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch
- create mode 100644 meta/recipes-support/libcap/files/CVE-2026-4878.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index 9902b8a568..0f34d551e9 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -186,6 +186,7 @@ def get_testimage_boot_patterns(d):
+ 
+ def testimage_main(d):
+     import os
++    import glob
+     import json
+     import signal
+     import logging
+@@ -409,15 +410,33 @@ def testimage_main(d):
+     # Copy additional logs to tmp/log/oeqa so it's easier to find them
+     targetdir = os.path.join(get_json_result_dir(d), d.getVar("PN"))
+     os.makedirs(targetdir, exist_ok=True)
+-    os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
++    if os.path.exists(bootlog):
++        os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
++    else:
++        bb.note("testimage: boot log not found at %s" % bootlog)
++
+     os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
+ 
+     if not results or not complete:
+         bb.error('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+     if results and not results.wasSuccessful():
+-        with open(bootlog, 'r') as bootlogfile:
+-            bootlines = "".join(bootlogfile.readlines()[-20:])
+-        bb.plain('%s - FAILED - Last lines of QEMU boot log:\n%s' % (pn, bootlines))
++        bootlog_files = []
++        for candidate in [bootlog] + sorted(glob.glob(bootlog + ".*")):
++            if os.path.exists(candidate) and candidate not in bootlog_files:
++                bootlog_files.append(candidate)
++
++        if bootlog_files:
++            snippets = []
++            for bootlog_file in bootlog_files:
++                try:
++                    with open(bootlog_file, 'r') as bootlogfile:
++                        bootlines = "".join(bootlogfile.readlines()[-20:])
++                except OSError as err:
++                    bootlines = "<failed to read %s: %s>\n" % (bootlog_file, err)
++                snippets.append("--- %s ---\n%s" % (os.path.basename(bootlog_file), bootlines))
++            bb.plain('%s - FAILED - Last lines of QEMU boot logs:\n%s' % (pn, "\n".join(snippets)))
++        else:
++            bb.plain('%s - FAILED - QEMU boot logs not available at %s or %s.*' % (pn, bootlog, bootlog))
+         bb.error('%s - FAILED - also check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+ 
+ def get_runtime_paths(d):
+-- 
+2.39.5
 
 
