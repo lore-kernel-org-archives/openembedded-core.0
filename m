@@ -1,366 +1,434 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE01DC4451C
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 13:59:25 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13993.1784296347428001293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1EECC4451B
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 14:04:15 +0000 (UTC)
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14299.1784297045681954221
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 06:52:27 -0700
+ Fri, 17 Jul 2026 07:04:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=DDnyywWs;
- spf=pass (domain: est.tech, ip: 52.101.66.48, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oOQ1t5mjbGODl9/lY9EWL9a5E44XOe+ygQYCo0MSZLDTIJ3JCq26X/xzjrOCL1CkSU3vkfi3+hMQ25RgnWtQL6+kMOBND+3hWFCte6Vz7JflO4t5OB6zXzrLw6L+N1mmg4eAHpvlSM8n7taup85jHF3s3g+rA4IN+yjQgCVcAq1az30HfBlsIrr48Pxn/LHWoLsoVBWwnjS0VElDCse+B5hGBYSec127g6oyakvFpKUm5HJ2Hp0r3Gvnk73WOqIn1QeNFtTb26+O/+pyXJDuc5MfKhjBSYUrISaXL3Man9gauZrTHJw++JnzJW4NKKB6j4+OeFC++rNrzHdfxvI54Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h6ywIVmKMYyBwu8Y/s5eUKytntRa4VNvCLj9kErIIvE=;
- b=Ns79TNHjIQKvt+RVhHbre7P6AlHncAsjN8PocmbjbGrp0BiMvuEQxTW0evOr03JcdMUnLcm/DsXrK0GQgOAvXyjdy5DwsWbsTOa4UVem9+UiW1PzwUNp7TF41Pzmn+bp0A/IXbGIxwSBnWFHEQ/5DecnSZhiZySuNL2GigvsXl5OiS5gzHyAjCUqpAUYYFUjYyiiWl31MiYwqMRhlL6AIzKH25wKt6NJQGCAt2E62+k9MjffeKYOwz8zqVbYqDkaNKHDi7hUgLSLrxPYbTWLDpk31TVVHcnBhETwpt9kY2wqNqlJC3nWIpsE06n6vb5dt8MefFervFQNpVE33IHXvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h6ywIVmKMYyBwu8Y/s5eUKytntRa4VNvCLj9kErIIvE=;
- b=DDnyywWsDxEvI14AeGcGhDRozl0vv6Kbtpd3rGEnLtuEsLSPCTLMlFRZbfCZ6RAUSdhDmPHFsQYJs8VcPTKhRIPtSCA2dP4AJb4HkZNr8QC6n5SmMdD0JXB2/EzC3TjeZ6d/s86gD0F/i5RZHFSXqZW/rj4N9Vu/6DTR8qZi0tmQXuZF3j7fPfcR0ASB57aWseSiH8fYhhHkYAuxH11a5HX0qkVJqx72igN0NUWtuii3eZS5w94nVEhiLYsCoVYpW7Th3dZc7SSyzrNgYZc4BcxyqwQma2mghC+Ig3FvZFIFnhK3WQ+gUCqbTmIZsozzqBQIu6kIdQGjkTXy8JrF8A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by VI0P189MB3639.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2d7::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.6; Fri, 17 Jul
- 2026 13:52:22 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%4]) with mapi id 15.21.0245.003; Fri, 17 Jul 2026
- 13:52:22 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jCXZf+M2;
+ spf=pass (domain: gmail.com, ip: 74.125.224.42, mailfrom: festevam@gmail.com)
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66807ba2f0fso4485822d50.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 07:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784297045; x=1784901845; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OH3r2Zno8b6q56A6S+6f9LkNVOoM9m7RmyddQumclFA=;
+        b=jCXZf+M264bougVPXt+qRhvYG6JD3eAnvIRgULa6cLtVg/nxQpmrd2eXju98Ty4Da6
+         gTpJdKcaAn6IOFzBL1xpCvTgVvnZuAIUTXU7ehpwDD/nA5yaCEqCec/b/EGAQwzxP45s
+         o01qCbRsh0xzh14czW9+W1JZZZpaQDbd/rX3gVr8gPagvfPHknuc9J+qhnEtVKfsjOnh
+         T3TLdcT1QY+4Yz/fUCo6Uzhz49XldbI2hiaV0z21ctOwx5SF6Gxl7DUGGK+PhEjSEqpc
+         IX5TZkuHjYI0insbjiwuuqLP7o2rWq9du+NRv7ZArdmeb+126yoa+HRu1ElLam0JRLUf
+         v4Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784297045; x=1784901845;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OH3r2Zno8b6q56A6S+6f9LkNVOoM9m7RmyddQumclFA=;
+        b=S8WRP65o4tOIZnOzDcA04HFgX/rDFgwBHRvywyNDgcQlYe3aOcqE4YVK6IcNnPEM45
+         BecfEnXSJw8YZSGQQ7Q/b1PcEhdUHR0pEmOBjl+fcJOs1haivz9x2RXvqXpHuoN3khHg
+         LeyQDwniGVQI+CaKhT7VY6aQ+rX/fulHL0n2MQCdrBCOD4TcEHh8d97DanZFRVNtT+w3
+         YGuuXBnBKE57gZvi9q/jHrJAKTTXxFuddvU7FWppLF05Lby35nlAewSeb3X3H/h0lTKL
+         rhg3Dg7N5P12xpEb3vx+jUlDSfsmJvv6CD8YlR3lwdpUvwecnwwUfb7Fq3D7QVFCXnZF
+         zobg==
+X-Gm-Message-State: AOJu0YwxIKIMrKHTxYtVRyId5dQ6gBfSmwMHPyshEPeGFmY7GFeq3JS8
+	drW46sgTgDBZeEmVue+t8yacn9zsgwX8vcpSSZ4rOT5g7+gvsigMqFRcnW7pWw==
+X-Gm-Gg: AfdE7ckAC0iDEme3j5HARmjVuyNmM/eMHIJzOaJqrnBiDkGCacti83+GeAHZ8B714GL
+	1Ju6fIFw8iM45eTEJVX5XflKazjWiOBUKfE5tVri/T5Wt99KdHlyf1+EPCLQPSSA5wfZWwbyYMl
+	UOMBw4Vp9IGB8aSJ2lOlm46Q97AXZVvETWWBF4jWsQquIVQ+cCp3dsYnt5tjrUdGjEQ5VEcvRHl
+	PBJgb4+w6r3mLyvq3czJ6q/hibKMtuVFFkAuPJPoa6vI/APnIvZmCfT3XMkye3LXFZ+/duq1q0h
+	z///Me2/NEaN8mUqIWVs6IkRMIJ4IvOmqOIbkoQME/9gjfppUPHFoYRD0OcPyJQU99ucjnmW0Jg
+	eyHJLbmvZnlqvvQVKwsMliWh5t6MLoG0BRmnSW5yDSXkYJ0bTcfomNXYC90vAZUFcgXuppemM7U
+	ectGp6Qoi/Gb3CRw6aZCIdDDut42pasZbr1rFJDVyA2S+kFpo=
+X-Received: by 2002:a05:690e:1542:20b0:668:c10:d6cf with SMTP id 956f58d0204a3-6683be0d397mr612455d50.99.1784297044350;
+        Fri, 17 Jul 2026 07:04:04 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:1b3:a801:a24:26e8:30fa:4064:f1d1])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6683b563634sm1431339d50.5.2026.07.17.07.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 07:04:03 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][scarthgap][PATCH] libssh2: fix CVE-2026-58050
-Date: Fri, 17 Jul 2026 15:52:15 +0200
-Message-ID: <20260717135220.869830-1-adarsh.jagadish.kamini@est.tech>
+Cc: marex@nabladev.com,
+	Fabio Estevam <festevam@nabladev.com>
+Subject: [PATCH v2] u-boot: upgrade 2026.04 -> 2026.07
+Date: Fri, 17 Jul 2026 11:03:53 -0300
+Message-ID: <20260717140354.589759-1-festevam@gmail.com>
 X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: LO6P123CA0027.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:313::19) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|VI0P189MB3639:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96af68c4-677f-4a61-7bc0-08dee40aa093
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|11063799006|56012099006|10067099003|12006099003|6133799003|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	3+oRgXnchELqUn0H78fAd700iJXdkzGYYyNtcmsigIvX4HIOrR9l03kyOqAR4tbHnEvlY5C8w74vVNOcP/t4iNjekzB9jAw7oTDPV/0Qoba5t3pfcWwdlxlNplJp/BrCtiJmtzm56K8aLRrmnURnWmXqbXPhFqivtHz5oiZ9U1m9CIw8qQ9wmiZyYVsai5D7ugd0TaJ7GhzHJfXtJ2W6TFWVC0g5tKrAzOTtAkjTWJTlKC/v1nKEBeKE/zTGAlkURTHkS4Txz+7RZzHJOOYCfYpzivYm201w27DPZ/NhB5E0ANLrknK3+IGJU+mTYYsuEZJY2XkTOh23iikY5xw98h8BGo+vyI8KvmJArNdMOuQqx0C8XB8zNM8IMkpIGVATdywWa0mhKal3rBfEfMn/+iNx76g2Ki88GOpYveI1GwnAaHVWd0yYsqOWKpN41ek+9eS9XxSN2OdqpRyhfXJGQxTke0RpiyPEiyI2bbxPcnWtG4rXesWKn9LY8jI3LUeH/l1ORGkLhWzylH2gF1vQXcl88yeCJWPAR3wNJk0uoBkTxRpY45pLcgGQ32MaRJ26eb7scxx0P1DmsfdIa85i+wxOfheqBQQvnVvrvpJH+IMh4tdi7TdpTdXb6Oin7y23WS5JSonK0Y5YO/kxaFgR5nxixA1F6Zdwp2ienqVhDMA=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(11063799006)(56012099006)(10067099003)(12006099003)(6133799003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?PTDM3kKdVf/AWSr5eeCBsy+n9QcHFVegbueo/jsR13sCkS+OOYc8QEKdoDRz?=
- =?us-ascii?Q?1ODg6OBKicUl0gq2VJ15Qud6bcN5KL0vxpISlca0JtQwNk94ITV/NJgjZAxO?=
- =?us-ascii?Q?4wDc2vsCm9X0XgCtFRwMYCKqN0eBiu4el42ahNUgxDBhxO+724ssNaZxnEiP?=
- =?us-ascii?Q?2Im6xfY90k+XYjNIAM845MnGkBFJr6nU+eqKFpB60sQDBh1ZHRzoekW/hYku?=
- =?us-ascii?Q?WDVvGHAXSzAhKr9Cf+sPaWgEVewsoGPOnlolUgOOUuDgw2cRIdPAK79sqf1d?=
- =?us-ascii?Q?el4nyFHskJLgSm83OYTG/LTRZSyLBfhkPl2uHd9vAVUoKFPRPZKlI7EdTAt2?=
- =?us-ascii?Q?Ms+nM3mV/dULGYzVsWZGE+7hLTI5IXrLboUWZa1ingkvJbDzJz3h3Dnrp+zu?=
- =?us-ascii?Q?1gPS/GTMAUu+ll+ZD5Kni6VvIWvR7sglibj/yDfbj/OfyAdpVv3jGDFvPUp2?=
- =?us-ascii?Q?8Tr0kkZdMLben5kpr7uvRSPm04Hn7pZGDtQgPU3nTQDQ5j66FE3e73KPSSXG?=
- =?us-ascii?Q?B7P1uAcaP8iECblc+jlm8Dgze7l6udn0XBkHSN4lSd2VWi9rokO6zxVMKzog?=
- =?us-ascii?Q?UCUBqFwLv+7gxpSUdagxQFq3cT+XWEZsBdwgBUM27lWWTYGprEzkFp6lcUOV?=
- =?us-ascii?Q?ObrZt9369JKfMr/8KwSiYgwqxlwqw23xVkeoQuDe1GmjdyMudmEXZSv8sVkj?=
- =?us-ascii?Q?3wWEZtFMJ72jAUyPTR3BMIC5fRnlL/iiNguPftMd48I3L7fv5tb9uhEBwNIr?=
- =?us-ascii?Q?fxX6ah8SnDxRW0mw837Jv3oeNkgAjFkheZZQDRCKgEuSdVftZe61pcoxh7Zl?=
- =?us-ascii?Q?sk0vpI04d2O4jIG5E5RMu1XA4kEsjNfv96oqodTsxfLoqjLlcm9Py59P6qiq?=
- =?us-ascii?Q?JLvb3T4I44RJQ8BLWxkqlDZumKgBOOojSIkEv2ZYL2udD4ls9+ChudLnh5o9?=
- =?us-ascii?Q?+kwBOjT5UdsASzBW+fbinuRZAZmMv+dW5Mp/1ApFYlKCvzA15btTVZA00sTc?=
- =?us-ascii?Q?UrvgMEiIEhsINBq0gF8lM0hPbwlcFa1jCMpHQjJl9MjtwbyixrpZw0G6PPsr?=
- =?us-ascii?Q?XXv6j6OGvllxNB8qbBJIp9Nyx4R38M8/PqVf7vOIUMX5rIFwZHLQLpe29TJ9?=
- =?us-ascii?Q?/hNhFs50hXawUfReUraCy+PTPeZg9jWYIEnUGfIuMjFL7Nre2ck0jI5pXR+s?=
- =?us-ascii?Q?JK87wVGRqgRAhiqYUXNdUjTPYlXCPQa2dZnt7MeYatUIlEx5HNpz7VnLsHKb?=
- =?us-ascii?Q?fJk3BVhO17zNAJsBVi6e3bBBdM21MnvjrxUxbHVYaTf8fRSZvAP1tP3UuaLn?=
- =?us-ascii?Q?nrt+/4s5beRq1awswVORE8L4sOJK/qrOafa87A/aGyBn6V57v0ZVIz58HyKU?=
- =?us-ascii?Q?8hGUicbwqAkX/hURdiU4mcBnY+di1gfGvHkAozlAR/i9ZtiH9l7aDvYugQX9?=
- =?us-ascii?Q?5xiIhmcmgTqVOvdkCCUPoCpqo3uegc/mF+Q1AaYT0PLQTTACupuWravXiXfN?=
- =?us-ascii?Q?Qv/zOHyOV3tn64f+m9YqBAe/c/9Mar+3qDEIpR18dtvg1Wnvnb+oLVDzKrlF?=
- =?us-ascii?Q?Bpk+cyuVG2oFl/4e+gf/4mQUxjghZYlqpO5vXM+zHrDAQXOomMhOgduKJrOl?=
- =?us-ascii?Q?FAqad3BfxrS28nI06BrGwkobYU1LDYjYYRYXcNJXDJsyslvOqANKkjq3CiOv?=
- =?us-ascii?Q?T47M5ENqNfDl18qKyNfRSLfvfOqjmd72Nz6bxKHIhBX3fdbKmcBXTjj2mK9j?=
- =?us-ascii?Q?NNCpwDMRv7cTiNfZSPKhaVXCIbRiNrc=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96af68c4-677f-4a61-7bc0-08dee40aa093
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 13:52:22.9040
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y2yBKwXgSBEbbPqfHGcKJ8t4uF13OGrlwCgO9Bo/nTzULBUpfNC0wYFeTQXhug/7l40Irw+0sn+87AeqYiAeVOyOjVEIjg6N7EqF1iQL9lk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3639
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 13:59:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241192
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 14:04:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241193
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: Fabio Estevam <festevam@nabladev.com>
 
-Backport patch to fix CVE-2026-58050.
-https://nvd.nist.gov/vuln/detail/CVE-2026-58050
+Remove the local DT validation patch as it has been upstreamed.
 
-Upstream fix:
-  https://github.com/libssh2/libssh2/commit/7c8a170c6dca3cd4cf24de836f43ba1=
-a20e662d5
+Add the submitted mkeficapsule PKCS#11 detection patch so
+u-boot-tools can build with target GnuTLS configurations that do
+not enable p11-kit.
 
-The upstream commit uses the shortened private-symbol namespace
-introduced in commit 076838de2697a4185125bfd601fbcd6e7286bfb6
-("src: shorten namespace for private functions and macros"), which is
-not present in libssh2 1.11.1. The only change made when backporting was
-to spell the helper calls back to the names used in 1.11.1:
-
-  ssh2_err()     -> _libssh2_error()
-  ssh2_ntohu32() -> _libssh2_ntohu32()
-
-The added "> LIBSSH2_PACKET_MAXPAYLOAD" cap checks were kept as-is,
-written against this tree's existing bounds-check style
-(s + len <=3D data + data_len).
-
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Fabio Estevam <festevam@nabladev.com>
 ---
- .../libssh2/libssh2/CVE-2026-58050.patch      | 177 ++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |   1 +
- 2 files changed, 178 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-58050.pat=
-ch
+Changes since v1:
+- Apply a U-Boot patch to fix the mkeficapsule build error.
 
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch b/me=
-ta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch
+ ...ripts-dtc-drop-yaml-in-DT-validation.patch |  85 ---------
+ ...apsule-Detect-GnuTLS-PKCS-11-support.patch | 179 ++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |   2 +-
+ .../u-boot/u-boot-tools_2026.04.bb            |   4 -
+ .../u-boot/u-boot-tools_2026.07.bb            |   4 +
+ .../{u-boot_2026.04.bb => u-boot_2026.07.bb}  |   3 -
+ 6 files changed, 184 insertions(+), 93 deletions(-)
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0001-scripts-dtc-drop-yaml-in-DT-validation.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-tools-mkeficapsule-Detect-GnuTLS-PKCS-11-support.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-tools_2026.07.bb
+ rename meta/recipes-bsp/u-boot/{u-boot_2026.04.bb => u-boot_2026.07.bb} (84%)
+
+diff --git a/meta/recipes-bsp/u-boot/files/0001-scripts-dtc-drop-yaml-in-DT-validation.patch b/meta/recipes-bsp/u-boot/files/0001-scripts-dtc-drop-yaml-in-DT-validation.patch
+deleted file mode 100644
+index 9c1adc8faf..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0001-scripts-dtc-drop-yaml-in-DT-validation.patch
++++ /dev/null
+@@ -1,85 +0,0 @@
+-From e77402000f978561ff2afe405aa9e5c9037a8717 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+-Date: Wed, 29 Apr 2026 15:22:25 +0200
+-Subject: [PATCH] scripts/dtc: drop yaml in DT validation
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-The build issues found in dtc/yamltree were partially mitigated by a
+-previous commit (807bcd844a: "scripts/dtc: Fix pkg-config behavior under
+-sysroot"), but upstream dtc simply disabled yaml, and the same should be
+-done here in order to permanently avoid those issues.
+-
+-Backport the change below from Linux v5.18 [1]:
+-
+-ef8795f3f1c ("dt-bindings: kbuild: Use DTB files for validation")
+-
+-I tested this patch with a couple Yocto builds: u-boot and u-boot-tools,
+-using the current master branch (rev. "c53b0708f9"), having removed
+-libyaml-native from u-boot-tools's dependencies.
+-
+-[1] https://git.kernel.org/linus/ef8795f3f1ce
+-
+-Signed-off-by: João Marcos Costa <joaomarcos.costa@bootlin.com>
+-
+-Upstream-Status: Backport [https://github.com/u-boot/u-boot/commit/8ef8dee4f3a2b2021decfefd853dbd2a1632b77f]
+----
+- scripts/Makefile.lib             | 6 ------
+- scripts/dtc/Makefile             | 8 --------
+- scripts/dtc/update-dtc-source.sh | 2 +-
+- 3 files changed, 1 insertion(+), 15 deletions(-)
+-
+-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+-index b8969b7de54..d66f1ed13b1 100644
+---- a/scripts/Makefile.lib
+-+++ b/scripts/Makefile.lib
+-@@ -86,12 +86,6 @@ base-dtb-y := $(foreach m, $(multi-dtb-y), $(firstword $(call suffix-search, $m,
+- extra-y				+= $(dtb-y)
+- extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
+- 
+--# U-Boot specific
+--ifneq ($(CHECK_DTBS),)
+--extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
+--extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+--endif
+--
+- # Add subdir path
+- 
+- extra-y		:= $(addprefix $(obj)/,$(extra-y))
+-diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+-index 6f309b37e08..2ba8dba03be 100644
+---- a/scripts/dtc/Makefile
+-+++ b/scripts/dtc/Makefile
+-@@ -17,15 +17,7 @@ fdtoverlay-objs	:= $(libfdt) fdtoverlay.o util.o
+- # Source files need to get at the userspace version of libfdt_env.h to compile
+- HOST_EXTRACFLAGS := -I$(srctree)/$(src)/libfdt
+- 
+--ifeq ($(wildcard $(PKG_CONFIG_SYSROOT_DIR)/usr/include/yaml.h),)
+- HOST_EXTRACFLAGS += -DNO_YAML
+--else
+--dtc-objs	+= yamltree.o
+--# To include <yaml.h> installed in a non-default path
+--HOSTCFLAGS_yamltree.o := $(shell pkg-config --cflags yaml-0.1)
+--# To link libyaml installed in a non-default path
+--HOSTLDLIBS_dtc	:= $(shell pkg-config --libs yaml-0.1)
+--endif
+- 
+- # Generated files need one more search path to include headers in source tree
+- HOSTCFLAGS_dtc-lexer.lex.o := -I$(src)
+-diff --git a/scripts/dtc/update-dtc-source.sh b/scripts/dtc/update-dtc-source.sh
+-index 32ff17ffd08..94627541533 100755
+---- a/scripts/dtc/update-dtc-source.sh
+-+++ b/scripts/dtc/update-dtc-source.sh
+-@@ -32,7 +32,7 @@ DTC_UPSTREAM_PATH=`pwd`/../dtc
+- DTC_LINUX_PATH=`pwd`/scripts/dtc
+- 
+- DTC_SOURCE="checks.c data.c dtc.c dtc.h flattree.c fstree.c livetree.c srcpos.c \
+--		srcpos.h treesource.c util.c util.h version_gen.h yamltree.c \
+-+		srcpos.h treesource.c util.c util.h version_gen.h \
+- 		dtc-lexer.l dtc-parser.y"
+- LIBFDT_SOURCE="fdt.c fdt.h fdt_addresses.c fdt_empty_tree.c \
+- 		fdt_overlay.c fdt_ro.c fdt_rw.c fdt_strerror.c fdt_sw.c \
+--- 
+-2.47.0
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0001-tools-mkeficapsule-Detect-GnuTLS-PKCS-11-support.patch b/meta/recipes-bsp/u-boot/files/0001-tools-mkeficapsule-Detect-GnuTLS-PKCS-11-support.patch
 new file mode 100644
-index 0000000000..bad801fece
+index 0000000000..560e391084
 --- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch
-@@ -0,0 +1,177 @@
-+From ffe23ddb76c6fe320f3a90f5876abd429b6ddc61 Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <commit@vsz.me>
-+Date: Sat, 4 Jul 2026 17:18:50 +0200
-+Subject: [PATCH] publickey: cap variable-length packet element sizes
++++ b/meta/recipes-bsp/u-boot/files/0001-tools-mkeficapsule-Detect-GnuTLS-PKCS-11-support.patch
+@@ -0,0 +1,179 @@
++From 61afc0e98661629711d36d03d2b6084fcd359b30 Mon Sep 17 00:00:00 2001
++From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
++Date: Fri, 17 Jul 2026 00:00:00 +0000
++Subject: [PATCH] tools: mkeficapsule: Detect GnuTLS PKCS#11 support
 +
-+To avoid potential offset wrap in 32-bit builds when receiving overly
-+large values in length fields. Limit them to the maximum packet size.
++Some distros like OpenEmbedded are using gnutls library
++without pkcs11 support and linking of mkeficapsule will fail.
++It would make maintenance of default configs a hurdle.
++Add detection of pkcs11 support in gnutls so it's enabled
++when available and doesn't need to be set explicitly.
 +
-+Bug: https://github.com/libssh2/libssh2/pull/2205#discussion_r3523193089
++Upstream-Status: Submitted [https://lore.kernel.org/u-boot/20260609070105.525348-1-wojciech.dubowik@mt.com/T/#u]
 +
-+Closes #2207
-+
-+[Cherry-pick adaptation notes]
-+
-+The upstream commit uses the shortened private-symbol namespace
-+introduced in commit 076838de2697a4185125bfd601fbcd6e7286bfb6
-+("src: shorten namespace for private functions and macros"), which is
-+not present in libssh2 1.11.1. The only change made when backporting was
-+to spell the helper calls back to the names used in 1.11.1:
-+
-+  ssh2_err()     -> _libssh2_error()
-+  ssh2_ntohu32() -> _libssh2_ntohu32()
-+
-+The added "> LIBSSH2_PACKET_MAXPAYLOAD" cap checks were kept as-is,
-+written against this tree's existing bounds-check style
-+(s + len <=3D data + data_len).
-+
-+CVE: CVE-2026-58050
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/7c8a1=
-70c6dca3cd4cf24de836f43ba1a20e662d5]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++Reviewed-by: Simon Glass <sjg@chromium.org>
++Acked-by: Quentin Schulz <quentin.schulz@cherry.de>
++Suggested-by: Tom Rini <trini@konsulko.com>
++Cc: Franz Schnyder <fra.schnyder@gmail.com>
++Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
 +---
-+ src/publickey.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 61 insertions(+)
++ tools/Makefile       |  5 +++
++ tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++-----------
++ 2 files changed, 77 insertions(+), 23 deletions(-)
 +
-+diff --git a/src/publickey.c b/src/publickey.c
-+index 9c9fa618..583935fe 100644
-+--- a/src/publickey.c
-++++ b/src/publickey.c
-+@@ -472,6 +472,11 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESS=
-ION *session)
-+                     goto err_exit;
-+                 }
-+=20
-++                if(descr_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                    _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY=
-,
-++                                   "Public key description too large");
-++                    goto err_exit;
-++                }
-+                 if(s + descr_len + 4 <=3D
-+                    session->pkeyInit_data + session->pkeyInit_data_len) {
-+                     /* description starts here */
-+@@ -485,6 +490,11 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESS=
-ION *session)
-+                     goto err_exit;
-+                 }
-+=20
-++                if(lang_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                    _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY=
-,
-++                                   "Public key language too large");
-++                    goto err_exit;
-++                }
-+                 if(s + lang_len <=3D
-+                    session->pkeyInit_data + session->pkeyInit_data_len) {
-+                     /* lang starts here */
-+@@ -912,6 +922,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey=
-, unsigned long *num_keys,
-+                 goto err_exit;
-+             }
-+=20
-++            if(descr_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY,
-++                               "Public key description too large");
-++                goto err_exit;
-++            }
-+             if(pkey->listFetch_s + descr_len + 4 <=3D
-+                pkey->listFetch_data + pkey->listFetch_data_len) {
-+                 /* description starts at pkey->listFetch_s */
-+@@ -925,6 +940,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey=
-, unsigned long *num_keys,
-+                 goto err_exit;
-+             }
-+=20
-++            if(lang_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY,
-++                               "Public key language too large");
-++                goto err_exit;
-++            }
-+             if(pkey->listFetch_s + lang_len <=3D
-+                pkey->listFetch_data + pkey->listFetch_data_len) {
-+                 /* lang starts at pkey->listFetch_s */
-+@@ -988,6 +1008,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pke=
-y, unsigned long *num_keys,
-+                 }
-+=20
-+                 if(comment_len) {
-++                    if(comment_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                        _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUN=
-DARY,
-++                                       "Public key comment too large");
-++                        goto err_exit;
-++                    }
-+                     list[keys].num_attrs =3D 1;
-+                     list[keys].attrs =3D
-+                         LIBSSH2_ALLOC(session,
-+@@ -1022,6 +1047,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pk=
-ey, unsigned long *num_keys,
-+                     goto err_exit;
-+                 }
-+=20
-++                if(list[keys].name_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                    _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY=
-,
-++                                   "Public key name too large");
-++                    goto err_exit;
-++                }
-+                 if(pkey->listFetch_s + list[keys].name_len <=3D
-+                    pkey->listFetch_data + pkey->listFetch_data_len) {
-+                     list[keys].name =3D pkey->listFetch_s;
-+@@ -1044,6 +1069,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pk=
-ey, unsigned long *num_keys,
-+                     goto err_exit;
-+                 }
-+=20
-++                if(list[keys].blob_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                    _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY=
-,
-++                                   "Public key blob too large");
-++                    goto err_exit;
-++                }
-+                 if(pkey->listFetch_s + list[keys].blob_len <=3D
-+                    pkey->listFetch_data + pkey->listFetch_data_len) {
-+                     list[keys].blob =3D pkey->listFetch_s;
-+@@ -1069,6 +1094,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pk=
-ey, unsigned long *num_keys,
-+                     goto err_exit;
-+                 }
-+=20
-++                if(list[keys].name_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                    _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY=
-,
-++                                   "Public key name too large");
-++                    goto err_exit;
-++                }
-+                 if(pkey->listFetch_s + list[keys].name_len <=3D
-+                    pkey->listFetch_data + pkey->listFetch_data_len) {
-+                     list[keys].name =3D pkey->listFetch_s;
-+@@ -1091,6 +1116,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pk=
-ey, unsigned long *num_keys,
-+                     goto err_exit;
-+                 }
-+=20
-++                if(list[keys].blob_len > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                    _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY=
-,
-++                                   "Public key blob too large");
-++                    goto err_exit;
-++                }
-+                 if(pkey->listFetch_s + list[keys].blob_len <=3D
-+                    pkey->listFetch_data + pkey->listFetch_data_len) {
-+                     list[keys].blob =3D pkey->listFetch_s;
-+@@ -1138,6 +1163,14 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pk=
-ey, unsigned long *num_keys,
-+                             goto err_exit;
-+                         }
-+=20
-++                        if(list[keys].attrs[i].name_len >
-++                           LIBSSH2_PACKET_MAXPAYLOAD) {
-++                            _libssh2_error(session,
-++                                           LIBSSH2_ERROR_OUT_OF_BOUNDARY,
-++                                           "Public key attribute name "
-++                                           "too large");
-++                            goto err_exit;
-++                        }
-+                         if(pkey->listFetch_s + list[keys].attrs[i].name_l=
-en <=3D
-+                            pkey->listFetch_data + pkey->listFetch_data_le=
-n) {
-+                             list[keys].attrs[i].name =3D
-+@@ -1164,6 +1197,14 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pk=
-ey, unsigned long *num_keys,
-+                             goto err_exit;
-+                         }
-+=20
-++                        if(list[keys].attrs[i].value_len >
-++                           LIBSSH2_PACKET_MAXPAYLOAD) {
-++                            _libssh2_error(session,
-++                                           LIBSSH2_ERROR_OUT_OF_BOUNDARY,
-++                                           "Public key attribute value "
-++                                           "too large");
-++                            goto err_exit;
-++                        }
-+                         if(pkey->listFetch_s +
-+                            list[keys].attrs[i].value_len <=3D
-+                            pkey->listFetch_data + pkey->listFetch_data_le=
-n) {
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-=
-support/libssh2/libssh2_1.11.1.bb
-index 2407ed34d9..21e7ed30da 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -13,6 +13,7 @@ SRC_URI =3D "http://www.libssh2.org/download/${BP}.tar.gz=
- \
-            file://CVE-2026-7598.patch \
-            file://CVE-2026-55200.patch \
-            file://CVE-2026-55199.patch \
-+           file://CVE-2026-58050.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b=
-0f109cabf658f7"
---=20
-2.34.1
++diff --git a/tools/Makefile b/tools/Makefile
++index 1a5f425ecdaa..e85f5a354b81 100644
++--- a/tools/Makefile
+++++ b/tools/Makefile
++@@ -271,6 +271,11 @@ mkeficapsule-objs := generated/lib/uuid.o \
++ 	$(LIBFDT_OBJS) \
++ 	mkeficapsule.o
++ hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
+++GNUTLS_SUPPORTS_P11KIT = $(shell pkg-config --libs gnutls --print-requires-private \
+++			 2> /dev/null | grep p11-kit-1)
+++ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
+++HOSTCFLAGS_mkeficapsule.o += -DMKEFICAPSULE_PKCS11
+++endif
++ 
++ include tools/fwumdata_src/fwumdata.mk
++ 
++diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
++index ec640c57e8a5..c3cf48f4cc1d 100644
++--- a/tools/mkeficapsule.c
+++++ b/tools/mkeficapsule.c
++@@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, size_t size, const char *msg)
++ 	return 0;
++ }
++ 
+++#ifdef MKEFICAPSULE_PKCS11
+++static int pkcs11_init(void)
+++{
+++	const char *lib;
+++	int ret;
+++
+++	lib = getenv("PKCS11_MODULE_PATH");
+++	if (!lib) {
+++		fprintf(stdout,
+++			"PKCS11_MODULE_PATH not set in the environment\n");
+++		return -1;
+++	}
+++
+++	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
+++	gnutls_global_init();
+++
+++	ret = gnutls_pkcs11_add_provider(lib, "trusted");
+++	if (ret < 0) {
+++		fprintf(stdout, "Failed to add pkcs11 provider\n");
+++		return -1;
+++	}
+++
+++	return 0;
+++}
+++
+++static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
+++{
+++	gnutls_pkcs11_obj_t *obj_list;
+++	unsigned int obj_list_size = 0;
+++	int ret;
+++
+++	ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+++						 ctx->cert_file, 0);
+++	if (ret < 0 || obj_list_size == 0)
+++		return -1;
+++
+++	gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
+++
+++	return 0;
+++}
+++
+++static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *ctx)
+++{
+++	return gnutls_privkey_import_pkcs11_url(*pkey, ctx->key_file);
+++}
+++#else
+++static int pkcs11_init(void)
+++{
+++	fprintf(stderr, "Pkcs11 support is disabled\n");
+++	return -1;
+++}
+++
+++static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
+++{
+++	fprintf(stderr, "Pkcs11 support is disabled\n");
+++	return -1;
+++}
+++
+++static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *ctx)
+++{
+++	fprintf(stderr, "Pkcs11 support is disabled\n");
+++	return -1;
+++}
+++#endif
+++
++ /**
++  * create_auth_data - compose authentication data in capsule
++  * @auth_context:	Pointer to authentication context
++@@ -229,9 +294,6 @@ static int create_auth_data(struct auth_context *ctx)
++ 	gnutls_pkcs7_t pkcs7;
++ 	gnutls_datum_t data;
++ 	gnutls_datum_t signature;
++-	gnutls_pkcs11_obj_t *obj_list;
++-	unsigned int obj_list_size = 0;
++-	const char *lib;
++ 	int ret;
++ 	bool pkcs11_cert = false;
++ 	bool pkcs11_key = false;
++@@ -243,19 +305,8 @@ static int create_auth_data(struct auth_context *ctx)
++ 		pkcs11_key = true;
++ 
++ 	if (pkcs11_cert || pkcs11_key) {
++-		lib = getenv("PKCS11_MODULE_PATH");
++-		if (!lib) {
++-			fprintf(stdout,
++-				"PKCS11_MODULE_PATH not set in the environment\n");
++-			return -1;
++-		}
++-
++-		gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
++-		gnutls_global_init();
++-
++-		ret = gnutls_pkcs11_add_provider(lib, "trusted");
+++		ret = pkcs11_init();
++ 		if (ret < 0) {
++-			fprintf(stdout, "Failed to add pkcs11 provider\n");
++ 			return -1;
++ 		}
++ 	}
++@@ -301,14 +352,12 @@ static int create_auth_data(struct auth_context *ctx)
++ 
++ 	/* load x509 certificate */
++ 	if (pkcs11_cert) {
++-		ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
++-							 ctx->cert_file, 0);
++-		if (ret < 0 || obj_list_size == 0) {
++-			fprintf(stdout, "Failed to import crt_file URI objects\n");
+++		ret = import_pkcs11_crt(&x509, ctx);
+++		if (ret < 0) {
+++			fprintf(stderr, "error in import_pkcs11_crt(): %s\n",
+++				gnutls_strerror(ret));
++ 			return -1;
++ 		}
++-
++-		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
++ 	} else {
++ 		ret = gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
++ 		if (ret < 0) {
++@@ -320,9 +369,9 @@ static int create_auth_data(struct auth_context *ctx)
++ 
++ 	/* load a private key */
++ 	if (pkcs11_key) {
++-		ret = gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
+++		ret = import_pkcs11_key(&pkey, ctx);
++ 		if (ret < 0) {
++-			fprintf(stderr, "error in %d: %s\n", __LINE__,
+++			fprintf(stderr, "error in import_pkcs11_key(): %s\n",
++ 				gnutls_strerror(ret));
++ 			return -1;
++ 		}
++-- 
++2.47.3
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index 574768b9f8..229d779498 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,7 +12,7 @@ PE = "1"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "88dc2788777babfd6322fa655df549a019aa1e69"
++SRCREV = "ece349ade2973e220f524ce59e59711cc919263f"
+ 
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb
+deleted file mode 100644
+index 6c3ef7efd1..0000000000
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-require u-boot-common.inc
+-require u-boot-tools.inc
+-
+-SRC_URI += "file://0001-scripts-dtc-drop-yaml-in-DT-validation.patch"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2026.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2026.07.bb
+new file mode 100644
+index 0000000000..9e7a178310
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2026.07.bb
+@@ -0,0 +1,4 @@
++require u-boot-common.inc
++require u-boot-tools.inc
++
++SRC_URI += "file://0001-tools-mkeficapsule-Detect-GnuTLS-PKCS-11-support.patch"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2026.04.bb b/meta/recipes-bsp/u-boot/u-boot_2026.07.bb
+similarity index 84%
+rename from meta/recipes-bsp/u-boot/u-boot_2026.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2026.07.bb
+index b6345c8875..5259fd5832 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2026.04.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2026.07.bb
+@@ -3,8 +3,6 @@ require u-boot.inc
+ 
+ DEPENDS += "bc-native dtc-native gnutls-native python3-pyelftools-native"
+ 
+-SRC_URI += "file://0001-scripts-dtc-drop-yaml-in-DT-validation.patch"
+-
+ # workarounds for aarch64 kvm qemu boot regressions
+ SRC_URI:append:qemuarm64 = " file://disable-CONFIG_BLOBLIST.cfg"
+ SRC_URI:append:genericarm64 = " file://disable-CONFIG_BLOBLIST.cfg"
+@@ -14,7 +12,6 @@ SRC_URI_RISCV = "\
+     ${@bb.utils.contains    ("TUNE_FEATURES", "a",      "file://u-boot-riscv-isa_a.cfg", "", d)} \
+     ${@bb.utils.contains    ("TUNE_FEATURES", "f",      "file://u-boot-riscv-isa_f.cfg", "", d)} \
+     ${@bb.utils.contains    ("TUNE_FEATURES", "d",      "file://u-boot-riscv-isa_d.cfg", "", d)} \
+-    ${@bb.utils.contains    ("TUNE_FEATURES", "c",      "file://u-boot-riscv-isa_c.cfg", "", d)} \
+     ${@bb.utils.contains_any("TUNE_FEATURES", "b zbb",  "file://u-boot-riscv-isa_zbb.cfg", "", d)} \
+     ${@bb.utils.contains    ("TUNE_FEATURES", "zicbom", "file://u-boot-riscv-isa_zicbom.cfg", "", d)} \
+     "
+-- 
+2.43.0
 
 
