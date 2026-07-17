@@ -1,204 +1,204 @@
-Return-Path: <jose.quaresma@oss.qualcomm.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50576C44516
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 11:40:07 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11562.1784288397388382383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B8D4C4451C
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 12:19:17 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12142.1784290751594937565
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 04:39:57 -0700
+ Fri, 17 Jul 2026 05:19:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=BjLdyWm4;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=bAqrv3U9;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: jose.quaresma@oss.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HASk2E1323638
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 11:39:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=BZh6sPI2UfoJjPSOef20Um1GLbRg3feOGU4
-	Wx2Mqz4k=; b=BjLdyWm4lMNlUFAPimgdy+yYhh0n9n7B7zEnI0Wr7I6o+Dod9nI
-	ZuhARp6jsXbjMgMJ3onoEvvj1RaEDZFnISdUg+umWDsbzSL8rOFDmKVglSPwzp7v
-	iIIdO4mIUkHNxYQTTdkxXhmw8vv45tFtS6kQDXH+0w0sBCHzZRnRWz5PDh7LUfCp
-	ah5I2hhYlp4wcIH36JnJkvQLrQaB0FO/Kejc8jSV1DWCSWLIuyKFWA/OsubUF4yc
-	1bvg0Yo7zfu86k3C+2rD/7gC8h+iuUFf6I8oLe17xBqdxoyasl0X1MQAe/9eX5SX
-	a2GVD1igwyvX8QC1ATuyhbLuK2aFyfqfH8w==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ff3u8kgxt-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 11:39:56 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92e632390d2so874552485a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 04:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784288395; x=1784893195; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BZh6sPI2UfoJjPSOef20Um1GLbRg3feOGU4Wx2Mqz4k=;
-        b=bAqrv3U9OArj2t95RpjSyTpiE9O+r9Djd9aAGBjIFPdgIKHBok5bqk2H99LLcbddwo
-         GdcelliWz9JNz8buNJ5mhfF3/hEI/ZzKYW9yX8e8e2nTQtfP2sgdixfTbrAJvfSGc+H6
-         onU9MsyEh0J96E+VzPUfQZZxhQ//1wFvbuGkLcHQSnKlETPs0MrsOIYaCyTIT3brooE1
-         G2pr0ITzHDGbgM9xp1dN8Cq0owuQL4w8XsBnF9fRo7iHIIr0paIPmrkH+eRJnJWe03u4
-         7/H2Mm/eu1C/lsnMaKvnyiYDy0tQkVKUVr/sfIbZ3eTQQZQ9eDzD/4MlhBD4i3MuK3mg
-         sBNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784288395; x=1784893195;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BZh6sPI2UfoJjPSOef20Um1GLbRg3feOGU4Wx2Mqz4k=;
-        b=l2BRlJf+hODOEBL95pVt2dpAHl0F3jFI7kEh/NtFCy8XzEO66PxYf7hwIXWdHhkAHm
-         sFWsV2MduEvLwzZ2RtywR9IA28E2eEUikBwwAWgnbL3QGBc1Db9rq8smV/ypvHe8X6Q5
-         jujapwEEzq7Xk1a5JKsJ3WLhlOH77sGmLl9pmOL0iUrO+C1u36ErI6rIbMGTqKs1Jvmn
-         GtjnO0AQUKCBXRdK4J3H1OTFGFkXuJGGBMQzEejD6mAVvaZoEvotLmEtIFEK0jEeQJQP
-         8bZjLThPJyVUSbO2b64ql0O94bvfoNTt5IHO0+yjnPZdG7QRO3ZAhcBvyV9E7BpbwWoY
-         /H0A==
-X-Gm-Message-State: AOJu0YytjOcBOaQLgOBTAH0RP/bxLfwYcQszGabiajBhk63LIeDwfsOy
-	S0qb9N5u8sF041xuLRPvwYFwjtjlH9acUXeFQnt7IqPHkO0xZdAyx/Y7p8FCl/Bw2YfueORlAM8
-	Kdd6dZcL+aiQ5F1hnYoDayA7/Yem/Pc/7ODifeusoWMoxwddhdvMSaxIIsVARANsF9w6odqy7je
-	0TjwwCTnvSBqVmVvo=
-X-Gm-Gg: AfdE7clMYbXe8hqgg0jYtAIOpXIBkeECtEEZwc41Tx6y83xzp+I9Y6EqbrimCJy9FDI
-	9pdWkPTsc+/EW6x2UjFD71fKWP8OgCB6aQeYVM/dA9wakxhIuA6nDpaOCfW1dJ8Z+RhJog5X993
-	Y0Cd/rb+IWWk/q3BOqxCzT0p/f49cT/G9eZbkCio/kNAO5+9Is5dCESIJoXjC4h7FpqBe13qcQJ
-	CViOz1SdibCxcanMFiJrQBPrMICBEVMg7W0AiD6oazYTIx/k8fwS69eLfBqqbnXDVJP8gJzCSIm
-	auboPExsVzCSSjAPYTnJQtNd+SZPcEGpYNRaP63h9J5w/Dvmhzh2HHub+PfsSHJw+y+Ug5ElM37
-	4WnmVevbIGzBXZUk=
-X-Received: by 2002:ac8:5e4e:0:b0:51c:1327:5068 with SMTP id d75a77b69052e-5213d1bee85mr17452221cf.1.1784288395498;
-        Fri, 17 Jul 2026 04:39:55 -0700 (PDT)
-X-Received: by 2002:ac8:5e4e:0:b0:51c:1327:5068 with SMTP id d75a77b69052e-5213d1bee85mr17452081cf.1.1784288395062;
-        Fri, 17 Jul 2026 04:39:55 -0700 (PDT)
-Received: from toster.lan ([185.228.162.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63edda9bsm3003265f8f.31.2026.07.17.04.39.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 04:39:54 -0700 (PDT)
-From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=U5ib07r0;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1658a50258=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HCJBXa1111922
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:19:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=1Jv/bDQ4Y
+	sepxj/DkAhBpfCqrBzla0EDTyLe2BB7Z1s=; b=U5ib07r0Rbd/BgmUm1hFAanCo
+	aO4GPMJ9N6YygOTkVgUmOtTaTlB9k3Ed1c0sBZHoT9LNZ0GPPIpQQHqugmw1/jht
+	kLEaKD4vlKh2D2eszxUftkTKRi/jsYXa4Z4krp5Alr7AJ0k1As+CyyyJUDfq7mUk
+	7qg0fgucgSTymm2QigVKlMnFmxcR//4LBNGoo/GiovHo2GMiiKt3Hch4NG3jDvme
+	c1bF75Vu4eoYrgpXV0YNz4cZcSo+1XSC3homVov5BVxyYVkoK3Al3zUQ2isK2Fa5
+	ru8ge4ulUGOveOaLoWmJyJvnJ2riuW+QbRJtPThwPXLQwjNG76zood6CEw7dg==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012034.outbound.protection.outlook.com [52.101.43.34])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ffgn588dx-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:19:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F4EMplv6aVfyJ/Q05IQ8m5OicpDDF/1WD8BL6o058dgrsSJDt3W5mH7ETvITt8gBrpQsB9GTD0QHzZvq/u2Pfj8JR9oaMSwWayXvVQdY3dgBclF3thuF08Y7u5pMnWhMs/AL/9Rq6MxddCECz2SJbcIh2AbWHy2ndf9aNyIHMhpPY0sTeW2gfWOO/gA2v2icXuRsUZ7tLND5T1eSRI+GnTun0q9gpOBC1TQANOYfxrhNx2fP7zGY9LKkcIQIo4d99I/X5RrSmhYKIdmQhFi3QIqd6I6hOc6qI1FLyAaROTchM9D+czgEf1HKG5+Kva7DFM8Y/9ElVr0fAJHjxwdh9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Jv/bDQ4Ysepxj/DkAhBpfCqrBzla0EDTyLe2BB7Z1s=;
+ b=pqj3WAsD+L5WAOQ5ZcIjW5WPIaNV+ML9YOj+InxqURnMMDC2Qx0j5OxbC++KNyMH70xoFfmyRu9/SW8WWrfutnzebwPD0y4u1nIuzUhv2ZNr0rpXB+3BX7zXGGdbyatqihPCAuzvlTYDLCFLt+x2pqgqTjy48IgsrNM5zYllHhVeDYbEDQQgHAYggPrUBprW8ukNOUa+t9lllTNnE1dpBylsOAL0H17pDzJ5jGUuob/smFIjX35IuJ7S4GdVip5jAYOPqy+7Up9s6a7fU2oYVA5Nv2p1h3EjWLwqrtCl8itJMlGqe+d0c8Uop8RNDcV39NnuqeNxELI1FCqZe95uag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by CYYPR11MB8407.namprd11.prod.outlook.com (2603:10b6:930:c1::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.13; Fri, 17 Jul
+ 2026 12:19:05 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0223.012; Fri, 17 Jul 2026
+ 12:19:05 +0000
+From: Harish.Sadineni@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-Subject: [PATCH] shaderc: upgrade 2026.2 -> 2026.3
-Date: Fri, 17 Jul 2026 12:39:42 +0100
-Message-ID: <20260717113942.67640-1-jose.quaresma@oss.qualcomm.com>
-X-Mailer: git-send-email 2.55.0
-MIME-Version: 1.0
+Cc: Sundeep.Kokkonda@windriver.com
+Subject: [PATCH 1/4] packagegroup-core-buildessential-rust: add new packagegroup
+Date: Fri, 17 Jul 2026 05:18:46 -0700
+Message-ID: <20260717121849.2163115-1-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.51.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: PtQmln4PUGDKLGpV-4VGdhC3HikLzHah
-X-Proofpoint-ORIG-GUID: PtQmln4PUGDKLGpV-4VGdhC3HikLzHah
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDExOCBTYWx0ZWRfX+XwGPjIRhWpn
- 6+FznqgHuV8Kmw1Di/Vv6VDvK5XZA2UDrLLh+oOsph05iNx0Os9r+lwR2JXweUTgTOTkmx76GDZ
- TFHNxPRFS6ZqUQQyog+aym292Pk10WM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDExOCBTYWx0ZWRfX/iTCgHm0lVK3
- 9wqcDsy5QOlR4c+IxCSkQ+19TLO0OMWrSTvXS+Zdn1eJJgCWXNL1afeIehNOSLHYka6SxcbaXNL
- XSjxHmmW1hKa1oytG1u9qwJpzg90VsL4/0kjrynSE7deXlwILBD6zT36X7ED/vY5piRnPXP/NbH
- 7EM+A3UcD4opkVLWtVkl1ZAx40R5rbp0Fs3LBsRYvJpIWMek7LzfaDweEnjPDkxBryXQf2ZYtWt
- jTGpRr8S7bE71r3jupq2/WyIcsqhW9twKe4Oj7XkVZiZ6VBVMR3+NOLE99E1A3VznAvI3B161CU
- yZtBW4NVoKsloehARVAGK80yjWvoQU83Eg1EqAgCx5kFunwsH5MA3z5lG1kDoemq5jxeOWCPvis
- dih4PmdPM8026wnteRvjOfpUxP+lv3+zkdrU0aFq7FFCXbzC2NZVnG3JAk6Srkbo1eIrgpxwCch
- fgg2A1kv+MegsAPvj+Q==
-X-Authority-Analysis: v=2.4 cv=TL11jVla c=1 sm=1 tr=0 ts=6a5a148c cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=YIx/k7VQn7/pPcQ+xNwIKQ==:17
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=NEAV23lmAAAA:8
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=ezQQ7er8JOjSBbkXI-EA:9
- a=bTQJ7kPSJx9SKPbeHEYW:22
+Content-Type: text/plain
+X-ClientProxiedBy: BN9PR03CA0438.namprd03.prod.outlook.com
+ (2603:10b6:408:113::23) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|CYYPR11MB8407:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f9579ea-c8e0-48fd-c1d9-08dee3fd9811
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|6133799003|11063799006|56012099006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	JKMm65jXT5008vSqmei6UALhlQCguDrqQQ492aUQol0FWOOeaQ2D2Q+Lac8BfSA3Z6pQ0+L63awyGczUqvDlOXvQqOINlCmWBcXCCM14BOa4WGIU0ewvXe7yzvhh82N7WwyUca6ZTEumM+zvTzGyz33II4YvLNM34QrAwogp/EsYJB5kOQ/0H1OnPqrB1+pVYPOaMRJDI6+30DZeyvgellyNEhjOoxDiPgXmdZLPCg17LcK2RaU3isKcEjBU0n3r5UI9HTmfzvBl1fk0ZTc0SS6vd8rktdQt2myiEGsvFdlZCZrqUM12oNRNuC8F85uWTOjdxOFhs74pCV7N4JtQm+A0RK8tf56ofUgRdODkdnLI7V2/e628Rk8Bgcs8AquJu4vCATzsCo6gvtFLVyYcRKjY4y7VMCgBTTs6fOx6hNRNk17n0zhX01i6xZCjWTlptQTcxrzrZNzl8JfT02Lfgr1slYecyBUJX+PJeNcpQJat8HqLjc+AvFdH1Qd+uVVToWQZmLRPpdsvDiM4denpsM8wEQtfNL/jWqaSvC9qGhAMc5G8q19pTKLAmJZ6t0q8SLYqjCRMWDQZ8jjfnle7t8Cc39cDbwvbljs47Kc9zduUUO582PFpCY8WfMOtwVO+MpkFXiORQfhyg424Zui9t5SNxeskmurs6QzWkASNiVhGdX3UnTJBh2y0ZMiJ1t1Nam1wbgBPY6v5UF8ORf7UNiKDLJvry9X9Y6a9hmQuJqA=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(6133799003)(11063799006)(56012099006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?5ByXH9b71nwCKDZTsQ0acMUm3rxDaszavFO1xrZV2zhqsYPzHJbjktbrEDey?=
+ =?us-ascii?Q?NBLx4yE2Mnud+sRW38SBoCyNF1NClbBeUi6JuUfEt9M/2Xjt0pLv+Ls/jYby?=
+ =?us-ascii?Q?Da+BZYl0JBG8cvRZi95lfR9At+DSmE1lG0s5zFF6n1PfjZnNW6L63RkCqwNx?=
+ =?us-ascii?Q?d0k382Oei6luV7wwEUvPBPJQL8Ti6cg2YF5nW9U8f6LLI3Hq7cqSM3JUx5Nc?=
+ =?us-ascii?Q?YhoAxNsxmv4Whum6vYiVJBH1KJMU5bXLt4UzgXpiNzaLMdLnGDQjd7eHrxEh?=
+ =?us-ascii?Q?b08h5ixlWtdBN/aYrGKYYJM/Q6zbiFjkypCTEOZWuQUyCo5QybRuxWaEYuvm?=
+ =?us-ascii?Q?34D7FxKhnjgB/nZLzgqKVA6ORgTxe+3NxUDF98reAVB1IRJcUTGbc6dY7S+t?=
+ =?us-ascii?Q?kZr0SL1idohImYcr/mqwJTnK5bKRyRKKa0/U4Dl8WjXUKn3edfd2hZi3EVgE?=
+ =?us-ascii?Q?r3NM6HSo+Snw5vyhR6c3ND93tS/AcMZR/SUqAFEiQphKwgllLIoqZjTn9+s3?=
+ =?us-ascii?Q?O6/SAidWf6WTHRbO43CME9mOJAFquLv6+wocO+jqtyjzR24NqQr9l/DIHeMu?=
+ =?us-ascii?Q?xKKE1yUDpRIQ2yVGzE+WV/kIYBNr/acNXZNYq/DdpyYrkQO+Vs6xomSLrBmi?=
+ =?us-ascii?Q?3r6Sj8eaWEIOfAXuluyzZOyDbUc+Zn0UixSdT2pa2opxSDtJJzTAIBbkLe+S?=
+ =?us-ascii?Q?TVoHVFiH63IsUjzeqVfOBOyBDsbF/2Tw95XOrbGbJo+Wp77siLC6WwV1ZRqx?=
+ =?us-ascii?Q?a4+p7hqfgMFB6GB3QuuLqhH4vp8Vln1VdPIGOfqNKjTRwo7XEjYT7obBiFU1?=
+ =?us-ascii?Q?XWmL1gFVQf4BFsE3qhvEQmy6Rfcr9fgIGBr9dllky2uGyW/jXFaLREVEmoVG?=
+ =?us-ascii?Q?CkWP7+vO4T1jIcKT+iH4WTI6OdtQYed21L7K8EtUtp1Psrq3SEIX2Noel70L?=
+ =?us-ascii?Q?3ZrjK6VAyi1cDCwqGCUCtrd0tu9kDdnFHIiHOuM4XLnmN8mPe2c5gfYSE4M2?=
+ =?us-ascii?Q?FLV3SOu1tiCQ/ZkOt0sQVF/RsZzUHd6Ezrs50i43bu7ENXvCtpdu/ilvmG+k?=
+ =?us-ascii?Q?dSQN7SXYePknJl4g4HZbgA72OGxqfgEr0VO4MTb2LY2gH5+o4NqYH0kYhmft?=
+ =?us-ascii?Q?IIINIQEQnrVGEyaa1nT+yy2FSe8gyE8aST43gGbibQZvrJ4MVKHE28kRiPOc?=
+ =?us-ascii?Q?RyidHKmT39vjLRojqhUn9z0JXeq5Wb0uIghDmDdAKG4qvyxoS3C8QA9+iSTX?=
+ =?us-ascii?Q?UVl5HvfTjmGRu20XHL3FrfItoDHecMMyZ4JtGPMWGWvGcwiIwPrXnyWY1RqH?=
+ =?us-ascii?Q?WZFPFNU83UJGjgg4kYxMqZF+ZOMGIzNKw7nmW672lT8uiy59L+30f/rAIY3L?=
+ =?us-ascii?Q?FS9FGooJru4aLUHHWaj4Z7GycXAcOK+gd53Pg3fPLRpb9DZrMMq1zETNPm+I?=
+ =?us-ascii?Q?jIVmzdH94K4n8Db8ppa3avDNAvjW+XHcgST8fD3D/k17J4qThwc+Ui52gCoQ?=
+ =?us-ascii?Q?8+hEXM5xAhZZUQ3ycATDt6kiOtR8Uo3p+ENl38v0xn8zVna0KCU1I/JiUwlx?=
+ =?us-ascii?Q?Ekef6nNXvMwc9TdIpIGOxI3zGF6eaCUSGYsrfW/ZCfhmb6klcEEqMnrGwj/v?=
+ =?us-ascii?Q?GhI+FE4zKtx8rU6XFF3ygE37wSgdSE8GhLzNaNNMcNbc59B9H1jzQbFJPPUm?=
+ =?us-ascii?Q?tTU385CYHTzhy59lBznLufy2lC/jgxYPtb5PzTKLPTMToFk9ecx4hxNhIA0p?=
+ =?us-ascii?Q?dZ7pkbBb3gmZWP6xBP3pjnKteJk7MrY=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	gcNGgp9TiDGwzwVX7m3wL4mT1gRwAuWaxSDxHzC6AV/S4fP+ysWt9Z4tFhZ4YwWcivJDd6duc6EZTJ+s2V9grs0fKX4FNChfRHoFsfbh3TXCQWxD/vqxvdFnPFb7xe8TqkLPj7zmyNUNrH7gXb5bBRqSHlR0Q5zQS4KX2bW7pGpuO7Oe8/9ysJJOxsTP2BG+m4oD9ehLzkS1qPKylOgqF/t8APYg1Y9anrBSSJKumeuaYKe+3TTLNzz2Gb7nweyT/t+VdDe4bJLuZjBR9MM1ogd8D2NDjVyrzDkKqbkI0+u/RVryIYRzYYgYVe2wk4f2gp/V0fgdBY2cAFDye7a+VA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f9579ea-c8e0-48fd-c1d9-08dee3fd9811
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 12:19:05.3552
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DLoR4abQsGQPrvo+vusUMdg2tBbUh6FGlFD9cbZb7VxrwKK5lII2sxOg7fqhStTUZRFk1gchxs0L9y8ZQNMPbmLpsdb61jRDBWQDCEISaqg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8407
+X-Authority-Analysis: v=2.4 cv=eYQNubEH c=1 sm=1 tr=0 ts=6a5a1dbe cx=c_pps
+ a=e7UpQLGcWimQYEoqUdNrWw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
+ a=ykIo3778XL2VIhXAJQcA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: ClOCSyz0dsSyjlfnKojkqTdevhgzGTek
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDEyNSBTYWx0ZWRfX+gYU3y4djchv
+ vKbTWALb+aSqOyAUa+00tR7pfgDiqp23ytmJ713msX5TTzcyxXQQro0sY0zXhXUL7R6pB3fD6x5
+ Nxi8v3T+3emUXZMDCt7bLYsSJ4ZSBPTpMuaDlflYnoubQjrI9lsaHsRGGODwIZHuhwH3v3KLoYV
+ A94eVCvBNBdnP7cVxPk/lah8AXgWhGxkRV21Xy/1pCXcxJ6PiC21or5IhYjMRA9PaZ3k77K3sQx
+ /hpTFOQPQUPBgBZfRTrrQi4jJY4BHRMZus5yHppiZu1vN3SmI5/hTEhUD5YC9qYYBcZl3r9VMg4
+ o113Z4AIPHa8vPXAf0+XSXflVOrWAMT6CgBfHiB/K+UaRWe95XKFu6ZOU6ZZCEKuko0Wk7PLxuE
+ Gz+CyUw5t420gmP/2t/p1lGCRDtM5iEeuHyrRBaz/iLRP7XfBiT8q0R56sEw8S5gGaHEncyoOFy
+ Yd+7BYReOFQIDsRuNXA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDEyNSBTYWx0ZWRfX8lCyje3pEGxo
+ YJoY5FtChFXyRMxsEPhnpKOOuBLh9XRphl81IwZyrfBEFcr7A1QqWKmVISN6WDjsyQB0QZi+bEG
+ fuaa8ZYRClgc4/rJ7zsc+y+RCxSq1fCyuhS8UWQK1/bq08Ov1B7R
+X-Proofpoint-GUID: ClOCSyz0dsSyjlfnKojkqTdevhgzGTek
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-17_03,2026-07-15_02,2025-10-01_01
+ definitions=2026-07-17_03,2026-07-17_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 clxscore=1015 lowpriorityscore=0
- spamscore=0 bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607170118
+ lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607170125
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 11:40:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241163
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 12:19:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241164
 
-Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
+
+Introduce packagegroup-core-buildessential-rust to provide the
+on-target dependencies required for building Rust-based kernel
+modules, including the Rust toolchain, bindgen, and libclang.
+
+Set PACKAGE_ARCH to TUNE_PKGARCH instead of the packagegroup
+default of "all", since libclang is dynamically renamed per
+build (e.g. libclang22.1), which is incompatible with an
+allarch packagegroup.
+
+On riscv64, also pull in clang, lld, and llvm-bin, since rust
+support in the kernel on riscv64 requires the LLVM/Clang
+toolchain rather than gcc.
+
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- ...-cmake-disable-building-external-dependencies.patch | 10 +++++-----
- ...shaderc_util-fix-glslang-header-file-location.patch |  4 ++--
- .../shaderc/{shaderc_2026.2.bb => shaderc_2026.3.bb}   |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2026.2.bb => shaderc_2026.3.bb} (95%)
+ .../packagegroup-core-buildessential-rust.bb  | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-buildessential-rust.bb
 
-diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-index f9731a8eaa..bc324b5c0d 100644
---- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-+++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
-@@ -1,4 +1,4 @@
--From adf7927c3fa5055d33c3970be53fdf1a8853b617 Mon Sep 17 00:00:00 2001
-+From b2d321b9c493a6e36203c50ad20adb655485c951 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] cmake: disable building external dependencies
-@@ -15,10 +15,10 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  2 files changed, 25 insertions(+), 10 deletions(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 06f5395..39b8869 100644
-+index 51b5469..8557714 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -72,6 +72,7 @@ else()
-+@@ -77,6 +77,7 @@ else()
-  endif()
-  
-  option(SHADERC_ENABLE_WERROR_COMPILE "Enable passing -Werror to compiler, if available" ON)
-@@ -26,7 +26,7 @@ index 06f5395..39b8869 100644
-  
-  set (CMAKE_CXX_STANDARD 17)
-  
--@@ -129,8 +130,14 @@ endif(MSVC)
-+@@ -134,8 +135,14 @@ endif(MSVC)
-  
-  
-  # Configure subdirectories.
-@@ -43,7 +43,7 @@ index 06f5395..39b8869 100644
-  
-  add_subdirectory(libshaderc_util)
-  add_subdirectory(libshaderc)
--@@ -142,7 +149,7 @@ endif()
-+@@ -147,7 +154,7 @@ endif()
-  add_custom_target(build-version
-    ${Python_EXECUTABLE}
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
-diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-index d639635766..fb11fae014 100644
---- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-+++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
-@@ -1,4 +1,4 @@
--From f3915766d382d30c83da6d8077bf183e930a4789 Mon Sep 17 00:00:00 2001
-+From 8f2350e4172758bf6ef3464c998352864b90988f Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 13 Feb 2021 00:45:56 +0000
- Subject: [PATCH] libshaderc_util: fix glslang header file location
-@@ -11,7 +11,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/libshaderc_util/src/compiler.cc b/libshaderc_util/src/compiler.cc
--index f2ed3c7..59b262a 100644
-+index 41bdba7..db7f329 100644
- --- a/libshaderc_util/src/compiler.cc
- +++ b/libshaderc_util/src/compiler.cc
- @@ -20,7 +20,7 @@
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2026.2.bb b/meta/recipes-graphics/shaderc/shaderc_2026.3.bb
-similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2026.2.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2026.3.bb
-index 644db97969..063bafaa04 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2026.2.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2026.3.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
- 
--SRCREV = "baec0c74d6dca70c52d937e2e5bf6ffcd449e430"
-+SRCREV = "82757e4f72af8518fb679604d352623450cb761f"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v${PV} \
-            file://0001-cmake-disable-building-external-dependencies.patch \
-            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessential-rust.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential-rust.bb
+new file mode 100644
+index 0000000000..c1993af9aa
+--- /dev/null
++++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential-rust.bb
+@@ -0,0 +1,23 @@
++#
++# SPDX-License-Identifier: MIT
++#
++
++SUMMARY = "Essential build dependencies for building rust kernel modules in image"
++
++PACKAGE_ARCH = "${TUNE_PKGARCH}"
++
++inherit packagegroup
++
++RDEPENDS:${PN} = "\
++    bindgen-cli \
++    libclang \
++    rust \
++    rust-src-lib \
++    rust-tools-rustfmt \
++"
++
++RDEPENDS:${PN}:append:riscv64 = "\
++    clang \
++    lld \
++    llvm-bin \
++"
 -- 
-2.55.0
+2.51.0
 
 
