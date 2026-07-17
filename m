@@ -1,184 +1,90 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9EDDC4451C
-	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 12:19:27 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12059.1784290757727014498
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C20C44520
+	for <webhook@archiver.kernel.org>; Fri, 17 Jul 2026 12:27:27 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12269.1784291241967501779
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2026 05:19:18 -0700
+ Fri, 17 Jul 2026 05:27:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=PoBEcyno;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1658a50258=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66HCJGEX1260472
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 12:19:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=ORI38GkhkszHuIQ+gKM4owQkdcrQJ0DlP0oTBzYK3Yg=; b=
-	PoBEcynoP3m2ON068EpnfNm5S8vuja4yBCn2INlBRq4Pdvy0ofQhkDtfAUtkJwEy
-	Ew94OMqwX1/Vwluplk2UTm7wJcsIwo8MLrX2BMtvr8RZLtPIIb8DyFmRI6rO0Cs2
-	pr8rC6yG+3Vg3tFo8gxJwHv1LBQBZsKc608EKY927QJpMG/M+XXCNoIXPz0OJtGr
-	uIRgd6exB2MDNVYXXXX23lWUgLkVq50DkNjV9TyUxlQd/QUoLZnaV2AfwKsuP31Z
-	0odwStfRXmPpk6wdsDAhHOuT1Jhq/QrpDZilfyDUvc5i4+oCk1uHL8TbULjig+dH
-	nQL27gfw70Sf/Hi6p682mg==
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012035.outbound.protection.outlook.com [52.101.43.35])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ffgmtg9r8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 12:19:16 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x/h/VZCxBKLGzrohOqOocwFbwVYPNpp9LWSNTIozQ9SAqra07FPK1h0fb0n537ivAJ47JX6m74p+QvcYXYoke0R+LGHyaM4wXC007uWQKzD5UmeExzroWX9ZSmsbpm5j2zDLVQUetMf/Nv4A9CnPQIb3FdunXHOna6EeyLvgLuj4x1NirCtUGAOEmVkPyAhZw8ZDYQkD5C735MqGgs0EZ14G4eP7mC/Y6m6KG3FB9PaTWq6OUqT90R8DwNHPJXJ/PQP10HFkKDBfr+A55+yT4u8syTfBR7YXavu5G3VUptq1TjTh//MGKhfqYi3im0jdz3ZCPK78mhJSY90C7x3RNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ORI38GkhkszHuIQ+gKM4owQkdcrQJ0DlP0oTBzYK3Yg=;
- b=MlrYxxKPS4yRO5vJHMG57Unynfx6MqJl8toDfNrHwBd3lIrLTh1djasNp1nVNnWwU8TyLXKdqKNWALUEU2x+D7p5he7BfkvyK4bYamNg5WxjUpVy9Qq84GLTULVyAtmlHmCrnhk6G0vxV3cotr+mYBG5a02lscgEGvrH+ib9rAtR4cAxBga3+ZMqVFIV5a2txP6pA5dZGmLy1eN+z1SpckQdjWNRe6gTMYtaGiJT/MMhvZG4rWSWBP1BA3V3Ug5SLgsfj9NEL789zpdtDbw5/LErxjQpL1vjarsW7bwnYMAuuFmEqcDZSWhnoyKsOLsg46cWp4XtYc59w2rjjg/n0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by CYYPR11MB8407.namprd11.prod.outlook.com (2603:10b6:930:c1::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.13; Fri, 17 Jul
- 2026 12:19:14 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0223.012; Fri, 17 Jul 2026
- 12:19:14 +0000
-From: Harish.Sadineni@windriver.com
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cpnNSptO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493ec555a26so51203135e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 05:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1784291240; x=1784896040; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PkuzwM4WEQnuydM3vyCELolHO6h3Ft2JiJMstDR5q9o=;
+        b=cpnNSptOgxJIdkKb62FaS5gPjGIvUhwXkCTF8qZ74zLXT2vB2H4CN84Dv7bNG2r1j3
+         SDZdPU8/jkfHcIfX5B4Wq7QOr4xRvWG/NEXic2c5hEO33M9eYUBIkLRua8AwNfXYi0N+
+         GS8pYf+hPp99MqmgcDmKZKYdddQ0oACACcQGs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784291240; x=1784896040;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=PkuzwM4WEQnuydM3vyCELolHO6h3Ft2JiJMstDR5q9o=;
+        b=UBdbRW4Sbn4BUOPths19xTnPIr6tQ5vx7Tq6Rt3OxYW0EWegr0t2kyiQ78h1dl9gNB
+         HCqhLwZkFHg9XG55Ub1oEJg8cY8tDl0hq0XtiK80J6sgf+kVtVjJlh/ZZVZQNhYHiCnW
+         UN+Jg3v/IyccUfEHnnH9E65KHoV3BnnPB49jqD86Z7fV8g44Uwm2tMv3mrIg9Q9J4xab
+         xCQAOHABNISg4kVgBXOn7llzevOq/8WQt3/VSBqAd/+pAg2T0wekdJG5P8Ocne+2jjhJ
+         qxgMO1uTZnt2VpfdwP5G4S+Fewi+tPvJHy6+4CK48v4ixJpi3No5m4TjbGID1+s1TVaD
+         MFPA==
+X-Gm-Message-State: AOJu0Yw5HYFxa2+kJQ/UwZIe8q7ahKDCvz9Edvaqa8Iuj63BP1FyJidz
+	MPsJsL095VRETk7V9zyrsjaUYQeR+S1LehGnNJ47bkkmMWrJJ6rrzqeaR0yV7Xy1KOPbdW7yk51
+	Oxjca+M4=
+X-Gm-Gg: AfdE7ckU+/Y/fCFVOWlueXa0JrV6nYb7hN5I/rpq5Iu2F91sa4201r/Hn6vKi773rpn
+	6sMgSzqck5N9R1DBi8X5aQUhdt1D0m2MPpEehhP72K5jT0mbMWYFfF5W/Ya1R2z8YegjfQAJ6Qd
+	+1vFOjC4nkBqau32brw/wAm1QDmk4M5PpbMe/UFIvJ7gH2QaWzyzVLr4bXYRCY/k1yCCInLL99E
+	pSoLZJtPpoEU9uwYvI19YSul3/Qmthudny6wMFMCwh83EJnLDGcllgXJmz/xVA0VwDofnRva5uU
+	rWY7lKFpWz6j1lI/l4JHkGUka6vpdCS8Snu5XucojNQUzOXCwWborDZJgvBtemgvPDR/NDERq8N
+	qKVNtMCX/T/ryvVtvLnFcaff6KoETQ/sBm68gm1M974zuyUkhvMCsfdCR27r2qUSfipHFbIVR2b
+	PWL0kC+5dqoda4wUCtV6y30YLhh3MEOw==
+X-Received: by 2002:a05:600c:81b:b0:493:df1d:7488 with SMTP id 5b1f17b1804b1-4954a3f1611mr20204315e9.16.1784291239971;
+        Fri, 17 Jul 2026 05:27:19 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4f8:d22a:f372:6bf7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49549a359a6sm46842485e9.1.2026.07.17.05.27.18
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 05:27:18 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Subject: [PATCH 4/4] populate_sdk_base: add kernel-devsrc via SDK_TOOLCHAIN_LANGS
-Date: Fri, 17 Jul 2026 05:18:49 -0700
-Message-ID: <20260717121849.2163115-4-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260717121849.2163115-1-Harish.Sadineni@windriver.com>
-References: <20260717121849.2163115-1-Harish.Sadineni@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0438.namprd03.prod.outlook.com
- (2603:10b6:408:113::23) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+Subject: [PATCH] enchant2: Update source checksum
+Date: Fri, 17 Jul 2026 13:27:17 +0100
+Message-ID: <20260717122717.3289548-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|CYYPR11MB8407:EE_
-X-MS-Office365-Filtering-Correlation-Id: b6ffea09-0d10-4a7e-d4cd-08dee3fd9d43
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|11063799006|56012099006|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	Ige57QOdQpx0IGJJXwo4V/z3GcByQqJevN8McSEpGYSJnMEpMRtklDvrEyEF/ds6eUK0AZhk8WFmimQAOnAyJ0oerUTOHGSMYHbUYHxWaaoFyAGAtptjckZeseaCJeb1am4gqy/O48gX8jtnYwmrWfseSqzNCroK03Q3PIZQgjTAhjAx61m7WX9BTMiBwuBz2bZ35IfaPdnN/Z0FgDg0aBOSAvjoH62oYIZG+S2vg8SwhS6/bZuSP78jy3tYN7pHZDSi7Q9OtIIMx4ULPJgjERwGUMbqBWzFWEI77bCK2npP9UCUkAg85saZbK51gVd20jGZle3/zfeAYF5Y0V3RUz49c/rSMe3cOiA7WRhUubui2MDq+vi1keAGe0N8o6ZjBU8rmMvFBuB92iGgLUB9aDUQ0PaCzOfmMHvFGNqfZBrnKCtGB2NjT7PNSgfzXPhfhr16TxuqJH+KhmZP6b16VkxT+MBdcdmAhf9J8H28/Yy7JyEA/RCwebGotiXzzfAYYGkwNE1gNNaK/9KZkSr9ia/WDbz84qwFsoL7NO06MrJt5gSi8NRT7gznCXdtWxlPd3TenLHksdAJDxGDlWo58U/m4HnKUTwvoAbiHEf8UzlLqehgwcvwBT0uyoAOy7VZCFLyrIbxQUUviHlJGenaZVoSdGCM497jWagFdUrjqf814vsGGef8n3ShDbzL4WhCRPu4mlO0gmqZHyNl2dpl9/AO3nTvwkKR4ULXepi8xFw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?T8doLM4Qt/UfTN/5YT4c0JlNSyGuMf9PA1+PMckF2UbBHGjv1uLZ0S67Bx9k?=
- =?us-ascii?Q?YCF9mSFNHZ2TBktKCMhusOofWtFwy00hJOooTXHJclV4FMhNd65RklE9xjSG?=
- =?us-ascii?Q?DMq7L6wuU9OwKhIRJQD5yB0r5rOJPFG34Vanr6mC3K3OD8kpwCl239gfJvzp?=
- =?us-ascii?Q?WGptUiTzDHikwtLdNFs3Rh3+lyDQzDg1AkMQETBgvEfhq0LYLelZiMHWUz0M?=
- =?us-ascii?Q?CWcPuIbXiKNpkecwvofhWTai3eHzBIHmDgXiJTuLsBXXa27You6PQOYKx23z?=
- =?us-ascii?Q?DS1CIsamZZLNQqWzex4o2OMurM2siLwoaJ537j4+W48D1sJSe5SctAJsWEno?=
- =?us-ascii?Q?BKbyjkXr1sd3/o+h22nspzoZiP9z6Y5AkFaTmx+RZyGvGTPKlHZcZNo5dfo+?=
- =?us-ascii?Q?6D9FiVd6194rdRfSEOygCyDy6PtecQaM06m2SZHXnlTm+Fjr1RqyTJJRFVH+?=
- =?us-ascii?Q?SlgxOuGvPupGQLEUimVkQZpuj5RRY6LP8XypmAC16tjlkUpz8Jc1fhx++oYu?=
- =?us-ascii?Q?zoYl4Xm6xRaCBeKFLPlLUBK7RLStERCYXGkHDkeCOhh3u/KmwIM7U5jL0TDQ?=
- =?us-ascii?Q?VJLPy3QQ637SXua5Y347qjjVre2KBVQmqMRoFJ/M3P4MKlsiNWaiNfx6WcQ4?=
- =?us-ascii?Q?o6IIMhHTXRcTyPkuKRQLtqz/8+TtMmilAELSMaFfHQAevkuAuAqTOc9GpAYP?=
- =?us-ascii?Q?SMJhQxluoQiapLU8/rZBxKUZpXMJOGeCHwSjqDoijtwHsVfhQnEQDiRunW2x?=
- =?us-ascii?Q?dTMoI7NEeV5vlaNaaqP3CpspgZnhove3TNJpVNGmo1Z27S25LiIbZG8vWX2x?=
- =?us-ascii?Q?KliZqc06pWqARmNPoLssXof7iBkJ8CZrLbOJHk+bfn6cZvcT6fGlxAQfK75/?=
- =?us-ascii?Q?SvHNoW/TmKWrlWLn5qq7oIKn63mnU1OT+4R2pxrkInR/tXV9jfxFcVCe0/iH?=
- =?us-ascii?Q?lbSgKikVVBsos0Wki6O+r47VIAH0m+pStUztTsWag1daknIoFnWukWxpUfFQ?=
- =?us-ascii?Q?bQpqLE+F69U06GSOOYqxVVPmsQPbkB1tXb4ybdgC4BX+I3esVnsMJ4zLEoB+?=
- =?us-ascii?Q?7AQM2YRRnoimOYrZr0TtzkF8y/BLhuJeKbBQIt/ZS+MiNXvpdXMQ7GCoC1xD?=
- =?us-ascii?Q?ksoqXowiYmxSHrHHb7S1pW+n54EyRR6GfDijZEouPSh4N7zWDQDQ/9oAWqxg?=
- =?us-ascii?Q?j6OL6LiAMXRC3EFrqnqk2tqGP1+szKEnmIQMa8TPTFoPYGuaXFGb5kVA3ooL?=
- =?us-ascii?Q?kzw0phltLLR3HY9LgN8tCu5PtaCrGsM616hp251k+b/Ch5ttSu3FtXiK4OQl?=
- =?us-ascii?Q?mp9btSVBlRqqgRTdYeY+4rne/vPMiL+HLCHyMQTVZg36PZBhv/1oZcLaRXKV?=
- =?us-ascii?Q?zlVuBcGSbXpDgfoujXzlSQtz23YXN4fggndPRSvr7YCq7HJZpwc/Ktxkj07B?=
- =?us-ascii?Q?ph3TsNYDSO/9lJI64pCjX7BpukMEAebFuhX+9FQjI33CAoeplkm5No0Ermuy?=
- =?us-ascii?Q?WJhoh5VvoDAphKhqBUR0twTxHhAeUinjp8sIBLuzlKF0Lg25OIAeXOoCXZu0?=
- =?us-ascii?Q?oinuTgCEXkdrkiuDXOPJYKYr4KqG/PPwkj/AD3jsWMjBWVca3+kaSIFPYBIi?=
- =?us-ascii?Q?SY+dtQvJ6v8qVodxmJHXb73H26KKACHHRAwW0xQDHWD0+/5VHv+fKZTBowFJ?=
- =?us-ascii?Q?XuPLex5d8YNlY5W33Ggrz80YJUQd1cD8n4e/nZoFcrAJEm+PamiubQXM7MRG?=
- =?us-ascii?Q?JiotKt8GiNXlIhcA4HbkqXx9DqdMHN0=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	XWGsEar0Slngnfv9PYJL0uxqfbXuVVDrrn9/o7F7cp+C0RdMk6tyhSiHzKwD2IyN/b3hz50yU0ShhDzqYmp5kJkvwFDIMERGn15sh/ZXq3J0QZcNrNFvsq3TB7TtB8ewNIJzEbC/BvFOehnFxe4YrXqjvmQ7ZBr/tZA9S75VaBADuzxextjbKmC7GReMAFO+H+k2QSc1kUM3/2oi2QotjUubpE3Z29KA3C/ApbNIOUtgiiKGI0gzMC/cQ8oQhwqBYXd1G6NjXumkRx60oVM6ZXWa/tj4sC+oB6xcqiz2rGrMtrSPHj7Q0y4ypNw0/GOGVzmV5otXwQZv8HiQYJ1/Hw==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6ffea09-0d10-4a7e-d4cd-08dee3fd9d43
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 12:19:14.1135
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e0iOtDks9kPrMe5+lJZO/0F7qFEcv+WCsIV/5nZ6bf9/9bhLP/mUEJuy+UsnfkGU9Ts4pKyeb8/vP8xbFFuDa/6/0NMjGLgQqt57Yqul72A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8407
-X-Authority-Analysis: v=2.4 cv=aITAb79m c=1 sm=1 tr=0 ts=6a5a1dc4 cx=c_pps
- a=MRNWLIXgA5QtCoQasNiLPg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
- a=eMXeQm0sIUGtGZRkP9IA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 2UUlIsln3QaZtWFJFjJR-_j4K38ZQgx_
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDEyNSBTYWx0ZWRfX8ku5/tg07a3R
- 6pJVY0QMHi73RGUGj6oB+fcPR0jqYTkIR9NVa8WdxeyzelPubDy/TmGJvcnhtuI4ZnO1ixIGCMe
- rwBds+2U4r3kiOnQ19IgMqNzZgWq05/6IGIiziFCaNLsyTXRp/gj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDEyNSBTYWx0ZWRfX+2XECvKVkvg8
- Ix26JDNV3sbOFJ7t28QqK/oYh2NDHmd0AVxcaspamOzx94FO+zuWZo5WITRJtuNfhaUa8quutuZ
- G0fZAAWsHwh6/LAzxId79Dbfk2iIOgp8pbNFkN2FIO9381G1Y8iD1qBe5+nPnrCkbd/f9Cb0Qxp
- w5ggmmZn8yeUbJiGl0H/lJXjV0zpj0rS9bxAeIHGegmyrnfYkVjPjiap6tJ0Z7tf9vdM68AsZXl
- LH2IyqaoysiAHf49uG2cXo4Et0BFxULozqX5rZn3ijv2xObaYMdqKmQxz8iyf+mnd6O1HCOcTHr
- Sr/Xa3gmkhc28ZWGYnBDrnfhMmXo4qd/gW/gb68h6AUy++sBGjb/bMVQTxlzJT1FXKoEDHrI+4n
- MZVlpbHSTKg//6ffLlqxjVq2YFAfOtVEPTUxmcMLAfECJSOZKZRzvzvweSqf8PBkxKVJv8NSAFU
- WSinAM30yPQNmLByC7A==
-X-Proofpoint-ORIG-GUID: 2UUlIsln3QaZtWFJFjJR-_j4K38ZQgx_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-17_03,2026-07-17_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 phishscore=0 spamscore=0 clxscore=1015
- adultscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607170125
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 12:19:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241167
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2026 12:27:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241168
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+To quote upstream:
+"Note: the source tarball was updated on 13th July 2026 to add missing gnulib files required for building on Windows."
 
-Add a new "kernel" value for SDK_TOOLCHAIN_LANGS that pulls
-kernel-devsrc into TOOLCHAIN_TARGET_TASK. This allows kernel
-development headers/sources to be included in the SDK populate_sdk_base:
-add kernel-devsrc via SDK_TOOLCHAIN_LANGS
+so we need to update our source checksums to match the revised tarball.
 
-Users who want kernel module development support in their SDK can now
-set SDK_TOOLCHAIN_LANGS = "kernel" explicitly.
-
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/populate_sdk_base.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-support/enchant/enchant2_2.8.19.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index b427ff2761..1d9faecc16 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -80,6 +80,7 @@ TOOLCHAIN_TARGET_TASK ?= " \
-     ${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
-     ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', multilib_pkg_extend(d, 'packagegroup-go-sdk-target'), '', d)} \
-     ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', multilib_pkg_extend(d, 'libstd-rs'), '', d)} \
-+    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'kernel', 'kernel-devsrc', '', d)} \
-     target-sdk-provides-dummy \
- "
- TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
--- 
-2.51.0
-
+diff --git a/meta/recipes-support/enchant/enchant2_2.8.19.bb b/meta/recipes-support/enchant/enchant2_2.8.19.bb
+index 51616ba8782..f5d5897fd06 100644
+--- a/meta/recipes-support/enchant/enchant2_2.8.19.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.19.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
+ inherit autotools pkgconfig github-releases
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "8e7f6cb0c3b79be3146eb3ab93650484adbc59dae5f2c1958fde557080ba678c"
++SRC_URI[sha256sum] = "c8d70991d544ee39274b96bd01d2858a009fe732ff43f2aaf605fd61ecd06f60"
+ 
+ GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
+ 
 
