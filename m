@@ -2,104 +2,120 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E49C4450A
-	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 17:48:12 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.763.1784396885133398570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C96C4451B
+	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 17:48:22 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.767.1784396897024574598
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 10:48:05 -0700
+ Sat, 18 Jul 2026 10:48:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=OTFs3mgj;
- spf=pass (domain: konsulko.com, ip: 209.85.214.169, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ce7d2adef4so79825205ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 10:48:05 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=MFvbaVZU;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.180, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cf52d15d88so2566975ad.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 10:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1784396884; x=1785001684; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1784396896; x=1785001696; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GwwtvUlNWFB1yUlngFz6xua+WPVuRJXwnngG4kX3GDU=;
-        b=OTFs3mgj+2kXbiUWeuwQt6VS22DkBCyEhbkn3YgYkhzAPLf4QCNSnN+2JaEFyr9HpS
-         L3Z2xXHf0PlHKfLagpckwUMK+VKp7F2U5RVIhniDkHRDDxZjLGDrciwhKXY2iZIle/dh
-         pxc/nEl5n8/dn1kRf2ChL/3xBC5VDvX/skupQ=
+        bh=TlZ+HW6IwiLkHzCgqF8hdepG5DOIc4k4M9fu85BC55U=;
+        b=MFvbaVZUr9RldedtZjXgrtr8FRTxotxjFgujK9iL/Sn+g8UwLZLR2oz3cBOdGd5em3
+         ZSot4ABz0St14xeLpyFDeJcpT6MNZqDIARdxWAsg4VYN1PIhl1B6ZG2oLmY5Z0X52Q6v
+         Q23rfqnG2dz2zdmzGKHsSIfWdWgvv5B1kCbn4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784396884; x=1785001684;
+        d=1e100.net; s=20251104; t=1784396896; x=1785001696;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GwwtvUlNWFB1yUlngFz6xua+WPVuRJXwnngG4kX3GDU=;
-        b=RPJBCHHBdeDJTI3QQBTcfZKbqZKMRsQtqeVfEJhhiyCPReOM+01IbZ4BRjeE19Ejjc
-         M/SjumoLq4FvF2DjYlyYDw3DCfYY/Fhu35lYD7CTKu32hgco6T0QLksWgW6J4Kd91QuP
-         VbCcy6k2nNPdVFeecfDDf096EnVV/EvMqs8W/PEf3DXgIKjC6X81xFrWXsOQOp90+oia
-         q/KyZzm7pN8/+VlwokRRLxrHm7pX2D2korv5etF1pw/34HuXj8V+jdKF4cHe+nbNUSCP
-         VGaLvUn4CBxJvlhfUwrclsbt6pTjpDyjVn5WeCBV2UBsBFLdmh7lvoDWeVkTz2n4xMC1
-         OKUA==
-X-Gm-Message-State: AOJu0YxSMTEoc51ZofDhcP6YY2oDmXpusTy8nJgUM9vDUmHAVvFzJcmZ
-	K4yx5mTVXecws1/0v2yI/dVBnJpvggDR+sqMg15AvABviiTNMAcTlBOTiGhy+GnwmFnj1XfwPmU
-	FxITK
-X-Gm-Gg: AfdE7ckRtCFj5oXVJ7waM0raKAP8GhHWmGbXvTarqnNXQudAYJI2HUbcU6kAWvI/VB1
-	WK+qj/rqzEc+t+a9VjtDgnxyuTn0MEtBOnva5F+up9dhFz2U6NE3dFHhxWbAlq/IGPI/Eo7i2I0
-	WlqdtUWYI/ctUYcFi1rlaBNc1wWmqXjzc4s0mcXeD8EZCm9TuIv3R2R84qW8rKt+nU18zGDHnCh
-	RxOj9+OMl6XyaH6LJCIhnUr6/jA5tAemyLHLThPkVp8I2kDxYmusLj3q6PDto7eC4z1BqIAnn2j
-	xE8ub39nLYANnSPF2EAvw2GQI0H61eyvZJV8BG0m3+SDHcCMM26zBgGQM6rVJsbtGRuzw72kK+F
-	Ooi6WocUbNqqvQgwWAW3AIrdkv0yhXf9RgbfS+icmQ50Z/iBrq/WJEKE3WImk123KczxC16b33q
-	sbSe6ItKoILcJXgZmlPo8=
-X-Received: by 2002:a17:90b:1dc3:b0:384:5b5b:3465 with SMTP id 98e67ed59e1d1-38e4b5792e4mr8160628a91.29.1784396884189;
-        Sat, 18 Jul 2026 10:48:04 -0700 (PDT)
+        bh=TlZ+HW6IwiLkHzCgqF8hdepG5DOIc4k4M9fu85BC55U=;
+        b=UXezGjA8p6xqWhJMy4O3uP3MdV/SE4mz0ibNlrwyBNE34Dt6y8B7DDqISMCoPj2hfs
+         oMf/iixvCcb1c4AYmmKR07vTbul2LQJ8ez0OcAwlmJuidC1m8mjgMWHazofOmvSh7232
+         1MoHxFideRabztaahgrkS5cAZThBd240U9g7yKAfHWn/mdEyFgGq89kDQ3ainoWN8nga
+         Q20JvzX4Qx5cbtVhqfWpDSgtqyUTeqGFrAQV5UeLQzhwA4Y8PN/85zW7ADGhcB12Taas
+         uzR8oPNl/NnzMl5SBiOqmCCYK3scZkT+//oS4D+WwH2dtq8cSnsMEuPos7A3TuFvfvSO
+         0u0w==
+X-Gm-Message-State: AOJu0Yx/r3OqtIF5T06D61UoH6Dl5mxX2KI4kBdKuN5/fZE6MctnvAdT
+	kRwde24fJVQpUSMCe2rcvOy2i6GsCjm6NnrixpFWq2LpUBEYLrQLdJKw/WftshYCqsQ3Mpx47hS
+	UwqpK
+X-Gm-Gg: AfdE7clZO7HLEjDcHzBMXHBFrYmKZMbibpjqAaJCa/+DzHE9tKivzm2vfEvOlooVuCG
+	6joJf/reweGuytH4j2qesEDHALXOIdyq9o+EoggDY05cMLnxHhIsRxmo3DzQgMFxtN+4J8ms4Mr
+	cP6OK9uwWa6JGdnWGfhceTH9bNaKT7arbPn84/uM3w27oph+HDZdDtbdul8aYHLj2AiNw1Qrxzw
+	ZF2Aq3t113yQJwsJZzLZhmPfzaRoa2Bcp/9rbSzLODPbnWxl+VZ4KJaYxoC0lR/4K7E6TqFas6e
+	XBnGO8cbCk8r5fdQwC0nvyYoePz71tLljCUq2G8FEIeVZEy6uz/9i5O1rtf9J2yhDtZpm7yCSDq
+	ZxNxFMY7SUlA7JFEW5hjIfxEmzV9cXtduLQ/YZgsWQfbjnHdVo5OeSYSXjtxlKvYdIQmVIeQKCR
+	fR4BADVOZFvJqxwgw2kH4EIkd6Sz9odA==
+X-Received: by 2002:a17:903:1a2e:b0:2c9:97a8:aff0 with SMTP id d9443c01a7336-2cf349f5bfcmr82321995ad.41.1784396896360;
+        Sat, 18 Jul 2026 10:48:16 -0700 (PDT)
 Received: from thetis.home.local ([2606:c800:6024:2000:ab5e:7eee:9312:fd2e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e4b247f1bsm3091288a91.17.2026.07.18.10.48.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3474d305sm29581335ad.72.2026.07.18.10.48.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 10:48:03 -0700 (PDT)
+        Sat, 18 Jul 2026 10:48:15 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-websockets: upgrade 16.1 -> 16.1.1
-Date: Sat, 18 Jul 2026 10:47:59 -0700
-Message-ID: <20260718174759.1890722-1-tim.orling@konsulko.com>
+Subject: [PATCH] python3-pyasn1: upgrade 0.6.3 -> 0.6.4
+Date: Sat, 18 Jul 2026 10:48:10 -0700
+Message-ID: <20260718174810.1890741-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 17:48:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241267
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 17:48:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241268
 
 From: Tim Orling <tim.orling@konsulko.com>
 
 Upstream release notes:
-https://websockets.readthedocs.io/en/stable/project/changelog.html
+https://github.com/pyasn1/pyasn1/blob/main/CHANGES.rst#revision-064-released-08-07-2026
 
-16.1.1
-July 18, 2026
-
-Bug fixes
----------
-Reverted a backwards-incompatible change in decoding non-ASCII header values.
+Revision 0.6.4, released 08-07-2026
+* CVE-2026-59885 (GHSA-8ppf-4f7h-5ppj): Fixed quadratic time complexity
+  in the OBJECT IDENTIFIER and RELATIVE-OID decoders. A small crafted
+  substrate encoding many arcs could consume excessive CPU. Arcs are now
+  accumulated in linear time; decoded values are unchanged (thanks for
+  reporting, tynus2)
+* CVE-2026-59884 (GHSA-m4p7-r5rc-7g4j): Limited BER long-form tag IDs to
+  20 octets (140 bits), matching the OID arc limit introduced in 0.6.2.
+  Unbounded tag IDs allowed a crafted substrate to consume excessive CPU
+  and memory; longer tag IDs are now rejected with PyAsn1Error. Also fixed
+  Tag and TagSet repr() failing on huge tag (thanks for reporting,
+  mikeappsec) IDs due to the integer-to-string conversion limit (Python
+  3.11+)
+* CVE-2026-59886 (GHSA-hm4w-wwcw-mr6r): Fixed excessive memory and CPU
+  consumption in Real.__float__() for values with large base-10 exponents.
+  Conversion no longer materializes huge intermediate integers; values too
+  large to represent as a Python float raise OverflowError promptly, and
+  prettyPrint() renders them as '<overflow>' as before. Also fixed base-10
+  mantissa normalization to use exact integer arithmetic; mantissas larger
+  than 2**53 could previously lose precision through float division (thanks
+  for reporting, gvozdila)
+* Pinned PyPI publish GitHub Action to an immutable commit
 
 For full comparison of changes, see:
-https://github.com/python-websockets/websockets/compare/16.1...16.1.1
+https://github.com/pyasn1/pyasn1/compare/v0.6.3...v0.6.4
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...{python3-websockets_16.1.bb => python3-websockets_16.1.1.bb} | 2 +-
+ .../python/{python3-pyasn1_0.6.3.bb => python3-pyasn1_0.6.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-websockets_16.1.bb => python3-websockets_16.1.1.bb} (79%)
+ rename meta/recipes-devtools/python/{python3-pyasn1_0.6.3.bb => python3-pyasn1_0.6.4.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-websockets_16.1.bb b/meta/recipes-devtools/python/python3-websockets_16.1.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-websockets_16.1.bb
-rename to meta/recipes-devtools/python/python3-websockets_16.1.1.bb
-index 0f819aecfd..2e2eb0c3ed 100644
---- a/meta/recipes-devtools/python/python3-websockets_16.1.bb
-+++ b/meta/recipes-devtools/python/python3-websockets_16.1.1.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=51924a6af4495b8cfaee1b1da869b6f4"
+diff --git a/meta/recipes-devtools/python/python3-pyasn1_0.6.3.bb b/meta/recipes-devtools/python/python3-pyasn1_0.6.4.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-pyasn1_0.6.3.bb
+rename to meta/recipes-devtools/python/python3-pyasn1_0.6.4.bb
+index 60b38c57c5..086a21ffe8 100644
+--- a/meta/recipes-devtools/python/python3-pyasn1_0.6.3.bb
++++ b/meta/recipes-devtools/python/python3-pyasn1_0.6.4.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://pyasn1.sourceforge.net/"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=190f79253908c986e6cacf380c3a5f6d"
  
- inherit pypi python_setuptools_build_meta
+-SRC_URI[sha256sum] = "697a8ecd6d98891189184ca1fa05d1bb00e2f84b5977c481452050549c8a72cf"
++SRC_URI[sha256sum] = "9c447d8431c947fe4c8febc4ed9e760bc29011a5b01e5c74b67025bd9fb8ce81"
  
--SRC_URI[sha256sum] = "299468cbe42e2b9981134c7c51d99387d8a7bf562b00183b3eec53f882846dad"
-+SRC_URI[sha256sum] = "db234eda965dcce15df96bb9709f587cd87d4d52aaf0e80e2f34ec04c7670c57"
- 
- BBCLASSEXTEND = "native nativesdk"
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
  
 -- 
 2.47.3
