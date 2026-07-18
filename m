@@ -1,142 +1,95 @@
-Return-Path: <pascal.eberhard@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD93C4451B
-	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 07:16:28 +0000 (UTC)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1852.1784358982051437695
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F34C4451C
+	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 08:53:30 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2624.1784364802069053832
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 00:16:22 -0700
+ Sat, 18 Jul 2026 01:53:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=BcLE4kyq;
- spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: devnull+pascal.eberhard.se.com@kernel.org)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1691A40AB7;
-	Sat, 18 Jul 2026 07:16:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D8759C2BCB7;
-	Sat, 18 Jul 2026 07:16:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784358980;
-	bh=VyNwJej/WT5h8lHoZGvoCVBzeG5h+9r+m8FebFrRVzc=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=BcLE4kyq0yvJlnya6y7yVdbLHxqXb3RSW/9PWDiOX2Mx/a/z6HB8jZXO4EDc8k2Xh
-	 Ji38QIkG96MIiBzyJo5O4c5OnnuvZPUhc+R51qq+Z0ZXusrgd72YsclTF+0I5hCtnH
-	 Eu/+qdx70s2/ROZ9mr1LLB3JD5QowpkOpfhdQwmZAfn0XTZxz2f5F6ktoLPCc2zKAp
-	 54jO3kjUx7W3+yPNO2ZnSlNQZMaa5lEZC7ftnN1Lxvyyp0vxUL7eCf2A1lxoxJ25J6
-	 YHwEXlwBowQ2JPvqdhPnYpXGzNt5uBwJe8kuzytHEYO4h9mx/AimF1TO+iRF5ToJeF
-	 pjEwdeX0bJ1nQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F27C4451B;
-	Sat, 18 Jul 2026 07:16:20 +0000 (UTC)
-From: Pascal Eberhard via B4 Relay <devnull+pascal.eberhard.se.com@kernel.org>
-Date: Sat, 18 Jul 2026 09:15:45 +0200
-Subject: [PATCH] spdx30_tasks: fix missing SPDX runtime dependencies
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260718-fix_spdx_packages_dependson-v1-1-f950be4cd006@se.com>
-X-B4-Tracking: v=1; b=H4sIACAoW2oC/x3MQQqAIBBA0avErBNKsKyrRIg5Uw2BiQMRRHdPW
- j74/AeEMpPAWD2Q6WLhMxa0dQVh93EjxVgMutFd07dWrXw7SXi75MPhNxKHlCiinFFpi8Oy9NY
- bE6AcUqaS//dpft8P17N4FG0AAAA=
+ dkim=pass header.i=@smile.fr header.s=google header.b=2h+yhYB0;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4954c9f380bso7797975e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1784364800; x=1784969600; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XRLe/JE7Ahp64w/tWhASFF8rfOKVTEl8Jln0tEJE16s=;
+        b=2h+yhYB0maAb1za1V+3C/cqfInytrfxafENPag5R5rqdmNN29ek9sf0N7ImuGQiL67
+         j9cRWc9ThbQcibVGSxsH3w6wOvQ1Tu6oWTz6jguxYvjyiOWeIdHWkAOcbw1gYV9j4epC
+         OhePa2viKHm9FvmVw9vFzYpfi2UQRwfAZHDuA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784364800; x=1784969600;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=XRLe/JE7Ahp64w/tWhASFF8rfOKVTEl8Jln0tEJE16s=;
+        b=A0U8Cp5gMbvgkrTz8iGMr7Aob7eKsLA1IR3/7K1ZdKlCgZRTC+f6n/WZjHSXa/akRj
+         wb/wX1CN1RveW7BWAp6oQD5REWWCWwSN/j92Zt21QVfEXKeEcpPmJk5jgrwD3lYsFTJg
+         LW4UOoJQJMtzxhwgZ6Hq7KwJ9LjzpqKucGQXZrGF3LbkDD8Itbr4iAkhiFuhyLyvNkc2
+         U4BuJfpFDdr1PWym9Uy/8llEuxQmq65hQAhZs3iGZ2fthvncB9vWYbKmcEqM+cnIPr/W
+         OdZhO7j41xEj90yews7dsm0ILOMKtZ5xiSxUOTx4rNrj0KLMouQSqaoojL7j9Rym4+vB
+         nRGg==
+X-Gm-Message-State: AOJu0Yz2ANS4aUBw7o26gP7KUCRtAyol1qoOxSTe9Lp0MEnMf6m9DPYl
+	vHxJ3i8M7Oqrtsl/rugYfn/wf64YIbu9xJEQNJ7GPbIk5EoakFkfTV3yIvd7L7o9Nexa6UuzsCV
+	L5f31B0w=
+X-Gm-Gg: AfdE7ckTLgqGigf9I6H/R9pFBEIOuRhdQh6BwIDSgucWktQWrjfco5NN5Ngtqcu/jMt
+	GDEZ4mxy/yZdO1gsCunIk0ETx4Npf8KoTiamHJ9EKM6oS+pzgR/6COhDqYJ0h4HAjU9IRuZgeix
+	q80mSIdpN1KgTI+QIXyMs1PuF50NpivNPWsJ6VWQru6wF22PgeKds5D6EFWjWu1cQ0SnYcdc6sI
+	dfYasBM9oUSRXT1BQqy7ELfAtJEpMRPzHRZ0by2UvlNGgF7NqZn6u9P8iQFBdBWXI7+RBZZfJI1
+	Z4OgYa85sCDLAmrUvdjcbHwqx57sRDUpoBiG7a8A8PRCxQLDKP6T9Z0IitiWZbqG9FVwWme/sr2
+	/gfn0Qg5tZ07eAcqesl8jxlVijNAAuEMAia4RT15BCP4ydPjQMjhsCgzS3RQtI2Lcl4JmsZg/Nw
+	n2eau4ewvuqgik1cBt14IrAYc2gpqf/jQW917A737cME6q5O7YbRgQGqxV958ZyZjX5cRBuXgX4
+	QtN00A=
+X-Received: by 2002:a05:600c:45d3:b0:495:4d00:2fda with SMTP id 5b1f17b1804b1-4955233b700mr14920795e9.2.1784364800299;
+        Sat, 18 Jul 2026 01:53:20 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa001444456ef7d84e9a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:1444:456e:f7d8:4e9a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2026 01:53:20 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <jpewhacker@gmail.com>, 
- Pascal Eberhard <pascal.eberhard@se.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784358979; l=3044;
- i=pascal.eberhard@se.com; s=20260304; h=from:subject:message-id;
- bh=0rl+z4WWZI5MQHX957jxWE3vUs4yb7YnDYG8tlbp9dA=;
- b=PqK8mNJGbdeK8dKHqjiaBPyr0GpHLEYM3fgY3KnoPfaapPPZM+VjwJLYKPL8IaELaJa4oK3ao
- 4/PGr1npFmaClkUCY+/jvG4FBHXy61KjQOo9O3z6EON4VTu27HYNno6
-X-Developer-Key: i=pascal.eberhard@se.com; a=ed25519;
- pk=J7TbFctjt1RVuN5K0juhf/w1E9bAfSeoQ/JG1vV9mWg=
-X-Endpoint-Received: by B4 Relay for pascal.eberhard@se.com/20260304 with
- auth_id=661
-X-Original-From: Pascal Eberhard <pascal.eberhard@se.com>
-Reply-To: pascal.eberhard@se.com
+Subject: [OE-core][wrynose 01/17] scripts/install-buildtools: Update to 6.0.2
+Date: Sat, 18 Jul 2026 10:52:40 +0200
+Message-ID: <7a761f2d67dbd7107bfd92ece3ea799b1d64abb1.1784364567.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1784364567.git.yoann.congal@smile.fr>
+References: <cover.1784364567.git.yoann.congal@smile.fr>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 07:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241236
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 08:53:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241238
 
-From: Pascal Eberhard <pascal.eberhard@se.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-The runtime dependsOn relationship entries between software_Package
-is missing from the generated SPDX files.
+Update to the 6.0.2 release of the 6.0 series for buildtools
 
-Remove the subpkgdata lookup as the final pkg_name is already resolved
-by collect_package_providers().
-
-Rename variables to avoid shadowing the 'dep' variable and to make it
-explicit which package/pkg name is being used.
-
-Signed-off-by: Pascal Eberhard <pascal.eberhard@se.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oe/spdx30_tasks.py | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 79e18db11d..652fe269e2 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -1141,9 +1141,13 @@ def create_spdx(d):
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index f925dfa6b5c..b59cfbb8705 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
- def create_package_spdx(d):
-     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
-+    pkgdatadir = Path(d.getVar('PKGDATA_DIR'))
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-6.0.1'
+-DEFAULT_INSTALLER_VERSION = '6.0.1'
++DEFAULT_RELEASE = 'yocto-6.0.2'
++DEFAULT_INSTALLER_VERSION = '6.0.2'
+ DEFAULT_BUILDDATE = '202110XX'
  
-     direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
- 
-+    # providers[package_name] = pkg_name, where:
-+    # - package_name is the name in the recipe in PACKAGES/RDEPENDS, and
-+    # - pkg_name is the final name given by the package manager.
-     providers = oe.spdx_common.collect_package_providers(d, direct_deps)
-     pkg_arch = d.getVar("SSTATE_PKGARCH")
- 
-@@ -1197,26 +1201,24 @@ def create_package_spdx(d):
-             if dep not in providers:
-                 continue
- 
--            dep, _ = providers[dep]
-+            dep_pkg_name, _ = providers[dep]
- 
--            if not oe.packagedata.packaged(dep, localdata):
-+            if not os.path.exists(pkgdatadir / "runtime-reverse" / dep_pkg_name):
-+                bb.debug(1, f"pkg_name {dep_pkg_name}, package {dep} missing for {package}")
-                 continue
- 
--            dep_pkg_data = oe.packagedata.read_subpkgdata_dict(dep, d)
--            dep_pkg = dep_pkg_data["PKG"]
--
--            if dep in dep_package_cache:
--                dep_spdx_package = dep_package_cache[dep]
-+            if dep_pkg_name in dep_package_cache:
-+                dep_spdx_package = dep_package_cache[dep_pkg_name]
-             else:
--                bb.debug(1, "Searching for %s" % dep_pkg)
-+                bb.debug(1, "Searching for %s" % dep_pkg_name)
-                 dep_spdx_package, _ = oe.sbom30.find_root_obj_in_jsonld(
-                     d,
-                     "packages-staging",
--                    "package-" + dep_pkg,
-+                    "package-" + dep_pkg_name,
-                     oe.spdx30.software_Package,
-                     software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
-                 )
--                dep_package_cache[dep] = dep_spdx_package
-+                dep_package_cache[dep_pkg_name] = dep_spdx_package
- 
-             runtime_spdx_deps.add(dep_spdx_package)
-             seen_deps.add(dep)
-
----
-base-commit: 171af3b2915dd076c8d1b205ff75eac1ebd5a586
-change-id: 20260718-fix_spdx_packages_dependson-28d9bb78a55c
-
-Best regards,
--- 
-Pascal Eberhard <pascal.eberhard@se.com>
-
-
+ # Python version sanity check
 
