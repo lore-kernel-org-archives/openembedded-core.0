@@ -2,136 +2,176 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBD0C4452B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4604FC44529
 	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 08:53:31 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2520.1784364803708720577
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2623.1784364801930030725
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 01:53:24 -0700
+ Sat, 18 Jul 2026 01:53:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YlMeG5ZF;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49553515a8bso1946955e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:23 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=On/QAlb6;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954afac04bso12576685e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784364802; x=1784969602; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=qRLgL9tEJxiXNtnPrlQHGB/PD4DyhOT4KkzFLe+ZsR8=;
-        b=YlMeG5ZFoHDk35wJt7HNwMpJQSsY4mmXr1CusbQr8+VuvlCsKDb9QvGLU+PaV6oDes
-         9m4abIuh3PdknBsftRzN4OkzbATlqRvNE08KKkChE7pxd2hYRT6iDzruA2ASRnt7jLt8
-         agzXyD4fpUEKkucNUbjOMpBoXs4DHJ3XGkA4U=
+        d=smile.fr; s=google; t=1784364800; x=1784969600; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cxHJe+n9IpDsGC6gGHsDrnt+9AN5TJih0+Gv1wXNImo=;
+        b=On/QAlb6nnIyH9R4NupUsxuJlshoBjVKEQjKjHJX2jz7rTjfRI9H63foa1ronDx9md
+         yAOYsRv7EQEBlhlKZmo6f2w9WJFqi+JHfjui5kIq9nnxXVB3AioPbbczUOuy9YT5hazg
+         VzwGkYLayuDOftNbfb+kvZ1lYqgRZ6QlWbLEc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784364802; x=1784969602;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=qRLgL9tEJxiXNtnPrlQHGB/PD4DyhOT4KkzFLe+ZsR8=;
-        b=jv8xXRYiVz3Ou156ewG1dj8mFUJm4ciSWuzK6JXiolM0cl/7OaksAHyt8ZPx9NNc7P
-         j7sWrv0KwkLUrEhT0EQO1RAmWi3hUVUOFVmwnYDrnGQTkH2Ao2lAnd2ep6ihpHSqWpvA
-         xV5Lru7w1OwJoJHoj8gte3aZ2e4aQpgTUwVwJ2P9cg84u2Zwh7uLA7t+wDSafHWSl9yP
-         EOccJOJDUv/wKbicMGYsS+pNDUlMRvKJH3uvG0deG2FVhBJFF9uwxVUL+p7qgwU/pol3
-         YhtPkF1LUQtzYBDcCyrcjZf+2IPy82trXguoJBurYAcBzOfZWp0ESPLHabXGndGo9kXe
-         gHwQ==
-X-Gm-Message-State: AOJu0YzKXOZkf1zSLIfo1kRtT9vxibG88b582xsMQBwZYHvDyG3GK4HG
-	dUtHoliFbjtU8jzPb0k3qe7fQikLem1NhS5BgFQbCbALbxf0I/BjabJoLGEnEPaYSU/UMwGNy4B
-	8oBWTmng=
-X-Gm-Gg: AfdE7ckJO7gJYW2JZ6KBeCzzvBeEneaX1wgn4tY5h+pCPG28+v1gI8uF4Wue4mWhIoz
-	RNBjmc0zcOZDkPbSwjv+Nl3NN4r4SFdEvHe1ZQyhqrm7k19NttGIpNfTnq0QEMY6X4HmRmtA7NO
-	Sfbs8fr4jPmBcLSyearFpYRM0gPOC/DMR1Rwl4u6qMSv3d8YdqDTdMqeSYWwYyFyXkcJ8uW7YT1
-	2/Lq8bPQT8WYECFO6br+vNcDxhZ9SzyosdpCA1eSYfYwdBO6c2OgHaZ30nMsgmFBZ49Vrt+43pw
-	yT+VmGkCuqtiIeomlRr+Q/8zGxGr4OqR/GPFflO4n46BAPv8pwDZfStO45lonUa4020aC2F12so
-	TSApjb+muSswDNxn2AX95gvUIYokeio35WDMZbim7feLcCLs7gUvbNITuBD4qHIKYyn9g0YZuDI
-	kAHPftMnXVVO0vbzTBVccbJHgI1ZzC+BaJJosxPFzbt+2yYREPPVV+wCcYt7YsaA98AKc/jMaDx
-	0MKa69wzZMLg4wkK42BV/gevkQx
-X-Received: by 2002:a05:600c:19cc:b0:493:b877:fbc with SMTP id 5b1f17b1804b1-4954a402fcdmr71971275e9.21.1784364801927;
-        Sat, 18 Jul 2026 01:53:21 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784364800; x=1784969600;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cxHJe+n9IpDsGC6gGHsDrnt+9AN5TJih0+Gv1wXNImo=;
+        b=mLB+3WOLrOFTwnYKtqgYbXdjMHDmqzk7HvrnyEim7CSjnUL7utc9J4Q76I79bUdwNb
+         DdJrXrZmsEgSHzai4yGU4fsqFCwwdsiHTQephFPB2VrhWarq3MGzlTMua+LPXVAb+zJ0
+         18aoNvLQAnyS5UPlT9TGiJ+k/AzZyFfE7Ea4Sr/whl9sWTtL5E0wXju8AatAjv3Vku0Q
+         cSHDEzcAxrvbfBrs5bdienri3DQu96jz/MS0E68WgdOrZeTcDqUuu/dcmjpYSkqbh+tc
+         bbE2AwlIhLYqELg7lwbiKTExdmVB3oXJTV8fesKDqmF/B9N/Z/P90Rw+q86KzAR4XX/p
+         v0Vg==
+X-Gm-Message-State: AOJu0YxBPIG1ZCe3slOmrdpkq8GnFmLG36VjSRckJ2RoQm2lY3xZo7Ri
+	ajFd+swqoUiOCDH2IsGP8BGlHlBxgb6ATN/NBPlqAFF+HCtHIweGAZwmrxUOq3b0eZyS8yJxvqL
+	gTSojUYY=
+X-Gm-Gg: AfdE7clw03o8JKgZjR2QhfEcnneSU6/gfZvLml6E4shyDGuKUMzjlolz5zPseSyIpub
+	CTMmPLoy0ImHvol4UPHytmiN2Qp3L0mU1MFEmkimSKFd7l66Lc6tIr0BcncyQNczsRjYS0v4/YB
+	Ii0HrMSnUMNZuXAb9z3xgApCQv4S1+XpN3QTPIqNXtMu1B2+Mok1F5NHUt1+qrlnaYmvEbtB0vN
+	jIZyZFmCdDZ7knvQhCp+7FCZWuX4JmxwOfq3hDAK2W7qoMTN+NncrWkW9sJg1AegBIuUf/iyWq6
+	pE8qcbYIG7BUtejckP0JZFvo9rxsW7nS0xnIesvvLTpt2AQsWSN9REdVQHBonU/ZNsuVpum5/zI
+	uoWVqsHZrT9VIxGB6M+L8ZN5aZ5mMqyTNYwED1Xs0LdNsAxqLiTlqW7y53lQYhV1CfV37Jfej9Q
+	8GnmVK2oIpx2wz9VIQSMzQs2CK/ZpjBaKD9s65ggobJSpESHLXQN4HmpiarZOPG6PJqW/0+Xe0n
+	fm2N4k=
+X-Received: by 2002:a05:600c:5657:b0:493:f442:3dd4 with SMTP id 5b1f17b1804b1-4954a516af8mr40124905e9.39.1784364799865;
+        Sat, 18 Jul 2026 01:53:19 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa001444456ef7d84e9a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:1444:456e:f7d8:4e9a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 01:53:21 -0700 (PDT)
+        Sat, 18 Jul 2026 01:53:19 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 04/17] kernel-fit-image.bbclass: Fix operation with KERNEL_DTBVENDORED = "1"
-Date: Sat, 18 Jul 2026 10:52:43 +0200
-Message-ID: <91bfdb4f96ef17defe00f914885b3d9f9f1b654f.1784364567.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 00/17] Patch review
+Date: Sat, 18 Jul 2026 10:52:39 +0200
+Message-ID: <cover.1784364567.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1784364567.git.yoann.congal@smile.fr>
-References: <cover.1784364567.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 08:53:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241241
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241237
 
-From: Marek Vasut <marek.vasut@mailbox.org>
+Please review this set of changes for wrynose and have comments back by
+end of day Tuesday, July 21.
 
-In the case KERNEL_DTBVENDORED = "1" , the fitImage configuration
-subnode names used to contain the vendor prefix in OE 5.0 , e.g.:
-"
-$ mkimage  -l fitImage
-...
- Configuration 0 (conf-freescale_imx8mn-board.dtb)
-                       ^^^^^^^^^^
-...
-"
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4229
+* qemux86-world and qemux86-64-ptest got impacted by 16316 – AB-INT: tar failure: got *at() syscall for unknown directory, fd 4
+  retried as 
+    https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4062
+    https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/4182
+* qemuarmv5 got impacted by 16217 – AB-INT: boot hang in qemu (amba chip errors?)
+  retried as https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/3992
 
-With OE 6.0 this is no longer the case and KERNEL_DTBVENDORED = "1"
-and KERNEL_DTBVENDORED = "0" behave exactly the same way:
-"
-$ mkimage  -l fitImage
-...
- Configuration 0 (conf-imx8mn-board.dtb)
-...
-"
+The following changes since commit 6f5681afb324aed2cba4e5b819ffc878f74a2bac:
 
-Users depend on the correct configuration subnode names as those
-are used in the U-Boot "bootm" command when booting fitImages.
+  gnutls: fix CVE-2026-33846 (2026-07-16 20:54:12 +0200)
 
-Fix this by converting each entry in the KERNEL_DEVICETREE list
-into the configuration subnode name by replacing all of its path
-separators with underscores.
+are available in the Git repository at:
 
-Fixes: 05d0c7342d76 ("kernel-fit-image.bbclass: add a new FIT image implementation")
-Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4297b94c3728cd2e320d75b68c508e12ab127719)
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/classes-recipe/kernel-fit-image.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-nut
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index ae8f3c66883..448a88ccb11 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -94,6 +94,13 @@ python do_compile() {
-         for dtb in kernel_devicetree.split():
-             # In deploy_dir the DTBs are without sub-directories also with KERNEL_DTBVENDORED = "1"
-             dtb_name = os.path.basename(dtb)
-+            # With vendored DTs, use the DT name as listed in KERNEL_DEVICETREE
-+            # and replace any path separators with underscores, this behaves the
-+            # same way as KERNEL_DTBVENDORED = "1" did in OE 5.0 and older.
-+            if d.getVar('KERNEL_DTBVENDORED') != "1":
-+                conf_name = dtb_name
-+            else:
-+                conf_name = dtb.replace('/', '_')
- 
-             # Skip DTB if it's also provided in EXTERNAL_KERNEL_DEVICETREE directory
-             if external_kernel_devicetree:
-@@ -103,7 +110,7 @@ python do_compile() {
- 
-             # Copy the dtb or dtbo file into the FIT image assembly directory
-             shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dtb_name)
--            root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
-+            root_node.fitimage_emit_section_dtb(conf_name, dtb_name,
-                 d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
- 
-     if external_kernel_devicetree:
+for you to fetch changes up to 551eade6c83483616ea6172336a4cf6c994ce90d:
+
+  openssh: set status for CVE-2026-3497 (2026-07-18 01:31:03 +0200)
+
+----------------------------------------------------------------
+
+Adrian Freihofer (1):
+  oe-selftest: fitimage: Do not expect kernel property in DTBO config
+    subnodes
+
+Alexander Kanavin (1):
+  wic: upgrade 0.3.0 -> 0.3.1
+
+Deepak Rathore (1):
+  util-linux: fix CVE-2026-13595
+
+Gustavo Henrique Nihei (1):
+  u-boot: re-enable RISC-V compressed (c) ISA extension
+
+Jaipaul Cheernam (2):
+  gzip: fix CVE-2026-41992
+  bzip2: Fix CVE-2026-42250
+
+Marek Vasut (2):
+  kernel-fit-image.bbclass: Do not include kernel property in DTBO
+    config subnodes
+  kernel-fit-image.bbclass: Fix operation with KERNEL_DTBVENDORED = "1"
+
+Peter Marko (5):
+  go: upgrade 1.26.4 -> 1.26.5
+  vex: remove obsolete semicolon
+  rootfs: move tasks using image_list_installed_packages to
+    postuninstall
+  flac: fix buildpaths with doxygen enabled
+  flac: make documentation build deterministic
+
+Ryan Eatmon (1):
+  kernel-fit-image: Add KERNEL_DTBVENDORED support for
+    FIT_CONF_DEFAULT_DTB
+
+Sudhir Dumbhare (1):
+  openssh: set status for CVE-2026-3497
+
+Vijay Anusuri (1):
+  tzdata/tzcode-native: upgrade 2026b -> 2026c
+
+Yoann Congal (1):
+  scripts/install-buildtools: Update to 6.0.2
+
+ meta/classes-recipe/kernel-fit-image.bbclass  |  22 ++-
+ meta/classes-recipe/license_image.bbclass     |   2 +-
+ meta/classes/vex.bbclass                      |   2 +-
+ meta/lib/oe/fitimage.py                       |   7 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py      |   4 +-
+ meta/recipes-bsp/u-boot/u-boot_2026.01.bb     |   1 +
+ .../openssh/openssh_10.3p1.bb                 |   1 +
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../util-linux/CVE-2026-13595.patch           | 148 ++++++++++++++++++
+ .../go/{go-1.26.4.inc => go-1.26.5.inc}       |   2 +-
+ ...e_1.26.4.bb => go-binary-native_1.26.5.bb} |   6 +-
+ ..._1.26.4.bb => go-cross-canadian_1.26.5.bb} |   0
+ ...{go-cross_1.26.4.bb => go-cross_1.26.5.bb} |   0
+ ...osssdk_1.26.4.bb => go-crosssdk_1.26.5.bb} |   0
+ ...runtime_1.26.4.bb => go-runtime_1.26.5.bb} |   0
+ .../go/{go_1.26.4.bb => go_1.26.5.bb}         |   0
+ .../bzip2/bzip2/CVE-2026-42250.patch          |  35 +++++
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |   1 +
+ .../gzip/gzip-1.14/CVE-2026-41992.patch       |  64 ++++++++
+ meta/recipes-extended/gzip/gzip_1.14.bb       |   1 +
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ meta/recipes-multimedia/flac/flac_1.5.0.bb    |   5 +-
+ .../wic/{wic_0.3.0.bb => wic_0.3.1.bb}        |   2 +-
+ scripts/install-buildtools                    |   4 +-
+ 24 files changed, 296 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
+ rename meta/recipes-devtools/go/{go-1.26.4.inc => go-1.26.5.inc} (90%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.26.4.bb => go-binary-native_1.26.5.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.26.4.bb => go-cross-canadian_1.26.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.26.4.bb => go-cross_1.26.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.26.4.bb => go-crosssdk_1.26.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.26.4.bb => go-runtime_1.26.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.26.4.bb => go_1.26.5.bb} (100%)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
+ create mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
+ rename meta/recipes-support/wic/{wic_0.3.0.bb => wic_0.3.1.bb} (90%)
+
 
