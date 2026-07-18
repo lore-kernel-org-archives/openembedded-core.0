@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4751C44526
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C94C44527
 	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 08:53:30 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2626.1784364804724703418
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2517.1784364802465490676
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 01:53:25 -0700
+ Sat, 18 Jul 2026 01:53:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=x1yH3NvY;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47f6edffd06so93208f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:24 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=DTBImyT5;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so29076695e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784364802; x=1784969602; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784364801; x=1784969601; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=0BgPU1f9tOybp45+vnOAxXVtDbebQAco8nU2Z+jzos0=;
-        b=x1yH3NvYuuF7xkXNx7fnwgpBM1T9Mtw/30YFu0JGLIOiau6lVDd6OaWTNMxZkX4imu
-         fNCATQpTb6jOd/C8bBHGRuEYKr+GAqb+eYzyDA7gcCH386sIw2Nwk6rQAY7QJVh5ZOu3
-         m6u6KyX9S2WZOm+JTV97KINSJrbs6dJYWgQdI=
+        bh=FHXSLSozq7ee1jyFlEeH6038VFA/SLQCEsZdx5euPuU=;
+        b=DTBImyT5GQX+gHIAHpd5D+6xot/Vcwg+y75lTsQH3CJZAluohXnk9w3DwerSAMRSf2
+         oM7EbZB+N7Ye6MSdkCUzPj+owuta22O6W9d2wcwZ8HKaI+pwpSC6lpxAdZKb7mu70ASt
+         TbkrAUTKkJQiRrRoOoRmLIyxVjbyRy9WrPF8g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784364802; x=1784969602;
+        d=1e100.net; s=20251104; t=1784364801; x=1784969601;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=0BgPU1f9tOybp45+vnOAxXVtDbebQAco8nU2Z+jzos0=;
-        b=m2WgOYng0XuT0Ed/RWqU22QtMatJF/fdgeAK4abAXPnJoCH0in/kDkrSBWo6ny76he
-         0CimQq4KNNn/qFNAt4Ep5biyqK4zBlbEMPtUHMlZ3KMA7eKNFTnD6kq6i5PG8/NFaZ7O
-         /0YIj/HFF28SAdH2XsZk7qEHPtSOVQP5i7sP9P8Xfqn7+mxPRnBzK9bgA1Pi/j6eJne+
-         9WHaWvurzZEA6JWbYOw+tMdP7bC4RI0gCWzrhg/TDdapaPrLpVSbX+oZnExPrJaYq3Mq
-         VeRuRRbOMETbSGLsuSHvxzwnkrveEu7rU/+eRB5kuS34ZY9LDbhFr+fd7/uzV5/Q4+RJ
-         caPA==
-X-Gm-Message-State: AOJu0Yy2QhZB1Ekl6CEUSeaX3HyA5kgix7DSq4g5IXXDGcLm2R5R3GpG
-	ALcgMinx1DGnxEU4o3fJoo8yrJveF+HXFun6E54jdEv9Rg231Ukglj5mZFJoYEegEZOWRsBt13y
-	mlEvs6vc=
-X-Gm-Gg: AfdE7cnVMstlLV0mm555GfAA8as8H5i49YYtr9HhLIgFyf+DfPRMd+0lRNe6s9E4RtD
-	0tSfNJr6Zdy1Nsa+vKXWJo3maNeBn1nKL4eI7xM2kvBfdDJx3l/e1o5FliLED4wazoqWyCyqaLm
-	UNcXEy5xRk/oczcm5R2kkmVC7gfzqHlFggodVPncfXzQ90e9Q2RnPqZJ+UXc2p7xK8h5ZRVTYzZ
-	3zSP9RU1hEMkI/xZJ2hs3qW7fYx+gwB7hWj5Nii+xc/I3yz476DBd3HDAqLsDLkTMKKSi9jWFOj
-	0ywEKxue7Kyw4FLdTKtcxfjURoc8QY/UNvJWOaOjOjKT2iA6z/aehAGoQ1IJgIwKDr+Z7/MW5m4
-	/uHQyoFtf/VnCn32UTS31d2cKYtq6LjVMrixErWec2ns9mCmXc0WBo1Gxr3Du1HCRVm5q1r1QXX
-	9wfx9lST9XCCsg23UOleyO0yjygs06/KzPZbXpCOQ/ab4YYLPz6A8M/8Juvi6TqNqsPyY3uARmN
-	MODrNY=
-X-Received: by 2002:a05:600c:4c2a:b0:493:c535:3934 with SMTP id 5b1f17b1804b1-4954a51fc5fmr50498605e9.36.1784364802419;
-        Sat, 18 Jul 2026 01:53:22 -0700 (PDT)
+        bh=FHXSLSozq7ee1jyFlEeH6038VFA/SLQCEsZdx5euPuU=;
+        b=W48UU4QmGDOpkf96nmqYIIxYVus8y+ROshcNJp9ARlGyE6+JfTn0PBkLnJ0afZSWW2
+         EW1XVRfYqsGGwsPFLjlBH/JbwzpgzcERcSDmQwVBQltF1rqJA3Zq6cuYRhe5Bs6kHF9r
+         QseAJLSay7dkidI5RNcaRg7yx9b35hNBPi0pqU8usuBORvIuk+jhhDGUGg6KESh+xPEf
+         P4TXhvoizNchyZugysFhgkxuYuVzRVn3Vmi2eNZLGtnYuC3gmW6Kn0yahm9wZLYAk3U/
+         tzBbbWT8DfHWvIx9vkq+rJgDlMtBMygSH2AQ5UIIvVN2YerJY6orHe77qSSnD2BkkcE7
+         jh/w==
+X-Gm-Message-State: AOJu0YyHuTLEMLKy17UinHXTMxmB9EXKmgxGCI1QQXyeaEhqfWZWifrg
+	RgHJ9j/n3k9hn5UvAMNORWPvp0VKbBRA6+2EGMJu7wX/9xG7cIgf5nHjxziPwaWkiE8QMk7u8+5
+	C4eAfq3A=
+X-Gm-Gg: AfdE7cnl8/b7tELZqGVIFI/TvhCtAaoaTLamhuG65ct0eEkhhTXv08lr+xKuxlkErTx
+	alWJo4Z5FVbiOYNc7dxYD+nA0DnYeDLVsbzoy1VWwziks1ZKPakx2Qvj5Kr241o6Ki7oWqmSpJr
+	DF1WI7tROp4hG8/SZ+dyw8WgSM6cdLfGXi18LrnvIR0diNfOa5Rga6+DBRq6ovxu1Ht/HbMKs5f
+	CYMC/ueVGTRxUJXrpI3oXuUE0wHbRqSkFP4FIIEc1fl/AaAD6HjwScXCuvV65sSpbGIHOL1fhLE
+	N1EwLTJe+CSfz4YU6NjnDXpYIUlX6CGwNXeHHMkne1bPvTjo7AfUIkAy987LqV8yo9+IN9yZWBW
+	K9BxzHktbukMo7qM0Ie+L9XMiWpX4CEagHW9nv3GH1bhOOeNxQ4ZPjcXV9a7RusCZ5Cqv+wnXp1
+	CNl49lta32V72VjAJ7Y0u/7b/aLKVKQQAgKuO80zMTObS9f61SNX0CGmTScvrDL3+rHwnGuP5OE
+	gEuzWajpXOj7CE9qw==
+X-Received: by 2002:a05:600c:1c04:b0:492:3e69:a86f with SMTP id 5b1f17b1804b1-4954a3cff64mr71298395e9.1.1784364800693;
+        Sat, 18 Jul 2026 01:53:20 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa001444456ef7d84e9a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:1444:456e:f7d8:4e9a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 01:53:22 -0700 (PDT)
+        Sat, 18 Jul 2026 01:53:20 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 05/17] kernel-fit-image: Add KERNEL_DTBVENDORED support for FIT_CONF_DEFAULT_DTB
-Date: Sat, 18 Jul 2026 10:52:44 +0200
-Message-ID: <1b6dd4f66b2f4c1a12791a1db3a53729ce043fd0.1784364567.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 02/17] oe-selftest: fitimage: Do not expect kernel property in DTBO config subnodes
+Date: Sat, 18 Jul 2026 10:52:41 +0200
+Message-ID: <5f04563b0e57fbf5ce8c0f37fb55db4f3b80a3cc.1784364567.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784364567.git.yoann.congal@smile.fr>
 References: <cover.1784364567.git.yoann.congal@smile.fr>
@@ -66,94 +66,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 08:53:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241242
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241239
 
-From: Ryan Eatmon <reatmon@ti.com>
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-When specifying a FIT_CONF_DEFAULT_DTB for a machine, you have to
-exactly align the name with what will be in the fitImage file or you
-will get a build error.  If you also turn on KERNEL_DTBVENDORED then you
-must also specify the vendor directory as part of the dtb name that you
-want for the default, but you must manually do the same mapping that the
-kernel-fit-image class is doing when it generates the fit-image.its file.
+A DTBO overlay together with only a kernel cannot form a bootable result,
+so DTBO configuration subnodes should not include the kernel property.
+Update _get_req_its_fields() accordingly: skip appending
+'kernel = "kernel-1"' for .dtbo files, aligning it with
+_get_req_sections() which already handles this correctly.
 
-This patch just adds the same logic to figure out the value for the
-requested default dtb and eliminate the need to understand the internal
-mapping of the class.  It should make specifying the value more
-intuitive.  The same value that you put in the KERNEL_DEVICETREE can be
-used in the FIT_CONF_DEFAULT_DTB and the new code will correctly honor
-the KERNEL_DTBVENDORED setting.
-
-Before:
-
-  KERNEL_DEVICETREE = "
-    ti/k3-am62p5-sk.dtb \
-    ... \
-  "
-  FIT_CONF_DEFAULT_DTB = "ti_k3-am62p5-sk.dtb"
-
-After:
-
-  KERNEL_DEVICETREE = "
-    ti/k3-am62p5-sk.dtb \
-    ... \
-  "
-  FIT_CONF_DEFAULT_DTB = "ti/k3-am62p5-sk.dtb"
-
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3bceb2dabeee13c0a80ddd74ea7ae991606d6772)
+(cherry picked from commit 85e0408a81bdca0411a8625061e5e343c05f92d9)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes-recipe/kernel-fit-image.bbclass | 21 +++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index 448a88ccb11..cfe43a5a306 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -55,6 +55,13 @@ FIT_KERNEL_SIGN_ENABLE ?= "${UBOOT_SIGN_ENABLE}"
- FIT_KERNEL_SIGN_KEYNAME ?= "${UBOOT_SIGN_KEYNAME}"
- FIT_KERNEL_SIGN_KEYDIR ?= "${UBOOT_SIGN_KEYDIR}"
- 
-+def apply_dtbvendored(d,dtb):
-+    if d.getVar('KERNEL_DTBVENDORED') != "1":
-+        mapped_name = os.path.basename(dtb)
-+    else:
-+        mapped_name = dtb.replace('/', '_')
-+    return mapped_name
-+
- python do_compile() {
-     import shutil
-     import oe.fitimage
-@@ -97,10 +104,7 @@ python do_compile() {
-             # With vendored DTs, use the DT name as listed in KERNEL_DEVICETREE
-             # and replace any path separators with underscores, this behaves the
-             # same way as KERNEL_DTBVENDORED = "1" did in OE 5.0 and older.
--            if d.getVar('KERNEL_DTBVENDORED') != "1":
--                conf_name = dtb_name
--            else:
--                conf_name = dtb.replace('/', '_')
-+            conf_name = apply_dtbvendored(d, dtb)
- 
-             # Skip DTB if it's also provided in EXTERNAL_KERNEL_DEVICETREE directory
-             if external_kernel_devicetree:
-@@ -195,8 +199,15 @@ python do_compile() {
-                                                  loadable_loadaddress,
-                                                  loadable_entrypoint)
- 
-+    # Figure out if we have a default dtb and if we need to honor the
-+    # KERNEL_DTBVENDORED variable to tweak the name to match what will be
-+    # in the fitImage.
-+    default_dtb = d.getVar("FIT_CONF_DEFAULT_DTB")
-+    if default_dtb:
-+        default_dtb = apply_dtbvendored(d, default_dtb)
-+
-     # Generate the configuration section
--    root_node.fitimage_emit_section_config(d.getVar("FIT_CONF_DEFAULT_DTB"), d.getVar("FIT_CONF_MAPPINGS"))
-+    root_node.fitimage_emit_section_config(default_dtb, d.getVar("FIT_CONF_MAPPINGS"))
- 
-     # Write the its file
-     root_node.write_its_file(itsfile)
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 3541c07520a..e8435fb43c1 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -659,7 +659,9 @@ class KernelFitImageBase(FitImageTestCase):
+         dtb_files, dtb_symlinks = FitImageTestCase._get_dtb_files(bb_vars)
+         if dtb_files:
+             for dtb in dtb_files:
+-                its_field_check.append('kernel = "kernel-1";')
++                # DTBO overlay configs do not include a kernel property
++                if not dtb.endswith('.dtbo'):
++                    its_field_check.append('kernel = "kernel-1";')
+                 its_field_check.append('fdt = "fdt-%s";' % dtb)
+             for dtb in dtb_symlinks:
+                 its_field_check.append('kernel = "kernel-1";')
 
