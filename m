@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B34C4452E
-	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 08:53:31 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2526.1784364809199946066
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0046AC4451C
+	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 08:53:41 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2529.1784364812687551393
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 01:53:29 -0700
+ Sat, 18 Jul 2026 01:53:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=bTX0mU6m;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493e4ccccc2so54589995e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=HtaLci/g;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47f6609c657so426621f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784364807; x=1784969607; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784364811; x=1784969611; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=P/c9a30mfYB+UfF1jiTun6adiK3y+vTX5bLEYp7/1y0=;
-        b=bTX0mU6m51GhWEH452kJIaCqbMJhY8VM6Xz6FfXQ1D9m+SMeuTDeWGj+SEatkyS4A5
-         Yp3VrrgaJTf4MajSJQlLW8jekd10LQuQZN+8Mk77fIiuQmLKJA/EmKPOpyr24FTdsyVu
-         yn1u5Dh4IQcgN/oYEu0nFsS63Y1o1fjeC50ng=
+        bh=xjEZWzhxLnVW9iiNhf3zO3JZWS8PVrTJfpQCs5hLnM8=;
+        b=HtaLci/g0M8ApXaYEmhv6sN/acFetTRcElNpW2QZijuQHyGrH3Vz0onfJSaWRRksrp
+         UTEMTSC0qEIJFN4HQzR0Gqs0qydOAzDZVOTWRUSbcrn8Jx1vgB9XuDwpApemr2KB+x+9
+         ooCJQygubBG24jNTT1MvYL3Fq1L06zu+UV4ok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784364807; x=1784969607;
+        d=1e100.net; s=20251104; t=1784364811; x=1784969611;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=P/c9a30mfYB+UfF1jiTun6adiK3y+vTX5bLEYp7/1y0=;
-        b=H51bGAneMY46EwgU5ReBmwWlcty66+WI3lYfNE5rk7zSZJKrCA3zEAnmojxuO5ahuu
-         xjwR2l02Z9WaYpnbMM2RiYv0+ojjjmg+5V/jfXuDloNQbmIxP0cwiFtqfiA22qsgQ+va
-         zfAEFNTZyarh3oIn5AS3yxhZglKVRG6oCBqZm8+t6qw5Fv4O/1i04j/TO0wFQGq326fV
-         FnsAf4DtA5rPvqxNtALr+yKYykqVdF1+cNP9jewpcws/PiogupbBOzon/AyNXLmz/W5Q
-         hmJIC1+QD3hrBU4D8kLi+KWfc6yXaND++3rA8agPpqdYvCo9UwzEo9ziSOc3giuuGWpb
-         cyDg==
-X-Gm-Message-State: AOJu0YyXuaV60GQV8UFXkDGDXcbMs5cT9F42GwLl1qlSZj3xnbgkQEYg
-	GHhzW2DasLNH8pbSvOkYqTjk5I/DvW8nQlgiEJSEq6iQ7bOSuWk/XRLXozs/pD88cemcGhiskAj
-	oSiA/Wpg=
-X-Gm-Gg: AfdE7cm4ArKo61S7vOGdETG1i0IX0m4OYTM72OQxc/lDclwIJx22X4EcGCWa2Ck7SYQ
-	h5ql3JqpsHPc1dw53NDp8E6eKUj64ellSZ4SydYfNWTOmHwRNfCrShNd/2lnVXl91HLM14PLSao
-	QErQW6/nhbsZwJ0GVY6AlD+brZFmQRsfSSzo+gj7GFZcaI1m3YW6/bp4VEqZTf4DZnRlB5tanfN
-	zsJ/AlDwnylKc655Ec9lsOJKxupyScTfVAc6J+PfO5FH964eA5Q1SylI3Rc/Uc69VyqQ8L8aS14
-	wwVbU73SWtRWIjbTpa0STFFUY8vhZP23xX9ZdozCpN4Gf9ACCvghSk7bMjyhPvLBlrXXfC/+/rN
-	a7oa+qDZ+y0EKKaYx4ILOEX9Lj2frc0W5EVNWoeMJtyBpY6RQyyPVP5C1pUvH9ZsGJF3hit9Oza
-	i5bNQuoXxsQKIBaRfqT0ZBrk0oNbdZz+ufn3Ija7WlB83HW3EW9UiNdfzhs8uDr/mEpnGGrgvxi
-	mRHP727Qa8fzr9Wnw==
-X-Received: by 2002:a05:600c:4ed0:b0:493:c634:952 with SMTP id 5b1f17b1804b1-4954a3d0872mr66087475e9.7.1784364807347;
-        Sat, 18 Jul 2026 01:53:27 -0700 (PDT)
+        bh=xjEZWzhxLnVW9iiNhf3zO3JZWS8PVrTJfpQCs5hLnM8=;
+        b=Ot/j20kEh33bsB2e+kaKzjstcK1TqxL9kVvcusY3kbCvPvTI/755IBs7NzNoPOglEr
+         O59zwU6ay18Hspq8q6HwM9/UGBc8+m2qZDKOtlZm2lw3XVqCXdNtpsabmgUTgUbTmSAM
+         5FxdIOzXV7KcR4HlQZ24cu4uNzTTiO5xPsNUggWUA85DjjVi3rrhx0/3UyRLjYzoaLqn
+         8Hr2+BbNibcvvWIGHBkBP6wn7tTwHSvKvFcPbbsigbie7H6ospboBAZ/P16cZH3ziSad
+         wKlg3GyJ38l7L1Yta4qDuuqfWIHsXUPEk/WkNwn+NjpXLfkK8TvDhcXan3t7e+cvxHO5
+         ceAQ==
+X-Gm-Message-State: AOJu0YyjLxRCAIEALNzNqGJnnhfNxBhKDpOwgghKPWLE335isR8UxPAi
+	cekxz8cErqNztcWS9/GpN7qCCIoec11bjB43tsQpJl/8JGTa1NVZHXG6U1Grmmpd4vhDxcqidy4
+	U61CTKZ8=
+X-Gm-Gg: AfdE7cknIz2kKyzlSmEsOI83cjUnxUZA9GGK/OdMZz+3U/gVkAgZAYi2fRKsjn8fC22
+	MvoEup+ZcSRPBp/Z0J08MD1tZV39tilpFxNMmJI7UH9d9PbHUqrif6OJjMps3J+wT1ZswC2n8cy
+	kLT6i/c3HvgS/3XzfQcCChLOn2fDmFOEE323NDXq0ftI1VAOxcGjx5FX+FsONpwS597rrhC6LdB
+	O2MRlw0vQ5Rtk3yGPajCODAPLaFnR/jJ8fG3r9eI7M+2Wu3yUJHFqNH6qFSpuCu+biaFCTTp+XF
+	baezIR6WqEiC+EFOmwzZ5dr+rNRlqqleNlcJY+RBR8iULsT/Jw2khBNbh87HYP/MXjj1CUHIKK9
+	F8W+zSSzaNnWNT7rqfLx2Y4aJ8igf2Ggc4zfxYYSImVzpyL1opJ0IpADzDrHMr9ML2pCJ+SoZSk
+	Fw6/pPl3rlWGhvD5BnmejjHDUNK/8+hYDrJeT2CRsATjpAX1U9tkYb8/RCiw0xq/v5VxDrzyZNq
+	6FP2RE=
+X-Received: by 2002:a05:600c:4753:b0:493:bc4b:b8c with SMTP id 5b1f17b1804b1-4954a413024mr64781905e9.38.1784364810890;
+        Sat, 18 Jul 2026 01:53:30 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa001444456ef7d84e9a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:1444:456e:f7d8:4e9a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 01:53:26 -0700 (PDT)
+        Sat, 18 Jul 2026 01:53:30 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 11/17] go: upgrade 1.26.4 -> 1.26.5
-Date: Sat, 18 Jul 2026 10:52:50 +0200
-Message-ID: <7ad0cfa128ad33b90e54de613d0182f0d58d580c.1784364567.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 16/17] wic: upgrade 0.3.0 -> 0.3.1
+Date: Sat, 18 Jul 2026 10:52:55 +0200
+Message-ID: <8b904d063685b8122cffaef11fde2439480cf41e.1784364567.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784364567.git.yoann.congal@smile.fr>
 References: <cover.1784364567.git.yoann.congal@smile.fr>
@@ -65,107 +65,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 08:53:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241248
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 08:53:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241253
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-Upgrade to latest 1.26.x release [1]:
-
-$ git --no-pager log --oneline go1.26.4..go1.26.5
-c19862e5f8 (tag: go1.26.5) [release-branch.go1.26] go1.26.5
-f9ef7f5598 [release-branch.go1.26] os: properly handle trailing slashes in paths in Root
-ca8ca590cc [release-branch.go1.26] crypto/tls: omit PSK in ECH outer client hello
-7397dd7495 [release-branch.go1.26] net: fix TestLookupCNAME
-044c995af7 [release-branch.go1.26] runtime: tolerate vendor suffixes in Linux kernel release strings
-814591410b [release-branch.go1.26] cmd/compile,sync/atomic: make Add And & Or SQCST on PPC64
-2055b1a15d [release-branch.go1.26] syscall: add //go:norace to rawSyscall on darwin
-d7c9c818f9 [release-branch.go1.26] runtime: in moveSliceNoCap, round size down to a whole multiple of element size
-dc80258a97 [release-branch.go1.26] internal/runtime/gc: require AVX512DQ for greentea
-6efcff6602 [release-branch.go1.26] os/signal: make NotifyContext Cause match context.Canceled
-fe91cea4f2 [release-branch.go1.26] cmd/go: use fsys.ReadDir for IsStandardPackage
-ec988a9af1 [release-branch.go1.26] os: notify testlog from (*File).Chdir
-
-Fixes CVE-2026-39822 and CVE-2026-42505.
-
-Release information: [2]
-
-[1] https://github.com/golang/go/compare/go1.26.4...go1.26.5
-[2] https://groups.google.com/g/golang-announce/c/OrmQE_Yp5Sc
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: b498f6d6d93e0adb3f0e9439aa55a2abfcb9b063)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+(cherry picked from commit b24c4f46bccba16eb6fb2b494d351644704b5371)
+[YC: Changelog URL: https://git.yoctoproject.org/wic/log/?h=v0.3.1]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/go/{go-1.26.4.inc => go-1.26.5.inc}   | 2 +-
- ...o-binary-native_1.26.4.bb => go-binary-native_1.26.5.bb} | 6 +++---
- ...cross-canadian_1.26.4.bb => go-cross-canadian_1.26.5.bb} | 0
- .../go/{go-cross_1.26.4.bb => go-cross_1.26.5.bb}           | 0
- .../go/{go-crosssdk_1.26.4.bb => go-crosssdk_1.26.5.bb}     | 0
- .../go/{go-runtime_1.26.4.bb => go-runtime_1.26.5.bb}       | 0
- meta/recipes-devtools/go/{go_1.26.4.bb => go_1.26.5.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.26.4.inc => go-1.26.5.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.4.bb => go-binary-native_1.26.5.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.4.bb => go-cross-canadian_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.4.bb => go-cross_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.4.bb => go-crosssdk_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.4.bb => go-runtime_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.4.bb => go_1.26.5.bb} (100%)
+ meta/recipes-support/wic/{wic_0.3.0.bb => wic_0.3.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/wic/{wic_0.3.0.bb => wic_0.3.1.bb} (90%)
 
-diff --git a/meta/recipes-devtools/go/go-1.26.4.inc b/meta/recipes-devtools/go/go-1.26.5.inc
+diff --git a/meta/recipes-support/wic/wic_0.3.0.bb b/meta/recipes-support/wic/wic_0.3.1.bb
 similarity index 90%
-rename from meta/recipes-devtools/go/go-1.26.4.inc
-rename to meta/recipes-devtools/go/go-1.26.5.inc
-index 8bc6f4d4def..a4302b2790a 100644
---- a/meta/recipes-devtools/go/go-1.26.4.inc
-+++ b/meta/recipes-devtools/go/go-1.26.5.inc
-@@ -16,4 +16,4 @@ SRC_URI += "\
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
- "
--SRC_URI[main.sha256sum] = "4f668a32fbfc1132e6a881fb968c2f1dada631492a339211735fbb255a42602d"
-+SRC_URI[main.sha256sum] = "495be4bc87176ac567392e5b4116abd98466d33d7b49d41e764ccc6976b2dc42"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.4.bb b/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-similarity index 80%
-rename from meta/recipes-devtools/go/go-binary-native_1.26.4.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-index 3757b9f6a52..97a8270be2d 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.26.4.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+rename from meta/recipes-support/wic/wic_0.3.0.bb
+rename to meta/recipes-support/wic/wic_0.3.1.bb
+index 7dbf84b039a..d9b4cc05c4b 100644
+--- a/meta/recipes-support/wic/wic_0.3.0.bb
++++ b/meta/recipes-support/wic/wic_0.3.1.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=4ee23c52855c222cba72583d301d2338"
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "1153d3d50e0ac764b447adfe05c2bcf08e889d42a02e0fe0259bd47f6733ad7f"
--SRC_URI[go_linux_arm64.sha256sum] = "ef758ae7c6cf9267c9c0ef080b8965f453d89ab2d25d9eb22de4405925238768"
--SRC_URI[go_linux_ppc64le.sha256sum] = "53f49b8c7eace2d30389327b4a516b13321f90377fdf5929a6b63174609bc22e"
-+SRC_URI[go_linux_amd64.sha256sum] = "5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053"
-+SRC_URI[go_linux_arm64.sha256sum] = "fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "c5d60e2b303bb612f20cd82786594b64874e73b35134025e27d3390bf284ae43"
+ SRC_URI = "git://git.yoctoproject.org/wic.git;branch=master;protocol=https;tag=v${PV}"
+-SRCREV = "5974ade11032f218841d9f449ef0efeee3f9a2ca"
++SRCREV = "6c66da65bf2aac618092811c13792dcbd453d140"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.4.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.26.4.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.26.4.bb b/meta/recipes-devtools/go/go-cross_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.26.4.bb
-rename to meta/recipes-devtools/go/go-cross_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.4.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.26.4.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.26.4.bb b/meta/recipes-devtools/go/go-runtime_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.26.4.bb
-rename to meta/recipes-devtools/go/go-runtime_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go_1.26.4.bb b/meta/recipes-devtools/go/go_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.26.4.bb
-rename to meta/recipes-devtools/go/go_1.26.5.bb
+ CVE_PRODUCT = "yoctoproject:wic"
+ 
 
