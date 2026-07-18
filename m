@@ -1,166 +1,124 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <adam.blank.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4690C4451C
-	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 09:46:19 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3167.1784367977451912163
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B7EC4451C
+	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 13:25:20 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6023.1784381119497692061
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 02:46:17 -0700
+ Sat, 18 Jul 2026 06:25:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JC+VSPVU;
- spf=pass (domain: mvista.com, ip: 209.85.210.169, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8485bd28dd0so10198562b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 02:46:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=gOLBtntY;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: adam.blank.g@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so61045315e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 06:25:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1784367977; x=1784972777; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TjND7NC32gMjd9em1wTEnwsOKOjtcTGzbR+IO9XDHxI=;
-        b=JC+VSPVUZnCdcBfcz5+ySY09IJZegAkBsGZYQC9B0QLmedSftvVGcIKEiLIASPYf34
-         N6lNme/iAn8P4QP5hCEq6M3RQKAq3euURqUsgXcESl2a+tyTHefaQ/8qn16GxXhCKT8M
-         2KQQwINR6RqIx4bPP3qPg8uN9kmtrh42ygc3Y=
+        d=gmail.com; s=20251104; t=1784381118; x=1784985918; darn=lists.openembedded.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=N6sOEhr4Ol3GKgSAub8PW+nYcXr2Ab18YZp4unbeviM=;
+        b=gOLBtntYtV/RZgwtR44oVu5iUs8/dsbCCTHxoy25chjoEgbJG7BFZgNMb5+TGX4vCr
+         UXXY0e6BIs49TIitgShmbw/iv6dcNURnNPZbJ3IV0lEdu05cFJRmj5psOgIOw/diH+1N
+         5AN9LtxdKv32MFXKrxLb4bq5YTKdnjKG41jKckvmr3VzqdSWcDlNn1ggh/oeLllIOsag
+         +zbqYloJ2VmxHQHp6Uv1oD/XL6V8g1eKeN+geBKC4DtUITZA1h48AQ/wlGJc40YV8EB1
+         991rvKfvtdkiU1PSJZu7Znd45DUJwayfUVFPBVOPjgNo2mNg7VbtcpHFjgCwQPKiWSmt
+         vCmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784367977; x=1784972777;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TjND7NC32gMjd9em1wTEnwsOKOjtcTGzbR+IO9XDHxI=;
-        b=CoJQ5gBnSzwBOj7GuW2RC/AH3qgV3H7nz70/B9+2g/jwHCZQL4zPiaQLMfTxEWkXSh
-         2yt78MnHyWE/vgvAYA0V3xgER5t4r+98ayomdeZMSeSU987/PZZEo9c9O9FmOkn/pTsY
-         nhgmhmF+cj0jaP+SE1vjbQR5gP3MuTfgaPQzJGtPnXZVtT9yw+9nelh6rqA23Xukl0Gg
-         RLlVm4RTBtfaSA4xhcUYL6E4km6TppslFEODwOVwayIKvpjVANkateTMoJGcuegdvze9
-         QNWVyfjXU61LeU/KK8fAEtpxZ5twjuSHWBVEoQLq6es7+Tt3YyvnTZNLeUgs7yiQhA2Y
-         xC0w==
-X-Gm-Message-State: AOJu0YwwTy/CPKEfB4dBe+yxiyvn6uxLVTgqxTynZPBiEeThLGQ0r4k2
-	AZpO3hA6YrnjQR+3yEZAaJf3eI+oP7HxrFQv/dRumX2HJ6FlT4K/Wx+9ZP31a/eYuBa+c9T0ZO5
-	z1ssUwhw=
-X-Gm-Gg: AfdE7cn9J5BWh3gMQbwz5d4yrmF3fAHXzbzajuvMls7C9G33fpvalWwz+D+8zvJVde3
-	Smlq9/el6qgV8nPKf/Hd3AId6aaigC0qYeOdjPHSX1In1BQD3ov/80MtkAfl3ui726EyRaDF95i
-	TyUV8Z2t7nDMvPhHgZIgJaSF7rdqHm1X+pYlxA9lM/xVjmM3Ud5b4T5K84MeIpcQTREkENrndBj
-	l/93DrMU5OLXFFZh56yx0dy0O0Npt87i3BJzvlDhUKxSR7BJIlxvFAOLisH+1IVpU+6DfdUT0sx
-	Y8vaYoPM5LEYQCMQL6hriLAFiO1ShdW4SyjiI50FC5KQ0jBtmb1SECZC3XZUI5GnfweogAvkZd2
-	r4GZRlVJxFzJiCd0o6fgkJwO221lNCoC4MrAuwPXw80YT4e+JP2RNF6jbp1ROvV99STO6+TWmTH
-	HHPJXF4OYoEx7PlA==
-X-Received: by 2002:a05:6300:2289:b0:3c3:a7ab:135a with SMTP id adf61e73a8af0-3c3ad7a32f0mr6101935637.20.1784367976606;
-        Sat, 18 Jul 2026 02:46:16 -0700 (PDT)
-Received: from MVIN00352.. ([2401:4900:1cc5:b43f:a4a2:6dfc:fd70:87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a1bb77csm17073433eec.18.2026.07.18.02.46.13
+        d=1e100.net; s=20251104; t=1784381118; x=1784985918;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=N6sOEhr4Ol3GKgSAub8PW+nYcXr2Ab18YZp4unbeviM=;
+        b=GyO5Opj6Znn7EvCl/JBJC6drpb5zdnMW2n1K88KMpiwLTtQFDctNoBh0yZJFjfHSVd
+         Vo3uzpiGmjv8xS9xCHCSJazqEKNEWTO8CyC058zP414BZZB4wmpRVvX+160I1Yhbc9V+
+         degz2d9W7rMtapzMMP3hjDeCyVOefmfjSIKCMN9fktoEcSj0OWSzRAzWFRaBTshzXDSo
+         NNYpRRBVuhvim+7NPr29fbMfAxbKTVb3NUXd8LGQzRk834Su50DCjcXPfKAB08XIZ89v
+         j8bN/ekv6WHMNSIQN/iOrFlYIdj7kdfF57KploCNfU+K7bC7IBoaOCtrNR/+ROcTO3c7
+         14Mg==
+X-Gm-Message-State: AOJu0YzmVHJqjeN5BnMah96mS9ycpwu/PUqkJjMSZDtvFCI5G+GdB3dp
+	3FkxSQE5pF/LRs34DSYzE/T8OVngy6ogyCkIIN4GnL6mZsq5Xw/3/QtZAqoxeQ==
+X-Gm-Gg: AfdE7clHJ+iMJUeOf7gWftBJmBChPghZkU+dKc+9BVOh2m7OepEcwgSWh+/QK5gvCT7
+	xHwFSTigmyMbBSbmktQ3T8JW8TsEE9pM00UgC+JRXTwmg3ytTFqC9Em+HD2wdv4NhhWgyz7fa3Y
+	v9bhAubfZtJmp1AzsksQtjwJbrH7AN4eTpLiS2KWlj1AOpja3xOlAFYADCYijuKSs1LnpU3KV7/
+	yOR1X9l7gLcnAeShAygkH+Tyv4/FvkGGnhW7KyC8IwuEzK3FXfS8azGyMmUSAAZl+9Mr9XJDKRd
+	MOHtkFUIgdfkQId4KR6rkWGKyUMy52shAeqDrkaYiV2KtdodlVeMTqEekfxb7CjTbG4QW8SV6Wp
+	S2sMXiz680QVE3OvxreWdoc/ACtk7kgkAUvUEZQCeGKdadVdBlIlCzeuwEYoyLLs21zLIBbQ/1X
+	hYeE/rp3H8
+X-Received: by 2002:a05:600c:c054:b0:493:a976:5c6e with SMTP id 5b1f17b1804b1-4954a3dce22mr45050225e9.16.1784381117565;
+        Sat, 18 Jul 2026 06:25:17 -0700 (PDT)
+Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:689d:c0a3:3de0:7033])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a2504sm136563175e9.2.2026.07.18.06.25.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 02:46:15 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][scarthgap][patch] tzdata/tzcode-native: upgrade 2026b -> 2026c
-Date: Sat, 18 Jul 2026 15:16:05 +0530
-Message-ID: <20260718094605.2567681-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 18 Jul 2026 06:25:17 -0700 (PDT)
+From: Adam Blank <adam.blank.g@gmail.com>
+Subject: [PATCH v2 0/6] Remove 'extend_recipe_sysroot' from
+ 'BB_HASHEXCLUDE_COMMON'
+Date: Sat, 18 Jul 2026 15:25:06 +0200
+Message-Id: <20260718-extend_recipe_sysroot-v2-0-b7cbf35d00ec@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALJ+W2oC/4WNWwqDMBBFtyLz3ZT4aJv0q/soImMy6kA1kogok
+ r03dQP9PAfuuQcE8kwBntkBnlYO7KYExSUDM+DUk2CbGApZ3GWVK0HbQpNtPBmeqQl78M4twuq
+ balGbDjVC2s6eOt7O7rtOPHBYnN/PmzX/2X/FNRdSKKS2VGWLj6p89SPy52rcCHWM8Qu6bgUHu
+ gAAAA==
+To: openembedded-core@lists.openembedded.org
+Cc: Adam Blank <adam.blank.g@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784381116; l=1680;
+ i=adam.blank.g@gmail.com; s=20251027; h=from:subject:message-id;
+ bh=6vx7563brppr4pJXmCjqEM9d/e6U7W64ZC/OU4l9w5g=;
+ b=Bwq+Rk5YFUvxm3hpMlomQa/cZFcjkKXFeIJ/xnZqQqktRoan19mwip7xpE1f5LfeCFHq+x9HI
+ 4QO1wdiIuEzD0i82npa48O3wOGiLg6sDtFjKY9P7I1m5Ku9DLxu5TcK
+X-Developer-Key: i=adam.blank.g@gmail.com; a=ed25519;
+ pk=5t8u8IPKPL1CUykIX2JYa+1iHdXRdN5MqI7ik/fbvEM=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 09:46:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241257
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 13:25:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241258
 
-This release contains the following changes:
+It has lain there for a while, obscuring certain aspects of
+how task signatures are calculated.
 
-   Briefly:
-     Alberta moved to permanent -06 on 2026-06-18.
-     Morocco moves to permanent +00 on 2026-09-20.
-     More integer overflow bugs have been fixed in zic.
+This changeset does not change the current status quo, but
+rather changes the way in which it is implemented. It can be
+followed by changes which further refine what is excluded and
+how, from those tasks which refer to 'extend_recipe_sysroot'.
 
-   Changes to future timestamps
+Related discussion:
+https://lore.kernel.org/openembedded-core/aa893eb861bf4dd18e3e84e6bbebdee3b0367d1b.camel@linuxfoundation.org/
 
-     Alberta’s 2026-03-08 spring forward was its last foreseeable clock
-     change, as it moved to permanent -06 thereafter.  (Thanks to Roozbeh
-     Pournader and others.)  Model this with its traditional abbreviation
-     CST.  Although the change to permanent -06 legally took place on
-     2026-06-18, temporarily model the change to occur on 2026-11-01 at
-     02:00 instead, for the same reason we introduced a similarly
-     temporary hack for British Columbia in 2026b.
-
-       Although another TZDB release will likely be needed soon because
-       Northwest Territories will likely follow Alberta, the legal
-       formalities have not yet taken place.
-
-     Morocco plans to move back to permanent UTC, without daylight
-     saving time transitions, on 2026-09-20 at 02:00.  This also
-     affects Western Sahara.
-
-   Changes to code
-
-     zic no longer overflows integers when processing outlandish input
-     like ‘Zone Ouch 0 - LMT 9223372036854775807’, ‘Zone Ouch 0
-     2562047788015215 LMT’, ‘Zone Ouch -2562047788015215:30:08 - LMT’,
-     and ‘Zone Ouch -2562047788015215:30:08 - %%z’.  This avoids
-     undefined behavior in C.  (Problems reported by Naveed Khan.)
-
-     On platforms that have EFTYPE, tzalloc now fails with errno set to
-     EFTYPE, not EINVAL, if it detects that the TZif file has an
-     invalid format or is not a regular file.  Formerly it did this
-     only on NetBSD, and only when the file was not a regular file.
-
-     Unprivileged programs no longer require TZif files to be regular
-     files or reject relative names containing ".." components.  This
-     reverts to the more-permissive 2025b behavior, as the stricter
-     behavior did not catch on in FreeBSD.
-
-     zic now reports any failure to remove a temporary file when
-     cleaning up after a previous failure.  (Problem reported by Tom
-     Lane.)
-
-   Changes to commentary
-
-     Northwest Territories is expected to move to permanent -06 prior to
-     2026-11-01 02:00, when clocks would otherwise fall back.  (Thanks to
-     Tim Parenti and James Bellaire.)  Model this with its traditional
-     abbreviation CST.  Unfortunately the change is not yet official, so
-     it is currently present only as comments that can be uncommented as
-     needed.
-
-   Changes to build procedure
-
-     The undocumented ‘typecheck’ Makefile check rule has been removed.
-     It stopped working in 2025a and evidently nobody noticed.
-     The rule was superseded by ‘check_time_t_alternatives’ in 2013d.
-
-Ref: https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/NVHSX2PAQIT44U5FCCEVNJJYXQMMTJSA/
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 33a7e1170b0c8ba83cdb4c7d6d9f83f6c194baed)
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v2:
+- Leave the mechanism in effect, but move it to the staging class
+- Link to v1: https://lore.kernel.org/r/20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index a477437066..4271b30648 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
--PV = "2026b"
-+PV = "2026c"
- 
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
--SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
-+SRC_URI[tzcode.sha256sum] = "b1cffc3ace4c4c7cd0efba2f7add86ec3d0b79da48bcf03582671fd3c8feace8"
-+SRC_URI[tzdata.sha256sum] = "e4a178a4477f3d0ea77cc31828ff72aa38feff8d61aa13e7e99e142e9d902be4"
+---
+Adam Blank (6):
+      staging: add 'extend_recipe_sysroot' to 'vardepsexclude'
+      cross: add 'extend_recipe_sysroot' to 'vardepsexclude'
+      native: add 'extend_recipe_sysroot' to 'vardepsexclude'
+      wic-tool: add 'extend_recipe_sysroot' to 'vardepsexclude'
+      gcc-runtime: add 'extend_recipe_sysroot' to 'vardepsexclude'
+      bitbake.conf: remove 'extend_recipe_sysroot' from BB_HASHEXCLUDE_COMMON
+
+ meta/classes-global/staging.bbclass       | 3 ++-
+ meta/classes-recipe/cross.bbclass         | 1 +
+ meta/classes-recipe/native.bbclass        | 1 +
+ meta/conf/bitbake.conf                    | 2 +-
+ meta/recipes-core/meta/wic-tools.bb       | 1 +
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
+ 6 files changed, 7 insertions(+), 2 deletions(-)
+---
+base-commit: 171af3b2915dd076c8d1b205ff75eac1ebd5a586
+change-id: 20260418-extend_recipe_sysroot-d958ba9cfa9a
+
+Best regards,
 -- 
-2.43.0
+Adam Blank <adam.blank.g@gmail.com>
 
 
