@@ -2,177 +2,140 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD78C4451B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA79C44524
 	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 08:53:30 +0000 (UTC)
 Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2627.1784364805011837146
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2628.1784364807627391620
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 01:53:25 -0700
+ Sat, 18 Jul 2026 01:53:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Oz7NkCD/;
+ dkim=pass header.i=@smile.fr header.s=google header.b=lptg5z1O;
  spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493f45e20cdso50628795e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:24 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49546c690ffso14923875e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784364803; x=1784969603; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Bi9TAuKPVfQFqGrqTTpE+Bg7u4lruxmsvlwNDxPIE3I=;
-        b=Oz7NkCD/8pQJVzqsvjxFfb01mCuKdY+QqqucM3MeFmQ2B6loyV1pofZ6nRDSnw4sxu
-         sPOZlluqD9nzfLPqUhrZd8x5vrMVQ6fr/6zn9/AfBnz6Nc+afqaZwCA2g54fii58bV73
-         UOsMXmh7Mt+sF4wEdci9Nf9ac1rwCxuvPSbbs=
+        d=smile.fr; s=google; t=1784364806; x=1784969606; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ahNT2H2C96mN8IWK0Cifv5HSKXzRUq6HPJab3CZfx0U=;
+        b=lptg5z1O0CCuo60iU68R5pSSdOJCV6SIcI3ZAkKmWa01iVa9yzZKEg1OH/l6iv0HBo
+         m7GMe0YAmR0+TpFcJm7J072Qcme/5OqkcmYZ9/OJTbj6hGlHMVFZvuYlKt7QxERdvZr5
+         IhqmmsecSmPn2+WGxaAWqW/MytWXVk2TjgZT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784364803; x=1784969603;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Bi9TAuKPVfQFqGrqTTpE+Bg7u4lruxmsvlwNDxPIE3I=;
-        b=NDzNZMHO5RCYMYkIZ4klwouUmvLmlWXG3xmm+InBG1vPJVvkOQh/bzNhSOAvs3M+Ar
-         Po96W1I3XJHs03HWxULHJu76O4J5HQ6w8BH7QoW6NwqeMzLOIeb+AW1u6diWjstpZh2K
-         BvrRUc5L/I6pxHaykOiU9GD12mqWCPlSLhGFDbtYA1yq6CV7ofZVTHpqiRzXcj1jbuwV
-         9UdadTFM5THnLfInnQxBuoaPjXUJ1KMJ4vpVXdR8oYf3+W5yFUMvz7n9he0pp3GVo83S
-         soZhn0XNbaihh/CDOecRn+1ArnmvxmqaruRZnclNQJ+SZ+73I2BP2dslNvv5md5zxeAH
-         o3OA==
-X-Gm-Message-State: AOJu0YzI7r304cZW8qr+T3WqjLnyR6ZmlwKT/yPCbXszknV1rktnu6qV
-	1XBE8Zsic6XT9SNxI743o1tNbWbEcpshCLUlPTmkvRdv+71qvfKdmK+gOsomuImoQgPfo64h1je
-	w5coxHok=
-X-Gm-Gg: AfdE7cmbu0mJD5RNFvqbLDc9+/gMbJKExql4mNph+HnEHjc8UxOSJY9pyF0xFaG04KL
-	VBMr2/oWscm0wMBEWUm3wvnLHmjXL99iuwvaHNkZ5HDIA8lCCf7+f1kkblO1rELCIgZwGVrfEhM
-	vRJTzGXQrYJOx88BYh10fBnGouZ2f12zOtA/Cz9nNbXZJ9LnJiimlmpBhJlNw327YQiPjjtNf0N
-	BEBwOJxhK4WUkkaSdqcH3a5GpqaOFkG452yvPVlhGXWRJQuFL5E0UUf8+u/Z8VNyPf6UL1z+lJ1
-	5YTwWpEzvFiYYTsyZfDw6j2F/WCRYGo5Z2KLkysonZ7FkP/Bpe1IP0xdjToLsnT9wHLNWs1wyOQ
-	eVKFbucwsG3XyScCu9VEbSQIxJVsndeZAiYosKYKmrOUcSL+yqshTJvsiL7YVe6ibpAW8jteu6M
-	rQ1F2jh5XuWLmHkMe4zBJcnN5zj4sxIdf4cH6lnKULv+Qa992vn1ZrQsYJn0miAut+PJNsSWY9w
-	6BqkVA=
-X-Received: by 2002:a05:600c:4755:b0:493:c2cc:aecb with SMTP id 5b1f17b1804b1-4954a51590fmr67290205e9.38.1784364803119;
-        Sat, 18 Jul 2026 01:53:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784364806; x=1784969606;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ahNT2H2C96mN8IWK0Cifv5HSKXzRUq6HPJab3CZfx0U=;
+        b=o1kByOxPeAddMiMhXCwr0yn5v0lpBa5fY7PMmhNtG898Qev+pMgUZzoRE+C5AQEheO
+         C+zDFurGlOcOcSVnCrgR7Fq4P39HNum3S1fmZeMVD5EMuohgqcl0YAe4cuAgJlf4x1/d
+         Guu/RkU6y2Kvvq67HGVTsR7MfXWdOsDZbVELZ6rWDNvbDQbCvSXnyhJY2uXcB4RW4pVM
+         LxX9kS6W40u6R3XiGHCnlCQS8a9UPbVZ3fYjAFDQaEcmwYZl4XRhXBWEe7pNkZjWkAAQ
+         7Kx59LL3iVilZUxBb4Qy5zMmEORri4/V2qx/k8rrx5ZDk8N8UjHv4YlFJzuHDe0ckgRE
+         JCjA==
+X-Gm-Message-State: AOJu0YzGqBww/H8PAXRvZe8sXoLg/boz2pC8JCsz3fTFezIVkpBTN+4g
+	ou1phn/u1wFWtRYZR1P8bjh9KmzOJwgCNwrMoM3+nFVPe7RG/0c1ZgRLmI1kGlTeOaw4YM0LAoD
+	JMSUhG4Q=
+X-Gm-Gg: AfdE7cl8iwnRGOcXGxQT1xwdUIEX3c4tSOFKpyTO9QhzPl0A0zTUNvX8dzLFfYL/q4g
+	B3W/iGQO0/XW1GF3qjmkYtqwJKEZcLW7FMzDB5mlu/5Erf9uj0gHRsLi9W4IvrCmQWF7cjSO3gi
+	FuCuner5BEemeHhQbbUp3S6sgwalGWxbC9tDRtqXXhoVWWR9RP3cFg4/n2UQPN4mGDPeUOsTNsx
+	WOGkuTSKbSiztnD90vm6x9T1WAjU4bZyxEfMqcwxsftBp8LuF+SmuHNJN9y3c7GaIy4EUeEGG/o
+	c32zCRqHxGkZSnjmRM442Th5NfjSNFLdvUcwPgXZEsmH3/UDRDPFJA8AfDnAhOASRaoWwGQ2nB4
+	PJyOQcs3MTmesM71ktcMxTZmpXK1j32crua4ex5Ioxv133vxU0x6WSWrZ2SL/fC6u8vy2PEGvup
+	9PRtAYvxMu2U1HmPl1AuSfrtc8oeBYDwAocWSNw+BrJivu/6hf/xH+bpjp5//es9d546nI9Fy2/
+	8VJCTg=
+X-Received: by 2002:a05:600c:8010:b0:493:bd37:1cdf with SMTP id 5b1f17b1804b1-4954a3e2165mr64678115e9.2.1784364805841;
+        Sat, 18 Jul 2026 01:53:25 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa001444456ef7d84e9a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:1444:456e:f7d8:4e9a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 01:53:22 -0700 (PDT)
+        Sat, 18 Jul 2026 01:53:24 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 06/17] gzip: fix CVE-2026-41992
-Date: Sat, 18 Jul 2026 10:52:45 +0200
-Message-ID: <a9b04813c5cb2e91e5d8071d3a9887e2d816a90f.1784364567.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 09/17] bzip2: Fix CVE-2026-42250
+Date: Sat, 18 Jul 2026 10:52:48 +0200
+Message-ID: <161cbfeb9f8aecf1628d4feab67ad4a7690706b5.1784364567.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784364567.git.yoann.congal@smile.fr>
 References: <cover.1784364567.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 08:53:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241243
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241246
 
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-Backport upstream fix for a global buffer overflow in the LZH
-decompression logic (unlzh.c). The left[] and right[] global arrays
-shared across LZW and LZH decompression routines are not reinitialized
-between files processed in the same invocation, allowing an
-out-of-bounds read in the LZH decoder.
+This patch applies the upstream fix as referenced in [1], using the commit shown in [2].
 
-Adapted for gzip 1.14:
-- Refreshed NEWS and THANKS hunks to match 1.14 release context.
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-42250
+[2] https://sourceware.org/cgit/bzip2/commit/?id=35d122a3df8b0cc4082a4d89fdc6ee99f375fe67
 
-Reference: https://nvd.nist.gov/vuln/detail/CVE-2026-41992
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit deaaaacabbf8d21fb9271e3f6f83055893510cff)
+(cherry picked from commit bf39a3c0497023e96de11444579ffef31f968bcd)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gzip/gzip-1.14/CVE-2026-41992.patch       | 64 +++++++++++++++++++
- meta/recipes-extended/gzip/gzip_1.14.bb       |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
+ .../bzip2/bzip2/CVE-2026-42250.patch          | 35 +++++++++++++++++++
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
 
-diff --git a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch b/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
+diff --git a/meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch b/meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
 new file mode 100644
-index 00000000000..f55c89978d6
+index 00000000000..1679e744478
 --- /dev/null
-+++ b/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
-@@ -0,0 +1,64 @@
-+From 63dbf6b3b9e6e781df1a6a64e609b10e23969681 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Wed, 15 Apr 2026 12:00:17 -0700
-+Subject: =?UTF-8?q?gzip:=20don=E2=80=99t=20mishandle=20.lzh=20after=20.Z?=
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
+@@ -0,0 +1,35 @@
++From 71bf61d2e664c754ae5b1eb04018c8eaf5f99ae3 Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Thu, 28 May 2026 16:15:45 +0200
++Subject: [PATCH] bzip2recover: Make sure to not process more than
++ BZ_MAX_HANDLED_BLOCKS
 +
-+Problem reported by Michał Majchrowicz.
-+* unlzh.c (read_c_len): Clear left and right when n == 0.
++There is an off-by-one in the check before calling tooManyBlocks. This
++causes the scanning loop to run one more time and cause a possible
++read or write one past the global bStart, bEnd, rbStart and rbEnd
++buffers. There are no known exploits of this issue and you will need
++to compile with something like gcc -fsanitize=address (ASAN
++AddressSanitizer) to observe the faulty read/write.
 +
-+CVE: CVE-2026-41992
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=63dbf6b3b9e6e781df1a6a64e609b10e23969681]
++This has been assigned CVE-2026-42250.
++
++CVE: CVE-2026-42250
++Upstream-Status: Backport [https://sourceware.org/cgit/bzip2/commit/?id=35d122a3df8b0cc4082a4d89fdc6ee99f375fe67]
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ NEWS    | 4 ++++
-+ THANKS  | 1 +
-+ unlzh.c | 6 ++++++
-+ 3 files changed, 11 insertions(+)
++ bzip2recover.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/NEWS b/NEWS
-+index 6388227..8fb8918 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -4,6 +4,10 @@ GNU gzip NEWS                                    -*- outline -*-
++diff --git a/bzip2recover.c b/bzip2recover.c
++index a8131e0..4b1c219 100644
++--- a/bzip2recover.c
+++++ b/bzip2recover.c
++@@ -402,7 +402,7 @@ Int32 main ( Int32 argc, Char** argv )
++             rbEnd[rbCtr] = bEnd[currBlock];
++             rbCtr++;
++          }
++-         if (currBlock >= BZ_MAX_HANDLED_BLOCKS)
+++         if (currBlock >= BZ_MAX_HANDLED_BLOCKS - 1)
++             tooManyBlocks(BZ_MAX_HANDLED_BLOCKS);
++          currBlock++;
 + 
-+ ** Bug fixes
-+ 
-++  A buffer overflow has been fixed when decompressing an .lzh file
-++  after decompressing a .Z file.
-++  [bug present since the beginning]
-++
-+   'gzip -d' no longer omits the last partial output buffer when the
-+   input ends unexpectedly on an IBM Z platform.
-+   [bug introduced in gzip-1.11]
-+diff --git a/THANKS b/THANKS
-+index 4e545d9..a7d25e4 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -186,6 +186,7 @@ Jamie Lokier            u90jl@ecs.oxford.ac.uk
-+ Richard Lloyd           R.K.Lloyd@csc.liv.ac.uk
-+ David J. MacKenzie	djm@eng.umd.edu
-+ John R MacMillan        john@chance.gts.org
-++Michał Majchrowicz	mmajchrowicz@afine.com
-+ Ron Male                male@eso.mc.xerox.com
-+ Jakub Martisko		jamartis@redhat.com
-+ Don R. Maszle           maze@bea.lbl.gov
-+diff --git a/unlzh.c b/unlzh.c
-+index 3320196..a6cf109 100644
-+--- a/unlzh.c
-++++ b/unlzh.c
-+@@ -232,6 +232,12 @@ read_c_len ()
-+         c = getbits(CBIT);
-+         for (i = 0; i < NC; i++) c_len[i] = 0;
-+         for (i = 0; i < 4096; i++) c_table[i] = c;
-++
-++        /* Needed in case LEFT and RIGHT are reused from a previous
-++           LZW decompression.  It may be overkill to clear all of both
-++           arrays, but nobody has had time to analyze this carefully.  */
-++        memzero(left, (2 * NC - 1) * sizeof *left);
-++        memzero(right, (2 * NC - 1) * sizeof *left);
-+     } else {
-+         i = 0;
-+         while (i < n) {
-diff --git a/meta/recipes-extended/gzip/gzip_1.14.bb b/meta/recipes-extended/gzip/gzip_1.14.bb
-index c7837cdae01..99174a58c53 100644
---- a/meta/recipes-extended/gzip/gzip_1.14.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.14.bb
-@@ -6,6 +6,7 @@ LICENSE = "GPL-3.0-or-later"
- 
- SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 9cecf6a331b..36267e5073a 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -27,6 +27,7 @@ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+            file://Makefile.am;subdir=${BP} \
             file://run-ptest \
-+           file://CVE-2026-41992.patch \
+            file://0001-fix-bzip2-version-tmp-aaa-will-hang.patch;subdir=${BP} \
++           file://CVE-2026-42250.patch;subdir=${BP} \
             "
- SRC_URI:append:class-target = " file://wrong-path-fix.patch"
+ SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
  
 
