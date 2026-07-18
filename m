@@ -2,119 +2,104 @@ Return-Path: <adam.blank.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A76C44524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 504D6C44525
 	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 13:25:31 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6024.1784381120693247884
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6027.1784381123686523547
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 06:25:21 -0700
+ Sat, 18 Jul 2026 06:25:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=qv4CCIkN;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso20315e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 06:25:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=eVkp8Fz8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adam.blank.g@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4955158f26aso2820285e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 06:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784381119; x=1784985919; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784381122; x=1784985922; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3kGcQQazIKn1yQig9+6bK21EIAumNonQhZ1IBHSrt2o=;
-        b=qv4CCIkNSn7G5mQaCfGC3wzE+KIVHn3EjvqpZD9DiP5CeTmjtQY9ZYjGDdR1XMPQ65
-         51JVwN80nTWMpw02ucSFjymC9pLTAJesItukOodX5K5aXGQ/dvTTPoBm6uU8+kp0Q0yI
-         oiNML8IHIOJnFD+HmsDtDUEBWdxYF9EN1JZytOl0BBgaXrtuAKjkCTPi95WgJRFivCQr
-         r1xKyugHML6djYaEFFkzXv/XieTru9x43xArAnhY3D61atdJrvS7oro46EVCXW1ObuU1
-         gTto2jbFwOe4zynBIuLZPAr0kjReHw3pIWja8dgT24R2oLUKy93oQWpVNxCdSct+w+eM
-         RQyA==
+        bh=UWWRky8xS21EcHIdPyBDD4ayORp1Jq2kFZks/EHU16o=;
+        b=eVkp8Fz82grBoU8P8wHVJ/L9PtIj5iWOr3F0c2lN/NAmha1100XasWT8IMOxZQptPd
+         UI8LkjRZHv31mstuDwPek5r17uxkchPiBHcglkLzpj3jzNcCsCUJ84oE8NwBPH8cMI2E
+         9zAOGek+R/hF/fBQ6ku59r0XoPmZgx5BS2IMTpaYrfGD6QRt0+MKTVge8bzsBwjmXY7g
+         J18X7ak0Qt5rW9l9H8HtYCTVn95cVPD8wwdN6efeQePgyAutaoHc5OkujLVTp7BHPSqC
+         rX9sxTkeldkDUK5tbWB/qQNAEn3S4vYZxjGx5umuDkNkP5ikB33TFVUz9koMtGj1Y7yQ
+         MsOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784381119; x=1784985919;
+        d=1e100.net; s=20251104; t=1784381122; x=1784985922;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3kGcQQazIKn1yQig9+6bK21EIAumNonQhZ1IBHSrt2o=;
-        b=sgndJQzhlT35ppvK6NkMS5wuVw07niZtzwiIASj7PLrf1wDSF4mGOMCYT9MpJEeTcm
-         azbbxsmt+Fcs9EwQwkmn1XdBuNTHFq4CKiFy4eTv1kd23f3SpUFfvL+IVKUQxOZZR6B6
-         bahFVtZUHtA+7Cdkd8J8teV9cdZ/2uboesORWlxAiPynTMwOQXXxE66bYYvyIWO1saL0
-         IHPR1KFIcfHKhtMinIYBZX1znwo/fkpbv44X0r63ORUivD0bTilYiEtDZirSECRq+RG9
-         clzWWRTD6rsVNTdVVlMpmAu1l31uKvnPLjscngikYJpmD3hHyWaWGRXuaWZBjekyS0Tn
-         n/fQ==
-X-Gm-Message-State: AOJu0YxRLGrUFoTt82c/nuC4r9S+/BeFyZoHSwpYonhrVDFhmhhaM7KF
-	1+v5WdV1OCC+HeyMOfcqoWLoOjerw1A+meX/2eOoH0pGriM5CxRzlqqIFSRh1A==
-X-Gm-Gg: AfdE7cnU9F+0UIzWQ9O1WtVA4ednXOyuzxXF05o/sz+N6vzsQIiZ79bBD8jptl8ypbB
-	WiirR3F7XZjgEQF1yGrD6UBd2MwktCgm0MkeveDhIPe00V7lIRx2rX0x521CaG2Kh2saP8lOCvq
-	ZkutiAKOVp40dxYDAx87+m1BOObFvlWXM8e5ZHTdxEFDR2dSyHj+/2vBTE+VN+3EC25AT97eV0L
-	3yIopmsvZAbhLgQWAjATb3jQvIZmyw6i6drJwwuoR3+TtVSQstV30/cujNK5bzH00gAeolTL+7S
-	51+GChOuNgBQMxYTCVUuGAUupRtoU5eteEXRQFb2KGHp1mfwe2Wm5O1ID1zVFiR0cn6J9U74/HE
-	wpDOCpremFat9c8kizf8ohT5TYqvedxkCjttxSFL+nIA0S7XJNN7A4pyTGuwr1efr4tLyFxB+WD
-	1Sll/1PwGJ
-X-Received: by 2002:a05:600c:524c:b0:495:4e17:cad5 with SMTP id 5b1f17b1804b1-4954e17caeemr49602125e9.26.1784381118491;
-        Sat, 18 Jul 2026 06:25:18 -0700 (PDT)
+        bh=UWWRky8xS21EcHIdPyBDD4ayORp1Jq2kFZks/EHU16o=;
+        b=FnZjnPD+UOhccX8qcwmyEMA0lwybRc2cGr6siTmaBq1m2kXW9Vf3IF6X0qzdfrFNE2
+         M7Lrw52fn/viVgiCQM1dUnk5uwmHKFHH10t13p6cM6KYY7AGuoziwispQjeQb4l8XRD3
+         KHq08djsd9s0kx3ggm1uRx+mXj4w9v3/9wjE+WL16iX6kq+9+dNBf3BZxC6AxE2dh+R7
+         Urf9uyktozSVLDRHfWl2yKxszTQEsuJTgWymD7oNPFm+3Y55CJwG3293cG+e1alUClkW
+         8P9AWHP1Im/EAAPubNui/TbzsDb4W1YT0HjIMHmEj3jNw+2aUvFzD9saWa6LJrSDwTYL
+         7Cwg==
+X-Gm-Message-State: AOJu0Yx8cHrlSaMCYIK+NDAgPoUOqvx9ZkQYpbNk+vzwGzSTaoeZIczP
+	THOZfUlpOpXAO3LKdJT031R9agBoMy3UrcIwLeI9VTowIQgo6R70k7UEnIc+3Q==
+X-Gm-Gg: AfdE7ckWy9sTJTcoiwzfFme83MffATpXk7WyxPefRyQiarRX12eaRfRYMSzS5FezsVW
+	nJusTojgtWrFh0WNllpOvSKO3hgvRT0AJO2Wv0lvz5CghjHDbBLm5mo95uE4KBubnns+ojDQhge
+	HinPXBm+QyqzbLiSdXrF/zvp64glTnKRiC8XMjeqVY2Ki1dhvZqxJvBhJHuSOtypwK1yu5nSB1Z
+	LvSs4TjsBLZ/HYWKPjwBZfvMyH7/Ri6nztEHgreoaNI8cyXUqLzufCK0Xy2o3C+o9oKdCpNkrKy
+	JuQDsjNjvbc4J1BqC8mZZxvhl7ZYfJkbakEtQh6kc7CkcJVjUnhvHZmpsjusPBXAfD3bR4Bxw7y
+	o6GVz6XrZY56oHRrUlkOxOjwOlfVnB0/LOoJmKdxuhfu9MldGkzBiWywq4MERtza7e3d9/i5UA2
+	puDUt7IlaT
+X-Received: by 2002:a05:600c:3b9c:b0:493:e57e:7aa5 with SMTP id 5b1f17b1804b1-4954dff444bmr57277225e9.22.1784381121860;
+        Sat, 18 Jul 2026 06:25:21 -0700 (PDT)
 Received: from [127.0.1.1] ([2a02:a312:c8a8:7a00:689d:c0a3:3de0:7033])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a2504sm136563175e9.2.2026.07.18.06.25.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a2504sm136563175e9.2.2026.07.18.06.25.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 06:25:18 -0700 (PDT)
+        Sat, 18 Jul 2026 06:25:21 -0700 (PDT)
 From: Adam Blank <adam.blank.g@gmail.com>
-Date: Sat, 18 Jul 2026 15:25:07 +0200
-Subject: [PATCH v2 1/6] staging: add 'extend_recipe_sysroot' to
+Date: Sat, 18 Jul 2026 15:25:11 +0200
+Subject: [PATCH v2 5/6] gcc-runtime: add 'extend_recipe_sysroot' to
  'vardepsexclude'
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260718-extend_recipe_sysroot-v2-1-b7cbf35d00ec@gmail.com>
+Message-Id: <20260718-extend_recipe_sysroot-v2-5-b7cbf35d00ec@gmail.com>
 References: <20260718-extend_recipe_sysroot-v2-0-b7cbf35d00ec@gmail.com>
 In-Reply-To: <20260718-extend_recipe_sysroot-v2-0-b7cbf35d00ec@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Blank <adam.blank.g@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784381116; l=1657;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784381116; l=1020;
  i=adam.blank.g@gmail.com; s=20251027; h=from:subject:message-id;
- bh=oym+MW6zDwcusujzmpm6KfS5x6uiKYnZz2Zq9GCTmJE=;
- b=DzelwnKxmRVEl2ITJ8L5dRXXvGjyme4EE/r1KNjMzF+YNKSfa22c8TAWHHwN3CV3Rt1ow3Vpk
- Z85uGbdvfcOD1vep1JLxJ/TumS4z3/Cw0lYzW/NW73OkIRDlVk/ojB+
+ bh=eV2QAmdooWby1o9D0bZuWzze1nOYBf/LgqpsI25UdXM=;
+ b=+JcJErqKzcetKaSHhwBOeDqvQm7KyuRNnHjY4A4l2whYxvcrtjtrNI/vF+uPS+K3kffBp1q+9
+ Rc3apQDBfOLAMg3185PUn+/zIKuUwJ3fhX6pUTdvSpMVscjGJSPdVrU
 X-Developer-Key: i=adam.blank.g@gmail.com; a=ed25519;
  pk=5t8u8IPKPL1CUykIX2JYa+1iHdXRdN5MqI7ik/fbvEM=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 13:25:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241259
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241263
 
-'do_prepare_recipe_sysroot' did not declare this explicitly,
+'do_check' did not declare this explicitly,
 but made use of the fact, that 'extend_recipe_sysroot' is
 ignored on the base hash level.
-Also for cached tasks, when prepending them with
-'extend_recipe_sysroot', exclude it from their signatures.
 
 Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
 ---
- meta/classes-global/staging.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index f0b3c6eedc..5833abebc8 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -650,6 +650,7 @@ do_prepare_recipe_sysroot[deptask] = "do_populate_sysroot"
- python do_prepare_recipe_sysroot () {
-     bb.build.exec_func("extend_recipe_sysroot", d)
- }
-+do_prepare_recipe_sysroot[vardepsexclude] += "extend_recipe_sysroot"
- addtask do_prepare_recipe_sysroot before do_configure after do_fetch
- 
- python staging_taskhandler() {
-@@ -665,6 +666,7 @@ python staging_taskhandler() {
-         deps = d.getVarFlag(task, "depends")
-         if task == "do_configure" or (deps and "populate_sysroot" in deps):
-             d.prependVarFlag(task, "prefuncs", "extend_recipe_sysroot ")
-+            d.appendVarFlag(task, "vardepsexclude", " extend_recipe_sysroot")
- }
- staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
- addhandler staging_taskhandler
-@@ -700,4 +702,3 @@ python target_add_sysroot_deps () {
-     d.setVar("HASHEQUIV_EXTRA_SIGDATA", "\n".join("%s: %s" % (k, deps[k]) for k in sorted(deps.keys())))
- }
- SSTATECREATEFUNCS += "target_add_sysroot_deps"
--
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index e305180c64..15ae9c337f 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -309,6 +309,7 @@ do_check[depends] += "virtual/libc:do_populate_sysroot"
+ do_check[depends] += "${@'qemu-native:do_populate_sysroot' if "user" in d.getVar('TOOLCHAIN_TEST_TARGET') else ''}"
+ # extend the recipe sysroot to include the built libraries (for qemu usermode)
+ do_check[prefuncs] += "extend_recipe_sysroot"
++do_check[vardepsexclude] += "extend_recipe_sysroot"
+ do_check[prefuncs] += "check_prepare"
+ do_check[dirs] = "${WORKDIR}/dejagnu ${B}"
+ do_check[nostamp] = "1"
 
 -- 
 2.43.0
