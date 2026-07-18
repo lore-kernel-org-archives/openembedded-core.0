@@ -2,140 +2,168 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA79C44524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C17C44525
 	for <webhook@archiver.kernel.org>; Sat, 18 Jul 2026 08:53:30 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2628.1784364807627391620
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2522.1784364805868677317
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 01:53:27 -0700
+ Sat, 18 Jul 2026 01:53:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lptg5z1O;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49546c690ffso14923875e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:27 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Ow/uhZZZ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49554ebb87dso376895e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 01:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784364806; x=1784969606; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ahNT2H2C96mN8IWK0Cifv5HSKXzRUq6HPJab3CZfx0U=;
-        b=lptg5z1O0CCuo60iU68R5pSSdOJCV6SIcI3ZAkKmWa01iVa9yzZKEg1OH/l6iv0HBo
-         m7GMe0YAmR0+TpFcJm7J072Qcme/5OqkcmYZ9/OJTbj6hGlHMVFZvuYlKt7QxERdvZr5
-         IhqmmsecSmPn2+WGxaAWqW/MytWXVk2TjgZT8=
+        d=smile.fr; s=google; t=1784364804; x=1784969604; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3HvNcAZa28dwWsJ7HmSe6jC9I3KAZZtaXJM8wixSznw=;
+        b=Ow/uhZZZNHI6y/ZhXRrmrl6wCHAXGc5GhPwBXAuCZOXBvKy0tM+Zq8GS/559r6vhLN
+         o0bT5OcJwyKLvrg27AuVbvQ6hNOfphKE1z5rYQQUWFzLLHZ5qnq31jkMcX1sut0Ejq5Y
+         QHn6mOKaFLwLQwpXroVYfapI9SJRriOQhRjSg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784364806; x=1784969606;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=ahNT2H2C96mN8IWK0Cifv5HSKXzRUq6HPJab3CZfx0U=;
-        b=o1kByOxPeAddMiMhXCwr0yn5v0lpBa5fY7PMmhNtG898Qev+pMgUZzoRE+C5AQEheO
-         C+zDFurGlOcOcSVnCrgR7Fq4P39HNum3S1fmZeMVD5EMuohgqcl0YAe4cuAgJlf4x1/d
-         Guu/RkU6y2Kvvq67HGVTsR7MfXWdOsDZbVELZ6rWDNvbDQbCvSXnyhJY2uXcB4RW4pVM
-         LxX9kS6W40u6R3XiGHCnlCQS8a9UPbVZ3fYjAFDQaEcmwYZl4XRhXBWEe7pNkZjWkAAQ
-         7Kx59LL3iVilZUxBb4Qy5zMmEORri4/V2qx/k8rrx5ZDk8N8UjHv4YlFJzuHDe0ckgRE
-         JCjA==
-X-Gm-Message-State: AOJu0YzGqBww/H8PAXRvZe8sXoLg/boz2pC8JCsz3fTFezIVkpBTN+4g
-	ou1phn/u1wFWtRYZR1P8bjh9KmzOJwgCNwrMoM3+nFVPe7RG/0c1ZgRLmI1kGlTeOaw4YM0LAoD
-	JMSUhG4Q=
-X-Gm-Gg: AfdE7cl8iwnRGOcXGxQT1xwdUIEX3c4tSOFKpyTO9QhzPl0A0zTUNvX8dzLFfYL/q4g
-	B3W/iGQO0/XW1GF3qjmkYtqwJKEZcLW7FMzDB5mlu/5Erf9uj0gHRsLi9W4IvrCmQWF7cjSO3gi
-	FuCuner5BEemeHhQbbUp3S6sgwalGWxbC9tDRtqXXhoVWWR9RP3cFg4/n2UQPN4mGDPeUOsTNsx
-	WOGkuTSKbSiztnD90vm6x9T1WAjU4bZyxEfMqcwxsftBp8LuF+SmuHNJN9y3c7GaIy4EUeEGG/o
-	c32zCRqHxGkZSnjmRM442Th5NfjSNFLdvUcwPgXZEsmH3/UDRDPFJA8AfDnAhOASRaoWwGQ2nB4
-	PJyOQcs3MTmesM71ktcMxTZmpXK1j32crua4ex5Ioxv133vxU0x6WSWrZ2SL/fC6u8vy2PEGvup
-	9PRtAYvxMu2U1HmPl1AuSfrtc8oeBYDwAocWSNw+BrJivu/6hf/xH+bpjp5//es9d546nI9Fy2/
-	8VJCTg=
-X-Received: by 2002:a05:600c:8010:b0:493:bd37:1cdf with SMTP id 5b1f17b1804b1-4954a3e2165mr64678115e9.2.1784364805841;
-        Sat, 18 Jul 2026 01:53:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784364804; x=1784969604;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3HvNcAZa28dwWsJ7HmSe6jC9I3KAZZtaXJM8wixSznw=;
+        b=EztxHJlR+HroWVB1U/CkN2UC9WAYfbMFxQZ1Fy1eJNUoFXaOt1HV2/dGPqVXdyQ5Zd
+         GHpiaaW3CSccCY2lrc5WovbIhYfN9eicMbDnyeRXKAvbEovdrSAvBvu30Y5jgsocGd9q
+         76lPjpVtn5vdXx5lsoH6msQk1vX8IYFJx1xKDHEgtsFu8mgcqu1c7Tof9Jz/teblX76s
+         pKPUwUWkbpPOjPP+Havjd2t5s1dGheIsy70DyeApUTM3V4wDajn+6y0xy23dzhuhKDYV
+         yLmkYxG/su+dH32MkSoJWilJZnGWrQsbZJe9rTIhgr1WJT1XPft6vQahOGuWefTxBEJN
+         ANQw==
+X-Gm-Message-State: AOJu0YxrIF3XnIObHQbsnQXIbkD8Zl4Pf+geGjZitK0d6EuVP43X/Xrp
+	vxxqd+DBxfzKmAEpIzTwmNGVB2K1L67IQRSe3QE1WqbBzC6zBh6SLgl2MAxXiKXE5nRsumoSpfV
+	5mqQT8TY=
+X-Gm-Gg: AfdE7ckusSD7fF+9rODHQFR6hJbtmzV7ZbwkKZVi8zOvjiD8+L+UI7uce5RILjcWQ/m
+	qk/jt3KINJCW7k0J9Kov0ozjdZiSBECJEiTd1v9UXbc8GagtZ/wOcI0mKkwWFtqFnqfB0DGi7yw
+	cs6NcOSDypzUK2j7aC2RU3lihmSs+IVC36/i/b84L+CKCUTu7N6Xyt8jx2Xqbjtd6FFLMVjx2Yo
+	ltbOQUYpWzp8aTKTTBwD4YY9rZ/dhhmIunuQ34t/O6Psi+mz4EXgmt+tuCxAsmcVf3grSiyNMzj
+	2rAnrsbTYEI04S4WGKeuL2A1f+4KH9gn+p6Xzj4bdHXP5gZTOdDSj4diRXrKCAAEjDxnKcX17DX
+	BJXXhC29JAY+v8ukr7+SH7nTNY2OmYECPnJPcqso9lwHXwqdIcJ/Xged95fcmPTue77lyrWc/+X
+	U9F+rDBTaLpc/zY9eBv3qwpQkfM+7AGJpae0ax3ec2tS8nArb+dnuH8eqL+w1/ZszJNSa+siYcJ
+	/uuMHLAO5zzz/lPtA==
+X-Received: by 2002:a05:600c:154e:b0:495:49eb:1ccc with SMTP id 5b1f17b1804b1-4954a3eff56mr70128125e9.13.1784364804044;
+        Sat, 18 Jul 2026 01:53:24 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa001444456ef7d84e9a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:1444:456e:f7d8:4e9a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2b87c6sm176409335e9.7.2026.07.18.01.53.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 01:53:24 -0700 (PDT)
+        Sat, 18 Jul 2026 01:53:23 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 09/17] bzip2: Fix CVE-2026-42250
-Date: Sat, 18 Jul 2026 10:52:48 +0200
-Message-ID: <161cbfeb9f8aecf1628d4feab67ad4a7690706b5.1784364567.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 07/17] tzdata/tzcode-native: upgrade 2026b -> 2026c
+Date: Sat, 18 Jul 2026 10:52:46 +0200
+Message-ID: <b7ed80d7c7773624577521f711e7d9850f4273be.1784364567.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784364567.git.yoann.congal@smile.fr>
 References: <cover.1784364567.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2026 08:53:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241246
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241244
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-This patch applies the upstream fix as referenced in [1], using the commit shown in [2].
+This release contains the following changes:
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-42250
-[2] https://sourceware.org/cgit/bzip2/commit/?id=35d122a3df8b0cc4082a4d89fdc6ee99f375fe67
+   Briefly:
+     Alberta moved to permanent -06 on 2026-06-18.
+     Morocco moves to permanent +00 on 2026-09-20.
+     More integer overflow bugs have been fixed in zic.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+   Changes to future timestamps
+
+     Alberta’s 2026-03-08 spring forward was its last foreseeable clock
+     change, as it moved to permanent -06 thereafter.  (Thanks to Roozbeh
+     Pournader and others.)  Model this with its traditional abbreviation
+     CST.  Although the change to permanent -06 legally took place on
+     2026-06-18, temporarily model the change to occur on 2026-11-01 at
+     02:00 instead, for the same reason we introduced a similarly
+     temporary hack for British Columbia in 2026b.
+
+       Although another TZDB release will likely be needed soon because
+       Northwest Territories will likely follow Alberta, the legal
+       formalities have not yet taken place.
+
+     Morocco plans to move back to permanent UTC, without daylight
+     saving time transitions, on 2026-09-20 at 02:00.  This also
+     affects Western Sahara.
+
+   Changes to code
+
+     zic no longer overflows integers when processing outlandish input
+     like ‘Zone Ouch 0 - LMT 9223372036854775807’, ‘Zone Ouch 0
+     2562047788015215 LMT’, ‘Zone Ouch -2562047788015215:30:08 - LMT’,
+     and ‘Zone Ouch -2562047788015215:30:08 - %%z’.  This avoids
+     undefined behavior in C.  (Problems reported by Naveed Khan.)
+
+     On platforms that have EFTYPE, tzalloc now fails with errno set to
+     EFTYPE, not EINVAL, if it detects that the TZif file has an
+     invalid format or is not a regular file.  Formerly it did this
+     only on NetBSD, and only when the file was not a regular file.
+
+     Unprivileged programs no longer require TZif files to be regular
+     files or reject relative names containing ".." components.  This
+     reverts to the more-permissive 2025b behavior, as the stricter
+     behavior did not catch on in FreeBSD.
+
+     zic now reports any failure to remove a temporary file when
+     cleaning up after a previous failure.  (Problem reported by Tom
+     Lane.)
+
+   Changes to commentary
+
+     Northwest Territories is expected to move to permanent -06 prior to
+     2026-11-01 02:00, when clocks would otherwise fall back.  (Thanks to
+     Tim Parenti and James Bellaire.)  Model this with its traditional
+     abbreviation CST.  Unfortunately the change is not yet official, so
+     it is currently present only as comments that can be uncommented as
+     needed.
+
+   Changes to build procedure
+
+     The undocumented ‘typecheck’ Makefile check rule has been removed.
+     It stopped working in 2025a and evidently nobody noticed.
+     The rule was superseded by ‘check_time_t_alternatives’ in 2013d.
+
+Ref: https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/NVHSX2PAQIT44U5FCCEVNJJYXQMMTJSA/
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bf39a3c0497023e96de11444579ffef31f968bcd)
+(cherry picked from commit 33a7e1170b0c8ba83cdb4c7d6d9f83f6c194baed)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../bzip2/bzip2/CVE-2026-42250.patch          | 35 +++++++++++++++++++
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch b/meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
-new file mode 100644
-index 00000000000..1679e744478
---- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
-@@ -0,0 +1,35 @@
-+From 71bf61d2e664c754ae5b1eb04018c8eaf5f99ae3 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Thu, 28 May 2026 16:15:45 +0200
-+Subject: [PATCH] bzip2recover: Make sure to not process more than
-+ BZ_MAX_HANDLED_BLOCKS
-+
-+There is an off-by-one in the check before calling tooManyBlocks. This
-+causes the scanning loop to run one more time and cause a possible
-+read or write one past the global bStart, bEnd, rbStart and rbEnd
-+buffers. There are no known exploits of this issue and you will need
-+to compile with something like gcc -fsanitize=address (ASAN
-+AddressSanitizer) to observe the faulty read/write.
-+
-+This has been assigned CVE-2026-42250.
-+
-+CVE: CVE-2026-42250
-+Upstream-Status: Backport [https://sourceware.org/cgit/bzip2/commit/?id=35d122a3df8b0cc4082a4d89fdc6ee99f375fe67]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ bzip2recover.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/bzip2recover.c b/bzip2recover.c
-+index a8131e0..4b1c219 100644
-+--- a/bzip2recover.c
-++++ b/bzip2recover.c
-+@@ -402,7 +402,7 @@ Int32 main ( Int32 argc, Char** argv )
-+             rbEnd[rbCtr] = bEnd[currBlock];
-+             rbCtr++;
-+          }
-+-         if (currBlock >= BZ_MAX_HANDLED_BLOCKS)
-++         if (currBlock >= BZ_MAX_HANDLED_BLOCKS - 1)
-+             tooManyBlocks(BZ_MAX_HANDLED_BLOCKS);
-+          currBlock++;
-+ 
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-index 9cecf6a331b..36267e5073a 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
-            file://Makefile.am;subdir=${BP} \
-            file://run-ptest \
-            file://0001-fix-bzip2-version-tmp-aaa-will-hang.patch;subdir=${BP} \
-+           file://CVE-2026-42250.patch;subdir=${BP} \
-            "
- SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index ff02416ed3e..47f9ac2855f 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
+-PV = "2026b"
++PV = "2026c"
+ 
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
+-SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
++SRC_URI[tzcode.sha256sum] = "b1cffc3ace4c4c7cd0efba2f7add86ec3d0b79da48bcf03582671fd3c8feace8"
++SRC_URI[tzdata.sha256sum] = "e4a178a4477f3d0ea77cc31828ff72aa38feff8d61aa13e7e99e142e9d902be4"
 
