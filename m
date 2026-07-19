@@ -1,139 +1,105 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 800EBC44512
-	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 08:01:29 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1672.1784448082496068023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1872C44512
+	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 09:06:39 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2412.1784451990550924339
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2026 01:01:22 -0700
+ Sun, 19 Jul 2026 02:06:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=WHEwBv6f;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4955adb04e8so1210595e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 01:01:22 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dNghsgl+;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so6634486f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 02:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784448081; x=1785052881; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XoN82jvJuX7gUFjD3vOUauWChaPUxZCiUlqWYDVL7kY=;
-        b=WHEwBv6fZB5iU8gVInQ6ZyX7/ot+MJctoGcNIvZQlSmsU8dSGvUTOcrHnGrMPPRNyl
-         zQlEMOU9uZrLhQMHw5r9vSs/EL5BDYktz8GSWtIXsqCUz9uGGMCWKEkyI6eNuf82nx4d
-         S+xABcg+bpqQhBwsg8NQHg6NlmOGgquPLLOQya9iFtSsTJSAs7E3oV6zpa7Mn2SoxZI5
-         i+BknnQyJ080OKgH7X/Ac0IgnUgFM9YTeRnotEidNn0Pr8BwOV1gXgEhGYrSYUgimk2x
-         MdhYC2feQJnxaS7Hz0LX6WHNYC7yN2SK4+Vb0cZYEEIar7EGp61L5OrHxQtRXAf6LPzB
-         zrSA==
+        d=smile.fr; s=google; t=1784451989; x=1785056789; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=56FJnoVWSSSGEotmPpfJ2J3ISb2SQ3kptKtGNmG/jJs=;
+        b=dNghsgl+a8VJAwqWz7nWY68e61/r7ciHOG6/H989oMWmro5uQCbSRYONtXVrOi9tRF
+         PfwRSr5+5UqR4OhXb6aHo8JpZuVnrTieRUsQI/XJVkx7uKf+Nac7w35CQxEb3wjfGxDi
+         EwsAXpH3+OXY2bebpr8YmcFrgoo6YnEAi0Xq4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784448081; x=1785052881;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1784451989; x=1785056789;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XoN82jvJuX7gUFjD3vOUauWChaPUxZCiUlqWYDVL7kY=;
-        b=WoywbYMspmObWBsMZ7YW31TZz8eCkUU0sfgzHZfVvqlO4aOwjVOZl1gQaE4A7QFB29
-         Jv7ahMTWQ8tq6XvQT4NpB4MDNJ2rThu7xVjWYBePtPIqEGegLYnylt/wtT1dc73xlhwm
-         u7IgGsUwCY4/vElUgRrxZTUCEki0I8TTaowfucgwbU73s7cl/rN5QeBjsU7p74/wQyMr
-         Z8US1SgLLwTqreMghov2r/mc3aMpIFEeN8fuYulfv4FFAIc3zQ9IjSf/bXv9RtBQxsZ6
-         1HnyWrjQCX3i8KJjmvpOSPWVdCXh7MVoVETy2uPn7HTifcOl3WkQzTEIXpdJ2N4x5Li/
-         fMqQ==
-X-Gm-Message-State: AOJu0YzXAptYT/tNLoqLqnE9v51qdGGuznNr1zeDir7QvE12UVSRT7lD
-	rUv7V6oMYBWZlWLccRpbzq6u5Lscc+iNdEtygV+pbtkMMdD1TAV1Wu81gwr8Sw==
-X-Gm-Gg: AfdE7ck2s4La3TfDk9Y4S/eXjOJS1sQ6quXrRvGK8JsI7uhAO5QetUdkp/difEwLX5T
-	36BOZIXkhjkHTv3KdNxXCJEky3bvdV/zbJTYAQT6qn/usaMUnEtluo00K/+KXOj3+xG9l5T/Rln
-	T6tvOGp0SMz6YHDEx61y0AMW/q9VNHvnKeR9++iKCG0RJfGULBFgJn/aMjCapbdI49Dl2zyGqKi
-	duvUDHerZGBpS391/RZ1eHC6HCDJZrNC4/nhwmzGgoQLMN3c5qBNqzYDIyC70sU2mf+YxJjSMIV
-	C+TjKL6sPo3cCjPboz9U0JTWYTzIA4rqIKiGNOFePv5iUS3gzSynWmNaes982pQHr3xjFjzBIlE
-	TrHdThIYy4iLUQUWbvzLsbjiMqYyThV009v4IgzposKY30kALlbRoneUqJb9+WliT7Nc=
-X-Received: by 2002:a05:600c:5351:b0:493:c8a6:b517 with SMTP id 5b1f17b1804b1-4954a51bb65mr70866525e9.38.1784448080617;
-        Sun, 19 Jul 2026 01:01:20 -0700 (PDT)
-Received: from term011.lan (BC24447B.dsl.pool.telekom.hu. [188.36.68.123])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e49500sm19221644f8f.2.2026.07.19.01.01.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 01:01:20 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH v2 2/3] mesa-libclc: New recipe for forking libclc for Rusticl purposes in Mesa
-Date: Sun, 19 Jul 2026 10:01:07 +0200
-Message-ID: <20260719080108.1290998-2-zboszor@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260719080108.1290998-1-zboszor@gmail.com>
-References: <20260719080108.1290998-1-zboszor@gmail.com>
-MIME-Version: 1.0
+        bh=56FJnoVWSSSGEotmPpfJ2J3ISb2SQ3kptKtGNmG/jJs=;
+        b=ZCuhNQzwFzbbLCyjA77/OY1e1G830e+oWMfQV448r24k0+x9ZbxICTzVFOTmf0QmEW
+         FuWTNk7vgpGSpIStmGkS/9Rw6l3iEr6fry0pEgakYUI19YaZrvXYsms/2xbfYsNjqzV7
+         FJZBAn5G6xE8dKaUQDT9plkeB6vztgMoEpuWLuQMerJoU02EGKJG4AFDaGKv5TC0p/2k
+         ErdpqlJKjoxDtkkQ24BBLOIKcAruiubp9kRCiCkj2wvzN80PVePnu1iDjducXKoeQe4w
+         X2xoPE4ms5nmAevPEE1uT3N2j8ScI0eqtd2nC55DHhF/021ddNKnkOnGs398J/ZA+GBI
+         WqGg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/fU0pbIlFUBKBXHs1y01YBlNwtStWse4p2ztHTPmHBbR+nfRTJSpeEWfdq4bXxxuVp/vPI40C0nnnRXrQnTgXvw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxrJdxUaYPU/F9MWqDimvM/Y39+gVslizspEFu8ge053cwK6Y5Q
+	iTpuPi1OQKWWClViBWu1pY61FRMtcqSFiAGvIi0WLlWmiZ2yv3RhH9B4Fh58caRXUTU=
+X-Gm-Gg: AfdE7clp6zWNo0DDYjANSpXW9ddlzntEhSdntxeYpahhKeu7ZYuh+hK2E9b/iopmJaC
+	Tn1BaQCswjBkvS8aJK9fGyQ4LrMuRqsUdk9BRG+nPVIHzujXr08jj3HyZ9nOPEt9ZwR85hU/1Qu
+	+npZocDHw+I1a/uwfw7R5qgeEsTCUXY1SK03V2KcHgAjmnJ+G1OTDoIvZidi3pjgZFK9+Uw8S1R
+	gN4NTPr3BdPmnJK+JwcPan4ztbbyUuslMe3oBDeBqU0f/9/Z3+kEu6Evrv4nAN1e3aXuC0GD2f1
+	WS4psuV1WsoPksTTGF8k8thvyQRa/X3o8CHBkxhesTcpacS6a35TzIypsv3M2Cd7UOG2NRBwKHi
+	xoDvcIdXIvweQ+SBi/u0MtTCuCmZ73Cq6veC5UsKSs6FrEaMkL46fyDvjmBTvenx4uSnORnzkXb
+	S6skyqv+mnt2FQ4tF4w8AphfiohhI+UOvRBQ/5AapPcP2eIN2HGsLtZ6ln6g12WWJN+uKfWCfOt
+	gCdMg==
+X-Received: by 2002:a5d:64e1:0:b0:47f:6ed1:1fed with SMTP id ffacd0b85a97d-47f6ed1227bmr4936773f8f.15.1784451988669;
+        Sun, 19 Jul 2026 02:06:28 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00e37f7eb174d0a6c8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:e37f:7eb1:74d0:a6c8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e49ab8sm20322077f8f.5.2026.07.19.02.06.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Jul 2026 02:06:28 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Sun, 19 Jul 2026 11:06:28 +0200
+Message-Id: <DK2FFQBSC7HA.15XI81YMBOZY@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] binutils: Add CVE-2025-69646 to
+ "CVE:" tag
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <Sundeep.Kokkonda@windriver.com>
+To: <paul@pbarker.dev>, <Harish.Sadineni@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260706090659.2543025-1-Harish.Sadineni@windriver.com>
+ <d9b4dfb530a0898fd230ad6da09ee7bf90dd063a.camel@pbarker.dev>
+In-Reply-To: <d9b4dfb530a0898fd230ad6da09ee7bf90dd063a.camel@pbarker.dev>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 08:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241277
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 09:06:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241279
 
-See the reasoning and discussion at
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43020
+On Tue Jul 14, 2026 at 2:53 PM CEST, Paul Barker via lists.openembedded.org=
+ wrote:
+> On Mon, 2026-07-06 at 02:06 -0700, Harish.Sadineni@windriver.com wrote:
+>> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>>=20
+>> CVE-2025-69648 was marked as a duplicate of CVE-2025-69646. The
+>> existing patch already fixes the issue associated with both CVEs.
+>
+> Hi Harish,
+>
+> Where was this marked as a duplicate? We need a link to some evidence of
+> this, or at least a more thorough explanation.
 
-TL;DR: LLVM constantly introduces breaking changes that cause
-regressions for running OpenCL CTS with Rusticl and finally
-Karol Herbst had enough.
+Hello,
 
-This fork is from the LLVM 22 version of libclc and contains the
-necessary fixes to make Rusticl pass OpenCL CTS.
+FYI, when reviewing this I took the fact that both NVD entries[0][1] point =
+to the
+same patch[2] as proof of duplication (albeit weak).
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 +
- meta/recipes-graphics/mesa/mesa-libclc_git.bb | 27 +++++++++++++++++++
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/mesa-libclc_git.bb
+[0]: https://nvd.nist.gov/vuln/detail/CVE-2025-69648
+[1]: https://nvd.nist.gov/vuln/detail/CVE-2025-69646
+[2]: https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D598704a=
+00cbac5e85c2bedd363357b5bf6fcee33
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4c6307086c..927318e7f1 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -523,6 +523,7 @@ RECIPE_MAINTAINER:pn-menu-cache = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-mesa = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-mesa-demos = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-mesa-gl = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-mesa-libclc = "Zoltán Böszörményi <zboszor@gmail.com>"
- RECIPE_MAINTAINER:pn-mesa-tools-native = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-meson = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-meta-environment-${MACHINE} = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-diff --git a/meta/recipes-graphics/mesa/mesa-libclc_git.bb b/meta/recipes-graphics/mesa/mesa-libclc_git.bb
-new file mode 100644
-index 0000000000..8a3a78d051
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-libclc_git.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "Mesa fork of libclc: Implementation of the library requirements of the OpenCL C programming language."
-+HOMEPAGE = "https://gitlab.freedesktop.org/karolherbst/mesa-libclc/"
-+SECTION = "devel"
-+LICENSE = "Apache-2.0-with-LLVM-exception"
-+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=7cc795f6cbb2d801d84336b83c8017db"
-+
-+SRC_URI = "git://gitlab.freedesktop.org/karolherbst/mesa-libclc.git;protocol=https;branch=llvm_22"
-+
-+SRCREV = "b1934c37694714352edc19232e23480feaf18ab4"
-+PV = "0.1.0"
-+
-+inherit cmake pkgconfig
-+
-+# Depend explicitly on clang-native instead of using TOOLCHAIN as the build
-+# objects from this recipe are build explicitly using clang for GPU targets.
-+# We could INHIBIT_DEFAULT_DEPS to avoid any other toolchain but then we need
-+# to wrestle CMake to configure without a toolchain.
-+DEPENDS += "clang-native spirv-llvm-translator-native"
-+
-+# Semicolon-separated list of targets to build
-+LIBCLC_TARGETS ?= "all"
-+
-+EXTRA_OECMAKE += "-DLIBCLC_TARGETS_TO_BUILD='${LIBCLC_TARGETS}'"
-+
-+FILES:${PN} += "${datadir}/mesa-clc"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.55.0
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
 
