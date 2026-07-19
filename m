@@ -1,117 +1,211 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA03C44512
-	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 22:15:39 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.416.1784499330659159400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D385C4451B
+	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 22:18:39 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.453.1784499511275536355
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2026 15:15:30 -0700
+ Sun, 19 Jul 2026 15:18:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=bYLThiEo;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so72966505e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 15:15:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784499329; x=1785104129; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=OZ3CgaxNydYTi5Xd1+0HR3rt3IBqemQDV+hKdTr9LE4=;
-        b=bYLThiEohXlp+MpzIYG+8umDVL2AI3l4//+vGPqNa946dQ4aVICkHf+Z4jr+eqqAEn
-         o5rfHGr2ebVHzzdlFqQbAZBO+YTCPM2d9ZUUO7SidghUcPH5DuOG/qDPZzbCRBdaYrHs
-         rgnIlw7SYdBldjqV2eRFouIVYFWRPEDHVM7Co=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784499329; x=1785104129;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OZ3CgaxNydYTi5Xd1+0HR3rt3IBqemQDV+hKdTr9LE4=;
-        b=mA3/4t4d2x40BhzR59TPePdK4ySMK29PBxSwLb/esjAkLv8ZhIhXOVsUMQZLpjZKt+
-         VrBvFwlk2/s+tTHPaBypFORZW7+foeMZsAxQ31PZuwxgxl3PAdnBVVDUQrGlgf+BvYJI
-         dzIW5dXf2dbtIkyqesn/D9ekNa30XSJ8KBH+MDR5yrMJoNZeR1JDI/3gtOZ1CqbB2vtl
-         zfsOv3p0qibu+NtMYyTMqCyxtGNuXo239jL9IJhT2Dq1spk/IdnoRhZk65XbntGaJWgp
-         W2IAYE/HfEQ8Grg1qs7RsHmSNX5pnbEQLnniBvRnh7C1/r8CWT6REHtnWelz1teaeseG
-         YCgQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpW+B3tHGfLl6sm9TGD5tz1fNznFuIkfUyKe0teFgjPoMSvqXaKBCbAbGNSSdg9hFk6gDq1LYdWnmp8rkhZ1B8LEQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwbGeODNx+v8EOHtldOkGT6ZdyVADVAlyKEF5TvalwhrZ7XIyV6
-	T1FlVXd5KbeOgZOM/xIdpZfjX59bMWm+sLlJkV/VsFJs3CFZ2s801oP9xiXHj/yOxSU=
-X-Gm-Gg: AfdE7cllGDR8CInaErWIGAPzqZZv0UVULqPwXcD7hjDRn6NEI5feqhPrys1L2Vs/ooR
-	Zz6lKqqsfUTzu44wihF83zhoRh2TGiOSd7KUF65cUS7bQYzWk26emTGEtCY9E0+1PrrdbFVoeSq
-	OCHbBsirYNfOBsYdl63+nXj/lGczA5l5HLHwq6ZM8mP6P7cfbsf/rbsB1tZBQ9mt0G1MQepzs6h
-	Ldfu36N5nGJ48rYkc5YECTCRR6Oq7Su63e0FGDCytvNSHvmANDsoZ/wTGn00+UYrTnr+NvWfBik
-	nNu4ixeJ2kS7ZR4x0K/DGoussjJfrI0DKEbuNg45+wcq2bT7UceiKwk8dBjc/G6hI1n+0y2W/S9
-	fbBH+YfKcNri+DYfGnig4ioG2+SJYqIgZgHv1mDW4nufE2FommykTiyh3kqKjtjjOCIuHwJ5SQI
-	H5FNaNE9sbbyyWlWF4I7PxzPAmF5DKunUZcjeTWPIw5lPetAHkmj5TnX3OqVltWqMmZAE=
-X-Received: by 2002:a05:600c:350f:b0:493:e365:ace9 with SMTP id 5b1f17b1804b1-4954a3db7e8mr124831555e9.11.1784499328936;
-        Sun, 19 Jul 2026 15:15:28 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00e37f7eb174d0a6c8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:e37f:7eb1:74d0:a6c8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm237288215e9.3.2026.07.19.15.15.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jul 2026 15:15:28 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 20 Jul 2026 00:15:28 +0200
-Message-Id: <DK2W7U194RBL.10J1D4A3IAQPV@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] extrausers: Terminate
- set_user_group post-process command
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Anis Chali" <anis.chali@ro-main.com>
-To: <chalianis1@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260713152937.200292-1-chalianis1@gmail.com>
-In-Reply-To: <20260713152937.200292-1-chalianis1@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Dzx/EaPe;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260719221827c36d58b514000207c4-ezvxiv@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260719221827c36d58b514000207c4
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 20 Jul 2026 00:18:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=39RYglm9YkPiKI/ns9JiG0FY7IDYgZ+Vt9ps3mk2SP0=;
+ b=Dzx/EaPeGHXnG4era8uIMkbs2fU50CaSAQeUdKGxbAsuCIiuivXdB4Rz73zeIV3LOCJegx
+ 4BEvFhNYxN+Rp9KYESk/F/c5t6GfEq8nVNCbXurl9+wtESiTFphtxv0V9LQC64pLgC6XIR3o
+ r6evivY/buzE/qX/7iJffNSsaisPyghBYfdRdB4ZezgNi6u/G/s7RPysQCS+FksTPK0AHszJ
+ DZNc5Mp5NKafC6s8fvLALgOtO0ROomvxfdvZSFGOXxLP2IJ8BNVHE1sF4faCknwVrr6EtFPR
+ ZpdZJ9VWdQZhjOoDRwkIeJtEHVbOWDDQ+9TLVaJakTo/xb9RPJ6S6gkw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [wrynose][PATCH] glib-2.0: upgrade 2.88.0 -> 2.88.2
+Date: Mon, 20 Jul 2026 00:18:22 +0200
+Message-ID: <20260719221822.3458326-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 22:15:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241305
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 22:18:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241306
 
-On Mon Jul 13, 2026 at 5:29 PM CEST, chalianis1 via lists.openembedded.org =
-wrote:
-> From: Anis Chali <anis.chali@ro-main.com>
->
-> Add the missing command separator to prevent the command from being
-> concatenated with subsequent ROOTFS_POSTPROCESS_COMMAND entries.
->
-> Signed-off-by: Anis Chali <chalianis1@gmail.com>
-> ---
->  meta/classes/extrausers.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bb=
-class
-> index c825c06df9..94576b8872 100644
-> --- a/meta/classes/extrausers.bbclass
-> +++ b/meta/classes/extrausers.bbclass
-> @@ -23,7 +23,7 @@ inherit useradd_base
->  PACKAGE_INSTALL:append =3D " ${@['', 'base-passwd shadow'][bool(d.getVar=
-('EXTRA_USERS_PARAMS'))]}"
-> =20
->  # Image level user / group settings
-> -ROOTFS_POSTPROCESS_COMMAND:append =3D " set_user_group"
-> +ROOTFS_POSTPROCESS_COMMAND:append =3D " set_user_group;"
-> =20
->  # Image level user / group settings
->  set_user_group () {
+Refresh patches via devtool.
+Release notes: [1] and [2].
 
-Hello,
+2.88.1: Fix various minor (low severity) security issues
+        CVE-2026-58010, CVE-2026-58011, CVE-2026-58012, CVE-2026-58013,
+        CVE-2026-58014 and CVE-2026-58015
 
-ROOTFS_POSTPROCESS_COMMAND is not a shell command delimited by ';' but a
-space separated list of bitbake recipes functions. So the
-ROOTFS_POSTPROCESS_COMMAND:append =3D " ..." is correct here. If you have
-concatenation problem, they are likely caused by the next function not
-ensuring the space separation.
+[1] https://gitlab.gnome.org/GNOME/glib/-/releases/2.88.1
+[2] https://gitlab.gnome.org/GNOME/glib/-/releases/2.88.2
 
-Also, FYI, we have a master-first policy, to accept this patch, similar
-patches would have been sent to master and wrynose.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../glib-2.0/files/CVE-2026-58016-1.patch     | 12 ++++----
+ .../glib-2.0/files/CVE-2026-58016-2.patch     | 30 +++++++++----------
+ ...l_2.88.0.bb => glib-2.0-initial_2.88.2.bb} |  0
+ ...{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} |  0
+ meta/recipes-core/glib-2.0/glib.inc           |  2 +-
+ 5 files changed, 22 insertions(+), 22 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.88.0.bb => glib-2.0-initial_2.88.2.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} (100%)
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
+index 2c4b248b97..9beafd106d 100644
+--- a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
++++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
+@@ -30,7 +30,7 @@ diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
+ index c7be334ce2f7..6f722ee6153d 100644
+ --- a/gio/gdbusintrospection.c
+ +++ b/gio/gdbusintrospection.c
+-@@ -1272,7 +1272,7 @@ parser_start_element (GMarkupParseContext  *context,
++@@ -1258,7 +1258,7 @@ parser_start_element (GMarkupParseContext  *context,
+    /* ---------------------------------------------------------------------------------------------------- */
+    if (strcmp (element_name, "node") == 0)
+      {
+@@ -43,10 +43,10 @@ diff --git a/gio/tests/gdbus-introspection.c b/gio/tests/gdbus-introspection.c
+ index 44cb7a96af45..daca313f77e7 100644
+ --- a/gio/tests/gdbus-introspection.c
+ +++ b/gio/tests/gdbus-introspection.c
+-@@ -299,6 +299,38 @@ test_extra_data (void)
++@@ -300,6 +300,38 @@ test_extra_data (void)
+    g_dbus_node_info_unref (info);
+  }
+-
++ 
+ +static void
+ +test_invalid (void)
+ +{
+@@ -80,14 +80,14 @@ index 44cb7a96af45..daca313f77e7 100644
+ +}
+ +
+  /* ---------------------------------------------------------------------------------------------------- */
+-
++ 
+  int
+-@@ -316,6 +348,7 @@ main (int   argc,
++@@ -317,6 +349,7 @@ main (int   argc,
+    g_test_add_func ("/gdbus/introspection-generate", test_generate);
+    g_test_add_func ("/gdbus/introspection-default-direction", test_default_direction);
+    g_test_add_func ("/gdbus/introspection-extra-data", test_extra_data);
+ +  g_test_add_func ("/gdbus/introspection/invalid", test_invalid);
+-
++ 
+    ret = session_bus_run ();
+ 
+ --
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
+index a61e35ad8a..a07aa529ae 100644
+--- a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
++++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
+@@ -30,63 +30,63 @@ diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
+ index 6f722ee6153d..ed0d291f99f0 100644
+ --- a/gio/gdbusintrospection.c
+ +++ b/gio/gdbusintrospection.c
+-@@ -1110,6 +1110,7 @@ parse_data_get_annotation (ParseData *data,
++@@ -1096,6 +1096,7 @@ parse_data_get_annotation (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->annotations, g_new0 (GDBusAnnotationInfo, 1));
+ +  g_assert (data->annotations->len > 0);
+    return data->annotations->pdata[data->annotations->len - 1];
+  }
+-
+-@@ -1119,6 +1120,7 @@ parse_data_get_arg (ParseData *data,
++ 
++@@ -1105,6 +1106,7 @@ parse_data_get_arg (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->args, g_new0 (GDBusArgInfo, 1));
+ +  g_assert (data->args->len > 0);
+    return data->args->pdata[data->args->len - 1];
+  }
+-
+-@@ -1128,6 +1130,7 @@ parse_data_get_out_arg (ParseData *data,
++ 
++@@ -1114,6 +1116,7 @@ parse_data_get_out_arg (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->out_args, g_new0 (GDBusArgInfo, 1));
+ +  g_assert (data->out_args->len > 0);
+    return data->out_args->pdata[data->out_args->len - 1];
+  }
+-
+-@@ -1137,6 +1140,7 @@ parse_data_get_method (ParseData *data,
++ 
++@@ -1123,6 +1126,7 @@ parse_data_get_method (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->methods, g_new0 (GDBusMethodInfo, 1));
+ +  g_assert (data->methods->len > 0);
+    return data->methods->pdata[data->methods->len - 1];
+  }
+-
+-@@ -1146,6 +1150,7 @@ parse_data_get_signal (ParseData *data,
++ 
++@@ -1132,6 +1136,7 @@ parse_data_get_signal (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->signals, g_new0 (GDBusSignalInfo, 1));
+ +  g_assert (data->signals->len > 0);
+    return data->signals->pdata[data->signals->len - 1];
+  }
+-
+-@@ -1155,6 +1160,7 @@ parse_data_get_property (ParseData *data,
++ 
++@@ -1141,6 +1146,7 @@ parse_data_get_property (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->properties, g_new0 (GDBusPropertyInfo, 1));
+ +  g_assert (data->properties->len > 0);
+    return data->properties->pdata[data->properties->len - 1];
+  }
+-
+-@@ -1164,6 +1170,7 @@ parse_data_get_interface (ParseData *data,
++ 
++@@ -1150,6 +1156,7 @@ parse_data_get_interface (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->interfaces, g_new0 (GDBusInterfaceInfo, 1));
+ +  g_assert (data->interfaces->len > 0);
+    return data->interfaces->pdata[data->interfaces->len - 1];
+  }
+-
+-@@ -1173,6 +1180,7 @@ parse_data_get_node (ParseData *data,
++ 
++@@ -1159,6 +1166,7 @@ parse_data_get_node (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->nodes, g_new0 (GDBusNodeInfo, 1));
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.0.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.2.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.2.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.88.2.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.88.2.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index fb35f84eec..d49ae13168 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -240,7 +240,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
+ 
+-SRC_URI[archive.sha256sum] = "3546251ccbb3744d4bc4eb48354540e1f6200846572bab68e3a2b7b2b64dfd07"
++SRC_URI[archive.sha256sum] = "cf3f215a640c8a4257f14317586b8f1fdd25a10a93cb4bdda147c0f9ad88e74f"
+ 
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 
