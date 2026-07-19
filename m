@@ -2,101 +2,112 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB6D9C4451B
-	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 20:43:15 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3167.1784493786127343806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A1C5C4451B
+	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 21:08:16 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3531.1784495291653256618
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2026 13:43:06 -0700
+ Sun, 19 Jul 2026 14:08:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=WL4Fxsv7;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49558ce01afso5418745e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 13:43:05 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tFqD77Sp;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47de0093c42so4881345f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 14:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784493784; x=1785098584; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=y13qhQuG76B36uY9CFXPzyuctwoKLuFF2YmnJyZR30Q=;
-        b=WL4Fxsv79LQavPUSN31hWh+/rtWELIQcQ6PG+0+brDY5eROTIsO6TuHAVsi1wtmY7o
-         VItzejLyxR3A3kMw856v0YRyrLgEuIRU4rt+9v5EpyFQBByeI1Q3mdEt1Oc9oxnk9g+b
-         OdqB3giPdlPtx70X2tI+j7eZHtd59Nig0WvLM=
+        d=smile.fr; s=google; t=1784495290; x=1785100090; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=l5oLKAVDRAClzqEeSiBoXcdhoVavTtm5jbyEXW+vN/U=;
+        b=tFqD77SpEMzesV3psjpZjuqSZh/jR8yxbRWp5pVwwQNz+69PM9+3PfpP7ggYj2L2L8
+         s5a9XWeYQE6BzB//xFBUD1wIwfPOTWP3rSU9mtr+dEKe5jY2UYyDHa3z13bHiFIy8ki/
+         Nph7vTSPEPK3I84nvztDU3rpXq2WkdQZ+YVe0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784493784; x=1785098584;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=y13qhQuG76B36uY9CFXPzyuctwoKLuFF2YmnJyZR30Q=;
-        b=poqYd7TvxVK0nfbPsL6jmvOiARfjiRuMBZAlJnBU/GQYBdDHRDM3kdz1qEBTQ6g7uq
-         ZTy6E6vbN4/n6PW9Mu9Gsgxn9H6BE2oCV/yfR3R0Wf/snI2czXbup2ihOfBqRxZ3ogtY
-         60AbTNM/IAxi/RTKSSSC/U47r3ZHwJHbdn2K7kQWiiruPUlbPDRRplkL+Ky/rIjdmH++
-         V+rheBbh2ncFi4BA2oC4xSElEL/LmXugbVkfoxTXara3BIN1cNuyXdmoBGFpOz5ZPkZ/
-         9RGhDn8g7d4qX6nkqWc0NzdUu78KaXB+obFjBi/iJ9v05+LTUoAsr9HlKiwSUHwDup2F
-         ai0w==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5kcWa8qdlkEj3PfKJK7Pc2YkZOipvhJwvlCePOlhQfEvYkr2pDHg3olVG4cxaCIMLH+e4bP3CtKMvXw1berMEIw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyQhdBeFJ10QUr9tBjSgWUU18sJq15LbNnQGDGdKvCMiXBGbGMb
-	6wccBwcubdmgsAiy4pz9MwD9rsubwEB7QKxmSjdGa+BydISArQoGB5YNPmT41OEeZys=
-X-Gm-Gg: AfdE7cm221YakfsljSATgL+3YkL3e3rMMtOtz51eOxTzHc8cEu/+809+5NKeMdQCTmh
-	Qnsy2UBELuqs9IrbbpaghVVeVCTGCZIq1YZ1sl4H+1qvTLawxarExlget/BovpzecvrFKhVJOhB
-	BemVJm+lWa1yqvQthbnFuSL4TN0CHYeSxKT8GbuDxuw4eoTq5M7D8oVKsWE352fssXqZDPY4w3P
-	FuJaUJpxVQvLSlso406FWcsPW2l0jKBSRN8EHo103GN20ZZPq2ATcAas03LVaRWK2d5RN7/e5VN
-	awhM0mLyRJkfCCO7I6FhqOS+hInzKiSgttA07xZzuruzHNXrPc03iP36LnR8Ss5CqcU7t4vag65
-	9Sowl1LZ+J+d/eY/1vrFpUy4FNlI1asn11OAU0Cegy11of456gxCwM7OV6ShHC7nZGrwGAF7pLz
-	ccS7Z2jdMPWeNgVH2X1H1u0gcZPln3E5JjtGmhqXE17j0bRcX8xgWx64QwRHTBtfq2AYw=
-X-Received: by 2002:a05:600c:3b01:b0:495:4fd4:144b with SMTP id 5b1f17b1804b1-4954fd419e8mr83239745e9.21.1784493784317;
-        Sun, 19 Jul 2026 13:43:04 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784495290; x=1785100090;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=l5oLKAVDRAClzqEeSiBoXcdhoVavTtm5jbyEXW+vN/U=;
+        b=SVCqknPi7yQw+LjTqmKdpX7Fc0hs7rt6iPAu8I6+HMy9qQsVAUsQiOsNonOocFzYZK
+         ioNdIZ/2fNAET389Ros0wK4NIL+KmxNeB74Un9vuqyOUE+PjkyltzQcDpJaV9OY0kDDj
+         DQwy6/Xk2l7FBtwZycDw/ZpfhPI2n6x0nZagz5JE2e/Zao1uLef369yEw/Emi/zhl8k5
+         izT4VnIdN0JdQphNPF+Gg/b/DD1MRwDdnvVcjRQUiPj43WTL9qBuTzyl47XPv1inYtxo
+         9ppu6GX19kJv2s2vHr/70ImS8vHf8jhqejobNxTG9kgHELFa7tOqZZLwh5ZaNgR4c+GW
+         8S/g==
+X-Forwarded-Encrypted: i=1; AHgh+RouKSNkPLJr1l9Qc+TenI2fVTuZRnA/6YFs2ptTWBBNWhg2pwoDOFhfhe72YrgA7JPkRErzluNTa8ujBCYog6fmjQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzehy51KZdwLzRqGtOeeGP41LiznnLjNpKo9We/TSntQeW8kMI4
+	9M4lzWWv1J+qiQdA6zBdtSB4VLZshpwc34LaZEcQQESZmDLakC5xVY5kfwuoQbxOonA=
+X-Gm-Gg: AfdE7cmFxxFx4Z8kSZe4bS/fNjBla/+ZhPrIGNzzaxsAMVe4ghkffHSXOQRpJFMM2ys
+	CTbiclDxg17vmSONhcbYhtrkQLtTLpu4OchNbOlmgZam52zW0hXAEoTxAPSbsfPQ1OUPNnzdn6W
+	R5+f6csv48FCOPgIovJ3muuYGD9lgPvELy+XsRZeUJmpocxg3MAo5OB8IbS1+I/XLaBPc5bsm+r
+	tNnqPred3qTIxvjZ2St1fnsb8D4tQZRofWhQ3Ukf+Lh+dyrIMCDxBDEWi9nV1NRnWnREd+lsYfV
+	BH4/moHSvCpC6GdSrc6hBbepR7DQ2ZzFPIOyCfykvAgixXv5S/53kOOMX9Y1LFZ72mrPN39F2ol
+	gNkXvkuxu3mJaOCYhRood7EXpujYfVDM6eEWW3Ym/I1jwnJTzLvVcCOiIREJMoVWIS1UxUGTpkz
+	42vzToZJku7RhtmFoiTIHbfr/XN+fd+WI8yJTW4McvL5Pi1OLQ8/QFjNsr7ng9ESWI6Zk=
+X-Received: by 2002:a05:6000:4386:b0:47f:703b:1851 with SMTP id ffacd0b85a97d-47f703b18afmr5566492f8f.59.1784495289690;
+        Sun, 19 Jul 2026 14:08:09 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00e37f7eb174d0a6c8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:e37f:7eb1:74d0:a6c8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4955dfa4a97sm37569565e9.4.2026.07.19.13.43.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63ee0086sm25761571f8f.30.2026.07.19.14.08.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jul 2026 13:43:03 -0700 (PDT)
+        Sun, 19 Jul 2026 14:08:09 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 19 Jul 2026 22:43:03 +0200
-Message-Id: <DK2U92VVUXKE.2HBXKS4ZWACG@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] binutils: fix CVE-2025-69645
+Date: Sun, 19 Jul 2026 23:08:08 +0200
+Message-Id: <DK2USAD17JSN.158GGJ855VAMV@smile.fr>
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <roland.kovacs@est.tech>, <openembedded-core@lists.openembedded.org>
+Cc: <olivier.benjamin@bootlin.com>, <mathieu.dubois-briand@bootlin.com>,
+ <pascal.eberhard@se.com>, <wahid.essid@se.com>
+To: <benjamin.robin@bootlin.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [scarthgap][PATCH 2/3] python3: fix CVE-2026-11972
 X-Mailer: aerc 0.20.0
-References: <20260716095854.65840-1-roland.kovacs@est.tech>
-In-Reply-To: <20260716095854.65840-1-roland.kovacs@est.tech>
+References: <20260706-fix-cves-python-scarthgap-v1-0-8d51db14f7ac@bootlin.com> <20260706-fix-cves-python-scarthgap-v1-2-8d51db14f7ac@bootlin.com>
+In-Reply-To: <20260706-fix-cves-python-scarthgap-v1-2-8d51db14f7ac@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 20:43:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241300
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 21:08:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241301
+
+On Mon Jul 6, 2026 at 1:01 PM CEST, Benjamin Robin via lists.openembedded.o=
+rg wrote:
+> When using the "tarfile" module with a file opened in "streaming mode"
+> (mode=3D"r|") the tarfile module did not properly handle EOF, making arch=
+ive
+> parsing take exponentially longer.
+>
+> Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootli=
+n.com>
+> ---
+>  .../python/python3/CVE-2026-11972.patch            | 58 ++++++++++++++++=
+++++++
+>  meta/recipes-devtools/python/python3_3.12.13.bb    |  1 +
+>  2 files changed, 59 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch b/=
+meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+> new file mode 100644
+> index 000000000000..0752ba372dcc
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+> @@ -0,0 +1,58 @@
+> +From a83ebdb495a9cbd28a03675acdeda235fade90b3 Mon Sep 17 00:00:00 2001
+> +From: Petr Viktorin <encukou@gmail.com>
+> +Date: Tue, 23 Jun 2026 15:13:30 +0200
+> +Subject: [PATCH] gh-151981: Make tarfile._Stream.seek break at EOF (GH-1=
+51982)
+> +
+> +CVE: CVE-2026-11972
+> +Upstream-Status: Backport [https://github.com/python/cpython/commit/f50b=
+f13566189c8d0ce5a814f33eff3d89951896]
+> +
+> +Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
 
 Hello,
 
-On Thu Jul 16, 2026 at 11:58 AM CEST, Roland Kov=C3=A1cs via lists.openembe=
-dded.org wrote:
-> Binutils objdump contains a denial-of-service vulnerability when processi=
-ng
-> a crafted binary with malformed DWARF debug information. A logic error in
-> the handling of DWARF compilation units can result in an invalid offset_s=
-ize
-> value being used inside byte_get_little_endian, leading to an abort (SIGA=
-BRT).
-> A local attacker can trigger the crash by supplying a malicious input fil=
-e.
->
-> Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-> ---
->  .../binutils/binutils-2.42.inc                |   1 +
->  .../binutils/binutils/CVE-2025-69645.patch    | 135 ++++++++++++++++++
->  2 files changed, 136 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-6964=
-5.patch
-
-More than a description of the vulnerability, what we need in the commit
-message is a justification for the patch: i.e. why this is the patch we
-should take to fix this CVE? In this case, this is trivial, this is the
-patch referenced from the NVD page, so I've added it.
-
-Also, the NVD entry looks wrong: only the 2.44 version is said impacted
-but the patches to fix apply way more than that. Can you reach them and
-fix the NVD data?
+Like we discussed for wrynose, this patch lacks the co-authored-by it
+has upstream. Can you send a v2 with this fixed?
 
 Thanks!
 --=20
