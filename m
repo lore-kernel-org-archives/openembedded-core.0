@@ -2,187 +2,112 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84AFCC4451B
-	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 21:48:46 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.235.1784497716753133781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA03C44512
+	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 22:15:39 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.416.1784499330659159400
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2026 14:48:37 -0700
+ Sun, 19 Jul 2026 15:15:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=iCbSLDCf;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-472326ca506so7307998f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 14:48:36 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=bYLThiEo;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so72966505e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 15:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784497715; x=1785102515; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=daF9ELS/Ice7Y0dWtj74VLuIdZ/MT8Ku7Z+2AwB30f0=;
-        b=iCbSLDCfsd0iGpTHKLtr2I1yq1gpMVIUNpQ2dJyHCVXnMu8COQ8nSE0HALPXUPpX2c
-         DESX76rrF9vr5tAsUFgxZuGnzp3ybNSfE/kMNRoOQnL+hfvkMuII0ZRisF0V+DSvRLr/
-         afL8Z3oaODf6gKYWpR8dVlXQWYVn56+56KPoE=
+        d=smile.fr; s=google; t=1784499329; x=1785104129; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OZ3CgaxNydYTi5Xd1+0HR3rt3IBqemQDV+hKdTr9LE4=;
+        b=bYLThiEohXlp+MpzIYG+8umDVL2AI3l4//+vGPqNa946dQ4aVICkHf+Z4jr+eqqAEn
+         o5rfHGr2ebVHzzdlFqQbAZBO+YTCPM2d9ZUUO7SidghUcPH5DuOG/qDPZzbCRBdaYrHs
+         rgnIlw7SYdBldjqV2eRFouIVYFWRPEDHVM7Co=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784497715; x=1785102515;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=daF9ELS/Ice7Y0dWtj74VLuIdZ/MT8Ku7Z+2AwB30f0=;
-        b=GkWdlk3dFWMRJMtsnorNv7JOyXlhi6QitVDEUr6LdaaLPhBp4ETU+vHJ7HmoJ2290b
-         jW3PspsPJyjLfJqgtvvvFA/xkZybW/z0m+xqBT/EXxzkT9uXvlqXGEee5uIx9FTQV6+Q
-         hscUlf9Sfcn/55XtuKT7ZuYTLiAzr/C2WoMNmYUACmBF01xxuItB8XXhWSlk56IQfHNF
-         j4HnbvQlDkXrmPRXNKx6YJ5UYvGWqDukCdFaP+YppkhriDOOJ9K7zrmact/cLG/o8s5j
-         k3t7GanZrR04A28+k425vDFMebhZVQqCvziwDkjs7agrzARgN1LcZMM+kx6iIsLLF7v0
-         AiEQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrR9uqlo7IrA/mC7Loc194atdE3ei8ocGXz2wHM5kBUPbq33WXefzR4Z5Ek776GchnlEUUJkz4YsZ9i04Ek5HlATw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyYmWqGeBegENLV645Ydg2xtqM5lenQDKHJZ5SOYsp2OMamWehP
-	ecOlcYlr7GP4lA14gG1HzzwzMJoMtjdlXl5PCvFCNkCiejWMpzF6pfGsOX2ZZwsOSNS/ZY98bwX
-	v/ufUVpn/Ng==
-X-Gm-Gg: AfdE7cn5c5AYgzgLJHdYTJ7qPULxwmFXHvnSJhr50P4lCwvtPHvLJWwtd5SsA1q7n9p
-	gpc+RYj35PcXxtZRHehTLz/tPGHzf/zIaWFvDG54GsnerJVnDrTSeWWEzNmj0OBlmGlnxkOoDUR
-	SljWtUZAojLkjJA3fwWKFAGUOqCtlqcc1wiLvddufohaP08BuYwyEtaF2MVtA62eGWCuVHHvj/p
-	AGYPUzzaWICvB3K/pDWhjt+HxbyhBeWjL2WUbZqtSeWpFMpUaf9hXHSkMEgKmuPOzsmmZeaV6Wg
-	4niq2b+kXYNbNdeVCHYibO7uWl3rNyYeINMpQJG1Y/WCsNLgyFiB8bSFFb3iQQHzldNjZdr87BW
-	115chwbOYdht+3z9wWwm2d0deSm9XIQCic01c2GlUXEctnDl0tpwKGQCX9bFfNFK5+RjlUhiCLP
-	KqBv7FxupxNioD/UWjnsiQXvoSjwvt3GcGqt5GmjKwiSkXx9rhg67dodfmv+zWtGUxPmQ=
-X-Received: by 2002:a05:6000:4b08:b0:47f:725a:174b with SMTP id ffacd0b85a97d-47f725a1adbmr4525505f8f.27.1784497714895;
-        Sun, 19 Jul 2026 14:48:34 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784499329; x=1785104129;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OZ3CgaxNydYTi5Xd1+0HR3rt3IBqemQDV+hKdTr9LE4=;
+        b=mA3/4t4d2x40BhzR59TPePdK4ySMK29PBxSwLb/esjAkLv8ZhIhXOVsUMQZLpjZKt+
+         VrBvFwlk2/s+tTHPaBypFORZW7+foeMZsAxQ31PZuwxgxl3PAdnBVVDUQrGlgf+BvYJI
+         dzIW5dXf2dbtIkyqesn/D9ekNa30XSJ8KBH+MDR5yrMJoNZeR1JDI/3gtOZ1CqbB2vtl
+         zfsOv3p0qibu+NtMYyTMqCyxtGNuXo239jL9IJhT2Dq1spk/IdnoRhZk65XbntGaJWgp
+         W2IAYE/HfEQ8Grg1qs7RsHmSNX5pnbEQLnniBvRnh7C1/r8CWT6REHtnWelz1teaeseG
+         YCgQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpW+B3tHGfLl6sm9TGD5tz1fNznFuIkfUyKe0teFgjPoMSvqXaKBCbAbGNSSdg9hFk6gDq1LYdWnmp8rkhZ1B8LEQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwbGeODNx+v8EOHtldOkGT6ZdyVADVAlyKEF5TvalwhrZ7XIyV6
+	T1FlVXd5KbeOgZOM/xIdpZfjX59bMWm+sLlJkV/VsFJs3CFZ2s801oP9xiXHj/yOxSU=
+X-Gm-Gg: AfdE7cllGDR8CInaErWIGAPzqZZv0UVULqPwXcD7hjDRn6NEI5feqhPrys1L2Vs/ooR
+	Zz6lKqqsfUTzu44wihF83zhoRh2TGiOSd7KUF65cUS7bQYzWk26emTGEtCY9E0+1PrrdbFVoeSq
+	OCHbBsirYNfOBsYdl63+nXj/lGczA5l5HLHwq6ZM8mP6P7cfbsf/rbsB1tZBQ9mt0G1MQepzs6h
+	Ldfu36N5nGJ48rYkc5YECTCRR6Oq7Su63e0FGDCytvNSHvmANDsoZ/wTGn00+UYrTnr+NvWfBik
+	nNu4ixeJ2kS7ZR4x0K/DGoussjJfrI0DKEbuNg45+wcq2bT7UceiKwk8dBjc/G6hI1n+0y2W/S9
+	fbBH+YfKcNri+DYfGnig4ioG2+SJYqIgZgHv1mDW4nufE2FommykTiyh3kqKjtjjOCIuHwJ5SQI
+	H5FNaNE9sbbyyWlWF4I7PxzPAmF5DKunUZcjeTWPIw5lPetAHkmj5TnX3OqVltWqMmZAE=
+X-Received: by 2002:a05:600c:350f:b0:493:e365:ace9 with SMTP id 5b1f17b1804b1-4954a3db7e8mr124831555e9.11.1784499328936;
+        Sun, 19 Jul 2026 15:15:28 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00e37f7eb174d0a6c8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:e37f:7eb1:74d0:a6c8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63ed1911sm25295417f8f.22.2026.07.19.14.48.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a24b6sm237288215e9.3.2026.07.19.15.15.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jul 2026 14:48:34 -0700 (PDT)
+        Sun, 19 Jul 2026 15:15:28 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 19 Jul 2026 23:48:34 +0200
-Message-Id: <DK2VN8KB0RQM.2Q9LKRBCIRRGZ@smile.fr>
-Subject: Re: [OE-core] [PATCH v3][scarthgap] python3: fix CVE-2026-7210
+Date: Mon, 20 Jul 2026 00:15:28 +0200
+Message-Id: <DK2W7U194RBL.10J1D4A3IAQPV@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] extrausers: Terminate
+ set_user_group post-process command
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <amaury.couderc@est.tech>, <openembedded-core@lists.openembedded.org>
+Cc: "Anis Chali" <anis.chali@ro-main.com>
+To: <chalianis1@gmail.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260706132712.51931-1-amaury.couderc@est.tech>
-In-Reply-To: <20260706132712.51931-1-amaury.couderc@est.tech>
+References: <20260713152937.200292-1-chalianis1@gmail.com>
+In-Reply-To: <20260713152937.200292-1-chalianis1@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 21:48:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241304
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 22:15:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241305
+
+On Mon Jul 13, 2026 at 5:29 PM CEST, chalianis1 via lists.openembedded.org =
+wrote:
+> From: Anis Chali <anis.chali@ro-main.com>
+>
+> Add the missing command separator to prevent the command from being
+> concatenated with subsequent ROOTFS_POSTPROCESS_COMMAND entries.
+>
+> Signed-off-by: Anis Chali <chalianis1@gmail.com>
+> ---
+>  meta/classes/extrausers.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bb=
+class
+> index c825c06df9..94576b8872 100644
+> --- a/meta/classes/extrausers.bbclass
+> +++ b/meta/classes/extrausers.bbclass
+> @@ -23,7 +23,7 @@ inherit useradd_base
+>  PACKAGE_INSTALL:append =3D " ${@['', 'base-passwd shadow'][bool(d.getVar=
+('EXTRA_USERS_PARAMS'))]}"
+> =20
+>  # Image level user / group settings
+> -ROOTFS_POSTPROCESS_COMMAND:append =3D " set_user_group"
+> +ROOTFS_POSTPROCESS_COMMAND:append =3D " set_user_group;"
+> =20
+>  # Image level user / group settings
+>  set_user_group () {
 
 Hello,
 
-On Mon Jul 6, 2026 at 3:26 PM CEST, Amaury Couderc via lists.openembedded.o=
-rg wrote:
-> From: Amaury Couderc <amaury.couderc@est.tech>
->
-> CVE-2026-7210 is a hash-flooding denial-of-service vulnerability in
-> Python's XML parsing modules (xml.parsers.expat, xml.etree.ElementTree).
-> An attacker can craft XML input that forces O(n=C2=B2) hash collisions in
-> libexpat's internal name dictionary, causing excessive CPU consumption.
->
-> The previous mitigation seeded libexpat's hash function with only 4
-> bytes of entropy, which is insufficient against a determined attacker.
-> This patch upgrades to XML_SetHashSalt16Bytes (libexpat >=3D 2.8.0),
-> providing a full 16-byte secret. Older expat versions fall back
-> gracefully to the legacy XML_SetHashSalt via a runtime NULL check.
->
-> Backport patch to fix CVE-2026-7210.
-> https://nvd.nist.gov/vuln/detail/CVE-2026-7210
->
-> Upstream fix:
->   https://github.com/python/cpython/commit/24b8f12544468e4cedf5bfbe25442f=
-cd495391e4
->
-> Tested with ptest:
-> Before: PASSED: 40019, FAILED: 0, SKIPPED: 1882
-> After: PASSED: 40020, FAILED: 0, SKIPPED: 1882
->
-> CVE: CVE-2026-7210
->
-> Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> ---
->
-> NOTE: CVE-2026-7210 full mitigation requires the companion
->     expat CVE-2026-41080 patch (raises expat to >=3D 2.8.0 API)
->
-> .../python/python3/CVE-2026-7210.patch        | 122 ++++++++++++++++++
->  .../python/python3_3.12.13.bb                 |   1 +
->  2 files changed, 123 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-7210.pa=
-tch
->
-> diff --git a/meta/recipes-devtools/python/python3/CVE-2026-7210.patch b/m=
-eta/recipes-devtools/python/python3/CVE-2026-7210.patch
-> new file mode 100644
-> index 0000000000..8acf174a0a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3/CVE-2026-7210.patch
-> @@ -0,0 +1,122 @@
-> +From 2ed6138dea0bc94c726f879501e4525712e885d1 Mon Sep 17 00:00:00 2001
-> +From: Stan Ulbrych <stan@python.org>
-> +Date: Sun, 10 May 2026 18:36:26 +0100
-> +Subject: [PATCH] gh-149018: Use `XML_SetHashSalt16Bytes` in
-> + `pyexpat`/`_elementtree` when possible (#149023)
-> +
-> +
-> +CVE: CVE-2026-7210
-> +Upstream-Status: Backport [https://github.com/python/cpython/commit/24b8=
-f12544468e4cedf5bfbe25442fcd495391e4]
-> +
-> +Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> +---
-> + Include/pyexpat.h                                      |  3 +++
-> + Include/pyhash.h                                       |  8 +++++---
-> + .../2026-04-26-19-30-45.gh-issue-149018.a9SqWb.rst     |  3 +++
-> + Modules/_elementtree.c                                 |  8 ++++++--
-> + Modules/pyexpat.c                                      | 10 +++++++++-
-> + 5 files changed, 26 insertions(+), 6 deletions(-)
-> + create mode 100644 Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-iss=
-ue-149018.a9SqWb.rst
+ROOTFS_POSTPROCESS_COMMAND is not a shell command delimited by ';' but a
+space separated list of bitbake recipes functions. So the
+ROOTFS_POSTPROCESS_COMMAND:append =3D " ..." is correct here. If you have
+concatenation problem, they are likely caused by the next function not
+ensuring the space separation.
 
-The patched files have slighty changed
-Include/internal/pycore_pyhash.h -> Include/pyhash.h
-This time, I could check that nothing important changed but next time
-I'd like a like a little change log about what changed between upstream
-and the imported patch.
-
-> [...]
-> +diff --git a/Modules/pyexpat.c b/Modules/pyexpat.c
-> +index 79492ca5c4f..388473d3855 100644
-> +--- a/Modules/pyexpat.c
-> ++++ b/Modules/pyexpat.c
-> +@@ -1388,7 +1388,10 @@ newxmlparseobject(pyexpat_state *state, const cha=
-r *encoding,
-> +         Py_DECREF(self);
-> +         return NULL;
-> +     }
-> +-#if XML_COMBINED_VERSION >=3D 20100
-> ++#if XML_COMBINED_VERSION >=3D 20800
-> ++    /* This feature was added upstream in libexpat 2.8.0. */
-> ++    XML_SetHashSalt16Bytes(self->itself, _Py_HashSecret.expat.hashsalt1=
-6);
-> ++#elif XML_COMBINED_VERSION >=3D 20100
-> +     /* This feature was added upstream in libexpat 2.1.0. */
-> +     XML_SetHashSalt(self->itself,
-> +                     (unsigned long)_Py_HashSecret.expat.hashsalt);
-> +@@ -2257,6 +2260,11 @@ pyexpat_exec(PyObject *mod)
-> + #else
-> +     capi->SetHashSalt =3D NULL;
-> + #endif
-> ++#if XML_COMBINED_VERSION >=3D 20800
-> ++    capi->SetHashSalt16Bytes =3D XML_SetHashSalt16Bytes;
-> ++#else
-> ++    capi->SetHashSalt16Bytes =3D NULL;
-> ++#endif
-> + #if XML_COMBINED_VERSION >=3D 20600
-> +     capi->SetReparseDeferralEnabled =3D XML_SetReparseDeferralEnabled;
-> + #else
-
-We did not upgrade expat but patched in the fixing API
-XML_SetHashSalt16Bytes. Can you check we can activate the fixed code
-path with those "#if XML_COMBINED_VERSION >=3D 20800"?
-
-I will hold the patch in the meantime, I really want to avoid a false
-negative in CVE data.
+Also, FYI, we have a master-first policy, to accept this patch, similar
+patches would have been sent to master and wrynose.
 
 Regards,
 --=20
