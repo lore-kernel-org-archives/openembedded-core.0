@@ -1,79 +1,98 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FAE7C44512
-	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 06:26:19 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.891.1784442374355542570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C1CFC4450A
+	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 08:01:29 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1671.1784448082005281763
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2026 23:26:15 -0700
+ Sun, 19 Jul 2026 01:01:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=LLun6//D;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1453B4E40E52;
-	Sun, 19 Jul 2026 06:26:12 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CBF20601A5;
-	Sun, 19 Jul 2026 06:26:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4DE2B11BD0158;
-	Sun, 19 Jul 2026 08:26:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784442371; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=XYcVTxEnHFVFDFwdU0V1Pq7oGyOJn/efjFTIesj/aP0=;
-	b=LLun6//DzdhpIfh9lqq+znHtbu4qxThGHXCSU0in/60ra/bTbab6EW87DZO8Rf//8nq7KZ
-	1pFNQK7PAlvNO1ffQMXKyOZFLOBPKHwPbSkQCXbBmVRlWLM3JMxLb3nZaHyY0LclLzvaqg
-	NLh6q0IBnqEw0t2Frc/9shn5NbiAltc4xQ5yzNGgJO7fscw/NN/olfaORICciCQpb6KDVt
-	TiFnE5JDpwQueEWkmeNAnRO4A/JT0ZIQFqhbSCc2BhTp1DCiYYEX2V38xI5nm8QF/qdIQE
-	IRPQnJT53akF0wHyHs4EMaM9uo4+HKQIQvJDUMK5jVx+DVLU000I3rm5voLRCw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=JD1A/yqR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f633e6058so1793523f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 01:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784448080; x=1785052880; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=450r/B9qx7wA9XDXs0TxZJpd01lL5MbzSQT2iUevacU=;
+        b=JD1A/yqRG2UfFzKcn7w+R0l/duX55nwTNNOQ9oBzwMXFCQTx7I9KHcvv1L6ieiUv8Z
+         YkKh3YO1oTtDM4+fcgsPX+PgHl57sZtB4mj+5xl+kD5h42Nae5HLzPHxGZi17zJSt/0+
+         QN146yKDqrt1WImfG1vJMyE4V4rNK+CEttCagEQsUXP4ithVpjXnqhhD0fsMhDBUktCb
+         T34LfnEOboTKHGGt5ggbt4vY2R19gO4UaaLHPBXHRb2o6j/8NHLewAKXyk92vQTzrvu7
+         pjtrXIgjSfFEYhaujeYzZt8yM3gD3ChUFwnA3ENrzPlK86taMh9b4SMDRTABm2i+DbIf
+         qb4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784448080; x=1785052880;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=450r/B9qx7wA9XDXs0TxZJpd01lL5MbzSQT2iUevacU=;
+        b=oqOS8PhJLwaovO/5wEjS+r3+nD/tDdFZXhLg1IjaLSyF1WEDH5kzu9Q3N+IwjLPDSn
+         /1ksm4UbLg2uBBO44HhDEgvRnPxtUYG/kRGOWYcOkP5tIzdzqLdZVzqh1kBm6tIoceyB
+         Z+0pB0kyRYaR0ZCQKuq/j4TntqT6y1vcqvy52R3/7KHLBu5xrifoiH6S4ZH1pdXLU85W
+         CZJSgJ6vJc23vVg2T207knJn91Y0dBIrsYX6aXJUY8RMDED28SS6cmQeTjKe3jXxoyJW
+         ukzOuZbJCw53BNzEuJFvhgfkguMsLlQXUscmm5AWICL3ypgbNdq318xWjW3sArx9TOqC
+         BurQ==
+X-Gm-Message-State: AOJu0YweLFuTnmzGNRGJmDPscdjlPBdXgngBeFFV0CMJi6vy/jwGolcD
+	dFjhhZQmNQLgfCIzcsyWheAFPA3t5RC/FTco1ATVBqfw1R25ec4FDctdicAkBw==
+X-Gm-Gg: AfdE7cklWJ4d0wcdAGUhHGGMxEQKh00Y3nsS0bFcOHVeZfU7ibJN6g1RLWsM0f3X1uO
+	Chm0f13iV5y036hjtskywYgt8qE8Ph04Bqb8s/L+es0pHL6vVyNKNY4sgRinVKqc4j7mB9OGXC5
+	9F10kweDOxQSnuiPXciJLpFl1PO4Zy1nJeqMe0hUN5pu9raqQ4MPi3gBO33Kb025TS0EEafVYbp
+	UJ7qes2r3XwkAgRwISkDkWzho8diIGjsLv82PCyII6GhirDkrfvjN4+58Ctu9gO5msvFKY/a0I0
+	xp/QroNssyGcJR67EqAan3ujUma8UFjpckcTKKzMll3ujOGBGceuass9cfyF+umMWCBbiRtHdfn
+	Ip7YvaVepPhD87qzO/55XuPHi2Ix8UraHhOlOCJsj5S+8R2hpPjswGU/FlT962S9pD/OjhC/jP/
+	XWog==
+X-Received: by 2002:a05:6000:38b:b0:47f:6dec:fc04 with SMTP id ffacd0b85a97d-47f6decfc51mr4450170f8f.29.1784448079775;
+        Sun, 19 Jul 2026 01:01:19 -0700 (PDT)
+Received: from term011.lan (BC24447B.dsl.pool.telekom.hu. [188.36.68.123])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e49500sm19221644f8f.2.2026.07.19.01.01.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2026 01:01:18 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH v2 1/3] mesa: Upgrade to 26.1.5
+Date: Sun, 19 Jul 2026 10:01:06 +0200
+Message-ID: <20260719080108.1290998-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 19 Jul 2026 08:26:08 +0200
-Message-Id: <DK2C0Z9DDTDG.OTLWJC41N5TD@bootlin.com>
-Subject: Re: [OE-core] [PATCH 2/3] mesa-libclc: New recipe for forking
- libclc for Rusticl purposes in Mesa
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <zboszor@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260718050502.62359-1-zboszor@gmail.com>
- <20260718050502.62359-2-zboszor@gmail.com>
-In-Reply-To: <20260718050502.62359-2-zboszor@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 06:26:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241275
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 08:01:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241276
 
-On Sat Jul 18, 2026 at 7:05 AM CEST, Zoltan Boszormenyi via lists.openembed=
-ded.org wrote:
-> See the reasoning and discussion at
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43020
->
-> TL;DR: LLVM constantly introduces breaking changes that cause
-> regressions for running OpenCL CTS with Rusticl and finally
-> Karol Herbst had enough.
->
-> This fork is from the LLVM 22 version of libclc and contains the
-> necessary fixes to make Rusticl pass OpenCL CTS.
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
+See the announcement:
+https://lists.freedesktop.org/archives/mesa-dev/2026-July/226671.html
 
-Hi Zolt=C3=A1n,
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks for your patch. Please keep in mind you need to add an entry in
-meta/conf/distro/include/maintainers.inc.
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index bb071e2411..15d56c804d 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -23,8 +23,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "072705caa9adf4740f1489194b13e278ad959166863b5271fe423a86353c9ab6"
+-PV = "26.1.4"
++SRC_URI[sha256sum] = "79e421c7ce18cd9e790b8375920325779f10798630bf30e0b22f1a21c8617122"
++PV = "26.1.5"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.55.0
 
 
