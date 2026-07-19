@@ -2,102 +2,97 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 117A5C4450A
-	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 15:00:05 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6655.1784473200032862601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C01C4451B
+	for <webhook@archiver.kernel.org>; Sun, 19 Jul 2026 15:02:25 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6705.1784473341724072379
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2026 08:00:00 -0700
+ Sun, 19 Jul 2026 08:02:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=VODtf0LB;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4953de5be0aso25103145e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 07:59:59 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=fCkmgTxI;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-495437bb891so21912845e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 08:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784473198; x=1785077998; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784473340; x=1785078140; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0kHHewSR1KkgyBewOnyDJNT4qLTWLg5DfU+FmDvV7Ns=;
-        b=VODtf0LB59gu604fsHGfIgadsGx1js1y8d2JLIMN1B1MnKGLyCFGHtDH25MVF5T8tX
-         XCqEDTpw3uykRp346SsUKpvdMCvB5bZUJD6La9FEt4BoqT87QyaYb3+QpaFOPJYB6LbV
-         +Zrwl+uUhp44Wcj3j5M/AoSEAo9f46wOKN4Js=
+        bh=WZBCh6+TY5UVv+izrUNd3IlATeVZFbWEkesIUiu98C0=;
+        b=fCkmgTxIWhLcn7aSlIPNKZy7S4YBcUEUucR8itxRVYOcB67IVVhIIW0SF70rzMKNp2
+         qC21sB2lC07rAafKbLLL90MPGRzQzfzzM3J+UesqDytQ9IlztM5esmpZ5MngxAnvw3jq
+         /qfkiuUKadb+/iNiSxuzZHfbJg3rhy+JmIXn4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784473198; x=1785077998;
+        d=1e100.net; s=20251104; t=1784473340; x=1785078140;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0kHHewSR1KkgyBewOnyDJNT4qLTWLg5DfU+FmDvV7Ns=;
-        b=XfjC+ciSa76TnN3VcLg8662T0lrs5MjYqLvJ7amdVSR+FT8RSTffQon/9DkXqCd+KB
-         MEfKglC6LsJ8O/z4pTP7CmD7YrU4n9UQoNvuUMHOYcZ4Hqjqsf65jBG7ecX9cQVXO++z
-         ZZKXwIPY7WqHMUVTBJGbMio8kEq4y8sTH72/KWDeMdYceNaJeula5OOUQ/rldRveul5f
-         5ZrzStXCqAHoyStyhm21YkMECQnJ04bFzo+70ryjHxHd0R+AjaKne4e6FmaqJh4LJB2K
-         jUWKpgxoX/mDstFxd6w3ipsByKndezRvxQk9xZ9BmwTiFiC+lV/Xu38U/yJyV680DKH+
-         G5oQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqd54+YmTDCEjb7/Z9eDsZDK9fCXwu4J9xSbRum6ClJCLuw7QTF3Y3Z3Pm5eB3I2IJN5oQEVOGwtYoHX8t/Wv9EuQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz1PSaoaLiBouFQOZgxzdaHMZSg1VQk64zAE6krKPgzzJzN5Uws
-	fV1TRVuZrzp2HUnIjHeCnU34UEjfKXZc3N0w+zl4QZLXRezsD8Zr1YjqVYmUt1cS1ms=
-X-Gm-Gg: AfdE7ckwbziEdmx+VYwetW9gvD9Wxz+xk1oLozQTuQcqC7sa2jljSBOOhEkFv16nZzV
-	QLL0kTgWxORsx4cKXuopUIoaiEBsjJcXqwOMJ/4cL+pmg9HNyjpIrw6yKPvGQcpXo4uaqsr6y47
-	UGXBC+rtfiycxQT7rh0/DoZQhbhdG8LD/X4RbNBsrXDTKEl+xodSheFyXsb93x357QZkEHwfDDK
-	TpmonhJih3HBzQnAPKPw/XIgpvh/FnESkc3Ki7TNcSr0N//JXXR6fztCzNwQox+F6XD+pOB0pOL
-	txEcPXIgy2AIcWH6FCTlANstQK32wubGvx+AgtL3v5Wd56NEKGAXAO+oa7n4jq9Kbd/IoWrgESW
-	funSDx7mAbNafkqw3/vZ8qU+skWAgg8NKYML6tCi4r0jxFNZihGRYzbFNwyYK95IzIeCt4jyzXF
-	03gjwqP9kkNcssmY4RZETAFgPeVaROlPvkaNFHbCuVOr8qDrnaU6O6o01tkP+p9Jeolb4=
-X-Received: by 2002:a05:600c:3143:b0:492:7142:f46e with SMTP id 5b1f17b1804b1-4954a3d0cd7mr123292735e9.2.1784473198201;
-        Sun, 19 Jul 2026 07:59:58 -0700 (PDT)
+        bh=WZBCh6+TY5UVv+izrUNd3IlATeVZFbWEkesIUiu98C0=;
+        b=BsN2vMJnu4+IfgBxixFrVsNVqc4dFvPhoNnCMkOh1O0DEfhKF4eerecb4dV6y391ja
+         ECSnaTuUM8BcizbwoirBhR3D9bBgo6n4qDPWeIEFCkDdTFixmX59Ct0d4OCPOO9sJfWV
+         dsnhSSlxfSK2yClAy1gbcxs0IrA36f1N/72wo74cuGTT1HJv2UETOJ4InqwyBKpI7htm
+         qdh+fezgjhRVB4UOWdhVc3Zrhe7YO3NByxOVE3ZPlKbtN+Tg8828bBsrcDA0cv5nBITn
+         cqxQGV0uy+tad1YTpsTr64sq0/jhJkByKHylfHwd20vGSkxEskEQdgnZpmftJL73EPaC
+         i4tw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1rjcZUshfPwb9fUXMU58niWlD4Jh6R1HQQrR1qR5RVxMnNe+UEtmJwPDfYG6pEhqWcd256v1Y6jQsnxubUuehVw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzUgPnBAk5FszYkHZMUFtZhDMoS3/l1wYrrluHV1ZAh3Z8CB/bQ
+	PaBK3uHkrVAntaPwgPjT36vgu8iFqSKZQv1l1DF/902uPqfgx9jtLd+gkRp09/lgWjw=
+X-Gm-Gg: AfdE7ckEBbxA4jtKCaQfJpjZ1fCdSCiB6J2SlU85+8r5S9C820/QkcKMmUIHj6+beET
+	Vhww3lCnpLoEgfRDI9OV//X3+GJ2rGnlNNBrFrRtcjP+nQMTQMDPGeTJXhViJyPjLrrNAWN7D4u
+	A05v/tPwRc8Lln1KTc2S+VW4LAbJnBmYTYxPM7Zc4XELp66R0e+3WX8kHayNerbekrEV5dJKqEN
+	79huwVRV80Bmlq6zq20s/EjCvALY54iBZQdMggVPPBHHi/M1i3DsWYbFlQ27icGJN/3W4ZBHqGh
+	7k2xQ9pQ0B7RIqVULBL/o0WnJh1GvxoH/wJy6fO5aH7rSjoPyzpmnWl0uO1ypQKH2hBTZcaHVws
+	KNzriGhiXul0R8CeU92A1nlQAne/dMvxA0fWs2iJ+bPZ2iJSpADkUpIIJlN8aorRfg4Z4L40scs
+	uwhK7NWFFsopPneBpuGu4riYmN+DxfSVwhPWd7b63fLOsNyjvr9Sj2ZjhlD18W/HDvyD4=
+X-Received: by 2002:a7b:c7c5:0:b0:495:41ea:f6e with SMTP id 5b1f17b1804b1-49542894bf2mr122233325e9.8.1784473339885;
+        Sun, 19 Jul 2026 08:02:19 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00e37f7eb174d0a6c8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:e37f:7eb1:74d0:a6c8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a2504sm226747815e9.2.2026.07.19.07.59.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63ee9281sm23508925f8f.36.2026.07.19.08.02.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jul 2026 07:59:57 -0700 (PDT)
+        Sun, 19 Jul 2026 08:02:19 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 19 Jul 2026 16:59:57 +0200
-Message-Id: <DK2MYDRSPRYS.1DOX18PFR2D18@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] perl: fix for CVE-2026-42496
+Date: Sun, 19 Jul 2026 17:02:18 +0200
+Message-Id: <DK2N06S7DNIU.3NHYH9RB4Q2DZ@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] gnutls: fix for CVE-2026-42011
 From: "Yoann Congal" <yoann.congal@smile.fr>
 To: "Yoann Congal" <yoann.congal@smile.fr>, <hprajapati@mvista.com>,
  <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260623060344.339663-1-hprajapati@mvista.com>
- <DJG8MI4MVEDF.33LV9PHJO05IJ@smile.fr> <DJRQ5LCFHTZH.1TS5PO223RSZF@smile.fr>
-In-Reply-To: <DJRQ5LCFHTZH.1TS5PO223RSZF@smile.fr>
+References: <20260625125532.185380-1-hprajapati@mvista.com>
+ <DJL1BNT9KYBU.18COZC5THH1NW@smile.fr>
+In-Reply-To: <DJL1BNT9KYBU.18COZC5THH1NW@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 15:00:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241287
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 15:02:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241288
 
-On Mon Jul 6, 2026 at 9:11 PM CEST, Yoann Congal wrote:
-> On Tue Jun 23, 2026 at 9:07 AM CEST, Yoann Congal wrote:
->> On Tue Jun 23, 2026 at 8:03 AM CEST, Hitendra Prajapati via lists.openem=
-bedded.org wrote:
->>> Pick patch from [1] also mentioned at NVD report in [2]
->>>
->>> [1] https://github.com/jib/archive-tar-new/commit/17c873492a05eddc0de18=
-c1485e0b2cccd5a9158
->>> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-42496
->>> [3] https://security-tracker.debian.org/tracker/CVE-2026-42496
->>>
->>> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
->>> ---
+On Mon Jun 29, 2026 at 12:27 AM CEST, Yoann Congal wrote:
+> On Thu Jun 25, 2026 at 2:55 PM CEST, Hitendra Prajapati via lists.openemb=
+edded.org wrote:
+>> Pick patch from [1] & [2] also mentioned at Debian report in [3]
 >>
->> Hello,
+>> [1] https://gitlab.com/gnutls/gnutls/-/commit/1dead2faec6320aaba321eb56f=
+20d442df192b83
+>> [2] https://gitlab.com/gnutls/gnutls/-/commit/24713b8c63137ce0665b495d22=
+ccce4f5ce05c84
+>> [3] https://security-tracker.debian.org/tracker/CVE-2026-42011
+>> [4] https://gitlab.com/gnutls/gnutls/-/work_items/1824
 >>
->> Is that needed for wrynose and master? Since this is vendored in perl,
->> this is not trivial to check.
+>> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+>> ---
 >
-> Hello,
+> As far as I know, this fix is also needed on wrynose:
+> CVE-2026-42011 is fixed in 3.8.13 per Debian Security Tracker but wrynose=
+ has 3.8.12.
 >
-> Gentle ping, is this patch needed on wrynose and/or master?
+> Can you send a fix for wrynose so I can take this one for scarthgap?
 >
-> Regards
+> Thanks!
 
-Hello,
-
-I will now drop this patch. Please send a new submission if the above
-situation changes.
+Gentle ping for the above
 
 Regards,
 --=20
