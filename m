@@ -2,256 +2,176 @@ Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86944C44520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D17C4452F
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 18:58:01 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4969.1784573873556979391
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4967.1784573873476208320
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 11:57:54 -0700
+ Mon, 20 Jul 2026 11:57:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=k0JqwPtU;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: devanshp@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ITTV+IHT;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6306; q=dns/txt;
-  s=iport01; t=1784573874; x=1785783474;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dBCsEnDlRZ6W+N+aj+xuC6ztzmY6RntSIzWrwtNXXSs=;
-  b=k0JqwPtUvHudxhLJLvM/pIeslwj8M8b2ga6xNEXCq69EPBXpk6/GJ9m/
-   zyzaLVBDDPTlvnow5NiK9QgjXfRUapHuX+YyNRsH7qilUbzN0JPjvYTFA
-   wjhH150OWJnMIV5nBvOJgPfDtwPuGrn+32/6N+Jaex/zRa1sEiZhsWpFg
-   FKEFRGko3GsBYf/jo7fR1KaE+v4W/J3vIX1t4fL7XGJGZULBwoQgTaIw7
-   KtC0zWirQPu0LVWOLv6TcWaNJGfnxXe/RAHAc+rSi0nkbw1Kz1XYCnh6x
-   sKwZtwqtt3nFPHN/jeVDKmWMHuWcq5WtvnTkzBRyuDkXakuh5kAQs1Hu/
-   w==;
-X-CSE-ConnectionGUID: eAmkAk+mSVCzCj90ArWtCg==
-X-CSE-MsgGUID: BTj/VWDIR4Sr7j7pgHToKQ==
-X-IPAS-Result: =?us-ascii?q?A0BJAgAQb15q/5X/Ja1aglmCV3ReQ0mWSgOeG4F+DwEBA?=
- =?us-ascii?q?Q9EDQQBAYQ/RgKNVQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDYZaAQIBAycLARgBLRAcAQIBAi8rHQYIGYMCAYJ0AxG8BYF5M4EBg?=
- =?us-ascii?q?ygBPwJDUNsuAQsUAQWBM4U/iCBcGAGEfCcbG4FygRWCDIFdgQWBXAEBA4giB?=
- =?us-ascii?q?IIiehKBWh6PeUiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYEdg?=
- =?us-ascii?q?TqBAoR0Ix8DOX+BL3VKdy1pARIXgSaCEgKBOwITAwsYDUgRLDcUGQQ+bgeNQ?=
- =?us-ascii?q?SOCQIEECgETFwGCSJNbj16CIaEPCiiDdYwhlToaM6psC5h9jgqVNoEahGmBa?=
- =?us-ascii?q?DyBRwsHcBWDIglKGQ+OLQsLg2CBf4MUyUcnMgsyAQEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:s+TmSaMUx+VSA7LvrR30lsFynXyQoLVcMsEvi/4bfWQNrUpxgj1Ux
- 2cWC2GPPqzbYjbzc9sgYYS+9klQ6JbSxtRkG3M5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
- ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WV7lV
- e/a+ZWFZgf6gWYsbAr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
- 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj6/hHCUIfPs4dwdhcE0pMp
- KQxMg8RRR/W0opawJrjIgVtrt4oIM+uOMYUvWttiGiDS/0nWpvEBa7N4Le03h9p2ZsIRqmYP
- ZdEL2MzPXwsYDUXUrsTIJ4zgu6unXnnWzZZs1mS46Ew5gA/ySQsieOxaoWMK4PiqcN9tHqa4
- Vz500XDXioAa97A0TWlznWPv7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++NuUCSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:HgDs0q9YKesPQYdaXoZuk+AAI+orL9Y04lQ7vn2ZhyY7TiX+rb
- HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdg7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
- 5ISdkZNDSJNykYse/KpC+lDt0n3N6LtIqshevY0jNRaDsCUdAY0++8YTzraXGfg2J9dOIEKK
- Y=
-X-Talos-CUID: =?us-ascii?q?9a23=3ABM+R0mhaQGJ9tip/tFlHP97KNDJuf1TYz17TYEq?=
- =?us-ascii?q?DN017Y7/EEXaKx79PnJ87?=
-X-Talos-MUID: 9a23:9KDdMgQ0q9KAQwaoRXTGuDMlCvhEwp7yM1pSk8oetOm4Mg9JbmI=
+  d=cisco.com; i=@cisco.com; l=4637; q=dns/txt;
+  s=iport01; t=1784573873; x=1785783473;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FkZ7cmGfYCNPRmkOq9//bTOvq9cWSbCSgNrRiKZEsm4=;
+  b=ITTV+IHTDAf64npqYa0rDABX+J4EU7r7OxgCoqL9iPUYVPIhLvXNYY36
+   jRZ+nFiYmtSSg2Coy/+p69lreY+ThIARwbFyccP82P41Rpl6nFUvJntYZ
+   3C6s0PgUDzyC6Lr9MQKQ/16WE0xZhl7kW/2JKsIfW5Xoazt5rh33wW/D3
+   f7guphz3EG51VwqU7B041r3F5M4bfDQB98n2wwC7Tsr22mBWxNsrRNdpg
+   F0QqxDJkbBgXuXV8ShmYdQb/33Xg846VZYO1qryRBt6ydkNQmDFCi2Emy
+   U4A028/KqlVQKmKMpaL+m1GMjer2w7iZa0m631RNlXGVj8ARcBCgBLtMX
+   g==;
+X-CSE-ConnectionGUID: KN/envRORWCgh0KV1NQKjQ==
+X-CSE-MsgGUID: YsEyL/gUSBSd3OyCT6wtyQ==
+X-IPAS-Result: =?us-ascii?q?A0BbAwAfbl5q/5H/Ja1aglmDS15DSZNZAYJwnh6Bfg8BA?=
+ =?us-ascii?q?QEPRA0EAQGFBY1XAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8Nhl02ARgBGxIwXESDAgGCdAMRuzAaN4IsgQGDKAGBVNs6FQWBM4U/i?=
+ =?us-ascii?q?CB1hHwnGxuBcoR+gmECgUgJhlQEgiJ6EoR0jH1IgR4DWSwBVRMNCgsHBYFmA?=
+ =?us-ascii?q?zUSKhVuMh2BIz4XgQwbBwWBHYE6gQKEdCMfAzl/gS91SnctaQESF4EmghICg?=
+ =?us-ascii?q?TsCEwMLGA1IESw3FBkEPm4HjUEjgTyBBBZlCQsrBRILNCUfFSgsEBkFEwqTJ?=
+ =?us-ascii?q?5ItoQ8KKIN1jCGVOhozqmyZCI4KlTYxDF2EaYFoPIFZcBWDIglKGQ+OLRaDY?=
+ =?us-ascii?q?M5aJzILMgIHAgcOAwuRai2BTwEB?=
+IronPort-Data: A9a23:EbcwvK1LgxXnThsJBfbD5YJwkn2cJEfYwER7XKvMYLTBsI5bpzwFm
+ jNKWjuOOqyNYWv9f41zaNvn9R5SvcXWmoVrTgNp3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
+ Lsen+WFYAX7g2EuajpKg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGL2dxMIsGwMFNPkpB9
+ aQ7FmkrVzOBvrfjqF67YrEEasULNsLnOsYb/3pn1zycVaZgSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUidC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+OW0a4CPJ4DTFa25mG6pv
+ U/X2yP2PyowD9DE7iuuziyzmv72yHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7JQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:wh+VXKxRmRW6f6ZwhhLXKrPwAL1zdoMgy1knxilNoNJuHfBw8P
+ re+cjzuiWUtN98YhwdcLO7Scu9qBHnlaKdiLN5VdzJYOCMggWVxe9ZgbcK6geQfxEWjtQttp
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: =?us-ascii?q?9a23=3AUOMEi2hCIdd9gNN1NBUL2OZQujJuUVuawXHOGWi?=
+ =?us-ascii?q?CNk1mSOW2dwa2wYBmqp87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3A1jgoeg76bc8eTy2+za/FOMmyxoxZ+Im/LAcCrK4?=
+ =?us-ascii?q?sgMXfEj1bB2mCkCWOF9o=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,175,1779148800"; 
-   d="scan'208";a="513427197"
-Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 18:57:53 +0000
+   d="scan'208";a="513225418"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 18:57:52 +0000
 Received: from sjc-ads-9357.cisco.com (sjc-ads-9357.cisco.com [10.30.212.121])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id DA6FC18000326;
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 759B1180001C8;
 	Mon, 20 Jul 2026 18:57:52 +0000 (GMT)
 Received: by sjc-ads-9357.cisco.com (Postfix, from userid 1887503)
-	id 3A88ECC124C; Mon, 20 Jul 2026 11:57:52 -0700 (PDT)
+	id 1D8DBCC12A6; Mon, 20 Jul 2026 11:57:52 -0700 (PDT)
 From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Devansh Patel <devanshp@cisco.com>
-Subject: [OE-core][scarthgap][PATCH 6/8] openssh: Fix CVE-2026-60001
-Date: Mon, 20 Jul 2026 11:57:47 -0700
-Message-ID: <20260720185749.4098075-7-devanshp@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 0/8] openssh: Security fixes
+Date: Mon, 20 Jul 2026 11:57:41 -0700
+Message-ID: <20260720185749.4098075-1-devanshp@cisco.com>
 X-Mailer: git-send-email 2.44.4
-In-Reply-To: <20260720185749.4098075-1-devanshp@cisco.com>
-References: <20260720185749.4098075-1-devanshp@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-9357.cisco.com [10.30.212.121];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.30.212.121, sjc-ads-9357.cisco.com
-X-Outbound-Node: rcdn-l-core-12.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 18:58:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241482
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241480
 
 From: Devansh Patel <devanshp@cisco.com>
 
-This patch applies the upstream OpenSSH 10.4 backport for
-CVE-2026-60001. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2].
+This series backports security fixes from OpenSSH 10.4 to the OpenSSH
+9.6p1 recipe in Scarthgap. The relevant upstream fixes are carried as
+individual patches instead of upgrading the stable-branch recipe.
 
-[1] https://github.com/openssh/openssh-portable/commit/d43ba60c91cb323ca921049b7d43b1908c318454
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-60001
+- CVE-2026-59995: Command-line SCP downloads could use a path controlled
+  by the server. Fixed by retaining the client-selected destination path
+  rather than allowing the server response to redirect the download.
+  Upstream: https://github.com/openssh/openssh-portable/commit/1b39f39657d2e58f8ec57341581a39bbf0be645b
 
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
----
- .../openssh/openssh/CVE-2026-60001.patch      | 130 ++++++++++++++++++
- .../openssh/openssh_9.6p1.bb                  |   1 +
- 2 files changed, 131 insertions(+)
+- CVE-2026-59996: A remote glob could return ".." during remote-to-remote
+  copies and escape the expected path handling. Fixed by rejecting the
+  parent-directory result, matching the existing remote-to-local
+  protection.
+  Upstream: https://github.com/openssh/openssh-portable/commit/36480181fa22f98e180b4f9e10203480c0346c78
+
+- CVE-2026-59997: The internal-sftp server silently dropped command-line
+  arguments after the ninth argument. Fixed by passing the complete
+  argument vector to internal-sftp.
+  Upstream: https://github.com/openssh/openssh-portable/commit/e9916c44c1324ab9ab022719e4df08a390a83014
+
+- CVE-2026-59998: Some environments require special consideration when
+  using GSSAPIStrictAcceptorCheck. Fixed by documenting the configuration
+  caveat in the upstream manual page.
+  Upstream: https://github.com/openssh/openssh-portable/commit/8058c5bdb507591b79ec926221fbe6fcc296d432
+
+- CVE-2026-59999: DisableForwarding=yes did not override
+  PermitTunnel=yes. Fixed by including tunnel permission in the
+  DisableForwarding policy enforcement.
+  Upstream: https://github.com/openssh/openssh-portable/commit/8dfe7ed6e2fd988de08df508355a196b956b2753
+
+- CVE-2026-60000: Multiple RFC 4462 GSSAPI authentication issues caused
+  different behavior for valid and invalid accounts, incomplete
+  MaxAuthTries enforcement, and a moderate pre-authentication resource
+  denial of service. Fixed by aligning failure handling, applying attempt
+  limits consistently, and adding missing error logging.
+  Upstream: https://github.com/openssh/openssh-portable/commit/5d04ca6af739b82fd30d84d2783ca802ebfa1192
+
+- CVE-2026-60001: GSSAPI and keyboard-interactive authentication paths
+  did not always enforce the minimum per-attempt delay. Fixed by applying
+  the delay consistently to the affected authentication failures.
+  Upstream: https://github.com/openssh/openssh-portable/commit/d43ba60c91cb323ca921049b7d43b1908c318454
+
+- CVE-2026-60002: Several pieces of client state had incorrect ownership
+  or lifetime, including a cached host key that could be freed too early
+  and subsequently used. Fixed by retaining connection-scoped state for
+  the full lifetime of the connection.
+  Upstream: https://github.com/openssh/openssh-portable/commit/e8bdfb151a356d0171fea4194dd205fbb252be23
+
+Each fix is kept in a separate commit for independent review and CVE
+tracking. The OpenSSH recipe applies the patches in series order.
+
+Validation:
+- Built openssh successfully after applying the full series.
+- Built core-image-minimal successfully with ptest packages enabled.
+
+Devansh Patel (8):
+  openssh: Fix CVE-2026-59999
+  openssh: Fix CVE-2026-59997
+  openssh: Fix CVE-2026-59998
+  openssh: Fix CVE-2026-59996
+  openssh: Fix CVE-2026-59995
+  openssh: Fix CVE-2026-60001
+  openssh: Fix CVE-2026-60002
+  openssh: Fix CVE-2026-60000
+
+ .../openssh/openssh/CVE-2026-59995.patch      |  42 ++++
+ .../openssh/openssh/CVE-2026-59996.patch      |  37 +++
+ .../openssh/openssh/CVE-2026-59997.patch      |  58 +++++
+ .../openssh/openssh/CVE-2026-59998.patch      |  34 +++
+ .../openssh/openssh/CVE-2026-59999.patch      |  36 +++
+ .../openssh/openssh/CVE-2026-60000.patch      | 140 +++++++++++
+ .../openssh/openssh/CVE-2026-60001.patch      | 130 ++++++++++
+ .../openssh/openssh/CVE-2026-60002.patch      | 226 ++++++++++++++++++
+ .../openssh/openssh_9.6p1.bb                  |   8 +
+ 9 files changed, 711 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59995.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59996.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59997.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59999.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
-new file mode 100644
-index 0000000000..ff1d14c7c9
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
-@@ -0,0 +1,130 @@
-+From ef41798b35a53757f8aa08ad14ee1463b0fe9b15 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Mon, 6 Jul 2026 07:44:48 +0000
-+Subject: [PATCH] upstream: Fix cases in GSSAPI and keyboard-interactive
-+
-+authentication where the minimum per-attempt delay was not being enforced.
-+
-+Reported by Orange Cyberdefense Vulnerability Team
-+
-+CVE: CVE-2026-60001
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/d43ba60c91cb323ca921049b7d43b1908c318454]
-+
-+Backport Changes:
-+- Kept Scarthgap's PRIVSEP(ssh_gssapi_userok()) interface and GSSAPI
-+  display-name recording while adding the upstream failure-delay calls;
-+  mm_ssh_gssapi_userok() belongs to the later split-sshd architecture.
-+- Retained the Scarthgap OpenBSD revision identifiers in auth.h,
-+  auth2-chall.c, auth2-gss.c, and auth2.c.
-+
-+OpenBSD-Commit-ID: c40bd35cc2428fcaccad7a141703c28baa6da01e
-+(cherry picked from commit d43ba60c91cb323ca921049b7d43b1908c318454)
-+Signed-off-by: Devansh Patel <devanshp@cisco.com>
-+---
-+ auth.h        |  1 +
-+ auth2-chall.c |  4 ++++
-+ auth2-gss.c   |  7 +++++++
-+ auth2.c       | 10 ++++++++--
-+ 4 files changed, 20 insertions(+), 2 deletions(-)
-+
-+diff --git a/auth.h b/auth.h
-+index 6d2d39762..9ad4898c5 100644
-+--- a/auth.h
-++++ b/auth.h
-+@@ -173,6 +173,7 @@ void	auth_log(struct ssh *, int, int, const char *, const char *);
-+ void	auth_maxtries_exceeded(struct ssh *) __attribute__((noreturn));
-+ void	userauth_finish(struct ssh *, int, const char *, const char *);
-+ int	auth_root_allowed(struct ssh *, const char *);
-++void	auth_failure_delay(Authctxt *, double);
-+ 
-+ char	*auth2_read_banner(void);
-+ int	 auth2_methods_valid(const char *, int);
-+diff --git a/auth2-chall.c b/auth2-chall.c
-+index 021df8291..20e70d222 100644
-+--- a/auth2-chall.c
-++++ b/auth2-chall.c
-+@@ -296,6 +296,7 @@ input_userauth_info_response(int type, u_int32_t seq, struct ssh *ssh)
-+ 	u_int i, nresp;
-+ 	const char *devicename = NULL;
-+ 	char **response = NULL;
-++	double tstart = monotime_double();
-+ 
-+ 	if (authctxt == NULL)
-+ 		fatal_f("no authctxt");
-+@@ -354,6 +355,9 @@ input_userauth_info_response(int type, u_int32_t seq, struct ssh *ssh)
-+ 			auth2_challenge_start(ssh);
-+ 		}
-+ 	}
-++
-++	if (!authenticated)
-++		auth_failure_delay(authctxt, tstart);
-+ 	userauth_finish(ssh, authenticated, "keyboard-interactive",
-+ 	    devicename);
-+ 	return 0;
-+diff --git a/auth2-gss.c b/auth2-gss.c
-+index f72a38998..195578bcf 100644
-+--- a/auth2-gss.c
-++++ b/auth2-gss.c
-+@@ -255,6 +255,7 @@ input_gssapi_exchange_complete(int type, u_int32_t plen, struct ssh *ssh)
-+ 	Authctxt *authctxt = ssh->authctxt;
-+ 	int r, authenticated;
-+ 	const char *displayname;
-++	double tstart = monotime_double();
-+ 
-+ 	if (authctxt == NULL || (authctxt->methoddata == NULL && !use_privsep))
-+ 		fatal("No authentication or GSSAPI context");
-+@@ -268,6 +269,8 @@ input_gssapi_exchange_complete(int type, u_int32_t plen, struct ssh *ssh)
-+ 		fatal_fr(r, "parse packet");
-+ 
-+ 	authenticated = PRIVSEP(ssh_gssapi_userok(authctxt->user));
-++	if (!authenticated)
-++		auth_failure_delay(authctxt, tstart);
-+ 
-+ 	if ((!use_privsep || mm_is_monitor()) &&
-+ 	    (displayname = ssh_gssapi_displayname()) != NULL)
-+@@ -293,6 +296,7 @@ input_gssapi_mic(int type, u_int32_t plen, struct ssh *ssh)
-+ 	const char *displayname;
-+ 	u_char *p;
-+ 	size_t len;
-++	double tstart = monotime_double();
-+ 
-+ 	if (authctxt == NULL || (authctxt->methoddata == NULL && !use_privsep))
-+ 		fatal("No authentication or GSSAPI context");
-+@@ -320,6 +324,9 @@ input_gssapi_mic(int type, u_int32_t plen, struct ssh *ssh)
-+ 	sshbuf_free(b);
-+ 	free(mic.value);
-+ 
-++	if (!authenticated)
-++		auth_failure_delay(authctxt, tstart);
-++
-+ 	if ((!use_privsep || mm_is_monitor()) &&
-+ 	    (displayname = ssh_gssapi_displayname()) != NULL)
-+ 		auth2_record_info(authctxt, "%s", displayname);
-+diff --git a/auth2.c b/auth2.c
-+index 271789a77..18077d625 100644
-+--- a/auth2.c
-++++ b/auth2.c
-+@@ -265,6 +265,12 @@ ensure_minimum_time_since(double start, double seconds)
-+ 	nanosleep(&ts, NULL);
-+ }
-+ 
-++void
-++auth_failure_delay(Authctxt *authctxt, double tstart)
-++{
-++	ensure_minimum_time_since(tstart, user_specific_delay(authctxt->user));
-++}
-++
-+ static int
-+ input_userauth_request(int type, u_int32_t seq, struct ssh *ssh)
-+ {
-+@@ -348,8 +354,8 @@ input_userauth_request(int type, u_int32_t seq, struct ssh *ssh)
-+ 		authenticated =	m->userauth(ssh, method);
-+ 	}
-+ 	if (!authctxt->authenticated && strcmp(method, "none") != 0)
-+-		ensure_minimum_time_since(tstart,
-+-		    user_specific_delay(authctxt->user));
-++		auth_failure_delay(authctxt, tstart);
-++
-+ 	userauth_finish(ssh, authenticated, method, NULL);
-+ 	r = 0;
-+  out:
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index b4885ab151..b15b909f60 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -42,6 +42,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2026-59998.patch \
-            file://CVE-2026-59996.patch \
-            file://CVE-2026-59995.patch \
-+           file://CVE-2026-60001.patch \
-            "
- SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
- 
 -- 
 2.44.4
 
