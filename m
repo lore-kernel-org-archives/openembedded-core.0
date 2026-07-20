@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A28C44515
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 16:19:22 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1306.1784564353267687280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2327DC4452D
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 16:19:23 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1308.1784564354515602878
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 09:19:13 -0700
+ Mon, 20 Jul 2026 09:19:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=l1+fOQsJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Yx95vt25;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f8053050e-38de0075-33c7-44ee-b129-eabed43752d1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VwP823jy;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Gnrx4b1p;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019f80530a1d-7ed515bf-6644-4b7a-98c5-92978e3421e7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784564352; i=@automation.yoctoproject.org;
+	t=1784564353; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=DHpkbOgqS0VLJwFJJfgBDU83Rn78sKtMuUh2opr9/cw=;
-	b=l1+fOQsJ7FaqgDErmwRlouCJKRua+kz6/20dMPe6cTEaNlGN/Iv/KOpfbtebCuTi
-	cs1INmlS0TeXuj7+nhiVRxaHYS7X7xnMaOrphSqdMShHS4FEHh//jU36vGYMRALoLFg
-	rcZxwk54idhsBSb78eU4101MUW6NKDiCZRwK1F6Y=
+	bh=o51447c3T1+G8Q4U5U0G7dUGDeIJY+en87FLi0wqM3Q=;
+	b=VwP823jyuEuiqVe6a28cDjbZIRY3og092xwJcmAt5+y8PX1QDmfgQxa/QOVTtdnN
+	HzVARTSvVXGb7uZkb4Kg7L0mA/6rb6LmkiwfxlJ/Xkk0DXtaL7zNpVuzPIIwnpd8V91
+	OtDlX0ORA1FmUB5m0YF8rEi9nCkOYR7GpX0NQghw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784564352;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784564353;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=DHpkbOgqS0VLJwFJJfgBDU83Rn78sKtMuUh2opr9/cw=;
-	b=Yx95vt25lKbPoPvhQH8g4RHJXAOXVpD5FqLbmy03TuVBdGaY4mkoN6EkJRnS3bcG
-	oSKsjZZIFbFN7os8B5cICBGmkHTIKzBXTXsM4kjm0FT+ak8aGGzUDrtnY6TXHaST0jv
-	GPemXH5CRWFB6IwUH7vHflsI0nQLESgiFo02vQyc=
+	bh=o51447c3T1+G8Q4U5U0G7dUGDeIJY+en87FLi0wqM3Q=;
+	b=Gnrx4b1pFe+f/o2isOB7m6iDIFwnjym0t2A9wMB1Md1RbDkpMtUBbeZGmTbpEhVp
+	dXjZf1VF55wFZQRehzFhjyqlzXPyvlIuyOtmmqIFOrHDBxH1ixobvpPJKJSINyM/tS6
+	lN22fjVyWQvaapeagMn9+zylbh+E78n6OYjsas1k=
 From: patchtest@automation.yoctoproject.org
 To: bruce.ashfield@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta][PATCH 01/06] linux-yocto/6.18: update to v6.18.36
-In-Reply-To: <20260720155842.569263-2-bruce.ashfield@gmail.com>
-References: <20260720155842.569263-2-bruce.ashfield@gmail.com>
+Subject: Patchtest results for [meta-yocto-bsp][PATCH 04/06] yocto-bsps: update to v6.18.36
+In-Reply-To: <20260720155842.569263-5-bruce.ashfield@gmail.com>
+References: <20260720155842.569263-5-bruce.ashfield@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019f8053050e-38de0075-33c7-44ee-b129-eabed43752d1-000000@us-west-2.amazonses.com>
-Date: Mon, 20 Jul 2026 16:19:12 +0000
+Message-ID: <0101019f80530a1d-7ed515bf-6644-4b7a-98c5-92978e3421e7-000000@us-west-2.amazonses.com>
+Date: Mon, 20 Jul 2026 16:19:13 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.20-54.240.27.191
+X-SES-Outgoing: 2026.07.20-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 16:19:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241425
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 16:19:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241426
 
 --NextPart
 Content-Type: text/plain
@@ -53,33 +53,33 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-01-06-linux-yocto-6.18-update-to-v6.18.36.patch
+Testing patch /home/patchtest/share/mboxes/meta-yocto-bsp-04-06-yocto-bsps-update-to-v6.18.36.patch
 
 FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
 SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
 SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
 SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
 SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
 SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
 ---
