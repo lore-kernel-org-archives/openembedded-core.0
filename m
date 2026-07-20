@@ -2,62 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F40C44532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC675C44533
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:58 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2886.1784568229781175492
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2906.1784568229481121908
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:50 -0700
+ Mon, 20 Jul 2026 10:23:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=FUeiiN2X;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493b966dd74so44198705e9.3
+ dkim=pass header.i=@smile.fr header.s=google header.b=Ic8NU5u/;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493f75f7172so81812475e9.1
         for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1784568228; x=1785173028; darn=lists.openembedded.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9P3NumdHm6FJ9gxvy7Mds+RG1z9R30ElxoUBV3kaLw0=;
-        b=FUeiiN2XXmY+rjQCJlXfkOHcLAvktJVPODDjPHsLSwY6adrIdUTfctfXDOdHbX+zxZ
-         jsuvnc2ynZ9StDWQ8BsEUY7zcyX/8RLcH78xcv4UqFvwkH/+CHJx93Y3V39FNv8RCZF+
-         Xugp3DGMbRDtt+IpIZcZd4oYHpSgFpRoPjB1g=
+        bh=WMxXWjw9T8zIqfE6I80b7cT7Q0XlIp9bu0htX3JN1yI=;
+        b=Ic8NU5u/mdh+VDte8/RBstcyI0+3GozSzf+Hv0hmWmwE8eJSsCd1H85Aco0qsQtzxF
+         aw3M8j8kpKTeJ5DiQckRPSK1GrwFQOmH2ec5Oed5PmwlmwwVSQaXZ8pQNTgLwDnxcVw7
+         MLseRf6GCFgYtqjrlrczNyW3aVyonFwS1Gy7o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1784568228; x=1785173028;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9P3NumdHm6FJ9gxvy7Mds+RG1z9R30ElxoUBV3kaLw0=;
-        b=JCwiOt7kCRtM+GiQsS90z02QIQ+6Alj0unw+kox86mlcCi1wsB3DakMAf+S5psdZKW
-         K569Ei1a0X6Ghf+8jugHQw6VV12xwJcp0bP+xhuzFb3+EmfzMmCtanZeudr+cnwIL/um
-         yLkLnI+F4GDBI0eOQY126sthTm/kCfF8VHP/NH7Oxmq3HHrT8C7m0qTM42nM/j6no8c7
-         KRBhbWIljKRjCXuJXbglIVwwga8YBBFTh6Xt2B5lNPfdCXIDQWVVcKJfnfLIdEQBJGrW
-         Wnq5y+TNg4GO+cyA33BxgEvK+Vfqt/1M5OT+Jpo6iSWGbIdraHmuCjrxreBoD8buYfeI
-         OKgQ==
-X-Gm-Message-State: AOJu0YxToMmA4nnJeRiX8miolck2M4I6jZYeucSosWV/o7dqoNgZEB7I
-	wF/T64JtbvXTXQB4kZyyVca5Cq+c0Q9JR+QyLxNrJVnraxK02oUAAcEfhFg3p0+ml70YNEXK/j1
-	ZU3zH+nQ=
-X-Gm-Gg: AfdE7cmswignbG9z5Zw+r2kQYPBLUg4U7OEGI5xMWDy3PD3QbmD9df9rHmN+31D9AI2
-	0hXJCPP6qmkcbjn/t2M7Pa08NWbhv49y7WgZtFp7b20NpG2jn9uiFwx4Z1ZX0X1+JQdkcYX8Lk2
-	GSwPLsAfNFXSavX33ugBffau2E/GEWit5ibTp6mHJ4wvVQQDx1vXqYcL3zL2t7nI14AqHYoF6Kf
-	blcyMPvY87nDidJek+wGwwy1Ly+6/hJRZq7E1ueedODSwmJ773dmwOve9ysSM1ZPrWKuG5Xx636
-	tx5Vg+nEaW60cdbq/3Cu3/sbvRxKps+VkTKPl5TEbqctsmxtp/4T3W8lg9y23IjrL8KJUYBV3CV
-	aPxppyo8gJmthdiDloZ07fYWUssERrQNzVaU2xKeN9u7KhBhwEOLRyDB9UIKfp2bK8atAAMjOUH
-	d7nf3qWcX8s4XW8MHYuEdkR4BDbLKPwIInPkPhLoBKLSz0J/Uyidwdid/DilCu4T++iZCAWxQMu
-	1DYbuUfJBLouNYP2oY=
-X-Received: by 2002:a05:600c:4fc9:b0:493:e974:41ac with SMTP id 5b1f17b1804b1-4954a3f3b28mr176208975e9.16.1784568227935;
+        bh=WMxXWjw9T8zIqfE6I80b7cT7Q0XlIp9bu0htX3JN1yI=;
+        b=YuVXu2MhjowJ0gQceyCvBTHVQYGQZW2lUn95kBOT2sZGBK7UTlHlTs3rj8LdDsuLml
+         ey+RBOzQ3R3yqCDEHR31oGgNF8m6ohszmFc2a1tfwizO07oluFw8a3WrocFwabRxYCiS
+         XS++NrhUzmnYeoBo/4NOqjcTBy+svSDyrEEJC13aW0hybsFZELX/aFULLnxYHeR/Yj8d
+         vTC5g4hgP4JjjzJwfdfGn4eFD5OaPTUt5LnfY79x7JnlWlE+GtSdSExYYuUN1rv0tHqz
+         wRMqnq3plWhkczvRtRsjAnljVj01Ty6zKdiPcI5oAumWgojFQi57weERXF0sTCbiDSDV
+         KOaA==
+X-Gm-Message-State: AOJu0YyjUA5a3DB/ZpOzV4yOdK6qRmio8LwwFJzC8nR6VBZdl3BOGpVC
+	bM6TZoyrfbZW//l8RDOQ4w+Ur/6IaVicfIVhVuOPKZFM+PR0ElxcJBEBNW5WXpD7/wGBG2LFnIf
+	zmaJkfBg=
+X-Gm-Gg: AfdE7clU5Htg/41QMdfCbgw87wJKwwYxG0iRvZvt9ELyxy3kr5R2UtYcmLb8PIvmO+b
+	YYkd4r9jMXEf33xVbm+fTvJY8N87EZ1fwuw0+hCQJGzgI/p6fl96JsEVSqQRd0A3YiOomY0chig
+	YAkCErcnsuRXnBShuNRzXifMVR9+UsbBXZnP8OsdmtzsROyhMhPVKAtqGyTpuIpAUMFzLOQlQun
+	BKfr/CD7hccgalBS+vxyqpg4mk7J2DeOmnmI5br36wg3zEyQnOocVOoCSyj5dUTBiTj0qrudsYP
+	dJ7ATSPm6T2552FRVxKz63YB260eeUGtxhssfVKIFTbZgRdtDz5UTv6mGJ88JfxY+fsNgEH6d9A
+	aKFE3iPx5cPrrpmB6RvBduzF71vBeF5JMAz8jtJMVwQnCoZTML/+9uy43d0+0wQEtqymp+kcFDh
+	pYTmaA9J+KH2WaqaSPlD6qY8wtxVYSrSOkApwUPcl36MrJEFaZDGAITqU31c+HivF2NmthuG3Ag
+	T2FnmbiewOqLHzi88c=
+X-Received: by 2002:a05:600c:1989:b0:495:52db:7e8 with SMTP id 5b1f17b1804b1-49552db09bfmr112929625e9.19.1784568227303;
         Mon, 20 Jul 2026 10:23:47 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:23:47 -0700 (PDT)
+        Mon, 20 Jul 2026 10:23:46 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 27/33] glib-2.0: fix CVE-2026-58016
-Date: Mon, 20 Jul 2026 19:23:00 +0200
-Message-ID: <7f3c6a5a0448ffc862c7700a19759f47b2f414c5.1784567958.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 26/33] vim: Fix for CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
+Date: Mon, 20 Jul 2026 19:22:59 +0200
+Message-ID: <0509cae4e89d872bcd11d9d5757bffdf19ce45cc.1784567958.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
 References: <cover.1784567958.git.yoann.congal@smile.fr>
@@ -68,251 +68,948 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241461
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241460
 
-From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-A flaw was found in GLib. A state confusion issue exists in
-g_dbus_node_info_new_for_xml() in the gio/gdbusintrospection.c file when
-processing malformed D-Bus introspection XML, specifically with a <node>
-element nested within other elements like <method>, <signal>, <property>
-or <arg>. This issue can cause an unsigned integer overflow and lead to an
-out-of-bounds read, resulting in a denial of service.
+Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
 
-The CVE NVD entry is wrong, it indicates that the CVE is fixed in 2.88.1
-but the fix was realized in 2.89.0, see [1]. The fix is not present in 2.88.2.
+[1] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
+[2] https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19
+[3] https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-52858
+[5] https://nvd.nist.gov/vuln/detail/CVE-2026-52859
+[6] https://nvd.nist.gov/vuln/detail/CVE-2026-52860
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/commit/c9da977c178fbfc0e4caf99f9fdf5dc433d6fcc2
-
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d52f4d582cc71ada3c8ebe54be1a5b70278ea1ca)
-[YC: re-added the removed Signed-off-bys from the patches]
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../glib-2.0/glib-2.0/CVE-2026-58016-1.patch  | 94 ++++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2026-58016-2.patch  | 98 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  2 +
- 3 files changed, 194 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-1.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-2.patch
+ .../vim/files/CVE-2026-52858.patch            | 167 +++++++
+ .../vim/files/CVE-2026-52859.patch            | 274 +++++++++++
+ .../vim/files/CVE-2026-52860.patch            | 446 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   3 +
+ 4 files changed, 890 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-1.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-1.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52858.patch b/meta/recipes-support/vim/files/CVE-2026-52858.patch
 new file mode 100644
-index 00000000000..2c4b248b97b
+index 00000000000..7e036e45ea8
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-1.patch
-@@ -0,0 +1,94 @@
-+From 38eee3870fbcf6bdf8e6b1281bc7a98d32b68521 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 16 Apr 2026 15:27:37 +0100
-+Subject: [PATCH 1/2] gdbusintrospection: Fix XML parser state handling for
-+ <node> element nesting
++++ b/meta/recipes-support/vim/files/CVE-2026-52858.patch
+@@ -0,0 +1,167 @@
++From 4b850457e12e1a678dd209f2868154f7553cbf8d Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Fri, 29 May 2026 19:05:53 +0000
++Subject: [PATCH] patch 9.2.0561: [security]: possible code execution with
++ python3complete
 +
-+The check for whether a `<node>` element in D-Bus introspection XML was
-+nested correctly was broken. `<node>` elements can only be at the top
-+level, or nested immediately within another `<node>` element.
++Problem:  [security]: possible code execution with python3complete
++Solution: Disable execution of import/from statements
 +
-+Fix the check and add some unit tests for it.
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
 +
-+Spotted by linhlhq as #YWH-PGM9867-204. The fix is mine, and the unit test
-+uses example XML strings adapted from their report.
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Fixes: #3932
-+
-+CVE: CVE-2026-58016
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c9da977c178fbfc0e4caf99f9fdf5dc433d6fcc2]
-+
-+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
++Upstream-Status: Backport [https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d]
++CVE: CVE-2026-52858
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ gio/gdbusintrospection.c        |  2 +-
-+ gio/tests/gdbus-introspection.c | 33 +++++++++++++++++++++++++++++++++
-+ 2 files changed, 34 insertions(+), 1 deletion(-)
++ runtime/autoload/README.txt          |  1 +
++ runtime/autoload/python3complete.vim | 17 ++++++++++++++---
++ runtime/autoload/pythoncomplete.vim  | 17 ++++++++++++++---
++ runtime/doc/filetype.txt             | 15 ++++++++++++++-
++ 4 files changed, 43 insertions(+), 7 deletions(-)
 +
-+diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
-+index c7be334ce2f7..6f722ee6153d 100644
-+--- a/gio/gdbusintrospection.c
-++++ b/gio/gdbusintrospection.c
-+@@ -1272,7 +1272,7 @@ parser_start_element (GMarkupParseContext  *context,
-+   /* ---------------------------------------------------------------------------------------------------- */
-+   if (strcmp (element_name, "node") == 0)
-+     {
-+-      if (!(g_slist_length (stack) >= 1 || strcmp (stack->next->data, "node") != 0))
-++      if (stack->next != NULL && strcmp (stack->next->data, "node") != 0)
-+         {
-+           g_set_error_literal (error,
-+                                G_MARKUP_ERROR,
-+diff --git a/gio/tests/gdbus-introspection.c b/gio/tests/gdbus-introspection.c
-+index 44cb7a96af45..daca313f77e7 100644
-+--- a/gio/tests/gdbus-introspection.c
-++++ b/gio/tests/gdbus-introspection.c
-+@@ -299,6 +299,38 @@ test_extra_data (void)
-+   g_dbus_node_info_unref (info);
-+ }
++diff --git a/runtime/autoload/README.txt b/runtime/autoload/README.txt
++index 3b18d3d..b225819 100644
++--- a/runtime/autoload/README.txt
+++++ b/runtime/autoload/README.txt
++@@ -17,6 +17,7 @@ htmlcomplete.vim	HTML
++ javascriptcomplete.vim  Javascript
++ phpcomplete.vim		PHP
++ pythoncomplete.vim	Python
+++python3complete.vim Python
++ rubycomplete.vim	Ruby
++ syntaxcomplete.vim	from syntax highlighting
++ xmlcomplete.vim		XML (uses files in the xml directory)
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index ea0a331..aba3412 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -14,6 +14,10 @@
++ "   i.e. "import url<c-x,c-o>"
++ " Continue parsing on invalid line??
++ "
+++" v 0.10 by Vim project
+++"   * disables importing local modules, unless the global Vim variable
+++"     g:pythoncomplete_allow_import is set to non-zero
+++"
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++ "   * Fixed parsing of *args and **kwargs type arguments
++@@ -132,11 +136,20 @@ class Completer(object):
++ 
++     def evalsource(self,text,line=0):
++         sc = self.parser.parse(text,line)
+++        try: allow_imports = int(
+++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
+++        except Exception:
+++          allow_imports = 0
++         src = sc.get_code()
++         dbg("source: %s" % src)
++         try: exec(src,self.compldict)
++         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
++         for l in sc.locals:
+++            # Executing import/from statements harvested from the buffer runs
+++            # arbitrary package code; only do so when the user opted in.
+++            if not allow_imports and (l.startswith('import')
+++                                            or l.startswith('from ')):
+++                continue
++             try: exec(l,self.compldict)
++             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
++ 
++@@ -300,13 +313,11 @@ class Scope(object):
++     def get_code(self):
++         str = ""
++         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
++-        for l in self.locals:
++-            if l.startswith('import'): str += l+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++         for l in self.locals:
++-            if not l.startswith('import'): str += l+'\n'
+++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
++ 
++         return str
++ 
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index aa28bb7..1014776 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -12,6 +12,10 @@
++ "   i.e. "import url<c-x,c-o>"
++ " Continue parsing on invalid line??
++ "
+++" v 0.10 by Vim project
+++"   * disables importing local modules, unless the global Vim variable
+++"     g:pythoncomplete_allow_import is set to non-zero
+++"
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++ "   * Fixed parsing of *args and **kwargs type arguments
++@@ -146,11 +150,20 @@ class Completer(object):
++ 
++     def evalsource(self,text,line=0):
++         sc = self.parser.parse(text,line)
+++        try: allow_imports = int(
+++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
+++        except Exception:
+++          allow_imports = 0
++         src = sc.get_code()
++         dbg("source: %s" % src)
++         try: exec(src) in self.compldict
++         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
++         for l in sc.locals:
+++            # Executing import/from statements harvested from the buffer runs
+++            # arbitrary package code; only do so when the user opted in.
+++            if not allow_imports and (l.startswith('import')
+++                                            or l.startswith('from ')):
+++                continue
++             try: exec(l) in self.compldict
++             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
++ 
++@@ -315,13 +328,11 @@ class Scope(object):
++     def get_code(self):
++         str = ""
++         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
++-        for l in self.locals:
++-            if l.startswith('import'): str += l+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++         for l in self.locals:
++-            if not l.startswith('import'): str += l+'\n'
+++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
++ 
++         return str
++ 
++diff --git a/runtime/doc/filetype.txt b/runtime/doc/filetype.txt
++index 597141d..c8572fe 100644
++--- a/runtime/doc/filetype.txt
+++++ b/runtime/doc/filetype.txt
++@@ -739,7 +739,20 @@ By default the following options are set, in accordance with PEP8: >
++ To disable this behavior, set the following variable in your vimrc: >
++ 
++ 	let g:python_recommended_style = 0
++-
+++<
+++Python omni-completion |compl-omni| is provided by python3complete.vim (or
+++pythoncomplete.vim) for Vim builds with the |+python|/|+python3| interpreter.
+++By default it does not inspect the import / from statements found in the
+++buffer. This means completion of names defined in the buffer itself (classes,
+++functions, variables) works, but completion of members of imported modules is
+++not offered.
+++
+++To enable completion of imported module members, set: >
+++	let g:pythoncomplete_allow_import = 1
+++<
+++WARNING: enabling this causes omni-completion to execute the import statements
+++found in the buffer through Python's import machinery, which runs the imported
+++modules' top-level code. Only enable this for code you trust.
++ 
++ QF QUICKFIX					    *qf.vim* *ft-qf-plugin*
++ 
++-- 
++2.34.1
 +
-++static void
-++test_invalid (void)
-++{
-++  const struct
-++    {
-++      const char *xml;
-++      GMarkupError expected_error_code;
-++    }
-++  vectors[] =
-++    {
-++      { "", G_MARKUP_ERROR_EMPTY },
-++      { "<node><interface name=\"I\"><method name=\"M\"><node><interface name=\"I2\"></interface></node></method>", G_MARKUP_ERROR_INVALID_CONTENT },
-++      { "<node><interface name=\"I\"><signal name=\"S\"><node><interface name=\"I2\"><signal name=\"S2\"></signal></interface></node></signal>", G_MARKUP_ERROR_INVALID_CONTENT },
-++      { "<node><interface name=\"I\"><property name=\"P\" type=\"s\" access=\"read\"><node><interface name=\"I2\"></interface></node></property>", G_MARKUP_ERROR_INVALID_CONTENT },
-++      { "<node><interface name=\"I\"><method name=\"M\"><arg type=\"\"><node><interface name=\"I2\"><method name=\"M2\"></method></interface></node></arg>", G_MARKUP_ERROR_INVALID_CONTENT },
-++    };
-++
-++  for (size_t i = 0; i < G_N_ELEMENTS (vectors); i++)
-++    {
-++      GDBusNodeInfo *node;
-++      GError *local_error = NULL;
-++
-++      g_test_message ("Testing parsing of %s gives an error", vectors[i].xml);
-++
-++      node = g_dbus_node_info_new_for_xml (vectors[i].xml, &local_error);
-++      g_assert_error (local_error, G_MARKUP_ERROR, (int) vectors[i].expected_error_code);
-++      g_assert_null (node);
-++
-++      g_clear_error (&local_error);
-++    }
-++}
-++
-+ /* ---------------------------------------------------------------------------------------------------- */
-+
-+ int
-+@@ -316,6 +348,7 @@ main (int   argc,
-+   g_test_add_func ("/gdbus/introspection-generate", test_generate);
-+   g_test_add_func ("/gdbus/introspection-default-direction", test_default_direction);
-+   g_test_add_func ("/gdbus/introspection-extra-data", test_extra_data);
-++  g_test_add_func ("/gdbus/introspection/invalid", test_invalid);
-+
-+   ret = session_bus_run ();
-+
-+--
-+2.54.0
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-2.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-2.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52859.patch b/meta/recipes-support/vim/files/CVE-2026-52859.patch
 new file mode 100644
-index 00000000000..a61e35ad8a7
+index 00000000000..472d7c06401
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-2.patch
-@@ -0,0 +1,98 @@
-+From a75052ceeebea434f271b670766acd5416bc83b9 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 16 Apr 2026 15:08:10 +0100
-+Subject: [PATCH 2/2] gdbusintrospection: Add some assertions before array
-+ dereferences
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/vim/files/CVE-2026-52859.patch
+@@ -0,0 +1,274 @@
++From 63680c6d3d52477817b49cd1a66e7aabe8a7aa19 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Sat, 30 May 2026 16:34:40 +0000
++Subject: [PATCH] patch 9.2.0565: [security]: out-of-bounds read in
++ update_snapshot()
 +
-+The state handling inside the D-Bus introspection XML parser is
-+complicated, and it’s possible that these dereferences of the
-+`len - 1`th element might get reached when the array is empty.
++Problem:  Out-of-bounds read in update_snapshot() when a terminal cell
++          fills all VTERM_MAX_CHARS_PER_CELL slots (a base character
++          plus five combining marks): the loop over cell.chars[] has no
++          upper bound and libvterm leaves the array unterminated when full, so
++          it reads past the array and appends out-of-bounds values to a
++          buffer sized for only VTERM_MAX_CHARS_PER_CELL characters.
++Solution: Bound the loop with i < VTERM_MAX_CHARS_PER_CELL, mirroring
++          the loop in handle_pushline() (Christian Brabandt).
 +
-+Make failures like that more debuggable by adding an assertion on the
-+length beforehand.
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Helps: #3932
-+
-+CVE: CVE-2026-58016
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/656ad4582cb1d7a7fa8bafe3ce8aec6aa3c17da0]
-+
-+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
++Upstream-Status: Backport [https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19]
++CVE: CVE-2026-52859
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ gio/gdbusintrospection.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ src/terminal.c                          |   3 +-
++ src/testdir/samples/combining_chars.txt | 200 ++++++++++++++++++++++++
++ src/testdir/test_terminal3.vim          |  15 ++
++ 3 files changed, 217 insertions(+), 1 deletion(-)
++ create mode 100644 src/testdir/samples/combining_chars.txt
 +
-+diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
-+index 6f722ee6153d..ed0d291f99f0 100644
-+--- a/gio/gdbusintrospection.c
-++++ b/gio/gdbusintrospection.c
-+@@ -1110,6 +1110,7 @@ parse_data_get_annotation (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->annotations, g_new0 (GDBusAnnotationInfo, 1));
-++  g_assert (data->annotations->len > 0);
-+   return data->annotations->pdata[data->annotations->len - 1];
-+ }
++diff --git a/src/terminal.c b/src/terminal.c
++index 78990ac..527f1b9 100644
++--- a/src/terminal.c
+++++ b/src/terminal.c
++@@ -2080,7 +2080,8 @@ update_snapshot(term_T *term)
++ 			    int	    i;
++ 			    int	    c;
++ 
++-			    for (i = 0; (c = cell.chars[i]) > 0 || i == 0; ++i)
+++			    for (i = 0; i < VTERM_MAX_CHARS_PER_CELL &&
+++				    ((c = cell.chars[i]) > 0 || i == 0); ++i)
++ 				ga.ga_len += utf_char2bytes(c == NUL ? ' ' : c,
++ 					     (char_u *)ga.ga_data + ga.ga_len);
++ 			}
++diff --git a/src/testdir/samples/combining_chars.txt b/src/testdir/samples/combining_chars.txt
++new file mode 100644
++index 0000000..d9a3c17
++--- /dev/null
+++++ b/src/testdir/samples/combining_chars.txt
++@@ -0,0 +1,200 @@
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
++diff --git a/src/testdir/test_terminal3.vim b/src/testdir/test_terminal3.vim
++index cb1946f..c02801e 100644
++--- a/src/testdir/test_terminal3.vim
+++++ b/src/testdir/test_terminal3.vim
++@@ -1051,4 +1051,19 @@ func Test_terminal_max_combining_chars()
++   exe buf . "bwipe!"
++ endfunc
++ 
+++func Test_terminal_output_combining_chars()
+++  CheckUnix
+++  new
+++  let cmd = "cat samples/combining_chars.txt"
+++  let buf = term_start(cmd, {'curwin': 1, 'term_finish': 'open', 'term_rows': 10, 'term_cols': 30})
+++  call WaitForAssert({-> assert_match('finished', term_getstatus(buf))})
+++  call TermWait(buf)
+++  let lines = getbufline(buf, 1, '$')
+++  " get byte lengths to confirm combining chars present
+++  let lens = map(copy(lines), 'len(v:val)')
+++  let expected = repeat([11], 190) + repeat([14], 10)
+++  call assert_equal(expected, lens)
+++  bw!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.34.1
 +
-+@@ -1119,6 +1120,7 @@ parse_data_get_arg (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->args, g_new0 (GDBusArgInfo, 1));
-++  g_assert (data->args->len > 0);
-+   return data->args->pdata[data->args->len - 1];
-+ }
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52860.patch b/meta/recipes-support/vim/files/CVE-2026-52860.patch
+new file mode 100644
+index 00000000000..52a18415ce1
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-52860.patch
+@@ -0,0 +1,446 @@
++From c8c63673bc4253212820626aeeb75999d9a539d2 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Thu, 4 Jun 2026 21:06:09 +0000
++Subject: [PATCH] patch 9.2.0597: [security]: possible code execution with
++ python complete
 +
-+@@ -1128,6 +1130,7 @@ parse_data_get_out_arg (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->out_args, g_new0 (GDBusArgInfo, 1));
-++  g_assert (data->out_args->len > 0);
-+   return data->out_args->pdata[data->out_args->len - 1];
-+ }
++Problem:  [security]: another possible code execution with python complete
++          (David Carliez)
++Solution: Strip default expressions and annotations from generated
++          source for pythoncomplete and python3complete.
 +
-+@@ -1137,6 +1140,7 @@ parse_data_get_method (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->methods, g_new0 (GDBusMethodInfo, 1));
-++  g_assert (data->methods->len > 0);
-+   return data->methods->pdata[data->methods->len - 1];
-+ }
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-65p9-mwwx-7468
 +
-+@@ -1146,6 +1150,7 @@ parse_data_get_signal (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->signals, g_new0 (GDBusSignalInfo, 1));
-++  g_assert (data->signals->len > 0);
-+   return data->signals->pdata[data->signals->len - 1];
-+ }
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+@@ -1155,6 +1160,7 @@ parse_data_get_property (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->properties, g_new0 (GDBusPropertyInfo, 1));
-++  g_assert (data->properties->len > 0);
-+   return data->properties->pdata[data->properties->len - 1];
-+ }
++Upstream-Status: Backport [https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2]
++CVE: CVE-2026-52860
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ runtime/autoload/python3complete.vim        |  43 +++-
++ runtime/autoload/pythoncomplete.vim         |  43 +++-
++ src/testdir/Make_all.mak                    |   2 +
++ src/testdir/test_plugin_python3complete.vim | 224 ++++++++++++++++++++
++ 4 files changed, 304 insertions(+), 8 deletions(-)
++ create mode 100644 src/testdir/test_plugin_python3complete.vim
 +
-+@@ -1164,6 +1170,7 @@ parse_data_get_interface (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->interfaces, g_new0 (GDBusInterfaceInfo, 1));
-++  g_assert (data->interfaces->len > 0);
-+   return data->interfaces->pdata[data->interfaces->len - 1];
-+ }
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index aba3412..a031424 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -1,8 +1,8 @@
++ "python3complete.vim - Omni Completion for python
++ " Maintainer: <vacancy>
++ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
++-" Version: 0.9
++-" Last Updated: 2022 Mar 30
+++" Version: 0.10
+++" Last Updated: 2026 Jun 04
++ "
++ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
++ "
++@@ -17,6 +17,11 @@
++ " v 0.10 by Vim project
++ "   * disables importing local modules, unless the global Vim variable
++ "     g:pythoncomplete_allow_import is set to non-zero
+++"   * strip default values and annotations from function parameter lists
+++"     before exec(), and whitelist class base lists to dotted names: the
+++"     previous code passed buffer-supplied expressions to exec() which
+++"     Python evaluates at definition time, allowing arbitrary code
+++"     execution via crafted def/class headers
++ "
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++@@ -100,6 +105,24 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
++ 
++ import sys, tokenize, io, types
++ from token import NAME, DEDENT, NEWLINE, STRING
+++import re
+++
+++# Used by Class.get_code(): a base class expression is only included in the
+++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
+++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
+++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
+++# expressions.  See the security note in the file header.
+++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
+++
+++def _strip_param(p):
+++    # Return the bare parameter name from a parameter spec harvested by
+++    # _parenparse(), discarding any default value or annotation.  Default
+++    # values and annotations would otherwise be evaluated by exec() at
+++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
+++    # "*" / "/" are preserved as written.
+++    p = p.split('=', 1)[0]
+++    p = p.split(':', 1)[0]
+++    return p.strip()
++ 
++ debugstmts=[]
++ def dbg(s): debugstmts.append(s)
++@@ -347,7 +370,13 @@ class Class(Scope):
++         return c
++     def get_code(self):
++         str = '%sclass %s' % (self.currentindent(),self.name)
++-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
+++        # Only include base class expressions that are pure dotted names.
+++        # Anything else (calls, subscripts, conditionals, ...) is dropped
+++        # because exec() would evaluate it at class-definition time.  See
+++        # the security note in the file header.
+++        safe_supers = [s.strip() for s in self.supers
+++                       if _DOTTED_NAME_RE.match(s.strip())]
+++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         if len(self.subscopes) > 0:
++@@ -364,8 +393,14 @@ class Function(Scope):
++     def copy_decl(self,indent=0):
++         return Function(self.name,self.params,indent, self.docstr)
++     def get_code(self):
+++        # Strip default values and annotations from each parameter before
+++        # joining: exec() evaluates these at definition time and a hostile
+++        # buffer could otherwise execute arbitrary code via crafted def
+++        # headers.  See file header for details.
+++        safe_params = [_strip_param(p) for p in self.params]
+++        safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++-            (self.currentindent(),self.name,','.join(self.params))
+++            (self.currentindent(),self.name,','.join(safe_params))
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         str += "%spass\n" % self.childindent()
++         return str
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index 1014776..39b1efd 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -1,8 +1,8 @@
++ "pythoncomplete.vim - Omni Completion for python
++ " Maintainer: <vacancy>
++ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
++-" Version: 0.9
++-" Last Updated: 2020 Oct 9
+++" Version: 0.10
+++" Last Updated: 2026 Jun 04
++ "
++ " Changes
++ " TODO:
++@@ -15,6 +15,11 @@
++ " v 0.10 by Vim project
++ "   * disables importing local modules, unless the global Vim variable
++ "     g:pythoncomplete_allow_import is set to non-zero
+++"   * strip default values and annotations from function parameter lists
+++"     before exec(), and whitelist class base lists to dotted names: the
+++"     previous code passed buffer-supplied expressions to exec() which
+++"     Python evaluates at definition time, allowing arbitrary code
+++"     execution via crafted def/class headers
++ "
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++@@ -95,6 +100,24 @@ function! s:DefPython()
++ python << PYTHONEOF
++ import sys, tokenize, cStringIO, types
++ from token import NAME, DEDENT, NEWLINE, STRING
+++import re
+++
+++# Used by Class.get_code(): a base class expression is only included in the
+++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
+++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
+++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
+++# expressions.  See the security note in the file header.
+++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
+++
+++def _strip_param(p):
+++    # Return the bare parameter name from a parameter spec harvested by
+++    # _parenparse(), discarding any default value or annotation.  Default
+++    # values and annotations would otherwise be evaluated by exec() at
+++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
+++    # "*" / "/" are preserved as written.
+++    p = p.split('=', 1)[0]
+++    p = p.split(':', 1)[0]
+++    return p.strip()
++ 
++ debugstmts=[]
++ def dbg(s): debugstmts.append(s)
++@@ -362,7 +385,13 @@ class Class(Scope):
++         return c
++     def get_code(self):
++         str = '%sclass %s' % (self.currentindent(),self.name)
++-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
+++        # Only include base class expressions that are pure dotted names.
+++        # Anything else (calls, subscripts, conditionals, ...) is dropped
+++        # because exec() would evaluate it at class-definition time.  See
+++        # the security note in the file header.
+++        safe_supers = [s.strip() for s in self.supers
+++                       if _DOTTED_NAME_RE.match(s.strip())]
+++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         if len(self.subscopes) > 0:
++@@ -379,8 +408,14 @@ class Function(Scope):
++     def copy_decl(self,indent=0):
++         return Function(self.name,self.params,indent, self.docstr)
++     def get_code(self):
+++        # Strip default values and annotations from each parameter before
+++        # joining: exec() evaluates these at definition time and a hostile
+++        # buffer could otherwise execute arbitrary code via crafted def
+++        # headers.  See file header for details.
+++        safe_params = [_strip_param(p) for p in self.params]
+++        safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++-            (self.currentindent(),self.name,','.join(self.params))
+++            (self.currentindent(),self.name,','.join(safe_params))
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         str += "%spass\n" % self.childindent()
++         return str
++diff --git a/src/testdir/Make_all.mak b/src/testdir/Make_all.mak
++index 0d4aeb0..87545b7 100644
++--- a/src/testdir/Make_all.mak
+++++ b/src/testdir/Make_all.mak
++@@ -247,6 +247,7 @@ NEW_TESTS = \
++ 	test_plugin_helptoc \
++ 	test_plugin_man \
++ 	test_plugin_matchparen \
+++	test_plugin_python3complete \
++ 	test_plugin_tar \
++ 	test_plugin_termdebug \
++ 	test_plugin_tohtml \
++@@ -520,6 +521,7 @@ NEW_TESTS_RES = \
++ 	test_plugin_helptoc.res \
++ 	test_plugin_man.res \
++ 	test_plugin_matchparen.res \
+++	test_plugin_python3complete.res \
++ 	test_plugin_tar.res \
++ 	test_plugin_termdebug.res \
++ 	test_plugin_tohtml.res \
++diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
++new file mode 100644
++index 0000000..e2b0c66
++--- /dev/null
+++++ b/src/testdir/test_plugin_python3complete.vim
++@@ -0,0 +1,224 @@
+++" Tests for the Python omni-completion plugin (runtime/autoload/python3complete.vim).
+++"
+++CheckFeature python3
+++
+++" Run omni-completion against the given buffer contents and assert that the
+++" marker file was not created.  Pre-patch behaviour exec()s reconstructed
+++" def/class headers, which evaluates the buffer-supplied expression and
+++" creates the marker file.  Post-patch, the expressions are stripped.
+++func s:CompleteAndExpectNoMarker(buffer_lines, marker_path, msg)
+++  call delete(a:marker_path)
+++  defer delete(a:marker_path)
+++  let g:pythoncomplete_allow_import = 0
+++  new
+++  setfiletype python
+++  call setline(1, a:buffer_lines)
+++  call cursor(line('$'), col([line('$'), '$']))
+++
+++  " The PoC trigger -- direct invocation of the omnifunc with an empty base.
+++  " This is the same path Vim takes for CTRL-X CTRL-O.
+++  silent! call python3complete#Complete(0, '')
+++
+++  call assert_false(filereadable(a:marker_path),
+++        \ a:msg . ' (marker ' . a:marker_path . ' was created)')
+++
+++  bwipe!
+++  unlet! g:pythoncomplete_allow_import
+++endfunc
+++
+++func Test_python3complete_no_exec_via_function_default()
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(x=open(' . string(marker) . ', "w").close()):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'function default expression was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_via_function_annotation()
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(x: open(' . string(marker) . ', "w").close()):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'function annotation expression was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_via_class_base()
+++  let marker = tempname()
+++  " "or object" gives the class a valid base after the side-effecting
+++  " open().close() expression returns None.  Without "or object" the
+++  " exec would raise TypeError, but the file would still be created
+++  " before the exception -- the assertion would still hold.  Using
+++  " "or object" keeps the buffer parseable as valid Python.
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'class Foo(open(' . string(marker) . ', "w").close() or object):',
+++        \ '    pass',
+++        \ 'Foo.',
+++        \ ], marker,
+++        \ 'class base expression was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_with_multiple_params()
+++  " The strip must apply to every parameter, not just the first.
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(a, b=1, c=open(' . string(marker) . ', "w").close(), d=2):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'non-first parameter default was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_via_starargs_default()
+++  " "*args" and "**kw" must still be preserved after stripping; ensure a
+++  " default following them is also stripped.
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(*args, key=open(' . string(marker) . ', "w").close(), **kw):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'keyword-only default after *args was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_normal_completion_still_works()
+++  " Positive control: completion against a buffer with a legitimate class
+++  " must still produce completion items.  The stripping logic should not
+++  " break the normal completion path.
+++  let g:pythoncomplete_allow_import = 0
+++
+++  new
+++  setfiletype python
+++  call setline(1, [
+++        \ 'class MyHelper:',
+++        \ '    def alpha(self): pass',
+++        \ '    def beta(self): pass',
+++        \ 'h = MyHelper()',
+++        \ 'h.',
+++        \ ])
+++  call cursor(5, 3)
+++
+++  " First call returns the column to start completion at; second returns
+++  " the list of completion items.
+++  let start = python3complete#Complete(1, '')
+++  call assert_true(start >= 0,
+++        \ 'python3complete#Complete(1, "") returned ' . start)
+++
+++  let items = python3complete#Complete(0, '')
+++  " Items should be a list (possibly empty if the parser can't resolve "h",
+++  " but should not be a parse error from our stripping changes).
+++  call assert_equal(type([]), type(items),
+++        \ 'python3complete#Complete(0, "") did not return a list')
+++
+++  bwipe!
+++  unlet! g:pythoncomplete_allow_import
+++endfunc
+++
+++func Test_python3complete_inherited_completion_via_dotted_base()
+++  " Positive control for the class-base whitelist: a dotted-name base class
+++  " (the common, safe case) must still be carried into the reconstructed
+++  " source so that completion on a subclass can resolve inherited members.
+++  let g:pythoncomplete_allow_import = 0
+++
+++  new
+++  setfiletype python
+++  call setline(1, [
+++        \ 'class Base:',
+++        \ '    def shared(self): pass',
+++        \ 'class Derived(Base):',
+++        \ '    def own(self): pass',
+++        \ 'd = Derived()',
+++        \ 'd.',
+++        \ ])
+++  call cursor(6, 3)
+++
+++  let items = python3complete#Complete(0, '')
+++  call assert_equal(type([]), type(items),
+++        \ 'completion against a subclass with a dotted base did not return a list')
+++
+++  bwipe!
+++  unlet! g:pythoncomplete_allow_import
+++endfunc
+++
+++" Build a tiny Python module that creates a marker file as a side effect of
+++" being imported, add its directory to sys.path, run omni-completion against
+++" a buffer containing `import vimtest_marker_mod`, and report whether the
+++" marker file was created.  Used by the two allow_import tests below.
+++func s:RunImportCompletion(allow_import_value)
+++  let g:pythoncomplete_allow_import = a:allow_import_value
+++  let marker = tempname()
+++  let module_dir = tempname()
+++  call mkdir(module_dir, 'R')
+++
+++  call writefile([
+++        \ 'open(' . string(marker) . ', "w").close()',
+++        \ ], module_dir . '/vimtest_marker_mod.py')
+++
+++  defer delete(marker)
+++
+++  " Pass module_dir to Python via a g: variable so vim.eval() can read it.
+++  let g:pythoncomplete_test_module_dir = module_dir
+++  py3 << EOF
+++import sys, vim
+++_p = vim.eval('g:pythoncomplete_test_module_dir')
+++if _p not in sys.path:
+++    sys.path.insert(0, _p)
+++# Drop any cached copy so the module body re-runs and the marker side
+++# effect fires on import.
+++sys.modules.pop('vimtest_marker_mod', None)
+++EOF
+++
+++  new
+++  setfiletype python
+++  call setline(1, [
+++        \ 'import vimtest_marker_mod',
+++        \ 'vimtest_marker_mod.',
+++        \ ])
+++  call cursor(2, 2)
+++
+++  silent! call python3complete#Complete(0, '')
+++
+++  let ran = filereadable(marker)
+++
+++  bwipe!
+++  unlet g:pythoncomplete_allow_import
+++
+++  " Teardown: restore sys.path, drop the cached module so a subsequent
+++  " test run starts clean, clean up the temp module dir.
+++  py3 << EOF
+++import sys, vim
+++_p = vim.eval('g:pythoncomplete_test_module_dir')
+++if _p in sys.path:
+++    sys.path.remove(_p)
+++sys.modules.pop('vimtest_marker_mod', None)
+++EOF
+++  unlet g:pythoncomplete_test_module_dir
+++  call delete(module_dir, 'rf')
+++  call delete(marker)
+++  unlet! g:pythoncomplete_allow_import
+++
+++  return ran
+++endfunc
+++
+++func Test_python3complete_allow_import_off_blocks_imports()
+++  " GHSA-52mc-rq6p-rc7c mitigation: with the default flag value (0), an
+++  " `import` line harvested from the buffer must NOT be exec()'d.  The
+++  " marker module's side effect (creating a file when its body runs) is
+++  " the observable proof that the exec did or did not happen.
+++  call assert_false(s:RunImportCompletion(0),
+++        \ 'g:pythoncomplete_allow_import=0 did not block the buffer import')
+++endfunc
+++
+++func Test_python3complete_allow_import_on_runs_imports()
+++  " Symmetric positive control: with the flag set to non-zero, the harvested
+++  " import IS exec()'d and the module loads.  Without this control the
+++  " negative test above could pass for unrelated reasons (e.g. completion
+++  " failing to parse the buffer at all).
+++  call assert_true(s:RunImportCompletion(1),
+++        \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
+++endfunc
+++
+++" vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.34.1
 +
-+@@ -1173,6 +1180,7 @@ parse_data_get_node (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->nodes, g_new0 (GDBusNodeInfo, 1));
-++  g_assert (data->nodes->len > 0);
-+   return data->nodes->pdata[data->nodes->len - 1];
-+ }
-+
-+--
-+2.54.0
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index b8212c9d12b..549584f3d8f 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -47,6 +47,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2026-1489-02.patch \
-            file://CVE-2026-1489-03.patch \
-            file://CVE-2026-1489-04.patch \
-+           file://CVE-2026-58016-1.patch \
-+           file://CVE-2026-58016-2.patch \
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 9a4b21f5305..d69a337b4e8 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -33,6 +33,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-45130.patch \
+            file://CVE-2026-46483.patch \
+            file://CVE-2026-28420.patch \
++           file://CVE-2026-52858.patch \
++           file://CVE-2026-52859.patch \
++           file://CVE-2026-52860.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+ 
+ PV .= ".1683"
 
