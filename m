@@ -2,1150 +2,422 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14956C44520
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:02:36 +0000 (UTC)
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2408.1784566946475388055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04977C44515
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:07:16 +0000 (UTC)
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2533.1784567229183947711
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:02:26 -0700
+ Mon, 20 Jul 2026 10:07:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dHNHYYRA;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=HvuDHpjj;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=33468; q=dns/txt;
-  s=iport01; t=1784566946; x=1785776546;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=kC0rBnz9KYABjaEy2CLNMLEfiu/SbPI3w33Js7qk0Xg=;
-  b=dHNHYYRALBFJPlQfTt6r+49wnXEcsZt2rcY3e3eFvDfiTDhsn/CQGOA5
-   IuCRvP8R1jXXwbNBq1bNIEWyqRyk3yWLS3JNtDekPpINv+rUnVRbFWIJs
-   H3BRaVjNPBymTMxEcFqsXPxrmvoGhms41aV73K0l7FKQMe2hVyhGwMPvu
-   0Pa0WHaem+FGhS1OyUaT20IG2GNngZONSZwF0D0d+czghGGzQuOATkTmB
-   8NRkt4SBdXeil48eIpgU6gAh/v6ysu98ZbMZ6KtYPESPZBSXy2g7WaXdV
-   1UNaUBrG5zRfooLexHnf0Y9CUu3/0uWZyfIJdtncz8WOzjUthDQ9Anx6B
-   A==;
-X-CSE-ConnectionGUID: 9oVycXw+SGefsLuOyTJF7g==
-X-CSE-MsgGUID: 2hWm9QBITuOLj3Nc01vcCg==
-X-IPAS-Result: =?us-ascii?q?A0BHAgB+U15q/47/Ja1aHgEBCxIMggULgld0X0JJA5Qmg?=
- =?us-ascii?q?iGLZ5I3FIFqDwEBAQ9EDQQBAYQ/jhsCJjQJDgECBAMCAwEBAQEBAQEBAQEBC?=
- =?us-ascii?q?wEBBQEBAQIBBwWBDhOGTw2GWgEgAQwLARgBWQMBAk8LIxgBCIMCAYI6AzcDE?=
- =?us-ascii?q?bsHgXkzgQGDKAE/AkNQ2EkNglgBCxQBgTiFP4J9hSNcGAGEAXsnGxuBcoEVg?=
- =?us-ascii?q?2mBBYEaQgEBgSMEI4ZbBIIiehKBWh6DXowWSIEeA1ksAVUTDQoLBwWBZgM1E?=
- =?us-ascii?q?ioVbjIdgSM+F4EMGwcFgR2BOoEChHQjHwM5f4EvdUp3LWoSF4EmghICgTsCD?=
- =?us-ascii?q?gMLGA1IESw3FBkEPm4HjUAjgi4LBwEwLxsTARMYBRILXRkIgQw6knQHAgGQH?=
- =?us-ascii?q?YIegTieaXEKKIN1jCGPPoV8GjOEBIFXkkCSUQuYF2aOCoQJkkeEaYFoPIFHC?=
- =?us-ascii?q?wdwFRqDCAlKGQ+OLQsLgXiBaIF/glFDyS88NQIJAy8BAQcCBw4DC4FokAABA?=
- =?us-ascii?q?SYHgU8BAQ?=
-IronPort-Data: A9a23:wnvkQ6gX5Kzx1SD7+fRnU6QzX161MREKZh0ujC45NGQN5FlHY01je
- htvCG6Ba6yKNmvxKI92a9zj9hxX7J7RnYdkSFFs+y1nQiNjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeCULOZ82QsaDxMtPjb8E0HUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVJ/dhmClFRt
- sc3JT4WSg2klt6U7u20H7wEasQLdKEHPasFsX1miDWcBvE8TNWbHuPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZg1/5JEWxI9EglHzfjBCoU6VooI84nPYy0p6172F3N/9J4TWGJQKxR/Cz
- o7A1z75PRRLDfa+9Sei1nD3oOSXxD3wc41HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmMHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn2891te5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:Yc+OFK16alHo8c0z+Jd4SwqjBIIkLtp133Aq2lEZdPUzSL37qy
- nAppomPHPP5Qr5O0tQ+uxoRpPgfZq0z/cciuMs1NyZMzUO1lHFEGgb1+vf6gylPTHi/ehA0q
- olWa1/BNrsSWVet6/BkWyF+xJK+qjhzEhu7t2uq0tQcQ==
-X-Talos-CUID: 9a23:75T8S2xnrkcQ9ngMcKAcBgVFHf40eU3Cj0z/LkGjLXtOWYG3ZwCfrfY=
-X-Talos-MUID: 9a23:h2nkLguep14eYcWur82n3jFdMZZRyYWSFWcpk84gsJHdKydbNGLI
+  d=cisco.com; i=@cisco.com; l=8913; q=dns/txt;
+  s=iport01; t=1784567229; x=1785776829;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   mime-version;
+  bh=0A69cdzAWWeyB0xXqUsBKDHGSJ04cdOTRh2XclA5oWk=;
+  b=HvuDHpjjiMhdMx2BwmNNKhzCFWcL2fqWucgh1vd8rbGsUOMKJiEEU0V2
+   wbpdXLFtvYgvE9YQJA6O+HWGMUOtVF5gl5Tm773efhHXLgduv/Op0aynu
+   NneIN4X+RGp9pthzyrYyPISfqPIT0+qt4X1b4e8vsNOnB84P4b63K22dj
+   ixCrillD2eOX6xRykuQoNDtLdQjqdXDPMZQrseBaW7aLpSb4Bqc2W3Oeu
+   lEyGnN9msywjttaYlGkyDB0wQOiZnCQSG3ikNCKPzWJw/Dk9uO+uKU6kC
+   apzUB7RUYi1GocNtaA4hrdsFX27euMEG1+NVpCRIywhNYQ4oJtSAxzgkx
+   w==;
+X-CSE-ConnectionGUID: RU01YVqrQLuILoU7IMYQOg==
+X-CSE-MsgGUID: 7z9nLgPjRMyLNxRGUxQ9sQ==
+X-IPAS-Result: =?us-ascii?q?A0B1AwB0VV5q/5X/Ja1aHgEBCxIMZYEgC4E9ATBTgQgCg?=
+ =?us-ascii?q?SFJA4ggA4UrhliCIQOXRIZXgXQKDwEBAQ0BAS4BFQ0EAQGEP0YCjVMCJjQJD?=
+ =?us-ascii?q?gECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgEBAQEDAREVJ?=
+ =?us-ascii?q?AE9AgEIEQQBAQEuJwodCAIEARIIGoJhgh0WQQMBAg6vEgGBPQKKKniBATOBA?=
+ =?us-ascii?q?YMoAT8CQ9wKFYE4hT+DHAEBKoE1gl2BIhgBhHwnGxuBcoEVQoJpPoEFgVwBA?=
+ =?us-ascii?q?QIBgSQQK4QTgjAEgiJ6EhuDWoFhjBZSciIDJjMsAVUTFwsHBYEjEDMDIAovL?=
+ =?us-ascii?q?QIUDSIPBBYFLR1wDCcSDx0XFh5YGwcFEiAqQUUjAxQ7PzgLQwWBVwKCBU4jH?=
+ =?us-ascii?q?wM5f4EvdUp3LWoCEBdKOCSCEgKBOwIOAwttPTcGDhkDBIE1BYxUB1sjgU5ye?=
+ =?us-ascii?q?xQrIi1RcxkGkzGPV45gklOBEYEzCiiDdYwhjT6IMheFW6URC5gXZiONZ5sOA?=
+ =?us-ascii?q?gQCBAUCEAEBBoFoPIFHCwdwFYMiCQpAGQ+SI4F/gxTJJ3kCAQgDLwEBBwIHD?=
+ =?us-ascii?q?gMLgWiQAIF+AQE?=
+IronPort-PHdr: A9a23:Pf57Fx/JHLrKIf9uWBDoyV9kXcBvk6//MghQ7YIolPcXNK+i5J/le
+ kfY4KYlgFzIWNDD4ulfw6rNsq/mUHAd+5vJrn0YcZJNWhNEwcUblgAtGoiEXGXwLeXhaGoxG
+ 8EqaQ==
+IronPort-Data: A9a23:u2Rjsa65X+TylGUsmkh4LwxRtGPGchMFZxGqfqrLsTDasY5as4F+v
+ jBKWziFaP+PNzbyfdogOYnnp0wPu8eHz4NmHgpqqC00Zn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/qUzBHf/g2Qqaj1Os/rdwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eB7BAo9dJGHt30
+ eE5DDcwMTGmttuRz+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGMqFSKTR7tge1zA17ixMNa+BP
+ IxCNnw1MUmGOkEeUrsUIMpWcOOAinTyaTREqFW9rqss6G+Vxwt0uFToGIeMIYfVFZsIxi50o
+ EqZ7TX/Jh4iNua62B6j4kiDu//2zDjCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzFeCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ22JW9QnOG/bDSpjS3URX550dYDcPYZWPpO+Xenbw=
+IronPort-HdrOrdr: A9a23:gVbZLK6c/uWS4UjDSQPXwcGCI+orL9Y04lQ7vn2ZFiYlEfBwxv
+ rPoB1E737JYW4qKQ4dcLC7VJVoMkmsi6KdgLNhcYtKMzOWw1dAQLsSibcKhgeQZxEWldQtmp
+ uIEZIOcuEYZGIS5a2VkWvIdurIguP3jZxA7t2uqUuFODsaE52ImD0JczpzfHcGIzVuNN4SLr
+ bZzMxBoDarZHQQaeqGJlRtZYL+juyOvqjLJTodCTAayCTmt16VwY+/PwmT3x8YXT8K+rE/7G
+ jDnTX+46Woo9u7xhXf22K71eUZpDLm8LR+Lf3JrvJQBiTniw6uaogkcaaFpioJrOam70tvuM
+ XQoj87Vv4Dq0/5TyWQm1/AygPg2DEh5zvJ0lmDm0bupsT/WXYTF9dBv4REaRHUgnBQ/+2UkZ
+ g7nV5xhaAnSS8orx6NoOQgkCsa0HZclEBS1NL7SUYvCLf2JoUh9bD3t3klYavoVBiKmLzPVt
+ MeTf301bJxbU6QaWzfsy1ExdyhWWl2IzK9K3Jy4fB8F1Nt7S1EJ4xy/r1Eop8NmahNOKVs9q
+ DKNL9lm6pJSdJTZaVhBP0ZSc/yEWDVRwnQWVjiamgPOZt3ck4lkaSHqIkd9aWvYtgF3ZEykJ
+ POXBdRsnMzYVvnDYmL0IdQ+h7ATW2hVXC1o/suqqRRq/n5Xv7mICeDQFchn4+ppOgeGNTSX7
+ K2NIhNC/HuIGPyEcJC3hH4WZNVNX4COfdl8OoTShaLuIbGO4fqvuvUfLLaI6fsCy8tXiflDn
+ 4KTFHIVbN9B4CQKwjFaTTqKgfQkxbEjOBN+YDhjp0u9LQ=
+X-Talos-CUID: 9a23:/HbMp265zx36YKJySdssznNMQ/Eba2fk6GrxB0iFVkdMeYSyRgrF
+X-Talos-MUID: 9a23:i5Lehwjwdgnb5GCH4VRAGsMpa9U55YChMEI3tIQindm+GhFgAmaGtWHi
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,175,1779148800"; 
-   d="scan'208";a="504597312"
-Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 17:02:25 +0000
-Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 17:07:08 +0000
+Received: from rcdn-opgw-1.cisco.com (rcdn-opgw-1.cisco.com [72.163.7.162])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 8D19818000232
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:02:24 +0000 (GMT)
-Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id A33DDCC037D; Mon, 20 Jul 2026 22:32:22 +0530 (IST)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH] libpng: fix CVE-2026-34757
-Date: Mon, 20 Jul 2026 22:32:15 +0530
-Message-Id: <20260720170215.2770878-1-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id E9D4B180001D3
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:07:07 +0000 (GMT)
+X-CSE-ConnectionGUID: iLp7CPucRoq79Bxe5FJJzQ==
+X-CSE-MsgGUID: oRLNjwLIQsST4jfO4A7/aw==
+Authentication-Results: rcdn-opgw-1.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.25,175,1779148800"; 
+   d="scan'208,217";a="65254572"
+Received: from mail-westus3azon11010019.outbound.protection.outlook.com (HELO PH7PR06CU001.outbound.protection.outlook.com) ([52.101.201.19])
+  by rcdn-opgw-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 17:07:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TIYrmlJonCdYt7P9TPPPMIPG3j/mYbec0KD9rv+J/0qx1yhVUdQ0rIBVoUTbE816wCB4hvY3mAbvgqmYf9V9z+rIzzp/uD1k837Iy8lEgN17eRj3l1uzXnMj/p0+1Io1pPGuWKnFywTdXMZIQ5bJTaMmD11edHNFKY3Yf33bjbZZXYtZEv38o6rlr4qhc4Rr6chZFVqXjTzULE/L61DDkrONhyDGiBxLvLuSbwQFiWCS9VN4BRoD+cwIwbXXXsXTT1sj0sH8KzDpxwo95prbuhYWUR/aReWG3YBn00bamP+EL2wSbRj4VKuc+WY+jMSAKOdub3laTw8GWQh3Y25rQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0A69cdzAWWeyB0xXqUsBKDHGSJ04cdOTRh2XclA5oWk=;
+ b=M0TVzmKyd7YlX0J6JT4bvHRp0itH208+C8uahONazwi1x6P5PL4M6fCuyTd3YYAttEnmgxEC6H89O97mLnt1++tCJ2y91MuUaNivvOfAZXfO3H0zsU7M4a/JbnBp0MCyhwq54gNDpoRa9o21tzqAZ7a3uQNuRir0rP38f+6Fp7HAuPVnXdjVeu9uvlOug8GIs19ulukalRcTC86ZdLlVYvvuAc+t3Cbt+j7CKgfke4QR8iCTXVHaA0KLy76LFCKqe3CA+6PPArNY7jJnEi9Ow4jBatCKOtsA7Jn4n7Zd7yHytXx0zVdNeYoHxSvwVhgijP60+2FNpLwc3R0Xzj/qHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from DM4PR11MB6189.namprd11.prod.outlook.com (2603:10b6:8:ae::18) by
+ IA0PR11MB7883.namprd11.prod.outlook.com (2603:10b6:208:3de::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
+ 2026 17:07:05 +0000
+Received: from DM4PR11MB6189.namprd11.prod.outlook.com
+ ([fe80::ecd9:17f7:f13f:5543]) by DM4PR11MB6189.namprd11.prod.outlook.com
+ ([fe80::ecd9:17f7:f13f:5543%2]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
+ 17:07:05 +0000
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<deeratho@cisco.com>
+To: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<sudumbha@cisco.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
+	<yoann.congal@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH v2] libpng: Fix CVE-2026-34757
+Thread-Topic: [OE-core][scarthgap][PATCH v2] libpng: Fix CVE-2026-34757
+Thread-Index: AQHdE5dIEJruAtMHrEqJMmarv1t0DbZ1cqwAgAE5cB4=
+Date: Mon, 20 Jul 2026 17:07:05 +0000
+Message-ID: 
+ <DM4PR11MB6189484F6ABA954C607FF120C4C32@DM4PR11MB6189.namprd11.prod.outlook.com>
+References: <20260714134636.2883793-2-sudumbha@cisco.com>
+ <DK2WCCX2M98E.292ZS2S1QFM96@smile.fr>
+In-Reply-To: <DK2WCCX2M98E.292ZS2S1QFM96@smile.fr>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB6189:EE_|IA0PR11MB7883:EE_
+x-ms-office365-filtering-correlation-id: 6374e672-9f0d-4cbb-5f1f-08dee6815339
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|13003099007|38070700021|18002099003|22082099003|8096899003|10067099003|4143699003|56012099006|11063799006;
+x-microsoft-antispam-message-info: 
+ p5D1GCer3z2D5Zx2mLnLTim0uEeNONzV1fyk6YEomav4ISO9um14ZWTFWSGSYn0Zd5ggF0YYNgi4UMljFQVOpdzRAXHs1w+tCYv7SAmLUwmIHCLX8obvrDV3bUIuWd+OSyGILauwEg2be4m6pdYMr7cM7P77T6ghMi0cMxY8HBM59Ne44I0tL0+gz/O3lOkcuF2qnDzxUVR3Uy+KPw9f2xHFJpYvrTlagDIsszVl66kiKatNEYqHldPbm5f9ofRDwVQRJsg4bxfc0aMaoOuWDwFPJO2J2sKAw3w5OVsNkqkr3q7F8aAHISqJewi6wGR9S2hoquQHHnXfokfLnjDzWw8UlefkKAeXLPP6HfvQvpbZHNDC5YQeP100WQG02YNaT7IF7y2zgu4wnRQQN7o36t2x0VRrr3KSgShRU9IckR0Cz1X9oGMgbynJxb4fNt9kS8arKWJv7Lrz7TyTmg+Gqy9kgbPjuyJPfxWpUG2cO5AWKbmFEjZmFHV74rpEWCQub4XYmNksxEHVy85rMaHlVYoJ80MZy0Z1mqow9yQhvjqcV1btoVfFwElKu2dlHlsHIort2rh0Lqa9meFIIH0k2ERcPZBOhyxLlioMlUVAA0PE2qMmOGqz9v9jOGLO+ElxfTMX+32itlYDnfntJW0G2mGsK9dpseFdQi7bGodpsi4=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(13003099007)(38070700021)(18002099003)(22082099003)(8096899003)(10067099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?PlckQr+1vH8vRZInjVVeFIRT+k+jXfsq7yZsDeQXrH17ErNYW0ovvGB+Tde2?=
+ =?us-ascii?Q?1Zu+dyIQRXXNFvKs1uO0RQyp5jM18brjW9VEIhw1liKWNky0cketmLyrfjp6?=
+ =?us-ascii?Q?k4h/5bXUnBoTKeJ7rpWHW+NODUVLki9NKZLkTkCCGLLhrvWa+zOjy/XjtVlX?=
+ =?us-ascii?Q?NpwBFNFX8X6+gj0iOv3MAcDN1nJ8ToXT1ZRxHeBc4ndvNWqLtR3memLZzZK0?=
+ =?us-ascii?Q?xmPMJdKg1zr/VaOuMYjjLZ32z0BhttVtdbW11syjGmGKd5mBxaE1Uel1VXCi?=
+ =?us-ascii?Q?tACLNEH97giKwX64vXZB+2rKAAR1zbkhbSQrYz7eAW0MfR+vK6d/q2DcmfQe?=
+ =?us-ascii?Q?aG9x0/ROUAVsL5g26MPC9Gcf9hxTLMPPqaOpIQQ9m14B2Qp8HI5juHtIT6sq?=
+ =?us-ascii?Q?4tvlMAbDeHbNMRoVnubiOqs+NRe7UBHUwl2Sj9jcUQaz9W2X8T+Uknq3IAwU?=
+ =?us-ascii?Q?9fW/mr+AUnFp005PhiwJK3iGCwt+T7l+Rr0oszOkPSNmwOAjdAkSEiaG9klW?=
+ =?us-ascii?Q?CqzJBSJdvV610uO5U3fYhpOabR/B0h/Bv3pD+sizXw1CNskHIUdyl7xdZTfB?=
+ =?us-ascii?Q?xcnJI4x8CfmamBtc6SRJehzVnPOcB/KrCZJfsbQUYF9scIRYzIqU8vrPdukg?=
+ =?us-ascii?Q?NZe5XhGvfkAaC/ZCrQt8PuDQZm0lOw2o14cyPohHKgKNN8z7RrEpHPrT8Hi+?=
+ =?us-ascii?Q?HYQ5jTDqYevaAYka4xj6cYwRLQSU2samjHayJVhFaw01pqKVL9dfReud+kHq?=
+ =?us-ascii?Q?DKRkF+3NW3wQBn1vn02q3oWxfs1YD1e5XwEgpDtCepbGAIx7YapyTLYu4BGX?=
+ =?us-ascii?Q?UeBjggZ5ka1AEL669xfku///Ipz/N10MA/M/Q8C+TiDSrw+ORXXw54KgXwsk?=
+ =?us-ascii?Q?1iUp97gH2b/QAMF/5Z2UnlC0a3SrzXL1O7mr1nMqwjo/gOL7I3I+RLNFVtpz?=
+ =?us-ascii?Q?f7N3pmUYpWbalx3ck0b4Er6XktCryeugIWO9kCHWZr2+K4QXtWf7ZElxCmnW?=
+ =?us-ascii?Q?jKicz8GkAJjYMQyVZcpPxJ5z1ZIlZVVJ5v+yosx1t7xikOq4xppJiz4t8GIQ?=
+ =?us-ascii?Q?2xam8CJhiCtYOeriBpwdcnKRslZrF+WEhCSvp3y98DuWwrXV3IVpGWkV+5kf?=
+ =?us-ascii?Q?D0TpNFOr3N+gnhDtsuEncv1CSxSbRiiqKq5hr+gRGA2oPSwMcfnAPI+6dYV9?=
+ =?us-ascii?Q?E5gasWTVFQh+3XfXu1GOz+MFHfSKLJmEuIHgfxm/UMBS25j/UCtxJg7fe2vi?=
+ =?us-ascii?Q?14SfNNgbSgLf2+SAyRsYtD7Mjr/TjZ/+UpWgyYCIlq3X3fRLmY0L2RGtF5jD?=
+ =?us-ascii?Q?kUhZ84LAegvzOUFRirJCzYDMkGT+lMgl45FvPkIQxYNMAimMQ3oF88/o36Sl?=
+ =?us-ascii?Q?cv7cY36ke+agJ8eWnD4HeQaI8CkGzni2mIFJ864a9sI7XRS8+rwJnRM+OyEd?=
+ =?us-ascii?Q?qEJ1bsdvg4TOkdyOZfIxnhFQlNO3VdZWI/LjGvX6xyvWbGVsvVdEcsgkTc82?=
+ =?us-ascii?Q?phftM+pUORZgFUZ363foQFgXsKgnD/CPzxCFBtD56o4IL1CvLeY1EeViAlgM?=
+ =?us-ascii?Q?iSM0KyM2L3iFhf/J9yDm4JfVKt682B+9rEitwU+jvXIRkDsyWLxHstuN2AF2?=
+ =?us-ascii?Q?qua7mtCeYYkFp9SrjLIghhuf7kvM71qxRG0te8B2QXcf+tuMe65kxpdzHh2E?=
+ =?us-ascii?Q?uMEwR2PhKlyAGy84mrLI8bNzCe1a8ZEIanQSgmVSF4zjIo+O?=
+Content-Type: multipart/alternative;
+	boundary="_000_DM4PR11MB6189484F6ABA954C607FF120C4C32DM4PR11MB6189namp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: rcdn-l-core-05.cisco.com
+X-Exchange-RoutingPolicyChecked: 
+	KAjImiZK4ENS1HpizGIb7VMkckIH9XNgsQJ+3Y4DimQE2YHcNu3zYeVGIJldi28FngIff6WT3MchieRIUtCrQwPqKs1RXL5/QiIlO//TXIpbRUx2GDBrgI8/AImmkNG6cb0Qz3+mYgxjfXeyWpgLSngsDdtX+JGp8emfJUWP+tVEvDWWrw9XYYN0hWsc+pdCpPp5+xYIbV7tua8CSxisb4xMxC5pD67oooxd4O72bQcAT6/t8hlRtICQyRLxRP5oJnqhz4jYJix4cxtohE3+56PXPRV8qj7xFD6cvI5SA3gX989fwojjE6TkvTTH5Gs5bPCaYykEu5saeZ/X/TVEZA==
+X-OriginatorOrg: cisco.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6189.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6374e672-9f0d-4cbb-5f1f-08dee6815339
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2026 17:07:05.3929
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rKJcZQr/XQuNHBi/DQ2tJ7fL5M/Pd/7STnmBDznx1P78XBhzFeYuKO6UXxkkEkX2zWUNQPCs5mnmNIKV3HcOeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7883
+X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-1.cisco.com [72.163.7.162];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 72.163.7.162, rcdn-opgw-1.cisco.com
+X-Outbound-Node: rcdn-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:02:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241429
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:07:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241430
 
-From: Deepak Rathore <deeratho@cisco.com>
+--_000_DM4PR11MB6189484F6ABA954C607FF120C4C32DM4PR11MB6189namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This patch applies the upstream fixes for libpng 1.6.57 for
-CVE-2026-34757. The upstream fix commit is referenced in [1] & [2]
-and the public CVE advisory is referenced in [3].
+Hi Yoann,
 
-[1] https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde3684e8a
-[2] https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b48c6bcc
-[3] https://github.com/pnggroup/libpng/issues/836
+I have sent the patch for wrynose: openembedded-core@lists.openembedded.org=
+ | [wrynose][PATCH] libpng: fix CVE-2026-34757<https://lists.openembedded.o=
+rg/g/openembedded-core/topic/120362567>
 
-Reference:
-https://security-tracker.debian.org/tracker/CVE-2026-34757
-https://nvd.nist.gov/vuln/detail/CVE-2026-34757
+Thanks for your review.
 
-Test results on qemux86-64 using ptest-runner:
-====================================================================
-Testsuite summary for libpng 1.6.56
-====================================================================
-# TOTAL: 36
-# PASS:  36
-# SKIP:  0
-# XFAIL: 0
-# FAIL:  0
-# XPASS: 0
-# ERROR: 0
-=====================================================================
+Regards,
+Deepak
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
+congal=3Dsmile.fr@lists.openembedded.org>
+Sent: Monday, July 20, 2026 3:51 AM
+To: Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco) <s=
+udumbha@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-=
+core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH v2] libpng: Fix CVE-2026-34757
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
----
- .../libpng/files/CVE-2026-34757_p1.patch      | 518 ++++++++++++++++++
- .../libpng/files/CVE-2026-34757_p2.patch      | 481 ++++++++++++++++
- .../libpng/libpng_1.6.56.bb                   |   4 +-
- 3 files changed, 1002 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
+On Tue Jul 14, 2026 at 3:46 PM CEST, Sudhir Dumbhare via lists.openembedded=
+.org wrote:
+> From: Sudhir Dumbhare <sudumbha@cisco.com>
+>
+> These patches apply the upstream fixes [1][2], which address
+> getter-to-setter aliasing issues in libpng chunk setters that could
+> cause stale-pointer reads, as described in [3].
+>
+> [1] https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f41=
+6dfdde3684e8a
+> [2] https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5c=
+d4f99b48c6bcc
+> [3] https://github.com/pnggroup/libpng/issues/836
+>
+> Reference:
+> https://security-tracker.debian.org/tracker/CVE-2026-34757
+> https://nvd.nist.gov/vuln/detail/CVE-2026-34757
+>
+> Test results on qemux86-64 using ptest-runner:
+> START: ptest-runner
+> 2026-06-04T11:29
+> BEGIN: /usr/lib/libpng/ptest
+> PASS: tests/pnggetset
+> Testsuite summary
+> # TOTAL: 33
+> # PASS:  33
+> # SKIP:  0
+> # XFAIL: 0
+> # FAIL:  0
+> # XPASS: 0
+> # ERROR: 0
+> DURATION: 80
+> END: /usr/lib/libpng/ptest
+> 2026-06-04T11:31
+> STOP: ptest-runner
+> TOTAL: 1 FAIL: 0
+>
+> Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+> ---
+> Changes v1 -> v2:
+> - Rebased on latest scarthgap (2bf388381ae3)
+>
+>  .../libpng/files/CVE-2026-34757_p1.patch      | 521 ++++++++++++++++++
+>  .../libpng/files/CVE-2026-34757_p2.patch      | 484 ++++++++++++++++
+>  .../libpng/libpng_1.6.42.bb                   |   4 +-
+>  3 files changed, 1008 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p=
+1.patch
+>  create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p=
+2.patch
 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
-new file mode 100644
-index 0000000000..7b5ebb18b7
---- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
-@@ -0,0 +1,518 @@
-+From e621c40a46aa748608d5392f6a5c0278f77573d3 Mon Sep 17 00:00:00 2001
-+From: Cosmin Truta <ctruta@gmail.com>
-+Date: Mon, 30 Mar 2026 17:35:30 +0300
-+Subject: [PATCH] fix: Handle self-referencing pointers in getter-to-setter
-+ aliasing
-+
-+Apply a robustness fix for a caller-side API usage pattern involving
-+the getters and the setters for PLTE, tRNS, and hIST.
-+
-+Passing a pointer returned by the PLTE, tRNS, or hIST getters back
-+into the corresponding setters used to cause the setters to read from
-+a stale pointer. The fix consists in snapshotting the caller's data
-+into a stack-local buffer before freeing the old internal storage.
-+
-+Fixes pnggroup/libpng#836
-+
-+Reported-by: Iv4n <Iv4n550@noreply.github.com>
-+CVE: CVE-2026-34757
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde3684e8a]
-+
-+(cherry picked from commit 398cbe3df03f4e11bb031e07f416dfdde3684e8a)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ CMakeLists.txt               |  12 ++
-+ Makefile.am                  |   9 +-
-+ contrib/libtests/pnggetset.c | 328 +++++++++++++++++++++++++++++++++++
-+ pngset.c                     |  29 +++-
-+ tests/pnggetset              |   5 +
-+ 5 files changed, 380 insertions(+), 3 deletions(-)
-+ create mode 100644 contrib/libtests/pnggetset.c
-+ create mode 100755 tests/pnggetset
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index fde2a323c..6401b7bd3 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -624,6 +624,9 @@ set(pngvalid_sources
-+ set(pngstest_sources
-+     contrib/libtests/pngstest.c
-+ )
-++set(pnggetset_sources
-++    contrib/libtests/pnggetset.c
-++)
-+ set(pngunknown_sources
-+     contrib/libtests/pngunknown.c
-+ )
-+@@ -786,6 +789,15 @@ if(PNG_TESTS AND PNG_SHARED)
-+                COMMAND pngtest
-+                FILES "${TEST_PNG3_PNGS}")
-+ 
-++  # pnggetset test:
-++  # Getter-to-setter roundtrips for various chunk types.
-++  add_executable(pnggetset ${pnggetset_sources})
-++  target_link_libraries(pnggetset
-++                        PRIVATE png_shared)
-++
-++  png_add_test(NAME pnggetset
-++               COMMAND pnggetset)
-++
-+   # pngvalid tests:
-+   # Internal validation of standard and progressive reading,
-+   # transforms, and gamma handling.
-+diff --git a/Makefile.am b/Makefile.am
-+index 88f7ab628..fa5bbeb61 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -13,7 +13,7 @@ ACLOCAL_AMFLAGS = -I scripts/autoconf
-+ 
-+ # test programs - run on make check, make distcheck
-+ if ENABLE_TESTS
-+-check_PROGRAMS= pngtest pngunknown pngstest pngvalid pngimage pngcp
-++check_PROGRAMS= pngtest pnggetset pngunknown pngstest pngvalid pngimage pngcp
-+ if HAVE_CLOCK_GETTIME
-+ check_PROGRAMS += timepng
-+ endif
-+@@ -42,6 +42,9 @@ if ENABLE_TESTS
-+ pngtest_SOURCES = pngtest.c
-+ pngtest_LDADD = libpng@PNGLIB_MAJOR@@PNGLIB_MINOR@.la
-+ 
-++pnggetset_SOURCES = contrib/libtests/pnggetset.c
-++pnggetset_LDADD = libpng@PNGLIB_MAJOR@@PNGLIB_MINOR@.la
-++
-+ pngvalid_SOURCES = contrib/libtests/pngvalid.c
-+ pngvalid_LDADD = libpng@PNGLIB_MAJOR@@PNGLIB_MINOR@.la
-+ 
-+@@ -73,6 +76,7 @@ endif
-+ if ENABLE_TESTS
-+ TESTS =\
-+    tests/pngtest-all\
-++   tests/pnggetset\
-+    tests/pngvalid-gamma-16-to-8\
-+    tests/pngvalid-gamma-alpha-mode\
-+    tests/pngvalid-gamma-background\
-+@@ -303,9 +307,10 @@ $(srcdir)/scripts/pnglibconf.h.prebuilt:
-+ pngtest.o: pnglibconf.h
-+ 
-+ contrib/libtests/makepng.o: pnglibconf.h
-++contrib/libtests/pnggetset.o: pnglibconf.h
-++contrib/libtests/pngimage.o: pnglibconf.h
-+ contrib/libtests/pngstest.o: pnglibconf.h
-+ contrib/libtests/pngunknown.o: pnglibconf.h
-+-contrib/libtests/pngimage.o: pnglibconf.h
-+ contrib/libtests/pngvalid.o: pnglibconf.h
-+ contrib/libtests/readpng.o: pnglibconf.h
-+ contrib/libtests/tarith.o: pnglibconf.h
-+diff --git a/contrib/libtests/pnggetset.c b/contrib/libtests/pnggetset.c
-+new file mode 100644
-+index 000000000..b42508094
-+--- /dev/null
-++++ b/contrib/libtests/pnggetset.c
-+@@ -0,0 +1,328 @@
-++/* pnggetset.c
-++ *
-++ * Copyright (c) 2026 Cosmin Truta
-++ *
-++ * This code is released under the libpng license.
-++ * For conditions of distribution and use, see the disclaimer
-++ * and license in png.h
-++ *
-++ * Test the get-then-set roundtrip pattern for PLTE, tRNS, and hIST.
-++ *
-++ * Passing the internal pointer returned by a getter back into the
-++ * corresponding setter is a natural API usage pattern.  A previous
-++ * version had a use-after-free on this path because the setter freed
-++ * the internal buffer before copying from the caller-supplied pointer.
-++ */
-++
-++#include <stdio.h>
-++#include <stdlib.h>
-++#include <string.h>
-++
-++#if defined(HAVE_CONFIG_H) && !defined(PNG_NO_CONFIG_H)
-++#  include <config.h>
-++#endif
-++
-++#ifdef PNG_FREESTANDING_TESTS
-++#  include <png.h>
-++#else
-++#  include "../../png.h"
-++#endif
-++
-++/* Test: get the PLTE, pass it straight back to set, verify roundtrip. */
-++static int
-++test_plte_roundtrip(void)
-++{
-++   png_structp png_ptr;
-++   png_infop info_ptr;
-++   png_color palette[4];
-++   png_colorp got_palette = NULL;
-++   int num_palette = 0;
-++   int i;
-++
-++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-++       NULL, NULL, NULL);
-++   if (png_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
-++      return 1;
-++   }
-++
-++   info_ptr = png_create_info_struct(png_ptr);
-++   if (info_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
-++      png_destroy_write_struct(&png_ptr, NULL);
-++      return 1;
-++   }
-++
-++   if (setjmp(png_jmpbuf(png_ptr)))
-++   {
-++      fprintf(stderr, "pnggetset: libpng error in test_plte_roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* Set up a palette-color image header. */
-++   png_set_IHDR(png_ptr, info_ptr, 1, 1, 8, PNG_COLOR_TYPE_PALETTE,
-++       PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-++
-++   /* Populate with recognizable values. */
-++   for (i = 0; i < 4; i++)
-++   {
-++      palette[i].red   = (png_byte)(i * 10);
-++      palette[i].green = (png_byte)(i * 20);
-++      palette[i].blue  = (png_byte)(i * 30);
-++   }
-++   png_set_PLTE(png_ptr, info_ptr, palette, 4);
-++
-++   /* Get the internal pointer and feed it straight back. */
-++   png_get_PLTE(png_ptr, info_ptr, &got_palette, &num_palette);
-++   if (got_palette == NULL || num_palette != 4)
-++   {
-++      fprintf(stderr, "pnggetset: png_get_PLTE returned unexpected values\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* This is the critical call: the pointer aliases info_ptr->palette. */
-++   png_set_PLTE(png_ptr, info_ptr, got_palette, num_palette);
-++
-++   /* Verify the data survived the roundtrip. */
-++   got_palette = NULL;
-++   num_palette = 0;
-++   png_get_PLTE(png_ptr, info_ptr, &got_palette, &num_palette);
-++   if (got_palette == NULL || num_palette != 4)
-++   {
-++      fprintf(stderr, "pnggetset: PLTE lost after roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++   for (i = 0; i < 4; i++)
-++   {
-++      if (got_palette[i].red   != (png_byte)(i * 10) ||
-++          got_palette[i].green != (png_byte)(i * 20) ||
-++          got_palette[i].blue  != (png_byte)(i * 30))
-++      {
-++         fprintf(stderr,
-++             "pnggetset: PLTE entry %d corrupted after roundtrip\n", i);
-++         png_destroy_write_struct(&png_ptr, &info_ptr);
-++         return 1;
-++      }
-++   }
-++
-++   png_destroy_write_struct(&png_ptr, &info_ptr);
-++   return 0;
-++}
-++
-++#ifdef PNG_hIST_SUPPORTED
-++/* Test: get the hIST, pass it straight back to set, verify roundtrip. */
-++static int
-++test_hist_roundtrip(void)
-++{
-++   png_structp png_ptr;
-++   png_infop info_ptr;
-++   png_color palette[4];
-++   png_uint_16 hist[4];
-++   png_uint_16p got_hist = NULL;
-++   int i;
-++
-++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-++       NULL, NULL, NULL);
-++   if (png_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
-++      return 1;
-++   }
-++
-++   info_ptr = png_create_info_struct(png_ptr);
-++   if (info_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
-++      png_destroy_write_struct(&png_ptr, NULL);
-++      return 1;
-++   }
-++
-++   if (setjmp(png_jmpbuf(png_ptr)))
-++   {
-++      fprintf(stderr, "pnggetset: libpng error in test_hist_roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* Set up a palette-color image header. */
-++   memset(palette, 0, sizeof palette);
-++   png_set_IHDR(png_ptr, info_ptr, 1, 1, 8, PNG_COLOR_TYPE_PALETTE,
-++       PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-++   png_set_PLTE(png_ptr, info_ptr, palette, 4);
-++
-++   /* Populate with recognizable values. */
-++   for (i = 0; i < 4; i++)
-++      hist[i] = (png_uint_16)(i * 100 + 42);
-++
-++   png_set_hIST(png_ptr, info_ptr, hist);
-++
-++   /* Get the internal pointer and feed it straight back. */
-++   if (png_get_hIST(png_ptr, info_ptr, &got_hist) == 0 || got_hist == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_get_hIST returned unexpected values\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* This is the critical call: the pointer aliases info_ptr->hist. */
-++   png_set_hIST(png_ptr, info_ptr, got_hist);
-++
-++   /* Verify the data survived the roundtrip. */
-++   got_hist = NULL;
-++   if (png_get_hIST(png_ptr, info_ptr, &got_hist) == 0 || got_hist == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: hIST lost after roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++   for (i = 0; i < 4; i++)
-++   {
-++      if (got_hist[i] != (png_uint_16)(i * 100 + 42))
-++      {
-++         fprintf(stderr,
-++             "pnggetset: hIST entry %d corrupted after roundtrip\n", i);
-++         png_destroy_write_struct(&png_ptr, &info_ptr);
-++         return 1;
-++      }
-++   }
-++
-++   png_destroy_write_struct(&png_ptr, &info_ptr);
-++   return 0;
-++}
-++#endif /* PNG_hIST_SUPPORTED */
-++
-++#ifdef PNG_tRNS_SUPPORTED
-++/* Test: get the tRNS, pass it straight back to set, verify roundtrip. */
-++static int
-++test_trns_roundtrip(void)
-++{
-++   png_structp png_ptr;
-++   png_infop info_ptr;
-++   png_color palette[4];
-++   png_byte trans_alpha[4];
-++   png_color_16 trans_color;
-++   png_bytep got_alpha = NULL;
-++   png_color_16p got_color = NULL;
-++   int num_trans = 0;
-++   int i;
-++
-++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-++       NULL, NULL, NULL);
-++   if (png_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
-++      return 1;
-++   }
-++
-++   info_ptr = png_create_info_struct(png_ptr);
-++   if (info_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
-++      png_destroy_write_struct(&png_ptr, NULL);
-++      return 1;
-++   }
-++
-++   if (setjmp(png_jmpbuf(png_ptr)))
-++   {
-++      fprintf(stderr, "pnggetset: libpng error in test_trns_roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* Set up a palette-color image. */
-++   memset(palette, 0, sizeof palette);
-++   png_set_IHDR(png_ptr, info_ptr, 1, 1, 8, PNG_COLOR_TYPE_PALETTE,
-++       PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-++   png_set_PLTE(png_ptr, info_ptr, palette, 4);
-++
-++   /* Populate tRNS with recognizable values. */
-++   for (i = 0; i < 4; i++)
-++      trans_alpha[i] = (png_byte)(0xff - i * 0x11);
-++   memset(&trans_color, 0, sizeof trans_color);
-++
-++   png_set_tRNS(png_ptr, info_ptr, trans_alpha, 4, &trans_color);
-++
-++   /* Get the internal pointer and feed it straight back. */
-++   png_get_tRNS(png_ptr, info_ptr, &got_alpha, &num_trans, &got_color);
-++   if (got_alpha == NULL || num_trans != 4)
-++   {
-++      fprintf(stderr, "pnggetset: png_get_tRNS returned unexpected values\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* This is the critical call: the pointer aliases info_ptr->trans_alpha. */
-++   png_set_tRNS(png_ptr, info_ptr, got_alpha, num_trans, got_color);
-++
-++   /* Verify the data survived the roundtrip. */
-++   got_alpha = NULL;
-++   num_trans = 0;
-++   png_get_tRNS(png_ptr, info_ptr, &got_alpha, &num_trans, &got_color);
-++   if (got_alpha == NULL || num_trans != 4)
-++   {
-++      fprintf(stderr, "pnggetset: tRNS lost after roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++   for (i = 0; i < 4; i++)
-++   {
-++      if (got_alpha[i] != (png_byte)(0xff - i * 0x11))
-++      {
-++         fprintf(stderr,
-++             "pnggetset: tRNS entry %d corrupted after roundtrip\n", i);
-++         png_destroy_write_struct(&png_ptr, &info_ptr);
-++         return 1;
-++      }
-++   }
-++
-++   png_destroy_write_struct(&png_ptr, &info_ptr);
-++   return 0;
-++}
-++#endif /* PNG_tRNS_SUPPORTED */
-++
-++int
-++main(void)
-++{
-++   int result = 0;
-++
-++   printf("Testing PLTE get-then-set roundtrip... ");
-++   fflush(stdout);
-++   if (test_plte_roundtrip() != 0)
-++   {
-++      printf("FAIL\n");
-++      result = 1;
-++   }
-++   else
-++      printf("PASS\n");
-++
-++#ifdef PNG_hIST_SUPPORTED
-++   printf("Testing hIST get-then-set roundtrip... ");
-++   fflush(stdout);
-++   if (test_hist_roundtrip() != 0)
-++   {
-++      printf("FAIL\n");
-++      result = 1;
-++   }
-++   else
-++      printf("PASS\n");
-++#endif
-++
-++#ifdef PNG_tRNS_SUPPORTED
-++   printf("Testing tRNS get-then-set roundtrip... ");
-++   fflush(stdout);
-++   if (test_trns_roundtrip() != 0)
-++   {
-++      printf("FAIL\n");
-++      result = 1;
-++   }
-++   else
-++      printf("PASS\n");
-++#endif
-++
-++   return result;
-++}
-+diff --git a/pngset.c b/pngset.c
-+index b9ccb7fb1..a6f20123e 100644
-+--- a/pngset.c
-++++ b/pngset.c
-+@@ -385,6 +385,7 @@ void PNGAPI
-+ png_set_hIST(png_const_structrp png_ptr, png_inforp info_ptr,
-+     png_const_uint_16p hist)
-+ {
-++   png_uint_16 safe_hist[PNG_MAX_PALETTE_LENGTH];
-+    int i;
-+ 
-+    png_debug1(1, "in %s storage function", "hIST");
-+@@ -401,6 +402,13 @@ png_set_hIST(png_const_structrp png_ptr, png_inforp info_ptr,
-+       return;
-+    }
-+ 
-++   /* Snapshot the caller's hist before freeing, in case it points to
-++    * info_ptr->hist (getter-to-setter aliasing).
-++    */
-++   memcpy(safe_hist, hist, (unsigned int)info_ptr->num_palette *
-++       (sizeof (png_uint_16)));
-++   hist = safe_hist;
-++
-+    png_free_data(png_ptr, info_ptr, PNG_FREE_HIST, 0);
-+ 
-+    /* Changed from info->num_palette to PNG_MAX_PALETTE_LENGTH in
-+@@ -742,7 +750,7 @@ void PNGAPI
-+ png_set_PLTE(png_structrp png_ptr, png_inforp info_ptr,
-+     png_const_colorp palette, int num_palette)
-+ {
-+-
-++   png_color safe_palette[PNG_MAX_PALETTE_LENGTH];
-+    png_uint_32 max_palette_length;
-+ 
-+    png_debug1(1, "in %s storage function", "PLTE");
-+@@ -776,6 +784,15 @@ png_set_PLTE(png_structrp png_ptr, png_inforp info_ptr,
-+       png_error(png_ptr, "Invalid palette");
-+    }
-+ 
-++   /* Snapshot the caller's palette before freeing, in case it points to
-++    * info_ptr->palette (getter-to-setter aliasing).
-++    */
-++   if (num_palette > 0)
-++      memcpy(safe_palette, palette, (unsigned int)num_palette *
-++          (sizeof (png_color)));
-++
-++   palette = safe_palette;
-++
-+    png_free_data(png_ptr, info_ptr, PNG_FREE_PLTE, 0);
-+ 
-+    /* Changed in libpng-1.2.1 to allocate PNG_MAX_PALETTE_LENGTH instead
-+@@ -1165,6 +1182,16 @@ png_set_tRNS(png_structrp png_ptr, png_inforp info_ptr,
-+ 
-+    if (trans_alpha != NULL)
-+    {
-++       /* Snapshot the caller's trans_alpha before freeing, in case it
-++        * points to info_ptr->trans_alpha (getter-to-setter aliasing).
-++        */
-++       png_byte safe_trans[PNG_MAX_PALETTE_LENGTH];
-++
-++       if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
-++          memcpy(safe_trans, trans_alpha, (size_t)num_trans);
-++
-++       trans_alpha = safe_trans;
-++
-+        png_free_data(png_ptr, info_ptr, PNG_FREE_TRNS, 0);
-+ 
-+        if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
-+diff --git a/tests/pnggetset b/tests/pnggetset
-+new file mode 100755
-+index 000000000..57ef731a5
-+--- /dev/null
-++++ b/tests/pnggetset
-+@@ -0,0 +1,5 @@
-++#!/bin/sh
-++
-++# pnggetset test:
-++# Getter-to-setter roundtrips for various chunk types.
-++exec ./pnggetset
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
-new file mode 100644
-index 0000000000..894f9d618b
---- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
-@@ -0,0 +1,481 @@
-+From 815fdfc8dba0603abc26523d0b7e37f7ad21988b Mon Sep 17 00:00:00 2001
-+From: Cosmin Truta <ctruta@gmail.com>
-+Date: Mon, 30 Mar 2026 17:43:05 +0300
-+Subject: [PATCH] fix: Handle getter-to-setter aliasing in append-style chunk
-+ setters
-+
-+Apply the same class of robustness fix from the previous commit to
-+`png_set_text`, `png_set_sPLT` and `png_set_unknown_chunks`. These
-+append-style setters used `png_realloc_array` to grow the internal
-+array, then freed the old array before copying from the caller's
-+input. If the caller's pointer was obtained from the corresponding
-+getter, it aliased the freed array.
-+
-+The fix defers the freeing of the old array until after the copy loop.
-+
-+Also extend the pnggetset regression test to cover all three setters.
-+
-+CVE: CVE-2026-34757
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b48c6bcc]
-+
-+(cherry picked from commit 55d20aaa322c9274491cda82c5cd4f99b48c6bcc)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ contrib/libtests/pnggetset.c | 330 ++++++++++++++++++++++++++++++++++-
-+ pngset.c                     |  25 ++-
-+ 2 files changed, 347 insertions(+), 8 deletions(-)
-+
-+diff --git a/contrib/libtests/pnggetset.c b/contrib/libtests/pnggetset.c
-+index b42508094..6ae43dc66 100644
-+--- a/contrib/libtests/pnggetset.c
-++++ b/contrib/libtests/pnggetset.c
-+@@ -6,12 +6,12 @@
-+  * For conditions of distribution and use, see the disclaimer
-+  * and license in png.h
-+  *
-+- * Test the get-then-set roundtrip pattern for PLTE, tRNS, and hIST.
-++ * Test the get-then-set roundtrip for chunk types whose getters return
-++ * a pointer to internal storage.
-+  *
-+- * Passing the internal pointer returned by a getter back into the
-+- * corresponding setter is a natural API usage pattern.  A previous
-+- * version had a use-after-free on this path because the setter freed
-+- * the internal buffer before copying from the caller-supplied pointer.
-++ * Passing such a pointer back into the corresponding setter must not
-++ * cause a use-after-free.  A previous version freed the internal buffer
-++ * before copying from the caller-supplied pointer.
-+  */
-+ 
-+ #include <stdio.h>
-+@@ -285,6 +285,290 @@ test_trns_roundtrip(void)
-+ }
-+ #endif /* PNG_tRNS_SUPPORTED */
-+ 
-++#ifdef PNG_TEXT_SUPPORTED
-++/* Test: get the text array, pass it straight back to set, verify data. */
-++#define TEXT_COUNT 6 /* enough to trigger reallocation on the second set */
-++static int
-++test_text_roundtrip(void)
-++{
-++   png_structp png_ptr;
-++   png_infop info_ptr;
-++   png_text text_entries[TEXT_COUNT];
-++   png_textp got_text = NULL;
-++   int got_num_text = 0;
-++   int i;
-++
-++   /* Recognizable keys and values. */
-++   static const char *keys[TEXT_COUNT] = {
-++      "Title", "Author", "Desc", "Copyright", "Source", "Comment"
-++   };
-++   static const char *vals[TEXT_COUNT] = {
-++      "t0", "t1", "t2", "t3", "t4", "t5"
-++   };
-++
-++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-++       NULL, NULL, NULL);
-++   if (png_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
-++      return 1;
-++   }
-++
-++   info_ptr = png_create_info_struct(png_ptr);
-++   if (info_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
-++      png_destroy_write_struct(&png_ptr, NULL);
-++      return 1;
-++   }
-++
-++   if (setjmp(png_jmpbuf(png_ptr)))
-++   {
-++      fprintf(stderr, "pnggetset: libpng error in test_text_roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* Populate the text entries. */
-++   memset(text_entries, 0, sizeof text_entries);
-++   for (i = 0; i < TEXT_COUNT; i++)
-++   {
-++      text_entries[i].compression = PNG_TEXT_COMPRESSION_NONE;
-++      text_entries[i].key = (png_charp)keys[i];
-++      text_entries[i].text = (png_charp)vals[i];
-++   }
-++   png_set_text(png_ptr, info_ptr, text_entries, TEXT_COUNT);
-++
-++   /* Get the internal pointer and feed it straight back (append). */
-++   png_get_text(png_ptr, info_ptr, &got_text, &got_num_text);
-++   if (got_text == NULL || got_num_text != TEXT_COUNT)
-++   {
-++      fprintf(stderr, "pnggetset: png_get_text returned unexpected values\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* This is the critical call: got_text aliases info_ptr->text. */
-++   png_set_text(png_ptr, info_ptr, got_text, got_num_text);
-++
-++   /* Verify the original entries survived. */
-++   got_text = NULL;
-++   got_num_text = 0;
-++   png_get_text(png_ptr, info_ptr, &got_text, &got_num_text);
-++   if (got_text == NULL || got_num_text != TEXT_COUNT * 2)
-++   {
-++      fprintf(stderr, "pnggetset: text count %d, expected %d after roundtrip\n",
-++          got_num_text, TEXT_COUNT * 2);
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++   for (i = 0; i < TEXT_COUNT; i++)
-++   {
-++      if (got_text[i].key == NULL ||
-++          strcmp(got_text[i].key, keys[i]) != 0 ||
-++          got_text[i].text == NULL ||
-++          strcmp(got_text[i].text, vals[i]) != 0)
-++      {
-++         fprintf(stderr,
-++             "pnggetset: text entry %d corrupted after roundtrip\n", i);
-++         png_destroy_write_struct(&png_ptr, &info_ptr);
-++         return 1;
-++      }
-++   }
-++
-++   png_destroy_write_struct(&png_ptr, &info_ptr);
-++   return 0;
-++}
-++#undef TEXT_COUNT
-++#endif /* PNG_TEXT_SUPPORTED */
-++
-++#ifdef PNG_sPLT_SUPPORTED
-++/* Test: get the sPLT array, pass it straight back to set, verify data. */
-++static int
-++test_splt_roundtrip(void)
-++{
-++   png_structp png_ptr;
-++   png_infop info_ptr;
-++   png_sPLT_t splt;
-++   png_sPLT_entry splt_entries[4];
-++   png_sPLT_tp got_spalettes = NULL;
-++   int got_num, i;
-++
-++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-++       NULL, NULL, NULL);
-++   if (png_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
-++      return 1;
-++   }
-++
-++   info_ptr = png_create_info_struct(png_ptr);
-++   if (info_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
-++      png_destroy_write_struct(&png_ptr, NULL);
-++      return 1;
-++   }
-++
-++   if (setjmp(png_jmpbuf(png_ptr)))
-++   {
-++      fprintf(stderr, "pnggetset: libpng error in test_splt_roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* Populate with recognizable values. */
-++   memset(splt_entries, 0, sizeof splt_entries);
-++   for (i = 0; i < 4; i++)
-++   {
-++      splt_entries[i].red = (png_uint_16)(i * 1000);
-++      splt_entries[i].green = (png_uint_16)(i * 2000);
-++      splt_entries[i].blue = (png_uint_16)(i * 3000);
-++      splt_entries[i].alpha = 0xffffU;
-++      splt_entries[i].frequency = (png_uint_16)(i + 1);
-++   }
-++   memset(&splt, 0, sizeof splt);
-++   splt.name = (png_charp)"test_sPLT";
-++   splt.depth = 16;
-++   splt.entries = splt_entries;
-++   splt.nentries = 4;
-++
-++   png_set_sPLT(png_ptr, info_ptr, &splt, 1);
-++
-++   /* Get the internal pointer and feed it straight back (append). */
-++   got_num = png_get_sPLT(png_ptr, info_ptr, &got_spalettes);
-++   if (got_spalettes == NULL || got_num != 1)
-++   {
-++      fprintf(stderr, "pnggetset: png_get_sPLT returned unexpected values\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* This is the critical call: got_spalettes aliases internal storage. */
-++   png_set_sPLT(png_ptr, info_ptr, got_spalettes, got_num);
-++
-++   /* Verify the original entry survived. */
-++   got_spalettes = NULL;
-++   got_num = png_get_sPLT(png_ptr, info_ptr, &got_spalettes);
-++   if (got_spalettes == NULL || got_num != 2)
-++   {
-++      fprintf(stderr, "pnggetset: sPLT count %d, expected 2 after roundtrip\n",
-++          got_num);
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++   if (strcmp(got_spalettes[0].name, "test_sPLT") != 0 ||
-++       got_spalettes[0].nentries != 4 ||
-++       got_spalettes[0].depth != 16)
-++   {
-++      fprintf(stderr,
-++          "pnggetset: sPLT entry 0 corrupted after roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++   for (i = 0; i < 4; i++)
-++   {
-++      if (got_spalettes[0].entries[i].red != (png_uint_16)(i * 1000) ||
-++          got_spalettes[0].entries[i].green != (png_uint_16)(i * 2000) ||
-++          got_spalettes[0].entries[i].blue != (png_uint_16)(i * 3000))
-++      {
-++         fprintf(stderr,
-++             "pnggetset: sPLT[0] entry %d corrupted after roundtrip\n", i);
-++         png_destroy_write_struct(&png_ptr, &info_ptr);
-++         return 1;
-++      }
-++   }
-++
-++   png_destroy_write_struct(&png_ptr, &info_ptr);
-++   return 0;
-++}
-++#endif /* PNG_sPLT_SUPPORTED */
-++
-++#ifdef PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED
-++/* Test: get unknown chunks, pass them straight back to set, verify data. */
-++static int
-++test_unknown_roundtrip(void)
-++{
-++   png_structp png_ptr;
-++   png_infop info_ptr;
-++   png_unknown_chunk unk;
-++   png_unknown_chunkp got_unknowns = NULL;
-++   int got_num;
-++   static const png_byte test_data[] = {0xde, 0xad, 0xbe, 0xef};
-++
-++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-++       NULL, NULL, NULL);
-++   if (png_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
-++      return 1;
-++   }
-++
-++   info_ptr = png_create_info_struct(png_ptr);
-++   if (info_ptr == NULL)
-++   {
-++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
-++      png_destroy_write_struct(&png_ptr, NULL);
-++      return 1;
-++   }
-++
-++   if (setjmp(png_jmpbuf(png_ptr)))
-++   {
-++      fprintf(stderr,
-++          "pnggetset: libpng error in test_unknown_roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* Set up an unknown chunk with recognizable data. */
-++   memset(&unk, 0, sizeof unk);
-++   memcpy(unk.name, "teSt", 5);
-++   unk.data = (png_bytep)test_data;
-++   unk.size = sizeof test_data;
-++   unk.location = PNG_HAVE_IHDR;
-++
-++   png_set_keep_unknown_chunks(png_ptr, PNG_HANDLE_CHUNK_ALWAYS, NULL, 0);
-++   png_set_unknown_chunks(png_ptr, info_ptr, &unk, 1);
-++
-++   /* Get the internal pointer and feed it straight back (append). */
-++   got_num = png_get_unknown_chunks(png_ptr, info_ptr, &got_unknowns);
-++   if (got_unknowns == NULL || got_num != 1)
-++   {
-++      fprintf(stderr,
-++          "pnggetset: png_get_unknown_chunks returned unexpected values\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   /* This is the critical call: got_unknowns aliases internal storage. */
-++   png_set_unknown_chunks(png_ptr, info_ptr, got_unknowns, got_num);
-++
-++   /* Verify the original entry survived. */
-++   got_unknowns = NULL;
-++   got_num = png_get_unknown_chunks(png_ptr, info_ptr, &got_unknowns);
-++   if (got_unknowns == NULL || got_num != 2)
-++   {
-++      fprintf(stderr,
-++          "pnggetset: unknown_chunks count %d, expected 2 after roundtrip\n",
-++          got_num);
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++   if (memcmp(got_unknowns[0].name, "teSt", 4) != 0 ||
-++       got_unknowns[0].size != sizeof test_data ||
-++       memcmp(got_unknowns[0].data, test_data, sizeof test_data) != 0)
-++   {
-++      fprintf(stderr,
-++          "pnggetset: unknown chunk 0 corrupted after roundtrip\n");
-++      png_destroy_write_struct(&png_ptr, &info_ptr);
-++      return 1;
-++   }
-++
-++   png_destroy_write_struct(&png_ptr, &info_ptr);
-++   return 0;
-++}
-++#endif /* PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED */
-++
-+ int
-+ main(void)
-+ {
-+@@ -324,5 +608,41 @@ main(void)
-+       printf("PASS\n");
-+ #endif
-+ 
-++#ifdef PNG_TEXT_SUPPORTED
-++   printf("Testing tEXt get-then-set roundtrip... ");
-++   fflush(stdout);
-++   if (test_text_roundtrip() != 0)
-++   {
-++      printf("FAIL\n");
-++      result = 1;
-++   }
-++   else
-++      printf("PASS\n");
-++#endif
-++
-++#ifdef PNG_sPLT_SUPPORTED
-++   printf("Testing sPLT get-then-set roundtrip... ");
-++   fflush(stdout);
-++   if (test_splt_roundtrip() != 0)
-++   {
-++      printf("FAIL\n");
-++      result = 1;
-++   }
-++   else
-++      printf("PASS\n");
-++#endif
-++
-++#ifdef PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED
-++   printf("Testing unknown chunks get-then-set roundtrip... ");
-++   fflush(stdout);
-++   if (test_unknown_roundtrip() != 0)
-++   {
-++      printf("FAIL\n");
-++      result = 1;
-++   }
-++   else
-++      printf("PASS\n");
-++#endif
-++
-+    return result;
-+ }
-+diff --git a/pngset.c b/pngset.c
-+index a6f20123e..513c51eb4 100644
-+--- a/pngset.c
-++++ b/pngset.c
-+@@ -954,6 +954,7 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
-+     png_const_textp text_ptr, int num_text)
-+ {
-+    int i;
-++   png_textp old_text = NULL;
-+ 
-+    png_debug1(1, "in text storage function, chunk typeid = 0x%lx",
-+       png_ptr == NULL ? 0xabadca11UL : (unsigned long)png_ptr->chunk_name);
-+@@ -1001,7 +1002,10 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
-+          return 1;
-+       }
-+ 
-+-      png_free(png_ptr, info_ptr->text);
-++      /* Defer freeing the old array until after the copy loop below,
-++       * in case text_ptr aliases info_ptr->text (getter-to-setter).
-++       */
-++      old_text = info_ptr->text;
-+ 
-+       info_ptr->text = new_text;
-+       info_ptr->free_me |= PNG_FREE_TEXT;
-+@@ -1086,6 +1090,7 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
-+       {
-+          png_chunk_report(png_ptr, "text chunk: out of memory",
-+              PNG_CHUNK_WRITE_ERROR);
-++         png_free(png_ptr, old_text);
-+ 
-+          return 1;
-+       }
-+@@ -1139,6 +1144,8 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
-+       png_debug1(3, "transferred text chunk %d", info_ptr->num_text);
-+    }
-+ 
-++   png_free(png_ptr, old_text);
-++
-+    return 0;
-+ }
-+ #endif
-+@@ -1276,6 +1283,7 @@ png_set_sPLT(png_const_structrp png_ptr,
-+  */
-+ {
-+    png_sPLT_tp np;
-++   png_sPLT_tp old_spalettes;
-+ 
-+    png_debug1(1, "in %s storage function", "sPLT");
-+ 
-+@@ -1296,7 +1304,10 @@ png_set_sPLT(png_const_structrp png_ptr,
-+       return;
-+    }
-+ 
-+-   png_free(png_ptr, info_ptr->splt_palettes);
-++   /* Defer freeing the old array until after the copy loop below,
-++    * in case entries aliases info_ptr->splt_palettes (getter-to-setter).
-++    */
-++   old_spalettes = info_ptr->splt_palettes;
-+ 
-+    info_ptr->splt_palettes = np;
-+    info_ptr->free_me |= PNG_FREE_SPLT;
-+@@ -1360,6 +1371,8 @@ png_set_sPLT(png_const_structrp png_ptr,
-+    }
-+    while (--nentries);
-+ 
-++   png_free(png_ptr, old_spalettes);
-++
-+    if (nentries > 0)
-+       png_chunk_report(png_ptr, "sPLT out of memory", PNG_CHUNK_WRITE_ERROR);
-+ }
-+@@ -1408,6 +1421,7 @@ png_set_unknown_chunks(png_const_structrp png_ptr,
-+     png_inforp info_ptr, png_const_unknown_chunkp unknowns, int num_unknowns)
-+ {
-+    png_unknown_chunkp np;
-++   png_unknown_chunkp old_unknowns;
-+ 
-+    if (png_ptr == NULL || info_ptr == NULL || num_unknowns <= 0 ||
-+        unknowns == NULL)
-+@@ -1454,7 +1468,10 @@ png_set_unknown_chunks(png_const_structrp png_ptr,
-+       return;
-+    }
-+ 
-+-   png_free(png_ptr, info_ptr->unknown_chunks);
-++   /* Defer freeing the old array until after the copy loop below,
-++    * in case unknowns aliases info_ptr->unknown_chunks (getter-to-setter).
-++    */
-++   old_unknowns = info_ptr->unknown_chunks;
-+ 
-+    info_ptr->unknown_chunks = np; /* safe because it is initialized */
-+    info_ptr->free_me |= PNG_FREE_UNKN;
-+@@ -1500,6 +1517,8 @@ png_set_unknown_chunks(png_const_structrp png_ptr,
-+       ++np;
-+       ++(info_ptr->unknown_chunks_num);
-+    }
-++
-++   png_free(png_ptr, old_unknowns);
-+ }
-+ 
-+ void PNGAPI
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb b/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
-index 7ede0a6c8b..9dbd0d26e0 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
-@@ -12,7 +12,9 @@ LIBV = "16"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
-            file://run-ptest \
--"
-+           file://CVE-2026-34757_p1.patch \
-+           file://CVE-2026-34757_p2.patch \
-+           "
- 
- SRC_URI[sha256sum] = "f7d8bf1601b7804f583a254ab343a6549ca6cf27d255c302c47af2d9d36a6f18"
- 
--- 
-2.35.6
+As fas as I can tell, this patch is also needed on wrynose.
+I can't merge here until this is fixed on wrynose.
 
+Can you send a patch to fix this and then, ping back here?
+
+Thanks!
+--
+Yoann Congal
+Smile ECS
+
+
+--_000_DM4PR11MB6189484F6ABA954C607FF120C4C32DM4PR11MB6189namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Hi Yoann,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+I have sent the patch for wrynose: <a href=3D"https://lists.openembedded.or=
+g/g/openembedded-core/topic/120362567" id=3D"OWA1b0700f9-9fe2-e071-fb26-b96=
+db1ac24ad" class=3D"OWAAutoLink">
+openembedded-core@lists.openembedded.org | [wrynose][PATCH] libpng: fix CVE=
+-2026-34757</a></div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Thanks for your review.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Regards,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Deepak</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Yoann Congal via lists.openembedded.org &lt;yoann.congal=3Dsmile.fr@=
+lists.openembedded.org&gt;<br>
+<b>Sent:</b> Monday, July 20, 2026 3:51 AM<br>
+<b>To:</b> Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Ci=
+sco) &lt;sudumbha@cisco.com&gt;; openembedded-core@lists.openembedded.org &=
+lt;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core][scarthgap][PATCH v2] libpng: Fix CVE-2026-347=
+57</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Tue Jul 14, 2026 at 3:46 PM CEST, Sudhir Dumbha=
+re via lists.openembedded.org wrote:<br>
+&gt; From: Sudhir Dumbhare &lt;sudumbha@cisco.com&gt;<br>
+&gt;<br>
+&gt; These patches apply the upstream fixes [1][2], which address<br>
+&gt; getter-to-setter aliasing issues in libpng chunk setters that could<br=
+>
+&gt; cause stale-pointer reads, as described in [3].<br>
+&gt;<br>
+&gt; [1] <a href=3D"https://github.com/pnggroup/libpng/commit/398cbe3df03f4=
+e11bb031e07f416dfdde3684e8a">
+https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde=
+3684e8a</a><br>
+&gt; [2] <a href=3D"https://github.com/pnggroup/libpng/commit/55d20aaa322c9=
+274491cda82c5cd4f99b48c6bcc">
+https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b=
+48c6bcc</a><br>
+&gt; [3] <a href=3D"https://github.com/pnggroup/libpng/issues/836">https://=
+github.com/pnggroup/libpng/issues/836</a><br>
+&gt;<br>
+&gt; Reference:<br>
+&gt; <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-34757"=
+>https://security-tracker.debian.org/tracker/CVE-2026-34757</a><br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-34757">https://nv=
+d.nist.gov/vuln/detail/CVE-2026-34757</a><br>
+&gt;<br>
+&gt; Test results on qemux86-64 using ptest-runner:<br>
+&gt; START: ptest-runner<br>
+&gt; 2026-06-04T11:29<br>
+&gt; BEGIN: /usr/lib/libpng/ptest<br>
+&gt; PASS: tests/pnggetset<br>
+&gt; Testsuite summary<br>
+&gt; # TOTAL: 33<br>
+&gt; # PASS:&nbsp; 33<br>
+&gt; # SKIP:&nbsp; 0<br>
+&gt; # XFAIL: 0<br>
+&gt; # FAIL:&nbsp; 0<br>
+&gt; # XPASS: 0<br>
+&gt; # ERROR: 0<br>
+&gt; DURATION: 80<br>
+&gt; END: /usr/lib/libpng/ptest<br>
+&gt; 2026-06-04T11:31<br>
+&gt; STOP: ptest-runner<br>
+&gt; TOTAL: 1 FAIL: 0<br>
+&gt;<br>
+&gt; Signed-off-by: Sudhir Dumbhare &lt;sudumbha@cisco.com&gt;<br>
+&gt; ---<br>
+&gt; Changes v1 -&gt; v2:<br>
+&gt; - Rebased on latest scarthgap (2bf388381ae3)<br>
+&gt;<br>
+&gt;&nbsp; .../libpng/files/CVE-2026-34757_p1.patch&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; | 521 ++++++++++++++++++<br>
+&gt;&nbsp; .../libpng/files/CVE-2026-34757_p2.patch&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; | 484 ++++++++++++++++<br>
+&gt;&nbsp; .../libpng/libpng_1.6.42.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&n=
+bsp;&nbsp; 4 +-<br>
+&gt;&nbsp; 3 files changed, 1008 insertions(+), 1 deletion(-)<br>
+&gt;&nbsp; create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026=
+-34757_p1.patch<br>
+&gt;&nbsp; create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026=
+-34757_p2.patch<br>
+<br>
+As fas as I can tell, this patch is also needed on wrynose.<br>
+I can't merge here until this is fixed on wrynose.<br>
+<br>
+Can you send a patch to fix this and then, ping back here?<br>
+<br>
+Thanks!<br>
+-- <br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_DM4PR11MB6189484F6ABA954C607FF120C4C32DM4PR11MB6189namp_--
 
