@@ -2,264 +2,676 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 791E9C44532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA22C4452D
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:47 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2876.1784568222621758237
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2880.1784568224516976374
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:42 -0700
+ Mon, 20 Jul 2026 10:23:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=zkR8u1Di;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso12149555e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=3qBPU0Yn;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49548e01d02so15407155e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784568221; x=1785173021; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Ov5TYnmA/HgvEgQIi9ER4efMPmKbLLHsw/ZfVZlTcGE=;
-        b=zkR8u1Dir/M9Lw62ALZ/aaWxvs+WgvImIrdY59+o/m4IzETyjQk317ymckOK4VzvOP
-         zsLLeoqGD7wd8f2OWa0tFNe4Oq9iCDqlk3CzWH/LJNL72xKJOk+UOkjkrMCDBApm9H6Y
-         wH7ekE9zvl7njJuWCNJRCDD3xE179BJzeE2EA=
+        d=smile.fr; s=google; t=1784568223; x=1785173023; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=w8yKx3NEkUZZX9grGSpkLc5RarM9I2jYfTRIY/4RuGY=;
+        b=3qBPU0YnG2HL2IWiLi+CAY3msgmXeSWrnHUoYzrxEAj+7HQmtA/Bn3kyhjYNkp+wWr
+         zM0RHCEDM7e7VOEAt++2K254GtKYXY8uhar/ggH6SN14pA1LWT02mt9Hy+yVnTbZRT4R
+         96i+gweIVBnXjSHWpxuvYqtDU0aXUpYHRIDSg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568221; x=1785173021;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Ov5TYnmA/HgvEgQIi9ER4efMPmKbLLHsw/ZfVZlTcGE=;
-        b=O8lpPsdoBW5R4+tEHKWZAs0o2AW/k6rYRy8/1NPrNRBkd8yWfNO+g2BSl7HL8VTcdb
-         TFAqPa9B1qDQceBN2UUROY/V23rSQPSoufgiyXr6Ytrefx5gMohkU1es1kHBBkB+opwK
-         m/SAdQjmLsutJrU/pTGpY/wCjSPjJeQZSi1gkb+zPjwflWzxMLsdxhvDm016n0OldI02
-         FXVSOrPNwcCJWstYlq9WoD2wMNyCdIFQRPA47LDor1CX/vrQ7ZMU5wcTMnQ2Eu6vFQfE
-         LrouK/hf/gaPnJvJn4rjWEFxx2Cs2bHG442R7/nScS4rTlxUnSd4gdWf5QUseUetbl2y
-         IvGg==
-X-Gm-Message-State: AOJu0YyRyjXnA7lKo2GPI4PKY1aEXM9QC78RhudovRqPoCyQEMk7RcXd
-	2GWDTshNj2NZesGpERTolEgr7HcuJN4FtGPDEaov8WFSgs+L9AfPzIjP31HrgESXZoMEC4W5U5n
-	j3Y8DGQ0=
-X-Gm-Gg: AfdE7clMB7eUzg9RKErs4gpmZgpveNgW9ovau6O1HQ30ELmYKlpBt7oQlhbNCUBvGBg
-	LFt2UcyhefhVv+S5/rpTS7DelqGniw0ERbItfzMrMKPH/Y+wGG2pOf9bczwADukXz2v6HEvgWHW
-	N37MoCUJ1RNvqp9oNlQG8MvLZ3JANrSXtmjuw+pUHH64kcDCHKcORCGW1YyM+iFIVmdgdhXFAHB
-	6eSJpCGnIJ8QqHJ4UfPVVxinY6RoA4uITZgBMxkXo4U5qRh7ZHuY2W7riMX+QAnptayKwZR5f3K
-	6SlUfHKtJ0Q6RDeS65i0UkHN0tvLvm4gU3TkTef7pp4hyM2vWQQ/7JxgFwmKwN98wt7pvKy7nsw
-	xsO84td/CcS4c/TJ8grAz9mYZHrt7a6fOHzEsvNdTMtLgBIwYQkgQeZ/9EcfvHxK6nrCUuRGoj6
-	zqKu+OtXlOYzyqDio7FQkutPPB6imMUzbp1L0UlXHS+uRXNLyp+AjaBwT+lWP371LIvPcDm6AKs
-	kNwH+I5
-X-Received: by 2002:a05:600c:198b:b0:495:5044:d37d with SMTP id 5b1f17b1804b1-4955044d4e8mr120745045e9.19.1784568220804;
-        Mon, 20 Jul 2026 10:23:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784568223; x=1785173023;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=w8yKx3NEkUZZX9grGSpkLc5RarM9I2jYfTRIY/4RuGY=;
+        b=bvlXDtt4+EQaNOvcfjeduhTV4TsQvqV5YHq4SkYEXRVq0w+dHzHaLlI/p+U5WcQcJ+
+         gEvywfebz1VyfRtMNKMr+u9pik92+RJIr3KXYBPY0l6CXjrZ+6bXyVk3xWF5llJc0yAP
+         Q+JKNtlWxDMfkyWead/JUIzimCeax/OEe+P+cc8iflW5BRRGLaGq7NQ3gvICW/IBQnd2
+         pcGHpcZSg58v9ob/1+jNIkFHOyduAs+DifUO0V51Cp2CyPwwpFuqvl/Y8fG9VK0tEKlk
+         9FETwWdXLxNcgIcLNL0C6suSlffRccB5ejMZ8ryGfhhuxlqS2xcSGX3Pgg1uSffyUlJW
+         HmJw==
+X-Gm-Message-State: AOJu0Yw7+lvxLHMW5nnXXd2EDInKd8aU8E4l6yWXWTpBHvG0zC2Dlurj
+	rKdtLfKLaKqQ0X7g5TdWCbfdV3hBFualdks+ZbptClxXVh+G6dCZALQOGj9+4eJLFJq0/Rn19JV
+	N68tALCs=
+X-Gm-Gg: AfdE7cn47P1x8W8PBtTIB5CWXqjVHnacxHuECzVuU5yKNH2tVk1v/6yxlsn+roy09tW
+	oguMZVhh2SyTVb0HyN4bsI8CWcW5lo00cRnw/3X8DkcOnyqSkNWLX9w3ucDCiDYFFzCkYdlhmyC
+	h5p+RzpRZaeHq9TP2idiDmJvo868HCigTk6i1KidQERTNHQpQH1NXCAdv548dsj6mRCE2xuJPDk
+	FW5QfJfnCuRQON2pUcl/s25hiVeMuaaxVzIKKlrrjzmZip7ncJXQ07b1j31Qt2YwIPA3vNC5J2b
+	iMjJjjPo8RdQ4mvJK2iBFzIKO95695mDhvckES17V8BTLCA1aX0o5dCyoskc9IUXNXf8ZWLfc/A
+	mgxiAX2BBR0WfSfilKAO5YnHT9qJgnGz8DqGx4QdHqRALqNrB0/SzOQRSdwULeb2n6xk7p9Xnub
+	I7l5hObIC5ThA3YL8tkdl6wOKYZWGx458V8xC9sEEBJXqlrKQONWpYoxR4CImoHKsnj49WkByyj
+	TlToiAC
+X-Received: by 2002:a05:600c:c178:b0:493:e46e:157d with SMTP id 5b1f17b1804b1-4954a40481dmr136850795e9.19.1784568222400;
+        Mon, 20 Jul 2026 10:23:42 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:23:40 -0700 (PDT)
+        Mon, 20 Jul 2026 10:23:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/33] util-linux: fix CVE-2026-13595
-Date: Mon, 20 Jul 2026 19:22:51 +0200
-Message-ID: <4a4483ac57db5f7af928e588e7318fa183442c0f.1784567958.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 20/33] expat: patch CVE-2026-41080
+Date: Mon, 20 Jul 2026 19:22:53 +0200
+Message-ID: <8865543e62d8619edb4165f3b530f91f85ab1fbb.1784567958.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
 References: <cover.1784567958.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241452
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241454
 
-From: Deepak Rathore <deeratho@cisco.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-This patch applies the upstream stable/v2.41 backport for
-CVE-2026-13595. The upstream fix merge or commit is referenced in [1],
-and the public CVE advisory is referenced in [2]. The individual
-backported commit links are recorded in the embedded patch headers
-when the fix expands to multiple commits.
+Pick github PR [1] mentioned in [2].
+* 969af8f4654ce50d837bb9199a73d1d02d2c7e16..4ba09dc471b39a78d77e5179d0243186c0c4ff7a
+* dropped code which doesn't exist in 2.6.4 yet (github actions, map
+  file)
+* resolved minor conflicts (formatting)
+* picked 2 additional commits to apply the code cleanly
 
-[1] https://github.com/util-linux/util-linux/commit/132d9c8aa15a8efd0a23d8ca7ed8b98f365e84fa
-[2] https://access.redhat.com/security/cve/CVE-2026-13595
+[1] https://github.com/libexpat/libexpat/pull/1183
+[2] https://security-tracker.debian.org/tracker/CVE-2026-41080
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+[YC: See discussion :
+https://lore.kernel.org/openembedded-core/2030b4435c8bc81bb4452637c0517ac33ab94d20.camel@pbarker.dev/T/#m56c5da4033c2f3571027c2745431178064ea1b5d ]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/util-linux/util-linux.inc   |   1 +
- .../util-linux/CVE-2026-13595.patch           | 157 ++++++++++++++++++
- 2 files changed, 158 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
+ .../expat/expat/CVE-2026-41080-01.patch       |  50 ++
+ .../expat/expat/CVE-2026-41080-02.patch       |  29 ++
+ .../expat/expat/CVE-2026-41080-03.patch       | 467 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.6.4.bb        |   3 +
+ 4 files changed, 549 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 83804196345..753d032976d 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -47,6 +47,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://CVE-2025-14104-01.patch \
-            file://CVE-2025-14104-02.patch \
-            file://CVE-2026-27456.patch \
-+           file://CVE-2026-13595.patch \
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
+new file mode 100644
+index 00000000000..0c6af75a5de
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
+@@ -0,0 +1,50 @@
++From fe04a7f0ff8afe57ba33d919f368b1ba23bcda92 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 30 Mar 2025 19:26:55 +0200
++Subject: [PATCH 1/3] lib/xmlparse.c: Address clang-tidy warning
++ misc-no-recursion
++
++CVE: CVE-2026-41080
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/fe04a7f0ff8afe57ba33d919f368b1ba23bcda92]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/xmlparse.c | 17 ++++++++++-------
++ 1 file changed, 10 insertions(+), 7 deletions(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 9bc67f38..cb25c37b 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -1243,9 +1243,10 @@ generate_hash_secret_salt(XML_Parser parser) {
++ 
++ static unsigned long
++ get_hash_secret_salt(XML_Parser parser) {
++-  if (parser->m_parentParser != NULL)
++-    return get_hash_secret_salt(parser->m_parentParser);
++-  return parser->m_hash_secret_salt;
+++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  return rootParser->m_hash_secret_salt;
++ }
++ 
++ static enum XML_Error
++@@ -2321,12 +2322,14 @@ int XMLCALL
++ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
++   if (parser == NULL)
++     return 0;
++-  if (parser->m_parentParser)
++-    return XML_SetHashSalt(parser->m_parentParser, hash_salt);
+++
+++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
++   /* block after XML_Parse()/XML_ParseBuffer() has been called */
++-  if (parserBusy(parser))
+++  if (parserBusy(rootParser))
++     return 0;
++-  parser->m_hash_secret_salt = hash_salt;
+++  rootParser->m_hash_secret_salt = hash_salt;
++   return 1;
++ }
++ 
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
+new file mode 100644
+index 00000000000..953f93c68a9
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
+@@ -0,0 +1,29 @@
++From 7fb2c7a454edc9e2880073a27f899c31d9b078ce Mon Sep 17 00:00:00 2001
++From: Atrem Borovik <polzovatellllk@gmail.com>
++Date: Sat, 20 Dec 2025 13:22:16 +0300
++Subject: [PATCH 2/3] WASI: remove getpid
++
++CVE: CVE-2026-41080
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/7fb2c7a454edc9e2880073a27f899c31d9b078ce]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/xmlparse.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index cb25c37b..1bafb948 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -1228,8 +1228,11 @@ generate_hash_secret_salt(XML_Parser parser) {
++ #  endif /* ! defined(_WIN32) && defined(XML_DEV_URANDOM) */
++   /* .. and self-made low quality for backup: */
++ 
+++  entropy = gather_time_entropy();
+++#  if ! defined(__wasi__)
++   /* Process ID is 0 bits entropy if attacker has local access */
++-  entropy = gather_time_entropy() ^ getpid();
+++  entropy ^= getpid();
+++#  endif
++ 
++   /* Factors are 2^31-1 and 2^61-1 (Mersenne primes M31 and M61) */
++   if (sizeof(unsigned long) == 4) {
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
+new file mode 100644
+index 00000000000..4d17f1a0b0e
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
+@@ -0,0 +1,467 @@
++From b77ab600e1893fdcfc3868d0a46efcc87c87943d Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Wed, 8 Apr 2026 15:41:54 +0200
++Subject: [PATCH 3/3] [CVE-2026-41080] Improve protection against hash flooding
++ (fixes #47)
++
++Fixes #47
++
++CVE: CVE-2026-41080
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1183]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ Changes             |  16 ++++++
++ doc/reference.html  |  51 ++++++++++++++--
++ lib/expat.h         |  12 ++++
++ lib/internal.h      |   2 +
++ lib/xmlparse.c      | 118 ++++++++++++++++++++++++++------------
++ tests/basic_tests.c |  25 ++++++++
++ 6 files changed, 181 insertions(+), 43 deletions(-)
++
++diff --git a/Changes b/Changes
++index 4265d608..1d87d6a0 100644
++--- a/Changes
+++++ b/Changes
++@@ -30,6 +30,22 @@
++ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
++ 
++ Patches:
+++        Security fixes:
+++       #47 #1183  CVE-2026-41080 -- The existing hash flooding protection
+++                    (based on SipHash) only used 4 to 8 bytes of entropy for
+++                    a salt, when 16 bytes of salt are supported by the
+++                    implementation of SipHash used by Expat. Now full 16 bytes
+++                    of entropy are used to improve protection against hash
+++                    flooding attacks.
+++                      Existing API function XML_SetHashSalt is now deprecated
+++                    because of its limitations, and its use should be
+++                    considered a vulnerability. Please either use the new API
+++                    function XML_SetHashSalt16Bytes (with known-high-quality
+++                    entropy input only!) instead, or leave the derivation of
+++                    a 16-bytes hash salt from high quality entropy to Expat's
+++                    internal machinery (by *not* calling either of the two
+++                    XML_SetHashSalt* functions).
+++
++         Security fixes:
++      #1018 #1034  CVE-2025-59375 -- Disallow use of disproportional amounts of
++                     dynamic memory from within an Expat parser (e.g. previously
++diff --git a/doc/reference.html b/doc/reference.html
++index 8f14b011..7f374f84 100644
++--- a/doc/reference.html
+++++ b/doc/reference.html
++@@ -174,7 +174,8 @@ interface.</p>
++       <li><a href="#XML_GetAttributeInfo">XML_GetAttributeInfo</a></li>
++       <li><a href="#XML_SetEncoding">XML_SetEncoding</a></li>
++       <li><a href="#XML_SetParamEntityParsing">XML_SetParamEntityParsing</a></li>
++-      <li><a href="#XML_SetHashSalt">XML_SetHashSalt</a></li>
+++      <li><a href="#XML_SetHashSalt">XML_SetHashSalt</a> (deprecated)</li>
+++      <li><a href="#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></li>
++       <li><a href="#XML_UseForeignDTD">XML_UseForeignDTD</a></li>
++       <li><a href="#XML_SetReturnNSTriplet">XML_SetReturnNSTriplet</a></li>
++       <li><a href="#XML_DefaultCurrent">XML_DefaultCurrent</a></li>
++@@ -2553,10 +2554,10 @@ The choices for <code>code</code> are:
++ no effect and will always return 0.
++ </div>
++ 
++-<h4 id="XML_SetHashSalt">XML_SetHashSalt</h4>
+++<h4 id="XML_SetHashSalt">XML_SetHashSalt (deprecated)</h4>
++ <pre class="fcndec">
++ int XMLCALL
++-XML_SetHashSalt(XML_Parser p,
+++XML_SetHashSalt(XML_Parser parser,
++                 unsigned long hash_salt);
++ </pre>
++ <div class="fcndef">
++@@ -2564,15 +2565,55 @@ Sets the hash salt to use for internal hash calculations.
++ Helps in preventing DoS attacks based on predicting hash
++ function behavior. In order to have an effect this must be called
++ before parsing has started. Returns 1 if successful, 0 when called
++-after <code>XML_Parse</code> or <code>XML_ParseBuffer</code>.
+++after <code>XML_Parse</code> or <code>XML_ParseBuffer</code> or when
+++        <code>parser</code> is <code>NULL</code>.
+++        <p>
+++          <b>Note:</b> Function <code>XML_SetHashSalt</code> is
+++          <strong>deprecated</strong>. Please use function <code><a href=
+++          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> instead for better
+++          security. <code>XML_SetHashSalt</code> only provides 4 to 8 bytes of entropy
+++          (depending on the size of type <code>unsigned long</code>) while the SipHash
+++          implementation used by Expat can leverage up to 16 bytes of entropy — at least
+++          twice as much. Function <code><a href=
+++          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> of Expat &gt;=2.7.6
+++          (and where backported) matches the amount of entropy supported by SipHash.
+++        </p>.
++ <p><b>Note:</b> This call is optional, as the parser will auto-generate
++-a new random salt value if no value has been set at the start of parsing.</p>
+++a new random salt value internally if no value has been set by the start of parsing.</p>
++ <p><b>Note:</b> One should not call <code>XML_SetHashSalt</code> with a
++ hash salt value of 0, as this value is used as sentinel value to indicate
++ that <code>XML_SetHashSalt</code> has <b>not</b> been called. Consequently
++ such a call will have no effect, even if it returns 1.</p>
++ </div>
++ 
+++      <h4 id="XML_SetHashSalt16Bytes">
+++        XML_SetHashSalt16Bytes
+++      </h4>
+++
+++      <pre class="fcndec">
+++/* Added in Expat 2.7.6. */
+++XML_Bool XMLCALL
+++XML_SetHashSalt16Bytes(XML_Parser parser,
+++                       const uint8_t entropy[16]);
+++</pre>
+++      <div class="fcndef">
+++        Sets the hash salt to use for internal hash calculations. Helps in preventing DoS
+++        attacks based on predicting hash function behavior. In order to have an effect
+++        this must be called before parsing has started. Returns <code>XML_TRUE</code> if
+++        successful, <code>XML_FALSE</code> when called after <code>XML_Parse</code> or
+++        <code>XML_ParseBuffer</code> or when <code>parser</code> is <code>NULL</code>.
+++        <p>
+++          <b>Note:</b> Setting a salt that is <em>not</em> from a source of high quality
+++          entropy (like <code>getentropy(3)</code>) will make the parser vulnerable to
+++          hash flooding attacks.
+++        </p>
+++
+++        <p>
+++          <b>Note:</b> This call is optional, as the parser will auto-generate a new
+++          random salt value internally if no value has been set by the start of parsing.
+++        </p>
+++      </div>
+++
++ <h4 id="XML_UseForeignDTD">XML_UseForeignDTD</h4>
++ <pre class="fcndec">
++ enum XML_Error XMLCALL
++diff --git a/lib/expat.h b/lib/expat.h
++index df207e9e..b356e002 100644
++--- a/lib/expat.h
+++++ b/lib/expat.h
++@@ -44,6 +44,7 @@
++ #ifndef Expat_INCLUDED
++ #define Expat_INCLUDED 1
++ 
+++#  include <stdint.h> // for uint8_t
++ #include <stdlib.h>
++ #include "expat_external.h"
++ 
++@@ -916,10 +917,21 @@ XML_SetParamEntityParsing(XML_Parser parser,
++    function behavior. This must be called before parsing is started.
++    Returns 1 if successful, 0 when called after parsing has started.
++    Note: If parser == NULL, the function will do nothing and return 0.
+++   DEPRECATED since Expat 2.7.6.
++ */
++ XMLPARSEAPI(int)
++ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt);
++ 
+++/* Sets the hash salt to use for internal hash calculations.
+++   Helps in preventing DoS attacks based on predicting hash function behavior.
+++   This must be called before parsing is started.
+++   Returns XML_TRUE if successful, XML_FALSE when called after parsing has
+++   started or when parser is NULL.
+++   Added in Expat 2.7.6.
+++*/
+++XMLPARSEAPI(XML_Bool)
+++XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]);
+++
++ /* If XML_Parse or XML_ParseBuffer have returned XML_STATUS_ERROR, then
++    XML_GetErrorCode returns information about the error.
++ */
++diff --git a/lib/internal.h b/lib/internal.h
++index 32faaa05..617d6454 100644
++--- a/lib/internal.h
+++++ b/lib/internal.h
++@@ -113,6 +113,7 @@
++ #if defined(_WIN32)                                                            \
++     && (! defined(__USE_MINGW_ANSI_STDIO)                                      \
++         || (1 - __USE_MINGW_ANSI_STDIO - 1 == 0))
+++#  define EXPAT_FMT_LLX(midpart) "%" midpart "I64x"
++ #  define EXPAT_FMT_ULL(midpart) "%" midpart "I64u"
++ #  if defined(_WIN64) // Note: modifiers "td" and "zu" do not work for MinGW
++ #    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "I64d"
++@@ -122,6 +123,7 @@
++ #    define EXPAT_FMT_SIZE_T(midpart) "%" midpart "u"
++ #  endif
++ #else
+++#  define EXPAT_FMT_LLX(midpart) "%" midpart "llx"
++ #  define EXPAT_FMT_ULL(midpart) "%" midpart "llu"
++ #  if ! defined(ULONG_MAX)
++ #    error Compiler did not define ULONG_MAX for us
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 1bafb948..75a7e5d0 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -604,7 +604,7 @@ static ELEMENT_TYPE *getElementType(XML_Parser parser, const ENCODING *enc,
++ 
++ static XML_Char *copyString(const XML_Char *s, XML_Parser parser);
++ 
++-static unsigned long generate_hash_secret_salt(XML_Parser parser);
+++static struct sipkey generate_hash_secret_salt(void);
++ static XML_Bool startParsing(XML_Parser parser);
++ 
++ static XML_Parser parserCreate(const XML_Char *encodingName,
++@@ -777,7 +777,8 @@ struct XML_ParserStruct {
++   XML_Bool m_useForeignDTD;
++   enum XML_ParamEntityParsing m_paramEntityParsing;
++ #endif
++-  unsigned long m_hash_secret_salt;
+++  struct sipkey m_hash_secret_salt_128;
+++  XML_Bool m_hash_secret_salt_set;
++ #if XML_GE == 1
++   ACCOUNTING m_accounting;
++   MALLOC_TRACKER m_alloc_tracker;
++@@ -1189,69 +1190,65 @@ gather_time_entropy(void) {
++ 
++ #endif /* ! defined(HAVE_ARC4RANDOM_BUF) && ! defined(HAVE_ARC4RANDOM) */
++ 
++-static unsigned long
++-ENTROPY_DEBUG(const char *label, unsigned long entropy) {
+++static struct sipkey
+++ENTROPY_DEBUG(const char *label, struct sipkey entropy_128) {
++   if (getDebugLevel("EXPAT_ENTROPY_DEBUG", 0) >= 1u) {
++-    fprintf(stderr, "expat: Entropy: %s --> 0x%0*lx (%lu bytes)\n", label,
++-            (int)sizeof(entropy) * 2, entropy, (unsigned long)sizeof(entropy));
+++    fprintf(stderr,
+++            "expat: Entropy: %s --> [0x" EXPAT_FMT_LLX(
+++                "016") ", 0x" EXPAT_FMT_LLX("016") "] (16 bytes)\n",
+++            label, (unsigned long long)entropy_128.k[0],
+++            (unsigned long long)entropy_128.k[1]);
++   }
++-  return entropy;
+++  return entropy_128;
++ }
++ 
++-static unsigned long
++-generate_hash_secret_salt(XML_Parser parser) {
++-  unsigned long entropy;
++-  (void)parser;
+++static struct sipkey
+++generate_hash_secret_salt(void) {
+++  struct sipkey entropy;
++ 
++   /* "Failproof" high quality providers: */
++ #if defined(HAVE_ARC4RANDOM_BUF)
++   arc4random_buf(&entropy, sizeof(entropy));
++   return ENTROPY_DEBUG("arc4random_buf", entropy);
++ #elif defined(HAVE_ARC4RANDOM)
++-  writeRandomBytes_arc4random((void *)&entropy, sizeof(entropy));
+++  writeRandomBytes_arc4random(&entropy, sizeof(entropy));
++   return ENTROPY_DEBUG("arc4random", entropy);
++ #else
++   /* Try high quality providers first .. */
++ #  ifdef _WIN32
++-  if (writeRandomBytes_rand_s((void *)&entropy, sizeof(entropy))) {
+++  if (writeRandomBytes_rand_s(&entropy, sizeof(entropy))) {
++     return ENTROPY_DEBUG("rand_s", entropy);
++   }
++ #  elif defined(HAVE_GETRANDOM) || defined(HAVE_SYSCALL_GETRANDOM)
++-  if (writeRandomBytes_getrandom_nonblock((void *)&entropy, sizeof(entropy))) {
+++  if (writeRandomBytes_getrandom_nonblock(&entropy, sizeof(entropy))) {
++     return ENTROPY_DEBUG("getrandom", entropy);
++   }
++ #  endif
++ #  if ! defined(_WIN32) && defined(XML_DEV_URANDOM)
++-  if (writeRandomBytes_dev_urandom((void *)&entropy, sizeof(entropy))) {
+++  if (writeRandomBytes_dev_urandom(&entropy, sizeof(entropy))) {
++     return ENTROPY_DEBUG("/dev/urandom", entropy);
++   }
++ #  endif /* ! defined(_WIN32) && defined(XML_DEV_URANDOM) */
++   /* .. and self-made low quality for backup: */
++ 
++-  entropy = gather_time_entropy();
+++  entropy.k[0] = 0;
+++  entropy.k[1] = gather_time_entropy();
++ #  if ! defined(__wasi__)
++   /* Process ID is 0 bits entropy if attacker has local access */
++-  entropy ^= getpid();
+++  entropy.k[1] ^= getpid();
++ #  endif
++ 
++   /* Factors are 2^31-1 and 2^61-1 (Mersenne primes M31 and M61) */
++   if (sizeof(unsigned long) == 4) {
++-    return ENTROPY_DEBUG("fallback(4)", entropy * 2147483647);
+++    entropy.k[1] *= 2147483647;
+++    return ENTROPY_DEBUG("fallback(4)", entropy);
++   } else {
++-    return ENTROPY_DEBUG("fallback(8)",
++-                         entropy * (unsigned long)2305843009213693951ULL);
+++    entropy.k[1] *= 2305843009213693951ULL;
+++    return ENTROPY_DEBUG("fallback(8)", entropy);
++   }
++ #endif
++ }
++ 
++-static unsigned long
++-get_hash_secret_salt(XML_Parser parser) {
++-  const XML_Parser rootParser = getRootParserOf(parser, NULL);
++-  assert(! rootParser->m_parentParser);
++-
++-  return rootParser->m_hash_secret_salt;
++-}
++-
++ static enum XML_Error
++ callProcessor(XML_Parser parser, const char *start, const char *end,
++               const char **endPtr) {
++@@ -1320,8 +1316,10 @@ callProcessor(XML_Parser parser, const char *start, const char *end,
++ static XML_Bool /* only valid for root parser */
++ startParsing(XML_Parser parser) {
++   /* hash functions must be initialized before setContext() is called */
++-  if (parser->m_hash_secret_salt == 0)
++-    parser->m_hash_secret_salt = generate_hash_secret_salt(parser);
+++  if (parser->m_hash_secret_salt_set != XML_TRUE) {
+++    parser->m_hash_secret_salt_128 = generate_hash_secret_salt();
+++    parser->m_hash_secret_salt_set = XML_TRUE;
+++  }
++   if (parser->m_ns) {
++     /* implicit context only set for root parser, since child
++        parsers (i.e. external entity parsers) will inherit it
++@@ -1609,7 +1607,9 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
++   parser->m_useForeignDTD = XML_FALSE;
++   parser->m_paramEntityParsing = XML_PARAM_ENTITY_PARSING_NEVER;
++ #endif
++-  parser->m_hash_secret_salt = 0;
+++  parser->m_hash_secret_salt_128.k[0] = 0;
+++  parser->m_hash_secret_salt_128.k[1] = 0;
+++  parser->m_hash_secret_salt_set = XML_FALSE;
++ 
++ #if XML_GE == 1
++   memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
++@@ -1776,7 +1776,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
++      from hash tables associated with either parser without us having
++      to worry which hash secrets each table has.
++   */
++-  unsigned long oldhash_secret_salt;
+++  struct sipkey oldhash_secret_salt_128;
+++  XML_Bool oldhash_secret_salt_set;
++   XML_Bool oldReparseDeferralEnabled;
++ 
++   /* Validate the oldParser parameter before we pull everything out of it */
++@@ -1822,7 +1823,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
++      from hash tables associated with either parser without us having
++      to worry which hash secrets each table has.
++   */
++-  oldhash_secret_salt = parser->m_hash_secret_salt;
+++  oldhash_secret_salt_128 = parser->m_hash_secret_salt_128;
+++  oldhash_secret_salt_set = parser->m_hash_secret_salt_set;
++   oldReparseDeferralEnabled = parser->m_reparseDeferralEnabled;
++ 
++ #ifdef XML_DTD
++@@ -1877,7 +1879,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
++     parser->m_externalEntityRefHandlerArg = oldExternalEntityRefHandlerArg;
++   parser->m_defaultExpandInternalEntities = oldDefaultExpandInternalEntities;
++   parser->m_ns_triplets = oldns_triplets;
++-  parser->m_hash_secret_salt = oldhash_secret_salt;
+++  parser->m_hash_secret_salt_128 = oldhash_secret_salt_128;
+++  parser->m_hash_secret_salt_set = oldhash_secret_salt_set;
++   parser->m_reparseDeferralEnabled = oldReparseDeferralEnabled;
++   parser->m_parentParser = oldParser;
++ #ifdef XML_DTD
++@@ -2321,6 +2324,7 @@ XML_SetParamEntityParsing(XML_Parser parser,
++ #endif
++ }
++ 
+++// DEPRECATED since Expat 2.7.6.
++ int XMLCALL
++ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
++   if (parser == NULL)
++@@ -2332,10 +2336,46 @@ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
++   /* block after XML_Parse()/XML_ParseBuffer() has been called */
++   if (parserBusy(rootParser))
++     return 0;
++-  rootParser->m_hash_secret_salt = hash_salt;
+++
+++  rootParser->m_hash_secret_salt_128.k[0] = 0;
+++  rootParser->m_hash_secret_salt_128.k[1] = hash_salt;
+++
+++  if (hash_salt != 0) { // to remain backwards compatible
+++    rootParser->m_hash_secret_salt_set = XML_TRUE;
+++
+++    if (sizeof(unsigned long) == 4)
+++      ENTROPY_DEBUG("explicit(4)", rootParser->m_hash_secret_salt_128);
+++    else
+++      ENTROPY_DEBUG("explicit(8)", rootParser->m_hash_secret_salt_128);
+++  }
+++
++   return 1;
++ }
++ 
+++XML_Bool XMLCALL
+++XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]) {
+++  if (parser == NULL)
+++    return XML_FALSE;
+++
+++  if (entropy == NULL)
+++    return XML_FALSE;
+++
+++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  /* block after XML_Parse()/XML_ParseBuffer() has been called */
+++  if (parserBusy(rootParser))
+++    return XML_FALSE;
+++
+++  sip_tokey(&(rootParser->m_hash_secret_salt_128), entropy);
+++
+++  rootParser->m_hash_secret_salt_set = XML_TRUE;
+++
+++  ENTROPY_DEBUG("explicit(16)", rootParser->m_hash_secret_salt_128);
+++
+++  return XML_TRUE;
+++}
+++
++ enum XML_Status XMLCALL
++ XML_Parse(XML_Parser parser, const char *s, int len, int isFinal) {
++   if ((parser == NULL) || (len < 0) || ((s == NULL) && (len != 0))) {
++@@ -7837,8 +7877,10 @@ keylen(KEY s) {
++ 
++ static void
++ copy_salt_to_sipkey(XML_Parser parser, struct sipkey *key) {
++-  key->k[0] = 0;
++-  key->k[1] = get_hash_secret_salt(parser);
+++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  *key = rootParser->m_hash_secret_salt_128;
++ }
++ 
++ static unsigned long FASTCALL
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 023d9ce4..380caf19 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -204,6 +204,30 @@ START_TEST(test_hash_collision) {
++ END_TEST
++ #undef COLLIDING_HASH_SALT
++ 
+++START_TEST(test_hash_salt_setter) {
+++  const uint8_t entropy[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
+++                               '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++
+++  // NULL parser should be rejected
+++  assert_true(XML_SetHashSalt16Bytes(NULL, entropy) == XML_FALSE);
+++
+++  // NULL entropy should be rejected
+++  assert_true(XML_SetHashSalt16Bytes(parser, NULL) == XML_FALSE);
+++
+++  // Setting should be allowed more than once
+++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_TRUE);
+++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_TRUE);
+++
+++  // But not after parsing has started
+++  assert_true(XML_Parse(parser, "", 0, XML_FALSE /* isFinal */)
+++              == XML_STATUS_OK);
+++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_FALSE);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Regression test for SF bug #491986. */
++ START_TEST(test_danish_latin1) {
++   const char *text = "<?xml version='1.0' encoding='iso-8859-1'?>\n"
++@@ -6244,6 +6268,7 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_bom_utf16_le);
++   tcase_add_test(tc_basic, test_nobom_utf16_le);
++   tcase_add_test(tc_basic, test_hash_collision);
+++  tcase_add_test(tc_basic, test_hash_salt_setter);
++   tcase_add_test(tc_basic, test_illegal_utf8);
++   tcase_add_test(tc_basic, test_utf8_auto_align);
++   tcase_add_test(tc_basic, test_utf16);
+diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
+index 151720a9e3c..f5c3e3fdd2f 100644
+--- a/meta/recipes-core/expat/expat_2.6.4.bb
++++ b/meta/recipes-core/expat/expat_2.6.4.bb
+@@ -51,6 +51,9 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://CVE-2026-32777-02.patch \
+            file://CVE-2026-32778-01.patch \
+            file://CVE-2026-32778-02.patch \
++           file://CVE-2026-41080-01.patch \
++           file://CVE-2026-41080-02.patch \
++           file://CVE-2026-41080-03.patch \
             "
  
- SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
-new file mode 100644
-index 00000000000..36e8658f69b
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
-@@ -0,0 +1,157 @@
-+From faf717ca4ed3b603eb213915fe15c6804c4b92d4 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Thu, 7 May 2026 12:50:48 +0200
-+Subject: [PATCH] libblkid: fix use-after-free in nested partition probing
-+
-+The partitions list stores partitions in a contiguous array grown by
-+realloc(). When the array is reallocated to a new address, all
-+existing blkid_partition pointers (tab->parent, ls->next_parent, local
-+parent variables in nested probers) become dangling.
-+
-+Fix this by changing the storage from an array of structs to an array
-+of pointers, where each partition is individually allocated via
-+calloc(). This makes all blkid_partition pointers stable across
-+reallocations -- only the pointer array itself may move, which is
-+harmless since no code caches pointers into the pointer array.
-+
-+This eliminates the need for callers to re-fetch parent pointers after
-+every blkid_partlist_add_partition() call.
-+
-+CVE: CVE-2026-13595
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/132d9c8aa15a8efd0a23d8ca7ed8b98f365e84fa]
-+
-+Backport Changes:
-+- Scarthgap util-linux 2.39.3 still uses realloc() at this allocation site,
-+  so this backport keeps realloc() and changes only the element size to
-+  sizeof(*ls->parts) instead of adopting upstream's reallocarray() style.
-+- The commit text was adjusted from reallocarray() to realloc() to match the
-+  target source context.
-+
-+Reported-by: Thai Duong <thaidn@gmail.com>
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+(cherry picked from commit c0186f14fbdb02f64c8e0ba701ce727ea764ff4c)
-+(cherry picked from commit 132d9c8aa15a8efd0a23d8ca7ed8b98f365e84fa)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ libblkid/src/partitions/partitions.c | 36 ++++++++++++++++++----------
-+ 1 file changed, 22 insertions(+), 14 deletions(-)
-+
-+diff --git a/libblkid/src/partitions/partitions.c b/libblkid/src/partitions/partitions.c
-+index 8ebf480f5..6089028a8 100644
-+--- a/libblkid/src/partitions/partitions.c
-++++ b/libblkid/src/partitions/partitions.c
-+@@ -197,7 +197,7 @@ struct blkid_struct_partlist {
-+ 
-+ 	int		nparts;		/* number of partitions */
-+ 	int		nparts_max;	/* max.number of partitions */
-+-	blkid_partition	parts;		/* array of partitions */
-++	blkid_partition	*parts;		/* array of pointers to partitions */
-+ 
-+ 	struct list_head l_tabs;	/* list of partition tables */
-+ };
-+@@ -356,13 +356,16 @@ static void reset_partlist(blkid_partlist ls)
-+ 	free_parttables(ls);
-+ 
-+ 	if (ls->next_partno) {
-+-		/* already initialized - reset */
-+-		int tmp_nparts = ls->nparts_max;
-+-		blkid_partition tmp_parts = ls->parts;
-++		/* already initialized - free individually allocated partitions */
-++		int i, tmp_nparts_max = ls->nparts_max;
-++		blkid_partition *tmp_parts = ls->parts;
-++
-++		for (i = 0; i < ls->nparts; i++)
-++			free(ls->parts[i]);
-+ 
-+ 		memset(ls, 0, sizeof(struct blkid_struct_partlist));
-+ 
-+-		ls->nparts_max = tmp_nparts;
-++		ls->nparts_max = tmp_nparts_max;
-+ 		ls->parts = tmp_parts;
-+ 	}
-+ 
-+@@ -397,6 +400,7 @@ static void partitions_free_data(blkid_probe pr __attribute__((__unused__)),
-+ 				 void *data)
-+ {
-+ 	blkid_partlist ls = (blkid_partlist) data;
-++	int i;
-+ 
-+ 	if (!ls)
-+ 		return;
-+@@ -404,6 +408,8 @@ static void partitions_free_data(blkid_probe pr __attribute__((__unused__)),
-+ 	free_parttables(ls);
-+ 
-+ 	/* deallocate partitions and partlist */
-++	for (i = 0; i < ls->nparts; i++)
-++		free(ls->parts[i]);
-+ 	free(ls->parts);
-+ 	free(ls);
-+ }
-+@@ -436,16 +442,18 @@ static blkid_partition new_partition(blkid_partlist ls, blkid_parttable tab)
-+ 		/* Linux kernel has DISK_MAX_PARTS=256, but it's too much for
-+ 		 * generic Linux machine -- let start with 32 partitions.
-+ 		 */
-+-		void *tmp = realloc(ls->parts, (ls->nparts_max + 32) *
-+-					sizeof(struct blkid_struct_partition));
-++		void *tmp = realloc(ls->parts, (ls->nparts_max + 32) *
-++					sizeof(*ls->parts));
-+ 		if (!tmp)
-+ 			return NULL;
-+ 		ls->parts = tmp;
-+ 		ls->nparts_max += 32;
-+ 	}
-+ 
-+-	par = &ls->parts[ls->nparts++];
-+-	memset(par, 0, sizeof(struct blkid_struct_partition));
-++	par = calloc(1, sizeof(struct blkid_struct_partition));
-++	if (!par)
-++		return NULL;
-++	ls->parts[ls->nparts++] = par;
-+ 
-+ 	ref_parttable(tab);
-+ 	par->tab = tab;
-+@@ -849,7 +857,7 @@ int blkid_probe_is_covered_by_pt(blkid_probe pr,
-+ 
-+ 	/* check if the partition table fits into the device */
-+ 	for (i = 0; i < nparts; i++) {
-+-		blkid_partition par = &ls->parts[i];
-++		blkid_partition par = ls->parts[i];
-+ 
-+ 		if (par->start + par->size > (pr->size >> 9)) {
-+ 			DBG(LOWPROBE, ul_debug("partition #%d overflows "
-+@@ -861,7 +869,7 @@ int blkid_probe_is_covered_by_pt(blkid_probe pr,
-+ 
-+ 	/* check if the requested area is covered by PT */
-+ 	for (i = 0; i < nparts; i++) {
-+-		blkid_partition par = &ls->parts[i];
-++		blkid_partition par = ls->parts[i];
-+ 
-+ 		if (start >= par->start && end <= par->start + par->size) {
-+ 			rc = 1;
-+@@ -960,7 +968,7 @@ blkid_partition blkid_partlist_get_partition(blkid_partlist ls, int n)
-+ 	if (n < 0 || n >= ls->nparts)
-+ 		return NULL;
-+ 
-+-	return &ls->parts[n];
-++	return ls->parts[n];
-+ }
-+ 
-+ blkid_partition blkid_partlist_get_partition_by_start(blkid_partlist ls, uint64_t start)
-+@@ -1072,7 +1080,7 @@ blkid_partition blkid_partlist_devno_to_partition(blkid_partlist ls, dev_t devno
-+ 		 * and an entry in partition table.
-+ 		 */
-+ 		 for (i = 0; i < ls->nparts; i++) {
-+-			 blkid_partition par = &ls->parts[i];
-++			 blkid_partition par = ls->parts[i];
-+ 
-+ 			 if (partno != blkid_partition_get_partno(par))
-+ 				 continue;
-+@@ -1088,7 +1096,7 @@ blkid_partition blkid_partlist_devno_to_partition(blkid_partlist ls, dev_t devno
-+ 	DBG(LOWPROBE, ul_debug("searching by offset/size"));
-+ 
-+ 	for (i = 0; i < ls->nparts; i++) {
-+-		blkid_partition par = &ls->parts[i];
-++		blkid_partition par = ls->parts[i];
-+ 
-+ 		if ((uint64_t)blkid_partition_get_start(par) == start &&
-+ 		    (uint64_t)blkid_partition_get_size(par) == size)
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
 
