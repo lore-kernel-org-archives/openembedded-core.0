@@ -1,150 +1,141 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1952CC4451B
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 08:03:12 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4208.1784534586799548403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC2DC4451B
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 08:09:02 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4262.1784534939673216395
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 01:03:07 -0700
+ Mon, 20 Jul 2026 01:09:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fXvth/rz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69e2266b07fso7138362a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 01:03:06 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Q3TEFuU6;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4956242332dso2293165e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 01:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1784534585; x=1785139385; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=rxVXnlGwsgQ6Gwe1+oxFrat8Gg1sUOI3a+czkjtZotg=;
-        b=fXvth/rzBe0xkS1BO3KgGW8gHr169o575ElxqfJW+z3FCCxlG+49phNNH5EhvUXW9I
-         EQN4PWrYkBPUSWXTLtYnkKRxu01+BnkRM65XXV5Lm6Ur1S5H6kxri3MGdffJ9QYvt0iW
-         qyD6PPhuHiiskWCqrzuYH7hy6O3X4+HYXCvWQ=
+        d=smile.fr; s=google; t=1784534938; x=1785139738; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3j9gjghnIjb0Di54udKorD20zaTEw51G01V+y7sJmEk=;
+        b=Q3TEFuU6AvdAus0hnoTA00/62RfX0u1uf79lmmrDFYckQm4jS0CYuO96WKskiqY5jw
+         gREepQ8zendzjyYxu2XKV+UsV44rs5AuA36oOO9OvMiupUOvj6OrvhS2/6ZSlDKZijbI
+         t5sCDxZRIiuTsNQhHm5ieQkafK64z/e+4HIwY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784534585; x=1785139385;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rxVXnlGwsgQ6Gwe1+oxFrat8Gg1sUOI3a+czkjtZotg=;
-        b=qtw7pHTosw2fXB/0XinVYdPkTsRE5QJTg9Dp17l+kOfnnkmDhsDqA1vLLm1guqgiX6
-         ByCCDGyUonlx+opXgpzRhdZ7e7lCIhluhuZGAWL1eTZMFIBz/L+0qBB5lwuMJQow5sr2
-         /V/EI6VpgZ7WwDRx0A4iY4u5WDt2ubM4z0zYxdBTQTmqki5Ket35UXWCogdWwOaBs3CQ
-         QFbg5L2fFFp3eoXPTNLgAX19RJQX54+Q2R0fmAQLnA4q0swkkYOmCIfwSUvG2MK//5CV
-         I+/FdGXZGAO8KAIU8+346OUn5Q17cmu+Hix15mjYeqxlg/uOCAhdkghf3QAG+VPuRxyk
-         SOGA==
-X-Gm-Message-State: AOJu0Yz5ZDKztHvYa6goRPEBB2RQXhi72ISj0/a+2JbpT3kJa4rnGHU3
-	ePrSUpdeifKFIlyWKV1An4CD7vqn2XiQR9iLsfjXkss74DGOZGmRolHiUuXYr/A4wjI=
-X-Gm-Gg: AfdE7cm0UnMn6NXlQtKC2iDaovpt2q9AenvD18ElIWgDDDMqRzs01o3VKLMyiYnMdmw
-	mMXCyJxI9l24wWxwHBb8yJ6x1TW1xtLuuTYNFkNngpUs4nM0VWd1oS1grWc+bVNzI4CneUg4JBW
-	mEW3ehI8mu/39ltJKX30xUQnqRi4PGZ6xN8Kgnok29st3IxMMY2BC4i2CMKAfCLkuNwxzKZKIN+
-	u005t+OaoDk/IJefBmTxzUBB0hgPX6NSa+x7yEwmheh6pOGAoQvamnvtDJYtKlIpTSMP9ji/u5X
-	LU80kmpCXp3LLRR+cDhLUGfgu3XXRv9fe3Y+yP1YFruT55l2zccnFCCl5jbJPKGoZ9+UUVwA4v4
-	UkaPOd83/0bwm5j9y8txQY47FYCR4PnIKgctgOis7EgtthyfIPzftzylNxypinwwtt/q3ZOXzHO
-	qZFiyRDY2n9R+QkxGyxWnQP3r+k10kOnBT8vqAFTEShWRUukvn8ewzQEqofVs+CdFP1Kc=
-X-Received: by 2002:a05:6402:40cf:b0:69e:383b:c4b with SMTP id 4fb4d7f45d1cf-69e65273c42mr4448609a12.16.1784534584832;
-        Mon, 20 Jul 2026 01:03:04 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f231:f082:3d95:2084? ([2001:8b0:aba:5f3c:f231:f082:3d95:2084])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffed537sm4266673a12.24.2026.07.20.01.03.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 01:03:02 -0700 (PDT)
-Message-ID: <7782792b05b85562b28f1c6ce9a2319c8269fae4.camel@linuxfoundation.org>
-Subject: Re: [PATCH v4 2/2] systemd: add native hwdb generator via merged
- systemd-tools-native
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Daniel Turull <daniel.turull@ericsson.com>, "Ross.Burton@arm.com"
-	 <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Jul 2026 09:03:01 +0100
-In-Reply-To: <0b406994f714c1d3659dd054ceea97e95b7f8090.camel@ericsson.com>
-References: <20260703072948.2939128-1-daniel.turull@ericsson.com>
-		 <20260703072948.2939128-3-daniel.turull@ericsson.com>
-		 <791CE8D7-F761-490C-9922-4A71F96614DC@arm.com>
-	 <0b406994f714c1d3659dd054ceea97e95b7f8090.camel@ericsson.com>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20251104; t=1784534938; x=1785139738;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3j9gjghnIjb0Di54udKorD20zaTEw51G01V+y7sJmEk=;
+        b=jz36OxwfY50lhin0t8ALciEG13Hjs64rmw1ZXwjrfrZsofV/U//2F3Dpg40wiiqHdY
+         SNw0cXWAs9P5I4YY5G8Z2uWJqBAbALGKWfrB8mfAjGZxCwPGj8BaO/hpv13MCsnS6g0f
+         +xpI7LzcfXvvDMTHbVwYAQReJgUwf5NYiOqFQPf+uQn8MgGcmPiKhUR7I7FoptmSRBUb
+         z45xymnJvcSuXDMZOeAKS7R1Tp8Vi60X1nUIll/9Bnbo4D1cr+weYc8VfwExIY0xfM7g
+         7FpUWzEGz6o4PyWM/g5qJVOTjvsU3/3y8WJL8+09OS1KRn71cx0X1de7RvmNsMjG0FdK
+         YV+A==
+X-Forwarded-Encrypted: i=1; AHgh+Rqg4s2aRPqKY3it9BWhu8QmjVwVC4GbO2CNjONp4s4AeECu3kNJuZXVpCpu8xQQE4jL0QGgyHAx24IKcJIAWjMWQA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyuABd8s/UJYcDvvr6DlBxBM7ERLpX+50AapQJWNhQCcfwuxap5
+	W+s/m9RCkPzokjBX9AUACk+Fszdk64bgv3knepNs+ChLHtTlDizagIBqZdWjswNpvWhtWcu6aXv
+	0QRI7o5vESw==
+X-Gm-Gg: AfdE7cn9Z0YnoRF0RA2WyHfm70mzD6JLlvypiqwDmBqyyxB7alEZXOryD/IUxyZiyu3
+	wmA8zP4UFtDSgvyNQGUsbwMWiODOKnxJod9E40+h9UMxp68OCgqb1yy5vxk5y7wmcFs0mt+amp4
+	EfpQaHzVpL2WO5uvkFxMsv+AluAcwyYD83L6+dN7jQgR8wOJk98cxSDMwCMyg06KGuc2jZE/yL9
+	xdgOIDmc+ASGFuLNnXAWKCinIsYYqgPj01AmHHbeC3euUXV9AOMBfSUVPjOb1ekxQM/d/V2gvvL
+	SXICqz2cAYBnLbAhcLJqIfZYirmbQwJd4dV+lUiaYHe2lwWnSqEIXpoVecGYxVKLuAUBhFFXe36
+	7c1AHubXIWXhlTFy0fgBHXj8N72HjzSvbu8ohdfKqS+n4/ETHWeDP7rlzuHNc3GP4ppjqq6Ytl8
+	fbjZ2YiFF5PdLDcG0G93a2kCGAdbC4T7yWMveQlUhx0lNV4L7ZBdYZe6hsxFksXg==
+X-Received: by 2002:a05:600c:4703:b0:495:4e89:3f30 with SMTP id 5b1f17b1804b1-4954e893f8cmr123372525e9.15.1784534937750;
+        Mon, 20 Jul 2026 01:08:57 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954ba2abd0sm232103765e9.15.2026.07.20.01.08.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 01:08:57 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 20 Jul 2026 10:08:57 +0200
+Message-Id: <DK38U8J7M0EP.H6R91H3OQ454@smile.fr>
+To: <enoch.ng@windriver.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH] libxpm: upgrade 3.5.17 -> 3.5.19
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260716142529.2686271-1-enoch.ng@windriver.com>
+In-Reply-To: <20260716142529.2686271-1-enoch.ng@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 08:03:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241338
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 08:09:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241339
 
-On Mon, 2026-07-20 at 07:26 +0000, Daniel Turull wrote:
-> On Fri, 2026-07-17 at 17:59 +0000, Ross Burton wrote:
-> > Hi Daniel,
-> >=20
-> > > On 3 Jul 2026, at 08:29, daniel.turull@ericsson.com=C2=A0wrote:
-> > >=20
-> > > Build systemd-hwdb natively so image construction no longer
-> > > depends
-> > > on
-> > > QEMU-emulated udevadm on such hosts, with:
-> > > - A patch restoring /proc/self/fdinfo mount-ID fallback for
-> > > kernels
-> > > =C2=A0 lacking STATX_MNT_ID (applied only to the native tools recipe)
-> > > - A patch forcing compat mode in hwdb generation to avoid
-> > > embedding
-> > > =C2=A0 build-host paths in hwdb.bin (reproducibility)
-> > >=20
-> > > Update the update_udev_hwdb intercept to prefer the native
-> > > systemd-hwdb over QEMU emulation, with a test -s check to catch
-> > > silent failures from either path.
-> >=20
-> > Staring at these patches made me have thoughts and ideas, I=E2=80=99ve =
-just
-> > sent some patches that do some cleanups to the systemctl code (and
-> > conflict with your series) that also then renames systemd-
-> > systemctl-
-> > native to -tools-, so that the upgrade work is tidier as it doesn=E2=80=
-=99t
-> > also need to rename lots of things.=C2=A0 This makes patches easier to
-> > review/revert/backport/etc.
-> >=20
-> > Then some research revealed that we don=E2=80=99t need to run update-hw=
-db
-> > in
-> > a qemu at all, we were likely doing that originally because we
-> > didn=E2=80=99t
-> > have a native recipe and the generated file has explicit
-> > bytesize/word order: the files generated by ppc32 vs aarch64 in
-> > qemu
-> > are identical, so we can just delete the qemu codepaths entirely.
-> >=20
-> > This did involve discovering that there=E2=80=99s a bug in pseudo and
-> > writing
-> > an upstreamable patch for systemd-hwdb to strip build paths, but I
-> > think we=E2=80=99re getting there.=C2=A0 The last bit of the series nee=
-ds a bit
-> > more love, but I=E2=80=99ll be sending that on Monday.
-> >=20
-> > Then we can rebase the 261 upgrade, which should be a lot smaller!
-> >=20
->=20
-> Thanks Ross, then I'll rebase the upgrade on top of you new patches.
-> I
-> will also take the latest systemd version
->=20
-> what about the debian 11 compatibility, has been settle to use
-> buildtools within debian 11 since it is old and reaching EOL or
-> should I put effort to make it build natively?
+Hello,
 
-We switched debian11 to use buildtools so we're ok there.
+On Thu Jul 16, 2026 at 4:25 PM CEST, Enoch Ng via lists.openembedded.org wr=
+ote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> Squashed backport of two upgrades:
+> 1fc25a668e libxpm: upgrade 3.5.18 -> 3.5.19
+> 767f686226 libxpm: upgrade 3.5.17 -> 3.5.18
 
-I have some of Ross' patches ready for merging in master-next. I'd also
-written this patch myself:
+Wang did not author this squashed commit. You can reference their
+commits but if you majorly modify them (like here), you should be
+author.
 
-https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&id=
-=3D87c788c4f1f99425c6716d0337ec153719bcca4a
+>
+> A vulnerability in the `xpmNextWord()` function could cause an
+> internal pointer to read beyond the file's end due to improper
+> validation of file boundaries. This issue was fixed in libXpm 3.5.19.
+>
+> The changes between 3.5.17 and 3.5.19 contain the fix to
+> CVE-2026-4367 along with other changes that should be safe to
+> backport as shown here:
+>
+> $ git log --oneline libXpm-3.5.17..libXpm-3.5.19
+> 9a05472 (HEAD -> master, tag: libXpm-3.5.19, origin/master,
+>         origin/HEAD) libXpm 3.5.19
+> 5448e1b Fix CVE-2026-4367: Out-of-bounds read in xpmNextWord()
+> 5b7e903 (tag: libXpm-3.5.18) libXpm 3.5.18
+> a5549ac gitlab CI: drop the ci-fairy check-mr job
+> 10070a4 Strip trailing whitespace from source files
+> 5679dd6 tests: poll for stable compressed output
+> 7ce3959 man pages: adjust line breaks in source files
+> 60ee362 man pages: remove .PP after .SH or .SS lines
+> 3ba5d81 man pages: ensure .BR macro has multiple arguments
+> 3aa8a1e man pages: make indentation arguments to .IP be numeric
+> 854c23a XpmCreateBuffer.3: editorial changes for this man page
+>         [Debian bug #1102886]
+> b7309b4 Fix build with current Windows headers
+> 2803929 Use _stricmp() instead of strcasecmp() on Windows
+> bdb6c75 Remove xpmstrdup fallback for strdup
+> 73b69d7 Remove xpmstrcasecmp fallback for strcasecmp
+> b30fd09 Remove ancient port to 16-bit Windows without X11 libraries
+> 0224b43 Remove ancient Amiga support
+> b72af4e unifdef VAX11C
+> 02702c2 unifdef sequent
+> b4e2177 Remove outdated ifdef checks for including stdint.h
 
-which applied on top of yours, basically dropping the systemd intercept
-as I don't think it is needed any more if we're not using qemu.
+I disagree: 3.5.18 is a maintenance/cleanup release with major code
+removal (even if obsolete) and I think this is not compatible with our
+stable policy.
 
-Cheers,
+To fix CVE-2026-4367, you should backport the fix to scarthgap instead.
 
-Richard
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Enoch Ng <enoch.ng@windriver.com>
+> ---
+>  .../xorg-lib/{libxpm_3.5.17.bb =3D> libxpm_3.5.19.bb}             | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.17.bb =3D> libxpm_3.5.=
+19.bb} (88%)
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
+
 
