@@ -2,16 +2,16 @@ Return-Path: <mark.yang@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD78C44525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CCE6C44528
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 09:31:37 +0000 (UTC)
-Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5262.1784539891509635822
+Received: from lgeamrelo12.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5425.1784539891628270235
  for <openembedded-core@lists.openembedded.org>;
  Mon, 20 Jul 2026 02:31:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: mark.yang@lge.com)
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: mark.yang@lge.com)
 Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
-	by 156.147.23.53 with ESMTP; 20 Jul 2026 18:31:29 +0900
+	by 156.147.23.52 with ESMTP; 20 Jul 2026 18:31:29 +0900
 X-Original-SENDERIP: 156.147.1.125
 X-Original-MAILFROM: mark.yang@lge.com
 Received: from unknown (HELO markyang..) (10.177.127.86)
@@ -21,9 +21,9 @@ X-Original-MAILFROM: mark.yang@lge.com
 From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
 Cc: "mark.yang" <mark.yang@lge.com>
-Subject: [PATCH v3] kernel: add KERNEL_TOOLCHAIN to switch the whole kernel toolchain
-Date: Mon, 20 Jul 2026 18:31:19 +0900
-Message-ID: <20260720093119.3245892-4-mark.yang@lge.com>
+Subject: [PATCH v3 2/3] module.bbclass/make-mod-scripts: inhibit default dependencies
+Date: Mon, 20 Jul 2026 18:31:18 +0900
+Message-ID: <20260720093119.3245892-3-mark.yang@lge.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260720093119.3245892-1-mark.yang@lge.com>
 References: <20260720093119.3245892-1-mark.yang@lge.com>
@@ -33,82 +33,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 09:31:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241349
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241347
 
 From: "mark.yang" <mark.yang@lge.com>
 
-Setting TOOLCHAIN on the kernel recipe alone leaves modules and
-make-mod-scripts running make against the shared build tree with gcc;
-kbuild spots the CC_VERSION_TEXT mismatch and silently regenerates
-the shared .config. Add a KERNEL_TOOLCHAIN switch so the kernel,
-modules and make-mod-scripts change toolchain together, gcc by default.
-
-Set TOOLCHAIN from it in the kbuild consumers rather than in
-kernel-arch: kernel-arch is also inherited by u-boot and barebox for
-the ARCH mapping, and the u-boot kbuild hardcodes ${CROSS_COMPILE}gcc,
-so switching them too would drop the gcc cross dependency they need:
-
-  /bin/sh: 1: x86_64-oe-linux-gcc: not found
-
-Full log: https://errors.yoctoproject.org/Errors/Build/242654/
+Modules and make-mod-scripts build against the shared kernel build
+tree with the kernel toolchain, so the default virtual/libc and
+virtual/compilerlibs dependencies are unused. Inhibit them and add
+the cross toolchain explicitly, as kernel.bbclass does, which also
+keeps compiler-rt and libcxx out of module builds with clang.
 
 Signed-off-by: mark.yang <mark.yang@lge.com>
 ---
-v3: set TOOLCHAIN from the kbuild consumers instead of kernel-arch,
-    which is also inherited by u-boot and barebox
-v2: rebased on the merged clang toolchain support which supersedes
-    the other v1 patches; dependency changes split out into patch 2
+v3: no changes
+v2: split out of the KERNEL_TOOLCHAIN patch
 
- meta/classes-recipe/kernel-arch.bbclass                      | 1 +
- meta/classes-recipe/kernel.bbclass                           | 1 +
- meta/classes-recipe/module-base.bbclass                      | 1 +
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 1 +
- 4 files changed, 4 insertions(+)
+ meta/classes-recipe/module.bbclass                           | 3 +++
+ meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
-index 321c9ed577..b15e0aca80 100644
---- a/meta/classes-recipe/kernel-arch.bbclass
-+++ b/meta/classes-recipe/kernel-arch.bbclass
-@@ -92,4 +92,5 @@ KERNEL_LD:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld'
- KERNEL_AR:toolchain-clang = "llvm-ar ${HOST_AR_KERNEL_ARCH}"
- KERNEL_OBJCOPY:toolchain-clang = "llvm-objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
- KERNEL_STRIP:toolchain-clang = "llvm-strip"
-+KERNEL_TOOLCHAIN ?= "gcc"
- TOOLCHAIN = "gcc"
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 48e394b650..a90122354a 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -214,6 +214,7 @@ python do_symlink_kernsrc () {
- addtask symlink_kernsrc before do_patch do_configure after do_unpack
+diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/module.bbclass
+index 6b2c09f441..ce5898125b 100644
+--- a/meta/classes-recipe/module.bbclass
++++ b/meta/classes-recipe/module.bbclass
+@@ -6,6 +6,9 @@
  
- inherit kernel-arch deploy
-+TOOLCHAIN = "${KERNEL_TOOLCHAIN}"
+ inherit module-base kernel-module-split pkgconfig
  
- PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
- PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
-diff --git a/meta/classes-recipe/module-base.bbclass b/meta/classes-recipe/module-base.bbclass
-index 2a225881ba..cae71a9b15 100644
---- a/meta/classes-recipe/module-base.bbclass
-+++ b/meta/classes-recipe/module-base.bbclass
-@@ -5,6 +5,7 @@
- #
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "virtual/cross-cc virtual/cross-binutils"
++
+ EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
  
- inherit kernel-arch
-+TOOLCHAIN = "${KERNEL_TOOLCHAIN}"
- 
- # We do the dependency this way because the output is not preserved
- # in sstate, so we must force do_compile to run (once).
+ MODULES_INSTALL_TARGET ?= "modules_install"
 diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 338a50de91..d11afa86a1 100644
+index 4b0630313f..338a50de91 100644
 --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
 +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -4,6 +4,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+@@ -18,6 +18,9 @@ DEV_PKG_DEPENDENCY = ""
+ DEPENDS += "bc-native bison-native"
+ DEPENDS += "gmp-native"
  
- inherit kernel-arch linux-kernel-base
-+TOOLCHAIN = "${KERNEL_TOOLCHAIN}"
- inherit pkgconfig
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "virtual/cross-cc virtual/cross-binutils"
++
+ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+ EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
  
- PACKAGE_ARCH = "${MACHINE_ARCH}"
 
