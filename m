@@ -2,62 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85DEEC44531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0C4DC44535
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:47 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2875.1784568221500271973
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2898.1784568218676869037
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:41 -0700
+ Mon, 20 Jul 2026 10:23:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=q47JMAB4;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49546c690ffso27067665e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:41 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=jr9Dds7/;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4954d383e64so17012325e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784568220; x=1785173020; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784568217; x=1785173017; darn=lists.openembedded.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=RkdYb1/khWfzkjOO8XfN9zeN59KzoW2uCXEI8TB1WkM=;
-        b=q47JMAB4Hk5BBtSHwYgtXpAOzwM4RZvQWoM1k08srtnYqJnRq70hl3RahifAt6Jqsq
-         9cA7GbZdD+EE8KI6Ds10c9R1Bgcz8IHtYLo6v60Jh+dmw594thSBs33p9VczQBHp3GcV
-         nuPq3+BoqC/XPqRWI2Fz3gj5CP4KcL9W6R+mM=
+        bh=YHEtEe7zaHqJApiyagDbgiIgLLHn6uuRrvv2cMYiya0=;
+        b=jr9Dds7/uwmLQGE89vlhMzkauJG7p4j0+XjT7wRJkb/JcQz7cF3G39tOX5oYDDDdNt
+         dm6doKDBpHM7eqeIZYBaX5dsRwZAGm11h80O8qcaxq62zo8Tk+zOfGUEpOuZd8IvPjVh
+         dfcMuqeSSdOZAkLcmbjyEznAXoGCT+6UN2uMY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568220; x=1785173020;
+        d=1e100.net; s=20251104; t=1784568217; x=1785173017;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RkdYb1/khWfzkjOO8XfN9zeN59KzoW2uCXEI8TB1WkM=;
-        b=rh7tfjFD9fVU9UAlpypjLvW/kcyS1I7OapR/7VXzADOB1oZnzm2Rr2zhcttpYslJdK
-         tuCMvLZ88rI8NgsC4vKM69KZgwzVAZRAPFvw7ZBVYyNb6xwOvEXQ7zTHXavGHT4i96Jz
-         t1x9vzO+0grtTBuSl1YHzujY6nLdIxrOWaHwtGO86ZB25RqORq3b1N80Uk8yx2owiXbb
-         DWeDuTiIKtOK8fwxBDndaikUb8pej7uXVfYWCQP+jeaWi0opNlET1jjQjJnOg9KTIaGm
-         UZciq94knJAKPZPVRet+b3jVM002KIc0Ot2/VchhidmouHUGAlcC5HqV7p/LPLiVfhUi
-         7U2w==
-X-Gm-Message-State: AOJu0YzEMkLweN0BQnOv+Nn3kFTCiYqJZYbI2wppTN9FtDv7+KLGO4x1
-	G6OzriD96ed1ZCzww/ClO6wDhgsLjdn1cPFZE7ZmLQJAvbX2jNFuvGaix2O4gngKlo8FBbB9yAg
-	BjWyv7IA=
-X-Gm-Gg: AfdE7cn2XkW/pHFomzKTSMsAXFhFtgn2wdcPFqYYijWzAFwZNDjvdRgbn2QRoMJ1ppw
-	uchBLGwYAaw/RdjKYpVBaRKphyD4AIPUkiwIQjf1gqzzD9G8iFxUdSEaKNQM7y/T3Glef7hhglo
-	P901LHUPh/Z6CNlLNg+8q9qH2WsruasdjOPB8WSlTMhdXd9+6zP1zHy0tzZbUtJqtVigvkNK3og
-	mln4U6J46rD9TSr19U4jojhBHtM1L4QNN9KXfASAEuU2oEZebEYoyROQK3dLZfFFMaXQWeyWT94
-	y2nLdUU7akAN+cAZXIqih65/kKH2DExakulVa9rrqzWUXMey8Zwou6OB+cjNEd03Wa7aJkQYb0I
-	WcOjcNVPGSKXNAMVmOCP+/XmvPBPtKdbK09aoEOvQkTbW/MokvteYysjGf2WCgA5jwT1OZOvXbE
-	rzhJ2EN1gEXcrpz24bA7PteHZUUi6ScbO2rZNU2vethg9gcggHidqSL+C9oh4lZlPB9SHWA82dW
-	7dafLAY3Wk6qAvtnN8=
-X-Received: by 2002:a05:600c:3b20:b0:495:4f62:c9f5 with SMTP id 5b1f17b1804b1-4954f62ca61mr136230035e9.24.1784568219599;
-        Mon, 20 Jul 2026 10:23:39 -0700 (PDT)
+        bh=YHEtEe7zaHqJApiyagDbgiIgLLHn6uuRrvv2cMYiya0=;
+        b=rhjWA1dEjWeP5TLAfNPJqwJyk33gBUJ7CRo8tVcr0lO5DqxXQai4Ff/Oxryd8OZhFw
+         CS6/vKK1bWox5r5Lgd5F2jP3WcmTRGTDoEHwmruICIfl0qz8imhsws4/7JZFdyQOIPe9
+         tUQAq/VC0lHs72PqxX2Atx+rk8sVJu5cTMSRA/CUqb45nn3tPwRHqBeouSTppy6TheI/
+         gQPlGnyvfBScp5vBzw/WFfGEpzIVdf2l5fPBQPY43OEnlL6YoiGoYkCWHa8fLS4ISf3X
+         zVjW9ctUQjRPD6YBwwxFp7kVM9qkfhZnZFY33um2tySlm0gzEDpGTPNqxE2dP+/8vxwS
+         H9EA==
+X-Gm-Message-State: AOJu0YyFCleDBcyeS/IdyFchoDcOXfqbDifraDIdCOvOcC0aJJcUZW49
+	nLDxSSJ9aRQaGdm8hVtHYt438mIzYAGIi6ZzV8MH8NI/gnFz1In227BFHQqsCh17r7r1awaZ0vU
+	Z/B6cdfw=
+X-Gm-Gg: AfdE7cmO1YftsLNxUGwCGDvw+gTMwLFue0qzLrREufXA8Z0BI0Eek/cG15pvT+Y+szj
+	sZqjYy4JaH+CJVUlQkjAewc4RS8DVwvMCr5rx6DX+noqoQQtI+CLT50DXJJOnBfnVy6VRdGcNKp
+	m/7D7tSPT1a3pt7pL1wvBbGGoERdhuq5bdK2LhfiCJIXZNqNeHfjd6JMGTquA7YK1JgpQwZUNcz
+	+Py8BGiuBE4Y7vaf0N/jgLRpAESFIsguEi23d3PahjYdFKIiqkdr2ZNPapOhkoOiN2dth14jXsE
+	NRuyBv+lWqu/fGIYtdKV1q6z0x9LslUzp4xFKZMOYcddJ1G6IkQFRclNoMYRNWVAL7dv9ko63Ru
+	RzmhyktAcf0oyYEkBYWWnCdB9nA+5/gKUBwsnrKta4YErya+zgccbcJo5K+UW8M9aUUjpGrODO7
+	IKCZ2oMI5q8UHjEjafh5ccNad4bRSv5szqwkONFRVT5O0GmqhdD/Yaois71AiidkSNdxpK3T1un
+	1rCI1OC
+X-Received: by 2002:a05:600c:1c0b:b0:495:46dd:e238 with SMTP id 5b1f17b1804b1-4954a50ea30mr192977535e9.30.1784568216822;
+        Mon, 20 Jul 2026 10:23:36 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:23:39 -0700 (PDT)
+        Mon, 20 Jul 2026 10:23:36 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/33] gzip: fix CVE-2026-41992
-Date: Mon, 20 Jul 2026 19:22:50 +0200
-Message-ID: <aaaa61c4e0ba347849a23b787eb257d9f7e02f2f.1784567958.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 14/33] socat: patch CVE-2026-56123
+Date: Mon, 20 Jul 2026 19:22:47 +0200
+Message-ID: <9d8f5eb7c10c17865b46ccaac03a71054c161219.1784567958.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
 References: <cover.1784567958.git.yoann.congal@smile.fr>
@@ -68,111 +68,195 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241451
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241448
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport upstream fix for a global buffer overflow in the LZH
-decompression logic (unlzh.c). The left[] and right[] global arrays
-shared across LZW and LZH decompression routines are not reinitialized
-between files processed in the same invocation, allowing an
-out-of-bounds read in the LZH decoder.
+Pick the only commit in release 1.8.1.2.
+This release has a note for this CVE which was added by this commit.
 
-Adapted for gzip 1.13:
-- Refreshed NEWS and THANKS hunks to match 1.13 release context.
+Drop change in VERSION file (as we're not upgrading).
+Resolve minor conflicts in CHANGES and test.sh.
 
-Reference: https://nvd.nist.gov/vuln/detail/CVE-2026-41992
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit deaaaacabbf8d21fb9271e3f6f83055893510cff)
+Since we're not running tests, it's not worth to pick next commit from
+1.8.1.3 which is fixing test on non-bash shell systems.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+[YC: project git repo seem down. A mirror is here:
+https://third-party-mirror.googlesource.com/socat/+/d44cd1cc4fbb70a9ae9e71890024ae8367fcb912%5E%21/ ]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gzip/gzip-1.13/CVE-2026-41992.patch       | 64 +++++++++++++++++++
- meta/recipes-extended/gzip/gzip_1.13.bb       |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41992.patch
+ .../socat/files/CVE-2026-56123.patch          | 150 ++++++++++++++++++
+ .../socat/socat_1.8.0.0.bb                    |   1 +
+ 2 files changed, 151 insertions(+)
+ create mode 100644 meta/recipes-connectivity/socat/files/CVE-2026-56123.patch
 
-diff --git a/meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41992.patch b/meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41992.patch
+diff --git a/meta/recipes-connectivity/socat/files/CVE-2026-56123.patch b/meta/recipes-connectivity/socat/files/CVE-2026-56123.patch
 new file mode 100644
-index 00000000000..4db9a1c1afd
+index 00000000000..e2552a74451
 --- /dev/null
-+++ b/meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41992.patch
-@@ -0,0 +1,64 @@
-+From 63dbf6b3b9e6e781df1a6a64e609b10e23969681 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Wed, 15 Apr 2026 12:00:17 -0700
-+Subject: =?UTF-8?q?gzip:=20don=E2=80=99t=20mishandle=20.lzh=20after=20.Z?=
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-connectivity/socat/files/CVE-2026-56123.patch
+@@ -0,0 +1,150 @@
++From d44cd1cc4fbb70a9ae9e71890024ae8367fcb912 Mon Sep 17 00:00:00 2001
++From: Gerhard Rieger <gerhard@dest-unreach.org>
++Date: Thu, 25 Jun 2026 14:55:59 +0200
++Subject: [PATCH] Version 1.8.1.2 - fixed SOCKS5 client buffer overflow
++ (CVE-2026-56123)
 +
-+Problem reported by Michał Majchrowicz.
-+* unlzh.c (read_c_len): Clear left and right when n == 0.
-+
-+CVE: CVE-2026-41992
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=63dbf6b3b9e6e781df1a6a64e609b10e23969681]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++CVE: CVE-2026-56123
++Upstream-Status: Backport [repo.or.cz/socat.git/commitdiff/d44cd1cc4fbb70a9ae9e71890024ae8367fcb912]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ NEWS    | 4 ++++
-+ THANKS  | 1 +
-+ unlzh.c | 6 ++++++
-+ 3 files changed, 11 insertions(+)
++ CHANGES      | 13 ++++++++++
++ test.sh      | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++++
++ xio-socks5.h |  4 +--
++ 3 files changed, 88 insertions(+), 2 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index bdb7cc0..af2a08f 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -14,6 +14,10 @@ GNU gzip NEWS                                    -*- outline -*-
-+ 
-+ ** Bug fixes
-+ 
-++  A buffer overflow has been fixed when decompressing an .lzh file
-++  after decompressing a .Z file.
-++  [bug present since the beginning]
++diff --git a/CHANGES b/CHANGES
++index ba82024..3c2f230 100644
++--- a/CHANGES
+++++ b/CHANGES
++@@ -1,4 +1,17 @@
++ ﻿
+++Security:
+++	Socat security advisory 10
+++	CVE-2026-56123
+++	There was a possible heap overflow in the socks5 client code. It could
+++	be triggered by connecting to a malicious socks5 server that expected
+++	this connection and had knowledge about details of the client binary
+++	code.
+++	Only builds with C signed char (vs.unsigned char) are affected.
+++	Thanks to Tristan Madani for finding and reporting this issue, and for
+++	conveying the process.
+++	Test: SOCKS5_OVERFL
 ++
-+   'gzip -d' no longer fails to report invalid compressed data
-+   that uses a dictionary distance outside the input window.
-+   [bug present since the beginning]
-+diff --git a/THANKS b/THANKS
-+index 4e545d9..a7d25e4 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -186,6 +186,7 @@ Jamie Lokier            u90jl@ecs.oxford.ac.uk
-+ Richard Lloyd           R.K.Lloyd@csc.liv.ac.uk
-+ David J. MacKenzie	djm@eng.umd.edu
-+ John R MacMillan        john@chance.gts.org
-++Michał Majchrowicz	mmajchrowicz@afine.com
-+ Ron Male                male@eso.mc.xerox.com
-+ Jakub Martisko		jamartis@redhat.com
-+ Don R. Maszle           maze@bea.lbl.gov
-+diff --git a/unlzh.c b/unlzh.c
-+index 3320196..a6cf109 100644
-+--- a/unlzh.c
-++++ b/unlzh.c
-+@@ -232,6 +232,12 @@ read_c_len ()
-+         c = getbits(CBIT);
-+         for (i = 0; i < NC; i++) c_len[i] = 0;
-+         for (i = 0; i < 4096; i++) c_table[i] = c;
 ++
-++        /* Needed in case LEFT and RIGHT are reused from a previous
-++           LZW decompression.  It may be overkill to clear all of both
-++           arrays, but nobody has had time to analyze this carefully.  */
-++        memzero(left, (2 * NC - 1) * sizeof *left);
-++        memzero(right, (2 * NC - 1) * sizeof *left);
-+     } else {
-+         i = 0;
-+         while (i < n) {
-diff --git a/meta/recipes-extended/gzip/gzip_1.13.bb b/meta/recipes-extended/gzip/gzip_1.13.bb
-index fd846b30a55..208220867a6 100644
---- a/meta/recipes-extended/gzip/gzip_1.13.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.13.bb
-@@ -6,6 +6,7 @@ LICENSE = "GPL-3.0-or-later"
++ ####################### V 1.8.0.0
++ 
++ Security:
++diff --git a/test.sh b/test.sh
++index 53bbb2a..467ac57 100755
++--- a/test.sh
+++++ b/test.sh
++@@ -601,6 +601,9 @@ rm -rf "$TD" || (echo "cannot rm $TD" >&2; exit 1)
++ mkdir -p "$TD"
++ #trap "rm -r $TD" 0 3
++ 
+++BINDIR=$td/bin
+++mkdir -p $BINDIR
+++
++ echo "Using temp directory $TD"
++ 
++ case "$TESTS" in
++@@ -19217,6 +19220,76 @@ fi # NUMCOND
++ esac
++ N=$((N+1))
++ 
+++# Above tests introduced with 1.8.1.0 (none with 1.8.1.1)
+++#==============================================================================
+++# Below tests introduced with 1.8.1.2
+++
+++
+++# Test socks5 client buffer overflow (CVE-2026-56123)
+++NAME=SOCKS5_OVERFL
+++case "$TESTS" in
+++*%$N%*|*%functions%*|*%bugs%*|*%security%*|*%socks5%*|*%socks%*|*%%*|*%%*|*%socket%*|*%$NAME%*)
+++#*%internet%*|*%root%*|*%listen%*|*%fork%*|*%ip4%*|*%tcp4%*|*%bug%*|...
+++TEST="$NAME: socks5 client buffer overflow"
+++# Start a listener that emulates a malicious socks5 server, using a temporary
+++# shell script;
+++# connect using Socat with socks5 client;
+++# when is terminates with rc=0 the test succeeded (not vulnerable)
+++if ! eval $NUMCOND; then :
+++# Check if this test can be performed meaningfully
+++elif ! cond=$(checkconds \
+++		  "" \
+++		  "" \
+++		  "" \
+++		  "IP4 TCP LISTEN SHELL GOPEN SOCKS5" \
+++		  "TCP4-LISTEN SHELL GOPEN SOCKS5" \
+++		  "socksport" \
+++		  "tcp4" ); then
+++    $PRINTF "test $F_n $TEST... ${YELLOW}$cond${NORMAL}\n" $N
+++    cant
+++else
+++    mkdir -p "$BINDIR"
+++    tf="$td/test$N.stdout"
+++    te="$td/test$N.stderr"
+++    tdiff="$td/test$N.diff"
+++    tsh="$BINDIR/test$N.sh"
+++    cat >"$tsh" <<__EOF__
+++$ECHO -n "\\x05\\x00"
+++relsleep 1
+++$ECHO -n "\\x05\\x00\\x00\\x03\\xfdAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+++__EOF__
+++    chmod a+x "$tsh"
+++    newport tcp4 	# -> PORT
+++    CMD0="$TRACE $SOCAT $opts TCP4-LISTEN:$PORT SHELL:$tsh"
+++    CMD1="$TRACE $SOCAT $opts /dev/null SOCKS5:$LOCALHOST4:17.34.51.68:85,socksport=$PORT"
+++    printf "test $F_n $TEST... " $N
+++    $CMD0 >/dev/null 2>"${te}0" &
+++    pid0=$!
+++    waittcp4port $PORT 1
+++    $CMD1 >"${tf}1" 2>"${te}1"
+++    rc1=$?
+++    kill $pid0 2>/dev/null; wait
+++    if [ "$rc1" -ne 0 ]; then
+++	$PRINTF "$FAILED (rc1=$rc1)\n"
+++	echo "$CMD0 &"
+++	cat "${te}0" >&2
+++	echo "$CMD1"
+++	cat "${te}1" >&2
+++	failed
+++    else
+++	$PRINTF "$OK\n"
+++	if [ "$VERBOSE" ]; then echo "$CMD0 &"; fi
+++	if [ "$DEBUG" ];   then cat "${te}0" >&2; fi
+++	if [ "$VERBOSE" ]; then echo "$CMD1"; fi
+++	if [ "$DEBUG" ];   then cat "${te}1" >&2; fi
+++	ok
+++    fi
+++fi # NUMCOND
+++ ;;
+++esac
+++N=$((N+1))
+++
+++
++ # end of common tests
++ 
++ ##################################################################################
++diff --git a/xio-socks5.h b/xio-socks5.h
++index 4dab76b..d4712d2 100644
++--- a/xio-socks5.h
+++++ b/xio-socks5.h
++@@ -23,7 +23,7 @@ struct socks5_request {
++ 	uint8_t command;
++ 	uint8_t reserved;
++ 	uint8_t	address_type;
++-	char	dstdata[];
+++	unsigned char dstdata[];
++ };
++ 
++ struct socks5_reply {
++@@ -31,7 +31,7 @@ struct socks5_reply {
++ 	uint8_t reply;
++ 	uint8_t reserved;
++ 	uint8_t address_type;
++-	char	dstdata[];
+++	unsigned char dstdata[];
++ };
++ 
++ extern const struct addrdesc xioaddr_socks5_connect;
+diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
+index bb39730005a..156fd590aee 100644
+--- a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
++++ b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
+@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://0001-fix-compile-procan.c-failed.patch \
+            file://CVE-2024-54661.patch \
++           file://CVE-2026-56123.patch \
+ "
  
- SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
-            file://run-ptest \
-+           file://CVE-2026-41992.patch \
-            "
- SRC_URI:append:class-target = " file://wrong-path-fix.patch"
- 
+ SRC_URI[sha256sum] = "e1de683dd22ee0e3a6c6bbff269abe18ab0c9d7eb650204f125155b9005faca7"
 
