@@ -1,185 +1,269 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F362C44515
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 06:45:51 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3366.1784529944131656505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57200C44515
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 06:57:01 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3441.1784530615308993392
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2026 23:45:44 -0700
+ Sun, 19 Jul 2026 23:56:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=YmngOAzO;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1661409e31=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66K6THsd3549242
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 06:45:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=Jl7/EVUex
-	ZCbEXybRX/ci2wgCqvnU3WwrBxStwA9M7M=; b=YmngOAzOHxzzVzcMLK2n6u6xw
-	ALrlXlfv2/yWwX8sfeFnZlI4NdnywtMg9gklevmp8NPtjlT6ltJGDhmyHCiAgtfy
-	wYLBVGyRJXJfaIrYqml8o/u3Or1VGOnXmWf+sfJ5av3Ne3SxaIoB8A0z/wxnsXT1
-	f4j4JG+HrnOF1cURiODx/uPOsKA6sJ18eL3zE2Q1YOpfcv5ERqHnmKEAQCuZrYkc
-	hxveQO2zT7x0nP6zz5N86g5uyLSBybwgZ34Jt1MSKTw+ZC0fXw6Nbw9cL9OxGtUr
-	wzSkJKbqSb2lETokKp8QepMjQ73q4g2j33d10Fwd4D156rA0lSgx5xpPlv8uQ==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012070.outbound.protection.outlook.com [52.101.53.70])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fg0f59w10-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 20 Jul 2026 06:45:42 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ytTgHog7vVP78dVGE7Ac/Z/PNmSqYzOdMJdiyxTgGXHxaRAQJ9ZjWxs+c5xEouTnhLyA9uwYwqAI2h4ThY9FNnvX9/z232VRu2aj6IZdyaJ5hpCLUuucyxEfy/qMp0koetL9glDDgRxE8zwZVQGVh0tLSUrJw87jFbxCghHBGPTYFh2nOHYtZRNSn9HCcdqI33urm//mLzGPF7DqRvAYa1FiVb/dzXRuGGZWq6CeUFmnYY4YBEoWpeav4UA1qbFiXflpPYbqhbvOw+eHVrbhQ+dctPitwywTeQcofOvPnN3mBrkaYZo/wzmpTvVKrr3gIX7x3TPW2NH3RtJ94xkFWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jl7/EVUexZCbEXybRX/ci2wgCqvnU3WwrBxStwA9M7M=;
- b=d902s5jtRRnB7qAdbmkUPRuys4yqAf4sfQrATaS4s4JsTAX31ETdvp4TlUm/eEkeUOFqGtMT7zNVpIuPjMVxXnZlMo9om26JELSuHJ/4dHwvSrN5vu6ws+RrG/RhZRJ8i8T/1bWkUGIZqhFAF+rl156LOUc/m4rHtd1g7EdqtSM0VgLgrdF9e0iywEKI9CMKddKdwAw/DxjhfY226yCWLLV3PvLft8QPep782zjdfbOXxLUUgqY/D17lG6ud5oeS0CdshpheIh37Oq/kevF+lC1e6ZAYX4CP72rPZ0v1fNELQmMa1knaqyLtqyDa5eE4pSZqWmaK/WCCGMLNVP2Oiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by MW3PR11MB4699.namprd11.prod.outlook.com (2603:10b6:303:54::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.13; Mon, 20 Jul
- 2026 06:45:40 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0223.015; Mon, 20 Jul 2026
- 06:45:40 +0000
-From: Harish.Sadineni@windriver.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=W+MSDflc;
+ spf=pass (domain: mvista.com, ip: 209.85.216.53, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38e07ebd263so4119877a91.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2026 23:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1784530614; x=1785135414; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5dsEyJkofpYaxVGBu2vUrPKRKVkWFrge+jUA6g4MA+A=;
+        b=W+MSDflcoBF6oPUkVpqT4q6p+lbuZv29RbX1Gbj34ppEcaxTC0v+mCvXLsYcpfzG4x
+         w2PHHL5Ol+ncz3MzPIVIqwRcfVAjM3An5+NpzDa3vQoenIATN+yk5nrpeP0kID/zFiNG
+         zWrxItUNYZS1C94tuGEEl2TaqOb4IrxUB+1Pg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784530614; x=1785135414;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5dsEyJkofpYaxVGBu2vUrPKRKVkWFrge+jUA6g4MA+A=;
+        b=QiumiFG6qAGlJWiwECAHYvenCggSvvWeFW9hrBDnTl39/YNPh2uwLHDZHuUZupowDc
+         wyaVxuVO+pRIvwLaaOnEeX+vX4qs41tYHmSITevy3Ys9AuRL0RJ5RpqsjmztAI5EKD3R
+         QHXpKt+kxc8bCgs/A2l8BnM/i3i9SDYADYlvRv7vzYSWe9BZ8aKIqJ5KidWFWwughIrS
+         EIHma0tzAf6v1/DriuLaOTrmCzHEhYH/Gk5A2jtEAFWAlVWbHvOeYvQWmAqXKsfusdIq
+         VjKx1WXjJBoN3N8++sN5Gfw7TgOA2ITVJMJm0GU3oCcLEe9UJKoEsLksld7XENe685LJ
+         zRiw==
+X-Gm-Message-State: AOJu0YyTazW3VXVmz5hfwkycxbSxLp0D5FRNt1SYzy/x/QFh2NOVeGt/
+	sLZypE5SGpilxnI1IvPDvsNCF+cj/LT9TRmy8lAftpPNFuxW1RUhgjjm+C8bkE9HmwOkH9UXD7X
+	QGiq74E4=
+X-Gm-Gg: AfdE7cmRuqxrVDdaWLpUMdjrzE1LQV5JJ1K5Zx4deEcKNmFNfT7R3UOcji9DFtrixFU
+	FASlu82T0NeU1F2++/uLUNYINBrQuG4BBPHepD7nMMrkncnJ30e8eXdCe9uPI+3ngo6TXxIMeDv
+	e1NIKw47HE9hoKYJyqFRjS0A1lFiaLd+yjcMN3UjWfGWlYj2YbQ2IGb9SNjAzcxw20NzFyTLIDu
+	VEtL0BqjCEJJIGi7KEGpfZacg7ChmGGFed3n3XKT/HfI0/vRfxmkrYu7JeUSKZTLUDnRVXgLCdU
+	k4hjXGlULujcaWBGM8iJq8AibO0QB0NAp50rvVRwqNx9R/frkIMuTCB24UMav0ydVD3cCg7+v1t
+	+RGHgkDfmT4ysxhu4CUplHXYv2TpZogMZ/dYQ/hqIYHAn16j9njIAYmWLOX7PMwd1tQk3CiqvDd
+	oiS8EjeRfh7A7SPpFPLvYaHcUW9w==
+X-Received: by 2002:a17:90b:6cb:b0:37e:2005:6507 with SMTP id 98e67ed59e1d1-38e4b42355dmr13720612a91.15.1784530614370;
+        Sun, 19 Jul 2026 23:56:54 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([150.129.170.168])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13ce2a18a47sm28741738c88.8.2026.07.19.23.56.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2026 23:56:53 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr, Sundeep.Kokkonda@windriver.com
-Subject: [scarthgap][PATCH v2] binutils: Add CVE-2025-69646 to "CVE:" tag
-Date: Sun, 19 Jul 2026 23:45:24 -0700
-Message-ID: <20260720064524.1305644-1-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0361.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::6) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [wrynose][PATCH] gnutls: fix for CVE-2026-42011
+Date: Mon, 20 Jul 2026 12:26:44 +0530
+Message-ID: <20260720065644.24395-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|MW3PR11MB4699:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42716912-982f-42b5-7d80-08dee62a82ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|366016|52116014|1800799024|38350700014|6133799003|18002099003|11063799006|10067099003|56012099006|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	6TX2sQql2Hd0i33hgfUsbVgxQA9W+DFCWe4hvMsSp8k3KlGhoHEwv2Wbi0IMVpleenGEIWGwJJxhQRL7jSzYkYVPD6rItrmRKcJWiJCOtf60t1Xi8Tz1vf5TymKQd+2H9sZtahPPRCI0xv98ho/wzPRNfU3laHLak+/oVTFoxMDRkWsHzXx7mPebBbIPlozbmsVImYEGgP0M40sLULVBwQLLMoNTtmvntOoRk3/QRJaacSqa1CNTOr4ewA3rapr5YZLlQsYmH1ta/TQR21iHRtks2zrvW7Zycw8uOFxrc/K+M1O7V4D0ZOarbJfImX5Rba8wUCHmtyu/VgVdauDpZtPSGuhaQ6CDWUc3wdl8jkoxIa9kUL1gtroDT44RRXksKX7lViPZsWT0K4gQoZs7ebcb7VUezFn5Hk4+ciZWzgXY9eIBPohcyhPmrr9Dq6WWeGwXu2NFsWQ5asLLrh46tf5F+6MF89K6pR/yslmFWmEzwObqkBTY2IicVbnsFlwg2ByHj/iNQGu7XBMw6ytCLYwU6wtWcerdHIBjKGibP2l8fsjaSDqG895L9RFk0M+eWHEKdj4gzmDsMnt2OL+Dh0BGxHZhvjyFdPmFkgCag0ATmrgvptgA3q3QDVjoSJ7xOT8y6f4rnjIN8k0LKxca9siMsSL80IPXdRjbGySA5KA=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(52116014)(1800799024)(38350700014)(6133799003)(18002099003)(11063799006)(10067099003)(56012099006)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Kc/sE13Y/w4YJfzQtkoBLvAD25BS/rB6KjO9iBM1csMk/dzdOXzqXJGBD7D6?=
- =?us-ascii?Q?VJrBYCv8OmuQ0/aEHxU5FKNkDzKb30vDu+cGMlQLvmj4rBVty+QEtWvMzEYa?=
- =?us-ascii?Q?7mprjgtzmn/K+3hEv614SPW2MMLU5+Z8M6Obndcx/nEUdL+ZzLNxAZlQpBaR?=
- =?us-ascii?Q?/EsC/ibjij34c1R3uYMzoAVbNgq9RFWBf9tMKwfi4EQ9sSU5Viz2fJxViHl/?=
- =?us-ascii?Q?JgWpNR179pnETTUwLuluT1GdE1L6NO4+Bv+2Sw9tABtnFmS0WKWslokLxqdA?=
- =?us-ascii?Q?rzA3xvx2ogl90cMTQiV2uO/QtbHh7Le4VqKFDYPn1ePzkj69vIpb3ElqQSRc?=
- =?us-ascii?Q?M93VgCisqRi501qwdwLAQCBje6/ozGSo09MUdi71TjiWmG8nl6wPeOUk/lNb?=
- =?us-ascii?Q?D7urNo25ugnkgt5vT2MqF1n004eanJojS7WWq9wnrgjG8g8QY5UUNlgsKD31?=
- =?us-ascii?Q?tWO3kuaO3bnF22nmPykwMmjMHpAExQOle+VDOfEp45cl2fhadZgCDYNNDKcM?=
- =?us-ascii?Q?F1BIUa0ikRTUOnNNK//f6YO/4omZSTxMwpSdPBZxX5bWJyQrbSPMy4kwi0TS?=
- =?us-ascii?Q?JOD0eUrYV4QUK6ZWORMaSFJRSrbfGnOxasn55/VnN+l9ki7P3pCwb4gR/CWZ?=
- =?us-ascii?Q?BEwP3jwgrpHEq7+LjUKwAYxfXmhhOFWS+n0ZIvyZ5DY0/aZmifty1Ph97dh1?=
- =?us-ascii?Q?HbH3S1E72oFHHmZjA36FtHcg0GJtimhwx71jnUllpMeUro0ZIcXmwJWSsYM+?=
- =?us-ascii?Q?fKnDM69tsDaHN8AgZFm/4MrKX9CxT0JE0VDRXuR4DrE5/dZaBoUWUYb0pe/i?=
- =?us-ascii?Q?gjg2HwOH8qkbmmX2fuJSPhIxOjJPSKK2DiT+soFO0t2XxFt2VklBYfP0m87e?=
- =?us-ascii?Q?R7xdraoeWZ8AHgewphPJMEL5XXtTpbKh/2JHjF149jTzM2+cc6koUXIe0UFd?=
- =?us-ascii?Q?3AHxJ5qVWP7rfmK0FHIc5zMVjYOS9/ajtfjJMzc0hXsNVsJ7X/vBK8nZFYrH?=
- =?us-ascii?Q?HFaDJ0pQTROV7QXPbn7Efn23DQknq/hQ4IayNw6YQv6FgrEoS5UXsfiYgKj2?=
- =?us-ascii?Q?Vh7QW/7a4qpykoSpC+dPc5vTOM7+7fG0ARC7P/6eKL8hplKwbgM3r48gX1Z+?=
- =?us-ascii?Q?1afj0MBN9JpTT5BClHDCZ4ABCXyXVhd41BZwJe/ndApN2cORUy1KqRk1HT/b?=
- =?us-ascii?Q?+++fn7qPbIBWd9X8CAfmVYg1QM7TM3jgz5eZmnF3sKtkP2AXDG1l/TXVzJvy?=
- =?us-ascii?Q?fIB0KQ/vX8hsQD4F2HYN5qiZkplLug4ZDAqy5FUOn7zgrrDaC1P7LqyGBQ4w?=
- =?us-ascii?Q?qcNDk+yFhNMMJCD208o4GlY4CMBpEh4nK0ed/wYwoYKfYWm3ipmixd2SgSns?=
- =?us-ascii?Q?XmG/9zDHRLxvC0LVKTpubuE/lFmkq31GqkxE8VWaRZTfphtwcKJVePwijvYC?=
- =?us-ascii?Q?Z1f0+XP2p9D3rC9jbDVbEi1XGW2ABjrF5PZS8lwSvtZ8jsy3i8axXOTpQ2YY?=
- =?us-ascii?Q?9M6PFI3xi0k7EoC0ckHe6c3ruB/cRLqYVktSM10uvNmWPmmwqo84U/xzyu9s?=
- =?us-ascii?Q?n4dQ4v7sixyDpczDChpOYL0YqnQHJku7fF/N4EZIZjhMPV28IgMMf8RE9Nhe?=
- =?us-ascii?Q?YXuxooLpKPqRJVm25pSMxQedxWQLSw/PzKVcgTQ09xtNVeFKH1Ol1ji0B6yh?=
- =?us-ascii?Q?FgB9qUnyMa0RVrY12565AJoMPtvd2f04AkEzvLOJIPpOFqCncqKU1tNzrQ0c?=
- =?us-ascii?Q?YLkQT/xqf4F03iko9TJoJJeb4uzABYM=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	FgOrESNKYn6B/kbuWe0KAK7kvH/KuU1vBwoUt5Sy2NjmA3m2fWNddtjpeu6Iz3aIMdEgwFKKur5lZZZG3vPDSZjmIb7zzrhS3Rno5+b2nS2SWdbVtuiq5tQpsoprpljzFjQqzX6rEiRApj70gWCMaHcNDCa4ua63Jl8XGMPZutoaUQz2pyy+6TcsnScTCPq6rU8gIvc4W/RoqMvTYfp9D7eIfEQCzIIUrQCZ7XPEn5y1pTczgU9LdJpo23xv2Bw5NuaJPN5nxM1rmPuSFGc5vec67xDJFV1v6GKHKW2WNOwh86RzSzLW5XCSZ2nGMs2z0CJD1GzBDRmMUKAEI2IyNw==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42716912-982f-42b5-7d80-08dee62a82ef
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 06:45:40.0261
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LiHK8EdJ60ScAep4JUe1TC+Zl8qOFz5MJVDcfrvLeIXu/03qSjUBMcq3IVXV31bBpiIp68eaUR+m4TQAG+HcS/w1h3mpp5ThGrVMTUbToJU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4699
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDA3MyBTYWx0ZWRfXyAg0D5g75WQH
- DQWiCV1gJHgZsExKHfK0E4TuBJpzzJisAxYr8cpPMh3sHUrFE1wubEQ0eUdU4rzegqGI+WNzzCP
- yMLbaRM70lKBSPgT4ijh1LNzDOn9H/LlnI30xMmXXv3u9IB3G3LzzQlDJPfl3SybSRj5GKQy05v
- WxxAjnvxpH/1FZ8gK53G4P2Edm2k/Yy+KrU6o4lXDXnp6qxydKxzwrrULS0kC+qeSPcqsp+blaP
- NLUbZcI/Gy8fjDVESR4Gb39Y4osCug60h9d6qRFNUPuNsX3/rU0LFTfTcbQucoZAKrJQieCAvkr
- bloXnwM/DA3h0rJHhRSCT2XAi3UFTHUGuLC660tVYGTNUDbuxWGThLtd6GcegWE1ldQG5Yy8Pr1
- /1pzRTq8y7CNRYn+5PbHQX0bkBcba57n9BcQJA/7uuPCyXeaKU0Gjt/UDncmcz0PsvhSq3/0QIS
- IZ1vN8fISSl2UTEIKvA==
-X-Proofpoint-GUID: lhjb4L-6szjOYzffp-NlEhRgnMMliBCU
-X-Proofpoint-ORIG-GUID: M4IHVUH1wbzlsNl9WtmDcHo7wFTji0Oj
-X-Authority-Analysis: v=2.4 cv=IM0yzAvG c=1 sm=1 tr=0 ts=6a5dc416 cx=c_pps
- a=beY4+7vfl+OHeoikwBMclQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=CCpqsmhAAAAA:8
- a=t7CeM3EgAAAA:8 a=_GvhCWdWHi7FI4QqkgAA:9 a=ul9cdbp4aOFLsgKbc677:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDA3MyBTYWx0ZWRfX4FgZ1YaimJAh
- 6PzFd504z3WyJmYaYKiARG0mnIoF5Ptvuw5zW96VGtyniy8m9ewrXnxGGEaq1wZobBWppywTR+e
- 9eCkqSINZ7QJCrljEmfWOT+VkQjETe2bBVRtV7T4v2eE5a6O0nWA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-20_01,2026-07-17_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 adultscore=0 phishscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607200073
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 06:45:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241326
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 06:57:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241327
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+Pick patch from [1] & [2] also mentioned at Debian report in [3]
 
-Bugzilla bug 33641 (assigned CVE-2025-69648) has been resolved as a
-duplicate of bug 33638 (assigned CVE-2025-69646):
+[1] https://gitlab.com/gnutls/gnutls/-/commit/1dead2faec6320aaba321eb56f20d442df192b83
+[2] https://gitlab.com/gnutls/gnutls/-/commit/24713b8c63137ce0665b495d22ccce4f5ce05c84
+[3] https://security-tracker.debian.org/tracker/CVE-2026-42011
+[4] https://gitlab.com/gnutls/gnutls/-/work_items/1824
 
-https://sourceware.org/bugzilla/show_bug.cgi?id=33641
-
-The existing patch already fixes the issue associated with both CVEs.
-
-Update the "CVE:" tag to reference both identifiers.
-
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gnutls/gnutls/CVE-2026-42011.patch        | 167 ++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   1 +
+ 2 files changed, 168 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42011.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-index e04d7ed6c2..e123273338 100644
---- a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-@@ -19,7 +19,7 @@ length field.
- 	(display_debug_ranges): Check display_debug_rnglists_unit_header
- 	return status.  Stop output on error.
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42011.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42011.patch
+new file mode 100644
+index 0000000000..0c56b2805a
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42011.patch
+@@ -0,0 +1,167 @@
++From 1dead2faec6320aaba321eb56f20d442df192b83 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Tue, 14 Apr 2026 17:41:30 +0200
++Subject: [PATCH] x509/name_constraints: fix intersecting empty constraints
++
++Permitted name constraints were wrongfully ignored
++when prior CAs only had excluded name constraints,
++resulting in a name constraint bypass.
++
++With this change, they are taken into account and propagate.
++
++Reported-by: Haruto Kimura (Stella)
++Fixes: #1824
++Fixes: CVE-2026-42011
++Fixes: GNUTLS-SA-2026-04-29-6
++CVSS: 4.8 Medium CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++CVE: CVE-2026-42011
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/1dead2faec6320aaba321eb56f20d442df192b83 & https://gitlab.com/gnutls/gnutls/-/commit/24713b8c63137ce0665b495d22ccce4f5ce05c84]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/x509/name_constraints.c    |   3 -
++ tests/name-constraints-merge.c | 113 +++++++++++++++++++++++++++++++++
++ 2 files changed, 113 insertions(+), 3 deletions(-)
++
++diff --git a/lib/x509/name_constraints.c b/lib/x509/name_constraints.c
++index 04722bd..232d466 100644
++--- a/lib/x509/name_constraints.c
+++++ b/lib/x509/name_constraints.c
++@@ -723,9 +723,6 @@ static int name_constraints_node_list_intersect(
++ 	type_bitmask_t types_in_p1 = 0, types_in_p2 = 0;
++ 	static const unsigned char universal_ip[32] = { 0 };
++ 
++-	if (permitted->size == 0 || permitted2->size == 0)
++-		return GNUTLS_E_SUCCESS;
++-
++ 	/* make sorted views of the arrays */
++ 	ret = ensure_sorted(permitted);
++ 	if (ret < 0) {
++diff --git a/tests/name-constraints-merge.c b/tests/name-constraints-merge.c
++index 70376aa..3ff8d6c 100644
++--- a/tests/name-constraints-merge.c
+++++ b/tests/name-constraints-merge.c
++@@ -473,6 +473,119 @@ void doit(void)
++ 	gnutls_x509_name_constraints_deinit(nc1);
++ 	gnutls_x509_name_constraints_deinit(nc2);
++ 
+++	/* 6: test intersecting empty permitted with non-empty permitted
+++	 * NC1: excluded DNS excluded.example.org  (empty permitted)
+++	 * NC2: permitted DNS permitted.example.org
+++	 * Expected result:
+++	 *   permitted=[permitted.example.org], excluded=[excluded.example.org]
+++	 *   unrelated.example.com is rejected
+++	 */
+++	suite = 6;
+++
+++	ret = gnutls_x509_name_constraints_init(&nc1);
+++	check_for_error(ret);
+++
+++	ret = gnutls_x509_name_constraints_init(&nc2);
+++	check_for_error(ret);
+++
+++	set_name("excluded.example.org", &name);
+++	ret = gnutls_x509_name_constraints_add_excluded(nc1, GNUTLS_SAN_DNSNAME,
+++							&name);
+++	check_for_error(ret);
+++
+++	set_name("permitted.example.org", &name);
+++	ret = gnutls_x509_name_constraints_add_permitted(
+++		nc2, GNUTLS_SAN_DNSNAME, &name);
+++	check_for_error(ret);
+++
+++	ret = _gnutls_x509_name_constraints_merge(nc1, nc2);
+++	check_for_error(ret);
+++
+++	set_name("unrelated.example.com", &name); /* entirely unrelated */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_REJECTED, &name); /* #1814 */
+++
+++	set_name("permitted.example.org", &name); /* permitted, direct */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_ACCEPTED, &name); /* sanity */
+++
+++	set_name("sub.permitted.example.org", &name); /* permitted, subdomain */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_ACCEPTED, &name); /* sanity */
+++
+++	set_name("excluded.example.org", &name); /* excluded, direct */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_REJECTED, &name); /* sanity */
+++
+++	set_name("sub.excluded.example.org", &name); /* excluded, subdomain */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_REJECTED, &name); /* sanity */
+++
+++	gnutls_x509_name_constraints_deinit(nc1);
+++	gnutls_x509_name_constraints_deinit(nc2);
+++
+++	/* 7: test intersecting non-empty permitted with empty permitted
+++	 * (same as 6, but swapped to ensure order doesn't matter)
+++	 * NC1: permitted DNS permitted.example.org
+++	 * NC2: excluded DNS excluded.example.org  (empty permitted)
+++	 * Expected result:
+++	 *   permitted=[permitted.example.org], excluded=[excluded.example.org]
+++	 *   unrelated.example.com is rejected
+++	 */
+++	suite = 7;
+++
+++	ret = gnutls_x509_name_constraints_init(&nc1);
+++	check_for_error(ret);
+++
+++	ret = gnutls_x509_name_constraints_init(&nc2);
+++	check_for_error(ret);
+++
+++	set_name("permitted.example.org", &name);
+++	ret = gnutls_x509_name_constraints_add_permitted(
+++		nc1, GNUTLS_SAN_DNSNAME, &name);
+++	check_for_error(ret);
+++
+++	set_name("excluded.example.org", &name);
+++	ret = gnutls_x509_name_constraints_add_excluded(nc2, GNUTLS_SAN_DNSNAME,
+++							&name);
+++	check_for_error(ret);
+++
+++	ret = _gnutls_x509_name_constraints_merge(nc1, nc2);
+++	check_for_error(ret);
+++
+++	set_name("unrelated.example.com", &name); /* entirely unrelated */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_REJECTED, &name); /* #1814 */
+++
+++	set_name("permitted.example.org", &name); /* permitted, direct */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_ACCEPTED, &name); /* sanity */
+++
+++	set_name("sub.permitted.example.org", &name); /* permitted, subdomain */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_ACCEPTED, &name); /* sanity */
+++
+++	set_name("excluded.example.org", &name); /* excluded, direct */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_REJECTED, &name); /* sanity */
+++
+++	set_name("sub.excluded.example.org", &name); /* excluded, subdomain */
+++	ret = gnutls_x509_name_constraints_check(nc1, GNUTLS_SAN_DNSNAME,
+++						 &name);
+++	check_test_result(suite, ret, NAME_REJECTED, &name); /* sanity */
+++
+++	gnutls_x509_name_constraints_deinit(nc1);
+++	gnutls_x509_name_constraints_deinit(nc2);
+++
++ 	/* Test footer */
++ 
++ 	if (debug)
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+index b92470768c..88c9aa2880 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+@@ -32,6 +32,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://0006-buffers-match-DTLS-datagrams-by-sequence-number.patch \
+            file://0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch \
+            file://0008-tests-mini-dtls-framents-link-to-gnulib.patch \
++           file://CVE-2026-42011.patch \
+            "
  
--CVE: CVE-2025-69648
-+CVE: CVE-2025-69648 CVE-2025-69646
- Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33]
- 
- (cherry picked from commit 598704a00cbac5e85c2bedd363357b5bf6fcee33)
+ SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
 -- 
-2.49.0
+2.50.1
 
 
