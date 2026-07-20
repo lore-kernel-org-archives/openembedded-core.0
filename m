@@ -2,119 +2,168 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D25C44515
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 11:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89311C4452B
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 11:31:38 +0000 (UTC)
 Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6830.1784547070181800423
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6931.1784547088266642912
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 04:31:10 -0700
+ Mon, 20 Jul 2026 04:31:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VGHXXc28;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=XR2YP7a9;
  spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1656; q=dns/txt;
-  s=iport01; t=1784547070; x=1785756670;
+  d=cisco.com; i=@cisco.com; l=2898; q=dns/txt;
+  s=iport01; t=1784547088; x=1785756688;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=ChgUct2zUHfm9XLHdVfvlBk4LPHqNs1ZTGZyX7esy+g=;
-  b=VGHXXc285RP9mOIhWk5DXNpF7t7nbGwmtuB0Jj49J+Of3+MnsYqHBwkC
-   HPsJDf75EY72576ZELVTS0uSIiA8zXfgoxhqeovsSuJd5sLjQL8KkX1Nh
-   FMHmVD3CbHhBEkm37c8z7Z/yoTgHjxTEL8fY01do9r8EzgdvlAWnX2q63
-   CXMb6RrFVX+u3pn70H0i9NMgwEUBSe+4Lu7AAkI+o/wdUt8zyJ1qofGFz
-   tYnwv6FHNXU6Foi3j30fUUXscQAurUHuzdYknGMc0Zzt+7lgZ2VGvBOhr
-   9b0KZop1FSvtTqK1I58tuOq2eaqq1RL6K/Sy0zmW6fH0r1YlKdoWIYEuZ
-   w==;
-X-CSE-ConnectionGUID: tkQpQLThRNGDFHuA+05g2A==
-X-CSE-MsgGUID: 9qod10mtQyqmPvwgfElAag==
-X-IPAS-Result: =?us-ascii?q?A0BFAgCCBV5q/5D/Ja1aHgEBCxIMggULgld0X0JJlCmCI?=
- =?us-ascii?q?QOeG4F+DwEBAQ89FAQBAYUFAo1TAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhlsCAQMyARgBPSAxKysQAQiDAgGCdAMRBrxsgiyBA?=
- =?us-ascii?q?YMoATEFCQICQAFQ2y4BCxQBgTiFP4ggdAGCSYIzJxsbgXKBFYNpgQWBXAECg?=
- =?us-ascii?q?iyFeASCInoSgXhQgQiOFkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBD?=
- =?us-ascii?q?BsHBYEdgTqBAoR0Ix8DOX+BL3VKdy1qEheBJoISAoE7AgcDCxgNSBEsNxQZB?=
- =?us-ascii?q?D5uB408I4I/EEoHLSoCBIFoGDMGpWKhEgoog3WMIZU6GjOqbJkIjgqWUIRpg?=
- =?us-ascii?q?Wg8OYEOCwdwFYMiCRY0GQ+OOIVqhEHEBzw1AjsBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:iIfSY6Icfyy4i+V+FE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS1zdSx
- jMeXGDTO6mMa2L2eowlPIXl/E1TuJ7TmtAwSAod+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
- T/Oi5eHYgH9hGQsaj98B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1yD3guBKkk+txRLk1g1
- eExa2hQYUqq0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBUrAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MEiojx5nYj/7DLoykeqyj2X/dBVTqUmeouw85G27IAlZjeG2aIOEK4zVLSlTtheBo
- W6fp2HlOwADMeSB1jWL33aFj+CayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1nfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:lZhEsa6LHwfxTj0iGAPXwOTXdLJyesId70hD6qkXc20wTiX2ra
- 6TdZgguCMczQxhO03I+urwXZVoP0m8yXcd2+B4Vt2ftUvdyQmVxepZgrcKrQeNJ8SHzI5g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
-X-Talos-CUID: 9a23:z4IbjmPw4wWkye5DRCpe7HcwJsAfVFLx4lfNCgzgVGkzYejA
-X-Talos-MUID: 9a23:+reSeQV/4XMRg8Pq/G71gz07bMJ02rW3DXgTjpoIls2tPCMlbg==
+  bh=iJqIvwYDqHOr269zrLYDl0ZjhPFPqZc01NcmL3EfY3M=;
+  b=XR2YP7a9FaZdXlTIvlnJdzyldUPAKBC2Mwj5DuFXf5K1EwZp6bqKJYwi
+   qcj9t+kcWvwNmEE1Hw2ljmoIn1LgKRwcDyEZREn32kfzDb6bGpC0vvZ2A
+   cyxSiXsNU00JpxEDtfeDiEw1Cc2G9zUOUAUFDJq5zEOFpunDeITQaKWPc
+   p8VbCwa0zZfpcJHoScsOCf/WanjVv0kdNKXA6arSpsUVQdrvhFMS6QZel
+   H3eZhdH3wSEWv5XZKS5MacBCldyMXG7gVIEUWKEIKqE7fKagMYWWfPjiP
+   bu8n4h6Nyprq4AGCoZnKpD0Nef9xwMBoXvh53sjVIrtOUTjlo8WrvlW+m
+   g==;
+X-CSE-ConnectionGUID: w9tdc+AzTvyqwxfOUXcLVA==
+X-CSE-MsgGUID: wqJVbXsFTYm47rBLFOk7xw==
+X-IPAS-Result: =?us-ascii?q?A0BIAgCCBV5q/5P/Ja1aglmCV3RfQkmUKYIhA54bgX4PA?=
+ =?us-ascii?q?QEBD0QNBAEBhQUCjVMCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2GWgECAQMnCwEYAT0cAwECLysjCBEIgwIBgnQDEQa8bIF5M4EBg?=
+ =?us-ascii?q?ygBMQUJAgJAAVDbLgELFAGBOIU/iCBcGAGEfCcbG4FygRWDaYEFgVwBAQGBU?=
+ =?us-ascii?q?FyFeASCIoEMgVqQDEiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHB?=
+ =?us-ascii?q?YEdgTqBAoR0Ix8DOX+BL3VKdy1qEheBJoISAoE7AgcDCxgNSBEsNxQZBD5uB?=
+ =?us-ascii?q?408I4I/AWAtASkCIIIdBQalV6ESCiiDdYwhlToaM6psmQiOCpZQhGmBaDyBR?=
+ =?us-ascii?q?wsHcBWDIgkWNBkPjjiDa4F/hEHEBzw1AgkyAQEHAgcOAwuBaJACgXwBAQ?=
+IronPort-Data: A9a23:QF8Dia3MtPhRDBSR0vbD5YJwkn2cJEfYwER7XKvMYLTBsI5bp2QGn
+ DNKXm6EafaMMzGnLdEnb4Xn9R4F7MCGzN9kTgRk3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
+ Lsen+WFYAX7g2EuajpJg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGExAqMYZb0/RLH3BX6
+ uwWDw09ZTS9rrfjqF67YrEEasULNsLnOsYb/3pn1zycVK5gSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUifC/FMEg9/5JYWkOqlnHDjczpwo1OOrq1x6G/WpOB0+OW0a4KPIoTbHa25mG6Hv
+ 0D49VTiLC0rMYDA0xCh3FWv2f/QyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl/BQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:RvsoKqy9QmzW95AHglE8KrPwAL1zdoMgy1knxilNoHtuA6ilfq
+ +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: 9a23:3+RtOGBgcULst1v6EzY26EIfWek3TmPM1WjALWiFOW1NdpTAHA==
+X-Talos-MUID: =?us-ascii?q?9a23=3AkLeb0Q5KKPHXHAgxEcZ9FVPbxox3+oaQAnAWv6k?=
+ =?us-ascii?q?3vpXbLwZUFRCe0ySoF9o=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
-   d="scan'208";a="513019987"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 11:31:09 +0000
+   d="scan'208";a="513020090"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 11:31:27 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id D3A2E180003C9
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:31:08 +0000 (GMT)
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 3603A18000895
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:31:27 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id EDD5ACC037D; Mon, 20 Jul 2026 17:01:06 +0530 (IST)
+	id 5929FCC037D; Mon, 20 Jul 2026 17:01:25 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH v2 1/5] curl: ignore CVE-2026-4873
-Date: Mon, 20 Jul 2026 17:00:37 +0530
-Message-Id: <20260720113041.2479444-1-deeratho@cisco.com>
+Subject: [OE-core][wrynose][PATCH v2 2/5] curl: fix CVE-2026-5545
+Date: Mon, 20 Jul 2026 17:00:38 +0530
+Message-Id: <20260720113041.2479444-2-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260720105647.2451180-1-deeratho@cisco.com>
+In-Reply-To: <20260720113041.2479444-1-deeratho@cisco.com>
 References: <20260720105647.2451180-1-deeratho@cisco.com>
+ <20260720113041.2479444-1-deeratho@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:31:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241364
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:31:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241365
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-- CVE-2026-4873 affects curl before 8.20.0 when a connection negotiated with
-  clear-text IMAP, POP3, or SMTP can later be reused for a TLS-required
-  transfer.
-- In wrynose, these protocols are optional PACKAGECONFIG entries and are not
-  enabled by default in curl_8.19.0.bb, so record this CVE as configuration-not-applicable
-  for the default recipe configuration.
+Backport the upstream fix [1] for the Negotiate-authenticated connection
+reuse issue described in [2] and tracked by [3].
 
-Reference:
-- https://curl.se/docs/CVE-2026-4873.html
-- https://nvd.nist.gov/vuln/detail/CVE-2026-4873
+[1] https://github.com/curl/curl/commit/33e43985b8f3b9e66691d06e70be0395849856cd
+[2] https://curl.se/docs/CVE-2026-5545.html
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-5545
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
 - Changes from v1 to v2: Refresh the patches on top of the latest
 wrynose branch.
- meta/recipes-support/curl/curl_8.19.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../curl/curl/CVE-2026-5545.patch             | 43 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5545.patch
 
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-5545.patch b/meta/recipes-support/curl/curl/CVE-2026-5545.patch
+new file mode 100644
+index 0000000000..bb3b1407d4
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-5545.patch
+@@ -0,0 +1,43 @@
++From 33e43985b8f3b9e66691d06e70be0395849856cd Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Thu, 2 Apr 2026 11:33:39 +0200
++Subject: [PATCH] url: improve connection reuse on negotiate
++
++Check state of negotiate to allow proper connection reuse.
++
++Closes #21203
++
++CVE: CVE-2026-5545
++Upstream-Status: Backport [https://github.com/curl/curl/commit/33e43985b8f3b9e66691d06e70be0395849856cd]
++
++(cherry picked from commit 33e43985b8f3b9e66691d06e70be0395849856cd)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ lib/url.c | 12 +++++++++---
++ 1 file changed, 9 insertions(+), 3 deletions(-)
++
++diff --git a/lib/url.c b/lib/url.c
++index b9e308a..7c24f1a 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1110,11 +1110,17 @@ static bool url_match_auth_ntlm(struct connectdata *conn,
++   if(m->want_ntlm_http) {
++     if(Curl_timestrcmp(m->needle->user, conn->user) ||
++        Curl_timestrcmp(m->needle->passwd, conn->passwd)) {
++-
++       /* we prefer a credential match, but this is at least a connection
++-         that can be reused and "upgraded" to NTLM */
++-      if(conn->http_ntlm_state == NTLMSTATE_NONE)
+++         that can be reused and "upgraded" to NTLM if it does
+++         not have any auth ongoing. */
+++#ifdef USE_SPNEGO
+++      if((conn->http_ntlm_state == NTLMSTATE_NONE)
+++         && (conn->http_negotiate_state == GSS_AUTHNONE)) {
+++#else
+++      if(conn->http_ntlm_state == NTLMSTATE_NONE) {
+++#endif
++         m->found = conn;
+++      }
++       return FALSE;
++     }
++   }
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 3326f478b5..1cda69401b 100644
+index 1cda69401b..558a2d311e 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -28,6 +28,7 @@ SRC_URI[sha256sum] = "4eb41489790d19e190d7ac7e18e82857cdd68af8f4e66b292ced562d33
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
- CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
-+CVE_STATUS[CVE-2026-4873] = "${@bb.utils.contains_any('PACKAGECONFIG', 'imap pop3 smtp', 'unpatched', 'not-applicable-config: clear-text imap/pop3/smtp support is not enabled in PACKAGECONFIG', d)}"
+@@ -17,6 +17,7 @@ SRC_URI = " \
+     file://CVE-2026-6276.patch \
+     file://CVE-2026-5773.patch \
+     file://mbedtls.patch \
++    file://CVE-2026-5545.patch \
+ "
  
- inherit autotools pkgconfig binconfig multilib_header ptest
- 
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.35.6
 
