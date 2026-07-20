@@ -2,76 +2,76 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BD2C44520
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 11:06:08 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6491.1784545565905628965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4966EC44520
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 11:06:18 +0000 (UTC)
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6604.1784545571485957990
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 04:06:06 -0700
+ Mon, 20 Jul 2026 04:06:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=fSA4Ms92;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=CjY8Tf3b;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8386; q=dns/txt;
-  s=iport01; t=1784545565; x=1785755165;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tCFnJYJXcu305MpoTvtqqzzcWyIhluGhRPNnpIOhBBQ=;
-  b=fSA4Ms92piK2Kuc0g8+QNnvdWcvZk5aOxLAEkRgTbBHKV0f7Alj3lzGJ
-   uppVSsLMHuj63WckQKTnIIN1+Bo82wtwkY0z16tOQ9RXWz7RB1Dn5vB93
-   lk78dkItU2EsdIuEkBCmjr/FIGun5+Fkxai+dnNHG1NfS9WLaVwFtLa0S
-   o/7M2Mh/dhb3wMGI3wOri/pRdoQpTD1fW/bGwUkIBmNPT60qWQ5GQDj5+
-   JM2ajicxw1uHgedpeMMF47y/pvBVaVtvQ1LAWvV7QxVuQZWuvDpR3EhXn
-   KY4B0npK4m0yy+hmTkk9kWqjOtX1m+MTUOwM6VkZsqX8onOErpsAzcQ55
-   g==;
-X-CSE-ConnectionGUID: qF1YYIGTT82b9qLICPWirw==
-X-CSE-MsgGUID: BPL33GYpSVuP5TwttGHvrA==
-X-IPAS-Result: =?us-ascii?q?A0AaAAA7AF5q/4v/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ0X0JJA4xvhzeCIZ4egX4PAQEBD0QNBAEBkloCJjQJDgECBAMCA?=
- =?us-ascii?q?wEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgE4ARgBWQMBAlojGQiDA?=
- =?us-ascii?q?gGCdAMRvEuCLIEBgygBMQUJAkNQ2y4BCxQBgTgBhT6IIFwYAYR8JxsbgXKBF?=
- =?us-ascii?q?YNpgQWBXAGBSYZdBIIigQyBWh6PbkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yH?=
- =?us-ascii?q?YEjPheBDBsHBYEdgTqBAoR0Ix8DOX+BL3VKdy1qEheBJoISAoE7AgcDCxgNS?=
- =?us-ascii?q?BEsNxQZBD5uB408I4FNcAIBWCITARsPAQRMNWdACgQDE5NTkXyhEgoog3WMI?=
- =?us-ascii?q?ZU6GjOqbJkIjgqWUIRpgWg8gUcLB3AVgyIJShkPjjiDa4F/gxSBPcUxPDUCC?=
- =?us-ascii?q?QMvAQEHAgcOAwuBaJAAAiYCBW9gAQE?=
-IronPort-Data: A9a23:TnOOBaxyxA4rmXhzViJ6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUGz
- jAXD2+BaazeM2bze9slbdzi/U5XupLdzNBjTFQ+qFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 46aT/H3Ygf/hWYraDpMt8pvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJFgYZLwp28lLPTEU/
- 60BDBEmVi+Cnf3jldpXSsE07igiBNPgMIVavjRryivUSK58B5vCWK7No9Rf2V/chOgXQq2YP
- JVfM2cyKk2bMnWjOX9PYH46tOuli2P2bz1fgFmUvqEwpWPUyWSd1ZCxYYqJKobRGJs9ckCwj
- FripD/WMwkhCsGnlAaa7m6DpvHVtHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
- lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBXC4PTyVKb5ots8peqSEW6
- 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
-IronPort-HdrOrdr: A9a23:lxIGX68792RKxtZew+Juk+DoI+orL9Y04lQ7vn2ZLiYlEPBw+P
- rBoB1273LJYVUqKRIdcK67WZVoKEm0nfUe3WB7B9iftWfd1FdAVLsD0aLShxv9Bib56ulRkY
- 1kc6R4FZnMKGISt7ee3OF9eOxQp+VuN8uT9IPj80s=
-X-Talos-CUID: 9a23:KmQ5ZW0EqTnvxQ3I/Enq07xfA+58Q0z840vscxWyWH9NaZatdl6K5/Yx
-X-Talos-MUID: =?us-ascii?q?9a23=3AiGIVDA0XoeYkNCcuEz5CrrBHYDUjyZyKUxsioI0?=
- =?us-ascii?q?9hdS8aBBvJyuyrCqta9py?=
+  d=cisco.com; i=@cisco.com; l=6303; q=dns/txt;
+  s=iport01; t=1784545571; x=1785755171;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=FDoa4XmQf4+Dg0SYOFPB+DuZLCFMSAakKGILyjS22Wc=;
+  b=CjY8Tf3bn70Y0Z3CfwEkVIm1XcFjC4doeCQ0od97Xf2QFLup5JkzHy4x
+   Z3vR+Q4QmY1AYT3+i+8v2MaaYo7tJTLkUN/1RnZE9meB1p9B3MTPNZwUR
+   QAxoRj7qkqk045l56xiDsIMAvUtmbf5p6f6YupeY1Ov8jAPy4CuiO89pW
+   P9emix4tezPbnScHZyt29Udfti37daJ85oR5iy/SsTLBtiiGLFzzJ9OOK
+   lGX2vUbfUgZm+jBAIoZjUD9AHtr+xSQqf1/XRSDXvnC5qEHwwraygr4Gh
+   SBJN8GxjNLTxelcCJVaZ2N5K9Jet0Ui1+tzNPMacv9tnUCS6pxcVZ3yIA
+   Q==;
+X-CSE-ConnectionGUID: bGO8ZFrTRTW3Kgdit/9yuQ==
+X-CSE-MsgGUID: HvGQ2g/9Rte/2XGK2NuR2Q==
+X-IPAS-Result: =?us-ascii?q?A0BIAgA7AF5q/4v/Ja1aglmCV3RfQkkDlCaCIQOeG4F+D?=
+ =?us-ascii?q?wEBAQ9EDQQBAYUFAo1TAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECA?=
+ =?us-ascii?q?QcFgQ4Thk8NhloBAgEDJwsBGAE9HAMBAi8rIwgRCIMCAYJ0AxG8S4F5M4EBg?=
+ =?us-ascii?q?ygBPwJDUNsuAQsUAYE4hT+IIFwYAYR8JxsbgXKBFYNpgQWBXAGIJgSCIoEMg?=
+ =?us-ascii?q?Voej25IgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYE6gQKEd?=
+ =?us-ascii?q?CMfAzl/gS91SnctahIXgSaCEgKBOwIHAwsYDUgRLDcUGQQ+bgeNPCOBTWsHd?=
+ =?us-ascii?q?BoBByRQNVlODgOTJgE/kXyhEgoog3WMIZU6GjOqbAuYfY4KllCEaYFoPIFHC?=
+ =?us-ascii?q?wdwFYMiCUoZD44tCwuDYIF/gxTGbjw1AgkDLwEBBwIHDgMLgWiEYY0dAQE?=
+IronPort-Data: A9a23:51jPSKsn1IQA6MwDbhmWnPvtx+fnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKW+FafqJNzb0KtgkPIix9EwE6sPWm9NiSAFvpXtgEX5HgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZTdJ5xYuajhKs/3Z8Esz1BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw8MlQUVNg7
+ 8AiFA9WTR+Phv7xkaOmc7w57igjBJGD0II3oHpsy3TdSP0hW52GG/+M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwxGYH49tL/Aan3XfzBVsluJpa0f6GnIxws327/oWDbQUoHTH5kIxx3H/
+ Aoq+UzZHD4jbtPYmACZ/zX2tsDsxwXmYtgrQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YbLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWna1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:z4rh3awc1f47Py9oeJqwKrPwAL1zdoMgy1knxilNoHtuA6ilfq
+ +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: 9a23:vMnssWBtfufsIEL6EyNI0x4mNNoZSEHil1TfL06kTjd4VYTAHA==
+X-Talos-MUID: 9a23:ON9KuASgB/FTDz0pRXTMmh5bbsgvsp6yBQdXobol4e+ZD3ZJbmI=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
-   d="scan'208";a="498482356"
+   d="scan'208";a="512451372"
 Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 11:06:05 +0000
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 11:06:10 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id B938E1800020D
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:06:04 +0000 (GMT)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id E7DF218000340
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:06:09 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id D35CCCC037D; Mon, 20 Jul 2026 16:36:02 +0530 (IST)
+	id 150AFCC037D; Mon, 20 Jul 2026 16:36:08 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 1/2] gnutls: Fix CVE-2026-3832
-Date: Mon, 20 Jul 2026 16:35:47 +0530
-Message-Id: <20260720110548.2458865-1-deeratho@cisco.com>
+Subject: [OE-core][wrynose][PATCH 2/2] gnutls: Fix CVE-2026-42009
+Date: Mon, 20 Jul 2026 16:35:48 +0530
+Message-Id: <20260720110548.2458865-2-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260720110548.2458865-1-deeratho@cisco.com>
+References: <20260720110548.2458865-1-deeratho@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
@@ -80,219 +80,167 @@ X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:06:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241359
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:06:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241360
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-This patch applies the upstream fix [1] and test coverage [2], as
-referenced in [3], to address multi-record OCSP response handling where
-GnuTLS could check revocation status from the wrong OCSP entry.
+This patch applies upstream fixes [1] and [2], as referenced in [3],
+to address a DTLS packet reordering flaw where duplicate sequence
+numbers could lead to unstable ordering or undefined behavior.
 
-[1] https://gitlab.com/gnutls/gnutls/-/commit/731861b9de8dccaf7d3b0c1446833051e48670c2
-[2] https://gitlab.com/gnutls/gnutls/-/commit/d52d5f4f383e8c5d8e9a03334f2421ff35d37d2e
-[3] https://security-tracker.debian.org/tracker/CVE-2026-3832
+Rebase CVE-2026-42009_p1.patch on top of the Wrynose
+CVE-2026-33846 backport stack, which already includes the recv_buf
+helper from upstream commit 9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0.
+
+[1] https://gitlab.com/gnutls/gnutls/-/commit/f01e21441e29052a6f0963840794c41d3b3ee66d
+[2] https://gitlab.com/gnutls/gnutls/-/commit/f341441fad91142897d83b44a175ffc8f925b76f
+[3] https://security-tracker.debian.org/tracker/CVE-2026-42009
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-3832
+https://nvd.nist.gov/vuln/detail/CVE-2026-42009
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../gnutls/gnutls/CVE-2026-3832_p1.patch      |  52 ++++++++
- .../gnutls/gnutls/CVE-2026-3832_p2.patch      | 114 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   2 +
- 3 files changed, 168 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
+ .../gnutls/gnutls/CVE-2026-42009_p1.patch     | 62 +++++++++++++++++++
+ .../gnutls/gnutls/CVE-2026-42009_p2.patch     | 48 ++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |  2 +
+ 3 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
 new file mode 100644
-index 0000000000..3786c578b9
+index 0000000000..f1ee618b48
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
-@@ -0,0 +1,52 @@
-+From 141c9b6015fc56cd05db3a853f08d03fcbd9b0f4 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
+@@ -0,0 +1,62 @@
++From d1191b910e63149a10647a089995d3cd85e16400 Mon Sep 17 00:00:00 2001
 +From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Thu, 12 Mar 2026 09:48:57 +0100
-+Subject: [PATCH] cert-session: fix multi-entry OCSP revocation bypass
++Date: Tue, 21 Apr 2026 16:52:48 +0200
++Subject: [PATCH] lib/buffers: ensure packets have differing sequence
++ numbers
 +
-+In check_ocsp_response(), the code first searched
-+for the SingleResponse that matches the certificate being validated.
-+But later, the status was retrieved from entry 0 unconditionally,
-+rather than from the matched resp_indx.
-+As a result, if entry 0 corresponded to a different certificate and was good,
-+while the matched entry for the peer certificate is revoked,
-+the revocation check could've mistakenly accept the certificate.
++There should normally be no packets with same sequence number and
++differing handshake type, unless an adversary crafts them.
++Discarding them allows to get rid of packets
++with duplicate sequence ID in the buffer,
++relieving us from the question of how to sort them later.
 +
-+Reported-by: Oleh Konko (1seal) <security@1seal.org>
 +Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
-+Fixes: #1801
-+Fixes: #1812
-+Fixes: CVE-2026-3832
-+Fixes: GNUTLS-SA-2026-04-29-12
-+CVSS: 3.7 Low CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N
-+Introduced-in: ae404fe8488dee424876b5963c00d7e041672415 3.8.9
++Fixes: #1848
++Fixes: CVE-2026-42009
++Fixes: GNUTLS-SA-2026-04-29-2
++CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
 +
-+CVE: CVE-2026-3832
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/731861b9de8dccaf7d3b0c1446833051e48670c2]
++CVE: CVE-2026-42009
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/f01e21441e29052a6f0963840794c41d3b3ee66d]
++
++Backport Changes:
++- Rebased on top of the Wrynose CVE-2026-33846 backport stack, which
++  already includes the recv_buf helper and sequence-number matching
++  prerequisite patches.
 +
 +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+(cherry picked from commit 731861b9de8dccaf7d3b0c1446833051e48670c2)
++(cherry picked from commit f01e21441e29052a6f0963840794c41d3b3ee66d)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ lib/cert-session.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ lib/buffers.c | 16 ++++++++++++++--
++ 1 file changed, 14 insertions(+), 2 deletions(-)
 +
-+diff --git a/lib/cert-session.c b/lib/cert-session.c
-+index 963f797ee..f48c7a1fb 100644
-+--- a/lib/cert-session.c
-++++ b/lib/cert-session.c
-+@@ -343,9 +343,9 @@ static int check_ocsp_response(gnutls_session_t session, gnutls_x509_crt_t cert,
-+ 		goto cleanup;
-+ 	}
++diff --git a/lib/buffers.c b/lib/buffers.c
++index 62f140ed3..e7f08b5625 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -971,8 +971,20 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		session->internals.handshake_recv_buffer;
 + 
-+-	ret = gnutls_ocsp_resp_get_single(resp, 0, NULL, NULL, NULL, NULL,
-+-					  &cert_status, &vtime, &ntime, &rtime,
-+-					  NULL);
-++	ret = gnutls_ocsp_resp_get_single(resp, resp_indx, NULL, NULL, NULL,
-++					  NULL, &cert_status, &vtime, &ntime,
-++					  &rtime, NULL);
-+ 	if (ret < 0) {
-+ 		_gnutls_audit_log(
-+ 			session,
++ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
++-		if (recv_buf[i].htype == hsk->htype &&
++-		    recv_buf[i].sequence == hsk->sequence) {
+++		if (recv_buf[i].sequence == hsk->sequence) {
+++			if (recv_buf[i].htype != hsk->htype) {
+++				_gnutls_audit_log(
+++					session,
+++					"Discarded unexpected handshake packet "
+++					"with duplicate sequence %d, but "
+++					"mismatched type %s (previously %s)\n",
+++					hsk->sequence,
+++					_gnutls_handshake2str(hsk->htype),
+++					_gnutls_handshake2str(
+++						recv_buf[i].htype));
+++				_gnutls_handshake_buffer_clear(hsk);
+++				return 0;
+++			}
++ 			exists = 1;
++ 			pos = i;
++ 			break;
 +-- 
 +2.51.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
 new file mode 100644
-index 0000000000..54ea38fe69
+index 0000000000..6524cb47b4
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
-@@ -0,0 +1,114 @@
-+From ac357f76abeaf59429bc15b8764ad01920df0ef1 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Thu, 12 Mar 2026 15:25:24 +0100
-+Subject: [PATCH] tests/ocsp-tests/ocsp-must-staple-connection: test
-+ CVE-2026-3832
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
+@@ -0,0 +1,48 @@
++From 5374a6d584b8598511f7880b4e64ee52ee1f0cc5 Mon Sep 17 00:00:00 2001
++From: Joshua Rogers <joshua@joshua.hu>
++Date: Tue, 21 Apr 2026 18:11:39 +0200
++Subject: [PATCH] buffers: fix handshake_compare when sequence numbers
++ match
 +
-+CVE: CVE-2026-3832
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/d52d5f4f383e8c5d8e9a03334f2421ff35d37d2e]
++The comparator function used for ordering DTLS packets
++by sequence numbers did not follow qsort comparator contracts
++in case of packets with duplicate sequence numbers,
++which could lead to unstable ordering or undefined behaviour.
++Returning 0 in such cases makes the sorting stable.
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+(cherry picked from commit d52d5f4f383e8c5d8e9a03334f2421ff35d37d2e)
++Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
++Fixes: #1848
++Fixes: CVE-2026-42009
++Fixes: GNUTLS-SA-2026-04-29-2
++CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++
++CVE: CVE-2026-42009
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/f341441fad91142897d83b44a175ffc8f925b76f]
++
++Signed-off-by: Joshua Rogers <joshua@joshua.hu>
++(cherry picked from commit f341441fad91142897d83b44a175ffc8f925b76f)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ .../ocsp-tests/ocsp-must-staple-connection.sh | 70 +++++++++++++++++++
-+ 1 file changed, 70 insertions(+)
++ lib/buffers.c | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
 +
-+diff --git a/tests/ocsp-tests/ocsp-must-staple-connection.sh b/tests/ocsp-tests/ocsp-must-staple-connection.sh
-+index 94d41ce24..5e100b9d9 100755
-+--- a/tests/ocsp-tests/ocsp-must-staple-connection.sh
-++++ b/tests/ocsp-tests/ocsp-must-staple-connection.sh
-+@@ -85,6 +85,7 @@ OCSP_RESPONSE_FILE="$testdir/ms-resp.tmp"
-+ OCSP_REQ_FILE="$testdir/ms-req.tmp"
-+ INDEXFILE="$testdir/ocsp_index.txt"
-+ ATTRFILE="${INDEXFILE}.attr"
-++SERVER_CERT_BAD_FILE="$testdir/ms-cert-bad.pem.tmp"
-+ 
-+ stop_servers ()
++diff --git a/lib/buffers.c b/lib/buffers.c
++index e7f08b5625..1ac27e4e96 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -844,11 +844,7 @@ static int handshake_compare(const void *_e1, const void *_e2)
 + {
-+@@ -118,6 +119,20 @@ ${CERTTOOL} \
-+ 	--load-privkey "${srcdir}/ocsp-tests/certs/server_good.key" \
-+ 	--template "${TEMPLATE_FILE}" --outfile "${SERVER_CERT_FILE}" 2>/dev/null
++ 	const handshake_buffer_st *e1 = _e1;
++ 	const handshake_buffer_st *e2 = _e2;
++-
++-	if (e1->sequence <= e2->sequence)
++-		return 1;
++-	else
++-		return -1;
+++	return (e1->sequence < e2->sequence) - (e1->sequence > e2->sequence);
++ }
 + 
-++echo "=== Generating bad server certificate ==="
-++
-++rm -f "$TEMPLATE_FILE"
-++cp "${srcdir}/ocsp-tests/certs/server_bad.template" "$TEMPLATE_FILE"
-++chmod u+w "$TEMPLATE_FILE"
-++echo "ocsp_uri=http://localhost:${OCSP_PORT}/ocsp/" >>"$TEMPLATE_FILE"
-++
-++${CERTTOOL} \
-++	--attime "${CERTDATE}" \
-++	--generate-certificate --load-ca-privkey "${srcdir}/ocsp-tests/certs/ca.key" \
-++	--load-ca-certificate "${srcdir}/ocsp-tests/certs/ca.pem" \
-++	--load-privkey "${srcdir}/ocsp-tests/certs/server_bad.key" \
-++	--template "${TEMPLATE_FILE}" --outfile "${SERVER_CERT_BAD_FILE}" 2>/dev/null
-++
-+ echo "=== Bringing OCSP server up ==="
-+ 
-+ cp "${srcdir}/ocsp-tests/certs/ocsp_index.txt" ${INDEXFILE}
-+@@ -486,6 +501,61 @@ kill "${TLS_SERVER_PID}"
-+ wait "${TLS_SERVER_PID}"
-+ unset TLS_SERVER_PID
-+ 
-++echo "=== Test 10: Server with revoked certificate - CVE-2026-3832 ==="
-++
-++# The revocation status was always mistakenly checked for the first cert.
-++# Check a pair of responses: (irrelevant good unrevoked, relevant bad revoked).
-++
-++rm -f "${OCSP_RESPONSE_FILE}"
-++
-++"$FAKETIME" "${TESTDATE}" \
-++    ${OPENSSL} ocsp -index "${INDEXFILE}" \
-++    -issuer "${srcdir}/ocsp-tests/certs/ca.pem" \
-++    -CA "${srcdir}/ocsp-tests/certs/ca.pem" \
-++    -rsigner "${srcdir}/ocsp-tests/certs/ocsp-server.pem" \
-++    -rkey "${srcdir}/ocsp-tests/certs/ocsp-server.key" \
-++    -cert "${SERVER_CERT_FILE}" \
-++    -cert "${SERVER_CERT_BAD_FILE}" \
-++    -respout "${OCSP_RESPONSE_FILE}"
-++
-++eval "${GETPORT}"
-++# Port for gnutls-serv
-++TLS_SERVER_PORT=$PORT
-++PORT=${TLS_SERVER_PORT}
-++launch_bare_server \
-++    "${SERV}" --attime "${TESTDATE}" --echo --disable-client-cert \
-++    --x509keyfile="${srcdir}/ocsp-tests/certs/server_bad.key" \
-++    --x509certfile="${SERVER_CERT_BAD_FILE}" \
-++    --port="${TLS_SERVER_PORT}" \
-++    --ocsp-response="${OCSP_RESPONSE_FILE}" --ignore-ocsp-response-errors
-++TLS_SERVER_PID="${!}"
-++wait_server $TLS_SERVER_PID
-++
-++wait_for_port "${TLS_SERVER_PORT}"
-++
-++out=$(
-++    echo "test 123456" | \
-++        "${CLI}" -d1 --attime "${TESTDATE}" --ocsp \
-++        --x509cafile "${srcdir}/ocsp-tests/certs/ca.pem" \
-++        --port "${TLS_SERVER_PORT}" localhost \
-++        2>&1
-++    rc=$?
-++)
-++printf '%s\n' "$out"
-++
-++if test "${rc}" = "0"; then
-++    echo 'ERROR: client accepted a revoked leaf (CVE-2026-3832)'
-++    exit 1
-++fi
-++if ! echo "${out}" | grep "The certificate was revoked via OCSP" >/dev/null
-++then
-++    echo '"The certificate was revoked via OCSP" not found in output'
-++    exit 1
-++fi
-++
-++kill "${TLS_SERVER_PID}"
-++wait "${TLS_SERVER_PID}"
-++unset TLS_SERVER_PID
-+ 
-+ kill ${OCSP_PID}
-+ wait ${OCSP_PID}
++ #define SSL2_HEADERS 1
 +-- 
 +2.51.0
 +
 diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index b92470768c..03eee5c50e 100644
+index 03eee5c50e..3085a62310 100644
 --- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
 +++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -32,6 +32,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://0006-buffers-match-DTLS-datagrams-by-sequence-number.patch \
-            file://0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch \
+@@ -34,6 +34,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
             file://0008-tests-mini-dtls-framents-link-to-gnulib.patch \
-+           file://CVE-2026-3832_p1.patch \
-+           file://CVE-2026-3832_p2.patch \
+            file://CVE-2026-3832_p1.patch \
+            file://CVE-2026-3832_p2.patch \
++           file://CVE-2026-42009_p1.patch \
++           file://CVE-2026-42009_p2.patch \
             "
  
  SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
