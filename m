@@ -1,127 +1,118 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83FD4C44529
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 09:51:37 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5612.1784541087253425790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31FCAC44515
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 10:57:08 +0000 (UTC)
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6348.1784545020773216981
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 02:51:27 -0700
+ Mon, 20 Jul 2026 03:57:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=QgB3dUNE;
- spf=pass (domain: smile.fr, ip: 209.85.218.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c1691e4ec40so575852666b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 02:51:27 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=N1wUrI2n;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784541085; x=1785145885; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HORfcT8wr30Y1NyPXa0bDMd7YQPHTG/8bvXFOrN+02g=;
-        b=QgB3dUNEqBUeTXUzvVEXj/E1aHcsn4zwGay6UrtpwgestBbN04kUK1n2d5Bizamykr
-         h1a0/KGkxhIg/lh49vbQTv2Upd3vF36QnoR/flldnYkU3mNpa90hOIcGkRiuZQ2ZhdMH
-         50tiubLJuojqIaY2lqQExL3ccs7FWXEJDs/mc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784541085; x=1785145885;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HORfcT8wr30Y1NyPXa0bDMd7YQPHTG/8bvXFOrN+02g=;
-        b=NG/VGb/aa/sT6FshDo2C6tUn9HUJ59KR/3Lt2NN7qfQVGW4P5wM/ueA7KMwi765bxw
-         P+wBpaQTzflrYAiL6BUIeV9nBozFkkBfio0yToKDnmGd7it9TcHse1j498e0fjZOm1tO
-         A9x7RJvi5iVk0guvZHYbmK3UtZbuxGr5MbA+k7NgsWthiMYGbSEOGgDozH15PHIDFsyz
-         hO6ZRoV/+doXr8Rc+vQUXmnIE4hL5ba4Mx4w7S5mdExwf6jGPLQJSrhMB78kDJ5HaOyg
-         Qqp+X6ms29uKmMiibDnnLWCR+tjN/z70AYPX9I7jnr2rIWXMVUVGFUq51JKVuqQriIDA
-         rsJw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1jlOdX+mzlK+v9BsUR5LMAid98YR3MHHnV8XqfCwAYqkWziLBFSYDygiRRz9LOUkAGf9/11ezGdx4hVvkR60eAg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz6zK1ydvlznL3jolLEGRDVuseMl4cO5D8GpE+8k/j166vcUg0W
-	MRkbsqO51aWpAC7Q18kHinnXw1y3Ea+NjgjebIo2Yn6mQcE3z38Xazoxz4YPG3ikVYs=
-X-Gm-Gg: AfdE7clrpI0MocUh8FL5B/+vwYyeHdNzpON5zYdDZQxcV6imN1auG3s31ol98OCSRks
-	VKDGLaKNUhc49CQNa5J2ykS1iGUsRWzt08aEwYvmRb/dc13sUBOxWzeXMLkWfbrtDnzxixMjs+z
-	8CS3EyAIIzEIs9BefewxgKRWKJ0cDKIPrjSvpYafLrcnAwHLc6S2vAuBnyxtlmzej85BghNnYeL
-	Ko81N15gA/Vp8ClOYtJeVk2El0Teolf3psyJUjoI1v4fSpX37INML5qlbsM+dlUfN1sUZ1cL+3S
-	T0xtcYFeo4TPpH8A7jkZFsII0hT3EVrsT5xFZSAP+MHqS0YD8Et8knEhmKnBPnNBXr3HhXkI5Dh
-	7pRRcpB+rqeiGMIhAvcfWeaPT/CdLXKtMk7ckwHuGWgCtKQ9sZTfz3Q3wosiEPvVQSXcOtwWS2Z
-	7xgGFjYe4sDEyqkNPvBUvMcLEtV8V6IpHuhgMSHQQBiJrir3Ek3NUaYkr5GA1ppvzoy8jj9Xco
-X-Received: by 2002:a17:907:c0b:b0:c16:198f:d4cd with SMTP id a640c23a62f3a-c16b47d8171mr586066166b.30.1784541085360;
-        Mon, 20 Jul 2026 02:51:25 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c17009adfe7sm437203166b.6.2026.07.20.02.51.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jul 2026 02:51:25 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 20 Jul 2026 11:51:24 +0200
-Message-Id: <DK3B0ON55K6X.1HAUH9KGS3PK0@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] binutils: fix CVE-2025-69645
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: =?utf-8?q?Roland_Kov=C3=A1cs?= <roland.kovacs@est.tech>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260716095854.65840-1-roland.kovacs@est.tech>
- <DK2U92VVUXKE.2HBXKS4ZWACG@smile.fr>
- <f81d8c26b92fdb73043c336630ecc54233da05f5.camel@est.tech>
-In-Reply-To: <f81d8c26b92fdb73043c336630ecc54233da05f5.camel@est.tech>
+  d=cisco.com; i=@cisco.com; l=1572; q=dns/txt;
+  s=iport01; t=1784545020; x=1785754620;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SY7uaM7wPD9Zh+RlrTS76qEMUtjmglaAvBwtiHOOj3s=;
+  b=N1wUrI2nBx5c5B4+R68ZzPcxf7B72UYXV/q8VhjK31/4vpdVZa1Hpx+n
+   1Ivzydc4uceqRht+XqLPKqshy1tMdM/yZjzycruIpnDRe0NXiFnIvIotN
+   bJ3tdY4U1CZ6LgTPCsvBYjmf0nTevRehca1sTSZuKbfn5vv+f0CJYxF31
+   j1DOISdBv2xnmOb2/qgvTcsrdS0GuXXieOY0lt2PQ9LV/y9fey+0djyqG
+   h6Vv6ejqGphMjPZPgAXGwTupz07UxwAJz5qK7Ny9cpMuk5fdFdM41G9+l
+   XyBWldFvZpFQN1JC05rof9SvI90gvq4N7XTqsxTYBURg7SEV53EplWTRA
+   Q==;
+X-CSE-ConnectionGUID: V3iUYnXRT7ugOHA+dUNk7g==
+X-CSE-MsgGUID: ju5msm+pT9yEkU7CYGaiQg==
+X-IPAS-Result: =?us-ascii?q?A0BAAgCp/V1q/5X/Ja1aHgEBCxIMggULgld0X0JJlCmCI?=
+ =?us-ascii?q?Z4egX4PAQEBDz0UBAEBkloCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGTw2HEwEYAV1cOwEIgwIBgnQDEQa8PoIsgQGDKAExBQkCAkABU?=
+ =?us-ascii?q?NsuAQsUAYE4hT+IIHQBgkmCMycbG4FygRWDaYEFgVwBAoIshXgEgiJ6EoF4U?=
+ =?us-ascii?q?IEIjhxIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYE6gQKEd?=
+ =?us-ascii?q?yMfAzl/gTB1SnctahIXgSaDSwIHAwsYDUgRLDcUGQQ+bgeNPCOCPxBKBy0qA?=
+ =?us-ascii?q?gSBaBgzBqVioRIKKIN1jCGVOhozqmyZCI4KllCEaYFoPDmBDgsHcBWDIgkWN?=
+ =?us-ascii?q?BkPjjiFaoRBxVY8NQI7AQEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:eGMIpKrp048iJTQehWt9ZY+dDW5eBmJJZBIvgKrLsJaIsI4StFCzt
+ garIBnVMqmMMTCnL9h/Oo20o0IBv8ODn9IxSlNp/H0zRitHouPIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgLNNwJcaDpOtfrc8ks355wehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0tgsAFx/8
+ 8wiFG8QYTejrqG6/ZS4FeY506zPLOGzVG8ekmtrwTecCbMtRorOBvyQo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LWfrSn8/w7pX7WzFVpUicuaowy2PS1wd2lrPqNbI5f/TWFJUJwRnD+
+ zOuE2LRAAxHMceaiiK5o2OBhdKQthLUUYMrG+jtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
+ EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sYMpottdQ9Qnoh0
+ Vrhc87VOAGDeYa9ERq1nop4ZxvoUcTJBQfuvRM5cDY=
+IronPort-HdrOrdr: A9a23:BnzAIK4TdO3F1uri+APXwPjXdLJyesId70hD6qkXc202TiX2ra
+ 6TdZgguCMc6wxhO03I5+rgBEDoexq1nvRICOIqUotKMjOLhILRFuFfxLqn5SH8ECvj8eMY/6
+ Jhf69iTODUNzFB/KPHCM3SKadG/DFBm5rY4dvj8w==
+X-Talos-CUID: =?us-ascii?q?9a23=3AAWxxyGru3Du/DqEI1DzwmaDmUf5+c0DsykfqHxC?=
+ =?us-ascii?q?lBkFJYf6ZdHmTp6wxxg=3D=3D?=
+X-Talos-MUID: 9a23:OdSVNgTzMnxCwzYWRXTumWxnL8Ir+5j/GW0OrMotiuaNNBV/bmI=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
+   d="scan'208";a="498477359"
+Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 10:56:59 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 91A9F180001C1
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:56:59 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id AD496CC037D; Mon, 20 Jul 2026 16:26:57 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][wrynose][PATCH 1/5] curl: ignore CVE-2026-4873
+Date: Mon, 20 Jul 2026 16:26:43 +0530
+Message-Id: <20260720105647.2451180-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: rcdn-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 09:51:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241352
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:57:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241353
 
-On Mon Jul 20, 2026 at 11:46 AM CEST, Roland Kov=C3=A1cs wrote:
-> On Sun, 2026-07-19 at 22:43 +0200, Yoann Congal wrote:
->> Hello,
->>=20
->> On Thu Jul 16, 2026 at 11:58 AM CEST, Roland Kov=C3=A1cs via lists.opene=
-mbedded.org wrote:
->> > Binutils objdump contains a denial-of-service vulnerability when proce=
-ssing
->> > a crafted binary with malformed DWARF debug information. A logic error=
- in
->> > the handling of DWARF compilation units can result in an invalid offse=
-t_size
->> > value being used inside byte_get_little_endian, leading to an abort (S=
-IGABRT).
->> > A local attacker can trigger the crash by supplying a malicious input =
-file.
->> >=20
->> > Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
->> > ---
->> > =C2=A0.../binutils/binutils-2.42.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> > =C2=A0.../binutils/binutils/CVE-2025-69645.patch=C2=A0=C2=A0=C2=A0 | 1=
-35 ++++++++++++++++++
->> > =C2=A02 files changed, 136 insertions(+)
->> > =C2=A0create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2=
-025-69645.patch
->>=20
->> More than a description of the vulnerability, what we need in the commit
->> message is a justification for the patch: i.e. why this is the patch we
->> should take to fix this CVE? In this case, this is trivial, this is the
->> patch referenced from the NVD page, so I've added it.
-> I'll keep this in mind, thanks.
->
->>=20
->> Also, the NVD entry looks wrong: only the 2.44 version is said impacted
->> but the patches to fix apply way more than that.
-> NVD data marks any version affected, 2.44 is __mentioned__ in the descrip=
-tion but no filter or bound
-> is set in the CVE metadata.=20
+From: Deepak Rathore <deeratho@cisco.com>
 
-The NVD CPE is:
-"cpe:2.3:a:gnu:binutils:2.44:*:*:*:*:*:*:*"
-If I read that correctly, that mean only 2.44 is affected.
+- CVE-2026-4873 affects curl before 8.20.0 when a connection negotiated with
+  clear-text IMAP, POP3, or SMTP can later be reused for a TLS-required
+  transfer.
+- In wrynose, these protocols are optional PACKAGECONFIG entries and are not
+  enabled by default in curl_8.19.0.bb, so record this CVE as configuration-not-applicable
+  for the default recipe configuration.
 
->>  Can you reach them and fix the NVD data?
-> I can ask upstream who issued the CVE to set 2.46 as unaffected/fixed bas=
-ed on their bugtracker, but
-> that's about it.
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+Reference:
+- https://curl.se/docs/CVE-2026-4873.html
+- https://nvd.nist.gov/vuln/detail/CVE-2026-4873
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+---
+ meta/recipes-support/curl/curl_8.19.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index 3326f478b5..1cda69401b 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -28,6 +28,7 @@ SRC_URI[sha256sum] = "4eb41489790d19e190d7ac7e18e82857cdd68af8f4e66b292ced562d33
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
++CVE_STATUS[CVE-2026-4873] = "${@bb.utils.contains_any('PACKAGECONFIG', 'imap pop3 smtp', 'unpatched', 'not-applicable-config: clear-text imap/pop3/smtp support is not enabled in PACKAGECONFIG', d)}"
+ 
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
+-- 
+2.35.6
 
 
