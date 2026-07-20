@@ -2,240 +2,261 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DABC44531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C5FDC44529
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:36 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2863.1784568211680527463
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2881.1784568208431942327
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:32 -0700
+ Mon, 20 Jul 2026 10:23:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=33ihnpVH;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so45661465e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:31 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=LWL23LXT;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954a32cf1eso13777975e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784568210; x=1785173010; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=kPsPMNe0u5wdCYSACX4YP0bnD1tZ3B7jLVpoAzlzaVw=;
-        b=33ihnpVHdUfOU1VNheFYXZrna4D5Z3CqKCVzY+AazxoqU1cfxorbvzqzmDVPJYMoKv
-         zTlOYKhqzSQr5ALXClMp7o8EHhBuJ8s+EzXi4ldhjZ3JvzhW3SiBTIRF/vXtFgUSAzKq
-         Kca1XGrEG2zFT3N+J0mnxW7n6/XAT0Txj1mQE=
+        d=smile.fr; s=google; t=1784568207; x=1785173007; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=J4rzw3y5ulAC90t2gVTHW+hi2hdLY4BBo6BevK3ePqI=;
+        b=LWL23LXTw/7vCzQXLnbPb+SkAsXStja8MoadSw2oWSmjZdc9J6UVRQT1Uleh6BPI+F
+         h6A9YcR1vIU3hoRAgA3mmaPVj22d20g5xNHfw+6S2BLhKBYWmM1LHPiikcYpfVg6Zrs2
+         TodyUXXk1Hnc6BH3QbbW2ENUbMyVzX1LkJhzI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568210; x=1785173010;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=kPsPMNe0u5wdCYSACX4YP0bnD1tZ3B7jLVpoAzlzaVw=;
-        b=GLJjOV8i/6w8kEKSTELmrB47fmfaoF/ms58ny4AkE9w8q6WewPE1LDXMPGWJHSrjkp
-         PlEv04wEwxAPs/ulXkkQ6NwML9DnKKrrYkJofrhV7KO2AxgjZfOfnc+VY4mMQDeUQHNY
-         qy7IQUcn+7tKEt4SePlL9iS+rlL2YpRyxQR5Mgtgy4Y7svldfhOoHEhUlQZkW6tgMYJr
-         P87GF2587s7wbc/4nK+hgusTmnpsg47jusilx+/Bl2Q+vUMQaSjzeu3oIYG1sWxbzbUj
-         UWYdQItMTtc3k++qFMnYiWZ6p8rgjxqpsvdjL3+37YoSG9FiBV1DOsWtsOIjurjHDa/4
-         M+dQ==
-X-Gm-Message-State: AOJu0YxWD7v4JSkvTU3aCwuypzPIqwg5klrlgPEKv0MBDkQRojnoKNZE
-	KLJRGIzDnHBlzO4X4YgflFC+X8FB+jykQTuRCj9LPVk64uvrD1pVEvRrTRFI0jBeGRpmT7tTm5a
-	9a1A3frs=
-X-Gm-Gg: AfdE7ckzi18gvtxc3htnHUsTDo15Xw6ctZGVi3qAb0OzIc5BRSY/z4FSdMjUoHaobMo
-	ROW+uwbFt70zqZQrrahhltdzRjs/GZtEzie7kzS4JPaY+lC7cMx+6cWMhyRgoYQ2b14FXLVkQay
-	q9G0sFxgtdKVmwdASemcEfYNLrVVYMmFX07LKXg+13EY5pLBxeH2oXbNbxsRX1gh5YT/LgkHIwu
-	WLrUCijTGWW/SQsBoTgx+ftk2H+F5HEznChFA9vefWcNq0XkwBUZyscS9Sl7DI52BdkIPUzsCvf
-	w6iXrJ5AZ6Fzrk2CmiDjuBpppRuooq02rq5bkAzPfagS/UQCn+1II49ndEIuAUxYcnEulWJjYt+
-	1ujm2whi2G7/iNbjy98S+Jr2uDVi3qzQjk8jbE2ipFlnp9XdYU5Qy0c2NHWOGH2g+DFU+g73CWh
-	yuNKgafwkf4dp5sDTLMfXlNxRZdv0/GkbwhpkyH3wnCa8A2AOJBrpU+iGP2x0Xvde7qsm4z9nyh
-	kej+zFs
-X-Received: by 2002:a05:600c:3506:b0:492:6447:7a7f with SMTP id 5b1f17b1804b1-4954a3d0070mr173853315e9.6.1784568209628;
-        Mon, 20 Jul 2026 10:23:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784568207; x=1785173007;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=J4rzw3y5ulAC90t2gVTHW+hi2hdLY4BBo6BevK3ePqI=;
+        b=FLQZyivgSOmzisHt20UWKgUoRsm61RkqmyfcNJv6WaHn7svNHACcyVCfA5eX8riKd2
+         Z44BgYCqfw+CyURo7aNQUUAQTOEWaybY+JLl1TJlIT4wl5t6Gye01Qg5wbS8vGjykxni
+         B5anXgvRK+RyCgg8nJbjKLwgAFGe/sMHzFm4jmWgRnJNk6ro4gJiqPbhrr2DE9uTkmgx
+         g04AyLdaBSnNe6IAHlkUJRh9xfOzVJPkB1eq79cnbUXQsMO2dHr2QAGKYlHPWUGMPDYJ
+         YSdWNDVjp5eBes0dOlqrV4+g2dzJzWzIv0XHanYArH1uOmrfNSlbrE/ALt+CiZt33Ysh
+         Mfeg==
+X-Gm-Message-State: AOJu0YykNy3HXJvTHLLlhu/4emjSpyzQZKXoMZcSo6zAuZyyCCzVvxK9
+	lGqXXOlzGRY855iCltEw8p9K4n8Bg49oejWdPAqf9AYYZHFLRIAGXwTRJtWW4ghvsCwts6sLDZf
+	mD5tqoB8=
+X-Gm-Gg: AfdE7cm2IdRqR6bFfTAuDJc/k80azHo4/56gBLw/nkIzDRhMqPF4RfbPnT4PcGe7beL
+	GC5qqJpGn+vkZI/Fbofbhm30/zTVCGwpHOA2ftAZ5w5idL2RSEDyD8MNu+5of2nBkH7hwoowAEB
+	1yE1gm4Pp6XXDpG+KLan8emgPTMvNbJwby9ymEFaiQBIxod9tkHov/iZzy3l+LJaiMLOrlcbtJh
+	+s3eV1xMcQK25Ykls/7V270rCdWpIWHYy7jz33EWT9yryQdvxuVLsbtasBFbwsBWnAn8JDwwLHI
+	6c2oVKlGf9bVc5tIeCXC5kpf1Ubgs5Fu/r9LtceJfLbWRm90cl+BSSveWoQCspbuwebL9xqDSVb
+	W8PZXML6YHEiANOtbWoVew78AgjUQ3ss4LL1e2RrjqSiy+DNZm1SBEbVzmsd90Wt5V+gJSBU8wc
+	DqdeCfON72OlkmCGjPc6tBbNXbzd4NVKH7+0/Zw50bjylCnYuks3ALhv87Aq1gZ+y5vaNtBrFBK
+	+rjTWbhG18wmvXJn20=
+X-Received: by 2002:a05:600c:1f82:b0:495:607e:5ee7 with SMTP id 5b1f17b1804b1-495607e635amr43157655e9.17.1784568206326;
+        Mon, 20 Jul 2026 10:23:26 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:23:29 -0700 (PDT)
+        Mon, 20 Jul 2026 10:23:26 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/33] binutils: fix CVE-2025-69645
-Date: Mon, 20 Jul 2026 19:22:38 +0200
-Message-ID: <ca101b2ff0b91630df25ee619c809e0621d41b21.1784567958.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 00/33] Patch review
+Date: Mon, 20 Jul 2026 19:22:33 +0200
+Message-ID: <cover.1784567958.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
-References: <cover.1784567958.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241439
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241434
 
-From: Roland Kovacs <roland.kovacs@est.tech>
+Please review this set of changes for scarthgap and have comments back by
+end of day Wednesday, July 22.
 
-Binutils objdump contains a denial-of-service vulnerability when processing
-a crafted binary with malformed DWARF debug information. A logic error in
-the handling of DWARF compilation units can result in an invalid offset_size
-value being used inside byte_get_little_endian, leading to an abort (SIGABRT).
-A local attacker can trigger the crash by supplying a malicious input file.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4248
+oe-selftest-armhost, oe-selftest-debian and oe-selftest-fedora failed
+with 15289 – [scarthgap] AB-INT: sstatetests.SStatePrintdiff.test_gcc_runtime_vs_gcc_source failure
+oe-selftest-debian was rebuilt on a isolated sstate/hashserv here:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/4333
 
-Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-[YC: The patch is referenced on the NVD page:
-     https://nvd.nist.gov/vuln/detail/CVE-2025-69645 ]
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../binutils/binutils-2.42.inc                |   1 +
- .../binutils/binutils/CVE-2025-69645.patch    | 135 ++++++++++++++++++
- 2 files changed, 136 insertions(+)
+The following changes since commit 8aca19cff468c5f15c919c973c46be58e020af46:
+
+  cve-update: Avoid NFS caching issues (2026-07-17 12:05:24 +0200)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+for you to fetch changes up to 9a7f92f2dce94876fa63ce8625d53444a9a706aa:
+
+  glibc-testsuite: Do not generate SPDX (2026-07-20 13:50:16 +0200)
+
+----------------------------------------------------------------
+
+Aleksandar Nikolic (1):
+  wic: Fix updating fstab for nvme devices
+
+Ankur Tyagi (3):
+  wireless-regdb: upgrade 2026.02.04 -> 2026.03.18
+  wireless-regdb: upgrade 2026.03.18 -> 2026.05.30
+  ca-certificates: upgrade 20260223 -> 20260601
+
+Ashishkumar Parmar (1):
+  bind: Upgrade 9.18.44 -> 9.18.49
+
+Benjamin Robin (Schneider Electric) (4):
+  python3: fix CVE-2026-11940
+  python3: fix CVE-2026-11972
+  python3: fix CVE-2026-9669
+  glib-2.0: fix CVE-2026-58016
+
+Deepak Rathore (1):
+  util-linux: fix CVE-2026-13595
+
+Eric Meyers (1):
+  create-spdx-image-3.0: correct SSTATE_SKIP_CREATION key for
+    do_create_image_sbom_spdx
+
+Harish Sadineni (1):
+  binutils: Add CVE-2025-69646 to "CVE:" tag
+
+Hitendra Prajapati (1):
+  vim: Fix for CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
+
+Hongxu Jia (1):
+  bzip2: fix 'bzip2 --version > /tmp/aaa 2>&1' hang
+
+Hugo SIMELIERE (Schneider Electric) (1):
+  libcap: Fix CVE-2026-4878
+
+Jaipaul Cheernam (3):
+  glibc: stable 2.39 branch updates
+  bzip2: Fix CVE-2026-42250
+  gzip: fix CVE-2026-41992
+
+Joshua Watt (1):
+  glibc-testsuite: Do not generate SPDX
+
+Kris Gavvala (1):
+  python3: skiptest tracemalloc_track_race
+
+Mathieu Dubois-Briand (1):
+  python3: Simplify ptest exclusion list
+
+Mike Crowe (1):
+  dropbear: Disable DSS correctly
+
+Peter Marko (4):
+  socat: patch CVE-2026-56123
+  vex: remove obsolete semicolon
+  rootfs: move tasks using image_list_installed_packages to
+    postuninstall
+  expat: patch CVE-2026-41080
+
+Roland Kovacs (2):
+  binutils: fix CVE-2025-69649, and CVE-2025-69652
+  binutils: fix CVE-2025-69645
+
+Ross Burton (1):
+  xmlto: update SRC_URI
+
+Sudhir Dumbhare (2):
+  python3-urllib3: fix CVE-2026-44431
+  openssh: set status for CVE-2026-3497
+
+Theo Gaige (1):
+  expat: patch CVE-2026-45186
+
+Vijay Anusuri (1):
+  tzdata/tzcode-native: upgrade 2026b -> 2026c
+
+ .../create-spdx-image-3.0.bbclass             |   2 +-
+ meta/classes-recipe/license_image.bbclass     |   2 +-
+ meta/classes-recipe/nospdx.bbclass            |   2 +-
+ meta/classes/vex.bbclass                      |   2 +-
+ .../bind/{bind_9.18.44.bb => bind_9.18.49.bb} |   2 +-
+ .../openssh/openssh_9.6p1.bb                  |   1 +
+ .../socat/files/CVE-2026-56123.patch          | 150 ++++++
+ .../socat/socat_1.8.0.0.bb                    |   1 +
+ ...PBEAR_DSS-is-only-forced-for-fuzzing.patch |  30 ++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |   1 +
+ .../expat/expat/CVE-2026-41080-01.patch       |  50 ++
+ .../expat/expat/CVE-2026-41080-02.patch       |  29 ++
+ .../expat/expat/CVE-2026-41080-03.patch       | 467 ++++++++++++++++++
+ .../expat/expat/CVE-2026-45186-01.patch       |  70 +++
+ .../expat/expat/CVE-2026-45186-02.patch       | 318 ++++++++++++
+ .../expat/expat/CVE-2026-45186-03.patch       |  46 ++
+ .../expat/expat/CVE-2026-45186-04.patch       |  32 ++
+ .../expat/expat/CVE-2026-45186-05.patch       |  32 ++
+ .../expat/expat/CVE-2026-45186-06.patch       |  87 ++++
+ .../expat/expat/CVE-2026-45186-07.patch       |  52 ++
+ meta/recipes-core/expat/expat_2.6.4.bb        |  10 +
+ .../glib-2.0/glib-2.0/CVE-2026-58016-1.patch  |  94 ++++
+ .../glib-2.0/glib-2.0/CVE-2026-58016-2.patch  |  98 ++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   2 +
+ .../glibc/glibc-testsuite_2.39.bb             |   1 +
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ meta/recipes-core/glibc/glibc_2.39.bb         |   3 +-
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../util-linux/CVE-2026-13595.patch           | 157 ++++++
+ .../binutils/binutils-2.42.inc                |   3 +
+ .../binutils/binutils/CVE-2025-69645.patch    | 135 +++++
+ .../binutils/binutils/CVE-2025-69648.patch    |   2 +-
+ .../binutils/binutils/CVE-2025-69649.patch    |  44 ++
+ .../binutils/binutils/CVE-2025-69652.patch    |  39 ++
+ .../python3-urllib3/CVE-2026-44431.patch      | 163 ++++++
+ .../python/python3-urllib3_2.2.2.bb           |   1 +
+ .../python/python3/CVE-2026-11940.patch       |  66 +++
+ .../python/python3/CVE-2026-11972.patch       |  60 +++
+ .../python/python3/CVE-2026-9669.patch        |  96 ++++
+ .../python/python3_3.12.13.bb                 |  23 +-
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |   2 +-
+ ...-fix-bzip2-version-tmp-aaa-will-hang.patch |  62 +++
+ .../bzip2/bzip2/CVE-2026-42250.patch          |  35 ++
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |   2 +
+ .../gzip/gzip-1.13/CVE-2026-41992.patch       |  64 +++
+ meta/recipes-extended/gzip/gzip_1.13.bb       |   1 +
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ ....02.04.bb => wireless-regdb_2026.05.30.bb} |   2 +-
+ ...0260223.bb => ca-certificates_20260601.bb} |   4 +-
+ .../libcap/files/CVE-2026-4878.patch          | 164 ++++++
+ meta/recipes-support/libcap/libcap_2.69.bb    |   1 +
+ .../vim/files/CVE-2026-52858.patch            | 167 +++++++
+ .../vim/files/CVE-2026-52859.patch            | 274 ++++++++++
+ .../vim/files/CVE-2026-52860.patch            | 446 +++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   3 +
+ scripts/lib/wic/plugins/imager/direct.py      |   6 +-
+ 56 files changed, 3595 insertions(+), 20 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.18.44.bb => bind_9.18.49.bb} (97%)
+ create mode 100644 meta/recipes-connectivity/socat/files/CVE-2026-56123.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-1.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58016-2.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-13595.patch
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69645.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-44431.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-11940.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-9669.patch
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/CVE-2026-42250.patch
+ create mode 100644 meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41992.patch
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2026.02.04.bb => wireless-regdb_2026.05.30.bb} (94%)
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20260223.bb => ca-certificates_20260601.bb} (94%)
+ create mode 100644 meta/recipes-support/libcap/files/CVE-2026-4878.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index c93f51e3ee2..d455acd7863 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -77,5 +77,6 @@ SRC_URI = "\
-      file://CVE-2025-69649.patch \
-      file://CVE-2025-69652.patch \
-      file://CVE-2026-6846.patch \
-+     file://CVE-2025-69645.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69645.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-69645.patch
-new file mode 100644
-index 00000000000..78d2d62a507
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69645.patch
-@@ -0,0 +1,135 @@
-+From 3fe207e0625a76c8cba932e435762bfb5f544131 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 30 Nov 2025 12:51:54 +1030
-+Subject: [PATCH] PR 33637, abort in byte_get
-+
-+When DWARF5 support was added to binutils in commit 77145576fadc,
-+the loop over CUs in process_debug_info set do_types when finding a
-+DW_UT_type unit, in order to process the signature and type offset
-+entries.  Unfortunately that broke debug_information/debug_info_p
-+handling, which previously was allocated and initialised for each unit
-+in .debug_info.  debug_info_p was NULL when processing a DWARF4
-+.debug_types section.  After the 77145576fadc change it was possible
-+for debug_infp_p to be non-NULL but point to zeroed data, in
-+particular a zeroed offset_size.  A zero for offset_size led to the
-+byte_get_little_endian abort triggered by the fuzzer testcase.
-+
-+I haven't investigated whether there is any need for a valid
-+offset_size when processing a non-fuzzed DWARF4 .debug_types section.
-+Presumably we'd have found that out in the last 6 years if that was
-+the case.  We don't want to change debug_information[] for
-+.debug_types!
-+
-+	PR 33637
-+	* dwarf.c (process_debug_info): Don't change DO_TYPES flag bit
-+	depending on cu_unit_type.  Instead test cu_unit_type along
-+	with DO_TYPES to handle signature and type_offset for a type
-+	unit.  Move find_cu_tu_set_v2 call a little later.
-+
-+CVE: CVE-2025-69645
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=cdb728d4da6184631989b192f1022c219dea7677]
-+
-+Note:
-+  Backported patch differs from upstream as commit
-+  1f7e70ddd2c49dd5442b8873dd6ef29b0a10fdc3 is not cherry-picked
-+  just to introduce `do_flags` instead of the separate `do_type`
-+  and `do_loc` booleans for it to apply cleanly.
-+
-+Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-+---
-+ binutils/dwarf.c | 18 ++++++------------
-+ 1 file changed, 6 insertions(+), 12 deletions(-)
-+
-+diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-+index 615e051b2bf..836872f1b26 100644
-+--- a/binutils/dwarf.c
-++++ b/binutils/dwarf.c
-+@@ -3865,8 +3865,6 @@ process_debug_info (struct dwarf_section * section,
-+ 
-+       SAFE_BYTE_GET_AND_INC (compunit.cu_version, hdrptr, 2, end_cu);
-+ 
-+-      this_set = find_cu_tu_set_v2 (cu_offset, do_types);
-+-
-+       if (compunit.cu_version < 5)
-+ 	{
-+ 	  compunit.cu_unit_type = DW_UT_compile;
-+@@ -3876,8 +3874,6 @@ process_debug_info (struct dwarf_section * section,
-+       else
-+ 	{
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_unit_type, hdrptr, 1, end_cu);
-+-	  do_types = (compunit.cu_unit_type == DW_UT_type);
-+-
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_pointer_size, hdrptr, 1, end_cu);
-+ 	}
-+ 
-+@@ -3891,6 +3887,7 @@ process_debug_info (struct dwarf_section * section,
-+ 	  SAFE_BYTE_GET_AND_INC (dwo_id, hdrptr, 8, end_cu);
-+ 	}
-+ 
-++      this_set = find_cu_tu_set_v2 (cu_offset, do_types);
-+       if (this_set == NULL)
-+ 	{
-+ 	  abbrev_base = 0;
-+@@ -3947,8 +3944,6 @@ process_debug_info (struct dwarf_section * section,
-+ 
-+       SAFE_BYTE_GET_AND_INC (compunit.cu_version, hdrptr, 2, end_cu);
-+ 
-+-      this_set = find_cu_tu_set_v2 (cu_offset, do_types);
-+-
-+       if (compunit.cu_version < 5)
-+ 	{
-+ 	  compunit.cu_unit_type = DW_UT_compile;
-+@@ -3958,13 +3953,12 @@ process_debug_info (struct dwarf_section * section,
-+       else
-+ 	{
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_unit_type, hdrptr, 1, end_cu);
-+-	  do_types = (compunit.cu_unit_type == DW_UT_type);
-+-
-+ 	  SAFE_BYTE_GET_AND_INC (compunit.cu_pointer_size, hdrptr, 1, end_cu);
-+ 	}
-+ 
-+       SAFE_BYTE_GET_AND_INC (compunit.cu_abbrev_offset, hdrptr, offset_size, end_cu);
-+ 
-++      this_set = find_cu_tu_set_v2 (cu_offset, do_types);
-+       if (this_set == NULL)
-+ 	{
-+ 	  abbrev_base = 0;
-+@@ -3996,7 +3990,7 @@ process_debug_info (struct dwarf_section * section,
-+ 	  compunit.cu_pointer_size = offset_size;
-+ 	}
-+ 
-+-      if (do_types)
-++      if (do_types || compunit.cu_unit_type == DW_UT_type)
-+ 	{
-+ 	  SAFE_BYTE_GET_AND_INC (signature, hdrptr, 8, end_cu);
-+ 	  SAFE_BYTE_GET_AND_INC (type_offset, hdrptr, offset_size, end_cu);
-+@@ -4011,7 +4005,7 @@ process_debug_info (struct dwarf_section * section,
-+       if ((do_loc || do_debug_loc || do_debug_ranges || do_debug_info)
-+ 	  && num_debug_info_entries == 0
-+ 	  && alloc_num_debug_info_entries > unit
-+-	  && ! do_types)
-++	  && !do_types)
-+ 	{
-+ 	  free_debug_information (&debug_information[unit]);
-+ 	  memset (&debug_information[unit], 0, sizeof (*debug_information));
-+@@ -4042,7 +4036,7 @@ process_debug_info (struct dwarf_section * section,
-+ 	  printf (_("   Abbrev Offset: %#" PRIx64 "\n"),
-+ 		  compunit.cu_abbrev_offset);
-+ 	  printf (_("   Pointer Size:  %d\n"), compunit.cu_pointer_size);
-+-	  if (do_types)
-++	  if (do_types || compunit.cu_unit_type == DW_UT_type)
-+ 	    {
-+ 	      printf (_("   Signature:     %#" PRIx64 "\n"), signature);
-+ 	      printf (_("   Type Offset:   %#" PRIx64 "\n"), type_offset);
-+@@ -4319,7 +4313,7 @@ process_debug_info (struct dwarf_section * section,
-+      we need to process .debug_loc and .debug_ranges sections.  */
-+   if ((do_loc || do_debug_loc || do_debug_ranges || do_debug_info)
-+       && num_debug_info_entries == 0
-+-      && ! do_types)
-++      && !do_types)
-+     {
-+       if (num_units > alloc_num_debug_info_entries)
-+ 	num_debug_info_entries = alloc_num_debug_info_entries;
-+-- 
-+2.34.1
-+
 
