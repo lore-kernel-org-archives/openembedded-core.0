@@ -1,140 +1,159 @@
-Return-Path: <marek.vasut@mailbox.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 557A0C4452B
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 15:09:32 +0000 (UTC)
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11315.1784560164917165818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6068DC44520
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 15:15:12 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11390.1784560505118546429
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 08:09:25 -0700
+ Mon, 20 Jul 2026 08:15:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=w10Y5EE6;
- spf=pass (domain: mailbox.org, ip: 80.241.56.172, mailfrom: marek.vasut@mailbox.org)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4h3kSc5DnrzMlGQ;
-	Mon, 20 Jul 2026 17:09:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1784560160;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SRvHxokNUnXwaXZGjng6tJaun8mudr4gZ/oyWiZHOuE=;
-	b=w10Y5EE65vyaF15jPye7ssfOMqCoUFRfUWGrdUMl3c2I3HD4cveFHu2ejT7IjiJm+c9Cp/
-	SZsDPntm2qmG74rwhKPJlFp9isNnKAQT+HmBBDgsjqZGEDRfsmoVShrn32XBOtpRRBn3m1
-	+U3N+hchbeXXDU9OET65/dKYhILbW/siSW9omkZBd4jb/KQrNaJcMO8lw0WYIuPokSmp/z
-	oC39Cx8P44U9h57c/tk/WXa3En/vvv+QhA+Rml/UtwHW5N+twlFJ92uk2ogdRT3ni4g7x8
-	SOc6eeCR9qFcgL/MBPyZZwDYeJ4yMqaV1MPiV8ZUFVFX+VJ+N7SwAwI84cxKUA==
-Message-ID: <2304e3c8-1b90-4bbf-8022-80f19d1447a7@mailbox.org>
-Date: Mon, 20 Jul 2026 17:09:18 +0200
-MIME-Version: 1.0
-Subject: Re: [OE-core] [wrynose][PATCH] kernel-fit-image.bbclass: Do not
- include kernel property in DTBO config subnodes
-From: Marek Vasut <marek.vasut@mailbox.org>
-To: adrian.freihofer@gmail.com, yoann.congal@smile.fr,
- "Freihofer, Adrian" <adrian.freihofer@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Ryan Eatmon <reatmon@ti.com>
-References: <20260630074356.10265-1-marek.vasut@mailbox.org>
- <6fb0c748f9cbdeb15dc583483486e12af1c7f397.camel@siemens.com>
- <91b15fcf-715b-40cc-8f77-ff4571946725@mailbox.org>
- <DJO1RET2JWA2.2H0HY5TPUI2T5@smile.fr>
- <84bd480810d947c860b95c3cc10f66fced3cdedf.camel@gmail.com>
- <e4369955-eae6-4c45-b00c-01ca18d94fa2@mailbox.org>
-Content-Language: en-US
-In-Reply-To: <e4369955-eae6-4c45-b00c-01ca18d94fa2@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-MBO-RS-ID: 625b942406bbc9dc7d1
-X-MBO-RS-META: umcy1ybpd8ggk4ehqpsomoozghp5pkr3
+ dkim=pass header.i=@smile.fr header.s=google header.b=vov0VV4/;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-495590ba856so12720545e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 08:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1784560503; x=1785165303; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=HnL9gbCQHaZOtvoJEqLZS9MXp3CrVFqj7d51zODL1tQ=;
+        b=vov0VV4/ayu49lQzz8eSIiiNcqTy5eFJHuKFmeF1m4mYIwIWfcxTOJnat9wfjY6dFt
+         nLEe+DpnyeieqdmmDvf1+fwGuaAiVczKS1PF7IP0OidkmAvv39tdnUunVeqOCgXdJVx0
+         v4fxkZbIsTw+Ko+cUYusrwLiapNJH5f82GWZQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784560503; x=1785165303;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HnL9gbCQHaZOtvoJEqLZS9MXp3CrVFqj7d51zODL1tQ=;
+        b=aNfTcyvWX/9bgubQMulN+X9Pno4dTAkL22H8/noRMHBmNbi/X3hbNRw+kb/7FkEiLc
+         HqxzMAmBOba5ITVO10w7feaZXUV5tiEZaEFd9SFU/VpABDumRF0djxdp/cPVkHpecjie
+         vPI6PYE1TaH5eA0wpkP10wVZZIhX8NCwxLMwkidzGBl1jbgRasGFYKS4I5F17Cabwyk/
+         PzREplmmt2w2wmOEPVGMTMry0r6rBqnsHc1UlBPUtfGVkSgKiV0kqhzj4sSeIpI4YK4y
+         dUv0KvJL4pYL8h41o/5ho/v9KXC2Yms0lVKkT4uuFkHBnOwClz53MMY/AxJN5nfwhQfu
+         V2Xw==
+X-Forwarded-Encrypted: i=1; AHgh+RqL77KpfV6OO/YVyrTSmMwLCkSR5xycssoV1DH3BHyIRxMmYbANDqU3igmcaqFOLaiYTmOmFphLjoenXGEMo6FZJw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyMEbOE7y6P5lW9+AAdTDmlqKLLWG4llCDcqau8au3aPUSExjeK
+	IDVcP27mUeyKU8HZq3jRzb8pUfOzJwGEWxWwY7f2K0wwsdmSXa0F1uIwfm8OXEPo1MI=
+X-Gm-Gg: AfdE7cnIlonsJico/PT30MJ7B97wWX+qsm0ilwjxW5Dzu+UZrZsT1kLbyrOEf7eZoO1
+	x4Ag3dq4y4HoXzOY8hF7yw2V4IQ+z6E3XknOr9rYWuaUWmTc0T69li0S9BdZTrbc7xiaCAkqx1H
+	3/PszFNaT9V4fGE83E6vpZnCOudIO1cBxyd68LK8BCIsuijEgfdVzswiwpKWOpzgVvFosLU9DBE
+	QcoH4vUGy3r4FfNFpKGtbB8Gkxr4MMVcJYw9p2rVQG39g5rkNRXLWgRHPMBYhnOYr0Hf/KyKFgt
+	cFUU+8m+WwFE4yIGZtSEJYwsLJ2IdPhKx2ZBoet3EdK1jUbfk9NOZ86b+Z8Pl5dvCUPTVP6zdW3
+	tIwkuhL1nmO3I/VlpQLKjXPjFCTYwkYS0HvLYq1psOykbu1vh7gbinpKCUJ7mAu5lB1HimV8Oy/
+	qSJRHliy6zsihfWuyj37DjSQrCKsl3tHDgFu2xwTFHNxeWhxucsXjEyh8+aMB7QA==
+X-Received: by 2002:a05:600c:580d:b0:495:4598:6e14 with SMTP id 5b1f17b1804b1-4954a4060demr122046385e9.24.1784560503022;
+        Mon, 20 Jul 2026 08:15:03 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49549c96fecsm337236205e9.11.2026.07.20.08.15.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 08:15:02 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 20 Jul 2026 17:15:01 +0200
+Message-Id: <DK3HWGV0JCOP.14DJEFKWLP67L@smile.fr>
+Subject: Re: [OE-core][wrynose 05/17] kernel-fit-image: Add
+ KERNEL_DTBVENDORED support for FIT_CONF_DEFAULT_DTB
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Ryan Eatmon" <reatmon@ti.com>
+To: "Paul Barker" <paul@pbarker.dev>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <cover.1784364567.git.yoann.congal@smile.fr>
+ <1b6dd4f66b2f4c1a12791a1db3a53729ce043fd0.1784364567.git.yoann.congal@smile.fr> <c791b1b82e236039c614ab41402844c965fdc6c5.camel@pbarker.dev>
+In-Reply-To: <c791b1b82e236039c614ab41402844c965fdc6c5.camel@pbarker.dev>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 15:09:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241408
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 15:15:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241409
 
-On 7/4/26 11:55 PM, Marek Vasut wrote:
+On Mon Jul 20, 2026 at 9:39 AM CEST, Paul Barker wrote:
+> On Sat, 2026-07-18 at 10:52 +0200, Yoann Congal wrote:
+>> From: Ryan Eatmon <reatmon@ti.com>
+>>=20
+>> When specifying a FIT_CONF_DEFAULT_DTB for a machine, you have to
+>> exactly align the name with what will be in the fitImage file or you
+>> will get a build error.  If you also turn on KERNEL_DTBVENDORED then you
+>> must also specify the vendor directory as part of the dtb name that you
+>> want for the default, but you must manually do the same mapping that the
+>> kernel-fit-image class is doing when it generates the fit-image.its file=
+.
+>>=20
+>> This patch just adds the same logic to figure out the value for the
+>> requested default dtb and eliminate the need to understand the internal
+>> mapping of the class.  It should make specifying the value more
+>> intuitive.  The same value that you put in the KERNEL_DEVICETREE can be
+>> used in the FIT_CONF_DEFAULT_DTB and the new code will correctly honor
+>> the KERNEL_DTBVENDORED setting.
+>>=20
+>> Before:
+>>=20
+>>   KERNEL_DEVICETREE =3D "
+>>     ti/k3-am62p5-sk.dtb \
+>>     ... \
+>>   "
+>>   FIT_CONF_DEFAULT_DTB =3D "ti_k3-am62p5-sk.dtb"
+>>=20
+>> After:
+>>=20
+>>   KERNEL_DEVICETREE =3D "
+>>     ti/k3-am62p5-sk.dtb \
+>>     ... \
+>>   "
+>>   FIT_CONF_DEFAULT_DTB =3D "ti/k3-am62p5-sk.dtb"
+>>=20
+>> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+>> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> (cherry picked from commit 3bceb2dabeee13c0a80ddd74ea7ae991606d6772)
+>> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+>
+> Hi Yoann,
+>
+> This looks like an enhancement rather than a bug fix. If there is a
+> strong reason to backport it though we could take it as it's small, self
+> contained and not invasive.
 
-Hello one more time,
+I interpreted the mismatch between KERNEL_DEVICETREE and
+FIT_CONF_DEFAULT_DTB as a bug to solve.
+But one could argue that each variable has its syntax, a bit weird but
+not worthy of a stable fix.
 
->>>>> I guess, before this patch can be applied, this one (or a back-
->>>>> port of
->>>>> it) is required:
->>>>> https://git.openembedded.org/openembedded-core/commit/?=20
->>>>> id=3D85e0408a81bdca0411a8625061e5e343c05f92d9
->>>>> Otherwise, the oe-selftest fail.
->>>> Thank you for staying vigilant.
->>>>
->>>> Yoann, can you please pick the aforementioned commit too ?
->>>>
->>>> Thank you for your help !
->>>
->>> Hello,
->>>
->>> I missed that discussion, sorry. But was reminded by Ryan (thanks).
->>>
->>> If I understood correclty, the set of patches we need for wrynose is:
->>> * kernel-fit-image.bbclass: Do not include kernel property in DTBO
->>> config subnodes
->>> * kernel-fit-image.bbclass: Fix operation with KERNEL_DTBVENDORED =3D
->>> "1"
->>> * oe-selftest: fitimage: Do not expect kernel property in DTBO config
->>> subnodes
->>> * kernel-fit-image: Add KERNEL_DTBVENDORED support for
->>> FIT_CONF_DEFAULT_DTB (this one is not merged on master yet)
->>>
->>> Marek, Adrian, Ryan: does that sound correct?
->>>
->>
->> Yes, that's correct. One little detail is the order of the patches. If
->> you pick the oe-selftest commit first, all commits are compile and
->> test-able. That's my suggestion:
->>
->> =C2=A0 * oe-selftest: fitimage: Do not expect kernel property in DTBO =
-config
->> subnodes
->=20
-> This is [1].
->=20
->> =C2=A0 * kernel-fit-image.bbclass: Do not include kernel property in D=
-TBO
->> config subnodes
->=20
-> This is [2].
->=20
->> =C2=A0 * kernel-fit-image.bbclass: Fix operation with KERNEL_DTBVENDOR=
-ED =3D
->> "1"
->=20
-> This is [3].
->=20
->> =C2=A0 * kernel-fit-image: Add KERNEL_DTBVENDORED support for
->> FIT_CONF_DEFAULT_DTB (this one is not merged on master yet)
->=20
-> This is still not even in master-next .
->=20
->> same order as on master branch.
->=20
-> Thank you for your help !
->=20
-> [1] https://patchwork.yoctoproject.org/project/oe-core/=20
-> patch/20260704214812.365483-1-marek.vasut@mailbox.org/
-> [2] https://patchwork.yoctoproject.org/project/oe-core/=20
-> patch/20260630074356.10265-1-marek.vasut@mailbox.org/
-> [3] https://patchwork.yoctoproject.org/project/oe-core/=20
-> patch/20260630074423.10306-1-marek.vasut@mailbox.org/
+I still think this is worth fixing though.
 
-Do you think those three backports can be picked up for OE wrynose ?
+>
+> Does the previous syntax (FIT_CONF_DEFAULT_DTB =3D "ti_k3-am62p5-sk.dtb")
+> still work after this patch?
 
-Thank you for your help !
+As I read it, the patch only add a .replace('/', '_') (when
+KERNEL_DTBVENDORED=3D"1") so the old syntax should be preserved.
 
+> If we do take this, should we take the accompanying test case [1]?
+>
+> [1]: https://lore.kernel.org/openembedded-core/20260706221933.4026508-2-r=
+eatmon@ti.com/
+
+Yes, Ryan suggested it but it was not yet merged when I reviewed it.
+
+Now it has merged, I think I should hold the series:
+* oe-selftest: fitimage: Do not expect kernel property in DTBO config subno=
+des
+* kernel-fit-image.bbclass: Do not include kernel property in DTBO config s=
+ubnodes
+* kernel-fit-image.bbclass: Fix operation with KERNEL_DTBVENDORED =3D "1"
+* kernel-fit-image: Add KERNEL_DTBVENDORED support for FIT_CONF_DEFAULT_DTB
+... until next wrynose review cycle, and add
+* de2e11e6362 - oe-selftest: fitimage: Add tests for KERNEL_DTBVENDORED
+from master to test it.
+
+Thanks!
 --=20
-Best regards,
-Marek Vasut
+Yoann Congal
+Smile ECS
 
 
