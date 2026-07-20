@@ -2,303 +2,386 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAF70C4452D
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 11:41:18 +0000 (UTC)
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6974.1784547672722101030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7090FC44520
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 11:42:38 +0000 (UTC)
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7074.1784547754120418355
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 04:41:12 -0700
+ Mon, 20 Jul 2026 04:42:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=S0Oz2Y4Y;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=H4dnbfuu;
+ spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8482; q=dns/txt;
-  s=iport01; t=1784547672; x=1785757272;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=EvQIfegro0tB3jkxMJ2mOnq+A+7wk838YvRWsQV5Ju0=;
-  b=S0Oz2Y4YSBFcyIqAsgSqssuRp0lO+X4wPePV8Wy75NTyqA6KlWCweU0v
-   E5t2dS7jnSJJtL60fKoDGbWx8xUvT1KJWmMrAFxzwYvX20M+uJ1jY+WWB
-   ExPbx724PXVn8bFO2NtuV7yt8sElD3TAvgq+6TzuDOTFM64H9FqNxtRS6
-   37mTMEa0AK2Bu4iRgb2wxM5EXaJXYFLT3Xv96r7hhwb2wLwqDv9dv3SCw
-   VcRzK4sa577ynzt0/9D0SL1yCm6ccRAiUoaSw7/FT5hvfvJptAWv/rPRB
-   rk+3HLtomzQfiRXuB1bFym/VctPxbIi6PotECL0wsR3pi9qIReYLB/xmn
-   w==;
-X-CSE-ConnectionGUID: 7ojaBCZrR0OGEzJfkkq3fA==
-X-CSE-MsgGUID: ar8hbBIPRamxAfZujZXVrA==
-X-IPAS-Result: =?us-ascii?q?A0AaAADXCF5q/5L/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ0X0JJA4xvhzeCIQOeG4F+DwEBAQ9EDQQBAYUFAo1TAiY0CQ4BA?=
- =?us-ascii?q?gQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFgQ4Thk8NhloBAgEDMgEYAT0cA?=
- =?us-ascii?q?wECLysjCBEIgwIBgnQDEbxrgiyBAYMoATEFCQJDUNsuAQsUAYE4AYU+iCBcG?=
- =?us-ascii?q?AGEfCcbG4FygRWDaYEFgVwBgUmGXQSCIoEMgVoej25IgR4DWSwBVRMNCgsHB?=
- =?us-ascii?q?YFmAzUSKhVuMh2BIz4XgQwbBwWBHYE6gQKEdCMfAzl/gS91SnctahIXgSaCE?=
- =?us-ascii?q?gKBOwIHAwsYDUgRLDcUGQQ+bgeNPCOBTXACAVgiEwEbDwEETDVnQAoEAxOTU?=
- =?us-ascii?q?5F8oRIKKIN1jCGVOhozqmyZCI4KllCEaYFoPIFHCwdwFYMiCUoZD444g2uBf?=
- =?us-ascii?q?4MUgT3EAzw1AgkDLwEBBwIHDgMLgWiQAAImAgVvYAEB?=
-IronPort-Data: A9a23:S16Yp62PJTsJjy6vZ/bD5YJwkn2cJEfYwER7XKvMYLTBsI5bpz0Gz
- 2EZWW6POq6OMWXzfo0jaYjg/BgGvZKEm9ZjTANs3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- Lsen+WFYAX7g2EuajpJg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGU0Y0NKczyPxNWUZh2
- O46JjMOd0uNrrfjqF67YrEEasULNsLnOsYb/3pn1zycVadgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUieC/FMEg9/5JYWkOqlnHDjczpwo1OOrq1x6G/WpOB0+OW0aoaLJofTG625mG6Rv
- DLG9U7YOisTMcy2xwiY8ECcuPXmyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7IQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:TT+iIqglJnBKjBpp8m6YkPeianBQXvYji2hC6mlwRA09TyX+rb
- HLoB1173HJYVoqNU3I3OrwW5VoIkmskKKdn7NxAV7KZmCP0wGVxcNZnOnfKlbbdBEWmNQw6U
- 4ZSchDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhBQpcUAUdAY0++/YTzrdHFLeA==
-X-Talos-CUID: 9a23:OeijO29DCwouSVMGLAuVvxETGMkPWU/H9i/3DGKqK2hqS6TOR3bFrQ==
-X-Talos-MUID: 9a23:u0atIAULetEHahDq/Db21DFoHuZQ2a2rGGkDo4gEifm6LwUlbg==
+  d=cisco.com; i=@cisco.com; l=8405; q=dns/txt;
+  s=iport01; t=1784547754; x=1785757354;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   mime-version;
+  bh=iBMySP1qkXrx1d2gEJLOdXusj33DHx4aqZ/rK2k2hS0=;
+  b=H4dnbfuu4W/Zi7vxz3n6/2w3n4OlwiTiB3+b/RCydiVSp/QWj770s5m1
+   OUuhM6heGCIJdP9Y4kgJbSnDAEo35yZ0qbddH2HuLdyJaJ4dLN/hMInDn
+   JFqzER8r8Y6/u4hiRysnbtLxf97cTZV9f/2xNW2fwNK/j3CHlhjH2d7TW
+   aw5x9dEkFis28H8KF3l5rEpac9B5PWU+NhuJ8i7KjyvM0ecu0ddiaqvJi
+   s9DSA+KmNASCm1lKsw64vvrBEXKXjjduas05TiY5Gvj1iXbyMn/zWJONZ
+   nHJtZp44ZrqiWWrk/+hTnARoaq0jBozEbYhtGITsRgp+AMP7DGh5jSBuu
+   g==;
+X-CSE-ConnectionGUID: bW0Ycez2S0i0M0snuirc0g==
+X-CSE-MsgGUID: rDbdU4a6QES20a1SBQ62Sw==
+X-IPAS-Result: =?us-ascii?q?A0BzAwDXCF5q/4r/Ja1aHgEBCxIMZYEgC4E9MVOBCAKBI?=
+ =?us-ascii?q?UkDiCADhSuGWIIhA5dEhlcUgWAKDwEBAQ0BAS4BGwcEAQGFBQKNUwImNAkOA?=
+ =?us-ascii?q?QIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQEBAQMBEXcCA?=
+ =?us-ascii?q?QgRBAEBARUZJwodCAIEARIIGoJhgh0WQQMBAg4GsHsBgT0Ciip4gTSBAYNaB?=
+ =?us-ascii?q?QkCAkAB3AoVgTiFP4MBGwEBBSVJbIJdgSIYAYR8JxsbgXKBFUKCaT6BBYFcA?=
+ =?us-ascii?q?QMBgRYSAQsHASM9g1aCMASCInoSG4NagWGMEFJyIgMmMywBVRMXCwcFgSMQM?=
+ =?us-ascii?q?wMgCi8tAhQNIg8aBS0dcAwnEg8dFxYeWBsHBRIgKkFFIwMUOz84C0MFgVcCg?=
+ =?us-ascii?q?gVOIx8DOX+BL3VKdy1qAhAXSjgkghICgTsCBwMLbT03Bg4ZAwSBNQWMUAdbI?=
+ =?us-ascii?q?4FNc2BRBgJPgR0nGQaTR49BgXyMZJNkgTMKKIN1inuBJo0+iDIXhVulEZkII?=
+ =?us-ascii?q?41nlWCFLgIEAgQFAhABAQaBaDxpPx8KAQdwFYMiCQpAGQ+SI4F/gxTFOHkCA?=
+ =?us-ascii?q?QMFAwItAQEHAgcOAwuBaJAAgX4BAQ?=
+IronPort-PHdr: A9a23:WiSt0xS5cv+t5nxX17M4Cy9MT9pso47LVj580XJvo6hFfqLm+IztI
+ wmGo/5sl1TOG47c7qEMh+nXtvX4UHcbqdaasX8EeYBRTRJNl8gMngIhDcLEQU32JfLndWo7S
+ exJVURu+DewNk09JQ==
+IronPort-Data: A9a23:KMbtkqt17e8ZkvBp+s6EawamWufnVA1fMUV32f8akzHdYApBsoF/q
+ tZmKTyEPareNDCheohxbdu19E0Hv5XRzddjHAJpryA3EnkXgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZTdJ5xYuajhKs/3Z8Esy1BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw8NkvMGpD5
+ 6YjcDFVS0iYgf+32rnjRbw57igjBJGD0II3oHpsy3TdSP0hW52GG/yM7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwxHYH49tL/Aan3XfzBVsluJpa0f6GnIxws327/oWDbQUoHSGZkJzx/E+
+ Aoq+UzjLhsWCYCWlwOoySj0j7b0txqlArkNQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YYLtcnr8QxAzct0
+ zdlgu/UONCmi5XMIVq1/baPpjT0Mi8QRVLurwddJefZy7EPeL0Osy8=
+IronPort-HdrOrdr: A9a23:GSrxmqgeN8zmBncp0XjHMX+0znBQX9N23DAbv31ZSRFFG/FwyP
+ re/8jzhCWVtN9OYhAdcIi7Sda9qBPnmaKdkrNhQ4tKPTOW9FdAQ7sSlrcKrweQfxEWs9QtqZ
+ uIEJIOR+EYb2IK9/oSiTPQe71Psbv3lZxAx92uskuFJjsaDZ2Imj0JcjpzZXcGPTWua6BJc6
+ a0145snRblU3IRaciwG3kCWMb+h/CjrvjbSC9DLSQKrC2Vgx2VyJOSKXWl9yZbfyJEwL8k/2
+ SAqArk+6Wlvci8zx/Xx0XT455VlNaJ8KoMOCWLsKcoAwSprjztSJVqWrWEsjxwivqo8kwWnN
+ 7FpAplF9hv6lvKF1vF4SfF6k3F6nID+nXiwViXjT/IusriXg83DMJHmMZwbgbZ0Uw9p9txuZ
+ g7nF5x9qAnTy8orh6No+QgZCsa0XZcZkBS19L7ukYvFLf2roUh9LD3snklSKvoVxiKmbzPWN
+ MefP00oswmMG+yXjT+onRlxsCqUzAYGxeLRVVHh+muugImx0yQCyAjtZEidrBqzuNmd3FJit
+ 60QZhAhfVASNQbYrl6A/pEScyrCnbVSRaJK26KJ0/7fZt3cE4lhqSHqYnd3tvaMKAg3d83gt
+ DMQVlYvWk9dwbnDtCPxoRC9lTITH+mVTrgx8lC79wh04eMCYbDIGmGUhQjgsGgq/IQDonSXO
+ uyIotfB7vmIXH1EYhE0gXiU91ZKGUYUscSptEnMmj+6P7jO8nvrKjWYfzTLL3iHXItXX7+GG
+ IKWHzpKMBJ/imQKwnFadjqKgTQk2DEjOZN+fLhjpouIaA2R/hxjjQ=
+X-Talos-CUID: 9a23:poUdTG9zcTN+1Fc4C12Vv0QrQvEuf2+H9y/Re2rgEmB0SaeeEVDFrQ==
+X-Talos-MUID: 9a23:lPveGwqE+XOq/pdfL6gezytOPstVv63wMW02y80P4vKuDHIqACjI2Q==
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
-   d="scan'208";a="512464316"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 11:41:11 +0000
-Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 11:42:33 +0000
+Received: from rcdn-opgw-1.cisco.com (rcdn-opgw-1.cisco.com [72.163.7.162])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 61C0018000238
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:41:11 +0000 (GMT)
-Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id 789DDCC037D; Mon, 20 Jul 2026 17:11:09 +0530 (IST)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH v2 1/2] gnutls: Fix CVE-2026-3832
-Date: Mon, 20 Jul 2026 17:10:45 +0530
-Message-Id: <20260720114046.2487998-1-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260720110548.2458865-1-deeratho@cisco.com>
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 165B818000286
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:42:33 +0000 (GMT)
+X-CSE-ConnectionGUID: VSDTxz5JQWmHh8B4t7G4ow==
+X-CSE-MsgGUID: FEmTwhRHSteQyE3VpIGNnw==
+Authentication-Results: rcdn-opgw-1.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
+   d="scan'208,217";a="65207281"
+Received: from mail-eastus2azon11010013.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([52.101.56.13])
+  by rcdn-opgw-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 11:42:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N7U3bOANLzPgSmmGh07sMjfxhoeHFKiAQOZgdOfN+4JvWqUosCQ2v3h5/F+cEidf6axlohmgtIqNK7LBp3krYtF8zSawJBztm6b74dYl+2eN+aU5P/aTxyrMD8TpEFz9jivqe1dh63ExZnBotTMLYBV+k7MBOkYvtg47rxd5QFKxEPBD0uH8YCUYk0jX99QwxTB9vpNn3ckWEf/+AXeby/6xeZghhF9PZ4/QabF4DZPhViQNz9rTys3wDJFPW6ZlZxz8RSsZwmZ6YRPlqy2irA7mIzyCtkgWvGwR00s7bnFdZddMB3cRSzrxSArllQTrnP2WOTINdUGiAPj3spWRjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iBMySP1qkXrx1d2gEJLOdXusj33DHx4aqZ/rK2k2hS0=;
+ b=CoNNEpRn0veZKvtQhyPRQ0IubxTtuYo/3n0PTTqSVvhraehDYDpWqEqQpnmI8I61DePhGSM3Zdh5MX15t7jVaMzCbM9BdbS8tRcN1LvaJ4fvHL6dEsTv03QyRcSwBwzY4BLZveaMgOP2mCxVcyuL9a/yx0swn5XdeBaiOHkeFryLY+djxzZSNAXxXYP+8AFpIiVQp/Pg9TtZJpHKUNc/FaJ8zIBtFhOZJKZU995SteKghVAAif/TdzvDB+rep9zBorDglo/ZiS/Kc0ZUvHirxqRPCWnKSyN7Rl6tDpEi1mbfuH3vW7R4S+rOiUi+3ZD/XlmvD2Fd59Y9PO3FTCHavQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from DM4PR11MB6189.namprd11.prod.outlook.com (2603:10b6:8:ae::18) by
+ DS4PPF2A0C3F85C.namprd11.prod.outlook.com (2603:10b6:f:fc02::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.16; Mon, 20 Jul
+ 2026 11:42:30 +0000
+Received: from DM4PR11MB6189.namprd11.prod.outlook.com
+ ([fe80::ecd9:17f7:f13f:5543]) by DM4PR11MB6189.namprd11.prod.outlook.com
+ ([fe80::ecd9:17f7:f13f:5543%2]) with mapi id 15.21.0223.015; Mon, 20 Jul 2026
+ 11:42:30 +0000
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<deeratho@cisco.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
+	<yoann.congal@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH 1/2] gnutls: Fix CVE-2026-3832
+Thread-Topic: [OE-core][wrynose][PATCH 1/2] gnutls: Fix CVE-2026-3832
+Thread-Index: AQHdGDm1qanBtRWfckmbKRcrN4jxfrZ2SOjj
+Date: Mon, 20 Jul 2026 11:42:30 +0000
+Message-ID: 
+ <DM4PR11MB6189ABFEC40B6F64BB48462BC4C32@DM4PR11MB6189.namprd11.prod.outlook.com>
 References: <20260720110548.2458865-1-deeratho@cisco.com>
+ <DK3CWFWYP9UE.5WID74XZESIV@smile.fr>
+In-Reply-To: <DK3CWFWYP9UE.5WID74XZESIV@smile.fr>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB6189:EE_|DS4PPF2A0C3F85C:EE_
+x-ms-office365-filtering-correlation-id: 3bb028b0-ab12-4d84-659f-08dee653fb6e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|8096899003|11063799006|10067099003|4143699003|56012099006|13003099007|18002099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: 
+ XpVRznKhJVGk3WKaNjjdN65eg8gbH6Tv+fo8IJD7HfiXJ8vrc/6glia5a0nULWJd2JxEQ1IlhmuRMy/AGDSwJlMqEs2usvus3M1zix6BSG1diSWlKQK71o7cU2098HCb66l77pg+Qu4hscYCefpNpt/5f/oZcDqQ0iSl258u/4+FpAieRCYx1ghFByM8mTYZaSqZMBTCaafBfPyf4inGH1qLehotz1gtdykfzmjumfADprXfPIAHVHSZWtqucK275Uy96VunmA1oNp/ZvR7S7seTg/LqDPfu2siP0QM0OmPVp56E0jtpGuRuAbZUEQnnELOveMwUljv0bYE3pml9w5gve3jW0FJQIGmVDmpiczAKflljGRj4QCxIojaZdIvS4d95tVqs3xvICbYpLQbC1BemwQY+KLEYBf3WUJsNISTVyFNj/XPv647HgtY6EwpcMsY+UrPXnckZdyLkyO2UXXEGorFoJngYR5vqAAP24QFuNJX7RvMDSSb1nJNIKZEKrpUPW6SitJdOBSp9ITn5XLHiB1QwsE04Lb/N6SReypb8K0YsXCzWXd+AvAeiOSFX/LqAYSvfP2/IUsi9UFeocaqC6+5w8siubBL27DBMetdi52uMFaWpGC7GwRsUBLPnsZ9M4JESpy9K/5K9JvGXKpCHtqzLlPPtvCBqRzEXaM8=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(8096899003)(11063799006)(10067099003)(4143699003)(56012099006)(13003099007)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?MVGq4Y+3l0kpZWUWGtbBguh9hHCkPoH21eEVxEEYsoOmbU8J8Zdz1Hz2DU?=
+ =?iso-8859-1?Q?/kMfEPokeL6/Is1fJR/3bQT258HlMfop+fE7UuMu3Vht4E0JY2kEQ+iq8D?=
+ =?iso-8859-1?Q?b/DFgJ7IJO5brG8uHUODtSluNOzVHg6B3i4B0qRwwL0OvX0dhvfEGkuJZ8?=
+ =?iso-8859-1?Q?xH+4RY6+whl5qXS3u8v0l9bRMQ2HOGqr7c63sLRgidjuACrVcw45koRYer?=
+ =?iso-8859-1?Q?J081+xjhi75WNofApYYUGu33i9IJNfvlTVX96u9cRqPL6ZaNDY4yqXcXkW?=
+ =?iso-8859-1?Q?yHcvLjf2ErO7P0tQcp+1QKcbJRrmhSLhDNOP5rU6gLnk1bOoCAuSBPMZOD?=
+ =?iso-8859-1?Q?/GXtH0nIJQtMgxWkXR/WaLkf7Qh2DdbaOdIyLsS3xHJ374QGMFrOrnRjR6?=
+ =?iso-8859-1?Q?1DZJqf08IRvC9nEx9FA0neKmrFAW98VDz5vNKdZbP/OSvBpxpUd9E7k8Ux?=
+ =?iso-8859-1?Q?L8seIbei+sP4+AIXsfC1coRnR+dEFSAp9Wl3xpV6DaJWFIgttvulSeNZFs?=
+ =?iso-8859-1?Q?75UEgHIM2I54t4rvUVPTFns7DtrsaSGD1ANlQPgQ9XYfNl2ZcUyNjWKadv?=
+ =?iso-8859-1?Q?YglxILDEFR/s1YkvxPM8S1PBemRK4nrH7xcwulEIWAog99EhBbB5owHtcU?=
+ =?iso-8859-1?Q?HxIAufvNK7fN4eQGXsLWj24Ia+V1zTg8qAFEO3PjfnKXAmN1vT+UpBb+N5?=
+ =?iso-8859-1?Q?R+qVkDkuf/o4oUzgKheshUcVEEuwNcfNH1YJOONjsFW/cVS79LIblxW0L8?=
+ =?iso-8859-1?Q?4dTFLXcBm8pt2R8eqeSx+CIvN5LPQTmo8hsV4XKImmRuYCGFSKsVJJZik+?=
+ =?iso-8859-1?Q?0D6lNx4K6UNiXEYrMYw1GAXom7OZmh4MsYFv6FM2DkzlkGy9MYGQF16IX2?=
+ =?iso-8859-1?Q?c6BmSOoKuECSSTiF2Ii6cqRyUG/BhpHcRRcvkrRc5ig901W/FG0h4vb/c1?=
+ =?iso-8859-1?Q?x7peevzHeRoGozgqGV1n0j5Y/6ViUNQQK/CcmZvwatOiiy6IpnT2h2ApCB?=
+ =?iso-8859-1?Q?yPOjmnfomHp1cAkyCBx5ppt6wU8JlLfu0JwhVIrqvh83YdQuUqkZsb1cKd?=
+ =?iso-8859-1?Q?CnBh2JmJIXzG8SSRgA7ygi5BO/iSnuxE9tnBKp43Keo3yhKYpD3jbT6Pkw?=
+ =?iso-8859-1?Q?Q6crNoZIk66kDWiyATZZ768DZCUcSaXh2sPE60pglDtjnGS9vJWRObpiD5?=
+ =?iso-8859-1?Q?eTlGBfPq/zhvc+4TYxt/oKjQFzdaT4MzATNTv+9aD8Cw//dGMf0hmlHEeC?=
+ =?iso-8859-1?Q?KyBk7DPcfh8dxwic/1BbLbJZxxei0ILud/2sCjhjVSPnXZmxwat4DZT2la?=
+ =?iso-8859-1?Q?PF0qoffcQKQIHONHcxFtqx7lGSYim9A6XdUteuC04StUSGA8c0o/vFz1fw?=
+ =?iso-8859-1?Q?mEOol8hmuERrzIYXjY0I1e4th6kytiqtaqbiyKDm0MAGGocJaGTmALb3mt?=
+ =?iso-8859-1?Q?iPDm/xuwvwcxek4GZB6eDuWWwZpNVAE19SNhNda5ch33hANOvOwQ+Gt498?=
+ =?iso-8859-1?Q?cmUtjeOqw+80p3wzQ+70CAYPEWNPdC5Gf+KzJho1wBbToSkZ3U/3DtdoGw?=
+ =?iso-8859-1?Q?mg+C1bsrQzaTPIIl0RcK67dja/IM6MM8lqsBw19xF9G58brPu3HF11G3n0?=
+ =?iso-8859-1?Q?L0b6FHkc/kE4MhiHkRSzvPApNeoJY3jRMeyAuf3GM/qBxp8rtt1A0QMTWM?=
+ =?iso-8859-1?Q?bJZJKdoqUTrcBZrBglxUNhfLOb3y1pCPc+TcasUX5LRZMAyRMtNhDDUu2j?=
+ =?iso-8859-1?Q?G36WdAnSA0BsaDdl3QFKph02RvkeSbQz+CkvTGzDfun2mT?=
+Content-Type: multipart/alternative;
+	boundary="_000_DM4PR11MB6189ABFEC40B6F64BB48462BC4C32DM4PR11MB6189namp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Exchange-RoutingPolicyChecked: 
+	Zoq9loiqzHZ6uiLhBcX2dgSunbc8UeCEQFtUtEdFm1lz3tX/er5EQk8NypnQHm+02C5hhvYeRVNqozJQ7X6mHRtdct+s86hT6t5B0sC5M5wQYFnpKARlbJB1hWEUxYvZPf0KK6FBmeUrlG1Ct3bsMZ481qDS5s2LG6/XzhbolBkHSBmirg1rGx4T22gJJQeV6XMpqZrXVqUrWBQvjoR/PXMNQegG+RvXM1iBzqyw6huLTudxfMHkgtZCeJMT1xwzF+B4RCFwmGAGMALFO1jgL5ErA963yXJWodnrA44VPVyKWMt+PnVkP69bshSM2pEpK5qLNAO3gKBPMmT4vkCK7A==
+X-OriginatorOrg: cisco.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6189.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bb028b0-ab12-4d84-659f-08dee653fb6e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2026 11:42:30.7742
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pkyFh0lks79WEI9MVWDCfpHlGkrIEEYCpzyaClWD7OelENfmmlZuAV6oUwRLkhwyon/MeccuRIwwwMEpDJh8LQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF2A0C3F85C
+X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-1.cisco.com [72.163.7.162];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 72.163.7.162, rcdn-opgw-1.cisco.com
+X-Outbound-Node: rcdn-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:41:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241371
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 11:42:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241373
 
-From: Deepak Rathore <deeratho@cisco.com>
+--_000_DM4PR11MB6189ABFEC40B6F64BB48462BC4C32DM4PR11MB6189namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-This patch applies the upstream fix [1] and test coverage [2], as
-referenced in [3], to address multi-record OCSP response handling where
-GnuTLS could check revocation status from the wrong OCSP entry.
+Hi Yoann,
 
-[1] https://gitlab.com/gnutls/gnutls/-/commit/731861b9de8dccaf7d3b0c1446833051e48670c2
-[2] https://gitlab.com/gnutls/gnutls/-/commit/d52d5f4f383e8c5d8e9a03334f2421ff35d37d2e
-[3] https://security-tracker.debian.org/tracker/CVE-2026-3832
+I have sent v2 of this CVEs as below:
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-3832
+  1.
+https://lists.openembedded.org/g/openembedded-core/topic/120357169
+  2.
+https://lists.openembedded.org/g/openembedded-core/topic/120357170
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
----
-- Changes from v1 to v2: Refresh the patch on top of the latest wrynose
-branch merged commit.
- .../gnutls/gnutls/CVE-2026-3832_p1.patch      |  52 ++++++++
- .../gnutls/gnutls/CVE-2026-3832_p2.patch      | 114 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   2 +
- 3 files changed, 168 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
+Thanks for your review.
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
-new file mode 100644
-index 0000000000..3786c578b9
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
-@@ -0,0 +1,52 @@
-+From 141c9b6015fc56cd05db3a853f08d03fcbd9b0f4 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Thu, 12 Mar 2026 09:48:57 +0100
-+Subject: [PATCH] cert-session: fix multi-entry OCSP revocation bypass
-+
-+In check_ocsp_response(), the code first searched
-+for the SingleResponse that matches the certificate being validated.
-+But later, the status was retrieved from entry 0 unconditionally,
-+rather than from the matched resp_indx.
-+As a result, if entry 0 corresponded to a different certificate and was good,
-+while the matched entry for the peer certificate is revoked,
-+the revocation check could've mistakenly accept the certificate.
-+
-+Reported-by: Oleh Konko (1seal) <security@1seal.org>
-+Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
-+Fixes: #1801
-+Fixes: #1812
-+Fixes: CVE-2026-3832
-+Fixes: GNUTLS-SA-2026-04-29-12
-+CVSS: 3.7 Low CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N
-+Introduced-in: ae404fe8488dee424876b5963c00d7e041672415 3.8.9
-+
-+CVE: CVE-2026-3832
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/731861b9de8dccaf7d3b0c1446833051e48670c2]
-+
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+(cherry picked from commit 731861b9de8dccaf7d3b0c1446833051e48670c2)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ lib/cert-session.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/cert-session.c b/lib/cert-session.c
-+index 963f797ee..f48c7a1fb 100644
-+--- a/lib/cert-session.c
-++++ b/lib/cert-session.c
-+@@ -343,9 +343,9 @@ static int check_ocsp_response(gnutls_session_t session, gnutls_x509_crt_t cert,
-+ 		goto cleanup;
-+ 	}
-+ 
-+-	ret = gnutls_ocsp_resp_get_single(resp, 0, NULL, NULL, NULL, NULL,
-+-					  &cert_status, &vtime, &ntime, &rtime,
-+-					  NULL);
-++	ret = gnutls_ocsp_resp_get_single(resp, resp_indx, NULL, NULL, NULL,
-++					  NULL, &cert_status, &vtime, &ntime,
-++					  &rtime, NULL);
-+ 	if (ret < 0) {
-+ 		_gnutls_audit_log(
-+ 			session,
-+-- 
-+2.51.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
-new file mode 100644
-index 0000000000..54ea38fe69
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
-@@ -0,0 +1,114 @@
-+From ac357f76abeaf59429bc15b8764ad01920df0ef1 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Thu, 12 Mar 2026 15:25:24 +0100
-+Subject: [PATCH] tests/ocsp-tests/ocsp-must-staple-connection: test
-+ CVE-2026-3832
-+
-+CVE: CVE-2026-3832
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/d52d5f4f383e8c5d8e9a03334f2421ff35d37d2e]
-+
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+(cherry picked from commit d52d5f4f383e8c5d8e9a03334f2421ff35d37d2e)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ .../ocsp-tests/ocsp-must-staple-connection.sh | 70 +++++++++++++++++++
-+ 1 file changed, 70 insertions(+)
-+
-+diff --git a/tests/ocsp-tests/ocsp-must-staple-connection.sh b/tests/ocsp-tests/ocsp-must-staple-connection.sh
-+index 94d41ce24..5e100b9d9 100755
-+--- a/tests/ocsp-tests/ocsp-must-staple-connection.sh
-++++ b/tests/ocsp-tests/ocsp-must-staple-connection.sh
-+@@ -85,6 +85,7 @@ OCSP_RESPONSE_FILE="$testdir/ms-resp.tmp"
-+ OCSP_REQ_FILE="$testdir/ms-req.tmp"
-+ INDEXFILE="$testdir/ocsp_index.txt"
-+ ATTRFILE="${INDEXFILE}.attr"
-++SERVER_CERT_BAD_FILE="$testdir/ms-cert-bad.pem.tmp"
-+ 
-+ stop_servers ()
-+ {
-+@@ -118,6 +119,20 @@ ${CERTTOOL} \
-+ 	--load-privkey "${srcdir}/ocsp-tests/certs/server_good.key" \
-+ 	--template "${TEMPLATE_FILE}" --outfile "${SERVER_CERT_FILE}" 2>/dev/null
-+ 
-++echo "=== Generating bad server certificate ==="
-++
-++rm -f "$TEMPLATE_FILE"
-++cp "${srcdir}/ocsp-tests/certs/server_bad.template" "$TEMPLATE_FILE"
-++chmod u+w "$TEMPLATE_FILE"
-++echo "ocsp_uri=http://localhost:${OCSP_PORT}/ocsp/" >>"$TEMPLATE_FILE"
-++
-++${CERTTOOL} \
-++	--attime "${CERTDATE}" \
-++	--generate-certificate --load-ca-privkey "${srcdir}/ocsp-tests/certs/ca.key" \
-++	--load-ca-certificate "${srcdir}/ocsp-tests/certs/ca.pem" \
-++	--load-privkey "${srcdir}/ocsp-tests/certs/server_bad.key" \
-++	--template "${TEMPLATE_FILE}" --outfile "${SERVER_CERT_BAD_FILE}" 2>/dev/null
-++
-+ echo "=== Bringing OCSP server up ==="
-+ 
-+ cp "${srcdir}/ocsp-tests/certs/ocsp_index.txt" ${INDEXFILE}
-+@@ -486,6 +501,61 @@ kill "${TLS_SERVER_PID}"
-+ wait "${TLS_SERVER_PID}"
-+ unset TLS_SERVER_PID
-+ 
-++echo "=== Test 10: Server with revoked certificate - CVE-2026-3832 ==="
-++
-++# The revocation status was always mistakenly checked for the first cert.
-++# Check a pair of responses: (irrelevant good unrevoked, relevant bad revoked).
-++
-++rm -f "${OCSP_RESPONSE_FILE}"
-++
-++"$FAKETIME" "${TESTDATE}" \
-++    ${OPENSSL} ocsp -index "${INDEXFILE}" \
-++    -issuer "${srcdir}/ocsp-tests/certs/ca.pem" \
-++    -CA "${srcdir}/ocsp-tests/certs/ca.pem" \
-++    -rsigner "${srcdir}/ocsp-tests/certs/ocsp-server.pem" \
-++    -rkey "${srcdir}/ocsp-tests/certs/ocsp-server.key" \
-++    -cert "${SERVER_CERT_FILE}" \
-++    -cert "${SERVER_CERT_BAD_FILE}" \
-++    -respout "${OCSP_RESPONSE_FILE}"
-++
-++eval "${GETPORT}"
-++# Port for gnutls-serv
-++TLS_SERVER_PORT=$PORT
-++PORT=${TLS_SERVER_PORT}
-++launch_bare_server \
-++    "${SERV}" --attime "${TESTDATE}" --echo --disable-client-cert \
-++    --x509keyfile="${srcdir}/ocsp-tests/certs/server_bad.key" \
-++    --x509certfile="${SERVER_CERT_BAD_FILE}" \
-++    --port="${TLS_SERVER_PORT}" \
-++    --ocsp-response="${OCSP_RESPONSE_FILE}" --ignore-ocsp-response-errors
-++TLS_SERVER_PID="${!}"
-++wait_server $TLS_SERVER_PID
-++
-++wait_for_port "${TLS_SERVER_PORT}"
-++
-++out=$(
-++    echo "test 123456" | \
-++        "${CLI}" -d1 --attime "${TESTDATE}" --ocsp \
-++        --x509cafile "${srcdir}/ocsp-tests/certs/ca.pem" \
-++        --port "${TLS_SERVER_PORT}" localhost \
-++        2>&1
-++    rc=$?
-++)
-++printf '%s\n' "$out"
-++
-++if test "${rc}" = "0"; then
-++    echo 'ERROR: client accepted a revoked leaf (CVE-2026-3832)'
-++    exit 1
-++fi
-++if ! echo "${out}" | grep "The certificate was revoked via OCSP" >/dev/null
-++then
-++    echo '"The certificate was revoked via OCSP" not found in output'
-++    exit 1
-++fi
-++
-++kill "${TLS_SERVER_PID}"
-++wait "${TLS_SERVER_PID}"
-++unset TLS_SERVER_PID
-+ 
-+ kill ${OCSP_PID}
-+ wait ${OCSP_PID}
-+-- 
-+2.51.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index b92470768c..03eee5c50e 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -32,6 +32,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://0006-buffers-match-DTLS-datagrams-by-sequence-number.patch \
-            file://0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch \
-            file://0008-tests-mini-dtls-framents-link-to-gnulib.patch \
-+           file://CVE-2026-3832_p1.patch \
-+           file://CVE-2026-3832_p2.patch \
-            "
- 
- SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
--- 
-2.35.6
+Regards,
+Deepak
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
+congal=3Dsmile.fr@lists.openembedded.org>
+Sent: Monday, July 20, 2026 4:49 PM
+To: Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco) <de=
+eratho@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-c=
+ore@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH 1/2] gnutls: Fix CVE-2026-3832
+
+On Mon Jul 20, 2026 at 1:05 PM CEST, Deepak Rathore via lists.openembedded.=
+org wrote:
+> From: Deepak Rathore <deeratho@cisco.com>
+>
+> This patch applies the upstream fix [1] and test coverage [2], as
+> referenced in [3], to address multi-record OCSP response handling where
+> GnuTLS could check revocation status from the wrong OCSP entry.
+>
+> [1] https://gitlab.com/gnutls/gnutls/-/commit/731861b9de8dccaf7d3b0c14468=
+33051e48670c2
+> [2] https://gitlab.com/gnutls/gnutls/-/commit/d52d5f4f383e8c5d8e9a03334f2=
+421ff35d37d2e
+> [3] https://security-tracker.debian.org/tracker/CVE-2026-3832
+>
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2026-3832
+>
+> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+
+Hello,
+
+All that series should be tagged v2 with a changelog where appropriate:
+https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#tak=
+ing-patch-review-into-account
+
+Can you resend it with the v2 tag? You can use -v2 if you use git-send-emai=
+l.
+
+Adding these tags/changelog helps me a lot when tracking patch status.
+
+Thanks!
+--
+Yoann Congal
+Smile ECS
+
+
+--_000_DM4PR11MB6189ABFEC40B6F64BB48462BC4C32DM4PR11MB6189namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Hi Yoann,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+I have sent v2 of this CVEs as below:</div>
+<ol start=3D"1" data-editing-info=3D"{&quot;applyListStyleFromLevel&quot;:f=
+alse,&quot;orderedStyleType&quot;:1}" style=3D"margin-top: 0px; margin-bott=
+om: 0px; list-style-type: decimal;">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); margin=
+-top: 0px; margin-bottom: 0px;">
+<div class=3D"elementToProof" role=3D"presentation"><a href=3D"https://list=
+s.openembedded.org/g/openembedded-core/topic/120357169">https://lists.opene=
+mbedded.org/g/openembedded-core/topic/120357169</a></div>
+</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
+ce, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); m=
+argin-top: 0px; margin-bottom: 0px;">
+<div role=3D"presentation"><a href=3D"https://lists.openembedded.org/g/open=
+embedded-core/topic/120357170">https://lists.openembedded.org/g/openembedde=
+d-core/topic/120357170</a></div>
+</li></ol>
+<div style=3D"margin-top: 0px; margin-bottom: 0px; font-family: Aptos, Apto=
+s_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-s=
+ize: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Thanks for your review.</div>
+<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Regards,</div>
+<div class=3D"elementToProof" style=3D"margin-top: 0px; margin-bottom: 0px;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Deepak</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div id=3D"divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core=
+@lists.openembedded.org&gt; on behalf of Yoann Congal via lists.openembedde=
+d.org &lt;yoann.congal=3Dsmile.fr@lists.openembedded.org&gt;<br>
+<b>Sent:</b> Monday, July 20, 2026 4:49 PM<br>
+<b>To:</b> Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cis=
+co) &lt;deeratho@cisco.com&gt;; openembedded-core@lists.openembedded.org &l=
+t;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core][wrynose][PATCH 1/2] gnutls: Fix CVE-2026-3832=
+</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"font-size: 11pt;">On Mon Jul 20, 2026 at 1:05 PM CEST, Deepak=
+ Rathore via lists.openembedded.org wrote:<br>
+&gt; From: Deepak Rathore &lt;deeratho@cisco.com&gt;<br>
+&gt;<br>
+&gt; This patch applies the upstream fix [1] and test coverage [2], as<br>
+&gt; referenced in [3], to address multi-record OCSP response handling wher=
+e<br>
+&gt; GnuTLS could check revocation status from the wrong OCSP entry.<br>
+&gt;<br>
+&gt; [1] <a href=3D"https://gitlab.com/gnutls/gnutls/-/commit/731861b9de8dc=
+caf7d3b0c1446833051e48670c2" id=3D"OWA3744efac-2bcd-2f0f-896f-8c098fa26d65"=
+ class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+https://gitlab.com/gnutls/gnutls/-/commit/731861b9de8dccaf7d3b0c1446833051e=
+48670c2</a><br>
+&gt; [2] <a href=3D"https://gitlab.com/gnutls/gnutls/-/commit/d52d5f4f383e8=
+c5d8e9a03334f2421ff35d37d2e" id=3D"OWA05ef0ac1-97cc-1057-739e-fd1662a74ef1"=
+ class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+https://gitlab.com/gnutls/gnutls/-/commit/d52d5f4f383e8c5d8e9a03334f2421ff3=
+5d37d2e</a><br>
+&gt; [3] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-38=
+32" id=3D"OWA170785c0-ece1-843c-874f-f289cf1d57b6" class=3D"OWAAutoLink" da=
+ta-auth=3D"NotApplicable">
+https://security-tracker.debian.org/tracker/CVE-2026-3832</a><br>
+&gt;<br>
+&gt; Reference:<br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-3832" id=3D"OWA2d=
+2b615e-8d5c-b28e-c135-d3630a8baf46" class=3D"OWAAutoLink" data-auth=3D"NotA=
+pplicable">
+https://nvd.nist.gov/vuln/detail/CVE-2026-3832</a><br>
+&gt;<br>
+&gt; Signed-off-by: Deepak Rathore &lt;deeratho@cisco.com&gt;<br>
+<br>
+Hello,<br>
+<br>
+All that series should be tagged v2 with a changelog where appropriate:<br>
+<a href=3D"https://docs.yoctoproject.org/dev/contributor-guide/submit-chang=
+es.html#taking-patch-review-into-account" id=3D"OWA659118a3-dc58-5d03-0d8b-=
+66986dd031b3" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">https://doc=
+s.yoctoproject.org/dev/contributor-guide/submit-changes.html#taking-patch-r=
+eview-into-account</a><br>
+<br>
+Can you resend it with the v2 tag? You can use -v2 if you use git-send-emai=
+l.<br>
+<br>
+Adding these tags/changelog helps me a lot when tracking patch status.<br>
+<br>
+Thanks!<br>
+--<br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</div>
+</body>
+</html>
+
+--_000_DM4PR11MB6189ABFEC40B6F64BB48462BC4C32DM4PR11MB6189namp_--
 
