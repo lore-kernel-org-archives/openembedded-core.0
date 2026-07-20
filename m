@@ -1,1015 +1,162 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC675C44533
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:58 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2906.1784568229481121908
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08DA0C44520
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:57:09 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3657.1784570226506229953
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:49 -0700
+ Mon, 20 Jul 2026 10:57:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ic8NU5u/;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493f75f7172so81812475e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:49 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=IGFFdCmK;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784568228; x=1785173028; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WMxXWjw9T8zIqfE6I80b7cT7Q0XlIp9bu0htX3JN1yI=;
-        b=Ic8NU5u/mdh+VDte8/RBstcyI0+3GozSzf+Hv0hmWmwE8eJSsCd1H85Aco0qsQtzxF
-         aw3M8j8kpKTeJ5DiQckRPSK1GrwFQOmH2ec5Oed5PmwlmwwVSQaXZ8pQNTgLwDnxcVw7
-         MLseRf6GCFgYtqjrlrczNyW3aVyonFwS1Gy7o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568228; x=1785173028;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WMxXWjw9T8zIqfE6I80b7cT7Q0XlIp9bu0htX3JN1yI=;
-        b=YuVXu2MhjowJ0gQceyCvBTHVQYGQZW2lUn95kBOT2sZGBK7UTlHlTs3rj8LdDsuLml
-         ey+RBOzQ3R3yqCDEHR31oGgNF8m6ohszmFc2a1tfwizO07oluFw8a3WrocFwabRxYCiS
-         XS++NrhUzmnYeoBo/4NOqjcTBy+svSDyrEEJC13aW0hybsFZELX/aFULLnxYHeR/Yj8d
-         vTC5g4hgP4JjjzJwfdfGn4eFD5OaPTUt5LnfY79x7JnlWlE+GtSdSExYYuUN1rv0tHqz
-         wRMqnq3plWhkczvRtRsjAnljVj01Ty6zKdiPcI5oAumWgojFQi57weERXF0sTCbiDSDV
-         KOaA==
-X-Gm-Message-State: AOJu0YyjUA5a3DB/ZpOzV4yOdK6qRmio8LwwFJzC8nR6VBZdl3BOGpVC
-	bM6TZoyrfbZW//l8RDOQ4w+Ur/6IaVicfIVhVuOPKZFM+PR0ElxcJBEBNW5WXpD7/wGBG2LFnIf
-	zmaJkfBg=
-X-Gm-Gg: AfdE7clU5Htg/41QMdfCbgw87wJKwwYxG0iRvZvt9ELyxy3kr5R2UtYcmLb8PIvmO+b
-	YYkd4r9jMXEf33xVbm+fTvJY8N87EZ1fwuw0+hCQJGzgI/p6fl96JsEVSqQRd0A3YiOomY0chig
-	YAkCErcnsuRXnBShuNRzXifMVR9+UsbBXZnP8OsdmtzsROyhMhPVKAtqGyTpuIpAUMFzLOQlQun
-	BKfr/CD7hccgalBS+vxyqpg4mk7J2DeOmnmI5br36wg3zEyQnOocVOoCSyj5dUTBiTj0qrudsYP
-	dJ7ATSPm6T2552FRVxKz63YB260eeUGtxhssfVKIFTbZgRdtDz5UTv6mGJ88JfxY+fsNgEH6d9A
-	aKFE3iPx5cPrrpmB6RvBduzF71vBeF5JMAz8jtJMVwQnCoZTML/+9uy43d0+0wQEtqymp+kcFDh
-	pYTmaA9J+KH2WaqaSPlD6qY8wtxVYSrSOkApwUPcl36MrJEFaZDGAITqU31c+HivF2NmthuG3Ag
-	T2FnmbiewOqLHzi88c=
-X-Received: by 2002:a05:600c:1989:b0:495:52db:7e8 with SMTP id 5b1f17b1804b1-49552db09bfmr112929625e9.19.1784568227303;
-        Mon, 20 Jul 2026 10:23:47 -0700 (PDT)
-Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:23:46 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+  d=cisco.com; i=@cisco.com; l=3048; q=dns/txt;
+  s=iport01; t=1784570226; x=1785779826;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=r86+/VG8cUZMsplC3s+SmD0k+D3GQbtkz8s1Bts+7lc=;
+  b=IGFFdCmK1R1ZTX7PSSW+PVZqibUWJ5o9p24se1acM5erxpN5wSY6FKZ1
+   Rl01Nh0zgspUIDZXAkdHLE5ds7q/BPgamvqFtYjCYjC0BhR5V0ich+Pcg
+   9q3ieqv7+eN9sT8Gjk9qe1wPCI8hjsKlD6nDItz1ZfWahkAtmRQaB8sh6
+   +faVtLiDFpEYk90H8EuZiR3y7p8j2eSVMYkYyAmg1iDGR5k2zGKqx18R9
+   zTOqSXWjRI+S8NXfPTY/JqVB0b4yzGEcaLZgODryVaL/HwH8HuSaz/644
+   QVOlzD+XvI4UoD6jtsjhKh2BiXFnkZQXHmKsl+EvN//WpdhpJ0glCkplb
+   w==;
+X-CSE-ConnectionGUID: yAyTH9YBSxSyz8JpQJaTFQ==
+X-CSE-MsgGUID: W7fF8+8GRkmm5VD73fqLhg==
+X-IPAS-Result: =?us-ascii?q?A0BIAgCzYF5q/5L/Ja1aglmCV3RfQkmWTZ4bgX4PAQEBD?=
+ =?us-ascii?q?0QNBAEBhD9GAo1TAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8NhloBAgEDMgEYARsSEBwDAQIvKx0BBQgZgwIBgnQCARG7fIIsgQGDK?=
+ =?us-ascii?q?AE/AkNQ2y4BCxQBBYEzhT+IIFwYAYR8JxsbgXKEfoEFgVwCAgEXiAsEgiJ6E?=
+ =?us-ascii?q?oFaHoF9PY06SIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EMGwcFgR2BO?=
+ =?us-ascii?q?oEChHQjHwM5f4EvdUp3LWkBEheBJoISAoE7Ag4DCxgNSBEsNxQZBD5uB41AI?=
+ =?us-ascii?q?4JAaiQBK4IspXahDwoog3WMIZU6GjOqbAuYfY4KlTaBGoRpgWg8gVlwFTuCZ?=
+ =?us-ascii?q?wlKGQ+OOINrhRPJRyQ1CzIBAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:4HGDZqikINOtYIEicyDKTTb3X161MREKZh0ujC45NGQN5FlHY01je
+ htvDD+Ea/zeYmL2Kdlxb4zkoE1XsMWHz9JiSQJv/C88RC9jpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeCULOZ82QsaDxMtPjb8E0HUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUJ0/dLITB/3
+ 8cIEyEfPjKbvsC//JyCH7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZgl/5JEWxI9EglHzfiNRrkmVvYI84nPYy0p6172F3N/9J4XQH58ExxjBz
+ o7A11umDD9Kd4yw8zmA9y+SqrCUkzrfWI1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFm8HY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn2891te5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:U19jkqtCbxFJt3xYB5+d1kD+7skDrtV00zEX/kB9WHVpmwKj+P
+ xG+85rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1MmZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
+ lbH5SWIeeAa2SS9fyKgzWQIpIH3MSN9ryuiKP1yndgShwvVoRbhj0Jczpy1iZNNXJ77V1TLu
+ vl2vZ6
+X-Talos-CUID: 9a23:1pMHV2BlrNXgSo76EzhO5XI0S/EPSW3m3WWAAVeBK29VZoTAHA==
+X-Talos-MUID: 9a23:mOJvGgmkjKHzFwWJovpgdnpda8lGs+f+J3oOlJBbheXbbiJpHzeS2WE=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,175,1779148800"; 
+   d="scan'208";a="512229161"
+Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 17:57:05 +0000
+Received: from sjc-ads-20746.cisco.com (sjc-ads-20746.cisco.com [171.70.189.245])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 61C0218000238;
+	Mon, 20 Jul 2026 17:57:05 +0000 (GMT)
+Received: by sjc-ads-20746.cisco.com (Postfix, from userid 1887503)
+	id 00FCCCEC314; Mon, 20 Jul 2026 10:57:05 -0700 (PDT)
+From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 26/33] vim: Fix for CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
-Date: Mon, 20 Jul 2026 19:22:59 +0200
-Message-ID: <0509cae4e89d872bcd11d9d5757bffdf19ce45cc.1784567958.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
-References: <cover.1784567958.git.yoann.congal@smile.fr>
+Cc: xe-linux-external@cisco.com,
+	Devansh Patel <devanshp@cisco.com>
+Subject: [OE-core][wrynose][PATCH 3/8] openssh: Fix CVE-2026-59998
+Date: Mon, 20 Jul 2026 10:55:13 -0700
+Message-Id: <20260720175518.3546447-3-devanshp@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260720175518.3546447-1-devanshp@cisco.com>
+References: <20260720175518.3546447-1-devanshp@cisco.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-20746.cisco.com [171.70.189.245];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 171.70.189.245, sjc-ads-20746.cisco.com
+X-Outbound-Node: rcdn-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241460
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:57:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241475
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
+This patch applies the upstream OpenSSH 10.4p1 backport for
+CVE-2026-59998. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2].
 
-[1] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
-[2] https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19
-[3] https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-52858
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-52859
-[6] https://nvd.nist.gov/vuln/detail/CVE-2026-52860
+[1] https://github.com/openssh/openssh-portable/commit/8058c5bdb507591b79ec926221fbe6fcc296d432
+[2] https://www.cve.org/CVERecord?id=CVE-2026-59998
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- .../vim/files/CVE-2026-52858.patch            | 167 +++++++
- .../vim/files/CVE-2026-52859.patch            | 274 +++++++++++
- .../vim/files/CVE-2026-52860.patch            | 446 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   3 +
- 4 files changed, 890 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
+ .../openssh/openssh/CVE-2026-59998.patch      | 36 +++++++++++++++++++
+ .../openssh/openssh_10.3p1.bb                 |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52858.patch b/meta/recipes-support/vim/files/CVE-2026-52858.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
 new file mode 100644
-index 00000000000..7e036e45ea8
+index 0000000000..3e15fe19fa
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52858.patch
-@@ -0,0 +1,167 @@
-+From 4b850457e12e1a678dd209f2868154f7553cbf8d Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 29 May 2026 19:05:53 +0000
-+Subject: [PATCH] patch 9.2.0561: [security]: possible code execution with
-+ python3complete
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
+@@ -0,0 +1,36 @@
++From 94a089cd331eeea77ffd6fd715e61d281c3b97c3 Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Wed, 24 Jun 2026 06:55:12 +0000
++Subject: [PATCH] upstream: mention a caveat regarding
++ GSSAPIStrictAcceptorCheck in
 +
-+Problem:  [security]: possible code execution with python3complete
-+Solution: Disable execution of import/from statements
++some environments
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
++OpenBSD-Commit-ID: aa7158d8f22cb34063c1c2d3cbcf30a9489847c2
 +
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
++CVE: CVE-2026-59998
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/8058c5bdb507591b79ec926221fbe6fcc296d432]
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d]
-+CVE: CVE-2026-52858
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Backport Changes:
++- Omitted the upstream OpenBSD revision and Mdocdate-only hunks in
++  sshd_config.5 and retained the Wrynose OpenSSH 10.3p1 values because
++  this stable backport carries only the security-relevant documentation.
++
++(cherry picked from commit 8058c5bdb507591b79ec926221fbe6fcc296d432)
++Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ runtime/autoload/README.txt          |  1 +
-+ runtime/autoload/python3complete.vim | 17 ++++++++++++++---
-+ runtime/autoload/pythoncomplete.vim  | 17 ++++++++++++++---
-+ runtime/doc/filetype.txt             | 15 ++++++++++++++-
-+ 4 files changed, 43 insertions(+), 7 deletions(-)
++ sshd_config.5 | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/runtime/autoload/README.txt b/runtime/autoload/README.txt
-+index 3b18d3d..b225819 100644
-+--- a/runtime/autoload/README.txt
-++++ b/runtime/autoload/README.txt
-+@@ -17,6 +17,7 @@ htmlcomplete.vim	HTML
-+ javascriptcomplete.vim  Javascript
-+ phpcomplete.vim		PHP
-+ pythoncomplete.vim	Python
-++python3complete.vim Python
-+ rubycomplete.vim	Ruby
-+ syntaxcomplete.vim	from syntax highlighting
-+ xmlcomplete.vim		XML (uses files in the xml directory)
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index ea0a331..aba3412 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -14,6 +14,10 @@
-+ "   i.e. "import url<c-x,c-o>"
-+ " Continue parsing on invalid line??
-+ "
-++" v 0.10 by Vim project
-++"   * disables importing local modules, unless the global Vim variable
-++"     g:pythoncomplete_allow_import is set to non-zero
-++"
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+ "   * Fixed parsing of *args and **kwargs type arguments
-+@@ -132,11 +136,20 @@ class Completer(object):
-+ 
-+     def evalsource(self,text,line=0):
-+         sc = self.parser.parse(text,line)
-++        try: allow_imports = int(
-++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-++        except Exception:
-++          allow_imports = 0
-+         src = sc.get_code()
-+         dbg("source: %s" % src)
-+         try: exec(src,self.compldict)
-+         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
-+         for l in sc.locals:
-++            # Executing import/from statements harvested from the buffer runs
-++            # arbitrary package code; only do so when the user opted in.
-++            if not allow_imports and (l.startswith('import')
-++                                            or l.startswith('from ')):
-++                continue
-+             try: exec(l,self.compldict)
-+             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
-+ 
-+@@ -300,13 +313,11 @@ class Scope(object):
-+     def get_code(self):
-+         str = ""
-+         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-+-        for l in self.locals:
-+-            if l.startswith('import'): str += l+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+         for l in self.locals:
-+-            if not l.startswith('import'): str += l+'\n'
-++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
-+ 
-+         return str
-+ 
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index aa28bb7..1014776 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -12,6 +12,10 @@
-+ "   i.e. "import url<c-x,c-o>"
-+ " Continue parsing on invalid line??
-+ "
-++" v 0.10 by Vim project
-++"   * disables importing local modules, unless the global Vim variable
-++"     g:pythoncomplete_allow_import is set to non-zero
-++"
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+ "   * Fixed parsing of *args and **kwargs type arguments
-+@@ -146,11 +150,20 @@ class Completer(object):
-+ 
-+     def evalsource(self,text,line=0):
-+         sc = self.parser.parse(text,line)
-++        try: allow_imports = int(
-++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-++        except Exception:
-++          allow_imports = 0
-+         src = sc.get_code()
-+         dbg("source: %s" % src)
-+         try: exec(src) in self.compldict
-+         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
-+         for l in sc.locals:
-++            # Executing import/from statements harvested from the buffer runs
-++            # arbitrary package code; only do so when the user opted in.
-++            if not allow_imports and (l.startswith('import')
-++                                            or l.startswith('from ')):
-++                continue
-+             try: exec(l) in self.compldict
-+             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
-+ 
-+@@ -315,13 +328,11 @@ class Scope(object):
-+     def get_code(self):
-+         str = ""
-+         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-+-        for l in self.locals:
-+-            if l.startswith('import'): str += l+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+         for l in self.locals:
-+-            if not l.startswith('import'): str += l+'\n'
-++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
-+ 
-+         return str
-+ 
-+diff --git a/runtime/doc/filetype.txt b/runtime/doc/filetype.txt
-+index 597141d..c8572fe 100644
-+--- a/runtime/doc/filetype.txt
-++++ b/runtime/doc/filetype.txt
-+@@ -739,7 +739,20 @@ By default the following options are set, in accordance with PEP8: >
-+ To disable this behavior, set the following variable in your vimrc: >
-+ 
-+ 	let g:python_recommended_style = 0
-+-
-++<
-++Python omni-completion |compl-omni| is provided by python3complete.vim (or
-++pythoncomplete.vim) for Vim builds with the |+python|/|+python3| interpreter.
-++By default it does not inspect the import / from statements found in the
-++buffer. This means completion of names defined in the buffer itself (classes,
-++functions, variables) works, but completion of members of imported modules is
-++not offered.
-++
-++To enable completion of imported module members, set: >
-++	let g:pythoncomplete_allow_import = 1
-++<
-++WARNING: enabling this causes omni-completion to execute the import statements
-++found in the buffer through Python's import machinery, which runs the imported
-++modules' top-level code. Only enable this for code you trust.
-+ 
-+ QF QUICKFIX					    *qf.vim* *ft-qf-plugin*
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52859.patch b/meta/recipes-support/vim/files/CVE-2026-52859.patch
-new file mode 100644
-index 00000000000..472d7c06401
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52859.patch
-@@ -0,0 +1,274 @@
-+From 63680c6d3d52477817b49cd1a66e7aabe8a7aa19 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Sat, 30 May 2026 16:34:40 +0000
-+Subject: [PATCH] patch 9.2.0565: [security]: out-of-bounds read in
-+ update_snapshot()
-+
-+Problem:  Out-of-bounds read in update_snapshot() when a terminal cell
-+          fills all VTERM_MAX_CHARS_PER_CELL slots (a base character
-+          plus five combining marks): the loop over cell.chars[] has no
-+          upper bound and libvterm leaves the array unterminated when full, so
-+          it reads past the array and appends out-of-bounds values to a
-+          buffer sized for only VTERM_MAX_CHARS_PER_CELL characters.
-+Solution: Bound the loop with i < VTERM_MAX_CHARS_PER_CELL, mirroring
-+          the loop in handle_pushline() (Christian Brabandt).
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19]
-+CVE: CVE-2026-52859
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/terminal.c                          |   3 +-
-+ src/testdir/samples/combining_chars.txt | 200 ++++++++++++++++++++++++
-+ src/testdir/test_terminal3.vim          |  15 ++
-+ 3 files changed, 217 insertions(+), 1 deletion(-)
-+ create mode 100644 src/testdir/samples/combining_chars.txt
-+
-+diff --git a/src/terminal.c b/src/terminal.c
-+index 78990ac..527f1b9 100644
-+--- a/src/terminal.c
-++++ b/src/terminal.c
-+@@ -2080,7 +2080,8 @@ update_snapshot(term_T *term)
-+ 			    int	    i;
-+ 			    int	    c;
-+ 
-+-			    for (i = 0; (c = cell.chars[i]) > 0 || i == 0; ++i)
-++			    for (i = 0; i < VTERM_MAX_CHARS_PER_CELL &&
-++				    ((c = cell.chars[i]) > 0 || i == 0); ++i)
-+ 				ga.ga_len += utf_char2bytes(c == NUL ? ' ' : c,
-+ 					     (char_u *)ga.ga_data + ga.ga_len);
-+ 			}
-+diff --git a/src/testdir/samples/combining_chars.txt b/src/testdir/samples/combining_chars.txt
-+new file mode 100644
-+index 0000000..d9a3c17
-+--- /dev/null
-++++ b/src/testdir/samples/combining_chars.txt
-+@@ -0,0 +1,200 @@
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-+diff --git a/src/testdir/test_terminal3.vim b/src/testdir/test_terminal3.vim
-+index cb1946f..c02801e 100644
-+--- a/src/testdir/test_terminal3.vim
-++++ b/src/testdir/test_terminal3.vim
-+@@ -1051,4 +1051,19 @@ func Test_terminal_max_combining_chars()
-+   exe buf . "bwipe!"
-+ endfunc
-+ 
-++func Test_terminal_output_combining_chars()
-++  CheckUnix
-++  new
-++  let cmd = "cat samples/combining_chars.txt"
-++  let buf = term_start(cmd, {'curwin': 1, 'term_finish': 'open', 'term_rows': 10, 'term_cols': 30})
-++  call WaitForAssert({-> assert_match('finished', term_getstatus(buf))})
-++  call TermWait(buf)
-++  let lines = getbufline(buf, 1, '$')
-++  " get byte lengths to confirm combining chars present
-++  let lens = map(copy(lines), 'len(v:val)')
-++  let expected = repeat([11], 190) + repeat([14], 10)
-++  call assert_equal(expected, lens)
-++  bw!
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52860.patch b/meta/recipes-support/vim/files/CVE-2026-52860.patch
-new file mode 100644
-index 00000000000..52a18415ce1
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52860.patch
-@@ -0,0 +1,446 @@
-+From c8c63673bc4253212820626aeeb75999d9a539d2 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 4 Jun 2026 21:06:09 +0000
-+Subject: [PATCH] patch 9.2.0597: [security]: possible code execution with
-+ python complete
-+
-+Problem:  [security]: another possible code execution with python complete
-+          (David Carliez)
-+Solution: Strip default expressions and annotations from generated
-+          source for pythoncomplete and python3complete.
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-65p9-mwwx-7468
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2]
-+CVE: CVE-2026-52860
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ runtime/autoload/python3complete.vim        |  43 +++-
-+ runtime/autoload/pythoncomplete.vim         |  43 +++-
-+ src/testdir/Make_all.mak                    |   2 +
-+ src/testdir/test_plugin_python3complete.vim | 224 ++++++++++++++++++++
-+ 4 files changed, 304 insertions(+), 8 deletions(-)
-+ create mode 100644 src/testdir/test_plugin_python3complete.vim
-+
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index aba3412..a031424 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -1,8 +1,8 @@
-+ "python3complete.vim - Omni Completion for python
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+-" Version: 0.9
-+-" Last Updated: 2022 Mar 30
-++" Version: 0.10
-++" Last Updated: 2026 Jun 04
-+ "
-+ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
-+ "
-+@@ -17,6 +17,11 @@
-+ " v 0.10 by Vim project
-+ "   * disables importing local modules, unless the global Vim variable
-+ "     g:pythoncomplete_allow_import is set to non-zero
-++"   * strip default values and annotations from function parameter lists
-++"     before exec(), and whitelist class base lists to dotted names: the
-++"     previous code passed buffer-supplied expressions to exec() which
-++"     Python evaluates at definition time, allowing arbitrary code
-++"     execution via crafted def/class headers
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -100,6 +105,24 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
-+ 
-+ import sys, tokenize, io, types
-+ from token import NAME, DEDENT, NEWLINE, STRING
-++import re
-++
-++# Used by Class.get_code(): a base class expression is only included in the
-++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
-++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
-++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
-++# expressions.  See the security note in the file header.
-++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
-++
-++def _strip_param(p):
-++    # Return the bare parameter name from a parameter spec harvested by
-++    # _parenparse(), discarding any default value or annotation.  Default
-++    # values and annotations would otherwise be evaluated by exec() at
-++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
-++    # "*" / "/" are preserved as written.
-++    p = p.split('=', 1)[0]
-++    p = p.split(':', 1)[0]
-++    return p.strip()
-+ 
-+ debugstmts=[]
-+ def dbg(s): debugstmts.append(s)
-+@@ -347,7 +370,13 @@ class Class(Scope):
-+         return c
-+     def get_code(self):
-+         str = '%sclass %s' % (self.currentindent(),self.name)
-+-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
-++        # Only include base class expressions that are pure dotted names.
-++        # Anything else (calls, subscripts, conditionals, ...) is dropped
-++        # because exec() would evaluate it at class-definition time.  See
-++        # the security note in the file header.
-++        safe_supers = [s.strip() for s in self.supers
-++                       if _DOTTED_NAME_RE.match(s.strip())]
-++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         if len(self.subscopes) > 0:
-+@@ -364,8 +393,14 @@ class Function(Scope):
-+     def copy_decl(self,indent=0):
-+         return Function(self.name,self.params,indent, self.docstr)
-+     def get_code(self):
-++        # Strip default values and annotations from each parameter before
-++        # joining: exec() evaluates these at definition time and a hostile
-++        # buffer could otherwise execute arbitrary code via crafted def
-++        # headers.  See file header for details.
-++        safe_params = [_strip_param(p) for p in self.params]
-++        safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+-            (self.currentindent(),self.name,','.join(self.params))
-++            (self.currentindent(),self.name,','.join(safe_params))
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index 1014776..39b1efd 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -1,8 +1,8 @@
-+ "pythoncomplete.vim - Omni Completion for python
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+-" Version: 0.9
-+-" Last Updated: 2020 Oct 9
-++" Version: 0.10
-++" Last Updated: 2026 Jun 04
-+ "
-+ " Changes
-+ " TODO:
-+@@ -15,6 +15,11 @@
-+ " v 0.10 by Vim project
-+ "   * disables importing local modules, unless the global Vim variable
-+ "     g:pythoncomplete_allow_import is set to non-zero
-++"   * strip default values and annotations from function parameter lists
-++"     before exec(), and whitelist class base lists to dotted names: the
-++"     previous code passed buffer-supplied expressions to exec() which
-++"     Python evaluates at definition time, allowing arbitrary code
-++"     execution via crafted def/class headers
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -95,6 +100,24 @@ function! s:DefPython()
-+ python << PYTHONEOF
-+ import sys, tokenize, cStringIO, types
-+ from token import NAME, DEDENT, NEWLINE, STRING
-++import re
-++
-++# Used by Class.get_code(): a base class expression is only included in the
-++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
-++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
-++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
-++# expressions.  See the security note in the file header.
-++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
-++
-++def _strip_param(p):
-++    # Return the bare parameter name from a parameter spec harvested by
-++    # _parenparse(), discarding any default value or annotation.  Default
-++    # values and annotations would otherwise be evaluated by exec() at
-++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
-++    # "*" / "/" are preserved as written.
-++    p = p.split('=', 1)[0]
-++    p = p.split(':', 1)[0]
-++    return p.strip()
-+ 
-+ debugstmts=[]
-+ def dbg(s): debugstmts.append(s)
-+@@ -362,7 +385,13 @@ class Class(Scope):
-+         return c
-+     def get_code(self):
-+         str = '%sclass %s' % (self.currentindent(),self.name)
-+-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
-++        # Only include base class expressions that are pure dotted names.
-++        # Anything else (calls, subscripts, conditionals, ...) is dropped
-++        # because exec() would evaluate it at class-definition time.  See
-++        # the security note in the file header.
-++        safe_supers = [s.strip() for s in self.supers
-++                       if _DOTTED_NAME_RE.match(s.strip())]
-++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         if len(self.subscopes) > 0:
-+@@ -379,8 +408,14 @@ class Function(Scope):
-+     def copy_decl(self,indent=0):
-+         return Function(self.name,self.params,indent, self.docstr)
-+     def get_code(self):
-++        # Strip default values and annotations from each parameter before
-++        # joining: exec() evaluates these at definition time and a hostile
-++        # buffer could otherwise execute arbitrary code via crafted def
-++        # headers.  See file header for details.
-++        safe_params = [_strip_param(p) for p in self.params]
-++        safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+-            (self.currentindent(),self.name,','.join(self.params))
-++            (self.currentindent(),self.name,','.join(safe_params))
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+diff --git a/src/testdir/Make_all.mak b/src/testdir/Make_all.mak
-+index 0d4aeb0..87545b7 100644
-+--- a/src/testdir/Make_all.mak
-++++ b/src/testdir/Make_all.mak
-+@@ -247,6 +247,7 @@ NEW_TESTS = \
-+ 	test_plugin_helptoc \
-+ 	test_plugin_man \
-+ 	test_plugin_matchparen \
-++	test_plugin_python3complete \
-+ 	test_plugin_tar \
-+ 	test_plugin_termdebug \
-+ 	test_plugin_tohtml \
-+@@ -520,6 +521,7 @@ NEW_TESTS_RES = \
-+ 	test_plugin_helptoc.res \
-+ 	test_plugin_man.res \
-+ 	test_plugin_matchparen.res \
-++	test_plugin_python3complete.res \
-+ 	test_plugin_tar.res \
-+ 	test_plugin_termdebug.res \
-+ 	test_plugin_tohtml.res \
-+diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
-+new file mode 100644
-+index 0000000..e2b0c66
-+--- /dev/null
-++++ b/src/testdir/test_plugin_python3complete.vim
-+@@ -0,0 +1,224 @@
-++" Tests for the Python omni-completion plugin (runtime/autoload/python3complete.vim).
-++"
-++CheckFeature python3
-++
-++" Run omni-completion against the given buffer contents and assert that the
-++" marker file was not created.  Pre-patch behaviour exec()s reconstructed
-++" def/class headers, which evaluates the buffer-supplied expression and
-++" creates the marker file.  Post-patch, the expressions are stripped.
-++func s:CompleteAndExpectNoMarker(buffer_lines, marker_path, msg)
-++  call delete(a:marker_path)
-++  defer delete(a:marker_path)
-++  let g:pythoncomplete_allow_import = 0
-++  new
-++  setfiletype python
-++  call setline(1, a:buffer_lines)
-++  call cursor(line('$'), col([line('$'), '$']))
-++
-++  " The PoC trigger -- direct invocation of the omnifunc with an empty base.
-++  " This is the same path Vim takes for CTRL-X CTRL-O.
-++  silent! call python3complete#Complete(0, '')
-++
-++  call assert_false(filereadable(a:marker_path),
-++        \ a:msg . ' (marker ' . a:marker_path . ' was created)')
-++
-++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
-++endfunc
-++
-++func Test_python3complete_no_exec_via_function_default()
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(x=open(' . string(marker) . ', "w").close()):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'function default expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_function_annotation()
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(x: open(' . string(marker) . ', "w").close()):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'function annotation expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_class_base()
-++  let marker = tempname()
-++  " "or object" gives the class a valid base after the side-effecting
-++  " open().close() expression returns None.  Without "or object" the
-++  " exec would raise TypeError, but the file would still be created
-++  " before the exception -- the assertion would still hold.  Using
-++  " "or object" keeps the buffer parseable as valid Python.
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'class Foo(open(' . string(marker) . ', "w").close() or object):',
-++        \ '    pass',
-++        \ 'Foo.',
-++        \ ], marker,
-++        \ 'class base expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_with_multiple_params()
-++  " The strip must apply to every parameter, not just the first.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(a, b=1, c=open(' . string(marker) . ', "w").close(), d=2):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'non-first parameter default was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_starargs_default()
-++  " "*args" and "**kw" must still be preserved after stripping; ensure a
-++  " default following them is also stripped.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(*args, key=open(' . string(marker) . ', "w").close(), **kw):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'keyword-only default after *args was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_normal_completion_still_works()
-++  " Positive control: completion against a buffer with a legitimate class
-++  " must still produce completion items.  The stripping logic should not
-++  " break the normal completion path.
-++  let g:pythoncomplete_allow_import = 0
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'class MyHelper:',
-++        \ '    def alpha(self): pass',
-++        \ '    def beta(self): pass',
-++        \ 'h = MyHelper()',
-++        \ 'h.',
-++        \ ])
-++  call cursor(5, 3)
-++
-++  " First call returns the column to start completion at; second returns
-++  " the list of completion items.
-++  let start = python3complete#Complete(1, '')
-++  call assert_true(start >= 0,
-++        \ 'python3complete#Complete(1, "") returned ' . start)
-++
-++  let items = python3complete#Complete(0, '')
-++  " Items should be a list (possibly empty if the parser can't resolve "h",
-++  " but should not be a parse error from our stripping changes).
-++  call assert_equal(type([]), type(items),
-++        \ 'python3complete#Complete(0, "") did not return a list')
-++
-++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
-++endfunc
-++
-++func Test_python3complete_inherited_completion_via_dotted_base()
-++  " Positive control for the class-base whitelist: a dotted-name base class
-++  " (the common, safe case) must still be carried into the reconstructed
-++  " source so that completion on a subclass can resolve inherited members.
-++  let g:pythoncomplete_allow_import = 0
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'class Base:',
-++        \ '    def shared(self): pass',
-++        \ 'class Derived(Base):',
-++        \ '    def own(self): pass',
-++        \ 'd = Derived()',
-++        \ 'd.',
-++        \ ])
-++  call cursor(6, 3)
-++
-++  let items = python3complete#Complete(0, '')
-++  call assert_equal(type([]), type(items),
-++        \ 'completion against a subclass with a dotted base did not return a list')
-++
-++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
-++endfunc
-++
-++" Build a tiny Python module that creates a marker file as a side effect of
-++" being imported, add its directory to sys.path, run omni-completion against
-++" a buffer containing `import vimtest_marker_mod`, and report whether the
-++" marker file was created.  Used by the two allow_import tests below.
-++func s:RunImportCompletion(allow_import_value)
-++  let g:pythoncomplete_allow_import = a:allow_import_value
-++  let marker = tempname()
-++  let module_dir = tempname()
-++  call mkdir(module_dir, 'R')
-++
-++  call writefile([
-++        \ 'open(' . string(marker) . ', "w").close()',
-++        \ ], module_dir . '/vimtest_marker_mod.py')
-++
-++  defer delete(marker)
-++
-++  " Pass module_dir to Python via a g: variable so vim.eval() can read it.
-++  let g:pythoncomplete_test_module_dir = module_dir
-++  py3 << EOF
-++import sys, vim
-++_p = vim.eval('g:pythoncomplete_test_module_dir')
-++if _p not in sys.path:
-++    sys.path.insert(0, _p)
-++# Drop any cached copy so the module body re-runs and the marker side
-++# effect fires on import.
-++sys.modules.pop('vimtest_marker_mod', None)
-++EOF
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'import vimtest_marker_mod',
-++        \ 'vimtest_marker_mod.',
-++        \ ])
-++  call cursor(2, 2)
-++
-++  silent! call python3complete#Complete(0, '')
-++
-++  let ran = filereadable(marker)
-++
-++  bwipe!
-++  unlet g:pythoncomplete_allow_import
-++
-++  " Teardown: restore sys.path, drop the cached module so a subsequent
-++  " test run starts clean, clean up the temp module dir.
-++  py3 << EOF
-++import sys, vim
-++_p = vim.eval('g:pythoncomplete_test_module_dir')
-++if _p in sys.path:
-++    sys.path.remove(_p)
-++sys.modules.pop('vimtest_marker_mod', None)
-++EOF
-++  unlet g:pythoncomplete_test_module_dir
-++  call delete(module_dir, 'rf')
-++  call delete(marker)
-++  unlet! g:pythoncomplete_allow_import
-++
-++  return ran
-++endfunc
-++
-++func Test_python3complete_allow_import_off_blocks_imports()
-++  " GHSA-52mc-rq6p-rc7c mitigation: with the default flag value (0), an
-++  " `import` line harvested from the buffer must NOT be exec()'d.  The
-++  " marker module's side effect (creating a file when its body runs) is
-++  " the observable proof that the exec did or did not happen.
-++  call assert_false(s:RunImportCompletion(0),
-++        \ 'g:pythoncomplete_allow_import=0 did not block the buffer import')
-++endfunc
-++
-++func Test_python3complete_allow_import_on_runs_imports()
-++  " Symmetric positive control: with the flag set to non-zero, the harvested
-++  " import IS exec()'d and the module loads.  Without this control the
-++  " negative test above could pass for unrelated reasons (e.g. completion
-++  " failing to parse the buffer at all).
-++  call assert_true(s:RunImportCompletion(1),
-++        \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
-++endfunc
-++
-++" vim: shiftwidth=2 sts=2 expandtab
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 9a4b21f5305..d69a337b4e8 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -33,6 +33,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-45130.patch \
-            file://CVE-2026-46483.patch \
-            file://CVE-2026-28420.patch \
-+           file://CVE-2026-52858.patch \
-+           file://CVE-2026-52859.patch \
-+           file://CVE-2026-52860.patch \
++diff --git a/sshd_config.5 b/sshd_config.5
++index 3f5e29812..22b9039d2 100644
++--- a/sshd_config.5
+++++ b/sshd_config.5
++@@ -769,6 +769,7 @@ machine's default store.
++ This facility is provided to assist with operation on multi homed machines.
++ The default is
++ .Cm yes .
+++This option may not be effective in Windows Active Directory environments.
++ .It Cm HostbasedAcceptedAlgorithms
++ Specifies the signature algorithms that will be accepted for hostbased
++ authentication as a list of comma-separated patterns.
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
+index 87bd417b2d..b9f2a37c57 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            file://CVE-2026-59999.patch \
+            file://CVE-2026-59997.patch \
++           file://CVE-2026-59998.patch \
             "
+ SRC_URI[sha256sum] = "56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4"
  
- PV .= ".1683"
+-- 
+2.35.6
+
 
