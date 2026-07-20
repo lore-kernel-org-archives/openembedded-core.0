@@ -1,315 +1,215 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F19E9C4451B
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 05:50:30 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2827.1784526616414144078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E95BC4451B
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 06:04:11 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2946.1784527449513931182
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2026 22:50:16 -0700
+ Sun, 19 Jul 2026 23:04:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=QlwAQ1Fp;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4937; q=dns/txt;
-  s=iport01; t=1784526616; x=1785736216;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   mime-version;
-  bh=VCi9SUD8d+VBmcw1lUQdNKNmvGGVFxaPFVmJFGto06M=;
-  b=QlwAQ1Fp3V6I4MsFbvKXlXCYCDa8+jPojbxe2pMVNG8kup+HB0NLICMd
-   xdOwvJ8zmKZj6YasgnKaIB/TXcdKqXbd2H29ooWXyHf8Mx7qCnzM9o1X+
-   ldJ0GvUPrj/BhGesuqt+e/PFkyKfFXKPsia4Ru0UY8ndHjtzCo7NTEK0X
-   3wzmufQAxJqdEMxxLY7EvDW/Q0WF/b4lW+Dk7/c+2aHptLnBq5JNXlVtp
-   XK+5A4dquycoFQLylmWTADLMDYknFSMZsDbi7ehX+owEqJ1DGNa0mibw3
-   HOrjRT6b7oP+5nRzxiuUrKljtcf/f2nK4HIrZc9063MQX7P+djgXJdU1X
-   w==;
-X-CSE-ConnectionGUID: CZgfNEdbQkSPH4AURiIlJA==
-X-CSE-MsgGUID: jkmFrDI5TN6W5mCho93XwQ==
-X-IPAS-Result: =?us-ascii?q?A0ByAwAGtl1q/48QJK1aHgEBCxIMZYEgC4E9ATBTgQgCg?=
- =?us-ascii?q?SFJBIgfA4UrhliCJJdEhleBfg8BAQEOAS4BFQ0EAQGFBQKNUwImNAkOAQIEA?=
- =?us-ascii?q?wIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQEBAQMBERViAgEIB?=
- =?us-ascii?q?A0EAQEBLicKHQgCBAESCBqCYYIdFkEDAQIOsDABgT0Ciip4gQEzgQGDaAJD3?=
- =?us-ascii?q?AoVgTiFP4MBGwEBBSVJbIJdgSIYARuEYScbG4FygVeCaT6BBYFcAQMBgTQrh?=
- =?us-ascii?q?BOCMASCInoSG4NagWGMFlJyIgMmMywBVRMXCwcFgSMQMwMgCi8tAhQNIg8aB?=
- =?us-ascii?q?S0dcAwnEg8dFxYeWBsHBRIgKkFFIwMUOz84C0MFgVcCgghOIx8DOX+BMHVKd?=
- =?us-ascii?q?y1qAhAXSjgkg0sCBwMLbT03Bg4ZAwSBNQWMUAdbI4N5T5UqLY8Uo3cKKIN1i?=
- =?us-ascii?q?nuBJo0+iDIXhASBV6URC5h9I4I2izGVYIUuAgQCBAUCEAEBBoFoPIFHCwdwF?=
- =?us-ascii?q?YMiCQpAGQ+UIoMUySF5AgEBBzIBAQcCBw4DC4FokACBfgEB?=
-IronPort-PHdr: A9a23:rvWoxhZMrFvITrR2En61Tmn/LTAchN3EVzX9orIuj7ZIN6O78IunZ
- grU5O5mixnCWoCIo/5Hiu+Dq6n7QiRA+peOtnkebYZBHwEIk8QYngEsQYaFBET3IeSsbnkSF
- 8VZX1gj9Ha+WXU=
-IronPort-Data: A9a23:NViojq1G9m+UbhiigPbD5Ytwkn2cJEfYwER7XKvMYLTBsI5bpzICm
- zFMXjiDOP3fYWbxLd1yPtm09koCsJ/Xyd9qHgI63Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- Lsen+WFYAX7g2EuajpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGJ3M5M6s19uxOAlp21
- aAxFQoMTxShrrfjqF67YrEEasULJc3vOsYb/3pn1zycVahgSpHYSKKM7thdtNsyrpkRRrCFO
- YxAN3w2ME+ojx5nYj/7DLoykeqyj2X/dBVTqUmeouw85G27IAlZj+i3a4WIIYXULSlTtkSbo
- 0zc00WkPjdEC4Ga4jqCoymcmdaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0Ut5UFag+rQqK0KeRu1jfDWkfRTkHY9sj3CMreQEXO
- payt4qBLRRksaaeTjSW8bL8kN94EXR9wbMqDcPccTY43g==
-IronPort-HdrOrdr: A9a23:FfTcDaFkLOZ07oaSpLqF4ZLXdLJyesId70hD6qkvc203TiXIra
- CTdaogtCMc0AxhJ03I+ertBEDyewKjyXcV2/hcAV7MZnichILFFvAH0WKm+UydJ8SczJ8T6U
- 4DSdkFNDSYNzET5qiKgnjcLz9j+qj7zEnCv5a5854Zd3ATV0gW1XYBNu/0KDwQeCB2QbACON
- 634M1BqzC8eXIRQPiaKxA+NdTrlpngrr6jRQQJKSIGxWC14A+A2frXAhKY1hARX3d1x6s+8W
- /Kqgr95q+ymfC2wB3R2gbontprcd3apedrNYipsIw4Oz/sggGnaMBKQLuZpg04p+mp9RIDjM
- TMiw1IBbUy11rhOkWO5Tf90Qjp1zgjr1X4z0WDvHflqcvlABonFst6g55DeBex0TtigDg86t
- MI44uqjesSMfryplW72zEObWAtqqOAmwtmrQfUtQ0HbWJRUs4IkWVVxjIlLH5JJlOL1GlgKp
- guMOjsoNBLbFidc3fV+kNrwNCqQzAPOy3ueDlYhiRQuAImwUyQCCAjtZYidntszuNPd7BUo+
- vDKahmj7dIU4sfar98Hv4IRY+tBnXKWg+kChPYHb3LLtBPB5v2ke++3JwloOWxPJAYxpo7n5
- rMFFteqG4pYkrrTcmDxodC/BzBSHi0GW2F8LAS27Fp/rnnALb7OyyKT14j18OmvvUEG8XeH/
- K+IohfDfPvJXbnXYxJwwr9UZ9PLmR2arxehv8rH1aV5s7bIIzjseLWNP7VObr2CD4hHnjyB3
- MSNQKDUvmoLnrbLUMQrCKhL08FIHaPj66YOJKqitQu9A==
-X-Talos-CUID: 9a23:OkL+5G+xfNXnzLRzMX2Vv2UmFc4DX3HX9XTrG2/kIFtTSZyRa3bFrQ==
-X-Talos-MUID: 9a23:p9GX3gQoeQ0Vlms/RXTuhzRMLutJvpiIVn9QlL4GvJjfBTNJbmI=
-X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-06.cisco.com ([173.36.16.143])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 05:50:13 +0000
-Received: from alln-opgw-2.cisco.com (alln-opgw-2.cisco.com [173.37.147.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-06.cisco.com (Postfix) with ESMTPS id A5C281800010A
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 05:50:13 +0000 (GMT)
-X-CSE-ConnectionGUID: 6fTspt/0RweZjV0EcjYlsA==
-X-CSE-MsgGUID: KwOvtU0ITGSOPCGPVu4+mA==
-Authentication-Results: alln-opgw-2.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
-   d="scan'208,217";a="56136293"
-Received: from mail-eastus2azon11010026.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([52.101.56.26])
-  by alln-opgw-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 05:50:13 +0000
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fXnI5Kas;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1661409e31=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66K5FPEs3697149
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 06:04:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=uK+GzMbbUhkzzG+Jw+UP+Jjp/xcPs9U3gWsbEzp4s3o=; b=
+	fXnI5KasRVHlCvBxazh9sbYVvEup5bvyTNL539AxRVuVAGSFQRTMfRdkRVubpHG0
+	ZK7rxBNZ0SrqQsplLKI/wU4x9z1qBibJqNE45rIvJoo9MFEY9MuGlWX66lQxIPWF
+	l8ddmvgMun2hCS7c2vQbbWmjUslOdrFXcJjXTAXpTvWFJyycueQ6wb8+r63DeQMw
+	2GDgmWrrjBh36MuszHBkn2z8R74S+AC7dA4VVEzjgBbkKW5mEVidbPudjvgHs2cM
+	0TOuVVyq+Or0w5CSVQy9E4Q+1OPE/gaTOvGwi0Tebzd8L8chRnNT7zD0j/ZMmPOa
+	zfMgetg/BZNIzsq1ApCiSA==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010051.outbound.protection.outlook.com [40.93.198.51])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fga8x1fxc-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 20 Jul 2026 06:04:07 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BWoLCbZ9OSrXKaV7qmp2cmCbhb0GZ8jXncRWL8RUHZHIddV9mNy0Om3XgKf0bqtO0m7Cevkt8WQnFDppZPmJYhW3vLJPHbSnCsK7KkiYsUx/ZBzfuC79aBM5I4/0N5D6bz09gkmIuP/kuy9msX1jt/nDdG2Tc9wzDdxwm0TgOZD3NIPLYCeDVZidKqhatClO6I+g+0SJdQto+fUjeLleRFBWaQ1AgQDPg6nTOxAbP7CsNPNxCd4zkA9A3mDr7cbzsWuWIN0gxuRma1u3TQ0OMJDX8G4T44OlWXSMUSqy3ztJLhIEQ0evcRAB28Vj/KmT4mCqoVQ9JicnSZO8WA4Tzg==
+ b=PMQQUq9P4dlpDmup9m7hZYm3Lixc+uUkLL1cut8Elr28bK0WeazLNOWw6ygepHA8/t9h0yJvO6ZsXZHYBs12Wuj9Wqx0mo3e5B01W3NBeNVXirIEGfFN6ae3g4Z1+0FhR4dJHKOiRLvDyzWhIWH6ULDQ8FhfNFmB09CoUVDJD9gurP18pX9LbKhvOQunc+eDMyUG5Sy+RtoO0s0C9R41+ArVR5+zg8rtVcpkgGPlg9ZjdyBz3OzMqR+kwwCgQburPhog7qFIg2gkBC/QdlOknPgonyWe399GvFU9zggR0luy1eyDRjcs0R9SbcGcNZL/fMoA7PeB6xfxbBUc6WZsIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VCi9SUD8d+VBmcw1lUQdNKNmvGGVFxaPFVmJFGto06M=;
- b=kxrn1KPJBUjzoEq2oooiQKW7g9NN9Xf8tXrhlRsyibrbWfbWT76LsgnwXEG30ryLXIur4GE2MG2GrOUAodyM9hIjgJgczylxIKcQ6fDBYYi/4gzdBk7rzk3Yt00FXsGdAWHPNzW5cRuriEZSr/fNmlUIDQw3moYh2v5JV/y4O55Bj0NkHAFVkRBDAcbxCPxVgZ/FNDUzE0KxRgbU4wZKm4eHptEQK3Am7Z4uOxsqpX/KmniBGTxs7NMTdpv0qOYnrfq2xk+mf7ahlubKamLT5i3vcKcXG67XxJOr9sH9J/MmEltUNXwEC15V1z2vr1xRQcfN1QjLFd0eYPrW6fNhkQ==
+ bh=uK+GzMbbUhkzzG+Jw+UP+Jjp/xcPs9U3gWsbEzp4s3o=;
+ b=DDSdO4ZaL+bKVnj40b80eYzSDpiw8ottuPGWFY11B4oAUsdmLddLjPDBNIzO/gKSTn1/WT8YiDGNutN2nPn/eBtyRwc9BbOhb6P9Y9leFrj2vTB50H6muCfr0aPMrinb2rz8O83a0RtFUjuJQBjw729omLhoYWKfuZPrOnefAspOS8wOnZBOMcX7QESeD0EuBrbOa2u5OwHf6yPqIBXwjO/gkXBJZomwwOoWlTmDtUwvjIJJLzl5Us08bo0IFDOT5Xq/heu6063XPwXmXofjVGUh1an3eYviHJqBVAabNqJezjlWQFQYugWRy8Wl1CjO1KESN96SGrc4hw02PbrN9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from DM4PR11MB6189.namprd11.prod.outlook.com (2603:10b6:8:ae::18) by
- SN4PR11MB9943.namprd11.prod.outlook.com (2603:10b6:806:4ff::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.223.16; Mon, 20 Jul 2026 05:50:11 +0000
-Received: from DM4PR11MB6189.namprd11.prod.outlook.com
- ([fe80::ecd9:17f7:f13f:5543]) by DM4PR11MB6189.namprd11.prod.outlook.com
- ([fe80::ecd9:17f7:f13f:5543%2]) with mapi id 15.21.0223.015; Mon, 20 Jul 2026
- 05:50:11 +0000
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
-	<deeratho@cisco.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
-	<yoann.congal@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH 1/6] glib-2.0: fix CVE-2026-58010
-Thread-Topic: [OE-core][scarthgap][PATCH 1/6] glib-2.0: fix CVE-2026-58010
-Thread-Index: AQHdF9HK4T8j6gnot02rPdqaDdK4Y7Z154YM
-Date: Mon, 20 Jul 2026 05:50:11 +0000
-Message-ID: 
- <DM4PR11MB6189B970157EBF5263B88BB3C4C32@DM4PR11MB6189.namprd11.prod.outlook.com>
-References: <20260715172330.1149253-1-deeratho@cisco.com>
- <DK2X2VY96TAM.AZ9YPZM0BHHO@smile.fr>
-In-Reply-To: <DK2X2VY96TAM.AZ9YPZM0BHHO@smile.fr>
-Accept-Language: en-US
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by DM4PR11MB5325.namprd11.prod.outlook.com (2603:10b6:5:390::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.15; Mon, 20 Jul
+ 2026 06:04:05 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0223.015; Mon, 20 Jul 2026
+ 06:04:05 +0000
+Message-ID: <ed5831c1-386c-4463-8ff2-74a660fef088@windriver.com>
+Date: Mon, 20 Jul 2026 11:33:58 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [scarthgap][PATCH] binutils: Add CVE-2025-69646 to
+ "CVE:" tag
+To: Yoann Congal <yoann.congal@smile.fr>, paul@pbarker.dev,
+        openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+References: <20260706090659.2543025-1-Harish.Sadineni@windriver.com>
+ <d9b4dfb530a0898fd230ad6da09ee7bf90dd063a.camel@pbarker.dev>
+ <DK2FFQBSC7HA.15XI81YMBOZY@smile.fr>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6189:EE_|SN4PR11MB9943:EE_
-x-ms-office365-filtering-correlation-id: e02a353c-1911-4610-e3f5-08dee622c365
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|22082099003|4143699003|11063799006|56012099006|8096899003|13003099007|38070700021|10067099003;
-x-microsoft-antispam-message-info: 
- CiqZgS3vRAQeLm3psYGOOMTbGMAnpDO3nG6l8cIDWdf8fSi8ZjRLZprTMOSZhvfCK/IbiQAtoNmDwu9Q0PHi3lIM+r2x+2hGf3FGDnUvYsOdK674tNoymj26q+DW0Vapdj8g+we8En9MPD9N3op5Gtf38BIHYd6nLrcP4LdNuHHx5Ro0/yZd54px8wgmq02a5XJX0uVynLsTDpNdVXYtXGAD2QoGUGm66E22qHHaE6VIj93D7sWF+aE0ipKkpmle7xnVc2y7lX79nasyVGxHMk0rncGh0KCC3zPX7W0czcK9Zi4zDiKGXRDlwHGB+9KaxDJyDYWx+WNmrVCmmBs4OdY7jT9ZUVzrJigmVdtNkQunaq2dF+3Mz6QAKMt15PDxM+YrVzAFPGJgiuWzcIFp10VsiRz+3EmSfyKy0wMoG/SSUQWi/ftxvf4C91v49XwtI+R7SpgW1Pe1WBvsZ6da91SqweMgW44yrTkYST+mz3wWpK4+/Ij9sO6B1X2pP9pO2UorwrFrIR1pKAEkvUqNVw31WGuqJN7w296FaCgdJcA0kmNtYj4zbwii1/Qh7SZ9Ji3S6Ys4JkJcUeeqy2K8giiuA1p/JGHZn9mLCcLGSqQ8imXre3mG/Ayg8HkMIGhT5KHJbibZa6ouZiy4bg6lfFbr6wjXvwBlDJV3DnQC0m8=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006)(8096899003)(13003099007)(38070700021)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?A6mkeEvWssuf7jNfuOusBlwi5SlxNKbgoQ8iEfi/NOUMaG+bvJARk05TE+5J?=
- =?us-ascii?Q?yKhJBOfStMSqHkw98ASm0pAVFgN1VXqcFaaMbaQvVaHPD62B0/T1xirHcF1o?=
- =?us-ascii?Q?bSu56PhO9lLVP0elpCpgocTyrZYeMZ9AYWMZvXLBOTbMSOz2sFqmwRGkRR3l?=
- =?us-ascii?Q?68Sa1EDmxegIsYQTWNV3kz+tiPSlFg4XoLOF4vLghzs8T3Gl+J4i2oCx1+oO?=
- =?us-ascii?Q?Gxwnf76Fa8QxQGcKwQ9G2R7AHMxxNNKb6FHUiDJq/U1L22li0UeY4eT6ZctX?=
- =?us-ascii?Q?QVwiorGze4QJLFEPVN3/7CcKnuY/wKVuqaObiR8fEvWeFBLxozOJ3sZ5T0Md?=
- =?us-ascii?Q?pKfKzMOmYmSa1aHt1rPojLO6SuxFGcabkfXAbfKa0IeOf3qUt0q+6yETMQ6f?=
- =?us-ascii?Q?7TKPNLGKhvDgmI4YZIdVuyqldeqWKOTH/xkEy4CMgjmxU1NJMQzuEUOxhLfn?=
- =?us-ascii?Q?29J2tv18IfKOBLsCXgeTnUI6sjOEdi5xAlSZyKRciOEKuJJ5fn/UrcMTAMhb?=
- =?us-ascii?Q?dHa0QZEBo+WFSUkb4BLv+Lct5NoaBqYBKIbIOB9KQAyKis/wqzz5vIBXzvaP?=
- =?us-ascii?Q?6z478cqYIv/mBK/X9SZz7wkeuZkHFE0XJDmtF5iHwLGEFVuC/cJDUaCL4k9G?=
- =?us-ascii?Q?AbGvQYNW3zkQ8nDvFpUICp0RqpXr7zEw9IZjki9e1aLxac/3SZrG2d+zFeBg?=
- =?us-ascii?Q?Yo+RsyQztTIBNMqZayyPy9GK2SbKnfqt8sc5zVGnT9hnFTrGsoLFbpfnlpYJ?=
- =?us-ascii?Q?jq8LSkfv1PRRulzGT6RJwdBNlh7hug3Y8G7cNXcvWSajxykwd/m34fFR+bhF?=
- =?us-ascii?Q?0E9SJr3EQXLOynHYjAnJx3lWYJ2U4WVpOW/7pKFNRbOkGavYX5DMRpLRGCok?=
- =?us-ascii?Q?jkE3UmP0ciAXzFIyZAYFQHn3uYbRN34vuQaSVNl0QVJaSVJTd5qs6eW6nRES?=
- =?us-ascii?Q?Mr1AXCrB/XzRN/8iuZDmz0fg0U5VaGMdiqPvxcsx1uP4TefNaw6DOQlolPHD?=
- =?us-ascii?Q?HfJH1q8IcgzI0+sySd8uSln4lnqMqZzNnakHAhOS1E2xx6+zSDt1r9HQGkzK?=
- =?us-ascii?Q?YR69QByxCno7ITYWZj7KaiVzPDja1wT1+62558Oe6yF726aH7qwkc3pl7RYC?=
- =?us-ascii?Q?RYgrQ+wG40niynV2k4b00rjr1HwlzBQ83Cya5ESMkiTgRa2/vOo0xM9Ur6Xp?=
- =?us-ascii?Q?wioHnSYSoSG6fUBTIeRMY4SPBNfIOzZVgm4G6NV/LdUCg9XPVMLjYV5nHDjN?=
- =?us-ascii?Q?Jl8p3sWOy65IVFgcKqZXYOWHeks5ZWAwcroCdKWw949DJQnNbT6zRFImdfwp?=
- =?us-ascii?Q?uGQ/ou/wlERJai40KH6LzGQ7geHJcgEsH+bYp+JmLSgD+IpIpzzSJOICtlmq?=
- =?us-ascii?Q?rl46CpEAzfbO4Jms7VAGo7jXAupTDXy2g6eZ2ID7sl747baGb36HriYq5Qfr?=
- =?us-ascii?Q?e3TTQYAjCbTd1+JjIg8c0eAAqumcSWKMPN67pV48WedNzUFzU2HfxIirXk24?=
- =?us-ascii?Q?MAhHudMsYKomrfwvTzCw0P1Hab5PZ2i+hfHxqeeDxqmUv9zb1TsIkyKvw55x?=
- =?us-ascii?Q?VC/S0aHqWHNnyc499IEPUiNs2QR/ZR8/Fy66fMa3uhjj08HxDhi5zzskApw+?=
- =?us-ascii?Q?oquItIlpOcr/4JTMzl3TnKxpZFBEb6Gc4rLrXjuJXWSOudCh38aNw81afdck?=
- =?us-ascii?Q?D1iBI3DTVhDlFn3FoBzOJo+SAUiYTlwXyOCY5MNCnnn/cgEr?=
-Content-Type: multipart/alternative;
-	boundary="_000_DM4PR11MB6189B970157EBF5263B88BB3C4C32DM4PR11MB6189namp_"
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
+In-Reply-To: <DK2FFQBSC7HA.15XI81YMBOZY@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0073.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b3::6) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DM4PR11MB5325:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6109d1b0-4988-4f33-bf78-08dee624b442
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 
+	Z5LRhblaDe1bhsy6mAgb5zXybjpbjfvpWM3dtHSFK2ugvWWvF9vXN8cbKGcBocZVdv0JD3J2T78b7PwY6ymxGNBYJWMJciJki5AawffViiMW8uhv5h8Yqyas6QHupPlselM9F1d5++QQya/tFxtFZqkdJdXN3RKQAIgt1vKSnkwjTb1PNTJgpPWbF4ZcumrJrtMRKW9bt8+fjaTKOL/8T7vld0e/kDuUhYbmX35+8f1dN3EWRHAbl7QZJ5W1nyyAzdEWj3mOmuZBf4MCexMtk0j86huUfemGtQHUqjVgLJlrBKIiXDbHrAQwpfaUxjAp3RwOwSQE7quQ1bgS6tPQfWmeE4gHyyJBA0BWKUmT4OzCCEzwkPx8aikHHyDwR4zxDDvDkqwfm+pHA19Hbr96eiCLMPK9QxbKj6WujLucXChv3isclKFg5ZFrAyB1jRuAGqVG55Z3XARURtzSkoK3+1vXuP2iHJBcNKQlrsdBtP3cGp8Nv/4YymjkH/wHB8nlNdzVOclfZi5vbcEn9vzRvaCJ7akULqDzzAseie4RinUe7/rkBum++hbgd2QPGr+es4Y0Siz8sh//0pW6uwa1Wb0kiQ1qMTEgXDzwgV/kh0I=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?SURWTzFnQUpMK0MzaHNDaTcyM2QwRHl2V0k5NkJsVVkwRmZBWjVCSE9XYnh5?=
+ =?utf-8?B?cUUwTnVVNVFJYkgxZGo3VXBQRWRYZkJFM2hMWmYxd3BQeWptYktXM3pWdzBt?=
+ =?utf-8?B?U1NOYzJzUXZaSUJWMVZ5R1p3TEMvUXhrckpuSHoxVHJkRW1xZ2VvN3RpSXdO?=
+ =?utf-8?B?NkZoaFVTWUczdnY1TkxJVUl1RWZVRTg1ajRMMlBsbUdtZ1orWlUxa2FQYlpJ?=
+ =?utf-8?B?OW1uR2dUcDQwNHJ3bFNLdkltKytkMEd2bndDbXQwTGJKUy9zbkVkTG1sdmo1?=
+ =?utf-8?B?U1dTM2g1dTk1N3Z3YkZrTHZuRGNUQkU2dVBLcjg5NTV6UjFoK0JWZlpBVCtK?=
+ =?utf-8?B?Q0hLZ3VlL1RCUHdkZUg3RVVGRVNuMEVXMXBhT0Q0RzMvdXlKT1Y1akVKUU1D?=
+ =?utf-8?B?YlhDOGxhamxlamltYVlNN1JCdmVIclg3YXM0N1FTOG9KYUFoU2ZoTzR5LzVT?=
+ =?utf-8?B?QnpmditFVFRSSkxvMXo4QllNZ1hScm94OEpJWThRZzA4dEUyamV3bXlabVgx?=
+ =?utf-8?B?enRUSjhzNmtuRG5BUndQT2Qyc2hXeTVDUUlWdlFvRGQxZGdTSEJIUkxEZTNS?=
+ =?utf-8?B?TFVxZUZrdTRDK016N1RrS0p1L1c3WnB3dUR4TVUyZHhINU5wTUlPUzZVWHhw?=
+ =?utf-8?B?blNIYnNTUWhwaG9WV3ZUQTZEbGEwZ25Gbjd1bnIyU1lMUmRTanM5cHdRTytF?=
+ =?utf-8?B?d0k3MTdMTWhRR1NpbTVPTEZmR0cxUEJJazdjb0FrK0VUSGQ3OVdLMTM0N21O?=
+ =?utf-8?B?YmxJdjhnTXVPVUkvUmJBdTJmTlR3dTFSOHJzQ2Z1eXg3Yng1aUZCNEJaS0Nm?=
+ =?utf-8?B?TjNmU1NXNG9QUXZHQ3k1cXh0emVNV2FickhTR2NpZnozcHgzQnMwbFBzYklF?=
+ =?utf-8?B?OG1CYkRXSytiK0wxcWRlU2tKRVZDeExpakFSVnR0bEloRFExL2xqdUNyMkhl?=
+ =?utf-8?B?VnBzUEtEdHk2MHNCeU9lRTI0WlpFREkwdG1sMW8yd3l6UzlyVlRVaGtuYnhC?=
+ =?utf-8?B?d1l6dzhObVpYNFp3eXJxSHk4aVFFZGdEeHRtNmEzQmJYdmVEQkN4bFByRENW?=
+ =?utf-8?B?M3Zva1lCakYrTStIL2F2eGRmaytXaHpGMTFkRnk2dlUvcDhwekhjNmhIT0RP?=
+ =?utf-8?B?NzUyb2VUcDRINHNab3NoNDI5NHVhVXJxeUFvcjFKME8ydTUxcnRBU0xybzhm?=
+ =?utf-8?B?T1JaWU1RUFd4QUxUV3phQ3p3SFFrRWxxMUF1c1JlRjdLelFHSGdzZmpGNzAr?=
+ =?utf-8?B?OFhtTnUvcmI1TGNGYlZ5RkJuTGxjN290OVRHRkZkcEZtaC9LNGJrdEgzTXhy?=
+ =?utf-8?B?MDd4bEp3U2N4YjlzU3ZIdW45aXJJdFB3VUJlb2RnV3BXZGRoOWRoVlFnN0pk?=
+ =?utf-8?B?UW43dC9KY2xpWEQ5OE9nM0NNWkhUV0VTK0JCMU1ZMTZSM3JwS0lKM0txRmF6?=
+ =?utf-8?B?YVYrZHFHcExRVDRJbDZXZWg4ZDA3N21MTEhIeG1wYTIwdlZETmt3MU1pV3ZQ?=
+ =?utf-8?B?ZmxIK2dlTTJYSVM1Ymw1cStPbmF0elBTUUk3UjUxTUVkSnAzL3lRMFF3U1FG?=
+ =?utf-8?B?ZCt1V21TeUR1RHpIM1dmOVZrU2RmZU9iSHlXT2JoQWcvV2pwbncxRXFBNy8v?=
+ =?utf-8?B?Y2dIMm1tTGlOVkRpc0U4MkE1Qzd4cEdQemdvVUdNYVQ1UjFTa1Nad09Da1k5?=
+ =?utf-8?B?OERzZGRxd2djWGV1MVdNcmN2VHBNUXdLdzFiditJSitOVXZaQ0tpWHREMHZM?=
+ =?utf-8?B?MFk4bTY0blVnUmlZa0grQldkeDFpNzRtREQrSkVrWkZnNzF0THJCb1lXVWVs?=
+ =?utf-8?B?QW5jMkFRY0g2NDlaOHRZWGphWnBCcEpOZHp3aExoZHpPUVZSOXRGTFJEdWYw?=
+ =?utf-8?B?bXY5V1ZyeDFBSFpwS20rU0pFYTZXNHFhSVYzVnhCcHJ1bVp0cnFuV0xlN1Mz?=
+ =?utf-8?B?cXJUMFlzRE0wNmExSUZTY0VUTytsZHdtbGM4S0VBQnphZDZrSjIxZlJDREpT?=
+ =?utf-8?B?bFU2ckJIMVVXNXpBVEI3WjBoMGM0UmgyQmZaYnpXV2d0clFwVkRLdjBJbzMr?=
+ =?utf-8?B?QVU3OEFuVDZZeHhaNyttYnBhM09iK3B1NVV4c0YyY2xhenFKWitOMGtGaVJj?=
+ =?utf-8?B?Y0QrUy9PRU9PMXZ2NDVjdzZJdGM5M3lCUEdKamcwRHRseVpSMXJIZ0c0T255?=
+ =?utf-8?B?bGFoZkZEZkJoc1hmZ2JXa0pwMlZKM1dqKzVuNjBDUXpJS1Rqd2tub3AzNlJ5?=
+ =?utf-8?B?c253L2pCcE9kSEJ0ck01RHhvdHFIVjN1RzE2ODh2VW80NXV1Qk1wNjFLOWl5?=
+ =?utf-8?B?VE1kZ0J3UkVKQy91aXZHZ3hMUFVPVEpqQXlrRk1FY0VzUWRZTGhjdVNWQ2Fa?=
+ =?utf-8?Q?hvzaFQp0gl7CgWy4=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	Lf9WHZCyoTASvivL4ImWdMsm49UUGckfFJaOOCok3jvlrvq/of0g1/ejm9KOq5sYwFgeA0xRWrpvAgn+y53W35dQN7SUoNlPBDrYtLulVeigTR2UB4pKMXTSFb9mV1dn5hHMbCTR/51mmDgEBVJor2XyrK7QgRG5EGGBAIu+SdxT4sch8xAiHpXAG8V2KC48axb6aUBnTprfvCxG+bGl2tmX3yePnc4n1hHZatAW7LuLuOZLOQzCP5RlsB+A1LxchQNziiKyFPBT8orI46pgaQrRm7WNy/oXobCP8Wu6PRHRQpLAlYcYLiqLkQi05LKNLVAU3z6IrZXf88C67Jcxew==
-X-OriginatorOrg: cisco.com
+	a9yYQFUYqK9xOg6DjiPFoYgpX5NwIEWahQODJSz3Ks4cm0yMxfyn26mxtl1yc8KBizJ9b95s1fTmrc/nFtXkWjCoTSENKQ3iO4LeVKpvn+jr5eQio4dGudUkekjQMFORE/K2MDls77eiq31N/BnoUHmYOHm50fag9E/Rb8E+9wQgsKzi/mU8cFhfOf6c4uuqP5PV87Zs+MjBAisgIHziG0pvLqZspQQejnqoQXA8A0T6YHQFFdmgS2yXabNNIiB5vdSDYoalFenDNipcerPegGXvTBiJ5fwjjH0jh0SK50kxdZ3OGk6rg/k4MkQQAIBqAp6JArlkgQp43Si3vXqNTw==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6109d1b0-4988-4f33-bf78-08dee624b442
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6189.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e02a353c-1911-4610-e3f5-08dee622c365
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2026 05:50:11.4162
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 06:04:05.3810
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9nKD9das5A4qcmQwyPeRx34rJM4tNFtQeW9PltdXEm6+CLkgIV1+E4xJx7YXzDW9myLAONEqnBkSx9vrBvJmVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR11MB9943
-X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-2.cisco.com [173.37.147.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 173.37.147.250, alln-opgw-2.cisco.com
-X-Outbound-Node: alln-l-core-06.cisco.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sYCUtuH/jIfZuUrO7f8KoX3XrV1AmgHBL43UUZfiWVXEdua4wUZsOU8BpjYH4uxkIoUMJ6AWXWqKQvvrM00QVeUcKeAnXehEQlO7PUZUm9I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5325
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDA2NSBTYWx0ZWRfX96G2PL6mxvYQ
+ TUsDryV7ENDKLIhT1HF2wdEcm1tercPEhcio+DBUlFHWlhjcLDzw4OStvd6um6LKMizQoSHC5Oc
+ v8RkE0+oo2vF/tvksXHQPHNmka42pBseHm4KR2wel5fNJHa0a3qw
+X-Proofpoint-GUID: DLHN66v4pssrOzOf5xlirchiX30rEedQ
+X-Proofpoint-ORIG-GUID: u4XllI2ECJMEwlg5FXXqpVH13EeiKwpN
+X-Authority-Analysis: v=2.4 cv=XdO5Co55 c=1 sm=1 tr=0 ts=6a5dba58 cx=c_pps
+ a=PojWdYBvulneKNx6glcDcw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
+ a=PYnjg3YJAAAA:8 a=CCpqsmhAAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
+ a=rhwfdOtkBrv107JmM3MA:9 a=QEXdDO2ut3YA:10 a=ul9cdbp4aOFLsgKbc677:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDA2NSBTYWx0ZWRfX4STKZLQIAGIL
+ 9gMfy6L+CvyLPLfDIYPzyXZECBPjszmjcy6muMzCMQMbXr8oz+lzMeEW13cwpk30SZ1pnpmk2HW
+ yaS5iO+EaBh1zHVNcFBbDHx52MsDMxAF3f1Vn/erXnjjB4u03XHvu09tVnM2ZBt1/VyYC9B1DIv
+ ccKkSnybgxduHPWBYpZ5ZMrENul7vksxmVVAuE9azKvbyg5LsCQFNhVAOIsBYSH3FttFDiP2RlP
+ I/uyUsM+VNCQ+x4GgVAm6CNSr8844lgKGUDGZcWT+IeLlLcVxawXG4MR/5vvb3RMRn7QZaGP6KO
+ xTrRd6wJ01ipqF3VJCgCD2EhJlzfSwknkQue7Rj3YCepPwewBsNLMZIf1BbEIkf0vNinl/D4i8n
+ kcda2fODsawuqzoZRlsBc2Cyp7jiiaw9ZGTS1pWC3JXc9/YpVMiXGLtfl3oK3pJSFQvSn0X75Gu
+ /McLIIRFvLQeW+CJv0Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-19_08,2026-07-17_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ malwarescore=0 clxscore=1015 phishscore=0 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607200065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 05:50:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241323
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 06:04:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241324
 
---_000_DM4PR11MB6189B970157EBF5263B88BB3C4C32DM4PR11MB6189namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 19-07-2026 02:36 pm, Yoann Congal wrote:
 
-Thanks, Yoann, for the update.
-
-Regards,
-Deepak
-________________________________
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
-congal=3Dsmile.fr@lists.openembedded.org>
-Sent: Monday, July 20, 2026 4:26 AM
-To: Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco) <de=
-eratho@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-c=
-ore@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH 1/6] glib-2.0: fix CVE-2026-58010
-
-On Wed Jul 15, 2026 at 7:23 PM CEST, Deepak Rathore via lists.openembedded.=
-org wrote:
-> From: Deepak Rathore <deeratho@cisco.com>
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
 >
-> This patch applies the upstream 2.86.5 backport for
-> CVE-2026-58010. The upstream fix commit is referenced in [1],
-> and the public CVE advisory is referenced in [2].
+> On Tue Jul 14, 2026 at 2:53 PM CEST, Paul Barker via lists.openembedded.org wrote:
+>> On Mon, 2026-07-06 at 02:06 -0700, Harish.Sadineni@windriver.com wrote:
+>>> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>>>
+>>> CVE-2025-69648 was marked as a duplicate of CVE-2025-69646. The
+>>> existing patch already fixes the issue associated with both CVEs.
+>> Hi Harish,
+>>
+>> Where was this marked as a duplicate? We need a link to some evidence of
+>> this, or at least a more thorough explanation.
+> Hello,
 >
-> [1] https://gitlab.gnome.org/GNOME/glib/-/commit/aa1cb87d56111ef989811e82=
-4f0ac77484cc997f
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-58010
+> FYI, when reviewing this I took the fact that both NVD entries[0][1] point to the
+> same patch[2] as proof of duplication (albeit weak).
 >
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> [0]: https://nvd.nist.gov/vuln/detail/CVE-2025-69648
+> [1]: https://nvd.nist.gov/vuln/detail/CVE-2025-69646
+> [2]: https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=598704a00cbac5e85c2bedd363357b5bf6fcee33
+Hi Paul, Yoann,
 
-Hello,
+Here's more concrete evidence of the duplication:
 
-FYI, I will merge [wrynose][PATCH] glib-2.0: upgrade 2.88.0 -> 2.88.2
-https://lore.kernel.org/openembedded-core/20260719221822.3458326-1-peter.ma=
-rko@siemens.com/T/#u
-first, then this series.
+Bugzilla bug 33641 (assigned CVE-2025-69648) has been resolved as a 
+duplicate of bug 33638 (assigned CVE-2025-69646):
 
-Thanks!
---
-Yoann Congal
-Smile ECS
+https://sourceware.org/bugzilla/show_bug.cgi?id=33641
 
+Do you want me to send a v2 with this info added to the commit message, 
+or is this sufficient as-is?
 
---_000_DM4PR11MB6189B970157EBF5263B88BB3C4C32DM4PR11MB6189namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+Thanks,
+Harish
 >
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Thanks, Yoann, for the update.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Regards,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Deepak</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
-alf of Yoann Congal via lists.openembedded.org &lt;yoann.congal=3Dsmile.fr@=
-lists.openembedded.org&gt;<br>
-<b>Sent:</b> Monday, July 20, 2026 4:26 AM<br>
-<b>To:</b> Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cis=
-co) &lt;deeratho@cisco.com&gt;; openembedded-core@lists.openembedded.org &l=
-t;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core][scarthgap][PATCH 1/6] glib-2.0: fix CVE-2026-=
-58010</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Wed Jul 15, 2026 at 7:23 PM CEST, Deepak Rathor=
-e via lists.openembedded.org wrote:<br>
-&gt; From: Deepak Rathore &lt;deeratho@cisco.com&gt;<br>
-&gt;<br>
-&gt; This patch applies the upstream 2.86.5 backport for<br>
-&gt; CVE-2026-58010. The upstream fix commit is referenced in [1],<br>
-&gt; and the public CVE advisory is referenced in [2].<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/aa1cb87d56=
-111ef989811e824f0ac77484cc997f">
-https://gitlab.gnome.org/GNOME/glib/-/commit/aa1cb87d56111ef989811e824f0ac7=
-7484cc997f</a><br>
-&gt; [2] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-58010">https:=
-//nvd.nist.gov/vuln/detail/CVE-2026-58010</a><br>
-&gt;<br>
-&gt; Signed-off-by: Deepak Rathore &lt;deeratho@cisco.com&gt;<br>
-<br>
-Hello,<br>
-<br>
-FYI, I will merge [wrynose][PATCH] glib-2.0: upgrade 2.88.0 -&gt; 2.88.2<br=
+> Regards,
+> --
+> Yoann Congal
+> Smile ECS
 >
-<a href=3D"https://lore.kernel.org/openembedded-core/20260719221822.3458326=
--1-peter.marko@siemens.com/T/#u">https://lore.kernel.org/openembedded-core/=
-20260719221822.3458326-1-peter.marko@siemens.com/T/#u</a><br>
-first, then this series.<br>
-<br>
-Thanks!<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_DM4PR11MB6189B970157EBF5263B88BB3C4C32DM4PR11MB6189namp_--
 
