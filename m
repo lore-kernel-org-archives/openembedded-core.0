@@ -1,236 +1,216 @@
-Return-Path: <nora.schiffer@ew.tq-group.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8860C44520
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 12:15:58 +0000 (UTC)
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7570.1784549748262479296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCBD4C44520
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 12:19:48 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7630.1784549986711043712
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 05:15:49 -0700
+ Mon, 20 Jul 2026 05:19:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ew.tq-group.com header.s=default2602 header.b=R29dodj4;
- spf=pass (domain: ew.tq-group.com, ip: 188.40.3.216, mailfrom: nora.schiffer@ew.tq-group.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=VR4nSkspZrtkvni0nW/OwcvHiMF86y1IyKC97qt3kSs=; b=R29dodj4mRwd47STz+ODXjS64s
-	46WppqAA2TWAVHAUa/zZkai4FEnO2ckVwZelkpr/wCV2HkBYuDKfQzxVhrm71KvdAPSwp7hzZvG4Y
-	Rkzts2vW/TL4UDQlKs8sZN/QANQz1v4dt0hhHvdH+9kDSgwRsebtbk+NIF2Dh2NTZ+aX3mgD8YFMb
-	1Sqz+bvbJCKGE4NbUBy0AxjgJSxOoq1Jyj8w2QpW5Y/jTFOq/WHWiRHgg+WzA4gZo39Og7+xSayX1
-	lv2oOWr6of2BC153/6+0RZ4ZouIeCx/jPnRXTmWxLR9efEya8JukVLeIkfUv7/1L4MZP3ieC4ebFa
-	LMxiCblA==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wlmuP-000Pom-2W;
-	Mon, 20 Jul 2026 14:15:45 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wlmuP-000I0r-0L;
-	Mon, 20 Jul 2026 14:15:45 +0200
-Message-ID: <d3e5931d9ece33231a4fd859bc45089e262f298d.camel@ew.tq-group.com>
-Subject: Re: [OE-core] [PATCH 2/2] kernel-fit-image: introduce FIT_OS
- variable to override 'os' field
-From: Nora Schiffer <nora.schiffer@ew.tq-group.com>
-To: adrian.freihofer@gmail.com, openembedded-core@lists.openembedded.org
-Cc: oss@ew.tq-group.com
-Date: Mon, 20 Jul 2026 14:15:44 +0200
-In-Reply-To: <c0cfb5e9731b9c7c679ad353fb04ac32e118c1ab.camel@gmail.com>
-References: <cover.1783422721.git.nora.schiffer@ew.tq-group.com>
-	 <30d89efad3d693785555868ea8c7f1c7b7b5cf46.1783422721.git.nora.schiffer@ew.tq-group.com>
-	 <c0cfb5e9731b9c7c679ad353fb04ac32e118c1ab.camel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=kpWA7cTL;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=7098; q=dns/txt;
+  s=iport01; t=1784549986; x=1785759586;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=ePfl5WLGVXqr4vYtB41l1ulrRpE4Vo1vLQoTfnFmc2I=;
+  b=kpWA7cTLBLZvvXRnRATKSKQbynkTUrJBIwH4i/RohtZGmXmfMLHUiBIm
+   z6qMt/CX66751dQGAu0BptB4iwTTWoAC9aM2mpcObSexdmjvs2OlvpOZ0
+   2RuYTZWSMoBN4NyyxcSmAClJJ+fNZkY6MPiYvVPKe+5VvepWLCmneVD9s
+   c5k/xv+Mazc9Y2niaw2gpHiQ+eQ1gVD7pMSjMZfEC3eaxzc1Jy+19Gxrs
+   eDnqAjOTVjkpTSJ/RX0a+VeSwmVxAiL7vMOg9dh/DD3BHzlQJOETw+cRi
+   1IiLfZ3qt5pD601+avu+zKBO7yrj9FIvdYljZPb1rLm1NmEMrfsSZhSul
+   Q==;
+X-CSE-ConnectionGUID: 9t8oaghvQM+6stiWZQOA4g==
+X-CSE-MsgGUID: vkI45o85QLCFOomNqt7Q7Q==
+X-IPAS-Result: =?us-ascii?q?A0BhAwAfEl5q/5H/Ja1aglmDS19CSZQpgiEDnhuBfg8BA?=
+ =?us-ascii?q?QEPRA0EAQGEP0YCjVMCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2GWwIBAzIBGAEbIiAxKysRCIMCAYJ0AxG9FoIsgQGDKAGBVNs6F?=
+ =?us-ascii?q?YE4hT+IIHWEfCcbG4FyhH6CYQKBSgeGVASCDRV6EoN1hSqIR0iBHgNZLAFVE?=
+ =?us-ascii?q?w0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYEdgTqBAoR0Ix8DOX+BL3VKdy1qE?=
+ =?us-ascii?q?heBJoISAoE7AgcDCxgNSBEsNxQZBD5uB408I4I/ATAMUQEHJFx7Ji8YkyCQH?=
+ =?us-ascii?q?YIeoRIKKIN1jCGVOhozqmyZCI4KlWgLDVCEaYFoPIFDDwdwFTuCZwlKGQ+SI?=
+ =?us-ascii?q?8hFPDUCCTICBwIHDgMLkWkBJoFWAQE?=
+IronPort-Data: A9a23:KMXuy6+rivmZxLjvvDpeDrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3y
+ mFJXWiPafqIY2v2f9slPtnj/ElTsJWByIRlGVM4+ShEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mvyyHjEAX9gWAsbThMs//rRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2lnId0f8+l3H1hrt
+ qIDNDEyXCmkrr65lefTpulE3qzPLeHxN48Z/3UlxjbDALN+EdbIQr7B4plT2zJYasJmRKmFI
+ ZFGL2AyMVKZP0An1lQ/UPrSmM+ki3TleiFYr3qepLE85C7YywkZPL3FbYOPIoPXHZ8F9qqej
+ nzF3jikBUFHDfi05x2C91S1mrD2whquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjhCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:m2F6Y6mpIS7qh1ek+juWkwIIbrHpDfIA3DAbv31ZSRFFG/Fw8P
+ re+MjzuiWbtN98YhwdcJW7Scq9qBDnhPtICPcqXItKNTOO0ADDEGgh1/qB/9SKIULDH4BmuZ
+ uIC5IfNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
+X-Talos-CUID: 9a23:X55cVW3arbsbqCOgYywxmbxfS9x1dXTSzGnpBgzmEnpod4+sbnbM9/Yx
+X-Talos-MUID: 9a23:SVcADQZbKBAPmeBTqTzN2GxlZJpRx4+AL0cIt4wa5PDbDHkl
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
+   d="scan'208";a="512075028"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 12:19:45 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 61FEF180001D4
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:19:45 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id 7EDB2CC037D; Mon, 20 Jul 2026 17:49:43 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][wrynose][PATCH v2 00/10] expat: Security fixes
+Date: Mon, 20 Jul 2026 17:46:05 +0530
+Message-Id: <20260720121615.2520859-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260710130809.2817559-1-deeratho@cisco.com>
+References: <20260710130809.2817559-1-deeratho@cisco.com>
 MIME-Version: 1.0
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28066/Mon Jul 20 08:24:24 2026)
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:15:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241376
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:19:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241377
 
-T24gU3VuLCAyMDI2LTA3LTE5IGF0IDIxOjM3ICswMjAwLCBhZHJpYW4uZnJlaWhvZmVyQGdtYWls
-LmNvbSB3cm90ZToKPiBPbiBUdWUsIDIwMjYtMDctMDcgYXQgMTM6MjkgKzAyMDAsIE5vcmEgU2No
-aWZmZXIgdmlhCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToKPiA+IFUtQm9vdCBjYW4g
-bG9hZCBhbiBFRkkgYXBwbGljYXRpb24gZnJvbSBhIEZJVCBpbWFnZTsgdGhpcyByZXF1aXJlcwo+
-ID4gc2V0dGluZyB0aGUgT1MgdG8gImVmaSIgKHVzdWFsbHkgaW4gY29tYmluYXRpb24gd2l0aCB0
-eXBlCj4gPiAia2VybmVsX25vbG9hZCIpLiBEb2luZyBzbyBpcyBhIGNvbnZlbmllbnQgYXBwcm9h
-Y2ggZm9yIGdpdmluZyB0aGUgT1MKPiA+IGFjY2VzcyB0byBFRkkgc2VydmljZXMgd2hpbGUgcHJl
-c2VydmluZyBvdGhlciBiZW5lZml0cyBvZiBGSVQgaW1hZ2UKPiA+IGJvb3QuCj4gPiAKPiA+IFNp
-Z25lZC1vZmYtYnk6IE5vcmEgU2NoaWZmZXIgPG5vcmEuc2NoaWZmZXJAZXcudHEtZ3JvdXAuY29t
-Pgo+ID4gLS0tCj4gPiDCoG1ldGEvY2xhc3Nlcy1yZWNpcGUva2VybmVsLWZpdC1pbWFnZS5iYmNs
-YXNzIHzCoCAzICsrLQo+ID4gwqBtZXRhL2NvbmYvaW1hZ2UtZml0aW1hZ2UuY29uZsKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNCArKysrCj4gPiDCoG1ldGEvbGliL29lL2ZpdGlt
-YWdlLnB5wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMTEgKysr
-KysrLS0tLS0KPiA+IMKgbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9maXRpbWFnZS5wecKg
-wqDCoMKgIHwgMTMgKysrKysrKysrKystLQo+ID4gwqA0IGZpbGVzIGNoYW5nZWQsIDIzIGluc2Vy
-dGlvbnMoKyksIDggZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNz
-ZXMtcmVjaXBlL2tlcm5lbC1maXQtaW1hZ2UuYmJjbGFzcwo+ID4gYi9tZXRhL2NsYXNzZXMtcmVj
-aXBlL2tlcm5lbC1maXQtaW1hZ2UuYmJjbGFzcwo+ID4gaW5kZXggNDQ4YTg4Y2NiMS4uODk5NTE2
-ZTM3MiAxMDA2NDQKPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy1yZWNpcGUva2VybmVsLWZpdC1pbWFn
-ZS5iYmNsYXNzCj4gPiArKysgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL2tlcm5lbC1maXQtaW1hZ2Uu
-YmJjbGFzcwo+ID4gQEAgLTY5LDcgKzY5LDggQEAgcHl0aG9uIGRvX2NvbXBpbGUoKSB7Cj4gPiDC
-oMKgwqDCoCAjIENvbGxlY3QgYWxsIHRoZSBpdHMgbm9kZXMgYmVmb3JlIHRoZSBpdHMgZmlsZSBp
-cyBnZW5lcmF0ZWQgYW5kCj4gPiBta2ltYWdlIGdldHMgZXhlY3V0ZWQKPiA+IMKgwqDCoMKgIHJv
-b3Rfbm9kZSA9IG9lLmZpdGltYWdlLkl0c05vZGVSb290S2VybmVsKAo+ID4gwqDCoMKgwqDCoMKg
-wqDCoCBkLmdldFZhcigiRklUX0RFU0MiKSwgZC5nZXRWYXIoIkZJVF9BRERSRVNTX0NFTExTIiks
-Cj4gPiAtwqDCoMKgwqDCoMKgwqAgZC5nZXRWYXIoJ0hPU1RfUFJFRklYJyksIGQuZ2V0VmFyKCdV
-Qk9PVF9BUkNIJykswqAKPiA+IGQuZ2V0VmFyKCJGSVRfQ09ORl9QUkVGSVgiKSwKPiA+ICvCoMKg
-wqDCoMKgwqDCoCBkLmdldFZhcignSE9TVF9QUkVGSVgnKSwgZC5nZXRWYXIoJ1VCT09UX0FSQ0gn
-KSwKPiA+IGQuZ2V0VmFyKCdGSVRfT1MnKSwKPiA+ICvCoMKgwqDCoMKgwqDCoCBkLmdldFZhcigi
-RklUX0NPTkZfUFJFRklYIiksCj4gPiDCoMKgwqDCoMKgwqDCoMKgIG9lLnR5cGVzLmJvb2xlYW4o
-ZC5nZXRWYXIoJ0ZJVF9LRVJORUxfU0lHTl9FTkFCTEUnKSksCj4gPiBkLmdldFZhcigiRklUX0tF
-Uk5FTF9TSUdOX0tFWURJUiIpLAo+ID4gwqDCoMKgwqDCoMKgwqDCoCBkLmdldFZhcigiVUJPT1Rf
-TUtJTUFHRSIpLAo+ID4gZC5nZXRWYXIoIlVCT09UX01LSU1BR0VfRFRDT1BUUyIpLAo+ID4gwqDC
-oMKgwqDCoMKgwqDCoCBkLmdldFZhcignRklUX01LSU1BR0VfRVhUUkFfT1BUUycpLAo+ID4gZGlm
-ZiAtLWdpdCBhL21ldGEvY29uZi9pbWFnZS1maXRpbWFnZS5jb25mIGIvbWV0YS9jb25mL2ltYWdl
-LQo+ID4gZml0aW1hZ2UuY29uZgo+ID4gaW5kZXggMmZkYjgxNmQ1NS4uYTA2ZDMwZTQ5NCAxMDA2
-NDQKPiA+IC0tLSBhL21ldGEvY29uZi9pbWFnZS1maXRpbWFnZS5jb25mCj4gPiArKysgYi9tZXRh
-L2NvbmYvaW1hZ2UtZml0aW1hZ2UuY29uZgo+ID4gQEAgLTM3LDYgKzM3LDEwIEBAIEZJVF9DT05G
-X1BSRUZJWFtkb2NdID0gIlByZWZpeCB0byB1c2UgZm9yIEZJVAo+ID4gY29uZmlndXJhdGlvbiBu
-b2RlIG5hbWUiCj4gPiDCoAo+ID4gwqBGSVRfU1VQUE9SVEVEX0lOSVRSQU1GU19GU1RZUEVTID89
-ICJjcGlvLmx6NCBjcGlvLmx6byBjcGlvLmx6bWEKPiA+IGNwaW8ueHogY3Bpby56c3QgY3Bpby5n
-eiBleHQyLmd6IGNwaW8iCj4gPiDCoAo+ID4gKyMgb3MgZmllbGQgb2YgdGhlIGtlcm5lbCBhbmQg
-dmFyaW91cyBvdGhlciBpbWFnZXMgaW4gdGhlIEZJVCBpbWFnZS4KPiA+IFNldCB0byAiZWZpIgo+
-ID4gKyMgdG8gbG9hZCBhIGtlcm5lbCB3aXRoIEVGSSBzdHViIGFzIGFuIEVGSSBhcHBsaWNhdGlv
-bi4KPiA+ICtGSVRfT1MgPz0gImxpbnV4Igo+ID4gKwo+ID4gwqAjIEFsbG93IHVzZXIgdG8gc3Vw
-cG9ydCBzcGVjaWFsIHVzZSBjYXNlcyB3aGVyZSB0aGUga2VybmVsIGJpbmFyeSBpcwo+ID4gwqAj
-IG5vdCBpbmNsdWRlZCBpbiB0aGUgRklUIGltYWdlIGl0c2VsZi4KPiA+IMKgIyBUaGlzIGlzIHBh
-cnRpY3VsYXJseSB1c2VmdWwgZm9yIFVLSS1iYXNlZCBzZXR1cHMsIHdoZXJlIHRoZSBrZXJuZWwK
-PiA+IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZS9maXRpbWFnZS5weSBiL21ldGEvbGliL29lL2Zp
-dGltYWdlLnB5Cj4gPiBpbmRleCA4MWQxOGY2YzkxLi44NmEwZTQ0ZTEyIDEwMDY0NAo+ID4gLS0t
-IGEvbWV0YS9saWIvb2UvZml0aW1hZ2UucHkKPiA+ICsrKyBiL21ldGEvbGliL29lL2ZpdGltYWdl
-LnB5Cj4gPiBAQCAtMTUzLDcgKzE1Myw3IEBAIGNsYXNzIEl0c05vZGVSb290S2VybmVsKEl0c05v
-ZGUpOgo+ID4gwqDCoMKgwqAgSWYgYSBkZXZpY2UgdHJlZSBpbmNsdWRlZCBpbiB0aGUgRklUIGlt
-YWdlLCB0aGUgZGVmYXVsdAo+ID4gY29uZmlndXJhdGlvbiBpcyB0aGUKPiA+IMKgwqDCoMKgIGZp
-cnQgRFRCLiBJZiB0aGVyZSBpcyBubyBkdGIgcHJlc2VudCB0aGFuIHRoZSBkZWZhdWx0Cj4gPiBj
-b25maWd1YXRpb24gdGhlIGtlcm5lbC4KPiA+IMKgwqDCoMKgICIiIgo+ID4gLcKgwqDCoCBkZWYg
-X19pbml0X18oc2VsZiwgZGVzY3JpcHRpb24sIGFkZHJlc3NfY2VsbHMsIGhvc3RfcHJlZml4LAo+
-ID4gYXJjaCwgY29uZl9wcmVmaXgsCj4gPiArwqDCoMKgIGRlZiBfX2luaXRfXyhzZWxmLCBkZXNj
-cmlwdGlvbiwgYWRkcmVzc19jZWxscywgaG9zdF9wcmVmaXgsCj4gPiBhcmNoLCBvcywgY29uZl9w
-cmVmaXgsCj4gCj4gU2hvdWxkIHdlIHVzZSAib3MiIGFzIGEgdmFyaWFibGUgbmFtZT8gV2hhdCBo
-YXBwZW5zIGlmCj4gCj4gaW1wb3J0IG9zCj4gCj4gb3MgPSAiZWZpIiA/Cj4gCj4gb3MucGF0aC5q
-b2luKC4uLikKPiAKPiBUbyBiZSBvbiB0aGUgc2F2ZSBzaWRlLCBJIHdvdWxkIHN1Z2dlc3QgdG8g
-dXNlIGZpdF9vcywgZm9yIGV4YW1wbGUuCj4gCj4gVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guIEkg
-dGhpbmsgdGhpcyBuZWVkcyBhIHYyIGJlY2F1c2Ugb2YgdGhpcwo+IGRldGFpbC4gQnV0IG90aGVy
-d2lzZSBpdCBsb29rcyBnb29kIHRvIG1lLgo+IAo+IFNvcnJ5IGZvciB0aGUgbGF0ZSByZXNwb25z
-ZSwKPiBBZHJpYW4KCkhpIEFkcmlhbiwKCnRoYW5rcyBmb3IgdGhlIHJldmlldy4gQ2hhbmdpbmcg
-dGhlIGlkZW50aWZpZXIgdG8gZml0X29zIG1ha2VzIHNlbnNlIHRvIG1lLCB3aWxsCnVwZGF0ZSBp
-biB2MiBvciBhIGZvbGxvdy11cCBwYXRjaCAoZGVwZW5kaW5nIG9uIHdoZXRoZXIgdGhlIHYxIGN1
-cnJlbnRseSBpbgptYXN0ZXItbmV4dCBtYWtlcyBpdCB0byBtYXN0ZXIgb3Igbm90KS4KCkJlc3Qs
-Ck5vcmEKCgo+IAo+IAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaWdu
-X2VuYWJsZT1GYWxzZSwgc2lnbl9rZXlkaXI9Tm9uZSwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgbWtpbWFnZT1Ob25lLCBta2ltYWdlX2R0Y29wdHM9Tm9uZSwKPiA+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWtpbWFnZV9leHRyYV9vcHRzPU5vbmUs
-Cj4gPiBAQCAtMTcxLDYgKzE3MSw3IEBAIGNsYXNzIEl0c05vZGVSb290S2VybmVsKEl0c05vZGUp
-Ogo+ID4gwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5faG9zdF9wcmVmaXggPSBob3N0X3By
-ZWZpeAo+ID4gwqDCoMKgwqDCoMKgwqDCoCBzZWxmLl9hcmNoID0gYXJjaAo+ID4gK8KgwqDCoMKg
-wqDCoMKgIHNlbGYuX29zID0gb3MKPiA+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5fY29uZl9wcmVm
-aXggPSBjb25mX3ByZWZpeAo+ID4gwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqAgIyBTaWduYXR1cmUg
-cmVsYXRlZCBwcm9wZXJ0aWVzCj4gPiBAQCAtMjc5LDcgKzI4MCw3IEBAIGNsYXNzIEl0c05vZGVS
-b290S2VybmVsKEl0c05vZGUpOgo+ID4gwqDCoMKgwqDCoMKgwqDCoCBvcHRfcHJvcHMgPSB7Cj4g
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImRhdGEiOiAnL2luY2Jpbi8oIicgKyBrZXJuZWxf
-cGF0aCArICciKScsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImFyY2giOiBzZWxmLl9h
-cmNoLAo+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIm9zIjogImxpbnV4IiwKPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgICJvcyI6IHNlbGYuX29zLAo+ID4gwqDCoMKgwqDCoMKgwqDCoCB9
-Cj4gPiDCoMKgwqDCoMKgwqDCoMKgIGlmIGxvYWQ6Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgb3B0X3Byb3BzWyJsb2FkIl0gPSBmIjx7bG9hZH0+Igo+ID4gQEAgLTM3MCw3ICszNzEsNyBA
-QCBjbGFzcyBJdHNOb2RlUm9vdEtlcm5lbChJdHNOb2RlKToKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiZGF0YSI6ICcv
-aW5jYmluLygiJyArIHNldHVwX3BhdGggKyAnIiknLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgImFyY2giOiBzZWxmLl9hcmNoLAo+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAib3MiOiAibGludXgiLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAib3MiOiBzZWxmLl9vcywKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ICJsb2FkIjogbG9hZCwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJlbnRy
-eSI6IGVudHJ5Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQo+ID4gQEAgLTM4NSw3ICsz
-ODYsNyBAQCBjbGFzcyBJdHNOb2RlUm9vdEtlcm5lbChJdHNOb2RlKToKPiA+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAiZGF0YSI6ICcvaW5jYmluLygiJyArIHJhbWRpc2tfcGF0aCArICciKScs
-Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgInR5cGUiOiAicmFtZGlzayIsCj4gPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgImFyY2giOiBzZWxmLl9hcmNoLAo+ID4gLcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgIm9zIjogImxpbnV4Igo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIm9z
-Ijogc2VsZi5fb3MsCj4gPiDCoMKgwqDCoMKgwqDCoMKgIH0KPiA+IMKgwqDCoMKgwqDCoMKgwqAg
-aWYgbG9hZDoKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvcHRfcHJvcHNbImxvYWQiXSA9
-IGYiPHtsb2FkfT4iCj4gPiBAQCAtNDA2LDcgKzQwNyw3IEBAIGNsYXNzIEl0c05vZGVSb290S2Vy
-bmVsKEl0c05vZGUpOgo+ID4gwqDCoMKgwqDCoMKgwqDCoCBvcHRfcHJvcHMgPSB7Cj4gPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgImRhdGEiOiAnL2luY2Jpbi8oIicgKyBmaWxlcGF0aCArICci
-KScsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImFyY2giOiBhcmNoIGlmIGFyY2ggaXMg
-bm90IE5vbmUgZWxzZSBzZWxmLl9hcmNoLAo+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIm9z
-Ijogb3MgaWYgb3MgaXMgbm90IE5vbmUgZWxzZSAibGludXgiLAo+ID4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgIm9zIjogb3MgaWYgb3MgaXMgbm90IE5vbmUgZWxzZSBzZWxmLl9vcywKPiA+IMKg
-wqDCoMKgwqDCoMKgwqAgfQo+ID4gwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqAgaWYgbG9hZDoKPiA+
-IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2ZpdGltYWdlLnB5Cj4g
-PiBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZml0aW1hZ2UucHkKPiA+IGluZGV4IGM1
-ZjI5NzUyMjMuLmQyOGI1Yjg5NjUgMTAwNjQ0Cj4gPiAtLS0gYS9tZXRhL2xpYi9vZXFhL3NlbGZ0
-ZXN0L2Nhc2VzL2ZpdGltYWdlLnB5Cj4gPiArKysgYi9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nh
-c2VzL2ZpdGltYWdlLnB5Cj4gPiBAQCAtNjcwLDYgKzY3MCw3IEBAIGNsYXNzIEtlcm5lbEZpdElt
-YWdlQmFzZShGaXRJbWFnZVRlc3RDYXNlKToKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAn
-RklUX0xPQURBQkxFUycsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ0ZJVF9MT0FEQUJM
-RV9FTlRSWVBPSU5UJywKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnRklUX0xPQURBQkxF
-X0xPQURBRERSRVNTJywKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdGSVRfT1MnLAo+ID4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdGSVRfU0lHTl9BTEcnLAo+ID4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgICdGSVRfU0lHTl9JTkRJVklEVUFMJywKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAnRklUX1VCT09UX0VOVicsCj4gPiBAQCAtOTA0LDcgKzkwNSw3IEBAIGNsYXNzIEtl
-cm5lbEZpdEltYWdlQmFzZShGaXRJbWFnZVRlc3RDYXNlKToKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAjICdjb21wcmVzc2lvbiA9ICInICsKPiA+IHN0cihiYl92YXJzWydGSVRfS0VSTkVM
-X0NPTVBfQUxHJ10pICsgJyI7JywgZGVmaW5lZCBiYXNlZCBvbiBmaWxlcyBpbgo+ID4gVE1QRElS
-LCBub3QgaWRlYWwuLi4KPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnZGF0YSA9IC9pbmNi
-aW4vKCJsaW51eC5iaW4iKTsnLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdhcmNoID0g
-IicgKyBzdHIoYmJfdmFyc1snVUJPT1RfQVJDSCddKSArICciOycsCj4gPiAtwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAnb3MgPSAibGludXgiOycsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAn
-b3MgPSAiJXMiOycgJSBiYl92YXJzWydGSVRfT1MnXSwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAnbG9hZCA9IDwnICsgc3RyKGJiX3ZhcnNbJ1VCT09UX0xPQURBRERSRVNTJ10pICsgJz47
-JywKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnZW50cnkgPSA8JyArIHN0cihiYl92YXJz
-WydVQk9PVF9FTlRSWVBPSU5UJ10pICsgJz47JywKPiA+IMKgwqDCoMKgwqDCoMKgwqAgXQo+ID4g
-QEAgLTE0NjMsNiArMTQ2NCw3IEBAIGNsYXNzIEZpdEltYWdlUHlUZXN0cyhLZXJuZWxGaXRJbWFn
-ZUJhc2UpOgo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdGSVRfS0VZX1NJR05fUEtDUyc6
-ICIteDUwOSIsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ0ZJVF9MT0FEQUJMRVMnOiAi
-IiwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnRklUX0xJTlVYX0JJTic6ICJsaW51eC5i
-aW4iLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ0ZJVF9PUyc6ICJsaW51eCIsCj4gPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ0ZJVF9QQURfQUxHJzogInBrY3MtMS41IiwKPiA+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnRklUX1NJR05fQUxHJzogInJzYTIwNDgiLAo+ID4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgICdGSVRfU0lHTl9JTkRJVklEVUFMJzogIjAiLAo+ID4gQEAg
-LTE1MDMsNyArMTUwNSw4IEBAIGNsYXNzIEZpdEltYWdlUHlUZXN0cyhLZXJuZWxGaXRJbWFnZUJh
-c2UpOgo+ID4gwqAKPiA+IMKgwqDCoMKgwqDCoMKgwqAgcm9vdF9ub2RlID0gb2UuZml0aW1hZ2Uu
-SXRzTm9kZVJvb3RLZXJuZWwoCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYmJfdmFyc1si
-RklUX0RFU0MiXSwgYmJfdmFyc1siRklUX0FERFJFU1NfQ0VMTFMiXSwKPiA+IC3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIGJiX3ZhcnNbJ0hPU1RfUFJFRklYJ10sIGJiX3ZhcnNbJ1VCT09UX0FSQ0gn
-XSzCoAo+ID4gYmJfdmFyc1siRklUX0NPTkZfUFJFRklYIl0sCj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBiYl92YXJzWydIT1NUX1BSRUZJWCddLCBiYl92YXJzWydVQk9PVF9BUkNIJ10sCj4g
-PiBiYl92YXJzWydGSVRfT1MnXSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiX3ZhcnNb
-IkZJVF9DT05GX1BSRUZJWCJdLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9lLnR5cGVz
-LmJvb2xlYW4oYmJfdmFyc1snVUJPT1RfU0lHTl9FTkFCTEUnXSksCj4gPiBiYl92YXJzWyJVQk9P
-VF9TSUdOX0tFWURJUiJdLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiX3ZhcnNbIlVC
-T09UX01LSU1BR0UiXSwKPiA+IGJiX3ZhcnNbIlVCT09UX01LSU1BR0VfRFRDT1BUUyJdLAo+ID4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiX3ZhcnNbIlVCT09UX01LSU1BR0VfU0lHTiJdLAo+
-ID4gYmJfdmFyc1siVUJPT1RfTUtJTUFHRV9TSUdOX0FSR1MiXSwKPiA+IEBAIC0xNjA5LDYgKzE2
-MTIsMTIgQEAgY2xhc3MgRml0SW1hZ2VQeVRlc3RzKEtlcm5lbEZpdEltYWdlQmFzZSk6Cj4gPiDC
-oMKgwqDCoMKgwqDCoMKgIH0KPiA+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5fdGVzdF9maXRpbWFn
-ZV9weShiYl92YXJzX292ZXJyaWRlcykKPiA+IMKgCj4gPiArwqDCoMKgIGRlZiB0ZXN0X2ZpdGlt
-YWdlX3B5X2NvbmZfb3Moc2VsZik6Cj4gPiArwqDCoMKgwqDCoMKgwqAgIiIiVGVzdCBGSVRfT1Mg
-ZnVuY3Rpb25hbGl0eSIiIgo+ID4gK8KgwqDCoMKgwqDCoMKgIGJiX3ZhcnNfb3ZlcnJpZGVzID0g
-ewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ0ZJVF9PUyc6ICJlZmkiLAo+ID4gK8KgwqDC
-oMKgwqDCoMKgIH0KPiA+ICvCoMKgwqDCoMKgwqDCoCBzZWxmLl90ZXN0X2ZpdGltYWdlX3B5KGJi
-X3ZhcnNfb3ZlcnJpZGVzKQo+ID4gwqAKPiA+IMKgY2xhc3MgVUJvb3RGaXRJbWFnZVRlc3RzKEZp
-dEltYWdlVGVzdENhc2UpOgo+ID4gwqDCoMKgwqAgIiIiVGVzdCBjYXNlcyBmb3IgdGhlIHVib290
-LXNpZ24gYmJjbGFzcyIiIgo+ID4gCj4gPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQo+ID4gTGlu
-a3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuCj4gPiBWaWV3
-L1JlcGx5IE9ubGluZSAoIzI0MDM4Myk6Cj4gPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzI0MDM4Mwo+ID4gTXV0ZSBUaGlzIFRvcGlj
-OiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTIwMTU0NDY5LzQ0NTQ1ODIKPiA+
-IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnCj4gPiBVbnN1YnNjcmliZToKPiA+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9n
-L29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViwqBbCj4gPiBhZHJpYW4uZnJlaWhvZmVyQGdtYWlsLmNv
-bV0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCgotLSAKVFEtU3lzdGVtcyBHbWJIIHwgTcO8
-aGxzdHJhw59lIDIsIEd1dCBEZWxsaW5nIHwgODIyMjkgU2VlZmVsZCwgR2VybWFueQpBbXRzZ2Vy
-aWNodCBNw7xuY2hlbiwgSFJCIDEwNTAxOApHZXNjaMOkZnRzZsO8aHJlcjogRGV0bGVmIFNjaG5l
-aWRlciwgUsO8ZGlnZXIgU3RhaGwsIFN0ZWZhbiBTY2huZWlkZXIKaHR0cHM6Ly93d3cudHEtZ3Jv
-dXAuY29tLwo=
+From: Deepak Rathore <deeratho@cisco.com>
 
+This v2 series backports security fixes for Expat 2.7.5 in Wrynose.
+The listed CVEs affect versions before 2.8.2, so this series carries
+the relevant upstream fixes instead of upgrading the stable-branch
+recipe.
+
+Changes in v2:
+- Regenerate the patch mails with the Wrynose subject prefix:
+  [wrynose][PATCH v2 nn/10].
+- Drop the Wrynose-only stdint.h include from CVE-2026-56403_p2.patch
+  and CVE-2026-56410_p1.patch because current Wrynose already provides
+  it through expat.h via OE-Core commit 21042df15008.
+- Remove the now-unnecessary Backport Changes note from
+  CVE-2026-56403_p2.patch and keep only the remaining 2.7.5 context
+  note for CVE-2026-56410_p1.patch.
+- Refresh all the patches on top of latest wrynose branch merge commit.
+
+- CVE-2026-56403: Signed integer overflow in storeAtts namespace URI
+  construction, with related xcsdup overflow hardening from the same
+  upstream pull request. Fixed by adding overflow guards before length
+  conversion, allocation, and copy operations.
+  Upstream: https://github.com/libexpat/libexpat/commit/12dc6d8d3d65f79471a94d8565f6bf1cf245f648
+            https://github.com/libexpat/libexpat/commit/147c8f36d6277d5c6011c098370a8362aed47b15
+
+- CVE-2026-56408: copyString could overflow while calculating the
+  allocation size for a copied string. Fixed by adding the upstream
+  allocation overflow guard while keeping the Wrynose 2.7.5 copyString
+  structure.
+  Upstream: https://github.com/libexpat/libexpat/commit/16e2efd867ea8567ffa012210b52ef5918e20817
+
+- CVE-2026-56404: addBinding could hit signed integer overflow while
+  calculating namespace binding lengths. Fixed by adding upstream
+  length and allocation bounds checks in the binding path.
+  Upstream: https://github.com/libexpat/libexpat/commit/babfc48090977cbf7be24b2c48f6053dca75c164
+
+- CVE-2026-56405: getAttributeId could hit signed integer overflow
+  while sizing attribute ID storage. Fixed by applying the upstream
+  overflow checks around the attribute name allocation.
+  Upstream: https://github.com/libexpat/libexpat/commit/2c6c42d33689f6b266a5267b639e03cde17e53c0
+
+- CVE-2026-56410: xmlwf resolveSystemId could overflow while joining
+  base and system identifiers. Fixed by guarding both the length sum
+  and the allocation multiplication.
+  Upstream: https://github.com/libexpat/libexpat/commit/deeb97f7c88d17a16b0ea2521a13733abc283347
+            https://github.com/libexpat/libexpat/commit/cee20e91bf14dc7f6d2fc48f0d70d86b2dc3afea
+
+- CVE-2026-56406: XML_GetBuffer was missing the overflow protection
+  already used by XML_Parse. Fixed by adding the XML_Index overflow
+  check, with the prerequisite XML_INDEX_MAX helper backported first.
+  Upstream: https://github.com/libexpat/libexpat/commit/252ff1a307b1490ce0f430632791e7e52d7e43fd
+            https://github.com/libexpat/libexpat/commit/99d8454fdf900a6d00c2a52748e6c0eeb507574d
+
+- CVE-2026-56409: xmlwf output path construction could overflow while
+  joining output directory and file name components. Fixed by adding
+  upstream bounds checks before allocation.
+  Upstream: https://github.com/libexpat/libexpat/commit/61f7cdda22546c4bee38dd2d3fa3d6e4aa64d33e
+
+- CVE-2026-56411: xmlwf notation list allocation could overflow while
+  sizing the notation table. Fixed by applying the upstream allocation
+  checks.
+  Upstream: https://github.com/libexpat/libexpat/commit/528a4e5017e1bd3b48b689fd0c131df940ae3ea5
+
+- CVE-2026-56407: Entity textLen handling could exceed signed integer
+  limits. Fixed by capping entity textLen before storing it in the
+  signed field.
+  Upstream: https://github.com/libexpat/libexpat/commit/30c2fc179ce5d2b1b1bae30bbe0dfddeac894e13
+
+- CVE-2026-56132: Shared DTD scaffolding could store past the
+  scaffIndex allocation after parser-specific group sizes diverged.
+  Fixed by tracking scaffIndexSize separately, growing scaffIndex from
+  its actual allocation size, and backporting the regression test and
+  related follow-up cleanups.
+  Upstream: https://github.com/libexpat/libexpat/commit/3a4eaf47af8fd7abda38ea2c08308c91152061f3
+            https://github.com/libexpat/libexpat/commit/58400483d7c97be316d7a77739c0a6af5d55932e
+            https://github.com/libexpat/libexpat/commit/353919b3b9f2174073a557ac7d517a5f3cd0cbbf
+            https://github.com/libexpat/libexpat/commit/bca93b4ba9e15fd84425568d772b69baebf790e4
+            https://github.com/libexpat/libexpat/commit/08baa7ef9d168b99094249998fd78f8d190526e5
+
+Deepak Rathore (10):
+  expat: fix CVE-2026-56403
+  expat: fix CVE-2026-56408
+  expat: fix CVE-2026-56404
+  expat: fix CVE-2026-56405
+  expat: fix CVE-2026-56410
+  expat: fix CVE-2026-56406
+  expat: fix CVE-2026-56409
+  expat: fix CVE-2026-56411
+  expat: fix CVE-2026-56407
+  expat: fix CVE-2026-56132
+
+ .../expat/expat/CVE-2026-56132_p1.patch       | 90 +++++++++++++++++++
+ .../expat/expat/CVE-2026-56132_p2.patch       | 63 +++++++++++++
+ .../expat/expat/CVE-2026-56132_p3.patch       | 77 ++++++++++++++++
+ .../expat/expat/CVE-2026-56132_p4.patch       | 63 +++++++++++++
+ .../expat/expat/CVE-2026-56132_p5.patch       | 58 ++++++++++++
+ .../expat/expat/CVE-2026-56403_p1.patch       | 83 +++++++++++++++++++
+ .../expat/expat/CVE-2026-56403_p2.patch       | 40 +++++++++
+ .../expat/expat/CVE-2026-56404.patch          | 47 ++++++++++
+ .../expat/expat/CVE-2026-56405.patch          | 32 +++++++
+ .../expat/CVE-2026-56406-dependent.patch      | 58 ++++++++++++
+ .../expat/expat/CVE-2026-56406.patch          | 37 ++++++++
+ .../expat/expat/CVE-2026-56407.patch          | 44 +++++++++
+ .../expat/expat/CVE-2026-56408.patch          | 36 ++++++++
+ .../expat/expat/CVE-2026-56409.patch          | 53 +++++++++++
+ .../expat/expat/CVE-2026-56410_p1.patch       | 40 +++++++++
+ .../expat/expat/CVE-2026-56410_p2.patch       | 41 +++++++++
+ .../expat/expat/CVE-2026-56411.patch          | 47 ++++++++++
+ meta/recipes-core/expat/expat_2.7.5.bb        | 17 ++++
+ 18 files changed, 926 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56404.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56405.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56407.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56408.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56409.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56411.patch
+
+-- 
+2.35.6
 
