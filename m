@@ -2,75 +2,75 @@ Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C28EC4452F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE98C44531
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:57:09 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3657.1784570226506229953
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3615.1784570226377132936
  for <openembedded-core@lists.openembedded.org>;
  Mon, 20 Jul 2026 10:57:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=YJPF7e3M;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: devanshp@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VInJyR1i;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3683; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=6098; q=dns/txt;
   s=iport01; t=1784570226; x=1785779826;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=UZgrcunvlJuojD7vSuX1prOrrj3/VbZv5eh0lC69Azk=;
-  b=YJPF7e3Mk4c+k9s0ymojbkOFYlVDaFnV9OcQ6OuBQpPBpNnCHslfUcZq
-   il1cUwNVTDQ2hd9sxZdjs/oG05oZ/ZMpaaKx5FZGXWJSDnRC6+HcysHYs
-   EHbcUKO+tllvyf94Kwb0vm1i/RcTJQ97Sygkcqq9YdVBylX4IKPNa+xCY
-   IgKaBXxknf4QvANl2uheysJ9RzlpNyXlO15/jZsnkwnN/6ZsrUxRCxwly
-   7xwfpJ7Gcmp/FLfg1tSiCLpnvw0rllLvdwxXXgiVFG9QAKNuJteXBhXQu
-   WLUUq9mYTOngTbqhVylVbLFIoBv94nao2DfznzeBKdZw35zJQrenZFBdO
-   w==;
-X-CSE-ConnectionGUID: YF+wAkdQTwetCuIuF7tMXg==
-X-CSE-MsgGUID: rjrt8K08Rvq+/EI6DKUBkw==
-X-IPAS-Result: =?us-ascii?q?A0BIAgCzYF5q/5P/Ja1aglmCV3RfQkmWSgOeG4F+DwEBA?=
- =?us-ascii?q?Q9EDQQBAYQ/RgKNUwImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDYZaAQIBAycLARgBGxIQHAMBAi8rIwgZgwIBgnQCARG7fIF5M4EBg?=
- =?us-ascii?q?ygBPwJDUNsuAQsUAQWBM4U/iCBcGAGEfCcbG4FygRWDaYEFgVwCAgEXgS6GX?=
- =?us-ascii?q?QSCInoSgVoej3RIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBH?=
- =?us-ascii?q?YE6gQKEdCMfAzl/gS91SnctaQESF4EmghICgTsCDgMLGA1IESw3FBkEPm4Hj?=
- =?us-ascii?q?UAjgj8BexMBK4EggQwOpWihDwoog3WMIZU6GjOqbAuYfY4KllCEaYFoPIFZc?=
- =?us-ascii?q?BWDIglKGQ+OOINrhRPJRyQ1CzIBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:0KQXV6/WHfRFuFsgEi8MDrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3z
- GdOCzyFOquDZDCmLY11YYm28RwAup6Am9JjTwU5rX1EQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4mvyyHjEAX9gWAsbThMs/zrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kHE84H0+V7OF1R+
- OAzNREQQE+fotK5lefTpulE3qzPLeHxN48Z/3UlxjbDALN/GdbIQr7B4plT2zJYasJmRKmFI
- ZFGL2AyMVKZP0In1lQ/UPrSmM+ki2f2dSZYsHqepLE85C7YywkZPL3FbYOPIIbbHJsN9qqej
- njE5XipIUlKDsKGin2o0yyApdLlnjyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXzBCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:AZ6OI6k2kYGS/lyv6g7yDUeL1DvpDfL03DAbv31ZSRFFG/FwWf
- rAoB19726StN9/YhAdcLy7VZVoBEmsl6KdgrNhWYtKIjOHhILAFugLhuHfKn/bakjDH4Vmu5
- uIHZITNDTYNykdsS+D2njaL/8QhP+a7auvmeDSi11pTQ1sduVcyj0RMHfjLqWzLzM2fqbQ0/
- Gnl7J6mwY=
-X-Talos-CUID: 9a23:Vwo8Y28piieDaP8bN7aVv386Wd8McXHk8GjdP2SlKHtHF6GweVDFrQ==
-X-Talos-MUID: 9a23:RheC4AXitdEueqfq/CXuni0yF5842bq3SwcgsMsqmPSuNjMlbg==
+  bh=ZpE5IF/kdb6NL/9ti4ooSWs6PRm6vu10DDK37IE+HZ4=;
+  b=VInJyR1iCJEzNgjQNXYJZvwscJ2haQkAcmRSDopURWA82dTy4zA+t1kA
+   zsi8UIOOuzYI8wmzO1WEFyjdLmdqYBGB++xtaeN75A/80bdKEH4HxJ+m8
+   R78rW3A13t/WjXRv3Pi+epqCJOsKOhcNzuQqzK9HOHTlOK4U4u63JuT3r
+   AILGhxV7cZxy7MClR3wcHCZf93N/LoQku873RO3e2w6KALu1Co/YhdB9n
+   qhsnssiajnXzZNKA6aN7QhIVaCq8mRkNbriS7PZmsnjqK6fb4ifWLjKrL
+   h23UqaUZHLAdAeBZ15S30LqrRtPc75MtHIIN/Yy2fPkLzJDRO4IPjrn15
+   A==;
+X-CSE-ConnectionGUID: iKR+qQz0SPOIOZFsLJlljw==
+X-CSE-MsgGUID: uRgiYlpgRHiivOmCjPKdRw==
+X-IPAS-Result: =?us-ascii?q?A0BIAgA1YF5q/5D/Ja1aglmCV3RfQkmWTZ4bgX4PAQEBD?=
+ =?us-ascii?q?0QNBAEBhD9GAo1TAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8NhloBAgEDJwsBGAEbEhAcAwECLysjCBmDAgGCdAIBEbt4gXkzgQGDK?=
+ =?us-ascii?q?AE/AkNQ2y4BCxQBBYEzhT+IIFwYAYR8JxsbgXKBFYNpgQWBXAICAReICwSCI?=
+ =?us-ascii?q?noSgVoej3RIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYE6g?=
+ =?us-ascii?q?QKEdCMfAzl/gS91SnctaQESF4EmghICgTsCDgMLGA1IESw3FBkEPm4HjUAjg?=
+ =?us-ascii?q?kCBDgETGIIsHJNbkX+hDwoog3WMIZU6GjOqbAuYfY4KlTaBGoRpgWg8gVlwF?=
+ =?us-ascii?q?YMiCUoZD44tCwuDYIUTyUckNQsyAQEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:QTBUn62I6TgOHx9DoPbD5YJwkn2cJEfYwER7XKvMYLTBsI5bpzFSx
+ mcZDWiHOfaINGT8ftwnPtuxoU0C7JfXz4JgSwY53Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
+ Lsen+WFYAX7g2EuajpKg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGDWIMfpQh6L5MOUZv0
+ s42MxQvahSBmLfjqF67YrEEasULNsLnOsYb/3pn1zycValgSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUicC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+OW0aouPIYLSG625mG6Fn
+ G3HzmDhDSs6Nd2B7j+u8EqPitXQyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7GQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:rcNTg6v/jqec3gPY3TWog5q17skDrtV00zEX/kB9WHVpmwKj+P
+ xG+85rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1MmZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
+ lbH5SWIeeAa2SS9fyKgzWQIpIH3MSN9ryuiKP1yndgShwvVoRbhj0Jczpy1iZNNXJ77V1TLu
+ vl2vZ6
+X-Talos-CUID: 9a23:W0ZC7W9lB7vYf7vu6v6Vv083IIM8S2+F90/3AmiKJ31NarmRS0DFrQ==
+X-Talos-MUID: 9a23:meNaFQt35ZWIEhvSbs2nmQttNfZs+6uUKEEMj7IDkMu8FiBKJGLI
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,175,1779148800"; 
-   d="scan'208";a="512229160"
-Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 17:57:05 +0000
+   d="scan'208";a="512923606"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 17:57:05 +0000
 Received: from sjc-ads-20746.cisco.com (sjc-ads-20746.cisco.com [171.70.189.245])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 5B40018000247;
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id BFDBD180003CE;
 	Mon, 20 Jul 2026 17:57:05 +0000 (GMT)
 Received: by sjc-ads-20746.cisco.com (Postfix, from userid 1887503)
-	id F1C79CEC313; Mon, 20 Jul 2026 10:57:04 -0700 (PDT)
+	id 1B931CEC317; Mon, 20 Jul 2026 10:57:05 -0700 (PDT)
 From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Devansh Patel <devanshp@cisco.com>
-Subject: [OE-core][wrynose][PATCH 2/8] openssh: Fix CVE-2026-59997
-Date: Mon, 20 Jul 2026 10:55:12 -0700
-Message-Id: <20260720175518.3546447-2-devanshp@cisco.com>
+Subject: [OE-core][wrynose][PATCH 6/8] openssh: Fix CVE-2026-60001
+Date: Mon, 20 Jul 2026 10:55:16 -0700
+Message-Id: <20260720175518.3546447-6-devanshp@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260720175518.3546447-1-devanshp@cisco.com>
 References: <20260720175518.3546447-1-devanshp@cisco.com>
@@ -79,104 +79,174 @@ Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-20746.cisco.com [171.70.189.245];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 171.70.189.245, sjc-ads-20746.cisco.com
-X-Outbound-Node: rcdn-l-core-10.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:57:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241472
 
 From: Devansh Patel <devanshp@cisco.com>
 
 This patch applies the upstream OpenSSH 10.4p1 backport for
-CVE-2026-59997. The upstream fix commit is referenced in [1],
+CVE-2026-60001. The upstream fix commit is referenced in [1],
 and the public CVE advisory is referenced in [2].
 
-[1] https://github.com/openssh/openssh-portable/commit/e9916c44c1324ab9ab022719e4df08a390a83014
-[2] https://www.cve.org/CVERecord?id=CVE-2026-59997
+[1] https://github.com/openssh/openssh-portable/commit/d43ba60c91cb323ca921049b7d43b1908c318454
+[2] https://www.cve.org/CVERecord?id=CVE-2026-60001
 
 Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- .../openssh/openssh/CVE-2026-59997.patch      | 60 +++++++++++++++++++
- .../openssh/openssh_10.3p1.bb                 |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59997.patch
+ .../openssh/openssh/CVE-2026-60001.patch      | 130 ++++++++++++++++++
+ .../openssh/openssh_10.3p1.bb                 |   1 +
+ 2 files changed, 131 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-59997.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59997.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
 new file mode 100644
-index 0000000000..7d77fbcc9e
+index 0000000000..aa32484b17
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59997.patch
-@@ -0,0 +1,60 @@
-+From 91ce99061c78d0ae84dafc96409c8ea9746f70c0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
+@@ -0,0 +1,130 @@
++From 6bc7dd87d543c882994f95c8309846dfda9ab503 Mon Sep 17 00:00:00 2001
 +From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Fri, 5 Jun 2026 08:53:07 +0000
-+Subject: [PATCH] upstream: pass >9 commandline arguments to the internal-sftp
-+ server,
++Date: Mon, 6 Jul 2026 07:44:48 +0000
++Subject: [PATCH] upstream: Fix cases in GSSAPI and keyboard-interactive
 +
-+previously they were silently dropped; reported by Steve Caffrey ok deraadt@
++authentication where the minimum per-attempt delay was not being enforced.
 +
-+OpenBSD-Commit-ID: ee6cd5430a3ca027c3223af54b58ad3cc7ccd624
++Reported by Orange Cyberdefense Vulnerability Team
 +
-+CVE: CVE-2026-59997
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/e9916c44c1324ab9ab022719e4df08a390a83014]
++OpenBSD-Commit-ID: c40bd35cc2428fcaccad7a141703c28baa6da01e
++
++CVE: CVE-2026-60001
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/d43ba60c91cb323ca921049b7d43b1908c318454]
 +
 +Backport Changes:
-+- Omitted the upstream OpenBSD revision-only hunk in session.c and
-+  retained the Wrynose OpenSSH 10.3p1 revision because this stable
-+  backport carries only the functional security change.
++- Omitted the upstream OpenBSD revision-only hunks in auth.h,
++  auth2-chall.c, auth2-gss.c, and auth2.c and retained the Wrynose
++  OpenSSH 10.3p1 revisions because this stable backport carries only the
++  functional security changes.
 +
-+(cherry picked from commit e9916c44c1324ab9ab022719e4df08a390a83014)
++(cherry picked from commit d43ba60c91cb323ca921049b7d43b1908c318454)
 +Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ session.c | 19 ++++++++++---------
-+ 1 file changed, 10 insertions(+), 9 deletions(-)
++ auth.h        |  1 +
++ auth2-chall.c |  4 ++++
++ auth2-gss.c   |  7 +++++++
++ auth2.c       | 10 ++++++++--
++ 4 files changed, 20 insertions(+), 2 deletions(-)
 +
-+diff --git a/session.c b/session.c
-+index 93de35d7c..b1f125a3c 100644
-+--- a/session.c
-++++ b/session.c
-+@@ -1607,21 +1607,22 @@ do_child(struct ssh *ssh, Session *s, const char *command)
-+ 		exit(1);
-+ 	} else if (s->is_subsystem == SUBSYSTEM_INT_SFTP) {
-+ 		extern int optind, optreset;
-+-		int i;
-+-		char *p, *args;
-++		int sftp_argc;
-++		char **sftp_argv;
++diff --git a/auth.h b/auth.h
++index 634a84aa8..c2cfa5ed8 100644
++--- a/auth.h
+++++ b/auth.h
++@@ -175,6 +175,7 @@ void	auth_log(struct ssh *, int, int, const char *, const char *);
++ void	auth_maxtries_exceeded(struct ssh *) __attribute__((noreturn));
++ void	userauth_finish(struct ssh *, int, const char *, const char *);
++ int	auth_root_allowed(struct ssh *, const char *);
+++void	auth_failure_delay(Authctxt *, double);
 + 
-+ 		setproctitle("%s@%s", s->pw->pw_name, INTERNAL_SFTP_NAME);
-+-		args = xstrdup(command ? command : "sftp-server");
-+-		for (i = 0, (p = strtok(args, " ")); p; (p = strtok(NULL, " ")))
-+-			if (i < ARGV_MAX - 1)
-+-				argv[i++] = p;
-+-		argv[i] = NULL;
-++		if (argv_split(command == NULL ? "sftp-server" : command,
-++		    &sftp_argc, &sftp_argv, 1) != 0) {
-++			error("internal error: can't split internal-sftp "
-++			    "arguments");
-++			exit(1);
-++		}
-+ 		optind = optreset = 1;
-+-		__progname = argv[0];
-++		__progname = sftp_argv[0];
-+ #ifdef WITH_SELINUX
-+ 		ssh_selinux_change_context("sftpd_t");
-+ #endif
-+-		exit(sftp_server_main(i, argv, s->pw));
-++		exit(sftp_server_main(sftp_argc, sftp_argv, s->pw));
++ char	*auth2_read_banner(void);
++ int	 auth2_methods_valid(const char *, int);
++diff --git a/auth2-chall.c b/auth2-chall.c
++index f3889079b..4687ca8e2 100644
++--- a/auth2-chall.c
+++++ b/auth2-chall.c
++@@ -300,6 +300,7 @@ input_userauth_info_response(int type, uint32_t seq, struct ssh *ssh)
++ 	u_int i, nresp;
++ 	const char *devicename = NULL;
++ 	char **response = NULL;
+++	double tstart = monotime_double();
++ 
++ 	if (authctxt == NULL)
++ 		fatal_f("no authctxt");
++@@ -358,6 +359,9 @@ input_userauth_info_response(int type, uint32_t seq, struct ssh *ssh)
++ 			auth2_challenge_start(ssh);
++ 		}
 + 	}
+++
+++	if (!authenticated)
+++		auth_failure_delay(authctxt, tstart);
++ 	userauth_finish(ssh, authenticated, "keyboard-interactive",
++ 	    devicename);
++ 	return 0;
++diff --git a/auth2-gss.c b/auth2-gss.c
++index 053548527..f27ac9221 100644
++--- a/auth2-gss.c
+++++ b/auth2-gss.c
++@@ -255,6 +255,7 @@ input_gssapi_exchange_complete(int type, uint32_t plen, struct ssh *ssh)
++ {
++ 	Authctxt *authctxt = ssh->authctxt;
++ 	int r, authenticated;
+++	double tstart = monotime_double();
 + 
-+ 	fflush(NULL);
++ 	if (authctxt == NULL)
++ 		fatal("No authentication or GSSAPI context");
++@@ -268,6 +269,8 @@ input_gssapi_exchange_complete(int type, uint32_t plen, struct ssh *ssh)
++ 		fatal_fr(r, "parse packet");
++ 
++ 	authenticated = mm_ssh_gssapi_userok(authctxt->user);
+++	if (!authenticated)
+++		auth_failure_delay(authctxt, tstart);
++ 
++ 	authctxt->postponed = 0;
++ 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
++@@ -288,6 +291,7 @@ input_gssapi_mic(int type, uint32_t plen, struct ssh *ssh)
++ 	gss_buffer_desc mic, gssbuf;
++ 	u_char *p;
++ 	size_t len;
+++	double tstart = monotime_double();
++ 
++ 	if (authctxt == NULL)
++ 		fatal("No authentication or GSSAPI context");
++@@ -315,6 +319,9 @@ input_gssapi_mic(int type, uint32_t plen, struct ssh *ssh)
++ 	sshbuf_free(b);
++ 	free(mic.value);
++ 
+++	if (!authenticated)
+++		auth_failure_delay(authctxt, tstart);
+++
++ 	authctxt->postponed = 0;
++ 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
++ 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_ERRTOK, NULL);
++diff --git a/auth2.c b/auth2.c
++index 3a1682746..7ba611c02 100644
++--- a/auth2.c
+++++ b/auth2.c
++@@ -265,6 +265,12 @@ ensure_minimum_time_since(double start, double seconds)
++ 	nanosleep(&ts, NULL);
++ }
++ 
+++void
+++auth_failure_delay(Authctxt *authctxt, double tstart)
+++{
+++	ensure_minimum_time_since(tstart, user_specific_delay(authctxt->user));
+++}
+++
++ static int
++ input_userauth_request(int type, uint32_t seq, struct ssh *ssh)
++ {
++@@ -346,8 +352,8 @@ input_userauth_request(int type, uint32_t seq, struct ssh *ssh)
++ 		authenticated =	m->userauth(ssh, method);
++ 	}
++ 	if (!authctxt->authenticated && strcmp(method, "none") != 0)
++-		ensure_minimum_time_since(tstart,
++-		    user_specific_delay(authctxt->user));
+++		auth_failure_delay(authctxt, tstart);
+++
++ 	userauth_finish(ssh, authenticated, method, NULL);
++ 	r = 0;
++  out:
 diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-index 2c3b839442..87bd417b2d 100644
+index 4aa81214e0..dba0dcaa8a 100644
 --- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
 +++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://sshd_check_keys \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-            file://CVE-2026-59999.patch \
-+           file://CVE-2026-59997.patch \
+@@ -29,6 +29,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://CVE-2026-59998.patch \
+            file://CVE-2026-59996.patch \
+            file://CVE-2026-59995.patch \
++           file://CVE-2026-60001.patch \
             "
  SRC_URI[sha256sum] = "56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4"
  
