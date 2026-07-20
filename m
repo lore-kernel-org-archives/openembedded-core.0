@@ -2,75 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EF2DC44515
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 19:14:52 +0000 (UTC)
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5373.1784574886933236466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C96BC44529
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 19:35:12 +0000 (UTC)
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5780.1784576108134205225
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 12:14:47 -0700
+ Mon, 20 Jul 2026 12:35:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=BnOAbgE7;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=QZwSphKO;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.146, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id E30AFEC007B;
-	Mon, 20 Jul 2026 15:14:45 -0400 (EDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=l98XWyai;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=NmVHuuIi;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.152, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 31BC5140012D;
+	Mon, 20 Jul 2026 15:35:07 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 20 Jul 2026 15:14:45 -0400
+  by phl-compute-05.internal (MEProxy); Mon, 20 Jul 2026 15:35:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1784574885; x=1784661285; bh=lpVaQAldvN
-	QbMzTC1ATEhAXbI82qlV9Bvq0J1Ai7PPM=; b=BnOAbgE7Mfe5TTO7i23muxe9DC
-	lU3CrUJNP7bfhqv2sS2FrNpccGREoOkykZfuHlNM7+b0VkgNFFBHVj5gZHvw2Bco
-	yqW7nr0y71KNwaz2JxKXmZezwOUdzyfhvc5X62sM5lBXOODcSMx4chdGTRzMfMM6
-	y0LIqkzNMm/Vo67P3uPHt7diVjgR9HfZ7DGwERnIhKgyeqxp/lRp3y+HAeyZZRJK
-	L/KBFFGrkOjUcw/BNRcyYu8+ajR/PuTvqoD0apqPoK+uhhFPgcT00Qhdc7cxQ+Pl
-	6R/6jqhzwfZxpRum7gwARs17lCunrFnI7x4k3QHgzIIq9Q083YrASQq88vUA==
+	:subject:to:to; s=fm1; t=1784576107; x=1784662507; bh=w8A0tBlrrc
+	lqkyAnURoi9SLbnyQFIOtgsEmNNPdXaEc=; b=l98XWyaiPsBmoZxCvrJmOffvi0
+	5wlbPeoFezzK1PgnvltuUPGfnU9JVchyJzZzi4IDlR1RSgIaB+Fq2zmLSUsfZFcm
+	1JbnqPbdy+fTXyfe6lHZsHfgHBA3RQzJebGKPD/j8etouj2SsMaP1d9FM4RIfYey
+	LCjCsnOtOQVfPKZH9WMJABaeA6uUTb3hnee30coLF39Gmai1cSpV5piX11Dl5W/C
+	pj8BP/jtgGJpfeXwfyWTrtubRyGmkv7o6GM3mz/UFiGld+gdy6F6AJeueILryIIG
+	NOpWLSZnpIvJ/XPQnDqHhI4Nvd9hHZsY4dsVMuJCV2fV0fubJjj+t21OK7zA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784574885; x=1784661285; bh=lpVaQAldvNQbMzTC1ATEhAXbI82qlV9Bvq0
-	J1Ai7PPM=; b=QZwSphKOE9ybE8yDgibJerGkxNfOiHxKKGncZ19bwdnG9yZnhLs
-	IPzXPF1Yl6Rnz6FQNJ1mcQpFdySMwuTf7722qrPiuYU+TJhQhwe0qB+ZiDJD/i2Z
-	187Cn1corNybr0VslEytiXwXohYpyreURhw5RUQznA6zUrufwlb/vD3E5vz5KW2p
-	dDRegkTSuJWhdptkd1j+qClu7tzl9ZOO7RVRQps5v46C60B0cEgmYjZq7jb8zd0X
-	x7Ezurm16zfE19i0p7QeAcEr15VTc1wGAzY5EAa/anasdisYsb2TyhI+97tW05f4
-	INsolN7RGwKuvWScrXjk2hHK1Ckgl/TAwqA==
-X-ME-Sender: <xms:pXNeamz-jBsHSkJY2xTFmUKZR_Sgc2OKPSmTmpr7RZ8DJHn--hn7fA>
-    <xme:pXNeaptT_0wEWScKbDw-otoMfhhvb5v0RI2ZPiW3INh6H8IYq8ELuNQK6Lq6n9TbP
-    pLmrYkXKSZVFD1-7d9UwTWv0Zh5420daSDMw6f6UMJ8F4jnmNKpUMI>
-X-ME-Received: <xmr:pXNealvjNd-Sw1eI73Nezj8OUCEcVnvorcEhRJDq2SOAtA0dpRjFk5pycybwn1fa_41P-TFWot6Y54LBR-IMpuerjQgvQdFNlvhlqfu63O5M>
-X-ME-Proxy-Cause: dmFkZTEsTUhC92nMIihkmDRUH91can5aLYOLPgto0E3/tac49Knj5Fxn+zj2pZX26wxisl
-    UWLujQ1xOjx+g4302QuvPi6BWGqR2yHZtB5SZzy3Aarr8wDkgl4OMZo5y8lndYSW4TJUeI
-    52qjrXB/pqKjt9EIzB8+isaQNbKeQsKR4FLluUYK0et6EHtGUwqR2qMA8hPRRTgu+VA9iK
-    ldE7kgDVZKD3URn9vgCnGyKeS6W9iafEQc7j2e6SMEcAr6qckF4MBwEcoDiqmbHl7ih/hG
-    0N8WG5UfGug+G1uUt/98E1+RCQFMGaV83JkDvwARhR3mGv7DN9cbr2hnf9TS5kSkPc0II0
-    Bb6HCyCNwep071wq/t2WoSdzVcXcpcHhc/G5n83UGrR7w+yJt41XzAS4IEUBAjoaX0EsAr
-    SH27i7GnEDjwn1P3jJgvEnu/ygBW8Do70ZyAgDbndIqSEIv5mcKRBGVEf3npcx4wfOpGfU
-    qzowtI1IMRsdgl9C4/EUj7vw/Vcx5ZBzAR4mHjvc8W6aLAXi34bTpF3ADOev64AGXgIQO3
-    v1uiRtxJ3/hsApq91s05zsZkhtoje0YhtEyy/euDXZXzGYceq1Y9jmigsC0I7wteIAFaRz
-    3PXiumI+G6wBbBMQEz7fbGRONkYEXqHXpRMwYPxRB+59IjyaPm4XP5/Y1Vyw
-X-ME-Proxy: <xmx:pXNeamMT5N53HN2qT5DJqCmklqOSU8JZH7V-fD1PQTnBzpIvUPG_4A>
-    <xmx:pXNear2uLPRZBxo8wqBNPd4myUJZSBi1C2AxtXHGEPQvgy__vNuRQg>
-    <xmx:pXNeaqO10SLy939-5UKPstBnPKIl9E5BDUXlRDXsuGQuJbaDGEyHFA>
-    <xmx:pXNeaj3SkXYiq_dIG16N6_fHaS2_uo5J2KDonsPpH5uf0wKDq3sYDg>
-    <xmx:pXNeasNmH9tCuZFyLfsXnBJJ2x-5sq5_-XLqPIQP5jfQu6UjsCrur9i3>
+	1784576107; x=1784662507; bh=w8A0tBlrrclqkyAnURoi9SLbnyQFIOtgsEm
+	NNPdXaEc=; b=NmVHuuIiVX8MIMLd5kwzhNreJMrjKVO0CexJfFljmS4UHHMoxZ5
+	H30XaaP8uHo9gKM1Zl3khh1sTHKuKpNnZ7JZSO52zamqAbgLRqjFsfmVdwSbFhWL
+	gOR25ZKo0dXq21G+vOxzHoEcmYBN3OFExDYzx0S84R3liV1hymFi7Q5XJuALxVPH
+	rvs1c7UGEIGl624QINMPPKU3LHBgTbrgU3H3LtzNuj4O9Imj2U2ZqZFUQvWQHSqZ
+	nROSx1JJKY21MkJFBFlCy47qRPzC/RuajYBkf22z+/IHrp3sQiEwkaviCL54tJnA
+	wBiOFS0QMfCzDMQ1fuB3f8Pwah07baedeIg==
+X-ME-Sender: <xms:anheai0nPg7r21xaMoktztWINkRt7lpcKPPoznj3T0EA0UyxC28_Cg>
+    <xme:anheasgT97wdPzQmFSAA5phgb3LQMGPb-hxjlUeBRnYBcbK91DG8f01jcUEItcysh
+    -EOgedRm31pI1a94hZWBkTTDL69cwIh7PeQhrXJpO52fyizUxHo>
+X-ME-Received: <xmr:anheaoQk11EPI-gOeSwjJj2EjLcmzdlBZK9vxBnzyelw_cUzY8K0oNCiX9k-t0rvIuWCRSwxMGqK9PktFWLFcVCWU1UfJ8lSkdUNEamAzY37>
+X-ME-Proxy-Cause: dmFkZTF3pJFKRuTbNOSjmipxKMbIcFs9vHlyxF8nLXkqJ1NdSgf4pLOlOtYyT6CaOwH8l2
+    TxIOydW+GxrbOgjQK9ebz0T/YuASZcJTfOSGqDghdDDy+14oGIv2bUfL7Zg3D3dnHaaRux
+    HNvgteYpeMEYRyJFwAnkj3aP1ggErDBCyB28x5AY6wGHDqIm7H/hViFxrmZ6PKdiQRHFuo
+    yzN/uVuV9ZTy/4mzGMYpnb7Q/JzabbvRJUljIbdhOVJzajWCfOp12XjgbBIf55ISXFUL56
+    lo3h+nZY4VARL3XKGGikOrcIBiCk2N1SS/bwcf6iIe8UWczvGDOLkh05ZcogharxiiyCqa
+    01GMs7yMXyB0XLZedxGSsdQyrU/cF4kqm+w7EKnTWfEMAVJTDVv7Nwz4tlpRA2bGAClw5S
+    TrFXmVr8w32nDy7PNLAN9VEouJPrqDI5o9ku83y1AOq5RecAL8lX4GtF2nFHSofBxpJc86
+    BbZzoKDPIKJS2k+8s98nrHZxkzz5iWqgwMkhUivO8FxJc+MxO2UEmEybCErKT0XVsGVFuI
+    SoNm9ncBWEeGnA/UZB6L5DmKd8kvHw3XVf+fBo2ADc3Vbtb1sI7FqElrYzkIv8qS709b/o
+    QLD85aPm0mOoFfA0XcT5H+RTEmkw9m5YHg0iWRma6h5nozi9E0jzHX3um05w
+X-ME-Proxy: <xmx:anheatin4y0JuLchJNsOamv5JXraina-fI2PlgZLie-3dYML50fU_w>
+    <xmx:anheao4CPIip5-qz-BhUnWWS_53dN62u-he6zTx6qWF9Bpo-Jg3fhw>
+    <xmx:anheaqArUnWLeceKzAtfL4_NLmDwmVhAHW_4UG_bbwpB8d-wPFGqiA>
+    <xmx:anheavZcgSx76G02fhAJVz3kW45z29lJCnFW7AXOCr8zveQBkyxGoQ>
+    <xmx:a3heavoAk8pdOiDu3S0K_k5uDQY-L3N7_dQvfw-GWIkWuPt_WRHqlu_K>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Jul 2026 15:14:44 -0400 (EDT)
-Message-ID: <333e485ec6c7e75b8bdbbd18d85398afb8079828.camel@pbarker.dev>
-Subject: Re: [OE-core][scarthgap 12/33] bzip2: fix 'bzip2 --version >
- /tmp/aaa 2>&1' hang
+ 20 Jul 2026 15:35:06 -0400 (EDT)
+Message-ID: <0f5438b03d5e23426b3d8f061c1978e97cb13ed1.camel@pbarker.dev>
+Subject: Re: [OE-core][scarthgap 13/33] dropbear: Disable DSS correctly
 From: Paul Barker <paul@pbarker.dev>
 To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-Cc: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Date: Mon, 20 Jul 2026 20:14:39 +0100
-In-Reply-To: <4e5d0d595f713a4a5cff72f389aa9cac07fe5d14.1784567958.git.yoann.congal@smile.fr>
+Cc: Mike Crowe <mac@mcrowe.com>
+Date: Mon, 20 Jul 2026 20:35:04 +0100
+In-Reply-To: <56f5e0e276a5f39e5ae7fb9e61a4ef64aa51bd7e.1784567958.git.yoann.congal@smile.fr>
 References: <cover.1784567958.git.yoann.congal@smile.fr>
-	 <4e5d0d595f713a4a5cff72f389aa9cac07fe5d14.1784567958.git.yoann.congal@smile.fr>
+	 <56f5e0e276a5f39e5ae7fb9e61a4ef64aa51bd7e.1784567958.git.yoann.congal@smile.fr>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -116,60 +115,38 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-J+oOwVDuBynxaVKuqZZ8"
+	protocol="application/pgp-signature"; boundary="=-3+ilFdhyptGfqSP9g66p"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 19:14:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241486
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 19:35:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241487
 
 
---=-J+oOwVDuBynxaVKuqZZ8
+--=-3+ilFdhyptGfqSP9g66p
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Mon, 2026-07-20 at 19:22 +0200, Yoann Congal via
 lists.openembedded.org wrote:
-> From: Hongxu Jia <hongxu.jia@windriver.com>
+> From: Mike Crowe <mac@mcrowe.com>
 >=20
-> According to [1]
+> Take upstream patch that stops sysoptions.h unconditionally turning
+> DROPBEAR_DSS back on even when it has been disabled (which is the
+> default).
 >=20
-> As of the current version 1.0.8, bzip2 --version will print version
-> info but it will also continue compressing stdin:
->=20
->   $ ./bzip2 --version
->   bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
->=20
->      Copyright (C) 1996-2019 by Julian Seward.
->=20
->      This program is free software; [...]
->=20
->   bzip2: I won't write compressed data to a terminal.
->   bzip2: For help, type: `bzip2 --help'.
->=20
-> Debian (and its downstreams like Ubuntu) will patch this out [2],
-> making the < /dev/null unnecessary, port a part of debian patch
-> to fix the issue
->=20
-> [1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-=
-a-program-like-bzip2
-> [2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy=
-.patch/
->=20
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit ae4fe4263ba9d372f9b9e80df4ec4697b51c1f9b)
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
 > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 
-Hi Jaipaul,
+Hi Mike, Yoann,
 
-What's the motivation for backporting this now? Applying this to
-scarthgap will change the behaviour of bzip2 on a stable branch, so we'd
-need a strong reason to do that.
+It looks like we've been building dropbear with DSS support enabled for
+the life of the scarthgap release until now, due to a bug in the
+assignment of DROPBEAR_DSS. Fixing this now will forcibly disable DSS
+support for all users, which is not something we should do on a stable
+branch.
 
 Best regards,
 
@@ -177,17 +154,17 @@ Best regards,
 Paul Barker
 
 
---=-J+oOwVDuBynxaVKuqZZ8
+--=-3+ilFdhyptGfqSP9g66p
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCal5znxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0blGGAP9T8ThyW8joNrlYfPF1Jyyre4/j5nXHZxm0
-Lnh4IvWEMQEA/2WkyOF7/MJ04MOJH2ofFgUadkWBNn6h2/tf6Cw3Xw0=
-=bCHc
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCal54aBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bp2kAP4zPasi54eXCN/QYcuOTLCbyGZbTg/9ODUr
+N2cXiVTjtAEAobXh8woDkJBwFvJvyucVwzvVJ8NbPBTsyUvdQJFN7wc=
+=3+rg
 -----END PGP SIGNATURE-----
 
---=-J+oOwVDuBynxaVKuqZZ8--
+--=-3+ilFdhyptGfqSP9g66p--
 
