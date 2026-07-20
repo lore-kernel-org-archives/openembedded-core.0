@@ -2,675 +2,794 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA22C4452D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40940C44529
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:47 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2880.1784568224516976374
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2882.1784568225643521369
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:44 -0700
+ Mon, 20 Jul 2026 10:23:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3qBPU0Yn;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49548e01d02so15407155e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:44 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=i/ZxYqhL;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so45663405e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784568223; x=1785173023; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=w8yKx3NEkUZZX9grGSpkLc5RarM9I2jYfTRIY/4RuGY=;
-        b=3qBPU0YnG2HL2IWiLi+CAY3msgmXeSWrnHUoYzrxEAj+7HQmtA/Bn3kyhjYNkp+wWr
-         zM0RHCEDM7e7VOEAt++2K254GtKYXY8uhar/ggH6SN14pA1LWT02mt9Hy+yVnTbZRT4R
-         96i+gweIVBnXjSHWpxuvYqtDU0aXUpYHRIDSg=
+        d=smile.fr; s=google; t=1784568224; x=1785173024; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=yppjQ2ELVU4HEeeerX5zvNm7F5Dpu2rH6ipJQGxJfDM=;
+        b=i/ZxYqhLJVK1JC8WblT2ByftJKpC22CT0cz7ryCNSDRP2cJBKcExKgHXCOyaot8AVs
+         amGwZETWAwC+cqcMM5Zn1th8QLhjN+GohTqH4PfzHo1cux90c+3hHZIrFTlYC3g4qJub
+         hZzMm8jIfTDj7TaFelQez1n4NfBt7VCWuPaFI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568223; x=1785173023;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=w8yKx3NEkUZZX9grGSpkLc5RarM9I2jYfTRIY/4RuGY=;
-        b=bvlXDtt4+EQaNOvcfjeduhTV4TsQvqV5YHq4SkYEXRVq0w+dHzHaLlI/p+U5WcQcJ+
-         gEvywfebz1VyfRtMNKMr+u9pik92+RJIr3KXYBPY0l6CXjrZ+6bXyVk3xWF5llJc0yAP
-         Q+JKNtlWxDMfkyWead/JUIzimCeax/OEe+P+cc8iflW5BRRGLaGq7NQ3gvICW/IBQnd2
-         pcGHpcZSg58v9ob/1+jNIkFHOyduAs+DifUO0V51Cp2CyPwwpFuqvl/Y8fG9VK0tEKlk
-         9FETwWdXLxNcgIcLNL0C6suSlffRccB5ejMZ8ryGfhhuxlqS2xcSGX3Pgg1uSffyUlJW
-         HmJw==
-X-Gm-Message-State: AOJu0Yw7+lvxLHMW5nnXXd2EDInKd8aU8E4l6yWXWTpBHvG0zC2Dlurj
-	rKdtLfKLaKqQ0X7g5TdWCbfdV3hBFualdks+ZbptClxXVh+G6dCZALQOGj9+4eJLFJq0/Rn19JV
-	N68tALCs=
-X-Gm-Gg: AfdE7cn47P1x8W8PBtTIB5CWXqjVHnacxHuECzVuU5yKNH2tVk1v/6yxlsn+roy09tW
-	oguMZVhh2SyTVb0HyN4bsI8CWcW5lo00cRnw/3X8DkcOnyqSkNWLX9w3ucDCiDYFFzCkYdlhmyC
-	h5p+RzpRZaeHq9TP2idiDmJvo868HCigTk6i1KidQERTNHQpQH1NXCAdv548dsj6mRCE2xuJPDk
-	FW5QfJfnCuRQON2pUcl/s25hiVeMuaaxVzIKKlrrjzmZip7ncJXQ07b1j31Qt2YwIPA3vNC5J2b
-	iMjJjjPo8RdQ4mvJK2iBFzIKO95695mDhvckES17V8BTLCA1aX0o5dCyoskc9IUXNXf8ZWLfc/A
-	mgxiAX2BBR0WfSfilKAO5YnHT9qJgnGz8DqGx4QdHqRALqNrB0/SzOQRSdwULeb2n6xk7p9Xnub
-	I7l5hObIC5ThA3YL8tkdl6wOKYZWGx458V8xC9sEEBJXqlrKQONWpYoxR4CImoHKsnj49WkByyj
-	TlToiAC
-X-Received: by 2002:a05:600c:c178:b0:493:e46e:157d with SMTP id 5b1f17b1804b1-4954a40481dmr136850795e9.19.1784568222400;
-        Mon, 20 Jul 2026 10:23:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784568224; x=1785173024;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=yppjQ2ELVU4HEeeerX5zvNm7F5Dpu2rH6ipJQGxJfDM=;
+        b=HOLCtZ/IdjsiuYQPbZvhy2xyxtbLHmn/0ItPqENc5Mkxo1ycfVxZnwkPeaoRaRQ+IJ
+         c1jtGuuHH1CDtamNzSDFAixt4T5SPjuwdVhekORnfu5y6+tMYjSf9gO1YauccvdJdhYb
+         ylbM9hKSMx3ZdVFqEQlBvdE6VkL+0hXxUrebTpUGWN1/Q/3APmO+NXt7S84ePzBmumO1
+         nO+9LxTYS76ZYjIYnegTgDv9/fUcdt/4lUlDa1BZHatLVaYyQRXRZnntiPWhYYjhdNZN
+         pxIZ8kK776POLyc9OlMWLu0QXT6vN31nK5tHHRdU0uWjqrHZ6zmCHWUnk0JV9a4nDbue
+         NWMw==
+X-Gm-Message-State: AOJu0Yzj2kqrOacl6Uxf5OTXN24uMCrj0SukWWMgNHMn4QfMoXMJUqa1
+	K71yzBpsP7k8jrW5YeulZL7/rPlf2r083ath1u7yrcFBSx3hxLF1QYD1qx3Fozh0ukywYHHd00e
+	WfWzhguo=
+X-Gm-Gg: AfdE7cmwtlQhrkkTO/yY0H3stciegIA4+xdxa1XhWC4kBT9sH68OgS1WQaTyQhIqsrk
+	p4bMZkQuZoysujkCc7mryIrkaYGPU/WID5m8yfO0Rpx9Zt0uJKMKgdvcpPUHiF+FflcZ+AZl9+6
+	X69BWcZ3nOX3ZQ0hwB5pQlA5jWT5IKYpTRFeNg2b6FY23LrQv0YSvmFDUKBxMtj2IzyEytG17dk
+	NuWcqL56QMx+28OvfpuueQyNCdw5sq8ko78l+eYSJ6yIYc3EyRV3qg3Bw9YET2PtBUrj7SFNZHO
+	BqnRLfFGW1KL8nhW0IfQOMDOLPYOdOmTu6btYpmg9aBKFqev7O5dno466ZWFB+c03/iVT0512w/
+	UW82aDTGATs2npKhyuFTD44XSZ7kmRlofrfPS8qnfrAKsJit0DjkAlUsDw0tHuyePeZspZW7Xny
+	3H8Ig71IbXOddGdIXeJCcUK0MAK2xUn2OEdaXZbGqmtTSs1SUPBbd8WIpcwM8WvnH59/DYwX3nY
+	qryU0BS
+X-Received: by 2002:a05:600c:4f44:b0:495:5b02:23a5 with SMTP id 5b1f17b1804b1-4955b02253amr78129025e9.30.1784568223058;
+        Mon, 20 Jul 2026 10:23:43 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 20 Jul 2026 10:23:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 20/33] expat: patch CVE-2026-41080
-Date: Mon, 20 Jul 2026 19:22:53 +0200
-Message-ID: <8865543e62d8619edb4165f3b530f91f85ab1fbb.1784567958.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 21/33] expat: patch CVE-2026-45186
+Date: Mon, 20 Jul 2026 19:22:54 +0200
+Message-ID: <7a9e4a90bd7b1768bb07f9752d2c4847fe799f91.1784567958.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
 References: <cover.1784567958.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241454
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241455
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Theo Gaige <tgaige.opensource@witekio.com>
 
-Pick github PR [1] mentioned in [2].
-* 969af8f4654ce50d837bb9199a73d1d02d2c7e16..4ba09dc471b39a78d77e5179d0243186c0c4ff7a
-* dropped code which doesn't exist in 2.6.4 yet (github actions, map
-  file)
-* resolved minor conflicts (formatting)
-* picked 2 additional commits to apply the code cleanly
+Backport patches from [1] also mentioned in [2].
 
-[1] https://github.com/libexpat/libexpat/pull/1183
-[2] https://security-tracker.debian.org/tracker/CVE-2026-41080
+[1] https://github.com/libexpat/libexpat/pull/1216
+[2] https://security-tracker.debian.org/tracker/CVE-2026-45186
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-[YC: See discussion :
-https://lore.kernel.org/openembedded-core/2030b4435c8bc81bb4452637c0517ac33ab94d20.camel@pbarker.dev/T/#m56c5da4033c2f3571027c2745431178064ea1b5d ]
+Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../expat/expat/CVE-2026-41080-01.patch       |  50 ++
- .../expat/expat/CVE-2026-41080-02.patch       |  29 ++
- .../expat/expat/CVE-2026-41080-03.patch       | 467 ++++++++++++++++++
- meta/recipes-core/expat/expat_2.6.4.bb        |   3 +
- 4 files changed, 549 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
+ .../expat/expat/CVE-2026-45186-01.patch       |  70 ++++
+ .../expat/expat/CVE-2026-45186-02.patch       | 318 ++++++++++++++++++
+ .../expat/expat/CVE-2026-45186-03.patch       |  46 +++
+ .../expat/expat/CVE-2026-45186-04.patch       |  32 ++
+ .../expat/expat/CVE-2026-45186-05.patch       |  32 ++
+ .../expat/expat/CVE-2026-45186-06.patch       |  87 +++++
+ .../expat/expat/CVE-2026-45186-07.patch       |  52 +++
+ meta/recipes-core/expat/expat_2.6.4.bb        |   7 +
+ 8 files changed, 644 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
 new file mode 100644
-index 00000000000..0c6af75a5de
+index 00000000000..787006c0fdb
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
-@@ -0,0 +1,50 @@
-+From fe04a7f0ff8afe57ba33d919f368b1ba23bcda92 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Sun, 30 Mar 2025 19:26:55 +0200
-+Subject: [PATCH 1/3] lib/xmlparse.c: Address clang-tidy warning
-+ misc-no-recursion
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
+@@ -0,0 +1,70 @@
++From 3020144133b2d860c44f4eeacf72e5f2843235a3 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
++Date: Fri, 13 Mar 2026 13:26:45 +0100
++Subject: [PATCH 1/7] Make "counting_start_element_handler" count default attrs
 +
-+CVE: CVE-2026-41080
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/fe04a7f0ff8afe57ba33d919f368b1ba23bcda92]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++(cherry picked from commit 0802a5892030610144b736dec6e2f63e8600fe85)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/0802a5892030610144b736dec6e2f63e8600fe85]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
 +---
-+ lib/xmlparse.c | 17 ++++++++++-------
-+ 1 file changed, 10 insertions(+), 7 deletions(-)
++ tests/basic_tests.c | 8 ++++----
++ tests/handlers.c    | 2 +-
++ tests/handlers.h    | 1 +
++ 3 files changed, 6 insertions(+), 5 deletions(-)
 +
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 9bc67f38..cb25c37b 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -1243,9 +1243,10 @@ generate_hash_secret_salt(XML_Parser parser) {
-+ 
-+ static unsigned long
-+ get_hash_secret_salt(XML_Parser parser) {
-+-  if (parser->m_parentParser != NULL)
-+-    return get_hash_secret_salt(parser->m_parentParser);
-+-  return parser->m_hash_secret_salt;
-++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
-++  assert(! rootParser->m_parentParser);
-++
-++  return rootParser->m_hash_secret_salt;
-+ }
-+ 
-+ static enum XML_Error
-+@@ -2321,12 +2322,14 @@ int XMLCALL
-+ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
-+   if (parser == NULL)
-+     return 0;
-+-  if (parser->m_parentParser)
-+-    return XML_SetHashSalt(parser->m_parentParser, hash_salt);
-++
-++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
-++  assert(! rootParser->m_parentParser);
-++
-+   /* block after XML_Parse()/XML_ParseBuffer() has been called */
-+-  if (parserBusy(parser))
-++  if (parserBusy(rootParser))
-+     return 0;
-+-  parser->m_hash_secret_salt = hash_salt;
-++  rootParser->m_hash_secret_salt = hash_salt;
-+   return 1;
-+ }
-+ 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
-new file mode 100644
-index 00000000000..953f93c68a9
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
-@@ -0,0 +1,29 @@
-+From 7fb2c7a454edc9e2880073a27f899c31d9b078ce Mon Sep 17 00:00:00 2001
-+From: Atrem Borovik <polzovatellllk@gmail.com>
-+Date: Sat, 20 Dec 2025 13:22:16 +0300
-+Subject: [PATCH 2/3] WASI: remove getpid
-+
-+CVE: CVE-2026-41080
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/7fb2c7a454edc9e2880073a27f899c31d9b078ce]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/xmlparse.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index cb25c37b..1bafb948 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -1228,8 +1228,11 @@ generate_hash_secret_salt(XML_Parser parser) {
-+ #  endif /* ! defined(_WIN32) && defined(XML_DEV_URANDOM) */
-+   /* .. and self-made low quality for backup: */
-+ 
-++  entropy = gather_time_entropy();
-++#  if ! defined(__wasi__)
-+   /* Process ID is 0 bits entropy if attacker has local access */
-+-  entropy = gather_time_entropy() ^ getpid();
-++  entropy ^= getpid();
-++#  endif
-+ 
-+   /* Factors are 2^31-1 and 2^61-1 (Mersenne primes M31 and M61) */
-+   if (sizeof(unsigned long) == 4) {
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
-new file mode 100644
-index 00000000000..4d17f1a0b0e
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
-@@ -0,0 +1,467 @@
-+From b77ab600e1893fdcfc3868d0a46efcc87c87943d Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Wed, 8 Apr 2026 15:41:54 +0200
-+Subject: [PATCH 3/3] [CVE-2026-41080] Improve protection against hash flooding
-+ (fixes #47)
-+
-+Fixes #47
-+
-+CVE: CVE-2026-41080
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1183]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ Changes             |  16 ++++++
-+ doc/reference.html  |  51 ++++++++++++++--
-+ lib/expat.h         |  12 ++++
-+ lib/internal.h      |   2 +
-+ lib/xmlparse.c      | 118 ++++++++++++++++++++++++++------------
-+ tests/basic_tests.c |  25 ++++++++
-+ 6 files changed, 181 insertions(+), 43 deletions(-)
-+
-+diff --git a/Changes b/Changes
-+index 4265d608..1d87d6a0 100644
-+--- a/Changes
-++++ b/Changes
-+@@ -30,6 +30,22 @@
-+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-+ 
-+ Patches:
-++        Security fixes:
-++       #47 #1183  CVE-2026-41080 -- The existing hash flooding protection
-++                    (based on SipHash) only used 4 to 8 bytes of entropy for
-++                    a salt, when 16 bytes of salt are supported by the
-++                    implementation of SipHash used by Expat. Now full 16 bytes
-++                    of entropy are used to improve protection against hash
-++                    flooding attacks.
-++                      Existing API function XML_SetHashSalt is now deprecated
-++                    because of its limitations, and its use should be
-++                    considered a vulnerability. Please either use the new API
-++                    function XML_SetHashSalt16Bytes (with known-high-quality
-++                    entropy input only!) instead, or leave the derivation of
-++                    a 16-bytes hash salt from high quality entropy to Expat's
-++                    internal machinery (by *not* calling either of the two
-++                    XML_SetHashSalt* functions).
-++
-+         Security fixes:
-+      #1018 #1034  CVE-2025-59375 -- Disallow use of disproportional amounts of
-+                     dynamic memory from within an Expat parser (e.g. previously
-+diff --git a/doc/reference.html b/doc/reference.html
-+index 8f14b011..7f374f84 100644
-+--- a/doc/reference.html
-++++ b/doc/reference.html
-+@@ -174,7 +174,8 @@ interface.</p>
-+       <li><a href="#XML_GetAttributeInfo">XML_GetAttributeInfo</a></li>
-+       <li><a href="#XML_SetEncoding">XML_SetEncoding</a></li>
-+       <li><a href="#XML_SetParamEntityParsing">XML_SetParamEntityParsing</a></li>
-+-      <li><a href="#XML_SetHashSalt">XML_SetHashSalt</a></li>
-++      <li><a href="#XML_SetHashSalt">XML_SetHashSalt</a> (deprecated)</li>
-++      <li><a href="#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></li>
-+       <li><a href="#XML_UseForeignDTD">XML_UseForeignDTD</a></li>
-+       <li><a href="#XML_SetReturnNSTriplet">XML_SetReturnNSTriplet</a></li>
-+       <li><a href="#XML_DefaultCurrent">XML_DefaultCurrent</a></li>
-+@@ -2553,10 +2554,10 @@ The choices for <code>code</code> are:
-+ no effect and will always return 0.
-+ </div>
-+ 
-+-<h4 id="XML_SetHashSalt">XML_SetHashSalt</h4>
-++<h4 id="XML_SetHashSalt">XML_SetHashSalt (deprecated)</h4>
-+ <pre class="fcndec">
-+ int XMLCALL
-+-XML_SetHashSalt(XML_Parser p,
-++XML_SetHashSalt(XML_Parser parser,
-+                 unsigned long hash_salt);
-+ </pre>
-+ <div class="fcndef">
-+@@ -2564,15 +2565,55 @@ Sets the hash salt to use for internal hash calculations.
-+ Helps in preventing DoS attacks based on predicting hash
-+ function behavior. In order to have an effect this must be called
-+ before parsing has started. Returns 1 if successful, 0 when called
-+-after <code>XML_Parse</code> or <code>XML_ParseBuffer</code>.
-++after <code>XML_Parse</code> or <code>XML_ParseBuffer</code> or when
-++        <code>parser</code> is <code>NULL</code>.
-++        <p>
-++          <b>Note:</b> Function <code>XML_SetHashSalt</code> is
-++          <strong>deprecated</strong>. Please use function <code><a href=
-++          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> instead for better
-++          security. <code>XML_SetHashSalt</code> only provides 4 to 8 bytes of entropy
-++          (depending on the size of type <code>unsigned long</code>) while the SipHash
-++          implementation used by Expat can leverage up to 16 bytes of entropy — at least
-++          twice as much. Function <code><a href=
-++          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> of Expat &gt;=2.7.6
-++          (and where backported) matches the amount of entropy supported by SipHash.
-++        </p>.
-+ <p><b>Note:</b> This call is optional, as the parser will auto-generate
-+-a new random salt value if no value has been set at the start of parsing.</p>
-++a new random salt value internally if no value has been set by the start of parsing.</p>
-+ <p><b>Note:</b> One should not call <code>XML_SetHashSalt</code> with a
-+ hash salt value of 0, as this value is used as sentinel value to indicate
-+ that <code>XML_SetHashSalt</code> has <b>not</b> been called. Consequently
-+ such a call will have no effect, even if it returns 1.</p>
-+ </div>
-+ 
-++      <h4 id="XML_SetHashSalt16Bytes">
-++        XML_SetHashSalt16Bytes
-++      </h4>
-++
-++      <pre class="fcndec">
-++/* Added in Expat 2.7.6. */
-++XML_Bool XMLCALL
-++XML_SetHashSalt16Bytes(XML_Parser parser,
-++                       const uint8_t entropy[16]);
-++</pre>
-++      <div class="fcndef">
-++        Sets the hash salt to use for internal hash calculations. Helps in preventing DoS
-++        attacks based on predicting hash function behavior. In order to have an effect
-++        this must be called before parsing has started. Returns <code>XML_TRUE</code> if
-++        successful, <code>XML_FALSE</code> when called after <code>XML_Parse</code> or
-++        <code>XML_ParseBuffer</code> or when <code>parser</code> is <code>NULL</code>.
-++        <p>
-++          <b>Note:</b> Setting a salt that is <em>not</em> from a source of high quality
-++          entropy (like <code>getentropy(3)</code>) will make the parser vulnerable to
-++          hash flooding attacks.
-++        </p>
-++
-++        <p>
-++          <b>Note:</b> This call is optional, as the parser will auto-generate a new
-++          random salt value internally if no value has been set by the start of parsing.
-++        </p>
-++      </div>
-++
-+ <h4 id="XML_UseForeignDTD">XML_UseForeignDTD</h4>
-+ <pre class="fcndec">
-+ enum XML_Error XMLCALL
-+diff --git a/lib/expat.h b/lib/expat.h
-+index df207e9e..b356e002 100644
-+--- a/lib/expat.h
-++++ b/lib/expat.h
-+@@ -44,6 +44,7 @@
-+ #ifndef Expat_INCLUDED
-+ #define Expat_INCLUDED 1
-+ 
-++#  include <stdint.h> // for uint8_t
-+ #include <stdlib.h>
-+ #include "expat_external.h"
-+ 
-+@@ -916,10 +917,21 @@ XML_SetParamEntityParsing(XML_Parser parser,
-+    function behavior. This must be called before parsing is started.
-+    Returns 1 if successful, 0 when called after parsing has started.
-+    Note: If parser == NULL, the function will do nothing and return 0.
-++   DEPRECATED since Expat 2.7.6.
-+ */
-+ XMLPARSEAPI(int)
-+ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt);
-+ 
-++/* Sets the hash salt to use for internal hash calculations.
-++   Helps in preventing DoS attacks based on predicting hash function behavior.
-++   This must be called before parsing is started.
-++   Returns XML_TRUE if successful, XML_FALSE when called after parsing has
-++   started or when parser is NULL.
-++   Added in Expat 2.7.6.
-++*/
-++XMLPARSEAPI(XML_Bool)
-++XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]);
-++
-+ /* If XML_Parse or XML_ParseBuffer have returned XML_STATUS_ERROR, then
-+    XML_GetErrorCode returns information about the error.
-+ */
-+diff --git a/lib/internal.h b/lib/internal.h
-+index 32faaa05..617d6454 100644
-+--- a/lib/internal.h
-++++ b/lib/internal.h
-+@@ -113,6 +113,7 @@
-+ #if defined(_WIN32)                                                            \
-+     && (! defined(__USE_MINGW_ANSI_STDIO)                                      \
-+         || (1 - __USE_MINGW_ANSI_STDIO - 1 == 0))
-++#  define EXPAT_FMT_LLX(midpart) "%" midpart "I64x"
-+ #  define EXPAT_FMT_ULL(midpart) "%" midpart "I64u"
-+ #  if defined(_WIN64) // Note: modifiers "td" and "zu" do not work for MinGW
-+ #    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "I64d"
-+@@ -122,6 +123,7 @@
-+ #    define EXPAT_FMT_SIZE_T(midpart) "%" midpart "u"
-+ #  endif
-+ #else
-++#  define EXPAT_FMT_LLX(midpart) "%" midpart "llx"
-+ #  define EXPAT_FMT_ULL(midpart) "%" midpart "llu"
-+ #  if ! defined(ULONG_MAX)
-+ #    error Compiler did not define ULONG_MAX for us
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 1bafb948..75a7e5d0 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -604,7 +604,7 @@ static ELEMENT_TYPE *getElementType(XML_Parser parser, const ENCODING *enc,
-+ 
-+ static XML_Char *copyString(const XML_Char *s, XML_Parser parser);
-+ 
-+-static unsigned long generate_hash_secret_salt(XML_Parser parser);
-++static struct sipkey generate_hash_secret_salt(void);
-+ static XML_Bool startParsing(XML_Parser parser);
-+ 
-+ static XML_Parser parserCreate(const XML_Char *encodingName,
-+@@ -777,7 +777,8 @@ struct XML_ParserStruct {
-+   XML_Bool m_useForeignDTD;
-+   enum XML_ParamEntityParsing m_paramEntityParsing;
-+ #endif
-+-  unsigned long m_hash_secret_salt;
-++  struct sipkey m_hash_secret_salt_128;
-++  XML_Bool m_hash_secret_salt_set;
-+ #if XML_GE == 1
-+   ACCOUNTING m_accounting;
-+   MALLOC_TRACKER m_alloc_tracker;
-+@@ -1189,69 +1190,65 @@ gather_time_entropy(void) {
-+ 
-+ #endif /* ! defined(HAVE_ARC4RANDOM_BUF) && ! defined(HAVE_ARC4RANDOM) */
-+ 
-+-static unsigned long
-+-ENTROPY_DEBUG(const char *label, unsigned long entropy) {
-++static struct sipkey
-++ENTROPY_DEBUG(const char *label, struct sipkey entropy_128) {
-+   if (getDebugLevel("EXPAT_ENTROPY_DEBUG", 0) >= 1u) {
-+-    fprintf(stderr, "expat: Entropy: %s --> 0x%0*lx (%lu bytes)\n", label,
-+-            (int)sizeof(entropy) * 2, entropy, (unsigned long)sizeof(entropy));
-++    fprintf(stderr,
-++            "expat: Entropy: %s --> [0x" EXPAT_FMT_LLX(
-++                "016") ", 0x" EXPAT_FMT_LLX("016") "] (16 bytes)\n",
-++            label, (unsigned long long)entropy_128.k[0],
-++            (unsigned long long)entropy_128.k[1]);
-+   }
-+-  return entropy;
-++  return entropy_128;
-+ }
-+ 
-+-static unsigned long
-+-generate_hash_secret_salt(XML_Parser parser) {
-+-  unsigned long entropy;
-+-  (void)parser;
-++static struct sipkey
-++generate_hash_secret_salt(void) {
-++  struct sipkey entropy;
-+ 
-+   /* "Failproof" high quality providers: */
-+ #if defined(HAVE_ARC4RANDOM_BUF)
-+   arc4random_buf(&entropy, sizeof(entropy));
-+   return ENTROPY_DEBUG("arc4random_buf", entropy);
-+ #elif defined(HAVE_ARC4RANDOM)
-+-  writeRandomBytes_arc4random((void *)&entropy, sizeof(entropy));
-++  writeRandomBytes_arc4random(&entropy, sizeof(entropy));
-+   return ENTROPY_DEBUG("arc4random", entropy);
-+ #else
-+   /* Try high quality providers first .. */
-+ #  ifdef _WIN32
-+-  if (writeRandomBytes_rand_s((void *)&entropy, sizeof(entropy))) {
-++  if (writeRandomBytes_rand_s(&entropy, sizeof(entropy))) {
-+     return ENTROPY_DEBUG("rand_s", entropy);
-+   }
-+ #  elif defined(HAVE_GETRANDOM) || defined(HAVE_SYSCALL_GETRANDOM)
-+-  if (writeRandomBytes_getrandom_nonblock((void *)&entropy, sizeof(entropy))) {
-++  if (writeRandomBytes_getrandom_nonblock(&entropy, sizeof(entropy))) {
-+     return ENTROPY_DEBUG("getrandom", entropy);
-+   }
-+ #  endif
-+ #  if ! defined(_WIN32) && defined(XML_DEV_URANDOM)
-+-  if (writeRandomBytes_dev_urandom((void *)&entropy, sizeof(entropy))) {
-++  if (writeRandomBytes_dev_urandom(&entropy, sizeof(entropy))) {
-+     return ENTROPY_DEBUG("/dev/urandom", entropy);
-+   }
-+ #  endif /* ! defined(_WIN32) && defined(XML_DEV_URANDOM) */
-+   /* .. and self-made low quality for backup: */
-+ 
-+-  entropy = gather_time_entropy();
-++  entropy.k[0] = 0;
-++  entropy.k[1] = gather_time_entropy();
-+ #  if ! defined(__wasi__)
-+   /* Process ID is 0 bits entropy if attacker has local access */
-+-  entropy ^= getpid();
-++  entropy.k[1] ^= getpid();
-+ #  endif
-+ 
-+   /* Factors are 2^31-1 and 2^61-1 (Mersenne primes M31 and M61) */
-+   if (sizeof(unsigned long) == 4) {
-+-    return ENTROPY_DEBUG("fallback(4)", entropy * 2147483647);
-++    entropy.k[1] *= 2147483647;
-++    return ENTROPY_DEBUG("fallback(4)", entropy);
-+   } else {
-+-    return ENTROPY_DEBUG("fallback(8)",
-+-                         entropy * (unsigned long)2305843009213693951ULL);
-++    entropy.k[1] *= 2305843009213693951ULL;
-++    return ENTROPY_DEBUG("fallback(8)", entropy);
-+   }
-+ #endif
-+ }
-+ 
-+-static unsigned long
-+-get_hash_secret_salt(XML_Parser parser) {
-+-  const XML_Parser rootParser = getRootParserOf(parser, NULL);
-+-  assert(! rootParser->m_parentParser);
-+-
-+-  return rootParser->m_hash_secret_salt;
-+-}
-+-
-+ static enum XML_Error
-+ callProcessor(XML_Parser parser, const char *start, const char *end,
-+               const char **endPtr) {
-+@@ -1320,8 +1316,10 @@ callProcessor(XML_Parser parser, const char *start, const char *end,
-+ static XML_Bool /* only valid for root parser */
-+ startParsing(XML_Parser parser) {
-+   /* hash functions must be initialized before setContext() is called */
-+-  if (parser->m_hash_secret_salt == 0)
-+-    parser->m_hash_secret_salt = generate_hash_secret_salt(parser);
-++  if (parser->m_hash_secret_salt_set != XML_TRUE) {
-++    parser->m_hash_secret_salt_128 = generate_hash_secret_salt();
-++    parser->m_hash_secret_salt_set = XML_TRUE;
-++  }
-+   if (parser->m_ns) {
-+     /* implicit context only set for root parser, since child
-+        parsers (i.e. external entity parsers) will inherit it
-+@@ -1609,7 +1607,9 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
-+   parser->m_useForeignDTD = XML_FALSE;
-+   parser->m_paramEntityParsing = XML_PARAM_ENTITY_PARSING_NEVER;
-+ #endif
-+-  parser->m_hash_secret_salt = 0;
-++  parser->m_hash_secret_salt_128.k[0] = 0;
-++  parser->m_hash_secret_salt_128.k[1] = 0;
-++  parser->m_hash_secret_salt_set = XML_FALSE;
-+ 
-+ #if XML_GE == 1
-+   memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
-+@@ -1776,7 +1776,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
-+      from hash tables associated with either parser without us having
-+      to worry which hash secrets each table has.
-+   */
-+-  unsigned long oldhash_secret_salt;
-++  struct sipkey oldhash_secret_salt_128;
-++  XML_Bool oldhash_secret_salt_set;
-+   XML_Bool oldReparseDeferralEnabled;
-+ 
-+   /* Validate the oldParser parameter before we pull everything out of it */
-+@@ -1822,7 +1823,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
-+      from hash tables associated with either parser without us having
-+      to worry which hash secrets each table has.
-+   */
-+-  oldhash_secret_salt = parser->m_hash_secret_salt;
-++  oldhash_secret_salt_128 = parser->m_hash_secret_salt_128;
-++  oldhash_secret_salt_set = parser->m_hash_secret_salt_set;
-+   oldReparseDeferralEnabled = parser->m_reparseDeferralEnabled;
-+ 
-+ #ifdef XML_DTD
-+@@ -1877,7 +1879,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
-+     parser->m_externalEntityRefHandlerArg = oldExternalEntityRefHandlerArg;
-+   parser->m_defaultExpandInternalEntities = oldDefaultExpandInternalEntities;
-+   parser->m_ns_triplets = oldns_triplets;
-+-  parser->m_hash_secret_salt = oldhash_secret_salt;
-++  parser->m_hash_secret_salt_128 = oldhash_secret_salt_128;
-++  parser->m_hash_secret_salt_set = oldhash_secret_salt_set;
-+   parser->m_reparseDeferralEnabled = oldReparseDeferralEnabled;
-+   parser->m_parentParser = oldParser;
-+ #ifdef XML_DTD
-+@@ -2321,6 +2324,7 @@ XML_SetParamEntityParsing(XML_Parser parser,
-+ #endif
-+ }
-+ 
-++// DEPRECATED since Expat 2.7.6.
-+ int XMLCALL
-+ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
-+   if (parser == NULL)
-+@@ -2332,10 +2336,46 @@ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
-+   /* block after XML_Parse()/XML_ParseBuffer() has been called */
-+   if (parserBusy(rootParser))
-+     return 0;
-+-  rootParser->m_hash_secret_salt = hash_salt;
-++
-++  rootParser->m_hash_secret_salt_128.k[0] = 0;
-++  rootParser->m_hash_secret_salt_128.k[1] = hash_salt;
-++
-++  if (hash_salt != 0) { // to remain backwards compatible
-++    rootParser->m_hash_secret_salt_set = XML_TRUE;
-++
-++    if (sizeof(unsigned long) == 4)
-++      ENTROPY_DEBUG("explicit(4)", rootParser->m_hash_secret_salt_128);
-++    else
-++      ENTROPY_DEBUG("explicit(8)", rootParser->m_hash_secret_salt_128);
-++  }
-++
-+   return 1;
-+ }
-+ 
-++XML_Bool XMLCALL
-++XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]) {
-++  if (parser == NULL)
-++    return XML_FALSE;
-++
-++  if (entropy == NULL)
-++    return XML_FALSE;
-++
-++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
-++  assert(! rootParser->m_parentParser);
-++
-++  /* block after XML_Parse()/XML_ParseBuffer() has been called */
-++  if (parserBusy(rootParser))
-++    return XML_FALSE;
-++
-++  sip_tokey(&(rootParser->m_hash_secret_salt_128), entropy);
-++
-++  rootParser->m_hash_secret_salt_set = XML_TRUE;
-++
-++  ENTROPY_DEBUG("explicit(16)", rootParser->m_hash_secret_salt_128);
-++
-++  return XML_TRUE;
-++}
-++
-+ enum XML_Status XMLCALL
-+ XML_Parse(XML_Parser parser, const char *s, int len, int isFinal) {
-+   if ((parser == NULL) || (len < 0) || ((s == NULL) && (len != 0))) {
-+@@ -7837,8 +7877,10 @@ keylen(KEY s) {
-+ 
-+ static void
-+ copy_salt_to_sipkey(XML_Parser parser, struct sipkey *key) {
-+-  key->k[0] = 0;
-+-  key->k[1] = get_hash_secret_salt(parser);
-++  const XML_Parser rootParser = getRootParserOf(parser, NULL);
-++  assert(! rootParser->m_parentParser);
-++
-++  *key = rootParser->m_hash_secret_salt_128;
-+ }
-+ 
-+ static unsigned long FASTCALL
 +diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-+index 023d9ce4..380caf19 100644
++index 023d9ce..d6edb16 100644
 +--- a/tests/basic_tests.c
 ++++ b/tests/basic_tests.c
-+@@ -204,6 +204,30 @@ START_TEST(test_hash_collision) {
-+ END_TEST
-+ #undef COLLIDING_HASH_SALT
++@@ -2439,9 +2439,9 @@ START_TEST(test_attributes) {
++                          {XCS("id"), XCS("one")},
++                          {NULL, NULL}};
++   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("doc"), 3, XCS("id"), NULL},
++-                        {XCS("tag"), 1, NULL, NULL},
++-                        {NULL, 0, NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
+++                        {XCS("tag"), 1, 0, NULL, NULL},
+++                        {NULL, 0, 0, NULL, NULL}};
++   info[0].attributes = doc_info;
++   info[1].attributes = tag_info;
 + 
-++START_TEST(test_hash_salt_setter) {
-++  const uint8_t entropy[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
-++                               '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
++@@ -5496,7 +5496,7 @@ START_TEST(test_deep_nested_attribute_entity) {
++            (long unsigned)(N_LINES - 1));
++ 
++   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("foo"), 1, NULL, NULL}, {NULL, 0, NULL, NULL}};
+++  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
++   info[0].attributes = doc_info;
++ 
++   XML_Parser parser = XML_ParserCreate(NULL);
++diff --git a/tests/handlers.c b/tests/handlers.c
++index e658223..9ff7b35 100644
++--- a/tests/handlers.c
+++++ b/tests/handlers.c
++@@ -137,7 +137,7 @@ counting_start_element_handler(void *userData, const XML_Char *name,
++     fail("ID does not have the correct name");
++     return;
++   }
++-  for (i = 0; i < info->attr_count; i++) {
+++  for (i = 0; i < info->attr_count + info->default_attr_count; i++) {
++     attr = info->attributes;
++     while (attr->name != NULL) {
++       if (! xcstrcmp(atts[0], attr->name))
++diff --git a/tests/handlers.h b/tests/handlers.h
++index ac4ca94..11d45eb 100644
++--- a/tests/handlers.h
+++++ b/tests/handlers.h
++@@ -88,6 +88,7 @@ typedef struct attrInfo {
++ typedef struct elementInfo {
++   const XML_Char *name;
++   int attr_count;
+++  int default_attr_count;
++   const XML_Char *id_name;
++   AttrInfo *attributes;
++ } ElementInfo;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+new file mode 100644
+index 00000000000..fef531a4392
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+@@ -0,0 +1,318 @@
++From ba12af3b3ffd98b9e31c3a01a20d392c89aa974e Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
++Date: Fri, 13 Mar 2026 13:27:31 +0100
++Subject: [PATCH 2/7] test(attlist): Cover duplicate attribute names
++
++Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
++(cherry picked from commit e569f47181c43dca5d262089e541ddf9a9c09927)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/e569f47181c43dca5d262089e541ddf9a9c09927]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ tests/basic_tests.c | 282 ++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 282 insertions(+)
++
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index d6edb16..907a458 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -2462,6 +2462,279 @@ START_TEST(test_attributes) {
++ }
++ END_TEST
++ 
+++START_TEST(test_duplicate_cdata_attribute) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one definition is provided for the same attribute of a given
+++    element type, the first declaration is binding and later declarations are
+++    ignored.
+++  */
+++
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc attribute CDATA 'expected' attribute CDATA 'ignored'>\n"
+++        "]>\n"
+++        "<doc/>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+++
 ++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
 ++
-++  // NULL parser should be rejected
-++  assert_true(XML_SetHashSalt16Bytes(NULL, entropy) == XML_FALSE);
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
 ++
-++  // NULL entropy should be rejected
-++  assert_true(XML_SetHashSalt16Bytes(parser, NULL) == XML_FALSE);
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
 ++
-++  // Setting should be allowed more than once
-++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_TRUE);
-++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_TRUE);
-++
-++  // But not after parsing has started
-++  assert_true(XML_Parse(parser, "", 0, XML_FALSE /* isFinal */)
-++              == XML_STATUS_OK);
-++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_FALSE);
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
 ++
 ++  XML_ParserFree(parser);
 ++}
 ++END_TEST
 ++
-+ /* Regression test for SF bug #491986. */
-+ START_TEST(test_danish_latin1) {
-+   const char *text = "<?xml version='1.0' encoding='iso-8859-1'?>\n"
-+@@ -6244,6 +6268,7 @@ make_basic_test_case(Suite *s) {
-+   tcase_add_test(tc_basic, test_bom_utf16_le);
-+   tcase_add_test(tc_basic, test_nobom_utf16_le);
-+   tcase_add_test(tc_basic, test_hash_collision);
-++  tcase_add_test(tc_basic, test_hash_salt_setter);
-+   tcase_add_test(tc_basic, test_illegal_utf8);
-+   tcase_add_test(tc_basic, test_utf8_auto_align);
-+   tcase_add_test(tc_basic, test_utf16);
+++START_TEST(test_duplicate_id_attribute_1) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one definition is provided for the same attribute of a given
+++    element type, the first declaration is binding and later declarations are
+++    ignored.
+++  */
+++
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc identifier CDATA 'expected' identifier ID #REQUIRED>\n"
+++        "]>\n"
+++        "<doc/>\n";
+++  AttrInfo doc_info[] = {{XCS("identifier"), XCS("expected")}, {NULL, NULL}};
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_id_attribute_2) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one definition is provided for the same attribute of a given
+++    element type, the first declaration is binding and later declarations are
+++    ignored.
+++  */
+++
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc identifier ID #REQUIRED identifier CDATA 'unexpected'>\n"
+++        "]>\n"
+++        "<doc/>\n";
+++  AttrInfo doc_info[] = {{NULL, NULL}};
+++
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text = "<!DOCTYPE doc [\n"
+++                     "  <!ATTLIST doc attribute CDATA 'expected'>\n"
+++                     "  <!ATTLIST doc attribute CDATA 'ignored'>\n"
+++                     "]>\n"
+++                     "<doc/>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_2) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text = "<!DOCTYPE doc [\n"
+++                     "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
+++                     "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
+++                     "  <!ATTLIST doc attribute CDATA 'ignored_doc'>\n"
+++                     "]>\n"
+++                     "<doc><tag></tag></doc>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")}, {NULL, NULL}};
+++  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 0, 1, NULL, doc_info},
+++                        {XCS("tag"), 0, 1, NULL, tag_info},
+++                        {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_3) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
+++        "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
+++        "  <!ATTLIST doc second_attribute CDATA 'second_expected_doc' attribute CDATA 'ignored_doc'>\n"
+++        "]>\n"
+++        "<doc><tag></tag></doc>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")},
+++                         {XCS("second_attribute"), XCS("second_expected_doc")},
+++                         {NULL, NULL}};
+++  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 0, 2, NULL, doc_info},
+++                        {XCS("tag"), 0, 1, NULL, tag_info},
+++                        {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_id_attribute_multiple_attlistdecl) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text = "<!DOCTYPE doc [\n"
+++                     "  <!ATTLIST doc identifier ID #REQUIRED>\n"
+++                     "  <!ATTLIST tag identifier CDATA 'identifier_tag'>\n"
+++                     "  <!ATTLIST doc identifier CDATA 'ignored'>\n"
+++                     "]>\n"
+++                     "<doc identifier='doc_identity'><tag></tag></doc>\n";
+++  AttrInfo doc_info[]
+++      = {{XCS("identifier"), XCS("doc_identity")}, {NULL, NULL}};
+++  AttrInfo tag_info[]
+++      = {{XCS("identifier"), XCS("identifier_tag")}, {NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 1, 0, XCS("identifier"), doc_info},
+++                        {XCS("tag"), 0, 1, NULL, tag_info},
+++                        {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Test reset works correctly in the middle of processing an internal
++  * entity.  Exercises some obscure code in XML_ParserReset().
++  */
++@@ -6325,6 +6598,15 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_foreign_dtd);
++   tcase_add_test(tc_basic, test_set_base);
++   tcase_add_test(tc_basic, test_attributes);
+++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute);
+++  tcase_add_test(tc_basic, test_duplicate_id_attribute_1);
+++  tcase_add_test(tc_basic, test_duplicate_id_attribute_2);
+++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute_multiple_attlistdecl);
+++  tcase_add_test(tc_basic,
+++                 test_duplicate_cdata_attribute_multiple_attlistdecl_2);
+++  tcase_add_test(tc_basic,
+++                 test_duplicate_cdata_attribute_multiple_attlistdecl_3);
+++  tcase_add_test(tc_basic, test_duplicate_id_attribute_multiple_attlistdecl);
++   tcase_add_test__if_xml_ge(tc_basic, test_reset_in_entity);
++   tcase_add_test(tc_basic, test_resume_invalid_parse);
++   tcase_add_test(tc_basic, test_resume_resuspended);
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+new file mode 100644
+index 00000000000..2afe6dbebc4
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+@@ -0,0 +1,46 @@
++From 852ab610685b45c62017556c38096d941c154963 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Mon, 20 Apr 2026 13:44:43 +0200
++Subject: [PATCH 3/7] tests: Define .attributes the first time around
++
++(cherry picked from commit 05307d352a5aa858cdda57ec53a53b597b3a4a82)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/05307d352a5aa858cdda57ec53a53b597b3a4a82]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ tests/basic_tests.c | 10 ++++------
++ 1 file changed, 4 insertions(+), 6 deletions(-)
++
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 907a458..b0178fc 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -2439,11 +2439,9 @@ START_TEST(test_attributes) {
++                          {XCS("id"), XCS("one")},
++                          {NULL, NULL}};
++   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
++-                        {XCS("tag"), 1, 0, NULL, NULL},
+++  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), doc_info},
+++                        {XCS("tag"), 1, 0, NULL, tag_info},
++                         {NULL, 0, 0, NULL, NULL}};
++-  info[0].attributes = doc_info;
++-  info[1].attributes = tag_info;
++ 
++   XML_Parser parser = XML_ParserCreate(NULL);
++   assert_true(parser != NULL);
++@@ -5769,8 +5767,8 @@ START_TEST(test_deep_nested_attribute_entity) {
++            (long unsigned)(N_LINES - 1));
++ 
++   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
++-  info[0].attributes = doc_info;
+++  ElementInfo info[]
+++      = {{XCS("foo"), 1, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
++ 
++   XML_Parser parser = XML_ParserCreate(NULL);
++   ParserAndElementInfo parserPlusElemenInfo = {parser, info};
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+new file mode 100644
+index 00000000000..f4c7733c70d
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+@@ -0,0 +1,32 @@
++From 89c6acdcd919b64014b180fadec46b0d25760832 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Mon, 13 Apr 2026 01:34:03 +0200
++Subject: [PATCH 4/7] tests: Make counting_start_element_handler enforce
++ complete attribute lists
++
++(cherry picked from commit 4176aff73840711060913e0ac6aa1168d8ba5c8d)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4176aff73840711060913e0ac6aa1168d8ba5c8d]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ tests/handlers.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/tests/handlers.c b/tests/handlers.c
++index 9ff7b35..5e72e8b 100644
++--- a/tests/handlers.c
+++++ b/tests/handlers.c
++@@ -155,6 +155,9 @@ counting_start_element_handler(void *userData, const XML_Char *name,
++     /* Remember, two entries in atts per attribute (see above) */
++     atts += 2;
++   }
+++
+++  // Self-test that the test case's list of expected attributes is complete
+++  assert_true(atts[0] == NULL);
++ }
++ 
++ void XMLCALL
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+new file mode 100644
+index 00000000000..480f941cb6f
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+@@ -0,0 +1,32 @@
++From d352c83afaa3945c964aba74cb60a00822af96d3 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 8 Mar 2026 22:14:41 +0100
++Subject: [PATCH 5/7] lib: Extract a constant for upcoming reuse
++
++(cherry picked from commit fb35f2d2040d114f355bae8a7450942533237530)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/fb35f2d2040d114f355bae8a7450942533237530]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ lib/xmlparse.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 9bc67f3..8d3e8db 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -7708,8 +7708,9 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++       newE->prefix = (PREFIX *)lookup(oldParser, &(newDtd->prefixes),
++                                       oldE->prefix->name, 0);
++     for (i = 0; i < newE->nDefaultAtts; i++) {
+++      const XML_Char *const attributeName = oldE->defaultAtts[i].id->name;
++       newE->defaultAtts[i].id = (ATTRIBUTE_ID *)lookup(
++-          oldParser, &(newDtd->attributeIds), oldE->defaultAtts[i].id->name, 0);
+++          oldParser, &(newDtd->attributeIds), attributeName, 0);
++       newE->defaultAtts[i].isCdata = oldE->defaultAtts[i].isCdata;
++       if (oldE->defaultAtts[i].value) {
++         newE->defaultAtts[i].value
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+new file mode 100644
+index 00000000000..d39eb91f2f1
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+@@ -0,0 +1,87 @@
++From a2c8ddb3d6f4df7af64e05bed4b3a4edeae33fd0 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 8 Mar 2026 23:05:49 +0100
++Subject: [PATCH 6/7] lib: Introduce ELEMENT_TYPE.defaultAttsNames
++
++(cherry picked from commit 7f0f1b9e70d937072d2e9e37ae9edf27784cc080)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/7f0f1b9e70d937072d2e9e37ae9edf27784cc080]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ lib/xmlparse.c | 17 +++++++++++++++++
++ 1 file changed, 17 insertions(+)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 8d3e8db..4a29c18 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -388,6 +388,7 @@ typedef struct {
++   int nDefaultAtts;
++   int allocDefaultAtts;
++   DEFAULT_ATTRIBUTE *defaultAtts;
+++  HASH_TABLE defaultAttsNames;
++ } ELEMENT_TYPE;
++ 
++ typedef struct {
++@@ -3844,6 +3845,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
++                                          sizeof(ELEMENT_TYPE));
++     if (! elementType)
++       return XML_ERROR_NO_MEMORY;
+++    if (! elementType->defaultAttsNames.parser)
+++      hashTableInit(&(elementType->defaultAttsNames), parser);
++     if (parser->m_ns && ! setElementTypePrefix(parser, elementType))
++       return XML_ERROR_NO_MEMORY;
++   }
++@@ -7549,6 +7552,7 @@ dtdReset(DTD *p, XML_Parser parser) {
++     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
++     if (! e)
++       break;
+++    hashTableDestroy(&(e->defaultAttsNames));
++     if (e->allocDefaultAtts != 0)
++       FREE(parser, e->defaultAtts);
++   }
++@@ -7590,6 +7594,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser) {
++     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
++     if (! e)
++       break;
+++    hashTableDestroy(&(e->defaultAttsNames));
++     if (e->allocDefaultAtts != 0)
++       FREE(parser, e->defaultAtts);
++   }
++@@ -7683,6 +7688,10 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++                                   sizeof(ELEMENT_TYPE));
++     if (! newE)
++       return 0;
+++
+++    if (! newE->defaultAttsNames.parser)
+++      hashTableInit(&(newE->defaultAttsNames), parser);
+++
++     if (oldE->nDefaultAtts) {
++       /* Detect and prevent integer overflow.
++        * The preprocessor guard addresses the "always false" warning
++@@ -7719,6 +7728,12 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++           return 0;
++       } else
++         newE->defaultAtts[i].value = NULL;
+++
+++      NAMED *const nameAddedOrFound = (NAMED *)lookup(
+++          parser, &(newE->defaultAttsNames), attributeName, sizeof(NAMED));
+++      if (! nameAddedOrFound) {
+++        return 0;
+++      }
++     }
++   }
++ 
++@@ -8458,6 +8473,8 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
++                                sizeof(ELEMENT_TYPE));
++   if (! ret)
++     return NULL;
+++  if (! ret->defaultAttsNames.parser)
+++    hashTableInit(&(ret->defaultAttsNames), getRootParserOf(parser, NULL));
++   if (ret->name != name)
++     poolDiscard(&dtd->pool);
++   else {
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
+new file mode 100644
+index 00000000000..26c829b5220
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
+@@ -0,0 +1,52 @@
++From 0e4829f4be500ce687b37ec82f9650b86c8419c7 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 8 Mar 2026 23:06:29 +0100
++Subject: [PATCH 7/7] lib: Leverage ELEMENT_TYPE.defaultAttsNames for attribute
++ collision detection
++
++.. to resolve quadratic runtime behavior
++
++(cherry picked from commit 4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ lib/xmlparse.c | 14 ++++++++++----
++ 1 file changed, 10 insertions(+), 4 deletions(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 4a29c18..b3f0b73 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -7177,10 +7177,10 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
++   if (value || isId) {
++     /* The handling of default attributes gets messed up if we have
++        a default which duplicates a non-default. */
++-    int i;
++-    for (i = 0; i < type->nDefaultAtts; i++)
++-      if (attId == type->defaultAtts[i].id)
++-        return 1;
+++    NAMED *const nameFound
+++        = (NAMED *)lookup(parser, &(type->defaultAttsNames), attId->name, 0);
+++    if (nameFound)
+++      return 1;
++     if (isId && ! type->idAtt && ! attId->xmlns)
++       type->idAtt = attId;
++   }
++@@ -7227,6 +7227,12 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
++   att->isCdata = isCdata;
++   if (! isCdata)
++     attId->maybeTokenized = XML_TRUE;
+++
+++  NAMED *const nameAddedOrFound = (NAMED *)lookup(
+++      parser, &(type->defaultAttsNames), attId->name, sizeof(NAMED));
+++  if (! nameAddedOrFound)
+++    return 0;
+++
++   type->nDefaultAtts += 1;
++   return 1;
++ }
++-- 
++2.43.0
++
 diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index 151720a9e3c..f5c3e3fdd2f 100644
+index f5c3e3fdd2f..3581d94fac4 100644
 --- a/meta/recipes-core/expat/expat_2.6.4.bb
 +++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -51,6 +51,9 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-32777-02.patch \
-            file://CVE-2026-32778-01.patch \
-            file://CVE-2026-32778-02.patch \
-+           file://CVE-2026-41080-01.patch \
-+           file://CVE-2026-41080-02.patch \
-+           file://CVE-2026-41080-03.patch \
+@@ -54,6 +54,13 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://CVE-2026-41080-01.patch \
+            file://CVE-2026-41080-02.patch \
+            file://CVE-2026-41080-03.patch \
++           file://CVE-2026-45186-01.patch \
++           file://CVE-2026-45186-02.patch \
++           file://CVE-2026-45186-03.patch \
++           file://CVE-2026-45186-04.patch \
++           file://CVE-2026-45186-05.patch \
++           file://CVE-2026-45186-06.patch \
++           file://CVE-2026-45186-07.patch \
             "
  
  GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
