@@ -1,185 +1,181 @@
-Return-Path: <gustavo.nihei@espressif.com>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5308EC44515
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 12:47:09 +0000 (UTC)
-Received: from OS8PR02CU002.outbound.protection.outlook.com (OS8PR02CU002.outbound.protection.outlook.com [40.107.75.129])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8154.1784551620343414437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6644DC44515
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 12:59:19 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.12])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8382.1784552348885546592
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 05:47:00 -0700
+ Mon, 20 Jul 2026 05:59:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@espressifsystems.onmicrosoft.com header.s=selector1-espressifsystems-onmicrosoft-com header.b=2si41uuZ;
- spf=pass (domain: espressif.com, ip: 40.107.75.129, mailfrom: gustavo.nihei@espressif.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=co2qRaG5;
+ spf=pass (domain: est.tech, ip: 40.107.162.12, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZsaoHMsJ7U1jbWMnTS6EuKUNH5NthPH3f0PTVZ6bBVp1yeW/Qs3pC3p74o52ajxsOFY2VIA50v+NZLPmiwulRvJrbJTdbE4nhY5Cz5g3cH3ZruaPW9SEamxoJyoQxp22pywa0Ai+nrK+ergq5srIyv8iSvJASKNhZ4jx+slk+wLc+cWgOCF7q3C7EzWIpVeSW8voAVU7/ycYR31xShYh0dcfT7SxOpIzVDeFWWzFsjvoWNQPFA27Dp5H7jNlk7h4jkrNWsxRHz/RFMSvT3mWccEeXj3O0L5YUa+XSGzvjRAJOpPK9HDWCKH7+i2fu0au6EnWFOk/u45AtFM5gC5hfA==
+ b=FToggUL6Fn6dbMnR6jKmzb2FjEEuoPDPQeGRFrsI+PK4ypDARToGcKZE2XPtZyVGmYbdSllPJ9m6ONQ5yZm+wN7Snxod9rqgU1VS3xoMDONa5A4k3Zdze2sf9bki8U0V3aBiiEWd0ACyZzwV5UqeCXEnEl2yrOZZ0bhEnWscP40G3T8362CQacFeLBb2K9lWJuVYCtQvtNWlBMBT10QkKCVyUmPKYzFGu5m+fMDEKOG2Yx/GCOOU+cIpavoOvtuTDIXtNRk7C9XRbWV7h2A2cLC+EG4CjHNZxwZ9/yOct+01f1uW1kPXLRp5MPclyRR9UiaTO88xxW0ai99RD4PQbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UBjuCdBXZcQsonjT51RlzC7mpW8f5YqndQBySypj9F0=;
- b=OGvH5OoIhDQb1N1Y5nrvOBsFxiKXENUN4T+TyUuZs2/1D/H7TemYT5m/SSoLsN5sreTSRnHaDU/cSBeR0PISgEtahGi7jCGQ2RYBa3w6GuHpOG5+ojA4gpZPHiSsOv+HZmx6TSsMhH4laz9qSKdGkAkeRUjLp2RSVDerUdFAY6gTedpRCwxiNjRlYW/RwiKS+AImN+BwsvHWNZfPFJKijD6rzbIMj7IkV9KrqQNFi/tqAhf7VgqQwg4wb/jnt4QorodEdCD8KSas8pblFwMZgyEBMLBsfKp9Ln05SNm3N/zgbkINYiA9I+KMa2OZkGxXrwjciIkOf96rEzscoKGzRQ==
+ bh=CSEsIt9ZDd9cHLzRey7MFrL4G0EXnTZfXIkGy26X7cY=;
+ b=hiPBBR/FnWmpcEC8LDKzr6+Q9NripAMreZVFVqNO/zxHL8kIZjavWx5oTX8MBlWLJUpJBGdNKajh5bzshUPwEr/FdvK30sMgeTlbgK7E3LQvXYQvpYTR8IeY63D0vbsdxJUNDD4geOOM8uY7yLKVgDG/xUfuYk8rtPzh+Q+MArTsjIELeS1POF47LWErifXGZzjGBlEs6Z2q1qtlAPk5gHEhbrSYrtirMIZAMNXyofdSg+/mAvjCX9S+4NJ/Dm8OLRi/M4w//b7XYFvGE4HJxthX7xlMaHPZHh5d9POwVlF332PSZOd2SPnKzt+ImabO8mxrhCyimDkHVJ3f38ZzqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=espressif.com; dmarc=pass action=none
- header.from=espressif.com; dkim=pass header.d=espressif.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=espressifsystems.onmicrosoft.com;
- s=selector1-espressifsystems-onmicrosoft-com;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UBjuCdBXZcQsonjT51RlzC7mpW8f5YqndQBySypj9F0=;
- b=2si41uuZBbKHcb1IonQpnDnirKpFu9BtAU3e4E49ZRR1w1OD+OPlxBlnBd9VwHGvIKhIptP7k34HokW8tP2qLsBXq2V5RfFZXEaBvJ7luFCIE181VqyCw+GMbrxpUuk5QiAUC27m/gyhl+YQNPkYLhJVhgsgAZ+dpmR/BZgpHwQ=
+ bh=CSEsIt9ZDd9cHLzRey7MFrL4G0EXnTZfXIkGy26X7cY=;
+ b=co2qRaG59z6JxMRnvPjCJ2H4qpp7Q6XCLYIaOtHb+L2gxxyl0G3WQdtFRpjgrwxCihpEu8OdxFTKIR3hW4iyipnriy00R22si3jnhj57rhtNkeUjNDBH0QePLjsByRr8E7ZDKWknSsmTUB+OWkHx+kjt9zLJlTwmC2shbZZyJwr+wbQ4qbTNVM6CV1+cumY/swmKcpo5hXABOy3z1FrNPTmaYNWLXqcqTm2Ihh/xyqItC8A97W/RDQ/PnxcfQxnvO2WR4sB4eNPe/VQQfDT7stqp8EENgFngOmFtnBc2pv+rx80J1g5oxakj0kq5YwK/bWVbjK9fqfIFnW6JzTsLbQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=espressif.com;
-Received: from PUZPR04MB5419.apcprd04.prod.outlook.com (2603:1096:301:bb::12)
- by SI4PR04MB9518.apcprd04.prod.outlook.com (2603:1096:4:2b2::24) with
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
+ by GVXP189MB2103.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Mon, 20 Jul
- 2026 12:46:55 +0000
-Received: from PUZPR04MB5419.apcprd04.prod.outlook.com
- ([fe80::af90:4b51:a7c:3d9e]) by PUZPR04MB5419.apcprd04.prod.outlook.com
- ([fe80::af90:4b51:a7c:3d9e%5]) with mapi id 15.21.0245.009; Mon, 20 Jul 2026
- 12:46:55 +0000
-From: Gustavo Henrique Nihei <gustavo.nihei@espressif.com>
+ 2026 12:59:02 +0000
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0245.009; Mon, 20 Jul 2026
+ 12:59:02 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
 To: openembedded-core@lists.openembedded.org
-CC: Yoann Congal <yoann.congal@smile.fr>,
-	Paul Barker <paul@pbarker.dev>,
-	Gustavo Henrique Nihei <gustavo.nihei@espressif.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [wrynose][PATCH v2] u-boot: re-enable RISC-V compressed (c) ISA extension
-Date: Mon, 20 Jul 2026 09:46:20 -0300
-Message-ID: <20260720124620.1194239-1-gustavo.nihei@espressif.com>
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v2] libarchive: ptest: run tests from tmpfs to avoid inode overflow failures
+Date: Mon, 20 Jul 2026 14:58:54 +0200
+Message-ID: <20260720125854.39562-1-pratik.farkase@est.tech>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260720122619.34696-1-pratik.farkase@est.tech>
+References: <20260720122619.34696-1-pratik.farkase@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: CP3P284CA0081.BRAP284.PROD.OUTLOOK.COM
- (2603:10d6:103:6e::26) To PUZPR04MB5419.apcprd04.prod.outlook.com
- (2603:1096:301:bb::12)
+X-ClientProxiedBy: DU7P189CA0029.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:552::29) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:4d4::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR04MB5419:EE_|SI4PR04MB9518:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23c52f77-fcb8-4625-bb94-08dee65cfaa1
+X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|GVXP189MB2103:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a2302b4-eee0-4713-aa93-08dee65eac54
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|10070799003|376014|366016|23010399003|1800799024|18002099003|3023799007|6133799003|56012099006|10067099003;
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|10067099003|11063799006|56012099006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	TvUjYxje0HvJ2AwpQQGBbuDnx7F1khkLbx/T0ilSkUBv0AXkfUUbvU5NSpgMfP4RSndGfrtCUv7+a+gKvTWCdOHBuikScxwl52Hz+tKl5WNHgqfpyKOx2vXdzJR/qxcaOizWuFWLkjF3Dm/j3volMZHbp7wIiMLFUJCWmLD5GZowUzsEzbpFS/ZZnbKd3OfnnR9MdruOBckY/GPC3+u4mveAXcabGKMAJ6QySILHHx8Fyvq1yXB3zSjDBKOEeKpVVvfPOaSyGsTIW0QGBciIjcYbsIVJtQhPvw2VMR3gyMc5AMDwL3Pc9ncaunIj81ya2KaQBsEoP1k7Yw6lW/sxGJtyW0hxIN06oFE+8D6AqDpLo59ZA6QdY8u7ooTnNXyaLG4nfhN0Y6qpHZLbLZ90c67RXui03axih1Yluk2NnmZEu3O5+HGXPZhIYJlOg2pflcE5nobBVvN6wHSIXxpYM62/aHwvTK0xJ9bXYPbDDQH9GCtRagoXG2bTvkN2J6ymNKoSojgCfGx4o6+sW3+CeXWZdRr4peCC7BapeE/dp6UT0zIlQhijGy7/f4qEEgrYWOJz/S5xVvCpqh7p800UDwcYrwvs81AdndW6oo5lCwYul9N/lQp1pWvlQ+SdAdzl0vzjuqZev4dF8dLVNMtEHRJFiXiDJ4G2reiVQCr0V4s=
+	o/wdzzOWKnsOu3PJuoN8yqaLliQcoOhH+woeHT97ET6FBMZbdLZtxMl4XYCUlbyEgK+bCD6QNsgfwlX14JBBjRAlFFtlhIk7zPPJ4jGrHztdpZUUXfxK1w7C+W4odWLaXWnwyjEBnAHK1qBh9kbFKjihsp+xnP4TothUl3sDa4RysCqxf/GKkDJCVg3XJHSDr0B9xJAzvFyhViHkEOv6L/8SttIVUeehLKAz3rKrLkddP8veUY4xkUmC7Z3rFKTDHwrgIYBtgU/sFO8qS/jDNJgXPAZw8+cEoYD8+59fF3kIgp1OnsVI76Q6ZHhWmMnL8JGAVxBkOBfa8RhO4BTSaUvHkPHim4QN+SomvdhLHwca9iEgXzrGzMo/09DqZFQCSABBEDV3ivPbvoIa1R1i2vQqsfLwM4H+Pz5fbndDnEzMnYlW7AVsFm3wJEXrQXHJtRktPZnyftzXkAipruod0kfvpMLeh25WPAQdfc3g3hf/tY/vbw+1q/V/NE8dROELKrsx0rvcCSlzHeGHVx52Zu9k7x1cTaP1S8zF5hTdjHmkhNV0eYBvFdXUYxgbx6JuzCeGuHsIZ+ghLSdCfRVlZq+ettB0utB9WBraFiiT7bE=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB5419.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(366016)(23010399003)(1800799024)(18002099003)(3023799007)(6133799003)(56012099006)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?GxJLSEDZ+Wl47cZxrLTp+0NJd3IU4+MM1vp6BD1CTKAGn6JWWFMEu4GigwKf?=
- =?us-ascii?Q?znFhyYgNsfCGYejosGS1MuLl6AQByXOGtMmBk7JBjCUQHcrxlqNn0ZdiJtqn?=
- =?us-ascii?Q?gGB0pQjoIpqgmB+ryz0JT3cHfqx94u5nay6nLnqHRWQa62CM7FSPjYfTFzd9?=
- =?us-ascii?Q?TQlm31EkV9NLAno6Wu29U4QeL26m7Qvnkd1Mp1p3a/vKuHNYsnbT/gn8oRyX?=
- =?us-ascii?Q?eIF/fB4HTL/JbYCqLq8yE2OAGXgulo/ovuviRfk7Ifxxmulzw94nyo2oicjr?=
- =?us-ascii?Q?EmoK6AU+6Op44cjapZ0JvFtxYQKrKfHUYkl6VCDPIGVB/uyCYV/OP71XIAZj?=
- =?us-ascii?Q?Uix3Ob3hPFUn5kVoA4rDOpW77usJsqb3JNrNcDJt/ckGwir9EKOKYEv0jYLp?=
- =?us-ascii?Q?V4I+Qx8NSnx1qPRJwkAvx1rbSAtXzYAqlNWLhSZpYdOp8J891qZt7q8lH/M+?=
- =?us-ascii?Q?CWWJdmA0Am/8BNf6/6hvqzbWyJHB9pA3h5b+Jo1J7WW6UzpIbljRDwb9FqtJ?=
- =?us-ascii?Q?/19ZbUAk0TckCTM5lTT14pMn6887lkCvdibBGHKVn3mSBvf7kfRDYBvGsCTv?=
- =?us-ascii?Q?F7Efz3e42m4VbkQIZ80KuslK4S5Y7IjfdXLnQW326aUp2HmXOUATIqjPacO3?=
- =?us-ascii?Q?71WCjad0CvlS7HvFeqLqf9rTJsBGkEbepaFLGHAQRGE2N+SRY3M9J7J61Wu3?=
- =?us-ascii?Q?UuTZo9tlBnLF81nAn/6bM+3jShIp/Vklae9ICqFZiRUXSWXKZe2VfCeZ9XlL?=
- =?us-ascii?Q?OdSfIho0r4YoQwvhE2VDlaRfxj0Jrbr7U0wnKUbVSDBSC/sVhS9YsFiYS20P?=
- =?us-ascii?Q?rqCu/lt7Tbc3GFxBaaeD3WL3hRHyVoESSXGFfvqxYQKI8x2UzzDanzWALXLs?=
- =?us-ascii?Q?K5TXMu7+0vKBfSDgsxhXNhr3/Q4kuHInDDRvO4QtaRGsVeL0cFXlCeJ+F+HC?=
- =?us-ascii?Q?gcuUOqxPs3kgbHk6PYXEvOmSdodEfoHyqtXcF9/TkzA7/ORjlT944hPqtKHY?=
- =?us-ascii?Q?GOM2VlmzC+LIMmcG6aBo0XGujPEdAQWmkSBTYf+Qow452Cr5GAW8FXNKQQMe?=
- =?us-ascii?Q?hxkYqHiJAnuvtNHtE4kXOV6T0fH3n2p6K2s6n2sCNL9bfP/8OF1hqtyyqhmR?=
- =?us-ascii?Q?V7B2XBF5vSy18SUp6d/OnJUpezFNGgAnz91jmwk+KkCIxL4AQ55/uzqsZiMj?=
- =?us-ascii?Q?mnMyW8dx8O+yUf0CYRVkK/eon7/qF4vcPEseiwEjDciGWuroxY4dwKIqXiAq?=
- =?us-ascii?Q?zGeDUWxCZKXdbysN46M5qV4dxVmiohYdNlKyovtW1usZ7lCUo2jYo80qjroW?=
- =?us-ascii?Q?FXJ9AiAbZ1UB52pKSU/C/3wYiud3VR7YTAOOuDwX36SPrGXLQZzGiG3f7qnL?=
- =?us-ascii?Q?h2aDjnJWk9txe8JjIkjLShlk5hlG7bZiernffgHifhg2q97LOcOFOGnHBsqo?=
- =?us-ascii?Q?ecXA/DEiYw6IHb5YS+FN/vUP6ZQZ77IgDzq8V7ddoyfIgxOWHwRT2HiN8klO?=
- =?us-ascii?Q?uWSWZZ5fhT2UKd3O2JYxpTV0rD/ENyuz23LeaUu3kWkzcCzVAjqSy/o8oeQv?=
- =?us-ascii?Q?dZ/hHYiI34Zx1HHO5/kpir1tL1f6oH5jIBGPWRbIIDxQDSYDnIU9N1Bb0dkj?=
- =?us-ascii?Q?LikrvUjRGYn5RBacoOUq42rFsxxmm0xdgaeWyV0gUuyKbsdZ8fztfju1tsOn?=
- =?us-ascii?Q?oIeIQtY55QTq1LxduALkU4HZZbJEiJTWM3AQnp7vNFf+8tCai9YTcVuzzMDt?=
- =?us-ascii?Q?4ZVNA/20mmE6Td4J2OlYiuGNi1O7e/xKmwWW44Hj96YQSJuxKcVNoGuQwhkd?=
-X-MS-Exchange-AntiSpam-MessageData-1: DkJ8LV2h6S2QDUtJf9WixrHll932pZyYDRI=
-X-OriginatorOrg: espressif.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23c52f77-fcb8-4625-bb94-08dee65cfaa1
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB5419.apcprd04.prod.outlook.com
+	=?us-ascii?Q?Pm7mv7aktqmM+4xV1YNnqKaPaJKldMJJpBBLeoSfDTGGZbL+RltV/e+YLuWD?=
+ =?us-ascii?Q?isx6AASOeSxWqhId/0pLjf/X32y0H2ZWCWayxVXKiOGY/C+MznutHo8ESE+U?=
+ =?us-ascii?Q?AxB0XeRcxLul9IDPCx+60UFKK/u94KSm0vi1kjcYXmi5Ez3HKN0S/dOFwzwc?=
+ =?us-ascii?Q?ayAMjBBR+KwT9cT9I9LsGDXfporrk9n5H/MEfCKoBPTTcTd2CAgEv4bUOHFj?=
+ =?us-ascii?Q?b2nJK3JlfI19ZEix57jji9oC4WkGewgaw/SiUSS55YlISLXxdh4955g9fEP8?=
+ =?us-ascii?Q?I50TjpVCJ1mqNWCt8Yic6LWAyzN+8OmpErrTzNzyUQaEVzJK/IKzzlkNfken?=
+ =?us-ascii?Q?GPW9+HzuHhQ+/us9uAXTYBjrNNWzWg8ciFyT/XR33fowETuxLwRsl3GQbWEz?=
+ =?us-ascii?Q?EZ+RWqGZKutQgVDl1UJP2NtimWq40M1KrNGCPFwVfqlhgqIZ5wDadFMc3FEz?=
+ =?us-ascii?Q?X4M9D8S+nXMO/GJS3NmMiPPWaa0c5NldVDY1TH+KAjVxMCy9XM0Jp4tl8gAa?=
+ =?us-ascii?Q?YuXZS1aBFT1N9i3LB6iIIP6K6UbL/7/totYKpLyLWvySzD8zJ/0cjvYBTPiU?=
+ =?us-ascii?Q?x9keQYLg1uR1dyCS2AzWDmTIEO5sMQ29tpXZvnF2Ph9cWQ7LxBRPvHkAiBDp?=
+ =?us-ascii?Q?45ZFLk6gfsSNnmC2KgVojv/cl8U9MQ+czuHogZIq6tF6Kmk5X0J0P+yGuVBq?=
+ =?us-ascii?Q?ZlSbydkJ8APecAd3JJryRRJhN/pK3Plic+rE3b+wHb1MqbVNi7jA4Z6HGwvf?=
+ =?us-ascii?Q?XMA/CzU+VL786qVaQMKfZcIVPrPH78PWfa26zyoTUG2u/hM7pywtOEUHB4jx?=
+ =?us-ascii?Q?z5MH/r8XP/hNX7/YAxeB2bMglBWgZsQylWm6JsnLvX5wumbfB/EmEya23U6X?=
+ =?us-ascii?Q?4BdtShE6GsaFsPkrA/UvJmMqATBrs6lF1V8cx6y0cwQ5Kle+vEtlfotTEVpz?=
+ =?us-ascii?Q?RjEQ9dBZxI+5rALciEPWcDk/TXi49kep1+4LWwZC3zAOL4fJ9YsMNrs/RuxF?=
+ =?us-ascii?Q?qIVwJaMJjZpPbd7pcAuMBxUCu/Ba9jhx/F+Usla4/7H5Ik9oirVIs6YJWd9D?=
+ =?us-ascii?Q?uoYO1xpUWquuYkpNS2fswI/W6XR7lfED0KHP6qZP7eNAbV56TT43RkeDKzBZ?=
+ =?us-ascii?Q?PtXgNSAIsMfQMuvUbbcYaYxYu4gGaoatftOWrLgkrqW49zZleu6LX8XDu7z5?=
+ =?us-ascii?Q?uR+nN20uhVUQdTvWIOKQUab1t2320M3PTGbWxl8xE3nlM2QW/d0zenGLVIC6?=
+ =?us-ascii?Q?BoqfUjhE9i/9Vb+uONbJaT+MkXRWSHTsqGjvD0TkiUtTILualQRZaclDDllo?=
+ =?us-ascii?Q?yhVUs8mH+dnAj45kj1OycKmgxfhY3GLBKQwKTLvSmBf0UZZ9n3z7CLdOcXJ9?=
+ =?us-ascii?Q?6WQL5yILmmuBengUaTbRdiCR7a0HK9F91Cgs7+3xickjYcKFw7tNlgtGdtTV?=
+ =?us-ascii?Q?PFdvhDU8rZNuD+E+QeFGbq6gx6vGRxUbdiWfkXFGzPWlD7Z9lZIRioDVKvR9?=
+ =?us-ascii?Q?PVLQjxtSM2WrwCMRa87HNTzi1XhAz5eZARr1aiJfC24tdwGtlz/DKC8M/rib?=
+ =?us-ascii?Q?i72KKH+HZApjVwzFKMnveaTpj+V1TwDfByidtdNFVs73REJN89rFG85L3m3p?=
+ =?us-ascii?Q?HMeBpKz7F8NyBYUPFC7I7XA4f5JbZx/ofM0lLnLxNUb75lAEv+NBVclhK5Wc?=
+ =?us-ascii?Q?2rCMvLZ+631rNVLjSQJH98l+YA+cBD+7KZpMxUv1RY+WbLDYOM1vQrGTiMg9?=
+ =?us-ascii?Q?mYFejR4tPg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a2302b4-eee0-4713-aa93-08dee65eac54
+X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 12:46:55.0570
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 12:59:02.6431
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5faf27fd-3557-4294-9545-8ea74a409f39
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WiZ6Vt4UHhXOujfyCfJFVY4Tkqjxs/57kVO8Ja5zqb5wJ+XwWJHq39DMbDQZx49Ia9Sf4rKclBoRd/U/kamqpoSXLboN65YxjfUXDPDKsBM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI4PR04MB9518
+X-MS-Exchange-CrossTenant-UserPrincipalName: gx3V5pxgD2leR4YYM4tqrwGlBwC2kYVH81CxMGqmHgNBmbN8Oy2MQT4mWiQF/z/w6R1ru0WL1x+P2AFvJ6sPnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB2103
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:47:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241393
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:59:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241394
 
-SRC_URI_RISCV clears every RISC-V ISA extension via
-u-boot-riscv-isa_clear.cfg, then conditionally re-adds a fragment per
-TUNE_FEATURES bit: a, f, d, b/zbb, zicbom. There is no line for c, even
-though u-boot-riscv-isa_c.cfg (CONFIG_RISCV_ISA_C=3Dy) already ships in
-the recipe. So for any tune with c in TUNE_FEATURES (e.g. the default
-rv64gc/rv32gc tunes), compressed instructions stay disabled after the
-clear fragment runs, and .config ends up with:
+The bsdcpio_test odc/newc format tests verify archive headers byte-by-byte
+including inode and device numbers. On ext4 root filesystems (particularly
+qemuarm64 and qemuriscv64) inode numbers can exceed the odc 6-octal-digit
+or newc 8-hex-digit field widths, causing intermittent assertion failures
+in test_format_newc and test_option_c.
 
-  # CONFIG_RISCV_ISA_C is not set
+Run all tests from a tmpfs working directory where inode numbers always
+start small, avoiding the overflow condition.
 
-Building without RVC noticeably inflates .text: on qemuriscv64
-(tune-riscv64, rv64gc), the resulting u-boot binary is 1312625 bytes of
-.text without the fix vs 1082853 bytes with CONFIG_RISCV_ISA_C=3Dy
-correctly set, 229772 bytes (17.5%) smaller. On size-constrained
-RISC-V SPL targets this .text growth can make the SPL .bss VMA overlap
-the .text VMA and fail the link.
+[YOCTO #16231] : https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16231
 
-Add the missing "c" mapping line, mirroring the existing per-extension
-entries (a, f, d, b/zbb, zicbom) already present in SRC_URI_RISCV.
-
-Tested on oe-core master, MACHINE=3Dqemuriscv64, via the
-oe-nodistro-master bitbake-setup config:
-
-  bitbake -c cleansstate u-boot && bitbake u-boot
-  grep CONFIG_RISCV_ISA_C .../u-boot/2026.04/build/.config
-  # before: "# CONFIG_RISCV_ISA_C is not set"
-  # after:  "CONFIG_RISCV_ISA_C=3Dy"
-
-do_package_qa passes both before and after; only the ISA config and
-resulting .text size change.
-
-Fixes: de890297b392 ("u-boot: Dynamic RISC-V ISA configuration")
-
-AI-Generated: Uses Cursor
-
-Signed-off-by: Gustavo Henrique Nihei <gustavo.nihei@espressif.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 ---
-v2: Fix Fixes: tag, it pointed to the wrong commit (cd9e7304481b,
-    "u-boot: Overhaul UBOOT_CONFIG flow") instead of the commit that
-    actually introduced SRC_URI_RISCV (de890297b392, "u-boot: Dynamic
-    RISC-V ISA configuration").
+Changes in v2:
+- Use cd "$PTEST_DIR" instead of cd / after tests complete
+---
+ .../libarchive/libarchive/run-ptest              | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
- meta/recipes-bsp/u-boot/u-boot_2026.01.bb | 1 +
- 1 file changed, 1 insertion(+)
+diff --git a/meta/recipes-extended/libarchive/libarchive/run-ptest b/meta/r=
+ecipes-extended/libarchive/libarchive/run-ptest
+index d6b4c3f934..4af767b29a 100755
+--- a/meta/recipes-extended/libarchive/libarchive/run-ptest
++++ b/meta/recipes-extended/libarchive/libarchive/run-ptest
+@@ -1,13 +1,24 @@
+ #!/bin/sh
+=20
++PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
++
+ # The fuzz tests run 1000 randomised iterations per archive format and are
+ # meant for dedicated fuzzing infrastructure, not routine ptest runs. They
+ # regularly time out in the time/memory constrained autobuilder QEMU targe=
+ts
+ # (e.g. test_fuzz_iso9660). Skip them via the upstream escape hatch.
+ export SKIP_TEST_FUZZ=3D1
+=20
++# The bsdcpio odc/newc format tests verify archive headers byte-by-byte
++# including inode and device numbers. On ext4 root filesystems inode numbe=
+rs
++# can exceed the odc 6-octal-digit (262143) or newc 8-hex-digit (429496729=
+5)
++# field widths, causing intermittent assertion failures. Run all tests fro=
+m
++# a tmpfs where inode numbers start fresh and small.
++WORKDIR=3D$(mktemp -d)
++mount -t tmpfs tmpfs "$WORKDIR"
++cd "$WORKDIR"
++
+ for t in libarchive_test bsdtar_test bsdcpio_test bsdcat_test bsdunzip_tes=
+t; do
+-    ./$t
++    "$PTEST_DIR"/$t
+     if [ $? -eq 0 ]; then
+         echo "PASS: $t"
+     else
+@@ -15,3 +26,6 @@ for t in libarchive_test bsdtar_test bsdcpio_test bsdcat_=
+test bsdunzip_test; do
+     fi
+ done
+=20
++cd "$PTEST_DIR"
++umount "$WORKDIR"
++rmdir "$WORKDIR"
+--=20
+2.34.1
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2026.01.bb b/meta/recipes-bsp/u=
--boot/u-boot_2026.01.bb
-index ac1b0b9b2b..6d9bc126a1 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2026.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2026.01.bb
-@@ -14,6 +14,7 @@ SRC_URI_RISCV =3D "\
-     ${@bb.utils.contains    ("TUNE_FEATURES", "a",      "file://u-boot-ris=
-cv-isa_a.cfg", "", d)} \
-     ${@bb.utils.contains    ("TUNE_FEATURES", "f",      "file://u-boot-ris=
-cv-isa_f.cfg", "", d)} \
-     ${@bb.utils.contains    ("TUNE_FEATURES", "d",      "file://u-boot-ris=
-cv-isa_d.cfg", "", d)} \
-+    ${@bb.utils.contains    ("TUNE_FEATURES", "c",      "file://u-boot-ris=
-cv-isa_c.cfg", "", d)} \
-     ${@bb.utils.contains_any("TUNE_FEATURES", "b zbb",  "file://u-boot-ris=
-cv-isa_zbb.cfg", "", d)} \
-     ${@bb.utils.contains    ("TUNE_FEATURES", "zicbom", "file://u-boot-ris=
-cv-isa_zicbom.cfg", "", d)} \
-     "
 
