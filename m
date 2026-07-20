@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64798C44530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 398A0C44529
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:58 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2907.1784568230819479758
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2904.1784568228004449208
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:51 -0700
+ Mon, 20 Jul 2026 10:23:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=HB9S5xqk;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-495635a85d2so6239195e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:50 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=gJmKdj7G;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4954afac04bso28554685e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784568229; x=1785173029; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784568226; x=1785173026; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=tu59LJJqXCreVJTXXGArLpUOZx3/D3UKy3zhMFY9Rh8=;
-        b=HB9S5xqkXvM9ldfeVK0k3D+g84QrCjtYA2lQp5qAXyodwfehzZUtTrsRuKIBoJqLCK
-         1sTr1YgY+VRPX6VIPbPXRlwPgbGjWMFTUC7K7LqN7FdKM3jRZAAO3WQb8GYNamYzq9jO
-         VlCNR07WaUmB6ApCVdCAT+qEm99fu+DP/OP+U=
+        bh=OJQooEbaZu/ch0pBfY9jld10bhvdE+/PH3eWlIwnxEs=;
+        b=gJmKdj7GuFWqbmVhgkuUqp0E/M//PBWAc6Hu9n9Fk1MK3nDB2UTuT8oAcoA3rw0hBJ
+         4Z/nMQfenDivb0Dm384f1x/Mg6AceS1yEbWGgqxgP9GBgsmiitvzXJlLptrHYJNBn7y2
+         jsp6YXYM4uvA/ySOJ21ytBlTOnnzAU1xq2s2U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568229; x=1785173029;
+        d=1e100.net; s=20251104; t=1784568226; x=1785173026;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=tu59LJJqXCreVJTXXGArLpUOZx3/D3UKy3zhMFY9Rh8=;
-        b=RpBiGQJsgFqAG5mw4Bjspr0jhZpYGxPyqhyrc4IcpYTAbOAkCdq6Net2IMJggCx+zV
-         /WrrLX1ePwMASK6EDhGDDbEWStJH+rnr1QaR3mVJgdeLVffY5NGOAJZ5uW+oCw7x8Ynw
-         rzUhfDP+rKtwSUVUeko4UzFH98N0fSKzn/8m1e0hFaVKm2P/ZMFEON+jMYpc/MqYEZ3x
-         1PxMGWwj/02ysPFOSz7W52Vh/Ho9+udUmvq+F/hxjuNg437Vvxju4YFaFknKClLh5apm
-         9fv/p7SeDuvobxrvvv9JQJ8kByrR8tLwkNcnsE9MKBfcCIp9Gss0AsfEH5zq9Qz2J6Ns
-         XKuw==
-X-Gm-Message-State: AOJu0YyQsUn+kNCnUnnFIG9DYip2pIg3T+AYAJDH/+Py/6FxLXszs/IO
-	s0HldPPbZ9bD3WYw2F5kFBGcBbDkfdnu1SQcq5+JH/DN6YFGzPTP+WsuJDN/ye4QWtrl0Ljd4gq
-	NhoCu5pI=
-X-Gm-Gg: AfdE7cntRw8fUI+Rujm9q2E9iRuskqXVTy3jZs9Pg2A9GMF8aDuIf8YB8WdBvJbDn4O
-	AAclxlEXXsJN7SehEHlVQuqrYNvm46skc4NU8jpxFsYgqU4dSJUKjCtAW07VQ6jxx4EBbXgfkBR
-	xK7Ra2GykFAHWLxxeWg7J5AMNv2K4VaMwoX3r74hKZzDQkSQnH/SFafeSMj633KtJpyEOnvE5i2
-	zZAZcmiassK/A8nExyvqi2WZBLWXNQ3oX1C7+geT7bWPVa2LYLmMgMwyeHDC2rX2miTWaIkUT1N
-	/rJkiOM1NhmbYHljKhDVUaHv0ePY49PdHNaf7RSR/vBAbJjoFzfGYDT6E9cmIOhJ7d0m9WyIoyA
-	ILEFPx4+9/oHnl4xmJeM+SC607Ckoe27CSAKy8Okzu36YYMbWw8D5jjE5CUFITTZRgpr8a3L0nE
-	I/G9fOxcQ4pRMytdwS9E7IIyXcNDjfwOoAyQQ8YJ41xr/mIgC10DEhubSroMMVJbQPimCKIFxYk
-	IHcXw8l
-X-Received: by 2002:a05:600c:4e88:b0:495:636b:e519 with SMTP id 5b1f17b1804b1-495636bea4dmr30733625e9.21.1784568229051;
-        Mon, 20 Jul 2026 10:23:49 -0700 (PDT)
+        bh=OJQooEbaZu/ch0pBfY9jld10bhvdE+/PH3eWlIwnxEs=;
+        b=PiUlzMyrcLA107x35M/YOaWr8rex1axbGzBgUif8qqwpCuExf8Q0NZFd/cg/KUuedO
+         Wb7qvPqRt/lUz3FIrqwS+wHx+nne/aluT8xV2XjumajJTBKFm5emAhJukubZfWuJFbyr
+         9M5/L+Ox65316bT0q/AccbLIaQedeIPQCb+WKOsoQLy/gFewSbW9rlCHAAL5xhraooto
+         a3LDCwd5R/0YJgQYcA7xKxwL36zhUvJrQKWDe6UOZ1+j3EMYhXUr/LhWIuuaPQ3nKYJJ
+         SlrWVadxvtiNVTOmjdZ+LzxTI7oHXLNh+3VXJQR4Ba4uHU3UKLojNF8L+3xwv61VpinB
+         5Aww==
+X-Gm-Message-State: AOJu0Ywup8hl8fzFrprfrluz3rWg/4KbKuowZq/lpHpjg5h8ep3VgAYT
+	t06Ex9mTZ93pZm+pFlnULW7KxQplQGZdNTe16jUW4rUnI7sIx6tY1uL8/ZPqSMYzHd2rKVsczGk
+	qHkeaaz0=
+X-Gm-Gg: AfdE7cl4VhsVxnWBJ4XBeGD504nSGi9HBuDcvlq6oM9iUpckC2bPDOcfZjF0uNB8iam
+	mMrsPs12/AW8uBCVpLI0Ox1H+8nDxJ5bsapeOs8LAaKsqCe7zO0MFsKuxc+3lSuO1Hpw3z+Iw61
+	Czmfk6f8CtzM75G+QImDiAOfmzbW36Q+68SzfsKXqCl3lASsyON5jqEDx0NN7wboNln2RmLlexT
+	4R7Fl/1fc7pHJEwtng6Ww07mJV9wlCCF48jTkDfKAI29QFbixN6M60SMg8RYOVOQIvKwCUinGtW
+	myATWVpQH8mhicN5WhTKyQHw4kvHOrqNmjgJSOoTJ9niPswSpFSsqpuvnXexUtU+9OdFtQoh33u
+	NQTFjJPUXSV+jQxtqcDqjt1iKl3t+azNWeU5oK0OouhjykMauLasNRduxpHoYJK4ZIk21edyB0B
+	ojDyHeC7YX61H2ZVY74gvYDRmSef30FJ8vEd9uXD0IRKb4tW2R0DOiGGbQ3AHfzmZi3QScUNGNt
+	+z9dWrR
+X-Received: by 2002:a05:600c:3512:b0:495:4572:21af with SMTP id 5b1f17b1804b1-4954a3ef7dbmr161530355e9.9.1784568226223;
+        Mon, 20 Jul 2026 10:23:46 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:23:48 -0700 (PDT)
+        Mon, 20 Jul 2026 10:23:45 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 29/33] wireless-regdb: upgrade 2026.02.04 -> 2026.03.18
-Date: Mon, 20 Jul 2026 19:23:02 +0200
-Message-ID: <ce7c2eeecedd502c306483bdbfa54c92710ba53c.1784567958.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 25/33] openssh: set status for CVE-2026-3497
+Date: Mon, 20 Jul 2026 19:22:58 +0200
+Message-ID: <51f07e58e3d40f6d83ba0ec7913a5ebe51fbf031.1784567958.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
 References: <cover.1784567958.git.yoann.congal@smile.fr>
@@ -66,39 +66,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241463
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241459
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Analysis:
+ - CVE-2026-3497 affects downstream OpenSSH GSSAPI Key Exchange patches.
+ - The vulnerable code uses sshpkt_disconnect() in the GSSAPI KEX server path.
+ - Upstream OpenSSH/OE-Core does not carry the vulnerable GSSAPI key-exchange delta.
+ - Hence ignoring the CVE for this version.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-3497
+https://github.com/advisories/ghsa-wcpp-3x59-h8vp
+https://ubuntu.com/security/CVE-2026-3497
+https://security-tracker.debian.org/tracker/CVE-2026-3497
+https://www.openwall.com/lists/oss-security/2026/03/12/3
+
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 97a940bfdeaa3f9f4442a6fbb0fabe1ce5eaff69)
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-[YC: Changelog:
-https://git.kernel.org/pub/scm/linux/kernel/git/wens/wireless-regdb.git/log/?qt=range&q=master-2026-02-04..master-2026-03-18
-"wireless-regdb: Replace M2Crypto with cryptography package" only
-impacts signing code that maintainers run.
-]
+(cherry picked from commit c2bd43b373d65d717e606cab3793b8a64facd946)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...ireless-regdb_2026.02.04.bb => wireless-regdb_2026.03.18.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2026.02.04.bb => wireless-regdb_2026.03.18.bb} (94%)
+ meta/recipes-connectivity/openssh/openssh_9.6p1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.02.04.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.03.18.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.02.04.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.03.18.bb
-index 2f7c8160434..a70e9dd0dae 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.02.04.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.03.18.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index 4193bc8a5b4..4ab3174924c 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -49,6 +49,7 @@ Red Hat Enterprise Linux 7 and when running in a Kerberos environment"
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "0ff48a5cd9e9cfe8e815a24e023734919e9a3b7ad2f039243ad121cf5aabf6c6"
-+SRC_URI[sha256sum] = "5fc0000475d8c5368ccc5222827c16aef98b1eb6a69c9b5a3e7b7e98528945ac"
+ CVE_STATUS[CVE-2008-3844] = "not-applicable-platform: Only applies to some distributed RHEL binaries."
+ CVE_STATUS[CVE-2023-51767] = "upstream-wontfix: It was demonstrated on modified sshd and does not exist in upstream openssh https://bugzilla.mindrot.org/show_bug.cgi?id=3656#c1."
++CVE_STATUS[CVE-2026-3497] = "not-applicable-platform: Only affects GSSAPI Key Exchange patches used by some Linux distributions and does not exist in upstream openssh."
  
- inherit bin_package allarch
+ PAM_SRC_URI = "file://sshd"
  
 
