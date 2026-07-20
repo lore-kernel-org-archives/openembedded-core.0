@@ -2,75 +2,75 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B41C44520
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 10:57:48 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6485.1784545066487844347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40585C44515
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 10:57:58 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6359.1784545069922226396
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 03:57:46 -0700
+ Mon, 20 Jul 2026 03:57:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=gXitdHKA;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=LKAoVRoV;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=14433; q=dns/txt;
-  s=iport01; t=1784545066; x=1785754666;
+  d=cisco.com; i=@cisco.com; l=12614; q=dns/txt;
+  s=iport01; t=1784545069; x=1785754669;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=6TPhTmaR8BRbRU+2So0Vmd6GFmhB/l2jhWNJxO6aUg4=;
-  b=gXitdHKAbCZo3Azvl36RO3L5j6UrWKBuZX1f7OMlk5WM5/bE9p9w5JUG
-   Jqgq0NCs+3d9p35ODTCo1e24zGEs7z3DXDUVfchpKWV8sXR9qn0VYy6R5
-   T79l9iZNrmTN3DMi/DAeKR/DI4SQtlnT5hCvE9hNF3ahKP+mMGWQYtSvo
-   kBLgEYNAEkmw6FnvMXz46AZ5RG2DZAU9gzMuD9HMNEqr0/fo2ChFDgQhS
-   kc+qUEtgFONmNnW8FaCt0DGX84KiM8JDdp/k7WqAoe02Ikz8GGmpOffe6
-   zOnJ7KUzumhLKmeOx9fnOx7CPnbeDYsfrjMyD12WDq+BaYtLJ0l7btH5u
-   A==;
-X-CSE-ConnectionGUID: elmRZ5GFSfWLG1CsgWrO5g==
-X-CSE-MsgGUID: 6eOu9Op9SJeX4ltFgBV50Q==
-X-IPAS-Result: =?us-ascii?q?A0AnAACp/V1q/43/Ja1aHQEBAQEJARIBBQUBgXwIAQsBg?=
- =?us-ascii?q?lZ0X0JJjHKHN4IhA54bFIFqDwEBAQ9EDQQBAYFxASCCcwKNUwImNAkOAQIEA?=
- =?us-ascii?q?wIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBAycLARgBPRwDA?=
- =?us-ascii?q?QIXAQEWKyMIEQiDAgGCdAMRBrw+gXkzgQGDKAExBQkCAkABUNsuAQsUAYE4A?=
- =?us-ascii?q?YU+iCBcGAGEfCcbG4FygRWDaYEFgVwBAQGBIiVgAgaFdQSCIoEMgVqBdYIHj?=
- =?us-ascii?q?BZIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYE6gQKEdyMfA?=
- =?us-ascii?q?zl/gTB1SnctahIXgSaDSwIHAwsYDUgRLDcUGQQ+bgeNPCOBTXEBATAvASEMA?=
- =?us-ascii?q?SgBAQEvVlUoAjkLHpJ0CgeQFoIegTifWgoog3WMIY4Nhy0aM4VbpRGZCI4Kl?=
- =?us-ascii?q?WhohGmBaDyBRwsHcBWDIgkWNBkPji0LC4F4gWiBf4RBxVY8NQIJMgEBBwIHD?=
- =?us-ascii?q?gMLgWiQAiSBWAEB?=
-IronPort-Data: A9a23:FEE+jaIFq9wLEQ0KFE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS3zYFn
- TcXUWrTa6yPYTGmL9okYN7joRkEuceBx9BkGVYd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
- T/Oi5eHYgH9hGQsajl8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1jCEQMD9A31N15PkVhr
- NcDJw8XSU2M0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBUbAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2ME2ojx5nYj/7DLoykeqyj2X/dBVTqUmeouw85G27IAlZjOm9bIWKJYXQLSlTthiVg
- X+X2HyoOTMXBICb1RSK2Ezx3taayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1rfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:V+zrK6jTkGj1W11lt6UakyLHN3BQXvYji2hC6mlwRA09TyX+rb
- HLoB1173HJYVoqNU3I3OrwW5VoIkmskKKdn7NxAV7KZmCP0wGVxcNZnOnfKlbbdBEWmNQw6U
- 4ZSchDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhBQpcUAUdAY0++/YTzrdHFLeA==
-X-Talos-CUID: 9a23:mayjPWE6gSxRc679qmJq8EsuKJ0KXEbT81P/emSjBllzb+CaHAo=
-X-Talos-MUID: 9a23:L8NAJwgEejMG4wTfok1f+MMpaspP/vWJEBE2s5g2582YGyNaBWrFtWHi
+  bh=+Bay5xEidMycTSRTt7WoGYdtw0hSDk4X9AuNVP71/v4=;
+  b=LKAoVRoVB0ttUphWcdcvTbTW6HS6XRVlE4q1mkv4mpGXSkyl3LrNPuuI
+   GD+FZ0n26n2Zq7vnUaChooM7ne2UqKlM7VBuIFz75Svw3Dk962S2zlIfd
+   CMmnZMOYLl8P4FaShTTwJonHQhpIiMHr3/wnfBAZurDw9BCUnVtxWIgqQ
+   KeFGoApOLzdFf4FHJQjrkoKChxYVMRt+zK3Rw2jFq3FEkRaSif3aSwOG5
+   So9bI4P0PytAc68wqQbzuzcNkyMUhpMzg0ee6aOnPx9IlgyFqNk5BDOcn
+   aZ+bE2npbXpwbOwBFwLCTHO1kxZcwDD4S5oanGjEoqnSTMjXeQCH/EwI+
+   Q==;
+X-CSE-ConnectionGUID: KR74vJuZShGuvf9G52JAuw==
+X-CSE-MsgGUID: Jj283y46SEelHZGRu3jklQ==
+X-IPAS-Result: =?us-ascii?q?A0AnAACp/V1q/4z/Ja1aHQEBAQEJARIBBQUBgXwIAQsBg?=
+ =?us-ascii?q?lZ0X0JJjHKHN4E1bAOeGxSBag8BAQEPRA0EAQGBcQEggnMCjVMCJjQJDgECB?=
+ =?us-ascii?q?AMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgECAQMnCwEYAT0cA?=
+ =?us-ascii?q?wECGRYrIwgRCIMCAYJ0AxEGvD6BeTOBAYMoATEFCQICQAFQ2y4BCxQBgTgBh?=
+ =?us-ascii?q?T6IIFwYAYNdgR8nGxuBcoEVg2mBBYFcAQEBAYEhAyJohXUEgiKBDIFagXUmg?=
+ =?us-ascii?q?WGMFkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYEdgTqBAoR3I?=
+ =?us-ascii?q?x8DOX+BMHVKdy1qEheBJoNLAgcDCxgNSBEsNxQZBD5uB408I4IHMQYBMS8BI?=
+ =?us-ascii?q?QIBCQEpAQEEK1Z9AjkMHZJ0kCeCHoE4n1oKKIN1jCGVOhozhVulEZkIjgqVa?=
+ =?us-ascii?q?BhQhGmBaDyBRwsHcBU7gmcJCQ00GQ+OLQsLgXiBaIF/glGBcMVWPDUCCTIBA?=
+ =?us-ascii?q?QcCBw4DC4FokCaBWAEB?=
+IronPort-Data: A9a23:wlNtOKmn7Ufqyq9l18hd16zo5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJOCmyAOPiPNzSmc9glboqy/E4Ev8LcytUyTQQ4pX1nE1tH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZC31GONgWYubDpLsfrb9HuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05Fa4ipbppI3x8z
+ vw3NS4DPz/e3cCf3a3uH4GAhux7RCXqFJkUtnclyXTSCuwrBMiYBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTYj/7C7pm9AusrnXyfidRtFKSjaE2+GPUigd21dABNfKII4bSGZwIwRfwS
+ mTu3WajUkoLaIKk5DeB0kCDvPKUnyD/YddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cFXhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:Kc+O1a4jf6VV+KKnOwPXwOTXdLJyesId70hD6qkXc20wTiX2ra
+ 6TdZgguCMczQxhO03I+urwXZVoP0m8yXcd2+B4Vt2ftUvdyQmVxepZgrcKrQeNJ8SHzI5g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
+X-Talos-CUID: 9a23:ZPf6HG3TiVyTMYUjqsGUtrxfOfp6LmP/0UXrI2ClF2g4Z+DPa3aN5/Yx
+X-Talos-MUID: 9a23:9C9xIgmD3IzmIjxiIOWkdnpANp04uLXyVnsgnJEmiea+KHdyODOk2WE=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
-   d="scan'208";a="498477712"
-Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 10:57:45 +0000
+   d="scan'208";a="512041579"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 10:57:48 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id B8E3318000181
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:57:44 +0000 (GMT)
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 7DCA4180001C0
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:57:48 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id DB3BACC037D; Mon, 20 Jul 2026 16:27:42 +0530 (IST)
+	id 9F270CC037D; Mon, 20 Jul 2026 16:27:46 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 4/5] curl: fix CVE-2026-6429
-Date: Mon, 20 Jul 2026 16:26:46 +0530
-Message-Id: <20260720105647.2451180-4-deeratho@cisco.com>
+Subject: [OE-core][wrynose][PATCH 5/5] curl: fix CVE-2026-7168
+Date: Mon, 20 Jul 2026 16:26:47 +0530
+Message-Id: <20260720105647.2451180-5-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260720105647.2451180-1-deeratho@cisco.com>
 References: <20260720105647.2451180-1-deeratho@cisco.com>
@@ -78,380 +78,258 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: rcdn-l-core-04.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:57:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241356
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:57:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241357
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-Backport the upstream fix [1] and the required dependent change [2] to
-address the netrc credential leak across redirects, as mentioned in [3] and
-tracked by [4].
+Backport the upstream fix [1] for proxy Digest state reuse across proxy
+switches described in [2] and tracked by [3].
 
-[1] https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306
-[2] https://github.com/curl/curl/commit/32a513e180ce83d5e9b708211306045407074134
-[3] https://curl.se/docs/CVE-2026-6429.html
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-6429
+[1] https://github.com/curl/curl/commit/c1cfdf59acbaf9504c4578d4cf56cdd7c8594507
+[2] https://curl.se/docs/CVE-2026-7168.html
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-7168
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../curl/curl/CVE-2026-6429-dependent.patch   |  81 +++++
- .../curl/curl/CVE-2026-6429.patch             | 325 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
- 3 files changed, 408 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch
+ .../curl/curl/CVE-2026-7168.patch             | 373 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
+ 2 files changed, 374 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-7168.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch b/meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-7168.patch b/meta/recipes-support/curl/curl/CVE-2026-7168.patch
 new file mode 100644
-index 0000000000..a3f68ae539
+index 0000000000..b848fbaf84
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
-@@ -0,0 +1,81 @@
-+From 6b1769c54659f1e6d6323891cb45c682c22182b7 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Wed, 15 Apr 2026 10:43:12 +0200
-+Subject: [PATCH] urlapi: same origin tests
-+
-+Add new internal `curl_url_same_origin()` to check if a href has the
-+same origin as a base URL. Add test cases in test1675 and use this in
-+http2 push handling.
-+
-+Closes #21328
-+
-+CVE: CVE-2026-6429
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/32a513e180ce83d5e9b708211306045407074134]
-+
-+Backport Changes:
-+- curl 8.19.0 does not provide Curl_url_same_origin(), but the CVE-2026-6429
-+  fix from https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306
-+  uses it in lib/http.c.
-+- kept only the helper declaration and implementation of
-+  lib/urlapi-int.h and lib/urlapi.c.
-+- Excluded unrelated upstream test and HTTP/2 changes from that commit.
-+
-+(cherry picked from commit 32a513e180ce83d5e9b708211306045407074134)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ lib/urlapi-int.h |  2 ++
-+ lib/urlapi.c     | 33 +++++++++++++++++++++++++++++++++
-+ 2 files changed, 35 insertions(+)
-+
-+diff --git a/lib/urlapi-int.h b/lib/urlapi-int.h
-+index 29d4fe5f39..591062035b 100644
-+--- a/lib/urlapi-int.h
-++++ b/lib/urlapi-int.h
-+@@ -40,4 +40,6 @@ UNITTEST CURLUcode Curl_parse_port(struct Curl_URL *u, struct dynbuf *host,
-+ #define U_CURLU_URLDECODE (unsigned int)CURLU_URLDECODE
-+ #define U_CURLU_PATH_AS_IS (unsigned int)CURLU_PATH_AS_IS
-+
-++bool Curl_url_same_origin(CURLU *base, CURLU *href);
-++
-+ #endif /* HEADER_CURL_URLAPI_INT_H */
-+diff --git a/lib/urlapi.c b/lib/urlapi.c
-+index a4b82f31bd..20c6585b55 100644
-+--- a/lib/urlapi.c
-++++ b/lib/urlapi.c
-+@@ -1996,3 +1996,36 @@ nomem:
-+   }
-+   return CURLUE_OK;
-+ }
-++
-++bool Curl_url_same_origin(CURLU *base, CURLU *href)
-++{
-++  const struct Curl_scheme *s = NULL;
-++
-++  /* base must be an absolute URL */
-++  if(!base->scheme || !base->host)
-++    return FALSE;
-++  if(href->scheme && !curl_strequal(base->scheme, href->scheme))
-++    return FALSE;
-++  if(href->host) {
-++    if(!curl_strequal(base->host, href->host))
-++      return FALSE;
-++    if(!curl_strequal(base->port, href->port)) {
-++      /* This may still match if only one has an explicit port
-++       * and it is the default for the scheme. */
-++      if(base->port && href->port)
-++        return FALSE;
-++
-++      s = Curl_get_scheme(base->scheme);
-++      if(!s) /* Cannot match default port for unknown scheme */
-++        return FALSE;
-++
-++      /* The port which is set must be the default one */
-++      if((base->port && (base->portnum != s->defport)) ||
-++         (href->port && (href->portnum != s->defport)))
-++        return FALSE;
-++    }
-++  }
-++  else if(href->port) /* no host in href, then there must be no port */
-++    return FALSE;
-++  return TRUE;
-++}
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-6429.patch b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
-new file mode 100644
-index 0000000000..76711aafc0
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
-@@ -0,0 +1,325 @@
-+From 1d36681ca0e453faf199f44c483077d929899906 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-7168.patch
+@@ -0,0 +1,373 @@
++From c1cfdf59acbaf9504c4578d4cf56cdd7c8594507 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 16 Apr 2026 14:26:20 +0200
-+Subject: [PATCH] http: clear credentials better on redirect
++Date: Mon, 27 Apr 2026 09:14:51 +0200
++Subject: [PATCH] setopt: clear proxy auth properties when switching
 +
-+Verify with test 2506: netrc with redirect using proxy
++Verify with test 1588
 +
-+Updated test 998 which was wrong.
++Closes #21453
 +
-+Reported-by: Muhamad Arga Reksapati
-+
-+Closes #21345
-+
-+CVE: CVE-2026-6429
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306]
++CVE: CVE-2026-7168
++Upstream-Status: Backport [https://github.com/curl/curl/commit/c1cfdf59acbaf9504c4578d4cf56cdd7c8594507]
 +
 +Backport Changes:
-+- Aligned with curl 8.19.0 by using the existing
-+  Curl_safefree() instead of the curlx_safefree() macro.
-+- The curlx_safefree() macro was introduced in curl 8.20.0 by:
-+  https://github.com/curl/curl/commit/0df6c01db398f5e25d00a062aae56f2a89d8ff55
++- Adapted setproxy() insertion and test-list placement to the curl 8.19.0 wrynose layout.
 +
-+(cherry picked from commit b4024bf808bd558026fdc6096e8457f199ace306)
++(cherry picked from commit c1cfdf59acbaf9504c4578d4cf56cdd7c8594507)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ lib/http.c                 | 84 ++++++++++++--------------------------
-+ tests/data/Makefile.am     |  2 +-
-+ tests/data/test2506        | 64 +++++++++++++++++++++++++++++
-+ tests/data/test998         |  1 -
-+ tests/libtest/Makefile.inc |  2 +-
-+ tests/libtest/lib2506.c    | 71 ++++++++++++++++++++++++++++++++
-+ 6 files changed, 162 insertions(+), 62 deletions(-)
-+ create mode 100644 tests/data/test2506
-+ create mode 100644 tests/libtest/lib2506.c
++ lib/setopt.c               |  14 +++-
++ lib/vauth/vauth.h          |   1 +
++ tests/data/Makefile.am     |   2 +-
++ tests/data/test1588        | 106 ++++++++++++++++++++++++++
++ tests/libtest/Makefile.inc |   2 +-
++ tests/libtest/lib1588.c    | 150 +++++++++++++++++++++++++++++++++++++
++ 6 files changed, 272 insertions(+), 3 deletions(-)
++ create mode 100644 tests/data/test1588
++ create mode 100644 tests/libtest/lib1588.c
 +
-+diff --git a/lib/http.c b/lib/http.c
-+index b960d790a4..2596b4b3a2 100644
-+--- a/lib/http.c
-++++ b/lib/http.c
-+@@ -1201,75 +1201,41 @@ CURLcode Curl_http_follow(struct Curl_easy *data, const char *newurl,
-+       return CURLE_OUT_OF_MEMORY;
-+   }
-+   else {
-+-    uc = curl_url_get(data->state.uh, CURLUPART_URL, &follow_url, 0);
-+-    if(uc)
-++    bool same_origin;
-++    CURLcode result;
-++    CURLU *u = curl_url();
-++    if(!u)
-++      return CURLE_OUT_OF_MEMORY;
-++    uc = curl_url_set(u, CURLUPART_URL,
-++                      Curl_bufref_ptr(&data->state.url),
-++                      CURLU_URLENCODE | CURLU_ALLOW_SPACE);
-++    if(!uc)
-++      uc = curl_url_get(data->state.uh, CURLUPART_URL, &follow_url, 0);
-++    if(uc) {
-++      curl_url_cleanup(u);
-+       return Curl_uc_to_curlcode(uc);
-++    }
++diff --git a/lib/setopt.c b/lib/setopt.c
++index 84f3e02..d12ffb6 100644
++--- a/lib/setopt.c
+++++ b/lib/setopt.c
++@@ -49,6 +49,7 @@
++ #include "curlx/strdup.h"
++ #include "escape.h"
++ #include "bufref.h"
+++#include "vauth/vauth.h"
 +
-+-    /* Clear auth if this redirects to a different port number or protocol,
-+-       unless permitted */
-+-    if(!data->set.allow_auth_to_other_hosts && (type != FOLLOW_FAKE)) {
-+-      int port;
-+-      bool clear = FALSE;
-+-
-+-      if(data->set.use_port && data->state.allow_port)
-+-        /* a custom port is used */
-+-        port = (int)data->set.use_port;
-+-      else {
-+-        curl_off_t value;
-+-        char *portnum;
-+-        const char *p;
-+-        uc = curl_url_get(data->state.uh, CURLUPART_PORT, &portnum,
-+-                          CURLU_DEFAULT_PORT);
-+-        if(uc) {
-+-          curlx_free(follow_url);
-+-          return Curl_uc_to_curlcode(uc);
-+-        }
-+-        p = portnum;
-+-        curlx_str_number(&p, &value, 0xffff);
-+-        port = (int)value;
-+-        curlx_free(portnum);
-+-      }
-+-      if(port != data->info.conn_remote_port) {
-+-        infof(data, "Clear auth, redirects to port from %u to %u",
-+-              data->info.conn_remote_port, port);
-+-        clear = TRUE;
-+-      }
-+-      else {
-+-        char *scheme;
-+-        const struct Curl_scheme *p;
-+-        uc = curl_url_get(data->state.uh, CURLUPART_SCHEME, &scheme, 0);
-+-        if(uc) {
-+-          curlx_free(follow_url);
-+-          return Curl_uc_to_curlcode(uc);
-+-        }
-++    same_origin = Curl_url_same_origin(u, data->state.uh);
-++    curl_url_cleanup(u);
++ static CURLcode setopt_set_timeout_sec(timediff_t *ptimeout_ms, long secs)
++ {
++@@ -1664,6 +1665,17 @@ static CURLcode cookiefile(struct Curl_easy *data, const char *ptr)
++ #endif
 +
-+-        p = Curl_get_scheme(scheme);
-+-        if(p && (p->protocol != data->info.conn_protocol)) {
-+-          infof(data, "Clear auth, redirects scheme from %s to %s",
-+-                data->info.conn_scheme, scheme);
-+-          clear = TRUE;
-+-        }
-+-        curlx_free(scheme);
-+-      }
-+-      if(clear) {
-+-        CURLcode result = Curl_reset_userpwd(data);
-+-        if(result) {
-+-          curlx_free(follow_url);
-+-          return result;
-+-        }
-+-        Curl_safefree(data->state.aptr.user);
-+-        Curl_safefree(data->state.aptr.passwd);
-++    if((!same_origin && !data->set.allow_auth_to_other_hosts) ||
-++       !data->set.str[STRING_USERNAME]) {
-++      result = Curl_reset_userpwd(data);
-++      if(result) {
-++        curlx_free(follow_url);
-++        return result;
-+       }
-++      Curl_safefree(data->state.aptr.user);
-++      Curl_safefree(data->state.aptr.passwd);
-+     }
-+-  }
-+-  DEBUGASSERT(follow_url);
-+-  {
-+-    CURLcode result = Curl_reset_proxypwd(data);
-++    result = Curl_reset_proxypwd(data);
-+     if(result) {
-+       curlx_free(follow_url);
-+       return result;
-+     }
-+   }
-++  DEBUGASSERT(follow_url);
++ #ifndef CURL_DISABLE_PROXY
+++static CURLcode setproxy(struct Curl_easy *data, const char *proxy)
+++{
+++  if((data->set.str[STRING_PROXY] && proxy) &&
+++     !strcmp(data->set.str[STRING_PROXY], proxy))
+++    return CURLE_OK;
+++
+++  Curl_auth_digest_cleanup(&data->state.proxydigest);
+++  memset(&data->state.authproxy, 0, sizeof(data->state.authproxy));
+++  return Curl_setstropt(&data->set.str[STRING_PROXY], proxy);
+++}
+++
++ static CURLcode setopt_cptr_proxy(struct Curl_easy *data, CURLoption option,
++                                   const char *ptr)
++ {
++@@ -1759,7 +1771,7 @@ static CURLcode setopt_cptr_proxy(struct Curl_easy *data, CURLoption option,
++      * Setting it to NULL, means no proxy but allows the environment variables
++      * to decide for us (if CURLOPT_SOCKS_PROXY setting it to NULL).
++      */
++-    return Curl_setstropt(&s->str[STRING_PROXY], ptr);
+++    return setproxy(data, ptr);
++   case CURLOPT_PRE_PROXY:
++     /*
++      * Set proxy server:port to use as SOCKS proxy.
++diff --git a/lib/vauth/vauth.h b/lib/vauth/vauth.h
++index 3e66c89..20ee51e 100644
++--- a/lib/vauth/vauth.h
+++++ b/lib/vauth/vauth.h
++@@ -117,6 +117,7 @@ CURLcode Curl_auth_create_digest_http_message(struct Curl_easy *data,
++ /* This is used to clean up the digest specific data */
++ void Curl_auth_digest_cleanup(struct digestdata *digest);
++ #else
+++#define Curl_auth_digest_cleanup(x)
++ #define Curl_auth_is_digest_supported()       FALSE
++ #endif /* !CURL_DISABLE_DIGEST_AUTH */
 +
-+   if(type == FOLLOW_FAKE) {
-+     /* we are only figuring out the new URL if we would have followed locations
 +diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index 00a5221d1f..1b76b01a8c 100644
++index 1b76b01..1e84b26 100644
 +--- a/tests/data/Makefile.am
 ++++ b/tests/data/Makefile.am
-+@@ -265,7 +265,7 @@ test2309 \
++@@ -208,7 +208,7 @@ test1548 test1549 test1550 test1551 test1552 test1553 test1554 test1555 \
++ test1556 test1557 test1558 test1559 test1560 test1561 test1562 test1563 \
++ test1564 test1565 test1566 test1567 test1568 test1569 test1570 test1571 \
++ test1572 test1573 test1574 test1575 test1576 test1577 test1578 test1579 \
++-test1580 test1581 test1582 test1583 test1584 test1585 \
+++test1580 test1581 test1582 test1583 test1584 test1585 test1588 \
 + \
-+ test2400 test2401 test2402 test2403 test2404 test2405 test2406 test2407 \
-+ \
-+-test2500 test2501 test2502 test2503 test2504 \
-++test2500 test2501 test2502 test2503 test2504 test2506 \
-+ \
-+ test2600 test2601 test2602 test2603 test2604 test2605 \
-+ \
-+diff --git a/tests/data/test2506 b/tests/data/test2506
++ test1590 test1591 test1592 test1593 test1594 test1595 test1596 test1597 \
++ test1598 test1599 test1600 test1601 test1602 test1603 test1604 test1605 \
++diff --git a/tests/data/test1588 b/tests/data/test1588
 +new file mode 100644
-+index 0000000000..9c65002496
++index 0000000..753e98c
 +--- /dev/null
-++++ b/tests/data/test2506
-+@@ -0,0 +1,64 @@
+++++ b/tests/data/test1588
++@@ -0,0 +1,106 @@
 ++<?xml version="1.0" encoding="US-ASCII"?>
 ++<testcase>
 ++<info>
 ++<keywords>
 ++HTTP
-++cookies
+++HTTP GET
+++HTTP proxy
+++HTTP proxy Digest auth
+++multi
 ++</keywords>
 ++</info>
 ++
+++# Server-side
 ++<reply>
-++<data crlf="headers" nocheck="yes">
-++HTTP/1.1 301 redirect
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Content-Length: 3
-++Location: http://numbertwo.example/%TESTNUMBER0002
 ++
-++ok
+++# this is returned first since we get no proxy-auth
+++<data crlf="headers">
+++HTTP/1.1 407 Authorization Required to proxy me my dear
+++Proxy-Authenticate: Digest realm="weirdorealm", nonce="12345"
+++Content-Length: 33
+++
+++And you should ignore this data.
 ++</data>
-++<data2 crlf="headers" nocheck="yes">
-++HTTP/1.1 200 OK
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Content-Length: 4
 ++
-++yes
-++</data2>
+++# then this is returned when we get proxy-auth
+++<data1000 crlf="headers">
+++HTTP/1.1 200 OK
+++Content-Length: 21
+++Server: no
+++
+++Nice proxy auth sir!
+++</data1000>
+++
+++<datacheck crlf="headers">
+++HTTP/1.1 407 Authorization Required to proxy me my dear
+++Proxy-Authenticate: Digest realm="weirdorealm", nonce="12345"
+++Content-Length: 33
+++
+++HTTP/1.1 200 OK
+++Content-Length: 21
+++Server: no
+++
+++Nice proxy auth sir!
+++HTTP/1.1 407 Authorization Required to proxy me my dear
+++Proxy-Authenticate: Digest realm="weirdorealm", nonce="12345"
+++Content-Length: 33
+++
+++HTTP/1.1 200 OK
+++Content-Length: 21
+++Server: no
+++
+++Nice proxy auth sir!
+++</datacheck>
 ++</reply>
 ++
+++# Client-side
 ++<client>
 ++<server>
 ++http
 ++</server>
-++<features>
-++proxy
-++</features>
+++# tool is what to use instead of 'curl'
 ++<tool>
 ++lib%TESTNUMBER
 ++</tool>
+++<features>
+++!SSPI
+++crypto
+++proxy
+++digest
+++</features>
 ++<name>
-++netrc with redirect using proxy
+++HTTP proxy auth Digest, then change proxy and do it again
 ++</name>
-++<file name="%LOGDIR/netrc2506">
-++machine site.example login batman password robin
-++</file>
 ++<command>
-++http://%HOSTIP:%HTTPPORT http://site.example/ %LOGDIR/netrc2506
+++http://test.remote.example.com/path/%TESTNUMBER %HOSTIP %HTTPPORT silly:person custom.set.host.name
 ++</command>
 ++</client>
 ++
+++# Verify data after the test has been "shot"
 ++<verify>
 ++<protocol crlf="headers">
-++GET http://site.example/ HTTP/1.1
-++Host: site.example
-++Authorization: Basic %b64[batman:robin]b64%
+++GET http://test.remote.example.com/path/1588 HTTP/1.1
+++Host: test.remote.example.com
 ++Accept: */*
 ++Proxy-Connection: Keep-Alive
 ++
-++GET http://numbertwo.example/25060002 HTTP/1.1
-++Host: numbertwo.example
+++GET http://test.remote.example.com/path/1588 HTTP/1.1
+++Host: test.remote.example.com
+++Proxy-Authorization: Digest username="silly", realm="weirdorealm", nonce="12345", uri="/path/1588", response="d0b2f000c7e3fca24452b5810713404a"
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++GET http://test.remote.example.com/path/1588 HTTP/1.1
+++Host: test.remote.example.com
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++GET http://test.remote.example.com/path/1588 HTTP/1.1
+++Host: test.remote.example.com
+++Proxy-Authorization: Digest username="silly", realm="weirdorealm", nonce="12345", uri="/path/1588", response="d0b2f000c7e3fca24452b5810713404a"
 ++Accept: */*
 ++Proxy-Connection: Keep-Alive
 ++
 ++</protocol>
 ++</verify>
 ++</testcase>
-+diff --git a/tests/data/test998 b/tests/data/test998
-+index 24d1d3dd4e..56dbc0c891 100644
-+--- a/tests/data/test998
-++++ b/tests/data/test998
-+@@ -77,7 +77,6 @@ Proxy-Connection: Keep-Alive
-+
-+ GET http://somewhere.else.example/a/path/9980002 HTTP/1.1
-+ Host: somewhere.else.example
-+-Authorization: Basic %b64[alberto:einstein]b64%
-+ User-Agent: curl/%VERSION
-+ Accept: */*
-+ Proxy-Connection: Keep-Alive
 +diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-+index 2319bafe72..2f77c16975 100644
++index 2f77c16..96b82bc 100644
 +--- a/tests/libtest/Makefile.inc
 ++++ b/tests/libtest/Makefile.inc
-+@@ -113,7 +113,7 @@ TESTS_C = \
-+   lib2023.c lib2032.c lib2082.c \
-+   lib2301.c lib2302.c lib2304.c           lib2306.c lib2308.c lib2309.c \
-+   lib2402.c           lib2404.c lib2405.c \
-+-  lib2502.c lib2504.c \
-++  lib2502.c lib2504.c lib2506.c \
-+   lib2700.c \
-+   lib3010.c lib3025.c lib3026.c lib3027.c lib3033.c lib3034.c \
-+   lib3100.c lib3101.c lib3102.c lib3103.c lib3104.c lib3105.c \
-+diff --git a/tests/libtest/lib2506.c b/tests/libtest/lib2506.c
++@@ -97,7 +97,7 @@ TESTS_C = \
++   lib1559.c lib1560.c                               lib1564.c lib1565.c \
++   lib1567.c lib1568.c lib1569.c           lib1571.c \
++   lib1576.c \
++-  lib1582.c \
+++  lib1582.c lib1588.c \
++   lib1591.c lib1592.c lib1593.c lib1594.c                     lib1597.c \
++   lib1598.c lib1599.c \
++   lib1662.c \
++diff --git a/tests/libtest/lib1588.c b/tests/libtest/lib1588.c
 +new file mode 100644
-+index 0000000000..8b3b3429f9
++index 0000000..9b12f36
 +--- /dev/null
-++++ b/tests/libtest/lib2506.c
-+@@ -0,0 +1,71 @@
+++++ b/tests/libtest/lib1588.c
++@@ -0,0 +1,150 @@
 ++/***************************************************************************
 ++ *                                  _   _ ____  _
 ++ *  Project                     ___| | | |  _ \| |
@@ -459,7 +337,7 @@ index 0000000000..76711aafc0
 ++ *                            | (__| |_| |  _ <| |___
 ++ *                             \___|\___/|_| \_\_____|
 ++ *
-++ * Copyright (C) Linus Nielsen Feltzing <linus@haxx.se>
+++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
 ++ *
 ++ * This software is licensed as described in the file COPYING, which
 ++ * you should have received as part of this distribution. The terms
@@ -475,26 +353,96 @@ index 0000000000..76711aafc0
 ++ * SPDX-License-Identifier: curl
 ++ *
 ++ ***************************************************************************/
+++/*
+++ * argv1 = URL
+++ * argv2 = proxy host
+++ * argv3 = proxy port
+++ * argv4 = proxyuser:password
+++ */
+++
 ++#include "first.h"
 ++
-++#include "testtrace.h"
-++
-++static size_t sink2506(char *ptr, size_t size, size_t nmemb, void *ud)
+++static CURLcode init1588(CURL *curl, const char *url,
+++                         const char *userpwd, const char *proxy)
 ++{
-++  (void)ptr;
-++  (void)ud;
-++  return size * nmemb;
+++  CURLcode result = CURLE_OK;
+++
+++  res_easy_setopt(curl, CURLOPT_URL, url);
+++  if(result)
+++    goto init_failed;
+++
+++  res_easy_setopt(curl, CURLOPT_PROXY, proxy);
+++  if(result)
+++    goto init_failed;
+++
+++  res_easy_setopt(curl, CURLOPT_PROXYUSERPWD, userpwd);
+++  if(result)
+++    goto init_failed;
+++
+++  res_easy_setopt(curl, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
+++  if(result)
+++    goto init_failed;
+++
+++  res_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+++  if(result)
+++    goto init_failed;
+++#if 0
+++  res_easy_setopt(curl, CURLOPT_HTTPPROXYTUNNEL, 1L);
+++  if(result)
+++    goto init_failed;
+++#endif
+++
+++  res_easy_setopt(curl, CURLOPT_HEADER, 1L);
+++  if(result)
+++    goto init_failed;
+++
+++  return CURLE_OK; /* success */
+++
+++init_failed:
+++  return result; /* failure */
 ++}
 ++
-++static CURLcode test_lib2506(const char *URL)
+++static CURLcode run1588(CURL *curl, const char *url, const char *userpwd,
+++                        const char *proxy)
 ++{
-++  CURL *curl;
-++  CURLcode result = CURLE_OUT_OF_MEMORY;
+++  CURLcode result = CURLE_OK;
 ++
-++  if(curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
-++    curl_mfprintf(stderr, "curl_global_init() failed\n");
+++  result = init1588(curl, url, userpwd, proxy);
+++  if(result)
+++    return result;
+++
+++  return curl_easy_perform(curl);
+++}
+++
+++static CURLcode test_lib1588(const char *URL)
+++{
+++  CURLcode result = CURLE_OK;
+++  CURL *curl = NULL;
+++  const char *proxyuserpws = libtest_arg4;
+++  struct curl_slist *host = NULL;
+++  struct curl_slist *host2 = NULL;
+++  char proxy1_resolve[128];
+++  char proxy2_resolve[128];
+++  char proxy1_connect[128];
+++  char proxy2_connect[128];
+++
+++  if(test_argc < 3)
 ++    return TEST_ERR_MAJOR_BAD;
-++  }
+++
+++  curl_msnprintf(proxy1_resolve, sizeof(proxy1_resolve),
+++                 "firstproxy:%s:%s", libtest_arg3, libtest_arg2);
+++  curl_msnprintf(proxy2_resolve, sizeof(proxy2_resolve),
+++                 "secondproxy:%s:%s", libtest_arg3, libtest_arg2);
+++
+++  /* we connect to the fake host name but the right port number */
+++  curl_msnprintf(proxy1_connect, sizeof(proxy1_connect),
+++                 "firstproxy:%s", libtest_arg3);
+++  curl_msnprintf(proxy2_connect, sizeof(proxy2_connect),
+++                 "secondproxy:%s", libtest_arg3);
+++
+++  res_global_init(CURL_GLOBAL_ALL);
+++  if(result)
+++    return result;
 ++
 ++  curl = curl_easy_init();
 ++  if(!curl) {
@@ -503,36 +451,44 @@ index 0000000000..76711aafc0
 ++    return TEST_ERR_MAJOR_BAD;
 ++  }
 ++
-++  test_setopt(curl, CURLOPT_WRITEFUNCTION, sink2506);
-++  test_setopt(curl, CURLOPT_PROXY, URL);
-++  test_setopt(curl, CURLOPT_URL, libtest_arg2);
-++  test_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
-++  test_setopt(curl, CURLOPT_NETRC_FILE, libtest_arg3);
-++  test_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-++  test_setopt(curl, CURLOPT_VERBOSE, 1L);
+++  host = curl_slist_append(NULL, proxy1_resolve);
+++  if(!host)
+++    goto test_cleanup;
+++  host2 = curl_slist_append(host, proxy2_resolve);
+++  if(!host2)
+++    goto test_cleanup;
+++  host = host2;
 ++
-++  /* CURLOPT_UNRESTRICTED_AUTH should not make a difference because the
-++     credentials come from netrc */
-++  test_setopt(curl, CURLOPT_UNRESTRICTED_AUTH, 1L);
+++  start_test_timing();
 ++
-++  result = curl_easy_perform(curl);
+++  easy_setopt(curl, CURLOPT_RESOLVE, host);
+++
+++  result = run1588(curl, URL, proxyuserpws, proxy1_connect);
+++  if(result)
+++    goto test_cleanup;
+++
+++  curl_mfprintf(stderr, "lib1588: now we do the request again\n");
+++
+++  result = run1588(curl, URL, proxyuserpws, proxy2_connect);
 ++
 ++test_cleanup:
+++
+++  /* proper cleanup sequence - type PB */
+++
 ++  curl_easy_cleanup(curl);
 ++  curl_global_cleanup();
-++
+++  curl_slist_free_all(host);
 ++  return result;
 ++}
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index b1ee0f8b9b..683163bfa6 100644
+index 683163bfa6..7996aa7d00 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -19,6 +19,8 @@ SRC_URI = " \
-     file://mbedtls.patch \
-     file://CVE-2026-5545.patch \
+@@ -21,6 +21,7 @@ SRC_URI = " \
      file://CVE-2026-6253.patch \
-+    file://CVE-2026-6429-dependent.patch \
-+    file://CVE-2026-6429.patch \
+     file://CVE-2026-6429-dependent.patch \
+     file://CVE-2026-6429.patch \
++    file://CVE-2026-7168.patch \
  "
  
  SRC_URI:append:class-nativesdk = " \
