@@ -1,248 +1,522 @@
-Return-Path: <nora.schiffer@ew.tq-group.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F289C44515
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B05BC44520
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 12:20:39 +0000 (UTC)
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7672.1784550036531497176
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7645.1784550030698636359
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 05:20:37 -0700
+ Mon, 20 Jul 2026 05:20:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ew.tq-group.com header.s=default2602 header.b=hnXFC44K;
- spf=pass (domain: ew.tq-group.com, ip: 188.40.3.216, mailfrom: nora.schiffer@ew.tq-group.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=9fmj7Aim7ORKAhz8F9pDPID2a4kvUxU8HsQzommJtSw=; b=hnXFC44K38e9VOSa3ls7hTHOCq
-	NzlXscBO9nDhl++ce4LEgo+CnI2x+MP3gV3NZPI8z+4vqfktpmQ3CRcUSyx5ibj2Z3QKn1L7i5o+k
-	rO/7wBZN9rjF/vk2ory1Ee1779xI8Q48hj6Pm4s3L/okykqYOtAy8V8wnXkL9FgOymFg6qQ45kD1u
-	RrPg88r0fp8fMbhDqLmie0Skyb/XKn2RDoXoWzgIYE/rtd18Zd9tKTTF1qSXNO95SoURDV3Mg4Dm4
-	SVY/LZrLocNUtOjYgZgQDG6N6qTZcpJ/NHco9b/AE0Me11tBn72FX7uLKtMcjRymmMUygJMNDomeq
-	515pZYLA==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wlmz4-0002wO-2I;
-	Mon, 20 Jul 2026 14:20:34 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wlmz4-0005nC-07;
-	Mon, 20 Jul 2026 14:20:34 +0200
-Message-ID: <62005bcbcf3b8e2e120649f15b41652471af7901.camel@ew.tq-group.com>
-Subject: Re: [OE-core] [PATCH 2/2] kernel-fit-image: introduce FIT_OS
- variable to override 'os' field
-From: Nora Schiffer <nora.schiffer@ew.tq-group.com>
-To: adrian.freihofer@gmail.com, openembedded-core@lists.openembedded.org
-Cc: oss@ew.tq-group.com
-Date: Mon, 20 Jul 2026 14:20:33 +0200
-In-Reply-To: <d3e5931d9ece33231a4fd859bc45089e262f298d.camel@ew.tq-group.com>
-References: <cover.1783422721.git.nora.schiffer@ew.tq-group.com>
-	 <30d89efad3d693785555868ea8c7f1c7b7b5cf46.1783422721.git.nora.schiffer@ew.tq-group.com>
-	 <c0cfb5e9731b9c7c679ad353fb04ac32e118c1ab.camel@gmail.com>
-	 <d3e5931d9ece33231a4fd859bc45089e262f298d.camel@ew.tq-group.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=lF5NDQuo;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=17083; q=dns/txt;
+  s=iport01; t=1784550030; x=1785759630;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=v5srVOOoiTAWNtk9wpsvPilcPsrWPBtm527Zdl7e2sY=;
+  b=lF5NDQuo1IBf1gPU4wGzOrdegXuHn7vSS1arGxPOM/5oyE22oNstLhfn
+   WCHFAPBt05DKpBGwo2lfVhRTu3WrggtiNpo25fAMRAggE7TLlqW6txPje
+   X35oF7zO7m9lp6OP/IqUfFNcrLFw2kTT2JzokO7kLArd9d0xr3bdLddzk
+   CgSlzQp94KBRe8JCEfBqgFmFg1vmIMiaGSYgzASyVG+kvpZyQ0w6YRb97
+   eJlj0+48JJTx1i9zTfjQuGD/I1ps5CgxQ/kd0PvPvfa2uo1oYGo/pJo0w
+   WMf0++ZWLsf1Jx+Gxaj0UCfdjimdglZaJpHBBsCDzIH6/2ScdVjGs2tfB
+   A==;
+X-CSE-ConnectionGUID: uTaKpGFxRK+0e8aTiA6gsA==
+X-CSE-MsgGUID: Epw3vRDkQFaI5Xy/i3NUyA==
+X-IPAS-Result: =?us-ascii?q?A0BNAgCWEV5q/5P/Ja1aHgEBCxIMggULgld0X0IrHoRXg?=
+ =?us-ascii?q?XCNYoIhA4tkkjeBfg8BAQEPRA0EAQGEP0YCjVMCJjQJDgECBAMCAwEBAQEBA?=
+ =?us-ascii?q?QEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgECAQMjBAsBGAEbIhwDAQIDAiYCA?=
+ =?us-ascii?q?iALIwgQAQiDAgGCOgM3AwgJvEMaN3p/M4EBgygBPwJDUNhJDYJYAQsUAYEKL?=
+ =?us-ascii?q?oU/gn0gAYUCXBgBhHwnGxuBcoEVg2mBBYEaQgEBhTuCagSCDRWBDIFaHoNeg?=
+ =?us-ascii?q?0mIR0iBAhwDWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XNFgbBwWBHYE6gQKEd?=
+ =?us-ascii?q?CMfAzl/gS91SnctahIXgSaCEgKBOwIHAwsYDUgRLDcUGQQ9AW4HjTwjgh8OC?=
+ =?us-ascii?q?wYBAX4PAQcDCRcBgUM6AT0/kmcKkjSgIXEKKIN1jCGPPoV8GjOFW6URC5h9j?=
+ =?us-ascii?q?gqECYNTjgwxN4RpgWg8gSgfCwdwFYJuATMJShkPjjiDa4F/gxTDMjw1AgkyA?=
+ =?us-ascii?q?QEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:Ebzspqx+NKsSQ05yjLh6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUBm
+ 2YZXz/VOfjbYTT2c4slOd+y9x8A6sLWydBqHQRl+FhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 46aT/H3Ygf/hWYraDpMtspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJFwKNK4A1chnO0INr
+ fFIIQwMR06MnMvjldpXSsE07igiBNPgMIVavjRryivUSK9+B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cPHWjOX9PYH46tOuli2P2bz1fgFmUvqEwpWPUyWSd1ZCwaYOEI4LVHJk9ckCwi
+ 3rZpHrDLhIjGtW+lAqUtXP3oNLetHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPAXi4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:l1uF7aiYXW2JPW0uZhYSJroo3XBQXvgji2hC6mlwRA09TyX+rb
+ HIoB17726RtN9/Yh8dcLy7VZVoBEmslqKdgrNhWItKIjOGhILAFugLhuHfKn/bak/DH4Vmup
+ uIHZITNDSJNzhHpPe/xhWkGNA9x9TC2qWpieDCi0pJd2hRGsddB8MTMHfiLqWwLzM2fKYEKA
+ ==
+X-Talos-CUID: =?us-ascii?q?9a23=3ArFI4DmoEJm9s8gKUXIF3HNnmUd0Ze17F41nAGWz?=
+ =?us-ascii?q?7UWs5QYGUYAGf44oxxg=3D=3D?=
+X-Talos-MUID: 9a23:XVYDkQhCn+TXlkz6s4OPNMMpGd93uLqUJEM0v5wn5vmVci0rHQqMpWHi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,174,1779148800"; 
+   d="scan'208";a="511916714"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Jul 2026 12:20:29 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 28998180008B5
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:20:29 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id 3E713CBEFAA; Mon, 20 Jul 2026 17:50:27 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][wrynose][PATCH v2 10/10] expat: fix CVE-2026-56132
+Date: Mon, 20 Jul 2026 17:46:15 +0530
+Message-Id: <20260720121615.2520859-11-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260720121615.2520859-1-deeratho@cisco.com>
+References: <20260710130809.2817559-1-deeratho@cisco.com>
+ <20260720121615.2520859-1-deeratho@cisco.com>
 MIME-Version: 1.0
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28066/Mon Jul 20 08:24:24 2026)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:20:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241388
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241387
 
-T24gTW9uLCAyMDI2LTA3LTIwIGF0IDE0OjE1ICswMjAwLCBOb3JhIFNjaGlmZmVyIHdyb3RlOgo+
-IE9uIFN1biwgMjAyNi0wNy0xOSBhdCAyMTozNyArMDIwMCwgYWRyaWFuLmZyZWlob2ZlckBnbWFp
-bC5jb20gd3JvdGU6Cj4gPiBPbiBUdWUsIDIwMjYtMDctMDcgYXQgMTM6MjkgKzAyMDAsIE5vcmEg
-U2NoaWZmZXIgdmlhCj4gPiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOgo+ID4gPiBVLUJv
-b3QgY2FuIGxvYWQgYW4gRUZJIGFwcGxpY2F0aW9uIGZyb20gYSBGSVQgaW1hZ2U7IHRoaXMgcmVx
-dWlyZXMKPiA+ID4gc2V0dGluZyB0aGUgT1MgdG8gImVmaSIgKHVzdWFsbHkgaW4gY29tYmluYXRp
-b24gd2l0aCB0eXBlCj4gPiA+ICJrZXJuZWxfbm9sb2FkIikuIERvaW5nIHNvIGlzIGEgY29udmVu
-aWVudCBhcHByb2FjaCBmb3IgZ2l2aW5nIHRoZSBPUwo+ID4gPiBhY2Nlc3MgdG8gRUZJIHNlcnZp
-Y2VzIHdoaWxlIHByZXNlcnZpbmcgb3RoZXIgYmVuZWZpdHMgb2YgRklUIGltYWdlCj4gPiA+IGJv
-b3QuCj4gPiA+IAo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBOb3JhIFNjaGlmZmVyIDxub3JhLnNjaGlm
-ZmVyQGV3LnRxLWdyb3VwLmNvbT4KPiA+ID4gLS0tCj4gPiA+IMKgbWV0YS9jbGFzc2VzLXJlY2lw
-ZS9rZXJuZWwtZml0LWltYWdlLmJiY2xhc3MgfMKgIDMgKystCj4gPiA+IMKgbWV0YS9jb25mL2lt
-YWdlLWZpdGltYWdlLmNvbmbCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDQgKysr
-Kwo+ID4gPiDCoG1ldGEvbGliL29lL2ZpdGltYWdlLnB5wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHwgMTEgKysrKysrLS0tLS0KPiA+ID4gwqBtZXRhL2xpYi9vZXFh
-L3NlbGZ0ZXN0L2Nhc2VzL2ZpdGltYWdlLnB5wqDCoMKgwqAgfCAxMyArKysrKysrKysrKy0tCj4g
-PiA+IMKgNCBmaWxlcyBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+
-ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy1yZWNpcGUva2VybmVsLWZpdC1p
-bWFnZS5iYmNsYXNzCj4gPiA+IGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwtZml0LWltYWdl
-LmJiY2xhc3MKPiA+ID4gaW5kZXggNDQ4YTg4Y2NiMS4uODk5NTE2ZTM3MiAxMDA2NDQKPiA+ID4g
-LS0tIGEvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwtZml0LWltYWdlLmJiY2xhc3MKPiA+ID4g
-KysrIGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwtZml0LWltYWdlLmJiY2xhc3MKPiA+ID4g
-QEAgLTY5LDcgKzY5LDggQEAgcHl0aG9uIGRvX2NvbXBpbGUoKSB7Cj4gPiA+IMKgwqDCoMKgICMg
-Q29sbGVjdCBhbGwgdGhlIGl0cyBub2RlcyBiZWZvcmUgdGhlIGl0cyBmaWxlIGlzIGdlbmVyYXRl
-ZCBhbmQKPiA+ID4gbWtpbWFnZSBnZXRzIGV4ZWN1dGVkCj4gPiA+IMKgwqDCoMKgIHJvb3Rfbm9k
-ZSA9IG9lLmZpdGltYWdlLkl0c05vZGVSb290S2VybmVsKAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKg
-IGQuZ2V0VmFyKCJGSVRfREVTQyIpLCBkLmdldFZhcigiRklUX0FERFJFU1NfQ0VMTFMiKSwKPiA+
-ID4gLcKgwqDCoMKgwqDCoMKgIGQuZ2V0VmFyKCdIT1NUX1BSRUZJWCcpLCBkLmdldFZhcignVUJP
-T1RfQVJDSCcpLMKgCj4gPiA+IGQuZ2V0VmFyKCJGSVRfQ09ORl9QUkVGSVgiKSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoMKgIGQuZ2V0VmFyKCdIT1NUX1BSRUZJWCcpLCBkLmdldFZhcignVUJPT1RfQVJD
-SCcpLAo+ID4gPiBkLmdldFZhcignRklUX09TJyksCj4gPiA+ICvCoMKgwqDCoMKgwqDCoCBkLmdl
-dFZhcigiRklUX0NPTkZfUFJFRklYIiksCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqAgb2UudHlwZXMu
-Ym9vbGVhbihkLmdldFZhcignRklUX0tFUk5FTF9TSUdOX0VOQUJMRScpKSwKPiA+ID4gZC5nZXRW
-YXIoIkZJVF9LRVJORUxfU0lHTl9LRVlESVIiKSwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoCBkLmdl
-dFZhcigiVUJPT1RfTUtJTUFHRSIpLAo+ID4gPiBkLmdldFZhcigiVUJPT1RfTUtJTUFHRV9EVENP
-UFRTIiksCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqAgZC5nZXRWYXIoJ0ZJVF9NS0lNQUdFX0VYVFJB
-X09QVFMnKSwKPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9pbWFnZS1maXRpbWFnZS5jb25m
-IGIvbWV0YS9jb25mL2ltYWdlLQo+ID4gPiBmaXRpbWFnZS5jb25mCj4gPiA+IGluZGV4IDJmZGI4
-MTZkNTUuLmEwNmQzMGU0OTQgMTAwNjQ0Cj4gPiA+IC0tLSBhL21ldGEvY29uZi9pbWFnZS1maXRp
-bWFnZS5jb25mCj4gPiA+ICsrKyBiL21ldGEvY29uZi9pbWFnZS1maXRpbWFnZS5jb25mCj4gPiA+
-IEBAIC0zNyw2ICszNywxMCBAQCBGSVRfQ09ORl9QUkVGSVhbZG9jXSA9ICJQcmVmaXggdG8gdXNl
-IGZvciBGSVQKPiA+ID4gY29uZmlndXJhdGlvbiBub2RlIG5hbWUiCj4gPiA+IMKgCj4gPiA+IMKg
-RklUX1NVUFBPUlRFRF9JTklUUkFNRlNfRlNUWVBFUyA/PSAiY3Bpby5sejQgY3Bpby5sem8gY3Bp
-by5sem1hCj4gPiA+IGNwaW8ueHogY3Bpby56c3QgY3Bpby5neiBleHQyLmd6IGNwaW8iCj4gPiA+
-IMKgCj4gPiA+ICsjIG9zIGZpZWxkIG9mIHRoZSBrZXJuZWwgYW5kIHZhcmlvdXMgb3RoZXIgaW1h
-Z2VzIGluIHRoZSBGSVQgaW1hZ2UuCj4gPiA+IFNldCB0byAiZWZpIgo+ID4gPiArIyB0byBsb2Fk
-IGEga2VybmVsIHdpdGggRUZJIHN0dWIgYXMgYW4gRUZJIGFwcGxpY2F0aW9uLgo+ID4gPiArRklU
-X09TID89ICJsaW51eCIKPiA+ID4gKwo+ID4gPiDCoCMgQWxsb3cgdXNlciB0byBzdXBwb3J0IHNw
-ZWNpYWwgdXNlIGNhc2VzIHdoZXJlIHRoZSBrZXJuZWwgYmluYXJ5IGlzCj4gPiA+IMKgIyBub3Qg
-aW5jbHVkZWQgaW4gdGhlIEZJVCBpbWFnZSBpdHNlbGYuCj4gPiA+IMKgIyBUaGlzIGlzIHBhcnRp
-Y3VsYXJseSB1c2VmdWwgZm9yIFVLSS1iYXNlZCBzZXR1cHMsIHdoZXJlIHRoZSBrZXJuZWwKPiA+
-ID4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lL2ZpdGltYWdlLnB5IGIvbWV0YS9saWIvb2UvZml0
-aW1hZ2UucHkKPiA+ID4gaW5kZXggODFkMThmNmM5MS4uODZhMGU0NGUxMiAxMDA2NDQKPiA+ID4g
-LS0tIGEvbWV0YS9saWIvb2UvZml0aW1hZ2UucHkKPiA+ID4gKysrIGIvbWV0YS9saWIvb2UvZml0
-aW1hZ2UucHkKPiA+ID4gQEAgLTE1Myw3ICsxNTMsNyBAQCBjbGFzcyBJdHNOb2RlUm9vdEtlcm5l
-bChJdHNOb2RlKToKPiA+ID4gwqDCoMKgwqAgSWYgYSBkZXZpY2UgdHJlZSBpbmNsdWRlZCBpbiB0
-aGUgRklUIGltYWdlLCB0aGUgZGVmYXVsdAo+ID4gPiBjb25maWd1cmF0aW9uIGlzIHRoZQo+ID4g
-PiDCoMKgwqDCoCBmaXJ0IERUQi4gSWYgdGhlcmUgaXMgbm8gZHRiIHByZXNlbnQgdGhhbiB0aGUg
-ZGVmYXVsdAo+ID4gPiBjb25maWd1YXRpb24gdGhlIGtlcm5lbC4KPiA+ID4gwqDCoMKgwqAgIiIi
-Cj4gPiA+IC3CoMKgwqAgZGVmIF9faW5pdF9fKHNlbGYsIGRlc2NyaXB0aW9uLCBhZGRyZXNzX2Nl
-bGxzLCBob3N0X3ByZWZpeCwKPiA+ID4gYXJjaCwgY29uZl9wcmVmaXgsCj4gPiA+ICvCoMKgwqAg
-ZGVmIF9faW5pdF9fKHNlbGYsIGRlc2NyaXB0aW9uLCBhZGRyZXNzX2NlbGxzLCBob3N0X3ByZWZp
-eCwKPiA+ID4gYXJjaCwgb3MsIGNvbmZfcHJlZml4LAo+ID4gCj4gPiBTaG91bGQgd2UgdXNlICJv
-cyIgYXMgYSB2YXJpYWJsZSBuYW1lPyBXaGF0IGhhcHBlbnMgaWYKPiA+IAo+ID4gaW1wb3J0IG9z
-Cj4gPiAKPiA+IG9zID0gImVmaSIgPwo+ID4gCj4gPiBvcy5wYXRoLmpvaW4oLi4uKQo+ID4gCj4g
-PiBUbyBiZSBvbiB0aGUgc2F2ZSBzaWRlLCBJIHdvdWxkIHN1Z2dlc3QgdG8gdXNlIGZpdF9vcywg
-Zm9yIGV4YW1wbGUuCj4gPiAKPiA+IFRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLiBJIHRoaW5rIHRo
-aXMgbmVlZHMgYSB2MiBiZWNhdXNlIG9mIHRoaXMKPiA+IGRldGFpbC4gQnV0IG90aGVyd2lzZSBp
-dCBsb29rcyBnb29kIHRvIG1lLgo+ID4gCj4gPiBTb3JyeSBmb3IgdGhlIGxhdGUgcmVzcG9uc2Us
-Cj4gPiBBZHJpYW4KPiAKPiBIaSBBZHJpYW4sCj4gCj4gdGhhbmtzIGZvciB0aGUgcmV2aWV3LiBD
-aGFuZ2luZyB0aGUgaWRlbnRpZmllciB0byBmaXRfb3MgbWFrZXMgc2Vuc2UgdG8gbWUsIHdpbGwK
-PiB1cGRhdGUgaW4gdjIgb3IgYSBmb2xsb3ctdXAgcGF0Y2ggKGRlcGVuZGluZyBvbiB3aGV0aGVy
-IHRoZSB2MSBjdXJyZW50bHkgaW4KPiBtYXN0ZXItbmV4dCBtYWtlcyBpdCB0byBtYXN0ZXIgb3Ig
-bm90KS4KPiAKPiBCZXN0LAo+IE5vcmEKCkFoLCBJIGNvcGllZCB0aGlzIGZyb20gZml0aW1hZ2Vf
-ZW1pdF9zZWN0aW9uX2xvYWRhYmxlKCksIHdoaWNoIGFscmVhZHkgaGFzIGFuCmFyZ3VtZW50IG5h
-bWVkIG9zLiBXaWxsIGZpeCBib3RoIGluIGEgZm9sbG93LXVwLgoKQmVzdCwKTm9yYQoKCj4gCj4g
-Cj4gPiAKPiA+IAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNpZ25f
-ZW5hYmxlPUZhbHNlLCBzaWduX2tleWRpcj1Ob25lLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIG1raW1hZ2U9Tm9uZSwgbWtpbWFnZV9kdGNvcHRzPU5vbmUsCj4gPiA+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWtpbWFnZV9leHRyYV9vcHRzPU5v
-bmUsCj4gPiA+IEBAIC0xNzEsNiArMTcxLDcgQEAgY2xhc3MgSXRzTm9kZVJvb3RLZXJuZWwoSXRz
-Tm9kZSk6Cj4gPiA+IMKgCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5faG9zdF9wcmVmaXgg
-PSBob3N0X3ByZWZpeAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuX2FyY2ggPSBhcmNoCj4g
-PiA+ICvCoMKgwqDCoMKgwqDCoCBzZWxmLl9vcyA9IG9zCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqAg
-c2VsZi5fY29uZl9wcmVmaXggPSBjb25mX3ByZWZpeAo+ID4gPiDCoAo+ID4gPiDCoMKgwqDCoMKg
-wqDCoMKgICMgU2lnbmF0dXJlIHJlbGF0ZWQgcHJvcGVydGllcwo+ID4gPiBAQCAtMjc5LDcgKzI4
-MCw3IEBAIGNsYXNzIEl0c05vZGVSb290S2VybmVsKEl0c05vZGUpOgo+ID4gPiDCoMKgwqDCoMKg
-wqDCoMKgIG9wdF9wcm9wcyA9IHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJkYXRh
-IjogJy9pbmNiaW4vKCInICsga2VybmVsX3BhdGggKyAnIiknLAo+ID4gPiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgImFyY2giOiBzZWxmLl9hcmNoLAo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAib3MiOiAibGludXgiLAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAib3MiOiBz
-ZWxmLl9vcywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoCB9Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqAg
-aWYgbG9hZDoKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9wdF9wcm9wc1sibG9hZCJd
-ID0gZiI8e2xvYWR9PiIKPiA+ID4gQEAgLTM3MCw3ICszNzEsNyBAQCBjbGFzcyBJdHNOb2RlUm9v
-dEtlcm5lbChJdHNOb2RlKToKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHsKPiA+ID4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImRhdGEiOiAnL2luY2Jpbi8oIicgKyBz
-ZXR1cF9wYXRoICsgJyIpJywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-ImFyY2giOiBzZWxmLl9hcmNoLAo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ICJvcyI6ICJsaW51eCIsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIm9z
-Ijogc2VsZi5fb3MsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJsb2Fk
-IjogbG9hZCwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImVudHJ5Ijog
-ZW50cnkKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPiA+ID4gQEAgLTM4NSw3ICsz
-ODYsNyBAQCBjbGFzcyBJdHNOb2RlUm9vdEtlcm5lbChJdHNOb2RlKToKPiA+ID4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgICJkYXRhIjogJy9pbmNiaW4vKCInICsgcmFtZGlza19wYXRoICsgJyIp
-JywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJ0eXBlIjogInJhbWRpc2siLAo+ID4g
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImFyY2giOiBzZWxmLl9hcmNoLAo+ID4gPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAib3MiOiAibGludXgiCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICJvcyI6IHNlbGYuX29zLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgIH0KPiA+ID4gwqDC
-oMKgwqDCoMKgwqDCoCBpZiBsb2FkOgo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb3B0
-X3Byb3BzWyJsb2FkIl0gPSBmIjx7bG9hZH0+Igo+ID4gPiBAQCAtNDA2LDcgKzQwNyw3IEBAIGNs
-YXNzIEl0c05vZGVSb290S2VybmVsKEl0c05vZGUpOgo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgIG9w
-dF9wcm9wcyA9IHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJkYXRhIjogJy9pbmNi
-aW4vKCInICsgZmlsZXBhdGggKyAnIiknLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-ImFyY2giOiBhcmNoIGlmIGFyY2ggaXMgbm90IE5vbmUgZWxzZSBzZWxmLl9hcmNoLAo+ID4gPiAt
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAib3MiOiBvcyBpZiBvcyBpcyBub3QgTm9uZSBlbHNlICJs
-aW51eCIsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJvcyI6IG9zIGlmIG9zIGlzIG5v
-dCBOb25lIGVsc2Ugc2VsZi5fb3MsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqAgfQo+ID4gPiDCoAo+
-ID4gPiDCoMKgwqDCoMKgwqDCoMKgIGlmIGxvYWQ6Cj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2xp
-Yi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2ZpdGltYWdlLnB5Cj4gPiA+IGIvbWV0YS9saWIvb2VxYS9z
-ZWxmdGVzdC9jYXNlcy9maXRpbWFnZS5weQo+ID4gPiBpbmRleCBjNWYyOTc1MjIzLi5kMjhiNWI4
-OTY1IDEwMDY0NAo+ID4gPiAtLS0gYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2ZpdGlt
-YWdlLnB5Cj4gPiA+ICsrKyBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZml0aW1hZ2Uu
-cHkKPiA+ID4gQEAgLTY3MCw2ICs2NzAsNyBAQCBjbGFzcyBLZXJuZWxGaXRJbWFnZUJhc2UoRml0
-SW1hZ2VUZXN0Q2FzZSk6Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnRklUX0xPQURB
-QkxFUycsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnRklUX0xPQURBQkxFX0VOVFJZ
-UE9JTlQnLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ0ZJVF9MT0FEQUJMRV9MT0FE
-QUREUkVTUycsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdGSVRfT1MnLAo+ID4gPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ0ZJVF9TSUdOX0FMRycsCj4gPiA+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAnRklUX1NJR05fSU5ESVZJRFVBTCcsCj4gPiA+IMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAnRklUX1VCT09UX0VOVicsCj4gPiA+IEBAIC05MDQsNyArOTA1LDcgQEAgY2xh
-c3MgS2VybmVsRml0SW1hZ2VCYXNlKEZpdEltYWdlVGVzdENhc2UpOgo+ID4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgIyAnY29tcHJlc3Npb24gPSAiJyArCj4gPiA+IHN0cihiYl92YXJzWydG
-SVRfS0VSTkVMX0NPTVBfQUxHJ10pICsgJyI7JywgZGVmaW5lZCBiYXNlZCBvbiBmaWxlcyBpbgo+
-ID4gPiBUTVBESVIsIG5vdCBpZGVhbC4uLgo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-J2RhdGEgPSAvaW5jYmluLygibGludXguYmluIik7JywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICdhcmNoID0gIicgKyBzdHIoYmJfdmFyc1snVUJPT1RfQVJDSCddKSArICciOycsCj4g
-PiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdvcyA9ICJsaW51eCI7JywKPiA+ID4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgJ29zID0gIiVzIjsnICUgYmJfdmFyc1snRklUX09TJ10sCj4gPiA+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnbG9hZCA9IDwnICsgc3RyKGJiX3ZhcnNbJ1VCT09U
-X0xPQURBRERSRVNTJ10pICsgJz47JywKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICdl
-bnRyeSA9IDwnICsgc3RyKGJiX3ZhcnNbJ1VCT09UX0VOVFJZUE9JTlQnXSkgKyAnPjsnLAo+ID4g
-PiDCoMKgwqDCoMKgwqDCoMKgIF0KPiA+ID4gQEAgLTE0NjMsNiArMTQ2NCw3IEBAIGNsYXNzIEZp
-dEltYWdlUHlUZXN0cyhLZXJuZWxGaXRJbWFnZUJhc2UpOgo+ID4gPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgJ0ZJVF9LRVlfU0lHTl9QS0NTJzogIi14NTA5IiwKPiA+ID4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgICdGSVRfTE9BREFCTEVTJzogIiIsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAnRklUX0xJTlVYX0JJTic6ICJsaW51eC5iaW4iLAo+ID4gPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAnRklUX09TJzogImxpbnV4IiwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgICdGSVRfUEFEX0FMRyc6ICJwa2NzLTEuNSIsCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAnRklUX1NJR05fQUxHJzogInJzYTIwNDgiLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgJ0ZJVF9TSUdOX0lORElWSURVQUwnOiAiMCIsCj4gPiA+IEBAIC0xNTAzLDcgKzE1MDUs
-OCBAQCBjbGFzcyBGaXRJbWFnZVB5VGVzdHMoS2VybmVsRml0SW1hZ2VCYXNlKToKPiA+ID4gwqAK
-PiA+ID4gwqDCoMKgwqDCoMKgwqDCoCByb290X25vZGUgPSBvZS5maXRpbWFnZS5JdHNOb2RlUm9v
-dEtlcm5lbCgKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiX3ZhcnNbIkZJVF9ERVND
-Il0sIGJiX3ZhcnNbIkZJVF9BRERSRVNTX0NFTExTIl0sCj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGJiX3ZhcnNbJ0hPU1RfUFJFRklYJ10sIGJiX3ZhcnNbJ1VCT09UX0FSQ0gnXSzCoAo+
-ID4gPiBiYl92YXJzWyJGSVRfQ09ORl9QUkVGSVgiXSwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgYmJfdmFyc1snSE9TVF9QUkVGSVgnXSwgYmJfdmFyc1snVUJPT1RfQVJDSCddLAo+ID4g
-PiBiYl92YXJzWydGSVRfT1MnXSwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYmJfdmFy
-c1siRklUX0NPTkZfUFJFRklYIl0sCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvZS50
-eXBlcy5ib29sZWFuKGJiX3ZhcnNbJ1VCT09UX1NJR05fRU5BQkxFJ10pLAo+ID4gPiBiYl92YXJz
-WyJVQk9PVF9TSUdOX0tFWURJUiJdLAo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYmJf
-dmFyc1siVUJPT1RfTUtJTUFHRSJdLAo+ID4gPiBiYl92YXJzWyJVQk9PVF9NS0lNQUdFX0RUQ09Q
-VFMiXSwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiX3ZhcnNbIlVCT09UX01LSU1B
-R0VfU0lHTiJdLAo+ID4gPiBiYl92YXJzWyJVQk9PVF9NS0lNQUdFX1NJR05fQVJHUyJdLAo+ID4g
-PiBAQCAtMTYwOSw2ICsxNjEyLDEyIEBAIGNsYXNzIEZpdEltYWdlUHlUZXN0cyhLZXJuZWxGaXRJ
-bWFnZUJhc2UpOgo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgIH0KPiA+ID4gwqDCoMKgwqDCoMKgwqDC
-oCBzZWxmLl90ZXN0X2ZpdGltYWdlX3B5KGJiX3ZhcnNfb3ZlcnJpZGVzKQo+ID4gPiDCoAo+ID4g
-PiArwqDCoMKgIGRlZiB0ZXN0X2ZpdGltYWdlX3B5X2NvbmZfb3Moc2VsZik6Cj4gPiA+ICvCoMKg
-wqDCoMKgwqDCoCAiIiJUZXN0IEZJVF9PUyBmdW5jdGlvbmFsaXR5IiIiCj4gPiA+ICvCoMKgwqDC
-oMKgwqDCoCBiYl92YXJzX292ZXJyaWRlcyA9IHsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgJ0ZJVF9PUyc6ICJlZmkiLAo+ID4gPiArwqDCoMKgwqDCoMKgwqAgfQo+ID4gPiArwqDCoMKg
-wqDCoMKgwqAgc2VsZi5fdGVzdF9maXRpbWFnZV9weShiYl92YXJzX292ZXJyaWRlcykKPiA+ID4g
-wqAKPiA+ID4gwqBjbGFzcyBVQm9vdEZpdEltYWdlVGVzdHMoRml0SW1hZ2VUZXN0Q2FzZSk6Cj4g
-PiA+IMKgwqDCoMKgICIiIlRlc3QgY2FzZXMgZm9yIHRoZSB1Ym9vdC1zaWduIGJiY2xhc3MiIiIK
-PiA+ID4gCj4gPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gPiA+IExpbmtzOiBZb3UgcmVj
-ZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLgo+ID4gPiBWaWV3L1JlcGx5IE9u
-bGluZSAoIzI0MDM4Myk6Cj4gPiA+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29w
-ZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMjQwMzgzCj4gPiA+IE11dGUgVGhpcyBUb3BpYzogaHR0
-cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210LzEyMDE1NDQ2OS80NDU0NTgyCj4gPiA+IEdy
-b3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-Cj4gPiA+IFVuc3Vic2NyaWJlOgo+ID4gPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
-Zy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YsKgWwo+ID4gPiBhZHJpYW4uZnJlaWhvZmVyQGdtYWls
-LmNvbV0KPiA+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0KPiAKCi0tIApUUS1TeXN0ZW1zIEdt
-YkggfCBNw7xobHN0cmHDn2UgMiwgR3V0IERlbGxpbmcgfCA4MjIyOSBTZWVmZWxkLCBHZXJtYW55
-CkFtdHNnZXJpY2h0IE3DvG5jaGVuLCBIUkIgMTA1MDE4Ckdlc2Now6RmdHNmw7xocmVyOiBEZXRs
-ZWYgU2NobmVpZGVyLCBSw7xkaWdlciBTdGFobCwgU3RlZmFuIFNjaG5laWRlcgpodHRwczovL3d3
-dy50cS1ncm91cC5jb20vCg==
+From: Deepak Rathore <deeratho@cisco.com>
+
+These patches apply the upstream fix shown in [2], its prerequisite
+[1], the regression test in [3], and the follow-up cleanups in [4] and
+[5], as referenced by [6].
+
+[1] https://github.com/libexpat/libexpat/commit/3a4eaf47af8fd7abda38ea2c08308c91152061f3
+[2] https://github.com/libexpat/libexpat/commit/58400483d7c97be316d7a77739c0a6af5d55932e
+[3] https://github.com/libexpat/libexpat/commit/353919b3b9f2174073a557ac7d517a5f3cd0cbbf
+[4] https://github.com/libexpat/libexpat/commit/bca93b4ba9e15fd84425568d772b69baebf790e4
+[5] https://github.com/libexpat/libexpat/commit/08baa7ef9d168b99094249998fd78f8d190526e5
+[6] https://nvd.nist.gov/vuln/detail/CVE-2026-56132
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+---
+- Changes from v1 to v2: Refresh the patch on top of
+latest wrynose branch merged commits.
+ .../expat/expat/CVE-2026-56132_p1.patch       | 90 +++++++++++++++++++
+ .../expat/expat/CVE-2026-56132_p2.patch       | 63 +++++++++++++
+ .../expat/expat/CVE-2026-56132_p3.patch       | 77 ++++++++++++++++
+ .../expat/expat/CVE-2026-56132_p4.patch       | 63 +++++++++++++
+ .../expat/expat/CVE-2026-56132_p5.patch       | 58 ++++++++++++
+ meta/recipes-core/expat/expat_2.7.5.bb        |  5 ++
+ 6 files changed, 356 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+new file mode 100644
+index 0000000000..a413bf0acd
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+@@ -0,0 +1,90 @@
++From 2e5920edcbc77bf29ce8575bd38ed2886408f4af Mon Sep 17 00:00:00 2001
++From: Matthew Fernandez <matthew.fernandez@gmail.com>
++Date: Thu, 4 Jun 2026 17:01:02 -0700
++Subject: [PATCH] lib: Remove reuse of `m_groupSize` to count `m_scaffIndex`
++ allocation
++
++The sizes of the two arrays `m_groupConnector` and `scaffIndex` need to
++vary independently. This change is a step towards allowing this.
++
++Anthropic: ANT-2026-00037
++Anthropic: ANT-2026-03621
++Anthropic: ANT-2026-03867
++Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
++
++CVE: CVE-2026-56132
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/3a4eaf47af8fd7abda38ea2c08308c91152061f3]
++
++(cherry picked from commit 3a4eaf47af8fd7abda38ea2c08308c91152061f3)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ expat/lib/xmlparse.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
++index 8e90fea8..d4864af8 100644
++--- a/expat/lib/xmlparse.c
+++++ b/expat/lib/xmlparse.c
++@@ -424,6 +424,7 @@ typedef struct {
++   unsigned scaffCount;
++   int scaffLevel;
++   int *scaffIndex;
+++  size_t scaffIndexSize;
++ } DTD;
++ 
++ enum EntityType {
++@@ -5995,7 +5996,6 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++              * sizeof(unsigned int) < sizeof(size_t), e.g. on x86_64. */
++ #if UINT_MAX >= SIZE_MAX
++             if (parser->m_groupSize > SIZE_MAX / sizeof(int)) {
++-              parser->m_groupSize /= 2;
++               return XML_ERROR_NO_MEMORY;
++             }
++ #endif
++@@ -6003,10 +6003,10 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++             int *const new_scaff_index = REALLOC(
++                 parser, dtd->scaffIndex, parser->m_groupSize * sizeof(int));
++             if (new_scaff_index == NULL) {
++-              parser->m_groupSize /= 2;
++               return XML_ERROR_NO_MEMORY;
++             }
++             dtd->scaffIndex = new_scaff_index;
+++            dtd->scaffIndexSize = parser->m_groupSize;
++           }
++         } else {
++           parser->m_groupConnector = MALLOC(parser, parser->m_groupSize = 32);
++@@ -7587,6 +7587,7 @@ dtdCreate(XML_Parser parser) {
++ 
++   p->in_eldecl = XML_FALSE;
++   p->scaffIndex = NULL;
+++  p->scaffIndexSize = 0;
++   p->scaffold = NULL;
++   p->scaffLevel = 0;
++   p->scaffSize = 0;
++@@ -7627,6 +7628,7 @@ dtdReset(DTD *p, XML_Parser parser) {
++ 
++   FREE(parser, p->scaffIndex);
++   p->scaffIndex = NULL;
+++  p->scaffIndexSize = 0;
++   FREE(parser, p->scaffold);
++   p->scaffold = NULL;
++ 
++@@ -7801,6 +7803,7 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++   newDtd->scaffSize = oldDtd->scaffSize;
++   newDtd->scaffLevel = oldDtd->scaffLevel;
++   newDtd->scaffIndex = oldDtd->scaffIndex;
+++  newDtd->scaffIndexSize = oldDtd->scaffIndexSize;
++ 
++   return 1;
++ } /* End dtdCopy */
++@@ -8331,6 +8334,7 @@ nextScaffoldPart(XML_Parser parser) {
++     dtd->scaffIndex = MALLOC(parser, parser->m_groupSize * sizeof(int));
++     if (! dtd->scaffIndex)
++       return -1;
+++    dtd->scaffIndexSize = parser->m_groupSize;
++     dtd->scaffIndex[0] = 0;
++   }
++ 
++-- 
++2.43.7
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+new file mode 100644
+index 0000000000..6fb8f6078b
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+@@ -0,0 +1,63 @@
++From 2b6ebe08e4b6b3dd4d0f4f197dac18eecef16e6e Mon Sep 17 00:00:00 2001
++From: Matthew Fernandez <matthew.fernandez@gmail.com>
++Date: Thu, 4 Jun 2026 17:01:02 -0700
++Subject: [PATCH] lib: doProlog: Fix out-of-bound scaffolding index store
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The scaffold backing array is reallocated using the caller parser’s
++per-parser `m_groupSize`, but the DTD struct (which carries
++`scaffIndex`) is shared between a parent parser and any external
++parameter-entity sub-parser created via
++`XML_ExternalEntityParserCreate(parent, NULL, …)`. A sub-parser whose
++group nesting is shallower than the parent’s can `REALLOC` the shared
++`scaffIndex` down to its own size; when the parent resumes and parses a
++deeper element content model, its bounds check passes (its private
++`m_groupSize` is still large enough), the doubling-grow path is skipped,
++and the next write lands past the shrunken buffer.
++
++Anthropic: ANT-2026-00037
++Anthropic: ANT-2026-03621
++Anthropic: ANT-2026-03867
++Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
++Reported-by: Trail of Bits, in collaboration with Anthropic
++
++CVE: CVE-2026-56132
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/58400483d7c97be316d7a77739c0a6af5d55932e]
++
++(cherry picked from commit 58400483d7c97be316d7a77739c0a6af5d55932e)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ expat/lib/xmlparse.c | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
++
++diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
++index d4864af8..b528c9bc 100644
++--- a/expat/lib/xmlparse.c
+++++ b/expat/lib/xmlparse.c
++@@ -6022,6 +6022,21 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++         if (myindex < 0)
++           return XML_ERROR_NO_MEMORY;
++         assert(dtd->scaffIndex != NULL);
+++        if ((size_t)dtd->scaffLevel >= dtd->scaffIndexSize) {
+++          /* Detect and prevent integer overflow */
+++          if (dtd->scaffIndexSize > SIZE_MAX / 2 / sizeof(int)) {
+++            return XML_ERROR_NO_MEMORY;
+++          }
+++          assert(dtd->scaffIndexSize > 0);
+++          const size_t new_size = dtd->scaffIndexSize * 2;
+++          int *const new_scaff_index
+++              = REALLOC(parser, dtd->scaffIndex, new_size * sizeof(int));
+++          if (new_scaff_index == NULL) {
+++            return XML_ERROR_NO_MEMORY;
+++          }
+++          dtd->scaffIndex = new_scaff_index;
+++          dtd->scaffIndexSize = new_size;
+++        }
++         dtd->scaffIndex[dtd->scaffLevel] = myindex;
++         dtd->scaffLevel++;
++         dtd->scaffold[myindex].type = XML_CTYPE_SEQ;
++-- 
++2.43.7
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+new file mode 100644
+index 0000000000..5405224ec3
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+@@ -0,0 +1,77 @@
++From 22805ecc87ba8f66b693220442408a6f7c7e741d Mon Sep 17 00:00:00 2001
++From: Matthew Fernandez <matthew.fernandez@gmail.com>
++Date: Thu, 4 Jun 2026 17:01:02 -0700
++Subject: [PATCH] tests: Add a test case for scaffolding array limits in shared
++ DTDs
++
++This test case provokes the bug fixed in the previous commit.
++
++Anthropic: ANT-2026-00037
++Anthropic: ANT-2026-03621
++Anthropic: ANT-2026-03867
++Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
++Reported-by: Trail of Bits, in collaboration with Anthropic
++
++CVE: CVE-2026-56132
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/353919b3b9f2174073a557ac7d517a5f3cd0cbbf]
++
++(cherry picked from commit 353919b3b9f2174073a557ac7d517a5f3cd0cbbf)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ expat/tests/basic_tests.c | 33 +++++++++++++++++++++++++++++++++
++ 1 file changed, 33 insertions(+)
++
++diff --git a/expat/tests/basic_tests.c b/expat/tests/basic_tests.c
++index 02d1d5fd..53b920da 100644
++--- a/expat/tests/basic_tests.c
+++++ b/expat/tests/basic_tests.c
++@@ -4091,6 +4091,37 @@ START_TEST(test_skipped_external_entity) {
++ }
++ END_TEST
++ 
+++START_TEST(test_scaff_index_shared_across_external_entity_parser) {
+++  const char text[]
+++      = "<!DOCTYPE doc [\n"
+++        "<!ELEMENT a "
+++        "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((b))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))>\n"
+++        "<!ENTITY % e SYSTEM 'ext'>\n"
+++        "%e;\n"
+++        "<!ELEMENT c "
+++        "(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((d)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))>\n"
+++        "]>\n"
+++        "<doc/>";
+++  ExtOption options[]
+++      = {{XCS("ext"),
+++          "<!ELEMENT x "
+++          "((((((((((((((((((((((((((((((((y))))))))))))))))))))))))))))))))>"},
+++         {NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+++  XML_SetUserData(parser, options);
+++  XML_SetExternalEntityRefHandler(parser, external_entity_optioner);
+++  XML_SetElementDeclHandler(parser, dummy_element_decl_handler);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      == XML_STATUS_ERROR)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Test a different form of unknown external entity */
++ START_TEST(test_skipped_null_loaded_ext_entity) {
++   const char *text = "<!DOCTYPE doc SYSTEM 'http://example.org/one.ent'>\n"
++@@ -6448,6 +6479,8 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_trailing_cr_in_att_value);
++   tcase_add_test(tc_basic, test_standalone_internal_entity);
++   tcase_add_test(tc_basic, test_skipped_external_entity);
+++  tcase_add_test__ifdef_xml_dtd(
+++      tc_basic, test_scaff_index_shared_across_external_entity_parser);
++   tcase_add_test(tc_basic, test_skipped_null_loaded_ext_entity);
++   tcase_add_test(tc_basic, test_skipped_unloaded_ext_entity);
++   tcase_add_test__ifdef_xml_dtd(tc_basic, test_param_entity_with_trailing_cr);
++-- 
++2.43.7
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+new file mode 100644
+index 0000000000..0cef4df452
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+@@ -0,0 +1,63 @@
++From 36df125531dab7e0dc640b341d07b4b1f5ede37b Mon Sep 17 00:00:00 2001
++From: Matthew Fernandez <matthew.fernandez@gmail.com>
++Date: Thu, 4 Jun 2026 17:01:02 -0700
++Subject: [PATCH] lib: Remove unnecessary `scaffIndex` expansion
++
++Following the previous changes, all locations that append entries to
++`scaffIndex` handle expanding the array if it is not already large
++enough. So this extra expansion code is no longer necessary. In some
++cases such as processing siblings with alternating scaffolding counts,
++this logic would actually _shrink_ the array only to then later
++re-expand it.
++
++Anthropic: ANT-2026-00037
++Anthropic: ANT-2026-03621
++Anthropic: ANT-2026-03867
++Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
++
++CVE: CVE-2026-56132
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/bca93b4ba9e15fd84425568d772b69baebf790e4]
++
++Backport Changes:
++- Remove the expanded Expat 2.7.5 scaffIndex resize block, including its
++  branch-specific integer overflow guard.
++
++(cherry picked from commit bca93b4ba9e15fd84425568d772b69baebf790e4)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ expat/lib/xmlparse.c | 20 --------------------
++ 1 file changed, 20 deletions(-)
++
++diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
++index b528c9bc..e59ad556 100644
++--- a/expat/lib/xmlparse.c
+++++ b/expat/lib/xmlparse.c
++@@ -5988,26 +5988,6 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++             }
++             parser->m_groupConnector = new_connector;
++           }
++-
++-          if (dtd->scaffIndex) {
++-            /* Detect and prevent integer overflow.
++-             * The preprocessor guard addresses the "always false" warning
++-             * from -Wtype-limits on platforms where
++-             * sizeof(unsigned int) < sizeof(size_t), e.g. on x86_64. */
++-#if UINT_MAX >= SIZE_MAX
++-            if (parser->m_groupSize > SIZE_MAX / sizeof(int)) {
++-              return XML_ERROR_NO_MEMORY;
++-            }
++-#endif
++-
++-            int *const new_scaff_index = REALLOC(
++-                parser, dtd->scaffIndex, parser->m_groupSize * sizeof(int));
++-            if (new_scaff_index == NULL) {
++-              return XML_ERROR_NO_MEMORY;
++-            }
++-            dtd->scaffIndex = new_scaff_index;
++-            dtd->scaffIndexSize = parser->m_groupSize;
++-          }
++         } else {
++           parser->m_groupConnector = MALLOC(parser, parser->m_groupSize = 32);
++           if (! parser->m_groupConnector) {
++-- 
++2.43.7
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+new file mode 100644
+index 0000000000..8655298b65
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+@@ -0,0 +1,58 @@
++From c6256eca63fe36d4ef26fd59cbcaab7b72e1d6f2 Mon Sep 17 00:00:00 2001
++From: Matthew Fernandez <matthew.fernandez@gmail.com>
++Date: Thu, 4 Jun 2026 17:01:02 -0700
++Subject: [PATCH] lib: Remove indented scoping of `new_connector` local
++
++Following the previous change, the lifetime of `new_connector` as
++constrained by this introduced scope was identical to the parent scope.
++
++CVE: CVE-2026-56132
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/08baa7ef9d168b99094249998fd78f8d190526e5]
++
++Backport Changes:
++- Keep the Expat 2.7.5 unsigned-int overflow guard while removing the
++  redundant new_connector scope.
++
++(cherry picked from commit 08baa7ef9d168b99094249998fd78f8d190526e5)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ expat/lib/xmlparse.c | 22 ++++++++++------------
++ 1 file changed, 10 insertions(+), 12 deletions(-)
++
++diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
++index e59ad556..e8d6fc3a 100644
++--- a/expat/lib/xmlparse.c
+++++ b/expat/lib/xmlparse.c
++@@ -5974,20 +5974,18 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++     case XML_ROLE_GROUP_OPEN:
++       if (parser->m_prologState.level >= parser->m_groupSize) {
++         if (parser->m_groupSize) {
++-          {
++-            /* Detect and prevent integer overflow */
++-            if (parser->m_groupSize > (unsigned int)(-1) / 2u) {
++-              return XML_ERROR_NO_MEMORY;
++-            }
+++          /* Detect and prevent integer overflow */
+++          if (parser->m_groupSize > (unsigned int)(-1) / 2u) {
+++            return XML_ERROR_NO_MEMORY;
+++          }
++ 
++-            char *const new_connector = REALLOC(
++-                parser, parser->m_groupConnector, parser->m_groupSize *= 2);
++-            if (new_connector == NULL) {
++-              parser->m_groupSize /= 2;
++-              return XML_ERROR_NO_MEMORY;
++-            }
++-            parser->m_groupConnector = new_connector;
+++          char *const new_connector = REALLOC(parser, parser->m_groupConnector,
+++                                              parser->m_groupSize *= 2);
+++          if (new_connector == NULL) {
+++            parser->m_groupSize /= 2;
+++            return XML_ERROR_NO_MEMORY;
++           }
+++          parser->m_groupConnector = new_connector;
++         } else {
++           parser->m_groupConnector = MALLOC(parser, parser->m_groupSize = 32);
++           if (! parser->m_groupConnector) {
++-- 
++2.43.7
+diff --git a/meta/recipes-core/expat/expat_2.7.5.bb b/meta/recipes-core/expat/expat_2.7.5.bb
+index 9f519b482e..890ee5b7d3 100644
+--- a/meta/recipes-core/expat/expat_2.7.5.bb
++++ b/meta/recipes-core/expat/expat_2.7.5.bb
+@@ -31,6 +31,11 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://CVE-2026-56409.patch;striplevel=2 \
+            file://CVE-2026-56411.patch;striplevel=2 \
+            file://CVE-2026-56407.patch;striplevel=2 \
++           file://CVE-2026-56132_p1.patch;striplevel=2 \
++           file://CVE-2026-56132_p2.patch;striplevel=2 \
++           file://CVE-2026-56132_p3.patch;striplevel=2 \
++           file://CVE-2026-56132_p4.patch;striplevel=2 \
++           file://CVE-2026-56132_p5.patch;striplevel=2 \
+            "
+ 
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+-- 
+2.35.6
 
 
