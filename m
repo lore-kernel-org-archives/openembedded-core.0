@@ -1,363 +1,123 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F7FC44515
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 08:10:12 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.15])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4343.1784535003356360861
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6989DC4451B
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 08:33:13 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4534.1784536388726354385
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 01:10:03 -0700
+ Mon, 20 Jul 2026 01:33:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=UD1rfyfv;
- spf=pass (domain: est.tech, ip: 52.101.83.15, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vcuK68ObVUcL5p8ugHNWRs/GS6jcHk7FesecPXl/dwo4xqbVcV60oqbg4UtbP8cvGFxs0hqXWltkeWR11yvVObRx6aPxivw4oIHPi8loeUaBezjBaGU0WFoM2flEXFpRInfhBXlvtVzE4qOs/SibRnGPf9CFhzFtPWvsl7kMwmS8BmtHO406hZsezBZXUME48+EXiTZ8Nj9ONixuxo/0eG5W4HXUT5tWL3UzdBz2JYPCJoFo2LnpMbb80O3hT3JiiWw/Gjg1OJzzZ0fbJSvMsK+2FLw0DVJFUuWMIlQnf8mIP4foEoYZ3KpdA3JT86VodRb57uKnSdSHzLViYwnnhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EZqdHVZSRIKJ7L2Tch9Paw1zdu7guAHNDa4eHB02xz4=;
- b=pQnS9JtA4PDlIPsiLh1EVPCmo3KZ6792r3Yv4Jz1lt/51NLuOuM6Juj3zlZ44DuX5DkdAhu0dBuT7lRHy2PN9RcVaXsYRg9nerwX8Wa+PZDB2fELuSpZxebcdfH+0nyGe3RSxPfmFpyetHe9nt0H3U6vGW2161oEkQVYzmnjBHjJSuY1q/GxIZ2sBTV17gcODyLaJziuKXah5B5XAD1TJmG4aSAZi8D5Bo+zrkclPh9AWd0rIJu0GLiP5PKEqde044zo+LwaD8FRJ7T1Hgojqs9vy0kcbzUoQ3G+TMVgUo1B9+Cpmr+r69OuG7pK5J3/3itasgLuoz7iQ7IPJfJc9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EZqdHVZSRIKJ7L2Tch9Paw1zdu7guAHNDa4eHB02xz4=;
- b=UD1rfyfvwXH54OIvlqwejQSwHKDUDG9Wn7k6aEJEUBxDt2pXgZEtyAzg1jPEDEuEMtWGY5+DsCHFA6THz5cW8FY3X+EPnt6dfsvr4qpxrDQRODp8mIFgEpLXRHpDCHL8spAyowSerUp8hDLIfvskDz1xmGg2zCBbF6Cc26RGFCFUCwTrK7WPzwxKb2cG6Xl78WRqcDh5FMMbbtDMMHOXAnLmrmvHoc3sWNY3IPFVf+Qw2qw8QwIRqXDVFVklfzkxlQ3jPdkgR418jLA1+248GHuMgj1k2o1XBcH/cD1ICLHkD1MYarQC1toEMlh9RCfBUpvVUxGg0uFnwGmdP0JFJA==
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by GV2P189MB3078.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:267::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.9; Mon, 20 Jul
- 2026 08:09:53 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0245.009; Mon, 20 Jul 2026
- 08:09:53 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] glibc-testsuite: inherit nospdx to
- fix do_create_spdx failure
-Thread-Topic: [OE-core] [scarthgap][PATCH] glibc-testsuite: inherit nospdx to
- fix do_create_spdx failure
-Thread-Index: AQHdDtAMyuj2BP53KkSPvjeAMkYAdLZ1KcMAgAD2sP8=
-Date: Mon, 20 Jul 2026 08:09:53 +0000
-Message-ID: 
- <DU7PPF66507B2D7EC5ABFD4A688AA3F9360F3C32@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
-References: <20260708115052.71740-1-jaipaul.cheernam@est.tech>
- <DK2Q2D3DOPR0.1PPO4DOF1JPZL@smile.fr>
-In-Reply-To: <DK2Q2D3DOPR0.1PPO4DOF1JPZL@smile.fr>
-Accept-Language: en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-reactions: allow
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU7PPF66507B2D7:EE_|GV2P189MB3078:EE_
-x-ms-office365-filtering-correlation-id: 528c27c6-64e5-4327-34b4-08dee6364793
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|6133799003|18002099003|22082099003|38070700021|8096899003|56012099006|4143699003|11063799006|10067099003;
-x-microsoft-antispam-message-info: 
- dQ6uwOKXl+evFYwopBD8KUFSLbyTmzcWndTCeEOLbu9ksPNvev50h7tMEKuIfZl04+wRU43TfC1Q8XNILlayIKEqEyiLqoiRSBScnBO4ECVQUdqA8CRcoLVESPiFXC0O8aKatFagkXLmEIgCEVuTTIQSN5/mP0bpeGmjR9ROfOaUXsO3+WyBIOHNMjxIkDREy7r9OoIgqQgKz/6INkNh4xyPCoGCNM1u9IFC4dB19+5OCGk2Un/CNsCivBnx+im8uZ3yZcJB7ROJGiXkgaiML9tgfaclMIuTJMU1Xc0ME5PIdmL+FMOJgU/1c/ZHgFAZtS+lG5VMP3ZJnftLeR2sCII0uzwQb4vZUEUYaLpMXY0SssOhWDcdWO+lzX0E9nLRsCYTWpa6uO8g7geJAz04Xtd/qdevayuKN3HMTuWgRWXbzn+/VBPXprcnAatwAkxHuPy9wsW+5H5o7o1mpms6q0Qh4i2JvOZl7CqhCaILH6T0lARMlTL0gP39N9zQa9ezJxMsRSlhdk17vjA04qOdncEL7FitZq66V4jgRYtGpp6yb5/BiSOlIM0UqY713PLoUDtr1wJkFBFuXCJ2rOSsXLDdsNWZ9I30GvZazzF2D0M+Lp90J3u3r0T9IeRk7KLRumdyvUWYhyRPprkidRgjjzOx7t9vGOmNHZDvzrXJvrI8B1KaIdzbvkAjVAmdZ9gR6EfU5tl0pYIC7V6vyDdX2K0EXmUu2tMLSIEw1dqI62w=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(6133799003)(18002099003)(22082099003)(38070700021)(8096899003)(56012099006)(4143699003)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?FSUmplEnr+KF110McwSJDU760op/2/pW2i8zLRIRL0Wq6GGbojcLmPL5a83E?=
- =?us-ascii?Q?80J/IvvDQTLsfkt9GE59wLOfBGizpH0tyNvc9Tn3s9i0NqZS0pMv+lCS+HUO?=
- =?us-ascii?Q?IoTklD+lY+C8gRJ/YIAOLFKJxdadIR/gvCGJ3QMu/GvsNxyAT2GlNA5r/xcS?=
- =?us-ascii?Q?2hdST5+F2jMq2Wv2QH2nKH7FLWCVenle3u5aiJ4k5jwcDdXJL/8B4jATH/Jd?=
- =?us-ascii?Q?+MTUGnLMD/V2XpXgzrl6g9W6oLy63CLIDBgAvn50dYi6pwCw2LxCnJwdzQCW?=
- =?us-ascii?Q?y13pu4NuXJReJBFYjs1SU4j3+y0bF6ph2Jep4CSMhQC+H8yy1kVg2j10qBlS?=
- =?us-ascii?Q?xvngiMAyyYzGo6WM9oWq995vT5mKN0UpuYVgDwV2ghNVi+TajYkp+I5ppeHj?=
- =?us-ascii?Q?ZQ42rm+Nimr1UdvP+5RHrtYI2omUPBRQYf8rILxFqOzVT2kvEHornGd2Kjq0?=
- =?us-ascii?Q?YVZ1UOiNaeReDiUpxkfh8skCUjw79/fxOdqW2h0NrSiFrWO6Q0rgR/n2Cool?=
- =?us-ascii?Q?1pHhIfzobQn9MrIv6xZ2EIa0Ui95v1vp+qMS0MytxYxqvIeuJr+zQn4JBPYn?=
- =?us-ascii?Q?nb56U6vpY5x5j0NDfkXqXbsLosg+pO2EwlHZbEXaScqh27ExPisy1l3AKT0a?=
- =?us-ascii?Q?l4QPrxF+CkuehHnfy2GsES+mkl3+1dQ5tHUvxQGxor2ulWIc12tR95/FX7uq?=
- =?us-ascii?Q?TvqKkcXHQClPrVIXu2+6D2ypArnt2zLc+94TgjU2s8gS8/foGqPCyoL2G72s?=
- =?us-ascii?Q?h+zdsTe+TPmnsX52IIjlzbF9yNFnrNq3LPQs3HzpHegL4BUpT/Un4aZngKbt?=
- =?us-ascii?Q?v8RQtgDESAT2qX9yjdNwBTxRvs66cdvqNwY4Om6r6OOFx8dUp8i1uwwSkJqO?=
- =?us-ascii?Q?4Z7WNhRl9ROCzVHRCRs/JUPBRjcvgIXdyRl70uWPuLFhpvn1TTUnY08Y/0W3?=
- =?us-ascii?Q?pEGiUYXkcPU7EJLPcd4DAmMkl/JNRS9/5D4d6oY+OR/sGPD3eM2siNz2jM94?=
- =?us-ascii?Q?pTOnCPL4ioUWYEHLIk0VKSFzpTG+J/Hac3T2ALXwCkfIZ9e/ajeEaVSrMINR?=
- =?us-ascii?Q?KHVXt+3o779qjftI+QHmMIOCFNDQtVBVLzbSrdYXR4K8yX8Akc4uclAl+yN6?=
- =?us-ascii?Q?5Re24LAzItbCD0PB/ASVHmw7Xp4EYhlJVUvkOkcTbQgmBBqjCGAQ//KdBiVQ?=
- =?us-ascii?Q?eg5SYxHki8el0pJEqR8T+QeTxp8vWDrk5TlbE+FySpplpZxFK2NzlITYtgHk?=
- =?us-ascii?Q?umhgGAuvxhJS9vrvGy+0bQhq1CyunHKs0ky7yDfk0vYwNjW9p01BDtkKl93l?=
- =?us-ascii?Q?uimiYjvliNEUi3DkTZME26E/uERjlVKK03tm0BHPIuEdGJEVvEgzm/NxJtaI?=
- =?us-ascii?Q?6J1GaEQ43YKp6eVVZyGtOxqlCq24fGMm1Es40+7a6orDRM0xcOy3fRZwc36X?=
- =?us-ascii?Q?5XshrJtECo5oiEY4SYFpRM+czM9OUaXGJ3JtDnVB4i53hxEn/Nuh7Oj4/Y8I?=
- =?us-ascii?Q?E91QEtuPlUYPh7FdFtmgSBq1DJVFyJ2eT9ja7tp1rOc4qSLqUIWXFj+0dYy7?=
- =?us-ascii?Q?ZlCh58NXiArqBiWVW15Ra3Tt4OTvybeZxH1ZzrUU8Up06SPQsCo8YzryDs26?=
- =?us-ascii?Q?L1hnJmVUQfdxPVDjoATipSubmtx81qEzQkAD6C8TCN5NvnxxBc5Oa2A13fZY?=
- =?us-ascii?Q?7EDySSx2HWGo3BB8IeA8plmLlgqY92P81BZHlReoKi6QXIZFQ8Gir5XNuE3D?=
- =?us-ascii?Q?xtY3OXARkhBdjuQn0VfWIXgKjKDqxec=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_DU7PPF66507B2D7EC5ABFD4A688AA3F9360F3C32DU7PPF66507B2D7_"
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gKprQW+t;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f71156e1aso524111f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 01:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1784536387; x=1785141187; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=kZgUrAG5fEG5XUrl/pWejHVeRm9H4ebvKncNB/hEFfM=;
+        b=gKprQW+tgVIfDJQEwcRZTmTloOwUvuAcx60ATEuEFo/zBAsEI4hpCDOcIcut3O7x64
+         C2BX1SVUOcPj/X2+ck0BpSBOlLxvSzFsCzEu5m03Rn0TG1qlhXM27M732MjMYRKzIGdr
+         jJtQycqOoicXJ/G0WX3YNGuL8ZKII4H5lGxlg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784536387; x=1785141187;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=kZgUrAG5fEG5XUrl/pWejHVeRm9H4ebvKncNB/hEFfM=;
+        b=fuyOIywP4+DhToa8iR4NIHy7X1/wG4GJe8can1ZljCljexYzq4havz0GHc9Bc70XiC
+         Ir+v9gqTYDYVMFzCkGk4W42Yta4jz2bWfg+S0hkBwIgyQjXLOOMHAJXUn3UF8e8gdT4z
+         4INx3Qrqr16elkbQzFoIgKZhgMjtvQQ+sm6hnwQczDpXO3T3iU+e5qorDHFzgIHRsh+J
+         wdDi8CBc5CxYTVp3gCcNJTKamhX+f+qzAlJYvYX4cgO/s5UDzByYL1cjW6VePpPR571S
+         x9dHQ45H2Av3diX4nlvIofJZbPg0eDRh/d6k1zBTVU5sIC+PjkRuLClnGt9heLvVZ21h
+         vAcA==
+X-Gm-Message-State: AOJu0YzKuGJAcTla4CK7W36kVuV/B0SqCBBVcV6lTTthYdivx6IJSxCT
+	t8recUaudAjzoxFXosrYzT1CtbYceyUgt5e3q5yL+lQ2WPf9V630jDSrUMGeDRCMVMC77+8Klwf
+	nEtI3ArU=
+X-Gm-Gg: AfdE7cndPsn7oBK4OfE3TG/sV5NKdgvhbxsyHUpqqsEe8vMH1YIz/R0z3IRaAmxy4KB
+	7wQ+V3iTAFup17x6l616zpbLR8SZTVmLZEr3G+lncrUM24y33qJLb8wQJ7SRnipb4yh9GxDF5br
+	rbgf7ZR0kbpWlNvny9ymX6gx+xmlvOJ1Biixuini9ky6nRbl7Y/3O/4VZ2PcS3UlNlur06AK2u8
+	AIkx49YJOfflSpZhkJdgcjcB4RMgYZhlSMOnoh2DZOc8KrcXMHtTbYa9ivnOLTZ7yTySFuXI5gM
+	AOhomE9KbJKd96DlGnvI8nMLij+uEyCQyt1IVJ/C9ZOCsZl70uVOHKTZ/1wo60SvEqzLs2RCO7E
+	57eQ6niIqFIRB7+0Hzp0LCcZ9GwwP2q4LltOnSrB2PNdTqtZqO1tbadBcyn4BR6BfVtBkbLmdgc
+	MjZZsNFrf8b/Wp9qDzGqEcRdQrWPVCE9o=
+X-Received: by 2002:a05:600c:6c98:b0:493:f6c1:2f09 with SMTP id 5b1f17b1804b1-4954a3d2fcdmr106835165e9.6.1784536386720;
+        Mon, 20 Jul 2026 01:33:06 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f231:f082:3d95:2084])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2aa698sm241732125e9.4.2026.07.20.01.33.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 01:33:05 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/5] wayland: upgrade 1.25.0 -> 1.26.0
+Date: Mon, 20 Jul 2026 09:32:56 +0100
+Message-ID: <20260720083258.770582-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260720083258.770582-1-richard.purdie@linuxfoundation.org>
+References: <20260720083258.770582-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 528c27c6-64e5-4327-34b4-08dee6364793
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2026 08:09:53.6249
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RjFHUsFTEsP8GgCRM4k+wWDWtVqFxyLxYY3L0elv+ewlP4xit08fElTT9h8jitM93xQ+Y7/ZimcfupVOvAd5Vt2LOztTrAWlTArCptzt6Vs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P189MB3078
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 08:10:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241340
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 08:33:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241343
 
---_000_DU7PPF66507B2D7EC5ABFD4A688AA3F9360F3C32DU7PPF66507B2D7_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../wayland/0001-build-Fix-strndup-detection-on-MinGW.patch   | 4 ++--
+ .../wayland/0001-tests-Remove-event_loop_timer-test.patch     | 2 +-
+ .../wayland/{wayland_1.25.0.bb => wayland_1.26.0.bb}          | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.25.0.bb => wayland_1.26.0.bb} (96%)
 
-Hi Yoann,
-
-Please proceed with cherry-pick from your side.
-
-Thanks ..
-
-
-Regards,
-Jaipaul Cheernam
-
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Sunday, 19 July 2026 at 19:26
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>; openembedded-core@lists.o=
-penembedded.org <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] glibc-testsuite: inherit nospdx t=
-o fix do_create_spdx failure
-
-On Wed Jul 8, 2026 at 1:50 PM CEST, Jaipaul Cheernam via lists.openembedded=
-.org wrote:
-> The glibc-testsuite recipe fails during do_create_spdx with:
->
->   ERROR: glibc-testsuite-2.39+git-r1 do_create_spdx: Recipe glibc-testsui=
-te
->   is trying to create package sln which was already written by recipe gli=
-bc.
->   This will cause corruption, please resolve this and only provide the
->   package from one recipe or the other or only build one of the recipes.
->
-> This happens because glibc-testsuite includes glibc_2.39.bb via 'require'
-> to reuse its source and build configuration for running 'make check'. As =
-a
-> result, it inherits all of glibc's PACKAGES definitions (including sln).
-> While the recipe already inherits 'nopackages' to suppress packaging, the
-> nopackages class does not disable SPDX tasks. The do_create_spdx task the=
-n
-> attempts to generate SPDX data for packages like 'sln', conflicting with
-> the real glibc recipe that owns that package.
->
-> This issue was exposed by the SPDX 3.0 backport (commit 9c9b954504,
-> Nov 2025) which introduced stricter package-level SPDX generation.
->
-> Fix this by adding 'inherit nospdx'. glibc-testsuite does not run on
-> target or factor into the build supply chain, since its purpose is to
-> run tests in QEMU at build time.
->
-> (cherry picked from commit 32801348ca231978498612f3ebee121ca27459c1)
-
-Hello,
-
-That is not a straight forward cherry-pick. Commit message and author
-where rewritten.
-
-If you need to add backport info to the cherry-pick, add them after the
-"(cherry picked from ..." line but keep the rest (author, title, body)
-the same.
-
-You can either send me a v2 with proper cherry-pick procedure (only
-append, no rewrite) or just request a cherry-pick for me to handle
-(looks easy enough).
-
-Regards,
-
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
->  meta/recipes-core/glibc/glibc-testsuite_2.39.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb b/meta/recip=
-es-core/glibc/glibc-testsuite_2.39.bb
-> index 2e076f4b0f..e0e3e8ba84 100644
-> --- a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb
-> +++ b/meta/recipes-core/glibc/glibc-testsuite_2.39.bb
-> @@ -31,6 +31,7 @@ do_check:append () {
->  }
->
->  inherit nopackages
-> +inherit nospdx
->  deltask do_stash_locale
->  deltask do_install
->  deltask do_populate_sysroot
-
-
---
-Yoann Congal
-Smile ECS
-
-
---_000_DU7PPF66507B2D7EC5ABFD4A688AA3F9360F3C32DU7PPF66507B2D7_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-</head>
-<body>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-Hi Yoann,&nbsp;</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-Please proceed with cherry-pick from your side.&nbsp;</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-Thanks ..&nbsp;</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"ms-outlook-mobile-signature">
-<div>Regards,</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-Jaipaul Cheernam</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-</div>
-<div id=3D"mail-editor-reference-message-container">
-<div class=3D"ms-outlook-mobile-reference-message skipProofing">
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-</div>
-<div style=3D"padding: 3pt 0in 0in; border-width: 1pt medium medium; border=
--style: solid none none; border-color: rgb(181, 196, 223) currentcolor curr=
-entcolor;">
-<div class=3D"ms-outlook-mobile-reference-message skipProofing" style=3D"te=
-xt-align: left; font-family: Aptos; font-size: 12pt; color: black;">
-<b>From: </b>Yoann Congal &lt;yoann.congal@smile.fr&gt;<br>
-<b>Date: </b>Sunday, 19 July 2026 at 19:26<br>
-<b>To: </b>Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;; openembedded=
--core@lists.openembedded.org &lt;openembedded-core@lists.openembedded.org&g=
-t;<br>
-<b>Subject: </b>Re: [OE-core] [scarthgap][PATCH] glibc-testsuite: inherit n=
-ospdx to fix do_create_spdx failure<br>
-<br>
-</div>
-</div>
-<div class=3D"PlainText" style=3D"font-size: 11pt;">On Wed Jul 8, 2026 at 1=
-:50 PM CEST, Jaipaul Cheernam via lists.openembedded.org wrote:<br>
-&gt; The glibc-testsuite recipe fails during do_create_spdx with:<br>
-&gt;<br>
-&gt;&nbsp;&nbsp; ERROR: glibc-testsuite-2.39+git-r1 do_create_spdx: Recipe =
-glibc-testsuite<br>
-&gt;&nbsp;&nbsp; is trying to create package sln which was already written =
-by recipe glibc.<br>
-&gt;&nbsp;&nbsp; This will cause corruption, please resolve this and only p=
-rovide the<br>
-&gt;&nbsp;&nbsp; package from one recipe or the other or only build one of =
-the recipes.<br>
-&gt;<br>
-&gt; This happens because glibc-testsuite includes glibc_2.39.bb via 'requi=
-re'<br>
-&gt; to reuse its source and build configuration for running 'make check'. =
-As a<br>
-&gt; result, it inherits all of glibc's PACKAGES definitions (including sln=
-).<br>
-&gt; While the recipe already inherits 'nopackages' to suppress packaging, =
-the<br>
-&gt; nopackages class does not disable SPDX tasks. The do_create_spdx task =
-then<br>
-&gt; attempts to generate SPDX data for packages like 'sln', conflicting wi=
-th<br>
-&gt; the real glibc recipe that owns that package.<br>
-&gt;<br>
-&gt; This issue was exposed by the SPDX 3.0 backport (commit 9c9b954504,<br=
->
-&gt; Nov 2025) which introduced stricter package-level SPDX generation.<br>
-&gt;<br>
-&gt; Fix this by adding 'inherit nospdx'. glibc-testsuite does not run on<b=
-r>
-&gt; target or factor into the build supply chain, since its purpose is to<=
-br>
-&gt; run tests in QEMU at build time.<br>
-&gt;<br>
-&gt; (cherry picked from commit 32801348ca231978498612f3ebee121ca27459c1)<b=
-r>
-<br>
-Hello,<br>
-<br>
-That is not a straight forward cherry-pick. Commit message and author<br>
-where rewritten.<br>
-<br>
-If you need to add backport info to the cherry-pick, add them after the<br>
-&quot;(cherry picked from ...&quot; line but keep the rest (author, title, =
-body)<br>
-the same.<br>
-<br>
-You can either send me a v2 with proper cherry-pick procedure (only<br>
-append, no rewrite) or just request a cherry-pick for me to handle<br>
-(looks easy enough).<br>
-<br>
-Regards,<br>
-<br>
-&gt; Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; meta/recipes-core/glibc/glibc-testsuite_2.39.bb | 1 +<br>
-&gt;&nbsp; 1 file changed, 1 insertion(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb b/meta/re=
-cipes-core/glibc/glibc-testsuite_2.39.bb<br>
-&gt; index 2e076f4b0f..e0e3e8ba84 100644<br>
-&gt; --- a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb<br>
-&gt; +++ b/meta/recipes-core/glibc/glibc-testsuite_2.39.bb<br>
-&gt; @@ -31,6 +31,7 @@ do_check:append () {<br>
-&gt;&nbsp; }<br>
-&gt;&nbsp;<br>
-&gt;&nbsp; inherit nopackages<br>
-&gt; +inherit nospdx<br>
-&gt;&nbsp; deltask do_stash_locale<br>
-&gt;&nbsp; deltask do_install<br>
-&gt;&nbsp; deltask do_populate_sysroot<br>
-<br>
-<br>
---<br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</div>
-</body>
-</html>
-
---_000_DU7PPF66507B2D7EC5ABFD4A688AA3F9360F3C32DU7PPF66507B2D7_--
+diff --git a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
+index d402fbf8b44..c60d01708c4 100644
+--- a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
++++ b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
+@@ -1,4 +1,4 @@
+-From b4a3b9f913e06f9b71966cd695df1ab14a031ed0 Mon Sep 17 00:00:00 2001
++From a3239f480eecc8d45bd15b8c0f6774424249a295 Mon Sep 17 00:00:00 2001
+ From: Joshua Watt <JPEWhacker@gmail.com>
+ Date: Thu, 20 Feb 2020 15:20:45 -0600
+ Subject: [PATCH] build: Fix strndup detection on MinGW
+@@ -20,7 +20,7 @@ Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 33653e7..e05eaef 100644
++index 2c010be..3b6f8d7 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -49,12 +49,12 @@ have_funcs = [
+diff --git a/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
+index b225bec96d7..3de30473147 100644
+--- a/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
++++ b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
+@@ -1,4 +1,4 @@
+-From 46da8d01e695f415aeb4a8442dbc13ae0898912c Mon Sep 17 00:00:00 2001
++From 022ef36fa8a9fe57a117a6cbc55d8b81bf0fa023 Mon Sep 17 00:00:00 2001
+ From: Joshua Watt <JPEWhacker@gmail.com>
+ Date: Thu, 6 Nov 2025 08:35:26 -0700
+ Subject: [PATCH] tests: Remove event_loop_timer test
+diff --git a/meta/recipes-graphics/wayland/wayland_1.25.0.bb b/meta/recipes-graphics/wayland/wayland_1.26.0.bb
+similarity index 96%
+rename from meta/recipes-graphics/wayland/wayland_1.25.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.26.0.bb
+index a0bc13df565..c4e3c8b0f68 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.25.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.26.0.bb
+@@ -17,7 +17,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downl
+            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
+            file://0001-tests-Remove-event_loop_timer-test.patch \
+            "
+-SRC_URI[sha256sum] = "c065f040afdff3177680600f249727e41a1afc22fccf27222f15f5306faa1f03"
++SRC_URI[sha256sum] = "64176eaa46e4969903e286f8e5ef8331affc17fdf03ac9b58381d2b23162b7a3"
+ 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
 
