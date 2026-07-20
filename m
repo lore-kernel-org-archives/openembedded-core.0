@@ -2,147 +2,209 @@ Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1009C4452A
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 14:43:51 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10612.1784558621023165953
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0632C44515
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 14:44:51 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.65])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10633.1784558688298261706
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 07:43:41 -0700
+ Mon, 20 Jul 2026 07:44:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=GNjZ1R/0;
- spf=pass (domain: cherry.de, ip: 52.101.72.47, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=SxbjIc2i;
+ spf=pass (domain: cherry.de, ip: 52.101.65.65, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w3rCqvGGRHVTMw8iu7lE3vFS8hY+a8l1r2hFsof/E8X1RYsqQLb3+oL5hhrqx+ZvLh6HoBQwk+hCAjyp6PWZQZwO82U1mFcjwADhiqJiFS/ngT8RIbyMd3Sj8iBNQklGl4Ts8pHMb1j22TwLvY+tjoj0iGGM+IWkNhqGO3Sb2xVzYW1vLXioNUqE/DbmVL5vHBdMYe1aJOIdQQBW/4VBuryE7T308E3ulPthGk8FRZhSRJuHAO1qr2bhMvI4qF0TvcyfzzezGFUC/tYKnQ1y632896d+pZb0472+txJeAH4OmpiMS3Qp4EoajfDdW/ma6CUWmcNjFM7QsSX6y8CmBw==
+ b=AQc7ii4hOplkuf7R5ueumL9KgIIFqeDhDP1N+/24syNzsV6Zmmnu+0xLHsMo53skDx9ncTXV/6jwPuj79An0/7tD3X9xmyEPjzOkKkYk8c5FqmHKWwvUwlpzMlFJyPM+LRpHgPE3u6UlvKRYnoX1JnWMsoTJOFpEtn3joHCJsrKadQaFPnYvb79JziGOVWcWRsMmseTqU1JktxjaH7Na0CGal6K6IlWu11OXXK79WCU1HoYHu5eTpntZxopNibiR4c/6dbTifTBMTW6M2O+sBvJNH4Qbqq7483SwG6y3zo24LsoIQaJRXLmlJGK4z2LLQPnNEfRmvoKqBzxVZhKzvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NXFmxvIkHcN3E3nUSptwIfPeCY9eyQMLxrlOp/QQYS8=;
- b=EZbDgsiPAkTnQYiYvpAJKxzJNjm5KfTAgjyHJwwpyS8HdK9rX8rb/3L+sepCmjx6pDZVOYbEaFXaGZn48NsJdSE8dihm+GKEkVzNPPH7VC8b8HmePnoH5k8iJXcuUReSC4KM4CR1VEOCbdFRTKgiBAqfKDrmAdBzCntCQqMD+Rm6VD9ErTWIDSK/O0vDwU/dqVM/UoREqagqIFHq8ObZ3xkcFoVNWq7mAbIMTvNUYefJBaV66j8CEpifh9oBfLOKD6Mx1UsLH80J0eU6iw2/wx0AqgIWfs1xN3/yMA+wO88sFz1DYZzZrVPqJSE5NvCHR8QhbRjyBDJETmBJjwOx3Q==
+ bh=wjS170Rir+VYVLAc33G4rUunczhkprBCl3N12iagsQU=;
+ b=p8Bm1YQSOLQuUZPHdQgY7gsfRYdnl0PF+ir+XmditVNEVHtOTFXDRRqoT9rcDPR+b4QsBsRehXvlBzUls8erYwkOtY6nO9X7g9t/XtPTjKnPzcoINQcWvSQF8jfAZmKHI2yR1gGRexZhEZB1Prmzut742vubntn/wFXh0H1ZfGqSqAEIBl5aRpp5aFmBAmJlZzOuyhO/OmWoYq5+6DxuccYha79R0e4QnFkiO5XbGW21f2cbketpBTE/TzxW+RtwhxpmBd/z1OHKDLho09La/KkaWMyRdn1g5EE+oNvkQNdZYHYMtZ2jcEW2R0jtfrXasSq528ptGgMHqaWaAA4xpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
  dkim=pass header.d=cherry.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NXFmxvIkHcN3E3nUSptwIfPeCY9eyQMLxrlOp/QQYS8=;
- b=GNjZ1R/0tQcQbjt8rfn/Tw66oc6419li7jGOLn81ngx/y9zFunhmngoebLL/t8KtieUWMOTHn/sZWJlF8JMwSC/UcDTcBEy/3RslH3Si6mY0bZxrqLJKBj59D6BH8u9SwoNZ8LE1eec9sf87TXeN6a9h9ddgUr3cQSCh6JnCFQE=
+ bh=wjS170Rir+VYVLAc33G4rUunczhkprBCl3N12iagsQU=;
+ b=SxbjIc2iy4aZKRxNp7Cdc8HrXkp5i7pp9ZvNOqBsdGPmxIRVD1jCMCL0wC2sqfnhhRukFJwvTrhDoZBc951ors9hBcyMlmAarg/XnYdLB0Xo5YKdaZtxTpIZSweJXr9AEGVuyivgB4ktHAPvhZJMc0SSbRXstZNfFZDam+7XK5A=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=cherry.de;
 Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
  by AM7PR04MB6920.eurprd04.prod.outlook.com (2603:10a6:20b:101::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
- 2026 14:43:34 +0000
+ 2026 14:44:43 +0000
 Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
  ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
  ([fe80::5960:fb4b:9313:2b00%5]) with mapi id 15.21.0223.012; Mon, 20 Jul 2026
- 14:43:34 +0000
-Message-ID: <4e508b63-8c6f-4b61-be3f-f47981e1bd31@cherry.de>
-Date: Mon, 20 Jul 2026 16:43:32 +0200
+ 14:44:43 +0000
+Message-ID: <2ea2c118-22a7-45df-859e-df0d38dbbc82@cherry.de>
+Date: Mon, 20 Jul 2026 16:44:42 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 2/3] mesa-libclc: New recipe for forking
- libclc for Rusticl purposes in Mesa
-To: zboszor@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-References: <20260719080108.1290998-1-zboszor@gmail.com>
- <20260719080108.1290998-2-zboszor@gmail.com>
+Subject: Re: [OE-core] setting KERNEL_IMAGE_STRIP_EXTRA_SECTIONS blows up
+ building linux-yocto
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <319bb00c-9712-4aa7-38b0-e1ad2bab840b@crashcourse.ca>
+ <de4fb3d7-0eed-448e-ad98-7b3d5b75f87a@cherry.de>
+ <b605f80c-34ad-4c3d-407d-8130a004cb0e@crashcourse.ca>
 Content-Language: en-US
 From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260719080108.1290998-2-zboszor@gmail.com>
+In-Reply-To: <b605f80c-34ad-4c3d-407d-8130a004cb0e@crashcourse.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: VIVP296CA0021.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:800:354::9) To DBBPR04MB7737.eurprd04.prod.outlook.com
+X-ClientProxiedBy: VIVP296CA0023.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:800:354::12) To DBBPR04MB7737.eurprd04.prod.outlook.com
  (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|AM7PR04MB6920:EE_
-X-MS-Office365-Filtering-Correlation-Id: e81ae91c-a81f-4fa4-363e-08dee66d4652
+X-MS-Office365-Filtering-Correlation-Id: d9bda932-2706-4cb5-e65f-08dee66d6f9e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|4133799003|10067099003|56012099006|4143699003|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|3023799007|4133799003|10067099003|56012099006|4143699003|11063799006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	DysO5veMcslscZLY3zDhU1ABk9jVj2zd86zKlw3/8rirCLTnz+yiJPLRrUIs2zKm/HRA5ZHtWe5CUdw9EOu/avLlyPuvqfsYykKxORl+1zsAiar4MCh1wUXjLypXDKVGxlHujCJ41ItcGlgD2DKwkyN8SoZohnnVN+WFtMRVdJPIb6n4T5PQkR5kZqtDfXPk4K/oGuVY3cLxvZ8HAQ/6KXiyW8gw1ZOsAi4LsD2tRPq7wScjiwEs9Qf3w3q9FNEdJgZ23KWQ7K8j3ou1iMqhepGEaMeRq3uhckFPOrOXeCKA+z4LyRjylTtKLPqqkQnpV9OWK4H7icYLCOtCYf3wEWYOafKOuIcyS8CkWbv7qF6IntWgyra0mzUbyzztLVfVWIeEAJSzbSmczEdX4M9AiO9nHwl7wfE5V/mX5lxPFD1gIquDZllAW4hXTO3qtjzqNc4PHhPmWfWIf6KS7GTBFct6HzW07xWy4/6oj4Q2XdQcYdhQD9Fz7D6haAsWtdLtid3LUl21nVkweOuZ0wo50W9yHto5FzFfu4WVkZAjJ7Cs5rz6DyvZIsdPA2bjCziYFLsVlIs6BeLOwF3jkCLKCUYE902DfBx8N1iM29eADFNgSJhYP87iu7GY9FKqtDz6
+	ly1DeQY0ur/brenGaMP7TmLIo3vu4yC9LYq9EViuaWnVqJEIZjfYuFMUXSoshQqbLE/kQ2eKjUwxdX/ncH901ilvOA9AWxF6a7ec2NOLIefxXZN2O/Jr3zTyt7IbzUzuUi/VFehqCv+sRLRxOjd3HXlw91/1U1vvVoCwkYiRbmy6in3czcBvAYgimrHCxR1IC+5av3bnr0qdBPnoh6rp4Skbkpfi/S9UJ8bEtj2ug5l2q+pT3aXXSO7DAFWtvOdGYuV0GgL0l56foLXbL4os5/D0kZIh8tyJ7ENGoMrg7hBeqck0ABR4bR/mFS3zuq0UkQAY6X0qq5QgH0eHKZwTcTuh7QDQDMqTFtEapZkeFWI/ojeiUuZr93Lho0bsNW93TMQKCd6ILut+hJ1Av6qu+KNChO6hagfzWLisKL4Ze9yAeVujsHeYAI1B+qqHtUrEeqwBVx8v5qd6XJlbQAYWTbxtYLFr3U5wwQpYCLoEUWqxw3AMYmFrgWHsSqWVneQgmTMv5xygjFCKJzsQiMU2H4PnLrm9BPfosUtaFnG0yqDWGFzPtr5FpK0FnaZBYdyr23akpESDcZ0S6bpAKF4fYShjLiB2ooQiFzXECp5AQW29AsKQDr2JQmYtpRx7I5RuvDHAotTIREyuaFJBz05Y9EABjEx99NKoZs8dc2CWADI=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(4133799003)(10067099003)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(3023799007)(4133799003)(10067099003)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?eUUwbkVtcFk0N2ZVTkw0KzhEaEI0a3lFa2kxVFpleXdqV0dLMU1lWEVPVFdJ?=
- =?utf-8?B?MTZ1ZWdyTlV1YW1HbWgxOTBwb2kwT0kyUWVsZEFQbkIrb0NnbUFHa2JGYnkx?=
- =?utf-8?B?T3JQSW43bGhyNUpySC8yMUtLUEhzMjRoMWxySG5IWGRCOHBwWlZaN1RCcURa?=
- =?utf-8?B?YUNEKzRtZlBmT1J6MGZVci9BNkpRMDRlbGROcDc3VmxGZldvWEhnUzEwaUk0?=
- =?utf-8?B?UDJGbmJ0aFAyYUxFdkRocW1KOHA4VkNtSlBTL291ZFRpNFkyeFh4a3VtTWUx?=
- =?utf-8?B?ZS9SQ0dvSmhYbnA3bVp4enRnN3ZhdTMzR2pHOFYrWU9qS29kTUhmOUhURnV5?=
- =?utf-8?B?aEFQYUs1SW00NnBPN2ErL29MNzNZRnZ6Q0krNFE1enhkMHFIMUZ3MGd3cTRi?=
- =?utf-8?B?SVBhdHdrMEZxRGVZNTA0R0IyVExZeHZMV0pOUmZCZndQS2YyclpIYS9BRUdY?=
- =?utf-8?B?eHl3MW90K3ZZZ3pOZk0xVm54MWNTY3BaNWFDME1XZ2FtbUZUTDhha0tZb3o0?=
- =?utf-8?B?dWpBaEcwam9NREZDZDRrSmZVSFplSDBwTWx0L2NvdzBQc0NKLzlvdVBjd2NO?=
- =?utf-8?B?VVhRckZhN0dMK2tybEFSU0wwSGNVRzQ4dy9uRW44N2NMRkRMTlJpLzJJQzEx?=
- =?utf-8?B?bW9ISW04YmFBRnpYUVJvNzVXYS9NNE1BenlWYUV2eUJ3bXZKWm8yS2lpSnpY?=
- =?utf-8?B?S0loQjlrNlc5cDhENkptWUhvdGttSFBnRFc2WVFKWmNJci9FblZubDdZc2FM?=
- =?utf-8?B?Rk9GcWZJbHBIdnVPaGgvdWZoekxQMmtTS1dSSE8ra1hiZUNIbnJaS3NqRXdH?=
- =?utf-8?B?TkpCVUt4MTZ5N25KQ2kzNFpWQ3NtMFV4Rk0vbDYrWURCVG5zM0xHODF5d3Zt?=
- =?utf-8?B?L2YrN2lyWUhGeWJHNWFseTNIdlZWWjBYeUl5WUN6Z1VNK2lhWEdTd0pTY3Fu?=
- =?utf-8?B?all5dWpaZkltOXJEUkxpT2hHZlF2d1luUWhGT05KSWU4QjlSZnFvUDU4Ri9U?=
- =?utf-8?B?QXpQYTJJRUZEVXlnRUcyaExDUkwxZUJ6eVlIbm51eHo5NmFlQW5jUUdZYmJC?=
- =?utf-8?B?NU9aY210N3RzbjJqMG5qTG9XNkRpMDVJcXFleG9qa09zY1JqTFF1cWJheXE3?=
- =?utf-8?B?Wk9XN0M5TmJWOWt3Nm1vMUJtK0FqQVhHVm9rZHVGMGMwTzJWYzdSUGpzUDBt?=
- =?utf-8?B?NUl4cWdOcC83alR5cDFwSlYvSXhqWVhKZkpFY0ZrNWdIR2ZKSWg4TWxVWUFt?=
- =?utf-8?B?K3p2N2Y3REtrRDJKTFBzZkF4NmVmVDZYS0d3eFFYajU4ZHpVbkdKdk1PK0Nw?=
- =?utf-8?B?Y282cGUzRkdtTlNRbkJhYVpjOFk1ZXdVMG5ybnB3OUE0QmlpQytxUHV4ckZI?=
- =?utf-8?B?eXBQMnROUlcyQlFzZHQzdWtmcTBnNTBNb0tEeVR5TmZiUVVJdTdtTStIQTVu?=
- =?utf-8?B?SE52SVpqT09PSmkzOFZjN0ZDSzZSNkFBUmZlVjBGWG10UTJBbTNHdllHdlBt?=
- =?utf-8?B?K1JJS21aLzdVYkd1cDFBQXFXTWFsc0JwUiszditVUnFTTHZ6Skg4bVBXSTJz?=
- =?utf-8?B?bDZpMGhMMC9TbUJ5ODNyZUNoNzA1eitmZEFsRlhYOWpRaDViQjdsanRvS3ZQ?=
- =?utf-8?B?YnIvU3J2dkcvd3Z1K0k2V0hmQ0pBTk5pSmtWT3VwUlBBSjU3aW15eWVMbXlX?=
- =?utf-8?B?d29qd1BhakRkZDMwL0EyWVJnSlBiSDJ4dm04KzZuQWMrc2t6RnpBbG1vb3NJ?=
- =?utf-8?B?VXlnbGNkSWZMYk9sdXJ2Wi94QVhHZ1NINGQybW9oeGdMS2RuUVkrcFNqVUNi?=
- =?utf-8?B?cm5YaXhybkc1V0d6UGswU0dqV2oxOUZFbzJoNnBHOTFyL0NBZzErWnpzSVNz?=
- =?utf-8?B?Zk1LanhTY3BXRVdVWVhrS29sS1pIMm5NWEFYNXB4Ri9pVWtpRXdRWXc4RTNn?=
- =?utf-8?B?aGd5VVpYeG9NUGU3ZmpnV0dlUGJkb0Mydml1dDRrZHJyaGNEbEYzT0dyWXdK?=
- =?utf-8?B?TWxCc0k5WVZ1M1dRR1JjS3Jia1hhYkh5RkZRVFU3NWVSKzBvMk96c2xFblVK?=
- =?utf-8?B?d0NwcHVVY0RBWTBwMk5uVjdENHpQTjlHTUJEbWtTUUhuNzZnS2hRbmlzQXpY?=
- =?utf-8?B?a2p1OERRWjdFRndWRGxPNUVMSWpwbEpTNXU5U2RxWmhjTnRrcEpRT0J5YVBL?=
- =?utf-8?B?V0QxbmI1TXRLSmllMnRKV04yTElOT0Nwbk41am9xM2pTdDRCak1TWDloVGJh?=
- =?utf-8?B?cTFPejRaSm1mbEJZaklXc2hWUzd0RjRvdlRwUDFGdVZFakxkOVZpS1ZNQmJ3?=
- =?utf-8?B?L28rWndPdkpKZWphTDlKaEp6M2lPUWNsYTlDa1d1ZzZLY1FjYVJoZz09?=
+	=?utf-8?B?SExYelJiSjNRc1ZEdnhGZ3IxNjU5ZFhhNjh3VExYcG03ak5pV2FJVG44bjN5?=
+ =?utf-8?B?WUFGL284UG9EbHBlRm5aMGRlc2h1NjU1SmJyUy9EdFF5eTdENDVCM3NCT2xp?=
+ =?utf-8?B?SGQ0ZkFucGI1RnFwdUZZbHlxZDgwZ2ZSbExMMFk4YUtySi9RNHl4TXFEWHZx?=
+ =?utf-8?B?YmJqS2c4MHJzeE9wT0lTU1RWZUxDRG5ZbXA4U1N3RXpaZVVBaHU0SGxQcjlK?=
+ =?utf-8?B?NkR6dHluazhtbVFvTUZ3RGZOZGt1a01iYmpJQ3N1TThKR1F0ZFpSRDRGYzBn?=
+ =?utf-8?B?VkJ3ODZvZUJrNlNYb1hKZ1ZvT1NSditJNXZBRFBBRjJxU2hnRXBNVUl6WU1Y?=
+ =?utf-8?B?NGlRN2pJNC9sdW9iZktZaVh0bkZOcWhKbFNkWG5NVGdRdnZhWm1PZmNjWTNQ?=
+ =?utf-8?B?UXlFVmNrWnNPVkwrcUdmL1FJd0VtcWdsQXRxK0xsZ08xRTNyQzVrNEFraXRo?=
+ =?utf-8?B?WVBaQjRBeU53Rm9NNWZ0NldPRXo3N2xjM015S2xtSDI2OUtQT0ZwWEVaR09U?=
+ =?utf-8?B?c25Ub0RhZG5RZmtnL3grV2ZPZW91OVFlVWp0eFhzcU9NM3RtajNybDNISkNY?=
+ =?utf-8?B?WGxUZHVwdVQ4S0tJdUIzYkI2blRTU3VBdXJwRlB1TGNEelFjYVZtQTRmSVZa?=
+ =?utf-8?B?Z3NxeEJzS0dvbG14bjA5OGprRzJJa0lJRHRWQThrTFptaUVSSHcxL0JrWEI4?=
+ =?utf-8?B?U0ZwWlVFb3lHclVCalY2NkRXc3R3VllGK0tZQURDSUkvWVgraXlQd25yTUlj?=
+ =?utf-8?B?eUF2Q1pjT3piNkxkL2ZEb0w0WlRFcnBPc3hGTnJzTHNxWHhVenF2UzJlK3Fs?=
+ =?utf-8?B?eGlMdzljVTZKSklabVk2d1VTM2xhV1dUSHFEN2MrS0l2Ky94RHF3Wnk3ZG9K?=
+ =?utf-8?B?ajFoVUJ3RURqaGMyeU84NUpaaU1KM1E2TTFWdmpKVkloWDNRRGo2RElBb0dX?=
+ =?utf-8?B?K29yZkJsejNEWU5oWE9YS2JnL3dqN3hSeUhMSzQrTUdGWUNhVjBycmF6Kzh2?=
+ =?utf-8?B?TEVjWHJOMkJVcFBJVjJnRHU4aG9sMXJSTEc4NXdGSFpoWDhjR1psdmJGVEZx?=
+ =?utf-8?B?S2FPSy84dTR5LzJhZ3lQT21FcnJoK3NrNXNpMVJFdmY4TThoUmR3RkF4aDFw?=
+ =?utf-8?B?SFZBcituNG01SzFNWk5ySWxHMnYxb0JHekk5eWhYV3hrbW9PdUM5VUJ4ZDdx?=
+ =?utf-8?B?MmsyTXhVZlBzL1NpWUVPOERnV1h5N2g1SG9icThSaUlzZHUyUkpyOXhOUnA3?=
+ =?utf-8?B?SVE4dy9kbU1XdHNiazdSdmc4SHM4MkgwN3pNOFFqL2sra0p1QWZ5WWhVQzJo?=
+ =?utf-8?B?UXBxRkpNcGZSc2JFMDNqQ2V0M3daQmF5SS9PaDhrc1VkUWpWWGEwcFhjWEZL?=
+ =?utf-8?B?VXBEQVloQXlBLzFldmFvbHVkL1NIVjU1cHA2aFZLSjRrenZjQmlCajhGaW5R?=
+ =?utf-8?B?dGlTSk5xdGRxL3dZR2oyTG5mNkp1ZWQ3VjZMNEtFeWxmRU9EbXF3Ymdsc3pP?=
+ =?utf-8?B?V00wd2VMUFZNa2pGVDlGbGNrWStCb1lqNzRaQVFPY0R1c3hKTnNtUTJuQ1Ba?=
+ =?utf-8?B?b3gxMGR4b05hYmw1OXk0UkQ5VG5LY1dCd3dBOFMrTEFpWjl1VG9qSFVpTTYw?=
+ =?utf-8?B?SFlGb09YLy9pZTlLZ0V4QUk1SFA3UGFnUllrbGh3d2FPZ0U0WHlTTVRaWEow?=
+ =?utf-8?B?ZHlINFozaVJpMFFjcDc1Y2VBWk5iQmt5cTVFODhHTzRUSjlZdjF6U24xK1FF?=
+ =?utf-8?B?UzV2K0JvM1hrZEJsbW11bWpaVUVFMjF2SGJlZ0E4aHNiQ0ZuNE1qQmYrc282?=
+ =?utf-8?B?MTY4WXZnT2FDSTBhYmU0OGpJbzJpNG9OUlRGdjE5bWNVV05oWXp1TVNQMSsw?=
+ =?utf-8?B?MXh5TTcxRWRlVHJxWkRUdEtUZUtJZU9jb2EzWWxKalkvdEVDZXg1M3hHcjBJ?=
+ =?utf-8?B?eWRLT0dYc3BqL2ZpL29GMTRMakJzZldObjErV0t2bXdTTDloSi8zQVQwSkNG?=
+ =?utf-8?B?S0VrY0g0aVozMlFGSnRLeWJxOUd1NStvaGlxaUVncVdEZ2Qwa2pPTEtQT0Zj?=
+ =?utf-8?B?M2grRFFTbXVFOXl0b3RVMzJHN1lmUW1YSEZTblJMZlJkYlNNNVltNkhOdkJM?=
+ =?utf-8?B?TElXZm1ZL3V0UjAvb2xUWWlZQW84VEp5TVIvblFMMWhUbmg2NzdLeGdOckQ0?=
+ =?utf-8?B?cUNwLzByVFFuaVpQWk85eGJibnEzM2Q2dlN6b2lkSyttNGxhL0g1d1RHTmxm?=
+ =?utf-8?B?T01zUUFCRm1zK3NWRHZlYU0wdkhMNFdaZkpYY1E2MS94aTB5VXlRSVJxVUJY?=
+ =?utf-8?B?Vk1xZk9kNDR2OWZtZmsyZjVod2FhOGNzVG5yWVIycXBYb0VnZUQzdz09?=
 X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: e81ae91c-a81f-4fa4-363e-08dee66d4652
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9bda932-2706-4cb5-e65f-08dee66d6f9e
 X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 14:43:34.0277
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 14:44:43.2910
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Aw1LWNCZBmtPwD5Meeg28bJsbAVJ+ZP8ggXZPBo/B1gjeCv2+V7Jql++MsWLnVxk9FwVzyTt5YmNTsdHZOfOgXfThKE9xrKgZsgjh+xEuxA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: OaqZ0THff1+fkVSSZAUVob6zn29OKosOp2BGlle/etggZQO3CglxocZVlgVGTNNaRXuwvx0tBr3zIS/vvtrn711ePTkEfVVlXvUJRWO98Oc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6920
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 14:43:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241406
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 14:44:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241407
 
-Hi Zoltan, everybody,
+Hi Robert,
 
-On 7/19/26 10:01 AM, Zoltan Boszormenyi via lists.openembedded.org wrote:
-> See the reasoning and discussion at
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43020
+On 7/20/26 3:54 PM, Robert P. J. Day wrote:
+> On Mon, 20 Jul 2026, Quentin Schulz wrote:
 > 
-> TL;DR: LLVM constantly introduces breaking changes that cause
-> regressions for running OpenCL CTS with Rusticl and finally
-> Karol Herbst had enough.
+>> Hi Robert,
+>>
+>> On 7/11/26 12:50 PM, Robert P. J. Day via lists.openembedded.org wrote:
+>>>
+>>>     testing my recent docs submission documenting
+>>> KERNEL_IMAGE_STRIP_EXTRA_SECTIONS, and it did not go well. i'm
+>>> iterating through all of the tasks for building linux-yocto for a
+>>> rockchip-based orangepi-5-plus, and everything worked fine up to and
+>>> including the do_transform_kernel() task.
+>>>
+>>>     for fun, i added to my local.conf:
+>>>
+>>>       KERNEL_IMAGE_STRIP_EXTRA_SECTIONS = ".comment"
+>>>
+>>> and manually ran the do_strip() task:
+>>>
+>>>       $ bitbake -c strip linux-yocto
+>>>
+>>> to get:
+>>>
+>>> ERROR: linux-yocto-6.18.35+git-r0 do_strip: Error executing a python
+>>> function in exec_func_python() autogenerated:
+>>>
+>>> The stack trace of python calls that resulted in this
+>>> exception/failure was:
+>>> File: 'exec_func_python() autogenerated', lineno: 2, function:
+>>> <module>
+>>>        0001:
+>>>    *** 0002:do_strip(d)
+>>>        0003:
+>>> File:
+>>> '/home/rpjday/oe/layers/openembedded-core/meta/classes-recipe/kernel.bbclass',
+>>> lineno: 753, function: do_strip
+>>>        0749:
+>>>        0750:    if (extra_sections and
+>>> kernel_image.find(d.getVar('KERNEL_IMAGEDEST') + '/vmlinux') != -1):
+>>>        0751:        kernel_image_stripped = kernel_image + ".stripped"
+>>>        0752:        shutil.copy2(kernel_image, kernel_image_stripped)
+>>>    *** 0753:        oe.package.runstrip((kernel_image_stripped, 8,
+>>> strip, extra_sections))
+>>>        0754:        bb.debug(1, "KERNEL_IMAGE_STRIP_EXTRA_SECTIONS is
+>>> set, stripping sections: " + \
+>>>        0755:            extra_sections)
+>>>        0756:}
+>>>        0757:do_strip[dirs] = "${B}"
+>>> Exception: TypeError: runstrip() missing 2 required positional
+>>> arguments: 'elftype' and 'strip'
+>>>
+>>> ERROR: Logfile of failure stored in:
+>>> /home/rpjday/oe/builds/orangepi-5-plus/build/tmp/work/orangepi_5_plus-oe-linux/linux-yocto/6.18.35+git/temp/log.do_strip.2408627
+>>> ERROR: Task
+>>> (/home/rpjday/oe/layers/openembedded-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_strip)
+>>> failed with exit code '1'
+>>>
+>>>
+>>>     all i did was add that line to my local.conf, is there something
+>>> else i'm missing in order to use that feature?
+>>>
+>>
+>> Congrats, you found a bug. I sent a patch that should fix it though I haven't
+>> tested it, see
+>> https://lore.kernel.org/openembedded-core/20260720-runstrip-not-tuple-arg-v1-1-e07764fe3f41@cherry.de/.
 > 
-> This fork is from the LLVM 22 version of libclc and contains the
-> necessary fixes to make Rusticl pass OpenCL CTS.
+>    i can report that your fix to kernel.bbclass allowed my command:
+> 
+>    $ bitbake -c strip linux-yocto
+> 
+> to complete without error. thank you kindly.
 > 
 
-I think this may be too early as this is still pending upstream and is 
-currently not receiving support from at least one person involved there.
+Can you please answer on the OE-Core patch with
 
-Also, aren't we going to have an issue if we have libclc AND mesa-libclc 
-built at the same time?
+Tested-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-Cheers,
+:) ?
+
+Thanks for testing and the quick feedback!
 Quentin
 
