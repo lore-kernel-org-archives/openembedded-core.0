@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 227CDC44520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F68CC44515
 	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 17:23:47 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2883.1784568226289836482
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2896.1784568217152343516
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 10:23:46 -0700
+ Mon, 20 Jul 2026 10:23:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hV8vkasc;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4954df200ddso17967765e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:46 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=zsM9KzP+;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4798bea72f9so5427706f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 10:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784568224; x=1785173024; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784568215; x=1785173015; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=I+lP0RUz3fXrvfZTQAt8vcPdH4EHzwD240pTwFlDSgo=;
-        b=hV8vkascvr+0dTjshwOjLQCrWCtU4TnS4/NFqCV9038Uo00cpn1hR43kRWDg4Rgrie
-         9ikqWT57phPCipGCKDTizoYi7L+6KBYPqUltp1yPJE2eFLs2BH8gfbDCUR7nEq0XV+bN
-         srHmp91nhfwyTlssHFEXke5/tQSMOYYidTcD0=
+        bh=g7Vt+Fr6hLUkpdC3FPgwSW4OgJnM0Fa6s3BBQ17fONo=;
+        b=zsM9KzP+y+HYMNZ+bB66VzQhA9kS0zcz7zvNrEyKHn5SWGDFOAyGdnWCjflB2YBUqb
+         /+a2a5cth6N3Y2EOecYxVGSRo80L8sZO6e5OtK+8RjRfJJtRwfBK+Uo8neDi056mHWfl
+         X3i/wkhUqO4zJ2PzYdO3dQG/nMKsaHLJwgKMM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784568224; x=1785173024;
+        d=1e100.net; s=20251104; t=1784568215; x=1785173015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=I+lP0RUz3fXrvfZTQAt8vcPdH4EHzwD240pTwFlDSgo=;
-        b=Yn6jII4UxWeyUepQ+ffOTGxdb6RZsnAL78jLZkvyn9tUqFTNLv0/+ARE7CiAfw7iPx
-         BoLNA4ICGmCcSQAFFIZrpinH2eIoXy/vsExHs40lGcd5unbZKcQUbX6WGdSicji1c2VN
-         GNrf879P+d9Rt0qjeNF7tMLtG/xqpPp8v7p1TCqrlr5diXNvig3QDskT7WQl4DqeV2WH
-         IzzpqUGg3G/lyxarjXwn71Jh9sncJ90BfoMzgee0De+v5x7ImsaotxNYhGhKAxO9acW9
-         AyjUE/Sk7DeH49X6jqYCQBRYrHYB7sNGj3SaPqoEVfEJeowiQ2oqhRb00rcNwsRINFWX
-         Y9Qw==
-X-Gm-Message-State: AOJu0YxxYqggDq0SHJ6gKESncw9nDEqZVk9sWJUQjfgIbpZjSStA0Zd2
-	RCPWPt7sbAhtT1XcuoBRj+b0ea4rDw8uPJ6pVKVLq87VvO/ZSMUonKDY5Prinz4ZNDoj2DdFt6U
-	p/dfIjg8=
-X-Gm-Gg: AfdE7cmXMEsaaQw0lnAgmTPx3dQJ7Ixv3FwBl/o8vB5a+U3gl4sNQ8oRn4/g1NalFNq
-	vqRMfXQn+shy73iJ1INJ5QHuD/4m7Ks0+2h9Xf6aPSU1mqgBR42aFl2MlDZLR/Ls4cuoPVN6o1j
-	a1UAT/55ov2aTJ0TYVJgQf46Raq7fg2+3CFiWd2IUzTkB27FYtNUV5rzgcARlHjlJ49ZqFYEIt4
-	ekv3jvu1L9sPi9ULJfcplWw0TF4rZxUc3hxQNi0ELKGqVvhVQ2TmFyE1vaj/Q24zSmZTxELL+Zc
-	bnc31qyqnvXnWlksTiuzQ9URtOUpP1Z0Fn/avovWjmXdt5LSwKpJYgLdNcNlPdU8QRsXQG0jjUH
-	6hRoYFoovUVSJt+z1ij2bLyWj/KRAYbLaPdU75pQ3tgGFwdzADdEwqjaDFgItwh+8beLSb7hlH7
-	xaLwsYnoA1vVYRwm+CY46aYjMAzRZBDhOoEY6ZJnmkWZ4MdO6My0oARCtJ3s0AqMehgei3+HR0O
-	qC+S7bz
-X-Received: by 2002:a05:600c:3baa:b0:493:b730:8d78 with SMTP id 5b1f17b1804b1-4954a514007mr208606355e9.31.1784568224409;
-        Mon, 20 Jul 2026 10:23:44 -0700 (PDT)
+        bh=g7Vt+Fr6hLUkpdC3FPgwSW4OgJnM0Fa6s3BBQ17fONo=;
+        b=CKjLaqJtgOjhhp0IV7thsPrC23nzjuaQjp9OyV9Pkf/GwoXFxFiZHEx4plhq49bkXW
+         T6h1eCCVAYLZdZETpVUDJjkFfF9pjPoapX+ueK0+1ZnKoPzBitsDjjmh6oeyLkdjRkem
+         rWhWXgsbap9hXxsDJ2umRf/CcZbcADFUhnOhKurTx/lt1QKHs0+W7pjsDFcpCJrkMgt5
+         2CUpCnUV/Y9HESI1sZN3vxc1PI4qFRHbURbCq8DBS4ia36jF7nXFKmrnZK/F1JuTH7JR
+         8QGmuG1ZBktvVAm80H1giwtNbZPvq1UukHzhGD3mCCkeT77yttoIKjMqhlmjDS10ZYvr
+         Pkfw==
+X-Gm-Message-State: AOJu0YyFGMITMPfzxE0wkU8G0csWJPSMZRouBOP5QzmZ6EqFf1vr8I0H
+	cCeJNz5zuCGiE9L3byzMzXMGvCW3jt3Vlwx4W1WXDy+XsjVwKp9w3Ajgmi1n+WmUllpQcEsP4cc
+	Ox0ffgjE=
+X-Gm-Gg: AfdE7ck56/X9+2NuuMYwqz9ABaMlNRtvBwiThU3FrJUBx5XyrNKH9J0gnotziVlASGg
+	wAIZvjEteqXe6HHjw7xd91gDtQ2IfNCD/76Z97UU4NtDtuR/yPaKqwZik0BpjkAgnsXMrex/7Hx
+	6Bgd3LteKK6A5+b6Ad9m1U8LCNou7kxHxu4HSdbT5fdWoW8/D2O5W0bimyeAIbZLD5WsqOaelqM
+	FvUm6wG7Zo1DqzeRsYDi4CFKTxh8S3mxXhnLFoz/v9DOsCCEDFdwZ5tmpZ7S/HWFo2ZWBaRZ+7W
+	o7oj1bHCy8L3Jn3ZbWXHQQ3S4luX187kLjA9fXCt0VdB5apD7i/UAWGXg90/QObzOQul9QBK5G0
+	fsBxEY4uyUlONvZL9ld2Q9kjDd7hMTJtMWlzai83EM9Nqj+fCR3r9A2MvnpyAd8F8wJZQ3OlHng
+	A7oeieHCfUgws6YHqa2gv6bej3VVcWXC0iOOezNouepXEfFHWVeyHC6bRsSCeTSNgcholoOqYX9
+	HDJeqWJ
+X-Received: by 2002:a05:600c:4687:b0:495:5845:fb2 with SMTP id 5b1f17b1804b1-495584510afmr92476715e9.38.1784568215351;
+        Mon, 20 Jul 2026 10:23:35 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-b501-5b7b-2580-caa3-ecc1-dea5.rev.sfr.net. [2a02:8440:b501:5b7b:2580:caa3:ecc1:dea5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49563eee22esm36508575e9.1.2026.07.20.10.23.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 10:23:43 -0700 (PDT)
+        Mon, 20 Jul 2026 10:23:34 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 22/33] libcap: Fix CVE-2026-4878
-Date: Mon, 20 Jul 2026 19:22:55 +0200
-Message-ID: <0488c0247ea017e465608c3a68aa3777b34df327.1784567958.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 12/33] bzip2: fix 'bzip2 --version > /tmp/aaa 2>&1' hang
+Date: Mon, 20 Jul 2026 19:22:45 +0200
+Message-ID: <4e5d0d595f713a4a5cff72f389aa9cac07fe5d14.1784567958.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784567958.git.yoann.congal@smile.fr>
 References: <cover.1784567958.git.yoann.congal@smile.fr>
@@ -66,204 +66,122 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 17:23:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241456
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241446
 
-From: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Pick patch from [1] as mentioned in Debian report in [2].
+According to [1]
 
-[1] https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=286ace1259992bd0c5d9016715833f2e148ac596
-[2] https://security-tracker.debian.org/tracker/CVE-2026-4878
+As of the current version 1.0.8, bzip2 --version will print version
+info but it will also continue compressing stdin:
 
-Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
-Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
+  $ ./bzip2 --version
+  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
+
+     Copyright (C) 1996-2019 by Julian Seward.
+
+     This program is free software; [...]
+
+  bzip2: I won't write compressed data to a terminal.
+  bzip2: For help, type: `bzip2 --help'.
+
+Debian (and its downstreams like Ubuntu) will patch this out [2],
+making the < /dev/null unnecessary, port a part of debian patch
+to fix the issue
+
+[1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-a-program-like-bzip2
+[2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy.patch/
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ae4fe4263ba9d372f9b9e80df4ec4697b51c1f9b)
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libcap/files/CVE-2026-4878.patch          | 164 ++++++++++++++++++
- meta/recipes-support/libcap/libcap_2.69.bb    |   1 +
- 2 files changed, 165 insertions(+)
- create mode 100644 meta/recipes-support/libcap/files/CVE-2026-4878.patch
+ ...-fix-bzip2-version-tmp-aaa-will-hang.patch | 62 +++++++++++++++++++
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
 
-diff --git a/meta/recipes-support/libcap/files/CVE-2026-4878.patch b/meta/recipes-support/libcap/files/CVE-2026-4878.patch
+diff --git a/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
 new file mode 100644
-index 00000000000..dcc63d93a54
+index 00000000000..84206b2a4d0
 --- /dev/null
-+++ b/meta/recipes-support/libcap/files/CVE-2026-4878.patch
-@@ -0,0 +1,164 @@
-+From f17734c6b0f4fd102fe4f7e863cb1165f8ec66e2 Mon Sep 17 00:00:00 2001
-+From: "Andrew G. Morgan" <morgan@kernel.org>
-+Date: Thu, 12 Mar 2026 07:38:05 -0700
-+Subject: [PATCH] Address a potential TOCTOU race condition in cap_set_file().
++++ b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
+@@ -0,0 +1,62 @@
++From a9dd6acbaca836fc4e943e69a31b2e7acda32045 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 13 Nov 2024 19:49:23 +0800
++Subject: [PATCH] fix 'bzip2 --version > /tmp/aaa 2>&1' hang
 +
-+This issue was researched and reported by Ali Raza (@locus-x64). It
-+has been assigned CVE-2026-4878.
++According to [1]
 +
-+The finding is that while cap_set_file() checks if a file is a regular
-+file before applying or removing a capability attribute, a small
-+window existed after that check when the filepath could be overwritten
-+either with new content or a symlink to some other file. To do this
-+would imply that the caller of cap_set_file() was directing it to a
-+directory over which a local attacker has write access, and performed
-+the operation frequently enough that an attacker had a non-negligible
-+chance of exploiting the race condition. The code now locks onto the
-+intended file, eliminating the race condition.
++As of the current version 1.0.8, bzip2 --version will print version
++info but it will also continue compressing stdin:
 +
-+CVE: CVE-2026-4878
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=286ace1259992bd0c5d9016715833f2e148ac596]
++  $ ./bzip2 --version
++  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
++  
++     Copyright (C) 1996-2019 by Julian Seward.
++  
++     This program is free software; [...]
++  
++  bzip2: I won't write compressed data to a terminal.
++  bzip2: For help, type: `bzip2 --help'.
 +
-+Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
-+(cherry picked from commit 286ace1259992bd0c5d9016715833f2e148ac596)
-+Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
++Debian (and its downstreams like Ubuntu) will patch this out [2],
++making the < /dev/null unnecessary:
++
++[1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-a-program-like-bzip2
++[2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy.patch/
++
++Upstream-Status: Submitted [bzip2-devel@sourceware.org]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ libcap/cap_file.c  | 69 +++++++++++++++++++++++++++++++++++++++-------
-+ progs/quicktest.sh | 14 +++++++++-
-+ 2 files changed, 72 insertions(+), 11 deletions(-)
++ bzip2.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
 +
-+diff --git a/libcap/cap_file.c b/libcap/cap_file.c
-+index 0bc07f7..f02bf9f 100644
-+--- a/libcap/cap_file.c
-++++ b/libcap/cap_file.c
-+@@ -8,8 +8,13 @@
-+ #define _DEFAULT_SOURCE
-+ #endif
-+ 
-++#ifndef _GNU_SOURCE
-++#define _GNU_SOURCE
-++#endif
-++
-+ #include <sys/types.h>
-+ #include <byteswap.h>
-++#include <fcntl.h>
-+ #include <sys/stat.h>
-+ #include <unistd.h>
-+ 
-+@@ -322,26 +327,70 @@ int cap_set_file(const char *filename, cap_t cap_d)
-+     struct vfs_ns_cap_data rawvfscap;
-+     int sizeofcaps;
-+     struct stat buf;
-++    char fdpath[64];
-++    int fd, ret;
-++
-++    _cap_debug("setting filename capabilities");
-++    fd = open(filename, O_RDONLY|O_NOFOLLOW);
-++    if (fd >= 0) {
-++	ret = cap_set_fd(fd, cap_d);
-++	close(fd);
-++	return ret;
-++    }
-+ 
-+-    if (lstat(filename, &buf) != 0) {
-+-	_cap_debug("unable to stat file [%s]", filename);
-++    /*
-++     * Attempting to set a file capability on a file the process can't
-++     * read the content of. This is considered a non-standard use case
-++     * and the following (slower) code is complicated because it is
-++     * trying to avoid a TOCTOU race condition.
-++     */
-++
-++    fd = open(filename, O_PATH|O_NOFOLLOW);
-++    if (fd < 0) {
-++	_cap_debug("cannot find file at path [%s]", filename);
-++	return -1;
-++    }
-++    if (fstat(fd, &buf) != 0) {
-++	_cap_debug("unable to stat file [%s] descriptor %d",
-++		   filename, fd);
-++	close(fd);
-+ 	return -1;
-+     }
-+     if (S_ISLNK(buf.st_mode) || !S_ISREG(buf.st_mode)) {
-+-	_cap_debug("file [%s] is not a regular file", filename);
-++	_cap_debug("file [%s] descriptor %d for non-regular file",
-++		   filename, fd);
-++	close(fd);
-+ 	errno = EINVAL;
-+ 	return -1;
-+     }
-+ 
-+-    if (cap_d == NULL) {
-+-	_cap_debug("removing filename capabilities");
-+-	return removexattr(filename, XATTR_NAME_CAPS);
-++    /*
-++     * While the fd remains open, this named file is locked to the
-++     * origin regular file. The size of the fdpath variable is
-++     * sufficient to support a 160+ bit number.
-++     */
-++    if (snprintf(fdpath, sizeof(fdpath), "/proc/self/fd/%d", fd)
-++	>= sizeof(fdpath)) {
-++	_cap_debug("file descriptor too large %d", fd);
-++	errno = EINVAL;
-++	ret = -1;
-++
-++    } else if (cap_d == NULL) {
-++	_cap_debug("dropping file caps on [%s] via [%s]",
-++		   filename, fdpath);
-++	ret = removexattr(fdpath, XATTR_NAME_CAPS);
-++
-+     } else if (_fcaps_save(&rawvfscap, cap_d, &sizeofcaps) != 0) {
-+-	return -1;
-+-    }
-++	_cap_debug("problem converting cap_d to vfscap format");
-++	ret = -1;
-+ 
-+-    _cap_debug("setting filename capabilities");
-+-    return setxattr(filename, XATTR_NAME_CAPS, &rawvfscap, sizeofcaps, 0);
-++    } else {
-++	_cap_debug("setting filename capabilities");
-++	ret = setxattr(fdpath, XATTR_NAME_CAPS, &rawvfscap,
-++		       sizeofcaps, 0);
-++    }
-++    close(fd);
-++    return ret;
-+ }
-+ 
-+ /*
-+diff --git a/progs/quicktest.sh b/progs/quicktest.sh
-+index 59e16b0..bb49d53 100755
-+--- a/progs/quicktest.sh
-++++ b/progs/quicktest.sh
-+@@ -148,7 +148,19 @@ pass_capsh --caps="cap_setpcap=p" --inh=cap_chown --current
-+ pass_capsh --strict --caps="cap_chown=p" --inh=cap_chown --current
-+ 
-+ # change the way the capability is obtained (make it inheritable)
-++chmod 0000 ./privileged
-+ ./setcap cap_setuid,cap_setgid=ei ./privileged
-++if [ $? -ne 0 ]; then
-++    echo "FAILED to set file capability"
-++    exit 1
-++fi
-++chmod 0755 ./privileged
-++ln -s privileged unprivileged
-++./setcap -r ./unprivileged
-++if [ $? -eq 0 ]; then
-++    echo "FAILED by removing a capability from a symlinked file"
-++    exit 1
-++fi
-+ 
-+ # Note, the bounding set (edited with --drop) only limits p
-+ # capabilities, not i's.
-+@@ -246,7 +258,7 @@ EOF
-+     pass_capsh --iab='!%cap_chown,^cap_setpcap,cap_setuid'
-+     fail_capsh --mode=PURE1E --iab='!%cap_chown,^cap_setuid'
-+ fi
-+-/bin/rm -f ./privileged
-++/bin/rm -f ./privileged ./unprivileged
-+ 
-+ echo "testing namespaced file caps"
-+ 
++diff --git a/bzip2.c b/bzip2.c
++index d95d280..6ec9871 100644
++--- a/bzip2.c
+++++ b/bzip2.c
++@@ -1890,7 +1890,9 @@ IntNative main ( IntNative argc, Char *argv[] )
++                case '8': blockSize100k    = 8; break;
++                case '9': blockSize100k    = 9; break;
++                case 'V':
++-               case 'L': license();            break;
+++               case 'L': license();
+++                         exit ( 0 );
+++                         break;
++                case 'v': verbosity++; break;
++                case 'h': usage ( progName );
++                          exit ( 0 );
++@@ -1916,8 +1918,8 @@ IntNative main ( IntNative argc, Char *argv[] )
++       if (ISFLAG("--keep"))              keepInputFiles   = True;    else
++       if (ISFLAG("--small"))             smallMode        = True;    else
++       if (ISFLAG("--quiet"))             noisy            = False;   else
++-      if (ISFLAG("--version"))           license();                  else
++-      if (ISFLAG("--license"))           license();                  else
+++      if (ISFLAG("--version"))           { license(); exit ( 0 ); }  else
+++      if (ISFLAG("--license"))           { license(); exit ( 0 ); }  else
++       if (ISFLAG("--exponential"))       workFactor = 1;             else 
++       if (ISFLAG("--repetitive-best"))   redundant(aa->name);        else
++       if (ISFLAG("--repetitive-fast"))   redundant(aa->name);        else
 +-- 
-+2.43.0
++2.34.1
 +
-diff --git a/meta/recipes-support/libcap/libcap_2.69.bb b/meta/recipes-support/libcap/libcap_2.69.bb
-index 03975b44a0a..43185f027ea 100644
---- a/meta/recipes-support/libcap/libcap_2.69.bb
-+++ b/meta/recipes-support/libcap/libcap_2.69.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-            file://0002-tests-do-not-run-target-executables.patch \
-            file://CVE-2025-1390.patch \
-+           file://CVE-2026-4878.patch \
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index b661bc95465..6c02dc3ed06 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -27,6 +27,7 @@ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+            file://Makefile.am;subdir=${BP} \
+            file://run-ptest \
+            file://CVE-2026-42250.patch;subdir=${BP} \
++           file://0001-fix-bzip2-version-tmp-aaa-will-hang.patch;subdir=${BP} \
             "
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+ SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
+ SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
 
