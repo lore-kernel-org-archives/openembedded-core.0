@@ -1,150 +1,150 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A0FC4451B
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 08:01:11 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4263.1784534466766976925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1952CC4451B
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 08:03:12 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4208.1784534586799548403
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 01:01:07 -0700
+ Mon, 20 Jul 2026 01:03:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=kbqC+YOX;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 22BD81A1104;
-	Mon, 20 Jul 2026 08:01:05 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EB13460360;
-	Mon, 20 Jul 2026 08:01:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A191D11BD3D35;
-	Mon, 20 Jul 2026 10:01:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784534464; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=8nDfkSG964qGSr1QxfYMq+6xNngEGIfB6AaZVA7hasM=;
-	b=kbqC+YOXDay6lys98b4/XIokKlt0RDS78NFL2lORd667fvPnOlHUaXctHc9dMcRby4jO85
-	YRgpJBSnA5pT0gq9QOM7TckcXyc3/1cKoCe5gJuxTPsLvy/N8YzHhJhv5GHdfAG2TpSekR
-	C/qNXmB7V4WHpFUaHMV1xMZvuieFFdim9ixQWBFvPCwKzO+K8dJVuJew2Rboznoj0lDZlS
-	aRFONq8/uUVba1peMkvem36Uf0whZfuxgYQsRh/k+0UyCmzXBJSEdY57+Zh5JgphH7i3P7
-	Cqpz4F2BslEKzHjnJHOeBG2rSD+XhpF54nMLqxBdRHWLyBIDCBba34lAr5+03w==
-From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-Date: Mon, 20 Jul 2026 10:01:01 +0200
-Subject: [scarthgap][PATCH v2 1/3] python3: fix CVE-2026-11940
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fXvth/rz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69e2266b07fso7138362a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 01:03:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1784534585; x=1785139385; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=rxVXnlGwsgQ6Gwe1+oxFrat8Gg1sUOI3a+czkjtZotg=;
+        b=fXvth/rzBe0xkS1BO3KgGW8gHr169o575ElxqfJW+z3FCCxlG+49phNNH5EhvUXW9I
+         EQN4PWrYkBPUSWXTLtYnkKRxu01+BnkRM65XXV5Lm6Ur1S5H6kxri3MGdffJ9QYvt0iW
+         qyD6PPhuHiiskWCqrzuYH7hy6O3X4+HYXCvWQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784534585; x=1785139385;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rxVXnlGwsgQ6Gwe1+oxFrat8Gg1sUOI3a+czkjtZotg=;
+        b=qtw7pHTosw2fXB/0XinVYdPkTsRE5QJTg9Dp17l+kOfnnkmDhsDqA1vLLm1guqgiX6
+         ByCCDGyUonlx+opXgpzRhdZ7e7lCIhluhuZGAWL1eTZMFIBz/L+0qBB5lwuMJQow5sr2
+         /V/EI6VpgZ7WwDRx0A4iY4u5WDt2ubM4z0zYxdBTQTmqki5Ket35UXWCogdWwOaBs3CQ
+         QFbg5L2fFFp3eoXPTNLgAX19RJQX54+Q2R0fmAQLnA4q0swkkYOmCIfwSUvG2MK//5CV
+         I+/FdGXZGAO8KAIU8+346OUn5Q17cmu+Hix15mjYeqxlg/uOCAhdkghf3QAG+VPuRxyk
+         SOGA==
+X-Gm-Message-State: AOJu0Yz5ZDKztHvYa6goRPEBB2RQXhi72ISj0/a+2JbpT3kJa4rnGHU3
+	ePrSUpdeifKFIlyWKV1An4CD7vqn2XiQR9iLsfjXkss74DGOZGmRolHiUuXYr/A4wjI=
+X-Gm-Gg: AfdE7cm0UnMn6NXlQtKC2iDaovpt2q9AenvD18ElIWgDDDMqRzs01o3VKLMyiYnMdmw
+	mMXCyJxI9l24wWxwHBb8yJ6x1TW1xtLuuTYNFkNngpUs4nM0VWd1oS1grWc+bVNzI4CneUg4JBW
+	mEW3ehI8mu/39ltJKX30xUQnqRi4PGZ6xN8Kgnok29st3IxMMY2BC4i2CMKAfCLkuNwxzKZKIN+
+	u005t+OaoDk/IJefBmTxzUBB0hgPX6NSa+x7yEwmheh6pOGAoQvamnvtDJYtKlIpTSMP9ji/u5X
+	LU80kmpCXp3LLRR+cDhLUGfgu3XXRv9fe3Y+yP1YFruT55l2zccnFCCl5jbJPKGoZ9+UUVwA4v4
+	UkaPOd83/0bwm5j9y8txQY47FYCR4PnIKgctgOis7EgtthyfIPzftzylNxypinwwtt/q3ZOXzHO
+	qZFiyRDY2n9R+QkxGyxWnQP3r+k10kOnBT8vqAFTEShWRUukvn8ewzQEqofVs+CdFP1Kc=
+X-Received: by 2002:a05:6402:40cf:b0:69e:383b:c4b with SMTP id 4fb4d7f45d1cf-69e65273c42mr4448609a12.16.1784534584832;
+        Mon, 20 Jul 2026 01:03:04 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f231:f082:3d95:2084? ([2001:8b0:aba:5f3c:f231:f082:3d95:2084])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffed537sm4266673a12.24.2026.07.20.01.03.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 01:03:02 -0700 (PDT)
+Message-ID: <7782792b05b85562b28f1c6ce9a2319c8269fae4.camel@linuxfoundation.org>
+Subject: Re: [PATCH v4 2/2] systemd: add native hwdb generator via merged
+ systemd-tools-native
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Daniel Turull <daniel.turull@ericsson.com>, "Ross.Burton@arm.com"
+	 <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Jul 2026 09:03:01 +0100
+In-Reply-To: <0b406994f714c1d3659dd054ceea97e95b7f8090.camel@ericsson.com>
+References: <20260703072948.2939128-1-daniel.turull@ericsson.com>
+		 <20260703072948.2939128-3-daniel.turull@ericsson.com>
+		 <791CE8D7-F761-490C-9922-4A71F96614DC@arm.com>
+	 <0b406994f714c1d3659dd054ceea97e95b7f8090.camel@ericsson.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260720-fix-cves-python-scarthgap-v2-1-fe434ff03f49@bootlin.com>
-References: <20260720-fix-cves-python-scarthgap-v2-0-fe434ff03f49@bootlin.com>
-In-Reply-To: <20260720-fix-cves-python-scarthgap-v2-0-fe434ff03f49@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com, 
- pascal.eberhard@se.com, wahid.essid@se.com, 
- "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-X-Mailer: b4 0.15.2
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 08:01:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241335
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 08:03:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241338
 
-tarfile.extractall() with the 'data' or 'tar' filter could be bypassed
-by a crafted archive where a hardlink references a symlink stored at a
-deeper name than the hardlink itself.
+On Mon, 2026-07-20 at 07:26 +0000, Daniel Turull wrote:
+> On Fri, 2026-07-17 at 17:59 +0000, Ross Burton wrote:
+> > Hi Daniel,
+> >=20
+> > > On 3 Jul 2026, at 08:29, daniel.turull@ericsson.com=C2=A0wrote:
+> > >=20
+> > > Build systemd-hwdb natively so image construction no longer
+> > > depends
+> > > on
+> > > QEMU-emulated udevadm on such hosts, with:
+> > > - A patch restoring /proc/self/fdinfo mount-ID fallback for
+> > > kernels
+> > > =C2=A0 lacking STATX_MNT_ID (applied only to the native tools recipe)
+> > > - A patch forcing compat mode in hwdb generation to avoid
+> > > embedding
+> > > =C2=A0 build-host paths in hwdb.bin (reproducibility)
+> > >=20
+> > > Update the update_udev_hwdb intercept to prefer the native
+> > > systemd-hwdb over QEMU emulation, with a test -s check to catch
+> > > silent failures from either path.
+> >=20
+> > Staring at these patches made me have thoughts and ideas, I=E2=80=99ve =
+just
+> > sent some patches that do some cleanups to the systemctl code (and
+> > conflict with your series) that also then renames systemd-
+> > systemctl-
+> > native to -tools-, so that the upgrade work is tidier as it doesn=E2=80=
+=99t
+> > also need to rename lots of things.=C2=A0 This makes patches easier to
+> > review/revert/backport/etc.
+> >=20
+> > Then some research revealed that we don=E2=80=99t need to run update-hw=
+db
+> > in
+> > a qemu at all, we were likely doing that originally because we
+> > didn=E2=80=99t
+> > have a native recipe and the generated file has explicit
+> > bytesize/word order: the files generated by ppc32 vs aarch64 in
+> > qemu
+> > are identical, so we can just delete the qemu codepaths entirely.
+> >=20
+> > This did involve discovering that there=E2=80=99s a bug in pseudo and
+> > writing
+> > an upstreamable patch for systemd-hwdb to strip build paths, but I
+> > think we=E2=80=99re getting there.=C2=A0 The last bit of the series nee=
+ds a bit
+> > more love, but I=E2=80=99ll be sending that on Monday.
+> >=20
+> > Then we can rebase the 261 upgrade, which should be a lot smaller!
+> >=20
+>=20
+> Thanks Ross, then I'll rebase the upgrade on top of you new patches.
+> I
+> will also take the latest systemd version
+>=20
+> what about the debian 11 compatibility, has been settle to use
+> buildtools within debian 11 since it is old and reaching EOL or
+> should I put effort to make it build natively?
 
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
----
- .../python/python3/CVE-2026-11940.patch            | 66 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.12.13.bb    |  1 +
- 2 files changed, 67 insertions(+)
+We switched debian11 to use buildtools so we're ok there.
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11940.patch b/meta/recipes-devtools/python/python3/CVE-2026-11940.patch
-new file mode 100644
-index 000000000000..0851138ae892
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-11940.patch
-@@ -0,0 +1,66 @@
-+From 91a9bd79cdbab8f8518c4a5e669b3f19680a2f31 Mon Sep 17 00:00:00 2001
-+From: Stan Ulbrych <stan@python.org>
-+Date: Tue, 23 Jun 2026 14:31:38 +0100
-+Subject: [PATCH] gh-151558: Fix symlink escape via `tarfile`
-+ hardlink-extraction fallback (GH-151559)
-+
-+CVE: CVE-2026-11940
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/27dd970bf6b17ebca7c8ed486a40ab043ed7af8f]
-+
-+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
-+---
-+ Lib/tarfile.py           |  3 +++
-+ Lib/test/test_tarfile.py | 24 ++++++++++++++++++++++++
-+ 2 files changed, 27 insertions(+)
-+
-+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index 59d3f6e5cce1..83226e907e4b 100755
-+--- a/Lib/tarfile.py
-++++ b/Lib/tarfile.py
-+@@ -2650,6 +2650,9 @@ def makelink_with_filter(self, tarinfo, targetpath,
-+                     "makelink_with_filter: if filter_function is not None, "
-+                     + "extraction_root must also not be None")
-+             try:
-++                filter_function(
-++                    unfiltered.replace(name=tarinfo.name, deep=False),
-++                    extraction_root)
-+                 filtered = filter_function(unfiltered, extraction_root)
-+             except _FILTER_ERRORS as cause:
-+                 raise LinkFallbackError(tarinfo, unfiltered.name) from cause
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index 759fa03ead70..29719d95b6c1 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -4080,6 +4080,30 @@ def test_sneaky_hardlink_fallback(self):
-+                     self.expect_file("boom", symlink_to='../../link_here')
-+                     self.expect_file("c", symlink_to='b')
-+
-++    @symlink_test
-++    def test_sneaky_hardlink_fallback_deep(self):
-++        # (CVE-2026-11940)
-++        with ArchiveMaker() as arc:
-++            arc.add("a/b/s", symlink_to=os.path.join("..", "escape"))
-++            arc.add("s", hardlink_to=os.path.join("a", "b", "s"))
-++
-++        with self.check_context(arc.open(), 'data'):
-++            e = self.expect_exception(
-++                tarfile.LinkFallbackError,
-++                "link 's' would be extracted as a copy of "
-++                + "'a/b/s', which was rejected")
-++            self.assertIsInstance(e.__cause__,
-++                                  tarfile.LinkOutsideDestinationError)
-++
-++        for filter in 'tar', 'fully_trusted':
-++            with self.subTest(filter), self.check_context(arc.open(), filter):
-++                if not os_helper.can_symlink():
-++                    self.expect_file("a/")
-++                    self.expect_file("a/b/")
-++                else:
-++                    self.expect_file("a/b/s", symlink_to=os.path.join('..', 'escape'))
-++                    self.expect_file("s", symlink_to=os.path.join('..', 'escape'))
-++
-+     @symlink_test
-+     def test_exfiltration_via_symlink(self):
-+         # (CVE-2025-4138)
-+--
-+2.54.0
-diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
-index 06dbc8e892d9..f41588055f32 100644
---- a/meta/recipes-devtools/python/python3_3.12.13.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.13.bb
-@@ -44,6 +44,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://CVE-2026-6019_p2.patch \
-            file://CVE-2025-13462.patch \
-            file://CVE-2026-4224.patch \
-+           file://CVE-2026-11940.patch \
-            "
- 
- SRC_URI:append:class-native = " \
+I have some of Ross' patches ready for merging in master-next. I'd also
+written this patch myself:
 
--- 
-2.55.0
+https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&id=
+=3D87c788c4f1f99425c6716d0337ec153719bcca4a
 
+which applied on top of yours, basically dropping the systemd intercept
+as I don't think it is needed any more if we're not using qemu.
+
+Cheers,
+
+Richard
 
