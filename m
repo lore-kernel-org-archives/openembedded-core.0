@@ -1,181 +1,298 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <gustavo.nihei@espressif.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6644DC44515
-	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 12:59:19 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.12])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8382.1784552348885546592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A57C44515
+	for <webhook@archiver.kernel.org>; Mon, 20 Jul 2026 13:01:29 +0000 (UTC)
+Received: from OS8PR02CU002.outbound.protection.outlook.com (OS8PR02CU002.outbound.protection.outlook.com [40.107.75.102])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8443.1784552482926518665
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 05:59:09 -0700
+ Mon, 20 Jul 2026 06:01:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=co2qRaG5;
- spf=pass (domain: est.tech, ip: 40.107.162.12, mailfrom: pratik.farkase@est.tech)
+ dkim=pass header.i=@espressifsystems.onmicrosoft.com header.s=selector1-espressifsystems-onmicrosoft-com header.b=YQmZamqD;
+ spf=pass (domain: espressif.com, ip: 40.107.75.102, mailfrom: gustavo.nihei@espressif.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FToggUL6Fn6dbMnR6jKmzb2FjEEuoPDPQeGRFrsI+PK4ypDARToGcKZE2XPtZyVGmYbdSllPJ9m6ONQ5yZm+wN7Snxod9rqgU1VS3xoMDONa5A4k3Zdze2sf9bki8U0V3aBiiEWd0ACyZzwV5UqeCXEnEl2yrOZZ0bhEnWscP40G3T8362CQacFeLBb2K9lWJuVYCtQvtNWlBMBT10QkKCVyUmPKYzFGu5m+fMDEKOG2Yx/GCOOU+cIpavoOvtuTDIXtNRk7C9XRbWV7h2A2cLC+EG4CjHNZxwZ9/yOct+01f1uW1kPXLRp5MPclyRR9UiaTO88xxW0ai99RD4PQbw==
+ b=HXiuLPWEO5/gR9duZPOEjd6B5A/On9+8ZnpzQGlYo1Yfr0XdlJ21xN+ePaz2Y1ZPozBpxjfuLlEbyc3karzo5JugL2oMuHOT4vKGSyjgnIIKEUbEhvWmLF7LIvXlU7P42YSkPceqvGyb41YF8YxKEbScGXYe8Qc3R0xR0cTdbfVbOe0UKyPWOcRWiyKowoo6GG0ZSdZFj6vFlgAgJUF/p7LrAgWsnXOuNQUPzhpuDeppfRXRHBQ71HVg5hx15rhGiB1kTgzK50LuP/cc6WPTfHiXYtTm2HhZz7BHPakZgEygQZQYAmMFbUpSMyz0vY9m1Q52EVKFKL2x1J81wwzkLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CSEsIt9ZDd9cHLzRey7MFrL4G0EXnTZfXIkGy26X7cY=;
- b=hiPBBR/FnWmpcEC8LDKzr6+Q9NripAMreZVFVqNO/zxHL8kIZjavWx5oTX8MBlWLJUpJBGdNKajh5bzshUPwEr/FdvK30sMgeTlbgK7E3LQvXYQvpYTR8IeY63D0vbsdxJUNDD4geOOM8uY7yLKVgDG/xUfuYk8rtPzh+Q+MArTsjIELeS1POF47LWErifXGZzjGBlEs6Z2q1qtlAPk5gHEhbrSYrtirMIZAMNXyofdSg+/mAvjCX9S+4NJ/Dm8OLRi/M4w//b7XYFvGE4HJxthX7xlMaHPZHh5d9POwVlF332PSZOd2SPnKzt+ImabO8mxrhCyimDkHVJ3f38ZzqQ==
+ bh=bOyJStHGXzoQoTqT0nsT5Qt6aPr5qFdLvYLFFIpzwes=;
+ b=CGLDsmFpiINEthxvkW+2f7vbLM45GIuzmf0v6qd+l8JwOK+SJUq4H6qge3xuvBJAp2rYm8Y03mZOFhO79Pk5DWkBegZ26jIZJMAtdyD7rDU1o5D2a5TfzClfkbS5VDIODwBhkPS+y4Lwi67JeEZRN1aiyWlaIGXqMOxsj/qeellJ1CasqTDJ5P/3LVc7rRWokArSHku3S9ORr0hiL0/GrLaA61itw/vC9PsEyRD4LMU5hLLI5j7P3z5ZttIWbGSzQOlua3q+YkHVYXIJwlZMSkB/3kDxaaY902wtbRNY0kxLVJ6eVD4VZbOaJsCY/YANFko6EB1znKcq3U6cbi8Deg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=espressif.com; dmarc=pass action=none
+ header.from=espressif.com; dkim=pass header.d=espressif.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=espressifsystems.onmicrosoft.com;
+ s=selector1-espressifsystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CSEsIt9ZDd9cHLzRey7MFrL4G0EXnTZfXIkGy26X7cY=;
- b=co2qRaG59z6JxMRnvPjCJ2H4qpp7Q6XCLYIaOtHb+L2gxxyl0G3WQdtFRpjgrwxCihpEu8OdxFTKIR3hW4iyipnriy00R22si3jnhj57rhtNkeUjNDBH0QePLjsByRr8E7ZDKWknSsmTUB+OWkHx+kjt9zLJlTwmC2shbZZyJwr+wbQ4qbTNVM6CV1+cumY/swmKcpo5hXABOy3z1FrNPTmaYNWLXqcqTm2Ihh/xyqItC8A97W/RDQ/PnxcfQxnvO2WR4sB4eNPe/VQQfDT7stqp8EENgFngOmFtnBc2pv+rx80J1g5oxakj0kq5YwK/bWVbjK9fqfIFnW6JzTsLbQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by GVXP189MB2103.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6::19) with
+ bh=bOyJStHGXzoQoTqT0nsT5Qt6aPr5qFdLvYLFFIpzwes=;
+ b=YQmZamqDM4C/9Eq2nVFpJ2E3q5DIKunZbiPo6/b6qAgqvyB7acAP92pTrxiEo5gWCEBgKFkP3XspySURztV1PDESVc533Acl2Bxb+XTW0NLkqfV1MfahhOHS1YtvLnExakb4aqHyNcC1kCPeincS5YTZ6d/WIpKoMBE8EBVKcYA=
+Received: from PUZPR04MB5419.apcprd04.prod.outlook.com (2603:1096:301:bb::12)
+ by KUYPR04MB9510.apcprd04.prod.outlook.com (2603:1096:d10:9c::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Mon, 20 Jul
- 2026 12:59:02 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0245.009; Mon, 20 Jul 2026
- 12:59:02 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] libarchive: ptest: run tests from tmpfs to avoid inode overflow failures
-Date: Mon, 20 Jul 2026 14:58:54 +0200
-Message-ID: <20260720125854.39562-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260720122619.34696-1-pratik.farkase@est.tech>
-References: <20260720122619.34696-1-pratik.farkase@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU7P189CA0029.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:552::29) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
+ 2026 13:01:15 +0000
+Received: from PUZPR04MB5419.apcprd04.prod.outlook.com
+ ([fe80::af90:4b51:a7c:3d9e]) by PUZPR04MB5419.apcprd04.prod.outlook.com
+ ([fe80::af90:4b51:a7c:3d9e%5]) with mapi id 15.21.0245.009; Mon, 20 Jul 2026
+ 13:01:15 +0000
+From: Gustavo Nihei <gustavo.nihei@espressif.com>
+To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
+	<yoann.congal@smile.fr>
+Subject: Re: [OE-core][wrynose 10/17] u-boot: re-enable RISC-V compressed (c)
+ ISA extension
+Thread-Topic: [OE-core][wrynose 10/17] u-boot: re-enable RISC-V compressed (c)
+ ISA extension
+Thread-Index: AQHdFpLvJ+EGKHwckESr2uHH/S2327Z2Cz8AgABHI7GAAAFHgIAADZso
+Date: Mon, 20 Jul 2026 13:01:15 +0000
+Message-ID: 
+ <PUZPR04MB5419441342F9C4A473713EE0EBC32@PUZPR04MB5419.apcprd04.prod.outlook.com>
+References: <cover.1784364567.git.yoann.congal@smile.fr>
+ <c643e2d8af772182167a4ee2a65d5bcdc469934f.1784364567.git.yoann.congal@smile.fr>
+ <342a1c637da6f078150b43045fdd48c5ae7a7a98.camel@pbarker.dev>
+ <PUZPR04MB54191B12EAA85D1C673596A6EBC32@PUZPR04MB5419.apcprd04.prod.outlook.com>
+ <DK3DX9DMRUHU.MCMI4U96CEPJ@smile.fr>
+In-Reply-To: <DK3DX9DMRUHU.MCMI4U96CEPJ@smile.fr>
+Accept-Language: en-US, pt-BR
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=espressif.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PUZPR04MB5419:EE_|KUYPR04MB9510:EE_
+x-ms-office365-filtering-correlation-id: 8d0ef473-eb7a-498a-6873-08dee65efb87
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|23010399003|1800799024|10070799003|376014|10067099003|8096899003|56012099006|5023799004|4143699003|13003099007|18002099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: 
+ siTwBVUqoARyjamur/XX5G7XiuS3gMtds73jkrvCfcKchEmB/8YtIo21yG4N7v+OKzCIMQLPYCr4o8S7oynS0eftRQfWn0rRAtqKT4ZdMmXQrmdawpGZmSW/9OQ8NRlf6ym71cRUkb3NzxdgJ7Fj2xegAf/l6BE/j55uUK9j3kULsnK5ICF4jSFmY/l2n2lA0spQjsPqPmObxPRGG8FcHWjQaxjZ3EhOEoP6WwCmBKWDfZAlDTVrk50N7T6ajjLr+uGinbhWyKYSBTYPG4n7OqH1/TW0lJ9wnVtACWrLigSzY2SBop+CQ0zSvb/DZoat9hMDShhAPJZVByqGi37fFfm1I1ZvlUZXEQ1+5mpkJ3cS2gQ4NNBXDaZavDQNzSixP6KQOU6W1gKLD3N4K7R5Cjl00t68WPgyX+yTiAOls8tO8f1yLr3B8wp6Pn2hdYJMw7D3MudfQecGFR3aa027XkF3XGKwXygDxeTPgzF1UGWNChl8SUEhuiougeRFSbdlYzQ3C3atNhfAb3vwFERaj8uJDNFCey4yu6Ki0lLBCItnhVY3rv63TvwSfsRzfrOoZR5jiGU1JzhIz2Y+XIIJABW/aHKTkeAIFa3sjMG/UY4RXqKQNdvN9Mdgznr0DdT6u1UgAHSnPJqL4IRkRSDvpEduAHK190oDQTHw0OGQ0Ns=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB5419.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(10070799003)(376014)(10067099003)(8096899003)(56012099006)(5023799004)(4143699003)(13003099007)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?YN/Z8oLmGBXrjlm43qrbMXsEu3P5rvTa12kGikr/jpzoPCANLRy0A76kj2FO?=
+ =?us-ascii?Q?23582EBIqOFg54aBheRfXRztktCY86l48c7Iv4bymcrEzB5EK8fX8PCnlsLv?=
+ =?us-ascii?Q?9/w28FRUeQlI9nhcytsiiq1tr3Uymmv5Zh6m9cK0/qiXf5Hq+ZIEIDh3GKSd?=
+ =?us-ascii?Q?HjBl/dZFqOXILY0KppHBiAaK02gPdc/U3Ml+9U7H+t+3KgqxxfHLV1ZpA2n0?=
+ =?us-ascii?Q?dYHixI1Wh67SiF0zxNiDiNzjBSQk8ZM8lxz7oWUc5OeWOVm9tiI+SXSZeAJe?=
+ =?us-ascii?Q?cWYPPtnW6TCmBXLKSoPvrxIhBFQKsp6oLYlgMhtQKgVK4DvJ9Mmo4FexSqcp?=
+ =?us-ascii?Q?dT+aNThKxDS8yXfV0UG604C90w3fLrGfnVOSjtVcBcsT9P9hwskOUyk7akBI?=
+ =?us-ascii?Q?jiWwJwPoYETBvbQsZnSI3GZPORURn5vXTXW6juFMZw+xsqzwNNzic00Oahvw?=
+ =?us-ascii?Q?rXcvhmoibnI7/wg44UPdXVj7oGmuePqqDPytfDMSLyMExpuL00J2VWGMbNkM?=
+ =?us-ascii?Q?021rH4styhfbKD5PKMkkIsuRTSM99eE85EJMqLly2RYkyajiXu3tMMXKGd3C?=
+ =?us-ascii?Q?pIjyMCckGD0DmSZND0Tn+KohQpxdVl5sHyBylTjGMuQyCxRojkT/wLgWVAzU?=
+ =?us-ascii?Q?u70tzKK1DNGpF2NMQC+X5h5pQTXEv91auAm24cWDIYDQuDEqlMcJnackMJX+?=
+ =?us-ascii?Q?xNhsTgxmFq5Bj3hHnYFlt8Hhi89gaaTjMZrNp2Mm8+KdHeWuxVbR64O+IZKg?=
+ =?us-ascii?Q?NVK1P7GKUbyF99RC6zdJYf53Ip/K3U0P71wrz4chHLb0pn1zgNfL+epGkthR?=
+ =?us-ascii?Q?XUvC4IhH95mBwfgE9ayniRB9Nji+rFO2tHUg8KKKvj5suO1ef+xExahEDu9H?=
+ =?us-ascii?Q?dqh5RjEXYOA9CxyJtax3x+v8ys6ZDJDEiJL9P5pL5KthMhVQtQ05CdTUvBuh?=
+ =?us-ascii?Q?9m01K7AbWsFLVqcnJRCnbdtfyRn5sp86wbB5F9O613hzjguBZNhL6MbZXdok?=
+ =?us-ascii?Q?MWZsLvumWNQoQrL1ueQMTtz0I1XR/hvyVYi5LszKilM287UAKdwwUKIjLGHw?=
+ =?us-ascii?Q?0GqtP/LbLUz6B/HdqfBO45YTDa+9wkhYuzULhhoMSioMw1Og62xsDIEOFLCL?=
+ =?us-ascii?Q?cMPo8KnnprF8+t1LPJ3c54vnec3YU4oO8aA2xy/f0rRcVd/mYBtPwpGtHiNI?=
+ =?us-ascii?Q?9dcQfYYgdziwpVk5EnTwXDy4GEpzHWcJfsuBp1NTYqNrfaK65o5HTt4aM1RG?=
+ =?us-ascii?Q?jJh1Enj/oBncr7UGdpNd9nKwsIF8HCr50qyy1DKeIIUZO+TgzK5lCCuoDCfU?=
+ =?us-ascii?Q?3CVvupwP8A2AxaTtAF+e1HCCqT0egMOL4wbF1bDUrQ8w3BiAr6BknfUPaumd?=
+ =?us-ascii?Q?AuoR6GTwkaC7Y5dj5mkrF4IQzZRLm6y49kU8VG+b7FvHINzpQ7ynPCr0U9tM?=
+ =?us-ascii?Q?0Z/TwPNtOcnjvF8dtOln8NjIFRtXNrHOy9+X+wqLGVecOiJ+3QoYhBVw74xI?=
+ =?us-ascii?Q?dOhLA4V7jmuf45Bi0gFTEjLi9PLoRhqmcAV+qHptrLWra4bIKnegxM7qmbPz?=
+ =?us-ascii?Q?7JdIUHhzLi13eNKrx5BUtw4jUgIWd7pKTVsi0wu7dertXVKDAmeewevHXEGD?=
+ =?us-ascii?Q?zLp8aGZAeafgrXZYI60tN619Yu4uCE/Frj/XrHDjPZRjlOppjOsnS0vYRwlK?=
+ =?us-ascii?Q?8l1qkYmLtmKgIzfAVi7F0XTEB2hqDFuu9t4QADacAoPrmdJcBN8E7OUMCGoI?=
+ =?us-ascii?Q?s0RJuB0KVtLOglQPL92/+HnztM7cG3XQww35zl1H+oTLQnOKF0TUtPawTdXX?=
+x-ms-exchange-antispam-messagedata-1: Cyv5bycM80kAmg==
+Content-Type: multipart/alternative;
+	boundary="_000_PUZPR04MB5419441342F9C4A473713EE0EBC32PUZPR04MB5419apcp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|GVXP189MB2103:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a2302b4-eee0-4713-aa93-08dee65eac54
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|10067099003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	o/wdzzOWKnsOu3PJuoN8yqaLliQcoOhH+woeHT97ET6FBMZbdLZtxMl4XYCUlbyEgK+bCD6QNsgfwlX14JBBjRAlFFtlhIk7zPPJ4jGrHztdpZUUXfxK1w7C+W4odWLaXWnwyjEBnAHK1qBh9kbFKjihsp+xnP4TothUl3sDa4RysCqxf/GKkDJCVg3XJHSDr0B9xJAzvFyhViHkEOv6L/8SttIVUeehLKAz3rKrLkddP8veUY4xkUmC7Z3rFKTDHwrgIYBtgU/sFO8qS/jDNJgXPAZw8+cEoYD8+59fF3kIgp1OnsVI76Q6ZHhWmMnL8JGAVxBkOBfa8RhO4BTSaUvHkPHim4QN+SomvdhLHwca9iEgXzrGzMo/09DqZFQCSABBEDV3ivPbvoIa1R1i2vQqsfLwM4H+Pz5fbndDnEzMnYlW7AVsFm3wJEXrQXHJtRktPZnyftzXkAipruod0kfvpMLeh25WPAQdfc3g3hf/tY/vbw+1q/V/NE8dROELKrsx0rvcCSlzHeGHVx52Zu9k7x1cTaP1S8zF5hTdjHmkhNV0eYBvFdXUYxgbx6JuzCeGuHsIZ+ghLSdCfRVlZq+ettB0utB9WBraFiiT7bE=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Pm7mv7aktqmM+4xV1YNnqKaPaJKldMJJpBBLeoSfDTGGZbL+RltV/e+YLuWD?=
- =?us-ascii?Q?isx6AASOeSxWqhId/0pLjf/X32y0H2ZWCWayxVXKiOGY/C+MznutHo8ESE+U?=
- =?us-ascii?Q?AxB0XeRcxLul9IDPCx+60UFKK/u94KSm0vi1kjcYXmi5Ez3HKN0S/dOFwzwc?=
- =?us-ascii?Q?ayAMjBBR+KwT9cT9I9LsGDXfporrk9n5H/MEfCKoBPTTcTd2CAgEv4bUOHFj?=
- =?us-ascii?Q?b2nJK3JlfI19ZEix57jji9oC4WkGewgaw/SiUSS55YlISLXxdh4955g9fEP8?=
- =?us-ascii?Q?I50TjpVCJ1mqNWCt8Yic6LWAyzN+8OmpErrTzNzyUQaEVzJK/IKzzlkNfken?=
- =?us-ascii?Q?GPW9+HzuHhQ+/us9uAXTYBjrNNWzWg8ciFyT/XR33fowETuxLwRsl3GQbWEz?=
- =?us-ascii?Q?EZ+RWqGZKutQgVDl1UJP2NtimWq40M1KrNGCPFwVfqlhgqIZ5wDadFMc3FEz?=
- =?us-ascii?Q?X4M9D8S+nXMO/GJS3NmMiPPWaa0c5NldVDY1TH+KAjVxMCy9XM0Jp4tl8gAa?=
- =?us-ascii?Q?YuXZS1aBFT1N9i3LB6iIIP6K6UbL/7/totYKpLyLWvySzD8zJ/0cjvYBTPiU?=
- =?us-ascii?Q?x9keQYLg1uR1dyCS2AzWDmTIEO5sMQ29tpXZvnF2Ph9cWQ7LxBRPvHkAiBDp?=
- =?us-ascii?Q?45ZFLk6gfsSNnmC2KgVojv/cl8U9MQ+czuHogZIq6tF6Kmk5X0J0P+yGuVBq?=
- =?us-ascii?Q?ZlSbydkJ8APecAd3JJryRRJhN/pK3Plic+rE3b+wHb1MqbVNi7jA4Z6HGwvf?=
- =?us-ascii?Q?XMA/CzU+VL786qVaQMKfZcIVPrPH78PWfa26zyoTUG2u/hM7pywtOEUHB4jx?=
- =?us-ascii?Q?z5MH/r8XP/hNX7/YAxeB2bMglBWgZsQylWm6JsnLvX5wumbfB/EmEya23U6X?=
- =?us-ascii?Q?4BdtShE6GsaFsPkrA/UvJmMqATBrs6lF1V8cx6y0cwQ5Kle+vEtlfotTEVpz?=
- =?us-ascii?Q?RjEQ9dBZxI+5rALciEPWcDk/TXi49kep1+4LWwZC3zAOL4fJ9YsMNrs/RuxF?=
- =?us-ascii?Q?qIVwJaMJjZpPbd7pcAuMBxUCu/Ba9jhx/F+Usla4/7H5Ik9oirVIs6YJWd9D?=
- =?us-ascii?Q?uoYO1xpUWquuYkpNS2fswI/W6XR7lfED0KHP6qZP7eNAbV56TT43RkeDKzBZ?=
- =?us-ascii?Q?PtXgNSAIsMfQMuvUbbcYaYxYu4gGaoatftOWrLgkrqW49zZleu6LX8XDu7z5?=
- =?us-ascii?Q?uR+nN20uhVUQdTvWIOKQUab1t2320M3PTGbWxl8xE3nlM2QW/d0zenGLVIC6?=
- =?us-ascii?Q?BoqfUjhE9i/9Vb+uONbJaT+MkXRWSHTsqGjvD0TkiUtTILualQRZaclDDllo?=
- =?us-ascii?Q?yhVUs8mH+dnAj45kj1OycKmgxfhY3GLBKQwKTLvSmBf0UZZ9n3z7CLdOcXJ9?=
- =?us-ascii?Q?6WQL5yILmmuBengUaTbRdiCR7a0HK9F91Cgs7+3xickjYcKFw7tNlgtGdtTV?=
- =?us-ascii?Q?PFdvhDU8rZNuD+E+QeFGbq6gx6vGRxUbdiWfkXFGzPWlD7Z9lZIRioDVKvR9?=
- =?us-ascii?Q?PVLQjxtSM2WrwCMRa87HNTzi1XhAz5eZARr1aiJfC24tdwGtlz/DKC8M/rib?=
- =?us-ascii?Q?i72KKH+HZApjVwzFKMnveaTpj+V1TwDfByidtdNFVs73REJN89rFG85L3m3p?=
- =?us-ascii?Q?HMeBpKz7F8NyBYUPFC7I7XA4f5JbZx/ofM0lLnLxNUb75lAEv+NBVclhK5Wc?=
- =?us-ascii?Q?2rCMvLZ+631rNVLjSQJH98l+YA+cBD+7KZpMxUv1RY+WbLDYOM1vQrGTiMg9?=
- =?us-ascii?Q?mYFejR4tPg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a2302b4-eee0-4713-aa93-08dee65eac54
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-OriginatorOrg: espressif.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 12:59:02.6431
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB5419.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d0ef473-eb7a-498a-6873-08dee65efb87
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2026 13:01:15.4238
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gx3V5pxgD2leR4YYM4tqrwGlBwC2kYVH81CxMGqmHgNBmbN8Oy2MQT4mWiQF/z/w6R1ru0WL1x+P2AFvJ6sPnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB2103
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5faf27fd-3557-4294-9545-8ea74a409f39
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RG5j4id1PjAWmHl/6G0o6whu6BefqOIkV7HxLf4CaugB1fRU6CeMv/VK0AwA/dArdZACNsUIbqNJBidVqZedNAZ6w2SWbmbN2/BguvJC0UQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUYPR04MB9510
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 12:59:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241394
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2026 13:01:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241395
 
-The bsdcpio_test odc/newc format tests verify archive headers byte-by-byte
-including inode and device numbers. On ext4 root filesystems (particularly
-qemuarm64 and qemuriscv64) inode numbers can exceed the odc 6-octal-digit
-or newc 8-hex-digit field widths, causing intermittent assertion failures
-in test_format_newc and test_option_c.
+--_000_PUZPR04MB5419441342F9C4A473713EE0EBC32PUZPR04MB5419apcp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Run all tests from a tmpfs working directory where inode numbers always
-start small, avoiding the overflow condition.
+Hi Yoann,
 
-[YOCTO #16231] : https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16231
+Thanks for the quick feedback.
+I've just sent a v2 patch: https://lists.openembedded.org/g/openembedded-co=
+re/message/241393
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
-Changes in v2:
-- Use cd "$PTEST_DIR" instead of cd / after tests complete
----
- .../libarchive/libarchive/run-ptest              | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Best regards,
+Gustavo.
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
+congal=3Dsmile.fr@lists.openembedded.org>
+Sent: Monday, July 20, 2026 09:07
+To: Gustavo Nihei <gustavo.nihei@espressif.com>; Paul Barker <paul@pbarker.=
+dev>; openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org>
+Subject: Re: [OE-core][wrynose 10/17] u-boot: re-enable RISC-V compressed (=
+c) ISA extension
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/run-ptest b/meta/r=
-ecipes-extended/libarchive/libarchive/run-ptest
-index d6b4c3f934..4af767b29a 100755
---- a/meta/recipes-extended/libarchive/libarchive/run-ptest
-+++ b/meta/recipes-extended/libarchive/libarchive/run-ptest
-@@ -1,13 +1,24 @@
- #!/bin/sh
-=20
-+PTEST_DIR=3D$(cd "$(dirname "$0")" && pwd)
-+
- # The fuzz tests run 1000 randomised iterations per archive format and are
- # meant for dedicated fuzzing infrastructure, not routine ptest runs. They
- # regularly time out in the time/memory constrained autobuilder QEMU targe=
-ts
- # (e.g. test_fuzz_iso9660). Skip them via the upstream escape hatch.
- export SKIP_TEST_FUZZ=3D1
-=20
-+# The bsdcpio odc/newc format tests verify archive headers byte-by-byte
-+# including inode and device numbers. On ext4 root filesystems inode numbe=
-rs
-+# can exceed the odc 6-octal-digit (262143) or newc 8-hex-digit (429496729=
-5)
-+# field widths, causing intermittent assertion failures. Run all tests fro=
-m
-+# a tmpfs where inode numbers start fresh and small.
-+WORKDIR=3D$(mktemp -d)
-+mount -t tmpfs tmpfs "$WORKDIR"
-+cd "$WORKDIR"
-+
- for t in libarchive_test bsdtar_test bsdcpio_test bsdcat_test bsdunzip_tes=
-t; do
--    ./$t
-+    "$PTEST_DIR"/$t
-     if [ $? -eq 0 ]; then
-         echo "PASS: $t"
-     else
-@@ -15,3 +26,6 @@ for t in libarchive_test bsdtar_test bsdcpio_test bsdcat_=
-test bsdunzip_test; do
-     fi
- done
-=20
-+cd "$PTEST_DIR"
-+umount "$WORKDIR"
-+rmdir "$WORKDIR"
---=20
-2.34.1
+[External: This email originated outside Espressif]
 
+On Mon Jul 20, 2026 at 2:05 PM CEST, Gustavo Nihei wrote:
+> You're right, that was my mistake.
+> Should I send a v2 of this backport with the corrected "Fixes:" tag?
+
+Yes, please, send a v2 for wrynose :)
+
+> The already-merged master commit (fef027f2350c) carries the same wrong ta=
+g.
+> Let me know if you'd like a follow-up fixup there too, or if it's fine to=
+ leave as-is.
+
+We won't be able to change the commit in master so nothing to do there.
+
+>
+> Best regards,
+> Gustavo.
+> ________________________________
+> From: Paul Barker <paul@pbarker.dev>
+> Sent: Monday, July 20, 2026 04:48
+> To: yoann.congal@smile.fr <yoann.congal@smile.fr>; openembedded-core@list=
+s.openembedded.org <openembedded-core@lists.openembedded.org>
+> Cc: Gustavo Nihei <gustavo.nihei@espressif.com>
+> Subject: Re: [OE-core][wrynose 10/17] u-boot: re-enable RISC-V compressed=
+ (c) ISA extension
+>
+> [You don't often get email from paul@pbarker.dev. Learn why this is impor=
+tant at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> [External: This email originated outside Espressif]
+
+
+--
+Yoann Congal
+Smile ECS
+
+
+--_000_PUZPR04MB5419441342F9C4A473713EE0EBC32PUZPR04MB5419apcp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Hi Yoann,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Thanks for the quick feedback.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I've just sent a v2 patch: <a href=3D"https://lists.openembedded.org/g/open=
+embedded-core/message/241393">
+https://lists.openembedded.org/g/openembedded-core/message/241393</a></div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Best regards,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Gustavo.</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Yoann Congal via lists.openembedded.org &lt;yoann.congal=3Dsmile.fr@=
+lists.openembedded.org&gt;<br>
+<b>Sent:</b> Monday, July 20, 2026 09:07<br>
+<b>To:</b> Gustavo Nihei &lt;gustavo.nihei@espressif.com&gt;; Paul Barker &=
+lt;paul@pbarker.dev&gt;; openembedded-core@lists.openembedded.org &lt;opene=
+mbedded-core@lists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core][wrynose 10/17] u-boot: re-enable RISC-V compr=
+essed (c) ISA extension</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">[External: This email originated outside Espressif=
+]<br>
+<br>
+On Mon Jul 20, 2026 at 2:05 PM CEST, Gustavo Nihei wrote:<br>
+&gt; You're right, that was my mistake.<br>
+&gt; Should I send a v2 of this backport with the corrected &quot;Fixes:&qu=
+ot; tag?<br>
+<br>
+Yes, please, send a v2 for wrynose :)<br>
+<br>
+&gt; The already-merged master commit (fef027f2350c) carries the same wrong=
+ tag.<br>
+&gt; Let me know if you'd like a follow-up fixup there too, or if it's fine=
+ to leave as-is.<br>
+<br>
+We won't be able to change the commit in master so nothing to do there.<br>
+<br>
+&gt;<br>
+&gt; Best regards,<br>
+&gt; Gustavo.<br>
+&gt; ________________________________<br>
+&gt; From: Paul Barker &lt;paul@pbarker.dev&gt;<br>
+&gt; Sent: Monday, July 20, 2026 04:48<br>
+&gt; To: yoann.congal@smile.fr &lt;yoann.congal@smile.fr&gt;; openembedded-=
+core@lists.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt=
+;<br>
+&gt; Cc: Gustavo Nihei &lt;gustavo.nihei@espressif.com&gt;<br>
+&gt; Subject: Re: [OE-core][wrynose 10/17] u-boot: re-enable RISC-V compres=
+sed (c) ISA extension<br>
+&gt;<br>
+&gt; [You don't often get email from paul@pbarker.dev. Learn why this is im=
+portant at
+<a href=3D"https://aka.ms/LearnAboutSenderIdentification">https://aka.ms/Le=
+arnAboutSenderIdentification</a> ]<br>
+&gt;<br>
+&gt; [External: This email originated outside Espressif]<br>
+<br>
+<br>
+--<br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_PUZPR04MB5419441342F9C4A473713EE0EBC32PUZPR04MB5419apcp_--
 
