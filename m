@@ -1,149 +1,201 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0473EC44532
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:30:33 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24284.1784644228854107819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8F8C44532
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:36:03 +0000 (UTC)
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24325.1784644552907573113
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 07:30:29 -0700
+ Tue, 21 Jul 2026 07:35:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XaPmAF/9;
- spf=pass (domain: smile.fr, ip: 209.85.218.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c160420289bso1613628766b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:30:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=def/bHJG;
+ spf=pass (domain: gmail.com, ip: 74.125.224.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-667b0ced2d3so12630164d50.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:35:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784644552; cv=none;
+        d=google.com; s=arc-20260327;
+        b=X8xV795jyAEdPzHY5Flx0d9uoLcLv1ce2G9Wl9RcolHZDnKzSWPjk+FVPcuYKyOylI
+         SASMAb4EXxr4grmX+8hxx6O3w01uzo0WB+HCHkkfLZ686+QlFtW57niA7gNWR4pdAZuq
+         JyWS5/08mzQHV+92wwXw+UdurlsJMjyYjfX8GGIObAsEjNBvCFsvxB4Mh6JLJXLe47gT
+         9+cyEuI3rAZMVSCcbBJ6OtynOis2etIVfjo0Lp0qOV1Ilo5D+xj68390PW0zYMW5SkyX
+         2qE36E6/Apg1LPXM4DvVVWOJF5XLMZuBoAUGBKtAibl4X4i0zBMISKg6WxyIkD2gRjh5
+         3h9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=A4/XYVkJ/6rdvqIlYcAYdBZI3KKrMwum/xaFzi4FyXg=;
+        fh=LF7ElVRlXKDPLPNPaC2ukmFxcz+X7tJiIlC9OM0P330=;
+        b=oYtgyennI/N9UUkx3qJGrrEazEJ2qkGR7QypVOeJ7o3yO6fz7JiMC3Cxu/aZcG1vtj
+         cBzk2vqWjQPekxomMgZ46tmz8MQIsnXYzUtEboYQxQ/rRloHvgNjvA5DQNnKSZtEJQRc
+         PKpNox4SIVVE/tfhe7Zw2KQm/f0l66KP+UTsRFHzn63Y9s8bqa6XCq9EuT/PqVz9GZpa
+         f9SfA2F5C/qDeAA8KgV4dloZZZBxf/7NZMp7ZEUm2XnxxzHBlY6BSNvMc7edDv88OyJ+
+         LaT6Eqve5p4jIg179oaYlmpWqJlePI+ZBgAIEFOCFNYpT6LesT5iOG63bvBG3KfSZCue
+         ZkxQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784644227; x=1785249027; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=X3GVfOoOlXmXKdZS2pMoCpNorK3Jag2zIfW43N9sUE4=;
-        b=XaPmAF/9nGOs2WbpvPaEduumdH6tXT47a7UG8yGv1EvstO7qJmVP91eI72dxO3PIcO
-         eo6Rh33RNuN+20KDPz65Sq68b1L5auNBPoHWFGezzh+/A9gonIZDs4E3mnsCpP5GB0QA
-         lT+onSbLRcrSxEiFMWOK4trViYdkWSLK0dy6c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784644227; x=1785249027;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784644552; x=1785249352; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=X3GVfOoOlXmXKdZS2pMoCpNorK3Jag2zIfW43N9sUE4=;
-        b=FFUnAZaWNGmlgCpG/ddPEdyBGBf9+MWMAKGFYGt0uC3ioNLeWSlLsufkO8Snp+AO//
-         heVfijIX1KJRYqKoqDitAfMGaKg+dOtXKKI9qz1dp34705ZZxDdSxJ9sLC+k1C/EnBtO
-         WEnjfWZ6ktndNd/jcaSWUNP+quIqnbhxkOtU1vHr3JyPgyzopMWkNOfjMV58M/pCKyzT
-         welaj7Qq06z5dufD9577SBWbAvN1d/G2rafsCYDlbWkoFmZ36WC8aObCwhY6Y8ddZo6h
-         Y9g5nii9uR4MRKjkNi1bwh77xwMwdcqC4lk092ySYlDE/cWN4if0gNSRSCu9LydSHDCN
-         lVKQ==
-X-Forwarded-Encrypted: i=1; AHgh+RruwNhnWFkR9HGEJvMBz4e9kS/xO69NsCEYvk3Oc5PUrKk2CuAAVfHS4w69kRiJhbE6z9id6AcAkj4IeBIfm7MndA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyTGHZGJPMtMS+TTnFBDrV+eR7UCj5OYZtwav31rffyMS/XDzOd
-	/J+VR+Jfm6Bg3r1B7IjKP+sfaC0hkYSSUTtukJdoBD3VGYFoVXpqq1RZMRDZHnwGBYk=
-X-Gm-Gg: AR+sD10NPRp7iDA5uWiDFHWK9xROR/vBdtgK6bTpO0MjmcpzomyXKuQnr8Z9zsoh9ox
-	y39HqLeJyi3fI5ctD3l/swqi+81JY8gM0m9DpkKa3zZmPiKvqqlKiZNoaIkXb1nMkbxcNtysttn
-	5VC28lTBEXEnA5LM2rQ3lhqp1Xk3caGDTmb1jTUH0iaB88j13uFvILBsmHRDp+z/Ngg5KsVwZkK
-	s7vz7Ka4Chf45gMYV7Wss2KrhKamd2dC56vnqDOXqLSFI4JJ/9bOg/tp5U3f0AEMtXBDesQklwk
-	mcc069WkF5Wx6cQcbpeFsutxTQInYHlxRoXzRPJZPp+W/AQ94xokLb6qNgsHZEWiaCuC4VlHHUm
-	UZd4x8f+luVey8cgSV4qVWu/lPB5S61begPKHK8V31bZcw4qa0oSC9Su4DGj4ZKz1L2NgEeZtXf
-	R992iq+GLB28uqFe0mV2pCiZ7Cyi8YZWYOg+nPvVCO0R5rzcAlE3mq1Mdtee0Wqg==
-X-Received: by 2002:a17:906:6a1a:b0:c15:ce72:9352 with SMTP id a640c23a62f3a-c16b47d80cdmr786129966b.33.1784644226763;
-        Tue, 21 Jul 2026 07:30:26 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c17009adfffsm599687966b.11.2026.07.21.07.30.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 07:30:26 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 Jul 2026 16:30:25 +0200
-Message-Id: <DK4BKV6WDHSA.2WEWS3ZC4DO23@smile.fr>
-Cc: <xe-linux-external@cisco.com>
-To: <devanshp@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH 3/8] openssh: Fix CVE-2026-59998
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260720175518.3546447-1-devanshp@cisco.com>
- <20260720175518.3546447-3-devanshp@cisco.com>
-In-Reply-To: <20260720175518.3546447-3-devanshp@cisco.com>
+        bh=A4/XYVkJ/6rdvqIlYcAYdBZI3KKrMwum/xaFzi4FyXg=;
+        b=def/bHJGY05ZSmy75osT+q8QHEHyxGNw74VZkvOcPHxrl3dEzAa+9v0J7Xq0xxRAA0
+         4STMovjgWk1V3k9YiL8kALhupcrrhK1XpznNqPfPTzykG03Np+j8WnFNCy1P1YEbtwUT
+         BsxXkACkzDlJnl0be3k/XOD/Hpee1bLzldy31ztfjyn9WmvL6Fgkutze1KftlI4h9FsI
+         D560rAT5M8KmX8X3wyp0pgeN3qleE8wbyzMBBYVTzpm352DhrxVWRfqGpqBWZJM2UeiD
+         Lu0rCUbA9ZHOZzLv8nYhF/Qx4v+mnXn4BrshEpeOqjnDTWBkAdZhoydj8YrB4mMqTaE8
+         LZ3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784644552; x=1785249352;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=A4/XYVkJ/6rdvqIlYcAYdBZI3KKrMwum/xaFzi4FyXg=;
+        b=ayJlhqoQhlcYpR/3xTstH4ABZhBxcZqWhbLDD3LvHTv16sumWF+6DF4NQBePVGs36v
+         9D32FUo1wf1np1lwNWt2nNy4NiO6dG2jBDrlCI24FoAnk5eEdtqCaQiisS7q55iTcrsY
+         z/rpF1PW9qZH/a3Ib3UJdNhUV/1iQOtFDF5xXyJ2syZAQmck/w3UvIPsW/FlJL1edJp7
+         x//9juueNZEgR3OvYBYGHczZKs+RxxprBuDaR4UpomwiteF+i+xttj1rxva0eR7j0VYc
+         jkb3jNFV1eCVe3Bpk2Pnb6ZU/vh6ZeXJC4XgT9ZJKfb5ICQUO//cAdRp+tW+2AuCGc4v
+         166g==
+X-Gm-Message-State: AOJu0YydtYv+1bIEqT9ucVKq0ItZTieElhwCsBkLy8WSGCz4uuwya73O
+	9QO1dBRUGHyEP3LLpsoMogYI+IDYJlme2P//i/qjgYGhRunmu2/QS2acnWHPVO0r9X5KeoulJmN
+	kBY0KnfIqUt3b8LVnfDZytv1sPTLrXgs=
+X-Gm-Gg: AR+sD1386o84u+5N2HbXY96bGsAWlRUT5w6DOCyNb4i5RznsqpKVlTYF1CkDwW+4R47
+	1FJlb2Y4ImXS7NDiuytRI7W1fM/yMxyjMrSEe+c6m33oHqsh2wVwHJrpoCKWMqR0vN1fGtSmtCH
+	dmKHmVLpKxmFqUUr9BuqgohssZ117D4AqmFGZ/fGaB+kI8t2ClVxqcc5QfW8P89xj9iz3czwoZ3
+	FLQmoXPR4VO8tbH6RP7lWcW0nq7WZqgw1aVoOn0oSaKp20oU/jMb20jm/n5HLkeC2iuRckE5/I=
+X-Received: by 2002:a53:c104:0:b0:667:a2e7:dd3b with SMTP id
+ 956f58d0204a3-6683bc35bf7mr3794743d50.58.1784644551703; Tue, 21 Jul 2026
+ 07:35:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260721093251.2697077-1-martin.jansa@gmail.com>
+In-Reply-To: <20260721093251.2697077-1-martin.jansa@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 21 Jul 2026 08:35:40 -0600
+X-Gm-Features: AUfX_mzuAihs6CIPAvfHGMonS58X9sc8cybBr0QJpN2E-4o4ulotwJXuVKTs7lo
+Message-ID: <CAJdd5Ga3cryEZHK_gL_d1Si3-RJYsRQL7Hmuv0PaGPJr3SULHw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] glib-networking: update LICENSE for openssl PACKAGECONFIG
+To: martin.jansa@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008e00ef06571ff071"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:30:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241540
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:36:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241541
 
-On Mon Jul 20, 2026 at 7:55 PM CEST, Devansh Patel via lists.openembedded.o=
-rg wrote:
-> From: Devansh Patel <devanshp@cisco.com>
+--0000000000008e00ef06571ff071
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 21, 2026 at 3:32=E2=80=AFAM <martin.jansa@gmail.com> wrote:
+
+> From: Martin Jansa <martin.jansa@gmail.com>
 >
-> This patch applies the upstream OpenSSH 10.4p1 backport for
-> CVE-2026-59998. The upstream fix commit is referenced in [1],
-> and the public CVE advisory is referenced in [2].
+> Fixes:
+> glib-networking: LICENSE is using an old syntax and should be upgraded to=
+:
+> "LGPL-2.1-or-later AND LicenseRef-Glib-Networking-OpenSSL-Exception"
 >
-> [1] https://github.com/openssh/openssh-portable/commit/8058c5bdb507591b79=
-ec926221fbe6fcc296d432
-> [2] https://www.cve.org/CVERecord?id=3DCVE-2026-59998
->
-> Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 > ---
->  .../openssh/openssh/CVE-2026-59998.patch      | 36 +++++++++++++++++++
->  .../openssh/openssh_10.3p1.bb                 |  1 +
->  2 files changed, 37 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59=
-998.patch
+>  meta/recipes-core/glib-networking/glib-networking_2.80.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.pat=
-ch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
-> new file mode 100644
-> index 0000000000..3e15fe19fa
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
-> @@ -0,0 +1,36 @@
-> +From 94a089cd331eeea77ffd6fd715e61d281c3b97c3 Mon Sep 17 00:00:00 2001
-> +From: "djm@openbsd.org" <djm@openbsd.org>
-> +Date: Wed, 24 Jun 2026 06:55:12 +0000
-> +Subject: [PATCH] upstream: mention a caveat regarding
-> + GSSAPIStrictAcceptorCheck in
-> +
-> +some environments
-> +
-> +OpenBSD-Commit-ID: aa7158d8f22cb34063c1c2d3cbcf30a9489847c2
-> +
-> +CVE: CVE-2026-59998
-> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/c=
-ommit/8058c5bdb507591b79ec926221fbe6fcc296d432]
-> +
-> +Backport Changes:
-> +- Omitted the upstream OpenBSD revision and Mdocdate-only hunks in
-> +  sshd_config.5 and retained the Wrynose OpenSSH 10.3p1 values because
-> +  this stable backport carries only the security-relevant documentation.
-> +
-> +(cherry picked from commit 8058c5bdb507591b79ec926221fbe6fcc296d432)
-> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> +---
-> + sshd_config.5 | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/sshd_config.5 b/sshd_config.5
-> +index 3f5e29812..22b9039d2 100644
-> +--- a/sshd_config.5
-> ++++ b/sshd_config.5
-> +@@ -769,6 +769,7 @@ machine's default store.
-> + This facility is provided to assist with operation on multi homed machi=
-nes.
-> + The default is
-> + .Cm yes .
-> ++This option may not be effective in Windows Active Directory environmen=
-ts.
+> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.80.1.bb
+> b/meta/recipes-core/glib-networking/glib-networking_2.80.1.bb
+> index 3d47e354e2..d81d7d75e9 100644
+> --- a/meta/recipes-core/glib-networking/glib-networking_2.80.1.bb
+> +++ b/meta/recipes-core/glib-networking/glib-networking_2.80.1.bb
+> @@ -4,7 +4,7 @@ HOMEPAGE =3D "
+> https://gitlab.gnome.org/GNOME/glib-networking/"
+>  BUGTRACKER =3D "http://bugzilla.gnome.org"
+>
+>  LICENSE =3D "LGPL-2.1-or-later"
+> -LICENSE:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'openssl', ' &
+> Glib-Networking-OpenSSL-Exception', '', d)}"
+> +LICENSE:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'openssl', ' A=
+ND
+> LicenseRef-Glib-Networking-OpenSSL-Exception', '', d)}"
+>
 
-This is a oneline manpage patch for "Windows Active Directory
-environments.".
+I believe this could be "AND LGPL-2.1-or-later
+WITH openvpn-openssl-exception", since the text of the license matches
+https://spdx.org/licenses/openvpn-openssl-exception.html (with
+replacements), but please double check my work.
 
-I'm not expert in GSSAPI but can we even trigger this?
-If not, I think this should be handled with a CVE_STATUS.
 
-I'll hold this patch in the meantime.
+>  NO_GENERIC_LICENSE[Glib-Networking-OpenSSL-Exception] =3D
+> "LICENSE_EXCEPTION"
+>
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
+16c \
+>
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+--0000000000008e00ef06571ff071
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 21,=
+ 2026 at 3:32=E2=80=AFAM &lt;<a href=3D"mailto:martin.jansa@gmail.com">mart=
+in.jansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">From: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gma=
+il.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
+<br>
+Fixes:<br>
+glib-networking: LICENSE is using an old syntax and should be upgraded to: =
+&quot;LGPL-2.1-or-later AND LicenseRef-Glib-Networking-OpenSSL-Exception&qu=
+ot;<br>
+<br>
+Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" t=
+arget=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/glib-networking/<a href=3D"http://glib-networking_2=
+.80.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-networking_2.80.1.bb</a=
+> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/glib-networking/<a href=3D"http://glib-netwo=
+rking_2.80.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-networking_2.80.=
+1.bb</a> b/meta/recipes-core/glib-networking/<a href=3D"http://glib-network=
+ing_2.80.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-networking_2.80.1.=
+bb</a><br>
+index 3d47e354e2..d81d7d75e9 100644<br>
+--- a/meta/recipes-core/glib-networking/<a href=3D"http://glib-networking_2=
+.80.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-networking_2.80.1.bb</a=
+><br>
++++ b/meta/recipes-core/glib-networking/<a href=3D"http://glib-networking_2=
+.80.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-networking_2.80.1.bb</a=
+><br>
+@@ -4,7 +4,7 @@ HOMEPAGE =3D &quot;<a href=3D"https://gitlab.gnome.org/GNOM=
+E/glib-networking/" rel=3D"noreferrer" target=3D"_blank">https://gitlab.gno=
+me.org/GNOME/glib-networking/</a>&quot;<br>
+=C2=A0BUGTRACKER =3D &quot;<a href=3D"http://bugzilla.gnome.org" rel=3D"nor=
+eferrer" target=3D"_blank">http://bugzilla.gnome.org</a>&quot;<br>
+<br>
+=C2=A0LICENSE =3D &quot;LGPL-2.1-or-later&quot;<br>
+-LICENSE:append =3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#3=
+9;openssl&#39;, &#39; &amp; Glib-Networking-OpenSSL-Exception&#39;, &#39;&#=
+39;, d)}&quot;<br>
++LICENSE:append =3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#3=
+9;openssl&#39;, &#39; AND LicenseRef-Glib-Networking-OpenSSL-Exception&#39;=
+, &#39;&#39;, d)}&quot;<br></blockquote><div><br></div><div>I believe=C2=A0=
+this could be &quot;AND LGPL-2.1-or-later WITH=C2=A0openvpn-openssl-excepti=
+on&quot;, since the text of the license matches=C2=A0<a href=3D"https://spd=
+x.org/licenses/openvpn-openssl-exception.html">https://spdx.org/licenses/op=
+envpn-openssl-exception.html</a> (with replacements), but please double che=
+ck my work.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+=C2=A0NO_GENERIC_LICENSE[Glib-Networking-OpenSSL-Exception] =3D &quot;LICEN=
+SE_EXCEPTION&quot;<br>
+<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D4fbd65380cdd255951079=
+008b364516c \<br>
+</blockquote></div></div>
+
+--0000000000008e00ef06571ff071--
 
