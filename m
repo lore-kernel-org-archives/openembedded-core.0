@@ -1,100 +1,109 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <nora.schiffer@ew.tq-group.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA85C44529
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:03:22 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23615.1784642601179112711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C216C44529
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:09:02 +0000 (UTC)
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23752.1784642932511092305
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 07:03:21 -0700
+ Tue, 21 Jul 2026 07:08:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=W38lOBQq;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OIK3UXXJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019f84fcfd69-e7f239c8-b0a7-4bdb-ad3c-47ef5f97611e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784642600; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=407US4JmS+t9LtnElYRXvcfc0D92sjMWFjor3GVupT4=;
-	b=W38lOBQqvN8PjZbfQkEEQxl4J3mG1KA13wbfNjAwKGYXYQjQ2dnp+W9RIas6De9I
-	oGNzfNekuhTh3zvb3a8ZCcleNLVURCiQGe/DzcRhpiKrdAlFhBlEBuRH02DUC9P7DPB
-	Htxc4lc4iz+H7d7xLui5lOngpp0T0pXi7NGR+nIE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784642600;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=407US4JmS+t9LtnElYRXvcfc0D92sjMWFjor3GVupT4=;
-	b=OIK3UXXJMFeig6MUpazOf/P37lkXl2gMrV6WdPb4Bmjp6zsohP+7J6MAoDiG/VQg
-	Y+9xTCGuoL6tBw1qFA4M+EkvBj9KmVtkKMv2KmBZarLGSEp3iekVDB3uRzqiRkBetPz
-	NaqKdcjcsE7QUNN0rB0YVvCc6VuwT/thMypvmofY=
-From: patchtest@automation.yoctoproject.org
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] perl: upgrade 5.42.2 -> 5.44.0
-In-Reply-To: <20260721134339.16175-1-jaipaul.cheernam@est.tech>
-References: <20260721134339.16175-1-jaipaul.cheernam@est.tech>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019f84fcfd69-e7f239c8-b0a7-4bdb-ad3c-47ef5f97611e-000000@us-west-2.amazonses.com>
-Date: Tue, 21 Jul 2026 14:03:20 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.21-54.240.27.30
+ dkim=pass header.i=@ew.tq-group.com header.s=default2602 header.b=i1sTbUmM;
+ spf=pass (domain: ew.tq-group.com, ip: 188.40.3.216, mailfrom: nora.schiffer@ew.tq-group.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=jFM/dktKQR311qKd32jI6YF+ff8zp4JgkWeLbtIOwhE=; b=i1sTbUmMcf1LGjM4kElOCtbcla
+	ivXL5IbLUJxBH0mrSxLh90camzROea+/Omunhkt/Z5k7WDmjk9PzrxD9Y36U78Wqxpp/bn8sd8B2U
+	v/QHDeYFu1riXfQ3KgU4+1HtV48/DbsiB0ZT7DGuB8JGXimDgpivZSNiUt8o4jnofbCoZxw1A5s9D
+	v3FtK3VjAsgMBnNj709IwTDS2eoo1KLtNdC3u9wM22unxd747NTuFBUws1dEZjiBPJNjIT27jUfRH
+	IPjHbyeMQggOOpMYU7v0Bx6b1vAg7RxZZJo4yRao2H4Erj2dphfn1iC2p4cfgZsuXgqWDQTdyNPV9
+	mDVS8TNg==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <nora.schiffer@ew.tq-group.com>)
+	id 1wmB9O-000Hlm-0P;
+	Tue, 21 Jul 2026 16:08:50 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy06.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <nora.schiffer@ew.tq-group.com>)
+	id 1wmB9N-000GRg-1R;
+	Tue, 21 Jul 2026 16:08:49 +0200
+From: Nora Schiffer <nora.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Cc: oss@ew.tq-group.com,
+	Nora Schiffer <nora.schiffer@ew.tq-group.com>
+Subject: [PATCH v2 1/3] kernel-fit-image: make kernel entry point and load address optional
+Date: Tue, 21 Jul 2026 16:08:06 +0200
+Message-ID: <50f6548ace45b09d9aa5958b5868cf04e114b93a.1784642607.git.nora.schiffer@ew.tq-group.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1784642607.git.nora.schiffer@ew.tq-group.com>
+References: <cover.1784642607.git.nora.schiffer@ew.tq-group.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28067/Tue Jul 21 08:23:56 2026)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:03:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241529
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:09:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241532
 
---NextPart
-Content-Type: text/plain
+With image type kernel_noload, these are not used, and with [1] and
+[2], U-Boot will not require them anymore for this image type. Allow
+omitting them from image generation.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+[1] https://git.u-boot-project.org/u-boot/u-boot/-/commit/c2abc606653e7eb1e8dbdbaaf1eac392689875ea
+[2] https://git.u-boot-project.org/u-boot/u-boot/-/commit/c63051237f2bc79838a27473709948408acdf38b
 
+Signed-off-by: Nora Schiffer <nora.schiffer@ew.tq-group.com>
 ---
-Testing patch /home/patchtest/share/mboxes/perl-upgrade-5.42.2---5.44.0.patch
+ meta/lib/oe/fitimage.py | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index 79ac88966f..81d18f6c91 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -276,18 +276,22 @@ class ItsNodeRootKernel(ItsNode):
+                 if len(parts) == 3 and parts[2] == entrysymbol:
+                     entrypoint = "<0x%s>" % parts[0]
+                     break
++        opt_props = {
++            "data": '/incbin/("' + kernel_path + '")',
++            "arch": self._arch,
++            "os": "linux",
++        }
++        if load:
++            opt_props["load"] = f"<{load}>"
++        if entrypoint:
++            opt_props["entry"] = f"<{entrypoint}>"
++
+         kernel_node = self.its_add_node_image(
+             kernel_id,
+             "Linux kernel",
+             mkimage_kernel_type,
+             compression,
+-            {
+-                "data": '/incbin/("' + kernel_path + '")',
+-                "arch": self._arch,
+-                "os": "linux",
+-                "load": f"<{load}>",
+-                "entry": f"<{entrypoint}>"
+-            }
++            opt_props,
+         )
+         self._kernel = kernel_node
+ 
+-- 
+TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht München, HRB 105018
+Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
+https://www.tq-group.com/
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
