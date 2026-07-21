@@ -1,101 +1,308 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D1B2C44529
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 04:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF87FC4452B
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 05:21:28 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15803.1784609220878998321
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16168.1784611286767352514
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2026 21:47:01 -0700
+ Mon, 20 Jul 2026 22:21:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hO2WpSmy;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=S6Xf+lcf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f82ffa553-39a5ca45-ba54-41d3-8a7d-11f21fd2407d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RrG/Ghqn;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mNDVsMYR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f831f2b78-a4470965-3900-4dfe-9791-7e8e4407a80b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784609220; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tI/BfenfHxni0qLsu0lekFGPuPrHW24WBvsWIHVK4gg=;
-	b=hO2WpSmygnA+FdrEb3JDtH83pw/FVhtZGVEX7R5d57RLUbKqoa5NDx19XoeGtmiR
-	K5mW3enOrAH3IWb1Aw7xeq4VoQ2g25KKihC1VppCcT+7sNDN8ZgMZS70dezSTNDLXqV
-	H5VgNLniNCdGuNPM/pvKhNtE4/V0GGZOUOoeEG3o=
+	t=1784611286;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=PxELPISVpFntD9gmj+YB4/za8Zfq57gM1LH9dRYN+Cs=;
+	b=RrG/GhqnHnOLMRHKyQSBvWBFxVR9bpVUBCw+OnaS5JwA+lwhVcczTv7KFBQIrDWN
+	4giCAlB746ia6Knaiq3QiqWVSVjQm5FdFDEIaZ8wwKUpgtuLJaUXc47WMqfmvDSYtmQ
+	Mug3eG8jDq3VKpFYHNkSADUo0TMk2AlCK4U8mDMQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784609220;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tI/BfenfHxni0qLsu0lekFGPuPrHW24WBvsWIHVK4gg=;
-	b=S6Xf+lcfaLREQpFuS4iGIA1gAAgCfgCnkT6JGqqdTl1CUM2oJ60eAFjyOpAGHj5W
-	kVt65FoK+K0ct/f2FUwX1A/3lYQooinaC7/ILmSCjRbP6t85OgHCcDdQvt8sJMNbIdz
-	cTS78I7BGO81HHDG0qErwu9vjysF9Z/pG7oV4V44=
-From: patchtest@automation.yoctoproject.org
-To: Deepesh.Varatharajan@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/3] rust: refactor source handling into a shared work-shared
- recipe
-In-Reply-To: <20260721043124.3538696-2-Deepesh.Varatharajan@windriver.com>
-References: <20260721043124.3538696-2-Deepesh.Varatharajan@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019f82ffa553-39a5ca45-ba54-41d3-8a7d-11f21fd2407d-000000@us-west-2.amazonses.com>
-Date: Tue, 21 Jul 2026 04:46:59 +0000
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784611286;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=PxELPISVpFntD9gmj+YB4/za8Zfq57gM1LH9dRYN+Cs=;
+	b=mNDVsMYR9otBW9hdEM2kC/ZpMo3J8eemibpfw2dwj33f+cvPamZCGmZZGGmlvg1x
+	kw0/77UGRtbhnDcHcN00YNBskH48lTivWbzi/dkpc7DOzjMkD/YjADqHPlcUKV23ZP1
+	My+cD/ANIOi/Q5bZStQYM6FVodL47+LbdtClQTRU=
+Content-Type: multipart/mixed; boundary="===============7371975871610581866=="
+MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] perl: upgrading to 5.44.0 FAILED
+Message-ID: <0101019f831f2b78-a4470965-3900-4dfe-9791-7e8e4407a80b-000000@us-west-2.amazonses.com>
+Date: Tue, 21 Jul 2026 05:21:25 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.07.21-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 04:47:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241499
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 05:21:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241500
 
---NextPart
-Content-Type: text/plain
+--===============7371975871610581866==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello,
 
----
-Testing patch /home/patchtest/share/mboxes/2-3-rust-refactor-source-handling-into-a-shared-work-shared-recipe.patch
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *perl* to *5.44.0* has Failed (devtool error).
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+Detailed error information:
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Running 'devtool upgrade' for recipe perl failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-a6c162c3163c7f4f70871f472b63ac4af9d725d9"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:a6c162c3163c7f4f70871f472b63ac4af9d725d9"
+meta-yocto-bsp       
+meta-poky            = "master:8a8f9ad79e3d50312566620998dadff0aa29c7a7"
+workspace            = "<unknown>:<unknown>"
 
----
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...WARNING: /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/recipetool/tmp-recipetool-as0ppqhy.bb: tmp-recipetool-as0ppqhy: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-as0ppqhy-CLOSED"
+done.
+Parsing of 952 .bb files complete (0 cached, 952 parsed). 1981 targets, 40 skipped, 0 masked, 0 errors.
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
 
---NextPart
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-a6c162c3163c7f4f70871f472b63ac4af9d725d9"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:a6c162c3163c7f4f70871f472b63ac4af9d725d9"
+meta-yocto-bsp       
+meta-poky            = "master:8a8f9ad79e3d50312566620998dadff0aa29c7a7"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-as0ppqhy: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-as0ppqhy-CLOSED"
+WARNING: tmp-recipetool-as0ppqhy: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-as0ppqhy-CLOSED"
+WARNING: tmp-recipetool-as0ppqhy: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-as0ppqhy-CLOSED"
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+WARNING: tmp-recipetool-as0ppqhy: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-as0ppqhy-CLOSED"
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   7% |##                                  | ETA:  0:00:02
+Adding changed files:  15% |#####                               | ETA:  0:00:01
+Adding changed files:  23% |########                            | ETA:  0:00:01
+Adding changed files:  31% |###########                         | ETA:  0:00:00
+Adding changed files:  39% |##############                      | ETA:  0:00:00
+Adding changed files:  47% |################                    | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  62% |######################              | ETA:  0:00:00
+Adding changed files:  70% |#########################           | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:01
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.cpan.org/src/5.0/perl-5.44.0.tar.gz;name=perl...
+INFO: Rebasing devtool onto 08a5920a42557d4501f366f4df4515176c9f0770
+WARNING: Command 'git rebase 08a5920a42557d4501f366f4df4515176c9f0770' failed:
+Auto-merging t/re/pat_psycho.t
+CONFLICT (content): Merge conflict in t/re/pat_psycho.t
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-native onto 08a5920a42557d4501f366f4df4515176c9f0770
+WARNING: Command 'git rebase 08a5920a42557d4501f366f4df4515176c9f0770' failed:
+Auto-merging t/re/pat_psycho.t
+CONFLICT (content): Merge conflict in t/re/pat_psycho.t
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-target onto 08a5920a42557d4501f366f4df4515176c9f0770
+WARNING: Command 'git rebase 08a5920a42557d4501f366f4df4515176c9f0770' failed:
+Auto-merging t/re/pat_psycho.t
+CONFLICT (content): Merge conflict in t/re/pat_psycho.t
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/perl
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/perl/perl_5.44.0.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/perl.txt
 
 
---NextPart--
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============7371975871610581866==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="perl-changelog.txt"
+
+Changelog for perl: 5.42.2 -> 5.44.0
+Source: dist/Attribute-Handlers/Changes
+
+Revision history for Perl extension Attribute-Handlers
+1.03 2022-10-17 (perl core only)
+  - reduce how much code is in a string eval, to make debugging simpler
+1.02 2022-02-25 (perl core only)
+  - fix __CALLER__ handling in Attribute::Handlers
+  - wrap any existing import in the Attribute::Handlers import
+1.01 2017-09-12 (perl core only)
+  - replace "use vars" with "our" variables
+1.00 2016-01-18 (perl core only)
+  - remove deprecated no-op :unique and :locked attributes
+0.99 Fri Jul 24 18:44:48 EDT 2015
+  - CPAN release of v0.97 code
+0.97  Sun Jun  1 12:00:00 GMT 2015
+  - fixes to deal with CVs without GVs
+0.96  Fri Mar  7 08:30:00 CET 2014
+  - Documentation fixes
+  - Replace use of base.pm with parent.pm
+0.93  Mon Dec 19 09:19:00 CET 2011
+  - documentation: "my" should be "till" (Frederic Briere)
+  - Spelling fixes (Father Chrysostomos)
+  - Indentation fixes (Father Chrysostomos)
+0.91  Fri May 20 20:00:00 CET 2011
+  - Typo fixes in documentation
+  - POD link fix.
+0.88  Mon Apr  5 16:33:00 CET 2010
+  - Avoid clobbering $_ (perl #74052, LanX)
+0.87  Mon Sep 21 15:55:00 CET 2009
+  - Promote to stable release
+0.86_01  Thu Sep 17 10:01:00 CET 2009
+  - From perl change 09330df80caf214f375fcf0c04857347e3b17c69 (Zefram):
+    Fix [perl #66970] Incorrect coderef in MODIFY_CODE_ATTRIBUTES
+    Attribute handlers being applied to a temporary CV has actually been
+    reported as a bug, #66970.  The attached patch fixes the bug, by
+    changing the order in which things happen: attributes are now
+    applied after the temporary CV has been merged into the existing CV
+    or has otherwise been added to the appropriate GV.
+    The change breaks part of Attribute::Handlers.  Part of A:H searches
+    the package to find the name of the sub to which a :ATTR attribute
+    is being applied, and the correct time at which to launch that
+    search depends crucially on the order in which the CV construction
+    events occur. So this patch also includes a change to A:H, to make
+    it detect which way things happen.  The resulting A:H works either
+    way, which is essential for its dual-life nature.
+0.86  Sat Aug  8 12:41:00 CET 2009
+  - Add resources (bugtracker, ...) section to META.yml
+0.85  Thu Jun 11 09:31:00 CET 2009
+  - Document findsym for the sake of mod_perl. (David Wheeler)
+  - Remove unused variable. (David Wheeler)
+0.84  Wed Jun 10 15:14:00 CET 2009
+  - Core-CPAN synchronization
+0.83  Fri Mar 13 15:14:00 CET 2009
+  - Re-add a TODO marker in the tests that would fail on 5.6.2.
+0.82  Wed Mar 11 17:17:00 CET 2009
+  - Bring test code in line with core perl.
+0.81  Sun Nov  9 22:47:00 CET 2008
+  - Fix to make tests work on 5.6.X (Eric Rybski, RT #40781)
+0.80  Fri Oct 24 12:06:00 CEST 2008
+  - CPAN release of the Attribute::Handlers version in bleadperl.
+0.79
+  - The version released with Perl 5.10.0
+  - All interpreted attributes are now passed as array references,
+    eventually nested.
+  - Don't AUTOLOAD DESTROY (Jerry D Hedden, cpan bug #1911)
+  - A::H is now able to report caller's file and line number
+    (David Feldman)
+0.78  Sat Oct  5 07:18:09 CEST 2002
+  - [#17940] Includes :unique and :shared in the builtin types
+  - From perl 5.8 { __CALLER__::foo => __PACKAGE } is missparsed, the
+    proper approach is to use  { '__CALLER__::foo' => __PACKAGE }.  The
+    documentation is updated to reflect this.  Reported by Dave Cross
+0.77  Sat Jun  8 22:58:56 CEST 2002
+  - Since Attribute::Handlers now is core, I will refer to changes with
+    their patch number, please read  Porting/repository.pod from your a
+    perl tarball for more information.
+  - Brought up to date with perl 5.8RC1 version will be 5.8 if no more
+    changes come in
+  - [#13686] This changes the behaviour of lexical attributes.  Prior to
+    this lexical attributes were done at a compile time, and they would
+    loose their attribute on the next run over them.  Now perl 5.8 calls
+    the attribute handler runtime whenever it hits my.
+  - [#14448] Fixes cases with too high refcounts on lexical attributes
+  - [#15945] Do not warn about too late CHECK and INIT block if
+    A::H is pulled in using a require.
+0.76  Thu Nov 15 06:31:51 2001
+  - Fixed documentation nit (thanks Rick)
+  - Improving intuitiveness of autotie mechanism (thanks Marcel)
+  - Added $VERSION numbrs to demo modules (seems bizarre to me, but
+    they're core too now).
+0.75  Mon Sep  3 09:07:08 2001
+  - Cleaned up AUTOLOAD
+  - Numerous bug fixes (thanks Pete)
+  - Fixed handling of attribute data that includes a newline (thanks Pete)
+  - Added "autotieref" option (thanks Pete)
+  - Switched off $DB::single
+  - Changed licence for inclusion in core distribution
+  - Fixed 'autotie' for tied classes with multi-level names (thanks Jeff)
+0.70  Sun Jun  3 07:40:03 2001
+  - Added __CALLER__ pseudo class for 'autotie'
+  - Added multi-phasic attribute handlers (thanks Garrett)
+  - Fixed nasty $SIG{__WARN__}-induced bug
+  - Cached ref/symbol mapping for better performance and more
+    reliable symbol identification under evil typeglob manipulations
+  - Added option to pass arguments when autotied classes are imported
+    (thanks Marcel)
+  - Fixed bug in handling of lexical SCALAR refs
+  - Cleaned up interactions with other class hierarchies
+    (due to being base class of UNIVERSAL)
+0.61  Thu May 10 16:28:06 2001
+  - Critical doc patch
+0.60  Thu May 10 15:46:02 2001
+  - Added RAWDATA specifier
+  - Cleaned up documentation (thanks Garrett)
+  - Added warning for all-lowercase handlers (thanks Garrett)
+  - Added autotie functionality
+  - Tweaked handling of anon arrays as attribute args
+0.51  Tue May  1 06:33:15 2001
+  - Fixed fatal file path error in MANIFEST (thanks Marcel and Jost)
+0.50  Sat Apr 21 16:09:31 2001
+  - original version;
+
+--===============7371975871610581866==--
 
