@@ -1,348 +1,707 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C9B8C4451C
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 12:56:51 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21986.1784638602158391841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 940BFC44529
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 13:43:51 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23135.1784641425000002276
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 05:56:42 -0700
+ Tue, 21 Jul 2026 06:43:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=l29BfEaC;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=16624639ec=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LBlkG52408131
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 12:56:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=fPPwY1y/+2LvM7k5bMMVX8
-	Z6WDYOeQ7esMIYl7t5/IE=; b=l29BfEaCL31T3Yi/fdxNr1YQUW39dWYjS+VaYB
-	Yec3WeEWG4kODlAEJHoKnsy6CBgxWhKHE9/xsyPt5hrDHE+y+va3htjvQEiIStBp
-	mrmTWOjbFo6MLzm4T7COybt13v7qlTbqjDBvUU57Vy+f6DJp/4B2gdSNSgGNEUfZ
-	dWnqvel7y7+dGQrM1ddwMrfgIkwYDehQUTW3+BIGuHOFen51g0fN8zBA3+bbw/5y
-	C/U/WsCXSjsGzPd2R4bUZ9qNCUyQW78m8ZzL/ec1uXZB5+bwpWLnGU9ZAU6eLpA/
-	JvHGcmgSj0JHY3ac/wrOfcVAChseJCZPLhCwUn6q9CnoZyPQ==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011003.outbound.protection.outlook.com [52.101.57.3])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fg0f5ctr8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 21 Jul 2026 12:56:40 +0000 (GMT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=nhhyZnLC;
+ spf=pass (domain: est.tech, ip: 52.101.84.4, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jK2VI7n9Kc7hsIBWl+HPuayBECwkvdnaTu05gsbRT/xjiua9SXX397ArOmKTFpgzExAZSI4ST/A9KtEKpr2lgpbWumLpgK0mW1qVTnNzMwj6Hsuhneb28tRAOwNjlOLX5PkQrdp8WnhAN3EvPm7zYAYGyrc28S356WWKPMqi3H82WS/J8PNFM/YPLV+WLJfnazIe35VGS86IxYfuOBnTh0yIQ8g1nX74/yaywRRv3HkwKLdtwMORjk0ta4PevhMdkBjgmP5/Qakcx06LbDRwhhYhZOzfWEz+jxyi/MJC2vzhmTbbfLKBYEvT13px/pMpPzIV9vbVK6/p7GJN0uTe+w==
+ b=e8/9vRVfZwA1SFqtu308C0107/vpKOe/CUtTphjAYOQ+O0mu+6YVZqVGCALGMTvT/r+Qr2MKxkuAs5ZlO1xcu8koUN/wkvxsPNsW7iWGgC/oFCteftsVTvhSTa9bLgjlwsNAQdsXhEHND2ZfMr5W0CGX6Q7SMJv94/JPBeGXGKhMtAMydz53yQcNg5ML73RXFodsCci3P4UBT8V1cs43an2gYGN/Y4ehs9/1+WwS9vHrQyyKKlCPKK7dn+SWgN7k2AmlNV1zlzjsZge8QsGi7HUL8N/Gox+ephsTeZQvdvo1W+kpGk1T5TChWYgjDEkZfs/BK0WKceWfJ2B7xYTorQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fPPwY1y/+2LvM7k5bMMVX8Z6WDYOeQ7esMIYl7t5/IE=;
- b=wXvDylN0oWtky2iHZBeWkH8t3Q1PL1r+3InX01PpFw0rKR8Tl67ANyueELmOzG6gooKtbtosANPnqTyBQl+yAOUaFd1SrYzf6gM3nI27ZTxCOHD1/tkjEehQmH85cLw9Dpkzr2IppPISLmEkBrl0CxjwwsgdU2Vl71EWzuV6tzXmrRatkQaHLp6hfgJAO2HRNaA2LxapexGlEaZfsQ79Xp12HreTbWksk78N77dyYc5i7Mn1PdoRXFylE9MK5IhJeCWcuGaJygUpwpeOzbJFFDiWNh42Tgw/0gelGg5YqdS0oK7O246fZEX8+z8srOFaZsMoC761k4/s6mGwPCaTsQ==
+ bh=6B6ZNdgTljp1mdJ6C/l4sYqgRXRffTvpc3pucxWsMIw=;
+ b=cQMgIfxgfOLvqE2nTqjBCE8/PoxHFGQu+6ogiJTfS2aA5VBjYM4aN6iN3PXYSkwMkQmVhrM1LSqv3Dpk2lXYWP+UfJO7dafKFeg0ochaQ4V4c3R2rg/a/OnMu8Ql4cy1/7G68N+oiBfWCvp+6RJCkuP21cgVtdAo1HzAUIdmwQ1fZDlA+Uw6qtA5ygnTmW0qNfvhgPIM8AHexC+eHBKw/KC3wGYoatjsXYfgXFV4Pqz6iyF6+jpkPJAGostat7vuwyD4tzTZ2+xM920k9bDzNxGXP0BAI0hRHo9k6NXejAEcc73PptLnAoqA77EWQEQCadC8qK/tCrwSngJAznrSoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by MW4PR11MB6737.namprd11.prod.outlook.com (2603:10b6:303:20d::15) with
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6B6ZNdgTljp1mdJ6C/l4sYqgRXRffTvpc3pucxWsMIw=;
+ b=nhhyZnLCULvFp//W0v7lDMt55AS7TandpCiBPsqiHxWs1BcRrKQB+8+JHQSWqUxk4Yqk09FMRr4jrkDKhbUzsFnz1d4ohrzhr9/Gv2MLVlK+rNwuGQpPACTu1Ep6C6nY/5EMxEiWZ8rRFNfBKBPkha+5DoOs90jyc7H2Ror5v53SEj8hL5Uz+7h6Ze+eu8aUv/IIe6XH5h0nfE+KKf1kpKHCeNm/qvWLkmJA9GgQC8QDvOLODaKDSsHxyE2MATC1ptINS38hC2CJtQ3+GmEbILU+ZWipDQkGmtDdUaSPTqntVQMD+VXzqMtdAc/glbhhDhyW44qmG4R750uBKFKulw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by FRWP189MB3482.EURP189.PROD.OUTLOOK.COM (2603:10a6:d10:1a3::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Tue, 21 Jul
- 2026 12:56:37 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 12:56:36 +0000
-Content-Type: multipart/alternative;
- boundary="------------28yXQQ23BX6udSXxfj4F4eca"
-Message-ID: <a2e02f96-4d13-425a-88ef-4748635266ec@windriver.com>
-Date: Tue, 21 Jul 2026 08:56:33 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH RFC 0/3] RFC: Fixing rust segfault (#16058) to
- support Ubuntu 26.04 on Scarthgap
-To: Alexander Kanavin <alex.kanavin@gmail.com>, SunilKumar.Dora@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-References: <20260626-ycongal-scarthgap-rust-segfault-v1-0-97df64b7b298@smile.fr>
- <CANNYZj81E4G9gSBPHNNsxg4JiJ_wEnmCoSkNdQ2bzJBjF5q=DA@mail.gmail.com>
- <DJJ33TR36YJC.24WW5E1PX60Z2@smile.fr> <DJJV9FGWRHJB.26TA7NN2T8LVS@smile.fr>
- <CANNYZj8nhGqmvy0tTnUHCNtnjkjweE-OwqL3gDL0mOYGgQO8OQ@mail.gmail.com>
- <DJO58J8D7X5G.2FRK2OBFYWIDO@smile.fr>
- <3a7e0892-9656-48f0-ae64-ee9ee047b6e1@windriver.com>
- <CANNYZj-UN-4ZR=X4KQLMawCSYoe8zpWqWmPN0xwLkVGNCDNcYw@mail.gmail.com>
- <743437.1784163705822875917@lists.openembedded.org>
- <CANNYZj9=88aGwqtyBXqyaQJvDGTN7p=xkgf9eH-9ESrWcJaSbQ@mail.gmail.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <CANNYZj9=88aGwqtyBXqyaQJvDGTN7p=xkgf9eH-9ESrWcJaSbQ@mail.gmail.com>
-X-ClientProxiedBy: SJ0PR03CA0044.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::19) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+ 2026 13:43:40 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
+ 13:43:40 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] perl: upgrade 5.42.2 -> 5.44.0
+Date: Tue, 21 Jul 2026 15:43:39 +0200
+Message-ID: <20260721134339.16175-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0084.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bd::17) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|MW4PR11MB6737:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed34235a-68c3-48a6-7590-08dee7277fa1
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|FRWP189MB3482:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f4f9154-44b9-49ba-123f-08dee72e12e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|22082099003|4143699003|8096899003|10067099003|56012099006|11063799006;
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|12006099003|3023799007|13003099007|10067099003|56012099006|11063799006|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	FKXKX0h5+jB7H2mpeTBaiEexq9o/lmFSnAOuHiQZsKYQc+FM8y60zziax+wcD09xdFeXMcaWV1+bU92H+nphokigoCjgObNoHMY65l6cveTQ0B6R+Atd+7CzAzPLmiz4p+22CDwnrpE0bNFyAFrP3/D+bF2zfX/u+u0NiNfZBj5Qd4lUYH1Zp7+ATgB1Ur5FsqLpR6aWIfdhLX5BY58ezq60pheGG5opSS3XnprYz17Li50LlkfO0SDtGbGe+aojFrkH/PrsvsdFRJC0AVQ49WT9YJ3XEltfToWkE1vLoCWfDLL1Al3xssvrBGNMEnEDqLhCdHScdNPG0DUBafQSZ3hFXSYbnYn2//PwIUNYJrnR2IntEy8i9IXz+P/U6UO9ko302g5afrt7iRHL8ELJ7/88WhOrlingiP67Pt57OuwisU3hSaf8RS1Ovh94Nj9hn4mJ4v0KWPmAmTmbmYDi4coFBehWDuCeFXcyrpkVSkPXKU5mVrexP1LQdXSgNcsx+bV6ub5r+1GnEzYX11TA68Fvd3GBsJi15fCUOxQ+SxxoJfbwo8UpyrFJSL+OFObDw2kl4NevCfx8tU5enk8oZhkGU90wbN9CVwsnwmpptSIdsHvCepmHXuI3Y1cB2fWpNfVFNu731CvDNYW7erKyz5Q/dz0I8dX+dYEnYEpwpSY=
+	pXFX4EPUSNLFt2hKqgPGaKGDxua7TpyxJjmk7b0LJYJtE8AnOtJAvld6NS10I1xxOXTOAGk+ORNhJpT71KjrLK3I3+dJtfTy0wf5JeoWaqDtP2qcOnfs3hfKGy8K9WtjWqqSHrSbYg6GEDwlFoZn71l2zBMY3HBA1XbeZgO/DtYyL3TiWA0kUoMLGgWvvhicDSPJS1dEBVIo1ktC0jAdS/KsfedMO9fIVv3QG9TIGQRu43Tiuo/iYA60rEx2BEleiydJcyBlo0UXgwv2VyFfWEWLJl7KMxPIxCbaWagRRTskEQh7ot2sY7JH8b6BU1sa4D8SfKYw8yxUTqsz/ifW+x8EQkp6cZSC61E8loqlnE1PrC6rHX5kdUyT1tt4uidh2YmdU469iRB4LBsBxe/x89xSvLjT4/GBLRZRsUB3bL+xnvaC9Xy/OsEv8X5UOAeffCDLgFM2DZHlEzgm4GsXmPtXiqwJzOWURsA4RE2XKDmD8qa8F/JMhol5rW6RwhvTW0AHRcshnxbdcSAZuzsO+HLAhbstCtoYTqJsdoOOMxq0M+Z1Gmw+dimtEBrgI9OLeJzyST4RSiUKn9E9hrX+iH64OiasdAjIt1YLcA3j9ZVU6a88Cn4H4roY4h+EZEVZ
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(22082099003)(4143699003)(8096899003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(12006099003)(3023799007)(13003099007)(10067099003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WXIxWnBqaE5aWUNUMXhmOVp5NURjdHc0WjBacytQeTJNeEdQQmN1TjlJR2R1?=
- =?utf-8?B?akM4R3VSNjBhdDByRGtpN0dCSzJUNG9wMDQvNkRMUlJ1a242cC9tQjBZeFBs?=
- =?utf-8?B?anpNaEpzYWlkSGs2MlkzYkhKaENxYUoxUE1Jd1VYck5Zck9QenhaVlpyalA0?=
- =?utf-8?B?WmNFSWR4WWlJNDNGMnJwK0NFd1pnNkFHMW5qZzRMQUdmRXBOblhLeDR0V2xU?=
- =?utf-8?B?TTMrRzArSi9jNkduWHZMMUVYMlM4ZVJLV3NQcVpCNHRUTlZMVXppdWRLby9E?=
- =?utf-8?B?SlNzcVVyK3FiaWRseDd2VlhTZHpqMDJ1OE5GS3IyaGxwNkRia1FhbmlYNVI2?=
- =?utf-8?B?cTByK20xVGJoalBUVlJyZVNBTkFtTWJMZktwWGJ6dXhHWVdMVTUxUWhZbEVH?=
- =?utf-8?B?Y09sUDdWSlovQVVCT3gyWUFIWVlkaHFURVlGYnBFeE5JT0J0eTlMd1ZOQjVR?=
- =?utf-8?B?MXFlQ3k0TkVkb1dUU0V1MGtXR214alpjWGtCdG43MllwMDdHaVZSeVBBUG01?=
- =?utf-8?B?RkpXa0lYdFhKRDJXTGRhaTB1SmhyU29sdnRwOUk2U0lqL1pBZEhJcGMxb0Fj?=
- =?utf-8?B?clkvbHN2d0VCN245ek42emFrUEt1ZGRvOXFNZHd3VmREL1pEb0xOTjRNbnNR?=
- =?utf-8?B?UEplV0w2VVVCWDZ4YzU3UkdXck5ienB1QzJaMjFqdjJNQk1JbGtGc24vT1Mx?=
- =?utf-8?B?SWh1SXhMRzRKcTFkdy9wRjBXZlJ0TEI4VnpOSElxbkhNNWtGemE0UkFZeDBi?=
- =?utf-8?B?TTNlODlsY3E3L1Q2bG44cVZYY0c0VHhLYlh4dytmSTN1THBia1ZVMm90Y0Nw?=
- =?utf-8?B?dStXNS9mdVBZbXU0cW1udC8vbjdaZDVQdktoVWJ3cW1qdHo2UUNNbnRjWVQy?=
- =?utf-8?B?THdETXFRN2pMS3BqQlpRc1VSZ0hJaE5MUFRmMzRCZktVZGZDejR0dFd0TENp?=
- =?utf-8?B?M0RDeFQrVU51bFdzbUJYVkdJakplN2tXMDJFK2xpUmZsc3BNSSs5N2pKMk9U?=
- =?utf-8?B?M1VzOHMxSHl4bEM3S1krMGQwTENZelptUjZnWlBQU0tIZ1huUG1KbVpsSm8z?=
- =?utf-8?B?Rm9hMWs4WUF2S20wSUg2bkRnNHJHMXNKVDR3VTZ2YXZXcGFIaWU0RUo5eElh?=
- =?utf-8?B?UTE5Zy9ORlNIam1ZK2d2Zk1kb1hBUUIrWEF5YnE1aFM1dTE0bStBUGRXOGt5?=
- =?utf-8?B?MjNsK2ZkR3VHLzcxL3cwZzA5MnE2UmtYcHgxK0xZVml4SktDbkhUNlNqWnJY?=
- =?utf-8?B?emFPcXc2b25SUDhCM2wrMjN2VXVKUDAyUm52cEFobzdDcndVekhIb3BWR0k0?=
- =?utf-8?B?VDgwOUY0V21aenlpNHdXMHN3c3dLc2lHelBQNVpDaTZPRDcyZzBUUVBwRm9W?=
- =?utf-8?B?NFhGS3ZDSzd2UlpNYVIyTWMyNjdTT3RnVW10MmtjMzd2MlFiUFlIcC9ZTzVu?=
- =?utf-8?B?bWlJZFplNHNoWS93YTYzS1hJLzJlNE5GTWxJZXlqL2RDUmlLZEJRRGVEcjBk?=
- =?utf-8?B?R01ycjZVYnRFYXpWTHZCbnlJVjNzZXNEVEVRV0JJQkE2c01tdUd2bGlDeWth?=
- =?utf-8?B?VVJKV0ExRzg3WmxxVVUzYU9ONXQ5eFZzWUNHWG9JWkxjalpsdHV6MW9yWnM1?=
- =?utf-8?B?TmhLZ3IrTmJsbjNzYjU0R04vd3VUQStGdlhDamord3J3UDdFcFgwQ0JFUXRv?=
- =?utf-8?B?eC95WnZEY1IycDZEMjhoMEN2OWtFQ0NhdjN6dUxLWi9ubTJtMnE1WjlrRTlP?=
- =?utf-8?B?dHIyOWQyNkVOVi9ReEY3MEV2Kzg4eU9DL2NVMWxVaVZPYXJybFN5UEZ2aVNl?=
- =?utf-8?B?cGJlTktwcjZ3SnZZNDR1cVB1cGtrREhBM2s3bUFhaFQwTHZvem1NaWE3eDhG?=
- =?utf-8?B?R2Q3TkdnRG9Hc2pucDJKY1YzZmkreTd5QWV0UFR0QWVtUnpHdHo5L1pNeTY3?=
- =?utf-8?B?eG9VSkRTZ0d5eEZCWlJlY3lRYW1PWVFGUVNlSjBneHhldVV5N0RBT1N5RVFB?=
- =?utf-8?B?dGk0UlJnczZ1RWp4ODNTU0M2bGFkWmg0N1lYNHNILzBZbm5OSkhzamtRbWM3?=
- =?utf-8?B?NWk4SlJSOTVNVXAvYXpvdHEvYXEzcWlYRDdUR2hNdERrcFBNeFl1cW1aMUhj?=
- =?utf-8?B?ZHFWM1l0d25NOGtRdGY2OEJhc3VtazJzK3Foc2c0ak12TDd1ZUJMT09yU1Fw?=
- =?utf-8?B?OFJIK2FkR21yV3U1aE5ZV0hRNlAwMnZWYkZCbzZHK1ZZWDJrZ2dEOC9QNlFK?=
- =?utf-8?B?NmtVSDlQUU13Sko0L2oySlJBaDlQVHBXdVE2cVpLT3RzU2JvM2VGeDVhaEtl?=
- =?utf-8?B?YlFhSlBnTURSMVd6S1FyaGhQR2QzWDlCaDVhQ2pjbUdkeGhSSE9wUTVZTkNu?=
- =?utf-8?Q?Noh+X9NQWhcN+zBY=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	DArirUVqqlujf67BGGUC5H03X+wNSbdwccpLQVofHz0+pus+kZV43clhedJyypkshETE+PVBCklI8Av9UCJhXwELr/UCo4742GAPvQyMcJ5+JD0uMFjUaNNiS/U2quAgpCymN4U6mpmEkNj97077itzCLi+NtmryRsI/ghzldW0zKBQSOoMprDHXR3pMJPMsb9Rl6nxHBctNN4d/GxXXxIP1kvyhBJAeYkqIOZOQWI3LCgNpLNi0rRhGYJlLRdY16yIQj/zlQST2q6aAt56vvP7iomRVp3Kez5CIOUlJdG+EvhhNegSh7Y3axBU+cdjE+PcDtxKTjdbBxny9jb0G1Q==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed34235a-68c3-48a6-7590-08dee7277fa1
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+	=?us-ascii?Q?sBJPJfsVsafUP4z0+8PA1S2kRzfjp3Uf8nMEUu5XveYAfdiQDPYZKCESDTBU?=
+ =?us-ascii?Q?/tVkC/WalPHwRzabTCTphBMy6eWdirAQCHsRmnUMJ9wt8sLjBiXo07jTDF/G?=
+ =?us-ascii?Q?Z+BF2aGsHYgFJLH6okFOECo+GiPToTIAT30ssLfQ9oXv0qB9IObUVXDwg6Dx?=
+ =?us-ascii?Q?r4U5W2AtCLEBDTfv9ub8aJqHiP0Be6gpqAFlKqO72/XHElmWQ+PFKVoAF+zW?=
+ =?us-ascii?Q?X0VQX72iiPgltQAyE1pWlDarHM7sMgG39YaKe6KHOPz27VU6KRfY6sAxdN4x?=
+ =?us-ascii?Q?gQLldSp6SzoTjG6+nzR/XoWgWCbhcTlgpa3pMubtA048uVJsJGLkVoOotadI?=
+ =?us-ascii?Q?Bs4af+clXpQuEsaxrt8W0q1e5fnTO0pZ1kpdYCnYC9yXOvsvP5WN47ayjQh1?=
+ =?us-ascii?Q?HqstHMuYc8oxETpIv2k2bhDba5BxeuMub4YOTFcOnKjKVvg2zF7BXNiUksQz?=
+ =?us-ascii?Q?rOAQ3n/Ckp/I/TRwpzdFFxHCMwioAg9i88487diUBgt8WX+yNkxS/z9NRL6N?=
+ =?us-ascii?Q?clpU25r3XHKMV+8pK6yaJiqUjv7QcPg3GdrqEC8wc9BQBoWwUJ+OnpkYAI0G?=
+ =?us-ascii?Q?flDv6CRPprBpOQlQHWN34S+x0u47f8OE7TesRX8+YyAOu4FaVgBdq93MUyLr?=
+ =?us-ascii?Q?uLJl+/3gCq9RX4yiPqrz2bo3J+AK+oPc0as/80sef+8hy0N1/9nZyCatArAB?=
+ =?us-ascii?Q?gmxVHYkb6/88ErOKrJzXe+ZDO4qdzXR6Evn8LtOaDIfV/rIwl1C4TUF6twIO?=
+ =?us-ascii?Q?gJ6zc3K94lk2PwLAb8m7a/Uhg3kSUp/sKbgbX+envfc+TNbR0GTI9cl5XfTu?=
+ =?us-ascii?Q?aeqbrxKL3B05+XVrw6Ph6igpNRD7yU/h2fzD3DnuHhLK11M62/IhmBMYztWO?=
+ =?us-ascii?Q?AS49cCtyxbm6PWoeEfylplZ0OTVvGJ/7VkA4cESw9SPJTboUZoBeArhWYyx8?=
+ =?us-ascii?Q?UPQN1f4GPqT9okIQB76gzjcKHPUyv9MeXq5O7g0A17yYEereP0fa5YTCIjy2?=
+ =?us-ascii?Q?Aux1g1ucxwgCmemg4VEF3X06v/LIB2UCrgxCEblWnL76srZwcMBHIUrm7RiM?=
+ =?us-ascii?Q?bWBeV0znEXFWPh8NJA1r9bxmMm1VKp2Q/zlYKo2PisMT7AaFkF8zwz7hfDkQ?=
+ =?us-ascii?Q?uqn/Oft6ghPqgSdGhnA9xIeCv/bX47wQZmpO/S/9U3YXlfmtn6PyTgPA3+2c?=
+ =?us-ascii?Q?28UtYMuuitsUGUCOiTbuE3C7E+zcNL+QYroVt9RlZMCG0Fxw4RXjp5oJGKt7?=
+ =?us-ascii?Q?E10qtw9TeZl8AhPMm3M8AmoSZFmu6tIC/Yu/zv2+1xvtW/BNzaRqmih9ArJ3?=
+ =?us-ascii?Q?gihoSq6h5AswAUvvQqqbwquT3WUJ8fKQn1t3yxmApNTVf5NAN0a7b/vxDtpY?=
+ =?us-ascii?Q?EYXiHLX3HTUefBr8GjAh2cT//gD3mWuajHS7aUWm7RnBsx1cd+nNbi7dAXuD?=
+ =?us-ascii?Q?/Nk4XxWTF7W76w7FLzundtoJA0F01IJlCQjqBDNIoMONCzFgA4wBdxSP7ImL?=
+ =?us-ascii?Q?DrRMYp2HwqVfIoIGwvVDVtAmVNDWqL6w8VL5Nw8N7mkj3/ymLaIdNaSmOvht?=
+ =?us-ascii?Q?hXalOU94KKis0dbvrYjIJRUYp++ro5RwEg4N/3pgeuPAWLETVWvCAEKDrGC9?=
+ =?us-ascii?Q?vEIjc2qOxA8PYjMCyRgRB4I8vT5D73po6SZbeyj3mzZ/0PM/DnQUY+zO9n0I?=
+ =?us-ascii?Q?85Tm8Za0Y/Cwvh9EmM/jRmXCXSsUL+BdhPKaJBJlKSrhsjkLuUJ3T4Pk05XD?=
+ =?us-ascii?Q?0Y6OZ1F3fARX1ftg2SrNdpqYeMwXpoc=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f4f9154-44b9-49ba-123f-08dee72e12e4
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 12:56:36.6571
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 13:43:40.5901
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5fEe6b2kthDVy1BsP5o91tJaFZYPaTxwqStwxCiP1wiMYrrJVWL04GUsU7DXYMKlctoShNwXuhPjZNmJZhzjJu/8Z2hc4XKT4iUjT1Ev3+4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6737
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDEzNiBTYWx0ZWRfXxrcwHm8v+4IQ
- HFh3V5hKj+4l/12/XJ1ZBYj9raulZI6NVVbofYzRSOoHzg08syeYhWkw3+wxzkq95WSA3122EG1
- kRC91atug2r2No8xBxRhr2yRBst6vBmoSbHVg3mQnUodfJJJYxmpMKWG+dUlY0LGzaWyuCasiCl
- 97H3RYDeXOKu9UEci3OV5YaFDhsV2KzConYa7yVOm4TQlg5FHCLWIii4a/vQ1EOHYj069XhDWzi
- NqAxrthp8vt0sDer0clbMUoEpS6QsyCKFzF+Cj2W78fv9FSY824nrin56GeZhptIzIptUHaDsCd
- CqTvdqYiLauiShP0ZXgMR7QjAlQ4fX7fOGw2Ob/Qzd9MV0fu8KolgN8zxGbbHytSshPmkvIdNbI
- el5zhptB9iud6o7ztpNMVozRaJnojhDEk13Yz6A9sdLlg+iBEUEcl7OWsfUZT86dqvG6EP8zO5D
- mxPECX9IsB7u2ZhnLbw==
-X-Proofpoint-GUID: q9NtCXIx6gkPltZHE_59WfOP1t1TU0eZ
-X-Proofpoint-ORIG-GUID: IkxVdR_TXMsx0DwvYmonZtc8zFKf6GM9
-X-Authority-Analysis: v=2.4 cv=IM0yzAvG c=1 sm=1 tr=0 ts=6a5f6c88 cx=c_pps
- a=VrK8WKSpsKTEY/+VWLGgkA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=Q4-j1AaZAAAA:8
- a=cMAq4WG02xF87J2zUhMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pGLkceISAAAA:8
- a=t7j42nQ-Qc_ZVmkvTiUA:9 a=9pWWZnP8B9kSU4pI:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDEzNiBTYWx0ZWRfX/oMpsP6byFI9
- yhK7SQwlCaZTQO3mOZWrNxU+pgl1PL3iaWbh/ci5GaXpUREdxxabYA+fYcLnxvAFAt/mREZQOk0
- ORF8h3zW0SIpR1UQECHA9zdGWFyXcUQThfz5cjLo/a8O0RvCK7im
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-21_01,2026-07-20_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 adultscore=0 phishscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607210136
+X-MS-Exchange-CrossTenant-UserPrincipalName: wFKpXdG515tWCPb4rJLmnX4GGaSsh97qT9UE9ZzbNA1CDKzrdIy9BkIU1gDVZ2d32UcM4Q2IN7Ieo1dhxePIkOo215QaTumgltf8eG17rCw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWP189MB3482
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 12:56:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241520
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 13:43:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241521
 
---------------28yXQQ23BX6udSXxfj4F4eca
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 66LBlkG52408131
+Drop patches already included in this release:
+- CVE-2026-8376-01.patch (upstream commit e842efdafe7c)
+- CVE-2026-8376-02.patch (upstream commit 5e7f119eb2bb)
+- determinism.patch (Encode::Byte sort fix)
 
-On 2026-07-16 04:34, Alexander Kanavin wrote:
-> On Thu, 16 Jul 2026 at 03:01, Dora, Sunil Kumar via
-> lists.openembedded.org
-> <SunilKumar.Dora=3Dwindriver.com@lists.openembedded.org> wrote:
->
->> I built core-image-minimal with Rust and Cargo, booted it, and verifie=
-d that rustc and cargo work
->> on the target by compiling and running a test program. librustc_driver=
- now carries a NEEDED entry
->> for libLLVM-17.so instead of linking LLVM statically. oe-selftest is s=
-till running on my side.
->> If you and Yoann are okay with this approach, I'll submit it to scarth=
-gap once it completes.
-> Hello Sunil,
->
-> Thanks for all the additional research, it's a lot of tedious work.
->
-> If you can get the working scarthgap backport for the dynamic linking,
-> we can probably just take it and leave it at that. There's a lot of
-> distros to be fixed, they all have different processes to do so, it is
-> not clear if they have capacity (or interest!) to do the fixing within
-> reasonable time.
-Maybe, but .... maybe not.
-Fedora 42 is EOL=C2=A0 as of 2026-05-27=C2=A0 so YP *could* decide to dro=
-p that=20
-from the test/supported list.
+Add perlcross patches to support perl 5.44.0:
+- Add patchset symlinks directory for perl5-5.44.0
+- Add configure checks for d_getentropy, i_stdckdint, i_sysrandom
 
-I'm not aware of how tightly coupled Debian and Ubuntu are but
-we (Sunil) *could* talk with the folks at WR who work on a product based=20
-on Debian
+Changes: https://perldoc.perl.org/5.44.0/perldelta
 
-to find out. So it *may* be a tractable problem after all but see below b=
-ut
-I ackknowledge that distros are very careful about changes to binutils...
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../files/0001-patches-for-perl-5.42.2.patch  | 110 ------------------
+ .../files/0001-patches-for-perl-5.44.0.patch  | 110 ++++++++++++++++++
+ ...Add-configure-checks-for-perl-5.44.0.patch |  47 ++++++++
+ .../perl-cross/perlcross_1.6.4.bb             |   3 +-
+ .../perl/files/CVE-2026-8376-01.patch         |  62 ----------
+ .../perl/files/CVE-2026-8376-02.patch         |  49 --------
+ .../perl/files/determinism.patch              |  51 --------
+ .../perl/{perl_5.42.2.bb =3D> perl_5.44.0.bb}   |   5 +-
+ 8 files changed, 160 insertions(+), 277 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl-cross/files/0001-patches-for=
+-perl-5.42.2.patch
+ create mode 100644 meta/recipes-devtools/perl-cross/files/0001-patches-for=
+-perl-5.44.0.patch
+ create mode 100644 meta/recipes-devtools/perl-cross/files/0002-Add-configu=
+re-checks-for-perl-5.44.0.patch
+ delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
+ delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
+ delete mode 100644 meta/recipes-devtools/perl/files/determinism.patch
+ rename meta/recipes-devtools/perl/{perl_5.42.2.bb =3D> perl_5.44.0.bb} (98=
+%)
 
-
-> On the other hand, with the passage of time, the
-> older distros will naturally reach EOL and they'll be taken out of the
-> yocto build cluster. I want to ask: do you have more pressing issues
-> with the rust toolchain (or oe-core in general) that you think should
-> be prioritized? Our own resources are stretched thin, and we need to
-> use them wisely.
-Agreed.
-
-I asked Sunil and Sundeep to get to the bottom of this defect and
-now that I see what would have to be changed, I reluctantly agree that
-we just wait=C2=A0 it out. I don't like that we've changed from static to=
- dynamic
-linking of rust but we don't have any evidence that it's actually slower =
-and
-as you say, we have bigger fish to fry.
-
-Let's document this discussion in YP BZ, including the versions of=20
-binutils for all supported
-distros from Sunil's email.
-
-We should lower the importance of the bug and move it to 6.99 and check=20
-it in 2/4 years
-and revert this change at that time.
-
-../Randy
-
-
->
-> Alex
-
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------28yXQQ23BX6udSXxfj4F4eca
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <head>
-
-    
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2026-07-16 04:34, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CANNYZj9=88aGwqtyBXqyaQJvDGTN7p=xkgf9eH-9ESrWcJaSbQ@mail.gmail.com">
-      <pre wrap="" class="moz-quote-pre">On Thu, 16 Jul 2026 at 03:01, Dora, Sunil Kumar via
-lists.openembedded.org
-<a class="moz-txt-link-rfc2396E" href="mailto:SunilKumar.Dora=windriver.com@lists.openembedded.org">&lt;SunilKumar.Dora=windriver.com@lists.openembedded.org&gt;</a> wrote:
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">I built core-image-minimal with Rust and Cargo, booted it, and verified that rustc and cargo work
-on the target by compiling and running a test program. librustc_driver now carries a NEEDED entry
-for libLLVM-17.so instead of linking LLVM statically. oe-selftest is still running on my side.
-If you and Yoann are okay with this approach, I'll submit it to scarthgap once it completes.
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">Hello Sunil,
-
-Thanks for all the additional research, it's a lot of tedious work.
-
-If you can get the working scarthgap backport for the dynamic linking,
-we can probably just take it and leave it at that. There's a lot of
-distros to be fixed, they all have different processes to do so, it is
-not clear if they have capacity (or interest!) to do the fixing within
-reasonable time. </pre>
-    </blockquote>
-    Maybe, but .... maybe not.&nbsp;<br>
-    Fedora 42 is EOL&nbsp; as of 2026-05-27&nbsp; so YP *could* decide to drop
-    that from the test/supported list.<br>
-    <br>
-    I'm not aware of how tightly coupled Debian and Ubuntu are but&nbsp;<br>
-    we (Sunil) *could* talk with the folks at WR who work on a product
-    based on Debian<br>
-    <p>to find out. So it *may* be a tractable problem after all but see
-      below but<br>
-      I ackknowledge that distros are very careful about changes to
-      binutils...</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:CANNYZj9=88aGwqtyBXqyaQJvDGTN7p=xkgf9eH-9ESrWcJaSbQ@mail.gmail.com">
-      <pre wrap="" class="moz-quote-pre">On the other hand, with the passage of time, the
-older distros will naturally reach EOL and they'll be taken out of the
-yocto build cluster. I want to ask: do you have more pressing issues
-with the rust toolchain (or oe-core in general) that you think should
-be prioritized? Our own resources are stretched thin, and we need to
-use them wisely.</pre>
-    </blockquote>
-    Agreed.<br>
-    <br>
-    I asked Sunil and Sundeep to get to the bottom of this defect and<br>
-    now that I see what would have to be changed, I reluctantly agree
-    that&nbsp;<br>
-    we just wait&nbsp; it out. I don't like that we've changed from static to
-    dynamic<br>
-    linking of rust but we don't have any evidence that it's actually
-    slower and<br>
-    as you say, we have bigger fish to fry.<br>
-    <br>
-    Let's document this discussion in YP BZ, including the versions of
-    binutils for all supported<br>
-    distros from Sunil's email.<br>
-    <br>
-    We should lower the importance of the bug and move it to 6.99 and
-    check it in 2/4 years<br>
-    and revert this change at that time.<br>
-    <br>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:CANNYZj9=88aGwqtyBXqyaQJvDGTN7p=xkgf9eH-9ESrWcJaSbQ@mail.gmail.com">
-      <pre wrap="" class="moz-quote-pre">
-
-Alex
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------28yXQQ23BX6udSXxfj4F4eca--
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5=
+.42.2.patch b/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-=
+5.42.2.patch
+deleted file mode 100644
+index 8d9aa26293..0000000000
+--- a/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.42.2.p=
+atch
++++ /dev/null
+@@ -1,110 +0,0 @@
+-From 61e182b82c13111c91ccbe9f6e94ceb4164b2aea Mon Sep 17 00:00:00 2001
+-From: Francois Perrad <francois.perrad@gadz.org>
+-Date: Wed, 29 Apr 2026 12:43:32 +0200
+-Subject: [PATCH] patches for perl-5.42.2
+-
+-Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/174]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- cnf/diffs/perl5-5.42.2/constant.patch       | 1 +
+- cnf/diffs/perl5-5.42.2/dynaloader.patch     | 1 +
+- cnf/diffs/perl5-5.42.2/findext.patch        | 1 +
+- cnf/diffs/perl5-5.42.2/installscripts.patch | 1 +
+- cnf/diffs/perl5-5.42.2/liblist.patch        | 1 +
+- cnf/diffs/perl5-5.42.2/makemaker.patch      | 1 +
+- cnf/diffs/perl5-5.42.2/posix-makefile.patch | 1 +
+- cnf/diffs/perl5-5.42.2/test-checkcase.patch | 1 +
+- cnf/diffs/perl5-5.42.2/test-makemaker.patch | 1 +
+- cnf/diffs/perl5-5.42.2/xconfig.patch        | 1 +
+- 10 files changed, 10 insertions(+)
+- create mode 120000 cnf/diffs/perl5-5.42.2/constant.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/dynaloader.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/findext.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/installscripts.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/liblist.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/makemaker.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/posix-makefile.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/test-checkcase.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/test-makemaker.patch
+- create mode 120000 cnf/diffs/perl5-5.42.2/xconfig.patch
+-
+-diff --git a/cnf/diffs/perl5-5.42.2/constant.patch b/cnf/diffs/perl5-5.42.=
+2/constant.patch
+-new file mode 120000
+-index 0000000..065e198
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/constant.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.22.3/constant.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/dynaloader.patch b/cnf/diffs/perl5-5.4=
+2.2/dynaloader.patch
+-new file mode 120000
+-index 0000000..ffb73eb
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/dynaloader.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.22.3/dynaloader.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/findext.patch b/cnf/diffs/perl5-5.42.2=
+/findext.patch
+-new file mode 120000
+-index 0000000..9efbe5b
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/findext.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.22.3/findext.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/installscripts.patch b/cnf/diffs/perl5=
+-5.42.2/installscripts.patch
+-new file mode 120000
+-index 0000000..1c05e0f
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/installscripts.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.36.0/installscripts.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/liblist.patch b/cnf/diffs/perl5-5.42.2=
+/liblist.patch
+-new file mode 120000
+-index 0000000..5037380
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/liblist.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.42.0/liblist.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/makemaker.patch b/cnf/diffs/perl5-5.42=
+.2/makemaker.patch
+-new file mode 120000
+-index 0000000..d7bd609
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/makemaker.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.38.0/makemaker.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/posix-makefile.patch b/cnf/diffs/perl5=
+-5.42.2/posix-makefile.patch
+-new file mode 120000
+-index 0000000..29463b7
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/posix-makefile.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.22.3/posix-makefile.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/test-checkcase.patch b/cnf/diffs/perl5=
+-5.42.2/test-checkcase.patch
+-new file mode 120000
+-index 0000000..36c5186
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/test-checkcase.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.22.3/test-checkcase.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/test-makemaker.patch b/cnf/diffs/perl5=
+-5.42.2/test-makemaker.patch
+-new file mode 120000
+-index 0000000..4e970ff
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/test-makemaker.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.34.0/test-makemaker.patch
+-\ No newline at end of file
+-diff --git a/cnf/diffs/perl5-5.42.2/xconfig.patch b/cnf/diffs/perl5-5.42.2=
+/xconfig.patch
+-new file mode 120000
+-index 0000000..87ac501
+---- /dev/null
+-+++ b/cnf/diffs/perl5-5.42.2/xconfig.patch
+-@@ -0,0 +1 @@
+-+../perl5-5.42.0/xconfig.patch
+-\ No newline at end of file
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5=
+.44.0.patch b/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-=
+5.44.0.patch
+new file mode 100644
+index 0000000000..36f065419f
+--- /dev/null
++++ b/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.44.0.p=
+atch
+@@ -0,0 +1,110 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Date: Tue, 21 Jul 2026 09:10:00 +0000
++Subject: [PATCH] patches for perl-5.44.0
++
++Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/178]
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ cnf/diffs/perl5-5.44.0/constant.patch       | 1 +
++ cnf/diffs/perl5-5.44.0/dynaloader.patch     | 1 +
++ cnf/diffs/perl5-5.44.0/findext.patch        | 1 +
++ cnf/diffs/perl5-5.44.0/installscripts.patch | 1 +
++ cnf/diffs/perl5-5.44.0/liblist.patch        | 1 +
++ cnf/diffs/perl5-5.44.0/makemaker.patch      | 1 +
++ cnf/diffs/perl5-5.44.0/posix-makefile.patch | 1 +
++ cnf/diffs/perl5-5.44.0/test-checkcase.patch | 1 +
++ cnf/diffs/perl5-5.44.0/test-makemaker.patch | 1 +
++ cnf/diffs/perl5-5.44.0/xconfig.patch        | 1 +
++ 10 files changed, 10 insertions(+)
++ create mode 120000 cnf/diffs/perl5-5.44.0/constant.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/dynaloader.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/findext.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/installscripts.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/liblist.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/makemaker.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/posix-makefile.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/test-checkcase.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/test-makemaker.patch
++ create mode 120000 cnf/diffs/perl5-5.44.0/xconfig.patch
++
++diff --git a/cnf/diffs/perl5-5.44.0/constant.patch b/cnf/diffs/perl5-5.44.=
+0/constant.patch
++new file mode 120000
++index 0000000..065e198
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/constant.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/constant.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/dynaloader.patch b/cnf/diffs/perl5-5.4=
+4.0/dynaloader.patch
++new file mode 120000
++index 0000000..ffb73eb
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/dynaloader.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/dynaloader.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/findext.patch b/cnf/diffs/perl5-5.44.0=
+/findext.patch
++new file mode 120000
++index 0000000..9efbe5b
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/findext.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/findext.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/installscripts.patch b/cnf/diffs/perl5=
+-5.44.0/installscripts.patch
++new file mode 120000
++index 0000000..1c05e0f
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/installscripts.patch
++@@ -0,0 +1 @@
+++../perl5-5.36.0/installscripts.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/liblist.patch b/cnf/diffs/perl5-5.44.0=
+/liblist.patch
++new file mode 120000
++index 0000000..5037380
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/liblist.patch
++@@ -0,0 +1 @@
+++../perl5-5.42.0/liblist.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/makemaker.patch b/cnf/diffs/perl5-5.44=
+.0/makemaker.patch
++new file mode 120000
++index 0000000..d7bd609
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/makemaker.patch
++@@ -0,0 +1 @@
+++../perl5-5.38.0/makemaker.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/posix-makefile.patch b/cnf/diffs/perl5=
+-5.44.0/posix-makefile.patch
++new file mode 120000
++index 0000000..29463b7
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/posix-makefile.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/posix-makefile.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/test-checkcase.patch b/cnf/diffs/perl5=
+-5.44.0/test-checkcase.patch
++new file mode 120000
++index 0000000..36c5186
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/test-checkcase.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/test-checkcase.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/test-makemaker.patch b/cnf/diffs/perl5=
+-5.44.0/test-makemaker.patch
++new file mode 120000
++index 0000000..4e970ff
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/test-makemaker.patch
++@@ -0,0 +1 @@
+++../perl5-5.34.0/test-makemaker.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.44.0/xconfig.patch b/cnf/diffs/perl5-5.44.0=
+/xconfig.patch
++new file mode 120000
++index 0000000..87ac501
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.44.0/xconfig.patch
++@@ -0,0 +1 @@
+++../perl5-5.42.0/xconfig.patch
++\ No newline at end of file
+diff --git a/meta/recipes-devtools/perl-cross/files/0002-Add-configure-chec=
+ks-for-perl-5.44.0.patch b/meta/recipes-devtools/perl-cross/files/0002-Add-=
+configure-checks-for-perl-5.44.0.patch
+new file mode 100644
+index 0000000000..e7fd9df2f5
+--- /dev/null
++++ b/meta/recipes-devtools/perl-cross/files/0002-Add-configure-checks-for-=
+perl-5.44.0.patch
+@@ -0,0 +1,47 @@
++From d6010680c68655b782c2e07bd0d38562c1ad0ccb Mon Sep 17 00:00:00 2001
++From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Date: Tue, 21 Jul 2026 09:28:12 +0000
++Subject: [PATCH] Add configure checks for perl 5.44.0 new symbols
++
++Add detection for d_getentropy, i_stdckdint, and i_sysrandom which
++are new config symbols required by perl 5.44.0.
++
++Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/178]
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ cnf/configure_func.sh | 1 +
++ cnf/configure_hdrs.sh | 2 ++
++ 2 files changed, 3 insertions(+)
++
++diff --git a/cnf/configure_func.sh b/cnf/configure_func.sh
++index 20f9cdf..4cbee2f 100644
++--- a/cnf/configure_func.sh
+++++ b/cnf/configure_func.sh
++@@ -104,6 +104,7 @@ checkfunc d_getaddrinfo 'getaddrinfo' "NULL,NULL,NULL,=
+NULL" 'sys/types.h sys/soc
++ checkfunc d_get_current_dir_name 'get_current_dir_name' "" 'unistd.h'
++ checkfunc d_getcwd 'getcwd' 'NULL,0' 'unistd.h'
++ checkfunc d_getespwnam 'getespwnam'
+++checkfunc d_getentropy 'getentropy' 'NULL,0' 'unistd.h'
++ checkfunc d_getfsstat 'getfsstat' "NULL,0,0" 'sys/types.h sys/mount.h'
++ checkfunc d_getgrent 'getgrent' "" 'sys/types.h grp.h'
++ checkfunc d_getgrps 'getgroups' "0,NULL" 'unistd.h'
++diff --git a/cnf/configure_hdrs.sh b/cnf/configure_hdrs.sh
++index 249f5bc..b2d9d88 100644
++--- a/cnf/configure_hdrs.sh
+++++ b/cnf/configure_hdrs.sh
++@@ -64,6 +64,7 @@ checkhdr i_socks 'socks.h'
++ # i_stdarg below
++ checkhdr i_stdbool 'stdbool.h'
++ checkhdr i_stddef 'stddef.h'
+++checkhdr i_stdckdint 'stdckdint.h'
++ checkhdr i_stdint 'stdint.h'
++ checkhdr i_stdlib 'stdlib.h'
++ checkhdr i_string 'string.h'
++@@ -88,6 +89,7 @@ checkhdr i_syssockio 'sys/sockio.h'
++ checkhdr i_sysstat 'sys/stat.h'
++ checkhdr i_sysstatfs 'sys/statfs.h'
++ checkhdr i_sysstatvfs 'sys/statvfs.h'
+++checkhdr i_sysrandom 'sys/random.h'
++ checkhdr i_systime 'sys/time.h'
++ define i_systimek 'undef' # not a plain header check
++ checkhdr i_systimes 'sys/times.h'
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb b/meta/rec=
+ipes-devtools/perl-cross/perlcross_1.6.4.bb
+index bc5bb4f4d7..bc8d085ef7 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
+@@ -15,7 +15,8 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/perl-cross=
+-${PV}.tar.gz;name=3Dperl-c
+            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
+            file://determinism.patch \
+            file://0001-Makefile-check-the-file-if-patched-or-not.patch \
+-           file://0001-patches-for-perl-5.42.2.patch \
++           file://0001-patches-for-perl-5.44.0.patch \
++           file://0002-Add-configure-checks-for-perl-5.44.0.patch \
+            "
+ GITHUB_BASE_URI =3D "https://github.com/arsv/perl-cross/releases/"
+=20
+diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch b/meta=
+/recipes-devtools/perl/files/CVE-2026-8376-01.patch
+deleted file mode 100644
+index af94eec29c..0000000000
+--- a/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
+-From fd23f4370d24d00352d1cc09b16687f16da6ae5b Mon Sep 17 00:00:00 2001
+-From: Tony Cook <tony@develop-help.com>
+-Date: Tue, 12 May 2026 14:47:31 +1000
+-Subject: [PATCH 1/2] perl/perl-security#147: test cases
+-
+-The suggested case from the ticket and an alternative.
+-
+-(cherry picked from commit e842efdafe7c51a687a4907e4887988fe6a025ef)
+-
+-CVE: CVE-2026-8376
+-Upstream-Status: Backport [https://github.com/Perl/perl5/commit/e842efdafe=
+7c51a687a4907e4887988fe6a025ef]
+-Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.=
+com>
+----
+- t/re/pat_psycho.t | 18 ++++++++++++++++--
+- 1 file changed, 16 insertions(+), 2 deletions(-)
+-
+-diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
+-index 336039521d..73a7992372 100644
+---- a/t/re/pat_psycho.t
+-+++ b/t/re/pat_psycho.t
+-@@ -10,7 +10,7 @@
+- use strict;
+- use warnings;
+- use 5.010;
+--
+-+use Config;
+-=20
+- sub run_tests;
+-=20
+-@@ -31,7 +31,7 @@ BEGIN {
+-=20
+- skip_all('$PERL_SKIP_PSYCHO_TEST set') if $ENV{PERL_SKIP_PSYCHO_TEST};
+-=20
+--plan tests =3D> 15;  # Update this when adding/deleting tests.
+-+plan tests =3D> 17;  # Update this when adding/deleting tests.
+-=20
+- run_tests() unless caller;
+-=20
+-@@ -211,6 +211,20 @@ EOF
+-=20
+-=20
+-     }
+-+
+-+  SKIP:
+-+    { # sec #147
+-+        $Config{ptrsize} =3D=3D 4
+-+          or skip "these only fail on x32 and use too much memory on x64"=
+, 2;
+-+        local $::TODO =3D "This crashes";
+-+        # original case
+-+        fresh_perl_like('/\x{10000}{1073741824}/',
+-+                        qr/Regexp out of space/, {}, "ssize_t overflow");
+-+
+-+        # synthesized but similar case
+-+        fresh_perl_like('/(?:\x{10001}\x{10000}){536870912}/',
+-+                        qr/Regexp out of space/, {}, "ssize_t overflow ag=
+ain");
+-+    }
+- } # End of sub run_tests
+-=20
+- 1;
+---=20
+-2.43.0
+-
+diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch b/meta=
+/recipes-devtools/perl/files/CVE-2026-8376-02.patch
+deleted file mode 100644
+index 39b3d510fe..0000000000
+--- a/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 49c18d4c91d5b49e0a7cbb8277f3149198004c36 Mon Sep 17 00:00:00 2001
+-From: Tony Cook <tony@develop-help.com>
+-Date: Tue, 12 May 2026 14:51:00 +1000
+-Subject: [PATCH 2/2] perl/perl-security#147: test against the actual chara=
+cter
+- lengths
+-
+-(cherry picked from commit 5e7f119eb2bb1181be908701f22bf7068e722f1c)
+-
+-CVE: CVE-2026-8376
+-Upstream-Status: Backport [https://github.com/Perl/perl5/commit/5e7f119eb2=
+bb1181be908701f22bf7068e722f1c]
+-Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.=
+com>
+----
+- regcomp_study.c   | 7 +++++++
+- t/re/pat_psycho.t | 1 -
+- 2 files changed, 7 insertions(+), 1 deletion(-)
+-
+-diff --git a/regcomp_study.c b/regcomp_study.c
+-index 9106452dd5..05f1b017b1 100644
+---- a/regcomp_study.c
+-+++ b/regcomp_study.c
+-@@ -2770,6 +2770,13 @@ Perl_study_chunk(pTHX_
+-                                                (U8 *) SvEND(data->last_fo=
+und))
+-                                 - (U8*)s;
+-                         l -=3D old;
+-+
+-+                        if (l > 0 &&
+-+                            (mincount >=3D SSize_t_MAX / (SSize_t)l
+-+                             || old > SSize_t_MAX - mincount * (SSize_t)l=
+)) {
+-+                            FAIL("Regexp out of space");
+-+                        }
+-+
+-                         /* Get the added string: */
+-                         last_str =3D newSVpvn_utf8(s  + old, l, UTF);
+-                         last_chrs =3D UTF ? utf8_length((U8*)(s + old),
+-diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
+-index 73a7992372..9fd764fd5e 100644
+---- a/t/re/pat_psycho.t
+-+++ b/t/re/pat_psycho.t
+-@@ -216,7 +216,6 @@ EOF
+-     { # sec #147
+-         $Config{ptrsize} =3D=3D 4
+-           or skip "these only fail on x32 and use too much memory on x64"=
+, 2;
+--        local $::TODO =3D "This crashes";
+-         # original case
+-         fresh_perl_like('/\x{10000}{1073741824}/',
+-                         qr/Regexp out of space/, {}, "ssize_t overflow");
+---=20
+-2.43.0
+-
+diff --git a/meta/recipes-devtools/perl/files/determinism.patch b/meta/reci=
+pes-devtools/perl/files/determinism.patch
+deleted file mode 100644
+index 61ba1a5791..0000000000
+--- a/meta/recipes-devtools/perl/files/determinism.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-From 012e670f8fb6d4c6c196c91909c95358ca9f6289 Mon Sep 17 00:00:00 2001
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Wed, 5 Feb 2020 23:54:02 +0000
+-Subject: [PATCH] Fixes to make the perl build reproducible:
+-
+-a) Remove the \n from configure_attr.sh since it gets quoted differently d=
+epending on
+-   whether the shell is bash or dash which can cause the test result to be=
+ incorrect.
+-   Reported upstream: https://github.com/arsv/perl-cross/issues/87
+-
+-b) Sort the order of the module lists from configure_mods.sh since otherwi=
+se
+-   the result isn't the same leading to makefile differences.
+-   Reported upstream: https://github.com/arsv/perl-cross/issues/88
+-
+-c) Sort the Encode::Byte byte_t.fnm file output (and the makefile depends =
+whilst
+-   there for good measure)
+-   Submitted to upstream perl: https://github.com/dankogai/p5-encode/pull/=
+179
+-
+-d) Use bash for perl-cross configure since otherwise trnl gets set to "\n"=
+ with bash
+-   and "" with dash
+-   Reported upstream: https://github.com/arsv/perl-cross/issues/87
+-
+-RP 2020/2/7
+-
+-Upstream-Status: Submitted [see links above]
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
+----
+- cpan/Encode/Byte/Makefile.PL | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/cpan/Encode/Byte/Makefile.PL b/cpan/Encode/Byte/Makefile.PL
+-index 6824bbb..4af4a50 100644
+---- a/cpan/Encode/Byte/Makefile.PL
+-+++ b/cpan/Encode/Byte/Makefile.PL
+-@@ -171,7 +171,7 @@ sub postamble
+-     my $lengthsofar =3D length($str);
+-     my $continuator =3D '';
+-     $str .=3D "$table.c : $enc2xs Makefile.PL";
+--    foreach my $file (@{$tables{$table}})
+-+    foreach my $file (sort (@{$tables{$table}}))
+-     {
+-         $str .=3D $continuator.' '.$self->catfile($dir,$file);
+-         if ( length($str)-$lengthsofar > 128*$numlines )
+-@@ -189,7 +189,7 @@ sub postamble
+-         qq{\n\t\$(PERL) $plib $enc2xs $ucopts -o \$\@ -f $table.fnm\n\n};
+-     open (FILELIST, ">$table.fnm")
+-         || die "Could not open $table.fnm: $!";
+--    foreach my $file (@{$tables{$table}})
+-+    foreach my $file (sort (@{$tables{$table}}))
+-     {
+-         print FILELIST $self->catfile($dir,$file) . "\n";
+-     }
+diff --git a/meta/recipes-devtools/perl/perl_5.42.2.bb b/meta/recipes-devto=
+ols/perl/perl_5.44.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/perl/perl_5.42.2.bb
+rename to meta/recipes-devtools/perl/perl_5.44.0.bb
+index 30e707df0a..a449b904fa 100644
+--- a/meta/recipes-devtools/perl/perl_5.42.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.44.0.bb
+@@ -14,10 +14,7 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.tar=
+.gz;name=3Dperl \
+            file://native-perlinc.patch \
+            file://perl-dynloader.patch \
+            file://0002-Constant-Fix-up-shebang.patch \
+-           file://determinism.patch \
+            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-deter=
+m.patch \
+-           file://CVE-2026-8376-01.patch \
+-           file://CVE-2026-8376-02.patch \
+            "
+ SRC_URI:append:class-native =3D " \
+            file://perl-configpm-switch.patch \
+@@ -26,7 +23,7 @@ SRC_URI:append:class-target =3D " \
+            file://encodefix.patch \
+ "
+=20
+-SRC_URI[perl.sha256sum] =3D "9384e8deb75b7b1695e5637971b752281aaecd025a3d5=
+d4734d33c1d0adfee47"
++SRC_URI[perl.sha256sum] =3D "3b855066b92491cb40e86affb1ca57d1a388aa43e51b9=
+1c7806a32c2f65f96c3"
+=20
+ B =3D "${WORKDIR}/perl-${PV}-build"
+=20
 
