@@ -1,100 +1,127 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FACC44532
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 15:02:36 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25084.1784646151598513514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5082CC44529
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 15:22:16 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25595.1784647330067873392
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 08:02:31 -0700
+ Tue, 21 Jul 2026 08:22:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Sbb4aFxD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=H5APGxR2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f85332a41-715bc4eb-5531-4e75-b229-00eb43db757b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784646150; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=JyTCY9isT34E63tkNcAQnsONuEEbB73ag/+b9+kHsZ8=;
-	b=Sbb4aFxDJSznDyhXZURVMDySmKlDnOH+zYli4YROXVoHdpEYImdTldVmzn8ZWCuu
-	RZIxJvD6aKcSulNne3kBnpasE9dVyy5kmBWLXoSHoyZcVL+89GwEldY8XAz2fHCdfJ6
-	FPzEwSod3ykypF/Us5/MIm0NT8U5C+jZvTXDc3qI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784646150;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=JyTCY9isT34E63tkNcAQnsONuEEbB73ag/+b9+kHsZ8=;
-	b=H5APGxR2Y6zbVhF0IUMtzaMsC3uQhVRtdZX90l6/NDDvaQGsOCacFkvjdVXK3sch
-	mmsFpCVbBCBhOirbEYAPCrYYIwLAw5Dr9YvIVCvZvRD3W9uAgOGZFfEux4b6Xkh1jRi
-	nx5YllTKLjtHaSRW6nLq+4VQHMig4hE07bpclm3k=
-From: patchtest@automation.yoctoproject.org
-To: daniel.turull@ericsson.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/4] Add tag in SRC_URI in multiple recipes
-In-Reply-To: <20260721144811.323786-3-daniel.turull@ericsson.com>
-References: <20260721144811.323786-3-daniel.turull@ericsson.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019f85332a41-715bc4eb-5531-4e75-b229-00eb43db757b-000000@us-west-2.amazonses.com>
-Date: Tue, 21 Jul 2026 15:02:30 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.21-54.240.27.191
+ dkim=pass header.i=@smile.fr header.s=google header.b=Fx1Sz5bw;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-472326ca506so8856664f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 08:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1784647328; x=1785252128; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zJdFTedyxi39N/W2O1NjtJghpIEkfNBNQgwlsnIL2Qk=;
+        b=Fx1Sz5bwSZgqznFOankU/pJufRwOLzZjQamRfZqS2iHt/Y6nuTguBH3+JnLVuCGlN8
+         tIwHPvwLF5RNoJSNXXV+wd52g3bncqB9osJGBw9E1tUD9n14CEWf76cSXC2MXliQiW4V
+         1w3teScBRAGCYVCjGfYwMNWs0bP2AdhzqgQY8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784647328; x=1785252128;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zJdFTedyxi39N/W2O1NjtJghpIEkfNBNQgwlsnIL2Qk=;
+        b=D53eHN5gQFEfX1WaLkX+4BZwtOiklCYxZUVHd2izkF+31GnLYn/C6cCr0YccOMIvd4
+         zvrXkqW4FlKx+Tk4R2CqY4VOP2yDEg6SNr+nU0mAV/ic/jnpKrHcEbLN/BRGB3IWK8ZM
+         NV0ZQsteZuip8IyofvJ3WlsyrKxxsp51/4i1gRFpisxuHhZ8mkBlxlDyY+/pJlKHLstN
+         iyHy/VI7Sf52r/cPSX3ZHpFcpBPWCaun8xhuADC5XBfFM71d9XcIPNFacOwty4Jb5WIk
+         rfVxknZBmKkxVJNCbIg+QfOdtH/ZsSnymPYT2+HvCHR2O9Yq8RC/hUzacLMMAz4l1Wv3
+         Co+A==
+X-Gm-Message-State: AOJu0Yy/zxC4b3hMOyfjQQra2QyHZMuq+0wIzDGwhPdwo6Zut8M7KbPU
+	0vkU8cPL6EwD8B+bg1wMutx++WMFJLQWzNo6c2acziQNaGdJ58BtAXTqOLCZFUWSNe8=
+X-Gm-Gg: AR+sD12kNFg9ODo2ZJuMPOcc36q2/Vv/Iw1IaVfP1TPWCtrZCipu8tn6+/w6KLVgsMl
+	IWwXJ67T50/rQmbGONkLkfUGMNnwVm5j9lH5tgXRX1+Gca8ogeHHF8017PyFNb9g5NDH2JLKzNf
+	rWsYSswliSLnPQAKYIZLsR7ziduFfT2gpBGDqBjKukaJrzK0uuD7ri7XtgMI5DadAu5eUBLJ35e
+	BRDo4ElPRsvyADCujNFssZ8ydclHI+cwLlLlkcV9yn1ihISNQSHuaJ68RVVDGedfUUHtw0JJcNc
+	mssslv+W95Jmx/AiMnCtHFsS+4eCnFW49BLnjVIPtjQ7Qnrqe0ZxYOABRxpeEspm++brBxAcct4
+	uwKiTR+AWzUcoi/pVzqLJkhhOD+0XkUg/rzOVi6fswwE8RcSd1HSnsWxw7Uy/TdZ3r1GejTZAe5
+	oAf6ZJrmD/fefR/9MxZeVuQiX+p2uGtl/QCIK1dCfW064S8/z+Rpvvw4ojTKSwgw==
+X-Received: by 2002:a05:6000:27db:20b0:47f:4602:66e9 with SMTP id ffacd0b85a97d-47f6232e29dmr16352889f8f.40.1784647328207;
+        Tue, 21 Jul 2026 08:22:08 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e496ffsm39110748f8f.3.2026.07.21.08.22.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2026 08:22:07 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 21 Jul 2026 17:22:07 +0200
+Message-Id: <DK4COG1KCNY7.2W0J6NA3E3SHA@smile.fr>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+To: <jaipaul.cheernam@est.tech>, "patchtest@automation.yoctoproject.org"
+ <patchtest@automation.yoctoproject.org>
+Subject: Re: [OE-core] Patchtest results for [PATCH] perl: upgrade 5.42.2 ->
+ 5.44.0
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260721134339.16175-1-jaipaul.cheernam@est.tech>
+ <0101019f84fcfd69-e7f239c8-b0a7-4bdb-ad3c-47ef5f97611e-000000@us-west-2.amazonses.com> <DU7PPF66507B2D7D882E1A2BFD540A22936F3C22@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
+In-Reply-To: <DU7PPF66507B2D7D882E1A2BFD540A22936F3C22@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 15:02:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241550
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 15:22:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241551
 
---NextPart
-Content-Type: text/plain
+On Tue Jul 21, 2026 at 4:37 PM CEST, Jaipaul Cheernam via lists.openembedde=
+d.org wrote:
+> HI,
+>
+> This is a version upgrade (5.42.2 =E2=86=92 5.44.0), not a CVE backport p=
+atch.
+>
+> The CVE tag format check is triggering because the commit removes existin=
+g CVE patch files that are now included upstream.
+>
+> Should I extract all CVEs fixed between 5.42.2 and 5.44.0 from the upstre=
+am changelog and add formal CVE: CVE-YYYY-XXXX tags for each in the commit =
+message?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+No, this is a patchtest false-positive. You can ignore it.
 
----
-Testing patch /home/patchtest/share/mboxes/2-4-Add-tag-in-SRC_URI-in-multiple-recipes.patch
+Regards,
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+> Regards,
+> Jaipaul Cheernam
+>
+> =F0=9F=94=97 EST Website<https://www.est.tech/>
+> =F0=9F=94=97 EST LinkedIn<https://www.linkedin.com/company/ericsson-softw=
+are-technology/>
+>
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> on behalf of Patchtest via lists.openembedded.org <patchte=
+st=3Dautomation.yoctoproject.org@lists.openembedded.org>
+> Date: Tuesday, 21 July 2026 at 16:03
+> To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org>
+> Subject: [OE-core] Patchtest results for [PATCH] perl: upgrade 5.42.2 -> =
+5.44.0
+>
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
+>
+> ---
+> Testing patch /home/patchtest/share/mboxes/perl-upgrade-5.42.2---5.44.0.p=
+atch
+>
+> FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in pa=
+tch file. Correct or include the CVE tag in the patch with format: "CVE: CV=
+E-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
 
---NextPart--
+--=20
+Yoann Congal
+Smile ECS
+
 
