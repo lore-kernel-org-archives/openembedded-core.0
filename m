@@ -1,142 +1,159 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B258C44529
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:14:12 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23906.1784643247097868775
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C964EC44532
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:23:52 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.21])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24039.1784643825443114054
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 07:14:07 -0700
+ Tue, 21 Jul 2026 07:23:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=BaRa7zQJ;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=klnCKFM6;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LDfpsj2962565
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:14:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=CUhR7jQjDbhRWH0657auzzV8
-	FKmsOwuYdxo1m+7CUsk=; b=BaRa7zQJ9bDxToz/TXWL1l/zK1HXr4ddckE2eBG7
-	/i5yu/MrvRJ/nujba7eBqajRSL5DOTfQ8u6P7Lkg8HqV0xFa2OHXGjymWiYP1O4L
-	10fUo1GgxLByh+qAWKoDSo9L3ATE+EPBiBftmmC9NHcYf/HWMNJ1J7gNLDa47Mzr
-	M8mtuKXgtPOFuDXfAFWPzmZfOehDL/E7ouaozYTk9kTJBN6xFMzMjppbULJC26wE
-	HlWs2WoJNR3F6jrPuWnH9koC3baGYGQ+t6fxEKjUinyHL3oSa2zmau7SeKsfDNvG
-	/0yXQ9YBcLOu7cGsX1b9h5DTOF4A3jCKVI1e6K843z58YA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fj6nss66f-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:14:06 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-51c12e43b98so221180341cf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784643245; x=1785248045; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CUhR7jQjDbhRWH0657auzzV8FKmsOwuYdxo1m+7CUsk=;
-        b=klnCKFM6nUTmOLp0jdOdwweycHPCjAH85J+5FALvvriLnlYdUZ0oRxpWcSzT9MV+ID
-         vhB98V9YMT9F5mEjRKhmoOYUsUCzoHC+VQu+Cq3EEsf2OWlqKpxKmW8CGY9bWE0TyEQg
-         1lGeFg/MdwNvilXbinjIYWWk2mIdLhiVF6mnsUtD3DRFV4ZtJivxMfTsZ5Gjhh92fRTr
-         Xl+s47YtHuMPvA0ImqaEOonHSmD4Xmx15kL4vISYesM0sGRbTwH/9FMkLcnBeRkhc4Pr
-         jRYEScrfb/qmUR7MLg184foP6dmsWFDhT/n9inZOK4Sujd9MrI+iyxqPlxxX0hKuuPh3
-         cNZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784643245; x=1785248045;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CUhR7jQjDbhRWH0657auzzV8FKmsOwuYdxo1m+7CUsk=;
-        b=E18eq6K59W4smc1M0D2HVdm/vxlO3034xXnLkgnbpCwWmmAGq6S5o6NQkhm7n+FAfD
-         nnvB0YIb+Nj20Syxfk7/5hPZN2eRL/8cWD+f04NTV1Pj2m0yt/kIXcViJNvyDfPnkZTQ
-         FAilpFzi2tvqxuytaDxR2QoHqAYDoeT8j29USbXDAMJn11RfS4ZGhdBGgw3iEnXoYBO7
-         HPCTEplg2Ue/b6VR+yrhUF3TN5PED6BAM0CehFplIAeltrUOjLpoRPl9EvaJ+gieQtUc
-         M34LxaytB2JFLOf5o19QD8wUZGvgnDqEuovVkkNZjEAIYdFT223LhB9KeQ3n0/cNYc13
-         gQIA==
-X-Gm-Message-State: AOJu0YxR4v4Va1iaFNla0PtRN0S+tMXiNTSG8zpfpZzDwXl9NX61dO5O
-	YdmodqBuBWYXioxIlqoxSF9J2F9J90evw2ns16/cpd9upRoIL0NaJ1MXv+j1QeS8axiOxkbigrI
-	bQtJ2nPOM+HOxNY9du5cTb4DkedE0Fw65jBveNAXVtjXJNyTk4kx4b2u3sKkZ3LLvs0tjkjPSi+
-	8fSk34Z5Q=
-X-Gm-Gg: AfdE7cnzbGztnGw7MTHk71Irdupt6ar9VpG3OZnYjhwh+kSSBfxpxMxkGbI8nfIdR1x
-	cjcVRJ525zqOWiTAWVHdk3+3QWhsV9D3Vs1PMTVr23GBTtJPMDOwFbM5PM0qMjyeqk1BSrakewi
-	8F4t6Lcu/iaSl/Ifoonh8PBreGiZXcXDP/TSzaqT2vaxC+g/Z8g1ZU3U9M7prJwpLZzHm/l//Ex
-	w5u88ONRt6qO9b0Nt5rKcPHuborR7DvVr8592kz59JD+IvYq/D1FOIZs5cqgTEx4opoDDSb/H6W
-	fIm7E48/kq08O0FkUZntLOftwUeJzdF0nyjt5FWzOWVTQ28QEge6kbhImURdZoE1z2eWpvo2PNa
-	eDsESBQS3Hb98Ebghg27t3FdYxsCQn/HsVfzYCk8Jdmv0ruk80VrFmwQuSwT49Q5R2e4+w6JSPo
-	Elg/wwiWq10Kg1Uw==
-X-Received: by 2002:a05:622a:a591:b0:51c:9224:398 with SMTP id d75a77b69052e-5213e67b7c6mr170282971cf.60.1784643244258;
-        Tue, 21 Jul 2026 07:14:04 -0700 (PDT)
-X-Received: by 2002:a05:622a:a591:b0:51c:9224:398 with SMTP id d75a77b69052e-5213e67b7c6mr170282501cf.60.1784643243815;
-        Tue, 21 Jul 2026 07:14:03 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b291e0e93csm2969680e87.44.2026.07.21.07.14.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 07:14:02 -0700 (PDT)
-Date: Tue, 21 Jul 2026 17:14:00 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com,
-        richard.purdie@linuxfoundation.org, yogesh.tyagi@intel.com
-Subject: Re: [PATCH v3] llvm/mesa/rust: simplify llvm-config handling
-Message-ID: <iykx2dad5o3umibniolur5otluacebwsdfdnwl2gbb6di66syd@65hems7nf5vw>
-References: <20260612034643.3215188-1-Deepesh.Varatharajan@windriver.com>
- <ua5eetd6y7i3ss5kn3qzpo3lpjzj7drk4pvnn2iuosijy5buny@mbcoibimaaxi>
- <90de438b-e79e-4599-b3dd-343c84361a73@windriver.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=GCwjcIRG;
+ spf=pass (domain: est.tech, ip: 52.101.84.21, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DFXQYL9tT6M2kIZBv7QKl1S1eoc1FRd7ZnOUFmfXNHxqGYH8zdyyj+iSCNei5PEbONo7/MzWfdRtXVa3Op+Aw4WuESmLTksceh7VHXTjk3sPlQDDeaYoVr0sIc+LX92k4y6XuZjE1FLunp8gb3PkA0Cstg8jXJ4W/qgxOTrEQO36QT+4s4wrpaG/wWkHn3LiUcpgCXHG1tSHq94YEjFRJ84v1lm6blDx+WsM8Dg61j8qu3N7+xpN6S/Xo0zJE7ZCfmUM+QQVBAInNFxGqXe4gBUT/07DmHGnl2uMNcMaQp7Fj+LHwYlo4CZ2jzCoTtnGXrTDjAY9aG78vIuFczTPOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YkRa1T2ZU7Be5C+vDWO7bsEElC61OMX+3aCxyc2UtxU=;
+ b=SdIU5qeILAyUuuQKcwXjeCvDYJKw/vbeVULhwm7VZcXGJVAfRoC5SrICwVDHNrmBoZ8WLGJMaKbGOBxTTOZ3JYk2PMPBqyt3DzfhpeMvfhS82Fo8UhPdKd2RSpj9Oaz20GdBunvSf9a85/RlDXapS/JZib4F0ctxe04b1O9HtKjuKplXxKrg0XuN1mkZqYbwTieIyeFJCfn84aAap+7MWKgDSmpYx7poyuN4GgGCt1NCIW0qD0qB18fDtFzRQJxQkBH5ewXeenBLbSPPcitkLlXuRIm0sg2J/b2ghMjZOPgIit35i5AMq2C+w7AavF3UzArCBa1M1kLOSHzLYjV7QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YkRa1T2ZU7Be5C+vDWO7bsEElC61OMX+3aCxyc2UtxU=;
+ b=GCwjcIRGxLpvP/7OhwF9gbaaXFUYcKBWbQHUi4SHzlJ9ul1p9j/wAqjLlu2WILi/1l5JzTYuNlTZbTT03b8SZ3tcLqbCJ0csYzxdYb3phWSjLzkDoMbpaXV4UVibnq9zPQFUAHJO8fyPbLjESYk1LIwILyzSs01fZNKH3Y5jEvvIL9VgxXnhuSH9p3l9XXKBbFbJcQlX9T8tHzM3PlmhPLCZQ1djEvg69KY/RGQfA+YKoSZZkXfEHv1TXOxEi6G5L2dyi7lb0fZTcdc3/vLnxxD8dKL4XkHtEpavYzAkJSyBZKrUoKEt+L0lC3hMrTN7Nom7tAcQJScvxxeCOHp5nQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AM7P189MB0850.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:173::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Tue, 21 Jul
+ 2026 14:23:41 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
+ 14:23:41 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [scarthgap][PATCH v2 0/3] perl: fix multiple CVEs
+Date: Tue, 21 Jul 2026 16:23:33 +0200
+Message-ID: <20260721142336.21513-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260721134616.16538-1-jaipaul.cheernam@est.tech>
+References: <20260721134616.16538-1-jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU2PR04CA0169.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b0::24) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90de438b-e79e-4599-b3dd-343c84361a73@windriver.com>
-X-Proofpoint-GUID: 80GIuy3_EephJ9TZyrgS1IoJgWrwE67h
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDE1MCBTYWx0ZWRfX4KIxhfCqOBeF
- FYpkg1/ZtBmnJ/Qr9liSowKcPKNQxkCsnGaG3D1CgfmnmkUYtmKsuvtBeso4an58gHOUdR5dIJ8
- wRZW44L8fIVCAAJ6x9ZOdua6CzWbUkk=
-X-Authority-Analysis: v=2.4 cv=ZJjnX37b c=1 sm=1 tr=0 ts=6a5f7eae cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=Q4-j1AaZAAAA:8
- a=1KakBFEXkdAjE09Iea8A:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-ORIG-GUID: 80GIuy3_EephJ9TZyrgS1IoJgWrwE67h
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDE1MCBTYWx0ZWRfX6Pop1DtxpvDe
- Uai7pnConRMg5/KyePWxkLsL6MMGve4IqwuMVfYCfACrXvTLv9+TzsqMl5bVAbSGibL1t0WZg8u
- iYcxHXMa8MBY8euaoMpOE2dRTtg92KQj67bhKJlsUwENrx8kEZQEtxPFPmGx2JB1/zTjyGj1R0C
- OMlp/e/5kJkjGX4krhUcEi4g0y7ObIYkRdY3BlkK1wGOsydI6hIESGvlmZree2UXe0BQMr4tp+I
- XTMqBmY7434AcyeOGkw9TqqjzJ5ibJmtW4nYnOUVdU1jQRGSkRiuymxZilOm4AK9cFNgXugu6td
- 4Vc884YciBmrUSYTHHgUsCyYtfQOTZ0n9/IEYQjhe02RI3miWeKR6Beg0yecy6JofK8A7T3ZEzq
- qHE1dME5PUsYV8eKvipvkMh/6W5ciy1asdjyeIjSnhmaqlLT5iiHNyHcbwBWIOBaYx095+zSH35
- XDzIrYwqvSkSaxfY+Lg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-21_03,2026-07-20_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
- malwarescore=0 spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607210150
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AM7P189MB0850:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91433976-6baf-4111-d019-08dee733a9db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|11063799006|56012099006|10067099003|6133799003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	h4c1NypdnApgBCkaXrprxR8s9/qvFzsM0dyVyKPVXfdN4FSXzKSbq6R5FLNP3uwGA4a3aYuudjYACcpkfaqlt2Ra10NiCxjpTrs47OzzDaBVbLoNsp7LUvd58rxUUHYSFB1q9iGZTP3jIldLvz5oigLimA44EYCBen4MJT309+rtvWfLIXdxn4toLCgmSl8UEjUDCwsMDpAWmhYKbDkMqHTOQrRmh/qfa7YpB6fUrEAkmRTQvarbu+TWYm/aUZA8FQe0eo0Ro5nVRI9mK1D3oAHLhzpqYvfbX+to4lTvzLhYqwgBESFhszjHssbbbFig2SgczJGM8Za4+pQ77sNuavyO41X3EMUPTun26ILjnw6nBPTEhufmO3LkdnRuK/zFILqigZ+Gf5l/pzEGaSq2UyTpQdzesABLtgUpCdaxTIh/soMgdx1WdA5UwIF5BkhtnH7nRY2dRqMyxflWcBEd2E3OdvBPN3SBys8sr7Q/o3DSEiy1FQexgMzOVGFW/RpElrkpKi6nnH++hZ8j2QwnxO3OWTo1DYZ3DHm0YiREFwuKXDsxIhqvJ0Lo89+LheY29ATUMyahGjKRYg3/gBBYt5ykvSlSR507nRuEEKIdTiy4NZF7uM55L+OmBJ6rjDUr3FwA+yi7QnPGlw4ZnkZqD9Z1x6fQV6bRWVPKeXXVW+4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(11063799006)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?QZnb7wN9iJ/34xjeB5UHrXfCiNE+I0+4ZEg9P3M6ZNya+rAk5Nbtwi1LIFhF?=
+ =?us-ascii?Q?TsoXrm4XhNTVqhPNKkPHnrcs09il/6VLo2ZzNnB8NOxRBZHANvJI6cwUaprx?=
+ =?us-ascii?Q?gGnxUg5Tqic/T56WBZ2VeWTOjYbtwRh2P1ldQDoQ5HuJpxPvrgxyT0fWwclP?=
+ =?us-ascii?Q?0cjzx3Zjeodtg31rrpeunbCf4ltSMujqsxFcM+ZzFYh0QfXf/i6BSxWZxUKN?=
+ =?us-ascii?Q?BM0Z6yYuHhsiH4e1QGilmhcRo6cE3YIWL07N580QdA+3DA8B3iu+cGwxOJZo?=
+ =?us-ascii?Q?sGMmfrNpFP5A1Cy37uzDfDpMje2y66WK4KfIWZjyurRYUiYrTU+DAjUnVwH6?=
+ =?us-ascii?Q?9uOrxwb5QRirjogfIw1vhvDw28kTbFI0O0ehr7nXhR/DJ59MJzsa43HINYEk?=
+ =?us-ascii?Q?urNoLsSzE3VapTRNRGO2B9qqB3N9ZoPUzcvdSyOLCm9DCCQAKYuzv3s+5dP7?=
+ =?us-ascii?Q?ZJfkCOrn5nZL63S15SH225Kam3t9yWO+oxFSZKwPTc8J4WWPaZxzPJMg4awU?=
+ =?us-ascii?Q?IylvqRdyEtWjFXrk6IzWm2PPjJgSgC6U7ooP9mSgwHMVy7OP7bNpSC5x2Xwo?=
+ =?us-ascii?Q?3B49T50dPbyyUewzdgp6qjDMLe6ldA+vcCClQDwn5DvDmMkgbbiDquWAYwni?=
+ =?us-ascii?Q?N6k1DRqpKW4rORUK3hpsvCY4oQ6X1eT+LIl+uMwddnpDotZ/g6wPgybxlDZ1?=
+ =?us-ascii?Q?OO53hm5tJXMHQrzqvy6vLARcZRzUOVpllSNRd7HttNFkCzYzREJniuKBJC3d?=
+ =?us-ascii?Q?PJfreAbk3tMPrDgVANNDMd3OERj3PeH6opTOYR19APv5mKhbsr3CD3TUv/HJ?=
+ =?us-ascii?Q?xQy3SNIcr/DI3OkUxFI/opJOCi0fIj+VBhdtFQpb/O4+Hd3Q63eC0GNEI42X?=
+ =?us-ascii?Q?jWZ5LfI2I3QN35sOJTn+VWcdrbVdBjK257A/5c/48EqanaBcKKo+DrzSXXqB?=
+ =?us-ascii?Q?ASKLVFT/nfnc+rZL+p7st4AMFctPXDyx1uakQ31SeXV8Ok3H92zz5434iOlt?=
+ =?us-ascii?Q?eAi9imFY74dsRwFxTFbgU4SK7BtbsvOIPDjG4WE2nmO+9R1Grn6KO+wKMxf8?=
+ =?us-ascii?Q?KDUKCay22H+seYYrxLHaEzISUn4JEeSF0tVGbgFT7L+ANnpmwGgYOqZ8RFYQ?=
+ =?us-ascii?Q?dgKNd0Lu7utfLJ7NUTZ1KGiL8aJgrRo1UMWw2JrK3giYoxskmM/1xbmkxagM?=
+ =?us-ascii?Q?hVqIKA59S1tvQPrioR/AQk36PMBsa4vZTzC8k9mggrdCl1oRP4DUKgRZGK+z?=
+ =?us-ascii?Q?4kuFilhBvGu2nhZqG7BaV5xrPVwAUwHLWSrQiW/cIoovl04MSINZhsp2EhaD?=
+ =?us-ascii?Q?WY6JO1i9b6/AFzKqV1ebzd6O+rkQobgKCcOKZ7oRqXJbN4tB1WG5ZWIPGCVy?=
+ =?us-ascii?Q?h75M3ItGhlrSjWhpDnA6VQ6GslEB4q61/xHoyWm+OIk6ZtKsOSiH26OHUgnU?=
+ =?us-ascii?Q?ZTXQlU4RFAXa7MgQgVUGDKeXLZ/gP9XBVX4tMvKycfeHuV+EdCZYJCr48h0/?=
+ =?us-ascii?Q?Y6TK3prulsMeO3wj7zjBCgax4m3247tJor/ewILOl6iivD3FPAq1ia9aaDgR?=
+ =?us-ascii?Q?MYsvXg52GY670yIkBeoYmmKCtNuoLUIUHJRg3W+JZ3Fy0FR+v2nFw2FIxdWm?=
+ =?us-ascii?Q?j7ouqfsyzZfyi+Y7Dnbv65GNE5IRaHhuhTDj/qZBjMzssAtSTUm9NEJAGXDA?=
+ =?us-ascii?Q?c2wvuW1xKxzwhAwUmS/N8gboCSXy44eQOrvbuRDnndcIfI2LCi/n7jFaxE5U?=
+ =?us-ascii?Q?AFJbBp2Ga/ODxUTohM8P92Th1e3Of5U=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91433976-6baf-4111-d019-08dee733a9db
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 14:23:41.3694
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: poV06TqGkBRi1GmBOD30uCS/VVEa82tBk63Y4eY3fmhn6CRXHIWEwlmduSYs6Qvk2sIA/1itA6eM+4FKa/t22AXZZ6E5u88+Ww9DOztGQ+Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0850
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:14:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241534
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:23:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241535
 
-On Mon, Jul 13, 2026 at 02:20:11PM +0530, Deepesh Varatharajan wrote:
-> Hi Dmitry,
-> 
-> Yogesh has already posted a potential fix for this issue, and it is
-> currently available in Mathieu's master-next branch.
-> https://git.openembedded.org/openembedded-core-contrib/commit/?h=mathieu/master-next&id=2e8ada1cb07d6dce8a0894b427b18b2bc585a2c8
-> 
-> I tested it locally, and it appears to resolve the issue. Could you please
-> give it a try on your side and let us know if it
-> fixes the problem for you?
+Fix three security vulnerabilities in perl 5.38.4:
 
-Yes, commit 7ea79279820a ("bindgen-cli: set CLANG_PATH in native and
-nativesdk wrappers to matching clang") fixed the issue for me.
+- CVE-2026-13221: regex trie overflow causing incorrect matches when
+  alternation has more than 65535 fixed string branches (CVSS 9.1)
+- CVE-2026-57432: integer overflow in pack/unpack leading to
+  out-of-bounds heap read (CVSS 8.4)
+- CVE-2025-40909: threads working directory race condition allowing
+  file operations to target unintended paths
 
+Changes since v1:
+- Added CVE-2025-40909 fix with companion perlcross patch for
+  d_fdopendir configuration detection
 
--- 
-With best wishes
-Dmitry
+CVE-2025-40909 is fixed upstream in perl 5.42.0. CVE-2026-13221 and
+CVE-2026-57432 are fixed upstream in perl 5.44.0.
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+
+Changes in v2:
+- Added companion perlcross patch (CVE-2025-40909-dep) to add
+  d_fdopendir configuration detection required by the CVE fix
+
+Jaipaul Cheernam (3):
+  perl: fix CVE-2026-13221
+  perl: fix CVE-2026-57432
+  perl: fix CVE-2025-40909
+
+ .../perl-cross/files/CVE-2025-40909-dep.patch |  25 ++
+ .../perl-cross/perlcross_1.6.2.bb             |   1 +
+ .../perl/files/CVE-2025-40909.patch           | 412 ++++++++++++++++++
+ .../perl/files/CVE-2026-13221.patch           |  75 ++++
+ .../perl/files/CVE-2026-57432-01.patch        |  52 +++
+ .../perl/files/CVE-2026-57432-02.patch        |  34 ++
+ meta/recipes-devtools/perl/perl_5.38.4.bb     |   4 +
+ 7 files changed, 603 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl-cross/files/CVE-2025-40909-d=
+ep.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2025-40909.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-13221.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-01.patc=
+h
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-02.patc=
+h
+
 
