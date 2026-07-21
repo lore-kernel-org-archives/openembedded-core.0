@@ -1,193 +1,109 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AF3C44529
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 07:22:09 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17314.1784618525025711078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDF2C4451C
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 07:58:39 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17594.1784620709957582917
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 00:22:05 -0700
+ Tue, 21 Jul 2026 00:58:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=O98M4pDk;
- spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-81ed2a00f12so84775547b3.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 00:22:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784618524; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=HRlaDRcf;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8f0d6853360so89631036d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 00:58:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784620709; cv=none;
         d=google.com; s=arc-20260327;
-        b=gqsxYYWfrKjhGjRgBc16FJZ3FPf/c7ip3Z+5vqNs2RqKOskuK4t5bP969BupjRNDgC
-         rEnyezGG46vDf2vUjXxQCtn2HUGNRrwknjrZbyTeMJWXo8xUr27RSgT5jFusby3xOWv4
-         ef4qytYLjWEsOFLurY0uw/FLOdLSm+h6LWAFjWC5zOuv4o4myUAcPAnQueuzDpP164Fd
-         wjSMWDR8Y4/WgiPJ0RCQBhqhX2M1P5CnFUNxbZncii3tXWCRiYfv16rQjSr/hwsW0xJF
-         WaeSyCQ64QRrHjnpOAj4qqbZXzakB5OCKVLnBXZm4gwrxoFCq4fNyj9AacEeL+IxVHf+
-         2mCw==
+        b=KGMa5EaaB3mCfX4jhXpD2Z3uq17x67UAd8v6Xd/wsXZLXPSYA74BIsK3JywABYTSEh
+         BaboWE663iXw+GXYeda1w1MeziIWAkcRH+qqwMbSAXQT+U5s0DCb5QA+Xj6LFIo9cpSf
+         NDcFciqB89oq2mVLfTsG/gYle3rwksFv99QmucrYMcXn9h9VdiLhVGJmVApOHNKEJVGk
+         +mx8UIT1Il6gTH5T8g8Z+CCiQ7nS2jEVSuQ8LFLuWYTNYAG6FDG4vkC3LsjQd2QYKOrD
+         TGSvZDArmxugyEMTK2hUCiBv7O99pbSFFnyYGkx8ywuDgvyg5zHfIoz0A/7IIa/j1Cn8
+         8nUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=zxr5Gdm23lRUaU4y6VNl10qvacPMCBhMmls5BiyINPk=;
-        fh=Oyp0vZkthY33qxuTu49euvFnXWw2uEogdk3yUFh22TY=;
-        b=TTCOmYF3oM06UIQgxXPjCimez8zkxhBqGJVmNIBBv0qEvPrPLvetBWzK+MCEvdsRba
-         lzg5q3J3nZrRbz78FcH5zNKwyDKdV1iitVZVzGsTVEB3VnQrxZHLs5YRCP7un/hlnnsz
-         l5S0sFOMPRC9TbbA0eGw94Sw1o1sfGOTCWZ5qkG0NlNJxTHm5nXgoASkzQ21A2LPXD4d
-         Lvnnf2+4oIkF9t5rRzsD/5auM/KAwsHTKu6FK8G+66u8C4j0pAM0tIFciBSXzbBKYJB9
-         HzEhklaqav/YwEeLfru6Y5IyndMNtpIBh22CHoNp5xYirzzwkUOAZG3HscHDemAyCbDP
-         CycQ==;
+        bh=yAnxc4tQidPxWEsT4k7D5BrA5/oNks1oSK5pSig4mhw=;
+        fh=uePVF2todFOEF4d1yIuoXUv2hRbH27rrEffEHnJE1to=;
+        b=N8KlBE4SQVIe9l5Lk2xt+hEiiufwfZOABk81Nr5C8G46k8VpFOX157wHfavR2ZpDIv
+         r4JXSPGRtS8jQSWig45wwhwICJ5vAgiFuY8UiDZi0MsJVkPwTTooRlF6zh7vktpCEKIy
+         6Kf00cjRf/gPZ06tRf2cuQSaVLK6nvVx3pIkaMPFGkg8KoufGvMxWsa5CwaNXYFXzV5y
+         Uk5dGkXGj2YvO6bZTF+z4uGJjrcM/Gk6ax5l+rZP0PIyjMpIgPqpQB+yIMXRpzCku89Q
+         2h/DxfpBdusyKsuLMRVp+ENafIsfcLenRC8XO5R4pYe5Q/2WDf2s0dfVPeBNhJVBqM+E
+         twZw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784618524; x=1785223324; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784620709; x=1785225509; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zxr5Gdm23lRUaU4y6VNl10qvacPMCBhMmls5BiyINPk=;
-        b=O98M4pDkYUcOC43EV/hm4b22N4hmhbqMOc29vYSsPTpq314FKfO17P/Y8jzv3muqZ/
-         O87JPtNka5VeiGkIron4sgxo0WG/fca9ZYYqrShoGST8srczBXyrtBMTj0GtflCU5Dvm
-         EgA/R7c1tYLLsn6YuoaAuU+VULUVqHEQX55q8DfjcfZRnXIp4VfRK9hpC4SF1WL8SH0L
-         3YrK8aW6qMaW1CWd+NG+qwRXn1AW2h/JO3j8fcOdCNlEvPjWaeDfC73Z0zoC9gAwUSg+
-         2peV6zUKQQAd3cjCGRStc6Erv4KlCR6CI0H56y3jhInh6bHBFZkM7M9i/zC0baZbJjB5
-         MRRA==
+        bh=yAnxc4tQidPxWEsT4k7D5BrA5/oNks1oSK5pSig4mhw=;
+        b=HRlaDRcfmIjCmp/F5rCKeAIzQ4YQxVk+ja9gzlJHNmRw3KNx8ucZwjDaXVCRJpTJyP
+         XcuDBPWjsXZ9RTeU5CkFJwh1cW8li8kTaDcaPFFQPI/KZzKkFHXJMpkeVO3I6KNnwJps
+         LFwqoJpNUaYRZBUE4L3UD0wuNAuvOd2jJaa1g0IoQAmINC2dttAB0Ffdmp15rgP3UyJg
+         +DNgs47m4QUy9VdgifrOf4ILnRVywc3QVOwn8b6did9VBwDzFRuhqS5WqXtsTNMznlBk
+         K/0Y7Bv1hhSVw4o+PZwFY3hzGWGJ+rrsBblgxAarYdg9jnyaJzKxeyZdOXBsbeQbmVud
+         7FXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784618524; x=1785223324;
+        d=1e100.net; s=20251104; t=1784620709; x=1785225509;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=zxr5Gdm23lRUaU4y6VNl10qvacPMCBhMmls5BiyINPk=;
-        b=YaO52iQv5ek0p+uaA5hP3QF+qHCoPzL0Z9X2d4DmGuo4hpGJchF5TzC45JDULvsYAK
-         wLydpvAA2StYfk6YSBSmBMkTg1L9qGqORdws9vvUiBO5sRjemOG3PBWuCrJ44EWYAlap
-         x6SEcRSdVdcTmYJV327OebPeaZ9fkopcLnzamqKP6ZKEOO+iMQCBj9O/5hO2Xi5wka16
-         a3m/zaK8SJFXVsIMia8gaDodMGztsjM61HNpqcqgLS2lcsiWETyMbB2E21Eke+tjJEGw
-         NTM1GiT+xYkAV3FT9PuiRQbBh18Ji41z53XzBeMJfQmIhBTczl1hyvT4UrQKBVj/n+bh
-         gqYg==
-X-Gm-Message-State: AOJu0YxjjWc94ve9bXFcpvd67uQhBf7cNkp2qQAHwtG6NEXWfrJoh/CE
-	ETOXZ/xQ6ZATCVcMHB9lTjmQHrcJtBr24oUFzWw6Mdi7v+RVrYegXHEohpONE8RBfYUqqNas+ZZ
-	0EpDnQaVyk54F/EFlhshd6/uimd0Yujk=
-X-Gm-Gg: AR+sD10MAReRbTUQld7kTArpLR8DpTjvAhOw7Cm4shDg3GwbNSYyNlpBszv7+nr6pfm
-	dHMmZE5CRo73AF6zhBADyqGKAQxwQpIxtF7KUe/6meJUn/p4jHFZ8eEGmSpF8nhPVPHR+uxw3FC
-	1M9lGplOgeGIHmjzfl7kbHVuJiI0753TQMwCSVVzwcBsSjEO8xM9KPcWk9KbofZO3Aapmh46Aa3
-	/7KcH0It1RrL0fudFCyPqTP8U2abAzVamhTf9ODPgfppjtaojn4f0+SokUAmOlWgBU5ikCTxxyf
-	ZwhLGp6nVvA4MJshd4OeykrRVdFx/47Zog1lVvMpzdVPjuZWDRC8fviUFDTkuRxUNZPHGdSaB1D
-	Z+1skR5V53Xxf+OWisApO0J7KI1vxcaeM4vVQatS25qlvrj2UwAzNLs4p1AM=
-X-Received: by 2002:a05:690c:6b86:b0:81e:eed3:a406 with SMTP id
- 00721157ae682-81ef270b0bamr57857967b3.18.1784618524057; Tue, 21 Jul 2026
- 00:22:04 -0700 (PDT)
+        bh=yAnxc4tQidPxWEsT4k7D5BrA5/oNks1oSK5pSig4mhw=;
+        b=NN1kckOC8E6DubC0hYjIPHVov1K4HdXXctkptqi1c73E5H3tGsDI7CQFGXDF06Z55G
+         HEe5oM17wZhKDPdIAoShZaHr795zVPs1YGDm5MmSS67EhVbmX/LE9qx25NvVAqFCGBaM
+         GkBVcSdEN/EgT2MNub9hglGqAsZ7OQ+/wUV74WxfgwQR+2h0/Lo5wymXyiVzED40LjD+
+         UcGabATjqWvw9TG4JBJD72ob4rKEFoYiFwOrz4ch6xyKveXEgP7k5sX2lZrFKpmZM7Hp
+         bOwP/6LzjclBOaeM3zfIOUPZE0BfxDgLz3So29BYMWtehKzDfUaIj3t1gGvyXSqabaN3
+         ZfWA==
+X-Gm-Message-State: AOJu0YwJ7dZoR5r79if1OAmwbAVTH0UgOl9iXmr1uDS4bqK8ELzRq71t
+	agiEh8BddO/VrBveNlKymQjvi0fY7cpqrTvK3H8+wL8ceSKAquYwSAbxtUwvP4wb+D6YmEbyan1
+	3G62RlpkAXS2f/yh5ZjFjXT1ZE+bC+CUfpA==
+X-Gm-Gg: AfdE7cmeu7cwk1FR0Js5ezwFkUberKY5SGi//w49A30jb8K2NiIymNAzELnIqlG4XmN
+	Epx6oH24Zdvgw5qOXz9eXHaf9ZtQgt3NQR436b4pPWhJ/E/7ZEe8hSQnK1xNdrmIUr8HMX4pH4p
+	Yu5PjiXRw0kqdfajHypwIlYIqUbHHXa/nYI+mDur9G1aji380ifm/BuVd1ftrXqTYej7cmlFHM2
+	EQTp4+Rg705gWvJzVqGB1mdzTdMXXYaFnTEvkrH8DBmLfICpIuXLc1Bf3/31UCOjv+S7hUP4Baz
+	V2rQLmHXXpAl2mgri9UA
+X-Received: by 2002:a05:620a:2319:20b0:92e:c117:5ed1 with SMTP id
+ af79cd13be357-930b431cdc2mr1249562285a.81.1784620708615; Tue, 21 Jul 2026
+ 00:58:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260720053526.1992240-1-khem.raj@oss.qualcomm.com> <DK41JOAOYZH7.1CPT2EN28HTX7@bootlin.com>
-In-Reply-To: <DK41JOAOYZH7.1CPT2EN28HTX7@bootlin.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Jul 2026 00:21:36 -0700
-X-Gm-Features: AUfX_mxW2tbahGPYWZRoicrfYMfvbh6sOV6eWzRFIfk_cp9cWHJEMEbefDSVJyM
-Message-ID: <CAMKF1srZf_7W74C80pZf+u07rxC+FmsLs2EX_QiysTQ4z-pmiw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libpsl: upgrade 0.22.0 -> 0.23.0
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Khem Raj <khem.raj@oss.qualcomm.com>
-Content-Type: multipart/alternative; boundary="0000000000002fa700065719e1db"
+References: <20260721030510.2071878-1-priyadarshini.babu@windriver.com>
+In-Reply-To: <20260721030510.2071878-1-priyadarshini.babu@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 21 Jul 2026 09:58:17 +0200
+X-Gm-Features: AUfX_mws2dqwr_fGZK0zTXXqRRfWaWkmIhgsTN7fW36jKFpcW9-eWJijOLAyRLE
+Message-ID: <CANNYZj9bZSwtH67JwyapPQ3T5_7rFocdPzHu84uCHV_1Vp2aSw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] vulkan-samples: disable VKB_ray_tracing_position_fetch
+ and add install
+To: Priyadarshini.Babu@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:22:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241509
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:58:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241510
 
---0000000000002fa700065719e1db
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 21 Jul 2026 at 05:05, Babu, Priyadarshini via
+lists.openembedded.org
+<Priyadarshini.Babu=windriver.com@lists.openembedded.org> wrote:
+> Disable ray_tracing_position_fetch sample by default as it depends on
+> pica_pica_robot which is licensed under CC-BY-NC-4.0. This can be
+> re-enabled via the pica_pica_robot PACKAGECONFIG option.
+>
+> Add do_install to properly install the vulkan_samples binary along with
+> its required assets and shaders directories.
 
-On Mon, Jul 20, 2026 at 11:38=E2=80=AFPM Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com> wrote:
+Please split this in two separate patches. They are completely
+different issues and should not be squashed together.
 
-> On Mon Jul 20, 2026 at 7:35 AM CEST, Khem Raj via lists.openembedded.org
-> wrote:
-> > License-Update: copyright notice reworded, MIT terms unchanged
-> >
-> > Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-> > ---
->
-> Hi Khem,
->
-> Thanks for the upgrade.
->
-> We do have new QA issues:
-> ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File
-> /usr/src/debug/libpsl/0.23.0/src/suffixes_dafsa.h in package libpsl-src
-> contains reference to TMPDIR [buildpaths]
-> ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File
-> /usr/src/debug/libpsl/0.23.0/src/suffixes_dafsa.h in package libpsl-src
-> contains a reference to the build host HOME directory. If upstream
-> hardcodes a directory path that matches your home, you can set
-> OEQA_BUILDPATHS_SKIP =3D "/srv/pokybuild" in the recipe. [buildpaths]
-> ERROR: libpsl-0.23.0-r0 do_package_qa: Fatal QA errors were found, failin=
-g
-> task.
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4184
->
->
-Yeah, saw that on AB earlier, sent a patch to fix it just now. Please take
-that as well.
+Also, I don't understand why something needs to be disabled because it
+has a certain license. This needs to be explained. Are there
+particularly problematic terms in there? We should instead tweak the
+LICENSE field, or packaging.
 
-
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
-
---0000000000002fa700065719e1db
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 20,=
- 2026 at 11:38=E2=80=AFPM Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathi=
-eu.dubois-briand@bootlin.com">mathieu.dubois-briand@bootlin.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon Jul 2=
-0, 2026 at 7:35 AM CEST, Khem Raj via <a href=3D"http://lists.openembedded.=
-org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:=
-<br>
-&gt; License-Update: copyright notice reworded, MIT terms unchanged<br>
-&gt;<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:khem.raj@oss.qualcomm.co=
-m" target=3D"_blank">khem.raj@oss.qualcomm.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-Hi Khem,<br>
-<br>
-Thanks for the upgrade.<br>
-<br>
-We do have new QA issues:<br>
-ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File /usr/src/debug/libpsl=
-/0.23.0/src/suffixes_dafsa.h in package libpsl-src contains reference to TM=
-PDIR [buildpaths]<br>
-ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File /usr/src/debug/libpsl=
-/0.23.0/src/suffixes_dafsa.h in package libpsl-src contains a reference to =
-the build host HOME directory. If upstream hardcodes a directory path that =
-matches your home, you can set OEQA_BUILDPATHS_SKIP =3D &quot;/srv/pokybuil=
-d&quot; in the recipe. [buildpaths]<br>
-ERROR: libpsl-0.23.0-r0 do_package_qa: Fatal QA errors were found, failing =
-task.<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/build=
-s/4184" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/valkyrie/#/builders/4/builds/4184</a><br>
-<br></blockquote><div><br></div><div>Yeah, saw that on AB earlier, sent a p=
-atch to fix it just now. Please take that as well.</div><div>=C2=A0</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-Thanks,<br>
-Mathieu<br>
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-<br>
-</blockquote></div></div>
-
---0000000000002fa700065719e1db--
+Alex
 
