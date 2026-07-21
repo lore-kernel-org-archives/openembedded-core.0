@@ -2,160 +2,192 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A57F4C4451C
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 07:21:09 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17309.1784618462521295201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AF3C44529
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 07:22:09 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17314.1784618525025711078
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 00:21:02 -0700
+ Tue, 21 Jul 2026 00:22:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=DlJBadqJ;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8487214ad2bso9989726b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 00:21:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=O98M4pDk;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-81ed2a00f12so84775547b3.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 00:22:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784618524; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gqsxYYWfrKjhGjRgBc16FJZ3FPf/c7ip3Z+5vqNs2RqKOskuK4t5bP969BupjRNDgC
+         rEnyezGG46vDf2vUjXxQCtn2HUGNRrwknjrZbyTeMJWXo8xUr27RSgT5jFusby3xOWv4
+         ef4qytYLjWEsOFLurY0uw/FLOdLSm+h6LWAFjWC5zOuv4o4myUAcPAnQueuzDpP164Fd
+         wjSMWDR8Y4/WgiPJ0RCQBhqhX2M1P5CnFUNxbZncii3tXWCRiYfv16rQjSr/hwsW0xJF
+         WaeSyCQ64QRrHjnpOAj4qqbZXzakB5OCKVLnBXZm4gwrxoFCq4fNyj9AacEeL+IxVHf+
+         2mCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zxr5Gdm23lRUaU4y6VNl10qvacPMCBhMmls5BiyINPk=;
+        fh=Oyp0vZkthY33qxuTu49euvFnXWw2uEogdk3yUFh22TY=;
+        b=TTCOmYF3oM06UIQgxXPjCimez8zkxhBqGJVmNIBBv0qEvPrPLvetBWzK+MCEvdsRba
+         lzg5q3J3nZrRbz78FcH5zNKwyDKdV1iitVZVzGsTVEB3VnQrxZHLs5YRCP7un/hlnnsz
+         l5S0sFOMPRC9TbbA0eGw94Sw1o1sfGOTCWZ5qkG0NlNJxTHm5nXgoASkzQ21A2LPXD4d
+         Lvnnf2+4oIkF9t5rRzsD/5auM/KAwsHTKu6FK8G+66u8C4j0pAM0tIFciBSXzbBKYJB9
+         HzEhklaqav/YwEeLfru6Y5IyndMNtpIBh22CHoNp5xYirzzwkUOAZG3HscHDemAyCbDP
+         CycQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784618462; x=1785223262; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RaJ0AR7otN2FuC5ZaXI/12tHisvEQIsXwRGlf8XiqTM=;
-        b=DlJBadqJFxpNrrZ+DdP/67bcFxaRCSr0nugcmCi0EB2xpUnh+txr+60xier25Sxd5H
-         n7rUmsc2K1VrPWh6UxUxlRr8ovOzVuHHmLdHBvvsnYEdIzLbaxuyyrpwsrQveFgEJrqj
-         jkD20AegL99hhmMrOwtJr/3Sa16UZlQ0/jhSfYfXJwMvxoQ0FzKdl0Hbf6AIvtBaNHvJ
-         S8l88kAIVPn3Kr+9osKZN7FHteR1kB8hR/dCwxOvNe587jJvwLpdCvYvz7Ia5pKiPCiU
-         GfaJShBtMRGY/sdT/ZdXElSd91maFJObU5jfzs4aLVtkODTnNO2gkF2zS37zgeUPBabg
-         40SQ==
+        d=gmail.com; s=20251104; t=1784618524; x=1785223324; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zxr5Gdm23lRUaU4y6VNl10qvacPMCBhMmls5BiyINPk=;
+        b=O98M4pDkYUcOC43EV/hm4b22N4hmhbqMOc29vYSsPTpq314FKfO17P/Y8jzv3muqZ/
+         O87JPtNka5VeiGkIron4sgxo0WG/fca9ZYYqrShoGST8srczBXyrtBMTj0GtflCU5Dvm
+         EgA/R7c1tYLLsn6YuoaAuU+VULUVqHEQX55q8DfjcfZRnXIp4VfRK9hpC4SF1WL8SH0L
+         3YrK8aW6qMaW1CWd+NG+qwRXn1AW2h/JO3j8fcOdCNlEvPjWaeDfC73Z0zoC9gAwUSg+
+         2peV6zUKQQAd3cjCGRStc6Erv4KlCR6CI0H56y3jhInh6bHBFZkM7M9i/zC0baZbJjB5
+         MRRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784618462; x=1785223262;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RaJ0AR7otN2FuC5ZaXI/12tHisvEQIsXwRGlf8XiqTM=;
-        b=ab7MTwM1kDdjeCC7z1GcywVgekY0eelHx527S3JRdDKL6uhw0PhnUU9s4+9crVJBdN
-         NbuJuDsfItditXp4EtvWEjh4MraAQmijJZRHWbN7ZrlbZRRe7lnAkIK/gV5xz47KalTU
-         Mmy8SQiYAdSw98JvjDq4IJtlR3w+OlAuTTVv1bToSDMLZZ/PrAStnR1W6B+cjNtnObx+
-         nUCfGDQDCbUMDXEGbsgOf95Q9OB9Xk+jUtzv+2Hm5JGRY/903SJvXA+4iWyUkSmJbm6J
-         PPfSbzTNbeS674fgI2b0PiIvW31536SVgP1M4JoHEuT5BUxPS5B9D/mJXo2UzrA7UwvI
-         UFtw==
-X-Gm-Message-State: AOJu0YxuCwzzFoy9fdhMUsLYhLK2mi0dLrnIFUtukqh8BN5Hz2LHkvQF
-	yHPkWoaCSyn9SRNKyDnMIRbaU9X+ALcvqZyjeZD3sY+S4L/RUAOB6dRv4LPXWg==
-X-Gm-Gg: AR+sD10gUjDaOgBrIW166xQEI5pvWvNYgZiYy1r5quYV9Fo4RYgtsj9vc/wk9MRb0SB
-	4K3CpVlCv0uk0tLwSn9ZlG+HtSpTfzftzfgW19nr2pIbwWwN4uW2URKe6kDha+HQFWb2DHniEwU
-	ncGYHG5ifH02cIWBlED12MB/nprjPZKdRXHM0POul77eTD0c6QFJQRXy6M6OP42ZWKnLyT4uwsX
-	VYASloAZ+7CbXUVyCOYVRDLUL+agQEKj1ZIV+b6938HMFxSOmI/lFLxhyVucOVgxWOYCn3Swpk6
-	eVVvs+pVkv6FY5om1SMyy0KGbr3o1Vd/Xtk2Vl4btUKXAdpu4Mz38rQBFeQn24LKc1YeN29XwAt
-	7sP9XSCEGfMMx5TarAxfI0qfN9aMdW3VY8WJSgMxBKO+oW5zLdb41OhqWiTU3w3/bEQOSC3JOBB
-	4vLk+bfSk/uS3yzPUGOncKULCq4HVFVTA86M9t++a6XLazj2YGj/CCrwQhU1FRwaqke5kOf/BEt
-	A0mxUl1MoZ82XqnibYyraw/yzeqoCP6aRr4wlJY4zEz4eL+khtoO/E0k+xpLyl106vX2VLgM+6G
-	zerDAKp1mr+Du9vAilg=
-X-Received: by 2002:a05:6a00:44c5:b0:848:2f77:e2d7 with SMTP id d2e1a72fcca58-84c2951e95amr17666579b3a.64.1784618461714;
-        Tue, 21 Jul 2026 00:21:01 -0700 (PDT)
-Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cb519aeb6c2sm5523431a12.21.2026.07.21.00.21.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 00:21:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] libpsl: Do not embed the build path in suffixes_dafsa.h
-Date: Tue, 21 Jul 2026 00:20:58 -0700
-Message-ID: <20260721072058.3106645-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1784618524; x=1785223324;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zxr5Gdm23lRUaU4y6VNl10qvacPMCBhMmls5BiyINPk=;
+        b=YaO52iQv5ek0p+uaA5hP3QF+qHCoPzL0Z9X2d4DmGuo4hpGJchF5TzC45JDULvsYAK
+         wLydpvAA2StYfk6YSBSmBMkTg1L9qGqORdws9vvUiBO5sRjemOG3PBWuCrJ44EWYAlap
+         x6SEcRSdVdcTmYJV327OebPeaZ9fkopcLnzamqKP6ZKEOO+iMQCBj9O/5hO2Xi5wka16
+         a3m/zaK8SJFXVsIMia8gaDodMGztsjM61HNpqcqgLS2lcsiWETyMbB2E21Eke+tjJEGw
+         NTM1GiT+xYkAV3FT9PuiRQbBh18Ji41z53XzBeMJfQmIhBTczl1hyvT4UrQKBVj/n+bh
+         gqYg==
+X-Gm-Message-State: AOJu0YxjjWc94ve9bXFcpvd67uQhBf7cNkp2qQAHwtG6NEXWfrJoh/CE
+	ETOXZ/xQ6ZATCVcMHB9lTjmQHrcJtBr24oUFzWw6Mdi7v+RVrYegXHEohpONE8RBfYUqqNas+ZZ
+	0EpDnQaVyk54F/EFlhshd6/uimd0Yujk=
+X-Gm-Gg: AR+sD10MAReRbTUQld7kTArpLR8DpTjvAhOw7Cm4shDg3GwbNSYyNlpBszv7+nr6pfm
+	dHMmZE5CRo73AF6zhBADyqGKAQxwQpIxtF7KUe/6meJUn/p4jHFZ8eEGmSpF8nhPVPHR+uxw3FC
+	1M9lGplOgeGIHmjzfl7kbHVuJiI0753TQMwCSVVzwcBsSjEO8xM9KPcWk9KbofZO3Aapmh46Aa3
+	/7KcH0It1RrL0fudFCyPqTP8U2abAzVamhTf9ODPgfppjtaojn4f0+SokUAmOlWgBU5ikCTxxyf
+	ZwhLGp6nVvA4MJshd4OeykrRVdFx/47Zog1lVvMpzdVPjuZWDRC8fviUFDTkuRxUNZPHGdSaB1D
+	Z+1skR5V53Xxf+OWisApO0J7KI1vxcaeM4vVQatS25qlvrj2UwAzNLs4p1AM=
+X-Received: by 2002:a05:690c:6b86:b0:81e:eed3:a406 with SMTP id
+ 00721157ae682-81ef270b0bamr57857967b3.18.1784618524057; Tue, 21 Jul 2026
+ 00:22:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260720053526.1992240-1-khem.raj@oss.qualcomm.com> <DK41JOAOYZH7.1CPT2EN28HTX7@bootlin.com>
+In-Reply-To: <DK41JOAOYZH7.1CPT2EN28HTX7@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Jul 2026 00:21:36 -0700
+X-Gm-Features: AUfX_mxW2tbahGPYWZRoicrfYMfvbh6sOV6eWzRFIfk_cp9cWHJEMEbefDSVJyM
+Message-ID: <CAMKF1srZf_7W74C80pZf+u07rxC+FmsLs2EX_QiysTQ4z-pmiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] libpsl: upgrade 0.22.0 -> 0.23.0
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Khem Raj <khem.raj@oss.qualcomm.com>
+Content-Type: multipart/alternative; boundary="0000000000002fa700065719e1db"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:21:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241508
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:22:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241509
 
-The generated src/suffixes_dafsa.h records the public suffix list it was
-built from in _psl_filename[]. meson feeds psl-make-dafsa an absolute
-input path, so the full build directory gets baked into the header and,
-through it, into the library and its -src/-dbg packages. On an
-autobuilder whose build tree lives under $HOME/TMPDIR this trips the
-buildpaths QA check with references to both TMPDIR and the build host
-HOME directory, and it makes the build non-reproducible.
+--0000000000002fa700065719e1db
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The absolute path is useless on the target: it is only consumed by
-psl_builtin_outdated() to stat() the source list, which never exists on
-the running system. psl_builtin_filename() is documented to return "the
-file name", so embed only the basename.
+On Mon, Jul 20, 2026 at 11:38=E2=80=AFPM Mathieu Dubois-Briand <
+mathieu.dubois-briand@bootlin.com> wrote:
 
-Fixes
+> On Mon Jul 20, 2026 at 7:35 AM CEST, Khem Raj via lists.openembedded.org
+> wrote:
+> > License-Update: copyright notice reworded, MIT terms unchanged
+> >
+> > Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+> > ---
+>
+> Hi Khem,
+>
+> Thanks for the upgrade.
+>
+> We do have new QA issues:
+> ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File
+> /usr/src/debug/libpsl/0.23.0/src/suffixes_dafsa.h in package libpsl-src
+> contains reference to TMPDIR [buildpaths]
+> ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File
+> /usr/src/debug/libpsl/0.23.0/src/suffixes_dafsa.h in package libpsl-src
+> contains a reference to the build host HOME directory. If upstream
+> hardcodes a directory path that matches your home, you can set
+> OEQA_BUILDPATHS_SKIP =3D "/srv/pokybuild" in the recipe. [buildpaths]
+> ERROR: libpsl-0.23.0-r0 do_package_qa: Fatal QA errors were found, failin=
+g
+> task.
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4184
+>
+>
+Yeah, saw that on AB earlier, sent a patch to fix it just now. Please take
+that as well.
 
-ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File /usr/src/debug/libpsl/0.23.0/src/suffixes_dafsa.h in package libpsl-src contains reference to TMPDIR [buildpaths]
-ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File /usr/src/debug/libpsl/0.23.0/src/suffixes_dafsa.h in package libpsl-src contains a reference to the build host HOME directory. If upstream hardcodes a directory path that matches your home, you can set OEQA_BUILDPATHS_SKIP = "/srv/pokybuild" in the recipe. [buildpaths]
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
- ...mbed-only-the-basename-of-the-input-.patch | 46 +++++++++++++++++++
- meta/recipes-support/libpsl/libpsl_0.23.0.bb  |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-support/libpsl/libpsl/0002-psl-make-dafsa-embed-only-the-basename-of-the-input-.patch
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
 
-diff --git a/meta/recipes-support/libpsl/libpsl/0002-psl-make-dafsa-embed-only-the-basename-of-the-input-.patch b/meta/recipes-support/libpsl/libpsl/0002-psl-make-dafsa-embed-only-the-basename-of-the-input-.patch
-new file mode 100644
-index 0000000000..3627f2d63e
---- /dev/null
-+++ b/meta/recipes-support/libpsl/libpsl/0002-psl-make-dafsa-embed-only-the-basename-of-the-input-.patch
-@@ -0,0 +1,46 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 20 Jul 2026 09:00:00 -0700
-+Subject: [PATCH] psl-make-dafsa: embed only the basename of the input file
-+
-+The generated suffixes_dafsa.h records the path of the public suffix
-+list it was built from in _psl_filename[]. meson passes this input as an
-+absolute path (meson.current_source_dir()/list/public_suffix_list.dat),
-+so the full build directory ends up baked into the header and, through
-+it, into the compiled library and its -src/-dbg packages. This is not
-+reproducible and trips the OE buildpaths QA check (references to TMPDIR
-+and to the build host HOME directory) when the build tree lives under
-+those prefixes on an autobuilder.
-+
-+The absolute path is useless on the target anyway: it is only consumed
-+by psl_builtin_outdated(), which stat()s _psl_filename and compares its
-+mtime; the build-host path never exists on the running system so the
-+stat always fails. psl_builtin_filename() is documented to return "the
-+file name of the Public Suffix List file", so a basename is in fact the
-+more faithful value.
-+
-+Embed only os.path.basename() of the input. The unmodified path is still
-+used to open, stat and checksum the file, so only the leaked string
-+changes.
-+
-+Upstream-Status: Submitted [https://github.com/rockdaboot/libpsl/pull/291]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/psl-make-dafsa | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/psl-make-dafsa b/src/psl-make-dafsa
-+index 1111111..2222222 100755
-+--- a/src/psl-make-dafsa
-++++ b/src/psl-make-dafsa
-+@@ -518,7 +518,7 @@ def to_cxx_plus(data, codecs):
-+   text += b'static int _psl_nexceptions = %d;\n' % psl_nexceptions
-+   text += b'static int _psl_nwildcards = %d;\n' % psl_nwildcards
-+   text += b'static const char _psl_sha1_checksum[] = "%s";\n' % bytes(sha1_file(psl_input_file), **codecs)
-+-  text += b'static const char _psl_filename[] = "%s";\n' % bytes(psl_input_file, **codecs)
-++  text += b'static const char _psl_filename[] = "%s";\n' % bytes(os.path.basename(psl_input_file), **codecs)
-+   return text
-+
-+ def words_to_whatever(words, converter, utf_mode, codecs):
-+--
-+2.51.0
-diff --git a/meta/recipes-support/libpsl/libpsl_0.23.0.bb b/meta/recipes-support/libpsl/libpsl_0.23.0.bb
-index f434806e1b..26c023e73e 100644
---- a/meta/recipes-support/libpsl/libpsl_0.23.0.bb
-+++ b/meta/recipes-support/libpsl/libpsl_0.23.0.bb
-@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=49296c1806ef92c28297fb264163d81e \
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
-            file://0001-Support-reproducible-builds.patch \
-+           file://0002-psl-make-dafsa-embed-only-the-basename-of-the-input-.patch \
-            "
- SRC_URI[sha256sum] = "f39b9631b3d369a21259ea4654f8875c0ec6995ce9551c0eb5d423e4c011f911"
- 
+--0000000000002fa700065719e1db
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 20,=
+ 2026 at 11:38=E2=80=AFPM Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathi=
+eu.dubois-briand@bootlin.com">mathieu.dubois-briand@bootlin.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon Jul 2=
+0, 2026 at 7:35 AM CEST, Khem Raj via <a href=3D"http://lists.openembedded.=
+org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:=
+<br>
+&gt; License-Update: copyright notice reworded, MIT terms unchanged<br>
+&gt;<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:khem.raj@oss.qualcomm.co=
+m" target=3D"_blank">khem.raj@oss.qualcomm.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Khem,<br>
+<br>
+Thanks for the upgrade.<br>
+<br>
+We do have new QA issues:<br>
+ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File /usr/src/debug/libpsl=
+/0.23.0/src/suffixes_dafsa.h in package libpsl-src contains reference to TM=
+PDIR [buildpaths]<br>
+ERROR: libpsl-0.23.0-r0 do_package_qa: QA Issue: File /usr/src/debug/libpsl=
+/0.23.0/src/suffixes_dafsa.h in package libpsl-src contains a reference to =
+the build host HOME directory. If upstream hardcodes a directory path that =
+matches your home, you can set OEQA_BUILDPATHS_SKIP =3D &quot;/srv/pokybuil=
+d&quot; in the recipe. [buildpaths]<br>
+ERROR: libpsl-0.23.0-r0 do_package_qa: Fatal QA errors were found, failing =
+task.<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/build=
+s/4184" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/4/builds/4184</a><br>
+<br></blockquote><div><br></div><div>Yeah, saw that on AB earlier, sent a p=
+atch to fix it just now. Please take that as well.</div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+</blockquote></div></div>
+
+--0000000000002fa700065719e1db--
 
