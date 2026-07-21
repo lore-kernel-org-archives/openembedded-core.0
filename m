@@ -1,124 +1,136 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D259C44529
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 09:33:07 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18745.1784626383075400654
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 183F8C4451C
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 11:06:38 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20153.1784631989428669202
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 02:33:03 -0700
+ Tue, 21 Jul 2026 04:06:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=TtH5ZoFC;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-474560436c3so5859847f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 02:33:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e7ZAwe31;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47f365afc5aso5562982f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 04:06:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784626381; x=1785231181; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0rn28qA2rY8fmDmLpFqAqu0U1KFfmFX82M1lNoE4QiU=;
-        b=TtH5ZoFCU+OGQHYka++Zk45eVFUGi3M/EyADmQypIxtkCaiUrKfgH6nGRfiKFqOqcW
-         ScGNYdFQAHNs4Bslftyt+5Fst9dqZq9sdWNUvLqaQJEuhq5Ah3mAkjLW54UaGssalAT6
-         uDrldyualh3RkBfdt/qFPK4Gj7oA5Z/0notFvtOtxo+d3pZyPfQHGBi909P1jCnvw2bQ
-         ElbnGioYgDlBZdHdGGoK845e3EIQmuTy5Ne0exQz29l40Yfv4Ised6YQb7vgaXyEOqXV
-         WmKUVh5qW3sSTcO9Gw0J45kHPpt1/Ul6Rj7huHPlkg8rEvitXcPbI9dNttrrSAH6FE0a
-         jryg==
+        d=linuxfoundation.org; s=google; t=1784631987; x=1785236787; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=2F6byZ1O8zaoG81yPDRte4VxlWAanQXcO2sDfoM2T/A=;
+        b=e7ZAwe317rzVY/Ux8SegaBb4u1Ne94ymEQOAnYNLgXPF3GNeIwObBeXvxnmEMjtQPu
+         FYIXmXmGm2VYe7fKssF5l1IZXQOAaWeJAO5CV1d1WOityq58uE3j/+Q4Vq6FEhFyUz4k
+         ONWeRYxRfz+TiL3lvYnh2ZIGZXTFueXQHD4x0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784626381; x=1785231181;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0rn28qA2rY8fmDmLpFqAqu0U1KFfmFX82M1lNoE4QiU=;
-        b=EWGDSuB6dm3oA3s57D7xxt84bs4ZxX5Yzua4qwv4TxIfEv02NbwnqmJTq1OqwTuG4Y
-         Qpglcnt/ZtDWWC4m8mq4LSV7nfccRoyAfzEVhVGX0eaXZ+fcdds7SiI0KjbonKnACZa4
-         GVuLXKJIRa/aXTlyPq52OUfGgIWeOidJdP5m3DQh2KqorPdodObFSHR0fmjfYH/kMQNl
-         GhaCuHeh0SqbsW3+6tP3AteyMVxDCesZRbRNUT672A8t4C3LQzcvSJaxs32Ao0Sptq54
-         6ngf7P9ojYbm60JPNbdgmaI65+TIZs8W1HHOsglWve8asamZmdAFhoI1tQHY0r8g0NG8
-         EQOA==
-X-Gm-Message-State: AOJu0YybGViKNNOY2HJsRgiDWEDZKhY11lmkSVsSsEXo/tj9zYrKiPAo
-	rwV9pjAwvPovOx5nakQ5UAshiump4Qopsk6TJNkR2bNHT6cyodEPHf6Vtv8a0W9b
-X-Gm-Gg: AR+sD12SZE+s0MSdiHRSU+jpKsg42QlRkblXVUPxbbwZ9q7FuU3YJJ1GhuEy5nmOJLU
-	uGreRJYFhPcHWi3ITZvK2XamWOZzytALB+qUTAK8U0TVpy5N0UBeDB0eqET/qnx4LGpPeWYRM0W
-	+KdXPXxqjPYhAiKa+TQQjNFhgtEdxCoQyCs3GM2joCZvUbEubi731sYN2kqpD8JMR6If0WQ8Dax
-	/xzKvvwGxbGqCcwWqpyZNB6rkAJ9zzmg7KcJm+nc9ZpHUCLZUl5Iw5bRVUzhiAAPNvNQPvSfldl
-	PoMXIjTjjBwRPNAqcxfOILKe169iBzKGi7Z9j4mpOGENFvKhNIWOOkt5IetcnxRlC7q6326hxLS
-	D4kcooSgZaJu4CxChVbOm/k/hb0TIFePPbVaaQVi1SpePgpLCTiiEJVNedB6Uv1o2cnazjA3yPr
-	9N/XmPvR2arTkY5O/gXdzfq97/ahme2Kt+XUAViK90beW4qP/OTxaiCX48Isct
-X-Received: by 2002:a05:6000:188f:b0:476:8d5:cf34 with SMTP id ffacd0b85a97d-47f622f2c57mr21505207f8f.8.1784626381143;
-        Tue, 21 Jul 2026 02:33:01 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e52aa4sm38408088f8f.10.2026.07.21.02.33.00
+        d=1e100.net; s=20251104; t=1784631987; x=1785236787;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2F6byZ1O8zaoG81yPDRte4VxlWAanQXcO2sDfoM2T/A=;
+        b=bJq9WKbHkhITjfZEXDSBClWkRSkLt3Bq60Z9H10eJ9u8ykr/4AAIHzQx9+E74cI6qt
+         5o/qrXrUJHZRso7Vdt2Rv56FrB29EtFAugnwlA2Ug8VkEUTTbzs4d+cwfyPO9TpzaP1Y
+         pr1E6rTGbky8J8DAyojxVrAjj9bh1Ha/epHOc+fnK4CE5W7694i9WoGwGMv+vARLFZIW
+         /iYJAx4fjfn3ApaO+vSdsM+SZFtE77/3uqOfiYdCMyCID0uPJ4Shc3X85qMj0xDJ1liv
+         /ncp6w0KlklYuS/8+7DL5rGK6AjEJburEMbce69Kd3x6tRY5O/6hs0W3/HyfjWpGccDq
+         VS0A==
+X-Gm-Message-State: AOJu0YwbItbGjSFAQfYflY0ATJmUdP5R+ORIkJWxAn8ZTVyN3h4Uvo/2
+	AredziDpnOvIGzNio2BzDrXHU5w6ewqBGCXlOGal4ePHeTUIXT41ue699lR2mpUyGyttYqcDqvA
+	m8/NxJbY=
+X-Gm-Gg: AR+sD13D5rDkpFJgTRjUEN61H6WPtFW+iKhV26kOYniJwtjzu2hO0FDU/T8ZekTgMyG
+	7fTy5VgX6tfnoPdS9K8fjZ9J4BLtXxVVUgaP+76b/4rsjKL5MKVrNDUbNLG9On2+PsP1m6SuOnm
+	mEZ+plvYS98HYyTWUBKNWztoy25myJkceejZkwFGHwDlIjqDwhBw7QLJg/FF0escuur2U5EvlIS
+	ugaF91IPNjxqCIr34uOiLPM94buDHzrEhgKOVOdU96YKSfGv2pf3Hd1okAOfEgZkvs0u+bffa6+
+	2F610yGvXhmWjhxjVjvYLg9KgbaQmqYwmZnsn/hOUjJX10lEqRjvUb4EDc3DZMqxB5ElB1PxIhH
+	yekV7Cx35/Gu4xJqgJwmrjwEZbN+s0JUysCkbpYLs+DzeQfySpLyldEPRNf0HBz9ecxn1W1ffdD
+	smdUK8bAbtK3/gsB0rtfv3mTQZwhlWRYzBcWOWNEYKhOtgTxlUH5Kkf1ChqtxlLQOB+mABW/SLa
+	cHxQQ==
+X-Received: by 2002:a5d:5f86:0:b0:46d:9871:1a44 with SMTP id ffacd0b85a97d-47f6232c0bbmr22591851f8f.32.1784631987444;
+        Tue, 21 Jul 2026 04:06:27 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1a08:6122:8bae:1f82? ([2001:8b0:aba:5f3c:1a08:6122:8bae:1f82])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63edcf8dsm40636347f8f.27.2026.07.21.04.06.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 02:33:00 -0700 (PDT)
-From: martin.jansa@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: JPEWhacker@gmail.com,
-	Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH 2/2] linux-firmware: fix typo Firwmare/Firmware in one of the LICENSEs
-Date: Tue, 21 Jul 2026 11:32:51 +0200
-Message-ID: <20260721093251.2697077-2-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260721093251.2697077-1-martin.jansa@gmail.com>
-References: <20260721093251.2697077-1-martin.jansa@gmail.com>
+        Tue, 21 Jul 2026 04:06:26 -0700 (PDT)
+Message-ID: <6edd296ba042635eb8e03507c6c90392b36869ba.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Running large numbers of testimage tasks in parallel
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Ross Burton <ross.burton@arm.com>, Jon Mason <Jon.Mason@arm.com>
+Date: Tue, 21 Jul 2026 12:06:26 +0100
+In-Reply-To: <18C2D268C91A8F9E.1021316@lists.openembedded.org>
+References: <18C2D268C91A8F9E.1021316@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 09:33:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241515
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 11:06:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241516
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On Thu, 2026-07-16 at 17:35 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> In order to try and attempt to reproduce the autobuilder qemuarm*
+> hangs, I wanted to share a quick guide on how to hack things to make
+> running multiple testimage tasks in parallel easy.
+>=20
+> Firstly, I added:
+>=20
+> BBCLASSEXTEND =3D "${@' '.join(['mcextend:'+str(x) for x in
+> range(0,100)])}"
+>=20
+> to core-image-sato.bb
+>=20
+> I then deleted the test case files listed at the end of the email to
+> make the tests run faster. The hangs are generally in the boot
+> process
+> before login so if we reach that point, it isn't a hang scenario. I
+> could have probably set TEST_SUITES instead.
+>=20
+> I then ran "bitbake core-image-sato" to get a base image to run the
+> tests with. After that, I used the following script fragment:
+>=20
+> cd tmp/deploy/images/qemuarm64
+> for i in `seq 1 100`
+> do
+> =C2=A0=C2=A0=C2=A0 ln -s core-image-sato{,-$i}-qemuarm64.rootfs.manifest
+> =C2=A0=C2=A0=C2=A0 ln -s core-image-sato{,-$i}-qemuarm64.rootfs.ext4.zst
+> =C2=A0=C2=A0=C2=A0 ln -s core-image-sato{,-$i}-qemuarm64.rootfs.testdata.=
+json=20
+> done
+>=20
+> I could the run 100 testimages in parallel with:
+>=20
+> bitbake `for ((i=3D1; i<=3D80; i++)); do echo -n "core-image-sato-$i ";
+> done` -c testimage
+>=20
+> (which will run BB_NUMBER_THREADS in parallel)
+>=20
+> I'm sure there are neater ways to do it but this basically works.
+>=20
+> I haven't had any luck reproducing hangs with qemuarm64 with this
+> yet.
+> I did have to switch from using a DISPLAY over ssh to unsetting
+> DISPLAY
+> and using qemu's local vnc as otherwise the display traffic over ssh
+> was limiting the CPU load I could trigger on my server.
+>=20
+> Hope someone finds this useful!
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- .../linux-firmware/linux-firmware_20260622.bb          | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Rather than deleting tests, you can do:
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
-index 33b28c45f4..6ccfa16259 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
-@@ -73,7 +73,7 @@ LICENSE = "\
-     AND LicenseRef-Firmware-ice-enhanced \
-     AND LicenseRef-Firmware-inside-secure \
-     AND LicenseRef-Firmware-intel \
--    AND LicenseRef-Firwmare-intel-vpu \
-+    AND LicenseRef-Firmware-intel-vpu \
-     AND LicenseRef-Firmware-ipu3-firmware \
-     AND LicenseRef-Firmware-it913x \
-     AND LicenseRef-Firmware-ivsc \
-@@ -335,7 +335,7 @@ NO_GENERIC_LICENSE[Firmware-ice-enhanced] = "LICENSES/LICENSE.ice_enhanced"
- NO_GENERIC_LICENSE[Firmware-inside-secure] = "LICENSES/LICENCE.inside-secure"
- NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENSES/LICENCE.IntcSST2"
- NO_GENERIC_LICENSE[Firmware-intel] = "LICENSES/LICENSE.intel"
--NO_GENERIC_LICENSE[Firwmare-intel-vpu] = "LICENSES/LICENSE.intel_vpu"
-+NO_GENERIC_LICENSE[Firmware-intel-vpu] = "LICENSES/LICENSE.intel_vpu"
- NO_GENERIC_LICENSE[Firmware-ipu3-firmware] = "LICENSES/LICENSE.ipu3_firmware"
- NO_GENERIC_LICENSE[Firmware-it913x] = "LICENSES/LICENCE.it913x"
- NO_GENERIC_LICENSE[Firmware-ivsc] = "LICENSES/LICENSE.ivsc"
-@@ -3304,10 +3304,10 @@ FILES:${PN}-intel-ipu7-isys = "${firmwaredir}/intel/ipu/ipu7*"
- RDEPENDS:${PN}-intel-ipu7-isys = "${PN}-intel-license"
- 
- # For intel_vpu - Intel NPU driver
--LICENSE:${PN}-intel-vpu-license = "LicenseRef-Firwmare-intel-vpu"
-+LICENSE:${PN}-intel-vpu-license = "LicenseRef-Firmware-intel-vpu"
- FILES:${PN}-intel-vpu-license = "${firmwaredir}/LICENSE.intel_vpu"
- 
--LICENSE:${PN}-intel-vpu = "LicenseRef-Firwmare-intel-vpu"
-+LICENSE:${PN}-intel-vpu = "LicenseRef-Firmware-intel-vpu"
- FILES:${PN}-intel-vpu = "${firmwaredir}/intel/vpu/*"
- RDEPENDS:${PN}-intel-vpu = "${PN}-intel-vpu-license"
- 
-@@ -3580,7 +3580,7 @@ LICENSE:${PN} = "\
-     AND LicenseRef-Firmware-ibt-firmware \
-     AND LicenseRef-Firmware-inside-secure \
-     AND LicenseRef-Firmware-intel \
--    AND LicenseRef-Firwmare-intel-vpu \
-+    AND LicenseRef-Firmware-intel-vpu \
-     AND LicenseRef-Firmware-ipu3-firmware \
-     AND LicenseRef-Firmware-it913x \
-     AND LicenseRef-Firmware-ivsc \
+TEST_SUITES =3D "date df parselogs perl ping scp ssh xorg"
+
+Also, there is a decompression race in runqemu as it assumes only it is
+booting a given image. You can work around it by creating an
+uncompressed copy of the image in advance, e.g.:
+
+zstd -d core-image-sato-qemuarmv5.rootfs-20260721071104.ext4.zst -o core-im=
+age-sato-qemuarmv5.rootfs-20260721071104.ext4
+
+Cheers,
+
+Richard
 
