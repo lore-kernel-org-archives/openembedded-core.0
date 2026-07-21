@@ -1,95 +1,105 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <ivan.nestlerode@sonos.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD93C4452B
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 20:22:22 +0000 (UTC)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32887.1784665341120511234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9171C4452B
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 20:37:22 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33344.1784666240065728806
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 13:22:21 -0700
+ Tue, 21 Jul 2026 13:37:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=MSJLzAkN;
- spf=pass (domain: gmail.com, ip: 209.85.210.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7eb545db3afso5021636a34.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 13:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784665340; x=1785270140; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sfuW3F0M+/NQPDhEkr+yxrs4g5obHcnbYEiUszRpcrs=;
-        b=MSJLzAkNGEjYOgaD/S30xBNhUdSSJHFwdblD1RaY7KSNu1F95vp5/E0S9tjyFe2SbS
-         wPBseAOSrbdfkjmYaFKMFB41hQ3e6kAmGzZQOUyLdsVaXrlh2NM8v5alXQRvZibTKrkV
-         SGxoR96nom0DYvaCo1AROToxOeiwM4S5eyVYksKHyqOi17uwMLbOjFR5TZs3Hem2K9uY
-         n2NCfMAeAFP3cPMKDvLWPXqF6wX/fZLnbWRg4rrFI5fAxmXjgAJdWllGALSPkdoVRbbj
-         Hhp0qVbxJr2iLGG/0HlY1JbVTADFto7LvVJyBZzMMgfJJ/YO4iyjBfaGLHR3xtF2sfju
-         NSPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784665340; x=1785270140;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sfuW3F0M+/NQPDhEkr+yxrs4g5obHcnbYEiUszRpcrs=;
-        b=DWU+mthnDuV8sZb/w3+0j10tVltU6eIqQsTndMqfGn8k8tB9dks0LJfqVJC+OqfHf6
-         MTqGhkUA3nDNnAzLVHFuBRaZiRWtkBAuUPgThKqUGpqFc4dpBaBw11T3nGHuOWd4cLCJ
-         qMqm0hGc+QSvJI4v7RJyo68+TPJBn8X1OHZ9BexWUno13pzCksDQBJ8kBfTSdXVK/NnO
-         ZyJj7cK3EiAO+ztqujo7wWjevJYUdNXnyhdNAx9+0NZj45ugQR8DtvevHRMWKbytdy9q
-         /ML6Hz3M9uqYDtjE5AelC+Japj96dZR1nwVy3946G/Tzyg8afZEoQpF47jvCLhBcZWZB
-         2iiA==
-X-Gm-Message-State: AOJu0YzsQuJKJAo2JJsIlyxMT1r2+hY8a80t+3wGitEsRk6CjB9JTg5U
-	IiVUh3beZj7aBItkNpLymrsu221GuvXEQE2n3f7gX5rbWPqXvFLo+ff4+51mCg==
-X-Gm-Gg: AfdE7cmg+wYRG7SIaVlLtMNYiNvyYET/zG3JT7i6GiYCCSlaXqfl2emNFDEpI5sMRpY
-	Ervyj/TqWwmbGZtHYwtp2aKaF25BrmVUS3x5Hq144igvUN7jC1mxcfsHDwm2Yubat2+yrS6o9mq
-	ImAI+bA7NH65DSIlC8nZko/3ELAZTl+kBaxjEKZ4oQd8WCt7wODZaV4l2xwcvMLp+ATANbJ9PXb
-	2+5Bd6s00L/DLGsipm3MWgMQc0mlM8jno+DLSGYvJRTWvM5W9pj7TcoJZAW32sIxTLT5Lpm8zO7
-	Pot0bFW2kKF+RfRXBsCOQXvWW43kFxLYWMZ6hFdXPzhIa22B2Jka76c7kgbLFInzc2W/QYpJoD4
-	Fwo/kFconrKWVlXm6vHNYBvnchRvoMyKm2hqYUlLX1yGCC0WXLMfILO3+DRQKuEr9V/z5UEDnYQ
-	==
-X-Received: by 2002:a05:6820:16aa:b0:6a3:7760:e42 with SMTP id 006d021491bc7-6a536896832mr10086981eaf.35.1784665340088;
-        Tue, 21 Jul 2026 13:22:20 -0700 (PDT)
-Received: from localhost.localdomain ([2601:283:4b02:22d0::d8e])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-457673d2a12sm383747fac.12.2026.07.21.13.22.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 13:22:19 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] libxpm: Fix license
-Date: Tue, 21 Jul 2026 14:22:16 -0600
-Message-ID: <20260721202216.1683092-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.54.0
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VxgPQTVU;
+ spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+ivan.nestlerode.sonos.com@kernel.org)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id C938E60A6B;
+	Tue, 21 Jul 2026 20:37:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7E67EC2BCC7;
+	Tue, 21 Jul 2026 20:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784666238;
+	bh=LR6aQisfHiSe7prxsA0dqqzmZs4oiE8DamHxE8K6v44=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=VxgPQTVUNsByH1NyKsR+51on41EZ6eOJt7O03F2sYOdRGNUq/8j7qOLBrVoKgiz4n
+	 97dbKvwy3rhdBO+jk3rMGunm9SP5R3LZbDS1eTMQ34U2yB6PIOLwgVOoULquObj77w
+	 2aZ6vdRRzzaIGJTes41dO/mz7+Ryij7c8M4teSqlZl+GB6q3E2mZB4tFaOyly9YNoW
+	 mHEVaWJgJ2UFXA8o5e2jy+BwlGfYmKu/PorwMuDFQRghnlCBqDHrdTl67uywFuEjSV
+	 2Z1qr3qgaVNwTYSut4AjBm7+wMVWEL4yIrudiEIZbz1Ea4ZHfIcSdEqi25f90YGwJk
+	 QRMMiHqX+OvBA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ECCCC4452D;
+	Tue, 21 Jul 2026 20:37:18 +0000 (UTC)
+From: Ivan Nestlerode via B4 Relay <devnull+ivan.nestlerode.sonos.com@kernel.org>
+Date: Tue, 21 Jul 2026 16:37:06 -0400
+Subject: [PATCH] mpg123: fix lack of NEON usage on aarch64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260721-fix_mpg123_aarch64_neon-v1-1-b5cc73ff9d10@sonos.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7TnBXMegrEWK11h6yUIgg+nvSc
+ WBmHiichQv0zQOZLylypArYNjBvIa2sZKkMpMnpjlBFuf1+rkjGh5DnzVmf+EjK2KjNYggni1D
+ rM3NV//Mwvu8HgFbqemkAAAA=
+X-Change-ID: 20260721-fix_mpg123_aarch64_neon-34f03d321b41
+To: openembedded-core@lists.openembedded.org
+Cc: Ivan Nestlerode <ivan.nestlerode@sonos.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784666237; l=1526;
+ i=ivan.nestlerode@sonos.com; s=20260504; h=from:subject:message-id;
+ bh=KVry7zihjl+u7ivKUjf42xSXaxtMInvV9UYsERPzfmU=;
+ b=umktnFQ56Cc/ymX0hg/W0L6PY9LmKxOA5sdM5EHuI3ggXf8FeFG96+e9OQ1rCTgXK/4m7BSqD
+ hA611+9u8RiBOP+ugS+ZKN3yrv/N1VXX4g0oekHBSrn0Wo0SH7Hpq2n
+X-Developer-Key: i=ivan.nestlerode@sonos.com; a=ed25519;
+ pk=kcjfcLwbjs7Fqv95W59a7YVW52AGAkgpAOoPa23YKXU=
+X-Endpoint-Received: by B4 Relay for ivan.nestlerode@sonos.com/20260504
+ with auth_id=767
+X-Original-From: Ivan Nestlerode <ivan.nestlerode@sonos.com>
+Reply-To: ivan.nestlerode@sonos.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 20:22:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241575
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 20:37:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241576
 
-The license for this software is X11 and MIT (verified using the SPDX
-license matcher website), so fix it up to be the correct SPDX
-expression.
+From: Ivan Nestlerode <ivan.nestlerode@sonos.com>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Fixes [YOCTO #16359]
+
+mpg123 supports specific --with-cpu= configure options to use NEON
+instructions, but this recipe was not using any of these on aarch64.
+The problem is that it was only keying off of whether TUNE_FEATURES
+contains "neon". aarch64 never puts "neon" into TUNE_FEATURES so it
+has to be checked separately.
+
+Use --with-cpu=neon64 on aarch64.
+
+Signed-off-by: Ivan Nestlerode <ivan.nestlerode@sonos.com>
 ---
- meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The mpg123 recipe has a bug on aarch64 that makes it not use NEON.
+This patch series fixes that bug.
+---
+ meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-index 32e052fd42..fe465af4fe 100644
---- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-@@ -10,7 +10,7 @@ pixmap format, which is commonly used in legacy X applications.  XPM is \
- an extension of the monochrome XBM bitmap specificied in the X \
- protocol."
- 
--LICENSE = "MIT"
-+LICENSE = "MIT AND X11"
- LIC_FILES_CHKSUM = "file://COPYING;md5=903942ebc9d807dfb68540f40bae5aff"
- DEPENDS += "libxext libsm libxt gettext-native"
- PE = "1"
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb b/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb
+index f07e6dbcd3..7fa048c9fc 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb
+@@ -42,6 +42,7 @@ EXTRA_OECONF = " \
+     --enable-largefile \
+     --with-audio='${AUDIOMODS}' \
+     ${@bb.utils.contains('TUNE_FEATURES', 'neon', '--with-cpu=neon', '', d)} \
++    ${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '--with-cpu=neon64', '', d)} \
+     ${@bb.utils.contains('TUNE_FEATURES', 'altivec', '--with-cpu=altivec', '', d)} \
+     ${@bb.utils.contains('TARGET_FPU', 'soft', '--with-cpu=generic_nofpu', '', d)} \
+ "
+
+---
+base-commit: a4eb7bc2a750f76d9772eb88b7afb2b801bd1250
+change-id: 20260721-fix_mpg123_aarch64_neon-34f03d321b41
+
+Best regards,
 -- 
-2.54.0
+Ivan Nestlerode <ivan.nestlerode@sonos.com>
+
 
 
