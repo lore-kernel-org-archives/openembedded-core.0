@@ -2,254 +2,233 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE9D8C44533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA566C44529
 	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:23:52 +0000 (UTC)
 Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.62])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.24041.1784643828365687799
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 07:23:49 -0700
+ Tue, 21 Jul 2026 07:23:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=WzpJVpg8;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=ze0L5+gp;
  spf=pass (domain: est.tech, ip: 52.101.84.62, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fvl06k4CxqYEld+dsIOITZ2zYAK8b99PYCdC5slPbiVtSgzpgLnc5KQ2IuOzhLnESGovuPmaC4IBR5blOwjB47SJPZQ9+c7FUN9CRS3C/t62xShOoB5yAsnKzW0A5glUKRdKNvTqJj3RkHo4NdDRqNSXusYduP45w1ukQ/gafhqDu3zBZMZJz+6LU5bLgzz7q9/Ge4BahMUcVU1Y1xj3MTQZXom/5jIO1jk5Jplh3T4Se9sEcMfS5jEpnQy5+thVmzrWXPWbRvW1MzkX6SvhSolOv0EqQYHEsx0UmlsPkjxApt2OIp20wpIcrIbUXtf7vtDKVodp6k78QxbyOrc0PQ==
+ b=hnUo5v60W9WUb2qXOr0PkuTBWDjicWl8uGD0+h6ZRFf4KWtagFrJEcytwQWYc+8LHc3/f83QBufKFqNK4i0HvzizM3DQqId7SIYo0vYLPA373X7Aq3IAb4PtJcIn8BHV8tzP9VwuI6a9Md3v6TGI4skn99OvWLCRGaswdcjg0DKthRRI/2UWGnMTpjAF1mbmZ3T7c5UbR9AvcGY8b+JMZrEn9oSlkTnTblnlE/fpebfs+wS2/EIO6EyIgUuCz01ceQNDd44nrVjsmU8X5uxvmHRiGoXqJEC26Zt4v2atAqh11Lz5JU3QVYpwV70+zbWqfnDdVGmmlzal69FVbWalYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+R7g7Lwh1tvYYBV7/f2oLBgIrCbyGQs6xO+zzPzO92s=;
- b=huy0loCdiRRODLYvOrmN46VoTan4E/z+auuuTs7XFp7c1GQPh5hOW3OzIXzFkyW7OdNf5dv2N1sSbW6hWdCOYqyYpobhSfVW+FwQEsa/8p1oriiHP8vhZ6SX5A7Wk/p0IGco2dyz9RLtObzHUgSQ5j0T1GPw0G/8S1F8Xa9ab7r1yCETZs0fadYo7QkVW5OD4u6G4HsFt1CaJTihaF+Y7eVjC77+Sufl5EA6DU9JIPFLVdBh7mLc+m3JMAMzdm/Gb1x320weVFlsbpddvXGz1t61fFTiD/9PLdC4vglsStRnG+FgMprVMPgAhQdyQ45lJmhzaxWG76K0Geh67NJ1nQ==
+ bh=J5q7N+Pi21W+hKtMHAny2CcktbYBN0nNt35gxSCc1/4=;
+ b=YtHtGl6NhiXaoDChc1fgNmAjiw135FnXkpa732WyDFpolLw8F0AJAZUVV1fXO6NVWeXYGTLHZQKO6sNTGH3ARBqlNDjyswFWzXLV9kvtNU1jM0c2vw3RUTS2BLPZfOkq1326EY5QRaDzAZqFWoJQiUED8vUt+XQXrhhvpG4Ixo/GVU3aIvZXcits7m8/uE3Tw9q8qs0it2fiUFhm1hppZydcdwCCHsGvsfOPUyutj9NlquyrXiHGpJGDwUBGiBlC6gkv3rWaHUtINqkdkZD4ToSroeoNGzvNw+pDXjisHpSffWQR8XAZC3gKebm3BrtWB2IBGW9dROriwrUpXZZ9AA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+R7g7Lwh1tvYYBV7/f2oLBgIrCbyGQs6xO+zzPzO92s=;
- b=WzpJVpg8D64szSyRaxqJbRiYtHfJw5iZye9m+/aF04C0IFS9k9Rbv88wRAI321hs8c4EZHtAv/e7vP4CeJv1m66YpNgPb19j1d+c9ZZAdfu5/qfITRZO+K8Gc3+wQcYLKyBMzvKWZOPztqdIGGbz8RCWbueynKQge2vuyOUAAS2FhlFiHLXLzfWYHhcViQ14P3/xfzmo+m+Ksz40VOYZdxHRc86WWEQ2o60yL+RLddNZBWQmEIGWCR4OhLk8CGqjdxM+NKaeeowDv+WdhDGtNWrNZ/o09bxt1G77oxuJdXep1bfbsoh7pOtTKEtB3uE5BD/LRXcfzf78guaY/ulh3w==
+ bh=J5q7N+Pi21W+hKtMHAny2CcktbYBN0nNt35gxSCc1/4=;
+ b=ze0L5+gpvQzz4/gNh5UXAM3/S6cH+vSMkCBXqBkdDASWTOGS+CL029k6LUa3/L3bnHVvrGPbGXykfxfjVk8sEIlTKfxTJTZtmyWAsrYxjPyrVOMavRA2YYZ3ueeH6Z88U3qwiGQf4Ovljm2GdA8BCS4DdAC3pj9sTorKqsLpcvne45nYVzO4Ey1q7Bdd047ewTU1pdvDIV/3uM81U/HXGxZouqSsFz74wYo+bfKrDvwvKOKXArP4UDi+u0ecK4Zl/bpZ6bOFGK7nb8B7xMKhE3E6Q/Ozk6aKEpHxfj2P0pTPuqCRyx1vSROuyFlhJnF2TCP0maumfIe7w1xCRty3sQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by AM7P189MB0850.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:173::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Tue, 21 Jul
- 2026 14:23:48 +0000
+ 2026 14:23:45 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 14:23:48 +0000
+ 14:23:45 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [scarthgap][PATCH v2 2/3] perl: fix CVE-2026-57432
-Date: Tue, 21 Jul 2026 16:23:35 +0200
-Message-ID: <20260721142336.21513-3-jaipaul.cheernam@est.tech>
+Subject: [scarthgap][PATCH v2 1/3] perl: fix CVE-2026-13221
+Date: Tue, 21 Jul 2026 16:23:34 +0200
+Message-ID: <20260721142336.21513-2-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260721142336.21513-1-jaipaul.cheernam@est.tech>
 References: <20260721134616.16538-1-jaipaul.cheernam@est.tech>
  <20260721142336.21513-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0155.eurprd04.prod.outlook.com
- (2603:10a6:10:2b0::10) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU2PR04CA0179.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b0::34) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AM7P189MB0850:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5adca0a-078b-40f1-c34a-08dee733adcb
+X-MS-Office365-Filtering-Correlation-Id: 6829e7ec-59fc-4794-8710-08dee733ac86
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|11063799006|4143699003|12006099003|56012099006|10067099003|6133799003|22082099003|18002099003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	87mNV8Qd0Gk67q7VFvkNkJ5SmZ1zcD9h/GwSmC2NBhLBSH6f936jQ/9d52a5vqSsC/xCsHoSTGpL0iXsPc1Rf2WYRVABk41XmyL4cqZsKF/DWemjFZNrAqpzIVxBsLaqxLlCB9W8WDvuMfad+cziOEdqiiIGpXXX8h8lyKtvm+3264iFxC8fOnbTMUMSE50px+tDF0aGMSvnwTF76qHj4LOnC0SuSESYIK81vY0QYW5L+cDdvvvhIAEASm/6HjylDBvtqmss6vbZUj5ijojKqbqPjy3/juw+1Xp7dr9QbQS7QSJrORqerZjMpetGu3JfuHK2zjYhzrQYTZGwvBswurLA4VGsjXj7Rw+lTVx/yi3YgwgXuJ5GMu8LfBwAOQoK7G6leQ+a+T+ECamFm6gyMGeN1/d8mHrJiOXh6St5iOEO9cSYxAUYgKSxUfUikRo1hAnUTOq9flrEPeNTlNUIiVwkCpIoN5IC9FTYvg3wF1pC9U9AVIKDT8bIIIWkocqf+ERHGaJuJ6LCcy9JWDOXhCjrslVGCUBURWjHceLSekoOWTizY81o0vOOz3jzdfTxpC3DlFrKSKbsltMEYXQcBlHuLSqIk7XpjHdkg4e93EI=
+	zLfExOLNXMa8Si+nHj+ZjOe5+VpiZolBISTSLdT+4MYLQ/lgkL3rq49iBFSNEwGWH5SgmgzbKdnCPZpltMcvVdgNsaCDd5TdG6/TVhwtl7y09xx2C2wS5Fn8DZNpaWQLhIZXQXCnCCiNXo/q9aPvSWopEI34NDJDJhUzdQWRk9RqbjmsOtf/nodj6RbLlE1nlNKt6FeCFSSajlJ9CrjtVbwiBGYBo4L64O72RYeFnRdu3oCTVD18oGGWGcL7kZCeTtfiBdoFmVYaS+KffYKKNhb4dzWi9jSY8fupbg9TxCNRGz5YaupSqy1/9yQvMDSbgmHbSP5AQbwpGsOctYrwsgYHbhwwSz5V93yxK0mQPFSU+O1rGh4Bk+jpEVmvPDBvh3G/alASny+kg0++8MS5hNXzD5L2LXFMaD9ixQDqg/g44BTFs71mR+s+bGaImcZhD8dsSCvO+PeMzhUAXUICRZjz8ZQ7YrqK//xbUCXL153dQYSt+g1vN6R+AU6qO1nE+wvyDDpRGw3QUiVWnChIdqq3//L4qSMGmibCeRNL/FSW+ES9/1JK6YYs0nLRPswEKbNhrfnPLsFxzUI6/Q+O1/MoUGN19hGn910lEBJfQdEpH4BMuMzPPd1LQZxs8NKK
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(11063799006)(4143699003)(12006099003)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?LNE/CmTsYQKyypV2E7LXDNo/UbhotVtl/GqVa44NARtZK0JfpD1gA/+yDKk8?=
- =?us-ascii?Q?oFxy09ssVjkqM6xdk1/dRhvcQNzpm1aut+HN589TyMHVS+BVUEjgP/gbR1Tp?=
- =?us-ascii?Q?x4tJMOjW2Y4hZssczT1tPArUVw3Mqo7DeheeJxrfinmWwbj/up5N2AIcIKO/?=
- =?us-ascii?Q?S28KwxP72IF7UVQWzcPNzNrsQnJpTs9jMKNA82qjn/RI23ZljcOSoidgMaGk?=
- =?us-ascii?Q?LiGAUpBmjS3z4cL3oZIXCcDNwVYeKC3N+Mx3Nls+IJpWdL5pPY8yh5hbsM1K?=
- =?us-ascii?Q?7G/eQqYE6WKOyDqbi96nMEu8S1lTRZQ4bYJPdKiMY0+APUcMAghRNSLMPJPP?=
- =?us-ascii?Q?gG03nhKHnshbW6eBstgf4/ErAYHaBscUdPXG5B5BylemCtkGNsG2LNbRm38j?=
- =?us-ascii?Q?Fl6v8aCL7NF+JG1QJRCVGieE6HX49UmlO/pNFnQuQxozcZyL3socg590RawX?=
- =?us-ascii?Q?KJeV3gsKjR3PcOiH3mFlMSpcgLuNd9HoDEdANG6RONi7jefhunsCD5UAxATe?=
- =?us-ascii?Q?mipmNI87vZePUKp1gPt5ZX/wHSt9aTxDp7c6+n/6VRO46CXN8+1a3qeTYdOM?=
- =?us-ascii?Q?mEy5m5nsiK2ZL/LVAiOHGM/OKpKs0JXsg98YEarKji/xTXfl2XpakDHgjm6j?=
- =?us-ascii?Q?6AlxqE4439ud+iErNMHt1YoQmD9i6Jig7Rq/ubBIM0n8Xw/iNtr0QENdeUhT?=
- =?us-ascii?Q?98HGcYwzLWvifSlcBk/jTxcCdKH1jJelUcOJt1u4AHrMylHrz6MJmfHFjMuJ?=
- =?us-ascii?Q?QX0kdxS7r3RHo9SFVDlsq0MYhSpt0GYdt7oNHAOWvoLJEiulEVhm2gJMeQO5?=
- =?us-ascii?Q?DPJ1kivfmlqcckhKLS0YDwtikR5/xYnAaF/dG77W7CE8/QheGcg25kN11lRV?=
- =?us-ascii?Q?2QjZmv15Sn36EK57+aHU1OKDBDSi7D/kK1lcmp7muee5v5hu6n7QzWeDpNTH?=
- =?us-ascii?Q?wQx0xH2tsbBovrYK5AMJiSW/YFuWLQfwp9BnN+BkK3hgXsCgMQ/x1/epxtvF?=
- =?us-ascii?Q?nzCNYYCaG/GzxlywyWQmNSpW3GnlIx3LZyetE9D5cjOcCPCsfuqtNJlFTMpM?=
- =?us-ascii?Q?GXGRU38ebd0BRJkyr4s3V4J6q0LQ9IOm0Mj7zEaFJfAbMCIKz8ixjiDztcrA?=
- =?us-ascii?Q?7H1kv7yA6ERn1TXZPxsYfb2bxeaauC/PL3PCMukLLT3w9k/XS/L3wAYt7d4m?=
- =?us-ascii?Q?y9drOc/zfeGZkUz/JlrxUbhPIYBnrfuRW6aMbMPdizSguq1fUhS40bcDIJ2r?=
- =?us-ascii?Q?q/lBKLbGCkEioH+rY8UhnVXBTf1YpsTAVqVTML5oLkcthi59A+5l6z/LnBK5?=
- =?us-ascii?Q?8xWP36X+OFgBZdzjdigrqqE8Os+sVpIJIwIAvlj583Tdl5AKA1QIO5yawpRs?=
- =?us-ascii?Q?/FvCay1w9mnaHhyVtVdofHnTv1wWCdadTppG1LHybA0x2UbThksWrnO94P9M?=
- =?us-ascii?Q?uZp0K8KfrWNt+bhZKEtHnCqKn6huXMl84UU8bZI4wlDysIJ/3GvNXxQbRYNN?=
- =?us-ascii?Q?R2rz1w6vN2uhmihjvh0Vwdq11q9hPw467k9WwWIfAiCsP4altTSE+F9Msm58?=
- =?us-ascii?Q?Z0IqmZnXlgrQM4Cg1eC33k4x7HU4Vrx2i0rEdKWiX+VsYYZVjA+0m6HjWHXp?=
- =?us-ascii?Q?m9oBt+5hBhA5VyEx/Whuj3w2uCowv7Kt5EV4qgaYnpi8uA1/yMJO8TRZMZAE?=
- =?us-ascii?Q?DWf6esObpLXa44PmCtfLJldbCKUVq/iL4tTRFmHQ9eLwWbHSvwPd1TAE2CBW?=
- =?us-ascii?Q?YMR3dISQKC4vrTLaOT2P/58w+h7AJgc=3D?=
+	=?us-ascii?Q?0wivt5hmkIo9Cz3x0vHBrn9baj5KijfUm1zm9IsnKwKTf36Ov51Rpl9FzaPE?=
+ =?us-ascii?Q?0oerMZNRV5/cCDHbs1BFx1S0ubWBxcOsJh5nRQzWcHglncTlYgcJd8ZeJlvX?=
+ =?us-ascii?Q?KsFbMB6SdiMbwAl7muWD6Cv3Gme92BPd+y2TenIJCRX0rhWJfpYSZSdOLI2P?=
+ =?us-ascii?Q?qqRFtq4WB1up90+La05HkhsAzOmw7T1tdEovesBR9SsI6wkLEHYrqhfZ4VyI?=
+ =?us-ascii?Q?MSJ9QCmz0hed530eRfuG+lGGTpfCkWNXzwF9FAjokM+pWcmExvz1yfB0iNF1?=
+ =?us-ascii?Q?r35++0k2cEBbHSrAcLec+ezhyVrEKjrWHmhyBxkMrvsdRAPGNH1HMF8X7abC?=
+ =?us-ascii?Q?zviEsqrSzJJxlv3wLkqIHqMUayNtYG9qaGfmkxLC7w8lIeNNxwsabLMNhL0J?=
+ =?us-ascii?Q?Exg9zMqjKN3Ibz/tSXHQqC3CPbKTYYTila3hSMwxtDtESxSQY7u0+lhsr8fK?=
+ =?us-ascii?Q?bsddbSFzGi/r0ZViP2EwYEgjA8bIgOzcLnvB+5qKbPuvFAx8YR+z4veutk7d?=
+ =?us-ascii?Q?mtKdcjFPdAy8dacjKMsnaa4SsSUNQlNEz4TLk7TOD+Tv6N3S3afVgpHIUZ5w?=
+ =?us-ascii?Q?RYeuR6hy+y5a5XDl+Ir2bCCcmIBQha6tpgBNSSrFS9AWGcu1YV9G1lLV6VSq?=
+ =?us-ascii?Q?bryUvT50/G1GAmLoFD7vdJnsvQxrcKPXhxWCkJ5VYrhnWwtC4EkXUqDI4uEv?=
+ =?us-ascii?Q?Stgye6Wiy3xVmHkk9SmM8EsNe20kVUUzcMyZLiGuEfteoSSwIAef7vWbcQMt?=
+ =?us-ascii?Q?GaDha8CXmmK1wuK/zlM6zzFA0UpZGINoYgReiIB/9Sc0ttmNnKHEXff8rNXU?=
+ =?us-ascii?Q?31lqHHgIqO3f/jmcPeGclpLeb/BcjzCerHKJ1OUMU4LAtHDStY2gKAaUZ0Lq?=
+ =?us-ascii?Q?ieL8eVzs5QdsOA6OlIbtiCKeAdiAh+ppIMaG09Pys2Zf0Z8X7yQ5FNbA2o1Q?=
+ =?us-ascii?Q?Y5+Lp6jRIRbMv36no+PblPmsgCGIFoi7aLkZBFi3zIkRR+dTwuxIrlYZ4wca?=
+ =?us-ascii?Q?Jyv+wSaKccyJQvYWQv78qSk7QR4ROQWrbxP7dySIuFmA35f8YuqizZfVRFmv?=
+ =?us-ascii?Q?sWdYCqzeSSuQLzxBcc0oBEiut1fWxgsWsmcKWFadsCd50yeJMMzVZPmHnMps?=
+ =?us-ascii?Q?fqKwj1XOwEeBHrjvDxJm+idljuEGdebxXGk6LZFRVr3j2JnzjmGirdqvHwZy?=
+ =?us-ascii?Q?OoBQ23Kaf3dhC6gVvv1FWhZuARI9lNw5p+FA7L6tvox2Fru4mUGGRVedtMMl?=
+ =?us-ascii?Q?SS1nJ6LqNRUU6vL2JmYPYqItk7adS75MWhHmbvJDYPxFa1O184r4f6CUv+By?=
+ =?us-ascii?Q?KbD1dAiQNK8nM0aYnL3y7F/VKmR1i0l7HRLChWSnxZy+0khYzTO+J3AjMw3m?=
+ =?us-ascii?Q?N3AEVV6Db7LyJbzrPh39Go36UKlzs1M2xUaJwkDFtLN2meUoLEEKAPUQ3IeL?=
+ =?us-ascii?Q?petf98Da1c6ES518UZtnMuTKHSkWyGvnZ8YVK8DmqSQODltr2kTEewpFE7Gf?=
+ =?us-ascii?Q?vbQ6Og9fhNvNrlRHOHx26ozsmN4qLUnXWR7TsIaeqRWK1txW5EusMqclsV4H?=
+ =?us-ascii?Q?54YuFXgumBQKMo08dYzT3CpUR3t1tLKcsAjb84281HKSzIpe+URNLoNWhgva?=
+ =?us-ascii?Q?07zKYMSk1Hy1AF+Fhp5dh9TrPOpNNRPBAwpG3RJT69u3pU20Kk+BXjBU4NcV?=
+ =?us-ascii?Q?aEC329HlaKvm6MrYoTEG9Voyw19xOVFDEwDN/gSk6xKEULb5OWzDRPSLi6yF?=
+ =?us-ascii?Q?5FbWjksQ5MLPrS1Jz0t4ynIcL1Np7ts=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5adca0a-078b-40f1-c34a-08dee733adcb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6829e7ec-59fc-4794-8710-08dee733ac86
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 14:23:47.9992
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 14:23:45.8299
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8I1012eSIHNtSTtM0A6SaTJvuePx4Evw1DoYBBdpQiSYqUUQowmD+gUVRVkwYgOLW2HEAPk3BNx4SL6Jcb/5wS1vA6/ifxsH+OFmPglEpJA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: UQFHW7z5hT/zvaUAjJ6NPG7X6X3ABvIZgv6Ujo4E3obpwcP0DSiXdcR2ovMds7UphgxU7eG6SxNY45V9v+3LmeDTbXQEhXoe3dJ+z8mvk28=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0850
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241537
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241536
 
 This patch applies the upstream fix as referenced in [1], using the
-commits shown in [2] and [3].
+commit shown in [2].
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-57432
-[2] https://github.com/Perl/perl5/commit/5f7eb6bbbe0510964e3fb1d6bb691e5445=
-913e55
-[3] https://github.com/Perl/perl5/commit/40754edc72dd3e513d758153c0e2f02158=
-97740e
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-13221
+[2] https://github.com/Perl/perl5/commit/03f74bbbd3a68350d926ee93d56ee4808c=
+28c4c7
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../perl/files/CVE-2026-57432-01.patch        | 52 +++++++++++++++++++
- .../perl/files/CVE-2026-57432-02.patch        | 34 ++++++++++++
- meta/recipes-devtools/perl/perl_5.38.4.bb     |  2 +
- 3 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-01.patc=
-h
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-02.patc=
-h
+ .../perl/files/CVE-2026-13221.patch           | 75 +++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.38.4.bb     |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-13221.patch
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-57432-01.patch b/met=
-a/recipes-devtools/perl/files/CVE-2026-57432-01.patch
+diff --git a/meta/recipes-devtools/perl/files/CVE-2026-13221.patch b/meta/r=
+ecipes-devtools/perl/files/CVE-2026-13221.patch
 new file mode 100644
-index 0000000000..ef92b0d7b2
+index 0000000000..03396f3e43
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-57432-01.patch
-@@ -0,0 +1,52 @@
-+From 5f7eb6bbbe0510964e3fb1d6bb691e5445913e55 Mon Sep 17 00:00:00 2001
-+From: "Paul \"LeoNerd\" Evans" <leonerd@leonerd.org.uk>
-+Date: Sat, 9 May 2026 17:18:43 +0100
-+Subject: [PATCH] pp_pack.c: Avoid ssize_t overflow when calculating the si=
-ze
-+ of a structure
++++ b/meta/recipes-devtools/perl/files/CVE-2026-13221.patch
+@@ -0,0 +1,75 @@
++From 03f74bbbd3a68350d926ee93d56ee4808c28c4c7 Mon Sep 17 00:00:00 2001
++From: Karl Williamson <khw@cpan.org>
++Date: Thu, 26 Mar 2026 10:13:49 -0600
++Subject: [PATCH] regcomp_study: Don't create a trie that would overflow
 +
-+If the user has requested a size that would overflow a SSize_t, then the
-+only sensible thing to do is throw an exception, because the structure
-+this implies couldn't possibly fit into memory anyway.
++This addresses GH #23388
 +
-+CVE: CVE-2026-57432
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/5f7eb6bbbe=
-0510964e3fb1d6bb691e5445913e55]
++The design of the trie compiling code is to batch extra long tries into
++smaller chunks that fit into whatever limitations there are.  However,
++this ticket shows that that isn't always being done.
++
++In this case, a bunch of branches that have TAIL operands can be
++combined together, and the final TAIL is used.  And the code requires
++that the delta between the first branch and this final TAIL fit into a
++16-bit field.  That is the root cause of this bug.
++
++I'm not familiar enough with the trie construction code to easily
++understand why the final tail needs to be used here.  So this patch
++simply doesn't optimize a sequence of branches into a trie that would
++overflow.
++
++This could be revisited by someone who knows more about this than I, or
++earlier in the development cycle.
++
++CVE: CVE-2026-13221
++Upstream-Status: Backport [https://github.com/Perl/perl5/commit/03f74bbbd3=
+a68350d926ee93d56ee4808c28c4c7]
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ pod/perldiag.pod | 6 ++++++
-+ pp_pack.c        | 4 ++++
-+ 2 files changed, 10 insertions(+)
++ regcomp_study.c     | 10 ++++++++++
++ t/re/pat_advanced.t |  9 +++++++++
++ 2 files changed, 19 insertions(+)
 +
-+diff --git a/pod/perldiag.pod b/pod/perldiag.pod
-+index 841e22d580..d9231077363d 100644
-+--- a/pod/perldiag.pod
-++++ b/pod/perldiag.pod
-+@@ -4880,6 +4880,12 @@ mixed-case attribute name, instead.  See L<attribut=
-es>.
-+ (F) You can't specify a repeat count so large that it overflows your
-+ signed integers.  See L<perlfunc/pack>.
++diff --git a/regcomp_study.c b/regcomp_study.c
++index db7ab3a409..a1b2c3d4e5 100644
++--- a/regcomp_study.c
+++++ b/regcomp_study.c
++@@ -1933,6 +1933,16 @@ Perl_study_chunk(pTHX_
++                             tail =3D regnext( tail );
++                         }
 +=20
-++=3Ditem Pack template structure size is too large
-++
-++(F) You called C<pack> or C<unpack> to operate on a structure, whose
-++computed size is too large to fit in memory.  This usually happens as a
-++result of embedding a large number as the repeat count for an item.
-++
-+ =3Ditem page overflow
+++                        /* The code below currently saves the difference =
+from
+++                         * start to finish in a 16-bit field, causing
+++                         * GH #23388.  This defeats the design of batchin=
+g
+++                         * tries into chunks that each fit.  khw thinks i=
+t is
+++                         * too late in the 5.44 cycle to relook at the de=
+sign,
+++                         * so for now anyway, don't make a trie that woul=
+d
+++                         * overflow */
+++                        if (tail - startbranch >=3D U16_MAX) {
+++                            continue;
+++                        }
 +=20
-+ (W io) A single call to write() produced more lines than can fit on a
-+diff --git a/pp_pack.c b/pp_pack.c
-+index b5c0b261ef..6075e83aac 100644
-+--- a/pp_pack.c
-++++ b/pp_pack.c
-+@@ -528,6 +528,10 @@ S_measure_struct(pTHX_ tempsym_t* symptr)
-+                 break;
-+             }
-+         }
-++        if ((size > 0) &&
-++                ((len > SSize_t_MAX / size) ||         /* detect overflow=
- of len * size */
-++                 (len * size > SSize_t_MAX - total)))  /* detect overflow=
- of total + len * size */
-++            croak("Pack template structure size is too large");
-+         total +=3D len * size;
++                         DEBUG_TRIE_COMPILE_r({
++                             regprop(RExC_rx, RExC_mysv, tail, NULL, pRExC=
+_state);
++diff --git a/t/re/pat_advanced.t b/t/re/pat_advanced.t
++index 398680838d..c9e389ecb3 100644
++--- a/t/re/pat_advanced.t
+++++ b/t/re/pat_advanced.t
++@@ -4898,6 +4898,15 @@ EOF_DEBUG_OUT
++         $x =3D~ s/^[\x{0301}\x{030C}]+//;
 +     }
-+     return total;
-+--=20
-+2.43.0
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-57432-02.patch b/met=
-a/recipes-devtools/perl/files/CVE-2026-57432-02.patch
-new file mode 100644
-index 0000000000..273a247a88
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-57432-02.patch
-@@ -0,0 +1,34 @@
-+From 40754edc72dd3e513d758153c0e2f0215897740e Mon Sep 17 00:00:00 2001
-+From: "Paul \"LeoNerd\" Evans" <leonerd@leonerd.org.uk>
-+Date: Mon, 11 May 2026 12:25:33 +0100
-+Subject: [PATCH] pp_pack.c: Avoid some other potential overflows when
-+ calculating sizes
-+
-+CVE: CVE-2026-57432
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/40754edc72=
-dd3e513d758153c0e2f0215897740e]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ pp_pack.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/pp_pack.c b/pp_pack.c
-+index 6075e83aac..b2019902203a 100644
-+--- a/pp_pack.c
-++++ b/pp_pack.c
-+@@ -515,12 +515,12 @@ S_measure_struct(pTHX_ tempsym_t* symptr)
-+                 break;
-+             case 'B':
-+             case 'b':
-+-                len =3D (len + 7)/8;
-++                len =3D (len / 8) + !!(len % 8);
-+                 size =3D 1;
-+                 break;
-+             case 'H':
-+             case 'h':
-+-                len =3D (len + 1)/2;
-++                len =3D (len / 2) + !!(len % 2);
-+                 size =3D 1;
-+                 break;
 +=20
+++    { # GH #23388
+++        fresh_perl_is(<<~'PROG', , "", {}, "Avoid trie overflow");
+++            my $x =3D join "|", "aaa".."mzz";
+++            my $y =3D join "|", "naa".."zzz";
+++            use re 'Debug';
+++            "fnord" =3D~ m/(?:$x)|(?:$y)/;
+++            PROG
+++    }
+++
++=20
++     # !!! NOTE that tests that aren't at all likely to crash perl should =
+go
++     # a ways above, above these last ones.  There's a comment there that,=
+ like
 +--=20
 +2.43.0
 diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devto=
 ols/perl/perl_5.38.4.bb
-index 8dccd34499..b4927646d7 100644
+index 9f4cc1c404..8dccd34499 100644
 --- a/meta/recipes-devtools/perl/perl_5.38.4.bb
 +++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
-@@ -21,6 +21,8 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.tar.=
+@@ -20,6 +20,7 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.tar.=
 gz;name=3Dperl \
+            file://0001-Fix-intermittent-failure-of-test-t-op-sigsystem.t.p=
+atch \
             file://CVE-2026-8376-01.patch \
             file://CVE-2026-8376-02.patch \
-            file://CVE-2026-13221.patch \
-+           file://CVE-2026-57432-01.patch \
-+           file://CVE-2026-57432-02.patch \
++           file://CVE-2026-13221.patch \
             "
  SRC_URI:append:class-native =3D " \
             file://perl-configpm-switch.patch \
