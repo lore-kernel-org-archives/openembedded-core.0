@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A19BAC4452B
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 19:00:51 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31085.1784660447599725063
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4BBFC4451C
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 19:01:01 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31075.1784660451835871652
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 12:00:48 -0700
+ Tue, 21 Jul 2026 12:00:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=dgXYxQcp;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-2026072119004599c7a6e75c000207fe-xeh_oe@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026072119004599c7a6e75c000207fe
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Ydac2kWO;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202607211900501acafd5c0e00020729-kw8vgt@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202607211900501acafd5c0e00020729
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 21 Jul 2026 21:00:45 +0200
+        Tue, 21 Jul 2026 21:00:50 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=oRta4qFDS6/OFdueQN+9a54Mr76Pk0K4LxrIBGXP2so=;
- b=dgXYxQcpjeSnCSbxWSyPaQkYZcxwFPjQH96QWFuRf13Z1V1QmVQwILL/m7J48UenDjfttq
- c2GGrU1mPzcFN4KJk8L6P2tcRF+9BX+Uj6esZUZCJTizmCu7AcCq9Sx7vwIxheKGrH9JG/UE
- 5QTyhFzS8Z0i6R9I/aYOtOa8J4WByYuQQWQ5nEYGmXEuT+uDnDoS36/4ktx+d68q+1B9Zv3z
- bl18ulClFXP9+tLJSpfbGomqLIyxGA3WbhN3CmKqMhhPUUMUEf/wH0XQoFzrcwL3GOGOEHM1
- 4hyBWlHa77ZU8boqkCQ2LgvHrNXUu81CQhTxZFYCv2KnVRmiOrnejkRA==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=BN47Mxg8rRkYuYhnRJFjAmQv+RGit+IIKMC5h1OPGUw=;
+ b=Ydac2kWOdnDoGZ2b1vrDOQrtoKzj783qfyGY2BGBiygLlTwL+Fn7lXcdLEFUzkxXurWVU8
+ sqzUpbr8LcfV3n8y690LIT+HrWNkzal7TlVi0AhGmQ8Q1a522YO5HJLuBojNcvhgU86mC9/k
+ UE6CJIUErk+6XU3Eg4pWab9eDeEqdGh3Q6K7boni3CRnIQQtRTDSCsHIzXfUjuQdb3kSGpX5
+ rf+xjjVlB2fmWhIWNvEc4Iml97a9/Jj3/ZXCFy4dSN2S3ioYeL/8P4wHmNNDi/E8FKSGgTEJ
+ +1BsfCdVfM+Vc4CBT8LAjrmtECK2vCHs1hwpCn4orbk2A5egI+kc3dvQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH 1/2] openssh: set status for CVE-2026-55653
-Date: Tue, 21 Jul 2026 21:00:36 +0200
-Message-ID: <20260721190037.49841-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH 2/2] connman: remove connection_manager from CVE_PRODUCTS
+Date: Tue, 21 Jul 2026 21:00:37 +0200
+Message-ID: <20260721190037.49841-2-peter.marko@siemens.com>
+In-Reply-To: <20260721190037.49841-1-peter.marko@siemens.com>
+References: <20260721190037.49841-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,30 +38,31 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 19:00:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241572
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 19:01:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241573
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Per [1] "Only an issue with FIPS patch which is not in Debian/upstream".
-
-[1] https://security-tracker.debian.org/tracker/CVE-2026-55653
+The only CVE with this product/cpr is CVE-2013-10036 which is for
+different connection manager and is showing up as false positive in CVE
+reports with current sbom-cve-check tooling.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-connectivity/openssh/openssh_10.3p1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/connman/connman_2.0.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-index a050475532..acc6c54f38 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-@@ -36,6 +36,7 @@ Red Hat Enterprise Linux 7 and when running in a Kerberos environment"
+diff --git a/meta/recipes-connectivity/connman/connman_2.0.bb b/meta/recipes-connectivity/connman/connman_2.0.bb
+index 6f7093301b..920745afc3 100644
+--- a/meta/recipes-connectivity/connman/connman_2.0.bb
++++ b/meta/recipes-connectivity/connman/connman_2.0.bb
+@@ -14,8 +14,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
  
- CVE_STATUS[CVE-2008-3844] = "not-applicable-platform: Only applies to some distributed RHEL binaries."
- CVE_STATUS[CVE-2023-51767] = "upstream-wontfix: It was demonstrated on modified sshd and does not exist in upstream openssh https://bugzilla.mindrot.org/show_bug.cgi?id=3656#c1."
-+CVE_STATUS[CVE-2026-55653] = "not-applicable-platform: Only applies to RHEL FIPS patches."
+ inherit autotools pkgconfig systemd update-rc.d update-alternatives
  
- PAM_SRC_URI = "file://sshd"
+-CVE_PRODUCT = "connman connection_manager"
+-
+ DEPENDS  = "dbus glib-2.0"
  
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
 
