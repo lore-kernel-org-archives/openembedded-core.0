@@ -1,141 +1,149 @@
-Return-Path: <nora.schiffer@ew.tq-group.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F62C44529
-	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:28:03 +0000 (UTC)
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24224.1784644074765876339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0473EC44532
+	for <webhook@archiver.kernel.org>; Tue, 21 Jul 2026 14:30:33 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24284.1784644228854107819
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2026 07:27:55 -0700
+ Tue, 21 Jul 2026 07:30:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ew.tq-group.com header.s=default2602 header.b=WrQScFQ4;
- spf=pass (domain: ew.tq-group.com, ip: 188.40.3.216, mailfrom: nora.schiffer@ew.tq-group.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=sM1nkqu890Vz+6Khs2JMIka9hthByF9Qx7b4fz3gRco=; b=WrQScFQ4IKoIRQEr85uJ0rWfGy
-	aQl/S5rh5bcOnY7brrPie7kO07iHSztACV5bD/87ffBw0JPatrpg+E6ZA7sQnbhU44+UbaGfVPGXk
-	WSzn1pacW6xPR0uSsFkY8zPInGB/MwOKMs09UskV2a5DRLmQglqIHGuWKYK8jKPpvN5F7WAG+kPju
-	benq2DcLwZPEVj8iDM04nzWoVwyfMxvo3EW9KS/IrzK0XQMHoMv3NYJuQRfVvwhONSt1ysL2x8Whu
-	LbHoUPfGPHgmJfs+6eBQTLdo0C2r+9FUqcQq0+Fj33VqRGmghwHFQcrkAulXuHpC9YxQJCcl47A/L
-	cXv0kmFA==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wmBRo-000ADj-2q;
-	Tue, 21 Jul 2026 16:27:52 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy03.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wmBRo-000DBE-2b;
-	Tue, 21 Jul 2026 16:27:52 +0200
-From: Nora Schiffer <nora.schiffer@ew.tq-group.com>
-To: openembedded-core@lists.openembedded.org
-Cc: oss@ew.tq-group.com,
-	Nora Schiffer <nora.schiffer@ew.tq-group.com>
-Subject: [PATCH] kernel-uboot: drop FIT_KERNEL_COMP_ALG_EXTENSION
-Date: Tue, 21 Jul 2026 16:27:35 +0200
-Message-ID: <20260721142735.3803979-1-nora.schiffer@ew.tq-group.com>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=XaPmAF/9;
+ spf=pass (domain: smile.fr, ip: 209.85.218.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c160420289bso1613628766b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 07:30:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1784644227; x=1785249027; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=X3GVfOoOlXmXKdZS2pMoCpNorK3Jag2zIfW43N9sUE4=;
+        b=XaPmAF/9nGOs2WbpvPaEduumdH6tXT47a7UG8yGv1EvstO7qJmVP91eI72dxO3PIcO
+         eo6Rh33RNuN+20KDPz65Sq68b1L5auNBPoHWFGezzh+/A9gonIZDs4E3mnsCpP5GB0QA
+         lT+onSbLRcrSxEiFMWOK4trViYdkWSLK0dy6c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784644227; x=1785249027;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=X3GVfOoOlXmXKdZS2pMoCpNorK3Jag2zIfW43N9sUE4=;
+        b=FFUnAZaWNGmlgCpG/ddPEdyBGBf9+MWMAKGFYGt0uC3ioNLeWSlLsufkO8Snp+AO//
+         heVfijIX1KJRYqKoqDitAfMGaKg+dOtXKKI9qz1dp34705ZZxDdSxJ9sLC+k1C/EnBtO
+         WEnjfWZ6ktndNd/jcaSWUNP+quIqnbhxkOtU1vHr3JyPgyzopMWkNOfjMV58M/pCKyzT
+         welaj7Qq06z5dufD9577SBWbAvN1d/G2rafsCYDlbWkoFmZ36WC8aObCwhY6Y8ddZo6h
+         Y9g5nii9uR4MRKjkNi1bwh77xwMwdcqC4lk092ySYlDE/cWN4if0gNSRSCu9LydSHDCN
+         lVKQ==
+X-Forwarded-Encrypted: i=1; AHgh+RruwNhnWFkR9HGEJvMBz4e9kS/xO69NsCEYvk3Oc5PUrKk2CuAAVfHS4w69kRiJhbE6z9id6AcAkj4IeBIfm7MndA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyTGHZGJPMtMS+TTnFBDrV+eR7UCj5OYZtwav31rffyMS/XDzOd
+	/J+VR+Jfm6Bg3r1B7IjKP+sfaC0hkYSSUTtukJdoBD3VGYFoVXpqq1RZMRDZHnwGBYk=
+X-Gm-Gg: AR+sD10NPRp7iDA5uWiDFHWK9xROR/vBdtgK6bTpO0MjmcpzomyXKuQnr8Z9zsoh9ox
+	y39HqLeJyi3fI5ctD3l/swqi+81JY8gM0m9DpkKa3zZmPiKvqqlKiZNoaIkXb1nMkbxcNtysttn
+	5VC28lTBEXEnA5LM2rQ3lhqp1Xk3caGDTmb1jTUH0iaB88j13uFvILBsmHRDp+z/Ngg5KsVwZkK
+	s7vz7Ka4Chf45gMYV7Wss2KrhKamd2dC56vnqDOXqLSFI4JJ/9bOg/tp5U3f0AEMtXBDesQklwk
+	mcc069WkF5Wx6cQcbpeFsutxTQInYHlxRoXzRPJZPp+W/AQ94xokLb6qNgsHZEWiaCuC4VlHHUm
+	UZd4x8f+luVey8cgSV4qVWu/lPB5S61begPKHK8V31bZcw4qa0oSC9Su4DGj4ZKz1L2NgEeZtXf
+	R992iq+GLB28uqFe0mV2pCiZ7Cyi8YZWYOg+nPvVCO0R5rzcAlE3mq1Mdtee0Wqg==
+X-Received: by 2002:a17:906:6a1a:b0:c15:ce72:9352 with SMTP id a640c23a62f3a-c16b47d80cdmr786129966b.33.1784644226763;
+        Tue, 21 Jul 2026 07:30:26 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c17009adfffsm599687966b.11.2026.07.21.07.30.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2026 07:30:26 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28067/Tue Jul 21 08:23:56 2026)
+Date: Tue, 21 Jul 2026 16:30:25 +0200
+Message-Id: <DK4BKV6WDHSA.2WEWS3ZC4DO23@smile.fr>
+Cc: <xe-linux-external@cisco.com>
+To: <devanshp@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH 3/8] openssh: Fix CVE-2026-59998
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260720175518.3546447-1-devanshp@cisco.com>
+ <20260720175518.3546447-3-devanshp@cisco.com>
+In-Reply-To: <20260720175518.3546447-3-devanshp@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:28:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241539
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 14:30:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241540
 
-Supported values for FIT_KERNEL_COMP_ALG are hardcoded, and we can
-always derive the resulting extension from the used compression tool.
+On Mon Jul 20, 2026 at 7:55 PM CEST, Devansh Patel via lists.openembedded.o=
+rg wrote:
+> From: Devansh Patel <devanshp@cisco.com>
+>
+> This patch applies the upstream OpenSSH 10.4p1 backport for
+> CVE-2026-59998. The upstream fix commit is referenced in [1],
+> and the public CVE advisory is referenced in [2].
+>
+> [1] https://github.com/openssh/openssh-portable/commit/8058c5bdb507591b79=
+ec926221fbe6fcc296d432
+> [2] https://www.cve.org/CVERecord?id=3DCVE-2026-59998
+>
+> Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> ---
+>  .../openssh/openssh/CVE-2026-59998.patch      | 36 +++++++++++++++++++
+>  .../openssh/openssh_10.3p1.bb                 |  1 +
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59=
+998.patch
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.pat=
+ch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
+> new file mode 100644
+> index 0000000000..3e15fe19fa
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
+> @@ -0,0 +1,36 @@
+> +From 94a089cd331eeea77ffd6fd715e61d281c3b97c3 Mon Sep 17 00:00:00 2001
+> +From: "djm@openbsd.org" <djm@openbsd.org>
+> +Date: Wed, 24 Jun 2026 06:55:12 +0000
+> +Subject: [PATCH] upstream: mention a caveat regarding
+> + GSSAPIStrictAcceptorCheck in
+> +
+> +some environments
+> +
+> +OpenBSD-Commit-ID: aa7158d8f22cb34063c1c2d3cbcf30a9489847c2
+> +
+> +CVE: CVE-2026-59998
+> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/c=
+ommit/8058c5bdb507591b79ec926221fbe6fcc296d432]
+> +
+> +Backport Changes:
+> +- Omitted the upstream OpenBSD revision and Mdocdate-only hunks in
+> +  sshd_config.5 and retained the Wrynose OpenSSH 10.3p1 values because
+> +  this stable backport carries only the security-relevant documentation.
+> +
+> +(cherry picked from commit 8058c5bdb507591b79ec926221fbe6fcc296d432)
+> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> +---
+> + sshd_config.5 | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/sshd_config.5 b/sshd_config.5
+> +index 3f5e29812..22b9039d2 100644
+> +--- a/sshd_config.5
+> ++++ b/sshd_config.5
+> +@@ -769,6 +769,7 @@ machine's default store.
+> + This facility is provided to assist with operation on multi homed machi=
+nes.
+> + The default is
+> + .Cm yes .
+> ++This option may not be effective in Windows Active Directory environmen=
+ts.
 
-Signed-off-by: Nora Schiffer <nora.schiffer@ew.tq-group.com>
----
- meta/classes-recipe/kernel-uboot.bbclass | 24 +++++++++++-------------
- meta/lib/oeqa/selftest/cases/fitimage.py |  1 -
- 2 files changed, 11 insertions(+), 14 deletions(-)
+This is a oneline manpage patch for "Windows Active Directory
+environments.".
 
-diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
-index 62974baaf0..fa28be1715 100644
---- a/meta/classes-recipe/kernel-uboot.bbclass
-+++ b/meta/classes-recipe/kernel-uboot.bbclass
-@@ -6,7 +6,6 @@
- 
- # fitImage kernel compression algorithm
- FIT_KERNEL_COMP_ALG ?= "gzip"
--FIT_KERNEL_COMP_ALG_EXTENSION ?= ".gz"
- 
- # Kernel image type passed to mkimage (i.e. kernel kernel_noload...)
- UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
-@@ -22,13 +21,11 @@ uboot_prep_kimage() {
- 	linux_bin=$output_dir/linux.bin
- 	if [ -e "arch/${ARCH}/boot/compressed/vmlinux" ]; then
- 		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
--		linux_suffix=""
- 		linux_comp="none"
- 	elif [ -e "arch/${ARCH}/boot/vmlinuz.bin" ]; then
- 		rm -f "$linux_bin"
- 		cp -l "arch/${ARCH}/boot/vmlinuz.bin" "$linux_bin"
- 		vmlinux_path=""
--		linux_suffix=""
- 		linux_comp="none"
- 	else
- 		vmlinux_path="vmlinux"
-@@ -38,21 +35,22 @@ uboot_prep_kimage() {
- 		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ] && [ -e vmlinux.initramfs ]; then
- 			vmlinux_path="vmlinux.initramfs"
- 		fi
--		linux_suffix="${FIT_KERNEL_COMP_ALG_EXTENSION}"
- 		linux_comp="${FIT_KERNEL_COMP_ALG}"
- 	fi
- 
- 	[ -n "$vmlinux_path" ] && ${KERNEL_OBJCOPY} -O binary -R .note -R .comment -S "$vmlinux_path" "$linux_bin"
- 
--	if [ "$linux_comp" != "none" ] ; then
--		if [ "$linux_comp" = "gzip" ] ; then
--			gzip -9 "$linux_bin"
--		elif [ "$linux_comp" = "lzo" ] ; then
--			lzop -9 "$linux_bin"
--		elif [ "$linux_comp" = "lzma" ] ; then
--			xz --format=lzma -f -6 "$linux_bin"
--		fi
--		mv -f "$linux_bin$linux_suffix" "$linux_bin"
-+	if [ "$linux_comp" = "gzip" ] ; then
-+		gzip -9 "$linux_bin"
-+		mv -f "$linux_bin.gz" "$linux_bin"
-+	elif [ "$linux_comp" = "lzo" ] ; then
-+		lzop -9 "$linux_bin"
-+		mv -f "$linux_bin.lzo" "$linux_bin"
-+	elif [ "$linux_comp" = "lzma" ] ; then
-+		xz --format=lzma -f -6 "$linux_bin"
-+		mv -f "$linux_bin.lzma" "$linux_bin"
-+	elif [ "$linux_comp" != "none" ] ; then
-+		bbfatal "Unsupported FIT_KERNEL_COMP_ALG '$linux_comp'"
- 	fi
- 
- 	printf "$linux_comp" > "$output_dir/linux_comp"
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index b3c54cebed..451878aafd 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -1525,7 +1525,6 @@ class FitImagePyTests(KernelFitImageBase):
-             'INITRAMFS_IMAGE_BUNDLE': "",
-             # kernel-uboot.bbclass
-             'FIT_KERNEL_COMP_ALG': "gzip",
--            'FIT_KERNEL_COMP_ALG_EXTENSION': ".gz",
-             'UBOOT_MKIMAGE_KERNEL_TYPE': "kernel",
-             # uboot-config.bbclass
-             'UBOOT_MKIMAGE_DTCOPTS': "",
--- 
-TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht München, HRB 105018
-Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
-https://www.tq-group.com/
+I'm not expert in GSSAPI but can we even trigger this?
+If not, I think this should be handled with a CVE_STATUS.
 
+I'll hold this patch in the meantime.
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
