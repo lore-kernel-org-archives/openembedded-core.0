@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C36BC531C8
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:22 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5473.1784741053727829341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 896DDC4453D
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:21 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5534.1784741055148715277
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 10:24:14 -0700
+ Wed, 22 Jul 2026 10:24:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GyUroSo7;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-495590dde14so38695865e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=FsTeoK3g;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b966dd74so57331775e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784741052; x=1785345852; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784741053; x=1785345853; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Psk7Yrq+Xj8viEqrOi/gL4fAJ6pLQTCo2rj91DROkTA=;
-        b=GyUroSo7uy25FtV2yZcnB9sOO9i5Dr06DIj6RRSOvcr95i11UU9S8zGqu3IoUBkNDx
-         SiiBw/fWq/cGN4SAec9JoFvLFxMxjfz/j22VQiA+3fL+Ld+/DeZtX95jliLS7T6o9yLQ
-         cAaOhuwTXA1QwJ867ODqPMQgFpyJWWTCkTcjo=
+        bh=hIC/W14wqmAWuxK+VKaccwKwKdXtY11Ga4U+fVtG0qY=;
+        b=FsTeoK3gQhU/qopIwkGRouUwOwIkA0J+7O9EfmygoksNR6S2E55boWUGH7I1Jhpj6Z
+         fBIXSm9KMTDIPGQcDT9N+tchr7fNGBp6fGKaAhKwtSAys84rjnpnbtww6RaZoG9j4zpL
+         MFE2CI5mmSOkxjI3Y0PPREyDf8neIJ4iBzUQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741052; x=1785345852;
+        d=1e100.net; s=20251104; t=1784741053; x=1785345853;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Psk7Yrq+Xj8viEqrOi/gL4fAJ6pLQTCo2rj91DROkTA=;
-        b=Zuv7+N4xLEtJCP/Gr5XEUDMiQdEODNHVvL4dxj4RB3KpnIVf1zek8DQPZ5D1AeQrVW
-         NWjMrUu/l8feADGQQbKxq09rVgOYdbbv4f8PYXqSf9Yn4SebY3c3wDf3nFqniyboc1pM
-         Ay1sr/SAc2rQ7IqtRSvZjvxN9n+XVymT2+uRiICp6lngBrbt/p33dkmaed64izib0oLR
-         Ub61W1i00laKUGCi78ZHm6Hjc6wxifz1mJvKQ21ZXyQtRY3+yQ2QIldKijCJDlAoKXvx
-         6IhDnxEIENHEeoI+Rkp/iAY8sA0T728VrvmTQXbrNYU8DTU7ui0ACi1CJbvV/JJVdPWY
-         TKFQ==
-X-Gm-Message-State: AOJu0YwbhXpHQUHQuXh+he21Zh2Ogy6srY/hKrSOmoywLSiuICiYYZJb
-	De204pt4YZqGnXYjoFQTFvIo+JMulqQn/p9sYgCcw68Y31ASoE+kPMAYDEZNWQpUGXhP0Lq8syV
-	YoiRSDHA=
-X-Gm-Gg: AR+sD12mL0OmmbHUYyfsOtcM9OaD3WGr0VygQ2OhQ4xDBkWUV2kFUG3taFMh95qBXex
-	2IJ1XMKaa/fGyw0zwuYFnMSKuzzomuV3F591Tj/maiG1jxjuEUTfupm7B3eVWQ4pdf/AL8iciBE
-	DX4Uy1e39MhyeWzo2mH+VP7jKJrYBP9wXdojFVsU6ej5rz5bKsQvTNPQIDDGUxlSUV9m8z9ItkO
-	kYnwMu/XQw6TqRTVxxMWU4kTSso+zWmLqSV0SC/im5mnS9BQu6Xm9iBHaDDWZoeIA0pzii7aNGW
-	ry0DvqtXtXhspMLYLdG+9HBG5YiZADsrAMrAoPAjX5lkITnVmRfuHQDFDh5rvyBhVe8dadJmSDS
-	8054HffQUhx57/geVEfdSeuJNsJAjGKo7qwYDhkKE5/KE72UdVSqWGK/QQm2pWICDWTGzAnZDI9
-	lgjyi41qdKC9r91dVhV+psyIVJDF9Fb474Wk2Z0Jvus0burglX8GgxfTyED7ETC/K048a9Xgc0z
-	WjGjPUgnfle
-X-Received: by 2002:a05:600c:310b:b0:495:7287:293d with SMTP id 5b1f17b1804b1-495728736b3mr10656585e9.27.1784741051880;
-        Wed, 22 Jul 2026 10:24:11 -0700 (PDT)
+        bh=hIC/W14wqmAWuxK+VKaccwKwKdXtY11Ga4U+fVtG0qY=;
+        b=qRIHS7GwNMMbvgmECDkDFB24A9+VlZHTHJO82cojsUS9YIi+JtvQdn8vfoP1kU7teV
+         ZxHgi34tl0/tncdkYvusbsuw47jqq5oevqK0Vg9wiCqKMqJPuQ9ViNKRfr+3NxNPKPVu
+         ZP73WjD00ex82gjmSA6WUhXO8DBZX907m19FXaY0JWbckes826JHk0eqHz79SNy3ZRaR
+         aRiFNF2BIfpchKHtRbMXywlroLrqZr9dlKy5FRzblgRJIw1y2pVf3GU88/p52vugb/ai
+         TA7ZB23td22JTp2ItxmwrwmlxEZ1OqVl8Sz2nBHiNFR/BPDGSx86CkcjvT7ji1i8P7nk
+         hLBg==
+X-Gm-Message-State: AOJu0Yzt/QqhDD3JZvMHPYgpL35Zey5kg0Kt+7J77iCKdaJq+AWY4Zin
+	zj/R8XPpeqaeSb7zw2+EKRxFz9v4lw7nBiAvuu7AnGoJFbqxEYwDUSeyc0+n1n6h7GP7tuOOE2Y
+	Nsy22En0=
+X-Gm-Gg: AR+sD11lrFmmouEYJzPxRE0EpimSMd3pc/1z0kZYDXFituBg1SthvJmu0YYOISsafqF
+	afjP1rk4hbO0au2+jGwtPUhvxHhv/RQnt06JcfX3fBoyKsQgui87AkbZc3XRW1jh3Q67ZShOSoB
+	d1pFuPSVWSX7qqPPMdqpcF3U4rQUxdpw5UyDi24NVMMl3iDNEguDdQvj/PLCuhfRVqgXOcQzLEA
+	0bbW1XG4jCht/G9yN+Jhlj8HZ2RdSNE4Q7vHx31aFIEI5aPJUuNJrN5W02x1EgoUAO7oF7Ip0u2
+	GSwLS41yQzufBgjCz/3tFZV0ih1DfCidy7wYrecC2tQzofjfPzGdcJTHq9yqQaotuC1Od82AMWI
+	Xk/9BuGDDIbV4OFJuvsVNj2iuo5lRJKA03pqvptc5DqenLv7bggZgJdM6dBPjNFUCXCHVweLqOQ
+	BmVXRXhyP8seRapqmPxMcn65a1bh7m0S76mDr8XOHbcY72K/I1bl1YdFHYFYZZw+ILhyUS4efWi
+	FjodU5rYXKP
+X-Received: by 2002:a05:600c:19c8:b0:495:6134:6d61 with SMTP id 5b1f17b1804b1-4956202554emr144841375e9.19.1784741053281;
+        Wed, 22 Jul 2026 10:24:13 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 10:24:11 -0700 (PDT)
+        Wed, 22 Jul 2026 10:24:12 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 24/27] openssh: Fix CVE-2026-60001
-Date: Wed, 22 Jul 2026 19:23:37 +0200
-Message-ID: <90d9e72af4a20f0e69bfe2a43f4cbb46c00a26de.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 26/27] openssh: Fix CVE-2026-60000
+Date: Wed, 22 Jul 2026 19:23:39 +0200
+Message-ID: <4c9bd0da0dccaa8a51090c8c172c6b0c5c6fd74c.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
 References: <cover.1784740870.git.yoann.congal@smile.fr>
@@ -65,172 +65,182 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241734
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241736
 
 From: Devansh Patel <devanshp@cisco.com>
 
 This patch applies the upstream OpenSSH 10.4p1 backport for
-CVE-2026-60001. The upstream fix commit is referenced in [1],
+CVE-2026-60000. The upstream fix commit is referenced in [1],
 and the public CVE advisory is referenced in [2].
 
-[1] https://github.com/openssh/openssh-portable/commit/d43ba60c91cb323ca921049b7d43b1908c318454
-[2] https://www.cve.org/CVERecord?id=CVE-2026-60001
+[1] https://github.com/openssh/openssh-portable/commit/5d04ca6af739b82fd30d84d2783ca802ebfa1192
+[2] https://www.cve.org/CVERecord?id=CVE-2026-60000
 
 Signed-off-by: Devansh Patel <devanshp@cisco.com>
-[YC: patch referenced in https://ubuntu.com/security/CVE-2026-60001]
+[YC: Patch referenced in https://ubuntu.com/security/CVE-2026-60000]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssh/openssh/CVE-2026-60001.patch      | 130 ++++++++++++++++++
+ .../openssh/openssh/CVE-2026-60000.patch      | 140 ++++++++++++++++++
  .../openssh/openssh_10.3p1.bb                 |   1 +
- 2 files changed, 131 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
+ 2 files changed, 141 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
 new file mode 100644
-index 00000000000..aa32484b17d
+index 00000000000..e9b62e64545
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
-@@ -0,0 +1,130 @@
-+From 6bc7dd87d543c882994f95c8309846dfda9ab503 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
+@@ -0,0 +1,140 @@
++From 884e94fafb20259c78bf394611b9929a7683e2b3 Mon Sep 17 00:00:00 2001
 +From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Mon, 6 Jul 2026 07:44:48 +0000
-+Subject: [PATCH] upstream: Fix cases in GSSAPI and keyboard-interactive
++Date: Mon, 6 Jul 2026 07:53:30 +0000
++Subject: [PATCH] upstream: Fix multiple RFC 4462 (GSSAPIAuthentication)
++ compliance
 +
-+authentication where the minimum per-attempt delay was not being enforced.
++problems
 +
-+Reported by Orange Cyberdefense Vulnerability Team
++1) Remove an early failure return for GSSAPI authentication attempts
++made for invalid accounts that yielded different behaviour for
++valid vs invalid accounts.
 +
-+OpenBSD-Commit-ID: c40bd35cc2428fcaccad7a141703c28baa6da01e
++2) Fix a situation where some GSSAPI requestes were not correctly
++subjected to MaxAuthTries.
 +
-+CVE: CVE-2026-60001
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/d43ba60c91cb323ca921049b7d43b1908c318454]
++3) Fix a moderate pre-authentication resource DoS related to #2.
++
++Add missing logging for error cases.
++
++Report and fixes from Manfred Kaiser, milCERT AT
++
++OpenBSD-Commit-ID: ca0acdd64eea435d6f89534538a9eb404a5629d3
++
++CVE: CVE-2026-60000
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/5d04ca6af739b82fd30d84d2783ca802ebfa1192]
 +
 +Backport Changes:
-+- Omitted the upstream OpenBSD revision-only hunks in auth.h,
-+  auth2-chall.c, auth2-gss.c, and auth2.c and retained the Wrynose
-+  OpenSSH 10.3p1 revisions because this stable backport carries only the
-+  functional security changes.
++- Omitted the upstream OpenBSD revision-only hunk in auth2-gss.c and
++  retained the Wrynose OpenSSH 10.3p1 revision because this stable
++  backport carries only the functional security change.
 +
-+(cherry picked from commit d43ba60c91cb323ca921049b7d43b1908c318454)
++(cherry picked from commit 5d04ca6af739b82fd30d84d2783ca802ebfa1192)
 +Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ auth.h        |  1 +
-+ auth2-chall.c |  4 ++++
-+ auth2-gss.c   |  7 +++++++
-+ auth2.c       | 10 ++++++++--
-+ 4 files changed, 20 insertions(+), 2 deletions(-)
++ auth2-gss.c | 53 ++++++++++++++++++++++++-----------------------------
++ 1 file changed, 24 insertions(+), 29 deletions(-)
 +
-+diff --git a/auth.h b/auth.h
-+index 634a84aa8..c2cfa5ed8 100644
-+--- a/auth.h
-++++ b/auth.h
-+@@ -175,6 +175,7 @@ void	auth_log(struct ssh *, int, int, const char *, const char *);
-+ void	auth_maxtries_exceeded(struct ssh *) __attribute__((noreturn));
-+ void	userauth_finish(struct ssh *, int, const char *, const char *);
-+ int	auth_root_allowed(struct ssh *, const char *);
-++void	auth_failure_delay(Authctxt *, double);
-+ 
-+ char	*auth2_read_banner(void);
-+ int	 auth2_methods_valid(const char *, int);
-+diff --git a/auth2-chall.c b/auth2-chall.c
-+index f3889079b..4687ca8e2 100644
-+--- a/auth2-chall.c
-++++ b/auth2-chall.c
-+@@ -300,6 +300,7 @@ input_userauth_info_response(int type, uint32_t seq, struct ssh *ssh)
-+ 	u_int i, nresp;
-+ 	const char *devicename = NULL;
-+ 	char **response = NULL;
-++	double tstart = monotime_double();
-+ 
-+ 	if (authctxt == NULL)
-+ 		fatal_f("no authctxt");
-+@@ -358,6 +359,9 @@ input_userauth_info_response(int type, uint32_t seq, struct ssh *ssh)
-+ 			auth2_challenge_start(ssh);
-+ 		}
-+ 	}
-++
-++	if (!authenticated)
-++		auth_failure_delay(authctxt, tstart);
-+ 	userauth_finish(ssh, authenticated, "keyboard-interactive",
-+ 	    devicename);
-+ 	return 0;
 +diff --git a/auth2-gss.c b/auth2-gss.c
-+index 053548527..f27ac9221 100644
++index f27ac9221..54c96fe4b 100644
 +--- a/auth2-gss.c
 ++++ b/auth2-gss.c
-+@@ -255,6 +255,7 @@ input_gssapi_exchange_complete(int type, uint32_t plen, struct ssh *ssh)
++@@ -111,12 +111,6 @@ userauth_gssapi(struct ssh *ssh, const char *method)
++ 		return (0);
++ 	}
++ 
++-	if (!authctxt->valid || authctxt->user == NULL) {
++-		debug2_f("disabled because of invalid user");
++-		free(doid);
++-		return (0);
++-	}
++-
++ 	if (GSS_ERROR(mm_ssh_gssapi_server_ctx(&ctxt, &goid))) {
++ 		if (ctxt != NULL)
++ 			ssh_gssapi_delete_ctx(&ctxt);
++@@ -178,8 +172,14 @@ input_gssapi_token(int type, uint32_t plen, struct ssh *ssh)
++ 			    (r = sshpkt_send(ssh)) != 0)
++ 				fatal_fr(r, "send ERRTOK packet");
++ 		}
+++		logit("Failed gssapi-with-mic for %s%.100s "
+++		    "from %.200s port %d ssh2",
+++		    authctxt->valid ? "" : "invalid user ",
+++		    authctxt->user,
+++		    ssh_remote_ipaddr(ssh), ssh_remote_port(ssh));
++ 		authctxt->postponed = 0;
++ 		ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
+++		ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_ERRTOK, NULL);
++ 		userauth_finish(ssh, 0, "gssapi-with-mic", NULL);
++ 	} else {
++ 		if (send_tok.length != 0) {
++@@ -191,14 +191,18 @@ input_gssapi_token(int type, uint32_t plen, struct ssh *ssh)
++ 				fatal_fr(r, "send TOKEN packet");
++ 		}
++ 		if (maj_status == GSS_S_COMPLETE) {
++-			ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
++-			if (flags & GSS_C_INTEG_FLAG)
++-				ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_MIC,
+++			ssh_dispatch_set(ssh,
+++			    SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
+++			/* note: keep ERRTOK handler as per RFC 4462 s3.4 */
+++			if (flags & GSS_C_INTEG_FLAG) {
+++				ssh_dispatch_set(ssh,
+++				    SSH2_MSG_USERAUTH_GSSAPI_MIC,
++ 				    &input_gssapi_mic);
++-			else
+++			} else {
++ 				ssh_dispatch_set(ssh,
++ 				    SSH2_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE,
++ 				    &input_gssapi_exchange_complete);
+++			}
++ 		}
++ 	}
++ 
++@@ -210,10 +214,6 @@ static int
++ input_gssapi_errtok(int type, uint32_t plen, struct ssh *ssh)
 + {
 + 	Authctxt *authctxt = ssh->authctxt;
-+ 	int r, authenticated;
-++	double tstart = monotime_double();
-+ 
-+ 	if (authctxt == NULL)
-+ 		fatal("No authentication or GSSAPI context");
-+@@ -268,6 +269,8 @@ input_gssapi_exchange_complete(int type, uint32_t plen, struct ssh *ssh)
-+ 		fatal_fr(r, "parse packet");
-+ 
-+ 	authenticated = mm_ssh_gssapi_userok(authctxt->user);
-++	if (!authenticated)
-++		auth_failure_delay(authctxt, tstart);
-+ 
-+ 	authctxt->postponed = 0;
-+ 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
-+@@ -288,6 +291,7 @@ input_gssapi_mic(int type, uint32_t plen, struct ssh *ssh)
-+ 	gss_buffer_desc mic, gssbuf;
++-	Gssctxt *gssctxt;
++-	gss_buffer_desc send_tok = GSS_C_EMPTY_BUFFER;
++-	gss_buffer_desc recv_tok;
++-	OM_uint32 maj_status;
++ 	int r;
 + 	u_char *p;
 + 	size_t len;
-++	double tstart = monotime_double();
-+ 
++@@ -221,26 +221,21 @@ input_gssapi_errtok(int type, uint32_t plen, struct ssh *ssh)
 + 	if (authctxt == NULL)
 + 		fatal("No authentication or GSSAPI context");
-+@@ -315,6 +319,9 @@ input_gssapi_mic(int type, uint32_t plen, struct ssh *ssh)
-+ 	sshbuf_free(b);
-+ 	free(mic.value);
 + 
-++	if (!authenticated)
-++		auth_failure_delay(authctxt, tstart);
-++
-+ 	authctxt->postponed = 0;
++-	gssctxt = authctxt->methoddata;
++-	if ((r = sshpkt_get_string(ssh, &p, &len)) != 0 ||
+++	/* Minimal error handling - just cancel auth and return FAILURE */
+++	if ((r = sshpkt_get_string_direct(ssh, NULL, NULL)) != 0 ||
++ 	    (r = sshpkt_get_end(ssh)) != 0)
++ 		fatal_fr(r, "parse packet");
++-	recv_tok.value = p;
++-	recv_tok.length = len;
++-
++-	/* Push the error token into GSSAPI to see what it says */
++-	maj_status = mm_ssh_gssapi_accept_ctx(gssctxt, &recv_tok,
++-	    &send_tok, NULL);
++-
++-	free(recv_tok.value);
++ 
++-	/* We can't return anything to the client, even if we wanted to */
+++	logit("Failed gssapi-with-mic for %s%.100s from %.200s port %d ssh2",
+++	    authctxt->valid ? "" : "invalid user ",
+++	    authctxt->user,
+++	    ssh_remote_ipaddr(ssh), ssh_remote_port(ssh));
+++	authctxt->postponed = 0;
 + 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
 + 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_ERRTOK, NULL);
-+diff --git a/auth2.c b/auth2.c
-+index 3a1682746..7ba611c02 100644
-+--- a/auth2.c
-++++ b/auth2.c
-+@@ -265,6 +265,12 @@ ensure_minimum_time_since(double start, double seconds)
-+ 	nanosleep(&ts, NULL);
++-
++-	/* The client will have already moved on to the next auth */
++-
++-	gss_release_buffer(&maj_status, &send_tok);
+++	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_MIC, NULL);
+++	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE, NULL);
+++	userauth_finish(ssh, 0, "gssapi-with-mic", NULL);
++ 	return 0;
 + }
 + 
-++void
-++auth_failure_delay(Authctxt *authctxt, double tstart)
-++{
-++	ensure_minimum_time_since(tstart, user_specific_delay(authctxt->user));
-++}
-++
-+ static int
-+ input_userauth_request(int type, uint32_t seq, struct ssh *ssh)
-+ {
-+@@ -346,8 +352,8 @@ input_userauth_request(int type, uint32_t seq, struct ssh *ssh)
-+ 		authenticated =	m->userauth(ssh, method);
-+ 	}
-+ 	if (!authctxt->authenticated && strcmp(method, "none") != 0)
-+-		ensure_minimum_time_since(tstart,
-+-		    user_specific_delay(authctxt->user));
-++		auth_failure_delay(authctxt, tstart);
-++
-+ 	userauth_finish(ssh, authenticated, method, NULL);
-+ 	r = 0;
-+  out:
 diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-index c3b8d910dd7..d8d73ee5dd0 100644
+index 8edb1440fe0..f5184b1fce3 100644
 --- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
 +++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-@@ -28,6 +28,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://CVE-2026-59997.patch \
-            file://CVE-2026-59996.patch \
+@@ -30,6 +30,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
             file://CVE-2026-59995.patch \
-+           file://CVE-2026-60001.patch \
+            file://CVE-2026-60001.patch \
+            file://CVE-2026-60002.patch \
++           file://CVE-2026-60000.patch \
             "
  SRC_URI[sha256sum] = "56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4"
  
