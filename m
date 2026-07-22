@@ -1,201 +1,115 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <emailaddress.ashish@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E5FC44536
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 11:33:21 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.45637.1784719991932003379
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C2CCC44536
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:11:53 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46626.1784722309341620316
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 04:33:12 -0700
+ Wed, 22 Jul 2026 05:11:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=QqxCPQAU;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so90663975e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 04:33:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=N0XOnyEU;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: emailaddress.ashish@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-848743155bcso3540099b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784719990; x=1785324790; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=lJXRlt3+19d5H/aXiv2OKcmDiNNWlqJuHtKglh81pN4=;
-        b=QqxCPQAUSisPnKpFuec+SeqBM+e/rJOURa1/M80NplufDk9/phWwINfR2/pjxjZwoP
-         oRUffgORTZxTTYdFRA1pfNabTRQKg10B6YuOAKt1PNHE3+m7uIJHuZ2Ghi9EUfTmgeXp
-         vDU801N2cpqZUg31ADlWOXVerAb5d7883mAAg=
+        d=gmail.com; s=20251104; t=1784722309; x=1785327109; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IDnPR+0Jy35jDA2sbKV9xw5TX0QRR3NOjsGYIUFsSIQ=;
+        b=N0XOnyEU+skKMSf0NYwsNoozOkUgbWxGWln/OqzPi/YSdJHaaTeFqhzfjBbdaJ5oPM
+         trWU1binoJNpVPrPN1C1wMXlmk5o0qNy7jFsvsttV1MCmMYUdg+abNbz7VtDvhHxLT+V
+         Ndr7AamHsaC/fxW5Nj9jfVFWN/5jkfarmWS7Rwxd+IGPVMgw0fgk90lElK3IhgcrgQY9
+         /8+CXpC7srMSJFxRF2EslcodBepuQJGDi7mO6qMCSYcUH4wFZturdFDzF+E6TQF5i1UE
+         sP+NONeD/scLr6t5nUcZdbDqRq7/zzbK4OHvGOw2Y7kN/I2c7TmEly6m5GuKL5Y3KI2g
+         MNTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784719990; x=1785324790;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lJXRlt3+19d5H/aXiv2OKcmDiNNWlqJuHtKglh81pN4=;
-        b=EYBv3XNxf8SZX/AWWKHks/dU1NkJ/dTrOQXVm2I7uYL6Pyi9HqcFQ1brv5Si/09EUU
-         uSvPcRnmRmn1sAI8Y1PkQvtqQPyyiAnx+tNs6fMKWdKHXjzO5zxLbLw/TrlYc7q30R63
-         Wd0Z4DbsmKOr8fAbB0e6ntJZ6Nh1MhOniNMhwms3mdmFXV41mAuZ+4hzGCWwRDDuFuhE
-         a+qZWlzHRcd5E5jKr2i/YHopoudsUZvIThlIt7E6wQE9YpupYZas9PgwpPSRx7+RK0Gh
-         5rNZ0wexLJsrlF60IPbHNoURpWsmGJ/PuvZitHfM0KYZOVtw44Asdm7NgFUbvyOsWdSP
-         woOQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp+zrU2zoAExQOsypD5mj90261AgsyyoQWBkKk+jvKiyQbWZz66p+qvOJURa0PhdjO0sYg/jaJOyp/VUvub+MxY/A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxJtYqrZ1Qkk3oWyyc5wR+BbPtqKDDQ1B8ZDKPdsTeS1ss7veXv
-	vH7fQE/0ECiDZ8smzJo9Ak4Eh0QUiJxj8+EOWIBJXI5hAFLvkM8amxOn24TtQxzWMzA=
-X-Gm-Gg: AR+sD13sMTnOMHIdpph8gN0ldLgtUdn2DkLUrBe0wdcsPZ9ZoCCrgv0E0YD8AdMZvcL
-	V7sxCmjrJavcgnp7vxPe6mQ4QVNmgyC44y33aiKmAl2rORx7YbTeHs1BhdtiBN2bEthMgQY1nab
-	xfJSkItylzPhSWGl69uNEEC0z+lWklHuwGz76uQ535Q4/qdpoRdGxbRk5ynyOvNo/BsftJKioXt
-	DTxgKlKPjv3p6YJ2dyBcBtFJ9uo3W9o/YzI59IdF5Y3J+Q0eHYuCnwIeJHGklD43VAKRGEc8Mlj
-	gmi20JW2nO3rK3tbMgnSnoaryMYfyKRhHA+1CZLcvNpbRleHSEE8Jf1/HndOD/y7FIfhh6m4apD
-	Cc7Y02/mSvy4UyGj5CK/IFXZdvDF7o/oPw+mmRrOVzqragwsNmzAgNWHfjH9S6P1o61sbdI8ISs
-	uGUfBBS4k6qX0Ho61UvTAqt9ElM/5j2jmVqA/kqcTLGEQy9GTBHBizGPx4O8DoXnLR+a2ph85N
-X-Received: by 2002:a05:600c:524c:b0:495:4e12:6ae5 with SMTP id 5b1f17b1804b1-4954e126afamr256692165e9.26.1784719989979;
-        Wed, 22 Jul 2026 04:33:09 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c6287csm5758086f8f.25.2026.07.22.04.33.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jul 2026 04:33:09 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 22 Jul 2026 13:33:09 +0200
-Message-Id: <DK52FOCV13U0.39JMR5DDF9CVQ@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH 3/8] openssh: Fix CVE-2026-59998
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "xe-linux-external (Internal Group)" <xe-linux-external@cisco.com>
-To: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)"
- <devanshp@cisco.com>, "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260720175518.3546447-1-devanshp@cisco.com>
- <20260720175518.3546447-3-devanshp@cisco.com>
- <DK4BKV6WDHSA.2WEWS3ZC4DO23@smile.fr>
- <PH0PR11MB761612C89B048D93B36C708ED3C12@PH0PR11MB7616.namprd11.prod.outlook.com>
-In-Reply-To: <PH0PR11MB761612C89B048D93B36C708ED3C12@PH0PR11MB7616.namprd11.prod.outlook.com>
+        d=1e100.net; s=20251104; t=1784722309; x=1785327109;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IDnPR+0Jy35jDA2sbKV9xw5TX0QRR3NOjsGYIUFsSIQ=;
+        b=JWixAZQLaZWf5lCzz7C+llJmVKsrbsdN5J1rtOKhej2zYm6kkPmuPOausImQ9p7XGj
+         aFZ7Cc1oNrA//j2MZ8919SRgdSRw+k3ySE+8WF8VqpfZa6L6+6zWUYwobZAochtnNxdw
+         Y2ll+NkDXSXj2/AfAAOrJGDT9TkKJ1fwanPH5c3Aaa7WIRkEwXBMntf5I5gk/QHPvhsP
+         Ih2WR2Pc7NbHDJBIR7KHpK8KowNvGH7C/iZk6ZqsrxtEDGpiFJhBj93W5lAbPiJI/ZVT
+         oPeIma43KBz0a+6ybuZ1GBt+4osIUs72/QFKT0zSZ1lKnaejUpPjZrn4q8YVTKQXOXm+
+         DvdQ==
+X-Gm-Message-State: AOJu0YxtbfD1KsOQAgReWr29xsNkAo6o1jZqqeOgQnkRs1NRPNNdETxU
+	cJ0JHHy+bx2m5ucke4NADk3cvlMxhqQKxbl/e7ssIx/PAKVOl/Z+glGztTes4A==
+X-Gm-Gg: AR+sD111ydjPxIW41RnlqOB8tys+68I7KId6DDuWBpsnnGyFa/AjMCfA73S8epQhY3/
+	SFESi3FJSLn68l0OlequwB4OESz19ma4iQE5IXSre1MamtFpBCynOvsnzO4W/R4KQXUeuqUD12I
+	ia7NY0sASX5DxTWzJlKlMAimhHJCCv2wvanT+rSKP1LsWudCRayt+jzJ4KrtWo9fLZHYtqWPbus
+	Id5DJLcBy9vtpZwBuEQrS3IfHrddPmET+gyQbZdGZiQbfmkTHp8nXn5Wurhq2FGFBrklPqsW91G
+	mPJCZJHazre3zupGPr2nYvP/PIe6B8F6RneNmLrBGwClKrORZm/TGku3lgx+KHqQTo0VW2dQ4hS
+	svFKTBd7lkDRcUVBleMHFwEHg357Lw2ZekcqA0FgzIXWxbioed1k0iB2RRjHQrV5ul+whi3d78/
+	anI1edoppzp3MJvFkV
+X-Received: by 2002:a05:6a21:ae11:b0:3c3:c130:3532 with SMTP id adf61e73a8af0-3c3c13044f6mr16020797637.41.1784722308467;
+        Wed, 22 Jul 2026 05:11:48 -0700 (PDT)
+Received: from ashishkumar.. ([2406:7400:12b:e084:442f:bee:d40:b285])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147dc8b0cdsm9154492eec.11.2026.07.22.05.11.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 05:11:48 -0700 (PDT)
+From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+Subject: [scarthgap][PATCH] package.bbclass: fix execution order bug in emit_pkgdata
+Date: Wed, 22 Jul 2026 17:41:19 +0530
+Message-ID: <20260722121119.888611-1-emailaddress.ashish@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 11:33:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241661
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:11:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241662
 
-On Wed Jul 22, 2026 at 12:02 PM CEST, Devansh Patel -X (devanshp - E INFOCH=
-IPS PRIVATE LIMITED at Cisco) wrote:
-> Hi Yoann,
->
-> Thanks for pointing this out. You are correct.
->
-> The Wrynose OpenSSH recipe does not enable the kerberos PACKAGECONFIG
-> by default, so it is configured with --without-kerberos5.
-> Consequently, GSSAPI authentication and GSSAPIStrictAcceptorCheck are
-> not available in the default OE-Core build, and this scenario cannot
-> be triggered.
->
-> Also, the referenced upstream commit only documents the existing
-> Windows Active Directory behavior; it does not change or remediate
-> that behavior. Therefore, carrying it as a CVE fix would be
-> misleading.
->
-> We will withdraw this patch and replace it with a configuration-aware
-> CVE_STATUS: not-applicable-config when the kerberos PACKAGECONFIG is
-> disabled, while leaving the CVE unpatched when Kerberos/GSSAPI support
-> is explicitly enabled.
+emit_pkgdata was previously part of the PACKAGEFUNCS list.
+Because other layers and recipes often append custom cleanup or processing
+functions to PACKAGEFUNCS , those ended up running after
+emit_pkgdata
 
-Sounds good. I'll send the rest of the series for review. Please send
-this v2 as a single patch.
+To fix this, pull emit_pkgdata out of PACKAGEFUNCS and call it explicitly
+at the very end of do_package() ensuring it always runs last.
 
-Thanks!
+(From OE-Core rev aa85baff9ebdd3f932811c3b43d1918c38373cb9)
 
->
-> Regards,
->
-> Devansh
->
-> ________________________________
-> From: Yoann Congal <yoann.congal@smile.fr>
-> Sent: Tuesday, July 21, 2026 20:00
-> To: Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco) <d=
-evanshp@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-=
-core@lists.openembedded.org>
-> Cc: xe-linux-external (Internal Group) <xe-linux-external@cisco.com>
-> Subject: Re: [OE-core][wrynose][PATCH 3/8] openssh: Fix CVE-2026-59998
->
-> On Mon Jul 20, 2026 at 7:55 PM CEST, Devansh Patel via lists.openembedded=
-.org wrote:
->> From: Devansh Patel <devanshp@cisco.com>
->>
->> This patch applies the upstream OpenSSH 10.4p1 backport for
->> CVE-2026-59998. The upstream fix commit is referenced in [1],
->> and the public CVE advisory is referenced in [2].
->>
->> [1] https://github.com/openssh/openssh-portable/commit/8058c5bdb507591b7=
-9ec926221fbe6fcc296d432
->> [2] https://www.cve.org/CVERecord?id=3DCVE-2026-59998
->>
->> Signed-off-by: Devansh Patel <devanshp@cisco.com>
->> ---
->>  .../openssh/openssh/CVE-2026-59998.patch      | 36 +++++++++++++++++++
->>  .../openssh/openssh_10.3p1.bb                 |  1 +
->>  2 files changed, 37 insertions(+)
->>  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-5=
-9998.patch
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.pa=
-tch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
->> new file mode 100644
->> index 0000000000..3e15fe19fa
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59998.patch
->> @@ -0,0 +1,36 @@
->> +From 94a089cd331eeea77ffd6fd715e61d281c3b97c3 Mon Sep 17 00:00:00 2001
->> +From: "djm@openbsd.org" <djm@openbsd.org>
->> +Date: Wed, 24 Jun 2026 06:55:12 +0000
->> +Subject: [PATCH] upstream: mention a caveat regarding
->> + GSSAPIStrictAcceptorCheck in
->> +
->> +some environments
->> +
->> +OpenBSD-Commit-ID: aa7158d8f22cb34063c1c2d3cbcf30a9489847c2
->> +
->> +CVE: CVE-2026-59998
->> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/=
-commit/8058c5bdb507591b79ec926221fbe6fcc296d432]
->> +
->> +Backport Changes:
->> +- Omitted the upstream OpenBSD revision and Mdocdate-only hunks in
->> +  sshd_config.5 and retained the Wrynose OpenSSH 10.3p1 values because
->> +  this stable backport carries only the security-relevant documentation=
-.
->> +
->> +(cherry picked from commit 8058c5bdb507591b79ec926221fbe6fcc296d432)
->> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
->> +---
->> + sshd_config.5 | 1 +
->> + 1 file changed, 1 insertion(+)
->> +
->> +diff --git a/sshd_config.5 b/sshd_config.5
->> +index 3f5e29812..22b9039d2 100644
->> +--- a/sshd_config.5
->> ++++ b/sshd_config.5
->> +@@ -769,6 +769,7 @@ machine's default store.
->> + This facility is provided to assist with operation on multi homed mach=
-ines.
->> + The default is
->> + .Cm yes .
->> ++This option may not be effective in Windows Active Directory environme=
-nts.
->
-> This is a oneline manpage patch for "Windows Active Directory
-> environments.".
->
-> I'm not expert in GSSAPI but can we even trigger this?
-> If not, I think this should be handled with a CVE_STATUS.
->
-> I'll hold this patch in the meantime.
->
-> Regards,
-> --
-> Yoann Congal
-> Smile ECS
+Signed-off-by: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+---
+ meta/classes-global/package.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index aa1eb5e901..ffe3ed93ef 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -468,8 +468,7 @@ PACKAGEFUNCS += " \
+                 package_do_shlibs \
+                 package_do_pkgconfig \
+                 read_shlibdeps \
+-                package_depchains \
+-                emit_pkgdata"
++                package_depchains"
+ 
+ python do_package () {
+     # Change the following version to cause sstate to invalidate the package
+@@ -561,9 +560,13 @@ python do_package () {
+             for file in files:
+                 pkgfiles[pkg].append(walkroot + os.sep + file)
+ 
++
++    # We want emit_pkgdata to run last, after everything
+     for f in (d.getVar('PACKAGEFUNCS') or '').split():
+         bb.build.exec_func(f, d)
+ 
++    bb.build.exec_func("emit_pkgdata", d)
++
+     oe.qa.exit_if_errors(d)
+ }
+ 
+-- 
+2.43.0
 
 
