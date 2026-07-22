@@ -1,99 +1,95 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 601DDC44536
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:16:03 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.46769.1784722562933008057
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD4EC44539
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:20:13 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46835.1784722807599418996
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 05:16:03 -0700
+ Wed, 22 Jul 2026 05:20:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=DSTAW72f;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8ff88549786so152442826d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:16:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784722562; cv=none;
-        d=google.com; s=arc-20260327;
-        b=W4wFC9uh2rXtaLFVVor2hWtuLiCsSv7PB04RbVMAJSjT2wYiH3O347gPANG4PiHUmz
-         f/VOiU3ZwdKJ1HAp+OikjD/3sFdJBl2sBXkvIwKVk2a+wPeeWBei9x/HtFHatOclBEOx
-         RK2Mc/Vg8j8f1CQm50Gxpp1mq5zpY8urvmI1z6zDwq/py4v6svwQM8Styg3TbYqsuDnL
-         7Jqopvzly0Ivov3sU/rSKP1dh2Ly7run0vEyIysEPb5G7Y1ez5THgLvNglJCR9gfirkM
-         gzUcJPS+EDW9CfDjI3f6i22Lmv3d/XOq9LDXjn275YYeZOmWPnjLsjl9o8Dvq0gpiKYE
-         iEew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=hFdtlOlCmKwl2nmd4Z8WF0SaYymN5ZN5sZ4plcdWK3U=;
-        fh=6DRnRsodwJgYP+rxnMrtCbtlIW9oHYTvWPZfyvv7+y0=;
-        b=lGF6pAH1X6kKqJu6B9F9V8hIbqne+RLbu964/Hz5wgVbSfkYeOOR8QV6hu9+tEBqk0
-         D7MuUSTwYBVJxs2jZMaqx+m0cQE+jYJBm9mFT6+ZkTIp2S+vLfB2UIfQ4OZN7o081p/L
-         mgi5odcLVLfnTzppFyKYVnfwmByx5kdXtzRtvWSdyK15qIGfB4Ml3ivCvCNslABPUspa
-         KA8alaIoGOcRGLc8Zilpp5i32CXZPqNYEw7VlndOCvErpakmmtrbosxornYQZFbFNqYL
-         C7lhm/D912Qg1IVDlMJDfS8H4sLmaDDsuL7FWc0J2trC/Rz8ZWfOklGQH+RWXt/ZzxnF
-         8n2A==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=vSwQOy1c;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-476a130c138so8964747f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784722562; x=1785327362; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hFdtlOlCmKwl2nmd4Z8WF0SaYymN5ZN5sZ4plcdWK3U=;
-        b=DSTAW72fOloL65lkt6VmJHaoyR0Wk95+XNQU1foguu7A0G6V1AYB55adehjERHvZd5
-         PKEkl061oexEMiI7a/Bcr27NKC++CTSSdcVJzrTKvHF42jA0Ppf05FRuKSMJhEMiTGO3
-         CospVZNVllG0d46adhNN2xkaKIh8AApvF+4sKjJBBRdegoLUPwqIBAadJwVdpvSj3kNY
-         M8Y48aqfEVfye9xvUZnHA25ypgngwgUDHON61MruuX0fWEfVpdEld9lC0iTsGE8u9nUO
-         8CHrD3GaOymdHm921nLtMmZgA1Zppvz3epw3bWW3MvHqlEEGWgf7pCxupuQ+HDvjLl/P
-         nJeg==
+        d=smile.fr; s=google; t=1784722806; x=1785327606; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Vgmmx+jXCl7SBAupiSCIwV3SSQacdAU1xNZlZBoEby4=;
+        b=vSwQOy1ck1ql5l+IxhAFeUv0uQbFO9/M0m3OUi/2QLy+UDlmlI71twBTyiRlvz4iMx
+         pR0EtWsDfDXp+4TLQgRCLlY0meqRXBbtc7xGvJ1yHk+IeVcNny+szYxkG+ewbtxr+xYv
+         TZuM3QGtav/W7OO337w6RGn04CVIGXSvGEXRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784722562; x=1785327362;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=hFdtlOlCmKwl2nmd4Z8WF0SaYymN5ZN5sZ4plcdWK3U=;
-        b=KjOuys22B4VO2vlnn8tm96tjPs/TQmNSOLYQqpZ5IfZ0AGrk4zCn6f9TzVYsbEfna4
-         WBenT2APjLqykAZN/DtRZNEasuo7m/plJlprU30Egc+3DyBxdGD0tfs991NVPwrqtZEG
-         06MwuH8l9fGsxtEcpS8684Xgpw+eqTzU+wRZY3HPRSvuYhRsvXTosbblRG8VI+8OyVkc
-         Qpc2/C3JMGYh6z6A+2BAP4u15PVqJ0qoq6WAKVQTzdSjBIC7/im023pMdPofinSo1Ruw
-         6Lx4q8YCW8Beo2HsKH3WPTS08dM6IwLUOUOFJ1LeOI5CAZKmLM3W70U07/5COfhjnQY5
-         Bfhg==
-X-Gm-Message-State: AOJu0Yw0KuuCztyXKkp1/QWut+Fm7Sgb3s4sOtUeWGwwFDypz3epQngT
-	KsM5dXUdNlZfPSNxvIzgvSXftGBZlSWUJtK63pWfK5WvHuy5bU8HpYscK7WiVEBCHhP1G6+qlgS
-	yW/9Hk379Hd3tVAs+eehM15HYvleyJiw=
-X-Gm-Gg: AR+sD12346hC37JHvQD88svlVhTja6DzWYrjXKlwabAbJ6O206adTDtxV3Cfoxc5FuE
-	ILNqrbObW2AkAysrR7WIVguxJhKV6g3HSKgGe6tZSqcem+1V4U/5829NA9j77aqx/fkPbpfcWdj
-	01fLMyDyBHu7HBazTXMiTpv37hvvcfqVF3YEilWYR+kGYlwrzklABMAK3Q7/8Z9EVca61B5/EYV
-	vgfSgnrRPD1EShVyPGYT7CSi+ogqFtXYJ7ndUOUwzkI2fIcPKkDRR2kYhjE67XcVpbNV6kks0Vi
-	PTt+ZHLJ5qv8hL7iBclj
-X-Received: by 2002:a05:6214:4990:b0:8e2:e366:15e0 with SMTP id
- 6a1803df08f44-9077831265amr260090706d6.2.1784722561690; Wed, 22 Jul 2026
- 05:16:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260722103621.1810876-1-leon.anavi@konsulko.com>
-In-Reply-To: <20260722103621.1810876-1-leon.anavi@konsulko.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 22 Jul 2026 14:15:48 +0200
-X-Gm-Features: AUfX_mwjHkGbJhUQAulje3EY2H40byBRkvkuVWmsNby_iDelvljcDL3yjj24Qm0
-Message-ID: <CANNYZj9fX1aBA+3TA_GvvFmbr6Q+YO+6_K5NzUTskaYKU13W-g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-chardet: Upgrade 6.0.0.post1 -> 7.4.3.bb
-To: leon.anavi@konsulko.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20251104; t=1784722806; x=1785327606;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Vgmmx+jXCl7SBAupiSCIwV3SSQacdAU1xNZlZBoEby4=;
+        b=AI1Kc5y1w/Gy4fIz6bsNUHxDLNfVvqHbedCULouu3IZ+6KIoKar/OyQtIxJAzoGJoX
+         /GSUcA9Ir8QwiMQc8Etek24ncYjKIfdrG5Ncx7Fnf12g9ERN7j8CYNLiswjPHGSoFzJi
+         xKmh71j7RdkrBcaWt6eDnefV/CUUBpG4rmgC9BXlPPSlpVsvXWWzuErz4fs6EOWLJS2t
+         x7PgF0+Vppw/maxK013GA36DnKK0RzkKhRP9FQfOAaxS/WJB5f78AesED+WPCagC3ypV
+         BMYYEHw1gir7QqKB+qLrmOUV89CGFl1igThOYZljuXbouFdd0KUiqk2+FYidDhVV/crT
+         14OA==
+X-Forwarded-Encrypted: i=1; AHgh+RpPiD6VkBi4xe71Dy/JuLCyigzPzx9uuYn6syc7peoKtHFAKNDSrsRGjZ/x54+1k4W29QiPxhZH/LBFOT3DvWBPhg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzT86LkJnUjv2PkOOqGkeOKqcBvpHDnUBI+noaru/8eAaWH8wI8
+	amFQNi8BvpfETmGdQT6l0ZjMgQqlXiezh56ODO5umwKJLm27kFMqDtsqBD6C2/tcRz0=
+X-Gm-Gg: AR+sD12VuR38w3iQI/p4gjTbfw0ydWaFFnUjBJfSOqJ8bvzX4ITSb4kVeYHvpiO6kjr
+	YPKhm+YKO/bB4AP6M+lYD9dzdrqJpUv7HYKlYVx3mUOPyGBNqNMpoa5b4MO2ovuqTiE9MToSt6K
+	FBHyCR26BHz1d0SelzQ0QlG/x7pCw8U+H2V3bIwCdIfkMOyaoxTVzbN3qNxdQTHMkz7kuPwUIZA
+	8EMjJvZD/5dqffv1q2dFS1YtCWOaXB2RHHbV9HI2Aewprr0U5x8PoXARZkPaz0imUY7i+lrTqY3
+	HLQ8ilCQQS9FPhwEHjQhj2BkiRlnAJCHZdubzZJ9rD2M5GjP+7MhOr48Z2kWGopiy2bYwu4XcYR
+	BdIzdsrES9fXPWJv7muUUz1SNZQq1AuIMxV/uhkp4p/7I79XDhPJGPYsiqkN7I8CJy26VGUmOmC
+	dXrTHdSj86q8N7Vvdy5NWPr7S6JgBMOUETvuRBryWUpo/xpSL6U0zt81eajHOVQQ==
+X-Received: by 2002:a05:6000:4025:b0:47f:7c50:2222 with SMTP id ffacd0b85a97d-47f7c50261fmr12759127f8f.24.1784722805546;
+        Wed, 22 Jul 2026 05:20:05 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c531afsm5287188f8f.24.2026.07.22.05.20.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2026 05:20:05 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Jul 2026 14:20:04 +0200
+Message-Id: <DK53FLV3KVRE.3GAZN2WD4XNY9@smile.fr>
+To: <ashishkumar.mishra@bmwtechworks.in>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [scarthgap][PATCH] package.bbclass: fix execution
+ order bug in emit_pkgdata
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260722121119.888611-1-emailaddress.ashish@gmail.com>
+ <978937.1784722525653637859@lists.openembedded.org>
+In-Reply-To: <978937.1784722525653637859@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:16:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241664
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:20:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241665
 
-On Wed, 22 Jul 2026 at 12:36, Leon Anavi via lists.openembedded.org
-<leon.anavi=konsulko.com@lists.openembedded.org> wrote:
-> License-Update: Change 7.x license from MIT to 0BSD
+On Wed Jul 22, 2026 at 2:15 PM CEST, AshishKumar Mishra via lists.openembed=
+ded.org wrote:
+> Hi Yoann ,
+>
+> This is an bug fix patch which fixes the emit_pkgdata order
+> The same have been merged in master at https://git.openembedded.org/opene=
+mbedded-core-contrib/commit/?h=3Dross/wip/nasm&id=3Daa85baff9ebdd3f932811c3=
+b43d1918c38373cb9
+>
+> Request to take this patch in scarthgap
 
-In addition to what Yoann said, why did you write MIT? The previous
-license was clearly LGPL.
+Hello,
 
-What prompted you to work on this update and add ptests for it?
+This also need backporting to wrynose, right?
+If that's the case, please send a cherry-pick request (if trivial) or a
+backported patch.
 
-Alex
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
