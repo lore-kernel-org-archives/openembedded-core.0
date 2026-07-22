@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50050C531C8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD33C531BC
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:10 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5526.1784741046477470958
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5467.1784741048077849641
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 10:24:06 -0700
+ Wed, 22 Jul 2026 10:24:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dBJthZxf;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4956869750eso14381265e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:06 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dPqzHvy9;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-495635a85d2so27814975e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784741045; x=1785345845; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784741046; x=1785345846; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=hQdxzCmPw+AZsm8mOT3l9VKapbbWIaFhv9ieF2rK/14=;
-        b=dBJthZxfhYldrA/6YEFxncAkswKbXd1fpqbOnKgYdkw9cowAs8O7z01zDH897p0Lm4
-         2wo6xLIlph0fh3pc66B+UAxtIL58Gx5YHOMhec5ppcytcP7Xmag5kaHovhHNG+LEYsHR
-         fLlLPAXECRD9enCk61Kz4Wf8lDATXKpQoVGK8=
+        bh=s5U72hCelqwwH0R1XRJ6k0zGPeqO/dneePdOID4oNlU=;
+        b=dPqzHvy9GLYxXbvC7QscaJ1Oq0kD9nKQnmlK4YgKNsUbhCDRHE2hmEI84TlKfVFkAo
+         zS1EqqPuorqTsA3C+R1PcMXxAhPvq+Ek1/mwKuvyWmMQ4/p68MpWSelV2F0iIf9b3m2o
+         oAIFml1Py3zBSiVKkbq8Zx+Fl8Pxy/Dg4i2Mw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741045; x=1785345845;
+        d=1e100.net; s=20251104; t=1784741046; x=1785345846;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=hQdxzCmPw+AZsm8mOT3l9VKapbbWIaFhv9ieF2rK/14=;
-        b=QtiE2idzHzKzNYyjhDhBJQcRH6vVOxIBVwp9VnVN98cZcsu5mPy5pkSJh5sUIPjVTy
-         bUSFqqPlRpi8ABsDfQ+KLmo5xFUxAxKJ9Zx4zWA7ZpbKvvHlYBMC3DX4FzMogMphhm9y
-         9L8ZMmaJCO+cBWoj+o1QuSFrK+D2WzVe1X9GjP8zU3qQ7v3sXCouxLkiiF9mc/Dw+9FT
-         8vZAVah1c90e+SYxOS6uVSHL9wUnIIQ7ki2F35O7KdD4IlVZJavZN9Xab5QPi+k9bVto
-         LVZooczwDYQOL1tnNLnYvSKSYAKo29EtvLBvCqJMZ0VFPKsv2xo+w2qJCd2HPd5WuRq3
-         chvA==
-X-Gm-Message-State: AOJu0YxxSkYABh5M/9KhmVyBiAmqNG9/PmwNSlgc9N7CO4EpKLsA/ksy
-	33nHCy0eTNzur8pTWRwm2pRqE0Zo+KQAM8rnJ/LW25uGsupUUTiZf3JjWAh+dVpALc7AS+GVU+o
-	8zpqcagw=
-X-Gm-Gg: AR+sD10hXn5ArbsKJGyGl4uQZY5Fq6NbfU7eVdN0DA9sK8w2oMOOQePLcI0bn1ouvqj
-	QOy6lBPWr3FVs45g0m/aoMfFZwlaQSXjJUoi+WkrhtmvO0XoNpLC/w/oNUVgm4gAWhpOk912RL9
-	RkhvlLn0cry7kHJMO9op4y6HISjD2ivUvFR7m8KBNJIHKh10P6ioqVM/4Jip3u4pWLn6qJ0i73Z
-	zUaHv3CNv8zpL7yf00zdBAXaOvSnAWsB8HOumO1l0D8sa1eivRZPxmHa5zP+FYxgIPYJ7LQZ64l
-	5ZHKl48GyuY0rXpoqKqza8WNrU+6i85FN9Xc0yF348GK+JEzn7ibG9k+Jy3y5q5NrzWUPt6WEPe
-	fhqtWOgkefNJj/fPb+CD6ja/V/2YRS5AVrmlPhSIsAKRZe36OHUmolKOzY0bsA0U6xgW+8bjWv5
-	wQQKBAy/DLz/ODrgYlQgCPkxTLgD3+rKErMgCE1p/tB+D+2QPgT+6BrAYU/m8ipOGgnXcD9QCiE
-	CQ7vmQdvlZv5W74IZ6ORa8UvVNH6f15qQ==
-X-Received: by 2002:a05:600c:4fc2:b0:495:5b02:23b0 with SMTP id 5b1f17b1804b1-4955b0224c7mr215196185e9.26.1784741044594;
-        Wed, 22 Jul 2026 10:24:04 -0700 (PDT)
+        bh=s5U72hCelqwwH0R1XRJ6k0zGPeqO/dneePdOID4oNlU=;
+        b=LJGX+pSKxrTvUd7Zo/JMmJSDaRCtY0c3i+tRu0p7VwLAjlFJtuWu4WIlUchGH74EVf
+         N/WPN3SD9ilI13hxTa2ZXLBk5edkXvEEHrmmU9QK44HPR4izXqchGgwn1bioEzrlVNcJ
+         sx4RSDOHDEkZy3zKld9HXlkcLiDuYu5CbA2k5BjEhcDzjemypjn+TSjaDd60OHJNmIG6
+         GIBEh8tfjc50T2S7Fk15INolNbDZeWTHW3xT5KXPpGpZJ27ETVgslIPIlEo02xlgkVpf
+         ZHbkGAfxzeEa1YzDyxvM0EM14sHS2h+j2eDydU3vopekd7IkfzQ8HLiLAZ4Z7paDv+Aj
+         UAuQ==
+X-Gm-Message-State: AOJu0YzYuSgZZFRCtovsFJHYjFQak/0ihscOpoWiH6D+8z//4HIrWfbw
+	K05NdSzVZvG1h2M4+dzjlecCNZJqf9q/M7VYuAhtIyFvW3sicZBwYTmjYwaTZEPwJuUw6yIFpi6
+	RA8B7xD4=
+X-Gm-Gg: AR+sD10rHbbC30VOxPY4zlnaO33PaC1eqZ6VhcECwC+7cpqwH+sI3bcPXRAwoBeUdz3
+	pOhMz7o+/zVUGjOD/frzhBvsfTnzLnt0ERFRaKrPjFH5H7P8iP29U79piooq2nDWFbutZRbCQwC
+	Rv9kPsur+zTMgylEoeM3ig4NT8KD6ASALJXQmpNI0pSaNKlCDn2w9qvl2vWNq/UvG2rkWkw+Gpq
+	qPvMn0bJwVTw2p/W5A2oRSqciKTWJCpzK0PwHopGMpN70w7RXoq8LGz/b2YEYbZ7EOtyPTmjlfc
+	JjoaNarAI2Rc6Kjne19R/55IBEIxuFLraphxkye/n+P+x+Glh84oCbz/oGgLH7Y/yznWPxPvofX
+	H2gZGHaOUGRuFdbLvVC6T1v2yMNrA64W91d44KwMBsgTJeA8bTJ7mIYZTZQycDt7W3+yX4I2Zpz
+	2lcyvz1JGgEMa4aWnPPX49dNEHzCpedfsSP9b4lkrZcaskmmOiEQ4ZW4iojdMPvClZsqeJ8YJ/J
+	nU8mm9ZMkEALXLjAYh1b84=
+X-Received: by 2002:a05:600c:b85:b0:495:5365:c0d1 with SMTP id 5b1f17b1804b1-49553d85ea0mr229285005e9.14.1784741046188;
+        Wed, 22 Jul 2026 10:24:06 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 10:24:04 -0700 (PDT)
+        Wed, 22 Jul 2026 10:24:05 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 12/27] gnutls: Fix CVE-2026-42009
-Date: Wed, 22 Jul 2026 19:23:25 +0200
-Message-ID: <864ca75b27e3b080286ba4c97cdbed9d540a83de.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 15/27] curl: fix CVE-2026-6253
+Date: Wed, 22 Jul 2026 19:23:28 +0200
+Message-ID: <31dac2d3108bf2b86ba7e349123351742ac6effb.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
 References: <cover.1784740870.git.yoann.congal@smile.fr>
@@ -66,168 +66,430 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241722
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241725
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-This patch applies upstream fixes [1] and [2], as referenced in [3],
-to address a DTLS packet reordering flaw where duplicate sequence
-numbers could lead to unstable ordering or undefined behavior.
+Backport the upstream fix [1] for the proxy credential leak on redirect
+described in [2] and tracked by [3].
 
-Rebase CVE-2026-42009_p1.patch on top of the Wrynose
-CVE-2026-33846 backport stack, which already includes the recv_buf
-helper from upstream commit 9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0.
-
-[1] https://gitlab.com/gnutls/gnutls/-/commit/f01e21441e29052a6f0963840794c41d3b3ee66d
-[2] https://gitlab.com/gnutls/gnutls/-/commit/f341441fad91142897d83b44a175ffc8f925b76f
-[3] https://security-tracker.debian.org/tracker/CVE-2026-42009
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-42009
+[1] https://github.com/curl/curl/commit/188c2f166a20fa97c2325b2da7d0e5cecc13725f
+[2] https://curl.se/docs/CVE-2026-6253.html
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-6253
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gnutls/gnutls/CVE-2026-42009_p1.patch     | 62 +++++++++++++++++++
- .../gnutls/gnutls/CVE-2026-42009_p2.patch     | 48 ++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |  2 +
- 3 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
+ .../curl/curl/CVE-2026-6253.patch             | 389 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
+ 2 files changed, 390 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6253.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-6253.patch b/meta/recipes-support/curl/curl/CVE-2026-6253.patch
 new file mode 100644
-index 00000000000..e01fcc19acc
+index 00000000000..0e7dd72612a
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
-@@ -0,0 +1,62 @@
-+From d1191b910e63149a10647a089995d3cd85e16400 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Tue, 21 Apr 2026 16:52:48 +0200
-+Subject: [PATCH] lib/buffers: ensure packets have differing sequence
-+ numbers
++++ b/meta/recipes-support/curl/curl/CVE-2026-6253.patch
+@@ -0,0 +1,389 @@
++From 188c2f166a20fa97c2325b2da7d0e5cecc13725f Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 13 Apr 2026 17:17:23 +0200
++Subject: [PATCH] http: clear the proxy credentials as well on port or scheme
++ change
 +
-+There should normally be no packets with same sequence number and
-+differing handshake type, unless an adversary crafts them.
-+Discarding them allows to get rid of packets
-+with duplicate sequence ID in the buffer,
-+relieving us from the question of how to sort them later.
++Add tests 2009-2011 to verify switching between proxies with credentials
++when the switch is driven by a redirect
 +
-+Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
-+Fixes: #1848
-+Fixes: CVE-2026-42009
-+Fixes: GNUTLS-SA-2026-04-29-2
-+CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++Reported-by: Dwij Mehta
 +
-+CVE: CVE-2026-42009
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/f01e21441e29052a6f0963840794c41d3b3ee66d]
++Closes #21304
++
++CVE: CVE-2026-6253
++Upstream-Status: Backport [https://github.com/curl/curl/commit/188c2f166a20fa97c2325b2da7d0e5cecc13725f]
 +
 +Backport Changes:
-+- Rebased on top of the Wrynose CVE-2026-33846 backport stack, which
-+  already includes the recv_buf helper and sequence-number matching
-+  prerequisite patches.
++- Adapted the redirect credential reset hunk to curl 8.19.0 Curl_http_follow() after the existing wrynose CVE-2026-6276 backport.
++- Adapted tests/data/Makefile.am placement for the wrynose test list.
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+(cherry picked from commit f01e21441e29052a6f0963840794c41d3b3ee66d)
++(cherry picked from commit 188c2f166a20fa97c2325b2da7d0e5cecc13725f)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ lib/buffers.c | 16 ++++++++++++++--
-+ 1 file changed, 14 insertions(+), 2 deletions(-)
++ lib/http.c             | 12 +++++++
++ lib/transfer.c         | 51 +++++++++++++++++++++---------
++ lib/transfer.h         |  2 ++
++ tests/data/Makefile.am |  1 +
++ tests/data/test2009    | 70 +++++++++++++++++++++++++++++++++++++++++
++ tests/data/test2010    | 71 ++++++++++++++++++++++++++++++++++++++++++
++ tests/data/test2011    | 70 +++++++++++++++++++++++++++++++++++++++++
++ 7 files changed, 262 insertions(+), 15 deletions(-)
++ create mode 100644 tests/data/test2009
++ create mode 100644 tests/data/test2010
++ create mode 100644 tests/data/test2011
 +
-+diff --git a/lib/buffers.c b/lib/buffers.c
-+index 62f140ed3..e7f08b5625 100644
-+--- a/lib/buffers.c
-++++ b/lib/buffers.c
-+@@ -971,8 +971,20 @@ static int merge_handshake_packet(gnutls_session_t session,
-+ 		session->internals.handshake_recv_buffer;
-+ 
-+ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
-+-		if (recv_buf[i].htype == hsk->htype &&
-+-		    recv_buf[i].sequence == hsk->sequence) {
-++		if (recv_buf[i].sequence == hsk->sequence) {
-++			if (recv_buf[i].htype != hsk->htype) {
-++				_gnutls_audit_log(
-++					session,
-++					"Discarded unexpected handshake packet "
-++					"with duplicate sequence %d, but "
-++					"mismatched type %s (previously %s)\n",
-++					hsk->sequence,
-++					_gnutls_handshake2str(hsk->htype),
-++					_gnutls_handshake2str(
-++						recv_buf[i].htype));
-++				_gnutls_handshake_buffer_clear(hsk);
-++				return 0;
-++			}
-+ 			exists = 1;
-+ 			pos = i;
-+ 			break;
-+-- 
-+2.51.0
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
-new file mode 100644
-index 00000000000..d834d3da203
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
-@@ -0,0 +1,48 @@
-+From 5374a6d584b8598511f7880b4e64ee52ee1f0cc5 Mon Sep 17 00:00:00 2001
-+From: Joshua Rogers <joshua@joshua.hu>
-+Date: Tue, 21 Apr 2026 18:11:39 +0200
-+Subject: [PATCH] buffers: fix handshake_compare when sequence numbers
-+ match
++diff --git a/lib/http.c b/lib/http.c
++index 7ebbdfa..b960d79 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -1252,12 +1252,24 @@ CURLcode Curl_http_follow(struct Curl_easy *data, const char *newurl,
++         curlx_free(scheme);
++       }
++       if(clear) {
+++        CURLcode result = Curl_reset_userpwd(data);
+++        if(result) {
+++          curlx_free(follow_url);
+++          return result;
+++        }
++         Curl_safefree(data->state.aptr.user);
++         Curl_safefree(data->state.aptr.passwd);
++       }
++     }
++   }
++   DEBUGASSERT(follow_url);
+++  {
+++    CURLcode result = Curl_reset_proxypwd(data);
+++    if(result) {
+++      curlx_free(follow_url);
+++      return result;
+++    }
+++  }
 +
-+The comparator function used for ordering DTLS packets
-+by sequence numbers did not follow qsort comparator contracts
-+in case of packets with duplicate sequence numbers,
-+which could lead to unstable ordering or undefined behaviour.
-+Returning 0 in such cases makes the sorting stable.
-+
-+Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
-+Fixes: #1848
-+Fixes: CVE-2026-42009
-+Fixes: GNUTLS-SA-2026-04-29-2
-+CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-+
-+CVE: CVE-2026-42009
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/f341441fad91142897d83b44a175ffc8f925b76f]
-+
-+Signed-off-by: Joshua Rogers <joshua@joshua.hu>
-+(cherry picked from commit f341441fad91142897d83b44a175ffc8f925b76f)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ lib/buffers.c | 6 +-----
-+ 1 file changed, 1 insertion(+), 5 deletions(-)
-+
-+diff --git a/lib/buffers.c b/lib/buffers.c
-+index e7f08b5625..1ac27e4e96 100644
-+--- a/lib/buffers.c
-++++ b/lib/buffers.c
-+@@ -844,11 +844,7 @@ static int handshake_compare(const void *_e1, const void *_e2)
-+ {
-+ 	const handshake_buffer_st *e1 = _e1;
-+ 	const handshake_buffer_st *e2 = _e2;
-+-
-+-	if (e1->sequence <= e2->sequence)
-+-		return 1;
-+-	else
-+-		return -1;
-++	return (e1->sequence < e2->sequence) - (e1->sequence > e2->sequence);
++   if(type == FOLLOW_FAKE) {
++     /* we are only figuring out the new URL if we would have followed locations
++diff --git a/lib/transfer.c b/lib/transfer.c
++index 6dd2f52..af5bee2 100644
++--- a/lib/transfer.c
+++++ b/lib/transfer.c
++@@ -439,6 +439,40 @@ void Curl_init_CONNECT(struct Curl_easy *data)
++   data->state.upload = (data->state.httpreq == HTTPREQ_PUT);
 + }
-+ 
-+ #define SSL2_HEADERS 1
-+-- 
-+2.51.0
 +
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index 03eee5c50e9..3085a62310a 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -34,6 +34,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://0008-tests-mini-dtls-framents-link-to-gnulib.patch \
-            file://CVE-2026-3832_p1.patch \
-            file://CVE-2026-3832_p2.patch \
-+           file://CVE-2026-42009_p1.patch \
-+           file://CVE-2026-42009_p2.patch \
-            "
+++/*
+++ * Restore the user credentials to those set in options.
+++ */
+++CURLcode Curl_reset_userpwd(struct Curl_easy *data)
+++{
+++  CURLcode result;
+++  if(data->set.str[STRING_USERNAME] || data->set.str[STRING_PASSWORD])
+++    data->state.creds_from = CREDS_OPTION;
+++  result = Curl_setstropt(&data->state.aptr.user,
+++                          data->set.str[STRING_USERNAME]);
+++  if(!result)
+++    result = Curl_setstropt(&data->state.aptr.passwd,
+++                            data->set.str[STRING_PASSWORD]);
+++  return result;
+++}
+++
+++/*
+++ * Restore the proxy credentials to those set in options.
+++ */
+++CURLcode Curl_reset_proxypwd(struct Curl_easy *data)
+++{
+++#ifndef CURL_DISABLE_PROXY
+++  CURLcode result = Curl_setstropt(&data->state.aptr.proxyuser,
+++                                   data->set.str[STRING_PROXYUSERNAME]);
+++  if(!result)
+++    result = Curl_setstropt(&data->state.aptr.proxypasswd,
+++                            data->set.str[STRING_PROXYPASSWORD]);
+++  return result;
+++#else
+++  (void)data;
+++  return CURLE_OK;
+++#endif
+++}
+++
++ /*
++  * Curl_pretransfer() is called immediately before a transfer starts, and only
++  * once for one transfer no matter if it has redirects or do multi-pass
++@@ -584,23 +618,10 @@ CURLcode Curl_pretransfer(struct Curl_easy *data)
++       return CURLE_OUT_OF_MEMORY;
++   }
++
++-  if(data->set.str[STRING_USERNAME] ||
++-     data->set.str[STRING_PASSWORD])
++-    data->state.creds_from = CREDS_OPTION;
++   if(!result)
++-    result = Curl_setstropt(&data->state.aptr.user,
++-                            data->set.str[STRING_USERNAME]);
+++    result = Curl_reset_userpwd(data);
++   if(!result)
++-    result = Curl_setstropt(&data->state.aptr.passwd,
++-                            data->set.str[STRING_PASSWORD]);
++-#ifndef CURL_DISABLE_PROXY
++-  if(!result)
++-    result = Curl_setstropt(&data->state.aptr.proxyuser,
++-                            data->set.str[STRING_PROXYUSERNAME]);
++-  if(!result)
++-    result = Curl_setstropt(&data->state.aptr.proxypasswd,
++-                            data->set.str[STRING_PROXYPASSWORD]);
++-#endif
+++    result = Curl_reset_proxypwd(data);
++
++   data->req.headerbytecount = 0;
++   Curl_headers_cleanup(data);
++diff --git a/lib/transfer.h b/lib/transfer.h
++index 05a5f89..131e31a 100644
++--- a/lib/transfer.h
+++++ b/lib/transfer.h
++@@ -31,6 +31,8 @@ char *Curl_checkheaders(const struct Curl_easy *data,
++
++ void Curl_init_CONNECT(struct Curl_easy *data);
++
+++CURLcode Curl_reset_userpwd(struct Curl_easy *data);
+++CURLcode Curl_reset_proxypwd(struct Curl_easy *data);
++ CURLcode Curl_pretransfer(struct Curl_easy *data);
++
++ CURLcode Curl_sendrecv(struct Curl_easy *data);
++diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
++index da0f8f5..00a5221 100644
++--- a/tests/data/Makefile.am
+++++ b/tests/data/Makefile.am
++@@ -244,6 +244,7 @@ test1970 test1971 test1972 test1973 test1974 test1975 test1976 test1977 \
++ test1978 test1979 test1980 test1981 \
++ \
++ test2000 test2001 test2002 test2003 test2004 test2005 test2006 \
+++test2009 test2010 test2011 \
++ \
++                                                                test2023 \
++ test2024 test2025 test2026 test2027 test2028 test2029 test2030 test2031 \
++diff --git a/tests/data/test2009 b/tests/data/test2009
++new file mode 100644
++index 0000000..d2fd79e
++--- /dev/null
+++++ b/tests/data/test2009
++@@ -0,0 +1,70 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++HTTP proxy
+++http_proxy
+++</keywords>
+++</info>
+++# Server-side
+++<reply>
+++<connect>
+++HTTP/1.1 407 Denied
+++
+++</connect>
+++<data crlf="headers" nocheck="yes">
+++HTTP/1.1 301 redirect
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Content-Length: 4
+++Content-Type: text/html
+++Location: https://another.example/%TESTNUMBER0002
+++
+++boo
+++</data>
+++</reply>
+++
+++# Client-side
+++<client>
+++<features>
+++proxy
+++</features>
+++<server>
+++http
+++https
+++</server>
+++<name>
+++proxy credentials via env variables, redirect from http to https
+++</name>
+++
+++<setenv>
+++http_proxy=http://user:secret@%HOSTIP:%HTTPPORT
+++https_proxy=https://%HOSTIP:%HTTPSPORT/
+++</setenv>
+++<command>
+++http://somewhere.example/ --follow --proxy-insecure
+++</command>
+++</client>
+++
+++# Verify data after the test has been "shot"
+++<verify>
+++<protocol crlf="headers">
+++GET http://somewhere.example/ HTTP/1.1
+++Host: somewhere.example
+++Proxy-Authorization: Basic %b64[user:secret]b64%
+++User-Agent: curl/%VERSION
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++CONNECT another.example:443 HTTP/1.1
+++Host: another.example:443
+++User-Agent: curl/%VERSION
+++Proxy-Connection: Keep-Alive
+++
+++</protocol>
+++<errorcode>
+++7
+++</errorcode>
+++</verify>
+++</testcase>
++diff --git a/tests/data/test2010 b/tests/data/test2010
++new file mode 100644
++index 0000000..443ae9d
++--- /dev/null
+++++ b/tests/data/test2010
++@@ -0,0 +1,71 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++HTTP proxy
+++http_proxy
+++</keywords>
+++</info>
+++# Server-side
+++<reply>
+++<connect>
+++HTTP/1.1 407 Denied
+++
+++</connect>
+++<data crlf="headers" nocheck="yes">
+++HTTP/1.1 301 redirect
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Content-Length: 4
+++Content-Type: text/html
+++Location: https://another.example/%TESTNUMBER0002
+++
+++boo
+++</data>
+++</reply>
+++
+++# Client-side
+++<client>
+++<features>
+++proxy
+++</features>
+++<server>
+++http
+++https
+++</server>
+++<name>
+++proxy credentials via options for two proxies, redirect from http to https
+++</name>
+++
+++<setenv>
+++http_proxy=http://%HOSTIP:%HTTPPORT
+++https_proxy=https://%HOSTIP:%HTTPSPORT/
+++</setenv>
+++<command>
+++--proxy-user batman:robin http://somewhere.example/ --follow --proxy-insecure
+++</command>
+++</client>
+++
+++# Verify data after the test has been "shot"
+++<verify>
+++<protocol crlf="headers">
+++GET http://somewhere.example/ HTTP/1.1
+++Host: somewhere.example
+++Proxy-Authorization: Basic %b64[batman:robin]b64%
+++User-Agent: curl/%VERSION
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++CONNECT another.example:443 HTTP/1.1
+++Host: another.example:443
+++Proxy-Authorization: Basic %b64[batman:robin]b64%
+++User-Agent: curl/%VERSION
+++Proxy-Connection: Keep-Alive
+++
+++</protocol>
+++<errorcode>
+++7
+++</errorcode>
+++</verify>
+++</testcase>
++diff --git a/tests/data/test2011 b/tests/data/test2011
++new file mode 100644
++index 0000000..dd4e534
++--- /dev/null
+++++ b/tests/data/test2011
++@@ -0,0 +1,70 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++HTTP proxy
+++http_proxy
+++</keywords>
+++</info>
+++# Server-side
+++<reply>
+++<connect>
+++HTTP/1.1 407 Denied
+++
+++</connect>
+++<data crlf="headers" nocheck="yes">
+++HTTP/1.1 301 redirect
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Content-Length: 4
+++Content-Type: text/html
+++Location: https://another.example/%TESTNUMBER0002
+++
+++boo
+++</data>
+++</reply>
+++
+++# Client-side
+++<client>
+++<features>
+++proxy
+++</features>
+++<server>
+++http
+++https
+++</server>
+++<name>
+++proxy creds via env, cross-scheme redirect, --location-trusted
+++</name>
+++
+++<setenv>
+++http_proxy=http://user:secret@%HOSTIP:%HTTPPORT
+++https_proxy=https://%HOSTIP:%HTTPSPORT/
+++</setenv>
+++<command>
+++http://somewhere.example/ --location-trusted --proxy-insecure
+++</command>
+++</client>
+++
+++# Verify data after the test has been "shot"
+++<verify>
+++<protocol crlf="headers">
+++GET http://somewhere.example/ HTTP/1.1
+++Host: somewhere.example
+++Proxy-Authorization: Basic %b64[user:secret]b64%
+++User-Agent: curl/%VERSION
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++CONNECT another.example:443 HTTP/1.1
+++Host: another.example:443
+++User-Agent: curl/%VERSION
+++Proxy-Connection: Keep-Alive
+++
+++</protocol>
+++<errorcode>
+++7
+++</errorcode>
+++</verify>
+++</testcase>
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index 558a2d311e4..b1ee0f8b9ba 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -18,6 +18,7 @@ SRC_URI = " \
+     file://CVE-2026-5773.patch \
+     file://mbedtls.patch \
+     file://CVE-2026-5545.patch \
++    file://CVE-2026-6253.patch \
+ "
  
- SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
+ SRC_URI:append:class-nativesdk = " \
 
