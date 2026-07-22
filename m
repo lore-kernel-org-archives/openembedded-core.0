@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C353C4451C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE66C44539
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 08:52:03 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.32])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43525.1784710318991738813
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.2])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43526.1784710320434675030
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 01:51:59 -0700
+ Wed, 22 Jul 2026 01:52:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=VVmsvOHQ;
- spf=pass (domain: ericsson.com, ip: 52.101.83.32, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=Saf+fGIg;
+ spf=pass (domain: ericsson.com, ip: 40.107.159.2, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xzuFGwytbl4Pg3dZLmKLOGOHioK4qZh4oesFwzx1gu/zVPI0v+u1yBA/ZrRGk/qAbhfyq+rjGW9TehQAqW6+0to8SLBwwSHN5PuWMendth0vHiQSCf7fR3RcsVw0GoWFS6s3yezisnCpFAS29vZ2T+fQiYYdBp1699egB74+b04TpZzAfhYM8PJS5oFXpDfA52eK33dmKGzx9oRpNtc6e/rWlSGQwVij7JUgnhv0jKj6MxNTqMAhZN2KHog31Re/XoBFxTOuR/cNH7hXIFn0N1BzLz0o+TuZE00YKAOh2kvPN01MOpEw4dauUcikXAZEbc3kKUdfJjPT1JzaiefvJw==
+ b=zTRhxOIRSAsC2VJKQaWTn5+BV/JkqiGK5udQJEjkr1MSQEJ3+pBLNTdjsQnowTMgtzqlRE5iXwSWW3vyX5jmOBAtOmLmdHeGEJr43TMtj7yCLagiN3g2m5Y1o6l7YHuaUwPjt1GI6EyIWBwwGaNJO73uR3L1xPyAoQ6tON10l+pZlBzmqUIT3SSZRb/BSMjdjM7psJiRoZbmDGm0SOis8PFAQ62QDa7pzmnpTeXTVdUEdypz/Kg8Xn3gOzWfCAh3QEiiJVi9dsGkDlO3btd/S3RH4xEdLrI7QtVtU7XPfDjYa7j1Q1NLmF3VKOB2WKsjiwvEsfUYceLow0BoQECAQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=abJAUPM4sTEMk1E90c2LdKTIMQ+y0/w53gy59zd8U+Q=;
- b=hYPwUVD58aaZask33WwMezOUx6k80qpKf8YYUxin7J6nF/RIZEVYPaxE4Yat1m8VMLNF4lQMvMsPZIN1CVBjaR1p2ZYs3M8gEmZQkO0ZvZFmcnvjF9+ncVk+dZhj5OSBkAy8sTniG7fLu4Vrx9+qijletZC6KSnMtWOycfObCxsbEb7Wjdf78/dp5u6N+KqDUmc4xFVDiri5YjAe7DsMPQf3XzUcP4zTkXgPfOXtyYCbSXjy1yfPWgBOoU1HgcL3krSD1/ysTx5tYW1UHkOg7N2Kp5MQ5mO+2htSW0w97rvadO78BdzctW4k3qMajVAjPtCFx8u11FjmBIDAeG1qiQ==
+ bh=nvZsl39/IrYVhLyDSgHPup/xDRall/9vxiR+ooG/6h8=;
+ b=uhNwxt3T/LJt4t7E+zgm/BBoeubiASa495FIh9Bv3vl7JnOjimDiu4EYSGqtg9CowM2W4UFz8a1UYa+cB0G+Vu0w0t2jSAEBMdD9BOGd14Tsqn9AsFGPHifJqW55Uw61dpn18NsxQIVhVOQczOTyBsrVTLNirS1lhRFbQeYerE/vR1zBuxz64UXpbUsRhokM/F9xZGEB0cOvSPRNif2A4/mR1yedn/iKQINnucTTiX8KFKWdC78g9/1eVQ10UJFek8EgYkyjUAwtqhuo8XYdCnMpFGEu4EhtctMG4KTKWfgKsLTeJpheyivFvo7vJxtfH02QzG5tgSjT70QERddXcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=abJAUPM4sTEMk1E90c2LdKTIMQ+y0/w53gy59zd8U+Q=;
- b=VVmsvOHQCZJa8JcRoTGDxuWP0WO2ZuPkO8lUBjtOj7eLIq+yOn5oaVJDa+g4C7tFER0Op9LBufBTzGcW09dbh6kspW6/buVkJWh5/E8omKsAelkpwxfqYhjvcBYOEO4MSF3Dycq5SLZSqkBeHWC2wMy/gJWoKBqaYwQY34uxyH5L5OJbVDDA4NuQfw92WHiJs9IXzYUFenNbMDUkXpFL+0Tfxtl0Ozm+iThclYU9RO2w29wFuD5w+VifYT1lsg1K5UwPGvONMHXKNyNFhWKBlYUR54L4lQKDiMsMiL2S2t2QiMRgwR0UwgsWOeawPpvptDwTwBrfN/I9m8bGGlOdTg==
-Received: from DUZPR01CA0006.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c3::13) by DU0PR07MB8737.eurprd07.prod.outlook.com
- (2603:10a6:10:31b::15) with Microsoft SMTP Server (version=TLS1_2,
+ bh=nvZsl39/IrYVhLyDSgHPup/xDRall/9vxiR+ooG/6h8=;
+ b=Saf+fGIgqgCa/FzD4IQWybowr0WlVW4S6or2NmYgS88F/eNrmytv2vPDrrpLhG0GmZx6Z8/wqrbs8MJC3W1upAyCw3vGMeSCsZpsPGOZc9VlExMALJHfKC4B0i3MJya7vT2rHMN8J5mbz8gyFIYBWYFPsY5/WQwYrDr5dZWrAWZfptZ6HKKcpnBVJGV7uX+izXfM6xT5PlWMIw8aSwUjQUo4JO9DfthQlnx6RWdHScB5uR/Ti2HNGR1aCnmmZajh+ZWMAnN51GJ0v/9NKmWBXF9OgPcygSZyi82XAOmfB/37tYO90MXS8MVRLHZPtT2PsnuH4hFZsVQ0n6fAWD2CMw==
+Received: from AS9PR06CA0691.eurprd06.prod.outlook.com (2603:10a6:20b:49f::8)
+ by DUZPR07MB9936.eurprd07.prod.outlook.com (2603:10a6:10:4de::19) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 08:51:52 +0000
-Received: from DB5PEPF00014B93.eurprd02.prod.outlook.com
- (2603:10a6:10:3c3:cafe::83) by DUZPR01CA0006.outlook.office365.com
- (2603:10a6:10:3c3::13) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 08:51:55 +0000
+Received: from AMS0EPF00000199.eurprd05.prod.outlook.com
+ (2603:10a6:20b:49f:cafe::67) by AS9PR06CA0691.outlook.office365.com
+ (2603:10a6:20b:49f::8) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Wed,
- 22 Jul 2026 08:51:52 +0000
+ 22 Jul 2026 08:51:55 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -45,24 +45,24 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB5PEPF00014B93.mail.protection.outlook.com (10.167.8.231) with Microsoft
+ AMS0EPF00000199.mail.protection.outlook.com (10.167.16.245) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.5 via Frontend Transport; Wed, 22 Jul 2026 08:51:52 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
+ 15.21.245.5 via Frontend Transport; Wed, 22 Jul 2026 08:51:55 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 22 Jul 2026 10:51:50 +0200
+ 15.2.2562.37; Wed, 22 Jul 2026 10:51:55 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 078084020C02;
-	Wed, 22 Jul 2026 10:51:49 +0200 (CEST)
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id A4E0695804;
+	Wed, 22 Jul 2026 10:51:52 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id D2F8B700DBB0; Wed, 22 Jul 2026 10:51:49 +0200 (CEST)
+	id 753E7700DBB0; Wed, 22 Jul 2026 10:51:52 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH v2 1/4] scripts/contrib: add helper to report and fix missing SRC_URI ;tag=
-Date: Wed, 22 Jul 2026 10:51:35 +0200
-Message-ID: <20260722085140.2355003-2-daniel.turull@ericsson.com>
+Subject: [PATCH v2 4/4] xmlto: correct srcrev to point to released version
+Date: Wed, 22 Jul 2026 10:51:38 +0200
+Message-ID: <20260722085140.2355003-5-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260722085140.2355003-1-daniel.turull@ericsson.com>
 References: <20260722085140.2355003-1-daniel.turull@ericsson.com>
@@ -71,599 +71,68 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B93:EE_|DU0PR07MB8737:EE_
-X-MS-Office365-Filtering-Correlation-Id: 66e8fce1-41ef-40e2-3275-08dee7ce79b9
+X-MS-TrafficTypeDiagnostic: AMS0EPF00000199:EE_|DUZPR07MB9936:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22412713-a7f4-428f-85d2-08dee7ce7b99
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|23010399003|376014|22082099003|18002099003|3023799007|6133799003|11063799006|56012099006|10067099003;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700016|23010399003|18002099003|22082099003|11063799006|56012099006|3023799007|10067099003|13003099007|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	5lVt9rU/tlAvY8gkshTjrLM9CJnwUnzljgpBx9SWsU5LuU8pku9UiB2f5VYv4at13dFpIWF+iWh/3JCea59UAqx9+VSdAYZCTECBpUfKsBJOOLP1wXD4XOW1TqMyBIvLV5gJRfSN8ZkMJ9QCCUeNe6d4bA4HOUoDdyOuBTpYc4ViuQ+6nyQI95/nsir8Biw6MCmyDWFOpMLDil9/ozOhY28usgCzkj5R/5WTx8ZbR8QZ5ALtoC0SYh6lbx5OlYQk80lsgv/cflV4iO9kJXKRfEme0dFmhHj7y9uZEHh/WtebBRlDPcRS+SsVYFQtV2UkjE8cX78m2+x795+rIGYymoBl4cQ1MdX37JxIT/RSG5ifI3aCjfxTDHnPAbWv7ZeY9YFSvZbo1Zdh0yz2+26IHswTTJDJdpGTuuB4rh6AnAcvq94fThND2gOXO2P9r850MpUsdZus5lPvFQlqzT0Wv5MVVAd/QtnG07b3CsLhAaNhKkFX3W2d8acqJ0YbX1UFDQZLrm1TH3RDytxlopu45IgDoOBnmT0LA6gGWBXjkiRrNXeqv+66Y//DO8kqnDhzR29P+pTiP9ZGwugWdttJSKWsg70jS3s2c7YqR/JRijlILPmLoqbAuNKHMCEEmmE8yXdIMgpllRj5371O0IRIAkc+Jg1ldppHyRI6fiIG2O4jdXandrHvCmb5hAciEgu33lQrthqkJQGrGyNLaAi2iQ==
+	V3m07j4+prZbW4rB1XWnipFQmmuyYMIRY4vEw+5IXtC+4bHK07eMd7UXtUr9Xf+H0Vnduj+++zcYMdyMyLZmAsydAgPo5fsaohEXhTYeu4NZ+OmijogV8cJ4VYG/l7m9UMIerXiCN+hDz4uQIyl6bglwOlihYHDRziohyMsW3Ovs0qU1IC2LHO3bLq1oAFp/UUQco5O7RQ5XuZ7hXoSRLYQCaTe+FzTPYgDPeBZAOGKT+QaDmGKddFq1zeFRI4aJQQTSIYSxJ/dtSn69RgBwPrWtXgBF+B6wtbrfOiq4nzhcHB6PYAlFtDn7auKRP7x+AjwRpZ6iaLPf2S9PeOKJ6XB0bdKakcBw/XjNetqRhp/7g80cyI7nYgv9T10Lx5gfllljSfKyyVyErZi85B7/qGvhhLSVNGvT6pi5DlAyhRHjOAbOiVJzj7JmfvDOUoUeN80A6D7DCI5BZ2z/cB3+LNhPs20+M1UW3a9CrSYO247Wl7d+wQEU6FgHwtllJIddoUfF+xhtbRFfzrKh8NQGs9TnheYwkHaAFLZBiR3XHf9j3l/Rww0fL0d+PV/dgWGZizXAKjtizqnEhSOLnoQ3ht2CXNhF7joRfycXjQEvbmJp3Q9nzc1wK4NoGyFoUaIqaLZSPflglUEqd/lC/phuQQ==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(23010399003)(376014)(22082099003)(18002099003)(3023799007)(6133799003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700016)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(3023799007)(10067099003)(13003099007)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	FhsIpt8NxWljraloalcLZjH75a8Xr9siDQkjixR8nmBBoI+NHbf6J+YPSJ0DtFT97CKxggtfvPMMOf5Ab+qzoJ1yu6FxHor7q+vgG9yB/K+GN3jxB8jkmXrMUat3/AZVwUh/dJngTVTVCQRgjE/FY73Ql8ihFzq3qtyDgHrlwjD/tsBW6FHecmw83HJ9/Bb7VRNlHgtsOQdfuVILG/2GH8t5sj/i37LwC9Tn4nObWkLxQiwUaRi9tDczG+wSDlQzTsXlGa9J6aIFSi9pcWyMncItic6GdLWOw7i9Z3XY1Xj37N1XLDJc1n383mgRf5vww3xHwsTGEDSafnIeCxAYIp071WkBlyMVp58E2rK4PY2GYpv9U/gOb2CI//edM64LRwlGBJkdqIVs9vh/T17SNcjlC40hmzy/L2SHkt1XBowpr5Lo+m18Iy9PvV/F4Blk
+	XBRjsgxeQh2MZDfooiPG7J5Qs+6HV7lV593mlOZWmRr8mNuBv+snXhQ29KWenmyhHKusxHRxmSCqipY1+WYzVHZ1rkHAH0IprSCjqHmdrm04qcWyAxuHh06AkvOBR2/6ko9ek5rOZ10WsSTwpZmV+dYzUFmAHfcACbNAU3vReYt6Ai/YVI1ye5LdIQa1HISmLQlHHbmwEkCBwKHKXFypZFl5aZ/6c1gpxueA+FQj169XQW0USECLTVh5LnfB8ijdJ2yC5nWIQlmS2bZH2AXxtIFDtzPQA3dKgAaN/HH38YhEtkBRKLH+irnI4VohG+SeA+ZTT1PC6y6CAMb9lVjM23XstHGNHEFrmz0mmDNnmL71bb2Mgp8TBnCHMysbe4SRrvqkYsyeV2bOSv3mUkiO9QzWeZ6Unr5yrkVKcS7j6eVqQzXPkVq97J+q8vq3L0G/
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 08:51:52.3855
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 08:51:55.5496
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66e8fce1-41ef-40e2-3275-08dee7ce79b9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22412713-a7f4-428f-85d2-08dee7ce7b99
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B93.eurprd02.prod.outlook.com
+	AMS0EPF00000199.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR07MB8737
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR07MB9936
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 08:52:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241632
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241633
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Add a contrib helper which scans parsed recipes for git/gitsm SRC_URI
-entries missing a ;tag=3D parameter.  By default it reports only and does
-not construct the BitBake fetcher.  With --query-remote it queries
-upstream tags and, when a well-known tag format resolves to the recipe's
-SRCREV, suggests it as a ;tag=3D candidate.  With --write (which implies
---query-remote) the unambiguous candidate is written back to the recipe.
+0.0.29 released has done Jun 11, 2024, 635dcd5bc8
+https://codeberg.org/xmlto/xmlto/tags
 
-Tag candidate search uses TAG_FORMATS (v${PV}, ${PV}, ${BPN}-${PV})
-followed by UPSTREAM_CHECK_GITTAGREGEX if defined in the recipe.  A
-candidate is only accepted when it resolves to the recipe's literal
-SRCREV on the remote, so floating revisions (AUTOREV) and non-release
-PVs are skipped.
+current srcrev was 1 commit ahead
+https://codeberg.org/xmlto/xmlto/commit/74862a684907ada3d4ed2ce0f8111adf626=
+e1456
 
-Writes are performed via oe.recipeutils.patch_recipe(), which also
-localises the change to the .inc file when SRC_URI is defined there.
-Only literal SRC_URI entries (no ${...} in the URL token) are modified;
-the entry is edited with bb.fetch2.decodeurl()/encodeurl() so the
-;tag=3D parameter is appended without disturbing the other parameters.
-
-Every modified file is printed, with a reminder to review the result
-with git diff and test it with bitbake -c fetch.  With --recipe and
---layer the scan can be restricted to a single recipe or layer, and
---fail-on-missing makes the exit status reflect URLs still missing after
-any writes complete.
-
-AI-Generated: Kiro with Claude-opus-4.8
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- scripts/contrib/check-srcuri-tag.py | 483 ++++++++++++++++++++++++++++
- 1 file changed, 483 insertions(+)
- create mode 100755 scripts/contrib/check-srcuri-tag.py
+ meta/recipes-devtools/xmlto/xmlto_0.0.29.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/contrib/check-srcuri-tag.py b/scripts/contrib/check-sr=
-curi-tag.py
-new file mode 100755
-index 0000000000..33a2b781f7
---- /dev/null
-+++ b/scripts/contrib/check-srcuri-tag.py
-@@ -0,0 +1,483 @@
-+#!/usr/bin/env python3
-+# SPDX-FileCopyrightText: OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+
-+# pylint: disable=3Dinvalid-name
-+
-+"""
-+Scan parsed recipes for git/gitsm SRC_URI entries missing a ;tag=3D parame=
-ter.
-+
-+Default mode reports only.  With --query-remote the script queries upstrea=
-m
-+tags and, when a well-known tag format (v${PV}, ${PV}, ${BPN}-${PV} or the
-+recipe's UPSTREAM_CHECK_GITTAGREGEX) resolves to the recipe's SRCREV, sugg=
-ests
-+it as a ;tag=3D candidate.  With --write (which implies --query-remote) th=
-e
-+unambiguous candidate is written directly into the file that literally
-+defines the SRC_URI entry (which may be a .inc file required by the
-+recipe).  Only literal SRC_URI entries (no ${...} in the URL token) are
-+modified.
-+
-+Must be run from an initialized build environment (oe-init-build-env).
-+
-+Usage examples:
-+  check-srcuri-tag.py
-+  check-srcuri-tag.py --query-remote
-+  check-srcuri-tag.py --write
-+  check-srcuri-tag.py --recipe busybox --write
-+  check-srcuri-tag.py --layer /path/to/meta-foo
-+  check-srcuri-tag.py --fail-on-missing
-+"""
-+
-+import argparse
-+import logging
-+import os
-+import re
-+import sys
-+from dataclasses import dataclass
-+
-+scripts_path =3D os.path.dirname(os.path.dirname(os.path.realpath(__file__=
-)))
-+sys.path.insert(0, os.path.join(scripts_path, 'lib'))
-+
-+import scriptpath  # pylint: disable=3Dimport-error,wrong-import-position
-+if not scriptpath.add_bitbake_lib_path():
-+    sys.exit("Unable to find bitbake libraries")
-+scriptpath.add_oe_lib_path()
-+
-+import bb.cache        # pylint: disable=3Dwrong-import-position
-+import bb.fetch2       # pylint: disable=3Dwrong-import-position
-+import bb.tinfoil      # pylint: disable=3Dwrong-import-position
-+import oe.recipeutils  # pylint: disable=3Dwrong-import-position
-+
-+# Well-known tag formats tried in order when --query-remote is active.
-+TAG_FORMATS =3D ["v${PV}", "${PV}", "${BPN}-${PV}"]
-+
-+# Cache of remote tags keyed by upstream repository identity.
-+_lsremote_cache =3D {}
-+
-+
-+@dataclass(eq=3DFalse)
-+class UrlResult:
-+    """Outcome for a single git URL within a recipe."""
-+    entry: str          # unexpanded SRC_URI token
-+    base_url: str       # expanded scheme://host/path (no parameters)
-+    name: str           # name=3D parameter, or ""
-+    status: str         # tagged|missing|remote-error|parse-error
-+    tag: str =3D ""       # existing ;tag=3D value (status =3D=3D tagged)
-+    tag_fmt: str =3D ""   # suggested tag candidate (status =3D=3D missing=
-)
-+    detail: str =3D ""    # human-readable note
-+
-+
-+def get_literal_srcrev(name, data):
-+    """Return (sha, None) or (None, reason) for the named git URL.
-+
-+    SRCREV candidates are read unexpanded (to avoid triggering AUTOREV
-+    resolution) in the same fallback order used by bb.fetch2, accepting on=
-ly a
-+    plain hex SHA (or the SHA embedded in a cached AUTOINC+<sha> value).
-+    """
-+    pn =3D data.getVar("PN") or ""
-+    attempts =3D []
-+    if name and name !=3D "default":
-+        if pn:
-+            attempts.append(f"SRCREV_{name}:pn-{pn}")
-+        attempts.append(f"SRCREV_{name}")
-+    if pn:
-+        attempts.append(f"SRCREV:pn-{pn}")
-+    attempts.append("SRCREV")
-+
-+    for key in attempts:
-+        val =3D data.getVar(key, False)
-+        if not val or val =3D=3D "INVALID":
-+            continue
-+        if val.startswith("AUTOINC+"):
-+            val =3D val[len("AUTOINC+"):]
-+        if "AUTOREV" in val or "AUTOINC" in val:
-+            return None, "SRCREV is a floating revision"
-+        if "${" in val:
-+            return None, "SRCREV is not a literal value"
-+        val =3D val.lower()
-+        if re.fullmatch(r'[0-9a-f]{40}|[0-9a-f]{64}', val):
-+            return val, None
-+        return None, "SRCREV is not a literal SHA"
-+    return None, "SRCREV is not set"
-+
-+
-+def get_release_pv(data):
-+    """Return (pv, None) for a plain release PV, or (None, reason).
-+
-+    The unexpanded PV is checked first so PV =3D "${SRCPV}" or "1.0+git" a=
-re
-+    rejected before any expansion side effects occur.
-+    """
-+    pv_raw =3D data.getVar("PV", False) or ""
-+    if not pv_raw or "git" in pv_raw or "SRCPV" in pv_raw:
-+        return None, f"PV '{pv_raw}' is not a plain release version"
-+    return data.getVar("PV") or pv_raw, None
-+
-+
-+def lsremote_tags(ud, data):
-+    """Return ({tag_name: frozenset(shas)}, None) or (None, reason).
-+
-+    Uses the Git fetcher's _lsremote() so mirrors, credentials and
-+    BB_NO_NETWORK are honoured.  Both the tag-object and peeled-commit SHA=
-s of
-+    annotated tags are collected under the same tag name.
-+    """
-+    key =3D (getattr(ud, 'user', ''), getattr(ud, 'proto', ''),
-+           getattr(ud, 'host', ''), getattr(ud, 'path', ''))
-+    if key in _lsremote_cache:
-+        return _lsremote_cache[key]
-+
-+    try:
-+        output =3D ud.method._lsremote(ud, data, "refs/tags/*")
-+    except (bb.fetch2.NetworkAccess, bb.fetch2.FetchError) as exc:
-+        result =3D (None, f"remote error: {exc}")
-+        _lsremote_cache[key] =3D result
-+        return result
-+
-+    tag_map =3D {}
-+    for line in output.splitlines():
-+        parts =3D line.split(None, 1)
-+        if len(parts) !=3D 2:
-+            continue
-+        sha, ref =3D parts
-+        tag =3D ref.removeprefix("refs/tags/").removesuffix("^{}")
-+        tag_map.setdefault(tag, set()).add(sha)
-+
-+    result =3D ({k: frozenset(v) for k, v in tag_map.items()}, None)
-+    _lsremote_cache[key] =3D result
-+    return result
-+
-+
-+def deduce_tag_format(ud, srcrev, pv, bpn, data):
-+    """Return (tag_fmt, None) if a well-known format resolves to srcrev on=
- the
-+    remote, else (None, reason).
-+
-+    Tries TAG_FORMATS first; if none match and the recipe defines
-+    UPSTREAM_CHECK_GITTAGREGEX, that regex is used to find the tag whose
-+    captured 'pver' group (normalized from '_' to '.') equals PV and whose=
- SHA
-+    matches SRCREV.  A unique regex hit is returned as a literal tag name.
-+    """
-+    tag_map, err =3D lsremote_tags(ud, data)
-+    if tag_map is None:
-+        return None, err
-+    if not tag_map:
-+        return None, "remote has no tags"
-+
-+    matches =3D [fmt for fmt in TAG_FORMATS
-+               if srcrev in tag_map.get(
-+                   fmt.replace("${PV}", pv).replace("${BPN}", bpn), frozen=
-set())]
-+    if len(matches) =3D=3D 1:
-+        return matches[0], None
-+    if len(matches) > 1:
-+        return None, f"ambiguous: multiple formats match ({', '.join(match=
-es)})"
-+
-+    check_regex =3D data.getVar("UPSTREAM_CHECK_GITTAGREGEX", False)
-+    if check_regex:
-+        try:
-+            compiled =3D re.compile(check_regex)
-+        except re.error as exc:
-+            return None, f"UPSTREAM_CHECK_GITTAGREGEX is invalid: {exc}"
-+        regex_matches =3D []
-+        for tag_name, shas in tag_map.items():
-+            m =3D compiled.fullmatch(tag_name)
-+            if (m and "pver" in m.groupdict()
-+                    and m.group("pver").replace("_", ".") =3D=3D pv
-+                    and srcrev in shas):
-+                regex_matches.append(tag_name)
-+        if len(regex_matches) =3D=3D 1:
-+            return regex_matches[0], None
-+        if len(regex_matches) > 1:
-+            return None, ("ambiguous: UPSTREAM_CHECK_GITTAGREGEX matched "
-+                          f"multiple tags ({', '.join(sorted(regex_matches=
-))})")
-+
-+    return None, "no well-known tag format matched SRCREV on remote"
-+
-+
-+def add_candidate(result, exp_url, name, data):
-+    """Fill in result.tag_fmt/detail for a missing-tag URL under --query-r=
-emote.
-+
-+    Sets result.status to 'remote-error' if the remote could not be querie=
-d.
-+    """
-+    srcrev, reason =3D get_literal_srcrev(name or "default", data)
-+    if not srcrev:
-+        result.detail =3D f"no suggestion: {reason}"
-+        return
-+    pv, reason =3D get_release_pv(data)
-+    if not pv:
-+        result.detail =3D f"no suggestion: {reason}"
-+        return
-+
-+    try:
-+        ud =3D bb.fetch2.FetchData(exp_url, data)
-+    except bb.fetch2.FetchError as exc:
-+        result.status =3D "remote-error"
-+        result.detail =3D str(exc)
-+        return
-+
-+    fmt, reason =3D deduce_tag_format(ud, srcrev, pv, data.getVar("BPN") o=
-r "", data)
-+    if fmt:
-+        result.tag_fmt =3D fmt
-+        result.detail =3D f"candidate: ;tag=3D{fmt}"
-+    elif reason.startswith("remote error"):
-+        result.status =3D "remote-error"
-+        result.detail =3D reason
-+    else:
-+        result.detail =3D f"no suggestion: {reason}"
-+
-+
-+def check_url(entry, data, args):
-+    """Process a single git/gitsm SRC_URI entry.  Returns a UrlResult."""
-+    exp =3D data.expand(entry)
-+    try:
-+        scheme, host, path, _u, _p, parm =3D bb.fetch2.decodeurl(exp)
-+    except bb.fetch2.MalformedUrl as exc:
-+        return UrlResult(entry, exp, "", "parse-error", detail=3Dstr(exc))
-+
-+    base_url =3D f"{scheme}://{host}{path}"
-+    name =3D parm.get("name", "")
-+    # The git fetcher no longer supports comma-separated name=3D values.
-+    if "," in name:
-+        return UrlResult(entry, base_url, name, "parse-error",
-+                         detail=3D"comma in name=3D parameter")
-+    if parm.get("tag"):
-+        return UrlResult(entry, base_url, name, "tagged", tag=3Dparm["tag"=
-])
-+
-+    result =3D UrlResult(entry, base_url, name, "missing")
-+    if args.query_remote:
-+        add_candidate(result, exp, name, data)
-+    return result
-+
-+
-+def check_recipe(data, args):
-+    """Return a list of UrlResult for every git/gitsm SRC_URI entry."""
-+    entries =3D oe.recipeutils.split_var_value(
-+        data.getVar("SRC_URI", False) or "", assignment=3DFalse)
-+    return [check_url(e, data, args) for e in entries
-+            if e.startswith(("git://", "gitsm://"))]
-+
-+
-+def add_tag_to_entry(entry, tag_fmt):
-+    """Return entry with ;tag=3D<tag_fmt> added (entry must be a literal U=
-RL)."""
-+    decoded =3D list(bb.fetch2.decodeurl(entry))
-+    decoded[5]["tag"] =3D tag_fmt
-+    return bb.fetch2.encodeurl(decoded)
-+
-+
-+def find_source_file(entry, data):
-+    """Return (filepath, None) for the one file whose SRC_URI fragment
-+    literally contains entry, or (None, reason) if that can't be determine=
-d
-+    unambiguously.
-+
-+    entry must contain no variable references (checked by the caller).  On=
-ly
-+    files recorded in SRC_URI's variable history are considered, and entry
-+    must appear as a whole space-separated token in exactly one of them (t=
-his
-+    also catches the case where the git URL is set in a .inc file that is
-+    require'd by the .bb, which is common for git recipes).
-+    """
-+    matches =3D []
-+    for event in data.varhistory.variable("SRC_URI") or []:
-+        fn =3D event.get("file")
-+        detail =3D event.get("detail")
-+        if not fn or not detail:
-+            continue
-+        if entry in detail.split() and fn not in matches:
-+            matches.append(fn)
-+
-+    if not matches:
-+        return None, "URL not found literally in SRC_URI history"
-+    if len(matches) > 1:
-+        return None, f"URL set in multiple files: {', '.join(matches)}"
-+    return matches[0], None
-+
-+
-+def apply_tag(fn, entry, tag_fmt):
-+    """Replace entry with entry;tag=3D<tag_fmt> in fn.  entry must appear =
-as a
-+    whole space/quote-delimited token exactly once.
-+
-+    Returns (True, None) on success, or (False, reason) on error.
-+    """
-+    try:
-+        with open(fn, encoding=3D"utf-8") as f:
-+            content =3D f.read()
-+    except OSError as exc:
-+        return False, f"read error: {exc}"
-+
-+    pattern =3D re.compile(r'(?<![^\s"])%s(?=3D[\s"\\]|$)' % re.escape(ent=
-ry))
-+    replacement =3D add_tag_to_entry(entry, tag_fmt)
-+    new_content, count =3D pattern.subn(lambda _m: replacement, content)
-+    if count !=3D 1:
-+        return False, f"expected 1 occurrence of URL in {fn}, found {count=
-}"
-+
-+    try:
-+        with open(fn, "w", encoding=3D"utf-8") as f:
-+            f.write(new_content)
-+    except OSError as exc:
-+        return False, f"write error: {exc}"
-+    return True, None
-+
-+
-+def write_candidates(data, results, layer_path):
-+    """Write unambiguous ;tag=3D candidates directly into their source fil=
-e(s).
-+
-+    Only literal SRC_URI entries (no ${...}) are touched.  Returns the lis=
-t
-+    of (UrlResult, filepath) pairs that were written.
-+    """
-+    written =3D []
-+    for r in results:
-+        if r.status !=3D "missing" or not r.tag_fmt:
-+            continue
-+        if "${" in r.entry:
-+            r.detail =3D f"write skipped: URL contains variable references=
- ({r.entry})"
-+            continue
-+        fn, reason =3D find_source_file(r.entry, data)
-+        if not fn:
-+            r.detail =3D f"write skipped: {reason}"
-+            continue
-+        if layer_path and not under_layer(fn, layer_path):
-+            r.detail =3D f"write skipped: {fn} is outside --layer"
-+            continue
-+        ok, reason =3D apply_tag(fn, r.entry, r.tag_fmt)
-+        if ok:
-+            written.append((r, fn))
-+        else:
-+            r.detail =3D f"write skipped: {reason}"
-+    return written
-+
-+
-+def under_layer(fn, layer_path):
-+    """Return True if fn is under layer_path (already realpath'd)."""
-+    try:
-+        return os.path.commonpath([os.path.realpath(fn), layer_path]) =3D=
-=3D layer_path
-+    except ValueError:
-+        return False
-+
-+
-+def main():
-+    """Main entry point."""
-+    parser =3D argparse.ArgumentParser(
-+        description=3D"Report (and optionally fix) git SRC_URI entries mis=
-sing ;tag=3D",
-+        formatter_class=3Dargparse.RawDescriptionHelpFormatter,
-+        epilog=3D"NOTE: --query-remote (implied by --write) contacts upstr=
-eam "
-+               "git servers.")
-+    parser.add_argument("--query-remote", action=3D"store_true",
-+                        help=3D"Query upstream remotes to suggest a ;tag=
-=3D for "
-+                             "missing entries (requires network access)")
-+    parser.add_argument("--write", action=3D"store_true",
-+                        help=3D"Apply unambiguous tag candidates to their =
-source "
-+                             "recipe/.inc files; implies --query-remote.  =
-Only "
-+                             "literal SRC_URI entries (no ${...}) are modi=
-fied.")
-+    parser.add_argument("--recipe", metavar=3D"PN",
-+                        help=3D"Check only this recipe name")
-+    parser.add_argument("--layer", metavar=3D"PATH",
-+                        help=3D"Check only recipes under this layer direct=
-ory")
-+    parser.add_argument("--fail-on-missing", action=3D"store_true",
-+                        help=3D"Exit non-zero if any URLs are still missin=
-g ;tag=3D "
-+                             "after this run (remote errors are not counte=
-d)")
-+    parser.add_argument("--verbose", "-v", action=3D"store_true",
-+                        help=3D"Show tagged and parse-error URLs as well")
-+    args =3D parser.parse_args()
-+
-+    if args.write:
-+        args.query_remote =3D True
-+
-+    layer_path =3D None
-+    if args.layer:
-+        layer_path =3D os.path.realpath(args.layer)
-+        if not os.path.isdir(layer_path):
-+            sys.exit(f"error: --layer is not a directory: {args.layer!r}")
-+
-+    logging.basicConfig(
-+        format=3D"%(levelname)s: %(message)s",
-+        level=3Dlogging.DEBUG if args.verbose else logging.WARNING)
-+
-+    stats =3D dict.fromkeys(
-+        ("total", "tagged", "missing", "candidate", "written",
-+         "remote_error", "parse_error"), 0)
-+    modified_files =3D []
-+
-+    with bb.tinfoil.Tinfoil(tracking=3DTrue) as tinfoil:
-+        tinfoil.prepare()
-+        pkg_pn =3D tinfoil.cooker.recipecaches[''].pkg_pn
-+        checked_files =3D set()
-+
-+        for pn in sorted(pkg_pn):
-+            if args.recipe and pn !=3D args.recipe:
-+                continue
-+
-+            for fn in pkg_pn[pn]:
-+                realfn, _, _ =3D bb.cache.virtualfn2realfn(fn)
-+                if realfn in checked_files:
-+                    continue
-+                checked_files.add(realfn)
-+                if layer_path and not under_layer(realfn, layer_path):
-+                    continue
-+
-+                data =3D tinfoil.parse_recipe_file(realfn)
-+                results =3D check_recipe(data, args)
-+                if not results:
-+                    continue
-+
-+                if args.write:
-+                    written =3D write_candidates(data, results, layer_path=
-)
-+                    for _r, wfn in written:
-+                        if wfn not in modified_files:
-+                            modified_files.append(wfn)
-+                else:
-+                    written =3D []
-+                written_results =3D {r for r, _fn in written}
-+
-+                basename =3D os.path.basename(realfn)
-+                for r in results:
-+                    stats["total"] +=3D 1
-+                    label =3D f"{pn}  {basename}"
-+                    if r.name and r.name !=3D "default":
-+                        label +=3D f"  name=3D{r.name}"
-+                    else:
-+                        label +=3D f"  {r.base_url}"
-+
-+                    if r.status =3D=3D "tagged":
-+                        stats["tagged"] +=3D 1
-+                        if args.verbose:
-+                            print(f"OK:           {label}  tag=3D{r.tag}")
-+                    elif r.status =3D=3D "missing":
-+                        stats["missing"] +=3D 1
-+                        if r.tag_fmt:
-+                            stats["candidate"] +=3D 1
-+                        if r in written_results:
-+                            stats["written"] +=3D 1
-+                            print(f"WRITTEN:      {label}  ;tag=3D{r.tag_f=
-mt}")
-+                        else:
-+                            suffix =3D f"  {r.detail}" if r.detail else ""
-+                            print(f"MISSING:      {label}{suffix}")
-+                    elif r.status =3D=3D "remote-error":
-+                        stats["remote_error"] +=3D 1
-+                        print(f"REMOTE-ERROR: {label}  {r.detail}")
-+                    elif r.status =3D=3D "parse-error":
-+                        stats["parse_error"] +=3D 1
-+                        if args.verbose:
-+                            print(f"PARSE-ERROR:  {label}  {r.detail}")
-+
-+    print("\n--- Summary ---")
-+    print(f"Git URLs checked : {stats['total']}")
-+    print(f"  Tagged         : {stats['tagged']}")
-+    print(f"  Missing tag    : {stats['missing']}")
-+    if args.query_remote:
-+        print(f"    candidate found: {stats['candidate']}")
-+        print(f"  Remote error   : {stats['remote_error']}")
-+    if args.write:
-+        print(f"  Written        : {stats['written']}")
-+    if stats["parse_error"]:
-+        print(f"  Parse error    : {stats['parse_error']}")
-+
-+    if modified_files:
-+        print("\nModified files:")
-+        for fn in modified_files:
-+            print(f"  {fn}")
-+        print("\nReview changes with:  git diff")
-+        print("Test affected recipes with:  bitbake -c fetch <recipe>")
-+
-+    if args.fail_on_missing and stats["missing"] - stats["written"] > 0:
-+        return 1
-+    return 0
-+
-+
-+if __name__ =3D=3D "__main__":
-+    sys.exit(main())
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.29.bb b/meta/recipes-dev=
+tools/xmlto/xmlto_0.0.29.bb
+index c26cd21dd0..29652bd7d6 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.29.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.29.bb
+@@ -6,8 +6,8 @@ LICENSE =3D "GPL-2.0-only"
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D59530bdf33659b29e73d4adb9f9f655=
+2"
+=20
+-SRCREV =3D "74862a684907ada3d4ed2ce0f8111adf626e1456"
+-SRC_URI =3D "git://codeberg.org/xmlto/xmlto.git;protocol=3Dhttps;branch=3D=
+master"
++SRCREV =3D "635dcd5bc84a7b67a3a2050a179d96e1d3050b15"
++SRC_URI =3D "git://codeberg.org/xmlto/xmlto.git;protocol=3Dhttps;branch=3D=
+master;tag=3D${PV}"
+=20
+ inherit autotools
+=20
 
