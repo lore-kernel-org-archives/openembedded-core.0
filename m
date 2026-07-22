@@ -2,60 +2,60 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02578C44536
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:34:24 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.46872.1784723660712759588
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A23FC44536
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:34:34 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.47126.1784723666116259652
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 05:34:20 -0700
+ Wed, 22 Jul 2026 05:34:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JGEGey/d;
- spf=pass (domain: mvista.com, ip: 209.85.216.45, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso10481343a91.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:34:20 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=cMiry6tm;
+ spf=pass (domain: mvista.com, ip: 209.85.216.48, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38e347638adso7556000a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:34:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1784723660; x=1785328460; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1784723665; x=1785328465; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+r5PIA7wCrycVEPu00S4/NgGGLuCbdUWeaApKVSJCno=;
-        b=JGEGey/dwb/DarXIGym2ju1qHtdc5g1Nu1VP54H6tMF6x5gUgzobErPqQWU4buu9J9
-         8xMw23cQih/duvBPlvjuQRcXh3W6RJKWEGUJ9yQbETnBLsc3WNGU1mQ8qujgIvLaqsV/
-         gSQncii69aevicDO0HyQr2qrbZizpQ4AUkR5c=
+        bh=OhtQIebtHCUf5i1JGKj3dT/7bvnIDHWmD/WeMpaY2Yw=;
+        b=cMiry6tms9MMwrfPV6i6lNIXIOHeXIORb6yHyNWtZVUVleeFEAczMjmWt5+jSKyYZe
+         yH21Oce+wk+zm3MTkYSKbtalSTOsOb+BJ2nq6Vo4AuNhrPpyYz19as88npxr6UHeOkUK
+         MZLMzk1vO43iEMkbSG4l8avJwtPP2YyDeVMHA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784723660; x=1785328460;
+        d=1e100.net; s=20251104; t=1784723665; x=1785328465;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+r5PIA7wCrycVEPu00S4/NgGGLuCbdUWeaApKVSJCno=;
-        b=Fch3iTVMhEzi+8hY1B1aLfFbkTJAFuCIcYjtOfXFY9sAe/W/JBIdHrvma5S+Sk9Eg2
-         WkA8m/lDDpXJ6kJmIK5Y80e8fyzg1uZmLTyv2kXE25rWxloYPyNZ17jP7SSoTB0BLamL
-         2sSKOClByj21TEOIifYA91CX84aj2lNoserBr8SaL466f0/4qJH1lWNHIL6XxOD+/h5u
-         fZo3wWk+abuPMjbF3PX7fYXUWCn6Ie35L5CjtjgyeSCHeLfzD1b3ynFNPbnwl6gzGSTM
-         4z937ZWgXop7q6QDW6yr5XnjoV8vf9pNePBKXg1mON4HP2l9OA6TLWVAwAi2VJWOOW8/
-         nLGg==
-X-Gm-Message-State: AOJu0YyDc/tvwZMEAIcOo7gtQfnO9rc/Rvg5zC4Mo9wX5oB4brHqA2Hw
-	b5GL1KbjxheXBt4l0L3VdSpsLLf5u4aiKu0Ks+BrbxhUz4ZlgHesvuLbQC4XnuQ3oM9OMA6GkGw
-	pfZMubwg=
-X-Gm-Gg: AR+sD11EUPe8nnm23lanuvs67z6dGRuQf/eiJzqG32nHKXmnzNfysg6XH9uka0uM5H0
-	X3UmanltU27zX8bNVLFIM6p2U8ZntMH+2qZlgONYxiPv3JnNafIqYkDaeer+27TcoPU04uNWHeE
-	iND1OLNggTfmrKFZie4m0KdFnwISDc2FMT3TdGgPxpvaLRXunrP6fisLdPtFAe2Wli13F7I0xBZ
-	M3Xif+msQaxyCSFKIUErhBG1WOfA513wG6i+8bU2LUx+RmNTk8lH0fctzHQz0j+DRFs+TBExGVb
-	/mRDdIe5cKzpwH1glFSNfj5N7Swf1GmNcUgB0rqSxhWU1bJckX5D/+x24dbLsR/LRokxA4EfPit
-	JpYBxDwh89/PmYzMYZy76wLYC/t1RADf4BASLVOboO+Cnme54lCR7wm8wwbaUQJeplJ2xsTktKX
-	7AhHpW2brFLhqHT1b64rod+Amb1dY=
-X-Received: by 2002:a17:90b:4d09:b0:38e:2fa0:491b with SMTP id 98e67ed59e1d1-38e4b594eb3mr23140973a91.31.1784723659850;
-        Wed, 22 Jul 2026 05:34:19 -0700 (PDT)
+        bh=OhtQIebtHCUf5i1JGKj3dT/7bvnIDHWmD/WeMpaY2Yw=;
+        b=EbzHGjNsTJvQelIKrCA3lbTD5afUiGpbUIJqoNJJBRG6wMxv26cZl+GchfqN1ynOlU
+         E+FWswJWW7odInGNGzuRJ+W5OQEk7I8LowWO/LhaUFQzMMX6jcNSioo6u/dndFDSrHft
+         eVbBmpRKm3fG7Tl9QMDdH0VjdpfDUmbSnGbGrN2a4gBFSLkprcw28NkbUTQt2rlo1GVB
+         jMnLrV7yk6c2N3meSDsbz4sf9TLGl4MSy1nAPnPrcUr8fblkON9YH2f/9MtWkCb78tfA
+         VfDs//GYC6AtgLVQ5P+5GiYSbNrHfXqIsF6ALAlQ+Py91Mt1sHPnbStBpGphVuZTbvCs
+         zw4g==
+X-Gm-Message-State: AOJu0Yx11b0SwQwO7/YT7zhgRw0oEd3g79vhmOyM2/gE0Kk9EKGmZyzo
+	PRoKPdRrKfQrEou1CTGDzibZXvYW7S0zQjFNXv5Lfhbe1UQ8O91LgxplbHp6xdzqlakn7Q3bBs8
+	ukIRC5Fg=
+X-Gm-Gg: AR+sD12qV2s2dDbl+MAsj9gF+CAOk1D+ZiloEYOotstEKZnAovM/zpzP83weGRVNT6o
+	bEKSeQrlENZLv/1SE2X+7LDKcpXHEUnUDwrokMSLZEnvS3ukLYsIYw2Pfcic04ceiSxdg2qAebe
+	x1X4GLl+F5ys45P/E7Q5OBPM18+3hMBEZfcpuUbdqMvvtCfWZNCiJ15URroR05LSG0+lpAb1UzU
+	wCth88ssFf7ykE9PdVWvYczhvn4n4eA30OgMCsjlQZ4AUz8c3UROh9Th5zdVQ8zkxgsy1Ni8v0V
+	hRFRH+PmRZwd0pXvTb9KgSNI9hCTu8iXVfQqIJaMFweBgvgZol7RM432pb34jP69ukpXRZCAtCb
+	BhmrtPX6vaLf7UGbG09TDU9w5iAjVzZpi1HBFuaBIjVK8UflaKlUh4/7FJuA2/0ZeLX6hJo+E+Y
+	iNcsGIl9g0+MuE1w0O
+X-Received: by 2002:a17:90b:4d8f:b0:38e:b400:a860 with SMTP id 98e67ed59e1d1-38eb400a9camr839788a91.13.1784723665391;
+        Wed, 22 Jul 2026 05:34:25 -0700 (PDT)
 Received: from MVIN00352.mvista.com ([2401:4900:1f29:92d:e2c5:62da:989e:f39a])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d130262d2sm5823414c88.7.2026.07.22.05.34.16
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d130262d2sm5823414c88.7.2026.07.22.05.34.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 05:34:18 -0700 (PDT)
+        Wed, 22 Jul 2026 05:34:24 -0700 (PDT)
 From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][wrynose][patch 07/10] vim: Fix CVE-2026-57456
-Date: Wed, 22 Jul 2026 18:03:33 +0530
-Message-ID: <20260722123336.587556-7-vanusuri@mvista.com>
+Subject: [OE-core][wrynose][patch 08/10] vim: Fix CVE-2026-59856
+Date: Wed, 22 Jul 2026 18:03:34 +0530
+Message-ID: <20260722123336.587556-8-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260722123336.587556-1-vanusuri@mvista.com>
 References: <20260722123336.587556-1-vanusuri@mvista.com>
@@ -64,185 +64,139 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:34:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241675
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:34:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241676
 
 Pick patch per [1].
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-57456
-[2] https://security-tracker.debian.org/tracker/CVE-2026-57456
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-59856
+[2] https://security-tracker.debian.org/tracker/CVE-2026-59856
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../vim/files/CVE-2026-57456.patch            | 149 ++++++++++++++++++
+ .../vim/files/CVE-2026-59856.patch            | 103 ++++++++++++++++++
  meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 150 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-57456.patch
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-59856.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-57456.patch b/meta/recipes-support/vim/files/CVE-2026-57456.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-59856.patch b/meta/recipes-support/vim/files/CVE-2026-59856.patch
 new file mode 100644
-index 0000000000..9a4155ef04
+index 0000000000..42636161d0
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-57456.patch
-@@ -0,0 +1,149 @@
-+From cce141c42740f122dd8486ae04e21c2a81016ba8 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Sun, 21 Jun 2026 19:50:56 +0000
-+Subject: [PATCH] patch 9.2.0699: [security]: possible code execution with
-+ python complete
++++ b/meta/recipes-support/vim/files/CVE-2026-59856.patch
+@@ -0,0 +1,103 @@
++From 43afc581a37a35762dd0ef292f038b9dc5680a24 Mon Sep 17 00:00:00 2001
++From: Hirohito Higashi <h.east.727@gmail.com>
++Date: Fri, 26 Jun 2026 20:07:01 +0900
++Subject: [PATCH] patch 9.2.0736: potential command execution in PHP
++ omni-completion
 +
-+Problem:  [security]: possible code execution with python complete
-+          (morningbread)
-+Solution: Use repr() to quote the doc strings correctly
++Problem:  With PHP omni-completion, a crafted file can potentially
++          execute arbitrary commands when completing a class member.
++Solution: Quote the class name before inserting it into the search()
++          pattern run via win_execute().
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-ppj8-wqjf-6fp3
-+
-+Supported by AI
-+
++Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
++Signed-off-by: Hirohito Higashi <h.east.727@gmail.com>
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/cce141c42740f122dd8486ae04e21c2a81016ba8]
-+CVE: CVE-2026-57456
++Upstream-Status: Backport [https://github.com/vim/vim/commit/43afc581a37a35762dd0ef292f038b9dc5680a24]
++CVE: CVE-2026-59856
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ runtime/autoload/python3complete.vim        |  9 +++++----
-+ runtime/autoload/pythoncomplete.vim         |  9 +++++----
-+ src/testdir/test_plugin_python3complete.vim | 15 +++++++++++++++
-+ 3 files changed, 25 insertions(+), 8 deletions(-)
++ runtime/autoload/phpcomplete.vim        |  3 ++-
++ src/testdir/Make_all.mak                |  2 ++
++ src/testdir/test_plugin_phpcomplete.vim | 35 +++++++++++++++++++++++++
++ 3 files changed, 39 insertions(+), 1 deletion(-)
++ create mode 100644 src/testdir/test_plugin_phpcomplete.vim
 +
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index c4ef19d82f..f90cca74b3 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -2,7 +2,7 @@
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+ " Version: 0.10
-+-" Last Updated: 2026 Jun 04
-++" Last Updated: 2026 Jun 21
-+ "
-+ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
-+ "
-+@@ -22,6 +22,7 @@
-+ "     previous code passed buffer-supplied expressions to exec() which
-+ "     Python evaluates at definition time, allowing arbitrary code
-+ "     execution via crafted def/class headers
-++"   * use repr() on doc strings to prevent code execution
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -335,7 +336,7 @@ class Scope(object):
++diff --git a/runtime/autoload/phpcomplete.vim b/runtime/autoload/phpcomplete.vim
++index 5b4263ae45..ec54352586 100644
++--- a/runtime/autoload/phpcomplete.vim
+++++ b/runtime/autoload/phpcomplete.vim
++@@ -2082,7 +2082,8 @@ function! phpcomplete#GetClassContentsStructure(file_path, file_lines, class_nam
++ 	let result = []
++ 	let popup_id = popup_create(a:file_lines, {'hidden': v:true})
 + 
-+     def get_code(self):
-+         str = ""
-+-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+@@ -378,7 +379,7 @@ class Class(Scope):
-+                        if _DOTTED_NAME_RE.match(s.strip())]
-+         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         if len(self.subscopes) > 0:
-+             for s in self.subscopes: str += s.get_code()
-+         else:
-+@@ -401,7 +402,7 @@ class Function(Scope):
-+         safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+             (self.currentindent(),self.name,','.join(safe_params))
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+ 
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index 39b1efd299..d2f5d57b0c 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -2,7 +2,7 @@
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+ " Version: 0.10
-+-" Last Updated: 2026 Jun 04
-++" Last Updated: 2026 Jun 21
-+ "
-+ " Changes
-+ " TODO:
-+@@ -20,6 +20,7 @@
-+ "     previous code passed buffer-supplied expressions to exec() which
-+ "     Python evaluates at definition time, allowing arbitrary code
-+ "     execution via crafted def/class headers
-++"   * use repr() on doc strings to prevent code execution
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -350,7 +351,7 @@ class Scope(object):
-+ 
-+     def get_code(self):
-+         str = ""
-+-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+@@ -393,7 +394,7 @@ class Class(Scope):
-+                        if _DOTTED_NAME_RE.match(s.strip())]
-+         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         if len(self.subscopes) > 0:
-+             for s in self.subscopes: str += s.get_code()
-+         else:
-+@@ -416,7 +417,7 @@ class Function(Scope):
-+         safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+             (self.currentindent(),self.name,','.join(safe_params))
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+ 
-+diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
-+index e2b0c6616d..590348ee4a 100644
-+--- a/src/testdir/test_plugin_python3complete.vim
-++++ b/src/testdir/test_plugin_python3complete.vim
-+@@ -221,4 +221,19 @@ func Test_python3complete_allow_import_on_runs_imports()
-+         \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
-+ endfunc
-+ 
-++func Test_python3complete_no_exec_via_class_docstring()
-++  " A class-body docstring is emitted verbatim between triple quotes by
-++  " get_code() and runs at class-definition time during exec().  A single-
-++  " quoted source docstring lets an embedded """ survive doc()'s leading/
-++  " trailing quote strip and break out of the generated literal.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'class Foo:',
-++        \ '    ''x"""+open("' . marker . '", "w").close()+"""y''',
-++        \ '    pass',
-++        \ 'Foo.',
-++        \ ], marker,
-++        \ 'class docstring expression was evaluated during omni-completion')
++-	call win_execute(popup_id, 'call search(''\c\(class\|interface\|trait\)\_s\+'.a:class_name.'\(\>\|$\)'')')
+++	call win_execute(popup_id, 'call search('
+++	    \ . string('\c\(class\|interface\|trait\)\_s\+' . a:class_name . '\(\>\|$\)') . ')')
++ 	call win_execute(popup_id, "let cfline = line('.')")
++ 	call win_execute(popup_id, "call search('{')")
++ 	call win_execute(popup_id, "let endline = line('.')")
++diff --git a/src/testdir/Make_all.mak b/src/testdir/Make_all.mak
++index b06d1af431..b5735b6c3c 100644
++--- a/src/testdir/Make_all.mak
+++++ b/src/testdir/Make_all.mak
++@@ -250,6 +250,7 @@ NEW_TESTS = \
++ 	test_plugin_man \
++ 	test_plugin_matchparen \
++ 	test_plugin_netrw \
+++	test_plugin_phpcomplete \
++ 	test_plugin_python3complete \
++ 	test_plugin_osc52 \
++ 	test_plugin_tar \
++@@ -529,6 +530,7 @@ NEW_TESTS_RES = \
++ 	test_plugin_man.res \
++ 	test_plugin_matchparen.res \
++ 	test_plugin_netrw.res \
+++	test_plugin_phpcomplete.res \
++ 	test_plugin_python3complete.res \
++ 	test_plugin_osc52.res \
++ 	test_plugin_tar.res \
++diff --git a/src/testdir/test_plugin_phpcomplete.vim b/src/testdir/test_plugin_phpcomplete.vim
++new file mode 100644
++index 0000000000..7f66be47b7
++--- /dev/null
+++++ b/src/testdir/test_plugin_phpcomplete.vim
++@@ -0,0 +1,35 @@
+++" Tests for the PHP omni-completion plugin (runtime/autoload/phpcomplete.vim).
+++
+++" A buffer class name is interpolated into a search() pattern run via
+++" win_execute().  Without escaping, "'" closes the string and "|" starts a new
+++" Ex command, so the name runs as an Ex command during completion.
+++func Test_phpcomplete_no_exec_via_class_name()
+++  unlet! g:phpcomplete_injected
+++  let lines = ['<?php', 'class x {}', '']
+++  let payload = "x')|let g:phpcomplete_injected = 1|call search('"
+++
+++  try
+++    call phpcomplete#GetClassContentsStructure('x.php', lines, payload)
+++  catch
+++  endtry
+++
+++  call assert_false(exists('g:phpcomplete_injected'),
+++        \ 'class name was executed as an Ex command during completion')
+++
+++  unlet! g:phpcomplete_injected
 ++endfunc
 ++
-+ " vim: shiftwidth=2 sts=2 expandtab
+++func Test_phpcomplete_class_lookup_still_works()
+++  let lines = ['<?php', 'class Foo {', '    public $bar;', '}', '']
+++  let result = phpcomplete#GetClassContentsStructure('Foo.php', lines, 'Foo')
+++
+++  call assert_equal(type([]), type(result),
+++        \ 'GetClassContentsStructure did not return a list')
+++  call assert_true(len(result) > 0, 'no class structure returned')
+++  call assert_match('class Foo', result[0].content,
+++        \ 'class body missing from returned content')
+++  call assert_match('bar', result[0].content,
+++        \ 'class member missing from returned content')
+++endfunc
+++
+++" vim: shiftwidth=2 sts=2 expandtab
 +-- 
 +2.43.0
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index dec5b68324..008dbdb8df 100644
+index 008dbdb8df..b9f8e40a28 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -29,6 +29,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-57451.patch \
+@@ -30,6 +30,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
             file://CVE-2026-57454.patch \
             file://CVE-2026-57455.patch \
-+           file://CVE-2026-57456.patch \
+            file://CVE-2026-57456.patch \
++           file://CVE-2026-59856.patch \
             "
  
  PV .= ".0340"
