@@ -1,274 +1,541 @@
-Return-Path: <emailaddress.ashish@gmail.com>
+Return-Path: <leonid.iziumtsev@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25D20C44539
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:38:44 +0000 (UTC)
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.47206.1784723914165991338
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B589C44539
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:38:54 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.12])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.47209.1784723926486096981
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 05:38:34 -0700
+ Wed, 22 Jul 2026 05:38:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=aNXXFNqP;
- spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: emailaddress.ashish@gmail.com)
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-667b0ced2d3so13486164d50.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:38:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784723913; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Iz994sukgiX2DeNRc1nHRov9424uYnzkP4g+kFY/7mIs8ZuWjVyhEyk8HmsFkxwg+n
-         1KTk2a2LjImlctuV1ZjNh/tCv8GNKZuCMd2nHhKTSVg+FlnGczxOFezSaBis7iRoS1NT
-         86/L3efYXilTGe3m3hLZ5rF3QTv1j0P51iQIqI2QthetebLmyjUNUUD5tDJRuvqsv18j
-         KBbqMgCyssa9+WafSz3hdllPrNlGlXMUpauuZ3spe/pEBAaEN6zKOqyZIJkgxDSJwy0N
-         6CEsxwRt4WQOcOkzSRikXSjrOpOLurmgGS0m5lJ5jBEDpOvHn8FwYhIYo50iuuNfdcyW
-         Hfag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WbEsVFnU3gHgNG41PCIlvGCFWPLrwNy9jZf5d61iTiw=;
-        fh=Q4rchphPa/1wWzSu+Lu3d1pqs4ZeF696/3GZiqPGoZ0=;
-        b=ru0q/Vxenm5pfKU0n7Yb5diqJ4byLNv/O+pPsoYfKn7hhVz9LGz3CmTsWEHlN4jbUa
-         onORoAtvS7nWqrEuw4j3cJy2p/GPlA3feQuofTXfemBwv6oPkYj6bju22OJHXlIyH8C7
-         pUX4rmbuk8ohB9LADwpqAYkDYkJ6fA+ZVPXWumzPXz7cfFF/OyNTaNfyoRpGThzV/vAZ
-         MKZgi6aI7cHgS57XltzwztZPpqvpFo7PqgsPcRiZLRLLc7gTfGkOYZKhwzLPPdmbdBSY
-         oyuaTJoQhf8z//lJORz78SqLYSrh79YbBph70w4UG4Zs3OAtLIkjNc13Ora/581ogOHT
-         G4+Q==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784723913; x=1785328713; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WbEsVFnU3gHgNG41PCIlvGCFWPLrwNy9jZf5d61iTiw=;
-        b=aNXXFNqPcsPKqeI//rAGCwirqhoaILQkUu2NoTriYnjYMJO9eLkHwMw2dxvbvf4AE7
-         JTGrtqLfRc6Ct2n/NwREAZA3ZkwbG0RT8vjkFRCwiyTBD87YZxODqMeVZdBC9C4+lQL3
-         4mfnSJePbcRcgKvASQtmJp3E+5h5Kl61tD0fqDmB4KrGGF6yXqCLpAwyaUKIhaPq+zDn
-         D1+xVGi+vs42gG1e/gS4kWsMnFs0UkmCrxA0v4nfP+LXfTeQYXoYgWqYNYRn0AWGeY8Z
-         k4iORXvSQC5DXFPr6s0/YxXN6U89Ukw4HCCCtJ4bQ2X4XLCSDfusjJDP2cd44i9QKZez
-         D2Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784723913; x=1785328713;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WbEsVFnU3gHgNG41PCIlvGCFWPLrwNy9jZf5d61iTiw=;
-        b=T5Pi6h+uzK9I8Rj1NZrroPYUiMwgH19SEKQ1gNHlsQw0nirqMhDPTJjzlMqptwZlmM
-         6HbPxjC1qf/G92KMY6tyoyarlHlmyvqA9+oixVcAceTTdw1tk63KzlElU6Nw6a1UvrvO
-         fmQU0qZ44FWTwPPVoior/BZ2QgPoxnp+JmeGC+6BA9TGsvK4H6pXo0Gv1uGzZ0g2kiNE
-         +6dFikx5L4bRUAiHdzjhdXioZmRcjoenqyLAfV69tzQg5ruDP31hY+slMZhmUsvDbIij
-         zCSX+glPG6HKa3+Pnsn+W4UN2sCwetk4jhE9LR3ekeaohNB8BIcNbe2B1wP31+FGtoWT
-         kI0w==
-X-Forwarded-Encrypted: i=1; AHgh+RqoQGhQPux6oUzMVFxd8Yv4k2mpvZutkI3v6wqQxs5oaESyvEeB8pHCQqvgPoxKxwR4iuYJSyP+2JccmkdSHfOHew==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzAEwcSiLIX9CykKrbGq6J6Wh+QwbwHOQidGS7hHeDi5rRVqoaZ
-	P5HwENPDO9f0HgLgpH+KZzqFYLvo6QTUAE8fOR6XkxNkNpOsnojLzco78gvWsVIbl/HN0vwsZ1Q
-	9+Jt2OMz7NWazKjQR+6riTwKA20Ven/k=
-X-Gm-Gg: AR+sD10fthGNaRFTPCAe3aXhAEs62LQdIn57WxAN68m/v1WoCSLPMbGyxX/HN/mUoq1
-	fWhfQDMLB648OGa8FLjSVjJ92mfYoFcn6Q2lQ5ywB4zVjOjWGzh8USO8Hxa0SCzh/SJhPrrNI7i
-	qDLzQOr/To5DAXa9IarA6LVuhfYfP9GiCpYPCkd5QKcV0hT8afue8VqyXFdRW5edHD56ElsFUl0
-	7DQiOqYlw14sYK4zcEtT0Uy21oh0e0QwYxZOpHE0hkAcCo80u6Wh5vk0Vpz5TXrQJ0KYuxMQgei
-	f1BIujzHZogPHm/FSUg=
-X-Received: by 2002:a05:690e:1591:20b0:664:b1c2:88f with SMTP id
- 956f58d0204a3-6683ba8220cmr4719468d50.1.1784723913044; Wed, 22 Jul 2026
- 05:38:33 -0700 (PDT)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=PP465OZB;
+ spf=pass (domain: est.tech, ip: 52.101.66.12, mailfrom: leonid.iziumtsev@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KXjuCPEwuTrvHc3CCO+aDXfqU7ytvywEwsrmha+Qh9WoLJz8HrxGHrlltI27MaZWk7KCYYJTJy60y7EIagCOmN498kExWzedL1uvNqO+Z292OFoS56v9jl7YZ1tIhG2WxTHwm5Klh7WyWShGC7xxCqWkDnjzFS/q3SAP8eHgLSejgHwBwP/MIodWTjD8twc9ILMBgrLYxJRtAXXlqL4FSHN6KlnbU/GiEl1ddccK23CnbGPI5h/MRQDXI4wpn3HGaFW4Psuzi7ux38Tm4HrVx7+LiCcnWbAlAWSsdBgrPWb4VsFVaY7k8cle3qvLrQLfBIGWw2hd5U7LTE4YsO70yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XscCRuSPafgmCB+N4WGZrzM8f/gHWhV9MKM/gOxB0Xc=;
+ b=iEPY5g3Txku6wkDYKc/oU6rjOBKiskI4qpHD3JmIFVQA5QRh1cc+JtQs6dSxQGMTQ4jxppd1GNnMVgB2BaoccWxQ24olowq4rbo3GlMBYcpwtjaOxMsQW5MoD/7tYTd1kWWU/BYqz70HDg1k4tcPrkujdqnzoUcs94sDoEfY3UZHGsaslDn/xbfl/hqr/3DvJq9sKHIloB03EIEtfxjyPhEK6Qud977KRfvzCjQVp/cWYLyuwO0sL17KOaiiOPk4hDM+yqhaTVnvx9xVXmUObdlBaCfAx0mHCYbpM9txGzPpJI1MeF7731HCaQautbXproVM9eMFv31lQ2oPb68nSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XscCRuSPafgmCB+N4WGZrzM8f/gHWhV9MKM/gOxB0Xc=;
+ b=PP465OZB7LFoHTQBEBjDv0xvdcQy5Euoe8H7ZN3zoK3GnZvrT0HWLGVDgTCb63CfL4PNsqLUAQxNofB/0JYCn5bK2qL3OUEWbJ/SWz7JztLrZXsNj4kD0cAHRJHh4fn1lltbtroUfWvMcG2duvG/BAFGtDsVY1UBphKmh2PLdo1hP60OA8wv/Ou7wAEs46Pmpin1/kjaxo+Cle7O9tlORK/tcqP7aiCRc1Q/rQScsmS6JQ02SqwoT17V6aRpykwWHMLSdKmMVTOEqFcF9PfwGbyF1MAV+jC+Rha0vfT33sAO4DHdLv6bCIxrsKIbSbtq+lFbKz/UgUI7MigArm/awg==
+Received: from AM9P189MB1731.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:2ff::18)
+ by DB8P189MB0649.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:12f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.4; Wed, 22 Jul
+ 2026 12:38:42 +0000
+Received: from AM9P189MB1731.EURP189.PROD.OUTLOOK.COM
+ ([fe80::a809:5156:7172:6c1f]) by AM9P189MB1731.EURP189.PROD.OUTLOOK.COM
+ ([fe80::a809:5156:7172:6c1f%4]) with mapi id 15.21.0270.004; Wed, 22 Jul 2026
+ 12:38:42 +0000
+From: Leonid Iziumtsev <leonid.iziumtsev@est.tech>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "dkelaiya@cisco.com"
+	<dkelaiya@cisco.com>
+CC: "xe-linux-external@cisco.com" <xe-linux-external@cisco.com>
+Subject: Re: [OE-core][scarthgap][PATCH 4/4] gawk: Fix CVE-2026-40553
+Thread-Topic: [OE-core][scarthgap][PATCH 4/4] gawk: Fix CVE-2026-40553
+Thread-Index: AQHdGcB8pps0Sk98m0amftnZ06SW4LZ5en7k
+Date: Wed, 22 Jul 2026 12:38:42 +0000
+Message-ID: 
+ <AM9P189MB1731ED5B9B80992358C63DF8F1C12@AM9P189MB1731.EURP189.PROD.OUTLOOK.COM>
+References: <20260722095627.1424705-1-dkelaiya@cisco.com>
+ <20260722095627.1424705-4-dkelaiya@cisco.com>
+In-Reply-To: <20260722095627.1424705-4-dkelaiya@cisco.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9P189MB1731:EE_|DB8P189MB0649:EE_
+x-ms-office365-filtering-correlation-id: 1c75b3d8-7b1c-4590-11d3-08dee7ee29fc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|10070799003|376014|1800799024|366016|38070700021|13003099007|6133799003|56012099006|10067099003|11063799006|4143699003|18002099003|22082099003|8096899003;
+x-microsoft-antispam-message-info: 
+ 7dglTjbxMf33a80ZDHKzOAeyrWuS+9PdCDbvfDo7Xox8Auaa8GPSv8LKd/+lR5MegkFhdtX1HmLprL3oqzkO9M31zuGlL0g4FEDq7tHGr6UBQFFTSPyFkl1oHTp9UQGaKJh/PapWu4TEDSy95D3Op8jZbE/RQ8aJzlpQW3pPGVQA/bcGugK7jZYyMNmZYeIztxyZk+pEP37sCnVxbKy4GuE/hoquN0LED8Ae3aTVokl4RPqrhPLNaVGxADpXfbJpIYHxrLRkxhqgKnKxHuFR/Z9oX2wZvUPjRNOmhcLbyCWQiJJedJbd47sss5Id91p7rHK/79WO1ZPYg2VOE4zcQYHPhW6YNSEcGzlNXGwQez/nTropY2/vM67nCYcJ6SwxYsbjFzmZJBo4Qf8VUnL8LuoaYcwnLy3n7RCg+ZoK6x6S70npPvJ9ViFCYOAlKJ6myqaPvFu0Rwxb7EdZ2cWRCfi2KQ/TgtulhYEhnTSs6J31eWuDBS8Ibdf7mqDnEtjnDld/XzVvk3HaoO1rtGh404+th9xvMOVn7LV6VBKdLy0AsoH5PTQABReKjIt+WomjUKGiKWrJKfJZ1rdWD9sjgawFM3XdCtN9lyY6l0XR2NNuluOBop7K/Qf7DtHWexBXTUPRW5lSkJoE5H52mNDOwIf7DpwyxNfjLHrs6Y9b1Z8=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P189MB1731.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(376014)(1800799024)(366016)(38070700021)(13003099007)(6133799003)(56012099006)(10067099003)(11063799006)(4143699003)(18002099003)(22082099003)(8096899003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?DFb48ZgAId81rb9rvVeL/KU1cpT+BaXT59qDx5ZaTGoK7nEhgaXX7akube6V?=
+ =?us-ascii?Q?+1V9F595wX5HhOnXp493ntYahbY8znVpM9H+1F/h573wvq3a1uLNDMjj/dFv?=
+ =?us-ascii?Q?R5sLOCih0pjiCH0GLkbdqcdMfMAtIkAy3Rga76VcrQ+utRuv5JNhmR81wYkO?=
+ =?us-ascii?Q?2l8afshaDterxgIuR12MMpObjdwGZfWPqbbIMYQKA7iHpLd0ozW/crSDmheo?=
+ =?us-ascii?Q?zyL0XqtbAu0iRYpbHJDN20gQpCEMCSNW9PO0JtlfgZ8lRY6PwNjssih5JVHX?=
+ =?us-ascii?Q?VTVRfmUrbRQb/wr9902qIBM3jxqciNyeHl+vESv2YGwfYh9EiW/sTj6hPG9W?=
+ =?us-ascii?Q?ESSC2F/urslgnfpy2csVuta+VsTdXVMAcIVs2zntVGb1H5vnRnwfiqrVtS0s?=
+ =?us-ascii?Q?Dvgu1yZv9+duC4SxkEXRpZTwrzuLsO/m2gUvxpwvt/bD1txxfEq2VrnGhMts?=
+ =?us-ascii?Q?dZ+n+UCzf5ZX5nJyDbW9pqXQJpuAkn9Kh8MFhlwUgMZUDlp1B2X449LCkK/4?=
+ =?us-ascii?Q?ugG5zGYFlmmZBsTQCaOHS2QFhNNO3JVpc4u1xW7VFU36LsvI2QfU4+XLlEpK?=
+ =?us-ascii?Q?/NK7D+TuNILvnyJ4IkydwvQBLYeBKvUA3KnX5/HHXg7HRXuRIunPRNWJFXEE?=
+ =?us-ascii?Q?F0bxbJqAiUAjiuOamIp3bRh9AfVXGSfaAI02WF30HevOV0QarYMIXof+l3Ut?=
+ =?us-ascii?Q?USFQYlxhPqi8gdN0As0wf0dT1BoNAomY9XwIF6LXohNgqZfODYKwk6hZnM3c?=
+ =?us-ascii?Q?SlSgdfIjOnIuXH9Lw0UBEX4M7uO3UpSIPyJ/lEVlAt/rw9qywc7Jou6a3vqC?=
+ =?us-ascii?Q?IheEo0xf4LlkoqORuEPK2rxMJwWfEphaoAuKtbQZko7BQIJAtPaaGCq2agJ6?=
+ =?us-ascii?Q?hOUwpD6A7T4enzZrEAkvqoK/VGzhScob5w7vw9eGlASKi+bZ+4cU3BFvaxXg?=
+ =?us-ascii?Q?F7iP2SYObYlo5QxRfzWDF95VdNet7XqA9vuUMikMfhfL0v+tnqraQFKYwNcK?=
+ =?us-ascii?Q?LQqEQDQKU/FZWRdZRMY6AOEmEr/fT+ORWqeQopacCNPaCPpwo/uGfTdnR/v4?=
+ =?us-ascii?Q?8o/+Koc8fxINoBNFV8NuOUCm+rTUyhpZVLqEFjC+/dPqVrCleMDk4GBVWM+G?=
+ =?us-ascii?Q?q8QZ6FfMn6g7S4MggQwdaoiMfb1KP9RFjbPIS+SBbtSzWfjD2zWPreMRTVxy?=
+ =?us-ascii?Q?/ex6eZFfVizSdHCjzi+dZFZt4Lt1pYYWAPHGvAsGKWu0e/BRueUDFKY5Ct8/?=
+ =?us-ascii?Q?uyjJQfyNGAqhseer0DI5G8lWrVfILeszzxHtiIo2HP09l6haTH9YyLaGQBRV?=
+ =?us-ascii?Q?fW9AgNHQiHhQXnHTeMZBT5iidN/ZtvUXmEgNVYO3KCB9nBslVAXPHO5ORr50?=
+ =?us-ascii?Q?TPg0wk3mS2P8sMBM/gOsD+3x7VkIdnrbVDqW+IBdLO3C6ByZaXV2Huflp75i?=
+ =?us-ascii?Q?jbtYQ1jObfZ1w+7O+1zBq4xH46bnPiYCjP7Y/fOmErGlv+a1lQ5jqwUA7jHT?=
+ =?us-ascii?Q?N1BmhUTRk5Lfd9PBuSks1r2GJbrKVuRBaFsnP3GXc58rMiZD84maOc5QzHGB?=
+ =?us-ascii?Q?98uD7bBBmH2Rjso5ocKDumran3ty/T44vkrVbTxGLE8khCsOnnh9FY7MkYgt?=
+ =?us-ascii?Q?6oCpLoB71BWAAtLcK+kfgBHl2OU7ucKOJixRGfYLD3IbUcWt7xrINt1BXxtd?=
+ =?us-ascii?Q?bVGEhsgZgUdTT9cMuFtIjVn0rhJigs3q99/QJxukKlOdDbHjulq2XOhVYCHs?=
+ =?us-ascii?Q?c+uEMQEM9qY3x6abGFqXJ7tTkLQeN3frKMeuE30sAk8SYI4VJdlEtFwBoXgr?=
+x-ms-exchange-antispam-messagedata-1: xyWn51+3psL8gQ==
+Content-Type: multipart/alternative;
+	boundary="_000_AM9P189MB1731ED5B9B80992358C63DF8F1C12AM9P189MB1731EURP_"
 MIME-Version: 1.0
-References: <20260722121119.888611-1-emailaddress.ashish@gmail.com>
- <978937.1784722525653637859@lists.openembedded.org> <DK53FLV3KVRE.3GAZN2WD4XNY9@smile.fr>
- <CAE_=ZzEVtYkPzW3F+an=5T7aRA++WsdXEgejrSZ6oX6Dz0xWjg@mail.gmail.com> <CAMSfU+6+thxpr5c-oCX-L1Pc678XpPnk6-PFBrRewvrZjtB6mA@mail.gmail.com>
-In-Reply-To: <CAMSfU+6+thxpr5c-oCX-L1Pc678XpPnk6-PFBrRewvrZjtB6mA@mail.gmail.com>
-From: Ashish Mishra <emailaddress.ashish@gmail.com>
-Date: Wed, 22 Jul 2026 18:08:20 +0530
-X-Gm-Features: AUfX_mzo0N1D5osavMQpj3pvqMo0hRExkKqXp2GUAm4wSWebMZY94BhJ04I8jK0
-Message-ID: <CAE_=ZzHJ7LPnXqP_yu+MDME5jdV2dGYJ37i5TD0d8wg3CoXnww@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] package.bbclass: fix execution order
- bug in emit_pkgdata
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: AshishKumar Mishra <ashishkumar.mishra@bmwtechworks.in>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000dbf5890657326a1a"
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9P189MB1731.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c75b3d8-7b1c-4590-11d3-08dee7ee29fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2026 12:38:42.5581
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hsCbb8RyEZGJkkOC/etMzneQen8QAk9ckhFGTRxmMr5mc8NEgN8dPqHpGU1hhW4jOo/jH5R2SkgB5wddP0t3gVgGdvAWhwjSvHWPbITeSkc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0649
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:38:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241681
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:38:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241682
 
---000000000000dbf5890657326a1a
-Content-Type: text/plain; charset="UTF-8"
+--_000_AM9P189MB1731ED5B9B80992358C63DF8F1C12AM9P189MB1731EURP_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Ok , will work on Wrynose.
+Looks good to me.
 
-Thanks for sharing the details , will take care of this process going ahead
+Reviewed-by: Leonid Iziumtsev <leonid.iziumtsev@est.tech>
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVAT=
+E LIMITED at Cisco) via lists.openembedded.org <dkelaiya=3Dcisco.com@lists.=
+openembedded.org>
+Sent: Wednesday, July 22, 2026 11:56 AM
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Cc: xe-linux-external@cisco.com <xe-linux-external@cisco.com>; Darsh Kelaiy=
+a <dkelaiya@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 4/4] gawk: Fix CVE-2026-40553
+
+From: Darsh Kelaiya <dkelaiya@cisco.com>
+
+This patch applies the upstream fix as referenced in [3], using the
+commit shown in [1]. It also applies the corrective follow-up [2],
+which fixes the snprintf() truncation boundary check. Both commits
+are included in gawk 5.4.1, identified as the fixed release in [4].
+
+[1] https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Dcca0366144=
+336b49aaa7d5d949966ce8e2c70843
+[2] https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Dbfa2e4b890=
+a44100a99d26b54af385479528b12e
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-40553
+[4] https://cert.pl/en/posts/2026/07/CVE-2026-40467/
+
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+---
+ .../gawk/gawk/CVE-2026-40553_p1.patch         | 50 +++++++++++++++++++
+ .../gawk/gawk/CVE-2026-40553_p2.patch         | 44 ++++++++++++++++
+ meta/recipes-extended/gawk/gawk_5.3.0.bb      |  2 +
+ 3 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch
+ create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch
+
+diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch b/meta=
+/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch
+new file mode 100644
+index 0000000000..07b7df488a
+--- /dev/null
++++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch
+@@ -0,0 +1,50 @@
++From aa39cac4bda6333be0f6253ecb7dfade26cb9641 Mon Sep 17 00:00:00 2001
++From: "Arnold D. Robbins" <arnold@skeeve.com>
++Date: Wed, 15 Apr 2026 09:39:02 +0300
++Subject: [PATCH] Avoid buffer overflow in extension/readdir.c.
++
++CVE: CVE-2026-40553
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gawk.git=
+/commit/?id=3Dcca0366144336b49aaa7d5d949966ce8e2c70843]
++
++(cherry picked from commit cca0366144336b49aaa7d5d949966ce8e2c70843)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ extension/ChangeLog | 6 ++++++
++ extension/readdir.c | 6 +++++-
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/extension/ChangeLog b/extension/ChangeLog
++index 40ed6dd0..52a4c6ab 100644
++--- a/extension/ChangeLog
+++++ b/extension/ChangeLog
++@@ -1,3 +1,9 @@
+++2026-04-15         Arnold D. Robbins     <arnold@skeeve.com>
+++
+++      * readdir.c (ftype): Use snprintf() to check for buffer
+++      overflow in the file name before calling stat(). Thanks to
+++      Marcin Wyczechowski <mwyczechowski@afine.com> for the report.
+++
++ 2023-11-02         Arnold D. Robbins     <arnold@skeeve.com>
++
++        * 5.3.0: Release tar ball made.
++diff --git a/extension/readdir.c b/extension/readdir.c
++index 788e1d1e..b525fe21 100644
++--- a/extension/readdir.c
+++++ b/extension/readdir.c
++@@ -117,8 +117,12 @@ ftype(struct dirent *entry, const char *dirname)
++ #endif
++        char fname[PATH_MAX];
++        struct stat sbuf;
+++      int count;
+++
+++      count =3D snprintf(fname, sizeof(fname), "%s/%s", dirname, entry->d=
+_name);
+++      if (count > sizeof(fname))
+++              return "u";     // buffer overflow. skip stat() call.
++
++-      sprintf(fname, "%s/%s", dirname, entry->d_name);
++        if (stat(fname, &sbuf) =3D=3D 0) {
++                if (S_ISBLK(sbuf.st_mode))
++                        return "b";
++--
++2.44.4
++
+diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch b/meta=
+/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch
+new file mode 100644
+index 0000000000..2f63572af0
+--- /dev/null
++++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch
+@@ -0,0 +1,44 @@
++From 8b08dcf6c784e7a98d08e9e63a8fda15040eee30 Mon Sep 17 00:00:00 2001
++From: "Arnold D. Robbins" <arnold@skeeve.com>
++Date: Fri, 17 Apr 2026 11:48:19 +0300
++Subject: [PATCH] Small fix in extension/readdir.c.
++
++CVE: CVE-2026-40553
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gawk.git=
+/commit/?id=3Dbfa2e4b890a44100a99d26b54af385479528b12e]
++
++(cherry picked from commit bfa2e4b890a44100a99d26b54af385479528b12e)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ extension/ChangeLog | 5 +++++
++ extension/readdir.c | 2 +-
++ 2 files changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/extension/ChangeLog b/extension/ChangeLog
++index 52a4c6ab..c8839357 100644
++--- a/extension/ChangeLog
+++++ b/extension/ChangeLog
++@@ -1,3 +1,8 @@
+++2026-04-15         Arnold D. Robbins     <arnold@skeeve.com>
+++
+++      * readdir.c (ftype): Use >=3D in check of snprintf() return
+++      value. Thanks to Andrew Schorr <aschorr@telemetry-investments.com>.
+++
++ 2026-04-15         Arnold D. Robbins     <arnold@skeeve.com>
++
++        * readdir.c (ftype): Use snprintf() to check for buffer
++diff --git a/extension/readdir.c b/extension/readdir.c
++index b525fe21..6f9b6811 100644
++--- a/extension/readdir.c
+++++ b/extension/readdir.c
++@@ -120,7 +120,7 @@ ftype(struct dirent *entry, const char *dirname)
++        int count;
++
++        count =3D snprintf(fname, sizeof(fname), "%s/%s", dirname, entry->=
+d_name);
++-      if (count > sizeof(fname))
+++      if (count >=3D sizeof(fname))
++                return "u";     // buffer overflow. skip stat() call.
++
++        if (stat(fname, &sbuf) =3D=3D 0) {
++--
++2.44.4
++
+diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-extend=
+ed/gawk/gawk_5.3.0.bb
+index 7bd34a3ff8..d71f655ba6 100644
+--- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
++++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+@@ -25,6 +25,8 @@ SRC_URI =3D "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://CVE-2026-40467.patch \
+            file://CVE-2026-40468.patch \
+            file://CVE-2026-40469.patch \
++           file://CVE-2026-40553_p1.patch \
++           file://CVE-2026-40553_p2.patch \
+            "
+
+ SRC_URI[sha256sum] =3D "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb5=
+5e440d30273336"
+--
+2.35.6
 
 
-
-On Wed, Jul 22, 2026, 6:02=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr> =
-wrote:
-
-> Le mer. 22 juil. 2026 =C3=A0 14:25, Ashish Mishra <
-> emailaddress.ashish@gmail.com> a =C3=A9crit :
->
->> Hi Yoann ,
->>
->> I tested on Scarthgap today and hence shared for it
->>
->> Will create an patch for Wrynose and share after testing it once.
->>
->> In meantime, can you please take this in consideration for Scarthgap?
->> Or as an process i should send Wrynose.
->>
->> So accordingly from next patch onwards, will follow the same.
->>
->
-> As a policy, I can't accept a patch for scarthgap if it does not have a
-> wrynose equivalent.
-> So yes, you should send the wrynose patch. Then, I'll consider this one
-> for scarthgap.
->
-> Regards,
->
->
->>
->> Thanks ,
->> Ashish
->>
->>
->> On Wed, Jul 22, 2026, 5:50=E2=80=AFPM Yoann Congal via lists.openembedde=
-d.org
->> <yoann.congal=3Dsmile.fr@lists.openembedded.org> wrote:
->>
->>> On Wed Jul 22, 2026 at 2:15 PM CEST, AshishKumar Mishra via
->>> lists.openembedded.org wrote:
->>> > Hi Yoann ,
->>> >
->>> > This is an bug fix patch which fixes the emit_pkgdata order
->>> > The same have been merged in master at
->>> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dross=
-/wip/nasm&id=3Daa85baff9ebdd3f932811c3b43d1918c38373cb9
->>> >
->>> > Request to take this patch in scarthgap
->>>
->>> Hello,
->>>
->>> This also need backporting to wrynose, right?
->>> If that's the case, please send a cherry-pick request (if trivial) or a
->>> backported patch.
->>>
->>> Thanks!
->>> --
->>> Yoann Congal
->>> Smile ECS
->>>
->>>
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#241665):
->>> https://lists.openembedded.org/g/openembedded-core/message/241665
->>> Mute This Topic: https://lists.openembedded.org/mt/120392420/1334323
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->>> emailaddress.ashish@gmail.com]
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>
->>>
->
-> --
-> Yoann Congal
-> Smile ECS
->
-
---000000000000dbf5890657326a1a
-Content-Type: text/html; charset="UTF-8"
+--_000_AM9P189MB1731ED5B9B80992358C63DF8F1C12AM9P189MB1731EURP_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Ok , will work on Wrynose.<div dir=3D"auto"><br><div dir=
-=3D"auto">Thanks for sharing=C2=A0the details , will take care of this proc=
-ess going ahead</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></di=
-v></div></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, Jul 22, 2026, 6:02=E2=80=AFPM Yoann C=
-ongal &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 22=
- juil. 2026 =C3=A0=C2=A014:25, Ashish Mishra &lt;<a href=3D"mailto:emailadd=
-ress.ashish@gmail.com" target=3D"_blank" rel=3D"noreferrer">emailaddress.as=
-hish@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"auto">Hi Yoann ,<div dir=3D"auto"><b=
-r><div dir=3D"auto">I tested on Scarthgap today and hence shared for it=C2=
-=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Will create an patch=
- for Wrynose and share after testing it once.</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">In meantime, can you please take this in consideratio=
-n for Scarthgap?</div><div dir=3D"auto">Or as an process i should send Wryn=
-ose.</div><div dir=3D"auto"><br></div><div dir=3D"auto">So accordingly from=
- next patch onwards, will follow the=C2=A0same.</div></div></div></blockquo=
-te><div><br></div><div>As a policy, I can&#39;t accept a patch for scarthga=
-p if it does not have a wrynose equivalent.</div><div>So yes, you should se=
-nd the wrynose patch. Then, I&#39;ll consider this one for scarthgap.</div>=
-<div><br></div><div>Regards,</div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div dir=3D"auto"><div dir=3D"auto"><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">Thanks ,=C2=A0</div><div dir=3D"auto">Ashi=
-sh=C2=A0</div><div dir=3D"auto"><br></div></div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 22, 2026, 5:50=
-=E2=80=AFPM Yoann Congal via <a href=3D"http://lists.openembedded.org" targ=
-et=3D"_blank" rel=3D"noreferrer">lists.openembedded.org</a> &lt;yoann.conga=
-l=3D<a href=3D"mailto:smile.fr@lists.openembedded.org" target=3D"_blank" re=
-l=3D"noreferrer">smile.fr@lists.openembedded.org</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Wed Jul 22, 2026 at 2:15=
- PM CEST, AshishKumar Mishra via <a href=3D"http://lists.openembedded.org" =
-rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">lists.openembedd=
-ed.org</a> wrote:<br>
-&gt; Hi Yoann ,<br>
-&gt;<br>
-&gt; This is an bug fix patch which fixes the emit_pkgdata order<br>
-&gt; The same have been merged in master at <a href=3D"https://git.openembe=
-dded.org/openembedded-core-contrib/commit/?h=3Dross/wip/nasm&amp;id=3Daa85b=
-aff9ebdd3f932811c3b43d1918c38373cb9" rel=3D"noreferrer noreferrer noreferre=
-r" target=3D"_blank">https://git.openembedded.org/openembedded-core-contrib=
-/commit/?h=3Dross/wip/nasm&amp;id=3Daa85baff9ebdd3f932811c3b43d1918c38373cb=
-9</a><br>
-&gt;<br>
-&gt; Request to take this patch in scarthgap<br>
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Looks good to me.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
 <br>
-Hello,<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Reviewed-by: Leonid Iziumtsev &lt;leonid.iziumtsev@est.tech&gt;</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Darsh Kelaiya -X (dkelaiya - E INFOCHIPS
+ PRIVATE LIMITED at Cisco) via lists.openembedded.org &lt;dkelaiya=3Dcisco.=
+com@lists.openembedded.org&gt;<br>
+<b>Sent:</b> Wednesday, July 22, 2026 11:56 AM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Cc:</b> xe-linux-external@cisco.com &lt;xe-linux-external@cisco.com&gt;;=
+ Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br>
+<b>Subject:</b> [OE-core][scarthgap][PATCH 4/4] gawk: Fix CVE-2026-40553</f=
+ont>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br>
 <br>
-This also need backporting to wrynose, right?<br>
-If that&#39;s the case, please send a cherry-pick request (if trivial) or a=
+This patch applies the upstream fix as referenced in [3], using the<br>
+commit shown in [1]. It also applies the corrective follow-up [2],<br>
+which fixes the snprintf() truncation boundary check. Both commits<br>
+are included in gawk 5.4.1, identified as the fixed release in [4].<br>
 <br>
-backported patch.<br>
+[1] <a href=3D"https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=
+=3Dcca0366144336b49aaa7d5d949966ce8e2c70843">
+https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Dcca0366144336b=
+49aaa7d5d949966ce8e2c70843</a><br>
+[2] <a href=3D"https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=
+=3Dbfa2e4b890a44100a99d26b54af385479528b12e">
+https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Dbfa2e4b890a441=
+00a99d26b54af385479528b12e</a><br>
+[3] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-40553">https://nvd=
+.nist.gov/vuln/detail/CVE-2026-40553</a><br>
+[4] <a href=3D"https://cert.pl/en/posts/2026/07/CVE-2026-40467/">https://ce=
+rt.pl/en/posts/2026/07/CVE-2026-40467/</a><br>
 <br>
-Thanks!<br>
+Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br>
+---<br>
+&nbsp;.../gawk/gawk/CVE-2026-40553_p1.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; | 50 +++++++++++++++++++<br>
+&nbsp;.../gawk/gawk/CVE-2026-40553_p2.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; | 44 ++++++++++++++++<br>
+&nbsp;meta/recipes-extended/gawk/gawk_5.3.0.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; |&nbsp; 2 +<br>
+&nbsp;3 files changed, 96 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.=
+patch<br>
+&nbsp;create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.=
+patch<br>
+<br>
+diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch b/meta=
+/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch<br>
+new file mode 100644<br>
+index 0000000000..07b7df488a<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch<br>
+@@ -0,0 +1,50 @@<br>
++From aa39cac4bda6333be0f6253ecb7dfade26cb9641 Mon Sep 17 00:00:00 2001<br>
++From: &quot;Arnold D. Robbins&quot; &lt;arnold@skeeve.com&gt;<br>
++Date: Wed, 15 Apr 2026 09:39:02 +0300<br>
++Subject: [PATCH] Avoid buffer overflow in extension/readdir.c.<br>
++<br>
++CVE: CVE-2026-40553<br>
++Upstream-Status: Backport [<a href=3D"https://cgit.git.savannah.gnu.org/cg=
+it/gawk.git/commit/?id=3Dcca0366144336b49aaa7d5d949966ce8e2c70843">https://=
+cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Dcca0366144336b49aaa7d5=
+d949966ce8e2c70843</a>]<br>
++<br>
++(cherry picked from commit cca0366144336b49aaa7d5d949966ce8e2c70843)<br>
++Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br>
++---<br>
++ extension/ChangeLog | 6 ++++++<br>
++ extension/readdir.c | 6 +++++-<br>
++ 2 files changed, 11 insertions(+), 1 deletion(-)<br>
++<br>
++diff --git a/extension/ChangeLog b/extension/ChangeLog<br>
++index 40ed6dd0..52a4c6ab 100644<br>
++--- a/extension/ChangeLog<br>
+++++ b/extension/ChangeLog<br>
++@@ -1,3 +1,9 @@<br>
+++2026-04-15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arnold D. Robb=
+ins&nbsp;&nbsp;&nbsp;&nbsp; &lt;arnold@skeeve.com&gt;<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * readdir.c (ftype): Use snprintf() to che=
+ck for buffer<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; overflow in the file name before calling s=
+tat(). Thanks to<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Marcin Wyczechowski &lt;mwyczechowski@afin=
+e.com&gt; for the report.<br>
+++<br>
++ 2023-11-02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arnold D. Robb=
+ins&nbsp;&nbsp;&nbsp;&nbsp; &lt;arnold@skeeve.com&gt;<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * 5.3.0: Release tar ball made.=
+<br>
++diff --git a/extension/readdir.c b/extension/readdir.c<br>
++index 788e1d1e..b525fe21 100644<br>
++--- a/extension/readdir.c<br>
+++++ b/extension/readdir.c<br>
++@@ -117,8 +117,12 @@ ftype(struct dirent *entry, const char *dirname)<br>
++ #endif<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char fname[PATH_MAX];<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct stat sbuf;<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int count;<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count =3D snprintf(fname, sizeof(fname), &=
+quot;%s/%s&quot;, dirname, entry-&gt;d_name);<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (count &gt; sizeof(fname))<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; return &quot;u&quot;;&nbsp;&nbsp;&nbsp;&nbsp; // buffer overflow. ski=
+p stat() call.<br>
++ <br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sprintf(fname, &quot;%s/%s&quot;, dirname,=
+ entry-&gt;d_name);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (stat(fname, &amp;sbuf) =3D=
+=3D 0) {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; if (S_ISBLK(sbuf.st_mode))<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return &qu=
+ot;b&quot;;<br>
++-- <br>
++2.44.4<br>
++<br>
+diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch b/meta=
+/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch<br>
+new file mode 100644<br>
+index 0000000000..2f63572af0<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch<br>
+@@ -0,0 +1,44 @@<br>
++From 8b08dcf6c784e7a98d08e9e63a8fda15040eee30 Mon Sep 17 00:00:00 2001<br>
++From: &quot;Arnold D. Robbins&quot; &lt;arnold@skeeve.com&gt;<br>
++Date: Fri, 17 Apr 2026 11:48:19 +0300<br>
++Subject: [PATCH] Small fix in extension/readdir.c.<br>
++<br>
++CVE: CVE-2026-40553<br>
++Upstream-Status: Backport [<a href=3D"https://cgit.git.savannah.gnu.org/cg=
+it/gawk.git/commit/?id=3Dbfa2e4b890a44100a99d26b54af385479528b12e">https://=
+cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Dbfa2e4b890a44100a99d26=
+b54af385479528b12e</a>]<br>
++<br>
++(cherry picked from commit bfa2e4b890a44100a99d26b54af385479528b12e)<br>
++Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br>
++---<br>
++ extension/ChangeLog | 5 +++++<br>
++ extension/readdir.c | 2 +-<br>
++ 2 files changed, 6 insertions(+), 1 deletion(-)<br>
++<br>
++diff --git a/extension/ChangeLog b/extension/ChangeLog<br>
++index 52a4c6ab..c8839357 100644<br>
++--- a/extension/ChangeLog<br>
+++++ b/extension/ChangeLog<br>
++@@ -1,3 +1,8 @@<br>
+++2026-04-15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arnold D. Robb=
+ins&nbsp;&nbsp;&nbsp;&nbsp; &lt;arnold@skeeve.com&gt;<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * readdir.c (ftype): Use &gt;=3D in check =
+of snprintf() return<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value. Thanks to Andrew Schorr &lt;aschorr=
+@telemetry-investments.com&gt;.<br>
+++<br>
++ 2026-04-15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arnold D. Robb=
+ins&nbsp;&nbsp;&nbsp;&nbsp; &lt;arnold@skeeve.com&gt;<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * readdir.c (ftype): Use snprin=
+tf() to check for buffer<br>
++diff --git a/extension/readdir.c b/extension/readdir.c<br>
++index b525fe21..6f9b6811 100644<br>
++--- a/extension/readdir.c<br>
+++++ b/extension/readdir.c<br>
++@@ -120,7 +120,7 @@ ftype(struct dirent *entry, const char *dirname)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int count;<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count =3D snprintf(fname, sizeo=
+f(fname), &quot;%s/%s&quot;, dirname, entry-&gt;d_name);<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (count &gt; sizeof(fname))<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (count &gt;=3D sizeof(fname))<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; return &quot;u&quot;;&nbsp;&nbsp;&nbsp;&nbsp; // buffer ov=
+erflow. skip stat() call.<br>
++ <br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (stat(fname, &amp;sbuf) =3D=
+=3D 0) {<br>
++-- <br>
++2.44.4<br>
++<br>
+diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-extend=
+ed/gawk/gawk_5.3.0.bb<br>
+index 7bd34a3ff8..d71f655ba6 100644<br>
+--- a/meta/recipes-extended/gawk/gawk_5.3.0.bb<br>
++++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb<br>
+@@ -25,6 +25,8 @@ SRC_URI =3D &quot;${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \<=
+br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2026-40467.patch">file://CVE-2026-40467.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2026-40468.patch">file://CVE-2026-40468.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2026-40469.patch">file://CVE-2026-40469.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2026-40553_p1.patch">file://CVE-2026-40553_p1.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2026-40553_p2.patch">file://CVE-2026-40553_p2.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
+r>
+&nbsp;<br>
+&nbsp;SRC_URI[sha256sum] =3D &quot;378f8864ec21cfceaa048f7e1869ac9b4597b449=
+087caf1eb55e440d30273336&quot;<br>
 -- <br>
-Yoann Congal<br>
-Smile ECS<br>
+2.35.6<br>
 <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#241665): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/241665" rel=3D"noreferrer noreferrer noreferrer" ta=
-rget=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/=
-241665</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120392420/133=
-4323" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://li=
-sts.openembedded.org/mt/120392420/1334323</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" rel=3D"noreferrer noreferrer" target=3D"_blank">openembedded-core+own=
-er@lists.openembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://l=
-ists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:emai=
-laddress.ashish@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-emailaddress.ashish@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-</blockquote></div>
+</div>
+</span></font></div>
+</body>
+</html>
 
---000000000000dbf5890657326a1a--
+--_000_AM9P189MB1731ED5B9B80992358C63DF8F1C12AM9P189MB1731EURP_--
 
