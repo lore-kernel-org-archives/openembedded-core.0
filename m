@@ -2,39 +2,39 @@ Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20C96C4451C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2704BC4452D
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 06:18:22 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42042.1784701098705593277
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.41983.1784701099448478727
  for <openembedded-core@lists.openembedded.org>;
  Tue, 21 Jul 2026 23:18:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=mkpg9/b3;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1663723a73=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66M52TAN327486
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 06:18:17 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HlaQse9o;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1663723a73=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66M502Q8154658
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 23:18:19 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=5C4BnogZGKXMgNDLIZ443hsWVg1aBw0N7Wn4wunD02c=; b=
-	mkpg9/b3S/0G1oSwWs7oWmfhdJbjBoQ9GMrP2/X8zoNwFnAIAwSKEYLwRoDyTuNF
-	1vSP30szSknEIS6rDm0XGGStGZc2VlnMY9Qnw9WMEhbZcfYee7sxNtMjSiFeeznR
-	QtyI6WCQyVY6IemSr04qc87j/fSP75D5CAiIJ8sPBWc0Xrm8Hac1ZC6f8pwWl4ya
-	O3eyySPIGjFXMlW9+unHs2tc1LNjmFXhJUkJen0DPIlhGij+zjLlyM3tbnwHq4Uf
-	+Vz6PEJPwF8TuYsQFv15YQvnwgZxAwYeqRkX4xq8fxuDd9uvzpEB2ze4iVosanmv
-	CbYeTZkKwG7Jfasf/IBVtg==
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012053.outbound.protection.outlook.com [40.107.209.53])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fga8x74ff-1
+	PPS06212021; bh=lEnmHvUemps7tSKcW61ZLn1izUf5ixxwaKma6WXB4yc=; b=
+	HlaQse9oQJz+jedW7ZFlMny5Q6q+23p3D9MgPgYTlcecXquI3PkZf5jPGNYN2AZj
+	VNV9yRw6oB8I6kw3A6P7cr9Vd7TQDnfZbQk9aQzrAXgfhmoynmZ7z0F1pWGJRZ5V
+	zpv7UG5wVduihjKc6LX+4hUmqo2luY2Bp6nGOxqAcBsV9wrhyGnqidM8S6iC3KP7
+	+iExuGKDJlwfkC01cf93DkonL5zjoqRDM4stE46IBNBZLwTs1tX/z7NLY06bE/ZB
+	BhvvmA6KcMAv7ZCyUa9Jh/U1uPHkuRXeUqOzSpTAowAWzYnuzWL61SXS4S8BWDTy
+	QROlcoE+KFmRU/KFpwJzhw==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012008.outbound.protection.outlook.com [40.107.209.8])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fg4ryqdv7-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 06:18:17 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 23:18:18 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HMInjUY+UOE/FZq/Bcb3HeWYBkMHxOVLhjN8Rpx57FMaItp9KkizqCSblX7Zn+t1InlJKDtZvCY9JGXkV+sPJ+Va7qFudf5pKUmM3ffdiXlzaQwmwC6ea4qseVEI0wm3acAM4CTACL5DJkBcTz0sly+cf2SisGvqP670AmhdR0RWtjG8vsPaayKdypFZdkMhoCH1vroy9nf7+9veiFQbr2ATow3sNz5xcDPyYHGXohPYJb7wzE5I0In336sLdzmQV3symj8aj2rX2w7mjtR80C2FcVFpNGtXE6Bp9jcAvFxVj09QXCSFlsvecOfZ8For3garjfKqzYdJFKll/vFcsw==
+ b=e9boAuF3+awF1ChiDMDMeRrmcM2Dew5jPNpblIdb7Nncc/N//dKdqtWRZnK8VLCEZ4jyFkW67JQXmeRGM2GhPgyrWQDJNBtywd1gRZf76oZaHBJQPoo3iI0Z9aAITOlKmMu5imf3aQ73DbJt7QvaBuddGgzPbldTP+4tpYAJhry43Zb6y3uadfBnL2PBpcwZYN+dIqRnYFeAu9czKXKzrumdY4ysPEsMiitTRTWLHxRxTelRz6o0t4UoCWvhzxek/zq3hgasxwqnpU0Jqt80VChFSdnudMt7lzVeYM12IJ78nsMti2Uej2fuvdWDBxQkZroTSURMnQLG/N8Wi04lCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5C4BnogZGKXMgNDLIZ443hsWVg1aBw0N7Wn4wunD02c=;
- b=gt1kWGQQpv3AQiTpHd8k0x7qi9yPJKI5I0Nqox5HPNDDtBbOFrWT+GLPTJEVZnDzmsomp+dzR58m++bIxNEOz+GgkCGK4UWYXW4y57/TVu/LMxEpEI6wwlxp3JVgAiEwXE4kxn+R+qOnX769IqSlm++x4SlSQX/pV01MIcVojG1HFJ64Ih4l4ZAzzk2Y0gKAEyYqFs1WQwIGrKp1tw1K7vpzfysoW/hPfmeid0LVB0YacpWnkbsT4tvI6eF5LrGhGWh5lqdj0+s5UUjDzXCReoe8DSHdbqXszuIBOZo3jUJO/FqCc4d9a8FJMMO33a+Ab+bcv14hBf5Ua+w9x9b2UA==
+ bh=lEnmHvUemps7tSKcW61ZLn1izUf5ixxwaKma6WXB4yc=;
+ b=e67tReL1OecFVAXpEaGoZZNQEJ+hkFe5PXq57giHS+uvj94aFEB/BDo+dqRCooEUlbg56bN/C1SlufT7sknC1yIgr+nzPd9B7PYqoV57sGODLbc5xLh8qgyswLGD00od1yQb35QZG9DK8/hBuppyhRimTk2Q9Nz34Mw6jRRKfCb12gQ+8FHeNXaXk7KXrjiscAYohJVq+4patzBBfzeoSkRC+jvtRrJHCWW49416IDeQ/3X18MQXRtn3NMmvNum3Htieyni2NMX2e8Jbnhxku7/CijghIphPm5wavJ57ofwBOaIxgE98YTcXFSt5xxkD7IcSey2DOtoeXN56Zwcqlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,695 +42,293 @@ Received: from SN7PR11MB6677.namprd11.prod.outlook.com (2603:10b6:806:26b::6)
  by DM3PPF453C3BEC4.namprd11.prod.outlook.com (2603:10b6:f:fc00::f1b) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 06:18:14 +0000
+ 2026 06:18:17 +0000
 Received: from SN7PR11MB6677.namprd11.prod.outlook.com
  ([fe80::490a:519b:d657:99ab]) by SN7PR11MB6677.namprd11.prod.outlook.com
  ([fe80::490a:519b:d657:99ab%4]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
- 06:18:14 +0000
+ 06:18:16 +0000
 From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Deepesh.Varatharajan@windriver.com
-Subject: [PATCH v2 2/3] rust: refactor source handling into a shared work-shared recipe
-Date: Tue, 21 Jul 2026 23:17:54 -0700
-Message-ID: <20260722061757.109411-2-Deepesh.Varatharajan@windriver.com>
+Subject: [PATCH v2 3/3] rust: Move do_update_snapshot to rust-source
+Date: Tue, 21 Jul 2026 23:17:55 -0700
+Message-ID: <20260722061757.109411-3-Deepesh.Varatharajan@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260722061757.109411-1-Deepesh.Varatharajan@windriver.com>
 References: <20260722061757.109411-1-Deepesh.Varatharajan@windriver.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: BY5PR03CA0023.namprd03.prod.outlook.com
  (2603:10b6:a03:1e0::33) To SN7PR11MB6677.namprd11.prod.outlook.com
  (2603:10b6:806:26b::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR11MB6677:EE_|DM3PPF453C3BEC4:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb93d462-1eab-4f99-bdce-08dee7b9037a
+X-MS-Office365-Filtering-Correlation-Id: 888c3689-2fd4-43c0-279f-08dee7b904b6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|23010399003|25016099003|12006099003|18002099003|22082099003|3023799007|13003099007|29003799003|56012099006|10067099003|11063799006|5023799004|38350700014|6133799003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|23010399003|18002099003|22082099003|56012099006|10067099003|11063799006|38350700014|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	2/8RE/SFfBCNicYaTMBzboqdmoSY4P0yY1o5saTiSRu/mRerAGGUELjpeWE4fQo+F2YcfiaFzNFs8Ba1d9m9wOFMsJ8hCIIKDBg0Qin2u9HaUAD+YqM6kRf670ZhTG4ZIYphpIrEXJ/zSjTuMOC3Nv6Vue0gn+GVDuyuXDQXRC7hksxVB+MyIaklMuGg1bMpjwpsMqGeGF05z+IRnhsrIcLzvhXeA+iJ5a+3mXg8I5Ct9t8CPUwBCnsg9EX1bUztirU4tupyCbGEZE59+MwrLdRyNlDKQXCHDl0nFRdhzfWxvi9x+W0QyXwwzzqhXVaRAOoZ05kDI7ATsjzH0E+0J76tt7QINtBNsHGUbtgIWTJnGmIn2I+VgGR40+AUxIGnQG7a3gIA02Q0I+4sbm8jF0NVc63gizHUAr+rDcdSY7vlasaHbDIk9cKJifsICZlIK+IZqoddEBXR15hne6ssUnCQ4YBb0L6GhLwvT6cXftYoJym3mHPXsdQ7JO17STCJEvl2/kXyF46FVV11YdUwGuFjPwAarmOe4CdPttUPTzTVx7z/Q1MYz+C1sI6w8G1jZWEGMNpwPbLpR2weqcEKD78ed0eVtMxsED+zz1u0U5TUAE31+OKlm9klcXqTl5MVo5qf0BUV5fT21GC+B9MGH8VZaMoJIFDODboKgIjvjNs=
+	9oSlMYDUnnT6k/Zp/85ZKeYF8Y/icXu9dG15Bott4y5HhJWMRk7xVzfXG8qCrAyXR1aqeZ1EIrmkh1RNuvAExUpZyEnCmQbHn4XwtzMINivFnjqqKYhOE8CuICvB7wkGv4+mtWKFhmh/8wWoXtbrcFQpQZQ1IEYZ1b2aL4zs7J5771rsY18aEp3zE5ESyajTd1MD1YwpeuN6YrJWC9zAKwt8jsM+qG1AVXNWM9NRXHsTlmy7ExXMhlEeyGQNTr6uf4cJuKI+SvlC5kqUJwgsMQtw4AQLVH2Bht1Zu2xV1NeOy/BgCYbAQxV+vA/bOjpzVfK6skq3OcwWLfZH1Sm6KdxDBJbfVI+NMiu0My0Wiov6FcIcRiLyj3yYgxKzHlD/zInbYKMy4ifOtJQhNoGWMl+/HzqipeUnxJLVbem0YvHt78Yx/kUvoQzpByr+fYPIewC+P4jG7rXN2M/bfRK3Z2bk3LBTAJ4fdCyoWEINrf7caqOBpgShs8ourUELCSm6kAmRIJEYeJEz4vU31imiWHJBfG2tfXgcYwNSYAU/8JsURuqc2DZDNzTUvQBzRtMDRnvJ4E0vXw58hibdzhWzjsfjfHELPWV+tIDw2NOwnwxn2IHm35AmnS0zA6ct+ub3AvUoqLKZNW7l8MKFpQ+wyOI90BIrYKO6xUsVmCD5vIEGOw0FqFgNc07ylb84ExGOn6mA+G3+KohXOSJgzBSdiIT2ky3O29zo4Id3cRGlmeo=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB6677.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(23010399003)(25016099003)(12006099003)(18002099003)(22082099003)(3023799007)(13003099007)(29003799003)(56012099006)(10067099003)(11063799006)(5023799004)(38350700014)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB6677.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(23010399003)(18002099003)(22082099003)(56012099006)(10067099003)(11063799006)(38350700014)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MlNOUkYrWFZ6bWZMalRxM3lSZUd0eXdzM2l5aHIrVTVHZ29zU2NuZzRzOWt4?=
- =?utf-8?B?VU9rL2hzMDRSMGxud2c0RXlhSm5BME1DNUp5WENnRmUreXVYeUs1aWNIamda?=
- =?utf-8?B?eml0SkYxU2p3cE9La09NdGhLc3NYSEJ3Q00za2Q3K1NKT0cycEZYaytOZnRi?=
- =?utf-8?B?VGVRbXBqZ0JUY2FPbEVKcXRRdXZWN3BiM3JPM2NLTmVoc1Q4ZC9LS1g1UGdE?=
- =?utf-8?B?aGszcHpsM2JNTXl1djlGbUFyY1FBYnFVNjRrekFzbXBWcTNhc2Z3MjZiWW9C?=
- =?utf-8?B?QitzUlRaN3Awc2gzY2VMbmNnSnZnQ25pdW51TDI2SW5mcFdyTHcvRVJlQ0hN?=
- =?utf-8?B?VU52VjMyV2lEKzBraWtNUG9jZGxvS1c2a3l6cDJrcUcxZUZkVUJpOFdyUWlX?=
- =?utf-8?B?bnNGaGIzQlpqbERFbGV3emVYWUE1RlZHeUZkVDdVQThZYVZsL0k0T3RuL1Y0?=
- =?utf-8?B?Tzd5aHpqUEpncm5KR0lGRWlHV21UNlRXMm5VYkF5L014NmNVYndkeUxuaW85?=
- =?utf-8?B?Rm5aMGdZdWRVSTlGMnNpVHNvQ0FldVRSZWhVMWVkRURhbzZvcE1lakxyYnJX?=
- =?utf-8?B?SlVEbXRSM3dxVzMwbXpodFNReUF6QjNzSW16ZS9FbmNJM01tNnBOaVU0Wk8x?=
- =?utf-8?B?YUYzT3RPTHJ1QnlaU09ELzVobnFTeHRlcUZvMXZjWU1wbzF2VWFBZmcrUW5n?=
- =?utf-8?B?bEFyT3lxMHl6S05XbGRhRUZlWXhSbFVyM0VjdEtxMlFkZ1IxNUVwWjhuN3R3?=
- =?utf-8?B?Z1VZZFM5azJxRlhBYUVESlRXdkhPSFg3ZHRlc1daMFphcDNScXlwSmVaSHF5?=
- =?utf-8?B?S2NaOVZ4a2kzTGwwSXY5dHFCOVZmYXlHZFROUi9jMEpJUHZ1Tk95WFpRMzJY?=
- =?utf-8?B?NkVuOGFTdVhSQ09JYm5XeEN6TGNqZlJoVXJxekw4bysyb0s4TTR2UWk3ODk0?=
- =?utf-8?B?SzhLM0pMd1hYdDZqVU43bnNiRFVLb1lTK1RDb3lrL3JDSzA3Tll3SURqbUFt?=
- =?utf-8?B?Nmhzd1BNSnVoa2VPSzVMYURPNHpPcjVnTXNRb3oyTVl0UzN0RnVzNUJqRXVW?=
- =?utf-8?B?YkdSTmdDeXArbTc4WU9mQ3FGeHArT0gyNjlaUDNudnlDb0VXZm9wekk4TDBL?=
- =?utf-8?B?eG1OMGlldW0zbkNFMmtvZ3k1bmxnd0xmNFBBSU14cm9kRlVsR3VRSThOQUZY?=
- =?utf-8?B?QzhUQzQ5TVh2OWhlcFVnR2FGb3BHbUhmTkVCa1hPSWpEUTBmamswNVpCcG14?=
- =?utf-8?B?a2VZZ242Z0Ixbnh4eHU0OGVjbGhmVnFGSUpNcHpQU1RzY20vTDNKdGZFd2FP?=
- =?utf-8?B?RkdwdmtaMmdmUUFFekNSZFh0eVlCcEZBdHNtdW9MNGxjVm5mSElhdkJtNjFw?=
- =?utf-8?B?aXM0Z2ltRE5zenRvUmVsTyszb0xicnZJa1NlTjVLaHpCSVUxNUE2T3JLcDN4?=
- =?utf-8?B?Z3l2bXVCNWhvUGlHQlFQbXI0UW92M2hTL2JDZGtIOENxVEV2TWlTeGF5QmRz?=
- =?utf-8?B?TzZLZEhPb1lzS1BuaFAzVlowMFBSOVMyNFlVTW1HNXBQWkp2WTZJQVNSRUxp?=
- =?utf-8?B?UkFIdmJTSjY0ckR5UXV3L2ltcWxxMTRWc09Fa2tyOE9EOXVuVFZCYjBFN1ZG?=
- =?utf-8?B?cnkwTjIxS012MmtNTVo4RlZHOERpQzhnU0pxVUtweWtYM2MrNjlKS3NnV3hI?=
- =?utf-8?B?cENWdjlXYnBEY2Y2WGVTY0JXTm5GVTBRTkZWVm40WER3SzFiVEVNeHgySHZE?=
- =?utf-8?B?SXI2d0ZBK2dsbUMyS1gvZjRXa1Nhd04raEY2clZ5cUM2M0hGSW56cWFlTUha?=
- =?utf-8?B?aUdYMXBLM0k1M0phdkFZTnBua0cyWUgyeHpxbmdBOFlraFg1UWc3NVJtY2Ju?=
- =?utf-8?B?eU1QK0RkY1FpQ1M3a0k0eG9qNk14T2o2Si8yampZNldVZVpvMlhRWjhIVTA1?=
- =?utf-8?B?UlJicDFzSVRHRGlKQmZHMGRYVlVUbmNPR0RhdDVhZ3NPZVlteFBTazVjbjRt?=
- =?utf-8?B?RS90MDV3ZlZpcFIrZ2RWeXVWK1hPMXVhZnpFMytweE9YTDBpeHRsUkIzdmZT?=
- =?utf-8?B?TXg0WDN5dG9idEgzMmN3S3pnT2szU2E4WENnRlRIRjFmZUdmQjhjT0o1Q0tX?=
- =?utf-8?B?QXBMV3dDSENDUDBUb3N3YVVrYU8vWks1QXdqZHdQSFZsZ2dxRFM2UjhwR3E1?=
- =?utf-8?B?U3ZaZWNSMzhwY2FxdTZjQSthOHo0eXc4N1VQeXM1WFo3LzAxcW12aWFEZ05q?=
- =?utf-8?B?djZ2SFUyMGJBa3dieWhROU9iMmdCRDdIdU5jM3UxZlJyK2dsbTVma1RBemM4?=
- =?utf-8?B?YVV5b05RR1VqUWJpMmpUL29GcmM5QlNIbDhhNTBWTTVXNk43YUZSblFWSHow?=
- =?utf-8?Q?HBi66QPGF+S7q1wu38nkt6l4qSUMK2Plepavz?=
+	=?us-ascii?Q?s+g474ZTbRdiDFWPUPimTOCsrr4cF4T5JBJAW8CLi6OMGcF29m3Nkuse5RP0?=
+ =?us-ascii?Q?idl4bNtstFGIHZwVk0rd8v3cSBLEhnC4pHWssD3ukylxsk2Zuko17r1gitid?=
+ =?us-ascii?Q?kAFXY87+gnRFZuU6+u5GR/LhqvGC+VTqm8pkBiSOH+kCPy1dvuuAxbXEmZ0z?=
+ =?us-ascii?Q?EKep5jcqDcH2Gu78vIm9Lhu9KGVu2OVjowpvpvgkV+yC8k9QeX2xYIc055+x?=
+ =?us-ascii?Q?dNgWoe0Qf1ReTIZclA8ZNsofQVIWRGJY6vVoxHlN88UjPhmXTIHrZXPPFLhn?=
+ =?us-ascii?Q?Iwh2CJrIRgb49A33MLhN4/q0UPL7of38l3DmKq/7ku4mdfbvEwFgH7JzBA1C?=
+ =?us-ascii?Q?yAPDtyqN/T8w/8YpXQowpv0/1JQOQnvZeIg7QoXsWBDSEYmVUcsj6sej8MxJ?=
+ =?us-ascii?Q?GFcRp3FdJJa/WLLr5CaxKwoUe10FSwBdYfhPiZ3z2ueAZWhxFmysghS7TQAl?=
+ =?us-ascii?Q?rjqc6v6k5gjjJJiHKjbedvRHoGIJ4Nt3bFiuiogtmq/HdtNm9VAenD/7wntY?=
+ =?us-ascii?Q?w7at9gMrFkTln+Z+EP2z8B7u3Ht0RX4OskmKD+WMhyrpBiLD10KDzKbCpwW6?=
+ =?us-ascii?Q?hNj8qbcu3e6swvWdUXgw3YqhT/VTuNwVkWFX0pRG7P+pXcgVlAKy59EcxlgT?=
+ =?us-ascii?Q?ZGWTGVIUMY0e0SoGQFuFozb7CcOoBi8oVvL9Xx3dNU/O+rUVYiPtBY2qTRWg?=
+ =?us-ascii?Q?GpfE9ORuCI2AANwkkxIiXgxHBX1SV/jDktdLzmluXdNu2hT2l/8OoLN/q0id?=
+ =?us-ascii?Q?GipDhkI4cVrmZOA73z0WcFpcU+Jq4RYXOdrlrRF8Nyx2rQ2HtUjZt0N9skNY?=
+ =?us-ascii?Q?DPcPqIhsnt8PdAiOTVOln50+4y6k4AHffJ8dQZNTSdYhm5sThdR5zXGC9ix7?=
+ =?us-ascii?Q?kMvr5j/DLlZX3VVBxZO5dYCV2khoPtjNteY48+LvR7MdHZuw1DhGQcxgfgec?=
+ =?us-ascii?Q?5K5N3RxO0mrW8vTKhYGZHHfS+yEmei6TlU04nU4OOw/0GXWyU4zQmzjWHP2w?=
+ =?us-ascii?Q?fBPnmlB4JR5JzSf9o75gBg1TeqbekECFSIdIsZ0tNjuSsyBBDXfrvtcLps5y?=
+ =?us-ascii?Q?CXcgjymXODICPpHRrnpwSGOGVd8UCq1HcbL/gI2z59LzLhqDVqgL1ul/td7S?=
+ =?us-ascii?Q?MPS5WImNht7z6VrlrTy0oblF7z6k0t/jN3TBt4GL0fJSpNm9m3xPmg9xq+mx?=
+ =?us-ascii?Q?GVSWXTMj9ZxT070MivyIU51e4/FBImd90OwRErhRzoD9KFX2At4kPXt3128x?=
+ =?us-ascii?Q?dzHRMoi6KJjlP+e3VIYCPSLv/RFMkutUaM8S9xvvlEyjeeZopjOg3lilhBzr?=
+ =?us-ascii?Q?U0oRomztlMj3xBAXohF8gfb5YN2qIid5/pR8dfCxJ0z2d1TV2lh4af9yt/6b?=
+ =?us-ascii?Q?UxiMQ0GbmD+vtTUMaXWsxZcyRFuq8budJHJzDS67W5h8yizIJ4n3fEPUSdcj?=
+ =?us-ascii?Q?JAzqN5zfzmI21WjT7jGIw9CUY3cOulpTVUT4hdEOVaKekZ0F6c9yQPgykpIy?=
+ =?us-ascii?Q?uKnSXnjXEmR8KHHY1vYZ/qbEp6W/sd26A6K1UHaIZYJMdM3RPFMjSP5uOXB7?=
+ =?us-ascii?Q?Nts6nX/JUGjuywzcOTktliYknIHZy6AFEojYTKj8MyGdvNsabRYMoHbq/y5D?=
+ =?us-ascii?Q?P1tmCenErZIgN2e0tzOw1GPQKvc0BSU8nW1dhHxaELCjz0k5BHVSsZXRWktg?=
+ =?us-ascii?Q?GCpf5bPKDSR1o3xbPEjgJ2r51CSnWBAFAuUjzOJIP/XO4WdO/psVrTieLlCu?=
+ =?us-ascii?Q?KlIj+OkyxE4po/z/LSKKDWzVA4zBirPAm60FqYhLHNXqQ0cQgG8B?=
 X-Exchange-RoutingPolicyChecked: 
-	dpHvQ+8LBkNpF26Z7AnKKugjHpl02eFyjbo7dgVSlt29IWsjSChlIlCn4uF/BJ8RRCsaXrdufK5YDXiapprrMpopVAFsCjRwG4UvQ9F4OIzPwWr5AE7agQMJCmh8GeMj+9r9NjLR2w2o7S2jU7psrm65qtatEIu04x49I0h/jt5r6lGVh4Q0GeOHETpD1Nh2uvUzbr1Psrqnp4bSIcLuOTgsS7Nw43tMhbSLo+MIeRs8OnCE+0SeVCCqUznej8ZBHlcf47HYh0s1i/cKTKJBwN0PifsECQZnU9Lv+qskL5uKqCpJsBG6ZPnsaYQEoGfmgSUkxAJLHTTBEtzZy/SfzQ==
+	T1HdJtgpUAWRHSvICK9urAbF4ZUnM6kZHeUOf1K5OHYcRI1M0mhona99WgWJELwbmw6g5PB9Q0/rujSijvLMRHfg1lQMaZh5c1HDEGKk+uxn1jvjxcQ5uFFCs825/kOrcVUx4WuuyzCx0xnljuQZ4kSbYxa1H0eVNqpJMha4BpQNYhcPrOnXVkO9wP1U2fk4K3qdxKPMfwrZ8oUSDiLrToEgsSH1nrr6CBC2hxcQO3Lmf2iV9rFjs/Dzqe+wncSDdKP/3ty0eu3iYNqXPZG3b4cs93JHZEzjRb1FeLr6yNlLtv9L+LdqvLBaGbIspI0+UvhKS9L3ZxA3HjHorrz3mQ==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb93d462-1eab-4f99-bdce-08dee7b9037a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 888c3689-2fd4-43c0-279f-08dee7b904b6
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6677.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 06:18:14.7767
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 06:18:16.8521
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6/DX+tfVsiYW0EMdjR4tjS0ZBIcVz5EGUCJg8QV+1xBgsCrdx0R/PDC7xWTliF96TRsK7I9fWyzCYi1X+2eRqxxqV/3bvr9Gw6va5eE1H4Od+JRF4UHQk4GweXxDuOOD
+X-MS-Exchange-CrossTenant-UserPrincipalName: YrVx/rP0+SJG3cYh8wUhSo9+KZ8HJ4BnB/tuO18WO0+eIs0wajvWZIzKrKG1T7wkoo6Hd0kFkqeZ2U6XGaGzvmFNEypu4INjNoBx/l1i1Ho82QFD/QBFnDe+tAqdZYLT
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF453C3BEC4
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDA1NiBTYWx0ZWRfX52d324sIq9RP
- ihM3N9fjxytRTFw/hyQ9O73jdnsrQGrNG2vnzKOtBcyxVbbpXEF1jNSVf/JBVyMdJ5sHF5BFlUl
- gMTUsFEiGWSjbjNcPLtCVQDAsTdbscADubeofI7rHUI+Kh7P1ogu
-X-Proofpoint-GUID: tuaTcfjbVaOC3WmfO7S6amLdkKLCK5W9
-X-Proofpoint-ORIG-GUID: tuaTcfjbVaOC3WmfO7S6amLdkKLCK5W9
-X-Authority-Analysis: v=2.4 cv=XdO5Co55 c=1 sm=1 tr=0 ts=6a6060a9 cx=c_pps
- a=5XdDR3/zV2dQAmk0xmzXVw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: dJu_FncVeO4n0n0WSnCjY3_tYfhDVKVj
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDA1NiBTYWx0ZWRfX264YOJtJdy+F
+ kmW7kHLx787tvRc1vv5x8CB80OelAQrWQdJn6+oeczMi67mTqq9TKLMfjCGLB3PfmJvrluoimwy
+ do38LiSrFHCiSClAimcQFJdbtLmml4awpyJzMXuAugOCX5kTFscf
+X-Proofpoint-ORIG-GUID: dJu_FncVeO4n0n0WSnCjY3_tYfhDVKVj
+X-Authority-Analysis: v=2.4 cv=CfQ4Irrl c=1 sm=1 tr=0 ts=6a6060aa cx=c_pps
+ a=COQGWIG0gBNyFO/LkKr7KA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=ei4SEBeUAAAA:8 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8 a=iGHA9ds3AAAA:8
- a=8wEic9LhAAAA:8 a=ag1SF4gXAAAA:8 a=Tr0CIQbrg0mKLZOxC6IA:9
- a=5O9rwaaqg39D_ep3:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=M9VCcFR7d36vLOFuqMn8:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDA1NiBTYWx0ZWRfXw7+BWtCYz4p6
- MeN1asmKQTnA4sRnmG2KtdLUZK55cxGveAhUo2i8UsVStqCd8Go5KJ0t0g8LBGQDmfV/86yLsyc
- POIzECHZlXh6vf/fZupBtnkY8FAcostci2Z6PPat+jmHFI4sX4w7vbEIcTXgW9IY1IeJhABp7Iq
- tzKlSNHzdcZMxmHpmdUibgSn6+w2fUUSjMuzpFAf1XUm+BNpAFBa69gt1YhcPKKrZG4PMEC2jok
- CgL6dK/19WL1+BYN662YGJToV+y6kkaPgyFpLVn1PbVG7ImROi456RsFjpJ31Bt+5JhfCUE3KTW
- rvtkoz6DWWgTmw0vcXiR45yTwTJTYry9TatthYXQHbmVcvO326+Iz8GFxxcqb79yzst9FxMFeTp
- KjTLicLghEcBL91efgzhnOTuB7kqbV6S7uoDxNGv9QkA04S73imyuX4HsNU2qm55zWMrhKek9yo
- f6JBJSLcvl0729G6fTw==
+ a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
+ a=M-5mPBX6iDpf5b3w-P8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDA1NiBTYWx0ZWRfXwc7/OJHO2YIX
+ EsZ8+yQX5OyGszJrPvGwWhunrQ9l2R//JgqFOeIYQLxq3PBnXbcE75HOVE0jG3VRMgf+R1mVv8a
+ CaK14KLZwq1829VEKoJ0zSw2/3EtS+ZLG2dQfba3mO8yRxxQjKZN49eqbwaEi9Zv0kK7xhKnmga
+ dAAW/Hl4U+t8x0XnrEQRNybYeEj57zXXiLW17/NjPCS29kjO3vTEBoGLfjt6BUm/jDyVRDdyK3A
+ wpG5AcRu8q4oR2dWAyYrJj9mxFJCkw4yOwGW2Z1mA1BcgWKoJPStUHj8OMFmHroJqTm8kAQx4aL
+ 5ZUj0HTcJDd3z5q07hakEAYijehscfI9E8N1HDgLeQ4cMsw/Pl0q704PlIngINVn9KksXQOuJ18
+ T1ggsYtcXCbIcN2lQW9M+wQ+3zW7tHPeuVBS+AxIPxJ0vnErHeSwlLcAu/2koqGTKa3JGtzSojG
+ IQmiAn0ddfFPUT9VlnA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-22_02,2026-07-21_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
- malwarescore=0 clxscore=1015 phishscore=0 adultscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607220056
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 66M52TAN327486
+ bulkscore=0 spamscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ adultscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607220056
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 06:18:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241599
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241600
 
 From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-[YOCTO #15808]
-
-Consolidate Rust source management across all Rust recipes (rust, cargo,
-libstd-rs and their native/nativesdk variants) into a single shared
-source tree using the work-shared pattern.
-
-Disk savings: a world build with multilibs enabled, together with
-nativesdk-rust and nativesdk-cargo, now shares a single ~4.2 GB rustc-src
-tree instead of maintaining up to 11 independent copies (~46.2 GB total).
-
-Performance (clean core-image-sato build, qemux86-64):
-
-Before: 68m53.507s
-After:  65m46.159s
-Improvement: 3m07.348s (~4.5%)
-
-New files:
-
-- rust-source.bb: A shared recipe that fetches, unpacks, and patches the
-  rustc source tree into ${TMPDIR}/work-shared/rust-source-${PV}-${PR}.
-  All build/install/packaging tasks are disabled; this recipe exists sole=
-ly
-  to provide a single copy of the source. Inherits allarch/nopackages,
-  excludes itself from rm_work, and is hidden from world builds.
-  Also defines RUST_BUILD_ARCH locally since this recipe does not inherit
-  rust-common.bbclass but still needs the mapping for snapshot fetching
-  via rust-snapshot.inc.
-
-- common-source.inc: Included by consumer recipes (rust, cargo, libstd-rs=
-)
-  to disable their local do_fetch/do_unpack/do_patch tasks, clear SRC_URI=
-,
-  and add task dependencies on rust-source-${PV} for configure, licensing=
-,
-  and SPDX generation. Also provides is_work_shared_spdx() override for
-  correct SPDX shared-workdir detection.
-
-Modified files:
-
-- rust-source.inc:
-  - Replace RUST_VERSION with explicit MAJOR_VER/MINOR_VER/PATCH_VER and =
-PV.
-  - Set UNPACKDIR to the work-shared location so all consumers share one
-    source tree via RUSTSRC and S.
-
-- rust_git.bb (renamed from rust_1.96.1.bb):
-  - Add 'require common-source.inc' to use the shared source tree.
-  - Set B =3D ${WORKDIR}/build to separate build artifacts from shared so=
-urce.
-  - Set CARGO_HOME =3D ${WORKDIR}/cargo_home to isolate cargo caching.
-  - Set build-dir =3D "rust-build" in config.toml to distinguish Yocto's =
-build
-    directory (B), which holds config.toml, from the bootstrap's own buil=
-d
-    output directory. Without this, bootstrap defaults to "build/" inside=
- B,
-    creating an ambiguous build/build/ nesting.
-  - Use absolute ${S}/src/bootstrap/bootstrap.py path since cwd is now B.
-  - Update install functions to reference rust-build/ instead of build/.
-  - Update do_test_compile to use absolute ${S}/src/tools/ path.
-  - Change do_rust_setup_snapshot from 'after do_unpack' to depend on
-    rust-source-${PV}:do_unpack (since local do_unpack is removed).
-
-- cargo_git.bb (renamed from cargo_1.96.1.bb):
-  - Add 'require common-source.inc' to use the shared source tree.
-  - Change do_cargo_setup_snapshot from 'after do_unpack' to depend on
-    rust-source-${PV}:do_unpack.
-
-- libstd-rs_git.bb (renamed from libstd-rs_1.96.1.bb):
-  - Add 'require common-source.inc' to use the shared source tree.
-
-- rust-cross-canadian_git.bb (renamed from rust-cross-canadian_1.96.1.bb)=
-:
-  - Rename only (version now comes from rust-source.inc via PV).
-
-- rust-common.bbclass:
-  - Add a second --remap-path-prefix for ${TMPDIR}/work-shared so debug
-    info from the shared source tree is correctly remapped.
-  - Retain RUST_BUILD_ARCH definition so that consumer recipes (rust, car=
-go,
-    libstd-rs) which inherit this class can resolve snapshot directory na=
-mes
-    used by do_rust_setup_snapshot and do_cargo_setup_snapshot.
-
-- lib/oeqa/selftest/cases/rust.py:
-  - Adapt the selftest to the build-dir/source-dir split: use B for build
-    artifacts and RUSTSRC for source paths.
-  - Update remote-test-server copy path from build/ to rust-build/.
-  - Pass --build-dir and --config explicitly to bootstrap.py.
-
-- conf/distro/include/maintainers.inc:
-  - Add maintainer entry for the new rust-source recipe.
-
-License-Update: recipe file renames only, no license change
+Move do_update_snapshot from rust to rust-source, since
+rust-source now owns do_fetch/do_unpack/do_patch tasks
+after the shared source refactoring.
 
 Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
- meta/classes-recipe/rust-common.bbclass       |  4 +-
- meta/conf/distro/include/maintainers.inc      |  1 +
- meta/lib/oeqa/selftest/cases/rust.py          |  9 ++-
- .../rust/{cargo_1.96.1.bb =3D> cargo_git.bb}    |  8 ++-
- meta/recipes-devtools/rust/common-source.inc  | 28 ++++++++++
- .../{libstd-rs_1.96.1.bb =3D> libstd-rs_git.bb} |  4 ++
- ...n_1.96.1.bb =3D> rust-cross-canadian_git.bb} |  0
- meta/recipes-devtools/rust/rust-source.bb     | 56 +++++++++++++++++++
- meta/recipes-devtools/rust/rust-source.inc    | 16 +++++-
- .../rust/{rust_1.96.1.bb =3D> rust_git.bb}      | 31 +++++++---
- 10 files changed, 140 insertions(+), 17 deletions(-)
- rename meta/recipes-devtools/rust/{cargo_1.96.1.bb =3D> cargo_git.bb} (9=
-1%)
- create mode 100644 meta/recipes-devtools/rust/common-source.inc
- rename meta/recipes-devtools/rust/{libstd-rs_1.96.1.bb =3D> libstd-rs_gi=
-t.bb} (92%)
- rename meta/recipes-devtools/rust/{rust-cross-canadian_1.96.1.bb =3D> ru=
-st-cross-canadian_git.bb} (100%)
- create mode 100644 meta/recipes-devtools/rust/rust-source.bb
- rename meta/recipes-devtools/rust/{rust_1.96.1.bb =3D> rust_git.bb} (93%=
-)
+ meta/recipes-devtools/rust/rust-source.bb | 72 ++++++++++++++++++++++
+ meta/recipes-devtools/rust/rust_git.bb    | 73 -----------------------
+ 2 files changed, 72 insertions(+), 73 deletions(-)
 
-diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recip=
-e/rust-common.bbclass
-index 057aeda67a..6bc42016d1 100644
---- a/meta/classes-recipe/rust-common.bbclass
-+++ b/meta/classes-recipe/rust-common.bbclass
-@@ -14,7 +14,9 @@ FILES:${PN}-dev +=3D "${rustlibdir}/*.rlib ${rustlibdir=
-}/*.rmeta"
- FILES:${PN}-dbg +=3D "${rustlibdir}/.debug"
-=20
- RUSTLIB ?=3D "-L ${STAGING_DIR_HOST}${rustlibdir}"
--RUST_DEBUG_REMAP =3D "--remap-path-prefix=3D${WORKDIR}=3D${TARGET_DBGSRC=
-_DIR}"
-+RUST_DEBUG_REMAP =3D "--remap-path-prefix=3D${WORKDIR}=3D${TARGET_DBGSRC=
-_DIR} \
-+                    --remap-path-prefix=3D${TMPDIR}/work-shared=3D${TARG=
-ET_DBGSRC_DIR} \
-+"
- RUSTFLAGS +=3D "${RUSTLIB} ${RUST_DEBUG_REMAP}"
- RUSTLIB_DEP ??=3D "libstd-rs"
- RUST_PANIC_STRATEGY ??=3D "unwind"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 4c6307086c..bfff5082c2 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -784,6 +784,7 @@ RECIPE_MAINTAINER:pn-ruby =3D "Ross Burton <ross.burt=
-on@arm.com>"
- RECIPE_MAINTAINER:pn-run-postinsts =3D "Ross Burton <ross.burton@arm.com=
->"
- RECIPE_MAINTAINER:pn-rust =3D "Randy MacLeod <Randy.MacLeod@windriver.co=
-m>"
- RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =3D "=
-Randy MacLeod <Randy.MacLeod@windriver.com>"
-+RECIPE_MAINTAINER:pn-rust-source-1.96.1 =3D "Deepesh Varatharajan <Deepe=
-sh.Varatharajan@windriver.com>"
- RECIPE_MAINTAINER:pn-rxvt-unicode =3D "Unassigned <unassigned@yoctoproje=
-ct.org>"
- RECIPE_MAINTAINER:pn-sassc =3D "Simone Wei=C3=9F <simone.p.weiss@posteo.=
-com>"
- RECIPE_MAINTAINER:pn-sato-icon-theme =3D "Richard Purdie <richard.purdie=
-@linuxfoundation.org>"
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftes=
-t/cases/rust.py
-index c961a8f652..4111d72044 100644
---- a/meta/lib/oeqa/selftest/cases/rust.py
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -46,7 +46,8 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OE=
-PTestResultTestCase):
-         recipe =3D "rust"
-         start_time =3D time.time()
-         bitbake("{} -c test_compile".format(recipe))
--        builddir =3D get_bb_var("RUSTSRC", "rust")
-+        builddir =3D get_bb_var("B", "rust")
-+        sourcedir =3D get_bb_var("RUSTSRC", "rust")
-         # build core-image-minimal with required packages
-         default_installed_packages =3D ["libgcc", "libstdc++", "libatomi=
-c", "libgomp", "libzstd", "llvm", "openssl"]
-         features =3D []
-@@ -111,7 +112,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, =
-OEPTestResultTestCase):
-             # Copy remote-test-server to image through scp
-             host_sys =3D get_bb_var("RUST_BUILD_SYS", "rust")
-             ssh =3D SSHControl(ip=3Dqemu.ip, logfile=3Dqemu.sshlog, user=
-=3D"root")
--            ssh.copy_to(builddir + "/build/" + host_sys + "/stage2-tools=
--bin/remote-test-server","~/")
-+            ssh.copy_to(builddir + "/rust-build/" + host_sys + "/stage2-=
-tools-bin/remote-test-server","~/")
-             # Execute remote-test-server on image through background ssh
-             command =3D '~/remote-test-server --bind 0.0.0.0:12345 -v'
-             sshrun=3Dsubprocess.Popen(("ssh", '-o',  'UserKnownHostsFile=
-=3D/dev/null', '-o',  'StrictHostKeyChecking=3Dno', '-f', "root@%s" % qem=
-u.ip, command), shell=3DFalse, stdout=3Dsubprocess.PIPE, stderr=3Dsubproc=
-ess.PIPE)
-@@ -131,8 +132,10 @@ class RustSelfTestSystemEmulated(OESelftestTestCase,=
- OEPTestResultTestCase):
-             # PowerPC mac99 QEMU has 768MB RAM limit, so we need to mini=
-mize test binary sizes
-             cmd =3D cmd + " export RUSTFLAGS=3D'-C strip=3Ddebuginfo -Cl=
-ink-arg=3D-lz -Clink-arg=3D-lzstd';"
-             # Trigger testing.
-+            # Run bootstrap from sourcedir with explicit --build-dir and=
- --config
-+            # pointing to the separate build directory.
-             cmd =3D cmd + " export TEST_DEVICE_ADDR=3D\"%s:12345\";" % q=
-emu.ip
--            cmd =3D cmd + " cd %s; python3 src/bootstrap/bootstrap.py te=
-st %s --target %s" % (builddir, testargs, targetsys)
-+            cmd =3D cmd + " cd %s; python3 src/bootstrap/bootstrap.py --=
-build-dir %s/rust-build --config %s/config.toml test %s --target %s" % (s=
-ourcedir, builddir, builddir, testargs, targetsys)
-             retval =3D runCmd(cmd)
-             end_time =3D time.time()
-=20
-diff --git a/meta/recipes-devtools/rust/cargo_1.96.1.bb b/meta/recipes-de=
-vtools/rust/cargo_git.bb
-similarity index 91%
-rename from meta/recipes-devtools/rust/cargo_1.96.1.bb
-rename to meta/recipes-devtools/rust/cargo_git.bb
-index f16688fc76..8047a2b255 100644
---- a/meta/recipes-devtools/rust/cargo_1.96.1.bb
-+++ b/meta/recipes-devtools/rust/cargo_git.bb
-@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM =3D " \
-=20
- require rust-source.inc
- require rust-snapshot.inc
-+# Use shared source tree from rust-source.bb; disables local fetch/unpac=
-k/patch
-+require common-source.inc
-=20
- S =3D "${RUSTSRC}/src/tools/cargo"
- CARGO_VENDORING_DIRECTORY =3D "${RUSTSRC}/vendor"
-@@ -21,6 +23,9 @@ CVE_PRODUCT =3D "rust-lang:cargo"
-=20
- inherit cargo pkgconfig
-=20
-+# Explicit CARGO_HOME avoids cargo caching in the shared source tree
-+CARGO_HOME =3D "${WORKDIR}/cargo_home"
-+
- DEBUG_PREFIX_MAP +=3D "-ffile-prefix-map=3D${RUSTSRC}/vendor=3D${TARGET_=
-DBGSRC_DIR}"
-=20
- do_cargo_setup_snapshot () {
-@@ -32,9 +37,10 @@ do_cargo_setup_snapshot () {
- 	fi
- }
-=20
--addtask cargo_setup_snapshot after do_unpack before do_configure
-+addtask cargo_setup_snapshot before do_configure
- do_cargo_setup_snapshot[dirs] +=3D "${WORKDIR}/${CARGO_SNAPSHOT}"
- do_cargo_setup_snapshot[vardepsexclude] +=3D "UNINATIVE_LOADER"
-+do_cargo_setup_snapshot[depends] +=3D "rust-source-${PV}:do_unpack"
-=20
- do_compile:prepend () {
- 	export RUSTC_BOOTSTRAP=3D"1"
-diff --git a/meta/recipes-devtools/rust/common-source.inc b/meta/recipes-=
-devtools/rust/common-source.inc
-new file mode 100644
-index 0000000000..a0d4dc542c
---- /dev/null
-+++ b/meta/recipes-devtools/rust/common-source.inc
-@@ -0,0 +1,28 @@
-+# common-source.inc - Disable source tasks for recipes using shared rust=
--source
-+#
-+# Recipes that include this file rely on rust-source-${PV} for fetching,
-+# unpacking, and patching the Rust source tree. This avoids duplicating =
-the
-+# ~4.2 GB rustc-src tree per recipe variant (rust, cargo, libstd-rs and =
-their
-+# native/nativesdk counterparts).
-+
-+# Disable local fetch/unpack/patch since rust-source-${PV} handles them
-+do_fetch() {
-+        :
-+}
-+do_fetch[noexec] =3D "1"
-+deltask do_unpack
-+deltask do_patch
-+
-+# Clear SRC_URI to prevent fetcher warnings from stale URIs inherited vi=
-a .inc
-+SRC_URI =3D ""
-+
-+# Ensure the shared source is fully ready before dependent tasks run
-+do_configure[depends] +=3D "rust-source-${PV}:do_patch"
-+do_populate_lic[depends] +=3D "rust-source-${PV}:do_unpack"
-+do_create_spdx[depends] +=3D "rust-source-${PV}:do_patch"
-+
-+# The SPDX class uses is_work_shared_spdx() to detect shared workdirs.
-+# Since we redirect S rather than WORKDIR, the default detection fails.
-+# Override to always return True so SPDX processing works correctly.
-+def is_work_shared_spdx(d):
-+    return True
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb b/meta/recipe=
-s-devtools/rust/libstd-rs_git.bb
-similarity index 92%
-rename from meta/recipes-devtools/rust/libstd-rs_1.96.1.bb
-rename to meta/recipes-devtools/rust/libstd-rs_git.bb
-index 2a5e977a5e..31d42a8525 100644
---- a/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb
-+++ b/meta/recipes-devtools/rust/libstd-rs_git.bb
-@@ -5,6 +5,7 @@ LICENSE =3D "(MIT | Apache-2.0) & Unicode-3.0"
- LIC_FILES_CHKSUM =3D "file://../../COPYRIGHT;md5=3D11a3899825f4376896e43=
-8c8c753f8dc"
-=20
- require rust-source.inc
-+require common-source.inc
-=20
- # The dummy crate named `sysroot` represents the standard library target.
- #
-@@ -30,6 +31,9 @@ CARGO_FEATURES ?=3D "panic-unwind backtrace"
- CARGO_BUILD_FLAGS +=3D "--features '${CARGO_FEATURES}'"
- CARGO_VENDORING_DIRECTORY =3D "${RUSTSRC}/vendor"
-=20
-+# Explicit CARGO_HOME avoids cargo caching in the shared source tree
-+CARGO_HOME =3D "${WORKDIR}/cargo_home"
-+
- do_compile:prepend () {
-     # For Rust 1.13.0 and newer
-     export RUSTC_BOOTSTRAP=3D"1"
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.96.1.bb b/m=
-eta/recipes-devtools/rust/rust-cross-canadian_git.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust-cross-canadian_1.96.1.bb
-rename to meta/recipes-devtools/rust/rust-cross-canadian_git.bb
-diff --git a/meta/recipes-devtools/rust/rust-source.bb b/meta/recipes-dev=
-tools/rust/rust-source.bb
-new file mode 100644
-index 0000000000..ba696984b3
---- /dev/null
+diff --git a/meta/recipes-devtools/rust/rust-source.bb b/meta/recipes-devtools/rust/rust-source.bb
+index ba696984b3..4c29b8e3c7 100644
+--- a/meta/recipes-devtools/rust/rust-source.bb
 +++ b/meta/recipes-devtools/rust/rust-source.bb
-@@ -0,0 +1,56 @@
-+# rust-source.bb - Shared source recipe for the Rust toolchain
-+#
-+# This recipe fetches, unpacks, and patches the rustc source tree into a
-+# work-shared location so that rust, cargo, libstd-rs, and their native/=
-nativesdk
-+# variants all share a single copy of the source. This eliminates duplic=
-ation
-+# (up to 11 copies of the ~4.2 GB source tree in multilib + nativesdk bu=
-ilds)
-+# and significantly reduces disk usage (~46.2 GB -> ~4.2 GB for rustc-sr=
-c).
-+#
-+# Only do_fetch, do_unpack, and do_patch are meaningful here. All other
-+# tasks are disabled since this recipe exists solely to provide sources.
+@@ -54,3 +54,75 @@ B = "${WORKDIR}/build"
+ RUST_BUILD_ARCH = "${@{'ppc': 'powerpc', 'ppc64': 'powerpc64', 'ppc64le': 'powerpc64le', 'riscv64': 'riscv64gc'}.get(d.getVar('BUILD_ARCH'), d.getVar('BUILD_ARCH'))}"
+ 
+ EXCLUDE_FROM_WORLD = "1"
 +
-+SUMMARY =3D "Rust compiler and runtime libaries"
-+HOMEPAGE =3D "http://www.rust-lang.org"
-+SECTION =3D "devel"
-+LICENSE =3D "(MIT | Apache-2.0) & Unicode-3.0"
-+LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D11a3899825f4376896e438c8c75=
-3f8dc"
++addtask do_update_snapshot after do_patch
++do_update_snapshot[nostamp] = "1"
 +
-+# This recipe only provides source; disable build/install/packaging task=
-s
-+deltask do_configure
-+deltask do_compile
-+deltask do_install
-+deltask do_populate_sysroot
-+deltask do_populate_lic
++# Run with `bitbake rust-source-${PV} -c update_snapshot` to update `rust-snapshot.inc`
++# with the checksums for the rust snapshot associated with this rustc-src tarball.
++python do_update_snapshot() {
++    import json
++    import re
++    import sys
 +
-+# Prevent rm_work from removing the shared source tree
-+RM_WORK_EXCLUDE +=3D "${PN}"
++    from collections import defaultdict
 +
-+require rust-source.inc
-+require rust-snapshot.inc
++    key_value_pairs = {}
++    with open(os.path.join(d.getVar("S"), "src", "stage0")) as f:
++        for line in f:
++            # Skip empty lines or comments
++            if not line.strip() or line.startswith("#"):
++                continue
++            # Split the line into key and value using '=' as separator
++            match = re.match(r'(\S+)\s*=\s*(\S+)', line.strip())
++            if match:
++                key = match.group(1)
++                value = match.group(2)
++                key_value_pairs[key] = value
++    # Extract the required values from key_value_pairs
++    config_dist_server = key_value_pairs.get('dist_server', '')
++    compiler_date = key_value_pairs.get('compiler_date', '')
++    compiler_version = key_value_pairs.get('compiler_version', '')
 +
-+inherit allarch nopackages
++    src_uri = defaultdict(list)
++    # Assuming checksums_sha256 is now a key-value pair like: checksum_key = checksum_value
++    for k, v in key_value_pairs.items():
++        # Match the pattern for checksums
++        if "dist" in k and "tar.xz" in k:
++            m = re.search(f"dist/{compiler_date}/(?P<component>.*)-{compiler_version}-(?P<arch>.*)-unknown-linux-gnu\\.tar\\.xz", k)
++            if m:
++                component = m.group('component')
++                arch = m.group('arch')
++                src_uri[arch].append(f"SRC_URI[{component}-snapshot-{arch}.sha256sum] = \"{v}\"")
++    # Create the snapshot string with the extracted values
++    snapshot = """\
++## This is information on the rust-snapshot (binary) used to build our current release.
++## snapshot info is taken from rust/src/stage0
++## Rust is self-hosting and bootstraps itself with a pre-built previous version of itself.
++## The exact (previous) version that has been used is specified in the source tarball.
++## The version is replicated here.
 +
-+PN =3D "rust-source-${PV}"
-+BPN =3D "rust-source"
++SNAPSHOT_VERSION = "%s"
 +
-+# Place WORKDIR under work-shared so all consumers reference the same lo=
-cation
-+WORKDIR =3D "${TMPDIR}/work-shared/rust-source-${PV}-${PR}"
-+SSTATE_SWSPEC =3D "sstate:rust-source::${PV}:${PR}::${SSTATE_VERSION}:"
++""" % compiler_version
++    # Add the checksum components to the snapshot
++    for arch, components in src_uri.items():
++        snapshot += "\n".join(components) + "\n\n"
++    # Add the additional snapshot URIs
++    snapshot += """\
++SRC_URI += " \\
++    ${RUST_DIST_SERVER}/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \\
++    ${RUST_DIST_SERVER}/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \\
++    ${RUST_DIST_SERVER}/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \\
++"
 +
-+# Use work-shared stamp directory so sstate is shared across all archite=
-ctures
-+STAMP =3D "${STAMPS_DIR}/work-shared/rust-source-${PV}-${PR}"
-+STAMPCLEAN =3D "${STAMPS_DIR}/work-shared/rust-source-${PV}-*"
++RUST_DIST_SERVER = "%s"
 +
-+DEPENDS =3D ""
-+PACKAGES =3D ""
-+baselib =3D "lib"
-+PACKAGE_ARCH =3D "all"
-+
-+B =3D "${WORKDIR}/build"
-+
-+# rust-source.bb does not inherit rust-common.bbclass (it is allarch/nop=
-ackages
-+# and has no toolchain dependencies), so we define RUST_BUILD_ARCH local=
-ly for
-+# snapshot URL resolution in rust-snapshot.inc.
-+RUST_BUILD_ARCH =3D "${@{'ppc': 'powerpc', 'ppc64': 'powerpc64', 'ppc64l=
-e': 'powerpc64le', 'riscv64': 'riscv64gc'}.get(d.getVar('BUILD_ARCH'), d.=
-getVar('BUILD_ARCH'))}"
-+
-+EXCLUDE_FROM_WORLD =3D "1"
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-de=
-vtools/rust/rust-source.inc
-index 5678e00671..49207a3947 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -1,6 +1,12 @@
--RUST_VERSION ?=3D "${@d.getVar('PV').split('-')[0]}"
-+# Version is split into MAJOR_VER and MINOR_VER for easy bumping and
-+# to allow consistent use of PV across all consuming recipes.
-+MAJOR_VER =3D "1"
-+MINOR_VER =3D "96"
-+PATCH_VER =3D "1"
-=20
--SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-sr=
-c.tar.xz;name=3Drust \
-+PV =3D "${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}"
-+
-+SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${PV}-src.tar.xz;n=
-ame=3Drust \
-             file://0001-Define-more-ioctl-codes-on-riscv32gc-unknown-lin=
-ux-g.patch;patchdir=3D${RUSTSRC} \
-             file://rust-oe-selftest.patch;patchdir=3D${RUSTSRC} \
-             file://repro-issue-fix-with-cc-crate-hashmap.patch;patchdir=3D=
-${RUSTSRC} \
-@@ -13,7 +19,11 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-=
-${RUST_VERSION}-src.tar.xz;n
- "
- SRC_URI[rust.sha256sum] =3D "77a6ff3003a4ad0cb00697b043c879e3e1a15d945b1=
-a1f63818903bfc3fa8b98"
-=20
--RUSTSRC =3D "${UNPACKDIR}/rustc-${RUST_VERSION}-src"
-+# Point UNPACKDIR into the work-shared location so rust-source.bb and al=
-l
-+# consumers (via S/RUSTSRC) reference a single shared source tree.
-+UNPACKDIR =3D "${TMPDIR}/work-shared/rust-source-${PV}-${PR}/sources"
-+RUSTSRC =3D "${UNPACKDIR}/rustc-${PV}-src"
-+S =3D "${RUSTSRC}"
-=20
- UPSTREAM_CHECK_URI =3D "https://forge.rust-lang.org/infra/other-installa=
-tion-methods.html"
- UPSTREAM_CHECK_REGEX =3D "rustc-(?P<pver>\d+(\.\d+)+)-src"
-diff --git a/meta/recipes-devtools/rust/rust_1.96.1.bb b/meta/recipes-dev=
-tools/rust/rust_git.bb
-similarity index 93%
-rename from meta/recipes-devtools/rust/rust_1.96.1.bb
-rename to meta/recipes-devtools/rust/rust_git.bb
-index 8b0f1d1459..da042ffaae 100644
---- a/meta/recipes-devtools/rust/rust_1.96.1.bb
++RUST_STD_SNAPSHOT = "rust-std-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
++RUSTC_SNAPSHOT = "rustc-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
++CARGO_SNAPSHOT = "cargo-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
++""" % config_dist_server
++    # Write the updated snapshot information to the rust-snapshot.inc file
++    with open(os.path.join(d.getVar("THISDIR"), "rust-snapshot.inc"), "w") as f:
++        f.write(snapshot)
++}
+diff --git a/meta/recipes-devtools/rust/rust_git.bb b/meta/recipes-devtools/rust/rust_git.bb
+index da042ffaae..e75c5980f0 100644
+--- a/meta/recipes-devtools/rust/rust_git.bb
 +++ b/meta/recipes-devtools/rust/rust_git.bb
-@@ -4,6 +4,10 @@ SECTION =3D "devel"
- LICENSE =3D "(MIT | Apache-2.0) & Unicode-3.0"
- LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D11a3899825f4376896e438c8c75=
-3f8dc"
-=20
-+require rust-source.inc
-+require rust-snapshot.inc
-+require common-source.inc
-+
- inherit rust
- inherit cargo_common
-=20
-@@ -24,6 +28,9 @@ INHIBIT_DEFAULT_RUST_DEPS:class-native =3D "1"
- PROVIDES:class-native =3D "virtual/${TARGET_PREFIX}rust"
-=20
- S =3D "${RUSTSRC}"
-+# Separate build directory from the shared source tree so that multiple
-+# variants (target, native, nativesdk) don't conflict in the source dir.
-+B =3D "${WORKDIR}/build"
-=20
- # Use at your own risk, accepted values are stable, beta and nightly
- RUST_CHANNEL ?=3D "stable"
-@@ -38,6 +45,9 @@ RUST_ALTERNATE_EXE_PATH_NATIVE =3D "${STAGING_BINDIR_NA=
-TIVE}/llvm-config"
- # own vendoring.
- CARGO_DISABLE_BITBAKE_VENDORING =3D "1"
-=20
-+# Explicit CARGO_HOME avoids cargo caching in the shared source tree
-+CARGO_HOME =3D "${WORKDIR}/cargo_home"
-+
- setup_cargo_environment () {
-     # The first step is to build bootstrap and some early stage tools,
-     # these are build for the same target as the snapshot, e.g.
-@@ -66,11 +76,11 @@ do_rust_setup_snapshot () {
-         done
-     fi
+@@ -354,79 +354,6 @@ rust_do_install:class-target() {
+     rm ${D}${libdir}/rustlib/${RUST_HOST_SYS}/lib/libstd*.so
  }
--addtask rust_setup_snapshot after do_unpack before do_configure
-+addtask rust_setup_snapshot before do_configure
- addtask do_test_compile after do_configure do_rust_gen_targets
- do_rust_setup_snapshot[dirs] +=3D "${WORKDIR}/rust-snapshot"
- do_rust_setup_snapshot[vardepsexclude] +=3D "UNINATIVE_LOADER"
--do_rust_setup_snapshot[depends] +=3D "patchelf-native:do_populate_sysroo=
-t"
-+do_rust_setup_snapshot[depends] +=3D "patchelf-native:do_populate_sysroo=
-t rust-source-${PV}:do_unpack"
-=20
- RUSTC_BOOTSTRAP =3D "${STAGING_BINDIR_NATIVE}/rustc"
- CARGO_BOOTSTRAP =3D "${STAGING_BINDIR_NATIVE}/cargo"
-@@ -173,6 +183,12 @@ python do_configure() {
-     # nothing about when trying to build some stage0 tools (like fabrica=
-te)
-     config.set("build", "build", e(d.getVar("RUST_BUILD_SYS")))
-=20
-+    # Yocto's B (${WORKDIR}/build) is where config.toml lives. Rust's
-+    # bootstrap creates its own build output directory inside B; name it
-+    # "rust-build" to avoid ambiguity with Yocto's build directory and
-+    # prevent a confusing build/build/ nesting.
-+    config.set("build", "build-dir", e("rust-build"))
-+
-     # [install]
-     config.add_section("install")
-     # ./x.py install doesn't have any notion of "destdir"
-@@ -223,13 +239,10 @@ rust_runx () {
-=20
-     oe_cargo_fix_env
-=20
--    python3 src/bootstrap/bootstrap.py ${@oe.utils.parallel_make_argumen=
-t(d, '-j %d')} "$@" --verbose
-+    python3 ${S}/src/bootstrap/bootstrap.py ${@oe.utils.parallel_make_ar=
-gument(d, '-j %d')} "$@" --verbose
- }
- rust_runx[vardepsexclude] +=3D "PARALLEL_MAKE"
-=20
--require rust-source.inc
--require rust-snapshot.inc
+ 
+-addtask do_update_snapshot after do_patch
+-do_update_snapshot[nostamp] = "1"
 -
- INSANE_SKIP:${PN}:class-native =3D "already-stripped"
- FILES:${PN} +=3D "${libdir}/rustlib"
- FILES:${PN} +=3D "${libdir}/*.so"
-@@ -241,7 +254,7 @@ do_compile () {
- do_test_compile[dirs] =3D "${B}"
- do_test_compile () {
-     replace_llvm_config_path
--    rust_runx build src/tools/remote-test-server --target "${RUST_TARGET=
-_SYS}"
-+    rust_runx build ${S}/src/tools/remote-test-server --target "${RUST_T=
-ARGET_SYS}"
- }
-=20
- ALLOW_EMPTY:${PN} =3D "1"
-@@ -282,7 +295,7 @@ rust_do_install:class-nativesdk() {
-=20
-     install -d ${D}${bindir}
-     for i in cargo-clippy clippy-driver rustfmt; do
--        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release=
-/$i ${D}${bindir}
-+        cp rust-build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/re=
-lease/$i ${D}${bindir}
-         patchelf --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$i
-     done
-=20
-@@ -322,7 +335,7 @@ rust_do_install:class-target() {
-=20
-     install -d ${D}${bindir}
-     for i in ${EXTRA_TOOLS}; do
--        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release=
-/$i ${D}${bindir}
-+        cp rust-build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/re=
-lease/$i ${D}${bindir}
-         patchelf --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$i
-     done
-=20
---=20
+-# Run with `bitbake -c update_snapshot rust` to update `rust-snapshot.inc`
+-# with the checksums for the rust snapshot associated with this rustc-src
+-# tarball.
+-python do_update_snapshot() {
+-    import json
+-    import re
+-    import sys
+-
+-    from collections import defaultdict
+-
+-    key_value_pairs = {}
+-    with open(os.path.join(d.getVar("S"), "src", "stage0")) as f:
+-        for line in f:
+-            # Skip empty lines or comments
+-            if not line.strip() or line.startswith("#"):
+-                continue
+-            # Split the line into key and value using '=' as separator
+-            match = re.match(r'(\S+)\s*=\s*(\S+)', line.strip())
+-            if match:
+-                key = match.group(1)
+-                value = match.group(2)
+-                key_value_pairs[key] = value
+-    # Extract the required values from key_value_pairs
+-    config_dist_server = key_value_pairs.get('dist_server', '')
+-    compiler_date = key_value_pairs.get('compiler_date', '')
+-    compiler_version = key_value_pairs.get('compiler_version', '')
+-
+-    src_uri = defaultdict(list)
+-    # Assuming checksums_sha256 is now a key-value pair like: checksum_key = checksum_value
+-    for k, v in key_value_pairs.items():
+-        # Match the pattern for checksums
+-        if "dist" in k and "tar.xz" in k:
+-            m = re.search(f"dist/{compiler_date}/(?P<component>.*)-{compiler_version}-(?P<arch>.*)-unknown-linux-gnu\\.tar\\.xz", k)
+-            if m:
+-                component = m.group('component')
+-                arch = m.group('arch')
+-                src_uri[arch].append(f"SRC_URI[{component}-snapshot-{arch}.sha256sum] = \"{v}\"")
+-    # Create the snapshot string with the extracted values
+-    snapshot = """\
+-## This is information on the rust-snapshot (binary) used to build our current release.
+-## snapshot info is taken from rust/src/stage0
+-## Rust is self-hosting and bootstraps itself with a pre-built previous version of itself.
+-## The exact (previous) version that has been used is specified in the source tarball.
+-## The version is replicated here.
+-
+-SNAPSHOT_VERSION = "%s"
+-
+-""" % compiler_version
+-    # Add the checksum components to the snapshot
+-    for arch, components in src_uri.items():
+-        snapshot += "\n".join(components) + "\n\n"
+-    # Add the additional snapshot URIs
+-    snapshot += """\
+-SRC_URI += " \\
+-    ${RUST_DIST_SERVER}/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \\
+-    ${RUST_DIST_SERVER}/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \\
+-    ${RUST_DIST_SERVER}/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \\
+-"
+-
+-RUST_DIST_SERVER = "%s"
+-
+-RUST_STD_SNAPSHOT = "rust-std-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
+-RUSTC_SNAPSHOT = "rustc-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
+-CARGO_SNAPSHOT = "cargo-${SNAPSHOT_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
+-""" % config_dist_server
+-    # Write the updated snapshot information to the rust-snapshot.inc file
+-    with open(os.path.join(d.getVar("THISDIR"), "rust-snapshot.inc"), "w") as f:
+-        f.write(snapshot)
+-}
+-
+ RUSTLIB_DEP:class-nativesdk = ""
+ 
+ # musl builds include libunwind.a
+-- 
 2.49.0
 
 
