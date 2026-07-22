@@ -2,246 +2,181 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 896DDC4453D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D78C4453C
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:21 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5534.1784741055148715277
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5476.1784741055732349583
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 10:24:15 -0700
+ Wed, 22 Jul 2026 10:24:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=FsTeoK3g;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b966dd74so57331775e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=x7roblTG;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-495635a85d2so27815835e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784741053; x=1785345853; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=hIC/W14wqmAWuxK+VKaccwKwKdXtY11Ga4U+fVtG0qY=;
-        b=FsTeoK3gQhU/qopIwkGRouUwOwIkA0J+7O9EfmygoksNR6S2E55boWUGH7I1Jhpj6Z
-         fBIXSm9KMTDIPGQcDT9N+tchr7fNGBp6fGKaAhKwtSAys84rjnpnbtww6RaZoG9j4zpL
-         MFE2CI5mmSOkxjI3Y0PPREyDf8neIJ4iBzUQQ=
+        d=smile.fr; s=google; t=1784741054; x=1785345854; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tSvMhQ3BQ7h2vEz6oZUTYyOYG63Bc4HFxEx06mF6kNU=;
+        b=x7roblTGA/HG3qJldDVqxWdvUW/jfyBvhSt8fL0h/3piOT6Zm473nZfU3USwOXFgSh
+         JHSe6feAHxfv8ab5oNrUy+2uLiKZBs2v92Yb8ZLw15mAmqzcPYIHdfR92QJkaY3hUrfc
+         ogbG6qYbCDj2qva0n55Es8ZkqxekpVhTM32jE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741053; x=1785345853;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=hIC/W14wqmAWuxK+VKaccwKwKdXtY11Ga4U+fVtG0qY=;
-        b=qRIHS7GwNMMbvgmECDkDFB24A9+VlZHTHJO82cojsUS9YIi+JtvQdn8vfoP1kU7teV
-         ZxHgi34tl0/tncdkYvusbsuw47jqq5oevqK0Vg9wiCqKMqJPuQ9ViNKRfr+3NxNPKPVu
-         ZP73WjD00ex82gjmSA6WUhXO8DBZX907m19FXaY0JWbckes826JHk0eqHz79SNy3ZRaR
-         aRiFNF2BIfpchKHtRbMXywlroLrqZr9dlKy5FRzblgRJIw1y2pVf3GU88/p52vugb/ai
-         TA7ZB23td22JTp2ItxmwrwmlxEZ1OqVl8Sz2nBHiNFR/BPDGSx86CkcjvT7ji1i8P7nk
-         hLBg==
-X-Gm-Message-State: AOJu0Yzt/QqhDD3JZvMHPYgpL35Zey5kg0Kt+7J77iCKdaJq+AWY4Zin
-	zj/R8XPpeqaeSb7zw2+EKRxFz9v4lw7nBiAvuu7AnGoJFbqxEYwDUSeyc0+n1n6h7GP7tuOOE2Y
-	Nsy22En0=
-X-Gm-Gg: AR+sD11lrFmmouEYJzPxRE0EpimSMd3pc/1z0kZYDXFituBg1SthvJmu0YYOISsafqF
-	afjP1rk4hbO0au2+jGwtPUhvxHhv/RQnt06JcfX3fBoyKsQgui87AkbZc3XRW1jh3Q67ZShOSoB
-	d1pFuPSVWSX7qqPPMdqpcF3U4rQUxdpw5UyDi24NVMMl3iDNEguDdQvj/PLCuhfRVqgXOcQzLEA
-	0bbW1XG4jCht/G9yN+Jhlj8HZ2RdSNE4Q7vHx31aFIEI5aPJUuNJrN5W02x1EgoUAO7oF7Ip0u2
-	GSwLS41yQzufBgjCz/3tFZV0ih1DfCidy7wYrecC2tQzofjfPzGdcJTHq9yqQaotuC1Od82AMWI
-	Xk/9BuGDDIbV4OFJuvsVNj2iuo5lRJKA03pqvptc5DqenLv7bggZgJdM6dBPjNFUCXCHVweLqOQ
-	BmVXRXhyP8seRapqmPxMcn65a1bh7m0S76mDr8XOHbcY72K/I1bl1YdFHYFYZZw+ILhyUS4efWi
-	FjodU5rYXKP
-X-Received: by 2002:a05:600c:19c8:b0:495:6134:6d61 with SMTP id 5b1f17b1804b1-4956202554emr144841375e9.19.1784741053281;
+        d=1e100.net; s=20251104; t=1784741054; x=1785345854;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tSvMhQ3BQ7h2vEz6oZUTYyOYG63Bc4HFxEx06mF6kNU=;
+        b=NkukXG+3eIaLCMlGE2YVpcDJG0lhzPt7ISbnMAmfB6kmcN1nsbXfxDZbZMTGF5Ezsj
+         7NYPNjmRJIDJ+cUfwjI/MRbfFxT4u1B0gftLsUZFrzogrSw4TSKXFhBros8bt/W8IxX8
+         3Vp9mukKlVOI61a1wkWhQCr0DMOMEklWbvMt/+35IhWPmsjwV/W/gjGPfQ/nyrEHQg9i
+         A4uoy8p9gbKB84um4pVyu7uh+kgScVZnwbnupJPqQozBVRzS7gdVzBftlRwGQV4b8oVm
+         KBvtOye3fiXikRIxjrMEMWvWNLTkogplBkxk6xNzqCKTn8EE4vOkcbT6f+uQAfdRMMLy
+         3Krg==
+X-Gm-Message-State: AOJu0YwUGxZPVHYcq3mlYCsgxnuDwQxvtZts6OoNhqExVEg1QozK68Zh
+	7f7ZizMiR2TGWv3N4gPZES+eWsT9vDRVyiv9sLCB+Ac4wIm+bT4qi+x2UMo0NwoseSgCLXqsWB2
+	2+yhs+tE=
+X-Gm-Gg: AR+sD11SIeYRFi+iGDu0r+26EnMk5CxyVvZCwNb7wJK9nv2ndPTXlNUt9TH8efZglO3
+	uLYnbkg0LYX/dsKgU5pp9W6jVJs2tv5ZP6kOmtIr2wp0a5GBRsuGIIcSxNHli+q8y/y9YvAQ6U0
+	3q1I93rTL2LzaslKi9pCOadiL3HyqglU+jMn0JRr7UEqcZLnOROBDdzlJv4GQNw2J32vweNBbjK
+	S9no3R0frHn/vPBIqMO20ZuchjEjJunLMC+zN2hopj/5bPHknWdPfpxuK2RFlrtJxGdZqJnuEJZ
+	vrqJWUpFokCT8kDlosVFUsY5XOWnru9BcYBUedKIWYQEpjFteP+YCuxSk+MC+Q56ztjw/7jkXeV
+	fLHOU9hNPDTtSi0PRb3wUi04pku57DR+zZ2lYWqXQBymTPQqpVljf1U8w2tyq673O/7NC4+YTK0
+	g5xF7j3q34gvdkpa/BnCNbNDPRoxYfzfGh11BPOnUXjjF5Dt/y7NoII9wk2v6Z1I0ajuh5KL+Mr
+	jarAHjr38qG
+X-Received: by 2002:a05:600c:4755:b0:493:c2cc:aecb with SMTP id 5b1f17b1804b1-4954a51590fmr296307635e9.38.1784741053913;
         Wed, 22 Jul 2026 10:24:13 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 10:24:12 -0700 (PDT)
+        Wed, 22 Jul 2026 10:24:13 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 26/27] openssh: Fix CVE-2026-60000
-Date: Wed, 22 Jul 2026 19:23:39 +0200
-Message-ID: <4c9bd0da0dccaa8a51090c8c172c6b0c5c6fd74c.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 27/27] gzip: Fix CVE-2026-41991
+Date: Wed, 22 Jul 2026 19:23:40 +0200
+Message-ID: <0dfe86a27167689ded394d72ebb5e22157fb9184.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
 References: <cover.1784740870.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241736
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241737
 
-From: Devansh Patel <devanshp@cisco.com>
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-This patch applies the upstream OpenSSH 10.4p1 backport for
-CVE-2026-60000. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2].
+This patch applies the upstream fix for CVE-2026-41991 as referenced
+in [2], using the upstream commit identified in [1].
 
-[1] https://github.com/openssh/openssh-portable/commit/5d04ca6af739b82fd30d84d2783ca802ebfa1192
-[2] https://www.cve.org/CVERecord?id=CVE-2026-60000
+[1] https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=4e6f8b24ab823146ab8776f0b7fe486ab34d4269
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-41991
 
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
-[YC: Patch referenced in https://ubuntu.com/security/CVE-2026-60000]
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssh/openssh/CVE-2026-60000.patch      | 140 ++++++++++++++++++
- .../openssh/openssh_10.3p1.bb                 |   1 +
- 2 files changed, 141 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
+ .../gzip/gzip-1.14/CVE-2026-41991.patch       | 75 +++++++++++++++++++
+ meta/recipes-extended/gzip/gzip_1.14.bb       |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
+diff --git a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch b/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
 new file mode 100644
-index 00000000000..e9b62e64545
+index 00000000000..20c35fe352e
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
-@@ -0,0 +1,140 @@
-+From 884e94fafb20259c78bf394611b9929a7683e2b3 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Mon, 6 Jul 2026 07:53:30 +0000
-+Subject: [PATCH] upstream: Fix multiple RFC 4462 (GSSAPIAuthentication)
-+ compliance
++++ b/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
+@@ -0,0 +1,75 @@
++From b1545c47cddc9948cb0743b2ceb140a63c88acbc Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Thu, 16 Apr 2026 12:11:44 -0700
++Subject: [PATCH] gzexe: use -C if lacking mktemp
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+problems
++(Problem reported by Michał Majchrowicz.)
++* gzexe.in: If mktemp is needed but not installed,
++use ‘set -C’ to avoid a race when creating a temporary file.
++* zdiff.in: Use the same pattern here, even though the old
++code was probably OK anyway.
 +
-+1) Remove an early failure return for GSSAPI authentication attempts
-+made for invalid accounts that yielded different behaviour for
-+valid vs invalid accounts.
++CVE: CVE-2026-41991
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=4e6f8b24ab823146ab8776f0b7fe486ab34d4269]
 +
-+2) Fix a situation where some GSSAPI requestes were not correctly
-+subjected to MaxAuthTries.
-+
-+3) Fix a moderate pre-authentication resource DoS related to #2.
-+
-+Add missing logging for error cases.
-+
-+Report and fixes from Manfred Kaiser, milCERT AT
-+
-+OpenBSD-Commit-ID: ca0acdd64eea435d6f89534538a9eb404a5629d3
-+
-+CVE: CVE-2026-60000
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/5d04ca6af739b82fd30d84d2783ca802ebfa1192]
-+
-+Backport Changes:
-+- Omitted the upstream OpenBSD revision-only hunk in auth2-gss.c and
-+  retained the Wrynose OpenSSH 10.3p1 revision because this stable
-+  backport carries only the functional security change.
-+
-+(cherry picked from commit 5d04ca6af739b82fd30d84d2783ca802ebfa1192)
-+Signed-off-by: Devansh Patel <devanshp@cisco.com>
++(cherry picked from commit 4e6f8b24ab823146ab8776f0b7fe486ab34d4269)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ auth2-gss.c | 53 ++++++++++++++++++++++++-----------------------------
-+ 1 file changed, 24 insertions(+), 29 deletions(-)
++ NEWS     | 5 +++++
++ gzexe.in | 1 +
++ zdiff.in | 7 +++----
++ 3 files changed, 9 insertions(+), 4 deletions(-)
 +
-+diff --git a/auth2-gss.c b/auth2-gss.c
-+index f27ac9221..54c96fe4b 100644
-+--- a/auth2-gss.c
-++++ b/auth2-gss.c
-+@@ -111,12 +111,6 @@ userauth_gssapi(struct ssh *ssh, const char *method)
-+ 		return (0);
-+ 	}
++diff --git a/NEWS b/NEWS
++index 53bdf56..2d2eb81 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,5 +1,10 @@
++ GNU gzip NEWS                                    -*- outline -*-
 + 
-+-	if (!authctxt->valid || authctxt->user == NULL) {
-+-		debug2_f("disabled because of invalid user");
-+-		free(doid);
-+-		return (0);
-+-	}
-+-
-+ 	if (GSS_ERROR(mm_ssh_gssapi_server_ctx(&ctxt, &goid))) {
-+ 		if (ctxt != NULL)
-+ 			ssh_gssapi_delete_ctx(&ctxt);
-+@@ -178,8 +172,14 @@ input_gssapi_token(int type, uint32_t plen, struct ssh *ssh)
-+ 			    (r = sshpkt_send(ssh)) != 0)
-+ 				fatal_fr(r, "send ERRTOK packet");
-+ 		}
-++		logit("Failed gssapi-with-mic for %s%.100s "
-++		    "from %.200s port %d ssh2",
-++		    authctxt->valid ? "" : "invalid user ",
-++		    authctxt->user,
-++		    ssh_remote_ipaddr(ssh), ssh_remote_port(ssh));
-+ 		authctxt->postponed = 0;
-+ 		ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
-++		ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_ERRTOK, NULL);
-+ 		userauth_finish(ssh, 0, "gssapi-with-mic", NULL);
-+ 	} else {
-+ 		if (send_tok.length != 0) {
-+@@ -191,14 +191,18 @@ input_gssapi_token(int type, uint32_t plen, struct ssh *ssh)
-+ 				fatal_fr(r, "send TOKEN packet");
-+ 		}
-+ 		if (maj_status == GSS_S_COMPLETE) {
-+-			ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
-+-			if (flags & GSS_C_INTEG_FLAG)
-+-				ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_MIC,
-++			ssh_dispatch_set(ssh,
-++			    SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
-++			/* note: keep ERRTOK handler as per RFC 4462 s3.4 */
-++			if (flags & GSS_C_INTEG_FLAG) {
-++				ssh_dispatch_set(ssh,
-++				    SSH2_MSG_USERAUTH_GSSAPI_MIC,
-+ 				    &input_gssapi_mic);
-+-			else
-++			} else {
-+ 				ssh_dispatch_set(ssh,
-+ 				    SSH2_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE,
-+ 				    &input_gssapi_exchange_complete);
-++			}
-+ 		}
-+ 	}
+++  On old-fashioned or limited platforms lacking mktemp, gzexe and
+++  zdiff no longer have a race when creating a temporary file.
+++  [bug present since the beginning]
+++
+++
++ * Noteworthy changes in release 1.14 (2025-04-09) [stable]
 + 
-+@@ -210,10 +214,6 @@ static int
-+ input_gssapi_errtok(int type, uint32_t plen, struct ssh *ssh)
-+ {
-+ 	Authctxt *authctxt = ssh->authctxt;
-+-	Gssctxt *gssctxt;
-+-	gss_buffer_desc send_tok = GSS_C_EMPTY_BUFFER;
-+-	gss_buffer_desc recv_tok;
-+-	OM_uint32 maj_status;
-+ 	int r;
-+ 	u_char *p;
-+ 	size_t len;
-+@@ -221,26 +221,21 @@ input_gssapi_errtok(int type, uint32_t plen, struct ssh *ssh)
-+ 	if (authctxt == NULL)
-+ 		fatal("No authentication or GSSAPI context");
-+ 
-+-	gssctxt = authctxt->methoddata;
-+-	if ((r = sshpkt_get_string(ssh, &p, &len)) != 0 ||
-++	/* Minimal error handling - just cancel auth and return FAILURE */
-++	if ((r = sshpkt_get_string_direct(ssh, NULL, NULL)) != 0 ||
-+ 	    (r = sshpkt_get_end(ssh)) != 0)
-+ 		fatal_fr(r, "parse packet");
-+-	recv_tok.value = p;
-+-	recv_tok.length = len;
-+-
-+-	/* Push the error token into GSSAPI to see what it says */
-+-	maj_status = mm_ssh_gssapi_accept_ctx(gssctxt, &recv_tok,
-+-	    &send_tok, NULL);
-+-
-+-	free(recv_tok.value);
-+ 
-+-	/* We can't return anything to the client, even if we wanted to */
-++	logit("Failed gssapi-with-mic for %s%.100s from %.200s port %d ssh2",
-++	    authctxt->valid ? "" : "invalid user ",
-++	    authctxt->user,
-++	    ssh_remote_ipaddr(ssh), ssh_remote_port(ssh));
-++	authctxt->postponed = 0;
-+ 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
-+ 	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_ERRTOK, NULL);
-+-
-+-	/* The client will have already moved on to the next auth */
-+-
-+-	gss_release_buffer(&maj_status, &send_tok);
-++	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_MIC, NULL);
-++	ssh_dispatch_set(ssh, SSH2_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE, NULL);
-++	userauth_finish(ssh, 0, "gssapi-with-mic", NULL);
-+ 	return 0;
-+ }
-+ 
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-index 8edb1440fe0..f5184b1fce3 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-@@ -30,6 +30,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://CVE-2026-59995.patch \
-            file://CVE-2026-60001.patch \
-            file://CVE-2026-60002.patch \
-+           file://CVE-2026-60000.patch \
++ ** Bug fixes
++diff --git a/gzexe.in b/gzexe.in
++index 1267d6e..09a2571 100644
++--- a/gzexe.in
+++++ b/gzexe.in
++@@ -127,6 +127,7 @@ for i do
++     tmp=`mktemp "${dir}gzexeXXXXXXXXX"`
++   else
++     tmp=${dir}gzexe$$
+++    (umask 77; set -C; > "$tmp")
++   fi && { cp -p "$file" "$tmp" 2>/dev/null || cp "$file" "$tmp"; } || {
++     res=$?
++     printf >&2 '%s\n' "$0: cannot copy $file"
++diff --git a/zdiff.in b/zdiff.in
++index a8689a0..c04a8c0 100644
++--- a/zdiff.in
+++++ b/zdiff.in
++@@ -156,12 +156,11 @@ case $file2 in
++                           *) TMPDIR=/tmp/;;
++                         esac
++                         if command -v mktemp >/dev/null 2>&1; then
++-                          tmp=`mktemp "${TMPDIR}zdiffXXXXXXXXX"` ||
++-                            exit 2
+++                          tmp=`mktemp "${TMPDIR}zdiffXXXXXXXXX"`
++                         else
++-                          set -C
++                           tmp=${TMPDIR}zdiff$$
++-                        fi
+++                          (umask 77; set -C; > "$tmp")
+++                        fi &&
++                         'gzip' -cdfq -- "$file2" > "$tmp" || exit 2
++                         gzip_status=$(
++                           exec 4>&1
++-- 
++2.53.0
++
+diff --git a/meta/recipes-extended/gzip/gzip_1.14.bb b/meta/recipes-extended/gzip/gzip_1.14.bb
+index 99174a58c53..d6bd36f89f9 100644
+--- a/meta/recipes-extended/gzip/gzip_1.14.bb
++++ b/meta/recipes-extended/gzip/gzip_1.14.bb
+@@ -7,6 +7,7 @@ LICENSE = "GPL-3.0-or-later"
+ SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
+            file://run-ptest \
+            file://CVE-2026-41992.patch \
++           file://CVE-2026-41991.patch \
             "
- SRC_URI[sha256sum] = "56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4"
+ SRC_URI:append:class-target = " file://wrong-path-fix.patch"
  
 
