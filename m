@@ -2,79 +2,72 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CCE7C44536
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 13:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 921FBC44539
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 13:33:25 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47767.1784726564916492730
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.48255.1784727195987591903
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 06:22:46 -0700
+ Wed, 22 Jul 2026 06:33:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=lRl7PcAX;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=XoYhRfCB;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BF0434E40ECE;
-	Wed, 22 Jul 2026 13:22:42 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id C63114E40ECF;
+	Wed, 22 Jul 2026 13:33:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 864EC60388;
-	Wed, 22 Jul 2026 13:22:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4C4A111BD1E93;
-	Wed, 22 Jul 2026 15:22:40 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 94E2F60388;
+	Wed, 22 Jul 2026 13:33:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2839811BD2234;
+	Wed, 22 Jul 2026 15:33:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784726561; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1784727193; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Jw79kodIH6WTIx9/ZRUPM0EqocCGSA4NVycOTf1h5lw=;
-	b=lRl7PcAX9QzAap9z6o/Grj3vP099HbViNGwF4NmsyVFZu5vuRmLpp+JEv63ZVSOpG8T+y6
-	tFYB95pRpiPef4DlNRJyAe1PwyU6Oew3swd8KNQ8nhIqUGbNwUmf3JZkTgDc7MDrgxrZFh
-	W5FZYdrWqzkIfRBDZnE+cA7S34x8o/s3t8a10zGPSfjOLCu3HFQ4L88e5ozDD943ifhWKn
-	7EBLVNFpA3hApLx5760o7hslc8zybaE/tBmSRD1VQugJuXQqRD+zz1yY2ZtdgADereBNUP
-	h40ddKV32g6mzYVdfuhuioc9AkBYtvPFxVU3lQ1OJ8Dge5DwVyXMHF6mKwEHuQ==
+	bh=BgD++cqByAOwr/vA33oYkpLSRC+sKGS6HkASno4Yj+w=;
+	b=XoYhRfCBPh6BTDyUcS1ghdDwmQXf4WMFq7Qt0/QELVPJOvgn24fkRA2M3lBODJkUlsQm1K
+	mBpn7GPC+q+W3m3FXYcEKmPOStud4cSZvKg0aNG1O2FCu3bI+SzCmAQS57G3f5io1cdhJq
+	GU+ltOljVpyHu0VNrTEFMYil78rmkDWsTRB2O3ud6cNl/6h6v9dV3sflcMLh3W32Fndg2j
+	OzSn5S2klOEWDR6WTRgFbf5hLPD1ncTh5d7y/BJnLTfN6wkGbylUcPNLe5DpW1ecajpG9D
+	o0Q0AfrM7ZdwtM0Ib6/3mTPE5k77Vl0D/kkOSPQ/JwGooC7tQEIcjOIc82pVSg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 22 Jul 2026 15:22:39 +0200
-Message-Id: <DK54RIOEU340.33ALWQ7AGPKEJ@bootlin.com>
-Subject: Re: [OE-core] [PATCH v5 2/2] gstreamer1.0-plugins-rs: add new
- package
-Cc: <sebastian@centricular.com>, <nirbheek@centricular.com>,
- <jan@centricular.com>
+Date: Wed, 22 Jul 2026 15:33:10 +0200
+Message-Id: <DK54ZKPXLL25.3GT0TFD4SNJN0@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2 1/3] rust: Fix reproducibility with shared
+ source trees
+Cc: <Deepesh.Varatharajan@windriver.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Taruntej Kanakamalla" <tarun@centricular.com>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>,
+To: <deepesh.varatharajan@windriver.com>,
  <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260707081701.1525114-1-tarun@centricular.com>
- <20260714105541.2812170-1-tarun@centricular.com>
- <20260714105541.2812170-2-tarun@centricular.com>
- <DJZ45A2IL6XB.172T8CGXQUIPH@bootlin.com>
- <DJZ6ZB5JTYSV.ZUCFUNHW05GN@bootlin.com>
- <d460480501e19d59ac2a7bec0f15020692f0b855.camel@centricular.com>
- <DJZTA3XYAG4T.1DDQE4ASD7JPI@bootlin.com>
- <4d95a8c8b8bcb0e1f5e01576466301f69eb2aa9b.camel@centricular.com>
-In-Reply-To: <4d95a8c8b8bcb0e1f5e01576466301f69eb2aa9b.camel@centricular.com>
+References: <20260722061757.109411-1-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <20260722061757.109411-1-Deepesh.Varatharajan@windriver.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:22:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241693
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:33:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241694
 
-On Wed Jul 22, 2026 at 2:50 PM CEST, Taruntej Kanakamalla wrote:
-> Hi Mathieu,Richard,
+On Wed Jul 22, 2026 at 8:17 AM CEST, Deepesh via lists.openembedded.org Var=
+atharajan wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 >
-> I noticed the first patch in this series "cargo_c.bbclass: pass --
-> libdir to cargo cinstall" got merged to the master branch, but this
-> patch ("gstreamer1.0-plugins-rs: add new package") did not.
-> So just wanted to check with you if the review is still in progress or
-> if some action needs to be taken by me.
+> Backport an upstream Rust commit to fix a reproducibility
+> issue when Rust family recipes share the same source tree.
 >
-> Thanks,
-> Tarun
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> ---
 
-We do have issues with freedesktop gits, I hope to discuss this during
-the next patch review meeting. No change needed on your side so far.
+Hi Deepesh,
 
-Thanks,
-Mathieu
+Thanks for your patch.
+
+Do you expect this to fix the reproducibility issue after the rust
+upgrade to 1.96.1, as sent by Sundeep [1]? Or is this for another issue?
+
+[1]: https://lore.kernel.org/openembedded-core/20260705152012.3160479-1-sun=
+deep.kokkonda@windriver.com/
 
 --=20
 Mathieu Dubois-Briand, Bootlin
