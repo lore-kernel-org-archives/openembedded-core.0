@@ -1,172 +1,204 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84BC7C44512
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 07:05:52 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42552.1784703758882842985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8248DC4452D
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 07:08:22 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.10])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42481.1784704093020030040
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 00:02:38 -0700
+ Wed, 22 Jul 2026 00:08:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Me4wKx9D;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=16634ecc35=himaniramesh.barde@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66M50sMx158090
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 23:47:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=vYrvBOGAfDUzLfPOPJFrMW2E67Tj1Dc8fYaFOjvK9EI=; b=
-	Me4wKx9DlyYVBJqvRpkd3nQaE5V0AYEGaHTk7T0se8UJoOrzUe45eFhLJaCdTucB
-	r15VxGK+G5f0a8RTjVabayvgFbhJfh4g0N2Vd3jFZ510EPiUk8U3wkswh7byyaJr
-	Hcvfg4hJy+L2PS+0LmxiNL0w1e6Wx0TCMPHA9iOaeiDdSiLHBLD4yY+RWouycYLA
-	bDFW19RHKL6viBsT+ZuCpOw3GMUzVzUnvzYVi0tZ56uE9VWrWo38dtTfkIuILR42
-	QrhAqDObDLcRAMeHnWpgavgAaNmGPiXR5b0QpfRW7iyEpRvHOwuIiUFYEAaoEWb6
-	69oIetGZnQBavT0ew7dVAA==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fg4ryqf6s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2026 23:47:31 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 21 Jul 2026 23:47:30 -0700
-Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 21 Jul 2026 23:47:30 -0700
-From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Randy.MacLeod@windriver.com>, <Shiva.Komati@windriver.com>,
-        "Himani
- Ramesh Barde" <HimaniRamesh.Barde@windriver.com>
-Subject: [PATCH v2] systemd.bbclass: fix service enablement for cross-install scenarios
-Date: Wed, 22 Jul 2026 06:47:30 +0000
-Message-ID: <20260722064730.3212268-1-HimaniRamesh.Barde@windriver.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260716061519.765593-1-HimaniRamesh.Barde@windriver.com>
-References: <20260716061519.765593-1-HimaniRamesh.Barde@windriver.com>
+ dkim=pass header.i=@ericsson.com header.s=selector2 header.b=nZldam+Z;
+ spf=pass (domain: ericsson.com, ip: 52.101.70.10, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L3waPjzgcVvsRCckR8a5UWUc7gmYlQ6LhLlyw3+nNsHkluGyOW/Mx/PFir0yhRfhXguzBT2PBKlUY8BrdSY2OGvc3wm5hdp4j1u2o5j0F2NsBargba4mOGSnPpQ06K3qkCPGILTSoEkHpmc2+8hvT6w+pxkSwHZBPI8tiR0rNWZ4irivtA63iAYx2BsrenvWRxd/HR8C/LTWfF3nTCQ04JKtVXWHfzVAVjJF3HZ26FXPGdGHTZ2NOsS4CJ4e4bXJV5w1Z0iEoKJ1vGLd2ntWhtrC/W18hoXVJ6mO19XUWRlGD9YkMg1hqfhtPRhhOloFky0btZqNn/zVAb2jovUgRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vECSqU3G6K4LSMVLTZmmrIkZ81H3VSyDQPi1UHveO9Y=;
+ b=DSeMUGRJxMtLyoUuRlTP7ouNmcn1xFewf/jxsgBrkoylXAuDqb9IUbT2XqJZfYUdVVofnaxiqACA7RCDqX1H4bnUalpxCiWhUWQIWRB4PsSBZPB9vzH5jPYZQ4qY8gn7VGWVoyNPAw59I48MLHEuhgsOd6mdxv2d947I/bdSpwoVZU5k9M6fbEORbVWQ39wpb6nGHPKGYXddLt/ZLSlCcVCM7Y7DdmJblClQOcULWsUS1qz85xGTadwW518IgvL7OIz/NKgtbYfnFC3B1MysFEW0ygz1h/I5VgyZBQR/S+AL1U0O8p6JznwGDFnLm3kDgHXdMwEuQZEgpLO1gU5mjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vECSqU3G6K4LSMVLTZmmrIkZ81H3VSyDQPi1UHveO9Y=;
+ b=nZldam+Z8Q6YKIgwhQMeXkE5BpUvv2gp16YVvBRIblbZ2/3d8+bB03Vpmwdp7mCmK375YnNIuKZmdulNhStkVjccKqOf7vnPPRH1fcXA9SygU39F5FLvjW2zDo2N+l4bqz7TebTTxXZc34jM3l61lM/FTtw0iaVO9qDduyR1Y6Oqd2ykit8ayLrWZ7lfMjiHPJUIH97P3JntX9Nw0F1OSl4/LaaDjAlXNknufuX6vlfYb4JPnaUR2IajkNp5U4IUhUjIn37iJBsDuRX9Oj45ElZEk0fcT+qiumfmcejChoVsO0TShjRYUjs9wfzwliK5AywzjZslvBANnIYaCoulVQ==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by PAXPR07MB8448.eurprd07.prod.outlook.com (2603:10a6:102:2b6::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 07:08:08 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%6]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 07:08:08 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: "patchtest@automation.yoctoproject.org"
+	<patchtest@automation.yoctoproject.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Patchtest results for [PATCH 2/4] Add tag in SRC_URI in
+ multiple recipes
+Thread-Topic: [OE-core] Patchtest results for [PATCH 2/4] Add tag in SRC_URI
+ in multiple recipes
+Thread-Index: AQHdGSAUqI6j/dgSgUinleBko0kAi7Z4EaYAgAENy4A=
+Date: Wed, 22 Jul 2026 07:08:07 +0000
+Message-ID: <0d61576c6efee1814a1faabf68d32c6ccdcfcb4e.camel@ericsson.com>
+References: <20260721144811.323786-3-daniel.turull@ericsson.com>
+	 <0101019f85332a41-715bc4eb-5531-4e75-b229-00eb43db757b-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101019f85332a41-715bc4eb-5531-4e75-b229-00eb43db757b-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1.1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|PAXPR07MB8448:EE_
+x-ms-office365-filtering-correlation-id: 96fc5651-61a4-46f3-1672-08dee7bffbaa
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|376014|1800799024|4022899009|366016|10067099003|11063799006|4143699003|56012099006|18002099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: 
+ qa+RUz3AAxh5QiLcCUnzLpPJdwvgOXe14NqcKga9JTzqUXgtJcAZpUIK8w9WxQi+mNSjD71/BXhhGBfL3ix5xteHGQnrIlFAPfdyG0Nj2j5PZvZUz0jCIa5zLAbnCJ2svJzyPBZHkSy6NZIn09TW3CTedgc9Y37SWAGSIEj61nQTg/d6cPWjrp3PfHoCSz60GUp5eZvZPMgIPYNp6/VUPfJLOcnYiXicMM171YbQqn6qpEZD+abkPad8ZoNJ46BJNSUUBRBKmeDTpG17NmBbj+U8EBte38fCzZ3WoIIbKqn6rMVubZQv2Wv1H5pizg8ZB4jbYV4JTfeOOW4ZccnOFsTGXRgW5NKWf3dE4P4qLwX8dBvmX5+NwgBsjYsAAO3sRqWu7/292jl5UPAj4UmiY6PbBq5P/qk48owosIjvvvKBH1oU3Kj0t4OLJSQxmV899n33qMitcVb2HYuF4nWEcV7CILsGcUyWFatmJjVvAyQ6VHPMrlbpp538O5mjhA9VrOr0sRP+RvplqsOxD4ODx0rYaquTAav80DtiFOCzuG/awhZ0zlifaHV4RRqYjAwyjYS35ZYpcshCo+FFDEpsVAUFgeyv5U8fRxMNKw2mi0knYEr3WZhZWuHigE2CTQQEsVQW88iWrNZTl3XjMwbh+GmxwA0I5+nPnqxxXjykRDs=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(4022899009)(366016)(10067099003)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?WThabFdQMlc1aFcvUEhoWGJId3RwYURYLzQxeGkxcytISVNkbldHb1drUk00?=
+ =?utf-8?B?SHBOdEdCWTB6WCtXZi9rQ2hiYkJNQkk2Zm5oZ0FYZ3JzQUNNTHFOck5zNVo0?=
+ =?utf-8?B?RU1ueEhnWTk3T1kxU0l4a3dEcTBib0x4SHdSZldyZkJEUnVMRTJZeTE1ZkZ5?=
+ =?utf-8?B?aGsyS3NCdVJaU2VkakdIa3pWbVRScDJnQU5ScWg5ZDRHT1Z0elZxZ2MwNXMv?=
+ =?utf-8?B?emxIT09CV1ZMN2kxRXRsQi84NTZPY0VxOGtycnBsYTB6K1FhV1psLzJGOGxw?=
+ =?utf-8?B?clRDNVN6dEt2YkNiVmg5eWlxK3RMWWZudG9hNFN4ZFRYSkEzS3ZFU05vOUdN?=
+ =?utf-8?B?a0RqL1hiZDdpUnFuUGN2T1pGMUFOSDRQYlo1by9FV0IzWjdjQitJclFXYXZw?=
+ =?utf-8?B?WFY5S1pManhFenRZOTVCSDgyVTFMcmVtZzNndC9oOWRJclFOS3JjZ2JmczBj?=
+ =?utf-8?B?MGYxUzF1MEhYQTNGU0wxcHlpSmczeDF1YkJQOHJsNjZQV04xdTgzVHI5aWlt?=
+ =?utf-8?B?Y3I1S0d5V2ozdU9iQUJ6UkN1Nzh3eXEraFUvYzVsS3owUmU1VEd1Wk0rb3ln?=
+ =?utf-8?B?eFFpVmJndXlOOUplQVRqdXdRNXNDMTZ6M2Y2ckRwTlE5QW9LaThaVStkKzRk?=
+ =?utf-8?B?dWNyb1Q4WnE3RTBIWUhpMTdRUmZ6VjFRSjczT2JPUHp0NitPRDZtVGlwNmR2?=
+ =?utf-8?B?blBuL01hME8wYWJld05IdDhyZm51VGZBZXByZ1VveGd0dmRsZUh0QTlHRkhu?=
+ =?utf-8?B?R1lXZTh5a1p2bWsxbFFsaFBCbWV3SU4yaHBxQ2VQc3RZeWpLZVBIQ1k1cVRn?=
+ =?utf-8?B?RFZZWjdpL2tJWTlwTTBNKzBNcXMrb21tWHJiTlRpK280SXZRYUVQZk1qVlgw?=
+ =?utf-8?B?Qm1EYThkUllQb1hqZGZjV3pidkdweFlnQTdHclNHaURuU2RoQWV3b0Y1dGV2?=
+ =?utf-8?B?cHBjRnhVbFRPcmVFSHdxQk9kcHdoZk85RDROOTMrNmRHdUZBVGRVWWdnUEV3?=
+ =?utf-8?B?dFArOGZCL3pQcXlWeGhpaXEwZ2hDMnM1MUkrL251MnBGV3ZpaXk2d2lESkNy?=
+ =?utf-8?B?WWJzcCtUU1NJYmRsWEZNREVMb2ZhVkJWdlpwVHBNMFJuMmRVUk5Sd2EwNWhL?=
+ =?utf-8?B?elZObFBFY2JHQ2JOLzgvRGdaT3pwZ0N1b1VVM0hrK25PL09nb2FSeVFzM2hk?=
+ =?utf-8?B?M0JDd2dNcndselVXRTdQRng3UVBtYWxVYi9ocE5VZ293enp1d2NZbjZBbUZD?=
+ =?utf-8?B?dTNpd282MkZ2clRNUnJCenV2NUVEUGNMZHlYRXVXT0pQWnVuMHptcFA0ZFRu?=
+ =?utf-8?B?ZC96QkV6VWN6R3o5N2ozZW9KOXdaN1lSOGh2QSs5UnBnM3hWek82MkdnQ1lp?=
+ =?utf-8?B?SFRXV2F2cHNNZlBqWi9VVWx3VnQ2YnNHNnBDbXRic3Rtb0VmcWtBTWRqMzM4?=
+ =?utf-8?B?VGg5b3BTV3dtNWVOVjd5VFBwOVpLN0ZnWFIwbzhFTnZBS1c1MVFQZVVQZlY5?=
+ =?utf-8?B?ZFdvOTRwaEx5TGhRR0JzK1V4VTlES3ovcVVvMlRZcjNjanpGSGFIMFhjN0Y3?=
+ =?utf-8?B?LzAwNDBoSTdyT2ZNdEErZjNPTitaVGxnTGZKeHFCUWxaQ3FXVDE0SlUydUZa?=
+ =?utf-8?B?Q3ZTZmRaaW95L0JQOU9EMm8xSFdnSUloSmpIeVcxQXZQUmNocWlZSnRrU2ZW?=
+ =?utf-8?B?Q3pyWUEwaGpMZ0pUOEY0VGE5VmlmUjB2Rk8wRWpHendOaUk2cHp5dktwTEhq?=
+ =?utf-8?B?SkQ4cDdQVVdFZDlmaDNyeHp5RUNHQUhBdXNpS3NQc2g1ejVQWjJmQ3hZN1ZR?=
+ =?utf-8?B?TmRXTXRNNHV2ellPdWtYYnJLeC9XTTRtUThPVjlJeC9JMVdIU1dDSzhJay8v?=
+ =?utf-8?B?a1NVa0htVGFveDBYVy9WbnFNWW9iSVZOMVpQcXBvZ1Q3YVVqSTdLYU5hTXAy?=
+ =?utf-8?B?aVE5L1ZzdTlBZ013QjBtTHRGNGMyM0hXeXM5WEdPeitmcFBOcmI4WG1WYXNO?=
+ =?utf-8?B?U0o4MmVKQ1R3bzVSQTVEdC9nWlZGQWpXcmU1UnR0SmkxL2tGZWVCVUxmbENC?=
+ =?utf-8?B?ckhwNVczYXBmWCtDanFXaVJReWViU2lncHdKVmtCTXhkcWR2c1VWd0pPbDA0?=
+ =?utf-8?B?aXFwam41R29tQUJUaTZhU2Y1VEF1YVE0UTdxVVRia21WZWdaK0NTMTRDZzV6?=
+ =?utf-8?B?dGQ0eXFuSzR3SEYwOHd3aFFhLzY0L0Zqdkk5cUlSOWgzdGs2VUV2SXY2MVZI?=
+ =?utf-8?B?c1V4RjZneUhOYzlQb3lWbSs1emVEd1IvVWVHYzF1R1pESExNTVJJUDZMdWxq?=
+ =?utf-8?B?MkNqMTZCVHdKVElGV3I1U014WEFTcnFuOXc0WXQ4NG1jcWJVYlN1a0hzajEy?=
+ =?utf-8?Q?XQJdMApa1Gg8lA2k=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AA6EEFA4A6E4654A9F92BB3B3F12630B@eurprd07.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Proofpoint-GUID: S9ONK6A6mkLacEOyJt3KnoG25nN1GLy6
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDA2MSBTYWx0ZWRfX4kpHBq2ZqY1v
- WY996T105oOFeABSURjjTjNt8551IdRtvn8wJZszyVUXp+g1rqRtqTjoNEoMO6tUwxXCaRpas1p
- wWvlJj7FqY5tN/l4Pz9X4V8vL0S0asMu1he+l7Es7WgzlFHkeRG8
-X-Proofpoint-ORIG-GUID: S9ONK6A6mkLacEOyJt3KnoG25nN1GLy6
-X-Authority-Analysis: v=2.4 cv=CfQ4Irrl c=1 sm=1 tr=0 ts=6a606783 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=A1W1FX-mHNmlLdSUdnYA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDA2MSBTYWx0ZWRfX9VlI42+AWVng
- KXlOaA3fVpgp7+5i4cvaMpWBYLnzrBEfibi5KQO3RtFSCiX6GavRxJKp0Iu+iQIiZ5taIcNwg/Y
- KVytoYQ0p3QkFkUoa1Vr4zr5YLBgtCAVSPK8KrBQ6sPlpyPIKfGyZq9Jk3vvwKCxdtgPs8XYkqh
- eAFwKe5I40/EA0NycP3P/vgNoj9a7TJNWCINpHz/dFFhis54XFwajn7bW+b7H5QwGc8jfH6dFno
- RRSD/P1ct7tePWuIlSGYWIfE008gpmUhJsgQVtVr1x0gyTv1sX+XAEH8IpOZeelzxQEaJX+SBSx
- xN5sN8Z9CBhhCsPOlFkMJIAKhOAKzhW9VrwBu7E7syim/FkmrdPxBavr80EH4Mk5KaUs8TbT8Kl
- gy66vtkDL+XEYRBTRrtGpKuh8R9E02sr6gyZXbc6bRX19Fz62O5BdYD1lZR5s6/xegxM269tAuM
- OqVJ7yQPbL4QI+2udSA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-22_02,2026-07-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 phishscore=0 clxscore=1015 malwarescore=0
- adultscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607220061
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96fc5651-61a4-46f3-1672-08dee7bffbaa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2026 07:08:07.9965
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Cxjl2GquMVXWR6FwGJ+wlarHulfskA19KYz0xjQPpJjfne79Ag5Un71ei3Bvp/G917+xus6x8UBAfzmLKG5aPeI1vnICzEx7BD3CwamFHD4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR07MB8448
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 07:05:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241603
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 07:08:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241604
 
-When packages are installed outside of Yocto's normal image creation
-(e.g., using multistrap, debootstrap, or dpkg directly on a host),
-the postinst script fails to enable systemd services.
-
-The issue is that the entire enable logic is gated behind
-"if type systemctl >/dev/null 2>/dev/null". In cross-install scenarios:
-- If systemctl is absent on the host: the check fails, script is skipped
-- If host systemctl is present: it cannot find target unit files
-
-Fix this by separating the offline ($D set) and online ($D unset)
-code paths into distinct branches. The previous code used a single
-OPTS variable to switch between "--root=$D" (offline) and "" (online)
-within one unified block. This variable is removed because the two
-scenarios now have dedicated branches with different logic:
-
-- Offline ($D set): Uses "systemctl --root=$D preset" per service,
-  which reads preset files from the target rootfs and creates symlinks
-  without needing the host systemctl to understand the target's unit
-  files. Falls back to "systemctl --root=$D enable" per service.
-
-- Online ($D unset): Same as before - enable, daemon-reload, preset,
-  restart. No behavioral change for on-target installs.
-
-The OPTS variable is no longer needed because each branch now directly
-uses the appropriate systemctl invocation for its context, making the
-intent clearer and the offline path functional.
-
-Fixes [YOCTO #14118]
-
-Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
----
- meta/classes-recipe/systemd.bbclass | 30 ++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index 26eaaf1..c209bb3 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -27,24 +27,36 @@ python __anonymous() {
- }
- 
- systemd_postinst() {
--if type systemctl >/dev/null 2>/dev/null; then
--	OPTS=""
--
--	if [ -n "$D" ]; then
--		OPTS="--root=$D"
-+if [ -n "$D" ]; then
-+	# Offline/cross-install: apply presets to the target rootfs.
-+	# This handles multistrap, debootstrap, and similar tools that
-+	# install packages outside of Yocto's normal image creation.
-+	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-+		if type systemctl >/dev/null 2>/dev/null; then
-+			for service in ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}; do
-+				systemctl --root=$D preset "$service" 2>/dev/null || \
-+					systemctl --root=$D enable "$service" 2>/dev/null || true
-+			done
-+
-+			for service in ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", True, d)}; do
-+				systemctl --global --root=$D preset "$service" 2>/dev/null || \
-+					systemctl --global --root=$D enable "$service" 2>/dev/null || true
-+			done
-+		fi
- 	fi
--
-+elif type systemctl >/dev/null 2>/dev/null; then
-+	# Online: running on the target system
- 	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
- 		for service in ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False, d)}; do
--			systemctl ${OPTS} enable "$service"
-+			systemctl enable "$service"
- 		done
- 
- 		for service in ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", True, d)}; do
--			systemctl --global ${OPTS} enable "$service"
-+			systemctl --global enable "$service"
- 		done
- 	fi
- 
--	if [ -z "$D" ] && systemctl >/dev/null 2>/dev/null; then
-+	if systemctl >/dev/null 2>/dev/null; then
- 		# Reload only system service manager
- 		# --global for daemon-reload is not supported: https://github.com/systemd/systemd/issues/19284
- 		systemctl daemon-reload
--- 
-2.54.0
-
+T24gVHVlLCAyMDI2LTA3LTIxIGF0IDE1OjAyICswMDAwLCBQYXRjaHRlc3QgdmlhIGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcNCndyb3RlOg0KPiBUaGFuayB5b3UgZm9yIHlvdXIgc3VibWlzc2lvbi4g
+UGF0Y2h0ZXN0IGlkZW50aWZpZWQgb25lDQo+IG9yIG1vcmUgaXNzdWVzIHdpdGggdGhlIHBhdGNo
+LiBQbGVhc2Ugc2VlIHRoZSBsb2cgYmVsb3cgZm9yDQo+IG1vcmUgaW5mb3JtYXRpb246DQo+IA0K
+PiAtLS0NCj4gVGVzdGluZyBwYXRjaCAvaG9tZS9wYXRjaHRlc3Qvc2hhcmUvbWJveGVzLzItNC1B
+ZGQtdGFnLWluLVNSQ19VUkktaW4tDQo+IG11bHRpcGxlLXJlY2lwZXMucGF0Y2gNCj4gDQo+IEZB
+SUw6IHRlc3Qgc2hvcnRsb2cgZm9ybWF0OiBDb21taXQgc2hvcnRsb2cgKGZpcnN0IGxpbmUgb2Yg
+Y29tbWl0DQo+IG1lc3NhZ2UpIHNob3VsZCBmb2xsb3cgdGhlIGZvcm1hdCAiPHRhcmdldD46IDxz
+dW1tYXJ5PiINCj4gKHRlc3RfbWJveC5UZXN0TWJveC50ZXN0X3Nob3J0bG9nX2Zvcm1hdCkNCj4g
+DQo+IFBBU1M6IHByZXRlc3Qgc3JjIHVyaSBsZWZ0IGZpbGVzDQo+ICh0ZXN0X21ldGFkYXRhLlRl
+c3RNZXRhZGF0YS5wcmV0ZXN0X3NyY191cmlfbGVmdF9maWxlcykNCj4gUEFTUzogdGVzdCBDVkUg
+Y2hlY2sgaWdub3JlDQo+ICh0ZXN0X21ldGFkYXRhLlRlc3RNZXRhZGF0YS50ZXN0X2N2ZV9jaGVj
+a19pZ25vcmUpDQo+IFBBU1M6IHRlc3QgU2lnbmVkLW9mZi1ieSBwcmVzZW5jZQ0KPiAodGVzdF9t
+Ym94LlRlc3RNYm94LnRlc3Rfc2lnbmVkX29mZl9ieV9wcmVzZW5jZSkNCj4gUEFTUzogdGVzdCBh
+dXRob3IgdmFsaWQgKHRlc3RfbWJveC5UZXN0TWJveC50ZXN0X2F1dGhvcl92YWxpZCkNCj4gUEFT
+UzogdGVzdCBjb21taXQgbWVzc2FnZSBwcmVzZW5jZQ0KPiAodGVzdF9tYm94LlRlc3RNYm94LnRl
+c3RfY29tbWl0X21lc3NhZ2VfcHJlc2VuY2UpDQo+IFBBU1M6IHRlc3QgY29tbWl0IG1lc3NhZ2Ug
+dXNlciB0YWdzDQo+ICh0ZXN0X21ib3guVGVzdE1ib3gudGVzdF9jb21taXRfbWVzc2FnZV91c2Vy
+X3RhZ3MpDQo+IFBBU1M6IHRlc3QgbGljIGZpbGVzIGNoa3N1bSBtb2RpZmllZCBub3QgbWVudGlv
+bmVkDQo+ICh0ZXN0X21ldGFkYXRhLlRlc3RNZXRhZGF0YS50ZXN0X2xpY19maWxlc19jaGtzdW1f
+bW9kaWZpZWRfbm90X21lbnRpbw0KPiBuZWQpDQo+IFBBU1M6IHRlc3QgbWF4IGxpbmUgbGVuZ3Ro
+DQo+ICh0ZXN0X21ldGFkYXRhLlRlc3RNZXRhZGF0YS50ZXN0X21heF9saW5lX2xlbmd0aCkNCj4g
+UEFTUzogdGVzdCBtYm94IGZvcm1hdCAodGVzdF9tYm94LlRlc3RNYm94LnRlc3RfbWJveF9mb3Jt
+YXQpDQo+IFBBU1M6IHRlc3Qgbm9uLUFVSCB1cGdyYWRlICh0ZXN0X21ib3guVGVzdE1ib3gudGVz
+dF9ub25fYXVoX3VwZ3JhZGUpDQo+IFBBU1M6IHRlc3Qgc2hvcnRsb2cgbGVuZ3RoICh0ZXN0X21i
+b3guVGVzdE1ib3gudGVzdF9zaG9ydGxvZ19sZW5ndGgpDQo+IFBBU1M6IHRlc3Qgc3JjIHVyaSBs
+ZWZ0IGZpbGVzDQo+ICh0ZXN0X21ldGFkYXRhLlRlc3RNZXRhZGF0YS50ZXN0X3NyY191cmlfbGVm
+dF9maWxlcykNCj4gUEFTUzogdGVzdCB0YXJnZXQgbWFpbGluZyBsaXN0DQo+ICh0ZXN0X21ib3gu
+VGVzdE1ib3gudGVzdF90YXJnZXRfbWFpbGluZ19saXN0KQ0KPiANCj4gU0tJUDogcHJldGVzdCBw
+eWxpbnQ6IE5vIHB5dGhvbiByZWxhdGVkIHBhdGNoZXMsIHNraXBwaW5nIHRlc3QNCj4gKHRlc3Rf
+cHl0aG9uX3B5bGludC5QeUxpbnQucHJldGVzdF9weWxpbnQpDQo+IFNLSVA6IHRlc3QgQ1ZFIHRh
+ZyBmb3JtYXQ6IE5vIG5ldyBzb3VyY2UgcGF0Y2hlcyBpbnRyb2R1Y2VkDQo+ICh0ZXN0X3BhdGNo
+LlRlc3RQYXRjaC50ZXN0X2N2ZV90YWdfZm9ybWF0KQ0KPiBTS0lQOiB0ZXN0IFNpZ25lZC1vZmYt
+YnkgcHJlc2VuY2U6IE5vIG5ldyBzb3VyY2UgcGF0Y2hlcyBpbnRyb2R1Y2VkDQo+ICh0ZXN0X3Bh
+dGNoLlRlc3RQYXRjaC50ZXN0X3NpZ25lZF9vZmZfYnlfcHJlc2VuY2UpDQo+IFNLSVA6IHRlc3Qg
+VXBzdHJlYW0tU3RhdHVzIHByZXNlbmNlOiBObyBuZXcgc291cmNlIHBhdGNoZXMgaW50cm9kdWNl
+ZA0KPiAodGVzdF9wYXRjaC5UZXN0UGF0Y2gudGVzdF91cHN0cmVhbV9zdGF0dXNfcHJlc2VuY2Vf
+Zm9ybWF0KQ0KPiBTS0lQOiB0ZXN0IGJ1Z3ppbGxhIGVudHJ5IGZvcm1hdDogTm8gYnVnIElEIGZv
+dW5kDQo+ICh0ZXN0X21ib3guVGVzdE1ib3gudGVzdF9idWd6aWxsYV9lbnRyeV9mb3JtYXQpDQo+
+IFNLSVA6IHRlc3QgbGljIGZpbGVzIGNoa3N1bSBwcmVzZW5jZTogTm8gYWRkZWQgcmVjaXBlcywg
+c2tpcHBpbmcgdGVzdA0KPiAodGVzdF9tZXRhZGF0YS5UZXN0TWV0YWRhdGEudGVzdF9saWNfZmls
+ZXNfY2hrc3VtX3ByZXNlbmNlKQ0KPiBTS0lQOiB0ZXN0IGxpY2Vuc2UgcHJlc2VuY2U6IE5vIGFk
+ZGVkIHJlY2lwZXMsIHNraXBwaW5nIHRlc3QNCj4gKHRlc3RfbWV0YWRhdGEuVGVzdE1ldGFkYXRh
+LnRlc3RfbGljZW5zZV9wcmVzZW5jZSkNCj4gU0tJUDogdGVzdCBweWxpbnQ6IE5vIHB5dGhvbiBy
+ZWxhdGVkIHBhdGNoZXMsIHNraXBwaW5nIHRlc3QNCj4gKHRlc3RfcHl0aG9uX3B5bGludC5QeUxp
+bnQudGVzdF9weWxpbnQpDQo+IFNLSVA6IHRlc3Qgc2VyaWVzIG1lcmdlIG9uIGhlYWQ6IE1lcmdl
+IHRlc3QgaXMgZGlzYWJsZWQgZm9yIG5vdw0KPiAodGVzdF9tYm94LlRlc3RNYm94LnRlc3Rfc2Vy
+aWVzX21lcmdlX29uX2hlYWQpDQo+IFNLSVA6IHRlc3Qgc3VtbWFyeSBwcmVzZW5jZTogTm8gYWRk
+ZWQgcmVjaXBlcywgc2tpcHBpbmcgdGVzdA0KPiAodGVzdF9tZXRhZGF0YS5UZXN0TWV0YWRhdGEu
+dGVzdF9zdW1tYXJ5X3ByZXNlbmNlKQ0KPiANCj4gLS0tDQo+IA0KPiBQbGVhc2UgYWRkcmVzcyB0
+aGUgaXNzdWVzIGlkZW50aWZpZWQgYW5kDQo+IHN1Ym1pdCBhIG5ldyByZXZpc2lvbiBvZiB0aGUg
+cGF0Y2gsIG9yIGFsdGVybmF0aXZlbHksIHJlcGx5IHRvIHRoaXMNCj4gZW1haWwgd2l0aCBhbiBl
+eHBsYW5hdGlvbiBvZiB3aHkgdGhlIHBhdGNoIHNob3VsZCBiZSBhY2NlcHRlZC7CoA0KDQpUaGUg
+cGF0Y2ggYWZmZWN0cyBtdWx0aXBsZSByZWNpcGVzLCBzbyBJIGRvbid0IGtub3cgd2hpY2ggdGFy
+Z2V0IGl0DQpzaG91bGQgYmUuDQoNCj4gSWYgeW91DQo+IGJlbGlldmUgdGhlc2UgcmVzdWx0cyBh
+cmUgZHVlIHRvIGFuIGVycm9yIGluIHBhdGNodGVzdCwgcGxlYXNlIHN1Ym1pdA0KPiBhDQo+IGJ1
+ZyBhdCBodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvwqAodXNlIHRoZSAnUGF0Y2h0
+ZXN0Jw0KPiBjYXRlZ29yeQ0KPiB1bmRlciAnWW9jdG8gUHJvamVjdCBTdWJwcm9qZWN0cycpLiBG
+b3IgbW9yZSBpbmZvcm1hdGlvbiBvbiBzcGVjaWZpYw0KPiBmYWlsdXJlcywgc2VlOiBodHRwczov
+L3dpa2kueW9jdG9wcm9qZWN0Lm9yZy93aWtpL1BhdGNodGVzdC4gVGhhbmsNCj4geW91IQ0KPiAN
+Cj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNz
+YWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcvUmVwbHkgT25saW5lICgjMjQxNTUwKToN
+Cj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVz
+c2FnZS8yNDE1NTANCj4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcvbXQvMTIwMzc4MTg2LzYzMzA1MjYNCj4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1j
+b3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gVW5zdWJzY3JpYmU6DQo+IGh0dHBz
+Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViwqBbDQo+
+IGRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0K
+PiANCg0K
 
