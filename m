@@ -1,158 +1,212 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <amaury.couderc@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C127AC44533
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 08:01:42 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.1])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43109.1784707296520139540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDE59C44539
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 08:17:22 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.12])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43193.1784708238209646599
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 01:01:36 -0700
+ Wed, 22 Jul 2026 01:17:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector2 header.b=arJlkbAl;
- spf=pass (domain: ericsson.com, ip: 40.107.162.1, mailfrom: daniel.turull@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HLOZmJKL;
+ spf=pass (domain: est.tech, ip: 40.107.159.12, mailfrom: amaury.couderc@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xETIzTZL7amF1yVg0nIhf8/E9iQU/k22n0ZQcJ6UGcJuYcYfrlRs3muZpEYdHR+IBVillV8ht0smm+3vpwoXJhUDt5lLGpQuBKou3VLAmMagMTq+En9tqh1f2+AfOBsmHcKfgMkhPLt8M6NTSXzfM2IaxhFu4zO1OMiJJFb/keION8WopzCF5Cz17BE0o+mYbKODM0J5LKNV6n1xDzBzWaI11MSNTJjuzBJ13rj4RZsr1jlWUmbwQe3JzPH0pce0gnIkG4L8FKJ0dh0Iy8HOjd7poPSNCHoid2ZfUUjk2Tflfprk542ni2k4jrkBw8GFbkPqeImEQtirAt5aL0i1sw==
+ b=kNTrtKlnQdSnqD6QQzXmvbR3D0NUYl4sw7hUGveJHC3spRqXWSre1b1BVQbTmspHaK2BGogwK7oQXJ4BtZ3o3SK1NMaN/b4z3B92g+N7cicXux1mUFvD6RViAY5H0FWIR6JTpCxNAysx5AT/sqLQF9oavwla2MfA0HjpLxqKDB5YaS8iXBrLZ0XzjevGm/y1EwYRbu3UjKL5oXA2afS+GD/dzCl/G4sClZLuLlx3SRcUw9hoqjuCOChw86PwW6EOHDWbGNzfW40VAvSyaqHmSIKZyhticA431W+5M+j3xGcIPLRpFoqZtLi84DsCfl8QAqnDVlVhfN7OBKTMizx+8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KwNPoxZVIfNrZyFCFvaPSVPKQ8x01hCoQYJokccJ8UM=;
- b=IMa2WyLgB86aFyN0zFkn56xkQjCUCFzbEDGiia/b+gMP78I5MmQoYFJpPK0X5qMI4OGfpWWmj0qcva7VvKcbYVEQ8XQA7S6Dbi0u+61cgPgtD2Q2PIiMH1BFajNR7iIag5Wcwk4X1XB9TlcOGeA9AVV6yJWySwrvLWYlC1bEq3PKVUFx5p0tXWhQ1EOwH8gmNCU/4UHmF1mw+xWDETRnSSaDKu7qypTsbce/FodEUUPOwEoHxsoKe9JodS94pYkrDuCZjVQbIc+bJQLeZB7yKfrcM/5c5Te+AT+IDPLH3ow2SWO9d7zfNXuv8K4s7d53W5Tb2+xiSxMAkR+jKvrz+w==
+ bh=fWX9Ebjzl2/geou2kL+4vREcai+774h1I7GF7fx/tA4=;
+ b=zHC1gNsatKgG/HQk2aQKuoe4oy7rbeaPePLjcOzWFLpEtY8+fj6zqPB7mLZLmJU1k8kvss+IM1dJwmUEisTRyJw4XZu4lfReMhYvCqsYZ+IWtnNQmnHg3zvZ+QomF/cLlQuoktaXb0/3aTo9AvzzLfUOhWkgzX0iYj6TdQW08AjO49SlbdexaFE2HpZiRirsP3UWvJ0yYzV6y0ifhzZwwAwTilrRM3nFy2gebu8yCqSklwCv448db2mLRAG0OP0h1zutigDqjLWsbXjS1xA2IiZMDNEqGwo8iTrLvC8MPoveFU4HeTD2n0U6CCo3LvjknVNldqUDC7y2cghpFizSSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KwNPoxZVIfNrZyFCFvaPSVPKQ8x01hCoQYJokccJ8UM=;
- b=arJlkbAl2dQjCDB2dhLFVNOxoLdrXXt8W7uZ5dCnQr6P+sdBNg5izSWtH3CEETFGRD+C0MWiBG7eocU10jy30dlmqlcLPXj7D+hxNPd31nQvN0qpiAiq0JJbeK6WNyLYamsVyfrBgg5iSGT3+UPA1nUI+/W46qtc9T7SBhtuE1q47/+SgqKGQjuZoXCMqsOYduohNG4r6eONhVh0lgP4MMGeU9sYX+qbqVGx543MPmeObmIaq3HqKhqWaUCAg6NngxWfCOxmkdnG9oZDxmvqOvzO5Wy6E5rb/ydUwjQEgJt0qpNJgX2kMkGsKPVkPrM7fC9Vho2IyPYq/aO9QbChAQ==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by AS2PR07MB9569.eurprd07.prod.outlook.com (2603:10a6:20b:64f::11) with
+ bh=fWX9Ebjzl2/geou2kL+4vREcai+774h1I7GF7fx/tA4=;
+ b=HLOZmJKL6hezhMS8HhKkadgNg3JrzK2zJSUW1XOXkZ+Y68MRKec/DS1nMB2jT1AKx3419+dRwVLgUuUxIEkiIvDepgN7aSI+4ZcqZGhFlvUzqXozE+Kk4pHxQRQdKOF4KxBwW7FY50rtSZ8URzRHwpFrM/3aEhEeF/+i8UeQO6TIMJ0PP8A0LQpXpFipNzawsjTcU8vaEXYanl2zpzcfvAaC6TabHcgoqQFbxmlCkTK/+yP1OpI3B1sblVwGEn/Ucdgci0bB2gdmVY7wFJJ5FWf8qV1fP/cEZQxO30AOxqvbdNZqAo69baV1a+448Z0YSYPgR9p1jwnWBB8HbgfH2w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
+ by GV1P189MB2129.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:58::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 08:01:32 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%6]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
- 08:01:32 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "patchtest@automation.yoctoproject.org"
-	<patchtest@automation.yoctoproject.org>, "yoann.congal@smile.fr"
-	<yoann.congal@smile.fr>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Patchtest results for [PATCH 2/4] Add tag in SRC_URI in
- multiple recipes
-Thread-Topic: [OE-core] Patchtest results for [PATCH 2/4] Add tag in SRC_URI
- in multiple recipes
-Thread-Index: AQHdGSAUqI6j/dgSgUinleBko0kAi7Z4EaYAgAENy4CAAA25AIAAATKA
-Date: Wed, 22 Jul 2026 08:01:32 +0000
-Message-ID: <55debff78cf58a24020eb4f214259f5cacd6dde4.camel@ericsson.com>
-References: <20260721144811.323786-3-daniel.turull@ericsson.com>
-	 <0101019f85332a41-715bc4eb-5531-4e75-b229-00eb43db757b-000000@us-west-2.amazonses.com>
-	 <0d61576c6efee1814a1faabf68d32c6ccdcfcb4e.camel@ericsson.com>
-	 <DK4XUCZ5OA0V.3T7IGSRDSI1PO@smile.fr>
-In-Reply-To: <DK4XUCZ5OA0V.3T7IGSRDSI1PO@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1.1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|AS2PR07MB9569:EE_
-x-ms-office365-filtering-correlation-id: 8239d445-1155-4322-c050-08dee7c771bb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|4143699003|4133799003|10067099003|22082099003|18002099003|56012099006|11063799006;
-x-microsoft-antispam-message-info: 
- jJGNXJ9ctEnuimnoKv27ioXVGX3rPK0OX65MF3wj5DelmD6sC7va7yL4iGBqilhX7pDqsPCB1ZvO7HJZWXiQdfXRAK4b/ry2DOArau4rbJjnKvBg2JtAmOKpXFJAT5goLWgAXSbanPWwei8DwqUpY6TrMU6R1AaiY8bVHhK8S7X7RgGTnO7QNTsvDie3bwZ7fIdF6c3oTx2lTC/ozNX7WaRMkd0bNPSadlhfN/tqxmCXcUmnhCjEbkClHMUcNi7BU5U0dL5DutqA5yoxh3fqhW7o/b0rKDpzCsd98dxQtB3SG05obf66tqCl0sjNc1tmVvK8xngUAu3j5CmtPAXM/Fqfv2FQjI+eoQ5ZnQSQrA4SEmOlfAWIWw5vI99fWK+gyEjw3TT5vanHdw50ZR2h7ROEurOfoWtsbdNYbVJzyBiNy5q1HwbbH5Izbsu3lcOVCYwQcBHtTh34xzmBLvJrneFvEOnE1bM6Q5Qv37g2apJr6FxkHy6EUct3eIuNkfahrYujH/H7Q2Mpi4nSFDtiJk4C1qZnWAajEYpy5DFok/5HZQaB60I9awpjUjB6h64qovj0hDLgPkaTxpjCfnCAjCCwqpnOJkiDDihT/5WbfXc/EkuPBWkyipzCRbJAk1VZICojosipFqmEN61Ibbv3MvUUmftr6nph91N398Ns7LGSG8rfffZ4WOGQpHS+GDtF+K9i5etEYJI2Gt+6p1iGXiB31RzcTkNBlfWcuMKK9rE=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(4143699003)(4133799003)(10067099003)(22082099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?aFpWdVlUUUpvKzVLWXkzREtRSThyUGlIcWRRa0dhVzV3T0RWNUlxMDhOdkdL?=
- =?utf-8?B?d3E2UFBTbUxSS29oYzZGSFFnNEJrOHNxVDFvbE92OTFuNWVBUmxWaVk2cDdi?=
- =?utf-8?B?emRwdUJnMG52SDFmajA0cTdnMzB3RzRTMXpzdHFKVnd5ajdieWlDVzBSbS8r?=
- =?utf-8?B?L0Mza0k4MENEVi91WW1DWjY3bjYzUG01K3lqK21JOE1XcUhBZGtBYnNZeDMy?=
- =?utf-8?B?aUhha1BOR3Y5SmhJOTZWaFlDYXZQN1JpTjZSSWRQbXhCR3dJaFloQnAyT1dN?=
- =?utf-8?B?OWZXbk5GVEc2blBHdjQ5TThHajYyNkhrWmtFS2Z6cWFlU09SR3pGRjhIMmZC?=
- =?utf-8?B?a2FjK1ZNMFp1Qit5YTNET2ZqYzc5Ym1jaDVVRUxjWnRkOVlORHcxdjFMSXhX?=
- =?utf-8?B?YWdxdnNxZFFhRHJVa1ZkOHRTMlFaV25seXFYdUxXR29maDhKUXRPcTlFeDZp?=
- =?utf-8?B?TVNVWWF1REFQTWRiQkhVSWM4dmN3WFY3cTlJUFZ5d0xsdm5RNCsvVWVHK2xa?=
- =?utf-8?B?eXpESWJaOGtobVhSN3JKeU5Vckx6S1F0cGl4NytxdmhTSEV2d3pSQmtpZm9p?=
- =?utf-8?B?UUcvV1ZXT1ZHek4xOUZ3c3AxcnA2VWJnVFZtY3gyMlFkNGlVQWorWUkwdHY4?=
- =?utf-8?B?aE9naFlSNk41L0l0dnk0bUlPTlhta3o1V092S2gzUDNjdTNOdk5yYVJCU0tu?=
- =?utf-8?B?Qmsza29ma011M2Zqd3ZmUm5ZQ3R3R2lxWGNFN1BQZVdoamIxWlRJWkZaa2d0?=
- =?utf-8?B?YkZKK3dDK05URVZreEJNNC9YVXVMMGRMaHBzZTMrUU8xQWJmdHVPTlhnaGNp?=
- =?utf-8?B?L2xFUVZ5eU1TSjNlZUdkb0hmQXlyM1ZqdHRuTWhocDVHMlcrUVJUaHlEdUZV?=
- =?utf-8?B?UmloUzljWlVkSTU4YlpZMWNoMERySG1Qbm5xYTJWWTUvbnlPeVRPeDRZMS9T?=
- =?utf-8?B?eTBkV0p4ZDhSU2FTdENtai9OYTAzVW5IZWh0WWw4d0YydU9SWTZJdDlKZFNj?=
- =?utf-8?B?VnZJWC9qbUVuV3lDUDUwUXE2c3JHT2VOT1l6d2RNWVJwNC9mOEtFK05IS2JN?=
- =?utf-8?B?VHduOHJKbHpPcVFQclJPMjdzdXcreUdmbytnbURMVlgvM3pvWXpyNVhwWlNo?=
- =?utf-8?B?bkI0dE16WVpjeGdvcVloMUZ5T2JiRGxtcmNrVXl2Rjh2MzVhL2dZdVd4TjFj?=
- =?utf-8?B?dUUrRVBEa3pUZ29CYi9nV3lSTzdVRXhZdGFlRVZyckM1UkpYM1pqS3F0c3Zo?=
- =?utf-8?B?cmVGcXVRZ2xqRFpQK3RPZkpYdzlETENBMUdHck1rWVd1eUE2bU1jRFNTOHdo?=
- =?utf-8?B?VXkxQ2hhYnAyNEVGZVBrOEJIQ1M1dEVIMWsvU2pELzJwb3FVNzc5TUJ5Vlpm?=
- =?utf-8?B?WW14d3hwOU5Jb2p4Z2ZsWnYzTllFN0Y4VEkvcUVzWmU3M1o2ZUFaUVJTMjE3?=
- =?utf-8?B?SlZ5dnU2NndSV1dMVlMza25sYTdST3hCNnkybmU1bG8ydlY4TEM0aUNEZFRp?=
- =?utf-8?B?N3VnM2xWcFhRbWVXQnhGdHphYzNBdTU5d3FzMnRSelR3R1ZPWFRoQ1hyRU42?=
- =?utf-8?B?QUs3ZTEwSGpsdGpHQ1k5a2dtQjhCNklsOWp5KzNGRzZQeEJBVlhkbVhaTW8r?=
- =?utf-8?B?MW53YUV0Z0QxcnViaytTL2wyb3EyZnlrOGhlczhCdytHbzFBWkhpS0ZLUits?=
- =?utf-8?B?MXhJb3BTbzd6WGFqV1lnVmF4QituK3FQcHRoSllJajdzY242Vmh0cTNvb0Zi?=
- =?utf-8?B?WVRvcXo4emE4M2hsRkFCeFM5cG5INWc5eXIzaFpRQ3l6WmZMQWFlRjBlSGN3?=
- =?utf-8?B?b2NvWXp5K21ZY3JFUEhLTmVMS0xURkVhbGxhNnB1bDRiNnJ2dkFjQ1JUNnZO?=
- =?utf-8?B?OTEvMmVqczJOU0Q2bFlQNGZ0ZmNJSmplcXllK0ZPVFpHMk1aT2hHTkhQZXpF?=
- =?utf-8?B?K2lsbWdhOEFoa04wVWVPckFJWlBuVjZuc0RCMDVzamY1RSs0L0h4Qm5Rb21L?=
- =?utf-8?B?WXB2LzBNeHVicWp5RUZ0UWxublBpNTE5V0t5QkxJWjNXRit2TCsxSmladlU2?=
- =?utf-8?B?MGh1aUtJaHQ5bGxnN2lCZ0xpZVltOFdsM1REWGtaQmdFeW8rWFRIeTJrRVJ5?=
- =?utf-8?B?akk0U0pkZmRmdFphSndrMHhaRjZDSEsvSjc3RnpQME9WQ0ZVOE90ZHVPekVt?=
- =?utf-8?B?N3Rlc05EbXYwTHRJUDJNK1p4SHkzeDRiU2I5YXZQaTlnaEF0WDNYQ3F3bS81?=
- =?utf-8?B?VFhDaWRXU1BENnRaMlFPUjJNVUFnR1l6dmlIUkhVbXptWW1wazBXREVOV21I?=
- =?utf-8?B?OC80T3FHZmRzUElCWDBpVDF0RTE5eFZYY2VLQzN6eWtqUTJGN3F4a3pvMTFz?=
- =?utf-8?Q?Q9bypg+d70V2Wqt8=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E79A80F02116114DA44470F892C241CD@eurprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ 2026 08:17:14 +0000
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::1afd:f059:542:3d95]) by AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::1afd:f059:542:3d95%4]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 08:17:13 +0000
+From: amaury.couderc@est.tech
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/5] wget: fix CVE-2026-58469
+Date: Wed, 22 Jul 2026 10:16:57 +0200
+Message-ID: <20260722081709.14764-1-amaury.couderc@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0430.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18b::21) To AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6ad::11)
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMBP189MB3196:EE_|GV1P189MB2129:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3883924-31ac-4845-03b5-08dee7c9a2ae
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|13003099007|56012099006|11063799006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	pdmzGNW6D0/GJ6NOY8T3xh9powqUlqN42RkPOTZLlr2vBEU9b/eicW8iWme8L83PQKtjqn8ezZaLcSW8IOTFjU4wzDi3zOiqK2nHuGcsy4gPW1srK5HLNkC+f9a5ifKUbM85gMZ88zTIDhl4thkds918LS8iM6tkRD0SJs6EThuYf/829z969f2jMkP/toOhGI52klIQq79bmZGC1mAlGWGEm6iZL7z6/fJIMn23L6Y+zOcRzONELkl2lC9gfIzjC8ry3Rlkl5XsOmrvMf/12gSknCCVBAbcCkAyavU/v+eIR7nw61ZE2dMuv7r/ofYd/Ld3YlFeKI/1playdlUFW/7f7rL3rvPLX3eiT3Az02A4TKm7DiVMLNvtcTTu+AjtrGIQZOaDxAqt1+8KeSbE0RseyKdAXq70vGsXbPdskCMUxkv2BJDA/d8OwmkTPgB5uinDDAlXozjXUVdoFvZ7UTHm5Kzp8oe0ZzEAwKc+M+k0FGAtNY7oZzRr9mJ5O9GAGrgSz+0amC4xX+aMprHAcqTHnqjv/a41plSrrFfsAVdQkmvpcHL5aqKuAptcPD7kM2eE964oEvpc5wSCiAG/YCvAtz9F5JKFVO/k+DOK7sR8urCuB0oA57ucILgJr8d4
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBP189MB3196.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(13003099007)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?XrTLxQGdDuyd43kiLe7JO9a2taf5gOjA251FFDFg9aN0fhckEzy5Xa+yJNQC?=
+ =?us-ascii?Q?8Lbykp8Bpu/lAi1LvFLfpnCiY0SKAz5zkmp/Ue3jZvWOdr/KOD6QqWvrvdEe?=
+ =?us-ascii?Q?PFWyCkL7lzYmhxbwejNUZtUF2b7UTGzvbjKvDNEr1hE2WrfWH54+NMgl/GzO?=
+ =?us-ascii?Q?sGFPqIGUb2Yc6Hniary72oA09a5iBT3JPMfzSenp6PzrCYq9JAQllHLBHr4A?=
+ =?us-ascii?Q?BFfpYisVeMLbUHEGWHN//1VlqbkZn1IjlvY4GXifK6oGsktQR/HUV0dBLZly?=
+ =?us-ascii?Q?j3V0oX5kPe743kAYgY6+H3HwRB7D/yAJijBO4tY5LdPdRwtgNV/YSvNm9osg?=
+ =?us-ascii?Q?2bcPWx65wInP/+7Jrf0b6SjEiqLyM2mq8yAOMh6QgjymGYGQtXeScisNro2o?=
+ =?us-ascii?Q?9VKTqrJtP8ZLOkG+kt8Xovwe1cHGS5UjbzgV5TIHerSvaobCyUARzV4z7tCO?=
+ =?us-ascii?Q?htaKVME0hBiSsebJc/69++Wx/tBFSTRqPTfjiRPp9F2O0ZFfjm0dPJAU51Wi?=
+ =?us-ascii?Q?A3Su4o5ylVKhQBGYac7+UBXq2SXtAGdArDU5JfDFZsRq21LhygUHK+4+XcB1?=
+ =?us-ascii?Q?chT+FlHFinoqPWa/5NmjED97IzStKn+nGhUOd4H25KmZ97ODfeTrOePGUCPc?=
+ =?us-ascii?Q?Crpuph+/3wOwqOhmoZp548m0/iVs+0z54QFUr8n6jGlE3pN7tZPVlWXu/PMM?=
+ =?us-ascii?Q?gFRFHUjebVhMMCw/uFXvQFv+gZ246Q3h21qyb7q8dEpnGnW+bRiogZLVAhVk?=
+ =?us-ascii?Q?o2cPqubmCiyLyQ4qzXgwQSl0hdwrAUv6ysxMVwjKZr4A4s+nHpg2DZAgqb7s?=
+ =?us-ascii?Q?mXd0tM0mSBvABn7Hn8SG8V4/GtCJg9ivOWKBZlrX4dT4Qs9IIp6CeMWDIvfU?=
+ =?us-ascii?Q?WO07CAvLfaAPtPoNPcDkCRQXZter8ulNnomRYS4gdoAQr9kvHGHLgYNI9eW+?=
+ =?us-ascii?Q?rN7RYpy2Mlj1m3MxY/in97w3Rq4odrkTKU+lGJBWyFt37eQqYVdRk3nsv0ot?=
+ =?us-ascii?Q?a3YKG8C0uxDaVHbNWmZBZtBnWkA5FeZmdKIVA7t0eXYj7F6vnPm1j47Xoqrf?=
+ =?us-ascii?Q?zmqWtXzIpu/cwEzhsqsXRWfmYSV7bWDuucWyA1cM2pI8Y5cT+aIK8JLKGUpo?=
+ =?us-ascii?Q?pW0QYojujkuiqJkf3v7hL7H3ur+7T1HaCb1DtdGD6GZNl2evZnuvrYLGSYBv?=
+ =?us-ascii?Q?BEP/7dzvmg8zXcn/RikWf26EE9oKmj7y/gb+vYjSNsJjdmmFGeZU0PsyLUuE?=
+ =?us-ascii?Q?UNsqMUhSU8mpyd/CNN5LCM7ym5471imLHNlVzg8OEsyjYscw6r7zULe0AM3/?=
+ =?us-ascii?Q?XX2vJf8d88be9IHDMW+8lmkT4WS6APCoFb4KJGcVTd38GU20wmKur5HkcEBg?=
+ =?us-ascii?Q?nzPnkjozUdjFRMmAS+1S1siymZLgCXwioWATH2w47piYGmJijYpcNAPZG2vA?=
+ =?us-ascii?Q?pDFLz5BS5+XsHaSdAzKRkV0KQXmRXUfFa7G4P6TiGSyGnjUeuOZewUL9cQYG?=
+ =?us-ascii?Q?UCUTEmAdKR+ejW+t7eC8NOiEoN32Upleh7b1MDgsr6q+913eN3O8nYyMIWU9?=
+ =?us-ascii?Q?xtcZAF8R1JYz+0jJoJpuqhSQWqb5FnMQclvK4eFKXhWdKzJfslKkXRAgDaJL?=
+ =?us-ascii?Q?oZRMTM370dwat8fql9SL/QpWCdoqVWTOO8wi9rc/MSKvz8bMUKvB3Y5Nmllf?=
+ =?us-ascii?Q?EU8GV8JNtMZy7ywKPLO3ioY27OYshGGNhXsx17O25EM2eNymnR8DDMzFyuqt?=
+ =?us-ascii?Q?IxrGBXmngA=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3883924-31ac-4845-03b5-08dee7c9a2ae
+X-MS-Exchange-CrossTenant-AuthSource: AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8239d445-1155-4322-c050-08dee7c771bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2026 08:01:32.5357
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 08:17:13.7591
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gSGwYPuLXgeC/zvt18VTjqYxLuchVFCRPJEfLl+kn6l9gt901xNHo3hBuXIlIccHpo+n3u4iXto4f43WxhFjQHufI4HZ88RKhcVr3Np+7Pw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR07MB9569
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JCxFFfsECHhXNsax7r2b4Fn3icwe25h9E+ZROytIUwy0w52vuTuCH7uDoWcHNXInnoGtfO23ET/PyYZNnMpswg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2129
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 08:01:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241607
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 08:17:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241609
 
-T24gV2VkLCAyMDI2LTA3LTIyIGF0IDA5OjU3ICswMjAwLCBZb2FubiBDb25nYWwgd3JvdGU6DQo+
-IEhlbGxvLA0KPg0KPiBPbiBXZWQgSnVsIDIyLCAyMDI2IGF0IDk6MDggQU0gQ0VTVCwgRGFuaWVs
-IFR1cnVsbCB2aWENCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gPiBPbiBUdWUs
-IDIwMjYtMDctMjEgYXQgMTU6MDIgKzAwMDAsIFBhdGNodGVzdCB2aWENCj4gPiBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+ID4gd3JvdGU6DQo+ID4gPiBUaGFuayB5b3UgZm9yIHlvdXIgc3VibWlz
-c2lvbi4gUGF0Y2h0ZXN0IGlkZW50aWZpZWQgb25lDQo+ID4gPiBvciBtb3JlIGlzc3VlcyB3aXRo
-IHRoZSBwYXRjaC4gUGxlYXNlIHNlZSB0aGUgbG9nIGJlbG93IGZvcg0KPiA+ID4gbW9yZSBpbmZv
-cm1hdGlvbjoNCj4gPiA+DQo+ID4gPiAtLS0NCj4gPiA+IFRlc3RpbmcgcGF0Y2ggL2hvbWUvcGF0
-Y2h0ZXN0L3NoYXJlL21ib3hlcy8yLTQtQWRkLXRhZy1pbi0NCj4gPiA+IFNSQ19VUkktaW4tDQo+
-ID4gPiBtdWx0aXBsZS1yZWNpcGVzLnBhdGNoDQo+ID4gPg0KPiA+ID4gRkFJTDogdGVzdCBzaG9y
-dGxvZyBmb3JtYXQ6IENvbW1pdCBzaG9ydGxvZyAoZmlyc3QgbGluZSBvZiBjb21taXQNCj4gPiA+
-IG1lc3NhZ2UpIHNob3VsZCBmb2xsb3cgdGhlIGZvcm1hdCAiPHRhcmdldD46IDxzdW1tYXJ5PiIN
-Cj4gPiA+ICh0ZXN0X21ib3guVGVzdE1ib3gudGVzdF9zaG9ydGxvZ19mb3JtYXQpDQo+ID4NCj4g
-PiBUaGUgcGF0Y2ggYWZmZWN0cyBtdWx0aXBsZSByZWNpcGVzLCBzbyBJIGRvbid0IGtub3cgd2hp
-Y2ggdGFyZ2V0IGl0DQo+ID4gc2hvdWxkIGJlLg0KPg0KPg0KPiBGWUksIHRob3NlIGdsb2JhbCBw
-YXRjaGVzIGFyZSBvZnRlbiB0YWdnZWQgIm1ldGE6Ig0KPiBGb3IgZXhhbXBsZTogbWV0YTogU3Vw
-cG9ydCBvcHRpbmcgb3V0IG9mIGFueSBtYWNoaW5lIGZlYXR1cmVzDQo+IGh0dHBzOi8vZ2l0Lm9w
-ZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz9pZD0zMTk0ZDY4NjhkZDE0
-ZTQwYWU2NzBkYjA4OWU1YmY2Zjg2MmQzMDQ0DQo+DQo+IFJlZ2FyZHMsDQoNClRoYW5rcyBZb2Fu
-biwgSSdsbCByZXNlbmQgYSB2MiB3aXRoIG1ldGE6DQoNCj4gLS0NCj4gWW9hbm4gQ29uZ2FsDQo+
-IFNtaWxlIEVDUw0KDQo=
+From: Amaury Couderc <amaury.couderc@est.tech>
+
+Backport patch to fix CVE-2026-58469.
+
+References:
+  https://nvd.nist.gov/vuln/detail/CVE-2026-58469
+  https://www.cve.org/CVERecord?id=3DCVE-2026-58469
+  https://security-tracker.debian.org/tracker/CVE-2026-58469
+  https://ubuntu.com/security/CVE-2026-58469
+  https://osv.dev/list?q=3DCVE-2026-58469
+
+Upstream fix:
+  https://gitlab.com/gnuwget/wget/-/commit/37a40fcb450153f69537c7cbc2a7a4fb=
+0b6f7826 [nvd]
+
+Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+---
+ .../wget/wget/CVE-2026-58469.patch            | 52 +++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.25.0.bb     |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58469.patch
+
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58469.patch b/meta/re=
+cipes-extended/wget/wget/CVE-2026-58469.patch
+new file mode 100644
+index 0000000000..c5d3df9090
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2026-58469.patch
+@@ -0,0 +1,52 @@
++From c7d858a9ca8b9840e5edc520c36fe4f33f2e9cea Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Tim=3D20R=3DC3=3DBChsen?=3D <tim.ruehsen@gmx.de>
++Date: Mon, 29 Jun 2026 18:32:02 +0200
++Subject: [PATCH] * src/metalink.c (clean_metalink_string): Fix buffer
++ underflow
++
++Reported-by: TristanInSec@gmail.com
++
++CVE: CVE-2026-58469
++Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/37a40f=
+cb450153f69537c7cbc2a7a4fb0b6f7826]
++
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++---
++ src/metalink.c | 9 +++------
++ 1 file changed, 3 insertions(+), 6 deletions(-)
++
++diff --git a/src/metalink.c b/src/metalink.c
++index de2439c9..2d6e5846 100644
++--- a/src/metalink.c
+++++ b/src/metalink.c
++@@ -1041,7 +1041,6 @@ void
++ clean_metalink_string (char **str)
++ {
++   int c;
++-  size_t len;
++   char *new, *beg, *end;
++=20
++   if (!str || !*str)
++@@ -1049,7 +1048,7 @@ clean_metalink_string (char **str)
++=20
++   beg =3D *str;
++=20
++-  while ((c =3D *beg) && (c =3D=3D '\n' || c =3D=3D '\r' || c =3D=3D '\t'=
+ || c =3D=3D ' '))
+++  while (isspace(*beg))
++     beg++;
++=20
++   end =3D beg;
++@@ -1062,12 +1061,10 @@ clean_metalink_string (char **str)
++   /* If we are at the end of the string, search the first legit
++      character going backward.  */
++   if (*end =3D=3D '\0')
++-    while ((c =3D *(end - 1)) && (c =3D=3D '\n' || c =3D=3D '\r' || c =3D=
+=3D '\t' || c =3D=3D ' '))
+++    while (end > beg && !isspace(*(end - 1)))
++       end--;
++=20
++-  len =3D end - beg;
++-
++-  new =3D xmemdup0 (beg, len);
+++  new =3D xmemdup0 (beg, end - beg);
++   xfree (*str);
++   *str =3D new;
++ }
+diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-exten=
+ded/wget/wget_1.25.0.bb
+index f0d3458462..a1f34dfb5c 100644
+--- a/meta/recipes-extended/wget/wget_1.25.0.bb
++++ b/meta/recipes-extended/wget/wget_1.25.0.bb
+@@ -15,6 +15,7 @@ DEPENDS +=3D "autoconf-archive-native pod2man-native"
+=20
+ SRC_URI =3D "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
++           file://CVE-2026-58469.patch \
+            "
+=20
+ SRC_URI[sha256sum] =3D "766e48423e79359ea31e41db9e5c289675947a7fcf2efdcedb=
+726ac9d0da3784"
+--=20
+2.34.1
+
 
