@@ -2,60 +2,60 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBACC4453F
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 20:22:03 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9339.1784751715671614068
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90822C4453A
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 20:22:13 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9349.1784751726504473610
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 13:21:55 -0700
+ Wed, 22 Jul 2026 13:22:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HY8g6kar;
- spf=pass (domain: mvista.com, ip: 209.85.210.170, mailfrom: sdoshi@mvista.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8486ac3f347so5558496b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:21:55 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Uerec/Pg;
+ spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: sdoshi@mvista.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-84830c774a0so7479681b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1784751715; x=1785356515; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1784751726; x=1785356526; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=a0mzEY+lbFwh/gt03vTXdj/qJFufO8jGgsVmAQb6c/g=;
-        b=HY8g6kargnJUo/Q3/jLFg6XXDXp0oYXphrNfVvvDxa9uN5XCePjvk8kg2Bcej6ias4
-         J2j5tlj4Rd5TiQgSsxdRR97Gpwl3up40YMi0JJeBTfFIImaxGOZwsnHemHKtPC4etOoe
-         LcSQOSxR06za53E2OIQFOrmJWECFjGYN09Iy0=
+        bh=yrh2nLHz6Y6WC6ygeGf1dbL/mHfXtM35WVz7jcJwofU=;
+        b=Uerec/PghT7IlEquE7/VRkP6HToahaXCf04KTfaolXZdaTFY+d6NqLPUKgd47KiaWR
+         9O+9lSCFznNYR8FAFDc8UR0pxdemLn3DHF+WfmRdPXxA+zZWYWIPyGdk26ecX8QfN1QW
+         /rsvYrNOCYa0aoojSbPSIpa3Woj65fF15keLQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784751715; x=1785356515;
+        d=1e100.net; s=20251104; t=1784751726; x=1785356526;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=a0mzEY+lbFwh/gt03vTXdj/qJFufO8jGgsVmAQb6c/g=;
-        b=OrpP26HeDSoNGPqYD4ly2/s+UEo2jxyA0OOy/CDl96PjqUlJ2uNrNjvLjVznjEq1q4
-         7XeDISmMlVylRtevQbCKIQsCn0Yw7Wq1e88kpg4Ped3myDzmPnpB4+JnJuY9EwXXxhRA
-         re+oK5SFcrWzj9enx0YMAea/tAyXiF2kkDpE2haFnDbKVjT9xBTmIMCf8Mu3ZuHUdbs6
-         VGEkWG4HRfDJkERd2RvCmV23lHdg52MTXR1ffIEM32uFFfRuB68bGfVY+NuwANn+nikr
-         7dcBWQmxz7fif2l/l0SYAX1LYowmFJhxPLS7c/mcG5kjJt2J8iyGPfUPazWycjBNqNTL
-         +Hyg==
-X-Gm-Message-State: AOJu0Yw19rB9DolaXVofdTrLvdyq7mSVM6vvxZzV9N7YgRHSJUuyn3kS
-	AsOU49ESUSWr2JU55EemCgDmW6dKWSzasFK+XnUylaKOTbVdR+uB6/49UpKlEXh1u6sqyk0WDKc
-	NroMldbQ=
-X-Gm-Gg: AR+sD10CsgFfgpfc3UoZStV+KBxEzQ54J6awKM7PNNBw4uKYmdswmvi6BTeVBUKUjZW
-	CRMYHt2rY1XQB17GYpl3bMj6JwvneT3g6FzkwFSvfP5k6U4Fks2nxu3TnVbH2Q8iR9O2MOwK71f
-	31+eklRoL8dBAR9ue5wzNzf6PwVjBvC07mu1O3HdnWYuxdz3PFMYVevsnDw9vMsJpeYDfB1voWu
-	+SoU5BKOSc2nS77xC3u7mqUTqtNa+k69yjCTBzxIcghjlrBTLQzpp2dgdWmvWnfJeWn90p1Yha9
-	y/bjefTatSkWeqFhnpG53tgG8hw3lzBuVQADpu8MZviX/TimIJPvYfL+mDhaG4wCi2ugXyKGy7u
-	BH62WmD+I1t0UwW5Aye39ulaRW56EGfDgog0iR24QYj2ZFUka2i/ZSSFu1Jz73yOqJamS5OBzvr
-	eahK6xKbAgZmuL
-X-Received: by 2002:a05:6a21:46c4:b0:3c3:6e84:ace8 with SMTP id adf61e73a8af0-3c429455f22mr6090314637.23.1784751715025;
-        Wed, 22 Jul 2026 13:21:55 -0700 (PDT)
+        bh=yrh2nLHz6Y6WC6ygeGf1dbL/mHfXtM35WVz7jcJwofU=;
+        b=hBIX+cBOX23f1VXPlmQTWB5nmxDIaEi7FV33jfZrjKvtHmh2/gwKkxBn0d86PTa4iN
+         bBMVm5fs3ET2tDzUvRl3BozFPwHYmZIfkXfdR7aoHxvHNBn7DCzhDRC/mrvx6jrGjvL5
+         jVkGyZlUwkdUJVyWrFszvoQJfBpWpUrNuQ0vfUYBWOeu/hLQeu9xLWBhm9DUnQl7v4C1
+         46E1U4eKXxHl7rZSp75h1c7SLNLVjc1y7bR9VNSq7ruWyX/mrAcgib1BBMbwWsjTZ9p6
+         Xil9EAbyAjfLKoOxQUemid5LDJqVDz2bY9dAtUldbS3Y7jj8cNl3d5UWd9kfw2t9OCfT
+         5Tlw==
+X-Gm-Message-State: AOJu0YzFftDwcvh+VvM+E7t0HNpwev5NiuvBYC8CZl7W+sLcRlmo9bA4
+	VmQ35pSExj0cfZxwJlJCTBYm80jo9L23R9JnowVKbbPtfG2nStYWyESjadmcD5j0tomCOuOm4Yp
+	LeDZZeuM=
+X-Gm-Gg: AR+sD10rxd+C93qVEfybVrp3OP0wAl07dCGch2r6lbOBqxhONLKtI/PY+OzINyJrvUm
+	lticjjw7fs8M0NSIZYn9ZOMqw8eT0dlV4z9Qvyjv1l8kRT9bHGYJLb4ZPCZ/yiK0rdIhw3KuGZ2
+	Eg4LMkUqGpkI7C/mPlmVU1dz6SdOz0zIjet9vEuj/tZWnhCf57J9dROHUDSHZcDRSzKckxFyt2v
+	yVvO/N1sPwlxKyW8YGJUg8nAQicZVNsYsVlY0JKdWWCMsok0GlADui/apakbkRH2IHr1T124/Wi
+	S8+lyxWiSsyV7GezEgFS95ibwRvhB+f++aYFwpt57tsGgFwTbq1y0nonZbZNz/I42splNRyMAc3
+	tp3646zxCPCDCUoX8xoHvAD6VxGhZ850TBsMnrWKnxqLzHL9FnL6FYr99iPbXQLuKWvGxK8xDT+
+	OX2wsf55GNqMRu70HhA5yyKKY=
+X-Received: by 2002:a05:6a20:3d82:b0:3bf:a0e5:999f with SMTP id adf61e73a8af0-3c44afd5fcdmr35532637.22.1784751725855;
+        Wed, 22 Jul 2026 13:22:05 -0700 (PDT)
 Received: from MVIN00030.mvista.com ([157.32.46.199])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147d47960dsm11699468eec.0.2026.07.22.13.21.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147d47960dsm11699468eec.0.2026.07.22.13.22.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 13:21:54 -0700 (PDT)
+        Wed, 22 Jul 2026 13:22:05 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][scarthgap][PATCH 03/13] vim: Security Fix for CVE-2026-43961
-Date: Thu, 23 Jul 2026 01:48:55 +0530
-Message-Id: <20260722201905.491897-3-sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCH 07/13] vim: Security Fix for CVE-2026-55892
+Date: Thu, 23 Jul 2026 01:48:59 +0530
+Message-Id: <20260722201905.491897-7-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260722201905.491897-1-sdoshi@mvista.com>
 References: <20260722201905.491897-1-sdoshi@mvista.com>
@@ -64,104 +64,120 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 20:22:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241747
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 20:22:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241751
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
 Picking patch as per [1], and same patch is mentioned in [2]
 
 References:
-[1] https://github.com/vim/vim/commit/8af0f098c3a42a28661d0295364e
-[2] https://security-tracker.debian.org/tracker/CVE-2026-43961
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-55892
+[2] https://security-tracker.debian.org/tracker/CVE-2026-55892
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../vim/files/CVE-2026-43961.patch            | 65 +++++++++++++++++++
+ .../vim/files/CVE-2026-55892.patch            | 81 +++++++++++++++++++
  meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-43961.patch
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55892.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-43961.patch b/meta/recipes-support/vim/files/CVE-2026-43961.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-55892.patch b/meta/recipes-support/vim/files/CVE-2026-55892.patch
 new file mode 100644
-index 0000000000..f9e0fc0df4
+index 0000000000..5f46c97cfa
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-43961.patch
-@@ -0,0 +1,65 @@
-+From f38c7cb2fcc9d5839386ea4722463ea921f0bbce Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 14 May 2026 16:43:15 +0000
-+Subject: [PATCH 03/17] patch 9.2.0480: [security]: runtime(netrw): code
-+ injection via mf command
++++ b/meta/recipes-support/vim/files/CVE-2026-55892.patch
+@@ -0,0 +1,81 @@
++From f0df4a48a426bd67c0c2f5ad536000a4368cd4c0 Mon Sep 17 00:00:00 2001
++From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Date: Tue, 16 Jun 2026 20:32:21 +0000
++Subject: [PATCH 10/17] patch 9.2.0662: [security] Stack out-of-bounds write in
++ dump_prefixes()
 +
-+Problem:  [security]: runtime(netrw): code injection via mf command
-+          (Christopher Lusk, Zdenek Dohnal)
-+Solution: Do not use string concatenation inside the filter() commands
-+          (Zdenek Dohnal)
++Problem:  [security]: a crafted spell file with a self-referential
++          BY_INDEX node in the prefix tree can drive dump_prefixes()
++          past the end of its MAXWLEN-sized depth arrays on :spelldump
++          (cipher-creator)
++Solution: only descend while depth < MAXWLEN - 1, as the sibling trie
++          walkers already do (Yasuhiro Matsumoto)
 +
 +Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-66hr-7p6x-x5j3
++https://github.com/vim/vim/security/advisories/GHSA-qm9w-fmpj-879h
 +
++Supported by AI
++
++Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/8af0f098c3a42a28661d0295364e]
-+CVE: CVE-2026-43961
++Upstream-Status: Backport [https://github.com/vim/vim/commit/8325b193bba5f01e7a7d8241fc8633d93dff996b]
++CVE: CVE-2026-55892
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ runtime/pack/dist/opt/netrw/autoload/netrw.vim | 7 +++----
-+ 1 file changed, 3 insertions(+), 4 deletions(-)
++ src/spell.c                |  2 +-
++ src/testdir/test_spell.vim | 27 +++++++++++++++++++++++++++
++ 2 files changed, 28 insertions(+), 1 deletion(-)
 +
-+diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index 805474616d..e484de5c93 100644
-+--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -5155,7 +5155,7 @@ function s:NetrwMarkFile(islocal,fname)
++diff --git a/src/spell.c b/src/spell.c
++index 2281986435..6ef3fa899b 100644
++--- a/src/spell.c
+++++ b/src/spell.c
++@@ -4328,7 +4328,7 @@ dump_prefixes(
++ 			}
++ 		    }
++ 		}
++-		else
+++		else if (depth < MAXWLEN - 1)
++ 		{
++ 		    // Normal char, go one level deeper.
++ 		    prefix[depth++] = c;
++diff --git a/src/testdir/test_spell.vim b/src/testdir/test_spell.vim
++index 170ea57926..2a3f0e3696 100644
++--- a/src/testdir/test_spell.vim
+++++ b/src/testdir/test_spell.vim
++@@ -1567,4 +1567,31 @@ let g:test_data_aff_sal = [
++       \"SAL Z                    S",
++       \ ]
 + 
-+         else
-+             " remove filename from buffer's markfilelist
-+-            call filter(s:netrwmarkfilelist_{curbufnr},'v:val != a:fname')
-++            call filter(s:netrwmarkfilelist_{curbufnr}, {_, v -> v !=# a:fname})
-+             if s:netrwmarkfilelist_{curbufnr} == []
-+                 " local markfilelist is empty; remove it entirely
-+                 call s:NetrwUnmarkList(curbufnr,curdir)
-+@@ -5176,7 +5176,6 @@ function s:NetrwMarkFile(islocal,fname)
-+ 
-+     else
-+         " initialize new markfilelist
-+-
-+         let s:netrwmarkfilelist_{curbufnr}= []
-+         call add(s:netrwmarkfilelist_{curbufnr},substitute(a:fname,'[|@]$','',''))
-+ 
-+@@ -5196,7 +5195,7 @@ function s:NetrwMarkFile(islocal,fname)
-+             call add(s:netrwmarkfilelist,netrw#fs#ComposePath(b:netrw_curdir,a:fname))
-+         else
-+             " remove new filename from global markfilelist
-+-            call filter(s:netrwmarkfilelist,'v:val != "'.dname.'"')
-++            call filter(s:netrwmarkfilelist, {_, v -> v !=# dname})
-+             if s:netrwmarkfilelist == []
-+                 unlet s:netrwmarkfilelist
-+             endif
-+@@ -7202,7 +7201,7 @@ function s:NetrwTreeDisplay(dir,depth)
-+         " hide given patterns
-+         let listhide= split(g:netrw_list_hide,',')
-+         for pat in listhide
-+-            call filter(w:netrw_treedict[dir],'v:val !~ "'.escape(pat,'\\').'"')
-++            call filter(w:netrw_treedict[dir], {_, v -> v !~# pat})
-+         endfor
-+ 
-+     elseif g:netrw_hide == 2
+++" A crafted .spl with a self-referential BY_INDEX node in the PREFIXTREE drove
+++" dump_prefixes() past its MAXWLEN-sized depth arrays (stack out-of-bounds
+++" write).  The tree parses cleanly (shared refs aren't recursed); the walk
+++" happens on :spelldump.  Reaching the assert means no OOB.  Same class as the
+++" tree_count_words() fix (9.2.0653).
+++func Test_spelldump_prefixtree_overflow()
+++  CheckUnix
+++  call mkdir('Xrtp/spell', 'pR')
+++  " VIMspell + v50, SN_PREFCOND(prefixcnt=1), SN_END,
+++  " LWORDTREE word "a" with affixID=1 (so dump_prefixes runs),
+++  " empty KWORDTREE, PREFIXTREE child BY_INDEX -> nodeidx 0 (self-cycle), 'A'
+++  let spl = eval('0z56494D7370656C6C32030000000003000100FF00000004'
+++        \ .. '0161010220010000000000000002010100000041')
+++  call writefile(spl, 'Xrtp/spell/xx.utf-8.spl', 'b')
+++
+++  new
+++  set runtimepath+=./Xrtp
+++  set spelllang=xx
+++  set spell
+++  spelldump
+++  call assert_true(line('$') > 1)
+++
+++  set spell& spelllang& runtimepath&
+++  bwipe!
+++  bwipe!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
 +-- 
 +2.44.4
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 902115bbd6..006ae9473f 100644
+index e867d4c1cd..64e3eab106 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -35,6 +35,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-28420.patch \
-            file://CVE-2026-28422.patch \
-            file://CVE-2026-42307.patch \
-+           file://CVE-2026-43961.patch \
+@@ -39,6 +39,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-47162.patch \
+            file://CVE-2026-47167.patch \
+            file://CVE-2026-55693.patch \
++           file://CVE-2026-55892.patch \
             "
  
  PV .= ".1683"
