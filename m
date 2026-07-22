@@ -2,10 +2,10 @@ Return-Path: <mark.yang@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CEDBC4452D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D61C5C4453A
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 05:59:01 +0000 (UTC)
 Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.41804.1784699938613794769
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.41831.1784699938613095626
  for <openembedded-core@lists.openembedded.org>;
  Tue, 21 Jul 2026 22:58:59 -0700
 Authentication-Results: mx.groups.io;
@@ -21,9 +21,9 @@ X-Original-MAILFROM: mark.yang@lge.com
 From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
 Cc: "mark.yang" <mark.yang@lge.com>
-Subject: [PATCH 4/5] python3-pyyaml: set CVE_PRODUCT
-Date: Wed, 22 Jul 2026 14:58:48 +0900
-Message-ID: <20260722055849.184046-4-mark.yang@lge.com>
+Subject: [PATCH 5/5] python3-xmltodict: set CVE_PRODUCT
+Date: Wed, 22 Jul 2026 14:58:49 +0900
+Message-ID: <20260722055849.184046-5-mark.yang@lge.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260722055849.184046-1-mark.yang@lge.com>
 References: <20260722055849.184046-1-mark.yang@lge.com>
@@ -33,34 +33,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:59:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241594
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241596
 
 From: "mark.yang" <mark.yang@lge.com>
 
-The pypi class default python:pyyaml vendor prefix matches nothing,
-so PyYAML CVEs are not evaluated at all. The databases use two
-vendor spellings: pyyaml in the NVD CPEs, and "Red Hat" (with a
-space, not expressible as a vendor:product pair) in CVE-2020-1747's
-CNA record. Use the bare product name to cover both.
+The CVE databases track xmltodict as xmltodict:xmltodict, so the
+default python:xmltodict vendor prefix never matches and its CVEs
+are not evaluated at all. Use the exact vendor:product pair.
 
-All four existing CVEs (CVE-2017-18342, CVE-2019-20477,
-CVE-2020-1747, CVE-2020-14343) are fixed by 5.4, so they resolve as
-not affected at 6.0.3.
+The only existing CVE (CVE-2025-9375, disputed by upstream) affects
+0.14.2 before 0.15.1, so it resolves as not affected at 1.0.4.
 
 Signed-off-by: mark.yang <mark.yang@lge.com>
 ---
- meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb | 2 ++
+ meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb b/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-index 7e2b088ca5..849e2c9cc8 100644
---- a/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-@@ -21,4 +21,6 @@ RDEPENDS:${PN} += "\
-     python3-netclient \
- "
+diff --git a/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb b/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb
+index e622c00dae..04632de099 100644
+--- a/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb
++++ b/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb
+@@ -7,6 +7,8 @@ SRC_URI[sha256sum] = "6d94c9f834dd9e44514162799d344d815a3a4faec913717a9ecbfa5be1
  
-+CVE_PRODUCT = "pyyaml"
+ PYPI_PACKAGE = "xmltodict"
+ 
++CVE_PRODUCT = "xmltodict:xmltodict"
 +
  BBCLASSEXTEND = "native nativesdk"
+ 
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
 
