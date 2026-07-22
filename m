@@ -1,1002 +1,169 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D18C44539
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 08:52:13 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.59])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43626.1784710317910383686
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 539DFC4453A
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 09:05:33 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.6])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43651.1784711129153324579
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 01:51:58 -0700
+ Wed, 22 Jul 2026 02:05:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=MECUnr80;
- spf=pass (domain: ericsson.com, ip: 40.107.162.59, mailfrom: edaturu@ericsson.com)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=NdJm1ufI;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=NdJm1ufI;
+ spf=pass (domain: arm.com, ip: 52.101.69.6, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=aYZvEH0VInPlxNdTs2HjumkjrjesHtJhEnCgphmVlVh66Fp+UQcjcVv02ukX153Rsg2Zxp2e1rcAXaWCraolGf9W0xjChS+G8LfVfOw/y8cQKc3ekvQXJevzdqOMOQdqLFRyAm5GnY0pIzx+AfswMiWx+YeRzixI6qQjNCY4e3y4WXIA+NbcZLY9Z3kPhx+aRFx6bgCFDoMWBRpdL++3QOUyE0u5oVUPPG5MLys1MJRP2j1ivlqZA+RQnYs4MEuFjQEVYX/tOdyTwrszAbuLlMxr+ZFtbYMaA7vJ4DNwefVWAaBXdewNYD+YD58OVfdL7ttjs1QwEUvmVYwQbFIstg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f/aslK6H9Si8faD/J2Rr+VjVXnnb8NGoaGQRLLMXmWo=;
+ b=FVj63C8tw9pg2zB6fAKcC0OjAa2MG+Zhke9b1uluXn+rdcRPhqumnvV9AzvlUC0wKtlosKW7DoqxrUD0LWwQ+RNrL4e+la1bsXT0ipKTEe5TVQUsIVXgmphymvYNM76QR8SbPOZ4HPTC4ZvhT1+7K21RvE1VPkWxD1ITG5464UAZZTm9IeXyZdXxiD2tSlmx+KqE3p6gmVunAN5SCIk5URph/LEREcogW/Dafz0z5D8UVAIEXh/kGidVW6ER81b0KaY5GvkNjh4ZiyOWyGBGKdgPcM3E+GOJNUNuhRGk8AiCvkK2xph7DpvhL1UeC2gx9xLyeOQHwq7gECXJQhNSmA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=bootlin.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f/aslK6H9Si8faD/J2Rr+VjVXnnb8NGoaGQRLLMXmWo=;
+ b=NdJm1ufI9zvmjUC8/WOndPUnuxlvOmpGYnBxC8xtpSo/UQg1vT70zC57AGjVlayQMEO4HQmNj3fnouNsgFjVseBnTR3lu5iit5VWMnaLZZDmjb+ekZ7Ic5r+CVHaDx/hs+G8qPm0e2th6s2fhWg2xOFvXTTNNmvDM89qAALDuNQ=
+Received: from AM8P251CA0001.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:21b::6)
+ by DU0PR08MB9300.eurprd08.prod.outlook.com (2603:10a6:10:41f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 09:05:21 +0000
+Received: from AM3PEPF0000A793.eurprd04.prod.outlook.com
+ (2603:10a6:20b:21b:cafe::a1) by AM8P251CA0001.outlook.office365.com
+ (2603:10a6:20b:21b::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Wed,
+ 22 Jul 2026 09:05:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM3PEPF0000A793.mail.protection.outlook.com (10.167.16.122) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5
+ via Frontend Transport; Wed, 22 Jul 2026 09:05:20 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BEzK8vMMN4WezQQ8BAJIlU4MGr+BCicDiIgMA2CTYVadXVxO/9vYsm6xpRmmhDzzmTFuFt+uw5YWqgN+kPdrasootLAScIs/XvKSE0IRhyBSV+v45kKdlAdEwwOBI0jK+EpXvOavCc22Zu9vx+rWsoy9gLm6ITVi0rhSIRx5x5J0eAQSrhzVf7r7nClObgsHP6+7Eyr1YuQL8bsY1JP8YoKkpFJ5bWkBYW7HTiEcKBeBh+XfHcpz7qi/F1M2folR6Of4oSX95miCxwwr6RUtMa2EnSiCXl/q1X6QXNOw5l1DPjsVfO8dusGc2dTA1LFd5BlJbNniooLxcnDkZ/HjmQ==
+ b=It8JzmUnqdsDhT6kNm/lQKg5fsLnEYKfPHwdMq41ZIOtv4viez0Vj/ht7arTFgK3lzyZyhhQwJQ7tgN795+1dmJycT1kJH8aSEvB7YdImmLd9VKf7kZcgkSaKzaT+uEsanrdprXkDtJ7xIv0U0nnMvbK8XhSaDhJLrXovuLhbl7Jr54X1Ty+2TlCsi2A3gBU/qKmtH3F2a/5ynbfOW1xUV4omoYAIlh76gt89unGtHbZhYSVqTuFmtv2HTquZvUTAj5bY/JtmMUYiz5bvvaaQvjxbRPSq1CZn1IqF36i6GvZ2GUgTwQd9sZsNtvlH128V11sAijHIWhsGCMdSX2mBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M/M+L5GO+ixk5Cp0DaSQr46INp+QrpDkRG0UQuhZ2pE=;
- b=KjuGw7rLCfI/UMTzFdNzizYI7UAYOCQowMKL7ZvEajDQmduHYlpKIcMj2ZaqoKxK7nvR5aQAQPB3ZIg1ciQ5ZDiU034BpNqXT2l4sb5cRBgr8sOYcz+jJ51inB+Cjmk2hxP26QayLJtNCvIlrVmlp6Xdxx8X1fJ7wdF6bIca73SmrbASHLe993nA8y6rxPf8BnEly5MUuaxQxKs3c/THsnwjjaJ/ykntwyTjKrBfrOfLp3cplkWzxf4+XYgck9lEb9Bg60t+SqE9p7ZZMV/Fg5azo7YRlwa8t6TCj2p8JqDPWcr2wSUZoZAynoGCtWaDt5vo9E1Nk7OzI1jzYgCbBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
+ bh=f/aslK6H9Si8faD/J2Rr+VjVXnnb8NGoaGQRLLMXmWo=;
+ b=Qr6TsGk0P2xbGus2JBY+ct6Be7bNZ7Lfw29nrBvvoDwD4POueO3uqXdCWqNUs/FkBG+ggmT7/vWGyYKCFDVf3i21xaUSEUKjrekHx2ZZn78wh27vr3SrQJTiPPfb8VBdYFtKm2v7PB/gbc6P4e8ctpTPk8IsHCl59wAPy4jA8r8TqESP3l+GxWfYpcCzcOJrBUJTWxTwDzQVsz6c0POtkFzlfJKWZ44oaBw/kDf8GoUl3TWOuKIjL2K3/Oy9U1fHUJDSZz50qG5FI4GOxxGlav5YAuWz0g+iux8wggJQotEhnRHO9g0foOqTGm4YZsoO79WAfKG8/pU2nk7/4V83Wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M/M+L5GO+ixk5Cp0DaSQr46INp+QrpDkRG0UQuhZ2pE=;
- b=MECUnr800MHl9m+UHYd2fGmBfoF3f24XTH5FJjirLhdjWXS2e1dLFLUOCN8EpsddvCw8HFNfqblLXJLXzrALX3SZ+OAFRDrq6XJhu91Tq8PmPuwFHr8sV0DbqV2vjjeTtaUO0+I+jUd30lljOMKKozojcvJZCmTOuqpCqqZZPgjXN0MSmom9wTi9a/zBc3DB2VnfEpftgbGN3myG3R6jw0JBGvGwFBCu4aBK6sWc/6lt5oA9JYF6tzAa9PCX+3e5RSlvXx861WAmlDEdTq3L0lNhuFopO1qTbJP/aO4Wh0YJYY73CcCOV/PrbqsK9Vkf+hPQf13BRmMV3R4KS0VmqA==
-Received: from DUZPR01CA0255.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b5::27) by GV2PR07MB12377.eurprd07.prod.outlook.com
- (2603:10a6:150:32b::8) with Microsoft SMTP Server (version=TLS1_2,
+ bh=f/aslK6H9Si8faD/J2Rr+VjVXnnb8NGoaGQRLLMXmWo=;
+ b=NdJm1ufI9zvmjUC8/WOndPUnuxlvOmpGYnBxC8xtpSo/UQg1vT70zC57AGjVlayQMEO4HQmNj3fnouNsgFjVseBnTR3lu5iit5VWMnaLZZDmjb+ekZ7Ic5r+CVHaDx/hs+G8qPm0e2th6s2fhWg2xOFvXTTNNmvDM89qAALDuNQ=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by PA4PR08MB6302.eurprd08.prod.outlook.com (2603:10a6:102:ed::10) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 08:51:53 +0000
-Received: from DU2PEPF00028CFC.eurprd03.prod.outlook.com
- (2603:10a6:10:4b5:cafe::ae) by DUZPR01CA0255.outlook.office365.com
- (2603:10a6:10:4b5::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Wed,
- 22 Jul 2026 08:51:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- DU2PEPF00028CFC.mail.protection.outlook.com (10.167.242.180) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.5 via Frontend Transport; Wed, 22 Jul 2026 08:51:53 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 22 Jul 2026 10:51:51 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 027E64020B44;
-	Wed, 22 Jul 2026 10:51:50 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id BB639700DBB0; Wed, 22 Jul 2026 10:51:50 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH v2 2/4] meta: Add tag in SRC_URI to multiple recipes
-Date: Wed, 22 Jul 2026 10:51:36 +0200
-Message-ID: <20260722085140.2355003-3-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260722085140.2355003-1-daniel.turull@ericsson.com>
-References: <20260722085140.2355003-1-daniel.turull@ericsson.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028CFC:EE_|GV2PR07MB12377:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b39bca2-b6c5-4b86-99c4-08dee7ce7a28
-X-SMTP-Server: smtp-central.internal.ericsson.com
+ 2026 09:04:17 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 09:04:17 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/2] systemd: no need to use qemu for hwdb
+ update
+Thread-Topic: [OE-core] [PATCH 2/2] systemd: no need to use qemu for hwdb
+ update
+Thread-Index: AQHdGSw26LqfmhEY/EKMvW4Y2zr0ZrZ5BxOAgAA4roA=
+Date: Wed, 22 Jul 2026 09:04:17 +0000
+Message-ID: <9BF45BDC-0418-4C4F-B295-BDEA3F7A72DB@arm.com>
+References: <20260721161511.2946619-1-ross.burton@arm.com>
+ <20260721161511.2946619-3-ross.burton@arm.com>
+ <DK4UY8M71S6S.4ER6FHTQXGJD@bootlin.com>
+In-Reply-To: <DK4UY8M71S6S.4ER6FHTQXGJD@bootlin.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|PA4PR08MB6302:EE_|AM3PEPF0000A793:EE_|DU0PR08MB9300:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b88f68b-4f59-4d00-a97d-08dee7d05b5f
+x-checkrecipientrouted: true
+nodisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|22082099003|38070700021|10067099003|56012099006|11063799006|4143699003|6133799003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ Rp0MRp3DXrJjmyuWwuC8IroPCZRekWF+eeAIf3/XPAyhXB1YvOmPh7Ys/UEeLLREbMmQXdqV51AbvlnJKjXN72BgjxMINEQIccy50AzD1JoUD2ydfwqNhGGH6RXHq5ne4he7qNsymsrCI3BxPDiGmIU1JOge8QYMgPcckj1dC2enUP4ZVG+PxT/Fqdf8iXe+KOFYZdyHoNhEGXqaP0htEMjWzOG70ROBOM921BovK2gzGyBTcabSLWwcppx+yXChKGoUb5iI5hYPSt8lbvHFtXBFaulYy8pn8Cj3W3jGDDIRYxgvNJFUZHHiQeLrsrMBuYLPtP1NAxqV1HYPbrSyjJIcHEPIyw7Skk5v8xDf77E75LTEoGHaYImDkRRkeiOL6kZp0+HoNbSSwTbgSxYxsfvYk2CrAURj+VLyqAHQLrrAbHcL3TphXfu9xJ4z8F6uEpbBF+IQ+z64WZoCza/jNPo6S792xpA8+0mThi/lV3tNljNq45g80ecA9pX90F2H+w86BkJ7qb11L8uQbfOD6B9AqJKg8Hir3iPiplB/+GksG8SC04nnZr96ezmuHtivRtb3pSgXVgXCuV2SrQ1/aaoK+g8l4gllBZwVuA4HqOdYgK65TfCf1AjMAOgnUkJE7z7QT9Mq2dV0bJiFPJVEizTe9sWZ8WSem43LZT0R1VPruq5qo5UWsSYDVFi2WASOIAM6rxFolUvD462FiGNUyw==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(22082099003)(38070700021)(10067099003)(56012099006)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6AE1B0F4305FA844BB888A76078C40FB@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+ fgu0J0/eJUNOCqRCxEEySyGQqslgneGJwv641tbaJGBJW5ra2KxU+tOBOz447c9Y/YtuZeQPQknKXmg06nuyvbQfDLgxZGh+lsFXFSSdkPgb26jqM4ajpQ9VTG13CAje/NEZn12qro7uyNIt7rnHR34CXO9u4o2J2Yk0Ij+DDk66cTcqnPpR15d9sfVRH2RqtWHUAScmuC+YaRKtrsisyQ6n8u0OewxNWML19Pz9WfhZ0NN0qivi7IU7B6JsADMTK2uevSWfrUFcEBOPLtcPBVOKXIZxSmV0Hnbw3L8xKiD0n4/GOCs0O9zZTD6iADLH+/vhIGj7WxfTVkbzJsKH7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6302
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM3PEPF0000A793.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	ee78a2dc-e23d-4fac-5a23-08dee7d03606
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|82310400026|23010399003|1800799024|36860700016|6133799003|56012099006|11063799006|10067099003|22082099003|18002099003|3023799007;
+	BCL:0;ARA:13230040|35042699022|36860700016|376014|14060799003|23010399003|1800799024|82310400026|6133799003|11063799006|4143699003|56012099006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	Q8eU4U7vIbx2FnGZkKm6L6/lHl5AvN8VZIEoQDToO3wn/la94Nz1YPvA4Xag8C0IZRcSFlTzkp22gfnjGVqJbvoFSdRCjTaDZR5oH2HfsLEC0IPnNO1gjGxdTxDuRilfey7XiTZZyJZ5eFlKcElJVwTj4abgyLxh8ZAPiZevQd0M9rNA2N2MWssgtBxnAV6Pyy6XLIBCH7Ya9yYWWB9wJ8vXhULioqvS+zcarsvjelAJb8i+Vq2fPkQIFQZ+/mW/Xb1w7ulhZNbneiogyL1Eg3RrJnvsT4gp1h+T4yeYNwkcESjwtfJjG0SZIeMFmnQcV3oI/TSf6EZcFHhoJI6nEnfR+cVUNHu/yAjbl6/FP2teOn4rOyI64QDEfFNNHuiybh64K1eWPZISz/Eo5PErXEcCKYaMK/wMwpjDYGBvjA2mHNUj+SAUGB4C5CGIhUM90M/4JehAC5bi2fjb/65LqVq0AGzx5pxEsjhJwOaJxLOddPtgdypRNcQwwz3rajq4dvpcg0z/z+GSgzt8We2X7rwKA1pboUd/UFBiBDfnipH87fpJ4cAcsKHnJQI6HZGwWzeGjpfArKtcIFT0pdN+ZJbG354xuJS/XUrIZI4bL1WbT558KvxJww1LWn5+PauCozKadQSO8G8LfKYe/07p/oBYPkiJPRg3lWI32HquXwQvXe/fOU/oR2RyYMOwZMvpViAIMOa53spTYwilz9smTQ==
+	uzces5LDSA0mAfAtU0eCHxpwwJ6tp6tU6atnjket3v9JlPBerEOBLKj8N93/zmtQofDJr3oYfBlprEx2XuDaI6m94RsCb3Q2GrwvvIw7O4g1QCP1nWdwkZ+JBNN6hHwjTdrlqMCXcIiXmLS8aJ54PoaTfUw9cGhsZDKp7PddzLZzNDBkx3IntEjND52a8+0y756vzWlgH3U6NY5yJrdhLll9APDBWW3jAh1tvzLY3iFWrVzMAEabXopmY5xUYi7Om4Xq1YffKvYkEOsV4vo7E/oeXNQFeeD+pN6I6ybKXTUEFG7tWsIcoAQwShD+tDalEsLt0UxY/KyPK4CvPVwqM0E8SqF3SXvBIYE1vG59lc+KjEi8yGooV1Jr1aV7fRWzdQhJ1KYhsP31b5QpzQWSH+faUfA4U3jJPU2FIO+r9JzYV8ulwfn09A5//3UVaC7rbybSIvBhMxR/vaaGF058YlY45Qn9uNBBIHRYbpXBcCvdw83WLK34yl9s28MpaE7WGoNP/khZ5PNRGBgvJClSsNFt8jZDKhJy/FmzU/+NXSYIAh15hy/H1xl0qOwiMKiY6FOphWinWdmZoxOOJSF0fewSUlgBOjNBhiEjRVag5Lvq+WtxaufT/VCjEJL9zrwYUXeZaxTpi7pjPU8oRDjGDdoFrJP4T6wDli/5Y8kUPV0vQOT8FKJ740BoUsxPzO+2kGZUV04PCZtS78NYb/PdNA==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(82310400026)(23010399003)(1800799024)(36860700016)(6133799003)(56012099006)(11063799006)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(36860700016)(376014)(14060799003)(23010399003)(1800799024)(82310400026)(6133799003)(11063799006)(4143699003)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	l9LhFY3xp0KyXLKF7WKRo1jqlT6VFyLP/qQZGXhrGMdXe31h3ArubFRS2veIw2VHLN/PztZYz8dlVo/dkRQ0mVD1kcA8I4f9XSTkwQNP/TZz30Vlrdfh7EPPAwRNoHIa0VpWrsylBop1aDpiVwNi2+6+k9cp8i2xqGw6S2h/xWCCefAzIdp4Yd9wi+0kZMLJlkgLcLkKVzveQlfQxZ7xcJnbMC5uxGTeVrTAMbT9Sb0sK3lYU79w2R85fNHpXmKO+uSH/GFEYbFIOFH3tpFk5++XaF2hi5Cu2BS4EZ3tsq3Fw72Qgb1XM7msB5r4tGecCGVP8JYoKEPloGpq7agZENXxx3lILNO8vEthVdRjlmrs5P0/XDvmcL+XDVgDA0w4RFTCqBaJVIfqttKN7MEefzNAPRtoCPTjD6HucLesFayQlsUbdz3ZbpoRubM2DH8s
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 08:51:53.1091
+	cqbEXpNGKKH8UtZhvhoH78C4+AlCjXiMpdtTjfLYGgT4dvCz1Gy7qq5PItTPNYoKNDSP/rx0LrP5Mm7N/3ZONDX3y2YWotTAy73hk9ZY4y5NXdyvxTuCguTtN55QEzRjJDZqKTHh2jMXRDiHzUoAC/4qjYz5I4dsWcQmJyN9RaRnC5r8IEaK2lewrBxrKpdDY9lke8oCir0j8nC3sXrKRgeLaZClhjBRSqEYZB9jSyO00NqNtxrpHnwNanQGdmTKmFRSBz09friLee/p3la6NAUAECv6u/ensE2CbTCXHNcByYQpxTuWb2Nn4AGWKFJfmcxiQcrPBFMTBdfZjKC71x4leKtfsuKELmreWlbB3P4EmrjA+U+14FZsXYy8OYHbOTCFpgtpQfK4/YhXM64D1R0sE9tjmxX/4MghwZsS4n6MMlCf7CDsr3KFCSBGUIl7
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 09:05:20.4933
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b39bca2-b6c5-4b86-99c4-08dee7ce7a28
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b88f68b-4f59-4d00-a97d-08dee7d05b5f
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028CFC.eurprd03.prod.outlook.com
+	AM3PEPF0000A793.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR07MB12377
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9300
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 08:52:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241630
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 09:05:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241634
 
-From: Daniel Turull <daniel.turull@ericsson.com>
-
-Generated from scripts/contrib/check-srcuri-tag
-Tested with bitbake world on qemux86-64
-
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- meta/recipes-bsp/efibootmgr/efibootmgr_18.bb                    | 2 +-
- meta/recipes-bsp/efivar/efivar_39.bb                            | 2 +-
- meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb                       | 2 +-
- meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb     | 2 +-
- meta/recipes-connectivity/connman/connman-gnome_0.7.bb          | 2 +-
- meta/recipes-connectivity/neard/neard_0.20.bb                   | 2 +-
- meta/recipes-connectivity/slirp/libslirp_4.9.3.bb               | 2 +-
- meta/recipes-core/seatd/seatd_0.9.3.bb                          | 2 +-
- meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb                | 2 +-
- meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb           | 2 +-
- meta/recipes-devtools/distcc/distcc_3.4.bb                      | 2 +-
- meta/recipes-devtools/dnf/dnf_4.24.0.bb                         | 2 +-
- meta/recipes-devtools/e2fsprogs/e2fsprogs.inc                   | 2 +-
- meta/recipes-devtools/libdnf/libdnf_0.75.0.bb                   | 2 +-
- meta/recipes-devtools/mtd/mtd-utils_2.3.1.bb                    | 2 +-
- meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb            | 2 +-
- meta/recipes-devtools/patchelf/patchelf_git.bb                  | 2 +-
- meta/recipes-devtools/python/python3-dtc_1.8.1.bb               | 2 +-
- meta/recipes-devtools/python/python3-pefile_2024.8.26.bb        | 2 +-
- .../sbom-cve-check-update-cvelist-native_2026-06-24.bb          | 2 +-
- .../sbom-cve-check-update-nvd-native_2026.06.24-000003.bb       | 2 +-
- .../recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb | 2 +-
- meta/recipes-extended/asciidoc/asciidoc_10.2.1.bb               | 2 +-
- meta/recipes-extended/cracklib/cracklib_2.10.3.bb               | 2 +-
- meta/recipes-extended/iputils/iputils_20250605.bb               | 2 +-
- meta/recipes-extended/libnsl/libnsl2_2.0.1.bb                   | 2 +-
- meta/recipes-extended/ltp/ltp_20260529.bb                       | 2 +-
- meta/recipes-extended/net-tools/net-tools_2.10.bb               | 2 +-
- meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb                 | 2 +-
- meta/recipes-extended/zstd/zstd_1.5.7.bb                        | 2 +-
- meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb                    | 2 +-
- meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb               | 2 +-
- meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.3.bb          | 2 +-
- meta/recipes-graphics/waffle/waffle_1.8.3.bb                    | 2 +-
- meta/recipes-graphics/xorg-lib/libxcvt_0.1.3.bb                 | 2 +-
- meta/recipes-kernel/blktrace/blktrace_1.3.0.bb                  | 2 +-
- meta/recipes-kernel/dtc/dtc_1.8.1.bb                            | 2 +-
- meta/recipes-kernel/powertop/powertop_2.15.bb                   | 2 +-
- .../recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb | 2 +-
- meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb        | 2 +-
- .../gnome-desktop-testing/gnome-desktop-testing_2021.1.bb       | 2 +-
- meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb   | 2 +-
- meta/recipes-support/libseccomp/libseccomp_2.6.0.bb             | 2 +-
- meta/recipes-support/lz4/lz4_1.10.0.bb                          | 2 +-
- meta/recipes-support/numactl/numactl_2.0.19.bb                  | 2 +-
- meta/recipes-support/rng-tools/rng-tools_6.17.bb                | 2 +-
- meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb | 2 +-
- meta/recipes-support/xxhash/xxhash_0.8.3.bb                     | 2 +-
- 48 files changed, 48 insertions(+), 48 deletions(-)
-
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr_18.bb b/meta/recipes-bs=
-p/efibootmgr/efibootmgr_18.bb
-index 6f4178216b..8001496fd0 100644
---- a/meta/recipes-bsp/efibootmgr/efibootmgr_18.bb
-+++ b/meta/recipes-bsp/efibootmgr/efibootmgr_18.bb
-@@ -10,7 +10,7 @@ DEPENDS =3D "efivar popt"
-=20
- COMPATIBLE_HOST =3D "(i.86|x86_64|arm|aarch64).*-linux"
-=20
--SRC_URI =3D "git://github.com/rhinstaller/efibootmgr.git;protocol=3Dhttps;=
-branch=3Dmain"
-+SRC_URI =3D "git://github.com/rhinstaller/efibootmgr.git;protocol=3Dhttps;=
-branch=3Dmain;tag=3D${PV}"
- SRCREV =3D "c3f9f0534e32158f62c43564036878b93b9e0fd6"
-=20
- inherit pkgconfig
-diff --git a/meta/recipes-bsp/efivar/efivar_39.bb b/meta/recipes-bsp/efivar=
-/efivar_39.bb
-index e5839f7a99..7b087c135e 100644
---- a/meta/recipes-bsp/efivar/efivar_39.bb
-+++ b/meta/recipes-bsp/efivar/efivar_39.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6626bb1e20189cfa=
-95f2c508ba286393"
-=20
- COMPATIBLE_HOST =3D "(i.86|x86_64|arm|aarch64|riscv64).*-linux"
-=20
--SRC_URI =3D "git://github.com/rhinstaller/efivar.git;branch=3Dmain;protoco=
-l=3Dhttps \
-+SRC_URI =3D "git://github.com/rhinstaller/efivar.git;branch=3Dmain;protoco=
-l=3Dhttps;tag=3D${PV} \
-            file://0001-docs-do-not-build-efisecdb-manpage.patch \
-            file://0002-efivarfs-backport-patch-to-update-file-variable-sto=
-re-on-SetVariableRT.patch \
-            file://0003-fix-march-issue-for-ppc64le.patch \
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb b/meta/recipes-bsp/g=
-nu-efi/gnu-efi_4.0.4.bb
-index 9075487b92..13ee39a2d7 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_4.0.4.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM =3D "file://gnuefi/crt0-efi-arm.S;beginl=
-ine=3D4;endline=3D16;md5=3D8b0a
- COMPATIBLE_HOST =3D "(x86_64.*|i.86.*|aarch64.*|arm.*|riscv64.*)-linux"
- COMPATIBLE_HOST:armv4 =3D 'null'
-=20
--SRC_URI =3D "git://github.com/ncroxon/gnu-efi;protocol=3Dhttps;branch=3Dma=
-ster \
-+SRC_URI =3D "git://github.com/ncroxon/gnu-efi;protocol=3Dhttps;branch=3Dma=
-ster;tag=3D${PV} \
-            file://0001-Do-not-treat-warnings-as-errors.patch \
-            "
- SRCREV =3D "37cd8f069bde6715eebdc5e38a8f15ee6de5edcf"
-diff --git a/meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb b/=
-meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb
-index 6bef43262f..bf0fd752f6 100644
---- a/meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb
-+++ b/meta/recipes-connectivity/avahi/avahi-libnss-mdns_0.15.1.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2d5025d4aa3495be=
-fef8f17206a5b0a1"
-=20
- DEPENDS =3D "avahi"
-=20
--SRC_URI =3D "git://github.com/lathiat/nss-mdns;branch=3Dmaster;protocol=3D=
-https \
-+SRC_URI =3D "git://github.com/lathiat/nss-mdns;branch=3Dmaster;protocol=3D=
-https;tag=3Dv${PV} \
-            "
-=20
- SRCREV =3D "4b3cfe818bf72d99a02b8ca8b8813cb2d6b40633"
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/=
-recipes-connectivity/connman/connman-gnome_0.7.bb
-index 0c6e823ea2..06d741bd4d 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -10,7 +10,7 @@ DEPENDS =3D "gtk+3 dbus-glib dbus-glib-native intltool-na=
-tive gettext-native"
-=20
- # 0.7 tag
- SRCREV =3D "cf3c325b23dae843c5499a113591cfbc98acb143"
--SRC_URI =3D "git://github.com/connectivity/connman-gnome.git;branch=3Dmast=
-er;protocol=3Dhttps \
-+SRC_URI =3D "git://github.com/connectivity/connman-gnome.git;branch=3Dmast=
-er;protocol=3Dhttps;tag=3D${PV} \
-            file://0001-Removed-icon-from-connman-gnome-about-applet.patch =
-\
-            file://null_check_for_ipv4_config.patch \
-            file://images/ \
-diff --git a/meta/recipes-connectivity/neard/neard_0.20.bb b/meta/recipes-c=
-onnectivity/neard/neard_0.20.bb
-index 7825b9a4bb..51ae892c29 100644
---- a/meta/recipes-connectivity/neard/neard_0.20.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.20.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c=
-09e5b7ccc2c4ca7e \
-=20
- DEPENDS =3D "dbus glib-2.0 libnl autoconf-archive-native"
-=20
--SRC_URI =3D "git://github.com/linux-nfc/neard;protocol=3Dhttps;branch=3Dma=
-ster \
-+SRC_URI =3D "git://github.com/linux-nfc/neard;protocol=3Dhttps;branch=3Dma=
-ster;tag=3Dv${PV} \
-            file://neard.in \
-            file://Makefile.am-do-not-ship-version.h.patch \
-            file://0001-Add-header-dependency-to-nciattach.o.patch \
-diff --git a/meta/recipes-connectivity/slirp/libslirp_4.9.3.bb b/meta/recip=
-es-connectivity/slirp/libslirp_4.9.3.bb
-index a13b4b55ab..be13cbc1fc 100644
---- a/meta/recipes-connectivity/slirp/libslirp_4.9.3.bb
-+++ b/meta/recipes-connectivity/slirp/libslirp_4.9.3.bb
-@@ -5,7 +5,7 @@ LICENSE =3D "BSD-3-Clause AND MIT"
- LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3Df95a9bf4a7e411164fe843697ccda=
-59e \
-                     file://LICENSE;md5=3Dcfea6044642fd63b90ce9d79f5db64d9"
-=20
--SRC_URI =3D "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=3Dht=
-tps;branch=3Dmaster"
-+SRC_URI =3D "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=3Dht=
-tps;branch=3Dmaster;tag=3Dv${PV}"
- SRCREV =3D "dd76415fce457e319d665eb8210d05c5731360ba"
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
-=20
-diff --git a/meta/recipes-core/seatd/seatd_0.9.3.bb b/meta/recipes-core/sea=
-td/seatd_0.9.3.bb
-index d0802eee60..72c54d58ab 100644
---- a/meta/recipes-core/seatd/seatd_0.9.3.bb
-+++ b/meta/recipes-core/seatd/seatd_0.9.3.bb
-@@ -6,7 +6,7 @@ LICENSE =3D "MIT"
-=20
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D715a99d2dd552e6188e74d4ed2914d5=
-a"
-=20
--SRC_URI =3D "git://git.sr.ht/~kennylevinsen/seatd;protocol=3Dhttps;branch=
-=3Dmaster \
-+SRC_URI =3D "git://git.sr.ht/~kennylevinsen/seatd;protocol=3Dhttps;branch=
-=3Dmaster;tag=3D${PV} \
-            file://init"
- SRCREV =3D "daa8196e10b180b8b0caeafa8e5f860eb1bd6706"
-=20
-diff --git a/meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb b/meta/recipe=
-s-core/sysfsutils/sysfsutils_2.1.1.bb
-index f1975e46a6..13702866cf 100644
---- a/meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb
-+++ b/meta/recipes-core/sysfsutils/sysfsutils_2.1.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Ddcc19fa9307a5001=
-7fca61423a7d9754 \
-                     file://cmd/GPL;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 =
-\
-                     file://lib/LGPL;md5=3D4fbd65380cdd255951079008b364516c=
-"
-=20
--SRC_URI =3D "git://github.com/linux-ras/sysfsutils.git;protocol=3Dhttps;br=
-anch=3Dmaster \
-+SRC_URI =3D "git://github.com/linux-ras/sysfsutils.git;protocol=3Dhttps;br=
-anch=3Dmaster;tag=3Dv${PV} \
-            file://0001-Modify-my_strncat-function.patch \
- "
-=20
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/r=
-ecipes-devtools/bootchart2/bootchart2_0.14.9.bb
-index 922e665028..77fdd67302 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-@@ -89,7 +89,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D44ac4678311254=
-db62edf8fd39cb8124"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+(\.\d+)*)"
-=20
--SRC_URI =3D "git://github.com/xrmx/bootchart.git;branch=3Dmaster;protocol=
-=3Dhttps \
-+SRC_URI =3D "git://github.com/xrmx/bootchart.git;branch=3Dmaster;protocol=
-=3Dhttps;tag=3D${PV} \
-            file://bootchartd_stop.sh \
-            file://0001-collector-Allocate-space-on-heap-for-chunks.patch \
-            file://0001-bootchartd.in-make-sure-only-one-bootchartd-process=
-.patch \
-diff --git a/meta/recipes-devtools/distcc/distcc_3.4.bb b/meta/recipes-devt=
-ools/distcc/distcc_3.4.bb
-index 392f4ae272..f5f3ebcbef 100644
---- a/meta/recipes-devtools/distcc/distcc_3.4.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.4.bb
-@@ -15,7 +15,7 @@ PACKAGECONFIG[popt] =3D "--without-included-popt,--with-i=
-ncluded-popt,popt"
-=20
- RRECOMMENDS:${PN}-server =3D "avahi-daemon"
-=20
--SRC_URI =3D "git://github.com/distcc/distcc.git;branch=3Dmaster;protocol=
-=3Dhttps \
-+SRC_URI =3D "git://github.com/distcc/distcc.git;branch=3Dmaster;protocol=
-=3Dhttps;tag=3Dv${PV} \
-            file://default \
-            file://distcc \
-            file://distcc.service \
-diff --git a/meta/recipes-devtools/dnf/dnf_4.24.0.bb b/meta/recipes-devtool=
-s/dnf/dnf_4.24.0.bb
-index d40b85c4b0..31bbb4032b 100644
---- a/meta/recipes-devtools/dnf/dnf_4.24.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.24.0.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4=
-486a80fdaf4a4263 \
-                     file://PACKAGE-LICENSING;md5=3D4a0548e303dbc77f067335b=
-4d688e745 \
-                     "
-=20
--SRC_URI =3D "git://github.com/rpm-software-management/dnf.git;branch=3Dmas=
-ter;protocol=3Dhttps \
-+SRC_URI =3D "git://github.com/rpm-software-management/dnf.git;branch=3Dmas=
-ter;protocol=3Dhttps;tag=3D${PV} \
-            file://0001-Corretly-install-tmpfiles.d-configuration.patch \
-            file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.pa=
-tch \
-            file://0005-Do-not-prepend-installroot-to-logdir.patch \
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-d=
-evtools/e2fsprogs/e2fsprogs.inc
-index e83e8b6afa..e474f165e6 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM =3D "file://NOTICE;md5=3Dd50be0580c0b0a7=
-fbc7a4830bbe6c12b \
- SECTION =3D "base"
- DEPENDS =3D "util-linux attr autoconf-archive-native"
-=20
--SRC_URI =3D "git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=3Dm=
-aster;protocol=3Dhttps"
-+SRC_URI =3D "git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=3Dm=
-aster;protocol=3Dhttps;tag=3Dv${PV}"
-=20
- inherit autotools gettext texinfo pkgconfig multilib_header update-alterna=
-tives ptest
-=20
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.75.0.bb b/meta/recipes-d=
-evtools/libdnf/libdnf_0.75.0.bb
-index ddcbc7d9ff..a757257abd 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.75.0.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.75.0.bb
-@@ -4,7 +4,7 @@ DESCRIPTION =3D "This library provides a high level package=
--manager. It's core lib
- LICENSE =3D "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b364516=
-c"
-=20
--SRC_URI =3D "git://github.com/rpm-software-management/libdnf;branch=3Ddnf-=
-4-master;protocol=3Dhttps \
-+SRC_URI =3D "git://github.com/rpm-software-management/libdnf;branch=3Ddnf-=
-4-master;protocol=3Dhttps;tag=3D${PV} \
-            file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-m=
-o.patch \
-            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libd=
-n.patch \
-            file://0001-drop-FindPythonInstDir.cmake.patch \
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_2.3.1.bb b/meta/recipes-de=
-vtools/mtd/mtd-utils_2.3.1.bb
-index e831ebb1d7..cb88b723f8 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_2.3.1.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_2.3.1.bb
-@@ -12,7 +12,7 @@ DEPENDS =3D "zlib e2fsprogs util-linux"
- RDEPENDS:mtd-utils-tests +=3D "bash"
-=20
- SRCREV =3D "053ee1038e5dedae61a88cadfb7bdfe9894d8bb6"
--SRC_URI =3D "git://git.infradead.org/mtd-utils.git;branch=3Dmaster \
-+SRC_URI =3D "git://git.infradead.org/mtd-utils.git;branch=3Dmaster;tag=3Dv=
-${PV} \
-            file://ubihealthd.service"
-=20
- # xattr support creates an additional compile-time dependency on acl becau=
-se
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb b/meta/re=
-cipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-index 9f1a91e1d3..50d7b10bcc 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36c=
-aa9b7df079bae19f \
-                     file://opkg.py;beginline=3D2;endline=3D18;md5=3Dffa11f=
-f3c15eb31c6a7ceaa00cc9f986"
- PROVIDES +=3D "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives'=
-, 'virtual/update-alternatives', '', d)}"
-=20
--SRC_URI =3D "git://git.yoctoproject.org/opkg-utils;protocol=3Dhttps;branch=
-=3Dmaster \
-+SRC_URI =3D "git://git.yoctoproject.org/opkg-utils;protocol=3Dhttps;branch=
-=3Dmaster;tag=3D${PV} \
-            file://0001-update-alternatives-correctly-match-priority.patch =
-\
-            "
- SRCREV =3D "68a969f0e867ace0d94faf8ebe7c7bb67f59d386"
-diff --git a/meta/recipes-devtools/patchelf/patchelf_git.bb b/meta/recipes-=
-devtools/patchelf/patchelf_git.bb
-index adc1198937..741c1e6612 100644
---- a/meta/recipes-devtools/patchelf/patchelf_git.bb
-+++ b/meta/recipes-devtools/patchelf/patchelf_git.bb
-@@ -4,7 +4,7 @@ HOMEPAGE =3D "https://github.com/NixOS/patchelf"
-=20
- LICENSE =3D "GPL-3.0-only"
-=20
--SRC_URI =3D "git://github.com/NixOS/patchelf;protocol=3Dhttps;branch=3Dmas=
-ter"
-+SRC_URI =3D "git://github.com/NixOS/patchelf;protocol=3Dhttps;branch=3Dmas=
-ter;tag=3D${PV}"
- SRCREV =3D "7688b17c18d16f67fa8d5a82a2404c2e3a18648d"
-=20
- PV =3D "0.19.1"
-diff --git a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb b/meta/recip=
-es-devtools/python/python3-dtc_1.8.1.bb
-index ea536d659d..51abf3640a 100644
---- a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
-+++ b/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
-@@ -6,7 +6,7 @@ LICENSE =3D "BSD-2-Clause OR GPL-2.0-only"
-=20
- DEPENDS =3D "flex-native bison-native swig-native python3-setuptools-scm-n=
-ative libyaml dtc"
-=20
--SRC_URI =3D "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmain;=
-protocol=3Dhttps \
-+SRC_URI =3D "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmain;=
-protocol=3Dhttps;tag=3Dv${PV} \
-            "
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
-diff --git a/meta/recipes-devtools/python/python3-pefile_2024.8.26.bb b/met=
-a/recipes-devtools/python/python3-pefile_2024.8.26.bb
-index 11765b3cb3..662413b704 100644
---- a/meta/recipes-devtools/python/python3-pefile_2024.8.26.bb
-+++ b/meta/recipes-devtools/python/python3-pefile_2024.8.26.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De34c75178086aca0=
-a17551ffbacaca53"
-=20
- inherit setuptools3 ptest-python-pytest
- SRCREV =3D "4b3b1e2e568a88d4f1897d694d684f23d9e270c4"
--SRC_URI =3D "git://github.com/erocarrera/pefile;branch=3Dmaster;protocol=
-=3Dhttps \
-+SRC_URI =3D "git://github.com/erocarrera/pefile;branch=3Dmaster;protocol=
-=3Dhttps;tag=3Dv${PV} \
-            file://run-ptest"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cve=
-list-native_2026-06-24.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-c=
-heck-update-cvelist-native_2026-06-24.bb
-index ca192bc9cf..ef61eb4628 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-na=
-tive_2026-06-24.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-na=
-tive_2026-06-24.bb
-@@ -3,7 +3,7 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e0b=
-cf8506ecda2f7b4f302"
-=20
- HOMEPAGE =3D "https://github.com/CVEProject/cvelistV5"
--SRC_URI =3D "git://github.com/CVEProject/cvelistV5.git;branch=3Dmain;proto=
-col=3Dhttps;destsuffix=3D"
-+SRC_URI =3D "git://github.com/CVEProject/cvelistV5.git;branch=3Dmain;proto=
-col=3Dhttps;destsuffix=3D;tag=3D${PV}_baseline"
- SBOM_CVE_CHECK_DB_NAME =3D "cvelist"
-=20
- SRCREV =3D "966bddf787997b471325e065cae82702a60c64ff"
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd=
--native_2026.06.24-000003.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cv=
-e-check-update-nvd-native_2026.06.24-000003.bb
-index 73d9e77692..95af1a5805 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native=
-_2026.06.24-000003.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native=
-_2026.06.24-000003.bb
-@@ -3,7 +3,7 @@ LICENSE =3D "cve-tou"
- LIC_FILES_CHKSUM =3D "file://LICENSES/cve-tou.md;md5=3Dbc5bbf146f01e20ece6=
-3d83c8916d8fb"
-=20
- HOMEPAGE =3D "https://github.com/fkie-cad/nvd-json-data-feeds"
--SRC_URI =3D "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=3Dma=
-in;protocol=3Dhttps;destsuffix=3D"
-+SRC_URI =3D "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=3Dma=
-in;protocol=3Dhttps;destsuffix=3D;tag=3Dv${PV}"
- SBOM_CVE_CHECK_DB_NAME =3D "nvd-fkie"
-=20
- SRCREV =3D "11e62eba27133a54836b7a081d05ff96f72d879b"
-diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.=
-bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
-index a8976f8a3e..3e435e7777 100644
---- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
-+++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_235.bb
-@@ -8,7 +8,7 @@ LICENSE =3D "GPL-2.0-only AND LGPL-2.1-only"
- LIC_FILES_CHKSUM =3D "file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd25595107900=
-8b364516c \
-                     file://LICENSE.GPL2;md5=3D751419260aa954499f7abaabaa88=
-2bbe"
-=20
--SRC_URI =3D "git://github.com/systemd/systemd-bootchart.git;protocol=3Dhtt=
-ps;branch=3Dmain \
-+SRC_URI =3D "git://github.com/systemd/systemd-bootchart.git;protocol=3Dhtt=
-ps;branch=3Dmain;tag=3Dv${PV} \
-            file://mips64.patch \
-            file://no_lto.patch \
-            file://0001-Add-riscv32-support.patch \
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_10.2.1.bb b/meta/recip=
-es-extended/asciidoc/asciidoc_10.2.1.bb
-index 848c380363..44587e94fb 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_10.2.1.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_10.2.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3Daaee33adce0fc7=
-cc40fee23f82f7f101 \
-                     file://LICENSE;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 =
-\
-                     "
-=20
--SRC_URI =3D "git://github.com/asciidoc/asciidoc-py;protocol=3Dhttps;branch=
-=3Dmain"
-+SRC_URI =3D "git://github.com/asciidoc/asciidoc-py;protocol=3Dhttps;branch=
-=3Dmain;tag=3D${PV}"
- SRCREV =3D "21e33efe96ba9a51d99d1150691dae750afd6ed1"
-=20
- DEPENDS =3D "libxml2-native libxslt-native docbook-xml-dtd4-native docbook=
--xsl-stylesheets-native"
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.10.3.bb b/meta/recip=
-es-extended/cracklib/cracklib_2.10.3.bb
-index 7feba2c950..48dd72d5f9 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.10.3.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.10.3.bb
-@@ -9,7 +9,7 @@ DEPENDS =3D "cracklib-native zlib"
-=20
- EXTRA_OECONF =3D "--without-python --libdir=3D${base_libdir}"
-=20
--SRC_URI =3D "git://github.com/cracklib/cracklib;protocol=3Dhttps;branch=3D=
-main \
-+SRC_URI =3D "git://github.com/cracklib/cracklib;protocol=3Dhttps;branch=3D=
-main;tag=3Dv${PV} \
-            "
-=20
- SRCREV =3D "e73d5db1789d198b5f9ec44b68b9c775c3e6c042"
-diff --git a/meta/recipes-extended/iputils/iputils_20250605.bb b/meta/recip=
-es-extended/iputils/iputils_20250605.bb
-index cdebf28ca3..4b09fd2083 100644
---- a/meta/recipes-extended/iputils/iputils_20250605.bb
-+++ b/meta/recipes-extended/iputils/iputils_20250605.bb
-@@ -8,7 +8,7 @@ LICENSE =3D "BSD-3-Clause AND GPL-2.0-or-later"
-=20
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D627cc07ec86a45951d43e30658bbd81=
-9"
-=20
--SRC_URI =3D "git://github.com/iputils/iputils;branch=3Dmaster;protocol=3Dh=
-ttps \
-+SRC_URI =3D "git://github.com/iputils/iputils;branch=3Dmaster;protocol=3Dh=
-ttps;tag=3D${PV} \
-           "
- SRCREV =3D "6e1cb146547eb6fbb127ffc8397a9241be0d33c2"
-=20
-diff --git a/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb b/meta/recipes-e=
-xtended/libnsl/libnsl2_2.0.1.bb
-index ff4ae6c243..4d588e39aa 100644
---- a/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb
-+++ b/meta/recipes-extended/libnsl/libnsl2_2.0.1.bb
-@@ -12,7 +12,7 @@ DEPENDS =3D "libtirpc"
-=20
- CVE_PRODUCT =3D "libnsl_project:libnsl"
-=20
--SRC_URI =3D "git://github.com/thkukuk/libnsl;branch=3Dmaster;protocol=3Dht=
-tps"
-+SRC_URI =3D "git://github.com/thkukuk/libnsl;branch=3Dmaster;protocol=3Dht=
-tps;tag=3Dv${PV}"
- SRCREV =3D "d4b22e54b5e6637a69b26eab5faad2a326c9b182"
-=20
- inherit autotools pkgconfig gettext
-diff --git a/meta/recipes-extended/ltp/ltp_20260529.bb b/meta/recipes-exten=
-ded/ltp/ltp_20260529.bb
-index 0fc3946aa4..f3e20daf85 100644
---- a/meta/recipes-extended/ltp/ltp_20260529.bb
-+++ b/meta/recipes-extended/ltp/ltp_20260529.bb
-@@ -26,7 +26,7 @@ CFLAGS:append:powerpc64 =3D " -D__SANE_USERSPACE_TYPES__"
- CFLAGS:append:mipsarchn64 =3D " -D__SANE_USERSPACE_TYPES__"
- SRCREV =3D "3a64d78f58bdceba93ed321e91215fb969a047ed"
-=20
--SRC_URI =3D "git://github.com/linux-test-project/ltp.git;branch=3Dmaster;p=
-rotocol=3Dhttps \
-+SRC_URI =3D "git://github.com/linux-test-project/ltp.git;branch=3Dmaster;p=
-rotocol=3Dhttps;tag=3D${PV} \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-            file://0001-Add-__clear_cache-declaration-for-clang.patch \
-            file://0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_R=
-E.patch \
-diff --git a/meta/recipes-extended/net-tools/net-tools_2.10.bb b/meta/recip=
-es-extended/net-tools/net-tools_2.10.bb
-index a21916fb26..a3c3d2920c 100644
---- a/meta/recipes-extended/net-tools/net-tools_2.10.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_2.10.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4=
-486a80fdaf4a4263 \
-                     file://ifconfig.c;beginline=3D11;endline=3D15;md5=3Dd1=
-ca372080ad5401e23ca0afc35cf9ba"
-=20
- SRCREV =3D "80d7b95067f1f22fece9537dea6dff53081f4886"
--SRC_URI =3D "git://git.code.sf.net/p/net-tools/code;protocol=3Dhttps;branc=
-h=3Dmaster \
-+SRC_URI =3D "git://git.code.sf.net/p/net-tools/code;protocol=3Dhttps;branc=
-h=3Dmaster;tag=3Dv${PV} \
-     file://net-tools-config.h \
-     file://net-tools-config.make \
-     file://Add_missing_headers.patch \
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes=
--extended/xinetd/xinetd_2.3.15.4.bb
-index a15ea43d66..c82ea65ee2 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D55c5fdf02cfcca=
-3fc9621b6f2ceae10f"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)"
-=20
--SRC_URI =3D "git://github.com/openSUSE/xinetd.git;protocol=3Dhttps;branch=
-=3Dmaster \
-+SRC_URI =3D "git://github.com/openSUSE/xinetd.git;protocol=3Dhttps;branch=
-=3Dmaster;tag=3D${PV} \
-            file://0001-Use-monotonic-time.patch \
-            file://xinetd.init \
-            file://xinetd.default \
-diff --git a/meta/recipes-extended/zstd/zstd_1.5.7.bb b/meta/recipes-extend=
-ed/zstd/zstd_1.5.7.bb
-index 4960ed5b48..ef0bd54c9c 100644
---- a/meta/recipes-extended/zstd/zstd_1.5.7.bb
-+++ b/meta/recipes-extended/zstd/zstd_1.5.7.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D0822a32f7acdbe=
-013606746641746ee8 \
-                     file://COPYING;md5=3D39bba7d2cf0ba1036f2a6e2be52fe3f0 =
-\
-                     "
-=20
--SRC_URI =3D "git://github.com/facebook/zstd.git;branch=3Drelease;protocol=
-=3Dhttps"
-+SRC_URI =3D "git://github.com/facebook/zstd.git;branch=3Drelease;protocol=
-=3Dhttps;tag=3Dv${PV}"
-=20
- SRCREV =3D "f8745da6ff1ad1e7bab384bd1f9d742439278e99"
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb b/meta/recipes-gn=
-ome/libxmlb/libxmlb_0.3.28.bb
-index 0e1c815362..47c07d0c29 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb
-+++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb
-@@ -4,7 +4,7 @@ LICENSE =3D "LGPL-2.1-only"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1803fa9c2c3ce8cb06b4861d7531074=
-2"
-=20
- SRC_URI =3D " \
--	git://github.com/hughsie/libxmlb.git;branch=3Dmain;protocol=3Dhttps \
-+	git://github.com/hughsie/libxmlb.git;branch=3Dmain;protocol=3Dhttps;tag=
-=3D${PV} \
- 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
- 	file://run-ptest \
- "
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb b/meta/recip=
-es-graphics/libepoxy/libepoxy_1.5.10.bb
-index 2427ce3f96..8c1011e94a 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb
-@@ -9,7 +9,7 @@ SECTION =3D "libs"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D58ef4c80d401e07bd9ee8b6b58cf464=
-b"
-=20
--SRC_URI =3D "git://github.com/anholt/libepoxy;branch=3Dmaster;protocol=3Dh=
-ttps"
-+SRC_URI =3D "git://github.com/anholt/libepoxy;branch=3Dmaster;protocol=3Dh=
-ttps;tag=3D${PV}"
- SRCREV =3D "c84bc9459357a40e46e2fec0408d04fbdde2c973"
-=20
- inherit meson pkgconfig features_check github-releases
-diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.3.bb b/meta/=
-recipes-graphics/matchbox-wm/matchbox-wm_1.2.3.bb
-index 3359193d65..1efacd2f51 100644
---- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.3.bb
-+++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.3.bb
-@@ -11,7 +11,7 @@ SECTION =3D "x11/wm"
- DEPENDS =3D "libmatchbox virtual/libx11 libxext libxrender startup-notific=
-ation expat gconf libxcursor libxfixes"
-=20
- SRCREV =3D "ce8c1053270d960a7235ab5c3435f707541810a4"
--SRC_URI =3D "git://git.yoctoproject.org/matchbox-window-manager;branch=3Dm=
-aster;protocol=3Dhttps \
-+SRC_URI =3D "git://git.yoctoproject.org/matchbox-window-manager;branch=3Dm=
-aster;protocol=3Dhttps;tag=3D${PV} \
-            file://kbdconfig"
-=20
- inherit autotools pkgconfig features_check
-diff --git a/meta/recipes-graphics/waffle/waffle_1.8.3.bb b/meta/recipes-gr=
-aphics/waffle/waffle_1.8.3.bb
-index 377187b499..1a2265b4c6 100644
---- a/meta/recipes-graphics/waffle/waffle_1.8.3.bb
-+++ b/meta/recipes-graphics/waffle/waffle_1.8.3.bb
-@@ -9,7 +9,7 @@ LICENSE =3D "BSD-2-Clause"
- LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D4c5154407c2490750dd461c50ad=
-94797 \
-                     file://include/waffle-1/waffle.h;endline=3D24;md5=3D61=
-dbf8697f61c78645e75a93c585b1bf"
-=20
--SRC_URI =3D "git://gitlab.freedesktop.org/mesa/waffle.git;protocol=3Dhttps=
-;branch=3Dmaint-1.8"
-+SRC_URI =3D "git://gitlab.freedesktop.org/mesa/waffle.git;protocol=3Dhttps=
-;branch=3Dmaint-1.8;tag=3Dv${PV}"
- SRCREV =3D "920b709036d7313b59007435786fc3da61af31ab"
-=20
- inherit meson features_check lib_package bash-completion pkgconfig
-diff --git a/meta/recipes-graphics/xorg-lib/libxcvt_0.1.3.bb b/meta/recipes=
--graphics/xorg-lib/libxcvt_0.1.3.bb
-index 1e2c626143..aed61b0216 100644
---- a/meta/recipes-graphics/xorg-lib/libxcvt_0.1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcvt_0.1.3.bb
-@@ -6,7 +6,7 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D129947a06984d6faa6f9a9788fa2a03=
-f"
- SECTION =3D "x11/libs"
-=20
--SRC_URI =3D "git://gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=3D=
-https;branch=3Dmaster"
-+SRC_URI =3D "git://gitlab.freedesktop.org/xorg/lib/libxcvt.git;protocol=3D=
-https;branch=3Dmaster;tag=3D${BPN}-${PV}"
- SRCREV =3D "dd8631c61465cc0de5e476c7a98e56528d62b163"
-=20
- inherit meson
-diff --git a/meta/recipes-kernel/blktrace/blktrace_1.3.0.bb b/meta/recipes-=
-kernel/blktrace/blktrace_1.3.0.bb
-index 2c1b6b1d6c..6f9e19b1a9 100644
---- a/meta/recipes-kernel/blktrace/blktrace_1.3.0.bb
-+++ b/meta/recipes-kernel/blktrace/blktrace_1.3.0.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D393a5ca445f696=
-5873eca0259a17f833"
-=20
- DEPENDS =3D "libaio"
-=20
--SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/axboe/blktrace.=
-git;protocol=3Dhttps;branch=3Dmaster \
-+SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/axboe/blktrace.=
-git;protocol=3Dhttps;branch=3Dmaster;tag=3D${BPN}-${PV} \
-            file://0001-bno_plot.py-btt_plot.py-Ask-for-python3-specificall=
-y.patch \
-           "
-=20
-diff --git a/meta/recipes-kernel/dtc/dtc_1.8.1.bb b/meta/recipes-kernel/dtc=
-/dtc_1.8.1.bb
-index e2c7edcc46..ade36a4e58 100644
---- a/meta/recipes-kernel/dtc/dtc_1.8.1.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.8.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://GPL;md5=3Db234ee4d69f5fce448=
-6a80fdaf4a4263 \
-                     "
-=20
- SRC_URI =3D " \
--    git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmain;protocol=
-=3Dhttps \
-+    git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmain;protocol=
-=3Dhttps;tag=3Dv${PV} \
- "
- SRCREV =3D "8f48565e5cfedc74d3f7512f1e0188e9d85dc1de"
-=20
-diff --git a/meta/recipes-kernel/powertop/powertop_2.15.bb b/meta/recipes-k=
-ernel/powertop/powertop_2.15.bb
-index a9008b4074..5dceac17d3 100644
---- a/meta/recipes-kernel/powertop/powertop_2.15.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.15.bb
-@@ -6,7 +6,7 @@ DEPENDS =3D "ncurses libnl pciutils autoconf-archive-native=
-"
- LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4ca7=
-e"
-=20
--SRC_URI =3D "git://github.com/fenrus75/powertop;protocol=3Dhttps;branch=3D=
-master \
-+SRC_URI =3D "git://github.com/fenrus75/powertop;protocol=3Dhttps;branch=3D=
-master;tag=3Dv${PV} \
-            file://0001-wakeup_xxx.h-include-limits.h.patch \
-            "
- SRCREV =3D "d51ad395436d4d1dcc3ca46e1519ffeb475bf651"
-diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.=
-bb b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
-index ece4f25eca..3ec0027917 100644
---- a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
-+++ b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
-@@ -2,6 +2,6 @@ require matchbox-theme-sato.inc
-=20
- # SRCREV tagged 0.2
- SRCREV =3D "df085ba9cdaeaf2956890b0e29d7ea1779bf6c78"
--SRC_URI =3D "git://git.yoctoproject.org/matchbox-sato;branch=3Dmaster;prot=
-ocol=3Dhttps"
-+SRC_URI =3D "git://git.yoctoproject.org/matchbox-sato;branch=3Dmaster;prot=
-ocol=3Dhttps;tag=3D${PV}"
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
-=20
-diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb b/met=
-a/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-index 27850a8b98..adb9251fd7 100644
---- a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-+++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-@@ -11,7 +11,7 @@ DEPENDS =3D "matchbox-panel-2 gtk+3"
-=20
- # SRCREV tagged 0.3
- SRCREV =3D "9250fa5a012d84ff45984e8c4345ee7635227756"
--SRC_URI =3D "git://git.yoctoproject.org/screenshot;branch=3Dmaster;protoco=
-l=3Dhttps"
-+SRC_URI =3D "git://git.yoctoproject.org/screenshot;branch=3Dmaster;protoco=
-l=3Dhttps;tag=3D${PV}"
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
-=20
- inherit autotools pkgconfig features_check
-diff --git a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testi=
-ng_2021.1.bb b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-tes=
-ting_2021.1.bb
-index 4fcad4814b..30e4f1882f 100644
---- a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021=
-.1.bb
-+++ b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021=
-.1.bb
-@@ -9,7 +9,7 @@ LICENSE =3D "LGPL-2.0-or-later"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D3bf50002aefd002f49e7bb854063f7e=
-7 \
-                     file://src/gnome-desktop-testing-runner.c;beginline=3D=
-1;endline=3D20;md5=3D7ef3ad9da2ffcf7707dc11151fe007f4"
-=20
--SRC_URI =3D "git://gitlab.gnome.org/GNOME/gnome-desktop-testing.git;protoc=
-ol=3Dhttps;branch=3Dmaster \
-+SRC_URI =3D "git://gitlab.gnome.org/GNOME/gnome-desktop-testing.git;protoc=
-ol=3Dhttps;branch=3Dmaster;tag=3Dv${PV} \
-            file://0001-fix-non-literal-format-string-issue-with-clang.patc=
-h \
-           "
- SRCREV =3D "e346cd4ed2e2102c9b195b614f3c642d23f5f6e7"
-diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb =
-b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-index 3dc02261dd..380c12b867 100644
---- a/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-+++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-@@ -8,7 +8,7 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De4426409957080ee0352128354cea2d=
-e"
- DEPENDS =3D "hwdata-native"
-=20
--SRC_URI =3D "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;bra=
-nch=3Dmain;protocol=3Dhttps"
-+SRC_URI =3D "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;bra=
-nch=3Dmain;protocol=3Dhttps;tag=3D${PV}"
- SRCREV =3D "47a5590e9c4eb35d67651b8c05a55f1a48259329"
-=20
- inherit meson pkgconfig lib_package
-diff --git a/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb b/meta/rec=
-ipes-support/libseccomp/libseccomp_2.6.0.bb
-index b356862dfd..44260e3032 100644
---- a/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb
-+++ b/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb
-@@ -9,7 +9,7 @@ DEPENDS +=3D "gperf-native"
-=20
- SRCREV =3D "c7c0caed1d04292500ed4b9bb386566053eb9775"
-=20
--SRC_URI =3D "git://github.com/seccomp/libseccomp.git;branch=3Drelease-2.6;=
-protocol=3Dhttps \
-+SRC_URI =3D "git://github.com/seccomp/libseccomp.git;branch=3Drelease-2.6;=
-protocol=3Dhttps;tag=3Dv${PV} \
-            file://0001-api-fix-seccomp_export_bpf_mem-out-of-bounds-read.p=
-atch \
-            file://run-ptest \
-            "
-diff --git a/meta/recipes-support/lz4/lz4_1.10.0.bb b/meta/recipes-support/=
-lz4/lz4_1.10.0.bb
-index 61a7237f83..5a39f89871 100644
---- a/meta/recipes-support/lz4/lz4_1.10.0.bb
-+++ b/meta/recipes-support/lz4/lz4_1.10.0.bb
-@@ -12,7 +12,7 @@ PE =3D "1"
-=20
- SRCREV =3D "ebb370ca83af193212df4dcbadcc5d87bc0de2f0"
-=20
--SRC_URI =3D "git://github.com/lz4/lz4.git;branch=3Drelease;protocol=3Dhttp=
-s \
-+SRC_URI =3D "git://github.com/lz4/lz4.git;branch=3Drelease;protocol=3Dhttp=
-s;tag=3Dv${PV} \
-            file://reproducibility.patch \
-            file://run-ptest \
-            file://fix-null-error-handling.patch \
-diff --git a/meta/recipes-support/numactl/numactl_2.0.19.bb b/meta/recipes-=
-support/numactl/numactl_2.0.19.bb
-index 5fd35f1770..35bb401935 100644
---- a/meta/recipes-support/numactl/numactl_2.0.19.bb
-+++ b/meta/recipes-support/numactl/numactl_2.0.19.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D "file://README.md;beginline=3D19;end=
-line=3D32;md5=3D9f34c3af4ed6f3f
-=20
- SRCREV =3D "3bc85e37d5a30da6790cb7e8bb488bb8f679170f"
-=20
--SRC_URI =3D "git://github.com/numactl/numactl;branch=3Dmaster;protocol=3Dh=
-ttps \
-+SRC_URI =3D "git://github.com/numactl/numactl;branch=3Dmaster;protocol=3Dh=
-ttps;tag=3Dv${PV} \
-            file://Fix-the-test-output-format.patch \
-            file://Makefile \
-            file://run-ptest \
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.17.bb b/meta/recipe=
-s-support/rng-tools/rng-tools_6.17.bb
-index 9085658697..a6578c0fe0 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.17.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.17.bb
-@@ -6,7 +6,7 @@ LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a426=
-3"
- DEPENDS =3D "openssl libcap"
-=20
--SRC_URI =3D "git://github.com/nhorman/rng-tools.git;branch=3Dmaster;protoc=
-ol=3Dhttps \
-+SRC_URI =3D "git://github.com/nhorman/rng-tools.git;branch=3Dmaster;protoc=
-ol=3Dhttps;tag=3Dv${PV} \
-            file://init \
-            file://default \
-            file://rng-tools.service \
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.b=
-b b/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb
-index f4551c8f59..7ff69a4c99 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4=
-486a80fdaf4a4263"
-=20
- DEPENDS =3D "libxml2 glib-2.0 shared-mime-info-native xmlto-native"
-=20
--SRC_URI =3D "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protoco=
-l=3Dhttps;branch=3Dmaster \
-+SRC_URI =3D "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protoco=
-l=3Dhttps;branch=3Dmaster;tag=3D${PV} \
-            "
- SRCREV =3D "fd8ab89c20093f1bfba8fa9e302ba584fffd0fd7"
-=20
-diff --git a/meta/recipes-support/xxhash/xxhash_0.8.3.bb b/meta/recipes-sup=
-port/xxhash/xxhash_0.8.3.bb
-index 75b34bb0a2..dc9bbe5563 100644
---- a/meta/recipes-support/xxhash/xxhash_0.8.3.bb
-+++ b/meta/recipes-support/xxhash/xxhash_0.8.3.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D13be6b481ff5616f=
-77dda971191bb29b \
-                     file://cli/COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263 \
-                     "
-=20
--SRC_URI =3D "git://github.com/Cyan4973/xxHash.git;branch=3Drelease;protoco=
-l=3Dhttps"
-+SRC_URI =3D "git://github.com/Cyan4973/xxHash.git;branch=3Drelease;protoco=
-l=3Dhttps;tag=3Dv${PV}"
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
-=20
- SRCREV =3D "e626a72bc2321cd320e953a0ccf1584cad60f363"
+T24gMjIgSnVsIDIwMjYsIGF0IDA2OjQxLCBNYXRoaWV1IER1Ym9pcy1CcmlhbmQgPG1hdGhpZXUu
+ZHVib2lzLWJyaWFuZEBib290bGluLmNvbT4gd3JvdGU6DQo+IA0KPiBPbiBUdWUgSnVsIDIxLCAy
+MDI2IGF0IDY6MTUgUE0gQ0VTVCwgUm9zcyBCdXJ0b24gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcgd3JvdGU6DQo+PiBOb3cgdGhhdCBzeXN0ZW1kLXRvb2xzLW5hdGl2ZSBnaXZlcyB1cyBhIG5h
+dGl2ZSBzeXN0ZW1kLWh3ZGIsIGFuZCB0aGUNCj4+IGRhdGFiYXNlIGZvcm1hdCBpcyBrbm93biB0
+byBiZSBoYXJkd2FyZS1hZ25vc3RpYywgd2UgY2FuIHNpbXBseSBydW4NCj4+IHN5c3RlbWQtaHdk
+YiBkaXJlY3RseSBpbnN0ZWFkIG9mIHJ1bm5pbmcgaXQgaW5zaWRlIHFlbXUtdXNlciBpZiB3ZSdy
+ZQ0KPj4gdXNpbmcgc3lzdGVtZCBpbnN0ZWFkIG9mIGV1ZGV2Lg0KPj4gDQo+PiBTaWduZWQtb2Zm
+LWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4NCj4+IC0tLQ0KPiANCj4gSGkg
+Um9zcywNCj4gDQo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaC4NCj4gDQo+IEl0IGxvb2tzIGxpa2Ug
+d2UgaGF2ZSBwb3N0aW5zdGFsbCBmYWlsdXJlczoNCj4gRVJST1I6IGNvcmUtaW1hZ2UtZnVsbC1j
+bWRsaW5lLTEuMC1yMCBkb19yb290ZnM6IFRoZSBwb3N0aW5zdGFsbCBpbnRlcmNlcHQgaG9vayAn
+dXBkYXRlX3VkZXZfaHdkYicgZmFpbGVkLCBkZXRhaWxzIGluIC9zcnYvcG9reWJ1aWxkL3lvY3Rv
+LXdvcmtlci9nZW5lcmljYXJtNjQtYWx0L2J1aWxkL2J1aWxkL3RtcC93b3JrL2dlbmVyaWNhcm02
+NC1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLzEuMC90ZW1wL2xvZy5kb19yb290
+ZnMNCg0KSSBzaG91bGQgaGF2ZSBwaW5nZWQgeW91IGRpcmVjdGx5LCB0aGVzZSBwYXRjaGVzIHJl
+bHkgb24gYSBwc2V1ZG8gdXBkYXRlLiAgSSBzZW50IHRoZXNlIGJlZm9yZSB0aGUgcHNldWRvIHVw
+ZGF0ZSBmb3IgcmV2aWV3IGFuZCBzbyB0aGUgc3lzdGVtZCB1cGRhdGUgY2FuIGJlIHJlYmFzZWQu
+DQoNCknigJlsbCBjaGVjayB0aGUgZmFpbHMgdG8gbWFrZSBzdXJlIHRoZXnigJlyZSB3aGF0IEkg
+ZXhwZWN0LCBidXQgc29ycnkgZm9yIGJyZWFraW5nIHlvdXIgYnVpbGQhDQoNClJvc3M=
 
