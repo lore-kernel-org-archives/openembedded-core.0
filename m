@@ -2,181 +2,331 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D78C4453C
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:21 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5476.1784741055732349583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FAEC531C9
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:22 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5474.1784741054453270114
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 10:24:16 -0700
+ Wed, 22 Jul 2026 10:24:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=x7roblTG;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-495635a85d2so27815835e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:15 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=SehE7Lxk;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-495590dde14so38695995e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784741054; x=1785345854; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tSvMhQ3BQ7h2vEz6oZUTYyOYG63Bc4HFxEx06mF6kNU=;
-        b=x7roblTGA/HG3qJldDVqxWdvUW/jfyBvhSt8fL0h/3piOT6Zm473nZfU3USwOXFgSh
-         JHSe6feAHxfv8ab5oNrUy+2uLiKZBs2v92Yb8ZLw15mAmqzcPYIHdfR92QJkaY3hUrfc
-         ogbG6qYbCDj2qva0n55Es8ZkqxekpVhTM32jE=
+        d=smile.fr; s=google; t=1784741053; x=1785345853; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=2s5a5IVjL7D1G9uuuYTzKJ9TFO7iDt58VxEA7trDunI=;
+        b=SehE7LxkLOWkwgXcHb3OJKnqTrDO22YhYoOCBUZhkwR8xBuhUQqsbEN8BdcwQ/lV0q
+         HgF+k+WlkKv+1/fwcxim53gJYPsYw6NH6OuuyfkU9JonkdHvzDfDjBS9j2bXhgLkCmgo
+         TvVLNfajlXe7bzfR/yIzTa8erkc4C9LzNmoxQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741054; x=1785345854;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tSvMhQ3BQ7h2vEz6oZUTYyOYG63Bc4HFxEx06mF6kNU=;
-        b=NkukXG+3eIaLCMlGE2YVpcDJG0lhzPt7ISbnMAmfB6kmcN1nsbXfxDZbZMTGF5Ezsj
-         7NYPNjmRJIDJ+cUfwjI/MRbfFxT4u1B0gftLsUZFrzogrSw4TSKXFhBros8bt/W8IxX8
-         3Vp9mukKlVOI61a1wkWhQCr0DMOMEklWbvMt/+35IhWPmsjwV/W/gjGPfQ/nyrEHQg9i
-         A4uoy8p9gbKB84um4pVyu7uh+kgScVZnwbnupJPqQozBVRzS7gdVzBftlRwGQV4b8oVm
-         KBvtOye3fiXikRIxjrMEMWvWNLTkogplBkxk6xNzqCKTn8EE4vOkcbT6f+uQAfdRMMLy
-         3Krg==
-X-Gm-Message-State: AOJu0YwUGxZPVHYcq3mlYCsgxnuDwQxvtZts6OoNhqExVEg1QozK68Zh
-	7f7ZizMiR2TGWv3N4gPZES+eWsT9vDRVyiv9sLCB+Ac4wIm+bT4qi+x2UMo0NwoseSgCLXqsWB2
-	2+yhs+tE=
-X-Gm-Gg: AR+sD11SIeYRFi+iGDu0r+26EnMk5CxyVvZCwNb7wJK9nv2ndPTXlNUt9TH8efZglO3
-	uLYnbkg0LYX/dsKgU5pp9W6jVJs2tv5ZP6kOmtIr2wp0a5GBRsuGIIcSxNHli+q8y/y9YvAQ6U0
-	3q1I93rTL2LzaslKi9pCOadiL3HyqglU+jMn0JRr7UEqcZLnOROBDdzlJv4GQNw2J32vweNBbjK
-	S9no3R0frHn/vPBIqMO20ZuchjEjJunLMC+zN2hopj/5bPHknWdPfpxuK2RFlrtJxGdZqJnuEJZ
-	vrqJWUpFokCT8kDlosVFUsY5XOWnru9BcYBUedKIWYQEpjFteP+YCuxSk+MC+Q56ztjw/7jkXeV
-	fLHOU9hNPDTtSi0PRb3wUi04pku57DR+zZ2lYWqXQBymTPQqpVljf1U8w2tyq673O/7NC4+YTK0
-	g5xF7j3q34gvdkpa/BnCNbNDPRoxYfzfGh11BPOnUXjjF5Dt/y7NoII9wk2v6Z1I0ajuh5KL+Mr
-	jarAHjr38qG
-X-Received: by 2002:a05:600c:4755:b0:493:c2cc:aecb with SMTP id 5b1f17b1804b1-4954a51590fmr296307635e9.38.1784741053913;
-        Wed, 22 Jul 2026 10:24:13 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784741053; x=1785345853;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=2s5a5IVjL7D1G9uuuYTzKJ9TFO7iDt58VxEA7trDunI=;
+        b=tFeynFXcN5ghI7tJ+QqNZpXbhtfy8B8Ou6KUVBfq+GlCh3VSzRb4IUYHUed60/64a7
+         rn6iqoMOimI83RmUprSO+iuzEE6uOYxvK/Mhape6cRW2rcjWxhyc+SCTagGa4Z+fBFan
+         hXq0CsMITZUxJ5RmAJIlBF6PMZ2G/unJWUCfshaiGUb1LwPuImGPpiR9D40xpBLCk/7d
+         sQZ1s/XVJzu6LHnIbgV6THkjKqUJKpwh3iHxufIcKbMGLCepLGP9Inal8G+6vW3jGWUY
+         7K0G3eYXYShCF160XANVr+kEjc54Y1HwEUs/cz3sKIENlTnLW6U7gojgUDX17FK1w6aM
+         t+Yw==
+X-Gm-Message-State: AOJu0Yz5HIe6TGJ3UTm42OL6cu87QUlm1iSCfn/u/osoYvtPy9Ommx6z
+	4vnMT4R9CofwF0sv9ir5bZR/VI+EH68DffIYc6isbrlhg0Eg/78fs6lCVd76IOvDjgTfun7nsDY
+	hhwgHRLw=
+X-Gm-Gg: AR+sD11OVjeyE7Fbz2Q/6eTcuBDQtQnYhb8hvgWMH2lh+wb06skcHPXO5CKpiqtkRjv
+	OIv39UvlQJYgmtyJn5nqXmbZo5rHXjPFvnszdXjIQdptrPdzHbbW8BoKsUGrbPsd9JRe+qeJeui
+	qQUvTrSlBgF1JzwXIfI+TCFFAzxIRKm5n9BAowOruHizMhOlRasmkGGysIrWdq2OO5yywqS9hs2
+	dgsStiUeq04E8zTVWzffsxUf+swvvcSUFHlJ4chxHP8tl38ebRUOxG5mGN4ca4L66pFqArZZ35k
+	X7gy/oNYyllVhZWpNQgtKDrk5joxY0EFRlq1SylmX3AznZqWp8nTpOounohQ4M4XCiCCsKnWOf7
+	xuC3Fc9YScgLh/jJ45Er2/q1kRf65NuLasAtKFh1bKTF24OZ6qTNvwHrCfqIX0k0BOVBMF9Jjs5
+	oFZWvVp4cHtQhQslelKI0jfcPyy3oaa3LbZxAso35sHfSKV9n68jry0QFyWDJXuA0vBPoA+TbXQ
+	6glEA/rTgic
+X-Received: by 2002:a05:600c:c4aa:b0:495:6934:414c with SMTP id 5b1f17b1804b1-495693442b8mr71388335e9.19.1784741052585;
+        Wed, 22 Jul 2026 10:24:12 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 10:24:13 -0700 (PDT)
+        Wed, 22 Jul 2026 10:24:12 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 27/27] gzip: Fix CVE-2026-41991
-Date: Wed, 22 Jul 2026 19:23:40 +0200
-Message-ID: <0dfe86a27167689ded394d72ebb5e22157fb9184.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 25/27] openssh: Fix CVE-2026-60002
+Date: Wed, 22 Jul 2026 19:23:38 +0200
+Message-ID: <9350aca86f6a0252156c644370829e944cc628d8.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
 References: <cover.1784740870.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241737
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241735
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-This patch applies the upstream fix for CVE-2026-41991 as referenced
-in [2], using the upstream commit identified in [1].
+This patch applies the upstream OpenSSH 10.4p1 backport for
+CVE-2026-60002. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2].
 
-[1] https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=4e6f8b24ab823146ab8776f0b7fe486ab34d4269
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-41991
+[1] https://github.com/openssh/openssh-portable/commit/e8bdfb151a356d0171fea4194dd205fbb252be23
+[2] https://www.cve.org/CVERecord?id=CVE-2026-60002
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
+[YC: Patch referenced in https://ubuntu.com/security/CVE-2026-60002]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gzip/gzip-1.14/CVE-2026-41991.patch       | 75 +++++++++++++++++++
- meta/recipes-extended/gzip/gzip_1.14.bb       |  1 +
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
+ .../openssh/openssh/CVE-2026-60002.patch      | 225 ++++++++++++++++++
+ .../openssh/openssh_10.3p1.bb                 |   1 +
+ 2 files changed, 226 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
 
-diff --git a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch b/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
 new file mode 100644
-index 00000000000..20c35fe352e
+index 00000000000..85937279a20
 --- /dev/null
-+++ b/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
-@@ -0,0 +1,75 @@
-+From b1545c47cddc9948cb0743b2ceb140a63c88acbc Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 16 Apr 2026 12:11:44 -0700
-+Subject: [PATCH] gzexe: use -C if lacking mktemp
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
+@@ -0,0 +1,225 @@
++From b571549bc93e95f0d3d563094f825544228501de Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Mon, 6 Jul 2026 07:49:58 +0000
++Subject: [PATCH] upstream: fix ownership and lifetime of several bits of
++ client
 +
-+(Problem reported by Michał Majchrowicz.)
-+* gzexe.in: If mktemp is needed but not installed,
-+use ‘set -C’ to avoid a race when creating a temporary file.
-+* zdiff.in: Use the same pattern here, even though the old
-+code was probably OK anyway.
++state that need to persist for the life of the connection, especially the
++cached hostkey that was being incorrectly freed early on some paths, possibly
++allowing its use after free.
 +
-+CVE: CVE-2026-41991
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=4e6f8b24ab823146ab8776f0b7fe486ab34d4269]
++Reported by Zhenpeng (Leo) Lin from depthfirst.com
 +
-+(cherry picked from commit 4e6f8b24ab823146ab8776f0b7fe486ab34d4269)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++OpenBSD-Commit-ID: faaa6ad72e7d69d41fa8b197b606265b7d9bc73f
++
++CVE: CVE-2026-60002
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/e8bdfb151a356d0171fea4194dd205fbb252be23]
++
++Backport Changes:
++- Omitted the upstream OpenBSD revision-only hunks in ssh.c,
++  sshconnect.c, sshconnect.h, and sshconnect2.c and retained the Wrynose
++  OpenSSH 10.3p1 revisions because this stable backport carries only the
++  functional security changes.
++
++(cherry picked from commit e8bdfb151a356d0171fea4194dd205fbb252be23)
++Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ NEWS     | 5 +++++
-+ gzexe.in | 1 +
-+ zdiff.in | 7 +++----
-+ 3 files changed, 9 insertions(+), 4 deletions(-)
++ ssh.c         | 24 ++----------------------
++ sshconnect.c  | 47 +++++++++++++++++++++++++++++++++++++++++++++--
++ sshconnect.h  |  7 +++++--
++ sshconnect2.c | 20 +++++++++++---------
++ 4 files changed, 63 insertions(+), 35 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index 53bdf56..2d2eb81 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,5 +1,10 @@
-+ GNU gzip NEWS                                    -*- outline -*-
++diff --git a/ssh.c b/ssh.c
++index 531f28eb2..efb8930f4 100644
++--- a/ssh.c
+++++ b/ssh.c
++@@ -612,26 +612,6 @@ set_addrinfo_port(struct addrinfo *addrs, int port)
++ 	}
++ }
 + 
-++  On old-fashioned or limited platforms lacking mktemp, gzexe and
-++  zdiff no longer have a race when creating a temporary file.
-++  [bug present since the beginning]
-++
-++
-+ * Noteworthy changes in release 1.14 (2025-04-09) [stable]
++-static void
++-ssh_conn_info_free(struct ssh_conn_info *cinfo)
++-{
++-	if (cinfo == NULL)
++-		return;
++-	free(cinfo->conn_hash_hex);
++-	free(cinfo->shorthost);
++-	free(cinfo->uidstr);
++-	free(cinfo->keyalias);
++-	free(cinfo->thishost);
++-	free(cinfo->host_arg);
++-	free(cinfo->portstr);
++-	free(cinfo->remhost);
++-	free(cinfo->remuser);
++-	free(cinfo->homedir);
++-	free(cinfo->locuser);
++-	free(cinfo->jmphost);
++-	free(cinfo);
++-}
++-
++ /*
++  * Main program for the ssh client.
++  */
++@@ -1799,8 +1779,8 @@ main(int ac, char **av)
++ 	ssh_signal(SIGCHLD, main_sigchld_handler);
 + 
-+ ** Bug fixes
-+diff --git a/gzexe.in b/gzexe.in
-+index 1267d6e..09a2571 100644
-+--- a/gzexe.in
-++++ b/gzexe.in
-+@@ -127,6 +127,7 @@ for i do
-+     tmp=`mktemp "${dir}gzexeXXXXXXXXX"`
-+   else
-+     tmp=${dir}gzexe$$
-++    (umask 77; set -C; > "$tmp")
-+   fi && { cp -p "$file" "$tmp" 2>/dev/null || cp "$file" "$tmp"; } || {
-+     res=$?
-+     printf >&2 '%s\n' "$0: cannot copy $file"
-+diff --git a/zdiff.in b/zdiff.in
-+index a8689a0..c04a8c0 100644
-+--- a/zdiff.in
-++++ b/zdiff.in
-+@@ -156,12 +156,11 @@ case $file2 in
-+                           *) TMPDIR=/tmp/;;
-+                         esac
-+                         if command -v mktemp >/dev/null 2>&1; then
-+-                          tmp=`mktemp "${TMPDIR}zdiffXXXXXXXXX"` ||
-+-                            exit 2
-++                          tmp=`mktemp "${TMPDIR}zdiffXXXXXXXXX"`
-+                         else
-+-                          set -C
-+                           tmp=${TMPDIR}zdiff$$
-+-                        fi
-++                          (umask 77; set -C; > "$tmp")
-++                        fi &&
-+                         'gzip' -cdfq -- "$file2" > "$tmp" || exit 2
-+                         gzip_status=$(
-+                           exec 4>&1
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-extended/gzip/gzip_1.14.bb b/meta/recipes-extended/gzip/gzip_1.14.bb
-index 99174a58c53..d6bd36f89f9 100644
---- a/meta/recipes-extended/gzip/gzip_1.14.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.14.bb
-@@ -7,6 +7,7 @@ LICENSE = "GPL-3.0-or-later"
- SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
-            file://run-ptest \
-            file://CVE-2026-41992.patch \
-+           file://CVE-2026-41991.patch \
++ 	/* Log into the remote system.  Never returns if the login fails. */
++-	ssh_login(ssh, &sensitive_data, host, (struct sockaddr *)&hostaddr,
++-	    options.port, pw, timeout_ms, cinfo);
+++	ssh_login(ssh, &sensitive_data, host, &hostaddr, options.port,
+++	    pw, timeout_ms, cinfo);
++ 
++ 	/* We no longer need the private host keys.  Clear them now. */
++ 	if (sensitive_data.nkeys != 0) {
++diff --git a/sshconnect.c b/sshconnect.c
++index 4384277a6..3d338ff23 100644
++--- a/sshconnect.c
+++++ b/sshconnect.c
++@@ -70,6 +70,49 @@ extern char *__progname;
++ static int show_other_keys(struct hostkeys *, struct sshkey *);
++ static void warn_changed_key(struct sshkey *);
++ 
+++void
+++ssh_conn_info_free(struct ssh_conn_info *cinfo)
+++{
+++	if (cinfo == NULL)
+++		return;
+++	free(cinfo->conn_hash_hex);
+++	free(cinfo->shorthost);
+++	free(cinfo->uidstr);
+++	free(cinfo->keyalias);
+++	free(cinfo->thishost);
+++	free(cinfo->host_arg);
+++	free(cinfo->portstr);
+++	free(cinfo->remhost);
+++	free(cinfo->remuser);
+++	free(cinfo->homedir);
+++	free(cinfo->locuser);
+++	free(cinfo->jmphost);
+++	freezero(cinfo, sizeof(*cinfo));
+++}
+++
+++struct ssh_conn_info *
+++ssh_conn_info_dup(const struct ssh_conn_info *cinfo)
+++{
+++	struct ssh_conn_info *ret;
+++
+++	if (cinfo == NULL)
+++		return NULL;
+++	ret = xcalloc(1, sizeof(*ret));
+++	ret->conn_hash_hex = xstrdup(cinfo->conn_hash_hex);
+++	ret->shorthost = xstrdup(cinfo->shorthost);
+++	ret->uidstr = xstrdup(cinfo->uidstr);
+++	ret->keyalias = xstrdup(cinfo->keyalias);
+++	ret->thishost = xstrdup(cinfo->thishost);
+++	ret->host_arg = xstrdup(cinfo->host_arg);
+++	ret->portstr = xstrdup(cinfo->portstr);
+++	ret->remhost = xstrdup(cinfo->remhost);
+++	ret->remuser = xstrdup(cinfo->remuser);
+++	ret->homedir = xstrdup(cinfo->homedir);
+++	ret->locuser = xstrdup(cinfo->locuser);
+++	ret->jmphost = xstrdup(cinfo->jmphost);
+++	return ret;
+++}
+++
++ /* Expand a proxy command */
++ static char *
++ expand_proxy_command(const char *proxy_command, const char *user,
++@@ -1585,8 +1628,8 @@ warn_nonpq_kex(void)
++  */
++ void
++ ssh_login(struct ssh *ssh, Sensitive *sensitive, const char *orighost,
++-    struct sockaddr *hostaddr, u_short port, struct passwd *pw, int timeout_ms,
++-    const struct ssh_conn_info *cinfo)
+++    struct sockaddr_storage *hostaddr, u_short port, struct passwd *pw,
+++    int timeout_ms, const struct ssh_conn_info *cinfo)
++ {
++ 	char *host;
++ 	char *server_user, *local_user;
++diff --git a/sshconnect.h b/sshconnect.h
++index 4c19490da..8da0e04b9 100644
++--- a/sshconnect.h
+++++ b/sshconnect.h
++@@ -76,7 +76,7 @@ int	 ssh_connect(struct ssh *, const char *, const char *,
++ void	 ssh_kill_proxy_command(void);
++ 
++ void	 ssh_login(struct ssh *, Sensitive *, const char *,
++-    struct sockaddr *, u_short, struct passwd *, int,
+++    struct sockaddr_storage *, u_short, struct passwd *, int,
++     const struct ssh_conn_info *);
++ 
++ int	 verify_host_key(char *, struct sockaddr *, struct sshkey *,
++@@ -85,7 +85,7 @@ int	 verify_host_key(char *, struct sockaddr *, struct sshkey *,
++ void	 get_hostfile_hostname_ipaddr(char *, struct sockaddr *, u_short,
++     char **, char **);
++ 
++-void	 ssh_kex2(struct ssh *ssh, char *, struct sockaddr *, u_short,
+++void	 ssh_kex2(struct ssh *ssh, char *, struct sockaddr_storage *, u_short,
++     const struct ssh_conn_info *);
++ 
++ void	 ssh_userauth2(struct ssh *ssh, const char *, const char *,
++@@ -101,3 +101,6 @@ void	 load_hostkeys_command(struct hostkeys *, const char *,
++     const struct sshkey *, const char *);
++ 
++ int hostkey_accepted_by_hostkeyalgs(const struct sshkey *);
+++
+++void ssh_conn_info_free(struct ssh_conn_info *);
+++struct ssh_conn_info *ssh_conn_info_dup(const struct ssh_conn_info *);
++diff --git a/sshconnect2.c b/sshconnect2.c
++index 478a9a52f..50ac6b89d 100644
++--- a/sshconnect2.c
+++++ b/sshconnect2.c
++@@ -83,7 +83,7 @@ extern Options options;
++  */
++ 
++ static char *xxx_host;
++-static struct sockaddr *xxx_hostaddr;
+++static struct sockaddr_storage xxx_hostaddr;
++ static const struct ssh_conn_info *xxx_conn_info;
++ static int key_type_allowed(struct sshkey *, const char *);
++ 
++@@ -99,7 +99,7 @@ verify_host_key_callback(struct sshkey *hostkey, struct ssh *ssh)
++ 		fatal("Server host key %s not in HostKeyAlgorithms",
++ 		    sshkey_ssh_name(hostkey));
++ 	}
++-	if (verify_host_key(xxx_host, xxx_hostaddr, hostkey,
+++	if (verify_host_key(xxx_host, (struct sockaddr *)&xxx_hostaddr, hostkey,
++ 	    xxx_conn_info) != 0)
++ 		fatal("Host key verification failed.");
++ 	return 0;
++@@ -216,16 +216,16 @@ order_hostkeyalgs(char *host, struct sockaddr *hostaddr, u_short port,
++ }
++ 
++ void
++-ssh_kex2(struct ssh *ssh, char *host, struct sockaddr *hostaddr, u_short port,
++-    const struct ssh_conn_info *cinfo)
+++ssh_kex2(struct ssh *ssh, char *host, struct sockaddr_storage *hostaddr,
+++    u_short port, const struct ssh_conn_info *cinfo)
++ {
++ 	char *myproposal[PROPOSAL_MAX];
++ 	char *all_key, *hkalgs = NULL;
++ 	int r, use_known_hosts_order = 0;
++ 
++-	xxx_host = host;
++-	xxx_hostaddr = hostaddr;
++-	xxx_conn_info = cinfo;
+++	xxx_host = xstrdup(host);
+++	xxx_hostaddr = *hostaddr;
+++	xxx_conn_info = ssh_conn_info_dup(cinfo);
++ 
++ 	if (options.rekey_limit || options.rekey_interval)
++ 		ssh_packet_set_rekey_limits(ssh, options.rekey_limit,
++@@ -248,8 +248,10 @@ ssh_kex2(struct ssh *ssh, char *host, struct sockaddr *hostaddr, u_short port,
++ 		fatal_fr(r, "kex_assemble_namelist");
++ 	free(all_key);
++ 
++-	if (use_known_hosts_order)
++-		hkalgs = order_hostkeyalgs(host, hostaddr, port, cinfo);
+++	if (use_known_hosts_order) {
+++		hkalgs = order_hostkeyalgs(host, (struct sockaddr *)hostaddr,
+++		    port, cinfo);
+++	}
++ 
++ 	kex_proposal_populate_entries(ssh, myproposal,
++ 	    options.kex_algorithms, options.ciphers, options.macs,
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
+index d8d73ee5dd0..8edb1440fe0 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
+@@ -29,6 +29,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://CVE-2026-59996.patch \
+            file://CVE-2026-59995.patch \
+            file://CVE-2026-60001.patch \
++           file://CVE-2026-60002.patch \
             "
- SRC_URI:append:class-target = " file://wrong-path-fix.patch"
+ SRC_URI[sha256sum] = "56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4"
  
 
