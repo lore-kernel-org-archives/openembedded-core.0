@@ -1,353 +1,163 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 789CDC44539
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 10:38:11 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44790.1784716504868731097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83630C44539
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 10:52:51 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.32])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.45064.1784717566664652646
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 03:35:04 -0700
+ Wed, 22 Jul 2026 03:52:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=bzC72aos;
- spf=pass (domain: konsulko.com, ip: 209.85.216.46, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38175907a56so4575266a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 03:35:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784716504; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WXoj42D1cphImBjtuIa5sf1bJnbiWZg1sw5oEJa+cNHTve+Be6jFusp/TpSh5pAUCR
-         l/hj6AmJqmBuSaY6N49oe5kwlGEPXTi0fmzOtFczcxTkv6Ic9xgPiURoWhQzr2YBO2bi
-         M9CfDd5wBGDj0g26S49Z0RHI9aXerqsXXC8itJTSA8M7gvBRe6/otmyJ7KnJunWr7G40
-         cbFsP/kg7xcKuv/Omo/EwofO6WfVJ/A0ECMjPvHO1jjg/m9K0CpEMSJGi53ehRlj2roq
-         F9glwmzuEKkUEKXLwivNDtjI/E4ozBT01tPx/xH5EAl8bMFN3nfQ3GqucI72bRb+Dhzp
-         uefw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9ETriKH8QpVjN6hPPr+CcVg6oTpNg2ku3/SZRD6knrU=;
-        fh=hUVqK0aAl83dE4fAdhFDNRLccYL8ScK5abtMTC498pc=;
-        b=W/lHAwwz803u/9K+wjk+HyfhKRYb7IJHahNtLoizxpp1UNM7JFoptCaSdLsi72EaO4
-         tJYy9Mza/w3tBWc7Lppzt09ri03/iHk4xhTZ5oUum7fCkoSC/QI9wiTTMH1lsPKJZXuD
-         qWYvaM71lb/YQuoVwivDKpPQtdXKLv4NqW061kEN/Vs2RimBHn029o2Q3CVqEqfIkVf2
-         nIxX/VWFEuLAc+qqbqFckMqRgXUTQhJ3oUsDVZTCdPt4OAk6+aBQJP/Rz/rams0Kfmr+
-         1Zbm+K+3tSzQKETsZ68vnWsdT16CMeDBn44UxLLlLvsiq8Mpy07xl/KlDQ8+NZeE2Vlv
-         7RPw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1784716504; x=1785321304; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9ETriKH8QpVjN6hPPr+CcVg6oTpNg2ku3/SZRD6knrU=;
-        b=bzC72aosdz8ZCbCXujRwZIvdaxcDCzDo6apQxHX4ktpjMcE1Rb5ZpUMS/0Eu29Am3v
-         hCZjIy8JbTXO2OQXLu8+ascLp5DTJGMbM3MPSgv5xtr7XcRvyNM7MsqkRnKIobFwnAOf
-         sNY2PjoWteFPg0QeLZKpoQt2b+bWignAGvNig=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784716504; x=1785321304;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9ETriKH8QpVjN6hPPr+CcVg6oTpNg2ku3/SZRD6knrU=;
-        b=SFG9H3HB/Dkg8cU0W9r9X7caVpgaHVUdZsaPgPdXAxORFVYixhufa+rD2l8beWkmOc
-         0fiOSCQIEaJyQbC9ymECtuEzgu+ljBCRvmJOEC4A0kRRe+gamXPpgYgrJTaVd7LwS1XD
-         Wl9A4b1dzP9o7V3uL8IsKaWY1jyMmPhmivlwE4giMFKWdcgsbs4SMvWH4b6cF6n0xMcB
-         CNoSJd4l7VzCNIAv5MFxeyfXdAmwnQBASwhODYZ7I1JvVjmyiz6DhX/+S1K5Ri0XX660
-         FmcrH0f3U9uF6Io6BahOWK7jlrR/VTtWV1z3IgH/WDzUQh76/24oBV2KkzZhJMi0YJxn
-         SKeA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqv4M7FuiFbty/S13p1tGDWMiGbC955SHOFiS8FTo+JT7ozMcGWo6d74SKx7WfiX8k1EeHWIQEdkuQxrGogQDK0YA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzrOyB6HrFGMaVDj0GI5nDPJkrO5ErW29kyOyyNtJbGwJBLg4q9
-	6grL/S+3f5i4mWJ47vUatTLDUaICTKTKxb0aa8iIK8ao26cJsc0zI62b1lPv4w4htvXdN4nJYWx
-	ZEA2Cl9Q2MXl2iI9NE6riqkB6QQ/E4XL6Lck4LEH8cA==
-X-Gm-Gg: AR+sD11aa3s+CU/yA2j5oR3mIoX9tOYIRx1ceHGcEdZbKy1xvMHvJ2qtFTmoL2btJkb
-	+FlUqih1TzVzVKpwAj1cM/WciOb3wCgemUO/wJrDgYw+fRuMf8aX4W5VOCrcTtW48a+DBs+vmZ1
-	hQqt/6m0L6dYPtvWs6g5NlPsU9mM6HEeZjOAlr8GHiAsEIwXeG3tXqmuaUkC+oc57ECK5C9zHZ/
-	VdwFP7cdF2cnIyypJ8IzI94JxK8uZrNh9V0WQXXlVWy35jKEqTfiDWc5jpc9ytDuwdnzipukplP
-	VtimF0M6Djp0AI9TsYz7OmztSotbNffBodydlv6KEED01jpSimGpnpTug9YqnMQW/D4MZlEw
-X-Received: by 2002:a17:90b:5806:b0:37f:d265:18d2 with SMTP id
- 98e67ed59e1d1-38ea341d4b9mr2799300a91.7.1784716503999; Wed, 22 Jul 2026
- 03:35:03 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=mLarol9T;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=mLarol9T;
+ spf=pass (domain: arm.com, ip: 40.107.130.32, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=KqjI4Z1uI11hKxuL1asxX/VAGodnNFvQVglideUoSNYDUaHtpdS8MUsDLFRGGJjdSoipusZvD/NS2NixqzcWvPASN7kA/fjnflAW1sxvnqXF8uml9/zF9Xg4v1f30w1hnH9w/2KXTIK4xBJGtKaI74e+Q2zgMb6/DzmPLTMkB17skrO1CPfdQpMZkDyQOdRNvNvDxGG3hO4xiHWCmQleW/ZtcIdNl0JsKKguktSoyqJUqK/9B1TnKzPyuRpezfyp1UNA4bMaL7DPOdfIQDhVJKGjY965Zqg43aRgvHSoz2jQGzuA8NygVCL6DUx2zPZYGxUnjcBZzeUzwWCXEZ71lg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=icydpdyfvJ8vaf2iN5hRHOasXd/YRGcSleXJiJT8GYs=;
+ b=tsE+qAHMEKUkYutH20BJQ7dgDcxX2EJKA0SxpWUmdC2HX0yFcCbViP+UwUBENO2J9YneaaqUEKqXnxK0y2pD2bVXbs5lDDt6/v7Ihy3auK9t7rJuvBND4Hiuwg5n2sUo+twk4B2roEKRWFe2gongKC+cLLyjEx9Dh3jsWHbXE7RcRwzqHqbggZJ9ThBzjGRUwwyUrxTTbHmE4r/bzGwTOvqYoG5xRwYRUyogJ/W4M/BnxaKon7X0f4ZD/HinkVOiZR6HTuiApVzuW8VuAW46Q6R4cyTecuVKSfrXWw2h/i7feHbkcj4rLP4pZFzcmb5WFNU/YP05f9rKqvosgsRIug==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=icydpdyfvJ8vaf2iN5hRHOasXd/YRGcSleXJiJT8GYs=;
+ b=mLarol9TaHQnVzSQRFLf3M0VNE6Tg3Pl4vSt198w+lZsDhdurTlUI3HFmwnZKUjzuH2DsHua/qVt9KQNFBLADeCQu/ANA6pyhXPuqmxO6WWO69ErQXhOPN4w2h9JTEY5eP2UXchaJH3r5rWE7qeqRXHZv/2vFo/RsThhWXTQDMM=
+Received: from DU6P191CA0014.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::15)
+ by AS8PR08MB6423.eurprd08.prod.outlook.com (2603:10a6:20b:318::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 10:52:39 +0000
+Received: from DB5PEPF00014B9E.eurprd02.prod.outlook.com
+ (2603:10a6:10:540:cafe::2d) by DU6P191CA0014.outlook.office365.com
+ (2603:10a6:10:540::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Wed,
+ 22 Jul 2026 10:52:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B9E.mail.protection.outlook.com (10.167.8.171) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5
+ via Frontend Transport; Wed, 22 Jul 2026 10:52:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hNE+S3dEAGFMQlSWnX0smFh4xplvrXcogdgTgzjR0xk9lpYJp31XC6ZLSmsZeMxpBz9EGOX68J0i3BfvfLJxQGh31awCVbKZlK7fuiGAeZNyWlsR14wXInjPq+dg4fe64rWCyUSjEJWrYG77xhKk8YNT1fu7fyfNsFKAA9wqMPaGwwjhB6Zxk+hCv5paBPrOLfIgEdV0CBG5joWWnRlGG57bP2OgBklYAuRXgkQ30LCmNtVN6zveAPwarq7W3aCmd/FALy9eknBExSmrbPZ4Hjf4Q+9R1JVAdKs3yYi8KD/8hXanXbSHs3r35W2e2ss+nddx2klWoq+cJ0VWMoLAhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=icydpdyfvJ8vaf2iN5hRHOasXd/YRGcSleXJiJT8GYs=;
+ b=RXCS4HPvBRp8j8p+fQQaX7wMuX8qxtdnbMAVlXFWNdlBu9drxOAER/8WCApTlEfiQkGVGPNBXcSso7yh3pM+8iNDiWMaDOKWHGNk0XP1bMwzLcdUhJD5Sm1M0kal+vo1RG8FHClNTuCi+LVlV3yq7zDrafOAqVrO7QPf3v3tcSQPJSNRz3RtRFTrQlrLIfhy1/G3c6y1DSnMIJUhloGL9k8gLOlKWtgH5KUhtCn/Qz40O6pGT2vpHDJQWJ+JIsohlYrKuS0aDYPV0LPSTSxXwAEmtSOP7nReHNdvOOBXamNGu9Jgp35ARsCmPxeCc1np02v03VITyZKbyqb1u2aHxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=icydpdyfvJ8vaf2iN5hRHOasXd/YRGcSleXJiJT8GYs=;
+ b=mLarol9TaHQnVzSQRFLf3M0VNE6Tg3Pl4vSt198w+lZsDhdurTlUI3HFmwnZKUjzuH2DsHua/qVt9KQNFBLADeCQu/ANA6pyhXPuqmxO6WWO69ErQXhOPN4w2h9JTEY5eP2UXchaJH3r5rWE7qeqRXHZv/2vFo/RsThhWXTQDMM=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by PAWPR08MB11454.eurprd08.prod.outlook.com (2603:10a6:102:50b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 10:51:37 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 10:51:36 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Khem Raj
+	<khem.raj@oss.qualcomm.com>
+Subject: Re: [OE-core] [PATCH 2/2] libpsl: convert to meson build system
+Thread-Topic: [OE-core] [PATCH 2/2] libpsl: convert to meson build system
+Thread-Index: AQHdGAmn9zbPF/z7NUK3Xa4phrTuN7Z5YAIA
+Date: Wed, 22 Jul 2026 10:51:36 +0000
+Message-ID: <62CAC1EA-8756-4E01-B305-EDF0FC5EFD3E@arm.com>
+References: <20260720053526.1992240-1-khem.raj@oss.qualcomm.com>
+ <20260720053526.1992240-2-khem.raj@oss.qualcomm.com>
+In-Reply-To: <20260720053526.1992240-2-khem.raj@oss.qualcomm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|PAWPR08MB11454:EE_|DB5PEPF00014B9E:EE_|AS8PR08MB6423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ae956ee-2ff2-47dc-62bf-08dee7df5975
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|22082099003|18002099003|11063799006|4143699003|38070700021|10067099003|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ j8LzU0+Gtt1xJMNid4UO/B2f74HzeERkULLtaRBJsYZfv3unS0Rg+QHB3nwy0xqGiFGCmmuvDTiwf8rMT8Cui5eqsXrt0QByWaCQpdF65B+QRZTf67Ou3R2SpYSFrinoAphe1r/aE5CcIc0/vTh9YUoLWPQCS9LEk7a/wB81o+QOw6/bErGU2A8E9vNB8vEveVeW5a01iUwZEnD2HUVPB47CmcTWyD09czTsxC2J77ll4tC5+QjZqb3EkbnppodDXfoZmOKX/K0NMzR1m6Q1GOG5j1E2b32ENyKAyXwtGRRj+3IaKlYPCODGhjIF4aXiZK9M/XdqBPg75u48qBXEcmHwfhsu1oC8CYpJS/MHZWwja8rUvgu5Rncbby0MsKXkKt4ddZJ4KofPgt7gi99rubdg12Hpe4UH+shYXlw1B/wLPRTYKk5698t9o8VPhVuWu8SKC8Ybn+GOFOZPSAkjDzI+E/lhuH2uTT/HhmCv+vixoRrnONoHroBwkABn2YJ4l3nKXnQaV1ShliUCgLREydnOx6lK4bwHJFyUNNMDpIL7vCawwRoNHKuFyjPIY+7zGU46FfZPwS7Etrb/PSLBf5zRLuiR7/YDVprPuNTFkja/MCtLBSgIBsgxzfn29Sk+WJLoGz3jlFm9U6j+sI/zJzawu/uYz6I+uGrGFWcvdWOxlK61Xe2aN2Hj9XaCIiV8Nd6nDs98HZrHNa6wSdro1B7rCDONTO5/Hy+HfYsXutk=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(22082099003)(18002099003)(11063799006)(4143699003)(38070700021)(10067099003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <50B3E9C3779FB44EB4B93FD7721DB020@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20260708143704.2643050-1-leon.anavi@konsulko.com>
- <7e6827804a7b8da37204e54171d8fb9f7b490b35.camel@linuxfoundation.org>
- <20260716182737.GP749385@bill-the-cat> <ea3daf0012f4f0d582081fef8f4b6f0a7e2a9556.camel@linuxfoundation.org>
- <20260716232011.GR749385@bill-the-cat> <51b4348470f9f620160358d2ac8f14159248a5c7.camel@linuxfoundation.org>
-In-Reply-To: <51b4348470f9f620160358d2ac8f14159248a5c7.camel@linuxfoundation.org>
-From: Leon Anavi <leon.anavi@konsulko.com>
-Date: Wed, 22 Jul 2026 13:34:52 +0300
-X-Gm-Features: AUfX_mx3KZAKyfQJkBmj5IEfpp7rYz6-ZZOtJccFzLTursWqdKq18dLyXuJFrfE
-Message-ID: <CALtQ3O37n66_kooxb=vrXRBeJirU0UicQAodUAeqemZsWhi5WA@mail.gmail.com>
-Subject: Re: [OE-core] [[PATCHv3] meta: Add pam to the defaults if using systemd
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tom Rini <trini@konsulko.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000003ef71d065730b1b1"
+X-Exchange-RoutingPolicyChecked: 
+ IhGARO+XOVYl4ogVhSsCmw1BJ8mXkqlrCSogPdBH+u09tPkUAxDW/vkOnuXaiQ4cXa8lE//fF2c6w+q7Sli4c4g6nv2DjfBYlkNNZPYW48h0nRRBGlrblhRXi8Kkn65Vm//HUzozIeFvoX4tsqlVGl/D1q7nvriHJqluFYy1DF/9Ywq0UX0VYiiA2uNuCkAgDNj5MFpeOMG3MnGAN8d7cl5Mxd/Q9AgCK9PV9dR+upOn/icZuOAzBLeq1OYP6hk0ptA5XH5DgUsMIFu48Kn6w229H0plGE/HC7KNZAezXHnnmFjl3n5ny3joeJrwVV4s5BKLjxgdCc26TlfxRCFE5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB11454
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B9E.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	c0093d4f-ca23-4d5c-3bbb-08dee7df33fa
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|82310400026|1800799024|376014|36860700016|14060799003|35042699022|6133799003|56012099006|4143699003|11063799006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 
+	MuiI2KRR8YbMrAxu5dw7dPALrjxEkyjB9iY/oPNQT+EjqJ0ZPjz0zkQha5/nha8mosHLVB4lnzBGHCBfM5V12N3iWXq2D8dmuy/0f4a+nRIlNrWczskgzI54ycwpQOM5WKULaL3dPoUrF7HzZLjmLDSskbQV+iU5vqQMaooxReSTp0Uvc5Xv9SXJm0ghG5URfgWQ58WkfAUKqHhxz3rh7ixf9rg4u3JVtIQW2hDuNeK2eyxNZzhztZQg8ZOrs7A26Ei5AjhNEmc0Hxc5/vDZZJkBB4/B6mdd7j3jV4IBtK23GEUknxen0ZH3DOpj1Ag2Fl2noLG8GRBCnpoFX8QaW1GyYs14I11b3roVqZG4qzHO8ueS71mKKZ2FkxEbgYiFNvvC9yEiIvahn5mCi9PIkWZ0nB1JrW3iQ9awjmvPmSTUEQu2kc0+TnWz0U2vaGDnNy+/nY3jJHhxzXapj3PhG91fkm1miUPeUORg2MR7tl3SE/oV1dOaKmeF0Sru6rdznz5JkYdhqA4TTw3BWRKd0clOaqRK9he4vVWtdMCnImz9MvqPrG7tDFbKl8CkyGthBTFDyyO7Dle3DOvdEDsGgX1beWl0nkRs2yMUqwLdnzHKIfULJF8TK/6Z1n3MOzYPEYobjsq5CTlIwmgj/UpYYYQjQ4vmWI1NXgg7GpY0M8Zb86mucnXDeu/aST7D+MHL9lGjEGmNgh0z4ZYo5vrj3A==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(1800799024)(376014)(36860700016)(14060799003)(35042699022)(6133799003)(56012099006)(4143699003)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	HQt8uwQ4evxBgEdJur5713TOwMV9cvyDTZ6ITn7B8qBb8BwgKT2C7A6NbeQV26LndFcSId3qOApj8+xTb/tqmkW4M3vRyfzIfP0xUc+pxwGWQ0V1v+Cjb7n4JUNcijDc0T7xHdWjpelfgiB3tt/OhfJUC89QAKF9CeRwKJWdMHMS8WHBPgjF95xedB3f1Aqz2PnC/e3gG8/0OhvhBcO1Gelj85+v5DE/P5a0IatMnczJv88XUQrfuJMpW2oE4CWCCENCaZYamiHbHmggLbp+9lIDV6Dxr2QDJ07n4e43H+mvHUeqXnJZPEx7lbJ9q7DdxfOTRO2Wy7whhqxgdZUon1WsIyBHao3fk9enE/us9CA6sn3RSi2mtJfjkshN7XeOx6KcZRmoMOpNxFWhxF61V55JpV7ZmS0ZPCG6rL+4IPDmIo+zBRQELltY39D5/Jtf
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 10:52:39.6738
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ae956ee-2ff2-47dc-62bf-08dee7df5975
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B9E.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6423
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:38:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241654
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:52:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241659
 
---0000000000003ef71d065730b1b1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-Just as a quick update, following the decision not to add pam to the
-default distro features, Matt Madison, the maintainer of meta-tegra BSP
-layer, committed a patch to remove the unneeded Weston dependency from
-recipe l4t-graphics-demos:
-https://github.com/OE4T/meta-tegra/commit/abf7600589090740565cfc0afc94c01e7=
-e1f6ce0
-
-As a result, the yocto-check-script successfully passes for meta-tegra, so
-the issue I was initially having is resolved.
-
-However, considering the shared details about weston/pam/vnc, in my
-personal opinion it is still worth addressing Joshua's very valid question
-and figuring out how to improve weston-init and weston recipes to make pam
-really required only for vnc.
-
-Best regards, Leon
-
-On Fri, Jul 17, 2026 at 9:11=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Thu, 2026-07-16 at 17:20 -0600, Tom Rini wrote:
-> > On Thu, Jul 16, 2026 at 09:28:26PM +0100, Richard Purdie wrote:
-> > > On Thu, 2026-07-16 at 12:27 -0600, Tom Rini wrote:
-> > > > On Thu, Jul 16, 2026 at 12:25:00PM +0100, Richard Purdie wrote:
-> > > > > On Wed, 2026-07-08 at 17:37 +0300, Leon Anavi via
-> > > > > lists.openembedded.org wrote:
-> > > > > > This fixes issues with test_machine_world when running the
-> > > > > > yocto-check-layer script for BSP layers that include weston in
-> > > > > > the
-> > > > > > dependency chain, for example meta-tegra:
-> > > > > >
-> > > > > > ERROR: Required build target 'meta-world-pkgdata' has no
-> > > > > > buildable
-> > > > > > providers.
-> > > > > > Missing or unbuildable dependency chain was: ['meta-world-
-> > > > > > pkgdata',
-> > > > > > 'l4t-graphics-demos', 'weston']
-> > > > >
-> > > > > Why wouldn't l4t-graphics-demos just list pam as a required distr=
-o
-> > > > > feature for that recipe?
-> > > >
-> > > > Because it doesn't come from l4t-graphics-demos it comes from westo=
-n?
-> > > > And l4t-graphics-demos supports wayland or x11. Doing something her=
-e
-> > > > would be the not satisfying approach Paul mentioned on v1 or so of
-> > > > this thread. It shuts yocto-check-layer up while doing nothing of
-> > > > value.
-> > >
-> > > I should explain a little about the unfortunate way that
-> > > REQUIRED_DISTRO_FEATURES works.
-> > >
-> > > Anything that needs a specific distro feature uses that but it has a
-> > > unfortunate ripple side effect where anything with that recipe as a
-> > > dependency, must also then have the same REQUIRED_DISTRO_FEATURES lin=
-e
-> > > (or more restrictive).
-> > >
-> > > This was discussed extensively in the past and you will see this in t=
-he
-> > > way x11 is rippled through recipes.
-> > >
-> > > I appreciate you will then argue this should be automatic as obviousl=
-y
-> > > anything depending on X will require Y as a DISTRO_FEATURE. I have
-> > > refused to implement any such magic as it turns out it can misfire
-> > > spectacularly badly and end up just masking every recipe out as a
-> > > ripple effect for a poorly thought out change as the worst case
-> > > scenario. There are plenty of scenarios where unexpected bad things c=
-an
-> > > happen which would be hard to spot. This was discussed in the past to=
-o.
-> > >
-> > > So, my point is that if you have weston-init as a dependency, even
-> > > indirectly, you have the required distro features requirement passed =
-to
-> > > that recipe and need to mark the recipe as such.
-> > >
-> > > No, it isn't great, but the alternatives can go spectacularly wrong t=
-oo
-> > > and you can't work out how to do this correctly automatically in a sa=
-fe
-> > > way.
-> > >
-> > > You are doing something of value, you're clearly marking the
-> > > requirement of the recipe (which it has via it's dependencies).
-> > >
-> > > I think the question is marking the recipe in question to say it
-> > > requires "pam+systemd+weston" or "x11", which might mean anonymous
-> > > python but is definitely doable.
-> >
-> > This specific problem has (will be) fixed in meta-tegra since weston ca=
-n
-> > just be dropped. But if I follow what you're saying right, since
-> > meta/recipes-graphics/wayland/weston_15.0.0.bb ends up with:
-> > REQUIRED_DISTRO_FEATURES =3D "wayland opengl
-> ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'pam',
-> '', d)}"
-> > essentially every recipe that has DEPENDS on a PACKAGECONFIG that
-> > brings in weston *also* needs that same logic, to not run in to a
-> > problem later on.
->
-> Correct.
->
-> > Is there tooling to find and check that? And is the answer yes, we just
-> > ran in to it?
->
-> I'm not aware of any such tooling, it has all just been done manually so
-> far.
->
-> Cheers,
->
-> Richard
->
-
---0000000000003ef71d065730b1b1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<br><br>Just as a quick update, following the decision =
-not to add pam to the default distro features,  Matt Madison, the maintaine=
-r of meta-tegra BSP layer, committed a patch to remove the unneeded Weston =
-dependency from recipe l4t-graphics-demos:<br><a href=3D"https://github.com=
-/OE4T/meta-tegra/commit/abf7600589090740565cfc0afc94c01e7e1f6ce0">https://g=
-ithub.com/OE4T/meta-tegra/commit/abf7600589090740565cfc0afc94c01e7e1f6ce0</=
-a><br><br>As a result, the yocto-check-script successfully passes for meta-=
-tegra, so the issue I was initially having is resolved.<br><br>However, con=
-sidering the shared details about weston/pam/vnc, in my personal opinion it=
- is still worth addressing Joshua&#39;s very valid question and figuring ou=
-t how to improve weston-init and weston recipes to make pam really required=
- only for vnc.<br><br>Best regards, Leon</div><br><div class=3D"gmail_quote=
- gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 1=
-7, 2026 at 9:11=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.pur=
-die@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 2026-07-=
-16 at 17:20 -0600, Tom Rini wrote:<br>
-&gt; On Thu, Jul 16, 2026 at 09:28:26PM +0100, Richard Purdie wrote:<br>
-&gt; &gt; On Thu, 2026-07-16 at 12:27 -0600, Tom Rini wrote:<br>
-&gt; &gt; &gt; On Thu, Jul 16, 2026 at 12:25:00PM +0100, Richard Purdie wro=
-te:<br>
-&gt; &gt; &gt; &gt; On Wed, 2026-07-08 at 17:37 +0300, Leon Anavi via<br>
-&gt; &gt; &gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"norefe=
-rrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; &gt; &gt; &gt; &gt; This fixes issues with test_machine_world when run=
-ning the<br>
-&gt; &gt; &gt; &gt; &gt; yocto-check-layer script for BSP layers that inclu=
-de weston in<br>
-&gt; &gt; &gt; &gt; &gt; the<br>
-&gt; &gt; &gt; &gt; &gt; dependency chain, for example meta-tegra:<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; ERROR: Required build target &#39;meta-world-pkgda=
-ta&#39; has no<br>
-&gt; &gt; &gt; &gt; &gt; buildable<br>
-&gt; &gt; &gt; &gt; &gt; providers.<br>
-&gt; &gt; &gt; &gt; &gt; Missing or unbuildable dependency chain was: [&#39=
-;meta-world-<br>
-&gt; &gt; &gt; &gt; &gt; pkgdata&#39;,<br>
-&gt; &gt; &gt; &gt; &gt; &#39;l4t-graphics-demos&#39;, &#39;weston&#39;]<br=
->
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; Why wouldn&#39;t l4t-graphics-demos just list pam as a =
-required distro<br>
-&gt; &gt; &gt; &gt; feature for that recipe?<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Because it doesn&#39;t come from l4t-graphics-demos it comes=
- from weston?<br>
-&gt; &gt; &gt; And l4t-graphics-demos supports wayland or x11. Doing someth=
-ing here<br>
-&gt; &gt; &gt; would be the not satisfying approach Paul mentioned on v1 or=
- so of<br>
-&gt; &gt; &gt; this thread. It shuts yocto-check-layer up while doing nothi=
-ng of<br>
-&gt; &gt; &gt; value.<br>
-&gt; &gt; <br>
-&gt; &gt; I should explain a little about the unfortunate way that<br>
-&gt; &gt; REQUIRED_DISTRO_FEATURES works.<br>
-&gt; &gt; <br>
-&gt; &gt; Anything that needs a specific distro feature uses that but it ha=
-s a<br>
-&gt; &gt; unfortunate ripple side effect where anything with that recipe as=
- a<br>
-&gt; &gt; dependency, must also then have the same REQUIRED_DISTRO_FEATURES=
- line<br>
-&gt; &gt; (or more restrictive).<br>
-&gt; &gt; <br>
-&gt; &gt; This was discussed extensively in the past and you will see this =
-in the<br>
-&gt; &gt; way x11 is rippled through recipes.<br>
-&gt; &gt; <br>
-&gt; &gt; I appreciate you will then argue this should be automatic as obvi=
-ously<br>
-&gt; &gt; anything depending on X will require Y as a DISTRO_FEATURE. I hav=
-e<br>
-&gt; &gt; refused to implement any such magic as it turns out it can misfir=
-e<br>
-&gt; &gt; spectacularly badly and end up just masking every recipe out as a=
-<br>
-&gt; &gt; ripple effect for a poorly thought out change as the worst case<b=
-r>
-&gt; &gt; scenario. There are plenty of scenarios where unexpected bad thin=
-gs can<br>
-&gt; &gt; happen which would be hard to spot. This was discussed in the pas=
-t too.<br>
-&gt; &gt; <br>
-&gt; &gt; So, my point is that if you have weston-init as a dependency, eve=
-n<br>
-&gt; &gt; indirectly, you have the required distro features requirement pas=
-sed to<br>
-&gt; &gt; that recipe and need to mark the recipe as such.<br>
-&gt; &gt; <br>
-&gt; &gt; No, it isn&#39;t great, but the alternatives can go spectacularly=
- wrong too<br>
-&gt; &gt; and you can&#39;t work out how to do this correctly automatically=
- in a safe<br>
-&gt; &gt; way.<br>
-&gt; &gt; <br>
-&gt; &gt; You are doing something of value, you&#39;re clearly marking the<=
-br>
-&gt; &gt; requirement of the recipe (which it has via it&#39;s dependencies=
-).<br>
-&gt; &gt; <br>
-&gt; &gt; I think the question is marking the recipe in question to say it<=
-br>
-&gt; &gt; requires &quot;pam+systemd+weston&quot; or &quot;x11&quot;, which=
- might mean anonymous<br>
-&gt; &gt; python but is definitely doable.<br>
-&gt; <br>
-&gt; This specific problem has (will be) fixed in meta-tegra since weston c=
-an<br>
-&gt; just be dropped. But if I follow what you&#39;re saying right, since<b=
-r>
-&gt; meta/recipes-graphics/wayland/<a href=3D"http://weston_15.0.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">weston_15.0.0.bb</a> ends up with:<br>
-&gt; REQUIRED_DISTRO_FEATURES =3D &quot;wayland opengl ${@oe.utils.conditio=
-nal(&#39;VIRTUAL-RUNTIME_init_manager&#39;, &#39;systemd&#39;, &#39;pam&#39=
-;, &#39;&#39;, d)}&quot;<br>
-&gt; essentially every recipe that has DEPENDS on a PACKAGECONFIG that<br>
-&gt; brings in weston *also* needs that same logic, to not run in to a<br>
-&gt; problem later on.<br>
-<br>
-Correct.<br>
-<br>
-&gt; Is there tooling to find and check that? And is the answer yes, we jus=
-t<br>
-&gt; ran in to it?<br>
-<br>
-I&#39;m not aware of any such tooling, it has all just been done manually s=
-o far.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div>
-
---0000000000003ef71d065730b1b1--
+T24gMjAgSnVsIDIwMjYsIGF0IDA2OjM1LCBLaGVtIFJhaiB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyA8cmFqLmtoZW09Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
+PiAtIGluaGVyaXQgbWVzb24gaW5zdGVhZCBvZiBhdXRvdG9vbHM7IGRyb3AgZ2V0dGV4dCAodGhl
+IG1lc29uIGJ1aWxkIGhhcw0KPiAgbm8gaTE4bikgYW5kIG1hbnBhZ2VzIChtZXNvbiBpbnN0YWxs
+cyBwc2wuMSB1bmNvbmRpdGlvbmFsbHksIHdpdGhvdXQNCj4gIG5lZWRpbmcgbGlieHNsdC1uYXRp
+dmUpLg0KDQpUaGlzIGlzIG9ubHkgdHJ1ZSB3aGVuIHRoZSBtYW5wYWdlIGRvZXNu4oCZdCBuZWVk
+IHJlZ2VuZXJhdGluZywgc28gd2hpbHN0IEkgZXhwZWN0IGl0IHRvIGJlIHRydWUgbW9zdCBvZiB0
+aGUgdGltZSBpdCBtaWdodCBjYXVzZSBwcm9ibGVtcyBpbiB0aGUgZnV0dXJlLg0KDQpBbHNvIHdl
+IHNob3VsZCBzdGlsbCBpbmhlcml0IG1hbnBhZ2VzIGZvciB0aGUgcG9zdGluc3RzIHRoYXQgZG8g
+bWFucGFnZSB3cmFuZ2xpbmcuDQoNCj4gLSBNYXAgdGhlIFBBQ0tBR0VDT05GSUcga25vYnMgdG8g
+bWVzb24gb3B0aW9uczogLS1lbmFibGUtcnVudGltZT1YDQo+ICBiZWNvbWVzIC1EcnVudGltZT1Y
+LCBhbmQgYnVpbHRpbiBQU0wgZGF0YSBzdGF5cyBlbmFibGVkIHZpYSBtZXNvbidzDQo+ICBkZWZh
+dWx0ICgtRGJ1aWx0aW49dHJ1ZSksIG1hdGNoaW5nIHRoZSBwcmV2aW91cyAtLWVuYWJsZS1idWls
+dGluLg0KDQpJIGhhZCBhIHZlcnkgc2ltaWxhciBwYXRjaCBsb2NhbGx5IHRoYXQgSSBoYWRu4oCZ
+dCBzZW50IGZvciB0aGUgcHJvYmxlbXMgdGhhdCBNYXR0aGlldSBub3RpY2VkIGFuZCBhZGRlZCBh
+IFBBQ0tBR0VDT05GSUcgZm9yIHRoZSBidWlsdGluIG9wdGlvbi4NCg0KUm9zcw==
 
