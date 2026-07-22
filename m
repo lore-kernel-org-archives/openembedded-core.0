@@ -1,146 +1,107 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B622FC4451C
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 07:33:42 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.21])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.42700.1784705613526053339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC378C4452D
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 07:57:52 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42950.1784707037035849533
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 00:33:34 -0700
+ Wed, 22 Jul 2026 00:57:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=bXQa7ycz;
- spf=pass (domain: ericsson.com, ip: 40.107.159.21, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AkRL7H2Ts0VO4VXTWaVsrgupxHA2VQRXOICQcQ5Rudl1M4UEn22uQscKq1MxE+nVBSJiwYbGHUPUcereXM19EqoxOCSgujyv25bcMVb8qvQ96P1EFNBqwYbdncwPqczNWvaUnKH0I9d2O7HUrrKU8O/xxr+T9BwLZ7cBYV/jgJwVxN0hLIIoJK2PB5QsM0Pc/MMbggA+rzo2VWyvxHiIU6AGHkEz/okTwgQvGl8h5RRqbiyv0kiEKigX1zwu28dN8pzUqaK/kI6tnc9KsJMXz/4+Z/QYOnI/lqCeidI5Q+6XC1vfycrh6A1f/Vckxc3EVFfWF7ZEuY6PKPdoeK0pRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VwM+c+W3hVQOnXymw/ViBkwW91Qs25983E2gmQyw6dQ=;
- b=YVODvPz9VklKMBbU6gOzVfF3Kgof+zHH7ngqEECOG6ilWfRt9cR6w71WUnR99wrmVbX3QcBhwcDZTYYSXlXnYSo/Ezmv0RP3nz8OV608GLVRN6YQ+NL5wuy1TuxBTIOk7z5PGmznabgPq2hbykrQ43xW5jbc22JAaVV7vduTuJ1wACQHco6ZkDXfU2GTn6m++M7s061hgpoH+Xz1x2anXrZYoBxF4Qi05oWt4LpWWmLc0mU1jBiwhNr0lKfmY41xrwSGCL3F8Z5A4ReVN6sSU8U1tmAJIUhxaVrm2BEwlwG2HTPAeOToz5GEg/Z7OueSzznBDe3LK64oqzwplcyv+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VwM+c+W3hVQOnXymw/ViBkwW91Qs25983E2gmQyw6dQ=;
- b=bXQa7yczRZt7203y85lU77zCNwXa8GgjgEUHrZEhBlY0aKBEB9E4VOgp1yDZWIX2Z3i2VbhbuNT1kpA2Ef8BiMqwaMMBBjJh43U57PPgbq253Sv3rVXUIvQ2xTcdYc5jRaJt3UZ9tS3kxYU1rXsXxFt4ZTa+O1YNCWdmtJWzm6mr7ipU8q0kOWaWAfi+S/b67I4M2idJTwHeXxOiRldMoLIE/X23+gp9goDfX9PZC9Pr2kXcPqwyjyEJW6d8v6nLiQbUB6cf86HtY8AczzBYThE4z8O7259n2xL+NJsTq7+xnOejIe6Qde63K6/S8k8U6kT/ioh2VisOnwg5Bc4Pmw==
-Received: from AM0PR10CA0004.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::14)
- by MRWPR07MB11675.eurprd07.prod.outlook.com (2603:10a6:501:93::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 07:31:45 +0000
-Received: from AM1PEPF000252E0.eurprd07.prod.outlook.com
- (2603:10a6:208:17c:cafe::86) by AM0PR10CA0004.outlook.office365.com
- (2603:10a6:208:17c::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Wed,
- 22 Jul 2026 07:31:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM1PEPF000252E0.mail.protection.outlook.com (10.167.16.58) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.245.5 via Frontend Transport; Wed, 22 Jul 2026 07:31:45 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.67) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 22 Jul 2026 09:31:44 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 1165A4020B41;
-	Wed, 22 Jul 2026 09:31:43 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id D447C700DBB0; Wed, 22 Jul 2026 09:31:43 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex.kanavin@gmail.com>, Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH] devtool: recognize perldelta.pod as a changelog file
-Date: Wed, 22 Jul 2026 09:31:37 +0200
-Message-ID: <20260722073137.1681672-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=1q5DXuCY;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4954a2e73a9so32262365e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 00:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1784707035; x=1785311835; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fYJSv8xsFiiE1NqZwtETSnu5Mzvxa1uaTviwLTLTX7s=;
+        b=1q5DXuCY1iohA1p/9zFFLhAScOXadHJL9JetAmxrnND3YwKq6YoIICXDjlPPZkJ3IJ
+         7ejFV0QXOg3fKf3h/Rj9p/EuLwFLWZ4T+x2xeay4I6C4wkhwrayi5ApWdHQv25pLL59W
+         wSRNvFBM1DrzjkZvXEShcOsVOlOBibHXvKO78=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784707035; x=1785311835;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fYJSv8xsFiiE1NqZwtETSnu5Mzvxa1uaTviwLTLTX7s=;
+        b=nJdVNSF1RimRAyfrlnIOdBYfUjnu9sZhVEAeQdsKsuuzray1C6lpBF3+VJixmUch7Y
+         7HkGOscQO9Kk22YlBbV3er4uIbwcn7ED8yjSZya7V6CupTY1Mv6b2Co7T3S3sHXPpTY9
+         34xGpLBSLDMLy13xHYbic7gq0BCHWDs0A7koCqJlI6VfCO9fWyx3ScFQaKxvvDF4R/IO
+         e0LwKArm9N74onZ1CU2CUHSXxDUR1+4UaklDK0Y/Ti38Vih9znmERdYkprVveBR4vHgu
+         2Crdzsym9W3rPBOh/Zt+Ds3elddXJ8IuLQoZkNlZs9DxS8o+V9z6kAYcft7FrBELX8C/
+         iiHQ==
+X-Gm-Message-State: AOJu0YxI6O2yFR7nQGzW/NJtnyI3UBjilmKs3AvMOkhTy841rdd/h1x7
+	jBTb5PRJ7T3YpP7vDUpuxrHaFjRa9u/7+SPhZbJ2zFHy2D6SUVmDylHk+egJ6W4gdbs=
+X-Gm-Gg: AR+sD1094AsrT1R5Uf7ESls9hleDz5Q9H3ClXtFg1tkD3IBuuyMXMBR2gLywc+UCwwT
+	GiwQPz2wwn8zu1Er08iYqexbDPEm93aHA4uD1forSlLVVJzbXCKNJbcwHL00SsS6JT0Z25Z/You
+	nm7av5mciBF4+Xf8BxY6KGMRmLVgv5GFXf2J5b0+ZgpaXwZHmefEZsePAKFUwXCsyXUMslj0Z2x
+	C1dQof57Wwg7jsR0GWUhWzZ73p1xUNKFJTBv7vXlHNGLX4Rwh+IVl51LCJOsJAXZeibEneFYjht
+	Ax6O9jS+5xOiHk7Ma5f5dER7xdVHDmJ+iSnFvXRkwNskBNNiqzC0Z1Gozft9C3QIZEA3jy7WA4c
+	82ZIxEW/FQdvmcQCavEWTFeJuYNiY89QBsGWNL0tzSfxW/XH7y23uuLmjEvAT8Askc7HX48TYEs
+	6NHU9d7wTj5YAEQE7+5rkLP1hxI9XylhYYln6NaryLt6MJogESjIYs/q+GC3nUiA==
+X-Received: by 2002:a05:600c:4f44:b0:495:5b02:23a8 with SMTP id 5b1f17b1804b1-4955b022588mr147697495e9.34.1784707035137;
+        Wed, 22 Jul 2026 00:57:15 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653bffefsm114925525e9.9.2026.07.22.00.57.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2026 00:57:14 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM1PEPF000252E0:EE_|MRWPR07MB11675:EE_
-X-MS-Office365-Filtering-Correlation-Id: efcefa6d-0c5c-460d-9999-08dee7c3484e
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|36860700016|82310400026|1800799024|376014|56012099006|10067099003|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	RjZtZ1H1xowibI8HR/iEKQEg2zX/Gl/Kb0PNGTJcLAfYp7Yt4OUV7oe0InVP3cHwYQSH7ZJsnpWUGKUJtlXYPkBiOFkr7AcAJbPMzTeBCLCt2wC1YpqDGn3YLmsf/bxxW0sBNw1angBwp8jS/rwnHqzbHT4UHCCQscOPbrozugstxkl9EqzodOJt+etyYAlGG0aEpb1SUiLsEIK73JnoFwXQmigxXxWcM3fyRosvPnkqNCgoEQOcswgeQDs1bY6A3TBAR++WRkX3rwkjrQVu30bb+NyjNNU5dmAYqUYvSFLo2IuQvBMUDPoCJ3QqRF4xlM24XsRp8yBb6IhLd2OeNUwhQcqK8pWjA24fXmzs1SZMQg68M2XhT7yPprX7CwiJiqYULssWmEzrgUjQxZ/dffcmCPlxEfM+4SgQxHqEDV7CbPfiZrgkFQhG/tLfADEyF27t1mpd/1iQRE8aixpMXVllpZfrULjuaPifOuh4QFaT+IObP4MJ/zPFJlSxnR3qJ/3wTs7N9xdY/24vP2tfbEORNBC8MD0jQBtMyYBmDhMg9SGCxLuew4sSnSIqTS/p1T5aosWmKnMFasHyXCbvZ0B9+SQe1346Co73pSwAxlQBf63Nj0C31ANy+dI37c7EI2cdEVUPeHAbXP/1CsQVQZT7pzGgJ47exys5M2j0RFy6mGOVf/mhC46SsOPME5USu9dOPP0tAx2lFF56nJz0Qw==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(82310400026)(1800799024)(376014)(56012099006)(10067099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	KSaqilNVbv9F2fcGnBHRuRSxF3cjw4Rmo6SugJuLxvCXtbeElqwbJV5PGxjsASsJTw3dC5ZWeXfY8cXxqB1cCFELpYFqY9oIT9gn6mBLdRut4FIYg0kZambsabxQNs/W+7ckjpVqqr6JwuytmH6wF6cuf1Kaxp4JkHlIhiwqtlU/g3OcWGBJYQOmqsw0TK0nibEaz/t+hGHQhieUeEXejJ1UwKjMBkOCCfc4BakBbFzSR0bVYGxogGLUMuSQDy/tcjnpnBzyrnrCLsXJOcHoIAGLJwsaBRAdYk2tZBVUnNIBq9MFFMnOu4YAnHkBGR4fTI5qKCjhpcF1LwaRiW1DFyHsf4mt7RkSlAP4RT2jwNasEqr2kr37Mx8vhBJmWXvNSJoIAvb98clXjJs28a4EgXaOL2jLE83AjeNZcUYvLgFjfvLnwaQlvZ4elGJNgHGr
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 07:31:45.0338
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: efcefa6d-0c5c-460d-9999-08dee7c3484e
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM1PEPF000252E0.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRWPR07MB11675
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Jul 2026 09:57:14 +0200
+Message-Id: <DK4XUCZ5OA0V.3T7IGSRDSI1PO@smile.fr>
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+To: <daniel.turull@ericsson.com>, "patchtest@automation.yoctoproject.org"
+ <patchtest@automation.yoctoproject.org>
+Subject: Re: [OE-core] Patchtest results for [PATCH 2/4] Add tag in SRC_URI
+ in multiple recipes
+X-Mailer: aerc 0.20.0
+References: <20260721144811.323786-3-daniel.turull@ericsson.com>
+ <0101019f85332a41-715bc4eb-5531-4e75-b229-00eb43db757b-000000@us-west-2.amazonses.com> <0d61576c6efee1814a1faabf68d32c6ccdcfcb4e.camel@ericsson.com>
+In-Reply-To: <0d61576c6efee1814a1faabf68d32c6ccdcfcb4e.camel@ericsson.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 07:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241605
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 07:57:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241606
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+Hello,
 
-perl's changelog extraction was picking up dist/Attribute-Handlers/Changes
-instead of perl's own release notes. perl bundles dozens of dual-life CPAN
-modules under dist/*/{Changes,ChangeLog}, and since perl's own top-level
-Changes file is not updated per-release, none of the known
-_CHANGELOG_BASENAMES matched the intended file. The extraction fell back to
-picking the largest diff among the bundled subcomponent changelogs, which
-is unrelated to the perl core changes being upgraded.
+On Wed Jul 22, 2026 at 9:08 AM CEST, Daniel Turull via lists.openembedded.o=
+rg wrote:
+> On Tue, 2026-07-21 at 15:02 +0000, Patchtest via lists.openembedded.org
+> wrote:
+>> Thank you for your submission. Patchtest identified one
+>> or more issues with the patch. Please see the log below for
+>> more information:
+>>=20
+>> ---
+>> Testing patch /home/patchtest/share/mboxes/2-4-Add-tag-in-SRC_URI-in-
+>> multiple-recipes.patch
+>>=20
+>> FAIL: test shortlog format: Commit shortlog (first line of commit
+>> message) should follow the format "<target>: <summary>"
+>> (test_mbox.TestMbox.test_shortlog_format)
+>
+> The patch affects multiple recipes, so I don't know which target it
+> should be.
 
-perl's actual per-version release notes live in pod/perldelta.pod, which
-is large enough to still win the "largest diff" comparison once
-recognized. Add it to _CHANGELOG_BASENAMES so it is considered like any
-other known changelog filename.
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- scripts/lib/devtool/upgrade.py | 2 ++
- 1 file changed, 2 insertions(+)
+FYI, those global patches are often tagged "meta:"
+For example: meta: Support opting out of any machine features
+https://git.openembedded.org/openembedded-core/commit/?id=3D3194d6868dd14e4=
+0ae670db089e5bf6f862d3044
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.p=
-y
-index 74adb29402..13d51bf952 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -43,6 +43,7 @@ logger =3D logging.getLogger('devtool')
- # history.rst - python3-idna, python3-docutils
- # releases.md - rust, cargo (includes CVEs)
- # whatsnew.txt - libsdl2
-+# perldelta.pod - perl
- _CHANGELOG_BASENAMES =3D {
-     'changelog', 'changelog.md', 'changelog.rst', 'changelog.txt',
-     'changes', 'changes.md', 'changes.rst', 'changes.txt',
-@@ -51,6 +52,7 @@ _CHANGELOG_BASENAMES =3D {
-     'releasenotes.md', 'releasenotes.rst',
-     'releases.md',
-     'whatsnew.txt',
-+    'perldelta.pod',
- }
-=20
- def _run(cmd, cwd=3D''):
+Regards,
 --=20
-2.34.1
+Yoann Congal
+Smile ECS
 
 
