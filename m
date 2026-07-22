@@ -1,131 +1,94 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 051B4C4452D
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 08:31:43 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43348.1784709092522107700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 091BFC4451C
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 08:51:23 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43511.1784710249527520045
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 01:31:32 -0700
+ Wed, 22 Jul 2026 01:50:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=GYahOYk7;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49546c690ffso38645115e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 01:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784709091; x=1785313891; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M6qiovBbes5XZdSMx5rcGvIhQvcjahZCSDuK6I6BbT8=;
-        b=GYahOYk7x75TWRrkCgU5xUSVyPcHmMUzruBuoWyjIRe/gEuurHw3IikC/wEBLI7R02
-         QjbwWUjAI3baDQsFFzIvBdJQ0PPJAEAhZv6WYGtuz5S0Zjz/wWkD/HPPYQy2zzVD/Q1Z
-         HubshnWivlFD7ZNu30IRFAFwGHHN68nyMB9u2uBoFw5oGTQDTCZoQtFtinz4ySKg9v5E
-         JbuGa0MioYnhFkXwg8UQlXmozDRjD7vdq6bLZz5RCJVtZv6Y3VnyFkuBc+b4ho/Rc4ln
-         Nsqu3mmq6HeEgHbvnVLDecnUmWKiP+DdA02wCC4l0SIVa32YwlXoF8zBkbWuVg28R+JR
-         NOhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784709091; x=1785313891;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=M6qiovBbes5XZdSMx5rcGvIhQvcjahZCSDuK6I6BbT8=;
-        b=QVHuODnEihpv2VcFk+yVyjolcOBnwrela4sPqSu9u8K9GaoDeXUakYWpEv/fOpooVs
-         KKz5vsU1yJAY9Uy1THHW+j2jU4HrILHT1acs9r5EwLb3Nb2mimFvZ83G4SHF3eLml2uy
-         d1iVVXSGr81gzIgd2PKqbM5+kQxR5x/kiimU5TwN9WqxiurWeHFcYD6gxo8ixsvRwfcN
-         6zvgwiOCX8l10cotYllhBP76e6hhVFStwZ750arhoj2Fak/HPFC5l/nlCTrP2wn5lwOY
-         fqz+ZWcUlx55vcZNfT5XpeyDNDbTqcK9LRL0Vc7v/unRMvfC7oAmoquiTWMYhhOrQ4B6
-         lH6Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqUfryTvzAo2h1Iytvx1yvQ3UmRT7CSX245oVem7E5iWF/bUdouAe3f1zpiMtX5p4SWBymj+rXP7lw6luAqE/81LA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx4nkRs0HQ61LfftdnFeOoouLR63toC9FD/H9MY0lGhhJeEFMc5
-	+DaYbv/W7mAWxW5gFstb6Svf8v7WXUhcyXVKivzyCWlGrKQ4fS2Qa+uL
-X-Gm-Gg: AR+sD11qkNfKmbowZ0ZYzZ0r1shtef8anC+bQgG7XfV08iFbSf3nBkXKBmDdS/8JG/C
-	GackXwYWPn2kZIEhI/05y0AKHDwjiYN40IFntG1k6oLrM4QUTanzcnCtf0QiQVGjmpHrJNhVPnr
-	VzBJEO7yfu95SWKgkR38N44DiTFo49TMZEGZx5RdBHDCXf8s+Rib++BL2dpTlXuUvU+pqacT7P2
-	6lzQaJVO926blJSb7l7H7xzXjLdGci3ObjRvJaBz1IS8Du2HQl+sXoBx5DBishQrz7PRKKWe1Aq
-	tymtdlX3x7okdKge6PDSeFYIlTqcpHcEZFX8rQKP+b3DG6cJMrMOuqzbi/kmvqrQvwJZyTLo/pA
-	6F4YRcXa+rNxAmda480ZcNojKtj5aoTSApQD/j7PSZYZVKdYH+2Pdfpbi20WvN31RsfPYFIO+7/
-	/qAgWU4XoS77JmjYfCYbg=
-X-Received: by 2002:a05:600c:4743:b0:495:406c:81d5 with SMTP id 5b1f17b1804b1-4954a50b8b8mr239350515e9.28.1784709051626;
-        Wed, 22 Jul 2026 01:30:51 -0700 (PDT)
-Received: from [10.43.60.203] ([185.94.190.187])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956b01a758sm43421785e9.4.2026.07.22.01.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jul 2026 01:30:49 -0700 (PDT)
-Message-ID: <8b558fbf-4f10-4cff-b181-8c60b8d68a1c@gmail.com>
-Date: Wed, 22 Jul 2026 10:30:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [meta][PATCH v3 1/3] go-vendor.bbclass: Fix test file
- exclusion and license propagation
-To: john.ripple@keysight.com, openembedded-core@lists.openembedded.org
-References: <20260717213253.3454786-1-john.ripple@keysight.com>
- <20260717213253.3454786-2-john.ripple@keysight.com>
-Content-Language: en-US
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <20260717213253.3454786-2-john.ripple@keysight.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=n++NKoK7;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 4891C4E40EC4
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 08:50:47 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id F3E096038B;
+	Wed, 22 Jul 2026 08:50:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7CCB511BD3A22;
+	Wed, 22 Jul 2026 10:50:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1784710246; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=LjM/FyZLJT/tlhF7mVnqt/CPIDXmhibaMpxa6rEYHbk=;
+	b=n++NKoK7Yoi35sOyskhgF6M4GrSqPFLlgXPlpBn7ljNKIRuPTl1ArgU2UJ03a7zzbDQLlt
+	JjdxcKjfWqF0OXTO9kRKjNyYEMMdHeEWFtaTLxWu0P39kSlrFdO/syFGAk1vHBrN9/MDdK
+	5Ui9y9qzpxBqa/u4WVegvm9UZGEc8Ju3lFEg6EwieU3QtAG/5yINpvhLLUEJS4uFHpRYSW
+	I/eqaINys+wUob/wbveRHjOQgPa4dVax9CZfarBXoN2h4MIXj3abT6EqFzz175lLcJECnz
+	96TTO6EHT+hhDzDgmvK/atQUhSXKll49HfUBzhu1+fYOndAM6pFXvEiqxNDaaw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Jul 2026 10:50:44 +0200
+Message-Id: <DK4YZBUAHQEO.1HIVARCMLRE2Z@bootlin.com>
+Subject: Re: [OE-core] [PATCH] perl: upgrade 5.42.2 -> 5.44.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260721134339.16175-1-jaipaul.cheernam@est.tech>
+In-Reply-To: <20260721134339.16175-1-jaipaul.cheernam@est.tech>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 08:31:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241627
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 08:51:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241628
 
-Hi John,
-Thanks for your contribution.
-
-Let me know if any changes are needed in the test repository as well.
-
-Slava
-
-On 17.07.2026 23:32, John Ripple via lists.openembedded.org wrote:
-> Two bugs in do_go_vendor:
+On Tue Jul 21, 2026 at 3:43 PM CEST, Jaipaul Cheernam wrote:
+> Drop patches already included in this release:
+> - CVE-2026-8376-01.patch (upstream commit e842efdafe7c)
+> - CVE-2026-8376-02.patch (upstream commit 5e7f119eb2bb)
+> - determinism.patch (Encode::Byte sort fix)
 >
-> 1. The shutil.ignore_patterns glob was "*._test.go" (with an extra dot),
->     which never matches standard Go test files (*_test.go). Remove the
->     extra dot.
+> Add perlcross patches to support perl 5.44.0:
+> - Add patchset symlinks directory for perl5-5.44.0
+> - Add configure checks for d_getentropy, i_stdckdint, i_sysrandom
 >
-> 2. The license-propagation block used os.path.join(src, "LICENSE") as the
->     copy destination, writing into the already-processed vendor.fetch source
->     tree rather than into the vendor destination directory.  Switch to
->     os.path.join(dst, "LICENSE") so the LICENSE lands in vendor/ where go
->     tools and licence scanners expect it.  Also fix the guard condition from
->     not os.path.exists(subdir) (checking an unrelated relative name) to
->     not os.path.exists(subdirLicense) (checking the actual target).
+> Changes: https://perldoc.perl.org/5.44.0/perldelta
 >
-> Signed-off-by: John Ripple <john.ripple@keysight.com>
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 > ---
->   meta/classes/go-vendor.bbclass | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/go-vendor.bbclass b/meta/classes/go-vendor.bbclass
-> index e879d629a8..85a3c1b586 100644
-> --- a/meta/classes/go-vendor.bbclass
-> +++ b/meta/classes/go-vendor.bbclass
-> @@ -141,7 +141,7 @@ python do_go_vendor() {
->           shutil.copytree(src, dst, symlinks=True, dirs_exist_ok=True, \
->               ignore=shutil.ignore_patterns(".git", \
->                                               "vendor", \
-> -                                            "*._test.go"))
-> +                                            "*_test.go"))
->   
->           # If the root directory has a LICENSE file but not the subdir
->           # we copy the root license to the sub module since the license
-> @@ -149,9 +149,9 @@ python do_go_vendor() {
->           # see https://go.dev/ref/mod#vcs-license
->           if subdir:
->               rootdirLicese = os.path.join(rootdir, "LICENSE")
-> -            subdirLicense = os.path.join(src, "LICENSE")
-> +            subdirLicense = os.path.join(dst, "LICENSE")
->   
-> -            if not os.path.exists(subdir) and \
-> +            if not os.path.exists(subdirLicense) and \
->                   os.path.exists(rootdirLicese):
->                   shutil.copy2(rootdirLicese, subdirLicense)
->   
->
+
+Hi Jaipaul,
+
+Thanks for the upgrade.
+
+It looks like some ptests are failing:
+
+Failed ptests:
+{'perl': ['ext/POSIX/t/time', 'perl']}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4089
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/4073
+
+Ptest logs can be found here:
+
+https://valkyrie.yocto.io/pub/non-release/20260722-36/testresults/qemux86-6=
+4-ptest/core-image-ptest-perl/
+https://valkyrie.yocto.io/pub/non-release/20260722-36/testresults/qemuarm64=
+-ptest/core-image-ptest-perl/
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
