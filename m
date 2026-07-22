@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FAEC531C9
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:22 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5474.1784741054453270114
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A39C531BC
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:21 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5470.1784741051168930108
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 10:24:14 -0700
+ Wed, 22 Jul 2026 10:24:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SehE7Lxk;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-495590dde14so38695995e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=csVwTrgV;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-495635a85d2so27815375e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784741053; x=1785345853; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784741049; x=1785345849; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=2s5a5IVjL7D1G9uuuYTzKJ9TFO7iDt58VxEA7trDunI=;
-        b=SehE7LxkLOWkwgXcHb3OJKnqTrDO22YhYoOCBUZhkwR8xBuhUQqsbEN8BdcwQ/lV0q
-         HgF+k+WlkKv+1/fwcxim53gJYPsYw6NH6OuuyfkU9JonkdHvzDfDjBS9j2bXhgLkCmgo
-         TvVLNfajlXe7bzfR/yIzTa8erkc4C9LzNmoxQ=
+        bh=L54W2JjbpHCr1mR/qCrRc4K+piUqZCsRXzoCkM1GJIw=;
+        b=csVwTrgVoe6GanmlxBDFH5/8b5RUurLF8l8IRAt0/OD2euaMeHTIPb8oqqD0Uj4F0h
+         q5V/75jlipU73OSAFU5uVz9uoJNV+/iE6Xqum79IDLN88F0x0DQmGwV/4AQdh25kdC7u
+         GS7K/plqCdLGjZiLMx6xaXfyGrhPxTCWgfybk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741053; x=1785345853;
+        d=1e100.net; s=20251104; t=1784741049; x=1785345849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=2s5a5IVjL7D1G9uuuYTzKJ9TFO7iDt58VxEA7trDunI=;
-        b=tFeynFXcN5ghI7tJ+QqNZpXbhtfy8B8Ou6KUVBfq+GlCh3VSzRb4IUYHUed60/64a7
-         rn6iqoMOimI83RmUprSO+iuzEE6uOYxvK/Mhape6cRW2rcjWxhyc+SCTagGa4Z+fBFan
-         hXq0CsMITZUxJ5RmAJIlBF6PMZ2G/unJWUCfshaiGUb1LwPuImGPpiR9D40xpBLCk/7d
-         sQZ1s/XVJzu6LHnIbgV6THkjKqUJKpwh3iHxufIcKbMGLCepLGP9Inal8G+6vW3jGWUY
-         7K0G3eYXYShCF160XANVr+kEjc54Y1HwEUs/cz3sKIENlTnLW6U7gojgUDX17FK1w6aM
-         t+Yw==
-X-Gm-Message-State: AOJu0Yz5HIe6TGJ3UTm42OL6cu87QUlm1iSCfn/u/osoYvtPy9Ommx6z
-	4vnMT4R9CofwF0sv9ir5bZR/VI+EH68DffIYc6isbrlhg0Eg/78fs6lCVd76IOvDjgTfun7nsDY
-	hhwgHRLw=
-X-Gm-Gg: AR+sD11OVjeyE7Fbz2Q/6eTcuBDQtQnYhb8hvgWMH2lh+wb06skcHPXO5CKpiqtkRjv
-	OIv39UvlQJYgmtyJn5nqXmbZo5rHXjPFvnszdXjIQdptrPdzHbbW8BoKsUGrbPsd9JRe+qeJeui
-	qQUvTrSlBgF1JzwXIfI+TCFFAzxIRKm5n9BAowOruHizMhOlRasmkGGysIrWdq2OO5yywqS9hs2
-	dgsStiUeq04E8zTVWzffsxUf+swvvcSUFHlJ4chxHP8tl38ebRUOxG5mGN4ca4L66pFqArZZ35k
-	X7gy/oNYyllVhZWpNQgtKDrk5joxY0EFRlq1SylmX3AznZqWp8nTpOounohQ4M4XCiCCsKnWOf7
-	xuC3Fc9YScgLh/jJ45Er2/q1kRf65NuLasAtKFh1bKTF24OZ6qTNvwHrCfqIX0k0BOVBMF9Jjs5
-	oFZWvVp4cHtQhQslelKI0jfcPyy3oaa3LbZxAso35sHfSKV9n68jry0QFyWDJXuA0vBPoA+TbXQ
-	6glEA/rTgic
-X-Received: by 2002:a05:600c:c4aa:b0:495:6934:414c with SMTP id 5b1f17b1804b1-495693442b8mr71388335e9.19.1784741052585;
-        Wed, 22 Jul 2026 10:24:12 -0700 (PDT)
+        bh=L54W2JjbpHCr1mR/qCrRc4K+piUqZCsRXzoCkM1GJIw=;
+        b=Oqm7idz2ijdab/cYI1LfEzlnQD32GU9YFPKfL7LFXQoHW5Xm3adwpkwrhga2NPymg9
+         Tc0h3gzKEQg/XPviXtCdqir3YAmvygvpdA1LVjsvBGFcl3RQYorIO2dEyu7S4g9Jngug
+         G0VCnXWmUf8AA7na2V10ExJKC//TccJjhj96pcpgnRvoWngM7tlqjAzjzT5a6u0A2ipw
+         /11ZsPR3RYiWcUw2Bgurm2BDfylYkAZOusw95ozrr8A6vyHW6HLv/MEfPJIP+giZBmEQ
+         xNviYXp1fr4OK9heMaH909y2Yw8Mrv6TPUT/xOjAWZFceinYCXgA3QiExyang6VbRkWI
+         5hOQ==
+X-Gm-Message-State: AOJu0Yymz//zyoQ/tC9mJE4o35jq1Dhsf13BIzBrHSFTRbBerMkLVtLC
+	wZ9k2hUbW4xnCKtwpfOE3I1ykU8W3x2Qq2nmpXZlMJa7eY2CJd91g81kb+CqaErpVYEb8AERvQw
+	MmmAOWp0=
+X-Gm-Gg: AR+sD113+P6kEGscLsd9bYhkTJQsc2NyggiUjEtDaugcmBXQEP3Hj6IYAoFlbFW3+Qx
+	30RIqxasDE7eRNPqtvlPkSZfbZsz08nqmzzSP58UAhWxep+5TYiT3oKkKZ7PDW7gY9uv+hJ7o+v
+	gtUeTd9aJ25q9e0SRsY0CLhckYOvF4hZ4O+0XYerelTOLUb1E73wrSgxG3wydmK6I9pYaY2RhCN
+	4RgepmgK4MkpECep7C+sMRp+VG3vluggwgqsZw2zWndg0z2Jp+XQm2RiOKokhWTRi2ggdV01u5w
+	sTgclaKiBHgxRCvZdt+UoKg523rhv+91WFGgIrQNfix3VaZWF3crYuLVLfhhj3IEW7/QOQcWl+B
+	DC+kpxcmQcqAAW9oIk8e7UrB6tRssk95lG4V1sVkMweVcF/dce53vKXtRkpkuSTHbX+D5hZXEqq
+	sGXC2ILqNK+2Uvl3EslOT4CKlXF/oHVGO9lNF5z/7k9aCOvu5IzEmFZ3/dtroE5ObUL5zseonsF
+	MT6zhtdxMkd
+X-Received: by 2002:a05:600c:4e88:b0:495:636b:e519 with SMTP id 5b1f17b1804b1-495636bea4dmr136929795e9.21.1784741048576;
+        Wed, 22 Jul 2026 10:24:08 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 10:24:12 -0700 (PDT)
+        Wed, 22 Jul 2026 10:24:08 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 25/27] openssh: Fix CVE-2026-60002
-Date: Wed, 22 Jul 2026 19:23:38 +0200
-Message-ID: <9350aca86f6a0252156c644370829e944cc628d8.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 19/27] libpng: fix CVE-2026-34757
+Date: Wed, 22 Jul 2026 19:23:32 +0200
+Message-ID: <351f2b39a85fdf2d2b4140535ffcdfb213b552a3.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
 References: <cover.1784740870.git.yoann.congal@smile.fr>
@@ -65,268 +65,1070 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241735
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241730
 
-From: Devansh Patel <devanshp@cisco.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-This patch applies the upstream OpenSSH 10.4p1 backport for
-CVE-2026-60002. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2].
+This patch applies the upstream fixes for libpng 1.6.57 for
+CVE-2026-34757. The upstream fix commit is referenced in [1] & [2]
+and the public CVE advisory is referenced in [3].
 
-[1] https://github.com/openssh/openssh-portable/commit/e8bdfb151a356d0171fea4194dd205fbb252be23
-[2] https://www.cve.org/CVERecord?id=CVE-2026-60002
+[1] https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde3684e8a
+[2] https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b48c6bcc
+[3] https://github.com/pnggroup/libpng/issues/836
 
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
-[YC: Patch referenced in https://ubuntu.com/security/CVE-2026-60002]
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2026-34757
+https://nvd.nist.gov/vuln/detail/CVE-2026-34757
+
+Test results on qemux86-64 using ptest-runner:
+====================================================================
+Testsuite summary for libpng 1.6.56
+====================================================================
+# TOTAL: 36
+# PASS:  36
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+=====================================================================
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssh/openssh/CVE-2026-60002.patch      | 225 ++++++++++++++++++
- .../openssh/openssh_10.3p1.bb                 |   1 +
- 2 files changed, 226 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
+ .../libpng/files/CVE-2026-34757_p1.patch      | 518 ++++++++++++++++++
+ .../libpng/files/CVE-2026-34757_p2.patch      | 481 ++++++++++++++++
+ .../libpng/libpng_1.6.56.bb                   |   4 +-
+ 3 files changed, 1002 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
 new file mode 100644
-index 00000000000..85937279a20
+index 00000000000..7b5ebb18b7e
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
-@@ -0,0 +1,225 @@
-+From b571549bc93e95f0d3d563094f825544228501de Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Mon, 6 Jul 2026 07:49:58 +0000
-+Subject: [PATCH] upstream: fix ownership and lifetime of several bits of
-+ client
++++ b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
+@@ -0,0 +1,518 @@
++From e621c40a46aa748608d5392f6a5c0278f77573d3 Mon Sep 17 00:00:00 2001
++From: Cosmin Truta <ctruta@gmail.com>
++Date: Mon, 30 Mar 2026 17:35:30 +0300
++Subject: [PATCH] fix: Handle self-referencing pointers in getter-to-setter
++ aliasing
 +
-+state that need to persist for the life of the connection, especially the
-+cached hostkey that was being incorrectly freed early on some paths, possibly
-+allowing its use after free.
++Apply a robustness fix for a caller-side API usage pattern involving
++the getters and the setters for PLTE, tRNS, and hIST.
 +
-+Reported by Zhenpeng (Leo) Lin from depthfirst.com
++Passing a pointer returned by the PLTE, tRNS, or hIST getters back
++into the corresponding setters used to cause the setters to read from
++a stale pointer. The fix consists in snapshotting the caller's data
++into a stack-local buffer before freeing the old internal storage.
 +
-+OpenBSD-Commit-ID: faaa6ad72e7d69d41fa8b197b606265b7d9bc73f
++Fixes pnggroup/libpng#836
 +
-+CVE: CVE-2026-60002
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/e8bdfb151a356d0171fea4194dd205fbb252be23]
++Reported-by: Iv4n <Iv4n550@noreply.github.com>
++CVE: CVE-2026-34757
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde3684e8a]
 +
-+Backport Changes:
-+- Omitted the upstream OpenBSD revision-only hunks in ssh.c,
-+  sshconnect.c, sshconnect.h, and sshconnect2.c and retained the Wrynose
-+  OpenSSH 10.3p1 revisions because this stable backport carries only the
-+  functional security changes.
-+
-+(cherry picked from commit e8bdfb151a356d0171fea4194dd205fbb252be23)
-+Signed-off-by: Devansh Patel <devanshp@cisco.com>
++(cherry picked from commit 398cbe3df03f4e11bb031e07f416dfdde3684e8a)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ ssh.c         | 24 ++----------------------
-+ sshconnect.c  | 47 +++++++++++++++++++++++++++++++++++++++++++++--
-+ sshconnect.h  |  7 +++++--
-+ sshconnect2.c | 20 +++++++++++---------
-+ 4 files changed, 63 insertions(+), 35 deletions(-)
++ CMakeLists.txt               |  12 ++
++ Makefile.am                  |   9 +-
++ contrib/libtests/pnggetset.c | 328 +++++++++++++++++++++++++++++++++++
++ pngset.c                     |  29 +++-
++ tests/pnggetset              |   5 +
++ 5 files changed, 380 insertions(+), 3 deletions(-)
++ create mode 100644 contrib/libtests/pnggetset.c
++ create mode 100755 tests/pnggetset
 +
-+diff --git a/ssh.c b/ssh.c
-+index 531f28eb2..efb8930f4 100644
-+--- a/ssh.c
-++++ b/ssh.c
-+@@ -612,26 +612,6 @@ set_addrinfo_port(struct addrinfo *addrs, int port)
-+ 	}
-+ }
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index fde2a323c..6401b7bd3 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -624,6 +624,9 @@ set(pngvalid_sources
++ set(pngstest_sources
++     contrib/libtests/pngstest.c
++ )
+++set(pnggetset_sources
+++    contrib/libtests/pnggetset.c
+++)
++ set(pngunknown_sources
++     contrib/libtests/pngunknown.c
++ )
++@@ -786,6 +789,15 @@ if(PNG_TESTS AND PNG_SHARED)
++                COMMAND pngtest
++                FILES "${TEST_PNG3_PNGS}")
 + 
-+-static void
-+-ssh_conn_info_free(struct ssh_conn_info *cinfo)
-+-{
-+-	if (cinfo == NULL)
-+-		return;
-+-	free(cinfo->conn_hash_hex);
-+-	free(cinfo->shorthost);
-+-	free(cinfo->uidstr);
-+-	free(cinfo->keyalias);
-+-	free(cinfo->thishost);
-+-	free(cinfo->host_arg);
-+-	free(cinfo->portstr);
-+-	free(cinfo->remhost);
-+-	free(cinfo->remuser);
-+-	free(cinfo->homedir);
-+-	free(cinfo->locuser);
-+-	free(cinfo->jmphost);
-+-	free(cinfo);
-+-}
+++  # pnggetset test:
+++  # Getter-to-setter roundtrips for various chunk types.
+++  add_executable(pnggetset ${pnggetset_sources})
+++  target_link_libraries(pnggetset
+++                        PRIVATE png_shared)
+++
+++  png_add_test(NAME pnggetset
+++               COMMAND pnggetset)
+++
++   # pngvalid tests:
++   # Internal validation of standard and progressive reading,
++   # transforms, and gamma handling.
++diff --git a/Makefile.am b/Makefile.am
++index 88f7ab628..fa5bbeb61 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -13,7 +13,7 @@ ACLOCAL_AMFLAGS = -I scripts/autoconf
++ 
++ # test programs - run on make check, make distcheck
++ if ENABLE_TESTS
++-check_PROGRAMS= pngtest pngunknown pngstest pngvalid pngimage pngcp
+++check_PROGRAMS= pngtest pnggetset pngunknown pngstest pngvalid pngimage pngcp
++ if HAVE_CLOCK_GETTIME
++ check_PROGRAMS += timepng
++ endif
++@@ -42,6 +42,9 @@ if ENABLE_TESTS
++ pngtest_SOURCES = pngtest.c
++ pngtest_LDADD = libpng@PNGLIB_MAJOR@@PNGLIB_MINOR@.la
++ 
+++pnggetset_SOURCES = contrib/libtests/pnggetset.c
+++pnggetset_LDADD = libpng@PNGLIB_MAJOR@@PNGLIB_MINOR@.la
+++
++ pngvalid_SOURCES = contrib/libtests/pngvalid.c
++ pngvalid_LDADD = libpng@PNGLIB_MAJOR@@PNGLIB_MINOR@.la
++ 
++@@ -73,6 +76,7 @@ endif
++ if ENABLE_TESTS
++ TESTS =\
++    tests/pngtest-all\
+++   tests/pnggetset\
++    tests/pngvalid-gamma-16-to-8\
++    tests/pngvalid-gamma-alpha-mode\
++    tests/pngvalid-gamma-background\
++@@ -303,9 +307,10 @@ $(srcdir)/scripts/pnglibconf.h.prebuilt:
++ pngtest.o: pnglibconf.h
++ 
++ contrib/libtests/makepng.o: pnglibconf.h
+++contrib/libtests/pnggetset.o: pnglibconf.h
+++contrib/libtests/pngimage.o: pnglibconf.h
++ contrib/libtests/pngstest.o: pnglibconf.h
++ contrib/libtests/pngunknown.o: pnglibconf.h
++-contrib/libtests/pngimage.o: pnglibconf.h
++ contrib/libtests/pngvalid.o: pnglibconf.h
++ contrib/libtests/readpng.o: pnglibconf.h
++ contrib/libtests/tarith.o: pnglibconf.h
++diff --git a/contrib/libtests/pnggetset.c b/contrib/libtests/pnggetset.c
++new file mode 100644
++index 000000000..b42508094
++--- /dev/null
+++++ b/contrib/libtests/pnggetset.c
++@@ -0,0 +1,328 @@
+++/* pnggetset.c
+++ *
+++ * Copyright (c) 2026 Cosmin Truta
+++ *
+++ * This code is released under the libpng license.
+++ * For conditions of distribution and use, see the disclaimer
+++ * and license in png.h
+++ *
+++ * Test the get-then-set roundtrip pattern for PLTE, tRNS, and hIST.
+++ *
+++ * Passing the internal pointer returned by a getter back into the
+++ * corresponding setter is a natural API usage pattern.  A previous
+++ * version had a use-after-free on this path because the setter freed
+++ * the internal buffer before copying from the caller-supplied pointer.
+++ */
+++
+++#include <stdio.h>
+++#include <stdlib.h>
+++#include <string.h>
+++
+++#if defined(HAVE_CONFIG_H) && !defined(PNG_NO_CONFIG_H)
+++#  include <config.h>
+++#endif
+++
+++#ifdef PNG_FREESTANDING_TESTS
+++#  include <png.h>
+++#else
+++#  include "../../png.h"
+++#endif
+++
+++/* Test: get the PLTE, pass it straight back to set, verify roundtrip. */
+++static int
+++test_plte_roundtrip(void)
+++{
+++   png_structp png_ptr;
+++   png_infop info_ptr;
+++   png_color palette[4];
+++   png_colorp got_palette = NULL;
+++   int num_palette = 0;
+++   int i;
+++
+++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+++       NULL, NULL, NULL);
+++   if (png_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
+++      return 1;
+++   }
+++
+++   info_ptr = png_create_info_struct(png_ptr);
+++   if (info_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
+++      png_destroy_write_struct(&png_ptr, NULL);
+++      return 1;
+++   }
+++
+++   if (setjmp(png_jmpbuf(png_ptr)))
+++   {
+++      fprintf(stderr, "pnggetset: libpng error in test_plte_roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* Set up a palette-color image header. */
+++   png_set_IHDR(png_ptr, info_ptr, 1, 1, 8, PNG_COLOR_TYPE_PALETTE,
+++       PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+++
+++   /* Populate with recognizable values. */
+++   for (i = 0; i < 4; i++)
+++   {
+++      palette[i].red   = (png_byte)(i * 10);
+++      palette[i].green = (png_byte)(i * 20);
+++      palette[i].blue  = (png_byte)(i * 30);
+++   }
+++   png_set_PLTE(png_ptr, info_ptr, palette, 4);
+++
+++   /* Get the internal pointer and feed it straight back. */
+++   png_get_PLTE(png_ptr, info_ptr, &got_palette, &num_palette);
+++   if (got_palette == NULL || num_palette != 4)
+++   {
+++      fprintf(stderr, "pnggetset: png_get_PLTE returned unexpected values\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* This is the critical call: the pointer aliases info_ptr->palette. */
+++   png_set_PLTE(png_ptr, info_ptr, got_palette, num_palette);
+++
+++   /* Verify the data survived the roundtrip. */
+++   got_palette = NULL;
+++   num_palette = 0;
+++   png_get_PLTE(png_ptr, info_ptr, &got_palette, &num_palette);
+++   if (got_palette == NULL || num_palette != 4)
+++   {
+++      fprintf(stderr, "pnggetset: PLTE lost after roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++   for (i = 0; i < 4; i++)
+++   {
+++      if (got_palette[i].red   != (png_byte)(i * 10) ||
+++          got_palette[i].green != (png_byte)(i * 20) ||
+++          got_palette[i].blue  != (png_byte)(i * 30))
+++      {
+++         fprintf(stderr,
+++             "pnggetset: PLTE entry %d corrupted after roundtrip\n", i);
+++         png_destroy_write_struct(&png_ptr, &info_ptr);
+++         return 1;
+++      }
+++   }
+++
+++   png_destroy_write_struct(&png_ptr, &info_ptr);
+++   return 0;
+++}
+++
+++#ifdef PNG_hIST_SUPPORTED
+++/* Test: get the hIST, pass it straight back to set, verify roundtrip. */
+++static int
+++test_hist_roundtrip(void)
+++{
+++   png_structp png_ptr;
+++   png_infop info_ptr;
+++   png_color palette[4];
+++   png_uint_16 hist[4];
+++   png_uint_16p got_hist = NULL;
+++   int i;
+++
+++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+++       NULL, NULL, NULL);
+++   if (png_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
+++      return 1;
+++   }
+++
+++   info_ptr = png_create_info_struct(png_ptr);
+++   if (info_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
+++      png_destroy_write_struct(&png_ptr, NULL);
+++      return 1;
+++   }
+++
+++   if (setjmp(png_jmpbuf(png_ptr)))
+++   {
+++      fprintf(stderr, "pnggetset: libpng error in test_hist_roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* Set up a palette-color image header. */
+++   memset(palette, 0, sizeof palette);
+++   png_set_IHDR(png_ptr, info_ptr, 1, 1, 8, PNG_COLOR_TYPE_PALETTE,
+++       PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+++   png_set_PLTE(png_ptr, info_ptr, palette, 4);
+++
+++   /* Populate with recognizable values. */
+++   for (i = 0; i < 4; i++)
+++      hist[i] = (png_uint_16)(i * 100 + 42);
+++
+++   png_set_hIST(png_ptr, info_ptr, hist);
+++
+++   /* Get the internal pointer and feed it straight back. */
+++   if (png_get_hIST(png_ptr, info_ptr, &got_hist) == 0 || got_hist == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_get_hIST returned unexpected values\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* This is the critical call: the pointer aliases info_ptr->hist. */
+++   png_set_hIST(png_ptr, info_ptr, got_hist);
+++
+++   /* Verify the data survived the roundtrip. */
+++   got_hist = NULL;
+++   if (png_get_hIST(png_ptr, info_ptr, &got_hist) == 0 || got_hist == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: hIST lost after roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++   for (i = 0; i < 4; i++)
+++   {
+++      if (got_hist[i] != (png_uint_16)(i * 100 + 42))
+++      {
+++         fprintf(stderr,
+++             "pnggetset: hIST entry %d corrupted after roundtrip\n", i);
+++         png_destroy_write_struct(&png_ptr, &info_ptr);
+++         return 1;
+++      }
+++   }
+++
+++   png_destroy_write_struct(&png_ptr, &info_ptr);
+++   return 0;
+++}
+++#endif /* PNG_hIST_SUPPORTED */
+++
+++#ifdef PNG_tRNS_SUPPORTED
+++/* Test: get the tRNS, pass it straight back to set, verify roundtrip. */
+++static int
+++test_trns_roundtrip(void)
+++{
+++   png_structp png_ptr;
+++   png_infop info_ptr;
+++   png_color palette[4];
+++   png_byte trans_alpha[4];
+++   png_color_16 trans_color;
+++   png_bytep got_alpha = NULL;
+++   png_color_16p got_color = NULL;
+++   int num_trans = 0;
+++   int i;
+++
+++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+++       NULL, NULL, NULL);
+++   if (png_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
+++      return 1;
+++   }
+++
+++   info_ptr = png_create_info_struct(png_ptr);
+++   if (info_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
+++      png_destroy_write_struct(&png_ptr, NULL);
+++      return 1;
+++   }
+++
+++   if (setjmp(png_jmpbuf(png_ptr)))
+++   {
+++      fprintf(stderr, "pnggetset: libpng error in test_trns_roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* Set up a palette-color image. */
+++   memset(palette, 0, sizeof palette);
+++   png_set_IHDR(png_ptr, info_ptr, 1, 1, 8, PNG_COLOR_TYPE_PALETTE,
+++       PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+++   png_set_PLTE(png_ptr, info_ptr, palette, 4);
+++
+++   /* Populate tRNS with recognizable values. */
+++   for (i = 0; i < 4; i++)
+++      trans_alpha[i] = (png_byte)(0xff - i * 0x11);
+++   memset(&trans_color, 0, sizeof trans_color);
+++
+++   png_set_tRNS(png_ptr, info_ptr, trans_alpha, 4, &trans_color);
+++
+++   /* Get the internal pointer and feed it straight back. */
+++   png_get_tRNS(png_ptr, info_ptr, &got_alpha, &num_trans, &got_color);
+++   if (got_alpha == NULL || num_trans != 4)
+++   {
+++      fprintf(stderr, "pnggetset: png_get_tRNS returned unexpected values\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* This is the critical call: the pointer aliases info_ptr->trans_alpha. */
+++   png_set_tRNS(png_ptr, info_ptr, got_alpha, num_trans, got_color);
+++
+++   /* Verify the data survived the roundtrip. */
+++   got_alpha = NULL;
+++   num_trans = 0;
+++   png_get_tRNS(png_ptr, info_ptr, &got_alpha, &num_trans, &got_color);
+++   if (got_alpha == NULL || num_trans != 4)
+++   {
+++      fprintf(stderr, "pnggetset: tRNS lost after roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++   for (i = 0; i < 4; i++)
+++   {
+++      if (got_alpha[i] != (png_byte)(0xff - i * 0x11))
+++      {
+++         fprintf(stderr,
+++             "pnggetset: tRNS entry %d corrupted after roundtrip\n", i);
+++         png_destroy_write_struct(&png_ptr, &info_ptr);
+++         return 1;
+++      }
+++   }
+++
+++   png_destroy_write_struct(&png_ptr, &info_ptr);
+++   return 0;
+++}
+++#endif /* PNG_tRNS_SUPPORTED */
+++
+++int
+++main(void)
+++{
+++   int result = 0;
+++
+++   printf("Testing PLTE get-then-set roundtrip... ");
+++   fflush(stdout);
+++   if (test_plte_roundtrip() != 0)
+++   {
+++      printf("FAIL\n");
+++      result = 1;
+++   }
+++   else
+++      printf("PASS\n");
+++
+++#ifdef PNG_hIST_SUPPORTED
+++   printf("Testing hIST get-then-set roundtrip... ");
+++   fflush(stdout);
+++   if (test_hist_roundtrip() != 0)
+++   {
+++      printf("FAIL\n");
+++      result = 1;
+++   }
+++   else
+++      printf("PASS\n");
+++#endif
+++
+++#ifdef PNG_tRNS_SUPPORTED
+++   printf("Testing tRNS get-then-set roundtrip... ");
+++   fflush(stdout);
+++   if (test_trns_roundtrip() != 0)
+++   {
+++      printf("FAIL\n");
+++      result = 1;
+++   }
+++   else
+++      printf("PASS\n");
+++#endif
+++
+++   return result;
+++}
++diff --git a/pngset.c b/pngset.c
++index b9ccb7fb1..a6f20123e 100644
++--- a/pngset.c
+++++ b/pngset.c
++@@ -385,6 +385,7 @@ void PNGAPI
++ png_set_hIST(png_const_structrp png_ptr, png_inforp info_ptr,
++     png_const_uint_16p hist)
++ {
+++   png_uint_16 safe_hist[PNG_MAX_PALETTE_LENGTH];
++    int i;
++ 
++    png_debug1(1, "in %s storage function", "hIST");
++@@ -401,6 +402,13 @@ png_set_hIST(png_const_structrp png_ptr, png_inforp info_ptr,
++       return;
++    }
++ 
+++   /* Snapshot the caller's hist before freeing, in case it points to
+++    * info_ptr->hist (getter-to-setter aliasing).
+++    */
+++   memcpy(safe_hist, hist, (unsigned int)info_ptr->num_palette *
+++       (sizeof (png_uint_16)));
+++   hist = safe_hist;
+++
++    png_free_data(png_ptr, info_ptr, PNG_FREE_HIST, 0);
++ 
++    /* Changed from info->num_palette to PNG_MAX_PALETTE_LENGTH in
++@@ -742,7 +750,7 @@ void PNGAPI
++ png_set_PLTE(png_structrp png_ptr, png_inforp info_ptr,
++     png_const_colorp palette, int num_palette)
++ {
 +-
-+ /*
-+  * Main program for the ssh client.
+++   png_color safe_palette[PNG_MAX_PALETTE_LENGTH];
++    png_uint_32 max_palette_length;
++ 
++    png_debug1(1, "in %s storage function", "PLTE");
++@@ -776,6 +784,15 @@ png_set_PLTE(png_structrp png_ptr, png_inforp info_ptr,
++       png_error(png_ptr, "Invalid palette");
++    }
++ 
+++   /* Snapshot the caller's palette before freeing, in case it points to
+++    * info_ptr->palette (getter-to-setter aliasing).
+++    */
+++   if (num_palette > 0)
+++      memcpy(safe_palette, palette, (unsigned int)num_palette *
+++          (sizeof (png_color)));
+++
+++   palette = safe_palette;
+++
++    png_free_data(png_ptr, info_ptr, PNG_FREE_PLTE, 0);
++ 
++    /* Changed in libpng-1.2.1 to allocate PNG_MAX_PALETTE_LENGTH instead
++@@ -1165,6 +1182,16 @@ png_set_tRNS(png_structrp png_ptr, png_inforp info_ptr,
++ 
++    if (trans_alpha != NULL)
++    {
+++       /* Snapshot the caller's trans_alpha before freeing, in case it
+++        * points to info_ptr->trans_alpha (getter-to-setter aliasing).
+++        */
+++       png_byte safe_trans[PNG_MAX_PALETTE_LENGTH];
+++
+++       if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
+++          memcpy(safe_trans, trans_alpha, (size_t)num_trans);
+++
+++       trans_alpha = safe_trans;
+++
++        png_free_data(png_ptr, info_ptr, PNG_FREE_TRNS, 0);
++ 
++        if (num_trans > 0 && num_trans <= PNG_MAX_PALETTE_LENGTH)
++diff --git a/tests/pnggetset b/tests/pnggetset
++new file mode 100755
++index 000000000..57ef731a5
++--- /dev/null
+++++ b/tests/pnggetset
++@@ -0,0 +1,5 @@
+++#!/bin/sh
+++
+++# pnggetset test:
+++# Getter-to-setter roundtrips for various chunk types.
+++exec ./pnggetset
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
+new file mode 100644
+index 00000000000..894f9d618be
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
+@@ -0,0 +1,481 @@
++From 815fdfc8dba0603abc26523d0b7e37f7ad21988b Mon Sep 17 00:00:00 2001
++From: Cosmin Truta <ctruta@gmail.com>
++Date: Mon, 30 Mar 2026 17:43:05 +0300
++Subject: [PATCH] fix: Handle getter-to-setter aliasing in append-style chunk
++ setters
++
++Apply the same class of robustness fix from the previous commit to
++`png_set_text`, `png_set_sPLT` and `png_set_unknown_chunks`. These
++append-style setters used `png_realloc_array` to grow the internal
++array, then freed the old array before copying from the caller's
++input. If the caller's pointer was obtained from the corresponding
++getter, it aliased the freed array.
++
++The fix defers the freeing of the old array until after the copy loop.
++
++Also extend the pnggetset regression test to cover all three setters.
++
++CVE: CVE-2026-34757
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b48c6bcc]
++
++(cherry picked from commit 55d20aaa322c9274491cda82c5cd4f99b48c6bcc)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ contrib/libtests/pnggetset.c | 330 ++++++++++++++++++++++++++++++++++-
++ pngset.c                     |  25 ++-
++ 2 files changed, 347 insertions(+), 8 deletions(-)
++
++diff --git a/contrib/libtests/pnggetset.c b/contrib/libtests/pnggetset.c
++index b42508094..6ae43dc66 100644
++--- a/contrib/libtests/pnggetset.c
+++++ b/contrib/libtests/pnggetset.c
++@@ -6,12 +6,12 @@
++  * For conditions of distribution and use, see the disclaimer
++  * and license in png.h
++  *
++- * Test the get-then-set roundtrip pattern for PLTE, tRNS, and hIST.
+++ * Test the get-then-set roundtrip for chunk types whose getters return
+++ * a pointer to internal storage.
++  *
++- * Passing the internal pointer returned by a getter back into the
++- * corresponding setter is a natural API usage pattern.  A previous
++- * version had a use-after-free on this path because the setter freed
++- * the internal buffer before copying from the caller-supplied pointer.
+++ * Passing such a pointer back into the corresponding setter must not
+++ * cause a use-after-free.  A previous version freed the internal buffer
+++ * before copying from the caller-supplied pointer.
 +  */
-+@@ -1799,8 +1779,8 @@ main(int ac, char **av)
-+ 	ssh_signal(SIGCHLD, main_sigchld_handler);
 + 
-+ 	/* Log into the remote system.  Never returns if the login fails. */
-+-	ssh_login(ssh, &sensitive_data, host, (struct sockaddr *)&hostaddr,
-+-	    options.port, pw, timeout_ms, cinfo);
-++	ssh_login(ssh, &sensitive_data, host, &hostaddr, options.port,
-++	    pw, timeout_ms, cinfo);
++ #include <stdio.h>
++@@ -285,6 +285,290 @@ test_trns_roundtrip(void)
++ }
++ #endif /* PNG_tRNS_SUPPORTED */
 + 
-+ 	/* We no longer need the private host keys.  Clear them now. */
-+ 	if (sensitive_data.nkeys != 0) {
-+diff --git a/sshconnect.c b/sshconnect.c
-+index 4384277a6..3d338ff23 100644
-+--- a/sshconnect.c
-++++ b/sshconnect.c
-+@@ -70,6 +70,49 @@ extern char *__progname;
-+ static int show_other_keys(struct hostkeys *, struct sshkey *);
-+ static void warn_changed_key(struct sshkey *);
-+ 
-++void
-++ssh_conn_info_free(struct ssh_conn_info *cinfo)
+++#ifdef PNG_TEXT_SUPPORTED
+++/* Test: get the text array, pass it straight back to set, verify data. */
+++#define TEXT_COUNT 6 /* enough to trigger reallocation on the second set */
+++static int
+++test_text_roundtrip(void)
 ++{
-++	if (cinfo == NULL)
-++		return;
-++	free(cinfo->conn_hash_hex);
-++	free(cinfo->shorthost);
-++	free(cinfo->uidstr);
-++	free(cinfo->keyalias);
-++	free(cinfo->thishost);
-++	free(cinfo->host_arg);
-++	free(cinfo->portstr);
-++	free(cinfo->remhost);
-++	free(cinfo->remuser);
-++	free(cinfo->homedir);
-++	free(cinfo->locuser);
-++	free(cinfo->jmphost);
-++	freezero(cinfo, sizeof(*cinfo));
-++}
+++   png_structp png_ptr;
+++   png_infop info_ptr;
+++   png_text text_entries[TEXT_COUNT];
+++   png_textp got_text = NULL;
+++   int got_num_text = 0;
+++   int i;
 ++
-++struct ssh_conn_info *
-++ssh_conn_info_dup(const struct ssh_conn_info *cinfo)
+++   /* Recognizable keys and values. */
+++   static const char *keys[TEXT_COUNT] = {
+++      "Title", "Author", "Desc", "Copyright", "Source", "Comment"
+++   };
+++   static const char *vals[TEXT_COUNT] = {
+++      "t0", "t1", "t2", "t3", "t4", "t5"
+++   };
+++
+++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+++       NULL, NULL, NULL);
+++   if (png_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
+++      return 1;
+++   }
+++
+++   info_ptr = png_create_info_struct(png_ptr);
+++   if (info_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
+++      png_destroy_write_struct(&png_ptr, NULL);
+++      return 1;
+++   }
+++
+++   if (setjmp(png_jmpbuf(png_ptr)))
+++   {
+++      fprintf(stderr, "pnggetset: libpng error in test_text_roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* Populate the text entries. */
+++   memset(text_entries, 0, sizeof text_entries);
+++   for (i = 0; i < TEXT_COUNT; i++)
+++   {
+++      text_entries[i].compression = PNG_TEXT_COMPRESSION_NONE;
+++      text_entries[i].key = (png_charp)keys[i];
+++      text_entries[i].text = (png_charp)vals[i];
+++   }
+++   png_set_text(png_ptr, info_ptr, text_entries, TEXT_COUNT);
+++
+++   /* Get the internal pointer and feed it straight back (append). */
+++   png_get_text(png_ptr, info_ptr, &got_text, &got_num_text);
+++   if (got_text == NULL || got_num_text != TEXT_COUNT)
+++   {
+++      fprintf(stderr, "pnggetset: png_get_text returned unexpected values\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* This is the critical call: got_text aliases info_ptr->text. */
+++   png_set_text(png_ptr, info_ptr, got_text, got_num_text);
+++
+++   /* Verify the original entries survived. */
+++   got_text = NULL;
+++   got_num_text = 0;
+++   png_get_text(png_ptr, info_ptr, &got_text, &got_num_text);
+++   if (got_text == NULL || got_num_text != TEXT_COUNT * 2)
+++   {
+++      fprintf(stderr, "pnggetset: text count %d, expected %d after roundtrip\n",
+++          got_num_text, TEXT_COUNT * 2);
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++   for (i = 0; i < TEXT_COUNT; i++)
+++   {
+++      if (got_text[i].key == NULL ||
+++          strcmp(got_text[i].key, keys[i]) != 0 ||
+++          got_text[i].text == NULL ||
+++          strcmp(got_text[i].text, vals[i]) != 0)
+++      {
+++         fprintf(stderr,
+++             "pnggetset: text entry %d corrupted after roundtrip\n", i);
+++         png_destroy_write_struct(&png_ptr, &info_ptr);
+++         return 1;
+++      }
+++   }
+++
+++   png_destroy_write_struct(&png_ptr, &info_ptr);
+++   return 0;
+++}
+++#undef TEXT_COUNT
+++#endif /* PNG_TEXT_SUPPORTED */
+++
+++#ifdef PNG_sPLT_SUPPORTED
+++/* Test: get the sPLT array, pass it straight back to set, verify data. */
+++static int
+++test_splt_roundtrip(void)
 ++{
-++	struct ssh_conn_info *ret;
+++   png_structp png_ptr;
+++   png_infop info_ptr;
+++   png_sPLT_t splt;
+++   png_sPLT_entry splt_entries[4];
+++   png_sPLT_tp got_spalettes = NULL;
+++   int got_num, i;
 ++
-++	if (cinfo == NULL)
-++		return NULL;
-++	ret = xcalloc(1, sizeof(*ret));
-++	ret->conn_hash_hex = xstrdup(cinfo->conn_hash_hex);
-++	ret->shorthost = xstrdup(cinfo->shorthost);
-++	ret->uidstr = xstrdup(cinfo->uidstr);
-++	ret->keyalias = xstrdup(cinfo->keyalias);
-++	ret->thishost = xstrdup(cinfo->thishost);
-++	ret->host_arg = xstrdup(cinfo->host_arg);
-++	ret->portstr = xstrdup(cinfo->portstr);
-++	ret->remhost = xstrdup(cinfo->remhost);
-++	ret->remuser = xstrdup(cinfo->remuser);
-++	ret->homedir = xstrdup(cinfo->homedir);
-++	ret->locuser = xstrdup(cinfo->locuser);
-++	ret->jmphost = xstrdup(cinfo->jmphost);
-++	return ret;
+++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+++       NULL, NULL, NULL);
+++   if (png_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
+++      return 1;
+++   }
+++
+++   info_ptr = png_create_info_struct(png_ptr);
+++   if (info_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
+++      png_destroy_write_struct(&png_ptr, NULL);
+++      return 1;
+++   }
+++
+++   if (setjmp(png_jmpbuf(png_ptr)))
+++   {
+++      fprintf(stderr, "pnggetset: libpng error in test_splt_roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* Populate with recognizable values. */
+++   memset(splt_entries, 0, sizeof splt_entries);
+++   for (i = 0; i < 4; i++)
+++   {
+++      splt_entries[i].red = (png_uint_16)(i * 1000);
+++      splt_entries[i].green = (png_uint_16)(i * 2000);
+++      splt_entries[i].blue = (png_uint_16)(i * 3000);
+++      splt_entries[i].alpha = 0xffffU;
+++      splt_entries[i].frequency = (png_uint_16)(i + 1);
+++   }
+++   memset(&splt, 0, sizeof splt);
+++   splt.name = (png_charp)"test_sPLT";
+++   splt.depth = 16;
+++   splt.entries = splt_entries;
+++   splt.nentries = 4;
+++
+++   png_set_sPLT(png_ptr, info_ptr, &splt, 1);
+++
+++   /* Get the internal pointer and feed it straight back (append). */
+++   got_num = png_get_sPLT(png_ptr, info_ptr, &got_spalettes);
+++   if (got_spalettes == NULL || got_num != 1)
+++   {
+++      fprintf(stderr, "pnggetset: png_get_sPLT returned unexpected values\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* This is the critical call: got_spalettes aliases internal storage. */
+++   png_set_sPLT(png_ptr, info_ptr, got_spalettes, got_num);
+++
+++   /* Verify the original entry survived. */
+++   got_spalettes = NULL;
+++   got_num = png_get_sPLT(png_ptr, info_ptr, &got_spalettes);
+++   if (got_spalettes == NULL || got_num != 2)
+++   {
+++      fprintf(stderr, "pnggetset: sPLT count %d, expected 2 after roundtrip\n",
+++          got_num);
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++   if (strcmp(got_spalettes[0].name, "test_sPLT") != 0 ||
+++       got_spalettes[0].nentries != 4 ||
+++       got_spalettes[0].depth != 16)
+++   {
+++      fprintf(stderr,
+++          "pnggetset: sPLT entry 0 corrupted after roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++   for (i = 0; i < 4; i++)
+++   {
+++      if (got_spalettes[0].entries[i].red != (png_uint_16)(i * 1000) ||
+++          got_spalettes[0].entries[i].green != (png_uint_16)(i * 2000) ||
+++          got_spalettes[0].entries[i].blue != (png_uint_16)(i * 3000))
+++      {
+++         fprintf(stderr,
+++             "pnggetset: sPLT[0] entry %d corrupted after roundtrip\n", i);
+++         png_destroy_write_struct(&png_ptr, &info_ptr);
+++         return 1;
+++      }
+++   }
+++
+++   png_destroy_write_struct(&png_ptr, &info_ptr);
+++   return 0;
 ++}
+++#endif /* PNG_sPLT_SUPPORTED */
 ++
-+ /* Expand a proxy command */
-+ static char *
-+ expand_proxy_command(const char *proxy_command, const char *user,
-+@@ -1585,8 +1628,8 @@ warn_nonpq_kex(void)
-+  */
-+ void
-+ ssh_login(struct ssh *ssh, Sensitive *sensitive, const char *orighost,
-+-    struct sockaddr *hostaddr, u_short port, struct passwd *pw, int timeout_ms,
-+-    const struct ssh_conn_info *cinfo)
-++    struct sockaddr_storage *hostaddr, u_short port, struct passwd *pw,
-++    int timeout_ms, const struct ssh_conn_info *cinfo)
+++#ifdef PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED
+++/* Test: get unknown chunks, pass them straight back to set, verify data. */
+++static int
+++test_unknown_roundtrip(void)
+++{
+++   png_structp png_ptr;
+++   png_infop info_ptr;
+++   png_unknown_chunk unk;
+++   png_unknown_chunkp got_unknowns = NULL;
+++   int got_num;
+++   static const png_byte test_data[] = {0xde, 0xad, 0xbe, 0xef};
+++
+++   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+++       NULL, NULL, NULL);
+++   if (png_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_write_struct failed\n");
+++      return 1;
+++   }
+++
+++   info_ptr = png_create_info_struct(png_ptr);
+++   if (info_ptr == NULL)
+++   {
+++      fprintf(stderr, "pnggetset: png_create_info_struct failed\n");
+++      png_destroy_write_struct(&png_ptr, NULL);
+++      return 1;
+++   }
+++
+++   if (setjmp(png_jmpbuf(png_ptr)))
+++   {
+++      fprintf(stderr,
+++          "pnggetset: libpng error in test_unknown_roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* Set up an unknown chunk with recognizable data. */
+++   memset(&unk, 0, sizeof unk);
+++   memcpy(unk.name, "teSt", 5);
+++   unk.data = (png_bytep)test_data;
+++   unk.size = sizeof test_data;
+++   unk.location = PNG_HAVE_IHDR;
+++
+++   png_set_keep_unknown_chunks(png_ptr, PNG_HANDLE_CHUNK_ALWAYS, NULL, 0);
+++   png_set_unknown_chunks(png_ptr, info_ptr, &unk, 1);
+++
+++   /* Get the internal pointer and feed it straight back (append). */
+++   got_num = png_get_unknown_chunks(png_ptr, info_ptr, &got_unknowns);
+++   if (got_unknowns == NULL || got_num != 1)
+++   {
+++      fprintf(stderr,
+++          "pnggetset: png_get_unknown_chunks returned unexpected values\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   /* This is the critical call: got_unknowns aliases internal storage. */
+++   png_set_unknown_chunks(png_ptr, info_ptr, got_unknowns, got_num);
+++
+++   /* Verify the original entry survived. */
+++   got_unknowns = NULL;
+++   got_num = png_get_unknown_chunks(png_ptr, info_ptr, &got_unknowns);
+++   if (got_unknowns == NULL || got_num != 2)
+++   {
+++      fprintf(stderr,
+++          "pnggetset: unknown_chunks count %d, expected 2 after roundtrip\n",
+++          got_num);
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++   if (memcmp(got_unknowns[0].name, "teSt", 4) != 0 ||
+++       got_unknowns[0].size != sizeof test_data ||
+++       memcmp(got_unknowns[0].data, test_data, sizeof test_data) != 0)
+++   {
+++      fprintf(stderr,
+++          "pnggetset: unknown chunk 0 corrupted after roundtrip\n");
+++      png_destroy_write_struct(&png_ptr, &info_ptr);
+++      return 1;
+++   }
+++
+++   png_destroy_write_struct(&png_ptr, &info_ptr);
+++   return 0;
+++}
+++#endif /* PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED */
+++
++ int
++ main(void)
 + {
-+ 	char *host;
-+ 	char *server_user, *local_user;
-+diff --git a/sshconnect.h b/sshconnect.h
-+index 4c19490da..8da0e04b9 100644
-+--- a/sshconnect.h
-++++ b/sshconnect.h
-+@@ -76,7 +76,7 @@ int	 ssh_connect(struct ssh *, const char *, const char *,
-+ void	 ssh_kill_proxy_command(void);
++@@ -324,5 +608,41 @@ main(void)
++       printf("PASS\n");
++ #endif
 + 
-+ void	 ssh_login(struct ssh *, Sensitive *, const char *,
-+-    struct sockaddr *, u_short, struct passwd *, int,
-++    struct sockaddr_storage *, u_short, struct passwd *, int,
-+     const struct ssh_conn_info *);
-+ 
-+ int	 verify_host_key(char *, struct sockaddr *, struct sshkey *,
-+@@ -85,7 +85,7 @@ int	 verify_host_key(char *, struct sockaddr *, struct sshkey *,
-+ void	 get_hostfile_hostname_ipaddr(char *, struct sockaddr *, u_short,
-+     char **, char **);
-+ 
-+-void	 ssh_kex2(struct ssh *ssh, char *, struct sockaddr *, u_short,
-++void	 ssh_kex2(struct ssh *ssh, char *, struct sockaddr_storage *, u_short,
-+     const struct ssh_conn_info *);
-+ 
-+ void	 ssh_userauth2(struct ssh *ssh, const char *, const char *,
-+@@ -101,3 +101,6 @@ void	 load_hostkeys_command(struct hostkeys *, const char *,
-+     const struct sshkey *, const char *);
-+ 
-+ int hostkey_accepted_by_hostkeyalgs(const struct sshkey *);
+++#ifdef PNG_TEXT_SUPPORTED
+++   printf("Testing tEXt get-then-set roundtrip... ");
+++   fflush(stdout);
+++   if (test_text_roundtrip() != 0)
+++   {
+++      printf("FAIL\n");
+++      result = 1;
+++   }
+++   else
+++      printf("PASS\n");
+++#endif
 ++
-++void ssh_conn_info_free(struct ssh_conn_info *);
-++struct ssh_conn_info *ssh_conn_info_dup(const struct ssh_conn_info *);
-+diff --git a/sshconnect2.c b/sshconnect2.c
-+index 478a9a52f..50ac6b89d 100644
-+--- a/sshconnect2.c
-++++ b/sshconnect2.c
-+@@ -83,7 +83,7 @@ extern Options options;
+++#ifdef PNG_sPLT_SUPPORTED
+++   printf("Testing sPLT get-then-set roundtrip... ");
+++   fflush(stdout);
+++   if (test_splt_roundtrip() != 0)
+++   {
+++      printf("FAIL\n");
+++      result = 1;
+++   }
+++   else
+++      printf("PASS\n");
+++#endif
+++
+++#ifdef PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED
+++   printf("Testing unknown chunks get-then-set roundtrip... ");
+++   fflush(stdout);
+++   if (test_unknown_roundtrip() != 0)
+++   {
+++      printf("FAIL\n");
+++      result = 1;
+++   }
+++   else
+++      printf("PASS\n");
+++#endif
+++
++    return result;
++ }
++diff --git a/pngset.c b/pngset.c
++index a6f20123e..513c51eb4 100644
++--- a/pngset.c
+++++ b/pngset.c
++@@ -954,6 +954,7 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
++     png_const_textp text_ptr, int num_text)
++ {
++    int i;
+++   png_textp old_text = NULL;
++ 
++    png_debug1(1, "in text storage function, chunk typeid = 0x%lx",
++       png_ptr == NULL ? 0xabadca11UL : (unsigned long)png_ptr->chunk_name);
++@@ -1001,7 +1002,10 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
++          return 1;
++       }
++ 
++-      png_free(png_ptr, info_ptr->text);
+++      /* Defer freeing the old array until after the copy loop below,
+++       * in case text_ptr aliases info_ptr->text (getter-to-setter).
+++       */
+++      old_text = info_ptr->text;
++ 
++       info_ptr->text = new_text;
++       info_ptr->free_me |= PNG_FREE_TEXT;
++@@ -1086,6 +1090,7 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
++       {
++          png_chunk_report(png_ptr, "text chunk: out of memory",
++              PNG_CHUNK_WRITE_ERROR);
+++         png_free(png_ptr, old_text);
++ 
++          return 1;
++       }
++@@ -1139,6 +1144,8 @@ png_set_text_2(png_const_structrp png_ptr, png_inforp info_ptr,
++       png_debug1(3, "transferred text chunk %d", info_ptr->num_text);
++    }
++ 
+++   png_free(png_ptr, old_text);
+++
++    return 0;
++ }
++ #endif
++@@ -1276,6 +1283,7 @@ png_set_sPLT(png_const_structrp png_ptr,
 +  */
++ {
++    png_sPLT_tp np;
+++   png_sPLT_tp old_spalettes;
 + 
-+ static char *xxx_host;
-+-static struct sockaddr *xxx_hostaddr;
-++static struct sockaddr_storage xxx_hostaddr;
-+ static const struct ssh_conn_info *xxx_conn_info;
-+ static int key_type_allowed(struct sshkey *, const char *);
++    png_debug1(1, "in %s storage function", "sPLT");
 + 
-+@@ -99,7 +99,7 @@ verify_host_key_callback(struct sshkey *hostkey, struct ssh *ssh)
-+ 		fatal("Server host key %s not in HostKeyAlgorithms",
-+ 		    sshkey_ssh_name(hostkey));
-+ 	}
-+-	if (verify_host_key(xxx_host, xxx_hostaddr, hostkey,
-++	if (verify_host_key(xxx_host, (struct sockaddr *)&xxx_hostaddr, hostkey,
-+ 	    xxx_conn_info) != 0)
-+ 		fatal("Host key verification failed.");
-+ 	return 0;
-+@@ -216,16 +216,16 @@ order_hostkeyalgs(char *host, struct sockaddr *hostaddr, u_short port,
++@@ -1296,7 +1304,10 @@ png_set_sPLT(png_const_structrp png_ptr,
++       return;
++    }
++ 
++-   png_free(png_ptr, info_ptr->splt_palettes);
+++   /* Defer freeing the old array until after the copy loop below,
+++    * in case entries aliases info_ptr->splt_palettes (getter-to-setter).
+++    */
+++   old_spalettes = info_ptr->splt_palettes;
++ 
++    info_ptr->splt_palettes = np;
++    info_ptr->free_me |= PNG_FREE_SPLT;
++@@ -1360,6 +1371,8 @@ png_set_sPLT(png_const_structrp png_ptr,
++    }
++    while (--nentries);
++ 
+++   png_free(png_ptr, old_spalettes);
+++
++    if (nentries > 0)
++       png_chunk_report(png_ptr, "sPLT out of memory", PNG_CHUNK_WRITE_ERROR);
++ }
++@@ -1408,6 +1421,7 @@ png_set_unknown_chunks(png_const_structrp png_ptr,
++     png_inforp info_ptr, png_const_unknown_chunkp unknowns, int num_unknowns)
++ {
++    png_unknown_chunkp np;
+++   png_unknown_chunkp old_unknowns;
++ 
++    if (png_ptr == NULL || info_ptr == NULL || num_unknowns <= 0 ||
++        unknowns == NULL)
++@@ -1454,7 +1468,10 @@ png_set_unknown_chunks(png_const_structrp png_ptr,
++       return;
++    }
++ 
++-   png_free(png_ptr, info_ptr->unknown_chunks);
+++   /* Defer freeing the old array until after the copy loop below,
+++    * in case unknowns aliases info_ptr->unknown_chunks (getter-to-setter).
+++    */
+++   old_unknowns = info_ptr->unknown_chunks;
++ 
++    info_ptr->unknown_chunks = np; /* safe because it is initialized */
++    info_ptr->free_me |= PNG_FREE_UNKN;
++@@ -1500,6 +1517,8 @@ png_set_unknown_chunks(png_const_structrp png_ptr,
++       ++np;
++       ++(info_ptr->unknown_chunks_num);
++    }
+++
+++   png_free(png_ptr, old_unknowns);
 + }
 + 
-+ void
-+-ssh_kex2(struct ssh *ssh, char *host, struct sockaddr *hostaddr, u_short port,
-+-    const struct ssh_conn_info *cinfo)
-++ssh_kex2(struct ssh *ssh, char *host, struct sockaddr_storage *hostaddr,
-++    u_short port, const struct ssh_conn_info *cinfo)
-+ {
-+ 	char *myproposal[PROPOSAL_MAX];
-+ 	char *all_key, *hkalgs = NULL;
-+ 	int r, use_known_hosts_order = 0;
-+ 
-+-	xxx_host = host;
-+-	xxx_hostaddr = hostaddr;
-+-	xxx_conn_info = cinfo;
-++	xxx_host = xstrdup(host);
-++	xxx_hostaddr = *hostaddr;
-++	xxx_conn_info = ssh_conn_info_dup(cinfo);
-+ 
-+ 	if (options.rekey_limit || options.rekey_interval)
-+ 		ssh_packet_set_rekey_limits(ssh, options.rekey_limit,
-+@@ -248,8 +248,10 @@ ssh_kex2(struct ssh *ssh, char *host, struct sockaddr *hostaddr, u_short port,
-+ 		fatal_fr(r, "kex_assemble_namelist");
-+ 	free(all_key);
-+ 
-+-	if (use_known_hosts_order)
-+-		hkalgs = order_hostkeyalgs(host, hostaddr, port, cinfo);
-++	if (use_known_hosts_order) {
-++		hkalgs = order_hostkeyalgs(host, (struct sockaddr *)hostaddr,
-++		    port, cinfo);
-++	}
-+ 
-+ 	kex_proposal_populate_entries(ssh, myproposal,
-+ 	    options.kex_algorithms, options.ciphers, options.macs,
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-index d8d73ee5dd0..8edb1440fe0 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
-@@ -29,6 +29,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://CVE-2026-59996.patch \
-            file://CVE-2026-59995.patch \
-            file://CVE-2026-60001.patch \
-+           file://CVE-2026-60002.patch \
-            "
- SRC_URI[sha256sum] = "56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4"
++ void PNGAPI
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb b/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
+index 7ede0a6c8b7..9dbd0d26e06 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.56.bb
+@@ -12,7 +12,9 @@ LIBV = "16"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+            file://run-ptest \
+-"
++           file://CVE-2026-34757_p1.patch \
++           file://CVE-2026-34757_p2.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "f7d8bf1601b7804f583a254ab343a6549ca6cf27d255c302c47af2d9d36a6f18"
  
 
