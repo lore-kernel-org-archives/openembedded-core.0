@@ -1,250 +1,188 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E14EC44536
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:32:54 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.46837.1784723572422215567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 043C1C44536
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:33:54 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.47117.1784723630136236652
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 05:32:52 -0700
+ Wed, 22 Jul 2026 05:33:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fP70fkeo;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4955aa106b1so31225895e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:32:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784723571; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TdlBOp7VuJpZLvHzsthDPyHYc7t5Z04nLYXH1Vqg6NXPZc2wJqo/jxLzBfgdlTrvAQ
-         J77Nmdhj8IBrn5V5p7UoXZ4bEzUEqhTU+Jyc+xMRE6Zdw4jQm4cCzTZ1UPX5wyjxGxuc
-         ywa1jwa/liREyIQ+bjpnQj0FSZS7oxlkz2TRRq/Qyq0M6Bf+bb/2BwXvwqJM4MI4hGjc
-         lawUmPhek3dloTFRC8JIwo0vcN6bUaIA2+Pwkwv4oeYVML30Ge0GI/cAIW6J3YJ3yZ7Y
-         2P4DYyKnx6IxuFv/zl3HithdJ3AV8bS0XQggoKcGHsJRzdT9yVya309vIvB1VYJenVMV
-         07kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=JQ/shmXBk06PFE6+hDs6XCFky+RbotDoDVV7UWu6rcA=;
-        fh=cvVRkTdkM50qvF/wjALCpClc+7d9Hr0JhbIl8dAO9ps=;
-        b=oSIw6Qz7zt5M8wus/uioNt/WKktZdemkXULerjkiUagYR9vXc1yV+RzyVaPZDPnXdJ
-         GKzH0gwldM1BEH560SsFRQCKKSHGIV/1el0Ux1JrDAeQnYE7Axnt8ZGZMjKV7R64kZpH
-         OzlERwlRmIDxPGQCHTM2op9lH/vBRe6p14Ea95Oyf69z6MbkPLDEETGgA4uwIkBkdObR
-         Ld/LUQ83Q1h/Hl2DesjPyHoK8r8PzRWHT+2x+XQTxMSweD0M09LV9tWH/ll8TWPBtGAX
-         7U1bVri00FUFZ08I7uR7CqjTOTcb5ZMwKAmAdNPte+73LXg+8lVmJo2d3Ph/9Fo5Luvr
-         3NCA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@mvista.com header.s=google header.b=Hiny98lh;
+ spf=pass (domain: mvista.com, ip: 209.85.216.54, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso12504147a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784723571; x=1785328371; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JQ/shmXBk06PFE6+hDs6XCFky+RbotDoDVV7UWu6rcA=;
-        b=fP70fkeoiYyE58RgzFyVNcEC2DWz9NSuTimxp5WohGiWKhUZedSeON1ipS/sVX8n9f
-         7CoSqbFMWxpglHx1I9KHJNEfAKqst8KmNr2EWsEgJGCtIctCKynbAsZZGM66bhWAVTC2
-         lBfJGBTqAZq3eQNa7i1nojHp9lwAOAKdEjwJY=
+        d=mvista.com; s=google; t=1784723629; x=1785328429; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mYyJQepaT7qKUKFUV0/pg84mP0BfdfU8waC2EXVSmY8=;
+        b=Hiny98lhfER2F08XiBnraTL8jOG5o/Ty7d8rOxcwzBIzmH6JKn40U+QY8MtZyRgYfU
+         E3XWv5gXawYfv9GncNhrPrZyCL7Smt3Vv2qgzi5s0drX3ZgfHwp80B1XaNqQ9HGgvB4N
+         FUXrIbKT/kMMxsgIcRqIpIUV7nUBsrapKplvg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784723571; x=1785328371;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JQ/shmXBk06PFE6+hDs6XCFky+RbotDoDVV7UWu6rcA=;
-        b=lTB6wFl4yt4W5ChWjy0P54DlaQsz7uJIonE6laxkimmUV53shvBX7uTYZ2hfaCSGgJ
-         hutkenzR0QhBi+6PZbFUi04lJGvndmCPYV/RgUiFT+VJKUJiBKI18X7YgqCaeOj4aGb/
-         RoqQpSF/wIPoMkFBBvIpKGMj3J/eRSijz+/av5S8Ro8gsOIuIiC5UqVqvqGQF9IFt4Lz
-         H7vFcFnIK78N9mryFT/ZaobZPl9+1Wj6OfbRx81OM06gsyYuyyj3zJmxzAfLbO5XBmFK
-         4DdgXLdZ8MOMRf9JDGDHcdQ5zY3e1RDKxWsWQLP3VtDsD85EOeOm85oP8ebW7nCi7ZBh
-         UnwA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpu8mtGQfWpsWV+47p6oaWVkiApsKkcKIVts/rxaTYNQlo9HIXO+inc8Td0Vy9LFmza01L2jhgrGkiPCBL9Uwl6Yw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyDeS4sGIEls/JH6jKv0wDBpPC/9X2h13Og16KJy6roYahw2Ley
-	bcFvMLd/Qc8X3b1doznv95aPe8uWVEiNP0vmiv7lsEuA7WBeRRCe9PFMJlpXmTs0kBe7+ua0imT
-	sW/KG1Zi/8234uzOX7uiLDxWuWH3pXO1Nitw3BfS8rQ==
-X-Gm-Gg: AR+sD10+tB9tp2+XbhYmhvqC038w6wj8rhZGLImn/3qzgE+g8hULBPx0FbBCUMTcRbs
-	L1/ugSd+tN4a5sNzcPFxiixRVYrIHnfuGcNoPCuWajETgaDKk+7zqL8UTg7ZxDpNSEJRdYrOXAb
-	n620hz2k2gwqJQInP9mtzpYU9h+NQYUt48Ho1nrZ/D8+HahRb867rxASIThXmjN1RG4u3IZGFli
-	V9BHuFmqYvZ0lA6oK+5WI+eVkhrn+2K3AwfwQFOUHENa2Spu4UAne/uJpKkvJHZ
-X-Received: by 2002:a05:600c:3114:b0:493:f278:ba2f with SMTP id
- 5b1f17b1804b1-4954a3ed46bmr270319815e9.9.1784723570334; Wed, 22 Jul 2026
- 05:32:50 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784723629; x=1785328429;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mYyJQepaT7qKUKFUV0/pg84mP0BfdfU8waC2EXVSmY8=;
+        b=qY7ryY06pc/+J2BpMsbDrNha7XbHaPg7Kvpv6yQpPl0D1LtiIF+ZrVpd/pQOS0GSiP
+         RO0DrCrsMStodPIibv7kwhS04r1jTyokiVkOck00jCqmucRtUmUDWFRJBG7jv083z3TT
+         KfGOUqqGkqnQHJYktj7H+7tJYJzuSX5FJApkkU+QvZ5dBKo+9mOAo37OA8Z6QL4+a89X
+         w/pv6ej39HxNlNt0ok6TMpTo9JTi1hBPyp0sWGynrJxBVMg/Dbf18q0C6y7MG1NEyp+A
+         zIJ1LMFbL4vF+uoIvW+/fJz1bZmSPumEGDlws0o+EeaCAxUZFbrxFvTicJRX+8db3pYN
+         /iNA==
+X-Gm-Message-State: AOJu0Yys4Io2ceA6bp/f3ipyL0UuuZ//0HP+w+6/X7jAR8aXIdJbOKca
+	Jzc5AJYuG2lHtT+AiSnJ1qldx5Gff6apE6Zhwso/Vu4cl8l6lXjLelHmdiQUUsCZa83GfEPvoC0
+	EtxNpzKE=
+X-Gm-Gg: AR+sD11Ipg9dU2uc6rwgTwzKIBp7G69QhoR33Owmbzy14VXrs6Z8KPzXARZJeczGKOc
+	NVaX6ppWAUbgvGf9mQXzFkZaJCWOlcY5NlZW2fB2G/fHISBQNp94fh0mrqCZS39TqXUPkZjS0F7
+	XYMwyW8BnCCoVB2iMtfzmqbkS8TWkOvyRFi9JEj+bGgyxmcFlL0dQAZxnqvRNbpWFCHdL9HlamM
+	0kMwurHpmQYkt/Is/VHo7vRFfUyZ74+42rkkiE+qQ9iUPH3j1DkX//OfceI2bOIDPLAQfjK3u2D
+	DKFYDYp+zZSdfiVeQlfiIbl8Ef4LTjzmDsYDJf6YcWOz0iO9Hssb+dY9XhGtjk+AfnKRMf4vNgC
+	h0g8dkFoqT2kflxl/iIUgu2iywIXocVceIwE8vjaQ30AxktOmMlmbubrhP8v+hQG2Td0YP2tQsp
+	VRm0yHJ9+91Bf6ZFMA3gMzXNfA7Ug=
+X-Received: by 2002:a17:90b:544f:b0:38e:dc4:3fbb with SMTP id 98e67ed59e1d1-38e4b5b7637mr23024537a91.43.1784723629197;
+        Wed, 22 Jul 2026 05:33:49 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([2401:4900:1f29:92d:e2c5:62da:989e:f39a])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d130262d2sm5823414c88.7.2026.07.22.05.33.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 05:33:48 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][wrynose][patch 01/10] vim: Fix CVE-2026-55693
+Date: Wed, 22 Jul 2026 18:03:27 +0530
+Message-ID: <20260722123336.587556-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260722121119.888611-1-emailaddress.ashish@gmail.com>
- <978937.1784722525653637859@lists.openembedded.org> <DK53FLV3KVRE.3GAZN2WD4XNY9@smile.fr>
- <CAE_=ZzEVtYkPzW3F+an=5T7aRA++WsdXEgejrSZ6oX6Dz0xWjg@mail.gmail.com>
-In-Reply-To: <CAE_=ZzEVtYkPzW3F+an=5T7aRA++WsdXEgejrSZ6oX6Dz0xWjg@mail.gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 22 Jul 2026 14:32:24 +0200
-X-Gm-Features: AUfX_mz0uOcW1ekCvRK8V52moxlIS83GhLbAB2Q5a4HuynulnFMSx4Q-s9Ervo0
-Message-ID: <CAMSfU+6+thxpr5c-oCX-L1Pc678XpPnk6-PFBrRewvrZjtB6mA@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] package.bbclass: fix execution order
- bug in emit_pkgdata
-To: Ashish Mishra <emailaddress.ashish@gmail.com>
-Cc: AshishKumar Mishra <ashishkumar.mishra@bmwtechworks.in>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006eac8a06573256df"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:32:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241668
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:33:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241669
 
---0000000000006eac8a06573256df
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Pick patch per [1].
 
-Le mer. 22 juil. 2026 =C3=A0 14:25, Ashish Mishra <emailaddress.ashish@gmai=
-l.com>
-a =C3=A9crit :
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-55693
+[2] https://security-tracker.debian.org/tracker/CVE-2026-55693
 
-> Hi Yoann ,
->
-> I tested on Scarthgap today and hence shared for it
->
-> Will create an patch for Wrynose and share after testing it once.
->
-> In meantime, can you please take this in consideration for Scarthgap?
-> Or as an process i should send Wrynose.
->
-> So accordingly from next patch onwards, will follow the same.
->
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../vim/files/CVE-2026-55693.patch            | 88 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55693.patch
 
-As a policy, I can't accept a patch for scarthgap if it does not have a
-wrynose equivalent.
-So yes, you should send the wrynose patch. Then, I'll consider this one for
-scarthgap.
+diff --git a/meta/recipes-support/vim/files/CVE-2026-55693.patch b/meta/recipes-support/vim/files/CVE-2026-55693.patch
+new file mode 100644
+index 0000000000..41f48ebfa5
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-55693.patch
+@@ -0,0 +1,88 @@
++From a80874d9b84a01040e3d1aef2d4a59e1934dafb7 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Mon, 15 Jun 2026 19:39:08 +0000
++Subject: [PATCH] patch 9.2.0653: [security]: out-of-bounds write in
++ tree_count_words()
++
++Problem:  [security]: a crafted spell file can drive tree_count_words()
++          past the end of its MAXWLEN-sized depth arrays; the descent
++          loop has no depth bound.
++Solution: only descend while depth < MAXWLEN - 1, as the sibling trie
++          walkers already do; apply the same guard to sug_filltree().
++
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-wgh4-64f7-q3jq
++
++Supported by AI.
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/a80874d9b84a01040e3d1aef2d4a59e1934dafb7]
++CVE: CVE-2026-55693
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ src/spellfile.c                |  4 ++--
++ src/testdir/test_spellfile.vim | 26 ++++++++++++++++++++++++++
++ 2 files changed, 28 insertions(+), 2 deletions(-)
++
++diff --git a/src/spellfile.c b/src/spellfile.c
++index 5102dad5b6..b3ee9c0d63 100644
++--- a/src/spellfile.c
+++++ b/src/spellfile.c
++@@ -642,7 +642,7 @@ tree_count_words(char_u *byts, idx_T *idxs)
++ 		    ++curi[depth];
++ 		}
++ 	    }
++-	    else
+++	    else if (depth < MAXWLEN - 1)
++ 	    {
++ 		// Normal char, go one level deeper to count the words.
++ 		++depth;
++@@ -5656,7 +5656,7 @@ sug_filltree(spellinfo_T *spin, slang_T *slang)
++ 		    ++curi[depth];
++ 		}
++ 	    }
++-	    else
+++	    else if (depth < MAXWLEN - 1)
++ 	    {
++ 		// Normal char, go one level deeper.
++ 		tword[depth++] = c;
++diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
++index 8f3ef4907d..4da270acea 100644
++--- a/src/testdir/test_spellfile.vim
+++++ b/src/testdir/test_spellfile.vim
++@@ -1196,5 +1196,31 @@ func Test_mkspell_no_buffer_overflow()
++   defer delete('Xbof2.spl')
++ endfunc
++ 
+++func Test_spell_sug_tree_count_words_overflow()
+++  " A crafted .spl/.sug pair with a BY_INDEX self-cycle in the fold word tree
+++  " parses cleanly (shared refs aren't recursed, so read_tree_node()'s depth
+++  " cap never trips), but drove tree_count_words() past its MAXWLEN-sized depth
+++  " arrays -> stack out-of-bounds write.  The walk only happens when
+++  " spellsuggest() loads the matching .sug.  Reaching the assert == no OOB.
+++  call mkdir('Xrtp/spell', 'pR')
+++  " VIMspell + v50, SN_SUGFILE(ts), SN_END, LWORDTREE{node:1,BY_INDEX->0,'A'},
+++  " empty KWORDTREE/PREFIXTREE
+++  let spl = eval('0z56494D7370656C6C320B0000000008000000001234'
+++        \ .. '5678FF000000020101000000410000000000000000')
+++  " VIMsug + v1, matching ts, SUGWORDTREE word "a", empty SUGTABLE
+++  let sug = 0z56494D737567010000000012345678000000040161010000000000
+++  call writefile(spl, 'Xrtp/spell/xx.utf-8.spl', 'b')
+++  call writefile(sug, 'Xrtp/spell/xx.utf-8.sug', 'b')
+++
+++  new
+++  set runtimepath+=./Xrtp
+++  set spelllang=xx
+++  set spell
+++  " Unpatched: OOB write here (ASan abort, or crash).  Patched: returns a list.
+++  call assert_equal(v:t_list, type(spellsuggest('helloo')))
+++
+++  set spell& spelllang& runtimepath&
+++  bwipe!
+++endfunc
++ 
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.43.0
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index e34cc17fe5..c0315dfed6 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -23,6 +23,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://CVE-2026-52858.patch \
+            file://CVE-2026-52859.patch \
+            file://CVE-2026-52860.patch \
++           file://CVE-2026-55693.patch \
+            "
+ 
+ PV .= ".0340"
+-- 
+2.43.0
 
-Regards,
-
-
->
-> Thanks ,
-> Ashish
->
->
-> On Wed, Jul 22, 2026, 5:50=E2=80=AFPM Yoann Congal via lists.openembedded=
-.org
-> <yoann.congal=3Dsmile.fr@lists.openembedded.org> wrote:
->
->> On Wed Jul 22, 2026 at 2:15 PM CEST, AshishKumar Mishra via
->> lists.openembedded.org wrote:
->> > Hi Yoann ,
->> >
->> > This is an bug fix patch which fixes the emit_pkgdata order
->> > The same have been merged in master at
->> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dross/=
-wip/nasm&id=3Daa85baff9ebdd3f932811c3b43d1918c38373cb9
->> >
->> > Request to take this patch in scarthgap
->>
->> Hello,
->>
->> This also need backporting to wrynose, right?
->> If that's the case, please send a cherry-pick request (if trivial) or a
->> backported patch.
->>
->> Thanks!
->> --
->> Yoann Congal
->> Smile ECS
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#241665):
->> https://lists.openembedded.org/g/openembedded-core/message/241665
->> Mute This Topic: https://lists.openembedded.org/mt/120392420/1334323
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> emailaddress.ashish@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
-
---=20
-Yoann Congal
-Smile ECS
-
---0000000000006eac8a06573256df
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 22 juil. 2026 =C3=A0=C2=A014:25,=
- Ashish Mishra &lt;<a href=3D"mailto:emailaddress.ashish@gmail.com">emailad=
-dress.ashish@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex"><div dir=3D"auto">Hi Yoann ,<div dir=3D"=
-auto"><br><div dir=3D"auto">I tested on Scarthgap today and hence shared fo=
-r it=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Will create a=
-n patch for Wrynose and share after testing it once.</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">In meantime, can you please take this in consi=
-deration for Scarthgap?</div><div dir=3D"auto">Or as an process i should se=
-nd Wrynose.</div><div dir=3D"auto"><br></div><div dir=3D"auto">So according=
-ly from next patch onwards, will follow the=C2=A0same.</div></div></div></b=
-lockquote><div><br></div><div>As a policy, I can&#39;t accept a patch for s=
-carthgap if it does not have a wrynose equivalent.</div><div>So yes, you sh=
-ould send the wrynose patch. Then, I&#39;ll consider this one for scarthgap=
-.</div><div><br></div><div>Regards,</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"auto"><div dir=3D"auto"><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Thanks ,=C2=A0</div><div dir=3D"aut=
-o">Ashish=C2=A0</div><div dir=3D"auto"><br></div></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 22, 2026=
-, 5:50=E2=80=AFPM Yoann Congal via <a href=3D"http://lists.openembedded.org=
-" target=3D"_blank">lists.openembedded.org</a> &lt;yoann.congal=3D<a href=
-=3D"mailto:smile.fr@lists.openembedded.org" target=3D"_blank">smile.fr@list=
-s.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Wed Jul 22, 2026 at 2:15 PM CEST, AshishKumar Mishra v=
-ia <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer noreferrer" =
-target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; Hi Yoann ,<br>
-&gt;<br>
-&gt; This is an bug fix patch which fixes the emit_pkgdata order<br>
-&gt; The same have been merged in master at <a href=3D"https://git.openembe=
-dded.org/openembedded-core-contrib/commit/?h=3Dross/wip/nasm&amp;id=3Daa85b=
-aff9ebdd3f932811c3b43d1918c38373cb9" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://git.openembedded.org/openembedded-core-contrib/commit/?=
-h=3Dross/wip/nasm&amp;id=3Daa85baff9ebdd3f932811c3b43d1918c38373cb9</a><br>
-&gt;<br>
-&gt; Request to take this patch in scarthgap<br>
-<br>
-Hello,<br>
-<br>
-This also need backporting to wrynose, right?<br>
-If that&#39;s the case, please send a cherry-pick request (if trivial) or a=
-<br>
-backported patch.<br>
-<br>
-Thanks!<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#241665): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/241665" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/241665</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120392420/133=
-4323" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/120392420/1334323</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" rel=3D"noreferrer" target=3D"_blank">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:emailaddress.as=
-hish@gmail.com" rel=3D"noreferrer" target=3D"_blank">emailaddress.ashish@gm=
-ail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---0000000000006eac8a06573256df--
 
