@@ -2,181 +2,215 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D08FFC4453D
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 09:54:37 +0000 (UTC)
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44327.1784714074750982364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE425C44539
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 09:54:57 +0000 (UTC)
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.44172.1784714092209873700
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 02:54:34 -0700
+ Wed, 22 Jul 2026 02:54:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Vz904gyN;
- spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NAS7KR6x;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3518; q=dns/txt;
-  s=iport01; t=1784714074; x=1785923674;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MOX6YCQ++3hAcvaifcu6m9Z+IrNLVR+9XS3XTnhI15Q=;
-  b=Vz904gyNbfBiR+sLH6i2xcUfUKKqh91y6XU0KpntZoozhqr0tDdMbHhd
-   2okJv25mh1CC9S1P6U8xBDpo6mjybR551eMBoNIFHV9ZF+HvnPCt1HY35
-   rjAlz2QU0WNVnQP0HcqQtknbqP7TgqrYor/XyI4bdOfVAKdnM2L2slRL4
-   O5NhRFk3Zlli5ypc7/tTRyy8sMFe2rhzgVFFOiVR4NjItJ13X3Qr+HYX1
-   zyo81/mlGQsHGAxbHtkNzb4bU3tpJC7+U/tflDpU6/uTKnrN3iQDmwxQW
-   /za6odIMF0hJVhxsrTa7tPtpCMz/eM18PUfp1h5LiutrCx+y4gxE84Ksr
-   A==;
-X-CSE-ConnectionGUID: QXPl9LUITCaVqkvlImBZoA==
-X-CSE-MsgGUID: q/v6bxNwRASb2rFvtjq6HQ==
-X-IPAS-Result: =?us-ascii?q?A0BHAgA+kmBq/5X/Ja1aglmCV3ReQ0mEV5Fznh6Bfg8BA?=
- =?us-ascii?q?QEPRA0EAQGFBY1ZAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8NhloBAgEmBAsBGAEtLAMBAgMCJgItIyGDAgGCdAMRwHF6fzOBAYMoA?=
- =?us-ascii?q?T8CQ1DbLgELFAEFgQUuhT+DHQGFAlwYAYR8JxsbgXKBFYNpgQWBXAEDGIENh?=
- =?us-ascii?q?BSCagSCIoEMgVoYBpAiSIECHANZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPhc0W?=
- =?us-ascii?q?BsHBYEdgS6BAoRuIx8DOX+BL3VKdy1pARIXgSaCFIE6AoEDAwsYDUgRLDcUG?=
- =?us-ascii?q?QQ9AW4HjWkjgkAOSwE0ASuVWpJIgTWfWgoog3WMIZU6GjOEBJQXklELmH2OC?=
- =?us-ascii?q?pZQhGmBaDyBRwsHcBWDIglKGQ+OLQsLhV+DFMhzJzICAQEHMgEBBwIHAgwDC?=
- =?us-ascii?q?4FokACBfgEB?=
-IronPort-Data: A9a23:Baashq22Vmx4l229ivbD5YJwkn2cJEfYwER7XKvMYLTBsI5bp2MAy
- 2MeDTyHOfreZGvzL4giYY+38R5V6JLUnIRrGlZu3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- Lsen+WFYAX7g2EuaDpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGNXEOOdw8x8dLKmhw7
- P8GLBEIRCKErrfjqF67YrEEasULNsLnOsYb/3pn1zycVKxgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUiRC/FMEg9/5JYWkOSlgnD+YjRwo1OOrq1x6G/WpOB0+OW0aoWLJ4bbHq25mG6B4
- XyY9XTfHSszD9bF0xSb7nC12M/2yHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl/DQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:UNoA7qN6NPSPrMBcTuOjsMiBIKoaSvp037Dk7S9MoHtuA6ilfq
- GV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKhTbakrDH5ZmpM
- RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IHjJ7MHd3ATV0mmhD0JczqmLg==
-X-Talos-CUID: 9a23:QQfBbW2FDLM2OhXj1+INMbxfI/Addiz58VbsCEaGEGV3TJyQY22X0fYx
-X-Talos-MUID: =?us-ascii?q?9a23=3ABwocawz/vMJCOwPL6PeVv9JWKPSaqL3pFh4HgbM?=
- =?us-ascii?q?ZgeC/P3ZqFSmBji3pYrZyfw=3D=3D?=
+  d=cisco.com; i=@cisco.com; l=4756; q=dns/txt;
+  s=iport01; t=1784714092; x=1785923692;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=wIZfzRfTsZK7dzAl3tdePMlIldkppGSWq69TiQLNXws=;
+  b=NAS7KR6xjx/ZVKsyMACH6/xWd5BEcht2kArzK4Rp2NG5E/9PrUU59fen
+   ZuDuIZyuyiZmqgyMsg9w5E3QoDiUPICeTwQCyi5kuajD+k13TR2hJFuyJ
+   6MdT4xzFzk5+UIrRHPrfxYc4tO61hVuUHeiqd/VT6z9TiATZrWlsihZuS
+   9AuC69QrAwpODqCrQUYXxNaog+1fw/i9ou5iB/Rs07kKTFo1VfSAHBxJE
+   qvvYFyfajPfzDMVZWzTFQdorM1KermnOTT4gjLN8A68gsqf0tyezjNayC
+   xHzBYK2lJP+Ir7dzL/B1D71gguvYbaOWopd7UgYRawygKrg78uQsL8xqj
+   w==;
+X-CSE-ConnectionGUID: J8C7Or8US4qwgWJ3ofeR+g==
+X-CSE-MsgGUID: pVkJyLSoRS+Mgi2NzKn22A==
+X-IPAS-Result: =?us-ascii?q?A0BJAgDCkmBq/4//Ja1aglmCV3ReQ0mEV5FzA54bgX4PA?=
+ =?us-ascii?q?QEBD0QNBAEBhQUCjVcCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2GWgECAQMjDwEYAS0QHAMBAgMCJgICKyMIGYMCAYJ0AxHAcXqBM?=
+ =?us-ascii?q?oEBgygBPwJDUNsuAQsUAQWBBS6FP4MdAYUCXBgBhHwnGxuBcoEVg2mBBYFcA?=
+ =?us-ascii?q?QMYhSGCagSCIoEMgVoYBlCPUkiBAhwDWSwBVRMNCgsHBYFmAzUSKhVuMh2BI?=
+ =?us-ascii?q?z4XNFgbBwWBHYEugQKEbiMfAzl/gS91SnctaQESF4EmghSBOgKBAwMLGA1IE?=
+ =?us-ascii?q?Sw3FBkEPQFuB41pI4I5BgEBWTQBK4FDgQWSdSSSQaEPCiiDdYwhlToaM6psC?=
+ =?us-ascii?q?5h9jgqWUIRpgWg8gUcLB3AVgyIJShkPjjiFaoMUyHMnMgIBAQcyAQEHAgcCD?=
+ =?us-ascii?q?AMLgWiRfgEB?=
+IronPort-Data: A9a23:hS+A+qJC3cqW5XGiFE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENSgTdTz
+ zcZWmCCMveMNDD9f9AlYd++o05X6JXSndU3HAEd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
+ T/Oi5eHYgH9hGQuajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1MXGppGpdIx90rGH5By
+ t5DLz4AVFOM0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBU7AtQIvIROPB4towMDUY358VW62BI
+ ZBENHw2ME+ojx5nYj/7DLoyn+qsj3juehVTqUmeouw85G27IAlZjeG2YIqIJILQLSlTtl6mp
+ UDX21/+OCpZEdOekxyX0XT23MaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1jfDWkfRTkHY9sj3CMreQEXO
+ payt4uBLVRSXHe9FRpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:PQHRGqEGvzLfeNPTpLqENseALOsnbusQ8zAXPo5KJiC9Ffbo8f
+ xG/c5rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1MmZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
+ lbH5SWIeeAdGSS9fyKgzWQIpIH3MSN9ryuiKP1yndgShwvVoRbhj0Jcjpy1iZNNXN77V1TLu
+ vm2vZ6
+X-Talos-CUID: =?us-ascii?q?9a23=3Aw6mitGl+vGQmivzAcmz3HE+wvBTXOV+N5yj3OR+?=
+ =?us-ascii?q?FMjpwV7KqawSX9q5e0MU7zg=3D=3D?=
+X-Talos-MUID: 9a23:h91phwVpzZYRdtjq/CfShxNzEPxv2Z/tLU8My7MUmM/ebwUlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,178,1779148800"; 
-   d="scan'208";a="512765293"
-Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
-  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 09:54:33 +0000
+   d="scan'208";a="513885662"
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 09:54:33 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 9FAF118000326;
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id A88CD1800039A;
 	Wed, 22 Jul 2026 09:54:33 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 45025CAEF79; Wed, 22 Jul 2026 02:54:33 -0700 (PDT)
+	id 5171CCAB20E; Wed, 22 Jul 2026 02:54:33 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 1/4] gawk: Fix CVE-2026-40467
-Date: Wed, 22 Jul 2026 02:54:27 -0700
-Message-Id: <20260722095430.1416791-1-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 3/4] gawk: Fix CVE-2026-40469
+Date: Wed, 22 Jul 2026 02:54:29 -0700
+Message-Id: <20260722095430.1416791-3-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260722095430.1416791-1-dkelaiya@cisco.com>
+References: <20260722095430.1416791-1-dkelaiya@cisco.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-12.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 09:54:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241636
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 09:54:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241639
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-This patch applies the upstream fix as referenced in [2], using the commit shown in [1].
+NVD [3] identifies upstream merge commit [2] as the fix. The
+CVE-specific change is its second parent [1], which adds 32-bit
+overflow checking in do_sub().
 
-[1] https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=a2d18c74109e41bec29a23098eba2e00057286d8
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-40467
+[1] https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=aa7272a6e1184cdd21ab8f89200219abd8053eda
+[2] https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=ae1b2d508f46913269a9e62aceda3636afe8147b
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-40469
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../gawk/gawk/CVE-2026-40467.patch            | 62 +++++++++++++++++++
+ .../gawk/gawk/CVE-2026-40469.patch            | 90 +++++++++++++++++++
  meta/recipes-extended/gawk/gawk_5.4.0.bb      |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40467.patch
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40469.patch
 
-diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40467.patch b/meta/recipes-extended/gawk/gawk/CVE-2026-40467.patch
+diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40469.patch b/meta/recipes-extended/gawk/gawk/CVE-2026-40469.patch
 new file mode 100644
-index 0000000000..772172c373
+index 0000000000..73cda824a7
 --- /dev/null
-+++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40467.patch
-@@ -0,0 +1,62 @@
-+From 194a2884f21a6fc02c446ca4e2dc9107298832db Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40469.patch
+@@ -0,0 +1,90 @@
++From 436584a4302b1c6da55080c0a0408a98e551ea7e Mon Sep 17 00:00:00 2001
 +From: "Arnold D. Robbins" <arnold@skeeve.com>
-+Date: Fri, 3 Apr 2026 12:02:11 +0300
-+Subject: [PATCH] Small memory management fix in io.c.
++Date: Mon, 6 Apr 2026 10:56:38 +0300
++Subject: [PATCH] Add overflow checking in do_sub for 32 bit systems.
 +
-+CVE: CVE-2026-40467
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=a2d18c74109e41bec29a23098eba2e00057286d8]
++CVE: CVE-2026-40469
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=aa7272a6e1184cdd21ab8f89200219abd8053eda]
 +
-+(cherry picked from commit a2d18c74109e41bec29a23098eba2e00057286d8)
++(cherry picked from commit aa7272a6e1184cdd21ab8f89200219abd8053eda)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ ChangeLog | 6 ++++++
-+ io.c      | 5 ++++-
-+ 2 files changed, 10 insertions(+), 1 deletion(-)
++ ChangeLog |  9 +++++++++
++ builtin.c | 25 ++++++++++++++++++++-----
++ 2 files changed, 29 insertions(+), 5 deletions(-)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index a714ca1a..517aba91 100644
++index 8cdf90f6..c1b2e7f4 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
-+@@ -1,3 +1,9 @@
-++2026-04-03         Arnold D. Robbins     <arnold@skeeve.com>
++@@ -1,3 +1,12 @@
+++2026-04-06         Arnold D. Robbins     <arnold@skeeve.com>
 ++
-++	* io.c (do_getline_redir): Don't DEREF redir_exp too early.
-++	Thanks to Michał Majchrowicz <mmajchrowicz@afine.com>
-++	for the report.
+++	* builtin.c (do_sub): Check for overflow in calculation of size
+++	of result buffer by doing the math in 64 bits. This provides
+++	a fatal message on 32 bit systems if overflow happens instead
+++	of letting dynamic memory get corrupted and likely causing
+++	a core dump. Thanks to Michał Majchrowicz <mmajchrowicz@afine.com>
+++	for the report and fix.
 ++
-+ 2026-02-22         Arnold D. Robbins     <arnold@skeeve.com>
++ 2026-04-04         Arnold D. Robbins     <arnold@skeeve.com>
 + 
-+ 	* 5.4.0: Release tar ball made.
-+diff --git a/io.c b/io.c
-+index a3b877c4..7a547aa1 100644
-+--- a/io.c
-++++ b/io.c
-+@@ -2853,21 +2853,24 @@ do_getline_redir(int into_variable, enum redirval redirtype)
-+ 	redir_exp = TOP();
-+ 	redir_exp = elem_new_to_scalar(redir_exp);
-+ 	rp = redirect(redir_exp, redirtype, & redir_error, false);
-+-	DEREF(redir_exp);
-+ 	decr_sp();
-+ 	if (rp == NULL) {
-+ 		if (redir_error) { /* failed redirect */
-+ 			update_ERRNO_int(redir_error);
-+ 		}
-++		DEREF(redir_exp);
-+ 		return make_number((AWKNUM) -1.0);
-+ 	} else if ((rp->flag & RED_TWOWAY) != 0 && rp->iop == NULL) {
-+ 		if (is_non_fatal_redirect(redir_exp->stptr, redir_exp->stlen)) {
-+ 			update_ERRNO_int(EBADF);
-++			DEREF(redir_exp);
-+ 			return make_number((AWKNUM) -1.0);
-+ 		}
-+ 		(void) close_rp(rp, CLOSE_ALL);
-++		DEREF(redir_exp);	// we're about to die, but what the heck, release it anyway
-+ 		fatal(_("getline: attempt to read from closed read end of two-way pipe"));
-+ 	}
-++	DEREF(redir_exp);
-+ 	iop = rp->iop;
-+ 	if (iop == NULL)		/* end of input */
-+ 		return make_number((AWKNUM) 0.0);
++ 	* builtin.c (do_sub): Make `sofar' be size_t to avoid
++diff --git a/builtin.c b/builtin.c
++index d0e083da..3906d507 100644
++--- a/builtin.c
+++++ b/builtin.c
++@@ -1820,11 +1820,13 @@ do_sub(int nargs, unsigned int flags)
++ 	bool lastmatchnonzero;
++ 	char *mb_indices = NULL;
++ 	int searchflags = RE_NEED_START;
+++	const char *fname = NULL;	// for fatal message, below
++ 
++ 	if ((flags & GENSUB) != 0) {
++ 		double d;
++ 		NODE *glob_flag;
++ 
+++		fname = "gensub";
++ 		check_exact_args(nargs, "gensub", 4);
++ 
++ 		tmp = PEEK(3);
++@@ -1856,11 +1858,9 @@ do_sub(int nargs, unsigned int flags)
++ 		DEREF(glob_flag);
++ 		searchflags |= RE_NEED_SUB;
++ 	} else {
++-		if ((flags & GSUB) != 0) {
++-			check_exact_args(nargs, "gsub", 3);
++-		} else {
++-			check_exact_args(nargs, "sub", 3);
++-		}
+++		fname = ((flags & GSUB) != 0) ? "gsub" : "sub";
+++
+++		check_exact_args(nargs, fname, 3);
++ 
++ 		/* take care of regexp early, in case re_update is fatal */
++ 
++@@ -1976,6 +1976,21 @@ do_sub(int nargs, unsigned int flags)
++ 		 * vary since ampersand is actual text of regexp match.
++ 		 */
++ 
+++		// 4/2026: This overflow check simply provides a fatal
+++		// message instead of letting realloc() die later after
+++		// a buffer overrun.  It simply makes the user experience better,
+++		// but does not prevent gawk from dying miserably.  I suppose
+++		// it's worth the trouble, but just barely.
+++
+++		/* uint64_t so the product is 64-bit even on 32-bit ILP32 builds */
+++		uint64_t repl_contribution =
+++			(uint64_t)(unsigned int)ampersands
+++			* (uint64_t)(uintptr_t)(matchend - matchstart);
+++		if (repl_contribution > (uint64_t)SIZE_MAX
+++		    || repl_contribution > (uint64_t)SIZE_MAX - (size_t)(matchend - text)
+++						- repllen - 1)
+++			fatal(_("%s: replacement expansion too large"), fname);
+++
++ 		/*
++ 		 * add 1 to len to handle "empty" case where
++ 		 * matchend == matchstart and we force a match on a single
 +-- 
 +2.53.0
 +
 diff --git a/meta/recipes-extended/gawk/gawk_5.4.0.bb b/meta/recipes-extended/gawk/gawk_5.4.0.bb
-index d7211f28f3..59c4cb2536 100644
+index 345103a7f0..a7c88224dd 100644
 --- a/meta/recipes-extended/gawk/gawk_5.4.0.bb
 +++ b/meta/recipes-extended/gawk/gawk_5.4.0.bb
-@@ -28,6 +28,7 @@ PACKAGECONFIG[pma-if-64bit] = "--enable-pma,--disable-pma, "
- SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.xz \
-            file://run-ptest \
+@@ -30,6 +30,7 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.xz \
             file://0001-configure.ac-re-enable-disabled-printf-features.patch \
-+           file://CVE-2026-40467.patch \
+            file://CVE-2026-40467.patch \
+            file://CVE-2026-40468.patch \
++           file://CVE-2026-40469.patch \
             "
  
  SRC_URI[sha256sum] = "3dd430f0cd3b4428c6c3f6afc021b9cd3c1f8c93f7a688dc268ca428a90b4ac1"
