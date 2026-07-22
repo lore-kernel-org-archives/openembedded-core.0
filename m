@@ -2,78 +2,78 @@ Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E36C44539
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 10:12:58 +0000 (UTC)
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.44570.1784715174856552406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1ECCC4453A
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 10:13:08 +0000 (UTC)
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44571.1784715179150423062
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 03:12:55 -0700
+ Wed, 22 Jul 2026 03:12:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=aWlyamLU;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=lgaaBj4O;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3743; q=dns/txt;
-  s=iport01; t=1784715174; x=1785924774;
+  d=cisco.com; i=@cisco.com; l=3718; q=dns/txt;
+  s=iport01; t=1784715179; x=1785924779;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CTuKXiRShPZ5Iw8em3xg29m3XQhEZhKdkE1cEh6yODk=;
-  b=aWlyamLU2qgWzvNyg2QZfMW9ghdWIccaBfogS1kIKISyZLsNogn/f0FC
-   og7A6AHlDY/bISP+IY+Y6hLI7YIX0pINjnn8L7oCCfrjzQEkQta0VxNlm
-   krtcsAda2QriZK0oNxmPiw+H1Mz0XViLKt8WnQAyfTHtsd9LxeaOXmz+U
-   2whqz6kLEFv7Fx4J6XAtXYKrH7xqwA9ls2TAGbClmmg0sowVW2pQ78dAe
-   6krJL/6WeiiHa8ux5NHvs7jJuGmMe5h0JMBTdnk8ItQD/RvwaRDtgUagl
-   8VVj2T1ZKtun8t6lRttv89o61PRM5fH619cM2Epj4H2/MFWgXPSvslmrf
-   Q==;
-X-CSE-ConnectionGUID: HpBg8NJNS4iVUojY0Zm6Fg==
-X-CSE-MsgGUID: zoQRF0SHTW+0KFiFgQwYVA==
-X-IPAS-Result: =?us-ascii?q?A0BHAgBEl2Bq/5H/Ja1aHgEBCxIMggULgld0XkNJlk2LZ?=
- =?us-ascii?q?JI3gX4PAQEBD0QNBAEBhQUCjVcCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBB?=
- =?us-ascii?q?QEBAQIBBwWBDhOGTw2GWgECAQMyARgBLRAcAwECLyALIwgZgwIBgjoDNwMRw?=
- =?us-ascii?q?RWCLIEBgygBPwJDUNhJDYJYAQsUAQWBM4U/gn2FI1wYAYR8JxsbgXKBFYNpg?=
- =?us-ascii?q?QWBGkIBgUmGXQSCIoEMgVoYBpAiSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
- =?us-ascii?q?SM+F4EMGwcFgR2BLoEChG4jHwM5f4EvdUp3LWkBEheBJoIUgToCgQMDCxgNS?=
- =?us-ascii?q?BEsNxQZBD5uB41pI4JAgQ4BKgGVZAeSN6AecQoog3WMIY8+hXwaM6psC5h9j?=
- =?us-ascii?q?gqECZJHhGmBaDyBRwsHcBWDIglKGQ+OKg4Lg2CBf8wSJzICCTIBAQcCBw4DC?=
- =?us-ascii?q?4FokX4BAQ?=
-IronPort-Data: A9a23:YuIsv637lLAR8J+XT/bD5YVwkn2cJEfYwER7XKvMYLTBsI5bpzEBy
- DdMCG7TaavbMWvxL9pwaY/i8BkA75TSydY2QVBv3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- Lsen+WFYAX7g2EuaDpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGLFkcMt0+2MBMXWBwy
- PsaGWg/a06tiLfjqF67YrEEasULNsLnOsYb/3pn1zycVaZgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUidC/FMEg9/5JYWnPuoj3r2aRVTqUmeouw85G27IAlZjeG2a4GFIoHQLSlTtlSfn
- 1jop1/ZPi5ZbP+xyBSKy22duMaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1bfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:WJ3Cwq7/6tKcc5WvZQPXwBDXdLJyesId70hD6qm+c3Nom6uj5q
- eTdZsgtCMc5Ax9ZJhko6HjBEDiewK5yXcK2+ks1N6ZNWGM0ldAbrsSiLcKqAePJ8SRzIJgPI
- 5bAs5D4aXLfDtHpPe/xhWkGNA9x9TC2qWpieDCi0pJd2hRGthdB8MTMHfhLqWwLzM2faYEKA
- ==
-X-Talos-CUID: 9a23:QSUq9WOMQja7NO5DeDFN+x4yOOYeLnzj8XDSEheKDDhHR+jA
-X-Talos-MUID: =?us-ascii?q?9a23=3As5jkBQ9UgroPTKo5T2G7qHSQf9Vv2p6AUHstrap?=
- =?us-ascii?q?F4+qqNAJ/Aiissh3iFw=3D=3D?=
+  bh=kWMGluSXc0tGoOp1vZA6QWkAWRgMn9uHC1zGO4WOoeE=;
+  b=lgaaBj4OA4vzMPZn2CGTyiZ8i44lQK831NBWaLOomZRigGYbpL7Mqx+k
+   Lv/+P4/wYwYh0sx/ndBeJn0bZB09ejJ2cf35rX6TiK1QBmxX5MNVVjBvS
+   ru43DeDgjFIstHCIf49pU+ZJF8A78aH2VDtJAGDxrnwkdyzjy5L/RTzCa
+   ztK46S+mB5uglzs8rbQAip8vZ4nGfh1p+KLPG8vj/y1mYdRj2+vyGQw5p
+   gVki1bsiISTZNUPb4FJV16xExiMBfbBxPsdyaik0A5zeVFQd0f33bHWTm
+   QtE8f4xfaz1i4Jnwyu7SYFejGILtr+Gfl5zGra3/RLYwhBgvXctBYDLcx
+   A==;
+X-CSE-ConnectionGUID: 1nQzJUwcRsSbIHi3uyZWCA==
+X-CSE-MsgGUID: cSY1tS31QsOS4Rua/02eJg==
+X-IPAS-Result: =?us-ascii?q?A0BIAgDRlmBq/4//Ja1aHgEBCxIMggULgld0XkNJlk2LZ?=
+ =?us-ascii?q?JI3FIFqDwEBAQ9EDQQBAYUFAo1XAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBA?=
+ =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhloBAgEDJwsBGAEtEBwDAQIvIAsjCBmDAgGCOgM3A?=
+ =?us-ascii?q?xHAeYF5M4EBgygBPwJDUNhJDYJYAQsUAQWBM4U/gn2FI1wYAYR8JxsbgXKBF?=
+ =?us-ascii?q?YNpgQWBGkIBgSSHAgSCDRWBDIFaGAaQIkiBHgNZLAFVEw0KCwcFgWYDNRIqF?=
+ =?us-ascii?q?W4yHYEjPheBDBsHBYEdgS6BAoRuIx8DOX+BL3VKdy1pARIXgSaCFIE6AoEDA?=
+ =?us-ascii?q?wsYDUgRLDcUGQQ+bgeNaSOCQHQHEwErpgGCIaAecQoog3WMIY8+hXwaM6psC?=
+ =?us-ascii?q?5h9jgqECZJHhGmBaDyBRwsHcBWDIglKGQ+OOINrgX/MEicyAgkyAQEHAgcOA?=
+ =?us-ascii?q?wuBaJF+AQE?=
+IronPort-Data: A9a23:B6zi264C5ixdLxwlTvBSEQxRtG7GchMFZxGqfqrLsTDasY5as4F+v
+ mMZDW/SMv6Damf1fN4iO9u09kgAuZSAydNlHgNtpXg3Zn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/qUzBHf/g2Qqaj1OsfrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eZIsh6MRKHmp07
+ scSCRAMNQ2Std2d6efuIgVsrpxLwMjDJogTvDRkiDreF/tjGc6FSKTR7tge1zA17ixMNa+BP
+ IxCNnw1MUmGOkEUUrsUIMpWcOOAhmX/ej5RsnqepLE85C7YywkZPL3FbYOOKo3QHJwO9qqej
+ mn9zj3lOUpDDce48ma/73vr3rXCvyyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjZCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:ieyoLq8WOYfLK8oEz/Ruk+AAI+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
+ 5ISdkZNDSJNykYse/KpC+lDt0n3N6LtIqshevY0jNRaDsCUdAY0++8YTzraXGfg2J9dOIEKK
+ Y=
+X-Talos-CUID: 9a23:YJXX8GFub+Fea+wBqmI+8ncGOP06eUfG933xA07jFHdbd5a8HAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3AiGyRig0uhKknorf62LfglxiDyzUj6J+fUVw2ysw?=
+ =?us-ascii?q?/oO6/aRZtMnDF1jmVTdpy?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,178,1779148800"; 
-   d="scan'208";a="513338052"
-Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 10:12:54 +0000
+   d="scan'208";a="513892113"
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 10:12:58 +0000
 Received: from sjc-ads-5471.cisco.com (sjc-ads-5471.cisco.com [10.28.23.235])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id E9FA218000472;
-	Wed, 22 Jul 2026 10:12:53 +0000 (GMT)
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 443B318000394;
+	Wed, 22 Jul 2026 10:12:58 +0000 (GMT)
 Received: by sjc-ads-5471.cisco.com (Postfix, from userid 1887505)
-	id 9929ACC12A6; Wed, 22 Jul 2026 03:12:53 -0700 (PDT)
+	id E7716CC12A6; Wed, 22 Jul 2026 03:12:57 -0700 (PDT)
 From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][scarthgap][PATCH 2/4] wget: Fix CVE-2026-58470
-Date: Wed, 22 Jul 2026 03:12:28 -0700
-Message-Id: <20260722101230.34771-2-hthakar@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 3/4] wget: Fix CVE-2026-58471
+Date: Wed, 22 Jul 2026 03:12:29 -0700
+Message-Id: <20260722101230.34771-3-hthakar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260722101230.34771-1-hthakar@cisco.com>
 References: <20260722101230.34771-1-hthakar@cisco.com>
@@ -82,122 +82,114 @@ Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-5471.cisco.com [10.28.23.235];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.28.23.235, sjc-ads-5471.cisco.com
-X-Outbound-Node: rcdn-l-core-08.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:12:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241651
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:13:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241652
 
 From: Hetvi Thakar <hthakar@cisco.com>
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-[1] https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58470
+[1] https://gitlab.com/gnuwget/wget/-/commit/c2640fe5171c59f87c58dc9fcb195b2d18b010ee
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58471
 
 Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- .../wget/wget/CVE-2026-58470.patch            | 79 +++++++++++++++++++
+ .../wget/wget/CVE-2026-58471.patch            | 71 +++++++++++++++++++
  meta/recipes-extended/wget/wget_1.21.4.bb     |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470.patch
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58471.patch
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58470.patch b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58471.patch b/meta/recipes-extended/wget/wget/CVE-2026-58471.patch
 new file mode 100644
-index 0000000000..7ee4e87344
+index 0000000000..4938e6761a
 --- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
-@@ -0,0 +1,79 @@
-+From bfbab29e0a94160b283a8101e122d07684104955 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Mon, 29 Jun 2026 18:57:54 +0200
-+Subject: [PATCH] * src/http.c (parse_content_range): Fix integer overflow
++++ b/meta/recipes-extended/wget/wget/CVE-2026-58471.patch
+@@ -0,0 +1,71 @@
++From f419222cc7e02dea2da104b4fb5a997019bab9a9 Mon Sep 17 00:00:00 2001
++From: Arkadi Vainbrand <arkadva8@gmail.com>
++Date: Tue, 13 Jan 2026 12:22:04 +0200
++Subject: [PATCH] Fix buffer size handling in filename conversion
 +
-+Reported-by: TristanInSec@gmail.com
++* src/url.c (convert_fname): Fix buffer overflow.
 +
-+CVE: CVE-2026-58470
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf]
++Copyright-paperwork-exempt: Yes
 +
-+(cherry picked from commit 43d3ba9336bc94937e6fae2365c6ffd30c34ffcf)
++CVE: CVE-2026-58471
++Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/c2640fe5171c59f87c58dc9fcb195b2d18b010ee]
++
++Signed-off-by: Arkadi Vainbrand <arkadva8@gmail.com>
++(cherry picked from commit c2640fe5171c59f87c58dc9fcb195b2d18b010ee)
 +Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 +---
-+ src/http.c | 35 ++++++++++++++++++++++++-----------
-+ 1 file changed, 24 insertions(+), 11 deletions(-)
++ src/url.c | 20 +++++++++++++-------
++ 1 file changed, 13 insertions(+), 7 deletions(-)
 +
-+diff --git a/src/http.c b/src/http.c
-+index 116a93a3..4dc6b70f 100644
-+--- a/src/http.c
-++++ b/src/http.c
-+@@ -914,6 +914,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+                      wgint *last_byte_ptr, wgint *entity_length_ptr)
-+ {
-+   wgint num;
-++  char *end;
++diff --git a/src/url.c b/src/url.c
++index 68688256..6a9efe88 100644
++--- a/src/url.c
+++++ b/src/url.c
++@@ -1603,7 +1603,7 @@ convert_fname (char *fname)
++   const char *from_encoding = opt.encoding_remote;
++   const char *to_encoding = opt.locale;
++   iconv_t cd;
++-  size_t len, done, inlen, outlen;
+++  size_t len, inlen, outlen;
++   char *s;
++   const char *orig_fname;
 + 
-+   /* Ancient versions of Netscape proxy server, presumably predating
-+      rfc2068, sent out `Content-Range' without the "bytes"
-+@@ -932,27 +933,39 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+     }
-+   if (!c_isdigit (*hdr))
-+     return false;
-+-  for (num = 0; c_isdigit (*hdr); hdr++)
-+-    num = 10 * num + (*hdr - '0');
-+-  if (*hdr != '-' || !c_isdigit (*(hdr + 1)))
++@@ -1625,7 +1625,6 @@ convert_fname (char *fname)
++   inlen = strlen (fname);
++   len = outlen = inlen * 2;
++   converted_fname = s = xmalloc (outlen + 1);
++-  done = 0;
++ 
++   for (;;)
++     {
++@@ -1633,7 +1632,7 @@ convert_fname (char *fname)
++       if (iconv (cd, (ICONV_CONST char **) &fname, &inlen, &s, &outlen) == 0
++           && iconv (cd, NULL, NULL, &s, &outlen) == 0)
++         {
++-          *(converted_fname + len - outlen - done) = '\0';
+++          *s = '\0';
++           iconv_close (cd);
++           DEBUGP (("Converted file name '%s' (%s) -> '%s' (%s)\n",
++                    orig_fname, from_encoding, converted_fname, to_encoding));
++@@ -1656,10 +1655,17 @@ convert_fname (char *fname)
++         }
++       else if (errno == E2BIG) /* Output buffer full */
++         {
++-          done = len;
++-          len = outlen = done + inlen * 2;
++-          converted_fname = xrealloc (converted_fname, outlen + 1);
++-          s = converted_fname + done;
+++          size_t used = s - converted_fname;
+++          size_t newlen = used + inlen * 2 + 1;
 ++
-++  errno = 0;
-++  num = strtol(hdr, &end, 10);
-++  if (errno == ERANGE)
-++    return false;
-++  hdr = end;
+++          /* Ensure we actually grow the buffer */
+++          if (newlen <= len)
+++            newlen = len * 2;
 ++
-++  if (*hdr++ != '-' || !c_isdigit (*hdr))
-+     return false;
-+   *first_byte_ptr = num;
-+-  ++hdr;
-+-  for (num = 0; c_isdigit (*hdr); hdr++)
-+-    num = 10 * num + (*hdr - '0');
-+-  if (*hdr != '/')
-++
-++  errno = 0;
-++  num = strtol(hdr, &end, 10);
-++  if (errno == ERANGE)
-++    return false;
-++  hdr = end;
-++
-++  if (*hdr++ != '/')
-+     return false;
-+   *last_byte_ptr = num;
-+-  if (!(c_isdigit (*(hdr + 1)) || *(hdr + 1) == '*'))
-++  if (!(c_isdigit (*hdr) || *hdr == '*'))
-+     return false;
-+   if (*last_byte_ptr < *first_byte_ptr)
-+     return false;
-+-  ++hdr;
-+   if (*hdr == '*')
-+     num = -1;
-+   else
-+-    for (num = 0; c_isdigit (*hdr); hdr++)
-+-      num = 10 * num + (*hdr - '0');
-++    {
-++      errno = 0;
-++      num = strtol(hdr, NULL, 10);
-++      if (errno == ERANGE)
-++        return false;
-++    }
-+   *entity_length_ptr = num;
-+   if ((*entity_length_ptr <= *last_byte_ptr) && *entity_length_ptr != -1)
-+     return false;
+++          converted_fname = xrealloc (converted_fname, newlen + 1);
+++          len = newlen;
+++          s = converted_fname + used;
+++          outlen = len - used;
++         }
++       else /* Weird, we got an unspecified error */
++         {
 diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-extended/wget/wget_1.21.4.bb
-index cb05ff34f8..50df38aab1 100644
+index 50df38aab1..fa4958a485 100644
 --- a/meta/recipes-extended/wget/wget_1.21.4.bb
 +++ b/meta/recipes-extended/wget/wget_1.21.4.bb
-@@ -5,6 +5,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://CVE-2026-58469.patch \
+@@ -6,6 +6,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
             file://CVE-2026-58469-regression_p1.patch \
             file://CVE-2026-58469-regression_p2.patch \
-+           file://CVE-2026-58470.patch \
+            file://CVE-2026-58470.patch \
++           file://CVE-2026-58471.patch \
            "
  
  SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
