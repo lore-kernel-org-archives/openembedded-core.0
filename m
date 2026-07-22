@@ -1,111 +1,131 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35587C44536
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 12:51:34 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47168.1784724685353850936
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDB8C44536
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 13:12:05 +0000 (UTC)
+Received: from mailer73.gate185.sl.smtp.com (mailer73.gate185.sl.smtp.com [192.40.185.73])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.47807.1784725839278712876
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 05:51:25 -0700
+ Wed, 22 Jul 2026 06:10:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=NelZEu77;
- spf=pass (domain: konsulko.com, ip: 209.85.128.43, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-495590dde14so35655815e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 05:51:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1784724683; x=1785329483; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ocx6pCV6KcJ8okONPXqj6PyzCvU+5+3OJr6TZ2mOVcA=;
-        b=NelZEu77RJpndPeeeh0jwtIYOG497RhvJJvrUK/t/2aI734f+a+aGgekoDeddqu9PT
-         rjOGh2QUtgmBJp81XeF6XN+45mi2YFHHzljs6e7HKgOI+a2Nl9Gpr1RHoDhIDxWpf2Ig
-         waSLppbBwwsqXkfH0T8f+Tz1n2dF4F341w/+s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784724683; x=1785329483;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ocx6pCV6KcJ8okONPXqj6PyzCvU+5+3OJr6TZ2mOVcA=;
-        b=NQc0QbkI3nN8OTg/c58RR6n1AqBaENUSApeneLATlwvobaiWSLtX9d5xpMVvaai4nc
-         LJjko2ws1x3iWNwuvjNDQlSPv6ulbZvp6pZLrWqyICkGQDoPg25HwS7fsQhmSTYY9rmt
-         EbdceEmIanTsg0VtCuBKcZTfAyGHAxHxyZmVEOj800Ocj2qlOEikr/2RCSjaz3ftagVr
-         vG0aKD9eW17VAfJWmUxvsW7FOwgLmRvZxD9uJQd6hB1zvb2aH7iaeno5ebxOsU4PqagI
-         1OcPwTDg3JL+HTbBrkgGJ17D7tb5G1SXF+BBs6pj2DRjdAhdSKuNEqqNtx+9eayYQ1jw
-         5lDA==
-X-Gm-Message-State: AOJu0YxV9+QsKUJGqXZ13wB/iP5lazFotQ05WmHnnGNsqlGXqU71rVyj
-	H5yy+1PMiOnvVCKjFgWJsUBtoAyQS7bXg6Woz3GsYv8oOsSYxFMGpU1u4fbYkFgEp10=
-X-Gm-Gg: AR+sD13fVWaaOdWHFFPOtPCzuEfsoSmI7T/Wzui1/CFSYmcV2EST/X7HKKiNUHJMatD
-	LvcR+sQyySIOKzNmizQDh/waIBJ7nTGxTcaTEI7gCMj3WCPwKuwDP3kU1vq6HPqro3p9anjHqUs
-	QmUpz/Wcdzs/VWVlEglb0cLZ76Iy5seJ3BVrh3u9nEmg5oLh69nIB0luzPL7QAu2QdGPwb2OYfZ
-	PvVAC9vaRJW98FXARqli49HBdckJ7N9ph7LJhCPfjXXYCkIqBoLbuhwfl+0jtyGwlDm2cUXBmpK
-	Xi0wxaICHXUX0+BUcVF9RRDlbrIjaFBzCuNZQvMmjoawtPOSxRtlgzgpYSsChO/lQ/TWrV3oAfP
-	7AqyXsjTjxACAMCvnejO6xqvVCRjISvOPJjyWQK0KcEoRD/elJTpPLY5n2pEL+Fnw0BKv0D9gW1
-	mAi8ixFCCj0sd3AJrT4EVmZlQLlj6x/YWFuMhyOCP7Due1DWsYR1TBZ9m+ttMeWNAsOSKWC3JjX
-	+AmpEi8INWzKk0yalXR0IR6
-X-Received: by 2002:a05:600c:48aa:b0:492:6efc:7c60 with SMTP id 5b1f17b1804b1-4954a516183mr173140385e9.28.1784724683493;
-        Wed, 22 Jul 2026 05:51:23 -0700 (PDT)
-Received: from [192.168.5.161] ([46.55.231.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956537c6besm135762115e9.8.2026.07.22.05.51.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jul 2026 05:51:22 -0700 (PDT)
-Message-ID: <5d0996c2-0aac-49d5-8858-e1f2a4512c6d@konsulko.com>
-Date: Wed, 22 Jul 2026 15:51:21 +0300
+ dkim=pass header.i=@centricular.com header.s=201701 header.b=Kaxui0LH;
+ dkim=pass header.i=@smtpsendemail.com header.s=smtpcustomer header.b=lYYMLuvb;
+ spf=pass (domain: centricular.com, ip: 192.40.185.73, mailfrom: tarun@centricular.com)
+X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
+ about your feedback. Please contact abuse@smtp.com for further investigation.
+Received: from [10.0.16.245] (unknown [10.138.12.203])
+	by mtl-mta03-out2 (Halon) with ESMTP
+	id 97ca30dc-7654-4db9-8d7a-48c6b78de490;
+	Wed, 22 Jul 2026 12:50:36 +0000 (UTC)
+Received: Received from 10.138.12.155 by Caffeine
+ (s0-aws-app2-swarm-manager-3) with SMTP id
+ f3343222-a425-4560-a290-4255439ac04a  for
+ openembedded-core@lists.openembedded.org;
+  Wed, 22 Jul 2026 12:50:15 +0000 (UTC)
+Feedback-ID: 9075006:SMTPCOM
+Received: from hermes.centricular.com (unknown [138.201.245.53])
+	by s0-aws-app2-mta-in-1 (Halon) with ESMTPSA
+	id f3343222-a425-4560-a290-4255439ac04a;
+	Wed, 22 Jul 2026 12:50:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id B4FF89CB0A;
+	Wed, 22 Jul 2026 14:50:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=centricular.com;
+	s=201701; t=1784724613;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=BRTy8QyhetZUN1E9Wk7YwDgnITTAv7V6H9yxq2LPs3s=;
+	b=Kaxui0LHEFXH1TWGOINgS+/NqkzOIvc581/qd3BpFKMZkVUtm+V501VELEa95X8Yt7dQmn
+	eipkme1BM9Ijio+dRj7x+sQNh4phb6bOij6p+0AaUV4+kZd6EfLvZDefPEna4medWVD+r9
+	N4qfXPHxb9c0FoAAr5/+TWszttiL8MEe8T/Uh6DhAiAo1DF4Wnn/ZkmGul0rw6gdWT6R00
+	RrfsO73jhn77HH830lSWi/uGTp95TVk6Dur3W6KDw0b+s6clXux4mxMDaNiGGqCd7r32vW
+	q2esiViRWXwt52oa64T2/fsqThJkSRQAlaFqE0+3WVBQoIHC//mgAxJcPVeSvQ==
+Message-ID: <4d95a8c8b8bcb0e1f5e01576466301f69eb2aa9b.camel@centricular.com>
+Subject: Re: [OE-core] [PATCH v5 2/2] gstreamer1.0-plugins-rs: add new package
+From: Taruntej Kanakamalla <tarun@centricular.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Richard
+ Purdie	 <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Cc: sebastian@centricular.com, nirbheek@centricular.com, jan@centricular.com
+Date: Wed, 22 Jul 2026 18:20:07 +0530
+In-Reply-To: <DJZTA3XYAG4T.1DDQE4ASD7JPI@bootlin.com>
+References: <20260707081701.1525114-1-tarun@centricular.com>
+	 <20260714105541.2812170-1-tarun@centricular.com>
+	 <20260714105541.2812170-2-tarun@centricular.com>
+	 <DJZ45A2IL6XB.172T8CGXQUIPH@bootlin.com>
+	 <DJZ6ZB5JTYSV.ZUCFUNHW05GN@bootlin.com>
+	 <d460480501e19d59ac2a7bec0f15020692f0b855.camel@centricular.com>
+	 <DJZTA3XYAG4T.1DDQE4ASD7JPI@bootlin.com>
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] python3-chardet: Upgrade 6.0.0.post1 ->
- 7.4.3.bb
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-References: <20260722103621.1810876-1-leon.anavi@konsulko.com>
- <CANNYZj9fX1aBA+3TA_GvvFmbr6Q+YO+6_K5NzUTskaYKU13W-g@mail.gmail.com>
-Content-Language: en-US
-From: Leon Anavi <leon.anavi@konsulko.com>
-In-Reply-To: <CANNYZj9fX1aBA+3TA_GvvFmbr6Q+YO+6_K5NzUTskaYKU13W-g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
+X-SMTPCOM-Sender-ID: 9075006
+X-SMTPCOM-Tracking-Number: f3343222-a425-4560-a290-4255439ac04a
+X-SMTPCOM-Message-ID: 5bf2f0ac-f736-4e27-8b17-bd56ce3b09f1
+X-SMTPCOM-Payload: 
+ 8syhFOBumtRqmRVPUaRfVA_EFkeqWa0KFeXYpwNQRvMeAmiXjD4O9rOVeb-cjhsJ_T_z_VOfX1ixa29P79ITV-FnTC8MCnzSQT-xUkEOBhICj62pZq0dgOJbID7F1aoAbcHredx4DkhvxIY1Uz5A65dgREXEuxYIFA3GWzzZdcwB1peBy23hFP3y8en8SzSxk9H4H6dTJU5csx68kFOcHg==
+List-Unsubscribe: 
+ <mailto:abuse@abuse.smtp.com?subject=MailStop&body=5bf2f0ac-f736-4e27-8b17-bd56ce3b09f1_9075006>,
+ <https://api.smtp.com/v4/unsubscribe?mid=5bf2f0ac-f736-4e27-8b17-bd56ce3b09f1&sid=9075006>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpsendemail.com;
+ i=@smtpsendemail.com; q=dns/txt; s=smtpcustomer; t=1784724633;
+ h=feedback-id : message-id : subject : from : to : cc : date :
+ in-reply-to : references : content-type : mime-version :
+ list-unsubscribe : list-unsubscribe-post : subject : from : to : cc :
+ date; bh=wKhhrbMwKD360/+ECGK02oh8yIOJj8ysshHgt+RUojE=;
+ b=lYYMLuvbB8Js2DfPGbUi1+DQ0hW6eY8ydelrvGUACks/b/nEwan+dmmuZNT3Cz5vuZ/WF
+ Wj32kjX+T3S7AHIw9aYtnCGIdh46IoqPceklbuCv2jD97+OMNjUPWZmO8wTf4Fh1z0/Ejc9
+ vJ38qoybx1/tJUVO4aT6kWBXVMwaqwj0BvZyVWFgT8wocbblKLEtE5Qa++IW2S4xw4PvZgB
+ vnBLnZpE9Br0tUQmko1Iq/4hvixcO16qvSOG+AxcN0X+9NePC8Y0cjZdzFR7fCvludOh71/
+ kgJnXbTzVfcTxmMUbVw8irXm1p2ZQxczooi+9h9VmCZBzidaZ25Ztxezp2Sw==
+Content-Type: multipart/alternative; boundary="=-RGynrJQyKkBOidA+hOot"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 12:51:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241688
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:12:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241689
 
-Hi Yoann, Alex,
+--=-RGynrJQyKkBOidA+hOot
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/22/26 14:16, Yoann Congal wrote:
-> If the situation has changed, I think it should be addressed in the commit
-> message.
+Hi Mathieu,Richard,
 
-Sorry, I didn't realize the changed license controversies are so big. 
-The referenced LWN article from March 5, 2026 discusses the change from 
-LGPL to the permissive MIT license. After that on March 22, 2026 the 
-license was changed again from MIT to 0BSD. Probably that doesn't change 
-the situation much considering that 0BSD is also very permissive.
+I noticed the first patch in this series "cargo_c.bbclass: pass --
+libdir to cargo cinstall" got merged to the master branch, but this
+patch ("gstreamer1.0-plugins-rs: add new package") did not.
+So just wanted to check with you if the review is still in progress or
+if some action needs to be taken by me.
 
-On 7/22/26 15:15, Alexander Kanavin wrote:
-> On Wed, 22 Jul 2026 at 12:36, Leon Anavi via lists.openembedded.org
-> <leon.anavi=konsulko.com@lists.openembedded.org> wrote:
->> License-Update: Change 7.x license from MIT to 0BSD
-> In addition to what Yoann said, why did you write MIT? The previous
-> license was clearly LGPL.
+Thanks,
+Tarun
 
-I took it from the latest git commit message related to the LICENSE file 
-of chardet:
-https://github.com/chardet/chardet/commit/64eac3b1824913a001ce255f766a54d423fed5c6
+--=-RGynrJQyKkBOidA+hOot
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>Hi Mathieu,Richard,</div><div><span></span></div>=
+<div><br>I noticed the first patch in this series "cargo_c.bbclass: pass --=
+libdir to cargo cinstall" got merged to the master branch, but this patch (=
+"gstreamer1.0-plugins-rs: add new package") did not.<br>So just wanted to c=
+heck with you if the review is still in progress or if some action needs to=
+ be taken by me.<br><br>Thanks,</div><div>Tarun</div></body></html>
 
->
-> What prompted you to work on this update and add ptests for it?
-
-The existences of tests that import pytest in the newer versions.
-
-Best regards, Leon
-
-
->
-> Alex
+--=-RGynrJQyKkBOidA+hOot--
 
