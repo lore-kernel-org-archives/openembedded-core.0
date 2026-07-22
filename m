@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61E86C4453F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50050C531C8
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:10 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5460.1784741043660125545
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5526.1784741046477470958
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 10:24:03 -0700
+ Wed, 22 Jul 2026 10:24:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GlqIDTtT;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49557167508so44134195e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:03 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dBJthZxf;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4956869750eso14381265e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784741042; x=1785345842; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1784741045; x=1785345845; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=tb/+ErvddBwcbpwomc8S6/N7bFmxUyu3E5hND3nQplE=;
-        b=GlqIDTtTwVSvMtxJceekW0xjOqg/cVYLpFki14JuLJBxdt9UTMeOhRbZmEi/XP/JrN
-         n4s605z0zplC8qBkw6JL6DV7SoBPe3eOHJhrv0fyQFca0U/wuMKGpQl90h56ZgEB0rvb
-         beoicKOSTZMTpb2Y/28R/K04Nw6sY162HX2+k=
+        bh=hQdxzCmPw+AZsm8mOT3l9VKapbbWIaFhv9ieF2rK/14=;
+        b=dBJthZxfhYldrA/6YEFxncAkswKbXd1fpqbOnKgYdkw9cowAs8O7z01zDH897p0Lm4
+         2wo6xLIlph0fh3pc66B+UAxtIL58Gx5YHOMhec5ppcytcP7Xmag5kaHovhHNG+LEYsHR
+         fLlLPAXECRD9enCk61Kz4Wf8lDATXKpQoVGK8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741042; x=1785345842;
+        d=1e100.net; s=20251104; t=1784741045; x=1785345845;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=tb/+ErvddBwcbpwomc8S6/N7bFmxUyu3E5hND3nQplE=;
-        b=bNfnEiF5WQ49t1cqYuheSruancBzS9n+sndM8gkzd1DFi9yOLGp9MA+w5vweRBEZNr
-         fc4r+6nd/KGIOKNRSqme67EneKUpjfie3dXto12LSWvC36KOtD6eVKmkAfKs6TWDhKT8
-         Ybn5CMC0MaF0wNjFynkfZq2apAZvTclXzQUi2m9/B3Yv612nxomGvvwZ83x7bVBPC/pm
-         fWjWKnECroBSPIio1AIurOgVU/Ms4geazBXsSEsdlq2PMkfFIKHEIBCDO+XCslCJJQWO
-         AwmR80ZNwyIGQ3dGhMoRGaI6ABtcbb4GLTH0zxYoZET05emgW+jlzCbq5C0reT4lHkco
-         UtEQ==
-X-Gm-Message-State: AOJu0Yyj+gk1au/GQR7QqcXT1wAadmGS6vWqVDNHzjNEYtHKjAc8zfKv
-	Ftwf5LmqUDANZfJPD9bn1MMo5j+kSg8qmJTupRwXckPfJuQB1BvK66W7bXpHB8x109ckbR63hJn
-	FvPF1Eq0=
-X-Gm-Gg: AR+sD13mezAq7NjXjD7g46r8Y0yPFQIQofa4E01mUk6WJepOmPU9V1gqQpTRD1S3Eec
-	jl7m3bT5u/sOsFHQhoaZskPFL2r7tz54yBk6RmHy/M847jLri3i1Ovc6XvKGTOWs8apJEaCc/ER
-	Le+O3vIF4rw97Jw5M+1AXOk9T+XU9qk/6UVdR9bo/qajqrLiQI359zlvAFgZ/a53bCileWiwtO2
-	jOxKH+7o7DqcSWjVQZPNWGp1h785qeJB2SYKrSxJINyclaF0GB5FWrYuVJJNGRsQknIvN1UfLvL
-	MvqN/UzSRc+KURRcgnJuQi/x/0biaOW1d6U+a6Wb4CgBZ6aGdnmZ8lLN8lgxQCwbwRNV/69sP26
-	aDQQIvYUwWUO1TS7cfSqQAp1w8psW6uT81Dreelycc/JDtDN6VThYxlk96gh47Gup9lCTq2F6qa
-	w2Wp2+9B0di0Jic1XZaTS/oLHeAcrX13dO6FtRIYWxMNfXBxt+J7WzhnBLIYFVdy7jXRiYgT9vQ
-	cMzM2HJ/owq5msGxohbrVM=
-X-Received: by 2002:a05:600c:4f44:b0:495:5b02:23a8 with SMTP id 5b1f17b1804b1-4955b022588mr171765865e9.34.1784741041897;
-        Wed, 22 Jul 2026 10:24:01 -0700 (PDT)
+        bh=hQdxzCmPw+AZsm8mOT3l9VKapbbWIaFhv9ieF2rK/14=;
+        b=QtiE2idzHzKzNYyjhDhBJQcRH6vVOxIBVwp9VnVN98cZcsu5mPy5pkSJh5sUIPjVTy
+         bUSFqqPlRpi8ABsDfQ+KLmo5xFUxAxKJ9Zx4zWA7ZpbKvvHlYBMC3DX4FzMogMphhm9y
+         9L8ZMmaJCO+cBWoj+o1QuSFrK+D2WzVe1X9GjP8zU3qQ7v3sXCouxLkiiF9mc/Dw+9FT
+         8vZAVah1c90e+SYxOS6uVSHL9wUnIIQ7ki2F35O7KdD4IlVZJavZN9Xab5QPi+k9bVto
+         LVZooczwDYQOL1tnNLnYvSKSYAKo29EtvLBvCqJMZ0VFPKsv2xo+w2qJCd2HPd5WuRq3
+         chvA==
+X-Gm-Message-State: AOJu0YxxSkYABh5M/9KhmVyBiAmqNG9/PmwNSlgc9N7CO4EpKLsA/ksy
+	33nHCy0eTNzur8pTWRwm2pRqE0Zo+KQAM8rnJ/LW25uGsupUUTiZf3JjWAh+dVpALc7AS+GVU+o
+	8zpqcagw=
+X-Gm-Gg: AR+sD10hXn5ArbsKJGyGl4uQZY5Fq6NbfU7eVdN0DA9sK8w2oMOOQePLcI0bn1ouvqj
+	QOy6lBPWr3FVs45g0m/aoMfFZwlaQSXjJUoi+WkrhtmvO0XoNpLC/w/oNUVgm4gAWhpOk912RL9
+	RkhvlLn0cry7kHJMO9op4y6HISjD2ivUvFR7m8KBNJIHKh10P6ioqVM/4Jip3u4pWLn6qJ0i73Z
+	zUaHv3CNv8zpL7yf00zdBAXaOvSnAWsB8HOumO1l0D8sa1eivRZPxmHa5zP+FYxgIPYJ7LQZ64l
+	5ZHKl48GyuY0rXpoqKqza8WNrU+6i85FN9Xc0yF348GK+JEzn7ibG9k+Jy3y5q5NrzWUPt6WEPe
+	fhqtWOgkefNJj/fPb+CD6ja/V/2YRS5AVrmlPhSIsAKRZe36OHUmolKOzY0bsA0U6xgW+8bjWv5
+	wQQKBAy/DLz/ODrgYlQgCPkxTLgD3+rKErMgCE1p/tB+D+2QPgT+6BrAYU/m8ipOGgnXcD9QCiE
+	CQ7vmQdvlZv5W74IZ6ORa8UvVNH6f15qQ==
+X-Received: by 2002:a05:600c:4fc2:b0:495:5b02:23b0 with SMTP id 5b1f17b1804b1-4955b0224c7mr215196185e9.26.1784741044594;
+        Wed, 22 Jul 2026 10:24:04 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 10:24:01 -0700 (PDT)
+        Wed, 22 Jul 2026 10:24:04 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 08/27] expat: fix CVE-2026-56411
-Date: Wed, 22 Jul 2026 19:23:21 +0200
-Message-ID: <2fb21d414bf0def272ca40a69246c01fb983b72a.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 12/27] gnutls: Fix CVE-2026-42009
+Date: Wed, 22 Jul 2026 19:23:25 +0200
+Message-ID: <864ca75b27e3b080286ba4c97cdbed9d540a83de.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
 References: <cover.1784740870.git.yoann.congal@smile.fr>
@@ -66,86 +66,168 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241718
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241722
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-This patch applies the upstream fix shown in [1] as referenced by [2].
+This patch applies upstream fixes [1] and [2], as referenced in [3],
+to address a DTLS packet reordering flaw where duplicate sequence
+numbers could lead to unstable ordering or undefined behavior.
 
-[1] https://github.com/libexpat/libexpat/commit/528a4e5017e1bd3b48b689fd0c131df940ae3ea5
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56411
+Rebase CVE-2026-42009_p1.patch on top of the Wrynose
+CVE-2026-33846 backport stack, which already includes the recv_buf
+helper from upstream commit 9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0.
+
+[1] https://gitlab.com/gnutls/gnutls/-/commit/f01e21441e29052a6f0963840794c41d3b3ee66d
+[2] https://gitlab.com/gnutls/gnutls/-/commit/f341441fad91142897d83b44a175ffc8f925b76f
+[3] https://security-tracker.debian.org/tracker/CVE-2026-42009
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-42009
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../expat/expat/CVE-2026-56411.patch          | 47 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.7.5.bb        |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56411.patch
+ .../gnutls/gnutls/CVE-2026-42009_p1.patch     | 62 +++++++++++++++++++
+ .../gnutls/gnutls/CVE-2026-42009_p2.patch     | 48 ++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |  2 +
+ 3 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-56411.patch b/meta/recipes-core/expat/expat/CVE-2026-56411.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
 new file mode 100644
-index 00000000000..884837b61e1
+index 00000000000..e01fcc19acc
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-56411.patch
-@@ -0,0 +1,47 @@
-+From e447d5d72884a1246894f111a5b72de4e479152e Mon Sep 17 00:00:00 2001
-+From: netliomax25-code <netliomax25@gmail.com>
-+Date: Tue, 2 Jun 2026 13:13:34 +0530
-+Subject: [PATCH] xmlwf: protect notation list allocation from integer overflow
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
+@@ -0,0 +1,62 @@
++From d1191b910e63149a10647a089995d3cd85e16400 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Tue, 21 Apr 2026 16:52:48 +0200
++Subject: [PATCH] lib/buffers: ensure packets have differing sequence
++ numbers
 +
-+CVE: CVE-2026-56411
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/528a4e5017e1bd3b48b689fd0c131df940ae3ea5]
++There should normally be no packets with same sequence number and
++differing handshake type, unless an adversary crafts them.
++Discarding them allows to get rid of packets
++with duplicate sequence ID in the buffer,
++relieving us from the question of how to sort them later.
 +
-+(cherry picked from commit 528a4e5017e1bd3b48b689fd0c131df940ae3ea5)
++Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
++Fixes: #1848
++Fixes: CVE-2026-42009
++Fixes: GNUTLS-SA-2026-04-29-2
++CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++
++CVE: CVE-2026-42009
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/f01e21441e29052a6f0963840794c41d3b3ee66d]
++
++Backport Changes:
++- Rebased on top of the Wrynose CVE-2026-33846 backport stack, which
++  already includes the recv_buf helper and sequence-number matching
++  prerequisite patches.
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++(cherry picked from commit f01e21441e29052a6f0963840794c41d3b3ee66d)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ expat/xmlwf/xmlwf.c | 11 +++++++++--
-+ 1 file changed, 9 insertions(+), 2 deletions(-)
++ lib/buffers.c | 16 ++++++++++++++--
++ 1 file changed, 14 insertions(+), 2 deletions(-)
 +
-+diff --git a/expat/xmlwf/xmlwf.c b/expat/xmlwf/xmlwf.c
-+index 6a0a707a..a9640190 100644
-+--- a/expat/xmlwf/xmlwf.c
-++++ b/expat/xmlwf/xmlwf.c
-+@@ -383,9 +383,9 @@ static void XMLCALL
-+ endDoctypeDecl(void *userData) {
-+   XmlwfUserData *data = (XmlwfUserData *)userData;
-+   NotationList **notations;
-+-  int notationCount = 0;
-++  size_t notationCount = 0;
-+   NotationList *p;
-+-  int i;
-++  size_t i;
++diff --git a/lib/buffers.c b/lib/buffers.c
++index 62f140ed3..e7f08b5625 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -971,8 +971,20 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		session->internals.handshake_recv_buffer;
 + 
-+   /* How many notations do we have? */
-+   for (p = data->notationListHead; p != NULL; p = p->next)
-+@@ -395,6 +395,13 @@ endDoctypeDecl(void *userData) {
-+     goto cleanUp;
-+   }
-+ 
-++  /* Detect and prevent integer overflow in the multiplication, mirroring
-++     the guards in xcsdup() and resolveSystemId() */
-++  if (notationCount > SIZE_MAX / sizeof(NotationList *)) {
-++    fprintf(stderr, "Unable to sort notations");
-++    goto cleanUp;
-++  }
-++
-+   notations = malloc(notationCount * sizeof(NotationList *));
-+   if (notations == NULL) {
-+     fprintf(stderr, "Unable to sort notations");
++ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
++-		if (recv_buf[i].htype == hsk->htype &&
++-		    recv_buf[i].sequence == hsk->sequence) {
+++		if (recv_buf[i].sequence == hsk->sequence) {
+++			if (recv_buf[i].htype != hsk->htype) {
+++				_gnutls_audit_log(
+++					session,
+++					"Discarded unexpected handshake packet "
+++					"with duplicate sequence %d, but "
+++					"mismatched type %s (previously %s)\n",
+++					hsk->sequence,
+++					_gnutls_handshake2str(hsk->htype),
+++					_gnutls_handshake2str(
+++						recv_buf[i].htype));
+++				_gnutls_handshake_buffer_clear(hsk);
+++				return 0;
+++			}
++ 			exists = 1;
++ 			pos = i;
++ 			break;
 +-- 
-+2.43.7
++2.51.0
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
+new file mode 100644
+index 00000000000..d834d3da203
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
+@@ -0,0 +1,48 @@
++From 5374a6d584b8598511f7880b4e64ee52ee1f0cc5 Mon Sep 17 00:00:00 2001
++From: Joshua Rogers <joshua@joshua.hu>
++Date: Tue, 21 Apr 2026 18:11:39 +0200
++Subject: [PATCH] buffers: fix handshake_compare when sequence numbers
++ match
 +
-diff --git a/meta/recipes-core/expat/expat_2.7.5.bb b/meta/recipes-core/expat/expat_2.7.5.bb
-index cb8f9dd1acd..bd6656c6e06 100644
---- a/meta/recipes-core/expat/expat_2.7.5.bb
-+++ b/meta/recipes-core/expat/expat_2.7.5.bb
-@@ -29,6 +29,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-56406-dependent.patch;striplevel=2 \
-            file://CVE-2026-56406.patch;striplevel=2 \
-            file://CVE-2026-56409.patch;striplevel=2 \
-+           file://CVE-2026-56411.patch;striplevel=2 \
++The comparator function used for ordering DTLS packets
++by sequence numbers did not follow qsort comparator contracts
++in case of packets with duplicate sequence numbers,
++which could lead to unstable ordering or undefined behaviour.
++Returning 0 in such cases makes the sorting stable.
++
++Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
++Fixes: #1848
++Fixes: CVE-2026-42009
++Fixes: GNUTLS-SA-2026-04-29-2
++CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++
++CVE: CVE-2026-42009
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/f341441fad91142897d83b44a175ffc8f925b76f]
++
++Signed-off-by: Joshua Rogers <joshua@joshua.hu>
++(cherry picked from commit f341441fad91142897d83b44a175ffc8f925b76f)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ lib/buffers.c | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
++
++diff --git a/lib/buffers.c b/lib/buffers.c
++index e7f08b5625..1ac27e4e96 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -844,11 +844,7 @@ static int handshake_compare(const void *_e1, const void *_e2)
++ {
++ 	const handshake_buffer_st *e1 = _e1;
++ 	const handshake_buffer_st *e2 = _e2;
++-
++-	if (e1->sequence <= e2->sequence)
++-		return 1;
++-	else
++-		return -1;
+++	return (e1->sequence < e2->sequence) - (e1->sequence > e2->sequence);
++ }
++ 
++ #define SSL2_HEADERS 1
++-- 
++2.51.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+index 03eee5c50e9..3085a62310a 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+@@ -34,6 +34,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://0008-tests-mini-dtls-framents-link-to-gnulib.patch \
+            file://CVE-2026-3832_p1.patch \
+            file://CVE-2026-3832_p2.patch \
++           file://CVE-2026-42009_p1.patch \
++           file://CVE-2026-42009_p2.patch \
             "
  
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+ SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
 
