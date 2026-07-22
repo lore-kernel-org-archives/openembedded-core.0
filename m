@@ -2,60 +2,60 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F73C531BC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D19AC4453F
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 20:22:13 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9353.1784751733496095336
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9348.1784751730346467435
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 13:22:13 -0700
+ Wed, 22 Jul 2026 13:22:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=kDEnxu5g;
- spf=pass (domain: mvista.com, ip: 209.85.214.178, mailfrom: sdoshi@mvista.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc891373e0so163161615ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:22:13 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Ga3X2dE2;
+ spf=pass (domain: mvista.com, ip: 209.85.214.177, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cae1a3a744so97546405ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:22:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1784751733; x=1785356533; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1784751730; x=1785356530; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=N17u9LLjVTN1fYJfvrFsxJerOrXS+NF+DEduOPOQdiw=;
-        b=kDEnxu5g2P/3ROC5FPfqsOI+X+Q5S3y8Df8+MIOKRVz5o6PJ5kpEYShESgW5Qf7Qpt
-         u7HVD10f4VbJoUDc5CxzPRYr1FubnJ0lB6hd4D9pVJ5YtlmEB/nFcAh4/iaEtbkQ/wq/
-         Gq6TOvj50+pQkD2iw5ZDcfGPQbynMGvFDsFhk=
+        bh=w2ylDJHfN6eboNGhjTfK6F0Comaey72ufFrog9E/4N0=;
+        b=Ga3X2dE2tZEJ+XiasD0J4OcfHrtfVaSFqFi2QQVCYCi3ZXlE4blG48k8Q8qdkMBKrE
+         7zLyG23h02CBATbNUOdNwx4Q349G740YTv0i6BVAFEqopSCgrgySNVhgWqKtsRpRYSk8
+         BsMgwo8g0QIlaL3ZGAzS3RbwVldMypQ3jmqvY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784751733; x=1785356533;
+        d=1e100.net; s=20251104; t=1784751730; x=1785356530;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N17u9LLjVTN1fYJfvrFsxJerOrXS+NF+DEduOPOQdiw=;
-        b=ojoPgfD5KXqn7t7BBw9HGygJEzYY+f/XirGzJ4GKpqrdAn+NkVjni13IclqvB/vOzY
-         aObjuNHr06suCdLUPrfMAQu/hYAf+8oavGPFsROg+gvVmh6gNN372jzk2AuTgHSSSx07
-         +DwaYE//pY9i4UmPLU2AbDZFyWywZvgWJMY1ws4UCMYhRx4bdxQAAH2cqtJJDqx/Bevj
-         Y9lIpbvAdcZQSkS/tagdQwMzwGa5FOyvMW5uBar4f8lkriNoWZW0ZipgDSToGhAd4QFY
-         1X4Y9/Ao5Va3V0d0pMywMplwhRiEsE9Op3RLXzcGw75T9xMflU+OY6ux7hpS4kLpfk9S
-         VDtQ==
-X-Gm-Message-State: AOJu0YzeforQenMQ3EHDW8AxJfiTFG9Nvr8dHEtQRegclX5UmjkhCCWF
-	6jzh9SPpjHUnKBDGAVyJHc3cMTT85EEZAvqJQzuYxdSD10qM78x9dSuV8kQ/aroiZ2ACbhpYfmT
-	VIliwNWc=
-X-Gm-Gg: AR+sD13SDWgeZd6o1eLV5FaUU/MtDSJkR3kvYYDStcR5zt76GKMxx6o/TFKqGWFVZFH
-	XI1GsXYrkwwUyVTZbV+jB4CtfFBt8Mf74ANNGt1oLlM4e9gWK80x8/GGi+vL5O0pDQZw55jODw6
-	m6CoJEsh0q7jCX8zxfsovUty2rQjgwKLQ+9CN044643+cPm47XaC95oAgXxlxbC30hFi56fO2KQ
-	og5FNguZ+6a2qE0TJElxCfZzq1Sn+PNUPWqzbk441ndvhHnl5Gx4D5DfSHie+WF5bxgq5ydr4ze
-	De07Fly2yVlX16iwgQaFE0X6bjnaE+MH//NarMwQmDj2bcfnyT3G9if2bgh9bIwPtFAhYfBBZAN
-	2iP8SwvuyBkSZ21acdiO6HUInPHmyqcLPCdZ2aXB3j+YiQ1mdx76nl0Tna+6wvO6OasP5w1R5Ey
-	YK4EVGLnyaz6QI
-X-Received: by 2002:a17:903:2390:b0:2cf:7e56:22c4 with SMTP id d9443c01a7336-2cfa6c667a3mr3855545ad.30.1784751732859;
-        Wed, 22 Jul 2026 13:22:12 -0700 (PDT)
+        bh=w2ylDJHfN6eboNGhjTfK6F0Comaey72ufFrog9E/4N0=;
+        b=l2AIVBcbphhcJn+/bmYxbD6/4pIDHw3bBZxRXKS2jGBzWJZm/5VWyAy0bE7AnHGNc3
+         ZCwhEKguhDIC91X52Xnrl2U0u6Iun92AVJdaznMjfbKY6b6D72Gu3dF7JoGG4P7TlGWD
+         fZ6ow5R00GSDGyBhIKxRGILKeiCF/ShZb+1h0/xJRKgoIbBSC6Kl7NK7Jgh1f+ur2MpE
+         3MGggYsFudvMP5eS7Fvl+eWcpXPxWWvaAuxvN8wsC5h7fPzJxMWZh85wLAJHbXtf3BLA
+         qvEyZPbjYu01Q7nzWHQHTM5uAv/X1ZI1csn05PhGihTbrTeZrLlWciUiuVvxcqBpFU/a
+         lbaw==
+X-Gm-Message-State: AOJu0Yz6RCqTOJPD4Y2Guqnag5fRNQ1zHrSgXw7MnYIiehmp7R2Wzbjl
+	5kthmpCj3E5JPwSBs/q4AnTZIRME0s52P+mn9iYnI8CiSH2/se/Y6VIL63DXemz958f83tQYgOX
+	zWRkmbsg=
+X-Gm-Gg: AR+sD12XXSygq78T3WSO1TQSBo/8bYlNEv5yTzITq7QkwwoOMvdPI2Mc1qNqUMBnFNK
+	z+9IG56B+rZMrruYv6z69qafcrNHxXlaSOzsccaRv9EE/YpAh5nleSmPPc/hYBUNhOsdR0vrRFv
+	zKec91B06U1rp1mCFpR8jV98Y6mn0WcdBTQseq+vK48SS7LsDGyk6r75N/0sZ6K1hVz2lgydUg2
+	gwlxzGzPt1EiP1Ccitu24GwLvteMaYKpembi+wUMdmfFWWUov4ny+EtyQz04JG6qJimagtHhM9W
+	irM8GLFLeIPUSQT4y+YuYSRAN4yRvsshs4IA48CFRYmxGgXzRPpuAE7dU+AOFDcBTwTN6dSl8jL
+	xKw4tx6QVS2aN8UkSNiJJVSmc47uyheDP2TLXx6TnTdenYQJ/GBXLJcUgxDOJe+qeW3tmrXqA7C
+	IGn3PfhQpA8/6C
+X-Received: by 2002:a17:902:f693:b0:2cc:d192:50b5 with SMTP id d9443c01a7336-2cfa75078dbmr3611065ad.34.1784751729723;
+        Wed, 22 Jul 2026 13:22:09 -0700 (PDT)
 Received: from MVIN00030.mvista.com ([157.32.46.199])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147d47960dsm11699468eec.0.2026.07.22.13.22.10
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147d47960dsm11699468eec.0.2026.07.22.13.22.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 13:22:12 -0700 (PDT)
+        Wed, 22 Jul 2026 13:22:09 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][scarthgap][PATCH 09/13] vim: Security Fix for CVE-2026-57452
-Date: Thu, 23 Jul 2026 01:49:01 +0530
-Message-Id: <20260722201905.491897-9-sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCH 08/13] vim: Security Fix for CVE-2026-55895
+Date: Thu, 23 Jul 2026 01:49:00 +0530
+Message-Id: <20260722201905.491897-8-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260722201905.491897-1-sdoshi@mvista.com>
 References: <20260722201905.491897-1-sdoshi@mvista.com>
@@ -65,114 +65,91 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 20:22:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241753
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241752
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
 Picking patch as per [1], and same patch is mentioned in [2]
 
 References:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-57452
-[2] https://security-tracker.debian.org/tracker/CVE-2026-57452
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-55895
+[2] https://security-tracker.debian.org/tracker/CVE-2026-55895
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../vim/files/CVE-2026-57452.patch            | 76 +++++++++++++++++++
+ .../vim/files/CVE-2026-55895.patch            | 53 +++++++++++++++++++
  meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-57452.patch
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55895.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-57452.patch b/meta/recipes-support/vim/files/CVE-2026-57452.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-55895.patch b/meta/recipes-support/vim/files/CVE-2026-55895.patch
 new file mode 100644
-index 0000000000..aaefbe80eb
+index 0000000000..0084006b72
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-57452.patch
-@@ -0,0 +1,76 @@
-+From c8777cec25dcfae89c42e9aff51af61f71c5745f Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 18 Jun 2026 18:41:16 +0000
-+Subject: [PATCH] patch 9.2.0671: [security]: possible out-of-bounds read with
-+ sodium encrypted files
++++ b/meta/recipes-support/vim/files/CVE-2026-55895.patch
+@@ -0,0 +1,53 @@
++From 0d286458d71ff7b4d759621dd9a567aa9354819a Mon Sep 17 00:00:00 2001
++From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Date: Tue, 16 Jun 2026 21:00:28 +0000
++Subject: [PATCH 11/17] patch 9.2.0663: [security]: runtime(netrw): code
++ injection in local file deletion
 +
-+Problem:  [security]: possible out-of-bounds read with sodium encrypted
-+          files (cipher-creator)
-+Solution: Verify that there is enough space before calling
-+          crypto_secretstream_xchacha20poly1305_init_pull()
++Problem:  [security]: s:NetrwLocalRmFile() escapes only the backslash in
++          the file name before passing it to :execute, so a name
++          containing "|" injects arbitrary Ex commands when the file is
++          deleted (cipher-creator)
++Solution: Use fnameescape() to correctly escape the file name
++          (Yasuhiro Matsumoto).
 +
 +Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-c4j9-wr9j-4486
++https://github.com/vim/vim/security/advisories/GHSA-vhh8-v6wx-hjjh
 +
 +Supported by AI
 +
++Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c8777cec25dcfae89c42e9aff51af61f71c5745f]
-+CVE: CVE-2026-57452
++Upstream-Status: Backport [https://github.com/vim/vim/commit/55bc757a5d436e59d50fe43f7cda94b118f86cb2]
++CVE: CVE-2026-55895
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ src/crypt.c                |  3 ++-
-+ src/testdir/test_crypt.vim | 24 ++++++++++++++++++++++++
-+ 2 files changed, 26 insertions(+), 1 deletion(-)
++ runtime/pack/dist/opt/netrw/autoload/netrw.vim | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/crypt.c b/src/crypt.c
-+index 55edd6c6de..a11d204e5e 100644
-+--- a/src/crypt.c
-++++ b/src/crypt.c
-+@@ -1257,7 +1257,8 @@ crypt_sodium_buffer_decode(
++diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
++index 9014ca339b..af43f469d1 100644
++--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
+++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
++@@ -3025,7 +3025,7 @@ function s:NetrwBrowse(islocal,dirname)
++     elseif !a:islocal && dirname !~ '[\/]$' && dirname !~ '^"'
++         " s:NetrwBrowse :  remote regular file handler {{{3
++         if bufname(dirname) != ""
++-            exe "NetrwKeepj b ".bufname(dirname)
+++            exe "NetrwKeepj b ".fnameescape(bufname(dirname))
++         else
++             " attempt transfer of remote regular file
 + 
-+     if (sod_st->count == 0)
-+     {
-+-	if (crypto_secretstream_xchacha20poly1305_init_pull(&sod_st->state,
-++	if (len < crypto_secretstream_xchacha20poly1305_HEADERBYTES ||
-++		crypto_secretstream_xchacha20poly1305_init_pull(&sod_st->state,
-+ 						       from, sod_st->key) != 0)
-+ 	{
-+ 	    emsg(_(e_libsodium_decryption_failed_header_incomplete));
-+diff --git a/src/testdir/test_crypt.vim b/src/testdir/test_crypt.vim
-+index 4a96c30702..151a4dea17 100644
-+--- a/src/testdir/test_crypt.vim
-++++ b/src/testdir/test_crypt.vim
-+@@ -459,4 +459,28 @@ func Test_crypt_set_key_disallow_append_subtract()
-+   bwipe!
-+ endfunc
++@@ -8737,7 +8737,7 @@ function s:NetrwLocalRmFile(path, fname, all)
++             call netrw#msg#Notify('ERROR', printf("unable to delete <%s>!", rmfile))
++         else
++             " Remove file only if there are no pending changes
++-            execute printf('silent! bwipeout %s', rmfile)
+++            execute printf('silent! bwipeout %s', fnameescape(rmfile))
++         endif
 + 
-++func Test_crypt_sodium_short_body()
-++  CheckFeature sodium
-++  " A VimCrypt~04! file with a complete 36-byte header (12 magic + 16 salt +
-++  " 8 seed) but a body shorter than one secretstream header (24 bytes) used to
-++  " underflow the body length and crash with a wild out-of-bounds read in
-++  " crypto_secretstream_xchacha20poly1305_pull().  It must now fail cleanly.
-++  " Bytes: "VimCrypt~04!" + 16 salt + 8 seed + 8-byte body = 44 bytes.
-++  call writefile(0z56696D43727970747E303421
-++        \ + 0zA0A1A2A3A4A5A6A7A8A9AAABACADAEAF
-++        \ + 0zB0B1B2B3B4B5B6B7
-++        \ + 0z0000000000000000, 'Xtest_sodium_short')
-++
-++  let v:errmsg = ''
-++  try
-++  call feedkeys(":split Xtest_sodium_short\<CR>foobar\<CR>", "xt")
-++  catch /^Vim\%((\S\+)\)\=:E1198:/
-++    " no-op
-++  endtry
-++
-++  bwipe!
-++  call delete('Xtest_sodium_short')
-++  set key=
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
++     elseif dir && (all || empty(ok))
 +-- 
 +2.44.4
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 5a4778fe7c..938fdecaf3 100644
+index 64e3eab106..5a4778fe7c 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -41,6 +41,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-47167.patch \
             file://CVE-2026-55693.patch \
             file://CVE-2026-55892.patch \
-            file://CVE-2026-55895.patch \
-+           file://CVE-2026-57452.patch \
++           file://CVE-2026-55895.patch \
             "
  
  PV .= ".1683"
