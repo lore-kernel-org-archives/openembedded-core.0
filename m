@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CE4C44536
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:09 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5529.1784741049297245757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01335C4453D
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:10 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5528.1784741048772402006
  for <openembedded-core@lists.openembedded.org>;
  Wed, 22 Jul 2026 10:24:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2QhO+nCG;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso28219835e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:09 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=wWETIodu;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-495590dde14so38694875e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1784741047; x=1785345847; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=virqmaFyh7gltWeL6kh56gomAQqICHGvI0tRV0Ayueo=;
-        b=2QhO+nCG2R9DJ35T/ktV7a9XIv3Go5O/m17Y3mBM6Sccm/A6nkxCvPgho7elKTPEX1
-         Dn4SSyoNqd6yVcqEBRsbnKZPWsN6AxEOPkNW8sC0VpPaWqM5dhizYbUVY5cOQfi7Tsx/
-         2e93SqQ8ntsvLFeHhLU3mv1ooW8KTLLicHesE=
+        bh=+lf9EfFez7rZ8mXLwNVnIpXc5tQQrGR5PD9K89CSwP4=;
+        b=wWETIoduZPRXWwcNQ9lpK0DjRxV3g0vh4tKxuOjtSpwVwhtBSo9Iq0VoWArV7awzN/
+         G52AZCKHqGez2HVBWRoFITawlmGbaRMWXe8AOBDzbhOPDhnKgQz/bXenJP5WUjNF2q8G
+         7iD8PdvDvoxI7beb7Tl3cE3M/JI2kTbfPt8Lk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1784741047; x=1785345847;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=virqmaFyh7gltWeL6kh56gomAQqICHGvI0tRV0Ayueo=;
-        b=DkkhrdxTbERWalz2+ohhl9RW7+Kl6vMX1RjMItETq0xdec0xviLikBNzWqs4wkEsW2
-         hkK9rZL8ymlTBEXewoW3jBB9OzRQyXtc/+WMJohiQgGc7E5tr50Ad6NY1id1pcp24ymN
-         e+knUpV5pGAZPlY2mT0jL22PxJPA6F0CeeIaVqso9ADROfxhZdPoI567NyTmSBP+gMTK
-         l4lE1MChIU5zNyw4zddpFc+4BwxGjygyWyYAEsfna7OtypNTIai8KgHvutKnLAwZ6F5D
-         VQTnT8GXUFia5O5iqRtglE0GzHNmBTuSVXg0QtCkI+ANca9BEhJB8jP0QS7h3mQ9grGU
-         kDBg==
-X-Gm-Message-State: AOJu0Yz95ncsSDFZxXk8XA2AfQn6qKxoHfaIdFkXB/oDE3f3m5KYT7TA
-	+WRJlqwWYczz6oUgIGNSUvSPD26uOatnuFQyaavFnqdnxR9zOwFw1zCV8miKqnyJNrfB/WoqBvd
-	fziSx/bA=
-X-Gm-Gg: AR+sD12ZpYumtJOcHNofiq0iyGrF6nps1sGKclZZiaiXjsZBb5CuChOLTBzrkPN03ok
-	q0VWzrpMJrVV6ULZBkzkxBQ65hzfZ7B33Ex6mqZU/j1Vu9yPka4pYanWfzXDKVH/TTcBtXDcTzW
-	TkX6/QJ2BZibOXiczsy8Z2lqs6PGAc38PL2T0JNwC71CMG1gtV5VQeV4v8pVU9xFpjf5NkoEYtH
-	QuQ1hddFDKyNQwLYjYuL2A1iPCRIHDg1jv28YKEUfaij6msmzXC4E+uO6SxhNsKTajBa7TsNs28
-	MpyTapGmn0GbNneG7CvmsuuCHElEl8/sklSVGDMza3E2WSRr9bVvEgUUeFxlAbHSY6CBSWPxvk2
-	J6Wm99vYhkn21mGm1TxZJiM75wXrPAfceSx5OrEV5okwyY9HA6zdeYY7h0VLBDLu6S/qbH28sdi
-	e3Z8ynrdDPtapN8UMjH/Zn/DPO3T9SX9rqxl/sxnP09cse+Enrr/V/VBJ+0hDg0Av6dItswJBpZ
-	jll8Upw86PG
-X-Received: by 2002:a05:600c:1549:b0:493:c601:3e23 with SMTP id 5b1f17b1804b1-4954a3d08c0mr266553915e9.5.1784741047422;
-        Wed, 22 Jul 2026 10:24:07 -0700 (PDT)
+        bh=+lf9EfFez7rZ8mXLwNVnIpXc5tQQrGR5PD9K89CSwP4=;
+        b=jnqzVmhlWmCMGy/J1rueP/psLpqBi98h4gauQVFJmHQps8DkVaPvJcofaCruuL8awo
+         jgstQ2os0YIkMH0v8dHJGFfLLdXVOgdbAfR0qdUpIktu+lPBkZihOaKUdWjMXP8NYSFw
+         M+ev095syX0rm69THwqZHYc0LUzqj6sSLTO45y0HH39AzgevKAtL1PynlGWAd2sFdKBe
+         XA88hiRmwfutjUuZoY44u7G3YF5KhDhWL4smJEtSJs25SJ95KmRHNOi75Sn00gK6C1SF
+         BwIJ2olf5sm+uAJVt8ztskQ8CzfeiuqdmH66HZvZusxbskyIg5Tm1iIcmldhp5p9Lekg
+         7GAw==
+X-Gm-Message-State: AOJu0YzTTQkWaWq6ZFoKYbbJfwT+rQHobo+tRj6dW3+eL97NbK+Vor0/
+	rHx4HPWzlLlRgC4LYcN2MQnHizlbjS51VDGsXkzC95fE+3azF5bMsCF4IGFvWUx0LADCqNg6HDk
+	NalFKkKc=
+X-Gm-Gg: AR+sD1301+iyFiPWi9SqKjcnuiQKoLzEwMrIPxuNsiVmP+nNE5Ev65IXaX6l9ujRtpa
+	XTshkwzfNoj1WwPo5Nwju3KyX5KLYkEjRgS9D4Yh61Yx60aGD+DwjhynDUDZq53UjOkNMwBf5ZW
+	RzJi37+8q3HWov0G0LHr7P4VD1FSiUcnruZI1SEMxMLhUvb5DHjEoZPTga9WIUVukarGyKzIaXy
+	jsMkXX4+W0oXE+8LJthHgUL/jrYC5ubjn3AYVHJdfp8JecdnRqooNWmSbK33lz1z0/Rmz9XsAgE
+	IiyrpXjZL9lP6/BkDYCoWfDiKaSoN/Clj+9EharIggxR0DTwbnN9T1CWNu4kQjCPsVvOYOMKXC2
+	eKa/XaWsEKEA1LLQxflCrhgECQVm3s2HZyW/HANwjMb3qleEeq9J+iK4SQm4HbXvIuazBMBNdfa
+	lDfNjDgzcPWafqO2nObzllJBXWrGVXthTEjrsM3zyqPfKRK9A1nHXLe4X8RFGUw1wFYfQQrRjtj
+	x7Ld0VAAviCkKivZQdivGQ=
+X-Received: by 2002:a05:600c:3b01:b0:495:4fd4:144b with SMTP id 5b1f17b1804b1-4954fd419e8mr233995735e9.21.1784741046762;
+        Wed, 22 Jul 2026 10:24:06 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.06
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouygu
         Wed, 22 Jul 2026 10:24:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 17/27] glib-2.0: upgrade 2.88.0 -> 2.88.2
-Date: Wed, 22 Jul 2026 19:23:30 +0200
-Message-ID: <145aa7ee15e5eb73a6e6f12ac721305142b16848.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 16/27] curl: fix CVE-2026-6429
+Date: Wed, 22 Jul 2026 19:23:29 +0200
+Message-ID: <7e491ba091f3a0cc15ce2c29accdaec84c0ef46a.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
 References: <cover.1784740870.git.yoann.congal@smile.fr>
@@ -65,179 +65,459 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241727
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241726
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-Refresh patches via devtool.
-Release notes: [1] and [2].
+Backport the upstream fix [1] and the required dependent change [2] to
+address the netrc credential leak across redirects, as mentioned in [3] and
+tracked by [4].
 
-2.88.1: Fix various minor (low severity) security issues
-        CVE-2026-58010, CVE-2026-58011, CVE-2026-58012, CVE-2026-58013,
-        CVE-2026-58014 and CVE-2026-58015
+[1] https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306
+[2] https://github.com/curl/curl/commit/32a513e180ce83d5e9b708211306045407074134
+[3] https://curl.se/docs/CVE-2026-6429.html
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-6429
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/releases/2.88.1
-[2] https://gitlab.gnome.org/GNOME/glib/-/releases/2.88.2
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../glib-2.0/files/CVE-2026-58016-1.patch     | 12 ++++----
- .../glib-2.0/files/CVE-2026-58016-2.patch     | 30 +++++++++----------
- ...l_2.88.0.bb => glib-2.0-initial_2.88.2.bb} |  0
- ...{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} |  0
- meta/recipes-core/glib-2.0/glib.inc           |  2 +-
- 5 files changed, 22 insertions(+), 22 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.88.0.bb => glib-2.0-initial_2.88.2.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} (100%)
+ .../curl/curl/CVE-2026-6429-dependent.patch   |  81 +++++
+ .../curl/curl/CVE-2026-6429.patch             | 325 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
+ 3 files changed, 408 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch
 
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
-index 2c4b248b97b..9beafd106d1 100644
---- a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
-+++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
-@@ -30,7 +30,7 @@ diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
- index c7be334ce2f7..6f722ee6153d 100644
- --- a/gio/gdbusintrospection.c
- +++ b/gio/gdbusintrospection.c
--@@ -1272,7 +1272,7 @@ parser_start_element (GMarkupParseContext  *context,
-+@@ -1258,7 +1258,7 @@ parser_start_element (GMarkupParseContext  *context,
-    /* ---------------------------------------------------------------------------------------------------- */
-    if (strcmp (element_name, "node") == 0)
-      {
-@@ -43,10 +43,10 @@ diff --git a/gio/tests/gdbus-introspection.c b/gio/tests/gdbus-introspection.c
- index 44cb7a96af45..daca313f77e7 100644
- --- a/gio/tests/gdbus-introspection.c
- +++ b/gio/tests/gdbus-introspection.c
--@@ -299,6 +299,38 @@ test_extra_data (void)
-+@@ -300,6 +300,38 @@ test_extra_data (void)
-    g_dbus_node_info_unref (info);
-  }
--
-+ 
- +static void
- +test_invalid (void)
- +{
-@@ -80,14 +80,14 @@ index 44cb7a96af45..daca313f77e7 100644
- +}
- +
-  /* ---------------------------------------------------------------------------------------------------- */
--
-+ 
-  int
--@@ -316,6 +348,7 @@ main (int   argc,
-+@@ -317,6 +349,7 @@ main (int   argc,
-    g_test_add_func ("/gdbus/introspection-generate", test_generate);
-    g_test_add_func ("/gdbus/introspection-default-direction", test_default_direction);
-    g_test_add_func ("/gdbus/introspection-extra-data", test_extra_data);
- +  g_test_add_func ("/gdbus/introspection/invalid", test_invalid);
--
-+ 
-    ret = session_bus_run ();
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch b/meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
+new file mode 100644
+index 00000000000..a3f68ae5392
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
+@@ -0,0 +1,81 @@
++From 6b1769c54659f1e6d6323891cb45c682c22182b7 Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Wed, 15 Apr 2026 10:43:12 +0200
++Subject: [PATCH] urlapi: same origin tests
++
++Add new internal `curl_url_same_origin()` to check if a href has the
++same origin as a base URL. Add test cases in test1675 and use this in
++http2 push handling.
++
++Closes #21328
++
++CVE: CVE-2026-6429
++Upstream-Status: Backport [https://github.com/curl/curl/commit/32a513e180ce83d5e9b708211306045407074134]
++
++Backport Changes:
++- curl 8.19.0 does not provide Curl_url_same_origin(), but the CVE-2026-6429
++  fix from https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306
++  uses it in lib/http.c.
++- kept only the helper declaration and implementation of
++  lib/urlapi-int.h and lib/urlapi.c.
++- Excluded unrelated upstream test and HTTP/2 changes from that commit.
++
++(cherry picked from commit 32a513e180ce83d5e9b708211306045407074134)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ lib/urlapi-int.h |  2 ++
++ lib/urlapi.c     | 33 +++++++++++++++++++++++++++++++++
++ 2 files changed, 35 insertions(+)
++
++diff --git a/lib/urlapi-int.h b/lib/urlapi-int.h
++index 29d4fe5f39..591062035b 100644
++--- a/lib/urlapi-int.h
+++++ b/lib/urlapi-int.h
++@@ -40,4 +40,6 @@ UNITTEST CURLUcode Curl_parse_port(struct Curl_URL *u, struct dynbuf *host,
++ #define U_CURLU_URLDECODE (unsigned int)CURLU_URLDECODE
++ #define U_CURLU_PATH_AS_IS (unsigned int)CURLU_PATH_AS_IS
++
+++bool Curl_url_same_origin(CURLU *base, CURLU *href);
+++
++ #endif /* HEADER_CURL_URLAPI_INT_H */
++diff --git a/lib/urlapi.c b/lib/urlapi.c
++index a4b82f31bd..20c6585b55 100644
++--- a/lib/urlapi.c
+++++ b/lib/urlapi.c
++@@ -1996,3 +1996,36 @@ nomem:
++   }
++   return CURLUE_OK;
++ }
+++
+++bool Curl_url_same_origin(CURLU *base, CURLU *href)
+++{
+++  const struct Curl_scheme *s = NULL;
+++
+++  /* base must be an absolute URL */
+++  if(!base->scheme || !base->host)
+++    return FALSE;
+++  if(href->scheme && !curl_strequal(base->scheme, href->scheme))
+++    return FALSE;
+++  if(href->host) {
+++    if(!curl_strequal(base->host, href->host))
+++      return FALSE;
+++    if(!curl_strequal(base->port, href->port)) {
+++      /* This may still match if only one has an explicit port
+++       * and it is the default for the scheme. */
+++      if(base->port && href->port)
+++        return FALSE;
+++
+++      s = Curl_get_scheme(base->scheme);
+++      if(!s) /* Cannot match default port for unknown scheme */
+++        return FALSE;
+++
+++      /* The port which is set must be the default one */
+++      if((base->port && (base->portnum != s->defport)) ||
+++         (href->port && (href->portnum != s->defport)))
+++        return FALSE;
+++    }
+++  }
+++  else if(href->port) /* no host in href, then there must be no port */
+++    return FALSE;
+++  return TRUE;
+++}
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-6429.patch b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
+new file mode 100644
+index 00000000000..76711aafc0b
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
+@@ -0,0 +1,325 @@
++From 1d36681ca0e453faf199f44c483077d929899906 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 16 Apr 2026 14:26:20 +0200
++Subject: [PATCH] http: clear credentials better on redirect
++
++Verify with test 2506: netrc with redirect using proxy
++
++Updated test 998 which was wrong.
++
++Reported-by: Muhamad Arga Reksapati
++
++Closes #21345
++
++CVE: CVE-2026-6429
++Upstream-Status: Backport [https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306]
++
++Backport Changes:
++- Aligned with curl 8.19.0 by using the existing
++  Curl_safefree() instead of the curlx_safefree() macro.
++- The curlx_safefree() macro was introduced in curl 8.20.0 by:
++  https://github.com/curl/curl/commit/0df6c01db398f5e25d00a062aae56f2a89d8ff55
++
++(cherry picked from commit b4024bf808bd558026fdc6096e8457f199ace306)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ lib/http.c                 | 84 ++++++++++++--------------------------
++ tests/data/Makefile.am     |  2 +-
++ tests/data/test2506        | 64 +++++++++++++++++++++++++++++
++ tests/data/test998         |  1 -
++ tests/libtest/Makefile.inc |  2 +-
++ tests/libtest/lib2506.c    | 71 ++++++++++++++++++++++++++++++++
++ 6 files changed, 162 insertions(+), 62 deletions(-)
++ create mode 100644 tests/data/test2506
++ create mode 100644 tests/libtest/lib2506.c
++
++diff --git a/lib/http.c b/lib/http.c
++index b960d790a4..2596b4b3a2 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -1201,75 +1201,41 @@ CURLcode Curl_http_follow(struct Curl_easy *data, const char *newurl,
++       return CURLE_OUT_OF_MEMORY;
++   }
++   else {
++-    uc = curl_url_get(data->state.uh, CURLUPART_URL, &follow_url, 0);
++-    if(uc)
+++    bool same_origin;
+++    CURLcode result;
+++    CURLU *u = curl_url();
+++    if(!u)
+++      return CURLE_OUT_OF_MEMORY;
+++    uc = curl_url_set(u, CURLUPART_URL,
+++                      Curl_bufref_ptr(&data->state.url),
+++                      CURLU_URLENCODE | CURLU_ALLOW_SPACE);
+++    if(!uc)
+++      uc = curl_url_get(data->state.uh, CURLUPART_URL, &follow_url, 0);
+++    if(uc) {
+++      curl_url_cleanup(u);
++       return Curl_uc_to_curlcode(uc);
+++    }
++
++-    /* Clear auth if this redirects to a different port number or protocol,
++-       unless permitted */
++-    if(!data->set.allow_auth_to_other_hosts && (type != FOLLOW_FAKE)) {
++-      int port;
++-      bool clear = FALSE;
++-
++-      if(data->set.use_port && data->state.allow_port)
++-        /* a custom port is used */
++-        port = (int)data->set.use_port;
++-      else {
++-        curl_off_t value;
++-        char *portnum;
++-        const char *p;
++-        uc = curl_url_get(data->state.uh, CURLUPART_PORT, &portnum,
++-                          CURLU_DEFAULT_PORT);
++-        if(uc) {
++-          curlx_free(follow_url);
++-          return Curl_uc_to_curlcode(uc);
++-        }
++-        p = portnum;
++-        curlx_str_number(&p, &value, 0xffff);
++-        port = (int)value;
++-        curlx_free(portnum);
++-      }
++-      if(port != data->info.conn_remote_port) {
++-        infof(data, "Clear auth, redirects to port from %u to %u",
++-              data->info.conn_remote_port, port);
++-        clear = TRUE;
++-      }
++-      else {
++-        char *scheme;
++-        const struct Curl_scheme *p;
++-        uc = curl_url_get(data->state.uh, CURLUPART_SCHEME, &scheme, 0);
++-        if(uc) {
++-          curlx_free(follow_url);
++-          return Curl_uc_to_curlcode(uc);
++-        }
+++    same_origin = Curl_url_same_origin(u, data->state.uh);
+++    curl_url_cleanup(u);
++
++-        p = Curl_get_scheme(scheme);
++-        if(p && (p->protocol != data->info.conn_protocol)) {
++-          infof(data, "Clear auth, redirects scheme from %s to %s",
++-                data->info.conn_scheme, scheme);
++-          clear = TRUE;
++-        }
++-        curlx_free(scheme);
++-      }
++-      if(clear) {
++-        CURLcode result = Curl_reset_userpwd(data);
++-        if(result) {
++-          curlx_free(follow_url);
++-          return result;
++-        }
++-        Curl_safefree(data->state.aptr.user);
++-        Curl_safefree(data->state.aptr.passwd);
+++    if((!same_origin && !data->set.allow_auth_to_other_hosts) ||
+++       !data->set.str[STRING_USERNAME]) {
+++      result = Curl_reset_userpwd(data);
+++      if(result) {
+++        curlx_free(follow_url);
+++        return result;
++       }
+++      Curl_safefree(data->state.aptr.user);
+++      Curl_safefree(data->state.aptr.passwd);
++     }
++-  }
++-  DEBUGASSERT(follow_url);
++-  {
++-    CURLcode result = Curl_reset_proxypwd(data);
+++    result = Curl_reset_proxypwd(data);
++     if(result) {
++       curlx_free(follow_url);
++       return result;
++     }
++   }
+++  DEBUGASSERT(follow_url);
++
++   if(type == FOLLOW_FAKE) {
++     /* we are only figuring out the new URL if we would have followed locations
++diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
++index 00a5221d1f..1b76b01a8c 100644
++--- a/tests/data/Makefile.am
+++++ b/tests/data/Makefile.am
++@@ -265,7 +265,7 @@ test2309 \
++ \
++ test2400 test2401 test2402 test2403 test2404 test2405 test2406 test2407 \
++ \
++-test2500 test2501 test2502 test2503 test2504 \
+++test2500 test2501 test2502 test2503 test2504 test2506 \
++ \
++ test2600 test2601 test2602 test2603 test2604 test2605 \
++ \
++diff --git a/tests/data/test2506 b/tests/data/test2506
++new file mode 100644
++index 0000000000..9c65002496
++--- /dev/null
+++++ b/tests/data/test2506
++@@ -0,0 +1,64 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++cookies
+++</keywords>
+++</info>
+++
+++<reply>
+++<data crlf="headers" nocheck="yes">
+++HTTP/1.1 301 redirect
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Content-Length: 3
+++Location: http://numbertwo.example/%TESTNUMBER0002
+++
+++ok
+++</data>
+++<data2 crlf="headers" nocheck="yes">
+++HTTP/1.1 200 OK
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Content-Length: 4
+++
+++yes
+++</data2>
+++</reply>
+++
+++<client>
+++<server>
+++http
+++</server>
+++<features>
+++proxy
+++</features>
+++<tool>
+++lib%TESTNUMBER
+++</tool>
+++<name>
+++netrc with redirect using proxy
+++</name>
+++<file name="%LOGDIR/netrc2506">
+++machine site.example login batman password robin
+++</file>
+++<command>
+++http://%HOSTIP:%HTTPPORT http://site.example/ %LOGDIR/netrc2506
+++</command>
+++</client>
+++
+++<verify>
+++<protocol crlf="headers">
+++GET http://site.example/ HTTP/1.1
+++Host: site.example
+++Authorization: Basic %b64[batman:robin]b64%
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++GET http://numbertwo.example/25060002 HTTP/1.1
+++Host: numbertwo.example
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++</protocol>
+++</verify>
+++</testcase>
++diff --git a/tests/data/test998 b/tests/data/test998
++index 24d1d3dd4e..56dbc0c891 100644
++--- a/tests/data/test998
+++++ b/tests/data/test998
++@@ -77,7 +77,6 @@ Proxy-Connection: Keep-Alive
++
++ GET http://somewhere.else.example/a/path/9980002 HTTP/1.1
++ Host: somewhere.else.example
++-Authorization: Basic %b64[alberto:einstein]b64%
++ User-Agent: curl/%VERSION
++ Accept: */*
++ Proxy-Connection: Keep-Alive
++diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
++index 2319bafe72..2f77c16975 100644
++--- a/tests/libtest/Makefile.inc
+++++ b/tests/libtest/Makefile.inc
++@@ -113,7 +113,7 @@ TESTS_C = \
++   lib2023.c lib2032.c lib2082.c \
++   lib2301.c lib2302.c lib2304.c           lib2306.c lib2308.c lib2309.c \
++   lib2402.c           lib2404.c lib2405.c \
++-  lib2502.c lib2504.c \
+++  lib2502.c lib2504.c lib2506.c \
++   lib2700.c \
++   lib3010.c lib3025.c lib3026.c lib3027.c lib3033.c lib3034.c \
++   lib3100.c lib3101.c lib3102.c lib3103.c lib3104.c lib3105.c \
++diff --git a/tests/libtest/lib2506.c b/tests/libtest/lib2506.c
++new file mode 100644
++index 0000000000..8b3b3429f9
++--- /dev/null
+++++ b/tests/libtest/lib2506.c
++@@ -0,0 +1,71 @@
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Linus Nielsen Feltzing <linus@haxx.se>
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ ***************************************************************************/
+++#include "first.h"
+++
+++#include "testtrace.h"
+++
+++static size_t sink2506(char *ptr, size_t size, size_t nmemb, void *ud)
+++{
+++  (void)ptr;
+++  (void)ud;
+++  return size * nmemb;
+++}
+++
+++static CURLcode test_lib2506(const char *URL)
+++{
+++  CURL *curl;
+++  CURLcode result = CURLE_OUT_OF_MEMORY;
+++
+++  if(curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
+++    curl_mfprintf(stderr, "curl_global_init() failed\n");
+++    return TEST_ERR_MAJOR_BAD;
+++  }
+++
+++  curl = curl_easy_init();
+++  if(!curl) {
+++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
+++    curl_global_cleanup();
+++    return TEST_ERR_MAJOR_BAD;
+++  }
+++
+++  test_setopt(curl, CURLOPT_WRITEFUNCTION, sink2506);
+++  test_setopt(curl, CURLOPT_PROXY, URL);
+++  test_setopt(curl, CURLOPT_URL, libtest_arg2);
+++  test_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
+++  test_setopt(curl, CURLOPT_NETRC_FILE, libtest_arg3);
+++  test_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+++  test_setopt(curl, CURLOPT_VERBOSE, 1L);
+++
+++  /* CURLOPT_UNRESTRICTED_AUTH should not make a difference because the
+++     credentials come from netrc */
+++  test_setopt(curl, CURLOPT_UNRESTRICTED_AUTH, 1L);
+++
+++  result = curl_easy_perform(curl);
+++
+++test_cleanup:
+++  curl_easy_cleanup(curl);
+++  curl_global_cleanup();
+++
+++  return result;
+++}
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index b1ee0f8b9ba..683163bfa61 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -19,6 +19,8 @@ SRC_URI = " \
+     file://mbedtls.patch \
+     file://CVE-2026-5545.patch \
+     file://CVE-2026-6253.patch \
++    file://CVE-2026-6429-dependent.patch \
++    file://CVE-2026-6429.patch \
+ "
  
- --
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
-index a61e35ad8a7..a07aa529ae8 100644
---- a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
-+++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
-@@ -30,63 +30,63 @@ diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
- index 6f722ee6153d..ed0d291f99f0 100644
- --- a/gio/gdbusintrospection.c
- +++ b/gio/gdbusintrospection.c
--@@ -1110,6 +1110,7 @@ parse_data_get_annotation (ParseData *data,
-+@@ -1096,6 +1096,7 @@ parse_data_get_annotation (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->annotations, g_new0 (GDBusAnnotationInfo, 1));
- +  g_assert (data->annotations->len > 0);
-    return data->annotations->pdata[data->annotations->len - 1];
-  }
--
--@@ -1119,6 +1120,7 @@ parse_data_get_arg (ParseData *data,
-+ 
-+@@ -1105,6 +1106,7 @@ parse_data_get_arg (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->args, g_new0 (GDBusArgInfo, 1));
- +  g_assert (data->args->len > 0);
-    return data->args->pdata[data->args->len - 1];
-  }
--
--@@ -1128,6 +1130,7 @@ parse_data_get_out_arg (ParseData *data,
-+ 
-+@@ -1114,6 +1116,7 @@ parse_data_get_out_arg (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->out_args, g_new0 (GDBusArgInfo, 1));
- +  g_assert (data->out_args->len > 0);
-    return data->out_args->pdata[data->out_args->len - 1];
-  }
--
--@@ -1137,6 +1140,7 @@ parse_data_get_method (ParseData *data,
-+ 
-+@@ -1123,6 +1126,7 @@ parse_data_get_method (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->methods, g_new0 (GDBusMethodInfo, 1));
- +  g_assert (data->methods->len > 0);
-    return data->methods->pdata[data->methods->len - 1];
-  }
--
--@@ -1146,6 +1150,7 @@ parse_data_get_signal (ParseData *data,
-+ 
-+@@ -1132,6 +1136,7 @@ parse_data_get_signal (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->signals, g_new0 (GDBusSignalInfo, 1));
- +  g_assert (data->signals->len > 0);
-    return data->signals->pdata[data->signals->len - 1];
-  }
--
--@@ -1155,6 +1160,7 @@ parse_data_get_property (ParseData *data,
-+ 
-+@@ -1141,6 +1146,7 @@ parse_data_get_property (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->properties, g_new0 (GDBusPropertyInfo, 1));
- +  g_assert (data->properties->len > 0);
-    return data->properties->pdata[data->properties->len - 1];
-  }
--
--@@ -1164,6 +1170,7 @@ parse_data_get_interface (ParseData *data,
-+ 
-+@@ -1150,6 +1156,7 @@ parse_data_get_interface (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->interfaces, g_new0 (GDBusInterfaceInfo, 1));
- +  g_assert (data->interfaces->len > 0);
-    return data->interfaces->pdata[data->interfaces->len - 1];
-  }
--
--@@ -1173,6 +1180,7 @@ parse_data_get_node (ParseData *data,
-+ 
-+@@ -1159,6 +1166,7 @@ parse_data_get_node (ParseData *data,
-  {
-    if (create_new)
-      g_ptr_array_add (data->nodes, g_new0 (GDBusNodeInfo, 1));
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.0.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.2.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.0.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.2.bb
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.88.2.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.88.2.bb
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index fb35f84eec5..d49ae131685 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -240,7 +240,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
-                               "
- 
--SRC_URI[archive.sha256sum] = "3546251ccbb3744d4bc4eb48354540e1f6200846572bab68e3a2b7b2b64dfd07"
-+SRC_URI[archive.sha256sum] = "cf3f215a640c8a4257f14317586b8f1fdd25a10a93cb4bdda147c0f9ad88e74f"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
+ SRC_URI:append:class-nativesdk = " \
 
