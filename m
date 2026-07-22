@@ -2,60 +2,60 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CDEC44536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA239C4453A
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 20:22:23 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9353.1784751739633965142
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9357.1784751736731488787
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 13:22:19 -0700
+ Wed, 22 Jul 2026 13:22:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=dYqTL2Mm;
- spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: sdoshi@mvista.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cbb85186d43so1502093a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:22:19 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=cuoRsSoA;
+ spf=pass (domain: mvista.com, ip: 209.85.215.174, mailfrom: sdoshi@mvista.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c9cf07d2df6so8215543a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 13:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1784751739; x=1785356539; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1784751736; x=1785356536; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5+8PYm7JkNVL8AfkNIe/0OqGlZ0HzSvCmex1Gyv1dCA=;
-        b=dYqTL2MmUgwrg/LAXWZlcM87DvhTrZswkYM7ZH8L1LkCaKo5wTWRQWbUpEGlz5wRmV
-         yFsRltMM1ILIl65A9hiP1bc7uFwgNhb7e19pZD1zwM+rCumTZBl91Mm0wFOM7h97IEw6
-         ULhjxL3R/avG/peUX7HXmCW6hzkfvVkbKUTug=
+        bh=fXdTaZyWKkwVjAQEYKXmUhUEp7G783ejPNvu6vGMr4w=;
+        b=cuoRsSoA4E8FaVY9hIWFS5RbeYlTns9vrY+BX+WSUwEP/G8a42x5hDmd+GJtkpcXiQ
+         dLkaYl6ZXT0nExzTyAEmgZYT/mA9JfEmugFzhN+4Eua3mqY5SumA8Vy9H5P0lQIPMoCm
+         5W5REuFMQGHQnOYmaRRg5V18U8iH10Qq4Dz2A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784751739; x=1785356539;
+        d=1e100.net; s=20251104; t=1784751736; x=1785356536;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5+8PYm7JkNVL8AfkNIe/0OqGlZ0HzSvCmex1Gyv1dCA=;
-        b=eRW/pLFBbWNSRIATxJ8xooJgeGggwMl7+40EHyPPs/BmPL8crmOAHXboiDvf7sFx8D
-         44JVkz5ltQAAwHqK8W1qtL7rxtxZaV3oeaeOHV89XdEKUffSnjLWxCD9F71JlHJTCJLF
-         qjwgZWrpB5FpxspO5sq/4Ym1cIuYQPFql0wItmv9PgpRPc+fB7fjFF4k0rMEEf9YnNXP
-         0g9xiKqHd8LcpY9clcJM9vvje3Fw+Q/xGEJ60HF9nv15fxYF1r/ndwi2kHayBENddNag
-         jITkHvS0yAsh+o5BtHYCeX4v/LqagnorKO/V+rmpIyxUUeFM9zX0fo7jj3FVc/+YfwXD
-         nk2A==
-X-Gm-Message-State: AOJu0YxLAnPKyXfVaTYkKWEwZnU04asjvHo04kl8SID1R7+ZGJAMsYtN
-	m08FAj6hXVIMNHUBZFHgyGJcfQe52dWIGFlvz19XpYpbBX1T3r18excflveZE//TBL/w2FU2BzO
-	E5fqD3TE=
-X-Gm-Gg: AR+sD10yErpirxxMeHrIRUKI9QuUdaQ8fK8v1t7akaaeLsfuGUFSWdB6KROb/nHKf01
-	aweVZD1lVjF7mN0HFUyAEvKpYd6kmVWfi363mLGEOi30r1myPlERTC7L9UUZS8FjkQOEOBcFIi7
-	1ngB61SIE+XIjkso4HG3p4FAt/fEcswg5qfbedt/EPhJa8qEcdj68JMC5sbzP7qIOR/dTcmZNK0
-	tHyzLjWNpLHHkB3aPVwHDu1pY2YUyTqxKtFh0EtdWKSjVufuc0lp8AJBECWfyFAJtvxqaRbJRAx
-	4mYBBHmI2EPvQn11+OhbSo2Ub8fT0PXHOKEx153z8aHZWcNfQ93LjMxZ7BBGUYo0lBuJ437HHBk
-	KAkLkFj5s1Y1PV/x8sw2O3usKunoHCUbAZyYU6GOnE54E5tEqRwrvFJWqMwe1eVBeCxC354ESKy
-	R/qx/KvoExUZG5
-X-Received: by 2002:a05:6a21:7111:b0:3c0:9c1a:8953 with SMTP id adf61e73a8af0-3c44b2627b6mr2524637.75.1784751738858;
-        Wed, 22 Jul 2026 13:22:18 -0700 (PDT)
+        bh=fXdTaZyWKkwVjAQEYKXmUhUEp7G783ejPNvu6vGMr4w=;
+        b=dvAQMjw1OCSZlE5Wgm5rKU4j9TxKXsI+GWudpMb9UJFA13fLvVZC8Pc0zg0tW+D1hb
+         oeS9eB2o4liv5JC2lAVF2Onh/Hw9qTJu4dGLikb1M4zoSeMASqU04nRTCeU3vYjbXlB8
+         pQN6HAlJeCrOqOkZJ8W3sNaESzyT1xMG8PPPxKf7AqkCqP+PZG+FIX4aaKPb6BGxH0l9
+         To6jfk5I8gMSC8ZC8W5DB3/CnGVyoXwwrRIF2Ni0sDkpbe5mKOXzjM09POkkMbVRfKjF
+         86gYolzIvkNAAbhBnc7A0FRotyZgDRm1+ckfVra5qPlW9jrTqZBDOiARGS2vDimzNl1b
+         QhaQ==
+X-Gm-Message-State: AOJu0YywzKknftOdrSjui4Oga+B4FngUDrDoAbmMq5Dt87RROKVnnqRo
+	mY63+UFn0KW56STDf6ULP9ebybD5ye0d0Tp/CwrJWSD0LV1PkIF5OTH+g12iesqrNwWDNOuH0VR
+	oKetn9oo=
+X-Gm-Gg: AR+sD11RrrPuQOddIpqzRyG+CH+WVMhRJufWYk93usrtdT4quHWG3Xy1T9+1A9i1FkV
+	D5LXzwaf9gWb83hXsjyjqwnQDAhNEHtIkFyyduk2Ple/bCHChJAi9z4rykp+Y39Alb8lLplbq5k
+	wrNGOlsKxk07uamtCOmHImp7i+4vN1sGrQS24tgw01dEm75HJALOMe5FkOGIxyGRYMZ0yvmNCwi
+	8IOgX4wVdWZtYNkSDMeZIPTUHP8dAENjnvfmSqmT4Td8DWicAWtH82Hb+hft35Rabn0xTfR0e31
+	OKTZMWD+Djmf8Tz4UFGP7nzHA6zycWRsiKJ4bfhhxj7Yq7Nv6pp3WXzUt72D8Pdpli5cEB7LPOS
+	3LhbutK7IGDqBl9r/hSQRdMhsT8YtLUT2m4o29n8vAhdcKWshTsF8mQv0qvPkNsGfTkPqtn96Jr
+	MxAU6Cg/1pdyLo
+X-Received: by 2002:a05:6a21:6e03:b0:3c3:96dd:9ecc with SMTP id adf61e73a8af0-3c44b201100mr7424637.57.1784751736059;
+        Wed, 22 Jul 2026 13:22:16 -0700 (PDT)
 Received: from MVIN00030.mvista.com ([157.32.46.199])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147d47960dsm11699468eec.0.2026.07.22.13.22.16
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147d47960dsm11699468eec.0.2026.07.22.13.22.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 13:22:18 -0700 (PDT)
+        Wed, 22 Jul 2026 13:22:15 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][scarthgap][PATCH 11/13] vim: Security Fix for CVE-2026-59856
-Date: Thu, 23 Jul 2026 01:49:03 +0530
-Message-Id: <20260722201905.491897-11-sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCH 10/13] vim: Security Fix for CVE-2026-57455
+Date: Thu, 23 Jul 2026 01:49:02 +0530
+Message-Id: <20260722201905.491897-10-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260722201905.491897-1-sdoshi@mvista.com>
 References: <20260722201905.491897-1-sdoshi@mvista.com>
@@ -65,141 +65,110 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 20:22:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241755
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241754
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
 Picking patch as per [1], and same patch is mentioned in [2]
 
 References:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-59856
-[2] https://security-tracker.debian.org/tracker/CVE-2026-59856
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-57455
+[2] https://security-tracker.debian.org/tracker/CVE-2026-57455
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../vim/files/CVE-2026-59856.patch            | 103 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-59856.patch
+ .../vim/files/CVE-2026-57455.patch            | 72 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57455.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-59856.patch b/meta/recipes-support/vim/files/CVE-2026-59856.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-57455.patch b/meta/recipes-support/vim/files/CVE-2026-57455.patch
 new file mode 100644
-index 0000000000..de12e5c4f5
+index 0000000000..722238c794
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-59856.patch
-@@ -0,0 +1,103 @@
-+From 43afc581a37a35762dd0ef292f038b9dc5680a24 Mon Sep 17 00:00:00 2001
-+From: Hirohito Higashi <h.east.727@gmail.com>
-+Date: Fri, 26 Jun 2026 20:07:01 +0900
-+Subject: [PATCH] patch 9.2.0736: potential command execution in PHP
-+ omni-completion
++++ b/meta/recipes-support/vim/files/CVE-2026-57455.patch
+@@ -0,0 +1,72 @@
++From 497d2fb19b2af9bccf139bb910e4f91b583e769d Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Sun, 21 Jun 2026 19:20:03 +0000
++Subject: [PATCH 13/17] patch 9.2.0698: [security]: Out-of-bounds write with
++ soundfold()
 +
-+Problem:  With PHP omni-completion, a crafted file can potentially
-+          execute arbitrary commands when completing a class member.
-+Solution: Quote the class name before inserting it into the search()
-+          pattern run via win_execute().
++Problem:  [security]: Out-of-bounds write with soundfold()
++          (cipher-creator)
++Solution: Add an abort condition to the for loop to validate the buffer
++          size.
 +
-+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
-+Signed-off-by: Hirohito Higashi <h.east.727@gmail.com>
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-q8mh-6qm3-25g4
++
++Supported by AI
++
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/43afc581a37a35762dd0ef292f038b9dc5680a24]
-+CVE: CVE-2026-59856
++Upstream-Status: Backport [https://github.com/vim/vim/commit/497f931f85339d175d7f69588dd249e8ccfed41b]
++CVE: CVE-2026-57455
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ runtime/autoload/phpcomplete.vim        |  3 ++-
-+ src/testdir/Make_all.mak                |  2 ++
-+ src/testdir/test_plugin_phpcomplete.vim | 35 +++++++++++++++++++++++++
-+ 3 files changed, 39 insertions(+), 1 deletion(-)
-+ create mode 100644 src/testdir/test_plugin_phpcomplete.vim
++ src/spell.c                    |  2 +-
++ src/testdir/test_spellfile.vim | 21 +++++++++++++++++++++
++ 2 files changed, 22 insertions(+), 1 deletion(-)
 +
-+diff --git a/runtime/autoload/phpcomplete.vim b/runtime/autoload/phpcomplete.vim
-+index 5b4263ae45..93f7d8b450 100644
-+--- a/runtime/autoload/phpcomplete.vim
-++++ b/runtime/autoload/phpcomplete.vim
-+@@ -2082,7 +2082,8 @@ function! phpcomplete#GetClassContentsStructure(file_path, file_lines, class_nam
-+ 	let result = []
-+ 	let popup_id = popup_create(a:file_lines, {'hidden': v:true})
++diff --git a/src/spell.c b/src/spell.c
++index 6ef3fa899b..a7909ef46e 100644
++--- a/src/spell.c
+++++ b/src/spell.c
++@@ -3273,7 +3273,7 @@ spell_soundfold_sofo(slang_T *slang, char_u *inword, char_u *res)
++     else
++     {
++ 	// The sl_sal_first[] table contains the translation.
++-	for (s = inword; (c = *s) != NUL; ++s)
+++	for (s = inword; (c = *s) != NUL && ri < MAXWLEN - 1; ++s)
++ 	{
++ 	    if (VIM_ISWHITE(c))
++ 		c = ' ';
++diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
++index e5f8c5778f..d04d024911 100644
++--- a/src/testdir/test_spellfile.vim
+++++ b/src/testdir/test_spellfile.vim
++@@ -1193,4 +1193,25 @@ func Test_spell_sug_tree_count_words_overflow()
++   bwipe!
++ endfunc
 + 
-+-	call win_execute(popup_id, 'call search(''\c\(class\|interface\|trait\)\_s\+'.a:class_name.'\(\>\|$\)'')')
-++	call win_execute(popup_id, 'call search('
-++		\ . string('\c\(class\|interface\|trait\)\_s\+' . a:class_name . '\(\>\|$\)') . ')')
-+ 	call win_execute(popup_id, "let cfline = line('.')")
-+ 	call win_execute(popup_id, "call search('{')")
-+ 	call win_execute(popup_id, "let endline = line('.')")
-+diff --git a/src/testdir/Make_all.mak b/src/testdir/Make_all.mak
-+index 0d4aeb0432..7d57b2e727 100644
-+--- a/src/testdir/Make_all.mak
-++++ b/src/testdir/Make_all.mak
-+@@ -247,6 +247,7 @@ NEW_TESTS = \
-+ 	test_plugin_helptoc \
-+ 	test_plugin_man \
-+ 	test_plugin_matchparen \
-++	test_plugin_phpcomplete \
-+ 	test_plugin_tar \
-+ 	test_plugin_termdebug \
-+ 	test_plugin_tohtml \
-+@@ -520,6 +521,7 @@ NEW_TESTS_RES = \
-+ 	test_plugin_helptoc.res \
-+ 	test_plugin_man.res \
-+ 	test_plugin_matchparen.res \
-++	test_plugin_phpcomplete.res \
-+ 	test_plugin_tar.res \
-+ 	test_plugin_termdebug.res \
-+ 	test_plugin_tohtml.res \
-+diff --git a/src/testdir/test_plugin_phpcomplete.vim b/src/testdir/test_plugin_phpcomplete.vim
-+new file mode 100644
-+index 0000000000..7f66be47b7
-+--- /dev/null
-++++ b/src/testdir/test_plugin_phpcomplete.vim
-+@@ -0,0 +1,35 @@
-++" Tests for the PHP omni-completion plugin (runtime/autoload/phpcomplete.vim).
+++" A word longer than MAXWLEN must not overflow the soundfold result buffer in
+++" the single-byte SOFO branch of spell_soundfold_sofo().
+++func Test_soundfold_overflow()
+++  let _enc=&enc
+++  set enc=latin1
+++  call writefile(['SOFOFROM ab', 'SOFOTO xy'], 'Xtest.aff', 'D')
+++  call writefile(['1', 'foo'], 'Xtest.dic', 'D')
+++  mkspell! Xtest Xtest
+++  defer delete('Xtest.latin1.spl')
+++  defer delete('Xtest.latin1.sug')
+++  setl spelllang=Xtest.latin1.spl spell
 ++
-++" A buffer class name is interpolated into a search() pattern run via
-++" win_execute().  Without escaping, "'" closes the string and "|" starts a new
-++" Ex command, so the name runs as an Ex command during completion.
-++func Test_phpcomplete_no_exec_via_class_name()
-++  unlet! g:phpcomplete_injected
-++  let lines = ['<?php', 'class x {}', '']
-++  let payload = "x')|let g:phpcomplete_injected = 1|call search('"
+++  " Before the fix the copy loop wrote one byte per input byte into a
+++  " MAXWLEN (254) stack buffer with no upper bound, smashing the stack.
+++  let sound = soundfold(repeat('ab', 300))
+++  call assert_true(strlen(sound) < 254, 'soundfold result exceeds MAXWLEN')
 ++
-++  try
-++    call phpcomplete#GetClassContentsStructure('x.php', lines, payload)
-++  catch
-++  endtry
-++
-++  call assert_false(exists('g:phpcomplete_injected'),
-++        \ 'class name was executed as an Ex command during completion')
-++
-++  unlet! g:phpcomplete_injected
+++  set spell& spelllang&
+++  let &enc = _enc
 ++endfunc
 ++
-++func Test_phpcomplete_class_lookup_still_works()
-++  let lines = ['<?php', 'class Foo {', '    public $bar;', '}', '']
-++  let result = phpcomplete#GetClassContentsStructure('Foo.php', lines, 'Foo')
-++
-++  call assert_equal(type([]), type(result),
-++        \ 'GetClassContentsStructure did not return a list')
-++  call assert_true(len(result) > 0, 'no class structure returned')
-++  call assert_match('class Foo', result[0].content,
-++        \ 'class body missing from returned content')
-++  call assert_match('bar', result[0].content,
-++        \ 'class member missing from returned content')
-++endfunc
-++
-++" vim: shiftwidth=2 sts=2 expandtab
++ " vim: shiftwidth=2 sts=2 expandtab
 +-- 
 +2.44.4
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index a76cdc53ae..770872df01 100644
+index 938fdecaf3..a76cdc53ae 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -43,6 +43,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+@@ -42,6 +42,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-55892.patch \
             file://CVE-2026-55895.patch \
             file://CVE-2026-57452.patch \
-            file://CVE-2026-57455.patch \
-+           file://CVE-2026-59856.patch \
++           file://CVE-2026-57455.patch \
             "
  
  PV .= ".1683"
