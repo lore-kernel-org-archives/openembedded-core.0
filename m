@@ -2,267 +2,444 @@ Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5954EC44539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC29C4453A
 	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 10:08:48 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44372.1784714908771345532
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.44378.1784714925361412992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 03:08:29 -0700
+ Wed, 22 Jul 2026 03:08:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dnpf56VI;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=KvChVgQb;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7051; q=dns/txt;
-  s=iport01; t=1784714908; x=1785924508;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/iSkeLDFxt3vSthYZWmgGlqxv8POAAqNg9e8moFJvwI=;
-  b=dnpf56VI+NXhlQLknWAtcF47VhUVTCmxDq7hNriYLKo4U0k+wQyfR4Pl
-   DSENgBgKaU1nfYFKf1QhlK3z0Gc1Bk+zNwhpfWVPQQKoVF4EKp/kmPnVe
-   XxtZm0gMHXjw5d5bzBYDP/3gUIUlerVh7fMgO+pqSqEnQwWBaWzEMWDPr
-   5RR2c01okUQdbD9O1L3ve0ZdAXkDzN4CxRwduxx6Q4bSagiRPPZdSBOzl
-   gNcZppKTGW0HP/ooxcubMensgkLqkLOnnZMrYcOY5RIS0NZjmkPm0J+Xe
-   m40MxxpTcErsQxeKKHHQk9xUx2nv4Nn0x8HS5+mMqb0kNaKQMrQWr9r0H
-   Q==;
-X-CSE-ConnectionGUID: ioZCTN+eSK+6W/t8+UbTmw==
-X-CSE-MsgGUID: /XlNgSIwS1eGI/TXXYgQ8Q==
-X-IPAS-Result: =?us-ascii?q?A0BFAgDClWBq/5H/Ja1aglmCV3ReQ0mWSotnkjcUgWoPA?=
- =?us-ascii?q?QEBD0QNBAEBhQWNWQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDYZaAQIBNQEYAS0sAwECTwsjIYMCAYI6AzcDEcBsgiyBAYMoAT8CQ?=
- =?us-ascii?q?1DYSQ2CWAELFAEFgTOFP4J9hSNcGAGEfCcbG4FyhH6BBYEaQgGBJASGfgSCD?=
- =?us-ascii?q?RWBDIFaGAaQIkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYEdg?=
- =?us-ascii?q?S6BAoRuIx8DOX+BL3VKdy1pARIXgSaCFIE6AoEDAwsYDUgRLDcUGQQ+bgeNa?=
- =?us-ascii?q?SOBc00BgQ0BByMBgRgrQQdskmOSSIE1nmlxCiiDdYwhjz6FfBozqmwLmH2OC?=
- =?us-ascii?q?oQJkkeEaYFoPIFHCwdwFYMiCUoZD44tCwuDYIF/g2XILScyAgkyAQEHAgcOA?=
- =?us-ascii?q?wuBaJAAgX4BAQ?=
-IronPort-Data: A9a23:s2pBOK0cQkmMvARyEvbD5YVwkn2cJEfYwER7XKvMYLTBsI5bp2cDm
- mVLWDiGaKnbNDfzL9siPN6y/E9TuMPQmIViTwo63Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- Lsen+WFYAX7g2EuaDpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGDUYEFrE+uetMIiIQy
- rsEeHMwZCyGmLfjqF67YrEEasULNsLnOsYb/3pn1zycVaZgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUidC/FMEg9/5JYWnPuoj3r2aRVTqUmeouw85G27IAlZjOm8a4SPJ43SLSlTtgGoo
- kTJxEXmOUgXG/3Y9Qq1w32V1taayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1bfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:L72dB6+e6rkKM10RliZuk+D0I+orL9Y04lQ7vn2ZhyY7TiX+rb
- HKoB11737JYVoqNU3I+urwWpVoP0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WLK+UyFJ8SHzJ8/6Y
- 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHOuQ8bpE0dND2DrMpbnmFENjo=
-X-Talos-CUID: 9a23:RaUz7W5MTsvbmCmN7tss9UkmMfwDMXDm7zSOHAikWSVUQoGQVgrF
-X-Talos-MUID: 9a23:WbWyXgWkFMC2XEPq/HjcgBdtD+Z32P2jJ2FKraU2isa9ZRUlbg==
+  d=cisco.com; i=@cisco.com; l=11244; q=dns/txt;
+  s=iport01; t=1784714925; x=1785924525;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HdB3NMLqkyKunz1W6RUj38yN2rLdKC8qrwF+z98jWIw=;
+  b=KvChVgQbQd0/IEtIX2zLlE4eZHaQTSaaaOD7FhNNJ89Gzji8hg/bDwdQ
+   wg5Y8kof3yKiUAKoGIa6PeNnsMdbRUOrFx31xnibbPSLyw7fI42Y4NRcy
+   quGKhJvUBQlgj6VxG+OuMOFkHuC5Wqwz6oHrWDT0ubwLYYdSDtfzNcd4J
+   0Thp4B6vPzPmlpym7Psd598sBJh95YztNeXWRloH9C+QeS/50H/verL5e
+   lixmsgUtQB5Gm4etW8HC0SA1vwesCF1d7CqjTmghp3PvMGbiKwETQw23x
+   bXpfcBPS+q9kEApyoAtH7p1PngcOkC8+efBfQ10ZAlDtCKPBKgORB4TYe
+   A==;
+X-CSE-ConnectionGUID: FRZBAteYSjO9eUwTSrzOog==
+X-CSE-MsgGUID: FBOnTSOfSgu7gO+Nq/nasg==
+X-IPAS-Result: =?us-ascii?q?A0BIAgBAlWBq/5X/Ja1aglmCV3ReQ0mWSgOLZJI3gX4PA?=
+ =?us-ascii?q?QEBD0QNBAEBKoRbAo1XAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECA?=
+ =?us-ascii?q?QcFgQ4Thk8NhloBAgEDMgEYAS0QHAMBAi8gCyMIGYMCAYI6AzcDEcBmgiyBA?=
+ =?us-ascii?q?YMoAT8CQ1DYSQ2CWAELFAEFgTOFP4J9hSNcGAGEfCcbG4FygRWDaYEFgRpCA?=
+ =?us-ascii?q?QMYiAsEgiKBDIFaGAaQIkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBD?=
+ =?us-ascii?q?BsHBYEdgS6BAoRuIx8DOX+BL3VKdy1pARIXgSaCFIE6AoEDAwsYDUgRLDcUG?=
+ =?us-ascii?q?QQ+bgeNaSOBTnJTOwEHIgEBIIEAQIEXpSugHnEKKIN1jCGPPoV8GjOFW6URC?=
+ =?us-ascii?q?5h9izeCU4QJgmWOcnCEaYFoPIFHCwdwFYMiCUoZD44tCwuDYIF/zAYnMgIJM?=
+ =?us-ascii?q?gEBBwIHDgMLgWiRfgEB?=
+IronPort-Data: A9a23:PJdf+qIyEgMa4LV1FE+Rh5QlxSXFcZb7ZxGr2PjKsXjdYENS3mRVy
+ zcdWm/Vaf/fajP8KIwgbt+/908Au5LXyYc1TwMd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
+ T/Oi5eHYgH9hGQuajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1ANnMcFJEVy911JjBDy
+ OMkEyofSReM0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSAV7AtQIvIROPB4towMDUY358VW62BI
+ ZBENHw2MEWojx5nYj/7DLo+gOehhXDlWzZZs1mS46Ew5gA/ySQsieOzYIWPJoziqcN9sGy/o
+ F792GrCDQxFO/vc7yPC9Hu3ibqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++NuUCSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXPIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:c4WhTK+rAevESNk2Q7puk+AAI+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
+ 5ISdkZNDSJNykYse/KpC+lDt0n3N6LtIqshevY0jNRaDsCUdAY0++8YTzraXGfg2J9dOIEKK
+ Y=
+X-Talos-CUID: 9a23:cc9K8m8oOC1W9lRirWyVv2AuKOoMbnDs93X3ckKFFlpSUq+yTlDFrQ==
+X-Talos-MUID: 9a23:TgK6BwrQ6UXG0IYSnnsezx9IE8FU2IOgM08Qzpoh+O+dcip5IDjI2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,178,1779148800"; 
-   d="scan'208";a="499362590"
-Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 10:08:27 +0000
+   d="scan'208";a="513687248"
+Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 10:08:44 +0000
 Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 9580218000472;
-	Wed, 22 Jul 2026 10:08:27 +0000 (GMT)
+	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 5652618000301;
+	Wed, 22 Jul 2026 10:08:44 +0000 (GMT)
 Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
-	id 3FF6BCD144D; Wed, 22 Jul 2026 03:08:27 -0700 (PDT)
+	id 0504DCD144D; Wed, 22 Jul 2026 03:08:44 -0700 (PDT)
 From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][wrynose][PATCH 1/4] wget: Fix CVE-2026-58469
-Date: Wed, 22 Jul 2026 03:07:51 -0700
-Message-Id: <20260722100754.1568842-1-hthakar@cisco.com>
+Subject: [OE-core][wrynose][PATCH 4/4] wget: Fix CVE-2026-58472
+Date: Wed, 22 Jul 2026 03:07:54 -0700
+Message-Id: <20260722100754.1568842-4-hthakar@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260722100754.1568842-1-hthakar@cisco.com>
+References: <20260722100754.1568842-1-hthakar@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
-X-Outbound-Node: rcdn-l-core-08.cisco.com
+X-Outbound-Node: rcdn-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:08:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241645
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241648
 
 From: Hetvi Thakar <hthakar@cisco.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+Apply the upstream fix referenced in [2] using the commit
+listed in [1].
+Also include the upstream follow-up commit [3], which fixes
+encoded entity length handling and adds regression tests.
 
-It also includes the upstream follow-up fixes referenced in [3]
-and [4]. These correct the trailing whitespace check introduced
-by the original fix and add the required <ctype.h> include for
-isspace().
-
-[1] https://gitlab.com/gnuwget/wget/-/commit/37a40fcb450153f69537c7cbc2a7a4fb0b6f7826
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58469
-[3] https://gitlab.com/gnuwget/wget/-/commit/7b1cdecc49bc77bde220fc575c8a00386c3f3bcf
-[4] https://gitlab.com/gnuwget/wget/-/commit/82d945ff5dc9942b78b2bf736aac298c24fe00a1
+[1] https://gitlab.com/gnuwget/wget/-/commit/dd692d9cea5335b181d877ae917fe6e75587a812
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58472
+[3] https://gitlab.com/gnuwget/wget/-/commit/f76978a51ba9365e7ecaed96c1cfb73197a38ca2
 
 Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
 Changes in v2
-- Included upstream follow-up commit to correct the
-trailing whitespace check.
-- Included upstream follow-up commit to add the
-required <ctype.h> include for isspace().
+Include the upstream follow-up fix for the buffer overflow
+regression introduced by the initial CVE-2026-58472 fix.
 ---
- .../wget/CVE-2026-58469-regression_p1.patch   | 39 ++++++++++++++
- .../wget/CVE-2026-58469-regression_p2.patch   | 26 +++++++++
- .../wget/wget/CVE-2026-58469.patch            | 53 +++++++++++++++++++
- meta/recipes-extended/wget/wget_1.25.0.bb     |  3 ++
- 4 files changed, 121 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p1.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p2.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58469.patch
+ .../wget/wget/CVE-2026-58472-regression.patch | 233 ++++++++++++++++++
+ .../wget/wget/CVE-2026-58472.patch            |  74 ++++++
+ meta/recipes-extended/wget/wget_1.25.0.bb     |   2 +
+ 3 files changed, 309 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58472-regression.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58472.patch
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p1.patch b/meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p1.patch
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58472-regression.patch b/meta/recipes-extended/wget/wget/CVE-2026-58472-regression.patch
 new file mode 100644
-index 0000000000..ecd8ea619b
+index 0000000000..47dfe2b82c
 --- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p1.patch
-@@ -0,0 +1,39 @@
-+From 151beaf2210968aa38d7db61e788b1e33baf77b4 Mon Sep 17 00:00:00 2001
-+From: ChenYanpan <chenyanpan@xfusion.com>
-+Date: Wed, 8 Jul 2026 12:09:55 +0800
-+Subject: [PATCH] * src/metalink.c (clean_metalink_string): Fix inverted
-+ trailing-space check
++++ b/meta/recipes-extended/wget/wget/CVE-2026-58472-regression.patch
+@@ -0,0 +1,233 @@
++From f6202f6bf630796891e0f69a583dbab05f3cfd41 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Thu, 2 Jul 2026 13:13:07 +0200
++Subject: [PATCH] Regression: Fix buffer overflow in html_quote_string()
 +
-+37a40fcb added an `end > beg' bound guard to prevent a buffer
-+underflow, but accidentally flipped the condition from `isspace' to
-+`!isspace'. The loop therefore walked back over non-space characters
-+instead of trailing whitespace, collapsing any string without a
-+trailing newline to "". Every Metalink/HTTP resource URL was wiped,
-+so wget could not follow any mirror and
-+testenv/Test-metalink-http.py failed ("Expected file test.meta not
-+found"). Restore the `isspace' condition.
++The regression has been introduced in commit dd692d9 and
++is not part of any release.
 +
-+Copyright-paperwork-exempt: Yes
++The tests allow the address sanitizer to find the issue.
 +
-+CVE: CVE-2026-58469
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/7b1cdecc49bc77bde220fc575c8a00386c3f3bcf]
++* src/convert.c: Fix string size calculation.
++* tests/unit-tests.c: Added tests including tests for html_quote_string().
++* tests/unit-tests.h: Add definitions for the test functions.
 +
-+(cherry picked from commit 7b1cdecc49bc77bde220fc575c8a00386c3f3bcf)
++Reported-by: Trung Nguyen <trungnh@cystack.net>
++
++CVE: CVE-2026-58472
++Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/f76978a51ba9365e7ecaed96c1cfb73197a38ca2]
++
++(cherry picked from commit f76978a51ba9365e7ecaed96c1cfb73197a38ca2)
 +Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 +---
-+ src/metalink.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/convert.c      | 148 +++++++++++++++++++++++++++++++++++++++++++--
++ tests/unit-tests.c |   4 ++
++ tests/unit-tests.h |   4 ++
++ 3 files changed, 152 insertions(+), 4 deletions(-)
 +
-+diff --git a/src/metalink.c b/src/metalink.c
-+index 2d6e5846..d1b8af0b 100644
-+--- a/src/metalink.c
-++++ b/src/metalink.c
-+@@ -1061,7 +1061,7 @@ clean_metalink_string (char **str)
-+   /* If we are at the end of the string, search the first legit
-+      character going backward.  */
-+   if (*end == '\0')
-+-    while (end > beg && !isspace(*(end - 1)))
-++    while (end > beg && isspace(*(end - 1)))
-+       end--;
++diff --git a/src/convert.c b/src/convert.c
++index d1cbab88..386bded4 100644
++--- a/src/convert.c
+++++ b/src/convert.c
++@@ -48,6 +48,9 @@ as that of the covered work.  */
++ #include "css-url.h"
++ #include "iri.h"
++ #include "xstrndup.h"
+++#ifdef TESTING
+++#include "../tests/unit-tests.h"
+++#endif
 + 
-+   new = xmemdup0 (beg, end - beg);
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p2.patch b/meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p2.patch
++ static struct hash_table *dl_file_url_map;
++ struct hash_table *dl_url_file_map;
++@@ -1186,13 +1189,13 @@ html_quote_string (const char *s)
++   for (i = 0; *s; s++)
++     {
++       if (*s == '&')
++-        ok = INT_ADD_OK (i, 4, &i);     /* `amp;' */
+++        ok = INT_ADD_OK (i, 4 + 1, &i);     /* `amp;' */
++       else if (*s == '<' || *s == '>')
++-        ok = INT_ADD_OK (i, 3, &i);     /* `lt;' and `gt;' */
+++        ok = INT_ADD_OK (i, 3 + 1, &i);     /* `lt;' and `gt;' */
++       else if (*s == '\"')
++-        ok = INT_ADD_OK (i, 5, &i);     /* `quot;' */
+++        ok = INT_ADD_OK (i, 5 + 1, &i);     /* `quot;' */
++       else if (*s == ' ')
++-        ok = INT_ADD_OK (i, 4, &i);     /* #32; */
+++        ok = INT_ADD_OK (i, 4 + 1, &i);     /* #32; */
++       else
++         ok = INT_ADD_OK (i, 1, &i);
++ 
++@@ -1251,6 +1254,143 @@ html_quote_string (const char *s)
++   return res;
++ }
++ 
+++#ifdef TESTING
+++
+++const char *
+++test_construct_relative (void)
+++{
+++  static const struct {
+++    const char *basefile;
+++    const char *linkfile;
+++    const char *expected;
+++  } test_array[] = {
+++    { "foo", "bar", "bar" },
+++    { "A/foo", "A/bar", "bar" },
+++    { "A/foo", "A/B/bar", "B/bar" },
+++    { "A/X/foo", "A/Y/bar", "../Y/bar" },
+++    { "X/", "Y/bar", "../Y/bar" },
+++    { "/foo", "/bar", "bar" },
+++    { "/a/b/c", "/a/b/d", "d" },
+++    { "/a/b/c", "/a/b/c/d", "c/d" },
+++    { "/a/b/c", "/a/b/c/d/e", "c/d/e" },
+++    { "/a/b/c", "/x/y/z", "../../x/y/z" },
+++    { "a/b", "c/d", "../c/d" },
+++    { "./foo", "./bar", "bar" },
+++  };
+++
+++  for (unsigned i = 0; i < countof (test_array); ++i)
+++    {
+++      char *result = construct_relative (test_array[i].basefile,
+++                                         test_array[i].linkfile);
+++      mu_assert ("test_construct_relative: wrong result",
+++                 strcmp (result, test_array[i].expected) == 0);
+++      xfree (result);
+++    }
+++
+++  return NULL;
+++}
+++
+++const char *
+++test_match_except_index (void)
+++{
+++  static const struct {
+++    const char *s1;
+++    const char *s2;
+++    bool expected;
+++  } test_array[] = {
+++    { "foo/index.html", "foo/", true },
+++    { "foo/", "foo/index.html", true },
+++    { "foo", "foo/index.html", true },
+++    { "foo", "foo/", true },
+++    { "foo", "foo", true },
+++    { "/foo/index.html", "/foo/", true },
+++    { "/foo/", "/foo/index.html", true },
+++    { "/foo", "/foo/index.html", true },
+++    { "/foo", "/foo/", true },
+++    { "foo/bar", "foo/qux", false },
+++    { "foo/bar", "bar/foo", false },
+++  };
+++
+++  for (unsigned i = 0; i < countof (test_array); ++i)
+++    {
+++      bool result = match_except_index (test_array[i].s1, test_array[i].s2);
+++      mu_assert ("test_match_except_index: wrong result",
+++                 result == test_array[i].expected);
+++    }
+++
+++  return NULL;
+++}
+++
+++const char *
+++test_find_fragment (void)
+++{
+++  static const struct {
+++    const char *input;
+++    int size;
+++    bool has_fragment;
+++    const char *fragment;
+++  } test_array[] = {
+++    { "http://example.com#section", 26, true, "#section" },
+++    { "http://example.com", 18, false, NULL },
+++    { "http://example.com?a=1#frag", 24, true, "#frag" },
+++    { "http://example.com?a=1%26#frag", 28, true, "#frag" },
+++    { "http://example.com?a=1&b=2#frag", 30, true, "#frag" },
+++    { "a#b", 3, true, "#b" },
+++    { "a", 1, false, NULL },
+++  };
+++  const char *bp, *ep;
+++
+++  for (unsigned i = 0; i < countof (test_array); ++i)
+++    {
+++      bool result = find_fragment (test_array[i].input,
+++                                   test_array[i].size, &bp, &ep);
+++      mu_assert ("test_find_fragment: wrong result",
+++                 result == test_array[i].has_fragment);
+++      if (test_array[i].has_fragment)
+++        {
+++          mu_assert ("test_find_fragment: wrong fragment", bp != NULL);
+++          mu_assert ("test_find_fragment: fragment mismatch",
+++                     strncmp (bp, test_array[i].fragment,
+++                              strlen (test_array[i].fragment)) == 0 &&
+++                     ep == test_array[i].input + test_array[i].size);
+++        }
+++    }
+++
+++  return NULL;
+++}
+++
+++const char *
+++test_html_quote_string (void)
+++{
+++  static const struct {
+++    const char *input;
+++    const char *expected;
+++  } test_array[] = {
+++    { "hello", "hello" },
+++    { "a&b", "a&amp;b" },
+++    { "<tag>", "&lt;tag&gt;" },
+++    { "\"quote\"", "&quot;quote&quot;" },
+++    { "space here", "space&#32;here" },
+++    { "&<>\" ", "&amp;&lt;&gt;&quot;&#32;" },
+++    { "no special", "no&#32;special" },
+++    { "&&&&", "&amp;&amp;&amp;&amp;" },
+++    { "<<>>", "&lt;&lt;&gt;&gt;" },
+++    { "" , "" },
+++  };
+++
+++  for (unsigned i = 0; i < countof (test_array); ++i)
+++    {
+++      char *result = html_quote_string (test_array[i].input);
+++      mu_assert ("test_html_quote_string: wrong result",
+++                 strcmp (result, test_array[i].expected) == 0);
+++      xfree (result);
+++    }
+++
+++  return NULL;
+++}
+++
+++#endif /* TESTING */
+++
++ /*
++  * vim: et ts=2 sw=2
++  */
++diff --git a/tests/unit-tests.c b/tests/unit-tests.c
++index 28b9328a..63b83bac 100644
++--- a/tests/unit-tests.c
+++++ b/tests/unit-tests.c
++@@ -68,6 +68,10 @@ all_tests(void)
++ #endif
++   mu_run_test (test_parse_netrc);
++   mu_run_test (test_retr_rate);
+++  mu_run_test (test_construct_relative);
+++  mu_run_test (test_match_except_index);
+++  mu_run_test (test_find_fragment);
+++  mu_run_test (test_html_quote_string);
++ 
++   return NULL;
++ }
++diff --git a/tests/unit-tests.h b/tests/unit-tests.h
++index 44635f0c..8cd93097 100644
++--- a/tests/unit-tests.h
+++++ b/tests/unit-tests.h
++@@ -64,6 +64,10 @@ const char *test_hsts_url_rewrite_congruent(void);
++ const char *test_hsts_read_database(void);
++ const char *test_parse_netrc(void);
++ const char *test_retr_rate(void);
+++const char *test_construct_relative(void);
+++const char *test_match_except_index(void);
+++const char *test_find_fragment(void);
+++const char *test_html_quote_string(void);
++ 
++ #endif /* TEST_H */
++ 
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58472.patch b/meta/recipes-extended/wget/wget/CVE-2026-58472.patch
 new file mode 100644
-index 0000000000..cbb23050c4
+index 0000000000..fa01438994
 --- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p2.patch
-@@ -0,0 +1,26 @@
-+From 2dba5e3dcd0546a6b06be58da56fbfd151015967 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/wget/wget/CVE-2026-58472.patch
+@@ -0,0 +1,74 @@
++From 5a43952fc39f46bf1973608e014db8cc067de216 Mon Sep 17 00:00:00 2001
 +From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Thu, 9 Jul 2026 14:50:40 +0200
-+Subject: [PATCH] * src/metalink.c: Include ctype.h
-+
-+CVE: CVE-2026-58469
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/82d945ff5dc9942b78b2bf736aac298c24fe00a1]
-+
-+(cherry picked from commit 82d945ff5dc9942b78b2bf736aac298c24fe00a1)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/metalink.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/metalink.c b/src/metalink.c
-+index d1b8af0b..9bea18f7 100644
-+--- a/src/metalink.c
-++++ b/src/metalink.c
-+@@ -46,6 +46,7 @@ as that of the covered work.  */
-+ #include "c-strcase.h"
-+ #include <errno.h>
-+ #include <unistd.h> /* For unlink.  */
-++#include <ctype.h>
-+ #include <metalink/metalink_parser.h>
-+ #ifdef HAVE_GPGME
-+ #include <gpgme.h>
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58469.patch b/meta/recipes-extended/wget/wget/CVE-2026-58469.patch
-new file mode 100644
-index 0000000000..dd7eec0b08
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58469.patch
-@@ -0,0 +1,53 @@
-+From 566d87c1202acb4c36bdec7404abcdd40f85bcad Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Mon, 29 Jun 2026 18:32:02 +0200
-+Subject: [PATCH] * src/metalink.c (clean_metalink_string): Fix buffer
-+ underflow
++Date: Mon, 29 Jun 2026 19:13:15 +0200
++Subject: [PATCH] * src/convert.c (html_quote_string): Fix integer+buffer
++ overflow
 +
 +Reported-by: TristanInSec@gmail.com
 +
-+CVE: CVE-2026-58469
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/37a40fcb450153f69537c7cbc2a7a4fb0b6f7826]
++CVE: CVE-2026-58472
++Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/dd692d9cea5335b181d877ae917fe6e75587a812]
 +
-+(cherry picked from commit 37a40fcb450153f69537c7cbc2a7a4fb0b6f7826)
++(cherry picked from commit dd692d9cea5335b181d877ae917fe6e75587a812)
 +Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 +---
-+ src/metalink.c | 9 +++------
-+ 1 file changed, 3 insertions(+), 6 deletions(-)
++ src/convert.c | 31 ++++++++++++++++++++++++-------
++ 1 file changed, 24 insertions(+), 7 deletions(-)
 +
-+diff --git a/src/metalink.c b/src/metalink.c
-+index de2439c9..2d6e5846 100644
-+--- a/src/metalink.c
-++++ b/src/metalink.c
-+@@ -1041,7 +1041,6 @@ void
-+ clean_metalink_string (char **str)
++diff --git a/src/convert.c b/src/convert.c
++index 2e5bc22b..d1cbab88 100644
++--- a/src/convert.c
+++++ b/src/convert.c
++@@ -36,6 +36,7 @@ as that of the covered work.  */
++ #include <unistd.h>
++ #include <errno.h>
++ #include <assert.h>
+++#include <intprops.h>
++ #include "convert.h"
++ #include "url.h"
++ #include "recur.h"
++@@ -1178,21 +1179,37 @@ html_quote_string (const char *s)
 + {
-+   int c;
-+-  size_t len;
-+   char *new, *beg, *end;
++   const char *b = s;
++   char *p, *res;
++-  int i;
+++  size_t i;
+++  int ok;
 + 
-+   if (!str || !*str)
-+@@ -1049,7 +1048,7 @@ clean_metalink_string (char **str)
-+ 
-+   beg = *str;
-+ 
-+-  while ((c = *beg) && (c == '\n' || c == '\r' || c == '\t' || c == ' '))
-++  while (isspace(*beg))
-+     beg++;
-+ 
-+   end = beg;
-+@@ -1062,12 +1061,10 @@ clean_metalink_string (char **str)
-+   /* If we are at the end of the string, search the first legit
-+      character going backward.  */
-+   if (*end == '\0')
-+-    while ((c = *(end - 1)) && (c == '\n' || c == '\r' || c == '\t' || c == ' '))
-++    while (end > beg && !isspace(*(end - 1)))
-+       end--;
-+ 
-+-  len = end - beg;
-+-
-+-  new = xmemdup0 (beg, len);
-++  new = xmemdup0 (beg, end - beg);
-+   xfree (*str);
-+   *str = new;
-+ }
++   /* Pass through the string, and count the new size.  */
++-  for (i = 0; *s; s++, i++)
+++  for (i = 0; *s; s++)
++     {
++       if (*s == '&')
++-        i += 4;                 /* `amp;' */
+++        ok = INT_ADD_OK (i, 4, &i);     /* `amp;' */
++       else if (*s == '<' || *s == '>')
++-        i += 3;                 /* `lt;' and `gt;' */
+++        ok = INT_ADD_OK (i, 3, &i);     /* `lt;' and `gt;' */
++       else if (*s == '\"')
++-        i += 5;                 /* `quot;' */
+++        ok = INT_ADD_OK (i, 5, &i);     /* `quot;' */
++       else if (*s == ' ')
++-        i += 4;                 /* #32; */
+++        ok = INT_ADD_OK (i, 4, &i);     /* #32; */
+++      else
+++        ok = INT_ADD_OK (i, 1, &i);
+++
+++      if (!ok)
+++        {
+++          DEBUGP (("Overflow detected in html_quote_string().\n"));
+++          abort();
+++        }
++     }
++-  res = xmalloc (i + 1);
+++
+++  if (!INT_ADD_OK (i, 1, &i))
+++    {
+++      DEBUGP (("Overflow detected in html_quote_string().\n"));
+++      abort();
+++    }
+++
+++  res = xmalloc (i);
++   s = b;
++   for (p = res; *s; s++)
++     {
 diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-extended/wget/wget_1.25.0.bb
-index f0d3458462..fb77754965 100644
+index 98fe71e220..071caac735 100644
 --- a/meta/recipes-extended/wget/wget_1.25.0.bb
 +++ b/meta/recipes-extended/wget/wget_1.25.0.bb
-@@ -15,6 +15,9 @@ DEPENDS += "autoconf-archive-native pod2man-native"
- 
- SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://0002-improve-reproducibility.patch \
-+           file://CVE-2026-58469.patch \
-+           file://CVE-2026-58469-regression_p1.patch \
-+           file://CVE-2026-58469-regression_p2.patch \
+@@ -20,6 +20,8 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://CVE-2026-58469-regression_p2.patch \
+            file://CVE-2026-58470.patch \
+            file://CVE-2026-58471.patch \
++           file://CVE-2026-58472.patch \
++           file://CVE-2026-58472-regression.patch \
             "
  
  SRC_URI[sha256sum] = "766e48423e79359ea31e41db9e5c289675947a7fcf2efdcedb726ac9d0da3784"
