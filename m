@@ -2,224 +2,242 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C92CC4453C
-	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:00 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5508.1784741038126134225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CE4C44536
+	for <webhook@archiver.kernel.org>; Wed, 22 Jul 2026 17:24:09 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5529.1784741049297245757
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 10:23:58 -0700
+ Wed, 22 Jul 2026 10:24:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=aeMAVpBk;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so68986575e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:23:57 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=2QhO+nCG;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso28219835e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 10:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784741036; x=1785345836; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9UKsAcC8Bdq9ju9uf2QuRjQzQlh9kbsEPHGV4jMItVw=;
-        b=aeMAVpBkUzsSk/MklhZDaFvTuthXxOe1HOygTyjYcHfltt2ZpAXV2V/FMudE8lEQ7e
-         YA9RmWQzdrm4SnC2iA87ZYLNFSzYM73Eu0F/zSNuXfQ30HZyOe94KMn3unm7mjGt8Ttu
-         5DSOstEvAjoP//UnsActG/C9jhk1yl7xbxpgs=
+        d=smile.fr; s=google; t=1784741047; x=1785345847; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=virqmaFyh7gltWeL6kh56gomAQqICHGvI0tRV0Ayueo=;
+        b=2QhO+nCG2R9DJ35T/ktV7a9XIv3Go5O/m17Y3mBM6Sccm/A6nkxCvPgho7elKTPEX1
+         Dn4SSyoNqd6yVcqEBRsbnKZPWsN6AxEOPkNW8sC0VpPaWqM5dhizYbUVY5cOQfi7Tsx/
+         2e93SqQ8ntsvLFeHhLU3mv1ooW8KTLLicHesE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784741036; x=1785345836;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9UKsAcC8Bdq9ju9uf2QuRjQzQlh9kbsEPHGV4jMItVw=;
-        b=q68Ma/FYCQJ1GHpMEb/PqXxEY7Mo4wcCboVCAVWZzz7HW+3hqTQaz5mX919fUDDpT5
-         XR/GQW3anR/oEdW5CjwraWMWoEtBLajSUBRWROdLqzMZQuNnEu/3F2mzuo1C176sGvTH
-         I6KOuDQjbGsPbZ0gf9dhaAb98SUjcLql9fBrdMUFVQk5MzMGdNpwVMrP6nN+SPUMHYnN
-         bNarjVLqGnePK+jk04E4Rz0KLOwWCuHnDc21IxavWqTpMvaEuxDhuC7qe7z25YgIraa1
-         75eYzimUPi8pxNdqAdrn7cf5EtmW1lxPGQbI5qaM1MW1Q3QYdJ23N771ngS2TqtstbW0
-         IDTA==
-X-Gm-Message-State: AOJu0YyPcwm/+Fn3fALMNRRG2SNt9Fh25Y6+gQ+WQkPsh6fTG9yZwwAR
-	qavvFiPpp7cMQkzn0burwj7nGrphHlkG4ylc1wrKYsQ1Q8w/tnvrqoKDP6JSmC47+Yq0owOOJVw
-	Y/MnUHDE=
-X-Gm-Gg: AR+sD10c3mBIXElbWxLYrUj2jeGvnzLpHLExe/oVYR+xjlshUkOmktU4EfvHovlmbd7
-	RK/19O1pxdcLbKdkraVPut4OfwRMxvZ/OaVnDPGH51/rA017JQStuzcJd3U7AEgFnhjHyt/Okgj
-	lXWA8TxMmy0rbK89WBz8sC67OIdZOChMfT1Rb1xPkTJHqDmTbZzfIE4hN+B6g1GEiGRKMSgaERn
-	+hLhaYdxY5nitndaLpOB8qEGOs4ilUcz5aExFjXBIpKgZbRaDu26zco/c3FIIma8Lvbl9WAG6dz
-	tQF30vf9HUe1dtDZwMMoZiXWADY/Op6KZmsbbz3pKiLi1166C63BJU1LJkSdirFCtA4awSS3hzh
-	WsGHAZvEPR2hqy1yfsP1rrAZST6kAXxHRJJpUq7gtiYaWKprej0XF8SYFpCDUXKpI8Id0t6AjTn
-	v5M9fdmJhlJrefjtmFj2g3C0uVhvOBtmXZ2r51FN8cDfdTpmpGrQ88W7XiJ6pNDrQMtQ37ha8a2
-	lZ8doSNef2c
-X-Received: by 2002:a05:600c:138c:b0:493:c845:bc20 with SMTP id 5b1f17b1804b1-4954a3d0080mr253309895e9.4.1784741035986;
-        Wed, 22 Jul 2026 10:23:55 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784741047; x=1785345847;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=virqmaFyh7gltWeL6kh56gomAQqICHGvI0tRV0Ayueo=;
+        b=DkkhrdxTbERWalz2+ohhl9RW7+Kl6vMX1RjMItETq0xdec0xviLikBNzWqs4wkEsW2
+         hkK9rZL8ymlTBEXewoW3jBB9OzRQyXtc/+WMJohiQgGc7E5tr50Ad6NY1id1pcp24ymN
+         e+knUpV5pGAZPlY2mT0jL22PxJPA6F0CeeIaVqso9ADROfxhZdPoI567NyTmSBP+gMTK
+         l4lE1MChIU5zNyw4zddpFc+4BwxGjygyWyYAEsfna7OtypNTIai8KgHvutKnLAwZ6F5D
+         VQTnT8GXUFia5O5iqRtglE0GzHNmBTuSVXg0QtCkI+ANca9BEhJB8jP0QS7h3mQ9grGU
+         kDBg==
+X-Gm-Message-State: AOJu0Yz95ncsSDFZxXk8XA2AfQn6qKxoHfaIdFkXB/oDE3f3m5KYT7TA
+	+WRJlqwWYczz6oUgIGNSUvSPD26uOatnuFQyaavFnqdnxR9zOwFw1zCV8miKqnyJNrfB/WoqBvd
+	fziSx/bA=
+X-Gm-Gg: AR+sD12ZpYumtJOcHNofiq0iyGrF6nps1sGKclZZiaiXjsZBb5CuChOLTBzrkPN03ok
+	q0VWzrpMJrVV6ULZBkzkxBQ65hzfZ7B33Ex6mqZU/j1Vu9yPka4pYanWfzXDKVH/TTcBtXDcTzW
+	TkX6/QJ2BZibOXiczsy8Z2lqs6PGAc38PL2T0JNwC71CMG1gtV5VQeV4v8pVU9xFpjf5NkoEYtH
+	QuQ1hddFDKyNQwLYjYuL2A1iPCRIHDg1jv28YKEUfaij6msmzXC4E+uO6SxhNsKTajBa7TsNs28
+	MpyTapGmn0GbNneG7CvmsuuCHElEl8/sklSVGDMza3E2WSRr9bVvEgUUeFxlAbHSY6CBSWPxvk2
+	J6Wm99vYhkn21mGm1TxZJiM75wXrPAfceSx5OrEV5okwyY9HA6zdeYY7h0VLBDLu6S/qbH28sdi
+	e3Z8ynrdDPtapN8UMjH/Zn/DPO3T9SX9rqxl/sxnP09cse+Enrr/V/VBJ+0hDg0Av6dItswJBpZ
+	jll8Upw86PG
+X-Received: by 2002:a05:600c:1549:b0:493:c601:3e23 with SMTP id 5b1f17b1804b1-4954a3d08c0mr266553915e9.5.1784741047422;
+        Wed, 22 Jul 2026 10:24:07 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.23.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c8760sm148275275e9.14.2026.07.22.10.24.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 10:23:55 -0700 (PDT)
+        Wed, 22 Jul 2026 10:24:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 00/27] Patch review
-Date: Wed, 22 Jul 2026 19:23:13 +0200
-Message-ID: <cover.1784740870.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 17/27] glib-2.0: upgrade 2.88.0 -> 2.88.2
+Date: Wed, 22 Jul 2026 19:23:30 +0200
+Message-ID: <145aa7ee15e5eb73a6e6f12ac721305142b16848.1784740870.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1784740870.git.yoann.congal@smile.fr>
+References: <cover.1784740870.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241710
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 17:24:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241727
 
-Please review this set of changes for wrynose and have comments back by
-end of day Friday, July 24.
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4255
-3 builds failed because of low disk space on ubuntu2504-vk-1.
-Retried in:
-* https://autobuilder.yoctoproject.org/valkyrie/?#/builders/2/builds/4188
-* https://autobuilder.yoctoproject.org/valkyrie/?#/builders/58/builds/1912
-* https://autobuilder.yoctoproject.org/valkyrie/?#/builders/92/builds/4158
+Refresh patches via devtool.
+Release notes: [1] and [2].
 
-The following changes since commit b5a6cada82d7ffb362bda9081c354dcc0b6ee264:
+2.88.1: Fix various minor (low severity) security issues
+        CVE-2026-58010, CVE-2026-58011, CVE-2026-58012, CVE-2026-58013,
+        CVE-2026-58014 and CVE-2026-58015
 
-  openssh: set status for CVE-2026-3497 (2026-07-20 17:24:44 +0200)
+[1] https://gitlab.gnome.org/GNOME/glib/-/releases/2.88.1
+[2] https://gitlab.gnome.org/GNOME/glib/-/releases/2.88.2
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-nut
-
-for you to fetch changes up to 0dfe86a27167689ded394d72ebb5e22157fb9184:
-
-  gzip: Fix CVE-2026-41991 (2026-07-21 17:06:45 +0200)
-
-----------------------------------------------------------------
-
-Darsh Kelaiya (1):
-  gzip: Fix CVE-2026-41991
-
-David Nyström (1):
-  libssh2: Fix CVE-2025-15661
-
-Deepak Rathore (17):
-  expat: fix CVE-2026-56403
-  expat: fix CVE-2026-56408
-  expat: fix CVE-2026-56404
-  expat: fix CVE-2026-56405
-  expat: fix CVE-2026-56410
-  expat: fix CVE-2026-56406
-  expat: fix CVE-2026-56409
-  expat: fix CVE-2026-56411
-  expat: fix CVE-2026-56407
-  expat: fix CVE-2026-56132
-  gnutls: Fix CVE-2026-3832
-  gnutls: Fix CVE-2026-42009
-  curl: ignore CVE-2026-4873
-  curl: fix CVE-2026-5545
-  curl: fix CVE-2026-6253
-  curl: fix CVE-2026-6429
-  libpng: fix CVE-2026-34757
-
-Devansh Patel (7):
-  openssh: Fix CVE-2026-59999
-  openssh: Fix CVE-2026-59997
-  openssh: Fix CVE-2026-59996
-  openssh: Fix CVE-2026-59995
-  openssh: Fix CVE-2026-60001
-  openssh: Fix CVE-2026-60002
-  openssh: Fix CVE-2026-60000
-
-Peter Marko (1):
-  glib-2.0: upgrade 2.88.0 -> 2.88.2
-
- .../openssh/openssh/CVE-2026-59995.patch      |  44 ++
- .../openssh/openssh/CVE-2026-59996.patch      |  39 ++
- .../openssh/openssh/CVE-2026-59997.patch      |  60 ++
- .../openssh/openssh/CVE-2026-59999.patch      |  38 ++
- .../openssh/openssh/CVE-2026-60000.patch      | 140 +++++
- .../openssh/openssh/CVE-2026-60001.patch      | 130 +++++
- .../openssh/openssh/CVE-2026-60002.patch      | 225 ++++++++
- .../openssh/openssh_10.3p1.bb                 |   7 +
- .../expat/expat/CVE-2026-56132_p1.patch       |  90 +++
- .../expat/expat/CVE-2026-56132_p2.patch       |  63 +++
- .../expat/expat/CVE-2026-56132_p3.patch       |  77 +++
- .../expat/expat/CVE-2026-56132_p4.patch       |  63 +++
- .../expat/expat/CVE-2026-56132_p5.patch       |  58 ++
- .../expat/expat/CVE-2026-56403_p1.patch       |  83 +++
- .../expat/expat/CVE-2026-56403_p2.patch       |  40 ++
- .../expat/expat/CVE-2026-56404.patch          |  47 ++
- .../expat/expat/CVE-2026-56405.patch          |  32 ++
- .../expat/CVE-2026-56406-dependent.patch      |  58 ++
- .../expat/expat/CVE-2026-56406.patch          |  37 ++
- .../expat/expat/CVE-2026-56407.patch          |  44 ++
- .../expat/expat/CVE-2026-56408.patch          |  36 ++
- .../expat/expat/CVE-2026-56409.patch          |  53 ++
- .../expat/expat/CVE-2026-56410_p1.patch       |  40 ++
- .../expat/expat/CVE-2026-56410_p2.patch       |  41 ++
- .../expat/expat/CVE-2026-56411.patch          |  47 ++
- meta/recipes-core/expat/expat_2.7.5.bb        |  17 +
- .../glib-2.0/files/CVE-2026-58016-1.patch     |  12 +-
- .../glib-2.0/files/CVE-2026-58016-2.patch     |  30 +-
- ...l_2.88.0.bb => glib-2.0-initial_2.88.2.bb} |   0
- ...{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} |   0
- meta/recipes-core/glib-2.0/glib.inc           |   2 +-
- .../gzip/gzip-1.14/CVE-2026-41991.patch       |  75 +++
- meta/recipes-extended/gzip/gzip_1.14.bb       |   1 +
- .../libpng/files/CVE-2026-34757_p1.patch      | 518 ++++++++++++++++++
- .../libpng/files/CVE-2026-34757_p2.patch      | 481 ++++++++++++++++
- .../libpng/libpng_1.6.56.bb                   |   4 +-
- .../curl/curl/CVE-2026-5545.patch             |  43 ++
- .../curl/curl/CVE-2026-6253.patch             | 389 +++++++++++++
- .../curl/curl/CVE-2026-6429-dependent.patch   |  81 +++
- .../curl/curl/CVE-2026-6429.patch             | 325 +++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   5 +
- .../gnutls/gnutls/CVE-2026-3832_p1.patch      |  52 ++
- .../gnutls/gnutls/CVE-2026-3832_p2.patch      | 114 ++++
- .../gnutls/gnutls/CVE-2026-42009_p1.patch     |  62 +++
- .../gnutls/gnutls/CVE-2026-42009_p2.patch     |  48 ++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   4 +
- .../libssh2/libssh2/CVE-2025-15661-1.patch    |  45 ++
- .../libssh2/libssh2/CVE-2025-15661-2.patch    | 131 +++++
- .../libssh2/libssh2/CVE-2025-15661-3.patch    |  57 ++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |   3 +
- 50 files changed, 4068 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59995.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59996.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59997.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59999.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56404.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56405.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56407.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56408.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56409.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56411.patch
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../glib-2.0/files/CVE-2026-58016-1.patch     | 12 ++++----
+ .../glib-2.0/files/CVE-2026-58016-2.patch     | 30 +++++++++----------
+ ...l_2.88.0.bb => glib-2.0-initial_2.88.2.bb} |  0
+ ...{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} |  0
+ meta/recipes-core/glib-2.0/glib.inc           |  2 +-
+ 5 files changed, 22 insertions(+), 22 deletions(-)
  rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.88.0.bb => glib-2.0-initial_2.88.2.bb} (100%)
  rename meta/recipes-core/glib-2.0/{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} (100%)
- create mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5545.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6253.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-1.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-2.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-3.patch
 
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
+index 2c4b248b97b..9beafd106d1 100644
+--- a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
++++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
+@@ -30,7 +30,7 @@ diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
+ index c7be334ce2f7..6f722ee6153d 100644
+ --- a/gio/gdbusintrospection.c
+ +++ b/gio/gdbusintrospection.c
+-@@ -1272,7 +1272,7 @@ parser_start_element (GMarkupParseContext  *context,
++@@ -1258,7 +1258,7 @@ parser_start_element (GMarkupParseContext  *context,
+    /* ---------------------------------------------------------------------------------------------------- */
+    if (strcmp (element_name, "node") == 0)
+      {
+@@ -43,10 +43,10 @@ diff --git a/gio/tests/gdbus-introspection.c b/gio/tests/gdbus-introspection.c
+ index 44cb7a96af45..daca313f77e7 100644
+ --- a/gio/tests/gdbus-introspection.c
+ +++ b/gio/tests/gdbus-introspection.c
+-@@ -299,6 +299,38 @@ test_extra_data (void)
++@@ -300,6 +300,38 @@ test_extra_data (void)
+    g_dbus_node_info_unref (info);
+  }
+-
++ 
+ +static void
+ +test_invalid (void)
+ +{
+@@ -80,14 +80,14 @@ index 44cb7a96af45..daca313f77e7 100644
+ +}
+ +
+  /* ---------------------------------------------------------------------------------------------------- */
+-
++ 
+  int
+-@@ -316,6 +348,7 @@ main (int   argc,
++@@ -317,6 +349,7 @@ main (int   argc,
+    g_test_add_func ("/gdbus/introspection-generate", test_generate);
+    g_test_add_func ("/gdbus/introspection-default-direction", test_default_direction);
+    g_test_add_func ("/gdbus/introspection-extra-data", test_extra_data);
+ +  g_test_add_func ("/gdbus/introspection/invalid", test_invalid);
+-
++ 
+    ret = session_bus_run ();
+ 
+ --
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
+index a61e35ad8a7..a07aa529ae8 100644
+--- a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
++++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
+@@ -30,63 +30,63 @@ diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
+ index 6f722ee6153d..ed0d291f99f0 100644
+ --- a/gio/gdbusintrospection.c
+ +++ b/gio/gdbusintrospection.c
+-@@ -1110,6 +1110,7 @@ parse_data_get_annotation (ParseData *data,
++@@ -1096,6 +1096,7 @@ parse_data_get_annotation (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->annotations, g_new0 (GDBusAnnotationInfo, 1));
+ +  g_assert (data->annotations->len > 0);
+    return data->annotations->pdata[data->annotations->len - 1];
+  }
+-
+-@@ -1119,6 +1120,7 @@ parse_data_get_arg (ParseData *data,
++ 
++@@ -1105,6 +1106,7 @@ parse_data_get_arg (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->args, g_new0 (GDBusArgInfo, 1));
+ +  g_assert (data->args->len > 0);
+    return data->args->pdata[data->args->len - 1];
+  }
+-
+-@@ -1128,6 +1130,7 @@ parse_data_get_out_arg (ParseData *data,
++ 
++@@ -1114,6 +1116,7 @@ parse_data_get_out_arg (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->out_args, g_new0 (GDBusArgInfo, 1));
+ +  g_assert (data->out_args->len > 0);
+    return data->out_args->pdata[data->out_args->len - 1];
+  }
+-
+-@@ -1137,6 +1140,7 @@ parse_data_get_method (ParseData *data,
++ 
++@@ -1123,6 +1126,7 @@ parse_data_get_method (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->methods, g_new0 (GDBusMethodInfo, 1));
+ +  g_assert (data->methods->len > 0);
+    return data->methods->pdata[data->methods->len - 1];
+  }
+-
+-@@ -1146,6 +1150,7 @@ parse_data_get_signal (ParseData *data,
++ 
++@@ -1132,6 +1136,7 @@ parse_data_get_signal (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->signals, g_new0 (GDBusSignalInfo, 1));
+ +  g_assert (data->signals->len > 0);
+    return data->signals->pdata[data->signals->len - 1];
+  }
+-
+-@@ -1155,6 +1160,7 @@ parse_data_get_property (ParseData *data,
++ 
++@@ -1141,6 +1146,7 @@ parse_data_get_property (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->properties, g_new0 (GDBusPropertyInfo, 1));
+ +  g_assert (data->properties->len > 0);
+    return data->properties->pdata[data->properties->len - 1];
+  }
+-
+-@@ -1164,6 +1170,7 @@ parse_data_get_interface (ParseData *data,
++ 
++@@ -1150,6 +1156,7 @@ parse_data_get_interface (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->interfaces, g_new0 (GDBusInterfaceInfo, 1));
+ +  g_assert (data->interfaces->len > 0);
+    return data->interfaces->pdata[data->interfaces->len - 1];
+  }
+-
+-@@ -1173,6 +1180,7 @@ parse_data_get_node (ParseData *data,
++ 
++@@ -1159,6 +1166,7 @@ parse_data_get_node (ParseData *data,
+  {
+    if (create_new)
+      g_ptr_array_add (data->nodes, g_new0 (GDBusNodeInfo, 1));
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.0.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.2.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.2.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.88.2.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.88.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.88.2.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index fb35f84eec5..d49ae131685 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -240,7 +240,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
+ 
+-SRC_URI[archive.sha256sum] = "3546251ccbb3744d4bc4eb48354540e1f6200846572bab68e3a2b7b2b64dfd07"
++SRC_URI[archive.sha256sum] = "cf3f215a640c8a4257f14317586b8f1fdd25a10a93cb4bdda147c0f9ad88e74f"
+ 
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 
