@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7EAC44524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 854A2C4453C
 	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 05:21:27 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17329.1784784079449446822
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17386.1784784082494626673
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 22:21:19 -0700
+ Wed, 22 Jul 2026 22:21:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QxWockRr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=S/kUruxt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019f8d6bc5fc-3b1ade11-14e9-4081-b5d9-726c2abf5627-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gTaj/EfD;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=D/MN9JhT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f8d6bd22d-f74b1205-81dd-4cb1-ad8d-edcd6b2ffd49-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784784078;
+	t=1784784081;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hRRt/pg2r2tZQIrUQUEbMKVkK+3p0T7e++nwakk9u1U=;
-	b=QxWockRrJM9JM0iGnfRRnFQ0rfoQu7mzpSyYRB3e0ItFzeG/eZngYNZ8qaSJeJFD
-	20nS6gUcjqQrk8T2Hyi515kUZcRzHd/vQBQVweQzv8GmaTg0LoL1VBdQxsIueTqXJnW
-	5s6hxLszNJBLBrCwk0/hctM30v6S+mHsWvmW5wkA=
+	bh=7sLqhFvMLgLL3AuEi0okQQh5ExiOVT8EWoU6++gETaQ=;
+	b=gTaj/EfDezxi7np/s07HYfBB8bf4rs3kDxKLdNxC7CmCgCSxxSt4Dggfcf6/lqnm
+	2jWbx+i74VKkPko25T5kb58Ym18Br4WeGO4qv4m2TPfmeRF6DJWxUrc5VsTeB1aaZ/K
+	uP+4Eoa/yqIUN9waG+goeWeRNv+ciafGvuws5/+k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784784078;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784784081;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hRRt/pg2r2tZQIrUQUEbMKVkK+3p0T7e++nwakk9u1U=;
-	b=S/kUruxtkvH3sfapcPWLjg3a+wAJvswNwbUUJhFcTGP6uAUawVNzJkY6c3u/h0Nj
-	dSA4ArZcuut6VMJAQVgoRd8G++uRxm6oAFbHNOjMrMGHVzxItbQteyQF3sH1IKhcyQv
-	Sh+0KFTeuGWJCZwkuix6zC5lRY0eLvyRgA15jwjE=
-Content-Type: multipart/mixed; boundary="===============4552735644483298537=="
+	bh=7sLqhFvMLgLL3AuEi0okQQh5ExiOVT8EWoU6++gETaQ=;
+	b=D/MN9JhTfF0yZgTnOerNUlGDkJXQxilGPVF0OxC2Gzp69mzzQ75oixdbjKAh9ir/
+	30SNUSF1Q9WhSn0oKe7kmGQGY+mbX4ne7oVXl9mYcC2TpYd8LXN/QJV2WIDUh8hXPsz
+	dHHPHY5O6bGm3/rdIxR4c856i3pKua1xvFaHhyVo=
+Content-Type: multipart/mixed; boundary="===============1427028781139910886=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ttyrun: upgrading to 2.43.1 SUCCEEDED
-Message-ID: <0101019f8d6bc5fc-3b1ade11-14e9-4081-b5d9-726c2abf5627-000000@us-west-2.amazonses.com>
-Date: Thu, 23 Jul 2026 05:21:18 +0000
+Subject: [AUH] appstream: upgrading to 1.1.4 FAILED
+Message-ID: <0101019f8d6bd22d-f74b1205-81dd-4cb1-ad8d-edcd6b2ffd49-000000@us-west-2.amazonses.com>
+Date: Thu, 23 Jul 2026 05:21:21 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.23-54.240.27.23
+X-SES-Outgoing: 2026.07.23-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 05:21:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241766
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241770
 
---===============4552735644483298537==
+--===============1427028781139910886==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.43.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *appstream* to *1.1.4* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-ttyrun-upgrade-2.43.0-2.43.1.patch
+    - apply the patch: git am 0001-appstream-upgrade-1.1.3-1.1.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,187 +78,501 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e79323e956857f5c7fe3e054b7a43ffc7cbaa699 Mon Sep 17 00:00:00 2001
+From 685930cb146da6b87af0c5fd15c2036d45345adf Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 23 Jul 2026 05:14:52 +0000
-Subject: [PATCH] ttyrun: upgrade 2.43.0 -> 2.43.1
+Date: Thu, 23 Jul 2026 05:19:41 +0000
+Subject: [PATCH] appstream: upgrade 1.1.3 -> 1.1.4
 
-Source: CHANGELOG.md
+Source: NEWS
 
-* __v2.43.1 (2026-07-22)__
+Version 1.1.4
+~~~~~~~~~~~~~
+Released: 2026-07-22
 
-  For Linux kernel version: 7.1
+Features:
+ * sysinfo: Assume a more modern display for the handset chassis template
+ * sysinfo: Assume a more modern display for the tablet chassis template
+ * sysinfo: Initial code to autodetect the display size on Wayland
+ * sysinfo: Handle fractional display scaling via xdg-output
+ * Implement support for GCVE as vulnerability database provider
+ * qt: Sync enum mirrors with the C library
+ * qt: Add Artifact, Checksum, Reference, Review and Agreement wrappers
+ * qt: Wrap missing C API on existing classes
+ * reviews: Add simple interface to fetch ODRS reviews for a component
+ * reviews: Implement support for submitting reviews
 
-  Changes of existing tools:
-  - dasdfmt: Check disk type before prompting for blocksize
-  - iucvterm/ts-shell: Introduce config parameter to specify iucvconn binary
-  - iucvterm/ts-shell: Introduce pager config to replace env variable
-  - pv: Add root CA organization pinning to certificate verification
-  - zdump/ngdump: Use OpenSSL's SHA256 to compute digest of dump image
+Specification:
+ * docs: Suggest using the longest display side for maximum size constraints
 
-  Bug Fixes:
-  - 95sel-ebc: Add udev-settle dependency
-  - 95sel-ebc: Add umount to boot service
-  - 95sel-ebc: Harden boot mount service
-  - fdasd: Fix memory leak in yes_no() function
-  - iucvterm/iucvtty: Ensure PTY and server fd's are closed at exec
-  - iucvterm/iucvtty: Prevent connection stalls when receiving TERM env
-  - iucvterm/iucvtty: Validate TERM environment name
-  - libkmipclient: Protect from symlink-following attacks
-  - libkmipclient: Various bugfixes
-  - libseckey: Protect from symlink-following attacks
-  - libseckey: Various bugfixes
-  - mon_procd: Fix possible static buffer overflow
-  - osasnmpd: Fix SNMP non-compliance
-  - zdev: Harden against invalid udev, import, firmware, or hypervisor data
-  - zipl-editenv: Check in-bootmap environment block validity
-  - zipl/boot: Check in-bootmap environment block syntax
-  - zipl: Check keyword duplications in BLS entries
-  - zipl: Fix bugs in mirror support
-  - zkey: Protect from symlink-following attacks
+Bugfixes:
+ * Make GResources we need outlive main thread destruction
+ * pool: Properly implement cancellation of load operations
+ * sysinfo: Fix display-length setter overriding the shortest edge
+ * relation-check: Don't zero the score if a required check errored
+ * curl: Harden downloader by restricting protocols to only HTTP(S)
+ * curl: Allow making POST requests and changing the user agent
+ * curl: Fix retry-loop data corruption and don't blindly retry POST requests
+ * yaml: Fix potential crashes when encountering missing relation entry values
+ * yaml: Adjust tests and emitter to work around libfyaml string-quoting change
+ * yaml: Ensure version relations are consistently quoted
+ * qt: Fix buffer overrun in stringListToCharArray
+
+Miscellaneous:
+ * ci: freebsd: Switch from Cirrus to GitHub Actions
+ * ci: Update Ubuntu LTS to 26.04
+
+Contributors:
+ Gleb Popov, Matthias Klumpp
 ---
- meta/recipes-core/ttyrun/{ttyrun_2.43.0.bb => ttyrun_2.43.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ttyrun/{ttyrun_2.43.0.bb => ttyrun_2.43.1.bb} (94%)
+ .../appstream/appstream/0001-remove-hardcoded-path.patch    | 6 +++---
+ .../appstream/appstream/0002-Do-not-build-qt-tests.patch    | 6 +++---
+ ...x-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch | 2 +-
+ .../appstream/{appstream_1.1.3.bb => appstream_1.1.4.bb}    | 2 +-
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-support/appstream/{appstream_1.1.3.bb => appstream_1.1.4.bb} (94%)
 
-diff --git a/meta/recipes-core/ttyrun/ttyrun_2.43.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.43.1.bb
+diff --git a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+index 56a5479099..8fc96a8b06 100644
+--- a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
++++ b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+@@ -1,4 +1,4 @@
+-From bf79c20cfee4a074ca752a1466dc96d0b9eb6175 Mon Sep 17 00:00:00 2001
++From e7f4f91c1c537f40959de5afe3c23bf6b45c09d1 Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Mon, 12 Dec 2022 15:42:42 +0100
+ Subject: [PATCH] remove hardcoded path
+@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate [oe-specific]
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 9af5f58..ad1483d 100644
++index 0932c29..3c122eb 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -194,10 +194,10 @@ endif
++@@ -206,10 +206,10 @@ endif
+  stemmer_inc_dirs = include_directories()
+  if get_option('stemming')
+      stemmer_lib = cc.find_library('stemmer', required: true)
+diff --git a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
+index 3e666181eb..1192ab5403 100644
+--- a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
++++ b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
+@@ -1,4 +1,4 @@
+-From 1a1619dce3c3fa54fa5f47f7ed89447e0805de43 Mon Sep 17 00:00:00 2001
++From be7a09ac5bc1af916eb08cec974edc3cc14a7261 Mon Sep 17 00:00:00 2001
+ From: Marc Ferland <marc.ferland@sonatest.com>
+ Date: Fri, 26 Jul 2024 15:41:00 -0400
+ Subject: [PATCH] Do not build qt/tests
+@@ -23,10 +23,10 @@ Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/qt/meson.build b/qt/meson.build
+-index 407a57a..840c838 100644
++index 488fe60..83c2715 100644
+ --- a/qt/meson.build
+ +++ b/qt/meson.build
+-@@ -130,5 +130,3 @@ install_data (
++@@ -144,5 +144,3 @@ install_data (
+      join_paths(meson.current_build_dir(), 'AppStreamQtConfigVersion.cmake'),
+      install_dir: join_paths(get_option('libdir'), 'cmake', 'AppStreamQt')
+  )
+diff --git a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch b/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
+index 8ba4de95c9..3c4fdbcc6e 100644
+--- a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
++++ b/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
+@@ -1,4 +1,4 @@
+-From 4fdd29346b51eea577ee46c7166348dad19bbcb0 Mon Sep 17 00:00:00 2001
++From ef98a19ad308cc37682dc17784fd94af83da6f32 Mon Sep 17 00:00:00 2001
+ From: Marc Ferland <marc.ferland@sonatest.com>
+ Date: Mon, 29 Jul 2024 09:35:51 -0400
+ Subject: [PATCH] Fix PACKAGE_PREFIX_DIR in qt/cmake/AppStreamQtConfig.cmake.in
+diff --git a/meta/recipes-support/appstream/appstream_1.1.3.bb b/meta/recipes-support/appstream/appstream_1.1.4.bb
 similarity index 94%
-rename from meta/recipes-core/ttyrun/ttyrun_2.43.0.bb
-rename to meta/recipes-core/ttyrun/ttyrun_2.43.1.bb
-index 74204013c2..e259583907 100644
---- a/meta/recipes-core/ttyrun/ttyrun_2.43.0.bb
-+++ b/meta/recipes-core/ttyrun/ttyrun_2.43.1.bb
-@@ -7,7 +7,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
+rename from meta/recipes-support/appstream/appstream_1.1.3.bb
+rename to meta/recipes-support/appstream/appstream_1.1.4.bb
+index 06e4f7940a..d5d07bc1e8 100644
+--- a/meta/recipes-support/appstream/appstream_1.1.3.bb
++++ b/meta/recipes-support/appstream/appstream_1.1.4.bb
+@@ -24,7 +24,7 @@ SRC_URI = " \
+ 	file://0002-Do-not-build-qt-tests.patch \
+ 	file://0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch \
+ "
+-SRC_URI[sha256sum] = "2624f967068427edc94f3979edae3571bb077063f5bc231f737776da527bf467"
++SRC_URI[sha256sum] = "42ee663ef1ef3defc94cafc842be8c427e7a6ee660c9ca08fabdd0262d38fb9c"
  
- SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v${PV}"
--SRCREV = "f85c8ebba0b482e677de1f2c4d8b67b588fe654d"
-+SRCREV = "2a6657dfd15bfa05c43bc956292b27cf4a3b39d3"
- 
- CVE_PRODUCT = "s390-tools"
+ S = "${UNPACKDIR}/AppStream-${PV}"
  
 -- 
 2.47.1
 
 
---===============4552735644483298537==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/ttyrun: SRC_URI changed from "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.43.0" to "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun: PV changed from "2.43.0" to "2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.43.0" to "2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.43.0" to "2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.43.0" to "2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.43.0" to "2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: FILELIST: directory renamed /usr/src/debug/ttyrun/2.43.0/iucvterm/src -> /usr/src/debug/ttyrun/2.43.1/iucvterm/src
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PV changed from "2.43.0" to "2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.43.0" to "2.43.1"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PKGV changed from 2.43.0 [default] to 2.43.1 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PV changed from "2.43.0" to "2.43.1"
-
---===============4552735644483298537==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="ttyrun-changelog.txt"
-
-Changelog for ttyrun: 2.43.0 -> 2.43.1
-Source: CHANGELOG.md
-
-* __v2.43.1 (2026-07-22)__
-
-  For Linux kernel version: 7.1
-
-  Changes of existing tools:
-  - dasdfmt: Check disk type before prompting for blocksize
-  - iucvterm/ts-shell: Introduce config parameter to specify iucvconn binary
-  - iucvterm/ts-shell: Introduce pager config to replace env variable
-  - pv: Add root CA organization pinning to certificate verification
-  - zdump/ngdump: Use OpenSSL's SHA256 to compute digest of dump image
-
-  Bug Fixes:
-  - 95sel-ebc: Add udev-settle dependency
-  - 95sel-ebc: Add umount to boot service
-  - 95sel-ebc: Harden boot mount service
-  - fdasd: Fix memory leak in yes_no() function
-  - iucvterm/iucvtty: Ensure PTY and server fd's are closed at exec
-  - iucvterm/iucvtty: Prevent connection stalls when receiving TERM env
-  - iucvterm/iucvtty: Validate TERM environment name
-  - libkmipclient: Protect from symlink-following attacks
-  - libkmipclient: Various bugfixes
-  - libseckey: Protect from symlink-following attacks
-  - libseckey: Various bugfixes
-  - mon_procd: Fix possible static buffer overflow
-  - osasnmpd: Fix SNMP non-compliance
-  - zdev: Harden against invalid udev, import, firmware, or hypervisor data
-  - zipl-editenv: Check in-bootmap environment block validity
-  - zipl/boot: Check in-bootmap environment block syntax
-  - zipl: Check keyword duplications in BLS entries
-  - zipl: Fix bugs in mirror support
-  - zkey: Protect from symlink-following attacks
-
---===============4552735644483298537==
+--===============1427028781139910886==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ttyrun-upgrade-2.43.0-2.43.1.patch"
+ filename="0001-appstream-upgrade-1.1.3-1.1.4.patch"
 
-RnJvbSBlNzkzMjNlOTU2ODU3ZjVjN2ZlM2UwNTRiN2E0M2ZmYzdjYmFhNjk5IE1vbiBTZXAgMTcg
+RnJvbSA2ODU5MzBjYjE0NmRhNmI4N2FmMGM1ZmQxNWMyMDM2ZDQ1MzQ1YWRmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMjMgSnVsIDIwMjYgMDU6MTQ6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-dHlydW46IHVwZ3JhZGUgMi40My4wIC0+IDIuNDMuMQoKU291cmNlOiBDSEFOR0VMT0cubWQKCiog
-X192Mi40My4xICgyMDI2LTA3LTIyKV9fCgogIEZvciBMaW51eCBrZXJuZWwgdmVyc2lvbjogNy4x
-CgogIENoYW5nZXMgb2YgZXhpc3RpbmcgdG9vbHM6CiAgLSBkYXNkZm10OiBDaGVjayBkaXNrIHR5
-cGUgYmVmb3JlIHByb21wdGluZyBmb3IgYmxvY2tzaXplCiAgLSBpdWN2dGVybS90cy1zaGVsbDog
-SW50cm9kdWNlIGNvbmZpZyBwYXJhbWV0ZXIgdG8gc3BlY2lmeSBpdWN2Y29ubiBiaW5hcnkKICAt
-IGl1Y3Z0ZXJtL3RzLXNoZWxsOiBJbnRyb2R1Y2UgcGFnZXIgY29uZmlnIHRvIHJlcGxhY2UgZW52
-IHZhcmlhYmxlCiAgLSBwdjogQWRkIHJvb3QgQ0Egb3JnYW5pemF0aW9uIHBpbm5pbmcgdG8gY2Vy
-dGlmaWNhdGUgdmVyaWZpY2F0aW9uCiAgLSB6ZHVtcC9uZ2R1bXA6IFVzZSBPcGVuU1NMJ3MgU0hB
-MjU2IHRvIGNvbXB1dGUgZGlnZXN0IG9mIGR1bXAgaW1hZ2UKCiAgQnVnIEZpeGVzOgogIC0gOTVz
-ZWwtZWJjOiBBZGQgdWRldi1zZXR0bGUgZGVwZW5kZW5jeQogIC0gOTVzZWwtZWJjOiBBZGQgdW1v
-dW50IHRvIGJvb3Qgc2VydmljZQogIC0gOTVzZWwtZWJjOiBIYXJkZW4gYm9vdCBtb3VudCBzZXJ2
-aWNlCiAgLSBmZGFzZDogRml4IG1lbW9yeSBsZWFrIGluIHllc19ubygpIGZ1bmN0aW9uCiAgLSBp
-dWN2dGVybS9pdWN2dHR5OiBFbnN1cmUgUFRZIGFuZCBzZXJ2ZXIgZmQncyBhcmUgY2xvc2VkIGF0
-IGV4ZWMKICAtIGl1Y3Z0ZXJtL2l1Y3Z0dHk6IFByZXZlbnQgY29ubmVjdGlvbiBzdGFsbHMgd2hl
-biByZWNlaXZpbmcgVEVSTSBlbnYKICAtIGl1Y3Z0ZXJtL2l1Y3Z0dHk6IFZhbGlkYXRlIFRFUk0g
-ZW52aXJvbm1lbnQgbmFtZQogIC0gbGlia21pcGNsaWVudDogUHJvdGVjdCBmcm9tIHN5bWxpbmst
-Zm9sbG93aW5nIGF0dGFja3MKICAtIGxpYmttaXBjbGllbnQ6IFZhcmlvdXMgYnVnZml4ZXMKICAt
-IGxpYnNlY2tleTogUHJvdGVjdCBmcm9tIHN5bWxpbmstZm9sbG93aW5nIGF0dGFja3MKICAtIGxp
-YnNlY2tleTogVmFyaW91cyBidWdmaXhlcwogIC0gbW9uX3Byb2NkOiBGaXggcG9zc2libGUgc3Rh
-dGljIGJ1ZmZlciBvdmVyZmxvdwogIC0gb3Nhc25tcGQ6IEZpeCBTTk1QIG5vbi1jb21wbGlhbmNl
-CiAgLSB6ZGV2OiBIYXJkZW4gYWdhaW5zdCBpbnZhbGlkIHVkZXYsIGltcG9ydCwgZmlybXdhcmUs
-IG9yIGh5cGVydmlzb3IgZGF0YQogIC0gemlwbC1lZGl0ZW52OiBDaGVjayBpbi1ib290bWFwIGVu
-dmlyb25tZW50IGJsb2NrIHZhbGlkaXR5CiAgLSB6aXBsL2Jvb3Q6IENoZWNrIGluLWJvb3RtYXAg
-ZW52aXJvbm1lbnQgYmxvY2sgc3ludGF4CiAgLSB6aXBsOiBDaGVjayBrZXl3b3JkIGR1cGxpY2F0
-aW9ucyBpbiBCTFMgZW50cmllcwogIC0gemlwbDogRml4IGJ1Z3MgaW4gbWlycm9yIHN1cHBvcnQK
-ICAtIHprZXk6IFByb3RlY3QgZnJvbSBzeW1saW5rLWZvbGxvd2luZyBhdHRhY2tzCi0tLQogbWV0
-YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3t0dHlydW5fMi40My4wLmJiID0+IHR0eXJ1bl8yLjQzLjEu
-YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3t0dHlydW5fMi40My4wLmJiID0+IHR0
-eXJ1bl8yLjQzLjEuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdHR5
-cnVuL3R0eXJ1bl8yLjQzLjAuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIu
-NDMuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29y
-ZS90dHlydW4vdHR5cnVuXzIuNDMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvdHR5
-cnVuL3R0eXJ1bl8yLjQzLjEuYmIKaW5kZXggNzQyMDQwMTNjMi4uZTI1OTU4MzkwNyAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8yLjQzLjAuYmIKKysrIGIvbWV0
-YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8yLjQzLjEuYmIKQEAgLTcsNyArNyw3IEBAIExJ
-Q0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZjUx
-MThmMTY3YjA1NWJmZDdjMzQ1MDgwM2YxODQ3YWYiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHVi
-LmNvbS9pYm0tczM5MC1saW51eC9zMzkwLXRvb2xzO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0
-ZXI7dGFnPXYke1BWfSIKLVNSQ1JFViA9ICJmODVjOGViYmEwYjQ4MmU2NzdkZTFmMmM0ZDhiNjdi
-NTg4ZmU2NTRkIgorU1JDUkVWID0gIjJhNjY1N2RmZDE1YmZhMDVjNDNiYzk1NjI5MmIyN2NmNGEz
-YjM5ZDMiCiAKIENWRV9QUk9EVUNUID0gInMzOTAtdG9vbHMiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFRodSwgMjMgSnVsIDIwMjYgMDU6MTk6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+cHBzdHJlYW06IHVwZ3JhZGUgMS4xLjMgLT4gMS4xLjQKClNvdXJjZTogTkVXUwoKVmVyc2lvbiAx
+LjEuNAp+fn5+fn5+fn5+fn5+ClJlbGVhc2VkOiAyMDI2LTA3LTIyCgpGZWF0dXJlczoKICogc3lz
+aW5mbzogQXNzdW1lIGEgbW9yZSBtb2Rlcm4gZGlzcGxheSBmb3IgdGhlIGhhbmRzZXQgY2hhc3Np
+cyB0ZW1wbGF0ZQogKiBzeXNpbmZvOiBBc3N1bWUgYSBtb3JlIG1vZGVybiBkaXNwbGF5IGZvciB0
+aGUgdGFibGV0IGNoYXNzaXMgdGVtcGxhdGUKICogc3lzaW5mbzogSW5pdGlhbCBjb2RlIHRvIGF1
+dG9kZXRlY3QgdGhlIGRpc3BsYXkgc2l6ZSBvbiBXYXlsYW5kCiAqIHN5c2luZm86IEhhbmRsZSBm
+cmFjdGlvbmFsIGRpc3BsYXkgc2NhbGluZyB2aWEgeGRnLW91dHB1dAogKiBJbXBsZW1lbnQgc3Vw
+cG9ydCBmb3IgR0NWRSBhcyB2dWxuZXJhYmlsaXR5IGRhdGFiYXNlIHByb3ZpZGVyCiAqIHF0OiBT
+eW5jIGVudW0gbWlycm9ycyB3aXRoIHRoZSBDIGxpYnJhcnkKICogcXQ6IEFkZCBBcnRpZmFjdCwg
+Q2hlY2tzdW0sIFJlZmVyZW5jZSwgUmV2aWV3IGFuZCBBZ3JlZW1lbnQgd3JhcHBlcnMKICogcXQ6
+IFdyYXAgbWlzc2luZyBDIEFQSSBvbiBleGlzdGluZyBjbGFzc2VzCiAqIHJldmlld3M6IEFkZCBz
+aW1wbGUgaW50ZXJmYWNlIHRvIGZldGNoIE9EUlMgcmV2aWV3cyBmb3IgYSBjb21wb25lbnQKICog
+cmV2aWV3czogSW1wbGVtZW50IHN1cHBvcnQgZm9yIHN1Ym1pdHRpbmcgcmV2aWV3cwoKU3BlY2lm
+aWNhdGlvbjoKICogZG9jczogU3VnZ2VzdCB1c2luZyB0aGUgbG9uZ2VzdCBkaXNwbGF5IHNpZGUg
+Zm9yIG1heGltdW0gc2l6ZSBjb25zdHJhaW50cwoKQnVnZml4ZXM6CiAqIE1ha2UgR1Jlc291cmNl
+cyB3ZSBuZWVkIG91dGxpdmUgbWFpbiB0aHJlYWQgZGVzdHJ1Y3Rpb24KICogcG9vbDogUHJvcGVy
+bHkgaW1wbGVtZW50IGNhbmNlbGxhdGlvbiBvZiBsb2FkIG9wZXJhdGlvbnMKICogc3lzaW5mbzog
+Rml4IGRpc3BsYXktbGVuZ3RoIHNldHRlciBvdmVycmlkaW5nIHRoZSBzaG9ydGVzdCBlZGdlCiAq
+IHJlbGF0aW9uLWNoZWNrOiBEb24ndCB6ZXJvIHRoZSBzY29yZSBpZiBhIHJlcXVpcmVkIGNoZWNr
+IGVycm9yZWQKICogY3VybDogSGFyZGVuIGRvd25sb2FkZXIgYnkgcmVzdHJpY3RpbmcgcHJvdG9j
+b2xzIHRvIG9ubHkgSFRUUChTKQogKiBjdXJsOiBBbGxvdyBtYWtpbmcgUE9TVCByZXF1ZXN0cyBh
+bmQgY2hhbmdpbmcgdGhlIHVzZXIgYWdlbnQKICogY3VybDogRml4IHJldHJ5LWxvb3AgZGF0YSBj
+b3JydXB0aW9uIGFuZCBkb24ndCBibGluZGx5IHJldHJ5IFBPU1QgcmVxdWVzdHMKICogeWFtbDog
+Rml4IHBvdGVudGlhbCBjcmFzaGVzIHdoZW4gZW5jb3VudGVyaW5nIG1pc3NpbmcgcmVsYXRpb24g
+ZW50cnkgdmFsdWVzCiAqIHlhbWw6IEFkanVzdCB0ZXN0cyBhbmQgZW1pdHRlciB0byB3b3JrIGFy
+b3VuZCBsaWJmeWFtbCBzdHJpbmctcXVvdGluZyBjaGFuZ2UKICogeWFtbDogRW5zdXJlIHZlcnNp
+b24gcmVsYXRpb25zIGFyZSBjb25zaXN0ZW50bHkgcXVvdGVkCiAqIHF0OiBGaXggYnVmZmVyIG92
+ZXJydW4gaW4gc3RyaW5nTGlzdFRvQ2hhckFycmF5CgpNaXNjZWxsYW5lb3VzOgogKiBjaTogZnJl
+ZWJzZDogU3dpdGNoIGZyb20gQ2lycnVzIHRvIEdpdEh1YiBBY3Rpb25zCiAqIGNpOiBVcGRhdGUg
+VWJ1bnR1IExUUyB0byAyNi4wNAoKQ29udHJpYnV0b3JzOgogR2xlYiBQb3BvdiwgTWF0dGhpYXMg
+S2x1bXBwCi0tLQogLi4uL2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMS1yZW1vdmUtaGFyZGNvZGVk
+LXBhdGgucGF0Y2ggICAgfCA2ICsrKy0tLQogLi4uL2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMi1E
+by1ub3QtYnVpbGQtcXQtdGVzdHMucGF0Y2ggICAgfCA2ICsrKy0tLQogLi4ueC1QQUNLQUdFX1BS
+RUZJWF9ESVItaW4tcXQtY21ha2UtQXBwU3RyZWFtUXRDb25maWcucGF0Y2ggfCAyICstCiAuLi4v
+YXBwc3RyZWFtL3thcHBzdHJlYW1fMS4xLjMuYmIgPT4gYXBwc3RyZWFtXzEuMS40LmJifSAgICB8
+IDIgKy0KIDQgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS97YXBwc3RyZWFtXzEuMS4zLmJi
+ID0+IGFwcHN0cmVhbV8xLjEuNC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDEtcmVtb3ZlLWhhcmRjb2RlZC1wYXRoLnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAxLXJlbW92
+ZS1oYXJkY29kZWQtcGF0aC5wYXRjaAppbmRleCA1NmE1NDc5MDk5Li44ZmM5NmE4YjA2IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDEtcmVt
+b3ZlLWhhcmRjb2RlZC1wYXRoLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0
+cmVhbS9hcHBzdHJlYW0vMDAwMS1yZW1vdmUtaGFyZGNvZGVkLXBhdGgucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIGJmNzljMjBjZmVlNGEwNzRjYTc1MmExNDY2ZGM5NmQwYjllYjYxNzUgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGU3ZjRmOTFjMWM1MzdmNDA5NTlkZTVhZmUzYzIz
+YmY2YjQ1YzA5ZDEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBNYXJrdXMgVm9sayA8
+Zl9sX2tAdC1vbmxpbmUuZGU+CiBEYXRlOiBNb24sIDEyIERlYyAyMDIyIDE1OjQyOjQyICswMTAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIHJlbW92ZSBoYXJkY29kZWQgcGF0aApAQCAtMTQsMTAgKzE0LDEw
+IEBAIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbb2Utc3BlY2lmaWNdCiAgMSBmaWxl
+IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBh
+L21lc29uLmJ1aWxkIGIvbWVzb24uYnVpbGQKLWluZGV4IDlhZjVmNTguLmFkMTQ4M2QgMTAwNjQ0
+CitpbmRleCAwOTMyYzI5Li4zYzEyMmViIDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBi
+L21lc29uLmJ1aWxkCi1AQCAtMTk0LDEwICsxOTQsMTAgQEAgZW5kaWYKK0BAIC0yMDYsMTAgKzIw
+NiwxMCBAQCBlbmRpZgogIHN0ZW1tZXJfaW5jX2RpcnMgPSBpbmNsdWRlX2RpcmVjdG9yaWVzKCkK
+ICBpZiBnZXRfb3B0aW9uKCdzdGVtbWluZycpCiAgICAgIHN0ZW1tZXJfbGliID0gY2MuZmluZF9s
+aWJyYXJ5KCdzdGVtbWVyJywgcmVxdWlyZWQ6IHRydWUpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDItRG8tbm90LWJ1aWxkLXF0LXRlc3Rz
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAyLURv
+LW5vdC1idWlsZC1xdC10ZXN0cy5wYXRjaAppbmRleCAzZTY2NjE4MWViLi4xMTkyYWI1NDAzIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDIt
+RG8tbm90LWJ1aWxkLXF0LXRlc3RzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Fw
+cHN0cmVhbS9hcHBzdHJlYW0vMDAwMi1Eby1ub3QtYnVpbGQtcXQtdGVzdHMucGF0Y2gKQEAgLTEs
+NCArMSw0IEBACi1Gcm9tIDFhMTYxOWRjZTNjM2ZhNTRmYTVmNDdmN2VkODk0NDdlMDgwNWRlNDMg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGJlN2EwOWFjNWJjMWFmOTE2ZWIwOGNlYzk3
+NGVkYzNjYzE0YTcyNjEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBNYXJjIEZlcmxh
+bmQgPG1hcmMuZmVybGFuZEBzb25hdGVzdC5jb20+CiBEYXRlOiBGcmksIDI2IEp1bCAyMDI0IDE1
+OjQxOjAwIC0wNDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvIG5vdCBidWlsZCBxdC90ZXN0cwpAQCAt
+MjMsMTAgKzIzLDEwIEBAIFNpZ25lZC1vZmYtYnk6IE1hcmMgRmVybGFuZCA8bWFyYy5mZXJsYW5k
+QHNvbmF0ZXN0LmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAt
+LWdpdCBhL3F0L21lc29uLmJ1aWxkIGIvcXQvbWVzb24uYnVpbGQKLWluZGV4IDQwN2E1N2EuLjg0
+MGM4MzggMTAwNjQ0CitpbmRleCA0ODhmZTYwLi44M2MyNzE1IDEwMDY0NAogLS0tIGEvcXQvbWVz
+b24uYnVpbGQKICsrKyBiL3F0L21lc29uLmJ1aWxkCi1AQCAtMTMwLDUgKzEzMCwzIEBAIGluc3Rh
+bGxfZGF0YSAoCitAQCAtMTQ0LDUgKzE0NCwzIEBAIGluc3RhbGxfZGF0YSAoCiAgICAgIGpvaW5f
+cGF0aHMobWVzb24uY3VycmVudF9idWlsZF9kaXIoKSwgJ0FwcFN0cmVhbVF0Q29uZmlnVmVyc2lv
+bi5jbWFrZScpLAogICAgICBpbnN0YWxsX2Rpcjogam9pbl9wYXRocyhnZXRfb3B0aW9uKCdsaWJk
+aXInKSwgJ2NtYWtlJywgJ0FwcFN0cmVhbVF0JykKICApCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDMtRml4LVBBQ0tBR0VfUFJFRklYX0RJ
+Ui1pbi1xdC1jbWFrZS1BcHBTdHJlYW1RdENvbmZpZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMy1GaXgtUEFDS0FHRV9QUkVGSVhfRElSLWluLXF0
+LWNtYWtlLUFwcFN0cmVhbVF0Q29uZmlnLnBhdGNoCmluZGV4IDhiYTRkZTk1YzkuLjNjNGZkYmNj
+NmUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0v
+MDAwMy1GaXgtUEFDS0FHRV9QUkVGSVhfRElSLWluLXF0LWNtYWtlLUFwcFN0cmVhbVF0Q29uZmln
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAw
+My1GaXgtUEFDS0FHRV9QUkVGSVhfRElSLWluLXF0LWNtYWtlLUFwcFN0cmVhbVF0Q29uZmlnLnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0ZmRkMjkzNDZiNTFlZWE1NzdlZTQ2YzcxNjYzNDhk
+YWQxOWJiY2IwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlZjk4YTE5YWQzMDhjYzM3
+NjgyZGMxNzc4NGZkOTRhZjgzZGE2ZjMyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+TWFyYyBGZXJsYW5kIDxtYXJjLmZlcmxhbmRAc29uYXRlc3QuY29tPgogRGF0ZTogTW9uLCAyOSBK
+dWwgMjAyNCAwOTozNTo1MSAtMDQwMAogU3ViamVjdDogW1BBVENIXSBGaXggUEFDS0FHRV9QUkVG
+SVhfRElSIGluIHF0L2NtYWtlL0FwcFN0cmVhbVF0Q29uZmlnLmNtYWtlLmluCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEuMS4zLmJiIGIvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjEuNC5iYgpzaW1pbGFyaXR5
+IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBw
+c3RyZWFtXzEuMS4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0v
+YXBwc3RyZWFtXzEuMS40LmJiCmluZGV4IDA2ZTRmNzk0MGEuLmQ1ZDA3YmMxZTggMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW1fMS4xLjMuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjEuNC5iYgpAQCAt
+MjQsNyArMjQsNyBAQCBTUkNfVVJJID0gIiBcCiAJZmlsZTovLzAwMDItRG8tbm90LWJ1aWxkLXF0
+LXRlc3RzLnBhdGNoIFwKIAlmaWxlOi8vMDAwMy1GaXgtUEFDS0FHRV9QUkVGSVhfRElSLWluLXF0
+LWNtYWtlLUFwcFN0cmVhbVF0Q29uZmlnLnBhdGNoIFwKICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICIyNjI0Zjk2NzA2ODQyN2VkYzk0ZjM5NzllZGFlMzU3MWJiMDc3MDYzZjViYzIzMWY3Mzc3NzZk
+YTUyN2JmNDY3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQyZWU2NjNlZjFlZjNkZWZjOTRjYWZj
+ODQyYmU4YzQyN2U3YTZlZTY2MGM5Y2EwOGZhYmRkMDI2MmQzOGZiOWMiCiAKIFMgPSAiJHtVTlBB
+Q0tESVJ9L0FwcFN0cmVhbS0ke1BWfSIKIAotLSAKMi40Ny4xCgo=
 
---===============4552735644483298537==--
+--===============1427028781139910886==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="appstream-changelog.txt"
+
+Changelog for appstream: 1.1.3 -> 1.1.4
+Source: NEWS
+
+Version 1.1.4
+~~~~~~~~~~~~~
+Released: 2026-07-22
+
+Features:
+ * sysinfo: Assume a more modern display for the handset chassis template
+ * sysinfo: Assume a more modern display for the tablet chassis template
+ * sysinfo: Initial code to autodetect the display size on Wayland
+ * sysinfo: Handle fractional display scaling via xdg-output
+ * Implement support for GCVE as vulnerability database provider
+ * qt: Sync enum mirrors with the C library
+ * qt: Add Artifact, Checksum, Reference, Review and Agreement wrappers
+ * qt: Wrap missing C API on existing classes
+ * reviews: Add simple interface to fetch ODRS reviews for a component
+ * reviews: Implement support for submitting reviews
+
+Specification:
+ * docs: Suggest using the longest display side for maximum size constraints
+
+Bugfixes:
+ * Make GResources we need outlive main thread destruction
+ * pool: Properly implement cancellation of load operations
+ * sysinfo: Fix display-length setter overriding the shortest edge
+ * relation-check: Don't zero the score if a required check errored
+ * curl: Harden downloader by restricting protocols to only HTTP(S)
+ * curl: Allow making POST requests and changing the user agent
+ * curl: Fix retry-loop data corruption and don't blindly retry POST requests
+ * yaml: Fix potential crashes when encountering missing relation entry values
+ * yaml: Adjust tests and emitter to work around libfyaml string-quoting change
+ * yaml: Ensure version relations are consistently quoted
+ * qt: Fix buffer overrun in stringListToCharArray
+
+Miscellaneous:
+ * ci: freebsd: Switch from Cirrus to GitHub Actions
+ * ci: Update Ubuntu LTS to 26.04
+
+Contributors:
+ Gleb Popov, Matthias Klumpp
+
+--===============1427028781139910886==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-597ab36bc4ac8dbc6b973d0b42dd83472f64f276"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:597ab36bc4ac8dbc6b973d0b42dd83472f64f276"
+meta-yocto-bsp       
+meta-poky            = "master:a2d58939340dc0c9ea4c2f875ddcefbc499c3838"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 451 Local 432 Mirrors 0 Missed 19 Current 440 (95% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 801 of 891 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 808 of 891 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 825 of 891 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_create_spdx_setscene)
+NOTE: Running task 660 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_recipe_qa)
+NOTE: Running task 661 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_recipe_qa)
+NOTE: Running task 669 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_write_config)
+NOTE: Running task 670 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_write_config)
+NOTE: recipe appstream-1.1.4-r0: task do_recipe_qa: Started
+NOTE: recipe appstream-1.1.4-r0: task do_write_config: Started
+NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxmlb-native-0.3.28-r0: task do_create_spdx_setscene: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_recipe_qa: Started
+NOTE: recipe curl-native-8.21.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_write_config: Started
+NOTE: recipe appstream-1.1.4-r0: task do_write_config: Succeeded
+NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 836 of 891 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe appstream-native-1.1.4-r0: task do_write_config: Succeeded
+NOTE: recipe libxmlb-native-0.3.28-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 838 of 891 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe curl-native-8.21.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 856 of 891 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 872 of 891 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/gettext/gettext-minimal-native_1.0.bb:do_create_spdx_setscene)
+NOTE: recipe gettext-minimal-native-1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 768 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_fetch)
+NOTE: recipe curl-native-8.21.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxmlb-native-0.3.28-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gettext-minimal-native-1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe curl-native-8.21.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxmlb-native-0.3.28-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 889 of 891 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/gettext/gettext-minimal-native_1.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe appstream-1.1.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe appstream-native-1.1.4-r0: task do_fetch: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_fetch: Succeeded
+NOTE: recipe gettext-minimal-native-1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gettext-minimal-native-1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1854 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_fetch)
+NOTE: Running task 1873 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_unpack)
+NOTE: Running task 1994 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2058 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_create_recipe_spdx)
+NOTE: recipe appstream-1.1.4-r0: task do_fetch: Started
+NOTE: recipe appstream-1.1.4-r0: task do_fetch: Succeeded
+NOTE: Running task 2107 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_unpack)
+NOTE: recipe appstream-native-1.1.4-r0: task do_unpack: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe appstream-1.1.4-r0: task do_unpack: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2108 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_patch)
+NOTE: recipe appstream-native-1.1.4-r0: task do_patch: Started
+NOTE: recipe appstream-1.1.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2109 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_patch)
+NOTE: recipe appstream-native-1.1.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe appstream-1.1.4-r0: task do_patch: Started
+NOTE: Running task 2110 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_create_recipe_spdx)
+NOTE: recipe appstream-native-1.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe appstream-1.1.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe appstream-native-1.1.4-r0: task do_patch: Succeeded
+NOTE: Running task 2111 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe appstream-1.1.4-r0: task do_patch: Succeeded
+NOTE: Running task 2112 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2113 of 2132 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_populate_lic)
+NOTE: recipe appstream-native-1.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe appstream-1.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe appstream-1.1.4-r0: task do_populate_lic: Started
+NOTE: recipe appstream-1.1.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe appstream-1.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe appstream-native-1.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2114 of 2132 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_configure)
+NOTE: recipe appstream-1.1.4-r0: task do_populate_lic: Succeeded
+NOTE: recipe appstream-native-1.1.4-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/gettext/gettext-minimal-native_1.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.11.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_3.0.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pytho
+ n/python3_3.14.6.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gperf/gperf_3.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/itstool/itstool_2.0.7.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers
+ /openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'cmake-native', 'libtool-native', 'm4-native', 'quilt-native', 'texinfo-dummy-native', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'perl-native', 'pkgconf-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-lxml-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'gperf-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'libxmlb-native', 'curl-native', 'gdbm-native', 'itstool-native', 'libffi-native', 'libfyaml-native', 'libpcre2-native', 'libxslt-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dapidocs=false -Dgir=false -Dvapi=false -Dman=false -Dbash-completion=false -Dqt=false -Dstemming=false -Dsystemd=false...
+| The Meson build system
+| Version: 1.11.2
+| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/sources/AppStream-1.1.4
+| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/build
+| Build type: native build
+| Project name: AppStream
+| Project version: 1.1.4
+| C compiler for the host machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
+| C linker for the host machine: gcc ld.bfd 2.43.1.20241111
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Compiler for C supports arguments -Werror=shadow: YES
+| Compiler for C supports arguments -Werror=empty-body: YES
+| Compiler for C supports arguments -Werror=strict-prototypes: YES
+| Compiler for C supports arguments -Werror=missing-prototypes: YES
+| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
+| Compiler for C supports arguments -Werror=pointer-arith: YES
+| Compiler for C supports arguments -Werror=missing-declarations: YES
+| Compiler for C supports arguments -Werror=return-type: YES
+| Compiler for C supports arguments -Werror=int-conversion: YES
+| Compiler for C supports arguments -Werror=incompatible-pointer-types: YES
+| Compiler for C supports arguments -Werror=misleading-indentation: YES
+| Compiler for C supports arguments -Werror=missing-include-dirs: YES
+| Compiler for C supports arguments -Werror=declaration-after-statement: YES
+| Compiler for C supports arguments -Werror=format-security: NO
+| Compiler for C supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C supports arguments -Wno-error=missing-field-initializers: YES
+| Compiler for C supports arguments -Wno-unused-parameter: YES
+| Compiler for C supports arguments -Wno-error=unused-parameter: YES
+| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/recipe-sysroot-native/usr/bin/pkg-config-native) 3.0.3
+| Run-time dependency glib-2.0 found: YES 2.88.2
+| Run-time dependency gobject-2.0 found: YES 2.88.2
+| Run-time dependency gio-2.0 found: YES 2.88.2
+| Run-time dependency gmodule-2.0 found: YES 2.88.2
+| Run-time dependency libcurl found: YES 8.21.0
+| Run-time dependency libxml-2.0 found: YES 2.15.3
+| Run-time dependency libfyaml found: YES 0.9.6
+| Run-time dependency xmlb found: YES 0.3.28
+| Library m found: YES
+| Run-time dependency libzstd found: YES 1.5.7
+| Found CMake: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/recipe-sysroot-native/usr/bin/cmake (4.4.0)
+| Run-time dependency wayland-client found: NO  (tried pkg-config and cmake)
+| 
+| ../sources/AppStream-1.1.4/meson.build:194:25: ERROR: Dependency "wayland-client" not found (tried pkg-config and cmake)
+| 
+| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/build/meson-logs/meson-log.txt
+| 
+| Last 10 lines of meson-log.txt:
+|   - "-DCMAKE_TOOLCHAIN_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/build/meson-private/cmake_wayland-client/CMakeMesonToolchainFile.cmake"
+|   - "."
+|   -- Module search paths:    ['/', '/opt', '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/recipe-sysroot-native/usr', '/usr', '/usr/local']
+|   -- CMake root:             /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/recipe-sysroot-native/usr/share/cmake-4.4
+|   -- CMake architectures:    []
+|   -- CMake lib search paths: ['lib', 'lib32', 'lib64', 'libx32', 'share', '']
+| Preliminary CMake check failed. Aborting.
+| Run-time dependency wayland-client found: NO  (tried pkg-config and cmake)
+| 
+| ../sources/AppStream-1.1.4/meson.build:194:25: ERROR: Dependency "wayland-client" not found (tried pkg-config and cmake)
+| 
+| ERROR: meson setup failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/run.do_configure.3511698:175 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/run.do_configure.3511698, line 175
+| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/run.do_configure.3511698, line 164
+| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/run.do_configure.3511698, line 151
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/run.do_configure.3511698, line 188
+NOTE: recipe appstream-native-1.1.4-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2114 tasks of which 2097 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260723051927.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260723051927.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/log.do_configure.3511698
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: appstream-native-1.1.4-r0 do_configure: meson setup failed
+ERROR: appstream-native-1.1.4-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/run.do_configure.3511698' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.4/temp/log.do_configure.3511698
+ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.4.bb:do_configure) failed with exit code '1'
+
+--===============1427028781139910886==--
 
