@@ -2,51 +2,51 @@ Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 257B4C531CC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 152E5C531CB
 	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 08:11:39 +0000 (UTC)
 Received: from TYPPR03CU001.outbound.protection.outlook.com (TYPPR03CU001.outbound.protection.outlook.com [52.101.126.87])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.18795.1784794286963932835
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 01:11:29 -0700
+ Thu, 23 Jul 2026 01:11:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=iMsAoNTc;
+ dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=nifRXY+C;
  spf=pass (domain: aspeedtech.com, ip: 52.101.126.87, mailfrom: jamin_lin@aspeedtech.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HI+WlOILC3Ij2fkPx/aL22dKVk1FlftH5c5XDnpaUWUzmbtTwqSRRskI9G9KkQRRNI2c2J3bc6n0rJ+iFQQsCeHkm1AucbzSjjMCTvT6lqgEAQTFLzgov43cNJLMetFBGPIcgPW7fDQVwPlGFB3BVSriOaOfTcNuemi8jUt/7I8O9d/glNLu3sW3dgn8EGbvF/KCo2Tg4iqV07T8nXjpKhSaxSPNye2Hb+isjSo7AfK67LbIVJ/Q6XYveUkIS4qDmkgbEjw534WxFMttAupwby1nG8RAzqMmmMYDOvBD/S2sW8m02i0GscaZTgqR8fsORDrqAEe24pDybNSJNMbdZw==
+ b=ZYU/dVxv9rP+6qr3u0z0HAgaAnPqr31zJTffCu4ubO72UU41vnp19+omNtXXgj+GPCYrt5EBCMihUSJKfK3lyfALNFxjW3HojCXLoCQ1V14c/zcjScDb7HUS6QGL8Hf5K/8PvO3aAa/hX5+4F+QkUO5yCBW8+mQJlNBRCaeEESgH5j3+nL8aKcU5u4rLPdU/83u129BnQ4wBaXC00BZ8nAJygEbHlTbNCCvsHLZ5WTvBJc2diliybsRLLEID5bc1R4zLdGsqiP3hWPUmcZs1otY0vVwinxJKdN98yrN5LydpVXMubAZI9w8NeRxUmHqoJW0ULPpeRy1Ds1XClKdB1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tY6iQXP+e3YsnoMSC/GRTy5D2+zf9JPLpJyl12d78Eg=;
- b=R4m3mwzIHZCjtAseHMRBHzBrfqQvunHyaOebDDxLJjyytvD1AminWDoYyL0ZFhfxTqpt5mWFpQIxHj1KVvkWmvmEMzy9yKHBCBNciEggpXl1AVbZBpCRJnz5w6A3NzdRJJ9GrJBCAkPYEi+s88T9M1UaP4c14CGRJL80pvstp54AYn075aZkAgDkdZ779AFqJHuIIgf3efwQFfArl7DSVvkujIR1f8eyElXa7weacinE+eFg9nKAAeNNHD7UsUOBrKQkD5Z0WF2Hd0wXmpaZ2V9MAh0ddnGstQISxkF948mtrtSLFwOpumZnPUcgD6BRmZqJllnSfCYZXzJo3IH9Nw==
+ bh=lq9ZO7jNxShRdTtNupaMSsnhfAFVXlXBEyaRApRWRx0=;
+ b=kW1gCElGhpb+nA5rk0Qzm4hunqrrotZVXvtLuhRRKsbgpENGVDbqH27PBBXX50uWXACZcKMOi1JLL4VCnH2RLXstGHiP8+SH7wv6Cv1pDe0ckEWtzigNnFH/jncJ43YsWqy5BDsGlO+f2x1BSBAmhLEHpNAdH6DeNirCVjzs0LfyzjmKmN/u2pGrb2wOEq3Yu8Aqji0oSzcg2oGZVv7ZtEMpgUTCld6o6dd/mWtXEZRVJsOsP7OfJ3ozfaKjzZoUz3Y1TNn/fGomzHgFY+1ZU+Z//ViO6ICSrcNfB7MnLwzY5Hi71p2cspujlxFugzSdVz11o87iORDuAdoUugFM7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
  header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tY6iQXP+e3YsnoMSC/GRTy5D2+zf9JPLpJyl12d78Eg=;
- b=iMsAoNTcWpn0AqYHfv6bsbSzBRErBNMpKw1JpSZ9TBWF4L/v7AjBh161afY8kSdNF4cZIX8J6y86XOPX5f2ED9qYlq8b3+FJ3kN/onrRy2q9Z0MLf2WPd7w53VIp1ROYCHv255NZIoOPHUVzpg6g9iBebKSNAFCRlgxUvGnEBnEjgkg1avblesXNBtNWV7Hlkr8ezc8LFj5XsH8/UuR07CvHoCIWY0pve6iZPsMilO2yubJ5b1XW5NU6jK4NdS0mH1N78cEkN97x/ZKd/O84rWiewKDOUhaXx4SfiR1BWH16NAiV+DNMeBRRKiGoTbDR4duwph/39RVRRS1isMgAgQ==
+ bh=lq9ZO7jNxShRdTtNupaMSsnhfAFVXlXBEyaRApRWRx0=;
+ b=nifRXY+CO9lA/5n33PH8cxGF//Qagu21WHJEhpYllu0Ty3ED4VkMZKtE59Bamt69ZkABkRAK6yimmUwynPTVYnyKQzgO4CQRvc1VlClIvLAKx4Ope3NvxmAsxE59c4RZUlGjlI/fHqsDaLdZftC2pSsExobL+N1DgO+HNj9xrp/X3K8rEwz65QgOWTzJmpBA4rKoAgjgwfWaeDbHf0kRUc1KYEOEaPfs/4HBJgKLx7Vglk1IahPl6419Tky6Mic7l5oHutfq3jAbtqvPAAQBFLUVd4ymef0FYTtyQxMNxwalNncI72va6QeuLg1++P1XPLI1NjZcwX88tYCbq+kyhg==
 Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
  by SEZPR06MB5022.apcprd06.prod.outlook.com (2603:1096:101:48::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 08:11:22 +0000
+ 2026 08:11:27 +0000
 Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
  ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
  ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 08:11:21 +0000
+ 08:11:27 +0000
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
 	<alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>
 CC: Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: [PATCH v3 2/5] oe/patch: Skip commitIgnored when nothing is actually
- staged
-Thread-Topic: [PATCH v3 2/5] oe/patch: Skip commitIgnored when nothing is
- actually staged
-Thread-Index: AQHdGnrYvcKwCcy9lESTd8cfpmmSQg==
-Date: Thu, 23 Jul 2026 08:11:21 +0000
-Message-ID: <20260723081118.1558249-3-jamin_lin@aspeedtech.com>
+Subject: [PATCH v3 5/5] oeqa/selftest/devtool: Add test for multiple nested
+ git destsuffix repos
+Thread-Topic: [PATCH v3 5/5] oeqa/selftest/devtool: Add test for multiple
+ nested git destsuffix repos
+Thread-Index: AQHdGnrbSugve8qM9E2N78daPQFmXg==
+Date: Thu, 23 Jul 2026 08:11:25 +0000
+Message-ID: <20260723081118.1558249-6-jamin_lin@aspeedtech.com>
 References: <20260723081118.1558249-1-jamin_lin@aspeedtech.com>
 In-Reply-To: <20260723081118.1558249-1-jamin_lin@aspeedtech.com>
 Accept-Language: zh-TW, en-US
@@ -57,135 +57,179 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|SEZPR06MB5022:EE_
-x-ms-office365-filtering-correlation-id: 5f333e09-883b-43a4-539b-08dee891fb56
+x-ms-office365-filtering-correlation-id: 3b647c42-d877-4557-1987-08dee891fe6f
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|22082099003|18002099003|38070700021|10067099003|56012099006|5023799004;
+ BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|22082099003|18002099003|38070700021|10067099003|56012099006|3023799007;
 x-microsoft-antispam-message-info: 
- mV4SGN9BqQxvRxXLXt9kNBkXTEE+hDFCGJtvpqnO34gsX39YEg+zIJOTgdMFXBF4lG81n0WNPXlOnpcLUsbR406bg2IQGwONpPeg0UtrLAO+XqB7g6S8cZ6kyGGo/z3ksGlBKPMwgthhJGD4Q43pq3+Fq31FI7jB/tbg7qMzX90SnBxOfsqrvuBmH9rxkYObMjeBenpbQ0NLvPnT1PsjtJu3N2jgR7xSR8C6Zfuo+haNk+uO7rMUa9Ij1jKWinspYnDff8oyWzvaDh0THB7wzcmYzdZvgoyIo10tnKx3OXcAwmUPldyEZLxrnqlV16DSWMPaXH7ivRmAjA73MBaVvoKV00JHk4RSoQe5AykEv2xLdwec+l+y9XsVPSAohAeuvngLI9MRUnbMd/E01T3bs4myu3YL636Zb7KvXJTmkxk6O2Uo/u8/9QjdvF1dGvuwwB6JIKnk2vL0LM7UP4zTW/aPffOx7gAc5W6QC2VzI16I/MruHjbVaACVSEu8d2EMLF8LoOwRIu/Zo+6Iadi+1ZW7PbtRs4q8wUdzAf0d3XLmh+v/wYUxKLsaZseZVM7zSzVbYutQbyxLDgrzM3EgG8XzqxE5dkG7TWdJSuJcsPKzhnEh8PhK/HTqD+NGWX3eXmUreutV6T8NbLyR61JJ44ZHsP/2AAwOguQi9eTzu4Bz4lyo8iLUFlD25f6t4Mwkc//A396oCmM8BmTVR9eD4zq6xCcpmMvfGHbKtvR9Vyo=
+ avpuFYOkzAdHVMkCscVpEC8EUIqM43/pLc3nmqx4fVB7FDX1TKpBOCEL2AWJF0biVpHkw3QSQjbwaTuOMOFOaFLLjpS4kD+ZysVJc30lnr6jklUwfqImSkOwRRLr9ELbQ/uT3NcEIzEFhhAoeyuwuB45NNwiuw/LjCeL6WtbqAG72DmYiwCcDmneZcgDLgOLYa98vP8HfwWRZlq0cdh8LYYX1nm7xwhXa90/isN5AiXbHhrUL3td8JYspz+OtGQ6P0SKX02jG/QpQH/9Dzofcnm5klGMAoztW1fsOH/7lEdexJOyUTSQ8ZxAhw/2mgCJ45PGfe3N+GqQZWpOgahEHe+hIkgnJYefjX7xZI/kKnKpY3S7mW7UdBMevthnhRw44NMmJdjGCL+QUIxGwEhXvUFCZraYnO49KVak+3p5fv8EQaJq+aohQJg5Fm0xwdSq1mZgYo4ECA6xyv/8LQROFanByVUrE+cX68eO+BRi6w+Br0WVft+HgaHtPaOSeVKkuo1ZZ+d/z+Km4ydTr2ZkmsaiU0SFio5cZJmSR95U51rTkhSrU8i4y/FsXbqhmVfPVI85/UAWTWA0MjnFI4AdNRezI6dRY7yDNm5ekG6xHFS8C5gkJR66jpxooHZbVeJiNHt+XT29SOBO6z4BB9GnHc6/fysd7pBPWYYSYNyyyHocV43aVLBqOpKuW82i57sXI91aV6iw6bb8iaFYhVILF2RBPNJmT8nFGjInfqpxdyg=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(22082099003)(18002099003)(38070700021)(10067099003)(56012099006)(5023799004);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(22082099003)(18002099003)(38070700021)(10067099003)(56012099006)(3023799007);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?T/wwp4j1wJKNdaA7wA4TXeZDsBg6PloZCG/Qh7UXJ8VJr3JGnPk12h49kPDg?=
- =?us-ascii?Q?WZ1DXOdtnjI05Pz+r2qR9JmiMxt0XHA8yLKX7TbjJ3F+ir0DWQmO8w6SDwsv?=
- =?us-ascii?Q?oyan5P71+YFc9DJeFftNiZZ3CNdgemUPt46yAEuIZFfJ0Ezhuo7LwHt7dG3O?=
- =?us-ascii?Q?04hq0DR6pTyktT8NGGB77OYoAZHQmImhytsojzEB1vgkSlMOZ7HPGdqVX3F8?=
- =?us-ascii?Q?JmveZoFMh/LKF6YAZiI7QxbeEgHlRGMlBwXD5/DsVMcL3iyTH8abGKIVKRSV?=
- =?us-ascii?Q?NeyP33HNMMX1wXZRfjLtFRXCvCgQyozWM6etYnhlyHnIbcASc1OrFZfYLnj4?=
- =?us-ascii?Q?N4zBLkP9UcltXPm5hU1vgqz5R/+y3avm/2KsS27n+Adla5N43xWAwDs96ae7?=
- =?us-ascii?Q?uZVG1pldA+50yDYTn7GXy0jSXcnLuKPAs2DhWLmS+XfUZ70kEOFH5YgAcsAz?=
- =?us-ascii?Q?gwYcHCVcJOYD2ZOi8c8Y+5s2eJnZpoSTts7EtZchbHGZZte37Kn76SmpEpzK?=
- =?us-ascii?Q?lD1eOMWuZUJHK0ZOjUhctaIJvymoHKi204DXS3vwAPB2LtS2b4OLOFJpOulM?=
- =?us-ascii?Q?BDmaTGkAR6sGgnqTdH5B90lTPFU3tUubCFDWFCujSDBCZ2jDyuJBYhYNLzdl?=
- =?us-ascii?Q?SmqQmgNuQblWheEdjp1FCxChNdE+ZzzZ2hVLBB3FkUDqZfkUyG7zRKXdmfdW?=
- =?us-ascii?Q?IaKcq5+yrOiqLOnTuYrCA88maz4HUhYaVhajdMISk84498qpaRpgobf/Qbxu?=
- =?us-ascii?Q?OwCgKqhpBq4vVY+V5IYYfXYXinsC15CnmR3UOtRcqaxW/jqMgVSD7tqaj+qf?=
- =?us-ascii?Q?8FFoR/b9pUTRIereJvq1mRTXpq0vsMg/H9aMgAiXhrYyR5RjwCk9ZlRsBAcx?=
- =?us-ascii?Q?QQxCDVzSJTaNTGjPysyAyWjUPRtfN4RB1xrMlqsZPvMVBVY5FHsk6j/GsvfC?=
- =?us-ascii?Q?lE7BujTqVVDTiafUTFdJbGWSelfYcCWMxrfFxEQPOg8ITLWLOlQHaiPGM7mg?=
- =?us-ascii?Q?oax5iFSmO7vKsp2RfUWsfW1OEmii9IUqiISA1NqHeShsscB/hmfle3cJmhCg?=
- =?us-ascii?Q?o8NZ7x56q42+nW86I+N5fnOcZzJVhyrTDHo4FbkPAY1mWt6DFNj3TWW2bfp5?=
- =?us-ascii?Q?/Lwc7VcK+xb2PYO76wMWQ2JxgJzJCRtxJiWME+7zed8PhDWPqEI6rf84LucH?=
- =?us-ascii?Q?LbJ6H+eNkh88LthlYCz5LvOuXKLVghzyTEBsoX9sENzBHXkKPvauQP2aARgW?=
- =?us-ascii?Q?vHFjJD4rOB59is11l5WF9SXRRdVlIZQwIjD0j8MSmWQUR8IvtV5ynBg820cf?=
- =?us-ascii?Q?BIYezmwfY7rxw5JHbn4bsxcodNYe48K3mS++jaUNhU4lrkXDQr3moKVXqPOm?=
- =?us-ascii?Q?2oHl2KvcIkeTLLvF7Xj3J4iA8TRYssZKdja5daSaUYWszNsvjSh503+ZB/Mc?=
- =?us-ascii?Q?fsf3qp+ca/TprkCEznjGbFftINBa8UdsVqXL/aEFju3jkpdfg+PgFwC9oBOq?=
- =?us-ascii?Q?YB9QHoe48qwlHhUyywBWM8NJkMTFD46VexNXqTfNtAP84Mg0gFElb3nKUxDF?=
- =?us-ascii?Q?zCiTMhAQZ1SOQ7tQFo4ZBSEWKBx02mTlb8BbcoOOofpuWz5Jz8IUYvOukgZB?=
- =?us-ascii?Q?HLMOEylA2JgW65/mO7fsxg0m3Q2mjcADa0v7pgwIY8loa1T/zZPEk0m4G3tN?=
- =?us-ascii?Q?9AIedYslxZ24wFb7i6ZViT4/p5gCuIMjxcW/Odm8uy+Mj0WSpsTTQ0XD/7G3?=
- =?us-ascii?Q?O0+kqxR5wA=3D=3D?=
+ =?us-ascii?Q?jxcD4q2V7cg6jFKhqF+oTygRz1VYa2Dq1so62ZQ8tFzoaxtmHhVLKCMBSZ7q?=
+ =?us-ascii?Q?bRrz5lN2rpDPosFsMqAxD69b/LhicwxsTe0yiRtMhZUyB9LCNhP+QHAUovKM?=
+ =?us-ascii?Q?JX5bGQlzXf7eNIhWxuokiMfWEcUDKyoC6IX1p1aBf21z0Rds4aLH+A42PvQ8?=
+ =?us-ascii?Q?o4udr0CjeumgzGG2VN+N9UTMEAEK8Icxjc6lL3l9U40KgY/6g5bxNr8/s4V2?=
+ =?us-ascii?Q?4JzSTU+42+25iiOsQDiWhX6tGRPJ3SMsQU0K43E+JwR19Dt/gq0W7kRp1Xrc?=
+ =?us-ascii?Q?yu1IfwtjtthEseduabXuc1BvfKfT3f4eAjjFHSBvjJrrBbp3hEPjT3BKrgEs?=
+ =?us-ascii?Q?CWxEK2y48jNhTysZ1ecerzEBemM8YROptRhMlTmqk5GlA70LzbjKIAdJKJD4?=
+ =?us-ascii?Q?5zIyCx/nmIDiK3q+nMIzNApVq6nrhipFB8fQ900eWQwUA01wje0OC/ZqCRCO?=
+ =?us-ascii?Q?pjLPAnUFfbYCYmWSAouqVjH7NAhSiGbBZZPEksLbx7fA/deTCvfXY+j/byJ7?=
+ =?us-ascii?Q?oBcYoxBhO4OgVbCQC7E0IWlNjJCsXp44I8ohnXun5jVayP9BfgsRffCdoZf7?=
+ =?us-ascii?Q?9cKMpo7dz3FSxNSeurGWAhf6SBTJTsxpzcNLYM7zf0gMXsUUTuphDizDtonU?=
+ =?us-ascii?Q?b0wKGxUlKMQq8xemI81WAqynskLumSgTSe80Vi4AljGAXNdkFdyidN7BoMJV?=
+ =?us-ascii?Q?zju+EnxK0fa7vWt3EgzZGpCIEr9z6Xe55mJ+LX+/sSgyD6WRE6Yhv28aTPQQ?=
+ =?us-ascii?Q?jcuIKFUjOWrR8S9OMPEf/ZSONVFk1ZuJtDKXGM+6+XgKgoHQC7luL/64smLF?=
+ =?us-ascii?Q?cHPj2zaT/6z0x/fjMHIbnn1U3eGfFC+Ma8ZRp4TvmG8s9cvLP0U6BBnqPI2O?=
+ =?us-ascii?Q?D6fQcKhLhtkLJH5hf/aQDUGxV/zVYSGsMp0N33XpdF9IN1WI1/hmm+WKoi9N?=
+ =?us-ascii?Q?cBBRJlPWUp4ZYMOcpAk1KwYOR+AIA0JniVGtAf8V2xzoZ/5fQ+7TPt4KdasJ?=
+ =?us-ascii?Q?8KPnTgv3I7cygkSYqZ48xI/a3xjlQOk12j2tRFOZNHKNEcdu6GOHjNQiEJEs?=
+ =?us-ascii?Q?1hUUvA3nO4lWmiPLe9FvfyosJQAsJuWRw7Ejf8Mu95jROgAhsiVvkyFIVPG8?=
+ =?us-ascii?Q?P1gDlj4vO9YZv1RNagiKrbDb85hYw4Xctt8Cuw6y/L4ncjVtXhe20gBcbEd9?=
+ =?us-ascii?Q?5B+JytVf7YwSgsn1HV+WAbRqAyLT2GxvmCMoDWH/kT5LdTtlNaZDnaaTBQlF?=
+ =?us-ascii?Q?+9Twk9oZt9yzU0rH9cNuY8qj5hE/5yDNC6VabuWZKx9nVfMwPQC8K10rYKh2?=
+ =?us-ascii?Q?QIuVuWX2hQFG2ByroKl04uUeXmjJd/c3q58BCbynJldnLVYSCFahlZ2SHrHr?=
+ =?us-ascii?Q?FuvTtph8pHHpRLy2GiIEcbEWguISlhpeIff66NLDsBS8Jk1JBvvfX5Lbmg7X?=
+ =?us-ascii?Q?POLD2mncJt+nfgH0xi8JlZNQX8V+SZbBmGT8tvqRbGpBpr4tB2n7xRim3v+K?=
+ =?us-ascii?Q?a53d6GWZAoLEjCOsfEbfSSlFq8/qAexfniPlfxs4nW9OFY83KY7r2f40F46v?=
+ =?us-ascii?Q?ZUj4gIuK8KXoXzCZ1G4Hf7kBaTw8R17TYekmIptIppclcrx0fYPF9RIPDXTH?=
+ =?us-ascii?Q?zqOPM8vXZYX9qntcBTQUum/PFhhFU37p7m8/s0lFT49Ug1ex9pJPXkSNwCK5?=
+ =?us-ascii?Q?/RenGLQPuSi2+gC10Uon/sNSMKz0dI0TE9A3sKgCwimPgVqChbhWvk3j0/72?=
+ =?us-ascii?Q?dYsz/NJ5UQ=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	IAtXNpXszEvr/e9qXWRk06Gvl5LdN5BzWq14kC9T5NNL9ikd1WIc5aoEIOg/aHCMf0g3SKe/hFj7T0d54EA80To2Fth0sV0fyO6SCpgLbM0CV4lZPjdxdOvknJ9RO0oyou4Ep9BAfOTSXRckFWHjn+VxRCOtvxpbjQKj40+1V51VSw0WRwdUt5aWxevV7VERMkw631rnyo9svQK/VE1xdwuPv2sMKKYzY8Xnd78pcgPM+o1BUAE2N1EO2sWFguJ/dLBvS5fQN/kZGF+wvkC2KTULzjVy0Ci99FHDDwxc6ytnxavnKO7nuE8B7RZpD8yuuL7vdXO//PmLL/MOEOd6Ug==
+	dWVFRZtT316TjVoKOYN/0owd/POUhmJrJlt4T8lapZiFZNZcUGIePeRrHesoJyAwFw7VDrXuA+lM2cF1lB96LwG5rnJnuE1dAaZKg76JggG3yNOpzJvPMCvAf0vB5suSP5fpX1rZ/eNFhR434ybRy/PUgG9P78KetOZyKB/b/uatZgt+Duvn57xIUv1yZvsbAc8s0oZhFhOv4X/d4iWhzcjOHLOJC1pt98wcg7ZTNYJd95PgkywFYAIGduUe/5V5UV1lItGr0qZSux5IZBDSzSPNL+34vamczSLXhOUPuTxwSygncEv4w7/rd+fn96zVzS09zbUW+wWZAoeLlLVoEw==
 X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f333e09-883b-43a4-539b-08dee891fb56
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2026 08:11:21.7740
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b647c42-d877-4557-1987-08dee891fe6f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2026 08:11:25.7635
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: h207lFAF/rxeJo5gmRVQY2OHJwTUWlIuchB5stMmqqXYRA/8pHLZNkrGFnpTiFFFRKnHQ8v7anZxl1X0I5sHnK6tpinwEgp3wDB+N2GDf2Q=
+X-MS-Exchange-CrossTenant-userprincipalname: D3e6ac2kKVGXSEfVZ6O74orr1TP173DYjTnYVpKy70dquKZp3CF0OzCgalu0klHiWrHNGe8fr9LTdvhudZXLhno7MA75vgSHgKABSxcYrTY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:11:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241785
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241788
 
-patch.bbclass's patch_task_postfunc calls GitApplyTree.commitIgnored()=0A=
-whenever 'git status --porcelain .' reports the source tree as dirty=0A=
-after do_patch, to snapshot those changes into the devtool tracking=0A=
-repo with 'git add' + 'git commit'.=0A=
-=0A=
-A path can be reported as dirty by git status purely because it is a=0A=
-submodule (or an unregistered embedded git repo) that itself has=0A=
-modified or untracked content - for example a recipe with multiple git=0A=
-SRC_URI entries where one destsuffix places a repo inside another=0A=
-repo's own working tree. The outer repo's tracked commit hash for that=0A=
-submodule hasn't changed, so 'git add' has nothing new to stage for it,=0A=
-and git refuses to fold the submodule's own dirty state into a plain=0A=
-commit without it being resolved first:=0A=
-=0A=
-  $ git commit -m ... --no-verify --no-gpg-sign=0A=
-  Changes not staged for commit:=0A=
-    (commit or discard the untracked or modified content in submodules)=0A=
-          modified:   level1 (modified content)=0A=
-  no changes added to commit (use "git add" and/or "git commit -a")=0A=
-=0A=
-'git commit' then exits non-zero with nothing to commit, and=0A=
-commitIgnored() propagates that failure straight up, taking the whole=0A=
-do_patch task down with it.=0A=
-=0A=
-Fix by checking 'git diff --cached --name-only' after 'git add': if=0A=
-nothing was actually staged, there is nothing meaningful to snapshot,=0A=
-so skip the commit (and the note it would otherwise add) instead of=0A=
-failing.=0A=
+Add test_devtool_modify_multi_git_destsuffix_standalone to verify that=0A=
+devtool modify converts all nested git repos (from multiple SRC_URI git=0A=
+entries with different destsuffix values, including a repo nested inside=0A=
+another repo's own working tree) to standalone clones so the workspace=0A=
+survives 'bitbake -c cleanall'.=0A=
 =0A=
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>=0A=
 ---=0A=
- meta/lib/oe/patch.py | 12 ++++++++++++=0A=
- 1 file changed, 12 insertions(+)=0A=
+ meta/lib/oeqa/selftest/cases/devtool.py | 64 +++++++++++++++++++++++++=0A=
+ 1 file changed, 64 insertions(+)=0A=
 =0A=
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py=0A=
-index 1d50e83ab7..944dde1e03 100644=0A=
---- a/meta/lib/oe/patch.py=0A=
-+++ b/meta/lib/oe/patch.py=0A=
-@@ -516,6 +516,18 @@ class GitApplyTree(PatchTree):=0A=
-     def commitIgnored(subject, dir=3DNone, files=3DNone, d=3DNone):=0A=
-         if files:=0A=
-             runcmd(['git', 'add'] + files, dir)=0A=
-+=0A=
-+        # 'git add' can leave nothing actually staged even though the call=
-er=0A=
-+        # saw a dirty status: a path can show as modified purely because i=
-t=0A=
-+        # is a submodule/embedded git repository with modified or untracke=
-d=0A=
-+        # content of its own (e.g. a further nested git repo from another=
-=0A=
-+        # destsuffix SRC_URI entry) - git refuses to record that via a pla=
-in=0A=
-+        # 'git add'/'git commit' without resolving the submodule's own sta=
-te,=0A=
-+        # so the commit below would fail with "no changes added to commit"=
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selfte=
+st/cases/devtool.py=0A=
+index a10eb0c784..de73a2e620 100644=0A=
+--- a/meta/lib/oeqa/selftest/cases/devtool.py=0A=
++++ b/meta/lib/oeqa/selftest/cases/devtool.py=0A=
+@@ -1265,6 +1265,70 @@ class DevtoolModifyTests(DevtoolBase):=0A=
+         self.assertExists(os.path.join(source_repo_gitsm_gitmodules, 'bitb=
+ake'), 'Submodule not found')=0A=
+         self.assertExists(os.path.join(source_repo_gitsm_gitmodules, 'bitb=
+ake-gitsm-test1'), 'Submodule not found')=0A=
+ =0A=
++    def test_devtool_modify_multi_git_destsuffix_standalone(self):=0A=
++        """=0A=
++        Verify that devtool modify converts all nested git repos (from mul=
+tiple=0A=
++        SRC_URI git entries with different destsuffix values) to standalon=
+e clones=0A=
++        so that 'bitbake -c cleanall' does not break the devtool workspace=
 .=0A=
-+        # Skip the commit if there is nothing actually staged.=0A=
-+        if not runcmd(['git', 'diff', '--cached', '--name-only'], dir).str=
-ip():=0A=
-+            return=0A=
 +=0A=
-         cmd =3D ["git"]=0A=
-         GitApplyTree.gitCommandUserOptions(cmd, d=3Dd)=0A=
-         cmd +=3D ["commit", "-m", subject, "--no-verify", "--no-gpg-sign"]=
++        The recipe (devtool-test-multi-destsuffix) has three git SRC_URI e=
+ntries=0A=
++        with S =3D ${UNPACKDIR}, each nested inside the previous repo's ow=
+n=0A=
++        working tree:=0A=
++            destsuffix=3Dlevel1               -> srcdir/level1/=0A=
++            destsuffix=3Dlevel1/level2        -> srcdir/level1/level2/=0A=
++            destsuffix=3Dlevel1/level2/level3 -> srcdir/level1/level2/leve=
+l3/=0A=
++=0A=
++        This mirrors real-world recipes that embed multiple module repos=
 =0A=
++        as nested subdirectories of the primary source tree, including the=
+=0A=
++        case where one repo's checkout lives inside another repo's working=
+=0A=
++        tree rather than merely under a shared plain directory.=0A=
++        """=0A=
++        testrecipe =3D 'devtool-test-multi-destsuffix'=0A=
++        src_uri =3D get_bb_var('SRC_URI', testrecipe)=0A=
++        self.assertIn('git://', src_uri,=0A=
++                      'This test expects %s to have git SRC_URI entries' %=
+ testrecipe)=0A=
++        self.track_for_cleanup(self.workspacedir)=0A=
++        self.add_command_to_tearDown('devtool reset %s' % testrecipe)=0A=
++        self.add_command_to_tearDown('bitbake-layers remove-layer */worksp=
+ace')=0A=
++        result =3D runCmd('devtool modify %s' % testrecipe)=0A=
++        self.assertEqual(result.status, 0,=0A=
++                         'devtool modify failed: %s' % result.output)=0A=
++        srcdir =3D os.path.join(self.workspacedir, 'sources', testrecipe)=
+=0A=
++        nested_paths =3D [=0A=
++            ('level1', 'level1'),=0A=
++            ('level2', 'level1/level2'),=0A=
++            ('level3', 'level1/level2/level3'),=0A=
++        ]=0A=
++=0A=
++        for name, subpath in nested_paths:=0A=
++            repo_path =3D os.path.join(srcdir, subpath)=0A=
++            self.assertExists(os.path.join(repo_path, '.git'),=0A=
++                              'Repo %s (.git) not found in devtool workspa=
+ce' % name)=0A=
++=0A=
++        # Key assertion: no nested repo should retain a git alternates fil=
+e.=0A=
++        # devtool modify must repack objects locally so the workspace does=
+ not=0A=
++        # depend on the downloads cache, which 'bitbake -c cleanall' will =
+delete.=0A=
++        for name, subpath in nested_paths:=0A=
++            repo_path =3D os.path.join(srcdir, subpath)=0A=
++            alternates_file =3D os.path.join(repo_path, '.git', 'objects',=
+=0A=
++                                           'info', 'alternates')=0A=
++            self.assertNotExists(alternates_file,=0A=
++                                 'Repo %s still has a git alternates file =
+after '=0A=
++                                 'devtool modify' % name)=0A=
++=0A=
++        # Verify the workspace survives cleanall, which removes the shared=
+=0A=
++        # objects in the downloads cache that alternates would reference.=
+=0A=
++        bitbake('%s -c cleanall' % testrecipe)=0A=
++=0A=
++        # After cleanall all repos must still be usable.=0A=
++        # A broken alternates file would cause git operations to fail.=0A=
++        for name, subpath in nested_paths:=0A=
++            repo_path =3D os.path.join(srcdir, subpath)=0A=
++            result =3D runCmd('git status', cwd=3Drepo_path)=0A=
++            self.assertEqual(result.status, 0,=0A=
++                             'git status failed in repo %s after cleanall:=
+ %s'=0A=
++                             % (name, result.output))=0A=
++=0A=
+ class DevtoolUpdateTests(DevtoolBase):=0A=
+ =0A=
+     def test_devtool_update_recipe(self):=0A=
 -- =0A=
 2.43.0=0A=
 
