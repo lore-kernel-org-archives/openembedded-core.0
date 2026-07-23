@@ -1,103 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1689C531D0
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 20:13:12 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5559.1784837582803672886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56C50C531CC
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 20:48:44 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6138.1784839721781482918
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 13:13:03 -0700
+ Thu, 23 Jul 2026 13:48:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FKi07yoi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47ddf7b09aaso732228f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 13:13:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=V5Zf/4qy;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38deea72eebso1183037a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 13:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1784837581; x=1785442381; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=zrE9bSIKamBvNHVJD0yunYpQ8NanGDThA7DoPox3qyc=;
-        b=FKi07yoiE3ULRObcBq5/xcmUKycLPqCiSHYwAU6kM44Y0shhmhZIh/x1XZ/LQKarY4
-         Qy4F/fCxTnlfNz05/UK1yKG6ScUDnDDKZ6rT8cEQo9VvHqjq9mjNy0+ueLQjlrzF9T3V
-         P3079rD7Su6eehrLNWbTIgsJg3Tav9Wb/jpKw=
+        d=gmail.com; s=20251104; t=1784839721; x=1785444521; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AjNmOxU+E4IXVpJgD+eag1j6YAzRO0lSHBR3cDm4OOI=;
+        b=V5Zf/4qyoRf+N6Kwj32wqRvauP9L1PPEAunqeEEs3GjoOYODIxgWNUYCciMq9lHLVB
+         MTxlEEqPmUrvTuCXFEY8SlCQsk319Jlbi9WjvWGz1++qqLxB8m8yV8JXPWRjJ+2DQHXq
+         iWeyoCCQsF1Pe0QrHUPm2dKNDHVD7LxQUkmVXJuYEM5GzoijM12NJ79nm3NeValMaMDW
+         5J+W7gIPRE6Dnnfb4weiwJmGVNxeMG3eXjALOlviGSXLVavVUlYVvo53xap3iFxQB5tW
+         AyA95Rm7WjVs8I1cfeKXRNhdgJRW0X2zitf1zzgZF0Dhi9/gMciH6kC1Lx+kFLXXNd5o
+         w6AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784837581; x=1785442381;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zrE9bSIKamBvNHVJD0yunYpQ8NanGDThA7DoPox3qyc=;
-        b=KarftX2Vnjm7Lk99dSir13Cpnu13XzoHE3Bau5ow+MPRSJ+iO3hTxm2OcOAFHo3TaT
-         p0XoH289zr8xlaa/5tE1hMQV9Fc/DQykX4FGoKd5u/w3MA/O5mxb3gaQzjxNnhdyRCmv
-         +prVFGd5l1R8Oq1i7M9i887mzKsXB++iwsRjI3qryQnv6NtSZYiDsrXodHdYeAWIC6iN
-         L/T+2Fu/dZfXtWVZmX2hClUluWgvZ5nrIp1n5uohMzG3dqovAiMgaRQe83YaoUEu21yI
-         /Yoz2VBv2sIR/v0lmROT0ON9xb9gluuAvEf9p9kLlrXIg8HZdw7zdnAbdxh4MYgAXCVj
-         jn4g==
-X-Gm-Message-State: AOJu0Yxb/pOhVs3CBXsk+ikw7z5CFqQTEg1OEODQp2h0n3GxUHpqDdki
-	iqdBSfK2vumL9XuzIicXvVGwQXZ9CXZVqRpJ6Mln962BjFHyd4JUDXmj2okVPGF502I=
-X-Gm-Gg: AR+sD10qNL6529Uvr4RVOmKr9M00ncjMdYhUpQCQgc9GjN3h7esIYSeZMjWc8me7jvi
-	IqDjyBUCkODs7Q9HYQuGXYnrl18pF0GHDcib1SudK2c18AOvX+hKUWGFJ0vMFpTtY1vPyBC+qEP
-	pYzWnT5rh96f7TaHUHe+AQ6tQ/hDMnjJrjaly2ghm880wwJcg+RWC4uPeRMDLSwSoclxzwN24Sw
-	NEJ59QHgcgm6cPNu3IBdhQo1CttF2okRmrjeSQwnAxKyRbn3vEnjkm4XTdDal3LGM2auAMrEVYF
-	YMR0DwzmvfTJVI3CMeap/QwSh+G0PCj1ARTl6evkkB67xmY54fu07P+TkEx2GQ0e4JyqTuWd0MW
-	TXSRz+Z5h8B7x7IJphy3NrHQRxXENOzyYeOyU4cIfcRNtZiTNuDXS4CpKKdhAt7Pe+gvxgm9+ad
-	vCbS0MyvNJTpUAp/PN/v7WyRYlA9bu31P2OFBD+gYHp+MosSczp+U7bGpdk2DDgmG93zI=
-X-Received: by 2002:a05:6000:200f:b0:47f:85a1:32ff with SMTP id ffacd0b85a97d-47f8d71c6d2mr6037885f8f.13.1784837580967;
-        Thu, 23 Jul 2026 13:13:00 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:462a:8710:d4ff:20b9? ([2001:8b0:aba:5f3c:462a:8710:d4ff:20b9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c7880dsm19130356f8f.37.2026.07.23.13.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 13:13:00 -0700 (PDT)
-Message-ID: <d709dc9b41881ed66e10c45c4dd74ab899c9ceac.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] default-distrovars: Enable minidebuginfo
- DISTRO_FEATURE by default
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer	
- <openembedded-core@lists.openembedded.org>, Ross Burton
- <ross.burton@arm.com>
-Date: Thu, 23 Jul 2026 21:12:59 +0100
-In-Reply-To: <CAMKF1spi9oaw3fWW290ryPd2ae-dbBHA3OvbGEE1_H5xYwgLJw@mail.gmail.com>
-References: <20260723134101.864910-1-richard.purdie@linuxfoundation.org>
-	 <CAMKF1spi9oaw3fWW290ryPd2ae-dbBHA3OvbGEE1_H5xYwgLJw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20251104; t=1784839721; x=1785444521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AjNmOxU+E4IXVpJgD+eag1j6YAzRO0lSHBR3cDm4OOI=;
+        b=TDN30/6FN6fFzkvDJ6xJaqsAPF7uq1XxmmlZHauI0pbgtWEzCf21ujYeQ5bOyEcCHH
+         0fqk9t2FrP7Nn39cGMl7Ql5mQUnF90dPgNLvFKkXz5A0KOjXWsyZJcH9sozlaydVF6XH
+         p3ql0jaC4QTsWKMDPxeG2Z6z2/e3MI47svF5jz+Q/NJCtTcpg5tlgw/2tyXnsQmQ6Fb/
+         +JyRC+d+WDXPGe37Sei9ySsC2W6wR5YDjOe0P51+6JS5uMMTJA894nuS1Ffxyu9b1Z+x
+         5D7H3K79rZwguKGg/ezhUfAxr4ke0Bzp921XVydUZSAenmIJsLMrHqx9eU7Zh33B9VuK
+         D4Fw==
+X-Gm-Message-State: AOJu0YzWUUiCmPY7GO4Z6Fb480dC3LRZUzgBYQpQfKIGl7XvRDCFdGDy
+	oNyieEOqwf5z/VCwZ/xlnL5lBqF6DfvGIiSwZwMaQ13m2CMh+xQJp2905hiwuw==
+X-Gm-Gg: AR+sD13kJk2semYCiDypsZVpwEub0JezQih7HdMW89x2cYfWQ7yxwxVtN166qXgCMu8
+	TGp0u1sEwaUYQhH5y2onBS5cGj89vYRa2K0BuItyKq/WPpUSKBPd6p1kGq4PONKoxiOk2N4fWEa
+	baSFQJRmokzy0RKOUf5Vi2mM2v84cmydKk0YwsWl1rFcN1E6GZSwwY2BvC5ihouW8W9LS/VPLIu
+	tmHU/kRmx/6vmAF1F4dBYFUwJuR1G0OfWvt4mcYZwmh9tFQytmAl4P4GXLu6tdDhOe6y2gy5sa3
+	PlcjRsdbNzk5MOG+K5cNdcFsXsAbGsbwfySS2yANm/OICxWuemWU4T5kfpwMsHhy6htrQww2Wpg
+	UlG/YoweWSIPuVn8G+3BAGrpy1FrnTivNi16Yi99MSCQUpjBBiP/7uP33OnBPipJ1bqSRIH9hvy
+	5+mcwFTVj31W7v3XR7MM86epDfb03+ZPYwlfBhYGeV8Umvbq0qZ1pf6DuJ9iGkRro/wEBS64iBK
+	Q==
+X-Received: by 2002:a17:90b:57e4:b0:38e:79f:76ad with SMTP id 98e67ed59e1d1-38ec6566203mr4770963a91.23.1784839720973;
+        Thu, 23 Jul 2026 13:48:40 -0700 (PDT)
+Received: from localhost.localdomain (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f03b0eabesm438508a91.6.2026.07.23.13.48.39
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 23 Jul 2026 13:48:40 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH 1/3] fragments/yocto/sbom-cve-check: fix conflict with tag=
+Date: Thu, 23 Jul 2026 13:48:31 -0700
+Message-ID: <20260723204833.43562-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 20:13:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241870
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 20:48:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241871
 
-Hi Khem,
+Fixes: 00864cf5bc meta: Add tag in SRC_URI to multiple recipes
 
-On Thu, 2026-07-23 at 07:48 -0700, Khem Raj wrote:
-> Since default policies are generally used by derived distros,
-> changing this default may have broader impacts. I wonder if the Yocto
-> autobuilder issues you mentioned are commonly seen by OE users, as
-> this change will embed symbols into binaries that some users may not
-> expect.
->=20
-> Additionally, there are alternatives that people might have already
-> deployed. I would suggest seeking user feedback before enabling this
-> by default in OE-core.
+When this fragment is enabled, SRCREV is set to AUTOREV, but this then
+causes do_unpack to fail for both sbom-cve-check-update-cvelist-native
+and sbom-cve-check-update-nvd-native, since the tag SRCREV does not
+match with the 'main' HEAD AUTOREV.
 
-Our defaults tend to reflect developer usage rather than fully hardened
-and given that, I still would lean to make this the default, allowing
-easier debugging of issues. I suspect if you have issues with the debug
-symbols, you already set your own distro features...
+Rather than allow the tag to float, for those that desire reproducible
+builds with just IMAGES_CLASSES:append = " sbom-cve-check" and not
+this fragment, set SRC_URI **without** the tag= in this fragment.
 
-The original proposal was to enable it in poky, however that would
-"fork" nodistro and poky sstate and I'm not sure we want to do that? We
-had decided to try and keep them more compatible for better sstate
-reuse and faster builds "out the box".
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ meta/conf/fragments/yocto/sbom-cve-check.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I'm open to opinions on what we should do if anyone else has opinions.
+diff --git a/meta/conf/fragments/yocto/sbom-cve-check.conf b/meta/conf/fragments/yocto/sbom-cve-check.conf
+index 73ed35be27..46f6965a0d 100644
+--- a/meta/conf/fragments/yocto/sbom-cve-check.conf
++++ b/meta/conf/fragments/yocto/sbom-cve-check.conf
+@@ -13,6 +13,9 @@ IMAGE_CLASSES:append = " sbom-cve-check"
+ 
+ SRCREV:pn-sbom-cve-check-update-nvd-native = "${AUTOREV}"
+ SRCREV:pn-sbom-cve-check-update-cvelist-native = "${AUTOREV}"
++# Drop the tag= or else do_unpack fails
++SRC_URI:pn-sbom-cve-check-update-cvelist-native = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix="
++SRC_URI:pn-sbom-cve-check-update-nvd-native = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix="
+ 
+ SPDX_INCLUDE_VEX = "all"
+ SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-yocto = "1"
+-- 
+2.55.0
 
-Cheers,
-
-Richard
 
