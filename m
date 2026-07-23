@@ -1,150 +1,167 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A33D4C531CC
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 19:38:02 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4838.1784835472404040676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCF5C531CC
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 19:50:02 +0000 (UTC)
+Received: from mailer9.gate185.sl.smtp.com (mailer9.gate185.sl.smtp.com [192.40.185.9])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2211.1784827692963824224
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 12:37:52 -0700
+ Thu, 23 Jul 2026 10:28:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=JqqDmVkO;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 978D61477
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 12:37:47 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5D4A23F66F
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 12:37:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784835471; bh=V9lwHw+cuEnTSWF16XXdOTW+4cUQYKCxG2aioxh+aWc=;
-	h=From:To:Subject:Date:From;
-	b=JqqDmVkOHDVe8+wAeE1m7a/PnfEUoXJISUZHUoEoConpnrLOHG6Ml6X2qXwZ3oMfD
-	 Vn7+z4ocfXeszaNdjEtZwdP4HTepB+9NlYRjNA1pC917lHq+A/KpfafHNhM7Y8q56p
-	 cdtzF8kzA61l/sCTmmzqrNTdauZIE/cAZLFlJcU4=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libgit2: remove library paths from installed .cmake
-Date: Thu, 23 Jul 2026 20:37:44 +0100
-Message-ID: <20260723193744.3592838-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@centricular.com header.s=201701 header.b=LEIxvTAW;
+ dkim=pass header.i=@smtpsendemail.com header.s=smtpcustomer header.b=uEwJFhmw;
+ spf=pass (domain: centricular.com, ip: 192.40.185.9, mailfrom: tarun@centricular.com)
+X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
+ about your feedback. Please contact abuse@smtp.com for further investigation.
+Received: from [10.0.16.172] (unknown [10.138.12.16])
+	by mtl-mta01-out1 (Halon) with ESMTP
+	id a6fb527e-6857-484c-92a3-e4da34cf235f;
+	Thu, 23 Jul 2026 17:28:12 +0000 (UTC)
+Received: Received from 10.138.12.53 by Caffeine (s0-aws-app-swarm-manager-4)
+ with SMTP id d90b825d-6b6d-4bf3-bc1f-9a18f67e29c5  for
+ openembedded-core@lists.openembedded.org;
+  Thu, 23 Jul 2026 17:27:23 +0000 (UTC)
+Feedback-ID: 9075006:SMTPCOM
+Received: from hermes.centricular.com (unknown [138.201.245.53])
+	by s0-aws-app-mta-in-2 (Halon) with ESMTPSA
+	id d90b825d-6b6d-4bf3-bc1f-9a18f67e29c5;
+	Thu, 23 Jul 2026 17:27:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 9DCFF9CA4E;
+	Thu, 23 Jul 2026 19:27:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=centricular.com;
+	s=201701; t=1784827642;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=jLD9ggdviNVSmZO82xNnruRDgg+ORk0sxMx1K9RpvDY=;
+	b=LEIxvTAWbT7GzDxcDvxCryL+2nkELnXzcoIP0EgtssLyYZnrDnghWW1tePqI3tw+0CJULR
+	S+7wPs57kUQbGJFYseT003yRBpE/4cg4gpkZrWSbp8y5SbWAYcx8bcCmN0T3RUbuYySUCa
+	HG+ZsEAahu3L3uVCZjY5TYSyIiYdiwdi+JITWE5zq9uanlPTUOYnYyGP47voEuF1HrzW4q
+	5iCS6UXu2UjVfaGmK3cU1ikRLIFVNeH86p3D5I1Lut8M4NmGqRnTswZN9niTmmzGHGgENz
+	hUT8YyTsiNbL0vGzddKQaCTYHVEB7N4Bth4OAKHCWZ2aQmVbFlkShGyU+vMhYA==
+Message-ID: <c0954cf3c3f481a7bbbe9143c44a25f5a4e74b41.camel@centricular.com>
+Subject: Re: [OE-core] [PATCH v5 2/2] gstreamer1.0-plugins-rs: add new package
+From: Taruntej Kanakamalla <tarun@centricular.com>
+To: Yoann Congal <yoann.congal@smile.fr>,
+	openembedded-core@lists.openembedded.org
+Cc: sebastian@centricular.com, nirbheek@centricular.com, jan@centricular.com
+Date: Thu, 23 Jul 2026 22:57:16 +0530
+In-Reply-To: <DK61WCMPQZSR.23U8FFRDU3P0@smile.fr>
+References: <20260707081701.1525114-1-tarun@centricular.com>
+	 <20260714105541.2812170-1-tarun@centricular.com>
+	 <20260714105541.2812170-2-tarun@centricular.com>
+	 <DJZ45A2IL6XB.172T8CGXQUIPH@bootlin.com>
+	 <DJZ6ZB5JTYSV.ZUCFUNHW05GN@bootlin.com>
+	 <d460480501e19d59ac2a7bec0f15020692f0b855.camel@centricular.com>
+	 <DJZTA3XYAG4T.1DDQE4ASD7JPI@bootlin.com>
+	 <4d95a8c8b8bcb0e1f5e01576466301f69eb2aa9b.camel@centricular.com>
+	 <DK54RIOEU340.33ALWQ7AGPKEJ@bootlin.com>
+	 <613be9d21a4a0f6fbec1c71aeca3a5874fbe4e60.camel@centricular.com>
+	 <DK61927PZM4C.2UUP8BSKKC6NY@smile.fr>
+	 <9b05bc4c4c0ae9e817111347a473a268d3fd3584.camel@centricular.com>
+	 <DK61WCMPQZSR.23U8FFRDU3P0@smile.fr>
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
+X-SMTPCOM-Sender-ID: 9075006
+X-SMTPCOM-Tracking-Number: d90b825d-6b6d-4bf3-bc1f-9a18f67e29c5
+X-SMTPCOM-Message-ID: 08ca009c-4018-4e83-a611-19fe62f6ee4c
+X-SMTPCOM-Payload: 
+ og_xjl-Vw2e09WCfPDHKUW_ikx8ArmVn9k3XLb3Am-WqZ-HWC_kSgHntm4blNMVY5AMvoqtbBBz7Lx09qygrwHhMU11qyzfBL6nkkgNXAYLY0GQOq7ksIq2hs__LErJCMCTdlXjeEAA6ZxHoLsMhNKwGqXj0pHUfQB86paMB4YEpjb52Ck-Mr8Ng8OBak5amuPM2f8GJew5LwjT0vGKt2A==
+List-Unsubscribe: 
+ <mailto:abuse@abuse.smtp.com?subject=MailStop&body=08ca009c-4018-4e83-a611-19fe62f6ee4c_9075006>,
+ <https://api.smtp.com/v4/unsubscribe?mid=08ca009c-4018-4e83-a611-19fe62f6ee4c&sid=9075006>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpsendemail.com;
+ i=@smtpsendemail.com; q=dns/txt; s=smtpcustomer; t=1784827676;
+ h=feedback-id : message-id : subject : from : to : cc : date :
+ in-reply-to : references : content-type : mime-version :
+ list-unsubscribe : list-unsubscribe-post : subject : from : to : cc :
+ date; bh=jLD9ggdviNVSmZO82xNnruRDgg+ORk0sxMx1K9RpvDY=;
+ b=uEwJFhmwQcxEUB49FfsmYQ6DUHo4By7rquOZuhaeqbGOSv3t16m0qMJYuzzN9P6qV9wPC
+ OWoBbJIm65SSIAaNwJyA/hB9pQK1xqPEqPNbWTgLL4I1mA6IkHewJ5IHDeloBhhFSc+L2qO
+ RmknmSYwiTQPbxexqRNcAiD2a1PNYpuq24StvN88bi/+/ImHY/0N5eVWXCSV8QZOJHqx5WB
+ IlfxMBaFffAS+yrEzmYN4d7+67PIEm1qGjxFafCnZXLASgMO6OZQ6LLt/AHeGY8tOeR5OCL
+ We7xtuCQUkByDZq07TwYwjrh5sB9jMOnpyB2YTau6LAyvL1Nykt5zPSex42Q==
+Content-Type: multipart/alternative; boundary="=-Hi+ck1drJUtbCah2T99o"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 19:38:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241866
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 19:50:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241868
 
-The libgit2 cmake rules generate a .cmake file that tells people linking
-to libgit2 how to link.  This includes the complete path to each of the
-libraries that libgit2 links, such as /path/to/sysroot/usr/lib/libssl.so.
+--=-Hi+ck1drJUtbCah2T99o
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The build paths were previously removed with a quick sed, but this breaks
-builds where those target paths exist on the build host as they get used
-verbatim.
+On Thu, 2026-07-23 at 17:20 +0200, Yoann Congal wrote:
 
-However, all of this linkage is redundant as the library directly links
-to these libraries.  Mark the linkage as private, so the references do
-not appear in the .cmake files.
+> > > Hello,
+> > >=20
+> > > "issues with freedesktop gits" were a red-herring.
+> > >=20
+> > > The root cause is that the submitted recipe gstreamer1.0-plugins-rs
+> > > is
+> > > "floating": ie has not SRCREV value to anchor it to a particular git
+> > > commit.
+> > >=20
+> > > Please send a new version with the appropriate SRCREV value.
+> > >=20
+> > > Thanks!
+> >=20
+> >=20
+> > Thanks for spotting it, I will send a new version shortly.
+> >=20
+> > Now while building after pulling the latest master, I notice the
+> > warnings Mathieu previously mentioned about using old syntax for
+> > LICENSE for this recipe as well multiple others.
+> >=20
+> >=20
+> > > gstreamer1.0-plugins-rs: LICENSE is using an old syntax and should be
+> >=20
+> > upgraded to: "Apache-2.0 OR MPL-2.0"
+> >=20
+> > Should I make the LICENSE format change as well in the new version?
+>=20
+>=20
+> I guess, yes. Sounds like the consequence of the recent LICENSE =20
+> developments.
 
-[ YOCTO #16373 ]
+Thanks, I have just submitted a new version with the changes.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...m-libraries-are-private-link-librari.patch | 42 +++++++++++++++++++
- meta/recipes-support/libgit2/libgit2_1.9.4.bb |  8 ++--
- 2 files changed, 45 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-support/libgit2/files/0001-cmake-mark-sy=
-stem-libraries-are-private-link-librari.patch
+--=-Hi+ck1drJUtbCah2T99o
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-support/libgit2/files/0001-cmake-mark-system-li=
-braries-are-private-link-librari.patch b/meta/recipes-support/libgit2/fil=
-es/0001-cmake-mark-system-libraries-are-private-link-librari.patch
-new file mode 100644
-index 00000000000..267770ae6fe
---- /dev/null
-+++ b/meta/recipes-support/libgit2/files/0001-cmake-mark-system-libraries=
--are-private-link-librari.patch
-@@ -0,0 +1,42 @@
-+From 5670d3eed82f0d64766158809bf3d0c7c631b0ea Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Thu, 23 Jul 2026 17:35:23 +0100
-+Subject: [PATCH] cmake: mark system libraries are private link libraries
-+
-+When generating libgit2Targets.cmake, mark the system libraries that
-+libgit2.so links to as private, as the don't not need to be seen by
-+applications that link to libgit2.
-+
-+This stops the generated file from containing absolute paths to the
-+libraries, which both leaks build information and means the build output
-+is not relocatable:
-+
-+set_target_properties(libgit2::libgit2package PROPERTIES
-+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-+  INTERFACE_LINK_LIBRARIES "/PATH/TO/SYSROOT/usr/lib/libssl.so;/PATH/TO/=
-SYSROOT/usr/lib/libcrypto.so;/PATH/TO/SYSROOT/usr/lib/libpcre2-8.so;/PATH=
-/TO/SYSROOT/usr/lib/libz.so;rt"
-+)
-+
-+Making the linkage private removes the INTERFACE_LINK_LIBRARIES line,
-+and applications linking to libgit2 still succeed.
-+
-+Upstream-Status: Submitted [https://github.com/libgit2/libgit2/pull/7324=
-]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ src/libgit2/CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/libgit2/CMakeLists.txt b/src/libgit2/CMakeLists.txt
-+index 8045ddef9..fafdb09ec 100644
-+--- a/src/libgit2/CMakeLists.txt
-++++ b/src/libgit2/CMakeLists.txt
-+@@ -65,7 +65,7 @@ if (NOT BUILD_SHARED_LIBS AND XCODE_VERSION)
-+ endif()
-+=20
-+ add_library(libgit2package ${SRC_RC} ${LIBGIT2_OBJECTS})
-+-target_link_libraries(libgit2package ${LIBGIT2_SYSTEM_LIBS})
-++target_link_libraries(libgit2package PRIVATE ${LIBGIT2_SYSTEM_LIBS})
-+ target_include_directories(libgit2package SYSTEM PRIVATE ${LIBGIT2_INCL=
-UDES})
-+ target_include_directories(libgit2package INTERFACE $<INSTALL_INTERFACE=
-:${CMAKE_INSTALL_INCLUDEDIR}>)
-+=20
-+--=20
-+2.43.0
-diff --git a/meta/recipes-support/libgit2/libgit2_1.9.4.bb b/meta/recipes=
--support/libgit2/libgit2_1.9.4.bb
-index 10999f972ed..7310dda66dd 100644
---- a/meta/recipes-support/libgit2/libgit2_1.9.4.bb
-+++ b/meta/recipes-support/libgit2/libgit2_1.9.4.bb
-@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8eacfdc17c8f4d=
-219e131a073973b97d"
-=20
- DEPENDS =3D "curl openssl zlib libssh2 libgcrypt libpcre2"
-=20
--SRC_URI =3D "git://github.com/libgit2/libgit2.git;branch=3Dmaint/v1.9;pr=
-otocol=3Dhttps;tag=3Dv${PV}"
-+SRC_URI =3D "git://github.com/libgit2/libgit2.git;branch=3Dmaint/v1.9;pr=
-otocol=3Dhttps;tag=3Dv${PV} \
-+           file://0001-cmake-mark-system-libraries-are-private-link-libr=
-ari.patch"
-+
- SRCREV =3D "f7164261c9bc0a7e0ebf767c584e5192810a8b24"
-=20
- inherit cmake
-@@ -17,7 +19,3 @@ EXTRA_OECMAKE =3D "\
- "
-=20
- BBCLASSEXTEND =3D "native"
--
--do_install:append() {
--    sed -i -e 's,${RECIPE_SYSROOT},,g' ${D}${libdir}/cmake/libgit2/libgi=
-t2Targets.cmake
--}
---=20
-2.43.0
+<p>On Thu, 2026-07-23 at 17:20 +0200, Yoann Congal wrote:</p>
+<blockquote type=3D"cite">
+<blockquote type=3D"cite">
+<blockquote type=3D"cite">
+<p>Hello,</p>
+<p>&quot;issues with freedesktop gits&quot; were a red-herring.</p>
+<p>The root cause is that the submitted recipe gstreamer1.0-plugins-rs
+is
+&quot;floating&quot;: ie has not SRCREV value to anchor it to a particular =
+git
+commit.</p>
+<p>Please send a new version with the appropriate SRCREV value.</p>
+<p>Thanks!</p>
+</blockquote>
+<p>Thanks for spotting it, I will send a new version shortly.</p>
+<p>Now while building after pulling the latest master, I notice the
+warnings Mathieu previously mentioned about using old syntax for
+LICENSE for this recipe as well multiple others.</p>
+<blockquote type=3D"cite">
+<p>gstreamer1.0-plugins-rs: LICENSE is using an old syntax and should be</p=
+>
+</blockquote>
+<p>upgraded to: &quot;Apache-2.0 OR MPL-2.0&quot;</p>
+<p>Should I make the LICENSE format change as well in the new version?</p>
+</blockquote>
+<p>I guess, yes. Sounds like the consequence of the recent LICENSE<br />
+developments.</p>
+</blockquote>
+<p>Thanks, I have just submitted a new version with the changes.</p>
 
+--=-Hi+ck1drJUtbCah2T99o--
 
