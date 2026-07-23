@@ -1,174 +1,205 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BCE3C531C7
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 08:46:59 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19137.1784796408856595036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F9CC531CD
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 08:49:19 +0000 (UTC)
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19173.1784796555935065538
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 01:46:49 -0700
+ Thu, 23 Jul 2026 01:49:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=jbQcXoVT;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493f6de72faso1796855e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 01:46:48 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TjdcN0Md;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784796407; x=1785401207; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tfZeRrV+FKjPDAPUsepEpIjamzKHab/W7jAWbZQ2n7k=;
-        b=jbQcXoVTDzBPiiPqQXjEcnmBiCRbtZz+WsvhwiKkmYo5af6VGt0TDHixhQDraer+Gd
-         XMXcVk55SF4EFp5/DYgwRIl7nUC3/hhE/hngZgstAQsM1sSoiJsMN36yy/T2G7CFbas3
-         K8ZRzBDYO1dF+Fa8tGpj58U9p+s+UgPJuk+io=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784796407; x=1785401207;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tfZeRrV+FKjPDAPUsepEpIjamzKHab/W7jAWbZQ2n7k=;
-        b=jOpoK/A6dkDNnhdBBMZdSZKXniZqlfyk51/OWmTgVITZr9sgUFrR0R06iRr1K6Egzq
-         m3r92smjO3ucNd3Q/GJipmgc6J2Zq0ltLwIu/k1W30QTPWvRusTInSQZlqqnMN3Lfebl
-         ceje0hK4tnLN/dZY3nOZ0qR35K1CO1QLYCE9kLpdZS4c2C+oMThIhFFwimseh/UMEqTe
-         5CJvUEO8d6xcrxT8cXgYykCbHQFUoSVArZT20OmN3ncI0itUny8f415/VvN8J1UYzjiq
-         YnKUNU4xlBuJwFHE65ybbc9KWfwYoeQezQT1jVm2+WkZNJUzZJap/7cJWYMumxefvoIv
-         noUQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqVJjTD7m3AGBQmU/uuChhPfPqVQqAJq4v5O1do1ODKtgRV0Ox0bDLyu5RunFMMRI/oEl5xtq8TlgtuNC0nwVUkqQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzrEgM6fcQAlqaFxh73Dnt4MiJR8bFUKyHyODbejFL6hHM+9Pq2
-	MW9FCOp5APc38iBoMi2uDMwm81n90jNX3df45KkaEC3YFdK+K1kVTuBmozDzgPnx3nY=
-X-Gm-Gg: AR+sD11a6UaF2XNCLLI58OCWihvdUPGw3VHVebFfrAJ52lGc9PwaLYcZl5k+JhqqQ0n
-	jTNo3bbGgAXXOmTWkskRYYX7A2TIVOuusulWE9i3eiOdihS7AZDy+4TE0Sny7s5dWj3DQDKrtAq
-	EnImSjO5nvg8LgueIX+ZuNrOq/WEsk4F0FDMn+P1KnXxY2DG2d9STJKlJKaJ1U82OwgD6UEaFb2
-	PGFH6WFJM/ubGzrTQMkbcC1vOTUzt229BnCGPUvnvQrK4WrNSD1Gm3vzXnuH9L3XYGFptEK89us
-	S/NRBWiWT62wojWrcb245EE7eq66KxtkJ9LljR8TFKbrWeGgKXVZ/mQISboPSDq3pqjYhWZ+1CK
-	0H4KBvn7D3Y3pdqOE11T8UUea2BRhAe6nLLXiL2x+Oj5J/TJsITnwoXGcRw/k3ops9Iy35rsec3
-	9gg+MHrcfazB/3f6F33lkL2Z/FBpeLT4xj19FJO6QgowBJDDKC71SINiPjpkaVl7rMPX+1A/52a
-	f2G
-X-Received: by 2002:a05:600c:1385:b0:495:4f84:7280 with SMTP id 5b1f17b1804b1-49574581036mr16974555e9.4.1784796406871;
-        Thu, 23 Jul 2026 01:46:46 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653698bcsm185809335e9.2.2026.07.23.01.46.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jul 2026 01:46:46 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+  d=cisco.com; i=@cisco.com; l=4145; q=dns/txt;
+  s=iport01; t=1784796555; x=1786006155;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=lMRg+ZISRgiYL6mJ/L+GBND8Oezlq6CF4iYA7RQfJwA=;
+  b=TjdcN0MdG1X49ffmcX8YWPyoHxxffB1pvnRw3HMa/R9lpG4sv8z08VBm
+   PXNworbkeBS+bVumXEPnpPXlJHrPQiG8sFYoahMLSA64V+Xv25dZZUO3l
+   OkOjNYEFjGhzIh4Adj45U/eYezNpoMHLm7XhREU45Po4ScVbxjUnw4bFy
+   DkxiimwFCnJho0OM4030IMv8FJdHVu1ZUTH6ZNq0Q6jUBA0wknyTVEvaB
+   VVcfz1KlAV9psSU2HSei4UxhW9ncMn/ntaJLQXu+Ddfr7pydgfvxaKnFq
+   ZhDvONbLxUGAstEIBlXvD4TpWvhUijbGjhQQ/JPTX0RGpF81+hgdN2llW
+   g==;
+X-CSE-ConnectionGUID: JHL2/DNhTPKUmXScTrkItg==
+X-CSE-MsgGUID: RFpv4YH4QEGwjkQYEgKF6w==
+X-IPAS-Result: =?us-ascii?q?A0BJAgCL1GFq/5H/Ja1aglmCV3ReQ0mEV5FzA4oQlAuBf?=
+ =?us-ascii?q?g8BAQEPRA0EAQGFBQKNWgImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
+ =?us-ascii?q?gEHBYEOE4ZPDYZaAQIBAyMPAUYQHAMBAgMCJgICKyMIEAmDAgGCdAMRwUR6g?=
+ =?us-ascii?q?TKBAYNoAkNQ2y4BCxQBBYEFLoU/gx0BhQJcGAGEegInGxuBcoEVg2mBBYFRC?=
+ =?us-ascii?q?wEDGIENhBSCagSCIoEMgVoeUIEAjmZIgQIcA1ksAVUTDQoLBwWBZgM1EioVb?=
+ =?us-ascii?q?jIdgSM+FzRYGwcFgR2BLoEChFwjHwM5f4EwdUp3LWkBEheBJoIUgToCgR0DC?=
+ =?us-ascii?q?xgNSBEsNxQZBD0BbgeNcCOCO4EOASoBgUWTeJJliQuYBAoog3WMIZU6GjOFW?=
+ =?us-ascii?q?6URC5h9jgqVaGiEaYFoPIFHCwdwFYMiCUoZD444hWqDFMkBJzICAQEHMgEBB?=
+ =?us-ascii?q?wIHAgwDC4FokACBfgEB?=
+IronPort-Data: A9a23:n5dyyaCrAp/XaRVW/3/iw5YqxClBgxIJ4kV8jS/XYbTApG8ghTIGx
+ mEdDT3TOvzYMWLwc9B1PYXn8BsE7ZfRytBkOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXmthh
+ fuo+5eBYAD/gGYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE4dVKVgYaG40kwsVKBFF1/
+ sACKxERYUXW7w626OrTpuhEnM8vKozveYgYoHwllWGfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGYyBPjDS0Un1lM/CI4+leShnFH0ciZTrxSeoq9fD237kVUqgOmxbYqKEjCMbf97hljEl
+ 0KaxknWHRMZDe2yxhmrrG3504cjmgu+Aur+DoaQ8eZnhlCWzGEfBBAaEFC8u/SRjk+lR8kZL
+ FQZ/Ccrp6U++EGnCN7nUHWFTGWspBUQXZ9UVuY98gzIkvqS6AeCDW9CRTlEADA7iPILqfUR/
+ gfht7vU6fZH6dV5lVr1Gm+okA6P
+IronPort-HdrOrdr: A9a23:0W6lra0BgRIU99x3PYL22wqjBGwkLtp133Aq2lEZdPWaSKOlfq
+ eV7ZImPH7P+VEssR4b+OxoVJPsfZqYz+8W3WBzB8bHYOCZgguVxehZhOOIqQEIWReOk9K1vp
+ 0PT0ERMrHN5HFB/L/HCXGDYrUd6ejC1ry0juHDyHooZwRrZ6Z8qzpdMG+gYzVLrM0sP+tCKH
+ JajfA33AadRQ==
+X-Talos-CUID: 9a23:DdKFIm8rhe7eKE8kLJeVv2w0PppiXlvd8E/zHkqIMm1VUr60VVDFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3A+7sDBg6OunNoxIPLiN+XRRZvxoxSzbywVHEtzaw?=
+ =?us-ascii?q?rlNaGNhVBFji+omqoF9o=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,180,1779148800"; 
+   d="scan'208";a="513894587"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 23 Jul 2026 08:49:14 +0000
+Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id BD31618000593;
+	Thu, 23 Jul 2026 08:49:14 +0000 (GMT)
+Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
+	id 64BDECD144F; Thu, 23 Jul 2026 01:49:14 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][wrynose][PATCH 2/2] patch: Fix CVE-2026-56288
+Date: Thu, 23 Jul 2026 01:49:14 -0700
+Message-Id: <20260723084914.2718150-2-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260723084914.2718150-1-hthakar@cisco.com>
+References: <20260723084914.2718150-1-hthakar@cisco.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Jul 2026 10:46:46 +0200
-Message-Id: <DK5TITVHE132.3976J7GCA45FS@smile.fr>
-To: <jaipaul.cheernam@est.tech>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] bzip2: fix 'bzip2 --version >
- /tmp/aaa 2>&1' hang
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260716085422.20905-1-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260716085422.20905-1-jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:46:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241797
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:49:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241799
 
-Hello,
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Following up on Paul's review:
-https://lore.kernel.org/all/333e485ec6c7e75b8bdbbd18d85398afb8079828.camel@=
-pbarker.dev/T/#m03bd736e6e764ed3eb653941a1a42dd762769077
+This patch applies the upstream fix referenced by NVD in [2], using
+the commit shown in [1].
 
-While this is a backport from master, we need a little bit more info for
-merging this into stable.
+[1] https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=e6d6a4e021660679d7fc9150f981d4920f722313
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56288
 
-On Thu Jul 16, 2026 at 10:54 AM CEST, Jaipaul Cheernam via lists.openembedd=
-ed.org wrote:
-> From: Hongxu Jia <hongxu.jia@windriver.com>
->
-> According to [1]
->
-> As of the current version 1.0.8, bzip2 --version will print version
-> info but it will also continue compressing stdin:
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+---
+ meta/recipes-devtools/patch/patch.inc         |  4 +-
+ .../patch/patch/CVE-2026-56288.patch          | 75 +++++++++++++++++++
+ 2 files changed, 78 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
 
-Is this something new in 1.0.8 or did it always behaved this way?
->
->   $ ./bzip2 --version
->   bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
->
->      Copyright (C) 1996-2019 by Julian Seward.
->
->      This program is free software; [...]
->
->   bzip2: I won't write compressed data to a terminal.
->   bzip2: For help, type: `bzip2 --help'.
->
-> Debian (and its downstreams like Ubuntu) will patch this out [2],
-> making the < /dev/null unnecessary, port a part of debian patch
-> to fix the issue
->
-> [1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-=
-a-program-like-bzip2
-> [2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy=
-.patch/
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit ae4fe4263ba9d372f9b9e80df4ec4697b51c1f9b)
-  ^ Add the added info here in your v2 commit message.
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
->  ...-fix-bzip2-version-tmp-aaa-will-hang.patch | 62 +++++++++++++++++++
->  meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  1 +
->  2 files changed, 63 insertions(+)
->  create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-vers=
-ion-tmp-aaa-will-hang.patch
->
-> diff --git a/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp=
--aaa-will-hang.patch b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-ver=
-sion-tmp-aaa-will-hang.patch
-> new file mode 100644
-> index 0000000000..84206b2a4d
-> --- /dev/null
-> +++ b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-wi=
-ll-hang.patch
-> @@ -0,0 +1,62 @@
-> +From a9dd6acbaca836fc4e943e69a31b2e7acda32045 Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Wed, 13 Nov 2024 19:49:23 +0800
-> +Subject: [PATCH] fix 'bzip2 --version > /tmp/aaa 2>&1' hang
-> +
-> +According to [1]
-> +
-> +As of the current version 1.0.8, bzip2 --version will print version
-> +info but it will also continue compressing stdin:
-> +
-> +  $ ./bzip2 --version
-> +  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
-> + =20
-> +     Copyright (C) 1996-2019 by Julian Seward.
-> + =20
-> +     This program is free software; [...]
-> + =20
-> +  bzip2: I won't write compressed data to a terminal.
-> +  bzip2: For help, type: `bzip2 --help'.
-> +
-> +Debian (and its downstreams like Ubuntu) will patch this out [2],
-> +making the < /dev/null unnecessary:
-> +
-> +[1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with=
--a-program-like-bzip2
-> +[2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legac=
-y.patch/
-> +
-> +Upstream-Status: Submitted [bzip2-devel@sourceware.org]
-
-Change this to a more precise URL (I think sourceware has publicly
-accessible archives). I'd really like to check why it has not merged, if
-it received comments, etc.
-
-Please send a v2 with the above changes.
-
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/patch/patch.inc
+index 738bec038d..a9675d53b4 100644
+--- a/meta/recipes-devtools/patch/patch.inc
++++ b/meta/recipes-devtools/patch/patch.inc
+@@ -6,7 +6,9 @@ SECTION = "utils"
+ HOMEPAGE = "http://savannah.gnu.org/projects/patch/"
+ 
+ SRC_URI = "${GNU_MIRROR}/patch/patch-${PV}.tar.gz \
+-	   file://CVE-2026-56289.patch"
++	   file://CVE-2026-56289.patch \
++	   file://CVE-2026-56288.patch"
++
+ 
+ S = "${UNPACKDIR}/patch-${PV}"
+ 
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch b/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
+new file mode 100644
+index 0000000000..7219f5a3c7
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
+@@ -0,0 +1,75 @@
++From 101a805510356092a6d2a864bb18d440fec57f0a Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Tue, 21 Apr 2026 10:05:02 -0700
++Subject: [PATCH] Avoid null pointer derefence with bad hunks
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Problem reported by Michał Majchrowicz.
++* src/pch.c (another_hunk): Keep chars_read positive
++even with malformed hunks.
++
++CVE: CVE-2026-56288
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=e6d6a4e021660679d7fc9150f981d4920f722313]
++
++(cherry picked from commit e6d6a4e021660679d7fc9150f981d4920f722313)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ src/pch.c | 15 ++++++++++-----
++ 1 file changed, 10 insertions(+), 5 deletions(-)
++
++diff --git a/src/pch.c b/src/pch.c
++index d9f5c61..41150fe 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -1694,7 +1694,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    p_end = filldst-1;
++ 		    malformed ();
++ 		}
++-		chars_read -= fillsrc == p_ptrn_lines && incomplete_line ();
+++		chars_read -= (1 < chars_read && fillsrc == p_ptrn_lines
+++			       && incomplete_line ());
++ 		p_Char[fillsrc] = ch;
++ 		p_line[fillsrc] = s;
++ 		p_len[fillsrc++] = chars_read;
++@@ -1711,7 +1712,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    malformed ();
++ 		}
++ 		context++;
++-		chars_read -= fillsrc == p_ptrn_lines && incomplete_line ();
+++		chars_read -= (1 < chars_read && fillsrc == p_ptrn_lines
+++			       && incomplete_line ());
++ 		p_Char[fillsrc] = ch;
++ 		p_line[fillsrc] = s;
++ 		p_len[fillsrc++] = chars_read;
++@@ -1725,7 +1727,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    p_end = fillsrc-1;
++ 		    malformed ();
++ 		}
++-		chars_read -= filldst == p_end && incomplete_line ();
+++		chars_read -= (1 < chars_read && filldst == p_end
+++			       && incomplete_line ());
++ 		p_Char[filldst] = ch;
++ 		p_line[filldst] = s;
++ 		p_len[filldst++] = chars_read;
++@@ -1808,7 +1811,8 @@ another_hunk (enum diff difftype, bool rev)
++ 	      fatal (("'<' followed by space or tab expected"
++ 		      " at line %td of patch"),
++ 		     p_input_line);
++-	    chars_read -= 2 + (i == p_ptrn_lines && incomplete_line ());
+++	    chars_read -= 2 + (3 < chars_read && i == p_ptrn_lines
+++			       && incomplete_line ());
++ 	    p_len[i] = chars_read;
++ 	    p_line[i] = savebuf (patchbuf + 2, chars_read);
++ 	    p_Char[i] = '-';
++@@ -1833,7 +1837,8 @@ another_hunk (enum diff difftype, bool rev)
++ 	      fatal (("'>' followed by space or tab expected"
++ 		      " at line %td of patch"),
++ 		     p_input_line);
++-	    chars_read -= 2 + (i == p_end && incomplete_line ());
+++	    chars_read -= 2 + (3 < chars_read && i == p_end
+++			       && incomplete_line ());
++ 	    p_len[i] = chars_read;
++ 	    p_line[i] = savebuf (patchbuf + 2, chars_read);
++ 	    p_Char[i] = '+';
+-- 
+2.35.6
 
 
