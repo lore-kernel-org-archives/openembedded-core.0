@@ -1,163 +1,107 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85DF6C531CB
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 08:49:19 +0000 (UTC)
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19174.1784796555938631398
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 647A1C531C7
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 08:50:39 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19186.1784796631638584310
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 01:49:16 -0700
+ Thu, 23 Jul 2026 01:50:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VWE5vRTq;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: hthakar@cisco.com)
+ dkim=pass header.i=@smile.fr header.s=google header.b=bo3gVz/F;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so2825475e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 01:50:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2761; q=dns/txt;
-  s=iport01; t=1784796555; x=1786006155;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QUSRG8K7UPk1epRsPDO4n/zho9YqJqzJpWWn+SQ/Ndc=;
-  b=VWE5vRTqNQM1c5tMLSs+ZMVsyAV55/v4/XdU4a5TydrDOP9AY8VgbowV
-   akZJ9FJzaIGdpi4OVVkqYKcX4bAHuPhG72+CYHUCEXFxuGU+bKQD4AcHX
-   nmkF3oul7Ubr5UfdDsyo5vBTwK0I8altomo/7mQv6DCgZng0NDTIFg4Hn
-   RKyGLWLzkcea/bRBmre+CzttnZM153GGSIt052tuxTVlJ/Z78SG0vb8Ty
-   +pLdOBrmgJvuS5gDELUru6L5jxxEmVOzFy8toQhbnqY/sDLCUGId3NNXs
-   tZiW5zwAfr94qm9lJ7kN0xJrH1CraiyW9Ts0NezD5BWZtMCpPscD04xdc
-   Q==;
-X-CSE-ConnectionGUID: 3ePz4RBSS3GuH2TKlfiVqg==
-X-CSE-MsgGUID: QrqsIsDyR8+1g0U09TN+BA==
-X-IPAS-Result: =?us-ascii?q?A0BHAgCL1GFq/5T/Ja1aglmCV3ReQ0mEV5FzihOUC4F+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYUFjVwCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGTw2GWgECASYPAUYsAwECAwImAi0jGAmDAgGCdAMRwUR6gTKBAYNoA?=
- =?us-ascii?q?kNQ2y4BCxQBBYEFLoU/gx0BhQJcGAGEegInGxuBcoEVg2mBBYFRCwEDGIENg?=
- =?us-ascii?q?QaDDoJqBIIigQyBWh6BUI5mSIECHANZLAFVEw0KCwcFgWYDNRIqFW4yHYEjP?=
- =?us-ascii?q?hc0WBsHBYEdgS6BAoRcIx8DOX+BMHVKdy1pARIXgSaCFIE6AoEdAwsYDUgRL?=
- =?us-ascii?q?DcUGQQ9AW4HjXAjgjuBDgEqAYEYLaZdiQuYBAoog3WMIZU6GjOEBIFXpRELm?=
- =?us-ascii?q?H2CWYsxllCEaYFoPIFHCwdwFYMiCUoZD444hWqDFMkBJzICAQEHMgEBBwIHA?=
- =?us-ascii?q?gwDC4FokACBfgEB?=
-IronPort-Data: A9a23:2KsNEKO8Ijrq6WXvrR3zlsFynXyQoLVcMsEvi/4bfWQNrUp01DcAm
- mYYXmCAPP2LMWf2eY9wPInl9EJVvp6Bx9A1GnM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
- ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WV7lV
- e/a+ZWFZgf6gWUsawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
- 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj665jNFNqB6cjwb1YHEEUy
- d8cJjEzdx/W0opawJrjIgVtrt4oIM+uOMYUvWttiGiAS/0nWpvEBa7N4Le03h9p2ZsIRqmYP
- ZdEL2MzPHwsYDUXUrsTIJIinO6rj2PXeDxDo1XTrq0yi4TW5FEpjeizYISNIbRmQ+1shF+Dh
- 3nq7l6pQUgVbOHHmAajsViF07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/ONpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:yMqDgaxMsXIgIdBL8K8bKrPwDr1zdoMgy1knxilNoNJuHfBw8P
- re+MjztCWE7Qr5N0tApTntAsS9qBDnhPxICPcqXYtKNTOO0ADDEGgI1+XfKlPbdxEW39Qtsp
- uIC5IOa+HYPBxdkdvw5hW+HpILxdmK973tuMLlpk0dKz2Dr8pbnn9E4sHxKDwOeDV7
-X-Talos-CUID: 9a23:H74TKW1YVoQdJOeAsSm/+rxfQc0dYCHn5kzreGClKTxVa7mbSGGJ9/Yx
-X-Talos-MUID: =?us-ascii?q?9a23=3AHpIttQ1OtWFNQbWFcRiGsQp59jUj2r63E2EWvYQ?=
- =?us-ascii?q?864rdOnRNY2ahqneda9py?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,180,1779148800"; 
-   d="scan'208";a="505868603"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 23 Jul 2026 08:49:14 +0000
-Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id B8A4B18000256;
-	Thu, 23 Jul 2026 08:49:14 +0000 (GMT)
-Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
-	id 5EF78CD144E; Thu, 23 Jul 2026 01:49:14 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: [OE-core][wrynose][PATCH 1/2] patch: Fix CVE-2026-56289
-Date: Thu, 23 Jul 2026 01:49:13 -0700
-Message-Id: <20260723084914.2718150-1-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
-MIME-Version: 1.0
+        d=smile.fr; s=google; t=1784796630; x=1785401430; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=93jtCHnq/YihWcjm4Qk/3+Opbf3OM5BARJEtvnkFK/8=;
+        b=bo3gVz/F7cnmahXX5Cb6s17RmfaeL6jT6ikIx7mNj4dYvDEGTJUEvYh2G75/61USAG
+         jFkcORBWc0Os5zRTOkk7K1zO6VbuTLT2y54n+4/UhSKRg5HrX7wqMSN2l6HApZHAZApZ
+         JsoH4SemoiHLfRpGbOkwmkrRWAV6WIfo4umYA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784796630; x=1785401430;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=93jtCHnq/YihWcjm4Qk/3+Opbf3OM5BARJEtvnkFK/8=;
+        b=plMhE7kb7Vjr/ydxmW94lI92MoPmr6OOm3GELm+dS7zSVgr29jJSkOqp1yDPfUNYUN
+         EqG2UbARn2aIdNm0RXYAuYsqYYxRfG0mQiw7YNe5B3bzotvijha2V2SLmRvO+sX0GGgZ
+         uZIjUj9NUNVECMD6JrLH3Nu/OAmHwBKKf+NvdqCadaV0Bv5W0SaR8u1bj605KZ/hF02R
+         P6XOGNF76euS5qEUcqIhv0q119so1JbFn6KsULtvt3rEKIR+TJVr5jhsI/GA44cyQKln
+         Zf1c888j3dTYkdMqSHcCbxayFt+EY8zX0cdsX8vErRHMgJvWFG1rwqKAPDF4+XZ8GDnu
+         NxhQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq1XSawAq7bRBJUHvwE+eDIOkgZeXG/BULcuGjrVi7EYWg0R9Pwy6UoYPzuiRIdNpHFqImR3gjVmvsX9jUbZDCpPA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzxlfq7N7SrRqBKTEU7UJPuridPWCNhgFOlSLGXKSvnFLd/mMY+
+	COSZ4+eeU8uKXw4jFtxIcGYP8zMU7ZmRhqBq38BdE4jF3JDf3rnEMKvTZjN4l3wHedl1CHiaSiD
+	tS2lm/OE=
+X-Gm-Gg: AR+sD13KnWU4YnArDTCQPRcRQ7wwiaUrc2hHrw/D3hGdHEDIuIaX7KGWMyt3spJ3zFQ
+	VV9JczOepZ7bDQLhjJzQYnwXfKR3WKPkFY0FyZLBJ7V5Mwqvt7PC4dwcoLwR1bs/hw+6cN7OZD+
+	VRkK5P9uvp4pzEdYLlhbNXhRFc6Y430q1tDhIX3E9TEaQJ/QFPOWwF71io2r+90dKap0glIG524
+	adqmiaKbgOaa3uxCC3mUdHmIhdqMl1EUDdMThybz1mAsHmkGlMubOKrBrUeNUAuM4q7yL6bwb72
+	Rv5InpbIbhdEyl6UkhU62gFQVqsODto/xpCiEiAnCCCq4JSJ6b5EU2dXOORUO+p1zstbiJUY8m7
+	cS6ZcTJnfkV2HdjTr1uGVctuf1oo+O/nA42y6trH/MukFCV7bgtclTNq3qm6Gxz/sOgqRg03T7L
+	AA/CYwKEabkrT+9OPZKzu7gB6LrzWk4dlQ3zxeAmu11xlRPMEUp2TSRrkregynP94bOg==
+X-Received: by 2002:a05:600c:630d:b0:495:4b00:1bab with SMTP id 5b1f17b1804b1-49573cfa2a9mr18156355e9.21.1784796629800;
+        Thu, 23 Jul 2026 01:50:29 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a4f25b6sm123675795e9.2.2026.07.23.01.50.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jul 2026 01:50:29 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+Date: Thu, 23 Jul 2026 10:50:29 +0200
+Message-Id: <DK5TLOAWFTUS.2E74MPTWN4DYX@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCHv2] dropbear: Disable DSS correctly
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <mac@mcrowe.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260710085450.2656702-1-mac@mcrowe.com>
+In-Reply-To: <20260710085450.2656702-1-mac@mcrowe.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:49:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241798
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:50:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241800
 
-From: Hetvi Thakar <hthakar@cisco.com>
+On Fri Jul 10, 2026 at 10:54 AM CEST, Mike Crowe via lists.openembedded.org=
+ wrote:
+> From: Mike Crowe <mac@mcrowe.com>
+>
+> Take upstream patch that stops sysoptions.h unconditionally turning
+> DROPBEAR_DSS back on even when it has been disabled (which is the
+> default).
+>
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> ---
+>
+>  ...PBEAR_DSS-is-only-forced-for-fuzzing.patch | 30 +++++++++++++++++++
+>  .../recipes-core/dropbear/dropbear_2022.83.bb |  1 +
+>  2 files changed, 31 insertions(+)
+>  create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPB=
+EAR_DSS-is-only-forced-for-fuzzing.patch
+>
+> Since v1 at https://lists.openembedded.org/g/openembedded-core/topic/1200=
+33783 :
+>   Add Signed-off-by to patch file
 
-This patch applies the upstream fix referenced by NVD in [2], using
-the commit shown in [1].
+Hello,
 
-[1] https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=faba04ef4f2b410257f76c1b9dc85e350929c4b9
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56289
+Following up on Paul's review:
+https://lore.kernel.org/all/333e485ec6c7e75b8bdbbd18d85398afb8079828.camel@=
+pbarker.dev/T/#m22cf49ca44c68152fdd48c027afafced0da03ffd
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
----
- meta/recipes-devtools/patch/patch.inc         |  4 ++-
- .../patch/patch/CVE-2026-56289.patch          | 36 +++++++++++++++++++
- 2 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
+Ultimately, we can not accept this patch, sorry.
+We can't change the default behavior and risk breaking existing
+configuration that uses DSS.
 
-diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/patch/patch.inc
-index 44d3046fd8..738bec038d 100644
---- a/meta/recipes-devtools/patch/patch.inc
-+++ b/meta/recipes-devtools/patch/patch.inc
-@@ -5,7 +5,9 @@ original files, producing patched versions."
- SECTION = "utils"
- HOMEPAGE = "http://savannah.gnu.org/projects/patch/"
- 
--SRC_URI = "${GNU_MIRROR}/patch/patch-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/patch/patch-${PV}.tar.gz \
-+	   file://CVE-2026-56289.patch"
-+
- S = "${UNPACKDIR}/patch-${PV}"
- 
- inherit autotools update-alternatives
-diff --git a/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch b/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
-new file mode 100644
-index 0000000000..8f98c444fc
---- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
-@@ -0,0 +1,36 @@
-+From e89f7be0853836908226e1df746fe07ef7c46769 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Tue, 21 Apr 2026 13:16:10 -0700
-+Subject: [PATCH] =?UTF-8?q?Don=E2=80=99t=20infloop=20on=20null=20ranges?=
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Problem reported by Michał Majchrowicz.
-+* src/patch.c (locate_hunk): Don’t attempt to optimize
-+matches of a null range.  Instead, apply all the checks
-+we apply to non-null ranges.
-+
-+CVE: CVE-2026-56289
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=faba04ef4f2b410257f76c1b9dc85e350929c4b9]
-+
-+(cherry picked from commit faba04ef4f2b410257f76c1b9dc85e350929c4b9)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/patch.c | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/src/patch.c b/src/patch.c
-+index e4d0524..1e7dfdc 100644
-+--- a/src/patch.c
-++++ b/src/patch.c
-+@@ -1166,9 +1166,6 @@ locate_hunk (idx_t fuzz)
-+     ptrdiff_t max_offset = MAX (max_pos_offset, max_neg_offset);
-+     ptrdiff_t min_offset;
-+ 
-+-    if (!pat_lines)			/* null range matches always */
-+-	return first_guess;
-+-
-+     /* Do not try lines <= 0.  */
-+     if (first_guess <= max_neg_offset)
-+ 	max_neg_offset = first_guess - 1;
--- 
-2.35.6
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
 
