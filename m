@@ -1,109 +1,147 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14112C531CD
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 09:24:17 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19518.1784798647489970559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 124A7C531C7
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 09:26:07 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19523.1784798763386650397
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 02:24:08 -0700
+ Thu, 23 Jul 2026 02:26:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SgEk4wku;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47db714766aso138150f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 02:24:07 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=WZ4sSs2Z;
+ spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ceb096e675so5012615ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 02:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1784798645; x=1785403445; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=qtlkOmMx3rjxIklp1+N4OafhlGGsn8u8QynqGS/3pzA=;
-        b=SgEk4wku59T9Pvl5vB+VGussS0RtVwr/skqBptYZkqbwV69zYwsi8JisCwmWBVp7fc
-         mHmStYlm/ZAdjjNT29vsIH33dSD+As66XXCq/ijXLNR1nTS9KgQs0w0nZM25dQxOqgRK
-         tFR+aS6ktjvSNcW5tRKdBLOa4Eo7o5m/SnB5A=
+        d=mvista.com; s=google; t=1784798763; x=1785403563; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=C2EtZm5n8do9wevKtSVXp/o4265+P0TBGlYyPhKLrmE=;
+        b=WZ4sSs2Zdtxe5talsGdwd0RxUWrVWH6b2Swol83EusjurOVjTOPpQtwQjGuIjSN3yi
+         bEVQoF6Ozm3areH8MmcSDfVUtgTfYUwE/dX5A5cK09UKmZm7OCcL7VzfmHQ9MzhHotkK
+         v+8zxSN9k+fTUKpQ3llKpcw7j5huJo/GptRJ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784798645; x=1785403445;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qtlkOmMx3rjxIklp1+N4OafhlGGsn8u8QynqGS/3pzA=;
-        b=n3KaYKXD/QNJYimc5smdPq3Pbi+3b3nqIzFT19LMEvFdE8snUGhteB5OOmrQRKq24H
-         jv7tde1yPQH/+ojBHCMwCBtEoxDvuwxzzYTVQk6SJlnlCadjT04H5/EhU8s8JtyjJXcj
-         k0aDuL/r/pC+F6D8BSTVoI6ojV8JFekrwdkyDV1pmAHXeK8gDsnzIVopmwYcIqWbC1JW
-         TKtcWxkbg9yyaTEwobHCogE6Ssk2+s+HKvaA8kqltTF2t1iuqUhXzAS5HoKOAFcj/0lk
-         S8DuWjvtTiGWdG8PH7BhJwjzC4JlJAT15Ap7vf9ryQ4/jjv4Vmci4cXBzob2hGqNB+NS
-         ahnw==
-X-Gm-Message-State: AOJu0Yw9ikdgYTFBTZ6UA1SMS5iUV/VQpmKT76P9OfaYWxG+xNAYRBP/
-	bVUM+eGPuPg98+ovLwCeIJavw9fw4lYy7SpO84GTFrPTPRmg/nhKzBm6ngA8PMceM20=
-X-Gm-Gg: AR+sD12I9Lze9rw1pdTkNB6N2Ou78c6tk2R5mzXn6tuJmb2HEctxF2Ud2Skh4Tc256Z
-	EozUp1/W0Q16wmtaPI+PFh2kyN9kWtY7EOh+B6OwRZ83v8l180sjzhrgO3FV9mMmEpNcujdvwWr
-	/jMNT3X1/vooA1IGy/avOXrTwHGRQX2of09+u1InEcX7BWcGyfWgwOesiYtt8queUxSLFZI2Rvc
-	ESFCrkexRCRz6ru5AVUmxNwUh98SFAgO5ScfxtpMYX/iDiwHXBLF4rLBlOgvLMuVnWIqHagua15
-	SZk84FyRVnpTcCqlB3Gu1wLs3tPIu5LSwBkeRtAFwCC2PUL2s8BklkFz+egsMmi4CARxpb80xz1
-	aCl2ge9eaQ5HJYjfMD5tzdSYhs7TAzFzQH9NOS/vDAlDDrE3jzo5W7MlMwzdyxgV4AJ1L5P654d
-	V9/DC0O39Zcxd+k7acmX/HtJ4RNLghFN9UEoLrZNPXnmFbGvBXG6R5wySTh4mMiPSqO+M=
-X-Received: by 2002:a5d:6f06:0:b0:47d:f508:3364 with SMTP id ffacd0b85a97d-47f902605c8mr2390452f8f.15.1784798645487;
-        Thu, 23 Jul 2026 02:24:05 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2205:d253:2df6:b9d5? ([2001:8b0:aba:5f3c:2205:d253:2df6:b9d5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a64dsm14679391f8f.1.2026.07.23.02.24.04
+        d=1e100.net; s=20251104; t=1784798763; x=1785403563;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=C2EtZm5n8do9wevKtSVXp/o4265+P0TBGlYyPhKLrmE=;
+        b=IvpDqfQ6EEhoQ9HDEhMUM1kbuyIuirLjI+MQCpGcf9Bg5Yt9L11/hZZdn8RumdexkE
+         1bGjFOVvcD1MLWDsoAATLXSyYuT+lCcjfTXNFPXAu0l6Dzzp/1V8PNbxo1msaVhvYryq
+         8v7nQcthH8QK7g8fQK6CGL5vFTdIbdiqcoR0A6hrGbZBND+crzk3JgXjDVNI5tKXtkjs
+         N+FWZaZ+u/DncPt638Cvv1EAzld7IAHKDGLtW9qpzhns1l0ay1nj8oMCmNCEjHccGQe7
+         mTvmejV9fSfScojGFKSlqHNTS22xGe3DAgwb4/cw5PUnjj3//oqRH90l/yrbyWjwVVbU
+         cpQw==
+X-Gm-Message-State: AOJu0YwDtpLl9anktTrpRLptwPY4yeG3rv0DaTax/QRFvq9S4hrWCODc
+	Zw0W1DgzaIoVLN4x85mpNcoQXzf7BAvUCsShjdWdXygHret9nOHM4da+gaTmE6L9tn+bBhj1Xg1
+	C8iBh/U0=
+X-Gm-Gg: AR+sD10gNzxZ2YySeTBL3d0HX60Y8tL/SZHcx42p2VRvkGeFI0SuDIF2MSibKMYl49Z
+	HhNHWOQjARC8UG16bZKG/QuNQQ6dVdcUbvmbbpcMlvwsWv5V6lPbG/ZP85zQzsB+V+ktNl9sSQ0
+	gjQj1Z6TrgBhoZLicyAoQGdDtbLVgUFUp6/+HwcuxzZcYV5QlwyFV8Ssccm6DR97K2K8i97BUK2
+	bmxbmajR/3ROqCrdLBLoitLorsYep2XWIfxFreIL24gYKRJTk6sDMptzDl0SGfeOGhQWHV2ufA8
+	IIzg0TQ2N1rt1UjvuXZQyDQ3cATOCg10vsxB7LN66EcLVKRa+LrghbjcPxVCedHn70KWmAcD2aO
+	Txl+y8dcIsE1SFPmpVnIDWkNyhlBp7XhyvIuOxrkscTQqRiCVoL1FTVC7OEeP1YEGwazCbZ7jmu
+	kgF35koioJTFk=
+X-Received: by 2002:a17:903:3806:b0:2cc:77f3:a927 with SMTP id d9443c01a7336-2cfa6c5df36mr26149315ad.26.1784798762717;
+        Thu, 23 Jul 2026 02:26:02 -0700 (PDT)
+Received: from MVIN00030.mvista.com ([157.32.44.18])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147e1c7ff4sm19333788eec.27.2026.07.23.02.26.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 02:24:04 -0700 (PDT)
-Message-ID: <8492f386f53885c1ceda197e034241b9c9ffab57.camel@linuxfoundation.org>
-Subject: Re: [poky] [RFC PATCH] distro/poky: enable minidebuginfo
- DISTRO_FEATURE
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, poky@lists.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2026 10:24:03 +0100
-In-Reply-To: <20260715162410.639632-1-ross.burton@arm.com>
-References: <20260715162410.639632-1-ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Thu, 23 Jul 2026 02:26:02 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCHv2 01/13] vim: Security Fix for CVE-2026-28422
+Date: Thu, 23 Jul 2026 14:53:42 +0530
+Message-Id: <20260723092354.54697-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 09:24:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241803
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 09:26:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241805
 
-On Wed, 2026-07-15 at 17:24 +0100, Ross Burton via lists.yoctoproject.org w=
-rote:
-> Enable the "minidebuginfo" DISTRO_FEATURE in poky builds, so that all
-> binaries have just enough debuginfo in them to get a useful stack trace.
->=20
-> This aids with debugging occasional failures that hit the autobuilder,
-> at minimal cost.=C2=A0 For example, core-image-sato with systemd:
->=20
-> =C2=A0 core-image-sato: IMAGESIZE changed from 481532 to 486044 (+1%)
-> =C2=A0 glibc: PKGSIZE changed from 3715743 to 3805871 (+2%)
-> =C2=A0 sqlite3: PKGSIZE changed from 462840 to 469056 (+1%)
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
-> =C2=A0meta-poky/conf/distro/poky.conf | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky=
-.conf
-> index 2ba98f4ba2..86576e48a0 100644
-> --- a/meta-poky/conf/distro/poky.conf
-> +++ b/meta-poky/conf/distro/poky.conf
-> @@ -13,7 +13,7 @@ TARGET_VENDOR =3D "-poky"
-> =C2=A0LOCALCONF_VERSION =3D "2"
-> =C2=A0
-> =C2=A0# Override these in poky based distros
-> -POKY_DEFAULT_DISTRO_FEATURES =3D ""
-> +POKY_DEFAULT_DISTRO_FEATURES =3D "minidebuginfo"
-> =C2=A0POKY_DEFAULT_EXTRA_RDEPENDS =3D "packagegroup-core-boot"
-> =C2=A0POKY_DEFAULT_EXTRA_RRECOMMENDS =3D "kernel-module-af-packet"
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Thinking about this, I think we should do this in core by default,
-which will help sstate reuse generally as well.
+Picking patch as per [1], and same patch is mentioned in [2]
 
-Cheers,
+References:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-28422
+[2] https://security-tracker.debian.org/tracker/CVE-2026-28422
 
-Richard
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ .../vim/files/CVE-2026-28422.patch            | 44 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28422.patch
+
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28422.patch b/meta/recipes-support/vim/files/CVE-2026-28422.patch
+new file mode 100644
+index 0000000000..89f219ccf6
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-28422.patch
+@@ -0,0 +1,44 @@
++From fcf19885004325f5a52db6bd6893cb5b387799d3 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Tue, 24 Feb 2026 20:29:20 +0000
++Subject: [PATCH 01/17] patch 9.2.0078: [security]: stack-buffer-overflow in
++ build_stl_str_hl()
++
++Problem:  A stack-buffer-overflow occurs when rendering a statusline
++          with a multi-byte fill character on a very wide terminal.
++          The size check in build_stl_str_hl() uses the cell width
++          rather than the byte length, allowing the subsequent fill
++          loop to write beyond the 4096-byte MAXPATHL buffer
++          (ehdgks0627, un3xploitable).
++Solution: Update the size check to account for the byte length of
++          the fill character (using MB_CHAR2LEN).
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-gmqx-prf2-8mwf
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/4e5b9e31cb7484ad156fba995fdce3c9b075b5fd]
++CVE: CVE-2026-28422
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ src/buffer.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/buffer.c b/src/buffer.c
++index 0feafc590d..363dd0e04a 100644
++--- a/src/buffer.c
+++++ b/src/buffer.c
++@@ -5293,7 +5293,8 @@ build_stl_str_hl(
++ 	}
++ 	width = maxwidth;
++     }
++-    else if (width < maxwidth && outputlen + maxwidth - width + 1 < outlen)
+++    else if (width < maxwidth &&
+++	    outputlen + (maxwidth - width) * MB_CHAR2LEN(fillchar) + 1 < outlen)
++     {
++ 	// Find how many separators there are, which we will use when
++ 	// figuring out how many groups there are.
++-- 
++2.44.4
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index d69a337b4e..485eedb061 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -36,6 +36,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-52858.patch \
+            file://CVE-2026-52859.patch \
+            file://CVE-2026-52860.patch \
++           file://CVE-2026-28422.patch \
+            "
+ 
+ PV .= ".1683"
+-- 
+2.34.1
+
 
