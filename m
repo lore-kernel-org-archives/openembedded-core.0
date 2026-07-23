@@ -1,310 +1,208 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7412CC531CB
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 10:48:18 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20774.1784803688973272731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B87E4C531CF
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 11:21:28 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21238.1784805675265881459
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 03:48:09 -0700
+ Thu, 23 Jul 2026 04:21:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=aI1lRMUy;
- spf=pass (domain: est.tech, ip: 52.101.84.27, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=GJ3gpjS3;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1664a73ee3=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66N8sIn72947885
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 11:21:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=bKXi3qUJ7QE2hyKZ8c5BfSfySFMOzud2D6oBcYrvvRM=; b=
+	GJ3gpjS3Jo9jOSLuAPygwBAgmcs4af34Kol4jF93VOQD5ZBHGHSZQdWInZB/vYX2
+	E/JcO6z4+Z7HiGCvl+KqnsWcvpNKtSZfJf6V+bAVyBv270WyL9q1bXSqm5gwV4gt
+	b1Q28D3Z0LSAn7wgcjxZakA/4v9VvLusL9PAZRMlD79PgHl6VaisDw5Tmd/rXuY2
+	9faiXFPoh0qJHxWjzv89A7gnKy6FN44AKp8hGHxko40FPxNAkhVjH5O2+z86fNj1
+	QpevuNhcW6zuEA6IqjE/U3dH2TzCS+VQkRUt8J7hXsC9rmEpfsTMTWQZfCUxrruM
+	19qdzJZVIiUqkK4IXvnv4A==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010064.outbound.protection.outlook.com [52.101.85.64])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fkdhy0c27-2
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 11:21:13 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a6u1KoFMZUt0SKicZ9Kln0MAiDiO3+20An82AFosFefecaffZZduGPJ52LvL7aXG5WbXpTT2hIxcEX+VdfDf/A8Bfpipf/nLvOjO/ZAlwfRUeExCzKn8th1yoHwhRX43LBJJk3xZuzQELbRBKgFTwzqpmujYZkMtqykixplI4lac3tNWOxj0sz55zTETGr61N0OE6iRp5RFMEEYNOYAFnXtONZZMZjDxfxrogFnJk8rbkM5hvkqNb9yQwcXj36B8fJE20oqKlVBfiNkcCR3FIAQlkZz9pBHV5/P9AdJrTpPimVpWKD8f9iP3ZmSLb4xSpfjcebYWOfzRuskcG5NvIA==
+ b=bAIV5yQyoxKLaYEFRvyTH39Up8wy5fqJFOrMtYS31gPFy5rgp92M+5GhStqoRgFkibee4mKf/NSGKe5fcg7pSytkIfjGskgGkzcbsLmgwRnIr0+vFqiXIT17fdrIsRLJC92nkAak+0eztP21s/qKorIAIkzPF02vreMMZSOjRqqNN5x5FCbdPRbATD2M3yHM3BQ9ETFZzKhWYf7iCi1p7aA+843NPWupXdGrNDLdaPQ32BVLCYU6xJlzWDLvICx9JshHZtCFCkjgLaQHnCKOGJJ9ZEQgBUHxwg/aguI4J8PeuI18WkOWGrNaS6HD3UZrR6VsskzNwCKbjyzUUXhtvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UFePuurcGBjxlVwS4PG/Fl2LnBN0Nh8bedsOV6ga464=;
- b=r4WCdBx7ddr00ojeivYlxgZpkU5yoAh51gX9XhUAVUxhQEbF1OJB2UR4N6wLFNLRP/XrhPXEtpWOjmQXxXuf4TnW6AOup9Suq5WsYzoaBsn6aD38I+1I5mX2L0b0xR4BMQCIueIqG/1Of9O7ztYbcQE2HoK/y8GTj3o7CgCxQ+qE4feljqHnzRlGzOIoETJjvz+CnRf+GUS88ncenfDA8JqfscHwUbOJ8QhmSL36eTTxP+MdldEuUDAm5psrY3inaHgXIfNF0IDZwiSExZwDPKmLVCE4T9T5JjH6ZXIoOa0fy1tnK7CvXCJLfsDKXSp7EGXrIbyZ2R4JSeoX7N3g+g==
+ bh=bKXi3qUJ7QE2hyKZ8c5BfSfySFMOzud2D6oBcYrvvRM=;
+ b=DXhFax5ue462qLlMmdeHZIUUxxMOGUso5hxj+KBudkpVRQDmd/NqsultWu3C5wuuZt5ZbSnU2snFg7huMBfk44KHkbQzm+sDacaWC4n9orb0BT+1d5pwXjSXUD8UUluDAGzAIyuWZbq743P3JIfrg16ZcvuFMT+f8HesHkO7AL6Zy5zTfaMuxfwK7e1ThrNSFd24+UB8VYjkWYw4Awrd/GGvUsA/JkTRupkvjxV7hlQvS0Gv8hZyOIG96FjK49c6ckiGALUAcyGx6HEBpd3rliZ+J45iFgfl7Oi/Inn+CujAaidnrVRlQwNozlP1iZuPQKlf7Qbz2jpT4llT/GQnvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UFePuurcGBjxlVwS4PG/Fl2LnBN0Nh8bedsOV6ga464=;
- b=aI1lRMUyawBBvM1oFjFsgWRk1K4l3EFstJmRpisE5FZ4/PQfIClPafIHKWM8l+O7D43zeTiOHCzEcfqhlL3FjEJwJ59R1jdp8FaAMi2V5kNyDxqc7gBbhg2g3ZoqKpy+WI5D275p65QudUe03wzivTx2T6SzimxPb/DkE07lf1sA+rI2tHEy5IrhEVjRE6Cio0ZCZHf/zlj+BeH4rI7cyqLAQoxc5SkfXHyOKYSDAkW6Yfm0gabIdSsWqGRJsJfoYSFnYogbVMkMftSVlLQaBp+HRCkQw9tJWpd1ePkfHtaLosjIGIshRZEZxHGdZZAJiUmaj4H0e00h6s/+JKcvmA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by PRAP189MB1898.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:291::11) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by SA2PR11MB5083.namprd11.prod.outlook.com (2603:10b6:806:11b::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.5; Thu, 23 Jul
- 2026 10:48:05 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0270.004; Thu, 23 Jul 2026
- 10:48:05 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Thu, 23 Jul
+ 2026 11:21:12 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0223.017; Thu, 23 Jul 2026
+ 11:21:12 +0000
+From: Harish.Sadineni@windriver.com
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [wrynose][PATCH] bind: upgrade 9.20.23 -> 9.20.26
-Date: Thu, 23 Jul 2026 12:47:42 +0200
-Message-ID: <20260723104742.2999-2-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260723104742.2999-1-jaipaul.cheernam@est.tech>
-References: <20260723104742.2999-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
+Cc: Sundeep.Kokkonda@windriver.com
+Subject: [PATCH 2/3] toolchain-scripts: source target-specific environment setup scripts
+Date: Thu, 23 Jul 2026 04:20:46 -0700
+Message-ID: <20260723112047.3535219-2-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260723112047.3535219-1-Harish.Sadineni@windriver.com>
+References: <20260723112047.3535219-1-Harish.Sadineni@windriver.com>
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0505.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:272::15) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+X-ClientProxiedBy: BY3PR03CA0004.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::9) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PRAP189MB1898:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11753920-e450-4164-aad8-08dee8a7dfe7
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|SA2PR11MB5083:EE_
+X-MS-Office365-Filtering-Correlation-Id: b52f6b0d-0754-49c6-1e1e-08dee8ac8085
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|23010399003|1800799024|11063799006|6133799003|56012099006|18002099003|22082099003|25016099003|12006099003|29003799003|10067099003;
+	BCL:0;ARA:13230040|52116014|376014|23010399003|366016|1800799024|38350700014|6133799003|11063799006|56012099006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	6aTHNZ/JtzCd/uJegUQ27kBl854BNrQlxAoij6W4t82xj/daVUuuuGQGSHxuijjAJ6ahDxwiglM8dEwF6wruLFr0cK1RhTbkxGzcj/3XqQH0fLVuveDGmxY5iyLgqPYKR/CVH73XDZNzHKVcXvaCmVmwpJOZPE8tBcxqzKpf1i6MYu1zW1fezXRki4Ec6T/YJzPUAYE82kc13pN9hI6o4W8uET02bdOgk1i5Vylie8Wfq2LGIC6Ypt3AhayOfpllIfQYWWq9IGagS4IHR5ktA5dx1vI+ZYuRSopB/dgyNUCwgfq+1vnjqHR12hVHeOyPhAsKbVaBifPLfMCCLuQp4JxoBXh+DmRjhJ5NMBlMpl/oVwoJIn3hmQoMSX152JgTYXGvxIdDbb86ypjxof6E/Yg6sv0VDFeMmvKZfJsA1NQvAt2Fo4u1XISIvPluFgWNUdn16tLe+s6NVHCkS3YEXQTzBSo0frmaciKrF5dEvhkS6C7eTE+Q5c9FA6dMmA6fCO81Nze6Tf1xj8fRA/SxrGl+AwPM59gDbYhXp02sqTPibZLVFQMR6FtBxzFYciMR6Zft8ESGFf/ipuHK7FKssgwmB6mczpSoayJdpy79aOxFO0BTjrEGUWu6f66hLTC3zfkRL/3tcgX6E4xvrf1414fqQMwkJS3JXq9nbEeb4Xk=
+	Z/iy3cy8vQR9fVvp0PBN9JHtCwzH1s+CKh1Mg2MwD8p6vEVHRK2roECa7O7VnMY6RefQHgQaU1H8fMc3w+lUfIM8ptjQpwO/rZR0TXYqvxOWG0k+XksHyRI982V/84WyV0D5ZkLiAZMvSB0BCWtJVzs9AXZztTmXZzln8esXLiY0UgRIPmqEp/enfWPFM04Kh39CBDVDmvxCtznITJzuRVGmhW4jnAXsLk2qPOPBDlsq/GpPw9uVTSVEMaxDlwqWQkC2ghRsnA9zgTcoBoMJyTYLBxkrtInU3mZHyg6OKffMB7v+43U2DtwsbARB4a88sbsFiHttk/QJ51RUCMrXav89mOdDA+lClgg5P5bddnOOGzTFVGNgKEBcBeLjsOfUL58zOZXQ7qxKW6khAWzNKjKKmlXznNS4tc3ikJ/PMuJfJrRnjKCGcwi0eQEcY12v5/0f1AfGLDAQYmo1JitPeC0k3BHuKEjShOgky7URnPAmsAKF0XEV32EMCJOtECZ1+IVH3wTZqtyU1syRtBopqT5FMvYqN/xQUzrGFsjQy9/ZqyzU0SdW+fdWWbOEzJU6ez57IR54NgGT++s+o4hnw6bPUA5TMqmZ1eUhUNtYORvNEhpGH4nQpbpWq3MaHbZTZxZbFhbsp4chnlEwomtst7u8SaaUWlt7oN1JNzssqMw/0WRKe2pqyOdMcmm1wQ0RXPOIGrZCl6/SR/MNzfsiNr1ZuK3GFQR+KxCIyRkClgU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(1800799024)(11063799006)(6133799003)(56012099006)(18002099003)(22082099003)(25016099003)(12006099003)(29003799003)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(366016)(1800799024)(38350700014)(6133799003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?tC871Af6IdApAM+nSIPjVL7IWsPNn+suMODoxo0VFVR4ckr5q3fYzCEa2v6X?=
- =?us-ascii?Q?b4S41EUbOr1mW/3jrGKYau4BjKgkClOpIM5jOd8POdtQ4GA4Q4vheqI0rb+5?=
- =?us-ascii?Q?n0nM4pRzhVa1ZlfeQ+VEebOPtRxhem36vfAunzezGQSIRMJscFEGVxYyLI7e?=
- =?us-ascii?Q?UIptwMkNH7EtLANrN4STp5Q6Vgkq3Kv4EmpeaIKGQpOAOQ0XcycHpQFq5cc0?=
- =?us-ascii?Q?vfTXZKb7k1mHQvlzlcfoaMyiTS0PZcEAmYBN3s+FXWMX+nklQrMIyqFmdmU1?=
- =?us-ascii?Q?XtGkOCriKwe+cJzHSdJnrdNj6t9/HJX2K9+wQsNzudjuvo/g1lUijTvkpqX2?=
- =?us-ascii?Q?fp5cLxKdv3FtK5PI7x61UHecQjEdawJUTKFnxaKCs8KQaM78YgSTf75yii8+?=
- =?us-ascii?Q?0r/TnyS9Tnm/95+YnZR5+OvYHszUWMKOAmvJw/jvEwC9y1I5I4zhS0+Qw8c3?=
- =?us-ascii?Q?TOotZ4fjf+qW8XKKQCsskhdIv0lC1Z6e6Qei3GMs6kYKpRCSQyUlbrZ5XytP?=
- =?us-ascii?Q?wlz9XktaE1vZf6VM2zSbajlCnfd3A9jwAumaTg7pxdI96KA0NUf1Fi+xIcvd?=
- =?us-ascii?Q?XW6Cfuwhp5+Svnu0Av3d3YSZEicxAreDSkG4tjCU9I3jmGYHJVJwhCc+h/DY?=
- =?us-ascii?Q?HqmBDtVfwhj+6WH9/DeApyX/aywWUmKKjgJrzbar0wY9rowmuPMD/r6jFjmZ?=
- =?us-ascii?Q?L/OMc2DkJHD2j82wMxs4M+BcPI12bUH1Dje7WyimgNkEWGwKn1C5zQwVMgpA?=
- =?us-ascii?Q?XVHs7oHG45GpoSdcf1Cuj6RDFZY8mYUVn1QfQJKqQN2vUtvsoiYk5tYTW0eB?=
- =?us-ascii?Q?69MLTOSIBUnDrNGzx/XTASy0ZyRG9A6MRFYSnK6PF0fRTVpdw/Ru4fNeY9+m?=
- =?us-ascii?Q?Wgclt+UEZEG4nkHB2s7Qv6IXTleIdlCGDyOjOPJ7rPUQQ1v3z2f/4qRLTaVM?=
- =?us-ascii?Q?23CcY6jMCip/3++3icahdfB2KCAxjTBExZKNZYxUhLCsjOpwnI8bAugIs6L5?=
- =?us-ascii?Q?kLM17RNaci1QZE45AdPonvjf8pQ8C81pNBnqKUgkmJ8ta1+Exi3XRYGbCyFL?=
- =?us-ascii?Q?+4tngDihLsYPAdtPQs6M1p3rF3ohHMT7N/WIUAmGQ6dcAAJ7BkioO+5yJ2JC?=
- =?us-ascii?Q?hnh2gwD2nVfHYaPu3Hy0wfxPw2pHT31aUtTAl76PxQ9+rWQHInPXeAmkvdu+?=
- =?us-ascii?Q?5kXeUdC/Oo2gMBIQ1OV5pSrC25FyGNJPR8TFGA/Enm2p2AHU6hFVDhkK6O1M?=
- =?us-ascii?Q?2CSS51C3DeVzImSmmRUZx6oI2720/ozQlZMjz4/DdPUdsP2VzoL/+3mNFBem?=
- =?us-ascii?Q?8kxrQAHBblRsXHsy4a0WGLs/o/UKh9d8h93u7NpoHXtJKqQDDNH7GW94icQJ?=
- =?us-ascii?Q?R/Z2DCBQ+KJWL6xckgBrri0rQymu7K7cmZkpL2NTrvq0ch2RttydDWQ5V+rM?=
- =?us-ascii?Q?1SERZZhD5BIdS6NtIxxM+hDfeMl/5CM69uV/FvgP9pE6R9oMUW99TfWonroh?=
- =?us-ascii?Q?Rwi05Dsz1rljVeoQmsadvM78eSJe8qqyE4DOPHt7/pVYHh7Rt5vBQchbayE6?=
- =?us-ascii?Q?eAJ77nbpkGViU+ZR9BShhy6tmhLjLQo+rH1e34ydPfgKUaAiyWGDP2jPY4m0?=
- =?us-ascii?Q?Lt/lLrL391go1VCHzBcjAIvcELiG0CJ5WxIR7eBy8zWT8GFqDCcrPlEnNP8R?=
- =?us-ascii?Q?gPriYgWQkE3bxMI+/Dd9EQ0tkwIiB4MI90S1YUNcEmdtEfgMYdiTpev7zvjK?=
- =?us-ascii?Q?vjSN9/y19OjKbTZecJyG7TbxcD99fsQ=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11753920-e450-4164-aad8-08dee8a7dfe7
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+	=?us-ascii?Q?K7IinTxpSfsWhJLBYp2FQMSH8FZmguk41xRI5GefIxLUMOFoAKL1IitNEOYf?=
+ =?us-ascii?Q?xZY+ZelsQ4j4w/gN/96yGWGubEAVXRemz4HWT067NSRMUu72bwUL+MllSNup?=
+ =?us-ascii?Q?Tb47L9AYbgn+2AouHQXosVBhPR8qphW7tw99kR22n38ziT6JKTyYpm8cQ59h?=
+ =?us-ascii?Q?9QjgXmOdZifS8o6imupIVOfRWKnI9/tZTUkYEoJ6GV/A26IpkGSlcvOvtO/5?=
+ =?us-ascii?Q?YAHPhO5oigf2Zhw++gt/okvtdHTAjOpOqojAtmfoCnhWk/bifFX2nhLwWbTy?=
+ =?us-ascii?Q?qVYlI0WQwpB09nJ1cAfw0WXYXUTalV+4wEUwFj0SsyYHmGU2wbe8M6PX2zdh?=
+ =?us-ascii?Q?Q+8lbcjquNYxpA5iBgjNE+Rz+kioLkszBJEFWptkxJNHZ0HsmJOw9xXbUIf9?=
+ =?us-ascii?Q?yAWCMCmjcXM89+/fJIOQhj3upg11ujLjWJOicbLeMiaaPZEsZTGn1EkBMtwN?=
+ =?us-ascii?Q?BrawjVb8FwUkc1gsRUP0aBjRltzBMrpYES64vI2eNaxpaIothv4HxfGy9G4W?=
+ =?us-ascii?Q?nlKJs2kUGKE8l+9F9Q7Ijfw/BFqe4osRjANiWUTpW/yUaQlbJuiT1L9OLl4E?=
+ =?us-ascii?Q?UV+igr0D3Wg4E4F9SIa6FLMTxKLV52o2VfqFEzJrgQHcgZSAhpb4HIkQ3E/a?=
+ =?us-ascii?Q?Mr8VSjIjDR2tAXPz/omFjwRoCN4FYQ+AlR8H/j5m2y6N9GXB9uAJaHpHYEB+?=
+ =?us-ascii?Q?rEodRuOkJaLw8l8kICyxi+wTa3YtHcC+j/31Mr2f+azD7Rnct0AKxySJtGB7?=
+ =?us-ascii?Q?8o/Eh7iX4pwedLzbqwC/PlGqKhs+iabzv3FeWrL8zuZ9VrRpYe6BdS2Ts1yA?=
+ =?us-ascii?Q?xHztlo+omd/ZLo7zKa/1+AjxVO8FIwrLQSFF5uCtYQK4iKoFyiKvYNyW5Sak?=
+ =?us-ascii?Q?Vaazo2cwvyhNx49IwDnSu8NJwRGXeTWvepR8uAeKViXzwMdAcI1JFNTm8TMh?=
+ =?us-ascii?Q?zOl2qoQ4aO83pxbISi60yqrI8foPi6DdxC++UCLPz83Z1PG7WCBBD46WwMqk?=
+ =?us-ascii?Q?L0aP4yCPCJfO+9n54K4Fy8JRefHS+89Wa45wVlqliMBqM1RKDfI0gmH55Jft?=
+ =?us-ascii?Q?OyAplQWdvIUSuMaPokjVb2nY5dhAAd8hUpNjb1osOphEWKRAZ1QpJ0XIvtN0?=
+ =?us-ascii?Q?o2pgR4EDcWDmGMB2YylycE6kegNEapubym8ERV2WdFxaogKjJ+l2m/8ctmL6?=
+ =?us-ascii?Q?mUqk8zau8dSz+xK2d5SUjOU3CLgQrXR3nk8BB6Ml9oIviTflWLFrQ4bez9+5?=
+ =?us-ascii?Q?St8lkRRGGI6P2mK9XGdGoXuZNYRB9/mjVBXgG24qJDzsAQsb31oZmHPZvMYI?=
+ =?us-ascii?Q?6ubg0Xx6TFlgSMRxU/6nPafAVrRDIqBkJhHEScmpSkojfU/fwN+YIADTK32b?=
+ =?us-ascii?Q?nOec00axJlNcSoMigDgwCGBTQ/lUFD09eJHQJBtpJ8RC1mPLXhcKH+rTc5yY?=
+ =?us-ascii?Q?eBE9hcrj9FAv9mzk1WGCpmkLPRUGMfjNIh0nbm3RiBjRNo+oolh4qINE8BU5?=
+ =?us-ascii?Q?9fFOQeqoGKomB8Amkjj2SYtDeQfZxsv15m7lTIhjyvGEUCE7lo4VBrpJ0ZnD?=
+ =?us-ascii?Q?JivZILwkMs7O05uT7WUVxF+s6fFy2LDhioHt5JFWsgkfvbvOGRszxSCieW77?=
+ =?us-ascii?Q?QiGeInPB+zEE8yuEr/olvdRVVjzf0rrNUc8i/yvO9mvw86WoDoElyITfZRlU?=
+ =?us-ascii?Q?L7P2sikbkcQcTQs8rL2ebfEeOgG2LElQoN5cdi6+GrPKBBeVdGvnl3K17inQ?=
+ =?us-ascii?Q?EM3ZxCm+lyGg0g9qhx9ZFPHIaWFXgIk=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	QQmp8lgBKZPmEz4ru173j4Ur4d0CzScrKfjsmMrPCQAWG/8jwaTqXeEpLrljeFTh+Rsvdy5duvdOlojbMQc1+2z4MyAQs8x2WIg5z2nHaw4qYWjWaaLNtbzD0zp3iXWZI8t49lP4ql07pbF5RElRGqoqVKplnMqvIMIVkrpG50oWin4aVlagZeeHvxjhor7H9ZcOH3tRWz3+JPgUmwrCBFS99VpBNHhdAKGfq2of9qZ/GTjE9m8bvvsjg2IlvqE1jqWoCdxuTaTgcpNtbNyKiZsZ2K972zLi6N/nwv7f8lGzCjhf2Tor+Bwm55uz+Mk3boyTx0LaZeBrBVdN0W1SZg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b52f6b0d-0754-49c6-1e1e-08dee8ac8085
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 10:48:04.9325
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 11:21:12.2345
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AM1V24gulYcum3eF9oaa5l1/iEpgUMXa7dOqKCDoc4kk6AwLRl4FW0MV87x3vCeZFlz8ivQYhY4/iMARicZPme4esJU4v7N+y2Fu/KbpNz4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAP189MB1898
+X-MS-Exchange-CrossTenant-UserPrincipalName: 69C9NETRP9tA6dOX02SCv8ByjQWkjX8lSXAFS440uugESUvkD1BfwpAoXmQfvzvKtiYBRywvG0Pd05IH0Ts2/NMZoCQFEmyaYzcMSgoPyzY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5083
+X-Proofpoint-GUID: eiQGA4WcLJ-Dis8B8-LIa8tHf0u4RSCi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIzMDExMCBTYWx0ZWRfX3kJcgtZ7NOnH
+ yW8J6bt10oWee1E3SCdLOVYtgGJAbgDu3YwNebjwP2azGhwfc24PBmxdPUaGw/HgXg/8lmL7/wP
+ rTCUatLt11YV+D1fcgQ6Vbre+ekI14MI4cMhe4+N/U4/Lwf69UtrBdKnZKPTCROA5Lwyvn/H71o
+ +4068hVhLde4xtFVp8I8Z+RfCY2SSqu0H3JBIAhtI2BwzdVXbuMlETXzKILXvpeSHz3mxpDkU9R
+ DC6L3dGzsBicnpBZbulXCjBiq7x05XO6GvIXPrlHxxyeGj7ch3qvhZgfpjGciycsNSerQ+OlovM
+ 1XxFGHKjEdb79XeaYbzYG6qu71o3EzDqMwdhEwvg0DRzDmqL2xp7CXGusW5EkTr4wLQQ8fK5IEE
+ u8edZN+yEkAqP2yRLXuPDUbOeG4akCyjSx92Q1dArydBSw0UEMDTwAsVYIViBlYyv232ksGMBmd
+ cTuUJPuow8QUmRaR1nQ==
+X-Proofpoint-ORIG-GUID: eiQGA4WcLJ-Dis8B8-LIa8tHf0u4RSCi
+X-Authority-Analysis: v=2.4 cv=T7m8ifKQ c=1 sm=1 tr=0 ts=6a61f929 cx=c_pps
+ a=Et1EcG/LeKhR1br1BBFfMA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
+ a=KS2_OJWHKhWuo-98OvgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIzMDExMCBTYWx0ZWRfXyZehdXa8twFL
+ 7rAs+rIBZwgcH+C3rcxLBFqboODKRLyAcZkzdD4HwwU7QgLQ8dNBih1woadc9mqG7elL5tyo8QL
+ 1hi2pGWWolxdH0o4NFXS8KDPVe/BfXhL932HmFub8xf9gxOIodLX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-23_03,2026-07-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ adultscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607230110
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 10:48:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241821
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 11:21:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241822
 
-Changelog: https://ftp.isc.org/isc/bind9/9.20.26/doc/arm/html/notes.html
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-This upgrade fixes the following CVEs:
+Export `OECORE_TARGET_SYS` in the generated SDK and tree environment
+setup scripts, and source any `*.sh` files from
+`environment-setup.d/${TARGET_SYS}` in addition to the existing
+`environment-setup.d` directory.
 
-- [CVE-2026-11331] Fix handling of rpz CNAME expansion that returns name
-  too long.
+This complements the rust-cross-canadian changes, where Rust
+environment setup scripts are installed under a target-specific
+directory. By sourcing only the scripts that match the active target,
+the SDK avoids loading environment settings for other target variants,
+such as mixing 32-bit and 64-bit configurations in multilib SDKs.
 
-  Previously, if the expansion of a wildcard CNAME RPZ policy resulted
-  in a name that exceeded the length limit, a self referential CNAME and
-  the original address record were returned, allowing the policy to be
-  bypassed.
-
-- [CVE-2026-11721] Invalid signed wildcard records were being accepted.
-
-  Signed wildcard responses in which the Labels field in the RRSIG
-  record was less than the number of labels in the Signer Name field
-  were being incorrectly accepted.
-
-- [CVE-2026-13321] Fix DNSSEC validation bypass via out-of-zone NSEC
-  Next Field.
-
-  A malicious zone with out-of-zone NSEC next owner names can cause a
-  DNSSEC validating resolver to cache such record and generate negative
-  answers for any zone that is covered by the range.
-
-- [CVE-2026-10723] Correct verification of NSEC3 signer name.
-
-  BIND 9 accepted child-zone NSEC3 records where the first label equals
-  the hash of the parent zone as valid parent-zone closest encloser
-  proofs.
-
-- [CVE-2026-12617] Do not assert for some specific CNAME and DNAME
-  queries.
-
-  A bug in the resolver's handling of certain cached DNAME and CNAME
-  responses could cause named to trigger an assertion failure and exit.
-
-- [CVE-2026-10822] Malformed DNSKEY records could trigger an assertion.
-
-  Previously, dns_name_fromwire() did not honor the record boundary
-  when reading names from the wire, allowing malformed records to be
-  accepted when they should not have been.
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- .../bind/bind/0001-avoid-start-failure-with-bind-user.patch | 2 +-
- .../0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch   | 2 +-
- ...01-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
- ...nd-ensure-searching-for-json-headers-searches-sysr.patch | 6 +++---
- meta/recipes-connectivity/bind/bind/conf.patch              | 2 +-
- .../bind/bind/init.d-add-support-for-read-only-rootfs.patch | 2 +-
- .../bind/bind/make-etc-initd-bind-stop-work.patch           | 2 +-
- .../bind/{bind_9.20.23.bb =3D> bind_9.20.26.bb}               | 2 +-
- 8 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.23.bb =3D> bind_9.20.26.b=
-b} (97%)
+ meta/classes-recipe/toolchain-scripts.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-w=
-ith-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-=
-failure-with-bind-user.patch
-index 4fa377a594..7ed4c5fd2f 100644
---- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bin=
-d-user.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bin=
-d-user.patch
-@@ -1,4 +1,4 @@
--From 2a3ff2a026c55dc67655baf28e0f4175232ee0ff Mon Sep 17 00:00:00 2001
-+From a67ac281cd86d8d9ca27e64a5944deb5578e5087 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 15 Oct 2018 16:55:09 +0800
- Subject: [PATCH] avoid start failure with bind user
-diff --git a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_c=
-c_for_build.m4-macros.patch b/meta/recipes-connectivity/bind/bind/0001-m4-B=
-ackport-ax_prog_cc_for_build.m4-macros.patch
-index 7279a73e87..da4cdef696 100644
---- a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_b=
-uild.m4-macros.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_b=
-uild.m4-macros.patch
-@@ -1,4 +1,4 @@
--From 77f8fafab0cc91c3ad8fbf1382b1d0f2d2cd99a6 Mon Sep 17 00:00:00 2001
-+From 16608520c9d946223404165732eacd79b59de471 Mon Sep 17 00:00:00 2001
- From: Khem Raj <khem.raj@oss.qualcomm.com>
- Date: Fri, 10 Apr 2026 23:33:49 +0000
- Subject: [PATCH] m4: Backport ax_prog_cc_for_build.m4 macros
-diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-st=
-art-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001=
--named-lwresd-V-and-start-log-hide-build-options.patch
-index 369185ad86..07acce9cba 100644
---- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log=
--hide-build-options.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log=
--hide-build-options.patch
-@@ -1,4 +1,4 @@
--From 49ca7b5432dd6c24541bbde21bca5043cd0c000b Mon Sep 17 00:00:00 2001
-+From d925183807ae182cf332124ff5a617d257e184f9 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 27 Aug 2018 21:24:20 +0800
- Subject: [PATCH] `named/lwresd -V' and start log hide build options
-@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/configure.ac b/configure.ac
--index c3852ec..3b7a446 100644
-+index af020f0..f461229 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTR=
-A]["], [BIND 9 Extra par
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-=
-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind=
--ensure-searching-for-json-headers-searches-sysr.patch
-index 4a066294f0..4e90e97271 100644
---- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-he=
-aders-searches-sysr.patch
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-he=
-aders-searches-sysr.patch
-@@ -1,4 +1,4 @@
--From fa165cb4a9dfeb72f0db787decd527e3d587cd4e Mon Sep 17 00:00:00 2001
-+From af229781e60d6779c76d5a61d26a4597b2a42f6c Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Tue, 9 Jun 2015 11:22:00 -0400
- Subject: [PATCH] bind: ensure searching for json headers searches sysroot
-@@ -32,10 +32,10 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver=
-.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/configure.ac b/configure.ac
--index c6a10f6..c3852ec 100644
-+index f47ce7b..af020f0 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -865,7 +865,7 @@ AS_CASE([$with_lmdb],
-+@@ -872,7 +872,7 @@ AS_CASE([$with_lmdb],
-  	[no],[],
-  	[auto|yes], [PKG_CHECK_MODULES([LMDB], [lmdb],
-  				       [ac_lib_lmdb_found=3Dyes],
-diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-=
-connectivity/bind/bind/conf.patch
-index ec22fe84c4..3425742d1b 100644
---- a/meta/recipes-connectivity/bind/bind/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind/conf.patch
-@@ -1,4 +1,4 @@
--From 4b9f6f6735340d558d9c9fba9c84d7f99d3cbde2 Mon Sep 17 00:00:00 2001
-+From bde3a4cb010f459a9ef92817c7e6e6e2d871794a Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Tue, 30 Nov 2010 13:35:42 +0800
- Subject: [PATCH] bind: add new recipe
-diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-rea=
-d-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-suppor=
-t-for-read-only-rootfs.patch
-index fd96d46448..9b55afb5d3 100644
---- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-=
-rootfs.patch
-+++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-=
-rootfs.patch
-@@ -1,4 +1,4 @@
--From 19933be78902d90014f177b5633dd15984bc1bc9 Mon Sep 17 00:00:00 2001
-+From 8876e722beda701a0de021360ff381347120c6ff Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 27 Mar 2014 02:34:41 +0000
- Subject: [PATCH] init.d: add support for read-only rootfs
-diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-w=
-ork.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-wo=
-rk.patch
-index 155cc5a110..33d5d34f15 100644
---- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.pat=
-ch
-+++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.pat=
-ch
-@@ -1,4 +1,4 @@
--From e429899c34ea8a4f85de428e22ee49c453281e82 Mon Sep 17 00:00:00 2001
-+From 26c988eee9d2eae7c7dec8c529176352017b2ce1 Mon Sep 17 00:00:00 2001
- From: Roy Li <rongqing.li@windriver.com>
- Date: Thu, 15 Nov 2012 02:27:54 +0000
- Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.23.bb b/meta/recipes-=
-connectivity/bind/bind_9.20.26.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.20.23.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.26.bb
-index ebc4422b67..fe2ae3f002 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.23.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.26.bb
-@@ -21,7 +21,7 @@ SRC_URI =3D "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-$=
-{PV}.tar.xz \
- 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "5d4475aed3f9e500ef554b2b14d972bdb83d33de214a9b3be9=
-2918ea46908371"
-+SRC_URI[sha256sum] =3D "55248def0f870c4c46b3de72978ea972615131516663188a45=
-64dca1d20bf350"
-=20
- UPSTREAM_CHECK_URI =3D "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes-recipe/toolchain-scripts.bbclass
+index 8c062ef0e7..9405b3b1e6 100644
+--- a/meta/classes-recipe/toolchain-scripts.bbclass
++++ b/meta/classes-recipe/toolchain-scripts.bbclass
+@@ -76,6 +76,7 @@ toolchain_create_sdk_env_script () {
+ 	echo 'export OECORE_MESON_HOST_CPU_FAMILY="${@meson_cpu_family('TARGET_ARCH', d)}"' >>$script
+ 	echo 'export OECORE_MESON_HOST_CPU="${TARGET_ARCH}"' >>$script
+ 	echo 'export OECORE_MESON_HOST_ENDIAN="${@meson_endian('TARGET', d)}"' >>$script
++	echo 'export OECORE_TARGET_SYS="${TARGET_SYS}"' >> $script
+ 
+ 	echo 'unset command_not_found_handle' >> $script
+ 
+@@ -110,6 +111,7 @@ toolchain_create_tree_env_script () {
+ 	echo 'export OECORE_MESON_HOST_CPU_FAMILY="${@meson_cpu_family('TARGET_ARCH', d)}"' >>$script
+ 	echo 'export OECORE_MESON_HOST_CPU="${TARGET_ARCH}"' >>$script
+ 	echo 'export OECORE_MESON_HOST_ENDIAN="${@meson_endian('TARGET', d)}"' >>$script
++        echo 'export OECORE_TARGET_SYS="${TARGET_SYS}"' >> $script
+ 
+ 	toolchain_shared_env_script
+ 
+@@ -172,6 +174,12 @@ if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
+ 	    . \$envfile
+     done
+ fi
++if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d/\$OECORE_TARGET_SYS" ]; then
++    for envfile in \$OECORE_NATIVE_SYSROOT/environment-setup.d/\$OECORE_TARGET_SYS/*.sh; do
++            . \$envfile
++    done
++fi
++
+ EOF
+ }
+ 
+-- 
+2.51.0
+
 
