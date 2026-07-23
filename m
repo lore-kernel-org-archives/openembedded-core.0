@@ -1,235 +1,1852 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 152E5C531CB
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 08:11:39 +0000 (UTC)
-Received: from TYPPR03CU001.outbound.protection.outlook.com (TYPPR03CU001.outbound.protection.outlook.com [52.101.126.87])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18795.1784794286963932835
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25504C44524
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 08:13:09 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18807.1784794381070171827
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 01:11:31 -0700
+ Thu, 23 Jul 2026 01:13:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=nifRXY+C;
- spf=pass (domain: aspeedtech.com, ip: 52.101.126.87, mailfrom: jamin_lin@aspeedtech.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZYU/dVxv9rP+6qr3u0z0HAgaAnPqr31zJTffCu4ubO72UU41vnp19+omNtXXgj+GPCYrt5EBCMihUSJKfK3lyfALNFxjW3HojCXLoCQ1V14c/zcjScDb7HUS6QGL8Hf5K/8PvO3aAa/hX5+4F+QkUO5yCBW8+mQJlNBRCaeEESgH5j3+nL8aKcU5u4rLPdU/83u129BnQ4wBaXC00BZ8nAJygEbHlTbNCCvsHLZ5WTvBJc2diliybsRLLEID5bc1R4zLdGsqiP3hWPUmcZs1otY0vVwinxJKdN98yrN5LydpVXMubAZI9w8NeRxUmHqoJW0ULPpeRy1Ds1XClKdB1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lq9ZO7jNxShRdTtNupaMSsnhfAFVXlXBEyaRApRWRx0=;
- b=kW1gCElGhpb+nA5rk0Qzm4hunqrrotZVXvtLuhRRKsbgpENGVDbqH27PBBXX50uWXACZcKMOi1JLL4VCnH2RLXstGHiP8+SH7wv6Cv1pDe0ckEWtzigNnFH/jncJ43YsWqy5BDsGlO+f2x1BSBAmhLEHpNAdH6DeNirCVjzs0LfyzjmKmN/u2pGrb2wOEq3Yu8Aqji0oSzcg2oGZVv7ZtEMpgUTCld6o6dd/mWtXEZRVJsOsP7OfJ3ozfaKjzZoUz3Y1TNn/fGomzHgFY+1ZU+Z//ViO6ICSrcNfB7MnLwzY5Hi71p2cspujlxFugzSdVz11o87iORDuAdoUugFM7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lq9ZO7jNxShRdTtNupaMSsnhfAFVXlXBEyaRApRWRx0=;
- b=nifRXY+CO9lA/5n33PH8cxGF//Qagu21WHJEhpYllu0Ty3ED4VkMZKtE59Bamt69ZkABkRAK6yimmUwynPTVYnyKQzgO4CQRvc1VlClIvLAKx4Ope3NvxmAsxE59c4RZUlGjlI/fHqsDaLdZftC2pSsExobL+N1DgO+HNj9xrp/X3K8rEwz65QgOWTzJmpBA4rKoAgjgwfWaeDbHf0kRUc1KYEOEaPfs/4HBJgKLx7Vglk1IahPl6419Tky6Mic7l5oHutfq3jAbtqvPAAQBFLUVd4ymef0FYTtyQxMNxwalNncI72va6QeuLg1++P1XPLI1NjZcwX88tYCbq+kyhg==
-Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
- by SEZPR06MB5022.apcprd06.prod.outlook.com (2603:1096:101:48::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 08:11:27 +0000
-Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
- ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
- ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 08:11:27 +0000
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
-	<alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>
-CC: Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: [PATCH v3 5/5] oeqa/selftest/devtool: Add test for multiple nested
- git destsuffix repos
-Thread-Topic: [PATCH v3 5/5] oeqa/selftest/devtool: Add test for multiple
- nested git destsuffix repos
-Thread-Index: AQHdGnrbSugve8qM9E2N78daPQFmXg==
-Date: Thu, 23 Jul 2026 08:11:25 +0000
-Message-ID: <20260723081118.1558249-6-jamin_lin@aspeedtech.com>
-References: <20260723081118.1558249-1-jamin_lin@aspeedtech.com>
-In-Reply-To: <20260723081118.1558249-1-jamin_lin@aspeedtech.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|SEZPR06MB5022:EE_
-x-ms-office365-filtering-correlation-id: 3b647c42-d877-4557-1987-08dee891fe6f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|22082099003|18002099003|38070700021|10067099003|56012099006|3023799007;
-x-microsoft-antispam-message-info: 
- avpuFYOkzAdHVMkCscVpEC8EUIqM43/pLc3nmqx4fVB7FDX1TKpBOCEL2AWJF0biVpHkw3QSQjbwaTuOMOFOaFLLjpS4kD+ZysVJc30lnr6jklUwfqImSkOwRRLr9ELbQ/uT3NcEIzEFhhAoeyuwuB45NNwiuw/LjCeL6WtbqAG72DmYiwCcDmneZcgDLgOLYa98vP8HfwWRZlq0cdh8LYYX1nm7xwhXa90/isN5AiXbHhrUL3td8JYspz+OtGQ6P0SKX02jG/QpQH/9Dzofcnm5klGMAoztW1fsOH/7lEdexJOyUTSQ8ZxAhw/2mgCJ45PGfe3N+GqQZWpOgahEHe+hIkgnJYefjX7xZI/kKnKpY3S7mW7UdBMevthnhRw44NMmJdjGCL+QUIxGwEhXvUFCZraYnO49KVak+3p5fv8EQaJq+aohQJg5Fm0xwdSq1mZgYo4ECA6xyv/8LQROFanByVUrE+cX68eO+BRi6w+Br0WVft+HgaHtPaOSeVKkuo1ZZ+d/z+Km4ydTr2ZkmsaiU0SFio5cZJmSR95U51rTkhSrU8i4y/FsXbqhmVfPVI85/UAWTWA0MjnFI4AdNRezI6dRY7yDNm5ekG6xHFS8C5gkJR66jpxooHZbVeJiNHt+XT29SOBO6z4BB9GnHc6/fysd7pBPWYYSYNyyyHocV43aVLBqOpKuW82i57sXI91aV6iw6bb8iaFYhVILF2RBPNJmT8nFGjInfqpxdyg=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(22082099003)(18002099003)(38070700021)(10067099003)(56012099006)(3023799007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?jxcD4q2V7cg6jFKhqF+oTygRz1VYa2Dq1so62ZQ8tFzoaxtmHhVLKCMBSZ7q?=
- =?us-ascii?Q?bRrz5lN2rpDPosFsMqAxD69b/LhicwxsTe0yiRtMhZUyB9LCNhP+QHAUovKM?=
- =?us-ascii?Q?JX5bGQlzXf7eNIhWxuokiMfWEcUDKyoC6IX1p1aBf21z0Rds4aLH+A42PvQ8?=
- =?us-ascii?Q?o4udr0CjeumgzGG2VN+N9UTMEAEK8Icxjc6lL3l9U40KgY/6g5bxNr8/s4V2?=
- =?us-ascii?Q?4JzSTU+42+25iiOsQDiWhX6tGRPJ3SMsQU0K43E+JwR19Dt/gq0W7kRp1Xrc?=
- =?us-ascii?Q?yu1IfwtjtthEseduabXuc1BvfKfT3f4eAjjFHSBvjJrrBbp3hEPjT3BKrgEs?=
- =?us-ascii?Q?CWxEK2y48jNhTysZ1ecerzEBemM8YROptRhMlTmqk5GlA70LzbjKIAdJKJD4?=
- =?us-ascii?Q?5zIyCx/nmIDiK3q+nMIzNApVq6nrhipFB8fQ900eWQwUA01wje0OC/ZqCRCO?=
- =?us-ascii?Q?pjLPAnUFfbYCYmWSAouqVjH7NAhSiGbBZZPEksLbx7fA/deTCvfXY+j/byJ7?=
- =?us-ascii?Q?oBcYoxBhO4OgVbCQC7E0IWlNjJCsXp44I8ohnXun5jVayP9BfgsRffCdoZf7?=
- =?us-ascii?Q?9cKMpo7dz3FSxNSeurGWAhf6SBTJTsxpzcNLYM7zf0gMXsUUTuphDizDtonU?=
- =?us-ascii?Q?b0wKGxUlKMQq8xemI81WAqynskLumSgTSe80Vi4AljGAXNdkFdyidN7BoMJV?=
- =?us-ascii?Q?zju+EnxK0fa7vWt3EgzZGpCIEr9z6Xe55mJ+LX+/sSgyD6WRE6Yhv28aTPQQ?=
- =?us-ascii?Q?jcuIKFUjOWrR8S9OMPEf/ZSONVFk1ZuJtDKXGM+6+XgKgoHQC7luL/64smLF?=
- =?us-ascii?Q?cHPj2zaT/6z0x/fjMHIbnn1U3eGfFC+Ma8ZRp4TvmG8s9cvLP0U6BBnqPI2O?=
- =?us-ascii?Q?D6fQcKhLhtkLJH5hf/aQDUGxV/zVYSGsMp0N33XpdF9IN1WI1/hmm+WKoi9N?=
- =?us-ascii?Q?cBBRJlPWUp4ZYMOcpAk1KwYOR+AIA0JniVGtAf8V2xzoZ/5fQ+7TPt4KdasJ?=
- =?us-ascii?Q?8KPnTgv3I7cygkSYqZ48xI/a3xjlQOk12j2tRFOZNHKNEcdu6GOHjNQiEJEs?=
- =?us-ascii?Q?1hUUvA3nO4lWmiPLe9FvfyosJQAsJuWRw7Ejf8Mu95jROgAhsiVvkyFIVPG8?=
- =?us-ascii?Q?P1gDlj4vO9YZv1RNagiKrbDb85hYw4Xctt8Cuw6y/L4ncjVtXhe20gBcbEd9?=
- =?us-ascii?Q?5B+JytVf7YwSgsn1HV+WAbRqAyLT2GxvmCMoDWH/kT5LdTtlNaZDnaaTBQlF?=
- =?us-ascii?Q?+9Twk9oZt9yzU0rH9cNuY8qj5hE/5yDNC6VabuWZKx9nVfMwPQC8K10rYKh2?=
- =?us-ascii?Q?QIuVuWX2hQFG2ByroKl04uUeXmjJd/c3q58BCbynJldnLVYSCFahlZ2SHrHr?=
- =?us-ascii?Q?FuvTtph8pHHpRLy2GiIEcbEWguISlhpeIff66NLDsBS8Jk1JBvvfX5Lbmg7X?=
- =?us-ascii?Q?POLD2mncJt+nfgH0xi8JlZNQX8V+SZbBmGT8tvqRbGpBpr4tB2n7xRim3v+K?=
- =?us-ascii?Q?a53d6GWZAoLEjCOsfEbfSSlFq8/qAexfniPlfxs4nW9OFY83KY7r2f40F46v?=
- =?us-ascii?Q?ZUj4gIuK8KXoXzCZ1G4Hf7kBaTw8R17TYekmIptIppclcrx0fYPF9RIPDXTH?=
- =?us-ascii?Q?zqOPM8vXZYX9qntcBTQUum/PFhhFU37p7m8/s0lFT49Ug1ex9pJPXkSNwCK5?=
- =?us-ascii?Q?/RenGLQPuSi2+gC10Uon/sNSMKz0dI0TE9A3sKgCwimPgVqChbhWvk3j0/72?=
- =?us-ascii?Q?dYsz/NJ5UQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@smile.fr header.s=google header.b=uAr67XQR;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47f71156e1aso163896f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 01:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1784794379; x=1785399179; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eEQnw+yZG4u6FjxMXAZ3NwGd//BVqR4DTYUckOUkmuE=;
+        b=uAr67XQRb7I4cH9pTcNj9EgZJEnWdZtzWVsgOnq27YSBQwZ7Rmpnvgo0Ba1CQ+LPqt
+         /N4az2DZlzaDWBRvyFDcBRWZJBkRI7PR6kHNrZlDCGMLWMekyaojuyqqn1yuce99J8A2
+         egiKpUXYCH9+pl2sCjupRqmlZZP4NQ48Cc56g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784794379; x=1785399179;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=eEQnw+yZG4u6FjxMXAZ3NwGd//BVqR4DTYUckOUkmuE=;
+        b=LNfbGeABEelrWeBepK9XdorFhu6YteRu0OOoQjJvGFhR9bXnzGPdeE2FLN6uFgloUa
+         +3FMWa8WlkR5NXBOha9OR//08qDv3+/llVXTxiTqsBlo9Y+MVbwe6otv3Djj7x8uljQL
+         iTs9jQzdU5BsO6gK7JdZyP7FzMeIvyCF5KmLGsKmtfWKi86nz1Znp4+EtxCoco+WRw48
+         vmxDCGEVu7grwb1reA2eI6MexONG+vAy1RVC8oEPgCXTWDdpEqQfKNVim6oSwdfL5vQt
+         MFQEAiMsdH7nN6z66lpgSafbM+CBWxtQj48djdvjxX0j6pGG7sEoydO/qe8E2eiBLnvH
+         jz7A==
+X-Gm-Message-State: AOJu0Yy7O1YcyUst9KWyt526qSEZXZYkKIr+O6LDFhMXAiz/COxDwl1p
+	g/6HXb7Dfn1Q+imMqesysg5GmbChHn2AAPadOxLxz4FVg62GkpYgRJd3i+NPgEPoH8tmETAdrM+
+	YcxtEyqc=
+X-Gm-Gg: AR+sD13aCwN/aOyIkXX765W690KFK2+Wf/uOnnD1DoUnUvd4GoJY47eKu+EE+WmtGH4
+	jJxh17CaI9oqQP01TOj9eaumb2MR99InPh2qyFgPsb8c4RjC42s8xt6CaFxX62Jp3auP1xO3GkU
+	TbB1mnDtz2AzeeysX+eHJu9BRbCh/5IlKWo0UhmoAW65qoU77jV7dHnzuazEoF4Dy1jQYCfDEk+
+	lHHtTr0gazxLi5MYb0LzHbtkrPdjBwhg0UeCaNdkxPPZZ78FklOJ3wd7DC4/sxBnID4HaVDF5su
+	JennXmzeLCAQEGLOW/FHn/fCxAqAhrWbI2l0+TmKGEPCK7Wbug36a7a3Z85N12H3EW5eYq3CvMM
+	zKpDPISx/WFPNrmAwPiR2b+jVGwPo1uupVzM3PbzcrJiPCcPdWlSgIB8PEg178eg4Wo2zkggMSx
+	3wjcbURVVrspPt4fpSOocBUCRI648/nObVO6RRhfyaMzIGYPgudR0Qmd58Y0LQGWVpnW0C6kogs
+	plmmw==
+X-Received: by 2002:a05:6000:2387:b0:47f:4dfc:ca1e with SMTP id ffacd0b85a97d-47f8da5f9a4mr2514061f8f.5.1784794378113;
+        Thu, 23 Jul 2026 01:12:58 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f92e3551bsm613028f8f.26.2026.07.23.01.12.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 01:12:57 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [scarthgap][PATCH] linux-yocto/6.6: update CVE exclusions (6.6.144)
+Date: Thu, 23 Jul 2026 10:12:11 +0200
+Message-ID: <20260723081210.2500538-2-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	dWVFRZtT316TjVoKOYN/0owd/POUhmJrJlt4T8lapZiFZNZcUGIePeRrHesoJyAwFw7VDrXuA+lM2cF1lB96LwG5rnJnuE1dAaZKg76JggG3yNOpzJvPMCvAf0vB5suSP5fpX1rZ/eNFhR434ybRy/PUgG9P78KetOZyKB/b/uatZgt+Duvn57xIUv1yZvsbAc8s0oZhFhOv4X/d4iWhzcjOHLOJC1pt98wcg7ZTNYJd95PgkywFYAIGduUe/5V5UV1lItGr0qZSux5IZBDSzSPNL+34vamczSLXhOUPuTxwSygncEv4w7/rd+fn96zVzS09zbUW+wWZAoeLlLVoEw==
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b647c42-d877-4557-1987-08dee891fe6f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2026 08:11:25.7635
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: D3e6ac2kKVGXSEfVZ6O74orr1TP173DYjTnYVpKy70dquKZp3CF0OzCgalu0klHiWrHNGe8fr9LTdvhudZXLhno7MA75vgSHgKABSxcYrTY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5022
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:11:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241788
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:13:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241789
 
-Add test_devtool_modify_multi_git_destsuffix_standalone to verify that=0A=
-devtool modify converts all nested git repos (from multiple SRC_URI git=0A=
-entries with different destsuffix values, including a repo nested inside=0A=
-another repo's own working tree) to standalone clones so the workspace=0A=
-survives 'bitbake -c cleanall'.=0A=
-=0A=
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>=0A=
----=0A=
- meta/lib/oeqa/selftest/cases/devtool.py | 64 +++++++++++++++++++++++++=0A=
- 1 file changed, 64 insertions(+)=0A=
-=0A=
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selfte=
-st/cases/devtool.py=0A=
-index a10eb0c784..de73a2e620 100644=0A=
---- a/meta/lib/oeqa/selftest/cases/devtool.py=0A=
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py=0A=
-@@ -1265,6 +1265,70 @@ class DevtoolModifyTests(DevtoolBase):=0A=
-         self.assertExists(os.path.join(source_repo_gitsm_gitmodules, 'bitb=
-ake'), 'Submodule not found')=0A=
-         self.assertExists(os.path.join(source_repo_gitsm_gitmodules, 'bitb=
-ake-gitsm-test1'), 'Submodule not found')=0A=
- =0A=
-+    def test_devtool_modify_multi_git_destsuffix_standalone(self):=0A=
-+        """=0A=
-+        Verify that devtool modify converts all nested git repos (from mul=
-tiple=0A=
-+        SRC_URI git entries with different destsuffix values) to standalon=
-e clones=0A=
-+        so that 'bitbake -c cleanall' does not break the devtool workspace=
-.=0A=
-+=0A=
-+        The recipe (devtool-test-multi-destsuffix) has three git SRC_URI e=
-ntries=0A=
-+        with S =3D ${UNPACKDIR}, each nested inside the previous repo's ow=
-n=0A=
-+        working tree:=0A=
-+            destsuffix=3Dlevel1               -> srcdir/level1/=0A=
-+            destsuffix=3Dlevel1/level2        -> srcdir/level1/level2/=0A=
-+            destsuffix=3Dlevel1/level2/level3 -> srcdir/level1/level2/leve=
-l3/=0A=
-+=0A=
-+        This mirrors real-world recipes that embed multiple module repos=
-=0A=
-+        as nested subdirectories of the primary source tree, including the=
-=0A=
-+        case where one repo's checkout lives inside another repo's working=
-=0A=
-+        tree rather than merely under a shared plain directory.=0A=
-+        """=0A=
-+        testrecipe =3D 'devtool-test-multi-destsuffix'=0A=
-+        src_uri =3D get_bb_var('SRC_URI', testrecipe)=0A=
-+        self.assertIn('git://', src_uri,=0A=
-+                      'This test expects %s to have git SRC_URI entries' %=
- testrecipe)=0A=
-+        self.track_for_cleanup(self.workspacedir)=0A=
-+        self.add_command_to_tearDown('devtool reset %s' % testrecipe)=0A=
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */worksp=
-ace')=0A=
-+        result =3D runCmd('devtool modify %s' % testrecipe)=0A=
-+        self.assertEqual(result.status, 0,=0A=
-+                         'devtool modify failed: %s' % result.output)=0A=
-+        srcdir =3D os.path.join(self.workspacedir, 'sources', testrecipe)=
-=0A=
-+        nested_paths =3D [=0A=
-+            ('level1', 'level1'),=0A=
-+            ('level2', 'level1/level2'),=0A=
-+            ('level3', 'level1/level2/level3'),=0A=
-+        ]=0A=
-+=0A=
-+        for name, subpath in nested_paths:=0A=
-+            repo_path =3D os.path.join(srcdir, subpath)=0A=
-+            self.assertExists(os.path.join(repo_path, '.git'),=0A=
-+                              'Repo %s (.git) not found in devtool workspa=
-ce' % name)=0A=
-+=0A=
-+        # Key assertion: no nested repo should retain a git alternates fil=
-e.=0A=
-+        # devtool modify must repack objects locally so the workspace does=
- not=0A=
-+        # depend on the downloads cache, which 'bitbake -c cleanall' will =
-delete.=0A=
-+        for name, subpath in nested_paths:=0A=
-+            repo_path =3D os.path.join(srcdir, subpath)=0A=
-+            alternates_file =3D os.path.join(repo_path, '.git', 'objects',=
-=0A=
-+                                           'info', 'alternates')=0A=
-+            self.assertNotExists(alternates_file,=0A=
-+                                 'Repo %s still has a git alternates file =
-after '=0A=
-+                                 'devtool modify' % name)=0A=
-+=0A=
-+        # Verify the workspace survives cleanall, which removes the shared=
-=0A=
-+        # objects in the downloads cache that alternates would reference.=
-=0A=
-+        bitbake('%s -c cleanall' % testrecipe)=0A=
-+=0A=
-+        # After cleanall all repos must still be usable.=0A=
-+        # A broken alternates file would cause git operations to fail.=0A=
-+        for name, subpath in nested_paths:=0A=
-+            repo_path =3D os.path.join(srcdir, subpath)=0A=
-+            result =3D runCmd('git status', cwd=3Drepo_path)=0A=
-+            self.assertEqual(result.status, 0,=0A=
-+                             'git status failed in repo %s after cleanall:=
- %s'=0A=
-+                             % (name, result.output))=0A=
-+=0A=
- class DevtoolUpdateTests(DevtoolBase):=0A=
- =0A=
-     def test_devtool_update_recipe(self):=0A=
--- =0A=
-2.43.0=0A=
+From: Yoann Congal <yoann.congal@smile.fr>
+
+$ ./meta/recipes-kernel/linux/generate-cve-exclusions.py .../cvelistV5/ 6.6.144 > meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+
+Generated at 2026-07-23 08:09:32.765073+00:00 for kernel version 6.6.144
+From cvelistV5 cve_2026-07-23_0700Z
+
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../linux/cve-exclusion_6.6.inc               | 1216 ++++++++++++++---
+ 1 file changed, 1052 insertions(+), 164 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+index 2a194e7c84d..fd17e611a4b 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+@@ -1,11 +1,11 @@
+ 
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2026-07-07 17:39:10.952928+00:00 for kernel version 6.6.142
+-# From cvelistV5 cve_2026-07-07_1600Z
++# Generated at 2026-07-23 08:09:32.765073+00:00 for kernel version 6.6.144
++# From cvelistV5 cve_2026-07-23_0700Z
+ 
+ 
+ python check_kernel_cve_status_version() {
+-    this_version = "6.6.142"
++    this_version = "6.6.144"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -15132,7 +15132,7 @@ CVE_STATUS[CVE-2024-58091] = "fixed-version: only affects 6.11 onwards"
+ 
+ CVE_STATUS[CVE-2024-58092] = "fixed-version: only affects 6.8 onwards"
+ 
+-# CVE-2024-58093 needs backporting (fixed from 6.15)
++CVE_STATUS[CVE-2024-58093] = "cpe-stable-backport: Backported in 6.6.87"
+ 
+ # CVE-2024-58094 needs backporting (fixed from 6.15)
+ 
+@@ -15520,7 +15520,7 @@ CVE_STATUS[CVE-2025-21815] = "fixed-version: only affects 6.7 onwards"
+ 
+ CVE_STATUS[CVE-2025-21816] = "cpe-stable-backport: Backported in 6.6.93"
+ 
+-CVE_STATUS[CVE-2025-21817] = "fixed-version: only affects 6.13.2 onwards"
++CVE_STATUS[CVE-2025-21817] = "fixed-version: only affects 6.12.96 onwards"
+ 
+ CVE_STATUS[CVE-2025-21819] = "cpe-stable-backport: Backported in 6.6.78"
+ 
+@@ -16142,7 +16142,7 @@ CVE_STATUS[CVE-2025-22128] = "fixed-version: only affects 6.8 onwards"
+ 
+ # CVE-2025-23130 needs backporting (fixed from 6.15)
+ 
+-# CVE-2025-23131 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2025-23131] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ # CVE-2025-23132 needs backporting (fixed from 6.15)
+ 
+@@ -19764,7 +19764,7 @@ CVE_STATUS[CVE-2025-68294] = "fixed-version: only affects 6.15 onwards"
+ 
+ CVE_STATUS[CVE-2025-68295] = "cpe-stable-backport: Backported in 6.6.119"
+ 
+-# CVE-2025-68296 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2025-68296] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2025-68297] = "cpe-stable-backport: Backported in 6.6.119"
+ 
+@@ -19958,7 +19958,7 @@ CVE_STATUS[CVE-2025-68734] = "cpe-stable-backport: Backported in 6.6.117"
+ 
+ CVE_STATUS[CVE-2025-68735] = "fixed-version: only affects 6.10 onwards"
+ 
+-# CVE-2025-68736 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2025-68736] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2025-68737] = "fixed-version: only affects 6.18 onwards"
+ 
+@@ -20022,7 +20022,7 @@ CVE_STATUS[CVE-2025-68766] = "cpe-stable-backport: Backported in 6.6.120"
+ 
+ CVE_STATUS[CVE-2025-68767] = "cpe-stable-backport: Backported in 6.6.120"
+ 
+-# CVE-2025-68768 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2025-68768] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2025-68769] = "cpe-stable-backport: Backported in 6.6.120"
+ 
+@@ -21098,7 +21098,7 @@ CVE_STATUS[CVE-2026-23275] = "fixed-version: only affects 6.13 onwards"
+ 
+ CVE_STATUS[CVE-2026-23277] = "cpe-stable-backport: Backported in 6.6.130"
+ 
+-# CVE-2026-23278 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-23278] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-23279] = "cpe-stable-backport: Backported in 6.6.130"
+ 
+@@ -21230,7 +21230,7 @@ CVE_STATUS[CVE-2026-23344] = "fixed-version: only affects 6.19 onwards"
+ 
+ CVE_STATUS[CVE-2026-23345] = "fixed-version: only affects 6.13 onwards"
+ 
+-# CVE-2026-23346 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-23346] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-23347] = "cpe-stable-backport: Backported in 6.6.130"
+ 
+@@ -21546,7 +21546,7 @@ CVE_STATUS[CVE-2026-31417] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+ CVE_STATUS[CVE-2026-31418] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+-# CVE-2026-31419 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-31419] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-31420 needs backporting (fixed from 7.0)
+ 
+@@ -21572,7 +21572,7 @@ CVE_STATUS[CVE-2026-31430] = "cpe-stable-backport: Backported in 6.6.135"
+ 
+ CVE_STATUS[CVE-2026-31431] = "cpe-stable-backport: Backported in 6.6.137"
+ 
+-# CVE-2026-31432 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-31432] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-31433] = "cpe-stable-backport: Backported in 6.6.131"
+ 
+@@ -21680,7 +21680,7 @@ CVE_STATUS[CVE-2026-31484] = "fixed-version: only affects 6.19 onwards"
+ 
+ CVE_STATUS[CVE-2026-31485] = "cpe-stable-backport: Backported in 6.6.131"
+ 
+-# CVE-2026-31486 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-31486] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-31487 needs backporting (fixed from 7.0)
+ 
+@@ -22294,7 +22294,7 @@ CVE_STATUS[CVE-2026-43008] = "fixed-version: only affects 6.19 onwards"
+ 
+ # CVE-2026-43009 needs backporting (fixed from 7.0)
+ 
+-# CVE-2026-43010 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-43010] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-43011] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+@@ -22312,7 +22312,7 @@ CVE_STATUS[CVE-2026-43017] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+ CVE_STATUS[CVE-2026-43018] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+-# CVE-2026-43019 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43019] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43020] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+@@ -22450,7 +22450,7 @@ CVE_STATUS[CVE-2026-43086] = "cpe-stable-backport: Backported in 6.6.136"
+ 
+ CVE_STATUS[CVE-2026-43087] = "fixed-version: only affects 6.19 onwards"
+ 
+-# CVE-2026-43088 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43088] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43089] = "cpe-stable-backport: Backported in 6.6.136"
+ 
+@@ -22506,7 +22506,7 @@ CVE_STATUS[CVE-2026-43114] = "cpe-stable-backport: Backported in 6.6.136"
+ 
+ # CVE-2026-43115 needs backporting (fixed from 7.0)
+ 
+-# CVE-2026-43116 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43116] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43117] = "cpe-stable-backport: Backported in 6.6.136"
+ 
+@@ -22530,7 +22530,7 @@ CVE_STATUS[CVE-2026-43124] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+ CVE_STATUS[CVE-2026-43128] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+-# CVE-2026-43129 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43129] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43130] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+@@ -22710,7 +22710,7 @@ CVE_STATUS[CVE-2026-43217] = "fixed-version: only affects 6.15 onwards"
+ 
+ CVE_STATUS[CVE-2026-43218] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+-# CVE-2026-43219 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43219] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43220] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+@@ -22752,7 +22752,7 @@ CVE_STATUS[CVE-2026-43238] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+ CVE_STATUS[CVE-2026-43239] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+-# CVE-2026-43240 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43240] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43241] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+@@ -22878,7 +22878,7 @@ CVE_STATUS[CVE-2026-43301] = "fixed-version: only affects 6.8 onwards"
+ 
+ CVE_STATUS[CVE-2026-43302] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+-# CVE-2026-43303 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43303] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43304] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+@@ -22894,7 +22894,7 @@ CVE_STATUS[CVE-2026-43307] = "fixed-version: only affects 6.12 onwards"
+ 
+ # CVE-2026-43310 needs backporting (fixed from 7.0)
+ 
+-# CVE-2026-43311 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43311] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43312] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+@@ -22934,7 +22934,7 @@ CVE_STATUS[CVE-2026-43329] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+ CVE_STATUS[CVE-2026-43330] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+-# CVE-2026-43331 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43331] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43332] = "cpe-stable-backport: Backported in 6.6.134"
+ 
+@@ -23114,7 +23114,7 @@ CVE_STATUS[CVE-2026-43419] = "cpe-stable-backport: Backported in 6.6.130"
+ 
+ CVE_STATUS[CVE-2026-43420] = "cpe-stable-backport: Backported in 6.6.130"
+ 
+-# CVE-2026-43421 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-43421] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-43424] = "cpe-stable-backport: Backported in 6.6.130"
+ 
+@@ -23308,7 +23308,7 @@ CVE_STATUS[CVE-2026-45848] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+ CVE_STATUS[CVE-2026-45849] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+-# CVE-2026-45850 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-45850] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-45851] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+@@ -23468,7 +23468,7 @@ CVE_STATUS[CVE-2026-45928] = "fixed-version: only affects 6.8 onwards"
+ 
+ CVE_STATUS[CVE-2026-45929] = "fixed-version: only affects 6.16 onwards"
+ 
+-# CVE-2026-45930 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-45930] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-45931] = "fixed-version: only affects 6.14 onwards"
+ 
+@@ -23714,7 +23714,7 @@ CVE_STATUS[CVE-2026-46052] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+ CVE_STATUS[CVE-2026-46053] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+-# CVE-2026-46054 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-46054] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-46055] = "fixed-version: only affects 7.0 onwards"
+ 
+@@ -23790,7 +23790,7 @@ CVE_STATUS[CVE-2026-46089] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+ CVE_STATUS[CVE-2026-46091] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+-# CVE-2026-46092 needs backporting (fixed from 7.1)
++CVE_STATUS[CVE-2026-46092] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+ CVE_STATUS[CVE-2026-46093] = "fixed-version: only affects 6.9 onwards"
+ 
+@@ -23876,7 +23876,7 @@ CVE_STATUS[CVE-2026-46133] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+ CVE_STATUS[CVE-2026-46134] = "fixed-version: only affects 6.14 onwards"
+ 
+-# CVE-2026-46135 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-46135] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-46136] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+@@ -23886,7 +23886,7 @@ CVE_STATUS[CVE-2026-46138] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+ CVE_STATUS[CVE-2026-46139] = "fixed-version: only affects 6.12.23 onwards"
+ 
+-# CVE-2026-46140 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-46140] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-46141] = "fixed-version: only affects 6.18 onwards"
+ 
+@@ -24086,7 +24086,7 @@ CVE_STATUS[CVE-2026-46240] = "fixed-version: only affects 6.18.16 onwards"
+ 
+ # CVE-2026-46241 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-46242 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-46242] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-46243] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+@@ -24106,7 +24106,7 @@ CVE_STATUS[CVE-2026-46250] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+ CVE_STATUS[CVE-2026-46251] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+-# CVE-2026-46252 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-46252] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-46253] = "cpe-stable-backport: Backported in 6.6.128"
+ 
+@@ -24242,11 +24242,11 @@ CVE_STATUS[CVE-2026-46318] = "fixed-version: only affects 6.19 onwards"
+ 
+ CVE_STATUS[CVE-2026-46319] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+-# CVE-2026-46320 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-46320] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-46321 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-46321] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-46322 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-46322] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-46323] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+@@ -24264,7 +24264,7 @@ CVE_STATUS[CVE-2026-46329] = "fixed-version: only affects 6.12 onwards"
+ 
+ # CVE-2026-46330 needs backporting (fixed from 7.0)
+ 
+-# CVE-2026-46331 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-46331] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-46332] = "fixed-version: only affects 6.12 onwards"
+ 
+@@ -24278,17 +24278,17 @@ CVE_STATUS[CVE-2026-52906] = "fixed-version: only affects 6.19 onwards"
+ 
+ CVE_STATUS[CVE-2026-52907] = "fixed-version: only affects 6.19 onwards"
+ 
+-# CVE-2026-52908 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52908] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52909 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-52909] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+-# CVE-2026-52910 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52910] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52911] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+ CVE_STATUS[CVE-2026-52912] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+-# CVE-2026-52913 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52913] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52914] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+@@ -24296,7 +24296,7 @@ CVE_STATUS[CVE-2026-52915] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+ CVE_STATUS[CVE-2026-52916] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+-# CVE-2026-52917 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52917] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52918] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+@@ -24308,21 +24308,21 @@ CVE_STATUS[CVE-2026-52921] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+ CVE_STATUS[CVE-2026-52922] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+-# CVE-2026-52923 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52923] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52924 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52924] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52925] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+ CVE_STATUS[CVE-2026-52926] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+-# CVE-2026-52927 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52927] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52928 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-52928] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+-# CVE-2026-52929 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52929] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52930 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52930] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52931] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+@@ -24330,9 +24330,9 @@ CVE_STATUS[CVE-2026-52932] = "fixed-version: only affects 6.15 onwards"
+ 
+ CVE_STATUS[CVE-2026-52933] = "cpe-stable-backport: Backported in 6.6.140"
+ 
+-# CVE-2026-52934 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52934] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52935 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52935] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52936] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+@@ -24340,25 +24340,25 @@ CVE_STATUS[CVE-2026-52936] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+ CVE_STATUS[CVE-2026-52938] = "fixed-version: only affects 7.0 onwards"
+ 
+-# CVE-2026-52939 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52939] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52940] = "fixed-version: only affects 6.17 onwards"
+ 
+ CVE_STATUS[CVE-2026-52941] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+-# CVE-2026-52942 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52942] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52943 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52943] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52944 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52944] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52945] = "fixed-version: only affects 6.15.3 onwards"
+ 
+-# CVE-2026-52946 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52946] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52947 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52947] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-52948 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-52948] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-52949] = "fixed-version: only affects 6.15 onwards"
+ 
+@@ -24622,7 +24622,7 @@ CVE_STATUS[CVE-2026-53077] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+ CVE_STATUS[CVE-2026-53079] = "fixed-version: only affects 6.19 onwards"
+ 
+-# CVE-2026-53080 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53080] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53081] = "fixed-version: only affects 6.11 onwards"
+ 
+@@ -24724,23 +24724,23 @@ CVE_STATUS[CVE-2026-53128] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+ CVE_STATUS[CVE-2026-53130] = "cpe-stable-backport: Backported in 6.6.141"
+ 
+-# CVE-2026-53131 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53131] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53132 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53133 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53133] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53134 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53134] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53135 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53135] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53136 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53136] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53137 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53137] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53138 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53138] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+-# CVE-2026-53139 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53139] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-53140] = "fixed-version: only affects 6.8 onwards"
+ 
+@@ -24748,57 +24748,55 @@ CVE_STATUS[CVE-2026-53141] = "fixed-version: only affects 6.14 onwards"
+ 
+ CVE_STATUS[CVE-2026-53142] = "fixed-version: only affects 6.8 onwards"
+ 
+-# CVE-2026-53143 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53143] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53144 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53144] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53145] = "fixed-version: only affects 6.18.32 onwards"
+ 
+-# CVE-2026-53146 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53146] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53147 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53147] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53148 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53148] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53149 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53149] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53150 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53150] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53151 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53151] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-53152] = "fixed-version: only affects 6.12.78 onwards"
+ 
+ CVE_STATUS[CVE-2026-53153] = "fixed-version: only affects 6.13 onwards"
+ 
+-# CVE-2026-53154 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53154] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53155] = "fixed-version: only affects 6.19 onwards"
+ 
+ # CVE-2026-53156 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53157 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53157] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+-# CVE-2026-53158 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53158] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53159 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53159] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53160 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53160] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53161 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53161] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53162] = "fixed-version: only affects 6.16 onwards"
+ 
+-# CVE-2026-53163 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53163] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-53164] = "fixed-version: only affects 6.16 onwards"
+ 
+ CVE_STATUS[CVE-2026-53165] = "fixed-version: only affects 7.0 onwards"
+ 
+-# CVE-2026-53166 may need backporting (fixed from 6.7)
++CVE_STATUS[CVE-2026-53167] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+-# CVE-2026-53167 may need backporting (fixed from 6.6.144)
+-
+-# CVE-2026-53168 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53168] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53169] = "fixed-version: only affects 6.19 onwards"
+ 
+@@ -24814,9 +24812,9 @@ CVE_STATUS[CVE-2026-53174] = "fixed-version: only affects 6.19 onwards"
+ 
+ CVE_STATUS[CVE-2026-53175] = "fixed-version: only affects 6.12.93 onwards"
+ 
+-# CVE-2026-53176 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53176] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53177 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53177] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53178 needs backporting (fixed from 7.1)
+ 
+@@ -24824,25 +24822,25 @@ CVE_STATUS[CVE-2026-53175] = "fixed-version: only affects 6.12.93 onwards"
+ 
+ CVE_STATUS[CVE-2026-53180] = "fixed-version: only affects 6.9 onwards"
+ 
+-# CVE-2026-53181 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53181] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53182 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53182] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53183 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53183] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53184 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53184] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53185 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53185] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53186 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53186] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53187] = "fixed-version: only affects 6.17 onwards"
+ 
+ CVE_STATUS[CVE-2026-53188] = "fixed-version: only affects 6.15 onwards"
+ 
+-# CVE-2026-53189 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53189] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53190 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53190] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53191] = "fixed-version: only affects 6.12 onwards"
+ 
+@@ -24850,17 +24848,17 @@ CVE_STATUS[CVE-2026-53192] = "fixed-version: only affects 6.12 onwards"
+ 
+ CVE_STATUS[CVE-2026-53193] = "fixed-version: only affects 6.12 onwards"
+ 
+-# CVE-2026-53194 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53194] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53195 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53195] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53196 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53196] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53197] = "fixed-version: only affects 6.14 onwards"
+ 
+-# CVE-2026-53198 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53198] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53199 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53199] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53200] = "fixed-version: only affects 6.19 onwards"
+ 
+@@ -24876,57 +24874,57 @@ CVE_STATUS[CVE-2026-53205] = "fixed-version: only affects 6.12.30 onwards"
+ 
+ CVE_STATUS[CVE-2026-53206] = "fixed-version: only affects 6.19 onwards"
+ 
+-# CVE-2026-53207 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53207] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53208 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53208] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53209 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53209] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53210] = "fixed-version: only affects 6.8 onwards"
+ 
+ CVE_STATUS[CVE-2026-53211] = "fixed-version: only affects 6.18 onwards"
+ 
+-# CVE-2026-53212 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53212] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53213 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53213] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53214 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53214] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53215 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53215] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53216 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53216] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53217 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53217] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53218 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53218] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53219 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53219] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53220 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53221 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53221] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53222] = "fixed-version: only affects 6.18 onwards"
+ 
+-# CVE-2026-53223 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53223] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53224 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53225 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53225] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53226 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53227 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53227] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53228 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53228] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53229 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53230 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53230] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53231] = "fixed-version: only affects 7.0 onwards"
+ 
+-# CVE-2026-53232 needs backporting (fixed from 7.1)
++CVE_STATUS[CVE-2026-53232] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53233] = "fixed-version: only affects 6.12 onwards"
+ 
+@@ -24934,47 +24932,47 @@ CVE_STATUS[CVE-2026-53234] = "fixed-version: only affects 6.12 onwards"
+ 
+ CVE_STATUS[CVE-2026-53235] = "fixed-version: only affects 6.10 onwards"
+ 
+-# CVE-2026-53236 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53236] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53237 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53237] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53238 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53238] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53239 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53239] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53240] = "fixed-version: only affects 6.14 onwards"
+ 
+ CVE_STATUS[CVE-2026-53241] = "fixed-version: only affects 6.10 onwards"
+ 
+-# CVE-2026-53242 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53242] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53243] = "fixed-version: only affects 7.0.10 onwards"
+ 
+ CVE_STATUS[CVE-2026-53244] = "fixed-version: only affects 7.0 onwards"
+ 
+-# CVE-2026-53245 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53245] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53246 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53247 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53247] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53248] = "fixed-version: only affects 6.15 onwards"
+ 
+-# CVE-2026-53249 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53249] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53250] = "fixed-version: only affects 6.8 onwards"
+ 
+ CVE_STATUS[CVE-2026-53251] = "fixed-version: only affects 6.12.2 onwards"
+ 
+-# CVE-2026-53252 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53252] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53253 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53253] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53254 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53254] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53255 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53255] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53256 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53256] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53257] = "fixed-version: only affects 6.16 onwards"
+ 
+@@ -24988,31 +24986,31 @@ CVE_STATUS[CVE-2026-53261] = "fixed-version: only affects 6.7 onwards"
+ 
+ # CVE-2026-53262 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53263 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53263] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53264 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53264] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53265 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53265] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53266 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53266] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53267 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53267] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53268 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53268] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53269 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53269] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53270 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53270] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53271 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53271] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53272 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53273 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53273] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53274 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53274] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53275 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53275] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53276] = "fixed-version: only affects 6.19 onwards"
+ 
+@@ -25112,19 +25110,19 @@ CVE_STATUS[CVE-2026-53323] = "fixed-version: only affects 6.15 onwards"
+ 
+ CVE_STATUS[CVE-2026-53324] = "fixed-version: only affects 6.13 onwards"
+ 
+-# CVE-2026-53325 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53325] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-53326] = "fixed-version: only affects 6.19 onwards"
+ 
+-# CVE-2026-53327 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53327] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-53328] = "fixed-version: only affects 6.12 onwards"
+ 
+-# CVE-2026-53329 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53329] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53330 needs backporting (fixed from 7.1)
+ 
+-# CVE-2026-53331 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53331] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ # CVE-2026-53332 needs backporting (fixed from 7.1)
+ 
+@@ -25134,13 +25132,13 @@ CVE_STATUS[CVE-2026-53334] = "fixed-version: only affects 6.18 onwards"
+ 
+ CVE_STATUS[CVE-2026-53335] = "fixed-version: only affects 6.18 onwards"
+ 
+-# CVE-2026-53336 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53336] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53337 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53337] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53338] = "fixed-version: only affects 6.16 onwards"
+ 
+-# CVE-2026-53339 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53339] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53340] = "fixed-version: only affects 6.14 onwards"
+ 
+@@ -25148,43 +25146,933 @@ CVE_STATUS[CVE-2026-53341] = "fixed-version: only affects 6.11 onwards"
+ 
+ CVE_STATUS[CVE-2026-53342] = "fixed-version: only affects 6.16 onwards"
+ 
+-# CVE-2026-53343 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53343] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53344] = "fixed-version: only affects 6.19 onwards"
+ 
+-# CVE-2026-53345 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53345] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53346] = "fixed-version: only affects 6.12 onwards"
+ 
+-# CVE-2026-53347 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53347] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53348] = "fixed-version: only affects 6.19 onwards"
+ 
+-# CVE-2026-53349 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53349] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53350 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53350] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53351] = "fixed-version: only affects 7.0 onwards"
+ 
+-# CVE-2026-53352 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53352] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53353 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53353] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53354 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53354] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53355 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53355] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53356 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53356] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+ CVE_STATUS[CVE-2026-53357] = "cpe-stable-backport: Backported in 6.6.142"
+ 
+-# CVE-2026-53358 may need backporting (fixed from 6.6.143)
++CVE_STATUS[CVE-2026-53358] = "cpe-stable-backport: Backported in 6.6.143"
+ 
+-# CVE-2026-53359 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53359] = "cpe-stable-backport: Backported in 6.6.144"
+ 
+ CVE_STATUS[CVE-2026-53360] = "fixed-version: only affects 6.10 onwards"
+ 
+-# CVE-2026-53361 may need backporting (fixed from 6.6.144)
++CVE_STATUS[CVE-2026-53361] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53362] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53363] = "fixed-version: only affects 6.14 onwards"
++
++CVE_STATUS[CVE-2026-53364] = "fixed-version: only affects 6.16.4 onwards"
++
++CVE_STATUS[CVE-2026-53365] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2026-53366] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53367] = "fixed-version: only affects 6.17.10 onwards"
++
++# CVE-2026-53368 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-53369] = "cpe-stable-backport: Backported in 6.6.140"
++
++CVE_STATUS[CVE-2026-53370] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-53371] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-53372] = "fixed-version: only affects 6.13 onwards"
++
++CVE_STATUS[CVE-2026-53373] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-53374] = "cpe-stable-backport: Backported in 6.6.140"
++
++CVE_STATUS[CVE-2026-53375] = "cpe-stable-backport: Backported in 6.6.140"
++
++CVE_STATUS[CVE-2026-53376] = "cpe-stable-backport: Backported in 6.6.140"
++
++# CVE-2026-53377 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-53378] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-53379] = "cpe-stable-backport: Backported in 6.6.140"
++
++CVE_STATUS[CVE-2026-53380] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-53381] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53382] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53383] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53384] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53385] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53386] = "fixed-version: only affects 6.9 onwards"
++
++CVE_STATUS[CVE-2026-53387] = "fixed-version: only affects 6.8 onwards"
++
++CVE_STATUS[CVE-2026-53388] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53389] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2026-53390] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53391] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-53392 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-53393 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-53394] = "fixed-version: only affects 6.10 onwards"
++
++CVE_STATUS[CVE-2026-53395] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-53396] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-53397] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-53398] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-53399 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-53400 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-53401 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-53402 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-53403] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63793] = "fixed-version: only affects 7.1 onwards"
++
++CVE_STATUS[CVE-2026-63794] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63795] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63796] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63797] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63798] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63799] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-63800] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63801] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63802] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63803] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63804] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-63805 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-63806 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-63807] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63808] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63809] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-63810 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-63811 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-63812] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63813] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-63814] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-63815 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-63816 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-63817] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-63818 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-63819 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-63820] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-63821] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63822] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63823] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63824] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-63825 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-63826] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63827] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63828] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-63829 needs backporting (fixed from 7.2rc1)
++
++CVE_STATUS[CVE-2026-63830] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63831] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63832] = "fixed-version: only affects 6.12.13 onwards"
++
++CVE_STATUS[CVE-2026-63833] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63834] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63835] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63836] = "cpe-stable-backport: Backported in 6.6.144"
++
++CVE_STATUS[CVE-2026-63837] = "fixed-version: only affects 6.17 onwards"
++
++CVE_STATUS[CVE-2026-63838] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63839] = "fixed-version: only affects 6.17 onwards"
++
++CVE_STATUS[CVE-2026-63840] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-63841] = "fixed-version: only affects 6.14 onwards"
++
++CVE_STATUS[CVE-2026-63842] = "fixed-version: only affects 6.9 onwards"
++
++CVE_STATUS[CVE-2026-63843] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2026-63844] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63845] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63846] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63847] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63848] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63849] = "fixed-version: only affects 6.14 onwards"
++
++CVE_STATUS[CVE-2026-63850] = "fixed-version: only affects 6.9 onwards"
++
++CVE_STATUS[CVE-2026-63851] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2026-63852] = "cpe-stable-backport: Backported in 6.6.141"
++
++# CVE-2026-63853 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63854] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63855] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63856] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63857] = "fixed-version: only affects 6.11 onwards"
++
++# CVE-2026-63858 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63859] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63860] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63861] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63862] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63863] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-63864] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-63865] = "cpe-stable-backport: Backported in 6.6.141"
++
++CVE_STATUS[CVE-2026-63866] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-63867] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63868] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63869] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2026-63870] = "cpe-stable-backport: Backported in 6.6.143"
++
++# CVE-2026-63871 needs backporting (fixed from 7.1)
++
++# CVE-2026-63872 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63873] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-63874] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-63875] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63876] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63877] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63878] = "fixed-version: only affects 6.18 onwards"
++
++# CVE-2026-63879 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63880] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-63881] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63882] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63883] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63884] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63885] = "fixed-version: only affects 6.18.32 onwards"
++
++CVE_STATUS[CVE-2026-63886] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63887] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63888] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63889] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63890] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63891] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63892] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63893] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63894] = "fixed-version: only affects 6.9 onwards"
++
++CVE_STATUS[CVE-2026-63895] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63896] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63897] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63898] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63899] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63900] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63901] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63902] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63903] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63904] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63905] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63906] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63907] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-63908] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63909] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63910] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-63911] = "fixed-version: only affects 6.14 onwards"
++
++CVE_STATUS[CVE-2026-63912] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63913] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63914] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63915] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63916] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63917] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63918] = "fixed-version: only affects 6.12 onwards"
++
++CVE_STATUS[CVE-2026-63919] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63920] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63921] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63922] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63923] = "fixed-version: only affects 6.13 onwards"
++
++CVE_STATUS[CVE-2026-63924] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63925] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63926] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63927] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63928] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63929] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63930] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63931] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63932] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-63933] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63934] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63935] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-63936] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63937] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63938] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63939] = "fixed-version: only affects 6.11 onwards"
++
++# CVE-2026-63940 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63941] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63942] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63943] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63944] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63945] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63946] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63947] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63948] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63949] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63950] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-63951] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-63952] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63953] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-63954] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63955] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-63956] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63957] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63958] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63959] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63960] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63961] = "cpe-stable-backport: Backported in 6.6.143"
++
++# CVE-2026-63962 needs backporting (fixed from 7.1)
++
++# CVE-2026-63963 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63964] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63965] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-63966] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-63967] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63968] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63969] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63970] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2026-63971] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63972] = "fixed-version: only affects 6.18.33 onwards"
++
++CVE_STATUS[CVE-2026-63973] = "cpe-stable-backport: Backported in 6.6.143"
++
++# CVE-2026-63974 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63975] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63976] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63977] = "fixed-version: only affects 6.18 onwards"
++
++# CVE-2026-63978 needs backporting (fixed from 7.1)
++
++# CVE-2026-63979 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63980] = "fixed-version: only affects 6.7 onwards"
++
++CVE_STATUS[CVE-2026-63981] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-63982] = "fixed-version: only affects 6.19 onwards"
++
++# CVE-2026-63983 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-63984] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63985] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63986] = "fixed-version: only affects 6.14 onwards"
++
++CVE_STATUS[CVE-2026-63987] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63988] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-63989] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-63990] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63991] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63992] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63993] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63994] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-63995] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63996] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63997] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-63998] = "fixed-version: only affects 6.11 onwards"
++
++# CVE-2026-63999 may need backporting (fixed from 6.7)
++
++CVE_STATUS[CVE-2026-64000] = "cpe-stable-backport: Backported in 6.6.143"
++
++# CVE-2026-64001 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64002] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64003] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64004] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64005] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64006] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64007] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64008] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64009] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64010] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64011] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64012] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64013] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64014] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64015] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64016] = "fixed-version: only affects 6.18.33 onwards"
++
++# CVE-2026-64017 may need backporting (fixed from 6.7)
++
++CVE_STATUS[CVE-2026-64018] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64019] = "fixed-version: only affects 6.17 onwards"
++
++CVE_STATUS[CVE-2026-64020] = "fixed-version: only affects 6.17 onwards"
++
++CVE_STATUS[CVE-2026-64021] = "fixed-version: only affects 6.13 onwards"
++
++CVE_STATUS[CVE-2026-64022] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64023] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64024] = "fixed-version: only affects 6.10 onwards"
++
++CVE_STATUS[CVE-2026-64025] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64026] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64027] = "fixed-version: only affects 6.13 onwards"
++
++CVE_STATUS[CVE-2026-64028] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64029] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64030] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64031] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64032] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64033] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64034] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64035] = "fixed-version: only affects 6.16 onwards"
++
++# CVE-2026-64036 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64037] = "fixed-version: only affects 6.15 onwards"
++
++# CVE-2026-64038 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64039] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64040] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64041] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64042] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-64043] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64044] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64045] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64046] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64047] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64048] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64049] = "fixed-version: only affects 6.17 onwards"
++
++CVE_STATUS[CVE-2026-64050] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64051] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64052] = "fixed-version: only affects 6.8 onwards"
++
++CVE_STATUS[CVE-2026-64053] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-64054] = "fixed-version: only affects 6.13 onwards"
++
++CVE_STATUS[CVE-2026-64055] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64056] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64057] = "fixed-version: only affects 6.14 onwards"
++
++CVE_STATUS[CVE-2026-64058] = "fixed-version: only affects 6.12 onwards"
++
++CVE_STATUS[CVE-2026-64059] = "fixed-version: only affects 6.12 onwards"
++
++# CVE-2026-64060 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64061] = "fixed-version: only affects 6.12 onwards"
++
++CVE_STATUS[CVE-2026-64062] = "fixed-version: only affects 6.10 onwards"
++
++CVE_STATUS[CVE-2026-64063] = "fixed-version: only affects 6.12 onwards"
++
++CVE_STATUS[CVE-2026-64064] = "fixed-version: only affects 6.8 onwards"
++
++CVE_STATUS[CVE-2026-64065] = "fixed-version: only affects 6.12 onwards"
++
++CVE_STATUS[CVE-2026-64066] = "fixed-version: only affects 6.12 onwards"
++
++CVE_STATUS[CVE-2026-64067] = "fixed-version: only affects 6.10 onwards"
++
++CVE_STATUS[CVE-2026-64068] = "fixed-version: only affects 6.10 onwards"
++
++CVE_STATUS[CVE-2026-64069] = "fixed-version: only affects 6.14 onwards"
++
++# CVE-2026-64070 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64071] = "fixed-version: only affects 6.13 onwards"
++
++CVE_STATUS[CVE-2026-64072] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64073] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64074] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64075] = "fixed-version: only affects 6.14 onwards"
++
++# CVE-2026-64076 needs backporting (fixed from 7.1)
++
++# CVE-2026-64077 needs backporting (fixed from 7.1)
++
++# CVE-2026-64078 needs backporting (fixed from 7.1)
++
++# CVE-2026-64079 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64080] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64081] = "fixed-version: only affects 6.15 onwards"
++
++# CVE-2026-64082 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64083] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64084] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64085] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64086] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64087] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64088] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64089] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64090] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64091] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64092] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64093] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64094] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64095] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64096] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64097] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64098] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64099] = "fixed-version: only affects 6.8 onwards"
++
++CVE_STATUS[CVE-2026-64100] = "fixed-version: only affects 6.17 onwards"
++
++CVE_STATUS[CVE-2026-64101] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64102] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64103] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64104] = "fixed-version: only affects 6.13.8 onwards"
++
++CVE_STATUS[CVE-2026-64105] = "fixed-version: only affects 6.10 onwards"
++
++CVE_STATUS[CVE-2026-64106] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64107] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-64108] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64109] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64110] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64111] = "fixed-version: only affects 6.8 onwards"
++
++# CVE-2026-64112 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64113] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64114] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64115] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64116] = "cpe-stable-backport: Backported in 6.6.143"
++
++# CVE-2026-64117 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64118] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64119] = "fixed-version: only affects 6.11.3 onwards"
++
++CVE_STATUS[CVE-2026-64120] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64121] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64122] = "fixed-version: only affects 6.18.14 onwards"
++
++CVE_STATUS[CVE-2026-64123] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64124] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64125] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64126] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64127] = "fixed-version: only affects 6.10 onwards"
++
++CVE_STATUS[CVE-2026-64128] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64129] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-64130] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64131] = "cpe-stable-backport: Backported in 6.6.143"
++
++CVE_STATUS[CVE-2026-64132] = "fixed-version: only affects 6.9 onwards"
++
++CVE_STATUS[CVE-2026-64133] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64134] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64135] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64136] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64137] = "cpe-stable-backport: Backported in 6.6.143"
++
++# CVE-2026-64138 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64139] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64140] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-64141] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64142] = "fixed-version: only affects 6.11 onwards"
++
++CVE_STATUS[CVE-2026-64143] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-64144] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64145] = "fixed-version: only affects 6.13 onwards"
++
++# CVE-2026-64146 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64147] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64148] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64149] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64150] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64151] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-64152] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-64153] = "cpe-stable-backport: Backported in 6.6.142"
++
++# CVE-2026-64154 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64155] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64156] = "fixed-version: only affects 6.14 onwards"
++
++CVE_STATUS[CVE-2026-64157] = "fixed-version: only affects 6.10.8 onwards"
++
++CVE_STATUS[CVE-2026-64158] = "fixed-version: only affects 6.8 onwards"
++
++CVE_STATUS[CVE-2026-64159] = "fixed-version: only affects 6.10.8 onwards"
++
++# CVE-2026-64160 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64161] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64162] = "fixed-version: only affects 6.16 onwards"
++
++CVE_STATUS[CVE-2026-64163] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64164] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64165] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64166] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64167] = "fixed-version: only affects 6.19 onwards"
++
++CVE_STATUS[CVE-2026-64168] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64169] = "fixed-version: only affects 6.12 onwards"
++
++CVE_STATUS[CVE-2026-64170] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64171] = "fixed-version: only affects 7.0 onwards"
++
++CVE_STATUS[CVE-2026-64172] = "fixed-version: only affects 6.17 onwards"
++
++CVE_STATUS[CVE-2026-64173] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64174] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64175] = "fixed-version: only affects 6.15 onwards"
++
++CVE_STATUS[CVE-2026-64176] = "fixed-version: only affects 6.17.9 onwards"
++
++CVE_STATUS[CVE-2026-64177] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64178] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64179] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64180] = "fixed-version: only affects 6.8 onwards"
++
++CVE_STATUS[CVE-2026-64181] = "fixed-version: only affects 6.18 onwards"
++
++CVE_STATUS[CVE-2026-64182] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64183] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64184] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64185] = "cpe-stable-backport: Backported in 6.6.142"
++
++CVE_STATUS[CVE-2026-64186] = "fixed-version: only affects 6.17 onwards"
++
++# CVE-2026-64187 needs backporting (fixed from 7.2rc4)
++
++CVE_STATUS[CVE-2026-64188] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-64189 needs backporting (fixed from 7.2rc2)
++
++# CVE-2026-64190 needs backporting (fixed from 7.1)
++
++CVE_STATUS[CVE-2026-64191] = "cpe-stable-backport: Backported in 6.6.144"
++
++# CVE-2026-64192 needs backporting (fixed from 7.2rc2)
++
++# CVE-2026-64205 needs backporting (fixed from 7.2rc1)
++
++# CVE-2026-64206 needs backporting (fixed from 7.2rc3)
++
++CVE_STATUS[CVE-2026-64207] = "fixed-version: only affects 6.17 onwards"
+ 
+-# CVE-2026-53362 may need backporting (fixed from 6.6.144)
++# CVE-2026-64600 needs backporting (fixed from 7.2rc4)
+ 
 
