@@ -1,135 +1,137 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4523EC531D1
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 15:07:42 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25755.1784819257175423875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91052C531D1
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 15:20:42 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26021.1784820037753692571
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 08:07:38 -0700
+ Thu, 23 Jul 2026 08:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=qDxz802F;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id D655E4E40F12;
-	Thu, 23 Jul 2026 15:07:34 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9AF4C602B8;
-	Thu, 23 Jul 2026 15:07:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 01A6F11C10C9F;
-	Thu, 23 Jul 2026 17:07:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784819253; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=1CaQ3sjoxWfi7QpFmDQnkmm3myizkrgssUtRZfTiin0=;
-	b=qDxz802FkPBk7nLAu/GnuzYrT3N8bHahg+/dP3jd5rbeb2p7CisLIkw6JVkN0KPonKvtHM
-	iVn2ePgLfX8VZnE9UFRIJN9KG5HCeJz+c1ENmVLT77GfrQmOiBL1wlzQEpH4j8UhhtB1T9
-	dOmEay8sHBHNzaV9kVBA8PsvSu5rMnKEc5ql86Z16QxfR9/7D+8OMXpgs7m8EqZNXkHa3S
-	a7G7OyEoLSDsKd3Hr1Xpi/T7ioTt7FcUI+8UBlP8ZPCDQE8HbnfUgyniLXBpPUCHhkJd+c
-	1eQky2AXuRo/vHFJypyP4V0dqK95cWCAa+Jk3ljTH0t7wpxO0duAB3UWhMFVjQ==
+ dkim=pass header.i=@smile.fr header.s=google header.b=tn2SZ1y9;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47f7872abb6so424485f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 08:20:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1784820036; x=1785424836; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DzaIF7JPz8UpxffLELIimfwM9Ugeib4jzk1rkF79dro=;
+        b=tn2SZ1y9v0uwij12b8O3zhE/ROuJW1YJ5VDsB06dp1hb5HlAhtkmubflZl4T6/An3b
+         YFhW0mGw5krkjFoJlT4RGjn0NlDZ5MHeipZI4WaiJ1zYzup3T8H1OnQzkgtnFxC4X1Ze
+         UKuonFkL6TdkUjCotIYEFPpPNTa3NAMHs5OOw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784820036; x=1785424836;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DzaIF7JPz8UpxffLELIimfwM9Ugeib4jzk1rkF79dro=;
+        b=sU5Qxdc6+2z9MU3XZFGsKxxelP5WItggg/HzS+Tps92FD9oPN/n4+APgR/PTbcQthS
+         I8L+dC9h3BfxToLI51QSIJLnXs2AiuOTxlZkFeGkDk0XfYEEdRPjisBZhtckKKZL3aU8
+         nBCMUuUKrenbbbL0CmHOK5XibLIOKcQtnnojf2H8H5uwckQfvdg+S100yMY9CeH2X7O1
+         ZuW+orFDiHSNPaOGmlb0rNtDt7oo0seX2jy6PtqLpjbCQssew2ZFTTh53JPIowNi0QKz
+         1YI25naVCuUdBdSPuaFDg9RuVyT1+lHC/GJLuyZxbTysyVyyXuGLawHRynk/PvJYuS7h
+         qoWQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro78cCZzqMBRT+DBmOsu/+XITlj/rMJCgYorHbsjWCSV6IGFolUXLBK78ALvIHOtAZQhbVGOjdFByth1OZZMdh/bQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz4PUKLM5MnrXoxg/nT0skEN96b4/BD5wNU/LSSvW+Oj5PIdc/U
+	8b/RBBZPgKV6r4t5IpqISGBocO4QCzYy701lsgVN0+R3k8OLnozt4NS9rzZdteU2wTY=
+X-Gm-Gg: AR+sD11URJgX/kn3YUEArOrN/kFm9sQCMXlFmRPyz3h7rmRDLfhSYbybHoph3LBWNIe
+	jleRtqLPnDa/PjRz1l4HO/hpfukw9PyC7iArEYvhpO1G+tMukCZaE41fCEWszty0RDkGvUXYYkG
+	p8E/+6hORM5IeUXQuKPcs6tqx4OBDxlV51eJjbgaK3TB9ZrjZorY8BFfAoql7xizVKCs86ghZ8H
+	5M7G2FHJQFuU7MzN+16pCEGdSd0xuGbHOVAajfZcAUfFgrHb+DhPLUjIqhT0c7/05z1w5N05KYm
+	s2aYDhUuK8l0OdOZw8a9qNNxFYzrh88HPbosZbhJDDY2BVIrdvSWuyFvVtA6PktpxOu2bRikCR7
+	d3Cp74s1RFS3XzKaWaC2uMCLdLAnujHzonKlB+NbiYGQyaZnBYyM2L4jNqv1qU/sledOIOhf4KR
+	Vz+qNjvuYJCPQC+MAFarqj/brjz0Fj3SQFfsvbcs7J7q2t/926Zzig/gAOj6bCUXGhpA==
+X-Received: by 2002:a05:6000:25c3:b0:47f:7154:9dfc with SMTP id ffacd0b85a97d-47f8da60030mr4215946f8f.9.1784820035862;
+        Thu, 23 Jul 2026 08:20:35 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c53052sm16168861f8f.18.2026.07.23.08.20.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jul 2026 08:20:35 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Jul 2026 17:07:30 +0200
-Message-Id: <DK61MC7B9VH0.2408UF4LVISPP@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <bbnpreetsingh@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/2] devtool: standard: guess srcrev update
- mode for gitsm:// recipes too
-Cc: "Alexander Kanavin" <alex.kanavin@gmail.com>, "Chris Laplante"
- <chris.laplante@agilent.com>, "Peter Kjellerstedt" <pkj@axis.com>, "Adrian
- Freihofer" <adrian.freihofer@siemens.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260723060209.8-1-bbnpreetsingh@gmail.com>
-In-Reply-To: <20260723060209.8-1-bbnpreetsingh@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Thu, 23 Jul 2026 17:20:34 +0200
+Message-Id: <DK61WCMPQZSR.23U8FFRDU3P0@smile.fr>
+Cc: <sebastian@centricular.com>, <nirbheek@centricular.com>,
+ <jan@centricular.com>
+To: "Taruntej Kanakamalla" <tarun@centricular.com>, "Mathieu Dubois-Briand"
+ <mathieu.dubois-briand@bootlin.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v5 2/2] gstreamer1.0-plugins-rs: add new
+ package
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260707081701.1525114-1-tarun@centricular.com>
+ <20260714105541.2812170-1-tarun@centricular.com>
+ <20260714105541.2812170-2-tarun@centricular.com>
+ <DJZ45A2IL6XB.172T8CGXQUIPH@bootlin.com>
+ <DJZ6ZB5JTYSV.ZUCFUNHW05GN@bootlin.com>
+ <d460480501e19d59ac2a7bec0f15020692f0b855.camel@centricular.com>
+ <DJZTA3XYAG4T.1DDQE4ASD7JPI@bootlin.com>
+ <4d95a8c8b8bcb0e1f5e01576466301f69eb2aa9b.camel@centricular.com>
+ <DK54RIOEU340.33ALWQ7AGPKEJ@bootlin.com>
+ <613be9d21a4a0f6fbec1c71aeca3a5874fbe4e60.camel@centricular.com>
+ <DK61927PZM4C.2UUP8BSKKC6NY@smile.fr>
+ <9b05bc4c4c0ae9e817111347a473a268d3fd3584.camel@centricular.com>
+In-Reply-To: <9b05bc4c4c0ae9e817111347a473a268d3fd3584.camel@centricular.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 15:07:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241855
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 15:20:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241856
 
-On Thu Jul 23, 2026 at 8:02 AM CEST, Baban via lists.openembedded.org wrote=
-:
-> 'devtool update-recipe' and 'devtool finish' default to guessing the
-> recipe update mode: 'srcrev' when the source tree HEAD sits on the
-> upstream branch (the "checked out another upstream revision" workflow),
-> 'patch' otherwise. The guesser matches SRC_URI entries against a
-> literal 'git://' prefix, so a gitsm:// recipe never has any git URIs
-> from its point of view and always falls into patch mode.
+On Thu Jul 23, 2026 at 5:08 PM CEST, Taruntej Kanakamalla wrote:
+> Hi Yoann,
 >
-> In that case there are no local commits to export either, so checking
-> out a different upstream revision and running update-recipe reports
-> "No patches or files need updating" and silently leaves the recipe's
-> SRCREV untouched, while the same operation on a git:// recipe updates
-> SRCREV. Forcing -m srcrev works, since _update_recipe_srcrev() is
-> scheme-agnostic; only the guess is broken.
+> On Thu, 2026-07-23 at 16:50 +0200, Yoann Congal wrote:
+>> On Wed Jul 22, 2026 at 5:13 PM CEST, Taruntej Kanakamalla via
+>> lists.openembedded.org wrote:
+>> > Hi Mathieu,
+>> >=20
+>> > On Wed, 2026-07-22 at 15:22 +0200, Mathieu Dubois-Briand wrote:
+>> >=20
+>> > > We do have issues with freedesktop gits, I hope to discuss this
+>> > > during
+>> > > the next patch review meeting. No change needed on your side so
+>> > > far.
+>> >=20
+>> > Thanks for the confirmation.
+>> >=20
+>> > Regards,
+>> > Tarun
+>>=20
+>> Hello,
+>>=20
+>> "issues with freedesktop gits" were a red-herring.
+>>=20
+>> The root cause is that the submitted recipe gstreamer1.0-plugins-rs
+>> is
+>> "floating": ie has not SRCREV value to anchor it to a particular git
+>> commit.
+>>=20
+>> Please send a new version with the appropriate SRCREV value.
+>>=20
+>> Thanks!
 >
-> Accept gitsm:// URIs the same way e7076f1742 ("devtool: gitsm://
-> should be handled same as git:// in upgrades") did for the upgrade
-> path, where the same omission was fixed; the guesser itself dates from
-> 9b9733b7d7 (2015), before gitsm handling was a consideration.
+> Thanks for spotting it, I will send a new version shortly.
 >
-> Note this changes the guessed mode for existing gitsm:// recipes from
-> 'patch' to 'srcrev' when HEAD is on the upstream branch =E2=80=94 the beh=
-avior
-> git:// recipes have had since 2015. Trees carrying local commits still
-> guess 'patch', because their HEAD is not reachable from the upstream
-> branch.
+> Now while building after pulling the latest master, I notice the
+> warnings Mathieu previously mentioned about using old syntax for
+> LICENSE for this recipe as well multiple others.
 >
-> AI-Generated: Uses Claude (claude-sonnet-5)
-> Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
-> ---
+>> gstreamer1.0-plugins-rs: LICENSE is using an old syntax and should be
+> upgraded to: "Apache-2.0 OR MPL-2.0"
+>
+> Should I make the LICENSE format change as well in the new version?
 
-Hi Babanpreet,
-
-Thanks for your patch.
-
-It looks like this is breaking some selftests:
-
-2026-07-23 11:11:54,785 - oe-selftest - INFO - devtool.DevtoolUpdateTests.t=
-est_devtool_git_submodules (subunit.RemotedTestCase)
-2026-07-23 11:11:54,786 - oe-selftest - INFO -  ... FAIL
-...
-2026-07-23 11:11:54,786 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 1960, in test_dev=
-tool_git_submodules
-    self._check_repo_status(recipedir, expected_status)
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 140, in _check_re=
-po_status
-    self.fail('Missing file changes: %s' % expected_status)
-  File "/usr/lib/python3.11/unittest/case.py", line 703, in fail
-    raise self.failureException(msg)
-AssertionError: Missing file changes: [(' M', '.*/vulkan-samples_git.bb$'),=
- ('??', '.*/vulkan/vulkan-samples/$')]
-...
-2026-07-23 11:53:42,632 - oe-selftest - INFO - devtool.DevtoolUpgradeTests.=
-test_devtool_finish_update_patch (subunit.RemotedTestCase)
-2026-07-23 11:53:42,632 - oe-selftest - INFO -  ... FAIL
-...
-2026-07-23 12:43:54,062 - oe-selftest - INFO - devtool.DevtoolModifyTests.t=
-est_devtool_modify_nested_gitsm (subunit.RemotedTestCase)
-2026-07-23 12:43:54,062 - oe-selftest - INFO -  ... FAIL
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4355
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4355
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
+I guess, yes. Sounds like the consequence of the recent LICENSE
+developments.
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yoann Congal
+Smile ECS
 
 
