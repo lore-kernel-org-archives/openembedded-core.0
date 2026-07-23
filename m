@@ -1,304 +1,193 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A76DC531F8
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 16:17:50 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.647.1784823466546989204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4001C531F7
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 16:27:50 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.893.1784824069693369479
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 09:17:47 -0700
+ Thu, 23 Jul 2026 09:27:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MnXoEatU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47f64ca1c2dso252940f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 09:17:46 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=S/E2jCMM;
+ spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: sdoshi@mvista.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-ca88130e09aso649317a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 09:27:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1784823464; x=1785428264; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ULylvXBSQlEam3PmL+2cEX2vYy676SOY16fNguqrG9M=;
-        b=MnXoEatUSJfc1cHnjZtgJfdcGTBsVZdHn+HY+xNuZZDydMcX/fLrL7Q0GN9yA/gfLe
-         v6/LnPY4FscZ8hftggFOHurfCay81q/0E+Rc4ztTvaz9niYdhdI6S6hgD0+tpjQG4/IH
-         qOAxP4Y2HepF9skcWWbJfwbQUoeUiy5Zonlps=
+        d=mvista.com; s=google; t=1784824069; x=1785428869; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IzIOR5uFLELfVKgKJNgVceVxIQ9/cQRPeksn3ERya0E=;
+        b=S/E2jCMMs63y2xGzyPht+6DM1OCRUhea0megBmcLf76DnCWAyEyXgDseobky7UFTo5
+         igU0PdpJUDEtDPD0u6XBODE0HkegWOB14m9swOgmUIsJLvU2YvbK7x50sbK7BCUV/5EG
+         /AkANqVWHPNbHfQs6vI8nPKf1sE//CD01JAOI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784823464; x=1785428264;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ULylvXBSQlEam3PmL+2cEX2vYy676SOY16fNguqrG9M=;
-        b=rudTAhob6b3psCc/Tm2ME6+MAf6WBXqxlGf2Z1YVQNL+btUdOjalxKiSk5p9JUgQKb
-         kTA32/vTQmJ8FOB8KsoKSpaNbNRNlU+Edy76+aU7ArWdsSpaC6OdwdQbMyvrb9Ip5j7N
-         0hPFnchgGDBkddGeKkMJML8aY04ndaiHGmMnKwzd4uJ+xr+caLHHIfyji/ZCXt/X1uyF
-         LGpzHGRkogiiYOhV8T729+GN4DVnaoFBeCMfbKb2Vup4w1nTJyFB0F3usAvtE4tkV/lL
-         Zb+TmahdPP+CVkrP7vFyTNwxDlPbs4LpbRVz87Fb3FYqcwuGhDKw6NganXddlqNr35+V
-         nTGA==
-X-Gm-Message-State: AOJu0Yy5sSOqJAAu7cioIT82+T+FEWJ5kwKvPQp/DFyodGop6kZpJx5I
-	ohlfe0NncXyrDr1Yvdg+lImFEcfNlJIrULUFkZFZkJiwfgQOMTsIw/uy+C9Py2E1q8+xgBbhg3K
-	cqP3WmdE=
-X-Gm-Gg: AR+sD11vD82W0ouIzD95x2UcbrWaNWqpueaNyG70Bprr7bS1biYXHF36plRWXdYYbT2
-	FvdDlXHuxrk9x9R1tovYqmarGEiHV4hPzrq5yqYYkuYGJ4Ye0nFTr8gzYKwjCY4smOqPkXJYPkf
-	Fcc+MrPUnsITLivCshZDxuFmF+7zsGEUUOTjivztf/oqRDwc19mNqFACdbFMyDbMOD9lQI82ikg
-	1H20Xed0qXK/BuNE7P4k1fkwn2y+xIV3dYBHJ9R1SMiGYTCByOsEKn6/MZLDltg5yHz9tHqSlM9
-	NfpBRxIV27jp7bvqtUWuz33jQqI05GhY5hcRMk37zmRKblB9LwO23mbfvRqykhTIQo/UEslVFDI
-	Oos0Y2iD8t96OALhqzpUqHe9z4vmfbwivkp8mKC66S3fj5FTno581qDjBiAfyDiB0wJpVhI3Q8V
-	AZwIhIFkhUkrId1MyooZeybC/XnppF/MI=
-X-Received: by 2002:a05:6000:2912:b0:47f:93fc:2d1c with SMTP id ffacd0b85a97d-47f93fc2e0dmr1260761f8f.9.1784823464299;
-        Thu, 23 Jul 2026 09:17:44 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2205:d253:2df6:b9d5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a5c4sm16085988f8f.8.2026.07.23.09.17.43
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1784824069; x=1785428869;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IzIOR5uFLELfVKgKJNgVceVxIQ9/cQRPeksn3ERya0E=;
+        b=dRQ7GpyE0mYo25Z+vdX9b36mKogorFzm3TAQ0FIi6Nr7JVhZYZc8EAUnv4SMguusTb
+         OZaeXbev7U9Rf0aG0OxVc589rB4RsoUXocqC7e3bxItKoimbzRn67hgzS4zPZr10NoLC
+         EmClxNUTRNBzNCn/ZYV1Sumn7Gj9WSAiQ6fwWHqeelvGrjNRgznR6AO7gObO8GHh24P2
+         JffefzQ+rBxPF8GsMVfeDw/gpSDxB/p4yGp0TaZXS4RRqqrmnJ5vdqjzMQ/m2egaDoGC
+         OcbeiIrSpa5n3SrAmen7/znjL3kdS0ql3+2YMM55SE+gElGpq1KOOqOrjl2yGm7/bFNi
+         NyEA==
+X-Gm-Message-State: AOJu0YwukMq06koj2W/kzwzkZczD1lnGEmcoenKYDlGVNJfhLL5bxPuB
+	xHhJH2R03W9RjxpXAGGWKXl/rF//KZ/e+Qjd1aF0+5gWvvDwj1SjWMMaSViH63iaWqlECGT7b0z
+	Ez4Edauo=
+X-Gm-Gg: AR+sD10GApv2szShOaMu1Z6Ux8wXw5tq8DToFpzu3saX3A7EX/OyJpjFU+K5VR7Z5B/
+	cavY6lWdYL2QPLS0RMehcxz7H9ZnUvF0/eFvMToafBNPGqdLACzUZ8ZEN2/JPAMdhiquatInz/0
+	VpyY3sXka5EAqTY6BlMLR34PLc/4VRzt8hZmZpzWQrqwJNDMcxu0lPjLZKYoq+YwlQIcBm7VhTT
+	v8QeC1Fa33yI/yCs+qtqGm527gYzJK/4uCaEW1YSEt54N8s/sDTTa4OpeKIOQv2gY5WRtSfrSob
+	qZJpPJX2X1c6H7GWBv1bkgvdYeFZ2MCVsDMba9ibZyfznkQbrUTvprRX7Uu0pmm5JMycnEksbNS
+	CJo33X8Xhe3USml6q/CDQmtLIsYXhk/h1Yger3g7iDQBKmPHmVecvXXJ7Wo+sIB4zc8m+KQt8P4
+	6StJhF9AD6LkYT
+X-Received: by 2002:a05:6300:95:b0:3c3:a1ed:3c23 with SMTP id adf61e73a8af0-3c44b00675emr4604287637.23.1784824069005;
+        Thu, 23 Jul 2026 09:27:49 -0700 (PDT)
+Received: from MVIN00030.mvista.com ([157.32.44.119])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3147dc9d932sm20799484eec.12.2026.07.23.09.27.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 09:17:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 23 Jul 2026 09:27:48 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] resulttool: Add support for ptests results for both musl and glibc
-Date: Thu, 23 Jul 2026 17:17:42 +0100
-Message-ID: <20260723161742.1426719-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] vim: Security Fix for CVE-2026-57456
+Date: Thu, 23 Jul 2026 21:55:35 +0530
+Message-Id: <20260723162535.69358-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 16:17:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241862
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 16:27:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241863
 
-The code currently assumed a DISTRO has one libc and can't handle the case
-where there are ptest results for both. Add in TCLIBC to the result data
-to allow them to be differentiated and add support in the reporting to
-see the difference between them.
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-We need to carefully handle the case where there is no TCLIBC data in the
-results as the code currently assumes all data is present.
+Picking patch as per [1], and same patch is mentioned in [2]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+References:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-57456
+[2] https://security-tracker.debian.org/tracker/CVE-2026-57456
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- meta/classes-recipe/testimage.bbclass         |  1 +
- .../oeqa/selftest/cases/resulttooltests.py    |  2 +-
- scripts/lib/resulttool/report.py              | 50 ++++++++++++-------
- scripts/lib/resulttool/resultutils.py         | 11 +++-
- .../template/test_report_full_text.txt        | 10 ++--
- 5 files changed, 48 insertions(+), 26 deletions(-)
+ .../vim/files/CVE-2026-57456.patch            | 90 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57456.patch
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index b89ac2862e3..5f0ec0b3a05 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -159,6 +159,7 @@ def get_testimage_configuration(d, test_type, machine):
-                     'IMAGE_BASENAME': d.getVar("IMAGE_BASENAME"),
-                     'IMAGE_PKGTYPE': d.getVar("IMAGE_PKGTYPE"),
-                     'STARTTIME': d.getVar("DATETIME"),
-+                    'TCLIBC': d.getVar("TCLIBC"),
-                     'HOST_DISTRO': oe.lsb.distro_identifier().replace(' ', '-'),
-                     'LAYERS': get_layers(d.getVar("BBLAYERS"))}
-     return configuration
-diff --git a/meta/lib/oeqa/selftest/cases/resulttooltests.py b/meta/lib/oeqa/selftest/cases/resulttooltests.py
-index 2b0e089e959..b03a880b2bb 100644
---- a/meta/lib/oeqa/selftest/cases/resulttooltests.py
-+++ b/meta/lib/oeqa/selftest/cases/resulttooltests.py
-@@ -64,7 +64,7 @@ class ResultToolTests(OESelftestTestCase):
-                                   'test4': {'status': 'ERROR'},
-                                   'test5': {'status': 'SKIPPED'}}}
-         report = ResultsTextReport()
--        result_report = report.get_aggregated_test_result(None, result_data, 'DummyMachine')
-+        result_report = report.get_aggregated_test_result(None, result_data, 'DummyMachine', 'glibc')
-         self.assertTrue(result_report['passed'] == 2, msg="Passed count not correct:%s" % result_report['passed'])
-         self.assertTrue(result_report['failed'] == 2, msg="Failed count not correct:%s" % result_report['failed'])
-         self.assertTrue(result_report['skipped'] == 1, msg="Skipped count not correct:%s" % result_report['skipped'])
-diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index 1c100b00ab3..ba9965aa0a9 100644
---- a/scripts/lib/resulttool/report.py
-+++ b/scripts/lib/resulttool/report.py
-@@ -24,22 +24,24 @@ class ResultsTextReport(object):
-                              'skipped': ['SKIPPED', 'skipped', 'UNSUPPORTED', 'UNTESTED', 'UNRESOLVED']}
+diff --git a/meta/recipes-support/vim/files/CVE-2026-57456.patch b/meta/recipes-support/vim/files/CVE-2026-57456.patch
+new file mode 100644
+index 0000000000..b9f3fcc84d
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-57456.patch
+@@ -0,0 +1,90 @@
++From 911e10a2e8e677c3982d392e185b7d9b3e574401 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Sun, 21 Jun 2026 19:50:56 +0000
++Subject: [PATCH 14/17] patch 9.2.0699: [security]: possible code execution
++ with python complete
++
++Problem:  [security]: possible code execution with python complete
++          (morningbread)
++Solution: Use repr() to quote the doc strings correctly
++
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-ppj8-wqjf-6fp3
++
++Supported by AI
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/cce141c42740f122dd8486ae04e21c2a81016ba8]
++CVE: CVE-2026-57456
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ runtime/autoload/python3complete.vim | 6 +++---
++ runtime/autoload/pythoncomplete.vim  | 6 +++---
++ 2 files changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index 56ee636b8d..e7cd149cdd 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -326,7 +326,7 @@ class Scope(object):
++ 
++     def get_code(self):
++         str = ""
++-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++@@ -369,7 +369,7 @@ class Class(Scope):
++                        if _DOTTED_NAME_RE.match(s.strip())]
++         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         if len(self.subscopes) > 0:
++             for s in self.subscopes: str += s.get_code()
++         else:
++@@ -392,7 +392,7 @@ class Function(Scope):
++         safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++             (self.currentindent(),self.name,','.join(safe_params))
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         str += "%spass\n" % self.childindent()
++         return str
++ 
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index 0f41405c0e..abef32faf2 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -341,7 +341,7 @@ class Scope(object):
++ 
++     def get_code(self):
++         str = ""
++-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++@@ -384,7 +384,7 @@ class Class(Scope):
++                        if _DOTTED_NAME_RE.match(s.strip())]
++         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         if len(self.subscopes) > 0:
++             for s in self.subscopes: str += s.get_code()
++         else:
++@@ -407,7 +407,7 @@ class Function(Scope):
++         safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++             (self.currentindent(),self.name,','.join(safe_params))
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         str += "%spass\n" % self.childindent()
++         return str
++ 
++-- 
++2.44.4
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 6ef9745b57..a4f8162d31 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-59856.patch \
+            file://CVE-2026-59857.patch \
+            file://CVE-2026-59858.patch \
++           file://CVE-2026-57456.patch \
+            "
  
- 
--    def handle_ptest_result(self, k, status, result, machine):
--        if machine not in self.ptests:
--            self.ptests[machine] = {}
-+    def handle_ptest_result(self, k, status, result, machine, libc):
-+        if libc not in self.ptests:
-+            self.ptests[libc] = {}
-+        if machine not in self.ptests[libc]:
-+            self.ptests[libc][machine] = {}
- 
-         if k == 'ptestresult.sections':
-             # Ensure tests without any test results still show up on the report
-             for suite in result['ptestresult.sections']:
--                if suite not in self.ptests[machine]:
--                    self.ptests[machine][suite] = {
-+                if suite not in self.ptests[libc][machine]:
-+                    self.ptests[libc][machine][suite] = {
-                             'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-',
-                             'failed_testcases': [], "testcases": set(),
-                             }
-                 if 'duration' in result['ptestresult.sections'][suite]:
--                    self.ptests[machine][suite]['duration'] = result['ptestresult.sections'][suite]['duration']
-+                    self.ptests[libc][machine][suite]['duration'] = result['ptestresult.sections'][suite]['duration']
-                 if 'timeout' in result['ptestresult.sections'][suite]:
--                    self.ptests[machine][suite]['duration'] += " T"
-+                    self.ptests[libc][machine][suite]['duration'] += " T"
-             return True
- 
-         # process test result
-@@ -57,21 +59,21 @@ class ResultsTextReport(object):
-             except ValueError:
-                 pass
- 
--        if suite not in self.ptests[machine]:
--            self.ptests[machine][suite] = {
-+        if suite not in self.ptests[libc][machine]:
-+            self.ptests[libc][machine][suite] = {
-                     'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-',
-                     'failed_testcases': [], "testcases": set(),
-                     }
- 
-         # do not process duplicate results
--        if test in self.ptests[machine][suite]["testcases"]:
-+        if test in self.ptests[libc][machine][suite]["testcases"]:
-             print("Warning duplicate ptest result '{}.{}' for {}".format(suite, test, machine))
-             return False
- 
-         for tk in self.result_types:
-             if status in self.result_types[tk]:
--                self.ptests[machine][suite][tk] += 1
--        self.ptests[machine][suite]["testcases"].add(test)
-+                self.ptests[libc][machine][suite][tk] += 1
-+        self.ptests[libc][machine][suite]["testcases"].add(test)
-         return True
- 
-     def handle_ltptest_result(self, k, status, result, machine):
-@@ -136,13 +138,13 @@ class ResultsTextReport(object):
-             if status in self.result_types[tk]:
-                 self.ltpposixtests[machine][suite][tk] += 1
- 
--    def get_aggregated_test_result(self, logger, testresult, machine):
-+    def get_aggregated_test_result(self, logger, testresult, machine, libc):
-         test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
-         result = testresult.get('result', [])
-         for k in result:
-             test_status = result[k].get('status', [])
-             if k.startswith("ptestresult."):
--                if not self.handle_ptest_result(k, test_status, result, machine):
-+                if not self.handle_ptest_result(k, test_status, result, machine, libc):
-                     continue
-             elif k.startswith("ltpresult."):
-                 self.handle_ltptest_result(k, test_status, result, machine)
-@@ -166,6 +168,7 @@ class ResultsTextReport(object):
-         havefailed = False
-         reportvalues = []
-         machines = []
-+        libcs = set()
-         cols = ['passed', 'failed', 'skipped']
-         maxlen = {'passed' : 0, 'failed' : 0, 'skipped' : 0, 'result_id': 0, 'testseries' : 0, 'ptest' : 0 ,'ltptest': 0, 'ltpposixtest': 0}
-         for line in test_count_reports:
-@@ -192,10 +195,13 @@ class ResultsTextReport(object):
-         for k in cols:
-             reporttotalvalues[k] = '%s' % sum([line[k] for line in test_count_reports])
-         reporttotalvalues['count'] = '%s' % len(test_count_reports)
--        for (machine, report) in self.ptests.items():
--            for ptest in self.ptests[machine]:
--                if len(ptest) > maxlen['ptest']:
--                    maxlen['ptest'] = len(ptest)
-+        for libc in self.ptests:
-+            libcs.add(libc)
-+            print(str(libc))
-+            for machine in self.ptests[libc]:
-+                for ptest in self.ptests[libc][machine]:
-+                    if len(ptest) > maxlen['ptest']:
-+                        maxlen['ptest'] = len(ptest)
-         for (machine, report) in self.ltptests.items():
-             for ltptest in self.ltptests[machine]:
-                 if len(ltptest) > maxlen['ltptest']:
-@@ -208,6 +214,7 @@ class ResultsTextReport(object):
-                                  reporttotalvalues=reporttotalvalues,
-                                  havefailed=havefailed,
-                                  machines=machines,
-+                                 libcs=list(libcs),
-                                  ptests=self.ptests,
-                                  ltptests=self.ltptests,
-                                  ltpposixtests=self.ltpposixtests,
-@@ -268,6 +275,11 @@ class ResultsTextReport(object):
-                 skip = False
-                 result = testresults[testsuite][resultid]
-                 machine = result['configuration']['MACHINE']
-+                try:
-+                    libc = result['configuration']['TCLIBC']
-+                except KeyError:
-+                    # We don't have libc in old test results, not much we can do
-+                    libc = 'unknown'
- 
-                 # Check to see if there is already results for these kinds of tests for the machine
-                 for key in result['result'].keys():
-@@ -280,7 +292,7 @@ class ResultsTextReport(object):
-                 if skip:
-                     break
- 
--                test_count_report = self.get_aggregated_test_result(logger, result, machine)
-+                test_count_report = self.get_aggregated_test_result(logger, result, machine, libc)
-                 test_count_report['machine'] = machine
-                 test_count_report['testseries'] = result['configuration']['TESTSERIES']
-                 test_count_report['result_id'] = resultid
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index b8fc79a6acd..53980f8007a 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -28,7 +28,7 @@ flatten_map = {
- }
- regression_map = {
-     "oeselftest": ['TEST_TYPE', 'MACHINE'],
--    "runtime": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'IMAGE_PKGTYPE', 'DISTRO'],
-+    "runtime": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'IMAGE_PKGTYPE', 'DISTRO', 'TCLIBC'],
-     "sdk": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE'],
-     "sdkext": ['TESTSERIES', 'TEST_TYPE', 'IMAGE_BASENAME', 'MACHINE', 'SDKMACHINE'],
-     "manual": ['TEST_TYPE', 'TEST_MODULE', 'IMAGE_BASENAME', 'MACHINE']
-@@ -87,7 +87,14 @@ def append_resultsdata(results, f, configmap=store_map, configvars=extra_configv
-         testtype = data[res]["configuration"].get("TEST_TYPE")
-         if testtype not in configmap:
-             raise ValueError("Unknown test type %s" % testtype)
--        testpath = "/".join(data[res]["configuration"].get(i) for i in configmap[testtype])
-+        paths = []
-+        for i in configmap[testtype]:
-+            try:
-+                paths.append(data[res]["configuration"].get(i))
-+            # Some variables may not exist in older data
-+            except KeyError:
-+                continue
-+        testpath = "/".join(paths)
-         if testpath not in results:
-             results[testpath] = {}
-         results[testpath][res] = data[res]
-diff --git a/scripts/lib/resulttool/template/test_report_full_text.txt b/scripts/lib/resulttool/template/test_report_full_text.txt
-index 2efba2ef6f2..a39878a3e11 100644
---- a/scripts/lib/resulttool/template/test_report_full_text.txt
-+++ b/scripts/lib/resulttool/template/test_report_full_text.txt
-@@ -11,21 +11,23 @@ Test Result Status Summary (Counts/Percentages sorted by testseries, ID)
- {{ 'Total'.ljust(maxlen['testseries']) }} | {{ reporttotalvalues['count'].ljust(maxlen['result_id']) }} | {{ reporttotalvalues['passed'].ljust(maxlen['passed']) }} | {{ reporttotalvalues['failed'].ljust(maxlen['failed']) }} | {{ reporttotalvalues['skipped'].ljust(maxlen['skipped']) }}
- --------------------------------------------------------------------------------------------------------------
- 
-+{% for libc in libcs %}
- {% for machine in machines %}
--{% if ptests[machine] %}
-+{% if ptests[libc][machine] %}
- ==============================================================================================================
--{{ machine }} PTest Result Summary
-+{{ machine }} PTest Result Summary (Libc: {{ libc }})
- ==============================================================================================================
- --------------------------------------------------------------------------------------------------------------
- {{ 'Recipe'.ljust(maxlen['ptest']) }} | {{ 'Passed'.ljust(maxlen['passed']) }} | {{ 'Failed'.ljust(maxlen['failed']) }} | {{ 'Skipped'.ljust(maxlen['skipped']) }} | {{ 'Time(s)'.ljust(10) }}
- --------------------------------------------------------------------------------------------------------------
--{% for ptest in ptests[machine] |sort %}
--{{ ptest.ljust(maxlen['ptest']) }} | {{ (ptests[machine][ptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ptests[machine][ptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ptests[machine][ptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ptests[machine][ptest]['duration']|string) }}
-+{% for ptest in ptests[libc][machine] |sort %}
-+{{ ptest.ljust(maxlen['ptest']) }} | {{ (ptests[libc][machine][ptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ptests[libc][machine][ptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ptests[libc][machine][ptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ptests[libc][machine][ptest]['duration']|string) }}
- {% endfor %}
- --------------------------------------------------------------------------------------------------------------
- 
- {% endif %}
- {% endfor %}
-+{% endfor %}
- 
- {% for machine in machines %}
- {% if ltptests[machine] %}
+ PV .= ".1683"
+-- 
+2.34.1
+
 
