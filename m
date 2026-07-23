@@ -1,116 +1,146 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <bbnpreetsingh@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D7E2C44524
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 05:33:38 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17475.1784784808365811947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5173EC44524
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 06:02:18 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17728.1784786531817912966
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2026 22:33:29 -0700
+ Wed, 22 Jul 2026 23:02:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=b+wS3Yfo;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 263D01A119A
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 05:33:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EDDC06038D;
-	Thu, 23 Jul 2026 05:33:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1EEDE11BD3B71;
-	Thu, 23 Jul 2026 07:33:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784784805; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=b/YqJzAhWwEojosNVUpWIOILOQrWVseT3ciQfgYUkdQ=;
-	b=b+wS3YfozzWKs8BBCzHgyCp7mt1Kf0rVhE8OIoeaz9VHoHpZYDY3KBnWYoDClOwl7EisQz
-	wnxO9RFczHHu5AytnyrfscUhEJV7sxy5tTGV8nOXJ6fH1kuXEH3RuvlrreRF3ZMOsHdORc
-	AQQRGygAxNUUud5FjOrF5nsusxfDfTJzFZ/rDeyKAnPxZL5pH+36bRDxQfFy4RYyyfr1PH
-	ftM3eh27BwUbm/5c09qv/HC5OpYy20SOJSrcVrvlbSYEp5cntePdZI4d8xg4F9xPmmA+YZ
-	j1qTwgS5r+YtpXr6BjWJ5iHa1/4VCufTo73a844smaWYHF5gvLMOXYtVqFJCtQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Jul 2026 07:33:22 +0200
-Message-Id: <DK5PEQXXJ9YA.34F0OF7DED7VM@bootlin.com>
-To: <deepesh.varatharajan@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 2/3] rust: refactor source handling into a
- shared work-shared recipe
-Cc: <Deepesh.Varatharajan@windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260722061757.109411-1-Deepesh.Varatharajan@windriver.com>
- <20260722061757.109411-2-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20260722061757.109411-2-Deepesh.Varatharajan@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=JXL5KXJV;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: bbnpreetsingh@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84a4d8fd6ecso238793b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2026 23:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784786531; x=1785391331; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YdOigpHCbgevrsGmHcgW8rM9zT7/apjM1WPEBoVj4T0=;
+        b=JXL5KXJVhhk/qPhTYiwE8QRMe1WuK1X8l5TJt4P303kTxlQFmwxUPH3cuLRoY1CRcP
+         U7HbvYNvOxMFtADn5O79Omy3kQCS72QBPhiiA3StoHkjh/9a9q+8IlDg+drAxj31V6Tt
+         u5bu7CwyzgvstY/r4l6e1Ralmm3qHL6nub4bBtNJSMrAcE/VwbVSvSVwPbvn2rYAkG7M
+         83w5dZwA41mIORtJ4zAX2BngKKRln7aQDs7hRqluD39Tw690TuxsU8fF+RuEk4aB/vpC
+         SjDRc8L4SAW4hJ9h+0FIcxjFYk0DWZse6eeukCX5iO5QT3slTcFajBwIxCaJeuhjsOGr
+         hn2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784786531; x=1785391331;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YdOigpHCbgevrsGmHcgW8rM9zT7/apjM1WPEBoVj4T0=;
+        b=I9tMZJaZWSwwe/MB0kjbVCSJGrDk8YwVfBOpDi5L64fMR/QS/Kp1bMUDxjAlnqcOqY
+         32vhIsiGe4Voc6hbE+J9tctBR2mIKF7GAJJ5Qars0SltCGgw4U2aabCUVuqMxVoz8hd9
+         n7p3hpftcgA0YipDFOkrEtu+joUvSoQaQxAlkaK/kDH9+tem/04knUEXPxbkRnINNjmU
+         fLO/CmZHffp4tBU6AqfWL+NfLCFJ3qtjQ36sX8hzSCVZDlaurtE0oA5Wjj6rfjsfFv+y
+         /1uPb+XoDSFOa9qjCWQq0FrL4wQF10L4O1/snbQPlizy8ouLUSWGg9i80u9lB4k3oXo2
+         x7/g==
+X-Gm-Message-State: AOJu0YzCWVyvLe+cFauFPab+2sf1B8K+sc4OOhv6bCRnFZcWKynsRRJD
+	kv8ZY36NWI5ZhX/Gx6/t0iOyTRgb5noOuPkLWrByvBaW2mqyj/NkCzZIGjHcJEkBQB8=
+X-Gm-Gg: AR+sD11T35S1eDJUSEVWYH2JdEHKCA5yw8JtruuetVenM3N1dwG9a2S7Ty44MYwDiV4
+	INnifT1B4ZxU8dweK41xW//NhbkhKhEwmt4NDPbmPq+foOSe5XMrRRP+qybW6vTV4TzaiXpyg79
+	Ri7yD5wNCR7PU3US88QL5dTejTsydv/14EaL9q4VRhLQJEotgw1jn4IaBqzk7MwLcxjbynLD/dP
+	1+PXwYnljD46z+5iYCZBh83d3LwFERmKTA6qjATs5tcO7N//BZcnCGVzi7ayBs3ydkBXvAsIWEf
+	ivWalHuRi6q3wSLd4Thy12ITYJQRQfxbcCcE6sZ9AJRXucROg9bdYks4OxzWyYNOQNlCR84jr3x
+	VAGVjz0MYI4t64Mc9BmecRgzkuUbJgMwEvmxuQkx9v4YYzJ5ZNiTCJoWV8tgC5qPITdMV8w7N8S
+	w6jdQ3w9uuTLM/
+X-Received: by 2002:a05:6a00:90a5:b0:848:7e85:f208 with SMTP id d2e1a72fcca58-84e2bb546c5mr2087601b3a.37.1784786531047;
+        Wed, 22 Jul 2026 23:02:11 -0700 (PDT)
+Received: from ydev.. ([108.180.130.139])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17602046sm2401550b3a.59.2026.07.22.23.02.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 23:02:10 -0700 (PDT)
+From: Babanpreet Singh <bbnpreetsingh@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Chris Laplante <chris.laplante@agilent.com>,
+	Peter Kjellerstedt <pkj@axis.com>,
+	Adrian Freihofer <adrian.freihofer@siemens.com>,
+	Babanpreet Singh <bbnpreetsingh@gmail.com>
+Subject: [PATCH 2/2] oeqa/selftest/devtool: cover srcrev update mode guessing for gitsm://
+Date: Thu, 23 Jul 2026 06:02:09 +0000
+Message-ID: <20260723060209.8-2-bbnpreetsingh@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260723060209.8-1-bbnpreetsingh@gmail.com>
+References: <20260723060209.8-1-bbnpreetsingh@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 05:33:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241772
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 06:02:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241774
 
-On Wed Jul 22, 2026 at 8:17 AM CEST, Deepesh via lists.openembedded.org Var=
-atharajan wrote:
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->
-> [YOCTO #15808]
->
-> Consolidate Rust source management across all Rust recipes (rust, cargo,
-> libstd-rs and their native/nativesdk variants) into a single shared
-> source tree using the work-shared pattern.
->
-> Disk savings: a world build with multilibs enabled, together with
-> nativesdk-rust and nativesdk-cargo, now shares a single ~4.2 GB rustc-src
-> tree instead of maintaining up to 11 independent copies (~46.2 GB total).
->
+Add test_devtool_update_recipe_gitsm: devtool modify the
+git-submodule-test recipe, move the source tree to the parent of the
+pinned revision (an upstream commit, no local changes) while staying on
+the devtool branch, run 'devtool update-recipe' in the default auto
+mode, and assert the recipe's SRCREV is updated to the checked-out
+revision.
 
-Hi Deepesh,
+Without the preceding fix the mode guesser cannot see gitsm:// URIs,
+falls into patch mode, reports "No patches or files need updating" and
+leaves the recipe untouched, and this test fails with:
 
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rust/rust-source.bb
-> @@ -0,0 +1,56 @@
-> +# rust-source.bb - Shared source recipe for the Rust toolchain
-> +#
-> +# This recipe fetches, unpacks, and patches the rustc source tree into a
-> +# work-shared location so that rust, cargo, libstd-rs, and their native/=
-nativesdk
-> +# variants all share a single copy of the source. This eliminates duplic=
-ation
-> +# (up to 11 copies of the ~4.2 GB source tree in multilib + nativesdk bu=
-ilds)
-> +# and significantly reduces disk usage (~46.2 GB -> ~4.2 GB for rustc-sr=
-c).
-> +#
-> +# Only do_fetch, do_unpack, and do_patch are meaningful here. All other
-> +# tasks are disabled since this recipe exists solely to provide sources.
-> +
-> +SUMMARY =3D "Rust compiler and runtime libaries"
-> +HOMEPAGE =3D "http://www.rust-lang.org"
-> +SECTION =3D "devel"
-> +LICENSE =3D "(MIT | Apache-2.0) & Unicode-3.0"
+    AssertionError: Missing file changes: [(' M', '.*/git-submodule-test.bb$')]
 
-Please use the new LICENSE syntax here...
+No existing test exercises the auto->srcrev guess for any URI scheme:
+the auto-mode arm of test_devtool_update_recipe_git covers the
+local-commits->patch direction only.
 
+AI-Generated: Uses Claude (claude-sonnet-5)
+Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 33 +++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-> --- a/meta/recipes-devtools/rust/rust_1.96.1.bb
-> +++ b/meta/recipes-devtools/rust/rust_git.bb
-> @@ -4,6 +4,10 @@ SECTION =3D "devel"
->  LICENSE =3D "(MIT | Apache-2.0) & Unicode-3.0"
-
-... and here.
-
-Parsing recipes...WARNING: /srv/pokybuild/yocto-worker/beaglebone/build/lay=
-ers/openembedded-core/meta/recipes-devtools/rust/rust-source.bb: rust-sourc=
-e-1.96.1: LICENSE is using an old syntax and should be upgraded to: "Unicod=
-e-3.0 AND (Apache-2.0 OR MIT)"
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index a10eb0c784..6df07f8c5e 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1378,6 +1378,39 @@ class DevtoolUpdateTests(DevtoolBase):
+                            ('??', '%s/0002-Add-a-new-file.patch' % relpatchpath)]
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+ 
++    def test_devtool_update_recipe_gitsm(self):
++        # Check that auto mode guesses srcrev update mode for a gitsm:// recipe
++        # when HEAD is on the upstream branch, same as it does for git://
++        testrecipe = 'git-submodule-test'
++        bb_vars = get_bb_vars(['FILE', 'SRC_URI', 'SRCREV'], testrecipe)
++        recipefile = bb_vars['FILE']
++        src_uri = bb_vars['SRC_URI']
++        self.assertIn('gitsm://', src_uri, 'This test expects the %s recipe to be a gitsm recipe' % testrecipe)
++        self._check_repo_status(os.path.dirname(recipefile), [])
++        # First, modify a recipe
++        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir)
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
++        result = runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
++        # Check git repo
++        self._check_src_repo(tempdir)
++        # Move the source tree to the parent of the pinned revision, staying
++        # on the devtool branch: a revision reachable from the upstream branch
++        # with no local commits, i.e. the "check out another upstream revision
++        # to move the recipe" workflow the srcrev guess exists to detect
++        result = runCmd('git rev-parse HEAD~1', cwd=tempdir)
++        prevrev = result.output.strip()
++        runCmd('git reset --hard %s' % prevrev, cwd=tempdir)
++        self.add_command_to_tearDown('cd %s; git checkout %s' % (os.path.dirname(recipefile), os.path.basename(recipefile)))
++        result = runCmd('devtool update-recipe %s' % testrecipe)
++        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile))]
++        self._check_repo_status(os.path.dirname(recipefile), expected_status)
++        result = runCmd('git diff %s' % os.path.basename(recipefile), cwd=os.path.dirname(recipefile))
++        addlines = ['SRCREV = "%s"' % prevrev]
++        removelines = ['SRCREV = "%s"' % bb_vars['SRCREV']]
++        self._check_diff(result.output, addlines, removelines)
++
+     def test_devtool_update_recipe_append(self):
+         # Check preconditions
+         testrecipe = 'minicom'
+-- 
+2.43.0
 
 
