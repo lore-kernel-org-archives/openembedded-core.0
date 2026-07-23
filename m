@@ -1,233 +1,115 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3382BC531D4
-	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 14:49:02 +0000 (UTC)
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25303.1784818141271964081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36559C531D4
+	for <webhook@archiver.kernel.org>; Thu, 23 Jul 2026 14:50:22 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.25342.1784818213121550459
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 07:49:01 -0700
+ Thu, 23 Jul 2026 07:50:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=WGnNg1T1;
- spf=pass (domain: gmail.com, ip: 74.125.224.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66804667af2so700302d50.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 07:49:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784818140; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jI3+k457upidRwc8kKLaY/TJh8h42bjsxOP9cWwNIrmzZBSHkAJc0RN1VX4+di1B5R
-         9GrQwJAxEPHeNdX8xgUSHyqU9qCDJXTHsLDlD+6utEpYS2lIoowTU9q3b0TFpfF0lXtF
-         u0FRv/TmIqKAdUUOE/O7UFLDn4YXvp3FNWCbYaLlArpIFiDPdMVwPVtKF1kJctMTlJCh
-         QBywpfO4dpd9ZSZQilhZuLAlQJfcSwrsUgVWAeq0cvOavA++6laYBynPiDvH0BuBbwUy
-         4hPMtwmo9W0WZVmeCJEBE09SwC23Zmc+UmFPRfqQTI+aDPdyf8cDU58RtldKmu2AEmOw
-         C5rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FRC52mBT8HMHMxANYMuwyU8at5M+CpnypdY3umb+XX0=;
-        fh=EcDvZkKBjeO+cQP3plb3nJpyne19bKm9ouAyYjMb11I=;
-        b=HSZIFm6Tz8rlVRUuwm0w7Qryq3oV06pPpLG1Jo1J9M43iEyLtxalyFmwhwzXqS13W3
-         E75Wtj//OBMUVullRwUNQw6Qs4zTceelb+oRWh5Bw6MSw9N7vXeiJ8w62KsnxNDt+fxw
-         8gUeHDrHHjtIFrhcZtUW+q/aCriJwzTuRNHRrp0Dxc+wsAatTFdINsijkGENw1ekw4PN
-         xHXZlV+SLqkSTmWea6Dmkbjk3x0kjdbGWq0fJ7m0I6Vqul9rYdOeQcQB3vBsyvgALvwE
-         bPhfVt0q7OqSfZel38xz4N9UEnWKw1c+n4o4n//u0Fu34xxzc2QhuuXiQ2dnjMNOqDAX
-         eQ9g==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=UNKN8MWX;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47f93b2fe4cso281665f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 07:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784818140; x=1785422940; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FRC52mBT8HMHMxANYMuwyU8at5M+CpnypdY3umb+XX0=;
-        b=WGnNg1T1uasDeYD0u96DMmFqydHHiO2Q9/8S34HGuKO8uUHaCCbAFPkJwApqPjJRzg
-         +nOM2yM6pQ+DuifYv51rR+LsexiWrNWonppnRRcmX5BG6Cg2sBhpSl6p9VhCQMV6vF/O
-         6Xt/7EW3a1JPGmidioO/J3C9PSYU6IFZwXhbGKpgtjM+IVMgHbrI3zV4e8m94fU2Wdmn
-         fzBiEWtTDD7h6pIyHgJ+6eSPiba9946VzElXrmtDzEoP95WPhMQJd44W1h8U0JX8PDK1
-         YH1bqIbr3I08zS8BFM8A10/kUzKQHsBzKd8lLqb4Kcxh7MEXL5QmmsiOB2KfKi8UGw1a
-         vs3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784818140; x=1785422940;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=smile.fr; s=google; t=1784818211; x=1785423011; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=FRC52mBT8HMHMxANYMuwyU8at5M+CpnypdY3umb+XX0=;
-        b=jd2eFs8+Lmk3IOhJvbS7RysTETqkSshGdPeALd7ll39LK13aaDhuDacLbr6/q3oGAf
-         JJiZkTNMr4LWpfHKvH4nExnsXVTJFSTlOQeao6C4sCy7yGs6HiVyXuF9+NCmitkkwzJU
-         +y6dY3izO0PTnGpj7+JYcW37z0J0xeaNL0l19EUGiRtm2nuLYWubOhHBiC/a1ndHOrBJ
-         augVsl+xKqJKywSsNz+tu/4PDhvrIOKRvEXfVa1QsCEAn7nN3OO+MWCeVc7K3+4rLe/u
-         rpWI0Gcnj3bbEmqMslFU8y0nO9ND46VXo1RvQUuF1cE4hXf1xsNshgUWtsFic1/qtE2b
-         e4Dw==
-X-Gm-Message-State: AOJu0YzIePR0yiwR/4p2jh9Fv2mlhMXC9+VBU98ZUz47CDNZdpGCvgrf
-	LpSz1ep2ty8ssR+39zwNP3dx+q2+FyvWXJEdvcpCM1kbgL9bqqnpgG7UBSdKD1bzZ0/Tl9gomxL
-	1heRSk985m5DxGXk9T20FHvvKfhVrO4c=
-X-Gm-Gg: AR+sD11+7PbfYa2EqdDVyqr2w6FjtE/VjfLZ7smSAZXl5y17HFuZCbfyczjiGxtpzv2
-	wU1BGQjHMl33hshzUVbDIxV/tGLAk0palSGMRwWK200+bc6wVzOPZjkuov4w09LEr97oBXluxSB
-	w7eiAegbwJHwqDCR7oljjdyGngbxhqtpLqL27VwjY+2ojgfI2B07tviKnuFc5AF3dq+KuWucrv8
-	2TjYKwj/ZAnqEuCllueLoIkGg9sE1a1Mfe9JYNjseExNwF7RIUbFlAD8rEQX/9rN1eXNatXfR6E
-	KQY8Et14wHXvMFh/LDQfGk2VXtLfrJaYB3SHQl44m5ypvv6Xzogqoh3PDl0MQou8jwYE1+0bY/K
-	yeHTvejXGjkTT3wdko7pqqk8fRNl5n+s5y0VRLvmFCZ8oZmQgoKdQ6b+0n6nwxJC13yl4
-X-Received: by 2002:a05:690e:4384:b0:667:ca27:479f with SMTP id
- 956f58d0204a3-668a4bd50fcmr651445d50.6.1784818140124; Thu, 23 Jul 2026
- 07:49:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260723134101.864910-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20260723134101.864910-1-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 23 Jul 2026 07:48:47 -0700
-X-Gm-Features: AUfX_mzb-2n16JH58T8Xdc-m31Dp3bsKM47SxGnWXGnZZnrnRq_BWcjYNV4ElaM
-Message-ID: <CAMKF1spi9oaw3fWW290ryPd2ae-dbBHA3OvbGEE1_H5xYwgLJw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] default-distrovars: Enable minidebuginfo
- DISTRO_FEATURE by default
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <ross.burton@arm.com>
-Content-Type: multipart/alternative; boundary="0000000000003b1e540657485b59"
+        bh=CY+X2TDHbjgTL4Mv6uydWKIruYmub7nbZnMwjPAA6Eo=;
+        b=UNKN8MWXXExOtn3GhauVGIstluOKnMhzg5LdEFn+5FU89923bL6yj57yn+nR1+NtV4
+         XUc0o65lvO0KxSjnQ/b0wu7tF7YvWCuI7/sM+SBBgSKKJ6BmeeGttLTBZhfDikMUxTz6
+         5oMbNGQ5x8571b0lMeelJUoKBsvkCDLR48DlE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784818211; x=1785423011;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CY+X2TDHbjgTL4Mv6uydWKIruYmub7nbZnMwjPAA6Eo=;
+        b=WnmruH+KoCPg3cgPTxUjumRZ2SOAyTwhWqWjmLlN4dNIEH+JoOQVl8wLq//JsVBbKI
+         cYW0neGGGTPO7kMyxKei4IKiAYLdQY8tr5vy2v/qlyM8AJVxbCPD+vGA5CTzJcxU52ph
+         mfIrzTJqC7im5fnwVJ29/VT7RlAVhaFdlUwnySqpLe/A5NQkGGzTY25+q/K59/ROgHs5
+         vsBBBg4WNMeVIVNdzFGpHXoloyGRVmrla7MbDqL0LBVZYRo5VLk8fxolSyE4Jw2wJaQZ
+         iYlWPBeKM+XZnCB9C6FxPfaZvqqlXva9mS25EAS8h0kumHvm3sFQVWhfbCExRmZc1x/B
+         IZbg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr2A7HbpMPBFH7w9pQg41FD9NR3Fi9mAl6nlSPCw3Jr4q/9qwwdSWYi9QNDpNLo+C3pifW6xTSiS4nApGzP9gkiGQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyVyILrpvxL2rL/j1rH+kwAqT9PGRrIwm7v/pm1eSm7CtZonD+A
+	oG7+pGO97Lar3GmTd1WuFn/VMaaoe66Vrt1rRmE4j1x6Pxj21xShJnwGhKiTV7kDCC0=
+X-Gm-Gg: AR+sD10Ob0sDPH5FTRusRG+S60YRgJ/HVdpiiPPv3TKaz6vAlzsCzgWPBNM89OFdGNA
+	Uz8Xa5wE4VkI2izYzpg0qH18vBeN4ow6s04snP/vsLJOdcCO8i0cAvHl2jh6gtS+LBUG3uvTFDT
+	A6LitGcIBtoMUWolEUoauHH5DbG7uJQRcC43tXafUi3cFOxyLnTIJviDfj5rphx6PTFhpIgqFEH
+	ZURw1PYZ84T8y2QH+5LbSFbyAb1kkFM1VPVBDz4hvjw+fiNhic5PatpgpvnyEsbwzQKaJcgHUtv
+	ptBKa0htKXokFnKF8o6nBxoVT+d/K8LUyRIBVQTZ0aeh/E9Sr98Yazvk8eTm8s1/Wjy74WuSH2j
+	n/YreMovyRyo6Jo0YTuVYbvAvCt/ioG2/CW7loOWmRqaGUGti7bsO8cMkW1ilfPIHzW0xpbDHpY
+	oThaGvRcwuTmJOaRnxRNXS3K9hycIT+GHcG6kjWCWGMDvlsam/2L0EMKxp43c4lAkG7Q==
+X-Received: by 2002:a05:6000:220e:b0:47f:7114:7d6c with SMTP id ffacd0b85a97d-47f8dca50e8mr4592449f8f.44.1784818211216;
+        Thu, 23 Jul 2026 07:50:11 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c532d4sm15598871f8f.22.2026.07.23.07.50.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jul 2026 07:50:10 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 23 Jul 2026 16:50:09 +0200
+Message-Id: <DK61927PZM4C.2UUP8BSKKC6NY@smile.fr>
+Cc: <sebastian@centricular.com>, <nirbheek@centricular.com>,
+ <jan@centricular.com>
+To: <tarun@centricular.com>, "Mathieu Dubois-Briand"
+ <mathieu.dubois-briand@bootlin.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v5 2/2] gstreamer1.0-plugins-rs: add new
+ package
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260707081701.1525114-1-tarun@centricular.com>
+ <20260714105541.2812170-1-tarun@centricular.com>
+ <20260714105541.2812170-2-tarun@centricular.com>
+ <DJZ45A2IL6XB.172T8CGXQUIPH@bootlin.com>
+ <DJZ6ZB5JTYSV.ZUCFUNHW05GN@bootlin.com>
+ <d460480501e19d59ac2a7bec0f15020692f0b855.camel@centricular.com>
+ <DJZTA3XYAG4T.1DDQE4ASD7JPI@bootlin.com>
+ <4d95a8c8b8bcb0e1f5e01576466301f69eb2aa9b.camel@centricular.com>
+ <DK54RIOEU340.33ALWQ7AGPKEJ@bootlin.com>
+ <613be9d21a4a0f6fbec1c71aeca3a5874fbe4e60.camel@centricular.com>
+In-Reply-To: <613be9d21a4a0f6fbec1c71aeca3a5874fbe4e60.camel@centricular.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 14:49:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241850
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2026 14:50:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241851
 
---0000000000003b1e540657485b59
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Richard,
-
-Since default policies are generally used by derived distros, changing this
-default may have broader impacts. I wonder if the Yocto autobuilder issues
-you mentioned are commonly seen by OE users, as this change will embed
-symbols into binaries that some users may not expect.
-
-Additionally, there are alternatives that people might have already
-deployed. I would suggest seeking user feedback before enabling this by
-default in OE-core.
-
-Best regards,
-
-Khem Raj
-
-On Thu, Jul 23, 2026, 6:41=E2=80=AFAM Richard Purdie via lists.openembedded=
-.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-
-> Enable the "minidebuginfo" DISTRO_FEATURE in builds so that all
-> binaries have just enough debuginfo in them to get a useful stack trace.
+On Wed Jul 22, 2026 at 5:13 PM CEST, Taruntej Kanakamalla via lists.openemb=
+edded.org wrote:
+> Hi Mathieu,
 >
-> This aids with debugging occasional failures that hit the autobuilder,
-> at minimal cost.  For example, core-image-sato with systemd:
+> On Wed, 2026-07-22 at 15:22 +0200, Mathieu Dubois-Briand wrote:
 >
->    core-image-sato: IMAGESIZE changed from 481532 to 486044 (+1%)
->    glibc: PKGSIZE changed from 3715743 to 3805871 (+2%)
->    sqlite3: PKGSIZE changed from 462840 to 469056 (+1%)
+>> We do have issues with freedesktop gits, I hope to discuss this
+>> during
+>> the next patch review meeting. No change needed on your side so far.
 >
-> [Idea taken from a poky patch from Ross Burton]
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/conf/distro/include/default-distrovars.inc | 1 +
->  1 file changed, 1 insertion(+)
+> Thanks for the confirmation.
 >
-> diff --git a/meta/conf/distro/include/default-distrovars.inc
-> b/meta/conf/distro/include/default-distrovars.inc
-> index 69c6db589b7..aea458d28c4 100644
-> --- a/meta/conf/distro/include/default-distrovars.inc
-> +++ b/meta/conf/distro/include/default-distrovars.inc
-> @@ -29,6 +29,7 @@ DISTRO_FEATURES_DEFAULTS ?=3D " \
->      acl alsa bluetooth debuginfod ext2 ipv4 ipv6 \
->      wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pulseaudio \
->      gobject-introspection-data ldconfig opengl ptest multiarch wayland
-> vulkan \
-> +    minidebuginfo \
->      "
->  IMAGE_FEATURES ?=3D ""
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#241840):
-> https://lists.openembedded.org/g/openembedded-core/message/241840
-> Mute This Topic: https://lists.openembedded.org/mt/120410504/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Regards,
+> Tarun
 
---0000000000003b1e540657485b59
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-<div dir=3D"auto">Hi Richard,<br><br>Since default policies are generally u=
-sed by derived distros, changing this default may have broader impacts. I w=
-onder if the Yocto autobuilder issues you mentioned are commonly seen by OE=
- users, as this change will embed symbols into binaries that some users may=
- not expect.<br><br>Additionally, there are alternatives that people might =
-have already deployed. I would suggest seeking user feedback before enablin=
-g this by default in OE-core.<br><br>Best regards,<br><br>Khem Raj<div><br>=
-</div><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Thu, Jul 23, 2026, 6:41=E2=80=AFAM Richard Purdie via =
-<a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;ri=
-chard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.openembedded.org=
-">linuxfoundation.org@lists.openembedded.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">Enable the &quot;minidebuginfo&=
-quot; DISTRO_FEATURE in builds so that all<br>
-binaries have just enough debuginfo in them to get a useful stack trace.<br=
->
-<br>
-This aids with debugging occasional failures that hit the autobuilder,<br>
-at minimal cost.=C2=A0 For example, core-image-sato with systemd:<br>
-<br>
-=C2=A0 =C2=A0core-image-sato: IMAGESIZE changed from 481532 to 486044 (+1%)=
-<br>
-=C2=A0 =C2=A0glibc: PKGSIZE changed from 3715743 to 3805871 (+2%)<br>
-=C2=A0 =C2=A0sqlite3: PKGSIZE changed from 462840 to 469056 (+1%)<br>
-<br>
-[Idea taken from a poky patch from Ross Burton]<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfound=
-ation.org</a>&gt;<br>
----<br>
-=C2=A0meta/conf/distro/include/default-distrovars.inc | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/di=
-stro/include/default-distrovars.inc<br>
-index 69c6db589b7..aea458d28c4 100644<br>
---- a/meta/conf/distro/include/default-distrovars.inc<br>
-+++ b/meta/conf/distro/include/default-distrovars.inc<br>
-@@ -29,6 +29,7 @@ DISTRO_FEATURES_DEFAULTS ?=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0acl alsa bluetooth debuginfod ext2 ipv4 ipv6 \<br>
-=C2=A0 =C2=A0 =C2=A0wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pul=
-seaudio \<br>
-=C2=A0 =C2=A0 =C2=A0gobject-introspection-data ldconfig opengl ptest multia=
-rch wayland vulkan \<br>
-+=C2=A0 =C2=A0 minidebuginfo \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-=C2=A0IMAGE_FEATURES ?=3D &quot;&quot;<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#241840): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/241840" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/241840</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120410504/199=
-7914" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/120410504/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+"issues with freedesktop gits" were a red-herring.
 
---0000000000003b1e540657485b59--
+The root cause is that the submitted recipe gstreamer1.0-plugins-rs is
+"floating": ie has not SRCREV value to anchor it to a particular git
+commit.
+
+Please send a new version with the appropriate SRCREV value.
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
