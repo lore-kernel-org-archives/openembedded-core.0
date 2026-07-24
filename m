@@ -1,251 +1,205 @@
-Return-Path: <joerg.sommer@navimatix.de>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24470C531F9
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 09:00:47 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.105])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15466.1784883636747066190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2632BC531F9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 09:02:07 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15477.1784883722304941228
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2026 02:00:37 -0700
+ Fri, 24 Jul 2026 02:02:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=KHCGwr3w;
- spf=pass (domain: navimatix.de, ip: 52.101.84.105, mailfrom: joerg.sommer@navimatix.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ky6KRoFdrmRpqtQDEpcLX+QtS+sYauJOw1HptdSQGcVFJLq5AlcD7g7FjlivYHfKFwdeTv8S8VytHLmPeqDG3eukJ+uRTI0IuxKFrVp48fb/M2Q5jBx3Y+GpuXtWx3312V4Vv+jEGTxrXd2xaPMM7HTBePRPxoNc2RtpBLKD1qj671D7cIbKVHkmFewHDkzCihWPV0IGYT0+YBV+7Xx5/ZLKVzRWrOmgUMWXBGwWRExQgy+hF+YysEuod5oEFb4X0/MNHpCc6m06EovBIBPs5Fk1J9b+2JG/HW1NB9CQPTRBuKCoL5ZDj4lhfEqgRILVMNaSHNhpOft9bfcfXEmocQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bn/TXi3MKvME7tJzbElPTOEsS/FodJx/uQalNFRam6g=;
- b=QffHRXejIyiMVtT97GwYXzvZDEFNwcGpoa9AT6gktmkUexvk6/1r76pDzUD9UoNN/UHs+wc+vit5iMHyoaQaYS+3dXKUUAQzuKRdVq+qrZb3rw5kvblHmhhW5RxsapRmsz7VJ1J7LdKZEAroI3MJajKGE3ClvjP+jHt/IeHpRtaZ/gptq3iLiRKC9ZFSYsjaaCJvpPG7aaMBOufXGIgpxxqE/I/2DKaeH9KtL/KOeP2JYOB2N41jQ6/HtTspt7D1LljWIwW+zQSRfvjlO1GcGgpTeoAho+34RfAVNJJDDbapAT1w2qKO61LXbtLvlMKx/CAAEQZUEWG7dxQFjokZIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
- dkim=pass header.d=navimatix.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bn/TXi3MKvME7tJzbElPTOEsS/FodJx/uQalNFRam6g=;
- b=KHCGwr3w6PzTR/6tekj2K9wJxwiIe9NNpjOHRkl9Rk4CIknwpBTZLGAs/8HBwV8qTqk0YFyI+TK7qnxKtjCtMWqWB2rDF2RXydcqdTeuDA0l278hDy2i4AbtYREbYlUHINFIVBq+XoxqLkAzzkQZRMUMBvz9G+53t22+T28M9lE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=navimatix.de;
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by AS8PR01MB8555.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:44a::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
- 2026 09:00:31 +0000
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- ([fe80::d5c3:2dea:3d98:25fd]) by
- GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
- with mapi id 15.21.0245.009; Fri, 24 Jul 2026 09:00:31 +0000
-Date: Fri, 24 Jul 2026 11:00:30 +0200
-From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-To: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, ross.burton@arm.com, mathieu.dubois-briand@bootlin.com, 
-	rs@ti.com, joerg.sommer@navimatix.de
-CC: richard.purdie@linuxfoundation.org, ross.burton@arm.com, 
-	mathieu.dubois-briand@bootlin.com, Randolph Sapp <rs@ti.com>, 
-	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [PATCH v2] bitbake.conf: Extend distro feature usrmerge to merge
- bin+sbin
-Message-ID: <ada29b3926f0497ef35618685c298cad840f45e0.1784883539.git.joerg.sommer@navimatix.de>
-X-Mailer: git-send-email 2.53.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BE0P281CA0033.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:14::20) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=e+NxYmI6;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: twoerner@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8f0d6853360so1863886d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 02:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784883721; x=1785488521; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=HBuDNL5YqR1BaQaS4POPPtlpNRoR7IMv1EH3pKhyMOI=;
+        b=e+NxYmI676RE1S9bj7KW22OF44qoQuF53FFKfIo0EB8amo89tT4IMcbZH+01o6qfxO
+         v1NpgnrJn+yPtZZvLJ5QG80P6kaiHSpGTgu5NUZ1M9NvUWfNbOMf7rx17R70+9QQWvoN
+         9WNf6ERkwwgaNza6Ql/02yMOuj/9uEL72ZRUYyLettZ5O/Z4kyXiteQggjaxpc5gNagF
+         cNOflQf1Nh7EJHWoJ+qNIZUrE3muQNFsUJz7oOPkp+8bnDSVUMDWE90yakzFR9zVFeo4
+         HOFWgCVd6G/LQlSk4tyXM0h+AXW71o/RUa9qxGQruxUvk8uvM0S2cTo/5SUxvJ2lUTz6
+         WJ5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784883721; x=1785488521;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=HBuDNL5YqR1BaQaS4POPPtlpNRoR7IMv1EH3pKhyMOI=;
+        b=o8DYFPrmavuy3C96hyYxsmGe3zAHgp1giWR52BfGsVO2ANTMRnRGBJziyLTay9VYcM
+         OJ+1NoOEpliZBvA92uC64VsKa8pLnefFEcZuFzWEoumzzNGQstOokZOXMiudM96cUx4+
+         BsDwXVf59YILZl8j+LG4Q9SLsKtNMpeQY0V1BMK+q+oMRV09MufirhysoMv3B1hQAEaZ
+         pf2SEu+16YuuP5GFW05Vx3cwRyNVQULd1p4FbCLGHojGITjPzkbAgTcd7783bq1B/bZf
+         vi/ktpT7v85jorGBWq/tTvhC09sg3N7pigya+djJkRa0Qij5TiFcsZtP0wS2X9B0pj9B
+         w4lQ==
+X-Gm-Message-State: AOJu0YxB6dw7We0M9NIbgOFKP86M8dWINi/f2gBUeGqbtabDmQ9nOkSz
+	5eozh6CuiRc0QOTzM2X/03x0sH3ZJIK0sr2XOEOL/Wmel0I7HIeKU1celT+fRA==
+X-Gm-Gg: AR+sD10DD74+tGN+xtBtpZ7dRQhK3KJc/dCwrAkIBYi9mjSKURZ8moujlOU9TSj8nns
+	C80I12A15RIUicSJKwlMbxcRFuVl7PGDeWGVztgxPvfcF1yjaomsokVZrmMek9HVyt78BmGW2Mo
+	MXWuwJ04ALXEGhGFP0fVOX41ejz6/HIM8AAh6e7RXKmHnNG2IXl2cQPo2T7ZJzuegCgdGAJhHpJ
+	ef+jfU9PombWlGsZECRs6X9Qseg+z9tdBpcWhxPkvs4VS0j1O7fwfshsUhpploBpmrhGbR8QZ14
+	rCe2oTP6ipzNhuGiAwZRFv9ufBH0yBOHRZZPAZlaANVYQxQKWXunKJj4GievMY6cR8LAY/W8tRM
+	pqCINq7sugeGabBzpale5LYxcdpoZy2LD6WXtdErTHjGqf3n5FxQQWlFtwsIYEDc1xG8DfZ14cw
+	bl+Io3/qB2iiG0ENLvUoFhYQWxzs+2YBP5iRT/o1TXHvPrw1/iE8JuHi0=
+X-Received: by 2002:a05:6214:e6d:b0:8ed:a980:6b2c with SMTP id 6a1803df08f44-907ca5e8b9bmr64172816d6.30.1784883721050;
+        Fri, 24 Jul 2026 02:02:01 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907baa27cf1sm63968326d6.46.2026.07.24.02.01.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2026 02:02:00 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v4 01/10] wic-tools: move bootloader firmware staging into the wic oe-selftest
+Date: Fri, 24 Jul 2026 05:01:37 -0400
+Message-ID: <20260724090146.19924-2-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260724090146.19924-1-twoerner@gmail.com>
+References: <20260724090146.19924-1-twoerner@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AS8PR01MB8555:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3b6afc6-d95b-46d7-2d12-08dee9620401
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|18002099003|3023799007|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	hz88SH077sLszHSYpbe5BMOkm2Acpx1W6nNuVHzlDnhtxsjwmKya3RJVOc4N8RfgqW60MK44lhmVByCwnWb2v3U3WRKdzabPmfPnCv6Q3zVdssS3Tqp/J+MDDXb1KGdbl6EFzBlrejaBYLw3hFWkCykf0Tcip8R7fLki5a/giLFwVaHntu3KNZ2Nm71eFCC7/CYHrfdWxO+qDrGDbhT1aGZhLXRA0HWbOaq07aC8zz7U54b5+01BuduEhOf8orgiHQCKgL5Ze+O1QLn6iAKuMrPCKe1/EY5cK1R0ADU9Kfk5N/pjnps1Og2s/ZVe+uJwFnf55qivofk4VbHDcT5CsCzONrBOK6WdfP7udepYmHACDYOorsDq949IOFcK9Umyi035p2zsg4EzHb8DCqFFUgzpWJ4zI25iA5FzJPkctyyt21FSYTDO2BwKHtKa+34f4Ixwlf72Ym/5vLnG8qDesaUiRQaUihxHGxPKB9DcNlkMuGI4JhghNkMBOzeChcVjepoJpzm+BZC94bIvYhTeae+qzngCLkrKWfQpSdZivO23V/Km9ForCNt7s2TzM4EkdEiBgoWlvDYpFfJ0nZqi8rcK/FBhmiI6i6Ea/2ylA7s=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(18002099003)(3023799007)(56012099006)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?menqYgQkfPUBM4U3SGAk+dBe4KuxnRA1xKpSpdxSMlCt/090PEZFP1sSZn0y?=
- =?us-ascii?Q?ByxlfDAzgQ3W6qf1YQ5sy6xOC5nJh9IVMToBXBkz0gxM4qoeJ7e9IKb+4XMa?=
- =?us-ascii?Q?0iXcmyo6joDsS3PZ4yL6e72bDh3ZHCKB98cJEpSUe406qq+aGWdUOOiS9xb7?=
- =?us-ascii?Q?iRcZnK/ZozIa8NnNLEC0vNTq5XsyD3hRLQbvSDO676GQSqSvTlXvQxarQNbj?=
- =?us-ascii?Q?/6AMwnqqGfMN6vBIPWkrWT0FOSYzZkjREES8ZgLYazINepP6/7BNEx6xLD4D?=
- =?us-ascii?Q?TV1yWUzeBWjYobZTd49Ac3lLeNY+CV5EjAa5q2WFS/hiFrVcazdK1Lt3aDkJ?=
- =?us-ascii?Q?5vehDuWhj6jEGhyTtUsydm9SrbLg5sqdYWVOAIpXccO8PVuMNMKqCrdiowXe?=
- =?us-ascii?Q?46UvdEm/aDulfDjVIDduUbXUxfu9k6D6pBOfLIaZrrF7GWttBjH8RIBsIUww?=
- =?us-ascii?Q?f/ba2nmg+Obu4dTIe0t2PR2PybzgOdU+wLTS6Cb+u0DJRVr32Rg6qjYJopMU?=
- =?us-ascii?Q?MDNWGHGI3tb4YW77csmO5rd/BWnYPZQi5iKVmZcS7dI1/nOt4ajkxMQCvEZg?=
- =?us-ascii?Q?TrFdo5TlaYheo60++XksZ6S4deIv9QWOlLppkzewbKZPOy0Tw8mFjyizP9T1?=
- =?us-ascii?Q?5YLVcfQ7YizTsXl41lLVzt0pP+ufCKBMYwUigIYQMjBtgNQFIMDgt14yd8kt?=
- =?us-ascii?Q?w3G3kqAredG7McnlRTwQZfTFQWnIvCGJjPx19vGvmHpkDwjDOYoqh8Ps0PmG?=
- =?us-ascii?Q?PvhmakBg9XEzAoll1iQGtesYPAabkpWJverW9ykMws/QaG81o+VghA0UAvUJ?=
- =?us-ascii?Q?GCc8Br1piOarsNIaeLOY39wMB8MSyzaBjWkGD/373oA8Wilc+wU8Y3HCYzui?=
- =?us-ascii?Q?pbV5z9HR2dPmV7TAniEWMZnsIqLbmBUoARdtVU7HDHfbk5TwzjDx/rh3C5rH?=
- =?us-ascii?Q?mbquojcMy4Ufk5z3jykgQA31vfixGkDIEUTZzvLj2mWA76UJTnft5c84QGcM?=
- =?us-ascii?Q?oxkbJ5NoD8Un0N2zqA50acgn0cnq0Y2tREc2tBGzgp3/JrV6mmj6zZtq0MCh?=
- =?us-ascii?Q?Utu7cKjFKwThqr2bPuB2er+jShQAwBL+AJp2Fbq2RlHIGGkzzSHkBmCUZMjq?=
- =?us-ascii?Q?ESLYK7/DPWoEa6Q3cT3ilSlMHarpYUkae+xyY5UIIDuY0HLWkk2+MMO8x3V2?=
- =?us-ascii?Q?6bhzvIklkKdKDzmvOa8UBbd0pKTjMXNJE6g+2sx1KcLdhvkes6g0ginlLiQz?=
- =?us-ascii?Q?1OWkTbaT7rwtAwQai1V6oRCzDH1AKyOoYnJ4jBO0uI1yha8p2hj+2jKXKjJY?=
- =?us-ascii?Q?BI4soHqPwNPUEyQaBydzohVEbGSA6HnDEy+vBp2eLqQyugWoS240yZfsDZ4C?=
- =?us-ascii?Q?OBQ47RGfbFzR2IACRsV6CPcfHWmh7B6Lm0j5zc7LLReQaT4uFaj6726MvJoc?=
- =?us-ascii?Q?YYi0viDt0qnoX9aFMeUKlF8bUjXl5eXjFDKVe0SRUxoHPMkwbYFbKeMpDtqc?=
- =?us-ascii?Q?+aMfedTcXI/tiJ5EFLCRmOQLsFiveUWfDJfJpunbp9y1Z+zJ1Jo6qTPBHiTZ?=
- =?us-ascii?Q?qpnLLRad/Ef0xgeZuoZKET22nXmYjWByHBXCdiuXjwA2xJit0q8SQfd1r8NO?=
- =?us-ascii?Q?oZZCEljH2qim6SY9LxpQPtyvtCwsMgVJZdenM0lUikG1KRo8hx/tTyRLNrOI?=
- =?us-ascii?Q?VzK4U3PfswV8586S1WncyZZdD+5Qgv2FPTmVbtsWZD1fkxQtX2FI6o04NFlU?=
- =?us-ascii?Q?u8V8LPzOp36iFSktFrbzmDZnB8ZbHqY=3D?=
-X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3b6afc6-d95b-46d7-2d12-08dee9620401
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 09:00:31.8208
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FGsByJdmu6jD0fNHPAuSIz1HzFyDJuZeQp/iCFgPuTctyAMihDfORzF2rrLMq+SsWoLMj9wEOERAXHc/BeVgW/+suQHt0NFdrzfUW6zSo5U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR01MB8555
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 09:00:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241909
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 09:02:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241911
 
-From: Randolph Sapp <rs@ti.com>
+wic-tools is a meta-recipe whose DEPENDS assemble a native sysroot of the
+host tools wic runs. Over time it also accumulated target bootloader
+firmware (syslinux, grub-efi, systemd-boot), which is a different kind of
+thing: wic copies those artifacts into the images it builds, reading
+grub-efi and systemd-boot from DEPLOY_DIR_IMAGE and syslinux from the
+sysroot. They were listed in wic-tools only so that building wic-tools
+would force the firmware to be built and deployed before the wic
+oe-selftest ran.
 
-The split of bin and sbin became more artificial over time, and it is no
-longer clear why programmes goes into the one or the other directory; e.g.
-forever normal users have used sendmail in /usr/sbin, and fdisk and mkfs
-learned to operate on files to create images long ago.
+That coupling makes wic-tools carry target recipes for the sole benefit
+of the test suite. Move the firmware out of wic-tools and have the wic
+oe-selftest build it directly in its setup, gated to the host
+architectures where each loader is available, matching the arch
+decorators already on the individual tests. wic-tools keeps
+syslinux-native, which is the isohybrid host tool wic invokes rather
+than firmware.
 
-Because systemd drives this movement to have only /usr/bin and symlink /bin=
-,
-/sbin and /usr/sbin to there, the usrmerge feature (started by systemd too)
-should be extended to include the binmerge. For a system with split bin/sbi=
-n
-`systemctl status` reports the system as tainted for *unmerged-bin.*
+No image or SDK builds relied on wic-tools pulling in the firmware; only
+the oe-selftest did, so this narrows wic-tools to its original purpose of
+staging wic's host tools.
 
-Override most sbin variables to point to their bin equivalent when
-usermerge is enabled, with the exception being base_sbindir_native and
-sbindir_native. There is no guarantee the host machine is using this
-filesystem scheme.
-
-This check was added to systemd back in 2024 [2].
-
-[1] https://gitlab.archlinux.org/archlinux/packaging/packages/filesystem/-/=
-blob/main/PKGBUILD
-[2] https://github.com/systemd/systemd/commit/844863c61e7b501097da84a1e4d1e=
-4a6aa6d9f0d
-
-Signed-off-by: Randolph Sapp <rs@ti.com>
-Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+AI-Generated: codex/claude-opus 4.8 (xhigh)
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
+changes in v4:
+- new in v4
+- update test_build_artifacts and test_rootfs_artifacts to build
+  syslinux into the image and take the bootimg dir from there, since
+  wic-tools no longer stages target syslinux
+---
+ meta/lib/oeqa/selftest/cases/wic.py | 44 ++++++++++++++++++++++++-----
+ meta/recipes-core/meta/wic-tools.bb | 11 +++++---
+ 2 files changed, 44 insertions(+), 11 deletions(-)
 
-I took Randolph's version and reworked it a bit. But the idea stays the sam=
-e.
-
- meta/classes-recipe/populate_sdk_base.bbclass | 2 ++
- meta/conf/bitbake.conf                        | 8 ++++----
- meta/recipes-core/systemd/systemd_261.1.bb    | 6 +++---
- 3 files changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-r=
-ecipe/populate_sdk_base.bbclass
-index b427ff2761..c63601b1da 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -189,6 +189,8 @@ create_merged_usr_symlinks() {
-     install -d $root${base_bindir} $root${base_sbindir} $root${base_libdir=
-}
-     ln -rs $root${base_bindir} $root/bin
-     ln -rs $root${base_sbindir} $root/sbin
-+    # if base_sbindir =3D=3D base_bindir, aka binmerge
-+    test -e $root/usr/sbin || ln -rs $root${base_bindir} $root/usr/sbin
-     ln -rs $root${base_libdir} $root/${baselib}
-=20
-     if [ "${nonarch_base_libdir}" !=3D "${base_libdir}" ]; then
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bdf37d0da2..18aa1441e6 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -22,7 +22,7 @@ root_prefix =3D "${@bb.utils.contains('DISTRO_FEATURES', =
-'usrmerge', '${exec_prefi
-=20
- # Base paths
- export base_bindir =3D "${root_prefix}/bin"
--export base_sbindir =3D "${root_prefix}/sbin"
-+export base_sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge=
-', '${base_bindir}', '${root_prefix}/sbin', d)}"
- export base_libdir =3D "${root_prefix}/${baselib}"
- export nonarch_base_libdir =3D "${root_prefix}/lib"
-=20
-@@ -44,7 +44,7 @@ firmwaredir =3D "${nonarch_base_libdir}/firmware"
-=20
- # Architecture dependent paths
- export bindir =3D "${exec_prefix}/bin"
--export sbindir =3D "${exec_prefix}/sbin"
-+export sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '$=
-{bindir}', '${exec_prefix}/sbin', d)}"
- export libdir =3D "${exec_prefix}/${baselib}"
- export libexecdir =3D "${exec_prefix}/libexec"
- export includedir =3D "${exec_prefix}/include"
-@@ -66,9 +66,9 @@ bindir_cross =3D "/bin"
- bindir_crossscripts =3D "${bindir}/crossscripts"
- prefix_nativesdk =3D "/usr"
- bindir_nativesdk =3D "${prefix_nativesdk}/bin"
--sbindir_nativesdk =3D "${prefix_nativesdk}/sbin"
-+sbindir_nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',=
- '${bindir_nativesdk}', '${prefix_nativesdk}/sbin', d)}"
- base_bindir_nativesdk =3D "/bin"
--base_sbindir_nativesdk =3D "/sbin"
-+base_sbindir_nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrme=
-rge', '${base_bindir_nativesdk}', '/sbin', d)}"
- includedir_nativesdk =3D "${prefix_nativesdk}/include"
- libdir_nativesdk =3D "${prefix_nativesdk}/lib"
- base_libdir_nativesdk =3D "/lib"
-diff --git a/meta/recipes-core/systemd/systemd_261.1.bb b/meta/recipes-core=
-/systemd/systemd_261.1.bb
-index 0a1d4870bf..97a91ff5e2 100644
---- a/meta/recipes-core/systemd/systemd_261.1.bb
-+++ b/meta/recipes-core/systemd/systemd_261.1.bb
-@@ -195,7 +195,6 @@ def build_epoch(d):
- PACKAGECONFIG[set-time-epoch] =3D "${@build_epoch(d)},-Dtime-epoch=3D0"
- PACKAGECONFIG[timedated] =3D "-Dtimedated=3Dtrue,-Dtimedated=3Dfalse"
- PACKAGECONFIG[timesyncd] =3D "-Dtimesyncd=3Dtrue,-Dtimesyncd=3Dfalse"
--PACKAGECONFIG[sbinmerge] =3D "-Dsplit-bin=3Dfalse,-Dsplit-bin=3Dtrue"
- PACKAGECONFIG[userdb] =3D "-Duserdb=3Dtrue,-Duserdb=3Dfalse"
- PACKAGECONFIG[utmp] =3D "-Dutmp=3Dtrue,-Dutmp=3Dfalse"
- PACKAGECONFIG[valgrind] =3D "-DVALGRIND=3D1,,valgrind"
-@@ -226,6 +225,7 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
-                   -Dtranslations=3D${@'false' if d.getVar('USE_NLS') =3D=
-=3D 'no' else 'true'} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', '-Dd=
-efault-mdns=3Dno -Ddefault-llmnr=3Dno', '', d)} \
-                   -Ddbus=3Ddisabled \
-+                  -Dsplit-bin=3D${@'false' if '${bindir}' =3D=3D '${sbindi=
-r}' else 'true'} \
-                   -Dtests=3Dfalse \
-                   -Dlibc=3D${TCLIBC} \
-                   "
-@@ -342,8 +342,8 @@ do_install() {
- 		install -m 0644 ${UNPACKDIR}/org.freedesktop.hostname1_no_polkit.conf ${=
-D}${datadir}/dbus-1/system.d/
- 	fi
-=20
--	# create link for existing udev rules
--	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
-+	# create link for old udev rules
-+	test -e ${D}${base_sbindir}/udevadm || ln -s ${base_bindir}/udevadm ${D}$=
-{base_sbindir}/udevadm
-=20
- 	# install default policy for presets
- 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
---=20
-2.53.0
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 4e94f4d39abd..c4a1c7241bbc 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -72,12 +72,30 @@ class WicTestCase(OESelftestTestCase):
+             if self.td['USE_NLS'] != 'yes':
+                 self.skipTest('wic-tools needs USE_NLS=yes')
+ 
+-            bitbake('wic-tools core-image-minimal core-image-minimal-mtdutils')
++            targets = 'wic-tools core-image-minimal core-image-minimal-mtdutils'
++            # wic copies target bootloader firmware into the images it builds:
++            # grub-efi and systemd-boot from DEPLOY_DIR_IMAGE and syslinux from
++            # the sysroot. Deploy/stage whatever is available on this host arch
++            # so the bootimg_efi / isoimage / pcbios plugins can find it. This
++            # used to be pulled in via wic-tools' DEPENDS, but firmware is a
++            # target artifact rather than a wic host tool, so it is built here.
++            targets += ' ' + ' '.join(self._firmware_recipes())
++            bitbake(targets)
+             WicTestCase.image_is_ready = True
+ 
+         os.environ['PATH'] = self._get_wic_path()
+         rmtree(self.resultdir, ignore_errors=True)
+ 
++    def _firmware_recipes(self):
++        """Target bootloader firmware wic may copy into images, per host arch."""
++        arch = self.td['HOST_ARCH']
++        recipes = []
++        if arch in ('i586', 'i686', 'x86_64', 'x86-64'):
++            recipes += ['syslinux', 'grub-efi', 'systemd-boot']
++        elif arch == 'aarch64':
++            recipes += ['grub-efi', 'systemd-boot']
++        return recipes
++
+     def tearDownLocal(self):
+         """Remove resultdir as it may contain images."""
+         if self._old_path is None:
+@@ -391,9 +409,15 @@ class Wic(WicTestCase):
+     @skipIfNotArch(['i586', 'i686', 'x86_64'])
+     def test_build_artifacts(self):
+         """Test wic create directdisk providing all artifacts."""
+-        bb_vars = get_bb_vars(['STAGING_DATADIR', 'RECIPE_SYSROOT_NATIVE'],
+-                              'wic-tools')
+-        bb_vars.update(get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
++        # syslinux (the target bootloader data the bootimg_pcbios plugin
++        # copies from --bootimg-dir) is not staged by wic-tools; build it
++        # into the image and take the bootimg dir from there.
++        config = 'DEPENDS:pn-core-image-minimal += "syslinux"\n'
++        self.append_config(config)
++        bitbake('core-image-minimal')
++        self.remove_config(config)
++        bb_vars = get_bb_vars(['RECIPE_SYSROOT_NATIVE'], 'wic-tools')
++        bb_vars.update(get_bb_vars(['STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
+                                    'core-image-minimal'))
+         bbvars = {key.lower(): value for key, value in bb_vars.items()}
+         bbvars['resultdir'] = self.resultdir
+@@ -494,9 +518,15 @@ class Wic(WicTestCase):
+     @skipIfNotArch(['i586', 'i686', 'x86_64'])
+     def test_rootfs_artifacts(self):
+         """Test usage of rootfs plugin with rootfs paths"""
+-        bb_vars = get_bb_vars(['STAGING_DATADIR', 'RECIPE_SYSROOT_NATIVE'],
+-                              'wic-tools')
+-        bb_vars.update(get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
++        # syslinux (the target bootloader data the bootimg_pcbios plugin
++        # copies from --bootimg-dir) is not staged by wic-tools; build it
++        # into the image and take the bootimg dir from there.
++        config = 'DEPENDS:pn-core-image-minimal += "syslinux"\n'
++        self.append_config(config)
++        bitbake('core-image-minimal')
++        self.remove_config(config)
++        bb_vars = get_bb_vars(['RECIPE_SYSROOT_NATIVE'], 'wic-tools')
++        bb_vars.update(get_bb_vars(['STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
+                                    'core-image-minimal'))
+         bbvars = {key.lower(): value for key, value in bb_vars.items()}
+         bbvars['wks'] = "directdisk-multi-rootfs"
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index 823dbe6db643..c1da1739777e 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -10,10 +10,13 @@ DEPENDS = "\
+            e2fsprogs-native util-linux-native tar-native erofs-utils-native \
+            virtual/cross-binutils \
+            "
+-DEPENDS:append:x86 = " syslinux-native syslinux grub-efi systemd-boot"
+-DEPENDS:append:x86-64 = " syslinux-native syslinux grub-efi systemd-boot"
+-DEPENDS:append:x86-x32 = " syslinux-native syslinux grub-efi"
+-DEPENDS:append:aarch64 = " grub-efi systemd-boot"
++# syslinux-native provides the isohybrid host tool that wic runs; it is only
++# available on x86. The target bootloader firmware (syslinux, grub-efi,
++# systemd-boot) that wic copies into an image is deployed by the wic selftest
++# instead, so it is not staged here.
++DEPENDS:append:x86 = " syslinux-native"
++DEPENDS:append:x86-64 = " syslinux-native"
++DEPENDS:append:x86-x32 = " syslinux-native"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-- 
+2.50.0.173.g8b6f19ccfc3a
 
 
