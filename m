@@ -1,98 +1,205 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D97FC531F9
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 13:37:45 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19400.1784900256588691797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01BBCC53200
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 14:14:16 +0000 (UTC)
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20149.1784902454934236113
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2026 06:37:36 -0700
+ Fri, 24 Jul 2026 07:14:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=kMJT1n8T;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954aff6088so3916315e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 06:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1784900255; x=1785505055; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nVuF3AE/ZOjyU0Cd+k8m2aZow0CCyPr+2DcSM5H8m6U=;
-        b=kMJT1n8TMjEbtq4QGZvIOZT2Rv/562k0O5Amx1QjgbXhTO1BpU0yqcV2Z6sEDeNaeQ
-         aK3uyKiZP2Xn6M9MccZvsSEHTzZ92y8vmAoRi6uIzAk+2gCBYsRDymb3g4Td2OuLcn38
-         aIVnDTySn3FGTZwFbjDuwkCgCbSleghGB68wc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784900255; x=1785505055;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nVuF3AE/ZOjyU0Cd+k8m2aZow0CCyPr+2DcSM5H8m6U=;
-        b=EKHxebyvDpkcWDtfdd8LPpc2Vu44yGfTWyTmTfC2xTtZSfRB4V6ljdFjGh4tjRMg9a
-         ydiowSVqHr5dg7VDzFMYgn6hCjE4FZ6BvW+zHthnDH6JyKdvR9cyoPkDDBjX0bSseSt7
-         i7pT5unPIgpE9WQlDNFhra7QvBRKUAiucBZXkBubHIRDQPJU0wHK/4bGtDVNMemt8RdQ
-         tnJm/wgiyymxOZVuunFyFbRSCoYgIWMf68JT4sUderjyVeZM7h2zGo0BjGM7s77Wt1Dt
-         a8hOjU9nkWtIa/cuRaXhrLMRMrpBKsdwpte+UgC66KAtDH/c/ZZLd/iqd+w/rBM4jFvJ
-         1u0w==
-X-Forwarded-Encrypted: i=1; AHgh+RrjpcwqS3HHbNK23pasgaHwKoiD1LqbSGmYH+k4wTXj7ZWqLVnfHoIu2T2Ks/Onfawct2Zj9eDJRsn6wLWk6gehpA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyPpmdtKej4bsSpljev1DpiAFtv2tQIA0VCU1QYYPGel0lhVMyU
-	LESVvFwcNiZSNGF9WThcomizyE0Yau5kfQLGC/xYS74gyHZqA66xz5KPI9FFXQb0paRa4o0r1am
-	PwbYJKnQ=
-X-Gm-Gg: AR+sD12oBG6wQ6DwwQGuBsdfAa5pTyKBN5LWgsmxoEt/YP8/Xjpel9sfH5QI0zG3ya4
-	QA54Dc9+MHsQs6qd1f1hCMKdvj1/kWTVN6zw1r07pjPHCrxc5UCjXIR03xXjcMTfWrPHc6YETBx
-	8yu/CgwAPP6is8mBiKCv7env5wG2F9wjp4ENXsYXTV37TDTSynhShFApcuiVopU1liKcdaS3eOD
-	RN61AOiselAu5gkQdnbLiSZllb85ravcvW3+U+hFW0QCj/SR1kzDxD6uTx2nwjbPCE7LlLR9tHa
-	AMrdVmsJKOCQZIai6gs3arijta1yTPg5GNZCtyrLF73nT8jehLxMKjJDdEy00RZPYyIT/14hHqc
-	PDT+7JEFZmbVYtTNzCCh/2/WtV+MPpiRly7LIR02un9z/PAssRVgCtFT+BFFsGNazFd0h+sNjlr
-	Av/VUxlychlwnDJ3Y8aFlL0lWi/DK/9XTTHOcHopvpOU/zwu6CJO4pabbo1yUejBaKBQ==
-X-Received: by 2002:a05:600c:3111:b0:493:cc25:9c0e with SMTP id 5b1f17b1804b1-49573c996e7mr85602185e9.14.1784900254836;
-        Fri, 24 Jul 2026 06:37:34 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957afb4e48sm75012895e9.13.2026.07.24.06.37.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2026 06:37:33 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Jul 2026 15:37:33 +0200
-Message-Id: <DK6UC0KOO8FL.L4BAC2TBH0Z6@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <jaipaul.cheernam@est.tech>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [wrynose][PATCH 1/2] perl: fix CVE-2026-13221
-X-Mailer: aerc 0.20.0
-References: <20260721134543.16442-1-jaipaul.cheernam@est.tech>
- <20260721134543.16442-2-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260721134543.16442-2-jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=A8iZ1t/C;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=UsEyqu0p;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.148, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 339231D0048F;
+	Fri, 24 Jul 2026 10:14:14 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 24 Jul 2026 10:14:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1784902454; x=1784988854; bh=PqS1CeROYd
+	1Ey7uuTf1edP/rOLmVO+mahgHc2zm63KQ=; b=A8iZ1t/CCckw5QmMceiNa+Sr3k
+	dxpBdu3Og6tcTWRAyPGM56jqppFgHQUA2mRrpPvLIkbPv8l79TRU5UZgpWGeOx04
+	eLDhUyWhqFGs88tN2+x51cD2VgjqL3JbRh36X5ZJjTjkNyfrptw5phoA3OCcgPtS
+	gAsWTCIC76Qqg8upDGq6HAMrkTUM8v1HGoVcOZQP5A6ObPG3QELBfpPVGsHI3EhM
+	hQLLSKrTG9qBzjk1eCxbUKJ3L3M/GiB+bz4+xT79Cq6Kn4+j84qdxDkIHiBvlntI
+	+vVczBN5GtG43G0gmT0bavDv/eYIfTcjw+9a7Z4Ia2T3WUjwo2CqTPjHyODg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1784902454; x=1784988854; bh=PqS1CeROYd1Ey7uuTf1edP/rOLmVO+mahgH
+	c2zm63KQ=; b=UsEyqu0pMAPlx2kaaAvNT27a+GXLUxN5CCghaQ2U+UsiYBXpDEd
+	GmWSebiBU3HrPVzGikCE08wvXCNL/Aw31bC2RPE4Q1mGbRAwp4+BfHNlvJ1rlenu
+	Gm8EdGxppbin7WPiqFKhJjnRaJQ5zaSR2FmZV17oEQfcRQhv8HpsaXuR7Y2ZgQLm
+	TcnOtzIs6c/YgV2NQQOT/Da1ZeERqzqUOFN3CAkdOx2k5mLjrn3M6oCE6yNzDWsK
+	W0BT2/feA2jtKMN7zzSe8LIHSUznSTQmjeYJ3HfjQFJBIQe7e7qbW6A0lu33PGz3
+	V3u3xE5ZfbIWBRTnabHsQGdDfekKVgfLPYA==
+X-ME-Sender: <xms:NXNjajoqFjQEVqDYxtU8zFZQmrB34GFspU5X1mSvMHcwpy7ndeCRZQ>
+    <xme:NXNjalEOqgIKgMMzpSej5OpSq_-5-Q38qjSrOHCycEeSlJJb4EUFUxM6WuzpTMV45
+    NMQ5LxVTYyKYxr3A52kf2KpTepHlFzzN6RuqAcymBvhz9rqFKTbiCI>
+X-ME-Received: <xmr:NXNjatnmbpDINAjkG8seKh-drdXJ58RBhFDh6pm80rkRmxkLQTaYTXeDUzyD7684Ne2UKjki4dKzhq38BPaeOqqaw6KcTFh-kcVUVS5HvSsG>
+X-ME-Proxy-Cause: dmFkZTGzYjHEz5d01QRnlIgNm0ZWnJZMSUxMIaomnteluyL04dzPLpR4gPGSQVx6ktweqm
+    SOJ3KisYbnBWPwFhynKCqtVDcSyYw976eEu6iXXIwbBORuvde02zKi+gADe23NLW6WCbxK
+    jG1bxIQoZIOv3O1MEprMS+vxng7z3ifv6eGPYw3OrzDZcc1uaaTQmTqjdeQoLZhNscMPRz
+    rbOKDo78Q1PaxR9F2lNSQL9EVBlFzR/Hp+Tuhwn+hkjh7qlQxvyI7zdgGV8umB083ga/SQ
+    iklKLOlxcTYXImi6EsL5gD84r5+UTSuhLoXJlmLSEBKc7WJpdMcTakFDCmLhvTeQJ9B5bv
+    TMCLc55UGssCxw2cdIWnJBITFIWZzpZY4sOmZ56IQBYUTqYiIN8A+IyL51l1mFKaHa+Gt4
+    QDUoHqttifz0KtDA7/r2kzmKggKcMtUQVEOTXhryUu+u7+GVa8N5W+KtHTFLlbDg6t9ujR
+    2PMZkouYt2sTIOBYIBFDzjVN1IWVyz0wAOoOSNi016FYcBlCPh7GlyAUR+ertKIhax3kAk
+    U0bE521BCt146tpoDmpOPhjvScjto+Wj4+ScisAPGbCty7ENvNDkQWhlJcsh17JEi5Gynb
+    T0TFJdhBLl/v1bJBcz3GqEoLrFEn/dtjvySDfMful1H81Kqv5IfROFv+WVKQ
+X-ME-Proxy: <xmx:NXNjagnEdQmlaepYnc6JT2ecgwhTKsPNO-x-0tPkhLdhrtjCwux-WA>
+    <xmx:NXNjamsJ8sV_JuMcJ_r3czw-TGeXE5WRa88f-bbdG14uuJwhfx2ZLw>
+    <xmx:NXNjarmluT8MCBG3avUgZwAQ1UujaHSITgbIaDPQUG_V3q7X09rIbw>
+    <xmx:NXNjapvPTo-dT4xPlyTXOuTWI36Wde3R0mqgoV8eU7s4yH_E2gewAg>
+    <xmx:NnNjaj10wY4YVH3OrxJRtG7h6xpCTSjhjYMUp1W_ptHCc-EwhbjBRRrr>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Jul 2026 10:14:12 -0400 (EDT)
+Message-ID: <151438b76ffe19c6ee5e28c446bfa29c3dde896b.camel@pbarker.dev>
+Subject: Re: [PATCH v2 2/4] packagegroups: add
+ nativesdk-packagegroup-sdk-host-rust
+From: Paul Barker <paul@pbarker.dev>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Date: Fri, 24 Jul 2026 15:13:45 +0100
+In-Reply-To: <20260717130109.2187282-2-Harish.Sadineni@windriver.com>
+References: <20260717130109.2187282-1-Harish.Sadineni@windriver.com>
+	 <20260717130109.2187282-2-Harish.Sadineni@windriver.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
+ DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
+ NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
+ YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
+ auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
+ C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
+ UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
+ F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
+ pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
+ bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
+ EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAgU
+ JCxiQFgAKCRB0l1yBt+ZrrLhdD/sH+qTaxCDUg47eW329yJWCDZmO+iuYzNSyHMs1x0DHKNIQQ8zN
+ pA2S/de4jElQuPHjw/IS8B3VmM62Wuq5vHuxNlFv9IMwrwqi6zhCDui8+nCN/AQGGXousJI/SeZjm
+ Y5gS9cqh4vNY+huqEEfdTFXIfTBRkmnvYozSO2uDB3EMuiWgBlw2uLrtmkvPLn/m/GvEouLNox6wv
+ tcJcIbL59a0+3jv/m7pnWoZXOkWmKQnfFWikqjuKCISNU0gzBSL4UOj8gtQ2z+vu7ffi29b6SV5IL
+ m1yzdbkigEn4HL44lz3N+oHZ3wWsRqqeyGSX5fCfx3tGWg6scZQrpsjT5yq+LiffiXVNpjeJ9KzQw
+ 0cbAZ/9uhk1sWBroP+/gMhsWjlbFYXVlRvkNKGPI22eZtOEz4jF6OrOONyOoY3i26niJUyIgdBpca
+ H0hKUSVQ8VnG7qVTNrQk9BbeoSszqRwViN7lfyVtK9b1TCFuGewOETGn0TPvSzruYCtD3CLm7mjuX
+ AMBpIGoRUiCFVmF1hlOgqDyH4F6zRTHhKLpfmNzfQcg+Uo147Q2IHpoh0mJsL4FEZEI8hFyecX1Pq
+ 7HqnvxGD2OhCof1Z6LDxptX0wbgocnYFNxN5S1owcXZUQOFnzYLlLugrcEjlGCm4Gn7k4SiFERSBj
+ UFsQgIhw/7lVVn4o4rQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
+ D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAw
+ UJCxiQFgAKCRB0l1yBt+ZrrHy+EADNMt+ewz8H7BUKpEMMhpaA1VxyXO5IqlKXS0gElMgHYXl7L7C
+ 0/qLfRH96vwVD33zM+f0Vl9aWWkom/k8s42tLyPvX7D5zTrj3r5muJ+d9dXWGwBFXxXlE9YjSP26K
+ bYfRusmRHbbEPlLPSnrr9KYS2FGVD6ViRNhhVguflgPv2i18+fNBE3YyByfNCiQgO/SgaSdh172Ql
+ tuYE1Chk6FD45tCUv3dI9lO2PlVwrciiVYvIv/jiTDEwZOISOClTE/Ha18pxDJfLhS8QQnLWuBNX6
+ HUkLi78fVmVYbcWIkTuSHjfNoGTMaFijMg9Wl6poFrY++Pl0S40681zEIrwZhW5pKoqXoaElt29Yf
+ OwVo6BIsSOLEqKiWsdP7PJTaJYU1ovnshBcOmuXMgc13AjQ4AhEGqI1TaEJ/E1jEDDyTQFeWgrfew
+ YaWdqpgiDmRMTj/tIGVj9iy7qZQICUUtlfm0QK6w6M7qq0GdO2o+S3uVF6y2AxQo8l9LSHiW9O35I
+ juR37zeqv72puYyOteVYJsJaw999HUmhXc/X/J9FQFw8twxPKDLLu+w8MqDo9bhllzR93Zy/OShuG
+ yGybcX3DKO2R+AQ90tXLbxKmHLtrnG/zyDPhLv/LGD480v5hEoT+IS0u9wPD2vP5q36a5DtzqXA/7
+ t9PCamLoCvZLleg7GY7QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJeBDABCgBIFiEEmLKq
+ wQCsP4K7XVRndJdcgbfma6wFAmlqDRwqHSBwYnJrci51ayBkb21haW4gd2lsbCBiZSBhbGxvd2VkI
+ HRvIGxhcHNlAAoJEHSXXIG35muspk0P/1G08N6zGSdw2p8+8f/1HhaYEb9KdQHT1JmQfZUrIHIpD2
+ ELNb91Z6Pz197d/igGpox1dzYOwE0WolWo44ZHX2yw+p9V+HJAUKRe0SPc1iNLkTzaAZ7oYJ1DnFh
+ aaqZi4VtKKabKeorJjcDvl2apMwT0agRuDklU97n++ZUuXIEo1Z9uRqEvXz0iTSY7wPxwfoVOQsgf
+ dN1cBLd9OpoOtJRdDJzQUYqjNoQi+5M6KRfBxPLZkmYb4uCGlp1H4AV50eC61j84LBg1ItvU2u+Fx
+ X2JB7lHTswubprD2ZsSwp1VziU6pUj3vtslMWKpBGslpLtnaO561dihGyElayMd4VFg7VR/TsglJv
+ A10EDs2DMhoYPfRQWvwlr5+jPP6s9H8KSTCGFvQt438rP/gk0lcEZUJK0iE2/yq5gQfaCNI5FLN7C
+ q8LVr00oS4doXfmFFxMq6z1rs5SXZorWssjG7v5DILnPxLqYloQK/ebM5Ixbzm0Lq/8vWL7sw7yOH
+ JVYCHCApGzKNii6rYyHdi0K8UwvpD++GCWLyvbgP/H3l5FqL63gAN0Rw1CO5r22+SmG7aOmekJH3N
+ ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-5Hb7QbJ1h6gKB2eknJA3"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 13:37:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241935
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 14:14:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241936
 
-On Tue Jul 21, 2026 at 3:45 PM CEST, Jaipaul Cheernam via lists.openembedde=
-d.org wrote:
-> This patch applies the upstream fix as referenced in [1], using the
-> commit shown in [2].
->
-> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-13221
-> [2] https://github.com/Perl/perl5/commit/03f74bbbd3a68350d926ee93d56ee480=
-8c28c4c7
->
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+
+--=-5Hb7QbJ1h6gKB2eknJA3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2026-07-17 at 06:01 -0700, Harish.Sadineni@windriver.com wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> Add a new nativesdk packagegroup providing the dependencies needed to
+> build external/out-of-tree rust modules in sdk.
+>=20
+> Set PACKAGE_ARCH to TUNE_PKGARCH instead of the packagegroup
+> default of "all", since nativesdk-libclang is dynamically
+> renamed per build (e.g. nativesdk-libclang22.1), which is
+> incompatible with an allarch packagegroup.
+>=20
+> Add this to TOOLCHAIN_HOST_TASK to include it in the SDK.
+>=20
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 > ---
->  .../perl/files/CVE-2026-13221.patch           | 75 +++++++++++++++++++
->  meta/recipes-devtools/perl/perl_5.42.0.bb     |  1 +
->  2 files changed, 76 insertions(+)
->  create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-13221.patch
+>  .../nativesdk-packagegroup-sdk-host-rust.bb      | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>  create mode 100644 meta/recipes-core/packagegroups/nativesdk-packagegrou=
+p-sdk-host-rust.bb
+>=20
+> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-h=
+ost-rust.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-ho=
+st-rust.bb
+> new file mode 100644
+> index 0000000000..b10d420acd
+> --- /dev/null
+> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host-rus=
+t.bb
+> @@ -0,0 +1,16 @@
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +
+> +SUMMARY =3D "Dependent packages for building external rust modules"
+> +
+> +PACKAGE_ARCH =3D "${TUNE_PKGARCH}"
+> +
+> +inherit packagegroup
+> +inherit_defer nativesdk
+> +
+> +RDEPENDS:${PN} =3D "\
+> +    nativesdk-rust-src-lib \
+> +    nativesdk-bindgen-cli \
+> +    nativesdk-libclang \
+> +"
 
-Hello,
+Hi Harish,
 
-For my own tracking, this series needs "perl: upgrade 5.42.2 -> 5.44.0"
-on master.
+We've merged this patch but did have a follow-up question: should this
+packagegroup include dependencies on nativesdk-rustc and
+nativesdk-rust-tools-rustfmt? If so, please send a new patch to add
+them.
 
-Regards,
+Best regards,
+
 --=20
-Yoann Congal
-Smile ECS
+Paul Barker
 
+
+--=-5Hb7QbJ1h6gKB2eknJA3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCamNzGREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bq0SAQDZ0Z+J25I015eD3nRuxFI84qiOsyoDc7Gn
+9Ekug4l/ZQD+JaxYD6h3rg+JS/UJFeKMm4ofBbQ3FXlySScnoa1QjwI=
+=hDZM
+-----END PGP SIGNATURE-----
+
+--=-5Hb7QbJ1h6gKB2eknJA3--
 
