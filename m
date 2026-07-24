@@ -1,140 +1,274 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92092C531F9
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 11:35:28 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17175.1784892920285630493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C9CC531C9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 12:55:30 +0000 (UTC)
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18630.1784897727148239793
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2026 04:35:20 -0700
+ Fri, 24 Jul 2026 05:55:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=JKr5t/Lq;
- spf=pass (domain: est.tech, ip: 52.101.83.67, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AUTM8nKMGGuTc8gH+0wmvNG4tjVzqFgkjSo3wI7O92fagpMgSISW2w+JFX/jr9lNkXSazMGO37OK/P0byN21QyOnbtmBpVMnLwoiLxK+99XYTTcQn+p3JVLz/7X3TMqNj8wai4BdtxOsBhc51hUeu+LLoSV8Hy2cYb+Ha3mk0Cava/Mk7vBF+tR29YlXODgmOFOJqS/BRSqyPvSQZi3jvQXZd7E2kQrcArxpOF/NcRhJ0yaZRz51oCsofI6JW0Q6OATQd+zUgXatsuLfAqubzPXcPH1ZljZhtVa8YGgG/3xUox4VLCLMS6gHIi8MIqoMYwqh+J1EHtSpJvo3skeUqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5Bnn5loLvckOjqdM4cC1d2xR8DmMq49AiL3igReD9Qk=;
- b=vHjXGBS23pzsot2DBq+0NBIuXAGO7JphIyKIQ87Ik73R2P/+VV2yzk/q8jl9iOHS6J0lGI0Ra3zdPQVz02HBdV/WeVXMaKeVj8WSqI2FRY4xl/wy+LjK+pN7RkP9u/2ROB+M79R1D56BeIniAummm8ASc1ZeYFiCXkFK2YPMInlC4en1bTM4XTGUCrYt4HmJpguoINLiFCyg17Oc84N+s7Vkw3af/UZ1IIdSBGN18mxbMMz3h34+dQk0ZTXsrvd24ECpk+pNY9CXHDME6KEKMYt06Hi770aKlfJ/whxCH6eksy9We9Bv/tGnNidTuByXmyfRukuEdvFjIjOB32fRPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Bnn5loLvckOjqdM4cC1d2xR8DmMq49AiL3igReD9Qk=;
- b=JKr5t/Lq9IvYFJftWmd3+RSh9mgKn2PCQgp5Q5istHLLdk/78BTgbuf3QUnmtq4ahjhc3Lf7Jwjz2q1ZFVNExuCV2gVsEssLkQv8uE1ROv4xI2IMZRO7qrLKN9hYgcuE4Q1qXO27DhU2ayHK+pjDIhvH7bH1nqbiKufCEVgin0zKn4hEkqtPBYClo3lolDrZ2FFvdIk4yYPYHf7UCUAOqa1fDCTd2hUYiW8gPNPvzX8UiV4eeYPNJcSgO7YnaBlmkuYh/AXCy3UvDWHnV347pxcQivD+modr8KXM+sTu/Dw4RLc7tbQ/C+zwQ9+MYojuDaq69bwTyV1d6PzfFiy4iw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by VE1P189MB0974.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:149::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.6; Fri, 24 Jul
- 2026 11:35:14 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0270.005; Fri, 24 Jul 2026
- 11:35:14 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=CanAy8By;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=7761; q=dns/txt;
+  s=iport01; t=1784897727; x=1786107327;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=RgbguOQ8Sdg/MYAEWDB/eA4h6eggXzyQhFlk1OiwfIw=;
+  b=CanAy8ByHOmC8sxv8kfK+TEjlg2z3d4JoIQTr7IDtARuYv36CcRBSHYz
+   UpWxm1g/2QCWIkxDzIVQY3QutuKROPM41zv6dZ4D9QVHU0piuZCOo/kMt
+   y/44L3uGcnTWeO6NSfUi+X2PWfFKlffBMGAORFXhZZ6q4DQVpuA27ypLw
+   zNecBx/raAKVjRQbJcfkvL4BAjYMbxFwyL7LzXsvgRYag7+xv0+Av7VWU
+   RzMFpXGWc2HPzVinDz4TvdoZlqxBcWwFRAEF83JCCQ0lnPlhsWkG4kdZq
+   XQv+DXSaieVtgVf8OcHh6dp+f7GY00J9UMl9oPEgyV2i0sOBvxxRWtBzv
+   w==;
+X-CSE-ConnectionGUID: bnp5e3VVTAKjDfqAcHHhZQ==
+X-CSE-MsgGUID: e1E3szeWQZyrU2ALDgLjAg==
+X-IPAS-Result: =?us-ascii?q?A0BKAgDCX2Nq/5H/Ja1aHgEBCxIMggULgld0X0JJhFePU?=
+ =?us-ascii?q?oIhA54bgX4PAQEBD0QNBAEBhD9GAo1fAiY0CQ4BAgQDAgMBAQEBAQEBAQEBA?=
+ =?us-ascii?q?QsBAQUBAQECAQcFgQ4Thk8NhloBAgEDIw8BGAE9HAMBAgMCJgICKyMIGYMCA?=
+ =?us-ascii?q?YJ0AgERwwl6gTKBAYMoATEFCQJDUNsuAQsUAYEKLoU/gx0BhQJcGAGEfCcbG?=
+ =?us-ascii?q?4FygRWDaYEFgVwBAYE4hAOCagSCIoEMgVoYBpA9SIECHANZLAFVEw0KCwcFg?=
+ =?us-ascii?q?WYDNRIqFW4yHYEjPhc0WBsHBYEdgSx5hFgjHwM5f4EvdUp3LWoSF4EmghSBO?=
+ =?us-ascii?q?gKBNwMLGA1IESw3FBkEPQFuB41wI4FOcnsTARMYL1aBdaMHgiGhDwoog3WMI?=
+ =?us-ascii?q?ZU6GjOEBIFXkkCSUZkIizeCU5ZQhGmBaDyBRwsHcBWDIglKGQ+OKg4Lg2CBf?=
+ =?us-ascii?q?8orJDUCCTIBAQcCBwEBCwEDC4FokAGBfQEB?=
+IronPort-Data: A9a23:hFTdJa6Eyu0TXzharaeViAxRtGnGchMFZxGqfqrLsTDasY5as4F+v
+ jEfDDqHbqmINGr9KtEla9vnpxkE7JaAy9JnGwNrryxhZn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/qUzBHf/g2Qqaj1Ot/rcwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eN4sAp+ssP19y3
+ N8aBD4URxujp+KE+efuIgVsrpxLwMjDJogTvDRkiDreF/tjGcCFSKTR7tge1zA17ixMNa+BP
+ IxCNnw1MUmGOkESUrsUIMpWcOOAinTyaTREqFW9rqss6G+Vxwt0uFToGIeMJ4TVGJQJzy50o
+ ErLpkmiGQMXC+Wt2CC4qFuIquDrnwr0Ddd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBUCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:ehVVTqNp5LwUl8BcTuOjsMiBIKoaSvp037BN7TEXdfU1SL39qy
+ nAppomPHPP5Qr5HUtQ+uxoW5PwJE80i6QV3WB5B97LN2PbUSmTXeNfBODZrAEIdReTygck78
+ ddWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IHjJ7MHd3ATV0mmhD0JczqmLg==
+X-Talos-CUID: 9a23:WPuJwGGrf+E5gIUmqmJt8lZJF5sbTEH073X8LVaRAkZJSI+sHAo=
+X-Talos-MUID: 9a23:eaDatQvRSbcxKijg+M2niWhPb9x67puXOlEXrM8vn+WLES5ZNGLI
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,182,1779148800"; 
+   d="scan'208";a="515075949"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Jul 2026 12:55:26 +0000
+Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 0B836180001C1
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 12:55:26 +0000 (GMT)
+Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
+	id A464ACC2EC3; Fri, 24 Jul 2026 05:55:25 -0700 (PDT)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH] lighttpd: upgrade 1.4.84 -> 1.4.85
-Date: Fri, 24 Jul 2026 13:35:11 +0200
-Message-ID: <20260724113511.57549-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0331.eurprd04.prod.outlook.com
- (2603:10a6:10:2b4::19) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+Subject: [OE-core][scarthgap][PATCH v2] libsolv: Fix CVE-2026-9149
+Date: Fri, 24 Jul 2026 05:55:21 -0700
+Message-Id: <20260724125521.4119253-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260616063136.2772168-2-spushpka@cisco.com>
+References: <20260616063136.2772168-2-spushpka@cisco.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|VE1P189MB0974:EE_
-X-MS-Office365-Filtering-Correlation-Id: e17abd7b-04cb-41f6-5ef0-08dee977a0f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|10067099003|56012099006|11063799006|12006099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	nEtc68dQPJPRlr+FyylL8AS7nx4ErXNhOj+RWtzh4tRSuJsyNtFWBFw7X+7G2aDYss1hUK2bzcpEMiUvvuWW3sQwBj8BDdKwVCiWXf8PqItDOVDuzYC1Z2nVjW4XX1O2MAOAI23agnuUrTiV7kRCV4VkLQw+YYmqtj1zoSrNPZWLU8So0XLL6LuOqYqeCrH21LhxwC/pSavenBdzW+1ycfQ5QNWvdtK05+H2aWZesJ69k7M6b1lDR5UC+rePMtBFIo7uguGaQATi9fojHDP22NglNDy7pEJw8e+cKw4Ti68+KwZPslj6pn5LlnpdPbTIdCaiyLuWvzQRDVmxlKDNvDqqSXztTf0F7QRdhO1lhD+cWhTtM+227AC7qUaZK3GnRBtN07TP9L6OsBMQIVgozosYB5OQFYPp2uFSpjGJFsX52YIvM2RTPsSdfx6DOyIggj/PmQrV8gInAQsVlhKfGlFxD3PFiIPoM0zfmIUnUqbyH6YM4nasvoBvp98jhnZ89HS8BM67ShpSDsOvrV9tWivu4Xxx+jPpqUKyWMaY894j+ohkNF560hrJsR87MAE0E+OBKZSdr+UrbxLWOfehEgIBb/AJHSMbVCkXjmQVHcq60AOUod/dMIjRufq7zkUX
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(10067099003)(56012099006)(11063799006)(12006099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?aKJOQqiiBGZF4yFdBxnuUDLBBUGyCrebeYB4aVL5f75jIDY/KTjSOVPbLXiJ?=
- =?us-ascii?Q?xYy0k7eAV5cq4w0B+ziSG7VbcPiheCJiYw6UCbttCA8Ld5Q8NvhCaiJdg2f/?=
- =?us-ascii?Q?E7SvUNVWUsvQPgxpfSZdNCsqwsygG1Z/ZEc/iyg9azpryyfhm2j5jHXNYxPZ?=
- =?us-ascii?Q?oOnIL9tC7Ls774uT6DAySnRdnrBwox3yk5GJ3kBFCzZFJLXTXF+NVdCg7vYi?=
- =?us-ascii?Q?PFppzWEhcdWO6w5GllM1zbT+0rsJMA0YUQ2U2z3XE4q4i4dZa1yjD1JBig+n?=
- =?us-ascii?Q?7BTfolahOxfZku0D8ltoP5mQbqdx4Gp+YaODeNAZym0W9zFYjK3ydS0ktJsO?=
- =?us-ascii?Q?MnKSXNx4BimdTUIlsRFU0NixY/RPNMSxeh8dvYrMwvwbRQDfcPuYEQ2H9YEv?=
- =?us-ascii?Q?UnkfuaN9WwrJrA4lZfZx8bJ0KWie0rhDQoSQf/bIyMpRJ/oVDOQeKsLmypgg?=
- =?us-ascii?Q?faABXRGeMbuesC/aY+3WNGXEWJvNHvIRSa4AjLc+m4gwdmsSLIm7avMN2wBp?=
- =?us-ascii?Q?K6vubHNRg3JykQW7OPDxZJbegxNsv9RO15eSVR+ZAdZIwA0xh+NCKsL7FDlq?=
- =?us-ascii?Q?VnB7DLk1YPvwh+HXNezVb6LdNMX8bdP499ZKPhcAGhDghR41Ba6fRLBoiGXS?=
- =?us-ascii?Q?TQeHynafUN/F3H7KgDk4GzuZZKtKszO0HOZTfL5lM/QpvFXxuyDVXctAZAEG?=
- =?us-ascii?Q?q8zS52VHlPptZwSg3qh8fK/o+UpytlGtgw4coaf6560e2WmH4FW6EXK6/6Fn?=
- =?us-ascii?Q?lJ0wilhtHTHq4+4J2bomMYpbX/L9KGOTQ3LnoOsoz7VbCJ+Qu7Btz2yu4T8j?=
- =?us-ascii?Q?vCV9+Qk9DrDtzSdVx5duATOAa22zszhGxxwEQLUXyiLAUPfWy/Z7sDsG6fBl?=
- =?us-ascii?Q?kPj7xYGEf5HjldtYaP7/83PcplLNAsxhQB+dZUyw7F6C+/25Iq/AN0bVosSo?=
- =?us-ascii?Q?B00WBTyu6qjvZwVuWK4nC+g1z5iw80kfIR3nRRVFsOtFQGu5LMADxnqtA7/u?=
- =?us-ascii?Q?uWGKKq+PDHwpep1o1D1JaDKs8QYTdGQwN09ziTIbaRw55aFv7saGw0HQexmC?=
- =?us-ascii?Q?uOAArMm+rOe6fS/uNuwAh/nscLZ9Z85etS2Jw1I6un0SqKMZdwKcmNrc7ttx?=
- =?us-ascii?Q?rs3v0WecmDkdz3ecCwIZ8kmPJIK0US0QLvFIUZKjSKrJ2Ze6yjOBqyAI8gnC?=
- =?us-ascii?Q?3S4eYuLZXO91FXQ3iuhD5+iuOmcO4p8XFNOQ79S3qsJM4aFjBjPKsgQWOaf3?=
- =?us-ascii?Q?sc/S0hL/OmsHRtkF98TFCFm+GWzDeiAVh3oCV9svfEGvvSBZknlC7eYnXJ/f?=
- =?us-ascii?Q?O6JhV1CmD0cpNDpFXl3sz1zeYqedavhpJY8A0VM4I2QlHIdTb30QthKBH1Ge?=
- =?us-ascii?Q?3GQAKDeEWnKUmrpJ/bE4VYkIJJVi0cku5j6SAt6ba0J1gFud451lBDTIwHMX?=
- =?us-ascii?Q?b0tSeCLureqb5QR2992bIW8f5jhOYH3Wbe8LIm/kYSIpwq0gzsQS292y1aw6?=
- =?us-ascii?Q?iSxO6n71x5XqfGl5jvF+It9nxzZPUy0rO/DxHir6VsB59WyTIhwDKx4Agtp3?=
- =?us-ascii?Q?tTBLXTKHgHGqZT0xL2EihEYiApay2APsOGpHshsZlLN+8SbRfH08ONuhS8Cx?=
- =?us-ascii?Q?h9oAxHHHen/hnXKfFKMJ4xcXc7P/RhH8ftXlH8yj2WsAQvuSaBOO3unQmpmw?=
- =?us-ascii?Q?KNm4OGT5CN+KvHOl30+AXDTGbjVy+aY9Bbw5Se5xqENVgU/x+tYXwsYMpYgc?=
- =?us-ascii?Q?oVtdvpOtLQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: e17abd7b-04cb-41f6-5ef0-08dee977a0f5
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 11:35:14.5368
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uxdAvxkAPnnm/9FFRv+fIVtgdz2cPvT6+91PviR1vVP/Lwt5n5GyYPks0y4XMkpSCZDj0ZbCpzYlQhspkYG2yIbcno/rKqiV83GSGvMFL4w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1P189MB0974
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-3552.cisco.com [171.68.249.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 11:35:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241928
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 12:55:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241929
 
-Release-notes: https://www.lighttpd.net/2026/07/08/1.4.85
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Shubham Pushpkar <spushpka@cisco.com>
+
+This patch applies the upstream fix as referenced in [1], using the CVE advisory shown in [2].
+[1] https://github.com/openSUSE/libsolv/commit/210386037c892a720972ad35a3d8f7073b4d763b
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-9149
+
+Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+(cherry picked from commit d3fc48836349e81369f5680d808d2e469fce626a)
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../lighttpd/{lighttpd_1.4.84.bb =3D> lighttpd_1.4.85.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.84.bb =3D> lighttpd_1.=
-4.85.bb} (97%)
+- Changes from v1 to v2: Rebased on top of latest merge commit of scarthgap
+and cherry pick it from wrynose
+diff --git a/meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch b/meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch
+new file mode 100644
+index 0000000000..11acf758b5
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch
+@@ -0,0 +1,152 @@
++From 175bd2008d3b3a4b54253bd6657cc46948360534 Mon Sep 17 00:00:00 2001
++From: Petr Písař <ppisar@redhat.com>
++Date: Thu, 23 Apr 2026 18:04:24 +0200
++Subject: [PATCH 2/2] Cope with integer overflow in data size arithmetics in
++ repo_add_solv()
++
++When parsing solv files with maliciously large "maxsize" or "allsize"
++data size, e.g. this maxsize value at offset 0x29--0x2E:
++
++    00000000  53 4f 4c 56 00 00 00 08  00 00 00 01 00 00 00 00  |SOLV............|
++    00000010  00 00 00 00 00 00 00 00  00 00 00 01 00 00 00 01  |................|
++    00000020  00 00 00 00 00 00 00 00  00 8f ff ff bf 77 86 8d  |.............w..|
++    00000030  20 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ...............|
++    00000040  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
++    *
++    00002030  00                                                |.|
++    00002031
++
++read_id() function will decode and return 4294959095 value, and a subsequent
++assignment:
++
++    int maxsize;
++    [...]
++    maxsize = read_id(&data, 0);
++
++will experience an integer overflow on plaforms where signed int has 4-byte
++size (e.g. x86_64).
++
++The same flaw is possible at the next line:
++
++    allsize = read_id(&data, 0);
++
++Subsequent arithmetics will interpreter the value as a very large negative
++number, possibly doing wrong decisions:
++
++    maxsize += 5; /* so we can read the next schema of an array */
++    if (maxsize > allsize)
++      maxsize = allsize;
++
++and finally, the negative value passed to solv_calloc():
++
++    buf = solv_calloc(maxsize + DATA_READ_CHUNK + 4, 1);  /* 4 extra bytes to detect overflows */
++
++will be coerced to an unsigned type (size_t) leading to allocating a smaller
++buffer then intended. Then writing to the small buffer will experience a heap
++buffer overflow:
++
++    l = maxsize;
++    if (l < DATA_READ_CHUNK)
++      l = DATA_READ_CHUNK;
++    if (l > allsize)
++      l = allsize;
++    if (!l || fread(buf, l, 1, data.fp) != 1)
++
++This flaw can be demostrated by passing that solv file to the dumpsolv tool which
++will crash if compiled with ASAN:
++
++    $ /tmp/b/tools/dumpsolv /tmp/vuln_1_101_1_negative_maxsize.solv
++    =================================================================
++    ==17608==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7c0a2ede00b1 at pc 0x7fea30451468 b
++    p 0x7ffe07220a50 sp 0x7ffe07220220
++    WRITE of size 8192 at 0x7c0a2ede00b1 thread T0
++	#0 0x7fea30451467 in fread.part.0 (/lib64/libasan.so.8+0x51467) (BuildId: 80bfc4ae44fdec6ef5fecfb01
++    e2b57d28660991c)
++	#1 0x7fea3028eef1 in repo_add_solv /home/test/libsolv/src/repo_solv.c:1034
++	#2 0x0000004041cc in main /home/test/libsolv/tools/dumpsolv.c:471
++	#3 0x7fea3003c680 in __libc_start_call_main (/lib64/libc.so.6+0x3680) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#4 0x7fea3003c797 in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3797) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#5 0x000000400694 in _start (/tmp/b/tools/dumpsolv+0x400694) (BuildId: 0a70b5b14e5cd81f90a309bb2ff3219dfbf30bb8)
++
++    0x7c0a2ede00b1 is located 0 bytes after 1-byte region [0x7c0a2ede00b0,0x7c0a2ede00b1)
++    allocated by thread T0 here:
++	#0 0x7fea304ef41f in malloc (/lib64/libasan.so.8+0xef41f) (BuildId: 80bfc4ae44fdec6ef5fecfb01e2b57d28660991c)
++	#1 0x7fea302e4b4c in solv_calloc /home/test/libsolv/src/util.c:77
++	#2 0x7fea3028ee38 in repo_add_solv /home/test/libsolv/src/repo_solv.c:1025
++	#3 0x0000004041cc in main /home/test/libsolv/tools/dumpsolv.c:471
++	#4 0x7fea3003c680 in __libc_start_call_main (/lib64/libc.so.6+0x3680) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#5 0x7fea3003c797 in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3797) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#6 0x000000400694 in _start (/tmp/b/tools/dumpsolv+0x400694) (BuildId: 0a70b5b14e5cd81f90a309bb2ff3219dfbf30bb8)
++
++    SUMMARY: AddressSanitizer: heap-buffer-overflow /home/test/libsolv/src/repo_solv.c:1034 in repo_add_solv
++
++This patch catches the integer overflow, sets an error and jumps to the end of
++the function just after deallocation of the buffer (which would contain an
++undefined pointer). This patch also handles a possible integer overflow at
++"maxsize += 5" line.
++
++I originally wanted to replace read_id() with read_u32(), but
++complemtary repowriter_write() function also stored the value as
++a signed integer, so I guess the the Id type is inteded there.
++
++There are probably other ways how to fix it, like passing INT_MAX-5
++limit to read_id(), though the error message would be less
++understandable.
++
++It's also possible to reject this patch with an explanation that loading
++untrusted solv files is not supported. Though some kind of
++fortification would be welcomed by people who debug solver problems
++from reported solv files.
++
++Reported by Aisle Research.
++
++CVE: CVE-2026-9149
++Upstream-Status: Backport [https://github.com/openSUSE/libsolv/commit/210386037c892a720972ad35a3d8f7073b4d763b]
++
++(cherry picked from commit 210386037c892a720972ad35a3d8f7073b4d763b)
++Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
++---
++ src/repo_solv.c | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
++
++diff --git a/src/repo_solv.c b/src/repo_solv.c
++index 629ac683..00639aa0 100644
++--- a/src/repo_solv.c
+++++ b/src/repo_solv.c
++@@ -18,6 +18,7 @@
++ #include <stdlib.h>
++ #include <unistd.h>
++ #include <string.h>
+++#include <limits.h>
++ 
++ #include "repo_solv.h"
++ #include "util.h"
++@@ -1078,6 +1079,18 @@ repo_add_solv(Repo *repo, FILE *fp, int flags)
++ 
++   maxsize = read_id(&data, 0);
++   allsize = read_id(&data, 0);
+++  if (maxsize < 0 || allsize < 0)
+++    {
+++      data.error = pool_error(pool, SOLV_ERROR_CORRUPT, "negative data size in solv header");
+++      id = 0;
+++      goto data_error;
+++    }
+++  if (maxsize > INT_MAX - 5)
+++    {
+++      data.error = pool_error(pool, SOLV_ERROR_OVERFLOW, "data size overflow in solv header");
+++      id = 0;
+++      goto data_error;
+++    }
++   maxsize += 5;	/* so we can read the next schema of an array */
++   if (maxsize > allsize)
++     maxsize = allsize;
++@@ -1403,6 +1416,7 @@ printf("=> %s %s %p\n", pool_id2str(pool, keys[key].name), pool_id2str(pool, key
++     }
++   solv_free(buf);
++ 
+++data_error:
++   if (data.error)
++     {
++       /* free solvables */
++-- 
++2.35.6
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
+index 63534dce26..4ad8a20e2f 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
+@@ -11,6 +11,7 @@ DEPENDS = "expat zlib zstd"
+ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https \
+            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
+            file://CVE-2026-9150.patch \
++           file://CVE-2026-9149.patch \
+ "
+ 
+ SRCREV = "c8dbb3a77c86600ce09d4f80a504cf4e78a3c359"
+-- 
+2.35.6
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.84.bb b/meta/recip=
-es-extended/lighttpd/lighttpd_1.4.85.bb
-similarity index 97%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.84.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.85.bb
-index 289ecef333..54d8c91647 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.84.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.85.bb
-@@ -16,7 +16,7 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/releas=
-es-1.4.x/lighttpd-${PV}.t
-            file://lighttpd \
-            "
-=20
--SRC_URI[sha256sum] =3D "076dd43bec8f2ba9ce6db7e7ca7e8ad72271cd529805ead240=
-0b56efaa026f70"
-+SRC_URI[sha256sum] =3D "18de51b393bac4a6827879e1a7ff377c169e414bae92cd2450=
-91d80fc2601d13"
-=20
- DEPENDS =3D "virtual/crypt"
-=20
 
