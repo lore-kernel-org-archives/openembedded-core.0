@@ -2,75 +2,80 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01BBCC53200
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 14:14:16 +0000 (UTC)
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20149.1784902454934236113
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04AE4C53200
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 14:18:46 +0000 (UTC)
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20243.1784902722076148645
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2026 07:14:15 -0700
+ Fri, 24 Jul 2026 07:18:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=A8iZ1t/C;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=UsEyqu0p;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.148, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 339231D0048F;
-	Fri, 24 Jul 2026 10:14:14 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 24 Jul 2026 10:14:14 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=XurMcAdr;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ii843FZO;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 32B7E7A012A;
+	Fri, 24 Jul 2026 10:18:41 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Fri, 24 Jul 2026 10:18:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1784902454; x=1784988854; bh=PqS1CeROYd
-	1Ey7uuTf1edP/rOLmVO+mahgHc2zm63KQ=; b=A8iZ1t/CCckw5QmMceiNa+Sr3k
-	dxpBdu3Og6tcTWRAyPGM56jqppFgHQUA2mRrpPvLIkbPv8l79TRU5UZgpWGeOx04
-	eLDhUyWhqFGs88tN2+x51cD2VgjqL3JbRh36X5ZJjTjkNyfrptw5phoA3OCcgPtS
-	gAsWTCIC76Qqg8upDGq6HAMrkTUM8v1HGoVcOZQP5A6ObPG3QELBfpPVGsHI3EhM
-	hQLLSKrTG9qBzjk1eCxbUKJ3L3M/GiB+bz4+xT79Cq6Kn4+j84qdxDkIHiBvlntI
-	+vVczBN5GtG43G0gmT0bavDv/eYIfTcjw+9a7Z4Ia2T3WUjwo2CqTPjHyODg==
+	:subject:to:to; s=fm1; t=1784902721; x=1784989121; bh=HziY5uOPBk
+	ANfyNltqnTN/RN8Z7Aol2QI2JTVxetw58=; b=XurMcAdrjbWt9pY3uP8btx/5kN
+	AHPXwef10S2MfW3Uj2H5cQRDijb+Qx0oOOt0RUh8Ftz6ke0FPu7mGI/sUbHqgGNs
+	5zizyDeggykav1mw+Vyw5e2tWIqPy6HW5aa1nqz1SOnTFPw+UHJMwNKYi+6Z9LqW
+	RYt8x1+BQKWlfMZ7Vb+pGtkbM1N19HqSbp+lcHygehtlN0ScvgYkHYXCkZthK0vp
+	gN+3XPSP1jBjLNcEABmya7MK7J+XP2s/aEJIi9r+8czL94JkG0mVPy0/YCX1HAKY
+	+WysBWm1h66siCEiQJbVeG9XzVQ+hmhcjOgEBvXgV6B6Ydus1U37g2/D412Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784902454; x=1784988854; bh=PqS1CeROYd1Ey7uuTf1edP/rOLmVO+mahgH
-	c2zm63KQ=; b=UsEyqu0pMAPlx2kaaAvNT27a+GXLUxN5CCghaQ2U+UsiYBXpDEd
-	GmWSebiBU3HrPVzGikCE08wvXCNL/Aw31bC2RPE4Q1mGbRAwp4+BfHNlvJ1rlenu
-	Gm8EdGxppbin7WPiqFKhJjnRaJQ5zaSR2FmZV17oEQfcRQhv8HpsaXuR7Y2ZgQLm
-	TcnOtzIs6c/YgV2NQQOT/Da1ZeERqzqUOFN3CAkdOx2k5mLjrn3M6oCE6yNzDWsK
-	W0BT2/feA2jtKMN7zzSe8LIHSUznSTQmjeYJ3HfjQFJBIQe7e7qbW6A0lu33PGz3
-	V3u3xE5ZfbIWBRTnabHsQGdDfekKVgfLPYA==
-X-ME-Sender: <xms:NXNjajoqFjQEVqDYxtU8zFZQmrB34GFspU5X1mSvMHcwpy7ndeCRZQ>
-    <xme:NXNjalEOqgIKgMMzpSej5OpSq_-5-Q38qjSrOHCycEeSlJJb4EUFUxM6WuzpTMV45
-    NMQ5LxVTYyKYxr3A52kf2KpTepHlFzzN6RuqAcymBvhz9rqFKTbiCI>
-X-ME-Received: <xmr:NXNjatnmbpDINAjkG8seKh-drdXJ58RBhFDh6pm80rkRmxkLQTaYTXeDUzyD7684Ne2UKjki4dKzhq38BPaeOqqaw6KcTFh-kcVUVS5HvSsG>
-X-ME-Proxy-Cause: dmFkZTGzYjHEz5d01QRnlIgNm0ZWnJZMSUxMIaomnteluyL04dzPLpR4gPGSQVx6ktweqm
-    SOJ3KisYbnBWPwFhynKCqtVDcSyYw976eEu6iXXIwbBORuvde02zKi+gADe23NLW6WCbxK
-    jG1bxIQoZIOv3O1MEprMS+vxng7z3ifv6eGPYw3OrzDZcc1uaaTQmTqjdeQoLZhNscMPRz
-    rbOKDo78Q1PaxR9F2lNSQL9EVBlFzR/Hp+Tuhwn+hkjh7qlQxvyI7zdgGV8umB083ga/SQ
-    iklKLOlxcTYXImi6EsL5gD84r5+UTSuhLoXJlmLSEBKc7WJpdMcTakFDCmLhvTeQJ9B5bv
-    TMCLc55UGssCxw2cdIWnJBITFIWZzpZY4sOmZ56IQBYUTqYiIN8A+IyL51l1mFKaHa+Gt4
-    QDUoHqttifz0KtDA7/r2kzmKggKcMtUQVEOTXhryUu+u7+GVa8N5W+KtHTFLlbDg6t9ujR
-    2PMZkouYt2sTIOBYIBFDzjVN1IWVyz0wAOoOSNi016FYcBlCPh7GlyAUR+ertKIhax3kAk
-    U0bE521BCt146tpoDmpOPhjvScjto+Wj4+ScisAPGbCty7ENvNDkQWhlJcsh17JEi5Gynb
-    T0TFJdhBLl/v1bJBcz3GqEoLrFEn/dtjvySDfMful1H81Kqv5IfROFv+WVKQ
-X-ME-Proxy: <xmx:NXNjagnEdQmlaepYnc6JT2ecgwhTKsPNO-x-0tPkhLdhrtjCwux-WA>
-    <xmx:NXNjamsJ8sV_JuMcJ_r3czw-TGeXE5WRa88f-bbdG14uuJwhfx2ZLw>
-    <xmx:NXNjarmluT8MCBG3avUgZwAQ1UujaHSITgbIaDPQUG_V3q7X09rIbw>
-    <xmx:NXNjapvPTo-dT4xPlyTXOuTWI36Wde3R0mqgoV8eU7s4yH_E2gewAg>
-    <xmx:NnNjaj10wY4YVH3OrxJRtG7h6xpCTSjhjYMUp1W_ptHCc-EwhbjBRRrr>
+	1784902721; x=1784989121; bh=HziY5uOPBkANfyNltqnTN/RN8Z7Aol2QI2J
+	TVxetw58=; b=ii843FZO4vrNz1kZDWoswis3qhXfrYxY6g2Exav1WnHKvYFhREp
+	McWBrW0VU0BWqy+CleIOG/QccbtBXIW1H4fC8te9b9SIQDdZBNDR9hFAfWyPQpgx
+	tugQxUTXFkCbo1XdSSFo+ECeBzuIFRi+gxHkfLBQGdOhC4D4wdMmXuMIOTOP/xAG
+	y+moFXJYZ+FyMZ/bqGclKfr4eAai/75DtGn74JCuNE4AkN33brBWt3Unu/kr8ePw
+	4+GR3q1AjBU2nDcnLoLFPXWp+CkijY3OQEQoiSqqYCpMK20/226As/Fl4flcu2dL
+	9gBcoifmyC4siNOq9qTJ0oIcbYa8XmX0KQg==
+X-ME-Sender: <xms:QHRjatdYzhzn8I9jZMP6BqpmhVf7LU5J4VPHyjRYvm2VhiHDWgY3Uw>
+    <xme:QHRjamIcEY8SgFL3Df3uyNlyDExNMM5OB5l0URg9xrKhakqDRzzSrd3WQgG9pdLNy
+    sh9FOda484dVMcMOtayQhVs38qV-OeTMkkT-3mFw30Wa7LgtbSxzfs>
+X-ME-Received: <xmr:QHRjaliYKX4O9yRsw7HDV0Q1ythHK6s3zBDj4KXRCAxLrK2g0PqIuQ0mw5C8ARvpAXMjgmUfk3ZYGJjZgBdi-0NF0YYOGUxSnTg4rn7DrBlQ>
+X-ME-Proxy-Cause: dmFkZTE4Y8KK7RL4jbyytPyiSsq5OWkjJ7i0CGy3+j1OWasbi16NTX4MuZjeZGiM09tZc6
+    FR+E6FvRXDNUg3TpryZcz/R5hH6KormPlqC8R9jlVndfRltbSa+1hiIjv01AEaMUlggsg9
+    j0CI9CCULczAUmBr+HQGbqDXG9jgk0Qn10PpS5GJpTnMkCRFFI+o74d89G33YjSbjRWjmu
+    kMNDFU2lgQvZFOCrtZUhR2ED+GzFT7M14DaD4uqAIXhFEEBRGH/+vK+7nyyptYfmXoMzjs
+    VgfUN52+JMYXxM+v5hXVhpn06DO8pK3QoBmYrx76gKcgrHoB2SksGC+/7tRKo8IMRj6Ci0
+    5cQ/0s0DmLYDf6wgC0D3j3tfCM9RB4fB7vin2PrNuRQL7PcPwVKeRhQhWaQSj3FR19/OoR
+    BAut5jtj+PiqYJ/YlW1xSFcIxduV/VMuqR13bbd4MXgPQwTXaUQ4+3G4eIsX7xbgqCnmII
+    DRbrqKn9dPBt8LFfPIZJkvR0RTSWAIiWna2QcLY27Epnu2pCXdsSMH3ZSWlANolIF10IqI
+    UZA3E1KVYPUk1Bw+Xl4NUAafr2/zDQjEV38DFdMgdVYK7OyxAwHzIVV3wFKo7PuPDxTeQe
+    Ik+A5qYGE+YTmMgOqrgBkoAviNbuYQsFegKeRkI8a187e1/U7w98D7o+UAag
+X-ME-Proxy: <xmx:QHRjasTxgtZois-0gpO7HkdLo8anOMslyRibtcBcAKSu1Ly5kbinRg>
+    <xmx:QHRjanXk6r5oP533lsRSZaYrOIZkcWffN0Se0aBGNG-0BTwd7f1P2w>
+    <xmx:QHRjagTSz_NVwZs_C0QowusHiIKD20c-w3We29rHyHcx_ymDWBRgOw>
+    <xmx:QHRjahnYkOEX4R3kZ3yZH7ZeM-OHt7n08EGAuWQs0isHFOZI7q7Mqw>
+    <xmx:QXRjanrpXypjZTN-3zgsMFWE1tKYgxKAMjtfwa4cLxpWgTbvj9z2gTh4>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Jul 2026 10:14:12 -0400 (EDT)
-Message-ID: <151438b76ffe19c6ee5e28c446bfa29c3dde896b.camel@pbarker.dev>
-Subject: Re: [PATCH v2 2/4] packagegroups: add
- nativesdk-packagegroup-sdk-host-rust
+ 24 Jul 2026 10:18:39 -0400 (EDT)
+Message-ID: <8caf4e5c11f6df7fcc9d52b69f9edbac8f0373cf.camel@pbarker.dev>
+Subject: Re: [OE-core] [yocto] linux-yocto CVEs in need of triage
 From: Paul Barker <paul@pbarker.dev>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Fri, 24 Jul 2026 15:13:45 +0100
-In-Reply-To: <20260717130109.2187282-2-Harish.Sadineni@windriver.com>
-References: <20260717130109.2187282-1-Harish.Sadineni@windriver.com>
-	 <20260717130109.2187282-2-Harish.Sadineni@windriver.com>
+To: Venkata.Navuduri@windriver.com, "MacLeod, Randy"
+	 <Randy.MacLeod@windriver.com>, "yocto@lists.yoctoproject.org"
+	 <yocto@lists.yoctoproject.org>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, 
+ "linux-yocto@lists.yoctoproject.org"
+	 <linux-yocto@lists.yoctoproject.org>
+Cc: "Korovkin, Dmitriy" <Dmitriy.Korovkin@windriver.com>
+Date: Fri, 24 Jul 2026 15:18:37 +0100
+In-Reply-To: <1ab8694b-1f76-4059-b0ce-6604bbef3d2f@windriver.com>
+References: <4ac849a706feb16688020d5bcc3e74aececd63cf.camel@pbarker.dev>
+	 <2c3d1180-5390-4a4a-af2b-39f1bc78c385@windriver.com>
+	 <1ab8694b-1f76-4059-b0ce-6604bbef3d2f@windriver.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -116,72 +121,42 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-5Hb7QbJ1h6gKB2eknJA3"
+	protocol="application/pgp-signature"; boundary="=-FXjoV3aPt1CGHMOhc3d9"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 14:14:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241936
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 14:18:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241937
 
 
---=-5Hb7QbJ1h6gKB2eknJA3
+--=-FXjoV3aPt1CGHMOhc3d9
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2026-07-17 at 06:01 -0700, Harish.Sadineni@windriver.com wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+On Thu, 2026-07-23 at 12:15 +0000, Navuduri, Venkata Adhitya via
+lists.openembedded.org wrote:
+> Hello,
 >=20
-> Add a new nativesdk packagegroup providing the dependencies needed to
-> build external/out-of-tree rust modules in sdk.
+> Regarding CVE-2023-3640 (x86 cpu_entry_area KASLR bypass, CVSS 7.8):
+> The mainline fix is commit 97e3d26b5e5f ("x86/mm: Randomize per-cpu entry=
+ area") by Peter Zijlstra, merged in v6.2-rc1 https://git.kernel.org/pub/sc=
+m/linux/kernel/git/torvalds/linux.git/commit/?id=3D97e3d26b5e5f
 >=20
-> Set PACKAGE_ARCH to TUNE_PKGARCH instead of the packagegroup
-> default of "all", since nativesdk-libclang is dynamically
-> renamed per build (e.g. nativesdk-libclang22.1), which is
-> incompatible with an allarch packagegroup.
 >=20
-> Add this to TOOLCHAIN_HOST_TASK to include it in the SDK.
+> So, for Yocto releases shipping kernel >=3D6.2 version this fix is alread=
+y present. This fix needs back porting to kernel <6.2
 >=20
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
->  .../nativesdk-packagegroup-sdk-host-rust.bb      | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->  create mode 100644 meta/recipes-core/packagegroups/nativesdk-packagegrou=
-p-sdk-host-rust.bb
+> For now, I can prepare a patch to add this CVE in the cve-exclusion.inc t=
+o stop the CVE tool from reporting on this.
 >=20
-> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-h=
-ost-rust.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-ho=
-st-rust.bb
-> new file mode 100644
-> index 0000000000..b10d420acd
-> --- /dev/null
-> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host-rus=
-t.bb
-> @@ -0,0 +1,16 @@
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +SUMMARY =3D "Dependent packages for building external rust modules"
-> +
-> +PACKAGE_ARCH =3D "${TUNE_PKGARCH}"
-> +
-> +inherit packagegroup
-> +inherit_defer nativesdk
-> +
-> +RDEPENDS:${PN} =3D "\
-> +    nativesdk-rust-src-lib \
-> +    nativesdk-bindgen-cli \
-> +    nativesdk-libclang \
-> +"
 
-Hi Harish,
+Hi Adhitya,
 
-We've merged this patch but did have a follow-up question: should this
-packagegroup include dependencies on nativesdk-rustc and
-nativesdk-rust-tools-rustfmt? If so, please send a new patch to add
-them.
+Please send a patch to update cve-exclusion.inc, in the commit message
+please include any information or references you have to to identify
+commit 97e3d26b5e5f as the fix.
 
 Best regards,
 
@@ -189,17 +164,17 @@ Best regards,
 Paul Barker
 
 
---=-5Hb7QbJ1h6gKB2eknJA3
+--=-FXjoV3aPt1CGHMOhc3d9
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCamNzGREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bq0SAQDZ0Z+J25I015eD3nRuxFI84qiOsyoDc7Gn
-9Ekug4l/ZQD+JaxYD6h3rg+JS/UJFeKMm4ofBbQ3FXlySScnoa1QjwI=
-=hDZM
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCamN0PREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0boK8AQCjGMUGE0trQbRtkzhSEs8/8s4/lKI5vroO
+yX+yMw63wQEAk1PrI0oL3+e7WeA6cHl4E8zfYXiefHTMw/Efab3wiQs=
+=vRQ4
 -----END PGP SIGNATURE-----
 
---=-5Hb7QbJ1h6gKB2eknJA3--
+--=-FXjoV3aPt1CGHMOhc3d9--
 
