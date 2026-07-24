@@ -1,101 +1,115 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D876C531F9
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 09:21:13 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15529.1784884869915128947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9422C531F9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 09:41:23 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15753.1784886078025736067
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2026 02:21:10 -0700
+ Fri, 24 Jul 2026 02:41:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eILo1h7E;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=MYL9W0/A;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019f936db723-aa66ce35-0d22-4353-a911-e171f6c3606b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784884869; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=64mQV/E9FGezatAkQLlTsUyO0fbgnABbvTMdtaTJ8rA=;
-	b=eILo1h7EYMdLvt3CweZoCVx+2XpiadN0t66P8CBv3kyzVpBt76MEtc4ohSAcUdxo
-	mCWHHWbDiG78u5ET0aHw4BkTqeVtSZVi/NFM8EQjP1eVv72eTTpLnwgyf04q264agUV
-	MtPg4UhY514KR7CgKyMwz2FXpan9Lgfip1VELAbI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784884869;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=64mQV/E9FGezatAkQLlTsUyO0fbgnABbvTMdtaTJ8rA=;
-	b=MYL9W0/A8Ek0r6Qx50l8DKkd2lXaoVQ2vRWIJtHZHMzr2GNPuUqqJtrDsRgKdC98
-	hIj7SWU/ojrZLZf+QWBsbGtkJKuA8Lc32UiGgvI0YXqmB+nRDEVWjzdAY7DUxDVkA3O
-	TYWbymg6nrQsfOhQArcmtG/B0XGZdDhysEvrOEF8=
-From: patchtest@automation.yoctoproject.org
-To: Trevor Woerner <twoerner@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v4 09/10] nativesdk-packagegroup-sdk-host: gate qemu behind
- SDK_FEATURES
-In-Reply-To: <20260724090146.19924-10-twoerner@gmail.com>
-References: <20260724090146.19924-10-twoerner@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019f936db723-aa66ce35-0d22-4353-a911-e171f6c3606b-000000@us-west-2.amazonses.com>
-Date: Fri, 24 Jul 2026 09:21:08 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.24-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=g9k6j+Qz;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8efef6533aaso1605816d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 02:41:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784886077; cv=none;
+        d=google.com; s=arc-20260327;
+        b=h0XuJgq5VrM31vn7SucLl7LdEwo/XUWstfyTA/3gWQmdTGdHD7xZ+btl/REy55fLat
+         1kAvkQfuQZpgWJRBWQ9OzJM1NuaxvBFok5U91xeNmFGde/+Meytfe9rXd6Z0G8mnNd0f
+         uM/Ps5SH7WPTW/Y+plDii7ineGsHyDW96OZPKVTcYnHPh00zju7AvZzTFGjwpMUOVnDY
+         BspeOv+U1LAkLF2n7lA1AjOGQiHmy2IuyMBimbY4keid0PJXDE/tjPXEdllka6/Kj9GY
+         WFYzyTZRbHL9v1wqJrdWJDOVZj+5bepZdm81r0QttaD4h80nc/us5TR0AoOE+RZ3Wbem
+         jt/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jy6vFiYQAeecuUsvcg+n+wvVdhVX3nxD37DK/TmnNvQ=;
+        fh=TMIfwxgAU8BuWOyKrzhPp3htqU9AnG2dhnCwktNY3t8=;
+        b=NKUB3fMuLwn3U/9bN9ulp2MzzDv63jXc1S7foap7SYiVcxui0/sCjjeuKsyfmdKT8V
+         DldXaSb9CA6GcWhYuhHsRKlXarSUCtAOAB+IO5CkjrcO+9094QvcIxMJlFh2PeT1HZKe
+         bxe8YHYIXvCSOUc0p/weu5/xFIM4R7IIht0WEN5wOSM8YcVLp2wjB0gEm87YOFHOC1oS
+         5ExeG/qvFyxCBnsOa/U/gFjIDz6o6WGIxD+lhc/+rquudIaH5xmTVP/+mEFFrxI20mU8
+         P/0jeoxse65ijP0nTcrW9DRSFo19MksvJeshDBZQW7lFYS5V3ScZxR+Y2fTMSJnOFkoZ
+         b2Fw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784886077; x=1785490877; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jy6vFiYQAeecuUsvcg+n+wvVdhVX3nxD37DK/TmnNvQ=;
+        b=g9k6j+QzNVpQCiSUsyu6+u/+eyOOWqkCV6H3yaOjbmVhik579GgKtEwyGAZfbhW7XT
+         pQC7DqHOoGD3yLl/WuF4GnBpkmlvBlc8JMMB+KF3aTl8+ay17SMKfu3yPrjfO1gsK+hk
+         7cF2vRYAQxicBydBl51r88IHqAmZ4cFroqX4CTbgqX+mhXtef8j4qM6cMt6/yDyO9QaL
+         yiqG/pN4iHzveHOCdYaV97NwnpDp58KLYmYicFYEFtD04ae5nzsamO8ONBbv9FTRO9RG
+         URWdjQSbv6LS6hG9megBZ5cej7SIQ17gxMnAawf38k/uoLngMFR790jXYjQmiUxrOuFV
+         KTvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784886077; x=1785490877;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jy6vFiYQAeecuUsvcg+n+wvVdhVX3nxD37DK/TmnNvQ=;
+        b=U43uZkWc6KVD3CDd2Ku2g5/gJeEgeP6HeAkoXawXOdlC22ena1AtGd+HVv8PP981E5
+         s53HDh2QC6/Gr8nuZLCFsgekbSQMLnSyQ+lqdHujYRLCFJMgRZ2LFylbQvY0HidUjjyw
+         FjZU/iPh1mV8GbwWCjzIRJnhMF6qeVsXEEcVIAgX3/i+TnYF8jSVcaZQ+lVQV8a7L3JQ
+         0o+ux2oBidF4wLpFL6ickjYowWwPlcon8r82y/XOew7P9QQZtMCah8kiYtFnBrcu3o+u
+         lp+DVq/fTk5pPNimNocT6901TYyYtrQtSIK+s1BpQLomEi8IQXaf3qTo4y6IcQl1SUEl
+         Ilig==
+X-Gm-Message-State: AOJu0YzyDw168k3q5ofI42YJC7zZIvW3+oR/73y3hl83hW0InXHK+vff
+	c0tiszZnWIhy8tLuMgp0WIRwg8VQ9fc0sBIQZBTZVDwQttV3vQq8wfBwHuPII/pmoam0luNzA1q
+	S6qYJH84Yl3x/exYeeEFu/vS7KiHdTgHvcA==
+X-Gm-Gg: AR+sD12bevhjdZ8YEPWtXsPiZiWimk4i7HN2rP6UZr3jIY5y6tJ18SD+4urpLrRobqF
+	BLY+xvqhlaQHP8E1En9f6UHA/B/WZI/Jpy/SWTJmCBVsd5fHo9dwo2qUaLggTdLWPpM/zsng9DM
+	HiEcwdYTxrUbtHIX/LPwfTmg+QVv9QhFqx2uOKK+OJMQBBC30XpDweN+exs7vJvh7upPfSCFOEG
+	7L2emyxr1Ebrs4hHnC7DssfY2okXEOAfU/RTqo4L0ivGekfLP34O6naa6Yhjwj+xfIT9gvC+efq
+	lSroeYgeVXzUoz/vsq76
+X-Received: by 2002:a05:6214:449e:b0:8e9:f62b:8f92 with SMTP id
+ 6a1803df08f44-907ca5ad160mr78802506d6.56.1784886076946; Fri, 24 Jul 2026
+ 02:41:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260723112047.3535219-1-Harish.Sadineni@windriver.com>
+In-Reply-To: <20260723112047.3535219-1-Harish.Sadineni@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Jul 2026 11:41:04 +0200
+X-Gm-Features: AUfX_mySzSheRzRUlwwUePsuhxFM6TteG8Dqn1mMwIVLgU9sEpvl3QRM__RReo8
+Message-ID: <CANNYZj_1jYeAKoMu57+n6mWdp3cqyWQSeOMLnOViX+MVS-pQTw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] rust-cross-canadian: install
+ target-specific env scripts and fix rustlib lookup
+To: Harish.Sadineni@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 09:21:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241922
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 09:41:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241923
 
---NextPart
-Content-Type: text/plain
+On Thu, 23 Jul 2026 at 13:21, Sadineni, Harish via
+lists.openembedded.org
+<Harish.Sadineni=windriver.com@lists.openembedded.org> wrote:
+> Also update `CARGO_TARGET_<TRIPLE>_RUSTFLAGS` to add an explicit
+> `-L` search path to the target `rustlib` directory inside the sysroot.
+> The path is selected dynamically based on the multilib configuration,
+> choosing `lib` for 32-bit targets and `lib64` for 64-bit targets. This
+> ensures Cargo can locate the correct target-specific Rust libraries
+> during cross-compilation with the cross-canadian toolchain.
+...
+> +               if echo "${RUST_TARGET_SYS}" | grep -qE '(32)'; then
+> +                       LIBDIR="lib"
+> +               else
+> +                       LIBDIR="lib64"
+> +               fi
+> +       else
+> +               # multilib not enabled
+> +               LIBDIR="lib"
+> +       fi
+> +       LIB_PATH="\$OECORE_TARGET_SYSROOT/usr/\${LIBDIR}/rustlib/${RUST_TARGET_SYS}/lib"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Sorry no. Hardcoding libdir names like this is not okay. You need to
+find a way to obtain them from original definitions.
 
----
-Testing patch /home/patchtest/share/mboxes/v4-09-10-nativesdk-packagegroup-sdk-host-gate-qemu-behind-SDK_FEATURES.patch
-
-FAIL: test max line length: Patch line too long (current length 243, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
