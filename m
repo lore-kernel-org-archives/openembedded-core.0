@@ -1,159 +1,234 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6330AC531C9
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 05:45:13 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13294.1784871907119094048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66162C531C9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 05:47:43 +0000 (UTC)
+Received: from OS8PR02CU002.outbound.protection.outlook.com (OS8PR02CU002.outbound.protection.outlook.com [40.107.75.99])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13587.1784872053421749087
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 22:45:07 -0700
+ Thu, 23 Jul 2026 22:47:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=cjJJsYSI;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id D8A6C1A11DA;
-	Fri, 24 Jul 2026 05:45:04 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 92E8060393;
-	Fri, 24 Jul 2026 05:45:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 42CE811C1191C;
-	Fri, 24 Jul 2026 07:45:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784871903; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=9DMdaDIE4pOioojk+TgGEl1PhVRDI+JCCgk7u2Cc/0E=;
-	b=cjJJsYSIfx7VQM9NXbjkqcwvkEn87IiyDCtSy6DJM2sT3cLGuazlucZu5I9CxIUQbdkdVb
-	5k8S11BwVmpFvYZbiplxCXRFPZX61jzHwIpKDv+ztUxdKdTNfvBlAM0J42giuC9GRmjftt
-	FMhJfuS860zWmwk5ZeZLIfn6ClyjLHujV0UryvJ7gqBBvckBpS7F3GzYJPqQZEcrt+rl+j
-	iplBbLzuQBOWZShNl7ExVQFBJZ6Xdp45+KzWTNXKgVRr5oZ9ygBbMjm2tQnb3VDy9yIzTN
-	IucsyAAv+ISWI/cHOzMIhN4sslFsL6DENULLIVKqtTnVg6BN8J9aGWJMbWAFLw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Jul 2026 07:45:00 +0200
-Message-Id: <DK6KA7IUOBHF.1Y7RDS9QCNL4T@bootlin.com>
-To: <jamin_lin@aspeedtech.com>, "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
- <alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v3 1/5] devtool: Detect nested git repos
- before the initial workspace commit
-Cc: "Troy Lee" <troy_lee@aspeedtech.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
+ dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=eBdoGghQ;
+ spf=pass (domain: aspeedtech.com, ip: 40.107.75.99, mailfrom: jamin_lin@aspeedtech.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NvyOXTzhHASH5NscyKrOJRv2FomCEMXS9soXT/JkUwCTIYfhGRqcRaQYdUhpoUvrOdhEX2FVzOrGxMKlZgzXgZvxUcSV8K9RK9g+l+RMzOD4rS31Zx4l+L1s2k0teB4Fudf1bT/tvLxxXXFwWNuU0D+BLYUPvYiConHGCXw9R8MBpk7WzU7Yn1OhaRIL+ruWzK5ZNajVshpBl1wukjs2IHdWn/awOjshljBzh9kP1wEQkl+vTk7iHlj5CUybWBA2bce8VHsSlzVdx+1S9OCHIVPgyF1B4gnp/2JWpvt0VDnDdFwYZBeNlN9uP7nh0uutgcRxdJWhO+CnZn/cFItBKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c6GHpxwjcatyoQTfZEuZqpLPR9gEW7xXNy9x7ZADRpw=;
+ b=okMlkVn0kfchyWnpFe6YjVc/pXwXA4hIRz5nLoi2YHDFRKk+Byw/KB6ddXn4MVOGLEr2aGHXNTyrfoFpJ57TAbSRTOxndBIYEcEXJldMxvb6LDBhU8fC8U7fR0KzOI1xRxeXYzlCiFdkQThb4GGLPk11byLf512l3Uu9Ttc6PBsMfVughKLjdTonYCnl0uc2OX4XghxwkxM70UKD81YTgQbv7r4HeIOTeYCPnQCc2tHiRcZf6uFrxzE9i+/ql1+EhdZFadtOLM9AWoKYEwM/vaAnBOXLDx/nFP71+3KlhCv3P/tu+Uk1FGt+3I5qLk446iLy1W1EuL+BBXSGzTHlLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c6GHpxwjcatyoQTfZEuZqpLPR9gEW7xXNy9x7ZADRpw=;
+ b=eBdoGghQDQer4VycU7YkrGwoecvNgadF80PBwFIjUmVwAygUtxqbMSAa9Mztr4oXLWRg1SosIia9X2GyziPN4xY4ETFROrNfFRhGbw4+z2oEbbVNOQZX7H5lLC8152jntDo1pgBmHKiLYDMN91sxfZy8xurmpG56rCoC/dTGv5nGNPA/Bbqfz3dO0jNjoINf7/zYtK3LPdvTIVfkFFH2IK1eicnNQii5UXKbnXQ39rXJHgxX6InogBG8ujij2SNrSet2exzmwQa4J+t5VTT3vbuj5tn4VwZcLsGrpSd5m4kP6SGTG5EfHtyWjwxpgvK8Yn+ylVQwKtARUHaaAc6KbA==
+Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
+ by TYZPR06MB5201.apcprd06.prod.outlook.com (2603:1096:400:1f7::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
+ 2026 05:47:27 +0000
+Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
+ ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
+ ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
+ 05:47:27 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
+	<alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>
+CC: Troy Lee <troy_lee@aspeedtech.com>
+Subject: RE: [OE-core] [PATCH v3 1/5] devtool: Detect nested git repos before
+ the initial workspace commit
+Thread-Topic: [OE-core] [PATCH v3 1/5] devtool: Detect nested git repos before
+ the initial workspace commit
+Thread-Index: AQHdGnrYw++KVBeVrk6autu7sEYV3bZ8KiwAgAAAd6A=
+Date: Fri, 24 Jul 2026 05:47:27 +0000
+Message-ID: 
+ <TYZPR06MB498000EA9BB9C83874DA7F48FCCF2@TYZPR06MB4980.apcprd06.prod.outlook.com>
 References: <20260723081118.1558249-1-jamin_lin@aspeedtech.com>
  <20260723081118.1558249-2-jamin_lin@aspeedtech.com>
-In-Reply-To: <20260723081118.1558249-2-jamin_lin@aspeedtech.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ <DK6KA7IUOBHF.1Y7RDS9QCNL4T@bootlin.com>
+In-Reply-To: <DK6KA7IUOBHF.1Y7RDS9QCNL4T@bootlin.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|TYZPR06MB5201:EE_
+x-ms-office365-filtering-correlation-id: 18a12ccc-1336-498a-7cac-08dee9470b39
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|6133799003|10067099003|4143699003|56012099006|5023799004|22082099003|18002099003|3023799007;
+x-microsoft-antispam-message-info: 
+ mXwZAK8NHT89cGAV39Qqr2oPXTFn/nh7EfoHov7g+ilFB0TfFDFidEkP6+UzJehChMFP2UyFNA397Uic+HBhrfRnwd9NA3F7dOvsdXJlXaGMevq6C1Yt6ShZax36Uc8/OnTO50P+4gZII+LydU9e9cRwVINvKVY4g04QcmQHtO4KbGg4EhHQaBWq8Fr4e38MqX4hlJAd64seBDZ2Pq03WmonJyHGMi688jATCAN8CXF7/jpoGHa/Wrv90aHkwxMg6MYloQiGYX4awTUeDw101CEPy1hf2bLcZTNaoMOl2E/wHU1s6hqNXxvp+43jSM3RGp1KARVUwM2fY4b6SIPmY0lW0m22FPfndVQXxbekY/zJwPiRDww8QlIyiT2sNgdONi2xokYpddu2FzI7ASNbfbFs0XPlXi/ei2MWKnPP0iVmtfvuTVdXs9oVXzcB6Gok/63KbNdt4DbMN807ZsYjR4sdStf3TFbMYw4rtDrh1bGkLpWsm+n0nFcemWd9jAcqMRyqjNHD0Rh2DNMvBlJarHYphyQIyJRTaMPEOD8F4t2HA1Qp14PvdV8EX3APeENNHDWX+CCWLj6oRQ770Qtmj9PD9DZQRR/o41nPQKn7u//YFgkBxK8rc3uisucBy94rq/Eb/1kSq8X5L2laIKkpUI66K4jMc9HPkgAYOZzDZxE=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(6133799003)(10067099003)(4143699003)(56012099006)(5023799004)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?UnZzY2tYbng5R0tjMFVmZVFJVncyekd0NXJnNVk2Wkd5NHBnVzVMRlNENXlD?=
+ =?utf-8?B?ZWszN2R5cUNNTzRUa3dYRm5BY0ZiTkNxcEVPNnNxVVpEWG40REFWd0xBeHlm?=
+ =?utf-8?B?MGh5WTcvN2RHZjJVUjBzZU9oS0RmcGxMeE9WR3BXU3dMM25SR2tGVHBNVVk3?=
+ =?utf-8?B?MnVWS3ZnWnhhd1IzOWV1by9lcWtKNExuOTJLMEd5bTlJcm0zRkNWbkNZRUJP?=
+ =?utf-8?B?VW95V0lSRXlSWjVxNCtoN3RPNnZtVFRMV0RKYTZNYU1aWDdvN2JWWWlUZjdO?=
+ =?utf-8?B?azlLUGlRM01pUlh1alFEYmpYSmV3aDZqYkxiYzFKVURjcGJEMHVvNkpMMENB?=
+ =?utf-8?B?SEVzT3J2SytIak9CM09LZlVrR1B6bFJ6eFh2WU9vZDNFQmxIRmdxcHBiSVJ3?=
+ =?utf-8?B?dXB1TzVqT3ZJTk1RY0xoYjJDN202NnZTL29QUmdaZjNsNkNOd3gzdXEyOWYw?=
+ =?utf-8?B?V1J3K250amRUenJOVkJ1QjBTbnJrV3Q3Y0ovZlMybHlnNExMUEZVNUlZbnNZ?=
+ =?utf-8?B?WXpMNE9KRy9qcVhtZ094bHV1Y1JSZTlZblJ3Z1V1dkJiUmpoYk9BR2VGYzZm?=
+ =?utf-8?B?dWo0WDBPRS82YW5xS2hBQlpFMzVCYjNKaVZuVGRkekVXMi9QYUVMU05zTE04?=
+ =?utf-8?B?OWhQcEE2UG5EZ0FTYlYyekYwaFNYTVIvWFh0QkU3YmVVcEdrT2dzd0l3VXE2?=
+ =?utf-8?B?WWNRcEFPbm1QS3p0bFBUekl6T1B3Wng0QVZvZS80OFozTEUrOHlqczRYN0lC?=
+ =?utf-8?B?ck5SajdRV0w4S3NkalRDSStaMjRnOUJDem1tTHQ2b3RLdU5ZVlhLSWV4dE9r?=
+ =?utf-8?B?YVc5cGRZRXlFZ1VCWGJpUGQzYW1BRVJKblBlS2VFa0VXdmVjeXphelRXT0RZ?=
+ =?utf-8?B?NXhIL2V1ZUZYMTdKejhvTk1CNFBDYWwySmJvVW5Kak9rMmVVMnNkYkZCQlBW?=
+ =?utf-8?B?c3NvRCtNZjRpM0NCOG1hL0xpd3JnbVd1STlkdzk0WXg3TEdvbzFid3dGT1dN?=
+ =?utf-8?B?UVlRWG9kQkVTOWVLUC9pLzdXdmxINjhTR280Wlc4Q0JPdGU4eWtWODR0dEZB?=
+ =?utf-8?B?S0RzY3NXaG1kcnhDN3BSVHVyczBWL1E5UXBha1JXbjNieTBYV1YxbWVDckI0?=
+ =?utf-8?B?QzJDdlhXSjExWStxdTdrNE5idW0xbFpYWElmelhxQW5KKzJzQWRKb0ZJQWJu?=
+ =?utf-8?B?RTU3c0ZLdHpEM0l0ZU5uWUpQZm5DZ05UUThxSU0vd0VwU2hIQnN5Y2l6V3Q3?=
+ =?utf-8?B?MDc3VTd0eGQrZCtQWm16c280OElRcUdsWDBBdVgwbEZWSTREbWFYSEpjTHRv?=
+ =?utf-8?B?bnRvM2lseVNYclRyd2FaaEx4UFE1KzZLdVU0UXM1Mytndkg1WjZSUjUvL2xL?=
+ =?utf-8?B?ZTNSV1dCZ3NON0RtNmN5ejlOOWtCU1dSVm1MTXNtQzdxdlZnR2FNNE9keTQ0?=
+ =?utf-8?B?Y3lxaXdaMG45VDd1RUtEcUFycjFpaFNPWEgrKzV5cFdsVkNtaWVscVNrYmRj?=
+ =?utf-8?B?UWFEUE8rSkU2dHF2ZnVFVldwZHFKbmEzNmdyb3hGQ3Y0QkVsSW5zVEEydmU1?=
+ =?utf-8?B?M2lhZWgvd01URWxVbUUrSkIwc2tlLzJQeEZvS2JwbVl4bjR0cEFRM295SE1V?=
+ =?utf-8?B?dCs3cmhUUnNWbUhxa3Y0eW83dThSbGxCbEJKenJCSnlaMytxWXZXdlJUY3l3?=
+ =?utf-8?B?dXVQUStvOTNROTYvUEVDTlJVSldUUDJhOGJTOXhEZVd6dWp4RWlOblluSmQz?=
+ =?utf-8?B?TG9QeFZ1Qk1kOEpTazd2SHRheVExZnpCaXVXQWpaZEhKbWFOUW96WFFhcE04?=
+ =?utf-8?B?N1pjcEJ3R2xpeXNuZTNxYVhNWHpxYm96azYwaXB6YTd2dW9JeUVRY2t2WEo3?=
+ =?utf-8?B?M0tpV1g4S3FYaVFEVXpiUnhjbi9pTU5pMWZpQnFOT2UrZlJ1THpvM2VtdHZS?=
+ =?utf-8?B?MXNjVkNXMiswVHhxY1R2bHpESENGMmlZK001ejN6Tm9mbENMRFRkc3VLYi9u?=
+ =?utf-8?B?NitUWkdQQlUvZTlBNStMaE8vNUsxQkdIZEVpWjZ3SEhhK2U5aWVmMlJtUUFO?=
+ =?utf-8?B?cEpsZVlXbTB2Q0N0aTh0ckxUREdsYkJtMzkzalgzWmhMWWJYMm5tblpHci8z?=
+ =?utf-8?B?Z0Y0SVJRRURqZ24rYVJ1RXlRUjVjVXFxbGZUcHhtUm9mRklodnhiei9SL09E?=
+ =?utf-8?B?UjRqZE1jV1FEK3RoOXRUU2JCNTdsY1lZMGZnQzJRdFR4akFQQnZNZXNmMjQw?=
+ =?utf-8?B?YWY4cUNtdjN0SGlwRjRQYlR4dUVnczk0d0pUM2VUZUdrT2psWEZKZlNhbGdF?=
+ =?utf-8?B?OU8xRWR0SVdLT1k1RlNRQVIvT0JKaEhNTlB4VHI1blZqTXpaTTVmdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+	LkgKVfqxArRksk+1HaeKh/0YBQ+GMyYToml9WcvJvGOvLXl2SoBphe1X9roF6tHbmTXz9mWSVxyApMgxvKbrKYQjChD3Gcw4va3TwFF7r/MYmUO2g6elucDI915Gop0FwXC6k9cPHzhlY6XGUZ1LPpKA188+s6mp+um9kehdJJTCZ+YrJTVXdy0uqvePMqtQq62/uMLsCskaK0R9lferzwzwkRJJrWr3EcUmhQdX4+WVcOad783jU7pSB7IFdrTI51qXDA0ab2jJcvWbbodLXDYtYV68+uebWTKt/L5lqwhGugvnwxFUvo4XTYMj6T8NUO3q543HbkPkKfYpDwpsBw==
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18a12ccc-1336-498a-7cac-08dee9470b39
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2026 05:47:27.3087
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Xj+Li3wRfGUa9Kgga0qcaNK9abVJL3KW1H+mHVEVQkBNrSDOgLYUHzMbOtlsf2cdwmCpu5GQOGKUkCW7EfPWkA04DTFd/NIHDlw6Nq8OLKU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5201
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 05:45:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241898
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 05:47:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241899
 
-On Thu Jul 23, 2026 at 10:11 AM CEST, Jamin Lin via lists.openembedded.org =
-wrote:
-> setup_git_repo() is meant to convert a git repo that a recipe unpacks
-> inside S (e.g. via multiple git SRC_URI entries with different
-> destsuffix values) into a regular git submodule, so devtool can later
-> tag branches on it and extract patches from it via finish/update.
->
-> That detection never actually triggers, because of the order the
-> function runs things in:
->
->   1. 'git init'
->   2. 'git add -A .' + initial commit  <- commits the nested repo as a
->                                          bare, unregistered gitlink
->   3. checkout devbranch, tag basetag
->   4. scan 'git status --porcelain' for still-untracked directories
->      ("?? <dir>/") and convert any that are git repos into submodules
->
-> By the time step 4 runs, the nested repo was already swept up by step
-> 2's 'git add -A .': git treats a directory containing its own .git as
-> an embedded repo and stages it as a gitlink pointing at its current
-> HEAD, without registering it as a submodule. Once that gitlink is
-> committed, 'git status --porcelain' reports it as e.g. " M leveldir"
-> (already tracked) rather than "?? leveldir/" (untracked), so step 4's
-> "line.endswith('/')" check can never match it, and the conversion to a
-> real submodule silently never happens.
->
-> This isn't just a missed feature: an unregistered gitlink that has its
-> own untracked content (e.g. a further nested git repo underneath it)
-> shows up as "dirty" to git status even though the tracked commit hash
-> hasn't changed. patch.bbclass's patch_task_postfunc sees that dirtiness
-> after do_patch and tries to commit it, but 'git add' has nothing new to
-> stage for a gitlink whose hash is unchanged, so the follow-up 'git
-> commit' fails with "nothing to commit" and do_patch fails outright.
->
-> Fix this by moving the nested-repo detection and submodule conversion
-> to run right after 'git init', before 'git add -A .' and the initial
-> commit. At that point the nested repo is still untracked and reported
-> with a trailing "/", so it's correctly picked up and registered via
-> 'git submodule add' before anything commits it as a bare gitlink.
->
-> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
-> ---
-
-Hi Jamin,
-
-Thanks for your patch.
-
-It looks like this is breaking two selftests:
-
-2026-07-23 17:18:01,965 - oe-selftest - INFO - devtool.DevtoolUpgradeTests.=
-test_devtool_finish_update_patch (subunit.RemotedTestCase)
-2026-07-23 17:18:01,966 - oe-selftest - INFO -  ... FAIL
-...
-2026-07-23 17:18:01,967 - oe-selftest - INFO - 1: 20/50 268/758 (81.53s) (0=
- failed) (devtool.DevtoolUpgradeTests.test_devtool_finish_update_patch)
-2026-07-23 17:18:01,967 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 2629, in test_de=
-vtool_finish_update_patch
-    self._check_repo_status(recipedir, expected_status)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 138, in _check_r=
-epo_status
-    self.fail('Unexpected modified file in line: %s' % line)
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.14/unittest/case.py", line 750, in fail
-    raise self.failureException(msg)
-AssertionError: Unexpected modified file in line:  D recipes-extended/sysdi=
-g/sysdig-selftest/0055-Add-cstdint-for-uintXX_t-types.patch
-...
-2026-07-23 18:03:48,429 - oe-selftest - INFO - devtool.DevtoolModifyTests.t=
-est_devtool_modify_nested_gitsm (subunit.RemotedTestCase)
-2026-07-23 18:03:48,429 - oe-selftest - INFO -  ... FAIL
-...
-2026-07-23 18:03:48,430 - oe-selftest - INFO - 12: 15/38 645/758 (50.47s) (=
-0 failed) (devtool.DevtoolModifyTests.test_devtool_modify_nested_gitsm)
-2026-07-23 18:03:48,430 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 1256, in test_de=
-vtool_modify_nested_gitsm
-    result =3D runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
-s" % (command, result.status, exc_output))
-AssertionError: Command 'devtool modify devtool-test-git-gitsm -x /tmp/devt=
-oolqac4wc88gw' returned non-zero exit status 1:
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4411
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4358
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4177
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MyAxLzVdIGRldnRvb2w6IERldGVjdCBu
+ZXN0ZWQgZ2l0IHJlcG9zIGJlZm9yZQ0KPiB0aGUgaW5pdGlhbCB3b3Jrc3BhY2UgY29tbWl0DQo+
+IA0KPiBPbiBUaHUgSnVsIDIzLCAyMDI2IGF0IDEwOjExIEFNIENFU1QsIEphbWluIExpbiB2aWEg
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiB3cm90ZToNCj4gPiBzZXR1cF9naXRfcmVwbygpIGlz
+IG1lYW50IHRvIGNvbnZlcnQgYSBnaXQgcmVwbyB0aGF0IGEgcmVjaXBlIHVucGFja3MNCj4gPiBp
+bnNpZGUgUyAoZS5nLiB2aWEgbXVsdGlwbGUgZ2l0IFNSQ19VUkkgZW50cmllcyB3aXRoIGRpZmZl
+cmVudA0KPiA+IGRlc3RzdWZmaXggdmFsdWVzKSBpbnRvIGEgcmVndWxhciBnaXQgc3VibW9kdWxl
+LCBzbyBkZXZ0b29sIGNhbiBsYXRlcg0KPiA+IHRhZyBicmFuY2hlcyBvbiBpdCBhbmQgZXh0cmFj
+dCBwYXRjaGVzIGZyb20gaXQgdmlhIGZpbmlzaC91cGRhdGUuDQo+ID4NCj4gPiBUaGF0IGRldGVj
+dGlvbiBuZXZlciBhY3R1YWxseSB0cmlnZ2VycywgYmVjYXVzZSBvZiB0aGUgb3JkZXIgdGhlDQo+
+ID4gZnVuY3Rpb24gcnVucyB0aGluZ3MgaW46DQo+ID4NCj4gPiAgIDEuICdnaXQgaW5pdCcNCj4g
+PiAgIDIuICdnaXQgYWRkIC1BIC4nICsgaW5pdGlhbCBjb21taXQgIDwtIGNvbW1pdHMgdGhlIG5l
+c3RlZCByZXBvIGFzIGENCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGJhcmUsIHVucmVnaXN0ZXJlZCBnaXRsaW5rDQo+ID4gICAzLiBjaGVja291dCBkZXZicmFu
+Y2gsIHRhZyBiYXNldGFnDQo+ID4gICA0LiBzY2FuICdnaXQgc3RhdHVzIC0tcG9yY2VsYWluJyBm
+b3Igc3RpbGwtdW50cmFja2VkIGRpcmVjdG9yaWVzDQo+ID4gICAgICAoIj8/IDxkaXI+LyIpIGFu
+ZCBjb252ZXJ0IGFueSB0aGF0IGFyZSBnaXQgcmVwb3MgaW50byBzdWJtb2R1bGVzDQo+ID4NCj4g
+PiBCeSB0aGUgdGltZSBzdGVwIDQgcnVucywgdGhlIG5lc3RlZCByZXBvIHdhcyBhbHJlYWR5IHN3
+ZXB0IHVwIGJ5IHN0ZXANCj4gPiAyJ3MgJ2dpdCBhZGQgLUEgLic6IGdpdCB0cmVhdHMgYSBkaXJl
+Y3RvcnkgY29udGFpbmluZyBpdHMgb3duIC5naXQgYXMNCj4gPiBhbiBlbWJlZGRlZCByZXBvIGFu
+ZCBzdGFnZXMgaXQgYXMgYSBnaXRsaW5rIHBvaW50aW5nIGF0IGl0cyBjdXJyZW50DQo+ID4gSEVB
+RCwgd2l0aG91dCByZWdpc3RlcmluZyBpdCBhcyBhIHN1Ym1vZHVsZS4gT25jZSB0aGF0IGdpdGxp
+bmsgaXMNCj4gPiBjb21taXR0ZWQsICdnaXQgc3RhdHVzIC0tcG9yY2VsYWluJyByZXBvcnRzIGl0
+IGFzIGUuZy4gIiBNIGxldmVsZGlyIg0KPiA+IChhbHJlYWR5IHRyYWNrZWQpIHJhdGhlciB0aGFu
+ICI/PyBsZXZlbGRpci8iICh1bnRyYWNrZWQpLCBzbyBzdGVwIDQncw0KPiA+ICJsaW5lLmVuZHN3
+aXRoKCcvJykiIGNoZWNrIGNhbiBuZXZlciBtYXRjaCBpdCwgYW5kIHRoZSBjb252ZXJzaW9uIHRv
+IGENCj4gPiByZWFsIHN1Ym1vZHVsZSBzaWxlbnRseSBuZXZlciBoYXBwZW5zLg0KPiA+DQo+ID4g
+VGhpcyBpc24ndCBqdXN0IGEgbWlzc2VkIGZlYXR1cmU6IGFuIHVucmVnaXN0ZXJlZCBnaXRsaW5r
+IHRoYXQgaGFzIGl0cw0KPiA+IG93biB1bnRyYWNrZWQgY29udGVudCAoZS5nLiBhIGZ1cnRoZXIg
+bmVzdGVkIGdpdCByZXBvIHVuZGVybmVhdGggaXQpDQo+ID4gc2hvd3MgdXAgYXMgImRpcnR5IiB0
+byBnaXQgc3RhdHVzIGV2ZW4gdGhvdWdoIHRoZSB0cmFja2VkIGNvbW1pdCBoYXNoDQo+ID4gaGFz
+bid0IGNoYW5nZWQuIHBhdGNoLmJiY2xhc3MncyBwYXRjaF90YXNrX3Bvc3RmdW5jIHNlZXMgdGhh
+dA0KPiA+IGRpcnRpbmVzcyBhZnRlciBkb19wYXRjaCBhbmQgdHJpZXMgdG8gY29tbWl0IGl0LCBi
+dXQgJ2dpdCBhZGQnIGhhcw0KPiA+IG5vdGhpbmcgbmV3IHRvIHN0YWdlIGZvciBhIGdpdGxpbmsg
+d2hvc2UgaGFzaCBpcyB1bmNoYW5nZWQsIHNvIHRoZQ0KPiA+IGZvbGxvdy11cCAnZ2l0IGNvbW1p
+dCcgZmFpbHMgd2l0aCAibm90aGluZyB0byBjb21taXQiIGFuZCBkb19wYXRjaCBmYWlscw0KPiBv
+dXRyaWdodC4NCj4gPg0KPiA+IEZpeCB0aGlzIGJ5IG1vdmluZyB0aGUgbmVzdGVkLXJlcG8gZGV0
+ZWN0aW9uIGFuZCBzdWJtb2R1bGUgY29udmVyc2lvbg0KPiA+IHRvIHJ1biByaWdodCBhZnRlciAn
+Z2l0IGluaXQnLCBiZWZvcmUgJ2dpdCBhZGQgLUEgLicgYW5kIHRoZSBpbml0aWFsDQo+ID4gY29t
+bWl0LiBBdCB0aGF0IHBvaW50IHRoZSBuZXN0ZWQgcmVwbyBpcyBzdGlsbCB1bnRyYWNrZWQgYW5k
+IHJlcG9ydGVkDQo+ID4gd2l0aCBhIHRyYWlsaW5nICIvIiwgc28gaXQncyBjb3JyZWN0bHkgcGlj
+a2VkIHVwIGFuZCByZWdpc3RlcmVkIHZpYQ0KPiA+ICdnaXQgc3VibW9kdWxlIGFkZCcgYmVmb3Jl
+IGFueXRoaW5nIGNvbW1pdHMgaXQgYXMgYSBiYXJlIGdpdGxpbmsuDQo+ID4NCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBKYW1pbiBMaW4gPGphbWluX2xpbkBhc3BlZWR0ZWNoLmNvbT4NCj4gPiAtLS0NCj4g
+DQo+IEhpIEphbWluLA0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPiANCj4gSXQgbG9v
+a3MgbGlrZSB0aGlzIGlzIGJyZWFraW5nIHR3byBzZWxmdGVzdHM6DQo+IA0KPiAyMDI2LTA3LTIz
+IDE3OjE4OjAxLDk2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtDQo+IGRldnRvb2wuRGV2dG9vbFVw
+Z3JhZGVUZXN0cy50ZXN0X2RldnRvb2xfZmluaXNoX3VwZGF0ZV9wYXRjaA0KPiAoc3VidW5pdC5S
+ZW1vdGVkVGVzdENhc2UpDQo+IDIwMjYtMDctMjMgMTc6MTg6MDEsOTY2IC0gb2Utc2VsZnRlc3Qg
+LSBJTkZPIC0gIC4uLiBGQUlMIC4uLg0KPiAyMDI2LTA3LTIzIDE3OjE4OjAxLDk2NyAtIG9lLXNl
+bGZ0ZXN0IC0gSU5GTyAtIDE6IDIwLzUwIDI2OC83NTggKDgxLjUzcykgKDANCj4gZmFpbGVkKSAo
+ZGV2dG9vbC5EZXZ0b29sVXBncmFkZVRlc3RzLnRlc3RfZGV2dG9vbF9maW5pc2hfdXBkYXRlX3Bh
+dGNoKQ0KPiAyMDI2LTA3LTIzIDE3OjE4OjAxLDk2NyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtDQo+
+IHRlc3R0b29scy50ZXN0cmVzdWx0LnJlYWwuX1N0cmluZ0V4Y2VwdGlvbjogVHJhY2ViYWNrICht
+b3N0IHJlY2VudCBjYWxsIGxhc3QpOg0KPiAgIEZpbGUNCj4gIi9zcnYvcG9reWJ1aWxkL3lvY3Rv
+LXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQNCj4g
+LWNvcmUvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9kZXZ0b29sLnB5IiwgbGluZSAyNjI5
+LCBpbg0KPiB0ZXN0X2RldnRvb2xfZmluaXNoX3VwZGF0ZV9wYXRjaA0KPiAgICAgc2VsZi5fY2hl
+Y2tfcmVwb19zdGF0dXMocmVjaXBlZGlyLCBleHBlY3RlZF9zdGF0dXMpDQo+ICAgICB+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4NCj4gICBGaWxlDQo+
+ICIvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtYXJtaG9zdC9idWlsZC9s
+YXllcnMvb3BlbmVtYmVkZGVkDQo+IC1jb3JlL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMv
+ZGV2dG9vbC5weSIsIGxpbmUgMTM4LCBpbg0KPiBfY2hlY2tfcmVwb19zdGF0dXMNCj4gICAgIHNl
+bGYuZmFpbCgnVW5leHBlY3RlZCBtb2RpZmllZCBmaWxlIGluIGxpbmU6ICVzJyAlIGxpbmUpDQo+
+ICAgICB+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5e
+Xl5eXg0KPiAgIEZpbGUgIi91c3IvbGliL3B5dGhvbjMuMTQvdW5pdHRlc3QvY2FzZS5weSIsIGxp
+bmUgNzUwLCBpbiBmYWlsDQo+ICAgICByYWlzZSBzZWxmLmZhaWx1cmVFeGNlcHRpb24obXNnKQ0K
+PiBBc3NlcnRpb25FcnJvcjogVW5leHBlY3RlZCBtb2RpZmllZCBmaWxlIGluIGxpbmU6ICBEDQo+
+IHJlY2lwZXMtZXh0ZW5kZWQvc3lzZGlnL3N5c2RpZy1zZWxmdGVzdC8wMDU1LUFkZC1jc3RkaW50
+LWZvci11aW50WFhfdC10eXBlcy5wYQ0KPiB0Y2gNCj4gLi4uDQo+IDIwMjYtMDctMjMgMTg6MDM6
+NDgsNDI5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0NCj4gZGV2dG9vbC5EZXZ0b29sTW9kaWZ5VGVz
+dHMudGVzdF9kZXZ0b29sX21vZGlmeV9uZXN0ZWRfZ2l0c20NCj4gKHN1YnVuaXQuUmVtb3RlZFRl
+c3RDYXNlKQ0KPiAyMDI2LTA3LTIzIDE4OjAzOjQ4LDQyOSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
+ICAuLi4gRkFJTCAuLi4NCj4gMjAyNi0wNy0yMyAxODowMzo0OCw0MzAgLSBvZS1zZWxmdGVzdCAt
+IElORk8gLSAxMjogMTUvMzggNjQ1Lzc1OCAoNTAuNDdzKSAoMA0KPiBmYWlsZWQpIChkZXZ0b29s
+LkRldnRvb2xNb2RpZnlUZXN0cy50ZXN0X2RldnRvb2xfbW9kaWZ5X25lc3RlZF9naXRzbSkNCj4g
+MjAyNi0wNy0yMyAxODowMzo0OCw0MzAgLSBvZS1zZWxmdGVzdCAtIElORk8gLQ0KPiB0ZXN0dG9v
+bHMudGVzdHJlc3VsdC5yZWFsLl9TdHJpbmdFeGNlcHRpb246IFRyYWNlYmFjayAobW9zdCByZWNl
+bnQgY2FsbCBsYXN0KToNCj4gICBGaWxlDQo+ICIvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIv
+b2Utc2VsZnRlc3QtYXJtaG9zdC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVkDQo+IC1jb3JlL21l
+dGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZGV2dG9vbC5weSIsIGxpbmUgMTI1NiwgaW4NCj4g
+dGVzdF9kZXZ0b29sX21vZGlmeV9uZXN0ZWRfZ2l0c20NCj4gICAgIHJlc3VsdCA9IHJ1bkNtZCgn
+ZGV2dG9vbCBtb2RpZnkgJXMgLXggJXMnICUgKHRlc3RyZWNpcGUsIHRlbXBkaXIpKQ0KPiAgIEZp
+bGUNCj4gIi9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1
+aWxkL2xheWVycy9vcGVuZW1iZWRkZWQNCj4gLWNvcmUvbWV0YS9saWIvb2VxYS91dGlscy9jb21t
+YW5kcy5weSIsIGxpbmUgMjE0LCBpbiBydW5DbWQNCj4gICAgIHJhaXNlIEFzc2VydGlvbkVycm9y
+KCJDb21tYW5kICclcycgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMNCj4gJWQ6XG4lcyIg
+JSAoY29tbWFuZCwgcmVzdWx0LnN0YXR1cywgZXhjX291dHB1dCkpDQo+IEFzc2VydGlvbkVycm9y
+OiBDb21tYW5kICdkZXZ0b29sIG1vZGlmeSBkZXZ0b29sLXRlc3QtZ2l0LWdpdHNtIC14DQo+IC90
+bXAvZGV2dG9vbHFhYzR3Yzg4Z3cnIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDE6DQo+
+IA0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWls
+ZGVycy8yMy9idWlsZHMvNDQxMQ0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5v
+cmcvdmFsa3lyaWUvIy9idWlsZGVycy8zNS9idWlsZHMvNDM1OA0KPiBodHRwczovL2F1dG9idWls
+ZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy80OC9idWlsZHMvNDE3Nw0K
+PiANCj4gQ2FuIHlvdSBoYXZlIGEgbG9vayBhdCB0aGUgaXNzdWU/DQo+IA0KDQpUaGFua3MgZm9y
+IHRoZSByZXBvcnQuIFdpbGwgZG8uDQoNCkphbWluDQoNCj4gVGhhbmtzLA0KPiBNYXRoaWV1DQo+
+IA0KPiAtLQ0KPiBNYXRoaWV1IER1Ym9pcy1CcmlhbmQsIEJvb3RsaW4NCj4gRW1iZWRkZWQgTGlu
+dXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZw0KPiBodHRwczovL2Jvb3RsaW4uY29tDQoNCg==
 
