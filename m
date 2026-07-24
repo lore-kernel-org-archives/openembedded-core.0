@@ -1,115 +1,103 @@
-Return-Path: <mark.yang@lge.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96AD3C531C9
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 04:59:22 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13166.1784869161721137172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C17F1C531C9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 05:24:12 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13411.1784870642678130174
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 21:59:22 -0700
+ Thu, 23 Jul 2026 22:24:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: mark.yang@lge.com)
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
-	by 156.147.23.51 with ESMTP; 24 Jul 2026 13:59:19 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: mark.yang@lge.com
-Received: from unknown (HELO markyang..) (10.177.127.86)
-	by 156.147.1.125 with ESMTP; 24 Jul 2026 13:59:19 +0900
-X-Original-SENDERIP: 10.177.127.86
-X-Original-MAILFROM: mark.yang@lge.com
-From: mark.yang@lge.com
-To: openembedded-core@lists.openembedded.org
-Cc: "mark.yang" <mark.yang@lge.com>
-Subject: [PATCH v2] kernel-arch: limit KERNEL_TOOLCHAIN to the kbuild recipes
-Date: Fri, 24 Jul 2026 13:59:17 +0900
-Message-ID: <20260724045917.3595374-1-mark.yang@lge.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=WEDXMTDW;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 42A594E40F21;
+	Fri, 24 Jul 2026 05:24:00 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0083160393;
+	Fri, 24 Jul 2026 05:24:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 13C8211C1187F;
+	Fri, 24 Jul 2026 07:23:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1784870639; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=CKfPj/w5o43FSCPACxE71cbzIzTjI1EXB763jsopkT4=;
+	b=WEDXMTDWKM5sWED2OmZxjDZsveFx89aL8grF1P0RfpYwmh4XRFpi0DF7GiZls7ZoJs0uZl
+	Fd/swrZ3kHBVNLtFSQ4ahFbSX/fsFU4spt2qgt8ulN7A7A4fwEdPUXCoUel6iWj9AkcnJL
+	j/NYHYbWpErwZcif1PUjnF3OxcdZFR17m7k/gqimZe/8m6Lhi6H5w/hcJ7txeKckixcuB3
+	fqX29+JgaC41YBg7iHXUNxEeXe7hg3TWs1Lnn2SSuuKuRecQM6+pAbYBcd1op8SmH8ALdp
+	Z2BYPXJcGTDYQWrv6G94IosBqVmbfXeECcwq0gPl/SEWOssBLWJEGg6rdSKh6A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Jul 2026 07:23:55 +0200
+Message-Id: <DK6JU22H9C8E.163NIRXGQ07HA@bootlin.com>
+To: "Babanpreet Singh" <bbnpreetsingh@gmail.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] devtool: standard: guess srcrev update
+ mode for gitsm:// recipes too
+Cc: "Richard Purdie" <richard.purdie@linuxfoundation.org>, "Alexander
+ Kanavin" <alex.kanavin@gmail.com>, "Chris Laplante"
+ <chris.laplante@agilent.com>, "Peter Kjellerstedt" <pkj@axis.com>, "Adrian
+ Freihofer" <adrian.freihofer@siemens.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <DK61MC7B9VH0.2408UF4LVISPP@bootlin.com>
+ <20260723235227.7-1-bbnpreetsingh@gmail.com>
+In-Reply-To: <20260723235227.7-1-bbnpreetsingh@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 04:59:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241888
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 05:24:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241889
 
-From: "mark.yang" <mark.yang@lge.com>
+On Fri Jul 24, 2026 at 1:52 AM CEST, Babanpreet Singh wrote:
+> Hi Mathieu,
+>
+> Thanks for the report. I dug into the three failures on build 4355:
+> one is a real regression in my patch (fixed in v2), the other two
+> don't look caused by this series.
+>
+> 1) test_devtool_git_submodules: my fault. The test commits inside a
+> submodule, so the parent HEAD stays on the upstream branch and v1
+> guessed srcrev, which only rewrites the parent SRCREV and so
+> silently dropped the submodule commit. v2 only guesses srcrev when
+> 'git submodule status --recursive' shows every submodule in sync,
+> keeping such trees in patch mode. The test fails here with v1 and
+> passes with v2, matching the autobuilder.
+>
+> 2) test_devtool_modify_nested_gitsm fails during 'devtool modify'
+> source extraction ("No url found for submodule path
+> 'nested/repo-gitsm' in .gitmodules"), before the update-mode guesser
+> (the only thing this series touches) can run.
+>
+> 3) test_devtool_finish_update_patch: sysdig-selftest has no gitsm://
+> URIs, so the change is inert for it.
+>
+> Both 2) and 3) pass here on master with only this series applied.
+> Build 4355 tested mathieu/master-next, and the nested-git destsuffix
+> rework in that queue touches exactly the machinery both failures
+> point at, so I suspect an interaction with that series. Happy to be
+> corrected if they still fail without other devtool changes in the
+> queue.
+>
+> v2 also adopts Richard's startswith-tuple suggestion.
+>
+> Thanks,
+> Baban
 
-u-boot and barebox inherit kernel-arch for the ARCH mapping, so since
-0e3756efe0 ("kernel-arch: add KERNEL_TOOLCHAIN to switch the whole
-kernel toolchain") KERNEL_TOOLCHAIN = "clang" switches them too. That
-swaps u-boot's gcc-cross dependency for clang-cross, but its kbuild
-hardcodes ${CROSS_COMPILE}gcc:
+Sorry, I came to the same conclusion this morning: I wrongfully assumed
+that because this commit was responsible of the first fail, it was also
+responsible of the two others. This is confirmed by tonight build, it
+failed even without your commit.
 
-  /bin/sh: 1: x86_64-oe-linux-gcc: not found
+Thanks for taking the time to investigate.
 
-Full log: https://errors.yoctoproject.org/Errors/Build/242654/
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Pin TOOLCHAIN back to gcc in kernel-arch and set it from
-KERNEL_TOOLCHAIN in kernel.bbclass, module-base and make-mod-scripts.
-
-Signed-off-by: mark.yang <mark.yang@lge.com>
----
-v2: add a comment explaining why kernel-arch keeps TOOLCHAIN pinned
-    to gcc
-
-The v2 series was merged, so this carries the remaining v3 3/3 delta
-(<20260720231714.1631366-1-mark.yang@lge.com>) as a follow-up fix.
-
- meta/classes-recipe/kernel-arch.bbclass                      | 5 ++++-
- meta/classes-recipe/kernel.bbclass                           | 1 +
- meta/classes-recipe/module-base.bbclass                      | 1 +
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 1 +
- 4 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
-index 5f8dbacc0c..72780940f1 100644
---- a/meta/classes-recipe/kernel-arch.bbclass
-+++ b/meta/classes-recipe/kernel-arch.bbclass
-@@ -92,5 +92,8 @@ KERNEL_LD:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld'
- KERNEL_AR:toolchain-clang = "llvm-ar ${HOST_AR_KERNEL_ARCH}"
- KERNEL_OBJCOPY:toolchain-clang = "llvm-objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
- KERNEL_STRIP:toolchain-clang = "llvm-strip"
-+# The kbuild recipes (kernel, modules, make-mod-scripts) set TOOLCHAIN
-+# from KERNEL_TOOLCHAIN; other inheritors like u-boot and barebox only
-+# use kernel-arch for the ARCH mapping and must stay on gcc.
- KERNEL_TOOLCHAIN ?= "gcc"
--TOOLCHAIN = "${KERNEL_TOOLCHAIN}"
-+TOOLCHAIN = "gcc"
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 91248467be..619359fb7d 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -214,6 +214,7 @@ python do_symlink_kernsrc () {
- addtask symlink_kernsrc before do_patch do_configure after do_unpack
- 
- inherit kernel-arch deploy
-+TOOLCHAIN = "${KERNEL_TOOLCHAIN}"
- 
- PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
- PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
-diff --git a/meta/classes-recipe/module-base.bbclass b/meta/classes-recipe/module-base.bbclass
-index 2a225881ba..cae71a9b15 100644
---- a/meta/classes-recipe/module-base.bbclass
-+++ b/meta/classes-recipe/module-base.bbclass
-@@ -5,6 +5,7 @@
- #
- 
- inherit kernel-arch
-+TOOLCHAIN = "${KERNEL_TOOLCHAIN}"
- 
- # We do the dependency this way because the output is not preserved
- # in sstate, so we must force do_compile to run (once).
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 338a50de91..d11afa86a1 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -4,6 +4,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
- 
- inherit kernel-arch linux-kernel-base
-+TOOLCHAIN = "${KERNEL_TOOLCHAIN}"
- inherit pkgconfig
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
 
