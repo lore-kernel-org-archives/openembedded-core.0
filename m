@@ -1,234 +1,153 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <shinucha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66162C531C9
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 05:47:43 +0000 (UTC)
-Received: from OS8PR02CU002.outbound.protection.outlook.com (OS8PR02CU002.outbound.protection.outlook.com [40.107.75.99])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13587.1784872053421749087
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C30EFC531C9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 06:13:33 +0000 (UTC)
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13821.1784873611583501024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 22:47:34 -0700
+ Thu, 23 Jul 2026 23:13:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=eBdoGghQ;
- spf=pass (domain: aspeedtech.com, ip: 40.107.75.99, mailfrom: jamin_lin@aspeedtech.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NvyOXTzhHASH5NscyKrOJRv2FomCEMXS9soXT/JkUwCTIYfhGRqcRaQYdUhpoUvrOdhEX2FVzOrGxMKlZgzXgZvxUcSV8K9RK9g+l+RMzOD4rS31Zx4l+L1s2k0teB4Fudf1bT/tvLxxXXFwWNuU0D+BLYUPvYiConHGCXw9R8MBpk7WzU7Yn1OhaRIL+ruWzK5ZNajVshpBl1wukjs2IHdWn/awOjshljBzh9kP1wEQkl+vTk7iHlj5CUybWBA2bce8VHsSlzVdx+1S9OCHIVPgyF1B4gnp/2JWpvt0VDnDdFwYZBeNlN9uP7nh0uutgcRxdJWhO+CnZn/cFItBKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c6GHpxwjcatyoQTfZEuZqpLPR9gEW7xXNy9x7ZADRpw=;
- b=okMlkVn0kfchyWnpFe6YjVc/pXwXA4hIRz5nLoi2YHDFRKk+Byw/KB6ddXn4MVOGLEr2aGHXNTyrfoFpJ57TAbSRTOxndBIYEcEXJldMxvb6LDBhU8fC8U7fR0KzOI1xRxeXYzlCiFdkQThb4GGLPk11byLf512l3Uu9Ttc6PBsMfVughKLjdTonYCnl0uc2OX4XghxwkxM70UKD81YTgQbv7r4HeIOTeYCPnQCc2tHiRcZf6uFrxzE9i+/ql1+EhdZFadtOLM9AWoKYEwM/vaAnBOXLDx/nFP71+3KlhCv3P/tu+Uk1FGt+3I5qLk446iLy1W1EuL+BBXSGzTHlLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c6GHpxwjcatyoQTfZEuZqpLPR9gEW7xXNy9x7ZADRpw=;
- b=eBdoGghQDQer4VycU7YkrGwoecvNgadF80PBwFIjUmVwAygUtxqbMSAa9Mztr4oXLWRg1SosIia9X2GyziPN4xY4ETFROrNfFRhGbw4+z2oEbbVNOQZX7H5lLC8152jntDo1pgBmHKiLYDMN91sxfZy8xurmpG56rCoC/dTGv5nGNPA/Bbqfz3dO0jNjoINf7/zYtK3LPdvTIVfkFFH2IK1eicnNQii5UXKbnXQ39rXJHgxX6InogBG8ujij2SNrSet2exzmwQa4J+t5VTT3vbuj5tn4VwZcLsGrpSd5m4kP6SGTG5EfHtyWjwxpgvK8Yn+ylVQwKtARUHaaAc6KbA==
-Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
- by TYZPR06MB5201.apcprd06.prod.outlook.com (2603:1096:400:1f7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
- 2026 05:47:27 +0000
-Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
- ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
- ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
- 05:47:27 +0000
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
-	<alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>
-CC: Troy Lee <troy_lee@aspeedtech.com>
-Subject: RE: [OE-core] [PATCH v3 1/5] devtool: Detect nested git repos before
- the initial workspace commit
-Thread-Topic: [OE-core] [PATCH v3 1/5] devtool: Detect nested git repos before
- the initial workspace commit
-Thread-Index: AQHdGnrYw++KVBeVrk6autu7sEYV3bZ8KiwAgAAAd6A=
-Date: Fri, 24 Jul 2026 05:47:27 +0000
-Message-ID: 
- <TYZPR06MB498000EA9BB9C83874DA7F48FCCF2@TYZPR06MB4980.apcprd06.prod.outlook.com>
-References: <20260723081118.1558249-1-jamin_lin@aspeedtech.com>
- <20260723081118.1558249-2-jamin_lin@aspeedtech.com>
- <DK6KA7IUOBHF.1Y7RDS9QCNL4T@bootlin.com>
-In-Reply-To: <DK6KA7IUOBHF.1Y7RDS9QCNL4T@bootlin.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|TYZPR06MB5201:EE_
-x-ms-office365-filtering-correlation-id: 18a12ccc-1336-498a-7cac-08dee9470b39
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|6133799003|10067099003|4143699003|56012099006|5023799004|22082099003|18002099003|3023799007;
-x-microsoft-antispam-message-info: 
- mXwZAK8NHT89cGAV39Qqr2oPXTFn/nh7EfoHov7g+ilFB0TfFDFidEkP6+UzJehChMFP2UyFNA397Uic+HBhrfRnwd9NA3F7dOvsdXJlXaGMevq6C1Yt6ShZax36Uc8/OnTO50P+4gZII+LydU9e9cRwVINvKVY4g04QcmQHtO4KbGg4EhHQaBWq8Fr4e38MqX4hlJAd64seBDZ2Pq03WmonJyHGMi688jATCAN8CXF7/jpoGHa/Wrv90aHkwxMg6MYloQiGYX4awTUeDw101CEPy1hf2bLcZTNaoMOl2E/wHU1s6hqNXxvp+43jSM3RGp1KARVUwM2fY4b6SIPmY0lW0m22FPfndVQXxbekY/zJwPiRDww8QlIyiT2sNgdONi2xokYpddu2FzI7ASNbfbFs0XPlXi/ei2MWKnPP0iVmtfvuTVdXs9oVXzcB6Gok/63KbNdt4DbMN807ZsYjR4sdStf3TFbMYw4rtDrh1bGkLpWsm+n0nFcemWd9jAcqMRyqjNHD0Rh2DNMvBlJarHYphyQIyJRTaMPEOD8F4t2HA1Qp14PvdV8EX3APeENNHDWX+CCWLj6oRQ770Qtmj9PD9DZQRR/o41nPQKn7u//YFgkBxK8rc3uisucBy94rq/Eb/1kSq8X5L2laIKkpUI66K4jMc9HPkgAYOZzDZxE=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(6133799003)(10067099003)(4143699003)(56012099006)(5023799004)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?UnZzY2tYbng5R0tjMFVmZVFJVncyekd0NXJnNVk2Wkd5NHBnVzVMRlNENXlD?=
- =?utf-8?B?ZWszN2R5cUNNTzRUa3dYRm5BY0ZiTkNxcEVPNnNxVVpEWG40REFWd0xBeHlm?=
- =?utf-8?B?MGh5WTcvN2RHZjJVUjBzZU9oS0RmcGxMeE9WR3BXU3dMM25SR2tGVHBNVVk3?=
- =?utf-8?B?MnVWS3ZnWnhhd1IzOWV1by9lcWtKNExuOTJLMEd5bTlJcm0zRkNWbkNZRUJP?=
- =?utf-8?B?VW95V0lSRXlSWjVxNCtoN3RPNnZtVFRMV0RKYTZNYU1aWDdvN2JWWWlUZjdO?=
- =?utf-8?B?azlLUGlRM01pUlh1alFEYmpYSmV3aDZqYkxiYzFKVURjcGJEMHVvNkpMMENB?=
- =?utf-8?B?SEVzT3J2SytIak9CM09LZlVrR1B6bFJ6eFh2WU9vZDNFQmxIRmdxcHBiSVJ3?=
- =?utf-8?B?dXB1TzVqT3ZJTk1RY0xoYjJDN202NnZTL29QUmdaZjNsNkNOd3gzdXEyOWYw?=
- =?utf-8?B?V1J3K250amRUenJOVkJ1QjBTbnJrV3Q3Y0ovZlMybHlnNExMUEZVNUlZbnNZ?=
- =?utf-8?B?WXpMNE9KRy9qcVhtZ094bHV1Y1JSZTlZblJ3Z1V1dkJiUmpoYk9BR2VGYzZm?=
- =?utf-8?B?dWo0WDBPRS82YW5xS2hBQlpFMzVCYjNKaVZuVGRkekVXMi9QYUVMU05zTE04?=
- =?utf-8?B?OWhQcEE2UG5EZ0FTYlYyekYwaFNYTVIvWFh0QkU3YmVVcEdrT2dzd0l3VXE2?=
- =?utf-8?B?WWNRcEFPbm1QS3p0bFBUekl6T1B3Wng0QVZvZS80OFozTEUrOHlqczRYN0lC?=
- =?utf-8?B?ck5SajdRV0w4S3NkalRDSStaMjRnOUJDem1tTHQ2b3RLdU5ZVlhLSWV4dE9r?=
- =?utf-8?B?YVc5cGRZRXlFZ1VCWGJpUGQzYW1BRVJKblBlS2VFa0VXdmVjeXphelRXT0RZ?=
- =?utf-8?B?NXhIL2V1ZUZYMTdKejhvTk1CNFBDYWwySmJvVW5Kak9rMmVVMnNkYkZCQlBW?=
- =?utf-8?B?c3NvRCtNZjRpM0NCOG1hL0xpd3JnbVd1STlkdzk0WXg3TEdvbzFid3dGT1dN?=
- =?utf-8?B?UVlRWG9kQkVTOWVLUC9pLzdXdmxINjhTR280Wlc4Q0JPdGU4eWtWODR0dEZB?=
- =?utf-8?B?S0RzY3NXaG1kcnhDN3BSVHVyczBWL1E5UXBha1JXbjNieTBYV1YxbWVDckI0?=
- =?utf-8?B?QzJDdlhXSjExWStxdTdrNE5idW0xbFpYWElmelhxQW5KKzJzQWRKb0ZJQWJu?=
- =?utf-8?B?RTU3c0ZLdHpEM0l0ZU5uWUpQZm5DZ05UUThxSU0vd0VwU2hIQnN5Y2l6V3Q3?=
- =?utf-8?B?MDc3VTd0eGQrZCtQWm16c280OElRcUdsWDBBdVgwbEZWSTREbWFYSEpjTHRv?=
- =?utf-8?B?bnRvM2lseVNYclRyd2FaaEx4UFE1KzZLdVU0UXM1Mytndkg1WjZSUjUvL2xL?=
- =?utf-8?B?ZTNSV1dCZ3NON0RtNmN5ejlOOWtCU1dSVm1MTXNtQzdxdlZnR2FNNE9keTQ0?=
- =?utf-8?B?Y3lxaXdaMG45VDd1RUtEcUFycjFpaFNPWEgrKzV5cFdsVkNtaWVscVNrYmRj?=
- =?utf-8?B?UWFEUE8rSkU2dHF2ZnVFVldwZHFKbmEzNmdyb3hGQ3Y0QkVsSW5zVEEydmU1?=
- =?utf-8?B?M2lhZWgvd01URWxVbUUrSkIwc2tlLzJQeEZvS2JwbVl4bjR0cEFRM295SE1V?=
- =?utf-8?B?dCs3cmhUUnNWbUhxa3Y0eW83dThSbGxCbEJKenJCSnlaMytxWXZXdlJUY3l3?=
- =?utf-8?B?dXVQUStvOTNROTYvUEVDTlJVSldUUDJhOGJTOXhEZVd6dWp4RWlOblluSmQz?=
- =?utf-8?B?TG9QeFZ1Qk1kOEpTazd2SHRheVExZnpCaXVXQWpaZEhKbWFOUW96WFFhcE04?=
- =?utf-8?B?N1pjcEJ3R2xpeXNuZTNxYVhNWHpxYm96azYwaXB6YTd2dW9JeUVRY2t2WEo3?=
- =?utf-8?B?M0tpV1g4S3FYaVFEVXpiUnhjbi9pTU5pMWZpQnFOT2UrZlJ1THpvM2VtdHZS?=
- =?utf-8?B?MXNjVkNXMiswVHhxY1R2bHpESENGMmlZK001ejN6Tm9mbENMRFRkc3VLYi9u?=
- =?utf-8?B?NitUWkdQQlUvZTlBNStMaE8vNUsxQkdIZEVpWjZ3SEhhK2U5aWVmMlJtUUFO?=
- =?utf-8?B?cEpsZVlXbTB2Q0N0aTh0ckxUREdsYkJtMzkzalgzWmhMWWJYMm5tblpHci8z?=
- =?utf-8?B?Z0Y0SVJRRURqZ24rYVJ1RXlRUjVjVXFxbGZUcHhtUm9mRklodnhiei9SL09E?=
- =?utf-8?B?UjRqZE1jV1FEK3RoOXRUU2JCNTdsY1lZMGZnQzJRdFR4akFQQnZNZXNmMjQw?=
- =?utf-8?B?YWY4cUNtdjN0SGlwRjRQYlR4dUVnczk0d0pUM2VUZUdrT2psWEZKZlNhbGdF?=
- =?utf-8?B?OU8xRWR0SVdLT1k1RlNRQVIvT0JKaEhNTlB4VHI1blZqTXpaTTVmdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=chkhz7oL;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: shinucha@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2351; q=dns/txt;
+  s=iport01; t=1784873611; x=1786083211;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eQOZWIHy1T7JDeFiQlM5u/t7d1iHNHpPXB8/IYPJxn0=;
+  b=chkhz7oLI3HJwmODcrMTZ+mtlUopzolJCx7iSSY04SA/fPEE4pYgUWt+
+   zikSUYg7O9VYzBtXzmMdjhrcTfPImg/QDvEVGnT7Nq1YyWg6C0DbKV3Nb
+   f2ntZCYkzphqNFCa3MuikF+votVIZPEOdDZRjvaK5ZqAqb/vW3pn+UXHz
+   Ej4vSP5uHvHS7NvoTkdaLED/EYms5rY1EIk2b4KUIjYddUCYiJu2ESntO
+   beaWxh2uWHJvq3VM1hU/xeZHqXZo45iuyxbAcaG5ASkkHXNhdLyIzvjP2
+   cdwTs+G7raSh05Rvgif5oc+tTzoajsyfxe+YwcrAAweLouMQI3vHE5An+
+   w==;
+X-CSE-ConnectionGUID: L0+3IxQ6Rn+EX5g8YyjVNw==
+X-CSE-MsgGUID: apS76fXETf+s4lAfvmzznA==
+X-IPAS-Result: =?us-ascii?q?A0C/AgDgAGNq/5D/Ja1aglmCV4FTQkmWSp4egX4PAQEBD?=
+ =?us-ascii?q?1EEAQGFBY1hAiY1CA4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFgQ4Th?=
+ =?us-ascii?q?lyGXTYBRoEMRIMCgnUCAcFIgiyBAd5FgWYBCxQBBYEzhXGHboVxJxuBSUSEf?=
+ =?us-ascii?q?oQKgQaFViIEgxwSgXhQj2ZIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4Xg?=
+ =?us-ascii?q?QwbBwWBHYEseYRXIx8DOX+BL3VKdy1pARIXgSaDSQKBNwMLGA1IESw3FBkEP?=
+ =?us-ascii?q?m4HjWsjgiAgATwcATQBgihAkwASklOhD4QngWafdRozhASmaJkIglmiAYRpg?=
+ =?us-ascii?q?WkBOoFZTSMVgyJTGQ9X3AIkNT0CBwIHDgMLkWiBfgEB?=
+IronPort-Data: A9a23:rO+1mq3XjC9VoUTF7/bD5c1wkn2cJEfYwER7XKvMYLTBsI5bp2ACz
+ GAWXGvTb/jcZWT3LdF+PtngpkMC65XQn9I2HFBq3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
+ Lsen+WFYAX7g2EubjpJg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGKBl1ZqwIw7hNByJjx
+ aEXeAEcbC6lmLfjqF67YrEEasULNsLnOsYb/3pn1zycValgSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUicC/FMEg9/5JYWh+epgGT0czRwo1OOrq1x6G/WpOB0+OW0a4WEJIXSGK25mG6Rv
+ lmZoWrJLy0Ud8fDzROL7He+lOnmyHaTtIU6UefQGuRRqFia2mwSBQBQWUaxpviiz0SkWttZJ
+ 2Qe/S0yqak0skesS7HVRRyzoHeeslgERsBcEuAS7ACL17ra5BufCmEYTzlHLts8u6ceQiQn0
+ FKMld7lCTFj9baSU3+18raPsSj0PjAYK2IHbyIIQQYJpd75r+kOYgnnVN1vFuuxy9byAzy1m
+ 2/MpykljLJVhskOv0mmwW36b/uXjsChZmYICs//BwpJMisRiFaZWrGV
+IronPort-HdrOrdr: A9a23:nx0iZK0VXZuFWUkpAfJ75gqjBJ4kLtp133Aq2lEZdPWaSKOlfq
+ eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKhTbaknDH5ZmpM
+ RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
+X-Talos-CUID: 9a23:xGQfT2woIAAGIPd7Go/aBgUwQoN+U23kkk3WYGKIVGk5eayXd3mPrfY=
+X-Talos-MUID: 9a23:yO3xwAvtCzqYNuSnNM2njSlZa5lm04mSBgMWzZEvtdeBJz52EmLI
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,182,1779148800"; 
+   d="scan'208";a="513796105"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Jul 2026 06:13:30 +0000
+Received: from sjc-ads-8046.cisco.com (sjc-ads-8046.cisco.com [171.68.208.84])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 7D72818000214;
+	Fri, 24 Jul 2026 06:13:30 +0000 (GMT)
+Received: by sjc-ads-8046.cisco.com (Postfix, from userid 1784405)
+	id 22262CC160A; Thu, 23 Jul 2026 23:13:30 -0700 (PDT)
+From: Shinu Chandran <shinucha@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com, to@cisco.com,
+	Shinu Chandran <shinucha@cisco.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core] [scarthgap] [PATCH] vim: add PACKAGECONFIG option for desktop files
+Date: Thu, 23 Jul 2026 23:13:24 -0700
+Message-Id: <20260724061324.1541029-1-shinucha@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	LkgKVfqxArRksk+1HaeKh/0YBQ+GMyYToml9WcvJvGOvLXl2SoBphe1X9roF6tHbmTXz9mWSVxyApMgxvKbrKYQjChD3Gcw4va3TwFF7r/MYmUO2g6elucDI915Gop0FwXC6k9cPHzhlY6XGUZ1LPpKA188+s6mp+um9kehdJJTCZ+YrJTVXdy0uqvePMqtQq62/uMLsCskaK0R9lferzwzwkRJJrWr3EcUmhQdX4+WVcOad783jU7pSB7IFdrTI51qXDA0ab2jJcvWbbodLXDYtYV68+uebWTKt/L5lqwhGugvnwxFUvo4XTYMj6T8NUO3q543HbkPkKfYpDwpsBw==
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18a12ccc-1336-498a-7cac-08dee9470b39
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2026 05:47:27.3087
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xj+Li3wRfGUa9Kgga0qcaNK9abVJL3KW1H+mHVEVQkBNrSDOgLYUHzMbOtlsf2cdwmCpu5GQOGKUkCW7EfPWkA04DTFd/NIHDlw6Nq8OLKU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5201
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-8046.cisco.com [171.68.208.84];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.68.208.84, sjc-ads-8046.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 05:47:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241899
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 06:13:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241900
 
-PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MyAxLzVdIGRldnRvb2w6IERldGVjdCBu
-ZXN0ZWQgZ2l0IHJlcG9zIGJlZm9yZQ0KPiB0aGUgaW5pdGlhbCB3b3Jrc3BhY2UgY29tbWl0DQo+
-IA0KPiBPbiBUaHUgSnVsIDIzLCAyMDI2IGF0IDEwOjExIEFNIENFU1QsIEphbWluIExpbiB2aWEg
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiB3cm90ZToNCj4gPiBzZXR1cF9naXRfcmVwbygpIGlz
-IG1lYW50IHRvIGNvbnZlcnQgYSBnaXQgcmVwbyB0aGF0IGEgcmVjaXBlIHVucGFja3MNCj4gPiBp
-bnNpZGUgUyAoZS5nLiB2aWEgbXVsdGlwbGUgZ2l0IFNSQ19VUkkgZW50cmllcyB3aXRoIGRpZmZl
-cmVudA0KPiA+IGRlc3RzdWZmaXggdmFsdWVzKSBpbnRvIGEgcmVndWxhciBnaXQgc3VibW9kdWxl
-LCBzbyBkZXZ0b29sIGNhbiBsYXRlcg0KPiA+IHRhZyBicmFuY2hlcyBvbiBpdCBhbmQgZXh0cmFj
-dCBwYXRjaGVzIGZyb20gaXQgdmlhIGZpbmlzaC91cGRhdGUuDQo+ID4NCj4gPiBUaGF0IGRldGVj
-dGlvbiBuZXZlciBhY3R1YWxseSB0cmlnZ2VycywgYmVjYXVzZSBvZiB0aGUgb3JkZXIgdGhlDQo+
-ID4gZnVuY3Rpb24gcnVucyB0aGluZ3MgaW46DQo+ID4NCj4gPiAgIDEuICdnaXQgaW5pdCcNCj4g
-PiAgIDIuICdnaXQgYWRkIC1BIC4nICsgaW5pdGlhbCBjb21taXQgIDwtIGNvbW1pdHMgdGhlIG5l
-c3RlZCByZXBvIGFzIGENCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGJhcmUsIHVucmVnaXN0ZXJlZCBnaXRsaW5rDQo+ID4gICAzLiBjaGVja291dCBkZXZicmFu
-Y2gsIHRhZyBiYXNldGFnDQo+ID4gICA0LiBzY2FuICdnaXQgc3RhdHVzIC0tcG9yY2VsYWluJyBm
-b3Igc3RpbGwtdW50cmFja2VkIGRpcmVjdG9yaWVzDQo+ID4gICAgICAoIj8/IDxkaXI+LyIpIGFu
-ZCBjb252ZXJ0IGFueSB0aGF0IGFyZSBnaXQgcmVwb3MgaW50byBzdWJtb2R1bGVzDQo+ID4NCj4g
-PiBCeSB0aGUgdGltZSBzdGVwIDQgcnVucywgdGhlIG5lc3RlZCByZXBvIHdhcyBhbHJlYWR5IHN3
-ZXB0IHVwIGJ5IHN0ZXANCj4gPiAyJ3MgJ2dpdCBhZGQgLUEgLic6IGdpdCB0cmVhdHMgYSBkaXJl
-Y3RvcnkgY29udGFpbmluZyBpdHMgb3duIC5naXQgYXMNCj4gPiBhbiBlbWJlZGRlZCByZXBvIGFu
-ZCBzdGFnZXMgaXQgYXMgYSBnaXRsaW5rIHBvaW50aW5nIGF0IGl0cyBjdXJyZW50DQo+ID4gSEVB
-RCwgd2l0aG91dCByZWdpc3RlcmluZyBpdCBhcyBhIHN1Ym1vZHVsZS4gT25jZSB0aGF0IGdpdGxp
-bmsgaXMNCj4gPiBjb21taXR0ZWQsICdnaXQgc3RhdHVzIC0tcG9yY2VsYWluJyByZXBvcnRzIGl0
-IGFzIGUuZy4gIiBNIGxldmVsZGlyIg0KPiA+IChhbHJlYWR5IHRyYWNrZWQpIHJhdGhlciB0aGFu
-ICI/PyBsZXZlbGRpci8iICh1bnRyYWNrZWQpLCBzbyBzdGVwIDQncw0KPiA+ICJsaW5lLmVuZHN3
-aXRoKCcvJykiIGNoZWNrIGNhbiBuZXZlciBtYXRjaCBpdCwgYW5kIHRoZSBjb252ZXJzaW9uIHRv
-IGENCj4gPiByZWFsIHN1Ym1vZHVsZSBzaWxlbnRseSBuZXZlciBoYXBwZW5zLg0KPiA+DQo+ID4g
-VGhpcyBpc24ndCBqdXN0IGEgbWlzc2VkIGZlYXR1cmU6IGFuIHVucmVnaXN0ZXJlZCBnaXRsaW5r
-IHRoYXQgaGFzIGl0cw0KPiA+IG93biB1bnRyYWNrZWQgY29udGVudCAoZS5nLiBhIGZ1cnRoZXIg
-bmVzdGVkIGdpdCByZXBvIHVuZGVybmVhdGggaXQpDQo+ID4gc2hvd3MgdXAgYXMgImRpcnR5IiB0
-byBnaXQgc3RhdHVzIGV2ZW4gdGhvdWdoIHRoZSB0cmFja2VkIGNvbW1pdCBoYXNoDQo+ID4gaGFz
-bid0IGNoYW5nZWQuIHBhdGNoLmJiY2xhc3MncyBwYXRjaF90YXNrX3Bvc3RmdW5jIHNlZXMgdGhh
-dA0KPiA+IGRpcnRpbmVzcyBhZnRlciBkb19wYXRjaCBhbmQgdHJpZXMgdG8gY29tbWl0IGl0LCBi
-dXQgJ2dpdCBhZGQnIGhhcw0KPiA+IG5vdGhpbmcgbmV3IHRvIHN0YWdlIGZvciBhIGdpdGxpbmsg
-d2hvc2UgaGFzaCBpcyB1bmNoYW5nZWQsIHNvIHRoZQ0KPiA+IGZvbGxvdy11cCAnZ2l0IGNvbW1p
-dCcgZmFpbHMgd2l0aCAibm90aGluZyB0byBjb21taXQiIGFuZCBkb19wYXRjaCBmYWlscw0KPiBv
-dXRyaWdodC4NCj4gPg0KPiA+IEZpeCB0aGlzIGJ5IG1vdmluZyB0aGUgbmVzdGVkLXJlcG8gZGV0
-ZWN0aW9uIGFuZCBzdWJtb2R1bGUgY29udmVyc2lvbg0KPiA+IHRvIHJ1biByaWdodCBhZnRlciAn
-Z2l0IGluaXQnLCBiZWZvcmUgJ2dpdCBhZGQgLUEgLicgYW5kIHRoZSBpbml0aWFsDQo+ID4gY29t
-bWl0LiBBdCB0aGF0IHBvaW50IHRoZSBuZXN0ZWQgcmVwbyBpcyBzdGlsbCB1bnRyYWNrZWQgYW5k
-IHJlcG9ydGVkDQo+ID4gd2l0aCBhIHRyYWlsaW5nICIvIiwgc28gaXQncyBjb3JyZWN0bHkgcGlj
-a2VkIHVwIGFuZCByZWdpc3RlcmVkIHZpYQ0KPiA+ICdnaXQgc3VibW9kdWxlIGFkZCcgYmVmb3Jl
-IGFueXRoaW5nIGNvbW1pdHMgaXQgYXMgYSBiYXJlIGdpdGxpbmsuDQo+ID4NCj4gPiBTaWduZWQt
-b2ZmLWJ5OiBKYW1pbiBMaW4gPGphbWluX2xpbkBhc3BlZWR0ZWNoLmNvbT4NCj4gPiAtLS0NCj4g
-DQo+IEhpIEphbWluLA0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPiANCj4gSXQgbG9v
-a3MgbGlrZSB0aGlzIGlzIGJyZWFraW5nIHR3byBzZWxmdGVzdHM6DQo+IA0KPiAyMDI2LTA3LTIz
-IDE3OjE4OjAxLDk2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtDQo+IGRldnRvb2wuRGV2dG9vbFVw
-Z3JhZGVUZXN0cy50ZXN0X2RldnRvb2xfZmluaXNoX3VwZGF0ZV9wYXRjaA0KPiAoc3VidW5pdC5S
-ZW1vdGVkVGVzdENhc2UpDQo+IDIwMjYtMDctMjMgMTc6MTg6MDEsOTY2IC0gb2Utc2VsZnRlc3Qg
-LSBJTkZPIC0gIC4uLiBGQUlMIC4uLg0KPiAyMDI2LTA3LTIzIDE3OjE4OjAxLDk2NyAtIG9lLXNl
-bGZ0ZXN0IC0gSU5GTyAtIDE6IDIwLzUwIDI2OC83NTggKDgxLjUzcykgKDANCj4gZmFpbGVkKSAo
-ZGV2dG9vbC5EZXZ0b29sVXBncmFkZVRlc3RzLnRlc3RfZGV2dG9vbF9maW5pc2hfdXBkYXRlX3Bh
-dGNoKQ0KPiAyMDI2LTA3LTIzIDE3OjE4OjAxLDk2NyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtDQo+
-IHRlc3R0b29scy50ZXN0cmVzdWx0LnJlYWwuX1N0cmluZ0V4Y2VwdGlvbjogVHJhY2ViYWNrICht
-b3N0IHJlY2VudCBjYWxsIGxhc3QpOg0KPiAgIEZpbGUNCj4gIi9zcnYvcG9reWJ1aWxkL3lvY3Rv
-LXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQNCj4g
-LWNvcmUvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9kZXZ0b29sLnB5IiwgbGluZSAyNjI5
-LCBpbg0KPiB0ZXN0X2RldnRvb2xfZmluaXNoX3VwZGF0ZV9wYXRjaA0KPiAgICAgc2VsZi5fY2hl
-Y2tfcmVwb19zdGF0dXMocmVjaXBlZGlyLCBleHBlY3RlZF9zdGF0dXMpDQo+ICAgICB+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4NCj4gICBGaWxlDQo+
-ICIvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtYXJtaG9zdC9idWlsZC9s
-YXllcnMvb3BlbmVtYmVkZGVkDQo+IC1jb3JlL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMv
-ZGV2dG9vbC5weSIsIGxpbmUgMTM4LCBpbg0KPiBfY2hlY2tfcmVwb19zdGF0dXMNCj4gICAgIHNl
-bGYuZmFpbCgnVW5leHBlY3RlZCBtb2RpZmllZCBmaWxlIGluIGxpbmU6ICVzJyAlIGxpbmUpDQo+
-ICAgICB+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5e
-Xl5eXg0KPiAgIEZpbGUgIi91c3IvbGliL3B5dGhvbjMuMTQvdW5pdHRlc3QvY2FzZS5weSIsIGxp
-bmUgNzUwLCBpbiBmYWlsDQo+ICAgICByYWlzZSBzZWxmLmZhaWx1cmVFeGNlcHRpb24obXNnKQ0K
-PiBBc3NlcnRpb25FcnJvcjogVW5leHBlY3RlZCBtb2RpZmllZCBmaWxlIGluIGxpbmU6ICBEDQo+
-IHJlY2lwZXMtZXh0ZW5kZWQvc3lzZGlnL3N5c2RpZy1zZWxmdGVzdC8wMDU1LUFkZC1jc3RkaW50
-LWZvci11aW50WFhfdC10eXBlcy5wYQ0KPiB0Y2gNCj4gLi4uDQo+IDIwMjYtMDctMjMgMTg6MDM6
-NDgsNDI5IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0NCj4gZGV2dG9vbC5EZXZ0b29sTW9kaWZ5VGVz
-dHMudGVzdF9kZXZ0b29sX21vZGlmeV9uZXN0ZWRfZ2l0c20NCj4gKHN1YnVuaXQuUmVtb3RlZFRl
-c3RDYXNlKQ0KPiAyMDI2LTA3LTIzIDE4OjAzOjQ4LDQyOSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
-ICAuLi4gRkFJTCAuLi4NCj4gMjAyNi0wNy0yMyAxODowMzo0OCw0MzAgLSBvZS1zZWxmdGVzdCAt
-IElORk8gLSAxMjogMTUvMzggNjQ1Lzc1OCAoNTAuNDdzKSAoMA0KPiBmYWlsZWQpIChkZXZ0b29s
-LkRldnRvb2xNb2RpZnlUZXN0cy50ZXN0X2RldnRvb2xfbW9kaWZ5X25lc3RlZF9naXRzbSkNCj4g
-MjAyNi0wNy0yMyAxODowMzo0OCw0MzAgLSBvZS1zZWxmdGVzdCAtIElORk8gLQ0KPiB0ZXN0dG9v
-bHMudGVzdHJlc3VsdC5yZWFsLl9TdHJpbmdFeGNlcHRpb246IFRyYWNlYmFjayAobW9zdCByZWNl
-bnQgY2FsbCBsYXN0KToNCj4gICBGaWxlDQo+ICIvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIv
-b2Utc2VsZnRlc3QtYXJtaG9zdC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVkDQo+IC1jb3JlL21l
-dGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZGV2dG9vbC5weSIsIGxpbmUgMTI1NiwgaW4NCj4g
-dGVzdF9kZXZ0b29sX21vZGlmeV9uZXN0ZWRfZ2l0c20NCj4gICAgIHJlc3VsdCA9IHJ1bkNtZCgn
-ZGV2dG9vbCBtb2RpZnkgJXMgLXggJXMnICUgKHRlc3RyZWNpcGUsIHRlbXBkaXIpKQ0KPiAgIEZp
-bGUNCj4gIi9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1ob3N0L2J1
-aWxkL2xheWVycy9vcGVuZW1iZWRkZWQNCj4gLWNvcmUvbWV0YS9saWIvb2VxYS91dGlscy9jb21t
-YW5kcy5weSIsIGxpbmUgMjE0LCBpbiBydW5DbWQNCj4gICAgIHJhaXNlIEFzc2VydGlvbkVycm9y
-KCJDb21tYW5kICclcycgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMNCj4gJWQ6XG4lcyIg
-JSAoY29tbWFuZCwgcmVzdWx0LnN0YXR1cywgZXhjX291dHB1dCkpDQo+IEFzc2VydGlvbkVycm9y
-OiBDb21tYW5kICdkZXZ0b29sIG1vZGlmeSBkZXZ0b29sLXRlc3QtZ2l0LWdpdHNtIC14DQo+IC90
-bXAvZGV2dG9vbHFhYzR3Yzg4Z3cnIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDE6DQo+
-IA0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWls
-ZGVycy8yMy9idWlsZHMvNDQxMQ0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5v
-cmcvdmFsa3lyaWUvIy9idWlsZGVycy8zNS9idWlsZHMvNDM1OA0KPiBodHRwczovL2F1dG9idWls
-ZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy80OC9idWlsZHMvNDE3Nw0K
-PiANCj4gQ2FuIHlvdSBoYXZlIGEgbG9vayBhdCB0aGUgaXNzdWU/DQo+IA0KDQpUaGFua3MgZm9y
-IHRoZSByZXBvcnQuIFdpbGwgZG8uDQoNCkphbWluDQoNCj4gVGhhbmtzLA0KPiBNYXRoaWV1DQo+
-IA0KPiAtLQ0KPiBNYXRoaWV1IER1Ym9pcy1CcmlhbmQsIEJvb3RsaW4NCj4gRW1iZWRkZWQgTGlu
-dXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZw0KPiBodHRwczovL2Jvb3RsaW4uY29tDQoNCg==
+The recipe currently always inherits mime-xdg and keeps the installed desktop
+files. Add a desktop PACKAGECONFIG option so configurations can disable that
+desktop integration while preserving the current default behavior.
+
+When desktop support is disabled, remove the generated desktop files during
+do_install and avoid inheriting mime-xdg.
+
+Signed-off-by: Shinu Chandran <shinucha@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 942813bf3f249f80f3154ba8137d172c406bf319)
+---
+ meta/recipes-support/vim/vim.inc | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index d69a337b4e..f97062aede 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -50,7 +50,7 @@ S = "${WORKDIR}/git"
+ 
+ VIMDIR = "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
+ 
+-inherit autotools-brokensep update-alternatives mime-xdg pkgconfig
++inherit autotools-brokensep update-alternatives pkgconfig
+ 
+ CLEANBROKEN = "1"
+ 
+@@ -76,9 +76,11 @@ do_configure () {
+ PACKAGECONFIG ??= "\
+     ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '', d)} \
++    desktop \
+     nls \
+ "
+ 
++PACKAGECONFIG[desktop] = ""
+ PACKAGECONFIG[gtkgui] = "--enable-gui=gtk3,--enable-gui=no,gtk+3"
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
+ PACKAGECONFIG[x11] = "--with-x,--without-x,xt,"
+@@ -88,6 +90,8 @@ PACKAGECONFIG[elfutils] = "--enable-elf-check,,elfutils,"
+ PACKAGECONFIG[nls] = "--enable-nls,--disable-nls,,"
+ PACKAGECONFIG[sound] = "--enable-canberra,--disable-canberra,canberra,"
+ 
++inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'desktop', 'mime-xdg', '', d)}
++
+ EXTRA_OECONF = " \
+     --disable-gpm \
+     --disable-gtktest \
+@@ -134,6 +138,11 @@ do_install() {
+ 	# delete the block.
+ 	sed -i '/the mouse works just fine/,+4d' ${D}/${datadir}/${BPN}/vimrc
+     fi
++
++    if ${@bb.utils.contains('PACKAGECONFIG', 'desktop', 'false', 'true', d)}; then
++        rm -f ${D}${datadir}/applications/vim.desktop
++        rm -f ${D}${datadir}/applications/gvim.desktop
++    fi
+ }
+ 
+ PARALLEL_MAKEINST = ""
+-- 
+2.35.6
+
 
