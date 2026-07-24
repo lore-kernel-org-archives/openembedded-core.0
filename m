@@ -2,78 +2,76 @@ Return-Path: <asparmar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFFCC4453D
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 04:40:37 +0000 (UTC)
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12755.1784868029711075031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 900E8C531C9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 04:40:39 +0000 (UTC)
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13046.1784868030038088066
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2026 21:40:29 -0700
+ Thu, 23 Jul 2026 21:40:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=CWxXg+DA;
- spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=HvSrpN9G;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6424; q=dns/txt;
-  s=iport01; t=1784868029; x=1786077629;
+  d=cisco.com; i=@cisco.com; l=10285; q=dns/txt;
+  s=iport01; t=1784868030; x=1786077630;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=OlV7pn2F7dDKuzSuNfHfulHS9p+/Ul0B7in5r3vvBgk=;
-  b=CWxXg+DAExL03E7trDJrZ+RmZD5c20f93yS2AMTZDetmhjauq8CnBQvp
-   +pat+NA1h3PPOjLcHPU3W1UJEsj2Fa04E6NkSgupTYmv7oeKr9QPZmx+J
-   C2al21tMnnD7rQ/a8fWdl1Pt/u4Yg8GtQBFNu2ronLaPQ41jCjBxCOtAy
-   mHIo5oLJ8ogZ1LIhehKWUCebeV80KBWSzpPbhafGLsF4QM6QE7bz+kbrm
-   M9yP6jeQxgPLHl7OAO32YTI5sndqSmFnaGFlliALRbrJ1L8J0QF6HL7O0
-   OL/82l60eVBaUrMC6K+oLjRhCSISw7LoUFI7xYsTs8daqhv1Skx7wgPnK
+  bh=uaNlIXA65Uu91GG93NQTsUhvzg15y9387vnIIlAimKw=;
+  b=HvSrpN9GUDaPOfbmE7/fIXYWMEViSdo1PwC36XRaB37/JwojlJWf6crc
+   1zhEB/VGledPzfbubxnWVpXpeDCyeNw/4P94ExNyfk/rP6uzIuqxeJMUC
+   4sJQ8DCnbGpwQXLA9ei4sefEFsTqfFan+PufjjUilJukxkUuCt2xmKPUZ
+   5sf3HrIuENBp4/+PczXR2dOf3P2Wa81L5ej9cNuhXNWmk96MXPHbaS6V2
+   xoH5DFNOCF2QQhM4+dja5WFBAIIl47boq36g1aaT9Dwb49q8oIAuyT2+a
+   iaq/dusSVzt8RcQssMpUhH6k8gWBAzJyW5sCh+ArXRoif/o+cAa4wiEcG
    g==;
-X-CSE-ConnectionGUID: hWFYpmOhQn+gXMkOnTHN+w==
-X-CSE-MsgGUID: jHhvywjxSPGTInSeIOu/Pw==
-X-IPAS-Result: =?us-ascii?q?A0BIAgAb62Jq/5L/Ja1aglmCV3RfQkkDlkcDnhuBfg8BA?=
- =?us-ascii?q?QEPRA0EAQGFBQKNXwImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDYZaAQIBAycLARgBLRAcAwECLysjCBAJgwIBgnQCARHBKho3gXkzg?=
- =?us-ascii?q?QGDKAGBVNsuAQsUAQWBM4U/iCBcGAGCSYIzJxsbgXKBFYE7gi6BBYFcAgOBJ?=
- =?us-ascii?q?CGGXQSCInoSgVcDHpA2SIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EMG?=
- =?us-ascii?q?wcFgR2BLHmEVyMfAzl/gS91SnctaQESF4Emg0kCgTcDCxgNSBEsNxQZBD5uB?=
- =?us-ascii?q?41rI4IgIAEebwErF2gZgRSldqEPCiiDdYwhj0KFeBozhASUF5JRC5h9glmLM?=
- =?us-ascii?q?ZU0gRyEaYFoPIFZcBWDIglKGQ+OLQsLg2CFE8UnJDUCCQMvAQEHAgcOAwuBa?=
- =?us-ascii?q?JAAAiYHgU8BAQ?=
-IronPort-Data: A9a23:64JN9ajDTIVMrLOZV6MB41j0X161MREKZh0ujC45NGQN5FlHY01je
- htvC26Fa/eCYjShfd1xbo/k901Uv5+EnNQ1SFZvryo9En5jpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeCULOZ82QsaDxMtPjf8E8HUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUYxchGGWRp9
- cUeaz89SxOkgd6W5vGkH7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgl/5JEWxI9EglH2aCVRslecv4I84nPYy0p6172F3N/9J4XWG58IwxbEz
- o7A12bZAg8LK96P8gKqzlOqveLuuj68YJ1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFm8HY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn2891te5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:SdC04q0Glf13vIxuCyie/gqjBGokLtp133Aq2lEZdPWaSKOlfq
- eV7ZMmPHDP6Qr5NEtMpTnEAtjjfZq+z+8Q3WBuB9eftWDd0QPCRr2Kr7GSpgEIcBeRygcy78
- tdmoFFebvN5CBB/KXHyTj9Nco8y9+a963tr+Lfw3BxCTxOUchbnn5E4sLxKDwMeOGAbqBJbK
- ah2g==
-X-Talos-CUID: =?us-ascii?q?9a23=3AHX/ZKWpOHIfGX6nfImBw1SvmUcAaXEzFyVDQGkn?=
- =?us-ascii?q?7BlZMS5qTdX+2u7wxxg=3D=3D?=
-X-Talos-MUID: 9a23:8JXtYwbfBfZKXuBTtR/smiB9NtdT24uSKUY2nLQhpo68Knkl
+X-CSE-ConnectionGUID: cy9Ea7d3RY+zeHtJOoaYbA==
+X-CSE-MsgGUID: zmQEoyZYTsyJ3KFQzPwSQg==
+X-IPAS-Result: =?us-ascii?q?A0BIAgAQ7GJq/5D/Ja1aHgEBCxIMggULgld0X0JJA5ZHA?=
+ =?us-ascii?q?4ETkDeMURSBag8BAQEPRA0EAQGFBQKNXwImNAkOAQIEAwIDAQEBAQEBAQEBA?=
+ =?us-ascii?q?QELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBAzIBGAEtEBwDAQIvKyMIGYMCAYJ0A?=
+ =?us-ascii?q?gERwSMaN4IsgQGDKAGBVNsuAQsUAQWBM4U/iCBcGAGEfCcbG4FygRWBO4E4d?=
+ =?us-ascii?q?oEFgVwCA4EghwIEgiJ6EoFaHoEdgkiMUUiBHgNZLAFVEw0KCwcFgWYDNRIqF?=
+ =?us-ascii?q?W4yHYEjPheBDBsHBYEdgSx5hFcjHwM5f4EvdUp3LWkBEheBJoNJAoE3AwsYD?=
+ =?us-ascii?q?UgRLDcUGQQ+bgeNUhkjgggxBwZNKBMBKgEXeg8UHVtOkmAJOZIGgTWfWgoog?=
+ =?us-ascii?q?3WMIZU6GjOEBJQXklELmH2OCpU2LC1BhGmBaDyBWXAVgyIJShkPjioDCwuDY?=
+ =?us-ascii?q?IUTxSckNQIJAy8BAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:Sys8gak8OylG1Wn9WsB2xljo5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xIdCGGAaa3YY2Pwc91yOd7lphkO6MOBydNhG1Bp/y82EVtH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZC31GONgWYubDpLsf7b9HuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FYYJq8t+Xm0Vz
+ 81bOj0tcjKkgOuHypvuH4GAhux7RCXqFJkUtnclyXTSCuwrBMicBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTZj/7C7pm9AusrnDkazRCrVuPjaE2+GPUigd21dABNfKII4DRGJsExhvwS
+ mTu7WHALxYLBu2j0iunqVGCv/33ghjCV9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cEXhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:GXC1hKDgpGtwBe7lHel055DYdb4zR+YMi2TDGXofdfUzSL3+qy
+ nAppUmPHPP5Qr5HUtQ++xoW5PwJU80i6QU3WB5B97LN2PbUSmTXeRfBODZrQEIdReTygd179
+ YHT0EHMqySMXFKyeDn/QK/D9EshPOD8KyumKPi6k0Fd3ASV0mlhD0JcTpy1SZNNXF7OaY=
+X-Talos-CUID: 9a23:/MkRG2CDmUy/WPb6EyJ2pWMdRcx+SEye3nrwP22fDm9YQpTAHA==
+X-Talos-MUID: 9a23:WRsInQQWrdugwhfuRXT+gQhPM9Za0pi1GWJWsrs/qfGbDhV/bmI=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,181,1779148800"; 
-   d="scan'208";a="514625584"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Jul 2026 04:40:28 +0000
+   d="scan'208";a="514356905"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Jul 2026 04:40:29 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 80D8C18000480;
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id E2304180003D8;
 	Fri, 24 Jul 2026 04:40:28 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 2C8E7CBF203; Thu, 23 Jul 2026 21:40:28 -0700 (PDT)
+	id 37403CBEF8A; Thu, 23 Jul 2026 21:40:28 -0700 (PDT)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Ashishkumar Parmar <asparmar@cisco.com>
-Subject: [OE-core][wrynose][PATCH v3 4/6] rsync: Fix CVE-2026-43620
-Date: Thu, 23 Jul 2026 21:39:12 -0700
-Message-Id: <20260724043914.4061351-4-asparmar@cisco.com>
+Subject: [OE-core][wrynose][PATCH v3 6/6] rsync: Fix CVE-2026-45232
+Date: Thu, 23 Jul 2026 21:39:14 -0700
+Message-Id: <20260724043914.4061351-6-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260724043914.4061351-1-asparmar@cisco.com>
 References: <20260724043914.4061351-1-asparmar@cisco.com>
@@ -82,169 +80,287 @@ Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 04:40:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241882
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 04:40:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241883
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
 This patch applies the upstream v3.4.3 backport for
-CVE-2026-43620. The upstream fix commit is referenced in [1],
+CVE-2026-45232. The upstream fix commit is referenced in [1],
 and the public CVE advisory is referenced in [2].
 
-[1] https://github.com/RsyncProject/rsync/commit/0cf200ecbb8baaf58070d825c4fbd892b4a63b69
-[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-28pw-r563-rxvm
+[1] https://github.com/RsyncProject/rsync/commit/a5fc5ebe7a8ef1aa72f6e344599f97fd4427ecba
+[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-8f85-j2cv-59m8
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
 Changes in v2:
 - No changes made; rebase only.
 
- .../rsync/files/CVE-2026-43620.patch          | 122 ++++++++++++++++++
+ .../rsync/files/CVE-2026-45232.patch          | 240 ++++++++++++++++++
  meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   1 +
- 2 files changed, 123 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
+ 2 files changed, 241 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-45232.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch b/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-45232.patch b/meta/recipes-devtools/rsync/files/CVE-2026-45232.patch
 new file mode 100644
-index 0000000000..2852b74b8d
+index 0000000000..544793bd1d
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
-@@ -0,0 +1,122 @@
-+From 271771f089f5f7acff5cce1ca3242849b0f6a6a0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-45232.patch
+@@ -0,0 +1,240 @@
++From de47c801a8083f1913e149c6ee6d0e864b728995 Mon Sep 17 00:00:00 2001
 +From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Tue, 5 May 2026 16:48:16 +1000
-+Subject: [PATCH] receiver: add parent_ndx<0 guard, mirroring 797e17f
++Date: Wed, 13 May 2026 20:35:35 +1000
++Subject: [PATCH] socket: reject over-long proxy response line
 +
-+Commit 797e17f ("fixed an invalid access to files array") added a
-+parent_ndx < 0 guard to send_files() in sender.c, but the visually-
-+identical block in recv_files() in receiver.c was not updated. A
-+malicious rsync:// server can therefore drive any connecting client
-+into the same out-of-bounds dir_flist->files[-1] read followed by a
-+file_struct dereference in f_name() one line later.
++fixes a one byte stack overflow when using RSYNC_PROXY with a
++malicious proxy.
 +
-+Reach: protocol-30+ default (inc_recurse) makes flist.c:2745 set
-+parent_ndx = -1 on the first received flist when the sender omits a
-+leading "." entry; rsync.c flist_for_ndx() does not reject ndx == 0
-+in that state because the range check evaluates 0 < 0 = false; and
-+read_ndx_and_attrs() only validates ndx with the ITEM_TRANSFER bit
-+set, so iflags=ITEM_IS_NEW (or any other non-transfer iflag word)
-+bypasses the check.
++Reach: only when RSYNC_PROXY is set and a malicious or MITM'd
++proxy returns the pathological response.  The byte written is
++always '\0' and the attacker doesn't choose the offset, so impact
++is corruption of one adjacent stack byte and possible later
++misbehaviour or crash -- no information disclosure beyond the
++existing rprintf of buffer contents.
 +
-+Apply the same guard receiver-side. Confirmed: the same PoC (a
-+minimal Python rsyncd that handshakes with CF_INC_RECURSE, sends a
-+no-leading-"." flist, and emits ndx=0 with ITEM_IS_NEW) crashes
-+unpatched 3.4.2 with SEGV_MAPERR si_addr=0x4101a-class in the
-+receiver child; with this guard it exits cleanly with code 2
-+(RERR_PROTOCOL).
++Reported by Aisle Research via Michal Ruprich
 +
-+The attack surface delta over the sender variant is large:
-+the original was malicious-client -> daemon, this is
-+malicious-server -> any rsync client doing a normal rsync://
-+or remote-shell pull.
++CVE: CVE-2026-45232
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/a5fc5ebe7a8ef1aa72f6e344599f97fd4427ecba]
 +
-+Reported by Pratham Gupta (alchemy1729).
-+
-+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-+
-+CVE: CVE-2026-43620
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/0cf200ecbb8baaf58070d825c4fbd892b4a63b69]
-+
-+(cherry picked from commit 0cf200ecbb8baaf58070d825c4fbd892b4a63b69)
++(cherry picked from commit a5fc5ebe7a8ef1aa72f6e344599f97fd4427ecba)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ generator.c | 4 ++++
-+ io.c        | 3 +++
-+ receiver.c  | 7 ++++++-
-+ sender.c    | 2 ++
-+ 4 files changed, 15 insertions(+), 1 deletion(-)
++ socket.c                                    |  30 +++--
++ testsuite/proxy-response-line-too-long.test | 128 ++++++++++++++++++++
++ 2 files changed, 145 insertions(+), 13 deletions(-)
++ create mode 100755 testsuite/proxy-response-line-too-long.test
 +
-+diff --git a/generator.c b/generator.c
-+index 311e9b78..89f99db4 100644
-+--- a/generator.c
-++++ b/generator.c
-+@@ -2146,6 +2146,8 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
-+ 			if (send_failed)
-+ 				ndx = get_hlink_num();
-+ 			flist = flist_for_ndx(ndx, "check_for_finished_files.1");
-++			if (ndx < flist->ndx_start)
-++				exit_cleanup(RERR_PROTOCOL);
-+ 			file = flist->files[ndx - flist->ndx_start];
-+ 			assert(file->flags & FLAG_HLINKED);
-+ 			if (send_failed)
-+@@ -2174,6 +2176,8 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
++diff --git a/socket.c b/socket.c
++index c2075adf..6a8f6f4a 100644
++--- a/socket.c
+++++ b/socket.c
++@@ -47,21 +47,23 @@ static struct sigaction sigact;
 + 
-+ 			flist = cur_flist;
-+ 			cur_flist = flist_for_ndx(ndx, "check_for_finished_files.2");
-++			if (ndx < cur_flist->ndx_start)
-++				exit_cleanup(RERR_PROTOCOL);
++ static int sock_exec(const char *prog);
 + 
-+ 			file = cur_flist->files[ndx - cur_flist->ndx_start];
-+ 			if (solo_file)
-+diff --git a/io.c b/io.c
-+index bb60eeca..c654a7ba 100644
-+--- a/io.c
-++++ b/io.c
-+@@ -1090,6 +1090,9 @@ static void got_flist_entry_status(enum festatus status, int ndx)
-+ {
-+ 	struct file_list *flist = flist_for_ndx(ndx, "got_flist_entry_status");
-+ 
-++	if (ndx < flist->ndx_start)
-++		exit_cleanup(RERR_PROTOCOL);
+++#define PROXY_BUF_SIZE 1024
 ++
-+ 	if (remove_source_files) {
-+ 		active_filecnt--;
-+ 		active_bytecnt -= F_LENGTH(flist->files[ndx - flist->ndx_start]);
-+diff --git a/receiver.c b/receiver.c
-+index a487ad5a..3fa68d71 100644
-+--- a/receiver.c
-++++ b/receiver.c
-+@@ -467,7 +467,10 @@ static void handle_delayed_updates(char *local_name)
-+ static void no_batched_update(int ndx, BOOL is_redo)
++ /* Establish a proxy connection on an open socket to a web proxy by using the
++  * CONNECT method.  If proxy_user and proxy_pass are not NULL, they are used to
++  * authenticate to the proxy using the "Basic" proxy-authorization protocol. */
++ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_user, char *proxy_pass)
 + {
-+ 	struct file_list *flist = flist_for_ndx(ndx, "no_batched_update");
-+-	struct file_struct *file = flist->files[ndx - flist->ndx_start];
-++	struct file_struct *file;
-++	if (ndx < flist->ndx_start)
-++		exit_cleanup(RERR_PROTOCOL);
-++	file = flist->files[ndx - flist->ndx_start];
++-	char *cp, buffer[1024];
++-	char *authhdr, authbuf[1024];
+++	char *cp, buffer[PROXY_BUF_SIZE + 1];
+++	char *authhdr, authbuf[PROXY_BUF_SIZE + 1];
++ 	int len;
 + 
-+ 	rprintf(FERROR_XFER, "(No batched update for%s \"%s\")\n",
-+ 		is_redo ? " resend of" : "", f_name(file, NULL));
-+@@ -604,6 +607,8 @@ int recv_files(int f_in, int f_out, char *local_name)
++ 	if (proxy_user && proxy_pass) {
++-		stringjoin(buffer, sizeof buffer,
+++		stringjoin(buffer, PROXY_BUF_SIZE,
++ 			 proxy_user, ":", proxy_pass, NULL);
++ 		len = strlen(buffer);
 + 
-+ 		if (ndx - cur_flist->ndx_start >= 0)
-+ 			file = cur_flist->files[ndx - cur_flist->ndx_start];
-++		else if (cur_flist->parent_ndx < 0)
-++			exit_cleanup(RERR_PROTOCOL);
-+ 		else
-+ 			file = dir_flist->files[cur_flist->parent_ndx];
-+ 		fname = local_name ? local_name : f_name(file, fbuf);
-+diff --git a/sender.c b/sender.c
-+index 99f431fe..033f87e5 100644
-+--- a/sender.c
-++++ b/sender.c
-+@@ -140,6 +140,8 @@ void successful_send(int ndx)
-+ 		return;
++-		if ((len*8 + 5) / 6 >= (int)sizeof authbuf - 3) {
+++		if ((len*8 + 5) / 6 >= PROXY_BUF_SIZE - 3) {
++ 			rprintf(FERROR,
++ 				"authentication information is too long\n");
++ 			return -1;
++@@ -74,14 +76,14 @@ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_
++ 		authhdr = "";
++ 	}
 + 
-+ 	flist = flist_for_ndx(ndx, "successful_send");
-++	if (ndx < flist->ndx_start)
-++		exit_cleanup(RERR_PROTOCOL);
-+ 	file = flist->files[ndx - flist->ndx_start];
-+ 	if (!change_pathname(file, NULL, 0))
-+ 		return;
++-	len = snprintf(buffer, sizeof buffer, "CONNECT %s:%d HTTP/1.0%s%s\r\n\r\n", host, port, authhdr, authbuf);
++-	assert(len > 0 && len < (int)sizeof buffer);
+++	len = snprintf(buffer, PROXY_BUF_SIZE, "CONNECT %s:%d HTTP/1.0%s%s\r\n\r\n", host, port, authhdr, authbuf);
+++	assert(len > 0 && len < PROXY_BUF_SIZE);
++ 	if (write(fd, buffer, len) != len) {
++ 		rsyserr(FERROR, errno, "failed to write to proxy");
++ 		return -1;
++ 	}
++ 
++-	for (cp = buffer; cp < &buffer[sizeof buffer - 1]; cp++) {
+++	for (cp = buffer; cp < &buffer[PROXY_BUF_SIZE - 1]; cp++) {
++ 		if (read(fd, cp, 1) != 1) {
++ 			rsyserr(FERROR, errno, "failed to read from proxy");
++ 			return -1;
++@@ -90,11 +92,13 @@ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_
++ 			break;
++ 	}
++ 
++-	if (*cp != '\n')
++-		cp++;
++-	*cp-- = '\0';
++-	if (*cp == '\r')
++-		*cp = '\0';
+++	if (cp == &buffer[PROXY_BUF_SIZE - 1]) {
+++		rprintf(FERROR, "proxy response line too long\n");
+++		return -1;
+++	}
+++	*cp = '\0';
+++	if (cp > buffer && cp[-1] == '\r')
+++		cp[-1] = '\0';
++ 	if (strncmp(buffer, "HTTP/", 5) != 0) {
++ 		rprintf(FERROR, "bad response from proxy -- %s\n",
++ 			buffer);
++@@ -110,7 +114,7 @@ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_
++ 	}
++ 	/* throw away the rest of the HTTP header */
++ 	while (1) {
++-		for (cp = buffer; cp < &buffer[sizeof buffer - 1]; cp++) {
+++		for (cp = buffer; cp < &buffer[PROXY_BUF_SIZE]; cp++) {
++ 			if (read(fd, cp, 1) != 1) {
++ 				rsyserr(FERROR, errno,
++ 					"failed to read from proxy");
++diff --git a/testsuite/proxy-response-line-too-long.test b/testsuite/proxy-response-line-too-long.test
++new file mode 100755
++index 00000000..7f55c43b
++--- /dev/null
+++++ b/testsuite/proxy-response-line-too-long.test
++@@ -0,0 +1,128 @@
+++#!/bin/sh
+++
+++# Copyright (C) 2026 by Andrew Tridgell
+++
+++# This program is distributable under the terms of the GNU GPL (see
+++# COPYING).
+++
+++# Regression test for the off-by-one stack OOB write in
+++# establish_proxy_connection() in socket.c when a malicious or
+++# man-in-the-middle HTTP proxy returns a first response line of
+++# 1023+ bytes without a '\n' terminator.
+++#
+++# Pre-fix: the read loop walked buffer[0..sizeof-2] one byte at a
+++# time, then post-loop logic did "if (*cp != '\n') cp++; *cp-- =
+++# '\0';".  If no newline arrived before the loop filled the buffer,
+++# cp was left at &buffer[sizeof-1] (never written by the loop),
+++# *cp held stale stack bytes, and cp++ pushed cp one past the array.
+++# The null-termination then wrote one byte out of bounds on the
+++# stack.  AddressSanitizer reports stack-buffer-overflow at the
+++# null-termination site.
+++#
+++# Post-fix: the bound-exhaustion case is detected by position and
+++# rejected with an "proxy response line too long" message, so no
+++# OOB write occurs and rsync exits with a non-signal status.
+++
+++. "$suitedir/rsync.fns"
+++
+++command -v python3 >/dev/null 2>&1 || test_skipped "python3 not available"
+++
+++workdir="$scratchdir/workdir"
+++mkdir -p "$workdir"
+++cd "$workdir"
+++
+++port_file="$workdir/port"
+++proxy_log="$workdir/proxy.log"
+++
+++# A minimal TCP listener: binds to an ephemeral port on 127.0.0.1,
+++# writes the chosen port to $port_file *before* accept() so the test
+++# can synchronise without a sleep, accepts one connection, reads
+++# until end-of-headers or 64 KiB, sends exactly 1023 bytes of 'X'
+++# with no '\n', then closes.
+++python3 - "$port_file" >"$proxy_log" 2>&1 <<'PYEOF' &
+++import socket, sys, os
+++port_file = sys.argv[1]
+++s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+++s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+++s.bind(("127.0.0.1", 0))
+++port = s.getsockname()[1]
+++tmp = port_file + ".tmp"
+++with open(tmp, "w") as fp:
+++    fp.write("%d\n" % port)
+++os.rename(tmp, port_file)   # atomic visibility to the shell side
+++s.listen(1)
+++conn, _ = s.accept()
+++conn.settimeout(5)
+++try:
+++    data = b""
+++    while b"\r\n\r\n" not in data and len(data) < 65536:
+++        chunk = conn.recv(8192)
+++        if not chunk:
+++            break
+++        data += chunk
+++except socket.timeout:
+++    pass
+++conn.sendall(b"X" * 1023)    # exactly the buffer-1 trigger size
+++try:
+++    conn.shutdown(socket.SHUT_RDWR)
+++except OSError:
+++    pass
+++conn.close()
+++s.close()
+++PYEOF
+++proxy_pid=$!
+++
+++# Wait up to ~10s for the listener to publish its port.
+++i=0
+++while [ ! -s "$port_file" ] && [ $i -lt 10 ]; do
+++    sleep 1
+++    i=$((i + 1))
+++done
+++
+++if [ ! -s "$port_file" ]; then
+++    kill "$proxy_pid" 2>/dev/null
+++    cat "$proxy_log" >&2 2>/dev/null
+++    test_fail "proxy listener never published a port"
+++fi
+++
+++port=`cat "$port_file"`
+++case "$port" in
+++    *[!0-9]*|"") kill "$proxy_pid" 2>/dev/null; test_fail "bogus port from listener: '$port'" ;;
+++esac
+++
+++# Run rsync through the malicious proxy.  Any rsync:// URL works:
+++# the proxy intercepts the CONNECT and never forwards anywhere.
+++rsync_err="$workdir/rsync.err"
+++
+++# rsync MUST exit non-zero here (the proxy is misbehaving).
+++# Use `|| status=$?` so we capture the real exit code under `sh -e`;
+++# `if ! cmd; then status=$?` would only ever see 0 because the `!`
+++# is the last command before `$?`.
+++status=0
+++RSYNC_PROXY="127.0.0.1:$port" \
+++    $RSYNC rsync://example.invalid:873/whatever/ "$workdir/out/" \
+++    >/dev/null 2>"$rsync_err" || status=$?
+++
+++# Reap the listener.
+++wait "$proxy_pid" 2>/dev/null || true
+++
+++# 1. rsync must not have crashed (SIGSEGV/SIGABRT report >= 128).
+++if [ "$status" -ge 128 ]; then
+++    cat "$rsync_err" >&2
+++    test_fail "rsync killed by signal (status=$status) -- possible stack OOB regression"
+++fi
+++
+++# 2. rsync must have actually exited non-zero (i.e. saw the bad proxy).
+++if [ "$status" -eq 0 ]; then
+++    cat "$rsync_err" >&2
+++    test_fail "rsync returned success despite malformed proxy response"
+++fi
+++
+++# 3. The new error message must appear.
+++if ! grep -q "proxy response line too long" "$rsync_err"; then
+++    cat "$rsync_err" >&2
+++    test_fail "expected 'proxy response line too long' in rsync stderr"
+++fi
+++
+++echo "OK: over-long proxy response line rejected cleanly without crashing"
+++exit 0
 diff --git a/meta/recipes-devtools/rsync/rsync_3.4.1.bb b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-index f84f269692..2145d4ce7e 100644
+index d0d57defe8..2744b3a80f 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.4.1.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://CVE-2026-43619_p5.patch \
-            file://CVE-2026-43619_p6.patch \
+@@ -29,6 +29,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
             file://CVE-2026-43618.patch \
-+           file://CVE-2026-43620.patch \
+            file://CVE-2026-43620.patch \
+            file://CVE-2026-43617.patch \
++           file://CVE-2026-45232.patch \
             "
  SRC_URI[sha256sum] = "2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf69850d65fd88c52"
  
