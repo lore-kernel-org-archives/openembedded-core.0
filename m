@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324B8C53200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2299DC53213
 	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 05:43:13 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13277.1784871785769885949
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13551.1784871785450927280
  for <openembedded-core@lists.openembedded.org>;
  Thu, 23 Jul 2026 22:43:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=J9+ntCGb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rSfk1yPE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019f92a6103d-1b1d1884-203a-4c0f-89e0-ebb803212e3c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MMunYsbP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rSl65d9q;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f92a60fe2-a89e43c2-4b96-4750-8f4a-341fb42f3ea5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1784871785;
+	t=1784871784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=u41DOx5X/GybjE2U6ntQ93IUTeUBHMTbf1/3WZSLq9w=;
-	b=J9+ntCGbyl9wknrQOgYsX+3RpoDxT06TApgEkf0QGIzAjr7ncggDQg9wu+MuvxXG
-	CLym3n9Ic51cQpTF/afsqCZQYj6VpJPxW7UDK8dLT0wuHYM26xBF9yUUjGN2Y+ul9JG
-	Is36FOKxg+g/OEXwAEz+NChc8VkHJf8fgWnZhGrI=
+	bh=1TL9wvoKWUtthzjW8u48h2jWiqGgVfjlBIOr9Bk7vxk=;
+	b=MMunYsbPsHUtfancwMrvDalB2FxkoVG7xkYZtMQo/c5wv6XBhozjEUMombJJr7Yq
+	m2WNSgsNlGHe4MC8Ll9P6waRnT/8y6n1dAzHhNAfvnUSnZSNLHsLKHkKa14ehueaA8Y
+	lcGpcD7vHJ4YkBUgoKKaJ1bqC7Fe9L0JvDG+jWYE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784871785;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784871784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=u41DOx5X/GybjE2U6ntQ93IUTeUBHMTbf1/3WZSLq9w=;
-	b=rSfk1yPEi2TSTI+MoI6mRRe9AD6armAvnCK7pTYmUKvVQ+tgi4kq/wTW52BnblAU
-	bxaqWAMXIBUWf+88MmW5hcGzULsUaSqq0ZDvt8fjkNCbg1lP2Y4+k6SEdy+QGQECgAW
-	kk8fbE9v/K0/92Bulqtn4c95UfORhdd/s8/WMJw8=
-Content-Type: multipart/mixed; boundary="===============2995961614592280671=="
+	bh=1TL9wvoKWUtthzjW8u48h2jWiqGgVfjlBIOr9Bk7vxk=;
+	b=rSl65d9q/zbmvWFbkH0k4URIVvQ5SA4a8tCFOCw5iX+oXxDeZkj5LO/0WPZeF/gl
+	4a/UZx+PRPDwqWspV6dwxJnz9aQ2FeEvXGG0HuGWZIriQMZSFzmsz5JR6pRmaLsaDtt
+	hIxH7DA8TTS5/jhA4geF4GxY9OuJjpuRF9TI6k6g=
+Content-Type: multipart/mixed; boundary="===============6484912062429291029=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnupg: upgrading to 2.5.21 SUCCEEDED
-Message-ID: <0101019f92a6103d-1b1d1884-203a-4c0f-89e0-ebb803212e3c-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-uv-build: upgrading to 0.11.32 SUCCEEDED
+Message-ID: <0101019f92a60fe2-a89e43c2-4b96-4750-8f4a-341fb42f3ea5-000000@us-west-2.amazonses.com>
 Date: Fri, 24 Jul 2026 05:43:04 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.24-54.240.27.33
+X-SES-Outgoing: 2026.07.24-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 05:43:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241896
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241895
 
---===============2995961614592280671==
+--===============6484912062429291029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gnupg* to *2.5.21* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-uv-build* to *0.11.32* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gnupg-upgrade-2.5.20-2.5.21.patch
+    - apply the patch: git am 0001-python3-uv-build-upgrade-0.11.29-0.11.32.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,839 +72,369 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From cbb4c197516cff9f1a59025545b93183e62b7013 Mon Sep 17 00:00:00 2001
+From 9eafdd87d8d05bad9bda9caf9fcc4185a91972c5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 24 Jul 2026 05:40:12 +0000
-Subject: [PATCH] gnupg: upgrade 2.5.20 -> 2.5.21
+Date: Fri, 24 Jul 2026 05:35:37 +0000
+Subject: [PATCH] python3-uv-build: upgrade 0.11.29 -> 0.11.32
 
-Source: ChangeLog
-
-2026-07-02  Werner Koch  <wk@gnupg.org>
-
-	Release 2.5.21.
-	+ commit 363096d9c9a973ac8dcad8ee4efd479f50add290
-
-2026-06-30  Werner Koch  <wk@gnupg.org>
-
-	speedo: Create a pkgversioninfo.txt file.
-	+ commit 8716b4dac4a79b600d18847b8bc0193bd06e1fc1
-	* build-aux/mk-sbom.sh: New.  Taken from gpg4win and extended.
-	* Makefile.am (EXTRA_DIST): Add it.
-	* build-aux/speedo.mk (gnupg_ver_this): Use sed to extract version.
-	(gnupg_commit_id): new.
-	(00-unpack): Call mk-sbom.sh.
-	(clean-pkg-versions: Clear version files.
-	($(bdir)/pkgversioninfo.txt): New.
-	(all-speedo,installer): Depend on above.
-	(dist-source): Exclude autom4te.cache just in case
-	* build-aux/speedo/w32/inst.nsi: Install pkgversioninfo.txt.
-
-2026-06-30  NIIBE Yutaka  <gniibe@fsij.org>
-
-	scd: Fix condition to retrieve ATR.
-	+ commit ca25a7a61bebbe4e27dd5568c5b049675b7aa4ae
-	* scd/app.c (atr_to_cardtype): Call apdu_get_atr when ATR is NULL.
-
-2026-06-29  Werner Koch  <wk@gnupg.org>
-
-	speedo: Fix passing configure args to w32 builds.
-	+ commit 7af73849a5dbbc5c70e43c3a3f5d70c639c80ab4
-	* build-aux/speedo.mk (pkgcfg): Use correct number of dollar signs.
-
-	common: Prepare to get rid of map_w32_to_errno.
-	+ commit bf808091534f587e8cdacf351b0e7ba060165fd8
-	* common/sysutils.c (gnupg_w32_set_errno): Use gpgrt function if
-	  available.
-
-	agent: Make batch import of Kyber keys work.
-	+ commit 4fca79b67bba04bc5ef2a4402e948c01821ceac5
-	* agent/command.c (cmd_import_key): Allow --unattended also for
-	  composite keys.
-
-2026-06-26  NIIBE Yutaka  <gniibe@fsij.org>
-
-	dirmngr: Add a validation check in get_dns_cert_standard.
-	+ commit c3ec7678799a161b9265969e7ad3fd59605b18ab
-	* dirmngr/dns-stuff.c (get_dns_cert_standard): Validate the length.
-
-2026-06-19  NIIBE Yutaka  <gniibe@fsij.org>
-
-	build: Update ldap.m4 for POSIX with no LDAP_DEPRECATED.
-	+ commit d3822099fdd4d84323afae4bacaadfeab9cb3e27
-	* m4/ldap.m4: Check ldap_err2string, instead.
-
-2026-06-18  Werner Koch  <wk@gnupg.org>
-
-	gpgsm: Require a minimum tag length for GCM decryption.
-	+ commit 4c7e68cf3d335328821bdbb70db309a60d0e4fd4
-	* sm/decrypt.c (gpgsm_decrypt): Require a minimum authtaglen.
-
-2026-06-18  NIIBE Yutaka  <gniibe@fsij.org>
-
-	w32:common: Fix usleep in w32_wait_when_sharing_violation.
-	+ commit ab9ce5f5e775a3a6a37923299685ac371f740103
-	* common/sysutils.c (w32_wait_when_sharing_violation): WTIME is
-	in milliseconds.
-
-2026-06-17  Philip Le  <philip.le@gnupg.com>
-
-	gpg: Fix copy_signature.
-	+ commit 56e11ffe971d5cc58185b4e8d02b82dc432c634b
-	* g10/free-packet.c (copy_signature): Set the signers_uid of the new
-	copy to NULL if it is not present in the source signature.
-
-	gpg: Use the INT_RCP_FPR subpacket in revocation signatures.
-	+ commit 9e0e5547d2a008332873a9b632f82f9414ad887f
-	* common/openpgpdefs.h (sigsubpkttype_t): Add Intended Recipient
-	Fingerprint signature subpacket.
-	* g10/build-packet.c (build_sig_subpkt): Build the Intended Recipient
-	Fingerprint signature subpacket for v4 and v5 keys.
-	* g10/free-packet.c (fre
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
 ---
- ...erride-init-is-not-needed-with-gcc-9.patch |  2 +-
- ...-a-custom-value-for-the-location-of-.patch |  6 +--
- ...use-pkgconfig-instead-of-npth-config.patch |  2 +-
- .../gnupg/gnupg/CVE-2026-57062.patch          | 43 -------------------
- .../gnupg/gnupg/relocate.patch                | 18 ++++----
- .../{gnupg_2.5.20.bb => gnupg_2.5.21.bb}      |  4 +-
- 6 files changed, 16 insertions(+), 59 deletions(-)
- delete mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
- rename meta/recipes-support/gnupg/{gnupg_2.5.20.bb => gnupg_2.5.21.bb} (95%)
+ .../python/python3-uv-build-crates.inc        | 32 +++++++++----------
+ ...0.11.29.bb => python3-uv-build_0.11.32.bb} |  2 +-
+ 2 files changed, 17 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/python/{python3-uv-build_0.11.29.bb => python3-uv-build_0.11.32.bb} (92%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-index b48db40970..7a3fa59c54 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-@@ -1,4 +1,4 @@
--From 9b7ef8aa1a5d71fc95f36a92874d3faa4579fc4e Mon Sep 17 00:00:00 2001
-+From 46db1301b1b71f47aa131b9a3de9d1cf356cf408 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Dec 2018 17:37:48 -0800
- Subject: [PATCH] Woverride-init is not needed with gcc 9
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index bfee9c9904..1c7cd7ba7b 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From 84a16d46a72a2501cbe3a4a83ea7f8393ada4038 Mon Sep 17 00:00:00 2001
-+From fd060f524e50c7c3f8694f71630ac151627235f1 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-uv-build-crates.inc b/meta/recipes-devtools/python/python3-uv-build-crates.inc
+index f1de38878c..c0839045bd 100644
+--- a/meta/recipes-devtools/python/python3-uv-build-crates.inc
++++ b/meta/recipes-devtools/python/python3-uv-build-crates.inc
+@@ -28,7 +28,7 @@ SRC_URI += " \
+     crate://crates.io/bumpalo/3.20.2 \
+     crate://crates.io/bytecheck/0.8.2 \
+     crate://crates.io/bytecheck_derive/0.8.2 \
+-    crate://crates.io/bytes/1.12.0 \
++    crate://crates.io/bytes/1.12.1 \
+     crate://crates.io/bzip2/0.5.2 \
+     crate://crates.io/bzip2-sys/0.1.13+1.0.8 \
+     crate://crates.io/cc/1.2.57 \
+@@ -103,9 +103,9 @@ SRC_URI += " \
+     crate://crates.io/is_terminal_polyfill/1.70.2 \
+     crate://crates.io/itertools/0.14.0 \
+     crate://crates.io/itoa/1.0.17 \
+-    crate://crates.io/jiff/0.2.31 \
+-    crate://crates.io/jiff-static/0.2.31 \
+-    crate://crates.io/jiff-tzdb/0.1.6 \
++    crate://crates.io/jiff/0.2.32 \
++    crate://crates.io/jiff-static/0.2.32 \
++    crate://crates.io/jiff-tzdb/0.1.8 \
+     crate://crates.io/jiff-tzdb-platform/0.1.3 \
+     crate://crates.io/jobserver/0.1.35 \
+     crate://crates.io/js-sys/0.3.91 \
+@@ -120,7 +120,7 @@ SRC_URI += " \
+     crate://crates.io/lzma-sys/0.1.20 \
+     crate://crates.io/mailparse/0.16.1 \
+     crate://crates.io/matchers/0.2.0 \
+-    crate://crates.io/memchr/2.8.2 \
++    crate://crates.io/memchr/2.8.3 \
+     crate://crates.io/miniz_oxide/0.8.9 \
+     crate://crates.io/mio/1.2.0 \
+     crate://crates.io/munge/0.4.7 \
+@@ -159,8 +159,8 @@ SRC_URI += " \
+     crate://crates.io/ref-cast/1.0.25 \
+     crate://crates.io/ref-cast-impl/1.0.25 \
+     crate://crates.io/reflink-copy/0.1.30 \
+-    crate://crates.io/regex/1.12.4 \
+-    crate://crates.io/regex-automata/0.4.14 \
++    crate://crates.io/regex/1.13.0 \
++    crate://crates.io/regex-automata/0.4.15 \
+     crate://crates.io/regex-syntax/0.8.11 \
+     crate://crates.io/rend/0.5.3 \
+     crate://crates.io/rkyv/0.8.17 \
+@@ -235,7 +235,7 @@ SRC_URI += " \
+     crate://crates.io/url/2.5.8 \
+     crate://crates.io/utf8_iter/1.0.4 \
+     crate://crates.io/utf8parse/0.2.2 \
+-    crate://crates.io/uuid/1.23.4 \
++    crate://crates.io/uuid/1.23.5 \
+     crate://crates.io/valuable/0.1.1 \
+     crate://crates.io/version_check/0.9.5 \
+     crate://crates.io/vte/0.14.1 \
+@@ -313,7 +313,7 @@ SRC_URI[bstr-1.12.1.sha256sum] = "63044e1ae8e69f3b5a92c736ca6269b8d12fa7efe39bf3
+ SRC_URI[bumpalo-3.20.2.sha256sum] = "5d20789868f4b01b2f2caec9f5c4e0213b41e3e5702a50157d699ae31ced2fcb"
+ SRC_URI[bytecheck-0.8.2.sha256sum] = "0caa33a2c0edca0419d15ac723dff03f1956f7978329b1e3b5fdaaaed9d3ca8b"
+ SRC_URI[bytecheck_derive-0.8.2.sha256sum] = "89385e82b5d1821d2219e0b095efa2cc1f246cbf99080f3be46a1a85c0d392d9"
+-SRC_URI[bytes-1.12.0.sha256sum] = "8ae3f5d315924270530207e2a68396c3cc547f6dca3fbdca317cfb1a51edb593"
++SRC_URI[bytes-1.12.1.sha256sum] = "fc652a48c352aef3ea3aed32080501cf3ef6ed5da78602a020c991775b0aff04"
+ SRC_URI[bzip2-0.5.2.sha256sum] = "49ecfb22d906f800d4fe833b6282cf4dc1c298f5057ca0b5445e5c209735ca47"
+ SRC_URI[bzip2-sys-0.1.13+1.0.8.sha256sum] = "225bff33b2141874fe80d71e07d6eec4f85c5c216453dd96388240f96e1acc14"
+ SRC_URI[cc-1.2.57.sha256sum] = "7a0dd1ca384932ff3641c8718a02769f1698e7563dc6974ffd03346116310423"
+@@ -388,9 +388,9 @@ SRC_URI[insta-1.48.0.sha256sum] = "86f0f8fee8c926415c58d6ae43a08523a26faccb2323f
+ SRC_URI[is_terminal_polyfill-1.70.2.sha256sum] = "a6cb138bb79a146c1bd460005623e142ef0181e3d0219cb493e02f7d08a35695"
+ SRC_URI[itertools-0.14.0.sha256sum] = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
+ SRC_URI[itoa-1.0.17.sha256sum] = "92ecc6618181def0457392ccd0ee51198e065e016d1d527a7ac1b6dc7c1f09d2"
+-SRC_URI[jiff-0.2.31.sha256sum] = "ccfe6121cbe750cf81efa362d85c0bde7ea298ec43092d3a193baca59cdbd634"
+-SRC_URI[jiff-static-0.2.31.sha256sum] = "e165e897f662d428f3cd3828a919dbe067c2d42bb1031eede74ef9d27ecdedd2"
+-SRC_URI[jiff-tzdb-0.1.6.sha256sum] = "c900ef84826f1338a557697dc8fc601df9ca9af4ac137c7fb61d4c6f2dfd3076"
++SRC_URI[jiff-0.2.32.sha256sum] = "961d16382652bfdd8c6f68b223b26a8c93e0d475c672f414411db31c6c5c900e"
++SRC_URI[jiff-static-0.2.32.sha256sum] = "d0879bd39df99c4c5e2c6615ccc026391a423dde10532c573e6086eb94a802cc"
++SRC_URI[jiff-tzdb-0.1.8.sha256sum] = "142bd39932ad231f10513df9ab62661fead8719872150b7ad02a2df79f4e141e"
+ SRC_URI[jiff-tzdb-platform-0.1.3.sha256sum] = "875a5a69ac2bab1a891711cf5eccbec1ce0341ea805560dcd90b7a2e925132e8"
+ SRC_URI[jobserver-0.1.35.sha256sum] = "1c00acbd29eabad4a2392fa0e921c874934dbbf4194312ad20f04a0ed67a3cb3"
+ SRC_URI[js-sys-0.3.91.sha256sum] = "b49715b7073f385ba4bc528e5747d02e66cb39c6146efb66b781f131f0fb399c"
+@@ -405,7 +405,7 @@ SRC_URI[log-0.4.29.sha256sum] = "5e5032e24019045c762d3c0f28f5b6b8bbf38563a659083
+ SRC_URI[lzma-sys-0.1.20.sha256sum] = "5fda04ab3764e6cde78b9974eec4f779acaba7c4e84b36eca3cf77c581b85d27"
+ SRC_URI[mailparse-0.16.1.sha256sum] = "60819a97ddcb831a5614eb3b0174f3620e793e97e09195a395bfa948fd68ed2f"
+ SRC_URI[matchers-0.2.0.sha256sum] = "d1525a2a28c7f4fa0fc98bb91ae755d1e2d1505079e05539e35bc876b5d65ae9"
+-SRC_URI[memchr-2.8.2.sha256sum] = "88904434abc2901f197fe8cc55f0445e7ded921dba5911dad2e2b39b48e663c4"
++SRC_URI[memchr-2.8.3.sha256sum] = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
+ SRC_URI[miniz_oxide-0.8.9.sha256sum] = "1fa76a2c86f704bdb222d66965fb3d63269ce38518b83cb0575fca855ebb6316"
+ SRC_URI[mio-1.2.0.sha256sum] = "50b7e5b27aa02a74bac8c3f23f448f8d87ff11f92d3aac1a6ed369ee08cc56c1"
+ SRC_URI[munge-0.4.7.sha256sum] = "5e17401f259eba956ca16491461b6e8f72913a0a114e39736ce404410f915a0c"
+@@ -444,8 +444,8 @@ SRC_URI[redox_syscall-0.5.15.sha256sum] = "7e8af0dde094006011e6a740d487931943948
+ SRC_URI[ref-cast-1.0.25.sha256sum] = "f354300ae66f76f1c85c5f84693f0ce81d747e2c3f21a45fef496d89c960bf7d"
+ SRC_URI[ref-cast-impl-1.0.25.sha256sum] = "b7186006dcb21920990093f30e3dea63b7d6e977bf1256be20c3563a5db070da"
+ SRC_URI[reflink-copy-0.1.30.sha256sum] = "d9dd7ab4af0363d5ccfd2838d782a28196cf32a5cc2e4fe3c5dc83f2be588b8b"
+-SRC_URI[regex-1.12.4.sha256sum] = "f1292b7759ae1cb9ec195452d1390a074f0cd8541ab7a5a8c31cd6db45d4a6ba"
+-SRC_URI[regex-automata-0.4.14.sha256sum] = "6e1dd4122fc1595e8162618945476892eefca7b88c52820e74af6262213cae8f"
++SRC_URI[regex-1.13.0.sha256sum] = "2a0e75113e14dc5acb068cd0786884f214f1312650a3d36d269f5c4f3cdee8a2"
++SRC_URI[regex-automata-0.4.15.sha256sum] = "1f388202e4b80542a0921078cc23b6333bcf1409c1e3f86404cae4766a6131db"
+ SRC_URI[regex-syntax-0.8.11.sha256sum] = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
+ SRC_URI[rend-0.5.3.sha256sum] = "cadadef317c2f20755a64d7fdc48f9e7178ee6b0e1f7fce33fa60f1d68a276e6"
+ SRC_URI[rkyv-0.8.17.sha256sum] = "815cc8a37159a463064825246cadb07961e25cd9885908606f6d08a98d8f8874"
+@@ -520,7 +520,7 @@ SRC_URI[unscanny-0.1.0.sha256sum] = "e9df2af067a7953e9c3831320f35c1cc0600c30d44d
+ SRC_URI[url-2.5.8.sha256sum] = "ff67a8a4397373c3ef660812acab3268222035010ab8680ec4215f38ba3d0eed"
+ SRC_URI[utf8_iter-1.0.4.sha256sum] = "b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be"
+ SRC_URI[utf8parse-0.2.2.sha256sum] = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
+-SRC_URI[uuid-1.23.4.sha256sum] = "bf80a72845275afea99e7f2b434723d3bc7e38470fcd1c7ed39a599c73319a53"
++SRC_URI[uuid-1.23.5.sha256sum] = "ea5fab0d6c3c01ae70085a09cb03d4c7a1d6314e2b3e075392783396d724ca0a"
+ SRC_URI[valuable-0.1.1.sha256sum] = "ba73ea9cf16a25df0c8caa16c51acb937d5712a8429db78a3ee29d5dcacd3a65"
+ SRC_URI[version_check-0.9.5.sha256sum] = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
+ SRC_URI[vte-0.14.1.sha256sum] = "231fdcd7ef3037e8330d8e17e61011a2c244126acc0a982f4040ac3f9f0bc077"
+diff --git a/meta/recipes-devtools/python/python3-uv-build_0.11.29.bb b/meta/recipes-devtools/python/python3-uv-build_0.11.32.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-uv-build_0.11.29.bb
+rename to meta/recipes-devtools/python/python3-uv-build_0.11.32.bb
+index 202e7f1834..7f3487d25c 100644
+--- a/meta/recipes-devtools/python/python3-uv-build_0.11.29.bb
++++ b/meta/recipes-devtools/python/python3-uv-build_0.11.32.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
+                     file://crates/uv-pep508/License-Apache;md5=e23fadd6ceef8c618fc1c65191d846fa \
+                     file://crates/uv-pep508/License-BSD;md5=ef7a6027dc4c2389b9afad7e690274c7"
  
- diff --git a/configure.ac b/configure.ac
--index 023604b..c84442c 100644
-+index 5ac4d0b..09615c5 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1908,7 +1908,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-+@@ -1909,7 +1909,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-  
-  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
-  
-diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-index 90d53674d4..f4c9b2161a 100644
---- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-@@ -1,4 +1,4 @@
--From 0c3a09a95875e5744a910a0d3c93fa2e9dbe8c69 Mon Sep 17 00:00:00 2001
-+From b8a99b2d9caa05f54be25635e3b1687753fe7196 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:16:30 +0800
- Subject: [PATCH] use pkgconfig instead of npth config
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
-deleted file mode 100644
-index f298b6e9a8..0000000000
---- a/meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From d586f50ee849c8cbeaea47b50c64446c1becbf9b Mon Sep 17 00:00:00 2001
--From: Werner Koch <wk@gnupg.org>
--Date: Thu, 18 Jun 2026 10:51:34 +0200
--Subject: [PATCH] gpgsm: Require a minimum tag length for GCM decryption.
--
--* sm/decrypt.c (gpgsm_decrypt): Require a minimum authtaglen.
----
--
--Reported-by: Thai Duong <thai@calif.io>
--This is similar to OpenSSL's
--CVE-id: CVE-2026-34182
--
--CVE: CVE-2026-57062
--Upstream-Status: Backport [https://github.com/gpg/gnupg/commit/4c7e68cf3d335328821bdbb70db309a60d0e4fd4]
--
--Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-----
-- sm/decrypt.c | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/sm/decrypt.c b/sm/decrypt.c
--index 20fb96060..92a33c6e6 100644
----- a/sm/decrypt.c
--+++ b/sm/decrypt.c
--@@ -1447,7 +1447,14 @@ gpgsm_decrypt (ctrl_t ctrl, estream_t in_fp, estream_t out_fp)
--                 }
--               if (DBG_CRYPTO)
--                 log_printhex (authtag, authtaglen, "Authtag ...:");
---              rc = gcry_cipher_checktag (dfparm.hd, authtag, authtaglen);
--+              if (authtaglen < 12)
--+                {
--+                  log_info ("authentication tag is too short (%zu octets)\n",
--+                            authtaglen);
--+                  rc = gpg_error (GPG_ERR_CHECKSUM);
--+                }
--+              else
--+                rc = gcry_cipher_checktag (dfparm.hd, authtag, authtaglen);
--               xfree (authtag);
--               if (rc)
--                 log_error ("data is not authentic: %s\n", gpg_strerror (rc));
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index fedb7f6407..02f03386ec 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From 8d7658741da050f604bcf26f8a6c24a0b15df94b Mon Sep 17 00:00:00 2001
-+From c70694bd3e71cc1fec6ccb3ea0f694c3863ebd48 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 7 insertions(+), 7 deletions(-)
+-SRC_URI[sha256sum] = "7dd16d50366f410ae494a27be20b45206feeac37d99dc53abfa1a04410069b78"
++SRC_URI[sha256sum] = "906542262cf0e1f507d3e9bcf0a73afa9c9269daf261fbd5357a541b533b3c72"
  
- diff --git a/common/homedir.c b/common/homedir.c
--index d26ddd9..24224c0 100644
-+index 835f0ea..0a67a33 100644
- --- a/common/homedir.c
- +++ b/common/homedir.c
--@@ -1451,7 +1451,7 @@ gnupg_socketdir (void)
-+@@ -1526,7 +1526,7 @@ gnupg_socketdir (void)
-    if (!name)
-      {
-        unsigned int dummy;
-@@ -25,7 +25,7 @@ index d26ddd9..24224c0 100644
-        gpgrt_annotate_leaked_object (name);
-      }
-  
--@@ -1480,7 +1480,7 @@ gnupg_sysconfdir (void)
-+@@ -1555,7 +1555,7 @@ gnupg_sysconfdir (void)
-    if (dir)
-      return dir;
-    else
-@@ -34,7 +34,7 @@ index d26ddd9..24224c0 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1516,7 +1516,7 @@ gnupg_bindir (void)
-+@@ -1591,7 +1591,7 @@ gnupg_bindir (void)
-        return name;
-      }
-    else
-@@ -43,7 +43,7 @@ index d26ddd9..24224c0 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1543,7 +1543,7 @@ gnupg_libexecdir (void)
-+@@ -1618,7 +1618,7 @@ gnupg_libexecdir (void)
-        return name;
-      }
-    else
-@@ -52,7 +52,7 @@ index d26ddd9..24224c0 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1573,7 +1573,7 @@ gnupg_libdir (void)
-+@@ -1648,7 +1648,7 @@ gnupg_libdir (void)
-        return name;
-      }
-    else
-@@ -61,7 +61,7 @@ index d26ddd9..24224c0 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1604,7 +1604,7 @@ gnupg_datadir (void)
-+@@ -1679,7 +1679,7 @@ gnupg_datadir (void)
-        return name;
-      }
-    else
-@@ -70,7 +70,7 @@ index d26ddd9..24224c0 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1636,7 +1636,7 @@ gnupg_localedir (void)
-+@@ -1711,7 +1711,7 @@ gnupg_localedir (void)
-        return name;
-      }
-    else
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.20.bb b/meta/recipes-support/gnupg/gnupg_2.5.21.bb
-similarity index 95%
-rename from meta/recipes-support/gnupg/gnupg_2.5.20.bb
-rename to meta/recipes-support/gnupg/gnupg_2.5.21.bb
-index 4a72d8c8f0..e34c09fc8c 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.20.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.21.bb
-@@ -20,13 +20,13 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/ftp/gcrypt/gnupg/"
- SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
--           file://CVE-2026-57062.patch \
-+           file://relocate.patch \
-            "
- SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+ require ${BPN}-crates.inc
  
--SRC_URI[sha256sum] = "6461266e99c308419a379abe6c356d54c214136c4589bd65951091138989ffc6"
-+SRC_URI[sha256sum] = "e3af2c8caa46a66a9329fa7c6880af260451914d819595beabc2c26597b31352"
- 
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
 -- 
 2.47.1
 
 
---===============2995961614592280671==
+--===============6484912062429291029==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gnupg/gnupg-dbg: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-dbg: PKGSIZE changed from 22341944 to 22317736 (-0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-dbg: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-dev: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-dev: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-doc: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-doc: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-gpg: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-gpg: PKGSIZE changed from 1743880 to 1752072 (+0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-gpg: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ca: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ca: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-cs: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-cs: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-da: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-da: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-de: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-de: PKGSIZE changed from 248505 to 249118 (+0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-de: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-el: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-el: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+boldquot: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGSIZE changed from 226459 to 226925 (+0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+quot: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+quot: PKGSIZE changed from 224051 to 224509 (+0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+quot: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-eo: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-eo: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-es: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-es: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-et: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-et: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fi: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fi: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fr: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fr: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-gl: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-gl: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-hu: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-hu: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-id: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-id: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-it: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-it: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ja: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ja: PKGSIZE changed from 255837 to 256047 (+0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ja: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ka: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ka: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nb: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nb: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nl: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nl: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pl: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pl: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pt: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pt: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ro: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ro: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ru: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ru: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sk: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sk: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sv: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sv: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-tr: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-tr: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-uk: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-uk: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-cn: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-cn: PKGSIZE changed from 218937 to 218941 (+0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-cn: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-tw: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-tw: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-src: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-src: PKGSIZE changed from 9173821 to 9187027 (+0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg-src: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg-src: FILELIST: directory renamed /usr/src/debug/gnupg/2.5.20/regexp -> /usr/src/debug/gnupg/2.5.21/regexp, directory renamed /usr/src/debug/gnupg/2.5.20/kbx -> /usr/src/debug/gnupg/2.5.21/kbx, directory renamed /usr/src/debug/gnupg/2.5.20/dirmngr -> /usr/src/debug/gnupg/2.5.21/dirmngr, directory renamed /usr/src/debug/gnupg/2.5.20/common -> /usr/src/debug/gnupg/2.5.21/common, directory renamed /usr/src/debug/gnupg/2.5.20/tools -> /usr/src/debug/gnupg/2.5.21/tools, directory renamed /usr/src/debug/gnupg/2.5.20/agent -> /usr/src/debug/gnupg/2.5.21/agent, directory renamed /usr/src/debug/gnupg/2.5.20/g10 -> /usr/src/debug/gnupg/2.5.21/g10, directory renamed /usr/src/debug/gnupg/2.5.20/sm -> /usr/src/debug/gnupg/2.5.21/sm, directory renamed /usr/src/debug/gnupg/2.5.20/scd -> /usr/src/debug/gnupg/2.5.21/scd
-packages/x86-64-v3-poky-linux/gnupg/gnupg-staticdev: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg-staticdev: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg/gnupg: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg/gnupg: PKGSIZE changed from 4770308 to 4766340 (-0%)
-packages/x86-64-v3-poky-linux/gnupg/gnupg: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg: PV changed from "2.5.20" to "2.5.21"
-packages/x86-64-v3-poky-linux/gnupg: PKGV changed from 2.5.20 [default] to 2.5.21 [default]
-packages/x86-64-v3-poky-linux/gnupg: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.20.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch file://CVE-2026-57062.patch" to "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.21.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch file://relocate.patch"
+packages/x86-64-v3-poky-linux/python3-uv-build: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.11.29.tar.gz;downloadfilename=uv_build-0.11.29.tar.gz crate://crates.io/adler2/2.0.1 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/anstream/1.0.0 crate://crates.io/anstyle/1.0.14 crate://crates.io/anstyle-parse/1.0.0 crate://crates.io/anstyle-query/1.1.5 crate://crates.io/anstyle-wincon/3.0.11 crate://crates.io/anyhow/1.0.103 crate://crates.io/arcstr/1.2.0 crate://crates.io/arrayvec/0.7.8 crate://crates.io/astral-tokio-tar/0.6.3 crate://crates.io/astral-version-ranges/0.2.1 crate://crates.io/astral_async_zip/0.0.20 crate://crates.io/async-compression/0.4.19 crate://crates.io/autocfg/1.5.0 crate://crates.io/backon/1.6.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.13.0 crate://crates.io/block-buffer/0.10.4 crate://crates.io/boxcar/0.2.14 crate://crates
+ .io/bstr/1.12.1 crate://crates.io/bumpalo/3.20.2 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytes/1.12.0 crate://crates.io/bzip2/0.5.2 crate://crates.io/bzip2-sys/0.1.13+1.0.8 crate://crates.io/cc/1.2.57 crate://crates.io/cfg-if/1.0.4 crate://crates.io/charset/0.1.5 crate://crates.io/clap/4.6.1 crate://crates.io/clap_builder/4.6.0 crate://crates.io/clap_derive/4.6.1 crate://crates.io/clap_lex/1.1.0 crate://crates.io/colorchoice/1.0.5 crate://crates.io/console/0.16.4 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/crc32fast/1.5.0 crate://crates.io/crypto-common/0.1.7 crate://crates.io/csv/1.4.0 crate://crates.io/csv-core/0.1.13 crate://crates.io/data-encoding/2.11.0 crate://crates.io/defmt/1.1.0 crate://crates.io/defmt-macros/1.1.0 crate://crates.io/defmt-parser/1.0.0 crate://crates.io/digest/0.10.7 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.20 crate://crates.io/either/1.16.
+ 0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/equivalent/1.0.2 crate://crates.io/erased-serde/0.4.10 crate://crates.io/errno/0.3.14 crate://crates.io/fastrand/2.4.1 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.9 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/fs-err/3.3.1 crate://crates.io/futures/0.3.32 crate://crates.io/futures-channel/0.3.32 crate://crates.io/futures-core/0.3.32 crate://crates.io/futures-executor/0.3.32 crate://crates.io/futures-io/0.3.32 crate://crates.io/futures-lite/2.6.1 crate://crates.io/futures-macro/0.3.32 crate://crates.io/futures-sink/0.3.32 crate://crates.io/futures-task/0.3.32 crate://crates.io/futures-util/0.3.32 crate://crates.io/generic-array/0.14.7 c
+ rate://crates.io/getrandom/0.4.3 crate://crates.io/globset/0.4.18 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.17.1 crate://crates.io/heck/0.5.0 crate://crates.io/hex/0.4.3 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.2 crate://crates.io/icu_properties_data/2.1.2 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/indexmap/2.14.0 crate://crates.io/indoc/2.0.7 crate://crates.io/insta/1.48.0 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.17 crate://crates.io/jiff/0.2.31 crate://crates.io/jiff-static/0.2.31 crate://crates.io/jiff-tzdb/0.1.6 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.35 crate://crates.io/js-sys/0.3.91 cr
+ ate://crates.io/junction/2.0.0 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/linux-raw-sys/0.4.15 crate://crates.io/linux-raw-sys/0.12.1 crate://crates.io/litemap/0.8.1 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.29 crate://crates.io/lzma-sys/0.1.20 crate://crates.io/mailparse/0.16.1 crate://crates.io/matchers/0.2.0 crate://crates.io/memchr/2.8.2 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.2.0 crate://crates.io/munge/0.4.7 crate://crates.io/munge_macro/0.4.7 crate://crates.io/nu-ansi-term/0.50.3 crate://crates.io/once_cell/1.21.4 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/owo-colors/4.3.0 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/path-slash/0.2.1 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.6 crate://crates.io/pest_derive/2.8.6 crate://crates.io/pest_generator/2.8.6 crate://crates.io/pe
+ st_meta/2.8.6 crate://crates.io/petgraph/0.8.3 crate://crates.io/pin-project/1.1.11 crate://crates.io/pin-project-internal/1.1.11 crate://crates.io/pin-project-lite/0.2.17 crate://crates.io/pkg-config/0.3.32 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/portable-atomic-util/0.2.6 crate://crates.io/potential_utf/0.1.4 crate://crates.io/proc-macro-error-attr2/2.0.0 crate://crates.io/proc-macro-error2/2.0.1 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/ptr_meta/0.3.1 crate://crates.io/ptr_meta_derive/0.3.1 crate://crates.io/quote/1.0.46 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/6.0.0 crate://crates.io/rancor/0.1.1 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/ref-cast/1.0.25 crate://crates.io/ref-cast-impl/1.0.25 crate://crates.io/reflink-copy/0.1.30 crate://crates.io/regex/1.12.4 crate://crates.io/regex-automata/0.4.14 crate://crates.io/regex-syntax/0.8.11 crate://crates.io/rend/0.5.3 crate://crates.io/rkyv/0.8.17 crate://crates
+ .io/rkyv_derive/0.8.17 crate://crates.io/rustc-hash/2.1.3 crate://crates.io/rustix/0.38.44 crate://crates.io/rustix/1.1.4 crate://crates.io/rustversion/1.0.22 crate://crates.io/ryu/1.0.23 crate://crates.io/same-file/1.0.6 crate://crates.io/schemars/1.2.1 crate://crates.io/schemars_derive/1.2.1 crate://crates.io/scopeguard/1.2.0 crate://crates.io/seahash/4.1.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/serde/1.0.228 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.228 crate://crates.io/serde_derive/1.0.228 crate://crates.io/serde_derive_internals/0.29.1 crate://crates.io/serde_json/1.0.150 crate://crates.io/serde_spanned/1.1.1 crate://crates.io/sha2/0.10.9 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.8 crate://crates.io/simd-adler32/0.3.8 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/slab/0.4.12 crate://crates.io/smallvec/1.15.2 crate://crates.io/sm
+ awk/0.3.2 crate://crates.io/spdx/0.13.4 crate://crates.io/stable_deref_trait/1.2.1 crate://crates.io/strip-ansi-escapes/0.2.1 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.118 crate://crates.io/synstructure/0.13.2 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.27.0 crate://crates.io/terminal_size/0.4.4 crate://crates.io/textwrap/0.16.2 crate://crates.io/thiserror/2.0.18 crate://crates.io/thiserror-impl/2.0.18 crate://crates.io/thread_local/1.1.9 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinyvec/1.11.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.52.3 crate://crates.io/tokio-macros/2.7.0 crate://crates.io/tokio-stream/0.1.18 crate://crates.io/tokio-util/0.7.18 crate://crates.io/toml/1.1.2+spec-1.1.0 crate://crates.io/toml_datetime/1.1.1+spec-1.1.0 crate://crates.io/toml_edit/0.25.12+spec-1.1.0 crate://crates.io/toml_parser/1.1.2+spec-1.1.0 crate://crates.io/toml_writer/1.1.1+spec-1.1.0 crate://crates.io/tracing/0.1.44 crate://cra
+ tes.io/tracing-attributes/0.1.31 crate://crates.io/tracing-core/0.1.36 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-subscriber/0.3.23 crate://crates.io/tracing-test/0.2.6 crate://crates.io/tracing-test-macro/0.2.6 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.20.1 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/unicode-linebreak/0.1.5 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unscanny/0.1.0 crate://crates.io/url/2.5.8 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.23.4 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/vte/0.14.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasm-bindgen/0.2.114 crate://crates.io/wasm-bindgen-macro/0.2.114 crate://crates.io/wasm-bindgen-macro-support/0.2.114 crate://crates.io/wasm-bindgen-shared/0.2.114 crate://crates.io/winap
+ i-util/0.1.11 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-numerics/0.2.0 crate://crates.io/windows-result/0.3.4 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/winnow/1.0.
+ 3 crate://crates.io/writeable/0.6.2 crate://crates.io/xattr/1.6.1 crate://crates.io/xz2/0.1.7 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zlib-rs/0.6.3 crate://crates.io/zmij/1.0.21 crate://crates.io/zstd/0.13.3 crate://crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.16+zstd.1.5.7" to "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.11.32.tar.gz;downloadfilename=uv_build-0.11.32.tar.gz crate://crates.io/adler2/2.0.1 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/anstream/1.0.0 crate://crates.io/anstyle/1.0.14 crate://crates.io/anstyle-parse/1.0.0 crate://crates.io/anstyle-query/1.1.5 crate://crates.io/anstyle-wincon/3.0.11 crate://crates.io/anyhow/1.0.103 crate://crates.io/arcstr/1.2.0 crate:
+ //crates.io/arrayvec/0.7.8 crate://crates.io/astral-tokio-tar/0.6.3 crate://crates.io/astral-version-ranges/0.2.1 crate://crates.io/astral_async_zip/0.0.20 crate://crates.io/async-compression/0.4.19 crate://crates.io/autocfg/1.5.0 crate://crates.io/backon/1.6.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.13.0 crate://crates.io/block-buffer/0.10.4 crate://crates.io/boxcar/0.2.14 crate://crates.io/bstr/1.12.1 crate://crates.io/bumpalo/3.20.2 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytes/1.12.1 crate://crates.io/bzip2/0.5.2 crate://crates.io/bzip2-sys/0.1.13+1.0.8 crate://crates.io/cc/1.2.57 crate://crates.io/cfg-if/1.0.4 crate://crates.io/charset/0.1.5 crate://crates.io/clap/4.6.1 crate://crates.io/clap_builder/4.6.0 crate://crates.io/clap_derive/4.6.1 crate://crates.io/clap_lex/1.1.0 crate://crates.io/colorchoice/1.0.5 crate://crates.io/console/0.16.4 crate://crates.io/cpufeatures/0
+ .2.17 crate://crates.io/crc32fast/1.5.0 crate://crates.io/crypto-common/0.1.7 crate://crates.io/csv/1.4.0 crate://crates.io/csv-core/0.1.13 crate://crates.io/data-encoding/2.11.0 crate://crates.io/defmt/1.1.0 crate://crates.io/defmt-macros/1.1.0 crate://crates.io/defmt-parser/1.0.0 crate://crates.io/digest/0.10.7 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.20 crate://crates.io/either/1.16.0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/equivalent/1.0.2 crate://crates.io/erased-serde/0.4.10 crate://crates.io/errno/0.3.14 crate://crates.io/fastrand/2.4.1 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.9 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/form_urlencoded/1.2.2 crate:
+ //crates.io/fs-err/3.3.1 crate://crates.io/futures/0.3.32 crate://crates.io/futures-channel/0.3.32 crate://crates.io/futures-core/0.3.32 crate://crates.io/futures-executor/0.3.32 crate://crates.io/futures-io/0.3.32 crate://crates.io/futures-lite/2.6.1 crate://crates.io/futures-macro/0.3.32 crate://crates.io/futures-sink/0.3.32 crate://crates.io/futures-task/0.3.32 crate://crates.io/futures-util/0.3.32 crate://crates.io/generic-array/0.14.7 crate://crates.io/getrandom/0.4.3 crate://crates.io/globset/0.4.18 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.17.1 crate://crates.io/heck/0.5.0 crate://crates.io/hex/0.4.3 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.2 crate://crates.io/icu_properties_data/2.1.2 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://cra
+ tes.io/idna_adapter/1.2.1 crate://crates.io/indexmap/2.14.0 crate://crates.io/indoc/2.0.7 crate://crates.io/insta/1.48.0 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.17 crate://crates.io/jiff/0.2.32 crate://crates.io/jiff-static/0.2.32 crate://crates.io/jiff-tzdb/0.1.8 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.35 crate://crates.io/js-sys/0.3.91 crate://crates.io/junction/2.0.0 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/linux-raw-sys/0.4.15 crate://crates.io/linux-raw-sys/0.12.1 crate://crates.io/litemap/0.8.1 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.29 crate://crates.io/lzma-sys/0.1.20 crate://crates.io/mailparse/0.16.1 crate://crates.io/matchers/0.2.0 crate://crates.io/memchr/2.8.3 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.2.0 crate://crates.io/munge/0.4.7 crate://crates.io/munge_macro/0.4.7 crate://crates.io/
+ nu-ansi-term/0.50.3 crate://crates.io/once_cell/1.21.4 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/owo-colors/4.3.0 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/path-slash/0.2.1 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.6 crate://crates.io/pest_derive/2.8.6 crate://crates.io/pest_generator/2.8.6 crate://crates.io/pest_meta/2.8.6 crate://crates.io/petgraph/0.8.3 crate://crates.io/pin-project/1.1.11 crate://crates.io/pin-project-internal/1.1.11 crate://crates.io/pin-project-lite/0.2.17 crate://crates.io/pkg-config/0.3.32 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/portable-atomic-util/0.2.6 crate://crates.io/potential_utf/0.1.4 crate://crates.io/proc-macro-error-attr2/2.0.0 crate://crates.io/proc-macro-error2/2.0.1 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/ptr_meta/0.3.1 crate://crates.io/ptr_meta_derive/0.3.1 crate://crates.io/qu
+ ote/1.0.46 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/6.0.0 crate://crates.io/rancor/0.1.1 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/ref-cast/1.0.25 crate://crates.io/ref-cast-impl/1.0.25 crate://crates.io/reflink-copy/0.1.30 crate://crates.io/regex/1.13.0 crate://crates.io/regex-automata/0.4.15 crate://crates.io/regex-syntax/0.8.11 crate://crates.io/rend/0.5.3 crate://crates.io/rkyv/0.8.17 crate://crates.io/rkyv_derive/0.8.17 crate://crates.io/rustc-hash/2.1.3 crate://crates.io/rustix/0.38.44 crate://crates.io/rustix/1.1.4 crate://crates.io/rustversion/1.0.22 crate://crates.io/ryu/1.0.23 crate://crates.io/same-file/1.0.6 crate://crates.io/schemars/1.2.1 crate://crates.io/schemars_derive/1.2.1 crate://crates.io/scopeguard/1.2.0 crate://crates.io/seahash/4.1.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/serde/1.0.228 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.228 crate://crates.io/serde_derive/1.0.228 crate:
+ //crates.io/serde_derive_internals/0.29.1 crate://crates.io/serde_json/1.0.150 crate://crates.io/serde_spanned/1.1.1 crate://crates.io/sha2/0.10.9 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.8 crate://crates.io/simd-adler32/0.3.8 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/slab/0.4.12 crate://crates.io/smallvec/1.15.2 crate://crates.io/smawk/0.3.2 crate://crates.io/spdx/0.13.4 crate://crates.io/stable_deref_trait/1.2.1 crate://crates.io/strip-ansi-escapes/0.2.1 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.118 crate://crates.io/synstructure/0.13.2 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.27.0 crate://crates.io/terminal_size/0.4.4 crate://crates.io/textwrap/0.16.2 crate://crates.io/thiserror/2.0.18 crate://crates.io/thiserror-impl/2.0.18 crate://crates.io/thread_local/1.1.9 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinyvec/1.11.0 crate://cr
+ ates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.52.3 crate://crates.io/tokio-macros/2.7.0 crate://crates.io/tokio-stream/0.1.18 crate://crates.io/tokio-util/0.7.18 crate://crates.io/toml/1.1.2+spec-1.1.0 crate://crates.io/toml_datetime/1.1.1+spec-1.1.0 crate://crates.io/toml_edit/0.25.12+spec-1.1.0 crate://crates.io/toml_parser/1.1.2+spec-1.1.0 crate://crates.io/toml_writer/1.1.1+spec-1.1.0 crate://crates.io/tracing/0.1.44 crate://crates.io/tracing-attributes/0.1.31 crate://crates.io/tracing-core/0.1.36 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-subscriber/0.3.23 crate://crates.io/tracing-test/0.2.6 crate://crates.io/tracing-test-macro/0.2.6 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.20.1 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/unicode-linebreak/0.1.5 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unscanny/0.1.0 crate://crates.io/url/2.5.8 crate://crates.io/utf8_iter/1.0.4 crate://cr
+ ates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.23.5 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/vte/0.14.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasm-bindgen/0.2.114 crate://crates.io/wasm-bindgen-macro/0.2.114 crate://crates.io/wasm-bindgen-macro-support/0.2.114 crate://crates.io/wasm-bindgen-shared/0.2.114 crate://crates.io/winapi-util/0.1.11 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-numerics/0.2.0 crate://crates.io/windows-result/0.3.4 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targ
+ ets/0.52.6 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/winnow/1.0.3 crate://crates.io/writeable/0.6.2 crate://crates.io/xattr/1.6.1 crate://crates.io/xz2/0.1.7 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zlib-rs/0.6.3 crate://crates.io/zmij/1.0.21 crate://crates.io/zstd/0.13.3 crate://crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.16+zstd.1.5.7"
+packages/x86-64-v3-poky-linux/python3-uv-build: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build: PV changed from "0.11.29" to "0.11.32"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PV changed from "0.11.29" to "0.11.32"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PV changed from "0.11.29" to "0.11.32"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PV changed from "0.11.29" to "0.11.32"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PV changed from "0.11.29" to "0.11.32"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PV changed from "0.11.29" to "0.11.32"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PV changed from "0.11.29" to "0.11.32"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGSIZE changed from 5360946 to 5365009 (+0%)
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uv_build-0.11.29.dist-info/licenses -> /usr/lib/python3.14/site-packages/uv_build-0.11.32.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uv_build-0.11.29.dist-info -> /usr/lib/python3.14/site-packages/uv_build-0.11.32.dist-info
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGV changed from 0.11.29 [default] to 0.11.32 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PV changed from "0.11.29" to "0.11.32"
+Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
+  /usr/lib/python3.14/site-packages/uv_build-0.11.29.dist-info moved to /usr/lib/python3.14/site-packages/uv_build-0.11.32.dist-info
 
---===============2995961614592280671==
+--===============6484912062429291029==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uv_build-0.11.29.dist-info/licenses -> /usr/lib/python3.14/site-packages/uv_build-0.11.32.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uv_build-0.11.29.dist-info -> /usr/lib/python3.14/site-packages/uv_build-0.11.32.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
+  /usr/lib/python3.14/site-packages/uv_build-0.11.29.dist-info moved to /usr/lib/python3.14/site-packages/uv_build-0.11.32.dist-info
+
+--===============6484912062429291029==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gnupg-upgrade-2.5.20-2.5.21.patch"
+ filename="0001-python3-uv-build-upgrade-0.11.29-0.11.32.patch"
 
-RnJvbSBjYmI0YzE5NzUxNmNmZjlmMWE1OTAyNTU0NWI5MzE4M2U2MmI3MDEzIE1vbiBTZXAgMTcg
+RnJvbSA5ZWFmZGQ4N2Q4ZDA1YmFkOWJkYTljYWY5ZmNjNDE4NWE5MTk3MmM1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjQgSnVsIDIwMjYgMDU6NDA6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bnVwZzogdXBncmFkZSAyLjUuMjAgLT4gMi41LjIxCgpTb3VyY2U6IENoYW5nZUxvZwoKMjAyNi0w
-Ny0wMiAgV2VybmVyIEtvY2ggIDx3a0BnbnVwZy5vcmc+CgoJUmVsZWFzZSAyLjUuMjEuCgkrIGNv
-bW1pdCAzNjMwOTZkOWM5YTk3M2FjOGRjYWQ4ZWU0ZWZkNDc5ZjUwYWRkMjkwCgoyMDI2LTA2LTMw
-ICBXZXJuZXIgS29jaCAgPHdrQGdudXBnLm9yZz4KCglzcGVlZG86IENyZWF0ZSBhIHBrZ3ZlcnNp
-b25pbmZvLnR4dCBmaWxlLgoJKyBjb21taXQgODcxNmI0ZGFjNGE3OWI2MDBkMTg4NDdiOGJjMDE5
-M2JkMDZlMWZjMQoJKiBidWlsZC1hdXgvbWstc2JvbS5zaDogTmV3LiAgVGFrZW4gZnJvbSBncGc0
-d2luIGFuZCBleHRlbmRlZC4KCSogTWFrZWZpbGUuYW0gKEVYVFJBX0RJU1QpOiBBZGQgaXQuCgkq
-IGJ1aWxkLWF1eC9zcGVlZG8ubWsgKGdudXBnX3Zlcl90aGlzKTogVXNlIHNlZCB0byBleHRyYWN0
-IHZlcnNpb24uCgkoZ251cGdfY29tbWl0X2lkKTogbmV3LgoJKDAwLXVucGFjayk6IENhbGwgbWst
-c2JvbS5zaC4KCShjbGVhbi1wa2ctdmVyc2lvbnM6IENsZWFyIHZlcnNpb24gZmlsZXMuCgkoJChi
-ZGlyKS9wa2d2ZXJzaW9uaW5mby50eHQpOiBOZXcuCgkoYWxsLXNwZWVkbyxpbnN0YWxsZXIpOiBE
-ZXBlbmQgb24gYWJvdmUuCgkoZGlzdC1zb3VyY2UpOiBFeGNsdWRlIGF1dG9tNHRlLmNhY2hlIGp1
-c3QgaW4gY2FzZQoJKiBidWlsZC1hdXgvc3BlZWRvL3czMi9pbnN0Lm5zaTogSW5zdGFsbCBwa2d2
-ZXJzaW9uaW5mby50eHQuCgoyMDI2LTA2LTMwICBOSUlCRSBZdXRha2EgIDxnbmlpYmVAZnNpai5v
-cmc+CgoJc2NkOiBGaXggY29uZGl0aW9uIHRvIHJldHJpZXZlIEFUUi4KCSsgY29tbWl0IGNhMjVh
-N2E2MWJlYmJlNGUyN2RkNTU2OGM1YjA0OTY3NWI3YWE0YWUKCSogc2NkL2FwcC5jIChhdHJfdG9f
-Y2FyZHR5cGUpOiBDYWxsIGFwZHVfZ2V0X2F0ciB3aGVuIEFUUiBpcyBOVUxMLgoKMjAyNi0wNi0y
-OSAgV2VybmVyIEtvY2ggIDx3a0BnbnVwZy5vcmc+CgoJc3BlZWRvOiBGaXggcGFzc2luZyBjb25m
-aWd1cmUgYXJncyB0byB3MzIgYnVpbGRzLgoJKyBjb21taXQgN2FmNzM4NDlhNWRiYmM1YzcwZTQz
-YzNhM2Y1ZDcwYzYzOWM4MGFiNAoJKiBidWlsZC1hdXgvc3BlZWRvLm1rIChwa2djZmcpOiBVc2Ug
-Y29ycmVjdCBudW1iZXIgb2YgZG9sbGFyIHNpZ25zLgoKCWNvbW1vbjogUHJlcGFyZSB0byBnZXQg
-cmlkIG9mIG1hcF93MzJfdG9fZXJybm8uCgkrIGNvbW1pdCBiZjgwODA5MTUzNGY1ODdlOGNkYWNm
-MzUxYjBlN2JhMDYwMTY1ZmQ4CgkqIGNvbW1vbi9zeXN1dGlscy5jIChnbnVwZ193MzJfc2V0X2Vy
-cm5vKTogVXNlIGdwZ3J0IGZ1bmN0aW9uIGlmCgkgIGF2YWlsYWJsZS4KCglhZ2VudDogTWFrZSBi
-YXRjaCBpbXBvcnQgb2YgS3liZXIga2V5cyB3b3JrLgoJKyBjb21taXQgNGZjYTc5YjY3YmJhMDRi
-YzVlZjJhNDQwMmU5NDhjMDE4MjFjZWFjNQoJKiBhZ2VudC9jb21tYW5kLmMgKGNtZF9pbXBvcnRf
-a2V5KTogQWxsb3cgLS11bmF0dGVuZGVkIGFsc28gZm9yCgkgIGNvbXBvc2l0ZSBrZXlzLgoKMjAy
-Ni0wNi0yNiAgTklJQkUgWXV0YWthICA8Z25paWJlQGZzaWoub3JnPgoKCWRpcm1uZ3I6IEFkZCBh
-IHZhbGlkYXRpb24gY2hlY2sgaW4gZ2V0X2Ruc19jZXJ0X3N0YW5kYXJkLgoJKyBjb21taXQgYzNl
-Yzc2Nzg3OTlhMTYxYjkyNjU5NjllN2FkM2ZkNTk2MDViMThhYgoJKiBkaXJtbmdyL2Rucy1zdHVm
-Zi5jIChnZXRfZG5zX2NlcnRfc3RhbmRhcmQpOiBWYWxpZGF0ZSB0aGUgbGVuZ3RoLgoKMjAyNi0w
-Ni0xOSAgTklJQkUgWXV0YWthICA8Z25paWJlQGZzaWoub3JnPgoKCWJ1aWxkOiBVcGRhdGUgbGRh
-cC5tNCBmb3IgUE9TSVggd2l0aCBubyBMREFQX0RFUFJFQ0FURUQuCgkrIGNvbW1pdCBkMzgyMjA5
-OWZkZDRkODQzMjNhZmFlNGJhY2FhZGZlYWI5Y2IzZTI3CgkqIG00L2xkYXAubTQ6IENoZWNrIGxk
-YXBfZXJyMnN0cmluZywgaW5zdGVhZC4KCjIwMjYtMDYtMTggIFdlcm5lciBLb2NoICA8d2tAZ251
-cGcub3JnPgoKCWdwZ3NtOiBSZXF1aXJlIGEgbWluaW11bSB0YWcgbGVuZ3RoIGZvciBHQ00gZGVj
-cnlwdGlvbi4KCSsgY29tbWl0IDRjN2U2OGNmM2QzMzUzMjg4MjFiZGJiNzBkYjMwOWE2MGQwZTRm
-ZDQKCSogc20vZGVjcnlwdC5jIChncGdzbV9kZWNyeXB0KTogUmVxdWlyZSBhIG1pbmltdW0gYXV0
-aHRhZ2xlbi4KCjIwMjYtMDYtMTggIE5JSUJFIFl1dGFrYSAgPGduaWliZUBmc2lqLm9yZz4KCgl3
-MzI6Y29tbW9uOiBGaXggdXNsZWVwIGluIHczMl93YWl0X3doZW5fc2hhcmluZ192aW9sYXRpb24u
-CgkrIGNvbW1pdCBhYjljZTVmNWU3NzVhM2E2YTM3OTIzMjk5Njg1YWMzNzFmNzQwMTAzCgkqIGNv
-bW1vbi9zeXN1dGlscy5jICh3MzJfd2FpdF93aGVuX3NoYXJpbmdfdmlvbGF0aW9uKTogV1RJTUUg
-aXMKCWluIG1pbGxpc2Vjb25kcy4KCjIwMjYtMDYtMTcgIFBoaWxpcCBMZSAgPHBoaWxpcC5sZUBn
-bnVwZy5jb20+CgoJZ3BnOiBGaXggY29weV9zaWduYXR1cmUuCgkrIGNvbW1pdCA1NmUxMWZmZTk3
-MWQ1Y2M1ODE4NWI0ZThkMDJiODJkYzQzMmM2MzRiCgkqIGcxMC9mcmVlLXBhY2tldC5jIChjb3B5
-X3NpZ25hdHVyZSk6IFNldCB0aGUgc2lnbmVyc191aWQgb2YgdGhlIG5ldwoJY29weSB0byBOVUxM
-IGlmIGl0IGlzIG5vdCBwcmVzZW50IGluIHRoZSBzb3VyY2Ugc2lnbmF0dXJlLgoKCWdwZzogVXNl
-IHRoZSBJTlRfUkNQX0ZQUiBzdWJwYWNrZXQgaW4gcmV2b2NhdGlvbiBzaWduYXR1cmVzLgoJKyBj
-b21taXQgOWUwZTU1NDdkMmEwMDgzMzI4NzNhOWI2MzJmODJmOTQxNGFkODg3ZgoJKiBjb21tb24v
-b3BlbnBncGRlZnMuaCAoc2lnc3VicGt0dHlwZV90KTogQWRkIEludGVuZGVkIFJlY2lwaWVudAoJ
-RmluZ2VycHJpbnQgc2lnbmF0dXJlIHN1YnBhY2tldC4KCSogZzEwL2J1aWxkLXBhY2tldC5jIChi
-dWlsZF9zaWdfc3VicGt0KTogQnVpbGQgdGhlIEludGVuZGVkIFJlY2lwaWVudAoJRmluZ2VycHJp
-bnQgc2lnbmF0dXJlIHN1YnBhY2tldCBmb3IgdjQgYW5kIHY1IGtleXMuCgkqIGcxMC9mcmVlLXBh
-Y2tldC5jIChmcmUKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0IGV4Y2VlZHMgMzAwMCBjaGFy
-YWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5kIGluIGFuIGF0dGFjaG1lbnQg
-dG8gdGhlIEFVSCBlbWFpbF0KLS0tCiAuLi5lcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgt
-Z2NjLTkucGF0Y2ggfCAgMiArLQogLi4uLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24t
-b2YtLnBhdGNoIHwgIDYgKy0tCiAuLi51c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25m
-aWcucGF0Y2ggfCAgMiArLQogLi4uL2dudXBnL2dudXBnL0NWRS0yMDI2LTU3MDYyLnBhdGNoICAg
-ICAgICAgIHwgNDMgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL2dudXBnL2dudXBnL3JlbG9jYXRl
-LnBhdGNoICAgICAgICAgICAgICAgIHwgMTggKysrKy0tLS0KIC4uLi97Z251cGdfMi41LjIwLmJi
-ID0+IGdudXBnXzIuNS4yMS5iYn0gICAgICB8ICA0ICstCiA2IGZpbGVzIGNoYW5nZWQsIDE2IGlu
-c2VydGlvbnMoKyksIDU5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL0NWRS0yMDI2LTU3MDYyLnBhdGNoCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcve2dudXBnXzIuNS4yMC5iYiA9PiBnbnVwZ18yLjUuMjEu
-YmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcv
-MDAwMS1Xb3ZlcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgtZ2NjLTkucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLVdvdmVycmlkZS1pbml0LWlzLW5vdC1u
-ZWVkZWQtd2l0aC1nY2MtOS5wYXRjaAppbmRleCBiNDhkYjQwOTcwLi43YTNmYTU5YzU0IDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLVdvdmVycmlkZS1p
-bml0LWlzLW5vdC1uZWVkZWQtd2l0aC1nY2MtOS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9nbnVwZy9nbnVwZy8wMDAxLVdvdmVycmlkZS1pbml0LWlzLW5vdC1uZWVkZWQtd2l0aC1n
-Y2MtOS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOWI3ZWY4YWExYTVkNzFmYzk1ZjM2YTky
-ODc0ZDNmYWE0NTc5ZmM0ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDZkYjEzMDFi
-MWI3MWY0N2FhMTMxYjlhM2RlOWQxY2YzNTZjZjQwOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDIwIERlYyAy
-MDE4IDE3OjM3OjQ4IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIFdvdmVycmlkZS1pbml0IGlzIG5v
-dCBuZWVkZWQgd2l0aCBnY2MgOQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251
-cGcvZ251cGcvMDAwMS1jb25maWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9j
-YXRpb24tb2YtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1j
-b25maWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24tb2YtLnBhdGNo
-CmluZGV4IGJmZWU5Yzk5MDQuLjFjN2NkN2JhN2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2dudXBnL2dudXBnLzAwMDEtY29uZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1m
-b3ItdGhlLWxvY2F0aW9uLW9mLS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVw
-Zy9nbnVwZy8wMDAxLWNvbmZpZ3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUtZm9yLXRoZS1sb2Nh
-dGlvbi1vZi0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDg0YTE2ZDQ2YTcyYTI1MDFjYmUz
-YTRhODNlYTdmODM5M2FkYTQwMzggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZkMDYw
-ZjUyNGU1MGM3YzNmODY5NGY3MTYzMGFjMTUxNjI3MjM1ZjEgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERh
-dGU6IE1vbiwgMjIgSmFuIDIwMTggMTg6MDA6MjEgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gY29u
-ZmlndXJlLmFjOiB1c2UgYSBjdXN0b20gdmFsdWUgZm9yIHRoZSBsb2NhdGlvbiBvZgpAQCAtMTMs
-MTAgKzEzLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
-aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCAw
-MjM2MDRiLi5jODQ0NDJjIDEwMDY0NAoraW5kZXggNWFjNGQwYi4uMDk2MTVjNSAxMDA2NDQKIC0t
-LSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCi1AQCAtMTkwOCw3ICsxOTA4LDcg
-QEAgQUNfREVGSU5FX1VOUVVPVEVEKEdQR0NPTkZfRElTUF9OQU1FLCAiR1BHQ29uZiIsCitAQCAt
-MTkwOSw3ICsxOTA5LDcgQEAgQUNfREVGSU5FX1VOUVVPVEVEKEdQR0NPTkZfRElTUF9OQU1FLCAi
-R1BHQ29uZiIsCiAgCiAgQUNfREVGSU5FX1VOUVVPVEVEKEdQR1RBUl9OQU1FLCAiZ3BndGFyIiwg
-W1RoZSBuYW1lIG9mIHRoZSBncGd0YXIgdG9vbF0pCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAyLXVzZS1wa2djb25maWctaW5zdGVhZC1vZi1ucHRo
-LWNvbmZpZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDItdXNl
-LXBrZ2NvbmZpZy1pbnN0ZWFkLW9mLW5wdGgtY29uZmlnLnBhdGNoCmluZGV4IDkwZDUzNjc0ZDQu
-LmY0YzliMjE2MWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBn
-LzAwMDItdXNlLXBrZ2NvbmZpZy1pbnN0ZWFkLW9mLW5wdGgtY29uZmlnLnBhdGNoCisrKyBiL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDItdXNlLXBrZ2NvbmZpZy1pbnN0ZWFk
-LW9mLW5wdGgtY29uZmlnLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwYzNhMDlhOTU4NzVl
-NTc0NGE5MTBhMGQzYzkzZmEyZTlkYmU4YzY5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSBiOGE5OWIyZDljYWEwNWY1NGJlMjU2MzVlM2IxNjg3NzUzZmU3MTk2IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogU2F1bCBXb2xkIDxzZ3dAbGludXguaW50ZWwuY29tPgogRGF0ZTog
-V2VkLCAxNiBBdWcgMjAxNyAxMToxNjozMCArMDgwMAogU3ViamVjdDogW1BBVENIXSB1c2UgcGtn
-Y29uZmlnIGluc3RlYWQgb2YgbnB0aCBjb25maWcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2dudXBnL2dudXBnL0NWRS0yMDI2LTU3MDYyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvZ251cGcvZ251cGcvQ1ZFLTIwMjYtNTcwNjIucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUg
-MTAwNjQ0CmluZGV4IGYyOThiNmU5YTguLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvZ251cGcvZ251cGcvQ1ZFLTIwMjYtNTcwNjIucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAt
-MSw0MyArMCwwIEBACi1Gcm9tIGQ1ODZmNTBlZTg0OWM4Y2JlYWVhNDdiNTBjNjQ0NDZjMWJlY2Jm
-OWIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBXZXJuZXIgS29jaCA8d2tAZ251cGcu
-b3JnPgotRGF0ZTogVGh1LCAxOCBKdW4gMjAyNiAxMDo1MTozNCArMDIwMAotU3ViamVjdDogW1BB
-VENIXSBncGdzbTogUmVxdWlyZSBhIG1pbmltdW0gdGFnIGxlbmd0aCBmb3IgR0NNIGRlY3J5cHRp
-b24uCi0KLSogc20vZGVjcnlwdC5jIChncGdzbV9kZWNyeXB0KTogUmVxdWlyZSBhIG1pbmltdW0g
-YXV0aHRhZ2xlbi4KLS0tCi0KLVJlcG9ydGVkLWJ5OiBUaGFpIER1b25nIDx0aGFpQGNhbGlmLmlv
-PgotVGhpcyBpcyBzaW1pbGFyIHRvIE9wZW5TU0wncwotQ1ZFLWlkOiBDVkUtMjAyNi0zNDE4Mgot
-Ci1DVkU6IENWRS0yMDI2LTU3MDYyCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczov
-L2dpdGh1Yi5jb20vZ3BnL2dudXBnL2NvbW1pdC80YzdlNjhjZjNkMzM1MzI4ODIxYmRiYjcwZGIz
-MDlhNjBkMGU0ZmQ0XQotCi1TaWduZWQtb2ZmLWJ5OiBSb2xhbmQgS292YWNzIDxyb2xhbmQua292
-YWNzQGVzdC50ZWNoPgotLS0tCi0gc20vZGVjcnlwdC5jIHwgOSArKysrKysrKy0KLSAxIGZpbGUg
-Y2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYgLS1naXQgYS9z
-bS9kZWNyeXB0LmMgYi9zbS9kZWNyeXB0LmMKLWluZGV4IDIwZmI5NjA2MC4uOTJhMzNjNmU2IDEw
-MDY0NAotLS0tIGEvc20vZGVjcnlwdC5jCi0rKysgYi9zbS9kZWNyeXB0LmMKLUBAIC0xNDQ3LDcg
-KzE0NDcsMTQgQEAgZ3Bnc21fZGVjcnlwdCAoY3RybF90IGN0cmwsIGVzdHJlYW1fdCBpbl9mcCwg
-ZXN0cmVhbV90IG91dF9mcCkKLSAgICAgICAgICAgICAgICAgfQotICAgICAgICAgICAgICAgaWYg
-KERCR19DUllQVE8pCi0gICAgICAgICAgICAgICAgIGxvZ19wcmludGhleCAoYXV0aHRhZywgYXV0
-aHRhZ2xlbiwgIkF1dGh0YWcgLi4uOiIpOwotLSAgICAgICAgICAgICAgcmMgPSBnY3J5X2NpcGhl
-cl9jaGVja3RhZyAoZGZwYXJtLmhkLCBhdXRodGFnLCBhdXRodGFnbGVuKTsKLSsgICAgICAgICAg
-ICAgIGlmIChhdXRodGFnbGVuIDwgMTIpCi0rICAgICAgICAgICAgICAgIHsKLSsgICAgICAgICAg
-ICAgICAgICBsb2dfaW5mbyAoImF1dGhlbnRpY2F0aW9uIHRhZyBpcyB0b28gc2hvcnQgKCV6dSBv
-Y3RldHMpXG4iLAotKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBhdXRodGFnbGVuKTsKLSsg
-ICAgICAgICAgICAgICAgICByYyA9IGdwZ19lcnJvciAoR1BHX0VSUl9DSEVDS1NVTSk7Ci0rICAg
-ICAgICAgICAgICAgIH0KLSsgICAgICAgICAgICAgIGVsc2UKLSsgICAgICAgICAgICAgICAgcmMg
-PSBnY3J5X2NpcGhlcl9jaGVja3RhZyAoZGZwYXJtLmhkLCBhdXRodGFnLCBhdXRodGFnbGVuKTsK
-LSAgICAgICAgICAgICAgIHhmcmVlIChhdXRodGFnKTsKLSAgICAgICAgICAgICAgIGlmIChyYykK
-LSAgICAgICAgICAgICAgICAgbG9nX2Vycm9yICgiZGF0YSBpcyBub3QgYXV0aGVudGljOiAlc1xu
-IiwgZ3BnX3N0cmVycm9yIChyYykpOwotLS0gCi0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvcmVsb2NhdGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxvY2F0ZS5wYXRjaAppbmRleCBmZWRiN2Y2NDA3Li4wMmYw
-MzM4NmVjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxv
-Y2F0ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxvY2F0
-ZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOGQ3NjU4NzQxZGEwNTBmNjA0YmNmMjZmOGE2
-YzI0YTBiMTVkZjk0YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzcwNjk0YmQzZTcx
-Y2MxZmVjNmNjYjNlYTBmNjk0YzM4NjNlYmQ0OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBXZWQsIDE5IFNl
-cCAyMDE4IDE0OjQ0OjQwICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFsbG93IHRoZSBlbnZpcm9u
-bWVudCB0byBvdmVycmlkZSB3aGVyZSBnbnVwZyBsb29rcyBmb3IgaXRzCkBAIC0xMywxMCArMTMs
-MTAgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5k
-ZT4KICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQogCiBk
-aWZmIC0tZ2l0IGEvY29tbW9uL2hvbWVkaXIuYyBiL2NvbW1vbi9ob21lZGlyLmMKLWluZGV4IGQy
-NmRkZDkuLjI0MjI0YzAgMTAwNjQ0CitpbmRleCA4MzVmMGVhLi4wYTY3YTMzIDEwMDY0NAogLS0t
-IGEvY29tbW9uL2hvbWVkaXIuYwogKysrIGIvY29tbW9uL2hvbWVkaXIuYwotQEAgLTE0NTEsNyAr
-MTQ1MSw3IEBAIGdudXBnX3NvY2tldGRpciAodm9pZCkKK0BAIC0xNTI2LDcgKzE1MjYsNyBAQCBn
-bnVwZ19zb2NrZXRkaXIgKHZvaWQpCiAgICBpZiAoIW5hbWUpCiAgICAgIHsKICAgICAgICB1bnNp
-Z25lZCBpbnQgZHVtbXk7CkBAIC0yNSw3ICsyNSw3IEBAIGluZGV4IGQyNmRkZDkuLjI0MjI0YzAg
-MTAwNjQ0CiAgICAgICAgZ3BncnRfYW5ub3RhdGVfbGVha2VkX29iamVjdCAobmFtZSk7CiAgICAg
-IH0KICAKLUBAIC0xNDgwLDcgKzE0ODAsNyBAQCBnbnVwZ19zeXNjb25mZGlyICh2b2lkKQorQEAg
-LTE1NTUsNyArMTU1NSw3IEBAIGdudXBnX3N5c2NvbmZkaXIgKHZvaWQpCiAgICBpZiAoZGlyKQog
-ICAgICByZXR1cm4gZGlyOwogICAgZWxzZQpAQCAtMzQsNyArMzQsNyBAQCBpbmRleCBkMjZkZGQ5
-Li4yNDIyNGMwIDEwMDY0NAogICNlbmRpZiAvKiFIQVZFX1czMl9TWVNURU0qLwogIH0KICAKLUBA
-IC0xNTE2LDcgKzE1MTYsNyBAQCBnbnVwZ19iaW5kaXIgKHZvaWQpCitAQCAtMTU5MSw3ICsxNTkx
-LDcgQEAgZ251cGdfYmluZGlyICh2b2lkKQogICAgICAgIHJldHVybiBuYW1lOwogICAgICB9CiAg
-ICBlbHNlCkBAIC00Myw3ICs0Myw3IEBAIGluZGV4IGQyNmRkZDkuLjI0MjI0YzAgMTAwNjQ0CiAg
-I2VuZGlmIC8qIUhBVkVfVzMyX1NZU1RFTSovCiAgfQogIAotQEAgLTE1NDMsNyArMTU0Myw3IEBA
-IGdudXBnX2xpYmV4ZWNkaXIgKHZvaWQpCitAQCAtMTYxOCw3ICsxNjE4LDcgQEAgZ251cGdfbGli
-ZXhlY2RpciAodm9pZCkKICAgICAgICByZXR1cm4gbmFtZTsKICAgICAgfQogICAgZWxzZQpAQCAt
-NTIsNyArNTIsNyBAQCBpbmRleCBkMjZkZGQ5Li4yNDIyNGMwIDEwMDY0NAogICNlbmRpZiAvKiFI
-QVZFX1czMl9TWVNURU0qLwogIH0KICAKLUBAIC0xNTczLDcgKzE1NzMsNyBAQCBnbnVwZ19saWJk
-aXIgKHZvaWQpCitAQCAtMTY0OCw3ICsxNjQ4LDcgQEAgZ251cGdfbGliZGlyICh2b2lkKQogICAg
-ICAgIHJldHVybiBuYW1lOwogICAgICB9CiAgICBlbHNlCkBAIC02MSw3ICs2MSw3IEBAIGluZGV4
-IGQyNmRkZDkuLjI0MjI0YzAgMTAwNjQ0CiAgI2VuZGlmIC8qIUhBVkVfVzMyX1NZU1RFTSovCiAg
-fQogIAotQEAgLTE2MDQsNyArMTYwNCw3IEBAIGdudXBnX2RhdGFkaXIgKHZvaWQpCitAQCAtMTY3
-OSw3ICsxNjc5LDcgQEAgZ251cGdfZGF0YWRpciAodm9pZCkKICAgICAgICByZXR1cm4gbmFtZTsK
-ICAgICAgfQogICAgZWxzZQpAQCAtNzAsNyArNzAsNyBAQCBpbmRleCBkMjZkZGQ5Li4yNDIyNGMw
-IDEwMDY0NAogICNlbmRpZiAvKiFIQVZFX1czMl9TWVNURU0qLwogIH0KICAKLUBAIC0xNjM2LDcg
-KzE2MzYsNyBAQCBnbnVwZ19sb2NhbGVkaXIgKHZvaWQpCitAQCAtMTcxMSw3ICsxNzExLDcgQEAg
-Z251cGdfbG9jYWxlZGlyICh2b2lkKQogICAgICAgIHJldHVybiBuYW1lOwogICAgICB9CiAgICBl
-bHNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjUuMjAu
-YmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjUuMjEuYmIKc2ltaWxhcml0
-eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGdf
-Mi41LjIwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjUu
-MjEuYmIKaW5kZXggNGE3MmQ4YzhmMC4uZTM0YzA5ZmM4YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZ251cGcvZ251cGdfMi41LjIwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2dudXBnL2dudXBnXzIuNS4yMS5iYgpAQCAtMjAsMTMgKzIwLDEzIEBAIFVQU1RSRUFNX0NI
-RUNLX1VSSSA9ICJodHRwczovL2dudXBnLm9yZy9mdHAvZ2NyeXB0L2dudXBnLyIKIFNSQ19VUkkg
-PSAiJHtHTlVQR19NSVJST1J9LyR7QlBOfS8ke0JQTn0tJHtQVn0udGFyLmJ6MiBcCiAgICAgICAg
-ICAgIGZpbGU6Ly8wMDAyLXVzZS1wa2djb25maWctaW5zdGVhZC1vZi1ucHRoLWNvbmZpZy5wYXRj
-aCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLVdvdmVycmlkZS1pbml0LWlzLW5vdC1uZWVkZWQt
-d2l0aC1nY2MtOS5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi01NzA2Mi5wYXRj
-aCBcCisgICAgICAgICAgIGZpbGU6Ly9yZWxvY2F0ZS5wYXRjaCBcCiAgICAgICAgICAgICIKIFNS
-Q19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmlsZTovLzAwMDEtY29uZmlndXJlLmFjLXVz
-ZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0aW9uLW9mLS5wYXRjaCBcCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9yZWxvY2F0ZS5wYXRjaCIKIFNSQ19VUkk6YXBw
-ZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgZmlsZTovL3JlbG9jYXRlLnBhdGNoIgogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiNjQ2MTI2NmU5OWMzMDg0MTlhMzc5YWJlNmMzNTZkNTRjMjE0MTM2YzQ1
-ODliZDY1OTUxMDkxMTM4OTg5ZmZjNiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlM2FmMmM4Y2Fh
-NDZhNjZhOTMyOWZhN2M2ODgwYWYyNjA0NTE5MTRkODE5NTk1YmVhYmMyYzI2NTk3YjMxMzUyIgog
-CiBFWFRSQV9PRUNPTkYgPSAiLS1kaXNhYmxlLWxkYXAgXAogCQktLWRpc2FibGUtY2NpZC1kcml2
-ZXIgXAotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMjQgSnVsIDIwMjYgMDU6MzU6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXV2LWJ1aWxkOiB1cGdyYWRlIDAuMTEuMjkgLT4gMC4xMS4zMgoKLS0tCiAuLi4vcHl0
+aG9uL3B5dGhvbjMtdXYtYnVpbGQtY3JhdGVzLmluYyAgICAgICAgfCAzMiArKysrKysrKystLS0t
+LS0tLS0tCiAuLi4wLjExLjI5LmJiID0+IHB5dGhvbjMtdXYtYnVpbGRfMC4xMS4zMi5iYn0gfCAg
+MiArLQogMiBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXV2LWJ1aWxkXzAu
+MTEuMjkuYmIgPT4gcHl0aG9uMy11di1idWlsZF8wLjExLjMyLmJifSAoOTIlKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1idWlsZC1jcmF0ZXMu
+aW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkLWNyYXRl
+cy5pbmMKaW5kZXggZjFkZTM4ODc4Yy4uYzA4MzkwNDViZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkLWNyYXRlcy5pbmMKKysrIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkLWNyYXRlcy5pbmMKQEAg
+LTI4LDcgKzI4LDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9idW1w
+YWxvLzMuMjAuMiBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vYnl0ZWNoZWNrLzAuOC4yIFwKICAg
+ICBjcmF0ZTovL2NyYXRlcy5pby9ieXRlY2hlY2tfZGVyaXZlLzAuOC4yIFwKLSAgICBjcmF0ZTov
+L2NyYXRlcy5pby9ieXRlcy8xLjEyLjAgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL2J5dGVzLzEu
+MTIuMSBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vYnppcDIvMC41LjIgXAogICAgIGNyYXRlOi8v
+Y3JhdGVzLmlvL2J6aXAyLXN5cy8wLjEuMTMrMS4wLjggXAogICAgIGNyYXRlOi8vY3JhdGVzLmlv
+L2NjLzEuMi41NyBcCkBAIC0xMDMsOSArMTAzLDkgQEAgU1JDX1VSSSArPSAiIFwKICAgICBjcmF0
+ZTovL2NyYXRlcy5pby9pc190ZXJtaW5hbF9wb2x5ZmlsbC8xLjcwLjIgXAogICAgIGNyYXRlOi8v
+Y3JhdGVzLmlvL2l0ZXJ0b29scy8wLjE0LjAgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL2l0b2Ev
+MS4wLjE3IFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9qaWZmLzAuMi4zMSBcCi0gICAgY3JhdGU6
+Ly9jcmF0ZXMuaW8vamlmZi1zdGF0aWMvMC4yLjMxIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9q
+aWZmLXR6ZGIvMC4xLjYgXAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL2ppZmYvMC4yLjMyIFwKKyAg
+ICBjcmF0ZTovL2NyYXRlcy5pby9qaWZmLXN0YXRpYy8wLjIuMzIgXAorICAgIGNyYXRlOi8vY3Jh
+dGVzLmlvL2ppZmYtdHpkYi8wLjEuOCBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vamlmZi10emRi
+LXBsYXRmb3JtLzAuMS4zIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9qb2JzZXJ2ZXIvMC4xLjM1
+IFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9qcy1zeXMvMC4zLjkxIFwKQEAgLTEyMCw3ICsxMjAs
+NyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL2x6bWEtc3lzLzAuMS4y
+MCBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vbWFpbHBhcnNlLzAuMTYuMSBcCiAgICAgY3JhdGU6
+Ly9jcmF0ZXMuaW8vbWF0Y2hlcnMvMC4yLjAgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL21lbWNo
+ci8yLjguMiBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vbWVtY2hyLzIuOC4zIFwKICAgICBjcmF0
+ZTovL2NyYXRlcy5pby9taW5pel9veGlkZS8wLjguOSBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8v
+bWlvLzEuMi4wIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9tdW5nZS8wLjQuNyBcCkBAIC0xNTks
+OCArMTU5LDggQEAgU1JDX1VSSSArPSAiIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9yZWYtY2Fz
+dC8xLjAuMjUgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3JlZi1jYXN0LWltcGwvMS4wLjI1IFwK
+ICAgICBjcmF0ZTovL2NyYXRlcy5pby9yZWZsaW5rLWNvcHkvMC4xLjMwIFwKLSAgICBjcmF0ZTov
+L2NyYXRlcy5pby9yZWdleC8xLjEyLjQgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3JlZ2V4LWF1
+dG9tYXRhLzAuNC4xNCBcCisgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcmVnZXgvMS4xMy4wIFwKKyAg
+ICBjcmF0ZTovL2NyYXRlcy5pby9yZWdleC1hdXRvbWF0YS8wLjQuMTUgXAogICAgIGNyYXRlOi8v
+Y3JhdGVzLmlvL3JlZ2V4LXN5bnRheC8wLjguMTEgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3Jl
+bmQvMC41LjMgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3JreXYvMC44LjE3IFwKQEAgLTIzNSw3
+ICsyMzUsNyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3VybC8yLjUu
+OCBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vdXRmOF9pdGVyLzEuMC40IFwKICAgICBjcmF0ZTov
+L2NyYXRlcy5pby91dGY4cGFyc2UvMC4yLjIgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3V1aWQv
+MS4yMy40IFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby91dWlkLzEuMjMuNSBcCiAgICAgY3JhdGU6
+Ly9jcmF0ZXMuaW8vdmFsdWFibGUvMC4xLjEgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3ZlcnNp
+b25fY2hlY2svMC45LjUgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3Z0ZS8wLjE0LjEgXApAQCAt
+MzEzLDcgKzMxMyw3IEBAIFNSQ19VUklbYnN0ci0xLjEyLjEuc2hhMjU2c3VtXSA9ICI2MzA0NGUx
+YWU4ZTY5ZjNiNWE5MmM3MzZjYTYyNjliOGQxMmZhN2VmZTM5YmYzCiBTUkNfVVJJW2J1bXBhbG8t
+My4yMC4yLnNoYTI1NnN1bV0gPSAiNWQyMDc4OTg2OGY0YjAxYjJmMmNhZWM5ZjVjNGUwMjEzYjQx
+ZTNlNTcwMmE1MDE1N2Q2OTlhZTMxY2VkMmZjYiIKIFNSQ19VUklbYnl0ZWNoZWNrLTAuOC4yLnNo
+YTI1NnN1bV0gPSAiMGNhYTMzYTJjMGVkY2EwNDE5ZDE1YWM3MjNkZmYwM2YxOTU2Zjc5NzgzMjli
+MWUzYjVmZGFhYWVkOWQzY2E4YiIKIFNSQ19VUklbYnl0ZWNoZWNrX2Rlcml2ZS0wLjguMi5zaGEy
+NTZzdW1dID0gIjg5Mzg1ZTgyYjVkMTgyMWQyMjE5ZTBiMDk1ZWZhMmNjMWYyNDZjYmY5OTA4MGYz
+YmU0NmExYTg1YzBkMzkyZDkiCi1TUkNfVVJJW2J5dGVzLTEuMTIuMC5zaGEyNTZzdW1dID0gIjhh
+ZTNmNWQzMTU5MjQyNzA1MzAyMDdlMmE2ODM5NmMzY2M1NDdmNmRjYTNmYmRjYTMxN2NmYjFhNTFl
+ZGI1OTMiCitTUkNfVVJJW2J5dGVzLTEuMTIuMS5zaGEyNTZzdW1dID0gImZjNjUyYTQ4YzM1MmFl
+ZjNlYTNhZWQzMjA4MDUwMWNmM2VmNmVkNWRhNzg2MDJhMDIwYzk5MTc3NWIwYWZmMDQiCiBTUkNf
+VVJJW2J6aXAyLTAuNS4yLnNoYTI1NnN1bV0gPSAiNDllY2ZiMjJkOTA2ZjgwMGQ0ZmU4MzNiNjI4
+MmNmNGRjMWMyOThmNTA1N2NhMGI1NDQ1ZTVjMjA5NzM1Y2E0NyIKIFNSQ19VUklbYnppcDItc3lz
+LTAuMS4xMysxLjAuOC5zaGEyNTZzdW1dID0gIjIyNWJmZjMzYjIxNDE4NzRmZTgwZDcxZTA3ZDZl
+ZWM0Zjg1YzVjMjE2NDUzZGQ5NjM4ODI0MGY5NmUxYWNjMTQiCiBTUkNfVVJJW2NjLTEuMi41Ny5z
+aGEyNTZzdW1dID0gIjdhMGRkMWNhMzg0OTMyZmYzNjQxYzg3MThhMDI3NjlmMTY5OGU3NTYzZGM2
+OTc0ZmZkMDMzNDYxMTYzMTA0MjMiCkBAIC0zODgsOSArMzg4LDkgQEAgU1JDX1VSSVtpbnN0YS0x
+LjQ4LjAuc2hhMjU2c3VtXSA9ICI4NmYwZjhmZWU4YzkyNjQxNWM1OGQ2YWU0M2EwODUyM2EyNmZh
+Y2NiMjMyM2YKIFNSQ19VUklbaXNfdGVybWluYWxfcG9seWZpbGwtMS43MC4yLnNoYTI1NnN1bV0g
+PSAiYTZjYjEzOGJiNzlhMTQ2YzFiZDQ2MDAwNTYyM2UxNDJlZjAxODFlM2QwMjE5Y2I0OTNlMDJm
+N2QwOGEzNTY5NSIKIFNSQ19VUklbaXRlcnRvb2xzLTAuMTQuMC5zaGEyNTZzdW1dID0gIjJiMTky
+Yzc4MjAzN2ZhZGQ5Y2ZhNzU1NDgzMTA0ODhhYWJkYmYzZDJkYTczODg1YjMxYmQwYWJkMDMzNTEy
+ODUiCiBTUkNfVVJJW2l0b2EtMS4wLjE3LnNoYTI1NnN1bV0gPSAiOTJlY2M2NjE4MTgxZGVmMDQ1
+NzM5MmNjZDBlZTUxMTk4ZTA2NWUwMTZkMWQ1MjdhN2FjMWI2ZGM3YzFmMDlkMiIKLVNSQ19VUklb
+amlmZi0wLjIuMzEuc2hhMjU2c3VtXSA9ICJjY2ZlNjEyMWNiZTc1MGNmODFlZmEzNjJkODVjMGJk
+ZTdlYTI5OGVjNDMwOTJkM2ExOTNiYWNhNTljZGJkNjM0IgotU1JDX1VSSVtqaWZmLXN0YXRpYy0w
+LjIuMzEuc2hhMjU2c3VtXSA9ICJlMTY1ZTg5N2Y2NjJkNDI4ZjNjZDM4MjhhOTE5ZGJlMDY3YzJk
+NDJiYjEwMzFlZWRlNzRlZjlkMjdlY2RlZGQyIgotU1JDX1VSSVtqaWZmLXR6ZGItMC4xLjYuc2hh
+MjU2c3VtXSA9ICJjOTAwZWY4NDgyNmYxMzM4YTU1NzY5N2RjOGZjNjAxZGY5Y2E5YWY0YWMxMzdj
+N2ZiNjFkNGM2ZjJkZmQzMDc2IgorU1JDX1VSSVtqaWZmLTAuMi4zMi5zaGEyNTZzdW1dID0gIjk2
+MWQxNjM4MjY1MmJmZGQ4YzZmNjhiMjIzYjI2YThjOTNlMGQ0NzVjNjcyZjQxNDQxMWRiMzFjNmM1
+YzkwMGUiCitTUkNfVVJJW2ppZmYtc3RhdGljLTAuMi4zMi5zaGEyNTZzdW1dID0gImQwODc5YmQz
+OWRmOTljNGM1ZTJjNjYxNWNjYzAyNjM5MWE0MjNkZGUxMDUzMmM1NzNlNjA4NmViOTRhODAyY2Mi
+CitTUkNfVVJJW2ppZmYtdHpkYi0wLjEuOC5zaGEyNTZzdW1dID0gIjE0MmJkMzk5MzJhZDIzMWYx
+MDUxM2RmOWFiNjI2NjFmZWFkODcxOTg3MjE1MGI3YWQwMmEyZGY3OWY0ZTE0MWUiCiBTUkNfVVJJ
+W2ppZmYtdHpkYi1wbGF0Zm9ybS0wLjEuMy5zaGEyNTZzdW1dID0gIjg3NWE1YTY5YWMyYmFiMWE4
+OTE3MTFjZjVlY2NiZWMxY2UwMzQxZWE4MDU1NjBkY2Q5MGI3YTJlOTI1MTMyZTgiCiBTUkNfVVJJ
+W2pvYnNlcnZlci0wLjEuMzUuc2hhMjU2c3VtXSA9ICIxYzAwYWNiZDI5ZWFiYWQ0YTIzOTJmYTBl
+OTIxYzg3NDkzNGRiYmY0MTk0MzEyYWQyMGYwNGEwZWQ2N2EzY2IzIgogU1JDX1VSSVtqcy1zeXMt
+MC4zLjkxLnNoYTI1NnN1bV0gPSAiYjQ5NzE1YjcwNzNmMzg1YmE0YmM1MjhlNTc0N2QwMmU2NmNi
+MzljNjE0NmVmYjY2Yjc4MWYxMzFmMGZiMzk5YyIKQEAgLTQwNSw3ICs0MDUsNyBAQCBTUkNfVVJJ
+W2xvZy0wLjQuMjkuc2hhMjU2c3VtXSA9ICI1ZTUwMzJlMjQwMTkwNDVjNzYyZDNjMGYyOGY1YjZi
+OGJiZjM4NTYzYTY1OTA4MwogU1JDX1VSSVtsem1hLXN5cy0wLjEuMjAuc2hhMjU2c3VtXSA9ICI1
+ZmRhMDRhYjM3NjRlNmNkZTc4Yjk5NzRlZWM0Zjc3OWFjYWJhN2M0ZTg0YjM2ZWNhM2NmNzdjNTgx
+Yjg1ZDI3IgogU1JDX1VSSVttYWlscGFyc2UtMC4xNi4xLnNoYTI1NnN1bV0gPSAiNjA4MTlhOTdk
+ZGNiODMxYTU2MTRlYjNiMDE3NGYzNjIwZTc5M2U5N2UwOTE5NWEzOTViZmE5NDhmZDY4ZWQyZiIK
+IFNSQ19VUklbbWF0Y2hlcnMtMC4yLjAuc2hhMjU2c3VtXSA9ICJkMTUyNWEyYTI4YzdmNGZhMGZj
+OThiYjkxYWU3NTVkMWUyZDE1MDUwNzllMDU1MzllMzViYzg3NmI1ZDY1YWU5IgotU1JDX1VSSVtt
+ZW1jaHItMi44LjIuc2hhMjU2c3VtXSA9ICI4ODkwNDQzNGFiYzI5MDFmMTk3ZmU4Y2M1NWYwNDQ1
+ZTdkZWQ5MjFkYmE1OTExZGFkMmUyYjM5YjQ4ZTY2M2M0IgorU1JDX1VSSVttZW1jaHItMi44LjMu
+c2hhMjU2c3VtXSA9ICJjZjhiYWYxYzU1ZTYyZmZjYWNlN2E5ZjA2ZjRiZDljZDNmMGM0YmViMDIy
+ZDNiMzY3MjU2YjkxYjg3NTEzZDk4IgogU1JDX1VSSVttaW5pel9veGlkZS0wLjguOS5zaGEyNTZz
+dW1dID0gIjFmYTc2YTJjODZmNzA0YmRiMjIyZDY2OTY1ZmIzZDYzMjY5Y2UzODUxOGI4M2NiMDU3
+NWZjYTg1NWViYjYzMTYiCiBTUkNfVVJJW21pby0xLjIuMC5zaGEyNTZzdW1dID0gIjUwYjdlNWIy
+N2FhMDJhNzRiYWM4YzNmMjNmNDQ4ZjhkODdmZjExZjkyZDNhYWMxYTZlZDM2OWVlMDhjYzU2YzEi
+CiBTUkNfVVJJW211bmdlLTAuNC43LnNoYTI1NnN1bV0gPSAiNWUxNzQwMWYyNTllYmE5NTZjYTE2
+NDkxNDYxYjZlOGY3MjkxM2EwYTExNGUzOTczNmNlNDA0NDEwZjkxNWEwYyIKQEAgLTQ0NCw4ICs0
+NDQsOCBAQCBTUkNfVVJJW3JlZG94X3N5c2NhbGwtMC41LjE1LnNoYTI1NnN1bV0gPSAiN2U4YWYw
+ZGRlMDk0MDA2MDExZTZhNzQwZDQ4NzkzMTk0Mzk0OAogU1JDX1VSSVtyZWYtY2FzdC0xLjAuMjUu
+c2hhMjU2c3VtXSA9ICJmMzU0MzAwYWU2NmY3NmYxYzg1YzVmODQ2OTNmMGNlODFkNzQ3ZTJjM2Yy
+MWE0NWZlZjQ5NmQ4OWM5NjBiZjdkIgogU1JDX1VSSVtyZWYtY2FzdC1pbXBsLTEuMC4yNS5zaGEy
+NTZzdW1dID0gImI3MTg2MDA2ZGNiMjE5MjA5OTAwOTNmMzBlM2RlYTYzYjdkNmU5NzdiZjEyNTZi
+ZTIwYzM1NjNhNWRiMDcwZGEiCiBTUkNfVVJJW3JlZmxpbmstY29weS0wLjEuMzAuc2hhMjU2c3Vt
+XSA9ICJkOWRkN2FiNGFmMDM2M2Q1Y2NmZDI4MzhkNzgyYTI4MTk2Y2YzMmE1Y2MyZTRmZTNjNWRj
+ODNmMmJlNTg4YjhiIgotU1JDX1VSSVtyZWdleC0xLjEyLjQuc2hhMjU2c3VtXSA9ICJmMTI5MmI3
+NzU5YWUxY2I5ZWMxOTU0NTJkMTM5MGEwNzRmMGNkODU0MWFiN2E1YThjMzFjZDZkYjQ1ZDRhNmJh
+IgotU1JDX1VSSVtyZWdleC1hdXRvbWF0YS0wLjQuMTQuc2hhMjU2c3VtXSA9ICI2ZTFkZDQxMjJm
+YzE1OTVlODE2MjYxODk0NTQ3Njg5MmVlZmNhN2I4OGM1MjgyMGU3NGFmNjI2MjIxM2NhZThmIgor
+U1JDX1VSSVtyZWdleC0xLjEzLjAuc2hhMjU2c3VtXSA9ICIyYTBlNzUxMTNlMTRkYzVhY2IwNjhj
+ZDA3ODY4ODRmMjE0ZjEzMTI2NTBhM2QzNmQyNjlmNWM0ZjNjZGVlOGEyIgorU1JDX1VSSVtyZWdl
+eC1hdXRvbWF0YS0wLjQuMTUuc2hhMjU2c3VtXSA9ICIxZjM4ODIwMmU0YjgwNTQyYTA5MjEwNzhj
+YzIzYjYzMzNiY2YxNDA5YzFlM2Y4NjQwNGNhZTQ3NjZhNjEzMWRiIgogU1JDX1VSSVtyZWdleC1z
+eW50YXgtMC44LjExLnNoYTI1NnN1bV0gPSAiZDZmNmZmOWEzNzg0ODViMjk4YTUyODY2NTZkYTY2
+NWJhNzQ0MTNkMzZkYjA5Nzk2MzMyNzVkMmU3MDgxNDVkNCIKIFNSQ19VUklbcmVuZC0wLjUuMy5z
+aGEyNTZzdW1dID0gImNhZGFkZWYzMTdjMmYyMDc1NWE2NGQ3ZmRjNDhmOWU3MTc4ZWU2YjBlMWY3
+ZmNlMzNmYTYwZjFkNjhhMjc2ZTYiCiBTUkNfVVJJW3JreXYtMC44LjE3LnNoYTI1NnN1bV0gPSAi
+ODE1Y2M4YTM3MTU5YTQ2MzA2NDgyNTI0NmNhZGIwNzk2MWUyNWNkOTg4NTkwODYwNmY2ZDA4YTk4
+ZDhmODg3NCIKQEAgLTUyMCw3ICs1MjAsNyBAQCBTUkNfVVJJW3Vuc2Nhbm55LTAuMS4wLnNoYTI1
+NnN1bV0gPSAiZTlkZjJhZjA2N2E3OTUzZTljMzgzMTMyMGYzNWMxY2MwNjAwYzMwZDQ0ZAogU1JD
+X1VSSVt1cmwtMi41Ljguc2hhMjU2c3VtXSA9ICJmZjY3YThhNDM5NzM3M2MzZWY2NjA4MTJhY2Fi
+MzI2ODIyMjAzNTAxMGFiODY4MGVjNDIxNWYzOGJhM2QwZWVkIgogU1JDX1VSSVt1dGY4X2l0ZXIt
+MS4wLjQuc2hhMjU2c3VtXSA9ICJiNmMxNDA2MjBlN2ZmYmIyMmMyZGVlNTljYWZlNjA4NGE1OWI1
+ZmZjMjdhODg1OWE1ZjBkNDk0YjVkNTJiNmJlIgogU1JDX1VSSVt1dGY4cGFyc2UtMC4yLjIuc2hh
+MjU2c3VtXSA9ICIwNmFiZGUzNjExNjU3YWRmNjZkMzgzZjAwYjA5M2Q3ZmFlY2M3ZmE1NzA3MWNj
+ZTI1Nzg2NjBjOWYxMDEwODIxIgotU1JDX1VSSVt1dWlkLTEuMjMuNC5zaGEyNTZzdW1dID0gImJm
+ODBhNzI4NDUyNzVhZmVhOTllN2YyYjQzNDcyM2QzYmM3ZTM4NDcwZmNkMWM3ZWQzOWE1OTljNzMz
+MTlhNTMiCitTUkNfVVJJW3V1aWQtMS4yMy41LnNoYTI1NnN1bV0gPSAiZWE1ZmFiMGQ2YzNjMDFh
+ZTcwMDg1YTA5Y2IwM2Q0YzdhMWQ2MzE0ZTJiM2UwNzUzOTI3ODMzOTZkNzI0Y2EwYSIKIFNSQ19V
+UklbdmFsdWFibGUtMC4xLjEuc2hhMjU2c3VtXSA9ICJiYTczZWE5Y2YxNmEyNWRmMGM4Y2FhMTZj
+NTFhY2I5MzdkNTcxMmE4NDI5ZGI3OGEzZWUyOWQ1ZGNhY2QzYTY1IgogU1JDX1VSSVt2ZXJzaW9u
+X2NoZWNrLTAuOS41LnNoYTI1NnN1bV0gPSAiMGI5MjhmMzNkOTc1ZmM2YWQ5Zjg2YzhmMjgzODUz
+YWQyNmJkZDViMTBiN2YxNTQyYWEyZmExNWUyMjg5MTA1YSIKIFNSQ19VUklbdnRlLTAuMTQuMS5z
+aGEyNTZzdW1dID0gIjIzMWZkY2Q3ZWYzMDM3ZTgzMzBkOGUxN2U2MTAxMWEyYzI0NDEyNmFjYzBh
+OTgyZjQwNDBhYzNmOWYwYmMwNzciCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdXYtYnVpbGRfMC4xMS4yOS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy11di1idWlsZF8wLjExLjMyLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1idWls
+ZF8wLjExLjI5LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtdXYtYnVpbGRfMC4xMS4zMi5iYgppbmRleCAyMDJlN2YxODM0Li43ZjM0ODdkMjVjIDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGRfMC4x
+MS4yOS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVp
+bGRfMC4xMS4zMi5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
+Ly9MSUNFTlNFLUFQQUNIRTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4OTg2OTY4ZjQzMjcgXAog
+ICAgICAgICAgICAgICAgICAgICBmaWxlOi8vY3JhdGVzL3V2LXBlcDUwOC9MaWNlbnNlLUFwYWNo
+ZTttZDU9ZTIzZmFkZDZjZWVmOGM2MThmYzFjNjUxOTFkODQ2ZmEgXAogICAgICAgICAgICAgICAg
+ICAgICBmaWxlOi8vY3JhdGVzL3V2LXBlcDUwOC9MaWNlbnNlLUJTRDttZDU9ZWY3YTYwMjdkYzRj
+MjM4OWI5YWZhZDdlNjkwMjc0YzciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3ZGQxNmQ1MDM2
+NmY0MTBhZTQ5NGEyN2JlMjBiNDUyMDZmZWVhYzM3ZDk5ZGM1M2FiZmExYTA0NDEwMDY5Yjc4Igor
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjkwNjU0MjI2MmNmMGUxZjUwN2QzZTliY2YwYTczYWZhOWM5
+MjY5ZGFmMjYxZmJkNTM1N2E1NDFiNTMzYjNjNzIiCiAKIHJlcXVpcmUgJHtCUE59LWNyYXRlcy5p
+bmMKIAotLSAKMi40Ny4xCgo=
 
---===============2995961614592280671==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="gnupg-changelog.txt"
-
-Changelog for gnupg: 2.5.20 -> 2.5.21
-Source: ChangeLog
-
-2026-07-02  Werner Koch  <wk@gnupg.org>
-
-	Release 2.5.21.
-	+ commit 363096d9c9a973ac8dcad8ee4efd479f50add290
-
-2026-06-30  Werner Koch  <wk@gnupg.org>
-
-	speedo: Create a pkgversioninfo.txt file.
-	+ commit 8716b4dac4a79b600d18847b8bc0193bd06e1fc1
-	* build-aux/mk-sbom.sh: New.  Taken from gpg4win and extended.
-	* Makefile.am (EXTRA_DIST): Add it.
-	* build-aux/speedo.mk (gnupg_ver_this): Use sed to extract version.
-	(gnupg_commit_id): new.
-	(00-unpack): Call mk-sbom.sh.
-	(clean-pkg-versions: Clear version files.
-	($(bdir)/pkgversioninfo.txt): New.
-	(all-speedo,installer): Depend on above.
-	(dist-source): Exclude autom4te.cache just in case
-	* build-aux/speedo/w32/inst.nsi: Install pkgversioninfo.txt.
-
-2026-06-30  NIIBE Yutaka  <gniibe@fsij.org>
-
-	scd: Fix condition to retrieve ATR.
-	+ commit ca25a7a61bebbe4e27dd5568c5b049675b7aa4ae
-	* scd/app.c (atr_to_cardtype): Call apdu_get_atr when ATR is NULL.
-
-2026-06-29  Werner Koch  <wk@gnupg.org>
-
-	speedo: Fix passing configure args to w32 builds.
-	+ commit 7af73849a5dbbc5c70e43c3a3f5d70c639c80ab4
-	* build-aux/speedo.mk (pkgcfg): Use correct number of dollar signs.
-
-	common: Prepare to get rid of map_w32_to_errno.
-	+ commit bf808091534f587e8cdacf351b0e7ba060165fd8
-	* common/sysutils.c (gnupg_w32_set_errno): Use gpgrt function if
-	  available.
-
-	agent: Make batch import of Kyber keys work.
-	+ commit 4fca79b67bba04bc5ef2a4402e948c01821ceac5
-	* agent/command.c (cmd_import_key): Allow --unattended also for
-	  composite keys.
-
-2026-06-26  NIIBE Yutaka  <gniibe@fsij.org>
-
-	dirmngr: Add a validation check in get_dns_cert_standard.
-	+ commit c3ec7678799a161b9265969e7ad3fd59605b18ab
-	* dirmngr/dns-stuff.c (get_dns_cert_standard): Validate the length.
-
-2026-06-19  NIIBE Yutaka  <gniibe@fsij.org>
-
-	build: Update ldap.m4 for POSIX with no LDAP_DEPRECATED.
-	+ commit d3822099fdd4d84323afae4bacaadfeab9cb3e27
-	* m4/ldap.m4: Check ldap_err2string, instead.
-
-2026-06-18  Werner Koch  <wk@gnupg.org>
-
-	gpgsm: Require a minimum tag length for GCM decryption.
-	+ commit 4c7e68cf3d335328821bdbb70db309a60d0e4fd4
-	* sm/decrypt.c (gpgsm_decrypt): Require a minimum authtaglen.
-
-2026-06-18  NIIBE Yutaka  <gniibe@fsij.org>
-
-	w32:common: Fix usleep in w32_wait_when_sharing_violation.
-	+ commit ab9ce5f5e775a3a6a37923299685ac371f740103
-	* common/sysutils.c (w32_wait_when_sharing_violation): WTIME is
-	in milliseconds.
-
-2026-06-17  Philip Le  <philip.le@gnupg.com>
-
-	gpg: Fix copy_signature.
-	+ commit 56e11ffe971d5cc58185b4e8d02b82dc432c634b
-	* g10/free-packet.c (copy_signature): Set the signers_uid of the new
-	copy to NULL if it is not present in the source signature.
-
-	gpg: Use the INT_RCP_FPR subpacket in revocation signatures.
-	+ commit 9e0e5547d2a008332873a9b632f82f9414ad887f
-	* common/openpgpdefs.h (sigsubpkttype_t): Add Intended Recipient
-	Fingerprint signature subpacket.
-	* g10/build-packet.c (build_sig_subpkt): Build the Intended Recipient
-	Fingerprint signature subpacket for v4 and v5 keys.
-	* g10/free-packet.c (free_seckey_enc): Free rev_subject_info.
-	(copy_signature): Copy the rev_subject_info struct too.
-	* g10/import.c (import_one): Print info that addtional revocation
-	signatures are checked.
-	(import_revoke_cert): Use the new INT_RCP_FPR subpacket to check
-	revocation signature if the subpacket is present.
-	* g10/packet.h (rev_subject_info_s): New. Contains the fingerprint of
-	the to be revoked key in a revocation signature.
-	(PKT_signature): Add rev_subject_info.
-	* g10/parse-packet.c (dump_sig_subpkt): Print info line about
-	INT_RCP_FPR signature subpacket.
-	(parse_signature): Parse INT_RCP_FPR signature subpacket.
-	* g10/sig-check.c (check_key_signature): Check the revocation
-	signature and ignore revocation for already revoked keys.
-	* g10/sign.c (make_keysig_packet): Write the fingerprint of the to be
-	revoked key into sig->rev_subject_info.
-
-2026-06-15  NIIBE Yutaka  <gniibe@fsij.org>
-
-	gpg: Fix partial file handling.
-	+ commit a54dff1b151b85837714b199f316cbb339275ddc
-	* g10/misc.c (gnupg_register_partial_file): Fix possible memory leaks.
-	(gnupg_process_partial_file): Better error message.
-	* g10/plaintext.c (pfg_close_file): Likewise.
-
-2026-06-12  NIIBE Yutaka  <gniibe@fsij.org>
-
-	gpg: Defer renaming at exit, so that it can remove on failure.
-	+ commit ab2e64e4b490bf9ea45f7aff2060e16e7b2b7119
-	* g10/main.h (gnupg_register_partial_file): New.
-	(gnupg_process_partial_file): New.
-	* g10/misc.c (gnupg_register_partial_file): New.
-	(gnupg_process_partial_file): New.
-	* g10/plaintext.c (pfg_close_file): Add log_info when remove.
-	Register the file rename.
-	* g10/gpg.c (g10_exit): Call gnupg_process_partial_file.
-
-2026-06-11  Werner Koch  <wk@gnupg.org>
-
-	gpg-authcode-sign: Avoid syntax error if input file does not exist.
-	+ commit a9c9435cd4471232a252785b69e4dd44379bc49f
-	* tools/gpg-authcode-sign.sh (cleanup): Check that file exists.
-
-2026-06-09  Mikhail Filippov  <mikhail@filippov.me>
-
-	scd:openpgp: Fix CHV1 retry counter byte index.
-	+ commit 245330ebeaf67f8e87fef979777c24b983f1a519
-	* scd/app-openpgp.c (get_remaining_tries): Read value[4] not value[1]
-	for chvno==1.
-
-2026-06-09  NIIBE Yutaka  <gniibe@fsij.org>
-
-	gpg: Fix error propagation in encrypted->compressed->plaintext chain.
-	+ commit 91bff8b9fd5e130a3ebf46f0afc6c8ad723ca1e4
-	* g10/compress.c (do_uncompress): Return an error of input failure.
-	* g10/decrypt-data.c (aead_underflow): Remove modifying an error code,
-	because ->checktag_failed is enough for this.
-	* g10/plaintext.c (handle_plaintext): Pick up an error code from input
-	failure.
-
-2026-06-09  NIIBE Yutaka  <gniibe@fsij.org>
-	    Philip Le  <philip.le@gnupg.com>
-
-	gpg: Use partial file on decryption, remove on failure.
-	+ commit 8f8b2bdcc3c93f7586ce2c18ddbaff2efe5ba5d3
-	* g10/options.h (COMPAT_NO_PARTIALFILEGUARD): New.
-	* g10/gpg.c (compatibility_flags_s compatibility_flags): Add
-	COMPAT_NO_PARTIALFILEGUARD.
-	* sm/gpgsm.c (compatibility_flags_s compatibility_flags): Fix the
-	option name.
-	* g10/packet.h (struct pfg, pfg_open_file, pfg_close_file): New.
-	* g10/decrypt-data.c (decrypt_data): Use pfg_open_file,
-	pfg_close_file, instead of get_output_file.  Add log_error for MDC
-	failure just like AEAD failure.
-	* g10/plaintext.c (get_output_file): Mofify using PFG.
-	(pfg_open_file, pfg_close_file): New.
-	(handle_plaintext): Use PFG.
-	Add iobuf_error check to ensure aead filter failure is detected
-	correctly.
-
-2026-06-02  NIIBE Yutaka  <gniibe@fsij.org>
-
-	gpgsm: Use partial file on decryption, remove on failure.
-	+ commit ca8633c55edffd9ee46fe80735ee125120e0bc2c
-	* sm/gpgsm.c (main): Prepare .part file and rename on success, remove
-	on failure.
-	* sm/gpgsm.h (COMPAT_NO_PARTIALFILEGUARD): New.
-
-	tools:gpgconf: Raise an error on parse error.
-	+ commit f99e4291200d507f5ac8a73066a2ea259a1d7eb8
-	* tools/gpgconf-comp.c (change_options_program): Return an
-	error, replacing assertion.
-
-	scd: Limit the size of data object returned from a device.
-	+ commit ab3b9c7709fdd41b37e44632cc1569e85c6d1e6e
-	* scd/apdu.c (send_le, apdu_send_direct): Raise an error
-	of SW_WRONG_LENGTH, when it's too large.
-
-2026-06-02  NIIBE Yutaka  <gniibe@fsij.org>
-	    Jakub Jelen  <jjelen@redhat.com>
-
-	gpg:keygen: Fix setting keyserver_url in key generation.
-	+ commit b42f8da77c5a709ea9fd163ad7c4d73ddeee9dba
-	* g10/keygen.c (proc_parameter_file): Save and restore global
-	variable opt.def_keyserver_url.
-
-2026-05-29  Philip Le  <philip.le@gnupg.com>
-
-	gpgsm: Fix regression in gpgsm_verify with expired certificates.
-	+ commit 32f56a2732f0ac6204aad946388789cdbb0e26eb
-	* sm/verify.c (gpgsm_verify): Display information about signers with
-	expired certificate.
-
-2026-05-29  Werner Koch  <wk@gnupg.org>
-
-	gpg: Improve diagnostics for faulty secret key packets.
-	+ commit 91defad97deca5ce1b9cc8e792ae5fe13c201f7a
-	* g10/parse-packet.c (parse_key): Add a note about a mising checksum.
-
-2026-05-26  NIIBE Yutaka  <gniibe@fsij.org>
-
-	tests:gpgscm: Support signed-char machine.
-	+ commit 31c8f42bb30306d2bef3e315730c379a19f0af26
-	* tests/gpgscm/ffi.c (rl_gets, ffi_schemify_name): Add coercion to
-	unsigned char explicitly.
-	* tests/gpgscm/main.c: Remove unused <ctype.h>.
-	* tests/gpgscm/scheme.c (stricmp, mk_atom, readstrexp)
-	(printslashstring, hash_fn): Add coercion to unsigned char explicitly.
-	(basic_inchar): Add coercion to unsigned char * explicitly.
-
-2026-05-18  Werner Koch  <wk@gnupg.org>
-
-	gpgscm: Allow building on systems with MUSL libc.
-	+ commit a0d4d936424e945966de9314cbb2765a8819efbf
-	* tests/gpgscm/scheme.c: Include time.h.
-
---===============2995961614592280671==--
+--===============6484912062429291029==--
 
