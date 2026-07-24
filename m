@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A713DC531F9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4DA4C531C9
 	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 05:43:12 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13549.1784871785089565065
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13275.1784871785175004703
  for <openembedded-core@lists.openembedded.org>;
  Thu, 23 Jul 2026 22:43:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ttvQw/QK;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=c+Av39gB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019f92a60e0a-0b8d386a-0a98-4a0c-969d-e8ee22e5208b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UdK9ygqm;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4LUgF+jc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019f92a60f27-69dd66e7-71f2-4f0c-9ba5-20d4c0bf7238-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1784871784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yh2B/G3vIob0DAr37g2KlFo7ZVQlWtRbznKA9ojp83g=;
-	b=ttvQw/QKN3I1TqbcRJyp2clWBuFFarsihRaGSikdqWonKBJfIoC7BMeKpB8OllKh
-	ZWhtL9+kHKy1xknOp2o0yJCJk5im2XPl2YY+oG0/nI8Cwwb8KU6rYUGEYjfgt/sbA58
-	mrD3s+cg8hxGbLz/J++6xFigNW2CFFRCc93gyVYg=
+	bh=gn9PVwUoAcZLozWL2hRc6A4BWCAMk4D4UkEr3Xr4cek=;
+	b=UdK9ygqmvI9/0b75oVaXQjMtmDXaRZdqWSM8CvC/hZzgcZsu9q8TrPJA4ogKA5fo
+	bcvlAPg8uBPv0QvZnCCDlxvDqaq2LzwxuOU6C9YzySdNqxbMYlqbxY/hAEpc92b1ZrJ
+	2kgqCpqqYDgNqFcjLAtm9y01ZKi6SOq+98Lgl3JI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1784871784;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yh2B/G3vIob0DAr37g2KlFo7ZVQlWtRbznKA9ojp83g=;
-	b=c+Av39gBWxT0r0+pLdvGw9Fmk3+sgLSaMqAqvW72uG3fESqT0z6x0knDcG8nZaw8
-	EWRQLYsO/mn/6POCC1U7fLMnwucrfzQ2WSVEpq+kmwfz6oRvTUUs11OJRgXIJA/sycz
-	G4ojsSgQpl+BqXioZMRLnZ4paV6uGLIT6vcnWs2w=
-Content-Type: multipart/mixed; boundary="===============6969116238984762259=="
+	bh=gn9PVwUoAcZLozWL2hRc6A4BWCAMk4D4UkEr3Xr4cek=;
+	b=4LUgF+jcwJX/gStccBzYZfGNooeJIlecWdxHW/9/Yf35h0x0HWoNXrHE7ljqL9AP
+	VHmbvrhEfdViiW/6bLPXtXcUYir8kNS63+HO6AeajUetdzi6jf6XxNtAR+xAtASR2t0
+	uFkZG2gyZ1L4A0uSPv103bAygidAPSSW0OVEq43U=
+Content-Type: multipart/mixed; boundary="===============6390005602871563457=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Hiago De Franco <hfranco@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.161.1 FAILED
-Message-ID: <0101019f92a60e0a-0b8d386a-0a98-4a0c-969d-e8ee22e5208b-000000@us-west-2.amazonses.com>
-Date: Fri, 24 Jul 2026 05:43:03 +0000
+Subject: [AUH] libdisplay-info: upgrading to 0.4.0 SUCCEEDED
+Message-ID: <0101019f92a60f27-69dd66e7-71f2-4f0c-9ba5-20d4c0bf7238-000000@us-west-2.amazonses.com>
+Date: Fri, 24 Jul 2026 05:43:04 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.24-54.240.27.29
+X-SES-Outgoing: 2026.07.24-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 05:43:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241893
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241894
 
---===============6969116238984762259==
+--===============6390005602871563457==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.161.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libdisplay-info* to *0.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.155.7-6.161.1.patch
+    - apply the patch: git am 0001-libdisplay-info-upgrade-0.3.0-0.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,219 +72,270 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7d60ea4f1a74d0a3c679e52bbebf8828fc80839e Mon Sep 17 00:00:00 2001
+From 0144f19975328941b365aeb0c4b24d7b7ae6cd4c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 24 Jul 2026 05:19:17 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.155.7 -> 6.161.1
+Date: Fri, 24 Jul 2026 05:42:57 +0000
+Subject: [PATCH] libdisplay-info: upgrade 0.3.0 -> 0.4.0
 
+c67a3e9 build: bump version to 0.4.0
+772d506 build: disable most v4l-utils options by default
+d77a2e5 cta: switch error handling to negative error number away from errno
+8057b29 edid: fix potential overflow in shift operation
+99d8394 cta: add a few missing return on failures
+c5d86fe cta: do not fail when there's a bad Data Block in a CTA extension
+d18dd43 cta: cosmetic changes to _di_cta_data_block_parse()
+824bb14 cta: document that _di_cta_data_block_destroy() accepts zeroed tag
+636f24f cta: set errno when we don't have a fatal failure
+fd31752 displayid: make _di_displayid_parse_type_1_7_timing() return void
+c8f09c0 cta: do not fail when HDMI Vendor Specific Data Block has error
+cb5e3ed vic: avoid out-of-bounds array access
+baa0e52 di-edid-decode: Avoid crash when printing unknown DMT code
+70855b1 ci: Use gcc's static analyzer functionality in the build-gcc job
+c61b4b3 edid: Release all resources when parsing a display descriptor fails
+53b1009 displayid: Handle failed allocations
+84026a7 di-edid-decode: Initialize variables to zero to help analyzers
+76f133a cta: Initialize speaker location coordinates to zero
+73ec53d info: search CTA blocks in DisplayID v2 extensions
+73ab82d info: don't use di_ prefix for static helpers
+6feabfe di-edid-decode: add support for DisplayID v2 CTA-861 data blocks
+80caacc di-edid-decode: introduce print_cta_data_block()
+7324cca displayid2: add support for CTA-861 data blocks
+4713505 cta: expose _di_cta_data_block_{parse,destroy}
+34b3635 cta: make di_cta.flags optional
+d535192 cta: introduce struct di_cta
+91c3b83 di-edid-decode: Fix printing unknown DMT codes
+ccf012e displayid: Fix double free of cta_vics
+d828f86 cta-vic-table: re-generate from CTA-861-I
+5a12f3a tool/gen-cta-vic: update for CTA-861-I
+e4e0986 displayid: Add support for type IV timings
+d3b62b6 displayid: Move checking for reserved header flags to own function
+bca559d dmt: Wrap the uint8_t DMT code in struct for type safety
+2d98815 di-edid-decode: Move some timing printing to a shared file
+9ff243b vic: Wrap the uint8_t HDMI and CTA vic codes in structs for type safety
+e5c6fc1 timing: Add reverse lookup from timing definitions to codes
+0af6d1d edid: Return DMT codes for Established timings III
+0fd2b6b edid: Split out more DMT timing
+7899041 cta: Split out HDMI and CTA VIC lookup
+788c056 displayid2: decode data blocks structure
+0dee020 test: add asus-ux3405
+55b45d4 displayid: drop logger_add_failure()
+84e8da3 cta: include sys/types.h
+4daae7d ci: disable require-allow-collaboration check
+69d12ff build: bump version to 0.4.0-dev
 ---
- ...hon3-hypothesis_6.155.7.bb => python3-hypothesis_6.161.1.bb} | 2 +-
+ .../{libdisplay-info_0.3.0.bb => libdisplay-info_0.4.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.155.7.bb => python3-hypothesis_6.161.1.bb} (91%)
+ rename meta/recipes-support/libdisplay-info/{libdisplay-info_0.3.0.bb => libdisplay-info_0.4.0.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb b/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb
-index 70ae7877a1..ec1dc5cabb 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb b/meta/recipes-support/libdisplay-info/libdisplay-info_0.4.0.bb
+similarity index 92%
+rename from meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
+rename to meta/recipes-support/libdisplay-info/libdisplay-info_0.4.0.bb
+index 380c12b867..d993bf1061 100644
+--- a/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
++++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.4.0.bb
+@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4426409957080ee0352128354cea2de"
+ DEPENDS = "hwdata-native"
  
--SRC_URI[sha256sum] = "d8d6091753d0669db3c90c5e5b346cb37c72f3dd9378c8413acb1fd5da63f7ea"
-+SRC_URI[sha256sum] = "44ee51052b560245676cacf8c88be23f312132cdf29cb08dd092b52fdcf07a5d"
+ SRC_URI = "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https;tag=${PV}"
+-SRCREV = "47a5590e9c4eb35d67651b8c05a55f1a48259329"
++SRCREV = "c67a3e9bedb05ab61c7443704a1a107e76254595"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ inherit meson pkgconfig lib_package
 -- 
 2.47.1
 
 
---===============6969116238984762259==
+--===============6390005602871563457==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 953 .bb files complete (0 cached, 953 parsed). 1981 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/libdisplay-info: SRC_URI changed from "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https;tag=0.3.0" to "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https;tag=0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGSIZE changed from 781376 to 812376 (+4%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: FILELIST: removed "/usr/lib/.debug/libdisplay-info.so.0.3.0", added "/usr/lib/.debug/libdisplay-info.so.0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGSIZE changed from 104854 to 110459 (+5%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/hdmi-vic.h /usr/include/libdisplay-info/cta-vic.h"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PKGSIZE changed from 633321 to 664494 (+5%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: FILELIST: removed "/usr/src/debug/libdisplay-info/0.3.0/displayid.c /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/displayid2.h /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/displayid2.c /usr/src/debug/libdisplay-info/0.3.0/include/bits.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/displayid.h /usr/src/debug/libdisplay-info/0.3.0/include/di-edid-decode.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/cvt.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/dmt.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/gtf.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/cta.h /usr/src/debug/libdisplay-info/0.3.0/include/displayid.h /usr/src/debug/libdisplay-info/0.3.0/cta-vic-table.c /usr/src/debug/libdisplay-info/0.3.0/hdmi-vic-table.c /usr/src/debug/libdisplay-info/0.3.0/displayid2.c /usr/src/debug/libdisplay-info/0.3.0/include/info.h /us
+ r/src/debug/libdisplay-info/0.3.0/pnp-id-table.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/displayid.c /usr/src/debug/libdisplay-info/0.3.0/info.c /usr/src/debug/libdisplay-info/0.3.0/include/cta.h /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/edid.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/main.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/util.c /usr/src/debug/libdisplay-info/0.3.0/include/dmt.h /usr/src/debug/libdisplay-info/0.3.0/include/log.h /usr/src/debug/libdisplay-info/0.3.0/memory-stream.c /usr/src/debug/libdisplay-info/0.3.0/include/edid.h /usr/src/debug/libdisplay-info/0.3.0/include/displayid2.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/edid.h /usr/src/debug/libdisplay-info/0.3.0/edid.c /usr/src/debug/libdisplay-info/0.3.0/dmt-table.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/cta.c /usr/src/debug/libdisplay-info/0.3.0/cvt.c /usr/src/debug/libdisplay-info/0.3.0/cta.c /usr/src/debug/libdisplay-info/0.3.0/gtf.c
+  /usr/src/debug/libdisplay-info/0.3.0/log.c /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/info.h /usr/src/debug/libdisplay-info/0.3.0/include/memory-stream.h", added "/usr/src/debug/libdisplay-info/0.4.0/displayid.c /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/displayid2.h /usr/src/debug/libdisplay-info/0.4.0/di-edid-decode/displayid2.c /usr/src/debug/libdisplay-info/0.4.0/include/bits.h /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/displayid.h /usr/src/debug/libdisplay-info/0.4.0/include/di-edid-decode.h /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/cvt.h /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/dmt.h /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/gtf.h /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/cta.h /usr/src/debug/libdisplay-info/0.4.0/include/displayid.h /usr/src/debug/libdisplay-info/0.4.0/cta-vic-table.c /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/c
+ ta-vic.h /usr/src/debug/libdisplay-info/0.4.0/displayid2.c /usr/src/debug/libdisplay-info/0.4.0/di-edid-decode/timing.c /usr/src/debug/libdisplay-info/0.4.0/include/info.h /usr/src/debug/libdisplay-info/0.4.0/pnp-id-table.c /usr/src/debug/libdisplay-info/0.4.0/di-edid-decode/displayid.c /usr/src/debug/libdisplay-info/0.4.0/info.c /usr/src/debug/libdisplay-info/0.4.0/include/cta.h /usr/src/debug/libdisplay-info/0.4.0/di-edid-decode/edid.c /usr/src/debug/libdisplay-info/0.4.0/di-edid-decode/main.c /usr/src/debug/libdisplay-info/0.4.0/di-edid-decode/util.c /usr/src/debug/libdisplay-info/0.4.0/include/log.h /usr/src/debug/libdisplay-info/0.4.0/memory-stream.c /usr/src/debug/libdisplay-info/0.4.0/hdmi-vic.c /usr/src/debug/libdisplay-info/0.4.0/include/edid.h /usr/src/debug/libdisplay-info/0.4.0/include/displayid2.h /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/edid.h /usr/src/debug/libdisplay-info/0.4.0/edid.c /usr/src/debug/libdisplay-info/0.4.0/cta-vic.c /usr/src/debug/l
+ ibdisplay-info/0.4.0/dmt-table.c /usr/src/debug/libdisplay-info/0.4.0/di-edid-decode/cta.c /usr/src/debug/libdisplay-info/0.4.0/cvt.c /usr/src/debug/libdisplay-info/0.4.0/cta.c /usr/src/debug/libdisplay-info/0.4.0/dmt.c /usr/src/debug/libdisplay-info/0.4.0/gtf.c /usr/src/debug/libdisplay-info/0.4.0/log.c /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/info.h /usr/src/debug/libdisplay-info/0.4.0/include/libdisplay-info/hdmi-vic.h /usr/src/debug/libdisplay-info/0.4.0/include/memory-stream.h"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PV changed from "0.3.0" to "0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGSIZE changed from 231352 to 235448 (+2%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info3 to libdisplay-info4
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.0.3.0 /usr/lib/libdisplay-info.so.3", added "/usr/lib/libdisplay-info.so.4 /usr/lib/libdisplay-info.so.0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
+  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.3 to libdisplay-info.so.4
+  /usr/lib/libdisplay-info.so.0.3.0 moved to /usr/lib/libdisplay-info.so.0.4.0
+  /usr/lib/libdisplay-info.so.3 moved to /usr/lib/libdisplay-info.so.4
+  /usr/include/libdisplay-info/cta-vic.h was added
+  /usr/include/libdisplay-info/hdmi-vic.h was added
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-ca5bd6b537ae083f52c8e733e5bea095a74b5b27"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:ca5bd6b537ae083f52c8e733e5bea095a74b5b27"
-meta-yocto-bsp       
-meta-poky            = "master:e4690557fb0fffcb5e9a86d1c1ebc550bb0da090"
-workspace            = "<unknown>:<unknown>"
+--===============6390005602871563457==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="libdisplay-info-changelog.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 508 Local 489 Mirrors 0 Missed 19 Current 358 (96% match, 97% complete)
-done.
-Removing 4 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 464 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 491 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 519 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 533 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 537 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_create_spdx_setscene)
-NOTE: Running task 473 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_recipe_qa)
-NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_recipe_qa: Started
-NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 708 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 710 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_package_setscene)
-NOTE: recipe python3-3.14.6-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 729 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.14.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 740 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 789 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 790 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-3.14.6-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-3.14.6-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1292 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_fetch)
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 816 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 817 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_fetch: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1495 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_unpack)
-NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_unpack: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 822 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 823 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1504 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_patch)
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_patch: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 830 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 831 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: Running task 1804 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1815 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2078 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_create_recipe_spdx)
-NOTE: Running task 2123 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_populate_lic)
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_populate_lic: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2124 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_configure)
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_configure: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_configure: Succeeded
-NOTE: Running task 2125 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2126 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_compile)
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| 
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
-|     raise BackendUnavailable(
-|     ...<4 lines>...
-|     )
-| pyproject_hooks._impl.BackendUnavailable: Cannot import 'maturin'
-| 
-| TIP pass --env-dir and --sdist-extract-dir to keep the build environment and sources, then see https://build.pypa.io/en/stable/how-to/troubleshooting.html#debug-a-failed-build for help debugging a failed build
-| ERROR Backend 'maturin' is not available.
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/temp/run.do_compile.1246539:151 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/sources/hypothesis-6.161.1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/temp/run.do_compile.1246539, line 151
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/temp/run.do_compile.1246539, line 146
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/temp/run.do_compile.1246539, line 163
-NOTE: recipe python3-hypothesis-6.161.1-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2126 tasks of which 2115 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260724051902.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260724051902.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Changelog for libdisplay-info: 0.3.0 -> 0.4.0
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/temp/log.do_compile.1246539
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-hypothesis-6.161.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/temp/run.do_compile.1246539' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.1/temp/log.do_compile.1246539
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.1.bb:do_compile) failed with exit code '1'
+c67a3e9 build: bump version to 0.4.0
+772d506 build: disable most v4l-utils options by default
+d77a2e5 cta: switch error handling to negative error number away from errno
+8057b29 edid: fix potential overflow in shift operation
+99d8394 cta: add a few missing return on failures
+c5d86fe cta: do not fail when there's a bad Data Block in a CTA extension
+d18dd43 cta: cosmetic changes to _di_cta_data_block_parse()
+824bb14 cta: document that _di_cta_data_block_destroy() accepts zeroed tag
+636f24f cta: set errno when we don't have a fatal failure
+fd31752 displayid: make _di_displayid_parse_type_1_7_timing() return void
+c8f09c0 cta: do not fail when HDMI Vendor Specific Data Block has error
+cb5e3ed vic: avoid out-of-bounds array access
+baa0e52 di-edid-decode: Avoid crash when printing unknown DMT code
+70855b1 ci: Use gcc's static analyzer functionality in the build-gcc job
+c61b4b3 edid: Release all resources when parsing a display descriptor fails
+53b1009 displayid: Handle failed allocations
+84026a7 di-edid-decode: Initialize variables to zero to help analyzers
+76f133a cta: Initialize speaker location coordinates to zero
+73ec53d info: search CTA blocks in DisplayID v2 extensions
+73ab82d info: don't use di_ prefix for static helpers
+6feabfe di-edid-decode: add support for DisplayID v2 CTA-861 data blocks
+80caacc di-edid-decode: introduce print_cta_data_block()
+7324cca displayid2: add support for CTA-861 data blocks
+4713505 cta: expose _di_cta_data_block_{parse,destroy}
+34b3635 cta: make di_cta.flags optional
+d535192 cta: introduce struct di_cta
+91c3b83 di-edid-decode: Fix printing unknown DMT codes
+ccf012e displayid: Fix double free of cta_vics
+d828f86 cta-vic-table: re-generate from CTA-861-I
+5a12f3a tool/gen-cta-vic: update for CTA-861-I
+e4e0986 displayid: Add support for type IV timings
+d3b62b6 displayid: Move checking for reserved header flags to own function
+bca559d dmt: Wrap the uint8_t DMT code in struct for type safety
+2d98815 di-edid-decode: Move some timing printing to a shared file
+9ff243b vic: Wrap the uint8_t HDMI and CTA vic codes in structs for type safety
+e5c6fc1 timing: Add reverse lookup from timing definitions to codes
+0af6d1d edid: Return DMT codes for Established timings III
+0fd2b6b edid: Split out more DMT timing
+7899041 cta: Split out HDMI and CTA VIC lookup
+788c056 displayid2: decode data blocks structure
+0dee020 test: add asus-ux3405
+55b45d4 displayid: drop logger_add_failure()
+84e8da3 cta: include sys/types.h
+4daae7d ci: disable require-allow-collaboration check
+69d12ff build: bump version to 0.4.0-dev
 
---===============6969116238984762259==
+--===============6390005602871563457==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/cta-vic.h /usr/include/libdisplay-info/hdmi-vic.h"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.3 /usr/lib/libdisplay-info.so.0.3.0", added "/usr/lib/libdisplay-info.so.4 /usr/lib/libdisplay-info.so.0.4.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info3 to libdisplay-info4
+Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
+  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.3 to libdisplay-info.so.4
+  /usr/lib/libdisplay-info.so.0.3.0 moved to /usr/lib/libdisplay-info.so.0.4.0
+  /usr/lib/libdisplay-info.so.3 moved to /usr/lib/libdisplay-info.so.4
+  /usr/include/libdisplay-info/cta-vic.h was added
+  /usr/include/libdisplay-info/hdmi-vic.h was added
+
+--===============6390005602871563457==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.155.7-6.161.1.patch"
+ filename="0001-libdisplay-info-upgrade-0.3.0-0.4.0.patch"
 
-RnJvbSA3ZDYwZWE0ZjFhNzRkMGEzYzY3OWU1MmJiZWJmODgyOGZjODA4MzllIE1vbiBTZXAgMTcg
+RnJvbSAwMTQ0ZjE5OTc1MzI4OTQxYjM2NWFlYjBjNGIyNGQ3YjdhZTZjZDRjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjQgSnVsIDIwMjYgMDU6MTk6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNTUuNyAtPiA2LjE2MS4xCgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2MS4xLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2MS4xLmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTU1LjcuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjE2MS4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjcuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTYxLjEu
-YmIKaW5kZXggNzBhZTc4NzdhMS4uZWMxZGM1Y2FiYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTUuNy5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE2MS4xLmJiCkBA
-IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkOGQ2MDkxNzUzZDA2NjlkYjNjOTBjNWU1
-YjM0NmNiMzdjNzJmM2RkOTM3OGM4NDEzYWNiMWZkNWRhNjNmN2VhIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjQ0ZWU1MTA1MmI1NjAyNDU2NzZjYWNmOGM4OGJlMjNmMzEyMTMyY2RmMjljYjA4ZGQw
-OTJiNTJmZGNmMDdhNWQiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMjQgSnVsIDIwMjYgMDU6NDI6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJkaXNwbGF5LWluZm86IHVwZ3JhZGUgMC4zLjAgLT4gMC40LjAKCmM2N2EzZTkgYnVpbGQ6IGJ1
+bXAgdmVyc2lvbiB0byAwLjQuMAo3NzJkNTA2IGJ1aWxkOiBkaXNhYmxlIG1vc3QgdjRsLXV0aWxz
+IG9wdGlvbnMgYnkgZGVmYXVsdApkNzdhMmU1IGN0YTogc3dpdGNoIGVycm9yIGhhbmRsaW5nIHRv
+IG5lZ2F0aXZlIGVycm9yIG51bWJlciBhd2F5IGZyb20gZXJybm8KODA1N2IyOSBlZGlkOiBmaXgg
+cG90ZW50aWFsIG92ZXJmbG93IGluIHNoaWZ0IG9wZXJhdGlvbgo5OWQ4Mzk0IGN0YTogYWRkIGEg
+ZmV3IG1pc3NpbmcgcmV0dXJuIG9uIGZhaWx1cmVzCmM1ZDg2ZmUgY3RhOiBkbyBub3QgZmFpbCB3
+aGVuIHRoZXJlJ3MgYSBiYWQgRGF0YSBCbG9jayBpbiBhIENUQSBleHRlbnNpb24KZDE4ZGQ0MyBj
+dGE6IGNvc21ldGljIGNoYW5nZXMgdG8gX2RpX2N0YV9kYXRhX2Jsb2NrX3BhcnNlKCkKODI0YmIx
+NCBjdGE6IGRvY3VtZW50IHRoYXQgX2RpX2N0YV9kYXRhX2Jsb2NrX2Rlc3Ryb3koKSBhY2NlcHRz
+IHplcm9lZCB0YWcKNjM2ZjI0ZiBjdGE6IHNldCBlcnJubyB3aGVuIHdlIGRvbid0IGhhdmUgYSBm
+YXRhbCBmYWlsdXJlCmZkMzE3NTIgZGlzcGxheWlkOiBtYWtlIF9kaV9kaXNwbGF5aWRfcGFyc2Vf
+dHlwZV8xXzdfdGltaW5nKCkgcmV0dXJuIHZvaWQKYzhmMDljMCBjdGE6IGRvIG5vdCBmYWlsIHdo
+ZW4gSERNSSBWZW5kb3IgU3BlY2lmaWMgRGF0YSBCbG9jayBoYXMgZXJyb3IKY2I1ZTNlZCB2aWM6
+IGF2b2lkIG91dC1vZi1ib3VuZHMgYXJyYXkgYWNjZXNzCmJhYTBlNTIgZGktZWRpZC1kZWNvZGU6
+IEF2b2lkIGNyYXNoIHdoZW4gcHJpbnRpbmcgdW5rbm93biBETVQgY29kZQo3MDg1NWIxIGNpOiBV
+c2UgZ2NjJ3Mgc3RhdGljIGFuYWx5emVyIGZ1bmN0aW9uYWxpdHkgaW4gdGhlIGJ1aWxkLWdjYyBq
+b2IKYzYxYjRiMyBlZGlkOiBSZWxlYXNlIGFsbCByZXNvdXJjZXMgd2hlbiBwYXJzaW5nIGEgZGlz
+cGxheSBkZXNjcmlwdG9yIGZhaWxzCjUzYjEwMDkgZGlzcGxheWlkOiBIYW5kbGUgZmFpbGVkIGFs
+bG9jYXRpb25zCjg0MDI2YTcgZGktZWRpZC1kZWNvZGU6IEluaXRpYWxpemUgdmFyaWFibGVzIHRv
+IHplcm8gdG8gaGVscCBhbmFseXplcnMKNzZmMTMzYSBjdGE6IEluaXRpYWxpemUgc3BlYWtlciBs
+b2NhdGlvbiBjb29yZGluYXRlcyB0byB6ZXJvCjczZWM1M2QgaW5mbzogc2VhcmNoIENUQSBibG9j
+a3MgaW4gRGlzcGxheUlEIHYyIGV4dGVuc2lvbnMKNzNhYjgyZCBpbmZvOiBkb24ndCB1c2UgZGlf
+IHByZWZpeCBmb3Igc3RhdGljIGhlbHBlcnMKNmZlYWJmZSBkaS1lZGlkLWRlY29kZTogYWRkIHN1
+cHBvcnQgZm9yIERpc3BsYXlJRCB2MiBDVEEtODYxIGRhdGEgYmxvY2tzCjgwY2FhY2MgZGktZWRp
+ZC1kZWNvZGU6IGludHJvZHVjZSBwcmludF9jdGFfZGF0YV9ibG9jaygpCjczMjRjY2EgZGlzcGxh
+eWlkMjogYWRkIHN1cHBvcnQgZm9yIENUQS04NjEgZGF0YSBibG9ja3MKNDcxMzUwNSBjdGE6IGV4
+cG9zZSBfZGlfY3RhX2RhdGFfYmxvY2tfe3BhcnNlLGRlc3Ryb3l9CjM0YjM2MzUgY3RhOiBtYWtl
+IGRpX2N0YS5mbGFncyBvcHRpb25hbApkNTM1MTkyIGN0YTogaW50cm9kdWNlIHN0cnVjdCBkaV9j
+dGEKOTFjM2I4MyBkaS1lZGlkLWRlY29kZTogRml4IHByaW50aW5nIHVua25vd24gRE1UIGNvZGVz
+CmNjZjAxMmUgZGlzcGxheWlkOiBGaXggZG91YmxlIGZyZWUgb2YgY3RhX3ZpY3MKZDgyOGY4NiBj
+dGEtdmljLXRhYmxlOiByZS1nZW5lcmF0ZSBmcm9tIENUQS04NjEtSQo1YTEyZjNhIHRvb2wvZ2Vu
+LWN0YS12aWM6IHVwZGF0ZSBmb3IgQ1RBLTg2MS1JCmU0ZTA5ODYgZGlzcGxheWlkOiBBZGQgc3Vw
+cG9ydCBmb3IgdHlwZSBJViB0aW1pbmdzCmQzYjYyYjYgZGlzcGxheWlkOiBNb3ZlIGNoZWNraW5n
+IGZvciByZXNlcnZlZCBoZWFkZXIgZmxhZ3MgdG8gb3duIGZ1bmN0aW9uCmJjYTU1OWQgZG10OiBX
+cmFwIHRoZSB1aW50OF90IERNVCBjb2RlIGluIHN0cnVjdCBmb3IgdHlwZSBzYWZldHkKMmQ5ODgx
+NSBkaS1lZGlkLWRlY29kZTogTW92ZSBzb21lIHRpbWluZyBwcmludGluZyB0byBhIHNoYXJlZCBm
+aWxlCjlmZjI0M2IgdmljOiBXcmFwIHRoZSB1aW50OF90IEhETUkgYW5kIENUQSB2aWMgY29kZXMg
+aW4gc3RydWN0cyBmb3IgdHlwZSBzYWZldHkKZTVjNmZjMSB0aW1pbmc6IEFkZCByZXZlcnNlIGxv
+b2t1cCBmcm9tIHRpbWluZyBkZWZpbml0aW9ucyB0byBjb2RlcwowYWY2ZDFkIGVkaWQ6IFJldHVy
+biBETVQgY29kZXMgZm9yIEVzdGFibGlzaGVkIHRpbWluZ3MgSUlJCjBmZDJiNmIgZWRpZDogU3Bs
+aXQgb3V0IG1vcmUgRE1UIHRpbWluZwo3ODk5MDQxIGN0YTogU3BsaXQgb3V0IEhETUkgYW5kIENU
+QSBWSUMgbG9va3VwCjc4OGMwNTYgZGlzcGxheWlkMjogZGVjb2RlIGRhdGEgYmxvY2tzIHN0cnVj
+dHVyZQowZGVlMDIwIHRlc3Q6IGFkZCBhc3VzLXV4MzQwNQo1NWI0NWQ0IGRpc3BsYXlpZDogZHJv
+cCBsb2dnZXJfYWRkX2ZhaWx1cmUoKQo4NGU4ZGEzIGN0YTogaW5jbHVkZSBzeXMvdHlwZXMuaAo0
+ZGFhZTdkIGNpOiBkaXNhYmxlIHJlcXVpcmUtYWxsb3ctY29sbGFib3JhdGlvbiBjaGVjawo2OWQx
+MmZmIGJ1aWxkOiBidW1wIHZlcnNpb24gdG8gMC40LjAtZGV2Ci0tLQogLi4uL3tsaWJkaXNwbGF5
+LWluZm9fMC4zLjAuYmIgPT4gbGliZGlzcGxheS1pbmZvXzAuNC4wLmJifSAgICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL3tsaWJkaXNwbGF5LWluZm9fMC4zLjAu
+YmIgPT4gbGliZGlzcGxheS1pbmZvXzAuNC4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4zLjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8vbGliZGlzcGxheS1pbmZvXzAu
+NC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4zLjAuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC40LjAu
+YmIKaW5kZXggMzgwYzEyYjg2Ny4uZDk5M2JmMTA2MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL2xpYmRpc3BsYXktaW5mb18wLjMuMC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8vbGliZGlzcGxheS1pbmZvXzAuNC4w
+LmJiCkBAIC05LDYgKzksNiBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21k
+NT1lNDQyNjQwOTk1NzA4MGVlMDM1MjEyODM1NGNlYTJkZSIKIERFUEVORFMgPSAiaHdkYXRhLW5h
+dGl2ZSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2VtZXJzaW9u
+L2xpYmRpc3BsYXktaW5mby5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHM7dGFnPSR7UFZ9
+IgotU1JDUkVWID0gIjQ3YTU1OTBlOWM0ZWIzNWQ2NzY1MWI4YzA1YTU1ZjFhNDgyNTkzMjkiCitT
+UkNSRVYgPSAiYzY3YTNlOWJlZGIwNWFiNjFjNzQ0MzcwNGExYTEwN2U3NjI1NDU5NSIKIAogaW5o
+ZXJpdCBtZXNvbiBwa2djb25maWcgbGliX3BhY2thZ2UKLS0gCjIuNDcuMQoK
 
---===============6969116238984762259==--
+--===============6390005602871563457==--
 
