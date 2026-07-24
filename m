@@ -1,1016 +1,305 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21B04C53215
-	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 09:02:18 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15482.1784883728488883398
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F6FC531F9
+	for <webhook@archiver.kernel.org>; Fri, 24 Jul 2026 09:05:48 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.132])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15506.1784883938237283431
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2026 02:02:08 -0700
+ Fri, 24 Jul 2026 02:05:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=m4EEZ0C2;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51a868b6962so2008141cf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 02:02:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784883727; x=1785488527; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=nxAjd064ZT0ayJvCvjMKgKjnVulBRppXkg1XREnxjv4=;
-        b=m4EEZ0C24TRW6wlvqBvmeN5yDvNwZO0OdKJyY4nDicV1b/rCvOT4e0aVSEaVdEfjg9
-         kBVg3wmg1CY+2ZbZg6yusQbxmK+Lh2Fh4zR9V+o8HpxDzKWh1pclLk2CqX3Meo0fAAJi
-         YJnl/3NwWRpW+DWMHQagCYB0tQHq+NUGX7Qx+XkFAibenq9DmE3jencNa1klKQd6J/42
-         qNRQZK7n8jNj2gz8g+ttgkx97dRq5Hk/fb7pLh+i8C8sCnU6M2mu8thbcPyonrbr4ihb
-         xKotw1EeW/C6WnibYJjv3d3B6lWO1N/kar4SKyUDtBqRBxCMC9hBwXqaZvLms3j1yKNc
-         p35w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784883727; x=1785488527;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=nxAjd064ZT0ayJvCvjMKgKjnVulBRppXkg1XREnxjv4=;
-        b=iuID9c4fhH10hl0GZpjdkX0gBpN/h69ZfQ23zSE1Czb+F3l/270qrXh4LQm6oUMpTS
-         dXPKgsrx0qSmCnOFMtSbb1IUKw6IzhrZNAVXzKM6UYCtGzqhoakxCu/aOLkWUJXPWwME
-         f3Ps68cS4XReMbRJCtQTL/g49ll6BSVIjGT8wAe/HggjfppSzKr+IdXkr0+iYsZj8hsu
-         pV/yptGJfpmZM8XZc4P1ndSzebwC+UhTt+WG/UKtyfue2z0Fn9Ys7ebxbKLOb2lJe38v
-         S0ZUJ3DRAkLE9F083tp8JlmFKp9cPOFvlLTmLMIrnJHIT0qFFM68Qxe5snl5dDm6Fduj
-         qO+A==
-X-Gm-Message-State: AOJu0YzQqHJbakei6sE/Fm8YwApexC7UcMx0Q/h+c7DevevpJOd9K532
-	urjGbtNtz5BxrvlHfSsMdoR2/3Nzd6Q2CnBhKCuxvq221GOKH+gBcxw+/i1pdA==
-X-Gm-Gg: AR+sD12iuoDMKJ7MtAXzQdt0j5jgMW4eicZ99tR2dtsKKxudALOrDEyLd0QTn3sQ4Yk
-	eoYl0Mv9COXCIJ5tMOhPEjJzsedvb/x2LxB8mT3nFzB17XqYlnFuNzQKL0zW4qUx+7P/bZrZqPR
-	QGr/Pzo13lQzCD8gTkrJwl52+KTupdfJ6TvJGw9nrb+oAnH4GBu1kcKeAps9a4sHjSdVi2jPhLd
-	zdzSfptJZQJpdwIsSD1LmTS+iUArXDQb753K8hED2lYf2fRM/NrBBGZTzDrAq6sKOvUQz74WDyF
-	CRj3BlNDdXlU6NUuO54Oms6fjVwKswFRMk6xnanWIeYW1mRY83nl4Un7ZImxqQ1FNCbHXck/Wdj
-	KUkpRNpQIyWrAl1C9P7fjb2qigVn2qNNSJVdUDWwi5G0KDxeWvbBe1LUFc9UK4SjhpADxCRG97V
-	5zb+BlOqP7cqEdR92wBjrAFnxsDK06nYIF7Jg/7TA/jMsjFEkJ36bVJhI=
-X-Received: by 2002:a05:622a:5145:b0:51b:60f1:689a with SMTP id d75a77b69052e-5283dda399amr18565351cf.7.1784883726394;
-        Fri, 24 Jul 2026 02:02:06 -0700 (PDT)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907baa27cf1sm63968326d6.46.2026.07.24.02.02.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 02:02:05 -0700 (PDT)
-From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4 04/10] oeqa/selftest/wic: drop redundant per-test PATH overrides
-Date: Fri, 24 Jul 2026 05:01:40 -0400
-Message-ID: <20260724090146.19924-5-twoerner@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260724090146.19924-1-twoerner@gmail.com>
-References: <20260724090146.19924-1-twoerner@gmail.com>
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=E3XkwpS6;
+ spf=pass (domain: navimatix.de, ip: 40.107.159.132, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JxlOxy+FN84K8chP4naKeP0QCcmW5xeck8jxSFQDamzzQr/t5n2b7AiV2zwNK92lZI0HuTGQLIemaLTfVocuB59PFVursQZ/Ot6l0S6JeVbPR9j0u3kPRqtuRvMb8IFPbropETarprW7e2PF7TbadxrsmwGzxsEvjjYw9189PsrMc+ooCvsYK4/RRNEX3ikJynbGiKqZcDlMASyoTTSK+Jk4tpNJdqK03H7DtGJ74nV5E3o72h0tDt0+xu+xzFgwqP1bw66DmxfDi8vQU3F0ELPbcPFydnxBScC5pShy58M4C48MHHbWOpAnXpOG5bSKjn8ubg8tUb1pPWCfXpoImQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N5uduAXG3g0ytGWmf5K8jEFMmEly9L3+d+zzM/kOrTc=;
+ b=CMEoDUMr9Xpc0w6m5rW3/kuYiTYYqjEgFCbnD7fVyCcjcvOxsj61xxyUME059KPsyQNTaJ06O9jZ02THCDr4Drxdn+Z3ggKAzX3kAFQNaJeJXbQ8+oRn36fynJ648mXtVpZdUegn1DFRe8XUCvmNIGmgJUTFConiK6bKgc3LNOghKxXT5i7szoxV3kP1J4RJWBnB79eNgEP91SnmIRUikkbYlEPg+X0XxXieq/I1vvb/F+URwJ5FCKDiDiCstMVhNl6PPB88Ej87fcFqHwkemwrLJG3tRyCGSx/PlZZrXlziHvdk8QoLLb0Ss9p4R3Wa7sseXqlE+oGAWFx6TLBViw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N5uduAXG3g0ytGWmf5K8jEFMmEly9L3+d+zzM/kOrTc=;
+ b=E3XkwpS6CT/gF9nZPQtALO6J11YrknrtBtqPzIx6RqYVOOgYpBYNsgUEIT1obJHju+hMaRDZqfiua0u+TFZ5/B45g9G+v2GnA8/jKzOC2ZkEevDZqc4M8d2tP34qT4BUGjaaTAJCMFk1FUXzhpJLiCj/NyrTUMJ/4SRoqKuVwTA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by AM0PR01MB6290.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:160::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
+ 2026 09:05:33 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.21.0245.009; Fri, 24 Jul 2026 09:05:33 +0000
+Date: Fri, 24 Jul 2026 11:05:31 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org, ross.burton@arm.com, mathieu.dubois-briand@bootlin.com, 
+	rs@ti.com
+Subject: Re: [OE-core] [PATCH v2] bitbake.conf: Extend distro feature
+ usrmerge to merge bin+sbin
+Message-ID: <amMqIdRgjjuYsnAI@navimatix.de>
+References: <18C52E3640016A00.1442561@lists.openembedded.org>
+Content-Type: multipart/signed; micalg=sha256;
+	protocol="application/pkcs7-signature"; boundary="oy42yqqo2hfj77lv"
+Content-Disposition: inline
+In-Reply-To: <18C52E3640016A00.1442561@lists.openembedded.org>
+X-ClientProxiedBy: BE1P281CA0280.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:84::20) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AM0PR01MB6290:EE_
+X-MS-Office365-Filtering-Correlation-Id: e653ffc4-76d9-48ab-b693-08dee962b792
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|56012099006|10067099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info: 
+	6b6cSCWFFPHFdQ51U9rKu8zgdp+JRdndHih51RAqq9xd9nKXp/nGO180oWZ/emg2Uo/UGwAno4oySwmKKOB0LnuQHWjpt6wIk8WOVwZDv1jpP5Afw1myN+CnUbf5vfLThm2WmmuiVz+fEc8P2HHza3CGID5g4tQ6d2mlutTAquBUYbp0rHT9WztZWBfkHhr5KVE4tSUlv+I3JBh6hkHr2M+XjT+KynGN0VvWGdmqdce/h/TPiAWTXz/w451lWtDLlANPfiinDtzjZPvYCyEmm9RTblazMSnsXctuimB0d2opBB/+K3Fo6Yt3JJUX1znKLaJo7FQ/V1Qah/smL6lwGl0+8pCaP+iJXP+BxI3M0K5Z53PkTPDCaa8/kf+XqFpSchihoNe4pm80+4RESXwpPXLl34cDQuTPNJIO6wZw2uH7Nb+ZKh5JBYRAkvEYV/eg9uzT4LYUYeZ7WMiPt0QuPVw5DbLQzZUeO8Lck6CsGjZQk6qFiiJ22lZXAC7yLNTERko2gFzHSYwiLt760+0frFIa0fbAihJJvb4RK9DyXGzxjsBOOeYajzGobxdXi0HMOm7sSM9m1T2TtoQCAHjQP7yec6uiFZ8TpE1MYOKRaQM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(56012099006)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?iso-8859-1?Q?wjJwAbcn2w+7+Y67uRdiaIk2/lHdHj28KiCW/riguzbfuDvLxu3ES522Xr?=
+ =?iso-8859-1?Q?6lrxUjJZRlfTcHXnlz+fi+nHuXrp/HaTIdALYlNXSW1dagIryORhNKSpMa?=
+ =?iso-8859-1?Q?qlnDbJ1HkwmcggPXtzm/hnD+Ua/uejzDqvpXwMKWSQQUiLBGCYAodf/DSv?=
+ =?iso-8859-1?Q?Ub0uii79pafDxjmvOpnls/g000gHwSWekGzCsWQcqr7J3OkVG5gH8nf9Ax?=
+ =?iso-8859-1?Q?9r/Yy6GRej5Q8TFhSvJ2tTgVs9jnfB0nXm88zFuVX+hL46yAOJTxecWtA+?=
+ =?iso-8859-1?Q?hSHmKZrm25A7Oyobt5y5rdBx1/S8Q0eTn/bq331zQksUMTOOWLM89tProM?=
+ =?iso-8859-1?Q?bKf/Qvb4jHwuJGA9MYeIEMVY7EQnddaQAU7Cua4Swr8tN+hI88fyzpd9IL?=
+ =?iso-8859-1?Q?AYhvjOSAhXxoXPAMiU0yh0BiM2NPwNYtofnsMPKi3r+RyCiwlrLlRbp7yd?=
+ =?iso-8859-1?Q?j2q0L3eKGSIQAKcfjG0wJI7/8+lIshtuoz9iT0qVT2AH2bC+ps9Xm27TgD?=
+ =?iso-8859-1?Q?ooiBLgIsuzIEq6erQ3mRLWQuAHhnfjEToIq0zrIN6CgcdXsYytXoKgoid6?=
+ =?iso-8859-1?Q?x6xsSNCL2VQTS0ivcL+rJwm69P84Fse+xKfvMIn1W+uFSsn8zZ/fVTgL6b?=
+ =?iso-8859-1?Q?lzZ+/XggpfsvgahpeHclo2jPU77m1NOsD4tRH1zBgtO9MIJs5n5TXWGB+D?=
+ =?iso-8859-1?Q?q4swSOm2M3D5wDf+bmSsRRY2E9/muX5/n8cyOVEEtVU3FaUh0JjDdPLnRi?=
+ =?iso-8859-1?Q?IUN/RkKTpvErJ/KYvAEOw1x3IZAmd0l3d6TSpH/FaWOq2cuMOH6BS8us6H?=
+ =?iso-8859-1?Q?MKIQxm+4b5teQhivOcroXrCzF8Vk1++Jw0gN7ndrVFapHhuCl9QgPtcVgz?=
+ =?iso-8859-1?Q?urOSk8GiIrd0vXJamRLD4L4+Tl01GHGKefCxqPAr0GGAHNaqBykxlGhTG0?=
+ =?iso-8859-1?Q?WLcCYzaRtwLwgyOUslqXEbZlZTX1DQzOct4a6FphxLbuJJjBuo0hcIZkC6?=
+ =?iso-8859-1?Q?nkcJj9GqaR2VnZVc7gVi/nz8qiGvAa6IyDgvH/wAv+Xl1NG1YnTARJJvgj?=
+ =?iso-8859-1?Q?vH63k95ebHc8bO3QUpcZs8FP5uivzLP1FRAGSfPut47I956/DWOqz8eJoL?=
+ =?iso-8859-1?Q?y/Q3RAhFktXkKqDkSch2Xyi12Qd07wu5jViqpEcXbf5plF50WUPR5R9aTH?=
+ =?iso-8859-1?Q?Es6VeE1p/KQzdpw0huEvUpp2Ow1EyJw0csGsqRz9LGtX6XHcdiq3jx/lzQ?=
+ =?iso-8859-1?Q?II3iRKZmXRBK4MUdgMqq1a6zUHu5mV1Lu8lmJQdgNLtKJZwGqiRmKC+nt0?=
+ =?iso-8859-1?Q?NVXoqJcx1OEqErOWPx+0jonnFf9ilgTA31Ro74OUx2hhsMSW/UD4gnRb/w?=
+ =?iso-8859-1?Q?ZoSN8+MA6NJuuPvG8nkBbS2dXyV2WBojfFoIlFlk8ljELmlW6PKgsxDrss?=
+ =?iso-8859-1?Q?BGhFnKwb69smRF5YobDEK000WTP7H1jEzvQRGsbhWxfwrjJnay3UlBAaUm?=
+ =?iso-8859-1?Q?tdb98hBOFI4Nfl9GQr66+81GUJma95A9WBA7oTFrpR8Tymq3cLcQT1K+Uf?=
+ =?iso-8859-1?Q?7vIT74FHIiTjFLqW+L9z3Y1cd0BECcCEThZWA3dCZzLDOzNzSo75gUdh8d?=
+ =?iso-8859-1?Q?XAmTMeEDuZj0iigkNuV5sAcySnPqCyqdwf5llQoH21WNQYsniSaggwoF2Z?=
+ =?iso-8859-1?Q?D/cj223LQLCYichrhnwqZi38VSXrZDXrDy9nM5qwbKZc/xB1Ti0NrmV1/S?=
+ =?iso-8859-1?Q?xA7kdZgyOwjKt3lhzFs+Z8nbg2rjzNxl8RvFT7DX1fnrnKckHFQcghvHS6?=
+ =?iso-8859-1?Q?M8EFY0tXN+LVBWAlvUeZ2yW+lRcZR4Y=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: e653ffc4-76d9-48ab-b693-08dee962b792
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 09:05:33.0276
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Q28AnwQSGtmx27oXAMjneQf9xN2vyd0KQmCqYWPYwH3sqt+txpe7mLyAqdUpnIIpaZBeKeuNR/tGqqwcpRLSJUDIiwGmmM4LtYdljCX93M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR01MB6290
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 09:02:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241914
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2026 09:05:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241921
 
-setUpLocal() already puts wic and its tools on PATH for every test: it
-sets os.environ['PATH'] to the wic binary's directory followed by the
-whole wic-tools native-sysroot PATH, and tearDownLocal() restores the
-original. A number of individual tests then re-set
+--oy42yqqo2hfj77lv
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [PATCH v2] bitbake.conf: Extend distro feature
+ usrmerge to merge bin+sbin
+MIME-Version: 1.0
 
-    os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+J=F6rg Sommer via lists.openembedded.org schrieb am Fr 24. Jul, 11:00 (+020=
+0):
+> From: Randolph Sapp <rs@ti.com>
+>=20
+> The split of bin and sbin became more artificial over time, and it is no
+> longer clear why programmes goes into the one or the other directory; e.g.
+> forever normal users have used sendmail in /usr/sbin, and fdisk and mkfs
+> learned to operate on files to create images long ago.
+>=20
+> Because systemd drives this movement to have only /usr/bin and symlink /b=
+in,
+> /sbin and /usr/sbin to there, the usrmerge feature (started by systemd to=
+o)
+> should be extended to include the binmerge. For a system with split bin/s=
+bin
+> `systemctl status` reports the system as tainted for *unmerged-bin.*
+>=20
+> Override most sbin variables to point to their bin equivalent when
+> usermerge is enabled, with the exception being base_sbindir_native and
+> sbindir_native. There is no guarantee the host machine is using this
+> filesystem scheme.
+>=20
+> This check was added to systemd back in 2024 [2].
+>=20
+> [1] https://gitlab.archlinux.org/archlinux/packaging/packages/filesystem/=
+-/blob/main/PKGBUILD
+> [2] https://github.com/systemd/systemd/commit/844863c61e7b501097da84a1e4d=
+1e4a6aa6d9f0d
+>=20
+> Signed-off-by: Randolph Sapp <rs@ti.com>
+> Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+> ---
+>=20
+> I took Randolph's version and reworked it a bit. But the idea stays the s=
+ame.
 
-inside a try/finally, which is a narrower subset of what setUpLocal
-already established (it drops the wic bindir prepend and the original
-PATH tail) and adds nothing: wic and every tool it runs are reachable
-from the PATH setUpLocal installs.
+This is a follow-up to <20260408195024.1874335-2-rs@ti.com>
+https://lists.openembedded.org/g/openembedded-core/message/234858
 
-Remove these per-test overrides and their try/finally wrappers. The
-tests keep passing the explicit --native-sysroot / RECIPE_SYSROOT_NATIVE
-that some of them build, which is a separate concern from PATH.
 
-The diff looks large and noisy, but the change is mechanical: dropping
-each try/finally means the whole test body dedents by one level, so
-almost every line in the affected tests shows up as removed-and-re-added
-with different leading whitespace. The test logic is otherwise
-unchanged; reviewing with a whitespace-insensitive diff (git show -w)
-shows only the removed override, try: and finally: lines.
+--=20
+Navimatix GmbH           T: 03641 - 327 99 0
+Tatzendpromenade 2       F: 03641 - 526 306
+07745 Jena               www.navimatix.de
 
-AI-Generated: codex/claude-opus 4.8 (xhigh)
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
-changes in v4:
-- new in v4
----
- meta/lib/oeqa/selftest/cases/wic.py | 792 +++++++++++++---------------
- 1 file changed, 362 insertions(+), 430 deletions(-)
+Gesch=E4ftsf=FChrer: Steffen Sp=E4the, Jan Rommeley
+Registergericht: Amtsgericht Jena, HRB 501480
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 6a2706fc2c8f..37673392c271 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -536,104 +536,97 @@ class Wic(WicTestCase):
-     def test_exclude_path(self):
-         """Test --exclude-path wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            wks_file = 'temp.wks'
--            with open(wks_file, 'w') as wks:
--                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
--                wks.write("""
-+        wks_file = 'temp.wks'
-+        with open(wks_file, 'w') as wks:
-+            rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
-+            wks.write("""
- part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path usr
- part /usr --source rootfs --ondisk mmcblk0 --fstype=ext4 --rootfs-dir %s/usr
- part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --rootfs-dir %s/usr
- part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoami --rootfs-dir %s/usr"""
--                          % (rootfs_dir, rootfs_dir, rootfs_dir))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            os.remove(wks_file)
--            wicout = glob(os.path.join(self.resultdir, "%s-*direct" % 'temp'))
--            self.assertEqual(1, len(wicout))
-+                      % (rootfs_dir, rootfs_dir, rootfs_dir))
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            wicimg = wicout[0]
--
--            # verify partition size with wic
--            res = runCmd("parted -m %s unit b p" % wicimg, stderr=subprocess.PIPE)
--
--            # parse parted output which looks like this:
--            # BYT;\n
--            # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
--            # 1:0.00MiB:200MiB:200MiB:ext4::;\n
--            partlns = res.output.splitlines()[2:]
-+        os.remove(wks_file)
-+        wicout = glob(os.path.join(self.resultdir, "%s-*direct" % 'temp'))
-+        self.assertEqual(1, len(wicout))
- 
--            self.assertEqual(4, len(partlns))
-+        wicimg = wicout[0]
- 
--            for part in [1, 2, 3, 4]:
--                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
--                partln = partlns[part-1].split(":")
--                self.assertEqual(7, len(partln))
--                start = int(partln[1].rstrip("B")) / 512
--                length = int(partln[3].rstrip("B")) / 512
--                runCmd("dd if=%s of=%s skip=%d count=%d" %
--                                           (wicimg, part_file, start, length))
--
--            # Test partition 1, should contain the normal root directories, except
--            # /usr.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part1"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn("etc", files)
--            self.assertNotIn("usr", files)
--
--            # Partition 2, should contain common directories for /usr, not root
--            # directories.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part2"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn("etc", files)
--            self.assertNotIn("usr", files)
--            self.assertIn("share", files)
--
--            # Partition 3, should contain the same as partition 2, including the bin
--            # directory, but not the files inside it.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn("etc", files)
--            self.assertNotIn("usr", files)
--            self.assertIn("share", files)
--            self.assertIn("bin", files)
--            res = runCmd("debugfs -R 'ls -p bin' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn(".", files)
--            self.assertIn("..", files)
--            self.assertEqual(2, len(files))
--
--            # Partition 4, should contain the same as partition 2, including the bin
--            # directory, but not whoami (a symlink to busybox.nosuid) inside it.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn("etc", files)
--            self.assertNotIn("usr", files)
--            self.assertIn("share", files)
--            self.assertIn("bin", files)
--            res = runCmd("debugfs -R 'ls -p bin' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn(".", files)
--            self.assertIn("..", files)
--            self.assertIn("who", files)
--            self.assertNotIn("whoami", files)
--
--            for part in [1, 2, 3, 4]:
--                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
--                os.remove(part_file)
-+        # verify partition size with wic
-+        res = runCmd("parted -m %s unit b p" % wicimg, stderr=subprocess.PIPE)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+        # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+        partlns = res.output.splitlines()[2:]
-+
-+        self.assertEqual(4, len(partlns))
-+
-+        for part in [1, 2, 3, 4]:
-+            part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
-+            partln = partlns[part-1].split(":")
-+            self.assertEqual(7, len(partln))
-+            start = int(partln[1].rstrip("B")) / 512
-+            length = int(partln[3].rstrip("B")) / 512
-+            runCmd("dd if=%s of=%s skip=%d count=%d" %
-+                                       (wicimg, part_file, start, length))
-+
-+        # Test partition 1, should contain the normal root directories, except
-+        # /usr.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part1"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn("etc", files)
-+        self.assertNotIn("usr", files)
-+
-+        # Partition 2, should contain common directories for /usr, not root
-+        # directories.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part2"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn("etc", files)
-+        self.assertNotIn("usr", files)
-+        self.assertIn("share", files)
-+
-+        # Partition 3, should contain the same as partition 2, including the bin
-+        # directory, but not the files inside it.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn("etc", files)
-+        self.assertNotIn("usr", files)
-+        self.assertIn("share", files)
-+        self.assertIn("bin", files)
-+        res = runCmd("debugfs -R 'ls -p bin' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn(".", files)
-+        self.assertIn("..", files)
-+        self.assertEqual(2, len(files))
-+
-+        # Partition 4, should contain the same as partition 2, including the bin
-+        # directory, but not whoami (a symlink to busybox.nosuid) inside it.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn("etc", files)
-+        self.assertNotIn("usr", files)
-+        self.assertIn("share", files)
-+        self.assertIn("bin", files)
-+        res = runCmd("debugfs -R 'ls -p bin' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn(".", files)
-+        self.assertIn("..", files)
-+        self.assertIn("who", files)
-+        self.assertNotIn("whoami", files)
-+
-+        for part in [1, 2, 3, 4]:
-+            part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
-+            os.remove(part_file)
- 
-     def test_exclude_path_with_extra_space(self):
-         """Test having --exclude-path with IMAGE_ROOTFS_EXTRA_SPACE. [Yocto #15555]"""
-@@ -672,75 +665,61 @@ part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoa
-     def test_include_path(self):
-         """Test --include-path wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            include_path = os.path.join(self.resultdir, 'test-include')
--            os.makedirs(include_path)
--            with open(os.path.join(include_path, 'test-file'), 'w') as t:
--                t.write("test\n")
--            wks_file = os.path.join(include_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
--                wks.write("""
-+        include_path = os.path.join(self.resultdir, 'test-include')
-+        os.makedirs(include_path)
-+        with open(os.path.join(include_path, 'test-file'), 'w') as t:
-+            t.write("test\n")
-+        wks_file = os.path.join(include_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
-+            wks.write("""
- part /part1 --source rootfs --ondisk mmcblk0 --fstype=ext4
- part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
--                          % (include_path))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
--            part2 = glob(os.path.join(self.resultdir, 'temp-*.direct.p2'))[0]
-+                      % (include_path))
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            # Test partition 1, should not contain 'test-file'
--            res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn('test-file', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+        part2 = glob(os.path.join(self.resultdir, 'temp-*.direct.p2'))[0]
- 
--            # Test partition 2, should contain 'test-file'
--            res = runCmd("debugfs -R 'ls -p' %s" % (part2), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('test-file', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        # Test partition 1, should not contain 'test-file'
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn('test-file', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        # Test partition 2, should contain 'test-file'
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part2), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('test-file', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
-     def test_include_path_embeded(self):
-         """Test --include-path wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            include_path = os.path.join(self.resultdir, 'test-include')
--            os.makedirs(include_path)
--            with open(os.path.join(include_path, 'test-file'), 'w') as t:
--                t.write("test\n")
--            wks_file = os.path.join(include_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                wks.write("""
-+        include_path = os.path.join(self.resultdir, 'test-include')
-+        os.makedirs(include_path)
-+        with open(os.path.join(include_path, 'test-file'), 'w') as t:
-+            t.write("test\n")
-+        wks_file = os.path.join(include_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            wks.write("""
- part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-image-minimal-mtdutils export/"""
--                          % (include_path))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+                      % (include_path))
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('test-file', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
- 
--            res = runCmd("debugfs -R 'ls -p /export/etc/' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('passwd', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('test-file', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        res = runCmd("debugfs -R 'ls -p /export/etc/' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('passwd', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
-     def test_include_path_errors(self):
-         """Test --include-path wks option error handling."""
-@@ -791,9 +770,6 @@ part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-imag
-         # prepare wicenv and rootfs
-         bitbake('core-image-minimal core-image-minimal-mtdutils -c do_rootfs_wicenv')
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
-         t_normal = """
- part / --source rootfs --fstype=ext4
- """
-@@ -810,61 +786,50 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
- """
-         tests = [t_normal, t_exclude, t_multi, t_change]
- 
--        try:
--            for test in tests:
--                include_path = os.path.join(self.resultdir, 'test-include')
--                os.makedirs(include_path)
--                wks_file = os.path.join(include_path, 'temp.wks')
--                with open(wks_file, 'w') as wks:
--                    wks.write(test)
--                runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--                for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
--                    res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
--                    self.assertEqual(True, files_own_by_root(res.output))
-+        for test in tests:
-+            include_path = os.path.join(self.resultdir, 'test-include')
-+            os.makedirs(include_path)
-+            wks_file = os.path.join(include_path, 'temp.wks')
-+            with open(wks_file, 'w') as wks:
-+                wks.write(test)
-+            runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--                config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
--                self.append_config(config)
--                bitbake('core-image-minimal')
--                tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
-+            for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
-+                res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
-+                self.assertEqual(True, files_own_by_root(res.output))
- 
--                # check each partition for permission
--                for part in glob(os.path.join(tmpdir, 'temp-*.direct.p*')):
--                    res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
--                    self.assertTrue(files_own_by_root(res.output)
--                        ,msg='Files permission incorrect using wks set "%s"' % test)
-+            config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
-+            self.append_config(config)
-+            bitbake('core-image-minimal')
-+            tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
- 
--                # clean config and result directory for next cases
--                self.remove_config(config)
--                rmtree(self.resultdir, ignore_errors=True)
-+            # check each partition for permission
-+            for part in glob(os.path.join(tmpdir, 'temp-*.direct.p*')):
-+                res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
-+                self.assertTrue(files_own_by_root(res.output)
-+                    ,msg='Files permission incorrect using wks set "%s"' % test)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+            # clean config and result directory for next cases
-+            self.remove_config(config)
-+            rmtree(self.resultdir, ignore_errors=True)
- 
-     def test_change_directory(self):
-         """Test --change-directory wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            include_path = os.path.join(self.resultdir, 'test-include')
--            os.makedirs(include_path)
--            wks_file = os.path.join(include_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+        include_path = os.path.join(self.resultdir, 'test-include')
-+        os.makedirs(include_path)
-+        wks_file = os.path.join(include_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('passwd', files)
-+        part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('passwd', files)
- 
-     def test_change_directory_errors(self):
-         """Test --change-directory wks option error handling."""
-@@ -887,41 +852,34 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
-     def test_no_fstab_update(self):
-         """Test --no-fstab-update wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
-         # Get stock fstab from base-files recipe
-         bitbake('base-files -c do_install')
-         bf_fstab = os.path.join(get_bb_var('D', 'base-files'), 'etc', 'fstab')
-         self.assertEqual(True, os.path.exists(bf_fstab))
-         bf_fstab_md5sum = runCmd('md5sum %s ' % bf_fstab).output.split(" ")[0]
- 
--        try:
--            no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
--            os.makedirs(no_fstab_update_path)
--            wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
--                                'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
--                                '--fstype=ext4 --label p2 --no-fstab-update\n'])
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part_fstab_md5sum = []
--            for i in range(1, 3):
--                part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
--                part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s" % (part), stderr=subprocess.PIPE)
--                part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
-+        no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
-+        os.makedirs(no_fstab_update_path)
-+        wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
-+                            'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
-+                            '--fstype=ext4 --label p2 --no-fstab-update\n'])
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            # '/etc/fstab' in partition 2 should contain the same stock fstab file
--            # as the one installed by the base-file recipe.
--            self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
-+        part_fstab_md5sum = []
-+        for i in range(1, 3):
-+            part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
-+            part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s" % (part), stderr=subprocess.PIPE)
-+            part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
- 
--            # '/etc/fstab' in partition 1 should contain an updated fstab file.
--            self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
-+        # '/etc/fstab' in partition 2 should contain the same stock fstab file
-+        # as the one installed by the base-file recipe.
-+        self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        # '/etc/fstab' in partition 1 should contain an updated fstab file.
-+        self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
- 
-     def test_no_fstab_update_errors(self):
-         """Test --no-fstab-update wks option error handling."""
-@@ -995,153 +953,139 @@ bootloader --ptable gpt""")
-     def test_wic_sector_size_env(self):
-         """Test generation image sector size via environment (obsolete)"""
-  
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+        # Add WIC_SECTOR_SIZE into config
-+        config = 'WIC_SECTOR_SIZE = "4096"\n'\
-+                 'WICVARS:append = " WIC_SECTOR_SIZE"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
- 
--        try:
--            # Add WIC_SECTOR_SIZE into config
--            config = 'WIC_SECTOR_SIZE = "4096"\n'\
--                     'WICVARS:append = " WIC_SECTOR_SIZE"\n'
--            self.append_config(config)
--            bitbake('core-image-minimal')
-+        # Check WIC_SECTOR_SIZE apply to bitbake variable
-+        wic_sector_size_str = get_bb_var('WIC_SECTOR_SIZE', 'core-image-minimal')
-+        wic_sector_size = int(wic_sector_size_str)
-+        self.assertEqual(4096, wic_sector_size)
- 
--            # Check WIC_SECTOR_SIZE apply to bitbake variable
--            wic_sector_size_str = get_bb_var('WIC_SECTOR_SIZE', 'core-image-minimal')
--            wic_sector_size = int(wic_sector_size_str)
--            self.assertEqual(4096, wic_sector_size)
--
--            self.logger.info("Test wic_sector_size: %d \n" % wic_sector_size)
--
--            with NamedTemporaryFile("w", suffix=".wks") as wks:
--                wks.writelines(
--                    ['bootloader --ptable gpt\n',
--                     'part --fstype vfat --fstype vfat --label emptyfat --size 1M --mkfs-extraopts "-S 4096"\n',
--                     'part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"\n',
--                     'part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"\n'])
--                wks.flush()
--                cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
--                runCmd(cmd)
--                wksname = os.path.splitext(os.path.basename(wks.name))[0]
--                images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
--                self.assertEqual(1, len(images))
-+        self.logger.info("Test wic_sector_size: %d \n" % wic_sector_size)
- 
--            sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
--            # list partitions
--            result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
--            print(result.output)
--            # Deprecated message + 4 lines of output: header + 3 partitions
--            self.assertEqual(5, len(result.output.split('\n')))
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines(
-+                ['bootloader --ptable gpt\n',
-+                 'part --fstype vfat --fstype vfat --label emptyfat --size 1M --mkfs-extraopts "-S 4096"\n',
-+                 'part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"\n',
-+                 'part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"\n'])
-+            wks.flush()
-+            cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
-+            runCmd(cmd)
-+            wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+            images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-+            self.assertEqual(1, len(images))
- 
--            # verify partition size with wic
--            res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (wic_sector_size, images[0]),
--                         stderr=subprocess.PIPE)
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+        # list partitions
-+        result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
-+        print(result.output)
-+        # Deprecated message + 4 lines of output: header + 3 partitions
-+        self.assertEqual(5, len(result.output.split('\n')))
- 
--            print(res.output)
--            # parse parted output which looks like this:
--            # BYT;\n
--            # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
--            # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
--            # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
--            # 3:149270528B:297353215B:148082688B:ext4:primary:;
--            disk_info = res.output.splitlines()[1]
--            # Check sector sizes
--            sector_size_logical = int(disk_info.split(":")[3])
--            sector_size_physical = int(disk_info.split(":")[4])
--            self.assertEqual(wic_sector_size, sector_size_logical, "Logical sector size is not %d." % wic_sector_size)
--            self.assertEqual(wic_sector_size, sector_size_physical, "Physical sector size is not %d." % wic_sector_size)
--
--            # It is a known issue with parsed that a 4K FAT partition does
--            # not have a recognized filesystem type of *fat.
--            part_info = res.output.splitlines()[2]
--            partname = part_info.split(":")[5]
--            parttype = part_info.split(":")[6]
--            self.assertEqual('emptyfat', partname)
--            self.assertEqual('msftdata;', parttype)
--
--            part_info = res.output.splitlines()[3]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('rofs-a', partname)
--
--            part_info = res.output.splitlines()[4]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('primary', partname)
-+        # verify partition size with wic
-+        res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (wic_sector_size, images[0]),
-+                     stderr=subprocess.PIPE)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        print(res.output)
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
-+        # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
-+        # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
-+        # 3:149270528B:297353215B:148082688B:ext4:primary:;
-+        disk_info = res.output.splitlines()[1]
-+        # Check sector sizes
-+        sector_size_logical = int(disk_info.split(":")[3])
-+        sector_size_physical = int(disk_info.split(":")[4])
-+        self.assertEqual(wic_sector_size, sector_size_logical, "Logical sector size is not %d." % wic_sector_size)
-+        self.assertEqual(wic_sector_size, sector_size_physical, "Physical sector size is not %d." % wic_sector_size)
-+
-+        # It is a known issue with parsed that a 4K FAT partition does
-+        # not have a recognized filesystem type of *fat.
-+        part_info = res.output.splitlines()[2]
-+        partname = part_info.split(":")[5]
-+        parttype = part_info.split(":")[6]
-+        self.assertEqual('emptyfat', partname)
-+        self.assertEqual('msftdata;', parttype)
-+
-+        part_info = res.output.splitlines()[3]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('rofs-a', partname)
-+
-+        part_info = res.output.splitlines()[4]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('primary', partname)
- 
-     def test_wic_sector_size_cli(self):
-         """Test sector size handling via CLI option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            bitbake('core-image-minimal')
--
--            with NamedTemporaryFile("w", suffix=".wks") as wks:
--                wks.writelines(
--                    ['bootloader --ptable gpt\n',
--                     'part --fstype vfat --fstype vfat --label emptyfat --size 1M\n',
--                     'part --fstype ext4 --source rootfs --label rofs-a\n',
--                     'part --fstype ext4 --source rootfs --use-uuid\n'])
--                wks.flush()
--                cmd = "wic create %s -e core-image-minimal -o %s --sector-size 4096" % (wks.name, self.resultdir)
--                runCmd(cmd)
--                wksname = os.path.splitext(os.path.basename(wks.name))[0]
--                images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
--                self.assertEqual(1, len(images))
-+        bitbake('core-image-minimal')
- 
--            sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
--            # list partitions
--            result = runCmd("wic ls %s -n %s --sector-size 4096" % (images[0], sysroot))
--            print(result.output)
--            # 4 lines of output: header + 3 partitions
--            self.assertEqual(4, len(result.output.split('\n')))
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines(
-+                ['bootloader --ptable gpt\n',
-+                 'part --fstype vfat --fstype vfat --label emptyfat --size 1M\n',
-+                 'part --fstype ext4 --source rootfs --label rofs-a\n',
-+                 'part --fstype ext4 --source rootfs --use-uuid\n'])
-+            wks.flush()
-+            cmd = "wic create %s -e core-image-minimal -o %s --sector-size 4096" % (wks.name, self.resultdir)
-+            runCmd(cmd)
-+            wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+            images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-+            self.assertEqual(1, len(images))
- 
--            # verify partition size with parted output
--            res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (4096, images[0]),
--                         stderr=subprocess.PIPE)
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+        # list partitions
-+        result = runCmd("wic ls %s -n %s --sector-size 4096" % (images[0], sysroot))
-+        print(result.output)
-+        # 4 lines of output: header + 3 partitions
-+        self.assertEqual(4, len(result.output.split('\n')))
- 
--            print(res.output)
--            # parse parted output which looks like this:
--            # BYT;\n
--            # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
--            # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
--            # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
--            # 3:149270528B:297353215B:148082688B:ext4:primary:;
--            disk_info = res.output.splitlines()[1]
--            # Check sector sizes
--            sector_size_logical = int(disk_info.split(":")[3])
--            sector_size_physical = int(disk_info.split(":")[4])
--            self.assertEqual(4096, sector_size_logical, "Logical sector size is not 4096.")
--            self.assertEqual(4096, sector_size_physical, "Physical sector size is not 4096.")
--
--            # It is a known issue with parsed that a 4K FAT partition does
--            # not have a recognized filesystem type of *fat.
--            part_info = res.output.splitlines()[2]
--            partname = part_info.split(":")[5]
--            parttype = part_info.split(":")[6]
--            self.assertEqual('emptyfat', partname)
--            self.assertEqual('msftdata;', parttype)
--
--            part_info = res.output.splitlines()[3]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('rofs-a', partname)
--
--            part_info = res.output.splitlines()[4]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('primary', partname)
-+        # verify partition size with parted output
-+        res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (4096, images[0]),
-+                     stderr=subprocess.PIPE)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        print(res.output)
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
-+        # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
-+        # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
-+        # 3:149270528B:297353215B:148082688B:ext4:primary:;
-+        disk_info = res.output.splitlines()[1]
-+        # Check sector sizes
-+        sector_size_logical = int(disk_info.split(":")[3])
-+        sector_size_physical = int(disk_info.split(":")[4])
-+        self.assertEqual(4096, sector_size_logical, "Logical sector size is not 4096.")
-+        self.assertEqual(4096, sector_size_physical, "Physical sector size is not 4096.")
-+
-+        # It is a known issue with parsed that a 4K FAT partition does
-+        # not have a recognized filesystem type of *fat.
-+        part_info = res.output.splitlines()[2]
-+        partname = part_info.split(":")[5]
-+        parttype = part_info.split(":")[6]
-+        self.assertEqual('emptyfat', partname)
-+        self.assertEqual('msftdata;', parttype)
-+
-+        part_info = res.output.splitlines()[3]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('rofs-a', partname)
-+
-+        part_info = res.output.splitlines()[4]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('primary', partname)
- 
- class Wic2(WicTestCase):
- 
-@@ -1483,47 +1427,41 @@ run_wic_cmd() {
-     def test_extra_partition_space(self):
-         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part                 --ondisk hda --size 10M        --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part                 --ondisk hda --fixed-size 20M  --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part --source rootfs --ondisk hda                   --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part --source rootfs --ondisk hda --fixed-size 200M --extra-partition-space 10M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            _, wicimg = self._get_wic(tempf.name)
- 
--        try:
--            with NamedTemporaryFile("w", suffix=".wks") as tempf:
--                tempf.write("bootloader --ptable gpt\n" \
--                            "part                 --ondisk hda --size 10M        --extra-partition-space 10M --fstype=ext4\n" \
--                            "part                 --ondisk hda --fixed-size 20M  --extra-partition-space 10M --fstype=ext4\n" \
--                            "part --source rootfs --ondisk hda                   --extra-partition-space 10M --fstype=ext4\n" \
--                            "part --source rootfs --ondisk hda --fixed-size 200M --extra-partition-space 10M --fstype=ext4\n")
--                tempf.flush()
--
--                _, wicimg = self._get_wic(tempf.name)
--
--                res = runCmd("parted -m %s unit b p" % wicimg,
--                                native_sysroot=native_sysroot, stderr=subprocess.PIPE)
--
--                # parse parted output which looks like this:
--                # BYT;\n
--                # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
--                # 1:0.00MiB:200MiB:200MiB:ext4::;\n
--                partlns = res.output.splitlines()[2:]
--
--                self.assertEqual(4, len(partlns))
--
--                # Test for each partitions that the extra part space exists
--                for part in range(0, len(partlns)):
--                    part_file = os.path.join(self.resultdir, "selftest_img.part%d" % (part + 1))
--                    partln = partlns[part].split(":")
--                    self.assertEqual(7, len(partln))
--                    self.assertRegex(partln[3], r'^[0-9]+B$')
--                    part_size = int(partln[3].rstrip("B"))
--                    start = int(partln[1].rstrip("B")) / 512
--                    length = part_size / 512
--                    runCmd("dd if=%s of=%s skip=%d count=%d" %
--                                                (wicimg, part_file, start, length))
--                    res = runCmd("dumpe2fs %s -h | grep \"^Block count\"" % part_file)
--                    fs_size = int(res.output.split(":")[1].strip()) * 1024
--                    self.assertLessEqual(fs_size + 10485760, part_size, "part file: %s" % part_file)
--        finally:
--            os.environ['PATH'] = oldpath
-+            res = runCmd("parted -m %s unit b p" % wicimg,
-+                            native_sysroot=native_sysroot, stderr=subprocess.PIPE)
-+
-+            # parse parted output which looks like this:
-+            # BYT;\n
-+            # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+            # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+            partlns = res.output.splitlines()[2:]
-+
-+            self.assertEqual(4, len(partlns))
-+
-+            # Test for each partitions that the extra part space exists
-+            for part in range(0, len(partlns)):
-+                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % (part + 1))
-+                partln = partlns[part].split(":")
-+                self.assertEqual(7, len(partln))
-+                self.assertRegex(partln[3], r'^[0-9]+B$')
-+                part_size = int(partln[3].rstrip("B"))
-+                start = int(partln[1].rstrip("B")) / 512
-+                length = part_size / 512
-+                runCmd("dd if=%s of=%s skip=%d count=%d" %
-+                                            (wicimg, part_file, start, length))
-+                res = runCmd("dumpe2fs %s -h | grep \"^Block count\"" % part_file)
-+                fs_size = int(res.output.split(":")[1].strip()) * 1024
-+                self.assertLessEqual(fs_size + 10485760, part_size, "part file: %s" % part_file)
- 
-     # TODO this test could also work on aarch64
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-@@ -1836,45 +1774,39 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-             testfile.write("test %s" % testfilename)
-             testfile.close()
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines([
-+                'part / --source extra_partition --ondisk sda --sourceparams "name=foo" --align 4 --size 5M\n',
-+                'part / --source extra_partition --ondisk sda --label foo --align 4 --size 5M\n',
-+                'part / --source extra_partition --ondisk sda --fstype=vfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 --size 5M\n',
-+                'part / --source extra_partition --ondisk sda --fstype=ext4 --label bar --align 4 --size 5M\n',
-+                'bootloader --ptable gpt\n',
-+            ])
-+            wks.flush()
-+            _, wicimg = self._get_wic(wks.name)
- 
--        try:
--            with NamedTemporaryFile("w", suffix=".wks") as wks:
--                wks.writelines([
--                    'part / --source extra_partition --ondisk sda --sourceparams "name=foo" --align 4 --size 5M\n',
--                    'part / --source extra_partition --ondisk sda --label foo --align 4 --size 5M\n',
--                    'part / --source extra_partition --ondisk sda --fstype=vfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 --size 5M\n',
--                    'part / --source extra_partition --ondisk sda --fstype=ext4 --label bar --align 4 --size 5M\n',
--                    'bootloader --ptable gpt\n',
--                ])
--                wks.flush()
--                _, wicimg = self._get_wic(wks.name)
--
--            result = runCmd("wic ls %s -n %s" % (wicimg, sysroot))
--            partls = result.output.split('\n')[1:]
--
--            # Assert the number of partitions is correct
--            self.assertEqual(4, len(partls), msg="Expect 4 partitions, not %s" % result.output)
--
--            # Fstype column from 'wic ls' should be fstype as given in the part command
--            for part_id, part_fs in enumerate(["fat16", "fat16", "fat16", "ext4"]):
--                self.assertIn(part_fs, partls[part_id])
--
--            # For each partition, assert expected files exist
--            for part, part_glob in enumerate([
--                ["bar.conf"],
--                ["foo.conf"],
--                ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.conf"],
--                ["bar.conf", "bar2.conf"],
--            ]):
--                for part_file in part_glob:
--                    result = runCmd("wic ls %s:%d/%s -n %s" % (wicimg, part + 1, part_file, sysroot))
--                    self.assertEqual(0, result.status, msg="File '%s' not found in the partition #%d" % (part_file, part))
-+        result = runCmd("wic ls %s -n %s" % (wicimg, sysroot))
-+        partls = result.output.split('\n')[1:]
- 
--            self.remove_config(config)
--        finally:
--            os.environ['PATH'] = oldpath
-+        # Assert the number of partitions is correct
-+        self.assertEqual(4, len(partls), msg="Expect 4 partitions, not %s" % result.output)
-+
-+        # Fstype column from 'wic ls' should be fstype as given in the part command
-+        for part_id, part_fs in enumerate(["fat16", "fat16", "fat16", "ext4"]):
-+            self.assertIn(part_fs, partls[part_id])
-+
-+        # For each partition, assert expected files exist
-+        for part, part_glob in enumerate([
-+            ["bar.conf"],
-+            ["foo.conf"],
-+            ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.conf"],
-+            ["bar.conf", "bar2.conf"],
-+        ]):
-+            for part_file in part_glob:
-+                result = runCmd("wic ls %s:%d/%s -n %s" % (wicimg, part + 1, part_file, sysroot))
-+                self.assertEqual(0, result.status, msg="File '%s' not found in the partition #%d" % (part_file, part))
-+
-+        self.remove_config(config)
- 
-     def test_fs_types(self):
-         """Test filesystem types for empty and not empty partitions"""
--- 
-2.50.0.173.g8b6f19ccfc3a
+--oy42yqqo2hfj77lv
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
+MIIaGAYJKoZIhvcNAQcCoIIaCTCCGgUCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0B
+BwGgghehMIIFgTCCBGmgAwIBAgIQOXJEOvkit1HX02wQ3TE1lTANBgkqhkiG9w0BAQwFADB7
+MQswCQYDVQQGEwJHQjEbMBkGA1UECAwSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHDAdT
+YWxmb3JkMRowGAYDVQQKDBFDb21vZG8gQ0EgTGltaXRlZDEhMB8GA1UEAwwYQUFBIENlcnRp
+ZmljYXRlIFNlcnZpY2VzMB4XDTE5MDMxMjAwMDAwMFoXDTI4MTIzMTIzNTk1OVowgYgxCzAJ
+BgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkgQ2l0eTEe
+MBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1c3QgUlNB
+IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKC
+AgEAgBJlFzYOw9sIs9CsVw127c0n00ytUINh4qogTQktZAnczomfzD2p7PbPwdzx07HWezco
+EStH2jnGvDoZtF+mvX2do2NCtnbyqTsrkfjib9DsFiCQCT7i6HTJGLSR1GJk23+jBvGIGGqQ
+Ijy8/hPwhxR79uQfjtTkUcYRZ0YIUcuGFFQ/vDP+fmyc/xadGL1RjjWmp2bIcmfbIWax1Jt4
+A8BQOujM8Ny8nkz+rwWWNR9XWrf/zvk9tyy29lTdyOcSOk2uTIq3XJq0tyA9yn8iNK5+O2hm
+AUTnAU5GU5szYPeUvlM3kHND8zLDU+/bqv50TmnHa4xgk97Exwzf4TKuzJM7UXiVZ4vuPVb+
+DNBpDxsP8yUmazNt925H+nND5X4OpWaxKXwyhGNVicQNwZNUMBkTrNN9N6frXTpsNVzbQdcS
+2qlJC9/YgIoJk2KOtWbPJYjNhLixP6Q5D9kCnusSTJV882sFqV4Wg8y4Z+LoE53MW4LTTLPt
+W//e5XOsIzstAL81VXQJSdhJWBp/kjbmUZIO8yZ9HE0XvMnsQybQv0FfQKlERPSZ51eHnlAf
+V1SoPv10Yy+xUGUJ5lhCLkMaTLTwJUdZ+gQek9QmRkpQgbLevni3/GcV4clXhB4PY9bpYrrW
+X1Uu6lzGKAgEJTm4Diup8kyXHAc/DVL17e8vgg8CAwEAAaOB8jCB7zAfBgNVHSMEGDAWgBSg
+EQojPpbxB+zirynvgqV/0DCktDAdBgNVHQ4EFgQUU3m/WqorSs9UgOHYm8Cd8rIDZsswDgYD
+VR0PAQH/BAQDAgGGMA8GA1UdEwEB/wQFMAMBAf8wEQYDVR0gBAowCDAGBgRVHSAAMEMGA1Ud
+HwQ8MDowOKA2oDSGMmh0dHA6Ly9jcmwuY29tb2RvY2EuY29tL0FBQUNlcnRpZmljYXRlU2Vy
+dmljZXMuY3JsMDQGCCsGAQUFBwEBBCgwJjAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuY29t
+b2RvY2EuY29tMA0GCSqGSIb3DQEBDAUAA4IBAQAYh1HcdCE9nIrgJ7cz0C7M7PDmy14R3iJv
+m3WOnnL+5Nb+qh+cli3vA0p+rvSNb3I8QzvAP+u431yqqcau8vzY7qN7Q/aGNnwU4M309z/+
+3ri0ivCRlv79Q2R+/czSAaF9ffgZGclCKxO/WIu6pKJmBHaIkU4MiRTOok3JMrO66BQavHHx
+W/BBC5gACiIDEOUMsfnNkjcZ7Tvx5Dq2+UUTJnWvu6rvP3t3O9LEApE9GQDTF1w52z97GA1F
+zZOFli9d31kWTz9RvdVFGD/tSo7oBmF0Ixa1DVBzJ0RHfxBdiSprhTEUxOipakyAvGp4z7h/
+jnZymQyd/teRCBaho1+VMIIGkDCCBHigAwIBAgIRAJNhG7GFaX1Mm3w/sd+ASzYwDQYJKoZI
+hvcNAQEMBQAwgYgxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQH
+EwtKZXJzZXkgQ2l0eTEeMBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQD
+EyVVU0VSVHJ1c3QgUlNBIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTIxMDMyMjAwMDAw
+MFoXDTM4MDExODIzNTk1OVowWjELMAkGA1UEBhMCR0IxGDAWBgNVBAoTD1NlY3RpZ28gTGlt
+aXRlZDExMC8GA1UEAxMoU2VjdGlnbyBQdWJsaWMgRW1haWwgUHJvdGVjdGlvbiBSb290IFI0
+NjCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAJHlG/qqbTcrdccuXxSl2yyXtixG
+j2nZ7JYt8x1avtMdI+ZoCf9KEXMarmefdprS5+y42V8r+SZWUa92nan8F+8yCtAjPLosT0eD
+7J0FaEJeBuDV6CtoSJey+vOkcTV9NJsXi39NDdvcTwVMlGK/NfovyKccZtlxX+XmWlXKq/S4
+dxlFUEVOSqvbnmbBGbc3QshWpUAS+TPoOEU6xoSjAo4vJLDDQYUHSZzP3NHyJm/tMxwzZypF
+N9mFZSIasbUQUglrA8YfcD2RxH2QPe1m+JD/JeDtkqKLMSmtnBJmeGOdV+z7C96O3IvLOql3
+9Lrl7DiMi+YTZqdpWMOCGhrN8Z/YU5JOSX2pRefxQyFatz5AzWOJz9m/x1AL4bzniJatntQX
+2l3P4JH9phDUuQOBm2ms+4SogTXrG+tobHxgPsPfybSudB1Ird1uEYbhKmo2Fq7IzrzbWPxA
+k0DYjlOXwqwiOOWIMbMuoe/s4EIN6v+TVkoGpJtMAmhkj1ZQwYEF/cvbxdcV8mu1dsOj+TLO
+yrVKqRt9Gdx/x2p+ley2uI39lUqcoytti/Fw5UcrAFzkuZ7U+NlYKdDL4ChibK6cYuLMvDaT
+QfXv/kZilbBXSnQsR1Ipnd2ioU9CwpLOLVBSXowKoffYncX4/TaHTlf9aKFfmYMc8LXd6JLT
+ZUBVypaFAgMBAAGjggEgMIIBHDAfBgNVHSMEGDAWgBRTeb9aqitKz1SA4dibwJ3ysgNmyzAd
+BgNVHQ4EFgQUp9eVd+tKwyfNk743TCaEIRR9XZgwDgYDVR0PAQH/BAQDAgGGMA8GA1UdEwEB
+/wQFMAMBAf8wHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMCMBEGA1UdIAQKMAgwBgYE
+VR0gADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNFUlRy
+dXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwNQYIKwYBBQUHAQEEKTAnMCUGCCsG
+AQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0GCSqGSIb3DQEBDAUAA4ICAQBw
+pquT4ow8LyRHG6NgR4oUsFncHl+eWLMtEBwv90EpGCGGDDDjoO23j4Zw6tS+THzwgz4SyP0M
+FQaMzHj40enm+z1Y29QIQCnJTeDOHWHKMRxeiFD8MBso+XgVM6z6MMDbbJ95btM/4eE3LyaB
+uBbheiINaAVieIdxLq6+dVkm00kmvMdlARsTkEvr5a9nYhGAs8T5RBD1DozAv9r89WJcn+QY
+X1M2l5vv0ws3Me1ziVSjC2cRhcae4seOFFjkRdJItzfk6H/Wm2FNv2XG8nE1nbgN8UCdhORO
+lQGGQ9DN152RmSJ1A6KAJIldo3YrJNiO8J4JLAE5/Tl9CNUHtbdYTOZLCAZ95G1g2GELQ2DQ
+1Xxo55iNojqUA4w1feORe86Dq2P08xzolHKepP1LGEw1gDGCkUYR0gVXLJExGd3dfEZDm0mm
+U7vWb6vRyLso/GUawFD2MZS4kK8/igkPO2Pkjfd5HD7hknpPVhcuBaWxWj8Q7bjwVlxGwts6
+sNZ+UJ5HC4c+11vVoV9cdbb93qpbWn/d+azhit6kRYdUmAUl8Bt5VRBMKCUnSaAAspxb9kFK
++cvm/MjErxN63YNEcMs2QKs3N862V8MQaoKqD+KsKnaLxF6pxRpOotenpfUTNE9GqxP9nI6i
+9rSHf16VFwW4NnJ6yUgzHUMdIqtTge98VjCCBiowggQSoAMCAQICEHb3t/4teUvaYKSSf0s+
+XMIwDQYJKoZIhvcNAQEMBQAwWjELMAkGA1UEBhMCR0IxGDAWBgNVBAoTD1NlY3RpZ28gTGlt
+aXRlZDExMC8GA1UEAxMoU2VjdGlnbyBQdWJsaWMgRW1haWwgUHJvdGVjdGlvbiBSb290IFI0
+NjAeFw0yMTAzMjIwMDAwMDBaFw0zNjAzMjEyMzU5NTlaMFgxCzAJBgNVBAYTAkdCMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxLzAtBgNVBAMTJlNlY3RpZ28gUHVibGljIEVtYWlsIFBy
+b3RlY3Rpb24gQ0EgUjM2MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAk7qaEDRX
+E35PMot8PAmiNaWYblItPHGyt1+H+DUs2GAYHofsdeURmjngaB0C3GcUcrVav1HsGjJuoh77
+nRif3O0gxUJGnIzj4ppKxxTsMNau8qvL+FnEkK6VrnqqnKIL3myjhJRdghUlK8Lgetl/3Pdz
+KQ7JO2xPZFklrLRm8EQSuUdyccvb+auvRdSnwrxsOvV+9n18ZdeahL/RBxM7R31DhVkMPO19
+EiQMj4PBl99wuWzXWL7yLgYh2/TJvIpSOf7waFcHkVYvfAPivV/ulUVaN2ncpSvlE4/TjA8d
+5NXKOY+C7RcyD3UZIi6XVg7T81gOfnvE/eEGsyHmgjzLFDYpgBwVOd7jLQ9jhLX4hdRbm959
+FrXQQrozzfTbyxRIwMwDqgUoPxIQVU9A7qXKu3yRXsn7OvnjYkYve6X0ZifTbjZaf4Hi/KXW
+fNn67zqCt0eNONM2QB5bNqg14qLooRQcgRpSNAEB4UsSyhwsJqEhXz4QwPFWn/wwvEJ0FgYD
+AgMBAAGjggFsMIIBaDAfBgNVHSMEGDAWgBSn15V360rDJ82TvjdMJoQhFH1dmDAdBgNVHQ4E
+FgQUHwSkfkz2MrEJ4pF84WzfUr/PLv0wDgYDVR0PAQH/BAQDAgGGMBIGA1UdEwEB/wQIMAYB
+Af8CAQAwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBEGA1UdIAQKMAgwBgYEVR0g
+ADBPBgNVHR8ESDBGMESgQqBAhj5odHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3RpZ29QdWJs
+aWNFbWFpbFByb3RlY3Rpb25Sb290UjQ2LmNybDB/BggrBgEFBQcBAQRzMHEwSgYIKwYBBQUH
+MAKGPmh0dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1B1YmxpY0VtYWlsUHJvdGVjdGlv
+blJvb3RSNDYucDdjMCMGCCsGAQUFBzABhhdodHRwOi8vb2NzcC5zZWN0aWdvLmNvbTANBgkq
+hkiG9w0BAQwFAAOCAgEAWooWgE/1j6esLJfOKB48VUcFaafH6wZcbEln7ls6BP7IvAP2GDRF
+33LtQhuVpt7qIqm/RXxWQLaC0yA14LE/pZZdm6CkkoWlTRgzZln6rM9dm2JvqyX2TLS0Z7P1
+E6o9EmPx53bRNrnauUu2lYYfpODYq/5LzDPWBjGNK5QW4+oKCykPzzfSveoF5KTuW1xxy+da
+EmtXm3hgYwYvTrB/7jHZU2hVbj/8DUAf/JCa/+AdQCtUE5XzKl6o5gGtWahY1yh9smQ3b48/
+cto1QW+ZwGCHk5CLr5bDhe2uh2ifn8BXxBOf33D6YHjnrOUyNxi43QD2wZRwyL8arpu/Ljl4
+H9zwIM0Q4vfbZuDghYLDnRVC1fGYBArWxw+uvoEMvO7lcc9MTezGkonPmanHYAcGffaIXpIQ
+rQWtWS9Pb22jEy6YZCUiqH4YcqkelJHqJD1HBLVMOPaCn2wXgBbv9jvZQsP9yFrD6tKX//ue
+D1V12I+L8qjUj17/ZRuxLcPDCF6vb/Svnu38Ejni16jHUO9G/YWFBZOuRbutUEgEp8hMXEzJ
+XO43NzBthf80VV86GaC83nNy3TETFF2yav+ioLIK7Qd5NRnI4DXNQYPq6j8qkEnODayXA1bR
+7V/qy4BrdrLHJf9NHMiANvCNiDn02MuniTPmb+rp4syaXK409MSG4PYwggVWMIIDvqADAgEC
+AhEAsFHj29zvfVPWA2FcnDeJlzANBgkqhkiG9w0BAQsFADBYMQswCQYDVQQGEwJHQjEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMS8wLQYDVQQDEyZTZWN0aWdvIFB1YmxpYyBFbWFpbCBQ
+cm90ZWN0aW9uIENBIFIzNjAeFw0yNjA3MDIwMDAwMDBaFw0yODA3MDEyMzU5NTlaMCoxKDAm
+BgkqhkiG9w0BCQEWGWpvZXJnLnNvbW1lckBuYXZpbWF0aXguZGUwggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQDNxFyhl/UuZdUpuQiuqZBMSU/pN5SMIj4lkvTlrtp2jl4Q77wb
+v4vXdXIFWqKd3qtut55G0ptK4nXs1ARrh3AHQAYwB0vW+PHVNPLs9yombnTeMgnEv/RQDFkH
++DxoKdY5+DRUmcVO/tYl6ExMEBj6oh6b/63whIkC61WRETH3FpRCRbyNBD73OWt0KzxoKzW9
+xmdqfhNtylLcIFMzuv9C1WAqJ3mLbFHYaW4NEMMckPZJWWYzvA2nwCCryerE3J9z4ZbSK0OK
+6DDRN9gW/H7+/4pHSIhdooGfQEdgLj+Z4ZPhvLMF5DncBD8k5DOK8mlDxCKp4GsrLLuBfLQd
+xilvAgMBAAGjggHHMIIBwzAfBgNVHSMEGDAWgBQfBKR+TPYysQnikXzhbN9Sv88u/TAdBgNV
+HQ4EFgQU3lTOaS6cJRsIzzEjdtC4j6GPtWIwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQC
+MAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMCMFAGA1UdIARJMEcwOgYMKwYBBAGy
+MQECAQoBMCowKAYIKwYBBQUHAgEWHGh0dHBzOi8vc2VjdGlnby5jb20vU01JTUVDUFMwCQYH
+Z4EMAQUBAjBNBgNVHR8ERjBEMEKgQKA+hjxodHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3Rp
+Z29QdWJsaWNFbWFpbFByb3RlY3Rpb25DQVIzNi5jcmwwfQYIKwYBBQUHAQEEcTBvMEgGCCsG
+AQUFBzAChjxodHRwOi8vY3J0LnNlY3RpZ28uY29tL1NlY3RpZ29QdWJsaWNFbWFpbFByb3Rl
+Y3Rpb25DQVIzNi5jcnQwIwYIKwYBBQUHMAGGF2h0dHA6Ly9vY3NwLnNlY3RpZ28uY29tMCQG
+A1UdEQQdMBuBGWpvZXJnLnNvbW1lckBuYXZpbWF0aXguZGUwDQYJKoZIhvcNAQELBQADggGB
+AD6hnou447615g2A0y87bR6mtVI+C+wAFCqRqfrCgHu0dB29VPiVXIVYbPN7H6meSMNr2lFo
+e81aZfbE7LMQj98hVKA/ljqWKJe6R5W1Tssv1568G9GJ0fvL1iGT74LuqcuYPt0LVH99Q1rH
+MfCBKpsyFo7P3JwoqEkuIpbAhaQMYdTcOgeHMYOLrIdx/9wQ1BXjTa/Cajvc3QxJEb308wgJ
+PBxhl8FWWm5MNOynBmRZPKeOeMF5113u6b03KTmXhBqSVeN2nZXEZ+B+wNcJv1dr4Sa0/k6p
+tbjZcr9ZkK7QtCarYgLDbsSbcLRJMuXUSHf1yaLwihZWJ1asynbFEmv1SrRSQ+3Hv4megEeY
+kYmW9Jiu9qh5z6S98F7JhsP4n6tGs24Xz7l2I/T+BmJMRglTeQnzBihH0kFPUanlApSKC99A
+clKs/tfOX8HKHs79Bw3PjRjJDog4D4Pbkom8UwQ/m5sCuOf7v632pjK2jm3OErS3XZxIjnFV
+4Gl+5jZ1zzGCAjswggI3AgEBMG0wWDELMAkGA1UEBhMCR0IxGDAWBgNVBAoTD1NlY3RpZ28g
+TGltaXRlZDEvMC0GA1UEAxMmU2VjdGlnbyBQdWJsaWMgRW1haWwgUHJvdGVjdGlvbiBDQSBS
+MzYCEQCwUePb3O99U9YDYVycN4mXMA0GCWCGSAFlAwQCAQUAoIGgMBgGCSqGSIb3DQEJAzEL
+BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDcyNDA5MDUzMFowLwYJKoZIhvcNAQkE
+MSIEIF/uDWLzeuMtZ6aRxs3EMP/4t2VE2zwBKaiGY0uRC+GpMDUGCSqGSIb3DQEJDzEoMCYw
+CwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzANBgkqhkiG9w0BAQEFAASC
+AQAE0cICaSbGP06zYUX7Ju8bWy5SnmRP9W2IUXtk5w4SORyqRdmSFQBD8pdEdywn2Eiz3AbU
+Gi8jITEHRFAaQpP5UopuwiUGhsvfjPU8lsvQAeF8KQo9y4+9jpsXHyke3jcy5dNmidb0rSqU
+sj9ewoe9irkbmwcH1hiZSA2SPykYgFMTgrh6XOT9pG/gYlk9AeySMuaH2z82WSP+hJSUxwmv
+llrC2F5mz1+rruT/pIimeLUE7o8GZQMYUEK56sO1ek3lm7vDPMBPXHY52l0Iq2gSoim12Ymf
+dhhsZrSSL6Qw7xXMnPeof14AVL8sZ+KYtuMwC3npA//dVBx6o4rGcCh8
+
+--oy42yqqo2hfj77lv--
 
