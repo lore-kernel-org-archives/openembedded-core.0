@@ -2,181 +2,198 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3301C531F9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CF2C531CC
 	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 08:30:32 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7397.1785054629268506939
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7398.1785054629947089385
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 01:30:29 -0700
+ Sun, 26 Jul 2026 01:30:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Uyp4Dh+7;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4955aa106b1so18641815e9.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=A7jpBmqg;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493b966dd74so10986355e9.3
         for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785054627; x=1785659427; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yAaRabXWLB9jUGyIe9SmF6R8cUfssHKE6JrCJ9CX11c=;
-        b=Uyp4Dh+7M8WvHNlg9eYCKECqMidrm0C4sODVgqBFPUFFIyYqqKaYYS4UDUqnib39m6
-         HpvmlTQM9FpfYJKOmow+JG294PcaDLy0bB7bWB3lU4JpfxP7KZoUrcQuj7l3M2h/DSh5
-         XtBk6M6teYd2m6wc8CIgMhHmLTpA5B8Bvd2CM=
+        d=smile.fr; s=google; t=1785054628; x=1785659428; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=rkozmByKv/QMp7pMK+WnzT0CXntBTwyeWlewq+5BGjI=;
+        b=A7jpBmqgaEy4OnDtuJlJTWgYGyHKZGD9yMb38bqGhDDxvo2agriMCShjNdpnkhLgDZ
+         qeuoIlMpN5NVv9HNttI3qQZpxw3M6euNnZTpUWeWjY1CKrbFioqTNX5v1VYhI084PbI2
+         wMQHyh67fhxbiMCpY8Fn8OZm96aRp6mpzgbTE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785054627; x=1785659427;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yAaRabXWLB9jUGyIe9SmF6R8cUfssHKE6JrCJ9CX11c=;
-        b=lMdIHHE2csOaaBQTQRzFlcytyf7j5PkKf2/SLoK7EaKUzi7YM0TgwUAgKITGDk7fS6
-         m1HL7BMxuQh/WjQQdqNFCjsLJVkk1TBWN+9OokPwIfmxhPpanCEXx3gcHiOFVWuDphHY
-         jTJozpirXrcUQX4MZOcreBs6Tg8cL7HY6EdmGymVtTwfFcm7lYCJrrcbKj7ENJK1zkhN
-         Ev2B+W7pCJPEFT70wz58DxpGHUD9TxfolxIf10Sl36ORDO0n7hJqyQ/GtFkLmGpOUpzp
-         vJtvn/RYpz6slua6wmAbFtzs8wW+kJM77aGbHNP3rxGuUNzdLTwHRZWDeuSWdka+XjgM
-         GNcg==
-X-Gm-Message-State: AOJu0YzbkZtJObW37nadvjgw4UTBU2NlBNN3Uu6XhPm+0XvL3XvKZqXe
-	LWPE1zLBIlv1TC1q2k/y7MDxE6HrhW4eoepcH0baoBbr/Ab+uWyBMOsp77GtAXonFI++RcnxQ8L
-	FFXAYsHo=
-X-Gm-Gg: AR+sD10ekNp9KMl3TzNgk796VEE1AYrpRi4VZoOB9KWZCM93GJoNPTAApUTWk70YXKX
-	soQKyd1RFtDufR5WpUmmHkJ0taeTuzAKtKVj5hgN+YnJkIugvpcZqhii8hIE/p0wT4RVAg8EMc/
-	xmJYjalqSbxxzvAQShbkE3n4q9gX1MJN57sWalG+2UmzaxGNSQSQLH2waM5BpaojzFL4s0eeANC
-	zuhtt0o5a7q4U6rimKwvfEgdxBoIVo84A1BGDZYJg+5v4GptyoZqxXRZWFdmtpfhEpDyIlf5CUo
-	iNEtyfo9RXpJdva8y1RCk1qcA/YabV1RSQF0r8KsRA0jNGVAXCjJwSzulmz89LAxUSW3b4DAcE5
-	ll19r4AH0isEqlx4OGuD88lBY0XSJ66i4ZnlyqcO6X8XEJan3/Maa4y2XEGSLzf3myL6CDVXa/I
-	nd9AImVx24naoDCHQyQjaIc09zx+EoOEIsgIfCkHeQJbClVgU45Etsc/593AncU0BmjG+U29luR
-	808ew==
-X-Received: by 2002:a05:600c:4f81:b0:493:f528:58ac with SMTP id 5b1f17b1804b1-496b56f9d75mr64085495e9.21.1785054627465;
-        Sun, 26 Jul 2026 01:30:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785054628; x=1785659428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=rkozmByKv/QMp7pMK+WnzT0CXntBTwyeWlewq+5BGjI=;
+        b=N/WZws5VpabL5Jf/CrT9kzNm57svNlv7Qb51PFvFMzHx0sHug1VU+GeWLy01Y/vAq5
+         bzHfIZAcqO/9oVv5/trtIJYXXdZS5bkWfCbjiXcxAtSLkzplxVDnsrqg/my3YdJrbCWP
+         48zH7wHzJ4MLGWRsBhbCuvvvvjqG440x3mb4duNaocMOUlRQXQ/68e7mpTaYqDNbVP6w
+         D/7fO+SmFtBFf+v6n2nE64cOgr4FR+a446o1PI9OE0oClSIa4Hpdta0kqLoiT2BlJbiF
+         GCX94BKGc3Bd9BB3h62ZkTSK2oH9WPrq7aFq2ULbiK9DR/n8hHXaI4MDUjdO42GsmB0k
+         Xg+w==
+X-Gm-Message-State: AOJu0Yy6sfAvMDfvYLAcABjk/X6LGtX59ORdkf4KvD/+sGOSIU4FnvmX
+	gVJuHq2SmU8o+Z0JfdznytsNQUD1+2IobSI3oUZUljXfRfbyQqQYW8g9QkhYzU5Mjs0JAlRXWWk
+	xih3Rsfg=
+X-Gm-Gg: AR+sD10Y6YcGqOyQlW9ByAhkG6CAClNMDrlGMpwKL67aU9XnVwm8dXyVO0cx6pkfZcb
+	wY2RInrWNzcEM6xqWJeJvqFJfIX/r0qKkK9897X2pq08vfgZe/bemlItmmEFG0sV4xf++YInxnu
+	f+oeRuQTHRKm/GHZZ4rMqBbWqZq0H2SrV3UKBahLqMal5KoidlyzTGEeVP7BULqE9qxsnt5eoTu
+	gsIHK0WovRQI3Q+kakmGyE9i+nUFNwz3gGbrkmMi3ettMqumJz5OG5/xAdwEXJWygWH3AcWODwM
+	CYLaIchkQqt2XLf1s7GxjPQ3PR546gW60zvkFsdW7oDe5LmSVJ3XUVVQpH1k3FFvo9GRj8vn7+Y
+	UEWfOY6JsUESEmuqbAkrG8FBEkgrdhgEqo0mIbpa6ptNmZu3lbEN5QQIKpKMj8kOKAVtKQXoFUc
+	vDFq6/DIcVkBUSL/iu3BqLecGUNkkeGGTrP2POvzofYx9qZkmWauRO5Z2rcyRDsunFkChT3OFaV
+	X4DtQ==
+X-Received: by 2002:a05:600c:3b1d:b0:493:f5bf:4dc6 with SMTP id 5b1f17b1804b1-496b56e6e1fmr61027275e9.7.1785054628068;
+        Sun, 26 Jul 2026 01:30:28 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 26 Jul 2026 01:30:27 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 30/31] gzip: Fix CVE-2026-41991
-Date: Sun, 26 Jul 2026 10:29:54 +0200
-Message-ID: <756270e9b67b97b276729daba50febe7093d85b3.1785054430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 31/31] bzip2: fix 'bzip2 --version > /tmp/aaa 2>&1' hang
+Date: Sun, 26 Jul 2026 10:29:55 +0200
+Message-ID: <762321beb0260b1411c7f98f13458ec99a118280.1785054430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785054429.git.yoann.congal@smile.fr>
 References: <cover.1785054429.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 08:30:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242012
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242013
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-This patch applies the upstream fix for CVE-2026-41991 as referenced
-in [2], using the upstream commit identified in [1].
+According to [1]
 
-[1] https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=4e6f8b24ab823146ab8776f0b7fe486ab34d4269
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-41991
+As of the current version 1.0.8, bzip2 --version will print version
+info but it will also continue compressing stdin:
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+  $ ./bzip2 --version
+  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
+
+     Copyright (C) 1996-2019 by Julian Seward.
+
+     This program is free software; [...]
+
+  bzip2: I won't write compressed data to a terminal.
+  bzip2: For help, type: `bzip2 --help'.
+
+This is a long-standing bug, not new to 1.0.8 -- the same code
+(license() followed by break, with no exit) exists in bzip2 1.0.6 and
+earlier. The upstream bzip2 master branch on GitLab already includes
+this fix.
+
+Debian (and its downstreams like Ubuntu) will patch this out [2],
+making the < /dev/null unnecessary, port a part of debian patch
+to fix the issue
+
+[1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-a-program-like-bzip2
+[2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy.patch/
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ae4fe4263ba9d372f9b9e80df4ec4697b51c1f9b)
+[Jaipaul: backport to scarthgap -- added commit message context that this is a
+long-standing bug (not new to 1.0.8), updated Upstream-Status in patch
+to actual mailing list URL in the patch file, this patch is already present on master,
+wrynose and walnascar branches using the same bzip2 1.0.8]
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gzip/gzip-1.13/CVE-2026-41991.patch       | 75 +++++++++++++++++++
- meta/recipes-extended/gzip/gzip_1.13.bb       |  1 +
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41991.patch
+ ...-fix-bzip2-version-tmp-aaa-will-hang.patch | 65 +++++++++++++++++++
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
 
-diff --git a/meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41991.patch b/meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41991.patch
+diff --git a/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
 new file mode 100644
-index 00000000000..9728b38658d
+index 00000000000..2d02328d116
 --- /dev/null
-+++ b/meta/recipes-extended/gzip/gzip-1.13/CVE-2026-41991.patch
-@@ -0,0 +1,75 @@
-+From 0af3a96047fe02690473d4e106c39552e0c1285e Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 16 Apr 2026 12:11:44 -0700
-+Subject: [PATCH] gzexe: use -C if lacking mktemp
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
+@@ -0,0 +1,65 @@
++From a9dd6acbaca836fc4e943e69a31b2e7acda32045 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 13 Nov 2024 19:49:23 +0800
++Subject: [PATCH] fix 'bzip2 --version > /tmp/aaa 2>&1' hang
 +
-+(Problem reported by Michał Majchrowicz.)
-+* gzexe.in: If mktemp is needed but not installed,
-+use ‘set -C’ to avoid a race when creating a temporary file.
-+* zdiff.in: Use the same pattern here, even though the old
-+code was probably OK anyway.
++According to [1]
 +
-+CVE: CVE-2026-41991
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.git/commit/?id=4e6f8b24ab823146ab8776f0b7fe486ab34d4269]
++As of the current version 1.0.8, bzip2 --version will print version
++info but it will also continue compressing stdin:
 +
-+(cherry picked from commit 4e6f8b24ab823146ab8776f0b7fe486ab34d4269)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++  $ ./bzip2 --version
++  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
++  
++     Copyright (C) 1996-2019 by Julian Seward.
++  
++     This program is free software; [...]
++  
++  bzip2: I won't write compressed data to a terminal.
++  bzip2: For help, type: `bzip2 --help'.
++
++Debian (and its downstreams like Ubuntu) will patch this out [2],
++making the < /dev/null unnecessary:
++
++[1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-a-program-like-bzip2
++[2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy.patch/
++
++Upstream-Status: Submitted [https://sourceware.org/pipermail/bzip2-devel/2024q4/000234.html]
++Note: updated Upstream-Status URL to point to the actual mailing list
++archive entry.
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ NEWS     | 5 +++++
-+ gzexe.in | 1 +
-+ zdiff.in | 7 +++----
-+ 3 files changed, 9 insertions(+), 4 deletions(-)
++ bzip2.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index 6a20892..c643b2f 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,5 +1,10 @@
-+ GNU gzip NEWS                                    -*- outline -*-
-+ 
-++  On old-fashioned or limited platforms lacking mktemp, gzexe and
-++  zdiff no longer have a race when creating a temporary file.
-++  [bug present since the beginning]
-++
-++
-+ * Noteworthy changes in release 1.13 (2023-08-19) [stable]
-+ 
-+ ** Changes in behavior
-+diff --git a/gzexe.in b/gzexe.in
-+index 5e3d4c2..f31b9c8 100644
-+--- a/gzexe.in
-++++ b/gzexe.in
-+@@ -128,6 +128,7 @@ for i do
-+     tmp=`mktemp "${dir}gzexeXXXXXXXXX"`
-+   else
-+     tmp=${dir}gzexe$$
-++    (umask 77; set -C; > "$tmp")
-+   fi && { cp -p "$file" "$tmp" 2>/dev/null || cp "$file" "$tmp"; } || {
-+     res=$?
-+     printf >&2 '%s\n' "$0: cannot copy $file"
-+diff --git a/zdiff.in b/zdiff.in
-+index e35e6fe..bbcc75b 100644
-+--- a/zdiff.in
-++++ b/zdiff.in
-+@@ -157,12 +157,11 @@ case $file2 in
-+                           *) TMPDIR=/tmp/;;
-+                         esac
-+                         if type mktemp >/dev/null 2>&1; then
-+-                          tmp=`mktemp "${TMPDIR}zdiffXXXXXXXXX"` ||
-+-                            exit 2
-++                          tmp=`mktemp "${TMPDIR}zdiffXXXXXXXXX"`
-+                         else
-+-                          set -C
-+                           tmp=${TMPDIR}zdiff$$
-+-                        fi
-++                          (umask 77; set -C; > "$tmp")
-++                        fi &&
-+                         'gzip' -cdfq -- "$file2" > "$tmp" || exit 2
-+                         gzip_status=$(
-+                           exec 4>&1
++diff --git a/bzip2.c b/bzip2.c
++index d95d280..6ec9871 100644
++--- a/bzip2.c
+++++ b/bzip2.c
++@@ -1890,7 +1890,9 @@ IntNative main ( IntNative argc, Char *argv[] )
++                case '8': blockSize100k    = 8; break;
++                case '9': blockSize100k    = 9; break;
++                case 'V':
++-               case 'L': license();            break;
+++               case 'L': license();
+++                         exit ( 0 );
+++                         break;
++                case 'v': verbosity++; break;
++                case 'h': usage ( progName );
++                          exit ( 0 );
++@@ -1916,8 +1918,8 @@ IntNative main ( IntNative argc, Char *argv[] )
++       if (ISFLAG("--keep"))              keepInputFiles   = True;    else
++       if (ISFLAG("--small"))             smallMode        = True;    else
++       if (ISFLAG("--quiet"))             noisy            = False;   else
++-      if (ISFLAG("--version"))           license();                  else
++-      if (ISFLAG("--license"))           license();                  else
+++      if (ISFLAG("--version"))           { license(); exit ( 0 ); }  else
+++      if (ISFLAG("--license"))           { license(); exit ( 0 ); }  else
++       if (ISFLAG("--exponential"))       workFactor = 1;             else 
++       if (ISFLAG("--repetitive-best"))   redundant(aa->name);        else
++       if (ISFLAG("--repetitive-fast"))   redundant(aa->name);        else
 +-- 
-+2.44.4
++2.34.1
 +
-diff --git a/meta/recipes-extended/gzip/gzip_1.13.bb b/meta/recipes-extended/gzip/gzip_1.13.bb
-index 208220867a6..4ab3b1d523c 100644
---- a/meta/recipes-extended/gzip/gzip_1.13.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.13.bb
-@@ -7,6 +7,7 @@ LICENSE = "GPL-3.0-or-later"
- SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index b661bc95465..6c02dc3ed06 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -27,6 +27,7 @@ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+            file://Makefile.am;subdir=${BP} \
             file://run-ptest \
-            file://CVE-2026-41992.patch \
-+           file://CVE-2026-41991.patch \
+            file://CVE-2026-42250.patch;subdir=${BP} \
++           file://0001-fix-bzip2-version-tmp-aaa-will-hang.patch;subdir=${BP} \
             "
- SRC_URI:append:class-target = " file://wrong-path-fix.patch"
- 
+ SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
+ SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
 
