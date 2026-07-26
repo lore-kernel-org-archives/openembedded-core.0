@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBC2C53200
-	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 08:30:20 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7143.1785054616611097516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B71C54F4C
+	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 08:30:21 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7374.1785054613920877252
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 01:30:16 -0700
+ Sun, 26 Jul 2026 01:30:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=1+vyXFmQ;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so19392985e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:30:16 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=BBxTUhvh;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4954c0833b4so13019325e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785054615; x=1785659415; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1785054612; x=1785659412; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=/bmvOhS7hWuDqtZKpL4QQxP4IG4heKQ8vH6ILyZrl9c=;
-        b=1+vyXFmQLNOTxxwCf9rvNz9whlLjOwoQIQoBQlcfPkSHK909EZWqiYF47o6gge1hlx
-         Mq4MeMkc+f9JxpMGWP/nZ2Zce+yr3RSnYcxvFcHgb7nqC+j4SeRNU4D0xDnC5+qjXmG1
-         47nUiMAGSp7SIAlysTcaC1I0g8AYb3SKKKYZE=
+        bh=fYWIlcCfPF8HEzUIF3LN7y3/8rTSGSRfaqyvv1BIPJM=;
+        b=BBxTUhvhZ6EN3Ig5pTDFN4vPjSufhq1wqX+7U2MaZwpoKYmfGYqlVBtL06I4PmRRaf
+         0k8PU0UAerWuskObr4HRwLD3tzM9rwZ3MRFl7po10UckcY+pCvFcOO0UPv625D+p02h/
+         7hf6/cDe6NPEpWFTKTKew+ck+cHTiUTiG/FQM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785054615; x=1785659415;
+        d=1e100.net; s=20251104; t=1785054612; x=1785659412;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=/bmvOhS7hWuDqtZKpL4QQxP4IG4heKQ8vH6ILyZrl9c=;
-        b=SBg4xQfC9N2uSmySvzA7/UwhydTl6XvywndzFhfU7Q0Wmp+Lr+NO0T5MRxTvZjcUxB
-         CJnmmq0HvW16S0KGsQxSXChB/7OL+aDjLp///jZk1ikXmH0zA/iNfEV7YpOKcnmeDCet
-         5+Dz1bMX0ZoUtyn7lXneV0QmFtSXvC2naJa/MC28LQU7fVQqN2ZaLb6BVMpKNoVJd4ev
-         DvZoJiMh7UdAqwRXzxDT27OqtM/hqlfrYD5TgJ+qLaU5OgwgTLi7jMDh96T4/WGPMdPh
-         H3JjuacZ/wb5jIZfcEwauzdd9xcVu9p0sPcy5jFaoZQ4xm7o3hntxgNPHQPzhEgmQLO8
-         +mEQ==
-X-Gm-Message-State: AOJu0YyY7juvTazFNM/CFLn0DouowZk4aLzMF/SpS5vcnl8njXj8KKk4
-	D3cS11CY0T6d8TKBwvlDgmbzMBbjLDVTpMduyzQh7AbwJtTha5G7vpcfCvpRdPoOPZnNicx2Xap
-	05HxZrJ4=
-X-Gm-Gg: AR+sD13LNfW3f4CgJCHZajbrTvkOxLLIlxUK4rK4iSmg2ZjeqvdlB9VNtlF//h5Pluo
-	AvXP0IotEpRXXjnj4FEFk0aTjRD0KWRBC0MnVN+BntiNPANuCexqCgyTx8QmiO3Tu0pRJ1tcaVb
-	UxwTgnICD++LMyTkknqwIR1xGkBb+QSK0FXZFUc9Itoab+eJa+fVLzRkY5GVuSjovkk9kNgng0k
-	Nv9A8K2mQoVXreLZ2nlACnr1qmzcmz2egrhuNZrHFZnJ5lROIazUu0JGeWsQA77TkmDP2dWfPSH
-	VcwBC4N62yIYUOedd7UI5HtPo0cq0LoV6fJ6oj0Rw9zhs12olqYyNGnaO79u2EIsHDNsPAsdwaa
-	fZ21lBa7211FemPnta933Zejbjl2guOGKkWLbbb11Ts1+GCwu0T1IZ3OMMXK9e2Gi0c71hVPifA
-	V9GSwqbwZfeyDqTmp1cCajGLXoI9MguDzeOxh2d3sqDBbiaXQKqaer7aNeHHRDDovPe6ZtDrr30
-	h8VlQ==
-X-Received: by 2002:a05:600c:3216:b0:495:4d2e:53d9 with SMTP id 5b1f17b1804b1-496b56f323fmr30036065e9.12.1785054614814;
-        Sun, 26 Jul 2026 01:30:14 -0700 (PDT)
+        bh=fYWIlcCfPF8HEzUIF3LN7y3/8rTSGSRfaqyvv1BIPJM=;
+        b=lhI+tyoCg2urb9MUse6N3ScWSDMGTifKgXMHEQZwrupUHYTwrKa/FIaHQDqpK5rVs5
+         z+/aivczrIBlkdS1yqTPA02xqwye7e51pksZOempt3FQd29dGbhUqJEj9iiIK1seH5f8
+         NWP22C62jfUvWjlzEEiPueOd76zGt79nJbgsA1+OV/o/0pAdoeg8wtonrO43mh2ydZLH
+         +/HdTG7HAsQ1Uk/rLA/XzZfa1mxzLM9amasLDMQBSf8PB1a6t/1Y6DA4dp4Ig7XrS8f/
+         D8rTUKyg1I8YaQ8OUV/sVinRkG/tNbH/97BjLSDjWgAo3vE7RsKCLsSFProVVSrtQvjE
+         NelQ==
+X-Gm-Message-State: AOJu0Ywn7pkadQI5tbos15ttr8Y4lHz27pBlq4LmRDX3RG8bupdtiOSW
+	lgTko6KkhYqiNahSyikot8God4CVQVasWrja6r1bZzYH+3VE4ExH9IzqEqoqzctWoiBTgyiq8My
+	T+r/v8CI=
+X-Gm-Gg: AR+sD12CHz83qB3vbMS+d4s+odehfgkAPigKgFltEKOw/5Tb9prFsd4LzM3zw/1Jus8
+	B1iyIM+0TifP0QmISWx1S3HjT2f9eM8eujEsx/zhwDY9w/swKguUc84/gvU366mQ5mvVONLqJ15
+	Tpssf/gXIryo78sIxDgjhF7tr0pPhLLz4+kJcSwvbotH7AK1pOYpHHtLomO8s4quu3QzMl2BwqD
+	r2OKy5Y39Cm8wriI4Ves5C/quQ2WXHhTduCTImRIE+W/2MZXxWAbVjGbWJ/sSTNc9WUPnlzDkyD
+	xlaZeKurIYoA5/tI015u7Tz05AujeDHqnjTg/pmouTIbFHoJ3/JCKyAyo6OUVGrwjRPoFQ1OliT
+	BRm5pynISXhImJbGFAcztiFSwrW1aiO3t29B+fom0+JKCufHODe/owjNVaxKQbvlf0fspt8azQD
+	dXMZuPk/CPbf5G6NJtWaTxwD/ni42jZQQDf9fLcjkuVfV6ly6zTEw0YBxs8nT0yee0DaiATb5+g
+	m7T2A==
+X-Received: by 2002:a05:600c:3e10:b0:495:443b:1bbb with SMTP id 5b1f17b1804b1-496b57160dcmr50820475e9.25.1785054612063;
+        Sun, 26 Jul 2026 01:30:12 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 01:30:14 -0700 (PDT)
+        Sun, 26 Jul 2026 01:30:11 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/31] openssh: Fix CVE-2026-59995
-Date: Sun, 26 Jul 2026 10:29:33 +0200
-Message-ID: <9967952fbfcb130477521324bc9899dafc277439.1785054430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 05/31] libxml2: Fix CVE-2026-11979
+Date: Sun, 26 Jul 2026 10:29:29 +0200
+Message-ID: <e2a9a776855ea1de5c7c6817d282ea2f555395ef.1785054430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785054429.git.yoann.congal@smile.fr>
 References: <cover.1785054429.git.yoann.congal@smile.fr>
@@ -65,84 +65,111 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 08:30:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241991
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 08:30:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241986
 
 From: Devansh Patel <devanshp@cisco.com>
 
-This patch applies the upstream OpenSSH 10.4 backport for
-CVE-2026-59995. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2].
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-[1] https://github.com/openssh/openssh-portable/commit/1b39f39657d2e58f8ec57341581a39bbf0be645b
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-59995
+[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/c2e233fc1b341685fc99621b2768b503f777a72e
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-11979
 
 Signed-off-by: Devansh Patel <devanshp@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssh/openssh/CVE-2026-59995.patch      | 42 +++++++++++++++++++
- .../openssh/openssh_9.6p1.bb                  |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59995.patch
+ .../libxml/libxml2/CVE-2026-11979.patch       | 70 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.12.10.bb   |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-59995.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59995.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
 new file mode 100644
-index 00000000000..9b6fee198ff
+index 00000000000..427026b345f
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-59995.patch
-@@ -0,0 +1,42 @@
-+From b340eaa274a7e7dffea03bcb62169249bbddab37 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Mon, 29 Jun 2026 01:47:21 +0000
-+Subject: [PATCH] upstream: avoid download to server-controlled path when
-+ performing
++++ b/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
+@@ -0,0 +1,70 @@
++From d8566dd918c612078dfb3ee1a95d7bb6f0656bfe Mon Sep 17 00:00:00 2001
++From: Daniel Garcia Moreno <daniel.garcia@suse.com>
++Date: Fri, 22 May 2026 12:21:20 +0200
++Subject: [PATCH] xmlcatalog: overflow check for large --shell commands
 +
-+download on the commandline. From Swival scanner
++Fix https://gitlab.gnome.org/GNOME/libxml2/-/work_items/1124
 +
-+CVE: CVE-2026-59995
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/1b39f39657d2e58f8ec57341581a39bbf0be645b]
++CVE: CVE-2026-11979
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/c2e233fc1b341685fc99621b2768b503f777a72e]
 +
 +Backport Changes:
-+- Retained the Scarthgap sftp.c OpenBSD revision identifier because the
-+  10.4 identifier does not describe the older source baseline.
++- The commit modifies test/catalogs/test.sh.
++- test/catalogs/test.sh does not exist in the libxml2 v2.12.10
++  source used in Scarthgap and was introduced later version
++  libxml2 v2.14.0 [1].
++- The test changes were omitted; only the required fix in
++  xmlcatalog.c was backported.
 +
-+OpenBSD-Commit-ID: d1b2c44305fdfe6d51eed9ecc727e59478bf311f
-+(cherry picked from commit 1b39f39657d2e58f8ec57341581a39bbf0be645b)
++[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/f06fc933cdaea2ce8e9cea275fdbf4edb85f9837
++
++(cherry picked from commit c2e233fc1b341685fc99621b2768b503f777a72e)
 +Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ sftp.c | 9 ++-------
-+ 1 file changed, 2 insertions(+), 7 deletions(-)
++ xmlcatalog.c | 16 ++++++++++++++++
++ 1 file changed, 16 insertions(+)
 +
-+diff --git a/sftp.c b/sftp.c
-+index c609b4153..487e53976 100644
-+--- a/sftp.c
-++++ b/sftp.c
-+@@ -2268,13 +2268,8 @@ interactive_loop(struct sftp_conn *conn, char *file1, char *file2)
-+ 				return (-1);
-+ 			}
-+ 		} else {
-+-			/* XXX this is wrong wrt quoting */
-+-			snprintf(cmd, sizeof cmd, "get%s %s%s%s",
-+-			    global_aflag ? " -a" : "", dir,
-+-			    file2 == NULL ? "" : " ",
-+-			    file2 == NULL ? "" : file2);
-+-			err = parse_dispatch_command(conn, cmd,
-+-			    &remote_path, startdir, 1, 0);
-++			err = process_get(conn, dir, file2, remote_path, 0, 0,
-++			    global_aflag, 0);
-+ 			free(dir);
-+ 			free(startdir);
-+ 			free(remote_path);
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index 8f44d4b9878..37f4dc20dd9 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -40,6 +40,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2026-59999.patch \
-            file://CVE-2026-59997.patch \
-            file://CVE-2026-59996.patch \
-+           file://CVE-2026-59995.patch \
++diff --git a/xmlcatalog.c b/xmlcatalog.c
++index 588802b41..51569b879 100644
++--- a/xmlcatalog.c
+++++ b/xmlcatalog.c
++@@ -114,6 +114,12 @@ static void usershell(void) {
++ 	       (*cur != '\n') && (*cur != '\r')) {
++ 	    if (*cur == 0)
++ 		break;
+++            /* Do not read beyond the command array capacity */
+++            if (i >= (int)sizeof(command) - 2) {
+++                printf("Invalid command %s\n", cur);
+++                i = 0;
+++                break;
+++            }
++ 	    command[i++] = *cur++;
++ 	}
++ 	command[i] = 0;
++@@ -131,6 +137,11 @@ static void usershell(void) {
++ 	while ((*cur != '\n') && (*cur != '\r') && (*cur != 0)) {
++ 	    if (*cur == 0)
++ 		break;
+++            if (i >= (int)sizeof(arg) - 2) {
+++                printf("Invalid arg %s\n", arg);
+++                i = 0;
+++                break;
+++            }
++ 	    arg[i++] = *cur++;
++ 	}
++ 	arg[i] = 0;
++@@ -143,6 +154,11 @@ static void usershell(void) {
++ 	cur = arg;
++ 	memset(argv, 0, sizeof(argv));
++ 	while (*cur != 0) {
+++            if (i >= (int)sizeof(argv) / (int)sizeof(char*)) {
+++                printf("Too much arguments\n");
+++                break;
+++            }
+++
++ 	    while ((*cur == ' ') || (*cur == '\t')) cur++;
++ 	    if (*cur == '\'') {
++ 		cur++;
++-- 
++2.35.6
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
+index 2bfa78324f6..d476ba14b6e 100644
+--- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
+@@ -31,6 +31,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://CVE-2026-0992-02.patch \
+            file://CVE-2026-0992-03.patch \
+            file://CVE-2026-1757.patch \
++           file://CVE-2026-11979.patch \
             "
- SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
  
+ SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
 
