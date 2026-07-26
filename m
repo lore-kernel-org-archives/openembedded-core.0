@@ -1,196 +1,265 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD35C531C9
-	for <webhook@archiver.kernel.org>; Sat, 25 Jul 2026 14:33:04 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.372.1784989974730067701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3D4EC531FA
+	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 05:19:26 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5940.1785043162185400446
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Jul 2026 07:32:54 -0700
+ Sat, 25 Jul 2026 22:19:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=CKgpxOYt;
- spf=pass (domain: mvista.com, ip: 209.85.216.41, mailfrom: sdoshi@mvista.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38deea72eebso1530169a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Jul 2026 07:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1784989974; x=1785594774; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PHlqxpPPTqdowXO/+xK1yTvOkv50jFE8eXx9/PHLwPI=;
-        b=CKgpxOYtPpVlmTK7drMtxYihtv0kuMjzXVm2d4DlemKkjHm8acEQTgbbtyJth7E2m6
-         EdZVT8JELA6gNzOgCCsMzhmKb2nH9ztV6TVlA19P6HBEc2w+ErP26bHlRTNTV0sZxTuU
-         t6QPOTikmDN+K4SROddK37WfcVYyDrUxWVvN4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784989974; x=1785594774;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PHlqxpPPTqdowXO/+xK1yTvOkv50jFE8eXx9/PHLwPI=;
-        b=hKJmEWKLYgCyH0I2CX7UucjEoxLN+KHHtPTZfL7+WE7CyVCG4bovkRtRXU3dU1uaGD
-         S1TZhjNP7sMfZS/VGX4sdi0rV8VF2Z9Nr+7fyZdTbuYzZQP3M4e3/l0Py+pgiovvK/cv
-         PQ187RTiP04TC/nU0BdBODXbEgTLKQVl2EeOS8njW76n8I69d3b6fV+0ZKEocHTcoFWo
-         sg8DTfK3ids7Kx+baFAMq99nvMXu3YXfv3VAbS120TraiypT4MweHJJ1SVQzDdFNfSEy
-         4KbleoFBrQa9NJ1ioTcaFb16fnB22rTNJb3TPmvTdYv8SAMk69IXzN3972ooTDhIjeQq
-         CZig==
-X-Gm-Message-State: AOJu0YwgTV1n3/RmSB6xBNcO+XrWadFqpTUbH3w0Izta/jkm/61GDvQU
-	sphB+PZ0DGpB3a7VDodc3RGCmbgXmbH875WnyqgN/umR7VydcCtOqxui19IWeKHXrJtO3P+h1rY
-	9tgdMbZ0=
-X-Gm-Gg: AR+sD10SSe8yIg1uwj89iO81y3fXiDkc+TeSz0Eqq5rJ5XEqlkLokvMXvetR2ZSIkZU
-	VBcbt9Fx7s/yQD9qa54YGkzzDbHyDqTi98RMV40SSx5DV5wHst/Oop+MKK5lps40fu3Pjt5HNPk
-	rf5XCDHSuaLKGe6QgVuEd9VUalRpWvqwJHXqT5B/Xi/uqXHMpDzN1xrkAcd2G/IxBJs6qarovA4
-	YmlQI9WH8eDknTFyXXng06cMkHZhBwYGPgI8jZZ64ZIjUVBTK/RYw7ghvC+M2pgdVl0l1YR1dgj
-	oCy5FfkkjcQuG5WrLuHm7UuVOHdUJmktMurUfhQjlvJxSO7LM4VUPeVkK5U3pijDgTimRxpF+i6
-	+xGuM8B+ER9Ixe2kButCnGVAy9D0CVzTH4hlrHUrb9lZTNjF7wJ0CX2/qP7bjQwkSuhWIDtVV2v
-	x7JUDGybLzamvVFPOx6BWxd04=
-X-Received: by 2002:a17:90b:3d4d:b0:38d:f710:63f0 with SMTP id 98e67ed59e1d1-38f298a4c6amr2327900a91.43.1784989974069;
-        Sat, 25 Jul 2026 07:32:54 -0700 (PDT)
-Received: from MVIN00030.mvista.com ([157.32.46.248])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e585ae882sm1575845c88.6.2026.07.25.07.32.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 07:32:53 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][wrynose][PATCH 6/6] vim: Security Fix for CVE-2026-57452
-Date: Sat, 25 Jul 2026 20:02:31 +0530
-Message-Id: <20260725143231.230059-6-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260725143231.230059-1-sdoshi@mvista.com>
-References: <20260725143231.230059-1-sdoshi@mvista.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XggdU0KY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=d8OVD3Um;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019f9cdd113b-976fa2c4-14ec-47d6-81a0-876ff1cf219f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1785043161;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=2SFrAvAnpqf0v0gQxkaUDGOYm5oTPU1o++/xRlZHQO4=;
+	b=XggdU0KYjc0bbVilMxe/iVaRvoZ9u36m1BlpbUrtgpPflJ3+MvpIMw3cuHQKWk6h
+	d78E1XE4rZ6iCSl8sappFmzyuOcTRlPmkkUh5/Vt0kNGUs3A4jbDbymYwuhzNU7XtVy
+	ETt18I5UnPWLGHc19wuogdvFpAHov2M0cVMm0SG4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785043161;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=2SFrAvAnpqf0v0gQxkaUDGOYm5oTPU1o++/xRlZHQO4=;
+	b=d8OVD3UmnjBd8P5IPxjETLPBOAWj45lvg2YWmV19aLpAQahmOLoGDrCsLy5r3eBM
+	JOQ3gK4U3aJfJTJTo88EXy9bMfODy3BEDNZhkyDUEa+M+Yi0AFTb3cptjlJXtV135vV
+	25+38Q3YowNys/GRZpYLrsDn09QRwQGPLchIwiHQ=
+Content-Type: multipart/mixed; boundary="===============2032655091477373641=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libical: upgrading to 4.0.4 SUCCEEDED
+Message-ID: <0101019f9cdd113b-976fa2c4-14ec-47d6-81a0-876ff1cf219f-000000@us-west-2.amazonses.com>
+Date: Sun, 26 Jul 2026 05:19:21 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.07.26-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Jul 2026 14:33:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241976
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 05:19:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241979
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+--===============2032655091477373641==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Picking patch as per [1], and same patch is mentioned in [2]
+Hello,
 
-References:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-57452
-[2] https://security-tracker.debian.org/tracker/CVE-2026-57452
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *libical* to *4.0.4* has Succeeded.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Next steps:
+    - apply the patch: git am 0001-libical-upgrade-4.0.3-4.0.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From f5a41a7e23945e5848b302089284332b6317b7c2 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 26 Jul 2026 05:19:15 +0000
+Subject: [PATCH] libical: upgrade 4.0.3 -> 4.0.4
+
+Source: docs/4.0.4/release.md
+
+# Libical v4.0.4
+
+## Overview
+
+This is a patch release and is fully source and binary compatible with version 4.0.0.
+
+## ReleaseNotes
+
+- Fix an uninitialized memory issue reading zoneinfo geo coordinates.
+
+Please see the [CHANGELOG](https://github.com/libical/libical/blob/4.0/CHANGELOG.md) for more.
 ---
- .../vim/files/CVE-2026-57452.patch            | 90 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-57452.patch
+ meta/recipes-support/libical/libical/flags.patch                | 2 +-
+ .../libical/{libical_4.0.3.bb => libical_4.0.4.bb}              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libical/{libical_4.0.3.bb => libical_4.0.4.bb} (96%)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-57452.patch b/meta/recipes-support/vim/files/CVE-2026-57452.patch
-new file mode 100644
-index 0000000000..e87007c00a
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-57452.patch
-@@ -0,0 +1,90 @@
-+From c8777cec25dcfae89c42e9aff51af61f71c5745f Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 18 Jun 2026 18:41:16 +0000
-+Subject: [PATCH] patch 9.2.0671: [security]: possible out-of-bounds read with
-+ sodium encrypted files
-+
-+Problem:  [security]: possible out-of-bounds read with sodium encrypted
-+          files (cipher-creator)
-+Solution: Verify that there is enough space before calling
-+          crypto_secretstream_xchacha20poly1305_init_pull()
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-c4j9-wr9j-4486
-+
-+Supported by AI
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c8777cec25dcfae89c42e9aff51af61f71c5745f]
-+CVE: CVE-2026-57452
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ src/crypt.c                |  3 ++-
-+ src/testdir/test_crypt.vim | 24 ++++++++++++++++++++++++
-+ src/version.c              |  2 ++
-+ 3 files changed, 28 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/crypt.c b/src/crypt.c
-+index 2fade5db9d..879ecbf6ce 100644
-+--- a/src/crypt.c
-++++ b/src/crypt.c
-+@@ -1262,7 +1262,8 @@ crypt_sodium_buffer_decode(
-+ 
-+     if (sod_st->count == 0)
-+     {
-+-	if (crypto_secretstream_xchacha20poly1305_init_pull(&sod_st->state,
-++	if (len < crypto_secretstream_xchacha20poly1305_HEADERBYTES ||
-++		crypto_secretstream_xchacha20poly1305_init_pull(&sod_st->state,
-+ 						       from, sod_st->key) != 0)
-+ 	{
-+ 	    emsg(_(e_libsodium_decryption_failed_header_incomplete));
-+diff --git a/src/testdir/test_crypt.vim b/src/testdir/test_crypt.vim
-+index d540fbbd62..5c9dfe3baf 100644
-+--- a/src/testdir/test_crypt.vim
-++++ b/src/testdir/test_crypt.vim
-+@@ -491,4 +491,28 @@ func Test_crypt_off_by_one()
-+   bwipe!
-+ endfunc
-+ 
-++func Test_crypt_sodium_short_body()
-++  CheckFeature sodium
-++  " A VimCrypt~04! file with a complete 36-byte header (12 magic + 16 salt +
-++  " 8 seed) but a body shorter than one secretstream header (24 bytes) used to
-++  " underflow the body length and crash with a wild out-of-bounds read in
-++  " crypto_secretstream_xchacha20poly1305_pull().  It must now fail cleanly.
-++  " Bytes: "VimCrypt~04!" + 16 salt + 8 seed + 8-byte body = 44 bytes.
-++  call writefile(0z56696D43727970747E303421
-++        \ + 0zA0A1A2A3A4A5A6A7A8A9AAABACADAEAF
-++        \ + 0zB0B1B2B3B4B5B6B7
-++        \ + 0z0000000000000000, 'Xtest_sodium_short')
-++
-++  let v:errmsg = ''
-++  try
-++  call feedkeys(":split Xtest_sodium_short\<CR>foobar\<CR>", "xt")
-++  catch /^Vim\%((\S\+)\)\=:E1198:/
-++    " no-op
-++  endtry
-++
-++  bwipe!
-++  call delete('Xtest_sodium_short')
-++  set key=
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index b40bd9be93..6eac3fc927 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -734,6 +734,8 @@ static char *(features[]) =
-+ 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    671,
-+ /**/
-+     662,
-+ /**/
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 445f5ff1cb..e3c6008531 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -38,6 +38,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-47162.patch \
-            file://CVE-2026-47167.patch \
-            file://CVE-2026-55892.patch \
-+           file://CVE-2026-57452.patch \
+diff --git a/meta/recipes-support/libical/libical/flags.patch b/meta/recipes-support/libical/libical/flags.patch
+index 868314591c..9276ea3808 100644
+--- a/meta/recipes-support/libical/libical/flags.patch
++++ b/meta/recipes-support/libical/libical/flags.patch
+@@ -1,4 +1,4 @@
+-From cba8f762f6a3270530550915d957c01f3da9a601 Mon Sep 17 00:00:00 2001
++From 08603ea4ba6d26a22e9a19b8b83d125eba38f4d4 Mon Sep 17 00:00:00 2001
+ From: Milan Crha <mcrha@redhat.com>
+ Date: Wed, 10 Sep 2025 09:52:37 +0200
+ Subject: [PATCH] libical-glib: Hide some target options in the installed CMake
+diff --git a/meta/recipes-support/libical/libical_4.0.3.bb b/meta/recipes-support/libical/libical_4.0.4.bb
+similarity index 96%
+rename from meta/recipes-support/libical/libical_4.0.3.bb
+rename to meta/recipes-support/libical/libical_4.0.4.bb
+index dff79bcc4f..516c7a95b0 100644
+--- a/meta/recipes-support/libical/libical_4.0.3.bb
++++ b/meta/recipes-support/libical/libical_4.0.4.bb
+@@ -13,7 +13,7 @@ SECTION = "libs"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+            file://flags.patch \
             "
+-SRC_URI[sha256sum] = "86f29029d0ec9fa30c9001de16c0859a3816ae154ff5b097392b014e21a3d254"
++SRC_URI[sha256sum] = "c851cdb46da5e6397881dafaa592c5516fb49da05dd1bb095f711a6d20eac422"
  
- PV .= ".0340"
+ inherit cmake pkgconfig gobject-introspection vala github-releases
+ 
 -- 
-2.34.1
+2.47.1
 
+
+--===============2032655091477373641==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libical-upgrade-4.0.3-4.0.4.patch"
+
+RnJvbSBmNWE0MWE3ZTIzOTQ1ZTU4NDhiMzAyMDg5Mjg0MzMyYjYzMTdiN2MyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMjYgSnVsIDIwMjYgMDU6MTk6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJpY2FsOiB1cGdyYWRlIDQuMC4zIC0+IDQuMC40CgpTb3VyY2U6IGRvY3MvNC4wLjQvcmVsZWFz
+ZS5tZAoKIyBMaWJpY2FsIHY0LjAuNAoKIyMgT3ZlcnZpZXcKClRoaXMgaXMgYSBwYXRjaCByZWxl
+YXNlIGFuZCBpcyBmdWxseSBzb3VyY2UgYW5kIGJpbmFyeSBjb21wYXRpYmxlIHdpdGggdmVyc2lv
+biA0LjAuMC4KCiMjIFJlbGVhc2VOb3RlcwoKLSBGaXggYW4gdW5pbml0aWFsaXplZCBtZW1vcnkg
+aXNzdWUgcmVhZGluZyB6b25laW5mbyBnZW8gY29vcmRpbmF0ZXMuCgpQbGVhc2Ugc2VlIHRoZSBb
+Q0hBTkdFTE9HXShodHRwczovL2dpdGh1Yi5jb20vbGliaWNhbC9saWJpY2FsL2Jsb2IvNC4wL0NI
+QU5HRUxPRy5tZCkgZm9yIG1vcmUuCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9s
+aWJpY2FsL2ZsYWdzLnBhdGNoICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL2xpYmljYWwve2xp
+YmljYWxfNC4wLjMuYmIgPT4gbGliaWNhbF80LjAuNC5iYn0gICAgICAgICAgICAgIHwgMiArLQog
+MiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC97bGliaWNhbF80LjAuMy5iYiA9PiBsaWJpY2Fs
+XzQuMC40LmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmlj
+YWwvbGliaWNhbC9mbGFncy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGli
+aWNhbC9mbGFncy5wYXRjaAppbmRleCA4NjgzMTQ1OTFjLi45Mjc2ZWEzODA4IDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xpYmljYWwvZmxhZ3MucGF0Y2gKKysrIGIv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsL2ZsYWdzLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSBjYmE4Zjc2MmY2YTMyNzA1MzA1NTA5MTVkOTU3YzAxZjNkYTlhNjAxIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwODYwM2VhNGJhNmQyNmEyMmU5YTE5YjhiODNk
+MTI1ZWJhMzhmNGQ0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWlsYW4gQ3JoYSA8
+bWNyaGFAcmVkaGF0LmNvbT4KIERhdGU6IFdlZCwgMTAgU2VwIDIwMjUgMDk6NTI6MzcgKzAyMDAK
+IFN1YmplY3Q6IFtQQVRDSF0gbGliaWNhbC1nbGliOiBIaWRlIHNvbWUgdGFyZ2V0IG9wdGlvbnMg
+aW4gdGhlIGluc3RhbGxlZCBDTWFrZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+bGliaWNhbC9saWJpY2FsXzQuMC4zLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9s
+aWJpY2FsXzQuMC40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNhbF80LjAuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzQuMC40LmJiCmluZGV4IGRmZjc5YmNjNGYuLjUx
+NmM3YTk1YjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNh
+bF80LjAuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xpYmljYWxfNC4w
+LjQuYmIKQEAgLTEzLDcgKzEzLDcgQEAgU0VDVElPTiA9ICJsaWJzIgogU1JDX1VSSSA9ICIke0dJ
+VEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiBcCiAgICAgICAgICAg
+IGZpbGU6Ly9mbGFncy5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICI4NmYyOTAyOWQwZWM5ZmEzMGM5MDAxZGUxNmMwODU5YTM4MTZhZTE1NGZmNWIwOTczOTJiMDE0
+ZTIxYTNkMjU0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImM4NTFjZGI0NmRhNWU2Mzk3ODgxZGFm
+YWE1OTJjNTUxNmZiNDlkYTA1ZGQxYmIwOTVmNzExYTZkMjBlYWM0MjIiCiAKIGluaGVyaXQgY21h
+a2UgcGtnY29uZmlnIGdvYmplY3QtaW50cm9zcGVjdGlvbiB2YWxhIGdpdGh1Yi1yZWxlYXNlcwog
+Ci0tIAoyLjQ3LjEKCg==
+
+--===============2032655091477373641==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/libical: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical: SRC_URI changed from "https://github.com/libical/libical/releases//download/v4.0.3/libical-4.0.3.tar.gz file://flags.patch" to "https://github.com/libical/libical/releases//download/v4.0.4/libical-4.0.4.tar.gz file://flags.patch"
+packages/x86-64-v3-poky-linux/libical: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+packages/x86-64-v3-poky-linux/libical/libical-dbg: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical-dbg: FILELIST: removed "/usr/lib/.debug/libicalss_cxx.so.4.0.3 /usr/lib/.debug/libical-glib.so.4.0.3 /usr/lib/.debug/libical_cxx.so.4.0.3 /usr/lib/.debug/libicalvcal.so.4.0.3 /usr/lib/.debug/libicalvcard.so.4.0.3 /usr/lib/.debug/libicalss.so.4.0.3 /usr/lib/.debug/libical.so.4.0.3", added "/usr/lib/.debug/libical-glib.so.4.0.4 /usr/lib/.debug/libicalss_cxx.so.4.0.4 /usr/lib/.debug/libicalss.so.4.0.4 /usr/lib/.debug/libicalvcard.so.4.0.4 /usr/lib/.debug/libical_cxx.so.4.0.4 /usr/lib/.debug/libical.so.4.0.4 /usr/lib/.debug/libicalvcal.so.4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical-dbg: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+packages/x86-64-v3-poky-linux/libical/libical-dbg: PKGSIZE changed from 5045456 to 5045416 (-0%)
+packages/x86-64-v3-poky-linux/libical/libical-dev: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical-dev: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+packages/x86-64-v3-poky-linux/libical/libical-doc: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical-doc: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+packages/x86-64-v3-poky-linux/libical/libical-locale: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical-locale: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+packages/x86-64-v3-poky-linux/libical/libical-src: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical-src: FILELIST: directory renamed /usr/src/debug/libical/4.0.3/src/libicalvcard -> /usr/src/debug/libical/4.0.4/src/libicalvcard, directory renamed /usr/src/debug/libical/4.0.3/src/libicalss -> /usr/src/debug/libical/4.0.4/src/libicalss, directory renamed /usr/src/debug/libical/4.0.3/src/libical -> /usr/src/debug/libical/4.0.4/src/libical, directory renamed /usr/src/debug/libical/4.0.3/src/libical-glib -> /usr/src/debug/libical/4.0.4/src/libical-glib, directory renamed /usr/src/debug/libical/4.0.3 -> /usr/src/debug/libical/4.0.4, directory renamed /usr/src/debug/libical/4.0.3/src/libicalvcal -> /usr/src/debug/libical/4.0.4/src/libicalvcal
+packages/x86-64-v3-poky-linux/libical/libical-src: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+packages/x86-64-v3-poky-linux/libical/libical-src: PKGSIZE changed from 4374741 to 4375009 (+0%)
+packages/x86-64-v3-poky-linux/libical/libical-staticdev: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical-staticdev: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+packages/x86-64-v3-poky-linux/libical/libical: PV changed from "4.0.3" to "4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libicalvcard.so.4.0.3 /usr/lib/libicalss.so.4.0.3 /usr/lib/libical.so.4.0.3 /usr/lib/libical-glib.so.4.0.3 /usr/lib/libical_cxx.so.4.0.3 /usr/lib/libicalss_cxx.so.4.0.3 /usr/lib/libicalvcal.so.4.0.3", added "/usr/lib/libicalvcard.so.4.0.4 /usr/lib/libicalss.so.4.0.4 /usr/lib/libical_cxx.so.4.0.4 /usr/lib/libical-glib.so.4.0.4 /usr/lib/libical.so.4.0.4 /usr/lib/libicalvcal.so.4.0.4 /usr/lib/libicalss_cxx.so.4.0.4"
+packages/x86-64-v3-poky-linux/libical/libical: PKGV changed from 4.0.3 [default] to 4.0.4 [default]
+Changes to packages/x86-64-v3-poky-linux/libical (sysroot):
+  /usr/lib/libical_cxx.so.4.0 changed symlink target from libical_cxx.so.4.0.3 to libical_cxx.so.4.0.4
+  /usr/lib/libical-glib.so.4.0 changed symlink target from libical-glib.so.4.0.3 to libical-glib.so.4.0.4
+  /usr/lib/libical.so.4.0 changed symlink target from libical.so.4.0.3 to libical.so.4.0.4
+  /usr/lib/libicalss_cxx.so.4.0 changed symlink target from libicalss_cxx.so.4.0.3 to libicalss_cxx.so.4.0.4
+  /usr/lib/libicalss.so.4.0 changed symlink target from libicalss.so.4.0.3 to libicalss.so.4.0.4
+  /usr/lib/libicalvcal.so.4.0 changed symlink target from libicalvcal.so.4.0.3 to libicalvcal.so.4.0.4
+  /usr/lib/libicalvcard.so.4.0 changed symlink target from libicalvcard.so.4.0.3 to libicalvcard.so.4.0.4
+  /usr/lib/libical_cxx.so.4.0.3 moved to /usr/lib/libical_cxx.so.4.0.4
+  /usr/lib/libical-glib.so.4.0.3 moved to /usr/lib/libical-glib.so.4.0.4
+  /usr/lib/libical.so.4.0.3 moved to /usr/lib/libical.so.4.0.4
+  /usr/lib/libicalss_cxx.so.4.0.3 moved to /usr/lib/libicalss_cxx.so.4.0.4
+  /usr/lib/libicalss.so.4.0.3 moved to /usr/lib/libicalss.so.4.0.4
+  /usr/lib/libicalvcal.so.4.0.3 moved to /usr/lib/libicalvcal.so.4.0.4
+  /usr/lib/libicalvcard.so.4.0.3 moved to /usr/lib/libicalvcard.so.4.0.4
+
+--===============2032655091477373641==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="libical-changelog.txt"
+
+Changelog for libical: 4.0.3 -> 4.0.4
+Source: docs/4.0.4/release.md
+
+# Libical v4.0.4
+
+## Overview
+
+This is a patch release and is fully source and binary compatible with version 4.0.0.
+
+## ReleaseNotes
+
+- Fix an uninitialized memory issue reading zoneinfo geo coordinates.
+
+Please see the [CHANGELOG](https://github.com/libical/libical/blob/4.0/CHANGELOG.md) for more.
+
+--===============2032655091477373641==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/libical/libical: FILELIST: removed "/usr/lib/libicalvcal.so.4.0.3 /usr/lib/libicalvcard.so.4.0.3 /usr/lib/libical.so.4.0.3 /usr/lib/libical-glib.so.4.0.3 /usr/lib/libicalss.so.4.0.3 /usr/lib/libicalss_cxx.so.4.0.3 /usr/lib/libical_cxx.so.4.0.3", added "/usr/lib/libicalvcard.so.4.0.4 /usr/lib/libicalvcal.so.4.0.4 /usr/lib/libical.so.4.0.4 /usr/lib/libicalss.so.4.0.4 /usr/lib/libical_cxx.so.4.0.4 /usr/lib/libical-glib.so.4.0.4 /usr/lib/libicalss_cxx.so.4.0.4"
+Changes to packages/x86-64-v3-poky-linux/libical (sysroot):
+  /usr/lib/libical_cxx.so.4.0 changed symlink target from libical_cxx.so.4.0.3 to libical_cxx.so.4.0.4
+  /usr/lib/libical-glib.so.4.0 changed symlink target from libical-glib.so.4.0.3 to libical-glib.so.4.0.4
+  /usr/lib/libical.so.4.0 changed symlink target from libical.so.4.0.3 to libical.so.4.0.4
+  /usr/lib/libicalss_cxx.so.4.0 changed symlink target from libicalss_cxx.so.4.0.3 to libicalss_cxx.so.4.0.4
+  /usr/lib/libicalss.so.4.0 changed symlink target from libicalss.so.4.0.3 to libicalss.so.4.0.4
+  /usr/lib/libicalvcal.so.4.0 changed symlink target from libicalvcal.so.4.0.3 to libicalvcal.so.4.0.4
+  /usr/lib/libicalvcard.so.4.0 changed symlink target from libicalvcard.so.4.0.3 to libicalvcard.so.4.0.4
+  /usr/lib/libical_cxx.so.4.0.3 moved to /usr/lib/libical_cxx.so.4.0.4
+  /usr/lib/libical-glib.so.4.0.3 moved to /usr/lib/libical-glib.so.4.0.4
+  /usr/lib/libical.so.4.0.3 moved to /usr/lib/libical.so.4.0.4
+  /usr/lib/libicalss_cxx.so.4.0.3 moved to /usr/lib/libicalss_cxx.so.4.0.4
+  /usr/lib/libicalss.so.4.0.3 moved to /usr/lib/libicalss.so.4.0.4
+  /usr/lib/libicalvcal.so.4.0.3 moved to /usr/lib/libicalvcal.so.4.0.4
+  /usr/lib/libicalvcard.so.4.0.3 moved to /usr/lib/libicalvcard.so.4.0.4
+
+--===============2032655091477373641==--
 
