@@ -2,98 +2,99 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F51C531C9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E41C53209
 	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 23:09:49 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19819.1785107383160843952
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19818.1785107381187971794
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 16:09:43 -0700
+ Sun, 26 Jul 2026 16:09:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Am0CYumO;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c9eefcf9175so2110285a12.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 16:09:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Wkki+t/P;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-caf45fc5202so1599945a12.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 16:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785107382; x=1785712182; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6jELFdnSYggkbQ8biiOxqtsyoUSqcbUug2dRpTLfCNU=;
-        b=Am0CYumOCMy3KoCHMVrZBLsvGpLo+tBwmiXEV58n3/i0kXrNX/T7B+54gGJFBp5gux
-         gfHj/9pBPVdqFLCN/cj5PFif38WomSEm5GHgTtjNv6y/+sQFjl5w3ujyoi6LpUKSLaIG
-         r5LnYoZjFEOkwa2QAOXfdiANM5q5pRmr+P2V5q2VarsCJ6wZDehHNgnU3xDifRg1JFL6
-         /pappgsxn4EOsct6VeCOWxR3e9L6pYkvYlrSeLp6lFLxbu/4lvxOTnkypToWAL7De2bD
-         O3YD5T9G8tTICW7pDBQJfEY0hBslQAapRCVIuz8S5EwQm0HxkQ6p8qXMta9ukm3fb2EN
-         GfoA==
+        d=gmail.com; s=20251104; t=1785107380; x=1785712180; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5igibTZKhn3dpv6KnDHtayyBqOZ/WyaVBMnFQbTznh0=;
+        b=Wkki+t/Pjas5AEBM7Zl/9RX7PRdracVU6OD+VJ9KYEZbarz9o260v9LVZ3fFLwTnm+
+         AdTXHz8aZeuqsmX3igS8JKF89jqalaXN3OCrw+64kL2lCNc4cOjH2kcvQfDu6Lyymy+p
+         uoqtd89IV8xlp7C9PS6+xko8d8W/jnd/p3SesqDNDj6NY7fFJvKmpHWQH3i1m5uH7VeM
+         yUDQy5S7wxJsQrsGTX3QwOsYysY0pB/bN8nPR8Qc30eUZhpVDfYMK55tVCr7ICTxpNja
+         WRu1/1ZYDbh6xe+WAe7kgF8fPhv6W4Wx+e9g5ENteOuJQcWr/VMlVd1edXJmmNCuicCo
+         JatQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785107382; x=1785712182;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6jELFdnSYggkbQ8biiOxqtsyoUSqcbUug2dRpTLfCNU=;
-        b=jx6QcJAJt9ukK9wIC2+7uQ46mhrDilpd5jtGnU1x7aHe2uKfSutkhqtWM9GYOBFQ6i
-         M/PEN8mSuy+NcaqVYWu09+FdCr0XIOVHzpd/ne8kqcdCxNQVj1u/q0tufDOcCmCu+axA
-         Vw/3YO7ZeTfHxy73H0S52LwWBMuHlusLiMLriCTB58rao2PK95cMmG62rz/PvNS15f5n
-         cR2v3JNYciPpN75M6VY9vXwQe8yv+bTtHNodLnrAvui/27L8Hr4FpdkVRB66ORM3tCPw
-         njJnoN3gtLnt3PLOoM7NkcWZV30fQZ2PmAO62R6tQ/yrTtFUM73o+UfIgBrj8XFCr7fS
-         AjsA==
-X-Gm-Message-State: AOJu0Yw35gjR6qPbkikfweFFOcDbNtXLn7YIW/RaCX49ToHwerqT2Adt
-	GiSUjPenM6jYCNc+4H8Ro5+L+XKBFm75ha+ctMBQ7v/szw/W2ZWnre/PeVRg7DhyYoo=
-X-Gm-Gg: AR+sD10qZc0WEiW2GgDmuNr61ucAtXnYRT2PIeYC53LjZl/kNsBsutDOvBQE569rW89
-	G5l8i88JoxIhBfpQtru20lGEXkTrQKV5vKK5Ac2wecP6g/XK4Kwi7KVBLugwbSWLUi6cpupmaiQ
-	itzAm/NseonNhv9jBMQkw0A13sdjkkW3OL6A1ne41gvDtgBrBg0BiRh6NQvKJHA+dyB14GMQjuj
-	Eq67h+hdNgg+KVhJ91kDCOdQHaOBBBIB2YzVW7F3WhykU8YDQj4xTV0BTOWUYV7yujvkv1Vd+D7
-	eML5GwFmWw3+tYlC/NKmRXwPfOuwFIR4YlmTxU4P7MF1XT00LxH1iWiLgDjz+X/egHndOTJwoYE
-	IoZCbuI8/JcMGE4qnREM70e88D+VfXiYuXcw4DChhbd2erU/v1NREzExahUSqRUIJPxg4syItoJ
-	2XZFTZtfpKIfp+wZk=
-X-Received: by 2002:a05:6a21:3381:b0:3c3:821e:1f84 with SMTP id adf61e73a8af0-3c67df11405mr7208260637.41.1785107382568;
-        Sun, 26 Jul 2026 16:09:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785107380; x=1785712180;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5igibTZKhn3dpv6KnDHtayyBqOZ/WyaVBMnFQbTznh0=;
+        b=YebbA5agwJ6soMcZs2kWAn7ZisqJ/dq5r+6RAtITsiJ4k0kZjF2xn+eo9kWgO/E4st
+         YnMKK2zmZ+eOkiThHHyyNEBBJLAkyu0Vd96COVG0e78CwmJcxPfzQ1ipJhldDuFTqaUi
+         c6sMvDOxBuOaZK0LAChu3d3AYOBBl8EH2eIDjb44iFtqekO3swIg31WqeAiTJSIHdLB6
+         Z3xzNkDpwLFOeaM6LpKazvmo74JOpG9/p2m5xZdMmRhPJI+EkuRCL2X3TnVH7ui4+j2Q
+         08i2nj5yXTdXlThIB50fvFVEDwwpS2cp2aipsYSrA/Eh/Wk5nqRp1Io5OlLlx5fNrUfk
+         LFmQ==
+X-Gm-Message-State: AOJu0YzxluPhaEnTF1e9vTSh/WcCw/wj20Paggkgl7A6O/DR0OAPlDj9
+	pmgwNdOaMsanJuDtbH1obhV3IIBr4EFHSXKMk1Qej84fVJwWlKMh6ygFu3iUeIMZTf4=
+X-Gm-Gg: AR+sD109FlVSgjTi+DyZGhLrT6D4T31ueJFxIT9brlzvZBnKYnBFr1yr5Rwi0LfInvl
+	ICBcbFLt4oEXTXVBLZZtY3uYyxSke3dHo5KUSprdEzkkbVKRit2SCI7tLJYS0GncibP6rSQPfK2
+	UWN38v7g9XNcs+KQKWxIblOf4J3XIzOi7dkzHpJ83RT6ukRoosBAqTIF2v3DOBtpLfvqT08FdEq
+	hi8nQ7boYujTGyKXaYYcBJZuQy/U8Yj9JUWp3xoEw0aNro2KMwyxI5xkQ8YNZyp0UtARVb8VP0R
+	5+v89lGMPHEFgpSkZMCmCis5KcVFXMNpU/xSWeN6eHELPsLvHfd0nj2iGT1YZIbGFLjA/53w+kh
+	sRa2k8s2DHsMqqPfVuyDHo98rANHysao4JerGsjaX6X6qk+0jbkBXaLB5vd5o3dQ5ciNHYlZ9Sz
+	x1d+Eqk+YR491ld0I=
+X-Received: by 2002:a05:6a21:920d:b0:3bf:a1e5:ff62 with SMTP id adf61e73a8af0-3c67df201b3mr6810467637.47.1785107380250;
+        Sun, 26 Jul 2026 16:09:40 -0700 (PDT)
 Received: from NVAPF55DW0D-IPD.. ([203.211.104.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc548e63sm24908492eec.19.2026.07.26.16.09.40
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc548e63sm24908492eec.19.2026.07.26.16.09.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 16:09:42 -0700 (PDT)
+        Sun, 26 Jul 2026 16:09:39 -0700 (PDT)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 2/2] stress-ng: upgrade 0.21.03 -> 0.21.04
-Date: Mon, 27 Jul 2026 11:09:32 +1200
-Message-ID: <20260726230932.1400569-2-ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 1/2] btrfs-tools: upgrade 7.0 -> 7.1
+Date: Mon, 27 Jul 2026 11:09:31 +1200
+Message-ID: <20260726230932.1400569-1-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260726230932.1400569-1-ankur.tyagi85@gmail.com>
-References: <20260726230932.1400569-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 23:09:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242028
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242027
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
 Release Note:
-https://github.com/ColinIanKing/stress-ng/releases/tag/V0.21.04
+https://github.com/kdave/btrfs-progs/releases/tag/v7.1
 
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../stress-ng/{stress-ng_0.21.03.bb => stress-ng_0.21.04.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.21.03.bb => stress-ng_0.21.04.bb} (94%)
+ .../btrfs-tools/{btrfs-tools_7.0.bb => btrfs-tools_7.1.bb}     | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_7.0.bb => btrfs-tools_7.1.bb} (98%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.21.03.bb b/meta/recipes-extended/stress-ng/stress-ng_0.21.04.bb
-similarity index 94%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.21.03.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.21.04.bb
-index cc563f636f..79717d3018 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.21.03.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.21.04.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
+index 912d20cae7..1bc75a7de7 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
+@@ -14,11 +14,10 @@ LIC_FILES_CHKSUM = " \
+ "
+ SECTION = "base"
+ DEPENDS = "util-linux zlib"
+-
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "9c5987432906daebde23f9703c0f6f90c35fa9da"
++SRCREV = "4ab0e80be9e3bb1db2e6038e6d4316d35fb7ba8b"
  
- SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV}"
--SRCREV = "f882a7540accdaa38f15474594b7f0339d5f7472"
-+SRCREV = "62993352975ec4efbd27ee3627ae6ff776f5cf6c"
- 
- DEPENDS = "coreutils-native libbsd"
- 
+ PACKAGECONFIG ??= " \
+     programs \
 
