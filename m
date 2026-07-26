@@ -2,213 +2,164 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79208C531F9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDB8C54F51
 	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 08:30:22 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7384.1785054620184312504
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7385.1785054621367517200
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 01:30:20 -0700
+ Sun, 26 Jul 2026 01:30:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Fz0Xi8tU;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4954afac04bso19460085e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:30:19 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=VIVB7dZ7;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49553515a8bso20823605e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785054618; x=1785659418; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KGXeUg5L8UOgL7piB0gZRD/R2RscXqa9ZStXe0MJr8M=;
-        b=Fz0Xi8tUJTA83R43ZZx1VtVHOHBrRwyGYKdZjtyHWmzbJRmcLLTb+q0JeCgU77x4Q0
-         YedL0ZeQ8OjVjdNV50QwwzR91c/GlMy6vRKDoYfZkrNInf0zoXyHyPRi3U4AfNthu/eE
-         tivm0xgeLRY6KpMUe+7oyCEocPWrs+g57x+Pc=
+        d=smile.fr; s=google; t=1785054620; x=1785659420; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Gjq2aOZaq76IevpkTF/w1892rKfhTFgPax/xdbx00TY=;
+        b=VIVB7dZ7Qh/J37heaTo6TKaLEN8QbnNIwRQQW0peGH9qp2M9XX9jWw41tLLrP9MxEC
+         a0Nz3WTPdsWqLXKJA6CSyIjFj2OwoAr7OzwA4Gg/NyZtoSYtxBe6GFEVGh7xHXH/IVe1
+         YAxDi0zxWwT02jiE7F15mwd+iylUbatsSiItw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785054618; x=1785659418;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KGXeUg5L8UOgL7piB0gZRD/R2RscXqa9ZStXe0MJr8M=;
-        b=cn8Kv7IRVmITInUDTPuGD0lsPtAQ8YgwhNoeMNAKb8MGmLzCikeBLVM4Xpdvmk9Q/2
-         ha3+r8GDE12gRp21VmNSjzVVD6F5MHltz4JFxchBQQfnMCtvgxyiLjw2U/dmTgLcKO7c
-         au9RVlA5A1drDtc4TwWNJyvojqmgAyL1hiZpBbrfRjLIkDeBTRU6Ed6rzdnD34FnoqHQ
-         MlS0m/8i+1SLOkr8rxZg5xaljO63S9FOm9ok1i/+b3yzxhe7hl2OvBon1X/tMt5Z2U2w
-         ItwJ+2fE5+9ng15e7Xz5J0BcS02HHsQ16sXPeMhARrb3KPK/RZRRW3NY/gkkyL2MaxAE
-         lZqg==
-X-Gm-Message-State: AOJu0YwKqxxAGDl++sSPRioh2LA+XOk2TRUdiXbPbj4EDtootoyU7yXc
-	NPw+yCG1pLsAGl2ZHXICo94d0TUFtd4zMlo+y/tSJCKOEImOIB9oxMVzMmYFFg5k91sHLPFf6pJ
-	mnoUeXZ4=
-X-Gm-Gg: AR+sD11+ww7/USV5kxn0NFkGIrqMRRSpWVau2bKEWCyQOrvGZbThDUXmhy06oTv2qfz
-	c8vQFA514ljOGTXP6cNFn4oyNuA/FmlbCENl8SMy8T27FjdG9BgneMoFD3D9i05VCwHGgBr3Rvq
-	aWVByX0m337tX3yfFCix/a/9ytjhTpc6WyqrjvpT8sQAX2PajDUgStwJREKgaQxkavoP/j8S9ue
-	aJJQMG2rdMJmBMddhXQKL1yDflQ51q/ugWpKRhtUjuTiDvsbUvr2aZjebstlFQWNYkFEs2H4kRS
-	KP5JTM+B8IXNg9aKQano6/At0VHpPv3pLcG2hQaCAvyhg00fd8XIMKPM0zE5J7Cw/tp+sT43DZh
-	H2JraG9VigBQykMi33++LwYLayDQKVul6WXl6406aBRJOvMX0osDAqPHyQgpgEY1WMa6jsFuGlk
-	E63NBFWsreGnQBHnfiveU942MTl+5wKsIg7asAcmO8kZqfGKaABAnl9BxvG0i/cAIg8kliBGHu7
-	sp/Nw==
-X-Received: by 2002:a05:600c:4eca:b0:493:c42e:5be0 with SMTP id 5b1f17b1804b1-496b563fd7emr62601985e9.0.1785054618425;
-        Sun, 26 Jul 2026 01:30:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785054620; x=1785659420;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Gjq2aOZaq76IevpkTF/w1892rKfhTFgPax/xdbx00TY=;
+        b=VFu7T3uWhmbgYDXn2UMwfyAuzb7feSitdIMPf6bF1f/73pMvOiSDjvk90nASwwCKZy
+         xPzxJK0j72OaU4qDNvsfk9Z8p2EyeUg6SiCFl1npj3Vp7Nhcvu//OFEKYYKwUcuUiTJJ
+         pqeqIQgYjjG6A0R2J9E5CfyApyUzaaYtcVQ0/zuHBGd2tEpbA2/KDeKe76+V+swkMbXK
+         AMdxxLbTjs1X/N3/HKHQey+YIfWHtQtQYglGJpNI7f8z0LeBmHQF23pMuNQxrnn0VEBC
+         fzMFR/hiTrQMYqtktEuXDMOhL1VPyFegW0wI301oYANVU1fcU7daB4/aT8XzRWv3c0EU
+         8BjQ==
+X-Gm-Message-State: AOJu0YwSsTCo8fugfhizq0eNox1ZfXKDzFBangfwKx+JslzI3R6g2ZXt
+	5NKYOBhrdw2kEOaj43ONKSmuewhCkEI/TXSGAcEZMy5HIKqcN/0Gg1C1Mh8OGxMf8bRaBPZc4CY
+	mqJsisws=
+X-Gm-Gg: AR+sD102Jq3gcIq5aadMlXzezOMnfXrmo3JHKQYUeH5YTVxBAxeroWFkMDh0oYgI2OT
+	0sdgFEOJqdh60sYrmCGDJ5pxSS/wglnIwJTiA4D5xrgEKvEJXhg7MGoQcOGvrtcJ5EwC39kwkLH
+	O/qFI4dFbVeLSZ7PpiumHIbk9FIMcrH0QMb0ljVO33XidUtU3kjrLEw77t3GF1/Yu1w/N7pHg/u
+	6nYAb2ESX8IGP2LHPa2cjhF1O5nR6UzxYtlqdN9Ubjk14kM6qclaYNab/835jTtJSTlf7W2dxaz
+	YIrbCRUd2p9rcg7ajs9ZLLqVJCa2h3zqmGfIi4oc3F2ZeAK96FVZ8kM8XTeY3Z5u+tEEWLoa88D
+	FCGlU83z55FWT0UYvTQUmj8uu7zOtMzVcrnoSa1UUJyrJrrIE5d/6dsFlrUdaVpWx2KiS9Rnock
+	AAFxoOnhpaMhjGKC54uAcZYvI15xGJYp53zgYA9T0TnGhUQNNbae7xG3EhYR9/po3vBfVVJHZ/k
+	GpUfg==
+X-Received: by 2002:a05:600c:3b27:b0:495:3c6d:f294 with SMTP id 5b1f17b1804b1-496b5717d1bmr55835925e9.23.1785054619589;
+        Sun, 26 Jul 2026 01:30:19 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 01:30:18 -0700 (PDT)
+        Sun, 26 Jul 2026 01:30:19 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/31] cups: fix CVE-2026-34978
-Date: Sun, 26 Jul 2026 10:29:39 +0200
-Message-ID: <511d976c70fb591f3bc72b750df1542c4ee84d6a.1785054430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 17/31] cups: fix CVE-2026-34979
+Date: Sun, 26 Jul 2026 10:29:41 +0200
+Message-ID: <7aaebb1682f0ea5f75860523efdef6fefda16307.1785054430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785054429.git.yoann.congal@smile.fr>
 References: <cover.1785054429.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 08:30:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241997
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241999
 
 From: Deepak Rathore <deeratho@cisco.com>
 
 Pick the upstream patch [1] as mentioned in [2].
 
-[1] https://github.com/OpenPrinting/cups/commit/730347c5bbd5e1271149c6739aa858c0c83a7568
-[2] https://security-tracker.debian.org/tracker/CVE-2026-34978
+[1] https://github.com/OpenPrinting/cups/commit/0ff8897367c7341f2500770c3977038cdd7c0214
+[2] https://security-tracker.debian.org/tracker/CVE-2026-34979
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-[YC: reverted upstream patch indentation]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/cups/cups.inc           |   1 +
- .../cups/cups/CVE-2026-34978.patch            | 107 ++++++++++++++++++
- 2 files changed, 108 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-34978.patch
+ meta/recipes-extended/cups/cups.inc           |  1 +
+ .../cups/cups/CVE-2026-34979.patch            | 61 +++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-34979.patch
 
 diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index f74bcaffab5..5e272dbcf6b 100644
+index 7a8b845953c..a0ac1a26129 100644
 --- a/meta/recipes-extended/cups/cups.inc
 +++ b/meta/recipes-extended/cups/cups.inc
-@@ -24,6 +24,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://CVE-2026-27447-regression_p1.patch \
-            file://CVE-2026-27447-regression_p2.patch \
-            file://CVE-2026-41079.patch \
-+           file://CVE-2026-34978.patch \
+@@ -28,6 +28,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
+            file://CVE-2026-34980.patch \
+            file://CVE-2026-34980-regression_p1.patch \
+            file://CVE-2026-34980-regression_p2.patch \
++           file://CVE-2026-34979.patch \
             "
  
  GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-34978.patch b/meta/recipes-extended/cups/cups/CVE-2026-34978.patch
+diff --git a/meta/recipes-extended/cups/cups/CVE-2026-34979.patch b/meta/recipes-extended/cups/cups/CVE-2026-34979.patch
 new file mode 100644
-index 00000000000..5929268f4fa
+index 00000000000..38ac7b6e918
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-34978.patch
-@@ -0,0 +1,107 @@
-+From ab6ab965de6890aed4df39c97f7cd708fd5cb00c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/cups/cups/CVE-2026-34979.patch
+@@ -0,0 +1,61 @@
++From 471b4dc802455c7c59f9fd594fec8b6f3acb0db5 Mon Sep 17 00:00:00 2001
 +From: Michael R Sweet <msweet@msweet.org>
-+Date: Tue, 31 Mar 2026 14:18:26 -0400
-+Subject: [PATCH] Fix RSS notifier.
++Date: Tue, 31 Mar 2026 14:50:06 -0400
++Subject: [PATCH] Expand allocation of options string.
 +
-+CVE: CVE-2026-34978
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/730347c5bbd5e1271149c6739aa858c0c83a7568]
++CVE: CVE-2026-34979
++Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/0ff8897367c7341f2500770c3977038cdd7c0214]
 +
 +Backport Changes:
-+- Rebase scheduler/ipp.c subscription context to the CUPS 2.4.11 source
++- Rebase scheduler/job.c IPP length context to the CUPS 2.4.11 source
 +  carried by this recipe.
 +- Omit the upstream CHANGES.md release-note hunk because Yocto patch metadata
 +  carries the CVE details and the target source release-note sections differ.
-+- Omit the upstream scheduler/ipp.c copyright-year-only header update because
-+  this backport carries only the functional changes needed for CUPS 2.4.11.
 +
-+(cherry picked from commit 730347c5bbd5e1271149c6739aa858c0c83a7568)
++(cherry picked from commit 0ff8897367c7341f2500770c3977038cdd7c0214)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ notifier/rss.c  |   20 ++++++++++++++------
-+ scheduler/ipp.c |   12 ++++++++++++
-+ 2 files changed, 26 insertions(+), 6 deletions(-)
++ scheduler/job.c |   16 ++++------------
++ 1 file changed, 4 insertions(+), 12 deletions(-)
 +
-+diff --git a/notifier/rss.c b/notifier/rss.c
-+index f17e1494c..250ad877e 100644
-+--- a/notifier/rss.c
-++++ b/notifier/rss.c
-+@@ -1,11 +1,12 @@
-+ /*
-+  * RSS notifier for CUPS.
-+  *
-+- * Copyright © 2020-2024 by OpenPrinting.
-+- * Copyright 2007-2015 by Apple Inc.
-+- * Copyright 2007 by Easy Software Products.
-++ * Copyright © 2020-2026 by OpenPrinting.
-++ * Copyright © 2007-2015 by Apple Inc.
-++ * Copyright © 2007 by Easy Software Products.
-+  *
-+- * Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
-++ * Licensed under Apache License v2.0.  See the file "LICENSE" for more
-++ * information.
-+  */
++diff --git a/scheduler/job.c b/scheduler/job.c
++index 915ba94..880c25f 100644
++--- a/scheduler/job.c
+++++ b/scheduler/job.c
++@@ -4195,18 +4195,6 @@ ipp_length(ipp_t *ipp)			/* I - IPP request */
 + 
-+ /*
-+@@ -80,6 +81,7 @@ main(int  argc,				/* I - Number of command-line arguments */
-+   http_status_t	status;			/* HTTP GET/PUT status code */
-+   char		filename[1024],		/* Local filename */
-+ 		newname[1024];		/* filename.N */
-++  struct stat	fileinfo;		/* Local file information */
-+   cups_lang_t	*language;		/* Language information */
-+   ipp_attribute_t *printer_up_time,	/* Timestamp on event */
-+ 		*notify_sequence_number,/* Sequence number */
-+@@ -111,9 +113,9 @@ main(int  argc,				/* I - Number of command-line arguments */
-+ 
-+   if (httpSeparateURI(HTTP_URI_CODING_ALL, argv[1], scheme, sizeof(scheme),
-+                       username, sizeof(username), host, sizeof(host), &port,
-+-		      resource, sizeof(resource)) < HTTP_URI_OK)
-++		      resource, sizeof(resource)) < HTTP_URI_OK || strstr(resource, "../") != NULL)
++   for (attr = ipp->attrs; attr != NULL; attr = attr->next)
 +   {
-+-    fprintf(stderr, "ERROR: Bad RSS URI \"%s\"!\n", argv[1]);
-++    fprintf(stderr, "ERROR: Bad RSS URI \"%s\".\n", argv[1]);
-+     return (1);
-+   }
++-   /*
++-    * Skip attributes that won't be sent to filters...
++-    */
++-
++-    if (attr->value_tag == IPP_TAG_NOVALUE ||
++-	attr->value_tag == IPP_TAG_MIMETYPE ||
++-	attr->value_tag == IPP_TAG_NAMELANG ||
++-	attr->value_tag == IPP_TAG_TEXTLANG ||
++-	attr->value_tag == IPP_TAG_URI ||
++-	attr->value_tag == IPP_TAG_URISCHEME)
++-      continue;
++-
++    /*
++     * Add space for a leading space and commas between each value.
++     * For the first attribute, the leading space isn't used, so the
++@@ -4282,10 +4270,14 @@ ipp_length(ipp_t *ipp)			/* I - IPP request */
 + 
-+@@ -209,6 +211,12 @@ main(int  argc,				/* I - Number of command-line arguments */
-+     snprintf(filename, sizeof(filename), "%s/rss%s", cachedir, resource);
-+     snprintf(newname, sizeof(newname), "%s.N", filename);
-+ 
-++    if (!lstat(filename, &fileinfo) && !S_ISREG(fileinfo.st_mode))
-++    {
-++      fprintf(stderr, "ERROR: Local RSS path \"%s\" is not a file.\n", filename);
-++      return (1);
-++    }
-++
-+     httpAssembleURIf(HTTP_URI_CODING_ALL, baseurl, sizeof(baseurl), "http",
-+                      NULL, server_name, atoi(server_port), "/rss%s", resource);
-+   }
-+diff --git a/scheduler/ipp.c b/scheduler/ipp.c
-+index 2d80a960e..2dc7376c1 100644
-+--- a/scheduler/ipp.c
-++++ b/scheduler/ipp.c
-+@@ -1985,6 +1985,12 @@ add_job_subscriptions(
-+ 	                "notify-status-code", IPP_ATTRIBUTES);
-+ 	  return;
-+ 	}
-++	else if (!strcmp(scheme, "rss") && strstr(resource, "../") != NULL)
-++	{
-++          send_ipp_status(con, IPP_STATUS_ERROR_NOT_POSSIBLE, _("Bad notify-recipient-uri URI \"%s\"."), recipient);
-++	  ippAddInteger(con->response, IPP_TAG_SUBSCRIPTION, IPP_TAG_ENUM, "notify-status-code", IPP_STATUS_ERROR_ATTRIBUTES_OR_VALUES);
-++	  return;
-++	}
-+       }
-+       else if (!strcmp(attr->name, "notify-pull-method") &&
-+                attr->value_tag == IPP_TAG_KEYWORD)
-+@@ -6010,6 +6016,12 @@ create_subscriptions(
-+ 	                "notify-status-code", IPP_ATTRIBUTES);
-+ 	  return;
-+ 	}
-++	else if (!strcmp(scheme, "rss") && strstr(resource, "../") != NULL)
-++	{
-++	  send_ipp_status(con, IPP_STATUS_ERROR_NOT_POSSIBLE, _("Bad notify-recipient-uri URI \"%s\"."), recipient);
-++	  ippAddInteger(con->response, IPP_TAG_SUBSCRIPTION, IPP_TAG_ENUM, "notify-status-code", IPP_STATUS_ERROR_ATTRIBUTES_OR_VALUES);
-++	  return;
-++	}
-+       }
-+       else if (!strcmp(attr->name, "notify-pull-method") &&
-+                attr->value_tag == IPP_TAG_KEYWORD)
++       case IPP_TAG_TEXT :
++       case IPP_TAG_NAME :
+++      case IPP_TAG_TEXTLANG :
+++      case IPP_TAG_NAMELANG :
+++      case IPP_TAG_MIMETYPE :
++       case IPP_TAG_KEYWORD :
++       case IPP_TAG_CHARSET :
++       case IPP_TAG_LANGUAGE :
++       case IPP_TAG_URI :
+++      case IPP_TAG_URISCHEME :
++          /*
++ 	  * Strings can contain characters that need quoting.  We need
++ 	  * at least 2 * len + 2 characters to cover the quotes and
++-- 
++2.43.7
++
 
