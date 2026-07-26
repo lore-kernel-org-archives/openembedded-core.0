@@ -2,185 +2,99 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF085C54EFC
-	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 08:30:32 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7151.1785054627036495154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27119C54F50
+	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 08:30:33 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7149.1785054624597975336
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 01:30:27 -0700
+ Sun, 26 Jul 2026 01:30:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YFUnqmGN;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954a9e8490so13930275e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:30:26 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=g1DNM4X1;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49550ec592cso17330825e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785054625; x=1785659425; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=w0pjw6kR5NHhqrhjq/hQipYXI03U1dMLr3aOGRROc84=;
-        b=YFUnqmGNgIJieEIWF1HCysrTWeHbCpP45XnkYd5DAqQABt9Vwo/M269pX7+C+9pLMj
-         bvHSHEBB3fobPTMNH4stOcK2zIFu0kyDfkr8QruAmlN92Kjp0V5qllD7YnnKzHqZYEq3
-         8yv4Y2EiCIQBrTFqtIY5VZFQ4hXIqd/hVyEwc=
+        d=smile.fr; s=google; t=1785054623; x=1785659423; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=QqtCAIPnnYO0cq/IU7Ir7Gk6NgzmGizJs0CRYuWp4Pc=;
+        b=g1DNM4X1ZSa4UsGGnhAuRJJshBerhLXD39/l6jVD8EvhBvP0D2u3FhiXDpflxO1bQ+
+         wi7jG5ywVdiBzNpluP9vripoBTHWKWWCYZF1IsDvhMyCHgLe169Pcy95ZMEI8IaQe719
+         PESEcAqCCC0grVDjYmlDaAf+1gVuL5XDp0kk4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785054625; x=1785659425;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=w0pjw6kR5NHhqrhjq/hQipYXI03U1dMLr3aOGRROc84=;
-        b=kWlpWY3gDtylkFaf5/RS8F5Xj4chRUx/nVHwMz57rGZNBJ/h4+IpbbUxCKapsAp4VA
-         g/7rpzeN4dpZnTRQqAO6fksfXrZ4AYNz4bMHS+DvW5ita9AT8FCm4jGCW7Jxn5eXuSBQ
-         IjAUOPLN6TpeShmP8IFG6Qs3HLz5ZsmtveqExPSNJyS+H5GC2TLQx7ciIgWRt4M7a56E
-         I5BxQoC/XbKsSKQw0WxlcESAF4gxuw+y75ipXgIYzP9qip+y3CZ+PDfKqM7C7T/HOQsA
-         P/7uS0vrCcXVNHc00hIQJp+GoEtPlVa1nGPa0uvcuYiqA5xamzJHccbdmT1CGagA2jdu
-         Iw2Q==
-X-Gm-Message-State: AOJu0YzNC3GFVY3OUCGopHAfgpJzjDpWuRHLsmR2EIEOaaL14aS3Ih4r
-	Y0TOk69iTjZ7WimEseJi2fgyD0C6HKO0YlBiwA1mte/HArOVDk3XDsol19bC2JQZ7yg2dsnLFoU
-	nvbTfRf0=
-X-Gm-Gg: AR+sD11VwyTZ6eAvbN8qQJQwfvmAjOBK6XpCYG1x/wkeVFxECBUnqc959HV8+wp8d6w
-	oTuD3yUP1LHxeY/rLWXTcP9DWRi+fLtWsHWvZZ1LhA0lzroTOOLDgkkP0rO2u7aXvjsRkBDHiLM
-	1tfrQfx4/I6b+iib1uZWaQDlq0LoT1NZfYjWdatn9lEYl2z5Q0RGLhKpH4AOFRWWD3OHTCk0HWo
-	jNed6a6CS0sFOpIEVIQTRkpFlCcp9JkghRrupRMaQfbWEf8xQrOIiSD4k5WV672czVhawDVfoZm
-	/fj5ChCPzYeeRu4MVITzamfqHRaD77lu5TQyXH+qRSk2itPXbF3T2W85WOWWVRASD+JQ8O+A7qP
-	Y4MI0fwSUdH+EdgAbl4j/v+hCL9dQjMSCR66c6HSuYLkqIhj8Acx2XsI+esSZeu7FuDcCiNkl5w
-	EqHtQZGK02oSSTFV6+STeUZwfpfDg4A3+aqAdb70E6SBN2Mx4+g8afIwHPCCYGLMRTkoL2epcJe
-	zWNtg==
-X-Received: by 2002:a05:600c:c48f:b0:493:f478:4c71 with SMTP id 5b1f17b1804b1-496b5b53259mr55260405e9.7.1785054625183;
-        Sun, 26 Jul 2026 01:30:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785054623; x=1785659423;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=QqtCAIPnnYO0cq/IU7Ir7Gk6NgzmGizJs0CRYuWp4Pc=;
+        b=Z9NEJDD/sYBkYopGhHJ7TFM2zniYariOhVD46IP1x2hGHkeTwC0PCB83XL3dW9ssBL
+         4eTfJtj1RsZfgfp3QQZ0tIdIYpfXg38lydxBfTp8HfWm4Yy6v08xKrISmIiJirdp7z+E
+         jE305zFMsCpoiPjhHLoC1+5qHQjYSwU2cixzjG8OqQj/f/7m2J70Lyt/wvLOd20lG9y8
+         V3UGdxJAuuqXijMOh6OG0o4roAV+NGrylFltJ53Ai55vRmfYIT3U5MiQcYo21oxQX0e8
+         axdjRi17egpNxCWf7Mh+s030PUo+dPC6Ba+ml92ytdXI0ZPNpGKKswfGjxfYsy4hZFSZ
+         ikGQ==
+X-Gm-Message-State: AOJu0YyENkf2ds3cv2jrNy9oDqHcMwih3X0SoShkhAeizGQDAEdLrRgM
+	x4GT7OIF9PPRwkjSYSXibh9LgHVHXBnzChzISh7/dZtOUfdUTxiInb8uNWtpOnIHLspnwks7QKw
+	RCmRFT3E=
+X-Gm-Gg: AR+sD13MGaqMu6v6AO9d1qX1P8fsZu7XeTXjsVsQnsENygMBJYfuVXGQ62dgKQR75tz
+	IYKO7ry1IjWeRtN5fUI6d7ir0yaCbR/KQJiiICYzMX5aadtsjUbCZf1oRj96XxdmYvL/Qhvs7Mo
+	kzr4n0U6Nc9GODK3Q75vu72y+CaBkGUY9TsiR8mCe7L676bn8apNPaUHixEp8gor3Xpjy7iLd1A
+	C45hE5V9A/clUivVOAnEkUh639/DZb2Tvc+6ZZgAMZtLIGWaHZ4IdwBHF5e2XqpVrVHY/HfFheJ
+	wHLGdGfZp+098qk0IOx53905EwdkcJ4teUMGjSShfBgwMSWbuZRRxoR/YPyDqDvaXy4w88ywshF
+	VlUW/pR02GxBFAQ2IE1oOKmK7irFJJ45uSLyMLcA7X05iCqjJ4+D/xSAnq3yTSNdLNMqZHT+sY4
+	UpDYzCcVuLibhQgq2yNqjvGZ47LSpI101e1ceNvt+K1cFSGhKJdmOTxIP27NhpNTNoKFIv14SBY
+	1Vd7A==
+X-Received: by 2002:a05:600c:3150:b0:495:4f84:7280 with SMTP id 5b1f17b1804b1-496b5b3b1d4mr58204125e9.4.1785054622798;
+        Sun, 26 Jul 2026 01:30:22 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f24a93sm142482505e9.11.2026.07.26.01.30.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 01:30:24 -0700 (PDT)
+        Sun, 26 Jul 2026 01:30:22 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 26/31] glib-2.0: fix CVE-2026-58011
-Date: Sun, 26 Jul 2026 10:29:50 +0200
-Message-ID: <a5fe21f357fc41de52e16ef918a737068b0f47e7.1785054430.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 22/31] gnutls: set status for CVE-2026-3832
+Date: Sun, 26 Jul 2026 10:29:46 +0200
+Message-ID: <e07d9d20c8c53b21b57f824a8ea471cb4657e717.1785054430.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785054429.git.yoann.congal@smile.fr>
 References: <cover.1785054429.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 08:30:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242008
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 08:30:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242004
 
-From: Deepak Rathore <deeratho@cisco.com>
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-This patch applies the upstream 2.86.5 backport for
-CVE-2026-58011. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2].
+Analysis:
+  - CVE-2026-3832 affects GnuTLS OCSP multi-record response handling.
+  - The vulnerable OCSP response handling code was introduced in GnuTLS 3.8.8.
+  - This vulnerable code is not present in the current GnuTLS 3.8.4.
+  - Hence ignoring the CVE for this version.
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/commit/ae27363f025ffc131e2d75ee88a5cd8320dffe3b
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58011
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-3832
+https://security-tracker.debian.org/tracker/CVE-2026-3832
+https://gitlab.com/gnutls/gnutls/-/issues/1801
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../glib-2.0/glib-2.0/CVE-2026-58011.patch    | 78 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58011.patch
+ meta/recipes-support/gnutls/gnutls_3.8.4.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58011.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58011.patch
-new file mode 100644
-index 00000000000..a8d31c1270c
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58011.patch
-@@ -0,0 +1,78 @@
-+From 371dbccb6b9a9a42b93c4b371214b159e7e94792 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Sun, 29 Mar 2026 23:46:17 +0100
-+Subject: [PATCH] gdatetime: Add missing range validation to
-+ g_date_time_add_full()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+index ccb6a2b4b2d..6d43c58df27 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+@@ -124,3 +124,5 @@ pkg_postinst_ontarget:${PN}-fips () {
+         ${bindir}/fipshmac ${libdir}/libhogweed.so.6.* > ${libdir}/.libhogweed.so.6.hmac
+     fi
+ }
 +
-+Otherwise it’s possible to create a non-`NULL` but invalid `GDateTime`,
-+which breaks all kinds of internal assumptions.
-+
-+Spotted by linhlhq as #YWH-PGM9867-191. Thanks to them for providing a
-+suggested fix and a test case, which I have adapted and validated.
-+
-+Fixes: #3917
-+
-+CVE: CVE-2026-58011
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/ae27363f025ffc131e2d75ee88a5cd8320dffe3b]
-+
-+Backport Changes:
-+- Used the target branch's existing literal day bounds because it does
-+  not have upstream's MIN_DAYS/MAX_DAYS helper macros.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+(cherry picked from commit ae27363f025ffc131e2d75ee88a5cd8320dffe3b)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ glib/gdatetime.c       |  4 +++-
-+ glib/tests/gdatetime.c | 18 ++++++++++++++++++
-+ 2 files changed, 21 insertions(+), 1 deletion(-)
-+
-+diff --git a/glib/gdatetime.c b/glib/gdatetime.c
-+index 2640e3b24..73eea643b 100644
-+--- a/glib/gdatetime.c
-++++ b/glib/gdatetime.c
-+@@ -2024,7 +2024,9 @@ g_date_time_add_full (GDateTime *datetime,
-+   new->days = full_time / USEC_PER_DAY;
-+   new->usec = full_time % USEC_PER_DAY;
-+ 
-+-  /* XXX validate */
-++  /* Validate it’s still in the range 0001-01-01 to 9999-12-31 */
-++  if (new->days < 1 || new->days > 3652059)
-++    g_clear_pointer (&new, g_date_time_unref);
-+ 
-+   return new;
-+ }
-+diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-+index 49390c900..527d61a11 100644
-+--- a/glib/tests/gdatetime.c
-++++ b/glib/tests/gdatetime.c
-+@@ -1117,6 +1117,24 @@ test_GDateTime_add_full (void)
-+   TEST_ADD_FULL (2010,  8, 25, 22, 45, 0,
-+                     0,  1,  6,  1, 25, 0,
-+                  2010, 10,  2,  0, 10, 0);
-++
-++#define TEST_ADD_FULL_ERROR(y,m,d,h,mi,s,ay,am,ad,ah,ami,as) G_STMT_START { \
-++  GDateTime *dt; \
-++  dt = g_date_time_new_utc (y, m, d, h, mi, s); \
-++  g_assert_null (g_date_time_add_full (dt, ay, am, ad, ah, ami, as)); \
-++  g_date_time_unref (dt); \
-++} G_STMT_END
-++
-++  TEST_ADD_FULL_ERROR (     1, 12,  1,  0,  0, 0,
-++                           -1,  0,  0,  0,  0, 0);
-++  TEST_ADD_FULL_ERROR (     1, 12,  1,  0,  0, 0,
-++                        10000,  0,  0,  0,  0, 0);
-++  TEST_ADD_FULL_ERROR (  9999, 12,  1,  0,  0, 0,
-++                       -10000,  0,  0,  0,  0, 0);
-++  TEST_ADD_FULL_ERROR (     1, 12,  1,  0,  0, 0,
-++                            0,  0, 3660001,  0,  0, 0);
-++  TEST_ADD_FULL_ERROR (  9999, 12,  1,  0,  0, 0,
-++                            0,  0, -3660001,  0,  0, 0);
-+ }
-+ 
-+ static void
-+-- 
-+2.35.6
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index 54691690117..a2de973e218 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -50,6 +50,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2026-58016-1.patch \
-            file://CVE-2026-58016-2.patch \
-            file://CVE-2026-58010.patch \
-+           file://CVE-2026-58011.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
++CVE_STATUS[CVE-2026-3832] = "fixed-version: vulnerable multi-record OCSP response handling was introduced in 3.8.8 and is not present in 3.8.4"
 
