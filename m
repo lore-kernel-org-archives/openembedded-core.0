@@ -1,413 +1,227 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9DB6C53209
-	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 05:19:26 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5710.1785043159909715983
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F67AC531F9
+	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 08:18:09 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6958.1785053885039661003
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Jul 2026 22:19:20 -0700
+ Sun, 26 Jul 2026 01:18:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=g0RfRN7c;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HpwmQ3EM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019f9cdd070f-9725c7f2-9f4e-4fdf-af56-5ae251bdd361-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1785043158;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bk95VxlGvWzC8tcsv0+1vBlRjHqxOEYMvWkMrsgFhpg=;
-	b=g0RfRN7coE/WARLVOygb2Kmt18sHVN2jZv2YjD6QY12DORK2s4u+2HHyWeJhs5Re
-	fdFSy7ZD4FGt5XERxSmSbemZWnqyBELFpxBdBB7q61p40p2gpest4LU0KBcakqnVMUa
-	wcbElyZxDk6skNa7oKvdeqOdu5S8zqc0Hl5sHWrI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785043158;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bk95VxlGvWzC8tcsv0+1vBlRjHqxOEYMvWkMrsgFhpg=;
-	b=HpwmQ3EM4Ycy/RkjcbtVntDknS8cRvR31FTXUNRgGI67No0HWLK4VQ1E7jjpBX8p
-	gpiig5azcDY1nkLgD7cvZ9T3Ef71JSFPUb5ECTsNzY6/64zeX3F/g1W+JuikaG94TMB
-	/XVkHaJBoQySnti5uK5OTx70auNeBmpdDGnxguko=
-Content-Type: multipart/mixed; boundary="===============7045710618949494698=="
+ dkim=pass header.i=@smile.fr header.s=google header.b=YP3teyLK;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493f75f7172so15399945e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 01:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1785053883; x=1785658683; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6us02M3FjHHXjtUTALpI0IwBudD9f3XyPJfbaNNu9Os=;
+        b=YP3teyLKzmVF7fix+HjjNziqkDn5G3fbFrC14RLLOxoaKHMbTtta3L6u7CEYPT8qZv
+         ZQDPF42LjO5KkwINFd/Kwnbm59BamdqyUjdIrrQif7ZV5B2hmxQUx3x449PGR7n9v9nV
+         tDbTrQ+k6UM06ptP7rZjzhmkjLXyT++jwV47Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785053883; x=1785658683;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6us02M3FjHHXjtUTALpI0IwBudD9f3XyPJfbaNNu9Os=;
+        b=bnqwfo4CsRC+wC9RFOfLWJin1XupCOuDQQwQIlHlU+LV/f6571H7hhQhLYGaczQA3+
+         Su+satMPLv4kvvNwaXw0iqukZDyNio5K5FAeRzaQJ1fi1it8V3JJYbGPdK7ViRAMuMdc
+         XaeRip1k/IJ4WZYrNRdQOLw8cShfEQCm7OIM7GK+w6+PFLixOZiCSAdOkJ1VeM4y0fo1
+         vt6CvUMuxG0Gu0V7xzwKCG4vaVJvrMBKj0mslrgq3S0Wy2iwAt0+1z49oC1+L70cWZPy
+         rMGOBywfNdf+2OrhEDkSvd59mDenKRdykfj6GZqhsT9iVL3vHvynyu5Omu7Ld4bzfyzG
+         KM8A==
+X-Gm-Message-State: AOJu0Yxskq2TS6gjTF2xMKynXEsXoeWgJT/BUn62ETmox8SYAKMZq6y4
+	eAxOOXUhSPm+CoEBdN3b37x+uLRaBFxpTi9qtqPrtHsASW5DPNK44Nl7PxvyZs7+Jz2rdvPzDO+
+	50/kTutU=
+X-Gm-Gg: AR+sD13WMuONM/xxD/LYDzRIA3QlJNPgNTg0t0siFCSOet+QwABtyECwJL+3skg5rnT
+	j9Ifw9YRKTWTWtrQLig8ZEWXjU7HQXz+I4R5aFs4KoDqXYJxvrT4y9ca1DVx9LWvJCLuTvOqvYh
+	4KL6hmWMLuIiBERtVEaORr+Yy6J18AQ1EJTuIieq4XNYNakh+WlEnEZFsP4tZpnKacDW8quS3Rg
+	bxlSNGenDZXh53mnHNHG4UtcM9DeDDS9yCe2JOWqR7eQ6uGjChUZIwTkluG3pI/LOtuVng1+4QR
+	hBKkhfWq/43mbD+xo5EVU3r+TrfH0OfB9VFGbgOBHELZd0aGlXbDTxg8Zc+22Bf6tUe6N/n+9a/
+	eBSS+88THZ46WYnFMeecEXLEqnmizwaVsrFg3y2Kk+EFmWA9h54IRFNMxTfGiwbjJJBHVIC5ZJc
+	wqkKOVGfmVm7TnxBwGiJuPSThsmSXlHUQmS6+W4a7HBdRJuBZH0rfJLPO2JPJEKQ8T+Fp8FK4St
+	jyP6w==
+X-Received: by 2002:a05:600c:6d83:b0:495:7d78:7fb2 with SMTP id 5b1f17b1804b1-496b570027amr35249605e9.27.1785053883207;
+        Sun, 26 Jul 2026 01:18:03 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f30126sm122274165e9.13.2026.07.26.01.18.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jul 2026 01:18:02 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [OE-core][wrynose 00/27] Pull request (cover letter only)
+Date: Sun, 26 Jul 2026 10:17:39 +0200
+Message-ID: <cover.1785049139.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.161.5 FAILED
-Message-ID: <0101019f9cdd070f-9725c7f2-9f4e-4fdf-af56-5ae251bdd361-000000@us-west-2.amazonses.com>
-Date: Sun, 26 Jul 2026 05:19:18 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.26-54.240.27.29
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 05:19:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241978
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 08:18:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/241981
 
---===============7045710618949494698==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Those are the patches from the last patch review:
+https://lore.kernel.org/all/cover.1784740870.git.yoann.congal@smile.fr/
+No review, no change
 
-Hello,
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4288
+meta-intel built with incompatible master branch:
+* Green with proper branch: https://autobuilder.yoctoproject.org/valkyrie/#/builders/41/builds/4037
+* Patch sent to change default:
+  [yocto-autobuilder2][PATCH] schedulers: setup wrynose branch for meta-intel
+  https://lore.kernel.org/yocto-patches/20260726065438.3170266-2-yoann.congal@smile.fr/T/#u
+meta-qcom still broken: https://github.com/qualcomm-linux/meta-qcom/issues/2457#issuecomment-5081571633
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.161.5* has Failed(do_compile).
+The following changes since commit b5a6cada82d7ffb362bda9081c354dcc0b6ee264:
 
-Detailed error information:
+  openssh: set status for CVE-2026-3497 (2026-07-20 17:24:44 +0200)
 
-do_compile failed
+are available in the Git repository at:
 
+  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-next
 
+for you to fetch changes up to 0dfe86a27167689ded394d72ebb5e22157fb9184:
 
-Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.155.7-6.161.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+  gzip: Fix CVE-2026-41991 (2026-07-21 17:06:45 +0200)
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+----------------------------------------------------------------
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+Darsh Kelaiya (1):
+  gzip: Fix CVE-2026-41991
 
-Regards,
-The Upgrade Helper
+David Nyström (1):
+  libssh2: Fix CVE-2025-15661
 
--- >8 --
-From c4018d4b3af92e86bb36aad19a1a88d16e13e448 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 26 Jul 2026 05:09:18 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.155.7 -> 6.161.5
+Deepak Rathore (17):
+  expat: fix CVE-2026-56403
+  expat: fix CVE-2026-56408
+  expat: fix CVE-2026-56404
+  expat: fix CVE-2026-56405
+  expat: fix CVE-2026-56410
+  expat: fix CVE-2026-56406
+  expat: fix CVE-2026-56409
+  expat: fix CVE-2026-56411
+  expat: fix CVE-2026-56407
+  expat: fix CVE-2026-56132
+  gnutls: Fix CVE-2026-3832
+  gnutls: Fix CVE-2026-42009
+  curl: ignore CVE-2026-4873
+  curl: fix CVE-2026-5545
+  curl: fix CVE-2026-6253
+  curl: fix CVE-2026-6429
+  libpng: fix CVE-2026-34757
 
----
- ...hon3-hypothesis_6.155.7.bb => python3-hypothesis_6.161.5.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.155.7.bb => python3-hypothesis_6.161.5.bb} (91%)
+Devansh Patel (7):
+  openssh: Fix CVE-2026-59999
+  openssh: Fix CVE-2026-59997
+  openssh: Fix CVE-2026-59996
+  openssh: Fix CVE-2026-59995
+  openssh: Fix CVE-2026-60001
+  openssh: Fix CVE-2026-60002
+  openssh: Fix CVE-2026-60000
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb b/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb
-index 70ae7877a1..893fdd674a 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
- 
--SRC_URI[sha256sum] = "d8d6091753d0669db3c90c5e5b346cb37c72f3dd9378c8413acb1fd5da63f7ea"
-+SRC_URI[sha256sum] = "ba73a3c3b68e63a0bee5ea1a8a13efce60bcc7ee5fc7e71df2954db39c225b95"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
--- 
-2.47.1
+Peter Marko (1):
+  glib-2.0: upgrade 2.88.0 -> 2.88.2
 
+ .../openssh/openssh/CVE-2026-59995.patch      |  44 ++
+ .../openssh/openssh/CVE-2026-59996.patch      |  39 ++
+ .../openssh/openssh/CVE-2026-59997.patch      |  60 ++
+ .../openssh/openssh/CVE-2026-59999.patch      |  38 ++
+ .../openssh/openssh/CVE-2026-60000.patch      | 140 +++++
+ .../openssh/openssh/CVE-2026-60001.patch      | 130 +++++
+ .../openssh/openssh/CVE-2026-60002.patch      | 225 ++++++++
+ .../openssh/openssh_10.3p1.bb                 |   7 +
+ .../expat/expat/CVE-2026-56132_p1.patch       |  90 +++
+ .../expat/expat/CVE-2026-56132_p2.patch       |  63 +++
+ .../expat/expat/CVE-2026-56132_p3.patch       |  77 +++
+ .../expat/expat/CVE-2026-56132_p4.patch       |  63 +++
+ .../expat/expat/CVE-2026-56132_p5.patch       |  58 ++
+ .../expat/expat/CVE-2026-56403_p1.patch       |  83 +++
+ .../expat/expat/CVE-2026-56403_p2.patch       |  40 ++
+ .../expat/expat/CVE-2026-56404.patch          |  47 ++
+ .../expat/expat/CVE-2026-56405.patch          |  32 ++
+ .../expat/CVE-2026-56406-dependent.patch      |  58 ++
+ .../expat/expat/CVE-2026-56406.patch          |  37 ++
+ .../expat/expat/CVE-2026-56407.patch          |  44 ++
+ .../expat/expat/CVE-2026-56408.patch          |  36 ++
+ .../expat/expat/CVE-2026-56409.patch          |  53 ++
+ .../expat/expat/CVE-2026-56410_p1.patch       |  40 ++
+ .../expat/expat/CVE-2026-56410_p2.patch       |  41 ++
+ .../expat/expat/CVE-2026-56411.patch          |  47 ++
+ meta/recipes-core/expat/expat_2.7.5.bb        |  17 +
+ .../glib-2.0/files/CVE-2026-58016-1.patch     |  12 +-
+ .../glib-2.0/files/CVE-2026-58016-2.patch     |  30 +-
+ ...l_2.88.0.bb => glib-2.0-initial_2.88.2.bb} |   0
+ ...{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} |   0
+ meta/recipes-core/glib-2.0/glib.inc           |   2 +-
+ .../gzip/gzip-1.14/CVE-2026-41991.patch       |  75 +++
+ meta/recipes-extended/gzip/gzip_1.14.bb       |   1 +
+ .../libpng/files/CVE-2026-34757_p1.patch      | 518 ++++++++++++++++++
+ .../libpng/files/CVE-2026-34757_p2.patch      | 481 ++++++++++++++++
+ .../libpng/libpng_1.6.56.bb                   |   4 +-
+ .../curl/curl/CVE-2026-5545.patch             |  43 ++
+ .../curl/curl/CVE-2026-6253.patch             | 389 +++++++++++++
+ .../curl/curl/CVE-2026-6429-dependent.patch   |  81 +++
+ .../curl/curl/CVE-2026-6429.patch             | 325 +++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   5 +
+ .../gnutls/gnutls/CVE-2026-3832_p1.patch      |  52 ++
+ .../gnutls/gnutls/CVE-2026-3832_p2.patch      | 114 ++++
+ .../gnutls/gnutls/CVE-2026-42009_p1.patch     |  62 +++
+ .../gnutls/gnutls/CVE-2026-42009_p2.patch     |  48 ++
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   4 +
+ .../libssh2/libssh2/CVE-2025-15661-1.patch    |  45 ++
+ .../libssh2/libssh2/CVE-2025-15661-2.patch    | 131 +++++
+ .../libssh2/libssh2/CVE-2025-15661-3.patch    |  57 ++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |   3 +
+ 50 files changed, 4068 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59995.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59996.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59997.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-59999.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60000.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60001.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-60002.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56404.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56405.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56407.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56408.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56409.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56411.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.88.0.bb => glib-2.0-initial_2.88.2.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.88.0.bb => glib-2.0_2.88.2.bb} (100%)
+ create mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5545.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6253.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429-dependent.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-1.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-2.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-3.patch
 
---===============7045710618949494698==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.155.7-6.161.5.patch"
-
-RnJvbSBjNDAxOGQ0YjNhZjkyZTg2YmIzNmFhZDE5YTFhODhkMTZlMTNlNDQ4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMjYgSnVsIDIwMjYgMDU6MDk6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNTUuNyAtPiA2LjE2MS41CgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2MS41LmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2MS41LmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTU1LjcuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjE2MS41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjcuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTYxLjUu
-YmIKaW5kZXggNzBhZTc4NzdhMS4uODkzZmRkNjc0YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTUuNy5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE2MS41LmJiCkBA
-IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkOGQ2MDkxNzUzZDA2NjlkYjNjOTBjNWU1
-YjM0NmNiMzdjNzJmM2RkOTM3OGM4NDEzYWNiMWZkNWRhNjNmN2VhIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImJhNzNhM2MzYjY4ZTYzYTBiZWU1ZWExYThhMTNlZmNlNjBiY2M3ZWU1ZmM3ZTcxZGYy
-OTU0ZGIzOWMyMjViOTUiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40Ny4xCgo=
-
---===============7045710618949494698==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 953 .bb files complete (0 cached, 953 parsed). 1981 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-9a25b3e72051a30794e147564028487a598ce82d"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:9a25b3e72051a30794e147564028487a598ce82d"
-meta-yocto-bsp       
-meta-poky            = "master:e4690557fb0fffcb5e9a86d1c1ebc550bb0da090"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 631 Local 614 Mirrors 0 Missed 17 Current 235 (97% match, 98% complete)
-done.
-Removing 4 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 273 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 290 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 313 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 331 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 344 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_create_spdx_setscene)
-NOTE: Running task 248 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_recipe_qa)
-NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_recipe_qa: Started
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 525 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 527 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_package_setscene)
-NOTE: recipe python3-3.14.6-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 546 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.14.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 558 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 598 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_create_spdx_setscene)
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 448 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_fetch)
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 603 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 604 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe glibc-2.43+git-r1: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_fetch: Started
-NOTE: recipe python3-3.14.6-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_fetch: Succeeded
-NOTE: Running task 449 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_unpack)
-NOTE: recipe glibc-2.43+git-r1: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 614 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.14.6-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 637 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 638 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 639 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Started
-NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 666 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 668 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 669 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe glibc-2.43+git-r1: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe glibc-2.43+git-r1: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 672 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 675 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_spdx_setscene)
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 678 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 679 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 680 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 683 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 707 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-native-3.14.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-native-3.14.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 736 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 782 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 783 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 785 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_recipe_qa_setscene)
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-native-3.14.6-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-native-3.14.6-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running task 771 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_create_recipe_spdx)
-NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 814 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 815 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-build-native-1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 816 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 817 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 819 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-packaging-native-26.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-build-native-1.5.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 821 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-packaging-native-26.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 823 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 824 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-packaging-native-26.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-packaging-native-26.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 826 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 827 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 830 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.46.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 831 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 832 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 834 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 836 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.46.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmpc-native-1.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe unzip-native-1_6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libmpc-native-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 838 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 839 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_recipe_qa_setscene)
-NOTE: recipe unzip-native-1_6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 841 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.46.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 844 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.46.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 846 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe mpfr-native-4.2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libmpc-native-1.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe unzip-native-1_6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmpc-native-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.46.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe unzip-native-1_6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe flex-native-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mpfr-native-4.2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 852 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.46.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mpfr-native-4.2.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flex-native-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 854 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/flex/flex_2.6.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 857 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/m4/m4-native_1.4.21.bb:do_populate_sysroot_setscene)
-NOTE: recipe mpfr-native-4.2.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe m4-native-1.4.21-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-native-2.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flex-native-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe m4-native-1.4.21-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 862 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 864 of 866 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/m4/m4-native_1.4.21.bb:do_recipe_qa_setscene)
-NOTE: recipe m4-native-1.4.21-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe m4-native-1.4.21-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 866 of 866 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_recipe_qa_setscene)
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1651 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_patch)
-NOTE: Running task 1686 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_patch: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_patch: Succeeded
-NOTE: Running task 2122 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2123 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_populate_lic)
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_populate_lic: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2124 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_configure)
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_configure: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_configure: Succeeded
-NOTE: Running task 2125 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_configure_ptest_base)
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2126 of 2143 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_compile)
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| 
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
-|     raise BackendUnavailable(
-|     ...<4 lines>...
-|     )
-| pyproject_hooks._impl.BackendUnavailable: Cannot import 'maturin'
-| 
-| TIP pass --env-dir and --sdist-extract-dir to keep the build environment and sources, then see https://build.pypa.io/en/stable/how-to/troubleshooting.html#debug-a-failed-build for help debugging a failed build
-| ERROR Backend 'maturin' is not available.
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/temp/run.do_compile.1044478:151 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/sources/hypothesis-6.161.5'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/temp/run.do_compile.1044478, line 151
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/temp/run.do_compile.1044478, line 146
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/temp/run.do_compile.1044478, line 163
-NOTE: recipe python3-hypothesis-6.161.5-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2126 tasks of which 2115 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260726050902.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260726050902.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/temp/log.do_compile.1044478
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-hypothesis-6.161.5-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/temp/run.do_compile.1044478' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.161.5/temp/log.do_compile.1044478
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.161.5.bb:do_compile) failed with exit code '1'
-
---===============7045710618949494698==--
 
