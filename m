@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D239C531D0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F87C531FC
 	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 06:50:23 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25573.1785135017056859655
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25574.1785135017683892575
  for <openembedded-core@lists.openembedded.org>;
  Sun, 26 Jul 2026 23:50:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JNyA6oeW;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NPScdxQ0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019fa256a8da-7247acce-d533-4c7d-8bab-a884e99b31f6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KVoQjku0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Qiu2PUJU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019fa256ac80-b2626c1a-becc-4b4e-8515-fae1fb269a2f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1785135016; i=@automation.yoctoproject.org;
+	t=1785135017; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=wLTqP4QaB7xG3ab+zsXz4jyrZ6BsXfRR9naYeRj6K24=;
-	b=JNyA6oeWC0idUhr/mHTkNGgYyYuJLeMsY4+x4gx2hQH57CfGj7oh68+zz5r5c/fp
-	H4v+HF+j57N7Drd1Y3ZSUgj/6O8pKw5cAdIQF/6JqyUNHSeqcRR3a0s6/7CeKSTZqGe
-	EtBxjOUm2c0XwXNBvSVNn0hy7cV9k2gmotwgtMFQ=
+	bh=XVVIo2U8GhmuIDpel25ziIuC/Jd8PvFOvkcbFins93s=;
+	b=KVoQjku0VC9l9iZ8pmC3qNc0+gViCNXOjEi5OlNTAFs5MlB1E4eQV/tC40yDSvOr
+	1vDYGD8uC4EMug7fPJ2xyLoSRLzI8OkOrJWI2+eeCDolhnw39DlD2utCBcLkAr+Jl2X
+	8XY0nzSMdMzwIbMoOoQE3oBICc90MzcAQTBRPV88=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785135016;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785135017;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=wLTqP4QaB7xG3ab+zsXz4jyrZ6BsXfRR9naYeRj6K24=;
-	b=NPScdxQ0w9bLXyyalcFSg1YD6ni7jE8IhdIac2ad/96oY6gY1SrJalwYXrRxtVx8
-	86e3Y8WdaTNmcTfoT1s3k4TDyEjXIkrr84fdzo4hpVbQ65ehweIGRHooviRooY2v4ru
-	rJKHIIfcWBDhOnD9ptLOhV4w895VlqeAEZgTjFqo=
+	bh=XVVIo2U8GhmuIDpel25ziIuC/Jd8PvFOvkcbFins93s=;
+	b=Qiu2PUJUlsPQaDyeJdr0+Wy7dKlSwhlErHWO/42niD+JoK0m6kOzRwNy7zIpkZy7
+	VFipf2SbXhoB/6e8u7WTMoyNYp8Oh8+Vp8e/O6qq/kM1/WuXKgBPu56yWTTW/hSlfsU
+	To3fXT50bLQV/rjU43SWPsH4vvE2Ri0DLk7iGohs=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 06/10] dropbear: upgrade 2026.92 -> 2026.94
-In-Reply-To: <20260727064158.3784068-6-richard.purdie@linuxfoundation.org>
-References: <20260727064158.3784068-6-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 09/10] python3-uv-build: upgrade 0.11.29 -> 0.11.32
+In-Reply-To: <20260727064158.3784068-9-richard.purdie@linuxfoundation.org>
+References: <20260727064158.3784068-9-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019fa256a8da-7247acce-d533-4c7d-8bab-a884e99b31f6-000000@us-west-2.amazonses.com>
-Date: Mon, 27 Jul 2026 06:50:16 +0000
+Message-ID: <0101019fa256ac80-b2626c1a-becc-4b4e-8515-fae1fb269a2f-000000@us-west-2.amazonses.com>
+Date: Mon, 27 Jul 2026 06:50:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.27-54.240.27.33
+X-SES-Outgoing: 2026.07.27-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 06:50:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242051
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242052
 
 --NextPart
 Content-Type: text/plain
@@ -53,15 +53,15 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/06-10-dropbear-upgrade-2026.92---2026.94.patch
+Testing patch /home/patchtest/share/mboxes/09-10-python3-uv-build-upgrade-0.11.29---0.11.32.patch
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
 PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
 PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
 PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
