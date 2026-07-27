@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CA0C531D0
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 22:56:20 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43746.1785192977709069469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8207C53209
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 22:56:19 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43795.1785192978597790976
  for <openembedded-core@lists.openembedded.org>;
  Mon, 27 Jul 2026 15:56:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=vPE+q9uT;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493f75f7172so27169775e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:17 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=AlmaoS2E;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b966dd74so20121375e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785192976; x=1785797776; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1785192977; x=1785797777; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=VmSYXyMdQlw/y6su6QgzpYNwY6XA0rzJORJR5TBJizQ=;
-        b=vPE+q9uTC03UEBV6Ho+DxRCXY1HqHoVmmHoN3M6uIFFgZmVWB1EBecB8GUSh4lMWkJ
-         aDpG+zE0PNo+luSnBeNS/kkL/6msktkthtWvMp5jeXbTQGDhw+RNM02g21kJA1l64BUl
-         5OMVGb4QBo8NMpIKGN/dUaGGdJqsDHMoDAZHc=
+        bh=+Llcd8N4eIBg0A0szl7RMNdk04OLH3nKppr+UE+F5jg=;
+        b=AlmaoS2EBi63sLKmNMuASl8XfGr/KuIGLZpqjgmpF9psAjyO82pCiLAc5gX2rrKTzP
+         gXtNVSBnPjm/O2mlqlB6lAAlQQbYsUuEGQZpiAMIfKciHd4Pd88GLw5nuGb1fEosBTOH
+         XTSBVlULICG6A6sCFiAOFWzGvXrcm3fyOTI70=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785192976; x=1785797776;
+        d=1e100.net; s=20251104; t=1785192977; x=1785797777;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=VmSYXyMdQlw/y6su6QgzpYNwY6XA0rzJORJR5TBJizQ=;
-        b=M1EeOtxmZ6hYaxOzJHMXZXv0TCwyH0OkYNtxtvWCfXZEMvOE5R1m1usF7QP01ZssXr
-         Oz86PO/iYaJ9RIUQun+HOMZbQUD9eulKCun1I4qprw7/4kD0ib1ZvJM4wpnqSZX8hrAQ
-         rxKeiZmlin/92Otp+eLdToQx+Pud9o1xxRa5C1o4lRDNGJSl1FZvb8QD8nwiO5rpatoj
-         I4p6NhZD1/dAR2oJ+N0q7sU610Rlt0lJ3zcpI2u28oTN/16Pcx/zKo2zoo9y/tClMX03
-         f237i2PdczmY3oushnhKt0fkSnxzSBcHzUQH2gkBq+RLKq7h9keZ/jMsQ/hh65JLn7AA
-         b+/Q==
-X-Gm-Message-State: AOJu0YxU5m3y94ru+VsNKuIXuDFI9CP97XBMf3/m68jqj0o9bPoPh5Xz
-	T6iQC1EgLdOkbvR2zAuQYwtiPqkEOpx6p5+BSoJgcsmBPnKIl2zGCza3DBGxbw5+4APVGEtIiYl
-	H8WB67yk=
-X-Gm-Gg: AR+sD13JfnEuk9cDbPwyv0JRSjDY6+WJQB9THagYH7WwOMjrk84M8rQv8wlXJt5cATB
-	j+tezEAFAcy5m88zsq3r/Ya+zP9VhOcPEaephgX4EHU6VLCFf7+wXldrJjskiypJGLM1iOH79o9
-	swtHl8yFR1X8s8fz4Nq0t3JENXTt7wDgOJVSagomguoNjA1TSMVjK5v0U3egEFU5AT+QCw+AlAJ
-	Af+CGKIutPRKgGEwM1wy+x4cC8eSrNIh+PKSgabRiWR0B1VsxGmvN6/Jy6v8Lxn3vNnmHAPKDIh
-	cUs5/BhIZEO2INhnh0pe6sGnqWJqfXUm7S842GqD49l45EO6aNQcrIT7JHqXxoglcNf2jHTLqR7
-	IaIj1csMeMpupFiYd4gTPRwz0irTsIkXc4eoxGuJTfSPLada03k43jbJYvgPkGvQIv2VMDLhVNF
-	1gOB7A+XMFY/TKjkWTy+kIqZC7NRUWKICxyzjsyaYJ89SoLAFdrKJ9gCs7hIDT3ZFn0TLDuQk5U
-	PJC2UL51AnMtdUQ
-X-Received: by 2002:a05:600c:a4f:b0:493:d741:5d72 with SMTP id 5b1f17b1804b1-496b57116e2mr160532815e9.38.1785192975869;
-        Mon, 27 Jul 2026 15:56:15 -0700 (PDT)
+        bh=+Llcd8N4eIBg0A0szl7RMNdk04OLH3nKppr+UE+F5jg=;
+        b=m6y8/Uv6XruaA+OyXEVTevpWdfhMjRWzAdnsOmO67pyJ1Zlc55u9gjDck2ooljDL4O
+         GnJOgWoXs08Ag7598mQbFHQqQVGWxgzyTc+SSDCmoeGn1A7fHixSiwSSuEIYT/9vAPuv
+         F1eAChSrFideKa4PzLTDQiZiEefW6YCIrYvhLh9Z4jZvSc1sHNnNn76YVmYoIqPMbNLD
+         oU9cH1wX/jLI61dGJgN+brM7kEA0YmMwhZUgiZfQ2/kBQi8HXObthMKFjbkPm7d0csjw
+         JK/USYf6caNoh2WzQ8X4EMpzCf7SUC+TiZIuSZf1sl0tXCXAFmieeoi7eRAk0YlRCg5s
+         VRMg==
+X-Gm-Message-State: AOJu0Yxkq9Nm0+EEZe6n0205jmQShh5KUHYHO6ZP9KN6Hyc3I3WTS7mc
+	V8LjTg102Yj407hCdsvTaiN7GvmqZd01V6OcUNkDT0z6Nlwqr51KqtMtvgmchUJzGtKoa6TP63u
+	0fJspBsM=
+X-Gm-Gg: AR+sD10mDBcVMHWxtkm3rCR0G/KbdpecOmDtHhpBYTWG+g4h7xl2mHlpXsWCSJSiuAD
+	CdOHIDpMRC+5U54DVBI9tZpWoAaooPW+/CUzHRNgnTsdTaki6U1LddnYsLJvAozpzqv1b9mGGx4
+	nEexI2XpSz7VPEVS/d+WhST2tbjw4ilhQtkeBljY5YIQPsUaE5/g7aJyKiOlunQDJW+HlFwttwB
+	ic9UlVVKkn5XaneL7lsUMjaSIBK053c6ymX/ued44zfQ5yF4OFBuBvk8Nd7bMMqgnyO10tdKEF2
+	nE/kDyXhhPSFf0dWSbOjqDK3tULI+NDR1iAnSiYAbCM24hIVFghQJG1Vc9wi5PAtcMBRtmhPzza
+	fV1F5okhcl96AM1Wtt9+xUd476nWJo7jAUNOrly2P0q1olZGk6U6Sr0kVbockd2Bti0E+jIvPXm
+	oU/euViDmQvDCpPRnX9Kjm8lNGjbZyn1XyoSkn2/y1kDy7Vyutd6zmAF/gHkYlcq3WP0wSXba2L
+	ol20Q==
+X-Received: by 2002:a05:600c:4594:b0:495:7287:293f with SMTP id 5b1f17b1804b1-496c4fe0969mr8417775e9.35.1785192976734;
+        Mon, 27 Jul 2026 15:56:16 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 15:56:14 -0700 (PDT)
+        Mon, 27 Jul 2026 15:56:16 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 09/36] rsync: Fix CVE-2026-43620
-Date: Tue, 28 Jul 2026 00:55:23 +0200
-Message-ID: <7c88d9dc29f948d178ff270c1b55fdfd1a26296c.1785190123.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 10/36] rsync: Fix CVE-2026-43617
+Date: Tue, 28 Jul 2026 00:55:24 +0200
+Message-ID: <8e83a7aa0f82ffea3e57a7025b5985b0d1a04046.1785190123.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785190123.git.yoann.congal@smile.fr>
 References: <cover.1785190123.git.yoann.congal@smile.fr>
@@ -65,163 +65,242 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242117
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242118
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
 This patch applies the upstream v3.4.3 backport for
-CVE-2026-43620. The upstream fix commit is referenced in [1],
+CVE-2026-43617. The upstream fix commit is referenced in [1],
 and the public CVE advisory is referenced in [2].
 
-[1] https://github.com/RsyncProject/rsync/commit/0cf200ecbb8baaf58070d825c4fbd892b4a63b69
-[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-28pw-r563-rxvm
+[1] https://github.com/RsyncProject/rsync/commit/c38f20c5ffabacd0c0c483786ab224a36e14bf43
+[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-rjfm-3w2m-jf4f
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../rsync/files/CVE-2026-43620.patch          | 122 ++++++++++++++++++
+ .../rsync/files/CVE-2026-43617.patch          | 201 ++++++++++++++++++
  meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   1 +
- 2 files changed, 123 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
+ 2 files changed, 202 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch b/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch b/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
 new file mode 100644
-index 00000000000..2852b74b8d4
+index 00000000000..5b3190224ed
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-43620.patch
-@@ -0,0 +1,122 @@
-+From 271771f089f5f7acff5cce1ca3242849b0f6a6a0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
+@@ -0,0 +1,201 @@
++From d811094dc63486a8b6acf23963daccc23e9dbf43 Mon Sep 17 00:00:00 2001
 +From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Tue, 5 May 2026 16:48:16 +1000
-+Subject: [PATCH] receiver: add parent_ndx<0 guard, mirroring 797e17f
++Date: Wed, 31 Dec 2025 13:50:35 +1100
++Subject: [PATCH] clientserver: fix hostname ACL bypass when using daemon
++ chroot
 +
-+Commit 797e17f ("fixed an invalid access to files array") added a
-+parent_ndx < 0 guard to send_files() in sender.c, but the visually-
-+identical block in recv_files() in receiver.c was not updated. A
-+malicious rsync:// server can therefore drive any connecting client
-+into the same out-of-bounds dir_flist->files[-1] read followed by a
-+file_struct dereference in f_name() one line later.
++On an rsync daemon configured with "daemon chroot", the reverse-DNS
++lookup of the connecting client was performed *after* the chroot
++had been entered. If the chroot did not contain the files glibc
++needs for resolution (/etc/resolv.conf, /etc/nsswitch.conf,
++/etc/hosts, NSS service modules), the lookup failed and
++client_name() returned "UNKNOWN". Hostname-based deny rules
++("hosts deny = *.evil.example") therefore could not match, and
++an attacker controlling their PTR record could connect from a
++hostname the administrator had intended to deny. IP-based ACLs
++were unaffected.
 +
-+Reach: protocol-30+ default (inc_recurse) makes flist.c:2745 set
-+parent_ndx = -1 on the first received flist when the sender omits a
-+leading "." entry; rsync.c flist_for_ndx() does not reject ndx == 0
-+in that state because the range check evaluates 0 < 0 = false; and
-+read_ndx_and_attrs() only validates ndx with the ITEM_TRANSFER bit
-+set, so iflags=ITEM_IS_NEW (or any other non-transfer iflag word)
-+bypasses the check.
++Do the reverse DNS lookup before chroot/setuid; client_name()
++caches its result, so the post-chroot call uses the cached value
++and hostname-based ACLs work even when DNS is unavailable
++post-chroot.
 +
-+Apply the same guard receiver-side. Confirmed: the same PoC (a
-+minimal Python rsyncd that handshakes with CF_INC_RECURSE, sends a
-+no-leading-"." flist, and emits ndx=0 with ITEM_IS_NEW) crashes
-+unpatched 3.4.2 with SEGV_MAPERR si_addr=0x4101a-class in the
-+receiver child; with this guard it exits cleanly with code 2
-+(RERR_PROTOCOL).
++Adds testsuite/daemon-chroot-acl.test as end-to-end regression
++coverage. The test sets up an empty chroot directory, configures
++"hosts deny = <localhost-resolved-name>" with daemon chroot, and
++asserts the connection is refused with @ERROR access denied.
++Uses unshare --user --map-root-user for non-root CAP_SYS_CHROOT;
++skips cleanly on non-Linux or when user namespaces aren't
++available.
 +
-+The attack surface delta over the sender variant is large:
-+the original was malicious-client -> daemon, this is
-+malicious-server -> any rsync client doing a normal rsync://
-+or remote-shell pull.
-+
-+Reported by Pratham Gupta (alchemy1729).
++Reporter: Joshua Rogers (MegaManSec).
 +
 +Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 +
-+CVE: CVE-2026-43620
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/0cf200ecbb8baaf58070d825c4fbd892b4a63b69]
++CVE: CVE-2026-43617
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/c38f20c5ffabacd0c0c483786ab224a36e14bf43]
 +
-+(cherry picked from commit 0cf200ecbb8baaf58070d825c4fbd892b4a63b69)
++Backport Changes:
++- Omitted upstream .github/workflows/macos-build.yml because the
++  Yocto recipe does not carry upstream CI workflow files. That
++  upstream hunk only adds daemon-chroot-acl to the macOS
++  RSYNC_EXPECT_SKIPPED list and has no rsync source/runtime effect.
++
++(cherry picked from commit c38f20c5ffabacd0c0c483786ab224a36e14bf43)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ generator.c | 4 ++++
-+ io.c        | 3 +++
-+ receiver.c  | 7 ++++++-
-+ sender.c    | 2 ++
-+ 4 files changed, 15 insertions(+), 1 deletion(-)
++ clientserver.c                   |  22 ++++++
++ testsuite/daemon-chroot-acl.test | 111 +++++++++++++++++++++++++++++++
++ 2 files changed, 133 insertions(+)
++ create mode 100644 testsuite/daemon-chroot-acl.test
 +
-+diff --git a/generator.c b/generator.c
-+index 311e9b78..89f99db4 100644
-+--- a/generator.c
-++++ b/generator.c
-+@@ -2146,6 +2146,8 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
-+ 			if (send_failed)
-+ 				ndx = get_hlink_num();
-+ 			flist = flist_for_ndx(ndx, "check_for_finished_files.1");
-++			if (ndx < flist->ndx_start)
-++				exit_cleanup(RERR_PROTOCOL);
-+ 			file = flist->files[ndx - flist->ndx_start];
-+ 			assert(file->flags & FLAG_HLINKED);
-+ 			if (send_failed)
-+@@ -2174,6 +2176,8 @@ void check_for_finished_files(int itemizing, enum logcode code, int check_redo)
++diff --git a/clientserver.c b/clientserver.c
++index b6eba098..3333aa96 100644
++--- a/clientserver.c
+++++ b/clientserver.c
++@@ -1310,6 +1310,28 @@ int start_daemon(int f_in, int f_out)
++ 	if (lp_proxy_protocol() && !read_proxy_protocol_header(f_in))
++ 		return -1;
 + 
-+ 			flist = cur_flist;
-+ 			cur_flist = flist_for_ndx(ndx, "check_for_finished_files.2");
-++			if (ndx < cur_flist->ndx_start)
-++				exit_cleanup(RERR_PROTOCOL);
-+ 
-+ 			file = cur_flist->files[ndx - cur_flist->ndx_start];
-+ 			if (solo_file)
-+diff --git a/io.c b/io.c
-+index bb60eeca..c654a7ba 100644
-+--- a/io.c
-++++ b/io.c
-+@@ -1090,6 +1090,9 @@ static void got_flist_entry_status(enum festatus status, int ndx)
-+ {
-+ 	struct file_list *flist = flist_for_ndx(ndx, "got_flist_entry_status");
-+ 
-++	if (ndx < flist->ndx_start)
-++		exit_cleanup(RERR_PROTOCOL);
+++	/* Do reverse DNS lookup before chroot/setuid. The result is cached,
+++	 * so the later client_name() call will use this cached value. This
+++	 * ensures hostname-based ACLs work even when DNS is unavailable
+++	 * after chroot.
+++	 *
+++	 * "reverse lookup" can be set globally OR per-module, so we also
+++	 * scan each module: a deployment with "reverse lookup = no" in the
+++	 * global section but "reverse lookup = yes" in a specific module
+++	 * still triggers a post-chroot lookup at access-check time
+++	 * (rsync_module() in this file), which would also fail in the
+++	 * chroot and turn hostname-based deny rules into silent bypasses. */
+++	{
+++		int need_reverse = lp_reverse_lookup(-1);
+++		int j, num_modules = lp_num_modules();
+++		for (j = 0; !need_reverse && j < num_modules; j++) {
+++			if (lp_reverse_lookup(j))
+++				need_reverse = 1;
+++		}
+++		if (need_reverse)
+++			(void)client_name(client_addr(f_in));
+++	}
 ++
-+ 	if (remove_source_files) {
-+ 		active_filecnt--;
-+ 		active_bytecnt -= F_LENGTH(flist->files[ndx - flist->ndx_start]);
-+diff --git a/receiver.c b/receiver.c
-+index a487ad5a..3fa68d71 100644
-+--- a/receiver.c
-++++ b/receiver.c
-+@@ -467,7 +467,10 @@ static void handle_delayed_updates(char *local_name)
-+ static void no_batched_update(int ndx, BOOL is_redo)
-+ {
-+ 	struct file_list *flist = flist_for_ndx(ndx, "no_batched_update");
-+-	struct file_struct *file = flist->files[ndx - flist->ndx_start];
-++	struct file_struct *file;
-++	if (ndx < flist->ndx_start)
-++		exit_cleanup(RERR_PROTOCOL);
-++	file = flist->files[ndx - flist->ndx_start];
-+ 
-+ 	rprintf(FERROR_XFER, "(No batched update for%s \"%s\")\n",
-+ 		is_redo ? " resend of" : "", f_name(file, NULL));
-+@@ -604,6 +607,8 @@ int recv_files(int f_in, int f_out, char *local_name)
-+ 
-+ 		if (ndx - cur_flist->ndx_start >= 0)
-+ 			file = cur_flist->files[ndx - cur_flist->ndx_start];
-++		else if (cur_flist->parent_ndx < 0)
-++			exit_cleanup(RERR_PROTOCOL);
-+ 		else
-+ 			file = dir_flist->files[cur_flist->parent_ndx];
-+ 		fname = local_name ? local_name : f_name(file, fbuf);
-+diff --git a/sender.c b/sender.c
-+index 99f431fe..033f87e5 100644
-+--- a/sender.c
-++++ b/sender.c
-+@@ -140,6 +140,8 @@ void successful_send(int ndx)
-+ 		return;
-+ 
-+ 	flist = flist_for_ndx(ndx, "successful_send");
-++	if (ndx < flist->ndx_start)
-++		exit_cleanup(RERR_PROTOCOL);
-+ 	file = flist->files[ndx - flist->ndx_start];
-+ 	if (!change_pathname(file, NULL, 0))
-+ 		return;
++ 	p = lp_daemon_chroot();
++ 	if (*p) {
++ 		log_init(0); /* Make use we've initialized syslog before chrooting. */
++diff --git a/testsuite/daemon-chroot-acl.test b/testsuite/daemon-chroot-acl.test
++new file mode 100644
++index 00000000..9d1c1b63
++--- /dev/null
+++++ b/testsuite/daemon-chroot-acl.test
++@@ -0,0 +1,111 @@
+++#!/bin/sh
+++
+++# Copyright (C) 2026 by Andrew Tridgell
+++
+++# This program is distributable under the terms of the GNU GPL (see
+++# COPYING).
+++
+++# Regression test for GHSA-rjfm-3w2m-jf4f: a hostname-based "hosts deny"
+++# rule must still match when the daemon performs a 'daemon chroot' and
+++# the chroot does not contain the NSS files glibc needs for reverse DNS.
+++#
+++# Pre-fix, reverse DNS happened *after* the daemon chroot. With an empty
+++# chroot the NSS lookup failed, client_name() returned "UNKNOWN", and a
+++# deny rule referring to the connecting hostname silently failed to
+++# match.
+++#
+++# Two scenarios are exercised so we can distinguish the case the fix
+++# definitely covers from the per-module path that may still be
+++# vulnerable:
+++#   A. global  "reverse lookup = yes"           (covered by b6abdb4c)
+++#   B. only module "reverse lookup = yes"       (gap to verify)
+++
+++. "$suitedir/rsync.fns"
+++
+++case `uname -s` in
+++Linux*) ;;
+++*) test_skipped "test is Linux-specific (uses chroot+unshare)" ;;
+++esac
+++
+++# We need CAP_SYS_CHROOT. Re-exec under a user namespace if not root.
+++if ! chroot / /bin/true 2>/dev/null; then
+++    if [ -z "$RSYNC_UNSHARED" ] && unshare --user --map-root-user true 2>/dev/null; then
+++	echo "Re-running under unshare --user --map-root-user..."
+++	RSYNC_UNSHARED=1 exec unshare --user --map-root-user "$SHELL_PATH" $RUNSHFLAGS "$0"
+++    fi
+++    test_skipped "need CAP_SYS_CHROOT (root or unshare --user --map-root-user)"
+++fi
+++
+++# We need 127.0.0.1 to reverse-resolve to a real hostname while NSS is
+++# still working (i.e. before the daemon's chroot). The daemon will
+++# look that name up itself as part of its hostname-based ACL check;
+++# we then deny that name and assert the connection is rejected.
+++client_hostname=`getent hosts 127.0.0.1 2>/dev/null | awk 'NR==1 {print $2}'`
+++if [ -z "$client_hostname" ] || [ "$client_hostname" = "127.0.0.1" ]; then
+++    test_skipped "no reverse DNS for 127.0.0.1"
+++fi
+++
+++chrootdir="$scratchdir/chroot"
+++rm -rf "$chrootdir"
+++mkdir -p "$chrootdir/modroot"
+++echo "from chroot" > "$chrootdir/modroot/file1"
+++
+++conf="$scratchdir/test-rsyncd.conf"
+++logfile="$scratchdir/rsyncd.log"
+++
+++write_conf() {
+++    cat >"$conf" <<EOF
+++use chroot = no
+++log file = $logfile
+++daemon chroot = $chrootdir
+++reverse lookup = $1
+++hosts deny = $client_hostname
+++max verbosity = 4
+++
+++[chrootmod]
+++    path = /modroot
+++    read only = yes
+++    reverse lookup = $2
+++EOF
+++}
+++
+++# Run a transfer and return 0 if the daemon refused with @ERROR access
+++# denied (the expected outcome when the deny rule matches).
+++run_check() {
+++    label="$1"
+++
+++    rm -f "$logfile"
+++    rm -rf "$todir"
+++    mkdir -p "$todir"
+++
+++    out="$scratchdir/run.out"
+++
+++    RSYNC_CONNECT_PROG="$RSYNC --config=$conf --daemon" \
+++	$RSYNC -av localhost::chrootmod/ "$todir/" >"$out" 2>&1
+++    rc=$?
+++
+++    echo "----- $label (rsync exit $rc):"
+++    cat "$out"
+++    echo "----- daemon log:"
+++    [ -f "$logfile" ] && cat "$logfile"
+++    echo "-----"
+++
+++    grep -q '@ERROR.*access denied' "$out"
+++}
+++
+++# Scenario A: global reverse lookup. Covered by b6abdb4c.
+++write_conf yes yes
+++if ! run_check "Scenario A (global reverse lookup = yes)"; then
+++    test_fail "Scenario A: hostname deny rule was bypassed"
+++fi
+++
+++# Scenario B: only the per-module reverse-lookup setting is enabled.
+++# The b6abdb4c fix only pre-warms client_name()'s cache when the
+++# global setting is on, so the post-chroot lookup in this path may
+++# still produce "UNKNOWN" and bypass the deny rule.
+++write_conf no yes
+++if ! run_check "Scenario B (per-module reverse lookup only)"; then
+++    test_fail "Scenario B: hostname deny rule was bypassed (per-module reverse lookup with daemon chroot still has the bypass)"
+++fi
+++
+++exit 0
 diff --git a/meta/recipes-devtools/rsync/rsync_3.4.1.bb b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-index f84f269692e..2145d4ce7e3 100644
+index 2145d4ce7e3..d0d57defe8d 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.4.1.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://CVE-2026-43619_p5.patch \
+@@ -28,6 +28,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
             file://CVE-2026-43619_p6.patch \
             file://CVE-2026-43618.patch \
-+           file://CVE-2026-43620.patch \
+            file://CVE-2026-43620.patch \
++           file://CVE-2026-43617.patch \
             "
  SRC_URI[sha256sum] = "2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf69850d65fd88c52"
  
