@@ -1,100 +1,123 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2973FC53219
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 09:31:36 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27588.1785144690452829663
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E53DC53219
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 09:37:36 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27006.1785143679778795297
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 02:31:30 -0700
+ Mon, 27 Jul 2026 02:14:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=31zggvnW;
- spf=pass (domain: smile.fr, ip: 209.85.218.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso368006366b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 02:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785144689; x=1785749489; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=c71O/t9acLrWVilEQJGV+s8FOMYGgZVXkox3KcYqM0A=;
-        b=31zggvnWkMhWo2nh8EaUSL5bPtzlYvvQb17JmbzpzUhP4K/0qFQ1PAxTbh+qnpmY1y
-         PhPJfBAMRxR6Iy/5XXtu0BIQBB7EDtxE0xiZJEYUuVDrvCMD+EiVoWNBb33vRm4sceHM
-         COKfxLbq54iu5Z1BX1B4Op7sdhVwZThbQQmRY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785144689; x=1785749489;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=c71O/t9acLrWVilEQJGV+s8FOMYGgZVXkox3KcYqM0A=;
-        b=ATT9nQZIWZpsq3bfus11LYWc3CAfrtUEHxjH4eCacWVcfW4nkRazleJn+frN4vYAKN
-         VgeL3nokSFnXiIGuf+g/scPuf0g2sX6BbKup3umnJr6DgUCMVI+G6pyxf9r2GrV+6A/d
-         6xVcXHkVA10tX0mDNNSwI9fgdzQKoD7Yispxb6djUl2PfdK1CVznkIHAmqmn1QHtQFn7
-         IMCWzLqp8NcsUNJhdBmP56MU4wTYDICP4od8noELRY2lMq+y58s7YGFQbTo63rv9kyx1
-         XiPFs5OAw42oK9C74qfNSKsh9ldbV6AbvTYSuu+Q6sJYiRqsa2UnzJs3/LYvcfbKoPWR
-         emXQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqi02JZ+ExRXO32yk7d8M1859Ge05mcipHhjArUo5OIo6diVonrMhJvUj0kSMReCNZy8b25PFVqrqB0MRVjb0xUyw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx6wNOnJ1Y/ASTlkFCB+mvV7x3PmdrCr0lkatPUaX/W4WrzQbXf
-	LNd2L3xhm2m61alr1Drn0ljKtr3oDTuA3tLOTKN82IqUdYBgiUV0Ff1hyAOK5dM12BU=
-X-Gm-Gg: AR+sD13H5Sq1Ekg4qK8SFA9WR4icvvCEVFVLm2o74GrZ6bDTFS6IyeONdIVtRn6sfXy
-	CmQusIxrK5hX5i7BOW38++41QrL+wWAUMdNJRNqvrd13GebDRQal/SpLDKuINV7J89r5OIweL2X
-	k5TE2/+Zfjtd45HVuAypDn2udYvpJyH2ZraC1TPb5Yjcw+31V3i9uLT8HcbAEvKO8jHlgWRM5bh
-	lbIOHpK77bgloNlAe1pBmpymqt3XVTa6QFz0vy2/zrW3b3Ztt6Tc57u72HzZZ/iId+7Sw80qc6F
-	VVQ01WlafOOEVdYJn05HsjKQSqW8jm2RV2oceShy3Z4acpCaBmPo+Lr1YIwXrk12PkWJag9Jmwc
-	rsTpkmc4gZcGa2klDv2uERyin5+UpePa6z6uzBou5TSDtPZqRLxpii0D8RpGsC60G6Snb2lVGWe
-	hC9cA1k2X0HtIXYolmp54AhuZfApVL2Rx9+J8V8Q684VnfIrgNqTPYBqkvFq2p7Ctxi3tzylp6
-X-Received: by 2002:a17:907:3f91:b0:c1c:3b06:ed19 with SMTP id a640c23a62f3a-c1f1f02642fmr343329066b.31.1785144688574;
-        Mon, 27 Jul 2026 02:31:28 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32af244asm603720166b.27.2026.07.27.02.31.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 02:31:28 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Jul 2026 11:31:27 +0200
-Message-Id: <DK98Z84R3656.NSM63Z6182LJ@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH 1/2] patch: Fix CVE-2026-56289
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>
-To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260723084914.2718150-1-hthakar@cisco.com>
-In-Reply-To: <20260723084914.2718150-1-hthakar@cisco.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Sus/2vXF;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=166884ae32=himaniramesh.barde@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66R7TRav176423;
+	Mon, 27 Jul 2026 02:14:37 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=g/G87xWPs
+	md1SdAsN5vTXrm4ypS1FRdO+OwG2JCV9Vg=; b=Sus/2vXFqLHig5M8MqtIZiwGt
+	wrrwP9yJHePofRkoVVEod2pLlFbY6E4dwQsgUMvzlFsRqGOvl9mvzUa1ANGsmEni
+	VmmLoLlW+tabT9eKKVXssMz/HQPDfAse1Nnk5qJbseI13hvzhb8+iDamGw4mwaok
+	NPbt9E9C/KUnC09UBv6Eo2r0x5ivczzegs1hgN/0XGJfODl/ZS3aSOPxqD7puURD
+	JQemp/OCCLpPvI5ui0WYuuMGuEJ4nEmN7T43tcqINAYMHTSz2f21WQFv2SC9Ucwq
+	gpUcbcowDiXkmuV0KGhvim2fJZOAp72Sd2+N/30Ccp6hKij124pEiFqtVWtuQ==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fmvnf1mvy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 27 Jul 2026 02:14:37 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Mon, 27 Jul 2026 02:14:37 -0700
+Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Mon, 27 Jul 2026 02:14:37 -0700
+From: Himani Barde <HimaniRamesh.Barde@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <randy.macleod@windriver.com>, <joaomarcos.costa@bootlin.com>,
+        <Shiva.Komati@windriver.com>,
+        Himani Ramesh Barde
+	<HimaniRamesh.Barde@windriver.com>
+Subject: [PATCH] gawk: skip randtest in ptest suite
+Date: Mon, 27 Jul 2026 09:14:30 +0000
+Message-ID: <20260727091430.81858-1-HimaniRamesh.Barde@windriver.com>
+X-Mailer: git-send-email 2.54.0
+MIME-Version: 1.0
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDA5MCBTYWx0ZWRfXyhZfs0EM0FJM
+ 8LXIUM6AsE/J8hSDma34N0Pfi7vXJNTOvQ6Sl4d+HTIFipt6qG1c3tx9knfW+8qc81Y19ze5vrk
+ Oh5DJiszMvXQtdUc+SZRE8zvjvsy2M6Uh+6Oxp6vl4qT+7KQLDh7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDA5MCBTYWx0ZWRfX3djBHFtYVEXT
+ e3B90lMl3ukj8U+cLX/XLJ7xgqUFuVGk6HBOgjjhFuGLGs0M648befS+uuVdUSUr5kXcG1FlUBW
+ zVLqUXZuiForNw2jVkFiavGB5EqlDn0gTF6pQJcZ9Kdd62znTUxmW10Nz9UjrYLV10596OIAaT0
+ efg7UgRPiQO4mon4dYGdJ7HRyuJLGw1C9ZeUdvgtyYcC5ixwMyD5pDgJsjoIrcucszYtJUkaiEc
+ 8FKAYp4JDm5cJzGHVQSVDALXM5hQJfwrsZNeZFsg9E0MYTRK5hBiuyil1u+lMFJA40GxzJlBves
+ 2BU+DpCW86vjdOlsLS7rrxYIlDfE2YpFw9lg8ynB6dp/p0SvnlD7lJl64AK5DMm4zNK3I3UKp9T
+ G9NlYQ8wS50fe2WjM74XO9DuQjnokJS7/gThF3QhPIPOqcQbl+TQNFM10WyiXEmuBRfDvMWXbVg
+ iE3RVHzad/OJ1PRIVqg==
+X-Proofpoint-GUID: lDdFOSPMUmXXPImOBZZQv5595_P3i4V4
+X-Authority-Analysis: v=2.4 cv=M7x97Sws c=1 sm=1 tr=0 ts=6a67217d cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8
+ a=hUgc1Il7cNA2zVh4uZUA:9 a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: lDdFOSPMUmXXPImOBZZQv5595_P3i4V4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-27_02,2026-07-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 clxscore=1011 impostorscore=0 malwarescore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270090
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 09:31:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242074
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 09:37:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242075
 
-On Thu Jul 23, 2026 at 10:49 AM CEST, Hetvi Thakar -X (hthakar - E INFOCHIP=
-S PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Hetvi Thakar <hthakar@cisco.com>
->
-> This patch applies the upstream fix referenced by NVD in [2], using
-> the commit shown in [1].
->
-> [1] https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=3Dfaba04e=
-f4f2b410257f76c1b9dc85e350929c4b9
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-56289
->
-> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-> ---
->  meta/recipes-devtools/patch/patch.inc         |  4 ++-
->  .../patch/patch/CVE-2026-56289.patch          | 36 +++++++++++++++++++
->  2 files changed, 39 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56289.patc=
-h
+From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
 
-As fas as I can tell, this patch is also needed on master.
-I can't merge here until this is fixed on master.  Can you send a patch
-to fix this on these branches and then, ping back here?
+randtest performs autocorrelation analysis on random number sequences
+and fails intermittently on overloaded CI/autobuilder systems where
+CPU scheduling and floating point conditions vary between runs.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+An upstream fix was previously merged (ccabae3036a7) to improve sigma
+threshold handling, but the test failed again on qemux86-64-musl-ptest
+on 2026-07-21 with 'Tau= 162, Autocorr= 5.15181 sigma'.
+
+The test is inherently unsuitable for shared overloaded build
+infrastructure. Skip it, consistent with how 'time' and 'timeout'
+are already handled.
+
+[YOCTO #16254]
+
+Signed-off-by: Himani Barde <HimaniRamesh.Barde@windriver.com>
+Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
+---
+ meta/recipes-extended/gawk/gawk_5.4.1.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/gawk/gawk_5.4.1.bb b/meta/recipes-extended/gawk/gawk_5.4.1.bb
+index 56930498e3..5cfd4e61c3 100644
+--- a/meta/recipes-extended/gawk/gawk_5.4.1.bb
++++ b/meta/recipes-extended/gawk/gawk_5.4.1.bb
+@@ -80,7 +80,10 @@ do_install_ptest() {
+ 	# https://bugzilla.yoctoproject.org/show_bug.cgi?id=14371
+ 	rm -f ${D}${PTEST_PATH}/test/time.*
+ 	rm -f ${D}${PTEST_PATH}/test/timeout.*
+-	for t in time timeout; do
++    # randtest is a statistical test that intermittently fails on overloaded systems
++    # https://bugzilla.yoctoproject.org/show_bug.cgi?id=16254
++    rm -f ${D}${PTEST_PATH}/test/randtest.*
++	for t in time timeout randtest; do
+ 		echo $t >> ${D}${PTEST_PATH}/test/skipped.txt
+ 	done
+ }
+-- 
+2.54.0
 
 
