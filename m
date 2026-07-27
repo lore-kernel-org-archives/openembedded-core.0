@@ -1,100 +1,77 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E41C53209
-	for <webhook@archiver.kernel.org>; Sun, 26 Jul 2026 23:09:49 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19818.1785107381187971794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D4DAC531D0
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 05:04:21 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24564.1785128657787511704
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 16:09:41 -0700
+ Sun, 26 Jul 2026 22:04:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Wkki+t/P;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-caf45fc5202so1599945a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 16:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785107380; x=1785712180; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5igibTZKhn3dpv6KnDHtayyBqOZ/WyaVBMnFQbTznh0=;
-        b=Wkki+t/Pjas5AEBM7Zl/9RX7PRdracVU6OD+VJ9KYEZbarz9o260v9LVZ3fFLwTnm+
-         AdTXHz8aZeuqsmX3igS8JKF89jqalaXN3OCrw+64kL2lCNc4cOjH2kcvQfDu6Lyymy+p
-         uoqtd89IV8xlp7C9PS6+xko8d8W/jnd/p3SesqDNDj6NY7fFJvKmpHWQH3i1m5uH7VeM
-         yUDQy5S7wxJsQrsGTX3QwOsYysY0pB/bN8nPR8Qc30eUZhpVDfYMK55tVCr7ICTxpNja
-         WRu1/1ZYDbh6xe+WAe7kgF8fPhv6W4Wx+e9g5ENteOuJQcWr/VMlVd1edXJmmNCuicCo
-         JatQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785107380; x=1785712180;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5igibTZKhn3dpv6KnDHtayyBqOZ/WyaVBMnFQbTznh0=;
-        b=YebbA5agwJ6soMcZs2kWAn7ZisqJ/dq5r+6RAtITsiJ4k0kZjF2xn+eo9kWgO/E4st
-         YnMKK2zmZ+eOkiThHHyyNEBBJLAkyu0Vd96COVG0e78CwmJcxPfzQ1ipJhldDuFTqaUi
-         c6sMvDOxBuOaZK0LAChu3d3AYOBBl8EH2eIDjb44iFtqekO3swIg31WqeAiTJSIHdLB6
-         Z3xzNkDpwLFOeaM6LpKazvmo74JOpG9/p2m5xZdMmRhPJI+EkuRCL2X3TnVH7ui4+j2Q
-         08i2nj5yXTdXlThIB50fvFVEDwwpS2cp2aipsYSrA/Eh/Wk5nqRp1Io5OlLlx5fNrUfk
-         LFmQ==
-X-Gm-Message-State: AOJu0YzxluPhaEnTF1e9vTSh/WcCw/wj20Paggkgl7A6O/DR0OAPlDj9
-	pmgwNdOaMsanJuDtbH1obhV3IIBr4EFHSXKMk1Qej84fVJwWlKMh6ygFu3iUeIMZTf4=
-X-Gm-Gg: AR+sD109FlVSgjTi+DyZGhLrT6D4T31ueJFxIT9brlzvZBnKYnBFr1yr5Rwi0LfInvl
-	ICBcbFLt4oEXTXVBLZZtY3uYyxSke3dHo5KUSprdEzkkbVKRit2SCI7tLJYS0GncibP6rSQPfK2
-	UWN38v7g9XNcs+KQKWxIblOf4J3XIzOi7dkzHpJ83RT6ukRoosBAqTIF2v3DOBtpLfvqT08FdEq
-	hi8nQ7boYujTGyKXaYYcBJZuQy/U8Yj9JUWp3xoEw0aNro2KMwyxI5xkQ8YNZyp0UtARVb8VP0R
-	5+v89lGMPHEFgpSkZMCmCis5KcVFXMNpU/xSWeN6eHELPsLvHfd0nj2iGT1YZIbGFLjA/53w+kh
-	sRa2k8s2DHsMqqPfVuyDHo98rANHysao4JerGsjaX6X6qk+0jbkBXaLB5vd5o3dQ5ciNHYlZ9Sz
-	x1d+Eqk+YR491ld0I=
-X-Received: by 2002:a05:6a21:920d:b0:3bf:a1e5:ff62 with SMTP id adf61e73a8af0-3c67df201b3mr6810467637.47.1785107380250;
-        Sun, 26 Jul 2026 16:09:40 -0700 (PDT)
-Received: from NVAPF55DW0D-IPD.. ([203.211.104.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc548e63sm24908492eec.19.2026.07.26.16.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 16:09:39 -0700 (PDT)
-From: ankur.tyagi85@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 1/2] btrfs-tools: upgrade 7.0 -> 7.1
-Date: Mon, 27 Jul 2026 11:09:31 +1200
-Message-ID: <20260726230932.1400569-1-ankur.tyagi85@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dkrdogEf;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PTyocIG8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019fa1f59f17-3aae1890-666e-4f63-a2e3-da230ec5987c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1785128656;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=E05wXycx+lkB6yL7y/o64RvamBrV5LjVQHJRMi/cdYk=;
+	b=dkrdogEfacXb1E2U23Q4+E4d+DpWlXHN22C3rLCZ96XzWv5la3Sn1iB3B/3W1mMl
+	4of+k7io1uiW5eWV8bJh48Yxh9dPu7jHTcOArtLZBfus+qowvZQJdm2te9RSmwV0R1G
+	xk9ua1wOoZYzQOPtGUMvFD5zBSuNx0wk1NvB755k=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785128656;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=E05wXycx+lkB6yL7y/o64RvamBrV5LjVQHJRMi/cdYk=;
+	b=PTyocIG8wu1vqaiYZwdY+GQwDNgqHB2aY6xIRDwoKrW+gyt3hPzqLf+cz9CH+ly8
+	G1GqjhXnm+5NhL7cnrdYj2FPB9WOL9AkJqSOBh6M1Lzlxc1DUqwdWDZc+ESgbKfXDv1
+	DTAZPZFqrGjla0EVPoVaZdkLpDdNnHZYD0mUTIwY=
+Content-Type: multipart/mixed; boundary="===============2474243893572121197=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] binutils-cross-canadian-x86-64: upgrading to 2.47 FAILED
+Message-ID: <0101019fa1f59f17-3aae1890-666e-4f63-a2e3-da230ec5987c-000000@us-west-2.amazonses.com>
+Date: Mon, 27 Jul 2026 05:04:16 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.07.27-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 23:09:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242027
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 05:04:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242030
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+--===============2474243893572121197==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Release Note:
-https://github.com/kdave/btrfs-progs/releases/tag/v7.1
+Hello,
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
----
- .../btrfs-tools/{btrfs-tools_7.0.bb => btrfs-tools_7.1.bb}     | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_7.0.bb => btrfs-tools_7.1.bb} (98%)
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *binutils-cross-canadian-x86-64* to *2.47* has Failed(get_env).
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
-similarity index 98%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
-index 912d20cae7..1bc75a7de7 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
-@@ -14,11 +14,10 @@ LIC_FILES_CHKSUM = " \
- "
- SECTION = "base"
- DEPENDS = "util-linux zlib"
--
- SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-            "
--SRCREV = "9c5987432906daebde23f9703c0f6f90c35fa9da"
-+SRCREV = "4ab0e80be9e3bb1db2e6038e6d4316d35fb7ba8b"
- 
- PACKAGECONFIG ??= " \
-     programs \
+Detailed error information:
+
+Empty environment returned
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 953 .bb files complete (0 cached, 953 parsed). 1981 targets, 58 skipped, 0 masked, 0 errors.
+Removing 6 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 6 recipes from the qemuarm sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2474243893572121197==--
 
