@@ -2,1043 +2,344 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE8AC54F4D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9272DC54F52
 	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 22:56:20 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43743.1785192973511981681
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43749.1785192979630425907
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 15:56:14 -0700
+ Mon, 27 Jul 2026 15:56:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=D34zzOcr;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49545ba3d4eso18999935e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=afeL3AE6;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49553515a8bso39036425e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785192972; x=1785797772; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6D33guunJNFPnG/tIlx7kAaBpn4ZNu6BW7nm62z9ZDk=;
-        b=D34zzOcrkHEe1zg/FPBimj/KQ74j5uGrrv/ur1kJHgWBpanrTuwYANx2Vdytine0ut
-         NI1Dr+9cKEgWa9beFnC6l+orJ38kvf6s8BeJktnsZeTlq6wyqDGpeeP8MEe0loYQcPui
-         YH/2HUN15Ftl18dZQiwi+OBW2zGcMyO+ZiGp4=
+        d=smile.fr; s=google; t=1785192978; x=1785797778; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=KLrYa6huvcFEUJEO14B4nxz14jfDg7IlorgCJuYTUcI=;
+        b=afeL3AE6tvhGOrowsLbss+SNOaB1NIH1MHMLglo2Yq9x2XBsJbGin2dtsbIcc2cdpL
+         lNJC/mgr3JaSAyDDwy6Ssa3NqpV+ElRtEgfGRb8j4gbId8EAtiynIij32hn8I0cVXMVv
+         VqfzjLjIa30CwoBVp2Fg8LsUygcCbwoA/pG0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785192972; x=1785797772;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6D33guunJNFPnG/tIlx7kAaBpn4ZNu6BW7nm62z9ZDk=;
-        b=oL4PEeZuezTAaiDP1EOCxKQqqnEp11gG57X4m1OXIRdX+Fxvl+0IoBr1pFfL72EnNf
-         yOYpsKtCRzCSpOaS4Bf3RVAo4oDGjJmE9JY8pdiegcpn1EuPqr+d7ztn/3TY+KGh5X5o
-         Qpga5v+rBGb8V09WiB8sQvzMrMSJqXVWVHCxcJai9GtcKvYLnO+78F4HHmUILEVffN3V
-         2XuSolmez0hgO9j2mXwcQCTU3Ax3r2C9NhQt/9ruZiLpQA4NlTD5QrVYl7cV1v+fPY11
-         aafdh8rqAkbX7pXmPa/nzWUGLORHoYsMZAcHBm+avEH0kSSfWWs9mC7p2f760BeNr4k6
-         /KiA==
-X-Gm-Message-State: AOJu0Yy3ldd/D2ssXEJHMd8KFHMqwi03AQL4fsR9k4WumVUYMF7AC7M8
-	iLsldFnnyd/71vpODcl6aLXDyhFrSiMXl7uU63ufGzgAJagfzAQ/HNHhcx6+aN/mkcknlk9uxDE
-	yQUvFK4c=
-X-Gm-Gg: AR+sD13UdQ688FfKz5NfGvJBi3ebtT2r5uuUMryqSdy0qDTtL2pnL4D1eanIFTBTwoa
-	sowOOSIDLAlmm/DIc/vmj89wVVRzZMuOMcG07gyFxbhRllHC6vihVQg3198V317TxG4ipHGVeTk
-	sh5y/oOHmfHhgeKZUokIJV2chpJMI95Ax5X7Uxy8YwxkASiBPPUe6JPfyksnja7IYaq6M50JsQB
-	sXzajoZ0o3gbpn9AwU/pLzgd6MU8jT6s7N6WkoMKqITeOHGVmYDYuACTXs6RTB/6c3bVZSRxLjl
-	V2UFWt+DQOlxcjDSDHAMHJVCHpWMeWrrM/3pmEnWcgKkoYcxVhPk2TyhSqUSju+eKtdBwMC5x/a
-	pbZ73IskOeiFYiSDEnXCgVH0Ltg9UUI7/WNGB/vQunWOKj9BcQKa3YhxD3gxGt9HQ5X+2gwkJ9t
-	v3gv4Q1R5pVrKemgtc2ddcs7owqGAwLo+nOwi3IWyrIsIaHzjzwr02XaHrQ8dKt8w2L/gOjjHpD
-	NyZmA==
-X-Received: by 2002:a05:600c:190a:b0:493:c10c:22f0 with SMTP id 5b1f17b1804b1-496c4fc22e0mr7481655e9.20.1785192970965;
-        Mon, 27 Jul 2026 15:56:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785192978; x=1785797778;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=KLrYa6huvcFEUJEO14B4nxz14jfDg7IlorgCJuYTUcI=;
+        b=slVmHV85u2E8LuPrcWIOdnmX3bnfGMq34aIpkCeqdfYPzDlLZsGuE34pAm05j05MSv
+         VlnPAubP1j7HAPFkWWtGnMEsK1k/xgLI68EgGrX1V97HKvSGIPHcIsX+YqlCi6l1QTzc
+         uSlQ4QoqglwNOc4YYLJMfOQxLNK9KhVmUjx150WeFZyKf4V1qt85te3tNlXHtA/cyPDa
+         rzd83p7gAfVe3sHwSX4J2h71EBme5ChrJADDa/E1TM4FIWKnJXvtYYVGwMPBifGwDAsC
+         M67uFEpC/6tU3EP01kFn2jGDejOZtN2zqbn8vUxisuSz8C70dD4ldgpWVbSEC5Rsvvxj
+         ALJg==
+X-Gm-Message-State: AOJu0YzGXYv7UFX6Y9/2Y+e2QatxD7rWRdbDssPbHpyjeoJGkmg4MbEn
+	IxmP/LxkFbgYRSPtCNGppDXAHkWfIymXDHZEMJrvAbwgwe40KPYZrFpUm+CsEiY42ufVEIBOE+a
+	u83HBGww=
+X-Gm-Gg: AR+sD11OOFZuMhkl6LDN3kmXzHqpB+d/6j+YvM7IGaw2uwMEmKv141Pw+XoCdRsw7Qa
+	EhpgvvF8Oog7+Ux3ub/m2jgAkX98W9D6kHE8YzXlxGvsx4M8VbG2/UiJyAdzwnIo+f/ZbdHI77A
+	SM3lfAsI3qHMJIrMO4opnuyijcXY6Z/o6/+v3C3ItFUVe0E8ophr+nRJx6u+l7heSF3Lf6ZFa+U
+	oLuxaNSnLTAJBSvpiIavDetb+GBIk3xBY9CL/Fj9eyHybwwQDy/UDvutwsVDcWgHS1l04Ghld/w
+	Xwms0sjg/m+aqWFNBP/JKyDamgZj7RDhFxXyfNxTh0N7wGq6oSeGBeXmu3GljDDtw7RBk8N3Lnc
+	GcjykfbmyByHabGOCitW9QEDpuwz4Z3h48VR2tKVExOikM7biMswybVhfmxm4Z10QfvG2P4h117
+	3cmO/+VvledxkaCu5yineT9CTF3E97wIK7+7Rsevf67NoXT86vpEFrriXfBdo71sS+01SvyF7Vo
+	5yyGg==
+X-Received: by 2002:a05:600c:870c:b0:493:f7c8:eae2 with SMTP id 5b1f17b1804b1-496b56f9749mr120537195e9.15.1785192977734;
+        Mon, 27 Jul 2026 15:56:17 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.10
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 15:56:10 -0700 (PDT)
+        Mon, 27 Jul 2026 15:56:16 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 06/36] rsync: Fix CVE-2026-29518
-Date: Tue, 28 Jul 2026 00:55:20 +0200
-Message-ID: <67924a75174d5bda50656096066a71681ed00ddb.1785190123.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 11/36] rsync: Fix CVE-2026-45232
+Date: Tue, 28 Jul 2026 00:55:25 +0200
+Message-ID: <9e76a8e19462dab7f04cfa36116ed882fa4947d9.1785190123.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785190123.git.yoann.congal@smile.fr>
 References: <cover.1785190123.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242114
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242119
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
-This patch backports the upstream rsync v3.4.3 security fix train for
-CVE-2026-29518. The direct CVE fixes are [3] and [4]:
+This patch applies the upstream v3.4.3 backport for
+CVE-2026-45232. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2].
 
-- [3] enables secure_relative_open() for daemon modules running with
-  "use chroot = no", closing the receiver-side basis-file TOCTOU.
-- [4] routes the sender read path through secure_relative_open() from
-  the trusted module root, closing the matching sender-side TOCTOU.
-
-This patch also carries [1] and [2] from the same upstream v3.4.3
-security/update train. These are supporting secure_relative_open()
-changes, not standalone direct CVE fixes: [1] uses Linux
-openat2(RESOLVE_BENEATH) to preserve the same confinement while allowing
-legitimate in-tree symlinks, fixing upstream issue #715; [2] adds the
-equivalent FreeBSD/macOS O_RESOLVE_BENEATH path. Debian's
-rsync 3.4.1+ds1-5+deb13u3 security update also carries these commits
-before the direct CVE-2026-29518 commits.
-
-The upstream fixed release is referenced in [5], and the public CVE
-record is referenced in [6]. Individual backported commit links are
-also recorded in the embedded patch headers.
-
-[1] https://github.com/RsyncProject/rsync/commit/4fa7156ccdb2ad34b034d18fe2fd6cd79adef8a1
-[2] https://github.com/RsyncProject/rsync/commit/7f60ec001a0be63b770707ec8b829524c3809a43
-[3] https://github.com/RsyncProject/rsync/commit/f1c24ab03bc85cb2638a569faa60216582fb6c5d
-[4] https://github.com/RsyncProject/rsync/commit/859d44fa4f1420775e4ba050337ef32092f2894c
-[5] https://github.com/RsyncProject/rsync/releases/tag/v3.4.3
-[6] https://www.cve.org/CVERecord?id=CVE-2026-29518
+[1] https://github.com/RsyncProject/rsync/commit/a5fc5ebe7a8ef1aa72f6e344599f97fd4427ecba
+[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-8f85-j2cv-59m8
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../rsync/files/CVE-2026-29518_p1.patch       | 392 ++++++++++++++++++
- .../rsync/files/CVE-2026-29518_p2.patch       |  98 +++++
- .../rsync/files/CVE-2026-29518_p3.patch       | 328 +++++++++++++++
- .../rsync/files/CVE-2026-29518_p4.patch       |  71 ++++
- meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   4 +
- 5 files changed, 893 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p3.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p4.patch
+ .../rsync/files/CVE-2026-45232.patch          | 240 ++++++++++++++++++
+ meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   1 +
+ 2 files changed, 241 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-45232.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-45232.patch b/meta/recipes-devtools/rsync/files/CVE-2026-45232.patch
 new file mode 100644
-index 00000000000..fcb7b777fe1
+index 00000000000..544793bd1d1
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
-@@ -0,0 +1,392 @@
-+From e7b575413b962ac042079a55530577b20c7eee44 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-45232.patch
+@@ -0,0 +1,240 @@
++From de47c801a8083f1913e149c6ee6d0e864b728995 Mon Sep 17 00:00:00 2001
 +From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Thu, 30 Apr 2026 08:39:22 +1000
-+Subject: [PATCH] syscall: use openat2(RESOLVE_BENEATH) on Linux for
-+ secure_relative_open
++Date: Wed, 13 May 2026 20:35:35 +1000
++Subject: [PATCH] socket: reject over-long proxy response line
 +
-+The CVE fix in commit c35e283 made secure_relative_open() walk every
-+component of relpath with O_NOFOLLOW. That blocks every symlink in the
-+path, which is stricter than the threat model required: legitimate
-+directory symlinks within the destination tree (e.g. when using -K /
-+--copy-dirlinks) are also rejected, breaking delta transfers with
-+"failed verification -- update discarded".  See issue #715.
++fixes a one byte stack overflow when using RSYNC_PROXY with a
++malicious proxy.
 +
-+On Linux 5.6+, openat2(RESOLVE_BENEATH | RESOLVE_NO_MAGICLINKS) gives
-+us exactly what we want: the kernel rejects any resolution that would
-+escape the starting directory (via "..", absolute paths, or symlinks
-+pointing outside dirfd) while still following symlinks that resolve
-+within it. /proc magic-links are blocked too.
++Reach: only when RSYNC_PROXY is set and a malicious or MITM'd
++proxy returns the pathological response.  The byte written is
++always '\0' and the attacker doesn't choose the offset, so impact
++is corruption of one adjacent stack byte and possible later
++misbehaviour or crash -- no information disclosure beyond the
++existing rprintf of buffer contents.
 +
-+Use openat2 first; fall back to the existing per-component O_NOFOLLOW
-+walk on ENOSYS (kernel < 5.6). The lexical "../" checks at the head
-+of the function are kept as defense in depth. The Linux gate is
-+plain #ifdef __linux__: the runtime ENOSYS fallback covers the only
-+case that actually matters (header present + old kernel), and any
-+Linux build environment without linux/openat2.h will fail with a
-+clear "no such file" error rather than silently disabling the
-+protection.
++Reported by Aisle Research via Michal Ruprich
 +
-+Verified manually that openat2(RESOLVE_BENEATH) blocks all four
-+escape patterns (absolute symlink, ../ symlink, lexical .., absolute
-+path) while allowing direct and within-tree symlinks. The new
-+testsuite/symlink-dirlink-basis.test (taken from PR #864 by Samuel
-+Henrique) exercises the issue #715 regression and passes; full
-+make check passes 47/47.
++CVE: CVE-2026-45232
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/a5fc5ebe7a8ef1aa72f6e344599f97fd4427ecba]
 +
-+Test: testsuite/symlink-dirlink-basis.test (8 scenarios)
-+Fixes: https://github.com/RsyncProject/rsync/issues/715
-+
-+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-+
-+CVE: CVE-2026-29518
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/4fa7156ccdb2ad34b034d18fe2fd6cd79adef8a1]
-+
-+(cherry picked from commit 4fa7156ccdb2ad34b034d18fe2fd6cd79adef8a1)
++(cherry picked from commit a5fc5ebe7a8ef1aa72f6e344599f97fd4427ecba)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ syscall.c                            |  62 ++++++-
-+ testsuite/symlink-dirlink-basis.test | 247 +++++++++++++++++++++++++++
-+ 2 files changed, 304 insertions(+), 5 deletions(-)
-+ create mode 100755 testsuite/symlink-dirlink-basis.test
++ socket.c                                    |  30 +++--
++ testsuite/proxy-response-line-too-long.test | 128 ++++++++++++++++++++
++ 2 files changed, 145 insertions(+), 13 deletions(-)
++ create mode 100755 testsuite/proxy-response-line-too-long.test
 +
-+diff --git a/syscall.c b/syscall.c
-+index 34a9bba0..d66c9fdd 100644
-+--- a/syscall.c
-++++ b/syscall.c
-+@@ -33,6 +33,11 @@
-+ #include <sys/syscall.h>
-+ #endif
++diff --git a/socket.c b/socket.c
++index c2075adf..6a8f6f4a 100644
++--- a/socket.c
+++++ b/socket.c
++@@ -47,21 +47,23 @@ static struct sigaction sigact;
 + 
-++#ifdef __linux__
-++#include <sys/syscall.h>
-++#include <linux/openat2.h>
-++#endif
-++
-+ #include "ifuncs.h"
++ static int sock_exec(const char *prog);
 + 
-+ extern int dry_run;
-+@@ -715,12 +720,49 @@ int do_open_nofollow(const char *pathname, int flags)
-+ /*
-+   open a file relative to a base directory. The basedir can be NULL,
-+   in which case the current working directory is used. The relpath
-+-  must be a relative path, and the relpath must not contain any
-+-  elements in the path which follow symlinks (ie. like O_NOFOLLOW, but
-+-  applies to all path components, not just the last component)
-+-
-+-  The relpath must also not contain any ../ elements in the path
-++  must be a relative path. The kernel must guarantee that resolution
-++  cannot escape basedir (or the cwd, when basedir is NULL): no ".."
-++  jumps above the start, no symlinks pointing outside, no absolute
-++  paths, no /proc magic-link tricks.
+++#define PROXY_BUF_SIZE 1024
 ++
-++  Symlinks *within* basedir are followed normally — earlier rsync
-++  versions rejected every symlink with O_NOFOLLOW on each component,
-++  which broke legitimate directory symlinks on the receiver side
-++  (https://github.com/RsyncProject/rsync/issues/715). The escape
-++  prevention is handled by the kernel via openat2(RESOLVE_BENEATH)
-++  on Linux 5.6+; older systems fall back to the per-component
-++  O_NOFOLLOW walk below.
-++
-++  The relpath must also not contain any ../ elements in the path.
-+ */
-++
-++#ifdef __linux__
-++static int secure_relative_open_linux(const char *basedir, const char *relpath, int flags, mode_t mode)
-++{
-++	struct open_how how;
-++	int dirfd, retfd;
-++
-++	memset(&how, 0, sizeof how);
-++	how.flags = flags;
-++	how.mode = mode;
-++	how.resolve = RESOLVE_BENEATH | RESOLVE_NO_MAGICLINKS;
-++
-++	if (basedir == NULL) {
-++		dirfd = AT_FDCWD;
-++	} else {
-++		dirfd = openat(AT_FDCWD, basedir, O_RDONLY | O_DIRECTORY);
-++		if (dirfd == -1)
-++			return -1;
-++	}
-++
-++	retfd = syscall(SYS_openat2, dirfd, relpath, &how, sizeof how);
-++
-++	if (dirfd != AT_FDCWD)
-++		close(dirfd);
-++	return retfd;
-++}
-++#endif
-++
-+ int secure_relative_open(const char *basedir, const char *relpath, int flags, mode_t mode)
++ /* Establish a proxy connection on an open socket to a web proxy by using the
++  * CONNECT method.  If proxy_user and proxy_pass are not NULL, they are used to
++  * authenticate to the proxy using the "Basic" proxy-authorization protocol. */
++ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_user, char *proxy_pass)
 + {
-+ 	if (!relpath || relpath[0] == '/') {
-+@@ -734,6 +776,16 @@ int secure_relative_open(const char *basedir, const char *relpath, int flags, mo
++-	char *cp, buffer[1024];
++-	char *authhdr, authbuf[1024];
+++	char *cp, buffer[PROXY_BUF_SIZE + 1];
+++	char *authhdr, authbuf[PROXY_BUF_SIZE + 1];
++ 	int len;
++ 
++ 	if (proxy_user && proxy_pass) {
++-		stringjoin(buffer, sizeof buffer,
+++		stringjoin(buffer, PROXY_BUF_SIZE,
++ 			 proxy_user, ":", proxy_pass, NULL);
++ 		len = strlen(buffer);
++ 
++-		if ((len*8 + 5) / 6 >= (int)sizeof authbuf - 3) {
+++		if ((len*8 + 5) / 6 >= PROXY_BUF_SIZE - 3) {
++ 			rprintf(FERROR,
++ 				"authentication information is too long\n");
++ 			return -1;
++@@ -74,14 +76,14 @@ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_
++ 		authhdr = "";
++ 	}
++ 
++-	len = snprintf(buffer, sizeof buffer, "CONNECT %s:%d HTTP/1.0%s%s\r\n\r\n", host, port, authhdr, authbuf);
++-	assert(len > 0 && len < (int)sizeof buffer);
+++	len = snprintf(buffer, PROXY_BUF_SIZE, "CONNECT %s:%d HTTP/1.0%s%s\r\n\r\n", host, port, authhdr, authbuf);
+++	assert(len > 0 && len < PROXY_BUF_SIZE);
++ 	if (write(fd, buffer, len) != len) {
++ 		rsyserr(FERROR, errno, "failed to write to proxy");
 + 		return -1;
 + 	}
 + 
-++#ifdef __linux__
-++	{
-++		int fd = secure_relative_open_linux(basedir, relpath, flags, mode);
-++		/* ENOSYS = kernel < 5.6 doesn't have the syscall even though
-++		 * glibc/kernel-headers do; fall through to the portable path. */
-++		if (fd != -1 || errno != ENOSYS)
-++			return fd;
++-	for (cp = buffer; cp < &buffer[sizeof buffer - 1]; cp++) {
+++	for (cp = buffer; cp < &buffer[PROXY_BUF_SIZE - 1]; cp++) {
++ 		if (read(fd, cp, 1) != 1) {
++ 			rsyserr(FERROR, errno, "failed to read from proxy");
++ 			return -1;
++@@ -90,11 +92,13 @@ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_
++ 			break;
++ 	}
++ 
++-	if (*cp != '\n')
++-		cp++;
++-	*cp-- = '\0';
++-	if (*cp == '\r')
++-		*cp = '\0';
+++	if (cp == &buffer[PROXY_BUF_SIZE - 1]) {
+++		rprintf(FERROR, "proxy response line too long\n");
+++		return -1;
 ++	}
-++#endif
-++
-+ #if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY) || !defined(AT_FDCWD)
-+ 	// really old system, all we can do is live with the risks
-+ 	if (!basedir) {
-+diff --git a/testsuite/symlink-dirlink-basis.test b/testsuite/symlink-dirlink-basis.test
+++	*cp = '\0';
+++	if (cp > buffer && cp[-1] == '\r')
+++		cp[-1] = '\0';
++ 	if (strncmp(buffer, "HTTP/", 5) != 0) {
++ 		rprintf(FERROR, "bad response from proxy -- %s\n",
++ 			buffer);
++@@ -110,7 +114,7 @@ static int establish_proxy_connection(int fd, char *host, int port, char *proxy_
++ 	}
++ 	/* throw away the rest of the HTTP header */
++ 	while (1) {
++-		for (cp = buffer; cp < &buffer[sizeof buffer - 1]; cp++) {
+++		for (cp = buffer; cp < &buffer[PROXY_BUF_SIZE]; cp++) {
++ 			if (read(fd, cp, 1) != 1) {
++ 				rsyserr(FERROR, errno,
++ 					"failed to read from proxy");
++diff --git a/testsuite/proxy-response-line-too-long.test b/testsuite/proxy-response-line-too-long.test
 +new file mode 100755
-+index 00000000..9065dd81
++index 00000000..7f55c43b
 +--- /dev/null
-++++ b/testsuite/symlink-dirlink-basis.test
-+@@ -0,0 +1,247 @@
+++++ b/testsuite/proxy-response-line-too-long.test
++@@ -0,0 +1,128 @@
 ++#!/bin/sh
 ++
-++# Test that updating a file through a directory symlink works when using
-++# -K (--copy-dirlinks). This is a regression test for:
-++#   https://github.com/RsyncProject/rsync/issues/715
+++# Copyright (C) 2026 by Andrew Tridgell
+++
+++# This program is distributable under the terms of the GNU GPL (see
+++# COPYING).
+++
+++# Regression test for the off-by-one stack OOB write in
+++# establish_proxy_connection() in socket.c when a malicious or
+++# man-in-the-middle HTTP proxy returns a first response line of
+++# 1023+ bytes without a '\n' terminator.
 ++#
-++# The CVE fix in commit c35e283 introduced secure_relative_open() which
-++# uses O_NOFOLLOW on all path components, breaking legitimate directory
-++# symlinks on the receiver side. The fix splits the path into basedir
-++# (dirname, symlinks followed) and basename (O_NOFOLLOW) so that
-++# directory symlinks are traversed while the final file component is
-++# still protected.
+++# Pre-fix: the read loop walked buffer[0..sizeof-2] one byte at a
+++# time, then post-loop logic did "if (*cp != '\n') cp++; *cp-- =
+++# '\0';".  If no newline arrived before the loop filled the buffer,
+++# cp was left at &buffer[sizeof-1] (never written by the loop),
+++# *cp held stale stack bytes, and cp++ pushed cp one past the array.
+++# The null-termination then wrote one byte out of bounds on the
+++# stack.  AddressSanitizer reports stack-buffer-overflow at the
+++# null-termination site.
 ++#
-++# The regression only manifests when delta matching is triggered (i.e.,
-++# the sender finds matching blocks in the old file). Small files with
-++# completely different content are transferred in full and don't trigger
-++# the bug. We use a large file with a small modification to ensure
-++# delta transfer is used.
-++#
-++# In addition to the original regression, this test covers edge cases
-++# in the fix itself:
-++#   - --backup with directory symlinks (finish_transfer pointer identity)
-++#   - --partial-dir with protocol < 29 (fnamecmp != partialptr guard)
-++#   - --inplace with directory symlinks (updating_basis_or_equiv check)
-++#   - Files without a dirname (top-level files, no split needed)
+++# Post-fix: the bound-exhaustion case is detected by position and
+++# rejected with an "proxy response line too long" message, so no
+++# OOB write occurs and rsync exits with a non-signal status.
 ++
 ++. "$suitedir/rsync.fns"
 ++
-++RSYNC_RSH="$scratchdir/src/support/lsh.sh"
-++export RSYNC_RSH
+++command -v python3 >/dev/null 2>&1 || test_skipped "python3 not available"
 ++
-++# $HOME is set to $scratchdir by rsync.fns
-++# localhost: destination will cd to $HOME (i.e., $scratchdir)
+++workdir="$scratchdir/workdir"
+++mkdir -p "$workdir"
+++cd "$workdir"
 ++
-++# Helper: create a large file suitable for delta transfers.
-++# ~32KB is large enough for rsync's block matching to find matches.
-++make_testfile() {
-++    dd if=/dev/urandom of="$1" bs=1024 count=32 2>/dev/null \
-++	|| test_fail "failed to create test file $1"
-++}
+++port_file="$workdir/port"
+++proxy_log="$workdir/proxy.log"
 ++
-++# Set up source tree
-++srcbase="$tmpdir/src"
+++# A minimal TCP listener: binds to an ephemeral port on 127.0.0.1,
+++# writes the chosen port to $port_file *before* accept() so the test
+++# can synchronise without a sleep, accepts one connection, reads
+++# until end-of-headers or 64 KiB, sends exactly 1023 bytes of 'X'
+++# with no '\n', then closes.
+++python3 - "$port_file" >"$proxy_log" 2>&1 <<'PYEOF' &
+++import socket, sys, os
+++port_file = sys.argv[1]
+++s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+++s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+++s.bind(("127.0.0.1", 0))
+++port = s.getsockname()[1]
+++tmp = port_file + ".tmp"
+++with open(tmp, "w") as fp:
+++    fp.write("%d\n" % port)
+++os.rename(tmp, port_file)   # atomic visibility to the shell side
+++s.listen(1)
+++conn, _ = s.accept()
+++conn.settimeout(5)
+++try:
+++    data = b""
+++    while b"\r\n\r\n" not in data and len(data) < 65536:
+++        chunk = conn.recv(8192)
+++        if not chunk:
+++            break
+++        data += chunk
+++except socket.timeout:
+++    pass
+++conn.sendall(b"X" * 1023)    # exactly the buffer-1 trigger size
+++try:
+++    conn.shutdown(socket.SHUT_RDWR)
+++except OSError:
+++    pass
+++conn.close()
+++s.close()
+++PYEOF
+++proxy_pid=$!
 ++
-++######################################################################
-++# Test 1: Basic directory symlink update (the original issue #715)
-++######################################################################
+++# Wait up to ~10s for the listener to publish its port.
+++i=0
+++while [ ! -s "$port_file" ] && [ $i -lt 10 ]; do
+++    sleep 1
+++    i=$((i + 1))
+++done
 ++
-++mkdir -p "$HOME/real-dir"
-++ln -s real-dir "$HOME/dir"
-++
-++mkdir -p "$srcbase/dir"
-++make_testfile "$srcbase/dir/file"
-++
-++# First transfer (initial): should create the file through the symlink
-++(cd "$srcbase" && $RSYNC -KRlptv --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 1: initial transfer failed"
-++
-++if [ ! -f "$HOME/real-dir/file" ]; then
-++    test_fail "test 1: initial transfer did not create file through symlink"
+++if [ ! -s "$port_file" ]; then
+++    kill "$proxy_pid" 2>/dev/null
+++    cat "$proxy_log" >&2 2>/dev/null
+++    test_fail "proxy listener never published a port"
 ++fi
 ++
-++diff "$srcbase/dir/file" "$HOME/real-dir/file" >/dev/null \
-++    || test_fail "test 1: initial transfer content mismatch"
+++port=`cat "$port_file"`
+++case "$port" in
+++    *[!0-9]*|"") kill "$proxy_pid" 2>/dev/null; test_fail "bogus port from listener: '$port'" ;;
+++esac
 ++
-++# Small modification to trigger delta transfer
-++echo "appended update" >> "$srcbase/dir/file"
-++sleep 1
-++touch "$srcbase/dir/file"
+++# Run rsync through the malicious proxy.  Any rsync:// URL works:
+++# the proxy intercepts the CONNECT and never forwards anywhere.
+++rsync_err="$workdir/rsync.err"
 ++
-++# Second transfer (update): was failing with "failed verification"
-++(cd "$srcbase" && $RSYNC -KRlptv --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 1: update through directory symlink failed"
+++# rsync MUST exit non-zero here (the proxy is misbehaving).
+++# Use `|| status=$?` so we capture the real exit code under `sh -e`;
+++# `if ! cmd; then status=$?` would only ever see 0 because the `!`
+++# is the last command before `$?`.
+++status=0
+++RSYNC_PROXY="127.0.0.1:$port" \
+++    $RSYNC rsync://example.invalid:873/whatever/ "$workdir/out/" \
+++    >/dev/null 2>"$rsync_err" || status=$?
 ++
-++diff "$srcbase/dir/file" "$HOME/real-dir/file" >/dev/null \
-++    || test_fail "test 1: update transfer content mismatch"
+++# Reap the listener.
+++wait "$proxy_pid" 2>/dev/null || true
 ++
-++######################################################################
-++# Test 2: Compression (-z) as in the original reproducer
-++######################################################################
-++
-++echo "another line" >> "$srcbase/dir/file"
-++sleep 1
-++touch "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptzv --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 2: compressed update through directory symlink failed"
-++
-++diff "$srcbase/dir/file" "$HOME/real-dir/file" >/dev/null \
-++    || test_fail "test 2: compressed update content mismatch"
-++
-++######################################################################
-++# Test 3: Nested directory symlinks (nested/sub/data.txt where
-++#          "nested" is a symlink to "nested_real")
-++######################################################################
-++
-++mkdir -p "$HOME/nested_real/sub"
-++ln -s nested_real "$HOME/nested"
-++
-++mkdir -p "$srcbase/nested/sub"
-++make_testfile "$srcbase/nested/sub/data.txt"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --rsync-path="$RSYNC" nested/sub/data.txt localhost:) \
-++    || test_fail "test 3: initial nested transfer failed"
-++
-++echo "appended nested" >> "$srcbase/nested/sub/data.txt"
-++sleep 1
-++touch "$srcbase/nested/sub/data.txt"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --rsync-path="$RSYNC" nested/sub/data.txt localhost:) \
-++    || test_fail "test 3: update through nested directory symlink failed"
-++
-++diff "$srcbase/nested/sub/data.txt" "$HOME/nested_real/sub/data.txt" >/dev/null \
-++    || test_fail "test 3: nested update content mismatch"
-++
-++######################################################################
-++# Test 4: --backup with directory symlinks
-++#
-++# Exercises the finish_transfer() "fnamecmp == fname" pointer
-++# comparison that determines whether to update fnamecmp to the
-++# backup name. If broken, --backup would reference a renamed file
-++# for xattr handling.
-++######################################################################
-++
-++# Reset destination
-++rm -f "$HOME/real-dir/file" "$HOME/real-dir/file~"
-++
-++make_testfile "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 4: initial transfer for backup test failed"
-++
-++echo "backup update" >> "$srcbase/dir/file"
-++sleep 1
-++touch "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --backup --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 4: update with --backup through directory symlink failed"
-++
-++diff "$srcbase/dir/file" "$HOME/real-dir/file" >/dev/null \
-++    || test_fail "test 4: backup update content mismatch"
-++
-++if [ ! -f "$HOME/real-dir/file~" ]; then
-++    test_fail "test 4: backup file was not created"
+++# 1. rsync must not have crashed (SIGSEGV/SIGABRT report >= 128).
+++if [ "$status" -ge 128 ]; then
+++    cat "$rsync_err" >&2
+++    test_fail "rsync killed by signal (status=$status) -- possible stack OOB regression"
 ++fi
 ++
-++######################################################################
-++# Test 5: --inplace with directory symlinks
-++#
-++# Exercises the updating_basis_or_equiv check which uses
-++# "fnamecmp == fname". With --inplace, rsync writes directly to
-++# the destination file instead of a temp file.
-++######################################################################
+++# 2. rsync must have actually exited non-zero (i.e. saw the bad proxy).
+++if [ "$status" -eq 0 ]; then
+++    cat "$rsync_err" >&2
+++    test_fail "rsync returned success despite malformed proxy response"
+++fi
 ++
-++rm -f "$HOME/real-dir/file" "$HOME/real-dir/file~"
+++# 3. The new error message must appear.
+++if ! grep -q "proxy response line too long" "$rsync_err"; then
+++    cat "$rsync_err" >&2
+++    test_fail "expected 'proxy response line too long' in rsync stderr"
+++fi
 ++
-++make_testfile "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --inplace --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 5: initial inplace transfer failed"
-++
-++echo "inplace update" >> "$srcbase/dir/file"
-++sleep 1
-++touch "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --inplace --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 5: inplace update through directory symlink failed"
-++
-++diff "$srcbase/dir/file" "$HOME/real-dir/file" >/dev/null \
-++    || test_fail "test 5: inplace update content mismatch"
-++
-++######################################################################
-++# Test 6: Top-level file (no dirname, no split needed)
-++#
-++# Ensures the dirname/basename split is not attempted for files
-++# at the top level (file->dirname is NULL).
-++######################################################################
-++
-++make_testfile "$srcbase/topfile"
-++mkdir -p "$HOME"
-++
-++(cd "$srcbase" && $RSYNC -Rlptv --rsync-path="$RSYNC" topfile localhost:) \
-++    || test_fail "test 6: initial top-level transfer failed"
-++
-++echo "toplevel update" >> "$srcbase/topfile"
-++sleep 1
-++touch "$srcbase/topfile"
-++
-++(cd "$srcbase" && $RSYNC -Rlptv --rsync-path="$RSYNC" topfile localhost:) \
-++    || test_fail "test 6: top-level update failed"
-++
-++diff "$srcbase/topfile" "$HOME/topfile" >/dev/null \
-++    || test_fail "test 6: top-level update content mismatch"
-++
-++######################################################################
-++# Test 7: --partial-dir with protocol < 29
-++#
-++# For protocol < 29, fnamecmp_type stays FNAMECMP_FNAME even when
-++# fnamecmp is set to partialptr. The dirname/basename split must
-++# NOT trigger in this case (guarded by "fnamecmp == fname").
-++######################################################################
-++
-++rm -f "$HOME/real-dir/file"
-++make_testfile "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --protocol=28 --partial-dir=.rsync-partial \
-++    --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 7: initial proto28 partial-dir transfer failed"
-++
-++echo "partial-dir update" >> "$srcbase/dir/file"
-++sleep 1
-++touch "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --protocol=28 --partial-dir=.rsync-partial \
-++    --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 7: proto28 partial-dir update through dirlink failed"
-++
-++diff "$srcbase/dir/file" "$HOME/real-dir/file" >/dev/null \
-++    || test_fail "test 7: proto28 partial-dir update content mismatch"
-++
-++######################################################################
-++# Test 8: Protocol < 29 basic directory symlink update
-++#
-++# Exercises the protocol < 29 code path and its fallback logic
-++# (clearing basedir on retry).
-++######################################################################
-++
-++rm -f "$HOME/real-dir/file"
-++make_testfile "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --protocol=28 \
-++    --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 8: initial proto28 transfer failed"
-++
-++echo "proto28 update" >> "$srcbase/dir/file"
-++sleep 1
-++touch "$srcbase/dir/file"
-++
-++(cd "$srcbase" && $RSYNC -KRlptv --protocol=28 \
-++    --rsync-path="$RSYNC" dir/file localhost:) \
-++    || test_fail "test 8: proto28 update through directory symlink failed"
-++
-++diff "$srcbase/dir/file" "$HOME/real-dir/file" >/dev/null \
-++    || test_fail "test 8: proto28 update content mismatch"
-++
-++# The script would have aborted on error, so getting here means we've won.
+++echo "OK: over-long proxy response line rejected cleanly without crashing"
 ++exit 0
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
-new file mode 100644
-index 00000000000..661f23db765
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
-@@ -0,0 +1,98 @@
-+From 0675997f170b6463dd20306ee97e346e79196335 Mon Sep 17 00:00:00 2001
-+From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Thu, 30 Apr 2026 08:44:11 +1000
-+Subject: [PATCH] syscall: also use O_RESOLVE_BENEATH on FreeBSD and MacOS
-+
-+FreeBSD and MacOS have O_RESOLVE_BENEATH as an openat() flag with the same
-+"must not escape dirfd" semantics as Linux's RESOLVE_BENEATH. The
-+kernel rejects ".." escapes, absolute symlinks, and symlinks whose
-+target lies outside dirfd, while still following symlinks that
-+resolve within it -- the same trade-off that fixes issue #715 on
-+Linux.
-+
-+Add a parallel BSD path in secure_relative_open(), gated on
-+declared. Unlike Linux, BSD doesn't have the header/runtime split
-+where the symbol can exist without kernel support, so no runtime
-+fallback is needed: if the flag compiles in, the kernel honours it.
-+
-+OpenBSD and NetBSD have no equivalent kernel primitive and continue
-+to use the existing per-component O_NOFOLLOW walk; issue #715
-+remains visible on those platforms (a userland resolver or
-+unveil(2)-based fence would be follow-up work).
-+
-+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-+
-+CVE: CVE-2026-29518
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/7f60ec001a0be63b770707ec8b829524c3809a43]
-+
-+(cherry picked from commit 7f60ec001a0be63b770707ec8b829524c3809a43)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ syscall.c | 40 +++++++++++++++++++++++++++++++++++++---
-+ 1 file changed, 37 insertions(+), 3 deletions(-)
-+
-+diff --git a/syscall.c b/syscall.c
-+index d66c9fdd..9033196f 100644
-+--- a/syscall.c
-++++ b/syscall.c
-+@@ -729,9 +729,13 @@ int do_open_nofollow(const char *pathname, int flags)
-+   versions rejected every symlink with O_NOFOLLOW on each component,
-+   which broke legitimate directory symlinks on the receiver side
-+   (https://github.com/RsyncProject/rsync/issues/715). The escape
-+-  prevention is handled by the kernel via openat2(RESOLVE_BENEATH)
-+-  on Linux 5.6+; older systems fall back to the per-component
-+-  O_NOFOLLOW walk below.
-++  prevention is handled by:
-++    Linux 5.6+:                openat2(RESOLVE_BENEATH)
-++    FreeBSD 13+:               openat() with O_RESOLVE_BENEATH
-++    macOS 15+ / iOS 18+:       openat() with O_RESOLVE_BENEATH (same
-++                               flag name, picked up by the same #ifdef;
-++                               flag value differs from FreeBSD)
-++  Other systems fall back to the per-component O_NOFOLLOW walk below.
-+ 
-+   The relpath must also not contain any ../ elements in the path.
-+ */
-+@@ -763,6 +767,32 @@ static int secure_relative_open_linux(const char *basedir, const char *relpath,
-+ }
-+ #endif
-+ 
-++#ifdef O_RESOLVE_BENEATH
-++/* FreeBSD 13+ and macOS 15+ (Sequoia) / iOS 18+: O_RESOLVE_BENEATH is
-++ * an openat() flag with the same "must not escape dirfd" semantics as
-++ * Linux's RESOLVE_BENEATH. The kernel rejects ".." escapes, absolute
-++ * symlinks, and symlinks whose target lies outside dirfd. (FreeBSD and
-++ * Apple use different flag bit values, but the same symbolic name.) */
-++static int secure_relative_open_resolve_beneath(const char *basedir, const char *relpath, int flags, mode_t mode)
-++{
-++	int dirfd, retfd;
-++
-++	if (basedir == NULL) {
-++		dirfd = AT_FDCWD;
-++	} else {
-++		dirfd = openat(AT_FDCWD, basedir, O_RDONLY | O_DIRECTORY);
-++		if (dirfd == -1)
-++			return -1;
-++	}
-++
-++	retfd = openat(dirfd, relpath, flags | O_RESOLVE_BENEATH, mode);
-++
-++	if (dirfd != AT_FDCWD)
-++		close(dirfd);
-++	return retfd;
-++}
-++#endif
-++
-+ int secure_relative_open(const char *basedir, const char *relpath, int flags, mode_t mode)
-+ {
-+ 	if (!relpath || relpath[0] == '/') {
-+@@ -786,6 +816,10 @@ int secure_relative_open(const char *basedir, const char *relpath, int flags, mo
-+ 	}
-+ #endif
-+ 
-++#ifdef O_RESOLVE_BENEATH
-++	return secure_relative_open_resolve_beneath(basedir, relpath, flags, mode);
-++#endif
-++
-+ #if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY) || !defined(AT_FDCWD)
-+ 	// really old system, all we can do is live with the risks
-+ 	if (!basedir) {
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p3.patch b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p3.patch
-new file mode 100644
-index 00000000000..9c138b5437e
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p3.patch
-@@ -0,0 +1,328 @@
-+From edfd5b913c9afdb0f340cf8135544399206f6e62 Mon Sep 17 00:00:00 2001
-+From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Wed, 31 Dec 2025 10:01:23 +1100
-+Subject: [PATCH] syscall+clientserver: am_chrooted and use_secure_symlinks for
-+ daemon-no-chroot (CVE-2026-29518)
-+
-+CVE-2026-29518: an rsync daemon configured with "use chroot = no"
-+is exposed to a TOCTOU race on parent path components. A local
-+attacker with write access to a module can replace a parent
-+directory component with a symlink between the receiver's check
-+and its open(), redirecting reads (basis-file disclosure) and
-+writes (file overwrite) outside the module. Under elevated daemon
-+privilege this allows privilege escalation. Default
-+"use chroot = yes" is not exposed.
-+
-+Add secure_relative_open() in syscall.c. It walks the parent
-+components under RESOLVE_BENEATH (Linux 5.6+) /
-+O_RESOLVE_BENEATH (FreeBSD 13+, macOS 15+) / per-component
-+O_NOFOLLOW elsewhere, anchored at a trusted dirfd, so a parent-
-+symlink swap is rejected by the kernel. Route the receiver's
-+basis-file open in receiver.c through it when use_secure_symlinks
-+is set in clientserver.c rsync_module().
-+
-+Reporters: Nullx3D (Batuhan SANCAK); Damien Neil; Michael Stapelberg.
-+
-+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-+
-+CVE: CVE-2026-29518
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/f1c24ab03bc85cb2638a569faa60216582fb6c5d]
-+
-+(cherry picked from commit f1c24ab03bc85cb2638a569faa60216582fb6c5d)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ clientserver.c |  25 +++++++++
-+ options.c      |   9 ++++
-+ receiver.c     |  22 ++++++--
-+ syscall.c      | 139 +++++++++++++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 192 insertions(+), 3 deletions(-)
-+
-+diff --git a/clientserver.c b/clientserver.c
-+index 7c897abc..b6eba098 100644
-+--- a/clientserver.c
-++++ b/clientserver.c
-+@@ -30,6 +30,7 @@ extern int list_only;
-+ extern int am_sender;
-+ extern int am_server;
-+ extern int am_daemon;
-++extern int am_chrooted;
-+ extern int am_root;
-+ extern int msgs2stderr;
-+ extern int rsync_port;
-+@@ -38,6 +39,7 @@ extern int ignore_errors;
-+ extern int preserve_xattrs;
-+ extern int kluge_around_eof;
-+ extern int munge_symlinks;
-++extern int use_secure_symlinks;
-+ extern int open_noatime;
-+ extern int sanitize_paths;
-+ extern int numeric_ids;
-+@@ -981,6 +983,7 @@ static int rsync_module(int f_in, int f_out, int i, const char *addr, const char
-+ 			io_printf(f_out, "@ERROR: chroot failed\n");
-+ 			return -1;
-+ 		}
-++		am_chrooted = 1;
-+ 		module_chdir = module_dir;
-+ 	}
-+ 
-+@@ -1003,6 +1006,15 @@ static int rsync_module(int f_in, int f_out, int i, const char *addr, const char
-+ 		}
-+ 	}
-+ 
-++	/* Enable secure symlink handling for any non-chrooted daemon module.
-++	 * This prevents TOCTOU race attacks where an attacker could switch a
-++	 * directory to a symlink between path validation and file open.
-++	 * Match the gate used by the do_*_at() wrappers in syscall.c
-++	 * (am_daemon && !am_chrooted) -- the protection has nothing to do
-++	 * with symlink munging, so a module configured with
-++	 * "munge symlinks = false" must still get the secure-open path. */
-++	use_secure_symlinks = am_daemon && !am_chrooted;
-++
-+ 	if (gid_list.count) {
-+ 		gid_t *gid_array = gid_list.items;
-+ 		if (setgid(gid_array[0])) {
-+@@ -1305,6 +1317,19 @@ int start_daemon(int f_in, int f_out)
-+ 			rsyserr(FLOG, errno, "daemon chroot(\"%s\") failed", p);
-+ 			return -1;
-+ 		}
-++		/* Deliberately do NOT set am_chrooted here.  am_chrooted
-++		 * gates the per-module symlink-race defenses
-++		 * (secure_relative_open() and the do_*_at() wrappers in
-++		 * syscall.c) and means "the kernel is enforcing path
-++		 * confinement at the module boundary".  The daemon chroot
-++		 * confines path resolution to the daemon-chroot directory,
-++		 * not to any individual module path -- modules sharing the
-++		 * daemon chroot are still distinguishable filesystem
-++		 * subtrees and a sender-controlled symlink in module A
-++		 * could redirect a syscall to module B (or to other files
-++		 * inside the daemon chroot) without the per-module
-++		 * defenses.  Leave am_chrooted=0 here so secure_relative_open()
-++		 * still fires for "use chroot = no" modules. */
-+ 		if (chdir("/") < 0) {
-+ 			rsyserr(FLOG, errno, "daemon chdir(\"/\") failed");
-+ 			return -1;
-+diff --git a/options.c b/options.c
-+index 578507c6..87c91376 100644
-+--- a/options.c
-++++ b/options.c
-+@@ -113,11 +113,20 @@ int mkpath_dest_arg = 0;
-+ int allow_inc_recurse = 1;
-+ int xfer_dirs = -1;
-+ int am_daemon = 0;
-++/* Set after a successful per-module chroot ("use chroot = yes") in
-++ * clientserver.c. NOT set for the daemon-level "daemon chroot = /X"
-++ * chroot: that confines path resolution to /X, but module paths
-++ * /X/modA, /X/modB, etc. are not chroot boundaries, so the per-module
-++ * symlink-race defenses (secure_relative_open() / do_*_at() in
-++ * syscall.c, gated by `am_daemon && !am_chrooted`) must still fire
-++ * even when the daemon is inside a daemon chroot. */
-++int am_chrooted = 0;
-+ int connect_timeout = 0;
-+ int keep_partial = 0;
-+ int safe_symlinks = 0;
-+ int copy_unsafe_links = 0;
-+ int munge_symlinks = 0;
-++int use_secure_symlinks = 0;
-+ int size_only = 0;
-+ int daemon_bwlimit = 0;
-+ int bwlimit = 0;
-+diff --git a/receiver.c b/receiver.c
-+index edfbb210..5a2c8c5a 100644
-+--- a/receiver.c
-++++ b/receiver.c
-+@@ -70,6 +70,7 @@ extern int fuzzy_basis;
-+ 
-+ extern struct name_num_item *xfer_sum_nni;
-+ extern int xfer_sum_len;
-++extern int use_secure_symlinks;
-+ 
-+ static struct bitbag *delayed_bits = NULL;
-+ static int phase = 0, redoing = 0;
-+@@ -214,7 +215,12 @@ int open_tmpfile(char *fnametmp, const char *fname, struct file_struct *file)
-+ 	 * access to ensure that there is no race condition.  They will be
-+ 	 * correctly updated after the right owner and group info is set.
-+ 	 * (Thanks to snabb@epipe.fi for pointing this out.) */
-+-	fd = do_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERMS);
-++	/* When use_secure_symlinks is on (non-chroot daemon with munge_symlinks),
-++	 * use secure_mkstemp to prevent symlink race attacks on parent directories. */
-++	if (use_secure_symlinks)
-++		fd = secure_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERMS);
-++	else
-++		fd = do_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERMS);
-+ 
-+ #if 0
-+ 	/* In most cases parent directories will already exist because their
-+@@ -854,11 +860,21 @@ int recv_files(int f_in, int f_out, char *local_name)
-+ 		/* We now check to see if we are writing the file "inplace" */
-+ 		if (inplace || one_inplace)  {
-+ 			fnametmp = one_inplace ? partialptr : fname;
-+-			fd2 = do_open(fnametmp, O_WRONLY|O_CREAT, 0600);
-++			/* When use_secure_symlinks is on (non-chroot daemon),
-++			 * use secure open to prevent symlink race attacks where an
-++			 * attacker could switch a directory to a symlink between
-++			 * path validation and file open. */
-++			if (use_secure_symlinks)
-++				fd2 = secure_relative_open(NULL, fnametmp, O_WRONLY|O_CREAT, 0600);
-++			else
-++				fd2 = do_open(fnametmp, O_WRONLY|O_CREAT, 0600);
-+ #ifdef linux
-+ 			if (fd2 == -1 && errno == EACCES) {
-+ 				/* Maybe the error was due to protected_regular setting? */
-+-				fd2 = do_open(fname, O_WRONLY, 0600);
-++				if (use_secure_symlinks)
-++					fd2 = secure_relative_open(NULL, fname, O_WRONLY, 0600);
-++				else
-++					fd2 = do_open(fname, O_WRONLY, 0600);
-+ 			}
-+ #endif
-+ 			if (fd2 == -1) {
-+diff --git a/syscall.c b/syscall.c
-+index 9033196f..dcecda1a 100644
-+--- a/syscall.c
-++++ b/syscall.c
-+@@ -877,6 +877,145 @@ cleanup:
-+ #endif // O_NOFOLLOW, O_DIRECTORY
-+ }
-+ 
-++/* Fill buf with len random bytes.  Prefers /dev/urandom for cryptographic
-++ * quality; falls back to rand() if /dev/urandom cannot be opened or read
-++ * (e.g. inside a chroot or container without /dev populated). */
-++static void rand_bytes(unsigned char *buf, size_t len)
-++{
-++#ifndef O_CLOEXEC
-++#define O_CLOEXEC 0
-++#endif
-++	int fd = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
-++	if (fd >= 0) {
-++		ssize_t n = read(fd, buf, len);
-++		close(fd);
-++		if (n == (ssize_t)len) {
-++			return;
-++		}
-++	}
-++	for (size_t i = 0; i < len; i++) {
-++		buf[i] = (unsigned char)rand();
-++	}
-++}
-++
-++/*
-++  Secure version of mkstemp that prevents symlink attacks on parent directories.
-++  Like secure_relative_open(), this walks the path checking each component
-++  with O_NOFOLLOW to prevent TOCTOU race conditions.
-++
-++  The template may be relative or absolute, but must not contain ../ components.
-++  Returns fd on success, -1 on error.
-++*/
-++int secure_mkstemp(char *template, mode_t perms)
-++{
-++#if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY) || !defined(AT_FDCWD)
-++	/* Fall back to regular mkstemp on old systems */
-++	return do_mkstemp(template, perms);
-++#else
-++	char *lastslash;
-++	int dirfd = AT_FDCWD;
-++	int fd = -1;
-++
-++	if (!template) {
-++		errno = EINVAL;
-++		return -1;
-++	}
-++	if (strncmp(template, "../", 3) == 0 || strstr(template, "/../")) {
-++		errno = EINVAL;
-++		return -1;
-++	}
-++
-++	/* For absolute paths, start the secure walk from "/" rather than CWD. */
-++	if (template[0] == '/') {
-++		dirfd = open("/", O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
-++		if (dirfd < 0)
-++			return -1;
-++	}
-++
-++	/* Find the last slash to separate directory from filename */
-++	lastslash = strrchr(template, '/');
-++	if (lastslash) {
-++		char *path_copy = my_strdup(template, __FILE__, __LINE__);
-++		if (!path_copy)
-++			return -1;
-++
-++		/* Null-terminate at the last slash to get directory part */
-++		path_copy[lastslash - template] = '\0';
-++
-++		/* Walk the directory path securely */
-++		for (const char *part = strtok(path_copy, "/");
-++		     part != NULL;
-++		     part = strtok(NULL, "/"))
-++		{
-++			int next_fd = openat(dirfd, part, O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
-++			if (next_fd == -1) {
-++				int save_errno = errno;
-++				free(path_copy);
-++				if (dirfd != AT_FDCWD) close(dirfd);
-++				errno = (save_errno == ELOOP) ? ELOOP : save_errno;
-++				return -1;
-++			}
-++			if (dirfd != AT_FDCWD) close(dirfd);
-++			dirfd = next_fd;
-++		}
-++		free(path_copy);
-++	}
-++
-++	/* Now create the temp file in the securely-opened directory */
-++	perms |= S_IWUSR;
-++
-++	/* Generate unique filename - we need to modify the template in place */
-++	char *filename = lastslash ? lastslash + 1 : template;
-++	size_t filename_len = strlen(filename);
-++
-++	if (filename_len < 6) {
-++		if (dirfd != AT_FDCWD) close(dirfd);
-++		errno = EINVAL;
-++		return -1;
-++	}
-++	char *suffix = filename + filename_len - 6; /* Points to XXXXXX */
-++	if (strcmp(suffix, "XXXXXX") != 0) {
-++		if (dirfd != AT_FDCWD) close(dirfd);
-++		errno = EINVAL;
-++		return -1;
-++	}
-++
-++	/* Try random suffixes until we find one that works */
-++	static const char letters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-++	for (int tries = 0; tries < 100; tries++) {
-++		unsigned char rbytes[6];
-++		rand_bytes(rbytes, sizeof(rbytes));
-++		for (int i = 0; i < 6; i++)
-++			suffix[i] = letters[rbytes[i] % (sizeof(letters) - 1)];
-++
-++		fd = openat(dirfd, filename, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW, perms);
-++		if (fd >= 0)
-++			break;
-++		if (errno != EEXIST) {
-++			if (dirfd != AT_FDCWD) close(dirfd);
-++			return -1;
-++		}
-++	}
-++
-++	if (fd >= 0) {
-++		if (fchmod(fd, perms) != 0 && preserve_perms) {
-++			int errno_save = errno;
-++			close(fd);
-++			unlinkat(dirfd, filename, 0);
-++			if (dirfd != AT_FDCWD) close(dirfd);
-++			errno = errno_save;
-++			return -1;
-++		}
-++#if defined HAVE_SETMODE && O_BINARY
-++		setmode(fd, O_BINARY);
-++#endif
-++	}
-++
-++	if (dirfd != AT_FDCWD) close(dirfd);
-++	return fd;
-++#endif
-++}
-++
-+ /*
-+   varient of do_open/do_open_nofollow which does do_open() if the
-+   copy_links or copy_unsafe_links options are set and does
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p4.patch b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p4.patch
-new file mode 100644
-index 00000000000..ba9ef808b4e
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p4.patch
-@@ -0,0 +1,71 @@
-+From 302e3116633ed953e0c1cc2d6878d7a22b6bf9b8 Mon Sep 17 00:00:00 2001
-+From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Sun, 1 Mar 2026 09:28:40 +1100
-+Subject: [PATCH] sender: fix read-path TOCTOU by opening from module root
-+ (CVE-2026-29518)
-+
-+The sender's file open was vulnerable to the same TOCTOU symlink
-+race as the receiver-side basis-file open. change_pathname() calls
-+chdir() into subdirectories, which follows symlinks; an attacker
-+could race to swap a directory for a symlink between the chdir and
-+the file open, allowing reads of privileged files through the
-+daemon.
-+
-+Reconstruct the full relative path (F_PATHNAME + fname) and open
-+via secure_relative_open() from the trusted module_dir, which
-+walks each path component without following symlinks. This is
-+independent of CWD, so the chdir race is neutralised.
-+
-+CVE-2026-29518.
-+
-+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-+
-+CVE: CVE-2026-29518
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/859d44fa4f1420775e4ba050337ef32092f2894c]
-+
-+(cherry picked from commit 859d44fa4f1420775e4ba050337ef32092f2894c)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ sender.c | 22 +++++++++++++++++++++-
-+ 1 file changed, 21 insertions(+), 1 deletion(-)
-+
-+diff --git a/sender.c b/sender.c
-+index b1588b70..99f431fe 100644
-+--- a/sender.c
-++++ b/sender.c
-+@@ -48,6 +48,8 @@ extern int make_backups;
-+ extern int inplace;
-+ extern int inplace_partial;
-+ extern int batch_fd;
-++extern int use_secure_symlinks;
-++extern char *module_dir;
-+ extern int write_batch;
-+ extern int file_old_total;
-+ extern BOOL want_progress_now;
-+@@ -352,7 +354,25 @@ void send_files(int f_in, int f_out)
-+ 			exit_cleanup(RERR_PROTOCOL);
-+ 		}
-+ 
-+-		fd = do_open_checklinks(fname);
-++		if (use_secure_symlinks) {
-++			/* Open from module root to prevent TOCTOU race where
-++			 * change_pathname's chdir follows a directory symlink.
-++			 * Reconstruct the full path relative to module_dir
-++			 * from F_PATHNAME (path) and f_name (fname). */
-++			char secure_path[MAXPATHLEN];
-++			int slen = snprintf(secure_path, sizeof secure_path, "%s%s%s", path, slash, fname);
-++			if (slen >= (int)sizeof secure_path) {
-++				io_error |= IOERR_GENERAL;
-++				rprintf(FERROR_XFER, "path too long: %s%s%s\n", path, slash, fname);
-++				free_sums(s);
-++				if (protocol_version >= 30)
-++					send_msg_int(MSG_NO_SEND, ndx);
-++				continue;
-++			}
-++			fd = secure_relative_open(module_dir, secure_path, O_RDONLY, 0);
-++		} else {
-++			fd = do_open_checklinks(fname);
-++		}
-+ 		if (fd == -1) {
-+ 			if (errno == ENOENT) {
-+ 				enum logcode c = am_daemon && protocol_version < 28 ? FERROR : FWARNING;
 diff --git a/meta/recipes-devtools/rsync/rsync_3.4.1.bb b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-index 509be486b87..e2fe0128d53 100644
+index d0d57defe8d..2744b3a80f7 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.4.1.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-@@ -16,6 +16,10 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://determism.patch \
-            file://0001-Add-missing-prototypes-to-function-declarations.patch \
-            file://CVE-2025-10158.patch \
-+           file://CVE-2026-29518_p1.patch \
-+           file://CVE-2026-29518_p2.patch \
-+           file://CVE-2026-29518_p3.patch \
-+           file://CVE-2026-29518_p4.patch \
+@@ -29,6 +29,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://CVE-2026-43618.patch \
+            file://CVE-2026-43620.patch \
+            file://CVE-2026-43617.patch \
++           file://CVE-2026-45232.patch \
             "
  SRC_URI[sha256sum] = "2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf69850d65fd88c52"
  
