@@ -2,91 +2,103 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6302C53219
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 10:51:29 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28590.1785149485923242660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBD3C531D0
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 11:17:19 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28910.1785151038542670759
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 03:51:26 -0700
+ Mon, 27 Jul 2026 04:17:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f6YZNmR2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so17658265e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 03:51:25 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M7k3gjKz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1878733f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 04:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785149484; x=1785754284; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1785151036; x=1785755836; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eUX1lr9i/0MfDpZZa1Ab7REXl1Zphq5gogBppJctJ5M=;
-        b=f6YZNmR2uCYa9r5Rl8egOIj3ZCVjrk4Cotu56vn3jrhpqhWg7+NwgbJ5M3JDPranFE
-         yTVlfiv4FBzH2aWKOotTjAwQbG/l0RKGXR/CXQ4ePhP42rVyBOnrB5bc0G/P5D6ZPQS9
-         msOJy0GOtQPQyU/aTeHUyenPX0uUkikrKJ/Ok=
+        bh=0e4QM9JYS0jDNsVgi5WL5RByi0zf/OmbScNkURTAwGY=;
+        b=M7k3gjKz0sXHLRsGGysIv+Ks0m9A/FH6G/0D3jXC8p3tiQRSJw88zIVvm9KazhgBf6
+         XL5EZAhSSBuXjwfHwDI0MDC2AO+jZOZqK/Ejbl2m6gspRMc81ko3byIux849NU0LZxhA
+         +i3vB0JsMD+RlvNzAoA+Mi886YLBc5j0ibBvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785149484; x=1785754284;
+        d=1e100.net; s=20251104; t=1785151036; x=1785755836;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=eUX1lr9i/0MfDpZZa1Ab7REXl1Zphq5gogBppJctJ5M=;
-        b=b3vjurEifoTtXV4dLUqJs6u5e3+KjZ84VEch2PpidA8atDd8hSQBTLBdU7XFZYLQlc
-         bRRKNWIAk8b0rRX30+hEXDUVMUIDjUmKG2oWvbWG9X+NUELduPG4hG0CZnM8Vc/UJhp+
-         89l75xaEvg2qs/ghEX5NhsLkOVTTXOQNnN9gBlWt5i7rckSY6VauA2YOkGQgjOlvjT0q
-         xloGfir6b3eUomTb7Qy3bMAuCFnkERUw2SGN1M12fcYNwNQWQW/2Bc5XvUX0CVljqy32
-         q4M1suyfZZr/+kPwlvoyTxJWpJThdDBS30yJ4RO7FYlQ8GZ5o23IES4y3SUwX7fOlX8b
-         6KGw==
-X-Gm-Message-State: AOJu0Yx8FW672yqyJG2MqUB6dhBHiY5X2Iuio0k/HlgPonC2y6bPQ2lT
-	bOfyMHjgpUriOc9cik/COmFQ6/Sv4wcwBw5U4VhMbyhTbv6p7k9EBQ6SyfO5U1RqSwBsX7+FxM4
-	LtRJpRwE=
-X-Gm-Gg: AR+sD11B8x0NPlCSr/R43pdRThtjeY6xF/lSCVQ6PuJ7MxWQyOj48YFaeexYNOfoXpA
-	GVnQxWR6b87uwrJ1zYmnrPKmqdBV1pKinTQUj9WkkHxCWpqy9bPsKkPYYiw5yO8/d4v/m8c5KA9
-	y7JxRKRFArecHlUKteuosN6jD/OOZYYdaOxgRNsVsMxNS7K5BDqb3AQEGgtxtK4ahvmiboJSj+C
-	SokgGz2vnyc7x0Wqds8NFaiWhuJ8Gf7PSYNVmOK3zzo1ClPK2BczxHjPXHN46RhAJYYPES6Snpl
-	1xvWEnxFpDEo5PWkUy+s6147Mr3GFa2cC/11BJuZYQygU7PY8LoXrMJGEYyK+qpVO/YhTFyj8aE
-	l5VzvJo5EZwcML47L/UYyAJNacrsagRmOnJICm2wpQCN6etIXrfHgUSWDZR5Xz97mfgN1K/W3cw
-	MNledU90i3AP5dWb77w3r97DtV+ZA+eccCjJwHM3RS
-X-Received: by 2002:a05:600c:8b52:b0:495:3f0f:d515 with SMTP id 5b1f17b1804b1-496b57281camr105939405e9.36.1785149483904;
-        Mon, 27 Jul 2026 03:51:23 -0700 (PDT)
+        bh=0e4QM9JYS0jDNsVgi5WL5RByi0zf/OmbScNkURTAwGY=;
+        b=htHs6/nUp/PiYWwr6aUOPKUEETF0XiKZAW7N0F6PuOwyI0SKPd4Gp6IYCjKYm5WF1c
+         hzjg67dOycQWdhrBvzR0n6tGzxgexhKdTRwzfA06T3lGhTswkSdFn6R7k/RaArIyGGJA
+         d2b1bDj5Z2HA6Er/OkplUvd1Menxaqm08uc9Cfi7afeYiOzcQySzfYgr9rAtEvdIbEPj
+         96/LLya7AwRJ/L8+gAeOi6c8M0kLsD6D5X54Piqh7DVe5+3XA+tGyl36lg6b8LPKrEan
+         R1F5awFVJGx7x+OR3KXW5YA0Om+mvqQc/2Y+0nlGNOSDbuyJYNYJuA05hKlN55ETouEi
+         IApw==
+X-Gm-Message-State: AOJu0YzdiH0qrnNrNhq4JjrYXESfs8PuaxXZx2Sj/R+vd5mp+DcfYLuL
+	OyS/lBODJsYJo5tS89ENd7F3cEyyiJIE8d71sDEZCxLo3mBmkVU/9Son3bFpAneyBsyb7LfijmK
+	9HomMqZ8=
+X-Gm-Gg: AR+sD11eqwp+KisOLfe42D2PKap5N6ZYoTwNRDfyjOj99I7OCY6JlJtydPttTj6+b7J
+	nzRt+zTokd/F0QtR7quorP9HTubH6WYQ/Xq015tFCsJbVsmpxwqbbMVdMSWrqX+RgjpcWbA75+p
+	Vu6tlQ8ki8QN6Fp6ED8yfrNF0rcFc7xg+2bWIk8yfxISHK5z8SwjDttOIDpf4dHUzqrSgFa7r9/
+	BfmK3SpZXF9qtWPIYEtrxk/cMdm+A3JNIJdraKGnEfhAc0/xFlri/ASZp+Dzh2dwv8qr7he63DT
+	5nfZCs7yj0rRZ5tN8SvEsP66pjnHEpjulrtpUL46i+Em+wHyv3PUqcsCl1V5DIjiTaP+fNnDRZn
+	DxisdfUkJC3VYl5djWxwWSIuuUVRW1Iq9nYLa5qFKGqvz5m4Q+Twpr8g7nP1LQUzzgsYKEq7smu
+	6q5uVwCDgXctAaxNpc2Nf6ZgPf3rn/K25cAgRgobzd
+X-Received: by 2002:a05:6000:2304:b0:47f:8fda:1af0 with SMTP id ffacd0b85a97d-47f9cdaf475mr13563455f8f.4.1785151036316;
+        Mon, 27 Jul 2026 04:17:16 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a01:52d:1da2:a363])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4858e28sm239462025e9.2.2026.07.27.03.51.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a5c4sm48444047f8f.8.2026.07.27.04.17.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 03:51:23 -0700 (PDT)
+        Mon, 27 Jul 2026 04:17:15 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sstate: Update mtime/atime for sig/siginfo files in sstate_checkhashes()
-Date: Mon, 27 Jul 2026 11:51:22 +0100
-Message-ID: <20260727105122.4106673-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] sstate: Update unpack touch code to be consistent
+Date: Mon, 27 Jul 2026 12:17:14 +0100
+Message-ID: <20260727111714.4115172-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 10:51:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242084
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 11:17:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242085
 
-If we touch sstatefile, we should also touch any .sig/.siginfo file if we can.
-We try and keep them both updated with accesses so one isn't removed without
-the other and they stay consistent.
+When we unpack sstate files, we want to update the mtime+atime of the sstate
+object and any sig/siginfo files, both for the files themselves and symlinks.
 
-[YOCTO #15289]
+The logic was getting a bit hard to follow and wasn't entirely consistent with
+only a time in some cases.
+
+Clean it up and be consistent for all the files.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-global/sstate.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes-global/sstate.bbclass | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 34a59fda002..9037d209270 100644
+index 9037d209270..6ee83717bba 100644
 --- a/meta/classes-global/sstate.bbclass
 +++ b/meta/classes-global/sstate.bbclass
-@@ -978,6 +978,9 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+@@ -932,12 +932,13 @@ sstate_unpack_package () {
+ 	fi
  
-         if os.path.exists(sstatefile):
-             oe.utils.touch(sstatefile)
-+            for ext in ['.sig', '.siginfo']:
-+                if os.path.exists(sstatefile + ext):
-+                    oe.utils.touch(sstatefile + ext)
-             found.add(tid)
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-         else:
+ 	tar -I "$ZSTD" -xvpf ${SSTATE_PKG}
+-	# update .siginfo atime on local/NFS mirror if it is a symbolic link
+-	[ ! -h ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
+-	# update each symbolic link instead of any referenced file
+-	touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
+-	[ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig 2>/dev/null || true
+-	[ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo 2>/dev/null || true
++
++	# Update both any file and any symlink pointing to the file for sigs as well as the file
++	for file in ${SSTATE_PKG} ${SSTATE_PKG}.sig ${SSTATE_PKG}.siginfo
++	do
++		[ ! -e $file ] || touch $file 2>/dev/null || true
++		[ ! -e $file ] || touch --no-dereference $file 2>/dev/null || true
++	done
+ }
+ 
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
 
