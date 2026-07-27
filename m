@@ -1,196 +1,99 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B6DC531D0
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 06:20:51 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24932.1785133245629802987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96912C531FC
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 06:42:11 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25496.1785134530144057490
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 23:20:45 -0700
+ Sun, 26 Jul 2026 23:42:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=GKTCDk19;
- spf=pass (domain: mvista.com, ip: 209.85.214.169, mailfrom: sdoshi@mvista.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so29185675ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 23:20:45 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DuGFKk8f;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-496bb7cdf51so8102635e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 23:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1785133245; x=1785738045; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1785134528; x=1785739328; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=e8ssfdKECoKCR1PLLocuG0vKVF3QjDnK+ITIC1VABm4=;
-        b=GKTCDk19TNsIdrWxr0diEFS+G2Gdnye0TvtTeUtgjj+84QHp9YDGKu6ugFY4rstawg
-         85Pzf1bo53kJBBrlLmLAkilNwy+Tbe0SBw2KTQ2MoYdpxKGNVfiaOFvjhUG8F0KEWsAh
-         nrJvYByoBQoGFulMa7RuJ9p23lwRI4dErHE2w=
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=sDqocgXCASMgp48wDX0ZpEyNiS9TxzfeTCtvkxk1gXA=;
+        b=DuGFKk8fX228KUl6s1Y+VB0M23uzNjeh085WFqBLFSu2CG0T9iRpusCZa6jfz+PffQ
+         DIQQnKEQ6GfVjG9u1uMcC8c0a1OoVcctOB7qmVjiUH5VqLcpbHFYBIgng+WR94EPoYI4
+         /UQC3ciec6oyoAyqtfmeSOCPqHmZJLhjWRSKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785133245; x=1785738045;
+        d=1e100.net; s=20251104; t=1785134528; x=1785739328;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=e8ssfdKECoKCR1PLLocuG0vKVF3QjDnK+ITIC1VABm4=;
-        b=FnuxCsQ179wQRSVFgGS2DS3tF2xNQN6875sD8o7HX9zrdGFXN+2q82Z741XvxCA/WR
-         qmY9h9KKganmeIuBD3AnMI+VP12nUPrj4Eo26oftpy2u2yM8TDadtcGcepq9IJU3JRJL
-         xr4IoHqf7YMpv8lpTRGcyZBw8RGGTfVLT4b9Z8NZ4cblKvln+fRK9ChiM5mrk2bGZ6rg
-         zcFwNJHqoX/oheAdCeYwEPh16HNXd8F5FlU8hapnGflBXmG5p724x57V1XMzmXz8xCDO
-         Di/oGde8swtUNQnDwYc/PNcAApGYaRy+vRgDDJZSzojNTJ4us3Y9TtpI24EgjdcNB2B3
-         KKZg==
-X-Gm-Message-State: AOJu0Yy8ZF2rI6Gtqs+o4FfilCU/5ZtTfrBqtfglunmsiVVSS/6ZW03e
-	zteKT87m0cXwK4s+yC6yCQq6HJ/aSchggOlmLSfNfrtM3TaAtxfWHuIrgFiTLeyO5alIzm/00cf
-	sXL/h0PE=
-X-Gm-Gg: AR+sD13WG2HRRi5L6EPeqorRVqqhkoJla5mBEJpqD8SiHxvzVjs3L16bTnkXM/4BB0+
-	t+1kSr5GYxxvQ8oeqphzn9tMKlg0SRQGlo4msmgtu3hwjYBQ0gf+L5Wb/IUGOVAo11misC04aic
-	fdL6oinyGiaiZk2zQVnMgedA2E9XcBYmaCZWzo0vfPkMPjGA+d6/q1vwCXVjmIk6sNjws7GtKtP
-	7d1LzE0iHSnDTWswf3twj589Vd04c7DP1R8Ty1LVNGDWAX8Lo2YWpzua+SV5/mvS+wqFzF8yJGZ
-	eLKfqUVK+GIPUDuzyVDphg+MD9hiEPoyeIfh6gD90s4hbkwQ9HHCiYRo3eWRXbTi4BklYD6i88y
-	i/IBr+g/L0Q+aowEFsBXyucsebasMmTiodjuTbXSc7qSR1a9et7mKUv+VpVEz+XhybRVkPQ6mC5
-	SMEQTDiHl0+9rwvD8xOwl/wMs=
-X-Received: by 2002:a17:903:1845:b0:2ca:e565:7b15 with SMTP id d9443c01a7336-2cfde78b647mr64257845ad.10.1785133244954;
-        Sun, 26 Jul 2026 23:20:44 -0700 (PDT)
-Received: from MVIN00030.mvista.com ([157.32.44.234])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc3e1255sm42733554eec.4.2026.07.26.23.20.38
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=sDqocgXCASMgp48wDX0ZpEyNiS9TxzfeTCtvkxk1gXA=;
+        b=P/H/opcvk2iyKaHQPWScOlt8iKDokckZEQQLLVsz2ZUIY9F0DXtigu9xebYGU7v/ki
+         wvbgF8ZeIb90sFuI4ymhMDicZJci67LbSV5wp+4muu6XeKCgto2nRl63SYt+2KSgNrbm
+         EeHHOiIhBxL2qlvTWhe8ZbS0FN1rbrtZxXKRFQuNYvXsBv33Ahx4WfDb0gMK7jK7uNoN
+         l40scv7s7P1OgUod5aBUiVOABpXfiK1ivR1ip+keu27WlbJaSBuHAbd4fznLJX2rzXaZ
+         ZlyAevXvGt5jRSFp7I4UJYmd9EixOdZxz3g/9LF183f82bGv3t/dbLmH8VxmhrHuC0hY
+         qOXQ==
+X-Gm-Message-State: AOJu0Yy4wrFF8npr/9b697ONePBTDt08gx7ZpqNrM3VCCPdddzpnpVF7
+	gZ8LCA6D8i0PQosbILmpko1UlOzARfiPIdGAuursoqktAb/I828KdF0uN4fLaT88uVKO3vrUaJy
+	VMYTP0fc=
+X-Gm-Gg: AR+sD129ZL+1Hvtt43vKgvDy7/WtgRSgTZ6qCqH6nP61UELHVTE1fAe0mxvbfvrLjwP
+	5VZQQMyxUZ6xEJbjN+H2yOgN3Q+xd7fUfhgTeJDG8WQ27XcVioie6RcPz39r5YcCBxmKoPn9oQX
+	IfBkYjXP0TXSKZd3Fa2u+rLCp74uJi2BQD+YF53psj9z1vQwRTo6+SmOiK1WxPOWjvS6Yg8aO7f
+	dOjeRbmi+SP9QUnKDQozdskOY2t/ZRY2vw8WdqV/1TrHj9FhZ0pwTKNKTCsA6KpYB00U9hHY85N
+	9xLlUR+ZClWDh7w1xmZA4mDn4dK2AkxTiLckGAQYgfshc1BEkjmGwIa9enxsMeE+dxt0EvjNl7C
+	iSmReKS0N1hxw6/hKwtRhWeYUMOAs2TsYwdjrvQAURHXBYfhQZicG8clzm5Pwaq15e+i5hSW+/O
+	ogWGZKsFhOiI8HQEg3jGur0Way19NdAA==
+X-Received: by 2002:a05:600c:4e8c:b0:495:4598:6e14 with SMTP id 5b1f17b1804b1-496ba009b1cmr61176905e9.24.1785134528439;
+        Sun, 26 Jul 2026 23:42:08 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a01:52d:1da2:a363])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4866813sm229103255e9.8.2026.07.26.23.42.07
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 23:20:44 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
+        Sun, 26 Jul 2026 23:42:07 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][wrynose][PATCHv2 6/6] vim: Security Fix for CVE-2026-57452
-Date: Mon, 27 Jul 2026 11:48:17 +0530
-Message-Id: <20260727061817.8586-6-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260727061817.8586-1-sdoshi@mvista.com>
-References: <20260727061817.8586-1-sdoshi@mvista.com>
+Subject: [PATCH 08/10] python3-uritools: upgrade 6.1.2 -> 6.1.3
+Date: Mon, 27 Jul 2026 07:41:56 +0100
+Message-ID: <20260727064158.3784068-8-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260727064158.3784068-1-richard.purdie@linuxfoundation.org>
+References: <20260727064158.3784068-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 06:20:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242037
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 06:42:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242045
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+v6.1.3 (2026-07-24)
+===================
 
-Picking patch as per [1], and same patch is mentioned in [2]
+- Minor style improvements to keep ``ruff`` happy.
 
-References:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-57452
-[2] https://security-tracker.debian.org/tracker/CVE-2026-57452
+- Update build environment.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../vim/files/CVE-2026-57452.patch            | 90 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-57452.patch
+ .../{python3-uritools_6.1.2.bb => python3-uritools_6.1.3.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-uritools_6.1.2.bb => python3-uritools_6.1.3.bb} (79%)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-57452.patch b/meta/recipes-support/vim/files/CVE-2026-57452.patch
-new file mode 100644
-index 0000000000..e87007c00a
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-57452.patch
-@@ -0,0 +1,90 @@
-+From c8777cec25dcfae89c42e9aff51af61f71c5745f Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 18 Jun 2026 18:41:16 +0000
-+Subject: [PATCH] patch 9.2.0671: [security]: possible out-of-bounds read with
-+ sodium encrypted files
-+
-+Problem:  [security]: possible out-of-bounds read with sodium encrypted
-+          files (cipher-creator)
-+Solution: Verify that there is enough space before calling
-+          crypto_secretstream_xchacha20poly1305_init_pull()
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-c4j9-wr9j-4486
-+
-+Supported by AI
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c8777cec25dcfae89c42e9aff51af61f71c5745f]
-+CVE: CVE-2026-57452
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ src/crypt.c                |  3 ++-
-+ src/testdir/test_crypt.vim | 24 ++++++++++++++++++++++++
-+ src/version.c              |  2 ++
-+ 3 files changed, 28 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/crypt.c b/src/crypt.c
-+index 2fade5db9d..879ecbf6ce 100644
-+--- a/src/crypt.c
-++++ b/src/crypt.c
-+@@ -1262,7 +1262,8 @@ crypt_sodium_buffer_decode(
-+ 
-+     if (sod_st->count == 0)
-+     {
-+-	if (crypto_secretstream_xchacha20poly1305_init_pull(&sod_st->state,
-++	if (len < crypto_secretstream_xchacha20poly1305_HEADERBYTES ||
-++		crypto_secretstream_xchacha20poly1305_init_pull(&sod_st->state,
-+ 						       from, sod_st->key) != 0)
-+ 	{
-+ 	    emsg(_(e_libsodium_decryption_failed_header_incomplete));
-+diff --git a/src/testdir/test_crypt.vim b/src/testdir/test_crypt.vim
-+index d540fbbd62..5c9dfe3baf 100644
-+--- a/src/testdir/test_crypt.vim
-++++ b/src/testdir/test_crypt.vim
-+@@ -491,4 +491,28 @@ func Test_crypt_off_by_one()
-+   bwipe!
-+ endfunc
-+ 
-++func Test_crypt_sodium_short_body()
-++  CheckFeature sodium
-++  " A VimCrypt~04! file with a complete 36-byte header (12 magic + 16 salt +
-++  " 8 seed) but a body shorter than one secretstream header (24 bytes) used to
-++  " underflow the body length and crash with a wild out-of-bounds read in
-++  " crypto_secretstream_xchacha20poly1305_pull().  It must now fail cleanly.
-++  " Bytes: "VimCrypt~04!" + 16 salt + 8 seed + 8-byte body = 44 bytes.
-++  call writefile(0z56696D43727970747E303421
-++        \ + 0zA0A1A2A3A4A5A6A7A8A9AAABACADAEAF
-++        \ + 0zB0B1B2B3B4B5B6B7
-++        \ + 0z0000000000000000, 'Xtest_sodium_short')
-++
-++  let v:errmsg = ''
-++  try
-++  call feedkeys(":split Xtest_sodium_short\<CR>foobar\<CR>", "xt")
-++  catch /^Vim\%((\S\+)\)\=:E1198:/
-++    " no-op
-++  endtry
-++
-++  bwipe!
-++  call delete('Xtest_sodium_short')
-++  set key=
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index b40bd9be93..6eac3fc927 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -734,6 +734,8 @@ static char *(features[]) =
-+ 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    671,
-+ /**/
-+     662,
-+ /**/
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f423e4d5cb..20a5f7a054 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -28,6 +28,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-47162.patch \
-            file://CVE-2026-47167.patch \
-            file://CVE-2026-55892.patch \
-+           file://CVE-2026-57452.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-uritools_6.1.2.bb b/meta/recipes-devtools/python/python3-uritools_6.1.3.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-uritools_6.1.2.bb
+rename to meta/recipes-devtools/python/python3-uritools_6.1.3.bb
+index 3112b98c193..47fddec0460 100644
+--- a/meta/recipes-devtools/python/python3-uritools_6.1.2.bb
++++ b/meta/recipes-devtools/python/python3-uritools_6.1.3.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/tkem/uritools/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=079933dfba36eb60b5e3512ca0ab61ae"
  
- PV .= ".0340"
--- 
-2.34.1
-
+-SRC_URI[sha256sum] = "fa60028843a8be651699a1ee2b399066eeaef349224b32a177efa4aeba463f00"
++SRC_URI[sha256sum] = "3a498e7e85ef3249343d5710618d641a414da0fbae6d23053ada7976ee83ea5f"
+ 
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
 
