@@ -1,104 +1,153 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBD3C531D0
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 11:17:19 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28910.1785151038542670759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE66FC531D0
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 11:25:39 +0000 (UTC)
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29006.1785151505469266096
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 04:17:19 -0700
+ Mon, 27 Jul 2026 04:25:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M7k3gjKz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1878733f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 04:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785151036; x=1785755836; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0e4QM9JYS0jDNsVgi5WL5RByi0zf/OmbScNkURTAwGY=;
-        b=M7k3gjKz0sXHLRsGGysIv+Ks0m9A/FH6G/0D3jXC8p3tiQRSJw88zIVvm9KazhgBf6
-         XL5EZAhSSBuXjwfHwDI0MDC2AO+jZOZqK/Ejbl2m6gspRMc81ko3byIux849NU0LZxhA
-         +i3vB0JsMD+RlvNzAoA+Mi886YLBc5j0ibBvU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785151036; x=1785755836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0e4QM9JYS0jDNsVgi5WL5RByi0zf/OmbScNkURTAwGY=;
-        b=htHs6/nUp/PiYWwr6aUOPKUEETF0XiKZAW7N0F6PuOwyI0SKPd4Gp6IYCjKYm5WF1c
-         hzjg67dOycQWdhrBvzR0n6tGzxgexhKdTRwzfA06T3lGhTswkSdFn6R7k/RaArIyGGJA
-         d2b1bDj5Z2HA6Er/OkplUvd1Menxaqm08uc9Cfi7afeYiOzcQySzfYgr9rAtEvdIbEPj
-         96/LLya7AwRJ/L8+gAeOi6c8M0kLsD6D5X54Piqh7DVe5+3XA+tGyl36lg6b8LPKrEan
-         R1F5awFVJGx7x+OR3KXW5YA0Om+mvqQc/2Y+0nlGNOSDbuyJYNYJuA05hKlN55ETouEi
-         IApw==
-X-Gm-Message-State: AOJu0YzdiH0qrnNrNhq4JjrYXESfs8PuaxXZx2Sj/R+vd5mp+DcfYLuL
-	OyS/lBODJsYJo5tS89ENd7F3cEyyiJIE8d71sDEZCxLo3mBmkVU/9Son3bFpAneyBsyb7LfijmK
-	9HomMqZ8=
-X-Gm-Gg: AR+sD11eqwp+KisOLfe42D2PKap5N6ZYoTwNRDfyjOj99I7OCY6JlJtydPttTj6+b7J
-	nzRt+zTokd/F0QtR7quorP9HTubH6WYQ/Xq015tFCsJbVsmpxwqbbMVdMSWrqX+RgjpcWbA75+p
-	Vu6tlQ8ki8QN6Fp6ED8yfrNF0rcFc7xg+2bWIk8yfxISHK5z8SwjDttOIDpf4dHUzqrSgFa7r9/
-	BfmK3SpZXF9qtWPIYEtrxk/cMdm+A3JNIJdraKGnEfhAc0/xFlri/ASZp+Dzh2dwv8qr7he63DT
-	5nfZCs7yj0rRZ5tN8SvEsP66pjnHEpjulrtpUL46i+Em+wHyv3PUqcsCl1V5DIjiTaP+fNnDRZn
-	DxisdfUkJC3VYl5djWxwWSIuuUVRW1Iq9nYLa5qFKGqvz5m4Q+Twpr8g7nP1LQUzzgsYKEq7smu
-	6q5uVwCDgXctAaxNpc2Nf6ZgPf3rn/K25cAgRgobzd
-X-Received: by 2002:a05:6000:2304:b0:47f:8fda:1af0 with SMTP id ffacd0b85a97d-47f9cdaf475mr13563455f8f.4.1785151036316;
-        Mon, 27 Jul 2026 04:17:16 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a01:52d:1da2:a363])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a5c4sm48444047f8f.8.2026.07.27.04.17.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 04:17:15 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sstate: Update unpack touch code to be consistent
-Date: Mon, 27 Jul 2026 12:17:14 +0100
-Message-ID: <20260727111714.4115172-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@ew.tq-group.com header.s=default2602 header.b=UVg6MAX7;
+ spf=pass (domain: ew.tq-group.com, ip: 188.40.3.216, mailfrom: alexander.stein@ew.tq-group.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:MIME-Version:References:
+	In-Reply-To:Message-ID:Date:Subject:To:From:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=0jEWwRav7UajvYk9lAjMtAiI/6CqwST1JDouEM0uG6k=; b=UVg6MAX7bSekVbAFiiniC2tIOZ
+	9w8Wqibopp5qwTBg2F8p4PyWv6wR/+yZKegv17s3z9D6YuZBhcRcUnQj/OPUAQLO97qgRC6HLuTWO
+	coRTn4syeZKgCgpW7dT4PEoni3Jiw0dEWVPFJEbcuevmuk5Nc8PZVdpq7xmnSa5wgJ4l/Lhb/Ia/M
+	3znWfYYRPhkkcCZ7WfNu8eWlYS4huh4laxpoec2cmsDAnzxiQvDjKxukAw1w8sngX+vmpuNBbALng
+	mlYzA1HHuFF8PZrQLXs/54WnODtuzT0l5uKZUy5Hgwc+q5ofSlLkpZQib7eUvtfaBNlLTQkzgeLqP
+	mlpoRp9A==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1woJSA-00005K-2M;
+	Mon, 27 Jul 2026 13:25:02 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy03.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1woJSA-000ME2-2U;
+	Mon, 27 Jul 2026 13:25:02 +0200
+From: "Alexander Stein" <alexander.stein@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org,
+ Yoann Congal <yoann.congal@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH] kea: Fix crosscompilation
+Date: Mon, 27 Jul 2026 13:25:01 +0200
+Message-ID: <6366208.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <DK99V3JWQCQU.9V7MD3S1EN5L@smile.fr>
+References: 
+ <20260723114222.261331-1-alexander.stein@ew.tq-group.com>
+ <DK99V3JWQCQU.9V7MD3S1EN5L@smile.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28074/Mon Jul 27 08:25:14 2026)
+Content-Type: multipart/signed; boundary="nextPart5195511.31r3eYUQgx";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 11:17:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242085
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 11:25:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242086
 
-When we unpack sstate files, we want to update the mtime+atime of the sstate
-object and any sig/siginfo files, both for the files themselves and symlinks.
+--nextPart5195511.31r3eYUQgx
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: Re: [OE-core] [wrynose][PATCH] kea: Fix crosscompilation
+Date: Mon, 27 Jul 2026 13:25:01 +0200
+Message-ID: <6366208.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <DK99V3JWQCQU.9V7MD3S1EN5L@smile.fr>
+MIME-Version: 1.0
 
-The logic was getting a bit hard to follow and wasn't entirely consistent with
-only a time in some cases.
+Hi Yoann,
 
-Clean it up and be consistent for all the files.
+thanks for your reply.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-global/sstate.bbclass | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Am Montag, 27. Juli 2026, 12:13:05 CEST schrieb Yoann Congal:
+> On Thu Jul 23, 2026 at 1:42 PM CEST, Alexander Stein via lists.openembedd=
+ed.org wrote:
+> > Backport upstream commits to fix cross compilation.
+> >
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> >  .../kea/files/0001-3982-Checkpoint.patch      | 169 +++++++++++++
+> >  ...002-3982-Checkpoint-applied-proposal.patch | 227 ++++++++++++++++++
+> >  .../files/0003-3982-Last-improvements.patch   | 104 ++++++++
+> >  meta/recipes-connectivity/kea/kea_3.0.3.bb    |   3 +
+> >  4 files changed, 503 insertions(+)
+> >  create mode 100644 meta/recipes-connectivity/kea/files/0001-3982-Check=
+point.patch
+> >  create mode 100644 meta/recipes-connectivity/kea/files/0002-3982-Check=
+point-applied-proposal.patch
+> >  create mode 100644 meta/recipes-connectivity/kea/files/0003-3982-Last-=
+improvements.patch
+>=20
+> Hello,
+>=20
+> Neither the upstream commit messages or yours really explain why we would
+> want to backport this.
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 9037d209270..6ee83717bba 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -932,12 +932,13 @@ sstate_unpack_package () {
- 	fi
- 
- 	tar -I "$ZSTD" -xvpf ${SSTATE_PKG}
--	# update .siginfo atime on local/NFS mirror if it is a symbolic link
--	[ ! -h ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
--	# update each symbolic link instead of any referenced file
--	touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
--	[ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig 2>/dev/null || true
--	[ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo 2>/dev/null || true
-+
-+	# Update both any file and any symlink pointing to the file for sigs as well as the file
-+	for file in ${SSTATE_PKG} ${SSTATE_PKG}.sig ${SSTATE_PKG}.siginfo
-+	do
-+		[ ! -e $file ] || touch $file 2>/dev/null || true
-+		[ ! -e $file ] || touch --no-dereference $file 2>/dev/null || true
-+	done
- }
- 
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+I was assuming the issue is obvious, but I should have been more explicit.
+
+> Can you send a new version with added justification for this patch?
+
+Will do.
+
+> What cross compilation issue does that fix?
+
+I get the same error message as in the issue [1]:
+> | ../sources/kea-3.0.3/meson.build:367:13: ERROR: Can not run test applic=
+ations in this cross environment.
+
+> How do the patches address them?
+
+I picked the patches from this linked Merge Request [2].
+
+> Is that just for a specific configuration?
+
+This is the single non-systemd configuration I have.
+
+> Notes: the current version of wrynose/kea should already be
+> cross-compiled during usual tests.
+
+Assuming it does compile, what might be different? I mean meson's
+"cpp.run()" doesn't look like this could be much different for you=20
+cross-compile environment. Why does it not raise an error there?
+
+Best regards,
+Alexander
+
+[1] https://gitlab.isc.org/isc-projects/kea/-/work_items/3982
+[2] https://gitlab.isc.org/isc-projects/kea/-/merge_requests/2973
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+--nextPart5195511.31r3eYUQgx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEByESxqszIvkmWRwbaS+g2M0Z/iUFAmpnQA0ACgkQaS+g2M0Z
+/iVnZgf+MW3q8ltBkx5Et/dhDM0/gcxl0QKQ0u1gfWX3aRDr8+oYRV1tpq3lDNGD
+97X3/URfhaxpEOhN0acttCgMXfisfghqUEjrTkJd2GZHOgwESK2pzITbU4TFjLrf
+GIRHFXdetYnHzM4YH92wj0aTc6zrwEH/cGQ+PYNQrbm9yEgYNoYgr1oXSDA2Cimu
+C2Wyq0NZ4nuVr5wx3t20dH5/FP90V+W+76+MCQCgb77ZDukcQFTPQ3S+TsfESsIx
+kXoidNKPdDhT+QxTVQYKuOEuVUf4ZsRj8EmZLmKWvA5DAL5XgQv6GtUSnlpl1ps6
+Zt7Zh0KnTMiLiSD4R925ps5pYVSBvA==
+=cwFI
+-----END PGP SIGNATURE-----
+
+--nextPart5195511.31r3eYUQgx--
 
