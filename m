@@ -2,104 +2,109 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A6EEC54F4D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48059C54F4E
 	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 22:56:42 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43763.1785192997223966042
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43812.1785192995285556987
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 15:56:37 -0700
+ Mon, 27 Jul 2026 15:56:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=yTdND8Qv;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so34967485e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:37 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=4Igo/FLv;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49545ba3d4eso19000685e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785192995; x=1785797795; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=/TLKPNuTjlQqfuEtfQuFvKgecLuvF0qdtT9CMyAashg=;
-        b=yTdND8QvpRi6G8Ry7rBTn42B/8PUrqetuSSZUEpACaiu0WPSWzB1tF/tmFf/VJRGSk
-         1DIlrryTPvLF9EMs1vEUDp2zWBPN1WOUckWzbcxU+KB2kvAkY49c17fuS9bUgqRqrd7m
-         kxkmTb3qs4sY7MGQxZEc7A836WwyyThju63FM=
+        d=smile.fr; s=google; t=1785192993; x=1785797793; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=isOKa4yi69cnqbhWlZPc4oOJ4eGKb/0pQg74X6p8MwQ=;
+        b=4Igo/FLvd424S8X4Sl4112v+4fXe2E2ZdKzJt49gkh5o0cLR9TAmbzoYS3yXytaBMr
+         QR8/Ija5VoISWV2tK2oaqBz7H0e01w9Z2T0XBYv6CnzalM4PmjU/z6Y3Z++RaVW2rsIw
+         PCBykQfeYgVerwzv33ZtioLzb7Q+QmU96Mrdw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785192995; x=1785797795;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=/TLKPNuTjlQqfuEtfQuFvKgecLuvF0qdtT9CMyAashg=;
-        b=iDqfos2tPIhm+pZMCH+QtkQ+3Q3/fiNqE8Q+g7h8/BR5bhMVPST64JLRKlnCGDsgQA
-         ZSBX1sxZ3Z/ydLnCKIEoOWO6+hE0q71oJ5vHSeu4cdrCo1xec5s7CsO6WTgnQc5AGpqp
-         R9IQtLcq6aDVpRt5RNLjER9O/tM4u+SnjvjXTn7rNEb00uQHzojz7G50T7MsR8bK92XX
-         tnu1IgNUZSr2X2O1ZtEcv+PX7sFHLc/jFS5FaYg9sQFl3+V9BfZGHlIiP1ndUUiuWLm/
-         6EgCAqeIHohQkHCbzaOA1WKVDUypFVu/4dE8UwGZoOycbbNf13BosfuTEj4ZHyRYiTBf
-         kWJw==
-X-Gm-Message-State: AOJu0YyNtMWF63a2kPosVEs1PVmMCS+0nQskboTloeJ9vr65oN0pFpQD
-	9sL8x5iyKqOr7065PdPexjrpvoU3QJdg1gQTtuR7Ywk6KV76GuRBfZFbF9CbR2jL4OqZIOFr80r
-	7Jk37GSs=
-X-Gm-Gg: AR+sD13z7yYnhj2CKIRCXX59ZYgSQp7BLHgX6+akVHPsy5safSXW29Rkz+3Uj3f0D5U
-	PPCbLdyly7cNCjxndkg12U9pXdVWVYTf2S2xv1U+3hClhqwGQHglRz65RTtWKWAdC9DEGNGfXYC
-	kcaIcBmVo63aoznzr4XWHtuHlE0F1UROKblXOrpM88K2PI6fk9AmWDozOkJSNKXB14WNw3TDFL5
-	3rwJQQPvm8qC3wGrJ0aRJtv1oqKDQZKgu8hqJR8/e6Z5/UFtpT3WtU1nnAF3AC2MORjhTWgyEv5
-	rYJQtuyBMztN9z307LD7MCpmX0NHdIkFyUH1ErZCMjxNNKeUH8zHgAkj1vEpCgDT4FMQmxF7Pew
-	xpRrjG8JUI30xB7dimXOd28MSgc4KsiWYAklYTArF3kisHjIwLCgluxHEIsdl55Ocp67FJYR6kl
-	MFMccmZsyXFi4/GedRMgR7UvTdlV/wB+QNrWHlUh2G7TX/YGhVmpWHChSsYUkQL84WOtEq8G5N0
-	aRGJA==
-X-Received: by 2002:a05:600c:3e19:b0:493:a570:df7d with SMTP id 5b1f17b1804b1-496b5717da1mr115235185e9.20.1785192995469;
-        Mon, 27 Jul 2026 15:56:35 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785192993; x=1785797793;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=isOKa4yi69cnqbhWlZPc4oOJ4eGKb/0pQg74X6p8MwQ=;
+        b=RfLajVES3FghpOyiicmU5ychz/D+/OCGWj5INNubdvAh0inv+IFXOb8fx4fPNCIbAZ
+         u79DIESWOO5WXj9r5jjxRwnLBU0x8MWqV8vEpzJWslgN8wcY4eRhQSnZSi5hv05enlDl
+         00VgogWR/XGuG4+w95BbO5tzvtq1RdR/4vqDz4Lss09uAxEhaOnMIVzKkNoBr4/FM8rY
+         I5KB2n0S/py6c0GC2ZnYOKSim5l+5+NQtoJOXIKBEWBZjru8OBWvDo9kGpUgo6d0++e5
+         k7i1yJxE61lvnHdxdGODog9cvCCIocQEVRbhopF4068RO/yAVEx0leBTDyTc+MLGnQ5T
+         Vojw==
+X-Gm-Message-State: AOJu0YyiVO9e58aXXF/dROdN/vd08GX4mnodWIOcuTWJdKkMTBZO9j0v
+	MNTtbn3dfwl3jBYo/49KvBv9DdRdC+DUZvMFTd3JIfw7OYUVJsAgY/Z3GG0a3QIA/XFFUc4fiEJ
+	qmKMAuE4=
+X-Gm-Gg: AR+sD11NKRElTBBGIl/GZS6Sdm/jr0lOn1gct39MgH1K9QLX2ux25u8+XLdfthkDPRw
+	g4Cug+jxL6J1GFtYiNNCuSV+V1fHsKdV2lbODawxkKuylJvWHLIO7Ih5R2HSmVtGLY2odWS3Cwv
+	TtP7CoTJ8YinKYNVfap8wDGM4ktRlPTf9/kPhuYmzZmAOJpWa7y5X13I6+IKMPzkADlUYSUvWOe
+	Clfz3ZrsDD7/VlIsk2AiU6exlycM9WoTCL5xAhGmH/Z8/0jYrk6w6KDRkz0yfMGvXXKmkO0pbxc
+	vBD82s0cMhPJ8ydfSW8y6k6v6BzjcVkw9XrwpDqXuLouymWb6uwN5u19yI10jegov4GFOgtp1jv
+	tU3VkDbV1O/tHCLm05s8jeUW9tbWQA9wjG7b7fFvbT8X37i1YRIcx4UZmk4gTXKHOsgPwKTcY7I
+	c6P5M9O1bOVKxGWJ4FEqjm1qrhjLXV9S591YtWCLldMeKkz3appQozJZClK1wBNDMLAPWzS2J2k
+	Su8bg==
+X-Received: by 2002:a05:600c:1c04:b0:495:5d6d:9cb3 with SMTP id 5b1f17b1804b1-496c4fd61c8mr9632335e9.37.1785192993432;
+        Mon, 27 Jul 2026 15:56:33 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 15:56:34 -0700 (PDT)
+        Mon, 27 Jul 2026 15:56:31 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 24/36] systemd-systemctl-native: disable libpam meson option
-Date: Tue, 28 Jul 2026 00:55:38 +0200
-Message-ID: <a2e55ed1868d3ee0ea31d99b6140b78ded1e5e4e.1785190123.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 22/36] curl: add annotation for CVE-2026-10536
+Date: Tue, 28 Jul 2026 00:55:36 +0200
+Message-ID: <ad3366de54b1371ebfc2a703bcfaeb5a5081d711.1785190123.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785190123.git.yoann.congal@smile.fr>
 References: <cover.1785190123.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242141
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242139
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+From: João Marcos Costa <joaomarcos.costa@bootlin.com>
 
-When building on rhel8.10 we got the following crash during do_compile
+This CVE is detailed here: https://curl.se/docs/CVE-2026-10536.html
 
-systemctl-259.5/src/shared/pam-util.c
-| ../sources/systemd-systemctl-259.5/src/shared/pam-util.c:3:10: fatal error: security/pam_ext.h: No such file or directory
-|     3 | #include <security/pam_ext.h>
-|       |          ^~~~~~~~~~~~~~~~~~~~
-| compilation terminated.
-| ninja: build stopped: subcommand failed.
-| INFO: autodetecting backend as ninja
+and the fix essentially consolidates the fact that HTTP2 stream
+dependency is deprecated.
 
-libpam is not needed for systemctl task done by bitbake, therfore
-disable MESON option.
+While oe-core provides a PACKAGECONFIG to enable HTTP2, it is not
+actually used so the affected part of the code is not compiled. For
+instance, in the do_configure logs:
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-[YC: On master, this is done in "systemd: upgrade to 261.1"]
+"""
+(...)
+HTTP2: no (--with-nghttp2, --with-hyper)
+(...)
+"""
+
+Ignore this CVE unless 'nghttp2' is enabled.
+
+Signed-off-by: João Marcos Costa (Schneider Electric) <joaomarcos.costa@bootlin.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb | 1 +
+ meta/recipes-support/curl/curl_8.19.0.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb b/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb
-index 3d01d60e9c1..3c0dcd35a32 100644
---- a/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb
-+++ b/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb
-@@ -12,6 +12,7 @@ MESON_TARGET = "systemctl:executable"
- MESON_INSTALL_TAGS = "systemctl"
- EXTRA_OEMESON += "-Dlink-systemctl-shared=false"
- EXTRA_OEMESON += "-Dsysvinit-path= -Dsysvrcnd-path="
-+EXTRA_OEMESON += "-Dpam=disabled"
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index bdd6e730199..097b3056d8e 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -33,6 +33,7 @@ SRC_URI[sha256sum] = "4eb41489790d19e190d7ac7e18e82857cdd68af8f4e66b292ced562d33
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
++CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2', d)}"
  
- # Systemctl is supposed to operate on target, but the target sysroot is not
- # determined at run-time, but rather set during configure
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
 
