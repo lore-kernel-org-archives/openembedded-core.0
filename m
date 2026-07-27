@@ -2,73 +2,73 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 078CCC531D0
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 12:45:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BDAC531D0
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 12:50:21 +0000 (UTC)
 Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30246.1785156332974422753
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29929.1785156615658549929
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 05:45:33 -0700
+ Mon, 27 Jul 2026 05:50:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=z7Oe4aY9;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=IKkYMuqy;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=qg53l47Y;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=GruLlLhW;
  spf=pass (domain: pbarker.dev, ip: 202.12.124.150, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 2C3D91D0025E;
-	Mon, 27 Jul 2026 08:45:32 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 27 Jul 2026 08:45:32 -0400
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id F20351D00268;
+	Mon, 27 Jul 2026 08:50:14 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Mon, 27 Jul 2026 08:50:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1785156332; x=1785242732; bh=jVGmqjkEg7
-	4X79+485yy4q/83M8xUvLmJaNEEcOVJ5s=; b=z7Oe4aY9sjJJ/KZ2KzX/hdoAUY
-	uJ2hBWPgsKkhaTd4DAmx00ejDjqtAWp5KZKjMNRInaOOaWHgnzpv74wwcU9kzSN7
-	p+Lfd44n18oNbDVMgbhQQ8lBjrnVMT49uMCvt6ZCBgJdAtMYhxhy4BUw63gO1nwT
-	SCcJCINNeTu9Fbpp0cNJiJ6mWja+BG5G/s64Pf1GcJNCyw1yM+7L00XJj3/EZOZp
-	c2GIGpRq/9w435eFo7GnqV54h2QzHstih4ooqAcI7OgfAEDIlR/8uXesOwxWHlz/
-	BNwAVXThBWBuGlDg26vUQZwXmxv6iXeiNm/KqQAC6wZ+V6kPxFiXkS+1cBZQ==
+	:subject:to:to; s=fm1; t=1785156614; x=1785243014; bh=QMTVBaX4zE
+	L3GlxWc5n7TKs5wSB1C8KShajCdqP6TmU=; b=qg53l47Y+rlRMeXjWujEMFX+X9
+	0bp2xelUPEYx4md/+2ouE+RMO2xujn8QhzjoWbjwlzSviFUE6nPBi4l+6y0QNpPL
+	HVe0/GG3orzS3lDa+F4pPu4XDalOAXi4Mqs4iljxDJsTni0xfK8XrbpDzIbCQHHO
+	VNvooZdE+W/s8R+X+7Xa+ySyA4AfmS8X7BwdmqfbkVi4lpOjLgLcf1wre9+cmlIQ
+	0fJlsk/hQh6q67nmYPLZ2rBk7QQKYyQSJ9aVpXKXybC4aqqvMs1dx7SzleipC0jF
+	jLYF0a54qrztcImBxLU1u2mRRWfKGC1yXs9tav27iZxisstGBZw/vuemtGUQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1785156332; x=1785242732; bh=jVGmqjkEg74X79+485yy4q/83M8xUvLmJaN
-	EEcOVJ5s=; b=IKkYMuqyo6MiJ8xsfmK6e8U9PIgYpDTKcHVoMwyn2aaW4e3ae96
-	5GDHoL2JT6iln8vjNo1OW+WGd6a0QdgXYUvgv/cYwJKG1dgCCw62CXLTgxVynwDX
-	KcrzH8miKqn+u/cfBS5LCnbWE3TDPzxFqTKWwwbdv2VlndgPyxDz4NjJIhETnwjL
-	r0xQWnaXhYRt4IqD9TrcF+PZSg2laz5Y3xMScb6NCNdI0umHaRUSZHBQRwFDdVSt
-	wLfIyq/orju6gfo7B1pMhZns9gWomFSkgxA0xbuY7nt9VCj00GKXlnOjQ73LhsuC
-	hv1MUdiZbOkITT1De+dl+NefAiUFpkawC9Q==
-X-ME-Sender: <xms:61JnaoB3zMC42RTmBrDosaIY8BXoACAlh6tMnBI-G6iuGLfwokUwWA>
-    <xme:61JnagiB_8yNbHKPYQ10RSeOeJ-Km6-y3Z-itM-89xQY-e3FdlqKtUtJLVbt_2Nqe
-    HQwIoFa7DxcP45fQN_9lwo_Fqjmohacvoxt2LGq3oMbtIRFeOhyB98l>
-X-ME-Received: <xmr:61JnapMWYO71-2m9VXoJyVUf9Vzi7urHjkB4y4M4Xro69F102waQTV478_gr2mFbWqNeU06iiRm00kKca6TQWsDld8NmTQXbjWI5JoiJJxTA>
-X-ME-Proxy-Cause: dmFkZTFqQZMmrGyHtRJNyc2AbbNQDo4pj9XpFYr0JcTwpzs64mxNQmsF5sAnghAyQWJAM6
-    re0u+YIzpA2lH54yh52S4MKtsyDRE7786yUwYOX18gk5jZ2Ea9fIlHjynmntoJLIisHkmN
-    CHt8RvoFToSuR7EJaFFJe33ir3dxuKaqGlpAxRLtiVWzVxWb34PUsJBqSMc+HSenIyBpjt
-    +P8ZTi6/SfNrH+ftkIq0ueNATHQOvpIcRw5R+3J86MSM5iPs0eUXrwdjlT/3WpVNW2TGm5
-    RLAMkShxEXXhXQ4PFC4lvmoRkQ0+3wddi5/8qxIS7qsJQveaLVNdqFmPrRSVP8tFUp5yIn
-    mG0/YlFvkDoKNxc+LVvpr1WMpDz3+svjerEoc9514QMXCK6R6b/ipiUOfo7Dyab+KQFJGa
-    cEz9KPIHi4CnkPgEUtOoOXpHNTbrwfxGOGERY5mm2CjJ+TqTIJSdL6cZHtJXiIVXCjJlDW
-    iIk8xNwuGpVgbUnNuNZ6AfDJXF58EzGzmY1GSmuPXNRg2nz3p/xE/57wtNxgqFdJv9dHyh
-    t9m9hu8Pud0lDk2WSGDvzYb8uzI+geC6nt8XbZjSfxdIJJkzU7ZODEJdgY1RKVVTzN6VJ+
-    Mh+LnZB/BKYSjH2OfHZFl0yXiytDTP2MF0mg7pX4VKV3cgkqvUIQDn7+Vhmw
-X-ME-Proxy: <xmx:61Jnap73j0Qz8bqnSzpckxTsx5WomblZGCoa6JHlKLtdzfPl507WhA>
-    <xmx:61Jnav3fMr0JYE2Hr4mcX1PgfRUyAvaPTTC-UCCY9TkRz4NP60CF5g>
-    <xmx:61JnaiaYusQGJtJnTkgIIik89HBoDsJo-c2In02GBdiltQVwzE08_A>
-    <xmx:61JnavCewXpAXhILFqEczyKugToWR2sm7Dz78__XLOf1PWGLTPU5Yg>
-    <xmx:7FJnavhXFw2vge4HR5zmFT3srsuZitxhGv2Ioex1qQkix0WNFwJRKeRY>
+	1785156614; x=1785243014; bh=QMTVBaX4zEL3GlxWc5n7TKs5wSB1C8KShaj
+	CdqP6TmU=; b=GruLlLhWXoxCB0YJQKYoonaIbLIuxkL+zSBhyU7FM6FFeH6rFeP
+	N97SGXLmpKDtUNLwPnXizxOM8PPnhW405PukNy94BnTF06h5YW8Iy0xvk6c+J1AV
+	lgJnbNYCtI0ffrQ0629av44Q30WwerfHlRm/3S2bLbGoSZQuQllqsh2sCdz/YM1K
+	AabAbvER79RdDxxM/JXCCHO4Ibo3ivbUSjB3YVHeAppDNwueNRpAYSO2BDS/n+60
+	IP1HgG6SxH23UKr9cuRaPVBIiaSpQC/YLDnkTiYGTZUOXepQuJC7Ae83PgUzBIP0
+	QB9jeF1QW+3/zvpWD8+PrhRjOdGRDy/c/qg==
+X-ME-Sender: <xms:BlRnaq8ZB02YIO9i8UopifY3VcdjDvyYcAhLLuBl22phRiZsPPCQJQ>
+    <xme:BlRnagvJAHWpg6dEN1O-O6eBx4_Ohl4e1UQmIQjruicDxS9hwCMIvOEPOQpO5iui4
+    zh2hfF8iewyPnnEPqCJ3Elw7OqDIXXmBDpvXFP4L4GK5LpqdXg31AQ>
+X-ME-Received: <xmr:BlRnatpxYpoRe1p4Pq68OHW-hWqczzqAbAe5jh69vDqKInk3UDQzj59ogs3UMwRrYKC7FmfI5n5u7ajtilg3KQaEfFul60TjzuutTZVrG2AD>
+X-ME-Proxy-Cause: dmFkZTEk6ruK2XtS37vpamjehzu3G6S6AevjguRG8tjia54fzokzbKtaD474clZ9UGutzG
+    69cBDkrqE7EPG/pRa4R6Xxcfog/V3/7FTIpdUPYGiK1DvGyOTzIzOSqg4VA2fa2lqfc3WR
+    zEsXn7M+B3rBCSecNHGoQYgcuCLGezV3bw1NKc5zUxh2Oo/qyYIgByQKcx3Ln6/wnXvvzp
+    oWRSJsyVkoMHc+kQ8vzbop5gTUHfhFD3YIJWiIPtXc3u6xyTcMYqEFpD6Gp0R6Zww1PUJE
+    EW4YHcMhRd+xg7ueTJMYftSi9KjmwuNxyWqMeDcgZRYDz7uxTviF3YmZNh3cOjVkus0NGT
+    FyUKZ6I802jJpMKrey6GJY2/SrkhAPs5Eia/cWD4Ua6lQXpldsv/Y9KaIcOBeCGMVHWo+9
+    5LtEP4TKpdYyJEqYG68aw1F/freGWF6/1Fa5SGUkQBmnZk+Q37lFWjWYQJb70mqL3yAM2R
+    33SVBb9ctQSZUBzNG4mIUmJvdMNUmYwALahylr9u5rCBORlnfXJVVR26IPk4y3cW+igk1p
+    nYmCvTMycPfmEXmKZT6XsGAOuK4IbCsCQH7Vc6H4cyXWReDBcMsbP4WRWv0qZHXy83s/j7
+    kccxpFb8XBUL0krK4MeksOcUPOzUrpQBLQymyANi0HXF205rGKTo9S5YTJNQ
+X-ME-Proxy: <xmx:BlRnatmeBleFuxMMBgBOfnJXWeHXWgtGMAZdWWWlxgONVKCJgSS29w>
+    <xmx:BlRnahwWW4j4l5D55OBpUrurpF5_3gUef8fet7JqToIqrXKq_eAfSg>
+    <xmx:BlRnall9DSxd-gW_woiJkhom7JS8ZYm5vww22jMdMTRf91mo8w_PLg>
+    <xmx:BlRnaqcH_XcX2LufuIvQrxQQCUzbw-NzuxbEtBQj9dFKlGX_kiHKow>
+    <xmx:BlRnarsdrpxxULelMmVQ878g3ddAas5-8Oi0YKWdA92IQDv8_jszJ4eh>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jul 2026 08:45:30 -0400 (EDT)
-Message-ID: <b2fc660395cb8abbd8c037615a30f87eef3dbbcb.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH] systemd: add watchdog device
+ 27 Jul 2026 08:50:14 -0400 (EDT)
+Message-ID: <c2a720b2ece56ec5463957fadb990128b947c8fa.camel@pbarker.dev>
+Subject: Re: [OE-core][wrynose][PATCH v3 1/2] curl: fix CVE-2026-4873
 From: Paul Barker <paul@pbarker.dev>
-To: Fabian Pflug <f.pflug@pengutronix.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jul 2026 13:45:25 +0100
-In-Reply-To: <20260727100926.3137215-1-f.pflug@pengutronix.de>
-References: <20260727100926.3137215-1-f.pflug@pengutronix.de>
+To: deeratho@cisco.com, openembedded-core@lists.openembedded.org
+Date: Mon, 27 Jul 2026 13:50:11 +0100
+In-Reply-To: <20260727120136.3147887-1-deeratho@cisco.com>
+References: <20260720113041.2479444-1-deeratho@cisco.com>
+	 <20260727120136.3147887-1-deeratho@cisco.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -114,88 +114,108 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-nc9/MnwhzDa7jeFYdOoi"
+	protocol="application/pgp-signature"; boundary="=-Ymd1DhZzuBh/Q+hTzGKg"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 12:45:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242095
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 12:50:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242096
 
 
---=-nc9/MnwhzDa7jeFYdOoi
+--=-Ymd1DhZzuBh/Q+hTzGKg
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-07-27 at 12:08 +0200, Fabian Pflug wrote:
-> Some systems may have multiple watchdogs and want systemd to manage a
-> different one. This patch allows to set the WatchdogDevice setting in
-> system.conf
+On Mon, 2026-07-27 at 17:31 +0530, Deepak Rathore via
+lists.openembedded.org wrote:
+> From: Deepak Rathore <deeratho@cisco.com>
 >=20
-> Signed-off-by: Fabian Pflug <f.pflug@pengutronix.de>
+> This patch applies the upstream backport for CVE-2026-4873.
+> The upstream fix commit is referenced in [1], and the public
+> CVE advisory is referenced in [2].
+>=20
+> [1] https://github.com/curl/curl/commit/507e7be573b0a76fca597b75ff7cb27a6=
+6e7d865
+> [2] https://curl.se/docs/CVE-2026-4873.html
+>=20
+> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 > ---
->  meta/recipes-core/systemd/systemd_259.5.bb | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+> - Changes from v2 to v3:
+> - Updated the patch to include the fixed commit instead of CVE_STATUS as =
+per Paul's suggestion.
+>  .../curl/curl/CVE-2026-4873.patch             | 32 +++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+>  2 files changed, 33 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-4873.patch
 >=20
-> diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-co=
-re/systemd/systemd_259.5.bb
-> index f3ec0edae7..8cb523a330 100644
-> --- a/meta/recipes-core/systemd/systemd_259.5.bb
-> +++ b/meta/recipes-core/systemd/systemd_259.5.bb
-> @@ -253,6 +253,11 @@ WATCHDOG_TIMEOUT ??=3D "60"
->  # and the watchdog is enabled. (defaults is no hardware watchdog use)
->  WATCHDOG_RUNTIME_SEC ??=3D ""
-> =20
-> +# If a different device, other then /dev/watchdog0 should be used, set
-> +# WATCHDOG_DEVICE_PATH to the full path to the watchdog device.
-> +# (Will set the WatchdogDevice=3D option in /etc/systemd/system.conf)
-> +WATCHDOG_DEVICE_PATH ??=3D ""
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-4873.patch b/meta/re=
+cipes-support/curl/curl/CVE-2026-4873.patch
+> new file mode 100644
+> index 0000000000..cd9d81a25f
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-4873.patch
+> @@ -0,0 +1,32 @@
+> +From 507e7be573b0a76fca597b75ff7cb27a66e7d865 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Tue, 24 Mar 2026 08:35:08 +0100
+> +Subject: [PATCH] url: do not reuse a non-tls starttls connection if new
+> + requires TLS
 > +
->  do_install() {
->  	meson_do_install
-> =20
-> @@ -368,6 +373,11 @@ do_install() {
->  			${D}/${sysconfdir}/systemd/system.conf
->  	fi
-> =20
-> +	if [ -n "${WATCHDOG_DEVICE_PATH}" ]; then
-> +		sed -i -e 's|#WatchdogDevice=3D|WatchdogDevice=3D${WATCHDOG_DEVICE_PAT=
-H}|' \
-> +			${D}/${sysconfdir}/systemd/system.conf
-> +	fi
+> +Reported-by: Arkadi Vainbrand
 > +
->  	# Actively disable Predictable Network Interface Names
->  	if ! ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false'=
-, d)}; then
->  		sed -i 's/^NamePolicy=3D.*/NamePolicy=3D/;s/^AlternativeNamesPolicy=3D=
-.*/AlternativeNamesPolicy=3D/' ${D}${nonarch_libdir}/systemd/network/99-def=
-ault.link
+> +Closes #21082
+> +
+> +CVE: CVE-2026-4873
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/507e7be57=
+3b0a76fca597b75ff7cb27a66e7d865]
+> +
+> +(cherry picked from commit 507e7be573b0a76fca597b75ff7cb27a66e7d865)
+> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> +---
+> + lib/url.c | 6 +++++-
+> + 1 file changed, 5 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/lib/url.c b/lib/url.c
+> +index ec0457b..cc60468 100644
+> +--- a/lib/url.c
+> ++++ b/lib/url.c
+> +@@ -748 +748 @@ struct url_conn_match {
+> +-
+> ++  BIT(req_tls); /* require TLS use from a clear-text start */
+> +@@ -899,0 +900,3 @@ static bool url_match_ssl_use(struct connectdata *co=
+nn,
+> ++  else if(m->req_tls)
+> ++    /* a clear-text STARTTLS protocol with required TLS */
+> ++    return FALSE;
+> +@@ -1357,0 +1361 @@ static bool url_attach_existing(struct Curl_easy *da=
+ta,
+> ++  match.req_tls =3D data->set.use_ssl >=3D CURLUSESSL_CONTROL;
 
-Hi Fabian,
+Hi Deepak,
 
-I'm not sure we need a new variable for this. If I understand correctly
-you can install a drop-in file in ${sysconfdir}/systemd/system.conf.d to
-set WatchdogDevice. That can easily be done from a bbappend or a new
-recipe without needing any changes in OE-core.
+This patch file has no context lines, which makes it brittle. Please
+send a v3 with the usual 3 lines of context (that should be the default
+for git format-patch).
 
-Thanks,
+Best regards,
 
 --=20
 Paul Barker
 
 
---=-nc9/MnwhzDa7jeFYdOoi
+--=-Ymd1DhZzuBh/Q+hTzGKg
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCamdS5REccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bmAHAQCtz7S6gGdjYvuRL/U4A9nROD0xLHpt0mpB
-dG/2bfH/7QEAvfI0lu+A2e7Z/qpnMuf5ImCG+OeeFuCy4A3p7iQY2wk=
-=edyy
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCamdUAxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0boKUAP44RHtLjVzsR/m9C3IQhxnjmH5NDqUiHRKE
+upKujovV3wD+K5DwAg6Tskk39P4vVXCASfsLLETyPu+Zedk2wEwcwgk=
+=P2hJ
 -----END PGP SIGNATURE-----
 
---=-nc9/MnwhzDa7jeFYdOoi--
+--=-Ymd1DhZzuBh/Q+hTzGKg--
 
