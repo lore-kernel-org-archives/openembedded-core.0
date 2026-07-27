@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88EC4C53219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7132EC53209
 	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 22:56:52 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43772.1785193009263059819
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43822.1785193010794134214
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 15:56:49 -0700
+ Mon, 27 Jul 2026 15:56:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=1aD33n0x;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so22748035e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:49 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=UVbXa9eQ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4954a2e73a9so17166415e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785193007; x=1785797807; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1785193009; x=1785797809; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=LJDqynC2cQbCjODUICBgQO9nvU1mBlfqq/GWM9XpYvs=;
-        b=1aD33n0xeoJKZGWIgqa4o0vg3Y6zHGnF6ZNDWZFREfIqW7izm3iDWQP0E59DT6f5pz
-         a3rjU4KE0scviYnF7ozZoZbxsWIBk4bzhhUF07udOp+ZkP2hHxykfMVzkki4Eb3tFMn8
-         x007X2HvtePzET6cUjO56nHO5PkqHty/B2aIo=
+        bh=fiEdpvYtOA0lQVCLqH/Df/8Mjqfwh4H7EbeDIqIEtdA=;
+        b=UVbXa9eQOBNIDYvnKE0IS62shpfVFos4SrmoqYuG3oTudtChd/MN51ApNfQWmcUchc
+         Ed/TIuqGOhEk+jFcwZMFoEhcHhhuZhZe8cPruS6xfPFZywWeYsAJtJSWh1IspEXiSK1R
+         EaF8kfyJjlqmO/JsMuSne3LQXs4MJUZLCGJZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785193007; x=1785797807;
+        d=1e100.net; s=20251104; t=1785193009; x=1785797809;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=LJDqynC2cQbCjODUICBgQO9nvU1mBlfqq/GWM9XpYvs=;
-        b=D0Xhl+ClBSrK0jfhFM4XmVr83M2W6JXEcki1MISUG1Cl3IylVgzh72hlg8LrXFo3Wa
-         UHa0GOZvIH3ezORZ/AT1OKHxy8HPXhDKnclf0A7oeVOPis9kV9C/q/xqQuw/BPo3RSSc
-         cHgZvsArXTN5Cm6UPb8vwBh916pWufWtjC6vuU/DTAC8VK4LU/OLCw5OtFLxXofJDiCY
-         ROXR7VhJ/vOYsDjMXSorYLeOtbvlimh9+vFaXa7N6ptw03tTtGGkgeaqXD01vIq9bw7q
-         nF+IWamCl1yoDSDCwuEmRn0Re4jDhCtNd09+glE181Elcbicl3zA04LddKKx12KNmDjz
-         rRJw==
-X-Gm-Message-State: AOJu0Yzsi9AeybMV+BA5t5bYMkkkg39JI4Qf6hdN/2mTBjJ+5ukc6aJg
-	3XV+vXgYEArlpTGH4XbYLIuxOhNKz/TIAG84Pj5n59YcHGwYrFU9hXjqZtNCNpzTs+a4qv/weJk
-	cprx7uVk=
-X-Gm-Gg: AR+sD12r6znxUfczFXbe169udSJ3nTsM12Q1KKrW8+jV93VZObfsU1jBSRIIsETmiNa
-	VFAYTDnPiLi2qze76h5BFrmAGVJkVynfayClmwjHKGgQMENiZOj4YiSbbqzEZCb+TG88KxoXFyK
-	xHBy4gEAM2oPIQ6AGK4VFkamUPbDOlh0GpXCIz5jxZs3klunSGc8nfLMhME5CsPcniEzaK5saWW
-	D5634oa0gEmAH2oyIqaOEds06/f0jBf8NuPk2L1YrfmQTohkUVqcMy8/HdsKFV7G+v80LH++ov1
-	SQZsxve6R9XoyNbSC6XyZhDreFZcwYylQzISgdDPcSDKopFy+JnvoDPV9WTNiITsJYTHlznP5t1
-	hwpTGj3GAOclZsRvbiir/RjKGCbANhfcB4rEsxYixB/k1+3dIyCGI3I78HP1xbq3xdOy40qd+PL
-	K77T4gTiTCpxMnyhrAFutKRq4g+QIneYsjLR0mRw4NN6R4ie1H1+WWZpckk8kxWLyviFFr+Fyox
-	pC0Nw==
-X-Received: by 2002:a05:600c:1d1b:b0:495:6f6b:fb75 with SMTP id 5b1f17b1804b1-496b57678e5mr147051695e9.38.1785193007516;
-        Mon, 27 Jul 2026 15:56:47 -0700 (PDT)
+        bh=fiEdpvYtOA0lQVCLqH/Df/8Mjqfwh4H7EbeDIqIEtdA=;
+        b=Cg/yyeaSFtDJJaJF4SQhbZOvp1V6mQN22hn3MZYedonDPk+dMITK+FNoC4v624SbGQ
+         cDfRPoWWfuzBdHZaxSDWsFlh/NFoANOUg6+fYxt/3ZYkwLvrEDxP+2NFq31Q7sxOoZ1s
+         Upql8LL/7JvS1pdGEIjg20Lb8FRpusBUUBmxG0TnBN7DxPuCg9I1JJ6XDx8OnQA2xTtY
+         knD72sMbsNSqnxs/YCJt+2l1r3sw7ILskJHTmqn440HAffEge7ag5srhHWWDKeP5cLb1
+         636F263UwScvwtfb41/LXux9mA3g7ydQJN96ar7ZtvZBU+RqHDO/ppmnrZCLajf/IkhJ
+         LBSw==
+X-Gm-Message-State: AOJu0YyT9g+1vP/VO1vQoKrN0jto5IsIoC2Gr/OHhSeSiD5tuG33DY8t
+	E1uHHCB19HNBDeSP2w/jzdGOjhRvVR9LacMKJkliE+2pSpFA+rZxmjwF08obm5cMGm6mia7PZf/
+	Uo8BldiQ=
+X-Gm-Gg: AR+sD12IW8rf4yUO8+Nl/EYnwDx9HNrIv0O967EBqYPWL1evRhOrZhMEryveNlaDx0q
+	RNHRNoiCQGTjm3s65aqMZuDRgvqp6hkIEljQNB05VIm/1bH7uFoh2jPvll9f5X92FWdQx82RBBk
+	HTIYAPHuqLfcUAgDWbtWqvU74HOAqevccScnsgPSFx1dRw7EIyx3nnGG5yXSiPlkeGyUbY150d1
+	I0Hes2pBYtyR4Xs4qGH9hYwH45Z/bQnqscT2J4KSDJVuzWXbV9XRFXvXwtdqV/K2gZm5vOFl1pM
+	r2olb5zYIGEnRM1RKe/chKgvCOPPOaZzQEC/EFmuoZGpr06yZfYU0MUlGmrQvIkxdcYZ7mbnPoR
+	2LyGaWyhRZp4c6uUgVGWBnJkAvI7fD33hxoh8BbgR+gQ3GmzZEcTTIIlc+0mil76CIytzK7/3XL
+	dKyxNE8Uv5xGdfHbfGV4vr0jHr59A310wWGccNs+RAOGzrXpaK/Kq8idOvKqulWQEzZPXMFCCw4
+	wZqWw==
+X-Received: by 2002:a05:600c:5801:b0:495:71fc:3a64 with SMTP id 5b1f17b1804b1-496c4fc3eb2mr5728315e9.25.1785193008964;
+        Mon, 27 Jul 2026 15:56:48 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 15:56:46 -0700 (PDT)
+        Mon, 27 Jul 2026 15:56:47 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 32/36] vim: Security Fix for CVE-2026-43961
-Date: Tue, 28 Jul 2026 00:55:46 +0200
-Message-ID: <0e510b075bb664e506c58ba467dd90e21c6e8e47.1785190123.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 33/36] vim: Security Fix for CVE-2026-47162
+Date: Tue, 28 Jul 2026 00:55:47 +0200
+Message-ID: <4cadd4155f05e4c6a1268045ef597b9081dfcc0d.1785190123.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785190123.git.yoann.congal@smile.fr>
 References: <cover.1785190123.git.yoann.congal@smile.fr>
@@ -66,143 +66,122 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242149
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242150
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
 Picking patch as per [1], and same patch is mentioned in [2]
 
 References:
-[1] https://github.com/vim/vim/commit/8af0f098c3a42a28661d0295364e
-[2] https://security-tracker.debian.org/tracker/CVE-2026-43961
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-47162
+[2] https://security-tracker.debian.org/tracker/CVE-2026-47162
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-43961.patch            | 104 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-43961.patch
+ .../vim/files/CVE-2026-47162.patch            | 83 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-47162.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-43961.patch b/meta/recipes-support/vim/files/CVE-2026-43961.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-47162.patch b/meta/recipes-support/vim/files/CVE-2026-47162.patch
 new file mode 100644
-index 00000000000..e2633ac04f1
+index 00000000000..69714493d49
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-43961.patch
-@@ -0,0 +1,104 @@
-+From 8af0f098c3a42a28661d0295364e6e0fd7dbc92c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-47162.patch
+@@ -0,0 +1,83 @@
++From f08ab2f4d7d2947c8dd6c179ae08ee6146a2694b Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 14 May 2026 16:43:15 +0000
-+Subject: [PATCH] patch 9.2.0480: [security]: runtime(netrw): code injection
-+ via mf command
++Date: Sun, 17 May 2026 18:53:48 +0000
++Subject: [PATCH] patch 9.2.0495: [security]: runtime(netrw): code injection
++ via NetrwBookHistSave()
 +
-+Problem:  [security]: runtime(netrw): code injection via mf command
-+          (Christopher Lusk, Zdenek Dohnal)
-+Solution: Do not use string concatenation inside the filter() commands
-+          (Zdenek Dohnal)
++Problem:  [security]: runtime(netrw): code injection via
++          NetrwBookHistSave()
++Solution: Properly quote the directory name using string() function
++          (Srinivas Piskala Ganesh Babu)
 +
 +Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-66hr-7p6x-x5j3
++https://github.com/vim/vim/security/advisories/GHSA-crm5-rh6j-2c7c
 +
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/8af0f098c3a42a28661d0295364e]
-+CVE: CVE-2026-43961
++Upstream-Status: Backport [https://github.com/vim/vim/commit/f08ab2f4d7d2947c8dd6c179ae08ee6146a2694b]
++CVE: CVE-2026-47162
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ runtime/pack/dist/opt/netrw/autoload/netrw.vim |  7 +++----
-+ src/testdir/test_plugin_netrw.vim              | 15 +++++++++++++++
-+ src/version.c                                  |  2 ++
-+ 3 files changed, 20 insertions(+), 4 deletions(-)
++ .../pack/dist/opt/netrw/autoload/netrw.vim    |  2 +-
++ src/testdir/test_plugin_netrw.vim             | 20 +++++++++++++++++++
++ src/version.c                                 |  2 ++
++ 3 files changed, 23 insertions(+), 1 deletion(-)
 +
 +diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index 78ce0cbc3c..3a460e675b 100644
++index 3a460e675b..a04120d5f6 100644
 +--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
 ++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -5175,7 +5175,7 @@ function s:NetrwMarkFile(islocal,fname)
-+ 
-+         else
-+             " remove filename from buffer's markfilelist
-+-            call filter(s:netrwmarkfilelist_{curbufnr},'v:val != a:fname')
-++            call filter(s:netrwmarkfilelist_{curbufnr}, {_, v -> v !=# a:fname})
-+             if s:netrwmarkfilelist_{curbufnr} == []
-+                 " local markfilelist is empty; remove it entirely
-+                 call s:NetrwUnmarkList(curbufnr,curdir)
-+@@ -5196,7 +5196,6 @@ function s:NetrwMarkFile(islocal,fname)
-+ 
-+     else
-+         " initialize new markfilelist
-+-
-+         let s:netrwmarkfilelist_{curbufnr}= []
-+         call add(s:netrwmarkfilelist_{curbufnr},substitute(a:fname,'[|@]$','',''))
-+ 
-+@@ -5216,7 +5215,7 @@ function s:NetrwMarkFile(islocal,fname)
-+             call add(s:netrwmarkfilelist,netrw#fs#ComposePath(b:netrw_curdir,a:fname))
-+         else
-+             " remove new filename from global markfilelist
-+-            call filter(s:netrwmarkfilelist,'v:val != "'.dname.'"')
-++            call filter(s:netrwmarkfilelist, {_, v -> v !=# dname})
-+             if s:netrwmarkfilelist == []
-+                 unlet s:netrwmarkfilelist
++@@ -2957,7 +2957,7 @@ function s:NetrwBookHistSave()
++         while ( first || cnt != g:netrw_dirhistcnt )
++             let lastline= lastline + 1
++             if exists("g:netrw_dirhist_{cnt}")
++-                call setline(lastline,'let g:netrw_dirhist_'.cnt."='".g:netrw_dirhist_{cnt}."'")
+++                call setline(lastline,'let g:netrw_dirhist_'.cnt.'='.string(g:netrw_dirhist_{cnt}))
 +             endif
-+@@ -7235,7 +7234,7 @@ function s:NetrwTreeDisplay(dir,depth)
-+         " hide given patterns
-+         let listhide= split(g:netrw_list_hide,',')
-+         for pat in listhide
-+-            call filter(w:netrw_treedict[dir],'v:val !~ "'.escape(pat,'\\').'"')
-++            call filter(w:netrw_treedict[dir], {_, v -> v !~# pat})
-+         endfor
-+ 
-+     elseif g:netrw_hide == 2
++             let first   = 0
++             let cnt     = ( cnt - 1 ) % g:netrw_dirhistmax
 +diff --git a/src/testdir/test_plugin_netrw.vim b/src/testdir/test_plugin_netrw.vim
-+index 6be32911ce..7b34b52562 100644
++index 7b34b52562..cfce82f68a 100644
 +--- a/src/testdir/test_plugin_netrw.vim
 ++++ b/src/testdir/test_plugin_netrw.vim
-+@@ -639,4 +639,19 @@ func Test_netrw_RFC2396()
-+   call assert_equal('a b', netrw#RFC2396(fname))
++@@ -654,4 +654,24 @@ func Test_netrw_mf_command_injection()
++   call assert_false(filereadable('poc'), 'Command injection via mf command')
 + endfunc
 + 
-++func Test_netrw_mf_command_injection()
-++  CheckUnix
-++  CheckExecutable touch
-++  let path = tempname()
-++  let fname = 'x" . execute("silent! !touch poc") . "'
-++  call mkdir(path, 'R')
-++  exe "cd " path
-++  call writefile([], fname)
-++  Explore .
-++  call search('^x')
-++  :norm mf
-++  :norm mf
-++  call assert_false(filereadable('poc'), 'Command injection via mf command')
+++func Test_netrw_injection()
+++  let g:netrw_home       = getcwd()
+++  let savefile           = g:netrw_home . '/.netrwhist'
+++  let g:netrw_dirhistmax = 10
+++  let g:netrw_dirhistcnt = 1
+++  let g:netrw_dirhist_1  = "x'|let g:injected = 1|let y='z"
+++  call delete(savefile)
+++  try
+++    call netrw#Call('NetrwBookHistSave')
+++    call assert_true(filereadable(savefile), savefile . ' must be written')
+++    unlet g:netrw_dirhist_1
+++    execute 'source ' . fnameescape(savefile)
+++    call assert_false(exists("g:injected"), 'injected statement must not execute')
+++    call assert_equal("x'|let g:injected = 1|let y='z", g:netrw_dirhist_1, 'dirname must round-trip')
+++  finally
+++    call delete(savefile)
+++    unlet! g:netrw_home g:netrw_dirhistmax g:netrw_dirhistcnt g:netrw_dirhist_1 g:injected
+++  endtry
 ++endfunc
 ++
 + " vim:ts=8 sts=2 sw=2 et
 +diff --git a/src/version.c b/src/version.c
-+index 4508ae3f18..64008e0f37 100644
++index 64008e0f37..cf62805e44 100644
 +--- a/src/version.c
 ++++ b/src/version.c
 +@@ -734,6 +734,8 @@ static char *(features[]) =
-+
++ 
 + static int included_patches[] =
 + {   /* Add new patch number below this line */
 ++/**/
-++    480,
+++    495,
 + /**/
-+     383,
++     480,
 + /**/
-+--
++-- 
 +2.34.1
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 0ad78ab4f08..fd835a3cdbf 100644
+index fd835a3cdbf..8360b1622de 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-52859.patch \
+@@ -25,6 +25,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
             file://CVE-2026-52860.patch \
             file://CVE-2026-42307.patch \
-+           file://CVE-2026-43961.patch \
+            file://CVE-2026-43961.patch \
++           file://CVE-2026-47162.patch \
             "
  
  PV .= ".0340"
