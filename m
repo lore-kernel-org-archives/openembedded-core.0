@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B17C54F4E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28510C53219
 	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 22:56:20 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43741.1785192971993790467
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43745.1785192976195368589
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 15:56:12 -0700
+ Mon, 27 Jul 2026 15:56:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0ohtEn34;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4955aa106b1so31573025e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:11 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=MCmWT5hs;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4956242332dso28391635e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785192970; x=1785797770; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1785192974; x=1785797774; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=WU+B07CSF1iTe9Hjn1I9bj5jA82zfVESlvb7YrV5XmQ=;
-        b=0ohtEn34/cm9BqrFbbDiNutiBiusdFVe1sBNSSCHn5PIJ35Q7AhqrLn3xVN0h6ANnZ
-         YA8AyUdhjQRH+b82NMML0ZNf0VGZNUc2QJg64i6qQznuCyIpLOmQj85sLLU5zX3gYWQN
-         PlZKDtRzMqFy1VgSzIImFPtdS53J3fngpsdT0=
+        bh=7/4OWz8sfbRQOB1OMamG51+g5Xzvs6zAqwpw3/fkixg=;
+        b=MCmWT5hs1TXTNhUQceydF+foCgxLOaLbaZBXM/4Cwh31wAXHYa0V27lW6derb43QlQ
+         If0jKVOUgDMVOYwQl2oM3NsZH8MiD049ZpiVYzxltu+b16w6YXb/n4x11SKnnnfz+XHa
+         vUG9o6zQQAKAf/p7OpUOn/E8iLoYsHcDyR4aA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785192970; x=1785797770;
+        d=1e100.net; s=20251104; t=1785192974; x=1785797774;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=WU+B07CSF1iTe9Hjn1I9bj5jA82zfVESlvb7YrV5XmQ=;
-        b=RHMtpSVjioIH4tJfmmM9CqY1VudKxIhC22Gc30EbZ8g+I0cUs+IheTw3g66FBB5Mi/
-         XL57KtZCJViAskQSO+MqQ1W7eATvSKqQxjPmaypqSz4X9BlVsZpmE+6IhjbJ24W07UlT
-         DD7I+G+NO2u9+M46n0IeYuBDPwDVCjcjNeOb02dbBw+WixaZXXmmlyyd3ypQ3OjBQNs8
-         itdx4A2M47GmN+kxrYkKTjOQ1pG/y3slfwup8pX/KdsUilcoB/enBlRGZnsSwvZcPNPs
-         oLWRUt1zEg07G6IioJRi1oWvTwwNCukdhzf6jmFBW0NPJp4OOiXEHp6xEpirJ8TWffxE
-         RakA==
-X-Gm-Message-State: AOJu0Yzvrlp9Z9vAj8M3t3EawZQBp2U4Wc/Y8kN8G325/nNFQkNTWTQe
-	d/4FFoGwtHmadtRvWjbmwbfHKS5IroyNQ8KKEQBTrniO1iKKmAr89DoRpUtvlNiGsMBcx87L8i/
-	+GWPApyo=
-X-Gm-Gg: AR+sD11YUJ6lp9vTZaoJwzZHAyLCHZc24p+PsSb1ZqZK4sUE9kqiMqsQsGdaLfLw79i
-	SLf9Ix2AJ1sOO8ztCrc4aup0yXP3wlAlHN8eCzqG7kwQyn20QW9DInoCuVtSva2DTfjzG9zPHVC
-	b7yG/mbvaMMcUNYY3ue/qaUkOfRk4hzbHz/W/4zQuEYVkffYnT1D3rplNkp0a/Kuk/DTlIX3j+S
-	XIH0vKJjzq4P0T6066nHoWOQK+XaN/psqx292KcwH1c/+crWFhiQdOIZqEY7xuQ886QPfhKIkSa
-	tZ+A6l5Pn7j9fsQLNafqnI0Uc+LbNgIlBtLZ/yy0hAWkFKHB3hlMcC+THXDIN4azIpixlaU8UFi
-	wnUR33a3wCsmMeUfad/DmhjK1wMkzlRzPz+wPPYt8iN8J+LaeUXqge2gAvaPkJrOGpQKFWBVxm9
-	/5gSrb5T520/15WrYO/sm/jAA+vX4MYCzBxvxy+3pfj0xNUl6cEv/HOjSWb3yAExFWBaLRZQY7e
-	0eECg==
-X-Received: by 2002:a05:600c:4595:b0:495:3a21:4e5d with SMTP id 5b1f17b1804b1-496b56f461dmr126958915e9.0.1785192970118;
-        Mon, 27 Jul 2026 15:56:10 -0700 (PDT)
+        bh=7/4OWz8sfbRQOB1OMamG51+g5Xzvs6zAqwpw3/fkixg=;
+        b=SQ5HJUFwvpp174qrVNPF+nEYVurnzb2f6H9obc73qg2NDMkGF88OipcE9iCmpyQ7Wz
+         9ZZ1FFva7E8AWBasl8/T/F+Mc4sf3VE5bcOSnpz5i5toFZUGgxjvbK92qxvdl8CRKvTj
+         KOfmhfo9GSkGXzd/2zNcQyJylNYpadOyKeErGM8+PHH3PpxUtZ4+WPbYQEXGkGD5kmEa
+         GXKAYj3w2PT84ikCTjwDzmkaVwTMf6GJRMh9Mdg3Fkf4O1qAHTVbdOuwwbAUdtPnjgvQ
+         6mjP0K+TYxTduD7A+3jb70ZrCXJWQ/+taJd/ispeLyOLnK919oYZ2h1oLCU1QBY+75pK
+         IFWw==
+X-Gm-Message-State: AOJu0YzVotZeF3AWHjWtzKJkhfgr4OJXcfCqdKXkoLp8hClM/IL4sKFB
+	2aiqQ07xYEPz2BuTFdcaJl57cr3bNCdmy77gqtyfCrvUUnL6ZeBKhoT/iVpHex+RvtJN9y3yLPE
+	K06AosrY=
+X-Gm-Gg: AR+sD11P4by/C5rgWI1tVNhgYwBNTGzUMp304ChzhHj8OtE+AXt3Csb/nrrO1O2ImUp
+	KGjXJZlTIZahuuMVEfFBchBWwRcD7ioKEASwdQU9l0+UUtctk3aAxo99C8kewspBm5ajRmC6luV
+	6N+McsDR4oPnKh6d36zm/EVRjqxxEmnCz8WTD5REJo8iBw0O6Kb+s5n4OKdATHVoprbKqLQCoym
+	P46ZzIrD24hhsVxQDaC8AeUpxAOV3o5czo3hsRoKVdGUBHyJN/6eHqSUa7nOX4aDQer5QapRnXh
+	39Pb6QPtyCsyvJ8UfihsUSNpW3B470mWkiJSlvLH974eck61tLkU81s4CviCECF9iBdwZZKZVr6
+	gcOws/nZIFMlbLC6iKQKaCmIO4zUAE77SkzLbrelZk6OXtIMUhbfeGcnVFassWT3E3un9CXj4X/
+	Xemv5xCh5gXvkn4QQ3oUN2zeWdviVPQavQCIP6L/gsCfLk01o2BhshVMZeTuTMUjm8P8bfyx+M1
+	SaM+A==
+X-Received: by 2002:a05:600c:1d0d:b0:493:f0f5:f2d7 with SMTP id 5b1f17b1804b1-496b56b1b23mr124315675e9.7.1785192974314;
+        Mon, 27 Jul 2026 15:56:14 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c45de1a3sm31513055e9.11.2026.07.27.15.56.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 15:56:09 -0700 (PDT)
+        Mon, 27 Jul 2026 15:56:12 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 05/36] gawk: Fix CVE-2026-40553
-Date: Tue, 28 Jul 2026 00:55:19 +0200
-Message-ID: <279260734a9809abb681e04c39e0acd276b3ae27.1785190123.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 08/36] rsync: Fix CVE-2026-43618
+Date: Tue, 28 Jul 2026 00:55:22 +0200
+Message-ID: <137902bbf8f0f8311ba12a165dc481b8c70d2a0a.1785190123.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785190123.git.yoann.congal@smile.fr>
 References: <cover.1785190123.git.yoann.congal@smile.fr>
@@ -66,148 +66,289 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242113
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242115
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Ashishkumar Parmar <asparmar@cisco.com>
 
-This patch applies the upstream fix as referenced in [3], using the
-commit shown in [1]. It also applies the corrective follow-up [2],
-which fixes the snprintf() truncation boundary check. Both commits
-are included in gawk 5.4.1, identified as the fixed release in [4].
+This patch applies the upstream v3.4.3 backport for
+CVE-2026-43618. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2].
 
-[1] https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=cca0366144336b49aaa7d5d949966ce8e2c70843
-[2] https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=bfa2e4b890a44100a99d26b54af385479528b12e
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-40553
-[4] https://cert.pl/en/posts/2026/07/CVE-2026-40467/
+[1] https://github.com/RsyncProject/rsync/commit/c44c90e9460c666c965446a8c0957f0b9fa4c66a
+[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-g37v-g3gj-pmwq
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-Reviewed-by: Leonid Iziumtsev <leonid.iziumtsev@est.tech>
+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gawk/gawk/CVE-2026-40553_p1.patch         | 50 +++++++++++++++++++
- .../gawk/gawk/CVE-2026-40553_p2.patch         | 44 ++++++++++++++++
- meta/recipes-extended/gawk/gawk_5.4.0.bb      |  2 +
- 3 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch
- create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch
+ .../rsync/files/CVE-2026-43618.patch          | 248 ++++++++++++++++++
+ meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   1 +
+ 2 files changed, 249 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43618.patch
 
-diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43618.patch b/meta/recipes-devtools/rsync/files/CVE-2026-43618.patch
 new file mode 100644
-index 00000000000..81e2efd6b96
+index 00000000000..d4b13d91818
 --- /dev/null
-+++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p1.patch
-@@ -0,0 +1,50 @@
-+From 6e7695c994aa45c0f7e9f8b80aa6f99717bbaf60 Mon Sep 17 00:00:00 2001
-+From: "Arnold D. Robbins" <arnold@skeeve.com>
-+Date: Wed, 15 Apr 2026 09:39:02 +0300
-+Subject: [PATCH] Avoid buffer overflow in extension/readdir.c.
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-43618.patch
+@@ -0,0 +1,248 @@
++From a93cfc86b6daa2dfd754bcbe261cf01afef056f4 Mon Sep 17 00:00:00 2001
++From: Andrew Tridgell <andrew@tridgell.net>
++Date: Wed, 29 Apr 2026 11:10:59 +1000
++Subject: [PATCH] token: harden compressed-token decoding against integer
++ overflow
 +
-+CVE: CVE-2026-40553
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=cca0366144336b49aaa7d5d949966ce8e2c70843]
++The receiver's three compressed-token decoders --
++recv_deflated_token (zlib), recv_zstd_token, and
++recv_compressed_token (lz4) -- accumulated rx_token (a 32-bit
++signed counter) without overflow checking. A malicious sender
++could craft a compressed-token stream that walked rx_token past
++INT32_MAX, with careful manipulation leaking process memory
++contents to the wire (environment variables, passwords, heap
++pointers, library pointers -- significantly weakening ASLR
++and facilitating further exploitation).
 +
-+(cherry picked from commit cca0366144336b49aaa7d5d949966ce8e2c70843)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++Cap rx_token at MAX_TOKEN_INDEX = 0x7ffffffe. Fold the
++bookkeeping into recv_compressed_token_num() and
++recv_compressed_token_run() shared by all three decoders. Reject
++negative or out-of-range token values explicitly. Also cap the
++simple_recv_token literal-block length at the source: any
++wire-supplied length > CHUNK_SIZE is ill-formed (the matching
++simple_send_token never writes a chunk larger than CHUNK_SIZE),
++so reject before looping on attacker-controlled bytes.
++
++Reach: an authenticated daemon connection with compression
++enabled (the default for protocols >= 30 when both peers
++advertise it). Disabling compression on the daemon
++("refuse options = compress" in rsyncd.conf) is the available
++workaround.
++
++Reporter: Omar Elsayed (seks99x).
++
++Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
++
++CVE: CVE-2026-43618
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/c44c90e9460c666c965446a8c0957f0b9fa4c66a]
++
++Backport Changes:
++- Resolved token.c context differences against Wrynose's 3.4.1
++  source, which lacks all three negative-token validation blocks
++  present in the upstream patch context.
++- The Wrynose hunk replaces the older per-decoder token bookkeeping
++  with the upstream recv_compressed_token_num() and
++  recv_compressed_token_run() helper calls at the matching zlib,
++  zstd, and lz4 decoder sites.
++
++(cherry picked from commit c44c90e9460c666c965446a8c0957f0b9fa4c66a)
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ extension/ChangeLog | 6 ++++++
-+ extension/readdir.c | 6 +++++-
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
++ receiver.c |  11 +++++-
++ token.c    | 102 ++++++++++++++++++++++++++++++-----------------------
++ 2 files changed, 67 insertions(+), 46 deletions(-)
 +
-+diff --git a/extension/ChangeLog b/extension/ChangeLog
-+index b11e83ac..6f88eb19 100644
-+--- a/extension/ChangeLog
-++++ b/extension/ChangeLog
-+@@ -1,3 +1,9 @@
-++2026-04-15         Arnold D. Robbins     <arnold@skeeve.com>
-++
-++	* readdir.c (ftype): Use snprintf() to check for buffer
-++	overflow in the file name before calling stat(). Thanks to
-++	Marcin Wyczechowski <mwyczechowski@afine.com> for the report.
-++
-+ 2026-02-22         Arnold D. Robbins     <arnold@skeeve.com>
++diff --git a/receiver.c b/receiver.c
++index 8cf8366b..a487ad5a 100644
++--- a/receiver.c
+++++ b/receiver.c
++@@ -318,7 +318,12 @@ static int receive_data(int f_in, char *fname_r, int fd_r, OFF_T size_r,
++ 		}
++ 	}
 + 
-+ 	* 5.4.0: Release tar ball made.
-+diff --git a/extension/readdir.c b/extension/readdir.c
-+index f876e168..5bbee261 100644
-+--- a/extension/readdir.c
-++++ b/extension/readdir.c
-+@@ -118,8 +118,12 @@ ftype(struct dirent *entry, const char *dirname)
-+ #endif
-+ 	char fname[PATH_MAX];
-+ 	struct stat sbuf;
-++	int count;
++-	while ((i = recv_token(f_in, &data)) != 0) {
+++	while (1) {
+++		data = NULL;
+++		i = recv_token(f_in, &data);
+++		if (i == 0)
+++			break;
 ++
-++	count = snprintf(fname, sizeof(fname), "%s/%s", dirname, entry->d_name);
-++	if (count > sizeof(fname))
-++		return "u";	// buffer overflow. skip stat() call.
++ 		if (INFO_GTE(PROGRESS, 1))
++ 			show_progress(offset, total_size);
 + 
-+-	sprintf(fname, "%s/%s", dirname, entry->d_name);
-+ 	if (stat(fname, &sbuf) == 0) {
-+ 		if (S_ISBLK(sbuf.st_mode))
-+ 			return "b";
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch
-new file mode 100644
-index 00000000000..84bfdc54187
---- /dev/null
-+++ b/meta/recipes-extended/gawk/gawk/CVE-2026-40553_p2.patch
-@@ -0,0 +1,44 @@
-+From a98440e83cb19b042958a179293bd637c400a35b Mon Sep 17 00:00:00 2001
-+From: "Arnold D. Robbins" <arnold@skeeve.com>
-+Date: Fri, 17 Apr 2026 11:48:19 +0300
-+Subject: [PATCH] Small fix in extension/readdir.c.
-+
-+CVE: CVE-2026-40553
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=bfa2e4b890a44100a99d26b54af385479528b12e]
-+
-+(cherry picked from commit bfa2e4b890a44100a99d26b54af385479528b12e)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ extension/ChangeLog | 5 +++++
-+ extension/readdir.c | 2 +-
-+ 2 files changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/extension/ChangeLog b/extension/ChangeLog
-+index 6f88eb19..9fe216e6 100644
-+--- a/extension/ChangeLog
-++++ b/extension/ChangeLog
-+@@ -1,3 +1,8 @@
-++2026-04-15         Arnold D. Robbins     <arnold@skeeve.com>
++@@ -326,6 +331,10 @@ static int receive_data(int f_in, char *fname_r, int fd_r, OFF_T size_r,
++ 			maybe_send_keepalive(time(NULL), MSK_ALLOW_FLUSH | MSK_ACTIVE_RECEIVER);
++ 
++ 		if (i > 0) {
+++			if (!data) {
+++				rprintf(FERROR, "Invalid literal token with no data [%s]\n", who_am_i());
+++				exit_cleanup(RERR_PROTOCOL);
+++			}
++ 			if (DEBUG_GTE(DELTASUM, 3)) {
++ 				rprintf(FINFO,"data recv %d at %s\n",
++ 					i, big_num(offset));
++diff --git a/token.c b/token.c
++index c108b3af..02dabd8d 100644
++--- a/token.c
+++++ b/token.c
++@@ -291,6 +291,14 @@ static int32 simple_recv_token(int f, char **data)
++ 		int32 i = read_int(f);
++ 		if (i <= 0)
++ 			return i;
+++		/* simple_send_token caps each literal chunk at CHUNK_SIZE;
+++		 * reject anything larger so a hostile peer cannot drive the
+++		 * read_buf below past our static CHUNK_SIZE buffer. */
+++		if (i > CHUNK_SIZE) {
+++			rprintf(FERROR, "invalid uncompressed token length %ld [%s]\n",
+++				(long)i, who_am_i());
+++			exit_cleanup(RERR_PROTOCOL);
+++		}
++ 		residue = i;
++ 	}
++ 
++@@ -493,9 +501,52 @@ static char *cbuf;
++ static char *dbuf;
++ 
++ /* for decoding runs of tokens */
+++#define MAX_TOKEN_INDEX ((int32)0x7ffffffe)
 ++
-++	* readdir.c (ftype): Use >= in check of snprintf() return
-++	value. Thanks to Andrew Schorr <aschorr@telemetry-investments.com>.
++ static int32 rx_token;
++ static int32 rx_run;
++ 
+++static NORETURN void invalid_compressed_token(void)
+++{
+++	rprintf(FERROR, "invalid token number in compressed stream\n");
+++	exit_cleanup(RERR_PROTOCOL);
+++}
 ++
-+ 2026-04-15         Arnold D. Robbins     <arnold@skeeve.com>
+++static int32 recv_compressed_token_num(int f, int32 flag)
+++{
+++	if (flag & TOKEN_REL) {
+++		int32 incr = flag & 0x3f;
+++		if (rx_token > MAX_TOKEN_INDEX - incr)
+++			invalid_compressed_token();
+++		rx_token += incr;
+++		flag >>= 6;
+++	} else {
+++		rx_token = read_int(f);
+++		if (rx_token < 0 || rx_token > MAX_TOKEN_INDEX)
+++			invalid_compressed_token();
+++	}
+++
+++	if (flag & 1) {
+++		rx_run = read_byte(f);
+++		rx_run += read_byte(f) << 8;
+++		if (rx_run <= 0 || rx_token > MAX_TOKEN_INDEX - rx_run)
+++			invalid_compressed_token();
+++		recv_state = r_running;
+++	}
+++
+++	return -1 - rx_token;
+++}
+++
+++static int32 recv_compressed_token_run(void)
+++{
+++	if (rx_run <= 0 || rx_token >= MAX_TOKEN_INDEX)
+++		invalid_compressed_token();
+++	++rx_token;
+++	if (--rx_run == 0)
+++		recv_state = r_idle;
+++	return -1 - rx_token;
+++}
+++
++ /* Receive a deflated token and inflate it */
++ static int32 recv_deflated_token(int f, char **data)
++ {
++@@ -586,17 +637,7 @@ static int32 recv_deflated_token(int f, char **data)
++ 			}
 + 
-+ 	* readdir.c (ftype): Use snprintf() to check for buffer
-+diff --git a/extension/readdir.c b/extension/readdir.c
-+index 5bbee261..3cb31834 100644
-+--- a/extension/readdir.c
-++++ b/extension/readdir.c
-+@@ -121,7 +121,7 @@ ftype(struct dirent *entry, const char *dirname)
-+ 	int count;
++ 			/* here we have a token of some kind */
++-			if (flag & TOKEN_REL) {
++-				rx_token += flag & 0x3f;
++-				flag >>= 6;
++-			} else
++-				rx_token = read_int(f);
++-			if (flag & 1) {
++-				rx_run = read_byte(f);
++-				rx_run += read_byte(f) << 8;
++-				recv_state = r_running;
++-			}
++-			return -1 - rx_token;
+++			return recv_compressed_token_num(f, flag);
 + 
-+ 	count = snprintf(fname, sizeof(fname), "%s/%s", dirname, entry->d_name);
-+-	if (count > sizeof(fname))
-++	if (count >= sizeof(fname))
-+ 		return "u";	// buffer overflow. skip stat() call.
++ 		case r_inflating:
++ 			rx_strm.next_out = (Bytef *)dbuf;
++@@ -616,10 +657,7 @@ static int32 recv_deflated_token(int f, char **data)
++ 			break;
 + 
-+ 	if (stat(fname, &sbuf) == 0) {
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-extended/gawk/gawk_5.4.0.bb b/meta/recipes-extended/gawk/gawk_5.4.0.bb
-index a7c88224ddf..f44d82b37c5 100644
---- a/meta/recipes-extended/gawk/gawk_5.4.0.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.4.0.bb
-@@ -31,6 +31,8 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.xz \
-            file://CVE-2026-40467.patch \
-            file://CVE-2026-40468.patch \
-            file://CVE-2026-40469.patch \
-+           file://CVE-2026-40553_p1.patch \
-+           file://CVE-2026-40553_p2.patch \
++ 		case r_running:
++-			++rx_token;
++-			if (--rx_run == 0)
++-				recv_state = r_idle;
++-			return -1 - rx_token;
+++			return recv_compressed_token_run();
++ 		}
++ 	}
++ }
++@@ -828,17 +866,7 @@ static int32 recv_zstd_token(int f, char **data)
++ 				return 0;
++ 			}
++ 			/* here we have a token of some kind */
++-			if (flag & TOKEN_REL) {
++-				rx_token += flag & 0x3f;
++-				flag >>= 6;
++-			} else
++-				rx_token = read_int(f);
++-			if (flag & 1) {
++-				rx_run = read_byte(f);
++-				rx_run += read_byte(f) << 8;
++-				recv_state = r_running;
++-			}
++-			return -1 - rx_token;
+++			return recv_compressed_token_num(f, flag);
++ 
++ 		case r_inflated: /* zstd doesn't get into this state */
++ 			break;
++@@ -869,10 +897,7 @@ static int32 recv_zstd_token(int f, char **data)
++ 			break;
++ 
++ 		case r_running:
++-			++rx_token;
++-			if (--rx_run == 0)
++-				recv_state = r_idle;
++-			return -1 - rx_token;
+++			return recv_compressed_token_run();
++ 		}
++ 	}
++ }
++@@ -992,17 +1017,7 @@ static int32 recv_compressed_token(int f, char **data)
++ 			}
++ 
++ 			/* here we have a token of some kind */
++-			if (flag & TOKEN_REL) {
++-				rx_token += flag & 0x3f;
++-				flag >>= 6;
++-			} else
++-				rx_token = read_int(f);
++-			if (flag & 1) {
++-				rx_run = read_byte(f);
++-				rx_run += read_byte(f) << 8;
++-				recv_state = r_running;
++-			}
++-			return -1 - rx_token;
+++			return recv_compressed_token_num(f, flag);
++ 
++ 		case r_inflating:
++ 			avail_out = LZ4_decompress_safe(next_in, dbuf, avail_in, size);
++@@ -1018,10 +1033,7 @@ static int32 recv_compressed_token(int f, char **data)
++ 			break;
++ 
++ 		case r_running:
++-			++rx_token;
++-			if (--rx_run == 0)
++-				recv_state = r_idle;
++-			return -1 - rx_token;
+++			return recv_compressed_token_run();
++ 		}
++ 	}
++ }
+diff --git a/meta/recipes-devtools/rsync/rsync_3.4.1.bb b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
+index 47e195ef24a..f84f269692e 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.4.1.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://CVE-2026-43619_p4.patch \
+            file://CVE-2026-43619_p5.patch \
+            file://CVE-2026-43619_p6.patch \
++           file://CVE-2026-43618.patch \
             "
+ SRC_URI[sha256sum] = "2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf69850d65fd88c52"
  
- SRC_URI[sha256sum] = "3dd430f0cd3b4428c6c3f6afc021b9cd3c1f8c93f7a688dc268ca428a90b4ac1"
 
