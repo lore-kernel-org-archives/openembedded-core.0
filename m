@@ -1,97 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF41C531D0
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 06:42:23 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25498.1785134534014690312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D239C531D0
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 06:50:23 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25573.1785135017056859655
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 23:42:14 -0700
+ Sun, 26 Jul 2026 23:50:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dqtPTYek;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4954dff6536so17487355e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 23:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785134532; x=1785739332; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=GEd8A5B0TKNEGb0uTIqMok0QdzHh7kGWpkvsHOF0F+w=;
-        b=dqtPTYekxFMu8NN49Bf5F/tR+k8bjfWckFdpktgUUPMdsW6wEsu9i2Jrnoy7LIqt+7
-         jK9nBm1cexeQ/GcWT27RE+kbOgBBGXAxj6ytZlxdAdhxRfMwYmTEObkg3Efi73GB3C35
-         JFjbOjerY52gcEGA7gJMNeD/Jm2Whs9fI8UfY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785134532; x=1785739332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=GEd8A5B0TKNEGb0uTIqMok0QdzHh7kGWpkvsHOF0F+w=;
-        b=oy68kLjYZM8EInYLPTDBSy0zqaU7oa779FxEcORfth3qafe7ZHXUiWPA7ClKldjxT0
-         M0IOQjBm85EpMht32svkTD7p7Gh/052rEFlcED9aU9S0sZai20Jv5gj/PvjlXm6JkLXl
-         EWwa6dPyaAKMR3TSntpxDNwXrJFApQhCu2VLlbS/bnMUiRSa1KpqhZWksz6nlvJeYxPx
-         L5bsl6/70NKFjfxsYoBDwawfrDnwsPyv0mPYn7ZDyxNVyBbNxgdlgDAK413ub8MKwpt6
-         jQKTGIzFsCzna4r9fj6ZDl2SiquzPfuVNBVNFd4elSx1lpwyjr+VhBcz3LCsh66Y4H2o
-         qnAQ==
-X-Gm-Message-State: AOJu0Yz/+6R1qORicAcKsnqxnCwftFJrpQB7STiMbSOHDhV/fy3Vx0hs
-	WZRim1GfFL/UAxfzSaQUzJcm81HY5PdRYJsJF+zeTfRjDqTCWNx2FG6OV4R462DuphNl9Hg4A4H
-	APxIYQb4=
-X-Gm-Gg: AR+sD12sFMg6wxKPDrOBP9lH5YLBlznlBHyko3D6DwAUV90uOB5tIJ6wwXpV8GWI+IW
-	3qVqIbCJI6Wpa/6sO/65U3fnpNKi0u9DvxxVjirt0xRrVi8m2G7QTeTA0aEE3cZ6mNUYcQIit6t
-	WjPI0pprwvzCOeWodZOhP3liOFddN+bw4P0tyodnf1Uk/Q3GzcABB4nnmtLeNf/hTha5OQwbCRF
-	TTRR6iI7xJejQGRQiQAGD8VA59+TcqjiKmM0zel8zWQCS+OZAKwEZyWWOYkngJyqmHvwYefkVWN
-	Is0FGD6OqoUu+b+sUinahEhP9LVLoZc4NZu8iM+i2UX6UMPXAgNTAF5xk/0OSLDxYS3m46RRPWY
-	ub+22qIJT6hf2gj+kqLiO/UJW6iQRl6dnbIZifT5XdYeLv/G5G42ujLTlMqlCICoo5QCo/2pI7Y
-	4a1DCEpTgx+GMkkAC6PSHByloFhTzHAg==
-X-Received: by 2002:a05:600c:3113:b0:496:b39f:1a03 with SMTP id 5b1f17b1804b1-496b56e6dc9mr85964005e9.5.1785134531746;
-        Sun, 26 Jul 2026 23:42:11 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a01:52d:1da2:a363])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4866813sm229103255e9.8.2026.07.26.23.42.09
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 23:42:10 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/10] python3-setuptools-scm: upgrade 10.2.0 -> 10.2.1
-Date: Mon, 27 Jul 2026 07:41:58 +0100
-Message-ID: <20260727064158.3784068-10-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260727064158.3784068-1-richard.purdie@linuxfoundation.org>
-References: <20260727064158.3784068-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JNyA6oeW;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NPScdxQ0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019fa256a8da-7247acce-d533-4c7d-8bab-a884e99b31f6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1785135016; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=wLTqP4QaB7xG3ab+zsXz4jyrZ6BsXfRR9naYeRj6K24=;
+	b=JNyA6oeWC0idUhr/mHTkNGgYyYuJLeMsY4+x4gx2hQH57CfGj7oh68+zz5r5c/fp
+	H4v+HF+j57N7Drd1Y3ZSUgj/6O8pKw5cAdIQF/6JqyUNHSeqcRR3a0s6/7CeKSTZqGe
+	EtBxjOUm2c0XwXNBvSVNn0hy7cV9k2gmotwgtMFQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785135016;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=wLTqP4QaB7xG3ab+zsXz4jyrZ6BsXfRR9naYeRj6K24=;
+	b=NPScdxQ0w9bLXyyalcFSg1YD6ni7jE8IhdIac2ad/96oY6gY1SrJalwYXrRxtVx8
+	86e3Y8WdaTNmcTfoT1s3k4TDyEjXIkrr84fdzo4hpVbQ65ehweIGRHooviRooY2v4ru
+	rJKHIIfcWBDhOnD9ptLOhV4w895VlqeAEZgTjFqo=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 06/10] dropbear: upgrade 2026.92 -> 2026.94
+In-Reply-To: <20260727064158.3784068-6-richard.purdie@linuxfoundation.org>
+References: <20260727064158.3784068-6-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019fa256a8da-7247acce-d533-4c7d-8bab-a884e99b31f6-000000@us-west-2.amazonses.com>
+Date: Mon, 27 Jul 2026 06:50:16 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.07.27-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 06:42:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242047
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 06:50:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242051
 
-- Omit ``scm_version.json`` and ``scm_file_list.json`` from wheel ``.dist-info``
-  while still including them in sdists for fallback discovery. ([#1473](https://github.com/pypa/setuptools-scm/issues/1473))
+--NextPart
+Content-Type: text/plain
 
-- Pass `project_root` from egg_info to the workdir so file discovery is correctly scoped in monorepo setups. ([#1440](https://github.com/pypa/setuptools-scm/issues/1440))
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...etuptools-scm_10.2.0.bb => python3-setuptools-scm_10.2.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-setuptools-scm_10.2.0.bb => python3-setuptools-scm_10.2.1.bb} (89%)
+Testing patch /home/patchtest/share/mboxes/06-10-dropbear-upgrade-2026.92---2026.94.patch
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_10.2.0.bb b/meta/recipes-devtools/python/python3-setuptools-scm_10.2.1.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-setuptools-scm_10.2.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools-scm_10.2.1.bb
-index d3ff181ad6b..608c0ba47f3 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_10.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_10.2.1.bb
-@@ -6,7 +6,7 @@ argument or in a SCM managed file."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
- 
--SRC_URI[sha256sum] = "ec8ea1738b92e42146a46e29a0e9de9ad462744c63cf9778677b95dfd605adde"
-+SRC_URI[sha256sum] = "4fa7dd82cf8c800df59c9a288c90299b1657ff1ecfc3f5cc00287c5dbf5e27a9"
- 
- PYPI_PACKAGE = "setuptools_scm"
- 
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
