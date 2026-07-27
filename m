@@ -2,59 +2,59 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE53C54F55
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2F4C54F56
 	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 22:56:31 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43754.1785192983541654987
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43757.1785192984108608893
  for <openembedded-core@lists.openembedded.org>;
  Mon, 27 Jul 2026 15:56:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=k1SRK5QT;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1668b11650=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RLcrRW1516469
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:22 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=CBmom1bE;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1668b11650=sumanth.gavini@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RLx3k01688372
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 15:56:23 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=9fHc6cgZgRbhKyjY4NXr914NBxt6aPRaq7TIYGoB/pY=; b=
-	k1SRK5QT0W7oVCRdABXaW1iCpoUXn+kpArn2icm9E8dpx2a0CpQyWDYHv4wPV2gE
-	SnOO3gMFGvy7K60+9uC99U/3RqdCYr8Vfh+8HcjlnayHWlnf13Zf/+p+re3cRfh/
-	QMtx0FKjBXlDjmFtTvnQJq8FcCKjx6irj6kc8AvDmsH4Wx66fQ0WYzO4Ok0NHgEc
-	ivsohs1uT/LcYsXBrjyH5c0TFWuBVaspUAe7oHJ9tXbydiHdPj7WRkx4CDRIDD2Q
-	IjOETUTGh4g6dzJN4OzG8pTp4772LR3nyLlCeLFNcx4I697bInFXrxGZFrWqjLEr
-	wAPEjXNNl6Jkr9ebzVCCSA==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011046.outbound.protection.outlook.com [52.101.62.46])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fmm43u17m-2
+	PPS06212021; bh=MfgyRssN+UdYrwV1SraStVNFPJX3DlPW/QUr//Ar+pY=; b=
+	CBmom1bEb5mQzTHQqTgxa/EWAkJmYociFnT0m72nCXiJj0+vMnHbfGXmL0LIqGTl
+	+EJuVLDIs3gWECL99bCOQYyl/6c24njyZ0R1cPa23Kx4YT+QUdPbTK7SJzNBPBid
+	woSb63ScHVlfCfruUZoEu6yuV500PPYTZ0gen1B0Vknoz7E5ATv14peXHeQfOFzv
+	skG8ko2xXVn6Tw/EGkmj0V/nig4g3dm0clV1+i5M8zOluD1dajM8iKSp6s+cthie
+	fDHeUGqlLp0CoI2RSLPCo7/3evd0bjRwtoA/KrrlVXSYMN+hN33T+M/XrFACLxws
+	vJLsd8CK476clhtOMYy3kA==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012012.outbound.protection.outlook.com [40.107.209.12])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fmvnf2s9c-4
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 27 Jul 2026 22:56:21 +0000 (GMT)
+	Mon, 27 Jul 2026 15:56:23 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h7EwsnWSsOu1KJ7admNt2iThbcvU0TLTCPNT0ruon6cqxCsXZb67vdquhu5L/Sh3/8LfoFZ+p7HUbvxCZeFrVkEJN1HCHyfazTLf2PrvNSUKlyxsRUodic458kqDTx4KSDSlamJ7qI9OTgMpXj612VOHwL7fMPY8i+H/+7MgQzsQCv/UvfgXPZUu1kKLkYco2n2LH8eL3sn4opGuHUix0VdG+/pmf6ogwrQWlMQIV9MNIXRZoJo/SsQ5svX+a3KJKsKiuo4i15iEFtmnM79R2Z8V2ARKNOIJsBBaDfaH5Pl0UatfaVVe8t1OpjNmeZlI5e5s9ftDlcWnVd7pV3j1Ig==
+ b=UnCh19HgkUT9OHJxsnMJI2sPo/q21aC2jdEm+tyfPREcS5a/LX1OBkR12xwqM8kMke3EKsDzFmtFU9DeTPwLwdlp45rCaJnd8Y1OLqrgs274QYR68mNwnWGrDFeCSTbAYcI5q8vOGMLVN0y//ZV+5YaAc+dlXlInP3RJUJuUc28tDE6ZOjNLc1fKyhvsGLDon9fqzZxET0oTYVjR3QHCJZmelYMf66p3hbYa8ViuuLBXQG9ZkXBMj/zV77Dbpi18VX+qEq0Sx5trrg2dIbyDm4okLNeqCnZW3qucYxSEGWQQYQ8h0YqcJKJO67h1Ryq6d2FzY3+braNBel9lS2Edpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9fHc6cgZgRbhKyjY4NXr914NBxt6aPRaq7TIYGoB/pY=;
- b=NqMPyNzBG/x07qHM8H2NR62KDKQPxfjg4Z8HqXXDiCGQtqJR+s2UzrU8AH0ZUQD8ubeafN68tFWjEE3NFFzPsHfcUv0ScVQquHQTM6EYMJTRxVBH31+geUNu5N3GAUDeV1CM6SFZ93TNnZMu8l+gZ07//qTN1Ig9bYy368QUbC99ocYw+fAdRjMyB7utH40/quLD7AeRA1SEEUf3hnP9NPTwPiFzIg3uwZ4887ZNNJTfEXt9FAd+HwiwG+TsUbnYtnMp2x3eul/yYJZCQraHLZtE/vJRA1QYKfyvJgCF1mRxqOoJ6yjZKfw3J/c4NZs0Kg3cdMTCPDmKZdzSxdYoXg==
+ bh=MfgyRssN+UdYrwV1SraStVNFPJX3DlPW/QUr//Ar+pY=;
+ b=WNraCIYoUdRkNeqEwso94VnplYfHIoaEaLaJNv1ZNU+dOCjJ4p6re2Wctoq6UVbt8qmeMvNPOx4VtAPD0G736k1aN0xKjDX6uG+U8b3YY4bV25sAX98FPXaZTpPTswkHUNKchS5VYQi3rRlUcjWcpzHanAzINKWjss2oB5jt0TAaiwajkUJNoCINT5QWWEBvk9jvmGaU3XHu9Edj+PcGj64rB5TZ518ZA0hq3lcud+xqX+hdbLARzduGhyJBewYafMxpYZFuUxQ1cGKv6ACV08FWyH+9Ky4Cqd+/mfbAJR7t+5PcIPtFd2E5ZyztH6A0M+hoUg71fmzU8AhZiYUg9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
- by PH3PPF8517B3F27.namprd11.prod.outlook.com (2603:10b6:518:1::d35) with
+ by IA0PR11MB7259.namprd11.prod.outlook.com (2603:10b6:208:43c::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
- 2026 22:56:18 +0000
+ 2026 22:56:21 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
- 22:56:18 +0000
+ 22:56:21 +0000
 From: Sumanth Gavini <sumanth.gavini@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
         mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
         randy.macleod@windriver.com
-Subject: [PATCH v10 1/8] package_rpm.bbclass: Drop external dependency generator to support rpm 6
-Date: Mon, 27 Jul 2026 15:55:53 -0700
-Message-ID: <20260727225602.342005-2-sumanth.gavini@windriver.com>
+Subject: [PATCH v10 5/8] lib/oe/package.py: Don't redirect stderr
+Date: Mon, 27 Jul 2026 15:55:57 -0700
+Message-ID: <20260727225602.342005-6-sumanth.gavini@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260727225602.342005-1-sumanth.gavini@windriver.com>
 References: <20260727225602.342005-1-sumanth.gavini@windriver.com>
@@ -65,242 +65,114 @@ X-ClientProxiedBy: SJ2PR07CA0005.namprd07.prod.outlook.com
  (2603:10b6:208:57f::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|PH3PPF8517B3F27:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c84805d-e178-462e-6f99-08deec324463
+X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|IA0PR11MB7259:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83a7b30a-755f-47cc-cfa1-08deec32469b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|23010399003|52116014|1800799024|38350700014|6133799003|11063799006|10067099003|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|52116014|366016|10067099003|11063799006|56012099006|3023799007|18002099003|22082099003|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	QLagPcwbSdMc+lHbu23U1Np5kv1nB6FONwOkoYA26gkRcShIVP40EJUIZrSXWfgWf1H3cCOWtvV+hVcIlE5hvlXrB1OPe8Lt52gYx1r7xOkdDvfk7M7ajVaq2xCNm927iJZTLrzy7CnXV5qN2MNfR+fyh56nGhIYBxZuIg5y1mMowoUOdNNaqgigdBehcVRNmn23+5PucpsNLpd5nk7yrttMCdqMiKSI1Agd0y7Syre3UL2k2t+iR7dzvSi+vW9YuXp1OnD+ISK3MQdGeGWh5Q8X0ASr4sag1t5NGqbs513DHIQnfNf0qMPJhfoKSVhR/vrqldpXohB9uT8CE9/M4o2F0whbCzkQgVa7/IbOBrsXP5OT4BFoOU//vVAfofh6Hmo7O2EYDkeMDdIIIYh5+QDc3yRHqt7lK6txhRNFNpPJ86k+byqsDloaDjKYHv3wQ3j66BPIIYhOIS4fM4CFlvjDo9wcJD6dRJzQ18pKS+0IA8qCGSQigfN8kRgkbJGAmls1JeaBlGq61vgy6/hDiolaHVH20CbZxPbLRoH3HN3Yg/RmYPxztksgRZXX99O6xtIrwaJgMW4J8uLcQHnHxJtNkCG9x9i1YneL+Y9L1mF7IkewiG7oFFYqKvRzyOd50czoA48pyi6RQryvVYTExA2VAKYqhnBpr05N+71fZf4JJaH9mb69oYEiMS8mtIAAqhp2kD79nZN5HF29w9EZQPf7J2/l92090eh/N9eQEGU=
+	8cD7oVwsaKTdMEpmF+Fyh/2MUnA5OkUs2q/ipYYFE6Eb4FThhcKrzjb6dQ0rdiQnKVPZgInimy6QatHtdAAr9CSXTa7cSiFW3YcrrHpxk9RhcNCTDvPyCy7QZ5k5u0vZql3WkAjLZBDyJRX3o91RtBnHqSe1MyJ/NPmy22CboueSOeT1FS0jwd+B1th77C+LZ5LUpTNf9TuQECBe6qoQPZvUu+OEznkLua8hQwqRwWr/2c2tesRScJbnt049Cd6MsEXPZIFein2bY54DQqrbfbqccuI0MVb82lNCbuYQlYa3AY2CoFCW3vmifdO1G8GyrBsMXnFf4cJYtCfiljS5T7Gq59z1cZncaPCvcvQm4dhH56U3Pid2+HKm4s8YI3pVaBzhxiErZIalzJHO3LzGLqePNfDGNxNxuh3f3FGr5Q0pwh0zrvffR9pcjyUHch1+pAiuQvY9lEG+9Ob87C6FZlaE3tBkI8+jKTsFQfyzXhr6NVD6KjhZviTRvaBYCKOdgQCi1D/H2JR8XUFud5qzEa4YO4865chdPsw6lfo2iVf2TK/iFUCR1EIFQ+TwMZa5Kff47VXaCeg+U3TB209tUOgh9oQGnbeXLd0XHYNxl9+ooveVNZqu4/RmtUCdRgc2+58S8+D6xaewhzqCi+A1bk27w40BtUdM28JnsGsaGVvuHh5ZdnLmeW/B1LMXpuGReY3NGgrg8QHBZ71mpHbNd/IDnH7qSygxaBrp2YpbwJ8=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(52116014)(1800799024)(38350700014)(6133799003)(11063799006)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(52116014)(366016)(10067099003)(11063799006)(56012099006)(3023799007)(18002099003)(22082099003)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?qAHShuIGEo+u4D7ohLgv/6Y9PwDubXIG1guvBq/A+s8MD8/GAUhjp7FR21YK?=
- =?us-ascii?Q?3sHVziSTA02NBT3GfxQs1hC5SljQJPkV4gp3cVS8mjpVMRFkqzAPzFa1gpDN?=
- =?us-ascii?Q?pCDuUDpVVn2rR0WQ8HVenAcFoa/opbP2O0+0qC5lKQ8YkLV9sI+XLB4ICu0x?=
- =?us-ascii?Q?FXPmMozmlj40EPRY4cQJgX9lBk5ya5U3aMmqgQ+TJS+HTOWu2seCID78MCXN?=
- =?us-ascii?Q?TXFL0exr4jEbnp9PyADS8V9vvJbKmgC4ExcfHAX0RQfqzpPiseXl8ffuEqiT?=
- =?us-ascii?Q?uEFrYMuMO3+fiH/si0Hccq/LYA+vj4a/4J/L0Qzn3jGFk4b2ZAvS6yvrbEsX?=
- =?us-ascii?Q?Th/rFBrxQk1v6qXoygOQKBCJCLdNVc1eSbFGTyhysUIVqjxyKU/SYEewfmRl?=
- =?us-ascii?Q?zPV+bZzPjR+kQxby85++3ES20xYzrDLptYLLma6jSZRm4rGtIiWGf0yppbPX?=
- =?us-ascii?Q?pXIoDldxQxJ6w9EriFktZS3pw3rgh0RoGkzwNd9RVa7bINNAyAxa/y9lEOIR?=
- =?us-ascii?Q?ziNWmggtJ+8hGf7lfdPs9/cx2PoZAPp4AglWaNPoFBWBlpJK037db7q4GX2f?=
- =?us-ascii?Q?/+zu0WI4Zr5+9XU0Mdw4WU4UsJ25FNSqsHwWVQNd+lTD5+OQsFPch3zaZY0q?=
- =?us-ascii?Q?Pp47sHCa4Zm84ch/f9xD/K/5AskX2VDf7ZDYUKppFR2YrxEpZMohWEWGbQRC?=
- =?us-ascii?Q?T8gMDZ7NEXQY0AmNWF2GTWLCrx7xSBXMM/MvbezzLl0oRuPtkesi+95BNDoQ?=
- =?us-ascii?Q?xixsHF2ysdDif+sDNGkcsYZ2yD98BoNs2qO2GB8oyQXmE/+090zI9TNi5yCl?=
- =?us-ascii?Q?NiOYcaxbn+AhSCoGqY1eQv7u2ZNZ1JT3M+wC/z7wYWF+hRZFmJZtP2nl7LH0?=
- =?us-ascii?Q?LLI6ekIvQI/SzaD8wDvjT0Rpqfi40FTpcUjsWfm6FQs+Q988Go6TVUWo81RI?=
- =?us-ascii?Q?P/XUb9j5bB9LvGSZJnQeWJzpRmKo0j/b8KDvEomilyv+G9w9p2li62FGbfPC?=
- =?us-ascii?Q?tAe3za8ShLIhyf9omzN23FilQMGz20BNuyrOr92KcbfGX7GPnQkMMXh4TB+1?=
- =?us-ascii?Q?gzsJfO4amWcyujVyS6oKEa+Sgh9HwzB5iG1J+IkQ1bjW+ExSOpdymimX9JPk?=
- =?us-ascii?Q?tus9eCXYA8gnvlKs6CXineavU3a6lyuMjWuC8eawjGCZl/wsZtak3HGegQLv?=
- =?us-ascii?Q?qdlvGHEdEvZtJYHx1CBG8qZEtsY62ePCugRT3jDddBIB85QOa/P5z6C2XHKG?=
- =?us-ascii?Q?XttfWa+tRXSRf4sIrfT0h/icfBlomq+PBZgvfHKffyrKs9CZL5CbAjy9uJQT?=
- =?us-ascii?Q?UBtNRLjsgYQJ+9BqTDPkv2uooO+RyrALDyBb6UNugtgpuKCWRU4s202DdfSG?=
- =?us-ascii?Q?VbkNSntg742BkdUNf0jdL6LYvwSDRPMa+CJOAZzcNUDe982g4lhGVQTZdF4m?=
- =?us-ascii?Q?AMDcGTVovJPHcJf1RJJk+/5Of82oo00Poh5/vPWYKuhjJSpEM/+OQA25PIs1?=
- =?us-ascii?Q?4rPVhOcZtkp446MdYNMYBGN949MRh+Dme9Z2wuSZxvXEQyyztjL8pd/THQ1G?=
- =?us-ascii?Q?PHBJ+R4VniTe/sImitcJp4WjOazipFaH5SN0KOCtYcQB7weHXkyANNSo3JZP?=
- =?us-ascii?Q?+1yNpxLvLVr3UeNSFDOpfQTtwC7rcPBdyk5EcAktXARsKaaRkhquNID4QYYo?=
- =?us-ascii?Q?8kzcewQbavC3FOGunFIbacm+q7AIC2nnpgPP3dScnw45vYiYivA05gIAEZPj?=
- =?us-ascii?Q?4na3NqfyXn1PH5hbb7sgW4vnLOzPScQ=3D?=
+	=?us-ascii?Q?L1UY370sQ/fjToYLzdfmPHmcgFcF8Ix1fQ95elVTTLy3xYUa3aNZOc0gl1M1?=
+ =?us-ascii?Q?4Yz4RPUlIMBtxSYIzP15iwZiuqAYsQF+BZbHNEFT0c0t5ixtNmtaaxg77Sxp?=
+ =?us-ascii?Q?STNFMgBfkEf0NaigtPahOmCVoQU1ZT/YXVFU/Zt0lwmU4Em4p7QkEh1fg5GN?=
+ =?us-ascii?Q?auT7TsUZiDXSQOD4x5SAvl4D1tL6hSCRGNi9vk8F6FK93OYquumZcm+5WDLG?=
+ =?us-ascii?Q?9Eau3RT2mDIyfztZKerNbu0DsKPWYybSz5QgvjKFufpWm9KUt/yUoIuTw2a7?=
+ =?us-ascii?Q?sEnR3CfHd9hSYiGzHPijkbCXz1knHpbz+K93P0s8j8FqS3cn2c6HC9sUoSl2?=
+ =?us-ascii?Q?h123syMqlCsTq2NUZOL9/6zpBvTSApfme8plwz5bltsAY42jGFnNyrSQAfXH?=
+ =?us-ascii?Q?PnOJXQmDsh3uMG8si31khwHg93N/dWJ79UE6/6N7aOWAQOWbsNJYfWwT5S+b?=
+ =?us-ascii?Q?T5bXqnW8J1F2NfH7Bks8xHH1QqTVLtvfRGNvjkS0UoZnd2ry+ciPWZTbi60E?=
+ =?us-ascii?Q?aJgWjO69Ls/AHpmdIOadZaYXOMaR6e2ull7uG2UEUs3dKoeK53Qq6oI852pP?=
+ =?us-ascii?Q?BYTXIaqRGQE7dCDX7PeC555G7wtkpKC95X4Zm1XDy6x6V5qt0N0JyfeU3KUg?=
+ =?us-ascii?Q?C1FyWv8WL+1H7GQzNS7neieCDC4evoIW2f5Fvq8Dd54dNF5RECUG+MAnC2au?=
+ =?us-ascii?Q?urZV7z2CjgyQ3EP6ltH7sBUNa2KsQtjcAvmLzYDm3wYzqzmVXVNU2qIbEi7X?=
+ =?us-ascii?Q?x+nfIOSNBeUghbq7JZhmQ8boxMAh9LclavqdZxClfEED2IHQJW7gNMhc0kXJ?=
+ =?us-ascii?Q?AuDblrR41QywYtbOE0PHQInjg8qRFGUbcM0HttHe9dTPd79FRHM+DXKDLY1n?=
+ =?us-ascii?Q?nFKOyfDYgaY+89cC2ooetruFBbQOjrVbQY+EX7HOgj4jmD3m6jvnUH4GWkqa?=
+ =?us-ascii?Q?gItIBqW7YRcXvUYKHd9SrjzjMTvohHjPuDqYYlUbfmPf/tr6QjGkH4FuMWMq?=
+ =?us-ascii?Q?kWaIyPKek+e0cjtQmrCl2lTmg31MDNygSSOUDgQO/tq2p6Go7425OFMyjepF?=
+ =?us-ascii?Q?lq10gOMAvk2SjLX2mBRZEX0WUr2JRMKdGTZiku+tvc4hD2zq8k/kSmGeGkDU?=
+ =?us-ascii?Q?wIuU/3jlhhR1QFEAc7A2YMZgNUFOHyDtWiVNgK42L+BA4LkvyqgqVwKYAEk7?=
+ =?us-ascii?Q?E71gSOCpYqahQmnFXRjoFpHoBkWh3y6n/l/CYJQHsyavoBl9xF778CdkRRwA?=
+ =?us-ascii?Q?UkCIA+jQwNyCW6qzbCtKnr5N8HYbSKspEvT/+7Oj9mqFfMh5VUmMCHCf8yIM?=
+ =?us-ascii?Q?AmedTDydYWbxczIgAxctOoTFfP3uwopE7Ip7wVqnbGWv/6pjkYbTQzUIWPvF?=
+ =?us-ascii?Q?/yU6GJPQIwbfmSdqDoX2dzqBt7XIrO65v6LiZEYhLBais8A9XI1B9WwNXyjV?=
+ =?us-ascii?Q?PRSpyQijXYetg50uxTp7VumsVcKJ8HgwbaVtle13sTKyicSyZyIFJEuUtioc?=
+ =?us-ascii?Q?ANK0jF7kepeWlRvmFarXU217FjPfW6jys/xnVfD+lAL+G46TQtZxRiFTzhgp?=
+ =?us-ascii?Q?GzXqwHIdpMIc1t3IprRTQI9NYvKNXEhRHbTOXUcyt3H+KHuatkk8qp24NxmX?=
+ =?us-ascii?Q?UfHaozZQstSQJgCJtN2bgUuC8rvNnf5LkQRxX48LIwTpajxzHKxzHAGffieb?=
+ =?us-ascii?Q?ulnpjNOQhaV/6AG9dGaR0KGWuRLWu+7Bo5DR3DqbEuHVvF9C6h8DmKWZoHOk?=
+ =?us-ascii?Q?G7UZAL0dvzaKZ+YFamIa4ixRSHT/1NQ=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	ErBLQzOJUKpDXLB7DSwAGF7fhSaeHLiVUC3jZXQ8C+fsS5ei2VYKjRI0viKIdb7MAZeXq7U8MuJ9zueZWVgMPP9s5w4tWFcpoH0yJU73FNWQ3tGfIm0dyCNFO6jGQGP2XEvUfUIpv1GDxFrIaUop8SW5ITRJt5tBtVhYbOjuUIsVLv9f622TAcD76Tow+t/EvvPyafoz+rn1qgI3Jg0KGCmSK/HEWC40SkODvGYNsgszXO7r26BX/e7/CMsgIIZAkc+zS+cVkpF8ozuqgXJEeSzdMlAtxcY0xvYNGf0g6WWeW14gi7OX6TMU1ifzip8hnRGAj7fOps8qd2McVSRWaQ==
+	BFRWCy8/tsWtANiZxKokCgmuXwx6MvWxj5958fyMgDa5blEO7MaM1jT4/GhL1OKl7IqP1legFSCBsVgF6lHgAlfmR4dDwaAToVC4ELVkPw5d2HMGzXvmOIMz58VDl6NsSGU7U25+f+RnIXKLENqBFwgrSqWx9OMVFpjR+KlcC/zgm/u69cf/ICF7hyv6SvpHWjib4DQn4ZaY//KUAId1LBePHzIoI+J5jgMAdngpBbrkpEnxy+sW+mwX+GPSCllEVPakcZfyePmwtPimquVXEdMl1cIbt4fX9tS9J18y7vUAGOcBlzRcdznO5rVq9ZXT21Cpt5Yu6cudSjXzUoRSuQ==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c84805d-e178-462e-6f99-08deec324463
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83a7b30a-755f-47cc-cfa1-08deec32469b
 X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 22:56:17.4186
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 22:56:21.2088
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tgh4GW4ke4gVGjd6rxZmHcDXUVXnOWER5Jm+sbE9NuBlBljMaOsU4pj6cZQmWKYWHw3WBotvL9rLaLuOB7Ss09Tjy46zdHDuT6Hp4yCx100=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF8517B3F27
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4v+POnlq5MSq8mCwFDm1ZDqynothaCIdNFnDrDkvUsKD82NPBla2b3dFBMPb7AeYZLLg/z4RjjOPU4ZSG7gy2x0ol6nNE8w9Fz3aEao09YA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7259
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=I/JVgtgg c=1 sm=1 tr=0 ts=6a67e216 cx=c_pps
- a=m/LAOfpIcXRJv0ug5Ru3ZQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDIwNSBTYWx0ZWRfXztrzgFl0VlsQ
+ +XEK7w2B1W6eF/bT2Kw+MpLsGurbxH+VjuKBnp8LjidGIZCsJZA+TaxmveU5vDjeqjgsvwHmL4q
+ GtPY9n09OOhps39JxRz7ZI8ACLhOXPNf7qblCj7VdUX4Dl2ZoEld
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDIwNSBTYWx0ZWRfX9px8dvkjGoMe
+ PJx+rFVwJ4txWndpGWO3QewaYFRZcnN1y/UFH7IbDKs8Kebq+BLfuxKqa2mBc31ojC+RtxgGVy/
+ PTaFRMQYwYlcCsRIzhih8VZWevKholRLhwpvrwJQV0GJ48wMKeCbRPQeiBbF4kWlhNV3ITThmEm
+ IF5tjiMrZCmlsqaFILLuUtrGxuprouAHrSPn8QIchZfnALx4M4Pkbjww/MBAe9Rs6ADucHTOkMf
+ WQQhLVNyfOn4/Qptaf9NL8oXnXajP0AXY9r4Nvsy06NhOMQAdXdZm5jGCS01l+ZmrAkyqj6GJ/5
+ Qr3zhi5QagYEHjPuFfwUESMUDZFjD68V+upQ/1G+8lvsl0uRm573NqMinJwYy0o6wLx1jD+wwaX
+ UJf1vM+SQSIR7m85iGX2dUUTxmPgiaXSP4dXs5c+FfJcSo4o8rZYpfYr2m/E83rwxsQdCAEmfwx
+ ssOoWqj/sQUliuCOlMg==
+X-Proofpoint-GUID: rfkrOFNRhHgzLVCxTJL_kZ598YKHakqG
+X-Authority-Analysis: v=2.4 cv=M7x97Sws c=1 sm=1 tr=0 ts=6a67e217 cx=c_pps
+ a=ul7AMzggcqKAecwK2qVOCw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=gH8vcDOTmKDoYkm8A40A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: ym-SoIxAd7Qe8tOQAZ5hWyMMFhaxdrwm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDIwNSBTYWx0ZWRfXyM3ul4UE210l
- hsHCTx/GVj5ig3B/ZkEyUd5fFvk1DkBm/ZWPAEmjI01qxeeBFbaDEfQ96BGSK6c0LHqWMkk3F6Y
- dhm1UtnqNz5iedEv/NT8uSVAkE5aVJbD0LcRmY84thwt11Q458L5uvQ7nRNerbGIL8/dz4pw6Tw
- Z9VSOlaoFx1G+jb7cNuJ2IOMim0hS4pIv2O+1Hr0JvXcJoMZN8vC9hl7+yP6/7zFnSWP5BndIlC
- OKv5/gOkCakujD0gV6kScZTFmfGpoTZW9QJpiQiZz227uXY6zdeU/rMo1kY0/xnqrswrbIto2wf
- KK+QBimyEleHIDHUujpNP4XV3lx6qv4vu+7secTXWXjgasFWmfnz63eKEpVQ4kmNlG5Zh83NGvh
- xWS/LKX5y56kesX9OqXceobvjBdskN6lnWDX/tOU9WiuQXwoLktzOjrQVi0LtJbCv8YXSnY/v+r
- vTF+jHSuhnUOiVLLg1A==
-X-Proofpoint-ORIG-GUID: lR7gtej2fF21CGhV-Fq_ebSQgi8I64tr
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDIwNSBTYWx0ZWRfX2CJwTAQVsi8/
- fj3QcXveqjVWrQWSTZqG+yB/KEW83PonH/qTLwd/tRl4o/eDoRBYe3p/lQK5K5jgsTYtNgjYYYn
- lolPTPuqvfL+BVMjXqv9aY5sglphDOER07j5vmwyiVdxk9ym/noa
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
+ a=gZyeYKPtWqWysoXHKEgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 6rYGTlMExSJSHopNv5TF2DaNsIWurGqI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-27_06,2026-07-27_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- phishscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270205
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 22:56:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242126
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242125
 
-The rpm 6 doesn't support external dependency generator. Oe-core used it for
-per file dependency which was saved into pn.requires and pn.provides,but that
-hasn't been used any more since 2012 (rev:
-be40f6d0bb80274366af00461112af65687a4de8), and there were no complains or
-updates in the past 13 years, so just drop it to support rpm 6.
+This can make the debug easier.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
 ---
- meta/classes-global/package_rpm.bbclass | 84 +------------------------
- 1 file changed, 3 insertions(+), 81 deletions(-)
+ meta/lib/oe/package.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 9eacd91cbc..f286d3a0e2 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -14,10 +14,6 @@ RPMBUILD_COMPMODE ?= "${@'w%dT%d.zstdio' % (int(d.getVar('ZSTD_COMPRESSION_LEVEL
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index d210b4a73b..d6617cbac3 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -291,7 +291,7 @@ def filedeprunner(pkg, pkgfiles, rpmdeps, pkgdest):
  
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+         return provides, requires
  
--# Maintaining the perfile dependencies has significant overhead when writing the
--# packages. When set, this value merges them for efficiency.
--MERGEPERFILEDEPS = "1"
--
- # Filter dependencies based on a provided function.
- def filter_deps(var, f):
-     import collections
-@@ -36,67 +32,6 @@ def filter_nativesdk_deps(srcname, var):
-         var = filter_deps(var, lambda dep: not dep.startswith('/') and dep != 'perl' and not dep.startswith('perl('))
-     return var
+-    output = subprocess.check_output(shlex.split(rpmdeps) + pkgfiles, stderr=subprocess.STDOUT).decode("utf-8")
++    output = subprocess.check_output(shlex.split(rpmdeps) + pkgfiles).decode("utf-8")
+     provides, requires = process_deps(output, pkg, pkgdest, provides, requires)
  
--# Construct per file dependencies file
--def write_rpm_perfiledata(srcname, d):
--    import oe.package
--    workdir = d.getVar('WORKDIR')
--    packages = d.getVar('PACKAGES')
--    pkgd = d.getVar('PKGD')
--
--    def dump_filerdeps(varname, outfile, d):
--        outfile.write("#!/usr/bin/env python3\n\n")
--        outfile.write("# Dependency table\n")
--        outfile.write('deps = {\n')
--        for pkg in packages.split():
--            dependsflist_key = 'FILE' + varname + 'FLIST' + ":" + pkg
--            dependsflist = (d.getVar(dependsflist_key) or "")
--            for dfile in dependsflist.split():
--                key = "FILE" + varname + ":" + dfile + ":" + pkg
--                deps = filter_nativesdk_deps(srcname, d.getVar(key) or "")
--                depends_dict = bb.utils.explode_dep_versions(deps)
--                file = oe.package.file_reverse_translate(dfile)
--                outfile.write('"' + pkgd + file + '" : "')
--                for dep in depends_dict:
--                    ver = depends_dict[dep]
--                    if dep and ver:
--                        ver = ver.replace("(", "")
--                        ver = ver.replace(")", "")
--                        outfile.write(dep + " " + ver + " ")
--                    else:
--                        outfile.write(dep + " ")
--                outfile.write('",\n')
--        outfile.write('}\n\n')
--        outfile.write("import sys\n")
--        outfile.write("while 1:\n")
--        outfile.write("\tline = sys.stdin.readline().strip()\n")
--        outfile.write("\tif not line:\n")
--        outfile.write("\t\tsys.exit(0)\n")
--        outfile.write("\tif line in deps:\n")
--        outfile.write("\t\tprint(deps[line] + '\\n')\n")
--
--    # OE-core dependencies a.k.a. RPM requires
--    outdepends = workdir + "/" + srcname + ".requires"
--
--    dependsfile = open(outdepends, 'w')
--
--    dump_filerdeps('RDEPENDS', dependsfile, d)
--
--    dependsfile.close()
--    os.chmod(outdepends, 0o755)
--
--    # OE-core / RPM Provides
--    outprovides = workdir + "/" + srcname + ".provides"
--
--    providesfile = open(outprovides, 'w')
--
--    dump_filerdeps('RPROVIDES', providesfile, d)
--
--    providesfile.close()
--    os.chmod(outprovides, 0o755)
--
--    return (outdepends, outprovides)
--
--
- python write_specfile () {
-     import oe.packagedata
-     import os,pwd,grp,stat
-@@ -311,7 +246,6 @@ python write_specfile () {
-     spec_files_top = []
-     spec_files_bottom = []
- 
--    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
-     extra_pkgdata = (d.getVar("RPM_EXTRA_PKGDATA") or "0") == "1"
- 
-     for pkg in packages.split():
-@@ -365,10 +299,9 @@ python write_specfile () {
-         splitrpostrm   = localdata.getVar('pkg_postrm')
- 
- 
--        if not perfiledeps:
--            # Add in summary of per file dependencies
--            splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
--            splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
-+        # Add in summary of per file dependencies
-+        splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
-+        splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
- 
-         splitrdepends = filter_nativesdk_deps(srcname, splitrdepends)
- 
-@@ -630,10 +563,6 @@ python do_package_rpm () {
-     d.setVar('OUTSPECFILE', outspecfile)
-     bb.build.exec_func('write_specfile', d)
- 
--    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
--    if perfiledeps:
--        outdepends, outprovides = write_rpm_perfiledata(srcname, d)
--
-     # Setup the rpmbuild arguments...
-     rpmbuild = d.getVar('RPMBUILD')
-     rpmbuild_compmode = d.getVar('RPMBUILD_COMPMODE')
-@@ -658,7 +587,6 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-     cmd = cmd + " --define '_builddir " + d.getVar('B') + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
--    cmd = cmd + " --define '_use_internal_dependency_generator 0'"
-     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
-     cmd = cmd + " --define '_build_id_links none'"
-     cmd = cmd + " --define '_smp_ncpus_max 4'"
-@@ -668,12 +596,6 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd = cmd + " --define '_buildhost reproducible'"
-     cmd = cmd + " --define '__font_provides %{nil}'"
--    if perfiledeps:
--        cmd = cmd + " --define '__find_requires " + outdepends + "'"
--        cmd = cmd + " --define '__find_provides " + outprovides + "'"
--    else:
--        cmd = cmd + " --define '__find_requires %{nil}'"
--        cmd = cmd + " --define '__find_provides %{nil}'"
-     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
+     return (pkg, provides, requires)
 
