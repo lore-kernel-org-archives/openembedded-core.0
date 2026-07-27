@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD452C54F4C
-	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 06:42:11 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25495.1785134527903008951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17418C54F50
+	for <webhook@archiver.kernel.org>; Mon, 27 Jul 2026 06:42:13 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.25162.1785134525999179083
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2026 23:42:08 -0700
+ Sun, 26 Jul 2026 23:42:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XTKzgr3d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-496b7622a83so8824205e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 23:42:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NhDwtNVr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so15747515e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2026 23:42:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785134526; x=1785739326; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1785134524; x=1785739324; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=foTT+S1TnBZp2SJpY4wDAribQwkv22ff8hyIWuSde8A=;
-        b=XTKzgr3dt7CfP19fY6JfEuci08amprxxvp/vEgoecOcYyWOGVBFaQCjCuyqnlDrRYe
-         GL4eCl4IS5Xo2lBuwk9+8XCUtWKRnwDUP3dIb3vXSPHVVJJsWbq/bUXQCPLsEaW47I0P
-         yZqDTYY6212JczOmKNql1eBH8U3CtYeCyCFVI=
+        bh=LGZ1YLJHQFPI3SKQLWVWTrH0N1LClPCnH1RUv8zzNUo=;
+        b=NhDwtNVrkjvoITuVH1bk9gYeyGAEPUV5wCFOPOHOH5Zs2DELEIT8rZDPwmTA8TwXJ+
+         hzXL0k6loegCEf6Jd6v0/S1wo7Jb+3Yp90xQb8WAw/AI7ziomg9pMLXjkX+3IMUIJpa6
+         elCynH0T8lSLtZUUwZ/7P9AiwT5rblVKoU+ME=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785134526; x=1785739326;
+        d=1e100.net; s=20251104; t=1785134524; x=1785739324;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=foTT+S1TnBZp2SJpY4wDAribQwkv22ff8hyIWuSde8A=;
-        b=VD1wC2uxMLSf7Oaw/7COteRmKF0v5CoLtOCnm2/sswLDtgabG2VVNxyDg+YZOXvMXh
-         1toSHudm3GcIsC/u7iBMp9tiKFbA7vy6LMhwyGWFvnxl3HiU3rjf6aG4JKnwtGKaIkgI
-         v2o+iNOuWSwl8kEZlMOOldKn6+P7sTqMimlTfQ4IQPGTZMKEabGYt8WDUTwL/X44uBpD
-         TFquyRqmMu4hQ7zNoqUwscxKbtd3AeZ2aon+sZ6kGcY8D45dzbLBcel1KXSx++FTvjyy
-         IX9KZqQ5MiDuFU0sR9Ypi74KCaFIOEJg5wmYxgrBVn5+O0jT+hUjYGmknWmPJN0wr87c
-         TMGg==
-X-Gm-Message-State: AOJu0Ywxb82UW3EG+O4xvLE9L2oQUxdilblr/yL4OJO+LevYwbNYhPQg
-	WavZkgC0SyQ+HFkKY0R+16FBaNm47blNVrBrhmoYPqUgbS3wnz1e/5cN2pVvN0WPJmwVSK0cSpx
-	M+6PA+zo=
-X-Gm-Gg: AR+sD11RmkfoZjG+BrZ71DCaIjT6fxT7NhjxpL/660iIsNgCgG90heDNM+LpPk511RG
-	RqfVjpR5FSgGyXvw+1RMOylHcDBaHlaq2wecdUfd5CPHy2hRJX8sge7IfoGZOdsUbPlyx7iRemW
-	mA9Bxh9EhmmmYYPCO3teVYrC5/WkxMFRQl9AEBEn1CeeXI4IF6D6MerLK2tw4lT0ZAdfk4h9KZZ
-	fznTJAkvwO0pN2kxXiXofzk4Iq0lzWQ59wLOi5FKibRc5ydBLdlb5WRvZs1CeFreMOeLBUr12uk
-	7q7adB1/OPT21TE0Z4Za25Ho7E6y/2nHnVwyZSI7ZOv0Py7iLrkPyi7RuUMXlB6ApUSrBWBDrZy
-	QN4o4BNYscUmzdxi8rpjDbnvC4PcADax4wT1zAgNdpBO+fnfoBmXg/5jnoiiEJbf2xCiNQuV57w
-	tdVRm7Hq8AYpaatJNvg3U2sewdOTKfcw==
-X-Received: by 2002:a05:600c:c177:b0:495:4056:9473 with SMTP id 5b1f17b1804b1-496b5754455mr95369115e9.28.1785134526145;
-        Sun, 26 Jul 2026 23:42:06 -0700 (PDT)
+        bh=LGZ1YLJHQFPI3SKQLWVWTrH0N1LClPCnH1RUv8zzNUo=;
+        b=TT1Nz/zJIF+z/iBIgzxtaYhs7u2hrHFbtpV3m38XJyfJFTgFgZm+BoCuh1z2BD8opr
+         PEYbO+FLHe4nQu4SgH++m8plgoeeH0U39UwyxxnxyfyRSJSCVAm9Yt0/unW7vy+b/CBK
+         c69cQurBI7H9VNBq+MxTH+F9JwQQEBVXvraXBA0ubtkzPs/GyvT+zRveViU7HfNAg8e3
+         n4HY5YujmBTVu4U/OSNR3Nt7XTrwiTqFfa0IJvw351LozrrGSj8RZBARhIGNPh0H9Idk
+         aYiiF/7CvfS/25rlfAoMpy3o6KgNlBUdEP3e7OLrp3031bnMZlP917MFBAawVLOK2rGY
+         tYRQ==
+X-Gm-Message-State: AOJu0YzaYb2pg+KNUWCguXUF1U2t91axeplnJbwpuFU0O3w0LK1IqpHD
+	SruMck5qaBd83H28t4KQUD9tXAzd72oX01BoP9LCGdzUXnDYq6fveombJ6B2JHh2FEW/Xjx7+EM
+	Y+fRDnA0=
+X-Gm-Gg: AR+sD1014a+qNOpDK5Ijjhk6QJZFvFaR6JjfzhKjK7WIvaFc5JWVSi037pjGt1s9/jg
+	nAe7QeZtIfjdRp54QJdpe2V/TnKES2zt8yqoJGa0Y6f+wlu468f0jIGvvZQCQsx/FPNnn4GUc6h
+	r9cYZ+LCF4GtcCrzzH1+mofYfUPr+w8+FCvnOpdvcht8SBaAtUDytfPhVJDsQVaPbf/bygVLjtf
+	ZNvPDWzAmGNzwMj8naq4sC2xN9HLWSNCSg2D0O37b3F98A6emwCc3U77X1EBSlw+NxGETT74bj5
+	60IsJjLu0ZO5cZe9V7phvAMAF1Eu1EDK9BgfUPBfPC8mdsji586AeF9JcAWLfCsHGpP8QLC41IZ
+	3EQk8y4Wk1KefS3aPop93WJFx9uweUJzPlZ5oLJ1EyUkVvfuU4wOAqLndl4oSHy5boPltm26ZEd
+	IFM6aMtehwR5aHh76r6UK5/4fvUQBRSA==
+X-Received: by 2002:a05:600c:1c05:b0:495:607e:5ed6 with SMTP id 5b1f17b1804b1-496b6a31f1dmr86481935e9.31.1785134524055;
+        Sun, 26 Jul 2026 23:42:04 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3a01:52d:1da2:a363])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4866813sm229103255e9.8.2026.07.26.23.42.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4866813sm229103255e9.8.2026.07.26.23.42.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 23:42:05 -0700 (PDT)
+        Sun, 26 Jul 2026 23:42:03 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/10] dropbear: upgrade 2026.92 -> 2026.94
-Date: Mon, 27 Jul 2026 07:41:54 +0100
-Message-ID: <20260727064158.3784068-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 04/10] qemu/qemu-system-native: Upgrade 11.0.2 -> 11.0.3
+Date: Mon, 27 Jul 2026 07:41:52 +0100
+Message-ID: <20260727064158.3784068-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260727064158.3784068-1-richard.purdie@linuxfoundation.org>
 References: <20260727064158.3784068-1-richard.purdie@linuxfoundation.org>
@@ -64,77 +64,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 06:42:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242043
-
-2026.94 - 23 July 2026
-
-- Fix scp build failure regression from 2026.93
-  The new ascii_isdigit() etc wasn't linked.
-
-- Print square brackets around ipv6 addresses with ports, eg
-  [2a00:f10:400:2:1c00:bcff:fe00:1c6]:22
-  Patch from Seo Suchan
-
-- Support longer paths in scp.
-
-- Avoid some build warnings, add increase github action coverage of
-  config options.
-
-2026.93 - 21 July 2026
-
-Note >> for compatibility/configuration changes
-
-- Security: Fix a use-after-free in X11 forwarding that could possibly lead
-  to memory corruption. This is vulnerable to authenticated users if X11
-  forwarding is enabled. By default X11 forwarding is not built.
-  In 2026.89 the server is running as the authenticated user for X11
-  forwarding, in earlier versions it runs as root.
-  This removes X11 "single connection" which has probably never been used.
-  Reported by @peter-pe
-  https://github.com/mkj/dropbear/commit/882f83806d5e133037cd28e954a878984ef7b9c4
-
-- >> "permitlisten" authorized_keys lines will now be ignored if
-  the port is invalid (>65535). From Basavaraj S Maneppagol.
-
-- >> In 2026.92, the configure option --enable-plugin-deprecated
-  wasn't correctly renamed. This is now implemented.
-  Patch from Alexander Dahl
-
-- Two factor auth "-t" is no longer deprecated, it will be kept.
-  The "DEPRECATED_TWO_FACTOR" option is ignored, and no longer required.
-
-- Fix out of bounds read during utmp/wtmp log file handling, reported by
-  Basavaraj S Maneppagol.
-
-- More robust handling of ascii inputs for some platforms.
-  From Basavaraj S Maneppagol
-
-- Convert manpages to mdoc format, from shrub
-
-  [Updated 16 July: This is no longer planned to be removed, future releases
-  will ignore DEPRECATED_TWO_FACTOR and always enable it, like previously]
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2026 06:42:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242041
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../dropbear/{dropbear_2026.92.bb => dropbear_2026.94.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/dropbear/{dropbear_2026.92.bb => dropbear_2026.94.bb} (98%)
+ .../qemu/{qemu-native_11.0.2.bb => qemu-native_11.0.3.bb}       | 0
+ ...emu-system-native_11.0.2.bb => qemu-system-native_11.0.3.bb} | 0
+ meta/recipes-devtools/qemu/qemu.inc                             | 2 +-
+ meta/recipes-devtools/qemu/{qemu_11.0.2.bb => qemu_11.0.3.bb}   | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/qemu/{qemu-native_11.0.2.bb => qemu-native_11.0.3.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu-system-native_11.0.2.bb => qemu-system-native_11.0.3.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu_11.0.2.bb => qemu_11.0.3.bb} (100%)
 
-diff --git a/meta/recipes-core/dropbear/dropbear_2026.92.bb b/meta/recipes-core/dropbear/dropbear_2026.94.bb
-similarity index 98%
-rename from meta/recipes-core/dropbear/dropbear_2026.92.bb
-rename to meta/recipes-core/dropbear/dropbear_2026.94.bb
-index 4d9a9e10ebc..dd9863d96d1 100644
---- a/meta/recipes-core/dropbear/dropbear_2026.92.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2026.94.bb
-@@ -27,7 +27,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            "
+diff --git a/meta/recipes-devtools/qemu/qemu-native_11.0.2.bb b/meta/recipes-devtools/qemu/qemu-native_11.0.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-native_11.0.2.bb
+rename to meta/recipes-devtools/qemu/qemu-native_11.0.3.bb
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_11.0.2.bb b/meta/recipes-devtools/qemu/qemu-system-native_11.0.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-system-native_11.0.2.bb
+rename to meta/recipes-devtools/qemu/qemu-system-native_11.0.3.bb
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 6fca6bc4992..e440d748b25 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -42,7 +42,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ UPSTREAM_CHECK_URI = "https://www.qemu.org"
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRC_URI[sha256sum] = "91dcb5234de8dea68dd82c55411c9fc986b457ab58372a780ee8a870419c2f7e"
-+SRC_URI[sha256sum] = "e098034a843699200c8c977a991fff73159735bf795d5f72ef672c41a6b1ae81"
- MIRRORS += "http://matt.ucc.asn.au/dropbear/releases/ https://dropbear.nl/mirror/releases/"
+-SRC_URI[sha256sum] = "3745f6ea88e2e87fe0dc838b2b1d4e0a770bf48e01a1d5a186842a1fff76ccf5"
++SRC_URI[sha256sum] = "da5fcffc32762820568b828ed430a728864d34d50b6d2f30358597760cbb0523"
  
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+ CVE_STATUS[CVE-2007-0998] = "not-applicable-config: The VNC server can expose host files uder some circumstances. We don't enable it by default."
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu_11.0.2.bb b/meta/recipes-devtools/qemu/qemu_11.0.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu_11.0.2.bb
+rename to meta/recipes-devtools/qemu/qemu_11.0.3.bb
 
