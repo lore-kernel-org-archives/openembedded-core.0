@@ -1,150 +1,108 @@
-Return-Path: <joerg.sommer@navimatix.de>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B81C531F9
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 11:43:39 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.127])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9550.1785239016015686429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A9C3C53219
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 12:06:39 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9965.1785240396823213267
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 04:43:36 -0700
+ Tue, 28 Jul 2026 05:06:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=gmdKsnOI;
- spf=pass (domain: navimatix.de, ip: 40.107.159.127, mailfrom: joerg.sommer@navimatix.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q5FvOzMDDSvA6YZdQ7dr9kHEzTAINGEq8FbCVlUVSni2NFHiH1Z74aZtMH9Os+E/y6NYfSU7wgmQBqn1RiRmsEhfCjDSlNP77XtJOxEGWRjxlPWgyAQYYF5/nGczqEmV1fmIrvg6pgl5OrAYrN4Rxtr4xLDoRJetc08ekJkhYDs+EaZYaniLixlzUhIC0qxHAmrcRysY+QVDX8BzEHwSdCyMbz83Qr8J/0iNaMl45fGK43nNznhN95ORZ//qEGVEbe2iwJj07VsidM2MVQoZDSdGLjCFAfXbVUlQbJHqtgHPzb0TTMjcDIipUrqlvuC+VJuo10FEQqPkSVbuNghkXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+OQpfTiTop61GQkOQKrOBq4f8ie/NNK1Y6temCV952I=;
- b=LVadzrUq0PfOz3udfcdoUtA9kQBKJj2I/z7JmIoJbir/ZIgPI4JOO3RKwW7jwxif54XNjwUDPXAla+I8Avo9degyoCCfcUVnywe3aktHoQurq85GrH3eF9uRNGPl9ER1+CiC0vCh7fHVwXfWboMNU+VvUGsPPlqyq80xxF/ZKbdsqoqx1VuyXOUiarM8od4esuA1/Un9AHPaFNXMDrh+i/3zZ5peg+x0IVef+IAiPumJ7+DIOfIObTLxMA8rh6WnOhEVRlywSgjeG9l6S9HAZ7rTKazUxlu1ClPzpg3PLI1GRSkEghoKxWMyyx/9RnpRb6HHq1W49AycJrGK/6+jXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
- dkim=pass header.d=navimatix.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+OQpfTiTop61GQkOQKrOBq4f8ie/NNK1Y6temCV952I=;
- b=gmdKsnOIq4KfZEcS0hCtZaZJHvpN5v7Dpug0t8n1iDMIg51G3UPa2cmhxXcyzCCtwAGaS4nAB77ap2QDztpyDR2ZXwqWoCwIf13g5XzFjhkX1X2Ilktf0G9/X8iPNuHK7naVbGrJnY9g0uuWcFz5wv+S7bCxVpRLjRyOAm9UMaM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=navimatix.de;
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by PA4PR01MB7741.eurprd01.prod.exchangelabs.com
- (2603:10a6:102:c7::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
- 2026 11:43:31 +0000
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- ([fe80::d5c3:2dea:3d98:25fd]) by
- GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
- with mapi id 15.21.0245.012; Tue, 28 Jul 2026 11:43:30 +0000
-Date: Tue, 28 Jul 2026 13:43:28 +0200
-From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-To: openembedded-core@lists.openembedded.org, 
-	mathieu.dubois-briand@bootlin.com, joerg.sommer@navimatix.de
-CC: mathieu.dubois-briand@bootlin.com, 
-	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [PATCH] bootchart2: Handle bindir == sbindir
-Message-ID: <f1724665f0d2a09e5f6d94796d8581a03b4f814e.1785239008.git.joerg.sommer@navimatix.de>
-X-Mailer: git-send-email 2.53.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ dkim=pass header.i=@smile.fr header.s=google header.b=DVgSQbpm;
+ spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47f6609c657so1804288f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 05:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1785240395; x=1785845195; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=d7X/sEouX8AB7tb60KIM8PKleOirg3aVAQVTJeisY5o=;
+        b=DVgSQbpm2V96qwDbsq0Jz+HUU4K37NljpDeHR6dkOiUFliMwAOgWlsqSkD3O4Uf5XI
+         Y36bLfjHNJAPgc1kY43kLe1Lj4vfs3bTZ+f3eYFvBowYH+NZAXy4ZWWhnqeai6OVXEaS
+         YF6dGSQ9X+8Jyq+F0giheRrIzG9gvytlCfrlk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785240395; x=1785845195;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d7X/sEouX8AB7tb60KIM8PKleOirg3aVAQVTJeisY5o=;
+        b=RKg7jsUJg84827A4OWUG4+TkDphYMbNwCKOZdASw/3DLwxslGKw+9XKfwdRh22q9yM
+         mkiHdJU3UeJCermr9iuz1S3JBWtagxrc6GGE3HER2rqLZ+mLB1gPo4WHxyarxiav1nPF
+         mv6J8wZu7Gl80TAJ0Fd/Gs07aN45bj3Rl6pKZLRHlkgjP8zTdDOZKrEiBAKiFCe+vB3Z
+         t5s7G8cpJ+JP8ulaUcOAdmxvVNXuFeH8GmnugRbkpP9ju9fy0UTltxPp6gtRsnAQ8Ewp
+         O3UufXWXJcgIfBlmV5ssmsJnMrjyRkj5gclH4cGMrL5+MLEHe3xt77mQlf9/A7OVUgAf
+         NdhA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro5IPVut7Y8LPZzpAQ6vxNiZZTjwvkZtXttmhtose4OLQ75lPEBO0kylkvr0GQUwUqcmcFw86bvX4i+lavHk2Dnuw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw/PebEIaYKTySpomV+FEDLNFs3asPFz6tyg3KyuWAqDutWYJEK
+	8KtHDrE6AuEV3FUmyG8WWAJ2GbJ+EWz7FHSmtAvFGYPSxu5VNAGSNVuUOTVHXjnwRSs=
+X-Gm-Gg: AR+sD122DjgSKrvRYi83ygSmjsk+WJ+xWntgPr74Ykzuxyp9ccp7HqZanweaBQfZkvu
+	vTL6n+uWGyNkSwbM8133CO+4W/IL+2Da3fOlVfNqWrwu/VJnWwEbIB9TprjhJ1qa3RfZMHawJ7N
+	Mq0efg58QD9qUCh72epcBc024Syv8lBjKZsHd6VfxYX92ouLTWx4G0w+8TCak6O0Hl2/J0p5HI0
+	hXkFjogUPM9b9BW3jpC74wo4nctHCenk3D3UezNNwiK4IkkCI9g09cX2uJpmDWbZSy2iXCCmwkf
+	ErgtHI5+1oWCaImwRAiiJwkzVIzSvXTZT/tE/aT2TVwO5tMnU+MGmNSuuYgHh8Rw88TLj9M+dA2
+	fUqpoLgp5iy/lr2rTQnDpgSySDozN4069X8DR76FKP+DBUnpon/81qAbnc4QWtRnH8GbF8F8wnh
+	aVLikblg1CPJ2juWpEmvTNPWITdgWrkZXyc3ANHyyQOH2RSbZ7faQb/VRT53bClA==
+X-Received: by 2002:a5d:584d:0:b0:461:a15f:6df4 with SMTP id ffacd0b85a97d-47fb1ea7d19mr2539593f8f.35.1785240394911;
+        Tue, 28 Jul 2026 05:06:34 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bb5a46sm57327028f8f.9.2026.07.28.05.06.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jul 2026 05:06:34 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BE1P281CA0278.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:84::13) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PA4PR01MB7741:EE_
-X-MS-Office365-Filtering-Correlation-Id: e74446c9-4954-47fe-10c6-08deec9d722f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|6133799003|56012099006|10067099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	K84ag+bx7qNyvhZXHpOmKHofuy3j0C35/5yzvOi4Bgb9aX2YgQHVE1/Za6+eLZS+Rfmr+AHU+2N9t2FnHEn2YgxBpToet+T3T+lVSEyWWYGee+YVfPSTaSC/jOKEk7YUs6E9RLcN2dc7zQWBpI1U5nOdjxbrJYbPx96k56z9QVtEC/7BCmWI2Q+FmRFy+xKD1ulUo9x8JInDBLYkoPXvas0aPTyQqzAn5Igoq9FzoTbmczxQiAdwW6vF8lpKOeeVXFxqqpftNJ7Fn11J/eNSWH0yED58PaeX/seozLV1lx5ecUvzzHiuaH/cXUBWvjTKRSyU1+Q1NozwxFHzoEutAtsxxwNYpqZyGpsS8Ku+xtUDesrquYaMUzp/vlHRJrwMKbfjTOLVgP0dzaAM+UogAeNWdG7dpcnlGuuTBoL+7fSDP5p9f3ZM1A+oLGLzXMuJAJilRwP6ZGXACD1lqKJCsqjvYuzzbtNu9C2O+K+//dxtL/m964qLnAXKjJpOIWqffk787tI1zV6fKhlZQrXDkv2xcOEu88V5kERU5BEcsH+eCcRCyrzjhv00G8anN9E/5Y+q8HSc7g8YhmYO3M7F9b/t3vpasXuNeLYDvl1gNsT0rvlHDnabIzab5vfhUw/6RInSnx4KHaJM+MruLaXK3hp6I5ZqvGLj6Al4cM5YtZw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(6133799003)(56012099006)(10067099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?MbSfOHJeHR+iRuRCendwhdmXhznn7+xsQ3v5IMnfZcB5i4WZeT+wB3v5Nv1x?=
- =?us-ascii?Q?SdbP3wVIpnZFHQK5mE2rVWcCUEN5ry2LTq6bNE7UE51caB855uLSSC/ZQ+kO?=
- =?us-ascii?Q?65SgOArtCHxDpvNFEVTtafAwDupvBh2tvCQjPFb2EifMWPbo20Iwj+1KC0/d?=
- =?us-ascii?Q?M05AUkUPe2ww98nMDQ9aGKcK7nuc1gaDNB5wcxq2ugwrx54dpqten2rTUmoa?=
- =?us-ascii?Q?aHDTPqFlyKm21Vy98eljABY1bn3JTMMFSfxDGcaJdI4XUMlST8jXGHfi7ySK?=
- =?us-ascii?Q?OyyIoXibbfuzBJzUhUsYGF1aGYBINTtd68a+kLFeRkDxOz6c3mmkxafi6JTq?=
- =?us-ascii?Q?cFjwutMXmJPV0dmJSOVBExvq+1YHhObTA2nteGSYdFrzV8CNGkvVJbY68dcz?=
- =?us-ascii?Q?hFmXLenSoALtVMS68hdnm26Y/x9C6sZS4naK7lMhuuJWTBbFfl50jSxNm+WD?=
- =?us-ascii?Q?GZlW/Xa89bgcWU+0lVHHgXxSCs0M/8PHdKriM7N+3fegsWgrJhIJ9WNqUsDO?=
- =?us-ascii?Q?lRF3JbyAq/x5V+WNOWXE5B5XY3qurO0KSYl+W+3tHWET250g86e9Xo6beLVO?=
- =?us-ascii?Q?iwlo/dpOQ6Pm0l2jReoWSHaQcsU5iM7448frGuopUk1Ki8WpMhscjlLt8H1n?=
- =?us-ascii?Q?TZcr22UvhqH2plTjyQ3aWxxa6FwMf0LpTPvd4dq56FwpVb96S+iXYILTFO3h?=
- =?us-ascii?Q?y4LWAmqRsbw9adimvPAS8RF3lE9uMqA/f1lH/+RgfgQgUbFeXHRj4OgnivxQ?=
- =?us-ascii?Q?qi7E2kR3dj0Vzz5xoX26FEJQzURrhaEJy0SV3wzr4qG90yoI/laFBLIc4DWc?=
- =?us-ascii?Q?TIPx8uqI23N0aU9AKt3y0cp0PXcU/CNSDlhRuZZAFv4SpNxO0xAoSGzB/hI2?=
- =?us-ascii?Q?3dIiga/egDOZ5VLpDcGxRSkyca1E3AIxIxdjJAUwd/k0717a+RLz2TvEhJg6?=
- =?us-ascii?Q?K32SYKEV1bM4/vWiVMAyrq3L7ZDKYWi7CbfH8oQHrwEOkuKTajSaI6pLNGif?=
- =?us-ascii?Q?1BVkWK5uumzrm5oq1YPc0cMmUfPze/2dE2b/lPXlRVf2kd8hE511sUrNo+wU?=
- =?us-ascii?Q?Msi3tE5WVWDXIHl31O39ElSM0vvBok26P+q3kin1OuZHP/T85bI3rL52WbAu?=
- =?us-ascii?Q?LsT3qfL8BmZMgjUokJsm/Bo8xf0XLRR3r3SOenC4GngNU5bwFfj72L6ag0uw?=
- =?us-ascii?Q?diZ9xxbJlXW+nPVp/BHax+Ifh7AlgMNjt06CiKaaimyidvX1i6MiM/aY9vyI?=
- =?us-ascii?Q?M6nSHOoiNkc9ueI8oRzJRbPxhZXFc61Jq9VBh7VStDvSaNMOrRTr/j1TvW1d?=
- =?us-ascii?Q?+YN/8E5hNsCp2wbnRvy5FRgCtG/+/DbPidgKSXBMsWFeAHneofC1rJOjppP7?=
- =?us-ascii?Q?Euz2pnOJziIqPMX6FKe50gmmFErBcpD7ZxP8RwYfcv7F2vRceP87nl3eams0?=
- =?us-ascii?Q?WTM3LY8RyuerFffNTCmHx38TGPPGdEJqC/noyJaMMiySFK4iLzyBd2GJISAA?=
- =?us-ascii?Q?tfoihIjJtSvLawApj+2DoKXTUnMtzV0u66rG6jyRFXbrKPO7fEuXIxN8xfFf?=
- =?us-ascii?Q?Z5943OiMuc48E+nfxKlE/lEsGN5OPlZK04Ie6Gy9NpXBSRyNS7JicDjFBXC8?=
- =?us-ascii?Q?XeNRz5KHNOMo65SM7o8cvtK3ZsqI0GerzNpUlDB6Bnov/PELKtW1NY37kyqZ?=
- =?us-ascii?Q?eycttH8c+IyABxxvKWCPjKoIJaxYxwYNTv6nhopM10eBzRV8o0C8V8+7Rnk8?=
- =?us-ascii?Q?WUlDj0C1ISRvhTJ4WdP2ze0zN3+N/OI=3D?=
-X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: e74446c9-4954-47fe-10c6-08deec9d722f
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 11:43:30.5966
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BbNT//WBRvOaOPSjO+cIVYEKf9Pz6KJm4zipNVn5mJsn6QHxwmU0z1Kr6/Me4ijmuLM0JcFl+zNhz2x8YCUZFWtGsc+9gHq7rgd4GmekuhI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR01MB7741
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Jul 2026 14:06:34 +0200
+Message-Id: <DKA6WJ3DRSM1.15EVL7LBX6ZC0@smile.fr>
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <miaoqing.pan@oss.qualcomm.com>, <gaole.zhang@oss.qualcomm.com>
+To: <hangtian.zhu@oss.qualcomm.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [wrynose] wpa-supplicant: add PACKAGECONFIG controls
+ for suiteb, wnm, and mbo
+X-Mailer: aerc 0.20.0
+References: <20260728090159.3864155-1-hangtian.zhu@oss.qualcomm.com>
+In-Reply-To: <20260728090159.3864155-1-hangtian.zhu@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 11:43:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242186
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 12:06:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242187
 
-From: J=F6rg Sommer <joerg.sommer@navimatix.de>
+On Tue Jul 28, 2026 at 11:01 AM CEST, Hangtian Zhu via lists.openembedded.o=
+rg wrote:
+> Add optional PACKAGECONFIG entries for suiteb, wnm, and mbo and map
+> these to the corresponding upstream build flags:
+>
+> - suiteb: enable CONFIG_SUITEB and CONFIG_SUITEB192 for
+>   WPA-EAP-SUITE-B/WPA-EAP-SUITE-B-192 enterprise modes
+> - wnm: enable CONFIG_WNM for IEEE 802.11v Wireless Network Management
+> - mbo: enable CONFIG_MBO for Multi Band Operation extensions used with
+>   BSS Transition Management
+>
+> Upstream hostap configuration keeps these as optional capabilities.
+> Exposing them as PACKAGECONFIG options lets distros opt in for
+> enterprise and roaming use cases without changing the default oe-core
+> feature set.
+>
+> Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 38860938302e6167b1c890b75e808f3a4ff08805)
+> ---
+>  .../wpa-supplicant/wpa-supplicant_2.11.bb        | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 
-The upcoming binmerge (driven by systemd) merges /usr/sbin into /usr/bin.
+Hello,
 
-Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
----
- meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+I'm sorry but PACKAGECONFIG adding new features are not acceptable per
+stable policy. I recommend doing this in downstream layers.
 
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/r=
-ecipes-devtools/bootchart2/bootchart2_0.14.9.bb
-index 77fdd67302..c03bee4c1f 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-@@ -136,6 +136,13 @@ do_install () {
-     install -d ${D}${sysconfdir}/init.d
-     install -m 0755 ${UNPACKDIR}/bootchartd_stop.sh ${D}${sysconfdir}/init=
-.d
-=20
-+    if test "${bindir}" =3D "${sbindir}"
-+    then
-+        install -d ${D}${bindir}
-+        mv ${D}${EARLY_PREFIX}/sbin/* ${D}${bindir}
-+        rmdir ${D}${EARLY_PREFIX}/sbin
-+    fi
-+
-     if ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'true', 'false'=
-, d)}; then
-         mv ${D}${EARLY_PREFIX}${sysconfdir}/bootchartd.conf ${D}${sysconfd=
-ir}/bootchartd.conf
-         rmdir ${D}${EARLY_PREFIX}${sysconfdir}
+Regards,
 --=20
-2.53.0
+Yoann Congal
+Smile ECS
 
 
