@@ -1,172 +1,177 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC9AC53219
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 08:58:23 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7366.1785229096743093792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BEB9C54EFC
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 09:21:17 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7734.1785230093307846464
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 01:58:17 -0700
+ Tue, 28 Jul 2026 02:14:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector2 header.b=NGZ2tWsh;
- spf=pass (domain: ericsson.com, ip: 52.101.66.29, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a5lK9ERS2KuNeTZRGjUj3U6MDpY6dmuEFw+MTRHzEVFANkaZb5J8yf6X6ar4vHI2riig/YbLi8QeOC9o7B9Zk8KNi558Rdd3K2kZQ2pEZkgbsSJC51BJKj6DEhrfkvu4/bfyrHrBlLwn56/cVlWOWeO5DMKNurXHh+K4bCSWOC8sHF73I895EnhoGThYki6zJgnjMS4SpQwdHLYm3vgDiLVvcVaItJkrI8Gnq6QNjWGZIuiUOdKN8VT5CLjyn5px4pCDcz2oAzNVEGEnmKHk5LqPsz5a/yz7FoX3Lhmk3jcELv3s056lJ83sf3fgiJhuE6Mfs3yU4cVMP/OdjB1Ogw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M9/S3GyOVgKV5gNHMCzRJbYuK49j3chJBCohEdED/Gg=;
- b=aaqF3/lnJ3Zu/RNZ5v2KFRk/vF6KKm4smWyHMEKLzpnZ3iWsDtUAnYpTDDGHU/g+3jnxcXeHeaGvhROpEIr9uyAJpYjDI5TjgGF6/iI/3KahCMaaPzyhpGKYIWs6Bk9Pd48WZPT2L4tfYg6IR38tMbDQhXcoUVGjdtNLaqggG22qWL23bh+yf9oGTGQAHz+1O1BrZKw/olAKe5AtzJZD8CP0VkdB4QVyZsznyHKKyyXOPiAa18ljDLBkklfoLMShyZs/1LaqcVBuX4pOFHt8Ry1yZ/ZIkNSIFKiY6+4aW1pvsMrVw+GyTzCMKVbIibKC13xDRQzcHzAbiBj540DFMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M9/S3GyOVgKV5gNHMCzRJbYuK49j3chJBCohEdED/Gg=;
- b=NGZ2tWshG3esTMWBlKL+ktL/n8aq88s7b78j2nq22bNRTbzvzmUcSDSdRv4BI1MElxjKnWlU1oOuus/H3QplQUx3ggZ6+soBzwx478ERXszFt8v/qL17TIxHUzgF4Qt6momZ6jJn0+1E68W1AAE7GUA7kT8wkMcRMjoAVQQNhDMN18t2naa26ohBIEjn2LZXeFFErysrRilD3DyNauK0oXpvshi8DSj8qVNZz+Za98zt4SooygfmU71yi5QfH+CZaY05EVF1inn9sjcf7qZdDW3U1sCzfcPqXNUL9Al4g+2J96ou7UCG+u8ith7JRSEYMy38rfV4aw0y3J8SYEfWAQ==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by GV2PR07MB12355.eurprd07.prod.outlook.com (2603:10a6:150:341::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Tue, 28 Jul
- 2026 08:58:11 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%6]) with mapi id 15.21.0270.009; Tue, 28 Jul 2026
- 08:58:11 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "benjamin.robin@bootlin.com"
-	<benjamin.robin@bootlin.com>
-CC: "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>,
-	"jpewhacker@gmail.com" <jpewhacker@gmail.com>, "antonin.godard@bootlin.com"
-	<antonin.godard@bootlin.com>, "mathieu.dubois-briand@bootlin.com"
-	<mathieu.dubois-briand@bootlin.com>
-Subject: Re: [PATCH RFC 0/3] spdx_common: improve get_patched_src()
-Thread-Topic: [PATCH RFC 0/3] spdx_common: improve get_patched_src()
-Thread-Index: AQHdHaLIWkvD2VTOHEmlnCO16bJ9JraCoycA
-Date: Tue, 28 Jul 2026 08:58:11 +0000
-Message-ID: <d8aacd57b82e1ea3782fb9f40b9845379a1803c8.camel@ericsson.com>
-References: <20260727-fix-get-patched-src-v1-0-f5054ca10e14@bootlin.com>
-In-Reply-To: <20260727-fix-get-patched-src-v1-0-f5054ca10e14@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1.1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|GV2PR07MB12355:EE_
-x-ms-office365-filtering-correlation-id: 05c7090d-ed05-4f67-4509-08deec865a51
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|22082099003|18002099003|56012099006|11063799006|3023799007|38070700021|6133799003|10067099003;
-x-microsoft-antispam-message-info: 
- 4wZdlMghM7BaJioNJvvnwmXA1usqOFIbPVluTSB1PrdSIPz6InEk17IfboIv6+i6AwXO4AGFl6Ps67KC0AwfWjCXohx6IBPr4fquTlWeQuWHk1s8TRNByPt5pNy76ANj82/dnxDX+11hJNt9R0ioR+lt9jcI7MK5VWrhAj17SchjqgnnQ9uCDyuoGxucKk2th5xxvxsIyq0Qrrmi2x6pj0xJ6HWrLW0GK8FN2euQwNv95OLCAKOp8XIcENtDcIJev8fuT8PjXGakE514bLlGjG3AkURm0UmSB2R8Sxufo3BCZ0wCXkq2XBqCQA955JG4Mf4uzkyTsiLVMmbkpvymX+8ei/8VuPujKsl9RwZ2eisUYOzQpERupXmJhF/tiPDGulCjI617KPC5rzDChAdaFN1dwzMzdPN10hGdWeMsgFhIEmRoXJnyUJlzapZyWgbnYIMzbST0uYlMrUVyLq3KCrAXzxRuswkddA90gGwRbn/uwkMdZSdN8c7YfbjTW6f2KRSA88Q/u+Z7TiYsuiv3eX1PduW8ddiKeH1Dsx23CHEEbke1wsibp6HVrb9d62F1g2pSdeZF+agOc+WnzOVi3KLujDbVY1GzwZll8QmN80tspXzry7r0bcjkfNa/tFJFJEpLpYgqjWMkPPP++5NxVyRKnBFaoY4J6fdILwzRtZt7BxZ4txoB06hZrNnGvxvyh60rjDZBHzIOlCpLKGJQLicMlFJtg54/dIhQhg/j64U=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(22082099003)(18002099003)(56012099006)(11063799006)(3023799007)(38070700021)(6133799003)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?WlVPVFA2QW5rZkNPWk9LYmpraWFkb3lvZDdlZWpZQTh2dzQyeE1JTGRtUi95?=
- =?utf-8?B?ZjdJMzdRVGRhb09mUUo1RWhpWU1yVkZ0T0N4VFpkS1p2dUZsYThMb1Nnd2FV?=
- =?utf-8?B?Q1lUYWswdDc1RDZVNTV6K1ZoMWhtK2ZkZVY2Z0ZBL3ZlTVNjZnNaS3dVYk9p?=
- =?utf-8?B?RVhXOXl4TjhpQWlGc1hDS2xnRS9hTkYySHpIU0ZRVlcyUVAzYUpVaVp4c3dH?=
- =?utf-8?B?SGx6QmFxdGdpODFNOXdINE1WUVZXOTFZRFZsNmtBdE9EU3c5QVlEc1pUc2NT?=
- =?utf-8?B?bUlJQlIxYmVkaXZNQ0szTUJmdjV2a0ZXaFJ2UnVNZHBvQmYvTnJvZEdReXQ5?=
- =?utf-8?B?bHZQWER4djl4dHNqZGxPNUtOYnNZelRBYTJyWjVnNkwzR2h3TlJQUVZZQzZE?=
- =?utf-8?B?WER3ai9BRzVqekttbFhrN3JjYXhqZldsK2tZaUJjNEpoVVN1MC9ISUd2c1Jh?=
- =?utf-8?B?bjM4MVlIZkhraE81aDdQcmJrZXI1WFVBVnY4NEFpV1lvNGtscUNDdnRONzRX?=
- =?utf-8?B?M1NXOXF0L2tHRG1xU0FvZWsvRGZWYlF3Sm1DSzN0dkpxR0pIdVhyOVBkdnZ0?=
- =?utf-8?B?WmFYaElnbHVHRVRNQUtqYWRkWFVZbmh2ZG9KNkQ1aGlTdEluQ0U2eHhEdEdx?=
- =?utf-8?B?VVN0Y0ZOV0xJcFVPblpmY3I4MzdBcVFuUW1PUDN6Y0p3VHFaZnJOdnJmckJQ?=
- =?utf-8?B?TGNsS0tLNHdOb0o3dUtyckkyQXU2WElnQXdpSStFZmVPbVZCTVZ1VzhNZXF6?=
- =?utf-8?B?SU9lcXJRalRUQW5qemFRUDlHTXBBa1dCak5GSTROV3kwTWV4VXhrZ01LbCtO?=
- =?utf-8?B?WUMxQWMyWGFzOUJNNmM2QjNCQktKeTJiZGo4YmdscUhWeDVvYmk3TDlsajRo?=
- =?utf-8?B?aEROdWN4aG1IaG5CUDZBMFdpNldtdDVZY3RGUkhPTU4zcVFSNHNyYjB5RGxw?=
- =?utf-8?B?cktWQkE5N0I5WkRjVGZpbXlHRzRJZWp1QVR6ZE1WSVNIOTVFaVhEUDhmOUpZ?=
- =?utf-8?B?NDZzczRoT2hEQ0xCU3k0WEV5amZ1VElIRFRWTlRBK1l3SEp5djZMK1l1SnNO?=
- =?utf-8?B?ZmFxMm5TSjRBb2wvNXBhNHlHazc3eWh1WUl1eE53RGlFQWpXR3YySTFvSnh2?=
- =?utf-8?B?OTZYNHIybkVyV1djTlpiVURYTHUyNjZZMnJmNDNkODlSUnR5cC8rb3QzT281?=
- =?utf-8?B?aHlKYTdwK3o0S0xOZSsvVUhmeVAwNnV5bC9qTXNHL1k2VVErOEU0UVU1cU9D?=
- =?utf-8?B?MW9JOElXakdTNjZ2ME5MY1pMdS9sNzJWeFI2RWV4c1NUSkNqejNpMHM2U1Jj?=
- =?utf-8?B?SnNMbGFpb1dCS0l5YmpqWUo0V0FRdkc5VTNGQjJmNDN3bWxmaTAvaUl5RE1K?=
- =?utf-8?B?VFkxd3hoYitJUUplYVBjQlB6TFIxVHplUUJhYUhwa1ptWmo1MVhweFZDWU5h?=
- =?utf-8?B?Z1NaNCtpb0xIRVNlekxtVXVvc1doRy9iNDVtSE9tVGtaeDlRclZlQjV4Y094?=
- =?utf-8?B?UFhHSlpXaU95cjVLM096azA4ZGlNbUQwVjRSWENSbVpyYTRmVmc5cE1mWEhT?=
- =?utf-8?B?OEZVOXIwUkZSaTJNUUxNL28vNEoxcEEwTS9DbmdYTGw1YUZvSVRTMlBHdktu?=
- =?utf-8?B?b3BDWjN6aWoyMHRmaWZCbGV4N1d4bFFBMWlOYlRPSldCL0NqcjhuL2dER1FB?=
- =?utf-8?B?SjlaZG5YdVRZcWducm5PKytaaXY2ajZ1WWxiWmloUElib01IY3lDY0pnUXFU?=
- =?utf-8?B?R29zYkZ4WnVJVGdnSHV4eGMzTFkyVDYvdlVLU21qdmY0dHZ1L1VVQkFXNkdT?=
- =?utf-8?B?WFlFTnlQWmpOUjk5ZmM4bWwzVFNIdTRRME5sa2tHY09Eb1YzVFZ0WjliV2wr?=
- =?utf-8?B?Y0RGY3NSL3BwcUEybTdZdjBWcVA1MUFOb0xzYklka2VvbVowaUxoZDlLODF4?=
- =?utf-8?B?UWNwMFJjUmEyTndSTFVEQkhuZDJjZGJmZGVnZEh3aVdwM1N0SEFEbFo1cDhw?=
- =?utf-8?B?WGJlQXNlUzM2WHZKb2FtaTEwb28wK3BqbmF3VWlOaHh2YTAzSzRSRnZzZHFl?=
- =?utf-8?B?VkhMa1UxWEFBMXh2WVpFdVdLZzVJMldKRTRHSG4vQUlVZ3FkaWpxU2NBdXBy?=
- =?utf-8?B?c0U4NlRFOWowSTgycU8xcVFsQjltSmFCVjZ3L0YyMWI5aGVqTXpSSW9neFNX?=
- =?utf-8?B?VUNBb0tsUzdZNzBxTEJMNzZocUpFTWdrSkR5dG81STRFYzdNNzNTUTlVTjdO?=
- =?utf-8?B?UUE2bWNib056MXVILzkybm94ZnhGdHhuTjRJejdieWVaZ1JEWU44ckJuNVRT?=
- =?utf-8?B?N3UwaC9iaElJVnJlZC9wRlJNaXVIRFhURkpjOTk1QUdLekJDa1VhNkt1clJv?=
- =?utf-8?Q?EUSv3k31iw6uLcE4=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <483244AFB249D94B8348917EDDB2974C@eurprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=nbLqbXsz;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=KzLvodEv;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: hangtian.zhu@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66S82GWS2128814
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 09:02:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=QL4eSAFE29hZsiR5i1m2gM4PQ9brc6vHtW5
+	uf4RQPbs=; b=nbLqbXsz1BbXnUDlsKjh+zSZSJyGNnS+hUQ2TFZ4WsAinTIlxMB
+	ouMhp1Xca9ZJMn/pvLX1oXDR/mhBamlUIJPNEOxtOO6kAD8PqBNwMvBIvmPhKVI5
+	jLEpvVqrXmlp53DG/Vc4iANerG1pa8HDGRpJDsrqzFOYFhK3XvuFv+09iLWFvinA
+	BG5K9kbA/CUGPYrIUCE7s6//C63q32gJapg5Tc/6cA2YVPSvGFWp1uAR1TjWPIw4
+	L8VnSeLSQ6g3W3lI05iqeSxgWPE3jcFZTrXHKd5UinTTS/QH0ta9FRueZgWW5bFg
+	S4ZZSFUWYsu9tHlaT/KkQlx2Tol1DfXF4xQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fpbn8bbx2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 09:02:06 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cc6dd43737so77161945ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 02:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785229325; x=1785834125; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QL4eSAFE29hZsiR5i1m2gM4PQ9brc6vHtW5uf4RQPbs=;
+        b=KzLvodEvEl2C3YXT0eHCu94iEkuKqwi/BejDrixfXO2d43OPXXjLy6lx0L0y5lBBr9
+         lmyKLZWxGX3AKGUa52amNCCmk4rYfdqEc6yPh6aJAbE4/lXYx0LFlgHdIZ9DH3VNdGKu
+         OWml6Xcz6/Jyz/T44LQGPDFnHoE5xVynOVLGmyU1Vq1wQcVUSVdmwX8b+OsQj9oPxusa
+         Sz62V/S6SHWT4LlH0MrgVfxTRs4FNwS4Cl3/zCLOgQAknVk7s8rqmg759/pi7gRc6qBm
+         StR0merXbsGJWV31Kja2IVChf0zHd7w21sLfygCbBj6QOLWW6Tg3j22PhRKGnSTtib8h
+         3FVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785229325; x=1785834125;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QL4eSAFE29hZsiR5i1m2gM4PQ9brc6vHtW5uf4RQPbs=;
+        b=R8DUhgQIS9rtweypm12DlB+jpK2Tu7cxSF3ZxysJzVDbiA5xd0JMEON/728aUYFgHU
+         LJ6BEQwgipSu1wqHcS2ux5S04Wy8pCtu7K8NnMLRVEJRG1lf99t30jM62E1hqOjpfefy
+         JNPL7bKU+8dfp6KVoXrO5ODxiHKI4nI3UWuh0Cha1gxS0EinyS+/+pPjCBnX6aRP53CF
+         OGIcZ3D5H3LRZ4EHlJZmbXwufsLP7TaZ4rt+Ze74K2rDCRrZoHIqI3nIjc+4s+5WcW8H
+         i0x/4gCtBS7Xm1Mp/RF9xmHAVf+GsC/h5YqaZfvKly18kIzXwlO3bweVQRPNa3frNvDm
+         rE5A==
+X-Gm-Message-State: AOJu0Yxfx1knrBAuH3En1SFlBupMSI0ghrC54u/eGTaNSz7ZCylesG3r
+	hO93Nvjw3RtgKIEHgs5HKlMcB9uzc15LLpgSMy/bZGCxzEcuhesTZCnb/FiiHxqRwVnHN7C4NDx
+	cxH5mmNUOsMeFqekEYn1/EMO6mTVk/xy7+OughOV/DKtXhUAjzM580m644cW4oW46Tp+J8Ezt7I
+	ol8701H3gXmbP5wBw=
+X-Gm-Gg: AR+sD11uT/z6qCGAND7A+O9/Fq2Su08qoNAQKlNrxNYFNOCcPdJNT3HWIw93f4Evv38
+	dmmd875cQhIUauIWUp94GeB6PMDokKWLEkHjEdXgnYvtIoMJbUHjL3mMTLAudiEopd9M5MGQGgl
+	Y/UN0DoERVf69rspmsQEPyaELMhxrI0+VFXhH0j/upWRjtnJj7vRsV+aUBTKx3KUHVU1vdM6LuO
+	AR8E5ZT23t87E3JLNUXTupnMU9YDP3f2ZhhcSD+u+dmeNGpXIqQeBYQqwr65bmjfEAyw+lV6W1t
+	XcvSsV70l+0W3a+jdrc9OrDwSmT5WuMD5zuJpx98TTkKQ6h/NEt8qN2r1R6oDDLCi5+aEYy9UNz
+	uMy63L9tjvPmyCRR8CdxkuAT4z/ayflHm0xu0UkrpKwiRyhl/eduLSHiyN+nxTCri
+X-Received: by 2002:a17:903:2308:b0:2cc:5fae:cc56 with SMTP id d9443c01a7336-2d015d22fd0mr17696055ad.27.1785229325296;
+        Tue, 28 Jul 2026 02:02:05 -0700 (PDT)
+X-Received: by 2002:a17:903:2308:b0:2cc:5fae:cc56 with SMTP id d9443c01a7336-2d015d22fd0mr17695215ad.27.1785229324399;
+        Tue, 28 Jul 2026 02:02:04 -0700 (PDT)
+Received: from hangtian-z2-2004.ap.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7bbdcdsm49100905ad.49.2026.07.28.02.02.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 02:02:03 -0700 (PDT)
+From: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: miaoqing.pan@oss.qualcomm.com, gaole.zhang@oss.qualcomm.com
+Subject: [wrynose] wpa-supplicant: add PACKAGECONFIG controls for suiteb, wnm, and mbo
+Date: Tue, 28 Jul 2026 17:01:59 +0800
+Message-Id: <20260728090159.3864155-1-hangtian.zhu@oss.qualcomm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05c7090d-ed05-4f67-4509-08deec865a51
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2026 08:58:11.7738
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: chPbz+j2gVP4w0HrfEuonovv6tb/n1AhmGVTwy8WDXarm5jn8FHCkR+W5TJaSRZw75S+00rxKTp2XYTQo46BgTA11SVdJVAioXkF1mVuN1o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR07MB12355
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI4MDA3NyBTYWx0ZWRfX6Q9mpz7Qa7vW
+ GViM7sDqe+3CcyC6y/Vn8xc76cs9vizJbnXkepYgYQInPeF1z40mPIuGnnpeNSdTYWc+WE+ZYdl
+ sA423Hr+/NlSpsObr0rmbVXfhMPcck62xa8wBwOtQtciuBBgeTgKkKeXKsWvvf0+1E+4w+/0wSF
+ v047uBtII/q6dMIIUXksbj47iv/DkkBNzYPouL51PnS4z6VlJTeasTmg6AbKar9i+OI/h4IUaGF
+ uT/fU8BlVnXSYvw2lDQ1dnXHgtMw31/8CEZewCH2wqXNYs20Em9NOweQLnszhDUCl4AAO//+e+A
+ P+rRnlXpfxAbLSfeGEV4Gmv1zl+nMjCCEnVOWJ9FxCyCekP7jD7OVK2Q3in1pCpVLbcZCu3OU5M
+ M2sNyT5zN9Pi/PG/feEhcGrksBoUS9YRYalmyiUefmKfUZlO2TvhD8dlcdU4h904nLfhXmOUp1c
+ bNxkQmxpDXjXyQFZCoQ==
+X-Authority-Analysis: v=2.4 cv=RO+D2Yi+ c=1 sm=1 tr=0 ts=6a68700e cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
+ a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=S9PWtUsRgIVsDFoORi8A:9
+ a=324X-CrmTo6CU4MGRt3R:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-ORIG-GUID: oebnYSgVvUceSMvS-QMpWyCjqjzypQl9
+X-Proofpoint-GUID: oebnYSgVvUceSMvS-QMpWyCjqjzypQl9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI4MDA3NyBTYWx0ZWRfX72uOT8pyYBUr
+ Kb8JSOz6MK34bmCcfolF+CoetBwRHAEJ/moUqluBLfcv9U7Ie4YiCKCRf5vEfAClC19IMnecbzh
+ NFuTwyLfPMyPUV/elnyTHpKcfcRzUSk=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-28_02,2026-07-27_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607280077
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 08:58:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242172
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 09:21:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242173
 
-T24gTW9uLCAyMDI2LTA3LTI3IGF0IDEwOjM0ICswMjAwLCBCZW5qYW1pbiBSb2JpbiB3cm90ZToN
-Cj4gVGhlIG92ZXJhbGwgZ29hbCBvZiB0aGlzIHNlcmllcyBpcyB0byBmaXggU1BEWCBTQm9NIGdl
-bmVyYXRpb24gaW4gc3VjaCBhIHdheQ0KPiB0aGF0IGl0IGNvcnJlY3RseSBpbmNsdWRlcyB0aGUg
-a2VybmVsIGNvbXBpbGVkIHNvdXJjZXMgZm9yIGFsbCBjYXNlcy4NCj4gDQo+IEN1cnJlbnRseSB0
-aGUgU1BEWCBpcyBvbmx5IGdlbmVyYXRlZCBwcm9wZXJseSBmb3IgdGhlIGZvbGxvd2luZyBjYXNl
-OiBBIGtlcm5lbA0KPiByZWNpcGUgdXNpbmcgZ2l0IHNvdXJjZXMgd2l0aCBrZXJuZWwteW9jdG8g
-Y2xhc3MuDQo+IFdpdGggdGhpcyBzZXJpZXMsIGlmIGEga2VybmVsIHJlY2lwZSBvbmx5IGluaGVy
-aXQgdGhlIGtlcm5lbCBjbGFzcyBhbmQgdXNlIGENCj4gdGFyIGZpbGUgZm9yIHRoZSBrZXJuZWwg
-c291cmNlcywgdGhlIFNQRFggZmlsZSBub3cgY29udGFpbnMgdGhlIHByb3BlciBsaXN0DQo+IG9m
-IGNvbXBpbGVkIGZpbGVzLg0KPiANCj4gQnV0IHdoaWxlIHRlc3RpbmcgdGhpcyBzZXJpZXMsIEkg
-Zm91bmQgb3V0IHRoYXQgU1BEWF9JTkNMVURFX0NPTVBJTEVEX1NPVVJDRVMNCj4gZm9yIHNvbWV0
-aGluZyBlbHNlIHRoYXQgYSBrZXJuZWwgcmVjaXBlIGlzIGJyb2tlbiAoYW5kIG5ldmVyIHdvcmtl
-ZD8pLg0KDQpJIHRoaW5rIGl0IHdvcmtlZCB3aXRoIGJ1c3lib3ggYW5kIHNwZHgyLiBCdXQgc2lu
-Y2UgdGhlIGtlcm5lbCB3YXMgdGhlIG9ubHkgcHJvamVjdCBhdCB0aGF0IHRpbWUNCnRoYXQgaGFk
-IENWRSBpbmZvcm1hdGlvbiBhdCB0aGUgZmlsZSBsZXZlbCBJIGRpZCBub3QgZm9sbG93IHVwLg0K
-DQo+IA0KPiBJbiBzYXZlX2RlYnVnc291cmNlc19pbmZvKCkgdGhpcyBgc3JjLnJlcGxhY2UoZiJ7
-ZGVidWdzcmNkaXJ9L3twbn0vIiwgIiIpYA0KPiBpcyBuZXZlciBleGVjdXRlZCBzaW5jZSBgS0VS
-TkVMX1NSQ19QQVRIYCBpcyBhbHdheXMgZGVmaW5lZCBnbG9iYWxseS4NCj4gQnV0IGV2ZW4gaWYg
-dGhpcyBwYXJ0IGlzIGdvaW5nIHRvIGJlIGV4ZWN1dGVkLCB0aGlzIGlzIHN0aWxsIG5vdCBnb2lu
-ZyB0byB3b3JrLg0KPiANCj4gQW0gSSBtaXNzaW5nIHNvbWV0aGluZyBoZXJlPw0KDQpwcm9iYWJs
-eSBub3QuIG15IGZvY3VzIHdhcyBvbiB0aGUga2VybmVsDQoNCj4gDQo+IEkgYWxzbyBmb3VuZCBv
-dXQgdGhhdCBpZiBQQUNLQUdFX0RFQlVHX1NUQVRJQ19TUExJVCBpcyBkZWZpbmVkICh3aGljaCBp
-cyBub3QNCj4gZG9jdW1lbnRlZCwgaW50cm9kdWNlZCBpbiBjb21taXQgMTdmYTY2YzgxOTlkNzNm
-MGI1OWIyYjNlNjA5MDc1OTMzYmYxZTc0YikNCj4gdGhlbiB0aGUgYHJlc3VsdHNgIHZhcmlhYmxl
-IGlzIG92ZXJyaWRkZW4gaW5zdGVhZCBvZiBiZWluZyBleHRlbmRlZC4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IEJlbmphbWluIFJvYmluIDxiZW5qYW1pbi5yb2JpbkBib290bGluLmNvbT4NCj4gLS0t
-DQo+IEJlbmphbWluIFJvYmluICgzKToNCj4gwqDCoMKgwqDCoCBzcGR4X2NvbW1vbjogc2ltcGxp
-ZnkgZ2V0X3BhdGNoZWRfc3JjKCkgaW1wbGVtZW50YXRpb24NCj4gwqDCoMKgwqDCoCBzcGR4X2Nv
-bW1vbjogbW9kaWZ5IFVOUEFDS0RJUiBpbnN0ZWFkIG9mIFdPUktESVIgaW4gZ2V0X3BhdGNoZWRf
-c3JjKCkNCj4gwqDCoMKgwqDCoCBzcGR4X2NvbW1vbjogSW4gZ2V0X3BhdGNoZWRfc3JjKCkgZW5z
-dXJlIGtlcm5lbCBkaXIgbmFtZSB0byBiZSAke0JQfQ0KPiANCj4gwqBtZXRhL2xpYi9vZS9zcGR4
-MzBfdGFza3MucHkgfMKgIDEgLQ0KPiDCoG1ldGEvbGliL29lL3NwZHhfY29tbW9uLnB5wqAgfCA4
-MyArKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gwqAyIGZp
-bGVzIGNoYW5nZWQsIDQwIGluc2VydGlvbnMoKyksIDQ0IGRlbGV0aW9ucygtKQ0KPiAtLS0NCj4g
-YmFzZS1jb21taXQ6IDlhMjViM2U3MjA1MWEzMDc5NGUxNDc1NjQwMjg0ODdhNTk4Y2U4MmQNCj4g
-Y2hhbmdlLWlkOiAyMDI2MDcyNi1maXgtZ2V0LXBhdGNoZWQtc3JjLTk4OTY5NWMxNTQxZA0KPiAN
-Cj4gQmVzdCByZWdhcmRzLA0KPiAtLcKgIA0KPiBCZW5qYW1pbiBSb2JpbiA8YmVuamFtaW4ucm9i
-aW5AYm9vdGxpbi5jb20+DQoNCkNoZWVycywNCkRhbmllbA0K
+Add optional PACKAGECONFIG entries for suiteb, wnm, and mbo and map
+these to the corresponding upstream build flags:
+
+- suiteb: enable CONFIG_SUITEB and CONFIG_SUITEB192 for
+  WPA-EAP-SUITE-B/WPA-EAP-SUITE-B-192 enterprise modes
+- wnm: enable CONFIG_WNM for IEEE 802.11v Wireless Network Management
+- mbo: enable CONFIG_MBO for Multi Band Operation extensions used with
+  BSS Transition Management
+
+Upstream hostap configuration keeps these as optional capabilities.
+Exposing them as PACKAGECONFIG options lets distros opt in for
+enterprise and roaming use cases without changing the default oe-core
+feature set.
+
+Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 38860938302e6167b1c890b75e808f3a4ff08805)
+---
+ .../wpa-supplicant/wpa-supplicant_2.11.bb        | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+index 7c7a8bd9c1..d3e4352022 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+@@ -31,6 +31,9 @@ inherit pkgconfig systemd
+ PACKAGECONFIG ?= "openssl"
+ PACKAGECONFIG[gnutls] = ",,gnutls libgcrypt"
+ PACKAGECONFIG[openssl] = ",,openssl"
++PACKAGECONFIG[suiteb] = ",,"
++PACKAGECONFIG[wnm] = ",,"
++PACKAGECONFIG[mbo] = ",,"
+ 
+ CVE_PRODUCT = "wpa_supplicant"
+ 
+@@ -52,6 +55,19 @@ do_configure () {
+ 		    -e 's/\(^CONFIG_OWE=\)/#\1/' wpa_supplicant/.config
+ 	fi
+ 
++	if ${@ bb.utils.contains('PACKAGECONFIG', 'suiteb', 'true', 'false', d) }; then
++		echo 'CONFIG_SUITEB=y' >>wpa_supplicant/.config
++		echo 'CONFIG_SUITEB192=y' >>wpa_supplicant/.config
++	fi
++
++	if ${@ bb.utils.contains('PACKAGECONFIG', 'wnm', 'true', 'false', d) }; then
++		echo 'CONFIG_WNM=y' >>wpa_supplicant/.config
++	fi
++
++	if ${@ bb.utils.contains('PACKAGECONFIG', 'mbo', 'true', 'false', d) }; then
++		echo 'CONFIG_MBO=y' >>wpa_supplicant/.config
++	fi
++
+ 	# For rebuild
+ 	rm -f wpa_supplicant/*.d wpa_supplicant/dbus/*.d
+ }
+
+base-commit: f66b182e2ff431b624dfc3a506d25dc8f1fc6db2
+-- 
+2.25.1
+
 
