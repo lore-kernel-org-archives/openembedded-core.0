@@ -1,143 +1,207 @@
-Return-Path: <joerg.sommer@navimatix.de>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 896EEC53219
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 12:19:09 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.142])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10149.1785241147986346944
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9445BC53219
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 12:31:29 +0000 (UTC)
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10347.1785241879348293336
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 05:19:08 -0700
+ Tue, 28 Jul 2026 05:31:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=i6zkWvCZ;
- spf=pass (domain: navimatix.de, ip: 52.101.72.142, mailfrom: joerg.sommer@navimatix.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BqiqyGA4ZUPhXruj/vTEOOWBEA0oKwF/R9fNrIqRFad25WwO+rpofFYQVG25vVjfB6covacc4u4SsJ9GychvlM4XCCBKN6mX2uRmK5R56LSZeooTRbi5ZZXdcUK0Z9J1OToff00ZYt7gOzDyyivLq1OFhzWwRWWRUe0deZKJeabu9/EPNrIYmF0OuuVPh+j1KouCMSvMojaYwcMnOl7j37YhushnmxrPG9sp8LE3jASApqqjheE/rYHDJsMff4IndkokvoCm0EWTfxIbn1c5LKAVMWtlIxhsVkE0HvQF5IHs2pYblL5ii/ZhdzP/togTG+nZ5QRf5IDbjMMPzfZl5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x9tERxsYh10dhbr7Fn9wGutQqkljbm8jMkBsziUkSwY=;
- b=c91vGlUkmzDjBaBRkqXN/yoMZp8JVyrrgmXJ53lcz0dndP5UBTnAcaiyCvHmQtQidcA89yCu/+BSCJaBnzPtGEZKGQIPnvpFB4Mj/CjPjgDPnJpIprFttIzfc/ku7lUyb85kAZs1QmBFFSg+HIbEylrjftL2w/9RC5tGohMMY6W9c6rFSyLo7oxzeMqW1c17lycpliu3m5+kBLZS0n3F0xpTE0WQ0SQXutnATy8sy0SUEaQ4fCYrTsG0g3HmmcElIgoIAMjWGPPI9KL2Ube/ZtbkeEOCrEBRbMaRPZc6Zmxzs3BftJ1dCSrDH8ZJKqFfvEGxoRf0gesCNEB5edvgJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
- dkim=pass header.d=navimatix.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x9tERxsYh10dhbr7Fn9wGutQqkljbm8jMkBsziUkSwY=;
- b=i6zkWvCZkGV5vKtee9bDpSgX6n/8OhWK9VDOrzrSE7qO8HGIvg9ELpCgy8UgONxZSrKahJt/zORaW83tUkic9eGvLLnBzeNStRKEKppog2kVzIo1EMOcwrEjrG11WXEKtbWRhKGXOOs0U4+QsDTGFe6Z1UH86f71j1vCgPrT/vo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=navimatix.de;
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by GV2PPF887CBA961.eurprd01.prod.exchangelabs.com
- (2603:10a6:158:401::59e) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
- 2026 12:18:58 +0000
-Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- ([fe80::d5c3:2dea:3d98:25fd]) by
- GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
- with mapi id 15.21.0245.012; Tue, 28 Jul 2026 12:18:58 +0000
-Date: Tue, 28 Jul 2026 14:18:56 +0200
-From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-To: openembedded-core@lists.openembedded.org, 
-	mathieu.dubois-briand@bootlin.com, joerg.sommer@navimatix.de
-CC: mathieu.dubois-briand@bootlin.com, 
-	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [PATCH] tcf-agent: Pass sbindir to make install to handle binmerge
-Message-ID: <aa27e8cf3b1429ea16ce5e2a6b0ec16768e278c6.1785241135.git.joerg.sommer@navimatix.de>
-X-Mailer: git-send-email 2.53.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BE1P281CA0455.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:7f::27) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=DgurWVqf;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: hthakar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=4148; q=dns/txt;
+  s=iport01; t=1785241883; x=1786451483;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=K6x+W8g5RzcJlp/E8VR6Gbqx6+QmMv08jAHAh2Of+QA=;
+  b=DgurWVqfgpIUwsrd8Hz5Zt+behdlvraFnD7d2O3D0c32lbzqLmujn91x
+   6Ry4hRMaBJPepdyoyoIakvFMJHHDrf9Lftz/oOn+k6FP+BGL5gaqvZL+P
+   gcejTD1xHzPvF2QuNgp+QgUBlGQLMkouBXfK5p8FypM5WNqHZKpPsXJN1
+   XGUFT3Ndy+PNViZHeL3kL8d/Iokfw/tpKrvmPtOLa1yWQTDNEhYgDpCz+
+   X9DjMzyD4sRj2o6F96UDC3KHR8e4bCPwQp3dmNJUGJtFt+v5RpAws9b23
+   w0ZrItSmJUGH9t1SHKERQ+vk6V1CbcyRES2oCCT2ONaxH5ElckMw4ZkIc
+   Q==;
+X-CSE-ConnectionGUID: EVzZ6G8oTYGNLiYnaiAWew==
+X-CSE-MsgGUID: UfhbA9TSQA2aDDb7rQQC/g==
+X-IPAS-Result: =?us-ascii?q?A0BJAgAHoGhq/4sQJK1aglmCV3RfQkmEV5FzA4oQlAuBf?=
+ =?us-ascii?q?g8BAQEPRA0EAQGFBQKNYwImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
+ =?us-ascii?q?gEHBYEOE4ZPDYZaAQIBAyMPAUYQHAMBAgMCJgICKyMIEAmDAgGCdAIBEcFie?=
+ =?us-ascii?q?oEygQGDaAJDUNsuAQsUAQWBBS6FP4MdAYUCXBgBhHoCJxsbgXKBFYNpgQWBU?=
+ =?us-ascii?q?QsBAxiBDYQUgmoEgiKBDIFaHlBmjxRIgQIcA1ksAVUTDQoLBwWBZgM1EioVb?=
+ =?us-ascii?q?jIdgSM+FzRYGwcFgR2BLGGEWCMZOX+BMXVKdy1pARIXgRqDPAKCFQMLGA1IE?=
+ =?us-ascii?q?Sw3FBkEPQFuB411IoI9gQ4BKgGBRZN4kmWJC5gECiiDdYwhlToaM4VbpRELm?=
+ =?us-ascii?q?H2OCpVoaIRpgWg8gUcLB3AVgyIJShkPjjiFaoMUyUIkNQIBAQczAQcCBwIMA?=
+ =?us-ascii?q?4FzkACBfgEB?=
+IronPort-Data: A9a23:1UlNOKIeVSfUf1LSFE+RhpQlxSXFcZb7ZxGr2PjKsXjdYENS1zIGx
+ mUXW2mHa/uMazH8fY13Yd6yp0oE75DXy9YxTgQd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
+ T/Oi5eHYgH9hGQkajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1DMlMEY6JI/dpGLkdq9
+ M0eITEkUR2c0rfeLLKTEoGAh+wqKM3teYdasXZ6wHSBV7AtQIvIROPB4towMDUY358VW62AI
+ ZNHL2M0PXwsYDUXUrsTIJIinO6rj2PXeDxDo1XTrq0yi4TW5FMhgem1boOOI7RmQ+1okEaSj
+ zP6xF3QWBg2GNbA0wO82TWj07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflhcYX9wVF6gx7xuAj/KOpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOT9pa61nltMkQ6PBA==
+IronPort-HdrOrdr: A9a23:C1GfRaFFsUqq+xu8pLqENseALOsnbusQ8zAXPo5KJiC9Ffbo8f
+ xG/c5rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1NWZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
+ lbH5SWIeeAdGSS9fyKgzWQIpIH3MSN9ryuiKP1yndgShwvVoRbhj0Jcjpy1iZNNXN77V1TLu
+ vm2vZ6
+X-Talos-CUID: 9a23:ZGOJzGEdvfGoFli7qmJKylwmRO91dUHs41H0In6+AGdAd7CKHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3AkxKQQQ10RoFF2N29AbUKnxTdBDUj3qquAmlcra4?=
+ =?us-ascii?q?/kpONGQB6ZC2ktR/wTdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,190,1779148800"; 
+   d="scan'208";a="789906131"
+Received: from alln-l-core-02.cisco.com ([173.36.16.139])
+  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Jul 2026 12:31:21 +0000
+Received: from sjc-ads-8351.cisco.com (sjc-ads-8351.cisco.com [171.68.209.139])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-02.cisco.com (Postfix) with ESMTPS id 543891800016F;
+	Tue, 28 Jul 2026 12:31:21 +0000 (GMT)
+Received: by sjc-ads-8351.cisco.com (Postfix, from userid 1887505)
+	id EF389CC12A6; Tue, 28 Jul 2026 05:31:20 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	Hetvi Thakar <hthakar@cisco.com>
+Subject: [OE-core][PATCH 2/2] patch: Fix CVE-2026-56288
+Date: Tue, 28 Jul 2026 05:31:04 -0700
+Message-ID: <20260728123113.3485106-2-hthakar@cisco.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260728123113.3485106-1-hthakar@cisco.com>
+References: <20260728123113.3485106-1-hthakar@cisco.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|GV2PPF887CBA961:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe2da021-7a33-4f37-9b1d-08deeca266a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|6133799003|18002099003|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	v5azH1PX4RG68PoPM7Zwr/arZKSr3z91RnQERNavr2hFOyojR2SXTs1zMZVOw16G122Qi1nJn0MBZT6zhqJ930j0JewwDQJJ6lvy2CAhLDM3IN+pgmb19DwFMAG+NnwNzEetOaGdjLBUIpb3Pp5sHq1lrn4LOzl3YZser/a19/p9w5eOVcNXC2LbAIfNjtRyWS74Ja6a6B5gWcr+2GUUiFOl5PqA2IcnLBfnJ8QoZwHpq1yx0+hPlUly9hbnqJpGZ0j60ArXNqvdRiNKuvx6w9a2ORMSfNmcmn5kvrXA46nHrKBihn41lURph1CYOdiuQvq3+UNy8US7kF7d33mhMAhhxQR3lR9mPob5NHjotjsGEExdVz0oanTxT688XKXV9l1yvcQ23Hrk4mcBnw52rmlcOgQUq9pLgwkcuaaD6fOplX7H/knQnPF7lTbZVW+TXdcjDn9pSG1gBkT04ZCzJLK/E2tt/TR9u3R41Kox7Ohu+QHijY8fkrkLhwq/CRW3IRpWDCjQLkmBvAR8UJfGd87zIzqmQcD8MYM2tEMpDIowSVqoa3BhxV4R+k8G5oxirpgHsE4ntJBAG0VyQ4bUcxTOjUr6ukXrjGTyLedMoHZ3EjFW7gc+V3L3X4ifBtEGExSqLbF5iV5qQc39q6Plw9D9lMrBuH8kuuSLdqsAlAQ=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(6133799003)(18002099003)(56012099006)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?lAeSBvvDFb7yvbc7e499+OJwDPDOOGI5Q9XgUZDWD+AJRTxZufCLXX5AQGYR?=
- =?us-ascii?Q?j5m/AjBm5iKGHccUf1XHz1/vMFWQKEIc1vYsYQvtxOGtOuLsaU+znCJrAG7d?=
- =?us-ascii?Q?L0ghVLyeEGoaBgoUR9pQzp8tfdZ7RCTrZ2vSAPzeXyUoXOaqhxaJ0EpWEdxL?=
- =?us-ascii?Q?Ood2yHQMHJ5cgDfX6rVzS0AfV+98e2gRvRqhNTOnLrAE7b5KMEBxBj7YgeV+?=
- =?us-ascii?Q?cazqyWNlAWWtCaFr9H3/A1ox/f0ITtBi9QHEiv+7O+cvjmcgbxuRChHVywtx?=
- =?us-ascii?Q?80akq+YI7uXwLCbFDFNo/4pgM42Q46aKGRoxLCiTg6IsVwZD08LLLzskU/UY?=
- =?us-ascii?Q?p7XWroNv/y2G6PTMeFP8CBepfkXrSojPUoXIOYSLbn7r/UXwQuTu52LYwehm?=
- =?us-ascii?Q?DtEuoPh6ue9HITeCMs6Jv5yGhgcxbJjJq5Ml14W1RlD/Qyu5S/PXxMPRAZq1?=
- =?us-ascii?Q?v0GccNKAbNpVUYWUReflxew4ZOpLBR2A1CefofV4hfqysAeP1+5vB9PBFacK?=
- =?us-ascii?Q?t4zRBvOP8XDh19P8RzvvfIu+tdM76jHSCpioDrvh3DjXl1Y1UiWuYA+BLrHx?=
- =?us-ascii?Q?WU6HVyiiPObn9Ah9tcbAKecRce89wjOs/yaAUMWZzRE8d4yphb9iZHigbVOs?=
- =?us-ascii?Q?8v7vRvIP4Ztrld1SktpQbccyAVrZkqEiRqjoyf9oVo792bPyt3I3kF55b68n?=
- =?us-ascii?Q?FfcBqsb7W1UvvxEvaaootFGJrbH96spyKIVuGXqKYuYP751gpah5kWKF5wSw?=
- =?us-ascii?Q?UbK4Tmxu0AUqn7/p5JrQ22CycTuv+fAZU1xedC9kBb2jmpP/Nqs+kVj4BXor?=
- =?us-ascii?Q?JV+bBqiosV273pKDE3ePBcBL9VmJlKhjET6EVz0GLNsL5JMsQ1p1Y2AsPpsc?=
- =?us-ascii?Q?rzIjkZhsftKT6/O0CR9ppFTWm/SggOiVPV44e+kkSSSN+bvQQBzu24+OcBHp?=
- =?us-ascii?Q?q2k4ACKdczVCwe9/VvZWQ8wrZreF2JBv1d9I5ZhoCbriA9bQ3Esw2vO2srTj?=
- =?us-ascii?Q?zrdiiXZGn10xV3AB9dSBk+bbaja/k+2hVKpAbe1icjZGjeR4ogFFDwl+dWiv?=
- =?us-ascii?Q?bulmbljVEDC/uZPeuFj+s+P2yk+2Oynw+OAaY2Apkl3uj59Bcg61dCF0ZueU?=
- =?us-ascii?Q?AL4dwBYqRc+mwjOkGUQhLcdk2Z3E5qKOLTSLlDoL78d/v5Vbjvsv28NX9316?=
- =?us-ascii?Q?Ni4Xu0d66O27HQGTUYpt28U8NbH2mKkyiDjerhh8T7akEw08NGcHlI+Q8psc?=
- =?us-ascii?Q?e2XYeaPqh6kGNZUbrCEqXjxNQbmlTDx81a7zpDnlARoi5OiArg4j5QgUwjiC?=
- =?us-ascii?Q?xz29mmFoSOyQa7iUZKMac3R3vbVwuU+EPwApu1wZr1NuBmOHOAiLorLj5Zw9?=
- =?us-ascii?Q?tUUfHNtahK4mm8WN9U+Wra0fL7WvV5fJqYLTgqOCfiH7RozYfP1xjEBGxB71?=
- =?us-ascii?Q?5sIFg2FpxBcW/Z4psWHZaD3F+UNlwKKURsON/7VLYPiOafunm142g3bY2Kl/?=
- =?us-ascii?Q?MQviEEVXKPNr52QBajft2Q5bQwf9Fhs08bZuPywUp7a5Gg/sN+pOE7EqcVTG?=
- =?us-ascii?Q?4OoL7LidPRtMTg3kpU6ZXQZL4eh/cAojUOrV6uhOs9QfpS1OGF74wLVr3vTN?=
- =?us-ascii?Q?wDkGd7f5SjcwgXOZhEomo6WtIKsQGsYSS2fjI62fAgS4ImvoFgZ/h8V6JyBo?=
- =?us-ascii?Q?Si0zOdS4H+RJ+jg/fCjQ0curlgQBFoQgiyUGZ4B3gr9QRSNjEijAvvTfEhkM?=
- =?us-ascii?Q?vspjWet2ZGZ3U2hmRLi2WV/JNcn09Ik=3D?=
-X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe2da021-7a33-4f37-9b1d-08deeca266a1
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 12:18:58.5406
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QtLBBqFHuUaMKRMFvxL7bJheawzpX+c6/nMUHln+i8O+OX8inwZiTAkajwpAO6qy41iSwjYU1ju+fiUcQyyTUZeQZRKnJ76zxafnlep40ZU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PPF887CBA961
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-8351.cisco.com [171.68.209.139];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.68.209.139, sjc-ads-8351.cisco.com
+X-Outbound-Node: alln-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 12:19:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242188
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 12:31:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242190
 
-From: J=F6rg Sommer <joerg.sommer@navimatix.de>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-$sbindir is not /usr/sbin but $bindir with binmerge.
+This patch applies the upstream fix referenced by NVD in [2], using
+the commit shown in [1].
 
-Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+[1] https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=e6d6a4e021660679d7fc9150f981d4920f722313
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56288
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/patch/patch.inc         |  4 +-
+ .../patch/patch/CVE-2026-56288.patch          | 75 +++++++++++++++++++
+ 2 files changed, 78 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb b/meta/rec=
-ipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
-index b04c7aea06..01e4b7df49 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
-@@ -56,7 +56,7 @@ CFLAGS:append:loongarch64 =3D " ${LCL_STOP_SERVICES}"
- RANLIB:append =3D " $@"
-=20
- do_install() {
--	oe_runmake install INSTALLROOT=3D${D}
-+	oe_runmake install INSTALLROOT=3D${D} SBIN=3D${sbindir}
- 	install -d ${D}${sysconfdir}/init.d/
- 	install -m 0755 ${UNPACKDIR}/tcf-agent.init ${D}${sysconfdir}/init.d/tcf-=
-agent
- 	install -d ${D}${systemd_system_unitdir}
---=20
-2.53.0
+diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/patch/patch.inc
+index 738bec038d..ecbb070ec4 100644
+--- a/meta/recipes-devtools/patch/patch.inc
++++ b/meta/recipes-devtools/patch/patch.inc
+@@ -6,7 +6,9 @@ SECTION = "utils"
+ HOMEPAGE = "http://savannah.gnu.org/projects/patch/"
+ 
+ SRC_URI = "${GNU_MIRROR}/patch/patch-${PV}.tar.gz \
+-	   file://CVE-2026-56289.patch"
++ 	   file://CVE-2026-56289.patch \
++ 	   file://CVE-2026-56288.patch \
++   	   "
+ 
+ S = "${UNPACKDIR}/patch-${PV}"
+ 
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch b/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
+new file mode 100644
+index 0000000000..7219f5a3c7
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
+@@ -0,0 +1,75 @@
++From 101a805510356092a6d2a864bb18d440fec57f0a Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Tue, 21 Apr 2026 10:05:02 -0700
++Subject: [PATCH] Avoid null pointer derefence with bad hunks
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Problem reported by Michał Majchrowicz.
++* src/pch.c (another_hunk): Keep chars_read positive
++even with malformed hunks.
++
++CVE: CVE-2026-56288
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=e6d6a4e021660679d7fc9150f981d4920f722313]
++
++(cherry picked from commit e6d6a4e021660679d7fc9150f981d4920f722313)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ src/pch.c | 15 ++++++++++-----
++ 1 file changed, 10 insertions(+), 5 deletions(-)
++
++diff --git a/src/pch.c b/src/pch.c
++index d9f5c61..41150fe 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -1694,7 +1694,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    p_end = filldst-1;
++ 		    malformed ();
++ 		}
++-		chars_read -= fillsrc == p_ptrn_lines && incomplete_line ();
+++		chars_read -= (1 < chars_read && fillsrc == p_ptrn_lines
+++			       && incomplete_line ());
++ 		p_Char[fillsrc] = ch;
++ 		p_line[fillsrc] = s;
++ 		p_len[fillsrc++] = chars_read;
++@@ -1711,7 +1712,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    malformed ();
++ 		}
++ 		context++;
++-		chars_read -= fillsrc == p_ptrn_lines && incomplete_line ();
+++		chars_read -= (1 < chars_read && fillsrc == p_ptrn_lines
+++			       && incomplete_line ());
++ 		p_Char[fillsrc] = ch;
++ 		p_line[fillsrc] = s;
++ 		p_len[fillsrc++] = chars_read;
++@@ -1725,7 +1727,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    p_end = fillsrc-1;
++ 		    malformed ();
++ 		}
++-		chars_read -= filldst == p_end && incomplete_line ();
+++		chars_read -= (1 < chars_read && filldst == p_end
+++			       && incomplete_line ());
++ 		p_Char[filldst] = ch;
++ 		p_line[filldst] = s;
++ 		p_len[filldst++] = chars_read;
++@@ -1808,7 +1811,8 @@ another_hunk (enum diff difftype, bool rev)
++ 	      fatal (("'<' followed by space or tab expected"
++ 		      " at line %td of patch"),
++ 		     p_input_line);
++-	    chars_read -= 2 + (i == p_ptrn_lines && incomplete_line ());
+++	    chars_read -= 2 + (3 < chars_read && i == p_ptrn_lines
+++			       && incomplete_line ());
++ 	    p_len[i] = chars_read;
++ 	    p_line[i] = savebuf (patchbuf + 2, chars_read);
++ 	    p_Char[i] = '-';
++@@ -1833,7 +1837,8 @@ another_hunk (enum diff difftype, bool rev)
++ 	      fatal (("'>' followed by space or tab expected"
++ 		      " at line %td of patch"),
++ 		     p_input_line);
++-	    chars_read -= 2 + (i == p_end && incomplete_line ());
+++	    chars_read -= 2 + (3 < chars_read && i == p_end
+++			       && incomplete_line ());
++ 	    p_len[i] = chars_read;
++ 	    p_line[i] = savebuf (patchbuf + 2, chars_read);
++ 	    p_Char[i] = '+';
+-- 
+2.51.0
 
 
