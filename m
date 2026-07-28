@@ -1,250 +1,128 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55957C54F4C
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 15:18:13 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13906.1785251891158715427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B6FC53219
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 19:06:32 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3933.1785265591588867922
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 08:18:12 -0700
+ Tue, 28 Jul 2026 12:06:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=k46TB64q;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id D79B51A12B1;
-	Tue, 28 Jul 2026 15:18:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AAA9D601BF;
-	Tue, 28 Jul 2026 15:18:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A40EB11C1426A;
-	Tue, 28 Jul 2026 17:18:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1785251888; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ZkkNJOvgtLdVNpZ30JwEqOj2FUginv3ErrgFbCBbLog=;
-	b=k46TB64qfGouByoWkW8uJdGO47jwI9VZKDJsrdWfUwwRA0dG27RTTAVaLVlzuRvVTJccJO
-	mpQslxihPHgU6ywvuH0APOPRycWkbOZtDZ4+M5j39F0TbsfnWdSBZQ1m84NftYV9zJVodB
-	Lh9tAPdiPaHErcn7Si1BwkbItO6RSdvij1rmWkcWU9pcFOYFOWYsKIPOwUm084Ryk4ObAJ
-	5BSQNv6xBtVySaE3aeZXL3MRtYzqk3jbVLS3S+hQH1bRYXlMHFuO6D6w8A4gCTG+eVRAtH
-	nU7G6mdv0dyOdeles2S11MFSGI+n6rAOF7AWrofCVstejNSasTt/OHZh8mfnzw==
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=L8AWdzpH;
+ spf=pass (domain: axis.com, ip: 52.101.84.44, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jT2tkVlHCM0g9f4tfW1MfndqtkClTGnAJ0IjkceBI8az2bC+k8Df6UxVN7p+Ayz9GRDGmNbHCeGxLn6AIfyQ1ylsPVHIdhHeCKnEndhY4ReB9zsVba1EKrlbf5cxFhNlbsHUk/0XjgMIxMZsDFqIoNhjyQWQvYPFzKUBrfdT4iSQbWoPjZUPSATk0hwlT7Hls1NPiyQzqYA2MaYqOaPE41veXoIDTu6bErrGcl+58fJu3Ff1Rz9q0LHjklOVPdFWfOnKCD0CmYFTf6TERTMSXs0SgVhGfw5IIGduvdRnJ29GAQcj/BpIzMWFrdWkC2QnKx3EomugzyMNPwmxvkD3wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GPiZz6Lz67DGu3E/kZZ5gjC2eGWpHgpdO+jyZMawDLo=;
+ b=bDrz98aSOeX3cSlal5/VGQM/45zcebF+0UiB+QwFOQsTGa3y3E3Q2hXUkMVzOhihMAQiaTIJ/2zXUyW/1r9EoMCI4OCe3Qst6k8tZAy1de6eab0W3fi4Z+HJKQ5NO/14z+5K3fkB5pFQr6fwduTyVr6lbD9ZvMlixOhU+aCga0NSMJ/JzSp/lg6fHHq/PEiYBJjObKurhUzV9W2aqVhcCFaqb5mNGmaWXqdQ6+UjSnsc/CA8Dw2ttaOOj+gm9e8LZTq5w4lpgheIblVuBDLQvnVHk6uImoKQ7DQZLDeoF/PwRLgUKqXlNuouO5U2BTZOYem/Y1TRnU3GclFVffNtUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GPiZz6Lz67DGu3E/kZZ5gjC2eGWpHgpdO+jyZMawDLo=;
+ b=L8AWdzpHjdDkCgze3qCsDlzgDyRMFvtnUev2axzHaZqoW5R/uecOPbzEJaW6Q33gzJMC4QKE3ALMYow1r3fxaL/fw3y4/iDkcn9RXWxCgIl8bo6gyDcXR25sr1NMbJIckkC3bEl//EcMFSSF5m+vBYp08dpl+wOOLQrlR9b9Fo0=
+Received: from DB9PR01CA0029.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:1d8::34) by VI1PR02MB6304.eurprd02.prod.outlook.com
+ (2603:10a6:800:194::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
+ 2026 19:06:24 +0000
+Received: from DB1PEPF000509E3.eurprd03.prod.outlook.com
+ (2603:10a6:10:1d8:cafe::8) by DB9PR01CA0029.outlook.office365.com
+ (2603:10a6:10:1d8::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.13 via Frontend Transport; Tue,
+ 28 Jul 2026 19:06:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB1PEPF000509E3.mail.protection.outlook.com (10.167.242.53) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.270.5 via Frontend Transport; Tue, 28 Jul 2026 19:06:23 +0000
+Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Tue, 28 Jul
+ 2026 21:06:23 +0200
+Received: from se-mail11w.axis.com (10.20.40.11) by SE-MAILARCH01W.axis.com
+ (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Tue, 28 Jul
+ 2026 21:06:23 +0200
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail11w.axis.com
+ (10.20.40.11) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Tue, 28 Jul 2026 21:06:23 +0200
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 686BE2CB
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 21:06:23 +0200 (CEST)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id 5F1F212B8C3; Tue, 28 Jul 2026 21:06:23 +0200 (CEST)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] sstate.bbclass: Correct a typo in an error message
+Date: Tue, 28 Jul 2026 21:06:17 +0200
+Message-ID: <20260728190617.1816887-1-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Jul 2026 17:18:04 +0200
-Message-Id: <DKAAZ5IAJSBB.1KM0W7EA9ARM8@bootlin.com>
-Subject: Re: [PATCH v10 0/8] rpm: 4.20.1 -> 6.0.2
-Cc: <alex.kanavin@gmail.com>, <mattware@cisco.com>, <esparlin@cisco.com>,
- <peter.marko@siemens.com>, <randy.macleod@windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Sumanth Gavini" <sumanth.gavini@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260727225602.342005-1-sumanth.gavini@windriver.com>
-In-Reply-To: <20260727225602.342005-1-sumanth.gavini@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509E3:EE_|VI1PR02MB6304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29fa1b50-71bc-4d9c-79d6-08deecdb5157
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700016|1800799024|23010399003|82310400026|376014|56012099006|11063799006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	5+YhCrBWipzcrNxgMyxyIPeZmeLvgQtrgCloyn+xQZkY/vd/dKD7fnl3c8DZyzvB3vNDG+fQGnX+szWBfV00qqSzqwd9qHpf0JUYLMCEDu7Lf/HtkkwafOEbvziub2J7kn3AN1e7OOxAANVHDF2/Dci1pFGt8S0Ir0xqBmfMTwOWEfbHQHNDzRs9MvEBwu9WYJZQVHCVMC5w+BVyxF1Qca1Dsz1No7IQ+0VTqJjZmehRN/jtvlUc95F5pNfmaypfFGW1hDVY1B3O1z1J4I9aq+rnv9ozswQFrDmb52EQ3nH5Qjlt9cBj3JUPMsVGMAHGvSWp1L6MBf2Y5aC73LWlB8gqnQcXS8eE0UvUBshpqHUU9pbb7wSwi/U3CB0GsQRWXretYOtZeFuqGx85e3JBAc5JZsUZS/z1HAWDcr+cghqKMEmK6CF5R4O22y4zb/BG61Luoo/MjIcG0ILfo3aJrvEw28+BljdHje8v3irO0qblTLc8HOri85eVFu1r1fnAeS5ba/NhN3sQe4/5s+cmBg4pA9k/P0NkWBtDp8fW5InzszZLqr9G4nAEeEatXXo/KB+TIyRrtzLVtTs6RbD5fWrMo3YYdqCTicwpOeb7sBck8vHfmNeAH9sAaEUJr9xSl/BvcCbIMf9Sl2Vc9fE/q/AMDn81JLo+ZZkzg0yWCVvBcNCjgM+/SDJsoFQ/euPvn+DPMhohPy+jCmUtr0eJYQ==
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(23010399003)(82310400026)(376014)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	0uRu8vtv1uc7/BZigXCNUjaiOn/hfn/9oVJCtnc4Sc2EA8WETNo02LD41QLWv04uf9lrZdcQMTwdEHNycQtwX9qlZeh9o5BVGMzlGXTaYl9ZWtXtQe7WwqxYaoNdsQ0XXEnb838CJv5RiBVxT5dQEKOQNCBGCSBsYWjPVxDcY20iTvObHfW+Cvm5ZlU4uav1MewMBHa84iPLWQXL3u+nkDrncW0DwPNr+ZMnCdxzkeBp7po5BYF22scCEzm87QYTtWEn4UQDCa1FJxqHcefHUhD+O85WO0E4ktOOwpkUXMkNxWHZVsoR3qmDUETbK98aVXcd4eshSNF3Z6KXgHXSXGpwOhq4oyOykX2Nuwwj63rOCixkA0buriswTc3GgtBwpc3rvU2wbKC78pL8zekVw7SBFTeJMd6YZ07U4JnEi62jYKHdwvYvP6MFYgR7G2++
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 19:06:23.9369
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29fa1b50-71bc-4d9c-79d6-08deecdb5157
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509E3.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR02MB6304
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 15:18:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242197
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 19:06:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242198
 
-On Tue Jul 28, 2026 at 12:55 AM CEST, Sumanth Gavini wrote:
-> * v10:
->   - The ARCHIVE_FILTER_RPM macro was commented out in a previous
->     libarchive change, causing do_compile_ptest_base to fail with:
->     error: 'ARCHIVE_FILTER_RPM' undeclared
->     Restore the macro definition. The ptest now compiles and passes
->     successfully.
->
-> * V9:
->   - Updated SRCREV to the 6.0.2 tag.
->   - Incorporated all V8 changes and updated them as needed for 6.0.2.
->   - Dropped
->     0001-scripts-pkgconfigdeps.sh-Use-pkg-config-from-PATH.patch
->     from V8, as it is no longer needed. After filtering out the
->     /usr/bin/pkg-config file dependency, "bitbake core-image-sato -c
->     populate_sdk" completes successfully without the patch.
->   - Fixed the filtering of the /usr/bin/pkg-config file dependency.
->     pkg-config is a build-time tool, not a runtime dependency. Filtered
->     the /usr/bin/pkg-config dependency automatically detected by
->     pkgconfig.attr for packages containing .pc files, preventing
->     unnecessary hard runtime dependencies in -dev packages.
->   - Removed v8 libarchive-related changes since the latest version
->    (3.8.8) already includes the required updates.
->   - Fixed the "oe-selftest -r debuginfod.Debuginfod.test_debuginfod_nativ=
-e"
->     failure observed after upgrading to 6.0.2.
->   - Verified that previously reported Autobuilder issues are no longer ob=
-served.
->     The following builds/tests were successfully completed:
->      "bitbake core-image-minimal"
->      "bitbake core-image-full-cmdline"
->      "bitbake core-image-sato"
->      "bitbake core-image-sato world"
->      "bitbake core-image-full-cmdline:do_testimage"
->      "bitbake core-image-minimal:do_rootfs"
->      "bitbake core-image-sato -c populate_sdk"
->
-> * V8:
->   - Fix build with systemd (Check patch 7 for detailes)
->   - Make rpmbuild can find the pkgconfig (.pc) files in /usr/share/pkgcon=
-fig=20
->     (Check patch 7 for detailes)
->   - Backport a PULL from git/libarchive to fix oe-selftest failures.
->
-> * V7:
->   - Add 0001-scripts-pkgconfigdeps.sh-Use-pkg-config-from-PATH.patch:
->     To fix "bitbake core-image-sato -cpopulate_sdk" error on Ubuntu 24.04=
- when
->     pkg-config is installed on host, now the host contamination has been =
-fixed,
->     and the patch has been submitted to upstream:
->     https://github.com/rpm-software-management/rpm/pull/4127
->
-> * V6
->   - Fix -cpopulate_sdk error when DISTRO =3D "poky"
->
-> * V5
->   - Fix RP's comments: Don't hardcode libc6 into package_rpm.bbclass
->   - Use SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} to fix the loop dependencie=
-s
->     between /bin/sh and libc.so.=20
->
-> * V4
->   - Fix loop dependencies issues for libc6 and busybox
->   - Fix issues for can't find pkg-config files (.pc) on qemux86-64.
->
-> * V3
->   - Fix Alexender's comments
->     a) Suppot rpm 6
->     b) Move rpm-setup-autosign to rpm-build
->     c) Remove -DLIBELF_FOUND=3DFalse
->
->   - Fix build for nativesdk-rpm
->
->   - Drop patch for createrepo-c since it has been upgraded (rev:
->     804a238c8a4e86c2bcfb2192d54cb861d5fd32a6)
->
-> * V1 & V2
->   - Initial version
->
->
-> --
-> # Sumanth Gavini
-> # Wind River Linux=20
->
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes-global/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Sumanth,
-
-Thanks for taking care of this series.
-
-So we do have a few fails here:
-
-ERROR: core-image-sato-sdk-1.0-r0 do_rootfs: Could not invoke dnf. Command =
-...
-...
-Last metadata expiration check: 0:03:07 ago on Tue 28 Jul 2026 11:03:02 AM =
-UTC.
---> Starting dependency resolution
---> Finished dependency resolution
-Error:
- Problem 1: conflicting requests
-  - nothing provides pkgconfig(ogg) needed by flac-dev-1.5.0-r0.core2_64 fr=
-om oe-repo
- Problem 2: conflicting requests
-  - nothing provides pkgconfig(libxml-2.0) needed by libcomps-dev-0.1.24-r0=
-.core2_64 from oe-repo
- Problem 3: conflicting requests
-  - nothing provides pkgconfig(ncurses) needed by libreadline-dev-8.3-r0.co=
-re2_64 from oe-repo
- Problem 4: package libsndfile-dev-1.2.2-r0.core2_64 from oe-repo requires =
-flac-dev, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides pkgconfig(ogg) needed by flac-dev-1.5.0-r0.core2_64 fr=
-om oe-repo
-(try to add '--skip-broken' to skip uninstallable packages)
-
-It does happen with a few different packages.
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4248
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/4228
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/4210
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/4211
-
-Also, we do have selftest failures:
-
-2026-07-28 10:37:28,088 - oe-selftest - INFO - runtime_test.Postinst.test_f=
-ailing_postinst (subunit.RemotedTestCase)
-2026-07-28 10:37:28,093 - oe-selftest - INFO -  ... FAIL
-...
-2026-07-28 10:37:28,094 - oe-selftest - INFO - 5: 27/36 299/763 (127.74s) (=
-0 failed) (runtime_test.Postinst.test_failing_postinst)
-2026-07-28 10:37:28,094 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/runtime_test.py", line 409, in test=
-_failing_postinst
-    self.assertGreaterEqual(bb_result.output.find("Postinstall scriptlets o=
-f ['postinst-rootfs-failing'] have failed."), 0,
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        "Warning about a failed scriptlet not found in bitbake output: %s" =
-%(bb_result.output))
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/buildtools/sys=
-roots/x86_64-pokysdk-linux/usr/lib/python3.13/unittest/case.py", line 1297,=
- in assertGreaterEqual
-    self.fail(self._formatMessage(msg, standardMsg))
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/buildtools/sys=
-roots/x86_64-pokysdk-linux/usr/lib/python3.13/unittest/case.py", line 732, =
-in fail
-    raise self.failureException(msg)
-AssertionError: -1 not greater than or equal to 0 : Warning about a failed =
-scriptlet not found in bitbake output: NOTE: Reconnecting to bitbake server=
-...
-...
-ERROR: core-image-minimal-1.0-r0 do_rootfs: Could not invoke dnf. Command '=
-/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-71494/tmp/wor=
-k/qemux86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/bi=
-n/dnf -v --rpmverbosity=3Dinfo -y -c /srv/pokybuild/yocto-worker/oe-selftes=
-t-fedora/build/build-st-71494/tmp/work/qemux86_64-poky-linux/core-image-min=
-imal/1.0/rootfs/etc/dnf/dnf.conf --setopt=3Dreposdir=3D/srv/pokybuild/yocto=
--worker/oe-selftest-fedora/build/build-st-71494/tmp/work/qemux86_64-poky-li=
-nux/core-image-minimal/1.0/rootfs/etc/yum.repos.d --installroot=3D/srv/poky=
-build/yocto-worker/oe-selftest-fedora/build/build-st-71494/tmp/work/qemux86=
-_64-poky-linux/core-image-minimal/1.0/rootfs --setopt=3Dlogdir=3D/srv/pokyb=
-uild/yocto-worker/oe-selftest-fedora/build/build-st-71494/tmp/work/qemux86_=
-64-poky-linux/core-image-minimal/1.0/temp --repofrompath=3Doe-repo,/srv/pok=
-ybuild/yocto-worker/oe-selftest-fedora/build/build-st-71494/tmp/work/qemux8=
-6_64-poky-linux/core-image-minimal/1.0/oe-rootfs-repo --nogpgcheck install =
-packagegroup-core-boot postinst-rootfs-failing run-postinsts ssh-pregen-hos=
-tkeys' returned 1:
-...
-Error in POSTIN scriptlet in rpm package postinst-rootfs-failing
-  Installing       : update-rc.d-0.8+git0+b8f9501050-r0.noarch            3=
-7/40
-  Installing       : ldconfig-2.44+git0+7cba77790f-r0.x86_64_v3           3=
-8/40
-  Installing       : ssh-pregen-hostkeys-1.0-r0.x86_64_v3                 3=
-9/40
-  Installing       : openssl-conf-3.5.7-r0.x86_64_v3                      4=
-0/40Error: Could not run transaction.
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4394
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4213
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4458
-
-Can you have a look at the issues?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstat=
+e.bbclass
+index 6ee83717bb..169654767c 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -663,7 +663,7 @@ def sstate_package(ss, d):
+             for dir in dirs:
+                 dir =3D os.path.join(walkroot, dir).removeprefix(state[1])
+                 if tmpdir in dir:
+-                    bb.error("sstate found a tmpdir path reference in inst=
+allation directiory %s which must be removed." % dir)
++                    bb.error("sstate found a tmpdir path reference in inst=
+allation directory %s which must be removed." % dir)
+                     exit =3D True
+         bb.debug(2, "Preparing tree %s for packaging at %s" % (state[1], s=
+statebuild + state[0]))
+         bb.utils.rename(state[1], sstatebuild + state[0])
 
