@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 023DEC54FD1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07699C54FD4
 	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 22:22:17 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2707.1785277335179755305
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2708.1785277336196950718
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 15:22:15 -0700
+ Tue, 28 Jul 2026 15:22:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=RGMp3NPG;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4954aff6088so2856585e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 15:22:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=muUvgdxg;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49557167508so2752015e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 15:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785277333; x=1785882133; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1785277334; x=1785882134; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=mMny7I5hrqIK2DR8XHQTY+qcbx3U6F/iogAnqWFtnGg=;
-        b=RGMp3NPGwc6Cxt1EaTwO3yOlfjFnVUOEQepxCPvNXJCujnGIN5vuNg7rmNp6J6bB05
-         LuQodyyxtRlOmbYzNCeLSZqmkNhybahGvuzd9rXMZSr3JYYemvrQxCyHrO7mQwerL6jg
-         5w1R1Najqu2ZhqAaWUD0BoRniAb7ntcv2r/jo=
+        bh=0Oac/VvdswcAYTGoKQ7LJScN7xzt668rZuQwaFDtCDc=;
+        b=muUvgdxgVCtvUPisPyMwjd3Pys1AL2i+sSqWEUG39WmdT8U0SxtvNskgogJXlz+Y/8
+         M3yHPb/5bCpKC1P0DX/ro8iLTar5tddQgxXMIO/kjvPsacOMmntKIrOrLg0FElt/z/ZQ
+         lBw6qP+pKlANqJkDJoUcbK5LwOdRCdUrzO4xQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785277333; x=1785882133;
+        d=1e100.net; s=20251104; t=1785277334; x=1785882134;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=mMny7I5hrqIK2DR8XHQTY+qcbx3U6F/iogAnqWFtnGg=;
-        b=tIGhCLjOF6Ql98XIllpKHSa+97FIHkjI1B8XtUVk2jvECbv2qiGiNIwpss/lIWFT86
-         lhLUfuJN1ndZdSTvn8zoFIwmKRTABZTvMEo2F6/46nDNlNaxlSGUs3o3qnIpG0EJHUCR
-         E9G6te0bvhhMPLw/CfwStxNUtUXhH1XuDi/UkBN7I6iAg6K5l8yGP2Bli2vqLdIOloDZ
-         2Wt59hwIkYf4jYWbwiQOmICC7bvgtLUaCcYJeJEcBgu2rY+8yh8i6nJPyVXdo7qCdwgs
-         WxFY1L4An4D8/PqUJX7ayigdP7WLIytFQERhVJWHpCi8g53cd3nn4J5fK/kpF3Ssgkq9
-         8Kqg==
-X-Gm-Message-State: AOJu0YyIcfYvAuyVXO9/ObKCJAATVsHbKDqHwT6lN2F1wMAwppD5zLU2
-	NC0XNaQq+g6ZADdbrkCrSjMHO+YJSGRO14lMex4/BPs5GJzOSpXMjB/+dvmjrRTEiONX4I1/X9C
-	+2Au7dYM=
-X-Gm-Gg: AR+sD12W4C0RGIOIs5ah8VA0PHGu4nZW0fcFvUZG8LsYqWcFkAotpFG8fd1Tc8sP+S6
-	3LgG9Siq1XwYzP/7pmqyTGcV/sVhefwDUnijT7q5xnRfaMsflz/q6qwZt+J4d9hRAxTnFHIewIY
-	RnKxMD8MF6zyx5Gvs01pkIIRhbZz4Lw7d9AHt8rDxm0ClDExyy8pEsQFE4BxyIYbhzI9aa2zlZh
-	Il7bDzbQaDOS4MQi1oecyIsVCqS7W7MSJtATnMcdQ9uVG7Ovn5B008lt0yIvWQDcTvGWVWWb/O1
-	x7agkANIDJcTpf15YUpBpdheH4OrOx+OKFwlftEWdwsgPDY7KcU28K0jxmtvF+sF7fgPZKN6c6v
-	N9JoVjwBQAwqXuR3K1IjA8eBwvRKvaPoknuL9yEgO0txWWlZmNcLL5HUDzOVQl802SpP14VB8zh
-	hhp3pU1w6NB+DlRbiUVk1g/hhvqZd9c6oYcreFqLjt4tjQogGB9J0nZ8w0XFQ15pGPZIsWitdzy
-	MYIIJQNwsy1Tyx22y3Tpi6SedbVAkXO5/MS7xk8KEcJfhosvaAW7Kp9TYlCPbA3
-X-Received: by 2002:a05:600c:34d2:b0:495:5e07:649b with SMTP id 5b1f17b1804b1-496c6576533mr45705385e9.24.1785277333372;
-        Tue, 28 Jul 2026 15:22:13 -0700 (PDT)
+        bh=0Oac/VvdswcAYTGoKQ7LJScN7xzt668rZuQwaFDtCDc=;
+        b=Hp+OsFkcIHtZ1Qbxp1o7bnq5OuDj5hXl1m6Sf/hQnckpgBne/vHof+x4QXdSJv7e6A
+         lkNLudgrLZ5P+R7GT2Rfb232W+jaPMlfAkjBAjB8z7gpwqe55wsX1nQ8tgwC79Vzw9WY
+         Wy5iXirXzkO7X4xgUYtSPR24W+0frC+kGOZAJtmJUjUZ1g7GMDPOi16nSKD4W6Kh7ZD2
+         V4qDE297MZCV3/AVUmuxFE7kCH3CuVwVbXx5vnL4UN1Bij+SKiN04iGTgp8pp73HxEXr
+         m4kponptn7EGm/mrI51DbB50W3kL8ShyCKzeE9pqLSHLHP7mfXjfgP0xPAVGGmIO2MqU
+         KvVA==
+X-Gm-Message-State: AOJu0Yzr5rOXSG4qgrm1aCVrrMwnvZ+lJwiVJXVgG8ic33njwUUdQY6a
+	D2yPRlquVI4pKFq+4OIGh2PjwRxHvJRwMUjC+RHnEB4UJTcxXNmCtMZkYCWSHbBFMwsGO485+wb
+	8Q5pqD/U=
+X-Gm-Gg: AR+sD13OU/kICoc4ojHlTU8JsIYXzTqoOrntyRU5guYdq0H4Ol9ualonJby0Vb5AMih
+	jyZFvRbMLXAvUnIBwSwwSwJVwXtESOnyjVXFvsJIm2MMo2C+W4F+MLSk3BR7BVaX0jceezLaVgJ
+	zcB2E+Ic79nHeP5rly2/K4i1uIr4LzXLVL5BdJUbTNLqoxzDECy/YjvzRNS8cS3MJYvMDVvTqmg
+	zfOyZpOpxHvReWD3Ih/O6QX7Z+Z0ulbR5QihCLhRQiKj4hK2ijketGgN+6gHUtGdzkr2bKFya0U
+	KRTSAdUHC490K+/cAmznjy40FEuZMWlq5OwPVBufvaJg6Ow7voFgD4HTFqJquEy9ZFlJMFfiVin
+	U6M6aCVQDzJyQrKnr6zc8JGidcNlW0Mqsnu2Y88DT3+vXJ7sS1usaY/lzpVKRAif+O5V1kwpQuE
+	g9aqEogaY+/F9V003vbyvry9TuT+VaJLnI+4UXnBHis9CW1uoUxzSvlfkOCw5XieDmbJRBUZiy+
+	HeN5ln3swl2StT72MP1i6EbtlXqfH1EhaOsKvBTN7TwkKCsINlrPKt6yx5EQ2CZ
+X-Received: by 2002:a05:600c:45d2:b0:495:5d5b:7533 with SMTP id 5b1f17b1804b1-496c642d775mr47584855e9.13.1785277334429;
+        Tue, 28 Jul 2026 15:22:14 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4976bd6da4asm7669405e9.1.2026.07.28.15.22.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4976bd6da4asm7669405e9.1.2026.07.28.15.22.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 15:22:13 -0700 (PDT)
+        Tue, 28 Jul 2026 15:22:14 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/19] sqlite3: fix CVE-2026-11822 and CVE-2026-11824
-Date: Wed, 29 Jul 2026 00:21:51 +0200
-Message-ID: <3de44d1dd09907f620ed349dba563c489a5cecb9.1785277157.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 18/19] cargo-update-recipe-crates: Don't fail for partially empty Cargo.lock
+Date: Wed, 29 Jul 2026 00:21:53 +0200
+Message-ID: <59f1965358f59457857c920ed836998509450d9a.1785277157.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785277157.git.yoann.congal@smile.fr>
 References: <cover.1785277157.git.yoann.congal@smile.fr>
@@ -66,87 +66,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 22:22:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242219
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242221
 
-From: Deepak Rathore <deeratho@cisco.com>
+From: Martin Schwan <m.schwan@phytec.de>
 
-This patch applies the upstream fix [1], which addresses memory
-corruption vulnerabilities in the SQLite FTS5 full-text search extension.
-The GitHub mirror commit [1] corresponds to the SQLite Fossil check-in
-shown in [2].
+Do not fail if only some Cargo.lock files are empty. Only fail, if there
+are absolutely no dependencies found in any Cargo.lock.
 
-[1] https://github.com/sqlite/sqlite/commit/e0b995b2a62b78979eb65bb8dadfa912eaa8e62f
-[2] https://sqlite.org/src/info/061febcf41ca
+This fixes the following error message, which would occur with "bitbake
+-c update_crates python3-orjson":
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-11822
-https://nvd.nist.gov/vuln/detail/CVE-2026-11824
+    ERROR: python3-orjson-3.10.17-r0 do_update_crates: Execution of '.../python3-orjson/3.10.17/temp/run.do_update_crates.70693' failed with exit code 1
+    ERROR: Logfile of failure stored in: .../python3-orjson/3.10.17/temp/log.do_update_crates.70693
+    Log data follows:
+    | DEBUG: Executing python function extend_recipe_sysroot
+    | NOTE: Direct dependencies are ['.../sources/oe-core/../oe-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', 'virtual:native:.../sources/oe-core/../oe-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:.../sources/oe-core/../oe-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_populate_sysroot']
+    | NOTE: Installed into sysroot: []
+    | NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'cmake-native', 'libtool-native', 'quilt-native', 'texinfo-dummy-native', 'openssl-native', 'expat-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'libedit-native', 'make-native', 'patch-native', 'perl-native', 'python3-native', 'bzip2-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'libffi-native', 'sqlite3-native']
+    | DEBUG: Python function extend_recipe_sysroot finished
+    | DEBUG: Executing shell function do_update_crates
+    | Traceback (most recent call last):
+    |   File "<stdin>", line 41, in <module>
+    |   File "<stdin>", line 12, in get_crates
+    | ValueError: Unable to find any candidate crates that use crates.io
+    |
+    | The above exception was the direct cause of the following exception:
+    |
+    | Traceback (most recent call last):
+    |   File "<stdin>", line 43, in <module>
+    | ValueError: Cannot parse '.../python3-orjson/3.10.17/sources/orjson-3.10.17/include/cargo/simdutf8-0.1.5/Cargo.lock'
+    | WARNING: exit code 1 from a shell command.
+    ERROR: Task (.../sources/oe-core/../meta-openembedded/meta-python/recipes-devtools/python/python3-orjson_3.10.17.bb:do_update_crates) failed with exit code '1'
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Signed-off-by: Martin Schwan <m.schwan@phytec.de>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1ef39b3fa731fb121d338aea2b1ac004620063e0)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../CVE-2026-11822_CVE-2026-11824.patch       | 41 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-11822_CVE-2026-11824.patch
+ .../cargo-update-recipe-crates.bbclass           | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-11822_CVE-2026-11824.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-11822_CVE-2026-11824.patch
-new file mode 100644
-index 00000000000..1764d5c6e2c
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-11822_CVE-2026-11824.patch
-@@ -0,0 +1,41 @@
-+From ceece94b0040125a12192f6f23b1ec413871b04c Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Mon, 11 May 2026 12:00:19 +0000
-+Subject: [PATCH] Fix potential buffer overwrite that could occur in fts5 when
-+ processing corrupt records.
-+
-+FossilOrigin-Name: 061febcf41ca4872a0f407951e1507209daca7895122b909a7806c60b6e200c4
-+
-+CVE: CVE-2026-11822 CVE-2026-11824
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/e0b995b2a62b78979eb65bb8dadfa912eaa8e62f]
-+
-+Backport Changes:
-+- Applied the upstream fts5LeafRead() fix from ext/fts5/fts5_index.c
-+  to sqlite3.c because the Yocto sqlite-autoconf source uses the
-+  amalgamated SQLite layout.
-+- Omitted ext/fts5/test/fts5corruptA.test because this extracted
-+  recipe source contains the SQLite autoconf/amalgamation layout and
-+  does not carry the upstream Tcl test tree.
-+- Omitted Git mirror metadata files manifest and manifest.uuid because
-+  they are not required for the security fix in this source layout.
-+
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ sqlite3.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index fb42adcd7..6acf46a5b 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -239694,7 +239694,7 @@ static void fts5DataRelease(Fts5Data *pData){
-+ static Fts5Data *fts5LeafRead(Fts5Index *p, i64 iRowid){
-+   Fts5Data *pRet = fts5DataRead(p, iRowid);
-+   if( pRet ){
-+-    if( pRet->nn<4 || pRet->szLeaf>pRet->nn ){
-++    if( pRet->szLeaf<4 || pRet->szLeaf>pRet->nn ){
-+       p->rc = FTS5_CORRUPT;
-+       fts5DataRelease(pRet);
-+       pRet = 0;
-+--
-+2.51.0
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-index 1b3ac83b58d..975f3bdab84 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2025-6965.patch \
-            file://CVE-2025-7709.patch \
-            file://CVE-2025-70873.patch \
-+           file://CVE-2026-11822_CVE-2026-11824.patch \
-           "
- SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
+diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+index 8980137d02c..ac76fa3279a 100644
+--- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
++++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+@@ -36,7 +36,8 @@ def get_crates(f):
+     crates_candidates = list(filter(lambda c: 'crates.io' in c.get('source', ''), crates['package']))
  
+     if not crates_candidates:
+-        raise ValueError("Unable to find any candidate crates that use crates.io")
++        print("WARNING: Unable to find any candidate crates that use crates.io")
++        return None
+ 
+     # Update crates uri and their checksum, to avoid name clashing on the checksum
+     # we need to rename crates with name and version to have a unique key
+@@ -63,14 +64,11 @@ for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
+         continue
+     for file in files:
+         if file == 'Cargo.lock':
+-            try:
+-                cargo_lock_path = os.path.join(root, file)
+-                crates += get_crates(os.path.join(root, file))
+-            except Exception as e:
+-                raise ValueError("Cannot parse '%s'" % cargo_lock_path) from e
+-            else:
+-                found = True
+-if not found:
++            cargo_lock_path = os.path.join(root, file)
++            c = get_crates(cargo_lock_path)
++            if c is not None:
++                crates += c
++if crates is None:
+     raise ValueError("Unable to find any Cargo.lock in ${CARGO_LOCK_SRC_DIR}")
+ open("${TARGET_FILE}", 'w').write(crates)
+ EOF
 
