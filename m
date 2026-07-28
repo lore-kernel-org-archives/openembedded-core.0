@@ -1,141 +1,129 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A5DC53219
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 04:43:58 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4879.1785213832574882062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 770AEC53219
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 04:59:08 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5041.1785214743091199581
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2026 21:43:53 -0700
+ Mon, 27 Jul 2026 21:59:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=GCleJSyU;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 531801A12B0;
-	Tue, 28 Jul 2026 04:43:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 27A67601BF;
-	Tue, 28 Jul 2026 04:43:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CA36F11C13C9E;
-	Tue, 28 Jul 2026 06:43:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1785213825; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=OD24oJuE2j5KktcWyWuQ3nCdEN6NQ41NypV3zB/Sp/c=;
-	b=GCleJSyU7ZCa/3etfIkK6EeG0o1K4ryw9yY6kSXP54OrmSfc+AlAexze09AaIGkrVS+hMr
-	CQ6YV1D8nJTqJR8in4UcF0mjvhN7LFsmPtSnT4p668heD+KoQ6Mr5c+EAJmu0UUN74UZ43
-	IrsafY+CDr1DvsuiHjwU3CKGBNi3cIgHyikXxWqhy5wVdMPD9WfZvJ49SPoLOpkWVXQIPs
-	7AX35qZEaUzn+2niviVeeP0yvKOW/H8YzlUGrhh8Gzlhb2x1gpjTeOadewndn66FlME9gZ
-	QoniyeGAerevGZJ1zRSY25vbEZV3ewwy0FkhmkmAZPphF6dUyyj0FlW4/76qgA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Jul 2026 06:43:43 +0200
-Message-Id: <DK9XHGRCG7LU.1L6EFEVZGMPXB@bootlin.com>
-To: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] glibc: stable 2.43 branch updates
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260727112902.1653529-1-adarsh.jagadish.kamini@est.tech>
-In-Reply-To: <20260727112902.1653529-1-adarsh.jagadish.kamini@est.tech>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Q/HJiQtj;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: devanshp@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2047; q=dns/txt;
+  s=iport01; t=1785214743; x=1786424343;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=SYv+CEjeKZxVGGtPb82t3wzjxD8HGA+bsVKnAoZpLKU=;
+  b=Q/HJiQtjz9k3UKkGq402ICtiEfU5mIXa7Lm5i69iUVP7mFAaZIul5xS7
+   qib52RBKiPnQAffoPfinMlgvlwmW3u2Q8wMeTAgDe2lSt/2DHvKqmTQyA
+   i9rpHzOvcjggNsEOr/EKvmRB7XRNBzqBsGB5sB+GE0J9tC0k2p1ESIrsL
+   WFQvatDBpz/2dK9+Pp4rOKGsa9DXR9PXmjh+ZMI/ZWTXS+2g4BHbeoPNO
+   zSjXe7pYLWFjloVsABGsEop+ZYTtUuFJZ/FPVkRBYeaWaA2Sk8udWtURC
+   wer+faonibRz3wF1zHI/2lv5K6xtNWb1oZzGfc+VMVpEdGqXLw7Qku8p1
+   Q==;
+X-CSE-ConnectionGUID: 5RcXpJ2RRq+W4FrEIflD6A==
+X-CSE-MsgGUID: 4Zeo+MV7S/KNCzD40dpp8Q==
+X-IPAS-Result: =?us-ascii?q?A0BFAgAZH2hq/4oQJK1aHgEBCxIMggULgld0XkNJlkoDn?=
+ =?us-ascii?q?huBfg8BAQEPRA0EAQGFBQKNYwImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDYZbAgEDMgEYAS0QIDErHQENGYMCAYJ0AxHAQYIsgQGDK?=
+ =?us-ascii?q?AE/AkNQ2y4BCxQBBYEzhT+IIHQBhHwnGxuBcoEVg2mBBYFcAQECGIIThXgEg?=
+ =?us-ascii?q?iJ6EoF4kEpIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYEsY?=
+ =?us-ascii?q?YRYIxk5f4ExdUp3LWkBEheBGoM8AoIVAwsYDUgRLDcUGQQ+bgeNdSKCPVoKK?=
+ =?us-ascii?q?ixNgXClZaEPCiiDdYwhlToaM6psC5h9jgqWUIRpgWg8gUcLB3AVgyIJShkPj?=
+ =?us-ascii?q?jiDa4F/gxTIMicyAgkyAQEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:kSgHvq5LGkuC2JmZGwzNNwxRtG7GchMFZxGqfqrLsTDasY5as4F+v
+ mcYUDyGM/6LZjTwKd10PYW09k8CusPTzYMySgVrpH8wZn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/qUzBHf/g2Qqaj1OtPrZwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eYLcTyv5VW1t07
+ L8ndB4XQzGNg87o6efuIgVsrpxLwMjDNYcbvDRkiDreF/tjGcmFSKTR7tge1zA17ixMNa+BP
+ IxCN3w2MlKZOE0n1lQ/UPrSmM+ki2f2dSZYsHqepLE85C7YywkZPL3Fb4uNJYPSG5gI9qqej
+ j708mO6Jy9FD5u87xGX3i70ivfXzRquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4Guk+7kSJj6HT+QvcXjFCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:Qe047KGHa2cWAjuBpLqEMMeALOsnbusQ8zAXPo5KJiC9Ffbo8P
+ xG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNGKNhILrFvAG0WKI+VPd8kPFmtK1/J
+ 0QFZSWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaEp2JK2xCe32m+oocfng/OaYE
+X-Talos-CUID: 9a23:8eySZmPny7ddnO5DBRNsxFY2QPofaz7ikFnKDm62DUo3YejA
+X-Talos-MUID: 9a23:VDGBKQVLCWBJM9Dq/GPeiTYhEfk32OONLmsfvclet9GcZRUlbg==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,189,1779148800"; 
+   d="scan'208";a="790770655"
+Received: from alln-l-core-01.cisco.com ([173.36.16.138])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Jul 2026 04:59:02 +0000
+Received: from sjc-ads-9357.cisco.com (sjc-ads-9357.cisco.com [10.30.212.121])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id E1738180001B3;
+	Tue, 28 Jul 2026 04:59:01 +0000 (GMT)
+Received: by sjc-ads-9357.cisco.com (Postfix, from userid 1887503)
+	id 76F72CC12A6; Mon, 27 Jul 2026 21:59:01 -0700 (PDT)
+From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][scarthgap][PATCH v2] openssh: set status for CVE-2026-59998
+Date: Mon, 27 Jul 2026 21:59:01 -0700
+Message-Id: <20260728045901.4183013-1-devanshp@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260720185749.4098075-4-devanshp@cisco.com>
+References: <20260720185749.4098075-4-devanshp@cisco.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-9357.cisco.com [10.30.212.121];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.30.212.121, sjc-ads-9357.cisco.com
+X-Outbound-Node: alln-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 04:43:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242156
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 04:59:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242157
 
-On Mon Jul 27, 2026 at 1:29 PM CEST, Adarsh Jagadish Kamini wrote:
-> Update SRCREV to pull the latest fixes from the upstream
-> release/2.43/master branch, including fixes for the following CVEs:
->
->   CVE-2026-5435  resolv: More types as unknown in ns_sprintrrf
->   CVE-2026-5450  stdio-common: Fix buffer overflow in scanf %mc [BZ #3400=
-8]
->   CVE-2026-5928  libio: Fix ungetwc operating on byte stream [BZ #33998]
->   CVE-2026-6238  resolv: Fix buffer overreads in ns_sprintrrf
->   CVE-2026-6791  posix: Fix stack overflow in wordexp tilde expansion (BZ=
- 34091)
->
-> Commits between the old SRCREV (e9517114ac) and the new SRCREV (1c9988e52=
-5):
->
-> 1c9988e525 rtld: cache cpuid results on the stack for intel
-> dae425b554 posix: Fix stack overflow in wordexp tilde expansion (BZ 34091=
-, CVE-2026-6791)
-> 8759917de5 resolv: Add test case tst-ns_sprintrr (bug 34033, bug 34069)
-> 3a418da6a3 resolv: Fix buffer overreads in ns_sprintrrf (CVE-2026-6238)
-> e64ae5a591 resolv: More types as unknown in ns_sprintrrf (CVE-2026-5435)
-> c9225a3e73 resolv: Check for inet_ntop failure in ns_sprintrrf
-> c46f7b2fd6 resolv: Improve formatting of unknown records in ns_sprintrrf
-> 1d7d1a16b0 resolv: Fix ns_sprintrrf formatting of class, type values (bug=
- 34289)
-> 349297a4eb resolv: Declare __p_class_syms, __p_type_syms for internal use
-> fdf10644d6 hppa: Fix missing call to __feraiseexcept (BZ 34306)
-> a6fa9a9594 arm: Save/restore VFP registers in PLT trampolines (BZ 34144, =
-BZ 15792)
-> fe0ccc9564 iconv: Suppress intermediate errors with //TRANSLIT (bug 34236=
-)
-> 22f3d24a6b Hurd: restore some SIOC ioctls
-> a13ebdbc7e Hurd: comment ioctls which cannot currently compile
-> 446f708e4c Hurd: comment PF_ROUTE/AF_ROUTE defines
-> ced45fd472 Hurd: comment PF_LINK/AF_LINK defines
-> 89cbf46693 elf: don't clobber ld.so.conf in tst-glibc-hwcaps-prepend-cach=
-e [BZ #34210]
-> 18b97b03b7 Rename __unused fields to __glibc_reserved.
-> a47b5b2b3e math: Fix fma alignment when exponent difference is exactly 64=
- (BZ 34183)
-> 4070d808be stdio-common: Fix buffer overflow in scanf %mc [BZ #34008]
-> 2890b35cd3 libio: Fix ungetwc operating on byte stream [BZ #33998]
->
-> Testing Results:
->              Before    After    Diff
-> PASS         6609      6611      +2
-> XPASS        4         4          0
-> FAIL         131       132       +1
-> XFAIL        16        16         0
-> UNSUPPORTED  554       555       +1
->
-> Changes in testcases:
->
-> testcase-name                                before  after
-> resolv/tst-ns_sprintrr(new)                    -     PASS
-> nptl/tst-robustpi7                            PASS    FAIL
->
-> [Note: The uplift adds new testcases including resolv/tst-ns_sprintrr
-> from commit 8759917de5, which passes, accounting for the PASS and
-> UNSUPPORTED increases.
->
-> nptl/tst-robustpi7 shows as PASS->FAIL, but it is a flaky test under
-> QEMU user-mode emulation (PI robust-mutex handling). No nptl code was
-> changed in the SRCREV range.]
->
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> ---
+From: Devansh Patel <devanshp@cisco.com>
 
-Hi Adarsh,
+Analysis:
+- CVE-2026-59998 concerns an undocumented limitation of
+  GSSAPIStrictAcceptorCheck in Windows Active Directory
+  environments [1].
+- Upstream OpenSSH 10.4 only documents the existing behavior and
+  provides no code remediation [2].
+- The recipe disables Kerberos/GSSAPI by default. Mark the CVE
+  not-applicable-config when PACKAGECONFIG lacks kerberos, and
+  unpatched when kerberos is enabled.
 
-Thanks for your patch, but this is not building at all. You will need to
-refresh or drop some patches:
+Reference:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-59998
+[2] https://github.com/openssh/openssh-portable/commit/8058c5bdb507591b79ec926221fbe6fcc296d432
 
-ERROR: nativesdk-glibc-2.43+git-r1 do_patch: Applying patch '/srv/pokybuild=
-/yocto-worker/genericx86-64/build/layers/openembedded-core/meta/recipes-cor=
-e/glibc/glibc/0023-CVE-2026-5450.patch' on target directory '/srv/pokybuild=
-/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-nativesdk-pokysdk-l=
-inux/nativesdk-glibc/2.43+git/sources/glibc-2.43+git'
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
+---
+Changes in v2:
+- Drop the documentation-only backport for CVE-2026-59998.
+- Add a configuration-aware CVE_STATUS that reports unpatched when Kerberos
+  support is enabled and not-applicable-config otherwise.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4241
+ meta/recipes-connectivity/openssh/openssh_9.6p1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index ba8aaad9bb..b48e262c72 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -57,6 +57,7 @@ Red Hat Enterprise Linux 7 and when running in a Kerberos environment"
+ CVE_STATUS[CVE-2008-3844] = "not-applicable-platform: Only applies to some distributed RHEL binaries."
+ CVE_STATUS[CVE-2023-51767] = "upstream-wontfix: It was demonstrated on modified sshd and does not exist in upstream openssh https://bugzilla.mindrot.org/show_bug.cgi?id=3656#c1."
+ CVE_STATUS[CVE-2026-3497] = "not-applicable-platform: Only affects GSSAPI Key Exchange patches used by some Linux distributions and does not exist in upstream openssh."
++CVE_STATUS[CVE-2026-59998] = "${@bb.utils.contains('PACKAGECONFIG', 'kerberos', 'unpatched', 'not-applicable-config: GSSAPI/Kerberos support is disabled in the default OpenSSH configuration', d)}"
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-- 
+2.35.6
 
 
