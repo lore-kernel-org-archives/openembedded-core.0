@@ -1,203 +1,150 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8971AC531F9
-	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 11:34:18 +0000 (UTC)
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9332.1785238450561639785
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B81C531F9
+	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 11:43:39 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.127])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9550.1785239016015686429
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 04:34:10 -0700
+ Tue, 28 Jul 2026 04:43:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=EJWaJqdd;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=iqMRDeoJ;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C71D17A0349;
-	Tue, 28 Jul 2026 07:34:09 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 28 Jul 2026 07:34:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1785238449; x=1785324849; bh=d95fZbJplt
-	Ioc8bG1Mph0QWSnxbjOLZ/WcvwiteTyJw=; b=EJWaJqddGPxeg8DwvVp7peHA4e
-	my07getNRTaplpAqtte8OFdIoyky8xvnblpc18IhMafHb+I31oZCQNopi2180Tk6
-	3+v3hprCiEXD9z+1qEdSRr0+lD5livk1JAAoMaMaf8aEetshG6702zi3Iphh8TYq
-	zihy2qVoq/XR12jC3n8L623TkAtRzQf1oOBL7pXPsoYTRL6l6EJDDwQvgtS0jiYe
-	9uXZ9KvBpVi43DjFeHbtuENU0RKzJWG0ds4IYk9uJIHOiCX8VEQzlQszUZ3KjibC
-	tYe5mzjfp4BIxROZMKTH5hVUcjFKzlct9mSgYI3IvUxhaKF1Fg6K/4K+oPqw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1785238449; x=1785324849; bh=d95fZbJpltIoc8bG1Mph0QWSnxbjOLZ/Wcv
-	witeTyJw=; b=iqMRDeoJWOdI7656pfVHX4Nw3WW65SVhIqvNkt0H06RidenuOzz
-	OGLlALHyspOgkEOip6elQlSwO1t/ogD3FkMnAf9zgg6owlRC/JXLozs7aoKuf0UD
-	tezm6ryYKuv5XBe2OSXhMW5tFAMzn1PZ3YHrm8B51dhtshTEmNwOUZnUppShRwIK
-	1bLHPXgTlKbPOfx2rxs/OSthUdtlEVsqDu0mj4i63J/rPrUtt7cs2CJ03F6m8pQi
-	AXKhJcSGI0uLfyQwrY9CopXLEATc51GbhGpxD1gTxV0uG40yIGUJiBLUyTLzIx3J
-	wOQUVKQh5NTbk8+z1cDEo0weO0LEZax69wQ==
-X-ME-Sender: <xms:sZNoancTXlw5Z_XDGRFOS9yXpJEVxKmenfTuiSl6JZ8PhpCfmVYM8w>
-    <xme:sZNoajPT0tXeHP7i_hplws181oxLsGjlPTNjwwCSo6zJPMLzzVxm8S4T1bMHcHc3b
-    ByJQg7dgit_zfyYgepyaUCSzi4b6UZfucWpK30h2cgxfFJ1X47kXsY>
-X-ME-Received: <xmr:sZNoauK00JX7KxoePva7A4IP6j4nBIW6xMaqDmI5KLzfJszK8OmeDC04hHOKrJ3xs5fTyO8UhWZEZpOjMtBXNrak-1K3zEDoD6LkT-Rndukt>
-X-ME-Proxy-Cause: dmFkZTFwjrSv7mN+9PUcja1JR287XeEJOmGFGqbQpgAiy3xTYIxxPfoWKgy3P13zioRdpg
-    GQg006E4wYeUSze05QEsLvaudD2pTmj3SX4hnJ/pxzXjsaSoXdKwcXHPRYrUUtBGVXNEtx
-    nMxI5Ey48yyfUQ5nV/+fSDEs4j/F8hlbUXyQL46KuftMZSENVV4yuNu/15OsEt2QqeFXbt
-    GNauzkwJlrYFo2BC6DCbpc9gp0BYk34A4Jt6Tv4GRNv4f5r2gFMvCbQf/ZUIOvUibbhw7L
-    tLqZSA6pxc4Ae8xJV39gqQNpNkt01aAjC5/k0Bquc7o+iaYzwR/m7E/JkvKtd/FoyjhWhi
-    BxLn9qojKWawkQqIXlK4DuTarbB1odTDX6JuvAkBd5NF0We8rOU7C7639UEfjxnTvgNXpi
-    KW21lJ50dlJbQNIqJ7biepRFzOE0YYyXnFb/hbU8B4yWgAZ5khIM+l5ShKELApto9L2ppp
-    lLJ0024qK51gx8weSVtJ3f6h5okTiWFvE4bioD5rEor5RvAVYqSyRyRQXGJ2+Eq0wSdpKk
-    WwmNXLoKNqBfXT6SVWF2CNst1ZfbWFBwKCslN9LHx6z6pbBelGkUXscYCBC3Q18Mlnp74e
-    4kqm6bpyFsIF3NJBQOoTDMO2v5h0q97x+ZfGNYi7gt31Xg3AxeaSVH798jHw
-X-ME-Proxy: <xmx:sZNoakFZkjDwx780vLrav4PwTFsb_uHxp31KM6kqY-uwB4QCGX_wVQ>
-    <xmx:sZNoamTkMrqos0It18Ko6q9zAgskoaJLDIYFHpNlRTg24RzN3XxNvw>
-    <xmx:sZNoagECpeJor9_wMTTknx2ScJ4iwQXbZec7rVp83vP7yUBR3FzkXg>
-    <xmx:sZNoai9zj1IfyQdN8gJEkm_52gCAM8dDvSnfJIX282qZFC0aRc5_BQ>
-    <xmx:sZNoai0pbXaBQ1Zj5PoOZ-gW0Kf_f6ATDaMCqh5qq24dTHsfiDbMLeqS>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Jul 2026 07:34:08 -0400 (EDT)
-Message-ID: <718e51a8c619547ceb9691aec9dc8f16be87b4c9.camel@pbarker.dev>
-Subject: Re: [PATCH 4/4] python3-ply: set status for CVE-2025-56005
-From: Paul Barker <paul@pbarker.dev>
-To: Peter Marko <peter.marko@siemens.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jul 2026 12:34:04 +0100
-In-Reply-To: <20260721190005.49809-4-peter.marko@siemens.com>
-References: <20260721190005.49809-1-peter.marko@siemens.com>
-	 <20260721190005.49809-4-peter.marko@siemens.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-03gELswXSqKvxCd5YDuh"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=gmdKsnOI;
+ spf=pass (domain: navimatix.de, ip: 40.107.159.127, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q5FvOzMDDSvA6YZdQ7dr9kHEzTAINGEq8FbCVlUVSni2NFHiH1Z74aZtMH9Os+E/y6NYfSU7wgmQBqn1RiRmsEhfCjDSlNP77XtJOxEGWRjxlPWgyAQYYF5/nGczqEmV1fmIrvg6pgl5OrAYrN4Rxtr4xLDoRJetc08ekJkhYDs+EaZYaniLixlzUhIC0qxHAmrcRysY+QVDX8BzEHwSdCyMbz83Qr8J/0iNaMl45fGK43nNznhN95ORZ//qEGVEbe2iwJj07VsidM2MVQoZDSdGLjCFAfXbVUlQbJHqtgHPzb0TTMjcDIipUrqlvuC+VJuo10FEQqPkSVbuNghkXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+OQpfTiTop61GQkOQKrOBq4f8ie/NNK1Y6temCV952I=;
+ b=LVadzrUq0PfOz3udfcdoUtA9kQBKJj2I/z7JmIoJbir/ZIgPI4JOO3RKwW7jwxif54XNjwUDPXAla+I8Avo9degyoCCfcUVnywe3aktHoQurq85GrH3eF9uRNGPl9ER1+CiC0vCh7fHVwXfWboMNU+VvUGsPPlqyq80xxF/ZKbdsqoqx1VuyXOUiarM8od4esuA1/Un9AHPaFNXMDrh+i/3zZ5peg+x0IVef+IAiPumJ7+DIOfIObTLxMA8rh6WnOhEVRlywSgjeG9l6S9HAZ7rTKazUxlu1ClPzpg3PLI1GRSkEghoKxWMyyx/9RnpRb6HHq1W49AycJrGK/6+jXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+OQpfTiTop61GQkOQKrOBq4f8ie/NNK1Y6temCV952I=;
+ b=gmdKsnOIq4KfZEcS0hCtZaZJHvpN5v7Dpug0t8n1iDMIg51G3UPa2cmhxXcyzCCtwAGaS4nAB77ap2QDztpyDR2ZXwqWoCwIf13g5XzFjhkX1X2Ilktf0G9/X8iPNuHK7naVbGrJnY9g0uuWcFz5wv+S7bCxVpRLjRyOAm9UMaM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by PA4PR01MB7741.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:c7::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
+ 2026 11:43:31 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.21.0245.012; Tue, 28 Jul 2026 11:43:30 +0000
+Date: Tue, 28 Jul 2026 13:43:28 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, 
+	mathieu.dubois-briand@bootlin.com, joerg.sommer@navimatix.de
+CC: mathieu.dubois-briand@bootlin.com, 
+	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH] bootchart2: Handle bindir == sbindir
+Message-ID: <f1724665f0d2a09e5f6d94796d8581a03b4f814e.1785239008.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE1P281CA0278.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:84::13) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PA4PR01MB7741:EE_
+X-MS-Office365-Filtering-Correlation-Id: e74446c9-4954-47fe-10c6-08deec9d722f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|6133799003|56012099006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	K84ag+bx7qNyvhZXHpOmKHofuy3j0C35/5yzvOi4Bgb9aX2YgQHVE1/Za6+eLZS+Rfmr+AHU+2N9t2FnHEn2YgxBpToet+T3T+lVSEyWWYGee+YVfPSTaSC/jOKEk7YUs6E9RLcN2dc7zQWBpI1U5nOdjxbrJYbPx96k56z9QVtEC/7BCmWI2Q+FmRFy+xKD1ulUo9x8JInDBLYkoPXvas0aPTyQqzAn5Igoq9FzoTbmczxQiAdwW6vF8lpKOeeVXFxqqpftNJ7Fn11J/eNSWH0yED58PaeX/seozLV1lx5ecUvzzHiuaH/cXUBWvjTKRSyU1+Q1NozwxFHzoEutAtsxxwNYpqZyGpsS8Ku+xtUDesrquYaMUzp/vlHRJrwMKbfjTOLVgP0dzaAM+UogAeNWdG7dpcnlGuuTBoL+7fSDP5p9f3ZM1A+oLGLzXMuJAJilRwP6ZGXACD1lqKJCsqjvYuzzbtNu9C2O+K+//dxtL/m964qLnAXKjJpOIWqffk787tI1zV6fKhlZQrXDkv2xcOEu88V5kERU5BEcsH+eCcRCyrzjhv00G8anN9E/5Y+q8HSc7g8YhmYO3M7F9b/t3vpasXuNeLYDvl1gNsT0rvlHDnabIzab5vfhUw/6RInSnx4KHaJM+MruLaXK3hp6I5ZqvGLj6Al4cM5YtZw=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(6133799003)(56012099006)(10067099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?MbSfOHJeHR+iRuRCendwhdmXhznn7+xsQ3v5IMnfZcB5i4WZeT+wB3v5Nv1x?=
+ =?us-ascii?Q?SdbP3wVIpnZFHQK5mE2rVWcCUEN5ry2LTq6bNE7UE51caB855uLSSC/ZQ+kO?=
+ =?us-ascii?Q?65SgOArtCHxDpvNFEVTtafAwDupvBh2tvCQjPFb2EifMWPbo20Iwj+1KC0/d?=
+ =?us-ascii?Q?M05AUkUPe2ww98nMDQ9aGKcK7nuc1gaDNB5wcxq2ugwrx54dpqten2rTUmoa?=
+ =?us-ascii?Q?aHDTPqFlyKm21Vy98eljABY1bn3JTMMFSfxDGcaJdI4XUMlST8jXGHfi7ySK?=
+ =?us-ascii?Q?OyyIoXibbfuzBJzUhUsYGF1aGYBINTtd68a+kLFeRkDxOz6c3mmkxafi6JTq?=
+ =?us-ascii?Q?cFjwutMXmJPV0dmJSOVBExvq+1YHhObTA2nteGSYdFrzV8CNGkvVJbY68dcz?=
+ =?us-ascii?Q?hFmXLenSoALtVMS68hdnm26Y/x9C6sZS4naK7lMhuuJWTBbFfl50jSxNm+WD?=
+ =?us-ascii?Q?GZlW/Xa89bgcWU+0lVHHgXxSCs0M/8PHdKriM7N+3fegsWgrJhIJ9WNqUsDO?=
+ =?us-ascii?Q?lRF3JbyAq/x5V+WNOWXE5B5XY3qurO0KSYl+W+3tHWET250g86e9Xo6beLVO?=
+ =?us-ascii?Q?iwlo/dpOQ6Pm0l2jReoWSHaQcsU5iM7448frGuopUk1Ki8WpMhscjlLt8H1n?=
+ =?us-ascii?Q?TZcr22UvhqH2plTjyQ3aWxxa6FwMf0LpTPvd4dq56FwpVb96S+iXYILTFO3h?=
+ =?us-ascii?Q?y4LWAmqRsbw9adimvPAS8RF3lE9uMqA/f1lH/+RgfgQgUbFeXHRj4OgnivxQ?=
+ =?us-ascii?Q?qi7E2kR3dj0Vzz5xoX26FEJQzURrhaEJy0SV3wzr4qG90yoI/laFBLIc4DWc?=
+ =?us-ascii?Q?TIPx8uqI23N0aU9AKt3y0cp0PXcU/CNSDlhRuZZAFv4SpNxO0xAoSGzB/hI2?=
+ =?us-ascii?Q?3dIiga/egDOZ5VLpDcGxRSkyca1E3AIxIxdjJAUwd/k0717a+RLz2TvEhJg6?=
+ =?us-ascii?Q?K32SYKEV1bM4/vWiVMAyrq3L7ZDKYWi7CbfH8oQHrwEOkuKTajSaI6pLNGif?=
+ =?us-ascii?Q?1BVkWK5uumzrm5oq1YPc0cMmUfPze/2dE2b/lPXlRVf2kd8hE511sUrNo+wU?=
+ =?us-ascii?Q?Msi3tE5WVWDXIHl31O39ElSM0vvBok26P+q3kin1OuZHP/T85bI3rL52WbAu?=
+ =?us-ascii?Q?LsT3qfL8BmZMgjUokJsm/Bo8xf0XLRR3r3SOenC4GngNU5bwFfj72L6ag0uw?=
+ =?us-ascii?Q?diZ9xxbJlXW+nPVp/BHax+Ifh7AlgMNjt06CiKaaimyidvX1i6MiM/aY9vyI?=
+ =?us-ascii?Q?M6nSHOoiNkc9ueI8oRzJRbPxhZXFc61Jq9VBh7VStDvSaNMOrRTr/j1TvW1d?=
+ =?us-ascii?Q?+YN/8E5hNsCp2wbnRvy5FRgCtG/+/DbPidgKSXBMsWFeAHneofC1rJOjppP7?=
+ =?us-ascii?Q?Euz2pnOJziIqPMX6FKe50gmmFErBcpD7ZxP8RwYfcv7F2vRceP87nl3eams0?=
+ =?us-ascii?Q?WTM3LY8RyuerFffNTCmHx38TGPPGdEJqC/noyJaMMiySFK4iLzyBd2GJISAA?=
+ =?us-ascii?Q?tfoihIjJtSvLawApj+2DoKXTUnMtzV0u66rG6jyRFXbrKPO7fEuXIxN8xfFf?=
+ =?us-ascii?Q?Z5943OiMuc48E+nfxKlE/lEsGN5OPlZK04Ie6Gy9NpXBSRyNS7JicDjFBXC8?=
+ =?us-ascii?Q?XeNRz5KHNOMo65SM7o8cvtK3ZsqI0GerzNpUlDB6Bnov/PELKtW1NY37kyqZ?=
+ =?us-ascii?Q?eycttH8c+IyABxxvKWCPjKoIJaxYxwYNTv6nhopM10eBzRV8o0C8V8+7Rnk8?=
+ =?us-ascii?Q?WUlDj0C1ISRvhTJ4WdP2ze0zN3+N/OI=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: e74446c9-4954-47fe-10c6-08deec9d722f
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 11:43:30.5966
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BbNT//WBRvOaOPSjO+cIVYEKf9Pz6KJm4zipNVn5mJsn6QHxwmU0z1Kr6/Me4ijmuLM0JcFl+zNhz2x8YCUZFWtGsc+9gHq7rgd4GmekuhI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR01MB7741
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 11:34:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242184
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 11:43:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242186
 
+From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
---=-03gELswXSqKvxCd5YDuh
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The upcoming binmerge (driven by systemd) merges /usr/sbin into /usr/bin.
 
-On Tue, 2026-07-21 at 21:00 +0200, Peter Marko wrote:
-> From: Peter Marko <peter.marko@siemens.com>
->=20
-> The CVE has tag disputed both in NVD [1] and cvelistV5 [2].
->=20
-> [1] https://nvd.nist.gov/vuln/detail/CVE-2025-56005
-> [2] https://github.com/CVEProject/cvelistV5/blob/cve_2026-07-21_1700Z/cve=
-s/2025/56xxx/CVE-2025-56005.json#L63
->=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/recipes-devtools/python/python3-ply_3.11.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/python/python3-ply_3.11.bb b/meta/reci=
-pes-devtools/python/python3-ply_3.11.bb
-> index 06393ac4fe..1058697fa3 100644
-> --- a/meta/recipes-devtools/python/python3-ply_3.11.bb
-> +++ b/meta/recipes-devtools/python/python3-ply_3.11.bb
-> @@ -16,4 +16,6 @@ RDEPENDS:${PN}:class-target +=3D "\
-> =20
->  CVE_PRODUCT =3D "dabeaz:ply"
-> =20
-> +CVE_STATUS[CVE-2025-56005] =3D "disputed: This CVE was disputed"
-> +
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+---
+ meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Hi Peter,
-
-I looked in to this and replied [1] when someone previously sent a
-similar patch. I'm not convinced by the discussion linked to by NVD.
-
-Since the disputed tag is present in the cvelistV5 repository, I wonder
-if we can extend sbom-cve-check to detect that tag and set the status
-appropriately, instead of having to carry CVE_STATUS annotations in
-OE-core.
-
-One solution could be to update ply, pulling from the GitHub repo [2]
-instead of PyPI. There is a suggestion that the vulnerable code was
-removed from ply as part of the refactoring for v4.0 (which was never
-tagged) [3].
-
-It's also worth noting that the only consumer of python3-ply in OE-core
-is python3-spdx-tools, and there is an open issue [4] for that to either
-fork/vendor ply or migrate to something else.
-
-[1]: https://lore.kernel.org/openembedded-core/56fd0d75fa3ab81dd52b4e792284=
-e029d2d92f51.camel@pbarker.dev/
-[2]: https://github.com/dabeaz/ply
-[3]: https://github.com/spdx/tools-python/issues/878#issuecomment-467469555=
-1
-[4]: https://github.com/spdx/tools-python/issues/878
-
-Best regards,
-
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/r=
+ecipes-devtools/bootchart2/bootchart2_0.14.9.bb
+index 77fdd67302..c03bee4c1f 100644
+--- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
++++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
+@@ -136,6 +136,13 @@ do_install () {
+     install -d ${D}${sysconfdir}/init.d
+     install -m 0755 ${UNPACKDIR}/bootchartd_stop.sh ${D}${sysconfdir}/init=
+.d
+=20
++    if test "${bindir}" =3D "${sbindir}"
++    then
++        install -d ${D}${bindir}
++        mv ${D}${EARLY_PREFIX}/sbin/* ${D}${bindir}
++        rmdir ${D}${EARLY_PREFIX}/sbin
++    fi
++
+     if ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'true', 'false'=
+, d)}; then
+         mv ${D}${EARLY_PREFIX}${sysconfdir}/bootchartd.conf ${D}${sysconfd=
+ir}/bootchartd.conf
+         rmdir ${D}${EARLY_PREFIX}${sysconfdir}
 --=20
-Paul Barker
+2.53.0
 
-
---=-03gELswXSqKvxCd5YDuh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCamiTrBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bpYqAQCAajdoxGiuhrKLUJNTO+gv9o7/i4i7W8Eg
-maRlcfNyXgD/YiaiJSUtvnd3JFCpN7IEZXUXWxOe1IdeBiC0zaeUIgU=
-=KirS
------END PGP SIGNATURE-----
-
---=-03gELswXSqKvxCd5YDuh--
 
