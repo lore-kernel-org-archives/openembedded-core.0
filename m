@@ -2,109 +2,114 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0F7C54FCE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE764C54F9C
 	for <webhook@archiver.kernel.org>; Tue, 28 Jul 2026 22:22:16 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2811.1785277335777683604
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2802.1785277326039541951
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 15:22:16 -0700
+ Tue, 28 Jul 2026 15:22:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fW8DKhMZ;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-472326ca506so258903f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 15:22:15 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=YG2vh6Nu;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493f75f7172so2414305e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 15:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785277334; x=1785882134; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=m27sI871iMP7TIYq8oCrtYo14LVZJ5vLHEPwsJlwsdU=;
-        b=fW8DKhMZxDqIVb1B51z0ivvD+/gIQyzC+StyOG6ge4Xtdlq7xVnBw0TukIdSnPT7lp
-         v6dtB4CqYkglCxfTJ62JM9Z0PccOB0htP77IVFH/pLgxHCGf7ZuSIbn0RZfc5j9+oNvP
-         VGSkPo3YTa9UtmJFH9GOUyxjoBoOX8VjQ1ujw=
+        d=smile.fr; s=google; t=1785277324; x=1785882124; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nT/p/ugL2UdURY1embxTI+oyyduUuhJkjzLc+1jMOQc=;
+        b=YG2vh6NupWfiJhH/X8+BSZHD393+BZn1+2e2V0CaQ3/52P/x546MoM5PjbT91w4+JI
+         Z2YvQUApxXTGUQlSQDqN+ibpSKl839k8wQXjqbkFJWbsqDWyk1OXL+HV+/O/ajOFXdvt
+         ZALVSN8X4cajK8aoODqRlPcoto/T8OTxj+Qj0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785277334; x=1785882134;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m27sI871iMP7TIYq8oCrtYo14LVZJ5vLHEPwsJlwsdU=;
-        b=MOPulVg+QL5UVxl90xsrfLi3erTDNzo9TexDp2OS206vD97jMAslPBo857TGAoZMJZ
-         oDLO2LHj4TAyNcVM7aHdlmSHQhwoOmosHnR8Y2aA6cfzrKzpFz73MIzSpFrDQtBBh2mi
-         Z24w318GZnax3aaDvPydeEau80kicoPu7mT0SKDXKuwhpIRemmynHANLbo9AQJKh4ZSu
-         QUEv68UtLtSTvHtoL7+W3isolTbZzJwoeX1ynF6xoavFC+3JrEH0IzvF1KkprMSTV/XX
-         b6AmK9QlZGklbgKkoQdGiYaWZnAeRs+ipBEwqmqM0ImWmt41nS/ntpcc3HYqL80839P4
-         OXFw==
-X-Gm-Message-State: AOJu0YzgWnFGFKfdnVOKT9Vb1ZNDq7GBKxhQlSu7B950ghiMbqmIHyBI
-	gd7XB9gnd7ItDzS5LQwtg7wlY8Jge2bxq+fJt2RivYVXouNkP/1R0LXJOJb2tX8JMVrYUAufqIH
-	1wTXTH30=
-X-Gm-Gg: AR+sD11gk20RrMA4PnBco1PbDXQbgIlzpuq//fy70qJjT6rMjS6fhKmyIiaZe53r+D8
-	D5zQvIH60R+AXynCgw1Nxx7/mo5lN4V3q/jLMJGL83r1edMqYM1KJYecLLcCw2EwECG+wz9CXQE
-	hAzzxrpH9wBa8VekO5CUB35yUo1DnelgDEVy8GUi2oiQeEawyKZXhyvYyb8ybfIyxeukh6nq2O5
-	LD0lOmwg3ZAWNMSxjkVvwfdiF8wfR5WWEJ40zyOqK4qKGbDJ96kG8+0tiu0gaaGtXRoiQJ0Yd5j
-	uKJ2rDlV+LPH868+O6Z7cCmotCkIXWMLgfoeZVWJZAevSiW34LsFKFTMAK9RcTTZipdW2ZhULsX
-	biTgtQJq3Jn1FaSaADcBuUFntoYlEUlG7UqYvziVcOcIFR5GSIjkEu7nCVhDjh7+YZfxslf6x86
-	sRpRNuzZnKgofdSgaSJj1GRXHmkbyoS77xDuaBnwZCzY4gri3b6fPZQZepaPPhz4gXri2Jy7U2Y
-	sSc8slPlGiXtOkN97jvLbKNmxiZUx7EyQfq24cEFoET0Lx/KbWA8uCh/dks+O/gW7U+QMeMyrg=
-X-Received: by 2002:a05:600c:4583:b0:496:c361:fb96 with SMTP id 5b1f17b1804b1-496c60bebd0mr43162955e9.0.1785277333871;
-        Tue, 28 Jul 2026 15:22:13 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785277324; x=1785882124;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=nT/p/ugL2UdURY1embxTI+oyyduUuhJkjzLc+1jMOQc=;
+        b=BVGtG33cBMfXERZHh29FTMQR2irxTssNiC3rEEQaVThV6OhfwzejnrqG/ks4l3Fyrz
+         r9X01inilAiuPAODcqIj25q3e1EkSQhMkCgYV/jbupBlXbc1vyCgLa3mpAAlAXmvVu7J
+         lY3fdN9xawB6k6W36KzieIeFtTG8mD+dHs5B6N5WU1t/cLs7lf0/bnvjEtbanbZJAhnz
+         gNN2tH76mmkYt6jyxBzNe0NDN3UbAv5mOc/2znbQadb+CS4tiO5ZrN/OuFb0lPrTbCDY
+         J6T04B26PTdfavgwmzjH+0d+p8Zo6r662rQjZuiSHD8+h9Z55VFVvyxyrygDlHyMgvC6
+         t9Lg==
+X-Gm-Message-State: AOJu0YxziAvw3/jXAbdClbn6SlGb8U/GcwfxO3mQPv0vqRWts4nmtco1
+	4cclMH9SR/37bFWo6hAz0dAhXOQ8WthcYPVXwb4Qs/pGk1HyockcmSjNCi7HCGbJU7z3grkWjBk
+	ohCqxneM=
+X-Gm-Gg: AR+sD10Zw+ukp+qS0txsxovIefanoNvPpOdKClxK0h4QvXFQ0Fmv2Ol/QDgteN9+ZRB
+	QIwgaoxy1jQJYxlYOa1FcLj8YGoFH5yxjL/b2hxGAOE7NASFGU4J83OZ+Mh65cl2twfwyJY0JaI
+	eKrkSOn1grwmHAYOwfJ/GIG4kfefSq6EUowdU2OQpJdOxce4OLEaMGKK+tF3ChG1W2VZXcHRgpy
+	tYmMqe/iLCDkbwCJzYnYRFptI20Mkn9GCK6TYxCZE5hQpoh4+kWiYjlns29ygU+K6mUS0yaeSpp
+	F1ZvG+OUpOVwbGOBIsTSgYh6TzNf8jcPBciNu5KhDBR7VQmOP4WHUkv9dWvfSk9N3JFsGiTTumb
+	Hqz+oJGG5kmIVBIQxMQ+uO/9gKLubWkOmj7pBaj9GGGnAOc5fXswprHLraWG28JxD9uAhQNXNIW
+	HMzQTTKsikevTslaYlQ+2oyFBABM7qC2n8YDm1L+dNV0HLg3nelHxZA2KH9DRmpVmZvKHtoPKu5
+	lNLuQ/9XOsCxUy8f18+M1jSfLKkajFfa8eH0dGzZlvY8mRs0yBsuYUMppHabfdw
+X-Received: by 2002:a05:600c:5298:b0:495:4df2:b8c1 with SMTP id 5b1f17b1804b1-496c659dd06mr41682355e9.35.1785277324316;
+        Tue, 28 Jul 2026 15:22:04 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4976bd6da4asm7669405e9.1.2026.07.28.15.22.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4976bd6da4asm7669405e9.1.2026.07.28.15.22.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 15:22:13 -0700 (PDT)
+        Tue, 28 Jul 2026 15:22:04 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/19] curl: add annotation for CVE-2026-10536
-Date: Wed, 29 Jul 2026 00:21:52 +0200
-Message-ID: <637ce45a66ff7125b98fc126321b31cb0cf6bf0f.1785277157.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 02/19] package.bbclass: hardcode emit_pkgdata to run last
+Date: Wed, 29 Jul 2026 00:21:37 +0200
+Message-ID: <358a847c9dfaf56291f9eb5e2f150cae56044c7c.1785277157.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1785277157.git.yoann.congal@smile.fr>
 References: <cover.1785277157.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 22:22:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242220
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242205
 
-From: João Marcos Costa <joaomarcos.costa@bootlin.com>
+From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
 
-This CVE is detailed here: https://curl.se/docs/CVE-2026-10536.html
+Ensure emit_pkgdata runs after all PACKAGEFUNCS to allow layers to
+extend packaging behavior.
+Layers can now append custom functions via PACKAGEFUNCS += "func_name"
+and they will run before emit_pkgdata generates package metadata.
 
-and the fix essentially consolidates the fact that HTTP2 stream
-dependency is deprecated.
-
-While oe-core provides a PACKAGECONFIG to enable HTTP2, it is not
-actually used so the affected part of the code is not compiled. For
-instance, in the do_configure logs:
-
-"""
-(...)
-HTTP2: no (--with-nghttp2, --with-hyper)
-(...)
-"""
-
-Ignore this CVE unless 'nghttp2' is enabled.
-
-Signed-off-by: João Marcos Costa (Schneider Electric) <joaomarcos.costa@bootlin.com>
+Signed-off-by: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit aa85baff9ebdd3f932811c3b43d1918c38373cb9)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-support/curl/curl_8.7.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-global/package.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index 276526f01e5..3e48c58fa78 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -53,6 +53,7 @@ CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on go
- CVE_STATUS[CVE-2025-0725] = "not-applicable-config: gzip decompression of content-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option, using zlib 1.2.0.3 or older"
- CVE_STATUS[CVE-2025-5025] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'not-applicable-config: applicable only with wolfssl','unpatched',d)}"
- CVE_STATUS[CVE-2025-10966] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'not-applicable-config: applicable only with wolfssl','unpatched',d)}"
-+CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2', d)}"
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index aa1eb5e901c..ffe3ed93eff 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -468,8 +468,7 @@ PACKAGEFUNCS += " \
+                 package_do_shlibs \
+                 package_do_pkgconfig \
+                 read_shlibdeps \
+-                package_depchains \
+-                emit_pkgdata"
++                package_depchains"
  
+ python do_package () {
+     # Change the following version to cause sstate to invalidate the package
+@@ -561,9 +560,13 @@ python do_package () {
+             for file in files:
+                 pkgfiles[pkg].append(walkroot + os.sep + file)
  
- inherit autotools pkgconfig binconfig multilib_header ptest
++
++    # We want emit_pkgdata to run last, after everything
+     for f in (d.getVar('PACKAGEFUNCS') or '').split():
+         bb.build.exec_func(f, d)
+ 
++    bb.build.exec_func("emit_pkgdata", d)
++
+     oe.qa.exit_if_errors(d)
+ }
+ 
 
