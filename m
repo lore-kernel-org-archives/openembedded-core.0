@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 843F1C55166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DACCC55165
 	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:35 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6065.1785309865988834851
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6126.1785309869764664736
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2026 00:24:26 -0700
+ Wed, 29 Jul 2026 00:24:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fHwjFdot;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nqFPu+by;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019facc2a3d8-be34cc92-922f-4c94-84b3-66eadf66cbc9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tKsuSvow;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=c6wYMyey;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019facc2b19f-90dca3e1-7549-41e5-8dde-2b47f0245d5f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1785309865;
+	t=1785309869;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=iVUkmpvsBg+BQHoUIBCu92o6UQ9Dj8hWNrRk3fPSC08=;
-	b=fHwjFdotdPVq7A5Z2j3ZRoKgStTgy8s+ewxHM2/Fabqdq4sdCzF2AqqVBKtVOHCZ
-	NPIFK6kt7mf+uDhEBVPKRNGDPa7AknJY745s+h4DPCZS8GI1WyN1YIMxg7IL/kq1JQp
-	rpwnSoddJUHzdhXmpJMB5FqEJi9vbimsdxSXxoH0=
+	bh=v5Lv5/66IFSIJoOaVDngzqdrNzHkgRyV/qQ5SdIwtu8=;
+	b=tKsuSvowCAa1Rlhq7tAHCW+biZh/vx6UDbfw2Z/QXVpBN6GC1eccRKH/mZotsTAy
+	ZTg3j6VAV0kyRqgTJaw7xcGfl6mT/Wj5yUyis6eSyyLx04plW/GfRTCcrCsWDYfGIMn
+	s+dwBnjh7c3elCskoA7qjdPRDizc1nBNxMKr+TRU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785309865;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785309869;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=iVUkmpvsBg+BQHoUIBCu92o6UQ9Dj8hWNrRk3fPSC08=;
-	b=nqFPu+bybpM+PQWPBpSKHkPVl13QO/pL0TxXNMnqaUnhHG3q2lMkiSIBBoCRuKoj
-	P4dOsgaYUirA7Fbsh6ehFNyvkxP2knAY1VqMkxmc1HwYJJmMGa71FKj/SODrJAPNnca
-	Bs++ASHMWRq25LYzKA6A2d7QMzg0dRQhauAWLlwY=
-Content-Type: multipart/mixed; boundary="===============2857210727937409674=="
+	bh=v5Lv5/66IFSIJoOaVDngzqdrNzHkgRyV/qQ5SdIwtu8=;
+	b=c6wYMyeybcKj8wBqfgaqRrtLL6438OKK9nAgKSev+gkpCRrEt5VnrACCx4xdFEIu
+	FzBfBEQuEc8WEVGvuspd75tQivMImhCxjshp/WZ79KzIQVOa1GXseQ8Wj4A2PP08gmV
+	Kjj8GgisO9m05cdVVSiKCcreWyIW/4Q8mKJeonv0=
+Content-Type: multipart/mixed; boundary="===============3530096014951614814=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] cmake,cmake-native: upgrading to 4.4.1,4.4.1 SUCCEEDED
-Message-ID: <0101019facc2a3d8-be34cc92-922f-4c94-84b3-66eadf66cbc9-000000@us-west-2.amazonses.com>
-Date: Wed, 29 Jul 2026 07:24:24 +0000
+Subject: [AUH] libarchive: upgrading to 3.8.9 SUCCEEDED
+Message-ID: <0101019facc2b19f-90dca3e1-7549-41e5-8dde-2b47f0245d5f-000000@us-west-2.amazonses.com>
+Date: Wed, 29 Jul 2026 07:24:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.29-54.240.27.31
+X-SES-Outgoing: 2026.07.29-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 07:24:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242240
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242245
 
---===============2857210727937409674==
+--===============3530096014951614814==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cmake,cmake-native* to *4.4.1,4.4.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libarchive* to *3.8.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-cmake-cmake-native-upgrade-4.4.0-4.4.1-4.4.0-4.4.1.patch
+    - apply the patch: git am 0001-libarchive-upgrade-3.8.8-3.8.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,1302 +71,223 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3b36178139895ad972c8f3d231b4be128ea1c00b Mon Sep 17 00:00:00 2001
+From 1dc3e7e182157b198f996635e75aa987d6cce496 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 29 Jul 2026 05:34:59 +0000
-Subject: [PATCH] cmake,cmake-native: upgrade 4.4.0 -> 4.4.1,4.4.0 -> 4.4.1
+Date: Wed, 29 Jul 2026 06:07:53 +0000
+Subject: [PATCH] libarchive: upgrade 3.8.8 -> 3.8.9
 
-Source: Help/release/4.4.rst
+Source: NEWS
 
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  mult
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
-
-Source: Help/release/4.4.rst
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  mult
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
+Jul 28, 2026: libarchive 3.8.9 released
 ---
- .../cmake/{cmake-native_4.4.0.bb => cmake-native_4.4.1.bb}      | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- meta/recipes-devtools/cmake/{cmake_4.4.0.bb => cmake_4.4.1.bb}  | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_4.4.0.bb => cmake-native_4.4.1.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_4.4.0.bb => cmake_4.4.1.bb} (100%)
+ .../libarchive/{libarchive_3.8.8.bb => libarchive_3.8.9.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.8.8.bb => libarchive_3.8.9.bb} (97%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_4.4.0.bb b/meta/recipes-devtools/cmake/cmake-native_4.4.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_4.4.0.bb
-rename to meta/recipes-devtools/cmake/cmake-native_4.4.1.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 85b444d9f9..45172da729 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            "
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.8.bb b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
+similarity index 97%
+rename from meta/recipes-extended/libarchive/libarchive_3.8.8.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.8.9.bb
+index 2c8bf922a6..da792374cf 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.8.8.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
+@@ -34,7 +34,7 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+           "
+ UPSTREAM_CHECK_URI = "https://www.libarchive.org/"
  
--SRC_URI[sha256sum] = "65757f442fdd242e27f1728fc26dc0cba4164f7a0791a5c788631c00080369bc"
-+SRC_URI[sha256sum] = "95d4721f3625fb0d9d6ca480dd59a46c84b4c157f7fadd2e9b179ef9c871174d"
+-SRC_URI[sha256sum] = "038918ea315cdd446cc63acfe880d6011832bbe1711c887de5de5441b306c190"
++SRC_URI[sha256sum] = "f5a6539059cf5e597dbeda37bfa4874b1e8dea063c8d93bf85a2b44af90a5bd4"
  
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ inherit autotools update-alternatives pkgconfig ptest
  
-diff --git a/meta/recipes-devtools/cmake/cmake_4.4.0.bb b/meta/recipes-devtools/cmake/cmake_4.4.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_4.4.0.bb
-rename to meta/recipes-devtools/cmake/cmake_4.4.1.bb
 -- 
 2.47.1
 
 
---===============2857210727937409674==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cmake-native-changelog.txt"
-
-Changelog for cmake-native: 4.4.0 -> 4.4.1
-Source: Help/release/4.4.rst
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  multiple file sets. The ``backtrace`` field is maintained for backwards
-  compatibility only, and users are advised to port to the new field.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "installers" object's
-  optional ``fileSetType`` field gained a new ``SOURCES`` value to incorporate
-  the new ``SOURCES`` :ref:`file set <file sets>` type in codemodel replies.
-
-Instrumentation
----------------
-
-* The :manual:`cmake-instrumentation(7)` data version has been updated to 1.1.
-* :manual:`cmake-instrumentation(7)` gained a ``captureOutput`` option which
-  collects the ``stdout`` and ``stderr`` of instrumented commands.
-* :manual:`cmake-instrumentation(7)` gained a ``compileTrace`` option which
-  records compiler-generated trace files (e.g., from Clang's ``-ftime-trace``
-  flag).
-
-Generators
-----------
-
-* The :ref:`Ninja Generators` now support generating a build target named
-  ``test_prep/<test-name>`` for each test added by :command:`add_test`, which
-  builds all dependencies for that test. Build dependencies are registered for
-  an executable target invoked by the test, targets referenced in generator
-  expressions in the test command, and explicit dependencies added using the
-  new ``BUILD_DEPENDS`` option. This behavior is enabled by the new
-  :variable:`CMAKE_TEST_BUILD_DEPENDS` variable. A ``test_prep/all``
-  target is also generated to depend on every ``test_prep/<test-name>``
-  target. Tests with names that are not valid target names are excluded from
-  this behavior. If multiple tests in different directories share the same
-  name, their dependencies are merged into one ``test_prep/<test-name>``
-  target.
-
-Languages
----------
-
-* CUDA language level 23 (corresponding to C++ 23) is now supported with
-  NVCC 13.3 and above.
-
-Compilers
----------
-
-* C++ 20 named modules are now supported with ``clang-cl``, except with the
-  :ref:`Visual Studio Generators` (i.e., the ``ClangCl``
-  :variable:`toolset <CMAKE_GENERATOR_TOOLSET>`).
-  See :manual:`cmake-cxxmodules(7)`.
-
-* The ``ibm-flang`` compiler is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``IBMFlang``.
-
-* The `Pelles C`_ toolchain is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``PellesC``.
-
-  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
-
-* The Open Watcom ``wlink`` linker is now identified with
-  :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``OpenWatcom``.
-
-* The `wild linker <https://github.com/wild-linker/wild>`_ is now
-  supported with :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``WILD``.
-
-Command-Line
-------------
-
-* :manual:`cmake(1)` now supports ``--build <dir> --preset <pre>``
-  regardless of the current working directory.
-
-* The :option:`cmake -D` command-line option now populates a
-  default :prop_cache:`HELPSTRING` for variables known to CMake.
-
-* :option:`cmake --install` now supports installing multiple components.
-
-* :option:`cmake --install` now accepts ``-j<N>`` in addition to ``-j <N>``
-  for specifying the number of parallel jobs.
-
-* The :option:`cmake -E` commands
-  :option:`copy_if_different <cmake-E copy_if_different>`,
-  :option:`copy_if_newer <cmake-E copy_if_newer>`,
-  :option:`copy_directory <cmake-E copy_directory>`,
-  :option:`copy_directory_if_different <cmake-E copy_directory_if_different>`,
-  and :option:`copy_directory_if_newer <cmake-E copy_directory_if_newer>`
-  gained support for the ``-t`` argument.
-
-* The :option:`cmake -E tar <cmake-E tar>` command-line tool gained the
-  :option:`--cmake-tar-encoding <cmake-E_tar --cmake-tar-encoding>` flag
-  to specify the pathname encoding used in archives.
-
-Commands
---------
-
-* The :command:`block` command can now create a ``DIAGNOSTICS`` scope.
-
-* The :command:`cmake_diagnostic` command was added to manipulate CMake's
-  diagnostic state.
-
-* The :command:`cmake_parse_arguments` command gained a new ``PARSE_ARGN``
-  signature that starts parsing after the last named argument of the calling
-  function and works exactly like ``PARSE_ARGV`` with ``<N>`` being the number
-  of parameters in the function definition.
-
-* The :command:`discover_tests` command was added to support registering tests
-  discovered at test time by :manual:`ctest(1)`. It runs a user-provided
-  discovery command, parses its output, and generates test names, arguments,
-  and properties from regular-expression captures.
-
-* The :command:`execute_process` command gained
-  ``ENVIRONMENT`` and ``ENVIRONMENT_MODIFICATION`` options to run child
-  processes with a modified environment.
-
-* The :command:`file(ARCHIVE_CREATE)` and :command:`file(ARCHIVE_EXTRACT)`
-  commands gained an ``ENCODING`` option to specify the encoding of the
-  archive pathnames.  The default is now ``UTF-8``.
-  See policy :policy:`CMP0213`.
-
-* The :command:`file(READ_SYMLINK)` command gained a ``RESULT``
-  option to capture errors without failing.
-
-* The :command:`if` command gained a new ``DIAGNOSTIC`` operator that evaluates
-  to true if a given diagnostic category name is known to CMake.
-
-* The :command:`include` command now has a ``NO_DIAGNOSTIC_SCOPE`` option.
-
-* The :command:`list(FILTER)` command gained a new ``PREDICATE`` mode
-  that invokes a user-defined :command:`function` to decide which elements are
-  included or excluded, complementing the existing ``REGEX`` mode.
-
-* The :command:`list(SORT)` command gained a new ``COMPARATOR`` keyword
-  that invokes a user-defined :command:`function` to compare elements, complementing
-  the built-in ``COMPARE`` methods.
-
-* The :command:`list(TRANSFORM)` command gained a new ``APPLY`` action that
-  invokes a user-defined :command:`function` for each element of the list,
-  enabling arbitrary per-element transformations.
-
-* The :command:`list(TRANSFORM)` command gained a new ``PREDICATE`` selector
-  that invokes a user-defined :command:`function` to decide which elements are
-  transformed.
-
-* The :command:`string(JSON ... PARTIAL_EQUAL) <string(JSON-PARTIAL_EQUAL)>`
-  command was added to compare two JSON values using *partial* equality.
-
-File Sets
----------
-
-* A ``SOURCES`` :ref:`file set <file sets>` type was added to specify
-  a target's source files via file sets.
-
-* The :prop_fs:`CXX_SCAN_FOR_MODULES` file set property was added to
-  control whether a file set's sources are scanned for C++ modules.
-
-* The :prop_fs:`INDEPENDENT_FILES` file set property was added to
-  specify that a file set's sources do not depend on any generated files.
-
-* The :prop_fs:`JOB_POOL_COMPILE` file set property was added to
-  assign a file set's sources to a specific Ninja job pool.
-
-* The :prop_fs:`SCOPE`, :prop_fs:`TYPE`, :prop_fs:`BASE_DIRS`,
-  :prop_fs:`SOURCES`, and :prop_fs:`INTERFACE_SOURCES` file set
-  properties were added to provide the declared details of a file set.
-
-* The :prop_fs:`SKIP_LINTING` file set property was added to exclude
-  a file set's sources from target-wide code checks.
-
-* The :prop_fs:`SKIP_PRECOMPILE_HEADERS` file set property was added
-  to avoid using precompiled headers for a file set's sources.
-
-* The :prop_fs:`SKIP_UNITY_BUILD_INCLUSION` file set property was added
-  to exclude a file set's sources from inclusion in unity builds.
-
-Variables
----------
-
-* The :variable:`CMAKE_INSTALL_DEFAULT_COMPONENT_NAME` variable gained
-  support for a special ``<PROJECT_NAME>`` placeholder value.
-  It tells each :command:`install` invocation to take a default component
-  name from the current :variable:`PROJECT_NAME` variable value.
-
-Environment Variables
----------------------
-
-* The :envvar:`CMAKE_DISABLE_PRECOMPILE_HEADERS` environment variable
-  was added to disable precompiled headers by default.
-
-Properties
-----------
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now always
-  create the per-target verification target and the aggregate
-  ``all_verify_interface_header_sets``, ``all_verify_private_header_sets``,
-  and ``all_verify_header_sets`` targets when the property is enabled,
-  even if the target has no matching header sets.
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now support
-  ``OBJC`` and ``OBJCXX`` languages in addition to ``C`` and ``CXX``.
-
-* The :prop_tgt:`VS_SOLUTION_DEPLOY` target property is now implemented
-  for targets created by :command:`add_custom_target`.
-
-Modules
--------
-
-* The :module:`CMakePackageConfigHelpers` module's
-  :command:`write_basic_package_version_file` command now supports
-  ``SamePatchVersion``, ``SameFullVersion``, and ``SemanticVersion``
-  compatibility modes. The older ``ExactVersion`` mode is now documented as
-  deprecated in favor of the more explicit ``SamePatchVersion`` and
-  ``SameFullVersion`` modes. The ``SemanticVersion`` mode treats ``0.y.z``
-  versions more strictly than ``1.y.z`` and later versions.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_LINK_MODE` variable to select an ordered list
-  of file materialization modes for hard links, symbolic links, and
-  copies.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_STATE_ROOT` variable to store hash records outside
-  :variable:`ExternalData_BINARY_ROOT`.
-
-* The :module:`ExternalProject` and :module:`FetchContent` modules gained
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_COUNT` and
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_DELAY` variables to control
-  ``git clone`` retries.
-
-* The :module:`FindCUDAToolkit` module now creates a ``CUDA::sanitizer``
-  target for the :ref:`compute-sanitizer <FindCUDAToolkit_sanitizer>`
-  library.
-
-* The :module:`FindCUDAToolkit` module now provides an imported target
-  for ``cufilt`` in CUDA 11.4 and above.
-
-* :module:`FindPython` and :module:`FindPython3` modules gained the support of
-  the Stable ABI for Free Threaded Python (``SABIT``) as specified by
-  :pep:`803`.
-
-Generator Expressions
----------------------
-
-* The :genex:`TARGET_OBJECTS` generator expression now has an optional
-  ``SOURCE_FILES:...`` argument, which can take one or more source files as
-  arguments, and will filter its output to only include objects built from
-  those source files.
-
-Swift
------
-
-* The :ref:`Ninja Generators` gained the
-  :prop_tgt:`Swift_SEPARATE_MODULE_EMISSION` target property, initialized by
-  the :variable:`CMAKE_Swift_SEPARATE_MODULE_EMISSION` variable, to control
-  whether importable Swift targets emit ``.swiftmodule`` from a dedicated
-  build edge.  Policy :policy:`CMP0215` enables this by default.
-
-* The default :prop_tgt:`Swift_MODULE_NAME` now replaces hyphens with
-  underscores, since hyphens are not valid in Swift module identifiers.
-
-* Swift targets now have a package name by default.
-  See policy :policy:`CMP0216`.
-
-* The :prop_tgt:`Swift_PACKAGE_NAME` target property was added to
-  specify a Swift package name.
-
-* Swift targets on Windows now support the ``$<TARGET_PDB_FILE:...>``
-  family of generator expressions.
-
-CTest
------
-
-* :manual:`ctest(1)` gained support for forwarding extra arguments to test
-  executables using a :option:`-- <ctest -->` separator.
-
-* :manual:`ctest(1)` gained a :ref:`CoverageTool <ctest-CoverageTool>`
-  option in :ref:`Dashboard Client` mode to configure tests for
-  coverage collection by ``llvm-cov``.
-
-* The :command:`ctest_configure`, :command:`ctest_build`,
-  :command:`ctest_test`, and :command:`ctest_memcheck` commands gained
-  ``PRESET`` and ``PRESETS_FILE`` arguments to support using
-  :manual:`presets <cmake-presets(7)>` for their :ref:`Dashboard Client` steps.
-
-  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
-  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
-  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
-  arguments to the above commands in a :ref:`Dashboard Client` script or
-  on the :program:`ctest` command line via the
-  :ctest-dashboard-option:`-D` option.
-
-* :manual:`ctest(1)` gained a :ctest-dashboard-option:`--source-dir` option
-  to specify the source directory.  When combined with
-  :ctest-option:`-T` Configure, this allows CTest to perform an
-  initial configure step for an empty binary directory.
-
-* :manual:`ctest(1)` gained support for a :variable:`CTEST_SUBMIT_PARTS`
-  variable that restricts which parts are uploaded when operating in
-  :ref:`Dashboard Client` mode.
-
-* The :command:`ctest_update` command gained ``VERSION_ONLY`` and
-  ``VERSION_OVERRIDE`` options to select or report a source revision
-  without requiring the corresponding
-  :variable:`CTEST_UPDATE_VERSION_ONLY` or
-  :variable:`CTEST_UPDATE_VERSION_OVERRIDE` dashboard script variables.
-
-CPack
------
-
-* The :cpack_gen:`CPack Archive Generator` gained the
-  :variable:`CPACK_ARCHIVE_ENCODING` variable to specify the pathname
-  encoding used in package archives.
-
-* The :cpack_gen:`CPack NSIS Generator` gained a new variable
-  :variable:`CPACK_NSIS_IGNORE_COMPONENTS_PAGE` to ignore the
-  component selection page in the installer.
-
-* The :variable:`CPACK_RPM_SPEC_MORE_DEFINE` variable now supports
-  a list of definitions.
-
-Deprecated and Removed Features
-===============================
-
-* The ``-W[no-][error=]dev`` command-line options are deprecated.  The new
-  spelling is :option:`-W[no-][error=]author <cmake -W>`.
-
-* The ``--warn-uninitialized`` command-line option is deprecated.  The new
-  spelling is :option:`-Wuninitialized <cmake -W>`.
-
-* The ``--no-warn-unused-cli`` command-line option is deprecated.  The new
-  spelling is :option:`-Wno-unused-cli <cmake -Wno->`.
-
-* The :variable:`CMAKE_WARN_DEPRECATED` and :variable:`CMAKE_ERROR_DEPRECATED`
-  variables are deprecated.  The new :command:`cmake_diagnostic` command should
-  be used instead.
-
-* The :prop_dir:`MACROS` directory property does not exist anymore.
-  See policy :policy:`CMP0217`.
-
-Other Changes
-=============
-
-* A file may belong to at most one non-``HEADERS`` :ref:`file set <file sets>`
-  in a target.  See policy :policy:`CMP0211`.
-
-* :command:`macro` invocations now preserve backslashes in arguments.
-  See policy :policy:`CMP0219`.
-
-* :command:`variable_watch` callback command arguments preserve backslashes.
-  See policy :policy:`CMP0219`.
-
-* :manual:`ctest(1)` now exits with non-zero if invoked with no
-  arguments and no test input file exists.
-
-* Test drivers generated by the :command:`create_test_sourcelist` command now
-  support the ``-N`` option to list all tests, one per line.  This is useful in
-  combination with the new :command:`discover_tests` command.
-
-* Names of executables given to the ``DEPENDS`` argument of
-  :command:`add_custom_command` no longer have ``.exe`` suffixes stripped to
-  establish target-level dependencies. See policy :policy:`CMP0212`.
-
-* Targets which provide C++ modules may now be consumed by targets with
-  different :prop_tgt:`compile features <COMPILE_FEATURES>` and
-  :prop_tgt:`options <COMPILE_OPTIONS>` than the provider.
-
-Updates
-=======
-
-Changes made since CMake 4.4.0 include the following.
-
-4.4.1
------
-
-* The :module:`FindPython`, :module:`FindPython3` modules learned
-  to manage, on ``Windows`` systems, the ``pydebug`` ABI flag.
-
---===============2857210727937409674==
+--===============3530096014951614814==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/cmake/cmake: FILELIST: added "/usr/share/cmake-4.4/Modules/Internal/CheckCommon.cmake"
-Changes to packages/x86-64-v3-poky-linux/cmake (sysroot):
-  /usr/share/cmake-4.4/Modules/Internal/CheckCommon.cmake was added
-Changes to packages/x86_64-linux/cmake-native (sysroot):
-  /usr/share/cmake-4.4/Modules/Internal/CheckCommon.cmake was added
+packages/x86-64-v3-poky-linux/libarchive/libarchive-ptest: FILELIST: removed "/usr/lib/libarchive/ptest/libarchive/test/test_read_format_isozisofs_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_set_option.c /usr/lib/libarchive/ptest/libarchive/test/test_write_format_zip_compression_lzmaxz.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_new_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_set_filter_option.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_set_format_option.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_write_set_format_option.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_write_set_filter_option.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_close_twice_open_fd.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_write_set_option.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isoj
+ oliet_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_close_twice_open_filename.c", added "/usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_folders_oom.c /usr/lib/libarchive/ptest/tar/test/test_option_stdout_size_exceeds_declared_deflate.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_size_exceeds_declared.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_uncompressed_size_off_by_4gib.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cpio_symlink_trailer.c /usr/lib/libarchive/ptest/unzip/test/test_symlink_1.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_lha_symlink_missing_target.lzh.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_new_compress.c /usr/lib/libarchive/ptest/unzip/test/test_symlink_2.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_symlink_dotdot.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_xar_atou64_overread.xar.uu /usr/lib/
+ libarchive/ptest/libarchive/test/test_read_format_cab_lzx_e8.cab.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_size_exceeds_declared_stored.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_symlink_unsupported_compression.c /usr/lib/libarchive/ptest/tar/test/test_option_stdout_size_exceeds_declared.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_xar_base64_oob.xar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_tar_pax_sun_holesdata.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_gtar_sparse_reuse.tar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_data_into_fd_size_exceeds_declared.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cab_lzx_16bit.cab.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_iso_rockridge_zf_overflow.iso.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cab_lzx_e8.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_sfx_bounda
+ ry_elf.elf.uu /usr/lib/libarchive/ptest/libarchive/test/test_write_format_iso9660_zisofs_overflow.c /usr/lib/libarchive/ptest/libarchive/test/test_write_format_gnutar_huge.c /usr/lib/libarchive/ptest/libarchive/test/test_write_format_pax_align.c /usr/lib/libarchive/ptest/libarchive/test/test_acl_from_text_overread.c /usr/lib/libarchive/ptest/unzip/test/test_u.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isozisofs_compress.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_archive_properties.7z.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_iso_rockridge_zf_overflow.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_tar_pax_sun_holesdata.tar.uu /usr/lib/libarchive/ptest/unzip/test/test_symlink.c /usr/lib/libarchive/ptest/unzip/test/test_f_new.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_f_old.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_u_new.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_u_old.zip.uu /usr/lib/libarchi
+ ve/ptest/libarchive/test/test_archive_string_conversion_overread.c /usr/lib/libarchive/ptest/unzip/test/test_symlink_dotdot.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_compress.c /usr/lib/libarchive/ptest/libarchive/test/test_read_data_into_fd_size_exceeds_declared_deflate.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cab_lzx_16bit.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_rar5_unpacked_size_exceeds_declared.rar.uu /usr/lib/libarchive/ptest/libarchive/test/test_archive_seek_data_unsupported.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_size_exceeds_declared_deflate.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_f.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_pkware_unix.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_ppmd8_aes256_streaming.zipx.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_lha_symlink_missing_target.c /usr/lib/libarchive/ptest/l
+ ibarchive/test/test_write_format_iso9660_rockridge_overflow.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cpio_symlink_trailer.cpio.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_symlink_unsupported_compression.zip.uu /usr/lib/libarchive/ptest/tar/test/test_option_stdout_size_exceeds_declared_stored.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isojoliet_compress.c /usr/lib/libarchive/ptest/libarchive/test/test_read_data_into_fd_size_exceeds_declared_stored.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_uncompressed_size_off_by_4gib.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_xar_parse_time_overread.xar.uu /usr/lib/libarchive/ptest/libarchive/test/test_write_format_zip_compression_lzma_xz.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_folders_oom.7z.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_rar_seek_data_cursor0.rar.uu /usr/lib/libarchive/ptest/libarch
+ ive/test/test_read_format_7zip_sfx_boundary_pe.exe.uu"
+packages/x86-64-v3-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.8.8", added "/usr/lib/libarchive.so.13.8.9"
+Changes to packages/x86-64-v3-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so.13.8.8 moved to /usr/lib/libarchive.so.13.8.9
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so.13.8.8 moved to /usr/lib/libarchive.so.13.8.9
 
---===============2857210727937409674==
+--===============3530096014951614814==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1374399208 to 1375803944 (+0%)
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-dev: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake-dev: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-doc: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake-doc: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-locale: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake-locale: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGSIZE changed from 10770653 to 10779048 (+0%)
-packages/x86-64-v3-poky-linux/cmake/cmake-src: FILELIST: directory renamed /usr/src/debug/cmake/4.4.0/Utilities/cmjsoncpp/src/lib_json -> /usr/src/debug/cmake/4.4.1/Utilities/cmjsoncpp/src/lib_json, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/cmlibarchive/libarchive -> /usr/src/debug/cmake/4.4.1/Utilities/cmlibarchive/libarchive, directory renamed /usr/src/debug/cmake/4.4.0/Source/CPack/IFW -> /usr/src/debug/cmake/4.4.1/Source/CPack/IFW, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/cmelf -> /usr/src/debug/cmake/4.4.1/Utilities/cmelf, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/std/cmext -> /usr/src/debug/cmake/4.4.1/Utilities/std/cmext, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/cmllpkgc -> /usr/src/debug/cmake/4.4.1/Utilities/cmllpkgc, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/std/cm -> /usr/src/debug/cmake/4.4.1/Utilities/std/cm, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/cmjsoncpp/include/json -> /usr/src/debug/c
- make/4.4.1/Utilities/cmjsoncpp/include/json, directory renamed /usr/src/debug/cmake/4.4.0/Source/CTest -> /usr/src/debug/cmake/4.4.1/Source/CTest, directory renamed /usr/src/debug/cmake/4.4.0/Source/LexerParser -> /usr/src/debug/cmake/4.4.1/Source/LexerParser, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/std/cm/bits -> /usr/src/debug/cmake/4.4.1/Utilities/std/cm/bits, directory renamed /usr/src/debug/cmake/4.4.0/Source/kwsys -> /usr/src/debug/cmake/4.4.1/Source/kwsys, directory renamed /usr/src/debug/cmake/4.4.0/Source -> /usr/src/debug/cmake/4.4.1/Source, directory renamed /usr/src/debug/cmake/4.4.0/Source/cmsys -> /usr/src/debug/cmake/4.4.1/Source/cmsys, directory renamed /usr/src/debug/cmake/4.4.0/Source/CPack -> /usr/src/debug/cmake/4.4.1/Source/CPack, directory renamed /usr/src/debug/cmake/4.4.0/Utilities/cmlibrhash/librhash -> /usr/src/debug/cmake/4.4.1/Utilities/cmlibrhash/librhash
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake: PKGSIZE changed from 54565220 to 54580751 (+0%)
-packages/x86-64-v3-poky-linux/cmake/cmake: FILELIST: added "/usr/share/cmake-4.4/Modules/Internal/CheckCommon.cmake"
-packages/x86-64-v3-poky-linux/cmake/cmake: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake/cmake: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake: PV changed from "4.4.0" to "4.4.1"
-packages/x86-64-v3-poky-linux/cmake: PKGV changed from 4.4.0 [default] to 4.4.1 [default]
-packages/x86-64-v3-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v4.4/cmake-4.4.0.tar.gz" to "https://cmake.org/files/v4.4/cmake-4.4.1.tar.gz"
-Changes to packages/x86-64-v3-poky-linux/cmake (sysroot):
-  /usr/share/cmake-4.4/Modules/Internal/CheckCommon.cmake was added
-Changes to packages/x86_64-linux/cmake-native (sysroot):
-  /usr/share/cmake-4.4/Modules/Internal/CheckCommon.cmake was added
+packages/x86-64-v3-poky-linux/libarchive/bsdcpio: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/bsdcpio: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/bsdtar: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/bsdtar: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive: SRC_URI changed from "https://libarchive.org/downloads/libarchive-3.8.8.tar.gz file://run-ptest" to "https://libarchive.org/downloads/libarchive-3.8.9.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/libarchive: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive-dbg: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-dbg: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive-dbg: PKGSIZE changed from 11619664 to 11845248 (+2%)
+packages/x86-64-v3-poky-linux/libarchive/libarchive-dbg: FILELIST: removed "/usr/lib/.debug/libarchive.so.13.8.8", added "/usr/lib/.debug/libarchive.so.13.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-dev: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-dev: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive-dev: PKGSIZE changed from 91851 to 91852 (+0%)
+packages/x86-64-v3-poky-linux/libarchive/libarchive-doc: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-doc: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive-doc: PKGSIZE changed from 376850 to 377565 (+0%)
+packages/x86-64-v3-poky-linux/libarchive/libarchive-locale: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-locale: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive-ptest: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-ptest: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive-ptest: PKGSIZE changed from 17799358 to 18262583 (+3%)
+packages/x86-64-v3-poky-linux/libarchive/libarchive-ptest: FILELIST: removed "/usr/lib/libarchive/ptest/libarchive/test/test_archive_read_close_twice_open_fd.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isozisofs_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_set_format_option.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_set_filter_option.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_write_set_option.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_write_set_filter_option.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_write_set_format_option.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_new_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_close_twice_open_filename.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isojoliet_bz2.c /usr/lib/libarchive/ptest/libarchive/test/test_write_forma
+ t_zip_compression_lzmaxz.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_read_set_option.c", added "/usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_archive_properties.7z.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_data_into_fd_size_exceeds_declared_stored.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_iso_rockridge_zf_overflow.iso.uu /usr/lib/libarchive/ptest/unzip/test/test_u.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_tar_pax_sun_holesdata.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_sfx_boundary_elf.elf.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isojoliet_compress.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cab_lzx_16bit.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_tar_pax_sun_holesdata.tar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_uncompressed_size_off_by_4gib.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test
+ _read_format_rar_seek_data_cursor0.rar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cab_lzx_e8.cab.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_xar_atou64_overread.xar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_gtar_sparse_reuse.tar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_sfx_boundary_pe.exe.uu /usr/lib/libarchive/ptest/tar/test/test_option_stdout_size_exceeds_declared.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_lha_symlink_missing_target.lzh.uu /usr/lib/libarchive/ptest/libarchive/test/test_write_format_gnutar_huge.c /usr/lib/libarchive/ptest/unzip/test/test_symlink_dotdot.c /usr/lib/libarchive/ptest/tar/test/test_option_stdout_size_exceeds_declared_deflate.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_ppmd8_aes256_streaming.zipx.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_compress.c /usr/lib/libarchive/ptest/libarchive/test/test_read_form
+ at_cpio_symlink_trailer.cpio.uu /usr/lib/libarchive/ptest/unzip/test/test_symlink.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_size_exceeds_declared_stored.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cab_lzx_e8.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_7zip_folders_oom.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_symlink_unsupported_compression.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isozisofs_compress.c /usr/lib/libarchive/ptest/unzip/test/test_u_new.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_f_old.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_f_new.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_u_old.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_rar5_unpacked_size_exceeds_declared.rar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_xar_base64_oob.xar.uu /usr/lib/libarchive/ptest/unzip/test/test_symlink_dotdot.zip.uu /usr/lib/libarc
+ hive/ptest/libarchive/test/test_read_format_zip_size_exceeds_declared_deflate.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_pkware_unix.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_f.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_xar_parse_time_overread.xar.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_isorr_new_compress.c /usr/lib/libarchive/ptest/libarchive/test/test_write_format_pax_align.c /usr/lib/libarchive/ptest/libarchive/test/test_write_format_iso9660_zisofs_overflow.c /usr/lib/libarchive/ptest/libarchive/test/test_write_format_zip_compression_lzma_xz.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_lha_symlink_missing_target.c /usr/lib/libarchive/ptest/libarchive/test/test_write_format_iso9660_rockridge_overflow.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cpio_symlink_trailer.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_cab_lzx_16bit.cab.uu /usr/lib/libarchive/ptest/libar
+ chive/test/test_read_data_into_fd_size_exceeds_declared_deflate.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_archive_seek_data_unsupported.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_iso_rockridge_zf_overflow.c /usr/lib/libarchive/ptest/libarchive/test/test_read_data_into_fd_size_exceeds_declared.c /usr/lib/libarchive/ptest/libarchive/test/test_archive_string_conversion_overread.c /usr/lib/libarchive/ptest/libarchive/test/test_acl_from_text_overread.c /usr/lib/libarchive/ptest/unzip/test/test_symlink_1.zip.uu /usr/lib/libarchive/ptest/unzip/test/test_symlink_2.zip.uu /usr/lib/libarchive/ptest/tar/test/test_option_stdout_size_exceeds_declared_stored.zip.uu /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_uncompressed_size_off_by_4gib.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_symlink_unsupported_compression.c /usr/lib/libarchive/ptest/libarchive/test/test_read_format_zip_size_exceeds_declared.c /usr/lib/libarchive/ptest/li
+ barchive/test/test_read_format_7zip_folders_oom.7z.uu"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-src: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-src: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive-src: PKGSIZE changed from 7139128 to 7271925 (+2%)
+packages/x86-64-v3-poky-linux/libarchive/libarchive-src: FILELIST: directory renamed /usr/src/debug/libarchive/3.8.8/libarchive_fe -> /usr/src/debug/libarchive/3.8.9/libarchive_fe, directory renamed /usr/src/debug/libarchive/3.8.8/cat/test -> /usr/src/debug/libarchive/3.8.9/cat/test, directory renamed /usr/src/debug/libarchive/3.8.8/libarchive -> /usr/src/debug/libarchive/3.8.9/libarchive, directory renamed /usr/src/debug/libarchive/3.8.8/test_utils -> /usr/src/debug/libarchive/3.8.9/test_utils, directory renamed /usr/src/debug/libarchive/3.8.8/cat -> /usr/src/debug/libarchive/3.8.9/cat, directory renamed /usr/src/debug/libarchive/3.8.8/cpio/test -> /usr/src/debug/libarchive/3.8.9/cpio/test, directory renamed /usr/src/debug/libarchive/3.8.8/unzip -> /usr/src/debug/libarchive/3.8.9/unzip, directory renamed /usr/src/debug/libarchive/3.8.8/cpio -> /usr/src/debug/libarchive/3.8.9/cpio, directory renamed /usr/src/debug/libarchive/3.8.8/tar -> /usr/src/debug/libarchive/3.8.9/tar, removed "
+ /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_warc.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_txz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_high_compression.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_cpio_newc.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_empty_filename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_large.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_files_compressed.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cab.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isorr_rr_moved.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_timestamp_overflow.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_pathmatch.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_tar_large.c
+  /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_7zip_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_cpio_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_shar_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_warc_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_b64encode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_solaris_pax_sparse.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_program_signature.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_tar_ustar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_tar_v7tar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_set_options.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip_encryption_data.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_set_format.c /usr/src/debug/libarchive/3.8.8/unzip/tes
+ t/test_q.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_truncated.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_with_invalid_traditional_eocd.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin_xz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_huge_rpm.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_disk.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin_le.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_filename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_tar_sparse.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_set_filter_option.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_lzop.c /usr/src/debug/libarchive/3.8.8/tar/test/test_copy.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_Z1.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_string_conversion.c /usr/src/de
+ bug/libarchive/3.8.8/libarchive/test/test_read_format_isojoliet_bz2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isorr_ce_loop.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_o.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_close_twice.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_gid_gname.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_X_upper.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_C_upper.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_file.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_H_upper.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_L_upper.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_O_upper.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_P_upper.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_T_upper.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_U_upper.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip
+ _traditional_encryption_data.c /usr/src/debug/libarchive/3.8.8/tar/test/test_strip_components.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_nfs4_text.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_disk_directory_traversals.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_classic.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_fflags.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_failures.c /usr/src/debug/libarchive/3.8.8/tar/test/test_print_longpath.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_svr4_gzip_rpm.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_exclude.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_ustar_filename_encoding.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_nfs4.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_v7tar_filename_encoding.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_xar.c /u
+ sr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_lz.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_acls.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_iso_multi_extent.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_acl_oob_read.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_platform_nfs4.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_tar_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_raw.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_xar_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_ar_mode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_svr4_gzip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar_encryption.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_mtime.c /usr/src/debug/libarchive/3.8.8/libarchive
+ /test/test_compat_gtar_large.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_0.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_pax.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_preset_digests.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_afio.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_winzip_aes_large.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_extract.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_lz4.c /usr/src/debug/libarchive/3.8.8/tar/test/test_symlink_dir.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_lookup.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_lrz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_gnutar.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_zstd.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar_encryption_header.c /usr/src/debug/libarchive/3.8.8/lib
+ archive/test/test_read_format_zip_encryption_header.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_msdos.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_lz4_raw.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_malformed.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_uudecode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_raw.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_entry.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_lz4.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_pax_filename_encoding.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_zip_filename_encoding.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_posix1e.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_entry_strmode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_set_passphra
+ se.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_comment_stored.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_C.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_lzop_multiple_parts.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_uuencode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_lrzip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_set_error.c /usr/src/debug/libarchive/3.8.8/tar/test/test_list_item.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_close_twice_open_filename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_iso_xorriso.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_lz4.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin_bz2.c /usr/src/debug/libarchive/3.8.8/tar/test/test_missing_file.c /usr/src/debug/libarchive/3.8.8/libarch
+ ive/test/test_read_format_gtar_sparse_skip_entry.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_close_twice_open_fd.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_tar_hardlink.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_7zip.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_version.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tgz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip_packinfo_digests.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_xattrs.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_j.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_xz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_multiple_data_objects.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_bad_fd.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tz.c /usr/src/debug
+ /libarchive/3.8.8/libarchive/test/test_write_filter_zstd.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_basic.c /usr/src/debug/libarchive/3.8.8/tar/test/test_0.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_match_path.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_match_time.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_zstd_raw.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_empty_zip64.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_pathmatch_oob.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_set_format_by_name.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_gz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_gtar_sparse.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_gtar_lzma.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_filter_count.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_ustar_f
+ ilename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_bzip2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/read_open_memory.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_lrzip.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_fflags.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_quoted_filename.c /usr/src/debug/libarchive/3.8.8/tar/test/test_crlf_mtree.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_null_deref.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_gtar_filename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_set_options.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_lzop.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isojoliet_long.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_lha_filename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_filename.c /usr/src/deb
+ ug/libarchive/3.8.8/tar/test/test_option_owner.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isojoliet_rr.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_xz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_next_header_empty.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_z.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_gtar_sparse_length.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_not_exist.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip_malformed.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_newer_than.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_older_than.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_lzip.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_keep_newer_files.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_r.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_warn_missing_hardlink_target.c /usr/src/debug/l
+ ibarchive/3.8.8/libarchive/test/test_read_format_tlz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_disk_entry_from_file.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_grzip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_appledouble.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip_issue2765.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_xz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_lzop.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_b.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_iso_Z.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_gtar_redundant_L.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_b64encode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_set_format_filter_by_ext.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_ustar_filenames.c /usr/src/debug/libarchive/3.8.8/libarchi
+ ve/test/test_link_resolver.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_api_feature.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_uudecode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_support.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_empty.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_lzma.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_doubledash.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_winzip_aes.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_absolute_path.c /usr/src/debug/libarchive/3.8.8/tar/test/test_patterns.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin_lzip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_compression_lzmaxz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_ar.c /
+ usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_position.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_gzip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_secure745.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin_Z.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_hfs_compression.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_lha.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_nfs4_null_id_overflow.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_dotdot.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_secure_noabsolutepaths.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isojoliet_versioned.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_padded.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_pax_xattr_header.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_fo
+ rmat_iso9660_boot.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_zip64.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_zipx_lzma_oom.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_7075_utf8_paths.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_jar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_sfx.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_mac_metadata.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_mtree.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cab_skip_malformed.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_pax_truncated.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_lzo.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_fuzz_consumer.h /usr/src/debug/libarchive/3.8.8/tar/test/test_format_newc.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_zstd.c /usr/src
+ /debug/libarchive/3.8.8/libarchive/test/test_compat_plexus_archiver_tar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_program.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_stream.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_open_failure.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_long_pathname.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_n.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_uudecode_large.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_hardlink.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_open_filename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_bzip2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_set_option.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_compression_zstd.c /usr/src/debug/libarchive/3.8
+ .8/libarchive/test/test_write_format_xar_bugs.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_tar_empty_dirname.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_x.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_absolute.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_string.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_iso9660_rockridge.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_cmdline.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_raw_b64.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_uid_uname.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_set_format_option.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_iso9660_zisofs.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_zipx_encrypted.c /usr/src/debug/libarchive/3.8.8/l
+ ibarchive/test/test_read_pax_xattr_schily.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar5_loop_bug.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_grz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_star_acl.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_lha_oversize_header.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_uudecode_raw.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_mac_metadata.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_platform_posix1e.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_xar_fflags.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_d.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_pax_negative_time.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_iso_joliet_utf16be_overflow.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_gtar_gz.c /usr/src/debug/libarchive
+ /3.8.8/unzip/test/test_j.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_secure744.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_windows_path.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_concatenated.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_no_hfs_compression.c /usr/src/debug/libarchive/3.8.8/tar/test/test_windows.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_entry_size_unset.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isozisofs_bz2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_nested.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_text.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_empty_with_gnulabel.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_pax_empty_val_no_nl.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_fuzz.c /usr/src/debug/libarchive/3.8.8/libarchiv
+ e/test/test_read_format_cpio_svr4_bzip2_rpm.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_secure746.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_sparse_basic.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_p.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_file_zip64.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_too_many_filters.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_glob.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_match_owner.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_tar.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_C_mtree.c /usr/src/debug/libarchive/3.8.8/tar/test/test_stdio.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar_filter.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_warc.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_short_writes.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_xz.c 
+ /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar_encryption_data.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_encryption_data.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar5_block_hdr_fail_loop.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_P_encryption.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_V_negative_size.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_truncated_filter.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar5_bad_filter.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar5_bad_tables.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar5.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar_overflow.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_L.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_bz2.c
+  /usr/src/debug/libarchive/3.8.8/libarchive/test/test_gnutar_filename_encoding.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_7zip_large.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_iso9660_filename.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_gnutar_filenames.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_program.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_pax_bz2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_mac_metadata.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isorr_ce.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_add_passphrase.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_empty_pax.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_iso9660_empty.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_extra_padding.c /usr/src/debug/libarchive/
+ 3.8.8/libarchive/test/test_write_filter_uuencode.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_set_option.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tbz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_no_separator.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_nodump.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_secure.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cab_lzx_oob.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip_encryption_partially.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_cpio.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_tar_directory.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_open_memory.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_t_bad.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_next_header_raw.c /usr/src/debug/libarchive/3.8.8/libarch
+ ive/test/test_write_disk_sparse.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_t.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_fixup.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_add_filter_by_name.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_large.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_exclude_vcs.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_data_large.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_gzip_recursive.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_lha_filename_utf16.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_solaris_tar_acl.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin_be.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_mtree_crash747.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_extattr_freebsd.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_s.c /usr/src/deb
+ ug/libarchive/3.8.8/libarchive/test/test_read_format_tar_pax_g_large.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_xar_doublelink.c /usr/src/debug/libarchive/3.8.8/tar/test/test_help.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_q.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar_encryption_partially.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_encryption_partially.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_svr4c_Z.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_read_format_zip.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_lzma.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_odc.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_lha_bugfix_0.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_a.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_filename.c /usr/src/debug/libarchive/3.8.8/libarch
+ ive/test/test_read_format_cpio_bin_lzma.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip64_stream.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_pax_timestamps.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_cpio_odc.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_iso_zisofs_overflow.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_zip64.c /usr/src/debug/libarchive/3.8.8/tar/test/test_leading_slash.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_empty_write.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_I.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip_entries_oom.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cab_mszip_oob.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_pax_xattr_rht_security_selinux.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_lzma.c /usr/src/debug/libarchive/3.8.8/libarchive
+ /test/test_compat_lzop.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_zstd.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_cpio.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_gtar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_gzip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_lzip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_filter_compress.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_mtree_classic_indent.c /usr/src/debug/libarchive/3.8.8/unzip/test/list.h /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_times.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_7zip_filename_encoding.c /usr/src/debug/libarchive/3.8.8/tar/test/test_version.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_set_filter_option.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_parse_date.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_arc
+ hive_digest.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_write_add_filter.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_n.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_7zip_encryption_header.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_group.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_rar_invalid1.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_lz4.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_mac.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_zip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cab_multi.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_safe_writes.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_acl_pax.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_iso9660.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_grzip.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_lrzip.c /usr/src/debug/li
+ barchive/3.8.8/libarchive/test/test_acl_posix1e_text.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_gzip_timestamp.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_zip_nofiletype.c /usr/src/debug/libarchive/3.8.8/unzip/test/test_singlefile.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_empty_pathname.c /usr/src/debug/libarchive/3.8.8/tar/test/test_empty_mtree.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_open2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_open_file.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isorr_new_bz2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_tar_invalid_pax_size.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cab_filename.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_ignore_zeros.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_k.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_rea
+ d_format_tar_pax_large_attr.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_symlink.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_iso9660_joliet_id.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_open_fd.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_compat_perl_archive_tar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/list.h /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_clear_error.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_ar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_archive_read_set_format_option.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_cpio_bin_gz.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_compression_bzip2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip_compression_store.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_iso9660_bugs.c /usr/src/debug/libarchive/3.8.8/tar/tes
+ t/list.h /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_isorr_bz2.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_compress.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_disk_perms.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_tar_filenames.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_xattr_platform.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_format_zip.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_file_nonexistent.c /usr/src/debug/libarchive/3.8.8/tar/test/test_extract_tar_Z.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_read_format_xar.c /usr/src/debug/libarchive/3.8.8/libarchive/test/test_write_filter_lzma.c /usr/src/debug/libarchive/3.8.8/tar/test/test_option_passphrase.c /usr/src/debug/libarchive/3.8.8/tar/test/test_basic.c", added "/usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_warc.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_t
+ xz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_high_compression.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_cpio_newc.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_empty_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_large.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_files_compressed.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_symlink_dotdot.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isorr_rr_moved.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_timestamp_overflow.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_pathmatch.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_tar_large.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_7zip_em
+ pty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_cpio_empty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_shar_empty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_warc_empty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_b64encode.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_solaris_pax_sparse.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_program_signature.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_tar_ustar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_tar_v7tar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_set_options.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_iso_rockridge_zf_overflow.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_encryption_data.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_set_format.c /usr/src/debug/libarch
+ ive/3.8.9/unzip/test/test_q.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_truncated.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_with_invalid_traditional_eocd.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin_xz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_huge_rpm.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_disk.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin_le.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab_lzx_e8.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_tar_sparse.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isojoliet_compress.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_lzop.c /usr/src/debug/libarchive/3.8.9/tar/test/test_copy.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_Z
+ 1.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_string_conversion.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isorr_ce_loop.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_o.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_close_twice.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_gid_gname.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_stdout_size_exceeds_declared.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_X_upper.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_C_upper.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_file.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_H_upper.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_L_upper.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_O_upper.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_P_upper.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_T_upper.c /usr/src/debug/libarchive/3.8.9/
+ tar/test/test_option_U_upper.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_traditional_encryption_data.c /usr/src/debug/libarchive/3.8.9/tar/test/test_strip_components.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_nfs4_text.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_disk_directory_traversals.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_classic.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_fflags.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_size_exceeds_declared.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_failures.c /usr/src/debug/libarchive/3.8.9/tar/test/test_print_longpath.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_svr4_gzip_rpm.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_exclude.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_ustar_filename_encoding.c /usr/src/debug/libarchive
+ /3.8.9/libarchive/test/test_acl_nfs4.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_v7tar_filename_encoding.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_xar.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_lz.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_acls.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_iso_multi_extent.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_acl_oob_read.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_platform_nfs4.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_tar_empty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_raw.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_xar_empty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_empty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_ar_mode.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_svr4_
+ gzip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar_encryption.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_mtime.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_gtar_large.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_0.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_uncompressed_size_off_by_4gib.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_pax.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_preset_digests.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_afio.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_winzip_aes_large.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_extract.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_lz4.c /usr/src/debug/libarchive/3.8.9/tar/test/test_symlink_dir.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_symlink_trailer.c /usr/src/debug/libar
+ chive/3.8.9/libarchive/test/test_write_disk_lookup.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_lrz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_gnutar.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_zstd.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar_encryption_header.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_encryption_header.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_u.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_msdos.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_lz4_raw.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_malformed.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isorr_new_compress.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_uudecode.c /usr/src/debug/libarchive/3.8.9/libarchive/test
+ /test_write_format_raw.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_entry.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_lz4.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_pax_filename_encoding.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_zip_filename_encoding.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_posix1e.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_entry_strmode.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_write_set_passphrase.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_comment_stored.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_C.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_lzop_multiple_parts.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_uuencode.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_lrzip.c /usr/src/debug/libarchive/3.8.9/libar
+ chive/test/test_archive_set_error.c /usr/src/debug/libarchive/3.8.9/tar/test/test_list_item.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_iso_xorriso.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_lz4.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin_bz2.c /usr/src/debug/libarchive/3.8.9/tar/test/test_missing_file.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_gtar_sparse_skip_entry.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_tar_hardlink.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_7zip.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_version.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tgz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_packinfo_digests.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_xattrs.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_j.c /usr/src/debug/libarchive/3.8.9/liba
+ rchive/test/test_read_format_7zip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_xz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_multiple_data_objects.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_bad_fd.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_zstd.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_basic.c /usr/src/debug/libarchive/3.8.9/tar/test/test_0.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_match_path.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_match_time.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_zstd_raw.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_empty_zip64.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_pathmatch_oob.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_write_set_format_by_name.c /usr/src/debug/libarch
+ ive/3.8.9/tar/test/test_extract_tar_gz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_gtar_sparse.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_gtar_lzma.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_filter_count.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_ustar_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_bzip2.c /usr/src/debug/libarchive/3.8.9/libarchive/test/read_open_memory.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_lrzip.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_fflags.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_quoted_filename.c /usr/src/debug/libarchive/3.8.9/tar/test/test_crlf_mtree.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_null_deref.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_gtar_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archi
+ ve_write_set_options.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_lzop.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isojoliet_long.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_lha_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_filename.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_owner.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isojoliet_rr.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_xz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_next_header_empty.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_z.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_folders_oom.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_gtar_sparse_length.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_not_exist.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_malformed.c /usr/src/debu
+ g/libarchive/3.8.9/tar/test/test_option_newer_than.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_older_than.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_lzip.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_keep_newer_files.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_r.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_warn_missing_hardlink_target.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tlz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_disk_entry_from_file.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_grzip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_appledouble.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_issue2765.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_xz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_lzop.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_b.c /usr/s
+ rc/debug/libarchive/3.8.9/libarchive/test/test_read_format_iso_Z.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_gtar_redundant_L.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_b64encode.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_write_set_format_filter_by_ext.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_ustar_filenames.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_link_resolver.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_api_feature.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_uudecode.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_support.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_empty.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_lzma.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_doubledash.c /usr/src/debug/libarchive/3.8.9/libarchive/test/te
+ st_read_format_zip_winzip_aes.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_absolute_path.c /usr/src/debug/libarchive/3.8.9/tar/test/test_patterns.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin_lzip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_ar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_position.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_gzip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_secure745.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin_Z.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_hfs_compression.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_lha.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_from_text_overread.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_nfs4_null_id_overflow.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_f
+ ormat_mtree_dotdot.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_secure_noabsolutepaths.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isojoliet_versioned.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_compression_lzma_xz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_padded.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_pax_xattr_header.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso9660_boot.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_zip64.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_zipx_lzma_oom.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_7075_utf8_paths.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_jar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_sfx.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_mac_metad
+ ata.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_mtree.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab_skip_malformed.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_pax_truncated.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_lzo.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_fuzz_consumer.h /usr/src/debug/libarchive/3.8.9/tar/test/test_format_newc.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_zstd.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_plexus_archiver_tar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_program.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_stream.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso9660_rockridge_overflow.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_open_failure.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_long_pathname.c /usr/src/debug/liba
+ rchive/3.8.9/tar/test/test_option_n.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_uudecode_large.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_hardlink.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_open_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_bzip2.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_compression_zstd.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_xar_bugs.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_tar_empty_dirname.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_x.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_absolute.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_string.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso96
+ 60_rockridge.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_cmdline.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_raw_b64.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_uid_uname.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso9660_zisofs.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab_lzx_16bit.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_zipx_encrypted.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_pax_xattr_schily.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar5_loop_bug.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_grz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_star_acl.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_lha_oversize_header.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_uudecode_raw.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_d
+ isk_mac_metadata.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_symlink_unsupported_compression.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_platform_posix1e.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_xar_fflags.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_d.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_pax_negative_time.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_iso_joliet_utf16be_overflow.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_gtar_gz.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_j.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_secure744.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_windows_path.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_concatenated.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_no_hfs_compression.c /usr/src/debug/libarchive/3
+ .8.9/tar/test/test_windows.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_entry_size_unset.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_symlink.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_nested.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_f.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_text.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_empty_with_gnulabel.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_pax_empty_val_no_nl.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_seek_data_unsupported.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_fuzz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_svr4_bzip2_rpm.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_secure746.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_sparse_basic.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_p.c /usr/src/debug/libarchive/3.
+ 8.9/libarchive/test/test_write_format_zip_file_zip64.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_too_many_filters.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_glob.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_match_owner.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_tar.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_C_mtree.c /usr/src/debug/libarchive/3.8.9/tar/test/test_stdio.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar_filter.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_warc.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_short_writes.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_xz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar_encryption_data.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_encryption_data.c /usr/src/debug/libarchive
+ /3.8.9/libarchive/test/test_read_format_rar5_block_hdr_fail_loop.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_P_encryption.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_V_negative_size.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_truncated_filter.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar5_bad_filter.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar5_bad_tables.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_gnutar_huge.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar5.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar_overflow.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_L.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_bz2.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_pax_align.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_gnutar_filename_encoding.c /usr/src/debug/libarchive/3.8.9
+ /libarchive/test/test_write_format_7zip_large.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso9660_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_gnutar_filenames.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_program.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_pax_bz2.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_mac_metadata.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isorr_ce.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_add_passphrase.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_empty_pax.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso9660_empty.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_extra_padding.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_uuencode.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_for
+ mat_tbz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_no_separator.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_nodump.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_secure.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab_lzx_oob.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_encryption_partially.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_cpio.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_tar_directory.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_open_memory.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_t_bad.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_next_header_raw.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_sparse.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_t.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_fixup.c /usr/src/debug/libarchive/3.8.9/li
+ barchive/test/test_archive_write_add_filter_by_name.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_large.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_exclude_vcs.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_data_large.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_gzip_recursive.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_lha_filename_utf16.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_solaris_tar_acl.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin_be.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_mtree_crash747.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_extattr_freebsd.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_s.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_pax_g_large.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_xar_doublelink.c /usr/src/debug/libarchive/3.8.9/tar/tes
+ t/test_help.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isozisofs_compress.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_q.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar_encryption_partially.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_encryption_partially.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_svr4c_Z.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_read_format_zip.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_lzma.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_odc.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_lha_bugfix_0.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_data_into_fd_size_exceeds_declared.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_a.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/te
+ st_read_format_cpio_bin_lzma.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip64_stream.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_pax_timestamps.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_cpio_odc.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_iso_zisofs_overflow.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_zip64.c /usr/src/debug/libarchive/3.8.9/tar/test/test_leading_slash.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_empty_write.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_I.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_entries_oom.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab_mszip_oob.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_pax_xattr_rht_security_selinux.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_lzop.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_
+ compat_zstd.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_cpio.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_gtar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_gzip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_lzip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_lzma.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_filter_compress.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_mtree_classic_indent.c /usr/src/debug/libarchive/3.8.9/unzip/test/list.h /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso9660_zisofs_overflow.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_times.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_7zip_filename_encoding.c /usr/src/debug/libarchive/3.8.9/tar/test/test_version.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_parse_date.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_
+ digest.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_isorr_compress.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_string_conversion_overread.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_write_add_filter.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_n.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_7zip_encryption_header.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_group.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_rar_invalid1.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_lz4.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_mac.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_zip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab_multi.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_safe_writes.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_pax.c /usr/src/debug/libarchive/3.8.9/libarchive/test/
+ test_write_format_iso9660.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_grzip.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_lrzip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_acl_posix1e_text.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_gzip_timestamp.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_zip_nofiletype.c /usr/src/debug/libarchive/3.8.9/unzip/test/test_singlefile.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_empty_pathname.c /usr/src/debug/libarchive/3.8.9/tar/test/test_empty_mtree.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_read_open2.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_open_file.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_invalid_pax_size.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cab_filename.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_pax_sun_holesdata.c /usr/s
+ rc/debug/libarchive/3.8.9/tar/test/test_option_ignore_zeros.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_k.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_tar_pax_large_attr.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_symlink.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_iso9660_joliet_id.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_open_fd.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_compat_perl_archive_tar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/list.h /usr/src/debug/libarchive/3.8.9/libarchive/test/test_archive_clear_error.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_ar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_cpio_bin_gz.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_compression_bzip2.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip_compression_store.c /usr/src/debug/libarchive/3.8.9
+ /libarchive/test/test_write_format_iso9660_bugs.c /usr/src/debug/libarchive/3.8.9/tar/test/list.h /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_compress.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_disk_perms.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_tar_filenames.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_xattr_platform.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_lha_symlink_missing_target.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_format_zip.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_file_nonexistent.c /usr/src/debug/libarchive/3.8.9/tar/test/test_extract_tar_Z.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_read_format_xar.c /usr/src/debug/libarchive/3.8.9/libarchive/test/test_write_filter_lzma.c /usr/src/debug/libarchive/3.8.9/tar/test/test_option_passphrase.c /usr/src/debug/libarchive/3.8.9/tar/test/test_basic.c"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-staticdev: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive-staticdev: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive: PV changed from "3.8.8" to "3.8.9"
+packages/x86-64-v3-poky-linux/libarchive/libarchive: PKGV changed from 3.8.8 [default] to 3.8.9 [default]
+packages/x86-64-v3-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.8.8", added "/usr/lib/libarchive.so.13.8.9"
+Changes to packages/x86-64-v3-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so.13.8.8 moved to /usr/lib/libarchive.so.13.8.9
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.8.8 to libarchive.so.13.8.9
+  /usr/lib/libarchive.so.13.8.8 moved to /usr/lib/libarchive.so.13.8.9
 
---===============2857210727937409674==
+--===============3530096014951614814==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-cmake-cmake-native-upgrade-4.4.0-4.4.1-4.4.0-4.4.1.patch"
+ filename="0001-libarchive-upgrade-3.8.8-3.8.9.patch"
 
-RnJvbSAzYjM2MTc4MTM5ODk1YWQ5NzJjOGYzZDIzMWI0YmUxMjhlYTFjMDBiIE1vbiBTZXAgMTcg
+RnJvbSAxZGMzZTdlMTgyMTU3YjE5OGY5OTY2MzVlNzVhYTk4N2Q2Y2NlNDk2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjkgSnVsIDIwMjYgMDU6MzQ6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-bWFrZSxjbWFrZS1uYXRpdmU6IHVwZ3JhZGUgNC40LjAgLT4gNC40LjEsNC40LjAgLT4gNC40LjEK
-ClNvdXJjZTogSGVscC9yZWxlYXNlLzQuNC5yc3QKCkNNYWtlIDQuNCBSZWxlYXNlIE5vdGVzCioq
-KioqKioqKioqKioqKioqKioqKioqCgouLiBvbmx5OjogaHRtbAoKICAuLiBjb250ZW50czo6CgpD
-aGFuZ2VzIG1hZGUgc2luY2UgQ01ha2UgNC4zIGluY2x1ZGUgdGhlIGZvbGxvd2luZy4KCk5ldyBG
-ZWF0dXJlcwo9PT09PT09PT09PT0KCkRpYWdub3N0aWNzCi0tLS0tLS0tLS0tCgoqIENNYWtlIGRp
-YWdub3N0aWMgYWN0aW9ucyBhcmUgbm93IHRyYWNrZWQgaW4gYSBuZXcgc3RhdGUgdHlwZSBtYW5h
-Z2VkIGJ5IHRoZQogIDpjb21tYW5kOmBjbWFrZV9kaWFnbm9zdGljYCBjb21tYW5kLiAgVGhpcyBy
-ZXBsYWNlcyB0aGUgb2xkIHN5c3RlbSB3aGljaAogIHNvbWV0aW1lcyB1c2VkIHZhcmlhYmxlcyB0
-byBtYW5hZ2UgcmVwb3J0aW5nIGFjdGlvbnMgYW5kIHNvbWV0aW1lcyBkaWQgbm90CiAgYWxsb3cg
-bWFuYWdlbWVudCBiZXlvbmQgY29tbWFuZC1saW5lIG9wdGlvbnMgYW5kIHByZXNldHMuICBUaGUg
-bmV3IHN5c3RlbQogIGFsc28gaW50cm9kdWNlcyBzZXZlcmFsIG5ldyBkaWFnbm9zdGljIGNhdGVn
-b3JpZXMgYW5kIHNpZ25pZmljYW50bHkgcmVkdWNlcwogIHRoZSBjb3N0IG9mIGFkZGluZyBhZGRp
-dGlvbmFsIGNhdGVnb3JpZXMgaW4gdGhlIGZ1dHVyZS4gIFNlZSB0aGUKICA6bWFudWFsOmBjbWFr
-ZS1kaWFnbm9zdGljcyg3KWAgbWFudWFsIGZvciBhIGxpc3Qgb2YgYXZhaWxhYmxlIGNhdGVnb3Jp
-ZXMuCgoqIFRoZSA6ZGlhZ25vc3RpYzpgQ01EX0lOU1RBTExfQUJTT0xVVEVfREVTVElOQVRJT05g
-IGRpYWdub3N0aWMgY2F0ZWdvcnkKICB3YXMgYWRkZWQgdG8gZGlhZ25vc2UgOmNvbW1hbmQ6YGlu
-c3RhbGxgIGNvbW1hbmRzIHRoYXQgc3BlY2lmeSBhbgogIGFic29sdXRlIGBgREVTVElOQVRJT05g
-YC4gIFRoaXMgZGlhZ25vc3RpYyBtYXkgYmUgY29udHJvbGxlZCB3aXRoIHRoZQogIDpvcHRpb246
-YC1XaW5zdGFsbC1hYnNvbHV0ZS1kZXN0aW5hdGlvbiA8Y21ha2UgLVc+YCBjb21tYW5kLWxpbmUg
-b3B0aW9uLAogIHRoZSBgYGluc3RhbGxBYnNvbHV0ZURlc3RpbmF0aW9uYGAgZmllbGQgaW4gYQog
-IDptYW51YWw6YENNYWtlIFByZXNldHMgPGNtYWtlLXByZXNldHMoNyk+YAogIDpwcmVzZXQ6YGNv
-bmZpZ3VyZVByZXNldHMud2FybmluZ3NgIG9iamVjdCwKICBvciB0aGUgOmNvbW1hbmQ6YGNtYWtl
-X2RpYWdub3N0aWNgIGNvbW1hbmQuCgpQcmVzZXRzCi0tLS0tLS0KCiogOm1hbnVhbDpgY21ha2Ut
-cHJlc2V0cyg3KWAgZmlsZXMgbm93IHN1cHBvcnQgc2NoZW1hIHZlcnNpb24gMTIuCgoqIDptYW51
-YWw6YGNtYWtlKDEpYCwgOm1hbnVhbDpgY3Rlc3QoMSlgLCBhbmQgOm1hbnVhbDpgY3BhY2soMSlg
-IGdhaW5lZAogIGBgLS1wcmVzZXRzLWZpbGVgYCBhcmd1bWVudHMgdG8gc3VwcG9ydCBsb2FkaW5n
-CiAgOm1hbnVhbDpgcHJlc2V0cyA8Y21ha2UtcHJlc2V0cyg3KT5gIGZyb20gdGhlIHNwZWNpZmll
-ZCBmaWxlIGluc3RlYWQgb2YKICBgYENNYWtlUHJlc2V0cy5qc29uYGAgYW5kL29yIGBgQ01ha2VV
-c2VyUHJlc2V0cy5qc29uYGAuIFNlZQogIDpvcHRpb246YGNtYWtlIC0tcHJlc2V0cy1maWxlYCwK
-ICA6b3B0aW9uOmBjbWFrZSAtLWJ1aWxkIC0tcHJlc2V0cy1maWxlIDxjbWFrZS0tYnVpbGQgLS1w
-cmVzZXRzLWZpbGU+YCwKICA6b3B0aW9uOmBjbWFrZSAtLXdvcmtmbG93IC0tcHJlc2V0cy1maWxl
-IDxjbWFrZS0td29ya2Zsb3cgLS1wcmVzZXRzLWZpbGU+YCwKICA6b3B0aW9uOmBjdGVzdCAtLXBy
-ZXNldHMtZmlsZWAsIGFuZCA6b3B0aW9uOmBjcGFjayAtLXByZXNldHMtZmlsZWAgZm9yIGRldGFp
-bHMuCgoqIDptYW51YWw6YGNtYWtlLXByZXNldHMoNylgLCBpbiBzY2hlbWEgdmVyc2lvbiAxMiBh
-bmQgYWJvdmUsIG5vdyBleHBhbmQgdGhlCiAgOnJlZjpgJHtmaWxlRGlyfSA8Q01ha2VQcmVzZXRz
-IGZpbGVEaXI+YCBtYWNybyB0byB0aGUgZGlyZWN0b3J5IG9mIHRoZQogIHByZXNldHMgZmlsZSBj
-b250YWluaW5nIHRoZSBgYCR7ZmlsZURpcn1gYCBtYWNybywgcmVnYXJkbGVzcyBvZiB3aGV0aGVy
-CiAgaXQgaXMgaW5oZXJpdGVkIGJ5IGFub3RoZXIgcHJlc2V0IGluIGEgZGlmZmVyZW50IGRpcmVj
-dG9yeS4KCiogOm1hbnVhbDpgY21ha2UtcHJlc2V0cyg3KWAgZ2FpbmVkIHN1cHBvcnQgZm9yIGEK
-ICBgYHRlc3RQYXNzdGhyb3VnaEFyZ3VtZW50c2BgIGZpZWxkIGluIHRoZQogIHRlc3QgcHJlc2V0
-IGBgZXhlY3V0aW9uYGAgb2JqZWN0IGZvcgogIGZvcndhcmRpbmcgYXJndW1lbnRzIHRvIHRlc3Qg
-ZXhlY3V0YWJsZXMgdmlhIHByZXNldHMuCgpGaWxlLUJhc2VkIEFQSQotLS0tLS0tLS0tLS0tLQoK
-KiBUaGUgOm1hbnVhbDpgY21ha2UtZmlsZS1hcGkoNylgICJjb2RlbW9kZWwiIHZlcnNpb24gMiBv
-YmplY3QgaGFzIGJlZW4KICB1cGRhdGVkIHRvIDIuMTEuCgoqIFRoZSA6bWFudWFsOmBjbWFrZS1m
-aWxlLWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyICJ0YXJnZXQiIG9iamVjdCdzCiAgInNv
-dXJjZXMiIGFuZCAiaW50ZXJmYWNlU291cmNlcyIgb2JqZWN0cyBnYWluZWQgbmV3IGBgZmlsZVNl
-dEluZGV4ZXNgYCBmaWVsZHMKICB0byBzdXBwb3J0IHNvdXJjZXMgYmVsb25naW5nIHRvIG11bHRp
-cGxlIGZpbGUgc2V0cy4gVGhlIGBgZmlsZVNldEluZGV4YGAKICBmaWVsZHMgYXJlIG1haW50YWlu
-ZWQgZm9yIGJhY2t3YXJkcyBjb21wYXRpYmlsaXR5IG9ubHksIGFuZCB1c2VycyBhcmUgYWR2aXNl
-ZAogIHRvIHBvcnQgdG8gdGhlIG5ldyBmaWVsZHMuCgoqIFRoZSA6bWFudWFsOmBjbWFrZS1maWxl
-LWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyICJ0YXJnZXQiIG9iamVjdCdzCiAgInNvdXJj
-ZXMiIG9iamVjdCBnYWluZWQgYSBuZXcgYGBiYWNrdHJhY2VzYGAgZmllbGQgdG8gcmVwcmVzZW50
-IG11bHRpcGxlCiAgY29tbWFuZCBpbnZvY2F0aW9ucyB3aGljaCBhc3NvY2lhdGUgYSBzaW5nbGUg
-c291cmNlIGZvciBhIGdpdmVuIHRhcmdldCB3aXRoCiAgbXVsdAoKW0NoYW5nZWxvZyB0cnVuY2F0
-ZWQgYXMgaXQgZXhjZWVkcyAzMDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4g
-YmUgZm91bmQgaW4gYW4gYXR0YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQoKU291cmNlOiBIZWxw
-L3JlbGVhc2UvNC40LnJzdAoKQ01ha2UgNC40IFJlbGVhc2UgTm90ZXMKKioqKioqKioqKioqKioq
-KioqKioqKioKCi4uIG9ubHk6OiBodG1sCgogIC4uIGNvbnRlbnRzOjoKCkNoYW5nZXMgbWFkZSBz
-aW5jZSBDTWFrZSA0LjMgaW5jbHVkZSB0aGUgZm9sbG93aW5nLgoKTmV3IEZlYXR1cmVzCj09PT09
-PT09PT09PQoKRGlhZ25vc3RpY3MKLS0tLS0tLS0tLS0KCiogQ01ha2UgZGlhZ25vc3RpYyBhY3Rp
-b25zIGFyZSBub3cgdHJhY2tlZCBpbiBhIG5ldyBzdGF0ZSB0eXBlIG1hbmFnZWQgYnkgdGhlCiAg
-OmNvbW1hbmQ6YGNtYWtlX2RpYWdub3N0aWNgIGNvbW1hbmQuICBUaGlzIHJlcGxhY2VzIHRoZSBv
-bGQgc3lzdGVtIHdoaWNoCiAgc29tZXRpbWVzIHVzZWQgdmFyaWFibGVzIHRvIG1hbmFnZSByZXBv
-cnRpbmcgYWN0aW9ucyBhbmQgc29tZXRpbWVzIGRpZCBub3QKICBhbGxvdyBtYW5hZ2VtZW50IGJl
-eW9uZCBjb21tYW5kLWxpbmUgb3B0aW9ucyBhbmQgcHJlc2V0cy4gIFRoZSBuZXcgc3lzdGVtCiAg
-YWxzbyBpbnRyb2R1Y2VzIHNldmVyYWwgbmV3IGRpYWdub3N0aWMgY2F0ZWdvcmllcyBhbmQgc2ln
-bmlmaWNhbnRseSByZWR1Y2VzCiAgdGhlIGNvc3Qgb2YgYWRkaW5nIGFkZGl0aW9uYWwgY2F0ZWdv
-cmllcyBpbiB0aGUgZnV0dXJlLiAgU2VlIHRoZQogIDptYW51YWw6YGNtYWtlLWRpYWdub3N0aWNz
-KDcpYCBtYW51YWwgZm9yIGEgbGlzdCBvZiBhdmFpbGFibGUgY2F0ZWdvcmllcy4KCiogVGhlIDpk
-aWFnbm9zdGljOmBDTURfSU5TVEFMTF9BQlNPTFVURV9ERVNUSU5BVElPTmAgZGlhZ25vc3RpYyBj
-YXRlZ29yeQogIHdhcyBhZGRlZCB0byBkaWFnbm9zZSA6Y29tbWFuZDpgaW5zdGFsbGAgY29tbWFu
-ZHMgdGhhdCBzcGVjaWZ5IGFuCiAgYWJzb2x1dGUgYGBERVNUSU5BVElPTmBgLiAgVGhpcyBkaWFn
-bm9zdGljIG1heSBiZSBjb250cm9sbGVkIHdpdGggdGhlCiAgOm9wdGlvbjpgLVdpbnN0YWxsLWFi
-c29sdXRlLWRlc3RpbmF0aW9uIDxjbWFrZSAtVz5gIGNvbW1hbmQtbGluZSBvcHRpb24sCiAgdGhl
-IGBgaW5zdGFsbEFic29sdXRlRGVzdGluYXRpb25gYCBmaWVsZCBpbiBhCiAgOm1hbnVhbDpgQ01h
-a2UgUHJlc2V0cyA8Y21ha2UtcHJlc2V0cyg3KT5gCiAgOnByZXNldDpgY29uZmlndXJlUHJlc2V0
-cy53YXJuaW5nc2Agb2JqZWN0LAogIG9yIHRoZSA6Y29tbWFuZDpgY21ha2VfZGlhZ25vc3RpY2Ag
-Y29tbWFuZC4KClByZXNldHMKLS0tLS0tLQoKKiA6bWFudWFsOmBjbWFrZS1wcmVzZXRzKDcpYCBm
-aWxlcyBub3cgc3VwcG9ydCBzY2hlbWEgdmVyc2lvbiAxMi4KCiogOm1hbnVhbDpgY21ha2UoMSlg
-LCA6bWFudWFsOmBjdGVzdCgxKWAsIGFuZCA6bWFudWFsOmBjcGFjaygxKWAgZ2FpbmVkCiAgYGAt
-LXByZXNldHMtZmlsZWBgIGFyZ3VtZW50cyB0byBzdXBwb3J0IGxvYWRpbmcKICA6bWFudWFsOmBw
-cmVzZXRzIDxjbWFrZS1wcmVzZXRzKDcpPmAgZnJvbSB0aGUgc3BlY2lmaWVkIGZpbGUgaW5zdGVh
-ZCBvZgogIGBgQ01ha2VQcmVzZXRzLmpzb25gYCBhbmQvb3IgYGBDTWFrZVVzZXJQcmVzZXRzLmpz
-b25gYC4gU2VlCiAgOm9wdGlvbjpgY21ha2UgLS1wcmVzZXRzLWZpbGVgLAogIDpvcHRpb246YGNt
-YWtlIC0tYnVpbGQgLS1wcmVzZXRzLWZpbGUgPGNtYWtlLS1idWlsZCAtLXByZXNldHMtZmlsZT5g
-LAogIDpvcHRpb246YGNtYWtlIC0td29ya2Zsb3cgLS1wcmVzZXRzLWZpbGUgPGNtYWtlLS13b3Jr
-ZmxvdyAtLXByZXNldHMtZmlsZT5gLAogIDpvcHRpb246YGN0ZXN0IC0tcHJlc2V0cy1maWxlYCwg
-YW5kIDpvcHRpb246YGNwYWNrIC0tcHJlc2V0cy1maWxlYCBmb3IgZGV0YWlscy4KCiogOm1hbnVh
-bDpgY21ha2UtcHJlc2V0cyg3KWAsIGluIHNjaGVtYSB2ZXJzaW9uIDEyIGFuZCBhYm92ZSwgbm93
-IGV4cGFuZCB0aGUKICA6cmVmOmAke2ZpbGVEaXJ9IDxDTWFrZVByZXNldHMgZmlsZURpcj5gIG1h
-Y3JvIHRvIHRoZSBkaXJlY3Rvcnkgb2YgdGhlCiAgcHJlc2V0cyBmaWxlIGNvbnRhaW5pbmcgdGhl
-IGBgJHtmaWxlRGlyfWBgIG1hY3JvLCByZWdhcmRsZXNzIG9mIHdoZXRoZXIKICBpdCBpcyBpbmhl
-cml0ZWQgYnkgYW5vdGhlciBwcmVzZXQgaW4gYSBkaWZmZXJlbnQgZGlyZWN0b3J5LgoKKiA6bWFu
-dWFsOmBjbWFrZS1wcmVzZXRzKDcpYCBnYWluZWQgc3VwcG9ydCBmb3IgYQogIGBgdGVzdFBhc3N0
-aHJvdWdoQXJndW1lbnRzYGAgZmllbGQgaW4gdGhlCiAgdGVzdCBwcmVzZXQgYGBleGVjdXRpb25g
-YCBvYmplY3QgZm9yCiAgZm9yd2FyZGluZyBhcmd1bWVudHMgdG8gdGVzdCBleGVjdXRhYmxlcyB2
-aWEgcHJlc2V0cy4KCkZpbGUtQmFzZWQgQVBJCi0tLS0tLS0tLS0tLS0tCgoqIFRoZSA6bWFudWFs
-OmBjbWFrZS1maWxlLWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyIG9iamVjdCBoYXMgYmVl
-bgogIHVwZGF0ZWQgdG8gMi4xMS4KCiogVGhlIDptYW51YWw6YGNtYWtlLWZpbGUtYXBpKDcpYCAi
-Y29kZW1vZGVsIiB2ZXJzaW9uIDIgInRhcmdldCIgb2JqZWN0J3MKICAic291cmNlcyIgYW5kICJp
-bnRlcmZhY2VTb3VyY2VzIiBvYmplY3RzIGdhaW5lZCBuZXcgYGBmaWxlU2V0SW5kZXhlc2BgIGZp
-ZWxkcwogIHRvIHN1cHBvcnQgc291cmNlcyBiZWxvbmdpbmcgdG8gbXVsdGlwbGUgZmlsZSBzZXRz
-LiBUaGUgYGBmaWxlU2V0SW5kZXhgYAogIGZpZWxkcyBhcmUgbWFpbnRhaW5lZCBmb3IgYmFja3dh
-cmRzIGNvbXBhdGliaWxpdHkgb25seSwgYW5kIHVzZXJzIGFyZSBhZHZpc2VkCiAgdG8gcG9ydCB0
-byB0aGUgbmV3IGZpZWxkcy4KCiogVGhlIDptYW51YWw6YGNtYWtlLWZpbGUtYXBpKDcpYCAiY29k
-ZW1vZGVsIiB2ZXJzaW9uIDIgInRhcmdldCIgb2JqZWN0J3MKICAic291cmNlcyIgb2JqZWN0IGdh
-aW5lZCBhIG5ldyBgYGJhY2t0cmFjZXNgYCBmaWVsZCB0byByZXByZXNlbnQgbXVsdGlwbGUKICBj
-b21tYW5kIGludm9jYXRpb25zIHdoaWNoIGFzc29jaWF0ZSBhIHNpbmdsZSBzb3VyY2UgZm9yIGEg
-Z2l2ZW4gdGFyZ2V0IHdpdGgKICBtdWx0CgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNl
-ZWRzIDMwMDAgY2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBh
-biBhdHRhY2htZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL2NtYWtlL3tjbWFrZS1uYXRp
-dmVfNC40LjAuYmIgPT4gY21ha2UtbmF0aXZlXzQuNC4xLmJifSAgICAgIHwgMAogbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
-MiArLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQuMC5iYiA9PiBjbWFr
-ZV80LjQuMS5iYn0gIHwgMAogMyBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
-dGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97Y21ha2UtbmF0aXZl
-XzQuNC4wLmJiID0+IGNtYWtlLW5hdGl2ZV80LjQuMS5iYn0gKDEwMCUpCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQuMC5iYiA9PiBjbWFrZV80LjQuMS5iYn0g
-KDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5h
-dGl2ZV80LjQuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVf
-NC40LjEuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC40LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC40LjEuYmIKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Y21ha2UvY21ha2UuaW5jCmluZGV4IDg1YjQ0NGQ5ZjkuLjQ1MTcyZGE3MjkgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwpAQCAtMTksNyArMTksNyBAQCBDTUFLRV9NQUpPUl9W
-RVJTSU9OID0gIiR7QCcuJy5qb2luKGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcuJylbMDoyXSl9Igog
-U1JDX1VSSSA9ICJodHRwczovL2NtYWtlLm9yZy9maWxlcy92JHtDTUFLRV9NQUpPUl9WRVJTSU9O
-fS9jbWFrZS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI2NTc1N2Y0NDJmZGQyNDJlMjdmMTcyOGZjMjZkYzBjYmE0MTY0ZjdhMDc5MWE1Yzc4ODYz
-MWMwMDA4MDM2OWJjIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjk1ZDQ3MjFmMzYyNWZiMGQ5ZDZj
-YTQ4MGRkNTlhNDZjODRiNGMxNTdmN2ZhZGQyZTliMTc5ZWY5Yzg3MTE3NGQiCiAKIFVQU1RSRUFN
-X0NIRUNLX1JFR0VYID0gImNtYWtlLSg/UDxwdmVyPlxkKyhcLlxkKykrKVwudGFyIgogCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC40LjAuYmIgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC40LjEuYmIKc2ltaWxhcml0eSBpbmRleCAx
-MDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV80LjQuMC5i
-YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlXzQuNC4xLmJiCi0t
-IAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMjkgSnVsIDIwMjYgMDY6MDc6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJhcmNoaXZlOiB1cGdyYWRlIDMuOC44IC0+IDMuOC45CgpTb3VyY2U6IE5FV1MKCkp1bCAyOCwg
+MjAyNjogbGliYXJjaGl2ZSAzLjguOSByZWxlYXNlZAotLS0KIC4uLi9saWJhcmNoaXZlL3tsaWJh
+cmNoaXZlXzMuOC44LmJiID0+IGxpYmFyY2hpdmVfMy44LjkuYmJ9ICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL3tsaWJhcmNoaXZlXzMuOC44LmJiID0+IGxpYmFyY2hp
+dmVfMy44LjkuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xp
+YmFyY2hpdmUvbGliYXJjaGl2ZV8zLjguOC5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJh
+cmNoaXZlL2xpYmFyY2hpdmVfMy44LjkuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8zLjguOC5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8zLjgu
+OS5iYgppbmRleCAyYzhiZjkyMmE2Li5kYTc5MjM3NGNmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZXh0ZW5kZWQvbGliYXJjaGl2ZS9saWJhcmNoaXZlXzMuOC44LmJiCisrKyBiL21ldGEvcmVj
+aXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL2xpYmFyY2hpdmVfMy44LjkuYmIKQEAgLTM0LDcgKzM0
+LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2xpYmFyY2hpdmUub3JnL2Rvd25sb2Fkcy9saWJhcmNo
+aXZlLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0
+dHBzOi8vd3d3LmxpYmFyY2hpdmUub3JnLyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAzODkx
+OGVhMzE1Y2RkNDQ2Y2M2M2FjZmU4ODBkNjAxMTgzMmJiZTE3MTFjODg3ZGU1ZGU1NDQxYjMwNmMx
+OTAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjVhNjUzOTA1OWNmNWU1OTdkYmVkYTM3YmZhNDg3
+NGIxZThkZWEwNjNjOGQ5M2JmODVhMmI0NGFmOTBhNWJkNCIKIAogaW5oZXJpdCBhdXRvdG9vbHMg
+dXBkYXRlLWFsdGVybmF0aXZlcyBwa2djb25maWcgcHRlc3QKIAotLSAKMi40Ny4xCgo=
 
---===============2857210727937409674==
+--===============3530096014951614814==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cmake-changelog.txt"
+Content-Disposition: attachment; filename="libarchive-changelog.txt"
 
-Changelog for cmake: 4.4.0 -> 4.4.1
-Source: Help/release/4.4.rst
+Changelog for libarchive: 3.8.8 -> 3.8.9
+Source: NEWS
 
-CMake 4.4 Release Notes
-***********************
+Jul 28, 2026: libarchive 3.8.9 released
 
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  multiple file sets. The ``backtrace`` field is maintained for backwards
-  compatibility only, and users are advised to port to the new field.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "installers" object's
-  optional ``fileSetType`` field gained a new ``SOURCES`` value to incorporate
-  the new ``SOURCES`` :ref:`file set <file sets>` type in codemodel replies.
-
-Instrumentation
----------------
-
-* The :manual:`cmake-instrumentation(7)` data version has been updated to 1.1.
-* :manual:`cmake-instrumentation(7)` gained a ``captureOutput`` option which
-  collects the ``stdout`` and ``stderr`` of instrumented commands.
-* :manual:`cmake-instrumentation(7)` gained a ``compileTrace`` option which
-  records compiler-generated trace files (e.g., from Clang's ``-ftime-trace``
-  flag).
-
-Generators
-----------
-
-* The :ref:`Ninja Generators` now support generating a build target named
-  ``test_prep/<test-name>`` for each test added by :command:`add_test`, which
-  builds all dependencies for that test. Build dependencies are registered for
-  an executable target invoked by the test, targets referenced in generator
-  expressions in the test command, and explicit dependencies added using the
-  new ``BUILD_DEPENDS`` option. This behavior is enabled by the new
-  :variable:`CMAKE_TEST_BUILD_DEPENDS` variable. A ``test_prep/all``
-  target is also generated to depend on every ``test_prep/<test-name>``
-  target. Tests with names that are not valid target names are excluded from
-  this behavior. If multiple tests in different directories share the same
-  name, their dependencies are merged into one ``test_prep/<test-name>``
-  target.
-
-Languages
----------
-
-* CUDA language level 23 (corresponding to C++ 23) is now supported with
-  NVCC 13.3 and above.
-
-Compilers
----------
-
-* C++ 20 named modules are now supported with ``clang-cl``, except with the
-  :ref:`Visual Studio Generators` (i.e., the ``ClangCl``
-  :variable:`toolset <CMAKE_GENERATOR_TOOLSET>`).
-  See :manual:`cmake-cxxmodules(7)`.
-
-* The ``ibm-flang`` compiler is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``IBMFlang``.
-
-* The `Pelles C`_ toolchain is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``PellesC``.
-
-  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
-
-* The Open Watcom ``wlink`` linker is now identified with
-  :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``OpenWatcom``.
-
-* The `wild linker <https://github.com/wild-linker/wild>`_ is now
-  supported with :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``WILD``.
-
-Command-Line
-------------
-
-* :manual:`cmake(1)` now supports ``--build <dir> --preset <pre>``
-  regardless of the current working directory.
-
-* The :option:`cmake -D` command-line option now populates a
-  default :prop_cache:`HELPSTRING` for variables known to CMake.
-
-* :option:`cmake --install` now supports installing multiple components.
-
-* :option:`cmake --install` now accepts ``-j<N>`` in addition to ``-j <N>``
-  for specifying the number of parallel jobs.
-
-* The :option:`cmake -E` commands
-  :option:`copy_if_different <cmake-E copy_if_different>`,
-  :option:`copy_if_newer <cmake-E copy_if_newer>`,
-  :option:`copy_directory <cmake-E copy_directory>`,
-  :option:`copy_directory_if_different <cmake-E copy_directory_if_different>`,
-  and :option:`copy_directory_if_newer <cmake-E copy_directory_if_newer>`
-  gained support for the ``-t`` argument.
-
-* The :option:`cmake -E tar <cmake-E tar>` command-line tool gained the
-  :option:`--cmake-tar-encoding <cmake-E_tar --cmake-tar-encoding>` flag
-  to specify the pathname encoding used in archives.
-
-Commands
---------
-
-* The :command:`block` command can now create a ``DIAGNOSTICS`` scope.
-
-* The :command:`cmake_diagnostic` command was added to manipulate CMake's
-  diagnostic state.
-
-* The :command:`cmake_parse_arguments` command gained a new ``PARSE_ARGN``
-  signature that starts parsing after the last named argument of the calling
-  function and works exactly like ``PARSE_ARGV`` with ``<N>`` being the number
-  of parameters in the function definition.
-
-* The :command:`discover_tests` command was added to support registering tests
-  discovered at test time by :manual:`ctest(1)`. It runs a user-provided
-  discovery command, parses its output, and generates test names, arguments,
-  and properties from regular-expression captures.
-
-* The :command:`execute_process` command gained
-  ``ENVIRONMENT`` and ``ENVIRONMENT_MODIFICATION`` options to run child
-  processes with a modified environment.
-
-* The :command:`file(ARCHIVE_CREATE)` and :command:`file(ARCHIVE_EXTRACT)`
-  commands gained an ``ENCODING`` option to specify the encoding of the
-  archive pathnames.  The default is now ``UTF-8``.
-  See policy :policy:`CMP0213`.
-
-* The :command:`file(READ_SYMLINK)` command gained a ``RESULT``
-  option to capture errors without failing.
-
-* The :command:`if` command gained a new ``DIAGNOSTIC`` operator that evaluates
-  to true if a given diagnostic category name is known to CMake.
-
-* The :command:`include` command now has a ``NO_DIAGNOSTIC_SCOPE`` option.
-
-* The :command:`list(FILTER)` command gained a new ``PREDICATE`` mode
-  that invokes a user-defined :command:`function` to decide which elements are
-  included or excluded, complementing the existing ``REGEX`` mode.
-
-* The :command:`list(SORT)` command gained a new ``COMPARATOR`` keyword
-  that invokes a user-defined :command:`function` to compare elements, complementing
-  the built-in ``COMPARE`` methods.
-
-* The :command:`list(TRANSFORM)` command gained a new ``APPLY`` action that
-  invokes a user-defined :command:`function` for each element of the list,
-  enabling arbitrary per-element transformations.
-
-* The :command:`list(TRANSFORM)` command gained a new ``PREDICATE`` selector
-  that invokes a user-defined :command:`function` to decide which elements are
-  transformed.
-
-* The :command:`string(JSON ... PARTIAL_EQUAL) <string(JSON-PARTIAL_EQUAL)>`
-  command was added to compare two JSON values using *partial* equality.
-
-File Sets
----------
-
-* A ``SOURCES`` :ref:`file set <file sets>` type was added to specify
-  a target's source files via file sets.
-
-* The :prop_fs:`CXX_SCAN_FOR_MODULES` file set property was added to
-  control whether a file set's sources are scanned for C++ modules.
-
-* The :prop_fs:`INDEPENDENT_FILES` file set property was added to
-  specify that a file set's sources do not depend on any generated files.
-
-* The :prop_fs:`JOB_POOL_COMPILE` file set property was added to
-  assign a file set's sources to a specific Ninja job pool.
-
-* The :prop_fs:`SCOPE`, :prop_fs:`TYPE`, :prop_fs:`BASE_DIRS`,
-  :prop_fs:`SOURCES`, and :prop_fs:`INTERFACE_SOURCES` file set
-  properties were added to provide the declared details of a file set.
-
-* The :prop_fs:`SKIP_LINTING` file set property was added to exclude
-  a file set's sources from target-wide code checks.
-
-* The :prop_fs:`SKIP_PRECOMPILE_HEADERS` file set property was added
-  to avoid using precompiled headers for a file set's sources.
-
-* The :prop_fs:`SKIP_UNITY_BUILD_INCLUSION` file set property was added
-  to exclude a file set's sources from inclusion in unity builds.
-
-Variables
----------
-
-* The :variable:`CMAKE_INSTALL_DEFAULT_COMPONENT_NAME` variable gained
-  support for a special ``<PROJECT_NAME>`` placeholder value.
-  It tells each :command:`install` invocation to take a default component
-  name from the current :variable:`PROJECT_NAME` variable value.
-
-Environment Variables
----------------------
-
-* The :envvar:`CMAKE_DISABLE_PRECOMPILE_HEADERS` environment variable
-  was added to disable precompiled headers by default.
-
-Properties
-----------
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now always
-  create the per-target verification target and the aggregate
-  ``all_verify_interface_header_sets``, ``all_verify_private_header_sets``,
-  and ``all_verify_header_sets`` targets when the property is enabled,
-  even if the target has no matching header sets.
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now support
-  ``OBJC`` and ``OBJCXX`` languages in addition to ``C`` and ``CXX``.
-
-* The :prop_tgt:`VS_SOLUTION_DEPLOY` target property is now implemented
-  for targets created by :command:`add_custom_target`.
-
-Modules
--------
-
-* The :module:`CMakePackageConfigHelpers` module's
-  :command:`write_basic_package_version_file` command now supports
-  ``SamePatchVersion``, ``SameFullVersion``, and ``SemanticVersion``
-  compatibility modes. The older ``ExactVersion`` mode is now documented as
-  deprecated in favor of the more explicit ``SamePatchVersion`` and
-  ``SameFullVersion`` modes. The ``SemanticVersion`` mode treats ``0.y.z``
-  versions more strictly than ``1.y.z`` and later versions.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_LINK_MODE` variable to select an ordered list
-  of file materialization modes for hard links, symbolic links, and
-  copies.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_STATE_ROOT` variable to store hash records outside
-  :variable:`ExternalData_BINARY_ROOT`.
-
-* The :module:`ExternalProject` and :module:`FetchContent` modules gained
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_COUNT` and
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_DELAY` variables to control
-  ``git clone`` retries.
-
-* The :module:`FindCUDAToolkit` module now creates a ``CUDA::sanitizer``
-  target for the :ref:`compute-sanitizer <FindCUDAToolkit_sanitizer>`
-  library.
-
-* The :module:`FindCUDAToolkit` module now provides an imported target
-  for ``cufilt`` in CUDA 11.4 and above.
-
-* :module:`FindPython` and :module:`FindPython3` modules gained the support of
-  the Stable ABI for Free Threaded Python (``SABIT``) as specified by
-  :pep:`803`.
-
-Generator Expressions
----------------------
-
-* The :genex:`TARGET_OBJECTS` generator expression now has an optional
-  ``SOURCE_FILES:...`` argument, which can take one or more source files as
-  arguments, and will filter its output to only include objects built from
-  those source files.
-
-Swift
------
-
-* The :ref:`Ninja Generators` gained the
-  :prop_tgt:`Swift_SEPARATE_MODULE_EMISSION` target property, initialized by
-  the :variable:`CMAKE_Swift_SEPARATE_MODULE_EMISSION` variable, to control
-  whether importable Swift targets emit ``.swiftmodule`` from a dedicated
-  build edge.  Policy :policy:`CMP0215` enables this by default.
-
-* The default :prop_tgt:`Swift_MODULE_NAME` now replaces hyphens with
-  underscores, since hyphens are not valid in Swift module identifiers.
-
-* Swift targets now have a package name by default.
-  See policy :policy:`CMP0216`.
-
-* The :prop_tgt:`Swift_PACKAGE_NAME` target property was added to
-  specify a Swift package name.
-
-* Swift targets on Windows now support the ``$<TARGET_PDB_FILE:...>``
-  family of generator expressions.
-
-CTest
------
-
-* :manual:`ctest(1)` gained support for forwarding extra arguments to test
-  executables using a :option:`-- <ctest -->` separator.
-
-* :manual:`ctest(1)` gained a :ref:`CoverageTool <ctest-CoverageTool>`
-  option in :ref:`Dashboard Client` mode to configure tests for
-  coverage collection by ``llvm-cov``.
-
-* The :command:`ctest_configure`, :command:`ctest_build`,
-  :command:`ctest_test`, and :command:`ctest_memcheck` commands gained
-  ``PRESET`` and ``PRESETS_FILE`` arguments to support using
-  :manual:`presets <cmake-presets(7)>` for their :ref:`Dashboard Client` steps.
-
-  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
-  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
-  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
-  arguments to the above commands in a :ref:`Dashboard Client` script or
-  on the :program:`ctest` command line via the
-  :ctest-dashboard-option:`-D` option.
-
-* :manual:`ctest(1)` gained a :ctest-dashboard-option:`--source-dir` option
-  to specify the source directory.  When combined with
-  :ctest-option:`-T` Configure, this allows CTest to perform an
-  initial configure step for an empty binary directory.
-
-* :manual:`ctest(1)` gained support for a :variable:`CTEST_SUBMIT_PARTS`
-  variable that restricts which parts are uploaded when operating in
-  :ref:`Dashboard Client` mode.
-
-* The :command:`ctest_update` command gained ``VERSION_ONLY`` and
-  ``VERSION_OVERRIDE`` options to select or report a source revision
-  without requiring the corresponding
-  :variable:`CTEST_UPDATE_VERSION_ONLY` or
-  :variable:`CTEST_UPDATE_VERSION_OVERRIDE` dashboard script variables.
-
-CPack
------
-
-* The :cpack_gen:`CPack Archive Generator` gained the
-  :variable:`CPACK_ARCHIVE_ENCODING` variable to specify the pathname
-  encoding used in package archives.
-
-* The :cpack_gen:`CPack NSIS Generator` gained a new variable
-  :variable:`CPACK_NSIS_IGNORE_COMPONENTS_PAGE` to ignore the
-  component selection page in the installer.
-
-* The :variable:`CPACK_RPM_SPEC_MORE_DEFINE` variable now supports
-  a list of definitions.
-
-Deprecated and Removed Features
-===============================
-
-* The ``-W[no-][error=]dev`` command-line options are deprecated.  The new
-  spelling is :option:`-W[no-][error=]author <cmake -W>`.
-
-* The ``--warn-uninitialized`` command-line option is deprecated.  The new
-  spelling is :option:`-Wuninitialized <cmake -W>`.
-
-* The ``--no-warn-unused-cli`` command-line option is deprecated.  The new
-  spelling is :option:`-Wno-unused-cli <cmake -Wno->`.
-
-* The :variable:`CMAKE_WARN_DEPRECATED` and :variable:`CMAKE_ERROR_DEPRECATED`
-  variables are deprecated.  The new :command:`cmake_diagnostic` command should
-  be used instead.
-
-* The :prop_dir:`MACROS` directory property does not exist anymore.
-  See policy :policy:`CMP0217`.
-
-Other Changes
-=============
-
-* A file may belong to at most one non-``HEADERS`` :ref:`file set <file sets>`
-  in a target.  See policy :policy:`CMP0211`.
-
-* :command:`macro` invocations now preserve backslashes in arguments.
-  See policy :policy:`CMP0219`.
-
-* :command:`variable_watch` callback command arguments preserve backslashes.
-  See policy :policy:`CMP0219`.
-
-* :manual:`ctest(1)` now exits with non-zero if invoked with no
-  arguments and no test input file exists.
-
-* Test drivers generated by the :command:`create_test_sourcelist` command now
-  support the ``-N`` option to list all tests, one per line.  This is useful in
-  combination with the new :command:`discover_tests` command.
-
-* Names of executables given to the ``DEPENDS`` argument of
-  :command:`add_custom_command` no longer have ``.exe`` suffixes stripped to
-  establish target-level dependencies. See policy :policy:`CMP0212`.
-
-* Targets which provide C++ modules may now be consumed by targets with
-  different :prop_tgt:`compile features <COMPILE_FEATURES>` and
-  :prop_tgt:`options <COMPILE_OPTIONS>` than the provider.
-
-Updates
-=======
-
-Changes made since CMake 4.4.0 include the following.
-
-4.4.1
------
-
-* The :module:`FindPython`, :module:`FindPython3` modules learned
-  to manage, on ``Windows`` systems, the ``pydebug`` ABI flag.
-
---===============2857210727937409674==--
+--===============3530096014951614814==--
 
