@@ -1,217 +1,110 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B98C53200
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 17:32:26 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16992.1785346336600857221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 883CFC54F51
+	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 19:50:57 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20039.1785354652333266591
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2026 10:32:16 -0700
+ Wed, 29 Jul 2026 12:50:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=sFVVACIk;
- spf=pass (domain: est.tech, ip: 52.101.72.30, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T6WLWwPemKPcoFTpalNthNhFV0FOUCDUhgQinY0RpFzFgrhxZ/BTvJc+lYONA35cPYDLD9FovtRLD+JLUyIzk97jWK8S76Qjp/r5/+Lu+r7VySQgot510toLxCT652ou1LcBggFdBAom96vbiQHNMNLnWIqqEYho7MxjQLZ/7BHpE/GiOd7vnEibgGZVZVHwagwgBI1yJlvQvwVbuFKMLM76D/si3B9yhxeQdymV6NnTODco7o8HbEZ7FZ6U9JAS6rOP7XGc9pZSbmkULg2R+mqpiyUZj2JXsY2ajWXZpFEuc2FdY2tf8RfiRyRhDULtATOCo/lrA7JKfroGUk4uRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tj0lxpiVTN6unbFxIo/tpMz3BIIxbgRQnhX5Wn0Kbcg=;
- b=gmbHFCoSWIjm3OwpptAuo7Q2eBUWgiZNLoh4n0188cytw2inLf7v4pEnxTqwJMr6u0x/QzD7GH+ue2RkshgUeOrQ9aw4WyPTknkHxNaXKNA3/toHr0BD7RL6hdi6zl3Sac1kmhI4ryxh6ff3zUB699tTEAIncZCX6OUVOg2giCxoTB+oRuwRc+LmKa/GSuHuuEzaH/bH9uGCfTL7wrM9kCTIWqhv9b9uvF4qBkFFFppIxm5DSpE60kJnfe+QkiMBAHBqrKyqcOFZouew7Mx5sHTb3AXtAJA6xZZcZeOXxXatH/vF1RkO3Vkg7nlCH5q5L1+/GbnQe6HFpgwj7OlRcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tj0lxpiVTN6unbFxIo/tpMz3BIIxbgRQnhX5Wn0Kbcg=;
- b=sFVVACIkMCc+nQ744OaHfNqlEXGtboPfImy4K/lHwAHpEnLfo7/n81RKWBWpEFRvIcFFpRSi+IfF0MKAaR96zJHF2/7d2HaWAbyYEJ01EBGl6YVFzKs6q7XJ3O9pSecAbwSIx2QWc6Z5vr8cxQoNnWtBxOlBhgCOi+oNLa/czl8+uMZeIneb4+dOv99EcOo6ufSNLpfKnom5jpV0JqSm+Fy99ZCF/emdk6y/alpXLwZA6B435+Yj1wa5zft3ymwm/BEy1Kpi/dPdT5sjM15laSppBVKfUCtlRVhm0uCy1/pgKfky0Bt+sCvy8PnvGgQIoV2ZX4yRlIQDOe22iVuL8Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by PAWP189MB2609.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:335::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
- 2026 17:32:14 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0292.005; Wed, 29 Jul 2026
- 17:32:14 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YpRrdlQM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493f75f7172so10787145e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 12:50:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1785354650; x=1785959450; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BXHvFEsu4ESabMY3L/wciiWQYv4pbMtiS7pnoaRQygs=;
+        b=YpRrdlQMbeWr+KBkipIUNYipUWlmsTiAtz0UGkrkrCAP6kdjqMoUM0oWeWoUQlYqWe
+         Vvn7xJWtHQMb69uH9zczt7PsJdyHCGQfTpuP4yOT7W2gBRDyU6/S+3YQxOfbZpz29x/X
+         craVGScnmnxrjOc0msDXYN7RIidOv4VXjtHko=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785354650; x=1785959450;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=BXHvFEsu4ESabMY3L/wciiWQYv4pbMtiS7pnoaRQygs=;
+        b=lD07M/UeZgWQoKLLTqjqFG1EusAsGd6WxsjWrWP+HFBc/akhoo/7X4bXaxfyacrtsX
+         +THYYZZQ1L+Xcel6n4VaY5x/A0pwU9yjMtKJ+gCB186TCM0XKCNqW14dhVVndSVBRv7I
+         UcWLsNuGnTNWwXHENaKA7LU7rKgPpm6BDncq3b0/m5uqEbjzmHZskaOJbevWagTX/DN1
+         K4duYpwt5RaGf37s6DaoZp8+wXOmXyfvxh0R1G99W2BCbGF3InCki77RMf/6NcP584Mv
+         Q2pNGn9eEk6hmfTH0gQvZDgAAMDHxh+wKrJEhvg0BnMwIBbZiVRlalD5OEFVgRuNz022
+         1lzg==
+X-Gm-Message-State: AOJu0Yzb6/H9OL9uJnii5NupKnYKR7NZQ09s2D9fIMRaSJPZGXybiWQJ
+	x8ogCQIPzHdtBgcgPepxGrOZg/JwfMu7q9zqBzLYsslgAczD46c8uhC+5TFiplSoLVzuYhBsLvZ
+	rhMqUg9A=
+X-Gm-Gg: AR+sD12BXe1SKY+Db21J2QP1ftKkPaXAayGcFbXbH8+hUJf+DU/7cCxLOakMg7q+Jc/
+	+KFXpuXAct6SEkzqRib/I1mrvl7bb+n2cmonQptlbn0w8/zjdjpWaXJUjxorIRQcgNJReBJUWup
+	eSV8SJGWrDjt4IHc6eN3LfOOaosiz3cZWh/e44e3qcnKlB1Q8G/q5X8JxKzGxyyR+Npn7kBdYIm
+	WD624CUdYP8dV6SmAteT1x6pG9tmLgfXLuL4doC4KTHTO/yg2HOyqz/jHDhmnTLxunGXXf8yFRB
+	WRvmoRUUsVhirThr4yE4vYrOx1BTWvmoxLKVqi+G/eC6trtq6e1BHbVAL2Drkn/S/swOIvd/KaN
+	FKqdryVtq+NALS/8MCpUCnS6V+q+lH692XZ1fROV4LERsRuaU9WkJSA56AA0VweIAgoXek7fJnq
+	UpXYTxmjIU0id3Ifwe8I4GRUSGmZWBsRKvvE2hsZ0wwn+zhoaQqzH4p/Xwcq2Jito+XE2PYht8p
+	RBJ3o/NSn5QVnU1uw==
+X-Received: by 2002:a05:600c:c48e:b0:496:c1f3:e8f8 with SMTP id 5b1f17b1804b1-496c641f388mr85136185e9.7.1785354650547;
+        Wed, 29 Jul 2026 12:50:50 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3647:86f2:68ea:efc7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6abd0a6sm8864768f8f.10.2026.07.29.12.50.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 12:50:49 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH 2/2] libarchive: fix ptest failure when built without crypto library
-Date: Wed, 29 Jul 2026 19:31:57 +0200
-Message-ID: <20260729173157.71731-3-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260729173157.71731-1-jaipaul.cheernam@est.tech>
-References: <20260729173157.71731-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GVX0EPF0005F6F7.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::24c) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+Subject: [PATCH] pseudo: Update to 1.9.10
+Date: Wed, 29 Jul 2026 20:50:48 +0100
+Message-ID: <20260729195048.3170959-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PAWP189MB2609:EE_
-X-MS-Office365-Filtering-Correlation-Id: 866f8d24-33c5-4221-61db-08deed975409
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|10070799003|23010399003|366016|1800799024|13003099007|10067099003|11063799006|56012099006|12006099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	G/w+Pf9zk6ekJXtqNVYUYSv+AyLWyluRhwJ0aRJyZSUk40JFu4sX0xjCXJBtnY1sROo6bKv8GjrjFXKjms53jq+dPTk2Pd++aj/KOLeygjwkmBo2FgdIzhY3QFIXudRYa6iwpqLDXtTU/xtv6p/EjAGpqV2QzYt8BFBYQaMCGDuD+YJqFEAdiFZmQSTrmtH4CXGiFHJtua5XmPV2m6yrBpnYW2k8WinoFzxsNli9EGeqhWqBI2PUgWYhOVmsPQuH61GEQYnVIHEBudbAp57yINDHcyiTtA3DK2ioKQLGRl6rAGQQChXX0SwpXri3q1NuhkBi6Yl42jEcjxZlur2ZoaMp1HIY3mid5RiAd5YcYpw96QPv5ACla9emtxS/MNUd1DH9X8lfDRE5NWnpH6+NuQ4044reTmCz/m6Kx/GE5ID/I0JED/OUb2hQZRS/Poi98X5+dcNaIXCq6VG0YQdELmH6gEUQQ6NvvgNT3JLjKU92qeP9olajQX81uTz6HrYVTCLddIQ/xNzbbhGB9Fot1cNhZHu2UkI8wJ+LVfHwwEUEPIxe8PuieHt4leJlIVztUKSrSq6QQYzByjYkifqxjDs6xdRP3NILJUetrp6Fih8=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(23010399003)(366016)(1800799024)(13003099007)(10067099003)(11063799006)(56012099006)(12006099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?4lZcqUP9HxVNYuLBzTXfIEceD5SeG80k4MLeL0cev+uFW9FetbqRjw1waCXr?=
- =?us-ascii?Q?eEmPA0Wl5WevujVu0JmT58N/3aJWzCJFWsyBum2JM9z+q32MpZOpX6axDLXs?=
- =?us-ascii?Q?sn8gvY2kMgW6AAoZQmiyPVx1zlL8qJ0Pe6a+6uQLHWiq2LSxe1kvFLe1lk33?=
- =?us-ascii?Q?YAoDVQsKiyaFbnXgp4p9C4gyDBYbt54f5ZXifV9ZqJ2757f5DAj7EVTKrGiv?=
- =?us-ascii?Q?VO49KGZNYJHVqlxEiMZ/gS+n2OQiB9arxZDcw5rsz0ufAxNB2u75T/MTCCBl?=
- =?us-ascii?Q?nIBZY2TT44e4cvKxT2QS7vxlHgWuEO3hmdZV6Zz5peTMunp67VE990hH4LEc?=
- =?us-ascii?Q?/viLhw5zIueJRqX4RZeS/7A9PXkcxwLrIG0ym94W+e0M37nX+Y/t1A6TZpel?=
- =?us-ascii?Q?QJGQeLUIkp7/cowUi8r28OgPlZVIYNSV03W13hpfq02PwOAVpzF2CFWhkd32?=
- =?us-ascii?Q?sfE8IKiL4T3719TojIy6uQQ23QIS9uCrfHvIg2KExSqUn8fq3Sq8l7OB63qQ?=
- =?us-ascii?Q?dnoVtll80P6IPjJ3FJ0ycwZtppGAibptqsYW42bOokDb59+l7cZDr87IhWDi?=
- =?us-ascii?Q?1IVp7Fd/UKgAcZL5cQI1nXPvAvQfsb2u2EKDLsei9bXmGSy1dyFsywtlEp4j?=
- =?us-ascii?Q?scg3CWT3scss/pjsa1fRY/AxUm8kpwSTVKeCJxbH8dlCpFt+ajnTIOVTT65c?=
- =?us-ascii?Q?1P5HLCzEkVGkSUS9yKMI58EPdiyZ5QYp2TSMtpnz9BgDQ3Inql2o8CDNvunC?=
- =?us-ascii?Q?pjpekRVqbix0ojcwZqDjWbTIVJ7atRwepj7hNcsMhRb1NVO/ydUJXTdyLHkP?=
- =?us-ascii?Q?Q1Kg/g/evFhOnwiVzgxevYRXbS+tECU9XdBusYD/itOicR9NPNhdFMsTiQO/?=
- =?us-ascii?Q?s4b8jIw6cvO8/eYpRyxWKrYAJQLOy0yX/H2zaIvCd5wog4AmqEOEL1JMgXpY?=
- =?us-ascii?Q?ffdYGltzTuHo9Uv4vXmn0xHDgDSyT9lAtlGw7SV86W9fERtpwU8b4F8mDcRD?=
- =?us-ascii?Q?O8k3sJEDJX7U6znnjry7gVPdisiBql9jqbkauzE7Rihmh1LNa6C8dfMC8K5r?=
- =?us-ascii?Q?As6W2dm8RdMz40iXthrTRz47rlB7r15MT2H67g42S1jTFX7Qj//tNM3Ay2Ek?=
- =?us-ascii?Q?8V+Bd+zI5IcTk1GXezAbgu26d3S3sH1mzU5/VIQNPjta2WR7KNsTefTHq4QL?=
- =?us-ascii?Q?4JrAYeQY28SgxokhVtZ7Z/dIG7Ser0em4gP9K9TNSMKQyovTD7VaUSeYiyLN?=
- =?us-ascii?Q?ZZw5ZFPTM8LZAP8OjuBiltYeNfSnHS1ixZN2wit0PywZtKQvftsAuE6wCmHx?=
- =?us-ascii?Q?w2APDqGD3pI/z14KTjOGY45jiOOQM1tOPDy+jiR869QR1CDe0X9i76bzPGc0?=
- =?us-ascii?Q?aprpP8FV/EsWZLFQ/ja/bjzJL6qPB8C+FoZllvaEEmKdnHmXcKzPbCnr08QH?=
- =?us-ascii?Q?ugJL3rARlB4uU/S9Ge/tCqYOuuNzjSCWOZCxOcn0Vmuv4SDuQD81uzW0Phlq?=
- =?us-ascii?Q?OxCA2FbWcQ07FeptMRX8hdcTYvxYc/7UbUgJfVJCO0Ml2CT87atmXE9rPgCH?=
- =?us-ascii?Q?qf+lcKnNPW+kejXE3bJ0sJiICYNQabPhEBXpBJ7Tb3p/kIw3MPREQ17Tkyql?=
- =?us-ascii?Q?vkLMPkvm8DuJVQV3xXeAoF20F+fhBl6G949o4sKPqbqEQH4Kma87n+1WjyCr?=
- =?us-ascii?Q?ss5Rq/ZHM21I1yGnZ5a+hZWFe3nlxxyUEtZtv0YDOUui3jfEVzlPv83/Q00j?=
- =?us-ascii?Q?8yi651AVk4TIJnhAP5MWctie9BLhzd9mwCNFYNrMxAndmMu7qMQMTNpf0kUQ?=
-X-MS-Exchange-AntiSpam-MessageData-1: N5hoHZy514JWguOVosF9KcLjLXvCZ6Eog4s=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 866f8d24-33c5-4221-61db-08deed975409
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2026 17:32:14.0384
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OS4CHj9YOWoRuEiA2HI3Kt9W4DBub8pKwKRMKVxfn+tjsckBXzjzEQ0AQqScVCwzNYbm/Mz4DHWDRummaJ6P1iIT1GSNmUa6bmU8bROkzrc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP189MB2609
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 17:32:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242283
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 19:50:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242284
 
-test_read_format_zip_ppmd8_aes256_streaming (added in 3.8.9) fails
-with 6 assertion failures because it attempts to decrypt an AES256
-encrypted zipx file without first checking if a crypto library is
-available. The default PACKAGECONFIG does not include openssl/nettle/mbedtl=
-s.
+Pulls in various important fixes:
 
-Add a patch to skip the test when no crypto library is present, using
-the same guard as other encrypted zip tests in the same file.
+Makefile.in: Bump to 1.9.10
+test: various: Move to makefile compilation
+test-bash-exec-env: Add bash env test case
+test/test-openat2-func.c: Remove unusuaed saved_errno
+pseudo_util.c: strchr now returns const char
+pseudo_client: remove the unused pseudo_prefix_dir_fd
+pseudo_client: step around all of pseudo's own fds in closefrom
+pseudo_client: step fully past pseudo's own fds when computing startfd
+makewrappers: Avoid efault workaround if using AT_EMPTY_PATH
+ports/linux/guts: Add __open64_2 wrapper
+Makefile.in: Bump to 1.9.9
 
-Upstream: https://github.com/libarchive/libarchive/pull/3335
-
-ptest results (qemux86-64):
-                        3.8.8       3.8.9       diff
-  Tests run:              797         847        +50
-  Tests failed:             0           0          0
-  Assertions checked:32184686    32472682   +287996
-  Assertions failed:        0           0          0
-  Skips reported:         237         244         +7
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...aes256-streaming-test-when-no-crypto.patch | 46 +++++++++++++++++++
- .../libarchive/libarchive_3.8.9.bb            |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-test-s=
-kip-ppmd8-aes256-streaming-test-when-no-crypto.patch
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-test-skip-ppm=
-d8-aes256-streaming-test-when-no-crypto.patch b/meta/recipes-extended/libar=
-chive/libarchive/0001-test-skip-ppmd8-aes256-streaming-test-when-no-crypto.=
-patch
-new file mode 100644
-index 0000000000..fc96225141
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/0001-test-skip-ppmd8-aes2=
-56-streaming-test-when-no-crypto.patch
-@@ -0,0 +1,46 @@
-+From c2b00a5fff659bbe8d70b5e00cb6abb831170aeb Mon Sep 17 00:00:00 2001
-+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+Date: Wed, 29 Jul 2026 13:33:10 +0000
-+Subject: [PATCH] test: skip ppmd8 aes256 streaming test when no crypto lib=
-rary
-+ is present
-+
-+test_read_format_zip_ppmd8_aes256_streaming fails with 6 assertion
-+failures on systems without a crypto library (openssl/nettle/mbedtls)
-+because it tries to decrypt a pre-built encrypted zipx file without
-+checking crypto availability first.
-+
-+Add the same guard used by the other encrypted zip tests in this file.
-+
-+Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/=
-3335]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ .../test/test_read_format_zip_zipx_encrypted.c     | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
-+
-+diff --git a/libarchive/test/test_read_format_zip_zipx_encrypted.c b/libar=
-chive/test/test_read_format_zip_zipx_encrypted.c
-+index f07e1e5c..a0a431fb 100644
-+--- a/libarchive/test/test_read_format_zip_zipx_encrypted.c
-++++ b/libarchive/test/test_read_format_zip_zipx_encrypted.c
-+@@ -257,8 +257,22 @@ DEFINE_TEST(test_read_format_zip_zipx_zstd_encrypted_=
-streaming)
-+ DEFINE_TEST(test_read_format_zip_ppmd8_aes256_streaming)
-+ {
-+ 	const char *refname =3D "test_read_format_zip_ppmd8_aes256_streaming.zip=
-x";
-++	struct archive *a;
-+ 	size_t used;
-+ 	char buff[600];
-++
-++	/* Check if running system has cryptographic functionality. */
-++	assert((a =3D archive_write_new()) !=3D NULL);
-++	assertEqualIntA(a, ARCHIVE_OK, archive_write_set_format_zip(a));
-++	assertEqualIntA(a, ARCHIVE_OK, archive_write_add_filter_none(a));
-++	if (ARCHIVE_OK !=3D archive_write_set_options(a,
-++			"zip:encryption=3Daes256")) {
-++		skipping("This system does not have cryptographic library");
-++		archive_write_free(a);
-++		return;
-++	}
-++	archive_write_free(a);
-++
-+ 	extract_reference_file(refname);
-+ 	FILE *f =3D fopen(refname, "rb");
-+ 	used =3D fread(buff, 1, sizeof(buff), f);
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb b/meta/re=
-cipes-extended/libarchive/libarchive_3.8.9.bb
-index da792374cf..63c66eea81 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
-@@ -31,6 +31,7 @@ EXTRA_OECONF +=3D "--enable-largefile --without-iconv"
-=20
- SRC_URI =3D "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://run-ptest \
-+           file://0001-test-skip-ppmd8-aes256-streaming-test-when-no-crypt=
-o.patch \
-           "
- UPSTREAM_CHECK_URI =3D "https://www.libarchive.org/"
-=20
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 9f02d905681..d0559f6c9f3 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,6 +1,6 @@
+ require pseudo.inc
+ 
+-SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https;branch=master \
++SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https;tag=pseudo-${PV} \
+            file://fallback-passwd \
+            file://fallback-group \
+            "
+@@ -12,8 +12,8 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "ca47829825f297d7bf83665c0541a9de4aa78009"
+-PV = "1.9.8+git"
++SRCREV = "2a5521e9573049864e07907415f1fee28232d90c"
++PV = "1.9.10"
+ 
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
+ # remove them for pseudo since pseudo intercepts some of the functions which will be
 
