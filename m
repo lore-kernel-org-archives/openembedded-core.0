@@ -1,139 +1,138 @@
-Return-Path: <wes@mitsi.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CFEAC54F51
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 16:08:34 +0000 (UTC)
-Received: from BN1PR04CU002.outbound.protection.outlook.com (BN1PR04CU002.outbound.protection.outlook.com [52.101.56.129])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15065.1785341310225973079
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4973C53219
+	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 16:23:54 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15569.1785342231528232016
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2026 09:08:30 -0700
+ Wed, 29 Jul 2026 09:23:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mitsi.com header.s=selector1 header.b=RzS1Nzss;
- spf=pass (domain: mitsi.com, ip: 52.101.56.129, mailfrom: wes@mitsi.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=coYX8wKrv/vg8x4I7P3/IpWbTHwD1qrxBGtZSwCNkp+6aHoD83h52qcA/NSSHQeZ0gOO9Dj/kvXW7UrCWBcmqs+ASU5dEtcHy5rpAGIDrCk4PifVsyxL1CIk45K+Ngq9lOSZ6Yyg0ji+nNIgkDecOeQOfcsfE1kc3MiD7KGhtBCE/IeJmvcW1yinQ8kyzxYCgOYIPucg4oUnn2HADWOPzlwa8gY2w4d9TXomnZ6+vvhOGtuFswMErikwpk4WH8wN3M1YWUcaW3gfWeJeEuKfzT/pYR6GHC3WqIgGgaPIAD+8X0f3SHksv62k2XDXozJrEApcotQOoCofM86WHQXFzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JTqb+Hk12+wAWpa0/QuGksQ89mFl55jH5aax9ih+hgY=;
- b=pA2BHhRA7P2k4fTWYNE3nJDrCy3ZoLdxoGefSJPmVCDXw7FLH9D95eMhV9zSl7uosDvxixcvzv83KwPENztj82+mS+ugWKulDLt938pY7yprUFrINPdVqPrzBjJF17jVHHBxYAQcOdXTp5x3uDdnvZAqbCBti5BAR6A85j8tQp8gcBa8QbY0r6duD3MJnc60ljN8w7dfjnUko6IykUMJHATm0UfQIwMuWaX9x33hpN1JL5YyOhKvX/KHMfjwvNOBI95VOf+Ng0r85AEKN89gosR/P4tGgWYGJs0HcMBq+BRYcsQRiRy9hM6vFFaw2UMN5xBpw6RgtAAjtnog6dBKLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mitsi.com; dmarc=pass action=none header.from=mitsi.com;
- dkim=pass header.d=mitsi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mitsi.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JTqb+Hk12+wAWpa0/QuGksQ89mFl55jH5aax9ih+hgY=;
- b=RzS1Nzsse01T51CuVJLZqo9Y3/16TM+eW6juc+vRQ23UEwlT/iXTtCa4f5EYv8iJYKCHJrRT0g3gQx8b9Km3r+Onp7QnnnToh6dQ7COMXwTSURZGDZiu4da/r7TAZmCOwbb6dRmgtUfeR3gl27CtloFTmUHoaYIcDMKeZs/hYg9oMI15TeXQAXXQP50/8rW0/q97O6UigEpBXR6k7ZnFnj8JOtnY+Tfk2A7VL0m1+/F7wP4n6sWxIkgCOqmQWKUpWY6on86oOs4GNmfKAyK11nZay6izRlr8wsdVotnGeYJPTwnwmQKEtFZ0boMLu5XwhNV8ukF/Mxw6t1p7xVis6g==
-Received: from SA1PR16MB5580.namprd16.prod.outlook.com (2603:10b6:806:3d0::9)
- by LV3PR16MB5788.namprd16.prod.outlook.com (2603:10b6:408:1af::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
- 2026 16:08:23 +0000
-Received: from SA1PR16MB5580.namprd16.prod.outlook.com
- ([fe80::953f:db17:45a6:14c5]) by SA1PR16MB5580.namprd16.prod.outlook.com
- ([fe80::953f:db17:45a6:14c5%4]) with mapi id 15.21.0270.009; Wed, 29 Jul 2026
- 16:08:22 +0000
-From: Wes Malone <wes@mitsi.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
-	<yoann.congal@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH] cpan_build: disable .packlist and html
- doc
-Thread-Topic: [OE-core] [wrynose][PATCH] cpan_build: disable .packlist and
- html doc
-Thread-Index: AQHdH2fV1O2k7RS8kU6EyafLmHR7x7aEkgeAgAAV/gs=
-Date: Wed, 29 Jul 2026 16:08:22 +0000
-Message-ID: 
- <SA1PR16MB5580274A84DE076199EFEE2BBECA2@SA1PR16MB5580.namprd16.prod.outlook.com>
-References: <20260729143729.3759497-1-wes@mitsi.com>
- <DKB4U4MQEPKB.3FYR6DZ0JSOE8@smile.fr>
-In-Reply-To: <DKB4U4MQEPKB.3FYR6DZ0JSOE8@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mitsi.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR16MB5580:EE_|LV3PR16MB5788:EE_
-x-ms-office365-filtering-correlation-id: f8608053-4c39-471d-9719-08deed8b9cde
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|4143699003|10067099003|56012099006|22082099003|18002099003|38070700021;
-x-microsoft-antispam-message-info: 
- tHugG7CY7NwJFVy0IB+2ehFd2rf+z+xliIXUAmXK6lNe1CLpfayJwAuaObI8+yiemjO/b2lO8WgRHIm3UQtnadD23sjibb1YIYb2eBo6ECnHRnqYQKEG1JcXoPMAN3cZ6FQA88gaV91Fj9YBmxxzVo+aKK2A+KgN4viYWj8LlfoveJwCHzirrm5H5R2WCaIg2t1XmzfGEZ5klPbCft7XaqXzUahnPe2/kEHLdFH3NIO0CoqsWUzfcHhiAmeXutL1c/HQzns44MyJzv8btXav1MJf1zAg0svtznx5Y220kP1/xWmcsOeRPGdrVVCGZX7WnVrDodpdTXbbGRpnqOrrXqVx8joolzMaHlMhUA1MmICbyniPTC4v85rjvdhEEBtkaFFyqkNPXh1qWwMpVvxaOhdtCE0uPeYbMewZZ9rlQI6mUVu3hEh5SLv8wzXxaserMrR+hppQtuC1XLun98Q1HussJkRPd0T1Z9YS9BXX2ObBrFsxUj7tvwvSGnUAa/SSlMhou0T6y5h+/KyBNxelXC5Bz347IkEiUKorWzNEhZ6UzNCxBKYIz3D5iGUNXm4YXokom3tXLLQa2AYRUZQPlTPj+NvRr0zyFG2re96DeZ+YHLIcxPk8krZaPBlHe5K0ITOfzh/xonDbB7wFu+dw2RwyYrEWa2+hAol2N/9ghJr+5iIHIGA6M6cIe+kityNTuDSQdMtjngid4DZZG/AOzwndvdr1E/KNKPOdtCwHEzY=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR16MB5580.namprd16.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(4143699003)(10067099003)(56012099006)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?LFkalyJZ3BSOmJ0u1RohlxEezo/KNlbH5jKi28sq732zVt69DJjksW5zou?=
- =?iso-8859-1?Q?+jg/3sSX3vhLu3bWR9mjdgXgxHk3sOclyr9uD6aaonyS8NBkE/Wz92LP3Q?=
- =?iso-8859-1?Q?kSY0mnfzrkCawwt7CchiTO7E2M6QdtUZv3NFHFaePcok3GJZvsdwHw16ZH?=
- =?iso-8859-1?Q?c2ycOxB1kqwK5ugNQN+ZA05Kt00Fl2s8oJg7Z5piCq0ZHXINLdcDrVXBXV?=
- =?iso-8859-1?Q?CkrrqZ7tJPGDnoze4RkFPkSI0sjw9Bl+VYaQg4ceARY0L5LIylREyZ4ba8?=
- =?iso-8859-1?Q?wFG8PPky5yEoLSgIrwFXUY8+ain/alzJqN58YQT6XJgvSW6g1oja2sejRN?=
- =?iso-8859-1?Q?6LZsfcZTaltR7ORRYS7Xq782m5OvOKkKvDx8K29NkONcvT1pX6zmuHh9pS?=
- =?iso-8859-1?Q?qRCZ64ZV85e5XBFE3JBho+JWYB+Tm+tEMAwweaCD5vEWf00v18rLElmNng?=
- =?iso-8859-1?Q?YXw6fIdelW4rdg2b1qOuJgv3PGiDMoFpOBFtW4G74FNShZllaPrlZSEXQW?=
- =?iso-8859-1?Q?3A6t5wf++sdEh31663o5Gb2E+Qobf5Jjan0PRxt+ex5TmNEcR7siHKTQ18?=
- =?iso-8859-1?Q?vfdlcVm0k4kLKFn3n8VpjkJJgMCeXOJq5uWUgk96ig7JwIqjKQ0N/mhoHo?=
- =?iso-8859-1?Q?pGtGhSbiiWgtveTOlGZXs+4paPMzQ5kTJ47qC0pvEvqi9wlxK0RbuJfykz?=
- =?iso-8859-1?Q?K7bm1la2C1M9JDrHSNh3sKPEd9KE2gelWdq2yU0gKEfl95oLbTYy+0PiyW?=
- =?iso-8859-1?Q?Wf28bF7GLOWHTxmjzEt8WYEnHUKErS/1Wxx1Xd8bKWdFwTkrVXAaxISj71?=
- =?iso-8859-1?Q?9nHQOCgF+DY9HRkHCblnN5bDXR3Bof0gAwUIBQwOHwVbZomrmMVV77Huin?=
- =?iso-8859-1?Q?fhNQARnN4QzXIyCpEkIPTNIIaNAz+4XvkDmjRQaJtDTsmjH59FF8i6DPZU?=
- =?iso-8859-1?Q?VjHb0KO6MMp4+o47JS2TvMsksFDFaw/jgXuepdXGFxMKtiyw0RWnk82Pk+?=
- =?iso-8859-1?Q?hh11G/sOYvAdClL9kiUKQ9bYEE+b9oPZIBTeJ+cur+78HbBydlLSPoLEop?=
- =?iso-8859-1?Q?q95yErXmoshud0e5PMbRRgcV5B880MbXY/Uf/71whq9fvcTh1K6p+8AUhD?=
- =?iso-8859-1?Q?rfDvHE3ZpoYMd4yiqktYBnSbX8ZmAwufZ5XdEt21KIGyDUu8yftMLyu40r?=
- =?iso-8859-1?Q?aSyNR/S/4SJkg+o5edi7sTyJKzGO9r05QaBcJ6LQvwKvh4ysSbwqPtMcFn?=
- =?iso-8859-1?Q?6aThsGKZQ9srJ5WfoppT5n7JPVPUSVyzXR6iGG2xaiD3bk7EPod2zJi6fY?=
- =?iso-8859-1?Q?xhU06RjQqmRbaRyoTeStyyHdSvxMPXdy0TRGCrca/fDItx3yIMYb+Emhmd?=
- =?iso-8859-1?Q?KFCrXxutldtCnyBCDlRt33Vefh79GUDXtPST0mGYJ8mQpWugoW9KfQhDnx?=
- =?iso-8859-1?Q?IdJLIyuOcjb5BZmJsWnRsNJZWmUWko0TSKCWgO5IrMhvBqpv9BJhX969Ex?=
- =?iso-8859-1?Q?CZl+s6wHKbdRUus3JxoszzetyW96xZBfpBsbYOxgOFRHQBQ5xj8cySzhFw?=
- =?iso-8859-1?Q?KNGY6jI6rAnTw3tVUPW9PQugJLN6aXSSBZ0/A6gLtv3rdRZQ/UW6OK1yL6?=
- =?iso-8859-1?Q?9224AlppE4AKs4fwNpLFzF9XG1plZ15QcgnpXzo3XZj3wfBCbj44IrG8D+?=
- =?iso-8859-1?Q?YNbicZxSymQ8xhNrAqE7m4thKu6mPD7HBGF04WPP0+guV8CH8Lil2mCIOZ?=
- =?iso-8859-1?Q?w1ZXC1OJ+eJ+9chzon4FcXf4A=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jwevealX;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cfbbdfa60bso11781205ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 09:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785342231; x=1785947031; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OOahWsAXg/nfCks+vEpZkPi9vTCou4eV8IPTtbUI4NA=;
+        b=jwevealXYO0Wyy7o7GsPSMVvL+6Vm8R8oMNUdyh6u67scPofLc21idDGI55jYfhZl/
+         pCKgLkz/WdyqMJFqqTVxMG2mvbTKTlHNXSAi7EOUe5hgMT8n43qhuxAa4QSzGP7Fa9gc
+         B1qPM1IPhb0nBp4cgGTd84lv6Wt2/N8wpJ4OiQmfufyl8iIeVgf73V9bXBWuaWdA0L/j
+         AucWf4pUEEHd7Qb/vlqk66flopYEqm+vF+ze2fPP69xMB5k5EJ/jpOmd78jlMoWY1hAM
+         9IDIwcQsAbRYXDc4PGr1NxhkAQO67u6t+QuFv9e040Q4RNAFKag+NGJ8sjEItn0Gdypm
+         IMOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785342231; x=1785947031;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OOahWsAXg/nfCks+vEpZkPi9vTCou4eV8IPTtbUI4NA=;
+        b=QuG5IZZEihn7+xe24XOfS6wmafEye8fFcB7p0DEJA/Lu6w3mqUOiPGQ5BIONlJjPxC
+         gtRGB67MDCrDtJYg0qKzQBuoZu2nKenLQoUq7LageZpT9YOZzTGeaM1juZiqmk8gt+eS
+         oSHldRks7aXJl9njgWGAhGPiHWEFwHiN18dipGN/dkgaL0ZD5YB0IoseUDPmTZH+ryPs
+         wx/4o4fa1TOH4Zp5YN+YuJJvHX5YtQG6gDGg0FCNZ/igaVXCw0bG03ImTnmYvTlXkOZI
+         xf49kZ5aeeabQP50J63AUaTfhAUkGpMG0YKSdE9UlTwCMmEICq5fmVS1gXPzHV6BpW9W
+         6YzQ==
+X-Gm-Message-State: AOJu0YyywH7UCrkSVhmifBpXqgHQLRuSz9Cx6+zjq+gtA0hLIyQBCHe5
+	AN0Gnkk6Io87m3n5kWLxHCP6eqNcu6A/7V0VlyZdPkWOeR+hypsbmKsIx2XaKhMO
+X-Gm-Gg: AR+sD10crF1/qItt5DoFL6LRg6ZaY9K+UVxnFWHKJB4Z3b/YlvU07u/ON5BCAlmIFlQ
+	ddMRFWE1j0fwYMoAHPjoJMJz/2RlDg7svfwtbLvBkXtSW9W3bS+d6BpMIY1B7Z3MNNnupPn//3B
+	hsJhkVCK5kcEvQnTUrNvfR8oV8d9FfJAtk7SvsxZqVed5gTFbvq9wddIjtN6c9daXJqgZPV8BjU
+	rIjrZe8j3F4oZ+ycidXqChMaJ6C5hBH/UJlhctaI/SjaDWKPNj6VPSYuUDZnCqOuNsevJIKxbtS
+	F69aF2/ouG4Bb4Fzj3uRPmV11Cpb9f5I3yOdGMA0mZ7Er4mPch8YtI4TYJEmF6EdekYDmXudYAT
+	kYaoN/4iGVUiOHVEK0C0Y0XUQRbU/NAipRjPbq6BgUGbhnVHQZGP6KMJu45qX6N48eTEKEDZZad
+	ct2KsIa5WsdEHD2eZp9f1Tu0r8ptrbDQLhKp+Oi7bcznlPFAeEaC8pH14MSwVcEYjUYR2BQGxh9
+	odMCNTvmRzjZmHGs3K04ZyJbFKrM5gLpnucEJUkvC1UXYLEeVvNeG+BvM8/t48exUFFZqwG9TaO
+	G5rOYGmlsDXOcPGyNLwi3AK+YUODOVIA4i8LWfn3xOnRvV6ehk+cgaOhNXfN+elbRCEay5HhHtA
+	83BDb4VPjbmG+
+X-Received: by 2002:a17:903:2f0d:b0:2cf:b68a:340 with SMTP id d9443c01a7336-2d015abe547mr86722565ad.10.1785342230803;
+        Wed, 29 Jul 2026 09:23:50 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504b670dcsm11181609eec.7.2026.07.29.09.23.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 09:23:50 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] m4: Fix ptest hang with glibc 2.44
+Date: Wed, 29 Jul 2026 09:23:47 -0700
+Message-ID: <20260729162347.4037154-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-X-OriginatorOrg: mitsi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR16MB5580.namprd16.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8608053-4c39-471d-9719-08deed8b9cde
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2026 16:08:22.0223
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 30e8c1d4-ec6d-43b1-b912-0b880517829b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +oHkFoSs8oXJykszEXZ3F0rAIAOliO+LAKvg5gt4J4OfiQmjgtVnXVNVQtk6vJNY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR16MB5788
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 16:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242277
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 16:23:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242278
 
-On Wednesday, July 29, 2026 09:42, Yoann Congal wrote:=0A=
-> This patch should also apply to master. We have a strong master-first=0A=
-> policy so any patch need to get an equivalent merged on master before=0A=
-> being merged on stable branches.=0A=
-> =0A=
-> Can you send an equivalent patch on master so I can review this for=0A=
-> wrynose?=0A=
-> =0A=
-=0A=
-Hi, thank you for the advice. I've resubmitted the patch on master. Sorry f=
-or=0A=
-any formatting mistakes. My workplace blocks non-outlook mail clients so I'=
-m=0A=
-having to jump through some hoops.=0A=
-=0A=
-Wes Malone=
+glibc 2.44 declares the POSIX 2024 name posix_spawn_file_actions_addchdir in
+<spawn.h> as an asm level alias of the long standing
+posix_spawn_file_actions_addchdir_np [1]:
+
+  extern int __REDIRECT_NTH (posix_spawn_file_actions_addchdir,
+                             (posix_spawn_file_actions_t *, const char *),
+                             posix_spawn_file_actions_addchdir_np);
+
+There is no symbol exported under the standard name though. gnulib probes for the
+function with AC_CHECK_FUNCS, which does not include <spawn.h>, so it does not
+see the alias and concludes the function is missing. gnulib then compiles its
+own lib/spawn_faction_addchdir.c, but the header attaches the asm name
+posix_spawn_file_actions_addchdir_np to that identifier, as a result the
+*definition* is emitted under the _np name while its body does
+
+  return posix_spawn_file_actions_addchdir_np (file_actions, path);
+
+i.e. it calls itself (INFINITE LOOP). It overrides the real
+glibc symbol for the whole program:
+
+  0000000000000000 <posix_spawn_file_actions_addchdir_np>:
+     0:	eb fe                	jmp    0 <posix_spawn_file_actions_addchdir_np>
+
+tests/test-execute.sh case 21 therefore spins there forever. Because gnulib's
+execute() blocks the fatal signals before spawning, the hung process also
+ignores SIGTERM and ptest-runner has to SIGKILL it.
+
+m4 cannot be autoreconf'd (m4-native sets INHIBIT_AUTOTOOLS_DEPS and overrides
+do_configure, as autoreconf needs m4), so fix the probe result directly:
+reached through <spawn.h> the function really is available. gnulib then takes
+its REPLACE_ code path, which names the definition rpl_* so that it no longer
+collides with the glibc symbol it forwards to:
+
+  0000000000000000 <rpl_posix_spawn_file_actions_addchdir>:
+     0:	e9 00 00 00 00       	jmp    5 <rpl_posix_spawn_file_actions_addchdir+0x5>
+  			1: R_X86_64_PLT32	posix_spawn_file_actions_addchdir_np-0x4
+
+The underlying gnulib probe is still wrong upstream and it is reported [2] and also
+discussed in glibc bugzilla [3]
+
+[1] https://sourceware.org/cgit/glibc/commit/?id=7594b4e5a75d41e891782aa7e3fb51924f6840cb
+[2] https://lists.gnu.org/archive/html/bug-gnulib/2026-07/msg00164.html
+[3] https://sourceware.org/bugzilla/show_bug.cgi?id=34437
+
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+---
+ meta/recipes-devtools/m4/m4-1.4.21.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-devtools/m4/m4-1.4.21.inc b/meta/recipes-devtools/m4/m4-1.4.21.inc
+index 1af9b9a783..3be6a521a8 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.21.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.21.inc
+@@ -23,6 +23,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464\
+ 
+ EXTRA_OECONF += "--without-libsigsegv-prefix"
+ 
++# see https://lists.gnu.org/archive/html/bug-gnulib/2026-07/msg00165.html
++# Drop it when upgrading to next release where above fix is accepted
++CACHED_CONFIGUREVARS:append:libc-glibc = " ac_cv_func_posix_spawn_file_actions_addchdir=yes"
++CACHED_CONFIGUREVARS:append:class-native = " ac_cv_func_posix_spawn_file_actions_addchdir=yes"
++
+ EXTRA_OEMAKE += "'infodir=${infodir}'"
+ 
+ do_compile_ptest() {
 
