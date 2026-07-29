@@ -1,128 +1,130 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <hjadon@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B576C54F51
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 08:18:06 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6523.1785313067734176227
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB67C54F51
+	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 08:44:26 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7096.1785314662573063057
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2026 01:17:48 -0700
+ Wed, 29 Jul 2026 01:44:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GT99s5x5;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4720f3bf164so1178921f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 01:17:47 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iuBnxDVb;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: hjadon@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785313066; x=1785917866; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=7aLRzPIuKcxW+cYO7zflIzN/m8PZpx3PUcBY52Pm1r0=;
-        b=GT99s5x5Hrxg34pHBnlK/8uzTpqRDrIciGgyiAnW7p0OE3PlIEZ0M7otLVHBF3oTSD
-         f6RtiWszsNgSJGETkDPPwBfmaVByrIakTYel636U4EkAsNUeOOO5rcqNa9k7Du9Vlo25
-         EFVEj4EqaN/z/+T0KGj7T4ozeRiWGuhvZjTeo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785313066; x=1785917866;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7aLRzPIuKcxW+cYO7zflIzN/m8PZpx3PUcBY52Pm1r0=;
-        b=FhbRAsVYjNKO5VS8x/a51kwwygvQsSiayH95pKSkCwdUzn51xfM9Gaa/heoAb5KnUx
-         TubC5VoB/U/4efAFXHDzwzqPUD6SEt1kOYildhBvueBtmVPqvpvlm+YmEBbb4gFnvT7z
-         Yz9G05otRGuYlaJnyubzEvgL0Jvt/9XVyeS0BxRSGJVbsSwq/AM+R+5kC+rD6hYwl30m
-         3oaNm/eoHK8LAYqsh9z9LcJS1kpbLtlj5s+hrkweULf31qJAEZ8oSsAgR5j2lRiJIuaR
-         OuvSwEVY7+hGecbmwNxIod7OIVeZzEpRQ97J0zuq5pWZTWjPyJ7GXkfoObbdq50An/Kz
-         3kEg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq+6uhJLsKegWPUewjpuY+OKlVcLkXRfr1x/9a+XawgBZGOvtBqv/USbRzmBx7KKvYrvGb6AeOMza0N6yfK3C63dg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwruC+h1BejGvswpCwITAOtH5tFdBwvF35hdXGB8CJTom5jodCa
-	PfOnA9olxebIygKfd8I4hZXkjahbjK5crME1P529eQKfZbWc7gjCB8/cUomrkKzqw28=
-X-Gm-Gg: AR+sD118mCAr5OS8tIFFDVOAFO5c85QeuzPeS2+rEnlvc92MG7y0csqPh5OTQbe+YYB
-	oyackXyGg39udn7kHHSXBDXx/5+WT9E6YvmvRB+t2fSaKqAmlYkmw09RT/sp/ldWU5EhgPorcrI
-	8gWJo+oca5IARAYJSsqVLFRCpXmWmqlrwAIPnyRqLkjsgIMrA9q6+XARaeQfy3bHqDjseaGm0A/
-	joi9LdIANTEcjleF+bLggTvR4bOgQi+75S6m4IBMDIgFGH2DCyCkI9fWf9wnZ1XAJpDlKGTJlm1
-	j9+6MQ+SY2FuqBZka8Smsf545Ym3LSDRpZkD1TeEuPUsUiOrsNybp7xpddZXqR57F9uhtvwYZC6
-	Jm+u5kw2/irZ35h+orafB/qTHiUWm/bJJrrEei5V4CBGXa+juqmNPPoSvZioy3H39pbCg/IIOZO
-	xcgS3mrvOXIvpmjbtOi+GZS8gg79iUDn4lob4407K2w8W3W0fbBHqyYg4OQfsEVcUUWU7k+XCBi
-	g04qi39IEKWRX3scWhe99gTQIogJID6VsQFcG3s3tUzShm7SuH7
-X-Received: by 2002:a05:600c:138b:b0:495:3a52:71b1 with SMTP id 5b1f17b1804b1-497fd2f9db9mr11775315e9.5.1785313065660;
-        Wed, 29 Jul 2026 01:17:45 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6b19155sm5349576f8f.29.2026.07.29.01.17.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 01:17:44 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Jul 2026 10:17:44 +0200
-Message-Id: <DKAWNVBUB6U5.2B5F1A0ECCCNL@smile.fr>
-Subject: Re: [OE-core] [wrynose] wpa-supplicant: add PACKAGECONFIG controls
- for suiteb, wnm, and mbo
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <miaoqing.pan@oss.qualcomm.com>, <gaole.zhang@oss.qualcomm.com>
-To: "Hangtian Zhu" <hangtian.zhu@oss.qualcomm.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260728090159.3864155-1-hangtian.zhu@oss.qualcomm.com>
- <DKA6WJ3DRSM1.15EVL7LBX6ZC0@smile.fr>
- <2ea06f45-ba2e-4745-bc49-7a6799531b0f@oss.qualcomm.com>
-In-Reply-To: <2ea06f45-ba2e-4745-bc49-7a6799531b0f@oss.qualcomm.com>
+  d=cisco.com; i=@cisco.com; l=1846; q=dns/txt;
+  s=iport01; t=1785314662; x=1786524262;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OLzEw1XV/RFX4isN6TYPZWwsxKT7zJSGHDW4uF4hZUM=;
+  b=iuBnxDVbBN6LuLAK/lWZwr66JMBQp4PAq7L45UMgiyiHx8GBkV6Lee+K
+   7AiRcnxB/uNN6jpo7wuw+EWzp82qa8djRRIgfgjOd1w7F8wDu7kDVMNH7
+   HzNeoE0wehnkosyp/Yrj1LUyYJF0FpS6eX+hRRmmUoHgDYI6+Hpe1/E46
+   T7Jll0YbSiPY6Or3l5UCADMIw98fpRIUWeZp529dEq3QpZqaDzeW7ZLI8
+   p+oNIvTP6YI7T0mjZJ/6MM6tBv3fRghEhoILyxS3S2WoHQIAvTjPvFxxR
+   E9uMx8Oek/KSewCRWPaABPxGBy2LzEBsn3ZKCiqyz6WvXZuHdNu4l9rNw
+   A==;
+X-CSE-ConnectionGUID: qOng9DH3Q9udMx8K4HGpRw==
+X-CSE-MsgGUID: iXOg3pcdRsGBnuhKrZgPDw==
+X-IPAS-Result: =?us-ascii?q?A0BBAgDQvGlq/5EQJK1aglmCV3ReQ0mTWQGhDoF+DwEBA?=
+ =?us-ascii?q?Q83GgQBAYUFjWgCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGXIZdNgEYAS0wXESDAgGCdAMRvhOCLIEBgygBgVTbLgELFAGBOIU/iCB1h?=
+ =?us-ascii?q?HwnGxuBcoR+hRCFeASCIoEMgkhHjyBIgR4DWSwBVRMNCgsHBYFmAzUSKhVuM?=
+ =?us-ascii?q?h2BIz4XgQ0bBwWBHYEsP4RXIxk2f4EvdUp3LWkBEheBGoM5AoJBAwsYDUgRL?=
+ =?us-ascii?q?DcUGQQ+bgeNbyGCRAGBDoFEVZN1RpF6oQ8KKIN1jCGVOhozqmwumFqkWoRpg?=
+ =?us-ascii?q?Wg8gVlwFYMiCUoZD+B9JzICOwIHAgcOAwuTZgEB?=
+IronPort-Data: A9a23:DkAQwaAjlkE8TxVW/33iw5YqxClBgxIJ4kV8jS/XYbTApGx01DQEm
+ zEfUWyEO62JYTf2L9EgaNm19h4Av5bdzoM3OVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXmthh
+ fuo+5eBYAD/imYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE2tJoAxAaHdYhq/t7JHEe1
+ qA4Byg3cUXW7w626OrTpuhEj8AnKozveYgYoHwllWGfBvc9SpeFSKLPjTNa9G5v3YYVQ7CHO
+ YxANWcHgBfoO3WjPn8XCpsym+GAjXjkeDoeo1WQzUYyyzeClFYsiui2aLI5fPSLdeJaxV6Tq
+ ljd0E7/HxE5Lu6Q8RaapyfEaujn2HmTtJgpPLqg+/hnhVeeymAeBFgdUkG2if24kVKlHdVHJ
+ koZ/yAjoaQ/+AqsVNaVYvGjiHeAuhhZX59bFPc3rVndjKHV+A2eQGMDS1atdeAbiSP/fhRyv
+ nfhoj8jLWYHXGG9IZ5FyoqpkA==
+IronPort-HdrOrdr: A9a23:zxj4Y6FGqxtfha6BpLqE3seALOsnbusQ8zAXPo5KJiC9Ffbo8v
+ xG88576faZslsssRIb6LK90de7IU80nKQdieJ6AV7IZmfbUQWTQL2KlbGSoAHIKmnZ6vNX07
+ tmfuxVDd39CkU/sOPBiTPId+rJBLK8gcaVbSC09QYLcT1X
+X-Talos-CUID: 9a23:c+SVDGzuugmiX6fnHWe+BgUNPcYqI1H9l06BPkOdGTZKFJ26UWWPrfY=
+X-Talos-MUID: 9a23:SPAU7AUNQIegFvnq/D7coz45LMxk2b+BIkYQkbYcica8GTMlbg==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,192,1779148800"; 
+   d="scan'208";a="790252830"
+Received: from alln-l-core-08.cisco.com ([173.36.16.145])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jul 2026 08:44:21 +0000
+Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id 8B07F18000479;
+	Wed, 29 Jul 2026 08:44:21 +0000 (GMT)
+Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
+	id 2A722CC1611; Wed, 29 Jul 2026 01:44:21 -0700 (PDT)
+From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: vchavda@cisco.com
+Subject: [OE-core][scarthgap][PATCH] python3-pyopenssl: set CVE_PRODUCT
+Date: Wed, 29 Jul 2026 01:44:15 -0700
+Message-Id: <20260729084415.2285578-1-hjadon@cisco.com>
+X-Mailer: git-send-email 2.35.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
+X-Outbound-Node: alln-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 08:18:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242258
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 08:44:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242259
 
-On Wed Jul 29, 2026 at 3:02 AM CEST, Hangtian Zhu wrote:
->
->
-> On 7/28/2026 20:06, Yoann Congal wrote:
->> On Tue Jul 28, 2026 at 11:01 AM CEST, Hangtian Zhu via lists.openembedde=
-d.org wrote:
->>> Add optional PACKAGECONFIG entries for suiteb, wnm, and mbo and map
->>> these to the corresponding upstream build flags:
->>>
->>> - suiteb: enable CONFIG_SUITEB and CONFIG_SUITEB192 for
->>>    WPA-EAP-SUITE-B/WPA-EAP-SUITE-B-192 enterprise modes
->>> - wnm: enable CONFIG_WNM for IEEE 802.11v Wireless Network Management
->>> - mbo: enable CONFIG_MBO for Multi Band Operation extensions used with
->>>    BSS Transition Management
->>>
->>> Upstream hostap configuration keeps these as optional capabilities.
->>> Exposing them as PACKAGECONFIG options lets distros opt in for
->>> enterprise and roaming use cases without changing the default oe-core
->>> feature set.
->>>
->>> Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
->>> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com=
->
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> (cherry picked from commit 38860938302e6167b1c890b75e808f3a4ff08805)
->>> ---
->>>   .../wpa-supplicant/wpa-supplicant_2.11.bb        | 16 +++++++++++++++=
-+
->>>   1 file changed, 16 insertions(+)
->> Hello,
->>
->> I'm sorry but PACKAGECONFIG adding new features are not acceptable per
->> stable policy. I recommend doing this in downstream layers.
-> it's a cherry-pick commit from master branch, by adding PACKAGECONFIG,=20
-> distros can opt in to enabling these features.
+From: "mark.yang" <mark.yang@lge.com>
 
-Again, I'm sorry but, while this is required, this is not a sufficient
-reason for stable branches. Other conditions apply:
-See the "Stable/LTS Patch Acceptance Policies":
-https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable/LTS_Patch_=
-Acceptance_Policies
-> Unacceptable:
->  * New features
+The pypi class default python:pyopenssl matches nothing in the CVE
+databases, which have used four vendor spellings for pyOpenSSL over
+the years:
 
-And this is a new feature. So I can't accept this patch.
+* CVE-2013-4314 (jean-paul_calderone:pyopenssl)
+* CVE-2018-1000807 (pyopenssl:pyopenssl)
+* CVE-2018-1000808 (pyopenssl_project:pyopenssl)
+* CVE-2026-27448, CVE-2026-27459 (pyca:pyopenssl in the CNA records,
+  pyopenssl:pyopenssl in the NVD CPEs)
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+Set all four vendor:product pairs.
+
+For scarthgap, python3-pyopenssl is 24.0.0. CVE-2026-27448 and
+CVE-2026-27459 are fixed in 26.0.0, so this metadata change will
+expose those CVEs as applicable/unpatched. The fixes for these CVEs
+need to be handled separately.
+
+Note: Original commit was for python3-pyopenssl_26.0.0.bb. This is
+adjusted for scarthgap where recipe version is
+python3-pyopenssl_24.0.0.bb.
+
+Signed-off-by: mark.yang <mark.yang@lge.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ba3d752e577004f871fe7f4235e2625410140a08)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+---
+ meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
+index 94a70aa17d..ab00730b57 100644
+--- a/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pyopenssl_24.0.0.bb
+@@ -8,6 +8,7 @@ DEPENDS += "openssl python3-cryptography"
+ SRC_URI[sha256sum] = "6aa33039a93fffa4563e655b61d11364d01264be8ccb49906101e02a334530bf"
+ 
+ PYPI_PACKAGE = "pyOpenSSL"
++CVE_PRODUCT = "jean-paul_calderone:pyopenssl pyca:pyopenssl pyopenssl:pyopenssl pyopenssl_project:pyopenssl"
+ inherit pypi setuptools3
+ 
+ SRC_URI += " \
+-- 
+2.35.6
 
 
