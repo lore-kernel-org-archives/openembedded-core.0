@@ -1,100 +1,128 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B82C54FCD
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 21:34:51 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22259.1785360882278163987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0194EC54F51
+	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 21:35:12 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22269.1785360905489560874
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2026 14:34:42 -0700
+ Wed, 29 Jul 2026 14:35:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CeZigGYj;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OZpgKYWq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019fafcd170d-61881462-72a8-41f3-9f3d-5350dc46e106-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1785360881; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=eLjPMciktfkKh2Oz9qVsDBSvFF1y1++Pfg1Il1obc7k=;
-	b=CeZigGYj1LrNt/HXUEvjYNHcTZHbfr3/kb0zplwcqX3Ix3Wub0zAud2fSvX/E4Ry
-	zLXO3QMPYJuxCn4OliKMbtFqyhErjtOnkEN+tlxLey1fclN7b0KIpHi+cbwJcAgAZIQ
-	8mU1Wg+qHejm9q/iQBa3wzWmmC1oZAk3dDgdNHLU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785360881;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=eLjPMciktfkKh2Oz9qVsDBSvFF1y1++Pfg1Il1obc7k=;
-	b=OZpgKYWqkDl2jCUfN+rJ5w+4FlILbM+73+9WKESyEvAHmQJBF+gW7VnAsWxHMO+Z
-	zdRaSvmajku2YU4BTDbMWt2uJNKsHEaCc0yik4pNfvEbhiqtoDPud6VaziG00FD0vsu
-	lBvEI9UCbCFnvArbDcs4VPfqdmqqnc0P8WoKZrNI=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 4/9] python3-uv-build: upgrade 0.11.32 -> 0.12.0
-In-Reply-To: <20260729211437.3394641-4-richard.purdie@linuxfoundation.org>
-References: <20260729211437.3394641-4-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019fafcd170d-61881462-72a8-41f3-9f3d-5350dc46e106-000000@us-west-2.amazonses.com>
-Date: Wed, 29 Jul 2026 21:34:41 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.29-54.240.27.30
+ dkim=pass header.i=@konsulko.com header.s=google header.b=PQkpuDZJ;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.175, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8487b7b3fc8so1607232b3a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 14:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1785360905; x=1785965705; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GUQB9R6QWjXWGNcPD3mcykG2nOgE9KHNPBJJsLvGs5Q=;
+        b=PQkpuDZJe5uCQv+i8kFZq1NnIlMJKRV6ogCIOUtTG6rjqoYBJU24G+8yUCNit9b8R1
+         t8yfiRRRg8KpNnyORDWkHaPGHNnpVnqnqiCW5nrpaPp+GI6xbCdsI7s0TAaNmy8AxGaf
+         b217ykpGS0yRJSbSyWIhBa8l1I4BZcu5GdbyE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785360905; x=1785965705;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GUQB9R6QWjXWGNcPD3mcykG2nOgE9KHNPBJJsLvGs5Q=;
+        b=K38138m/Hm+93L1bMlbw5FsLuhzgIP3mimQBD68UJpylZQzLzbpdgledbw9JCG8wBC
+         Jon9wjOZClL4xlBirckOwPWQgkydl6Qa0wB7c+xKiJohPNFnWtQNLuF0WzMCaYLNq/Bq
+         QdW5NmPVxhkmPkAqwG+NA4j+UjiJOyj85/6jMz6C3ZJUujGwEZajRTFnyiyT51THs8wi
+         FK9gqJc+xEzqxRp8bkobq6msHohySMYtBzbs7qVYg4k7+kpAyhwe9b3I4GU/0GD1P/vz
+         6bRsH8cp2+ok8Suxhqs2/MDelsQzL6as4CLSJA4TnHyWoSwnnxAKLGMSncALXuZy7sId
+         0zOg==
+X-Gm-Message-State: AOJu0YzNB2cIWy7RYDtjeoAFmn+0ja4BocTwu58jEB+HWVmqCWvRHhUU
+	b09lVmnIRmR9Z1CHvHrkjzr08eg3gNX++RPG5btTWYovXmwEq9E7kJ+YcKbS/RX/dVEeYTMjbCf
+	h51K0
+X-Gm-Gg: AR+sD13jNgT962XCxP+jaP7gxZjePxXovm8R6MzODtlcHAgVbjvqRLgskgimBSUAxL4
+	Y0St+WS+JRamEszJiscHyN4EgTn6VxpgpJ4Xo7ksKFdNMDbCxReRB4t8iFnuxRKEdLl5EhqcGlV
+	6TSl/2PhKUSKVmF8js4VQe7/7y31Yu41+pstGNPXSIfznfM7qQX6xof6fbBSKyB4MWb3vZYz2ys
+	NnAhvNeAYQkBMxSV8PjzP6OvXUxe7qZK8nKpA0agpU0ynLVaVLUJqImtoXsjkleMif+F7CO0ssW
+	UcrN6hkhHnwzexvLqqmcJIfejGrWIJuEgF4xJ1OY9jpHMZ7mqOcrSOQt/7tHvwEl/EHV35bQXoO
+	GmGfgYuvbDicCBYv4UAWJYQJ+6GoFpzInavBtnzTfbxO6SSnLCa2pNbvlq8+8VnNODNpuP7PlHl
+	tKCNyqCON6LMpU4NPoGWIiRGX0sPCB5OI7RHhDq65Fv40BRzo4f+aKbGBPFCs0XQaF2Azc9l8UB
+	PyxUkQ3QAtiauknhMlZBkKLk7IIxmOUj+4BKcw=
+X-Received: by 2002:a05:6a20:da17:b0:3c3:a969:2cf with SMTP id adf61e73a8af0-3c8ba5f5466mr8881812637.53.1785360904735;
+        Wed, 29 Jul 2026 14:35:04 -0700 (PDT)
+Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbdba3519a5sm1362179a12.18.2026.07.29.14.35.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 14:35:04 -0700 (PDT)
+From: tim.orling@konsulko.com
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH v2 1/5] vcontainer-bbmask.inc: add python3-pexpect,-ptyprocess
+Date: Wed, 29 Jul 2026 14:34:31 -0700
+Message-ID: <20260729213430.218008-2-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260727000247.1623785-3-tim.orling@konsulko.com>
+References: <20260727000247.1623785-3-tim.orling@konsulko.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 21:34:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242294
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 21:35:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242295
 
---NextPart
-Content-Type: text/plain
+From: Tim Orling <tim.orling@konsulko.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+For container-yocto-builder, the container is the "host" and so
+we need the "Build Host Packages" equivalent in [1]. When
+we are building with mc:container-aarch64,-x86-64 multiconfig
+and the vcontainer distro, we need python3-pexpect and its
+dependency python3-ptyprocess to fulfill
+packagegroup-yocto-builder-extras. Otherwise we see a build-time
+error like:
 
+ERROR: Nothing RPROVIDES 'python3-pexpect' (but mc:container-aarch64:
+.../meta-virtualization/recipes-core/packagegroups/packagegroup-yocto-builder.bb
+RDEPENDS on or otherwise requires it)
+NOTE: Runtime target 'python3-pexpect' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['python3-pexpect']
+ERROR: Required build target 'packagegroup-yocto-builder' has no buildable providers.
+Missing or unbuildable dependency chain was: ['packagegroup-yocto-builder', 'python3-pexpect']
+
+Remove the layer-wide meta-python BBMASK and allow these
+specific recipes.
+
+Once meta-python is allowed, there was an error for
+meta-oe/dynamic-layers/meta-python which we do not need for the
+above recipes. It can be enabled in the future when needed.
+
+[1] https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html#build-host-packages
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Testing patch /home/patchtest/share/mboxes/4-9-python3-uv-build-upgrade-0.11.32---0.12.0.patch
+ conf/distro/include/vcontainer-bbmask.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/conf/distro/include/vcontainer-bbmask.inc b/conf/distro/include/vcontainer-bbmask.inc
+index 0c9b8b02..572ebc4a 100644
+--- a/conf/distro/include/vcontainer-bbmask.inc
++++ b/conf/distro/include/vcontainer-bbmask.inc
+@@ -94,6 +94,9 @@ BBMASK += "meta-openstack/recipes-dbs/postgresql/"
+ BBMASK += "meta-oe/dynamic-layers/networking-layer/recipes-core/"
+ BBMASK += "meta-openstack/recipes-extended/libvirt/"
+ BBMASK += "meta-webserver/recipes-(?!httpd/nginx)"
++# To satisfy RDEPENDS for packagegroup-yocto-builder-extras in mc:container-*
++BBMASK += "meta-python/recipes-devtools/python/python3-(?!pexpect|ptyprocess)"
++BBMASK += "meta-oe/dynamic-layers/meta-python/recipes-core/packagegroups/"
+ 
+ # ---------------------------------------------------------------------------
+ # Entire layers with 0 recipes in the container image dependency graph.
+@@ -101,7 +104,7 @@ BBMASK += "meta-webserver/recipes-(?!httpd/nginx)"
+ # does not warn about zero files matching BBFILE_PATTERN.
+ # ---------------------------------------------------------------------------
+ BBMASK += "meta-filesystems/"
+-BBMASK += "meta-python/"
++
+ # Warning suppression for these fully-masked layers is in meta-virt-host.conf
+ # (BBFILE_PATTERN_IGNORE_EMPTY) because BitBake checks the base datastore,
+ # not per-multiconfig datastores.
+-- 
+2.43.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
