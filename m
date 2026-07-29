@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E659C54F5C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6535FC54F9B
 	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 07:24:35 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6066.1785309869135188041
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6122.1785309865711445981
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2026 00:24:29 -0700
+ Wed, 29 Jul 2026 00:24:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XrWikSOd;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gRvvdcMa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019facc2b137-724839c0-ea99-457b-873a-a5fc9ddf011e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=leQ+01ej;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=hdLe5q4c;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019facc2a33c-21a1d888-e9bd-479a-87ca-2a8a39d9bc66-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1785309868;
+	t=1785309864;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=1A1LleJcE9b6naLBDFwu967TeyBezA//gbvMpLCIHU8=;
-	b=XrWikSOd2QrWoTVCB29oaBD4RtmvPXjZ44zZ0+L+N+Vexb8WNq3ga3MACnfFqUnm
-	KdZT4WBFgnZnLUU65sNJlKLw51pymY1I2tyWkIGEv+syU/bbbuW5dkcVjrBhskVRuih
-	cd9WWGmlxC5v2F+gaJyoeYDnWSaPC6iyDXUu2fW8=
+	bh=wyv5GvkhlgnUla+Sz1bYLC26T3AKBQ4DS/VTXk3pNvg=;
+	b=leQ+01ej8nZRHB2p5K8yPUK2+ULE65b/1gScmTD73qp7iHccveDFkrNFWAElhKl1
+	M4nLjb8sK5DPJa604sIeeZRHGcCDHMpx0eW9JK26xobicuoS1FXMwGO3t6rRjYVzMh4
+	6qhjZJZHsymQ2oFjDNPtNFXC0uYzEEA/pmd7armg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785309868;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785309864;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=1A1LleJcE9b6naLBDFwu967TeyBezA//gbvMpLCIHU8=;
-	b=gRvvdcMagBiUhFsBVfRISpFUQbMNJmUu5SkNIHN7aL3dG2VO2UVtMPIqM+uSWxMY
-	nEsse6OOuxaySgAFt2kIhQCFeHhMHlBGhF2cHipgaq3Ek825gVdPQJUBlYmhAkGaNJj
-	zi7ZRKE80UXtg2hOnKNG5DdOPZmLns4cK1ZyNbxI=
-Content-Type: multipart/mixed; boundary="===============3684126963103804033=="
+	bh=wyv5GvkhlgnUla+Sz1bYLC26T3AKBQ4DS/VTXk3pNvg=;
+	b=hdLe5q4cwpEpaR33geD09FBuyu0TcyrXyJkhHzHWaRqfI/AXx3ZCvPxfWyBicaO3
+	DWT9kW2XRXQEfCAShs5/gmsNffZC/pJYy/a1P+g5q14H0uP2PIw0ZjCVzPSvhZxsMVc
+	cbyM2Evm1cgoVHXcRiLzUCtVdWPEn2XZkBa/oNF0=
+Content-Type: multipart/mixed; boundary="===============0587511234317990707=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glslang: upgrading to 1.4.357.0 SUCCEEDED
-Message-ID: <0101019facc2b137-724839c0-ea99-457b-873a-a5fc9ddf011e-000000@us-west-2.amazonses.com>
-Date: Wed, 29 Jul 2026 07:24:28 +0000
+Subject: [AUH] pseudo: upgrading to 1.9.9 FAILED
+Message-ID: <0101019facc2a33c-21a1d888-e9bd-479a-87ca-2a8a39d9bc66-000000@us-west-2.amazonses.com>
+Date: Wed, 29 Jul 2026 07:24:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.29-54.240.27.45
+X-SES-Outgoing: 2026.07.29-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 07:24:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242242
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242239
 
---===============3684126963103804033==
+--===============0587511234317990707==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *glslang* to *1.4.357.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *pseudo* to *1.9.9* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-glslang-upgrade-1.4.350.1-1.4.357.0.patch
+    - apply the patch: git am 0001-pseudo-upgrade-1.9.8-1.9.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,309 +78,227 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4a9231cb33f3d14661cb97c9a7b45f33eef2589a Mon Sep 17 00:00:00 2001
+From 6be4e467919807e55faac811a1d172ebf6b48241 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 29 Jul 2026 06:14:19 +0000
-Subject: [PATCH] glslang: upgrade 1.4.350.1 -> 1.4.357.0
+Date: Wed, 29 Jul 2026 05:38:24 +0000
+Subject: [PATCH] pseudo: upgrade 1.9.8 -> 1.9.9
 
-Source: CHANGES.md
-
-* Add support for GL_EXT_opacity_micromap_ray_query_mode
-
-## 16.4.0 2026-07-14
-
-### Descriptor Heap
-
-* Implement `GLSL_EXT_structured_descriptor_heap` with SPIR-V layout generation, heap offset access, buffer references, matrix layout decorations, and correct `readonly`/`writeonly` qualifier propagation for buffer and image descriptors
-* Fix descriptor heap-bound buffer access to use typed pointers
-* Omit `NonUniform` decoration when using descriptor heaps, as the SPIR-V spec does not require it
-* Add `--relax-set-binding-limits` option to allow large `layout(set)` and `layout(binding)` values for descriptor heap-style workflows with sparse set spaces
-* Reject combined image samplers with `descriptor_heap`
-
-### Compute Shader Derivatives
-
-* Fix `GL_KHR_compute_shader_derivatives` regressions on shaders using the `GL_NV` variant
-* Update compute shader derivative rules to allow texture operations with implicit derivatives without extensions, falling back to LoD 0
-
-### New Extensions
-
-* Implement `GL_EXT_ocp_microscaling_types`
-* Implement `GL_NV_cooperative_matrix_decode_vector`
-* Add basic support for `GL_NV_desktop_lowp_mediump`
-* Implement `GL_EXT_opacity_micromap_ray_query_mode`
-
-### Bug Fixes
-
-* Fix generated decoration string from `UTF8EncodingKHR` to `UTFEncodingKHR`
-* Fix missing SPIR-V extension emission for `float16` derivative functions with `SPV_AMD_gpu_shader_half_float`
-* Apply `NoContraction` decoration to `dot()` when `noContraction` is set
-* Fix `OpStore` of buffer device address pointer to use 8-byte alignment, consistent with loads
-* Fix `RayTracingOpacityMicromapKHR` capability emission to only occur when `gl_RayFlagsForceOpacityMicromap2StateEXT` is actually used, fixing SPIR-V validation failures in ray query shaders outside ray-tracing pipeline stages
-* Fix `setInvertY()` to apply Y-inversion to GLSL vertex, geometry, and tessellation-evaluation shaders (previously only affected HLSL)
-* Fix `.length()` on arrays of long/cooperative vectors to use `OpArrayLength` instead of a constant component count
-* Fix unnecessary cooperative matrix conversions when creating arrays of KHR cooperative matrices
-* Add error for cooperative matrix `*=` with bf16/fp8 scalar operands
-* Fix out-of-bounds access in `elseSeen` at maximum `#if`/`#ifdef` nesting depth
-* Fix out-of-bounds read on empty struct texture template types
-* Fix crash in `layoutObjectCheck` when accessing members of an empty block
-* Emit an error when HLSL [numthreads] is given more than three arguments instead of crashing the compiler.
-* Emit error when attempting to convert a literal string to an incompatible type
-* Fix `abortKHR` to preserve the original user-defined string without modification
-* Fix out-of-bounds indexing in `TDefaultIoResolverBase::addStage` when a negative `EShLanguage` value is passed
-
-### Other
-
-* Add `--discard-is-terminate` option to emit `OpTerminateInvocation` instead of `OpDemoteToHelperInvocation` for GLSL `discard` when tar
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
+4194895 Makefile.in: Bump to 1.9.9
 ---
- .../glslang/glslang/0001-generate-glslang-pkg-config.patch      | 2 +-
- .../glslang/{glslang_1.4.350.1.bb => glslang_1.4.357.0.bb}      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.4.350.1.bb => glslang_1.4.357.0.bb} (96%)
+ .../pseudo/files/older-glibc-symbols.patch    | 57 -------------------
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  5 +-
+ 2 files changed, 3 insertions(+), 59 deletions(-)
+ delete mode 100644 meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index f06f12b303..b6a4c5a29b 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-@@ -1,4 +1,4 @@
--From 2c7e21605b0324b4afd51270592bc6cb0a0cca5f Mon Sep 17 00:00:00 2001
-+From f7aad1905705097782ebfea3c74c75856158a2ba Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-diff --git a/meta/recipes-graphics/glslang/glslang_1.4.350.1.bb b/meta/recipes-graphics/glslang/glslang_1.4.357.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/glslang/glslang_1.4.350.1.bb
-rename to meta/recipes-graphics/glslang/glslang_1.4.357.0.bb
-index 4d31a19e76..0f43d83f4e 100644
---- a/meta/recipes-graphics/glslang/glslang_1.4.350.1.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.4.357.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND GPL-3.0-or-later WITH Bison-exception-2.2"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=50ff9d0fcde2d5b953ebe431c48e34e3"
- 
--SRCREV = "275822a6261ee689aadb1da5f09a0ec2f058685c"
-+SRCREV = "168d452a4f460d24b588fed08477a81c44ee27a1"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-${PV} \
-            file://0001-generate-glslang-pkg-config.patch \
+diff --git a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+deleted file mode 100644
+index f42b32b8d9..0000000000
+--- a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-If we link against a newer glibc 2.34 and then try and our LD_PRELOAD is run against a
+-binary on a host with an older libc, we see symbol errors since in glibc 2.34, pthread 
+-and dl are merged into libc itself.
+-
+-We need to use the older form of linking so use glibc binaries from an older release
+-to force this. We only use minimal symbols from these anyway.
+-
+-pthread_atfork is problematic, particularly on arm so use the internal glibc routine
+-it maps too. This was always present in the main libc from 2.3.2 onwards.
+-
+-Yes this is horrible. Better solutions welcome.
+-
+-There is more info in the bug: [YOCTO #14521]
+-
+-Upstream-Status: Inappropriate [this patch is native and nativesdk]
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Tweak library search order, make prebuilt lib ahead of recipe lib
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- Makefile.in       | 2 +-
+- pseudo_wrappers.c | 5 ++++-
+- 2 files changed, 5 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile.in b/Makefile.in
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -120,7 +120,7 @@ $(PSEUDODB): pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o | $(BIN)
+- libpseudo: $(LIBPSEUDO)
+- 
+- $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_client_scanf.o pseudo_ipc.o $(SHOBJS) | $(LIB)
+--	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
+-+	$(CC) $(CFLAGS)  -Lprebuilt/$(shell uname -m)-linux/lib/ $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
+- 		pseudo_client.o pseudo_client_scanf.o pseudo_ipc.o \
+- 		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
+- 
+-diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
+---- a/pseudo_wrappers.c
+-+++ b/pseudo_wrappers.c
+-@@ -100,10 +100,13 @@ static void libpseudo_atfork_child(void)
+- 	pseudo_mutex_holder = 0;
+- }
+- 
+-+extern void *__dso_handle;
+-+extern int __register_atfork (void (*) (void), void (*) (void), void (*) (void), void *);
+-+
+- static void
+- _libpseudo_init(void) {
+- 	if (!_libpseudo_initted)
+--		pthread_atfork(NULL, NULL, libpseudo_atfork_child);
+-+		__register_atfork (NULL, NULL, libpseudo_atfork_child, &__dso_handle == NULL ? NULL : __dso_handle);
+- 
+- 	pseudo_getlock();
+- 	pseudo_antimagic();
+--- 
+-2.27.0
+-
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 9f02d90568..1c86b3200c 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -3,6 +3,7 @@ require pseudo.inc
+ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https;branch=master \
+            file://fallback-passwd \
+            file://fallback-group \
++           http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=${BB_GIT_DEFAULT_DESTSUFFIX}/prebuilt;name=prebuilt \
             "
+ SRC_URI:append:class-native = " \
+     http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=${BB_GIT_DEFAULT_DESTSUFFIX}/prebuilt;name=prebuilt \
+@@ -12,8 +13,8 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "ca47829825f297d7bf83665c0541a9de4aa78009"
+-PV = "1.9.8+git"
++SRCREV = "d544575779babb0b44500594fb8e5950b655a5aa"
++PV = "1.9.9"
+ 
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
+ # remove them for pseudo since pseudo intercepts some of the functions which will be
 -- 
 2.47.1
 
 
---===============3684126963103804033==
+--===============0587511234317990707==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="pseudo-changelog.txt"
 
-packages/x86-64-v3-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libSPIRV.so.16.3.0 /usr/lib/libglslang-default-resource-limits.so.16.3.0 /usr/lib/libglslang.so.16.3.0", added "/usr/lib/libSPIRV.so.16.4.0 /usr/lib/libglslang.so.16.4.0 /usr/lib/libglslang-default-resource-limits.so.16.4.0"
-Changes to packages/x86-64-v3-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.16 changed symlink target from libglslang-default-resource-limits.so.16.3.0 to libglslang-default-resource-limits.so.16.4.0
-  /usr/lib/libglslang.so.16 changed symlink target from libglslang.so.16.3.0 to libglslang.so.16.4.0
-  /usr/lib/libSPIRV.so.16 changed symlink target from libSPIRV.so.16.3.0 to libSPIRV.so.16.4.0
-  /usr/lib/libglslang-default-resource-limits.so.16.3.0 moved to /usr/lib/libglslang-default-resource-limits.so.16.4.0
-  /usr/lib/libglslang.so.16.3.0 moved to /usr/lib/libglslang.so.16.4.0
-  /usr/lib/libSPIRV.so.16.3.0 moved to /usr/lib/libSPIRV.so.16.4.0
+Changelog for pseudo: 1.9.8+git -> 1.9.9
 
---===============3684126963103804033==
+4194895 Makefile.in: Bump to 1.9.9
+
+--===============0587511234317990707==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libSPIRV.so.16.3.0 /usr/lib/.debug/libglslang-default-resource-limits.so.16.3.0 /usr/lib/.debug/libglslang.so.16.3.0", added "/usr/lib/.debug/libSPIRV.so.16.4.0 /usr/lib/.debug/libglslang-default-resource-limits.so.16.4.0 /usr/lib/.debug/libglslang.so.16.4.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 54103760 to 55128232 (+2%)
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PKGSIZE changed from 425929 to 444211 (+4%)
-packages/x86-64-v3-poky-linux/glslang/glslang-doc: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-doc: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-locale: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-locale: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-src: FILELIST: directory renamed /usr/src/debug/glslang/1.4.350.1/include/glslang -> /usr/src/debug/glslang/1.4.357.0/include/glslang, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/MachineIndependent -> /usr/src/debug/glslang/1.4.357.0/glslang/MachineIndependent, directory renamed /usr/src/debug/glslang/1.4.350.1/StandAlone -> /usr/src/debug/glslang/1.4.357.0/StandAlone, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/CInterface -> /usr/src/debug/glslang/1.4.357.0/glslang/CInterface, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/MachineIndependent/preprocessor -> /usr/src/debug/glslang/1.4.357.0/glslang/MachineIndependent/preprocessor, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/HLSL -> /usr/src/debug/glslang/1.4.357.0/glslang/HLSL, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/OSDependent -> /usr/src/debug/glslang/1.4.357.0/glslang/OSDependent, directory renamed /usr/src/de
- bug/glslang/1.4.350.1/glslang -> /usr/src/debug/glslang/1.4.357.0/glslang, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/Public -> /usr/src/debug/glslang/1.4.357.0/glslang/Public, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/OSDependent/Unix -> /usr/src/debug/glslang/1.4.357.0/glslang/OSDependent/Unix, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/Include -> /usr/src/debug/glslang/1.4.357.0/glslang/Include, directory renamed /usr/src/debug/glslang/1.4.350.1/SPIRV -> /usr/src/debug/glslang/1.4.357.0/SPIRV, directory renamed /usr/src/debug/glslang/1.4.350.1/SPIRV/CInterface -> /usr/src/debug/glslang/1.4.357.0/SPIRV/CInterface, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/ResourceLimits -> /usr/src/debug/glslang/1.4.357.0/glslang/ResourceLimits, directory renamed /usr/src/debug/glslang/1.4.350.1/glslang/GenericCodeGen -> /usr/src/debug/glslang/1.4.357.0/glslang/GenericCodeGen
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PKGSIZE changed from 5515424 to 5637751 (+2%)
-packages/x86-64-v3-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-staticdev: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang/glslang: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libSPIRV.so.16.3.0 /usr/lib/libglslang-default-resource-limits.so.16.3.0 /usr/lib/libglslang.so.16.3.0", added "/usr/lib/libSPIRV.so.16.4.0 /usr/lib/libglslang.so.16.4.0 /usr/lib/libglslang-default-resource-limits.so.16.4.0"
-packages/x86-64-v3-poky-linux/glslang/glslang: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang/glslang: PKGSIZE changed from 4030617 to 4141209 (+3%)
-packages/x86-64-v3-poky-linux/glslang: PKGV changed from 1.4.350.1 [default] to 1.4.357.0 [default]
-packages/x86-64-v3-poky-linux/glslang: PV changed from "1.4.350.1" to "1.4.357.0"
-packages/x86-64-v3-poky-linux/glslang: SRC_URI changed from "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-1.4.350.1 file://0001-generate-glslang-pkg-config.patch" to "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-1.4.357.0 file://0001-generate-glslang-pkg-config.patch"
-Changes to packages/x86-64-v3-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.16 changed symlink target from libglslang-default-resource-limits.so.16.3.0 to libglslang-default-resource-limits.so.16.4.0
-  /usr/lib/libglslang.so.16 changed symlink target from libglslang.so.16.3.0 to libglslang.so.16.4.0
-  /usr/lib/libSPIRV.so.16 changed symlink target from libSPIRV.so.16.3.0 to libSPIRV.so.16.4.0
-  /usr/lib/libglslang-default-resource-limits.so.16.3.0 moved to /usr/lib/libglslang-default-resource-limits.so.16.4.0
-  /usr/lib/libglslang.so.16.3.0 moved to /usr/lib/libglslang.so.16.4.0
-  /usr/lib/libSPIRV.so.16.3.0 moved to /usr/lib/libSPIRV.so.16.4.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb: Unable to get checksum for nativesdk-pseudo SRC_URI entry older-glibc-symbols.patch: file could not be found
+The following paths were searched:
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo-1.9.9/poky/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo/poky/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/files/poky/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo-1.9.9/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo-1.9.9/x86-64/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo/x86-64/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/files/x86-64/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo-1.9.9/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+ERROR: Parsing halted due to errors, see error messages above
 
---===============3684126963103804033==
+--===============0587511234317990707==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-glslang-upgrade-1.4.350.1-1.4.357.0.patch"
+ filename="0001-pseudo-upgrade-1.9.8-1.9.9.patch"
 
-RnJvbSA0YTkyMzFjYjMzZjNkMTQ2NjFjYjk3YzlhN2I0NWYzM2VlZjI1ODlhIE1vbiBTZXAgMTcg
+RnJvbSA2YmU0ZTQ2NzkxOTgwN2U1NWZhYWM4MTFhMWQxNzJlYmY2YjQ4MjQxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjkgSnVsIDIwMjYgMDY6MTQ6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bHNsYW5nOiB1cGdyYWRlIDEuNC4zNTAuMSAtPiAxLjQuMzU3LjAKClNvdXJjZTogQ0hBTkdFUy5t
-ZAoKKiBBZGQgc3VwcG9ydCBmb3IgR0xfRVhUX29wYWNpdHlfbWljcm9tYXBfcmF5X3F1ZXJ5X21v
-ZGUKCiMjIDE2LjQuMCAyMDI2LTA3LTE0CgojIyMgRGVzY3JpcHRvciBIZWFwCgoqIEltcGxlbWVu
-dCBgR0xTTF9FWFRfc3RydWN0dXJlZF9kZXNjcmlwdG9yX2hlYXBgIHdpdGggU1BJUi1WIGxheW91
-dCBnZW5lcmF0aW9uLCBoZWFwIG9mZnNldCBhY2Nlc3MsIGJ1ZmZlciByZWZlcmVuY2VzLCBtYXRy
-aXggbGF5b3V0IGRlY29yYXRpb25zLCBhbmQgY29ycmVjdCBgcmVhZG9ubHlgL2B3cml0ZW9ubHlg
-IHF1YWxpZmllciBwcm9wYWdhdGlvbiBmb3IgYnVmZmVyIGFuZCBpbWFnZSBkZXNjcmlwdG9ycwoq
-IEZpeCBkZXNjcmlwdG9yIGhlYXAtYm91bmQgYnVmZmVyIGFjY2VzcyB0byB1c2UgdHlwZWQgcG9p
-bnRlcnMKKiBPbWl0IGBOb25Vbmlmb3JtYCBkZWNvcmF0aW9uIHdoZW4gdXNpbmcgZGVzY3JpcHRv
-ciBoZWFwcywgYXMgdGhlIFNQSVItViBzcGVjIGRvZXMgbm90IHJlcXVpcmUgaXQKKiBBZGQgYC0t
-cmVsYXgtc2V0LWJpbmRpbmctbGltaXRzYCBvcHRpb24gdG8gYWxsb3cgbGFyZ2UgYGxheW91dChz
-ZXQpYCBhbmQgYGxheW91dChiaW5kaW5nKWAgdmFsdWVzIGZvciBkZXNjcmlwdG9yIGhlYXAtc3R5
-bGUgd29ya2Zsb3dzIHdpdGggc3BhcnNlIHNldCBzcGFjZXMKKiBSZWplY3QgY29tYmluZWQgaW1h
-Z2Ugc2FtcGxlcnMgd2l0aCBgZGVzY3JpcHRvcl9oZWFwYAoKIyMjIENvbXB1dGUgU2hhZGVyIERl
-cml2YXRpdmVzCgoqIEZpeCBgR0xfS0hSX2NvbXB1dGVfc2hhZGVyX2Rlcml2YXRpdmVzYCByZWdy
-ZXNzaW9ucyBvbiBzaGFkZXJzIHVzaW5nIHRoZSBgR0xfTlZgIHZhcmlhbnQKKiBVcGRhdGUgY29t
-cHV0ZSBzaGFkZXIgZGVyaXZhdGl2ZSBydWxlcyB0byBhbGxvdyB0ZXh0dXJlIG9wZXJhdGlvbnMg
-d2l0aCBpbXBsaWNpdCBkZXJpdmF0aXZlcyB3aXRob3V0IGV4dGVuc2lvbnMsIGZhbGxpbmcgYmFj
-ayB0byBMb0QgMAoKIyMjIE5ldyBFeHRlbnNpb25zCgoqIEltcGxlbWVudCBgR0xfRVhUX29jcF9t
-aWNyb3NjYWxpbmdfdHlwZXNgCiogSW1wbGVtZW50IGBHTF9OVl9jb29wZXJhdGl2ZV9tYXRyaXhf
-ZGVjb2RlX3ZlY3RvcmAKKiBBZGQgYmFzaWMgc3VwcG9ydCBmb3IgYEdMX05WX2Rlc2t0b3BfbG93
-cF9tZWRpdW1wYAoqIEltcGxlbWVudCBgR0xfRVhUX29wYWNpdHlfbWljcm9tYXBfcmF5X3F1ZXJ5
-X21vZGVgCgojIyMgQnVnIEZpeGVzCgoqIEZpeCBnZW5lcmF0ZWQgZGVjb3JhdGlvbiBzdHJpbmcg
-ZnJvbSBgVVRGOEVuY29kaW5nS0hSYCB0byBgVVRGRW5jb2RpbmdLSFJgCiogRml4IG1pc3Npbmcg
-U1BJUi1WIGV4dGVuc2lvbiBlbWlzc2lvbiBmb3IgYGZsb2F0MTZgIGRlcml2YXRpdmUgZnVuY3Rp
-b25zIHdpdGggYFNQVl9BTURfZ3B1X3NoYWRlcl9oYWxmX2Zsb2F0YAoqIEFwcGx5IGBOb0NvbnRy
-YWN0aW9uYCBkZWNvcmF0aW9uIHRvIGBkb3QoKWAgd2hlbiBgbm9Db250cmFjdGlvbmAgaXMgc2V0
-CiogRml4IGBPcFN0b3JlYCBvZiBidWZmZXIgZGV2aWNlIGFkZHJlc3MgcG9pbnRlciB0byB1c2Ug
-OC1ieXRlIGFsaWdubWVudCwgY29uc2lzdGVudCB3aXRoIGxvYWRzCiogRml4IGBSYXlUcmFjaW5n
-T3BhY2l0eU1pY3JvbWFwS0hSYCBjYXBhYmlsaXR5IGVtaXNzaW9uIHRvIG9ubHkgb2NjdXIgd2hl
-biBgZ2xfUmF5RmxhZ3NGb3JjZU9wYWNpdHlNaWNyb21hcDJTdGF0ZUVYVGAgaXMgYWN0dWFsbHkg
-dXNlZCwgZml4aW5nIFNQSVItViB2YWxpZGF0aW9uIGZhaWx1cmVzIGluIHJheSBxdWVyeSBzaGFk
-ZXJzIG91dHNpZGUgcmF5LXRyYWNpbmcgcGlwZWxpbmUgc3RhZ2VzCiogRml4IGBzZXRJbnZlcnRZ
-KClgIHRvIGFwcGx5IFktaW52ZXJzaW9uIHRvIEdMU0wgdmVydGV4LCBnZW9tZXRyeSwgYW5kIHRl
-c3NlbGxhdGlvbi1ldmFsdWF0aW9uIHNoYWRlcnMgKHByZXZpb3VzbHkgb25seSBhZmZlY3RlZCBI
-TFNMKQoqIEZpeCBgLmxlbmd0aCgpYCBvbiBhcnJheXMgb2YgbG9uZy9jb29wZXJhdGl2ZSB2ZWN0
-b3JzIHRvIHVzZSBgT3BBcnJheUxlbmd0aGAgaW5zdGVhZCBvZiBhIGNvbnN0YW50IGNvbXBvbmVu
-dCBjb3VudAoqIEZpeCB1bm5lY2Vzc2FyeSBjb29wZXJhdGl2ZSBtYXRyaXggY29udmVyc2lvbnMg
-d2hlbiBjcmVhdGluZyBhcnJheXMgb2YgS0hSIGNvb3BlcmF0aXZlIG1hdHJpY2VzCiogQWRkIGVy
-cm9yIGZvciBjb29wZXJhdGl2ZSBtYXRyaXggYCo9YCB3aXRoIGJmMTYvZnA4IHNjYWxhciBvcGVy
-YW5kcwoqIEZpeCBvdXQtb2YtYm91bmRzIGFjY2VzcyBpbiBgZWxzZVNlZW5gIGF0IG1heGltdW0g
-YCNpZmAvYCNpZmRlZmAgbmVzdGluZyBkZXB0aAoqIEZpeCBvdXQtb2YtYm91bmRzIHJlYWQgb24g
-ZW1wdHkgc3RydWN0IHRleHR1cmUgdGVtcGxhdGUgdHlwZXMKKiBGaXggY3Jhc2ggaW4gYGxheW91
-dE9iamVjdENoZWNrYCB3aGVuIGFjY2Vzc2luZyBtZW1iZXJzIG9mIGFuIGVtcHR5IGJsb2NrCiog
-RW1pdCBhbiBlcnJvciB3aGVuIEhMU0wgW251bXRocmVhZHNdIGlzIGdpdmVuIG1vcmUgdGhhbiB0
-aHJlZSBhcmd1bWVudHMgaW5zdGVhZCBvZiBjcmFzaGluZyB0aGUgY29tcGlsZXIuCiogRW1pdCBl
-cnJvciB3aGVuIGF0dGVtcHRpbmcgdG8gY29udmVydCBhIGxpdGVyYWwgc3RyaW5nIHRvIGFuIGlu
-Y29tcGF0aWJsZSB0eXBlCiogRml4IGBhYm9ydEtIUmAgdG8gcHJlc2VydmUgdGhlIG9yaWdpbmFs
-IHVzZXItZGVmaW5lZCBzdHJpbmcgd2l0aG91dCBtb2RpZmljYXRpb24KKiBGaXggb3V0LW9mLWJv
-dW5kcyBpbmRleGluZyBpbiBgVERlZmF1bHRJb1Jlc29sdmVyQmFzZTo6YWRkU3RhZ2VgIHdoZW4g
-YSBuZWdhdGl2ZSBgRVNoTGFuZ3VhZ2VgIHZhbHVlIGlzIHBhc3NlZAoKIyMjIE90aGVyCgoqIEFk
-ZCBgLS1kaXNjYXJkLWlzLXRlcm1pbmF0ZWAgb3B0aW9uIHRvIGVtaXQgYE9wVGVybWluYXRlSW52
-b2NhdGlvbmAgaW5zdGVhZCBvZiBgT3BEZW1vdGVUb0hlbHBlckludm9jYXRpb25gIGZvciBHTFNM
-IGBkaXNjYXJkYCB3aGVuIHRhcgoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyAz
-MDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0
-YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLi9nbHNsYW5nL2dsc2xhbmcvMDAwMS1n
-ZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2ggICAgICB8IDIgKy0KIC4uLi9nbHNsYW5n
-L3tnbHNsYW5nXzEuNC4zNTAuMS5iYiA9PiBnbHNsYW5nXzEuNC4zNTcuMC5iYn0gICAgICB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL3tnbHNsYW5nXzEuNC4zNTAuMS5iYiA9
-PiBnbHNsYW5nXzEuNC4zNTcuMC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ctY29uZmln
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZy8wMDAxLWdlbmVy
-YXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaAppbmRleCBmMDZmMTJiMzAzLi5iNmE0YzVhMjli
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nLzAwMDEt
-Z2VuZXJhdGUtZ2xzbGFuZy1wa2ctY29uZmlnLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9nbHNsYW5nL2dsc2xhbmcvMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDJjN2UyMTYwNWIwMzI0YjRhZmQ1MTI3MDU5MmJjNmNi
-MGEwY2NhNWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGY3YWFkMTkwNTcwNTA5Nzc4
-MmViZmVhM2M3NGM3NTg1NjE1OGEyYmEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBK
-b3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6IFN1biwgNyBGZWIg
-MjAyMSAwMTozMDozOSArMDAwMAogU3ViamVjdDogW1BBVENIXSBnZW5lcmF0ZSBnbHNsYW5nIHBr
-Zy1jb25maWcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xh
-bmdfMS40LjM1MC4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18x
-LjQuMzU3LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjQuMzUwLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS40LjM1Ny4wLmJiCmluZGV4IDRkMzFhMTll
-NzYuLjBmNDNkODNmNGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5n
-L2dsc2xhbmdfMS40LjM1MC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5n
-L2dsc2xhbmdfMS40LjM1Ny4wLmJiCkBAIC04LDcgKzgsNyBAQCBIT01FUEFHRSA9ICJodHRwczov
-L3d3dy5raHJvbm9zLm9yZy9vcGVuZ2xlcy9zZGsvdG9vbHMvUmVmZXJlbmNlLUNvbXBpbGVyIgog
-TElDRU5TRSA9ICJBcGFjaGUtMi4wIEFORCBCU0QtMi1DbGF1c2UgQU5EIEJTRC0zLUNsYXVzZSBB
-TkQgTUlUIEFORCBHUEwtMy4wLW9yLWxhdGVyIFdJVEggQmlzb24tZXhjZXB0aW9uLTIuMiIKIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT01MGZmOWQwZmNkZTJkNWI5
-NTNlYmU0MzFjNDhlMzRlMyIKIAotU1JDUkVWID0gIjI3NTgyMmE2MjYxZWU2ODlhYWRiMWRhNWYw
-OWEwZWMyZjA1ODY4NWMiCitTUkNSRVYgPSAiMTY4ZDQ1MmE0ZjQ2MGQyNGI1ODhmZWQwODQ3N2E4
-MWM0NGVlMjdhMSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvZ2xz
-bGFuZy5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW47dGFnPXZ1bGthbi1zZGstJHtQVn0g
-XAogICAgICAgICAgICBmaWxlOi8vMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0
-Y2ggXAogICAgICAgICAgICAiCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMjkgSnVsIDIwMjYgMDU6Mzg6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+c2V1ZG86IHVwZ3JhZGUgMS45LjggLT4gMS45LjkKCjQxOTQ4OTUgTWFrZWZpbGUuaW46IEJ1bXAg
+dG8gMS45LjkKLS0tCiAuLi4vcHNldWRvL2ZpbGVzL29sZGVyLWdsaWJjLXN5bWJvbHMucGF0Y2gg
+ICAgfCA1NyAtLS0tLS0tLS0tLS0tLS0tLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHNldWRv
+L3BzZXVkb19naXQuYmIgICAgfCAgNSArLQogMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMo
+KyksIDU5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9wc2V1ZG8vZmlsZXMvb2xkZXItZ2xpYmMtc3ltYm9scy5wYXRjaAoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vZmlsZXMvb2xkZXItZ2xpYmMtc3ltYm9scy5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vZmlsZXMvb2xkZXItZ2xpYmMtc3lt
+Ym9scy5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZjQyYjMyYjhkOS4uMDAw
+MDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHNldWRvL2ZpbGVzL29sZGVyLWds
+aWJjLXN5bWJvbHMucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw1NyArMCwwIEBACi1JZiB3ZSBs
+aW5rIGFnYWluc3QgYSBuZXdlciBnbGliYyAyLjM0IGFuZCB0aGVuIHRyeSBhbmQgb3VyIExEX1BS
+RUxPQUQgaXMgcnVuIGFnYWluc3QgYQotYmluYXJ5IG9uIGEgaG9zdCB3aXRoIGFuIG9sZGVyIGxp
+YmMsIHdlIHNlZSBzeW1ib2wgZXJyb3JzIHNpbmNlIGluIGdsaWJjIDIuMzQsIHB0aHJlYWQgCi1h
+bmQgZGwgYXJlIG1lcmdlZCBpbnRvIGxpYmMgaXRzZWxmLgotCi1XZSBuZWVkIHRvIHVzZSB0aGUg
+b2xkZXIgZm9ybSBvZiBsaW5raW5nIHNvIHVzZSBnbGliYyBiaW5hcmllcyBmcm9tIGFuIG9sZGVy
+IHJlbGVhc2UKLXRvIGZvcmNlIHRoaXMuIFdlIG9ubHkgdXNlIG1pbmltYWwgc3ltYm9scyBmcm9t
+IHRoZXNlIGFueXdheS4KLQotcHRocmVhZF9hdGZvcmsgaXMgcHJvYmxlbWF0aWMsIHBhcnRpY3Vs
+YXJseSBvbiBhcm0gc28gdXNlIHRoZSBpbnRlcm5hbCBnbGliYyByb3V0aW5lCi1pdCBtYXBzIHRv
+by4gVGhpcyB3YXMgYWx3YXlzIHByZXNlbnQgaW4gdGhlIG1haW4gbGliYyBmcm9tIDIuMy4yIG9u
+d2FyZHMuCi0KLVllcyB0aGlzIGlzIGhvcnJpYmxlLiBCZXR0ZXIgc29sdXRpb25zIHdlbGNvbWUu
+Ci0KLVRoZXJlIGlzIG1vcmUgaW5mbyBpbiB0aGUgYnVnOiBbWU9DVE8gIzE0NTIxXQotCi1VcHN0
+cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW3RoaXMgcGF0Y2ggaXMgbmF0aXZlIGFuZCBuYXRp
+dmVzZGtdCi1TaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGlu
+dXhmb3VuZGF0aW9uLm9yZz4KLQotVHdlYWsgbGlicmFyeSBzZWFyY2ggb3JkZXIsIG1ha2UgcHJl
+YnVpbHQgbGliIGFoZWFkIG9mIHJlY2lwZSBsaWIKLVNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEg
+PGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KLS0tLQotIE1ha2VmaWxlLmluICAgICAgIHwgMiAr
+LQotIHBzZXVkb193cmFwcGVycy5jIHwgNSArKysrLQotIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNl
+cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvTWFrZWZpbGUuaW4gYi9N
+YWtlZmlsZS5pbgotLS0tIGEvTWFrZWZpbGUuaW4KLSsrKyBiL01ha2VmaWxlLmluCi1AQCAtMTIw
+LDcgKzEyMCw3IEBAICQoUFNFVURPREIpOiBwc2V1ZG9kYi5vICQoU0hPQkpTKSAkKERCT0JKUykg
+cHNldWRvX2lwYy5vIHwgJChCSU4pCi0gbGlicHNldWRvOiAkKExJQlBTRVVETykKLSAKLSAkKExJ
+QlBTRVVETyk6ICQoV1JBUE9CSlMpIHBzZXVkb19jbGllbnQubyBwc2V1ZG9fY2xpZW50X3NjYW5m
+Lm8gcHNldWRvX2lwYy5vICQoU0hPQkpTKSB8ICQoTElCKQotLQkkKENDKSAkKENGTEFHUykgJChD
+RkxBR1NfUFNFVURPKSAtc2hhcmVkIC1vICQoTElCUFNFVURPKSBcCi0rCSQoQ0MpICQoQ0ZMQUdT
+KSAgLUxwcmVidWlsdC8kKHNoZWxsIHVuYW1lIC1tKS1saW51eC9saWIvICQoQ0ZMQUdTX1BTRVVE
+TykgLXNoYXJlZCAtbyAkKExJQlBTRVVETykgXAotIAkJcHNldWRvX2NsaWVudC5vIHBzZXVkb19j
+bGllbnRfc2NhbmYubyBwc2V1ZG9faXBjLm8gXAotIAkJJChXUkFQT0JKUykgJChTSE9CSlMpICQo
+TERGTEFHUykgJChDTElFTlRfTERGTEFHUykKLSAKLWRpZmYgLS1naXQgYS9wc2V1ZG9fd3JhcHBl
+cnMuYyBiL3BzZXVkb193cmFwcGVycy5jCi0tLS0gYS9wc2V1ZG9fd3JhcHBlcnMuYwotKysrIGIv
+cHNldWRvX3dyYXBwZXJzLmMKLUBAIC0xMDAsMTAgKzEwMCwxMyBAQCBzdGF0aWMgdm9pZCBsaWJw
+c2V1ZG9fYXRmb3JrX2NoaWxkKHZvaWQpCi0gCXBzZXVkb19tdXRleF9ob2xkZXIgPSAwOwotIH0K
+LSAKLStleHRlcm4gdm9pZCAqX19kc29faGFuZGxlOwotK2V4dGVybiBpbnQgX19yZWdpc3Rlcl9h
+dGZvcmsgKHZvaWQgKCopICh2b2lkKSwgdm9pZCAoKikgKHZvaWQpLCB2b2lkICgqKSAodm9pZCks
+IHZvaWQgKik7Ci0rCi0gc3RhdGljIHZvaWQKLSBfbGlicHNldWRvX2luaXQodm9pZCkgewotIAlp
+ZiAoIV9saWJwc2V1ZG9faW5pdHRlZCkKLS0JCXB0aHJlYWRfYXRmb3JrKE5VTEwsIE5VTEwsIGxp
+YnBzZXVkb19hdGZvcmtfY2hpbGQpOwotKwkJX19yZWdpc3Rlcl9hdGZvcmsgKE5VTEwsIE5VTEws
+IGxpYnBzZXVkb19hdGZvcmtfY2hpbGQsICZfX2Rzb19oYW5kbGUgPT0gTlVMTCA/IE5VTEwgOiBf
+X2Rzb19oYW5kbGUpOwotIAotIAlwc2V1ZG9fZ2V0bG9jaygpOwotIAlwc2V1ZG9fYW50aW1hZ2lj
+KCk7Ci0tLSAKLTIuMjcuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHNl
+dWRvL3BzZXVkb19naXQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHNldWRvL3BzZXVkb19n
+aXQuYmIKaW5kZXggOWYwMmQ5MDU2OC4uMWM4NmIzMjAwYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3BzZXVkby9wc2V1ZG9fZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9wc2V1ZG8vcHNldWRvX2dpdC5iYgpAQCAtMyw2ICszLDcgQEAgcmVxdWlyZSBwc2V1ZG8u
+aW5jCiBTUkNfVVJJID0gImdpdDovL2dpdC55b2N0b3Byb2plY3Qub3JnL3BzZXVkbzticmFuY2g9
+bWFzdGVyO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIgXAogICAgICAgICAgICBmaWxlOi8v
+ZmFsbGJhY2stcGFzc3dkIFwKICAgICAgICAgICAgZmlsZTovL2ZhbGxiYWNrLWdyb3VwIFwKKyAg
+ICAgICAgICAgaHR0cDovL2Rvd25sb2Fkcy55b2N0b3Byb2plY3Qub3JnL21pcnJvci9zb3VyY2Vz
+L3BzZXVkby1wcmVidWlsdC0yLjMzLnRhci54ejtzdWJkaXI9JHtCQl9HSVRfREVGQVVMVF9ERVNU
+U1VGRklYfS9wcmVidWlsdDtuYW1lPXByZWJ1aWx0IFwKICAgICAgICAgICAgIgogU1JDX1VSSTph
+cHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBcCiAgICAgaHR0cDovL2Rvd25sb2Fkcy55b2N0b3Byb2pl
+Y3Qub3JnL21pcnJvci9zb3VyY2VzL3BzZXVkby1wcmVidWlsdC0yLjMzLnRhci54ejtzdWJkaXI9
+JHtCQl9HSVRfREVGQVVMVF9ERVNUU1VGRklYfS9wcmVidWlsdDtuYW1lPXByZWJ1aWx0IFwKQEAg
+LTEyLDggKzEzLDggQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gIiBcCiAgICAg
+ZmlsZTovL29sZGVyLWdsaWJjLXN5bWJvbHMucGF0Y2giCiBTUkNfVVJJW3ByZWJ1aWx0LnNoYTI1
+NnN1bV0gPSAiZWQ5ZjQ1Njg1NmU5ZDg2MzU5ZjE2OWY0NmE3MGFkN2JlNDE5MGQ2MDQwMjgyYjg0
+YzhkOTdiOTkwNzI0ODVhYSIKIAotU1JDUkVWID0gImNhNDc4Mjk4MjVmMjk3ZDdiZjgzNjY1YzA1
+NDFhOWRlNGFhNzgwMDkiCi1QViA9ICIxLjkuOCtnaXQiCitTUkNSRVYgPSAiZDU0NDU3NTc3OWJh
+YmIwYjQ0NTAwNTk0ZmI4ZTU5NTBiNjU1YTVhYSIKK1BWID0gIjEuOS45IgogCiAjIGxhcmdlZmls
+ZSBhbmQgNjRiaXQgdGltZV90IHN1cHBvcnQgYWRkcyB0aGVzZSBtYWNyb3MgdmlhIGNvbXBpbGVy
+IGZsYWdzIGdsb2JhbGx5CiAjIHJlbW92ZSB0aGVtIGZvciBwc2V1ZG8gc2luY2UgcHNldWRvIGlu
+dGVyY2VwdHMgc29tZSBvZiB0aGUgZnVuY3Rpb25zIHdoaWNoIHdpbGwgYmUKLS0gCjIuNDcuMQoK
 
---===============3684126963103804033==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="glslang-changelog.txt"
-
-Changelog for glslang: 1.4.350.1 -> 1.4.357.0
-Source: CHANGES.md
-
-* Add support for GL_EXT_opacity_micromap_ray_query_mode
-
-## 16.4.0 2026-07-14
-
-### Descriptor Heap
-
-* Implement `GLSL_EXT_structured_descriptor_heap` with SPIR-V layout generation, heap offset access, buffer references, matrix layout decorations, and correct `readonly`/`writeonly` qualifier propagation for buffer and image descriptors
-* Fix descriptor heap-bound buffer access to use typed pointers
-* Omit `NonUniform` decoration when using descriptor heaps, as the SPIR-V spec does not require it
-* Add `--relax-set-binding-limits` option to allow large `layout(set)` and `layout(binding)` values for descriptor heap-style workflows with sparse set spaces
-* Reject combined image samplers with `descriptor_heap`
-
-### Compute Shader Derivatives
-
-* Fix `GL_KHR_compute_shader_derivatives` regressions on shaders using the `GL_NV` variant
-* Update compute shader derivative rules to allow texture operations with implicit derivatives without extensions, falling back to LoD 0
-
-### New Extensions
-
-* Implement `GL_EXT_ocp_microscaling_types`
-* Implement `GL_NV_cooperative_matrix_decode_vector`
-* Add basic support for `GL_NV_desktop_lowp_mediump`
-* Implement `GL_EXT_opacity_micromap_ray_query_mode`
-
-### Bug Fixes
-
-* Fix generated decoration string from `UTF8EncodingKHR` to `UTFEncodingKHR`
-* Fix missing SPIR-V extension emission for `float16` derivative functions with `SPV_AMD_gpu_shader_half_float`
-* Apply `NoContraction` decoration to `dot()` when `noContraction` is set
-* Fix `OpStore` of buffer device address pointer to use 8-byte alignment, consistent with loads
-* Fix `RayTracingOpacityMicromapKHR` capability emission to only occur when `gl_RayFlagsForceOpacityMicromap2StateEXT` is actually used, fixing SPIR-V validation failures in ray query shaders outside ray-tracing pipeline stages
-* Fix `setInvertY()` to apply Y-inversion to GLSL vertex, geometry, and tessellation-evaluation shaders (previously only affected HLSL)
-* Fix `.length()` on arrays of long/cooperative vectors to use `OpArrayLength` instead of a constant component count
-* Fix unnecessary cooperative matrix conversions when creating arrays of KHR cooperative matrices
-* Add error for cooperative matrix `*=` with bf16/fp8 scalar operands
-* Fix out-of-bounds access in `elseSeen` at maximum `#if`/`#ifdef` nesting depth
-* Fix out-of-bounds read on empty struct texture template types
-* Fix crash in `layoutObjectCheck` when accessing members of an empty block
-* Emit an error when HLSL [numthreads] is given more than three arguments instead of crashing the compiler.
-* Emit error when attempting to convert a literal string to an incompatible type
-* Fix `abortKHR` to preserve the original user-defined string without modification
-* Fix out-of-bounds indexing in `TDefaultIoResolverBase::addStage` when a negative `EShLanguage` value is passed
-
-### Other
-
-* Add `--discard-is-terminate` option to emit `OpTerminateInvocation` instead of `OpDemoteToHelperInvocation` for GLSL `discard` when targeting SPIR-V 1.6+
-* Add REUSE license compliance infrastructure
-
---===============3684126963103804033==--
+--===============0587511234317990707==--
 
