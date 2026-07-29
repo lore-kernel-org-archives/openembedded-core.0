@@ -2,39 +2,39 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E9CC55165
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 23:52:13 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.705.1785369118849141225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33938C55168
+	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 23:52:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.726.1785369120808497021
  for <openembedded-core@lists.openembedded.org>;
  Wed, 29 Jul 2026 16:52:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ic9HqpbQ;
- spf=temperror, err=temporary DNS error (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2670ca2d30=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66TNYiUD2488052
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 23:51:57 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hUagQ9IG;
+ spf=temperror, err=temporary DNS error (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2670ca2d30=sumanth.gavini@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66TNo3Tb2695291
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 16:51:59 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=9fHc6cgZgRbhKyjY4NXr914NBxt6aPRaq7TIYGoB/pY=; b=
-	ic9HqpbQeFwEnNYeF7WqsN08odcWWtFRG/16DizghSy2UiOI4DM0SytSDA6sSxR/
-	ALDRBIpNJD5fYq3ShC8fjnG9aaBHXch7mFdKXtsmXBNIFSEIMdIA14mt1JOnAIIU
-	T7NcVL9pBdyPTJKgJkCbT8U0jvc0JZ1iwL8x+5ME9Tzhgdp2oQFHuVvbg1NQX+4b
-	TWxJScqSYLFvES4OWzPAFqTXVdBAosvwwDhGi/qfq0Qhqh1CVllJp4UIHxGgSCrJ
-	KNN3Wi84xqIz69ZAIrMdmCrQMN7h2a2HwAek60TyFuPK67K5FAOXsnhCUXP2BHfU
-	uMgpjeRtTdbnaQG29X8utg==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010059.outbound.protection.outlook.com [52.101.201.59])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fqtbsr2ae-2
+	PPS06212021; bh=ChkSXHBN90OlHgTVmPukZEsj2cKzcbqwXqvI6ioPI3s=; b=
+	hUagQ9IG+RNzJg2lrN+mLdM5oKwGRVxHvomUoUAdm/ow2eGclOOqPf6SIBR7xUJM
+	rwFfTLn4XMVQ08ejSSCn9R/1s9hAeQZeZVLGy5WFZiqnmWTjJWu9jWT0mgqtJBeY
+	C5Fr/lGdg/V9W6BoyZODMATkF6zexzXSGTOKmZ/scr7bZZ4LKGONsxGXwsGZEJ5D
+	EIdRRftE93ECSlkYltQ5O/q7GEIcIDxS15+fx8u/DuhV2JF2wwOr9I4G2QhGhHQi
+	/3oKeCjisHLPAjoXUKDnq/3BEQx40mu/BxM6o9AmTR5bAgTe/c9w/ITdyw/Z3bji
+	y+pdlojCZNUhBQWCuazCcQ==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010046.outbound.protection.outlook.com [52.101.201.46])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fqugmg035-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 29 Jul 2026 23:51:56 +0000 (GMT)
+	Wed, 29 Jul 2026 16:51:58 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d2jhCkQ1tK+F1DUfZlmr0u/S++0yvp/4FoQzCFE5hWd9iWBQL3GJtSNoSjBOev9u+JaLfBrhM6HJt/4obBYsHJSV3S9ZZBFIY9TQN4UWWHZDE+38S7I7O4zZt7VO/4/RlTy5a3ipYv2yebHXXRnOf2QG0h9IvDVV80UYePLiBRP8aA7H5QFwhrzJ3HznROY0+dmbOTLiawYx8BNIZg+gabiZJHJBViX20W8UGHuW2RzzexMfdHXzvb6MIoBI/6KKd0r7RerTT1R2yBYeOKssiCNJLKNjZIWnZ350UXEfMvErD261fo0qPai5kRh997GQykrG6a+XA73eyEIZfo5Vjw==
+ b=YpKzbEz3r1COpie0EMptFzWhD9OYhxsR3O3H1BHBqySRcBz6AEyFRoiHE97RwwnEKgJGHC519G+49WtgSrk8gSlauzEWi2qGzmz14+gCcy4EIryFhH6qyP4sSa7e83UbCm8sIaH7YvHlDAo9XrQ/QozmIKC/MpgUInYZQ9Vnx4ACrsfyscPOmehU2Qi2Br/oTF41UBsLWec7N8jfxz+tSg0WFG5I2CbPIdHGc1/Y5XjOC334Jh99MGbMReZH/VamUeW+RwsC/Tj8Mzpp+8LRBkyseHHrhvKFvn48dVbimnc2teWpgCmQq/dfxjZ3McfCzWeEpijZFTXkwhWrWBUALA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9fHc6cgZgRbhKyjY4NXr914NBxt6aPRaq7TIYGoB/pY=;
- b=HE78pU3y++O2JWvdbHoi8bNyBzb5cuxraQGeia4bgNMloncuZKb4z12YTi6rR5NOZiBUNKF9B0NPb0tdIAdN3oS+ArV44Sy8UtRbH2/+xlWnzGA/Q6X7R/ox6nB0ZN10Zy6l7z47TuH+GGEypCFF525dykWcHHC9O8+Cl/Q9CMmFwDa/bxuBcVuEyJX374WFd2f0rKKq2MfCDJk1y+Swujj2vZQQWsvCZ7RvVai2s4gIlrM9t1KgiPq4V67PmCm30jr3jKxcfLhcTNau7bpwN4kcNmJgQJD4669cCKiXEITreYz7Y2tE9/5DwUyNbk8a3lJIbyLdwnq7eavZpldY3Q==
+ bh=ChkSXHBN90OlHgTVmPukZEsj2cKzcbqwXqvI6ioPI3s=;
+ b=AJXc3uMmSpskD31tp3FW/NJEN/FGy/fpzAqffI44sVQceGfkL84dyA3kQdRhzO/Que7Fp7IkE7MrAfAf5vYtzkXFWMwZNL3qp93o1t3onu4WQsJ+104Wn2RZBVVuqBagLLISHxgAtnUk0zUI/UYeyRt52Sa6uAf1vnTHM1uCDn9Hd3Yjv4OLtVJDBM6T1K9cgXArwBxA68mDKhbJs0t00oyd7EnUTJe3q5ljraOKI1un3biTv4LQAKVBLCZggg4Ev+VoZwiHsUTAewGiKI1mGdngLje96Qmasg8qMMLLJ3CC6/SDXMLstd4AS0ANVQftIghEc5RHd2wzNF9I1Ph9EA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
  by MN0PR11MB6183.namprd11.prod.outlook.com (2603:10b6:208:3c5::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
- 2026 23:51:54 +0000
+ 2026 23:51:56 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0270.012; Wed, 29 Jul 2026
- 23:51:54 +0000
+ 23:51:56 +0000
 From: Sumanth Gavini <sumanth.gavini@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
         mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
         randy.macleod@windriver.com
-Subject: [PATCH v11 1/9] package_rpm.bbclass: Drop external dependency generator to support rpm 6
-Date: Wed, 29 Jul 2026 16:51:32 -0700
-Message-ID: <20260729235141.1067679-2-sumanth.gavini@windriver.com>
+Subject: [PATCH v11 3/9] lib/oe/package.py: Don't add ldconfig_postinst_fragment for glibc or musl
+Date: Wed, 29 Jul 2026 16:51:34 -0700
+Message-ID: <20260729235141.1067679-4-sumanth.gavini@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260729235141.1067679-1-sumanth.gavini@windriver.com>
 References: <20260729235141.1067679-1-sumanth.gavini@windriver.com>
@@ -66,241 +66,178 @@ X-ClientProxiedBy: BY3PR05CA0055.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|MN0PR11MB6183:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e2153fe-1213-4ecf-eb72-08deedcc5e6c
+X-MS-Office365-Filtering-Correlation-Id: bf1c6f1c-6dc3-4d15-bbe4-08deedcc5f94
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|52116014|38350700014|6133799003|11063799006|56012099006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	CRuRvK3CP0mbrfmGqyzqoWxArFquiZ+Bw9I8HgE8WTzTVm/p7p+ot7hZFE9Q7TpFBmqBk/v8u0BUjj1HClXXG2ttpXYGvTlgZ+xGgHYS8lSYPpyy7PeZHOxF3PBjdaG/kv+uDHm0RuM1gjO7pXoVAlYNhvMxArZcEMzU42fKe4aDR6+8TgRnIUKsTZDqBy76XKp69lE7GBYVkX1oV4C1TVg1CciRPPMDCcW9l+0Cw0Pb1m8ZHERCLRhZ4PcBfgedddlrUtwGvWZP/Yw4vsiqNfaYmP/Tl7CmHAyXVKMb/vVKYBJH3lEA02cXx1UtF5x2jQwOL8xBCrloVzdRiwgr3/tRKfuN+detlu5xVd15tFKmwPADzP+6F4kKHaSm+mjlieTf3FttoQc6ROa25ouQmBJQDMCV0A4BMneAbEmKSzweNVd5ANqnAeHkDlloVf3WqJ3Ruv5zlUxNEr1PUiYKJN2TxfowQ8uxLtuRLJyOC1VcVu0i67B5nfEIuKiCts0+wy7V/x5TjTVwjp09g9LZ2Fqb4krKUpPRiLvAFBWeFwRu5fkQIT5JJYFXGAFyvlXcmFWGuBKtGRNs8q34y2tDBN9beh81si0VacQSn65z/rdRyELzz/8Qw//3NtmzrXbGmFYBg/L+eVtot9xrdPybAMXzHvcdj/L9X4JkPHeKB+Pr7MKScVeqx29YhD0MMxZ8a9uE5nJAkKvlhbtIQ/rDY5MLZ9iqhCzLHCdEGdfllLI=
+	1xiIXRr2tqGYhMd/SI0mJTQ9ugQjIIOCqAXJiHV/GSH9TflZKBv6Gf2JpSV9diSzOAlR5NEtcUyPPDC29YvR5XisxFK0RARs0ZjbDZrSxP2JZ39KRBI9SfZQj8k/F9KIrsSj3+YwkQEp85LCM+aeu0IscT8Wb1ZuSnqARsN69q+fBLxFU1N+G5zS11cegmEywYv4mG03UJvxFNbpy9UhjGpfjLC9RMfRAyCKnN2oeIM1VxUwGSpujFSfymm7gP/cbkSwZMBBfBBAh8kdezjFHq9NcZ+dj63iJe0AIvTWXVPTqGRufg6bEWu4uT/NUzf2eSClXOxw+OBuLJ/egsWKYKDCF4gJWPphatJOihihYH5xAtctbQNQQfWXi9+/jgyMJBxLUdmLeWLas/iY7BLXZEgv20Y78ZcjdwTOsxLNcI0KeaJhPosJU2BDfYlFgNKBxQ2f/anmTGm+O26NwMD7oAPqmn3ztHOjHFb9almrEeqr2gwewsvMyESnf+96EYnEQWkmPHKncNGFp+5m00FQvtOayNtI7FoNWpT0wYrkuezCd2BTeiWWVBI6Z+Fa7elcgE4lro9PyfqcNiJjT94ZsXApmnYxegn+QZnKZ/HLoo+Tkshy6eiT95MG/O1iKlpg8JSj9ON23i0ZM7NRo3vkGPTodjUrr73HonANpsp1H2xbb42uVyrv83RqKXVo0dqpT4SPIrjsSyoixJvnoyvpy7daSRTA3SW8T+tU3ojirXs=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(52116014)(38350700014)(6133799003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?E8V+HQke4jSYzIKd45K674wHDFT0SMflTJaEP66JUcYMWQGyuYg73GMJFLN+?=
- =?us-ascii?Q?CTLv5Xx3E780G9u7uuxORSEm3rzUjylV+ncueXEttYZx9lUG9ySL2UaX+BiQ?=
- =?us-ascii?Q?JmVPgXDq26QM1x95kbPXuP6Kbla6JPzz3Q6IfNac7yZmNzutSruTmN0gt/s3?=
- =?us-ascii?Q?MSv5ob43xUBnULculCtMAMLREjbPAsbq6VnMmdIFWyioIl3+a6k0vJ1/bPDe?=
- =?us-ascii?Q?gLSOLLmZHK++PwirvoM7gcwVvk28iGJRbcdmJ2eFTknDvitX7zpck6ed18/O?=
- =?us-ascii?Q?aN9Um34RW4OAVSvBR8swmkLEAwpnaw/OlFsHOePgirY3c0UYCBEhpG/wMLPV?=
- =?us-ascii?Q?2qCeOLlqaBj1Ksetclw/WTeqN63tiJD9Mpe7BZq850lkJx6g2mf0no1DcqOO?=
- =?us-ascii?Q?XxM35Hue6r+vC22fXxiHeVXiIvJVSJCoEA4C5uwhGT/nIEYOnO6jEjsUxNhj?=
- =?us-ascii?Q?cGOrA+WEozx0Eo5Hdv3xIjGaxeZRGUej3i8tPYgXNHuPRfLnhEE0PyDX5SKJ?=
- =?us-ascii?Q?D9QpC3bKuuTvtePeb53++dsuYHclHRR2Qg0LXc6S73Gupteau73xsCiu2rQ5?=
- =?us-ascii?Q?65eYIcDgwNz5I/XKqXQsN9z63THauK1eucrk6JtilS/qmTB3LcYvOdgINOOD?=
- =?us-ascii?Q?7W8knLMtN7KRgb17Xj5BK4PPq772iekKN6isSUQqWc8vssgefAP3bgdB3V3P?=
- =?us-ascii?Q?K/exF2Ue7raLBlZGn/Ub2yGCssSFKGKcvIWlDG7bqZi9yOPBUo/duCSVFzxO?=
- =?us-ascii?Q?xvp80cb/qaVbCiidzIX5qd9DpXeudASTlCFkDEsvgcUMXALyH1AeZx4ZqJpf?=
- =?us-ascii?Q?IFMuNFsdEDsmuN2kakSamntN8eI8E5UF8RxcCCGOLFTXXqMvSjQQ8L53rjFo?=
- =?us-ascii?Q?ilx1pE4TGhkIRfGtIERwXhPpLeSt8K3q5me2pvF+6BTviphnR4c6218qGCEb?=
- =?us-ascii?Q?nGDndDJihZpQ9kiT11oKNbom1rOo7cuabIdOIwcJUcfCTlWq/EkISs2rVfTO?=
- =?us-ascii?Q?RqxdvKWYbh1IsDTqCV3sZUUW93g2s3vj7XuxghJOS1w6euH0uF2GIwJ2Mntr?=
- =?us-ascii?Q?vei/+y+EHFaCA7ExsQ7WvO5Qe1pCFCbKzOUny0BU5uJAxnj1ql0jMDfyr2sN?=
- =?us-ascii?Q?o7KXVmgk5wNiwwLxFyBpSnt5eJKEh4Qim8QQptJUvd8JLixYhvPlzY4iAwoo?=
- =?us-ascii?Q?G3a7pOhMmvyDS05eM9suqx+WwawIifbEOnJp8rnrdSNKXWUQaT3qqVEtncYS?=
- =?us-ascii?Q?lSXyBKVT9goRPd2WO5ibAw6q/6kq3kHpdgfbsg8aZ3utGq+fF7cJ4NcIIwIP?=
- =?us-ascii?Q?cer0cB18lEhcWg2P8zrxkgayCWSGqfKAQZ/Q3Is1d1nkYM5qfITLQIevJFAw?=
- =?us-ascii?Q?OY4yL1xThihifWYch2f8ND0bkiyy4xm5IQNCzSlacijM2tWKPLo0PqZSUMDX?=
- =?us-ascii?Q?UECbXZxF9XPR6KrBaBhD021UXOMhDpsuj/N4f2tz4NX+QBWHMdZmJVeB7CBW?=
- =?us-ascii?Q?T91rkNJeh/9S0vuWQpFtI7A2YJGIT3w20OVUpiwfMGfcNYJO0yf2Vzp7/nqz?=
- =?us-ascii?Q?QRhB6SqqK39WfbncKA5tdHIuPOsTYqpbxM0TtfhcYNvMjE1l10pY/79ZWwex?=
- =?us-ascii?Q?m7G5lz6WeeEQumWi5wZlnlxz+/1iBRqKd5JhGOLQ88ksbOyUVg6vSM7IvWnv?=
- =?us-ascii?Q?rxl+sYv/XAKjOx79W6YdCdyJ6uWhZIBnI8hPImm/iYmVIPqGRWUGBl9F3XyZ?=
- =?us-ascii?Q?RAeOluB4FyK2HImhZbSLhpVxMuVgS7M=3D?=
+	=?us-ascii?Q?Iq+R1gIc6ZM5bFw19b0kNHq85gpU9oOI2ezWUxLrybRkVQOPCR8hklhZcd0l?=
+ =?us-ascii?Q?c1CX4K5ZX724qwI4gtBXEf/sCEEkKRN9J6vOkrqIQLJT8sq2DBcXzABJE9LS?=
+ =?us-ascii?Q?hlLUarNojko2jnxkdARNQGhNTm4KCoh4DZebspCgDwl4CtVzQxyiPkusVZQb?=
+ =?us-ascii?Q?iC+1LHyGosRagX4uDxDuw+glFO74GDYkWNqinLTtZ8Ywv6HIJX/GnWacgpna?=
+ =?us-ascii?Q?lLOSNj6CSVkYmSvoHoXd7YLb0GRoQwGFnCbV94jEHz+wGdgic4YXmu3eXAAN?=
+ =?us-ascii?Q?gFJcjrYLNdcuM9ESDquXDXDnMdTtiLFJxsoScCTY077sx/ivEtD20myeeO82?=
+ =?us-ascii?Q?GiqYyZx/S1gSxuzS+UEss5YRshmxBdfPvX4ONNH16/ktUHo5aO/nrkIed76U?=
+ =?us-ascii?Q?kMOHBL//vl7EhILJ7RHLrpxeqQWFR9I8oSZ/9lnVfi6fJBHTOeD6EZ2QiOeD?=
+ =?us-ascii?Q?zBUB2Ae0LeYGmgv6dvx7dl9+MZrHmWgWwAxj1Y5zBohen8fdtRG2TqVlZpos?=
+ =?us-ascii?Q?hdW25NljJ44QgERGJJAf7T7Ekky8WrB7R48yFQhwqv1jli1oJNPfEGcjnQCn?=
+ =?us-ascii?Q?+n0u+S+08lqk8FbDXg7CxfldQo8VYqMBwc5KzFOIe7RrPIN4dH8wrWuv/enB?=
+ =?us-ascii?Q?m6QPuJuHlha9I58pFJqqsy5hwK7nbycDF8UjOcJ6TpujO2Yq/ajcrFpyJRcp?=
+ =?us-ascii?Q?khGttnYCj70O7NziZXhWo8yR63lCVcu1dI0ro4UjUmz8dyQMBNObVmyq7fFp?=
+ =?us-ascii?Q?SWWIrc5CYouqnEOb7u/o4bskvZp8hEJxaCq28bKXnqtvBgqCC/8dOyzS1mkN?=
+ =?us-ascii?Q?WYyTYDQY3Gr89paAdGrdT5LIFvUTb9XBR5BWCLdcS+bKXdXnp/I6aYxoDYbf?=
+ =?us-ascii?Q?GPHyAtH8C5PeakHvixJnXEpueixtpaRBYJ3MCqklDhF38+RMMw5ih/9JpAoQ?=
+ =?us-ascii?Q?Q90MOe0OiJMII4YbthXQgpavQB89Fjehhc4ebttbSNDimunW0H/aI7cKz9P7?=
+ =?us-ascii?Q?A1aV4m7NzqDl5TQRolsAUvO/8AVBq5dARyt0xrGjDuNwhG2pJN7emLPvTOQN?=
+ =?us-ascii?Q?o6yisM1k79EkTlD9czem3aBJSAaaI05E4dWy0ndq63UQeDoMj5N4dckbaTJ9?=
+ =?us-ascii?Q?0rpGlwLNPRIv0KHFAiZAksyMdm/6jVhdABLU3FK3Tv+ON6558Vn++3pFsuds?=
+ =?us-ascii?Q?F/yLLslhaIbaPX4kj/lGAlNsMs5O9Gk5Lo8Tx7mmGd9czQJpOAm/aI3K9nu+?=
+ =?us-ascii?Q?svH2905V814uucEA2J/gyFGejdDsg8gKBtOsttPv2Lqa8fcIIqMzImwkDNld?=
+ =?us-ascii?Q?GQFtDy6Zgj8uzmX1pe7iWLoocRkPXEv1uoGAzZ2yZCZl6JL7oz/Lg27VhwhI?=
+ =?us-ascii?Q?3ctEkmRLivLjQfuHsKb8Q6qx0u4tnFOQENfib+YCTUSSqcPfuvEZkKeyJlV4?=
+ =?us-ascii?Q?YTjkVlF+sOYcrZDHgIELaPyLX2YVP20ZI1rBkEak0Le5/O/WBp7jnzjqiTGr?=
+ =?us-ascii?Q?yO519WW1FghM773YMcoY8wDPMXw+pAV59X6AY8eDSklnogm5gdTuy2HBBhLm?=
+ =?us-ascii?Q?NHWyEKJm/7gjWbpLFM36wLXMPHHZzlhlxGAr3EWEw3WDS5RI6rqYw+MtCcg9?=
+ =?us-ascii?Q?B+bd5FdDEPAUidtMQa+y4hcZpWItxsiGHM0TUwjUOepPoNVI99UGI6Pqd2gp?=
+ =?us-ascii?Q?C3pKSk5zS63bUPuUlvFC/EhACPn3T/SsIlZzVEvG5CcneXTvNpsEc05R0J2g?=
+ =?us-ascii?Q?52uKkAufVuEIKu1fJxks8xbrLMqp6v0=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	lWJ8BEzWtnpCgeCwQKh+52Pp9mgyxuOwQ+dsopVHBPrsmmE0jI8hp93wZm4rf3rZppoLVyU4T/HKti3TRSfeGTW300snv3Q3WA5OnPD+IEZ2NNdZreyijSxAx795CHBcOURJP2iIgFHGZTvBthx0GSXsUPTcrkxgAQIlX8b6P2dk6IBGE7pH5JjJgLZIYtRoYGqnON52zoLgdoy4PHAufnGWx83bIFOkNK1bnzzmIQwjOQKaC+TSDwPrLFPLe4UcBgqyYggH2VQYyNli4wr+I57FuGj5trZLJ5ft8CdBawGWi4pxblXrVcATHZuhkojkxsN0kahDucMxglXfpk51PA==
+	RxWzjuBG8MlupGcfthYZuiEb5NHsPboTzXOS7IvPRAlsqyMM5CPV9YAEsKsJqtj8UMDsqHVZIg2azLpU4K9+VUxT1mF9ikwriKa5XRG759KxZB3d1fcoj/KlSMuXrQ60dwwolvb5kdeZwPUQ02CqlPkduFLdlzN7MB/u6q8tVWgKyZn6GJ2ZGgZmcAvBjm6YtNz/RKv85jomdB6BcVRIXyGzTo0di3y/Tori6cYmujIMNlSIUlrhPPoJesw6vOw1cVhzBbZwDQX06ZNTgYnrzGK3Wufsl/+7If4TzzqoDiOkyrOc8JYteED4aMcly3BAXV6q0+nwdr/za9AcV2cXlg==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e2153fe-1213-4ecf-eb72-08deedcc5e6c
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf1c6f1c-6dc3-4d15-bbe4-08deedcc5f94
 X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2026 23:51:54.7370
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2026 23:51:56.6965
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eSvRum7oE4cIv5pB48RROVN7IT6qlh18Fzck0ZfmDFRWA++WA2fTbgVfBw0RBbEbrqtMHumdc51bTPiThk7lL5cqVi8jXORir5mt8kBx+74=
+X-MS-Exchange-CrossTenant-UserPrincipalName: +V7Zaq7/xQj66+MN9p/KeGHpTmFKvdjSRYErPzeaVmQ2naFvAqsMtyKJy9KWWFvcs5h9j45+AD+XEECzrEFZ9YXK7RiYw0veSrDESoPpGtI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6183
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=JuvBas4C c=1 sm=1 tr=0 ts=6a6a921d cx=c_pps
- a=mPJaQZadrGlgYT55Vo1ogA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: GiZInAgbdNJ_mZqpI4JdHd3FnVqYJV4f
+X-Proofpoint-ORIG-GUID: wgddIc139HBZV1yUUhXwMsKMlFCTFSbd
+X-Authority-Analysis: v=2.4 cv=dtnrzVg4 c=1 sm=1 tr=0 ts=6a6a921f cx=c_pps
+ a=Sm015RFco05wDkMfClhrzg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=gH8vcDOTmKDoYkm8A40A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDE3NyBTYWx0ZWRfX2DF5bpB6UUCQ
- kIfDqposVkdEMGNDoHQF4vWDIP7+EfmdiEY46VrYpucIBPvl4uzcZMOl/xEDojBGak4zxSCC1Pv
- WtLmOSj87e/BVv2yQ6Lbr6Yqord7V1KYRbvIJIqlc8ka07j7oHSq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDE3NyBTYWx0ZWRfX8Un3rPJN053a
- wystRIM8DvcQdp4xH/LS3NZxy2CouaDUhHVTCGBXmD54kf7i9UzUPWZNsuyeHnNkNCuUeGnJJbf
- WwgnGxCi+wcEI45suQ2aQ3fkQyLUkDIxQEqHqWbdERE1cABSv2aC09AGhQwGHdt8F0yS3LG9xYB
- ZhH15666+6YyP+6U0U6uAyQNVptCwp3VHbdS2mPIGWV4SCragESFnoOdG4heZ3UD5z09IFLMawT
- 1Z9BlwJGwxytyGbrRH8DCXkjWG41a1sX5U1wEj7s0kh+vCYL0h7sd6pG4hMVn2cLBQtY6xo4aiQ
- snqWAVAWu3jux5VnWuGywaj+Q8AKCm0qTqTdmZ1AhVZVlRj7nhtL2QTiEN1Mk63F+bSAnGEidF1
- AqRrHEUaZBJXkafJv4Ft4HNP7vxKpCfvZVyUeNqk3Xqcd52anM3Zr2Wb1F6TwCpmLlm00AKyLeA
- S8F3w0+Qqs3spsDCgGg==
-X-Proofpoint-ORIG-GUID: NOS-SscT9IPXnB3rOEnr_EfSnRxJpYzs
-X-Proofpoint-GUID: xnD34f9xx8DK_DO7TvZU2Ufo-3OrpEnx
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
+ a=YcdC0ctDMGJcGoIPl8kA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDE3NyBTYWx0ZWRfXxaunMb/WBV/s
+ ef00+/5b5VNqdd+vPaHaaHylea6bs3pIYBOLVHtfFs6KV8QOqltM4fxzjdFbQ8RboNB+bJCajrt
+ Zdn4nu3+7HBJ8Dir4MpLISZW63N3Q61gQMRqufbeJMCI0u9wGrRf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDE3NyBTYWx0ZWRfXzB2d3nSpXXMx
+ N7ZzkTWvGHqn4cHLYiKvgkeMXvdskz50Yr48a0eKyf3HN1B9q0/9eufZmZNoBg2KKeWEAqEY98q
+ JGUzbsZ3yV5WUc7Wi6Oc3nMr0O+1DYTDimAwbw3O+hEVTVjdEWqrOZJ82A/nBVCSbMp+jNAjIiO
+ Dq1XNqNJmaIpinygNXakOOYzR6Fm4cci6SbArBBnnjWJUr3JGZSdZWNWrS6hffmL0iDq2EwXp73
+ sONm0D6Yh7cHkbWTHNcbevYtXzRgrBWq+St1Vxm2sgHpEduojvY6Vq7bMfwv/gF6PdWFPjptVg0
+ t+e6InBiDgdAjiPWVLyi6cQAfauXq+DcLIOaRsu5AJceV36DHgFaAraveA/tzfQVBD+JlsMc4UM
+ ibx/HMohOMBgkfJekj3kfhs78O01Y22XQwSYc6QMdHYZgPmp+IzdxxxaRBHDA4q69VNoQpMttNH
+ SdELyu8wTETDFVr8H+w==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-29_08,2026-07-29_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 suspectscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 phishscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607290177
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 23:52:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242303
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 23:52:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242300
 
-The rpm 6 doesn't support external dependency generator. Oe-core used it for
-per file dependency which was saved into pn.requires and pn.provides,but that
-hasn't been used any more since 2012 (rev:
-be40f6d0bb80274366af00461112af65687a4de8), and there were no complains or
-updates in the past 13 years, so just drop it to support rpm 6.
+Fixed:
+$ bitbake core-image-full-cmdline:do_testimage
+%post(busybox-1.38.0-r0.x86_64_v3): execv(/bin/sh) pid 679
+error: failed to exec scriptlet interpreter /bin/sh: No such file or directory
+
+It is because busybox and libc6 depends on each other, busybox' elf files
+depends on libc6, and libc6's postin depends on busybox' /bin/sh, the do_rootfs
+works well is because dnf-native has set RPM_NO_CHROOT_FOR_SCRIPTS=1, but it
+would be failed without it.
+
+In rpm 4.20.1, it let the installed files' Requires win, so it installed
+busybox firstly, but in rpm 6.0.1, it let the postin's Requires win since
+postin would run immediately after the files are installed, this does make
+sense, so it installed busybox (which provides /bin/sh required by libc6'
+postin) firstly, then we got the errors. I couldn't find which commit made this
+change because a lot of files and functions are refactored during 4.20.1 and
+6.0.0 (not .1), I also tried bisect, but failed because a lot of do_patch or
+do_configure/do_compile failures for each build.
+
+For libc6's the postin is:
+
+  #!/bin/sh
+  if [ x"$D" = "x" ]; then
+      if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
+  fi
+
+This doesn't make sense for libc6 since there is no /bin/sh or ldconfig when
+libc6 is not ready yet, so just not add ldconfig_postinst_fragment for glibc
+to fix the problem.
+
+And also remove the workarounds in oeqa/runtime/cases/dnf.py, they are not
+needed any more since the loop dependency is fixed.
+
+Similar to musl.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
 ---
- meta/classes-global/package_rpm.bbclass | 84 +------------------------
- 1 file changed, 3 insertions(+), 81 deletions(-)
+ meta/lib/oe/package.py                    | 3 ++-
+ meta/recipes-core/glibc/glibc-package.inc | 5 +++++
+ meta/recipes-core/musl/musl_git.bb        | 4 ++++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 9eacd91cbc..f286d3a0e2 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -14,10 +14,6 @@ RPMBUILD_COMPMODE ?= "${@'w%dT%d.zstdio' % (int(d.getVar('ZSTD_COMPRESSION_LEVEL
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index d047e41a78..8ccd89a190 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1853,7 +1853,8 @@ def process_shlibs(pkgfiles, d):
+                     if s[0] not in shlib_provider:
+                         shlib_provider[s[0]] = {}
+                     shlib_provider[s[0]][s[1]] = (pkg, pkgver)
+-        if needs_ldconfig:
++        if needs_ldconfig and \
++                not bb.utils.to_boolean(d.getVar('SKIP_LDCONFIG_POSTINST_FRAGMENT:%s' % pkg)):
+             bb.debug(1, 'adding ldconfig call to postinst for %s' % pkg)
+             postinst = d.getVar('pkg_postinst:%s' % pkg)
+             if not postinst:
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 3d721d8f69..bea841b047 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -298,6 +298,11 @@ pkg_postinst:nscd () {
+ 		fi
+ 	fi
+ }
++
++# Avoid loop dependencies between /bin/sh and libc.so.6
++SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} = "1"
++do_package[vardeps] += "SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN}"
++
+ CONFFILES:nscd = "${sysconfdir}/nscd.conf"
  
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+ SYSTEMD_PACKAGES = "nscd"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 3aec643c40..057113bf16 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -80,4 +80,8 @@ LEAD_SONAME = "libc.so"
+ INSANE_SKIP:${PN}-dev = "staticdev"
+ INSANE_SKIP:${PN} = "libdir"
  
--# Maintaining the perfile dependencies has significant overhead when writing the
--# packages. When set, this value merges them for efficiency.
--MERGEPERFILEDEPS = "1"
--
- # Filter dependencies based on a provided function.
- def filter_deps(var, f):
-     import collections
-@@ -36,67 +32,6 @@ def filter_nativesdk_deps(srcname, var):
-         var = filter_deps(var, lambda dep: not dep.startswith('/') and dep != 'perl' and not dep.startswith('perl('))
-     return var
- 
--# Construct per file dependencies file
--def write_rpm_perfiledata(srcname, d):
--    import oe.package
--    workdir = d.getVar('WORKDIR')
--    packages = d.getVar('PACKAGES')
--    pkgd = d.getVar('PKGD')
--
--    def dump_filerdeps(varname, outfile, d):
--        outfile.write("#!/usr/bin/env python3\n\n")
--        outfile.write("# Dependency table\n")
--        outfile.write('deps = {\n')
--        for pkg in packages.split():
--            dependsflist_key = 'FILE' + varname + 'FLIST' + ":" + pkg
--            dependsflist = (d.getVar(dependsflist_key) or "")
--            for dfile in dependsflist.split():
--                key = "FILE" + varname + ":" + dfile + ":" + pkg
--                deps = filter_nativesdk_deps(srcname, d.getVar(key) or "")
--                depends_dict = bb.utils.explode_dep_versions(deps)
--                file = oe.package.file_reverse_translate(dfile)
--                outfile.write('"' + pkgd + file + '" : "')
--                for dep in depends_dict:
--                    ver = depends_dict[dep]
--                    if dep and ver:
--                        ver = ver.replace("(", "")
--                        ver = ver.replace(")", "")
--                        outfile.write(dep + " " + ver + " ")
--                    else:
--                        outfile.write(dep + " ")
--                outfile.write('",\n')
--        outfile.write('}\n\n')
--        outfile.write("import sys\n")
--        outfile.write("while 1:\n")
--        outfile.write("\tline = sys.stdin.readline().strip()\n")
--        outfile.write("\tif not line:\n")
--        outfile.write("\t\tsys.exit(0)\n")
--        outfile.write("\tif line in deps:\n")
--        outfile.write("\t\tprint(deps[line] + '\\n')\n")
--
--    # OE-core dependencies a.k.a. RPM requires
--    outdepends = workdir + "/" + srcname + ".requires"
--
--    dependsfile = open(outdepends, 'w')
--
--    dump_filerdeps('RDEPENDS', dependsfile, d)
--
--    dependsfile.close()
--    os.chmod(outdepends, 0o755)
--
--    # OE-core / RPM Provides
--    outprovides = workdir + "/" + srcname + ".provides"
--
--    providesfile = open(outprovides, 'w')
--
--    dump_filerdeps('RPROVIDES', providesfile, d)
--
--    providesfile.close()
--    os.chmod(outprovides, 0o755)
--
--    return (outdepends, outprovides)
--
--
- python write_specfile () {
-     import oe.packagedata
-     import os,pwd,grp,stat
-@@ -311,7 +246,6 @@ python write_specfile () {
-     spec_files_top = []
-     spec_files_bottom = []
- 
--    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
-     extra_pkgdata = (d.getVar("RPM_EXTRA_PKGDATA") or "0") == "1"
- 
-     for pkg in packages.split():
-@@ -365,10 +299,9 @@ python write_specfile () {
-         splitrpostrm   = localdata.getVar('pkg_postrm')
- 
- 
--        if not perfiledeps:
--            # Add in summary of per file dependencies
--            splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
--            splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
-+        # Add in summary of per file dependencies
-+        splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
-+        splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
- 
-         splitrdepends = filter_nativesdk_deps(srcname, splitrdepends)
- 
-@@ -630,10 +563,6 @@ python do_package_rpm () {
-     d.setVar('OUTSPECFILE', outspecfile)
-     bb.build.exec_func('write_specfile', d)
- 
--    perfiledeps = (d.getVar("MERGEPERFILEDEPS") or "0") == "0"
--    if perfiledeps:
--        outdepends, outprovides = write_rpm_perfiledata(srcname, d)
--
-     # Setup the rpmbuild arguments...
-     rpmbuild = d.getVar('RPMBUILD')
-     rpmbuild_compmode = d.getVar('RPMBUILD_COMPMODE')
-@@ -658,7 +587,6 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-     cmd = cmd + " --define '_builddir " + d.getVar('B') + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
--    cmd = cmd + " --define '_use_internal_dependency_generator 0'"
-     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
-     cmd = cmd + " --define '_build_id_links none'"
-     cmd = cmd + " --define '_smp_ncpus_max 4'"
-@@ -668,12 +596,6 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd = cmd + " --define '_buildhost reproducible'"
-     cmd = cmd + " --define '__font_provides %{nil}'"
--    if perfiledeps:
--        cmd = cmd + " --define '__find_requires " + outdepends + "'"
--        cmd = cmd + " --define '__find_provides " + outprovides + "'"
--    else:
--        cmd = cmd + " --define '__find_requires %{nil}'"
--        cmd = cmd + " --define '__find_provides %{nil}'"
-     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
++# Avoid loop dependencies between /bin/sh and libc.so
++SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} = "1"
++do_package[vardeps] += "SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN}"
++
+ UPSTREAM_CHECK_COMMITS = "1"
 
