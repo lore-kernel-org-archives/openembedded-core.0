@@ -1,183 +1,163 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36733C53219
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 02:50:49 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3131.1785293443220815581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6778FC53219
+	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 03:33:19 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1611.1785286947169155265
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2026 19:50:43 -0700
+ Tue, 28 Jul 2026 18:02:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=PwPXT1SF;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca7bea5e5b3so305022a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 19:50:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785293442; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QIx9W4NMIZN/fp9VEhJ2Kp4YJELi6Jbn+Lkj7mBemLHCfAZL+dHvffa3+tlJ0lAiUq
-         1lgbp8OzP+qQUwCJDk83e0xc+bP0Bdx52MRKMLkhCzWRMmiHUhOyrjtA6y1PrW581iYC
-         dBSCgZOxhJQK7udhWPqzrm3Clu9SrNTiXqVomK0QHf1CHoknnbMFJUQZlDFf+0S1uNYW
-         Tm7Of3VfC6oDGx864KmkSRT8HPMjenwoRXC61snt8Y9gplau0emGBrK2YjVjTvl1tcmO
-         4caBLRZuyR+DNEFS37rzSqmsW2UbtBT7Z8+HBFaRnvC3wInKgSiXjC5pEdqyOV3xdkXZ
-         fjKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dbdY6ZgGGBso0dPPFnSUcBx8kR+YdKwN5md4mdAtDN4=;
-        fh=KDBggjr8BLztnc4QKL9wpIZeKsRhbOowKcZEQS8F7CA=;
-        b=pMvuQZLkQTj9VJgQWRApv3n9g3JfODJ6i8HAczG6oJb3k42Hbo1YPW+OirPPQ9j0tW
-         Hc+C+5qkFShzeKtx3ySprHf1G4NcjJepxNz1n4Y1KyhBkNfUjg+vsn1YHPWE2LtaxsJx
-         WHTQmpY0AtEfPNBOdnweSXgPa1yPpIx1S49qrXKjJ9Tkp0YcSuDD1UyheGrJFJlpCo52
-         ANXYC2DS6Movm5xNYv9RwFcbjFHjQVi5MSnomDTSBdVenCbF8YZ3CT6m+QqQ/KVMtkJv
-         /2oLg5CjxuFA9JA+a7XJ1r6pJ+r+y/2SCTrpwD2qUqXK0si5pcBEFEXYgbL8n0g+drXz
-         X6QA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=QBJSLGMl;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=ALv7z/fd;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: hangtian.zhu@oss.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66SL3cYA4132887
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 01:02:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cldnTlUnYiUKgS9zCH3XKTJ60sHQAPqOMR+1/qGajTc=; b=QBJSLGMl8BPUnHSl
+	ub6L1tdV28jVaTTvj+53uyPKcTG8QB1vriWALir1pvFAe2DAH3iNhOYYUK4j5lH4
+	T+XuF+oWr8gRpFUbbrxixeslIAm7YmtEMmNo/ECZpKZt6uShZ+ezAXzBgTgXgED/
+	hn/RcGZSvGokO+C25QilA3BF64VQ0C4QN86lMpLk5LZAsjQX0X6Qev2LFJ3HwTdE
+	5EjRoI/kXXFAAVtd9I5RdgckrPFpIjZ7P7aY6xQATRle1ZrxlRHYPLpWMLdgDw9a
+	pa7aEFmERc5OkGWQFsKKdwfyy/XXIeJu8A5eLz2QnnCBMvvuTO4S/KtvSIzfcZ8i
+	ActbYA==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fq10c9f4h-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 01:02:25 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cc7e86e7c5so8176505ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2026 18:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785293442; x=1785898242; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dbdY6ZgGGBso0dPPFnSUcBx8kR+YdKwN5md4mdAtDN4=;
-        b=PwPXT1SFw4kBoALG3XOuEYr01DBrx6VstdpIYLAbwG2VMag7WEu2xH9D5VDGdOf3NF
-         Ivu6dpAH3OKje/8+8apJeWVJeDNzW7MxISUG0wcAqUyO7xWoK1hDguXgm8tFF7xtyFVM
-         AtxrKuWppbRvtPpir4zVnaXSo8Yw0P/xotIuqUy0TVjTSkn38cwQ9Bqs9KVN1ZP4tdOB
-         fo0viWcZWzv/5+deeVoWxEy5BpNWFCTwxA7SVHWI04IFS0NgCo3qXshGVij9JQhbeoRl
-         e+41cGrC+hIUUMIX73NCIsXA9hoyDUfbs/TGU4uqQqk98Bw14PoYpecOSOBDGGKXxaNj
-         +KSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785293442; x=1785898242;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1785286944; x=1785891744; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dbdY6ZgGGBso0dPPFnSUcBx8kR+YdKwN5md4mdAtDN4=;
-        b=Lf1dGaPcMHXQJF7wSxaKSE9SWfgDCiiUz//HKwBZpN3KKOmns87cvQ881cS3ClUoVh
-         91+if0wh8EPB1df/d5kE6Q/zv3k3x8rnW4Za2AEpMKhZ018x+GqKCSNFI03SJJ181qBH
-         GH42MwJPKkzv5fs0s8JdIC4sFgj2aQkBph/mfGaPiBTQHwdWrh/dEoTyDhZ6tFA0SlIJ
-         Xff8gJqzlSEQLMLWyOok35O5bQoEwbw8NJJBADdsIH+XYgo8FYWip/Xrg2jeOz0cllHc
-         W9ROEJPTqT24+jCFNdI023cEqvjEFPWcN9Ic8MIn1S/mbmLxN2ui2u2fvO0+lB9/v6A1
-         1zRg==
-X-Gm-Message-State: AOJu0YxKez+Z52QsxOLkZh6GYzIGLooZChyF0y8KzbA7e9jwttJW5Cdr
-	hGSIJkTbTuyzz9Hce3t8lWq5D7QNddf6F8ycXoTwxE6rNoCokzhGsA4Wvjr/HXTAsZCBZMaSYVW
-	SA3c4J8wj4K6WIuexqEUooAhAR4jbUjD/ZqfF
-X-Gm-Gg: AR+sD12gX7l+7UF15EJz01cpbqy4AlENdmfZNl3VXdcaTgVxypu2I50MlibEePnw2Gf
-	Rcqy5PpAThCP7RKtOvJYTLo0mutqrujk/PDdMLwg79/AvT4FRqnfsLuOhE3T0syTF/LjB8OP9Fz
-	4p91GvYMU0wsqp+RD0xQpHOhpJGwoEnWz4TCRzHygcB1qfg0aT5xzPWhGAlBDJD1OgMySOtBy0c
-	hzJ1kkPyujNjbN0j8OU8G5oAyFujic6LuMhwRT3EQrERuUU2OHMhiiiVdsW9tmrSqdANCiBYsiy
-	MGV/EU++fWDePZb2qu5HTLdKgaDy42XTSVaGD5zsh38J87zsweWRcJvH2JcesMtLCS3LGsZQEcK
-	xqL+rWbHlSLnaETy0abtWkVUkk/QXZCHSKJoV4hv6V5rrrfPaaNZqG/29Ipll7J4=
-X-Received: by 2002:a05:6a21:b8c:b0:3c3:8255:8c4a with SMTP id
- adf61e73a8af0-3c8aafd663bmr6300305637.17.1785293442505; Tue, 28 Jul 2026
- 19:50:42 -0700 (PDT)
+        bh=cldnTlUnYiUKgS9zCH3XKTJ60sHQAPqOMR+1/qGajTc=;
+        b=ALv7z/fdWQTo7B+9tYcqmrgH51ut19TZX7/D25u37paVoyZRSxvaZUaAYrSfC/uT6P
+         unS1FGvwSiAdfJDVXGsKSil0qTHrC50jKqDvvz2M2Yidhe+Te62SsyOvMXZo6QtPD6B+
+         gGrZ150npruJXQ56alxooHZlYzgjhoerD97RGTFmk6M/z7XkvJBCpBtMeAdO4H4WP3+x
+         8q1ngZk7+d9HFoXplXQbCImvKmQu5Kd6YUWwsrmDsAA5BuN7oGfEE9vzwNRop5eT+zwJ
+         G87+1tvNAP3gEm5KO0KMSpO6Tqmz9zCucRKk8IMYa4SZRXrk+IgftNJL/7eEnqz8sLAz
+         DhxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785286944; x=1785891744;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cldnTlUnYiUKgS9zCH3XKTJ60sHQAPqOMR+1/qGajTc=;
+        b=S8GCrOSsI9sMp4dIOh6uAfaI2XdKNTUceWccdGG2hKkQbjnxFxZFXGaR8GN7QEi2Vf
+         YsTLje6ln9NjzVp+7fTnAmAM5yb2PjuYVMJ5Gyd4xi9t+OlfIUu1/abA2MMEz4hn+6sb
+         zhtQHr/W0iBttlBBIvjHMEYRUuijduEuwX5ssz8wJvQOegdtcTjpvKRobi1BJiG9hdVS
+         tKuk3K2EZc2T+DnpllZA1X0LSgtvN+HIW2lWi8FU9dGAddFZy5i9fNIbI9kQDQKFYje3
+         c4rJpL04i5RALbCaQ2NHQ/aJ14w03u5U61PepydZAkRIPNES/14eeyB5Qgj1V8aQrvTb
+         qZuA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpahv7D0RX/at3vN3U3bruxDbNC4qea/2iBjzLLtShBP0bKRAq7UwJKHriqv/2LMIvGPXd477lFAX+6wDZ1b2OTWQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx2UxeqNdkmDacRRgcB3Ygivg9RDQtxUv+XyQufOCUm6POJBsU0
+	uC3eRJOSjwWnO6OCliclHey6NIViIAsstEGC9Y/PGou/XecFbbfT4s5BrtRXN5VtjlmFT1LUsPH
+	c5/Y3uF0gY+EYKyPxW1Q8093JXg+JZxRhEd01K+fBu+6vbU0ODIH7hzsk6pF+tkRClgbSHgt7Z8
+	H6vx5MnVc=
+X-Gm-Gg: AR+sD13yzpY5IQ2DnXEqU5HvsLeZtjbNDEMq8Mfr82De1HP7USTNHF1TmtDGHLfZ4cj
+	0ipQZj/DZ35kncqEG1wbrPv3Wc/BPjSS9iyCzmqhpcdutl29+ppOhYuUSf7B0CKrGTr9PoJ/0h2
+	cX9KXUSf2cVVfwQB52bgH538E+kORPu6ULdQnA4B9KP53HyjBp0FlPwey7pH8HygxgqYf7SNiV6
+	+Pnz0O89LERZQ2ifmO4nVO38O6rRmJzn4Squvbu2oVbtBTQjt8XOtJJkE3pGemfuvRoNGaCKbXW
+	cTWfUDn37PbRmGEMmvAHsZZ/OeCkzFaqYIN8GpFaFJBGkXYXb7L12XqwsIIrMIz8O9vVmdcHgob
+	VpMaVcise2x4CIXZzWVoXq7/z3YE=
+X-Received: by 2002:a17:902:f543:b0:2ce:d5e4:2fcf with SMTP id d9443c01a7336-2d015f3fa7fmr51633195ad.42.1785286944551;
+        Tue, 28 Jul 2026 18:02:24 -0700 (PDT)
+X-Received: by 2002:a17:902:f543:b0:2ce:d5e4:2fcf with SMTP id d9443c01a7336-2d015f3fa7fmr51632765ad.42.1785286943994;
+        Tue, 28 Jul 2026 18:02:23 -0700 (PDT)
+Received: from [10.253.38.40] ([114.94.8.21])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022c55a7dsm3237095ad.84.2026.07.28.18.02.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jul 2026 18:02:23 -0700 (PDT)
+Message-ID: <2ea06f45-ba2e-4745-bc49-7a6799531b0f@oss.qualcomm.com>
+Date: Wed, 29 Jul 2026 09:02:20 +0800
 MIME-Version: 1.0
-References: <20260729024416.1443-1-wangmy@fujitsu.com>
-In-Reply-To: <20260729024416.1443-1-wangmy@fujitsu.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 28 Jul 2026 22:50:31 -0400
-X-Gm-Features: AUfX_myI3Jbx2hnBkzVztepQtxpgecPRzL4nB-EFqwL1tXiFWeXoIVDVQv62m5k
-Message-ID: <CADkTA4NFH8TeobepQc14Pn1HCg88BmoO7EEsvbDTte52Z0QaBA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-devsrc: include tools needed for BTF
- when enabled
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [wrynose] wpa-supplicant: add PACKAGECONFIG controls for suiteb, wnm, and mbo
+To: Yoann Congal <yoann.congal@smile.fr>,
+        openembedded-core@lists.openembedded.org
+Cc: miaoqing.pan@oss.qualcomm.com, gaole.zhang@oss.qualcomm.com
+References: <20260728090159.3864155-1-hangtian.zhu@oss.qualcomm.com>
+ <DKA6WJ3DRSM1.15EVL7LBX6ZC0@smile.fr>
+From: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
+In-Reply-To: <DKA6WJ3DRSM1.15EVL7LBX6ZC0@smile.fr>
+X-Proofpoint-ORIG-GUID: Y3vJBFYPwnOdH5GQvXkWTf2rEJ4qBtdZ
+X-Authority-Analysis: v=2.4 cv=F8hnsKhN c=1 sm=1 tr=0 ts=6a695121 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8
+ a=JCnTOS9uHKa4kWWIw-UA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-GUID: Y3vJBFYPwnOdH5GQvXkWTf2rEJ4qBtdZ
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDAwNSBTYWx0ZWRfX4HKRp4AJezvs
+ A+gxDAPVglnNdjBFI1pRYbVx9xZKlv1yojw/PbDD3prtUnfcuHsZGlmJb0E+jaixK1Xp8e5v8g9
+ zr1oso1F3x8ltNW7SpU8weQ7UXmLdu0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDAwNSBTYWx0ZWRfX7+KxZXreYA6h
+ WpTBpuAiJRlm0NVHfch7Or7XFHQZ257e2nAlMAYvvwuOMGuV2J0VdxO6aX8XCdzPODYkAs+gtNP
+ cFhmPlgwM43mJdLxLQ11EuCBhm9j85FgSQ8IIVRI+UQLR3T0gE0GGhVrZxdH7FR6sYz1CWLVegs
+ Dryu84zq24LIh/Sg5DSuOqsaJr3rjkgqzAC+ahyHySNzWOce5IRpu0x54Ngs4pjZLnHvaYnitOk
+ hjTvZ8zXKm7VLFSNqILeXOzgBPvn/hl1RYRbNdMUoRTnydYeNkxhb5q2VKZooeEUqlHSMUSobR/
+ OalvslIYcaH6flJQRAqxfxX66XZoU2FoJvz/b5dj5SvsQOncl7HpHOQ1Hx8543SbqHzYq7k4Xma
+ tCfuFk6w42fu+fTVumNeoOXcogmfpfks+/Qb2frisUbjfXofFx7+lVeLlnFXVbNZhWV9UGvqMRF
+ cMt64F/yNAPymL6eF+A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-28_06,2026-07-28_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 clxscore=1015 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607290005
+Content-Language: en-GB
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 02:50:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242225
-
-On Tue, Jul 28, 2026 at 10:44=E2=80=AFPM wangmy via lists.openembedded.org
-<wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
->
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> When CONFIG_DEBUG_INFO_BTF is enabled in the kernel, building external
-> modules that use BPF requires the 'resolve_btfids' host tool. This tool
-> and its dependencies live in tools/bpf/ and tools/lib/, but were not
-> included in the kernel-devsrc package.
->
-> This caused a build failure in the SDK when running 'make scripts prepare=
-':
->
->   make[4]: *** No rule to make target '.../tools/bpf/resolve_btfids/main.=
-o'
->
-> Copy tools/bpf/ and tools/lib/ into the devsrc build directory when
-> CONFIG_DEBUG_INFO_BTF=3Dy is detected in the kernel config, matching the
-> existing pattern for the 'rust' directory and for objtool.
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-ke=
-rnel/linux/kernel-devsrc.bb
-> index 237dec6b12..23779ed107 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -176,6 +176,19 @@ do_install() {
->              cp -a --parents $(find tools/arch/${ARCH}/ -type f) $kerneld=
-ir/build/
->          fi
->
-> +        # In sdk, when CONFIG_DEBUG_INFO_BTF is enabled, building extern=
-al modules
-> +        # that use BPF may require the 'resolve_btfids' host tool. This =
-tool
-> +        # and others require sources from tools/bpf/ and tools/lib/ to b=
-e built
-> +        # within the SDK environment.
-> +        if grep -q "CONFIG_DEBUG_INFO_BTF=3Dy" ${B}/.config; then
-
-You need to find another way to make this conditional, or if the files are
-small, just copy them over.
-
-kernel devsrc cannot grep and be coupled to specific CONFIG_
-symbols.
-
-> +            echo "NOTE: CONFIG_DEBUG_INFO_BTF is enabled, including BPF =
-host tools sources in kernel-devsrc."
-> +            # The 'rust' example copies the whole dir. We do the same fo=
-r consistency.
-> +            # This includes resolve_btfids and other potential BPF tools=
-.
-> +            cp -r tools/bpf ${kerneldir}/build/tools/
-> +            # This also requires the shared tools/lib directory.
-> +            cp -r tools/lib ${kerneldir}/build/tools/
-
-What does it actually use from those directories? We avoid complete
-copies whenever possible. Rarely are all the files needed.
-
-Bruce
-
-> +        fi
-> +
->          if [ "${ARCH}" =3D "arm64" ]; then
->              # arch/arm64/include/asm/xen references arch/arm
->              cp -a --parents arch/arm/include/asm/xen $kerneldir/build/
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#242224): https://lists.openembedded.org/g/openembedde=
-d-core/message/242224
-> Mute This Topic: https://lists.openembedded.org/mt/120497655/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 03:33:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242226
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+
+On 7/28/2026 20:06, Yoann Congal wrote:
+> On Tue Jul 28, 2026 at 11:01 AM CEST, Hangtian Zhu via lists.openembedded.org wrote:
+>> Add optional PACKAGECONFIG entries for suiteb, wnm, and mbo and map
+>> these to the corresponding upstream build flags:
+>>
+>> - suiteb: enable CONFIG_SUITEB and CONFIG_SUITEB192 for
+>>    WPA-EAP-SUITE-B/WPA-EAP-SUITE-B-192 enterprise modes
+>> - wnm: enable CONFIG_WNM for IEEE 802.11v Wireless Network Management
+>> - mbo: enable CONFIG_MBO for Multi Band Operation extensions used with
+>>    BSS Transition Management
+>>
+>> Upstream hostap configuration keeps these as optional capabilities.
+>> Exposing them as PACKAGECONFIG options lets distros opt in for
+>> enterprise and roaming use cases without changing the default oe-core
+>> feature set.
+>>
+>> Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
+>> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> (cherry picked from commit 38860938302e6167b1c890b75e808f3a4ff08805)
+>> ---
+>>   .../wpa-supplicant/wpa-supplicant_2.11.bb        | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+> Hello,
+>
+> I'm sorry but PACKAGECONFIG adding new features are not acceptable per
+> stable policy. I recommend doing this in downstream layers.
+it's a cherry-pick commit from master branch, by adding PACKAGECONFIG, 
+distros can opt in to enabling these features.
+>
+> Regards,
+
 
