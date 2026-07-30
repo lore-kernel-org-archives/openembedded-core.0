@@ -1,370 +1,197 @@
-Return-Path: <bhavesh.maheshwari@einfochips.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E0B6C54FD2
-	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 09:27:52 +0000 (UTC)
-Received: from naesa04.arrow.com (naesa04.arrow.com [216.150.161.24])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7731.1785403669852006730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F703C54FD2
+	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 09:33:02 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7858.1785403975622515991
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 02:27:50 -0700
+ Thu, 30 Jul 2026 02:32:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=V+TT0Rl9;
- spf=pass (domain: einfochips.com, ip: 216.150.161.24, mailfrom: bhavesh.maheshwari@einfochips.com)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tohyzTQ0;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so18424405e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 02:32:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=einfochips.com; i=@einfochips.com; l=9511; q=dns/txt;
-  s=NAESA-Selector1; t=1785403670; x=1816939670;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ms8C1OuAbA+OyzfXmCNpNV4hE4eUhZiE3hxFah3Co4k=;
-  b=V+TT0Rl9q77v2TzJ4XtorCp1imnDNdQCQhS0Fv3G9vihkluSczKhdxkg
-   OXEhGNxmwoBy011HsAeJkD75du1V4+vWICVGiHGAx2CwDry+WPVehdRXv
-   kOENXWkduHoytgjrbfZ8lM9j7hSbRliu9rbqwdnCD/r5A4O6q2fcJBNGP
-   eZtQC8tiBbWfUawUKC4WzXEBBTtIkb3QWu5vObbeV0rwqmGmD8YhQpGkM
-   /Rd06ZeKqpssfiF+CUROfXFL3tGNLjvXqOIMkThbETMvaxg5OZX1+uxUp
-   l7/r518QsaLp1ZwZAs8tXiT6DQ/vDVKoy9XhRd8qcuPVlQaD2UAttK5Km
-   g==;
-X-CSE-ConnectionGUID: Un4Cd9Q8RWuDO6St0QKoXQ==
-X-CSE-MsgGUID: to1zYcxfS7aSu4NrQt/Wng==
-X-IronPort-AV: E=Sophos;i="6.25,194,1779170400"; 
-   d="scan'208";a="118742959"
-Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.22.168])
-  by naesa04out.arrow.com with ESMTP; 30 Jul 2026 03:27:48 -0600
-From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-Core][Wrynose][PATCH] curl: Fix for CVE-2026-9079
-Date: Thu, 30 Jul 2026 14:57:28 +0530
-Message-ID: <20260730092746.1991111-1-bhavesh.maheshwari@einfochips.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=smile.fr; s=google; t=1785403974; x=1786008774; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qQ3ExG28aoinUvayLc73x1kd25jemeLxJQtxxwrk6v8=;
+        b=tohyzTQ0uS0WpvPVR9KTbmtucj58mdGeBAm7BkacltSOx2tN7cbIdZCHyatNbaSrel
+         UpMMoX6Ahuir3TPRkKkNPWI8kU2BKEHSOAsOuEmRbLuNfi7IvQkyIJNDS/oJcbJt9rtf
+         9BGV/iCvrk81ijGiVt/h0JCDaaYKt9b+Hkg14=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785403974; x=1786008774;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qQ3ExG28aoinUvayLc73x1kd25jemeLxJQtxxwrk6v8=;
+        b=aPBy9xJ174jPwJs+aw0SuO67rYnpC09xK/2TOpG7hMHD+i2GSrqzhELoxbG0SXQGdf
+         VxucD8tMV94geBO5arfzBQAdAsGwCS2pKK/+VQP9OhvUZfxZTDkOM3Suf0jcqiRiczVh
+         A65pTzI+/3hTDg92skLzHv9xiBQsFQ+6510hQS0B0FuN6K3HpsA3wQf6ylL8nUq3lBsn
+         ID0gW03jnie3I7Wb9sLR3d8aYEqqdTZn+jChPKz9mlm03+LKvw9cRJfu7Ory39agRmpv
+         x8paLELm7JuVr4mXkw68dVNwV6jeSrSu8po0av0fLCZ6uJEduDV2/Kf2eTjB1Wd3BGi2
+         0uWA==
+X-Gm-Message-State: AOJu0YzEUZYa4rv/Hv6hTU4FIiE8UzxJzHWG5+2PLOq1t2XsFqAsNrRH
+	IbhNFMVD5wbunJ483I1T7/g2qadmwGSMGZoi/ZZFyISSUz8RUwmYRL8tW3pUpeY0VCQ=
+X-Gm-Gg: AR+sD11C01zrEmIu88NoVP4yFoAHkR1w3DAYwfJX+6+jlXed0R2lZ1G+iezl/WIKuD+
+	5IfQnQ+GaDChuV923qnj6BA1seuk8Qd/XJ/OgLey7NRVnK/cc5yk5N5Q4C9iEfEpHq+P5JLUwKv
+	aT13GYS5Tx7JuHjMSHnT68PJ5WLs1n7okyr2xKfL2HMnM8V5HhxjLGEoG0aINpNvW2oCmPdZeH9
+	CAvQ9EHYKZCt4qXec5wgbTiUPf8lQl/jPSxwSspM6zfBrtWMBulzLmsAqoKWtcNAtabFx6T+d3J
+	zHYhP6o/x1b2vjgPQmQGunSadXVt336WgoA0OtoOEWViWbOuBGXeDwWTQG1hTTlHEbNrWOAVehd
+	mTkOSlu4nc9ZDBWrIZaClGV0vT30wiZhcDEu5KNxMWtZC/z7cg0InR3NPvwgar3O0jT48cEKgyx
+	URbelaaTXSiHb4cTyW2HWFcAr+A3IgbVepWSLmqOVfKCmozZYqcLBc4XFBAzQW0q6VB+khpqR0q
+	gLZpOB8xaS5MuQGWA+tDawDRQurpafGxSxPzFEhUl32t3Ntu213ddXHSQDE5/Ux
+X-Received: by 2002:a05:600c:49a6:b0:496:bba5:33a9 with SMTP id 5b1f17b1804b1-49800eba0bamr13760455e9.34.1785403973781;
+        Thu, 30 Jul 2026 02:32:53 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00dd417ef569a828a8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:dd41:7ef5:69a8:28a8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-498019a50a8sm24037365e9.2.2026.07.30.02.32.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2026 02:32:53 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 30 Jul 2026 11:32:52 +0200
+Message-Id: <DKBSVY2RZILH.3GN90OFEO4WF6@smile.fr>
+Subject: Re: [OE-core] [AUH] glslang: upgrading to 1.4.357.0 SUCCEEDED
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <openembedded-core@lists.openembedded.org>
+To: <auh@yoctoproject.org>, "Jose Quaresma" <quaresma.jose@gmail.com>,
+ "Daniel Turull" <daniel.turull@ericsson.com>
+X-Mailer: aerc 0.20.0
+References: <0101019facc2b137-724839c0-ea99-457b-873a-a5fc9ddf011e-000000@us-west-2.amazonses.com>
+In-Reply-To: <0101019facc2b137-724839c0-ea99-457b-873a-a5fc9ddf011e-000000@us-west-2.amazonses.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 09:27:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242331
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 09:33:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242332
 
-Pick patch from [1] mentioned in [2] taken from NVD report in [3].
+On Wed Jul 29, 2026 at 9:24 AM CEST, Auto Upgrade Helper via lists.openembe=
+dded.org wrote:
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe(s) *glslang* to *1.4.357=
+.0* has Succeeded.
+>
+> Next steps:
+>     - apply the patch: git am 0001-glslang-upgrade-1.4.350.1-1.4.357.0.pa=
+tch
+>     - check the changes to upstream patches and summarize them in the com=
+mit message,
+>     - compile an image that contains the package
+>     - perform some basic sanity tests
+>     - amend the patch and sign it off: git commit -s --reset-author --ame=
+nd
+>     - send it to the appropriate mailing list
+>
+> Alternatively, if you believe the recipe should not be upgraded at this t=
+ime,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
+>
+> Please review the attached files for further information and build/update=
+ failures.
+> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_=
+bug.cgi?product=3DAutomated%20Update%20Handler
+>
+> Regards,
+> The Upgrade Helper
+>
+> -- >8 --
+> From 4a9231cb33f3d14661cb97c9a7b45f33eef2589a Mon Sep 17 00:00:00 2001
+> From: Upgrade Helper <auh@yoctoproject.org>
+> Date: Wed, 29 Jul 2026 06:14:19 +0000
+> Subject: [PATCH] glslang: upgrade 1.4.350.1 -> 1.4.357.0
+>
+> Source: CHANGES.md
+>
+> * Add support for GL_EXT_opacity_micromap_ray_query_mode
+>
+> ## 16.4.0 2026-07-14
+>
+> ### Descriptor Heap
+>
+> * Implement `GLSL_EXT_structured_descriptor_heap` with SPIR-V layout gene=
+ration, heap offset access, buffer references, matrix layout decorations, a=
+nd correct `readonly`/`writeonly` qualifier propagation for buffer and imag=
+e descriptors
+> * Fix descriptor heap-bound buffer access to use typed pointers
+> * Omit `NonUniform` decoration when using descriptor heaps, as the SPIR-V=
+ spec does not require it
+> * Add `--relax-set-binding-limits` option to allow large `layout(set)` an=
+d `layout(binding)` values for descriptor heap-style workflows with sparse =
+set spaces
+> * Reject combined image samplers with `descriptor_heap`
+>
+> ### Compute Shader Derivatives
+>
+> * Fix `GL_KHR_compute_shader_derivatives` regressions on shaders using th=
+e `GL_NV` variant
+> * Update compute shader derivative rules to allow texture operations with=
+ implicit derivatives without extensions, falling back to LoD 0
+>
+> ### New Extensions
+>
+> * Implement `GL_EXT_ocp_microscaling_types`
+> * Implement `GL_NV_cooperative_matrix_decode_vector`
+> * Add basic support for `GL_NV_desktop_lowp_mediump`
+> * Implement `GL_EXT_opacity_micromap_ray_query_mode`
+>
+> ### Bug Fixes
+>
+> * Fix generated decoration string from `UTF8EncodingKHR` to `UTFEncodingK=
+HR`
+> * Fix missing SPIR-V extension emission for `float16` derivative function=
+s with `SPV_AMD_gpu_shader_half_float`
+> * Apply `NoContraction` decoration to `dot()` when `noContraction` is set
+> * Fix `OpStore` of buffer device address pointer to use 8-byte alignment,=
+ consistent with loads
+> * Fix `RayTracingOpacityMicromapKHR` capability emission to only occur wh=
+en `gl_RayFlagsForceOpacityMicromap2StateEXT` is actually used, fixing SPIR=
+-V validation failures in ray query shaders outside ray-tracing pipeline st=
+ages
+> * Fix `setInvertY()` to apply Y-inversion to GLSL vertex, geometry, and t=
+essellation-evaluation shaders (previously only affected HLSL)
+> * Fix `.length()` on arrays of long/cooperative vectors to use `OpArrayLe=
+ngth` instead of a constant component count
+> * Fix unnecessary cooperative matrix conversions when creating arrays of =
+KHR cooperative matrices
+> * Add error for cooperative matrix `*=3D` with bf16/fp8 scalar operands
+> * Fix out-of-bounds access in `elseSeen` at maximum `#if`/`#ifdef` nestin=
+g depth
+> * Fix out-of-bounds read on empty struct texture template types
+> * Fix crash in `layoutObjectCheck` when accessing members of an empty blo=
+ck
+> * Emit an error when HLSL [numthreads] is given more than three arguments=
+ instead of crashing the compiler.
+> * Emit error when attempting to convert a literal string to an incompatib=
+le type
+> * Fix `abortKHR` to preserve the original user-defined string without mod=
+ification
+> * Fix out-of-bounds indexing in `TDefaultIoResolverBase::addStage` when a=
+ negative `EShLanguage` value is passed
+>
+> ### Other
+>
+> * Add `--discard-is-terminate` option to emit `OpTerminateInvocation` ins=
+tead of `OpDemoteToHelperInvocation` for GLSL `discard` when tar
+>
+> [Changelog truncated as it exceeds 3000 characters;
+> the full changelog can be found in an attachment to the AUH email]
 
-[1] https://github.com/curl/curl/commit/88c7e16cceec816a2df45c89
-[2] https://curl.se/docs/CVE-2026-9079.html
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-9079
+Hello David,
 
-Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
----
- .../curl/curl/CVE-2026-9079.patch             | 289 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
- 2 files changed, 290 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9079.patch
+Would it be possible to get the upstream URL for the changelog in this
+truncated case? ... or even in every case?
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-9079.patch b/meta/recipes-support/curl/curl/CVE-2026-9079.patch
-new file mode 100644
-index 0000000000..9ede69c769
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-9079.patch
-@@ -0,0 +1,289 @@
-+From 4a73a6ac6d55d028797d2492a8bfeb1af1a76647 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 20 May 2026 13:39:25 +0200
-+Subject: [PATCH] setopt: clear proxy auth properly on NULL
-+
-+Verify NULLed proxy credentials with test1648
-+
-+Closes #21696
-+
-+CVE: CVE-2026-9079
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/88c7e16cceec816a2df45c89]
-+
-+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
-+---
-+ lib/setopt.c               |  14 ++--
-+ tests/data/Makefile.am     |   2 +-
-+ tests/data/test1648        |  63 +++++++++++++++++
-+ tests/libtest/Makefile.inc |   1 +
-+ tests/libtest/lib1648.c    | 135 +++++++++++++++++++++++++++++++++++++
-+ 5 files changed, 207 insertions(+), 8 deletions(-)
-+ create mode 100644 tests/data/test1648
-+ create mode 100644 tests/libtest/lib1648.c
-+
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index 84f3e02b7b..a75523dcd8 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -1679,16 +1679,16 @@ static CURLcode setopt_cptr_proxy(struct Curl_easy *data, CURLoption option,
-+     result = setstropt_userpwd(ptr, &u, &p);
-+ 
-+     /* URL decode the components */
-+-    if(!result && u) {
-+-      Curl_safefree(s->str[STRING_PROXYUSERNAME]);
-+-      result = Curl_urldecode(u, 0, &s->str[STRING_PROXYUSERNAME], NULL,
-+-                              REJECT_ZERO);
-++    if(!result) {
-++      Curl_safefree(s->str[STRING_PROXYUSERNAME]);
-++      Curl_safefree(s->str[STRING_PROXYPASSWORD]);
-++      if(u)
-++        result = Curl_urldecode(u, 0, &s->str[STRING_PROXYUSERNAME], NULL,
-++                                REJECT_ZERO);
-+     }
-+-    if(!result && p) {
-+-      Curl_safefree(s->str[STRING_PROXYPASSWORD]);
-++    if(!result && p)
-+       result = Curl_urldecode(p, 0, &s->str[STRING_PROXYPASSWORD], NULL,
-+                               REJECT_ZERO);
-+-    }
-+     curlx_free(u);
-+     curlx_free(p);
-+     break;
-+diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index 1b76b01a8c..c92dea0441 100644
-+--- a/tests/data/Makefile.am
-++++ b/tests/data/Makefile.am
-+@@ -218,7 +218,7 @@ test1620 test1621 test1622 test1623 test1624 \
-+ \
-+ test1630 test1631 test1632 test1633 test1634 test1635 test1636 test1637 \
-+ \
-+-test1640 test1641 test1642 test1643 \
-++test1640 test1641 test1642 test1643 test1648 \
-+ \
-+ test1650 test1651 test1652 test1653 test1654 test1655 test1656 test1657 \
-+ test1658 \
-+diff --git a/tests/data/test1648 b/tests/data/test1648
-+new file mode 100644
-+index 0000000000..623f3c9a81
-+--- /dev/null
-++++ b/tests/data/test1648
-+@@ -0,0 +1,63 @@
-++<?xml version="1.0" encoding="US-ASCII"?>
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++HTTP GET
-++HTTP proxy
-++HTTP proxy auth
-++</keywords>
-++</info>
-++
-++# Server-side
-++<reply>
-++
-++# this is returned first since we get no proxy-auth
-++<data crlf="headers" nocheck="yes">
-++HTTP/1.1 407 Authorization Required to proxy me my dear
-++Proxy-Authenticate: Digest realm="weirdorealm", nonce="12345"
-++Content-Length: 33
-++
-++And you should ignore this data.
-++</data>
-++
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++# tool is what to use instead of 'curl'
-++<tool>
-++lib%TESTNUMBER
-++</tool>
-++<features>
-++proxy
-++</features>
-++<name>
-++HTTP proxy with auth, change proxy, clear auth
-++</name>
-++<command>
-++%HOSTIP %HTTPPORT
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf="headers">
-++GET http://example.com/ HTTP/1.1
-++Host: example.com
-++Proxy-Authorization: Basic %b64[victim:secret]b64%
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++GET http://example.com/ HTTP/1.1
-++Host: example.com
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++</protocol>
-++
-++</verify>
-++</testcase>
-+diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-+index 2f77c16975..ad6fe9aa6c 100644
-+--- a/tests/libtest/Makefile.inc
-++++ b/tests/libtest/Makefile.inc
-+@@ -100,6 +100,7 @@ TESTS_C = \
-+   lib1582.c \
-+   lib1591.c lib1592.c lib1593.c lib1594.c                     lib1597.c \
-+   lib1598.c lib1599.c \
-++  lib1648.c \
-+   lib1662.c \
-+   lib1900.c lib1901.c lib1902.c lib1903.c lib1905.c lib1906.c lib1907.c \
-+   lib1908.c           lib1910.c lib1911.c lib1912.c lib1913.c \
-+diff --git a/tests/libtest/lib1648.c b/tests/libtest/lib1648.c
-+new file mode 100644
-+index 0000000000..e97b2bdc88
-+--- /dev/null
-++++ b/tests/libtest/lib1648.c
-+@@ -0,0 +1,135 @@
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ ***************************************************************************/
-++/*
-++ * URL = host
-++ * arg2 = port
-++ */
-++
-++#include "first.h"
-++
-++/* this is meant to pick up the proxy from the environment variable */
-++static CURLcode init1648(CURL *curl, const char *url, const char *proxy)
-++{
-++  CURLcode result = CURLE_OK;
-++
-++  res_easy_setopt(curl, CURLOPT_URL, url);
-++  if(result)
-++    goto init_failed;
-++
-++  res_easy_setopt(curl, CURLOPT_PROXY, proxy);
-++  if(result)
-++    goto init_failed;
-++
-++  res_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-++  if(result)
-++    goto init_failed;
-++
-++  return CURLE_OK; /* success */
-++
-++init_failed:
-++  return result; /* failure */
-++}
-++
-++static CURLcode run1648(CURL *curl, const char *url, const char *userpwd)
-++{
-++  CURLcode result = CURLE_OK;
-++
-++  result = init1648(curl, url, userpwd);
-++  if(result)
-++    return result;
-++
-++  return curl_easy_perform(curl);
-++}
-++
-++#define GET_THIS "http://example.com/"
-++
-++/*
-++ * First get the URL over 'firstproxy' with auth.
-++ * Then clear the auth and get the URL again over 'secondproxy'.
-++ */
-++static CURLcode test_lib1648(const char *hostip)
-++{
-++  CURLcode result = CURLE_OK;
-++  CURL *curl = NULL;
-++  struct curl_slist *host = NULL;
-++  struct curl_slist *host2 = NULL;
-++  char proxy1_resolve[128];
-++  char proxy2_resolve[128];
-++  char proxy1_connect[128];
-++  char proxy2_connect[128];
-++
-++  curl_msnprintf(proxy1_resolve, sizeof(proxy1_resolve),
-++                 "firstproxy:%s:%s", libtest_arg2, hostip);
-++  curl_msnprintf(proxy2_resolve, sizeof(proxy2_resolve),
-++                 "secondproxy:%s:%s", libtest_arg2, hostip);
-++
-++  /* we connect to the fake host name but the right port number */
-++  curl_msnprintf(proxy1_connect, sizeof(proxy1_connect),
-++                 "firstproxy:%s", libtest_arg2);
-++  curl_msnprintf(proxy2_connect, sizeof(proxy2_connect),
-++                 "secondproxy:%s", libtest_arg2);
-++
-++  res_global_init(CURL_GLOBAL_ALL);
-++  if(result)
-++    return result;
-++
-++  curl = curl_easy_init();
-++  if(!curl) {
-++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
-++    curl_global_cleanup();
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  host = curl_slist_append(NULL, proxy1_resolve);
-++  if(!host)
-++    goto test_cleanup;
-++  host2 = curl_slist_append(host, proxy2_resolve);
-++  if(!host2)
-++    goto test_cleanup;
-++  host = host2;
-++
-++  start_test_timing();
-++
-++  easy_setopt(curl, CURLOPT_RESOLVE, host);
-++  easy_setopt(curl, CURLOPT_PROXYUSERPWD, "victim:secret");
-++
-++  curl_mprintf("--- First get over %s\n", proxy1_connect);
-++  result = run1648(curl, GET_THIS, proxy1_connect);
-++  if(result)
-++    goto test_cleanup;
-++
-++  easy_setopt(curl, CURLOPT_PROXYUSERPWD, NULL);
-++
-++  curl_mprintf("--- Then over '%s'\n", proxy2_connect);
-++  result = run1648(curl, GET_THIS, proxy2_connect);
-++
-++test_cleanup:
-++
-++  /* proper cleanup sequence - type PB */
-++
-++  curl_easy_cleanup(curl);
-++  curl_global_cleanup();
-++  curl_slist_free_all(host);
-++  return result;
-++}
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 6ad0daa59d..825579c211 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = " \
-     file://CVE-2026-6253.patch \
-     file://CVE-2026-6429-dependent.patch \
-     file://CVE-2026-6429.patch \
-+    file://CVE-2026-9079.patch \
- "
- 
- SRC_URI:append:class-nativesdk = " \
--- 
-2.43.0
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
 
