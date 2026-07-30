@@ -1,200 +1,185 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A00CEC55165
-	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 12:11:06 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10035.1785413465496002826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A860AC55165
+	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 12:19:36 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10394.1785413967838101499
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 05:11:05 -0700
+ Thu, 30 Jul 2026 05:19:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=dd165bng;
- spf=pass (domain: snapchat.com, ip: 209.85.221.45, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so2125408f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 05:11:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785413463; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lbc+4QundAbDoeGObTD7Ysp9CLuhllojejSlH08eAGgXG3PB4W0doJROkE4gkneDyO
-         itHbsd/vnAzs1nc95ZKv7wIhXVDgGTm1AUKv/G4WfPYp2CbPp9Zvhnd2b7GUgTNs4pla
-         e5itvN17iPYegAoXUbanoXxLl+yqUrSmxJWfF3NycUPTm3LEAynfa1Non6o5UtQTTULy
-         LHRE5JvDI4d7J5+SIKIS4n6iBk0Qw5dEAXtObF5NDWVyoxQGzDUKsyBnq+CP94XeIYHL
-         VDkZ2UxdJmnXhQWGk21cJKajVr4/CRFHwbAlvtn4CK901uAlkiWsUenGpkx+t5rZogKP
-         21Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4YwVsm96eulsKmu33RLCOa2C+c/wbreRWOcce4j67Vc=;
-        fh=E22hnrDeFOhblX6O88lo3ne3xDOhxPQXcBK1pwgmqrY=;
-        b=XlUeHLK9EJGu+WJ9tmfMmXCgQObBXNS+n3RvSRm/B9d9VMCHE/nnQVwVUu1gX5zFzo
-         5AsLOyitSCUwX6QxLtXl2mdyLA1CYsrb93SVAWe9PE7HDWa87wsqP25jQCxASs9wdjH7
-         aNRKw/k7tnH9Z+Q4O9/632zr6/nE3hGdir953uT+WdMzMKgxqyFEhc+9mPNKqHd0Rb7A
-         sTzkPmbGVNHTWGOeJ8yJMupXah/KSV14lV+grK/qaZqKWqoMHMySm4YK8xnpED3rXCvd
-         eK9y/Wjlb7gEyHKL/kPOuX+sY1Pl8FW0md+LPyP8dO+8fAMe/48kdRloOf67qtNgHqPn
-         fWkA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jq4XDUo+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-495635a85d2so16570125e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 05:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1785413463; x=1786018263; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4YwVsm96eulsKmu33RLCOa2C+c/wbreRWOcce4j67Vc=;
-        b=dd165bngI5PT8C+xVYdyceUMDPras8jyz+bGjrccv8DiJFVCALVwtgKuhaKQQr4LqQ
-         lHrJC7wpUowhyD2nyAMLBI+E+VnKVjcXiAR8Wjkj8SP6SBfvzf8ONLWX9PG5iIL8dg1+
-         h1M27UOHlyJfMXd67glui5qQ108JnJAfl6NKQ=
+        d=gmail.com; s=20251104; t=1785413966; x=1786018766; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=jGyOA0zMYqNrIRsXADIDIdpwu+FT9I7iVckTYO5WHQE=;
+        b=jq4XDUo+IDghomatPX0xpIZGFduQcqe8Ymuwfrsct6kseLM5dp420UtA/Y6u2ikxTY
+         ZuXDoNRhRE2wWV6p2yyem50D0pTqEx0D3GbItuBVztNUWQv1kX+U3+1PosZFav7XYey3
+         iN9lxAPXTL+5vQfmNC8f5N1aSPv4RUR/WKLoYvkTlFi2/WB3XpQ9TkrbLHLNG3LpiyEU
+         3jS71IYoToOlVXjTGjSYcSYvyVx1/Zzm436c8COs/eYCAHYgpcNj/FZSLxfXmR253N+h
+         s7bfGRvW6CgdzVdH36fJaZLdZT4xcB0UVujWvlNoYRFFfkugg4Mh0s2xwGhFqQCIAEfL
+         8mIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785413463; x=1786018263;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=4YwVsm96eulsKmu33RLCOa2C+c/wbreRWOcce4j67Vc=;
-        b=AtnGTLHUsJYpeyaFblDhBXJBrUqXDQyt6sLNrMQsbb3o1RZsLBtitTF3znBKXqJn/q
-         zFPIdrWl48o6cNDct6K9ksZnlGpZ/fSqmDmce6YiDheobOHTGJkwKySpODkFmPYcbwCR
-         O/e+mD9VInd2VQ7OJi0Ny11WgORKCMUSs80fo20SlzJqzvOBSPt/JRBk4BqVEXW2KyXc
-         K4pUMc3pHx2cz9cxbSiZzS+UJ03A3iN6cAXLrTi1IoL2e2C93jfOIRzk9Bmjga/bSUmv
-         ewezOVGxY5VGfaKZpzuEjdhxA71wPNpUneQxTLX5fPs99vfQoFMSmXcILY72sb7csog8
-         6HYg==
-X-Gm-Message-State: AOJu0Ywvrkr2BUIp+sbsGpVU4fiTxgpt/niNfhR6aHbrTsyxrk/eR7AR
-	cek12Dw7vfL713aio9Om+Sq5wHkeADOeAn6eBqL48loYvio5wzAQ4JwtnjT2Bnz1kQtRUsy/PhB
-	dSrtvKWP/VuuzsOAuv+jY3QaMrSFjZhuUVA0EfLRxjg==
-X-Gm-Gg: AR+sD13n99sB3q9I3ar0mJnni+1FZ67vdIhBx2VqmW1ybHicxMcXrtHQTJ2w/RKdtaj
-	1XfvS0NiG4UlkLwQBVkjUN6M9Q/iWUvJvZz3LJnsMD43cqwTEW0RZnabnX1bfna/PwcM0OoZd0M
-	iPqjpTA3o6f/xxYs64WK9WP+AU+m51S4l7PtmqK++KXVbxbqP1iHfMHFYGGY3pSomDjdhtGVcQe
-	s6owzuGbrSl9x09RRJjFcRQ73XrA0vtl5ggEnrcaYm6qTQG2WQ4pxqN23eT4tg74aFeSlP/97md
-	C+0EYow7CmsfaOAKnv8bu7ZSjv00Z73QJHTlUbQSBb0ECaJ1CVP8vVUqGlIBwoqj2OEuzAtEmTH
-	sBg==
-X-Received: by 2002:a05:6000:2903:b0:47f:73fb:daa1 with SMTP id
- ffacd0b85a97d-47fc81c5c0fmr3613598f8f.19.1785413463294; Thu, 30 Jul 2026
- 05:11:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785413966; x=1786018766;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jGyOA0zMYqNrIRsXADIDIdpwu+FT9I7iVckTYO5WHQE=;
+        b=QOYm5vsSuRT25q4dXB1fWh4Ap2thwO2x4Z55NZk2YBKmGe24m/wdkhVr1YeF0vrXvq
+         /Z9rH4JZa6KM/L6ttmGbXdUjhFiSViLlKrNQWBG0a9ek+OSxz30101WyrVtlKicqRCSM
+         gNPslcqdd7bmXVGxQvKrPmwfnhR11lPAjPSsyd6gGI4r4IG71T6+l7hHm0TuMX4mWLYT
+         flPpMxXkwT7g86j/CJg4qCorQ2789dQY6xkpGib5GpAfIuJk49/kEBjqaYFNbLmXMvIN
+         nk1B5WEvCrBL0HgY5+C55JxHKd55LeSnTt63dyvr95/9xzW+KZchCGq1k+QolKuXZutR
+         mhXw==
+X-Forwarded-Encrypted: i=1; AHgh+RrCTbPJdDkcr35fS8xSMAPSZIfI2UPtsUZBYoBN8M6N2vVGUX8o8Bhod59JAOFtPHfHgj6Tx9H2WvCDPT+RtROyoQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzbJlDyeLi3ifO/KAvpx7/CEb1lzrYPGIZ7I+45tRz2tFkIb16Y
+	Yx6maydBKs9zdSe5lYI+d2RkMBhS6TtgywcGfQL0Ki/tRGIInJL04TQy
+X-Gm-Gg: AR+sD12KDV0FD4dXyKVefeNf/1fhN8KE4pnoRBQC1Lr7WLkFEw3BNdT9qu5mPARDGbD
+	o/EgEpWO3q2/aYHBaj9mtTLEoiESG09xk1aYcxBtucF++2P1oYrjHvOCJDnAzWaUWwicififwQe
+	jd5FhRnWB9eoqlJwz89Szmq+z5sjo8oXncmYcF7Posa8HXyMlcCX2GnfoaGsBorsI1Ez2o/bqJy
+	LnpBhQflvP7a8XCLkyBPImRM4DsttNZWk0UDGQ7HwJIWaEdowfOUhPLjwBkzsG9OdOs6YuzA9wD
+	H4eilhitVW5oZFb7+WTn9IJOCFAKgiFUeFt1bsfrX867pULAuPiRPvjjMJsSkF72skG0tLyoOoK
+	j3xNtTKOiB3DR7ESu940YYrwX9QDqh13xD0H9oGX+WotusBLnJnMsNax2DbL6PsVun1roTpaGd3
+	oHAoFAtSNhcvC9Z1UVz7YBE7i2zDs4+pnThG0jhp9awslA4kaP5dd6kK+K00CRXro9en2sKQ5dj
+	+qVxz6BZ8raE+KUAta5blt93LKrnJAvm/8lt58=
+X-Received: by 2002:a05:600c:3512:b0:495:573e:1c54 with SMTP id 5b1f17b1804b1-49800e93aecmr33126295e9.9.1785413965593;
+        Thu, 30 Jul 2026 05:19:25 -0700 (PDT)
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496fa4605c5sm134184455e9.1.2026.07.30.05.19.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 05:19:19 -0700 (PDT)
+Message-ID: <0be60525b600137c0f723c7faa7ab5c2f04934ae.camel@gmail.com>
+Subject: Re: [OE-core] [wrynose][PATCH] kernel-fit-image.bbclass: Do not
+ include kernel property in DTBO config subnodes
+From: adrian.freihofer@gmail.com
+To: Marek Vasut <marek.vasut@mailbox.org>, Yoann Congal
+ <yoann.congal@smile.fr>,  "Freihofer, Adrian"
+ <adrian.freihofer@siemens.com>, "openembedded-core@lists.openembedded.org"	
+ <openembedded-core@lists.openembedded.org>
+Cc: Ryan Eatmon <reatmon@ti.com>
+Date: Thu, 30 Jul 2026 14:19:17 +0200
+In-Reply-To: <2327c8bd-c465-43ad-bb56-ac571eadafc8@mailbox.org>
+References: <20260630074356.10265-1-marek.vasut@mailbox.org>
+	 <6fb0c748f9cbdeb15dc583483486e12af1c7f397.camel@siemens.com>
+	 <91b15fcf-715b-40cc-8f77-ff4571946725@mailbox.org>
+	 <DJO1RET2JWA2.2H0HY5TPUI2T5@smile.fr>
+	 <84bd480810d947c860b95c3cc10f66fced3cdedf.camel@gmail.com>
+	 <e4369955-eae6-4c45-b00c-01ca18d94fa2@mailbox.org>
+	 <2304e3c8-1b90-4bbf-8022-80f19d1447a7@mailbox.org>
+	 <DK3HZYI7OV4C.YF3JS912EHFG@smile.fr>
+	 <868f8648-d45f-4ba5-a6e5-7eb5fadb2516@mailbox.org>
+	 <a84070f4-290c-4ada-86ce-7f601bb8870b@mailbox.org>
+	 <DKBQEXTZ79PI.3DFEPYRHXLBNB@smile.fr>
+	 <2327c8bd-c465-43ad-bb56-ac571eadafc8@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-References: <20260730091017.171702-1-ecordonnier@snap.com> <20260730091017.171702-2-ecordonnier@snap.com>
- <69f5608c9989dbcf3ce0049b6770dd7407881bc6.camel@pbarker.dev>
-In-Reply-To: <69f5608c9989dbcf3ce0049b6770dd7407881bc6.camel@pbarker.dev>
-From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Thu, 30 Jul 2026 14:10:51 +0200
-X-Gm-Features: AUfX_mzhrG4c2PMw4MKJ1SKibCA_BKqBxyu2M-ixXpjlyi5HuptgcPF8bp-S7QA
-Message-ID: <CAHUKmYY1OHXROO5_DrHepHVkwqCECWgN2pZYcxZdwuKRf58VUQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2 2/2] opkg: enable sha256 checksum verification
- by default
-To: Paul Barker <paul@pbarker.dev>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000042179c0657d2f7e7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 12:11:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242344
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 12:19:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242345
 
---00000000000042179c0657d2f7e7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello Marek, hello Yoann
 
-hi Paul,
-I've already manually revised the commit message to include the relevant
-context justifying the increase in size of opkg. What should I remove?
+On Thu, 2026-07-30 at 13:52 +0200, Marek Vasut wrote:
+> On 7/30/26 9:36 AM, Yoann Congal wrote:
+>=20
+> Hello Yoann,
+>=20
+> > > > > > > [1] https://patchwork.yoctoproject.org/project/oe-core/
+> > > > > > > patch/20260704214812.365483-1-marek.vasut@mailbox.org/
+> > > > > > > [2] https://patchwork.yoctoproject.org/project/oe-core/
+> > > > > > > patch/20260630074356.10265-1-marek.vasut@mailbox.org/
+> > > > > > > [3] https://patchwork.yoctoproject.org/project/oe-core/
+> > > > > > > patch/20260630074423.10306-1-marek.vasut@mailbox.org/
+> > > > > >=20
+> > > > > > Do you think those three backports can be picked up for OE
+> > > > > > wrynose ?
+> > > > > >=20
+> > > > > > Thank you for your help !
+> > > > >=20
+> > > > > Sure! They even are in the branch I sent for review:
+> > > > > https://lore.kernel.org/all/cover.1784364567.git.yoann.congal@smi=
+le.fr/
+> > > >=20
+> > > > Oh, that's nice.
+> > > >=20
+> > > > > Following Paul's review, I will most likely hold it for one
+> > > > > cycle in
+> > > > > order to merge
+> > > > > the test at the same time.
+> > > > > See: https://lore.kernel.org/all/
+> > > > > c791b1b82e236039c614ab41402844c965fdc6c5.camel@pbarker.dev/
+> > >=20
+> > > Are there any news on getting the fitImage fixes into the wrynose
+> > > branch, is this still on your radar ?
+> > >=20
+> > > Thank you, and I'm sorry for the push.
+> >=20
+> > Hello,
+> >=20
+> > I don't mind the push, it's fair :)
+> >=20
+> > This series is still on my radar but blocked on a wrynose test
+> > patch:
+> > Basically this:
+> > https://lore.kernel.org/openembedded-core/20260706221933.4026508-2-reat=
+mon@ti.com/
+> > ... but backported to wrynose.
+> > Ryan was working on it but did not sent the patch, I don't know
+> > what
+> > happened.
+>=20
+> Do you think the fitImage fixes could be backported without the test=20
+> patch, or would that make some test suite fail? Please pardon my
+> ignorance.
+>=20
+> The fitimage fixes landed in oe-core master 6 weeks ago and they fix=20
+> fitImage usability issues which block me from updating to wrynose in=20
+> multiple projects, that's why I keep monitoring this thread so, but=20
+> again, please do not read this as a push.
 
- =C3=89tienne
+I think going with the four patches from
+https://lore.kernel.org/all/cover.1784364567.git.yoann.congal@smile.fr/
+without a fifth patch which adds test coverage for this fairly isolated
+detail is fine.
 
-On Thu, Jul 30, 2026 at 1:52=E2=80=AFPM Paul Barker <paul@pbarker.dev> wrot=
-e:
 
-> On Thu, 2026-07-30 at 11:10 +0200, Etienne Cordonnier via
-> lists.openembedded.org wrote:
-> > From: Etienne Cordonnier <ecordonnier@snap.com>
-> >
-> > WITH_SHA256=3DON adds no external dependency: sha256.c is a self-contai=
-ned
-> > 528-line pure C implementation already present in the source tree.
-> >
-> > oe-core already generates SHA256Sum fields in the Packages index
-> > (via --checksum sha256 in OpkgIndexer.write_index), but opkg silently
-> > ignores them unless compiled with WITH_SHA256=3DON.  Enabling sha256 by
-> > default makes those checksums actually verified at install time,
-> > improving package integrity checking at zero dependency cost.
-> >
-> > Once SHA256 is universally available, --checksum md5 can also be
-> > dropped from OpkgIndexer.write_index() -- MD5 is collision-prone and
-> > should not be relied upon for integrity checking -- completing the
-> > deprecation noted in
-> https://git.openembedded.org/openembedded-core/commit/?id=3De462f47489f35=
-902b6972f9837d9adfa542fc796
-> > (2019).
-> >
-> > AI-Generated: Claude Sonnet 4.6
-> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
->
-> Hi,
->
-> Claude likes to include irrelevant information in commit messages,
-> please re-write this one to focus on the relevant bits.
->
-> Otherwise this LGTM.
->
-> Best regards,
->
-> --
-> Paul Barker
->
->
+Important is: We need 4 not only 3 patches:
 
---00000000000042179c0657d2f7e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Adrian Freihofer (1):
+  oe-selftest: fitimage: Do not expect kernel property in DTBO config
+    subnodes
 
-<div dir=3D"ltr">hi Paul,<br>I&#39;ve already manually revised the commit m=
-essage to include the relevant context justifying the increase in size of o=
-pkg. What should I remove?<br><br>=C2=A0=C3=89tienne</div><br><div class=3D=
-"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Thu, Jul 30, 2026 at 1:52=E2=80=AFPM Paul Barker &lt;<a href=3D"mailto:pa=
-ul@pbarker.dev">paul@pbarker.dev</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On Thu, 2026-07-30 at 11:10 +0200, Etienne=
- Cordonnier via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> wrote:<br>
-&gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" t=
-arget=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; <br>
-&gt; WITH_SHA256=3DON adds no external dependency: sha256.c is a self-conta=
-ined<br>
-&gt; 528-line pure C implementation already present in the source tree.<br>
-&gt; <br>
-&gt; oe-core already generates SHA256Sum fields in the Packages index<br>
-&gt; (via --checksum sha256 in OpkgIndexer.write_index), but opkg silently<=
-br>
-&gt; ignores them unless compiled with WITH_SHA256=3DON.=C2=A0 Enabling sha=
-256 by<br>
-&gt; default makes those checksums actually verified at install time,<br>
-&gt; improving package integrity checking at zero dependency cost.<br>
-&gt; <br>
-&gt; Once SHA256 is universally available, --checksum md5 can also be<br>
-&gt; dropped from OpkgIndexer.write_index() -- MD5 is collision-prone and<b=
-r>
-&gt; should not be relied upon for integrity checking -- completing the<br>
-&gt; deprecation noted in <a href=3D"https://git.openembedded.org/openembed=
-ded-core/commit/?id=3De462f47489f35902b6972f9837d9adfa542fc796" rel=3D"nore=
-ferrer" target=3D"_blank">https://git.openembedded.org/openembedded-core/co=
-mmit/?id=3De462f47489f35902b6972f9837d9adfa542fc796</a><br>
-&gt; (2019).<br>
-&gt; <br>
-&gt; AI-Generated: Claude Sonnet 4.6<br>
-&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
-ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-<br>
-Hi,<br>
-<br>
-Claude likes to include irrelevant information in commit messages,<br>
-please re-write this one to focus on the relevant bits.<br>
-<br>
-Otherwise this LGTM.<br>
-<br>
-Best regards,<br>
-<br>
--- <br>
-Paul Barker<br>
-<br>
-</blockquote></div>
+Marek Vasut (2):
+  kernel-fit-image.bbclass: Do not include kernel property in DTBO
+    config subnodes
+  kernel-fit-image.bbclass: Fix operation with KERNEL_DTBVENDORED =3D "1"
 
---00000000000042179c0657d2f7e7--
+Ryan Eatmon (1):
+  kernel-fit-image: Add KERNEL_DTBVENDORED support for
+    FIT_CONF_DEFAULT_DTB
+
+
+And also important is: We need time for testing on master before back-
+porting to stable. Six weeks is probably enough. But the exact same
+pattern ended up with a broken stable branch maybe one year ago. And
+also this time there was a state on master which was at least
+incomplete (three instead of four patches). But still, I think this is
+ready for stable now.
+
+
+Regards,
+Adrian
+
+
 
