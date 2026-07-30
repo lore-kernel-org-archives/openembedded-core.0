@@ -1,178 +1,171 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE689C55167
-	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 23:02:35 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1650.1785452551350351742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FBE5C5516D
+	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 23:16:57 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.165.1785453413983907597
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 16:02:31 -0700
+ Thu, 30 Jul 2026 16:16:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=p5G3oBC/;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4954f5e8020so1198125e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 16:02:31 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=AganuiVs;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49800c6a846so1697825e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 16:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785452550; x=1786057350; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=m4fcJgSG8qPMb7/OZqNf/676+rN2ao4JUeOnnX+ckHg=;
-        b=p5G3oBC/JckOZDSRSJvboFOQ7Q81sPef/T41MdTyuoB6DuhTVW1kOu60eefmVMFBa+
-         BBdM8loOhqXyqmcsEp5mDNlVRf8BepuIV5slWgwlw7yrqoy6rTVeDgGEHulXHYE+5QkJ
-         W2hgYoOwQ8WaNFaErbRGUWjYqp4AMd7CATxg2KYXtS/AW4sVyr9//wDezMsvAa+A6hIF
-         jX3YmVb7EuQMKIOaKCXmkwbDAVsJ5/6wupP62GKgbi00xUX1d1NFxNQk7P6p2Pvglt3D
-         OMwV3yr7a4531HiJ+AIdHecGCZqTVeqVuSbqvuRj9WjbIz4pXesJf1cctWLPrL+b5tBm
-         wxag==
+        d=smile.fr; s=google; t=1785453412; x=1786058212; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=A+nEnqi5z4PbqdCciUaUJ6Gv4lH4n6mk+yjWjAFyHV0=;
+        b=AganuiVsRonRrNMGJ2462Rc+6XDTQYfZr06kIvCvAVWdYi2Mj0zEpz1PGmeV6W1F7s
+         JMAp4fx/tTGzlbq2cJ+O6UM+G+UCcsCcVb6kpg3G5XxB+mIVh37W/MkFypQ9Uu/8DepR
+         ZPe3en/ZXYqMej54+K2CJR9c8quBfar3muwJE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785452550; x=1786057350;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m4fcJgSG8qPMb7/OZqNf/676+rN2ao4JUeOnnX+ckHg=;
-        b=J7ka9HgF3B1ZDHryA7GsxR0YfeMFC9V38oEFwKQFhRuB3P1WkUuVLQRt9sGiexG6jm
-         Wqv0VJy535k+XMwZKJRu0RPnN2eSjc0vw6RVYJOcOM9jmchHRYCW5CY+1lEX18FkmjUV
-         jqoYyj/dBVAHHlYDOP7eeS39EcbizBVuHAyJ68xbgOmsn+WErFSP9xx6YMiyiNYq0IFt
-         9zM/woaHEX/IuzWXCl43KfP9quoV6FrLAgapAZ6bcZyCbz6XPZVU6U5aRht16s8Pwuii
-         VeRU1b795/twm3SSDuegWbPQ1FAhlb7lzr1Up/OZJ1zfo1tqoZRauKwOXirGGXijtlX0
-         fN2g==
-X-Forwarded-Encrypted: i=1; AHgh+RqNmngu5R0MLS7MQtNyAgrPKxD0+qBW5e7tABI6yZxfwsTq4PqCbas3oTgP79Uy6ERkbcJ8CwG7JK38aWfGQIaaKQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yykv6k4fW/8SI1Y9e3qoR4N7oeTGh2xcDGRrzlE6H4O3sTd9kTz
-	ObOoRNmlVJWzcjtfv/ONeIboyA+lPy5pBSPMh5E0oaUeYyJYkxOmz8pG
-X-Gm-Gg: AR+sD11yk6SAoVrgfQFMecyTGsKS3e3QXwcByt3Ldnn3zhBAjtAB+K9RXYRD54tROjg
-	NC1ebYimH5fQGg5p+6ClLX/qzrXdUiYsbDJxG6TgOTuZ2TnnjuAdBcBYL01lP+LLRrj4VK0x3RA
-	KqxRQmlq0VcO9+tHUnwBYfTD+/ClN2BerXT5f5GUgLj4UqdDX+alo/dYJ2ajNBWIYEZbI7f1t5+
-	SZyTUCern93duqqC7AN6lwIKp16fOAhCsAhxnvPXVE2WVG7N0n9DLsp8lxIVpz5G0REklNA/KAT
-	hpQHAerB1MFFKzSh109zEYiYgeuRXvsMcOlrYz5YeGpnuGlv5CXLbatjS3qdQRNU3kmWnkwlPo/
-	rEQI5kX5gCqNPQVtCoG4Qc+d5a0y/nON8619BgDigoaeI8z46qfmj02yogpYYSUag891st2XgJf
-	PwL2zn0odcW+bTNn+vmE2uJwm1IWb1RxbmKE8hAp0k2AHEt8zIW1AaE/DGuGMOsqT1fARBzc1PN
-	RP0qth/0VWDyKGRt0o0ZLW9d4PHWjoSjs41UPzOze1g6uG5
-X-Received: by 2002:a05:600c:358e:b0:495:3fe1:4ce4 with SMTP id 5b1f17b1804b1-49800eaa1fdmr66464715e9.26.1785452549332;
-        Thu, 30 Jul 2026 16:02:29 -0700 (PDT)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fc892cc2esm9281141f8f.19.2026.07.30.16.02.28
+        d=1e100.net; s=20251104; t=1785453412; x=1786058212;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=A+nEnqi5z4PbqdCciUaUJ6Gv4lH4n6mk+yjWjAFyHV0=;
+        b=ltBy7HBahHHc0fthbValjoStImfKNMmcElmW4W+lZhaaBQlg8FzWN5Q7nw9cni2P4q
+         BVPgvrlgURvWgwjKOwmdU6j110tOSgDjB1gQ+nIWHA5gkRESFJo2zbnCnIJZlH/Hsxsa
+         Lr3QECNI4mmumvt0QBM2HA/XazTnowqpT6+uuopAQJsSyzW8MFFMSoxIqSQsL6mX9Ab3
+         zjZHP9Asp+rO5sRQE0aVVJdK3j8IERpuqYao04zmhsQ1AozRHFF/Xp5aQuNk5aI08UkX
+         3FudJEVaKfCrwZ6Kmbxwhk0h7CTDMj6+I0d1bQJkJTLT3f81TxTZlt9C+AfGqk8TTOZQ
+         mcJw==
+X-Gm-Message-State: AOJu0YysK2Tk0uHjngZkafgT7Q07s+1X4xqBsvRXtxBeooaanozAarB3
+	JWTyLhYnZFt90HC/LDZgS0yEL8lqwon9jOu/EEKKQNVWmlMVMxdRzE02oXqDTQ4fQhWne1SMbBE
+	gTemVP00=
+X-Gm-Gg: AR+sD10n3BoWUZClI93lmSb6aCZ0/lmPSnJ+1ql7X6K3V5UQJHnTZniNRcuze4Ry2Lb
+	Y20jX6AOtO+y38CwQ1sxwmkQwDZJU73/OpUljmIKJcTxyHs4ku73G/NxumW38vqsX02l0IZP+DI
+	VvG2r1VDWwV5HASGmnI7TenP00YjmuR5MRcvyi6sFakaHqe3Kso3cJZ3H3mecUZdddn6YFpRc1h
+	Kujc6D0Q8N3G+og25i9MPCmtveIuqIsgWCFb/4HKy6NXYbMPJLEK6zYkO8ucQmcS5pVz4sGmCx2
+	ICXBy9fKxadybd2AQsaq7K5nrmgx4JDm7ms8fdagzyfo+qAtcVKqzZeOYpc/tbaq2wwZyg38Siw
+	vXs1ba3DHkw8m7z4mAURlZ6DLzHzML9me8MjHWokFNuKGN1I1+M+qT7BczrASamPJJZ07/7PAOq
+	R7Z4GACEC/LYWSBa8B9258fUA10OZ2M2wddiVNTnnAHAlhXfwzY2DOERkJbsZBTI4Ae/EQFAiWc
+	NXuwyFIAogC+j173muGmfafGAnT7HdY6W7UHnDCzMDpnrsbjrupTt0Wg9UJWN6K
+X-Received: by 2002:a05:600c:6305:b0:496:bba5:33a8 with SMTP id 5b1f17b1804b1-49800eb9dd7mr67734065e9.33.1785453412191;
+        Thu, 30 Jul 2026 16:16:52 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-498062fb5a1sm6423525e9.3.2026.07.30.16.16.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 16:02:28 -0700 (PDT)
-Message-ID: <f864f675c915f6af5e922c1be5f893301dba222a.camel@gmail.com>
-Subject: Re: [OE-core][wrynose 05/17] kernel-fit-image: Add
- KERNEL_DTBVENDORED support for FIT_CONF_DEFAULT_DTB
-From: adrian.freihofer@gmail.com
-To: reatmon@ti.com, "Freihofer, Adrian" <adrian.freihofer@siemens.com>, 
- "yoann.congal@smile.fr"
-	 <yoann.congal@smile.fr>, Paul Barker <paul@pbarker.dev>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Jul 2026 01:02:28 +0200
-In-Reply-To: <201b14d0-56e6-4076-834f-b939cd64a4b7@ti.com>
-References: <cover.1784364567.git.yoann.congal@smile.fr>
-	 <1b6dd4f66b2f4c1a12791a1db3a53729ce043fd0.1784364567.git.yoann.congal@smile.fr>
-	 <c791b1b82e236039c614ab41402844c965fdc6c5.camel@pbarker.dev>
-	 <DK3HWGV0JCOP.14DJEFKWLP67L@smile.fr> <DK3I8NXUCRHK.C3U8MB8K4NZV@smile.fr>
-	 <df0810bd8195bed1f754fb754f94eb64133491e6.camel@siemens.com>
-	 <201b14d0-56e6-4076-834f-b939cd64a4b7@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+        Thu, 30 Jul 2026 16:16:51 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][kirkstone 1/2] cve_check: Use a local copy of the database during builds
+Date: Fri, 31 Jul 2026 01:16:22 +0200
+Message-ID: <d7f74cd94e4916e4d93252328f8484d13a877554.1785450470.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1785450470.git.yoann.congal@smile.fr>
+References: <cover.1785450470.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 23:02:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242381
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 23:16:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242383
 
-On Thu, 2026-07-30 at 09:59 -0500, Ryan Eatmon via
-lists.openembedded.org wrote:
->=20
->=20
-> On 7/20/2026 12:11 PM, Freihofer, Adrian wrote:
-> >=20
-> > Hi Yoann
-> >=20
-> > Just a confirmation from my side: Taking the 4 patches is the best
-> > we
-> > can do. Considering them as a series of bug fixes is right. Getting
-> > the
-> > test back-ported is of course nice to have.
-> >=20
-> > Regards
-> > Adrian
->=20
->=20
-> Backporting the test will be challenging as I built the test on top
-> of=20
-> the 7 patch series from you that overhauled a lot of the fitImage
-> testing.
->=20
-> https://lore.kernel.org/openembedded-core/20260619112046.125876-1-adrian.=
-freihofer@siemens.com/
-> https://lore.kernel.org/openembedded-core/20260619112046.125876-2-adrian.=
-freihofer@siemens.com/
-> https://lore.kernel.org/openembedded-core/20260619112046.125876-3-adrian.=
-freihofer@siemens.com/
-> https://lore.kernel.org/openembedded-core/20260619112046.125876-4-adrian.=
-freihofer@siemens.com/
-> https://lore.kernel.org/openembedded-core/20260619112046.125876-5-adrian.=
-freihofer@siemens.com/
-> https://lore.kernel.org/openembedded-core/20260619112046.125876-7-adrian.=
-freihofer@siemens.com/
->=20
-> That means that my backport would need to be making a bunch of
-> changes=20
-> that these patches may have done.=C2=A0 I can do that, if everyone wants
-> me=20
-> to.=C2=A0 I know specifically that this patch is a big one that mine is=
-=20
-> making use of:
->=20
-> https://git.openembedded.org/openembedded-core/commit/meta/lib/oeqa/selft=
-est/cases/fitimage.py?id=3D4b08cf6048b6575c39aa9b3bea282cdeae228e8a
->=20
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I agree that this is not very easy. It would require a pretty wrynose
-specific patch. This is also sort of developing on stable.
+Rtaher than trying to use a sqlite database over NFS from DL_DIR, work from
+a local copy in STAGING DIR after fetching.
 
-On the existing tests on wrynose there is coverage for
-FIT_CONF_DEFAULT_DTB for DTB names without a path. Since the beaglebone
-is the reference, there is only
-FIT_CONF_DEFAULT_DTB =3D "am335x-bonegreen.dtb"
-https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/selftest/=
-cases/fitimage.py?h=3Dwrynose#n983
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 03596904392d257572a905a182b92c780d636744)
+[YC: Fixing [YOCTO #15660] ]
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/classes/cve-check.bbclass                 |  7 ++++---
+ .../meta/cve-update-nvd2-native.bb             | 18 +++++++++++++-----
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
-Adding test coverage on master is much simpler because there we can
-also find a reference machine with a default DTB like "arm/foundation-
-v8.dtb"
-https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/selftest/=
-cases/fitimage.py#n120
-
-@Yoann: The missing detail is test coverage for default DTBs with a
-directory in the name. All the rest seems to be covered by the existing
-tests.
-
-Alternative would be to go with only three patches. From a users
-perspective that would mean a breaking change with FIT_CONF_DEFAULT_DTB
-when updating from wrynose to a later version. With the four patches it
-will be future proof from now onward.
-
-So my opinion is: Let's go with four patches and 99% coverage for
-wrynose. That's good enough.
-
-Regards,
-Adrian
-
-> > >=20
-> > >=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#242366):
-> https://lists.openembedded.org/g/openembedded-core/message/242366
-> Mute This Topic: https://lists.openembedded.org/mt/120329199/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 5e6bae17570..19d7ef5d852 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -25,8 +25,9 @@
+ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
+ 
+-CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
++CVE_CHECK_DB_FILENAME ?= "nvdcve_2.db"
++CVE_CHECK_DB_DIR ?= "${STAGING_DIR}/CVE_CHECK"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
+ CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
+ 
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+@@ -156,7 +157,7 @@ python do_cve_check () {
+ }
+ 
+ addtask cve_check before do_build
+-do_cve_check[depends] = "cve-update-nvd2-native:do_fetch"
++do_cve_check[depends] = "cve-update-nvd2-native:do_unpack"
+ do_cve_check[nostamp] = "1"
+ 
+ python cve_check_cleanup () {
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 1a3eeba6d0c..4f96883beba 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -8,7 +8,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ inherit native
+ 
+-deltask do_unpack
+ deltask do_patch
+ deltask do_configure
+ deltask do_compile
+@@ -35,7 +34,9 @@ CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
+ # Number of attempts for each http query to nvd server before giving up
+ CVE_DB_UPDATE_ATTEMPTS ?= "5"
+ 
+-CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
++CVE_CHECK_DB_DLDIR_FILE ?= "${DL_DIR}/CVE_CHECK/${CVE_CHECK_DB_FILENAME}"
++CVE_CHECK_DB_DLDIR_LOCK ?= "${CVE_CHECK_DB_DLDIR_FILE}.lock"
++CVE_CHECK_DB_TEMP_FILE ?= "${CVE_CHECK_DB_FILE}.tmp"
+ 
+ python () {
+     if not bb.data.inherits_class("cve-check", d):
+@@ -52,9 +53,9 @@ python do_fetch() {
+ 
+     bb.utils.export_proxies(d)
+ 
+-    db_file = d.getVar("CVE_CHECK_DB_FILE")
++    db_file = d.getVar("CVE_CHECK_DB_DLDIR_FILE")
+     db_dir = os.path.dirname(db_file)
+-    db_tmp_file = d.getVar("CVE_DB_TEMP_FILE")
++    db_tmp_file = d.getVar("CVE_CHECK_DB_TEMP_FILE")
+ 
+     cleanup_db_download(db_file, db_tmp_file)
+     # By default let's update the whole database (since time 0)
+@@ -77,6 +78,7 @@ python do_fetch() {
+         pass
+ 
+     bb.utils.mkdirhier(db_dir)
++    bb.utils.mkdirhier(os.path.dirname(db_tmp_file))
+     if os.path.exists(db_file):
+         shutil.copy2(db_file, db_tmp_file)
+ 
+@@ -89,10 +91,16 @@ python do_fetch() {
+         os.remove(db_tmp_file)
+ }
+ 
+-do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
++do_fetch[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK}"
+ do_fetch[file-checksums] = ""
+ do_fetch[vardeps] = ""
+ 
++python do_unpack() {
++    import shutil
++    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"), d.getVar("CVE_CHECK_DB_FILE"))
++}
++do_unpack[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK} ${CVE_CHECK_DB_FILE_LOCK}"
++
+ def cleanup_db_download(db_file, db_tmp_file):
+     """
+     Cleanup the download space from possible failed downloads
 
