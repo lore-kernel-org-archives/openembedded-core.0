@@ -1,163 +1,160 @@
-Return-Path: <nora.schiffer@ew.tq-group.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D97B7C55160
-	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 11:15:14 +0000 (UTC)
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9291.1785410105517493039
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F62C55160
+	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 11:48:26 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9666.1785412098142007300
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 04:15:06 -0700
+ Thu, 30 Jul 2026 04:48:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ew.tq-group.com header.s=default2602 header.b=loPHpAd5;
- spf=pass (domain: ew.tq-group.com, ip: 188.40.3.216, mailfrom: nora.schiffer@ew.tq-group.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=oGEIzBAgcjxAoqpGlLJ1Axho1LCCE0lcTSr+eiH1eb8=; b=loPHpAd5trywseE/svHmPBjFFU
-	VPZspqYwZAUbQ2MiFM97gqrkYLdY9VL0zv3YHyn4WF9hBFqBOYpZTf+YUXFrDLR4+cmi7/q8qUkRy
-	LsjzJTxuKZQTOlTksr8PnOywqZ9gm4wqWgtgpfdpqOjxkQMlzo1PncIzij2vk7dzQSaQxVkMJHt2+
-	fCJVZmGa+Fne0jw1LVEGV4HvG5H6fXFXdCHZMzLntISfJqeynThdBLlFEaxruj3BJMp3aUgjeQd7X
-	izsv4eXQ2XTBEy8axXApWBjv6PRTbAyVt1bs9heV5UXLMqxpOcGEhe+sgYxE2vEexO28zZ8jt3QG1
-	Ufh0lvPw==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wpOj9-000P4H-0M;
-	Thu, 30 Jul 2026 13:15:03 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <nora.schiffer@ew.tq-group.com>)
-	id 1wpOj8-000Av3-2s;
-	Thu, 30 Jul 2026 13:15:02 +0200
-Message-ID: <b0b1e1501a23b315704c5a6ef99a2c826408a56c.camel@ew.tq-group.com>
-Subject: Re: [OE-core] [PATCH v2 1/3] kernel-uboot: move FIT_KERNEL_COMP_ALG
- to image-fitimage.conf
-From: Nora Schiffer <nora.schiffer@ew.tq-group.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Cc: oss@ew.tq-group.com
-Date: Thu, 30 Jul 2026 13:15:02 +0200
-In-Reply-To: <f0ab7f4d7d6c72feb2b1b8122a4434db98799370.camel@linuxfoundation.org>
-References: <20260727090601.489155-1-nora.schiffer@ew.tq-group.com>
-	 <20260727090601.489155-2-nora.schiffer@ew.tq-group.com>
-	 <f0ab7f4d7d6c72feb2b1b8122a4434db98799370.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=j2O5gV7X;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5276d598b96so11093021cf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 04:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785412097; x=1786016897; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TfiwlGbmtHAGVri+MdbNk+q8/38qxMTOWSF/jXHSjEU=;
+        b=j2O5gV7X7X+FGvUOZZjBbE4OxD76jjhXOAZ/FwrYPODuGxaUGZ0TtcRs6IHbQWW2z9
+         LOZg1QTG8h4LgXwTboIewqHOdZ8rS830GAWmsry4YdXtDicnfDu4sIeytp3Giy084xkC
+         hl/EEyNOMkZvWdEvlaKTSXmzBJPF7OZZHR0hbBJmiF0momKxAeKQgmgxqp+9GmwMtoik
+         wxVpWAyUicKcgl8yxmLHjl97Ls7Na0M2y8H40ZjRL2UdORekEQrf74OjSwzy1ttC/ynZ
+         RFyi3vxPTiDEO9Ns5qru/Ql5WotSLT+T6Zne+0EPkRAJq1SRHeEknVxLNPG88qQp6YI2
+         TyjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785412097; x=1786016897;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TfiwlGbmtHAGVri+MdbNk+q8/38qxMTOWSF/jXHSjEU=;
+        b=bT6DJbWMe4A8l4RbBteK/bcNVk2xlvTrhtL1aWiQU6/oRzQk5rWO70E4JljkiteCZ+
+         CDfb2oZfwZMNJBo3t69ZFezVq0q0sbXF8q/SBCu6Nw2oY4EYH4d2MLCB5wO+T9iF5SAk
+         NxDXs/Z3Yv5d6JEfl9Abgid5ARFNZ+1Yk4q3AlGAgm1zipQBb2i5FbVKS6G1TYhs+M50
+         Dnbj6f+ut2ZsI1mNDJxZ9I/EI+fyYhHZ6B6mcNwg/KUKx3Gcw1gySFWN10FAbHWU9YNr
+         DDGwzQcfenGAH+SvtduNFywaX1qDu4lJfUGj1ePu8feTzV3/jnhVPsW/ERlDW0pEytvb
+         NbXQ==
+X-Gm-Message-State: AOJu0YzX1UzlJjVSF/KwmYmvIhQ76n89++c9C8fIsjfqJMDQD8xOQF1G
+	fhVbn3w5Otoda9tPqRAO40zAN2xcPOp3VTKnmXEc9Za3BDk500XeQ/yf
+X-Gm-Gg: AR+sD120yz948F204FNCL8UNmuvvUTx9RbuKN/kLY9wzFo3b/Ka4DyIzH1HpL/yft5F
+	TR2B2/ly6izYiu77xne6zi4GJHSzvEzAkPF/M790Wa2QN4H9aVZur2Z938nOGrS3RQVFTG0oLqH
+	DJQNDlJ9aM8Yqo8c8vondbwCwUpGw05lPwDj2KnztUPdIc72VewQ/MXpWaSMNZZacbpIuTklRPz
+	8J6InUKMRY0RIhH6Fxs/YitCniNryqrxGzZtcE2j5MoHBJ0uBinOJKmSsFKs8g8KslAHALOS1mL
+	LCD795Pezt4SrHPq/2TniTSON843u+HBI8y/GAQzrlDkG/q0kaYFRgicTSfMm3KEqRGZF1Zifhg
+	37lBCExwUcBfshQCKC9txihTBuG+gcE2Z2eoZM0Dzx2wMpytYZWQJ89dXPAVZbamoxDA0/Ky9U7
+	nzdYMmsDkAY6uc8/oZh6R7gAsv5ZeW2yZaXSH8zTk8WQ8nxJ1WEljctuXGNtjzeq38csRNgK7FD
+	txphGj23lhcnAGcFDRNEw9yF9uRA14=
+X-Received: by 2002:a05:622a:5c15:b0:521:5c5:f986 with SMTP id d75a77b69052e-52b384c918dmr22519181cf.33.1785412096942;
+        Thu, 30 Jul 2026 04:48:16 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-529e2dd8ac8sm38837841cf.25.2026.07.30.04.48.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 04:48:15 -0700 (PDT)
+Date: Thu, 30 Jul 2026 07:48:13 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v4 06/10] nativesdk-packagegroup-sdk-host: add
+ wic to SDK_FEATURES
+Message-ID: <ams5_Qwxn95WDGXd@localhost.localdomain>
+References: <20260724090146.19924-1-twoerner@gmail.com>
+ <20260724090146.19924-7-twoerner@gmail.com>
+ <76897f53eff588bb67e0e5f0b04dac7be6fa0ac2.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28077/Thu Jul 30 08:24:42 2026)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <76897f53eff588bb67e0e5f0b04dac7be6fa0ac2.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 11:15:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242339
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 11:48:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242340
 
-On Thu, 2026-07-30 at 11:43 +0100, Richard Purdie wrote:
-> On Mon, 2026-07-27 at 11:05 +0200, Nora Schiffer via lists.openembedded.o=
-rg wrote:
-> > It is a bit weird that FIT_KERNEL_COMP_ALG also affects uImage creation=
-,
-> > as kernel-uboot.bbclass is used for both, but fixing that would
-> > unnecessarily break backwards compatibility.
-> >=20
-> > Signed-off-by: Nora Schiffer <nora.schiffer@ew.tq-group.com>
+On Thu 2026-07-30 @ 11:40:13 AM, Richard Purdie wrote:
+> Hi Trevor,
+> 
+> Firstly, thanks for the patches, this is the right general direction
+> but we need to get the details right and I think there are a few tweaks
+> needed to make this as usable as we need it.
+> 
+> In 5/10 you introduce SDK_FEATURES and document it as behaving as
+> IMAGE_FEATURES, bit as implemented below, it wouldn't.
+> 
+> [cont. below]
+> 
+> On Fri, 2026-07-24 at 05:01 -0400, Trevor Woerner via lists.openembedded.org wrote:
+> > wic is useful from an installed SDK for assembling or inspecting a wic
+> > image, but adding it is not free: nativesdk-wic pulls in the tools it
+> > runs (parted, gptfdisk, dosfstools, mtools, bmaptool, grub, btrfs-tools,
+> > squashfs-tools, e2fsprogs, util-linux, tar, erofs-utils, and syslinux on
+> > x86). Most SDKs do not need any of that, so wic should not be in the
+> > host packagegroup unconditionally.
+> > 
+> > Gate wic in the host packagegroup on the "wic" SDK feature, which is not
+> > enabled by default. A configuration that wants wic in its SDK adds the
+> > "wic" feature to SDK_FEATURES and gets a working wic, together with the
+> > tools it invokes, in the SDK.
+> > 
+> > AI-Generated: codex/claude-opus 4.8 (xhigh)
+> > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 > > ---
-> > =C2=A0meta/classes-recipe/kernel-uboot.bbclass | 3 +--
-> > =C2=A0meta/conf/image-fitimage.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 +++
-> > =C2=A02 files changed, 4 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-re=
-cipe/kernel-uboot.bbclass
-> > index fa28be1715..9beccc2dff 100644
-> > --- a/meta/classes-recipe/kernel-uboot.bbclass
-> > +++ b/meta/classes-recipe/kernel-uboot.bbclass
-> > @@ -4,8 +4,7 @@
-> > =C2=A0# SPDX-License-Identifier: MIT
-> > =C2=A0#
-> > =C2=A0
-> > -# fitImage kernel compression algorithm
-> > -FIT_KERNEL_COMP_ALG ?=3D "gzip"
-> > +require conf/image-fitimage.conf
-> > =C2=A0
-> > =C2=A0# Kernel image type passed to mkimage (i.e. kernel kernel_noload.=
-..)
-> > =C2=A0UBOOT_MKIMAGE_KERNEL_TYPE ?=3D "kernel"
-> > diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.c=
-onf
-> > index a06d30e494..abb17186a5 100644
-> > --- a/meta/conf/image-fitimage.conf
-> > +++ b/meta/conf/image-fitimage.conf
-> > @@ -48,6 +48,9 @@ FIT_OS ?=3D "linux"
-> > =C2=A0# DTBs are provided separately in a FIT image.
-> > =C2=A0FIT_LINUX_BIN ?=3D "linux.bin"
-> > =C2=A0
-> > +# fitImage kernel compression algorithm
-> > +FIT_KERNEL_COMP_ALG ?=3D "gzip"
-> > +
-> > =C2=A0# Additional mkimage options for FIT image creation
-> > =C2=A0FIT_MKIMAGE_EXTRA_OPTS ?=3D ""
-> >=20
->=20
-> We're realising that the kernel classes are a bit of a tangled spiders
-> web and we want to improve things and clean things up.
->=20
-> Adding a dependency on "fit" from the "uboot" class does therefore feed
-> a bit backward as you note.
->=20
-> You mention not breaking backwards compatibility. I think given the
-> other work we're thinking about, it might be worth considering that and
-> seeing if we can avoid tangling things up even further.
->=20
+> > changes in v4:
+> > - split out from the v3 "add wic via a new SDK_FEATURES lever" patch:
+> >   this patch now only wires wic to the "wic" SDK feature
+> > ---
+> >  .../packagegroups/nativesdk-packagegroup-sdk-host.bb             | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> > index 51e48f250b19..c2974a57fe3e 100644
+> > --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> > +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> > @@ -29,6 +29,7 @@ RDEPENDS:${PN} = "\
+> >      nativesdk-bison \
+> >      nativesdk-flex \
+> >      nativesdk-perl-module-integer \
+> > +    ${@bb.utils.contains('SDK_FEATURES', 'wic', 'nativesdk-wic', '', d)} \
+> >     "
+> 
+> This means that the recipe/package would rebuild every time you change
+> SDK_FEATURES. IMAGE_FEATURES can be set per image recipe, this would
+> mean SDK_FEATURES can be set once, globally.
+> 
+> This is why SDK_TOOLCHAIN_LANGS is handled at the class level in
+> populate_sdk_base.bbclass. It looks for values and pulls in a
+> packagegroup for a given feature. You can then change the langs on a
+> per sdk basis.
+> 
+> Instead of the above, you could add:
+> 
+>   ${@bb.utils.contains('SDK_FEATURES', 'wic', 'nativesdk-wic', '', d)} 
+> 
+> there, probably for TOOLCHAIN_HOST_TASK.
+> 
+> Generally we'd create a packagegroup if there are multiple items being
+> gated on a config. wic is probably fine, sbom might need a
+> packagegroup.
+> 
+> Other feedback on the series:
+> 
+> * patch 5/10 should have a subject prefix of bitbake.conf as 
+>   it doesn't touch nativesdk-packagegroup-sdk-host
+> 
+> * We need to migrate SDK_TOOLCHAIN_LANGS to SDK_FEATURES, 
+>   probably using BB_RENAMED_VARIABLES
+> 
+> 
+> Are these tweaks you're ok to make?
+
+Yes, absolutely! Thanks for the feedback; much appreciated.
+
 > Cheers,
->=20
+> 
 > Richard
-
-Okay, new plan: Change uboot_prep_kimage to accept the compression algorith=
-m as
-an argument, so we can use different variables when calling it from kernel-
-uimage.bbclass and kernel-fit-extra-artifacts.bbclass. kernel-uimage.bbclas=
-s
-could then use a separate variable UBOOT_MKIMAGE_KERNEL_COMP_ALG instead of
-reusing the FIT one.
-
-A more radical approach would be to skip the deprecation of using a linux.b=
-in
-generated by the kernel recipe as a FIT image's kernel and drop support
-immediately. This would result in kernel-fit-extra-artifacts.bbclass not ne=
-eding
-kernel-uboot.bbclass anymore, and maybe kernel-fit-extra-artifacts.bbclass =
-could
-then be dropped in favor of listing setup.bin in KERNEL_IMAGETYPES if it is
-needed.
-
-I'm a bit worried doing all that at once might cause too much breakage, and=
- I
-think an incremental approach with deprecation warnings works fine here, bu=
-t of
-course that also depends on the other work you want to do.
-
-Let me know which direction you prefer for the next iteration of these patc=
-hes.
-
-Best,
-Nora
-
-
-
->=20
->=20
-
---=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-https://www.tq-group.com/
+> 
 
