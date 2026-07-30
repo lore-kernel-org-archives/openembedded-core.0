@@ -2,73 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CAA5C55162
-	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 11:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CAEDC55160
+	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 11:52:36 +0000 (UTC)
 Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9901.1785412275156839587
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9930.1785412349444853907
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 04:51:15 -0700
+ Thu, 30 Jul 2026 04:52:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=a9kRCXUI;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=oZCvUZua;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=eo5j5QVU;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=JKI9wB5i;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.153, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 2796E14000E0;
-	Thu, 30 Jul 2026 07:51:14 -0400 (EDT)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C3AC514000F7;
+	Thu, 30 Jul 2026 07:52:28 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Thu, 30 Jul 2026 07:51:14 -0400
+  by phl-compute-05.internal (MEProxy); Thu, 30 Jul 2026 07:52:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1785412274; x=1785498674; bh=yIJ1x3Ckqh
-	SQADMeE43hpIEcY4gTMJ42YNPq35e8fH0=; b=a9kRCXUIwWI7cSwISlAhOyngf3
-	FnED7EgJPklufkrZSyWY1oLUfMa/CJy/LBDd/GTOZwngTE0IogIDBOhpX/dZeZBB
-	41gIo37UU1qAcbu7qwan69/Nm49haHW3mGGcxKRbfBh+fxPzRz0kdLR2nhQijF5H
-	OYGd0AHZR09QRQ/+TDsaN15OCPV4pAR6UpT3e6ZUMWMJuNOii4f7Xf06eJT7fv8c
-	X52teCv/tXNodTOPUUdwdzaQOdNYTEhQuHjKlOlCrlYJu3dEjTG1NLZR6GUwI3kA
-	xKqjAPfV2KQEPWVVW+dd24ZQnxB2lhX93YGnNfphnVHU3niXALiZnwMwgRzA==
+	:subject:to:to; s=fm1; t=1785412348; x=1785498748; bh=yS3aNPCzHU
+	XGCnr47KORd2Q9mSguYBwldSdGpcN0Pcg=; b=eo5j5QVUUAkFxKoBRxuhCiirzn
+	WCmC7IrOIwqUJiRm5qt6zx00Pu0w4DnhxAWscJqwC3dkEyH5/BDHiHtc88nf5BWb
+	uQeLA3L3fwjWc0Dp9T38WtHzzur1YiYb+aqHdgm7gEWwSquMnjkjlwuqwrozAEln
+	2pZFfcN+f1xBeQ5gtsb+aSpnr+EzF5S2aduo/ldviDXAhjDQX4ZkRVWTHABu6qBV
+	wnfCly8tfHhT1nzHO1eaZZ37MgBljLrIFuTy/lvmWfFRr3pifgRHLFnLln7eU/Z4
+	pRwcLktPmVT3vRXpCBNM/3kFn6GY6fxqV+IQPeg55xL/v4foGQyzKuItUs3w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1785412274; x=1785498674; bh=yIJ1x3CkqhSQADMeE43hpIEcY4gTMJ42YNP
-	q35e8fH0=; b=oZCvUZuaTNM6eFX89i98HsIVwcMQUv7G6dADs6RAUC93169H5VW
-	UN5V+xnBOToQOQ3H8dEJ53/wzw6+Yg2whJrw+a58uZXVqVtvpEmrZztEAqLrDveS
-	L+qCbfwFvG9Qrm/rukNAQUb4H7rFlwOhFDNx7mKLrnVAYwYjd2TxylApgiIjypRd
-	ZZ86EIeFipqpzcEkXUmujXPE7Sp2AcEx17nD+hwWT07VQ99tJ1E4LbOA4ksLNk6h
-	wMHOxN8iuNXg89CeJgx9sVCqQV8tNKAWmnumNnGWFSOmtGTedriX6TY9JQflj4ke
-	RhyWiw/zxktcSG6P31IAFhPl0I504ak8rhw==
-X-ME-Sender: <xms:sTpragbwz8rA7dBmBhPa_cnUiZEvMrvEexGap0hcLEL9x54aCe21MA>
-    <xme:sTprahY2Sn4rIBjzgfqO9mlPcdsGcnHS1PJZBSr5GGx5b-K2MKh-0vpB2iTyksBKl
-    t-yc4eA5nNx2f_cYI5u-cTDfjWfo_XkcZCJ9pYvn7-JGw35JnbLOg>
-X-ME-Received: <xmr:sTpraonBwZanFh1DeqzaP3WKSgjspcXGU7V9fP0J01CWE0PTfp6QwEwpDdqlLD2NSRbhghFHycT2Ij_wPBngYyOiqXsEmJmyEMLBit3eLRzu>
+	1785412348; x=1785498748; bh=yS3aNPCzHUXGCnr47KORd2Q9mSguYBwldSd
+	GpcN0Pcg=; b=JKI9wB5i2IXxm6HbxTZiUtsa1lhikYjCScdONW+nSL8iDRpvyoe
+	RYpOP5YUNgwxupOb5ixt23jDltPGgotMRhpvPMAak9SlcR3St5KM8SNtpvBtP6E/
+	USpRnVjFstD9w/skNR3pHbf0jy6CuYWmTQMBiofNZAQASJs0rM5FR6VFUODKPsiy
+	QmfccsQVBAqjMP/54j/T3vgMrXX/OGeAfBDRJvyve8yPJCwLdUy6WQaqsKphUftD
+	rqvfS+X+sTKTpkTICTGp8EocAqLZxVsZtcgKFNuPj1AZ966DDQtaXtqp6lFtxa5J
+	vy+OLG2mH/vGPLWSvMcKOxNIZjYdo1QBgkw==
+X-ME-Sender: <xms:_DpraoeSediw9zK0_CXb1Is6DJ4831uu3i6YwUDc4JDltBsoAwlTGA>
+    <xme:_DpragNNcGRDeziKyD6GBrvwgl2P_uTmjzpywJNeQNC-oyBswoSQ_uNH2wdhIso4Q
+    --ej0fqCberXUgG0WRu1jek7Fdz0YhIY5gMcjz3ykmQTO7Ji4PaXtbW>
+X-ME-Received: <xmr:_DpranJyDnYBMXbK99vlOWI_wb2MP3eMnpLJMvzn7FaXrocJNjLduEHHFyCUPilKjaWyQ4LzUVF_GM8PNk0alr32pG7bPzAn3lM85LdgMdzI>
 X-ME-Proxy-Cause: dmFkZTGcuTcQDwJqOQTv8nmVkc6/Zm874noLTCFexGTQqhDKnsGdDcPi/M4/0EY4QkKXHy
     Lt7rEBIPnNHrQftDd+YhSdCQzUNg/CHiiEMmqsSzYP1JSkzGoxmOW38kVE/hvKxOkUcvrt
     46ukXXGeUvqhMWZJRKjfj/83f/w1s4Q/ZZHw731KyBan3E/E58VX+ii/aGbw1h+VWeZ2qi
     7gAEAwFQr+DFyc96ACIjxcwh31Smx6rj4BEpztETyxBNEF0aLxLMtmICo09KtV298d+d+j
-    MTHoz8DmeExX9JiqqFi7pQ9pFehz0bFzXlWgksw7DW4WYH07acWe+tGFlPodh9dNLAaVts
-    YHC533rSh30SOgLVZRYzi1IK2S17om8Eej9i//IUEt0TzstY9FmTbHdQUO4XONgzzUPFn5
-    NN1E7qGm5xO/uDa1bOB6gtpVhB1X2U59nfMJv7OkkRcpQY2THEwDwOUfJ7WZfsCxpb4PxQ
-    xer8Q4eoU0GVooi6XOHDUAUQGIjR/7E1F2JC28fQ9DZcF5oFcJF79BHsLblmiFwnOdVmXi
-    w47BIDPlVzM47GfudCKgaVyTrKx6hHM2wyJ4lDsXrnWfUz+6Ok9FCfiWzhPgBowMheEu/X
-    gJG2QFHmFUczOw5k3bRvvJfd6gS1Ld/62XMqZZ39cCj3ME1FYV9FSbjNPqfQ
-X-ME-Proxy: <xmx:sTpralzGhqSu2j9JqWF9Ye0mnkSyftd0pWtKo3bOsOkSE18RStN1rg>
-    <xmx:sTprauOaL7LRX_b5laKv5_f-o5muNEVOqYDuyRCnq_1C0nex4KRSFw>
-    <xmx:sTprahTQSORhrnuhAEj-6CT0eu06a3KKhx72hliVWsC1p_D84HsjPQ>
-    <xmx:sTprakZD96N0URuY6bviH9MkyTsb1uD9EWMjeL32ehJ21wABL1dLEQ>
-    <xmx:sjpraowxaZK_Gc4Qucu2RoETtevC-GvfBQXf0lV-X4BZzPAQPoqfLlGJ>
+    MTHoz8DmeExX9JiqqFi7pQ9pFehz0bFzXlWgksw7DW4WYH07acWe+tGFlPodh9dNLAaVCf
+    afwReK7dliFCW3BY8jgWR0X3M2BNmBsLE5CRxxQRpaGEEU7Ro32xcA53IILWSGDZd4Cmsy
+    Zk+K3pcMvFxb8s4ElmgMm2+uiq8jJdV53puqPfYWau8cmPqe8jAE4/Cnvh31zFfW2APoRt
+    95/XSFHwmoKmCKJw1N0voec/hZf+Ms5egQe58UyPnaVXBYPPyXfJko0EljaCx5sfTyaavy
+    Fkn3IaEGOIhroAwANmF+rK7TaFKtgSRk61Kg2B9/BKcmXr+t0PgPkdsH0Cgm2+cRh3IXbu
+    dsdo1n0uqQ9MkdDhLHm5KWuqnTtab62UTm9Dhb7N0Zxqy1P9LIDShZIG5ySg
+X-ME-Proxy: <xmx:_DprapFv68OK0pPkGbZjo1Kx6V4aNNo_PGCHplzKw3PxqLaE3_Z46Q>
+    <xmx:_DpranRE7XKpNm56ypXhC7wjkL20mKQRCry_P6wiy2yp-jgJG_rRbQ>
+    <xmx:_DpratFIDmvlgJUFDODRgQ2eC89HjwuYhDjddfaWMsr-0vpK8hARzw>
+    <xmx:_Dprar95waQqDkczG5WAu1EZy6qW1psm1oH8wisCiFHGDF8XMXCvPw>
+    <xmx:_Dprag29N7t8jE5CJ4jSLhxDCeMHAv1TLKPSnZJpElPV3DvQEvbIfuy7>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jul 2026 07:51:13 -0400 (EDT)
-Message-ID: <e2d0d98e8347500b444140ff9775d84f06ad0fef.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH v2 1/2] package_manager/ipk: skip checksums for
- unsigned local feeds
+ 30 Jul 2026 07:52:28 -0400 (EDT)
+Message-ID: <69f5608c9989dbcf3ce0049b6770dd7407881bc6.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH v2 2/2] opkg: enable sha256 checksum
+ verification by default
 From: Paul Barker <paul@pbarker.dev>
 To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2026 12:51:06 +0100
-In-Reply-To: <20260730091017.171702-1-ecordonnier@snap.com>
+Date: Thu, 30 Jul 2026 12:52:25 +0100
+In-Reply-To: <20260730091017.171702-2-ecordonnier@snap.com>
 References: <20260730091017.171702-1-ecordonnier@snap.com>
+	 <20260730091017.171702-2-ecordonnier@snap.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -114,17 +115,17 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-Bpxuv70Ali4T91E1YaEj"
+	protocol="application/pgp-signature"; boundary="=-oNV8k6iUKVmB1tHKOMJo"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 11:51:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242341
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 11:52:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242342
 
 
---=-Bpxuv70Ali4T91E1YaEj
+--=-oNV8k6iUKVmB1tHKOMJo
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -132,44 +133,32 @@ On Thu, 2026-07-30 at 11:10 +0200, Etienne Cordonnier via
 lists.openembedded.org wrote:
 > From: Etienne Cordonnier <ecordonnier@snap.com>
 >=20
-> Computing checksums in the opkg Packages index requires reading every
-> .ipk file in full.  For a large image with 7000+ packages (including
-> multi-gigabyte debug packages), this adds 150-300s to every do_rootfs run=
-.
+> WITH_SHA256=3DON adds no external dependency: sha256.c is a self-containe=
+d
+> 528-line pure C implementation already present in the source tree.
 >=20
-> Checksums in the Packages index are only meaningful for signed feeds
-> (PACKAGE_FEED_SIGN=3D1): the GPG signature covers the Packages index
-> which contains the SHA256Sum of each .ipk, forming a chain of trust
-> that prevents tampered packages being swapped on a remote feed.
+> oe-core already generates SHA256Sum fields in the Packages index
+> (via --checksum sha256 in OpkgIndexer.write_index), but opkg silently
+> ignores them unless compiled with WITH_SHA256=3DON.  Enabling sha256 by
+> default makes those checksums actually verified at install time,
+> improving package integrity checking at zero dependency cost.
 >=20
-> For unsigned local file:// feeds the packages are installed directly
-> from the build host filesystem where there is no tampering risk.  Skip
-> all checksum generation in that case by passing no --checksum flags to
-> opkg-make-index (the tool's default behaviour when given no flags).
-> Pass --force-checksum to opkg so it does not error on the absent
-> checksum fields.
->=20
-> On a test image with 7000+ packages (including a 2.3 GB debug
-> package): write_index time reduced from ~180s to ~22s (8x speedup)
-> when opkg-make-index is configured to produce no checksums by default.
->=20
-> See https://git.openembedded.org/openembedded-core/commit/?id=3De462f4748=
-9f35902b6972f9837d9adfa542fc796
-> ("Enable sha256 checksums in opkg indexer", 2019) for the original ration=
-ale.
+> Once SHA256 is universally available, --checksum md5 can also be
+> dropped from OpkgIndexer.write_index() -- MD5 is collision-prone and
+> should not be relied upon for integrity checking -- completing the
+> deprecation noted in https://git.openembedded.org/openembedded-core/commi=
+t/?id=3De462f47489f35902b6972f9837d9adfa542fc796
+> (2019).
 >=20
 > AI-Generated: Claude Sonnet 4.6
 > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 
 Hi,
 
-The package feed may be made available over a network and/or externally
-signed after it has been generated, so I don't think we should disable
-writing checksums into the feed by default.
+Claude likes to include irrelevant information in commit messages,
+please re-write this one to focus on the relevant bits.
 
-How about adding a variable to control this? It can be enabled by
-default in OE-core and you can disable it in a local or distro config if
-you know the signatures won't be needed in your use case.
+Otherwise this LGTM.
 
 Best regards,
 
@@ -177,17 +166,17 @@ Best regards,
 Paul Barker
 
 
---=-Bpxuv70Ali4T91E1YaEj
+--=-oNV8k6iUKVmB1tHKOMJo
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCams6qhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bs/vAQDCPmTzCwzybmNGriionFnwDIijOmzxhGZY
-uUdt/x7JswEAu80vmFYeJCUDvsy/JnM4bkipBO1F6F+Q017ADBxG7ws=
-=wZbE
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCams6+REccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bs4EAQCpq4tFh+xJJ4y4rBeEDhVgo0aD5Ya3ls6P
+JJx69NNldwD+NNUrKRTc2bKP5W7uxmLXTruaApForz2U8nXm9oh6Kgs=
+=ZTpg
 -----END PGP SIGNATURE-----
 
---=-Bpxuv70Ali4T91E1YaEj--
+--=-oNV8k6iUKVmB1tHKOMJo--
 
