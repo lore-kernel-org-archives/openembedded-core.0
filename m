@@ -1,242 +1,477 @@
-Return-Path: <sumanth.gavini@windriver.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61885C53200
-	for <webhook@archiver.kernel.org>; Wed, 29 Jul 2026 23:58:34 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.830.1785369513985763359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F67EC531D0
+	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 05:14:36 +0000 (UTC)
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5055.1785388465579161730
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2026 16:58:34 -0700
+ Wed, 29 Jul 2026 22:14:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=G7IlDFWy;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2670ca2d30=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66TNq95w2699407
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 16:58:33 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-id:content-transfer-encoding:content-type:date
-	:from:in-reply-to:message-id:mime-version:references:subject:to;
-	 s=PPS06212021; bh=zecGg6XA5FLdomynbuv4HErE9J6YFL0e+0eBG8LAVHw=; b=
-	G7IlDFWyIVj/hxdRUelXUpcB4SyrkTp2+NGTWvdlrnp6y7Djx40FOf+Ns80W3Rgn
-	e6X1S+PXhznz5s45qsdR3ITVWIAK+Y3A2FgMjxjW2Py4MiOVTYPCj8uWuv1xN2tK
-	QpkJXD//yoJJDKcLnaYrzHRPQ1ZZ+5KwAPDHzLxqgb0bm65TvlMmghg2lpSigpPV
-	KO1IzPTaHPFTcDGx+FRynOxVVXWhYilfyqLpM/SWxnbOnAV6Plccki+AOR6iMNPs
-	1NuhfbCjAaY25vB2HDRysxm8LUkev5O21tVuKlp1kWvJX4UCYWIqRX22LXf5jo/Q
-	lGVVVMEVeJaVLqi73fCfqQ==
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012029.outbound.protection.outlook.com [40.107.200.29])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fqugmg0np-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 29 Jul 2026 16:58:33 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=B+rpc1Rw;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=13868; q=dns/txt;
+  s=iport01; t=1785388465; x=1786598065;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=XstIPXNam9MBtQyyVw2TeL6b2wyk9KanWn5hjkcOIEY=;
+  b=B+rpc1RwM6xIG+MowjItznmcUJDspruBfahsEKSj7knIhNzONWkIxuZi
+   RmnRbv38Q3Jet8zqkztw4MTw+tcUkj/i0qLTRgrzF1kyyZ+iyGko+ZR+d
+   A5u4ghk4MTnwKKofNiFcPR6zxK1w5F6QVdU68fID+y/ZkCnW4uXbekQyg
+   qE3lScimKSH+J5Xxe4bs9fPLydz3rx9LUNhbZQO6B/aOCXmaFX6B737rZ
+   sQr5jYG8OfQyQA+D+ufbsT5y0HuXti0sF9uFUB3bsj2JEX9zNEdrSPYmF
+   1JPes/JbsJpDTnvF5sRl/Zz8RN2EfqSoukgBVzMQxH6Ger+H59+E1nh3t
+   A==;
+X-CSE-ConnectionGUID: m4h5LTpYToW1yipemYPbNQ==
+X-CSE-MsgGUID: stHqghgITcGcfPS8BI56Zw==
+X-IPAS-Result: =?us-ascii?q?A0A1BAAh3Wpq/4//Ja1agS6BK4E9MVOBCAKBIUmIIwOFK?=
+ =?us-ascii?q?4h5A54bgXQKDwEBAQ0BAS4BFQ0EAQGFBQKNZgImNQgOAQIEAwIDAQEBAQEBA?=
+ =?us-ascii?q?QEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQEBAQMBERVSEAIBCBEEAQEvJwodC?=
+ =?us-ascii?q?AIEAQ0FCBqCYYIdFkEDAQIOsFMBgT0Ciip4gQEzgQHgNxWBOIU/gwEbAQEFJ?=
+ =?us-ascii?q?Ulsgl2BIhgBhHwnGxuBcoFXgmk+gQWBXAQBgV88g1eCMASCInoSG4JWPo8AU?=
+ =?us-ascii?q?nIiAyYzLAFVExcLBwWBIxAzAyovLSNLBS0dcAwnEg8dFxceWBsHBRIgKkFEI?=
+ =?us-ascii?q?wNBMAtDBYFUAoF4PyMZNn+BL3VKdS1pAQIQF0o4GIM2AoJYAwttPTcGDhkDB?=
+ =?us-ascii?q?IE1BY0EB1shglonfYIFLpNGj0GBfKF7CiiDdYp7gSaNPogyF4VbpRELmH0jj?=
+ =?us-ascii?q?WeVYCGFDQIEAgQFAhABAQaBaQE6gVlwFYMiCUoZD5c2ySd5AgkyAQEHAgcOA?=
+ =?us-ascii?q?wuBaJACLYFPAQE?=
+IronPort-PHdr: A9a23:RLBY9B+9CJ314v9uWBDoyV9kXcBvk6//MghQ7YIolPcVNK+i5J/le
+ kfY4KYlgFzIWNDD4ulfw6rNsq/mUHAd+5vJrn0YcZJNWhNEwcUblgAtGoiEXGXwLeXhaGoxG
+ 8EqaQ==
+IronPort-Data: A9a23:fLI5dKwBe6iihB8DmKB6t+dsxyrEfRIJ4+MujC+fZmUNrF6WrkVSz
+ 2NLUW/QM/iDYWWgKo1xbNm1o0NXuMCBydViHQVrrVhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 46aT/H3Ygf/hWYraDNMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJERqPdA8xv5GPWZxr
+ O0ZMD0IXyiJodvjldpXSsE07igiBNPgMIVavjRryivUSK54B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cOHWjOX9PYH46tOuli2P2bz1fgFmUvqEwpWPUyWSd1ZCwaYSJIIPVGJg9ckCwv
+ X7m5mv5DTAmP/OUxwK+oliN27H9gnauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBWC4PTyVKb5ots8peqSEW6
+ 2JlVujBXFRHmLaUUnmasLyTqFuP1eI9dwfuuQdsodM53uTe
+IronPort-HdrOrdr: A9a23:IbjuN6o0Cq7viOe1Lyv4S8caV5srLNV00zEX/kB9WHVpm5Oj5q
+ OTdaUgtSMc1gxxZJh5o6H/BEDhex/hHZ4c2/h2AV7QZniWhILIFvAs0WKM+UybJ8STzJ846U
+ 4kSdkANDSSNyk1sS+Z2njELz9I+rDum87Y55a6854ud3AXV0gK1XYBNu/vKDwMeOAwP+tAKH
+ Pz3LshmxOQPV4sQoCQAH4DU+Lfp9vNuq7HTHc9bSIP2U2ltx/tzKT1PSS5834lPg9n8PMP4G
+ LFmwv26uGZte2nyhjT7mnX755HstrswNlOCaW3+4kowzPX5TqAVcBEYfmvrTo1qOag5BIBi9
+ /XuSotOMx19jf4Yny1iQGF4Xii7B8er1vZjXOIi3rqpsL0ABggDdBauI5fehzFr2I9odBH1r
+ 5R1W7xjesUMfqAplW52zH7bWAsqqOGmwtlrQfVtQ0HbWIqUs4UkWXYxjIMLH5PJlOg1GltKp
+ gfMCiV3ockTbrdVQGYgkBfhPqxQ380AhCKBmIGusCTznxquUoR9TpD+CTa9U1wqK7UjPJ/lr
+ n52qgErsA9cuYGKa16H+sPWs2xFyjERg/NKnubJRD9GLgAIG+lke+83FwZ3pDjRHUz9up4pL
+ 3RFFdD8WIicUPnDsODmJVN7xDWWW24GTDg0NtX6ZR1sqD1AOODC1zOdHk+18+75/kPCMzSXP
+ i+fJpQHv/4NGPrXYJExRf3VZVeIWQXFMcVptE4UVSTpd+jEPymisXLNPLIYLb9GzctXW3yRn
+ MFQTjoPc1FqlumX3fp6SKhEk8FunaPi66YPJKqiNT7krJ9Q7GkmjJl/WiE2g==
+X-Talos-CUID: 9a23:ceNxZW/gDBAms4AiuvGVv0tIGp0BTmXs8HDvel65EWtseYWfb2bFrQ==
+X-Talos-MUID: 9a23:dD575QqgBRdBRoNX4sIezyp+FN5n46uPNEsimps+gJmuFHEuCSjI2Q==
+X-IronPort-Anti-Spam-Filtered: true
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 30 Jul 2026 05:14:03 +0000
+Received: from rcdn-opgw-3.cisco.com (rcdn-opgw-3.cisco.com [72.163.7.164])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 86E1318000242
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 05:14:03 +0000 (GMT)
+X-CSE-ConnectionGUID: agofszvzQ46tkvYQ9o76+A==
+X-CSE-MsgGUID: VE+hrhBBRMKsf3FejNSU7w==
+Authentication-Results: rcdn-opgw-3.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.25,193,1779148800"; 
+   d="scan'208,217";a="75561829"
+Received: from mail-eastusazon11012001.outbound.protection.outlook.com (HELO BL0PR03CU003.outbound.protection.outlook.com) ([52.101.53.1])
+  by rcdn-opgw-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 30 Jul 2026 05:14:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s1fajsp8n1DKCs4h8osrz2AqyktXAExKTOUqIkp2wKqm6pmRNIyFwHkvltbMQKHfoJySFDlhSbvYkQf7ER7glwWE0VkUmv5wmO40EDAPOjLfTwHh9Jug0nkmSvfnZ6+UhN0mMua8Q1WQC7r3NSpdRgcRcSQiKVlck54ZK+5Y0cB+dIbFzvF3Qatzm/cHEmDsUIgZ/CuVdLhdL+MCmCWpPte35iP3ebGwvj96Kr81LDr6Cm0PSb4UF38Ttpx5vC7/WOIt7P2qeUOBjZDOvdyXYfDc3Wd4HYgzNZVX36lCgUdR1rdNMgcPesEnjvnJWNcic1ocrQJflyYJCGPgDhRN1g==
+ b=Jph9e5tYTSxZMHb/wyT09x6dMBGMT8NDVWs7b5BP2WFs8jMzyIicWVrHvEgU2H9AMBQ4E29hfPYrhZXCejV23gQAoGDCFjE9yhrkM1YflmkzDiAJKmgkrTkpOkQ3CFqfCtqylo4eSIabV5v93JfQisltfst4ZEK5p0moCiwWwDAfku4s+RK1zAhP92SDCfR+DtfKUGkXI9+WjajSDXrynchs8Jo6v6j4hoOF4ACL1Vo7hq3+aAksqUWv7BTy1DOxYNgzgq6w2s5spfsLbh68lcFnZb2r8FlwMY5aLCv9uQt7CSCsbg0GIYOOYOy4ye28vafLjFkVi9UUq8BnIZcxiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zecGg6XA5FLdomynbuv4HErE9J6YFL0e+0eBG8LAVHw=;
- b=w9cNcIqJByaEM4uPYaXOT/LzbtZ2dBpQ4HYTDrhzAyTc3DOSMP6WmcbVxUGrV/lM+9LNN7gn7DPKbwiVL0tKhoiK9mb5cx4P3nCHny9d7gmJsWXVqAzW0BWygT5YCIDrDYMG90jFW/bqPJNQb133SppYZZjcaKZl0LLasXVOXx6Ba+oTwjrzn3K6A90fTYPri4Cws9Js6KNL/a4n9Gtj1z97rCHlzdDAMo3zf2TqitK2vzn+cMj2lWlRvwq0GY9GML38nedmIuTIkeEZUGkW18DFa5lsLsvLplBiuqcrQLyXnPFLtDmFDW2PNqrS3VgAxVyd3lGSdG3RdguqyeFkJg==
+ bh=XstIPXNam9MBtQyyVw2TeL6b2wyk9KanWn5hjkcOIEY=;
+ b=eXbsuxcjx/XCjAo30wwVTMLor8qs1PuzfGAagLagDDAlZ8k23N4zuHlU8XENudzTdq/UAZroMpmEa9rPxBt9lCIM+4I3hYsoBLk44OvQPNwit13oIP52/2BO12YZau8DPMS5rNBMr3Nr8kPV+jcRpGSQVZDHaza4VH1qIXTM/lhu3IxU61BIDjDhVB5YKmFdDojD427hnuPvvI4T6Uxh5+SC1vwVs6lrL5vyuD5vUKiAeiixfka83iI7xNXQIyYCTowBw8n+ESmEjf9aouzgmffcPA4B46RoLfUakr39dS8qgVgX+ymJBOOPw3b9B+ESyxCMXiKYak21o3iPPsGVZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
- by BL3PR11MB6313.namprd11.prod.outlook.com (2603:10b6:208:3b0::10) with
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from DM4PR11MB6189.namprd11.prod.outlook.com (2603:10b6:8:ae::18) by
+ MN2PR11MB4758.namprd11.prod.outlook.com (2603:10b6:208:260::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.14; Wed, 29 Jul
- 2026 23:58:28 +0000
-Received: from IA3PR11MB9256.namprd11.prod.outlook.com
- ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
- ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0270.012; Wed, 29 Jul 2026
- 23:58:28 +0000
-From: "Gavini, Sumanth" <sumanth.gavini@windriver.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        "openembedded-core@lists.openembedded.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.14; Thu, 30 Jul
+ 2026 05:14:01 +0000
+Received: from DM4PR11MB6189.namprd11.prod.outlook.com
+ ([fe80::ecd9:17f7:f13f:5543]) by DM4PR11MB6189.namprd11.prod.outlook.com
+ ([fe80::ecd9:17f7:f13f:5543%2]) with mapi id 15.21.0270.009; Thu, 30 Jul 2026
+ 05:14:01 +0000
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<deeratho@cisco.com>
+To: Yoann Congal <yoann.congal@smile.fr>, "sdoshi@mvista.com"
+	<sdoshi@mvista.com>
+CC: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-CC: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>,
-        "mattware@cisco.com"
-	<mattware@cisco.com>,
-        "esparlin@cisco.com" <esparlin@cisco.com>,
-        "peter.marko@siemens.com" <peter.marko@siemens.com>,
-        "MacLeod, Randy"
-	<Randy.MacLeod@windriver.com>
-Subject: Re: [OE-core] [PATCH v10 0/8] rpm: 4.20.1 -> 6.0.2
-Thread-Topic: [OE-core] [PATCH v10 0/8] rpm: 4.20.1 -> 6.0.2
-Thread-Index: 
- AQHdHhsh+ypqVkWuKUS/PIyza2gKU7aDDFsAgABHXgCAAGJqAIAATvUAgAAXPoCAARPAAA==
-Date: Wed, 29 Jul 2026 23:58:28 +0000
-Message-ID: <7abaf549-94d2-468b-b2bb-dad58191e2ec@windriver.com>
-References: <20260727225602.342005-1-sumanth.gavini@windriver.com>
- <DKAAZ5IAJSBB.1KM0W7EA9ARM8@bootlin.com>
- <18C68B13D5EABE33.1674579@lists.openembedded.org>
- <25b06551-b8d5-43d8-a494-217ff2ad8116@windriver.com>
- <DKATWSO7B1U7.IDPWKARHM1IG@bootlin.com>
- <DKAVOHK3YNW3.24BG69QDIRWXD@bootlin.com>
-In-Reply-To: <DKAVOHK3YNW3.24BG69QDIRWXD@bootlin.com>
+Subject: Re: [OE-core] [scarthgap][PATCH v2 6/6] glib-2.0: fix CVE-2026-58015
+Thread-Topic: [OE-core] [scarthgap][PATCH v2 6/6] glib-2.0: fix CVE-2026-58015
+Thread-Index: AQHdHfGK9rPtkC0DV0CcyzInIorSa7aERjzG
+Date: Thu, 30 Jul 2026 05:14:01 +0000
+Message-ID: 
+ <DM4PR11MB618954D1D6C87B7D8AD9F169C4CA2@DM4PR11MB6189.namprd11.prod.outlook.com>
+References: <20260715172330.1149253-6-deeratho@cisco.com>
+ <20260727121444.3158996-1-deeratho@cisco.com>
+ <1062711.1785175099253932186@lists.openembedded.org>
+In-Reply-To: <1062711.1785175099253932186@lists.openembedded.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+msip_labels: 
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB9256:EE_|BL3PR11MB6313:EE_
-x-ms-office365-filtering-correlation-id: 7d919674-40ca-4c22-a30e-08deedcd4963
+x-ms-traffictypediagnostic: DM4PR11MB6189:EE_|MN2PR11MB4758:EE_
+x-ms-office365-filtering-correlation-id: 2a10db92-b6be-407f-c058-08deedf95e0c
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|23010399003|1800799024|22082099003|18002099003|38070700021|4143699003|10067099003|11063799006|56012099006;
+ BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|38070700021|13003099007|6133799003|56012099006|4143699003|5023799004|11063799006|10067099003|8096899003|22082099003|18002099003;
 x-microsoft-antispam-message-info: 
- CpUS/TfjRb5LHHTvSpO5dqME/v+cmcsNTplKuGcgMuTDbGEpcZuvlxL7yE3yCDrDn7t8SpCm0aNM6MXtiNK0izTiAAcExHqVQSG7BLfLbvHofyRKu+z8xlBocboXybTntB6qaLNxEBjoKMlAy7ZZJdFP9PW4RNRHinXNiZL/KmkhwLX8TFnU26ViKXBJ3UIrqFingDEQKEuLizp6PuXUaLcR4BDVkZQLpXH7IsgRpRd/VOPG8PN1lCSskXnPiGPYSwuUet8ZlGLYUPVoMBohXs2O+ywI/2aE8RiJD8YqsFx/Hwr8TR5JW9xPWkHyBXexH7mQZ8rYwULK53tX6qVE2GPNFnlHGw9p5F/ZuPSRfVWAKS3JbW/APwyAT9HcoTURn4Pl1CaNgv6nOWZZg6wdmjinBDZJlBEN03g9RbcFjwKiffa8iffCHWNJN7a26QV5DrQ2szWf+B0F+xHOAIqpFbA2I49pSaQLBEC7CMouNDTaiEXc1E9vblFCB0l3POvsm6eHb4r4SVM1vD8h0DYXr3RXoOY+W5Ci0QSJHu40g1gBmE+cFIQmfqKpqhCGdAtwgAWXold1iq6KCBar/PpoNcDggEvK7eDMUlS+UrRzZyPV4Phrrn/SI7RfPvMSK2IquaaP76z+/ivMY/OhhVTsHe8njj3z5gE8XNYQdrY51qY=
+ ri3TGdJPxezhkFtRshIAzfzoifUQVDX6TSh2auoI5+jj5HMGn6mNsbJjQYC2tpkPbt4UU2h0U/97wOUm83sU+BJbwiukU93e9YeB1VKGLcWS1BaXvq2zuTdF71qxkmPUb3TgLvY75EduAYCnbzIevoS2cC4R/TG+tAOKX4Sdyq4eE0U9qeNvGeAWNB38W0gW/11WzHPOzYp3eVi6KZX2oK08k5jZeA9p94x9R9PbVpqMfomZ2G2PkQmO+9BvbOlnfq3FEziYMr5K5iT+CsSARYmcU7t8LJnkPF/js3rjM6NREfVp0z97gXWFVLytuFfQ6hjkUcbnyC6eGek3qrvbxx60UaPIsbCeBa4tUQStsNvy/8/20iggLZYVfRbVRe3qsiO1U2CRHp+PXVS4XFXtHFwV8yyDuSfcMOtpQfOY087UrWtbs1TYSnOKGrBO5yCpIh+3muFL9D7StfeiYlV4hRKOzwsZtzp8iX8XZ3JdVCCXbSG6VGH1gjJZ2/n2nv7s2a/p4WquKaOrX9mOMWfsz2g8akmYhq+IDIbpawV4kVb626ORGE9P6XMyS/H0XGLYBBgxI9xMVR15tEe2lALF93XY68g43f4uKTk2EzYwaQTUyxxxSzvhmb3SLzEME4Jb6K9ups5tXHeKYruMW3nyp2QX9eeA7dtuDQ/0GxEVN4E=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(1800799024)(22082099003)(18002099003)(38070700021)(4143699003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(38070700021)(13003099007)(6133799003)(56012099006)(4143699003)(5023799004)(11063799006)(10067099003)(8096899003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Y0ppaFdmU2lOc2h1YVpyRmxUUS8rb2VDSnZkZzErWmJHdjBub1NPQStKZEtS?=
- =?utf-8?B?QWxORlRneXRLNXZVbFdWWC9zQUc3YlBocDFpNGplZ3lwMHRxczVkTDlNcCsy?=
- =?utf-8?B?anZXK3Fzd1IvZSt6ZC9XU1pNeWpKTHdDc2h2eEZHanUrMUhiVzdVMFlnZ2Jo?=
- =?utf-8?B?YXg3TEhKV1VIQzd1enhsWDNvbWN0SUliL0ZBbHlSeTc2bDgrOTJ3WnhLei9I?=
- =?utf-8?B?RDJzVElSdU5WODYvS0Y1RDQ0dU40Ujh4V0lsZTN0dUUxS2NKVURaMXFOTGox?=
- =?utf-8?B?U2kzY2RwL094aStsU05XOHovd2RFQnZYZVVmV2VqYXdWakdwOHpwMDhzbUJk?=
- =?utf-8?B?YnJUZ092bitERmFJRG53OTE0N0l0T2FTL1BjUW5BaDBPK1VGUnJVVytDZ1Ay?=
- =?utf-8?B?OThGTHdnaWRJM1J5SlRPdHdPSzJBN2RLRlMrZXVtZldCVkJjL3NlUnpTenhN?=
- =?utf-8?B?U3Q5OHhnd3NGQ2RNYkdtUWFoUHlWbXgycGRWTHF4bTNLZFVXRUdLZkcwWm5z?=
- =?utf-8?B?b2ptb0l0R2pQVlNIbGI1em5ERTBsSmxzRS9za1dwdTZvSmVlOHRzKzgva1JW?=
- =?utf-8?B?ZUgveXp2eE10Q0x6eWNxUjRrZmhKQkNQUDlQOWJ3UVBDbSs5RlF4dlNGNW9O?=
- =?utf-8?B?Sjk1Y2Jjb1hDK3JGWFNBdHhPbVFXV0JWdHFjUGo2ZXdaOWo3bnA0VHg3eVlE?=
- =?utf-8?B?d0gxNHVTSUFybnNhcHo4Z2xlamRid3hWMzhWb2lUUTlqMmhTSnNjNk4vYXhN?=
- =?utf-8?B?SnJpWGtacEYyVzMrSVNLbWhINVlFaHNONWdXQnJGZDFTNERQUzNzaGpLZEha?=
- =?utf-8?B?WU0yQjRTQlpYVzBFVzlNRXU4M05NbVJCaGovK3FZL0djbmpGUE1lUTRsNlZ0?=
- =?utf-8?B?R29aMEJVZEdtMmU2b3VOUHFVOTFxYXQ4RmoyYXQ0NExoQW8xS1NvNTNuNXVX?=
- =?utf-8?B?YWFSaXNtQk92K3NVMUlEaFhsVU81WGM0M2Zpb3BlekZKRXU2ekp2Z1RhaElI?=
- =?utf-8?B?RGVURFY1MUdINW92ZTlua2pvV0FqRU9nMC9TNllyakphSlNaaHhaVEloNnZo?=
- =?utf-8?B?NTZVQzNyV1BLd2ptVUZMbDdLb0pHVWxMek5odUpVb1RoUDZYOVM3WW0xMU96?=
- =?utf-8?B?Y1lnb3I3OUE1RUtOOC9ZenIrMGcwc1lhVWNLV005blQ5cDArV2pXTm5DR3N2?=
- =?utf-8?B?bS9UMnJlMlBWTDV5WHZ5Z0NOamhpLzZyZ0xOc1FEMEVNM0p6WnQ3Sk54aHAy?=
- =?utf-8?B?bm01MW5xaXN5VFlZeWVHZFJOeDlwdmN2VStlT0VZblFBZmd0eUgrZmo4c3Bx?=
- =?utf-8?B?aWd2dDJoWVdyV3ZEczVJZHUrRFREUzJvd05LTWxPWDY2RmN1amJQVm5BeDFM?=
- =?utf-8?B?WHNiNmJMeDQ1Y2RpUGg4aFEwU2p6RWlKSjZIaVlwUjl5OUE0QVJtdkMrckU3?=
- =?utf-8?B?M2xna3Q2bHJvZlo2VEZGT3BxQ1pxUXJZZ2s4d1I3K0tKN0NSWTZvVmZGd0hu?=
- =?utf-8?B?d2FzdWQ5Sm1POWFmL2FOVzQ1ZzQwWEo4QXUzZ0xzTmk4T0UxQWd0ejJLRzlE?=
- =?utf-8?B?UWgyd3RxSDMrVkg1OG5VRjBsbHFJL2FIbjIzbkMwaGE1aDJnb21wTFhPWlR4?=
- =?utf-8?B?dDY5czMwNStlSTFxNXZyTGU1STc5bmQycVdyRlBnZ1RLc1Z2dWJvaFRhLzF6?=
- =?utf-8?B?VWR3cjB6T3RiOUpWTmVVdWJBWEJvQ3hGdDU3Sy9oVy9BZGI0akJpNXRxY3ht?=
- =?utf-8?B?bzczSWthaHBXemVVNkNENWFzUVpJRGxKTWhXUXhvTmc0dEtRUzhLaStzUGtH?=
- =?utf-8?B?QjNUZlhoZHgrbWpKWnZDbUVKcVR6RHErd2ZJMzlMajFxRkxkbFg2Ukt6dUht?=
- =?utf-8?B?VVpZWStza0IyRU9xOTZ0dGtITzc1Rm43eG1WamlKMUM0Wm1uR2hkSmhvVXNZ?=
- =?utf-8?B?aXVSaHlYckZsM0ZKVWdmdFJOWktSRDlVcmtKQ2l3U3VOdTJ3VzV4dEhGVWph?=
- =?utf-8?B?cWZZQ0FWVC9VTktEUjhOOWNBendlaDE5NUJQZ1Q1Vzk1dDgyL0FmNncwUlhx?=
- =?utf-8?B?enUwbVpoYnVmckFtOUR6OHdSL0RLcnM5U1EwV2F1Q3hQZVFrOWMzV1pHeXZi?=
- =?utf-8?B?dzJ1eXMxVEpUNmdDZ0cvdzRHanNKMlhheUJmdkpzQjhVNWNQMGZSQkVBa05t?=
- =?utf-8?B?TEtNaGFUMVhIcHZCRDEzZTlKc0lpVm1YWHZzNFFGQ3R0VG5xNHVxM2Nzci9G?=
- =?utf-8?B?cEpqa2d3K3RlU1NYM1hkVnFBaHhrWnRqM3g3bEYyN3hvVlR3d2RiNm04TUZy?=
- =?utf-8?B?Q1pKQmhjUzFsejZlYkRsaVZqU2VDSE1DcENBV3NPUkk5ZVhpR1ZOb081L1c3?=
- =?utf-8?Q?o0LVW9fYoc858doY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D21520FF67E24C4A9E5E826B8DFDDC9A@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ =?iso-8859-1?Q?3Qw8T2KUljdpDWBz+Lh5TC80k+MWR/ePjzk9fZOwMD3z2rocHYWSEMrQt/?=
+ =?iso-8859-1?Q?8AOKWHeqSkrsYlcvFW3rz0usRNGRW2Epx/s7vDEZcY79go1UUaRxOCr2JK?=
+ =?iso-8859-1?Q?Q6cLpXZbvHdm4+fNwTwvhLMpvSbc7H0cAeVaxKQ0yw6bj3lBrrItE8Ndr6?=
+ =?iso-8859-1?Q?W+kMYXwk0Z2+ewWXY8qHouCcGAmI7dbQhDuvaaDcyDvU7Vp/f8WJvP57yt?=
+ =?iso-8859-1?Q?2wYdx3whaPQV3tvHfbiyyvJzS0iXywVzohGFimBV89+t1cMyiiArV/PkpC?=
+ =?iso-8859-1?Q?kmoMFgR6gPSlBtPY9PAmoWtgYWofxmuqzvz/oqcIUTvva9EqQLRseyNy3w?=
+ =?iso-8859-1?Q?I+coDw+KZPmbbVU3im+DTLEwNDEOPBEICvgm/39tjgb34adevip/WsKVd2?=
+ =?iso-8859-1?Q?CEQu+5xXip+W1WtGJmXwApPOx40Kr0KeGoIzkpNpww4dU0+txNrTS/8Qhr?=
+ =?iso-8859-1?Q?NIXRoXLPNUd7Xaawc92vU8HVAem+YHGeynGws/NQCFzfaQFiZ1INUD1LFA?=
+ =?iso-8859-1?Q?EimSBkF/KH3xxLna1SNd1zSIboTG63N1oL6ZN/kwHaq4ydK7t6wcMTbvmV?=
+ =?iso-8859-1?Q?kuMXo2AdQy8WtDpGPoBPqikNw7hBgbxd5dFyLAEHrUHYfHwXvHOmgr0ix+?=
+ =?iso-8859-1?Q?fKTeEsVJ2nVDTTwnBXhQGxKSiyOyQ4DNTjKl7BZHCECC/3nSDAGzmW8UX0?=
+ =?iso-8859-1?Q?i9a101JgGR7yyqkx8v4xbhba5JNJKq8kVNm3i20Hh49xH5Vg1qVZITF2ek?=
+ =?iso-8859-1?Q?JkMx3QUjy0p62fzt+UJE1bE33kM21GWVBekd2tWJliUp4uXEilCVLdTpYv?=
+ =?iso-8859-1?Q?9pknq4V7hl9SW0I6E2yHf3vfau/A0r09bibAl1+x6Vnr359YGY/8zOGZO7?=
+ =?iso-8859-1?Q?4eDOime97mRkEV1o11g3YeF6IawPEk53iRxe03LFL7nSUhNhmXiK93+Sgm?=
+ =?iso-8859-1?Q?JZUDz4bpzo3KfAJWSxQgjTXRC6j1J5MRMCrK9p197L3OILsUcqGm2E5hTI?=
+ =?iso-8859-1?Q?ADZZ5Lb75Gike72zGwGvLVASa6NAUxlCiMI6lSJRFzGee6EjDd9k1XrXdb?=
+ =?iso-8859-1?Q?Rq7xMJ6Q6WPR1o16v/6mQK6DjCD/FWJw9qRkqhlgvWE0ihVftvJMu4JL6p?=
+ =?iso-8859-1?Q?inji6SWFEMqB7c3pAChImSLvivqKiFvUsczfClQPvXvkMbWai9+iGv4pV3?=
+ =?iso-8859-1?Q?+faSKP2SP/t5ZFWq4yAWrhMKGWVc7h7WV9tZY6HWyyg7xSL9Ttx2D0B7ZQ?=
+ =?iso-8859-1?Q?vGapP1I7rfZDlrCS5A/zL1ZkoXZrxVnbDGe4QuU3e1y8PXsn769UqU/hUM?=
+ =?iso-8859-1?Q?A3/SDunm7HGs5nNaEl8coO2N9bG3YUAAwxzzkDbFDYUBZij2BGLecFbiY5?=
+ =?iso-8859-1?Q?JWt7Gw9aBCFvpSi+zdFGsCFFIDSrqulENycIl8gbVLHQ4tAGAeJTGiDekG?=
+ =?iso-8859-1?Q?/WsEc4rGDG+r7L2bgJI4noOb/s+c8sepo6VMnWb1UQwlQ0fLwY03D3xvMu?=
+ =?iso-8859-1?Q?BH+x7iCNOXtnMUWAw3htXsNpxrqXM7ChThHMp12gAqDhcq0iPATsMw5Gps?=
+ =?iso-8859-1?Q?jkIH8b5i68/HG4wgDq5M7V7jblmGpKkM9u8szX7vLH/R1O+Ei/L7sNELYi?=
+ =?iso-8859-1?Q?E+9e0tQs32i2ynJJSvC7nxx9vu+mPZO92rO+whfegraf+foZhJVwxu1L2o?=
+ =?iso-8859-1?Q?TU7rszdXRGCCU3Jn2Smfd0tjRLRKm1C9LkeAw/VVLqd/vcHkorDickWrIc?=
+ =?iso-8859-1?Q?9Argltt79r7loM7WqQgMdIIQatYffEqJqhDENk40NwLf8G?=
+Content-Type: multipart/alternative;
+	boundary="_000_DM4PR11MB618954D1D6C87B7D8AD9F169C4CA2DM4PR11MB6189namp_"
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	slcvwKUcTZNHCHEV9A+/LUsPKm4OPGrpaFqxeGss6nx7URN+IoAOjXTUmU3rvYCKs+u8VWNKyr7sd3WrTQ5CHxjmuIJjalJm1wfm3VwtcaUpWgd7/bjUUlDYZ+G/OPg8XFSVc0eW6MdMcPts/jMT98N/MLK45Ae34FF1Qj51q9in/FB+g+Z7Tx19VxZ3JWevoPDfLm2Ukv9gUKqx953EcA8TPNeU+cgpVD51pKsRgo276BArL8K4aV0isM2fZCN05gpYLlY3RxLD5laN3S2SmatswquRHD259oiOf2j+MJwsFX6+FhX9z9cGiLd4455RzIju67I1nUxnOKP4nOXccg==
-X-OriginatorOrg: windriver.com
+	s9ZXEl0I1yYeULq0lJhgk7wsYQwHpAHx89q364iF869r1hTSedr5sQzkg5qWfShiU/LmrWSPzcut8cnAeRkUotMLxjFj3j2DnjFZndJBRsb7Cc16jI1nJBlHrBVw476AG1/IIWyuP0Y142sXsPbRmMrBCA3xuF+nhwE3Tlh33kM8gioJc/nhNoAGHFUUwMgWnRsL+EnMvEYeQ3OwEHX6ku6yaW+3p+v/FCrVsuJok2eJZ+kaDElSpVjVOiZNf+Dm0sLQ+LfU6EnZ3XmIT60LV+rQtmJyN1jlfx/VwJeZlfiJS7/Ei+SlC+U2BuYxARj4bXFZVixlkticygev0y22+w==
+X-OriginatorOrg: cisco.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d919674-40ca-4c22-a30e-08deedcd4963
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2026 23:58:28.7984
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6189.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a10db92-b6be-407f-c058-08deedf95e0c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2026 05:14:01.3113
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /qgoL2SSqGI5WTB0KPoxacz7zTlsR9gwHXDljY2FBrv2ABP468kNE7HZHCU7hK2Cg3NRfpuXkroex9GXog3HCnQd5EY5sYWZPDnMjStGzQU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6313
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: YjCL7Tq9rVn9s4z31A_jLdm1VL6He3oG
-X-Proofpoint-ORIG-GUID: ftcxlmeeHLFAkvBq9HR-JpFF3NFK6TOs
-X-Authority-Analysis: v=2.4 cv=dtnrzVg4 c=1 sm=1 tr=0 ts=6a6a93a9 cx=c_pps
- a=6BjqzLHNfcmCQygjyc7k5Q==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=HK-ge7EqtdluswH-FwHe:22 a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8
- a=6t5kbUa70gEtGjde9SsA:9 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDE3NyBTYWx0ZWRfX1vH9u+xMWETc
- GfdMXubh1cwb1WwVtBgwXEXNCbEW8Sn3gKmu2S7HQDYUx8xegG+QWI7EZx/GRA7LarRqX4qUcEe
- XGfTLNDHdArnYPO2yVvFAZFAKYuN8jc0nJ6L3PPZTxSiL4n/OD6O
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDE3NyBTYWx0ZWRfX33DhafPFIoS7
- DLlL6dagLOMAmA8oC9oeVE9vmZufLhLv/7rk8nPv5QKPUQ2lVA+PBAbgbQNdMg5yMy29r3kwYXj
- WCNHq3iXA9vfrirYIkTf66HgOOVoxAcZntsAnFZe/2AI5HR3E2b+G3KRbK+erhkE6rlR2rkoOEQ
- qvHKAhg0X1ErnVhiOua6QZ3rvEla4BXk99Js258AAjlbu2DuHWcqFQ+NmW00wOYjNTbKXvnZprg
- 9iks9RZ+4p6kXjj/zBRJdcgGxlK+e0rkR7BOGDTpS5G4p2MnLAa4d0TpgkRTlXmgyAtLLpz94hq
- z36Kj29uAy6nS6Hw/TFcv7bhqkDuHv3BiPViOw8w8PWNAnjm6ye3CtXpPHEjfsyohH5JA4IdpDU
- Uo60QsU/53mvnymjtbBarXC7ylaFNKODEnzXXTQZmjgKeMFZD+zr8wnA4VLXwyHQDxJtdoeEzMN
- nXXfs8p9nSAUEie7EEQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-29_08,2026-07-29_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 spamscore=0
- bulkscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607290177
+X-MS-Exchange-CrossTenant-userprincipalname: 5o1wD+NtTArcmn9nB/R75iQW1g8iGq/XtrgOhQsazWdXOLDOWMc+RuG7EmiSTxDQjfRecqj8lRyHv7iBBfaN9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4758
+X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-3.cisco.com [72.163.7.164];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 72.163.7.164, rcdn-opgw-3.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2026 23:58:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242309
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 05:14:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242310
 
-T24gNy8yOS8yMDI2IDI6MzEgQU0sIE1hdGhpZXUgRHVib2lzLUJyaWFuZCB3cm90ZToNCj4gQ0FV
-VElPTjogVGhpcyBlbWFpbCBjb21lcyBmcm9tIGEgbm9uIFdpbmQgUml2ZXIgZW1haWwgYWNjb3Vu
-dCENCj4gRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBy
-ZWNvZ25pemUgdGhlIHNlbmRlciBhbmQga25vdyB0aGUgY29udGVudCBpcyBzYWZlLg0KPiANCj4g
-T24gV2VkIEp1bCAyOSwgMjAyNiBhdCA4OjA4IEFNIENFU1QsIE1hdGhpZXUgRHVib2lzLUJyaWFu
-ZCB3cm90ZToNCj4+IE9uIFdlZCBKdWwgMjksIDIwMjYgYXQgMzoyNSBBTSBDRVNULCBTdW1hbnRo
-IEdhdmluaSB3cm90ZToNCj4+PiBIaSBNYXRoaWV1LA0KPj4+DQo+Pj4gSSB0ZXN0ZWQgdGhlIHYx
-MCBwYXRjaCBvbiB0aGUgdG9wIG9mIG1hc3RlciBicmFuY2ggYW5kIGNvdWxkbid0DQo+Pj4gcmVw
-cm9kdWNlIHRoZSBhdXRvYnVpbGRlci1yZXBvcnRlZCBmYWlsdXJlcyBvbiBteSBsb2NhbCBtYWNo
-aW5lLiBDb3VsZA0KPj4+IHlvdSBwbGVhc2UgY2hlY2sgYWdhaW4gYW5kIGNvbmZpcm0gaWYgdGhl
-IGlzc3VlIGlzIHN0aWxsIHByZXNlbnQ/DQo+Pj4NCj4+PiBUaGVzZSBhcmUgdGhlIGJpdGJha2Ug
-cmVjaXBlcyBJIHRlc3RlZA0KPj4+DQo+Pj4gNDI0ODoNCj4+PiAtYml0YmFrZSBjb3JlLWltYWdl
-LXNhdG8gY29yZS1pbWFnZS1zYXRvLXNkayBjb3JlLWltYWdlLW1pbmltYWwNCj4+PiBjb3JlLWlt
-YWdlLWZ1bGwtY21kbGluZSBjb3JlLWltYWdlLXNhdG86ZG9fcG9wdWxhdGVfc2RrIC1rICAvL3Bh
-c3MNCj4+PiAtYml0YmFrZSBjb3JlLWltYWdlLXNhdG8tc2RrOmRvX3Jvb3RmcyAvL3Bhc3MNCj4+
-Pg0KPj4+IDQyMjg6DQo+Pj4gLWJpdGJha2UgY29yZS1pbWFnZS1zYXRvIGNvcmUtaW1hZ2Utc2F0
-by1zZGsgY29yZS1pbWFnZS1taW5pbWFsDQo+Pj4gY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUgY29y
-ZS1pbWFnZS1zYXRvOmRvX3BvcHVsYXRlX3NkayAtayAvL3Bhc3MNCj4+PiAtYml0YmFrZSBjb3Jl
-LWltYWdlLXNhdG86ZG9fcG9wdWxhdGVfc2RrIC8vcGFzcw0KPj4+DQo+Pj4gNDIxMDoNCj4+PiAt
-Y29yZS1pbWFnZS1taW5pbWFsLWRldjpkb19yb290ZnMgIC8vcGFzcw0KPj4+IC1iaXRiYWtlIGNv
-cmUtaW1hZ2Utc2F0byBjb3JlLWltYWdlLXNhdG8tc2RrIGNvcmUtaW1hZ2UtbWluaW1hbA0KPj4+
-IGNvcmUtaW1hZ2UtbWluaW1hbC1kZXYgY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUNCj4+PiBjb3Jl
-LWltYWdlLXNhdG86ZG9fcG9wdWxhdGVfc2RrIGNvcmUtaW1hZ2UtbWluaW1hbDpkb19wb3B1bGF0
-ZV9zZGtfZXh0DQo+Pj4gY29yZS1pbWFnZS1zYXRvOmRvX3BvcHVsYXRlX3Nka19leHQgLWsgLy9w
-YXNzDQo+Pj4NCj4+PiA0MjExOg0KPj4+IC1iaXRiYWtlIGNvcmUtaW1hZ2Utc2F0bzpkb19wb3B1
-bGF0ZV9zZGsgLy9wYXNzDQo+Pj4gLWJpdGJha2UgY29yZS1pbWFnZS1zYXRvIGNvcmUtaW1hZ2Ut
-c2F0bzpkb19wb3B1bGF0ZV9zZGsNCj4+PiBjb3JlLWltYWdlLW1pbmltYWw6ZG9fcG9wdWxhdGVf
-c2RrX2V4dCAtayAvLyBwYXNzDQo+Pj4NCj4+PiA0Mzk0LzQyMTMvNDQ1ODoNCj4+PiAtYml0YmFr
-ZSBjb3JlLWltYWdlLW1pbmltYWw6ZG9fcm9vdGZzIC8vcGFzcw0KPj4+DQo+Pj4gQWxsIG9mIHRo
-ZSBhYm92ZSBjb21wbGV0ZWQgc3VjY2Vzc2Z1bGx5IG9uIG15IGxvY2FsIHNldHVwLg0KPj4+DQo+
-Pj4gVGhhbmtzLA0KPj4NCj4+IEhpIFN1bWFudGgsDQo+Pg0KPj4gSSBkaWQgcmVwcm9kdWNlIHRo
-ZSBmaXJzdCBmYWlsdXJlIGxvY2FsbHkuDQo+Pg0KPj4gSSdtIHVzaW5nIHRoZXNlIHRhZ3MgZm9y
-IGJpdGJha2Uvb2Vjb3JlLCB0byBnZXQgdGhlIHNhbWUgdmVyc2lvbiBhcw0KPj4gbXkgYXV0b2J1
-aWxkZXIgYnVpbGQ6DQo+PiBodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL3Bva3ktY2ktYXJj
-aGl2ZS90YWcvP2g9Yml0YmFrZS9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmll
-L2EtZnVsbC00MzA5DQo+PiBodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL3Bva3ktY2ktYXJj
-aGl2ZS90YWcvP2g9b2Vjb3JlL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUv
-YS1mdWxsLTQzMDkNCj4+DQo+PiBJbiBteSBsb2NhbC5jb25mLCBJIGhhdmUgdGhlIGRlZmF1bHQg
-dGVtcGxhdGUsIHdpdGggdGhlc2UgYWRkaXRpb25zOg0KPj4gU0RLTUFDSElORSA9ICJ4ODZfNjQi
-DQo+PiBQQUNLQUdFX0NMQVNTRVMgPSAicGFja2FnZV9ycG0gcGFja2FnZV9kZWIgcGFja2FnZV9p
-cGsiDQo+PiBJTkhFUklUICs9ICdpbWFnZS1idWlsZGluZm8nDQo+PiBJTUFHRV9CVUlMRElORk9f
-VkFSUzphcHBlbmQgPSAnIElNQUdFX0JBU0VOQU1FIElNQUdFX05BTUUnDQo+PiBJTUFHRV9JTlNU
-QUxMOmFwcGVuZCA9ICcgc3NoLXByZWdlbi1ob3N0a2V5cycNCj4+IFNBTklUWV9URVNURURfRElT
-VFJPUyA9ICcnDQo+PiBPRVFBX1RFU1RESVNQTEFZID0gJzoxJw0KPj4gRVhUUkFfSU1BR0VfRkVB
-VFVSRVMgPz0gJ2FsbG93LWVtcHR5LXBhc3N3b3JkIGVtcHR5LXJvb3QtcGFzc3dvcmQgYWxsb3ct
-cm9vdC1sb2dpbicNCj4+IE9FX0ZSQUdNRU5UUyArPSAnbWFjaGluZS9xZW11eDg2LTY0IGRpc3Ry
-by9wb2t5Jw0KPj4NCj4+IFRoZW4sIGJvdGggb2YgdGhlc2UgYnVpbGRzIGFyZSBmYWlsaW5nOg0K
-Pj4gYml0YmFrZSBjb3JlLWltYWdlLW1pbmltYWwtZGV2DQo+PiBiaXRiYWtlIGNvcmUtaW1hZ2Ut
-c2F0bzpkb19wb3B1bGF0ZV9zZGsNCj4+DQo+PiBUaGFua3MsDQo+PiBNYXRoaWV1DQo+IA0KPiBK
-dXN0IHRvIGJlIHN1cmUsIEkgYXBwbGllZCB5b3VyIHNlcmllcyBkaXJlY3RseSBvbiB0b3Agb2Yg
-bWFzdGVyOiBJJ3ZlDQo+IGdvdCB0aGUgc2FtZSBpc3N1ZXM6DQo+IA0KPiBodHRwczovL2F1dG9i
-dWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy82OC9idWlsZHMvNDM1
-MA0KPiANCj4gVGhhbmtzLA0KPiBNYXRoaWV1DQo+IA0KPiAtLQ0KPiBNYXRoaWV1IER1Ym9pcy1C
-cmlhbmQsIEJvb3RsaW4NCj4gRW1iZWRkZWQgTGludXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZw0K
-PiBodHRwczovL2Jvb3RsaW4uY29tDQo+IA0KSGkgTWF0aGlldSwNCg0KSSBoYXZlIGZpeGVkIHRo
-ZSBidWlsZCBmYWlsdXJlIGFuZCBzdWJtaXR0ZWQgVjExLiBJIHdhcyBhYmxlIHRvIA0Kc3VjY2Vz
-c2Z1bGx5IGJ1aWxkIHRoZSBmb2xsb3dpbmcgdGFyZ2V0czoNCmJpdGJha2UgY29yZS1pbWFnZS1t
-aW5pbWFsLWRldg0KYml0YmFrZSBjb3JlLWltYWdlLXNhdG86ZG9fcG9wdWxhdGVfc2RrDQoNCi0t
-IA0KIyBTdW1hbnRoIEdhdmluaQ0KIyBXaW5kIFJpdmVyIExpbnV4DQo=
+--_000_DM4PR11MB618954D1D6C87B7D8AD9F169C4CA2DM4PR11MB6189namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hello Yoann, Siddharth,
+
+Thank you for pointing this out.
+
+I replaced CVE-2026-58015_p2.patch with upstream commit 0919301962291a71206=
+7ee0c5d273cc392f33277<https://gitlab.gnome.org/GNOME/glib/-/commit/09193019=
+62291a712067ee0c5d273cc392f33277>. During validation against Glib 2.78.6, I=
+ found that this unit-test commit is not standalone. It depends on these in=
+tervening commits:
+
+  1.
+c0531125344bb25fd66ffb7435ed6c285de09aeb<https://gitlab.gnome.org/GNOME/gli=
+b/-/commit/c0531125344bb25fd66ffb7435ed6c285de09aeb>: Improves cookie ID va=
+lidation. Several test vectors in 091930196 requires this behavior.
+  2.
+060aea67de7517d531b8fe2cdc07aa1a00ddeb22<https://gitlab.gnome.org/GNOME/gli=
+b/-/commit/060aea67de7517d531b8fe2cdc07aa1a00ddeb22>: Adds the client_get_r=
+eject_reason vfunc used by the new unit test. Without it, the test does not=
+ compile on GLib 2.78.6.
+
+The complete upstream sequence is therefore:
+
+
+  *
+  db9c8fae398b<https://gitlab.gnome.org/GNOME/glib/-/commit/db9c8fae398b0c4=
+57e660ce63dd5afec8993046a>  <https://gitlab.gnome.org/GNOME/glib/-/commit/d=
+b9c8fae398b0c457e660ce63dd5afec8993046a> Validate cookie context
+  *
+  c0531125344b<https://gitlab.gnome.org/GNOME/glib/-/commit/c0531125344bb25=
+fd66ffb7435ed6c285de09aeb>  <https://gitlab.gnome.org/GNOME/glib/-/commit/c=
+0531125344bb25fd66ffb7435ed6c285de09aeb> Improve validation of cookie ID
+  *
+  060aea67de75<https://gitlab.gnome.org/GNOME/glib/-/commit/060aea67de7517d=
+531b8fe2cdc07aa1a00ddeb22>  <https://gitlab.gnome.org/GNOME/glib/-/commit/0=
+60aea67de7517d531b8fe2cdc07aa1a00ddeb22> Expose client reject reason as a n=
+ew vfunc
+  *
+  091930196229<https://gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a7=
+12067ee0c5d273cc392f33277>  <https://gitlab.gnome.org/GNOME/glib/-/commit/0=
+919301962291a712067ee0c5d273cc392f33277> Add the unit test
+
+I will prepare v3 with these four commits in the same order, along with the=
+ requested patch-formatting corrections, and validate the complete series a=
+gainst the current Scarthgap branch before resubmitting.
+
+Regards,
+Deepak Rathore
+
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Siddharth Doshi via lists.openembedded.org <sdo=
+shi=3Dmvista.com@lists.openembedded.org>
+Sent: Monday, July 27, 2026 11:28 PM
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Subject: Re: [OE-core] [scarthgap][PATCH v2 6/6] glib-2.0: fix CVE-2026-580=
+15
+
+Hello,
+
+Thank-you for sending the v2 promptly but i guess in hurry you copied the w=
+rong helper commit.
+
+The main fix is correct which is at -> https://gitlab.gnome.org/GNOME/glib/=
+-/commit/db9c8fae398b0c457e660ce63dd5afec8993046a
+
+but the helper commit is here -> https://gitlab.gnome.org/GNOME/glib/-/comm=
+it/0919301962291a712067ee0c5d273cc392f33277 (this mentions in git commit of=
+ being helper commit to same #3931 bug)
+
+you will need to replace patch CVE-2026-58015_p2 with contents from above c=
+ommit.
+
+Regards,
+Siddharth
+
+
+
+--_000_DM4PR11MB618954D1D6C87B7D8AD9F169C4CA2DM4PR11MB6189namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Hello Yoann, Siddharth,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Thank you for pointing this out.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+I replaced CVE-2026-58015_p2.patch with upstream commit <a href=3D"https://=
+gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a712067ee0c5d273cc392f332=
+77" title=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a712=
+067ee0c5d273cc392f33277">
+0919301962291a712067ee0c5d273cc392f33277</a>. During validation against Gli=
+b 2.78.6, I found that this unit-test commit is not standalone. It depends =
+on these intervening commits:</div>
+<ol start=3D"1" data-editing-info=3D"{&quot;applyListStyleFromLevel&quot;:f=
+alse,&quot;orderedStyleType&quot;:1}" style=3D"margin-top: 0px; margin-bott=
+om: 0px; list-style-type: decimal;">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); margin=
+-top: 0px; margin-bottom: 0px;">
+<div class=3D"elementToProof" role=3D"presentation"><a href=3D"https://gitl=
+ab.gnome.org/GNOME/glib/-/commit/c0531125344bb25fd66ffb7435ed6c285de09aeb" =
+title=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/c0531125344bb25fd66ff=
+b7435ed6c285de09aeb">c0531125344bb25fd66ffb7435ed6c285de09aeb</a>:
+ Improves cookie ID validation. Several test vectors in 091930196 requires =
+this behavior.</div>
+</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
+ce, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); m=
+argin-top: 0px; margin-bottom: 0px;">
+<div role=3D"presentation"><a href=3D"https://gitlab.gnome.org/GNOME/glib/-=
+/commit/060aea67de7517d531b8fe2cdc07aa1a00ddeb22" title=3D"https://gitlab.g=
+nome.org/GNOME/glib/-/commit/060aea67de7517d531b8fe2cdc07aa1a00ddeb22">060a=
+ea67de7517d531b8fe2cdc07aa1a00ddeb22</a>:
+ Adds the client_get_reject_reason vfunc used by the new unit test. Without=
+ it, the test does not compile on GLib 2.78.6.</div>
+</li></ol>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+The complete upstream sequence is therefore:</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<ul data-editing-info=3D"{&quot;applyListStyleFromLevel&quot;:true}" style=
+=3D"margin-top: 0px; margin-bottom: 0px; list-style-type: disc;">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); margin=
+-top: 0px; margin-bottom: 0px;">
+<div class=3D"elementToProof" role=3D"presentation">&nbsp; <a href=3D"https=
+://gitlab.gnome.org/GNOME/glib/-/commit/db9c8fae398b0c457e660ce63dd5afec899=
+3046a" title=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/db9c8fae398b0c=
+457e660ce63dd5afec8993046a">
+db9c8fae398b</a><a href=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/db9=
+c8fae398b0c457e660ce63dd5afec8993046a" title=3D"https://gitlab.gnome.org/GN=
+OME/glib/-/commit/db9c8fae398b0c457e660ce63dd5afec8993046a" style=3D"text-d=
+ecoration: none;"> &nbsp;</a>Validate cookie
+ context</div>
+</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
+ce, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); m=
+argin-top: 0px; margin-bottom: 0px;">
+<div class=3D"elementToProof" role=3D"presentation">&nbsp; <a href=3D"https=
+://gitlab.gnome.org/GNOME/glib/-/commit/c0531125344bb25fd66ffb7435ed6c285de=
+09aeb" title=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/c0531125344bb2=
+5fd66ffb7435ed6c285de09aeb">
+c0531125344b</a><a href=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/c05=
+31125344bb25fd66ffb7435ed6c285de09aeb" title=3D"https://gitlab.gnome.org/GN=
+OME/glib/-/commit/c0531125344bb25fd66ffb7435ed6c285de09aeb" style=3D"text-d=
+ecoration: none;"> &nbsp;</a>Improve validation
+ of cookie ID</div>
+</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
+ce, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); m=
+argin-top: 0px; margin-bottom: 0px;">
+<div class=3D"elementToProof" role=3D"presentation">&nbsp; <a href=3D"https=
+://gitlab.gnome.org/GNOME/glib/-/commit/060aea67de7517d531b8fe2cdc07aa1a00d=
+deb22" title=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/060aea67de7517=
+d531b8fe2cdc07aa1a00ddeb22">
+060aea67de75</a><a href=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/060=
+aea67de7517d531b8fe2cdc07aa1a00ddeb22" title=3D"https://gitlab.gnome.org/GN=
+OME/glib/-/commit/060aea67de7517d531b8fe2cdc07aa1a00ddeb22" style=3D"text-d=
+ecoration: none;"> &nbsp;</a>Expose client
+ reject reason as a new vfunc</div>
+</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
+ce, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0); m=
+argin-top: 0px; margin-bottom: 0px;">
+<div class=3D"elementToProof" role=3D"presentation">&nbsp; <a href=3D"https=
+://gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a712067ee0c5d273cc392f=
+33277" title=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a=
+712067ee0c5d273cc392f33277">
+091930196229</a><a href=3D"https://gitlab.gnome.org/GNOME/glib/-/commit/091=
+9301962291a712067ee0c5d273cc392f33277" title=3D"https://gitlab.gnome.org/GN=
+OME/glib/-/commit/0919301962291a712067ee0c5d273cc392f33277" style=3D"text-d=
+ecoration: none;"> &nbsp;</a>Add the unit test</div>
+</li></ul>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+I will prepare v3 with these four commits in the same order, along with the=
+ requested patch-formatting corrections, and validate the complete series a=
+gainst the current Scarthgap branch before resubmitting.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Regards,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Deepak Rathore</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div id=3D"divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core=
+@lists.openembedded.org&gt; on behalf of Siddharth Doshi via lists.openembe=
+dded.org &lt;sdoshi=3Dmvista.com@lists.openembedded.org&gt;<br>
+<b>Sent:</b> Monday, July 27, 2026 11:28 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core] [scarthgap][PATCH v2 6/6] glib-2.0: fix CVE-2=
+026-58015</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div>Hello,<br>
+<br>
+Thank-you for sending the v2 promptly but i guess in hurry you copied the w=
+rong helper commit.<br>
+<br>
+The main fix is correct which is at -&gt; <a href=3D"https://gitlab.gnome.o=
+rg/GNOME/glib/-/commit/db9c8fae398b0c457e660ce63dd5afec8993046a" id=3D"OWA0=
+8a6c47b-aaed-2926-3c9e-e01bbd3ba53a" class=3D"OWAAutoLink" data-auth=3D"Not=
+Applicable">
+https://gitlab.gnome.org/GNOME/glib/-/commit/db9c8fae398b0c457e660ce63dd5af=
+ec8993046a</a><br>
+<br>
+but the helper commit is here -&gt; <a href=3D"https://gitlab.gnome.org/GNO=
+ME/glib/-/commit/0919301962291a712067ee0c5d273cc392f33277" id=3D"OWA7ee5705=
+2-408a-ed58-2805-622da6057cb7" class=3D"OWAAutoLink" data-auth=3D"NotApplic=
+able">
+https://gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a712067ee0c5d273c=
+c392f33277</a> (this mentions in git commit of being helper commit to same =
+#3931 bug)<br>
+<br>
+you will need to replace patch <span style=3D"font-family: system-ui, &quot=
+;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, &quot;Noto Sans&quot;,=
+ &quot;Liberation Sans&quot;, Arial, sans-serif, &quot;Apple Color Emoji&qu=
+ot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Co=
+lor Emoji&quot;; font-size: 16px; color: rgb(51, 51, 51); background-color:=
+ rgb(255, 255, 255);">
+CVE-2026-58015_p2 with contents from above commit.<br>
+<br>
+</span>Regards,<br>
+Siddharth<br>
+<br>
+<br>
+</div>
+</body>
+</html>
+
+--_000_DM4PR11MB618954D1D6C87B7D8AD9F169C4CA2DM4PR11MB6189namp_--
 
