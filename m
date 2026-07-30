@@ -1,160 +1,193 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F62C55160
-	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 11:48:26 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9666.1785412098142007300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CAA5C55162
+	for <webhook@archiver.kernel.org>; Thu, 30 Jul 2026 11:51:16 +0000 (UTC)
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9901.1785412275156839587
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 04:48:18 -0700
+ Thu, 30 Jul 2026 04:51:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=j2O5gV7X;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5276d598b96so11093021cf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 04:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785412097; x=1786016897; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TfiwlGbmtHAGVri+MdbNk+q8/38qxMTOWSF/jXHSjEU=;
-        b=j2O5gV7X7X+FGvUOZZjBbE4OxD76jjhXOAZ/FwrYPODuGxaUGZ0TtcRs6IHbQWW2z9
-         LOZg1QTG8h4LgXwTboIewqHOdZ8rS830GAWmsry4YdXtDicnfDu4sIeytp3Giy084xkC
-         hl/EEyNOMkZvWdEvlaKTSXmzBJPF7OZZHR0hbBJmiF0momKxAeKQgmgxqp+9GmwMtoik
-         wxVpWAyUicKcgl8yxmLHjl97Ls7Na0M2y8H40ZjRL2UdORekEQrf74OjSwzy1ttC/ynZ
-         RFyi3vxPTiDEO9Ns5qru/Ql5WotSLT+T6Zne+0EPkRAJq1SRHeEknVxLNPG88qQp6YI2
-         TyjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785412097; x=1786016897;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=TfiwlGbmtHAGVri+MdbNk+q8/38qxMTOWSF/jXHSjEU=;
-        b=bT6DJbWMe4A8l4RbBteK/bcNVk2xlvTrhtL1aWiQU6/oRzQk5rWO70E4JljkiteCZ+
-         CDfb2oZfwZMNJBo3t69ZFezVq0q0sbXF8q/SBCu6Nw2oY4EYH4d2MLCB5wO+T9iF5SAk
-         NxDXs/Z3Yv5d6JEfl9Abgid5ARFNZ+1Yk4q3AlGAgm1zipQBb2i5FbVKS6G1TYhs+M50
-         Dnbj6f+ut2ZsI1mNDJxZ9I/EI+fyYhHZ6B6mcNwg/KUKx3Gcw1gySFWN10FAbHWU9YNr
-         DDGwzQcfenGAH+SvtduNFywaX1qDu4lJfUGj1ePu8feTzV3/jnhVPsW/ERlDW0pEytvb
-         NbXQ==
-X-Gm-Message-State: AOJu0YzX1UzlJjVSF/KwmYmvIhQ76n89++c9C8fIsjfqJMDQD8xOQF1G
-	fhVbn3w5Otoda9tPqRAO40zAN2xcPOp3VTKnmXEc9Za3BDk500XeQ/yf
-X-Gm-Gg: AR+sD120yz948F204FNCL8UNmuvvUTx9RbuKN/kLY9wzFo3b/Ka4DyIzH1HpL/yft5F
-	TR2B2/ly6izYiu77xne6zi4GJHSzvEzAkPF/M790Wa2QN4H9aVZur2Z938nOGrS3RQVFTG0oLqH
-	DJQNDlJ9aM8Yqo8c8vondbwCwUpGw05lPwDj2KnztUPdIc72VewQ/MXpWaSMNZZacbpIuTklRPz
-	8J6InUKMRY0RIhH6Fxs/YitCniNryqrxGzZtcE2j5MoHBJ0uBinOJKmSsFKs8g8KslAHALOS1mL
-	LCD795Pezt4SrHPq/2TniTSON843u+HBI8y/GAQzrlDkG/q0kaYFRgicTSfMm3KEqRGZF1Zifhg
-	37lBCExwUcBfshQCKC9txihTBuG+gcE2Z2eoZM0Dzx2wMpytYZWQJ89dXPAVZbamoxDA0/Ky9U7
-	nzdYMmsDkAY6uc8/oZh6R7gAsv5ZeW2yZaXSH8zTk8WQ8nxJ1WEljctuXGNtjzeq38csRNgK7FD
-	txphGj23lhcnAGcFDRNEw9yF9uRA14=
-X-Received: by 2002:a05:622a:5c15:b0:521:5c5:f986 with SMTP id d75a77b69052e-52b384c918dmr22519181cf.33.1785412096942;
-        Thu, 30 Jul 2026 04:48:16 -0700 (PDT)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-529e2dd8ac8sm38837841cf.25.2026.07.30.04.48.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 04:48:15 -0700 (PDT)
-Date: Thu, 30 Jul 2026 07:48:13 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v4 06/10] nativesdk-packagegroup-sdk-host: add
- wic to SDK_FEATURES
-Message-ID: <ams5_Qwxn95WDGXd@localhost.localdomain>
-References: <20260724090146.19924-1-twoerner@gmail.com>
- <20260724090146.19924-7-twoerner@gmail.com>
- <76897f53eff588bb67e0e5f0b04dac7be6fa0ac2.camel@linuxfoundation.org>
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=a9kRCXUI;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=oZCvUZua;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.153, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2796E14000E0;
+	Thu, 30 Jul 2026 07:51:14 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Jul 2026 07:51:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1785412274; x=1785498674; bh=yIJ1x3Ckqh
+	SQADMeE43hpIEcY4gTMJ42YNPq35e8fH0=; b=a9kRCXUIwWI7cSwISlAhOyngf3
+	FnED7EgJPklufkrZSyWY1oLUfMa/CJy/LBDd/GTOZwngTE0IogIDBOhpX/dZeZBB
+	41gIo37UU1qAcbu7qwan69/Nm49haHW3mGGcxKRbfBh+fxPzRz0kdLR2nhQijF5H
+	OYGd0AHZR09QRQ/+TDsaN15OCPV4pAR6UpT3e6ZUMWMJuNOii4f7Xf06eJT7fv8c
+	X52teCv/tXNodTOPUUdwdzaQOdNYTEhQuHjKlOlCrlYJu3dEjTG1NLZR6GUwI3kA
+	xKqjAPfV2KQEPWVVW+dd24ZQnxB2lhX93YGnNfphnVHU3niXALiZnwMwgRzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1785412274; x=1785498674; bh=yIJ1x3CkqhSQADMeE43hpIEcY4gTMJ42YNP
+	q35e8fH0=; b=oZCvUZuaTNM6eFX89i98HsIVwcMQUv7G6dADs6RAUC93169H5VW
+	UN5V+xnBOToQOQ3H8dEJ53/wzw6+Yg2whJrw+a58uZXVqVtvpEmrZztEAqLrDveS
+	L+qCbfwFvG9Qrm/rukNAQUb4H7rFlwOhFDNx7mKLrnVAYwYjd2TxylApgiIjypRd
+	ZZ86EIeFipqpzcEkXUmujXPE7Sp2AcEx17nD+hwWT07VQ99tJ1E4LbOA4ksLNk6h
+	wMHOxN8iuNXg89CeJgx9sVCqQV8tNKAWmnumNnGWFSOmtGTedriX6TY9JQflj4ke
+	RhyWiw/zxktcSG6P31IAFhPl0I504ak8rhw==
+X-ME-Sender: <xms:sTpragbwz8rA7dBmBhPa_cnUiZEvMrvEexGap0hcLEL9x54aCe21MA>
+    <xme:sTprahY2Sn4rIBjzgfqO9mlPcdsGcnHS1PJZBSr5GGx5b-K2MKh-0vpB2iTyksBKl
+    t-yc4eA5nNx2f_cYI5u-cTDfjWfo_XkcZCJ9pYvn7-JGw35JnbLOg>
+X-ME-Received: <xmr:sTpraonBwZanFh1DeqzaP3WKSgjspcXGU7V9fP0J01CWE0PTfp6QwEwpDdqlLD2NSRbhghFHycT2Ij_wPBngYyOiqXsEmJmyEMLBit3eLRzu>
+X-ME-Proxy-Cause: dmFkZTGcuTcQDwJqOQTv8nmVkc6/Zm874noLTCFexGTQqhDKnsGdDcPi/M4/0EY4QkKXHy
+    Lt7rEBIPnNHrQftDd+YhSdCQzUNg/CHiiEMmqsSzYP1JSkzGoxmOW38kVE/hvKxOkUcvrt
+    46ukXXGeUvqhMWZJRKjfj/83f/w1s4Q/ZZHw731KyBan3E/E58VX+ii/aGbw1h+VWeZ2qi
+    7gAEAwFQr+DFyc96ACIjxcwh31Smx6rj4BEpztETyxBNEF0aLxLMtmICo09KtV298d+d+j
+    MTHoz8DmeExX9JiqqFi7pQ9pFehz0bFzXlWgksw7DW4WYH07acWe+tGFlPodh9dNLAaVts
+    YHC533rSh30SOgLVZRYzi1IK2S17om8Eej9i//IUEt0TzstY9FmTbHdQUO4XONgzzUPFn5
+    NN1E7qGm5xO/uDa1bOB6gtpVhB1X2U59nfMJv7OkkRcpQY2THEwDwOUfJ7WZfsCxpb4PxQ
+    xer8Q4eoU0GVooi6XOHDUAUQGIjR/7E1F2JC28fQ9DZcF5oFcJF79BHsLblmiFwnOdVmXi
+    w47BIDPlVzM47GfudCKgaVyTrKx6hHM2wyJ4lDsXrnWfUz+6Ok9FCfiWzhPgBowMheEu/X
+    gJG2QFHmFUczOw5k3bRvvJfd6gS1Ld/62XMqZZ39cCj3ME1FYV9FSbjNPqfQ
+X-ME-Proxy: <xmx:sTpralzGhqSu2j9JqWF9Ye0mnkSyftd0pWtKo3bOsOkSE18RStN1rg>
+    <xmx:sTprauOaL7LRX_b5laKv5_f-o5muNEVOqYDuyRCnq_1C0nex4KRSFw>
+    <xmx:sTprahTQSORhrnuhAEj-6CT0eu06a3KKhx72hliVWsC1p_D84HsjPQ>
+    <xmx:sTprakZD96N0URuY6bviH9MkyTsb1uD9EWMjeL32ehJ21wABL1dLEQ>
+    <xmx:sjpraowxaZK_Gc4Qucu2RoETtevC-GvfBQXf0lV-X4BZzPAQPoqfLlGJ>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Jul 2026 07:51:13 -0400 (EDT)
+Message-ID: <e2d0d98e8347500b444140ff9775d84f06ad0fef.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH v2 1/2] package_manager/ipk: skip checksums for
+ unsigned local feeds
+From: Paul Barker <paul@pbarker.dev>
+To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jul 2026 12:51:06 +0100
+In-Reply-To: <20260730091017.171702-1-ecordonnier@snap.com>
+References: <20260730091017.171702-1-ecordonnier@snap.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Bpxuv70Ali4T91E1YaEj"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <76897f53eff588bb67e0e5f0b04dac7be6fa0ac2.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 11:48:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242340
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 11:51:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242341
 
-On Thu 2026-07-30 @ 11:40:13 AM, Richard Purdie wrote:
-> Hi Trevor,
-> 
-> Firstly, thanks for the patches, this is the right general direction
-> but we need to get the details right and I think there are a few tweaks
-> needed to make this as usable as we need it.
-> 
-> In 5/10 you introduce SDK_FEATURES and document it as behaving as
-> IMAGE_FEATURES, bit as implemented below, it wouldn't.
-> 
-> [cont. below]
-> 
-> On Fri, 2026-07-24 at 05:01 -0400, Trevor Woerner via lists.openembedded.org wrote:
-> > wic is useful from an installed SDK for assembling or inspecting a wic
-> > image, but adding it is not free: nativesdk-wic pulls in the tools it
-> > runs (parted, gptfdisk, dosfstools, mtools, bmaptool, grub, btrfs-tools,
-> > squashfs-tools, e2fsprogs, util-linux, tar, erofs-utils, and syslinux on
-> > x86). Most SDKs do not need any of that, so wic should not be in the
-> > host packagegroup unconditionally.
-> > 
-> > Gate wic in the host packagegroup on the "wic" SDK feature, which is not
-> > enabled by default. A configuration that wants wic in its SDK adds the
-> > "wic" feature to SDK_FEATURES and gets a working wic, together with the
-> > tools it invokes, in the SDK.
-> > 
-> > AI-Generated: codex/claude-opus 4.8 (xhigh)
-> > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> > ---
-> > changes in v4:
-> > - split out from the v3 "add wic via a new SDK_FEATURES lever" patch:
-> >   this patch now only wires wic to the "wic" SDK feature
-> > ---
-> >  .../packagegroups/nativesdk-packagegroup-sdk-host.bb             | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> > index 51e48f250b19..c2974a57fe3e 100644
-> > --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> > +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> > @@ -29,6 +29,7 @@ RDEPENDS:${PN} = "\
-> >      nativesdk-bison \
-> >      nativesdk-flex \
-> >      nativesdk-perl-module-integer \
-> > +    ${@bb.utils.contains('SDK_FEATURES', 'wic', 'nativesdk-wic', '', d)} \
-> >     "
-> 
-> This means that the recipe/package would rebuild every time you change
-> SDK_FEATURES. IMAGE_FEATURES can be set per image recipe, this would
-> mean SDK_FEATURES can be set once, globally.
-> 
-> This is why SDK_TOOLCHAIN_LANGS is handled at the class level in
-> populate_sdk_base.bbclass. It looks for values and pulls in a
-> packagegroup for a given feature. You can then change the langs on a
-> per sdk basis.
-> 
-> Instead of the above, you could add:
-> 
->   ${@bb.utils.contains('SDK_FEATURES', 'wic', 'nativesdk-wic', '', d)} 
-> 
-> there, probably for TOOLCHAIN_HOST_TASK.
-> 
-> Generally we'd create a packagegroup if there are multiple items being
-> gated on a config. wic is probably fine, sbom might need a
-> packagegroup.
-> 
-> Other feedback on the series:
-> 
-> * patch 5/10 should have a subject prefix of bitbake.conf as 
->   it doesn't touch nativesdk-packagegroup-sdk-host
-> 
-> * We need to migrate SDK_TOOLCHAIN_LANGS to SDK_FEATURES, 
->   probably using BB_RENAMED_VARIABLES
-> 
-> 
-> Are these tweaks you're ok to make?
 
-Yes, absolutely! Thanks for the feedback; much appreciated.
+--=-Bpxuv70Ali4T91E1YaEj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Cheers,
-> 
-> Richard
-> 
+On Thu, 2026-07-30 at 11:10 +0200, Etienne Cordonnier via
+lists.openembedded.org wrote:
+> From: Etienne Cordonnier <ecordonnier@snap.com>
+>=20
+> Computing checksums in the opkg Packages index requires reading every
+> .ipk file in full.  For a large image with 7000+ packages (including
+> multi-gigabyte debug packages), this adds 150-300s to every do_rootfs run=
+.
+>=20
+> Checksums in the Packages index are only meaningful for signed feeds
+> (PACKAGE_FEED_SIGN=3D1): the GPG signature covers the Packages index
+> which contains the SHA256Sum of each .ipk, forming a chain of trust
+> that prevents tampered packages being swapped on a remote feed.
+>=20
+> For unsigned local file:// feeds the packages are installed directly
+> from the build host filesystem where there is no tampering risk.  Skip
+> all checksum generation in that case by passing no --checksum flags to
+> opkg-make-index (the tool's default behaviour when given no flags).
+> Pass --force-checksum to opkg so it does not error on the absent
+> checksum fields.
+>=20
+> On a test image with 7000+ packages (including a 2.3 GB debug
+> package): write_index time reduced from ~180s to ~22s (8x speedup)
+> when opkg-make-index is configured to produce no checksums by default.
+>=20
+> See https://git.openembedded.org/openembedded-core/commit/?id=3De462f4748=
+9f35902b6972f9837d9adfa542fc796
+> ("Enable sha256 checksums in opkg indexer", 2019) for the original ration=
+ale.
+>=20
+> AI-Generated: Claude Sonnet 4.6
+> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+
+Hi,
+
+The package feed may be made available over a network and/or externally
+signed after it has been generated, so I don't think we should disable
+writing checksums into the feed by default.
+
+How about adding a variable to control this? It can be enabled by
+default in OE-core and you can disable it in a local or distro config if
+you know the signatures won't be needed in your use case.
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-Bpxuv70Ali4T91E1YaEj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCams6qhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bs/vAQDCPmTzCwzybmNGriionFnwDIijOmzxhGZY
+uUdt/x7JswEAu80vmFYeJCUDvsy/JnM4bkipBO1F6F+Q017ADBxG7ws=
+=wZbE
+-----END PGP SIGNATURE-----
+
+--=-Bpxuv70Ali4T91E1YaEj--
 
