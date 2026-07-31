@@ -1,218 +1,170 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7234AC54F54
-	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 10:46:23 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3590.1785493955699881549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B320C5516D
+	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 10:56:33 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.70])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4037.1785495386117153012
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2026 03:32:36 -0700
+ Fri, 31 Jul 2026 03:56:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=gUwZXD3R;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: xshang@qualcomm.com)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66VAC2Xu3560089
-	for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 10:32:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=RQURT3MkmDSz+MLAp1ncNiw4OIzVzX0gS+5
-	pyqE6mKo=; b=gUwZXD3RIlPgUcAD2xNX+zszsPKXKO8+bNUH9Gr/7CKNG1A6QEj
-	fkJwhaxyEkA/xNSq0PYgFUvGPQS856nGsFE9zyOe7+Oe4XQNz07hwfXRzf/7PKiS
-	bXmugJGTqNCl/m7C4h7MNRzj8ns5rmB66UaTp1Klgpceazn6Ycrb7gXDcsaQ+ABI
-	ZnLsCchNkQHjWoW8Pib2R9ePwK4yQtJ0x3TxalnmXdhcXYP67HWssI/BhTgOstCp
-	L+RsvvyAvsvr3ZpW1qZSSSY1RPZ29jV0lPLISXxB6HkElQZexLxiJekrw6sCXYly
-	FLP6OJTY99sQwK38VzgTt8qs8bDj/srapDQ==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4frse404pf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 10:32:33 +0000 (GMT)
-Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66VAWVxD028838;
-	Fri, 31 Jul 2026 10:32:31 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 4fmp7jwp6j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 10:32:31 +0000 (GMT)
-Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66VAWUZD028829
-	for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 10:32:30 GMT
-Received: from bt-iot-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 66VAWUcO028827
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jul 2026 10:32:30 +0000 (GMT)
-Received: by bt-iot-sh03-lnx.qualcomm.com (Postfix, from userid 2385805)
-	id 6BE0343DFD; Fri, 31 Jul 2026 18:32:29 +0800 (CST)
-From: "Xiuzhuo Shang" <xiuzhuo.shang@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
-        wei.deng@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com,
-        mengshi.wu@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
-        xiuzhuo.shang@oss.qualcomm.com
-Subject: [PATCH v1] bluez5: restrict delta=0 RSSI to proximity filters
-Date: Fri, 31 Jul 2026 18:32:26 +0800
-Message-ID: <20260731103226.3651558-1-xiuzhuo.shang@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=y+Zmer+a;
+ spf=pass (domain: siemens.com, ip: 52.101.83.70, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GpOQwp4LkRD5ODk5gG63VtnrtBHcPGK8pWtVPJXY+JBYQVC/306OLlXJUTsZXILF7JkIuJBbTJZduJAUPVi4aA1hm2AqyOqAAwehQ35L9AtdfSgj8s5LSkz0fSDZafWpglDDIg/76VsE+hF6ksHY83GRC8e0GO6NE7q1TXhhuMvgSbuq6fJ2dt9qnHGjBk1ygyyRPr8KB1zcOReRw2o1PX8h6wR6elHv7iFrK0cmaxieeT/5UDKECd1frFpEsXE9VOxE1W8P0za0K4cACX+2gDuUbQPrSTWrBGgQAwGCTrXSfCtwQLmIhLFEDiCwBB932lMKXeRopQMpuiFU7lX4xA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sjt8qhsrflqxIjE+L54VvrSowbqH9SYfseKGliiFE6g=;
+ b=utDCNOaOd/V3WEL7F1IUUwL3rY0aQ70UvDg0erdxHsWLJzOp2dZ+zoXb8g57HjEL9ILM3MTVCfuFiXK0+aEAGdafQBUEyYPFsoSV/2B5JGEhY8OvRkmvVaEM3s/twxSeTeV36yIsVVh1PcEun2Egv4Xi/qVz95oOudfMwxa/9ua1tZBgmrQJt1P3UVd9T9rX2tcASFU9wo0cSpum4gJ2lFrILb1MmBYgjUJoS+ciW/JjuDT/vCD4t2JkY018mJA3qM45PzpDWpvM+PnkVsjdd/PSuAArBS8Hv6aV2eWORR+qIAsLeEyZtVYvJDHnDu0+vczTv3MjsAK8/TqgBVJggQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sjt8qhsrflqxIjE+L54VvrSowbqH9SYfseKGliiFE6g=;
+ b=y+Zmer+aGIKZF2mc0ATR6fG5ScCUIcH7vnpZ+MwmPBNWGIAHCtR6nG7L0x8v1wXEe866bzMsQtRTFtVkKD/Cyi65xYu0h+eUfIsoVIejOKkkW6fRc6Hs1dQ/pcoXhuarPAAe65GgiuH862xL/wO4Hd+B9Cnt+5gfiqrOCCKhQJ1pwvQLGt59mfj+Ik8Pkws62XEBIwqkA651SY8VXfHtkY0ktTlIDdd4+GJ2c9zcpqPxOSSjAd4TxFLeFqwnFSKdfQ9GivkVl619Ky6IKU8WuRdGuyVboZO6/gMqMqaBilw6kiGllzUuScc/RgcZkpMvmjZrGVFNtUc9q+bAubrlDw==
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
+ by DB9PR10MB7410.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:45d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
+ 2026 10:56:18 +0000
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0270.012; Fri, 31 Jul 2026
+ 10:56:18 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] glibc: Ignore CVE-2026-5358
+Thread-Topic: [OE-core][PATCH] glibc: Ignore CVE-2026-5358
+Thread-Index: AQHdINnKdwTkjzQCnE29RnozZtsX+raHdCkQ
+Date: Fri, 31 Jul 2026 10:56:18 +0000
+Message-ID: 
+ <AS8PR10MB50735F0BDABDFCA84EA8283AFDC82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260731103554.617510-1-adarsh.jagadish.kamini@est.tech>
+In-Reply-To: <20260731103554.617510-1-adarsh.jagadish.kamini@est.tech>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=69124a2e-cd2d-4a93-ab05-28d5e9316a33;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-07-31T10:54:17Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|DB9PR10MB7410:EE_
+x-ms-office365-filtering-correlation-id: 34c358e8-0dc8-44b3-b6f1-08deeef259a4
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|10067099003|11063799006|56012099006|18002099003|55112099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: 
+ rmPxbWZsFwju8csqPLJ04P+toKp8gSn2zk1sjreUsVwFO5qZEtXEqGfrBHzrNudxqm5VvrsGKqEn3U0ZCvkQk/UwpBf1kXX6uk/cZRbu9nOl3IWBf9oFbFGHpoCYE0WqPLL5ip/RT8C7oUeB+sDeEyI1X2k4+ERfu9HybkXW4JhJUqkJZFJyiLuQYDIVCiO2EGp2imsc5d60UHeruuRjOw1daOpCQW/3tZju7Tmlk4FxJTE/PJZvR7eTt40+kLZftEwPP01Vd+mtdroS/3n68oxMl86ifrL0JD1uCVDkg5rm6UcUcH0/oZGhRxoUSSmU0BK/5r395iCMhBDFm4gJeXyLEITMCdul3xWlZEQBgJYiumNhcxitEnzwssjxT19ystRvVPo6+05MVm27tcODYCcmK7jp2T/4k6st/pLlK4KeqSIZjUsW/3b7EpshewTidXH2dZUGEvL0SLn/lP5VQSYP1tgyBUNCEfiNu/4CcHgf1o8+jQauZYdSwcmXUxNBSeeDsdzrSlG8eSOHg0vjvtKlDUqs4ZEESMoevt9TNzlcGHchVVNy+in5lRVDrbzVtAZCNdIJVCJEnqwLcuj3PgYkFJeLNdrjIGKEgg75LrYPzygMI7b1MC8rB4qTnsrt6UnP2Q5dmSYfczT8J0HyrjN9Q0dR6QipGulqYl8blSQXf9//odKzh12QBSENkEybruTw3eUslstTklbZCOmnMzwQyRX+cSzc/xyI9Ddc7bs=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(10067099003)(11063799006)(56012099006)(18002099003)(55112099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?ZsfSCvgm4GNPzHoK6s5XpjR0gIFXRlplIidgHRq0Ax7bFYii0cAG/XBFSC/n?=
+ =?us-ascii?Q?YJPPcE0BMiZbJTugstmzbX7kJl0BDxMHFFBLAPquh7JXHS6EJNO+EIeT3mmZ?=
+ =?us-ascii?Q?xHtiPrKAQTiA5BYvTpWl8xK63hdesk/DrWl+OfueBXDc0qyGhOi7D43s3KtG?=
+ =?us-ascii?Q?VC8lzs4sLM9EUjJoiAI4ISMhTzTvhievl443JIGJvdRGMpLqruSjEkvLV/KK?=
+ =?us-ascii?Q?98AMcQ65XeGcQGOH0iCl9r/++p6bkjsD9c862EwJtPxzSLV/Zodz1r2eCds7?=
+ =?us-ascii?Q?MQf32pNZcgU93vdkntTs0lga2cYmO6sm+KQNycbwXXWe9kjaQiBpQgtznDXC?=
+ =?us-ascii?Q?QAKQMI1h34zgL6Vx7icshIyfXbbeSJUSVuReVq1wZ2Zgr8oRRMSw7Iy/r5L6?=
+ =?us-ascii?Q?T/dTpxrVJ7EbwOtvKfuYjw5b5weuoVALRbtUczubgOJWQ1aZeD5cMvTPicAx?=
+ =?us-ascii?Q?DhsvLNZUOtxz57Y8p4xfgwi3Ct/VXXjd9sJetn+9bA2PWl8mz/rvEwL3C6zG?=
+ =?us-ascii?Q?EaQ1vOTXeJQFLIgPFy+RXVEvV5M1lESnZ9yRbMVwjDBK1Y8okdrvO4DwB6Ig?=
+ =?us-ascii?Q?E/4fXn4g8yY2AXRPEUoh43+sW8aS3HPeT1eEBITKk8QAM6vQGmuQXtNaWRNT?=
+ =?us-ascii?Q?SNk/EVGlF4h7pcX+1ULHhmgY78TQW18mwl01EUpJMYg5uesRk+GCiIBiwcOY?=
+ =?us-ascii?Q?fsZAgncg+tuV2Kff/8GioY3g1+YwST69/oMuVyPvpGXzhap8MA+m21foIp1b?=
+ =?us-ascii?Q?ycWgVaJARxi9rhCqlN+gWh5nVGjAwgdeAcoVRrP9LTVPZCqQrKHGVSqqrWCA?=
+ =?us-ascii?Q?1cDypwRi/CnUHvznCLRSbfbL71tZ62W0RQJfOQBcHBepXEyvPKH5K1UypqGh?=
+ =?us-ascii?Q?6xNtV/uIg4547DYaXSxUrfNyc2SrlIybhIxifvcpNw5aMEPZqk+HhKYl+U1T?=
+ =?us-ascii?Q?eMuC1zjPeHpNFehAIJ6IA+9AzQXDRFR1YOJRJ+iPE9pMmYL3Vbkd37HRVdR1?=
+ =?us-ascii?Q?PBMMvDQs5fPYhImmqr9lJGsuCaAkAJNJTXoiyocw208QnEkTrSaVOYbxo4q1?=
+ =?us-ascii?Q?Fq8N2Ek32ny6YdQc/Q+uS/dBpEFw1OJIh98FwgOGwuoJW4Vi1FtZM2vQucCM?=
+ =?us-ascii?Q?/IMwoJU4C1LbIG8r4bR5uHtsQM0enwEG1DR+YadUs6XZql5ygX4TQOpd32Dh?=
+ =?us-ascii?Q?FS8FN+PNecGUlbhz5D3cpFtXD1BOryNPc3ztqycLd6tcSFIf3eayMG9Z+D2R?=
+ =?us-ascii?Q?Q64U1kNO11wngzOuLRgZ38HeGoZhYQ6R1urnf6pBfWXrzclBeHCxigmbu/f8?=
+ =?us-ascii?Q?8zCg2DOGfRfONJbBfyvReKwtK8exLtgz3Vs7tvgpsrOdADjc/xjPSgAZWato?=
+ =?us-ascii?Q?qu5F7Z6phYmFz/p6KYr5KETP9fkwjk/LorIRRJLQxb8WxjDt+WFCV6L9WGiB?=
+ =?us-ascii?Q?59Xi2R9miDw29TLno/vqQcIcNEn0wvBD3f34YKUmluvwVPIExUO8biSqZK68?=
+ =?us-ascii?Q?HmhUH4zWw+RBB5g/L2ptHtK44TxlT2TwS0J0aNGB6Bsn9w/IR6ob7HW8epUK?=
+ =?us-ascii?Q?NOfeCo+dFOoVvs/jVzvGU49CjAfmscpyHWsMLPnwuV145FuWNnYjILlGi4oU?=
+ =?us-ascii?Q?LDjGBHhICxGgfYXjMXpsH9yQhGd/izkjyMApXktzB9xeO0Ow35PFmQGHVwJQ?=
+ =?us-ascii?Q?VAUbt6bHkJc39iQqaZSRcNTr2Chj34fDfJLSt+iRO2Td6jD4s91HlpJosFbY?=
+ =?us-ascii?Q?by2sjTJz8g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=HslG3UTS c=1 sm=1 tr=0 ts=6a6c79c2 cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8
- a=Q3d3CrAPWoBhLKqdOAQA:9
-X-Proofpoint-ORIG-GUID: ebMyHP2hwcizI-VRjpQs-cLX1g0QOOX4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA3OSBTYWx0ZWRfX8tCWxZiHqpKa
- xHZcojowgwDGdmVmzXEpW/oorKyvwGc4dzZp6JLNxOfOHcn6qBp3dtNIc9z4TrO2CzdNZZ8OZji
- e5FtpTHuO1PFGOMWjmm9HVUYf+WaQtVRh611nCxJRfbP4XsiV7LJYplcWuZZ3F8y3sW5HgmqCve
- CuZHPc5QUOLvwrLZsQDLWsmv9/RJg96w7/sPEP34kucJsaJ/1A47z3jMGalGr1RVjtaCz1qTATy
- Nss+5RDVL+Rfy3fqmUfBnT3Kmqcvhxr3upRluurcg9uyvvej1SUY7pf3DDgvW+qHXTV1blw5Mtf
- qyyxNUdOrzcAZXoxoWUl1pbyTMBVa+X7l7Ekk7cQi+YT/mqziUZqrrsRmUAtUSxlXhgLr295HnX
- CiGcD8rzEbphooatXNqXO9BkjarQacpmqrbxChanRJhIbALil9hnIlsNgDGUiZTGryiaXd4Ctj4
- 8SzJenFJy4BUA7DChrg==
-X-Proofpoint-GUID: ebMyHP2hwcizI-VRjpQs-cLX1g0QOOX4
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA3OSBTYWx0ZWRfX0CircYiYc5V6
- b252iiP5CPgx2gVUli1n+V1sU0/dkerk53Ng2dTXg4DTIRfjiphw8uBt+6TtTtjtzdNIDfGLGU7
- jBt8lsfEpw8EcmXsXdXq0rmtnXKWX90=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_03,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 impostorscore=0 suspectscore=0 adultscore=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310079
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34c358e8-0dc8-44b3-b6f1-08deeef259a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2026 10:56:18.6103
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RJIVXoZw/NPUzttZC73d+EoQ9ggAzH1z6WVDAyPcv00v09zfKPesfGOlShL8NCWrWY5z0FVnSIRY3XJ21DKJhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB7410
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 10:46:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242428
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 10:56:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242429
 
-When a discovery filter is active (filtered_discovery=true), BlueZ
-unconditionally calls device_set_rssi_with_delta(..., delta=0),
-causing every BLE advertisement to emit a PropertiesChanged(RSSI)
-signal regardless of whether the RSSI value changed.
+This CVE has rejected state in all DBs that are used by Yocto cve-check/sbo=
+m.
+There is no reason to also carry this annotation for it.
 
-delta=0 is only needed when a client has expressed explicit proximity
-interest by setting an RSSI or pathloss threshold in its discovery
-filter. Filters that specify only transport type or UUIDs do not
-require per-packet RSSI precision; for those, the standard
-RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
+Peter
 
-Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...ct-delta-0-RSSI-to-proximity-filters.patch | 87 +++++++++++++++++++
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
-
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index dfd368ef3f..b7a1615a02 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -73,6 +73,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-gatt-client-Fix-use-after-free-caused-by-reentrant-c.patch \
-            file://0001-transport-Fix-set-volume-failure-with-invalid-device.patch \
-            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
-+           file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
-new file mode 100644
-index 0000000000..fdb1afdab4
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
-@@ -0,0 +1,87 @@
-+From d00dd99229bc9ce78b0e8bb3bb523a3cd504473c Mon Sep 17 00:00:00 2001
-+From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-+Date: Wed, 15 Jul 2026 17:06:35 +0800
-+Subject: [PATCH] adapter: restrict delta=0 RSSI to proximity filters
-+
-+When a discovery filter is active (filtered_discovery=true), BlueZ
-+unconditionally calls device_set_rssi_with_delta(..., delta=0),
-+causing every BLE advertisement to emit a PropertiesChanged(RSSI)
-+signal regardless of whether the RSSI value changed.
-+
-+delta=0 is only needed when a client has expressed explicit proximity
-+interest by setting an RSSI or pathloss threshold in its discovery
-+filter. Filters that specify only transport type or UUIDs do not
-+require per-packet RSSI precision; for those, the standard
-+RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
-+
-+The problem is triggered on dual-mode adapters by a transport-only
-+filter (e.g. Transport=le). In merge_discovery_filters(), the
-+transport-specific scan type (SCAN_TYPE_LE=6) does not equal the
-+adapter scan type (SCAN_TYPE_DUAL=7), so has_filtered_discovery is
-+set, filtered_discovery becomes true, and delta=0 is applied even
-+though no proximity condition was requested. With hundreds of BLE
-+devices advertising simultaneously this generates hundreds of
-+unnecessary PropertiesChanged(RSSI) signals per second.
-+
-+Confirmed on QCS6490 (BlueZ 5.72) with Transport=le filter:
-+
-+  adapter.c: filtered_discovery=1 (current_discovery_filter=set)
-+  device.c:  device_set_rssi_with_delta() rssi=-86 delta_threshold=0
-+  device.c:  device_set_rssi_with_delta() rssi=-79 delta_threshold=0
-+
-+Add discovery_filter_has_proximity() which walks discovery_list and
-+returns true only when at least one active filter carries a real
-+proximity condition (rssi != DISTANCE_VAL_INVALID or pathloss !=
-+DISTANCE_VAL_INVALID). Use this to gate the delta=0 path.
-+
-+Other filter fields (transport, uuids, duplicate, discoverable)
-+express capability or content criteria and carry no proximity
-+implication, so they are intentionally excluded from the check.
-+
-+Upstream-Status: Backport [e004414a1751d29216ccab976d6c7174ec48d11c]
-+Signed-off-by: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-+Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-+---
-+ src/adapter.c | 19 ++++++++++++++++++-
-+ 1 file changed, 18 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/adapter.c b/src/adapter.c
-+index fb95e8553..1023e43a2 100644
-+--- a/src/adapter.c
-++++ b/src/adapter.c
-+@@ -7255,6 +7255,22 @@ static void filter_duplicate_data(void *data, void *user_data)
-+ 	*duplicate = client->discovery_filter->duplicate;
-+ }
-+
-++static bool discovery_filter_has_proximity(struct btd_adapter *adapter)
-++{
-++	GSList *l;
-++
-++	for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
-++		struct discovery_client *client = l->data;
-++		struct discovery_filter *filter = client->discovery_filter;
-++
-++		if (filter && (filter->rssi != DISTANCE_VAL_INVALID ||
-++				filter->pathloss != DISTANCE_VAL_INVALID))
-++			return true;
-++	}
-++
-++	return false;
-++}
-++
-+ static bool device_is_discoverable(struct btd_adapter *adapter,
-+ 					struct eir_data *eir, const char *addr,
-+ 					uint8_t bdaddr_type, bool *auto_connect)
-+@@ -7451,7 +7467,8 @@ void btd_adapter_device_found(struct btd_adapter *adapter,
-+ 	if (name_resolve_failed)
-+ 		device_name_resolve_fail(dev);
-+
-+-	if (adapter->filtered_discovery)
-++	if (adapter->filtered_discovery &&
-++				discovery_filter_has_proximity(adapter))
-+ 		device_set_rssi_with_delta(dev, rssi, 0);
-+ 	else
-+ 		device_set_rssi(dev, rssi);
-+--
-+2.43.0
-+
--- 
-2.43.0
-
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Adarsh Jagadish Kamini
+> Sent: Friday, July 31, 2026 12:36 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core][PATCH] glibc: Ignore CVE-2026-5358
+>=20
+> This CVE has been marked as rejected upstream.
+>=20
+> https://sourceware.org/bugzilla/show_bug.cgi?id=3D34067#c6
+> https://inbox.sourceware.org/libc-alpha/20260421164416.4031726-1-
+> carlos@redhat.com/T/#mf76c27025e603294611196b90e428769c9fc5a4e
+>=20
+> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> ---
+>  meta/recipes-core/glibc/glibc_2.44.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/glibc/glibc_2.44.bb b/meta/recipes-
+> core/glibc/glibc_2.44.bb
+> index 9c93c05fe9..97446c12e8 100644
+> --- a/meta/recipes-core/glibc/glibc_2.44.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.44.bb
+> @@ -4,8 +4,9 @@ require glibc-version.inc
+>  # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2019-1010=
+022
+>  # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2019-1010=
+023
+>  # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2019-1010=
+024
+> +# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2026-5358
+>  CVE_STATUS_GROUPS =3D "CVE_STATUS_RECIPE"
+> -CVE_STATUS_RECIPE =3D "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-
+> 1010024"
+> +CVE_STATUS_RECIPE =3D "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-
+> 1010024 CVE-2026-5358"
+>  CVE_STATUS_RECIPE[status] =3D "disputed: \
+>  Upstream glibc maintainers dispute there is any issue and have no plans =
+to
+> address it further. \
+>  this is being treated as a non-security bug and no real threat."
 
