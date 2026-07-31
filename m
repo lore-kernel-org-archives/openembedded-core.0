@@ -2,52 +2,54 @@ Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA75C55174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33053C55172
 	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 09:26:49 +0000 (UTC)
 Received: from TYPPR03CU001.outbound.protection.outlook.com (TYPPR03CU001.outbound.protection.outlook.com [52.101.126.106])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.2924.1785490002156443016
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2026 02:26:43 -0700
+ Fri, 31 Jul 2026 02:26:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=EaUsyJxg;
+ dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=YoN527rw;
  spf=pass (domain: aspeedtech.com, ip: 52.101.126.106, mailfrom: jamin_lin@aspeedtech.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aM5WjC0jjk3NhwLTUzu6DBLfxYS5qRPTEkIA3er2eRAcLzZVMRVSmn0Neu8uYMAuUMGZqK6KCQluEGwBAEd+b4vqpgPbK4psrNcCYNaLzW5b5hKhoRnZdyjRml4R7vET6QpV8Rx0GNHpMYxkVpfaFd+lV1BupmvMFf7Cfo0vwBT//MLL0DRSXaCLJ3AHZ0t8vcXe+W5JESyg/uECWqP1ZPinskzBO6iPEH67UK0vjYLy11k1pdoGuzIvtKLMlv2S4PyTgVVApwjxI0RFbEfPOJNd/d3DeCtSQrYenQ3p1nxiHdCmJiXpxPLyW5BevNpe2OiNOYZy5/vb92FeJWX7Fw==
+ b=Zi5VZoSmhcb2tdFOBU+YFj0ieawG8PD8DSd2y1tgDdUxAEIF8N9zaNinZIu4SWGGl/7n3xW73FFzR0ev56PzPhIfluz4KCQGvcU8kTIanMa8qV7LMi+zNklSq3ubb3tWjGcjJz3t1+kdWWYPmkwWpgD9ZmDxpBTITbR3CeLE6WbS4CSkCntTFq+YQc8fjnCQarHSh9yTbmhLLPo87Ezrpa5GSuF1JUMgvzCLTBTnDgVVEiXpn/ELifQHC5mXofYV1RfW2SQmBDZXBWsVV1FjujO8hmZKOJ8JMCJW+aQLQs7eLlL74Fcf7u0Xewha4pTzRbZ5JCuETMuGQNm0lvst9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AyEfFPWP6/U4WCD2YvX4j/FHLfiwPPovinHuWQqoRfY=;
- b=O4NnVhYjNTXRORbTNGTVeMXrxijW1LjVNnDG7nkQmXQyxvRgyKHGDeY0nVfy26XgWygKV7VVidgdTWY/hNAM4Mk8tgIk7JC8SyMT/t79Qj25fQmqNU04p8uHWbcPZvB+iGBFQheKXLXQA4P+AyFywA0KfkcPzMl4AKOUPK5+nnxjRDHrYYiQOJ6x6TUYkd8XJBGr46L9R6wE/ae6Y31cgqaHAKpaluE3plkm6LPO7b0suSLOZslrcjE5bQtpZzIiodlQcPP1QtS62NYbDb+hQpnyuVClYK0gn89z63T59K346btCeerqfzp89gp4T2ZSQmJXTonU8b78GwuDhylmhA==
+ bh=rtRHyUsNC/9vReP8p3z7qb/vBHHiT/nQ6SjpkCKJvTE=;
+ b=PkSQ2A9KCzVAHjl4B95ZXYz8R0DdE2iaTtntMXmfvc3OuSgg56bBpjPQioOHK7uar+GEjZ36YLKplxnbSWNJtAMXT1/gH70fuY9Cf52bklJi69JrgVVCC/cnq8isdl6qK3hTG68r2W8cbaULrb/MrD3BULdUcEye2na+Iqp2p4QZ1yjMw/vCgpPefGiX63hiy3pYceiEJolAHvA5zbm1RycdUWiK9Etn73VUSjt+GJG2D8YJhkUueHgbo5q+3SKUVgKE501AHXL1rCqyVGkhQAWQmXWBIrWnNGLvHQxfyVEdKA6hRK0f+5O1/NvDWbzGThaDxOVWepkGDg+j8VQwBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
  header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AyEfFPWP6/U4WCD2YvX4j/FHLfiwPPovinHuWQqoRfY=;
- b=EaUsyJxg+v6q5GAjW9cEYFZkZdw6jcgHUDSMLVgNE+6bXvRPyPKCKbOi0l2SrASOBSkWQKG1q1vjCoptIMI04zjrHQHPGYwbYg3dHH9XU7+SByt88Af5VrMIMoEFpp76xXw55NtuWrdkzreFe/0h14pXliHyTghpcZ+0+j1HqM4oA0tmXEg1CjuzJ7L3zYrqKAup3Bw88C8z7k9JgVcK+VMRfNENYu0eyJqu3JQ6djlPJzSx7SXIoUmJ6kn5pUlbT+hgzpgbIdAtlm6N9tkxHNLyZiHysz0o9G/hN5+s7HbJnSSPotTbq7zTfry+BNJwKm3V1fhfnbyzeAsrRMMlsw==
+ bh=rtRHyUsNC/9vReP8p3z7qb/vBHHiT/nQ6SjpkCKJvTE=;
+ b=YoN527rwj06NUd9FZsYh/C3U2zO8WdGtO3RIpK2vV7AL0izvltL9+z2/I0M8niMW1CRpGyDY//4GqtEhj6zBSh7cDI4slVmxgBzcNG884nsDVbej8+iDR0FjtEEn8QDBxn0KXzX23h7BW1mEBlfIFsZl7PDhE85WRrM5neQ53Ix9VDCX7Z3yisfvITLRnjk0svLd2LUVXvxAF2AjaZ1qAtzcOCVC6ly1IhxkPd872x7arKBroRCqzZEJFx7KXN2eQiSNx2+T814AaeBy91JIgt/o0HIMTXCA1TiPGJyQ6pHDjdmxbGd8/XC87FKbFvj4VwShIYgMlAdhHl87HayX3w==
 Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
  by SEZPR06MB5295.apcprd06.prod.outlook.com (2603:1096:101:7b::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
- 2026 09:26:35 +0000
+ 2026 09:26:38 +0000
 Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
  ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
  ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0270.012; Fri, 31 Jul 2026
- 09:26:35 +0000
+ 09:26:38 +0000
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
 	<alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>,
 	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
 CC: Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: [PATCH v4 0/5] devtool: fix standalone clone conversion for nested
- git repos
-Thread-Topic: [PATCH v4 0/5] devtool: fix standalone clone conversion for
- nested git repos
-Thread-Index: AQHdIM6uAQWEu7O8G0OxcM2jd3A8oA==
-Date: Fri, 31 Jul 2026 09:26:35 +0000
-Message-ID: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
+Subject: [PATCH v4 2/5] devtool: Register nested git repos before the initial
+ commit
+Thread-Topic: [PATCH v4 2/5] devtool: Register nested git repos before the
+ initial commit
+Thread-Index: AQHdIM6v+ernWD7tZ0ifQ5Gml3Ixmw==
+Date: Fri, 31 Jul 2026 09:26:37 +0000
+Message-ID: <20260731092634.1127862-3-jamin_lin@aspeedtech.com>
+References: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
+In-Reply-To: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
 Accept-Language: zh-TW, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -56,123 +58,274 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|SEZPR06MB5295:EE_
-x-ms-office365-filtering-correlation-id: 21d8cb6d-f442-4d80-60e4-08deeee5d0f6
+x-ms-office365-filtering-correlation-id: d955f3c9-90e6-4df6-9f79-08deeee5d2ff
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|38070700021|56012099006|5023799004|10067099003|18002099003;
+ BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|38070700021|6133799003|56012099006|10067099003|22082099003|18002099003;
 x-microsoft-antispam-message-info: 
- aQ5gH5I8cLGyQugQmsYQl9Vm2cESzE9/N817+EN3bfzidS6JKPW9FjnzByb8AWDGbza4rO9dTYfFC10WCHQ93uJG1Jtz+vO6hlEUP0dFuXX3RwFJD+7n3+uMUjl3VXK/rhhNzzC433S8mOfXx0ECfI0gDTj6XHaVxWib1dfmJ4cm1dcw+S+gcyXhf8Ozvuy61FsHeLdFUBNx9XfGFLr9iKhJBj5306ZlivXa0bjmWF3NEmTm3JzQLihONt5fllwfAg0XTH/j3hf+oilEwdH5j5X3N31GnFqNsKir+Elw0gym48WlW1T9tcnthFwPzbVZL/ZwSLUgMpMZGJXBLds11O0Mdf3Wx2GtEhFrsU6dgepwOxuEq9+9Tgm3UKAaiVaO+qce78R/Qi95++TdqzsThJVrF3CgavoLq5vFFW6agZc4wEU6CAAEhCGclPrCics2mKJAueLwieMIxOzckDeJV1KoJ9PK9vBemaqI+KUDQB3D0ab7rYGYxdrMTl5TXrveAkQRF4gNw6ZpfgNZQqpKRYFL9AAtw3P87xnnIuA+mOJVj1FO/IxCS6xSpGckPymS/2+otjYMqeDmUSzn5d2bbAMHGxjvUMcZSGdKiHcoH8ulUpfCeJWrSRGmSLpoyJ9kF8hAYUUaRMZVSiiQSrzDEyup8o5xHrMBbdWz7sAvhxahtFwxQsNen4G4MrlMh3hn+4QIkkjBdsbnB3A8OaqzrrpOPyJHGnXApPJQ9d31Jec=
+ 7siHmWJiCgttpep65j8OQCPGZTQ9Ygq01e1XX3l3qZXpW5uNYUi88yarvtLcMq0sgKhJSKu6B4l68QsHuGLxh486HM5OshlgWvXxuavWlItOd9gJb2eetj8hMoUFi4BfD6tETVJJad7FJEenZrQy3lI9yVrpA94a2tUouqI8DK5ahoMZh5ArSNTIPna8v6TJXnVr4F7Ryi2Mdy9kFla0StoeCynu8725tGhzCeq8l4hOhDMOtBJ613TqbmhUAV/zLtPzC4wmjBEOa6AH28SDsP0oUTgdCbVaUWtezjRPWwi0elzbDqXTiw+vYT95jDXI/eOVNspDU+cvtAbbphhIaBXbKDpfZScQKHo8GvKQ5epGLBgLwrMjB/znxBfoN6edRMjS2yiD4rqevKvIj0LcMi6SlhjiEDpChD47P+qmKawn3RzhgpAt54B2fx2ZWQetJxRC+x8BD1DoIGfnFquu+7lh9wWH82hYjHlfMXvTWyv5396fWOIdMQgUopAFBneLGe8H+lYBGmqXrXjVT1JPaJzrD2cjLvywbw1zTuQtMAkfM+LA3Gmyp6wvAE7UOsKkafiIEF8wgxqxM/LGDeDtq1shEfmOWQxpQutAJdwZmnm6iPfZejDp6tNwv6hT0kdx5lHOM9GqQB5ntM5XfGrwDjhESn4HSK2TlbC39M9ZY+c1QCFdRa4HiD1WW/JGe8wWHERxAjUN4v4VFHfVAQBbOyXwxq2FX1+Q9sKPd2lRYt4=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(38070700021)(56012099006)(5023799004)(10067099003)(18002099003);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(38070700021)(6133799003)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?GBVEbkNo7Xua3WZfDvCEuHY6UDfXqEsslL9rMWgZz9AkNYSheuC0wy570t7N?=
- =?us-ascii?Q?ywBqij8XiU61p1whZuym7+2veT3m3BH8SEyCVtEJDmUCVL3nmII2yPRJu8uL?=
- =?us-ascii?Q?2bSgenzZg2SXwl8Ktq/c/c1jSyVhFzOtrj1dtYzET0xK0FTrE1TUvHzOVb+Q?=
- =?us-ascii?Q?oeI+Dkmf4xByKMB0/0igip/LdhQsYnZh9XxshewEvFi81Q+/pAW0gvch568q?=
- =?us-ascii?Q?wvAsTqde7DS3sJeci30+fiaYuI+uecuDDFLjqDJ5HWSFedEypQQdCc/5+nnP?=
- =?us-ascii?Q?WIaE/Adh+3FhvTXnLM0gm6d4blcN3CBoDUeiy43fKCU3nDzZOetJbG4pJR7+?=
- =?us-ascii?Q?t/2C/J5QeqF2gsB2mWdmjG8lg1vpTz3rQQ503Y+bqHg77oyTte54D2jT4pbH?=
- =?us-ascii?Q?8/SxzEgmE2UT432igg8ZEDOst1aPKtpU1ehCYZazBzB0Q4BcEJiFsS28TK+F?=
- =?us-ascii?Q?RC2NLh4u/gT5jYnJIWIsucue2w40uqle4E++UHOmd7UOTnUzvYf/kK0iCW+L?=
- =?us-ascii?Q?dz0oeUhr8s00MujhQ8INmSslC2xstHCx9a6VouBnRvpuGU259d92vn+yDPwm?=
- =?us-ascii?Q?XzmYTkDmCeIDD3P0rCutZwPQOt1rM6RvpWWFhHuUYIl+/rLOuUMiVaElqIvz?=
- =?us-ascii?Q?cde5ZcgIGdPfQMrJcMZnvn7IJJI9AqDDUgSTXQm5CsDq+yAh/fnUz8rPQuvd?=
- =?us-ascii?Q?G0pBjgz7CYpzOVkLNpGBWCVqqNX1ZOztoML2oCttXbmwlW6mz0g1QigDi5oy?=
- =?us-ascii?Q?GVwR2HtcTk4yar/5vT7xf2G5Opke5GtdZxUl6biBgqZLHrStbYH+CLnAWK9Z?=
- =?us-ascii?Q?CX2NJsFDwUcwToX4yYxJcGickXMsYtGI7P475kFJzG9zF5lm3HbDfsU13dqq?=
- =?us-ascii?Q?v1W4Xl1JbNirbkGOn8EbuJHfdczfFujkTUCv0XUA7ovZy+YYn3sL4RGcU/+2?=
- =?us-ascii?Q?7fU+hUm9So4A5F2PpHLifRX5MHWFJz1mWyznSwa75lpGy3kTXuYUHoZI2944?=
- =?us-ascii?Q?1++vwZMeLpjnaRAt15GtHObvu0t8NfnqLucYqBXTf8MjztpEDuw7Ced6q/VM?=
- =?us-ascii?Q?mNRS6nX/5N8PAUjPgE4rIR+Q4L9+QCwrJ1LHstzRAvQnk5CmdpmJQX+A9JBQ?=
- =?us-ascii?Q?Kqc60yZpvK/wIQA42ipy0xo3bdhaVZlJ+TvEzo1mDJUa9FjG5L6xB9ykISBC?=
- =?us-ascii?Q?opVAIYtLEwv1NALj99Bg+lHnjzDzfczwcBPJ6Sqr4tjuc62FT0mEJdOR1S5c?=
- =?us-ascii?Q?VKp4M+YkryT+8ozP3jtaLVilmu0OyJ+SQP6HueSZy5v68BWAqTR4XDqkbmyM?=
- =?us-ascii?Q?PBvwT86b44i+9z7lNjwhULzxCy/IMFVt4YaPT+tOzgkitVBUIQovUwR8znjN?=
- =?us-ascii?Q?nCKIFv39ILRoGgBs063P9zHlGFFvD/1hcUbNIGfWpREi0+NGzhIekqdE0XlX?=
- =?us-ascii?Q?tkcAcGC03+XuOGDpnA2CeMBTO/OSyHBGR6pE0x1YG+m6GcRheLieGl97O49i?=
- =?us-ascii?Q?FqlPwaotdvDAv+WYMzmxA+RjiTfczosb5cr+clwgt6qFtT4LB3tqJtl4iEZG?=
- =?us-ascii?Q?arAb1qA5lXpBnC/zZuT0dPPuaDv8z+MN7ZVlC0MJERyOj2I1T/I4gEPtYsGv?=
- =?us-ascii?Q?MrwqnPY3ruXOz2qEhRaJac5fnf+HP37A11pDaFn0Y5btVEqXDuo5+qVg6BWg?=
- =?us-ascii?Q?BiizAlLuN8ZCS0fD+k/gUSpQEvGl7xGM7DDW/Mlj6AJUlq2EkDooJSrd2y0f?=
- =?us-ascii?Q?ZzMSBfBXPQ=3D=3D?=
+ =?us-ascii?Q?5uLgvdFHRtS6607Z7a0SW/Pmnnef8bncoOtBTY6QFQx1YHQ7T+gnhkanAQNh?=
+ =?us-ascii?Q?W9uO6DG+cTezbbG4l8/zrN0fQX9Sk5E6NoG394tWV+6bHSrH2OZ8bw/s+6VN?=
+ =?us-ascii?Q?zYCYwxt/h+Deda1sUczRX7IqYLqvyGKymQp7auuBk8UtmgJstO7x2J8pASpT?=
+ =?us-ascii?Q?H5/BqsQYr6S69Q4lYfO78cpdPbNIgd5gTZZLoj4j3abtJPo6gSiEX6hKIwQ7?=
+ =?us-ascii?Q?0IrMCi7QdAf+0mrqCZijKRLzVffkCqdbueWjqINtUgJ9wzpLZsNrXNWUArTZ?=
+ =?us-ascii?Q?PQrX1ukl9Rx/7THotdqjWKVAu2HTw1OQAIjWCEx8RfDshZavTjAt4gKoEaIu?=
+ =?us-ascii?Q?+r7UkQsyYIsMjmJJdRrdq8Gl3UWHs8HLJIXa7hGVZluUq3OIHiZmD1yolYxr?=
+ =?us-ascii?Q?jT5SlD2d0B6uY2+V2ydDgJgml9cflvPYsdgNKduqKVi0Feu+DvGHA3/dN6uf?=
+ =?us-ascii?Q?KqsqFzBcr14QCR9F7mWLCjo5RV+HWTzH8onra/3zYv2WWrDmnFFTX9Dy3BeJ?=
+ =?us-ascii?Q?Rl3GoB2NmjmLqMitVBc4YKGrR1iD4okxuDuAV+857XbmYLR1cT3CfDsnHEdP?=
+ =?us-ascii?Q?R1NYz8Ld9J9fiiRhTWRn6cbsWdm87pfHRUldVeR6SlVwbBSiubiMd6OY/awR?=
+ =?us-ascii?Q?uJU9FNOaPcrXmDRTbmaFv+H0ikPhBy04LP1k0yWcuvoGfYVuCBSoIVBiAl57?=
+ =?us-ascii?Q?q02kEeTkKvDSGA1o01DiBKEBF9Ylv0F9Q8G9G6B2FrqTpZ/Klg+sfke/QrnH?=
+ =?us-ascii?Q?jAfvwmzzzU25Poy5qrh6igV3s/tz8+uvt/XKkjYvwIuR3lmvu2zuMAQaGvxn?=
+ =?us-ascii?Q?/Nx9f2EzKfvuo+18XS+2QtQivI7i7k/xyxqcqxwtfu9gIhfWtqU9cUP6WCmD?=
+ =?us-ascii?Q?cb9so/PGpGW/ngaf585tJxYFl/oV9Nc42Ky/y63tGv6iMUZ166NYq9j20Yoe?=
+ =?us-ascii?Q?eSzGBEm/De5bdTg2q4R2Eyul2sUEsCuEbiL4CzDiGZ4+g0MEwBFT32gbSWva?=
+ =?us-ascii?Q?ZU0gMCTkDnc2u/IMJchRb5sXX/dbiVok8HUUCOszdhadC+Z7lLxZLpqMm/R2?=
+ =?us-ascii?Q?/txAXIoPm8wHxLY+ojjl1sUac7sYrRZnIgYVN61EluGISRpAPci3iqiRZJu2?=
+ =?us-ascii?Q?Jphrf38qOPnmBX6wxqCute2KjU26hAkmVInZ5+88f4kxFq9onPMqxHGxHrCW?=
+ =?us-ascii?Q?0L79jn+1Tz/wd7jpG2f5exx8WcOM6p7JSXC2LczlZXalL56NpDrXo88f77om?=
+ =?us-ascii?Q?glcBqMrXuy2Y0KHr4QAS9Prr95M1x+CUgJP8uK8kGOyKLCzogS95+fg44t0H?=
+ =?us-ascii?Q?zvZz9ZUx1fI6koI1s9HURMGD2v9EIGeUc1fXOjW0X1qRGthDznOm8MnWtxuF?=
+ =?us-ascii?Q?R3G/vvq9bSGm5sbl/YxoYrBnPliUA7TGTJnGLGcOUYHywIXgWaH6DA7SH9Fz?=
+ =?us-ascii?Q?NleXi9gN3g39lxCx/f7hHk2AUWSA0kzCJgGvu3+MhA79QDdsHEepKbmn5dJ5?=
+ =?us-ascii?Q?reeMMmBOQQs9REDlDa2xeSaKGyz5Kr76aACoI1xqArgJbm0d7J07E2gWa/w7?=
+ =?us-ascii?Q?Sh5TTkvbQK9BObui8SjFmRlhgFG93zv9MB7qfKAoKnsodBLVsxQ4PclYmrRT?=
+ =?us-ascii?Q?RwNSRkzmnTA94XAnKphlrTBaEswYtKfqjDJ+WlVF1gamDpj/Mxq98IiYTnTI?=
+ =?us-ascii?Q?0QhYmG+I3Lk70vW7KAjeW19D7ZtB5wGc+FF/wOCJk2lQyADr1FYaoSYABUPg?=
+ =?us-ascii?Q?x27rqiyMWg=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	k+JyaHQBU/dcmmmXTWfWAppQ7hYCQMcmRBpiGk98VWgVMyfi3Hm/Xs78xcMuxHbagE1kKb6MPcnjf3GcZ2Zj9LpMoc/pBn3H3gK3XxA2KAin3yJVvPhxqbx5t4zBKU0tNjsdjqWcpAndLdDxS8bhpSUSKM/Vi2MyrulQmDfqzFaS8uqeGrAnWlDrwlvsaKH2HGnA+kvzooZ3xjUTp89vtVpBbRHbwRU437KD7Sr++YVObw6XvRSm975vUziE4wEquXqegYIUkvKlfQbnOt8Zw4V+wqSUotmpGSb5ppMNIUJ+TvyNlw2FrCem+ao0ryvbS24X1/HDclVTmKvpewUEPw==
+	mUSETkIbhKqSLDgxAm676l3QeoWaXbi+mNNLsQGvHbO7GuPPqZ/VmBu3r0CZtbp8V/XqGnshq6UynM+ZhVjyl3DkPI3RzPrBrccZ2yc2k2dPB8mQo8zfaGh/WqNIoGyQ1MKllFujP/PcJ7sFjgNOCgodiu6BYrppcG1AObfrlVuMbhIqka9a/4lFL5erYczzhVjcYTT1AoIZF76y3xEo0pSlFPA3dPCGrUyQWG1sJGDMETZy2ezK/qKG6my8DJJH+KxLKOJxzF9rQEyG8m36P8MRGDWbBtLq8lgvmrjQ02kpUltfyI56UwNTbfcHSCM7147KVuj8bfVHF5GGJEGRxA==
 X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21d8cb6d-f442-4d80-60e4-08deeee5d0f6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2026 09:26:35.3651
+X-MS-Exchange-CrossTenant-Network-Message-Id: d955f3c9-90e6-4df6-9f79-08deeee5d2ff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2026 09:26:37.3823
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BJE8XTng9EsrC7t4yyhKoph9U80X+Hw+b62K5JmqzEiM1ca4WUksSA7ChaSBRx7TQrGaCk379yOkZcnHopysvm6bRPd8Io/zrJfEmo5q7b4=
+X-MS-Exchange-CrossTenant-userprincipalname: kQV4iz4vPM5lY+yOKxfFmYxozbWon851Nnag8iVmoIxdfVL2UOhQayoDXk5ZVkh5v8SOzG/CW4t3a5tucdUtCjJocRqYNUeiYjF+6f+ISOw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5295
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 09:26:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242412
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242414
 
-When a recipe has multiple git SRC_URI entries with destsuffix values=0A=
-nested inside S, devtool modify left all but the top-level repo with a=0A=
-.git/objects/info/alternates file pointing into the downloads cache.=0A=
+setup_git_repo() is meant to convert a git repo that a recipe unpacks=0A=
+inside S (e.g. via multiple git SRC_URI entries with different=0A=
+destsuffix values) into a regular git submodule, so devtool can later=0A=
+tag branches on it and extract patches from it via finish/update.=0A=
 =0A=
-Running 'bitbake -c cleanall' then removed those shared objects, breaking=
+That detection never actually triggered, because of the order the=0A=
+function ran things in when it had to create the workspace repo itself:=0A=
 =0A=
-all subsequent git operations in the workspace.=0A=
-Fix git_convert_standalone_clone() to walk all git repos nested inside S=0A=
-and repack each one to a fully standalone clone.=0A=
+  1. 'git init'=0A=
+  2. 'git add -A .' + initial commit  <- commits the nested repo as a=0A=
+                                         bare, unregistered gitlink=0A=
+  3. checkout devbranch, tag basetag=0A=
+  4. scan 'git status --porcelain' for still-untracked directories=0A=
+     ("?? <dir>/") and convert any that are git repos into submodules=0A=
 =0A=
-v1:=0A=
-  - Fix git_convert_standalone_clone() to walk all git repos nested=0A=
-    inside S and repack each one to a standalone clone=0A=
-v2:=0A=
-  - Add selftest recipe devtool-test-multi-destsuffix with six nested=0A=
-    git SRC_URI entries to reproduce the scenario=0A=
-  - Add test_devtool_modify_multi_git_destsuffix_standalone to verify=0A=
-    all nested repos have their alternates removed after devtool modify=0A=
-    and remain usable after 'bitbake -c cleanall'=0A=
-v3:=0A=
-  - Read SRC_URI directly instead of walking the tree for '.git' dirs -=0A=
-    also fixes repos nested inside another repo's own working tree=0A=
-  - Fix setup_git_repo() to register nested repos as submodules before=0A=
-    the initial commit (was dead code), processing bottom-up to avoid=0A=
-    stale submodule references=0A=
-  - Fix commitIgnored() to skip committing when nothing is staged, so=0A=
-    do_patch no longer fails on a submodule that's dirty only because=0A=
-    of its own nested content=0A=
-  - Simplify test recipe to three genuinely-nested destsuffix entries=0A=
-    (level1/level1/level2/level1/level2/level3), update selftest to match=
+By the time step 4 ran, the nested repo had already been swept up by=0A=
+step 2's 'git add -A .': git treats a directory containing its own .git=0A=
+as an embedded repo and stages it as a gitlink pointing at its current=0A=
+HEAD, without registering it as a submodule. Once that gitlink is=0A=
+committed, 'git status --porcelain' reports it as e.g. " M <dir>"=0A=
+(already tracked) rather than "?? <dir>/" (untracked), so step 4's=0A=
+"line.endswith('/')" check could never match it and the conversion to a=0A=
+real submodule silently never happened.=0A=
 =0A=
-v4:=0A=
-   - Fix regression from v3:=0A=
-    setup_git_repo() now detects nested repos both for fresh workspace=0A=
-    repos and for recipes whose source is already a git repo (fixes=0A=
-    test_devtool_modify_nested_gitsm).=0A=
+There is also a second entry path with the same root cause: when the=0A=
+recipe's top-level source is itself fetched via git://, repodir is=0A=
+already a git repo, so the 'if not .git' block above (init + initial=0A=
+commit) is skipped entirely - and so was the detection that lived inside=0A=
+it. In that case the nested repo instead gets committed as a bare=0A=
+gitlink later, by patch_task_postfunc's 'git add' after do_patch.=0A=
 =0A=
-Jamin Lin (5):=0A=
-  oe/patch: Skip commitIgnored when nothing is actually staged=0A=
-  devtool: Register nested git repos before the initial commit=0A=
-  devtool-source: Make nested destsuffix git repos standalone=0A=
-  meta-selftest: Add devtool-test-multi-destsuffix recipe=0A=
-  oeqa/selftest/devtool: Add test for multiple nested git destsuffix=0A=
-    repos=0A=
+Fix this by extracting the detection into a helper and calling it before=0A=
+anything can commit the nested repo as a bare gitlink, in both cases:=0A=
+  - freshly-created workspace repo: right after 'git init', before=0A=
+    'git add -A .' and the initial commit;=0A=
+  - repodir already a git repo: at function entry, before the later=0A=
+    'git add' in patch_task_postfunc.=0A=
+At those points the nested repo is still untracked and reported with a=0A=
+trailing "/", so it is correctly picked up and registered via=0A=
+'git submodule add'.=0A=
 =0A=
- .../devtool-test-multi-destsuffix_git.bb      | 27 +++++++=0A=
- meta/classes/devtool-source.bbclass           | 16 ++++=0A=
- meta/lib/oe/patch.py                          | 12 +++=0A=
- meta/lib/oeqa/selftest/cases/devtool.py       | 64 +++++++++++++++=0A=
- scripts/lib/devtool/__init__.py               | 79 +++++++++++++------=0A=
- 5 files changed, 175 insertions(+), 23 deletions(-)=0A=
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-multi-d=
-estsuffix_git.bb=0A=
+Nested repos are discovered top-down (so a repo that manages its own=0A=
+submodules via .gitmodules can be skipped rather than descended into),=0A=
+but registered bottom-up (deepest first): a parent's commit recording=0A=
+its child's HEAD must happen after that child is fully finalized,=0A=
+otherwise registering a still-deeper repo afterwards moves the child's=0A=
+HEAD forward again and leaves the parent pointing at a stale revision.=0A=
 =0A=
+Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>=0A=
+---=0A=
+ scripts/lib/devtool/__init__.py | 79 +++++++++++++++++++++++----------=0A=
+ 1 file changed, 56 insertions(+), 23 deletions(-)=0A=
+=0A=
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__=
+.py=0A=
+index 58b02eb460..030ba7edd9 100644=0A=
+--- a/scripts/lib/devtool/__init__.py=0A=
++++ b/scripts/lib/devtool/__init__.py=0A=
+@@ -197,9 +197,59 @@ def setup_git_repo(repodir, version, devbranch, baseta=
+g=3D'devtool-base', d=3DNone):=0A=
+     """=0A=
+     import bb.process=0A=
+     import oe.patch=0A=
++=0A=
++    def register_nested_git_submodules():=0A=
++        # If the recipe unpacks another git repo inside S (e.g. multiple g=
+it=0A=
++        # SRC_URI entries with destsuffix), declare it as a regular git=0A=
++        # submodule now, so we will be able to tag branches on it and extr=
+act=0A=
++        # patches when doing finish/update on the recipe. This must happen=
+=0A=
++        # before anything else commits that nested repo as a bare,=0A=
++        # unregistered gitlink: once that happens 'git status' no longer=
+=0A=
++        # reports it as untracked ("?? <dir>/"), so this detection can nev=
+er=0A=
++        # find it. That can happen either from 'git add -A .' below (for a=
+=0A=
++        # freshly-initialized repo) or, when repodir is already its own gi=
+t=0A=
++        # repo (e.g. a recipe fetched via plain git://), from a later 'git=
+=0A=
++        # add' done elsewhere (patch_task_postfunc, after do_patch) - so t=
+his=0A=
++        # is called both from the fresh-repo branch below and from the=0A=
++        # already-a-repo branch, before either has a chance to do that.=0A=
++        #=0A=
++        # Discover nested repos top-down (so we can still skip descending =
+into=0A=
++        # a repo that manages its own submodules via .gitmodules), but do =
+the=0A=
++        # actual 'git submodule add' + commit bottom-up (deepest repo firs=
+t):=0A=
++        # a parent's commit recording its child's current HEAD must happen=
+=0A=
++        # after that child is fully finalized, otherwise a deeper repo add=
+ed=0A=
++        # later on gets its own registration commit, moving the child's HE=
+AD=0A=
++        # forward again and leaving the parent's already-made commit point=
+ing=0A=
++        # at a stale, superseded revision of it.=0A=
++        stdout, _ =3D bb.process.run("git status --porcelain", cwd=3Drepod=
+ir)=0A=
++        nested_repos =3D []=0A=
++        for line in stdout.splitlines():=0A=
++            if line.endswith("/"):=0A=
++                new_dir =3D line.split()[1]=0A=
++                for root, dirs, files in os.walk(os.path.join(repodir, new=
+_dir)):=0A=
++                    if ".git" in dirs + files:=0A=
++                        nested_repos.append(root)=0A=
++                        # Do not descend into nested git repos that have s=
+ubmodules themselves.=0A=
++                        if ".gitmodules" in files:=0A=
++                            logger.warning('Nested git repository with sub=
+modules %s; devtool will not recurse into it', root)=0A=
++                            dirs[:] =3D []=0A=
++=0A=
++        for root in reversed(nested_repos):=0A=
++            parentdir =3D os.path.join(root, "..")=0A=
++            (stdout, _) =3D bb.process.run('git remote', cwd=3Droot)=0A=
++            remote =3D stdout.splitlines()[0]=0A=
++            (stdout, _) =3D bb.process.run('git remote get-url %s' % remot=
+e, cwd=3Droot)=0A=
++            remote_url =3D stdout.splitlines()[0]=0A=
++            logger.error(os.path.relpath(parentdir, root))=0A=
++            bb.process.run('git submodule add %s %s' % (remote_url, os.pat=
+h.relpath(root, parentdir)), cwd=3Dparentdir)=0A=
++            oe.patch.GitApplyTree.commitIgnored("Add additional submodule =
+from SRC_URI", dir=3Dparentdir, d=3Dd)=0A=
++=0A=
+     if not os.path.exists(os.path.join(repodir, '.git')):=0A=
+         bb.process.run('git init', cwd=3Drepodir)=0A=
+         bb.process.run('git config --local gc.autodetach 0', cwd=3Drepodir=
+)=0A=
++=0A=
++        register_nested_git_submodules()=0A=
++=0A=
+         bb.process.run('git add -f -A .', cwd=3Drepodir)=0A=
+         commit_cmd =3D ['git']=0A=
+         oe.patch.GitApplyTree.gitCommandUserOptions(commit_cmd, d=3Dd)=0A=
+@@ -214,6 +264,12 @@ def setup_git_repo(repodir, version, devbranch, baseta=
+g=3D'devtool-base', d=3DNone):=0A=
+             commitmsg =3D "Initial commit from upstream"=0A=
+         commit_cmd +=3D ['-m', commitmsg]=0A=
+         bb.process.run(commit_cmd, cwd=3Drepodir)=0A=
++    else:=0A=
++        # repodir is already a git repo in its own right (e.g. a recipe wh=
+ose=0A=
++        # top-level source is fetched via plain git://), so there was no=
+=0A=
++        # fresh init/initial commit above to interfere with detecting nest=
+ed=0A=
++        # repos - do it here instead, at the earliest point available.=0A=
++        register_nested_git_submodules()=0A=
+ =0A=
+     # Ensure singletask.lock (as used by externalsrc.bbclass) is ignored b=
+y git=0A=
+     gitinfodir =3D os.path.join(repodir, '.git', 'info')=0A=
+@@ -237,29 +293,6 @@ def setup_git_repo(repodir, version, devbranch, baseta=
+g=3D'devtool-base', d=3DNone):=0A=
+     bb.process.run('git checkout -b %s' % devbranch, cwd=3Drepodir)=0A=
+     bb.process.run('git tag -f --no-sign %s' % basetag, cwd=3Drepodir)=0A=
+ =0A=
+-    # if recipe unpacks another git repo inside S, we need to declare it a=
+s a regular git submodule now,=0A=
+-    # so we will be able to tag branches on it and extract patches when do=
+ing finish/update on the recipe=0A=
+-    stdout, _ =3D bb.process.run("git status --porcelain", cwd=3Drepodir)=
+=0A=
+-    found =3D False=0A=
+-    for line in stdout.splitlines():=0A=
+-        if line.endswith("/"):=0A=
+-            new_dir =3D line.split()[1]=0A=
+-            for root, dirs, files in os.walk(os.path.join(repodir, new_dir=
+)):=0A=
+-                if ".git" in dirs + files:=0A=
+-                    (stdout, _) =3D bb.process.run('git remote', cwd=3Droo=
+t)=0A=
+-                    remote =3D stdout.splitlines()[0]=0A=
+-                    (stdout, _) =3D bb.process.run('git remote get-url %s'=
+ % remote, cwd=3Droot)=0A=
+-                    remote_url =3D stdout.splitlines()[0]=0A=
+-                    logger.error(os.path.relpath(os.path.join(root, ".."),=
+ root))=0A=
+-                    bb.process.run('git submodule add %s %s' % (remote_url=
+, os.path.relpath(root, os.path.join(root, ".."))), cwd=3Dos.path.join(root=
+, ".."))=0A=
+-                    # Do not descend into nested git repos that have submo=
+dules themselves.=0A=
+-                    if ".gitmodules" in files:=0A=
+-                        logger.warning('Nested git repository with submodu=
+les %s; devtool will not recurse into it', root)=0A=
+-                        dirs[:] =3D []=0A=
+-                    found =3D True=0A=
+-                if found:=0A=
+-                    oe.patch.GitApplyTree.commitIgnored("Add additional su=
+bmodule from SRC_URI", dir=3Dos.path.join(root, ".."), d=3Dd)=0A=
+-                    found =3D False=0A=
+     if os.path.exists(os.path.join(repodir, '.gitmodules')):=0A=
+         bb.process.run('git submodule foreach --recursive  "git tag -f --n=
+o-sign %s"' % basetag, cwd=3Drepodir)=0A=
+ =0A=
 -- =0A=
 2.43.0=0A=
 
