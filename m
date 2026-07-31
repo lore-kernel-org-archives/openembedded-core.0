@@ -1,475 +1,192 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB43C55167
-	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 07:12:18 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1227.1785481122941168014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16634C5516D
+	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 09:26:49 +0000 (UTC)
+Received: from TYPPR03CU001.outbound.protection.outlook.com (TYPPR03CU001.outbound.protection.outlook.com [52.101.126.106])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2924.1785490002156443016
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 23:58:50 -0700
+ Fri, 31 Jul 2026 02:26:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=arBMXodP;
- spf=temperror, err=temporary DNS error (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2672a00ac1=himaniramesh.barde@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66V6Djd11662264
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 Jul 2026 23:33:22 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=vGdoeVK5jDPXugiHAwc68q
-	GqAA6OGkFQQKDJOf6V0SA=; b=arBMXodPcY54ciOrXwXp5S6waKkmy90DkdkV6E
-	S2SG62kck/8J87rMAAamyoazNx6qYbwkrdB5GzXocPhK+SA0WzUAt9xhrIX8YBfX
-	xSUrqaZkz4g6zQAXdj2SFhkwGI7MsjPtYg+dpd5YS/m/bPB8AHWjdAF4NPzjq4U6
-	oJi+XxRoaVan55iOjFysDGtY3q4JKc6y364mKhR2MouVK29ma1se1a1DiedmlVcC
-	Mxkl7q7yU980Drfk8tw+HwWRLjpbhQ6amnMTHPFwuoJ6pRNhwPgoiKSjwwD8vYA/
-	eXmutl58O/OmZZ6wCUWbhPcZf0ENJUOtem1W9w+Wr4NKgmuw==
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012059.outbound.protection.outlook.com [40.107.209.59])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4frp7xr0gu-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 30 Jul 2026 23:33:21 -0700 (PDT)
+ dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=FZYWjeIi;
+ spf=pass (domain: aspeedtech.com, ip: 52.101.126.106, mailfrom: jamin_lin@aspeedtech.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IQr8MbOJZyhEL+e1xabjACQjXr7bi23MwJrlUrNIDUKqagT1Liry9qXQWmInzTnzw9gLdM2QGBBqMfOM8Pe0FnWrr5TgkWIhUi5ddmWrm5YymhGt8Wn3+UV+O5JNnBv/TzrP9TeIGIsLAz/6cJKmUvCOHFNQA/wSjqDEKr0NTZTNGCHyYSbx8i5n8ehkrr5aELBQrGuX1YxNp7HGD5evqmDkKEKYTLtvsjVEUbeO+GoBcwjYREX0igY6R0G5wtUAlQQSuR03uh3ssTxCYeJ1kfnkzviecVUimhTyS+KTgj64EutNoWS3sm0O80lo2kS21RK6kYymyvHsW6ZNqXd+/w==
+ b=imOJTDv6h4SO+/orMVcYVFWdx9jDmOfNg0ktN3LIf38RFCVZqgzss+jRJt56IAAAlxV8gTd+bZOkpBc1nhz1P5M5tHgOLvWqs3G+zFAEEtBV8R7D5r/PHj9i4HiIkAttQonazYCSHtcSiE6QfuAX9UDzhYHpzqhhYZI83RVfri1QhWrF/FZ+ZG1XC9fiRmCPGaRkVOT7kR36PSb7Vqr2+xNnPO6WWdiDVrQW7XFYF64g3jfLPAhXNFZp5pC4uctIVkSuHhw6/gCgJ8JNMIazb1SDbr4+Q/he0blCL45kW+wX6QbkfbGgDKNoj20grcReRs0WRTs0ZhjlHS/zmqwx5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vGdoeVK5jDPXugiHAwc68qGqAA6OGkFQQKDJOf6V0SA=;
- b=ecneGhvpeniDxtPCPeuY/hTRtznB4UwtIIVaJjVz+GdA8Lrd4QR2ol3Orq0GXCu3xB4XBuMX11FV0Iiui3zap8OlNb1asxa+bs5g5JnQXvnmzbE20MqVlvdchrHcpVlKrx2QG1MUQmx/WXnBXWBlOz42Iw44YPLWOnmfnRMixpboK7+envJ2rfMk2CyyaLSrcgtf+hKM7VJmhLlbm9GWMqbi+bJ0qmO0CZwQCmulK8hTckK7oerK0W2EC6Z14zGaUuVArAxr+WKXoDqW6e3tKwGPnUKGZktR9/gd40w4WZpasQQtJn4TpSG5YCZ++8mjdnLg5rE+tIZNqGrfQghqvQ==
+ bh=tY6iQXP+e3YsnoMSC/GRTy5D2+zf9JPLpJyl12d78Eg=;
+ b=uRQPwtnPR0y32pzCcLF1xAA+4matG7pEiEcHmEbh+37AM6sQSVvEtkVNWev8OKpN8ylKG+QiKsgVHvbnHzpc4NgvoF4MSiaX2p8dEYG890wMPMxooZ7Gevmz9Eh0HBHbuKsIhFFHfjxqUFPRoFQ5U7org0jENjObOxYT/7jcyJBXsESIU0cJRQRdl/fjrkZ9ndSGwFjLww+aa6rIaditL04qpzWNeGqTnkj/Kj0o9n8OutSKWxiSUnA5YHtmscCHG7CeaxFujSMMbkFhmJVOqumFcfvNS4jJDi8jYWhpUuKhGv79iwcE5fBr6xPYiutmtka1UrE95deup7+Lx9bdkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8774.namprd11.prod.outlook.com (2603:10b6:610:1cd::15)
- by IA0PR11MB8335.namprd11.prod.outlook.com (2603:10b6:208:493::6) with
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tY6iQXP+e3YsnoMSC/GRTy5D2+zf9JPLpJyl12d78Eg=;
+ b=FZYWjeIi8Qgwsmz8tPLOLKELuPe1UNTY8DI+d+bLqbX14a40B+kgcO9URADqOKPYl8ZzAa3EKo+/VnTLhWtytqFisyvKz3veOwS+TxaYE59ohfsuZcCVkwWjZkYtmUS2lbYibD80YJl5cIFkMS9zdNE0AGiU/rTXX9R/Y5nupZCxkPFk5WLo5ngJGeLRdx/K3UoIfGgYEr3KwKvJkGIF7+KrzE6s0d7G+OLniaof41iQv/rh52t5wH0CAct31ufn6/GkRmybW9rhfu89N5onM6LRsdB65VGdgzGFX/xaeQXFi/L6NkZs5BlthIEknGzK5xt+J0exNF96jD0nC/Uqxw==
+Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
+ by SEZPR06MB5295.apcprd06.prod.outlook.com (2603:1096:101:7b::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
- 2026 06:33:18 +0000
-Received: from CH3PR11MB8774.namprd11.prod.outlook.com
- ([fe80::8925:311f:7018:b3ec]) by CH3PR11MB8774.namprd11.prod.outlook.com
- ([fe80::8925:311f:7018:b3ec%5]) with mapi id 15.21.0270.015; Fri, 31 Jul 2026
- 06:33:18 +0000
-From: "Barde, Himani Ramesh" <HimaniRamesh.Barde@windriver.com>
-To: Paul Barker <paul@pbarker.dev>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "MacLeod, Randy" <Randy.MacLeod@windriver.com>,
-        "Komati, Shiva"
-	<Shiva.Komati@windriver.com>
-Subject: Re: [PATCH v3] systemd.bbclass: fix service enablement for cross-install scenarios
-Thread-Topic: [PATCH v3] systemd.bbclass: fix service enablement for
- cross-install scenarios
-Thread-Index: AQHdGcLZdy0iaYgSoUS8gQ/EL2wnjbaGKWIAgAEO+0Y=
-Date: Fri, 31 Jul 2026 06:33:18 +0000
-Message-ID: 
- <CH3PR11MB8774C3DADBA455D8721EB8198FC82@CH3PR11MB8774.namprd11.prod.outlook.com>
-References: <20260716061519.765593-1-HimaniRamesh.Barde@windriver.com>
-	 <20260722101408.3225399-1-HimaniRamesh.Barde@windriver.com>
- <52bcf8634847de61960bb1e33f613abf4d11576f.camel@pbarker.dev>
-In-Reply-To: <52bcf8634847de61960bb1e33f613abf4d11576f.camel@pbarker.dev>
-Accept-Language: en-US
+ 2026 09:26:36 +0000
+Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
+ ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
+ ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0270.012; Fri, 31 Jul 2026
+ 09:26:36 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
+	<alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+CC: Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>
+Subject: [PATCH v4 1/5] oe/patch: Skip commitIgnored when nothing is actually
+ staged
+Thread-Topic: [PATCH v4 1/5] oe/patch: Skip commitIgnored when nothing is
+ actually staged
+Thread-Index: AQHdIM6vWbfO175rC02B/a9fFTzGHg==
+Date: Fri, 31 Jul 2026 09:26:36 +0000
+Message-ID: <20260731092634.1127862-2-jamin_lin@aspeedtech.com>
+References: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
+In-Reply-To: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-07-31T06:33:17.214Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=1;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB8774:EE_|IA0PR11MB8335:EE_
-x-ms-office365-filtering-correlation-id: 6d807d5d-0d64-4f80-c646-08deeecd9bb4
+x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|SEZPR06MB5295:EE_
+x-ms-office365-filtering-correlation-id: 84c1c68c-3a54-44f5-ca79-08deeee5d190
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|10070799003|23010399003|376014|18002099003|22082099003|56012099006|11063799006|4143699003|8096899003|38070700021|13003099007|6133799003|10067099003;
+ BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|38070700021|56012099006|5023799004|10067099003|22082099003|18002099003;
 x-microsoft-antispam-message-info: 
- 9/E6HxGORak9CQHrGXb0vJ3RGRw5EEOP5CUXOHFwNaSTH+4vEhgt5GCzWphl6xkG6V8RNBkVZ6HViPkVTFM3A+xfNLCUEo/9hv1P7y7bCXmeAcudDgItFLcygxNBS+nYKSbW3aobrIUOJ92zQSTkMsh/a3JEXcGAp8BmeFDikygeo7erVheXNHKnsE90NU8FCHnopxrULEfZxGbCxuvn13Z1MfBNPxnUhd9q1FJw/J12O4kEMq3J8TW41+rKwN2kb4hExNWOAwv8fhNg8Y76N1Os9gKqVUsX+e0zqjK7XQvRvOgXEmGJb1XRJC1Rrh2FTkiofcUbgpG/9NNk4DZ5JmWnDwV3be62Gxcva233PVuwHMMm/tAUaqOaKUwc1eGOu7XWuP3H2KDSBuGF5PC4tOORvMHheagkpuebL5BdONKTrFfkYvAYG9bsDbH82j3qNDaTaRyVqV4AyyUbPV1OPfTPITQrvgZW1ooWXmQkGTfG3dAOp1hr8njRNUFB6WTdUK03TzatMoHgLnWs+x25EQPPd6c/8WBJXbvfKtCD0j1x/044nuZOUmdzu2Qj/5sZwQTtxCCz/dGfPNnMKZinHG/gUKX1XXmzl+sf9NBLFG7GO9A7IDGmsisETmlmOjJ5p4BerEk/nBcGDMuivI3w0recP9c1poxhauLGkBEvxsE=
+ 65d/KUqMPKwzq8vJbLIg3o8kZwwrbOENYBH4TyYmNSEBJBaeAjLOsjIKns7CKuOmSZVEmXIy2svvsXZzs0ZBv9wN9wmZz846RlT307EYrJfChnRTbjuCj+cnCuYwNZCHSlHwqGOSpFTA/pntyorJG3RNPtYT1C6wDk5IE9S4KPPL2ijusNYqiRus/hMV7yCMPdppI+OQ52QAGzC3+HqxynuYIL4PHNqXQDXJGINGi/dqZEMQy9orckTaaYBIrasisjetXpt5lCjBn1y4PpVJHT+ZjHYxctIeqGBcX7coK5InjZuRgK10aO2YkykkVInOFQQVRtIx3QHS7eI2f/H1sau9/DTBV2rcnGve438nqUIMCZkhM8ULbE31fLSdx+96hJb+XoG1WxF7WK7yVf5BydhhJa3f5uIhuypiYv3pcjyrthjp0yAOAA9pdxq/zUUopFj/uacpZwYmFFGpEhReebA5/cJL6ht0srKjL5/SFPvBCHKdsZvqsajguIaKqleobGuCcxx2xyKVGptAsnGxULfgMSvlMO6v4Xje2IQwmbJorZNg/wY7r84YeL6086dkUVd3eoSOY4j5RQVsZRG57NyA7gYVR4nFXRL7u35m/Itk+jTxUZh72uXQIrNT0ph4hzXNsTJhpPEZNPhRcZxbKnuxwQwZIzOWABW6js7KHeAYInCZxDdYjpbac1Vnade6viv0eNjhzEc4kgQLr6bejMjM9yo4p6/M+DBw6PzInfU=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8774.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(23010399003)(376014)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003)(8096899003)(38070700021)(13003099007)(6133799003)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(38070700021)(56012099006)(5023799004)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?6zpX2Fk49/9QjKOIJtGiIVcIQQW0u6Whux/yFlmlvfDtaMZ9d5rZYJurwy?=
- =?iso-8859-1?Q?IbQ5v0G1o1N9+duRxHSGPaz9GlAfzw6QNuY4llOxjzyNTvUBUXKFy9Bl5d?=
- =?iso-8859-1?Q?xz+opkpxzsa3+fwdHij3fm+vEEAQo7pQd69oOxctdFiODCYeuR/V2HjGJO?=
- =?iso-8859-1?Q?som4yAL2AF55Bc8nmon1r+PUU+RSCT6l/85NokPSUsaP7nRt43smf3RrR1?=
- =?iso-8859-1?Q?f24aE+X3sf8Qz1T8fcGbdmiLWaTaWwtzKVVMt5TdDjlJ6kCw2B3g7/xISH?=
- =?iso-8859-1?Q?+e94FTPruetxXml0OPagTAtU4sPnks18Ssipm5QVpaiLtit1ISbIkt3Kqg?=
- =?iso-8859-1?Q?wsmGbbU3zA1lpx3o9UQrYHYnM6j9SseIXIM4z8pxn9V9TfCasKIcirZHEt?=
- =?iso-8859-1?Q?4zvGZyTl14CyS0wOP2zrYLeZWKrBCA4TjJz9YP86N8knWCBQ0BYmZj9Uzx?=
- =?iso-8859-1?Q?h+y0u7nWnjXMWcwOYKzVKQANMok62rc+TPLP98ES5c5QqisdiyiMtwdAgH?=
- =?iso-8859-1?Q?bx/tWzK9m6CnxegPBx4VME6W4HvyZobTmR9aONQms0d17lqMiQ4SRLn6Uk?=
- =?iso-8859-1?Q?OEVtp6JBqQiMn6JA139iuK7f6lj4qArUJvbViHrL0XOowSI1c40EHKE5pa?=
- =?iso-8859-1?Q?7wjlXS2BInCwKBZ9i938GZHKW8+4hxk1go86jsXxTXkn9Kq2aEytNGGShX?=
- =?iso-8859-1?Q?+ESa4Ps2/lo27dED3Zb202tnFVsLLPe+J08h4oTtXsXgOyzvkme0IdQ3CZ?=
- =?iso-8859-1?Q?pl+BZXM6CYOxw6CJUQ/O4HTZspeUrHN4s6gjOvB1luSobenqabdGPiOELr?=
- =?iso-8859-1?Q?jGgHkRqph+AIG7JIzxwU9+g3iesHA7ZgRYX6zZuu03DnxSGrAGIsc9lHY5?=
- =?iso-8859-1?Q?3x6Cgr6u/CgLt0Am371pTz+rUroLCW2K2pbuEBBbPzbW2rQ57xmSbEmQuE?=
- =?iso-8859-1?Q?AioYyz9/3dvRIy5drSjiu291A3wlK+875M6p1zHCwK9UA+CtBR34i/YHK5?=
- =?iso-8859-1?Q?OMdBwyhOFhAT9OPwPuxQEU5C3Tfl6TjtLuoVaV9T9//EGHjWHt+omU7hSc?=
- =?iso-8859-1?Q?NkkJRwgATYrizwE/VVVmz3dkH6Pe8mNg/sgKamzvSi7xcwHm0FTyZCcGjK?=
- =?iso-8859-1?Q?EjNboFw2WA1Jv8bLJr76f+x3PdV6OrlvOL/Rla8lJeqH0FVJ6H9V6QsOHB?=
- =?iso-8859-1?Q?xjIzAj0DGWKrO1Qox/7zGE6iOFYPr1G+zBDGuQqGFvhMZFJJ/27TeuLPs7?=
- =?iso-8859-1?Q?UYAsB6ZFN21+AkoUgGYaVo2+BXKpZ88LSo6QV/bhExhQGu0dPXfwhMc/sH?=
- =?iso-8859-1?Q?KQk95yyD1SrbtRQGuaHv8EsPmrQ2Fv9J7hWEqgOPFCqfIMro/SRn7RqNKx?=
- =?iso-8859-1?Q?dO5l3+dDcRS/DlVme3/E4cgYuUcvLso51wiwe6kfGvbaRkebdPAiDsx6QP?=
- =?iso-8859-1?Q?FVa5QB6RmLhignyYBl0bYKHUzryLwTNevHUveFKTpJZR3x7A6pMsXZJ31L?=
- =?iso-8859-1?Q?o1+z6O/7Ulc4GSvZBF2/FUT+SQG+xDUgEwcn2+hWumCq291rkUpv4doWR8?=
- =?iso-8859-1?Q?PUVSGPCpkqV+K5smlCcvZJ5V/w27/ADPz1bCIGlb/UiLj6NNVVKr1sBmzp?=
- =?iso-8859-1?Q?G25Tx/0cZU7hSS8BaVFcUFT6byQryXoUcRo4ej9d1tjrVz9kKibZqMAAq3?=
- =?iso-8859-1?Q?67jMCQmbRL3blEwcrWeRqpgRD9Ky/rxmhNtwQNJKosNUiKpvmOQvlzkwu7?=
- =?iso-8859-1?Q?ktn7etAjxcdBiEF/2kzanViUvCoFKmOoGNduTpsBRDgjFkZgPmA1rY3p0+?=
- =?iso-8859-1?Q?9kzUiBZc6EpqhItKtObbbVYBxgCGzCklUU7tnSAs0xRcKbpThjMxvXQLRs?=
- =?iso-8859-1?Q?nm?=
-x-ms-exchange-antispam-messagedata-1: n5rwWR1FeAghUQgaEe8/gPpDIeGb4QcspIo=
+ =?us-ascii?Q?rruEF+mll878YSQ5R61v+nakHHZbE08Wi8h+YKN6098g438tse98+DHysEav?=
+ =?us-ascii?Q?7dWPI7A4ZLojTC7Iakaow3c1dD27NCvr6Hirvu1xt/MbhCTo4yfUBOn23D9L?=
+ =?us-ascii?Q?ugYBsf7yg6eneKY6KsdNKqKZHPRaWcRaMtYvjoSpjgAk1tGl05XMh75FpOCa?=
+ =?us-ascii?Q?eFAoxMq2YErYLIqpL9smpKndFq7etRK5flbNXEw4LaCjeF2nGC6XffklhUzZ?=
+ =?us-ascii?Q?ZpfA5PeMi8PHcmZtHvYiJO+brPtpLvB83HbaL8PkXJ46P8XxtBo4Edy1PHF2?=
+ =?us-ascii?Q?Ys/Rv2SeiF54o+lzT/zPJfFBT2C48lLjwg0EhVpYWa48/uUHT2s8q1KRZ6y/?=
+ =?us-ascii?Q?FGkRW3GhceNc6lKYIaKFochVHGCmUcaRCGsWvh29DRoEPzj9JY8XGtpubYz5?=
+ =?us-ascii?Q?5ay3Wr6RibR4qDOzeIwcxavZmGOXdunq105CqajYCQ2MPHY+pq9aaSHESLCX?=
+ =?us-ascii?Q?T6slgM6qYZ8j+Ct/9N4D+gjeGdPNpv5qHxGr+2YX7gK1U771uPhzezJioC7o?=
+ =?us-ascii?Q?7hBj2ATiLdrFnrYiIWXqy1T25kDy9sjIDeCIdUXzy3NJKSkYgW3uqnIiuZ/i?=
+ =?us-ascii?Q?erIM8J6zyQuxlg8TOG4sr6xkMRYRrB5vmKa8acFoizDWims9/AOdONzZqvOr?=
+ =?us-ascii?Q?35rL9QZPbQH+IQGcBaMBj4vW0pL28HGwtBv7HOWpie47u2ryJqrvgzKXOweU?=
+ =?us-ascii?Q?azrdE86KWZI0IISp7ijLgK95v5Uu17b8sTvrPah8RIsh2iDvd2pVIjBNnOz1?=
+ =?us-ascii?Q?7Uh717aoGKzD4aJ+dkTn+SPu2a5BRQ9HLRVcb0mvGw6NWH52zkhnu7dQoxxD?=
+ =?us-ascii?Q?ZFTz8CfZXlKkplm/kMLxyX4X1hRpjsMuMRrBUEk7hcMfh08bON49LX4ff9zA?=
+ =?us-ascii?Q?vmFoEpPnZ8StwpLY/SoYo3qf4xha3aiSqhLKleELlLqy0zayCeUynC4jfzvX?=
+ =?us-ascii?Q?y4rHyuyalDQ+v99ZjZCijSF482s2AssqfHnvmREryE5QbUrXVK5HUnbqcc34?=
+ =?us-ascii?Q?iMiPzSno0MY7zyDmbXOe1ktgxLnWKYUME4k1j+GwLUzeJLa55+Fh8jOs7N4I?=
+ =?us-ascii?Q?XQgjXZu689adR5cZNLX+4dDAkVUZtpWjLJ9hznVxSOVT2VPV1NnoKdFdztoV?=
+ =?us-ascii?Q?f3uISmik+Ya/Vh4JHKvvyClCU7PqUCz5IN1c8Gor/MJRuZxEDrBaLiwBS1QE?=
+ =?us-ascii?Q?zbyp4Xn2z+T6FJdNgIv7wCB4mClm1Zi5v47wKb0meFehcAo+W4tCQmzsXEN0?=
+ =?us-ascii?Q?/Wh2Ax9cFmQBDk8/4Bh1A0tlTdAlxLryyLFvJXEOSX0K/5qCvM6eOA+L3Fwj?=
+ =?us-ascii?Q?6CO+OmFTbhwEMlM3G4BUwTOlANQWxSW9p/h7TG97lvrwf25XJvlNdcD9iEMo?=
+ =?us-ascii?Q?ZWNIyYLI9ZBl0yCf835tDXAhGofB8V8e/L8gZ205dxovCTjW+FVicpCP6y1J?=
+ =?us-ascii?Q?zEkNHCg0iHVYcu22GdV13IyRib5Elbj/lDd9GLPRqcbCiouCLld1Z84/ZuVB?=
+ =?us-ascii?Q?K2cBsRGz9EOLYbtw/8tcF7DOCT1xQfCCcCxM+cmQiaW4CKFEj1wId8s4n3bs?=
+ =?us-ascii?Q?+m8sRPXsMqWvxZCe8pCJrH1c3HwX00dT78UMdpUVZshJh5B1WhBkkcyFabdm?=
+ =?us-ascii?Q?B6XKTDB5Gn8vsIiJypcIYaA8KRmArpd73/Lr8eQVR0uurUTPdYZ5XZzn2Lvu?=
+ =?us-ascii?Q?h0XjKNuTmBwMLm1nkZUkASuhAiryvGJ/tVbO8CD3ZmNqW1xmgrdR4/HxEh5+?=
+ =?us-ascii?Q?wWMa3XW3ZA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	lf1clhCGEXI1VsxM3Sp0ufSh7DWOHsZckKKByjv6x9MsMZ9IoyMu5EfyDbyMRx29og9iNBGqN1rb8tN7pN5pYqsc80gBQcBCIQ7gQrYGDitZTyZ+wpQCeDG8+NYmwDBBySdLvvPGZMOAHjn9DpdpDlVOcQT4h29aW445/LjgEa+ZjiuQE4hjrlWg75ITPlQwvV9CYF7tandbrhZRiTTAEw6fbijQN8FKlCTq9h1BPYJlIOzgTRmmwUa5PnreGKXqM+Z9noi46RG/fNp+ung2N945w+n5kHMIKyatZcLGFndi+DeSorjXkfjFPFeK+sEvHxaZP2CFjxq2ORvfMXnYXw==
-X-OriginatorOrg: windriver.com
+	KAsQr2fxofDUYEvtPm22hOUCw1usCmE0ArGZeC8nSLkaUPvWWph3IbEFHOBpG4w4Ydo7ssVFwBEUjuaoxdIVXkWYDOu9O051347kqIJsUZxrLGyMaffeHpc80JfWwk1ljWoekhAyKuRvYh3EnfngXrSSTJ7pnbOxjUhdqwjvR0GfL0IkUdfJPbU4ihsbA5o0w+pykKf1k4obDfkddVxnX6DJcwWP/a4uLr/m/hcHJvjKx12Koe4J6I49CrG5vpkkoo1qTEywsQmsOiPBPwjwbK3HxRMz9rF1SrJao7MAYmjGGJERqS46oMZqZ6kXOJZALT3xdtCZeIqrvtxFD1xtLA==
+X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8774.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d807d5d-0d64-4f80-c646-08deeecd9bb4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2026 06:33:18.0688
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84c1c68c-3a54-44f5-ca79-08deeee5d190
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2026 09:26:36.3935
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 26WJxYRNlrSyGaiOH1WoNJAiefCTMCiYEQr4gfQ3+v3ZaDS6IphKSaEICJa2ovsO8nGPGkrfcIW3zW7jn81C4GC+aDuMpOVHNZiYdnIz3cgS9e7IWPPHsc4zlD1r3E6l
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8335
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA0NCBTYWx0ZWRfX8nBPqikJgpyz
- 6DmRfBOyUd19Mo61Z4ow78c4JVHfaip8/Dnpg7XggRQBmXxUpwnWgGS8IAc053vN2JV5c+ERkZH
- zJng0UjQfTX8t3N58pH41N4yKsnydwiBs3UGVGEOxHFCYjSjgxUK
-X-Proofpoint-GUID: nTMpMdyVqNbSUsgTYe3AkuGRCML500DZ
-X-Authority-Analysis: v=2.4 cv=DptmPm/+ c=1 sm=1 tr=0 ts=6a6c41b2 cx=c_pps
- a=e24IK3jsPB00aLvKg+wNHQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
- a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=y7M5dpoWvHKhGoIBFTQA:9
- a=wPNLvfGTeEIA:10 a=AYcOGIO9QTV-QxxKPE0A:9 a=ljZk-KepJWKLKho0:21
- a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: CwP5SBs86XDW7M9o2-Kxkd0yGCN9aPjM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA0NCBTYWx0ZWRfX24oB2+rlMClW
- OkT+V5Hanq+qzX0BdE02E2qLfWc96S7zwDgLXdx8I0GDOHKn5+Ypy345xLwMVQ/s46dJ5dukRs2
- 9TCc6ZmOolW0StdaTrhlamMSFP6zSNoEOTIqiqFaMB1Q58HU1yFXd4YauPx3nosOt7GQS1EYKt2
- PkBxEqGtFkUOl4IXiuNoqK88d+4xZv4isLU4Vh+1pKfZ+biLIF67RMeVTONXREW05sSXTDCTeJw
- +Msy5DbbwaKGsGUnKHXloQGcS6AhYNdkAuVxV9dKMg6YA/G0RXCL5nxEvDCZ6vs6TeT/XhelnCw
- 5UAQyfOE7uAU55/rD/9ZhMX3h3kFyc26OfiM/e9QDp1Vul9UijSVn4wg4sMX5+5PDBZKCacE3hi
- Za5j4CQZz8/lCaqn4c+Q1Cs9sgNHUiyDcAP42DIlTZ29rBfcAR5D7rArRFCRRZUT8kOKN/9Oe8Z
- 2MNfPdfknsCg4m5b5rQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_02,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310044
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_CH3PR11MB8774C3DADBA455D8721EB8198FC82CH3PR11MB8774namp_"
+X-MS-Exchange-CrossTenant-userprincipalname: 3UJ5SorkvB1UJNUsJab+iMqXkKPkXxE3+bwrmPBWxgeZT74UW71PEHpN3uqqiDMXXHEjpLK7YwDxbq90lyyw8mK12OFafGFIeUjx39ub7II=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5295
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 07:12:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242411
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 09:26:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242413
 
---_000_CH3PR11MB8774C3DADBA455D8721EB8198FC82CH3PR11MB8774namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Paul,
-
-The use case comes from Bugzilla #14118 - https://bugzilla.yoctoproject.org=
-/show_bug.cgi?id=3D14118. The reporter (Daniel) uses Yocto-generated deb pa=
-ckages with multistrap on an Ubuntu 24.04 host to assemble a root filesyste=
-m outside of bitbake.
-
-Their workflow:
-
-
-  1.
-Build with PACKAGE_CLASSES =3D "package_deb"
-  2.
-Host the generated deb feed via HTTP
-  3.
-Use multistrap to create a rootfs from that feed
-  4.
-Run postinst scripts via fakeroot
-
-
-In this scenario, systemd-systemctl-native is not available since they're o=
-utside of bitbake's environment. The postinst scripts are run by the host's=
- dpkg infrastructure, not by bitbake's do_rootfs.
-
-I understand the current behavior is deliberate for the normal Yocto image =
-build path. The issue is specifically about consuming Yocto-generated packa=
-ges outside of bitbake - which is a supported use case when package-managem=
-ent is enabled, and packages are meant to be installed via apt/dpkg at runt=
-ime or for external rootfs assembly.
-
-Would it be acceptable to handle this as a fallback only when systemctl is =
-not available (i.e., not change anything for the normal do_rootfs or on-tar=
-get paths)?
-Or would you prefer a different approach?
-
-Regards,
-Himani
-
-
-________________________________
-From: Paul Barker
-Sent: Thursday, July 30, 2026 7:49 PM
-To: Barde, Himani Ramesh; openembedded-core@lists.openembedded.org
-Cc: MacLeod, Randy; Komati, Shiva
-Subject: Re: [PATCH v3] systemd.bbclass: fix service enablement for cross-i=
-nstall scenarios
-
-On Wed, 2026-07-22 at 10:14 +0000, Himani Ramesh Barde wrote:
-> When packages are installed outside of Yocto's normal image creation
-> (e.g., using multistrap, debootstrap, or dpkg directly on a host),
-> the postinst script fails to enable systemd services.
-
-Hi,
-
-What's the use case for this? I'm not aware of a reason to install
-packages generated via a Yocto Project build using
-multistrap/debootstrap or via dpkg on the host.
-
-> The issue is that the entire enable logic is gated behind
-> "if type systemctl >/dev/null 2>/dev/null". In cross-install scenarios:
-> - If systemctl is absent on the host: the check fails, script is skipped
-> - If host systemctl is present: it cannot find target unit files
-
-This is deliberate. On target, if systemd is in use then systemctl will
-be available. At do_rootfs time, we depend on systemd-tools-native to
-provide systemctl, the intention is that we're running the native
-systemctl binary that we built, not the host's systemctl binary.
-
-> Fix this by separating the image-build ($D set) and on-target ($D unset)
-> code paths into distinct branches. The previous code used a single
-> OPTS variable to switch between "--root=3D$D" (image-build) and ""
-> (on-target) within one unified block. This variable is removed because
-> the two scenarios now have dedicated branches with different logic:
->
-> - Image-build ($D set): Uses "systemctl --root=3D$D preset" per service,
->   which reads preset files from the target rootfs and creates symlinks
->   without needing the host systemctl to understand the target's unit
->   files. Falls back to "systemctl --root=3D$D enable" per service.
->
-> - On-target ($D unset): Same as before - enable, daemon-reload, preset,
->   restart. No behavioral change for on-target installs.
->
-> The OPTS variable is no longer needed because each branch now directly
-> uses the appropriate systemctl invocation for its context, making the
-> intent clearer and the image-build path functional.
->
-> Fixes [YOCTO #14118]
->
-> Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-
-Best regards,
-
---
-Paul Barker
-
-
---_000_CH3PR11MB8774C3DADBA455D8721EB8198FC82CH3PR11MB8774namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Hi Paul,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-The use case comes from Bugzilla #14118 - <a href=3D"https://bugzilla.yocto=
-project.org/show_bug.cgi?id=3D14118">
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14118</a>. The reporter=
- (Daniel) uses Yocto-generated deb packages with multistrap on an Ubuntu 24=
-.04 host to assemble a root filesystem outside of bitbake.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Their workflow:</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<ol start=3D"1" style=3D"margin-top: 0px; margin-bottom: 0px;" data-editing=
--info=3D"{&quot;applyListStyleFromLevel&quot;:false,&quot;orderedStyleType&=
-quot;:3}">
-<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
-alibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); margin=
--top: 0px; margin-bottom: 0px; list-style-type: &quot;1) &quot;;">
-<div class=3D"elementToProof" role=3D"presentation">Build with PACKAGE_CLAS=
-SES =3D &quot;package_deb&quot;</div>
-</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
-ce, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); m=
-argin-top: 0px; margin-bottom: 0px; list-style-type: &quot;2) &quot;;">
-<div class=3D"elementToProof" role=3D"presentation">Host the generated deb =
-feed via HTTP</div>
-</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
-ce, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); m=
-argin-top: 0px; margin-bottom: 0px; list-style-type: &quot;3) &quot;;">
-<div class=3D"elementToProof" role=3D"presentation">Use multistrap to creat=
-e a rootfs from that feed</div>
-</li><li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServi=
-ce, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); m=
-argin-top: 0px; margin-bottom: 0px; list-style-type: &quot;4) &quot;;">
-<div class=3D"elementToProof" role=3D"presentation">Run postinst scripts vi=
-a fakeroot</div>
-<div role=3D"presentation"><br>
-</div>
-</li></ol>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-In this scenario, systemd-systemctl-native is not available since they're o=
-utside of bitbake's environment. The postinst scripts are run by the host's=
- dpkg infrastructure, not by bitbake's do_rootfs.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-I understand the current behavior is deliberate for the normal Yocto image =
-build path. The issue is specifically about consuming Yocto-generated packa=
-ges outside of bitbake - which is a supported use case when package-managem=
-ent is enabled, and packages are
- meant to be installed via apt/dpkg at runtime or for external rootfs assem=
-bly.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Would it be acceptable to handle this as a fallback only when systemctl is =
-not available (i.e., not change anything for the normal do_rootfs or on-tar=
-get paths)?</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Or would you prefer a different approach?</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Regards,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Himani</div>
-<div><br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<b>From:</b> Paul Barker<br>
-<b>Sent:</b> Thursday, July 30, 2026 7:49 PM<br>
-<b>To:</b> Barde, Himani Ramesh; openembedded-core@lists.openembedded.org<b=
-r>
-<b>Cc:</b> MacLeod, Randy; Komati, Shiva<br>
-<b>Subject:</b> Re: [PATCH v3] systemd.bbclass: fix service enablement for =
-cross-install scenarios
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-size: 11pt;">On Wed, 2026-07-22 at 10:14 +0000, Himani R=
-amesh Barde wrote:<br>
-&gt; When packages are installed outside of Yocto's normal image creation<b=
-r>
-&gt; (e.g., using multistrap, debootstrap, or dpkg directly on a host),<br>
-&gt; the postinst script fails to enable systemd services.<br>
-<br>
-Hi,<br>
-<br>
-What's the use case for this? I'm not aware of a reason to install<br>
-packages generated via a Yocto Project build using<br>
-multistrap/debootstrap or via dpkg on the host.<br>
-<br>
-&gt; The issue is that the entire enable logic is gated behind<br>
-&gt; &quot;if type systemctl &gt;/dev/null 2&gt;/dev/null&quot;. In cross-i=
-nstall scenarios:<br>
-&gt; - If systemctl is absent on the host: the check fails, script is skipp=
-ed<br>
-&gt; - If host systemctl is present: it cannot find target unit files<br>
-<br>
-This is deliberate. On target, if systemd is in use then systemctl will<br>
-be available. At do_rootfs time, we depend on systemd-tools-native to<br>
-provide systemctl, the intention is that we're running the native<br>
-systemctl binary that we built, not the host's systemctl binary.<br>
-<br>
-&gt; Fix this by separating the image-build ($D set) and on-target ($D unse=
-t)<br>
-&gt; code paths into distinct branches. The previous code used a single<br>
-&gt; OPTS variable to switch between &quot;--root=3D$D&quot; (image-build) =
-and &quot;&quot;<br>
-&gt; (on-target) within one unified block. This variable is removed because=
-<br>
-&gt; the two scenarios now have dedicated branches with different logic:<br=
->
-&gt;<br>
-&gt; - Image-build ($D set): Uses &quot;systemctl --root=3D$D preset&quot; =
-per service,<br>
-&gt;&nbsp;&nbsp; which reads preset files from the target rootfs and create=
-s symlinks<br>
-&gt;&nbsp;&nbsp; without needing the host systemctl to understand the targe=
-t's unit<br>
-&gt;&nbsp;&nbsp; files. Falls back to &quot;systemctl --root=3D$D enable&qu=
-ot; per service.<br>
-&gt;<br>
-&gt; - On-target ($D unset): Same as before - enable, daemon-reload, preset=
-,<br>
-&gt;&nbsp;&nbsp; restart. No behavioral change for on-target installs.<br>
-&gt;<br>
-&gt; The OPTS variable is no longer needed because each branch now directly=
-<br>
-&gt; uses the appropriate systemctl invocation for its context, making the<=
-br>
-&gt; intent clearer and the image-build path functional.<br>
-&gt;<br>
-&gt; Fixes [YOCTO #14118]<br>
-&gt;<br>
-&gt; Signed-off-by: Himani Ramesh Barde &lt;HimaniRamesh.Barde@windriver.co=
-m&gt;<br>
-<br>
-Best regards,<br>
-<br>
---<br>
-Paul Barker<br>
-<br>
-</div>
-</body>
-</html>
-
---_000_CH3PR11MB8774C3DADBA455D8721EB8198FC82CH3PR11MB8774namp_--
+patch.bbclass's patch_task_postfunc calls GitApplyTree.commitIgnored()=0A=
+whenever 'git status --porcelain .' reports the source tree as dirty=0A=
+after do_patch, to snapshot those changes into the devtool tracking=0A=
+repo with 'git add' + 'git commit'.=0A=
+=0A=
+A path can be reported as dirty by git status purely because it is a=0A=
+submodule (or an unregistered embedded git repo) that itself has=0A=
+modified or untracked content - for example a recipe with multiple git=0A=
+SRC_URI entries where one destsuffix places a repo inside another=0A=
+repo's own working tree. The outer repo's tracked commit hash for that=0A=
+submodule hasn't changed, so 'git add' has nothing new to stage for it,=0A=
+and git refuses to fold the submodule's own dirty state into a plain=0A=
+commit without it being resolved first:=0A=
+=0A=
+  $ git commit -m ... --no-verify --no-gpg-sign=0A=
+  Changes not staged for commit:=0A=
+    (commit or discard the untracked or modified content in submodules)=0A=
+          modified:   level1 (modified content)=0A=
+  no changes added to commit (use "git add" and/or "git commit -a")=0A=
+=0A=
+'git commit' then exits non-zero with nothing to commit, and=0A=
+commitIgnored() propagates that failure straight up, taking the whole=0A=
+do_patch task down with it.=0A=
+=0A=
+Fix by checking 'git diff --cached --name-only' after 'git add': if=0A=
+nothing was actually staged, there is nothing meaningful to snapshot,=0A=
+so skip the commit (and the note it would otherwise add) instead of=0A=
+failing.=0A=
+=0A=
+Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>=0A=
+---=0A=
+ meta/lib/oe/patch.py | 12 ++++++++++++=0A=
+ 1 file changed, 12 insertions(+)=0A=
+=0A=
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py=0A=
+index 1d50e83ab7..944dde1e03 100644=0A=
+--- a/meta/lib/oe/patch.py=0A=
++++ b/meta/lib/oe/patch.py=0A=
+@@ -516,6 +516,18 @@ class GitApplyTree(PatchTree):=0A=
+     def commitIgnored(subject, dir=3DNone, files=3DNone, d=3DNone):=0A=
+         if files:=0A=
+             runcmd(['git', 'add'] + files, dir)=0A=
++=0A=
++        # 'git add' can leave nothing actually staged even though the call=
+er=0A=
++        # saw a dirty status: a path can show as modified purely because i=
+t=0A=
++        # is a submodule/embedded git repository with modified or untracke=
+d=0A=
++        # content of its own (e.g. a further nested git repo from another=
+=0A=
++        # destsuffix SRC_URI entry) - git refuses to record that via a pla=
+in=0A=
++        # 'git add'/'git commit' without resolving the submodule's own sta=
+te,=0A=
++        # so the commit below would fail with "no changes added to commit"=
+.=0A=
++        # Skip the commit if there is nothing actually staged.=0A=
++        if not runcmd(['git', 'diff', '--cached', '--name-only'], dir).str=
+ip():=0A=
++            return=0A=
++=0A=
+         cmd =3D ["git"]=0A=
+         GitApplyTree.gitCommandUserOptions(cmd, d=3Dd)=0A=
+         cmd +=3D ["commit", "-m", subject, "--no-verify", "--no-gpg-sign"]=
+=0A=
+-- =0A=
+2.43.0=0A=
 
