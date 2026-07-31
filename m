@@ -2,63 +2,63 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 836F6C55171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81DD3C54F54
 	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 15:28:29 +0000 (UTC)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13.1785511700650695385
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16.1785511705525645863
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2026 08:28:20 -0700
+ Fri, 31 Jul 2026 08:28:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=efgSW/8Z;
- spf=pass (domain: gmail.com, ip: 209.85.221.174, mailfrom: twoerner@gmail.com)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-59b074ec7ceso392521e0c.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 08:28:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ia6bn+OH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.173, mailfrom: twoerner@gmail.com)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5bf8a2932a3so638332e0c.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 08:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785511699; x=1786116499; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1785511704; x=1786116504; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=F0Sg/5eEE9YGtEb5/elpzX0ofAgSiKn5ZC6cvlKurlE=;
-        b=efgSW/8ZWLSrU+6QlaunaXafiDVPvQ6bh3ffgje6La+rktkC1I723MuFEAr1t90qaR
-         P6AGrL4iDHRAxzsfKZbIqbItwHIX11LDwrVNQkscIkmjpzr5itFWn7rOAcPzppzxyfQ6
-         X58meklFGW97Gqb+8axv5DlN5T+KWNwqfLGmaCSEStpJb3tc25QuaNePVGA7WciVcMz+
-         PCG2RzIG6pN1kzmWOGOSe768NryHc543ASf1q8sO0YwAeateSNrpSSF0ovxfebC14KBG
-         mHDDZBKlwQTULnsLX+NYT/4e+bCxlyPElToXtoD4HV4Vn/vK2IyLJMUHpfRXUK/Ar7F3
-         OZdg==
+        bh=UIeATkx7vW4JBubmI/84KAjWUSOQE7SuKJJafkwiCRg=;
+        b=ia6bn+OHGU1EZuf1o2Vhas6Gc2TYJ0O0kh6yB+NPfNMNNFw4mCCAw7yqgVNn+xKcsz
+         uOpKlVxsFGrjc8mFh90nwQP83Ug4iHyo4n/Kd8nBeQU3/Q8zRGZyWYSZErbCN/D0HMCD
+         a9GE817nAOOHdGgVHZSCRHKPqGDGecq5pwcJ7piBg6HVF0MNuPpbwA87DQlWkZ2NGZ26
+         0al8ePlTb9pEVs+x2zZnms2YlaySV/Fg68+DSFIK+r2SgUlitAzxNbgeOtyoc2Sm0QjM
+         YjNYcjl31IY0fe2SZ1i+HMIrOItDsm8fLB8iaMW5EvxcF+k0GEVA6hW2HdJDhl50AQZR
+         SGbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785511699; x=1786116499;
+        d=1e100.net; s=20251104; t=1785511704; x=1786116504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=F0Sg/5eEE9YGtEb5/elpzX0ofAgSiKn5ZC6cvlKurlE=;
-        b=LIIacZZovsAIrJfUJ9+YyNSpzRhl6bo28RqsVeJyk0b5S2ah5XNhgxUDhfg7pZ1bHW
-         AoG1ZKvrVRwMC2lqszV7xLNNP8I09zKeaaJs6IhLpBE4PJk9QP9UsLm/dUcgSkNOSS/M
-         HZTUs3i3EoiWZKF02Svrt9HQzlmi2xm2fkIV9gFI7k5+vzBk45//PT2N3WlIi8yvsAVy
-         saM/OqDZtBj7qFlzkRrHk2f+M2IkdxRqGE9RCidcwUpKmLU8jZCQLpLpXYLzs4Lyy1Pu
-         ql/8jlBq6IwQuI3KRCkgnl67ztD7FamEGJdfgBBm0jXIC3dxr/cBbWYBwc/ujfKg0A2d
-         lu3Q==
-X-Gm-Message-State: AOJu0Yx1g3VHiPChHC6cAoGodmuJ3ZWh29xc8Oqdl6qfWiy62L3qoNYe
-	hZVM92qZleUEUaEKpvVcr72bqFG9cxp5ekng7rcjru7tFKqIxGpaQWyTp1gujA==
-X-Gm-Gg: AR+sD12YH5jJO4U3rfjOLTfCaSWDp8d6Jmili1erjsAHMY9sDjMWVfQTpvVvHElVjom
-	j2FO4lWFkFcOI/U2WvbvbP2tf74MYVLrt0n/7lX06vEKTyV/8Wqb9fvfi5QpZud1NlDsdReW08N
-	lqfc/7GiTjHdQIICPLhaan76VJjhvXBPRf4Y/d3nxvWmKruNBmI/g6zc4AAO94AIfbQvMTpK8Gk
-	+/bxS5FM6OXRMv42B6dBu4TDvq69PUUMoBto84Tp0Zpg1hUP3YGJUlfNK57aUiC/z18M1893EAl
-	MqX+s14usMs6ZhH07/RCoQyWg4PxmILEAtFk18VFCUGSAE2zWczlonHixIVFloiESndz3v3o6CK
-	O7exUGa8M06n5yXrSejmxLnpb80yrKJdWKDlKiVvj+sTDF5Mr0WdM53ocwLBgZIMp9NSr9ziBlz
-	3akTUQKVLZU95bGxtNOEcNYvAmfrhlIDYS3fAe8vr8YLyS/T6EZ/72kNY9xb+G/a6+aGBVyt9nr
-	TZqnB+QNA6SPTXKlr/mFA1Es/2rbyY=
-X-Received: by 2002:a05:6102:1493:b0:738:84c:6b3 with SMTP id ada2fe7eead31-75b2196462fmr518883137.3.1785511699486;
-        Fri, 31 Jul 2026 08:28:19 -0700 (PDT)
+        bh=UIeATkx7vW4JBubmI/84KAjWUSOQE7SuKJJafkwiCRg=;
+        b=qzMwVT9O/77NQfUHQOMBTmqoYHr6EAdbAcDoagfR7AhhM9+7kzZgqRKPLGScN4UxVJ
+         +cwyxktG7ZKbIdbaJyifxQjmU+ipEMcR+f2Ppj5lwDXj1vpN68BP0bnNN//NjRv6un24
+         8DUHSyNdtlj2wDMeCHh7Uy/yVNGKWDGIgw82CoEMdBhh2Nz/UiWKfvhfUvdV5M7DG3mj
+         GSsVkaFd1ZOWzgjMp6CE1ThxIKhT9HmrB8s0K/ESTKGtJApwlt+0qhJxXTeDpVEk2A6g
+         nae9bErasimAkUw0xZIVAx+jvqNHh//J8RFiTCyhCXy4cPA8OvyVGvlor3cn8GCl/KHk
+         Ylwg==
+X-Gm-Message-State: AOJu0Yw/sFfCU//zLdx3xDxwTgnoUsh9mdDOClxzFArLydo+UJ0lBpuU
+	OJyOL5V9onuTy8caNCPquiHcJQVArItj0Bn6ShqnnV8uSCuyqLXi84PSxA6D5Q==
+X-Gm-Gg: AR+sD12W1H1vWDzuZjErQ5W/74McBSjucc7+rs7Aesi1NUPBBD4QzaBPHGFpWH763Kj
+	8VpFptBSnpWPL3Qr5W514CJSbUUSLJ1bKi243xMjkzwwFFfOwwVgB0nC+0t1+qYv6aNgfl+5yxj
+	BszjzqW+h8zY6y72bBw4pZ8CtsnkOpwxuwgeeGnDkfdYJiPC9Q92OSc1ITQR+QZBMXFy0KLziox
+	9yVoYbo0MgkVU4jK5BWNxpxi7X2mWtDy8qaTdYEnPi7ETFZMEyCu+rARGaveOj+QLwT7sPSm3Bl
+	MSkvIMbtiPRT8ajfOSOiDj61aKbLyQ+Xcvhr6zPEn7xf59kjtzRaEvRZ+NSDwTphrNZ0A4UQyLY
+	An+DsKyCkHwxqNCmsjxEzgBEkdFBpiBg4qfYsZh7k57b7Bt+b+Dp/m4jeJaMU/5Qby5YpOrbrMR
+	mP+9apC6ajgcKXa/PPdhcJRB+si/7/FG4+Rgu0DuKuvygvErfaK5yxDLl0fCSQCJLBXFxfkd34G
+	Em1qss9o8ioUwcW5A7tl3+cEZYLMYo=
+X-Received: by 2002:a05:6102:6899:b0:726:8813:2085 with SMTP id ada2fe7eead31-75b23d6e2d3mr535449137.13.1785511704327;
+        Fri, 31 Jul 2026 08:28:24 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-759c9559116sm837007137.11.2026.07.31.08.28.18
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-759c9559116sm837007137.11.2026.07.31.08.28.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 08:28:18 -0700 (PDT)
+        Fri, 31 Jul 2026 08:28:23 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v5 4/6] oeqa/selftest/wic: drop dead COREBASE/scripts wic lookup
-Date: Fri, 31 Jul 2026 11:28:08 -0400
-Message-ID: <20260731152810.2641327-5-twoerner@gmail.com>
+Subject: [PATCH v5 6/6] wic: gate syslinux-native on the target, not the build host
+Date: Fri, 31 Jul 2026 11:28:10 -0400
+Message-ID: <20260731152810.2641327-7-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260731152810.2641327-1-twoerner@gmail.com>
 References: <20260731152810.2641327-1-twoerner@gmail.com>
@@ -68,52 +68,100 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 15:28:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242450
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242452
 
-wic moved to a standalone repository and is no longer shipped in
-scripts/, so that search path can never match. Look for wic only in the
-wic-tools native sysroot.
+Whether wic needs the syslinux installer is decided by the .wks file,
+and so by the target: only an x86 image asks for syslinux. Currently
+image_types_wic.bbclass adds syslinux-native when the BUILD HOST is
+x86 instead, which is a different question. Does an image depend on
+syslinux-native today?
 
-AI-Generated: codex/claude-opus 4.8 (xhigh)
+                 | x86 target | non-x86 target
+    -------------+------------+----------------
+    x86 host     | yes        | yes
+    non-x86 host | no         | no
+
+The answer varies by row when it should vary by column, and both of the
+wrong cells cost something. An x86 image built on a non-x86 host gets
+the target bootloader without the installer that puts it in place. An
+x86 host builds an installer that a non-x86 image will never use.
+
+Gate on the target instead, as wic-tools already does [1]:
+
+                 | x86 target | non-x86 target
+    -------------+------------+----------------
+    x86 host     | yes        | no
+    non-x86 host | yes        | no
+
+Bug 13276 [2] reported the bottom-right cell failing, back when the
+syslinux recipe was x86-only for every variant, and it was closed in
+2019 by gating on BUILD_ARCH [3]. The recipe has since been reworked so
+that only its target code is x86-specific [4], which leaves that gate
+unnecessary as well as misdirected. A non-x86 target never asks for
+syslinux, so 13276's case stays fixed.
+
+[YOCTO #16383]
+
+[1] https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/meta/wic-tools.bb
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=13276
+[3] https://git.openembedded.org/openembedded-core/commit/?id=7e2ee2b59319
+[4] https://git.openembedded.org/openembedded-core/commit/?id=7273e131bfc7
+
+AI-Generated: codex/claude-opus 5 (xhigh)
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
 changes in v5:
-- trimmed the commit message
-
-changes in v4:
-- new in v4
+- new in v5
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
+ meta/classes-recipe/image_types_wic.bbclass | 3 +--
+ meta/conf/wic-helper-tools.inc              | 3 +++
+ meta/recipes-core/meta/wic-tools.bb         | 4 ----
+ 3 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index f9b893fc8581..8a39a4ddc603 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -100,18 +100,11 @@ class WicTestCase(OESelftestTestCase):
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index 3f25b7912b26..b00b5155475d 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -120,9 +120,8 @@ do_image_wic[depends] += "${@' '.join('%s:do_populate_sysroot' % r for r in ('wi
+ do_image_wic[recrdeptask] += "do_deploy"
+ do_image_wic[deptask] += "do_image_complete"
  
-     def _get_wic_path(self):
-         if WicTestCase.wic_bindir is None:
--            search_paths = [
--                os.path.join(self.td['COREBASE'], 'scripts'),
--                os.path.join(get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools'), 'usr', 'bin'),
--            ]
--
--            for bindir in search_paths:
--                if os.path.exists(os.path.join(bindir, 'wic')):
--                    WicTestCase.wic_bindir = bindir
--                    break
--
--            if WicTestCase.wic_bindir is None:
--                self.fail("Unable to find the wic binary in %s" % ', '.join(search_paths))
-+            bindir = os.path.join(get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools'),
-+                                  'usr', 'bin')
-+            if not os.path.exists(os.path.join(bindir, 'wic')):
-+                self.fail("Unable to find the wic binary in %s" % bindir)
-+            WicTestCase.wic_bindir = bindir
+-WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+ # Unified kernel images need objcopy
+-WKS_FILE_DEPENDS_DEFAULT += "virtual/cross-binutils"
++WKS_FILE_DEPENDS_DEFAULT = "virtual/cross-binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+ WKS_FILE_DEPENDS_BOOTLOADERS:aarch64 = "grub-efi systemd-boot"
+ WKS_FILE_DEPENDS_BOOTLOADERS:arm = "systemd-boot"
+diff --git a/meta/conf/wic-helper-tools.inc b/meta/conf/wic-helper-tools.inc
+index 66f2f1b2bddc..0ee4aaee6a89 100644
+--- a/meta/conf/wic-helper-tools.inc
++++ b/meta/conf/wic-helper-tools.inc
+@@ -14,6 +14,9 @@ WIC_HELPER_TOOLS ?= "\
  
-         path_entries = []
-         for path_group in (
+ WIC_HELPER_TOOLS_NATIVE_ONLY ?= "cdrtools"
+ WIC_HELPER_TOOLS_DEPENDS = "${@' '.join('%s-native' % t for t in (d.getVar('WIC_HELPER_TOOLS') + ' ' + d.getVar('WIC_HELPER_TOOLS_NATIVE_ONLY')).split())}"
++WIC_HELPER_TOOLS_DEPENDS:append:x86 = " syslinux-native"
++WIC_HELPER_TOOLS_DEPENDS:append:x86-64 = " syslinux-native"
++WIC_HELPER_TOOLS_DEPENDS:append:x86-x32 = " syslinux-native"
+ 
+ WIC_HELPER_TOOLS_PACKAGE_ONLY ?= "e2fsprogs-resize2fs"
+ WIC_HELPER_TOOLS_RDEPENDS = "${WIC_HELPER_TOOLS} ${WIC_HELPER_TOOLS_PACKAGE_ONLY}"
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index c3c39cec011d..22d530e42300 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -9,10 +9,6 @@ DEPENDS = "\
+            grub-native pseudo-native \
+            virtual/cross-binutils \
+            "
+-DEPENDS:append:x86 = " syslinux-native"
+-DEPENDS:append:x86-64 = " syslinux-native"
+-DEPENDS:append:x86-x32 = " syslinux-native"
+-
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
