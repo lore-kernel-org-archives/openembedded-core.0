@@ -1,161 +1,121 @@
-Return-Path: <marek.vasut@mailbox.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC7E6C55167
-	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 02:35:11 +0000 (UTC)
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2865.1785465303339663715
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15108C54F54
+	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 04:36:42 +0000 (UTC)
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4107.1785472595299569817
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jul 2026 19:35:03 -0700
+ Thu, 30 Jul 2026 21:36:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mailbox.org header.s=mail20150812 header.b=C8O6y/1e;
- spf=pass (domain: mailbox.org, ip: 80.241.56.152, mailfrom: marek.vasut@mailbox.org)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=MVnrh+Tf;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1785472595; x=1817008595;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=03rSvrR16Xy+JOep4kCyq9xfx7WPzD8n0x8FUJbx2xM=;
+  b=MVnrh+TfHrZ0j4XCXy/ihBedmENfUk03wKPk+elImypElWXR5c+C18kI
+   vLPbOP3WINZ+lcCcgILGCSQW/pzHNZ4JMlxssyMo28lHZSvu83wxnRkJG
+   BsDz+8/9g1ihtB7iYsdwwkA1FpFF/OADA1JRRnSkHFOSc2RX6IRkPcyde
+   rsIwRs7mYWXZDuJYRBU2zm3OO1y+93OA67IaPzlSuvGtqb5GxK3R9inRP
+   xlWAA3jTwZiOievvZDcs9r9cXccWrd2mRF+2yICvPFW1Zj8dYTjVrShQ2
+   y2aFxUcv+kfhhcyVVcUMahSy3ip33LIsCpJ60tMH99/THWhd+L8RQ3XtR
+   g==;
+X-CSE-ConnectionGUID: wZez9fgCQLyY9iADrBQhBw==
+X-CSE-MsgGUID: nh3HPdJoRe2+Vdenip7XBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="228098713"
+X-IronPort-AV: E=Sophos;i="6.25,195,1779116400"; 
+   d="scan'208";a="228098713"
+Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 13:36:33 +0900
+Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4hB9C71bMDzKv7c;
-	Fri, 31 Jul 2026 04:34:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1785465299;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4CRsgKB5we5/+CjvU6TBPne/tRwgpyiV7jCCdOa+Qmg=;
-	b=C8O6y/1eBka3eVrNT8bDgzyu2/pZBk8fV/JuxTI38R8Asx7jHQuuKJ0HT9LVmpnBIRN5n1
-	g2Pll+M0mMTiw0DcWAfQBueCFZcPLamBaIr79eKZRmxXfayCtdqx+AEsOsf7SDeIbVUS7C
-	YlZSrTIEPAXvn0Zjv1Qj3UF58w3nG7Kk42mjYrpAw0ZAKt5xqo2IMAnIvn/Erbn41A4Bxd
-	LiRBSKXZRUVd4e9NEn8MizSxQ96+T+DUad1JB6fNkXyzwCJ8odPR7kJsOITQhSsd/Ng/0b
-	gO83h5nlnrB3N4WD+RjQaIsyJ3wEFz/9hWjBMiAAylSdbwJ1YEn3ASgeH3jL3g==
-Message-ID: <398ede22-152a-4b9b-8eeb-8e252bdab4d4@mailbox.org>
-Date: Fri, 31 Jul 2026 04:34:56 +0200
+	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 645BB42A309
+	for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 04:36:33 +0000 (UTC)
+Received: from az2uksmom4.o.css.fujitsu.com (unknown [10.151.22.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id 17B8D18019B3
+	for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 04:36:33 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
+	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTP id 29AB340F8CE;
+	Fri, 31 Jul 2026 04:36:30 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] kernel-devsrc: Install sources required for BPF host tools
+Date: Fri, 31 Jul 2026 12:36:28 +0800
+Message-ID: <20260731043628.1566-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-Subject: Re: [OE-core] [wrynose][PATCH] kernel-fit-image.bbclass: Do not
- include kernel property in DTBO config subnodes
-To: Yoann Congal <yoann.congal@smile.fr>, adrian.freihofer@gmail.com,
- "Freihofer, Adrian" <adrian.freihofer@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Ryan Eatmon <reatmon@ti.com>
-References: <20260630074356.10265-1-marek.vasut@mailbox.org>
- <6fb0c748f9cbdeb15dc583483486e12af1c7f397.camel@siemens.com>
- <91b15fcf-715b-40cc-8f77-ff4571946725@mailbox.org>
- <DJO1RET2JWA2.2H0HY5TPUI2T5@smile.fr>
- <84bd480810d947c860b95c3cc10f66fced3cdedf.camel@gmail.com>
- <e4369955-eae6-4c45-b00c-01ca18d94fa2@mailbox.org>
- <2304e3c8-1b90-4bbf-8022-80f19d1447a7@mailbox.org>
- <DK3HZYI7OV4C.YF3JS912EHFG@smile.fr>
- <868f8648-d45f-4ba5-a6e5-7eb5fadb2516@mailbox.org>
- <a84070f4-290c-4ada-86ce-7f601bb8870b@mailbox.org>
- <DKBQEXTZ79PI.3DFEPYRHXLBNB@smile.fr>
- <2327c8bd-c465-43ad-bb56-ac571eadafc8@mailbox.org>
- <0be60525b600137c0f723c7faa7ab5c2f04934ae.camel@gmail.com>
- <DKBWUZLGTNVG.ZNWPY3U22BE8@smile.fr>
- <b4fd3e49-e436-40cd-8b62-0c6792cd6f14@mailbox.org>
- <982caddffca561ea3bf1ce907a40447302e74378.camel@gmail.com>
- <DKBYCAF9BZO1.1QQXVA3V614B3@smile.fr>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <DKBYCAF9BZO1.1QQXVA3V614B3@smile.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 16c12ae39abeb88daef
-X-MBO-RS-META: htz7cwdf8s7k8eub43ukke9fcdcjufcp
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 02:35:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242390
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 04:36:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242391
 
-On 7/30/26 3:49 PM, Yoann Congal wrote:
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Hello everyone,
+When CONFIG_DEBUG_INFO_BTF is enabled in the kernel, building external
+modules that use BPF requires the 'resolve_btfids' host tool. This tool
+and its dependencies were not included in the kernel-devsrc package.
+ 
+This can cause a build failure in an SDK environment when 'make scripts'
+is run, for example:
+ 
+  make[4]: *** No rule to make target '.../tools/bpf/resolve_btfids/main.o'
+ 
+To fix this, unconditionally install the minimal set of source files
+required to build the 'resolve_btfids' tool and its library dependencies.
+This avoids coupling the recipe to specific kernel CONFIG symbols while
+also ensuring only necessary files are included in the package.
+ 
+The copy operations ignore errors to prevent build failures on older
+kernel versions where these files may not exist.
 
->>>>>> The fitimage fixes landed in oe-core master 6 weeks ago and
->>>>>> they fix
->>>>>> fitImage usability issues which block me from updating to
->>>>>> wrynose in
->>>>>> multiple projects, that's why I keep monitoring this thread so,
->>>>>> but
->>>>>> again, please do not read this as a push.
->>>>>
->>>>> I think going with the four patches from
->>>>> https://lore.kernel.org/all/cover.1784364567.git.yoann.congal@smile.fr/
->>>>> without a fifth patch which adds test coverage for this fairly
->>>>> isolated
->>>>> detail is fine.
->>>>
->>>> This is where I disagree. Last time I reviewed this series it
->>>> looked
->>>> good but I had no way to check it actually worked once backported
->>>> to
->>>> wrynose. That is why I asked Ryan to backport the test from master
->>>> to
->>>> wrynose.
->>>
->>> Is there a git tree/branch with those patches ? If so, I can at least
->>> test this locally and confirm whether or not anything is broken on my
->>> end ?
-> 
-> I pushed that here:
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=ycongal/wrynose/kernel-fit
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+V1: https://lists.openembedded.org/g/openembedded-core/message/242225
+Changes in v2:
+  - Remove conditional copy based on CONFIG_DEBUG_INFO_BTF.
+  - Copy a minimal set of files instead of entire directories.
+  - Make copy operations robust against non-existent files.
 
-This works for my use cases.
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-[...]
-
->>> I ran this now and got 8 commits which cleanly apply on the wrynose
->>> branch, maybe that is all that is missing for the test part ?
->>>
->>> $ git log --oneline --reverse --grep=fitimage
->>> origin/wrynose..origin/master --
->>> meta/lib/oeqa/selftest/cases/fitimage.py
->>> e46d8473fb3 oeqa/selftest/fitimage: fix missing whitespace around
->>> assignment
->>> 0344e652a40 oe-selftest: fitimage: replace _gen_random_file with
->>> _gen_elf64_dummy
->>> 5592be53348 oe-selftest: fitimage: replace bbb-dtbs-as-ext with
->>> test-dtbs-as-ext
->>> befc103a95d oe-selftest: fitimage: replace MACHINE==qemux86-64 guards
->>> with KERNEL_SETUP_BIN
->>> 4b08cf6048b oe-selftest: fitimage: add machine settings table and
->>> skip
->>> helpers
->>> f17f4263c07 oe-selftest: fitimage: stop hardcoding MACHINE and DISTRO
->>> in
->>> tests
->>> 85e0408a81b oe-selftest: fitimage: Do not expect kernel property in
->>> DTBO
->>> config subnodes
->>> de2e11e6362 oe-selftest: fitimage: Add tests for KERNEL_DTBVENDORED
->>>
->>
->> It's this series which makes back-porting the tests hard, I agree:
->> https://patchwork.yoctoproject.org/project/oe-core/list/?series=47907&state=%2A&archive=both
->>
->> Question is what's simpler and more appropriate: Back-porting major
->> changes for "only" test code or adding test coverage to the old test
->> code on wrynose. Technically, I would have sent the oe-selftest rework
->> earlier if I had it available. So, back-porting=cherry-picking would
->> make sense and be straight forward. Process wise, I would probably
->> stick to just adding test coverage for the changes on wrynose. That
->> should be easy doable, it's just not cherry-pickable.
-> 
-> Those cherry-picks do not look particularly good, please avoid them if
-> we can...
-> 
-> If you can easily send a single patch that test the series on
-> wrynose, that does sound better.
-
-I submitted the backported test, but the test required adjustments to 
-not depend on the other commits. I think the adjustments are harmless 
-and the test still works as intended:
-
-[wrynose][PATCH] oe-selftest: fitimage: Add tests for KERNEL_DTBVENDORED
-
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 237dec6b12..ca1a08cba3 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -176,6 +176,18 @@ do_install() {
+             cp -a --parents $(find tools/arch/${ARCH}/ -type f) $kerneldir/build/
+         fi
+ 
++        # For v5.2+ when BTF is enabled, scripts prepare may rebuild the
++        # resolve_btfids host tool. Copy the minimal sources it needs instead
++        # of coupling this recipe to a specific kernel CONFIG_ symbol.
++        cp -a --parents tools/bpf/resolve_btfids/* $kerneldir/build/ 2>/dev/null || :
++        cp -a --parents tools/lib/bpf/* $kerneldir/build/ 2>/dev/null || :
++        cp -a --parents tools/lib/subcmd/* $kerneldir/build/ 2>/dev/null || :
++        cp -a --parents tools/lib/ctype.c tools/lib/rbtree.c tools/lib/str_error_r.c \
++            tools/lib/string.c tools/lib/zalloc.c $kerneldir/build/ 2>/dev/null || :
++        cp -a --parents tools/build/Build.include tools/build/Build tools/build/fixdep.c \
++            tools/scripts/Makefile.arch tools/scripts/Makefile.include \
++            tools/scripts/utilities.mak $kerneldir/build/ 2>/dev/null || :
++
+         if [ "${ARCH}" = "arm64" ]; then
+             # arch/arm64/include/asm/xen references arch/arm
+             cp -a --parents arch/arm/include/asm/xen $kerneldir/build/
 -- 
-Best regards,
-Marek Vasut
+2.43.0
+
 
