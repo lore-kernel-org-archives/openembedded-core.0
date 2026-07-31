@@ -2,180 +2,162 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40646C5516F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFD3C55171
 	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 15:28:19 +0000 (UTC)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12.1785511696488408591
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8.1785511695329332390
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2026 08:28:16 -0700
+ Fri, 31 Jul 2026 08:28:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=F5SFPVOo;
- spf=pass (domain: gmail.com, ip: 209.85.222.53, mailfrom: twoerner@gmail.com)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-96723c7151eso273373241.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 08:28:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jttm3tik;
+ spf=pass (domain: gmail.com, ip: 209.85.217.51, mailfrom: twoerner@gmail.com)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-74dce749cc5so239465137.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 08:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785511695; x=1786116495; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0zJjBb6df65zdd6rH3XQfHwC7WrqgvpRMiWDyR8oMjw=;
-        b=F5SFPVOoufw3ghwsS7U5RQ8GUmpgOvg6vH3/rJHcIZxEKHYLtjUoQM9gTei2E35EtZ
-         N8Ww0KswoTZZfvX3m6nHSwC0jYZ9CFFPO8WGEPu18ZwgMPa/EmdCeF+yL1FN1NWRlWSt
-         JNrul97VivfhoGe9Pwd58WhbR77SUIRdxwCPwcndS2ezH9aaB3mo6blrNI1Rj+5cqzYd
-         PxAu3dObGb4p8WmXf1XcgUBZjrut9pVSI2W3/JPS3mDFwT5htIwahJ+qwvKWcmZnHsIR
-         qNF+7tye6zCt2BvP8eIE91/q4XojIKpAWEOekNK/pnf4+VhxYxXN+jtHMnlKZPcGsaNf
-         6mBg==
+        d=gmail.com; s=20251104; t=1785511694; x=1786116494; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Z8Iq/icwIISY7B9WAg3vVphzubzBoo3fve53k4R8xho=;
+        b=jttm3tiktql8jjQb5E3vMaEuD/e85wmL11S3Vpw5CyYdD0fUZpxQLhfeRtHVUuab7/
+         +eWy4QT89OpKhIejN53AbA0jgNfMzWBERQySLTIiZ5a4I6Kt0asLIosuCbzAAtfUeitk
+         yrodTlW5DfR8XJKqhUTbDnlnVMPa9FEqeN4GBbibT3RRRICEZOfkAEbE+RKJd9oiYt6Q
+         FkJWaRzyfhhnQO67wroP4uf9zZxm48fJAP0WzpoPbOz9zkik00iG0ZEp1Ty8XNDgam6/
+         Uqt1sCJY8oGkJGIIhWyqHBk0gzuGLoCLHud+KqhQt6rQ/deblau/kikOJ4ESXuVE69se
+         0Nfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785511695; x=1786116495;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=0zJjBb6df65zdd6rH3XQfHwC7WrqgvpRMiWDyR8oMjw=;
-        b=VGMbNiSfYjXVVZwgM/2Kw8wU3qH+NjQ9dTpevTu+E/PRF12jA2mEc5v+Ac+eSPDEPD
-         Adjn3VrjGmOPDJaTu/RlrWpMrVIEQF3ktT0CZvJcBpmayGNuqm9GT/ilS7X1OCdedNsM
-         9vWCYDx1YAy8/vej73J7ldLIYfz6l+eKwmcbqlzbulGmCh4zEc6FKUR842Fh83Q8iHmX
-         UinYowZEnvdVWXBlKM95DleqtoLgR4otuPGeX18ZlWvBVKtkinHnrUeB8r3ybAll2vCJ
-         htU8NlbLgFe5dFaKJinxiWuQd0p4pDtpa4XH9YlJXDSJD/kHb2hFF6Lr2J86RedQZJIz
-         AnBA==
-X-Gm-Message-State: AOJu0YytTrMUSe6vfgPcqZIRsoWxmx0l+3zt3671RapWIdGQp2hIgQaW
-	fcKaxNCbnguEO/38LG5jpQxBQl7mIg2jSfqAQ7q+3+5e04dLLzialZ65Byxdqg==
-X-Gm-Gg: AR+sD12yXgZ+3CNghJxZNfxSUcKJHNlEZUkuxxnY/DbUhd9WAnOJCV9U4LS2uNWBJSa
-	jrP9CL0c7/PW9KPbn0cfsBczJseGcNRHCQRfDg1in+W7JU6BfTxy1qdkiCDW5ScMNkabEmO9tX0
-	SA32PrH66n+fr7xVmLhpFO5leaTtv1DiBjYwQMYeKsF5Gh0un0OeePsm0bFu+H7PpEqdJuu8T60
-	l2ypucnTA/JdsCU1kY7KUuDEF0RQ68+lzBGbnnxCTOhATMc1B0ahJ3jQVqtWpO82dDuU0MoOcLL
-	gmewiZ9LsY/iATewS4rNdUTVeMAGuc4wcxParPUdt6EvB3DhHgkn0r3CsIg5dW06jUIhgp/2KIE
-	v+QKODWWOaCMDzLKIZ4cVCazf7I8pe5tVxDporuwtC3IE+UV8Z+KReL94WfwWtzIpzDfFLEkbEe
-	1PjBi4mBhdRRLi6uzclM0ch0Cd06AEAKGBuhK2LxoW39+rARSBhhQ/L+ASFo+ioe9U73JZoONFf
-	W0N2BZlO2Fnz2HptYHaLxpTQ/1o/yE=
-X-Received: by 2002:a05:6102:809c:b0:74a:992e:84f6 with SMTP id ada2fe7eead31-75b23b6aa90mr542223137.10.1785511695364;
-        Fri, 31 Jul 2026 08:28:15 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785511694; x=1786116494;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Z8Iq/icwIISY7B9WAg3vVphzubzBoo3fve53k4R8xho=;
+        b=Xeld/aQFgANA1QpPvMtjXkzqIZlVumS4Ty0ha7vpGFIRBItbJaOjp9FD1HXKCZe8X4
+         hWHLDOh6zsfosy551iRkYBqpc1Zcis5BaTTONw2saNnlyxB2KkFn76ZPibvCpCo6/8o+
+         +Jr7NzQg7AKPxqy4aFloASV15n482gvmTIxx6B8yMMG0i1B3iEiTaZkh1Wv0UKprwHSA
+         quch/shegdzp0W+ct82+sDtTwLxJBRYgSkaUwByFFrjQLEjjDGa3V1OLStVigmvs5xuv
+         lUc0wBODKisUN4NvDyj81ToBkvkdjgrPiBlWWXFiWGH3h7gaK2GrfOE8ftd2fLFz4uhD
+         /cDA==
+X-Gm-Message-State: AOJu0Yz01o41MjloUFXeNW9c1JOPvxmu/fQou8LPX7Q0ZG86DeXlPWPE
+	BPioR3aZeJ50EH//3WKVB3cnl7AHSUN17y9XBGxKY0zftUOKyVxtc4xwnJmlGQ==
+X-Gm-Gg: AR+sD10fUSVqfvF49S+9F1IqC95IfzXmbncpLcjUL6m0qleQ69yq700qV8iljbDXvig
+	IrmLfpSZRvYlWwvx69xQih2fXEQHPZuTSvnRyl6GRxtGUkenfLFGGffG3JSlnS4WlI/99rNqVqO
+	wSFJfWdCxSth3hEl2FMkKRJZ5D158PlHF/RU/ZbTaEHrdfspndHzvWmFCn5GBqdxPmXCXXBrp2n
+	qY85oYkdqW98s9SPn9rqwSqn2wogVEmBPzIwYAZfqJ7/sQRKzJBhnLzx15la5UMYn629CRAJzaQ
+	vizO97LZZ+qffgs1j/EHxJH8JeKjcB1zayxwj22Qedn5828eQTaEPGDVneFHzoTQAvPys9ITTtZ
+	wnl1h2gjRPgx8HcfUxeEQIJuyJkk2hS90KQNDn+/kXtPC6gotL9w5DJco4iw4wnmddUpRcO8pS7
+	HXJcWMK0wOgVvtNryYYkcxkfqIhQN7zO6nqB4Bsh5V5mwUJtd8+qp3SNMPfVgOIcfKAbf/j0pwp
+	C7ujzqHFGy+t9ZBmYGJiu3jDlxGY9oNuXZrssYb4A==
+X-Received: by 2002:a05:6102:6892:b0:738:be7b:add3 with SMTP id ada2fe7eead31-75b21d5d57bmr268078137.6.1785511694142;
+        Fri, 31 Jul 2026 08:28:14 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-759c9559116sm837007137.11.2026.07.31.08.28.14
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-759c9559116sm837007137.11.2026.07.31.08.28.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 08:28:14 -0700 (PDT)
+        Fri, 31 Jul 2026 08:28:13 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v5 1/6] wic-tools: drop the target bootloader firmware
-Date: Fri, 31 Jul 2026 11:28:05 -0400
-Message-ID: <20260731152810.2641327-2-twoerner@gmail.com>
+Subject: [PATCH v5 0/6] wic: ship the tools it invokes
+Date: Fri, 31 Jul 2026 11:28:04 -0400
+Message-ID: <20260731152810.2641327-1-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260731152810.2641327-1-twoerner@gmail.com>
-References: <20260731152810.2641327-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 15:28:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242447
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242446
 
-wic-tools should stage only wic's host tools, but its arch-specific
-appends also depended on target bootloader firmware (syslinux, grub-efi,
-systemd-boot) solely for the wic oe-selftest. Which firmware is needed
-depends on the plugins a .wks uses, so that firmware is the
-responsibility of whoever supplies the .wks, not of wic-tools. Have the
-oe-selftest bitbake those recipes itself instead.
+wic shells out to a range of host tools but does not declare them, so
+wherever it is installed as a package it works only by chance depending
+on what the host has installed. The do_image_wic task does not have that
+problem: image_types_wic.bbclass makes the image recipe depend on the
+-native recipe of each tool, so they are all in the image's own native
+sysroot by the time wic runs. Nothing outside that task gets the same
+treatment.
 
-Images already work that way through WKS_FILE_DEPENDS in
-image_types_wic.bbclass, and the oe-selftest now does the equivalent,
-adding syslinux to core-image-minimal's DEPENDS where the tests expect
-it in the recipe sysroot.
+Patch 1 narrows wic-tools to staging wic's host tools: the target
+bootloader firmware (syslinux, grub-efi, systemd-boot) it depended on
+for the wic oe-selftest is now built by that oe-selftest instead. Which
+firmware is needed depends on the plugins a .wks uses, so it belongs to
+whoever supplies the .wks, not to wic-tools. Images already work that
+way through WKS_FILE_DEPENDS in image_types_wic.bbclass, and now the
+oe-selftest does too.
 
-AI-Generated: codex/claude-opus 5 (xhigh)
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
+Patch 2 gives that tool list a single home. It was written out three
+times -- in wic-tools, in image_types_wic.bbclass and (as of patch 3)
+in the wic recipe -- and the copies had already drifted.
+
+Patch 3 makes wic declare the host tools it runs as RDEPENDS, so they
+are installed alongside it in every variant that packages it.
+
+Patches 4 and 5 are follow-on cleanups of the wic oe-selftest: drop a
+dead in-tree wic lookup, and drop the redundant per-test PATH overrides
+that duplicated what the test setup already establishes.
+
+Patch 6 fixes a dependency that has been on the wrong axis since 2019:
+an image depends on syslinux-native when the build host is x86, but it
+is the target that decides whether a .wks needs it, so an x86 image
+built on a non-x86 host ends up with the bootloader but not the
+installer. That is bug 16383, which carries the full history:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=16383
+
+Should wic-tools be renamed? Nothing but the wic oe-selftest has used it
+since 2017, when do_image_wic stopped depending on it, and it already
+sits in meta/recipes-core/meta/ alongside meta-environment,
+meta-ide-support and meta-toolchain without following their naming.
+meta-wic-support would fit better, but it is a user-visible rename, so I
+would rather hear objections before doing it.
+
 changes in v5:
-- trimmed the commit message and in-tree comments
+- the SDK_FEATURES half of the v4 series (patches 5 to 10) is not here.
+  Reworking it to resolve features at the class level, as review asked,
+  turned it into a larger piece of work than the wic changes it was
+  travelling with, so it is being finished and sent as its own series.
+- new patch 2: one shared list of the tools wic runs, replacing the
+  three copies that had drifted apart. Images gain tar-native and
+  util-linux-native, which only wic-tools staged before.
+- new patch 6: gate syslinux-native on the target rather than the build
+  host [YOCTO #13276]
+- wic RDEPENDS patch: drop the bootloader (grub, syslinux) RDEPENDS
+  entirely; wic declares only the host tools it runs. The bootloader
+  firmware wic copies into an image is the responsibility of whatever
+  drives wic (the oe-selftest, and image_types_wic.bbclass via
+  WKS_FILE_DEPENDS), not of the wic package. This also removes the
+  arch-gating that the v4 grub/syslinux RDEPENDS required.
+- drastically trimmed the commit messages and in-tree comments
+  throughout the series
 
 changes in v4:
-- new in v4
----
- meta/lib/oeqa/selftest/cases/wic.py | 33 +++++++++++++++++++++++------
- meta/recipes-core/meta/wic-tools.bb |  7 +++---
- 2 files changed, 29 insertions(+), 11 deletions(-)
+- new patch 1: move the target bootloader firmware out of wic-tools and
+  stage it from the wic oe-selftest instead, so wic-tools carries only
+  the host tools wic runs
+- new selftest cleanups (drop the dead COREBASE/scripts wic lookup and
+  the redundant per-test PATH overrides)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 4e94f4d39abd..f9b893fc8581 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -72,12 +72,23 @@ class WicTestCase(OESelftestTestCase):
-             if self.td['USE_NLS'] != 'yes':
-                 self.skipTest('wic-tools needs USE_NLS=yes')
- 
--            bitbake('wic-tools core-image-minimal core-image-minimal-mtdutils')
-+            targets = 'wic-tools core-image-minimal core-image-minimal-mtdutils'
-+            targets += ' ' + ' '.join(self._firmware_recipes())
-+            bitbake(targets)
-             WicTestCase.image_is_ready = True
- 
-         os.environ['PATH'] = self._get_wic_path()
-         rmtree(self.resultdir, ignore_errors=True)
- 
-+    def _firmware_recipes(self):
-+        arch = self.td['HOST_ARCH']
-+        recipes = []
-+        if arch in ('i586', 'i686', 'x86_64', 'x86-64'):
-+            recipes += ['syslinux', 'grub-efi', 'systemd-boot']
-+        elif arch == 'aarch64':
-+            recipes += ['grub-efi', 'systemd-boot']
-+        return recipes
-+
-     def tearDownLocal(self):
-         """Remove resultdir as it may contain images."""
-         if self._old_path is None:
-@@ -391,9 +402,13 @@ class Wic(WicTestCase):
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     def test_build_artifacts(self):
-         """Test wic create directdisk providing all artifacts."""
--        bb_vars = get_bb_vars(['STAGING_DATADIR', 'RECIPE_SYSROOT_NATIVE'],
--                              'wic-tools')
--        bb_vars.update(get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
-+        # wic expects syslinux in core-image-minimal's recipe sysroot.
-+        config = 'DEPENDS:pn-core-image-minimal += "syslinux"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-+        bb_vars = get_bb_vars(['RECIPE_SYSROOT_NATIVE'], 'wic-tools')
-+        bb_vars.update(get_bb_vars(['STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
-                                    'core-image-minimal'))
-         bbvars = {key.lower(): value for key, value in bb_vars.items()}
-         bbvars['resultdir'] = self.resultdir
-@@ -494,9 +509,13 @@ class Wic(WicTestCase):
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     def test_rootfs_artifacts(self):
-         """Test usage of rootfs plugin with rootfs paths"""
--        bb_vars = get_bb_vars(['STAGING_DATADIR', 'RECIPE_SYSROOT_NATIVE'],
--                              'wic-tools')
--        bb_vars.update(get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
-+        # wic expects syslinux in core-image-minimal's recipe sysroot.
-+        config = 'DEPENDS:pn-core-image-minimal += "syslinux"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-+        bb_vars = get_bb_vars(['RECIPE_SYSROOT_NATIVE'], 'wic-tools')
-+        bb_vars.update(get_bb_vars(['STAGING_DATADIR', 'DEPLOY_DIR_IMAGE', 'IMAGE_ROOTFS'],
-                                    'core-image-minimal'))
-         bbvars = {key.lower(): value for key, value in bb_vars.items()}
-         bbvars['wks'] = "directdisk-multi-rootfs"
-diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-index 823dbe6db643..c6e3d1b419dc 100644
---- a/meta/recipes-core/meta/wic-tools.bb
-+++ b/meta/recipes-core/meta/wic-tools.bb
-@@ -10,10 +10,9 @@ DEPENDS = "\
-            e2fsprogs-native util-linux-native tar-native erofs-utils-native \
-            virtual/cross-binutils \
-            "
--DEPENDS:append:x86 = " syslinux-native syslinux grub-efi systemd-boot"
--DEPENDS:append:x86-64 = " syslinux-native syslinux grub-efi systemd-boot"
--DEPENDS:append:x86-x32 = " syslinux-native syslinux grub-efi"
--DEPENDS:append:aarch64 = " grub-efi systemd-boot"
-+DEPENDS:append:x86 = " syslinux-native"
-+DEPENDS:append:x86-64 = " syslinux-native"
-+DEPENDS:append:x86-x32 = " syslinux-native"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
+changes in v3:
+- list the tools on all variants rather than only the nativesdk variant
+
+changes in v2:
+- dropped the wic-tools.inc refactor; folded the tool list into the wic
+  recipe
+- reworked the buildtools-extended-tarball change into a plain removal
+
+Trevor Woerner (6):
+  wic-tools: drop the target bootloader firmware
+  wic: add a shared helper tool list
+  wic: add runtime dependencies on the tools it invokes
+  oeqa/selftest/wic: drop dead COREBASE/scripts wic lookup
+  oeqa/selftest/wic: drop redundant per-test PATH overrides
+  wic: gate syslinux-native on the target, not the build host
+
+ meta/classes-recipe/image_types_wic.bbclass |   8 +-
+ meta/conf/wic-helper-tools.inc              |  22 +
+ meta/lib/oeqa/selftest/cases/wic.py         | 842 +++++++++-----------
+ meta/recipes-core/meta/wic-tools.bb         |  12 +-
+ meta/recipes-support/wic/wic_0.3.1.bb       |   3 +
+ 5 files changed, 425 insertions(+), 462 deletions(-)
+ create mode 100644 meta/conf/wic-helper-tools.inc
+
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
