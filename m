@@ -1,157 +1,129 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <leonid.iziumtsev@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C766DC54F54
-	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 11:33:13 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4570.1785497586742945638
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26BD0C5516D
+	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 11:59:46 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.61])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4843.1785499179701172212
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2026 04:33:07 -0700
+ Fri, 31 Jul 2026 04:59:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Js/2BYHd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69c5fda04a8so1631419a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 04:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785497585; x=1786102385; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=AEer02XahBSGCemljXHn/BWoQ6d7XbXE5H4FQ9AV7hQ=;
-        b=Js/2BYHdz8ORT4SekevL5aWPcjfo4vJDZZkvVvBQPrq+H/9PksGi7P6dgWJOTkHpin
-         ISQyT8zhb8+y4SFa9CYcnuk3nXmjZDZDGQgkYbdC3wTfXKgzGrd8BQM+AeZCSyXx4Tlx
-         Cbow22QwCDQODDTBD0G1FFi8fLDSqmAiaTX20=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785497585; x=1786102385;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AEer02XahBSGCemljXHn/BWoQ6d7XbXE5H4FQ9AV7hQ=;
-        b=aYUB2wcxWndJlbfFK1L+ql5YZe6VnlY0F4n9H8rgwmWXK/Sy6eZQP7SPtV/V8Qbi1V
-         2On5oX6Y4ZxhBPBuhQ8sPIxCaD6f7PPUXoPY0BGHig2nVPdq5AZvoF448J6v3+N1KiEe
-         5+zwQ6ZS8kwEYOY+R2ObBSCqxYz06+zEHDI18Xl5XVLy1ooCLfAQSgJGUYc/Jj128Z8U
-         zWV6eRS22Uo0JIiG2AWilzhq0WtePCP0Bv5W31Nz73XzEf7yuX7mPmDoZ4UMFEVYtBBw
-         KhNdCQm1ildZsvZ6+T1AOMd+thjLaZ5OSX+tD8emWYX42n5n/0FRwGK0mRq6VCV7aktl
-         5O+Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrKMDh0Bq2Kt3F7TDLlvE6B035DQ1GqdjyCMRb7kumwJH4JwOWbdJ41Hr9nta8VZIe4LgDmYb0RhNYTj6czOrbLbw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxX6YCzZWlCR6rRmiiC5Cj5cGDT9CM3kaPAi/Kp7fMDLeNDeoNF
-	QOl3sakeQwTrgDS84+TaYDrw9BoLTmRenKUqc3VJATBtx3jbOsUwfDccaC7h4cKsvOc=
-X-Gm-Gg: AR+sD13lOqpVS6IHctoPU+Ajdh+Op0Fre3Anjet14AydBLsQR32T/dgaTgUkzep5YVx
-	TFGsrqp22VIsGUIgKP0G+GMzQEZHs+257XCFMH6BkSy1R9ma+ELxpRdCEMGIFw0kGNJaYghwT8q
-	cgxFgleCnnEBvX363E1h13Xvzm4X92Jz9NGNsb0uq1z49/zVcHSop3brUNi9PBfysSnBuRgrLwo
-	IptKiGlNZJ2Ooc/isMSzGKGkzVFalVeSrkIGd1WGfNu/KMzoxQAxuR8BMe1GkSmUaOrn8+eus36
-	dh5Dq8B97MoY6XlhvIre4M/PXx69HapDn2wzJ59gKM4PyEoUS0c3126x5aujyEvBeE7OD+Vx8w8
-	EGG1fGB1B+UrtHrCuBIAkNuEVF+HUoAIUZHcVmfmBiv6rC3Ty5b6UrtQljgzICRiptsUS2tmrAZ
-	M/mfmkrjk9S1ANuvuYOFnE05NMUFkCw4NL8FMLA8Kxs5J6bwCNwiQp0CPJmgUAjiIYD0FE257o9
-	gDqMb8fI2uTjtF8K6BvXvbZXhgkHoOnhk82J3j9384kTaQ2nUUy1Q==
-X-Received: by 2002:a05:6402:43cc:b0:69a:a03a:70d4 with SMTP id 4fb4d7f45d1cf-6a098cfc337mr773342a12.23.1785497584883;
-        Fri, 31 Jul 2026 04:33:04 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7f7b:46f5:a0f7:875c? ([2001:8b0:aba:5f3c:7f7b:46f5:a0f7:875c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a09c63d9d6sm1523081a12.17.2026.07.31.04.33.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 04:33:03 -0700 (PDT)
-Message-ID: <91a379303efff1db910d183838dabd37d795fe58.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] glib-2.0,glib-2.0-initial: upgrade 2.88.2
- -> 2.88.3,2.88.2 -> 2.88.3
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jaipaul.cheernam@est.tech, openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jul 2026 12:33:03 +0100
-In-Reply-To: <20260731103522.81637-1-jaipaul.cheernam@est.tech>
-References: <20260730124721.33400-1-jaipaul.cheernam@est.tech>
-	 <20260731103522.81637-1-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=z6CUg+MC;
+ spf=pass (domain: est.tech, ip: 52.101.72.61, mailfrom: leonid.iziumtsev@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xtkOThHeyl70bSDHz/hlewAjNDKG0/eOXEDNRYRuAeG00Zta0Cqq4XdUMCxftlUB42I67XMA1i5/cnJWwCNDg3t5dgMoQkpT6sSjq8+i+SBwq1ouUyRPuBG8Oe/gWDuMiaZ0JCt74Uk4uYeV5qk9zexQL+Jv4odliYHHwqYTSWf/jyuwiR5eSI1NfBRs5ED8Ta3sLNvR9eXCZ70mMKoWsvXgV0yLzJegmp2tVGz4GMM/2s+BVqbJFNSpAi2psZRQNKjF5qkI/Ne8sD7D2m2N3xADUgeWVP7HqPdn+MIeQUc+Hg1uxh8OX6DfvwimcPFzrUVlWMx4s1VeY6UCR1fRtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qBCOZG/ol3mjOzBBmEqmJpVsskXISCbESmknPb8UQs4=;
+ b=Z3HBGj213NQrqawiY3dS85jaZ2XyXiVYt8Il8HKuqpG11rhHeCf27RhHR3pNM7t5aF2v5a1zS2jv/cju6W4aQPZ08tzrLP8YodLSxT+h1y3Ini+R513vGvWeKDcC0HWoVh4lS6nrrwr37m6L0+3ohX1rFuEjRSP/JIS5xD4TKKmxYJKzusrvVK+kmjF2F1hehwha0b9TIgNGXkfMnmhSI4hh7dY/zUQogT73o4L2cr2KyizKBHPyC0/fRdrkL+kf/VO2w+OXJzxU9Vgpw0710mWmy1FAtfWhqyW+hJcI45v9bEo1oCod1Crx84vqotnf1BQglDtYgMekm/mg73LbZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qBCOZG/ol3mjOzBBmEqmJpVsskXISCbESmknPb8UQs4=;
+ b=z6CUg+MCz74Wg2YXDVkL3ENl6ltkKfrEaDyPcQBMhAs9fvF2gY82kgZL88+QnuT09u5ZCCdt7eGNH/nWqjL2KmixQihgWq+rxrxbVTB/PD1WncbEdUG/Od+KuuHEe1+oVC7h2M1oXZdoCTAn84YNV6xhWMlfPYTMKhbd0Xnr1fR5jRS5vD0lKaRQ644q/Ya372I7kHvhf3Vf2Efv1opoYTAUUHrOSOaU2G1r7t3Eqn9qa3wB4TZUuWcHJiLZftrlLIXLPfca3sL07gPtUcANizBgJHoOz8NbOY7FX7UuWGuAqra/nxDhlB5sri7UWCBaWtzmMFNMlo6p811N0k1+DA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM9P189MB1731.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:2ff::18)
+ by DU4P189MB3374.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5f3::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.11; Fri, 31 Jul
+ 2026 11:59:35 +0000
+Received: from AM9P189MB1731.EURP189.PROD.OUTLOOK.COM
+ ([fe80::a809:5156:7172:6c1f]) by AM9P189MB1731.EURP189.PROD.OUTLOOK.COM
+ ([fe80::a809:5156:7172:6c1f%4]) with mapi id 15.21.0292.010; Fri, 31 Jul 2026
+ 11:59:35 +0000
+From: Leonid Iziumtsev <leonid.iziumtsev@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Leonid Iziumtsev <leonid.iziumtsev@est.tech>
+Subject: [OE-core][PATCH 0/2] coreutils: fix multiple CVEs
+Date: Fri, 31 Jul 2026 13:56:33 +0200
+Message-ID: <20260731115649.1402336-1-leonid.iziumtsev@est.tech>
+X-Mailer: git-send-email 2.53.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0342.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b8::26) To AM9P189MB1731.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:2ff::18)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9P189MB1731:EE_|DU4P189MB3374:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ccc09a5-1a3c-4372-2244-08deeefb3090
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|10070799003|366016|23010399003|1800799024|376014|56012099006|11063799006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	Gy25nlVSgLyUTmsH3MMfcQVdVU0hmXqvxd5cubL52RNrI1YZuM0MovyQfkAzZFw4rTuNfcnKNudt+dz9NxZsV8kTLIkbTNfKEC8gv9kbZNY2blCKl5Q03jd7x5PfGVkVy5Z+0NnZwN5ipGtOo3pK0v4o/mbQoS6T0Aex2aS9sK87U0Ys6haOstGI3rHLFtCxmcicmwErbEEiIF4LqFDD4DxnfN4qelOrdh7+MRK1NQlt0RSvp9NUsMm878iUV9RnmCskbPVJXypw4cnI3O4lKv++jvQXgQWT57Xfv0hp+pgXvanhK5v+MbLYFWqqdAuDBL9qvIxgBNgn1mEZr7Owdc1y8QUo4CBifThlnqwxwEV4JlgA+Dtt40Ew8l0x8fpEfppo7hS4hodH8bawgcH8K40ePaSRBPO4a683CJRg/EX+btApw6QQ/jEUA65pk6E10ArWSjC7XaUxQ5P0cCDqxXlm9RxpguJ5OvpvGUKqe0ouenMTHZJp6iYIxqNVt/661Qdtz0ubz9INKhdC3s6KpQyUA9sOQ2NnGa0uQgmKLtcczIsvnYl0cu1LEh4UDtParuvAegf3brfPXjbfjTHXgYbrczAZPdCGchECZrz3IY3uqocTI+DV4hEiQMNmEMP1AHTVZEiT55QL6g6YImoNDgx8iMDciDa2zGfDK8Jer3o=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P189MB1731.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(23010399003)(1800799024)(376014)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?c+MZS4d1idHzzcc1yflX8LwVLoogBSofApiChy/j0BJFsHGf0AmycKTblALR?=
+ =?us-ascii?Q?U07LbrNp+0pX3/AAg2XsLBZJjYqovozUhXD9GGGyP4ELTUksBElI15nPil8r?=
+ =?us-ascii?Q?Pq2usjsE3kl9L03CVx18MvYoyjDYPU6CjcGy2J+h6kPH6Q8IIOHv7sU9uiBW?=
+ =?us-ascii?Q?t4wK4o/0lRXpocBdCymkwfLkrfBR96g13wU5GYM0yXtxUlUIGZWkKDKAzK6v?=
+ =?us-ascii?Q?kO8mmBUvANCStaJuAWWV8uowZfd2JLdtJPdFyBS8aPdoyMzUqSfTwa4UW+Il?=
+ =?us-ascii?Q?EuEmq6YOHAwGtDxq4zgnnm4nDzxrsIarKXPFyeZxSIGLNcpS0YSQV2mC39i8?=
+ =?us-ascii?Q?JJfrEdNzxbDIxB5SoFodhBsnH+tYgjv07gooyGKD78BUYztokLiOGHKHVRdo?=
+ =?us-ascii?Q?J4n/lV1nS+iLPUdG/8a62GuQiJdbYyi2jixmbztJ2Vc2UHMQRhK+GMcNSQCT?=
+ =?us-ascii?Q?r8BIAhCVXOGWKtZhbalCGryFniKKNd6cL8CjzIkSarIK68Aj0p3tEgVDLfIW?=
+ =?us-ascii?Q?VK8HRsaQOz4fJCFJuKUL6gaGrlYg5y34/AKY7mVPXMZ39YhD1tYBcGzlRSYZ?=
+ =?us-ascii?Q?XcWuvN5tVYFBo3imQXpe2Fr7Zi4m1z4G7kX3fKtkwL8uTYeGLV7oLxj5DAgx?=
+ =?us-ascii?Q?udZ4sP6JpEx9VJXuBPs4/wYXnWS8Lqlk0W8WQFQjImjMMXWbU/L2sVU5nRc/?=
+ =?us-ascii?Q?yDxSthcTRCY2qQGHxT89TSJZt6AG45kzvumgBjuba3Wnb/iSFmTkwM4oqMm8?=
+ =?us-ascii?Q?fG0+L0ctWOHccKx0/RW4hmKOMfAblF4VWseNayzKJyyLCoYJENJEwpBzESD9?=
+ =?us-ascii?Q?ydL9ua/1l3DYI/dVXpz/VsYq4XQB/La6wYrwwtBtltdvjq7zMr6Gyx4pIyQ8?=
+ =?us-ascii?Q?k8/AR+e7r6AcmSwzdkhiXRiKyzFEoEydZR1fOSN3JiEPkQSwVl+utwuz1HKn?=
+ =?us-ascii?Q?gwo0txHdr7crr9IqH6kduFjpZoj1pY7On32SLahBda3r0fzZCfBNTuNo/yFd?=
+ =?us-ascii?Q?K56V7UyTxtWxSsRHYq4yBuxM9ECIzooZj4ZwdxhoohihfAnzWU4vTQ2/wheQ?=
+ =?us-ascii?Q?32HRHYEZFrdYFoepXG0a+gjOzecolRb8e+jCjniIpXOssSAz9g8a6j3VKtyj?=
+ =?us-ascii?Q?KAKcNYrZ/Gpg3SzuyMlex3DLjcjVeHZ33bHethp9BANcQjn6q5qjIFzHjKJX?=
+ =?us-ascii?Q?GjbOr0J7hMrK0bT8AeMZclvxhTwmL2tEzpG//zbDx0gVYuwo5T8eYUryB6Vf?=
+ =?us-ascii?Q?QaP4nmoUUxPlcjoN928U/lmqunVY6bLjuXSgIvi7s/JJbto/Xx0sMi+mRDsM?=
+ =?us-ascii?Q?zg9jJPSfCBw27oLVRXpIHIM3409t8ivSoMBEd756Oo4UiuOL/Ej9Wu0h9zgP?=
+ =?us-ascii?Q?lQhYZNp7RArvoXDI9tqIIcHHFV+H6JS7FPEp29+5dmxccXujxoqiLwnELeqL?=
+ =?us-ascii?Q?Hgstto7pXD3Y5gUKWq38nKiHmhaRMGA0ixozof7Wx8vgnjGmBnso73WxIqKu?=
+ =?us-ascii?Q?EmwColScOwcWycwb59COFYU2ZL+dNHvDR5tdyPvZLxODiUQbRFn2FTNl9ByN?=
+ =?us-ascii?Q?OTAmrFp12oGGHFQWDr2HjyUPO5m+a6oRIW0H9vm9JL7VLW9VOQa4UKTuE1+Y?=
+ =?us-ascii?Q?hkhsx0zkiEG0//uL4ASFxuxc1oUoKmW2bGIJ9Mrv9fRL9lKMHcJWQX+4goeM?=
+ =?us-ascii?Q?Tlp8GHUbkRSIjvYC3OAUG73pX7MsevEtzTNhEztrgpQk6jcv8OubuilCKB4W?=
+ =?us-ascii?Q?yZ/hgyIgQTRKr+4ctLLykhAEuTqVD/GPKqMxugthGgR3PJR9Vj1AJSn6Y5Nc?=
+X-MS-Exchange-AntiSpam-MessageData-1: Ot6gcqTI4AdEpwjfUSOYwbGNtzjRewIy8rM=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ccc09a5-1a3c-4372-2244-08deeefb3090
+X-MS-Exchange-CrossTenant-AuthSource: AM9P189MB1731.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 11:59:35.3113
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Tig2uxsGAkYVWKw5G7eJac9V1geV+J5skfKtqFfDIXrUY4J/BwxC1YygNtpTsXt+no5bA8D+ZyfbQuU3s49BednSExPpo7ShSj5Iss1ZuOI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4P189MB3374
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 11:33:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242430
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 11:59:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242431
 
-On Fri, 2026-07-31 at 12:35 +0200, Jaipaul Cheernam via lists.openembedded.=
-org wrote:
-> Changelog: https://gitlab.gnome.org/GNOME/glib/-/blob/2.88.3/NEWS#L1-L17
->=20
-> Source: NEWS
->=20
-> Overview of changes in GLib 2.88.3, 2026-07-29
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * Fix potential miscompilation with GCC 17 with G_GNUC_CONST on get_type(=
-)
-> =C2=A0 functions (#3984, work by Sam James)
->=20
-> * Bugs fixed:
-> =C2=A0 - #3984 G_GNUC_CONST vs get_type comes home to roost (Sam James)
-> =C2=A0 - #3985 (CVE-2026-15588) Security report: GDBusServer pre-authenti=
-cation DoS
-> =C2=A0=C2=A0=C2=A0 via unbounded SASL line buffering (Philip Withnall)
-> =C2=A0 - !5225 Backport !5223 "Drop G_GNUC_CONST for *_get_type" to glib-=
-2-88
-> =C2=A0 - !5241 Backport !5240 "gdbusauth: Limit length of lines read from=
- client" to
-> =C2=A0=C2=A0=C2=A0 glib-2-88
-> =C2=A0 - !5242 Backport !5238 "gpoll: Correctly zero-out heap-allocated f=
-d_sets on
-> =C2=A0=C2=A0=C2=A0 macOS" to glib-2-88
-> =C2=A0 - !5243 gdbusauth: Unmark a new string as translatable
-> =C2=A0 - !5259 Backport !5248, !5249: several Meson/gcc fixes to glib-2-8=
-8
->=20
-> CVE-2026-58016 patches refreshed due to context changes in the new
-> version. The patch content is unchanged, only line offsets updated.
->=20
-> Fix buildpaths QA error from upstream !5259: use the .in template
-> as input for the installed service file. Submitted upstream:
-> [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/5261]
->=20
-> ptest results (qemux86-64):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2.88.2=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 2.88.3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 diff
-> =C2=A0 Test binaries:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 308=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 308=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 0
-> =C2=A0 Sub-tests:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6=
-207=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6207=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
-> =C2=A0 Passed:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 306=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3=
-06=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
-> =C2=A0 Failed:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 0
-> =C2=A0 Skipped:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
->=20
-> Pre-existing failure: glib/gdbus-server-auth.test (SIGABRT, same in both =
-versions)
->=20
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
-> Changes since v2:
-> - Dropped unnecessary output rename in buildpaths fix patch, kept only
-> =C2=A0 the input change per upstream review
->=20
-> Changes since v1:
-> - Added patch to fix buildpaths QA error, submitted upstream as MR
+This series backports upstream fixes to coreutils 9.11 to address
+multiple CVEs.
 
-You can cleanup the subject line to just read:
+Leonid Iziumtsev (2):
+  coreutils: fix CVE-2026-56391
+  coreutils: fix CVE-2026-56392
 
-"glib-2.0: upgrade 2.88.2 -> 2.88.3"
-
-since we don't need all of the info listed there. glib-2.0-initial and
-glib-2.0 would always need to match.
-
-Cheers,
-
-Richard
-
+ .../coreutils/coreutils/CVE-2026-56391.patch  | 66 +++++++++++++++++++
+ .../coreutils/coreutils/CVE-2026-56392.patch  | 65 ++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_9.11.bb |  2 +
+ 3 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2026-56391.pa=
+tch
+ create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2026-56392.pa=
+tch
 
 
