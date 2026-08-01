@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B382DC5516F
-	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 20:38:03 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12608.1785616679319031615
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93AD0C5516F
+	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 20:38:13 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12613.1785616691695856101
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Aug 2026 13:38:01 -0700
+ Sat, 01 Aug 2026 13:38:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=DFij76QT;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260801203755dc887460ae000207be-et0fqb@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260801203755dc887460ae000207be
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=B1zaestF;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20260801203809e6591ee425000207af-njgz4h@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260801203809e6591ee425000207af
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 01 Aug 2026 22:37:56 +0200
+        Sat, 01 Aug 2026 22:38:09 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=AzWP4DeCdUHona4Em3dMOLG6w3GO4kVeJgGBBkPdbc4=;
- b=DFij76QTFtxcqqOIKd5sW312fkLuQXL3FUU1/S8u7eSLLHmBoXohA7kHUNbA/60KqqeseA
- wH2e8ZFUSVqPVvSO2hVQ2sck+nbyyS5a3srFfhZ7rCm26klPESLK8sY4thV3ovq4qI1lsDem
- zaLXdODwQkl9S3yFcmXGt3qkNM4Q0QIaht2DEIKzlXxiOakWFI1icCSN4LvbStTK49BZBfH9
- QbEqMmySxZoQDUlZ5vecs6q/RpJMGVtrNfwcD69yy4XMYFYSvky5Mb/ayYaWeKeYx8c/2xE3
- /sI+cCSuSFKyKTuWA56riT4e1yYis9t99LN6OqMV9itRKV0BBSwokfgQ==;
+ bh=E3LlUmaab9ehbTFMEEn4DM0lGZKpfkZIL4oyeWcjbNw=;
+ b=B1zaestF3EmYG1buv/0ghAUBJ8K9utXk2Zck6aaurg9s/E06WjL21jbU/j43oA3+2LEk5O
+ N1AKcGLcA+t88DmXSFAUzOilcGDF/rm7+SsQKdPO/A9rMKxCqpouBHfATgCacQmmUE4AXRVf
+ HLTWmFI6zcCeaR2iBs5xxGleot0qnGIaxq66siNkhJ5C9D9Fj6wanr/o92KvUTENepcC4srH
+ EOurJzAO34nXlkjEf+F3Ky1aNn5LqR8efXfu+E2OzCf2DZqKyw8pMk/64CCKz2Mhm1Dr52Fq
+ gUK0a1kfLLfRPZcKOuU+ZJ1tHUmwlsioEBcwklxcNEBkq7iZZtNrTIMg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] busybox: patch CVE-2026-38754
-Date: Sat,  1 Aug 2026 22:37:36 +0200
-Message-ID: <20260801203736.3751775-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH] busybox: patch CVE-2026-38754
+Date: Sat,  1 Aug 2026 22:37:55 +0200
+Message-ID: <20260801203755.3751797-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 20:38:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242501
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 20:38:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242502
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -48,15 +48,13 @@ Pick patch which fixes this CVE as discussed in [1].
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../busybox/busybox/CVE-2026-38754.patch      | 155 ++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.38.0.bb   |   1 +
- ...-prefixed-CVEList-version-expression.patch | 103 ++++++++++++
- 3 files changed, 259 insertions(+)
+ meta/recipes-core/busybox/busybox_1.37.0.bb   |   1 +
+ 2 files changed, 156 insertions(+)
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
- create mode 100644 meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check/0001-db_cvelist-parse-prefixed-CVEList-version-expression.patch
 
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-38754.patch b/meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
 new file mode 100644
-index 0000000000..fa457b3191
+index 0000000000..7c7b88f5de
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
 @@ -0,0 +1,155 @@
@@ -156,15 +154,15 @@ index 0000000000..fa457b3191
 +index fb887f31b..b8ff67b16 100644
 +--- a/shell/ash.c
 ++++ b/shell/ash.c
-+@@ -5574,6 +5574,7 @@ write2pipe(int pip[2], const char *p, size_t len)
-+ 
++@@ -5472,6 +5472,7 @@ stoppedjobs(void)
++  */
 + /* openhere needs this forward reference */
 + static void expandhere(union node *arg);
 ++static void ifsfree(void);
 + static int
 + openhere(union node *redir)
 + {
-+@@ -5998,6 +5999,17 @@ redirect(union node *redir, int flags)
++@@ -5913,6 +5914,17 @@ redirect(union node *redir, int flags)
 + 	//	preverrout_fd = copied_fd2;
 + }
 + 
@@ -182,7 +180,7 @@ index 0000000000..fa457b3191
 + static int
 + redirectsafe(union node *redir, int flags)
 + {
-+@@ -6013,9 +6025,7 @@ redirectsafe(union node *redir, int flags)
++@@ -5928,9 +5940,7 @@ redirectsafe(union node *redir, int flags)
 + 		exception_handler = &jmploc;
 + 		redirect(redir, flags);
 + 	}
@@ -193,7 +191,7 @@ index 0000000000..fa457b3191
 + 	RESTORE_INT(saveint);
 + 	return err;
 + }
-+@@ -9792,9 +9802,7 @@ evaltree(union node *n, int flags)
++@@ -9445,9 +9455,7 @@ evaltree(union node *n, int flags)
 + 			trap_depth--;
 + 			in_trap_ERR = 0;
 + 
@@ -204,7 +202,7 @@ index 0000000000..fa457b3191
 + 
 + 			exitstatus = savestatus;
 + 		}
-+@@ -14009,9 +14017,7 @@ expandstr(const char *ps, int syntax_type)
++@@ -13487,9 +13495,7 @@ expandstr(const char *ps, int syntax_type)
 + 	result = stackblock();
 + 
 + out:
@@ -215,125 +213,16 @@ index 0000000000..fa457b3191
 + 
 + 	doprompt = saveprompt;
 + 	/* Try: PS1='`xxx(`' */
-diff --git a/meta/recipes-core/busybox/busybox_1.38.0.bb b/meta/recipes-core/busybox/busybox_1.38.0.bb
-index 5ae58ce37f..a75c6394e9 100644
---- a/meta/recipes-core/busybox/busybox_1.38.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.38.0.bb
-@@ -59,6 +59,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-busybox-fix-printf-ptest-failure-with-glibc-2.43.patch \
-            file://CVE-2025-60876.patch \
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index a6abfa2598..b020c923be 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -66,6 +66,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
             file://CVE-2024-58251.patch \
+            file://CVE-2026-29004-01.patch \
+            file://CVE-2026-29004-02.patch \
 +           file://CVE-2026-38754.patch \
             "
  SRC_URI:append:libc-musl = " file://musl.cfg"
  SRC_URI:append:x86-64 = " file://sha_accel.cfg"
-diff --git a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check/0001-db_cvelist-parse-prefixed-CVEList-version-expression.patch b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check/0001-db_cvelist-parse-prefixed-CVEList-version-expression.patch
-new file mode 100644
-index 0000000000..ca711b74b9
---- /dev/null
-+++ b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check/0001-db_cvelist-parse-prefixed-CVEList-version-expression.patch
-@@ -0,0 +1,103 @@
-+From 8ecb305e08df290abf09dec466aeb9493f4adf79 Mon Sep 17 00:00:00 2001
-+From: Peter Marko <peter.marko@siemens.com>
-+Date: Sat, 1 Aug 2026 12:32:31 +0200
-+Subject: [PATCH] db_cvelist: parse prefixed CVEList version expressions
-+
-+Handle affected.version values prefixed with comparison operators
-+(<, <=, >, >=, =), and add regression tests for range evaluation
-+behavior.
-+
-+Upstream-Status: Submitted [github]
-+
-+Assisted-by: GitHub Copilot (GPT-5.3-Codex)
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/sbom_cve_check/database/db_cvelist.py | 20 ++++++++++++++++++
-+ tests/test_version.py                     | 25 +++++++++++++++++++++++
-+ 2 files changed, 45 insertions(+)
-+
-+diff --git a/src/sbom_cve_check/database/db_cvelist.py b/src/sbom_cve_check/database/db_cvelist.py
-+index fdc60a0..f6a437b 100644
-+--- a/src/sbom_cve_check/database/db_cvelist.py
-++++ b/src/sbom_cve_check/database/db_cvelist.py
-+@@ -2,6 +2,7 @@
-+ # SPDX-License-Identifier: GPL-2.0-or-later
-+ 
-+ import json
-++import re
-+ from collections.abc import Generator, Iterable
-+ from datetime import datetime
-+ from typing import Any
-+@@ -31,6 +32,8 @@ class CveListVulnEntry(VulnRecordDbEntry):
-+     Vulnerability entry from the CVEList V5 database.
-+     """
-+ 
-++    _vers_cmp_prefix_re = re.compile(r"^\s*(<=|<|>=|>|=)\s*(\S(?:.*\S)?)\s*$")
-++
-+     def __init__(self, parent_db: VulnDatabase, json_obj: dict[str, Any]) -> None:
-+         """
-+         Initialize the CveListVulnEntry.
-+@@ -195,6 +198,23 @@ class CveListVulnEntry(VulnRecordDbEntry):
-+         if vers_val is None:
-+             return None
-+ 
-++        vers_val = vers_val.strip()
-++        cmp_prefix = CveListVulnEntry._vers_cmp_prefix_re.match(vers_val)
-++        if cmp_prefix:
-++            cmp_op, cmp_vers = cmp_prefix.groups()
-++            if cmp_op == "<":
-++                vers_range_builder.set_end_version(cmp_vers, including=False)
-++            elif cmp_op == "<=":
-++                vers_range_builder.set_end_version(cmp_vers, including=True)
-++            elif cmp_op == ">":
-++                vers_range_builder.set_start_version(cmp_vers, including=False)
-++            elif cmp_op == ">=":
-++                vers_range_builder.set_start_version(cmp_vers, including=True)
-++            else:
-++                vers_range_builder.set_start_version(cmp_vers, equal=True)
-++
-++            return vers_range_builder.create()
-++
-+         if v_end_le or v_end_lt or (vers_range_builder.vers_type == VersionType.GIT):
-+             vers_range_builder.set_start_version(vers_val, including=True)
-+         else:
-+diff --git a/tests/test_version.py b/tests/test_version.py
-+index 97e5335..d001596 100644
-+--- a/tests/test_version.py
-++++ b/tests/test_version.py
-+@@ -3,6 +3,7 @@ from typing import Any
-+ 
-+ import pytest
-+ 
-++from sbom_cve_check.database.db_cvelist import CveListVulnEntry
-+ from sbom_cve_check.vuln.version import INFINITY, SemVerRange, Version, VersRangeStatus
-+ 
-+ 
-+@@ -379,3 +380,27 @@ def test_create_major_minor(test_data: tuple[str, str | None]) -> None:
-+         assert v2.original == exp
-+     else:
-+         assert exp is None
-++
-++
-++@pytest.mark.parametrize(
-++    "version_expr,tested,expected",
-++    [
-++        ("< 9.1.0697", "9.1.0696", VersRangeStatus.IN_RANGE),
-++        ("< 9.1.0697", "9.2", VersRangeStatus.GREATER),
-++        ("<= 9.1.0697", "9.1.0697", VersRangeStatus.IN_RANGE),
-++        ("<= 9.1.0697", "9.2", VersRangeStatus.GREATER),
-++        ("> 9.1.0697", "9.2", VersRangeStatus.IN_RANGE),
-++        ("> 9.1.0697", "9.1.0697", VersRangeStatus.SMALLER),
-++        (">= 9.1.0697", "9.1.0697", VersRangeStatus.IN_RANGE),
-++        (">= 9.1.0697", "9.1.0696", VersRangeStatus.SMALLER),
-++        ("= 9.1.0697", "9.1.0697", VersRangeStatus.IN_RANGE),
-++    ],
-++)
-++def test_cvelist_prefixed_version_expr(
-++    version_expr: str, tested: str, expected: VersRangeStatus
-++) -> None:
-++    version_json = {"version": version_expr, "status": "affected"}
-++    vers_range = CveListVulnEntry._parse_affected_version(version_json)
-++
-++    assert vers_range is not None
-++    assert vers_range.check_in_range(Version(tested)) == expected
 
