@@ -1,123 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 405D0C55173
-	for <webhook@archiver.kernel.org>; Fri, 31 Jul 2026 21:23:39 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1736.1785533016471014805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC05C54FCD
+	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 05:05:57 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24.1785543398125932015
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2026 14:23:37 -0700
+ Fri, 31 Jul 2026 17:16:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EmHmelxm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c15b1da6b82so163259566b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 14:23:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mKm8DkmV;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: collin.funk1@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92e57a753f9so121776585a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 17:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785533015; x=1786137815; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZvLVWBdF7vt5rGrVWys5SoRAXCM24GiBKOAYpJOP1ds=;
-        b=EmHmelxmv2gzNkgb2huPVafmDA+7FQcRQ9AXags+jelbL+W3NKhhUYgcKFzdt85xPD
-         jquwAzNH/o8sa7nvNqSaQrN0ciP6UNpVnyH+bt2Soq+neuPjdvlTFYTJ92jzNGGqca/A
-         GDuelESZpZyFi+6RYHDG/lr1oljdEKUulpXaI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785533015; x=1786137815;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1785543397; x=1786148197; darn=lists.openembedded.org;
+        h=content-type:mime-version:user-agent:message-id:date:in-reply-to
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZvLVWBdF7vt5rGrVWys5SoRAXCM24GiBKOAYpJOP1ds=;
-        b=hIj6VYZmzxtLLcwCQMUfQei8qnl9hOr4Gcui5i8quzCbTS+ArLg80307KPtzemhrEp
-         7i7socxNV6t2RDyFcDlj3aKZgkJuMeL5cAT4bslQ4S3J0gBA2zwTjakD/jkriGlfTlwT
-         unPPeEloPaUY1Oi/sWKVjUukccU55XGndTQGuHBf6lsUwU2ckQ2IPcxgVmDi42Wr9pmJ
-         JHSY2VAgNH2WJ2MIHcI9K2/mE44UxVyI/csfvIPs+Kb0+aGU5MG+FSXtF0t8NOzwlCpP
-         vbJEqnUjopLaqAQ7EEOKbOCs2MxN/aPXdG+c+xGbHCAmE5aN0Jb7BlefAdnQ9jlhwPnW
-         ecrw==
-X-Forwarded-Encrypted: i=1; AHgh+RqVDwYC6Df/l7lWPQH5Tqd/+xT9dFQpEtxPI/PHu3zd4ARKtFukjHYwTs4V9dMCLELM9GF3cD2lgd5Jf3o42OvC9Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyRLj/CdB9+ELTpE3Mwt/L8sg/0OFrWJSEPaXjoXlyk1mlvRjfp
-	IHTxSVql7M32B9b9c4hyE//7u5hY/3BAocq4bi9zLBjKHcBoEmWH+TIij9O5YF5RQf4=
-X-Gm-Gg: AR+sD11x7K1ZqwzpMl9Ro3XMEWnDod0B/tAzYBhrIWVVPDfGhqoIta9d5Oqdybpcuoo
-	lh5boG86R3bNZGP8wISinwgQRmDaTJO0TeJVOZPczhwd3kchTrm/R77h85asSBdeHG5cy+c1Z+j
-	1rsE1RlymW0U/LYT6A5QuUIXf+bNMIrBJLKd4zpaxwl5iv7ayAkOaqzRuztStHtXqJ/Nd8ZEmQH
-	tKAuE3IGIQ7G7PwEqW63fK4cCppm7ANlWLC7HHz9ZQAkGxcYcfZ2WtPKOSfSbwDLSFztiDs6iuH
-	Kwm2mjhJuvEqudwZzu3QK0w5r7Q3ag6OdhcCRoxTz5oSYiEqhKg5u+PZL8AWQcTpIg859ncVcL/
-	N6AUB+PRHT6xJg6e95ui7rPcWziqiG2qELh333KBLGG81LREX6W7CcASc0UYiGU6nHCOgGA3GYs
-	vN/ba9YCf6bhh4hiSvValXaCdG2dNYN3ZnEHptrf/WVuYcM69WRWRY8GUKx4rTzmXX1v/WbjGUT
-	yFvPvizkGvNGntgVLvwPILvnvyFyhKmygHpot5BYHslDdhL9og=
-X-Received: by 2002:a17:906:cf91:b0:c19:4676:3ab2 with SMTP id a640c23a62f3a-c1fe80d407bmr59227466b.26.1785533014587;
-        Fri, 31 Jul 2026 14:23:34 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1961:80da:242:a654? ([2001:8b0:aba:5f3c:1961:80da:242:a654])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd4537755sm261539866b.54.2026.07.31.14.23.33
+        bh=GoEnO26/OBCgG5XdfJkeRmyyMJEEADAv34LrsaFCEW8=;
+        b=mKm8DkmVAF6wHWq3u+AZ8QF8MNIEkph+5r8VWa19pF4YxrTkkbx5H2NV31w05LFvlO
+         bc63lvhrgiOwssdRhoDmZCgKM30hQgEktykdkuZo+93+Pb6TTP4s79jMM7G683oqFQn2
+         FZLTDGk0TaO13u+5vIVx4Pm5J2XwfXlA9XEz+FcW4w+xBXUD3CNapskMXoD79oeBoqPg
+         7Jtu7+58DlfSmmHl7GCw3ctU0NpqNlc8WT1VoHjrTm8bcSAPNYj3J1N0kvNzy7z1o3gE
+         jDwgrzoiIjfZiwO6YIxtvXVeXyTnWmmQ9/2iIK8QW/X+dofnR5dV8AI/P+1jcy8FDB8w
+         g+GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785543397; x=1786148197;
+        h=content-type:mime-version:user-agent:message-id:date:in-reply-to
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GoEnO26/OBCgG5XdfJkeRmyyMJEEADAv34LrsaFCEW8=;
+        b=n5fHo8qddqiaFK+941EB4VZnv6EmEPGojy56CvvMxGUc/r+8MxwgeRKcqVmCxzDI/S
+         kmLuDRHtwsu9BxFDS3xQ0s/kBkmtvneXJpcpxvz3vt6FZpb1kHLvrFhHSWsxX8MIDZNs
+         V2ahD/geyqyCxitP9wTqUrKeOs1EUHw6XmUJBVvBd3eDg0Zf4vvE+6611soHG2btuGxm
+         eQoMVOV4ZlcZk3k0Mpx4UGtlk6xCY39E60JBZt7o0WX/n6F699YZ7aJCj+bbPG/z9cd0
+         Kqz0Jl5Z0lVekykEwLEz4BDuU+VLPuFkpkhnWbG10jadxqJ0buYEPapHv/KiYFlimDn/
+         tjqg==
+X-Gm-Message-State: AOJu0Yw/bvf7EGvkU/S24FgjF9CR3re2dlMyBWIIC/oHoQHmXsZ6CbiL
+	1XMuZ1gOSBIr/C3Esi8FADJPF5btZTN2jsvHEQux9k+LNqsZX3acGrf6mlYWdg==
+X-Gm-Gg: AR+sD11+8HGyL780S1PJeChAEIWDbPZhSJ1lzHdMx1wLVUVc1MRQWGTG2hV09H7sO4F
+	7Ysu6y1GPhk0FM6Uq0gLGbQhnD0K9yqorKUR3UPbZ6yvMMos7ddOOy1fZaDIkUMmXywnsuegr9w
+	K7qBwBxQueoyu8EdtwILvXAnWAal5bY9xU0/a0m5aSXmeXbk/NXGWNa5K4NwQ7Sh2OS2h1a5iq+
+	weMwmbzUIO9WgcNCT6aGl9bQUxVZ/3rnZJ/WX2/29D1+mlQhN+phoWyqLHtPqFxctHOrrxms/NN
+	mEXitMIJyFkqCRkbOpmLWbnjvcNuSOiUb5ASp2mqrlH2F4hGeRaFtL7/y1dfWz0077AVhx0MXXM
+	lfsdc4zjNsjDIS+3rysrtaUman5EQxxzSmFGYKk58HOyHQF5dy2qyGKcB/aFzdsA778qgRtlmrT
+	/9k5hQUUJKskrgCqQlP+U8G05LtytP+MLwOZ/bwon1aCyT5v/0+M+IaOPGsmHI/1tmCyynfgWer
+	u2TTAPsI5OMu2hWeHkWOGqDszFzAQTmGKWcYTQ0AQ==
+X-Received: by 2002:a05:6a20:72a6:b0:3c0:9c19:659e with SMTP id adf61e73a8af0-3c92a94ea15mr1551696637.70.1785543084662;
+        Fri, 31 Jul 2026 17:11:24 -0700 (PDT)
+Received: from XTHCYRY1WD-Collin-Funk ([2601:646:8081:3770:2c07:a238:af16:903d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e18e114sm18183526eec.28.2026.07.31.17.11.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 14:23:33 -0700 (PDT)
-Message-ID: <c1bcb1b1329f65e9a2598fbf561583fbef10046f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 2/6] wic: add a shared helper tool list
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: twoerner@gmail.com, openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jul 2026 22:23:32 +0100
-In-Reply-To: <20260731152810.2641327-3-twoerner@gmail.com>
-References: <20260731152810.2641327-1-twoerner@gmail.com>
-	 <20260731152810.2641327-3-twoerner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Fri, 31 Jul 2026 17:11:24 -0700 (PDT)
+From: Collin Funk <collin.funk1@gmail.com>
+To: openembedded-core@lists.openembedded.org, Leonid Iziumtsev
+ <leonid.iziumtsev@est.tech>
+Subject: [OE-core][PATCH 0/2] coreutils: fix multiple CVEs
+In-reply-to: <20260731115649.1402336-1-leonid.iziumtsev@est.tech> 
+Date: Fri, 31 Jul 2026 17:11:23 -0700
+Message-ID: <m1o6fm66ok.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2026 21:23:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242455
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 05:05:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242456
 
-On Fri, 2026-07-31 at 11:28 -0400, Trevor Woerner via lists.openembedded.or=
-g wrote:
-> The tools wic shells out to are listed in both wic-tools and
-> image_types_wic.bbclass, and the copies have drifted. Add
-> conf/wic-helper-tools.inc as the single source of truth.
->=20
-> Only wic-tools staged tar-native and util-linux-native before; images
-> now get them too.
->=20
-> AI-Generated: codex/claude-opus 5 (xhigh)
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> ---
-> changes in v5:
-> - new in v5
-> ---
-> =C2=A0meta/classes-recipe/image_types_wic.bbclass |=C2=A0 5 +++--
-> =C2=A0meta/conf/wic-helper-tools.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 16 ++++++++++++++++
-> =C2=A0meta/recipes-core/meta/wic-tools.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++----
-> =C2=A03 files changed, 22 insertions(+), 6 deletions(-)
-> =C2=A0create mode 100644 meta/conf/wic-helper-tools.inc
->=20
-> diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-r=
-ecipe/image_types_wic.bbclass
-> index ea8c1c94ca2f..3f25b7912b26 100644
-> --- a/meta/classes-recipe/image_types_wic.bbclass
-> +++ b/meta/classes-recipe/image_types_wic.bbclass
-> @@ -112,14 +112,15 @@ do_image_wic[cleandirs] =3D "${WORKDIR}/build-wic"
-> =C2=A0USING_WIC =3D "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + '=
- '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
-> =C2=A0WKS_FILE_CHECKSUM =3D "${@wks_checksums(d.getVar('WKS_FILES').split=
-(), d.getVar('WKS_SEARCH_PATH')) if '${USING_WIC}' else ''}"
-> =C2=A0do_image_wic[file-checksums] +=3D "${WKS_FILE_CHECKSUM}"
-> -do_image_wic[depends] +=3D "${@' '.join('%s-native:do_populate_sysroot' =
-% r for r in ('wic', 'parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
-> +
-> +require conf/wic-helper-tools.inc
-> +do_image_wic[depends] +=3D "${@' '.join('%s:do_populate_sysroot' % r for=
- r in ('wic-native ' + d.getVar('WIC_HELPER_TOOLS_DEPENDS')).split())}"
+Leonid Iziumtsev said:
 
-If wic has the right RDEPENDS, doesn't this just simplify to:
+> This series backports upstream fixes to coreutils 9.11 to address
+> multiple CVEs.
+> 
+> Leonid Iziumtsev (2):
+>   coreutils: fix CVE-2026-56391
+>   coreutils: fix CVE-2026-56392
+> 
+>  .../coreutils/coreutils/CVE-2026-56391.patch  | 66 +++++++++++++++++++
+>  .../coreutils/coreutils/CVE-2026-56392.patch  | 65 ++++++++++++++++++
+>  meta/recipes-core/coreutils/coreutils_9.11.bb |  2 +
+>  3 files changed, 133 insertions(+)
+>  create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2026-56391.patch
+>  create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2026-56392.patch
 
-do_image_wic[depends] +=3D "wic-native:do_populate_sysroot"
+Note that CVEs don't really have a security impact. I'm mildly annoyed
+there were assigned. It seems that Afine's entire existence as a company
+is sending LLM generated essays to maintainers, bogus a large portion of
+the time. For the others, which have dubious security implications, they
+file CVEs with exaggerations [1].
 
-?
+Theoretically CVE-2026-56392 could allow problematic writes to the heap,
+but that would require you to run it with untrusted slop as the input
+and as arguments. If someone can do that on your system, they have much
+better things to do.
 
-Cheers,
+Collin
 
-Richard
+[1] https://seclists.org/oss-sec/2026/q3/276
 
