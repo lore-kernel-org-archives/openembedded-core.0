@@ -1,98 +1,185 @@
-Return-Path: <philip@balister.org>
+Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 435BEC54FCD
-	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 07:55:01 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1360.1785567781290039107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92AD3C54FCD
+	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 09:12:01 +0000 (UTC)
+Received: from naesa03.arrow.com (naesa03.arrow.com [216.150.161.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2447.1785575515784141923
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Aug 2026 00:03:01 -0700
+ Sat, 01 Aug 2026 02:11:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Y77L7sVN;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: collin.funk1@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c96c92c0980so1002420a12.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 00:03:01 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=eC4J+Hoz;
+ spf=pass (domain: einfochips.com, ip: 216.150.161.23, mailfrom: bhavesh.maheshwari@einfochips.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785567780; x=1786172580; darn=lists.openembedded.org;
-        h=content-type:mime-version:user-agent:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ptYeg8/9H/tRWHtpa73hv3y7XpXteCBFmmud/u3O6z8=;
-        b=Y77L7sVNL8ko5sBBlApuR//HUvMx3TwfYdXOE9Tr7Kiz9BjS7vGREQEhN0HC5jbrF3
-         6KwjdpcwgGErJRkmg+IB5h5dbyFwPkLTlw8liJkYIkFxYjSKcyZRUZAdAQ7/QKGVzRaQ
-         fMCxhlugbndwK+QcGYL0f4ApXY02rnhq9hDAHJc7I81bEahIS606WgIB8BWUccDKcvnN
-         CQuan5PYikEaz9oGuRkjHYDvy1G+MCLa6Pd0/unvmmdHA83+hxtWf655MK4dZt7t7f01
-         ohSmgA7yjGTI1RHZqQGOpeEd+2wbxEMi9mje+DpM9eEwqsB6a/QmRzdz6n1KMLUFXb6B
-         5cmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785567780; x=1786172580;
-        h=content-type:mime-version:user-agent:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=ptYeg8/9H/tRWHtpa73hv3y7XpXteCBFmmud/u3O6z8=;
-        b=Glt/Eo7ifHK8MjLcoReB5GV1Alttp8ViPWOBPAP5iGfAgZm6YpbT6FoWPC/ryIyDp3
-         Vj+JVGZs8A+S5anICScZWBtiOKVg9zFQqupLba6fSAy7D9KRqgr218tJV0Nf02RnQy/N
-         uiVB8xUvNhCWjmRJagsW1dfgTxqCh3DmnIdglD9sqb6ekz0fPy8JYrWZajQbz3uOrvYs
-         oI/xdl5/SJ9PwxAVE+EOM+8O0Crcm/WdN6X4QLtrikAstmhoVtKuL0UcXmNuvQl5r6NJ
-         5dzhQ/iID9VqKbGyTjQ/2PlpuaqtTAc8tqCnB+z171bGojEuHhRyiVcuYbHkYu8irvHQ
-         6HMQ==
-X-Gm-Message-State: AOJu0YyJ1Bi0rTm5jE8ivR+u3hGwgWhsBjZH90oMp4gh19cKAAvtS7a5
-	feLrHe5ZfizK6pA4vfSN8n7qfAl5wj8M23TE0UCgnd/y3eWCwC101WUG
-X-Gm-Gg: AR+sD13ToccbLFN3+qluS0rTXkmhzvLQns5QfWJhN4CT3mKF6eR8CaEwVU73rc/rk4O
-	ANPxsANNKJV+9N9OxIYI8YMLoF+TCAeWNq37vsULKhhCk4fTLyUeMpYnku6Y5yPuSUjv3k7aMPe
-	7vu56Ub8DvGjtBcTJIXcha2SB2iBg46yMUnHuVkEkPP5Y3ZRoXFNxqN4YxHwzhixPshmHxOeb4J
-	R6weOklYUp2zIzFwHj4RHmORkwIz1Fp+7A/mVTVl+TrBmmbHE8magFBxcrLySxiO0WbWytfhMPT
-	pubVvBV3HK0vSp8VGiv5tjKJsoM9IzFhX5B5vs3cqG6K/fQ+D1qCRECYg1nBRa6OFMDHslPN02f
-	suJ+1j9GvivIYRVfGvnwk9z07cvU/Ur0tp/kekwEgKuVkdAfiHlgF1LHrnazO6RH4AUecVae4ks
-	w7MOwjxYCsEWZaZDyRquFZCbiUfTLCDBid50Y24BRarysYFPhRuY8=
-X-Received: by 2002:a05:6a21:1f83:b0:3bf:7994:ddca with SMTP id adf61e73a8af0-3c92a84deaemr2454016637.29.1785567780436;
-        Sat, 01 Aug 2026 00:03:00 -0700 (PDT)
-Received: from fedora ([2601:646:8081:3770::4bd])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab1334cfsm10982031c88.1.2026.08.01.00.02.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 00:03:00 -0700 (PDT)
-From: Collin Funk <collin.funk1@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org,  Leonid Iziumtsev
- <leonid.iziumtsev@est.tech>
-Subject: Re: [OE-core][PATCH 0/2] coreutils: fix multiple CVEs
-In-Reply-To: <f92d86a076733c5368cae9c94fb76a14cac2cafc.camel@linuxfoundation.org>
-References: <m1o6fm66ok.fsf@gmail.com>
-	<f92d86a076733c5368cae9c94fb76a14cac2cafc.camel@linuxfoundation.org>
-Date: Sat, 01 Aug 2026 00:02:58 -0700
-Message-ID: <87a4r6jpb1.fsf@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+  d=einfochips.com; i=@einfochips.com; l=4821; q=dns/txt;
+  s=NAESA-Selector1; t=1785575516; x=1817111516;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IpSIPR/ZLXxYvJc4HRCilk7kZjZXGwFMe7B1BxxspEo=;
+  b=eC4J+Hoze8sdn9t+KWcFKSjFs/RKQTIwI6AU8ZtRSGs348cqfMtIX8HD
+   NHxKJ8LYFGs5TseEVxKs63qH2qJkstH0L6pQfFSniF4U1zSPj3IqZ+r5n
+   E46rx82lIXsyINYWcxZ7Ej40C7v2//2w19YNOy5+WJnWgdVCTDlCJ4as+
+   vbd1yATE6BuKfE7p1KuPqb8XLCF+zGBs+wmHdoUmqYn7pCI4oViDLwIag
+   R0d1KztTFsN6jZw/XssLNwtqh5URb5BXOEbrr3jkk/xPG1aV94dTw9wVy
+   PqRyZBaBORmvTIlh7eYm+K6ECZaW7xmCjacx0baCTIazu87EqnrysprbG
+   A==;
+X-CSE-ConnectionGUID: d4PI0Pz3RR+VyDZfEGskeA==
+X-CSE-MsgGUID: 6SSOXVCHQ/KmRRySmGTWsA==
+X-IronPort-AV: E=Sophos;i="6.25,198,1779170400"; 
+   d="scan'208";a="118911515"
+Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.22.168])
+  by naesa03out.arrow.com with ESMTP; 01 Aug 2026 03:11:54 -0600
+From: bhavesh.maheshwari@einfochips.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][wrynose][PATCH 01/10] vim: Fix for CVE-2026-55693
+Date: Sat,  1 Aug 2026 14:40:18 +0530
+Message-ID: <20260801091145.2788751-1-bhavesh.maheshwari@einfochips.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 07:55:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242478
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 09:12:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242479
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
-> Sadly, I suspect this is becoming all the more common and I share your
-> frustrations.
->
-> We have an difficult position on whether to take things or not as we
-> probably don't have the time/experience to tell in many cases and not
-> taking a CVE fix means we'd get beaten over the head with the patch for
-> ever more as "there is a security problem" :(.
+Pick the patch from [1], also referenced in the NVD report [2].
 
-Perfectly understandable.
+[1] https://github.com/vim/vim/commit/a80874d9b84a01040e3d1aef2d4a59e1934dafb7
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-55693
 
-By the way, I suggest applying this patch as well [1]. In the 9.11
-release, short writes could cause issues with 'tee'. It was a silly
-mistake on my part, and cause SUSE some issues.
+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+---
+ .../vim/files/CVE-2026-55693.patch            | 103 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   1 +
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55693.patch
 
-The patch applies with NEWS removed. E.g., like this:
+diff --git a/meta/recipes-support/vim/files/CVE-2026-55693.patch b/meta/recipes-support/vim/files/CVE-2026-55693.patch
+new file mode 100644
+index 0000000000..cc302d2a18
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-55693.patch
+@@ -0,0 +1,103 @@
++From d64909ac1939bc91784de7f9b8d7705623d59f64 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Mon, 15 Jun 2026 19:39:08 +0000
++Subject: [PATCH] patch 9.2.0653: [security]: out-of-bounds write in
++ tree_count_words()
++
++Problem:  [security]: a crafted spell file can drive tree_count_words()
++          past the end of its MAXWLEN-sized depth arrays; the descent
++          loop has no depth bound.
++Solution: only descend while depth < MAXWLEN - 1, as the sibling trie
++          walkers already do; apply the same guard to sug_filltree().
++
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-wgh4-64f7-q3jq
++
++Supported by AI.
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/a80874d9b84a01040e3d1aef2d4a59e1934dafb7]
++CVE: CVE-2026-55693
++
++Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
++---
++ src/spellfile.c                |  4 ++--
++ src/testdir/test_spellfile.vim | 27 +++++++++++++++++++++++++++
++ src/version.c                  |  2 ++
++ 3 files changed, 31 insertions(+), 2 deletions(-)
++
++diff --git a/src/spellfile.c b/src/spellfile.c
++index 5102dad5b..b3ee9c0d6 100644
++--- a/src/spellfile.c
+++++ b/src/spellfile.c
++@@ -642,7 +642,7 @@ tree_count_words(char_u *byts, idx_T *idxs)
++ 		    ++curi[depth];
++ 		}
++ 	    }
++-	    else
+++	    else if (depth < MAXWLEN - 1)
++ 	    {
++ 		// Normal char, go one level deeper to count the words.
++ 		++depth;
++@@ -5656,7 +5656,7 @@ sug_filltree(spellinfo_T *spin, slang_T *slang)
++ 		    ++curi[depth];
++ 		}
++ 	    }
++-	    else
+++	    else if (depth < MAXWLEN - 1)
++ 	    {
++ 		// Normal char, go one level deeper.
++ 		tword[depth++] = c;
++diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
++index 8f3ef4907..5b2ed4efd 100644
++--- a/src/testdir/test_spellfile.vim
+++++ b/src/testdir/test_spellfile.vim
++@@ -1197,4 +1197,31 @@ func Test_mkspell_no_buffer_overflow()
++ endfunc
++ 
++ 
+++func Test_spell_sug_tree_count_words_overflow()
+++  " A crafted .spl/.sug pair with a BY_INDEX self-cycle in the fold word tree
+++  " parses cleanly (shared refs aren't recursed, so read_tree_node()'s depth
+++  " cap never trips), but drove tree_count_words() past its MAXWLEN-sized depth
+++  " arrays -> stack out-of-bounds write.  The walk only happens when
+++  " spellsuggest() loads the matching .sug.  Reaching the assert == no OOB.
+++  call mkdir('Xrtp/spell', 'pR')
+++  " VIMspell + v50, SN_SUGFILE(ts), SN_END, LWORDTREE{node:1,BY_INDEX->0,'A'},
+++  " empty KWORDTREE/PREFIXTREE
+++  let spl = eval('0z56494D7370656C6C320B0000000008000000001234'
+++        \ .. '5678FF000000020101000000410000000000000000')
+++  " VIMsug + v1, matching ts, SUGWORDTREE word "a", empty SUGTABLE
+++  let sug = 0z56494D737567010000000012345678000000040161010000000000
+++  call writefile(spl, 'Xrtp/spell/xx.utf-8.spl', 'b')
+++  call writefile(sug, 'Xrtp/spell/xx.utf-8.sug', 'b')
+++
+++  new
+++  set runtimepath+=./Xrtp
+++  set spelllang=xx
+++  set spell
+++  " Unpatched: OOB write here (ASan abort, or crash).  Patched: returns a list.
+++  call assert_equal(v:t_list, type(spellsuggest('helloo')))
+++
+++  set spell& spelllang& runtimepath&
+++  bwipe!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/version.c b/src/version.c
++index 6eac3fc92..e7f323854 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -736,6 +736,8 @@ static int included_patches[] =
++ {   /* Add new patch number below this line */
++ /**/
++     671,
+++/**/
+++    653,
++ /**/
++     662,
++ /**/
++-- 
++2.53.0
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 20a5f7a054..4189817a8d 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -29,6 +29,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://CVE-2026-47167.patch \
+            file://CVE-2026-55892.patch \
+            file://CVE-2026-57452.patch \
++           file://CVE-2026-55693.patch \
+            "
+ 
+ PV .= ".0340"
+-- 
+2.53.0
 
-   $ sed '1,49d' 0d6fcb99d691d920961938e61c43478566ef626e.patch > fix.patch
-   $ patch -p1 < fix.patch
-
-Collin
-
-[1] https://github.com/coreutils/coreutils/commit/0d6fcb99d691d920961938e61c43478566ef626e.patch
 
