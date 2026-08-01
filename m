@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51426C55175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0DAC5516F
 	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 06:05:28 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.937.1785564322637423081
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.918.1785564319477464355
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2026 23:05:22 -0700
+ Fri, 31 Jul 2026 23:05:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QIZMqYhf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=P6kbl/cy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019fbbed5758-9549ba79-7ff5-428b-b02e-b2fa98cbdd77-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YZLwi1wy;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GlAMlij9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019fbbed4b1a-150edd04-3503-40fe-a71e-1feadb12057a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1785564321;
+	t=1785564318;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qxkaKxWlQ9w6qKEIFVlTFgR35UXfYFWrRcQYtC7+EMA=;
-	b=QIZMqYhfL+976YVE9x9DoYJcWU1M7BYLapKzeDoPxdPRexpgLm9560hShjwegA77
-	fd1rnJRWt8UJxuDJ82pP5/1sxQFo5CTN/thpFo2W9FdjiBA+EiUuBOP194BR1tf67EM
-	wwhjsVusixmBJVR/uKBllSnueJt+0M2VsZ7jhCHY=
+	bh=u520+HOZ9UJcpNEjadYylKUoYTJHPNMS4xIdmIWtNVY=;
+	b=YZLwi1wyn8t/Gitrft8vGe7gPU0JTS/aja9YFadEi4tQhYmCH6cQFKXs7O95GTF2
+	Yt0JRweE9muV6YBPgyxmGaMfOv5E+4kWzW5Dzj3SqhPZxugryhIZZLIlMrbBs7WcQl+
+	YCjj75kFYWKO8/MqM2dgvFJWZ7jwVAxVufkndMMg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785564321;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785564318;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qxkaKxWlQ9w6qKEIFVlTFgR35UXfYFWrRcQYtC7+EMA=;
-	b=P6kbl/cy2/5Nw9VqlGcW/BFUhgAQdjwm9e7GfFqVNgeaz88ukjCN8MMdCzoixJVv
-	RO2uen1YmWTsJj8IP42BgnmcZKwwS5fqxl2Z0rPMWHwoVFApGTnVFjOhLT+oTG5qPCg
-	ipifCpz1iAQqZTnbXCRTIzEFzggOQJS66U060O8w=
-Content-Type: multipart/mixed; boundary="===============6196719699603698994=="
+	bh=u520+HOZ9UJcpNEjadYylKUoYTJHPNMS4xIdmIWtNVY=;
+	b=GlAMlij91bbJ8rIv6D1rnP5CB/F16KjLObvS547XmBeertjknONze5KaY2nQZavt
+	HvKQu0Wv++D8rte1d0KyZuWFUd9IDDur9UfEdyPP6nUdobW2yyDj5Nh+B6JgWDurf1r
+	adgCViNIToVSfA8gVLJDj+EZX564ijZj4ZAB5AkY=
+Content-Type: multipart/mixed; boundary="===============1299241276855567571=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-llvm-translator: upgrading to 22.1.5 SUCCEEDED
-Message-ID: <0101019fbbed5758-9549ba79-7ff5-428b-b02e-b2fa98cbdd77-000000@us-west-2.amazonses.com>
-Date: Sat, 1 Aug 2026 06:05:21 +0000
+Subject: [AUH] ttyrun: upgrading to 2.44.0 SUCCEEDED
+Message-ID: <0101019fbbed4b1a-150edd04-3503-40fe-a71e-1feadb12057a-000000@us-west-2.amazonses.com>
+Date: Sat, 1 Aug 2026 06:05:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.01-54.240.27.30
+X-SES-Outgoing: 2026.08.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 06:05:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242466
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242461
 
---===============6196719699603698994==
+--===============1299241276855567571==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *spirv-llvm-translator* to *22.1.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.44.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-llvm-translator-upgrade-22.1.2-22.1.5.patch
+    - apply the patch: git am 0001-ttyrun-upgrade-2.43.0-2.44.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,164 +72,260 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 352d10c83ab909776f7c15dcef6048562cadf91b Mon Sep 17 00:00:00 2001
+From bf89a0c9e1a624efee1e445f5ae3a49a61036ddd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 1 Aug 2026 06:02:39 +0000
-Subject: [PATCH] spirv-llvm-translator: upgrade 22.1.2 -> 22.1.5
+Date: Sat, 1 Aug 2026 05:28:57 +0000
+Subject: [PATCH] ttyrun: upgrade 2.43.0 -> 2.44.0
 
-27afcfe3 [Backport to 22] Read old SPV_INTEL_float4 type for StochasticRound*ToE2M1INTEL (#3926)
-699789f4 [Backport to 22] Fix OpGroupNonUniformRotateKHR mangling (#3863) (#3905)
-f167fe94 [Backport to 22] Add missing coverage for SPV_EXT_long_vector (#3889)
-f172a708 [Backport to 22] Add 2 opcodes back from old SPV_INTEL_fp_conversions spec (#3880)
-08310a8e [Backport to 22] Represent FP4 E2M1 with SPV_EXT_ocp_microscaling_types (#3867)
-64fa6b0a [Backport to 22] Keep VectorAnyINTEL for VectorCompute modules with SPV_EXT_long_vector (#3829)
-36e45764 [Backport to 22] Use SPV_EXT_long_vector extension for non-standard vector size (#3777)
-e123849a [Backport to 22] Implement SPV_INTEL_subgroup_scaled_matrix_multiply_accumulate (#3831)
-c88a2e4a [Backport to 22] Support SPV_INTEL_rounded_div_sqrt extension (#3770)
-6c3fc37e [Backport to 22] Preventing generating FPRoundingMode for arithmetic constrained intrinsics (#3771)
-9c688012 [Backport to 22] Update SPV_INTEL_fp_conversions to the latest spec revision (#3782)
-521e409d [Backport to 22] Support `SaturatedToLargestFloat8NormalConversionEXT` decoration (#3767)
-1d5546f5 [Backport to 22] [SPIRV->LLVM] Fix missing spir_func CC on builtin FP4/i4 conversion calls (#3746)
-e10ca9b4 [LLVM 22] Add workaround to translate casts from target ext types to int (Originally: #3476) (#3684)
-beefc64b [Backport to llvm_release_220] Remove internal values for SPV_INTEL_predicated_io (#3723)
+Source: CHANGELOG.md
+
+* __v2.44.0 (2026-07-31)__
+
+  For Linux kernel version: 7.2
+
+  Changes of existing tools / libraries:
+  - create-sehdr: Enable quantum safe keys usage
+  - dbginfo.sh: Let zpcimon log both optical module and SMART data
+  - libutil/util_fmt: Add util_fmt_type_to_name()
+  - nvmemon: Skip SCLP on NVMes with non-IBM subsystem vendor ID
+  - opticsmon: zpcimon: Rename opticsmon to zpcimon
+  - pvattest: Enable quantum safe keys usage
+  - pvimg: Add '--flags <...>' and '--disable-flags <...>' option
+  - pvimg: Enable quantum safe keys usage
+  - pvsecret: Enable quantum safe keys usage
+  - pvverify: Enable quantum safe keys usage
+  - zmemtopo: Add CLI option to filter partitions by name
+  - zpcimon: Allow setting output format using --format CLI option
+  - zpcimon: Monitor for hotplug of NVMes to trigger SMART collection
+
+  Bug Fixes:
+  - opticsmon: Fix wrong size check for OPTICS_QSFP28_LOS_IMPLEMENTED_OFFSET
+  - opticsmon: Handle error return of ethtool_nl_connect()
+  - opticsmon: Fix error path free of struct optics in ethtool_nl_get_optics()
+  - opticsmon: Close epoll fd in monitor_wait_loop()
+  - opticsmon: Fix wrong JSON print for tx_fault
+
+* __v2.43.1 (2026-07-22)__
+
+  For Linux kernel version: 7.1
+
+  Changes of existing tools:
+  - dasdfmt: Check disk type before prompting for blocksize
+  - iucvterm/ts-shell: Introduce config parameter to specify iucvconn binary
+  - iucvterm/ts-shell: Introduce pager config to replace env variable
+  - pv: Add root CA organization pinning to certificate verification
+  - zdump/ngdump: Use OpenSSL's SHA256 to compute digest of dump image
+
+  Bug Fixes:
+  - 95sel-ebc: Add udev-settle dependency
+  - 95sel-ebc: Add umount to boot service
+  - 95sel-ebc: Harden boot mount service
+  - fdasd: Fix memory leak in yes_no() function
+  - iucvterm/iucvtty: Ensure PTY and server fd's are closed at exec
+  - iucvterm/iucvtty: Prevent connection stalls when receiving TERM env
+  - iucvterm/iucvtty: Validate TERM environment name
+  - libkmipclient: Protect from symlink-following attacks
+  - libkmipclient: Various bugfixes
+  - libseckey: Protect from symlink-following attacks
+  - libseckey: Various bugfixes
+  - mon_procd: Fix possible static buffer overflow
+  - osasnmpd: Fix SNMP non-compliance
+  - zdev: Harden against invalid udev, import, firmware, or hypervisor data
+  - zipl-editenv: Check in-bootmap environment block validity
+  - zipl/boot: Check in-bootmap environment block syntax
+  - zipl: Check keyword duplications in BLS entries
+  - zipl: Fix bugs in mirror support
+  - zkey: Protect from symlink-following attacks
 ---
- ...lvm-translator_22.1.2.bb => spirv-llvm-translator_22.1.5.bb} | 2 +-
+ meta/recipes-core/ttyrun/{ttyrun_2.43.0.bb => ttyrun_2.44.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-llvm-translator_22.1.2.bb => spirv-llvm-translator_22.1.5.bb} (94%)
+ rename meta/recipes-core/ttyrun/{ttyrun_2.43.0.bb => ttyrun_2.44.0.bb} (94%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_22.1.2.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_22.1.5.bb
+diff --git a/meta/recipes-core/ttyrun/ttyrun_2.43.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.44.0.bb
 similarity index 94%
-rename from meta/recipes-graphics/spir/spirv-llvm-translator_22.1.2.bb
-rename to meta/recipes-graphics/spir/spirv-llvm-translator_22.1.5.bb
-index 2ee9819060..1f80c6a27f 100644
---- a/meta/recipes-graphics/spir/spirv-llvm-translator_22.1.2.bb
-+++ b/meta/recipes-graphics/spir/spirv-llvm-translator_22.1.5.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
+rename from meta/recipes-core/ttyrun/ttyrun_2.43.0.bb
+rename to meta/recipes-core/ttyrun/ttyrun_2.44.0.bb
+index 74204013c2..776698e1b6 100644
+--- a/meta/recipes-core/ttyrun/ttyrun_2.43.0.bb
++++ b/meta/recipes-core/ttyrun/ttyrun_2.44.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
  
- # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
- SPIRV_BRANCH = "llvm_release_220"
--SRCREV = "f676199fd00f2229fb35006d5124687c0785a01d"
-+SRCREV = "27afcfe385cf542197dfde8c658e1f5ff53fc2fc"
- SRC_URI = " \
-     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;branch=${SPIRV_BRANCH};tag=v${PV} \
- "
+ SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v${PV}"
+-SRCREV = "f85c8ebba0b482e677de1f2c4d8b67b588fe654d"
++SRCREV = "03f7566436b42c2f1a4ad717dcf610c1f926b8f4"
+ 
+ CVE_PRODUCT = "s390-tools"
+ 
 -- 
 2.47.1
 
 
---===============6196719699603698994==
-Content-Type: text/plain; charset="us-ascii"
+--===============1299241276855567571==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="spirv-llvm-translator-changelog.txt"
+ filename="0001-ttyrun-upgrade-2.43.0-2.44.0.patch"
 
-Changelog for spirv-llvm-translator: 22.1.2 -> 22.1.5
+RnJvbSBiZjg5YTBjOWUxYTYyNGVmZWUxZTQ0NWY1YWUzYTQ5YTYxMDM2ZGRkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMSBBdWcgMjAyNiAwNToyODo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHR0
+eXJ1bjogdXBncmFkZSAyLjQzLjAgLT4gMi40NC4wCgpTb3VyY2U6IENIQU5HRUxPRy5tZAoKKiBf
+X3YyLjQ0LjAgKDIwMjYtMDctMzEpX18KCiAgRm9yIExpbnV4IGtlcm5lbCB2ZXJzaW9uOiA3LjIK
+CiAgQ2hhbmdlcyBvZiBleGlzdGluZyB0b29scyAvIGxpYnJhcmllczoKICAtIGNyZWF0ZS1zZWhk
+cjogRW5hYmxlIHF1YW50dW0gc2FmZSBrZXlzIHVzYWdlCiAgLSBkYmdpbmZvLnNoOiBMZXQgenBj
+aW1vbiBsb2cgYm90aCBvcHRpY2FsIG1vZHVsZSBhbmQgU01BUlQgZGF0YQogIC0gbGlidXRpbC91
+dGlsX2ZtdDogQWRkIHV0aWxfZm10X3R5cGVfdG9fbmFtZSgpCiAgLSBudm1lbW9uOiBTa2lwIFND
+TFAgb24gTlZNZXMgd2l0aCBub24tSUJNIHN1YnN5c3RlbSB2ZW5kb3IgSUQKICAtIG9wdGljc21v
+bjogenBjaW1vbjogUmVuYW1lIG9wdGljc21vbiB0byB6cGNpbW9uCiAgLSBwdmF0dGVzdDogRW5h
+YmxlIHF1YW50dW0gc2FmZSBrZXlzIHVzYWdlCiAgLSBwdmltZzogQWRkICctLWZsYWdzIDwuLi4+
+JyBhbmQgJy0tZGlzYWJsZS1mbGFncyA8Li4uPicgb3B0aW9uCiAgLSBwdmltZzogRW5hYmxlIHF1
+YW50dW0gc2FmZSBrZXlzIHVzYWdlCiAgLSBwdnNlY3JldDogRW5hYmxlIHF1YW50dW0gc2FmZSBr
+ZXlzIHVzYWdlCiAgLSBwdnZlcmlmeTogRW5hYmxlIHF1YW50dW0gc2FmZSBrZXlzIHVzYWdlCiAg
+LSB6bWVtdG9wbzogQWRkIENMSSBvcHRpb24gdG8gZmlsdGVyIHBhcnRpdGlvbnMgYnkgbmFtZQog
+IC0genBjaW1vbjogQWxsb3cgc2V0dGluZyBvdXRwdXQgZm9ybWF0IHVzaW5nIC0tZm9ybWF0IENM
+SSBvcHRpb24KICAtIHpwY2ltb246IE1vbml0b3IgZm9yIGhvdHBsdWcgb2YgTlZNZXMgdG8gdHJp
+Z2dlciBTTUFSVCBjb2xsZWN0aW9uCgogIEJ1ZyBGaXhlczoKICAtIG9wdGljc21vbjogRml4IHdy
+b25nIHNpemUgY2hlY2sgZm9yIE9QVElDU19RU0ZQMjhfTE9TX0lNUExFTUVOVEVEX09GRlNFVAog
+IC0gb3B0aWNzbW9uOiBIYW5kbGUgZXJyb3IgcmV0dXJuIG9mIGV0aHRvb2xfbmxfY29ubmVjdCgp
+CiAgLSBvcHRpY3Ntb246IEZpeCBlcnJvciBwYXRoIGZyZWUgb2Ygc3RydWN0IG9wdGljcyBpbiBl
+dGh0b29sX25sX2dldF9vcHRpY3MoKQogIC0gb3B0aWNzbW9uOiBDbG9zZSBlcG9sbCBmZCBpbiBt
+b25pdG9yX3dhaXRfbG9vcCgpCiAgLSBvcHRpY3Ntb246IEZpeCB3cm9uZyBKU09OIHByaW50IGZv
+ciB0eF9mYXVsdAoKKiBfX3YyLjQzLjEgKDIwMjYtMDctMjIpX18KCiAgRm9yIExpbnV4IGtlcm5l
+bCB2ZXJzaW9uOiA3LjEKCiAgQ2hhbmdlcyBvZiBleGlzdGluZyB0b29sczoKICAtIGRhc2RmbXQ6
+IENoZWNrIGRpc2sgdHlwZSBiZWZvcmUgcHJvbXB0aW5nIGZvciBibG9ja3NpemUKICAtIGl1Y3Z0
+ZXJtL3RzLXNoZWxsOiBJbnRyb2R1Y2UgY29uZmlnIHBhcmFtZXRlciB0byBzcGVjaWZ5IGl1Y3Zj
+b25uIGJpbmFyeQogIC0gaXVjdnRlcm0vdHMtc2hlbGw6IEludHJvZHVjZSBwYWdlciBjb25maWcg
+dG8gcmVwbGFjZSBlbnYgdmFyaWFibGUKICAtIHB2OiBBZGQgcm9vdCBDQSBvcmdhbml6YXRpb24g
+cGlubmluZyB0byBjZXJ0aWZpY2F0ZSB2ZXJpZmljYXRpb24KICAtIHpkdW1wL25nZHVtcDogVXNl
+IE9wZW5TU0wncyBTSEEyNTYgdG8gY29tcHV0ZSBkaWdlc3Qgb2YgZHVtcCBpbWFnZQoKICBCdWcg
+Rml4ZXM6CiAgLSA5NXNlbC1lYmM6IEFkZCB1ZGV2LXNldHRsZSBkZXBlbmRlbmN5CiAgLSA5NXNl
+bC1lYmM6IEFkZCB1bW91bnQgdG8gYm9vdCBzZXJ2aWNlCiAgLSA5NXNlbC1lYmM6IEhhcmRlbiBi
+b290IG1vdW50IHNlcnZpY2UKICAtIGZkYXNkOiBGaXggbWVtb3J5IGxlYWsgaW4geWVzX25vKCkg
+ZnVuY3Rpb24KICAtIGl1Y3Z0ZXJtL2l1Y3Z0dHk6IEVuc3VyZSBQVFkgYW5kIHNlcnZlciBmZCdz
+IGFyZSBjbG9zZWQgYXQgZXhlYwogIC0gaXVjdnRlcm0vaXVjdnR0eTogUHJldmVudCBjb25uZWN0
+aW9uIHN0YWxscyB3aGVuIHJlY2VpdmluZyBURVJNIGVudgogIC0gaXVjdnRlcm0vaXVjdnR0eTog
+VmFsaWRhdGUgVEVSTSBlbnZpcm9ubWVudCBuYW1lCiAgLSBsaWJrbWlwY2xpZW50OiBQcm90ZWN0
+IGZyb20gc3ltbGluay1mb2xsb3dpbmcgYXR0YWNrcwogIC0gbGlia21pcGNsaWVudDogVmFyaW91
+cyBidWdmaXhlcwogIC0gbGlic2Vja2V5OiBQcm90ZWN0IGZyb20gc3ltbGluay1mb2xsb3dpbmcg
+YXR0YWNrcwogIC0gbGlic2Vja2V5OiBWYXJpb3VzIGJ1Z2ZpeGVzCiAgLSBtb25fcHJvY2Q6IEZp
+eCBwb3NzaWJsZSBzdGF0aWMgYnVmZmVyIG92ZXJmbG93CiAgLSBvc2Fzbm1wZDogRml4IFNOTVAg
+bm9uLWNvbXBsaWFuY2UKICAtIHpkZXY6IEhhcmRlbiBhZ2FpbnN0IGludmFsaWQgdWRldiwgaW1w
+b3J0LCBmaXJtd2FyZSwgb3IgaHlwZXJ2aXNvciBkYXRhCiAgLSB6aXBsLWVkaXRlbnY6IENoZWNr
+IGluLWJvb3RtYXAgZW52aXJvbm1lbnQgYmxvY2sgdmFsaWRpdHkKICAtIHppcGwvYm9vdDogQ2hl
+Y2sgaW4tYm9vdG1hcCBlbnZpcm9ubWVudCBibG9jayBzeW50YXgKICAtIHppcGw6IENoZWNrIGtl
+eXdvcmQgZHVwbGljYXRpb25zIGluIEJMUyBlbnRyaWVzCiAgLSB6aXBsOiBGaXggYnVncyBpbiBt
+aXJyb3Igc3VwcG9ydAogIC0gemtleTogUHJvdGVjdCBmcm9tIHN5bWxpbmstZm9sbG93aW5nIGF0
+dGFja3MKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS90dHlydW4ve3R0eXJ1bl8yLjQzLjAuYmIgPT4g
+dHR5cnVuXzIuNDQuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS90dHlydW4ve3R0eXJ1bl8y
+LjQzLjAuYmIgPT4gdHR5cnVuXzIuNDQuMC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDMuMC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3R0
+eXJ1bi90dHlydW5fMi40NC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi40My4wLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDQuMC5iYgppbmRleCA3NDIwNDAxM2MyLi43NzY2
+OThlMWI2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDMu
+MC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDQuMC5iYgpAQCAt
+Nyw3ICs3LDcgQEAgTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFO21kNT1mNTExOGYxNjdiMDU1YmZkN2MzNDUwODAzZjE4NDdhZiIKIAogU1JDX1VSSSA9
+ICJnaXQ6Ly9naXRodWIuY29tL2libS1zMzkwLWxpbnV4L3MzOTAtdG9vbHM7cHJvdG9jb2w9aHR0
+cHM7YnJhbmNoPW1hc3Rlcjt0YWc9diR7UFZ9IgotU1JDUkVWID0gImY4NWM4ZWJiYTBiNDgyZTY3
+N2RlMWYyYzRkOGI2N2I1ODhmZTY1NGQiCitTUkNSRVYgPSAiMDNmNzU2NjQzNmI0MmMyZjFhNGFk
+NzE3ZGNmNjEwYzFmOTI2YjhmNCIKIAogQ1ZFX1BST0RVQ1QgPSAiczM5MC10b29scyIKIAotLSAK
+Mi40Ny4xCgo=
 
-27afcfe3 [Backport to 22] Read old SPV_INTEL_float4 type for StochasticRound*ToE2M1INTEL (#3926)
-699789f4 [Backport to 22] Fix OpGroupNonUniformRotateKHR mangling (#3863) (#3905)
-f167fe94 [Backport to 22] Add missing coverage for SPV_EXT_long_vector (#3889)
-f172a708 [Backport to 22] Add 2 opcodes back from old SPV_INTEL_fp_conversions spec (#3880)
-08310a8e [Backport to 22] Represent FP4 E2M1 with SPV_EXT_ocp_microscaling_types (#3867)
-64fa6b0a [Backport to 22] Keep VectorAnyINTEL for VectorCompute modules with SPV_EXT_long_vector (#3829)
-36e45764 [Backport to 22] Use SPV_EXT_long_vector extension for non-standard vector size (#3777)
-e123849a [Backport to 22] Implement SPV_INTEL_subgroup_scaled_matrix_multiply_accumulate (#3831)
-c88a2e4a [Backport to 22] Support SPV_INTEL_rounded_div_sqrt extension (#3770)
-6c3fc37e [Backport to 22] Preventing generating FPRoundingMode for arithmetic constrained intrinsics (#3771)
-9c688012 [Backport to 22] Update SPV_INTEL_fp_conversions to the latest spec revision (#3782)
-521e409d [Backport to 22] Support `SaturatedToLargestFloat8NormalConversionEXT` decoration (#3767)
-1d5546f5 [Backport to 22] [SPIRV->LLVM] Fix missing spir_func CC on builtin FP4/i4 conversion calls (#3746)
-e10ca9b4 [LLVM 22] Add workaround to translate casts from target ext types to int (Originally: #3476) (#3684)
-beefc64b [Backport to llvm_release_220] Remove internal values for SPV_INTEL_predicated_io (#3723)
-
---===============6196719699603698994==
+--===============1299241276855567571==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/spirv-llvm-translator: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator: SRC_URI changed from "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;branch=llvm_release_220;tag=v22.1.2" to "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;branch=llvm_release_220;tag=v22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGSIZE changed from 134931800 to 135130664 (+0%)
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGSIZE changed from 26587 to 26741 (+1%)
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGSIZE changed from 2426218 to 2439431 (+1%)
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: FILELIST: directory renamed /usr/src/debug/spirv-llvm-translator/22.1.2/lib/SPIRV/Mangler -> /usr/src/debug/spirv-llvm-translator/22.1.5/lib/SPIRV/Mangler, directory renamed /usr/src/debug/spirv-llvm-translator/22.1.2/include -> /usr/src/debug/spirv-llvm-translator/22.1.5/include, directory renamed /usr/src/debug/spirv-llvm-translator/22.1.2/tools/llvm-spirv -> /usr/src/debug/spirv-llvm-translator/22.1.5/tools/llvm-spirv, directory renamed /usr/src/debug/spirv-llvm-translator/22.1.2/lib/SPIRV/libSPIRV -> /usr/src/debug/spirv-llvm-translator/22.1.5/lib/SPIRV/libSPIRV, directory renamed /usr/src/debug/spirv-llvm-translator/22.1.2/lib/SPIRV -> /usr/src/debug/spirv-llvm-translator/22.1.5/lib/SPIRV
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGSIZE changed from 6012304 to 6028720 (+0%)
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PV changed from "22.1.2" to "22.1.5"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGV changed from 22.1.2 [default] to 22.1.5 [default]
+packages/x86-64-v3-poky-linux/ttyrun: SRC_URI changed from "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.43.0" to "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun: PV changed from "2.43.0" to "2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.43.0" to "2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.43.0" to "2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.43.0" to "2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.43.0" to "2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: FILELIST: directory renamed /usr/src/debug/ttyrun/2.43.0/iucvterm/src -> /usr/src/debug/ttyrun/2.44.0/iucvterm/src
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PV changed from "2.43.0" to "2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.43.0" to "2.44.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PKGV changed from 2.43.0 [default] to 2.44.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PV changed from "2.43.0" to "2.44.0"
 
---===============6196719699603698994==
-Content-Type: application/octet-stream
+--===============1299241276855567571==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-spirv-llvm-translator-upgrade-22.1.2-22.1.5.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="ttyrun-changelog.txt"
 
-RnJvbSAzNTJkMTBjODNhYjkwOTc3NmY3YzE1ZGNlZjYwNDg1NjJjYWRmOTFiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMSBBdWcgMjAyNiAwNjowMjozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
-aXJ2LWxsdm0tdHJhbnNsYXRvcjogdXBncmFkZSAyMi4xLjIgLT4gMjIuMS41CgoyN2FmY2ZlMyBb
-QmFja3BvcnQgdG8gMjJdIFJlYWQgb2xkIFNQVl9JTlRFTF9mbG9hdDQgdHlwZSBmb3IgU3RvY2hh
-c3RpY1JvdW5kKlRvRTJNMUlOVEVMICgjMzkyNikKNjk5Nzg5ZjQgW0JhY2twb3J0IHRvIDIyXSBG
-aXggT3BHcm91cE5vblVuaWZvcm1Sb3RhdGVLSFIgbWFuZ2xpbmcgKCMzODYzKSAoIzM5MDUpCmYx
-NjdmZTk0IFtCYWNrcG9ydCB0byAyMl0gQWRkIG1pc3NpbmcgY292ZXJhZ2UgZm9yIFNQVl9FWFRf
-bG9uZ192ZWN0b3IgKCMzODg5KQpmMTcyYTcwOCBbQmFja3BvcnQgdG8gMjJdIEFkZCAyIG9wY29k
-ZXMgYmFjayBmcm9tIG9sZCBTUFZfSU5URUxfZnBfY29udmVyc2lvbnMgc3BlYyAoIzM4ODApCjA4
-MzEwYThlIFtCYWNrcG9ydCB0byAyMl0gUmVwcmVzZW50IEZQNCBFMk0xIHdpdGggU1BWX0VYVF9v
-Y3BfbWljcm9zY2FsaW5nX3R5cGVzICgjMzg2NykKNjRmYTZiMGEgW0JhY2twb3J0IHRvIDIyXSBL
-ZWVwIFZlY3RvckFueUlOVEVMIGZvciBWZWN0b3JDb21wdXRlIG1vZHVsZXMgd2l0aCBTUFZfRVhU
-X2xvbmdfdmVjdG9yICgjMzgyOSkKMzZlNDU3NjQgW0JhY2twb3J0IHRvIDIyXSBVc2UgU1BWX0VY
-VF9sb25nX3ZlY3RvciBleHRlbnNpb24gZm9yIG5vbi1zdGFuZGFyZCB2ZWN0b3Igc2l6ZSAoIzM3
-NzcpCmUxMjM4NDlhIFtCYWNrcG9ydCB0byAyMl0gSW1wbGVtZW50IFNQVl9JTlRFTF9zdWJncm91
-cF9zY2FsZWRfbWF0cml4X211bHRpcGx5X2FjY3VtdWxhdGUgKCMzODMxKQpjODhhMmU0YSBbQmFj
-a3BvcnQgdG8gMjJdIFN1cHBvcnQgU1BWX0lOVEVMX3JvdW5kZWRfZGl2X3NxcnQgZXh0ZW5zaW9u
-ICgjMzc3MCkKNmMzZmMzN2UgW0JhY2twb3J0IHRvIDIyXSBQcmV2ZW50aW5nIGdlbmVyYXRpbmcg
-RlBSb3VuZGluZ01vZGUgZm9yIGFyaXRobWV0aWMgY29uc3RyYWluZWQgaW50cmluc2ljcyAoIzM3
-NzEpCjljNjg4MDEyIFtCYWNrcG9ydCB0byAyMl0gVXBkYXRlIFNQVl9JTlRFTF9mcF9jb252ZXJz
-aW9ucyB0byB0aGUgbGF0ZXN0IHNwZWMgcmV2aXNpb24gKCMzNzgyKQo1MjFlNDA5ZCBbQmFja3Bv
-cnQgdG8gMjJdIFN1cHBvcnQgYFNhdHVyYXRlZFRvTGFyZ2VzdEZsb2F0OE5vcm1hbENvbnZlcnNp
-b25FWFRgIGRlY29yYXRpb24gKCMzNzY3KQoxZDU1NDZmNSBbQmFja3BvcnQgdG8gMjJdIFtTUElS
-Vi0+TExWTV0gRml4IG1pc3Npbmcgc3Bpcl9mdW5jIENDIG9uIGJ1aWx0aW4gRlA0L2k0IGNvbnZl
-cnNpb24gY2FsbHMgKCMzNzQ2KQplMTBjYTliNCBbTExWTSAyMl0gQWRkIHdvcmthcm91bmQgdG8g
-dHJhbnNsYXRlIGNhc3RzIGZyb20gdGFyZ2V0IGV4dCB0eXBlcyB0byBpbnQgKE9yaWdpbmFsbHk6
-ICMzNDc2KSAoIzM2ODQpCmJlZWZjNjRiIFtCYWNrcG9ydCB0byBsbHZtX3JlbGVhc2VfMjIwXSBS
-ZW1vdmUgaW50ZXJuYWwgdmFsdWVzIGZvciBTUFZfSU5URUxfcHJlZGljYXRlZF9pbyAoIzM3MjMp
-Ci0tLQogLi4ubHZtLXRyYW5zbGF0b3JfMjIuMS4yLmJiID0+IHNwaXJ2LWxsdm0tdHJhbnNsYXRv
-cl8yMi4xLjUuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LWxsdm0t
-dHJhbnNsYXRvcl8yMi4xLjIuYmIgPT4gc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIyLjEuNS5iYn0g
-KDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZt
-LXRyYW5zbGF0b3JfMjIuMS4yLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYt
-bGx2bS10cmFuc2xhdG9yXzIyLjEuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZtLXRyYW5zbGF0b3JfMjIuMS4y
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZtLXRyYW5z
-bGF0b3JfMjIuMS41LmJiCmluZGV4IDJlZTk4MTkwNjAuLjFmODBjNmEyN2YgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMi4xLjIu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9y
-XzIyLjEuNS5iYgpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElD
-RU5TRS5UWFQ7bWQ1PTQ3ZTMxMWFhOWNhZWRkMWIzYWJmMDk4YmQ3ODE0ZDFkIgogCiAjIHBhdHRl
-cm46IGxsdm1fYnJhbmNoXzIwMCwgY3VycmVudGx5IHRoZXJlIGFyZSBubyBtaW5vciByZWxlYXNl
-cywgc28sIG5vIGxsdm1fYnJhbmNoXzIwMQogU1BJUlZfQlJBTkNIID0gImxsdm1fcmVsZWFzZV8y
-MjAiCi1TUkNSRVYgPSAiZjY3NjE5OWZkMDBmMjIyOWZiMzUwMDZkNTEyNDY4N2MwNzg1YTAxZCIK
-K1NSQ1JFViA9ICIyN2FmY2ZlMzg1Y2Y1NDIxOTdkZmRlOGM2NThlMWY1ZmY1M2ZjMmZjIgogU1JD
-X1VSSSA9ICIgXAogICAgIGdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQSVJWLUxMVk0t
-VHJhbnNsYXRvcjtwcm90b2NvbD1odHRwczticmFuY2g9JHtTUElSVl9CUkFOQ0h9O3RhZz12JHtQ
-Vn0gXAogIgotLSAKMi40Ny4xCgo=
+Changelog for ttyrun: 2.43.0 -> 2.44.0
+Source: CHANGELOG.md
 
---===============6196719699603698994==--
+* __v2.44.0 (2026-07-31)__
+
+  For Linux kernel version: 7.2
+
+  Changes of existing tools / libraries:
+  - create-sehdr: Enable quantum safe keys usage
+  - dbginfo.sh: Let zpcimon log both optical module and SMART data
+  - libutil/util_fmt: Add util_fmt_type_to_name()
+  - nvmemon: Skip SCLP on NVMes with non-IBM subsystem vendor ID
+  - opticsmon: zpcimon: Rename opticsmon to zpcimon
+  - pvattest: Enable quantum safe keys usage
+  - pvimg: Add '--flags <...>' and '--disable-flags <...>' option
+  - pvimg: Enable quantum safe keys usage
+  - pvsecret: Enable quantum safe keys usage
+  - pvverify: Enable quantum safe keys usage
+  - zmemtopo: Add CLI option to filter partitions by name
+  - zpcimon: Allow setting output format using --format CLI option
+  - zpcimon: Monitor for hotplug of NVMes to trigger SMART collection
+
+  Bug Fixes:
+  - opticsmon: Fix wrong size check for OPTICS_QSFP28_LOS_IMPLEMENTED_OFFSET
+  - opticsmon: Handle error return of ethtool_nl_connect()
+  - opticsmon: Fix error path free of struct optics in ethtool_nl_get_optics()
+  - opticsmon: Close epoll fd in monitor_wait_loop()
+  - opticsmon: Fix wrong JSON print for tx_fault
+
+* __v2.43.1 (2026-07-22)__
+
+  For Linux kernel version: 7.1
+
+  Changes of existing tools:
+  - dasdfmt: Check disk type before prompting for blocksize
+  - iucvterm/ts-shell: Introduce config parameter to specify iucvconn binary
+  - iucvterm/ts-shell: Introduce pager config to replace env variable
+  - pv: Add root CA organization pinning to certificate verification
+  - zdump/ngdump: Use OpenSSL's SHA256 to compute digest of dump image
+
+  Bug Fixes:
+  - 95sel-ebc: Add udev-settle dependency
+  - 95sel-ebc: Add umount to boot service
+  - 95sel-ebc: Harden boot mount service
+  - fdasd: Fix memory leak in yes_no() function
+  - iucvterm/iucvtty: Ensure PTY and server fd's are closed at exec
+  - iucvterm/iucvtty: Prevent connection stalls when receiving TERM env
+  - iucvterm/iucvtty: Validate TERM environment name
+  - libkmipclient: Protect from symlink-following attacks
+  - libkmipclient: Various bugfixes
+  - libseckey: Protect from symlink-following attacks
+  - libseckey: Various bugfixes
+  - mon_procd: Fix possible static buffer overflow
+  - osasnmpd: Fix SNMP non-compliance
+  - zdev: Harden against invalid udev, import, firmware, or hypervisor data
+  - zipl-editenv: Check in-bootmap environment block validity
+  - zipl/boot: Check in-bootmap environment block syntax
+  - zipl: Check keyword duplications in BLS entries
+  - zipl: Fix bugs in mirror support
+  - zkey: Protect from symlink-following attacks
+
+--===============1299241276855567571==--
 
