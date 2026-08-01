@@ -2,39 +2,39 @@ Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FCAC54FCD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9829C5516F
 	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 09:12:11 +0000 (UTC)
 Received: from naesa03.arrow.com (naesa03.arrow.com [216.150.161.23])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.2447.1785575515784141923
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Aug 2026 02:12:06 -0700
+ Sat, 01 Aug 2026 02:12:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=LjeKKlLA;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=On8PLPZT;
  spf=pass (domain: einfochips.com, ip: 216.150.161.23, mailfrom: bhavesh.maheshwari@einfochips.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=einfochips.com; i=@einfochips.com; l=7643; q=dns/txt;
-  s=NAESA-Selector1; t=1785575527; x=1817111527;
+  d=einfochips.com; i=@einfochips.com; l=8955; q=dns/txt;
+  s=NAESA-Selector1; t=1785575523; x=1817111523;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=KF6ZJhdpRevOznbtXv+wKFzqgakku31vrbaB3YLerLo=;
-  b=LjeKKlLAzh1pY9qi+RwECnebdEl5D/pl9J41io2W4+0q9J8fvDJ8BUSk
-   QXamR6wI3GaSrpFjp/H0oCW1jw+qDb/SSRQD8gmRaRtzxD0TRCRwhqBNq
-   Lg3By6e4lV8zDgN3+ObBU3iIN7ISpp1hM6dBW5wRr2U4TgMCx8Ec/dfxq
-   aBR3jWo3mkMujZhkJshjAnUGLTTwtmWkpmu3ooZtVJwJacvqw0BuVBgNn
-   BRNu3UzxUJHTrBpNiU30mZi+QRorvZNZgbXUlSpTKHHOPpNrvp18RtP1M
-   kKuks4QZ81+cZRZTic/hU36Gpajeu/IJgyzaJz8ii/YsX66DEO29ehTmY
-   Q==;
-X-CSE-ConnectionGUID: JK7pg0+lTaCnRKBAwJR97w==
-X-CSE-MsgGUID: 0E4JBQbPRpOqR8uDRCy84Q==
+  bh=jXPN18Wm9rGyVQ9EZbTwxgDIhgt5jq/bkKYBN8Z7G0w=;
+  b=On8PLPZTeroBsDSI7BPtCDEDcJmjyaP8IWXG7j7JkruDfyCueyUpju6s
+   XUTgMpWHB2d6MJZpdyRrOWrL3hEJ9JaQyidCb52m5X1SbiNg8GYumjIw2
+   UV7UpCE5nTeStltdnWbQKmXoV7p6swUF7vI7JO38lchomwc1WJTtwNGxz
+   sE+OszOcJcSHKEISzWysUI2mHWX+fMVpmvyPpA7xonWxIP3aoA6lSwSrI
+   jt034HlWWOqyglG/wu8bfvDMgKn3aXOIHPEZoaGZdkX4qeUEaiT7cUUf1
+   nZfuFvAxbIy1UGBZ0hdOsReyCFXnPs7/2D1ykZKNHVNlx0S4apo9y1Htc
+   w==;
+X-CSE-ConnectionGUID: gXSyxxIXSNycY6EgFHVi+Q==
+X-CSE-MsgGUID: xqeILagoQIyZtZP2buqohw==
 X-IronPort-AV: E=Sophos;i="6.25,198,1779170400"; 
-   d="scan'208";a="118911526"
+   d="scan'208";a="118911522"
 Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.22.168])
-  by naesa03out.arrow.com with ESMTP; 01 Aug 2026 03:12:06 -0600
+  by naesa03out.arrow.com with ESMTP; 01 Aug 2026 03:12:02 -0600
 From: bhavesh.maheshwari@einfochips.com
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 07/10] vim: Fix for CVE-2026-57456
-Date: Sat,  1 Aug 2026 14:40:24 +0530
-Message-ID: <20260801091145.2788751-7-bhavesh.maheshwari@einfochips.com>
+Subject: [OE-core][wrynose][PATCH 05/10] vim: Fix for CVE-2026-57454
+Date: Sat,  1 Aug 2026 14:40:22 +0530
+Message-ID: <20260801091145.2788751-5-bhavesh.maheshwari@einfochips.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260801091145.2788751-1-bhavesh.maheshwari@einfochips.com>
 References: <20260801091145.2788751-1-bhavesh.maheshwari@einfochips.com>
@@ -44,178 +44,217 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 09:12:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242485
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242483
 
 From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
 Pick the patch from [1], also referenced in the NVD report [2].
 
-[1] https://github.com/vim/vim/commit/cce141c42740f122dd8486ae04e21c2a81016ba8
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-57456
+[1] https://github.com/vim/vim/commit/b3faeecc976d3031d7c0675623516ec60c30f949
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-57454
 
 Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 ---
- .../vim/files/CVE-2026-57456.patch            | 164 ++++++++++++++++++
+ .../vim/files/CVE-2026-57454.patch            | 203 ++++++++++++++++++
  meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 165 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-57456.patch
+ 2 files changed, 204 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57454.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-57456.patch b/meta/recipes-support/vim/files/CVE-2026-57456.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-57454.patch b/meta/recipes-support/vim/files/CVE-2026-57454.patch
 new file mode 100644
-index 0000000000..253fff486d
+index 0000000000..00af91067b
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-57456.patch
-@@ -0,0 +1,164 @@
-+From 88a735ff4fa7ff269ba4ca94a44e8cdaefa5df28 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Sun, 21 Jun 2026 19:50:56 +0000
-+Subject: [PATCH] patch 9.2.0699: [security]: possible code execution with
-+ python complete
++++ b/meta/recipes-support/vim/files/CVE-2026-57454.patch
+@@ -0,0 +1,203 @@
++From a3eac666d37ccedb32ad3b0a6b86882208eb6b50 Mon Sep 17 00:00:00 2001
++From: Hirohito Higashi <h.east.727@gmail.com>
++Date: Sat, 20 Jun 2026 16:06:58 +0000
++Subject: [PATCH] patch 9.2.0679: [security]: Out-of-bounds read with text
++ property virtual text
 +
-+Problem:  [security]: possible code execution with python complete
-+          (morningbread)
-+Solution: Use repr() to quote the doc strings correctly
++Problem:  [security]: Out-of-bounds read with text property virtual text.
++          A crafted undo file can declare a virtual-text property whose
++          offset points outside the line's property data, so reading the
++          virtual text reads out of bounds.  This completes the count-only
++          check added in 9.2.0670.
++Solution: Validate the virtual-text offset and length of each property
++          against the available property data before turning the offset
++          into a pointer.
 +
 +Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-ppj8-wqjf-6fp3
++https://github.com/vim/vim/security/advisories/GHSA-ww8h-47xp-hp4w
 +
-+Supported by AI
-+
++Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
++Signed-off-by: Hirohito Higashi <h.east.727@gmail.com>
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/cce141c42740f122dd8486ae04e21c2a81016ba8]
-+CVE: CVE-2026-57456
++Upstream-Status: Backport [https://github.com/vim/vim/commit/b3faeecc976d3031d7c0675623516ec60c30f949]
++CVE: CVE-2026-57454
 +
 +Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 +---
-+ runtime/autoload/python3complete.vim        |  9 +++++----
-+ runtime/autoload/pythoncomplete.vim         |  9 +++++----
-+ src/testdir/test_plugin_python3complete.vim | 15 +++++++++++++++
-+ src/version.c                               |  2 ++
-+ 4 files changed, 27 insertions(+), 8 deletions(-)
++ src/proto/textprop.pro         |  1 +
++ src/testdir/test_textprop2.vim | 60 ++++++++++++++++++++++++++++++----
++ src/textprop.c                 | 36 ++++++++++++++++++++
++ src/version.c                  |  2 ++
++ 4 files changed, 92 insertions(+), 7 deletions(-)
 +
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index c4ef19d82..f90cca74b 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -2,7 +2,7 @@
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+ " Version: 0.10
-+-" Last Updated: 2026 Jun 04
-++" Last Updated: 2026 Jun 21
-+ "
-+ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
-+ "
-+@@ -22,6 +22,7 @@
-+ "     previous code passed buffer-supplied expressions to exec() which
-+ "     Python evaluates at definition time, allowing arbitrary code
-+ "     execution via crafted def/class headers
-++"   * use repr() on doc strings to prevent code execution
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -335,7 +336,7 @@ class Scope(object):
-+ 
-+     def get_code(self):
-+         str = ""
-+-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+@@ -378,7 +379,7 @@ class Class(Scope):
-+                        if _DOTTED_NAME_RE.match(s.strip())]
-+         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         if len(self.subscopes) > 0:
-+             for s in self.subscopes: str += s.get_code()
-+         else:
-+@@ -401,7 +402,7 @@ class Function(Scope):
-+         safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+             (self.currentindent(),self.name,','.join(safe_params))
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+ 
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index 39b1efd29..d2f5d57b0 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -2,7 +2,7 @@
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+ " Version: 0.10
-+-" Last Updated: 2026 Jun 04
-++" Last Updated: 2026 Jun 21
-+ "
-+ " Changes
-+ " TODO:
-+@@ -20,6 +20,7 @@
-+ "     previous code passed buffer-supplied expressions to exec() which
-+ "     Python evaluates at definition time, allowing arbitrary code
-+ "     execution via crafted def/class headers
-++"   * use repr() on doc strings to prevent code execution
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -350,7 +351,7 @@ class Scope(object):
-+ 
-+     def get_code(self):
-+         str = ""
-+-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+@@ -393,7 +394,7 @@ class Class(Scope):
-+                        if _DOTTED_NAME_RE.match(s.strip())]
-+         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         if len(self.subscopes) > 0:
-+             for s in self.subscopes: str += s.get_code()
-+         else:
-+@@ -416,7 +417,7 @@ class Function(Scope):
-+         safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+             (self.currentindent(),self.name,','.join(safe_params))
-+-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+ 
-+diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
-+index e2b0c6616..590348ee4 100644
-+--- a/src/testdir/test_plugin_python3complete.vim
-++++ b/src/testdir/test_plugin_python3complete.vim
-+@@ -221,4 +221,19 @@ func Test_python3complete_allow_import_on_runs_imports()
-+         \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
++diff --git a/src/proto/textprop.pro b/src/proto/textprop.pro
++index a01c2f3b2..4e6fcc89a 100644
++--- a/src/proto/textprop.pro
+++++ b/src/proto/textprop.pro
++@@ -36,4 +36,5 @@ int adjust_prop_columns(linenr_T lnum, colnr_T col, int bytes_added, int flags);
++ void adjust_props_for_split(linenr_T lnum_props, linenr_T lnum_top, int kept, int deleted, int at_eol);
++ void prepend_joined_props(unpacked_memline_T *um, linenr_T lnum, int last_line, long col, int removed);
++ bool text_prop_count_valid(int prop_count, size_t propdata_len);
+++bool text_prop_vtext_valid(char_u *props, int prop_count, size_t propdata_len);
++ /* vim: set ft=c : */
++diff --git a/src/testdir/test_textprop2.vim b/src/testdir/test_textprop2.vim
++index 48387d1c0..5f8f87e29 100644
++--- a/src/testdir/test_textprop2.vim
+++++ b/src/testdir/test_textprop2.vim
++@@ -428,14 +428,12 @@ func Test_multiline_prop_delete_penultimate_line()
++   call s:CleanupPropTypes(['1', '2', '3'])
 + endfunc
 + 
-++func Test_python3complete_no_exec_via_class_docstring()
-++  " A class-body docstring is emitted verbatim between triple quotes by
-++  " get_code() and runs at class-definition time during exec().  A single-
-++  " quoted source docstring lets an embedded """ survive doc()'s leading/
-++  " trailing quote strip and break out of the generated literal.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'class Foo:',
-++        \ '    ''x"""+open("' . marker . '", "w").close()+"""y''',
-++        \ '    pass',
-++        \ 'Foo.',
-++        \ ], marker,
-++        \ 'class docstring expression was evaluated during omni-completion')
++-func s:ManipulateUndoBlob(name)
++-  " Patch the saved old line in the undo file:
++-  "   00 00 00 08 'QQQQQQQQ'  ->  00 00 00 27 'AAAA' NUL count=0xFFFF <32x00>
++-  " i.e. textlen 8 text-only  ->  39-byte blob: text "AAAA", NUL, prop_count
++-  "   0xFFFF, one zeroed textprop_T(32).  propdata_len becomes 34, count 65535.
+++func s:ManipulateUndoBlob(name, repl)
+++  " Replace the saved old line (00 00 00 08 'QQQQQQQQ') in the undo file with
+++  " the crafted "repl" blob, then read it back in.
++   let blob   = readfile(a:name, 'B')
++   let marker = 0z000000085151515151515151
++-  let repl   = 0z000000274141414100FFFF + repeat(0z00, 32)
+++  let repl   = a:repl
++   let mlen   = len(marker)
++   let idx    = -1
++   let i      = 0
++@@ -466,7 +464,10 @@ func Test_textprop_undo_bad_prop_count()
++   let &ul = &ul
++   call setline(1, 'BBBB')           " undo step saves old line 1 = "QQQQQQQQ"
++   wundo Xtpundo
++-  call s:ManipulateUndoBlob('Xtpundo')
+++  " 39-byte blob: "AAAA" NUL count=0xFFFF, one zeroed textprop_T(32).
+++  " propdata_len becomes 34 while the count claims 65535 properties.
+++  call s:ManipulateUndoBlob('Xtpundo', 0z000000274141414100FFFF
+++	\ + repeat(0z00, 32))
++ 
++   undo
++ 
++@@ -487,4 +488,49 @@ func Test_textprop_undo_bad_prop_count()
++   call delete('Xtpundo')
++ endfunc
++ 
+++" A crafted undo file can restore a line whose virtual-text property declares an
+++" out-of-range tp_text_offset.  Turning that offset into a pointer and reading
+++" the virtual text would read past the line buffer.  Restore such a line and
+++" force a consumer; reaching the asserts (no ASan abort / crash) means the
+++" offset is bounded.
+++func Test_textprop_undo_bad_vtext_offset()
+++  CheckFeature persistent_undo
+++
+++  new
+++  call setline(1, ['QQQQQQQQ', 'DECOYLINE'])
+++  let &ul = &ul
+++  call setline(1, 'BBBB')           " undo step saves old line 1 = "QQQQQQQQ"
+++  wundo Xtpundo
+++
+++  " One textprop_T for a virtual text prop (tp_id < 0) whose tp_text_offset
+++  " (0x00100000) points far past the 34-byte property data.  The count (1) is
+++  " valid, so only the offset/length check can reject this.
+++  let prop  = 0z01000000          " tp_col = 1
+++  let prop += 0z04000000          " tp_len = 4
+++  let prop += 0zFFFFFFFF          " tp_id = -1 (virtual text)
+++  let prop += 0z00000000          " tp_type = 0
+++  let prop += 0z00000000          " tp_flags = 0
+++  let prop += 0z00000000          " tp_padleft = 0
+++  let prop += 0z00001000          " u.tp_text_offset = 0x00100000
+++  let prop += 0z00000000          " union upper bytes
+++  call s:ManipulateUndoBlob('Xtpundo', 0z000000274141414100 + 0z0100 + prop)
+++
+++  undo
+++
+++  " Safety: prove the malicious line was actually restored before the consumer
+++  " runs, so the test can't pass vacuously if the patch missed.
+++  call assert_equal('AAAA', getline(1))
+++
+++  call prop_type_add('Xtp', {})
+++  call prop_add(2, 1, {'type': 'Xtp', 'length': 1})
+++
+++  " this caused OOB read, now it is rejected as a corrupted (untrusted) undo
+++  " file with a catchable error
+++  call assert_fails('call prop_list(1)', 'E967:')
+++
+++  call prop_type_delete('Xtp')
+++  bwipe!
+++  call delete('Xtpundo')
 ++endfunc
 ++
 + " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/textprop.c b/src/textprop.c
++index 6b0ce45f2..5959ecc45 100644
++--- a/src/textprop.c
+++++ b/src/textprop.c
++@@ -118,6 +118,13 @@ um_goto_line(unpacked_memline_T *um, linenr_T lnum, int extra_props)
++     proplen = (int)prop_count;
++     props_start = count_ptr + PROP_COUNT_SIZE;
++ 
+++    if (!text_prop_vtext_valid(props_start, proplen, propdata_len))
+++    {
+++	emsg(e_text_property_info_corrupted);
+++	um->buf = NULL;
+++	return false;
+++    }
+++
++     um->props = ALLOC_MULT(textprop_T, proplen + extra_props);
++     if (um->props == NULL)
++     {
++@@ -1246,6 +1253,12 @@ get_text_props(buf_T *buf, linenr_T lnum, char_u **props, int will_change)
++ 	iemsg(e_text_property_info_corrupted);
++ 	return 0;
++     }
+++    if (!text_prop_vtext_valid(text + textlen + PROP_COUNT_SIZE,
+++					   (int)prop_count, propdata_len))
+++    {
+++	emsg(e_text_property_info_corrupted);
+++	return 0;
+++    }
++     *props = text + textlen + PROP_COUNT_SIZE;
++     return (int)prop_count;
++ }
++@@ -3239,4 +3252,27 @@ text_prop_count_valid(int prop_count, size_t propdata_len)
++ 		    <= propdata_len - PROP_COUNT_SIZE;
++ }
++ 
+++/*
+++ * Return true when every virtual text property's offset and length stay within
+++ * "propdata_len", so tp_text_offset can be safely turned into a pointer.
+++ * "props" may be unaligned.
+++ */
+++    bool
+++text_prop_vtext_valid(char_u *props, int prop_count, size_t propdata_len)
+++{
+++    for (int i = 0; i < prop_count; ++i)
+++    {
+++	textprop_T  prop;
+++
+++	mch_memmove(&prop, props + (size_t)i * sizeof(textprop_T),
+++							  sizeof(textprop_T));
+++	if (prop.tp_id >= 0 || prop.u.tp_text_offset <= 0)
+++	    continue;
+++	if (prop.tp_len < 0 || (size_t)prop.u.tp_text_offset
+++				+ (size_t)prop.tp_len + 1 > propdata_len)
+++	    return false;
+++    }
+++    return true;
+++}
+++
++ #endif // FEAT_PROP_POPUP
 +diff --git a/src/version.c b/src/version.c
-+index d3b72595f..bf680c656 100644
++index 4d6908426..80d3cc7f5 100644
 +--- a/src/version.c
 ++++ b/src/version.c
 +@@ -734,6 +734,8 @@ static char *(features[]) =
@@ -223,22 +262,22 @@ index 0000000000..253fff486d
 + static int included_patches[] =
 + {   /* Add new patch number below this line */
 ++/**/
-++    699,
+++    679,
 + /**/
-+     698,
++     678,
 + /**/
 +-- 
 +2.53.0
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 8c5a5e88a9..0f1355f0fc 100644
+index 56a2004899..93b8ba3970 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -35,6 +35,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+@@ -33,6 +33,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://CVE-2026-55895.patch \
+            file://CVE-2026-57451.patch \
             file://CVE-2026-57453.patch \
-            file://CVE-2026-57454.patch \
-            file://CVE-2026-57455.patch \
-+           file://CVE-2026-57456.patch \
++           file://CVE-2026-57454.patch \
             "
  
  PV .= ".0340"
