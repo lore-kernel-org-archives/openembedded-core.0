@@ -1,166 +1,125 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <WXbet@proton.me>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5876AC55181
-	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 12:15:09 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4417.1785586499692549705
- for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Aug 2026 05:14:59 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N4VF0BNt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954a2e73a9so3674755e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 05:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785586498; x=1786191298; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6rIcKvwwarClI3fExOzzOxdzFrpp2dQV2RLn9lIdOOg=;
-        b=N4VF0BNtKaL8sRPg/oPKHgtDFzwCw5jHA3iB013OU/X6t80fcfUUGWwGQwr2q6Ty5B
-         f+GCqTs/s5Zmku6N/yvAeNPF87w4eLjXi7TfbZW9l1Q/3KbO6iki7V4VDwsjZdyppGpO
-         F0FvyBX9sBfGD98flBqsbyEcsvOEA6HC1ZYns=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785586498; x=1786191298;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6rIcKvwwarClI3fExOzzOxdzFrpp2dQV2RLn9lIdOOg=;
-        b=n1mBXqLOnn6FLGPqP7Qs+qbd2N1WE7b0cOiwYX2BgAAcS8RnI0iMYPMmyxtK+sRF6e
-         cxKXP3kQ8WKekBuTpmZOwHB7RTCgGcTfZ0s/bRbMC/6No1uiH2/jPE54ojqgoU11rfEb
-         +LhGqKL4J5+mkxfXpk5ktjX2L6Ch0TFaBEYPzRD5MHHRE4nm2A2q2lh+/d4oScJCvt0q
-         ubrWn4lyXdsmT3xZ0wcdBPUstW4jhMxo/emhlMG5o+WR9XAEhSOYjSK/ZdH+lqetYyEb
-         8vZKqQTubEG/QVvYoGt7AownFuSr7tZexMCVA4BTFsn1z5hJlBKVY4D4hLCcUqHZVB/N
-         cggw==
-X-Gm-Message-State: AOJu0YyP2chYmMYF7Xp7QKdmbq2oMcfTUFD8d4Eh4YCLcd8ApL+NXANm
-	cV2LAOJI4iAqLjrpdgwEscjiSjJnca+3UpURllq1AandTrmPSd61UnRbQXTRbNcyydmy0CN3TzC
-	xaw+vnO0=
-X-Gm-Gg: AR+sD12dJClMy+HE278sOemWLW5x4lIV0ij/E1h63xMpdaQn+u8E4Fat2VN+g5VOAWF
-	0dfcbyNQFqeTXiMnPWmjHjcQpNK6XaF5KBQbQ7CFv/1l1ssoOjUkEZORXt6AuMQGaC4G06buhdZ
-	EVA4lD30p5VSZ7s2zAZwIDyKRYD4MxXueCzMXnNffm3J+6u4Z43jL2WtvYhkMYQnKAJ2usPF1yt
-	Y44TYPESnjCw5EEbjT1P/4MTii1WpDFZ2eraUqpVO8rAuVizglayA4SIZTBrIMs8xK5gWp0TId3
-	hKhacOlWcLolU/OpAmL3JBzd1lROUybsMcNmKLhhWcN0kiD0BmK999NdtM4Y2zONkSRMKXC4Fjf
-	Wy1zTAmxnEMpPkbrAVqxQeBgj4d5UGVXiRvXg5Re9kkJ6ITU6LPHGrSg5zNZrVMp5XQXxWBlTqo
-	vg9hB1cwCeptglGiS5d1DWuiEP/2CFPzUqQ3F/LMg1wXQPEZA/hJfVg/cjASwyEdvuACbH8XUg0
-	RFqAy01DiI8ZahdPBCGqjO6XSk+
-X-Received: by 2002:a05:600c:4795:b0:495:5d5b:7533 with SMTP id 5b1f17b1804b1-4980c65b84bmr25299505e9.13.1785586497878;
-        Sat, 01 Aug 2026 05:14:57 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:43cd:3a42:fe4b:e585])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd42d91b3sm16518796f8f.14.2026.08.01.05.14.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 05:14:57 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 730A0C55172
+	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 16:16:11 +0000 (UTC)
+Subject: [OE-core][PATCH] rust-target-config: set MIPS ABI in the target JSON
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/6] harfbuzz: upgrade 14.2.1 -> 14.3.0
-Date: Sat,  1 Aug 2026 13:14:50 +0100
-Message-ID: <20260801121454.2770123-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260801121454.2770123-1-richard.purdie@linuxfoundation.org>
-References: <20260801121454.2770123-1-richard.purdie@linuxfoundation.org>
+From: "WXbet" <WXbet@proton.me>
+X-Originating-Location: Lengede, Lower Saxony, DE (94.31.119.30)
+X-Originating-Platform: Windows Edge 150
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Sat, 01 Aug 2026 09:16:06 -0700
+Message-ID: <qwUi.1785600966281995503.fgzL@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="Br7Cw4UZgHW6mglxLSPM"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 12:15:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242491
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 16:16:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242496
 
-Source: NEWS
+--Br7Cw4UZgHW6mglxLSPM
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Overview of changes leading to 14.3.0
-Friday, July 31, 2026
-=====================================
-- Changes affecting shaping output:
-  * Lookup order is now respected for mark positioning in the cross-direction
-    (y in horizontal text, x in vertical text): marks no longer follow a
-    cross-direction shift that a later lookup applies to the base. This
-    improves compatibility with DirectWrite and Core Text.
-  * Fix mark attachment to ligatures formed from decomposed glyphs.
-  * The `calt` feature in Hangul text is now disabled only for the Jamos,
-    not the whole buffer.
+rustc 1.96 (rust-lang/rust#153769) started rejecting MIPS target JSON
+files that do not carry both an "abi" field and a matching "llvm-
+abiname" field, aborting libstd-rs's do_compile with
 
-- Support for partially instancing version of `avar` table, as well as `CFF2`
-  table.
+error: error loading target specification:
+invalid MIPS ABI name and `cfg(target_abi)` combination:
+ABI name: <empty>
+cfg(target_abi): <empty>
 
-- New fill-glyph paint operation and APIs for the common case of filling a
-  glyph with a solid color.
+rust_gen_target() populates the target JSON from the DATA_LAYOUT /
+TARGET_ENDIAN / ... varflags plus an arch-specific "abi" branch that
+today only covers arm/armv7. On mips*/mipsel* neither "abi" nor
+"llvm-abiname" is written, so rustc's stricter check fails.
 
-- New API to fetch assorted raw values from the `OS/2`, `head`, and `post`
-  tables.
+Cover every MIPS tune shipped in meta/conf/machine/include/mips/
+arch-mips.inc's AVAILTUNES:
 
-- New experimental API to extract a font’s glyph dependency graph, that
-  applications can use to compute glyph closures themselves without running the
-  subsetter.
+arch=3Dmips / mipsel =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0-> o32
+arch=3Dmips64 / mips64el, ABIEXTENSION=3D"" -> n64
+arch=3Dmips64 / mips64el, ABIEXTENSION=3Dn32 -> n32
 
-- New subset flag to convert the charset of a subsetted CID-keyed `CFF` fonts
-  into identity charset, and a matching `hb-subset` option. Useful for
-  embedding fonts in PDF.
+Note that the mips64-o32 / mips64el-o32 tunes (o32 ABI on a 64-bit
+MIPS CPU) get MIPSPKGSFX_BYTE=3D"" from arch-mips.inc and therefore
+TUNE_ARCH=3D"mips[el]"; they fall into the 32-bit branch above.
 
-- Command-line utilities now handle non-ASCII arguments correctly on Windows.
-
-- Various instancing and subsetting fixes.
-
-- Various fixes to the experimental `harfbuzz-vector`, `harfbuzz-raster` and
-  `harfbuzz-gpu` libraries.
-
-- Various improvements to the HarfRust integration shaper.
-
-- Various build, CI, portability, and fuzzing fixes.
-
-- New API:
-  * OpenType:
-    +HB_OT_BITS_TAG_FS_TYPE
-    +HB_OT_BITS_TAG_FS_SELECTION
-    +HB_OT_BITS_TAG_MAC_STYLE
-    +HB_OT_BITS_TAG_IS_FIXED_PITCH
-    +HB_OT_BITS_TAG_UNICODE_RANGE_1
-    +HB_OT_BITS_TAG_UNICODE_RANGE_2
-    +HB_OT_BITS_TAG_UNICODE_RANGE_3
-    +HB_OT_BITS_TAG_UNICODE_RANGE_4
-    +HB_OT_BITS_TAG_CODE_PAGE_RANGE_1
-    +HB_OT_BITS_TAG_CODE_PAGE_RANGE_2
-    +HB_OT_NUMBER_TAG_FONT_X_MIN
-    +HB_OT_NUMBER_TAG_FONT_Y_MIN
-    +HB_OT_NUMBER_TAG_FONT_X_MAX
-    +HB_OT_NUMBER_TAG_FONT_Y_MAX
-    +hb_ot_bits_tag_t
-    +hb_ot_fetch_bits()
-    +hb_ot_number_tag_t
-    +hb_ot_fetch_number()
-
-  * Paint:
-    +hb_paint_fill_glyph_func_t
-    +hb_paint_fill_glyph()
-    +hb_paint_funcs_set_fill_glyph_func()
-
-  * Subset library:
-    +HB_SUBSET_FLAGS_CFF_IDENTITY_CHARSET
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: WXbet <57314510+WXbet@users.noreply.github.com>
 ---
- .../harfbuzz/{harfbuzz_14.2.1.bb => harfbuzz_14.3.0.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_14.2.1.bb => harfbuzz_14.3.0.bb} (96%)
+meta/classes-recipe/rust-target-config.bbclass | 7 +++++++
+1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_14.2.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_14.2.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb
-index 6b6c6a0f606..6e4e9b7b850 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_14.2.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "a54a5d8e9380a41fbb762ce367bcbf7704792dfca0d93f1bbca86c5a57902e0e"
-+SRC_URI[sha256sum] = "16070d77cfc4ba1f1e7327e83bf9b3f55898081cabdb94e56a33e04fc8874eae"
- 
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection github-releases
- 
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-=
+recipe/rust-target-config.bbclass
+index 6acbe5e688..54919091fe 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -438,6 +438,13 @@ def rust_gen_target(d, thing, wd, arch):
+elif fpu =3D=3D "hard":
+tspec['abi'] =3D "eabihf"
+tspec['llvm-floatabi'] =3D "hard"
++ =C2=A0 =C2=A0if arch in ["mips", "mipsel"]:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0tspec['abi'] =3D "o32"
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0tspec['llvm-abiname'] =3D "o32"
++ =C2=A0 =C2=A0elif arch in ["mips64", "mips64el"]:
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0mips_abi =3D "n32" if abi =3D=3D "n32" else "n=
+64"
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0tspec['abi'] =3D mips_abi
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0tspec['llvm-abiname'] =3D mips_abi
+tspec['default-uwtable'] =3D True
+tspec['dynamic-linking'] =3D True
+tspec['executables'] =3D True
+--
+2.47.1.windows.1
+
+--Br7Cw4UZgHW6mglxLSPM
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>rustc 1.96 (rust-lang/rust#153769) started rejecting MIPS target JSON<=
+br />files that do not carry both an "abi" field and a matching "llvm-<br /=
+>abiname" field, aborting libstd-rs's do_compile with<br /><br />&nbsp; err=
+or: error loading target specification:<br />&nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp;invalid MIPS ABI name and `cfg(target_abi)` combination:<br />&nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp;ABI name: &lt;empty&gt;<br />&nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp;cfg(target_abi): &lt;empty&gt;<br /><br />rust_gen_target() po=
+pulates the target JSON from the DATA_LAYOUT /<br />TARGET_ENDIAN / ... var=
+flags plus an arch-specific "abi" branch that<br />today only covers arm/ar=
+mv7. On mips*/mipsel* neither "abi" nor<br />"llvm-abiname" is written, so =
+rustc's stricter check fails.<br /><br />Cover every MIPS tune shipped in m=
+eta/conf/machine/include/mips/<br />arch-mips.inc's AVAILTUNES:<br /><br />=
+&nbsp; arch=3Dmips / mipsel &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp;-&gt; o32<br />&nbsp; arch=3Dmips64 / mips64el=
+, ABIEXTENSION=3D"" -&gt; n64<br />&nbsp; arch=3Dmips64 / mips64el, ABIEXTE=
+NSION=3Dn32 -&gt; n32<br /><br />Note that the mips64-o32 / mips64el-o32 tu=
+nes (o32 ABI on a 64-bit<br />MIPS CPU) get MIPSPKGSFX_BYTE=3D"" from arch-=
+mips.inc and therefore<br />TUNE_ARCH=3D"mips[el]"; they fall into the 32-b=
+it branch above.<br /><br />Signed-off-by: WXbet &lt;57314510+WXbet@users.n=
+oreply.github.com&gt;<br />---<br />&nbsp;meta/classes-recipe/rust-target-c=
+onfig.bbclass | 7 +++++++<br />&nbsp;1 file changed, 7 insertions(+)<br /><=
+br />diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/cla=
+sses-recipe/rust-target-config.bbclass<br />index 6acbe5e688..54919091fe 10=
+0644<br />--- a/meta/classes-recipe/rust-target-config.bbclass<br />+++ b/m=
+eta/classes-recipe/rust-target-config.bbclass<br />@@ -438,6 +438,13 @@ def=
+ rust_gen_target(d, thing, wd, arch):<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbs=
+p;elif fpu =3D=3D "hard":<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp;tspec['abi'] =3D "eabihf"<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp;tspec['llvm-floatabi'] =3D "hard"<br />+ &nbsp; &nbsp;if arch in ["=
+mips", "mipsel"]:<br />+ &nbsp; &nbsp; &nbsp; &nbsp;tspec['abi'] =3D "o32"<=
+br />+ &nbsp; &nbsp; &nbsp; &nbsp;tspec['llvm-abiname'] =3D "o32"<br />+ &n=
+bsp; &nbsp;elif arch in ["mips64", "mips64el"]:<br />+ &nbsp; &nbsp; &nbsp;=
+ &nbsp;mips_abi =3D "n32" if abi =3D=3D "n32" else "n64"<br />+ &nbsp; &nbs=
+p; &nbsp; &nbsp;tspec['abi'] =3D mips_abi<br />+ &nbsp; &nbsp; &nbsp; &nbsp=
+;tspec['llvm-abiname'] =3D mips_abi<br />&nbsp; &nbsp; &nbsp;tspec['default=
+-uwtable'] =3D True<br />&nbsp; &nbsp; &nbsp;tspec['dynamic-linking'] =3D T=
+rue<br />&nbsp; &nbsp; &nbsp;tspec['executables'] =3D True<br />--&nbsp;<br=
+ />2.47.1.windows.1</div>
+
+--Br7Cw4UZgHW6mglxLSPM--
 
