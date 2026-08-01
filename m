@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93AD0C5516F
-	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 20:38:13 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12613.1785616691695856101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96EDDC5516F
+	for <webhook@archiver.kernel.org>; Sat,  1 Aug 2026 20:38:33 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12798.1785616702942395263
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Aug 2026 13:38:12 -0700
+ Sat, 01 Aug 2026 13:38:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=B1zaestF;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20260801203809e6591ee425000207af-njgz4h@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260801203809e6591ee425000207af
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Ytr+c7CF;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260801203821c058baa29b00020779-4zj1ks@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260801203821c058baa29b00020779
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 01 Aug 2026 22:38:09 +0200
+        Sat, 01 Aug 2026 22:38:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=E3LlUmaab9ehbTFMEEn4DM0lGZKpfkZIL4oyeWcjbNw=;
- b=B1zaestF3EmYG1buv/0ghAUBJ8K9utXk2Zck6aaurg9s/E06WjL21jbU/j43oA3+2LEk5O
- N1AKcGLcA+t88DmXSFAUzOilcGDF/rm7+SsQKdPO/A9rMKxCqpouBHfATgCacQmmUE4AXRVf
- HLTWmFI6zcCeaR2iBs5xxGleot0qnGIaxq66siNkhJ5C9D9Fj6wanr/o92KvUTENepcC4srH
- EOurJzAO34nXlkjEf+F3Ky1aNn5LqR8efXfu+E2OzCf2DZqKyw8pMk/64CCKz2Mhm1Dr52Fq
- gUK0a1kfLLfRPZcKOuU+ZJ1tHUmwlsioEBcwklxcNEBkq7iZZtNrTIMg==;
+ bh=MFsHfe7E3q5EwQ8MurFPwlVeGD29Jj561eMTVbbpGyQ=;
+ b=Ytr+c7CFjwPwdjiyr2pK2alxPtKPyKdtUGsFMtmTzbtP0f7/Nt3/Bf2W6th63vvzUEBmg0
+ XMbcCx9KUFJkRLjo4bRSzILBQhZJ9YhlfWmG6+epu5MorPwYPZp0BIZ1aKDbESsoJ+sPzlv2
+ PAVYE6nrRAVHTwUQt/lbGsCrh8YkTLollhq39URqqbMEKJFyCQx1pWcOquPn29ozebg8qWKy
+ BvtY7FKgT6KfFd6AngnEZs7/IJRxNxI9osuXZ4SJ8fkYjGEg2aaRtVopse3mmwK2o94bgMue
+ /MWfkkbY/WiLXG4SFx7vY4trkT1dNc5CEG2jATUQH1xm3bT7eRmgIW2A==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] busybox: patch CVE-2026-38754
-Date: Sat,  1 Aug 2026 22:37:55 +0200
-Message-ID: <20260801203755.3751797-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH]  busybox: patch CVE-2026-38754
+Date: Sat,  1 Aug 2026 22:38:05 +0200
+Message-ID: <20260801203805.3751816-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 20:38:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242502
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 20:38:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242503
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -48,13 +48,13 @@ Pick patch which fixes this CVE as discussed in [1].
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../busybox/busybox/CVE-2026-38754.patch      | 155 ++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.37.0.bb   |   1 +
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |   1 +
  2 files changed, 156 insertions(+)
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
 
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-38754.patch b/meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
 new file mode 100644
-index 0000000000..7c7b88f5de
+index 00000000000..d263d72d9f3
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
 @@ -0,0 +1,155 @@
@@ -154,7 +154,7 @@ index 0000000000..7c7b88f5de
 +index fb887f31b..b8ff67b16 100644
 +--- a/shell/ash.c
 ++++ b/shell/ash.c
-+@@ -5472,6 +5472,7 @@ stoppedjobs(void)
++@@ -5480,6 +5480,7 @@ stoppedjobs(void)
 +  */
 + /* openhere needs this forward reference */
 + static void expandhere(union node *arg);
@@ -162,7 +162,7 @@ index 0000000000..7c7b88f5de
 + static int
 + openhere(union node *redir)
 + {
-+@@ -5913,6 +5914,17 @@ redirect(union node *redir, int flags)
++@@ -5909,6 +5910,17 @@ redirect(union node *redir, int flags)
 + 	//	preverrout_fd = copied_fd2;
 + }
 + 
@@ -180,7 +180,7 @@ index 0000000000..7c7b88f5de
 + static int
 + redirectsafe(union node *redir, int flags)
 + {
-+@@ -5928,9 +5940,7 @@ redirectsafe(union node *redir, int flags)
++@@ -5924,9 +5936,7 @@ redirectsafe(union node *redir, int flags)
 + 		exception_handler = &jmploc;
 + 		redirect(redir, flags);
 + 	}
@@ -191,7 +191,7 @@ index 0000000000..7c7b88f5de
 + 	RESTORE_INT(saveint);
 + 	return err;
 + }
-+@@ -9445,9 +9455,7 @@ evaltree(union node *n, int flags)
++@@ -9435,9 +9445,7 @@ evaltree(union node *n, int flags)
 + 			trap_depth--;
 + 			in_trap_ERR = 0;
 + 
@@ -202,7 +202,7 @@ index 0000000000..7c7b88f5de
 + 
 + 			exitstatus = savestatus;
 + 		}
-+@@ -13487,9 +13495,7 @@ expandstr(const char *ps, int syntax_type)
++@@ -13444,9 +13452,7 @@ expandstr(const char *ps, int syntax_type)
 + 	result = stackblock();
 + 
 + out:
@@ -213,16 +213,16 @@ index 0000000000..7c7b88f5de
 + 
 + 	doprompt = saveprompt;
 + 	/* Try: PS1='`xxx(`' */
-diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
-index a6abfa2598..b020c923be 100644
---- a/meta/recipes-core/busybox/busybox_1.37.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
+index 7929d396c85..60796de9ce2 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
 @@ -66,6 +66,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2024-58251.patch \
+            file://CVE-2026-26157-CVE-2026-26158-02.patch \
             file://CVE-2026-29004-01.patch \
             file://CVE-2026-29004-02.patch \
 +           file://CVE-2026-38754.patch \
             "
- SRC_URI:append:libc-musl = " file://musl.cfg"
- SRC_URI:append:x86-64 = " file://sha_accel.cfg"
+ SRC_URI:append:libc-musl = " file://musl.cfg "
+ # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
 
