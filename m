@@ -2,91 +2,104 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB181C55162
-	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 21:30:13 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30921.1785706207441567779
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CB0C55162
+	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 21:31:03 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30936.1785706254081293185
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Aug 2026 14:30:07 -0700
+ Sun, 02 Aug 2026 14:30:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DlEtSfvQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4953de5be0aso8958465e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 14:30:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fHNc1Zlg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4955158f26aso9961865e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 14:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785706206; x=1786311006; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=3fZQf0sgvs3zX+dDyJNBlwDvpzZ+mCEJu4cfIubTxcc=;
-        b=DlEtSfvQvvSOfTN0Iw0fLF93gExxq3NI2/ORcU7AnrQmq8EPGqmygbvdBz0E98TTJn
-         MVaPjsjV0OIbo+pbXA4qSDHdANdM5Oamcum3vX0JTcRVj6Y8UvoTN3jAROl6JpMUkDUX
-         6ESBcXJ35oeryOHbiUPVY8q20IVeqWL8ynZhA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785706206; x=1786311006;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+        d=linuxfoundation.org; s=google; t=1785706252; x=1786311052; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=3fZQf0sgvs3zX+dDyJNBlwDvpzZ+mCEJu4cfIubTxcc=;
-        b=aQfS4d1Q4cpFiVAgU9qKIiaspOQKj1lDES4VXthWJO6ByFjFXPmDqE9huUXkF1o2A8
-         NMDx7DqBVecUDFqDhN+dX1hRuQisWfeKOGw46ELPSxbOiQ+Bm2vavvovxZhza21CoUR6
-         RTVNpcS7gom8SYy7SqPaP1TUbDwhi3ETGorW1GY+80knNTZ/PoEI29+V9YhoBNJGEaR+
-         /t343pD4t0mgkk9PeVnkbLAc2+MSWeCupZv3XO5uHSljlLmzm3siLcwWTmJ5SLEwv+01
-         iyFxHYEWRogHbD6d879x+u9+wLI0ys0Bc+YutTrHEcEP1p0vpo9dxGenled3YtjN0uFR
-         Oo7g==
-X-Gm-Message-State: AOJu0YxC4HToFfTkc+45VrMlctQYRPx8/v5QKfQpQn4Zw0JgccaeAerp
-	lo4vCvjvcXIDfZAsd++VOZYDevVZ7maskJoUKs2c757GxIznWmb+iyoWh/SwmiZJJ5drHqVlKv5
-	gZoM4Elk=
-X-Gm-Gg: AR+sD13Xt8vc6zaRDjaIRXVIy4chC7PdQVlgylLN3HV9O6gXtFTsmmiiZ2foLTrW/Si
-	nb93GXx9CZT3cZymxgHcx4Nv052uLJnStbt5r5vSf4DojpXKuBQsRu+YHKx0xAKB/at3bslK5le
-	F0b9etf/6L8dCjrJEsmUHXnCJEiUuj31syf+olWPbEC6rIm0As9+2fNSTbMsKoIzZkbBkRCD7PG
-	ZdqwxVC2O0lIOrLgH1gYaC2P8yZ4yFeERPhYCYXj1Z3Ycw07pw+soNhDVSrZmlwPnSe+Dx1kAeB
-	q0qB0rtUOFsAx0ubk2iYHgS9SIfNvVejQ4Q8laiwOkwL8HsiBArZXokICE6nVlOjI1dTnHf1tjh
-	mrf1jy2yxdRoEzSKpUOMx88kHQvCstT9j6Y26EWWx0FyBgzx+rlJUu2TBKRADqiEiGme06QszQG
-	MM2CuMbmGHrQZuJLvIacb1WmdE1QS7U+hJngTFIOrJEcy8r4Sy2AkwCow8hMbgNXCqdd/dD5I//
-	pxMtEx99BQmWraB9A==
-X-Received: by 2002:a05:600c:564b:b0:496:c93d:e2f with SMTP id 5b1f17b1804b1-4980c65e93bmr114583205e9.15.1785706205760;
-        Sun, 02 Aug 2026 14:30:05 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:11e3:e7fc:e526:8a64])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4980878dcb4sm275720105e9.13.2026.08.02.14.30.03
-        for <openembedded-core@lists.openembedded.org>
+        bh=zSClUFIHEga5McfiI6Bk/htANGQl+B4NKc3+gWr3cU0=;
+        b=fHNc1Zlgnw4oanr36zZV4xStHptpDlpxzhOVbiXLa9cEqHLd4iT/s+qnX6/RAfTKFG
+         eAkBTXcM9pV2+YGQc+FE+LTZkdOVyvavEj9mNE1NnV58vM0Vt9g9QoyaohCZ5JyMDgeE
+         PEPM3uvgQNcyeHqT+4YYwCa2EA4WGACdTG1CI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785706252; x=1786311052;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zSClUFIHEga5McfiI6Bk/htANGQl+B4NKc3+gWr3cU0=;
+        b=PukmwvgBJ6KtxMY1go+DnSWGx5aEvnicGC9wZMsD49ZLzaKKN0mTqycnimFqtwDolr
+         f9blmXI00fZnHwJ4c913Vq3Jpyrqy85TJvTDFROF8Qfb8oIIXUb3cURd2V9LT8eqo6Vs
+         gyLsILnrIEpcqB5Hp+q4XMSR0j/ljyqcMxFJeeK/9yMzpNkswkxvkPownpl1r5DDU4N9
+         psuyXWp5gRkJnv6axDQVeeUp/6bXDL9UHoi728LYasQORt+rHex0ulJ0ww3MA8REQNFK
+         96PvD9nQJ9f1UGAJwxiHE9gXVH2iOQ96kibHpePY+I9Oan1ATnkHvrF6Hzv+qbVn6Emi
+         noLw==
+X-Gm-Message-State: AOJu0YyIoQv+ZP9HEhZKWByealbhBdmxW/om/honBEIF2QzWuZaBpNQ5
+	7/Qci7bIJqXCoJmxLagHY/Uy5Kf2lTSs4fYpEQyaVfM0DopFH45FeTSBRJCiahpZOm8=
+X-Gm-Gg: AR+sD11KRh6dJsxxRNUrlQgJHfjUX56wi7qginW65UB43jfTjhGMLz7sk/2vFS41Z5t
+	rpjtzqLsgk3zaV1nNYKUc0vg6Jjpr45XZ7I+m59BP9x7+z7wR61cqs+evi1kh8BalMprJT60U7h
+	Mz+TrzChqcZwY3BphpgJTPMWowTj1yd2JDKCFQEaGhGk59JjkdFxVYVRUcfW5r5k1agHu/sqbaS
+	x0i9t51DmdRJBxtIk73whsblDwgSkA1/ziQL91j3RKG2CncoNBG1QgPD2gIVxP0isjKhWm++7LE
+	9n8QRxkXeminP7GxPS2uCFyFgV2Sm4PfuOnAqcXgZxxqL5edac9RyQs5ajo98FAmlIn4GnRNlDi
+	x25H4pc8AShOoBjgK5Bg6qBvfeN+eeQVzLhd4gRZ0QPpK1VQ2yJMIm8E8gSIboEHcg76wrkKMNk
+	Fyg6ihFBdHRUkSsVjaBzEAuSyv2BjiXtyCM16cfB0KxCFRw7yNf1FRq6FY6m3TUKxGnQo/iB3v3
+	2o5ZrV5EhkRRxXFH3l81gqbHhSFBIKA/NrRZqiiJSMcbdgnDdJKzQ==
+X-Received: by 2002:a05:600c:4514:b0:496:bbce:f3 with SMTP id 5b1f17b1804b1-4980eb4e952mr162134375e9.6.1785706252369;
+        Sun, 02 Aug 2026 14:30:52 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:11e3:e7fc:e526:8a64? ([2001:8b0:aba:5f3c:11e3:e7fc:e526:8a64])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4980878dcb4sm275800785e9.13.2026.08.02.14.30.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 14:30:03 -0700 (PDT)
+        Sun, 02 Aug 2026 14:30:51 -0700 (PDT)
+Message-ID: <99ca1b5c9844cfb8829c1ffda00c35d239917914.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 0/2] coreutils: fix multiple CVEs
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemboot: Correct task dependency tree
-Date: Sun,  2 Aug 2026 22:30:00 +0100
-Message-ID: <20260802213000.457180-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260802213000.457180-1-richard.purdie@linuxfoundation.org>
-References: <20260802213000.457180-1-richard.purdie@linuxfoundation.org>
+To: Collin Funk <collin.funk1@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Leonid Iziumtsev
+	 <leonid.iziumtsev@est.tech>
+Date: Sun, 02 Aug 2026 22:30:50 +0100
+In-Reply-To: <87a4r6jpb1.fsf@gmail.com>
+References: <m1o6fm66ok.fsf@gmail.com>
+		<f92d86a076733c5368cae9c94fb76a14cac2cafc.camel@linuxfoundation.org>
+	 <87a4r6jpb1.fsf@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 21:30:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242589
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 21:31:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242590
 
-If we're writing to IMGDEPLOYDIR we need to do it between do_image
-and do_image_complete.
+On Sat, 2026-08-01 at 00:02 -0700, Collin Funk wrote:
+> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+>=20
+> > Sadly, I suspect this is becoming all the more common and I share your
+> > frustrations.
+> >=20
+> > We have an difficult position on whether to take things or not as we
+> > probably don't have the time/experience to tell in many cases and not
+> > taking a CVE fix means we'd get beaten over the head with the patch for
+> > ever more as "there is a security problem" :(.
+>=20
+> Perfectly understandable.
+>=20
+> By the way, I suggest applying this patch as well [1]. In the 9.11
+> release, short writes could cause issues with 'tee'. It was a silly
+> mistake on my part, and cause SUSE some issues.
+>=20
+> The patch applies with NEWS removed. E.g., like this:
+>=20
+> =C2=A0=C2=A0 $ sed '1,49d' 0d6fcb99d691d920961938e61c43478566ef626e.patch=
+ > fix.patch
+> =C2=A0=C2=A0 $ patch -p1 < fix.patch
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-recipe/qemuboot.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the pointer!
 
-diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
-index d1794c7899d..72cad65adbc 100644
---- a/meta/classes-recipe/qemuboot.bbclass
-+++ b/meta/classes-recipe/qemuboot.bbclass
-@@ -127,7 +127,7 @@ QB_DRIVE_TYPE ?= "/dev/sd"
- inherit image-artifact-names
- 
- # Create qemuboot.conf
--addtask do_write_qemuboot_conf after do_rootfs before do_image
-+addtask do_write_qemuboot_conf after do_image before do_image_complete
- do_write_qemuboot_conf[depends] += "${@ '' if bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')) else (d.getVar('KERNEL_DEPLOY_DEPEND') or '')}"
- 
- def qemuboot_vars(d):
+I've put that in the queue to add.
+
+Cheers,
+
+Richard
 
