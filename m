@@ -1,77 +1,100 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8468C55174
-	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 21:34:43 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30981.1785706476315040303
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E248EC55162
+	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 21:47:13 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31258.1785707230578046305
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Aug 2026 14:34:37 -0700
+ Sun, 02 Aug 2026 14:47:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=k9p0hLbD;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026080221343271b31f9d6d00020757-gwn_qg@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026080221343271b31f9d6d00020757
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 02 Aug 2026 23:34:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=sE+tofCrk7kYme/EuikycWvLN5oovBKMqmWC7N2345g=;
- b=k9p0hLbDbS/Ol/9aB6qxQGDraAAuSEU8dRSYyv1PWOFAWjcLSIxgmRbrv2fGBTeuMuWenk
- vkwbZ80wJN3166jx1zRCDbZJrkx5X5IRKtNvfalPdX12jn+nZbMScHCKxxlfgx4pM2/XaVBK
- N0bo7Qnc1UdcyRTf8Y7Y+yLAo8FOJSNRMsa19ztZehB7r9Psu0Ndl3UpMq8RFfpNGYn1aLtB
- dqX6X7hHDCdMbG8iEy1/gJsnh09NuJAB/WZrOxV9SUn56qJWztC3+hH2bQh8QeuP7tY1ZJV4
- nhJqMbsSfyiIJPOOAG9BTXeyrmkug1jjH9MfcRXK9DtUtf2KPOR5tarA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] xserver-xorg: set status for CVE-2026-55999 and  CVE-2026-56000
-Date: Sun,  2 Aug 2026 23:34:13 +0200
-Message-ID: <20260802213413.2425121-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=swBCWTQf;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=BNb2IE1S;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019fc471f140-134a0b1c-af2d-4800-ab5a-172740889aa6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1785707229; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=TQrkoyc0MI8ssQtV3J0o2/HW7migXobzt8b6VtMnUYc=;
+	b=swBCWTQfgo+V0VDciwQ7GP1Dw8/EEIjKBvWIoBvzVMy6zSyGzlAMdH6gkoMSzjby
+	dypDC9LPzHDJPwnC7VXkEdysRC9gYbL/CbeYK8+lxfpHj2hhRQ4LKAEFRKB1Upz2aHV
+	oLBkQYVpKDRX42TOnC2218J20AljGWjR6Iu7YgF0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785707229;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=TQrkoyc0MI8ssQtV3J0o2/HW7migXobzt8b6VtMnUYc=;
+	b=BNb2IE1SgffWOqgXtJyvovahWrx91wNdcVG+oun8swv6BWAeFtuc8YuySoMs2PGM
+	PKWZNE5QGK7wmj06siPi8dOGeAU1hPvIDQMQUMKn0LgoEqpvVlucXTUaeH4vaHoZB1d
+	QRO5C0uMxJlfv5yr6Tfe5M5JsEZPuT2+78IFjRMQ=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] coreutils: Backport a fix recommended by upstream
+In-Reply-To: <20260802213000.457180-1-richard.purdie@linuxfoundation.org>
+References: <20260802213000.457180-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019fc471f140-134a0b1c-af2d-4800-ab5a-172740889aa6-000000@us-west-2.amazonses.com>
+Date: Sun, 2 Aug 2026 21:47:09 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 21:34:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242591
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 21:47:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242592
 
-From: Peter Marko <peter.marko@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-Per [1], CVE-2026-55999 was fixed by [2] which was backported as [3].
-Per [4], CVE-2026-56000 was fixed by [5] which was backported as [6].
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-55999
-[2] https://gitlab.freedesktop.org/xorg/xserver/-/commit/fbf7bac22e2c6bd627fb042742a23318263edae1
-[3] https://gitlab.freedesktop.org/xorg/xserver/-/commit/0f1f4bcbfb1f23b800dfe386782d3a0f05b6756f
-[4] https://security-tracker.debian.org/tracker/CVE-2026-56000
-[5] https://gitlab.freedesktop.org/xorg/xserver/-/commit/2779affbdb4354e894f490e56f962527d6125043
-[6] https://gitlab.freedesktop.org/xorg/xserver/-/commit/d6d96084f305a142eb3db7f720d7edd21e4c98b4
-
-cvelistV5 has correct version identification, so CNA (SUSE) has it
-correct, too.
-NVD however shows non-existing version 21.2.24 (probably from CVE
-description), so it's showing up in reports as unfixed.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 ++
- 1 file changed, 2 insertions(+)
+Testing patch /home/patchtest/share/mboxes/1-2-coreutils-Backport-a-fix-recommended-by-upstream.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 7c0a24e58b..689758fd6b 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -31,6 +31,8 @@ available for this flaw."
- CVE_STATUS[CVE-2022-3553] = "cpe-incorrect: This is specific to XQuartz, which is the macOS X server port"
- CVE_STATUS[CVE-2026-34000] = "fixed-version: fixed since v21.1.22"
- CVE_STATUS[CVE-2026-34002] = "fixed-version: fixed since v21.1.22"
-+CVE_STATUS[CVE-2026-55999] = "fixed-version: fixed since v21.1.24"
-+CVE_STATUS[CVE-2026-56000] = "fixed-version: fixed since v21.1.24"
- 
- S = "${UNPACKDIR}/${XORG_PN}-${PV}"
- 
+FAIL: test Upstream-Status presence: Upstream-Status is present only after the patch scissors. It must be placed in the patch header before the scissors line. (test_patch.TestPatch.test_upstream_status_presence_format)
+
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
