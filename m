@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04263C55183
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F393C55184
 	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 10:29:07 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21176.1785666540999244573
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21180.1785666545211013341
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Aug 2026 03:29:01 -0700
+ Sun, 02 Aug 2026 03:29:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WWCHVfuX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so5988825e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 03:29:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FWNCSzYE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4980dc26022so5706015e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 03:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785666539; x=1786271339; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1785666543; x=1786271343; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=sQTQzgWJW0iOkR18nZdh3mOTnZcKQKKSMIZ8BpTY2AQ=;
-        b=WWCHVfuX6OiBESGBg1SKyf5ajwyJ+okOa3lMQkJxSsSgEuW0xJ5pRKdfCzEc/h8GWH
-         Ws0fbqUj8S8nKuznMiWGGjeNQwiCAij37vqaj60iEe69ipfvgIcftJdh0lBmfpg6k23k
-         eC4RN+tu5fUW6PUyA746gU2p2AVXLmoBIMtbk=
+        bh=vqnrJlw+XNLZWtCYjz19Ps/HDwMSUWNsbciWs14/N8g=;
+        b=FWNCSzYE63AsuyQOGYwG6TeQoST+IqrjDDXQx+sG9mvfpltWhsrc1gqk/Cot7yXaGj
+         qVzaSo5YbyEaWPI2YubCiuF55ErdQsqfD2JU0iz+dpusRoB4Hoq2/457vb0JEW4tbNm8
+         OXM5j9VnG6+6Ucd9UwdLHjGnT/Zp2K7jqDFB8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785666539; x=1786271339;
+        d=1e100.net; s=20251104; t=1785666543; x=1786271343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=sQTQzgWJW0iOkR18nZdh3mOTnZcKQKKSMIZ8BpTY2AQ=;
-        b=FQCeJDcSF3FmFa2F4zU5BURRFj5exLvY8SchqBhGDwASPVparslfmziikqlQabB7mP
-         1XBk1iy/J2ZfdNJUcyqGrUS44m9sMwsEV6V6kndxqgmVH9GV0oFs19rcCSFrVL60/SOB
-         Rc1W+NerfIzxVpPtt/eWy2QO0ptCmhmwEMmcv2R4xtG/aWnhD/Zha0PLLd8m5/6EGVZW
-         FTyuB/8yJzxa+Cnq/5ScbwVH8tV+RVqQeYLAeSgOTjzbfFZGvqeSNS0asrscrmuCcry4
-         AOnFIcNyfPlC2HBGk6AD/tIvAAKV5R3MC0j8jNscEP3jN5YlAB8MTJ3vk569h7V6xuXq
-         o5/A==
-X-Gm-Message-State: AOJu0Yw61AoVDziXd94Dp97QkNZJX6U9lEtB0GSYPQImz5Qz1jML/sZJ
-	tTKO1lmIEOE9kLyfQ9hbeNN9a/m46zeRtbEQ8dbDbtS1+/fOEm+tvfbEPV4yWJuJ6E8Dr2fxN/2
-	wtTCuqEs=
-X-Gm-Gg: AR+sD12Kl3Csd9V1RS1uu8q0rZPyPLvRGkuQLdLoPbo/DKMB/4lvpJPfRWOqX3To0aX
-	SAFrtKcjv6QeD4T3wtOe527litRV4l6yHHiP5+I8KqppLX9fgmS2Ui713yAiy+7b4Xb49Vc1QCP
-	JvndpXY4fiJek/uv78G50q7i+gHibwr8kx+yZrN0pt3MnkASLx5kcMGO3H8RWlKQExySii9XszT
-	O/mmuDp8TGHu6237qk8PIBIuia+HkfFRERvLuhDZspmlWH6Tuoo0sUT1jKq4sheaabBAmahz63Y
-	rfRiCcgyo40neL+7OwSQrwVsEZ5/vxGCqxcNoAENZ5DJms6CWjSGPfxt2QeCcNeQBAQ/cmnyDnL
-	Rp+LKu660Mva9GiuymEMCCEIVa+F1vOSdiFFvX72XOvhN9W0jEuPP1BA8rq24VibflV/qbLBj/V
-	TgAkD4FZy3ErvAjJ6TnopBeSzTHbo6RrKK0yQCPt1rCh8R8xos0+m40bYb1QSXA6x5kwd0P9JHp
-	cs8yGxlVg8lbwvXVA==
-X-Received: by 2002:a05:600c:4504:b0:493:c194:4e7a with SMTP id 5b1f17b1804b1-4980c66c9a8mr115078355e9.3.1785666539176;
-        Sun, 02 Aug 2026 03:28:59 -0700 (PDT)
+        bh=vqnrJlw+XNLZWtCYjz19Ps/HDwMSUWNsbciWs14/N8g=;
+        b=NxAYRLQQEHZJJF0dlreKnZwcfGcSVEfo3KlorFZmcV4EZcK1haCnuaZuh+KZqAmrqk
+         hSPFICUVz53FOnxGd2Uz0SxHfXZVtmJmNH8x8gWqukfFdVvQjcoNc1MC3CoETpAgTGTr
+         AaIMGFwNGGSP3fwy1lrBXln3iNr+TFF7Nj6Vz7srbq1094BVUBdHtqQBg3opyuk3d4lN
+         8FI1GeZ0g0tub1/ypXo+rEnVDPvzs5JTfs3ri9pbSJlQQq/XggQdQpnCZ9ZhyrZpZyTP
+         zzqv1pbHc1mRFRYP0sFcFRIDjK4Ox9g/O9v2LFmZK4thBLF2ScNnwbtirSmBp9onQ7JL
+         Cz0A==
+X-Gm-Message-State: AOJu0Yw6U8D+pyACQ6bKx+MuWq8V1UKZ9J6ODDd3dfaMfeseND1mY3nn
+	Ug/6yy2UeJ9xkFIsEunOrd2hdVNwQJVi8aKiQz1cyi1Pg4X6wWPZwGqzT8bAJNebODbScaaSm59
+	M5B7B3q8=
+X-Gm-Gg: AR+sD13w+Y1MjK89oDg+NoUDJr0cuZhSo17+02jpzfE1D3zSo5Cg9ZD72W7+Zk/cGaI
+	5f3mJvsdhpxb2TnDBepfHHVv3SG4QfbsCVcAwSo7Mlhe1ISyHxa1w4Vq+ZmNgAWXCJaRZC5rUcA
+	pOmrk+4ZW/RAp4ccUpJ9pk/C68wl+VWlnmnznfzEPmEDHVQDdirSvVfrpzEU4I5+IRNa4RlCekV
+	n8eiVLuAwC73/cXnKGhE6B/7SiTleyyY7Z7ugdPlX/eiYu80g6nJP5Wp4bDfZSwTr4N9wH95akw
+	hItsyCoLg1IMk+pxrPbJuiS3+Nv350zVhn+64naZIc/DnojyUWLsbFkvyzB16KC37JcrF4fG0dZ
+	m1t4Q9vZOHED3nDhPxmZ0ZJRDfPbZmL+QaYCMdGPSWT6vSLDmyq7iNmTJgH8vz7QneimOvOfBSW
+	HZ0bReVGKY9KbOqz3azBBl3kBWau55QmQ/CIqwR3JJHqDJo13iuHDUb9O5ALqKb9nTNHXwmQ/sB
+	Fs30YtE6H3p4HoLpw==
+X-Received: by 2002:a05:600c:4e86:b0:493:e460:1f6 with SMTP id 5b1f17b1804b1-4980c5ec7a1mr104889265e9.0.1785666543510;
+        Sun, 02 Aug 2026 03:29:03 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:11e3:e7fc:e526:8a64])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b8d04fsm167140375e9.3.2026.08.02.03.28.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b8d04fsm167140375e9.3.2026.08.02.03.29.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 03:28:58 -0700 (PDT)
+        Sun, 02 Aug 2026 03:29:02 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 03/25] lib/oe/kernel: Move python functions from linux-kernel-base to library code
-Date: Sun,  2 Aug 2026 11:28:32 +0100
-Message-ID: <20260802102854.3952760-4-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 07/25] kernel-arch: Don't export UBOOT_ARCH
+Date: Sun,  2 Aug 2026 11:28:36 +0100
+Message-ID: <20260802102854.3952760-8-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260802102854.3952760-1-richard.purdie@linuxfoundation.org>
 References: <20260802102854.3952760-1-richard.purdie@linuxfoundation.org>
@@ -66,206 +66,27 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 10:29:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242528
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242532
 
-This means get_kernelXXX needs to become oe.kernel.get_XXX and means we can
-clear linux-kernel-base to allow it to be removed, starting to simplify the
-file structure.
+I think only our code uses this variable. For that we don't need to export
+to the environment, so stop doing it.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/kernel.bbclass            |  4 +-
- meta/classes-recipe/kernelsrc.bbclass         |  4 +-
- meta/classes-recipe/linux-kernel-base.bbclass | 46 -----------------
- meta/lib/oe/__init__.py                       |  2 +-
- meta/lib/oe/kernel.py                         | 51 +++++++++++++++++++
- .../linux/linux-yocto-fitimage.bb             |  2 +-
- .../make-mod-scripts/make-mod-scripts_1.0.bb  |  2 +-
- 7 files changed, 58 insertions(+), 53 deletions(-)
- create mode 100644 meta/lib/oe/kernel.py
+ meta/classes-recipe/kernel-arch.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 91248467bef..aeaec8ccbd4 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -233,7 +233,7 @@ KERNEL_DTBVENDORED ?= "0"
- #
- # configuration
- #
--KERNEL_VERSION = "${@get_kernelversion_headers('${B}')}"
-+KERNEL_VERSION = "${@oe.kernel.get_version_headers('${B}')}"
+diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
+index fd6bce11460..bc90e2e840b 100644
+--- a/meta/classes-recipe/kernel-arch.bbclass
++++ b/meta/classes-recipe/kernel-arch.bbclass
+@@ -8,7 +8,7 @@
+ # modules). return value must match one of the architecture directories
+ # in the kernel source "arch" directory
+ export ARCH = "${@oe.kernel.map_kernel_arch(d)}"
+-export UBOOT_ARCH = "${@oe.kernel.map_uboot_arch(d)}"
++UBOOT_ARCH = "${@oe.kernel.map_uboot_arch(d)}"
  
- # kernels are generally machine specific
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-@@ -643,7 +643,7 @@ KERNEL_LOCALVERSION ??= ""
- #
- # Note: This class saves the value of localversion to a file
- # so other recipes like make-mod-scripts can restore it via the
--# helper function get_kernellocalversion_file
-+# helper function oe.kernel.get_localversion_file
- export LOCALVERSION = "${KERNEL_LOCALVERSION}"
- 
- kernel_do_configure() {
-diff --git a/meta/classes-recipe/kernelsrc.bbclass b/meta/classes-recipe/kernelsrc.bbclass
-index 93361842989..b105fc15990 100644
---- a/meta/classes-recipe/kernelsrc.bbclass
-+++ b/meta/classes-recipe/kernelsrc.bbclass
-@@ -10,8 +10,8 @@ deltask do_unpack
- do_patch[depends] += "virtual/kernel:do_shared_workdir"
- do_patch[noexec] = "1"
- do_package[depends] += "virtual/kernel:do_populate_sysroot"
--KERNEL_VERSION = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
--LOCAL_VERSION = "${@get_kernellocalversion_file("${STAGING_KERNEL_BUILDDIR}")}"
-+KERNEL_VERSION = "${@oe.kernel.get_version_file("${STAGING_KERNEL_BUILDDIR}")}"
-+LOCAL_VERSION = "${@oe.kernel.get_localversion_file("${STAGING_KERNEL_BUILDDIR}")}"
- 
- inherit linux-kernel-base
- 
-diff --git a/meta/classes-recipe/linux-kernel-base.bbclass b/meta/classes-recipe/linux-kernel-base.bbclass
-index 76d8b4d4513..566b2c96ba7 100644
---- a/meta/classes-recipe/linux-kernel-base.bbclass
-+++ b/meta/classes-recipe/linux-kernel-base.bbclass
-@@ -4,52 +4,6 @@
- # SPDX-License-Identifier: MIT
- #
- 
--# parse kernel ABI version out of <linux/version.h>
--def get_kernelversion_headers(p):
--    import re
--
--    fn = p + '/include/linux/utsrelease.h'
--    if not os.path.isfile(fn):
--        # after 2.6.33-rc1
--        fn = p + '/include/generated/utsrelease.h'
--    if not os.path.isfile(fn):
--        fn = p + '/include/linux/version.h'
--
--    try:
--        f = open(fn, 'r')
--    except IOError:
--        return None
--
--    l = f.readlines()
--    f.close()
--    r = re.compile("#define UTS_RELEASE \"(.*)\"")
--    for s in l:
--        m = r.match(s)
--        if m:
--            return m.group(1)
--    return None
--
--
--def get_kernelversion_file(p):
--    fn = p + '/kernel-abiversion'
--
--    try:
--        with open(fn, 'r') as f:
--            return f.readlines()[0].strip()
--    except IOError:
--        return None
--
--def get_kernellocalversion_file(p):
--    fn = p + '/kernel-localversion'
--
--    try:
--        with open(fn, 'r') as f:
--            return f.readlines()[0].strip()
--    except IOError:
--        return ""
--
--    return ""
--
- export KBUILD_BUILD_VERSION = "1"
- export KBUILD_BUILD_USER ?= "oe-user"
- export KBUILD_BUILD_HOST ?= "oe-host"
-diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
-index 13d887a4aad..faa9987c8ca 100644
---- a/meta/lib/oe/__init__.py
-+++ b/meta/lib/oe/__init__.py
-@@ -12,4 +12,4 @@ __path__ = extend_path(__path__, __name__)
- BBIMPORTS = ["qa", "data", "path", "utils", "types", "package", "packagedata", \
-              "packagegroup", "sstatesig", "lsb", "cachedpath", "license", "qemu", \
-              "reproducible", "rust", "buildcfg", "go", "spdx30_tasks", "spdx_common", \
--             "cve_check", "tune", "classextend", "purl"]
-+             "cve_check", "tune", "classextend", "purl", "kernel"]
-diff --git a/meta/lib/oe/kernel.py b/meta/lib/oe/kernel.py
-new file mode 100644
-index 00000000000..421debed9af
---- /dev/null
-+++ b/meta/lib/oe/kernel.py
-@@ -0,0 +1,51 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import re
-+
-+# parse kernel ABI version out of <linux/version.h>
-+def get_version_headers(p):
-+    fn = p + '/include/linux/utsrelease.h'
-+    if not os.path.isfile(fn):
-+        # after 2.6.33-rc1
-+        fn = p + '/include/generated/utsrelease.h'
-+    if not os.path.isfile(fn):
-+        fn = p + '/include/linux/version.h'
-+
-+    try:
-+        f = open(fn, 'r')
-+    except IOError:
-+        return None
-+
-+    l = f.readlines()
-+    f.close()
-+    r = re.compile("#define UTS_RELEASE \"(.*)\"")
-+    for s in l:
-+        m = r.match(s)
-+        if m:
-+            return m.group(1)
-+    return None
-+
-+
-+def get_version_file(p):
-+    fn = p + '/kernel-abiversion'
-+
-+    try:
-+        with open(fn, 'r') as f:
-+            return f.readlines()[0].strip()
-+    except IOError:
-+        return None
-+
-+def get_localversion_file(p):
-+    fn = p + '/kernel-localversion'
-+
-+    try:
-+        with open(fn, 'r') as f:
-+            return f.readlines()[0].strip()
-+    except IOError:
-+        return ""
-+
-+    return ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto-fitimage.bb b/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
-index 4dcffb62094..75dbcb2af5c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
-@@ -10,4 +10,4 @@ inherit linux-kernel-base kernel-fit-image
- 
- # Set the version of this recipe to the version of the included kernel
- # (without taking the long way around via PV)
--PKGV = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
-+PKGV = "${@oe.kernel.get_version_file("${STAGING_KERNEL_BUILDDIR}")}"
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 338a50de916..ab984f4bcfe 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -24,7 +24,7 @@ DEPENDS += "virtual/cross-cc virtual/cross-binutils"
- EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
- EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
- 
--KERNEL_LOCALVERSION = "${@get_kernellocalversion_file("${STAGING_KERNEL_BUILDDIR}")}"
-+KERNEL_LOCALVERSION = "${@oe.kernel.get_localversion_file("${STAGING_KERNEL_BUILDDIR}")}"
- export LOCALVERSION = "${KERNEL_LOCALVERSION}"
- 
- # Build some host tools under work-shared.  CC, LD, and AR are probably
+ # Set TARGET_??_KERNEL_ARCH in the machine .conf to set architecture
+ # specific options necessary for building the kernel and modules.
 
