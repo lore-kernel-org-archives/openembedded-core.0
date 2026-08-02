@@ -1,262 +1,208 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B172C55162
-	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 19:23:43 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28872.1785698616051727347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A2C9C55174
+	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 19:53:53 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29486.1785700422278848954
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Aug 2026 12:23:36 -0700
+ Sun, 02 Aug 2026 12:53:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=OeboHObI;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20260802192334cde50506fe0002073d-lf4bda@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260802192334cde50506fe0002073d
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=FThEXcr+;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202608021953398366a4b9d500020787-gv2ykr@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608021953398366a4b9d500020787
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 02 Aug 2026 21:23:34 +0200
+        Sun, 02 Aug 2026 21:53:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=ugIY6M+fXLYuSbZsLgJE+xWkkncex9kqGK3CdhIsqZ4=;
- b=OeboHObIFL+mUmvGyE34vk5PZ4YGEjb3KAsaPUVFMfeNIUQsh5v4NcevPMIfbCIl+pR8p0
- Vx6NclWChyTE+5HD0i6Run+P3Xje5DJmyaDQ1b3QlorpgRTZuRF2sVKJYwPNu0fstV/C9TWx
- cGv1LRwQozpCAFWxkbvWAcCcr5Owmy5sHK1vV0EmeoPBuz0FbC1Tq/frEln+RnMJu6eYlibh
- 5aeXy7oR6dQlJjNJ1bCjdbDvzqvkEZAMQgGLyddmwigKHFmxBJziKOLP4m+ZWQAAr1F6Ygzm
- EAF4T9YgXa121cAqsePKbFRRrv5sGml2pR1Fw463riBmfT78XXcX906g==;
-From: Peter Marko <peter.marko@siemens.com>
+ bh=QxrzNH6HUoHOfL0LV6BOP3tcS7Y8Psw+E/5mesx8zWg=;
+ b=FThEXcr+dLuWrGbLql8pSPuVv8aUmbGqiJF2A5vqBemoaQqKPSYNuHFIPb1MsHbCHZVCZm
+ Mz5kzVHbk1Z4VEe0VQT0qR05EeazhrUJr6AejbjZswLNLx92keSYR3sn5raC+GQBFIWeQ7ZQ
+ gbu8rZs+qE5YRjHUpJU/h1UeNh3qSCVldajzNwvvuABMMVfnO/ZHfQf3GwccyRAGJPkm6dMF
+ Y3LyXp8dcpUQTn5yx8SwLKgtGl+csHftzaQvze1/FjkIiOghPT9g06ND2Du6/1h0uWr42mtB
+ uEM9OA5yQmxH5sa9/JcTZtfNEFwKnrPEnwkeeAV1B4Uu2dh+zUf7uPOw==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: peter.marko@siemens.com
-Subject: [wrynose][PATCH 7/7] gstreamer1.0*: upgrade 1.28.4 -> 1.28.5
-Date: Sun,  2 Aug 2026 21:22:34 +0200
-Message-ID: <20260802192234.1725830-7-peter.marko@siemens.com>
-In-Reply-To: <20260802192234.1725830-1-peter.marko@siemens.com>
-References: <20260802192234.1725830-1-peter.marko@siemens.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 07/14] oe-selftest: devtool ide-sdk: add real debug coverage for meson+code
+Date: Sun,  2 Aug 2026 21:52:54 +0200
+Message-ID: <20260802195324.64533-8-adrian.freihofer@siemens.com>
+In-Reply-To: <20260802195324.64533-1-adrian.freihofer@siemens.com>
+References: <20260802195324.64533-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 19:23:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242570
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 19:53:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242585
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Handle CVE-2026-12891 and CVE-2026-12892.
+test_devtool_ide_sdk_code_meson never booted qemu-system (missing
+@OETestTag("runqemu") and runqemu()), passed a hardcoded, non-existent
+target address (root@192.168.17.17), and only checked _gdb_cross()
+(gdb-cross --version). It never validated the generated launch.json
+nor performed an actual remote debugging session, unlike its cmake
+sibling test_devtool_ide_sdk_code_cmake.
 
-Set their status explicitly as they are RedHat version-less CVEs.
-Fix references are in Debian reports [1] and [2].
+Bring it to parity with test_devtool_ide_sdk_code_cmake: boot
+qemu-system, use the real qemu.ip as target address, and call
+_verify_launch_json() plus _verify_launch_json_debugging() to exercise
+a genuine gdbserver-based debug session through the generated
+launch.json/tasks.json. This closes the last gap in the 2x2 matrix of
+build system (cmake/meson) x ide mode (code/none): all four
+combinations now have real breakpoint-debugging coverage.
 
-Refresh patches.
+_verify_launch_json_debugging() matched the 'once' debug configuration
+by looking for "usr-bin-{recipe_name}_once" in its name. But the
+config name is derived from the binary's install path, so it is
+"usr-bin-{example_exe}_once". This happened to work for cmake-example,
+where the binary name equals the recipe name, but not for
+meson-example, whose recipe name is 'meson-example' while the
+installed binary is 'mesonex'. Match on example_exe instead, and drop
+the now-unused recipe_name parameter.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-12891
-[2] https://security-tracker.debian.org/tracker/CVE-2026-12892
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../{gst-devtools_1.28.4.bb => gst-devtools_1.28.5.bb}        | 2 +-
- .../{gst-examples_1.28.4.bb => gst-examples_1.28.5.bb}        | 2 +-
- ...reamer1.0-libav_1.28.4.bb => gstreamer1.0-libav_1.28.5.bb} | 2 +-
- ...ugins-bad_1.28.4.bb => gstreamer1.0-plugins-bad_1.28.5.bb} | 2 +-
- ...ins-base_1.28.4.bb => gstreamer1.0-plugins-base_1.28.5.bb} | 2 +-
- ...ins-good_1.28.4.bb => gstreamer1.0-plugins-good_1.28.5.bb} | 2 +-
- ...ins-ugly_1.28.4.bb => gstreamer1.0-plugins-ugly_1.28.5.bb} | 2 +-
- ...amer1.0-python_1.28.4.bb => gstreamer1.0-python_1.28.5.bb} | 2 +-
- ...sp-server_1.28.4.bb => gstreamer1.0-rtsp-server_1.28.5.bb} | 2 +-
- .../0002-tests-add-support-for-install-the-tests.patch        | 2 +-
- .../{gstreamer1.0_1.28.4.bb => gstreamer1.0_1.28.5.bb}        | 4 +++-
- 11 files changed, 13 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.28.4.bb => gst-devtools_1.28.5.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.28.4.bb => gst-examples_1.28.5.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.28.4.bb => gstreamer1.0-libav_1.28.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.28.4.bb => gstreamer1.0-plugins-bad_1.28.5.bb} (99%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.28.4.bb => gstreamer1.0-plugins-base_1.28.5.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.28.4.bb => gstreamer1.0-plugins-good_1.28.5.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.28.4.bb => gstreamer1.0-plugins-ugly_1.28.5.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.28.4.bb => gstreamer1.0-python_1.28.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.28.4.bb => gstreamer1.0-rtsp-server_1.28.5.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.4.bb => gstreamer1.0_1.28.5.bb} (93%)
+ meta/lib/oeqa/selftest/cases/devtool.py | 83 +++++++++++++++----------
+ 1 file changed, 50 insertions(+), 33 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-index 9641e42d38..a0775e94ad 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index dbcb05022a..3b24ce3914 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -3395,7 +3395,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertEqual(len(once_configs), 2, f"Should have two once configuration, found: {once_configs}")
+         self.assertEqual(len(attach_configs), 1, f"Should have one attach configuration, found: {attach_configs}")
  
--SRC_URI[sha256sum] = "11d4f1188639d3a9762039065bbb7b2c309b7a8ecc6fa4aed12245568bf00db3"
-+SRC_URI[sha256sum] = "7459045db31d6e44600bcbe011dc925750268870e7b90f7e7a0a3af4a21c09e5"
+-    def _verify_launch_json_debugging(self, tempdir, qemu, recipe_name, example_exe):
++    def _verify_launch_json_debugging(self, tempdir, qemu, example_exe):
+         """Verify remote debugging and deployment works using launch.json configurations
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-index ad6374d3fb..dcdf7fd433 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
-            file://gst-player.desktop \
-            "
+         This method tests the VSCode debug configurations by:
+@@ -3434,15 +3434,19 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         tasks = tasks_d["tasks"]
  
--SRCREV = "b46f881eaa8126eddfd21b5ae5512f8d4ff36255"
-+SRCREV = "727ceb91886862d200f423baf36cde2bb7ce5b4d"
+         # Test one configuration for remote debugging
++        # The config name is derived from the binary's install path
++        # (e.g. "usr-bin-<example_exe>"), which is not necessarily the same
++        # as the recipe name (e.g. meson-example installs a binary named
++        # "mesonex").
+         once_config_count = 0
+         for config in configurations:
+-            if f"usr-bin-{recipe_name}_once" in config["name"]:
++            if f"usr-bin-{example_exe}_once" in config["name"]:
+                 once_config_count += 1
+                 self._verify_launch_config(tempdir, config, tasks, qemu, example_exe,
+                                            self._gdb_debug_cpp_example, self._gdb_debug_cpp_example_check)
+             # It works but is not 100% reliable in VSCode
+             # This one: https://github.com/microsoft/vscode-cpptools/issues/4243 ?
+-            # elif f"usr-bin-{recipe_name}_attach" in config["name"]
++            # elif f"usr-bin-{example_exe}_attach" in config["name"]
+             #     self._verify_launch_config(tempdir, config, tasks, qemu, example_exe)
+             else:
+                 continue
+@@ -3569,51 +3573,64 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self._verify_launch_json(tempdir)
  
- S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
+             # Verify deployment and remote debugging works
+-            self._verify_launch_json_debugging(tempdir, qemu, recipe_name, example_exe)
++            self._verify_launch_json_debugging(tempdir, qemu, example_exe)
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-index 4898c42190..bda9b213a3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
++    @OETestTag("runqemu")
+     def test_devtool_ide_sdk_code_meson(self):
+         """Verify a meson recipe works with ide=code mode"""
+         recipe_name = "meson-example"
++        example_exe = "mesonex"
+         build_file = "meson.build"
+         testimage = "oe-selftest-image"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "bd17a5df2874a7a58bcbaf7b940223379ad9613624db8ead783db03e74bb904b"
-+SRC_URI[sha256sum] = "452854656056f0b16511a1d9ad4f2679ff5e5a87c89f90cf7ee5dec005ddb1e4"
+         self._check_workspace()
+         self._write_bb_config([recipe_name])
+-        tempdir = self._devtool_ide_sdk_recipe(
+-            recipe_name, build_file, testimage)
+-        bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
+-            recipe_name, testimage)
+-        runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
  
- S = "${UNPACKDIR}/gst-libav-${PV}"
+-        with open(os.path.join(tempdir, '.vscode', 'settings.json')) as settings_j:
+-            settings_d = json.load(settings_j)
+-        meson_exe = settings_d["mesonbuild.mesonPath"]
+-        meson_build_folder = settings_d["mesonbuild.buildFolder"]
++        # Verify deployment to Qemu (system mode) works
++        self._check_runqemu_prerequisites()
++        bitbake(testimage)
++        with runqemu(testimage, runqemuparams="nographic") as qemu:
++            tempdir = self._devtool_ide_sdk_recipe(
++                recipe_name, build_file, testimage)
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++                recipe_name, testimage, qemu.ip)
++            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-similarity index 99%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-index e224112d34..17e49ebbda 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
-            "
--SRC_URI[sha256sum] = "332b7320f30c60f2d5941446d03b9d05e3781f2c2561befbe88718bd777f0e47"
-+SRC_URI[sha256sum] = "d8af55faef2958c1a8663751475ee46f5164877cf4d8c5913ea906ef180aeb71"
+-        # Verify the wrapper for meson native is available
+-        self.assertExists(meson_exe)
++            with open(os.path.join(tempdir, '.vscode', 'settings.json')) as settings_j:
++                settings_d = json.load(settings_j)
++            meson_exe = settings_d["mesonbuild.mesonPath"]
++            meson_build_folder = settings_d["mesonbuild.buildFolder"]
  
- S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
+-        # Verify meson re-uses the o files compiled by bitbake
+-        result = runCmd('%s compile -C  %s' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("ninja: no work to do.", result.output)
++            # Verify the wrapper for meson native is available
++            self.assertExists(meson_exe)
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-index d9f85417cd..813d1108ff 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "a898afd5766172b0049e6781558e0689098bf87b9d82b846c652e571c01d60d8"
-+SRC_URI[sha256sum] = "776f19228f91fd25bbf54d9850597e158507f594872a52b9b6814e2429b43eaa"
+-        # Verify the unit tests work (in Qemu)
+-        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
+-               output_log=self._cmd_logger)
++            # Verify meson re-uses the o files compiled by bitbake
++            result = runCmd('%s compile -C  %s' %
++                            (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
++            self.assertIn("ninja: no work to do.", result.output)
  
- S = "${UNPACKDIR}/gst-plugins-base-${PV}"
+-        # Verify re-building and testing works again
+-        result = runCmd('%s compile -C  %s --clean' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("Cleaning...", result.output)
+-        result = runCmd('%s compile -C  %s' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("Linking target", result.output)
+-        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
+-               output_log=self._cmd_logger)
++            # Verify the unit tests work (in Qemu user mode)
++            runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
++                   output_log=self._cmd_logger)
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-index 9194cae297..7b8087eecf 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
+-        self._verify_install_script_code(tempdir,  recipe_name)
+-        self._gdb_cross()
++            # Verify re-building and testing works again
++            result = runCmd('%s compile -C  %s --clean' %
++                            (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
++            self.assertIn("Cleaning...", result.output)
++            result = runCmd('%s compile -C  %s' %
++                            (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
++            self.assertIn("Linking target", result.output)
++            runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
++                   output_log=self._cmd_logger)
++
++            self._verify_install_script_code(tempdir,  recipe_name)
++            self._gdb_cross()
++
++            # Verify the launch.json file created is valid
++            self._verify_launch_json(tempdir)
++
++            # Verify deployment and remote debugging works
++            self._verify_launch_json_debugging(tempdir, qemu, example_exe)
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "c825ea737c59cea0e4a0c41da2388045ff5dd32d162220ac93a7a82ee4a04e61"
-+SRC_URI[sha256sum] = "58b45d24a1d77b39d7bb7d9ccc6e2d76bbf28618998c335c163f18e6f94a9324"
- 
- S = "${UNPACKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-index 4c0811a056..451378cf72 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "5486cd145c5af43259fd37caca59d048e2a67ddb07082ea8f50ef0f02a85f8a5"
-+SRC_URI[sha256sum] = "0ef4cf9c3c9a5e776a6ca8d190a31863391b681980252143b822b29aa831e120"
- 
- S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-index 555b310594..d9179286a3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "c4eb382720b4443fb801a53418dff0bd4cd7478716d5ced493504a675b4d09fd"
-+SRC_URI[sha256sum] = "0ac461b5700b9766998aa686439064caf58ca4fdaf848dfd477b5a7700b176cc"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-index 338cf85e5e..0b6672c3a6 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "bfb6780542bf0d402736232aeae6c5a1b943c445775bf40305bcb86ca70705a0"
-+SRC_URI[sha256sum] = "7e19fddeb1261bebc3ec397857fedd5c77129b66ab52788fdadad05117566225"
- 
- S = "${UNPACKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-index 957356c2ba..5b52d66190 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-@@ -22,7 +22,7 @@ diff --git a/meson.build b/meson.build
- index abd0ad6..93cd692 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -661,6 +661,10 @@ if bashcomp_dep.found()
-+@@ -662,6 +662,10 @@ if bashcomp_dep.found()
-    endif
-  endif
-  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-similarity index 93%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-index d1f06a5233..2bdb1dc802 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-            "
--SRC_URI[sha256sum] = "f5adc7e8f448c10260b3b25aa101c9d540674c8d9a54c2b77a86d04f2b3b50dd"
-+SRC_URI[sha256sum] = "a5a9f783809b17a8eb774f4a7695b2cb8cba6b15520129906f87eaf30e7f8469"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
-@@ -72,5 +72,7 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-gconv-iso8859-5"
- CVE_PRODUCT = "gstreamer"
- 
- CVE_STATUS[CVE-2026-5056] = "cpe-stable-backport: Fixed since 1.28.2"
-+CVE_STATUS[CVE-2026-12891] = "cpe-stable-backport: Fixed since 1.28.5"
-+CVE_STATUS[CVE-2026-12892] = "cpe-stable-backport: Fixed since 1.28.5"
- 
- PTEST_BUILD_HOST_FILES = ""
+     @OETestTag("runqemu")
+     def test_devtool_ide_sdk_code_kernel_module(self):
+-- 
+2.55.0
+
 
