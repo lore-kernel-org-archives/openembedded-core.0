@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65CC9C55197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A81C55196
 	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 19:53:55 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29332.1785700422645016214
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29324.1785700422013293272
  for <openembedded-core@lists.openembedded.org>;
  Sun, 02 Aug 2026 12:53:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=S+/QlOnx;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-202608021953403fb33a7e180002079c-p7svo6@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202608021953403fb33a7e180002079c
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=TOTPwDaX;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-202608021953394baeddcd7e00020707-payrnc@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202608021953394baeddcd7e00020707
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 02 Aug 2026 21:53:41 +0200
+        Sun, 02 Aug 2026 21:53:39 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=VlBbab+b47jjuu6VBG+Za41cQO3xmLB1NKGzvLZaJt8=;
- b=S+/QlOnxUyq27QESFlVu4JKCj4EspA8acTo7jwtM7CD1F9Z7mW5Xgr/zjG1hJe8Er2rB1y
- y/EOVG4+hTWgSoEGzc8GLI31XF3dM24ygBc4q+7JKow2Oo14NpR9pfk6xqD8DNE7Loe/xnth
- 5L8JhK4gWZB14A9jObCU6PbkH2qKqAH2iP/Le+GMM4BeNzI8jrzhESvIXxFPc5xJlwywL1wU
- kcTnfatJx4nAdLN6Es98T6mW2rnd/Dm+EjgHalDAqdNKOpLfKH9bzO6NKuRCfz9+M/paOscJ
- Od8vsCkrrZGQs5ZJIoiUEa8MgJSWSfajw2R4xSlp/i28ee3VeipC53Ag==;
+ bh=k4UPVtFk3W2QlwLQPTx1kP5ShJN+VdbGJTbwMCsrWQk=;
+ b=TOTPwDaXpdksF1H1oKLvYCmXOyowKdXQBKQKOA/3Iz4SjsIRisrt7bbF8mCafrZnBEK17G
+ htVj0oW0Q+sfxXX1cYPs0B8Ak5fBAkZK4UiZO/6xVsIBbS62TkwdpfB37Hs0T+C1rpGGnip2
+ xS4/ynVY7mCok6QljzvTd/S0/eTgTQ3DkXPQ7ohfoX8SZSj48DDIkFb4fjuHqQGxu/qoAzlf
+ zSRAngVHU6elJf86rk7p/tOEtdKwVDNkKP+NskKoRtkNHSf9ttzqJCWKH8cQslB7fh95cAQh
+ p8f3CuWDdntcE1oqqBAGhAPs7yWTjC4rzUZDc1d6LXp98k2aCmkPnmuw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 14/14] oe-selftest: devtool ide-sdk: add test for ide=none LLDB/clang support
-Date: Sun,  2 Aug 2026 21:53:01 +0200
-Message-ID: <20260802195324.64533-15-adrian.freihofer@siemens.com>
+Subject: [PATCH 06/14] oe-selftest: devtool ide-sdk: cover breakpoints in exe, header and library
+Date: Sun,  2 Aug 2026 21:52:53 +0200
+Message-ID: <20260802195324.64533-7-adrian.freihofer@siemens.com>
 In-Reply-To: <20260802195324.64533-1-adrian.freihofer@siemens.com>
 References: <20260802195324.64533-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,239 +39,360 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 19:53:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242575
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242577
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add test_devtool_ide_sdk_none_cmake_clang to DevtoolIdeSdkTests to
-exercise the new LldbServerConfigNone code path in ide_none.py.
+_gdb_debug_cpp_example() already set breakpoints in the executable
+(cpp-example.cpp, by file:line) and the library (CppExample::print_json()
+in cpp-example-lib.cpp, by symbol), plus a 'list' (not a breakpoint) of
+the test_string declaration in the shared header cpp-example-lib.hpp.
+There was no actual breakpoint set on code that lives in the header
+itself, and no file:line breakpoint set inside the library's own .cpp
+file.
 
-The test uses the cmake-example-clang recipe (TOOLCHAIN = "clang") and
-runs devtool ide-sdk with --ide=none.  It verifies:
+Add CppExample::scale_number(), a trivial inline function defined
+directly in cpp-example-lib.hpp (not in a .cpp file), and call it from
+cpp-example.cpp's std::vector traversal loop. Set a breakpoint on it by
+file:line (cpp-example-lib.hpp, conditioned on n == 1 since the loop
+calls it once per vector element) and verify it is hit with the
+expected value.
 
-- lldb_server_<port>_<binary>_multi script is generated
-- lldbinit/lldbinit_<port>_<binary> init file is generated
-- lldb_<port>_<binary> wrapper script is generated
-- No gdbserver_* script is generated for a clang recipe
-- The install_and_deploy script exists
-- The oe-scripts symlink inside the source tree is valid
-- lldb-server can be started on the target via the generated script
-- The pid file written by the start script references the live process
-- An lldb --batch session using the generated wrapper reaches main and
-  can evaluate CppExample::test_string at the breakpoint
-- lldb-server stops cleanly via the generated stop script
+Also set a second, file:line breakpoint directly inside the library's
+own print_json() body (cpp-example-lib.cpp), in addition to the
+existing symbol breakpoint on print_json() itself. A symbol breakpoint
+only needs the function's entry address and resolves the same whether
+the debugger picks up stale or freshly rebuilt debug info for the
+library, since it doesn't rely on the library's own line-to-address
+mapping being fresh; a file:line breakpoint does, making it the only
+breakpoint in this test that actually exercises solib-search-path debug
+info resolution for the library.
 
-A new helper _lldb_none_debugging_multi is added alongside the
-existing _gdb_cross_debugging_multi, following the same structure.
+The second _gdb_cross_debugging_multi() call (after the code
+change/recompile/redeploy cycle) originally reused the exact same
+file:line breakpoints as the first call. A stale/incorrect
+line-to-address mapping left over from the previous build could in
+principle still resolve to a plausible address at the same line
+number, without that being noticed. To close that gap, parameterize
+the exe, header and library file:line breakpoints
+(exe_break_line/exe_list_line/hpp_break_line/lib_break_line) through
+_gdb_debug_cpp_example(), _gdb_debug_cpp_example_check() and
+_gdb_cross_debugging_multi(). Insert LINE_SHIFT (3) extra lines right
+before the targeted statements in cpp-example.cpp,
+cpp-example-lib.hpp and cpp-example-lib.cpp as part of the existing
+code-change step, and use the shifted line numbers for the second
+debug session.
+
+Together, this exercises breakpoint resolution for header-only debug
+info, the executable's own file:line breakpoint, the library's symbol
+breakpoint and the library's own file:line breakpoint as distinct code
+paths, and proves all of them are resolved against the freshly rebuilt
+debug info after a recompile/redeploy, rather than a stale/cached
+mapping from the previous build.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 192 ++++++++++++++++++++++++
- 1 file changed, 192 insertions(+)
+ .../cpp/files/cpp-example-lib.hpp             |  10 +
+ .../recipes-test/cpp/files/cpp-example.cpp    |   4 +
+ meta/lib/oeqa/selftest/cases/devtool.py       | 171 ++++++++++++++----
+ 3 files changed, 153 insertions(+), 32 deletions(-)
 
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
+index 24dd0defb6..d1c9bca416 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
+@@ -6,6 +6,7 @@
+ 
+ #pragma once
+ 
++#include <iostream>
+ #include <string>
+ #include "config.h"
+ 
+@@ -13,6 +14,15 @@ struct CppExample
+ {
+     inline static const std::string test_string = "cpp-example-lib Magic: 123456789";
+ 
++    /* Header-only function, to exercise breakpoint resolution against
++     * header-only debug info. */
++    inline static int scale_number(int n)
++    {
++        int scaled = n * 7;
++        std::cout << "scale_number(" << n << ") = " << scaled << std::endl;
++        return scaled;
++    }
++
+     /* Retrieve a constant string */
+     const std::string &get_string();
+     /* Retrieve a constant string from a library */
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
+index 23d7169092..ad1abae257 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
+@@ -58,5 +58,9 @@ int main(int argc, char* argv[])
+         std::cout << "numbers[" << i << "] = " << numbers[i] << std::endl;
+     }
+ 
++    // Example: call a header-only function once, to exercise breakpoint
++    // resolution against header-only debug info.
++    CppExample::scale_number(6);
++
+     return 0;
+ }
 diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index e9b8f38449..7145755fed 100644
+index 2e91c2be97..dbcb05022a 100644
 --- a/meta/lib/oeqa/selftest/cases/devtool.py
 +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -4378,6 +4378,198 @@ class DevtoolIdeSdkTests(DevtoolBase):
-                 lambda magic_string: self._lldb_server_debugging_once(
-                     tempdir, qemu, magic_string))
+@@ -2868,11 +2868,31 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertExists(i_and_d_script_path)
  
-+    def _lldb_none_debugging_multi(self, tempdir, qemu, recipe_name, example_exe, magic_string):
-+        """Verify lldb-server scripts generated by ide=none work end-to-end.
-+
-+        Mirrors _gdb_cross_debugging_multi but for the LLDB/clang path:
-+        - uses the generated lldb_server_* start/stop script
-+        - uses the generated lldb_* wrapper script with lldb --batch
-+
-+        Covers the executable, the library and a header-only inline function
-+        (see _lldb_debug_cpp_example_batch_commands), since a single call-site
-+        breakpoint would not exercise (and thus not catch a regression in) the
-+        lldbinit source map / debug-file-search-paths setup for the library's
-+        own debug info specifically.
-+        """
-+        sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-+        scripts_dir = self._workspace_scripts_dir(recipe_name)
-+        binary_pretty = 'usr-bin-' + example_exe
-+        lldb_server_script = os.path.join(
-+            scripts_dir, 'lldb_server_1234_%s_multi' % binary_pretty)
-+        lldb_script = os.path.join(scripts_dir, 'lldb_1234_%s' % binary_pretty)
-+
-+        self.assertExists(lldb_server_script)
-+        self.assertExists(lldb_script)
-+
-+        # Start lldb-server (script exits once the port is ready)
-+        r = runCmd(lldb_server_script, output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+
-+        # Verify lldb-server is running on the target
-+        r = runCmd('ssh %s root@%s ps' % (sshargs, qemu.ip),
-+                   output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+        self.assertIn('lldb-server', r.output)
-+
-+        # Verify the pid file points at the running lldb-server process
-+        pid_file = '/tmp/lldb_server_1234_%s_multi/lldb_server.pid' % binary_pretty
-+        test_cmd = "'cat /proc/$(cat %s)/cmdline'" % pid_file
-+        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd),
-+                   output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+        self.assertIn('lldb-server', r.output)
-+
-+        # Run an lldb batch session covering the executable, library and
-+        # header breakpoints, then continue to completion
-+        lldb_batch_args = self._lldb_debug_cpp_example_batch_commands(tempdir)
-+        r = runCmd([lldb_script, '--batch'] + lldb_batch_args,
-+                   output_log=self._cmd_logger)
-+        self.logger.debug("lldb batch output: %s", r.output)
-+        self.assertEqual(r.status, 0)
-+        self._lldb_debug_cpp_example_check(r.output, magic_string)
-+
-+        # Stop lldb-server
-+        r = runCmd(lldb_server_script + ' stop', output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+
-+        # Verify lldb-server is no longer running
-+        r = runCmd('ssh %s root@%s ps' % (sshargs, qemu.ip),
-+                   output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+        self.assertNotIn('lldb-server', r.output)
-+
-+    @OETestTag("runqemu")
-+    def test_devtool_ide_sdk_none_cmake_clang(self):
-+        """Verify ide=none generates correct LLDB scripts for a clang cmake recipe.
-+
-+        Uses cmake-example-clang (TOOLCHAIN = "clang") which is built with the
-+        clang toolchain.  devtool ide-sdk with --ide=none should produce:
-+          - lldb_server_<port>_<binary>_multi  (start/stop script)
-+          - lldbinit/lldbinit_<port>_<binary>  (platform connect + source maps)
-+          - lldb_<port>_<binary>               (lldb wrapper)
-+
-+        The test verifies that lldb-server can be started via the generated
-+        script, and that a basic lldb --batch debugging session reaches main.
-+        """
-+        recipe_name = 'cmake-example-clang'
-+        example_exe = 'cmake-example-clang'
-+        build_file = 'CMakeLists.txt'
-+        testimage = 'oe-selftest-image'
-+
-+        self._check_workspace()
-+        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._check_runqemu_prerequisites()
-+        bitbake(testimage)
-+        with runqemu(testimage, runqemuparams='nographic') as qemu:
-+            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-+                recipe_name, testimage, qemu.ip)
-+            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-+
-+            # Verify cmake preset still works (build system unchanged)
-+            compile_cmd = self._verify_cmake_preset(tempdir)
-+
-+            # Verify install && deploy script exists
-+            # (_verify_install_script_code opens .vscode/tasks.json which is not
-+            # generated for ide=none; check the script path directly instead)
-+            recipe_id, _ = self._get_recipe_ids(recipe_name)
-+            scripts_dir = self._workspace_scripts_dir(recipe_name)
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'install_and_deploy_' + recipe_id))
-+
-+            # Verify LLDB scripts were generated (not GDB scripts)
-+            binary_pretty = 'usr-bin-' + example_exe
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_server_1234_%s_multi' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldbinit', 'lldbinit_1234_%s' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_1234_%s' % binary_pretty))
-+            # No GDB scripts should have been generated for a clang recipe
-+            self.assertFalse(os.path.exists(os.path.join(
-+                scripts_dir, 'gdbserver_1234_%s_multi' % binary_pretty)),
-+                'gdbserver script should not be generated for clang recipe')
-+
-+            # Verify the oe-scripts sym-link is valid
-+            self.assertEqual(self._workspace_scripts_dir(recipe_name),
-+                             self._sources_scripts_dir(tempdir))
-+
-+            # Verify end-to-end lldb debugging, before and after a code
-+            # change/recompile/redeploy cycle (see _lldb_cross_debugging_multi)
-+            self._lldb_cross_debugging_multi(
-+                tempdir, recipe_name, compile_cmd,
-+                lambda magic_string: self._lldb_none_debugging_multi(
-+                    tempdir, qemu, recipe_name, example_exe, magic_string))
-+
-+    @OETestTag("runqemu")
-+    def test_devtool_ide_sdk_none_meson_clang(self):
-+        """Verify ide=none generates correct LLDB scripts for a clang meson recipe.
-+
-+        This is the meson/ninja counterpart of test_devtool_ide_sdk_none_cmake_clang.
-+        It is required in addition to the cmake/clang test because meson/ninja
-+        (unlike cmake here) invoke the compiler with source paths relative to
-+        the build directory, which is what previously caused source-level
-+        breakpoints to be left unresolved (pending) for devtool workspaces due
-+        to -fdebug-prefix-map/-ffile-prefix-map underflow; see
-+        _lldb_none_debugging_multi.
-+
-+        Uses meson-example-clang (TOOLCHAIN = "clang").
-+        """
-+        recipe_name = 'meson-example-clang'
-+        example_exe = 'mesonex-clang'
-+        build_file = 'meson.build'
-+        testimage = 'oe-selftest-image'
-+
-+        self._check_workspace()
-+        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._check_runqemu_prerequisites()
-+
-+        # Build image with debug settings (lldb-server for clang) before starting QEMU
-+        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
-+        runCmd('devtool ide-sdk %s %s -c --ide=none' % (recipe_name, testimage),
-+               output_log=self._cmd_logger)
-+
-+        with runqemu(testimage, runqemuparams='nographic') as qemu:
-+            # Re-run with actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
-+                recipe_name, testimage, qemu.ip)
-+            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-+
-+            # Verify the meson build system still works (unchanged by clang/lldb support)
-+            compile_cmd = self._verify_meson_build(tempdir, recipe_name)
-+
-+            # Verify install && deploy script exists
-+            # (_verify_install_script_code opens .vscode/tasks.json which is not
-+            # generated for ide=none; check the script path directly instead)
-+            recipe_id, _ = self._get_recipe_ids(recipe_name)
-+            scripts_dir = self._workspace_scripts_dir(recipe_name)
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'install_and_deploy_' + recipe_id))
-+
-+            # Verify LLDB scripts were generated (not GDB scripts)
-+            binary_pretty = 'usr-bin-' + example_exe
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_server_1234_%s_multi' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldbinit', 'lldbinit_1234_%s' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_1234_%s' % binary_pretty))
-+            # No GDB scripts should have been generated for a clang recipe
-+            self.assertFalse(os.path.exists(os.path.join(
-+                scripts_dir, 'gdbserver_1234_%s_multi' % binary_pretty)),
-+                'gdbserver script should not be generated for clang recipe')
-+
-+            # Verify the oe-scripts sym-link is valid
-+            self.assertEqual(self._workspace_scripts_dir(recipe_name),
-+                             self._sources_scripts_dir(tempdir))
-+
-+            # Verify end-to-end lldb debugging, before and after a code
-+            # change/recompile/redeploy cycle (see _lldb_cross_debugging_multi)
-+            self._lldb_cross_debugging_multi(
-+                tempdir, recipe_name, compile_cmd,
-+                lambda magic_string: self._lldb_none_debugging_multi(
-+                    tempdir, qemu, recipe_name, example_exe, magic_string))
-+
-     def test_devtool_ide_sdk_plugins(self):
-         """Test that devtool ide-sdk can use plugins from other layers."""
+     def _devtool_ide_sdk_qemu(self, tempdir, qemu, recipe_name, example_exe, compile_cmd):
+-        """Verify deployment and execution in Qemu system work for one recipe.
++        """Verify deployment, execution and remote debugging in Qemu system work for one recipe.
  
+-        This function checks the entire SDK workflow: changing the code, recompiling
+-        it and deploying it back to Qemu, and checking that the changes have been
+-        incorporated into the provided binaries. It also runs the tests of the recipe.
++        This function checks the entire SDK workflow twice, before and after a code
++        change:
++        - Deploying the example and its ptests to Qemu and running them.
++        - Remote debugging with gdb-cross, hitting breakpoints in the executable
++          (by file:line), the library (by symbol and by file:line) and a
++          header-only function (by file:line), see _gdb_cross_debugging_multi().
++
++        Between the two passes, it changes the magic string printed by the example
++        and inserts LINE_SHIFT extra lines right before the statements the file:line
++        breakpoints target, then recompiles and redeploys. This proves the second
++        pass's breakpoints resolve against the freshly rebuilt debug info (now at
++        shifted line numbers), rather than a stale/cached line-to-address mapping
++        left over from the first pass.
++
++        The library's own cpp-example-lib.cpp is shifted too, and a breakpoint is
++        set there by file:line (in addition to the existing symbol breakpoint on
++        print_json()). Only install_deploy_cmd (do_install + deploy-target) runs
++        between the two passes, not a full image rebuild, so rootfs/rootfs-dbg
++        keep whatever debug symbols the initial bootstrap image build produced.
++        A file:line breakpoint at a line that only exists after the shift can
++        therefore only resolve correctly if solib-search-path prefers the
++        library's freshly rebuilt debug info in the image folder (D) over a
++        stale rootfs-dbg copy.
+         """
+         recipe_id, _ = self._get_recipe_ids(recipe_name)
+         i_and_d_script = "install_and_deploy_" + recipe_id
+@@ -2905,13 +2925,55 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self._gdb_cross_debugging_multi(
+             qemu, recipe_name, example_exe, DevtoolIdeSdkTests.MAGIC_STRING_ORIG)
+ 
+-        # Replace the Magic String in the code, compile and deploy to Qemu
++        # Replace the Magic String in the code, compile and deploy to Qemu.
++        # Also insert LINE_SHIFT extra lines right before the statements the
++        # gdb file:line breakpoints target in the executable (cpp-example.cpp),
++        # the library (cpp-example-lib.cpp) and the header (cpp-example-lib.hpp),
++        # so those breakpoints land on different line numbers after the
++        # recompile/redeploy below. This proves the breakpoints are resolved
++        # against the freshly rebuilt debug info, rather than happening to
++        # still work against a stale, cached line-to-address mapping from the
++        # previous build.
++        LINE_SHIFT = 3
++        extra_lines = "".join(
++            "    // extra line %d inserted by the test to shift subsequent line numbers\n" % i
++            for i in range(LINE_SHIFT))
++
+         cpp_example_lib_hpp = os.path.join(tempdir, 'cpp-example-lib.hpp')
+         with open(cpp_example_lib_hpp, 'r') as file:
+             cpp_code = file.read()
+             cpp_code = cpp_code.replace(DevtoolIdeSdkTests.MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
++            cpp_code = cpp_code.replace(
++                "    inline static int scale_number(int n)",
++                extra_lines + "    inline static int scale_number(int n)")
+         with open(cpp_example_lib_hpp, 'w') as file:
+             file.write(cpp_code)
++
++        cpp_example_cpp = os.path.join(tempdir, 'cpp-example.cpp')
++        with open(cpp_example_cpp, 'r') as file:
++            cpp_code = file.read()
++            cpp_code = cpp_code.replace(
++                "    std::vector<int> numbers = {1, 2, 3};",
++                extra_lines + "    std::vector<int> numbers = {1, 2, 3};")
++        with open(cpp_example_cpp, 'w') as file:
++            file.write(cpp_code)
++
++        # Shift a line inside the library's own .cpp file (not the header, not
++        # the executable). This is the only file:line breakpoint target that
++        # actually resolves through solib-search-path for the rebuilt shared
++        # library, so it is the one that would fail to resolve (or resolve to
++        # the wrong/stale line) if solib-search-path preferred a stale
++        # rootfs-dbg copy of the library's debug info over the freshly
++        # rebuilt one in the image folder (D).
++        cpp_example_lib_cpp = os.path.join(tempdir, 'cpp-example-lib.cpp')
++        with open(cpp_example_lib_cpp, 'r') as file:
++            cpp_code = file.read()
++            cpp_code = cpp_code.replace(
++                "    std::cout << json_object_to_json_string_ext(jobj, flag) << std::endl;",
++                extra_lines + "    std::cout << json_object_to_json_string_ext(jobj, flag) << std::endl;")
++        with open(cpp_example_lib_cpp, 'w') as file:
++            file.write(cpp_code)
++
+         runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+         runCmd(install_deploy_cmd, cwd=tempdir, output_log=self._cmd_logger)
+ 
+@@ -2927,9 +2989,13 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertEqual(status, 0, msg="%s failed: %s" % (ptest_cmd, output))
+         self.assertIn("PASS: cpp-example-lib", output)
+ 
+-        # Verify remote debugging works wit the modified magic string
++        # Verify remote debugging works with the modified magic string, with
++        # the file:line breakpoints shifted by LINE_SHIFT lines compared to
++        # the first _gdb_cross_debugging_multi call above.
+         self._gdb_cross_debugging_multi(
+-            qemu, recipe_name, example_exe, MAGIC_STRING_NEW)
++            qemu, recipe_name, example_exe, MAGIC_STRING_NEW,
++            exe_break_line=56 + LINE_SHIFT, exe_list_line=55 + LINE_SHIFT,
++            hpp_break_line=21 + LINE_SHIFT, lib_break_line=31 + LINE_SHIFT)
+ 
+     def _gdb_cross(self):
+         """Verify gdb-cross is provided by devtool ide-sdk"""
+@@ -2944,53 +3010,91 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertEqual(r.status, 0)
+         self.assertIn("GNU gdb", r.output)
+ 
+-    def _gdb_debug_cpp_example(self, magic_string, gdb_start_cmd="run"):
++    def _gdb_debug_cpp_example(self, magic_string, gdb_start_cmd="run",
++                              exe_break_line=56, exe_list_line=55, hpp_break_line=21,
++                              lib_break_line=31):
+         """Get a series of gdb commands to debug the cpp-example-lib example"""
+         gdb_batch_cmd = " -ex 'break main' -ex '%s'" % gdb_start_cmd
+         gdb_batch_cmd += " -ex 'break CppExample::print_json()' -ex 'continue'"
+         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %s\")'" % magic_string
+         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
+-        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:14,14'"
++        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:15,15'"
++
++        # Break inside the library's own .cpp file by file:line (not by
++        # symbol), while still inside the print_json() call reached above.
++        # Unlike the symbol breakpoint above, resolving a file:line breakpoint
++        # requires the line-to-address mapping from the library's debug info
++        # that matches the currently deployed build. lib_break_line shifts
++        # after the test edits and recompiles cpp-example-lib.cpp, to prove
++        # this breakpoint resolves via the freshly rebuilt library debug info
++        # found through solib-search-path, rather than a stale rootfs-dbg
++        # copy left over from the last full image build.
++        gdb_batch_cmd += " -ex 'break cpp-example-lib.cpp:%d'" % lib_break_line
++        gdb_batch_cmd += " -ex 'continue'"
++        gdb_batch_cmd += " -ex 'list cpp-example-lib.cpp:%d,%d'" % (lib_break_line, lib_break_line)
+ 
+         # check if resolving std::vector works with python scripts
+-        gdb_batch_cmd += " -ex 'list cpp-example.cpp:55,55'"
+-        # Break on line 56 (the std::cout after the declaration) so the vector
+-        # constructor on line 55 has already run when GDB stops.
+-        gdb_batch_cmd += " -ex 'break cpp-example.cpp:56'"
++        gdb_batch_cmd += " -ex 'list cpp-example.cpp:%d,%d'" % (exe_list_line, exe_list_line)
++        # Break on exe_break_line (the std::cout after the declaration) so the
++        # vector constructor on exe_list_line has already run when GDB stops.
++        # These line numbers shift after the test inserts extra lines and
++        # recompiles, proving the breakpoint resolves via the freshly rebuilt
++        # debug info rather than a stale, cached line-to-address mapping.
++        gdb_batch_cmd += " -ex 'break cpp-example.cpp:%d'" % exe_break_line
+         gdb_batch_cmd += " -ex 'continue'"
+         gdb_batch_cmd += " -ex 'print numbers'"
++
++        # Break on scale_number(), an inline function defined directly in the
++        # header (cpp-example-lib.hpp), to exercise breakpoint resolution for
++        # header-only debug info, separately from the executable's own
++        # cpp-example.cpp (file:line breakpoint above) and the library's
++        # cpp-example-lib.cpp (CppExample::print_json() breakpoint above).
++        # hpp_break_line shifts for the same reason as exe_break_line above.
++        gdb_batch_cmd += " -ex 'break cpp-example-lib.hpp:%d'" % hpp_break_line
++        gdb_batch_cmd += " -ex 'continue'"
++        gdb_batch_cmd += " -ex 'print n'"
+         gdb_batch_cmd += " -ex 'continue'"
+         return gdb_batch_cmd
+ 
+-    def _gdb_debug_cpp_example_check(self, gdb_output, magic_string):
++    def _gdb_debug_cpp_example_check(self, gdb_output, magic_string, exe_list_line=55, lib_break_line=31):
+         self.assertIn("Breakpoint 1, main", gdb_output)
+         self.assertIn("$1 = 0", gdb_output)  # test.string.compare equal
+         self.assertIn("$2 = -3", gdb_output)  # test.string.compare longer
+         self.assertIn(
+             'inline static const std::string test_string = "cpp-example-lib %s";' % magic_string, gdb_output)
+ 
++        # check that the file:line breakpoint set directly in the library's
++        # own .cpp file actually resolved and was hit at the expected
++        # (possibly shifted) line, i.e. against the freshly rebuilt library
++        # debug info rather than a stale rootfs-dbg copy
++        self.assertIn("cpp-example-lib.cpp:%d" % lib_break_line, gdb_output)
++        self.assertRegex(
++            gdb_output, r"%d\s+std::cout << json_object_to_json_string_ext\(jobj, flag\) << std::endl;" % lib_break_line)
++
+         # check if resolving std::vector works with python scripts
+-        self.assertRegex(gdb_output, r"55\s+std::vector<int> numbers = \{1, 2, 3\};")
++        self.assertRegex(
++            gdb_output, r"%d\s+std::vector<int> numbers = \{1, 2, 3\};" % exe_list_line)
+         self.assertIn("$3 = std::vector of length 3, capacity 3 = {1, 2, 3}", gdb_output)
+ 
++        # check that a breakpoint in an inline function defined directly in
++        # the header (cpp-example-lib.hpp) is resolved and hit
++        self.assertIn("scale_number", gdb_output)
++        self.assertIn("$4 = 6", gdb_output)  # n == 6, the call argument
++
+         self.assertIn("exited normally", gdb_output)
+ 
+-    def _gdb_cross_debugging_multi(self, qemu, recipe_name, example_exe, magic_string):
++    def _gdb_cross_debugging_multi(self, qemu, recipe_name, example_exe, magic_string,
++                                   exe_break_line=56, exe_list_line=55, hpp_break_line=21,
++                                   lib_break_line=31):
+         """Verify gdb-cross is working
+ 
+-        Test remote debugging:
+-        break main
+-        run
+-        continue
+-        break CppExample::print_json()
+-        continue
+-        print CppExample::test_string.compare("cpp-example-lib Magic: 123456789")
+-        $1 = 0
+-        print CppExample::test_string.compare("cpp-example-lib Magic: 123456789aaa")
+-        $2 = -3
+-        list cpp-example-lib.hpp:14,14
+-        13	    inline static const std::string test_string = "cpp-example-lib Magic: 123456789";
+-        continue
++        Test remote debugging with breakpoints in the executable
++        (cpp-example.cpp), the library (cpp-example-lib.cpp, by symbol and by
++        file:line) and a header defined directly in cpp-example-lib.hpp.
++        exe_break_line, exe_list_line, hpp_break_line and lib_break_line are
++        parameterized because the caller shifts them to different line
++        numbers after recompiling, to prove the breakpoints resolve via the
++        freshly rebuilt debug info.
+         """
+         sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+         gdbserver_script = os.path.join(self._workspace_scripts_dir(
+@@ -3017,12 +3121,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertIn("1234", r.output)
+ 
+         # Test remote debugging works
+-        gdb_batch_cmd = " --batch " + self._gdb_debug_cpp_example(magic_string)
++        gdb_batch_cmd = " --batch " + self._gdb_debug_cpp_example(
++            magic_string, exe_break_line=exe_break_line, exe_list_line=exe_list_line,
++            hpp_break_line=hpp_break_line, lib_break_line=lib_break_line)
+         r = runCmd(gdb_script + gdb_batch_cmd, output_log=self._cmd_logger)
+         self.logger.debug("%s %s returned: %s", gdb_script,
+                           gdb_batch_cmd, r.output)
+         self.assertEqual(r.status, 0)
+-        self._gdb_debug_cpp_example_check(r.output, magic_string=magic_string)
++        self._gdb_debug_cpp_example_check(
++            r.output, magic_string=magic_string, exe_list_line=exe_list_line, lib_break_line=lib_break_line)
+ 
+         # Stop the gdbserver
+         r = runCmd(gdbserver_script + ' stop', output_log=self._cmd_logger)
+@@ -3314,7 +3421,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             -ex 'continue'  \
+             -ex 'print CppExample::test_string.compare("cpp-example-lib Magic: 123456789")'  \
+             -ex 'print CppExample::test_string.compare("cpp-example-lib Magic: 123456789aaa")'  \
+-            -ex 'list cpp-example-lib.hpp:14,14'  \
++            -ex 'list cpp-example-lib.hpp:15,15'  \
+             -ex 'continue'
+         3. Verifying debug output and stopping gdbserver
+         """
 -- 
 2.55.0
 
