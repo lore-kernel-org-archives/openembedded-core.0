@@ -1,260 +1,234 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8351C55162
-	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 17:47:32 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27442.1785692849966400956
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE93C55174
+	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 17:48:12 +0000 (UTC)
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27313.1785692888103878028
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Aug 2026 10:47:31 -0700
+ Sun, 02 Aug 2026 10:48:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=R7yUH4ET;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202608021747256e84b79098000207e7-ourovy@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202608021747256e84b79098000207e7
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 02 Aug 2026 19:47:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=VUk5hGV7xwBU4V3BGLm3qdBE0vk+QARYu797xOcSQ90=;
- b=R7yUH4ETCv5ZkYLoGhHmLWVhtW16vQSRAW5wJM2JmKxwajxYCtPQvzfvawTlTGlZeLTq8c
- GhAhEsEIJIKmctyJxwy7ISujn3OLiRrlmEJYnoiqwut8aFuue56mdRM7omi5l/VN5XwIKo8r
- hJPcKGntBCAea2oeP/EvAa6R+qLzk/oypWy+dlJDi8eiPlTkDoWRnwHUSzMwP3xc+Vhz1ujA
- HLUKYb6pJKrXa7Wf+lw5wxcqemqqrV52vnWzuVKRZhz5FSLI6dHwUdPp3e+eHDWFn+zze3FE
- ci3yN1aNW4h2la+K+gvpcaRnji/3HFkZfmEuYAy586pHscpxlVlW49Hw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] gstreamer1.0*: upgrade 1.28.4 -> 1.28.5
-Date: Sun,  2 Aug 2026 19:47:04 +0200
-Message-ID: <20260802174704.867148-1-peter.marko@siemens.com>
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=O9SOVVwD;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Fw2jUJCi;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.156, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 263A414000FE;
+	Sun,  2 Aug 2026 13:48:07 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Sun, 02 Aug 2026 13:48:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1785692887; x=1785779287; bh=MWpVyJEfTj
+	bMyc5vNAAjDhJaL18wD6gEpCaZ5LGwTAg=; b=O9SOVVwDthktZ9Xo64xh4qN8BR
+	dg3jPvxGdn5jDCBZjsgCCXYjsmbBDNWmdfGO9PzL5wZg+KGw9HFFIqJyhhjaBy+X
+	0SqLzME9rGteekv41EYMt68zeO3JvpN8Kizhj6DEG+a/JBjq0XdbRfTAQXdi6f7H
+	jXkR+r2gAyww5PmsVDdGZeUYlvEiZdaoewLRU6Zacb7ZDWA4QyOjnArlwab/KFfr
+	7PPuZKD+le9xxkrZYKMuP1HdRF++CsZmxLQH8M9Iif3Kx/OF2m/hfdbZJaCYeyI6
+	BJgbpd9ePwIa08kMrm0BJtCl6Q8nVUU9V04y/DvSlpN9XzQgh/KB2d5jNZSA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1785692887; x=1785779287; bh=MWpVyJEfTjbMyc5vNAAjDhJaL18wD6gEpCa
+	Z5LGwTAg=; b=Fw2jUJCij7nuq28/ZImPxIN7m5qyuglJkbsui5feMwfor+HfRlv
+	5mcc4V6/5/iGzCfN1tenVAoq6YuVmBjsOCh40EIFtQOj4V25BmFu8NNT+nrFEp89
+	uVPPc3EEc3HNu28trj7IRXGMETMCYD6lmQ9pohu25p5fJiV0TqXuHF/2SCXuDsyr
+	J8bo9D1tRHH9jxWhzOF9KCh7ikooCSgpGeiM1KorrKWUZcY5G+KG6/5QtChanRFC
+	303aCk6TRAtIQ/qVdGOisD1JtMsALfo+5gCzbv9Y1xrB5TVscwcPVFRA4oS2Y8Fh
+	5vG6n//F4shb/5pJ7RZC8R+lsPqaErwhDEA==
+X-ME-Sender: <xms:1oJvaitxHoIJaeA38OJeht66QlLfIdtBlJSHNPIS2dYQgtnz3-hSSA>
+    <xme:1oJvaueRdcECOKPrKB3t5bjRmb6DJAKrAQWA4eAM26l7ZmLMGy9mGzS_zRYdQAXr8
+    24CcF35twrUSvkhou-HNj0IdLRFngeESKFhayxo5wRaVUQxF62Ny_S1>
+X-ME-Received: <xmr:1oJvaiy3AkElGXur_XgK5dWv3VyQZmXdq6nYwOXAdQCoUMen1g-1hlHQeCbC76RTqEMSdJBSFTp_4PGBB3C6iL-mlawY3Sc3yE519LNH9dkC>
+X-ME-Proxy-Cause: dmFkZTEWvKdcnjTgQlPWx2sm+IjYljWOaK+mwlQ7h9a13ZNFgs0UuNJsvGBwTQhw6meVXB
+    59xpidLUuqyqFz+zRQC9fozmNFs1Zf3kljqs6/uRNyyuuUysRHBUZ+45NEi7SpEojmchAf
+    aj8hNf0SVY8+NyPo4COHSGTuQ9XtIoHCumuFEdRTIHL3dQEpZb7jQTKgzSYJcLtaZBjIhn
+    pbJyxPTyui+S/h7OaQOF8HrBo71fnAY/VtUTljocAdfcuY5Bj1GCXvPfwWkCH5KEXJlVPk
+    1hXOE4TSjuzLKL3VVHp/61nHQIiO9W90O4HGx4XMKD8/k74q7gFCJ3AXRHwzFPm44objrL
+    Fm26EHFFuuVxL8rokUCvgI5Bkhp7UngbMPyoC1pI83siwS9bUNeeXBMMgmWYaEK6OcbSlw
+    bhrzFjnlR+13QM4EWAyDUDpMLdrrpVPqsXhDMoFFJsX88//vcSFuYs5EXeluYvCDVUrz19
+    NjvQnK0DTjYDAJPV8Ioq2VZH/pn1j1PI3WCHpNAO9VgzmTEGrwt8C0hyb/Tdqf5P847GSc
+    7LMCat7Pgu16qzGnDkCM96jubmeDSVU8BlR1P1q84xJTOoFqt32gaxUxqfMaBqcFhRUpru
+    O6+CIfXLoYaJibvjvdyiVerb7SnIcsBTA5SbG6OwiKQzJjZFu+Xdy5rlh59g
+X-ME-Proxy: <xmx:1oJvasGTafxCCJ6VaJSF1qpP2cRShuEz5fvQ8QHtL-t1aslRi67TEw>
+    <xmx:1oJvauyE4JT8YthD31n5-OkkioxqJa_ibFZq57NA4n9TcEErPc_e3A>
+    <xmx:1oJvalvuKptrb-RjqCXI_bcg0yCCbN4kWhQ8kTij70SG8bu-vIgX8A>
+    <xmx:1oJvaj1SPNEJZrN5jOUR_qNPf7TtWYjLlcBgEbC-D1-62uBMB2Me5w>
+    <xmx:14JvamEO0JW4loabmytUhfna2U3woBWvKlArqOJXwVeZjlsXToCsNiHx>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 2 Aug 2026 13:48:06 -0400 (EDT)
+Message-ID: <95aae562c0b8862ac687a63e8003143044519d6e.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH] cve-exclusion: set status for 7 kernel CVEs
+ lacking upstream fix data
+From: Paul Barker <paul@pbarker.dev>
+To: Junjie Cao <junjie.cao@linux.dev>, 
+	openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com, Venkata.Navuduri@windriver.com
+Date: Sun, 02 Aug 2026 18:47:58 +0100
+In-Reply-To: <20260802143444.1178575-1-junjie.cao@linux.dev>
+References: <20260802143444.1178575-1-junjie.cao@linux.dev>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-P1GCQ5dVvosjOUuI2aBp"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 17:47:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242562
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 17:48:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242563
 
-From: Peter Marko <peter.marko@siemens.com>
 
-Handle CVE-2026-12891 and CVE-2026-12892.
+--=-P1GCQ5dVvosjOUuI2aBp
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Set their status explicitly as they are RedHat version-less CVEs.
-Fix references are in Debian reports [1] and [2].
+On Sun, 2026-08-02 at 07:34 -0700, Junjie Cao wrote:
+> Triage results for seven of the CVEs listed in the "linux-yocto CVEs
+> in need of triage" request [1]. All of these predate the kernel.org
+> CNA, so no upstream fix version will ever be backfilled automatically;
+> each verdict was established from distro security trackers, mailing
+> list history and inspection of current mainline source (linux-next
+> 20260727).
+>=20
+> * CVE-2019-14899: VPN tunnel TCP inference. No kernel fix exists or is
+>   planned; mitigations are firewall configuration only. Ubuntu has
+>   deferred it since 2019-12-13; Debian does not track it against the
+>   kernel; Red Hat tracks it against openvpn.
+>=20
+> * CVE-2021-3714: KSM dedup side channel. Red Hat closed it WONTFIX
+>   (bz#1931327); Debian marks it "Inherent design limitation". Only
+>   reachable when ksmd is started and the workload opts in via
+>   MADV_MERGEABLE / PR_SET_MEMORY_MERGE.
+>=20
+> * CVE-2021-3864: setuid coredump privilege escalation. Both proposed
+>   fixes were rejected or abandoned (links in the file); the flagged
+>   fs/exec.c logic is unchanged in current mainline. Exploitation
+>   requires a relative kernel.core_pattern, which piped/absolute
+>   patterns (e.g. systemd-coredump) prevent.
+>=20
+> * CVE-2022-0400: net/smc out-of-bounds read. Closed NOTABUG by Red Hat
+>   (bz#2044575), INVALID by SUSE (bsc#1195329), "non issue" by Debian;
+>   no affected version or upstream commit was ever identified.
+>=20
+> * CVE-2022-1247: rose_connect() refcount race. Fixed in v6.17 by
+>   d860d1faa6b2 + da9c9c877597 ("net: rose: convert 'use' field to
+>   refcount_t"), whose commit message matches the CVE description and
+>   which removes the exact rose->neighbour->use++ increment the CVE
+>   describes; backported to 6.1.y/6.6.y/6.12.y/6.16.y. The rose/
+>   hamradio subsystem was subsequently removed in v7.1 (dd8d4bc28ad7).
+>   Distro trackers have not yet connected the fix to this CVE.
+>=20
+> * CVE-2022-4543: "EntryBleed" KASLR bypass. No fix; upstream position
+>   is that KASLR does not defend against local attackers. Explicitly
+>   not fixed by 97e3d26b5e5f, which randomizes the separate
+>   cpu_entry_area (that is CVE-2023-3640).
+>=20
+> * CVE-2023-4010: the function named by the CVE, usb_giveback_urb(),
+>   does not exist in the kernel; the reporter's PoC exercises the
+>   unthrottled URB resubmit loop in drivers/media/rc/imon.c, stopped by
+>   eecd203ada43 ("media: imon: make send_packet() more robust") in
+>   v6.18. The commit carries no CVE reference, so this tie is inferred
+>   from the commit content and the reporter's PoC output - flagging for
+>   review.
+>=20
+> Of the remaining CVEs in [1], CVE-2023-3397 (JFS txEnd UAF, still
+> reproduced by syzbot in 2026-06), CVE-2023-6238 (NVMe passthrough
+> metadata DMA overflow, fix was merged to nvme-6.6 then backed out and
+> never re-landed; kernels < v6.2 unaffected) and CVE-2023-6240 (Marvin
+> RSA timing oracle, fixed only in RHEL downstream) are genuinely
+> unfixed upstream and are deliberately not excluded here; detailed
+> analysis posted in the thread.
+>=20
+> [1] https://lore.kernel.org/all/4ac849a706feb16688020d5bcc3e74aececd63cf.=
+camel@pbarker.dev/
+>=20
+> Signed-off-by: Junjie Cao <junjie.cao@linux.dev>
 
-Refresh patches.
+Hi,
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-12891
-[2] https://security-tracker.debian.org/tracker/CVE-2026-12892
+Thanks for looking into these! This is a good start but we need a little
+more before we can accept the additions to cve-exclusion.inc.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../{gst-devtools_1.28.4.bb => gst-devtools_1.28.5.bb}        | 2 +-
- .../{gst-examples_1.28.4.bb => gst-examples_1.28.5.bb}        | 2 +-
- ...reamer1.0-libav_1.28.4.bb => gstreamer1.0-libav_1.28.5.bb} | 2 +-
- ...ugins-bad_1.28.4.bb => gstreamer1.0-plugins-bad_1.28.5.bb} | 2 +-
- ...ins-base_1.28.4.bb => gstreamer1.0-plugins-base_1.28.5.bb} | 2 +-
- ...ins-good_1.28.4.bb => gstreamer1.0-plugins-good_1.28.5.bb} | 2 +-
- ...ins-ugly_1.28.4.bb => gstreamer1.0-plugins-ugly_1.28.5.bb} | 2 +-
- ...amer1.0-python_1.28.4.bb => gstreamer1.0-python_1.28.5.bb} | 2 +-
- ...sp-server_1.28.4.bb => gstreamer1.0-rtsp-server_1.28.5.bb} | 2 +-
- .../0002-tests-add-support-for-install-the-tests.patch        | 2 +-
- .../{gstreamer1.0_1.28.4.bb => gstreamer1.0_1.28.5.bb}        | 4 +++-
- 11 files changed, 13 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.28.4.bb => gst-devtools_1.28.5.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.28.4.bb => gst-examples_1.28.5.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.28.4.bb => gstreamer1.0-libav_1.28.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.28.4.bb => gstreamer1.0-plugins-bad_1.28.5.bb} (99%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.28.4.bb => gstreamer1.0-plugins-base_1.28.5.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.28.4.bb => gstreamer1.0-plugins-good_1.28.5.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.28.4.bb => gstreamer1.0-plugins-ugly_1.28.5.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.28.4.bb => gstreamer1.0-python_1.28.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.28.4.bb => gstreamer1.0-rtsp-server_1.28.5.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.4.bb => gstreamer1.0_1.28.5.bb} (93%)
+Please send these as separate patches for each CVE, and including links
+to relevant sources in the commit messages. We need enough information
+on each for users to be confident that the conclusion in CVE_STATUS is
+correct.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-index 9641e42d38..a0775e94ad 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
- 
--SRC_URI[sha256sum] = "11d4f1188639d3a9762039065bbb7b2c309b7a8ecc6fa4aed12245568bf00db3"
-+SRC_URI[sha256sum] = "7459045db31d6e44600bcbe011dc925750268870e7b90f7e7a0a3af4a21c09e5"
- 
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-index ad6374d3fb..dcdf7fd433 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
-            file://gst-player.desktop \
-            "
- 
--SRCREV = "b46f881eaa8126eddfd21b5ae5512f8d4ff36255"
-+SRCREV = "727ceb91886862d200f423baf36cde2bb7ce5b4d"
- 
- S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-index 4898c42190..bda9b213a3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "bd17a5df2874a7a58bcbaf7b940223379ad9613624db8ead783db03e74bb904b"
-+SRC_URI[sha256sum] = "452854656056f0b16511a1d9ad4f2679ff5e5a87c89f90cf7ee5dec005ddb1e4"
- 
- S = "${UNPACKDIR}/gst-libav-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-similarity index 99%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-index 4051bcf7f2..81b4deb528 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
-            "
--SRC_URI[sha256sum] = "332b7320f30c60f2d5941446d03b9d05e3781f2c2561befbe88718bd777f0e47"
-+SRC_URI[sha256sum] = "d8af55faef2958c1a8663751475ee46f5164877cf4d8c5913ea906ef180aeb71"
- 
- S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-index d9f85417cd..813d1108ff 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "a898afd5766172b0049e6781558e0689098bf87b9d82b846c652e571c01d60d8"
-+SRC_URI[sha256sum] = "776f19228f91fd25bbf54d9850597e158507f594872a52b9b6814e2429b43eaa"
- 
- S = "${UNPACKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-index d6c8d44be8..9d7fd62304 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "c825ea737c59cea0e4a0c41da2388045ff5dd32d162220ac93a7a82ee4a04e61"
-+SRC_URI[sha256sum] = "58b45d24a1d77b39d7bb7d9ccc6e2d76bbf28618998c335c163f18e6f94a9324"
- 
- S = "${UNPACKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-index 04df81f6d8..d1c7ad4d5c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "5486cd145c5af43259fd37caca59d048e2a67ddb07082ea8f50ef0f02a85f8a5"
-+SRC_URI[sha256sum] = "0ef4cf9c3c9a5e776a6ca8d190a31863391b681980252143b822b29aa831e120"
- 
- S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-index 555b310594..d9179286a3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "c4eb382720b4443fb801a53418dff0bd4cd7478716d5ced493504a675b4d09fd"
-+SRC_URI[sha256sum] = "0ac461b5700b9766998aa686439064caf58ca4fdaf848dfd477b5a7700b176cc"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-index 338cf85e5e..0b6672c3a6 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "bfb6780542bf0d402736232aeae6c5a1b943c445775bf40305bcb86ca70705a0"
-+SRC_URI[sha256sum] = "7e19fddeb1261bebc3ec397857fedd5c77129b66ab52788fdadad05117566225"
- 
- S = "${UNPACKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-index 957356c2ba..5b52d66190 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-@@ -22,7 +22,7 @@ diff --git a/meson.build b/meson.build
- index abd0ad6..93cd692 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -661,6 +661,10 @@ if bashcomp_dep.found()
-+@@ -662,6 +662,10 @@ if bashcomp_dep.found()
-    endif
-  endif
-  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-similarity index 93%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-index d1f06a5233..2bdb1dc802 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-            "
--SRC_URI[sha256sum] = "f5adc7e8f448c10260b3b25aa101c9d540674c8d9a54c2b77a86d04f2b3b50dd"
-+SRC_URI[sha256sum] = "a5a9f783809b17a8eb774f4a7695b2cb8cba6b15520129906f87eaf30e7f8469"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
-@@ -72,5 +72,7 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-gconv-iso8859-5"
- CVE_PRODUCT = "gstreamer"
- 
- CVE_STATUS[CVE-2026-5056] = "cpe-stable-backport: Fixed since 1.28.2"
-+CVE_STATUS[CVE-2026-12891] = "cpe-stable-backport: Fixed since 1.28.5"
-+CVE_STATUS[CVE-2026-12892] = "cpe-stable-backport: Fixed since 1.28.5"
- 
- PTEST_BUILD_HOST_FILES = ""
+Please also include the three unpatched CVEs, you can use CVE_STATUS
+"unpatched: ..." - that will help anyone else looking at these in the
+future to avoid duplication of effort.
+
+Please also make sure any use of AI is disclosed in line with our
+contribution guide [1].
+
+[1]: https://docs.yoctoproject.org/contributor-guide/submit-changes.html#ac=
+ceptance-of-ai-generated-code
+
+Thanks,
+
+--=20
+Paul Barker
+
+
+--=-P1GCQ5dVvosjOUuI2aBp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCam+CzhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0biZHAP9XDiE/0j2SkrY/ZBYwb7y6riMcTMbhifl9
+43ikR76PGAD9E/kEhSgkpoMcNOnWJNO03wfkD9hytjOnER2sA7GcQgA=
+=VoqC
+-----END PGP SIGNATURE-----
+
+--=-P1GCQ5dVvosjOUuI2aBp--
 
