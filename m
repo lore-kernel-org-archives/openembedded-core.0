@@ -1,100 +1,200 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E248EC55162
-	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 21:47:13 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31258.1785707230578046305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17AECC55174
+	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 22:18:04 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31805.1785709075997689936
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Aug 2026 14:47:10 -0700
+ Sun, 02 Aug 2026 15:17:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=swBCWTQf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=BNb2IE1S;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019fc471f140-134a0b1c-af2d-4800-ab5a-172740889aa6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1785707229; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=TQrkoyc0MI8ssQtV3J0o2/HW7migXobzt8b6VtMnUYc=;
-	b=swBCWTQfgo+V0VDciwQ7GP1Dw8/EEIjKBvWIoBvzVMy6zSyGzlAMdH6gkoMSzjby
-	dypDC9LPzHDJPwnC7VXkEdysRC9gYbL/CbeYK8+lxfpHj2hhRQ4LKAEFRKB1Upz2aHV
-	oLBkQYVpKDRX42TOnC2218J20AljGWjR6Iu7YgF0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785707229;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=TQrkoyc0MI8ssQtV3J0o2/HW7migXobzt8b6VtMnUYc=;
-	b=BNb2IE1SgffWOqgXtJyvovahWrx91wNdcVG+oun8swv6BWAeFtuc8YuySoMs2PGM
-	PKWZNE5QGK7wmj06siPi8dOGeAU1hPvIDQMQUMKn0LgoEqpvVlucXTUaeH4vaHoZB1d
-	QRO5C0uMxJlfv5yr6Tfe5M5JsEZPuT2+78IFjRMQ=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] coreutils: Backport a fix recommended by upstream
-In-Reply-To: <20260802213000.457180-1-richard.purdie@linuxfoundation.org>
-References: <20260802213000.457180-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019fc471f140-134a0b1c-af2d-4800-ab5a-172740889aa6-000000@us-west-2.amazonses.com>
-Date: Sun, 2 Aug 2026 21:47:09 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.02-54.240.27.31
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=R4iDes/O;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20260802221752480e54fd7300020748-ad6lpp@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260802221752480e54fd7300020748
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 03 Aug 2026 00:17:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=fkJ7HtNyPLXI6m5FsQoX9rzBA4YF+ihVygy977IRnEM=;
+ b=R4iDes/Oe4TQzLJZPwq4OHnG37ArZNpV8hYRmZbvA/OZ5HMQBJtNxhw2xnotS0Svj6l0KU
+ BjPPpN/OoSBAT/3li8maZxnE9LrWD9+rszXMH9NUXVwkthf1PFw89Q9cykElPcnlJd99n6S9
+ NulAT9FAqJGq/XgvA8CAxxD41VfdCDdk+nf+QHASipfRJPuaA4vrEC+UggeyKC6aHYdeLdE5
+ LC7PpypOGg6KJzMgwKyCu9z0omt6QmiBc0Osxi/vLud/Cteq4aYZ/q7eZlEKG/zQaKZVqWkr
+ h7Q/5kD6A1du5jhhx949Ee2mg5ZQAdqTwmml7uPYtLXbD0GNr7HTtUqw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] diffutils: patch CVE-2026-53910
+Date: Mon,  3 Aug 2026 00:17:06 +0200
+Message-ID: <20260802221709.2501900-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 21:47:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242592
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 22:18:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242593
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Pick patches mentioned in NVD CVE report.
 
+Adapt NEWS file to apply one of the patches.
+Add special code to prevent build error dues to rebuild of manpage.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-coreutils-Backport-a-fix-recommended-by-upstream.patch
+ .../diffutils/CVE-2026-53910-01.patch         | 67 +++++++++++++++++++
+ .../diffutils/CVE-2026-53910-02.patch         | 35 ++++++++++
+ .../diffutils/diffutils_3.12.bb               |  9 +++
+ 3 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch
+ create mode 100644 meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch
 
-FAIL: test Upstream-Status presence: Upstream-Status is present only after the patch scissors. It must be placed in the patch header before the scissors line. (test_patch.TestPatch.test_upstream_status_presence_format)
-
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch
+new file mode 100644
+index 0000000000..b2da72b04c
+--- /dev/null
++++ b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch
+@@ -0,0 +1,67 @@
++From 73ed7ce85cc78effb94daf028c9af6b4e5252e50 Mon Sep 17 00:00:00 2001
++From: Collin Funk <collin.funk1@gmail.com>
++Date: Mon, 20 Apr 2026 23:43:51 -0700
++Subject: [PATCH] diff3: check for integer overflows when reading line numbers
++ from diff
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Reported by Michał Majchrowicz.
++* NEWS: Mention the bug fix.
++* src/diff3.c (readnum): Return nullptr if the line number would
++overflow.
++
++CVE: CVE-2026-53910
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/diffutils.git/commit/?id=73ed7ce85cc78effb94daf028c9af6b4e5252e50]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ NEWS        | 8 ++++++++
++ THANKS      | 1 +
++ src/diff3.c | 3 ++-
++ 3 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/NEWS b/NEWS
++index a8115f7..bfe20d4 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,5 +1,13 @@
++ GNU diffutils NEWS                                    -*- outline -*-
++ 
+++ * Noteworthy changes in release ?.? (????-??-??) [?]
+++
+++** Bug fixes
+++
+++  diff3 no longer overflows integers when reading line numbers from the
+++  diff program.
+++  [bug present since "the beginning"]
+++
++ * Noteworthy changes in release 3.12 (2025-04-08) [stable]
++ 
++ ** Bug fixes
++diff --git a/THANKS b/THANKS
++index a96b68d..a372954 100644
++--- a/THANKS
+++++ b/THANKS
++@@ -13,6 +13,7 @@ Chris Hanson <cph@gnu.org>
++ Jim Kingdon  <kingdon@panix.com>
++ Tom Lord  <lord@gnu.org>
++ David J. MacKenzie  <djm@gnu.org>
+++Michał Majchrowicz  <mmajchrowicz@afine.com>
++ Roland McGrath  <roland@redhat.com>
++ Jim Meyering  <jim@meyering.net>
++ Gene Myers  <gene@eecs.berkeley.edu>
++diff --git a/src/diff3.c b/src/diff3.c
++index 1dfba37..1a74407 100644
++--- a/src/diff3.c
+++++ b/src/diff3.c
++@@ -1020,7 +1020,8 @@ readnum (char *s, lin *pnum)
++ 
++   do
++     {
++-      num = c - '0' + num * 10;
+++      if (ckd_mul (&num, num, 10) || ckd_add (&num, num, c - '0'))
+++        return nullptr;
++       c = *++s;
++     }
++   while (c_isdigit (c));
+diff --git a/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch
+new file mode 100644
+index 0000000000..7f87893f51
+--- /dev/null
++++ b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch
+@@ -0,0 +1,35 @@
++From 9ff04d5b84743e331e80b589335a52c5480d1815 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Tue, 21 Apr 2026 00:30:50 -0700
++Subject: [PATCH] diff3: prevent overflow in line offsets
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Problem reported by Michał Majchrowicz.
++* src/diff3.c (readnum): Limit line numbers to LIN_MAX / 2.
++
++CVE: CVE-2026-53910
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/diffutils.git/commit/?id=9ff04d5b84743e331e80b589335a52c5480d1815]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/diff3.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/src/diff3.c b/src/diff3.c
++index 4fed6a8..d32e6ad 100644
++--- a/src/diff3.c
+++++ b/src/diff3.c
++@@ -1026,6 +1026,12 @@ readnum (char *s, lin *pnum)
++     }
++   while (c_isdigit (c));
++ 
+++  /* Simplify overflow checking later, so that we can always add a
+++     line number and a line count, or subtract two line numbers and
+++     add 1 to the result, without worrying about overflow.  */
+++  if (LIN_MAX / 2 < num)
+++    return nullptr;
+++
++   *pnum = num;
++   return s;
++ }
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.12.bb b/meta/recipes-extended/diffutils/diffutils_3.12.bb
+index d00dd772ad..5bf0540eab 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.12.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.12.bb
+@@ -6,6 +6,8 @@ require diffutils.inc
+ SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+            file://run-ptest \
+            file://0001-Skip-strip-trailing-cr-test-case.patch \
++           file://CVE-2026-53910-01.patch \
++           file://CVE-2026-53910-02.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "7c8b7f9fc8609141fdea9cece85249d308624391ff61dedaf528fcb337727dfd"
+@@ -21,6 +23,13 @@ inherit ptest
+ 
+ RDEPENDS:${PN}-ptest += "make perl"
+ 
++# patch for CVE-2026-53910 touches source file, so build is trying to
++# refresh the manual, which is failing in cross-compile environment;
++# remove this code on next upgrade
++do_compile:prepend() {
++    touch ${S}/man/diff3.1
++}
++
+ do_install_ptest() {
+ 	t=${D}${PTEST_PATH}
+ 	install -D ${S}/build-aux/test-driver $t/build-aux/test-driver
 
