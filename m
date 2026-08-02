@@ -1,1005 +1,638 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <bbnpreetsingh@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7757AC55172
-	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 02:10:28 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16981.1785636620993166412
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6E38C55162
+	for <webhook@archiver.kernel.org>; Sun,  2 Aug 2026 03:10:28 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17491.1785640223923717952
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Aug 2026 19:10:21 -0700
+ Sat, 01 Aug 2026 20:10:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=nO9zcxsr;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-9063b380982so22115496d6.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 19:10:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=sPAhsxYU;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: bbnpreetsingh@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cace91f112so24471795ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2026 20:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785636620; x=1786241420; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=kiLjBTuYE0/qfveMD7KMbyrFt3hwAsUxf6IdzmPCCpI=;
-        b=nO9zcxsrzyMbB/WmH52zFcTvJpfsp9X22BaFX0obLt9q4XJ0XJzBt1kce1n8Oxzh9j
-         cIzS8jRqB3a5CoTBckyU76Tac62fxUfRSmdAlybyFC7K2aoKxhMt+PG3MVkeX6fJs/Hh
-         5w510ySuTCB3zjJQBzG/f2D+P1tKshu96Le28RNXS3nvZSDizA/06IZVHyRhg+peLysr
-         RC5W6DwRauqaaiLtuazdPWolJX764yqxmcJeT6uPbBRag5Zp5fxzUDmUypiPvRY1tzxS
-         qfVrej4L8oPqRBTk+xth32jqbs8Bo8aIz0fNwP5HOyTQ79LY1goarxQPRsKdov64xxM7
-         TL1w==
+        d=gmail.com; s=20251104; t=1785640223; x=1786245023; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=g11NciCeYID2xBar/IgXukTxPeaOPZfOAP+zghcKAwA=;
+        b=sPAhsxYUJ8X2mwn5F058DY9oWk0njPB7MgcCr6p7se+Vw65u/lDPJZht32VPI6RDGG
+         wXXPE+l0DUb+KpR7hVS4AmiZ7T0BLg80AV+D9oig+e1mb8hAucHA77szHBx4yh5+mCB3
+         cSHyLPUNxQSW6ztc7tm4gTn1lxLa/cbXAHi5agIrKNUGDnFkPT3Ta0lu922nxOKel+Mc
+         cGBFUpnM4EtSLKQLt66mHQDpP8c7zx8uizyPmSFkigRkuZR1exR648BmCWNbS99SbbgK
+         FIvFOdLex0ELRCS/V5xr4FgNsx4ym/WHBnfE1D0mFAkJY33hkaQ/hwTy89RW6YK3BpXW
+         F31w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785636620; x=1786241420;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=kiLjBTuYE0/qfveMD7KMbyrFt3hwAsUxf6IdzmPCCpI=;
-        b=YYhsVA2MD3ID4/x5io17bID8Vr9eoI7I05QpQI1026O4pkgJouwKpFpxHQk3U3x8z9
-         FFw0Esuf0uqyYXKshTLPDaaOJ9pPYFVjNt6SfHvnOcTrnEsB69BJ5UjiCxst+HUKt+jZ
-         JQmzUgkigpziElDfL9KAROdGhUGyOoWgMj169aD8TRc7tASu5pZFp+T4eXeaKv+W+OjD
-         8Y0pFTsx6lgNN4B4SBlgv/Ys5Xjzztm+Qs3eUaZLCvYVIKYb/Y3g1uXJ+oHAm+KPmIP1
-         suaNSkdoppT2QGb2QF+OTTT4h9FWABCg/3zlUQXUOSmJKZg729d8/kqDYKepEnUJ4oGX
-         XXsQ==
-X-Gm-Message-State: AOJu0YzjY4D0leBLN8AI5BS0yQU+mbjmoYMIH67M/ZKzTP/jV2cwurW4
-	lt+JU4tXl52TpfkV/SqRj+VqEkXZeEd0Rxc7K74YxxyqjZ8AAj4noI+qgsuJcA==
-X-Gm-Gg: AR+sD11BMGqZ+AmueNFLANeFAM68UObbFPlFxgKxdii9kDrD3WW2ZjGsCcPwMqaBPQg
-	wyjd+vr1Wb5YTbjBamuS7nxAtiqZ0dGlCu0moJpJ//PFMMas2D2Bj2E6mpRQc0yv+zoGFPa2mRa
-	mfP6wGcvPAs9VcGc8LyAPukWpFPPeVpixSuJ/WDzDMLRzpA9n/6Un4FPDgPlmj3v47VtXTEH5aq
-	cRiFZUYxSk2eVLOSqZfg2UQFJctYHLFTHsHeQImnQoI76f9l6ML8MB0J5PsIG4StFXjOpLL6KfH
-	XKOaifINGKNA/fDwLBTwM6C7je1HJ57QTtdAa77jUzWBGOdCS8f3uMaqF8BnNPndreOWMOd74AT
-	eXyENN1t4OF8yZNx5H0v5n2OP8VutJ4jlmVtoJ58JZEhlHSEB0umxfwZb3YRpSLNctUlqBC8aaJ
-	LnezcXUv5p+pm+wwg7V42co9IhdMUrXOR9djLZ/s+zCY13rnkR1QU6slmzCTx8dwb/Xplsa2zZo
-	TD4RvIii5NZO39tL6mS1jKzGJnedts=
-X-Received: by 2002:a05:6214:5b08:b0:8eb:326f:9515 with SMTP id 6a1803df08f44-908495c7c99mr122711976d6.8.1785636619407;
-        Sat, 01 Aug 2026 19:10:19 -0700 (PDT)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908434a26basm44733566d6.12.2026.08.01.19.10.16
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1785640223; x=1786245023;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=g11NciCeYID2xBar/IgXukTxPeaOPZfOAP+zghcKAwA=;
+        b=WnxboCy2ghEFnLPdaCsg9HL/QmXHr6nFUsghoFtwopfBmVXoP9U489yHgJU4cZpFt3
+         h7MzxYt/vN+gjtsaAb3biHkIK7BfaH0mXse9N3YkgQFFBh3Cunc6QGPscHfkyHutY4uL
+         YRW1BttkOESojyaAAEAbKEer4cHrxTaJXUh3NVQ/Xahp0IM6YWTqUDnwiurv6J2bZ87u
+         DuRRp8xzST1+9fw9zBtDiBEsqPGNZJF6WFiGtTuXeRiVr1BwthdtAJInBC4EarSyslf6
+         CUht7eEoFAeTBSiqW21jSd8VZG89g6A7nyHN6PXNvmP2FwK1OwtsSAGJy5zb0YAHoF4I
+         k2hQ==
+X-Gm-Message-State: AOJu0Yxk7/a8r573z37GSP4RbphYQoZj78bUqqfY6nfGN8Jr1A2jk5VS
+	N+K2b9/BZDcrP0xB0K3WxDFrb17Nc91IzGJeNqPT6n29usA/48L+BJcqNceaBbocXuU=
+X-Gm-Gg: AR+sD11WM5WpzXSyaNiq9juZosOTzlx0pR9AP8IpWYlPnSYWQupQwBvvbZ03Ed7zKr4
+	yUKMfkTnEEYGKgOx2ZaC4hSxqbR/ZqFakXWp7JcmU3Yt69IKwkGir4SZ/I97rcQTC4WBX0LkZCx
+	qEtek3eKbii9bOCpJRYG94w5DWXvCiMDgd/RMaHSrTniI5Pudc/1Ba7IQznN/R+pIk5tt6cf4SW
+	YStNOgfy90h3055jrav74V3pPd9jWN19RGxYkz7AzZ1GXfCEsoIrvyLhgDPt+wl1MssXJUH4kvB
+	rd7e7c6lSvRH+8LKB1eg2Ncfzq7NcPOXMevsy5gYhIMD1FqkTFoYvIgcynoUPIkpa16EHLBiXF2
+	dnRHDquJ+Y/0OOy9rqZ4PnH8ncG+Dx8D/A2dQXZYBHItnSfHhvoYdZ0p9pjR7YOrzlDcrijKRzK
+	P0Ximrv20pj+8hocqGmd5w4u/MD76qYG73UMqxtheYJNhPnaVeB94aqf90PmIy5w==
+X-Received: by 2002:a17:903:8c7:b0:2cc:741a:ff33 with SMTP id d9443c01a7336-2d05247217bmr53522695ad.43.1785640223014;
+        Sat, 01 Aug 2026 20:10:23 -0700 (PDT)
+Received: from ydev.. ([108.180.130.139])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04ae5ea02sm22309115ad.28.2026.08.01.20.10.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 19:10:18 -0700 (PDT)
-From: Trevor Woerner <twoerner@gmail.com>
+        Sat, 01 Aug 2026 20:10:22 -0700 (PDT)
+From: Babanpreet Singh <bbnpreetsingh@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v6 5/6] oeqa/selftest/wic: drop redundant per-test PATH overrides
-Date: Sat,  1 Aug 2026 22:09:59 -0400
-Message-ID: <20260802021000.2886095-6-twoerner@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260802021000.2886095-1-twoerner@gmail.com>
-References: <20260802021000.2886095-1-twoerner@gmail.com>
+Cc: Yoann Congal <yoann.congal@smile.fr>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Daniel R . Slater" <daniel.slater@thermofisher.com>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	Babanpreet Singh <bbnpreetsingh@gmail.com>
+Subject: [scarthgap][PATCH] qemu: restore 64-bit file lock handling for 32-bit guests
+Date: Sun,  2 Aug 2026 03:10:21 +0000
+Message-ID: <20260802031022.7-1-bbnpreetsingh@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 02:10:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242514
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 03:10:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242516
 
-setUpLocal() already puts wic and its tools on PATH for every test, so
-the per-test "os.environ['PATH'] = get_bb_var('PATH', 'wic-tools')"
-overrides and their try/finally wrappers add nothing. Drop them; the
-resulting dedent makes the diff large, so review with git show -w.
+0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch removes the
+TARGET_F_GETLK64, TARGET_F_SETLK64 and TARGET_F_SETLKW64 cases from
+target_to_host_fcntl_cmd(), along with the struct target_flock64
+conversions. Those are guest ABI, not host libc spellings, so every 32-bit
+guest calling fcntl64() to lock a file now gets -TARGET_EINVAL; under
+qemu-arm SQLite reports "disk I/O error".
 
-AI-Generated: codex/claude-opus 4.8 (xhigh)
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+Backport ac1bbe8ca46c ("linux-user/syscall.c: drop 64 suffix from flock64
+&Co", 9.2.0), which makes the same musl-driven change without dropping the
+guest side, and remove the hunks it supersedes from the local patch.
+
+[YOCTO #16326]
+
+AI-Generated: Uses Claude (claude-opus-5)
+Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
 ---
-changes in v6:
-- none
+Only scarthgap is affected. master and wrynose carry qemu 11.0.3 and 10.2.0
+respectively, both of which contain ac1bbe8ca46c, and neither still carries
+0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch, so there is
+no master commit to backport from and nothing to send there first.
 
-changes in v5:
-- trimmed the commit message
+Verified by building qemu 8.2.7 with the current and proposed patch stacks
+and running a 32-bit ARM test program under each resulting qemu-arm:
+F_SETLK64, F_GETLK64, F_SETLKW64 and a lock at a 5 GiB offset all return
+EINVAL before the change and succeed after it, with plain 32-bit F_SETLK
+unaffected either way. bitbake qemu-native also builds clean on scarthgap
+with the new stack.
 
-changes in v4:
-- new in v4
----
- meta/lib/oeqa/selftest/cases/wic.py | 792 +++++++++++++---------------
- 1 file changed, 362 insertions(+), 430 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ ...all.c-drop-64-suffix-from-flock64-Co.patch | 225 +++++++++++++++
+ ...ce-use-of-lfs64-related-functions-an.patch | 265 +-----------------
+ 3 files changed, 228 insertions(+), 263 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 8a39a4ddc603..5b90c64cfd6b 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -525,104 +525,97 @@ class Wic(WicTestCase):
-     def test_exclude_path(self):
-         """Test --exclude-path wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            wks_file = 'temp.wks'
--            with open(wks_file, 'w') as wks:
--                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
--                wks.write("""
-+        wks_file = 'temp.wks'
-+        with open(wks_file, 'w') as wks:
-+            rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
-+            wks.write("""
- part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path usr
- part /usr --source rootfs --ondisk mmcblk0 --fstype=ext4 --rootfs-dir %s/usr
- part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --rootfs-dir %s/usr
- part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoami --rootfs-dir %s/usr"""
--                          % (rootfs_dir, rootfs_dir, rootfs_dir))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            os.remove(wks_file)
--            wicout = glob(os.path.join(self.resultdir, "%s-*direct" % 'temp'))
--            self.assertEqual(1, len(wicout))
-+                      % (rootfs_dir, rootfs_dir, rootfs_dir))
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            wicimg = wicout[0]
--
--            # verify partition size with wic
--            res = runCmd("parted -m %s unit b p" % wicimg, stderr=subprocess.PIPE)
--
--            # parse parted output which looks like this:
--            # BYT;\n
--            # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
--            # 1:0.00MiB:200MiB:200MiB:ext4::;\n
--            partlns = res.output.splitlines()[2:]
-+        os.remove(wks_file)
-+        wicout = glob(os.path.join(self.resultdir, "%s-*direct" % 'temp'))
-+        self.assertEqual(1, len(wicout))
- 
--            self.assertEqual(4, len(partlns))
-+        wicimg = wicout[0]
- 
--            for part in [1, 2, 3, 4]:
--                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
--                partln = partlns[part-1].split(":")
--                self.assertEqual(7, len(partln))
--                start = int(partln[1].rstrip("B")) / 512
--                length = int(partln[3].rstrip("B")) / 512
--                runCmd("dd if=%s of=%s skip=%d count=%d" %
--                                           (wicimg, part_file, start, length))
--
--            # Test partition 1, should contain the normal root directories, except
--            # /usr.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part1"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn("etc", files)
--            self.assertNotIn("usr", files)
--
--            # Partition 2, should contain common directories for /usr, not root
--            # directories.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part2"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn("etc", files)
--            self.assertNotIn("usr", files)
--            self.assertIn("share", files)
--
--            # Partition 3, should contain the same as partition 2, including the bin
--            # directory, but not the files inside it.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn("etc", files)
--            self.assertNotIn("usr", files)
--            self.assertIn("share", files)
--            self.assertIn("bin", files)
--            res = runCmd("debugfs -R 'ls -p bin' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn(".", files)
--            self.assertIn("..", files)
--            self.assertEqual(2, len(files))
--
--            # Partition 4, should contain the same as partition 2, including the bin
--            # directory, but not whoami (a symlink to busybox.nosuid) inside it.
--            res = runCmd("debugfs -R 'ls -p' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn("etc", files)
--            self.assertNotIn("usr", files)
--            self.assertIn("share", files)
--            self.assertIn("bin", files)
--            res = runCmd("debugfs -R 'ls -p bin' %s" % \
--                             os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn(".", files)
--            self.assertIn("..", files)
--            self.assertIn("who", files)
--            self.assertNotIn("whoami", files)
--
--            for part in [1, 2, 3, 4]:
--                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
--                os.remove(part_file)
-+        # verify partition size with wic
-+        res = runCmd("parted -m %s unit b p" % wicimg, stderr=subprocess.PIPE)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+        # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+        partlns = res.output.splitlines()[2:]
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 46cc7cb5cb0..91fd6df3e12 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0008-tests-meson.build-use-relative-path-to-refer-to-file.patch \
+            file://0009-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch \
+            file://0010-hw-pvrdma-Protect-against-buggy-or-malicious-guest-d.patch \
++           file://0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch \
+            file://0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch \
+            file://fixedmeson.patch \
+            file://no-pip.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch b/meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch
+new file mode 100644
+index 00000000000..6ebe2b895db
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch
+@@ -0,0 +1,225 @@
++From ac1bbe8ca46c550b3ad99c85744119a3ace7b4f4 Mon Sep 17 00:00:00 2001
++From: Michael Tokarev <mjt@tls.msk.ru>
++Date: Thu, 29 Aug 2024 09:39:50 +0300
++Subject: [PATCH] linux-user/syscall.c: drop 64 suffix from flock64 &Co
 +
-+        self.assertEqual(4, len(partlns))
++Since we are always building with LFS enabled, in particular
++with -D_FILE_OFFSET_BITS=64, we should always have struct flock
++mapped to the 64bit variant (with off64_t), and F_GETLK mapped
++to F_GETLK64 etc, automatically.
 +
-+        for part in [1, 2, 3, 4]:
-+            part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
-+            partln = partlns[part-1].split(":")
-+            self.assertEqual(7, len(partln))
-+            start = int(partln[1].rstrip("B")) / 512
-+            length = int(partln[3].rstrip("B")) / 512
-+            runCmd("dd if=%s of=%s skip=%d count=%d" %
-+                                       (wicimg, part_file, start, length))
++So there should be no need to explicitly use the "64" suffix
++for these things anymore.
 +
-+        # Test partition 1, should contain the normal root directories, except
-+        # /usr.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part1"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn("etc", files)
-+        self.assertNotIn("usr", files)
++Also fix a misleading comment near safe_fcntl telling us to
++always use flock64 (since v2.6.0-1311-g435da5e7092a "linux-user:
++Use safe_syscall wrapper for fcntl").
 +
-+        # Partition 2, should contain common directories for /usr, not root
-+        # directories.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part2"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn("etc", files)
-+        self.assertNotIn("usr", files)
-+        self.assertIn("share", files)
++Reference: https://gitlab.com/qemu-project/qemu/-/issues/2215
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 +
-+        # Partition 3, should contain the same as partition 2, including the bin
-+        # directory, but not the files inside it.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn("etc", files)
-+        self.assertNotIn("usr", files)
-+        self.assertIn("share", files)
-+        self.assertIn("bin", files)
-+        res = runCmd("debugfs -R 'ls -p bin' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part3"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn(".", files)
-+        self.assertIn("..", files)
-+        self.assertEqual(2, len(files))
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/ac1bbe8ca46c550b3ad99c85744119a3ace7b4f4]
++---
++ linux-user/syscall.c | 92 ++++++++++++++++++++--------------------------------
++ 1 file changed, 40 insertions(+), 52 deletions(-)
 +
-+        # Partition 4, should contain the same as partition 2, including the bin
-+        # directory, but not whoami (a symlink to busybox.nosuid) inside it.
-+        res = runCmd("debugfs -R 'ls -p' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn("etc", files)
-+        self.assertNotIn("usr", files)
-+        self.assertIn("share", files)
-+        self.assertIn("bin", files)
-+        res = runCmd("debugfs -R 'ls -p bin' %s" % \
-+                         os.path.join(self.resultdir, "selftest_img.part4"), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn(".", files)
-+        self.assertIn("..", files)
-+        self.assertIn("who", files)
-+        self.assertNotIn("whoami", files)
-+
-+        for part in [1, 2, 3, 4]:
-+            part_file = os.path.join(self.resultdir, "selftest_img.part%d" % part)
-+            os.remove(part_file)
++--- a/linux-user/syscall.c
+++++ b/linux-user/syscall.c
++@@ -758,10 +758,8 @@
++  * the libc function.
++  */
++ #define safe_ioctl(...) safe_syscall(__NR_ioctl, __VA_ARGS__)
++-/* Similarly for fcntl. Note that callers must always:
++- *  pass the F_GETLK64 etc constants rather than the unsuffixed F_GETLK
++- *  use the flock64 struct rather than unsuffixed flock
++- * This will then work and use a 64-bit offset for both 32-bit and 64-bit hosts.
+++/* Similarly for fcntl. Since we always build with LFS enabled,
+++ * we should be using the 64-bit structures automatically.
++  */
++ #ifdef __NR_fcntl64
++ #define safe_fcntl(...) safe_syscall(__NR_fcntl64, __VA_ARGS__)
++@@ -6720,13 +6718,13 @@
++         ret = cmd;
++         break;
++     case TARGET_F_GETLK:
++-        ret = F_GETLK64;
+++        ret = F_GETLK;
++         break;
++     case TARGET_F_SETLK:
++-        ret = F_SETLK64;
+++        ret = F_SETLK;
++         break;
++     case TARGET_F_SETLKW:
++-        ret = F_SETLKW64;
+++        ret = F_SETLKW;
++         break;
++     case TARGET_F_GETOWN:
++         ret = F_GETOWN;
++@@ -6742,13 +6740,13 @@
++         break;
++ #if TARGET_ABI_BITS == 32
++     case TARGET_F_GETLK64:
++-        ret = F_GETLK64;
+++        ret = F_GETLK;
++         break;
++     case TARGET_F_SETLK64:
++-        ret = F_SETLK64;
+++        ret = F_SETLK;
++         break;
++     case TARGET_F_SETLKW64:
++-        ret = F_SETLKW64;
+++        ret = F_SETLKW;
++         break;
++ #endif
++     case TARGET_F_SETLEASE:
++@@ -6802,8 +6800,8 @@
++      * them to 5, 6 and 7 before making the syscall(). Since we make the
++      * syscall directly, adjust to what is supported by the kernel.
++      */
++-    if (ret >= F_GETLK64 && ret <= F_SETLKW64) {
++-        ret -= F_GETLK64 - 5;
+++    if (ret >= F_GETLK && ret <= F_SETLKW) {
+++        ret -= F_GETLK - 5;
++     }
++ #endif
++ 
++@@ -6836,7 +6834,7 @@
++     return type;
++ }
++ 
++-static inline abi_long copy_from_user_flock(struct flock64 *fl,
+++static inline abi_long copy_from_user_flock(struct flock *fl,
++                                             abi_ulong target_flock_addr)
++ {
++     struct target_flock *target_fl;
++@@ -6861,7 +6859,7 @@
++ }
++ 
++ static inline abi_long copy_to_user_flock(abi_ulong target_flock_addr,
++-                                          const struct flock64 *fl)
+++                                          const struct flock *fl)
++ {
++     struct target_flock *target_fl;
++     short l_type;
++@@ -6880,8 +6878,8 @@
++     return 0;
++ }
++ 
++-typedef abi_long from_flock64_fn(struct flock64 *fl, abi_ulong target_addr);
++-typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock64 *fl);
+++typedef abi_long from_flock64_fn(struct flock *fl, abi_ulong target_addr);
+++typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock *fl);
++ 
++ #if defined(TARGET_ARM) && TARGET_ABI_BITS == 32
++ struct target_oabi_flock64 {
++@@ -6892,7 +6890,7 @@
++     abi_int   l_pid;
++ } QEMU_PACKED;
++ 
++-static inline abi_long copy_from_user_oabi_flock64(struct flock64 *fl,
+++static inline abi_long copy_from_user_oabi_flock64(struct flock *fl,
++                                                    abi_ulong target_flock_addr)
++ {
++     struct target_oabi_flock64 *target_fl;
++@@ -6917,7 +6915,7 @@
++ }
++ 
++ static inline abi_long copy_to_user_oabi_flock64(abi_ulong target_flock_addr,
++-                                                 const struct flock64 *fl)
+++                                                 const struct flock *fl)
++ {
++     struct target_oabi_flock64 *target_fl;
++     short l_type;
++@@ -6937,7 +6935,7 @@
++ }
++ #endif
++ 
++-static inline abi_long copy_from_user_flock64(struct flock64 *fl,
+++static inline abi_long copy_from_user_flock64(struct flock *fl,
++                                               abi_ulong target_flock_addr)
++ {
++     struct target_flock64 *target_fl;
++@@ -6962,7 +6960,7 @@
++ }
++ 
++ static inline abi_long copy_to_user_flock64(abi_ulong target_flock_addr,
++-                                            const struct flock64 *fl)
+++                                            const struct flock *fl)
++ {
++     struct target_flock64 *target_fl;
++     short l_type;
++@@ -6983,7 +6981,7 @@
++ 
++ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
++ {
++-    struct flock64 fl64;
+++    struct flock fl;
++ #ifdef F_GETOWN_EX
++     struct f_owner_ex fox;
++     struct target_f_owner_ex *target_fox;
++@@ -6996,45 +6994,45 @@
++ 
++     switch(cmd) {
++     case TARGET_F_GETLK:
++-        ret = copy_from_user_flock(&fl64, arg);
+++        ret = copy_from_user_flock(&fl, arg);
++         if (ret) {
++             return ret;
++         }
++-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
+++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
++         if (ret == 0) {
++-            ret = copy_to_user_flock(arg, &fl64);
+++            ret = copy_to_user_flock(arg, &fl);
++         }
++         break;
++ 
++     case TARGET_F_SETLK:
++     case TARGET_F_SETLKW:
++-        ret = copy_from_user_flock(&fl64, arg);
+++        ret = copy_from_user_flock(&fl, arg);
++         if (ret) {
++             return ret;
++         }
++-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
+++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
++         break;
++ 
++     case TARGET_F_GETLK64:
++     case TARGET_F_OFD_GETLK:
++-        ret = copy_from_user_flock64(&fl64, arg);
+++        ret = copy_from_user_flock64(&fl, arg);
++         if (ret) {
++             return ret;
++         }
++-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
+++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
++         if (ret == 0) {
++-            ret = copy_to_user_flock64(arg, &fl64);
+++            ret = copy_to_user_flock64(arg, &fl);
++         }
++         break;
++     case TARGET_F_SETLK64:
++     case TARGET_F_SETLKW64:
++     case TARGET_F_OFD_SETLK:
++     case TARGET_F_OFD_SETLKW:
++-        ret = copy_from_user_flock64(&fl64, arg);
+++        ret = copy_from_user_flock64(&fl, arg);
++         if (ret) {
++             return ret;
++         }
++-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
+++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
++         break;
++ 
++     case TARGET_F_GETFL:
++@@ -12301,7 +12299,7 @@
++     case TARGET_NR_fcntl64:
++     {
++         int cmd;
++-        struct flock64 fl;
+++        struct flock fl;
++         from_flock64_fn *copyfrom = copy_from_user_flock64;
++         to_flock64_fn *copyto = copy_to_user_flock64;
++ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch b/meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch
+index ceae67be644..b10a76090b8 100644
+--- a/meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch
++++ b/meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch
+@@ -13,234 +13,13 @@ Upstream-Status: Submitted [https://lists.gnu.org/archive/html/qemu-devel/2022-1
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Cc: Laurent Vivier <laurent@vivier.eu>
+ ---
+- linux-user/syscall.c | 153 +++++++++++--------------------------------
+- 1 file changed, 39 insertions(+), 114 deletions(-)
++ linux-user/syscall.c | 16 ++++++++--------
++ 1 file changed, 8 insertions(+), 8 deletions(-)
  
-     def test_exclude_path_with_extra_space(self):
-         """Test having --exclude-path with IMAGE_ROOTFS_EXTRA_SPACE. [Yocto #15555]"""
-@@ -661,75 +654,61 @@ part /mnt --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/whoa
-     def test_include_path(self):
-         """Test --include-path wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            include_path = os.path.join(self.resultdir, 'test-include')
--            os.makedirs(include_path)
--            with open(os.path.join(include_path, 'test-file'), 'w') as t:
--                t.write("test\n")
--            wks_file = os.path.join(include_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
--                wks.write("""
-+        include_path = os.path.join(self.resultdir, 'test-include')
-+        os.makedirs(include_path)
-+        with open(os.path.join(include_path, 'test-file'), 'w') as t:
-+            t.write("test\n")
-+        wks_file = os.path.join(include_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
-+            wks.write("""
- part /part1 --source rootfs --ondisk mmcblk0 --fstype=ext4
- part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
--                          % (include_path))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
--            part2 = glob(os.path.join(self.resultdir, 'temp-*.direct.p2'))[0]
-+                      % (include_path))
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            # Test partition 1, should not contain 'test-file'
--            res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertNotIn('test-file', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+        part2 = glob(os.path.join(self.resultdir, 'temp-*.direct.p2'))[0]
- 
--            # Test partition 2, should contain 'test-file'
--            res = runCmd("debugfs -R 'ls -p' %s" % (part2), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('test-file', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        # Test partition 1, should not contain 'test-file'
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertNotIn('test-file', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        # Test partition 2, should contain 'test-file'
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part2), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('test-file', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
-     def test_include_path_embeded(self):
-         """Test --include-path wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            include_path = os.path.join(self.resultdir, 'test-include')
--            os.makedirs(include_path)
--            with open(os.path.join(include_path, 'test-file'), 'w') as t:
--                t.write("test\n")
--            wks_file = os.path.join(include_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                wks.write("""
-+        include_path = os.path.join(self.resultdir, 'test-include')
-+        os.makedirs(include_path)
-+        with open(os.path.join(include_path, 'test-file'), 'w') as t:
-+            t.write("test\n")
-+        wks_file = os.path.join(include_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            wks.write("""
- part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-image-minimal-mtdutils export/"""
--                          % (include_path))
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+                      % (include_path))
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('test-file', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
- 
--            res = runCmd("debugfs -R 'ls -p /export/etc/' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('passwd', files)
--            self.assertEqual(True, files_own_by_root(res.output))
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('test-file', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        res = runCmd("debugfs -R 'ls -p /export/etc/' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('passwd', files)
-+        self.assertEqual(True, files_own_by_root(res.output))
- 
-     def test_include_path_errors(self):
-         """Test --include-path wks option error handling."""
-@@ -780,9 +759,6 @@ part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-imag
-         # prepare wicenv and rootfs
-         bitbake('core-image-minimal core-image-minimal-mtdutils -c do_rootfs_wicenv')
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
-         t_normal = """
- part / --source rootfs --fstype=ext4
- """
-@@ -799,61 +775,50 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
- """
-         tests = [t_normal, t_exclude, t_multi, t_change]
- 
--        try:
--            for test in tests:
--                include_path = os.path.join(self.resultdir, 'test-include')
--                os.makedirs(include_path)
--                wks_file = os.path.join(include_path, 'temp.wks')
--                with open(wks_file, 'w') as wks:
--                    wks.write(test)
--                runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--                for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
--                    res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
--                    self.assertEqual(True, files_own_by_root(res.output))
-+        for test in tests:
-+            include_path = os.path.join(self.resultdir, 'test-include')
-+            os.makedirs(include_path)
-+            wks_file = os.path.join(include_path, 'temp.wks')
-+            with open(wks_file, 'w') as wks:
-+                wks.write(test)
-+            runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--                config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
--                self.append_config(config)
--                bitbake('core-image-minimal')
--                tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
-+            for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
-+                res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
-+                self.assertEqual(True, files_own_by_root(res.output))
- 
--                # check each partition for permission
--                for part in glob(os.path.join(tmpdir, 'temp-*.direct.p*')):
--                    res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
--                    self.assertTrue(files_own_by_root(res.output)
--                        ,msg='Files permission incorrect using wks set "%s"' % test)
-+            config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
-+            self.append_config(config)
-+            bitbake('core-image-minimal')
-+            tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
- 
--                # clean config and result directory for next cases
--                self.remove_config(config)
--                rmtree(self.resultdir, ignore_errors=True)
-+            # check each partition for permission
-+            for part in glob(os.path.join(tmpdir, 'temp-*.direct.p*')):
-+                res = runCmd("debugfs -R 'ls -p' %s" % (part), stderr=subprocess.PIPE)
-+                self.assertTrue(files_own_by_root(res.output)
-+                    ,msg='Files permission incorrect using wks set "%s"' % test)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+            # clean config and result directory for next cases
-+            self.remove_config(config)
-+            rmtree(self.resultdir, ignore_errors=True)
- 
-     def test_change_directory(self):
-         """Test --change-directory wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            include_path = os.path.join(self.resultdir, 'test-include')
--            os.makedirs(include_path)
--            wks_file = os.path.join(include_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+        include_path = os.path.join(self.resultdir, 'test-include')
-+        os.makedirs(include_path)
-+        wks_file = os.path.join(include_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
--            files = extract_files(res.output)
--            self.assertIn('passwd', files)
-+        part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        res = runCmd("debugfs -R 'ls -p' %s" % (part1), stderr=subprocess.PIPE)
-+        files = extract_files(res.output)
-+        self.assertIn('passwd', files)
- 
-     def test_change_directory_errors(self):
-         """Test --change-directory wks option error handling."""
-@@ -876,41 +841,34 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
-     def test_no_fstab_update(self):
-         """Test --no-fstab-update wks option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
-         # Get stock fstab from base-files recipe
-         bitbake('base-files -c do_install')
-         bf_fstab = os.path.join(get_bb_var('D', 'base-files'), 'etc', 'fstab')
-         self.assertEqual(True, os.path.exists(bf_fstab))
-         bf_fstab_md5sum = runCmd('md5sum %s ' % bf_fstab).output.split(" ")[0]
- 
--        try:
--            no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
--            os.makedirs(no_fstab_update_path)
--            wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
--            with open(wks_file, 'w') as wks:
--                wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
--                                'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
--                                '--fstype=ext4 --label p2 --no-fstab-update\n'])
--            runCmd("wic create %s -e core-image-minimal -o %s" \
--                                       % (wks_file, self.resultdir))
--
--            part_fstab_md5sum = []
--            for i in range(1, 3):
--                part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
--                part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s" % (part), stderr=subprocess.PIPE)
--                part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
-+        no_fstab_update_path = os.path.join(self.resultdir, 'test-no-fstab-update')
-+        os.makedirs(no_fstab_update_path)
-+        wks_file = os.path.join(no_fstab_update_path, 'temp.wks')
-+        with open(wks_file, 'w') as wks:
-+            wks.writelines(['part / --source rootfs --fstype=ext4 --label rootfs\n',
-+                            'part /mnt/p2 --source rootfs --rootfs-dir=core-image-minimal ',
-+                            '--fstype=ext4 --label p2 --no-fstab-update\n'])
-+        runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                   % (wks_file, self.resultdir))
- 
--            # '/etc/fstab' in partition 2 should contain the same stock fstab file
--            # as the one installed by the base-file recipe.
--            self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
-+        part_fstab_md5sum = []
-+        for i in range(1, 3):
-+            part = glob(os.path.join(self.resultdir, 'temp-*.direct.p') + str(i))[0]
-+            part_fstab = runCmd("debugfs -R 'cat etc/fstab' %s" % (part), stderr=subprocess.PIPE)
-+            part_fstab_md5sum.append(hashlib.md5((part_fstab.output + "\n\n").encode('utf-8')).hexdigest())
- 
--            # '/etc/fstab' in partition 1 should contain an updated fstab file.
--            self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
-+        # '/etc/fstab' in partition 2 should contain the same stock fstab file
-+        # as the one installed by the base-file recipe.
-+        self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        # '/etc/fstab' in partition 1 should contain an updated fstab file.
-+        self.assertNotEqual(bf_fstab_md5sum, part_fstab_md5sum[0])
- 
-     def test_no_fstab_update_errors(self):
-         """Test --no-fstab-update wks option error handling."""
-@@ -984,153 +942,139 @@ bootloader --ptable gpt""")
-     def test_wic_sector_size_env(self):
-         """Test generation image sector size via environment (obsolete)"""
-  
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+        # Add WIC_SECTOR_SIZE into config
-+        config = 'WIC_SECTOR_SIZE = "4096"\n'\
-+                 'WICVARS:append = " WIC_SECTOR_SIZE"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
- 
--        try:
--            # Add WIC_SECTOR_SIZE into config
--            config = 'WIC_SECTOR_SIZE = "4096"\n'\
--                     'WICVARS:append = " WIC_SECTOR_SIZE"\n'
--            self.append_config(config)
--            bitbake('core-image-minimal')
-+        # Check WIC_SECTOR_SIZE apply to bitbake variable
-+        wic_sector_size_str = get_bb_var('WIC_SECTOR_SIZE', 'core-image-minimal')
-+        wic_sector_size = int(wic_sector_size_str)
-+        self.assertEqual(4096, wic_sector_size)
- 
--            # Check WIC_SECTOR_SIZE apply to bitbake variable
--            wic_sector_size_str = get_bb_var('WIC_SECTOR_SIZE', 'core-image-minimal')
--            wic_sector_size = int(wic_sector_size_str)
--            self.assertEqual(4096, wic_sector_size)
--
--            self.logger.info("Test wic_sector_size: %d \n" % wic_sector_size)
--
--            with NamedTemporaryFile("w", suffix=".wks") as wks:
--                wks.writelines(
--                    ['bootloader --ptable gpt\n',
--                     'part --fstype vfat --fstype vfat --label emptyfat --size 1M --mkfs-extraopts "-S 4096"\n',
--                     'part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"\n',
--                     'part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"\n'])
--                wks.flush()
--                cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
--                runCmd(cmd)
--                wksname = os.path.splitext(os.path.basename(wks.name))[0]
--                images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
--                self.assertEqual(1, len(images))
-+        self.logger.info("Test wic_sector_size: %d \n" % wic_sector_size)
- 
--            sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
--            # list partitions
--            result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
--            print(result.output)
--            # Deprecated message + 4 lines of output: header + 3 partitions
--            self.assertEqual(5, len(result.output.split('\n')))
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines(
-+                ['bootloader --ptable gpt\n',
-+                 'part --fstype vfat --fstype vfat --label emptyfat --size 1M --mkfs-extraopts "-S 4096"\n',
-+                 'part --fstype ext4 --source rootfs --label rofs-a --mkfs-extraopts "-b 4096"\n',
-+                 'part --fstype ext4 --source rootfs --use-uuid --mkfs-extraopts "-b 4096"\n'])
-+            wks.flush()
-+            cmd = "wic create %s -e core-image-minimal -o %s" % (wks.name, self.resultdir)
-+            runCmd(cmd)
-+            wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+            images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-+            self.assertEqual(1, len(images))
- 
--            # verify partition size with wic
--            res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (wic_sector_size, images[0]),
--                         stderr=subprocess.PIPE)
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+        # list partitions
-+        result = runCmd("wic ls %s -n %s" % (images[0], sysroot))
-+        print(result.output)
-+        # Deprecated message + 4 lines of output: header + 3 partitions
-+        self.assertEqual(5, len(result.output.split('\n')))
- 
--            print(res.output)
--            # parse parted output which looks like this:
--            # BYT;\n
--            # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
--            # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
--            # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
--            # 3:149270528B:297353215B:148082688B:ext4:primary:;
--            disk_info = res.output.splitlines()[1]
--            # Check sector sizes
--            sector_size_logical = int(disk_info.split(":")[3])
--            sector_size_physical = int(disk_info.split(":")[4])
--            self.assertEqual(wic_sector_size, sector_size_logical, "Logical sector size is not %d." % wic_sector_size)
--            self.assertEqual(wic_sector_size, sector_size_physical, "Physical sector size is not %d." % wic_sector_size)
--
--            # It is a known issue with parsed that a 4K FAT partition does
--            # not have a recognized filesystem type of *fat.
--            part_info = res.output.splitlines()[2]
--            partname = part_info.split(":")[5]
--            parttype = part_info.split(":")[6]
--            self.assertEqual('emptyfat', partname)
--            self.assertEqual('msftdata;', parttype)
--
--            part_info = res.output.splitlines()[3]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('rofs-a', partname)
--
--            part_info = res.output.splitlines()[4]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('primary', partname)
-+        # verify partition size with wic
-+        res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (wic_sector_size, images[0]),
-+                     stderr=subprocess.PIPE)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        print(res.output)
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
-+        # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
-+        # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
-+        # 3:149270528B:297353215B:148082688B:ext4:primary:;
-+        disk_info = res.output.splitlines()[1]
-+        # Check sector sizes
-+        sector_size_logical = int(disk_info.split(":")[3])
-+        sector_size_physical = int(disk_info.split(":")[4])
-+        self.assertEqual(wic_sector_size, sector_size_logical, "Logical sector size is not %d." % wic_sector_size)
-+        self.assertEqual(wic_sector_size, sector_size_physical, "Physical sector size is not %d." % wic_sector_size)
-+
-+        # It is a known issue with parsed that a 4K FAT partition does
-+        # not have a recognized filesystem type of *fat.
-+        part_info = res.output.splitlines()[2]
-+        partname = part_info.split(":")[5]
-+        parttype = part_info.split(":")[6]
-+        self.assertEqual('emptyfat', partname)
-+        self.assertEqual('msftdata;', parttype)
-+
-+        part_info = res.output.splitlines()[3]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('rofs-a', partname)
-+
-+        part_info = res.output.splitlines()[4]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('primary', partname)
- 
-     def test_wic_sector_size_cli(self):
-         """Test sector size handling via CLI option."""
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
--
--        try:
--            bitbake('core-image-minimal')
--
--            with NamedTemporaryFile("w", suffix=".wks") as wks:
--                wks.writelines(
--                    ['bootloader --ptable gpt\n',
--                     'part --fstype vfat --fstype vfat --label emptyfat --size 1M\n',
--                     'part --fstype ext4 --source rootfs --label rofs-a\n',
--                     'part --fstype ext4 --source rootfs --use-uuid\n'])
--                wks.flush()
--                cmd = "wic create %s -e core-image-minimal -o %s --sector-size 4096" % (wks.name, self.resultdir)
--                runCmd(cmd)
--                wksname = os.path.splitext(os.path.basename(wks.name))[0]
--                images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
--                self.assertEqual(1, len(images))
-+        bitbake('core-image-minimal')
- 
--            sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
--            # list partitions
--            result = runCmd("wic ls %s -n %s --sector-size 4096" % (images[0], sysroot))
--            print(result.output)
--            # 4 lines of output: header + 3 partitions
--            self.assertEqual(4, len(result.output.split('\n')))
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines(
-+                ['bootloader --ptable gpt\n',
-+                 'part --fstype vfat --fstype vfat --label emptyfat --size 1M\n',
-+                 'part --fstype ext4 --source rootfs --label rofs-a\n',
-+                 'part --fstype ext4 --source rootfs --use-uuid\n'])
-+            wks.flush()
-+            cmd = "wic create %s -e core-image-minimal -o %s --sector-size 4096" % (wks.name, self.resultdir)
-+            runCmd(cmd)
-+            wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+            images = glob(os.path.join(self.resultdir, "%s-*direct" % wksname))
-+            self.assertEqual(1, len(images))
- 
--            # verify partition size with parted output
--            res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (4096, images[0]),
--                         stderr=subprocess.PIPE)
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+        # list partitions
-+        result = runCmd("wic ls %s -n %s --sector-size 4096" % (images[0], sysroot))
-+        print(result.output)
-+        # 4 lines of output: header + 3 partitions
-+        self.assertEqual(4, len(result.output.split('\n')))
- 
--            print(res.output)
--            # parse parted output which looks like this:
--            # BYT;\n
--            # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
--            # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
--            # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
--            # 3:149270528B:297353215B:148082688B:ext4:primary:;
--            disk_info = res.output.splitlines()[1]
--            # Check sector sizes
--            sector_size_logical = int(disk_info.split(":")[3])
--            sector_size_physical = int(disk_info.split(":")[4])
--            self.assertEqual(4096, sector_size_logical, "Logical sector size is not 4096.")
--            self.assertEqual(4096, sector_size_physical, "Physical sector size is not 4096.")
--
--            # It is a known issue with parsed that a 4K FAT partition does
--            # not have a recognized filesystem type of *fat.
--            part_info = res.output.splitlines()[2]
--            partname = part_info.split(":")[5]
--            parttype = part_info.split(":")[6]
--            self.assertEqual('emptyfat', partname)
--            self.assertEqual('msftdata;', parttype)
--
--            part_info = res.output.splitlines()[3]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('rofs-a', partname)
--
--            part_info = res.output.splitlines()[4]
--            parttype = part_info.split(":")[4]
--            partname = part_info.split(":")[5]
--            self.assertEqual('ext4', parttype)
--            self.assertEqual('primary', partname)
-+        # verify partition size with parted output
-+        res = runCmd("export PARTED_SECTOR_SIZE=%d; parted -m %s unit b p" % (4096, images[0]),
-+                     stderr=subprocess.PIPE)
- 
--        finally:
--            os.environ['PATH'] = oldpath
-+        print(res.output)
-+        # parse parted output which looks like this:
-+        # BYT;\n
-+        # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B:file:4096:4096:gpt::;\n
-+        # 1:139264B:1187839B:1048576B::emptyfat:msftdata;
-+        # 2:1187840B:149270527B:148082688B:ext4:rofs-a:;
-+        # 3:149270528B:297353215B:148082688B:ext4:primary:;
-+        disk_info = res.output.splitlines()[1]
-+        # Check sector sizes
-+        sector_size_logical = int(disk_info.split(":")[3])
-+        sector_size_physical = int(disk_info.split(":")[4])
-+        self.assertEqual(4096, sector_size_logical, "Logical sector size is not 4096.")
-+        self.assertEqual(4096, sector_size_physical, "Physical sector size is not 4096.")
-+
-+        # It is a known issue with parsed that a 4K FAT partition does
-+        # not have a recognized filesystem type of *fat.
-+        part_info = res.output.splitlines()[2]
-+        partname = part_info.split(":")[5]
-+        parttype = part_info.split(":")[6]
-+        self.assertEqual('emptyfat', partname)
-+        self.assertEqual('msftdata;', parttype)
-+
-+        part_info = res.output.splitlines()[3]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('rofs-a', partname)
-+
-+        part_info = res.output.splitlines()[4]
-+        parttype = part_info.split(":")[4]
-+        partname = part_info.split(":")[5]
-+        self.assertEqual('ext4', parttype)
-+        self.assertEqual('primary', partname)
- 
- class Wic2(WicTestCase):
- 
-@@ -1472,47 +1416,41 @@ run_wic_cmd() {
-     def test_extra_partition_space(self):
-         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part                 --ondisk hda --size 10M        --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part                 --ondisk hda --fixed-size 20M  --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part --source rootfs --ondisk hda                   --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part --source rootfs --ondisk hda --fixed-size 200M --extra-partition-space 10M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            _, wicimg = self._get_wic(tempf.name)
- 
--        try:
--            with NamedTemporaryFile("w", suffix=".wks") as tempf:
--                tempf.write("bootloader --ptable gpt\n" \
--                            "part                 --ondisk hda --size 10M        --extra-partition-space 10M --fstype=ext4\n" \
--                            "part                 --ondisk hda --fixed-size 20M  --extra-partition-space 10M --fstype=ext4\n" \
--                            "part --source rootfs --ondisk hda                   --extra-partition-space 10M --fstype=ext4\n" \
--                            "part --source rootfs --ondisk hda --fixed-size 200M --extra-partition-space 10M --fstype=ext4\n")
--                tempf.flush()
--
--                _, wicimg = self._get_wic(tempf.name)
--
--                res = runCmd("parted -m %s unit b p" % wicimg,
--                                native_sysroot=native_sysroot, stderr=subprocess.PIPE)
--
--                # parse parted output which looks like this:
--                # BYT;\n
--                # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
--                # 1:0.00MiB:200MiB:200MiB:ext4::;\n
--                partlns = res.output.splitlines()[2:]
--
--                self.assertEqual(4, len(partlns))
--
--                # Test for each partitions that the extra part space exists
--                for part in range(0, len(partlns)):
--                    part_file = os.path.join(self.resultdir, "selftest_img.part%d" % (part + 1))
--                    partln = partlns[part].split(":")
--                    self.assertEqual(7, len(partln))
--                    self.assertRegex(partln[3], r'^[0-9]+B$')
--                    part_size = int(partln[3].rstrip("B"))
--                    start = int(partln[1].rstrip("B")) / 512
--                    length = part_size / 512
--                    runCmd("dd if=%s of=%s skip=%d count=%d" %
--                                                (wicimg, part_file, start, length))
--                    res = runCmd("dumpe2fs %s -h | grep \"^Block count\"" % part_file)
--                    fs_size = int(res.output.split(":")[1].strip()) * 1024
--                    self.assertLessEqual(fs_size + 10485760, part_size, "part file: %s" % part_file)
--        finally:
--            os.environ['PATH'] = oldpath
-+            res = runCmd("parted -m %s unit b p" % wicimg,
-+                            native_sysroot=native_sysroot, stderr=subprocess.PIPE)
-+
-+            # parse parted output which looks like this:
-+            # BYT;\n
-+            # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+            # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+            partlns = res.output.splitlines()[2:]
-+
-+            self.assertEqual(4, len(partlns))
-+
-+            # Test for each partitions that the extra part space exists
-+            for part in range(0, len(partlns)):
-+                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % (part + 1))
-+                partln = partlns[part].split(":")
-+                self.assertEqual(7, len(partln))
-+                self.assertRegex(partln[3], r'^[0-9]+B$')
-+                part_size = int(partln[3].rstrip("B"))
-+                start = int(partln[1].rstrip("B")) / 512
-+                length = part_size / 512
-+                runCmd("dd if=%s of=%s skip=%d count=%d" %
-+                                            (wicimg, part_file, start, length))
-+                res = runCmd("dumpe2fs %s -h | grep \"^Block count\"" % part_file)
-+                fs_size = int(res.output.split(":")[1].strip()) * 1024
-+                self.assertLessEqual(fs_size + 10485760, part_size, "part file: %s" % part_file)
- 
-     # TODO this test could also work on aarch64
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-@@ -1825,45 +1763,39 @@ INITRAMFS_IMAGE = "core-image-initramfs-boot"
-             testfile.write("test %s" % testfilename)
-             testfile.close()
- 
--        oldpath = os.environ['PATH']
--        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines([
-+                'part / --source extra_partition --ondisk sda --sourceparams "name=foo" --align 4 --size 5M\n',
-+                'part / --source extra_partition --ondisk sda --label foo --align 4 --size 5M\n',
-+                'part / --source extra_partition --ondisk sda --fstype=vfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 --size 5M\n',
-+                'part / --source extra_partition --ondisk sda --fstype=ext4 --label bar --align 4 --size 5M\n',
-+                'bootloader --ptable gpt\n',
-+            ])
-+            wks.flush()
-+            _, wicimg = self._get_wic(wks.name)
- 
--        try:
--            with NamedTemporaryFile("w", suffix=".wks") as wks:
--                wks.writelines([
--                    'part / --source extra_partition --ondisk sda --sourceparams "name=foo" --align 4 --size 5M\n',
--                    'part / --source extra_partition --ondisk sda --label foo --align 4 --size 5M\n',
--                    'part / --source extra_partition --ondisk sda --fstype=vfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 --size 5M\n',
--                    'part / --source extra_partition --ondisk sda --fstype=ext4 --label bar --align 4 --size 5M\n',
--                    'bootloader --ptable gpt\n',
--                ])
--                wks.flush()
--                _, wicimg = self._get_wic(wks.name)
--
--            result = runCmd("wic ls %s -n %s" % (wicimg, sysroot))
--            partls = result.output.split('\n')[1:]
--
--            # Assert the number of partitions is correct
--            self.assertEqual(4, len(partls), msg="Expect 4 partitions, not %s" % result.output)
--
--            # Fstype column from 'wic ls' should be fstype as given in the part command
--            for part_id, part_fs in enumerate(["fat16", "fat16", "fat16", "ext4"]):
--                self.assertIn(part_fs, partls[part_id])
--
--            # For each partition, assert expected files exist
--            for part, part_glob in enumerate([
--                ["bar.conf"],
--                ["foo.conf"],
--                ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.conf"],
--                ["bar.conf", "bar2.conf"],
--            ]):
--                for part_file in part_glob:
--                    result = runCmd("wic ls %s:%d/%s -n %s" % (wicimg, part + 1, part_file, sysroot))
--                    self.assertEqual(0, result.status, msg="File '%s' not found in the partition #%d" % (part_file, part))
-+        result = runCmd("wic ls %s -n %s" % (wicimg, sysroot))
-+        partls = result.output.split('\n')[1:]
- 
--            self.remove_config(config)
--        finally:
--            os.environ['PATH'] = oldpath
-+        # Assert the number of partitions is correct
-+        self.assertEqual(4, len(partls), msg="Expect 4 partitions, not %s" % result.output)
-+
-+        # Fstype column from 'wic ls' should be fstype as given in the part command
-+        for part_id, part_fs in enumerate(["fat16", "fat16", "fat16", "ext4"]):
-+            self.assertIn(part_fs, partls[part_id])
-+
-+        # For each partition, assert expected files exist
-+        for part, part_glob in enumerate([
-+            ["bar.conf"],
-+            ["foo.conf"],
-+            ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.conf"],
-+            ["bar.conf", "bar2.conf"],
-+        ]):
-+            for part_file in part_glob:
-+                result = runCmd("wic ls %s:%d/%s -n %s" % (wicimg, part + 1, part_file, sysroot))
-+                self.assertEqual(0, result.status, msg="File '%s' not found in the partition #%d" % (part_file, part))
-+
-+        self.remove_config(config)
- 
-     def test_fs_types(self):
-         """Test filesystem types for empty and not empty partitions"""
+ Index: qemu-8.0.0/linux-user/syscall.c
+ ===================================================================
+ --- qemu-8.0.0.orig/linux-user/syscall.c
+ +++ qemu-8.0.0/linux-user/syscall.c
+-@@ -761,8 +761,8 @@ safe_syscall6(ssize_t, copy_file_range,
+-  */
+- #define safe_ioctl(...) safe_syscall(__NR_ioctl, __VA_ARGS__)
+- /* Similarly for fcntl. Note that callers must always:
+-- *  pass the F_GETLK64 etc constants rather than the unsuffixed F_GETLK
+-- *  use the flock64 struct rather than unsuffixed flock
+-+ *  pass the F_GETLK etc constants rather than the unsuffixed F_GETLK
+-+ *  use the flock struct rather than unsuffixed flock
+-  * This will then work and use a 64-bit offset for both 32-bit and 64-bit hosts.
+-  */
+- #ifdef __NR_fcntl64
+-@@ -6813,13 +6813,13 @@ static int target_to_host_fcntl_cmd(int
+-         ret = cmd;
+-         break;
+-     case TARGET_F_GETLK:
+--        ret = F_GETLK64;
+-+        ret = F_GETLK;
+-         break;
+-     case TARGET_F_SETLK:
+--        ret = F_SETLK64;
+-+        ret = F_SETLK;
+-         break;
+-     case TARGET_F_SETLKW:
+--        ret = F_SETLKW64;
+-+        ret = F_SETLKW;
+-         break;
+-     case TARGET_F_GETOWN:
+-         ret = F_GETOWN;
+-@@ -6833,17 +6833,6 @@ static int target_to_host_fcntl_cmd(int
+-     case TARGET_F_SETSIG:
+-         ret = F_SETSIG;
+-         break;
+--#if TARGET_ABI_BITS == 32
+--    case TARGET_F_GETLK64:
+--        ret = F_GETLK64;
+--        break;
+--    case TARGET_F_SETLK64:
+--        ret = F_SETLK64;
+--        break;
+--    case TARGET_F_SETLKW64:
+--        ret = F_SETLKW64;
+--        break;
+--#endif
+-     case TARGET_F_SETLEASE:
+-         ret = F_SETLEASE;
+-         break;
+-@@ -6895,8 +6884,8 @@ static int target_to_host_fcntl_cmd(int
+-      * them to 5, 6 and 7 before making the syscall(). Since we make the
+-      * syscall directly, adjust to what is supported by the kernel.
+-      */
+--    if (ret >= F_GETLK64 && ret <= F_SETLKW64) {
+--        ret -= F_GETLK64 - 5;
+-+    if (ret >= F_GETLK && ret <= F_SETLKW) {
+-+        ret -= F_GETLK - 5;
+-     }
+- #endif
+- 
+-@@ -6929,55 +6918,11 @@ static int host_to_target_flock(int type
+-     return type;
+- }
+- 
+--static inline abi_long copy_from_user_flock(struct flock64 *fl,
+--                                            abi_ulong target_flock_addr)
+--{
+--    struct target_flock *target_fl;
+--    int l_type;
+--
+--    if (!lock_user_struct(VERIFY_READ, target_fl, target_flock_addr, 1)) {
+--        return -TARGET_EFAULT;
+--    }
+--
+--    __get_user(l_type, &target_fl->l_type);
+--    l_type = target_to_host_flock(l_type);
+--    if (l_type < 0) {
+--        return l_type;
+--    }
+--    fl->l_type = l_type;
+--    __get_user(fl->l_whence, &target_fl->l_whence);
+--    __get_user(fl->l_start, &target_fl->l_start);
+--    __get_user(fl->l_len, &target_fl->l_len);
+--    __get_user(fl->l_pid, &target_fl->l_pid);
+--    unlock_user_struct(target_fl, target_flock_addr, 0);
+--    return 0;
+--}
+--
+--static inline abi_long copy_to_user_flock(abi_ulong target_flock_addr,
+--                                          const struct flock64 *fl)
+--{
+--    struct target_flock *target_fl;
+--    short l_type;
+--
+--    if (!lock_user_struct(VERIFY_WRITE, target_fl, target_flock_addr, 0)) {
+--        return -TARGET_EFAULT;
+--    }
+--
+--    l_type = host_to_target_flock(fl->l_type);
+--    __put_user(l_type, &target_fl->l_type);
+--    __put_user(fl->l_whence, &target_fl->l_whence);
+--    __put_user(fl->l_start, &target_fl->l_start);
+--    __put_user(fl->l_len, &target_fl->l_len);
+--    __put_user(fl->l_pid, &target_fl->l_pid);
+--    unlock_user_struct(target_fl, target_flock_addr, 1);
+--    return 0;
+--}
+--
+--typedef abi_long from_flock64_fn(struct flock64 *fl, abi_ulong target_addr);
+--typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock64 *fl);
+-+typedef abi_long from_flock_fn(struct flock *fl, abi_ulong target_addr);
+-+typedef abi_long to_flock_fn(abi_ulong target_addr, const struct flock *fl);
+- 
+- #if defined(TARGET_ARM) && TARGET_ABI_BITS == 32
+--struct target_oabi_flock64 {
+-+struct target_oabi_flock {
+-     abi_short l_type;
+-     abi_short l_whence;
+-     abi_llong l_start;
+-@@ -6985,10 +6930,10 @@ struct target_oabi_flock64 {
+-     abi_int   l_pid;
+- } QEMU_PACKED;
+- 
+--static inline abi_long copy_from_user_oabi_flock64(struct flock64 *fl,
+-+static inline abi_long copy_from_user_oabi_flock(struct flock *fl,
+-                                                    abi_ulong target_flock_addr)
+- {
+--    struct target_oabi_flock64 *target_fl;
+-+    struct target_oabi_flock *target_fl;
+-     int l_type;
+- 
+-     if (!lock_user_struct(VERIFY_READ, target_fl, target_flock_addr, 1)) {
+-@@ -7009,10 +6954,10 @@ static inline abi_long copy_from_user_oa
+-     return 0;
+- }
+- 
+--static inline abi_long copy_to_user_oabi_flock64(abi_ulong target_flock_addr,
+--                                                 const struct flock64 *fl)
+-+static inline abi_long copy_to_user_oabi_flock(abi_ulong target_flock_addr,
+-+                                                 const struct flock *fl)
+- {
+--    struct target_oabi_flock64 *target_fl;
+-+    struct target_oabi_flock *target_fl;
+-     short l_type;
+- 
+-     if (!lock_user_struct(VERIFY_WRITE, target_fl, target_flock_addr, 0)) {
+-@@ -7030,10 +6975,10 @@ static inline abi_long copy_to_user_oabi
+- }
+- #endif
+- 
+--static inline abi_long copy_from_user_flock64(struct flock64 *fl,
+-+static inline abi_long copy_from_user_flock(struct flock *fl,
+-                                               abi_ulong target_flock_addr)
+- {
+--    struct target_flock64 *target_fl;
+-+    struct target_flock *target_fl;
+-     int l_type;
+- 
+-     if (!lock_user_struct(VERIFY_READ, target_fl, target_flock_addr, 1)) {
+-@@ -7054,10 +6999,10 @@ static inline abi_long copy_from_user_fl
+-     return 0;
+- }
+- 
+--static inline abi_long copy_to_user_flock64(abi_ulong target_flock_addr,
+--                                            const struct flock64 *fl)
+-+static inline abi_long copy_to_user_flock(abi_ulong target_flock_addr,
+-+                                            const struct flock *fl)
+- {
+--    struct target_flock64 *target_fl;
+-+    struct target_flock *target_fl;
+-     short l_type;
+- 
+-     if (!lock_user_struct(VERIFY_WRITE, target_fl, target_flock_addr, 0)) {
+-@@ -7076,7 +7021,7 @@ static inline abi_long copy_to_user_floc
+- 
+- static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
+- {
+--    struct flock64 fl64;
+-+    struct flock fl64;
+- #ifdef F_GETOWN_EX
+-     struct f_owner_ex fox;
+-     struct target_f_owner_ex *target_fox;
+-@@ -7089,6 +7034,7 @@ static abi_long do_fcntl(int fd, int cmd
+- 
+-     switch(cmd) {
+-     case TARGET_F_GETLK:
+-+    case TARGET_F_OFD_GETLK:
+-         ret = copy_from_user_flock(&fl64, arg);
+-         if (ret) {
+-             return ret;
+-@@ -7098,32 +7044,11 @@ static abi_long do_fcntl(int fd, int cmd
+-             ret = copy_to_user_flock(arg, &fl64);
+-         }
+-         break;
+--
+-     case TARGET_F_SETLK:
+-     case TARGET_F_SETLKW:
+--        ret = copy_from_user_flock(&fl64, arg);
+--        if (ret) {
+--            return ret;
+--        }
+--        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
+--        break;
+--
+--    case TARGET_F_GETLK64:
+--    case TARGET_F_OFD_GETLK:
+--        ret = copy_from_user_flock64(&fl64, arg);
+--        if (ret) {
+--            return ret;
+--        }
+--        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
+--        if (ret == 0) {
+--            ret = copy_to_user_flock64(arg, &fl64);
+--        }
+--        break;
+--    case TARGET_F_SETLK64:
+--    case TARGET_F_SETLKW64:
+-     case TARGET_F_OFD_SETLK:
+-     case TARGET_F_OFD_SETLKW:
+--        ret = copy_from_user_flock64(&fl64, arg);
+-+        ret = copy_from_user_flock(&fl64, arg);
+-         if (ret) {
+-             return ret;
+-         }
+ @@ -7348,7 +7273,7 @@ static inline abi_long target_truncate64
+          arg2 = arg3;
+          arg3 = arg4;
+@@ -313,43 +92,3 @@ Index: qemu-8.0.0/linux-user/syscall.c
+          unlock_user(p, arg2, 0);
+          return ret;
+  #endif
+-@@ -11998,14 +11923,14 @@ static abi_long do_syscall1(CPUArchState
+-     case TARGET_NR_fcntl64:
+-     {
+-         int cmd;
+--        struct flock64 fl;
+--        from_flock64_fn *copyfrom = copy_from_user_flock64;
+--        to_flock64_fn *copyto = copy_to_user_flock64;
+-+        struct flock fl;
+-+        from_flock_fn *copyfrom = copy_from_user_flock;
+-+        to_flock_fn *copyto = copy_to_user_flock;
+- 
+- #ifdef TARGET_ARM
+-         if (!cpu_env->eabi) {
+--            copyfrom = copy_from_user_oabi_flock64;
+--            copyto = copy_to_user_oabi_flock64;
+-+            copyfrom = copy_from_user_oabi_flock;
+-+            copyto = copy_to_user_oabi_flock;
+-         }
+- #endif
+- 
+-@@ -12015,7 +11940,7 @@ static abi_long do_syscall1(CPUArchState
+-         }
+- 
+-         switch(arg2) {
+--        case TARGET_F_GETLK64:
+-+        case TARGET_F_GETLK:
+-             ret = copyfrom(&fl, arg3);
+-             if (ret) {
+-                 break;
+-@@ -12026,8 +11951,8 @@ static abi_long do_syscall1(CPUArchState
+-             }
+- 	    break;
+- 
+--        case TARGET_F_SETLK64:
+--        case TARGET_F_SETLKW64:
+-+        case TARGET_F_SETLK:
+-+        case TARGET_F_SETLKW:
+-             ret = copyfrom(&fl, arg3);
+-             if (ret) {
+-                 break;
 -- 
-2.50.0.173.g8b6f19ccfc3a
+2.43.0
 
 
