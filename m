@@ -1,116 +1,102 @@
-Return-Path: <hjadon@cisco.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D96E5C55175
-	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 07:07:37 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37840.1785740848335933444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F9AAC55184
+	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 07:56:48 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38276.1785743806930871691
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 00:07:28 -0700
+ Mon, 03 Aug 2026 00:56:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=CQO984ln;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: hjadon@cisco.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VtuhMVux;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47f7027ca11so1878604f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 00:56:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1133; q=dns/txt;
-  s=iport01; t=1785740848; x=1786950448;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+Igwd9A+S2cQkxv1X/wcPsCgwrgUT1T4qkYgyQ4V1wo=;
-  b=CQO984lnRmYVKRTmZFkzsXYQPrQSsbuaQ1osP9jra4Oa4RalxVoSNlPk
-   dgYk49viysFnEK6ktdGPHK+SX1Q+nu8hqAC7Hvu46qoLGnNvf8CHURptb
-   89HTZ6Czp0rEW6ezdW9mZlcBzcw9tdH35ITAxS4uai4a0ROYjwyAu2igE
-   CLoOyAN3+bLFMgD0bkIMoswF7GUaQVrR9pStQpjGPWs6/6zZM4BWQ8dlq
-   u55m1F70LXJJkeNHPnlmJoZlu0ukhETdALc4vjRz0Cj4z7fqEC0+y95pk
-   FRTq/Gdag+mmS18aHSVKSlzPAWhfT8eDs5dMnJG1FuNwTfqGyNmy60BXM
-   g==;
-X-CSE-ConnectionGUID: w9lAqHQnScKkk4ug42ZmdA==
-X-CSE-MsgGUID: CNzD5mGRSm6hq9wxU9Rjew==
-X-IPAS-Result: =?us-ascii?q?A0BAAgBNPXBq/5MQJK1aglmCV3ReQ0mTWQFPoD+Bfg8BA?=
- =?us-ascii?q?QEPNxoEAQGSbQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE?=
- =?us-ascii?q?4ZchxMBdlwdASaDAgGCdAO9Y4IsgQGEfdsuAQsUAYE4hT+IIXWEfCcbG4Fyh?=
- =?us-ascii?q?H6FEIV4BIIigQyBeIELjyxIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4Xg?=
- =?us-ascii?q?Q0bBwWBHYErLIRTIxk2fIEvdUp1LWoSF4EagxUCgngDCxgNSBEsNxQZBD5uB?=
- =?us-ascii?q?41mIIJEAYENpi2CIaEPCiiDdYwhlToaM6psLphao3JohGmBaDyBWXAVgyIJS?=
- =?us-ascii?q?hkP3lwnMj0CBwIHDgMLk2YBAQ?=
-IronPort-Data: A9a23:Pevxtqx61szhDbUAlaZ6t+djxyrEfRIJ4+MujC+fZmUNrF6WrkVVx
- zMZDDiFb67eY2amct90bYy3oR4D6MXUx4A2TQRvpFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 46aT/H3Ygf/hWYkajlMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJF5nOaQB2t9xOmpt9
- v9ENT9RNCKGi8vjldpXSsE07igiBMDvOIVavjRryivUSK9+B5vCWK7No9Rf2V/chOgXQq2YP
- JRfMGQpNUifC/FMEg9/5JYWnOWhin75WzZZs1mS46Ew5gA/ySQugeSyaIOPKoXiqcN9tWCKi
- j/D0F7CB08aLY2A2QfUyHChmbqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYVX95WVul/4waXx++Nu0CSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXPIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:zMHM/qCi/G/vyc3lHemc55DYdb4zR+YMi2TDsHoBKyC9Hfb3qy
- nDppkmPHzP+VUssQ8b+OxoUZPoKRi3yXcf2+Ys1NmZMDUOwFHJEKhSqa3/3jbnByryssRZ1a
- tmbuxCLeeYNykesS4/izPIdOrJB7K8gcSVuds=
-X-Talos-CUID: 9a23:bNQvSWAtkO4W3hr6EzY28GcNOvkjSXb+z3SMPkDkU1RsRJTAHA==
-X-Talos-MUID: =?us-ascii?q?9a23=3A/8K2gAydYZBD4eCeTWCKSkGSPnaaqI+IGmxQlLo?=
- =?us-ascii?q?8gMzaNTUhJCeg3Q61T5Byfw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,202,1779148800"; 
-   d="scan'208";a="794701281"
-Received: from alln-l-core-10.cisco.com ([173.36.16.147])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 03 Aug 2026 07:07:27 +0000
-Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-10.cisco.com (Postfix) with ESMTPS id 911F41800025B
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Aug 2026 07:07:26 +0000 (GMT)
-Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
-	id 267C6CC1611; Mon,  3 Aug 2026 00:07:26 -0700 (PDT)
-From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH] python3-pip: set CVE_PRODUCT
-Date: Mon,  3 Aug 2026 00:07:16 -0700
-Message-Id: <20260803070716.1402767-1-hjadon@cisco.com>
-X-Mailer: git-send-email 2.35.6
+        d=linuxfoundation.org; s=google; t=1785743805; x=1786348605; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fVL+Yy49wTIvLhaQRMvhLpCg+yTA+nQ/xy7+4blPzYs=;
+        b=VtuhMVuxgVUz03bnzGcG1s53rpaGeklc6lcsmTOJk5HklyOBYPqChVBte4owaD4ua+
+         XakNlIf4uhAPn3lnklLiu4zhLfIVUJEltiCvI2dwRDkI197TIzD6CPJBcqUIKGv6maZP
+         QdLX4DhnXQS9bnU3158d+Wj4pahO/nQBllC7U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785743805; x=1786348605;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fVL+Yy49wTIvLhaQRMvhLpCg+yTA+nQ/xy7+4blPzYs=;
+        b=SrtXlsy6NOJAnfsQEiMc+eWVisAR43lfY6ugm/YMsNaTxWePOr1/levPYoj8Cyi1s8
+         DxdspcJ8E0WgC9cIJYTbagunn7IKUrS7VVAHBmtlGcTTGzmnQ4c9+xT6555lVQ7Uia0K
+         qUE6rvwqduQYJHB3YcaWFzldIUEV7XjSUwhziqnk+FH03Tq6AgEX/wOQ/pePsPvS15pO
+         EGRoHllu9ZTzHC33PzJijnOf3Z2uS3YKmcbynkgGVPtwUlZye7eg+vSodPmVmPPUjIHP
+         kbeo5WduQyVvjgvXXApnRBmU3IbUHc2Hec2YqA5edn9EzzD5FPqfAaA5KID5WyVGE0nP
+         Klvw==
+X-Forwarded-Encrypted: i=1; AHgh+RoBd5IYBh3l/V4odPJx/ClA+cwzs5T1qqccGdzZP9JdQtJ5E857kyJnTJgci2X3tNH4Kn0pp4B4/G4N86iSM8PNNA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzoOho+C9DbjqKCZIPynXrJi5GddWv0SZjIRJSNWbN89UNEuv7t
+	IwGH7H3AZC3A5CrULV0NhNC7tdH7ZMzmhIMkP4o9bQldrZUXYhhlmZwbYTmTf/VTuOU=
+X-Gm-Gg: AR+sD12XL1HCSx6YUmtdGMP0VaMOFKOHRSq6wuOtV0xBCRFp2SQETjDFJBgCPqd+Bwr
+	EkHKK0LbUPSaeUMWHNjW0PMechlYUuO3Zmuu5HOdCDkF+R2huacg50VZbqEg/JcGDcMWDraBn70
+	1sun1gYSmQKrAFUmU8s8LmQfGDDfOVSljAuvPo37Dybbaw0nUORJMuryKFIDsV17UeJaVrqNzse
+	Uc4nuqyDUEKHDv93PCJN513qNcJcj0c3q4DEqWOmTautF96xl3zFaVySlSN582EYbaf98iRHG/+
+	F4R+dVvO33rTflVl+KmJ/TkMBFTXQdFqC7UO3KkJLpz9M5yxdfMLDSNdTMkgE1YlPCAtjujXzKg
+	dlMWlEqciH7eM4oPpUDJkGIE8n+0/BnZx350deXpw2tL6K8GYUWtO+Y9gM0OV6f0t2bYpgbeATc
+	aOpQJO8RMVvQglgnpGpR+BC95AU2NBxuwbUrSHKbs0MuekIfKiO+AJqFwe6d37aH7lqq+I8YfSK
+	uNiw1yDXftnxXDK4VxLH1Cg4Sy74vljp1iB2gRaVLMCRtguBvR5kQ==
+X-Received: by 2002:a05:6000:26d3:b0:47f:8fc8:a8b1 with SMTP id ffacd0b85a97d-47fd72d3112mr22047615f8f.14.1785743805054;
+        Mon, 03 Aug 2026 00:56:45 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6b5c:9c24:b513:8797? ([2001:8b0:aba:5f3c:6b5c:9c24:b513:8797])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd45a0c8bsm29427362f8f.34.2026.08.03.00.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2026 00:56:44 -0700 (PDT)
+Message-ID: <d204c0394793abbf3ee4142ea1976054d1af611e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] audit: Move 4.1.4 from meta-openembedded
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: joerg.sommer@navimatix.de, openembedded-core@lists.openembedded.org, 
+	antonin.godard@bootlin.com
+Date: Mon, 03 Aug 2026 08:56:43 +0100
+In-Reply-To: <ade2bf144146d1174890a073a88cb314da65d5fb.1785739505.git.joerg.sommer@navimatix.de>
+References: 
+	<ade2bf144146d1174890a073a88cb314da65d5fb.1785739505.git.joerg.sommer@navimatix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
-X-Outbound-Node: alln-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 07:07:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242611
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 07:56:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242612
 
-From: Himanshu Jadon <hjadon@cisco.com>
+On Mon, 2026-08-03 at 08:45 +0200, J=C3=B6rg Sommer via lists.openembedded.=
+org wrote:
+> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+>=20
+> With the new established distro feature *audit* in oe-core the tools for
+> this should be available too. Therefore, include the recipe from
+> 8f3df8b447aa8a27ce15ccdcfa9d3eb253c08dc2 in meta-openembedded.
+>=20
+> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
 
-CVE_PRODUCT is not set for python3-pip, so cve-check can miss or
-misreport pip CVEs. CVE-2026-8643 is reported in NVD with pypa:pip.
+I don't know what the right thing to do here is.
 
-Add CVE_PRODUCT to match the NVD product name and report this CVE
-correctly.
+We (as in the review meeting) agreed we should take the other patches
+and standardise the controls as doing that adhoc would be a pain for
+anyone wanting to use this.
 
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a486abd4889ad03e1a8ddd5311595f3ece7d61b6)
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
----
- meta/recipes-devtools/python/python3-pip_24.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Here, we're using that to argue that it is now an officially supported
+features and the recipe should be in core. That wasn't the intent of
+the decision to merge the other patches. The next argument would be
+that we need tests and should add it to CI too.
 
-diff --git a/meta/recipes-devtools/python/python3-pip_24.0.bb b/meta/recipes-devtools/python/python3-pip_24.0.bb
-index cf123a5d23..51fff41e25 100644
---- a/meta/recipes-devtools/python/python3-pip_24.0.bb
-+++ b/meta/recipes-devtools/python/python3-pip_24.0.bb
-@@ -41,6 +41,8 @@ do_install:append() {
-     rm -f ${D}/${bindir}/pip
- }
- 
-+CVE_PRODUCT = "pypa:pip"
-+
- do_install:append(){
- 	# pip vendors distlib which ships Windows launcher templates (*.exe).
- 	# Keep them only when building for a Windows (mingw) host.
--- 
-2.35.6
+I'm torn on all this. I think I'd want a better understanding of who is
+using it before we commit to maintaining recipes and potentially extra
+testing.
 
+Cheers,
+
+Richrd
 
