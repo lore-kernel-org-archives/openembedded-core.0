@@ -2,126 +2,161 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DBEC55184
-	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:01:38 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38407.1785744089381271142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 236E0C55175
+	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:04:18 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38408.1785744255024418669
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 01:01:29 -0700
+ Mon, 03 Aug 2026 01:04:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YcwNaIlz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c15d3cd51b2so413653666b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 01:01:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OISI0wL6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-496bb7cdf51so18010485e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 01:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785744087; x=1786348887; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=+xXz2xn6yxxUPZl9rNOcf5GzTMktVoX2qd4qeApEL3A=;
-        b=YcwNaIlz+OXOiNQsLLlfrY9Usd8VhAtnOsnj96Lu1mF8WH8A2FlDK5YVw82cABPphc
-         d4BPQziYOltf9yzgg1qJEPnsOKbasIClKluuuPpQtPnJ2riedFVas3vctbPmdF5XZwFz
-         RRZE2ZLYuhrzEE9qCd0gRDcTThoEhe5d0BY74=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785744087; x=1786348887;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linuxfoundation.org; s=google; t=1785744253; x=1786349053; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+xXz2xn6yxxUPZl9rNOcf5GzTMktVoX2qd4qeApEL3A=;
-        b=erhKVjixHIdgYNIJO21xyF+FmExHYsK0SovS0HErtCg/YHLeLUd5XPqpqWNmLVTL/o
-         9pdWwgBtqzqiS2UHKp4VX0aM8QdT68tCRyda4VsbtCsGeDigyUWKWzXitHcf090zIvav
-         lnG2/Xurg/LH7fjOkKEfmT6yvNTiepn6sOzQTxnyh4Rc5LCOa5qQbUMxOgQLqBVI2g35
-         qO0Zavj5+7Gpz3UsmGMenAGWUfSDgvIAwGqAY/TkRCB2eIoQ1YAJ6HV5vksqOMPiDrKK
-         Jw9uOrSljbQATipaUyal4Pib4D1DNaAagFgGiSaam3MnKkmAK5tPb2AKBhoVu8Y3TmRE
-         xyxw==
-X-Forwarded-Encrypted: i=1; AHgh+RokRv/FrScQOobiiQ9VR7u05javySsA4+miaUNcePkRndjjErv7FqKhsSHcP2/zoqoaPbADt1RMd/DWWZip5/sCOQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxFWG703h6XrzQzNlNBrUeQsstKXQAJhZDYo4IuFUi6ati6V6vK
-	ltUfWq83vIDdepAlVs/fQDLXg42jt3N+jaQNzMCr8MJ3Wgl7h/9KMc9A1lEdFBbXWwyHCCCCMpW
-	Gs234bdQ=
-X-Gm-Gg: AR+sD10ZjzyXadLzueoowo/XwVxdENlrA5iTHc0xM3+sWQ13GxYepbgPTs4szTjQeUL
-	MI/nQ6NDTtfRJAHmmozgXFUrZR5EHnsBXzllTb3HJnruXiTE+BCX61alEBEfK7XG5oZ0D6xGPZE
-	SK30Jg3PnzlxQyieFzrrUBjKLH8vZN0B5nQLP4Qrn0tVy/E/BLMTWHUKFAPAilkIyg1YPMU+SfY
-	1R5A1UX41GyEIgeFchD2nknPuMuDPKoq8QlnpIsDhCG6cXcWVM9q9WRH/YNYd+9H4XFx/EXldzF
-	l2bdb94prxTz0THA371c39V954v3E8k8X6wJtjHgJonotF5E25D/58X//CdydZgzH/Iybp3Lx2Y
-	3oQwTrpebksuYy3aqwYtXRx5DN925PP5CWtVspF1eFpxaQEP7j9NKP2LpusuBTXv/lT28buDBsN
-	GL+t8nm1Wowq4/j5t5ApPDjsPwvBHwoRK7n+bS+SQN6yG1ErTence8d+aUBp0fDh8GplVW4Q9pk
-	YLhVquAx9yYvrWEhMbSttvZgsnYRGiSrryGDeBpwo3AE85QISa7KQ==
-X-Received: by 2002:a17:907:e90:b0:c16:72ba:d352 with SMTP id a640c23a62f3a-c1fe81693e0mr806070066b.31.1785744087463;
-        Mon, 03 Aug 2026 01:01:27 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6b5c:9c24:b513:8797? ([2001:8b0:aba:5f3c:6b5c:9c24:b513:8797])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd4454472sm500313966b.34.2026.08.03.01.01.26
+        bh=k79oL+NAcR5PsXn11Qb95nPn1kmbvEVb0tw7Z6W7M+s=;
+        b=OISI0wL63wwDFWJVfmBKpFd89eNonwvUgltEPubSqT6E1Bh2xTwcgbkrbGZIMELxnj
+         WGqeigxbZWChKtrFAYV8z8wTLLewGFRKNzYi3Kgkqvm6AQx1sy0lw4bBB2YFWbixuk4f
+         qjQdYm5KaStRuaXHRswkZ58p/6aUQQKexDP3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785744253; x=1786349053;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k79oL+NAcR5PsXn11Qb95nPn1kmbvEVb0tw7Z6W7M+s=;
+        b=jzG4EQTR1zwSQ6d+fwqggTZSNyGiFymD0puUrtymHJo9iceUblfjxOZJ0GfWC0weEu
+         Kn8m1VgAF8oHfgGwprmtFRKzQMBOELsffiOLKqapnOdwpK8IghFbeQ+exW89QX+T/JeB
+         5r9xBG4V7cjPQmmg2S5dg6wkzs6PTD0cH7nxKhaxDnDADMDLhRGVHxAuS3Vj5cd6dyXo
+         k4Cw6gmOQ4ag9aoasFzR1qxMZs9uSoYToBpPX4+cOcgijSzfhwT3fBowxXBUQQ60RDTv
+         zAFhhUEWwV9mfkKhfRctlZYP8bdGKOSGWzDNtnCmMBebA89yXOQNaLAwRvsQ8slk2QF0
+         aP1Q==
+X-Gm-Message-State: AOJu0YzBr1kj0CDXJd7qvvcbDcKzDaek2cz6spT+N93VkoLTkKtcKE6I
+	LPDvFqA5tiTQ31d5trRRx9DZIwxk/i+ysV2LNLkSYl5hcQ2JFsEtdw2hRg4C9YQokEp7Egn72P/
+	Fsp0Vj0g=
+X-Gm-Gg: AR+sD1197A85X7W9fXWeZSTXkOQL1pu0bvAw8haqLqyRF9RVcpTikRGWg2XbdawXO5W
+	7Racp5p27UcLnJ6NczzN/KE18+bTMzSrQO5S6CD5PCheHlzJ66zto5zSoaDp0iZmO5QueWZF3Bt
+	Rd7eC1AVenxbQSVtEqathxHUWX/jAD05gY9o/SCz1lona7xpKvucoQkLYUr1u959WMze1DoRHqZ
+	XB3JQZiN+avo8F0XGeVJdFukYGYIplKk/YP3ocbE7cwtjfrnC85GrxOcjPqVWydRqM+IWM4UYC6
+	HF40f8+oS8QiX4BHibJ8x0Whcs6f67fLkrlqnqYmss1xDa7uuZgU1xuF3VETocVnXjm1DK7E5Hi
+	IBVpWj9ldIEnOKPHerQ0h6/uReSoKuNm/hw2zD4gGD0HfPUjvFQ2UtaWHrUE99VoHuX6pNVoIA7
+	gTzcVrgug+ez9nNGDHV8Fu13Wpr+NMniN4QmtXawiqgCxIvOpOuXxCibC7ya5hfJYShYLTVhEdL
+	CUEo0NeR7jXeTmAFw==
+X-Received: by 2002:a05:600c:8711:b0:495:52a5:8829 with SMTP id 5b1f17b1804b1-4980c652515mr238571395e9.11.1785744252137;
+        Mon, 03 Aug 2026 01:04:12 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6b5c:9c24:b513:8797])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b84fb2sm124108185e9.1.2026.08.03.01.04.11
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 01:01:26 -0700 (PDT)
-Message-ID: <ac50878f7bad3ffc3766cdfc4a91dbe1a180dba7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 00/14] devtool ide-sdk: clang and lldb support
+        Mon, 03 Aug 2026 01:04:11 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
-Date: Mon, 03 Aug 2026 09:01:26 +0100
-In-Reply-To: <20260802195324.64533-1-adrian.freihofer@siemens.com>
-References: <20260802195324.64533-1-adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] mpg123: upgrade 1.33.6 -> 1.33.7
+Date: Mon,  3 Aug 2026 09:04:10 +0100
+Message-ID: <20260803080410.717636-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:01:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242614
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:04:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242615
 
-On Sun, 2026-08-02 at 21:52 +0200, Adrian Freihofer via lists.openembedded.=
-org wrote:
-> From: Adrian Freihofer <adrian.freihofer@siemens.com>
->=20
-> This series adds clang toolchain support to devtool ide-sdk. LLDB is
-> part of the same LLVM project as clang and is the more natural debugger
-> pairing for it (much like GDB pairs with gcc), so ide-sdk now picks LLDB
-> as the debugger whenever the recipe is built with clang, while
-> continuing to use GDB for gcc-built recipes as before. The series also
-> significantly extends oe-selftest coverage for both debugging paths
-> (ide=3Dcode and ide=3Dnone).
->=20
-> Highlights:
-> =C2=A0- Introduce a debugger back-end abstraction in ide-sdk so GDB and L=
-LDB
-> =C2=A0=C2=A0 can share the common ide=3Dcode/ide=3Dnone plumbing, and sel=
-ect LLDB
-> =C2=A0=C2=A0 automatically when the recipe's toolchain is clang.
-> =C2=A0- Add LLDB support for the clang toolchain, for both ide=3Dcode
-> =C2=A0=C2=A0 (lldb-server platform mode + CodeLLDB launch/task config) an=
-d ide=3Dnone
-> =C2=A0=C2=A0 (generated shell scripts).
-> =C2=A0- Fix a handful of pre-existing ide-sdk issues found along the way:
-> =C2=A0=C2=A0 waiting for the gdbserver port before returning, a duplicate=
- -p flag in
-> =C2=A0=C2=A0 _target_ssh_args, $@ getting overwritten by `set` in the
-> =C2=A0=C2=A0 install_and_deploy script, and meson compile_commands.json g=
-eneration.
-> =C2=A0- Refactor the meta-selftest cpp debugging examples into shared .in=
-c
-> =C2=A0=C2=A0 files with clang variants, and add real, end-to-end debug se=
-ssion
-> =C2=A0=C2=A0 coverage (breakpoints in the executable, a library and a hea=
-der-only
-> =C2=A0=C2=A0 inline function) for GDB (meson) and LLDB (clang, both ide=
-=3Dcode and
-> =C2=A0=C2=A0 ide=3Dnone), including a recompile/redeploy cycle.
->=20
-> For now the debugger is selected purely based on the recipe's
-> TOOLCHAIN (gcc -> GDB, clang -> LLDB). Other combinations, e.g. gcc for
-> compiling with clang-tidy for static analysis, or support for the VSCode
-> clangd plugin are not covered yet but could be supported in the future
-> by making the debugger selection more independent from the compiler
-> choice.
+1.33.7
+------
+- mpg123:
+-- Fix heap buffer overflows in unicode path conversion on Windows (bug 388,
+   thanks to Alejandro Ramos).
+-- Fix information disclosure of uninitialied memory for --auth-file without
+   line endings. (bug 390, thanks to Alejandro Ramos)
+-- Fix out-of-bounds read/write when combining --continue --random --listentry <n>
+   where n is larger than the playlist size. (bug 391, thanks to Alejandro Ramos)
+-- Fix a harmless valgrind memory leak report by not nulling playlist name.
+-- Fix error handling of win32_net_writestring() (Windows only) by actually using
+   a signed type, also preventing a OOB read on failure.
+   (bug 392 by Alejandro Ramos)
+-- Fix a mostly harmless OOB read of 1 byte when printing USLT lyrics.
+   (bug 392)
+-- Fix leaking file descriptor on read error from --equalizer file. (bug 392)
+-- Hardening of loading HTTP(S) via curl or wget against funky URLs by including
+   the -- separator. No actual vulnerability, tough, just extra care. (bug 392)
+- out123:
+-- Fix heap overrun on --endian conversion with differing input and output
+   channel counts. (bug 391)
+-- Fix parsing of filter specs with whitespace before commas, which resulted
+   in out-of-bounds writes before. (bug 391)
+- libmpg123, mpg123: Harden memory realloc calls against multiplication overflow
+  of size_t in arguments. Specifically, this addresses part of bug 389 with possible
+  application abuse of mpg123_set_index64(). (bug 389 by Alejandro Ramos)
+- libmpg123:
+-- Fix possible use of uninitialized values in layer III dequantization.
+   III_dequantize_sample() for consistent output also for strange input. The new
+   code seems to be slightly faster after some rearrangements.
+   (thanks to He Huang, Swinburne University of Technology (discovered using
+   NexusSan))
+-- Fix a double free when deleting a handle after failed mpg123_decoder() call
+   (possibly among others). (bug 389)
+-- More strong wording in API that ID3 text convenience links are short-lived,
+   but safeguard against ignorant use by nulling them early.
+   (bug 389)
+-- Prevent double free in mpg123_set_index() 32 bit wrapper being called with
+   index size 0. (bug 392)
+-- Harden against an application wielding a foot gun by handing in an undersized
+   decoding buffer betwee seek and read (return error before trying to decode
+   and discard frames in that case). (bug 392)
+-- Do properly terminate ID3v2 texts coming in UTF16 encoding when they overwrite
+   previous frames, like with other encodings. The symptom was a shorter second
+   frame resulting in a combined text with the earlier longer frame.
+   (bug 392)
+-- Check and properly handle null source buffer and zero size in mpg123_store_utf8()
+   instead of reading past (before) buffers. (bug 392)
+-- Ensure clients get ID3v1 data with (unmotivated) mpg123_id3_raw()
+   only if the parser decided that it is there, not possibly the last 128 bytes of
+   a seekable stream without ID3v1 tag. (bug 392)
+-- Prevent impossible NtoM resampling with too low target rate (like 1 Hz) which
+   would trgger endless looping. (bug 392)
+- libout123:
+-- Fix deadlock in buffer mode when combined with (stereo) 24 bit output. Now
+   also mpg123 --buffer 4096 -e s24 shall actuallly work. Sorry. (bug 392)
+-- Abort early on zero/negative rate and channel count in out123_start().
+   (bug 392)
+-- Fix divide by zero in WAV writing by catching channel counts that go zero in the
+   16 bit WAV header field. (bug 392)
+- libsyn123:
+-- Explictly reject mismatched format for appending filters with
+   syn123_setup_filter(), preventing memory errors from that API-violating use.
+   (bug 392)
+-- Harden the dirty resampling interpolator against extreme rates (around 1e18 Hz)
+   by fixing a sample offset check to not do the exact overflowing addition
+   that it is supposed to guard against. The fine resampler was … fine. (bug 392)
+-- Error out on trying to create a filter of order 0 instead of dividing by zero
+   later. (bug 392)
 
-This wasn't happy on the autobuilder unfortunately:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../mpg123/{mpg123_1.33.6.bb => mpg123_1.33.7.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.33.6.bb => mpg123_1.33.7.bb} (96%)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4515
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4269
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4451
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb b/meta/recipes-multimedia/mpg123/mpg123_1.33.7.bb
+similarity index 96%
+rename from meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb
+rename to meta/recipes-multimedia/mpg123/mpg123_1.33.7.bb
+index 7fa048c9fc3..002c4f1cc64 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.33.7.bb
+@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
+ 
+ SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "929a7c18ba662b8927aed4de229ad9ae8ab2b4806dd0f30b90113eb1b4e2195a"
++SRC_URI[sha256sum] = "31d0e35a4ca567ec9b5ebda6c3062bb4435d6d3eacd6ef0d95cadd7854dc03ee"
+ 
+ UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
 
