@@ -2,40 +2,40 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CC7C55175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD7AC55184
 	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 09:26:21 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39445.1785749171452699476
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.39522.1785749172479056089
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 02:26:11 -0700
+ Mon, 03 Aug 2026 02:26:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=vyjik+qq;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=MrlwkuC9;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BA65A4E410B3;
-	Mon,  3 Aug 2026 09:26:09 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 95F374E410B4;
+	Mon,  3 Aug 2026 09:26:10 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8FF266029B;
-	Mon,  3 Aug 2026 09:26:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 00B6711C17D01;
-	Mon,  3 Aug 2026 11:26:07 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6CBE36029B;
+	Mon,  3 Aug 2026 09:26:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1FC5711C17D06;
+	Mon,  3 Aug 2026 11:26:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1785749168; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1785749169; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=5VarJytKiXGOAM3Zau7Niq+Ib7n7AooLiDDMykZ8fcc=;
-	b=vyjik+qqzARJKWS3smfC1pgmQky8iT5WqiIeLxgfgZJ5+WXn2A1xu8WFFwIrkRNBzSDWOx
-	rzxvke4oMEmOJhH18nmpUgFgZiiyge1KsIL3GtHq3cSEfZ2AlvImG3PlC79F87sl2ixtpy
-	TpDP8EcHIKPfq5Mp8syrqdjo/SUHb3zzxVo98XteugUngvPVUV7fPOixGDHpV3JbYlcxTF
-	+Vc3NbhZH3ZpywKkbahEBwf55YdWICcPhxMfxxzTz85Ix8csSExsuHC0Cr6bwJd7rEmb5t
-	WAgCG2of7h39vdEsGr9HaOb7fXWluu+1+qwKUIRGc5t0bVJu23yIWvF5Mmh0LA==
+	bh=FLA7aYtwGzzAJVVV0gxjojkbvI/prmWA24GYWBnNUuA=;
+	b=MrlwkuC9AF0HBj7u12YXBS2IGKX8knsgbTY4zMOX0NMBKRyt4162jgJvhDFFz1SePmxnCf
+	nIFr4sH6hqdRluuTVJkKxRce9jIE9yytbCP+wf4cvfI3/tPj5R1G5IQXmpjbVBNU0VouRN
+	nwJZJuuGHDfkt7LEwCwR4GYVbB6WlPPXg38W/X1l58rWpV0biFpVp2+qD8lS0viSgGRNNe
+	+HAKab0CCc6mWc1hjApnvqWC1012UL96PeUdIXab9vKkh6aoE0SUh3tHpZo9af6CVVCw7g
+	qV+kWF5HHZzEr8HaQJtXztco62jofbHSWbkuoXenCZe5xBlerMfBkiyPG91iVA==
 From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-Date: Mon, 03 Aug 2026 11:25:58 +0200
-Subject: [PATCH 2/3] sbom-cve-check-update-cvelist-native: update to
- version 2026-08-03
+Date: Mon, 03 Aug 2026 11:25:59 +0200
+Subject: [PATCH 3/3] sbom-cve-check-update-nvd-native: update to version
+ 2026.08.03-000011
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-update-sbom-cve-check-1-3-3-v1-2-c0e5e198030e@bootlin.com>
+Message-Id: <20260803-update-sbom-cve-check-1-3-3-v1-3-c0e5e198030e@bootlin.com>
 References: <20260803-update-sbom-cve-check-1-3-3-v1-0-c0e5e198030e@bootlin.com>
 In-Reply-To: <20260803-update-sbom-cve-check-1-3-3-v1-0-c0e5e198030e@bootlin.com>
 To: openembedded-core@lists.openembedded.org
@@ -49,29 +49,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 09:26:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242640
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242641
 
-Update cvelistV5 to the CVE database from 2026-08-03.
+Update fkie-cad/nvd-json-data-feeds to the CVE database from 2026.08.03.
 
 Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 ---
- ...2026-07-23.bb => sbom-cve-check-update-cvelist-native_2026-08-03.bb} | 2 +-
+ ...-000007.bb => sbom-cve-check-update-nvd-native_2026.08.03-000011.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-23.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-03.bb
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.23-000007.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.03-000011.bb
 similarity index 89%
-rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-23.bb
-rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-03.bb
-index 0ada6e89f3b3..b2a665450311 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-23.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-03.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
- SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix=;tag=${PV}_baseline"
- SBOM_CVE_CHECK_DB_NAME = "cvelist"
+rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.23-000007.bb
+rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.03-000011.bb
+index b0b6fb7d8c68..7c4c0511f830 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.23-000007.bb
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.03-000011.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/fkie-cad/nvd-json-data-feeds"
+ SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix=;tag=v${PV}"
+ SBOM_CVE_CHECK_DB_NAME = "nvd-fkie"
  
--SRCREV = "7a274ec07043f54c07d0a3b5c7fc89ba5793f023"
-+SRCREV = "b160e6f2915ac726b29ee0689fc920f5016abef5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>.+)_baseline"
+-SRCREV = "64a0cea215628d780438fba8bfe0f3300db1b702"
++SRCREV = "b9f52bb052695dac5cabbd58e049eaac73697161"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.+)"
  
  require sbom-cve-check-update-db.inc
 
