@@ -2,34 +2,34 @@ Return-Path: <junjie.cao@linux.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3641CC55175
-	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F747C55175
+	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:50:28 +0000 (UTC)
 Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39025.1785747005700604975
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.39084.1785747017996417977
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 01:50:05 -0700
+ Mon, 03 Aug 2026 01:50:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=bklBbRWz;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=cWglyNyq;
  spf=pass (domain: linux.dev, ip: 91.218.175.181, mailfrom: junjie.cao@linux.dev)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785747003;
+	t=1785747015;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B3d2RLakSAdFqAQu5/5q3WoyjBuHBaRHRa6U84R9bDY=;
-	b=bklBbRWzgJbbuTC8CWOBjq5Fk7NVJnEB9XltonrFqIjZbFt5OWvLB+j/23zMPTJE4JwBQ2
-	OfxZVQ7CZNGqRg+DDVWHaoBlK/zPot2has6ApAeuCFGrcyK0WTRMkLrHWO8vzcfEWIpI1K
-	UyoyO0woptM63MlWQAaBAADVk5ZOnfs=
+	bh=pywFFLxEQ0YD1Jvb1j+qUEjyeWpPyTbtW1n2ftGvkrQ=;
+	b=cWglyNyq1gniDYtru+mF1ySqDobdomDu9msgJO2Kpq+RYZxK6JayJ5QOmShfJjaacSrnJq
+	eokYi582YyGkgU56Pdl9VCt8nOQ7GztQgyWW1CFG0Nh7pr/S36nI3YSl+oHPuD/QGjqp7V
+	uFuxoYO86k7YxysXkif8sbRYeGN90U4=
 From: Junjie Cao <junjie.cao@linux.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: paul@pbarker.dev,
 	randy.macleod@windriver.com,
 	Venkata.Navuduri@windriver.com
-Subject: [OE-core][PATCH v2 06/10] cve-exclusion: set status for CVE-2022-4543
-Date: Mon,  3 Aug 2026 01:48:23 -0700
-Message-ID: <20260803084827.1348810-7-junjie.cao@linux.dev>
+Subject: [OE-core][PATCH v2 07/10] cve-exclusion: set status for CVE-2023-3397
+Date: Mon,  3 Aug 2026 01:48:24 -0700
+Message-ID: <20260803084827.1348810-8-junjie.cao@linux.dev>
 In-Reply-To: <20260803084827.1348810-1-junjie.cao@linux.dev>
 References: <20260803084827.1348810-1-junjie.cao@linux.dev>
 MIME-Version: 1.0
@@ -38,41 +38,37 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:50:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242632
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:50:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242633
 
-KPTI clones the kernel entry text into the user page tables at its
-KASLR-slid address and, on CPUs with PGE, sets the global bit on those
-PTEs. The mapping therefore survives the CR3 write on kernel exit, and a
-local attacker can time prefetch instructions across the kernel range to
-recover the KASLR base in well under a second.
+txEnd() in fs/jfs/jfs_txnmgr.c reads the log pointer from the superblock
+info, drops TXN_LOCK and then takes log->gclock, while lmLogClose() can
+free that log during umount.
 
-Disclosure and technical write-up:
+The subsystem in the public CVE data is misleading: the "slub"
+association comes from the KASAN slab report, but the affected code is
+JFS. Red Hat's own title for the issue is "slab-use-after-free write in
+txend due to race condition".
 
-  https://www.openwall.com/lists/oss-security/2022/12/16/3
-  https://www.willsroot.io/2022/12/entrybleed.html
+A fix adding a new mutex was posted, reviewed, and then withdrawn by its
+author, who wrote "I think my fix method is not a good solution":
 
-The disclosure states that after discussion with security@kernel.org and
-linux-distros "a fix for this is currently not available", and none has
-appeared since. arch/x86/mm/pti.c still clones the entry text and still
-sets _PAGE_GLOBAL on the cloned PTEs as of v7.2, and no commit in
-mainline references the issue.
+  https://lore.kernel.org/all/20230515095956.17898-1-zyytlz.wz@163.com/
 
-Debian marks it unimportant with the note "Ignored upstream and KASLR is
-not expected to be resistant to local attacks":
+No other fix has been posted, and the sequence in txEnd() is unchanged
+in mainline as of linux-next 20260727. syzkaller was still reporting
+"KASAN: slab-use-after-free Write in txEnd" in June 2026.
 
-  https://security-tracker.debian.org/tracker/CVE-2022-4543
+Ubuntu records "unfixed upstream as of 2023-09-01"; Debian lists
+src:linux as vulnerable in every suite:
 
-Ubuntu has it deferred since 2023-01-10 with "unfixed upstream", and
-Red Hat lists current RHEL as Affected with no mitigation available:
+  https://ubuntu.com/security/CVE-2023-3397
+  https://security-tracker.debian.org/tracker/CVE-2023-3397
 
-  https://ubuntu.com/security/CVE-2022-4543
-  https://access.redhat.com/security/cve/CVE-2022-4543
-
-97e3d26b5e5f ("x86/mm: Randomize per-cpu entry area", v6.2) randomizes
-the CPU entry area, which is CVE-2023-3640. It predates this disclosure
-and does not address it - the offset of entry_SYSCALL_64 from the KASLR
-base is unchanged by that commit.
+CONFIG_JFS_FS=3Dn in both ktypes/standard/standard.cfg and
+ktypes/preempt-rt/preempt-rt.cfg in yocto-kernel-cache, and no fragment
+there enables it; the only other occurrence is CONFIG_JFS_SECURITY in
+the selinux feature, which has no effect without JFS_FS.
 
 CC: Paul Barker <paul@pbarker.dev>
 AI-Generated: Uses Claude (claude-opus-5)
@@ -95,26 +91,25 @@ njie.cao@linux.dev/
 
 diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-k=
 ernel/linux/cve-exclusion.inc
-index 7547cdfd..3517318e 100644
+index 3517318e..827a487e 100644
 --- a/meta/recipes-kernel/linux/cve-exclusion.inc
 +++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -225,3 +225,10 @@ was never substantiated and was closed as not-a-bug =
-by Red Hat, SUSE and Debian"
- # Also in 6.1.150, 6.6.104, 6.12.y and 6.16.5 via the 2025-09-02 stable =
-round.
- # The rose/hamradio subsystem was removed entirely in v7.1 (dd8d4bc28ad7=
-).
- CVE_STATUS[CVE-2022-1247] =3D "fixed-version: Fixed from version 6.17"
-+
-+# "EntryBleed": KPTI maps __entry_text into the user page tables with th=
-e
-+# global bit set, leaking the KASLR base by prefetch timing. Intel only.
-+# Not CVE-2023-3640, which is the separate cpu_entry_area (fixed in v6.2=
-).
-+# https://www.willsroot.io/2022/12/entrybleed.html
-+CVE_STATUS[CVE-2022-4543] =3D "upstream-wontfix: no fix planned, KASLR i=
+@@ -232,3 +232,10 @@ CVE_STATUS[CVE-2022-1247] =3D "fixed-version: Fixed =
+from version 6.17"
+ # https://www.willsroot.io/2022/12/entrybleed.html
+ CVE_STATUS[CVE-2022-4543] =3D "upstream-wontfix: no fix planned, KASLR i=
 s not \
-+considered a defence against local attackers"
+ considered a defence against local attackers"
++
++# JFS txEnd()/lmLogClose() use-after-free, not slub as the CVE data says=
+.
++# The only proposed fix was withdrawn by its author; the racy code is
++# unchanged and syzbot still reproduces it as of June 2026.
++# https://lore.kernel.org/all/20230515095956.17898-1-zyytlz.wz@163.com/
++CVE_STATUS[CVE-2023-3397] =3D "unpatched: no upstream fix, the only prop=
+osed \
++patch was withdrawn by its author and the affected fs/jfs code is unchan=
+ged"
 --=20
 2.43.0
 
