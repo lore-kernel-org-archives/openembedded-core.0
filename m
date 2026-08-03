@@ -1,110 +1,148 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BCB7C55197
-	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 10:18:52 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40116.1785752321948415134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92EABC55184
+	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 10:52:52 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40627.1785754362996146350
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 03:18:42 -0700
+ Mon, 03 Aug 2026 03:52:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TrE9kpd8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so10028925e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 03:18:41 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=ioW1gWW6;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.42, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49558ce01afso15084775e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 03:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785752320; x=1786357120; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=2h/ZVeHh5ATtE64qQJUmYXvZJp1jviywk9MjXmpwC3s=;
-        b=TrE9kpd8x97Nwo3Gbhiwc0IZ0vjvaQ0UzB0Ps7tjDqPN54gT3E4sUQe1c2VJdtrq0m
-         Une6jHYLD4WdWpdtr8V9MXYBzdvmRPce1N9xRD5jbuZUKTqBfgapcJc6rUshPmdUc6XF
-         wU/3PXFuXoNS+/lkmZSIWqCQRqasrs2TUigIc=
+        d=konsulko.com; s=google; t=1785754361; x=1786359161; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mtMWyH1UMMI4yIUm6Kqnd6jf6Kdz4yHOJ1PvZVNmxJg=;
+        b=ioW1gWW6lpxA6xiaXiL0hldO0F3aI8tsMrJyc6yyxO6NhnmYSxBgGSIifthXuPn6Fw
+         hH4jD1/YgrgBURo09aL0vKL/bfJ13vgetotnEq6K6tTUTOlkwcSrogjN/gQjWWQeq2mN
+         flXb//ClxFBREJIDpcBkIomrAvuUuNcSwvpHo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785752320; x=1786357120;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2h/ZVeHh5ATtE64qQJUmYXvZJp1jviywk9MjXmpwC3s=;
-        b=WoJ2aHca7W+hQu47ZWyANmO1ScEYc+fUQ680QmhXT1lR7QCV01aILbQBTo/lmgf7xJ
-         7D/w/2ne6knZASuKayEwD8jZI+4Yl6wWTFf2j5Cf2ZyNQ8Z7noORje69Y/cah1/465Vu
-         kIIan7C+S3aAUory3zYXB8xWaryUjEB7U5cdXP0ORjlvgtndgSYxxUTdYyvKnS6AqlnP
-         3SoMn6G45ehkkTNjR7+SPafOcBdnbeBik0OlMfaD5szZdSAKgKgc4M8VhTqeEmUCkPA4
-         DvEktvh9T5hrNsZj5DXlel1jvx+Xq9Q0t1wHVgOi+zlzo3CX40D8LgMSHZVS146Fe8PQ
-         o66g==
-X-Forwarded-Encrypted: i=1; AHgh+RovMnKw3duTvDH5xnL8yXOX6ahxaUmgLefKLOWSQxJcEJNU39HbN9Cn7bkTHPYt+qS8wlpLZMTKgkuRdkXGYnLdgQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwjgLTIbx1eD7Bj/sSyVRB/+ZnwT0AddwkCif1uTw06iit+8DJZ
-	yVLCdagSlYPfhy1vo+Ye5KTpxWebVikwyRcbwReBn5hRZ+H1yODvHLHMc6fbqxgfsdg=
-X-Gm-Gg: AR+sD11+1gs35F9q5nXhp4vL+I4sYY7iu5Rj1aC+PUYHowuWsBCdf2W0oi9X4yp1CeL
-	+wi6eaGRDPdN6QvSO+m8iMcr7a+F43wHEZGd5liiuH9Ld5p4VTWYsLP90ASbt5u1UO6TAP26ROs
-	54iNUBVF6Zv1i2Z++7nYgqy+GhWZKW8O6uurG3Ualz9wVXhGiD5/HsJA8mQv6ihUShp6BTDuZ+6
-	mIojiLwcrbr3WApDXDpZSZYPTd3V/XYCGyOBlsPDcWoNbYrf23TPiGc/E3zZGfWQykv0pthSYbk
-	810bVCRi0RF4h2dmBz1GzsCKXP/IiHWQak1SrL0qDNccH9KdtiJDd3FHsMMx3EyMlF6cGBrHRc8
-	O00Hkh1b9FPJyRGLBHxDni2q5yrJtxIZyxvJLmuauvJ3vD9bLa3JJDqzRx91vwHBep5eYBVM4sP
-	XDgyWYpaFM/ptZhUavBE/rJQA9avEYCoDhzbqOEJF3H4nUVhev9QTVRz80A8ISSLZhK+wg0hxaa
-	T6hjokoHXsYdAHM2+9a66HxfehZfxyun3DK7ehtv0D7WlwiyvCEDjo=
-X-Received: by 2002:a05:600c:34c6:b0:493:a966:d5b5 with SMTP id 5b1f17b1804b1-4980c66b50emr227468935e9.2.1785752320198;
-        Mon, 03 Aug 2026 03:18:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6b5c:9c24:b513:8797? ([2001:8b0:aba:5f3c:6b5c:9c24:b513:8797])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd45a0c8bsm30449482f8f.34.2026.08.03.03.18.39
+        d=1e100.net; s=20251104; t=1785754361; x=1786359161;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mtMWyH1UMMI4yIUm6Kqnd6jf6Kdz4yHOJ1PvZVNmxJg=;
+        b=rD6cw9IViGf12+xnhWLZWJRlkBXNE46EFT3ztQqYIck7Q4Bc4Pzm44hPeN8aFPv11Y
+         IprOblwF4JPLbp3ExQlKMIRWlGN/zWH7qGElx36BJXQfVhpox72++gHWBll9MQxpJW7L
+         oH9t+lkoJsf4mjQfb6LO/m+78hmMS/LgwOEOn+1jzDaJ5PVG3O5gMU7hhIsAnt5oQQzV
+         AS0fXXDv/YqRFaXaSVgiEdnjTi6TVkWSiWTDNdYnQnLC6km3T2m3+cCe2eReb6Q7YiIy
+         V/Z0XwB3B+K+AmJ5ENuXBG1Mwtny8oYNHgbZsmh3brzv/DinFypOsLAuV45fBhcHSbSF
+         HvBQ==
+X-Gm-Message-State: AOJu0YxvBEACIoZ7sA5RjxHMDZ/tvPej6IOyhbCekmyrFOmz3UJ3UyqW
+	9U+/+Mq9puD0oh7bqrqeWQLMX5yMgWC2vIS8s/xEcyQkhBDcLvy2gXy0Yubx3+isaDs32g8yeoP
+	2VUa/
+X-Gm-Gg: AR+sD13MrS8+gDJcI+xMOwnCsYYDwd/6B04TKUiMkSzEtzrO4zHG1BTqTCBijA7mnHJ
+	5RJzS3GLt35Js62U2FpKtdJC1PcoTrb3gIQuGso82P0/Mb9PfwCLebgBxLMZLpuVOBZwxGqOPB0
+	ivAZ0de+U9k4OREZ5vSQx05g5itU5f1pkqWIjH1H9ieGv5ez9PGeGd3Bb1poObYhmhgVQxQLkis
+	QxE91ggbb5pNjaf7LVFKHLV5q2w9cLHTMMskcfH7euRyg6pYu75L2hZXXBclzj4vWpl1KpG7y2h
+	ZJejHJMYFBnqATFp2K46M3mWgWcA6J5dc7zXeC0soyNR/hJncPr+V/YVglG0FSeSTRiqfyVM3IE
+	DUij69x+UAX2Yu0BaeoL6bAbCYK9zkq1MfLgDWyu77l4JndkXAZLtm3jjrkYL5TOwoF6mP+yOD3
+	wAdf33GCZ5E22ZK1xKu37G0C4xARjfZpLxNtKFgrLa8hhJDT6pUrtS2+Mpis6mnJrzr9UJuEZzs
+	Vx7HKv7EU9ZhrBLsnRXJMpXaj8TKHgA1F/o3iG97Tvrs5qTBrIKkICPXSlGd7lufpfmzcNEfkfU
+	AdHwhCR90+0Ru0AtE55pwYBP
+X-Received: by 2002:a05:600d:6451:20b0:495:4d5c:903e with SMTP id 5b1f17b1804b1-4980c66d950mr153797825e9.7.1785754361165;
+        Mon, 03 Aug 2026 03:52:41 -0700 (PDT)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4980878dcb4sm358693235e9.13.2026.08.03.03.52.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 03:18:39 -0700 (PDT)
-Message-ID: <30940d7e4b46c8b44c0921956fb0785b4d164606.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v1] libpng: ptest: disable for riscv64 due to
- timeout
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: pratik.farkase@est.tech, openembedded-core@lists.openembedded.org
-Cc: pratik.farkase@ericsson.com
-Date: Mon, 03 Aug 2026 11:18:38 +0100
-In-Reply-To: <20260803093344.15211-1-pratik.farkase@est.tech>
-References: <20260803093344.15211-1-pratik.farkase@est.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Mon, 03 Aug 2026 03:52:40 -0700 (PDT)
+From: Leon Anavi <leon.anavi@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [PATCH] python3-numpy: Upgrade 2.5.0 -> 2.5.1
+Date: Mon,  3 Aug 2026 13:52:35 +0300
+Message-ID: <20260803105235.2301438-1-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 10:18:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242647
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 10:52:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242648
 
-On Mon, 2026-08-03 at 11:33 +0200, Pratik Farkase via lists.openembedded.or=
-g wrote:
-> The libpng ptest suite consistently times out on qemuriscv64 due to
-> the emulated target being too slow to complete all tests within the
-> ptest-runner timeout. All individual tests pass but the full suite
-> does not finish in time.
->=20
-> [YOCTO #16215] : https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1621=
-5
->=20
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> ---
-> =C2=A0meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+Upgrade to release 2.5.1:
 
-When you say "does not finish in time", where is the timeout occurring
-exactly?
+- The minimum supported GCC version has been updated from 9.3.0 to
+  10.3.0
+- Bug fixes
 
-Do the libpng tests emit output as they go, so each test should reset
-the timeout in ptest?
+Drop 0001-python-sysroot.patch because the vendored fork of Meson
+in numpy has been upgraded to include patches from 1.12.0rc2,
+including the specific sysroot fix available since since 1.10.0.
 
-Or are the individual tests really so slow that they don't emit any
-output within ptest's timeout?
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ .../python3-numpy/0001-python-sysroot.patch   | 34 -------------------
+ ...-numpy_2.5.0.bb => python3-numpy_2.5.1.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-numpy/0001-python-sysroot.patch
+ rename meta/recipes-devtools/python/{python3-numpy_2.5.0.bb => python3-numpy_2.5.1.bb} (95%)
 
-We did have an issue a while back there the output wasn't being flushed
-periodically and once we did that, we stopped hitting the timeouts,
-hence the questions.
-
-I'd just like to understand where the issue is before we disable it
-entirely. A comment about why it was disabled might also be helpful if
-we do ever come to revisit this.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-python-sysroot.patch b/meta/recipes-devtools/python/python3-numpy/0001-python-sysroot.patch
+deleted file mode 100644
+index 681876fa52..0000000000
+--- a/meta/recipes-devtools/python/python3-numpy/0001-python-sysroot.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From ced528318cddfef6c5e676c2815e64b5caa45c64 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Wed, 21 Jan 2026 14:12:36 +0000
+-Subject: [PATCH] Add sysroot to pkgconfig libdir
+-
+-When Meson uses pkg-config to introspect the Python install it resets PKG_CONFIG_PATH
+-and PKG_CONFIG_LIBDIR. However, when it writes to PKG_CONFIG_LIBDIR it uses the
+-_target_ library directory without prefixing this with the sysroot, which breaks
+-the build if _LIBDIR is the primary search path.
+-
+-This has been fixed in Meson since 1.10.0[1] but numpy has a vendored fork of Meson
+-that is currently at 1.9.2, so backport the specific fix to solve this problem.
+-
+-[1] meson 59c3dd1fd ("python: add a python.build_config option (PEP 739)")
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- vendored-meson/meson/mesonbuild/dependencies/python.py | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/vendored-meson/meson/mesonbuild/dependencies/python.py b/vendored-meson/meson/mesonbuild/dependencies/python.py
+-index 7f9bd20..fdcf714 100644
+---- a/vendored-meson/meson/mesonbuild/dependencies/python.py
+-+++ b/vendored-meson/meson/mesonbuild/dependencies/python.py
+-@@ -412,6 +412,8 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
+-     if DependencyMethods.PKGCONFIG in methods:
+-         if from_installation:
+-             pkg_libdir = installation.info['variables'].get('LIBPC')
+-+            sysroot = env.properties[for_machine].get_sys_root() or ''
+-+            pkg_libdir = sysroot + pkg_libdir
+-             pkg_embed = '-embed' if embed and mesonlib.version_compare(installation.info['version'], '>=3.8') else ''
+-             pkg_name = f'python-{pkg_version}{pkg_embed}'
+- 
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.5.0.bb b/meta/recipes-devtools/python/python3-numpy_2.5.1.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-numpy_2.5.0.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.5.1.bb
+index 43ecdb2c42..88786dc016 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.5.0.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.5.1.bb
+@@ -9,9 +9,8 @@ SRCNAME = "numpy"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://run-ptest \
+-           file://0001-python-sysroot.patch \
+            "
+-SRC_URI[sha256sum] = "5a129578019311b6e56bdd714250f19b518f7dceeeb8d1af5490f4942d3f891c"
++SRC_URI[sha256sum] = "a48a113e6afea91f5608793bafa7ef2ad481fefbda87ec5069f483de61cb9fa3"
+ 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+-- 
+2.47.3
 
 
