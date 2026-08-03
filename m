@@ -2,34 +2,34 @@ Return-Path: <junjie.cao@linux.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F747C55175
-	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:50:28 +0000 (UTC)
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.39084.1785747017996417977
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B70C55184
+	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:50:48 +0000 (UTC)
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.39092.1785747039968533617
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 01:50:18 -0700
+ Mon, 03 Aug 2026 01:50:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=cWglyNyq;
- spf=pass (domain: linux.dev, ip: 91.218.175.181, mailfrom: junjie.cao@linux.dev)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=CwXd9yz2;
+ spf=pass (domain: linux.dev, ip: 91.218.175.185, mailfrom: junjie.cao@linux.dev)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785747015;
+	t=1785747037;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pywFFLxEQ0YD1Jvb1j+qUEjyeWpPyTbtW1n2ftGvkrQ=;
-	b=cWglyNyq1gniDYtru+mF1ySqDobdomDu9msgJO2Kpq+RYZxK6JayJ5QOmShfJjaacSrnJq
-	eokYi582YyGkgU56Pdl9VCt8nOQ7GztQgyWW1CFG0Nh7pr/S36nI3YSl+oHPuD/QGjqp7V
-	uFuxoYO86k7YxysXkif8sbRYeGN90U4=
+	bh=2+gYhNkY6i2bJhhPYPWtqxURPLSQDW4cZ70kzzWGI9Q=;
+	b=CwXd9yz2jn6g6/X+1AFGu3Z/RlZASz6lckU8aJUjxT+bUwD7D8IAgrewzKyhca1ttFXl5T
+	lgy0QVXQlPXapkB9pBj9SYqIxtiVTUi3f1oaYOGMRFg6+BfnQvvs8wirddL7dwk8YxzEhD
+	TC/4XLpB7hqggPmMHA34D2uGCYJ3+U4=
 From: Junjie Cao <junjie.cao@linux.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: paul@pbarker.dev,
 	randy.macleod@windriver.com,
 	Venkata.Navuduri@windriver.com
-Subject: [OE-core][PATCH v2 07/10] cve-exclusion: set status for CVE-2023-3397
-Date: Mon,  3 Aug 2026 01:48:24 -0700
-Message-ID: <20260803084827.1348810-8-junjie.cao@linux.dev>
+Subject: [OE-core][PATCH v2 08/10] cve-exclusion: set status for CVE-2023-4010
+Date: Mon,  3 Aug 2026 01:48:25 -0700
+Message-ID: <20260803084827.1348810-9-junjie.cao@linux.dev>
 In-Reply-To: <20260803084827.1348810-1-junjie.cao@linux.dev>
 References: <20260803084827.1348810-1-junjie.cao@linux.dev>
 MIME-Version: 1.0
@@ -38,37 +38,53 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:50:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242633
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:50:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242634
 
-txEnd() in fs/jfs/jfs_txnmgr.c reads the log pointer from the superblock
-info, drops TXN_LOCK and then takes log->gclock, while lmLogClose() can
-free that log during umount.
+The CVE text attributes a system lockup to usb_giveback_urb() in the USB
+HCD framework. That function does not exist in the kernel; the closest
+name is usb_giveback_urb_bh(). Ubuntu's security team noted the same
+discrepancy when triaging the issue.
 
-The subsystem in the public CVE data is misleading: the "slub"
-association comes from the KASAN slab report, but the affected code is
-JFS. Red Hat's own title for the issue is "slab-use-after-free write in
-txend due to race condition".
+The reporter's proof of concept identifies the actual driver. Its
+output shows the imon driver repeatedly printing errors and consuming
+CPU:
 
-A fix adding a new mutex was posted, reviewed, and then withdrawn by its
-author, who wrote "I think my fix method is not a good solution":
+  https://github.com/wanrenmi/a-usb-kernel-bug
 
-  https://lore.kernel.org/all/20230515095956.17898-1-zyytlz.wz@163.com/
+usb_rx_callback_intf0() and usb_rx_callback_intf1() in
+drivers/media/rc/imon.c resubmitted the RX URB after logging an error,
+so a device returning -EPROTO caused an unbounded warning loop. That is
+fixed by:
 
-No other fix has been posted, and the sequence in txEnd() is unchanged
-in mainline as of linux-next 20260727. syzkaller was still reporting
-"KASAN: slab-use-after-free Write in txEnd" in June 2026.
+  https://git.kernel.org/linus/eecd203ada43a4693ce6fdd3a58ae10c7819252c
+  ("media: imon: make send_packet() more robust", v6.18)
 
-Ubuntu records "unfixed upstream as of 2023-09-01"; Debian lists
-src:linux as vulnerable in every suite:
+whose commit message describes the same mechanism: "usb_rx_callback_intf0=
+()
+resubmits urb after printk(), and resubmitted urb causes
+usb_rx_callback_intf0() to again get -EPROTO error. This results in
+printk() flooding (RCU stalls)". The fix returns early for those error
+codes instead of resubmitting.
 
-  https://ubuntu.com/security/CVE-2023-3397
-  https://security-tracker.debian.org/tracker/CVE-2023-3397
+The impact is lower than the CVE suggests. It needs physical access to
+attach a malicious device, and Ubuntu's triage concluded "There is no
+system lockup happening", only unthrottled logging:
 
-CONFIG_JFS_FS=3Dn in both ktypes/standard/standard.cfg and
-ktypes/preempt-rt/preempt-rt.cfg in yocto-kernel-cache, and no fragment
-there enables it; the only other occurrence is CONFIG_JFS_SECURITY in
-the selinux feature, which has no effect without JFS_FS.
+  https://ubuntu.com/security/CVE-2023-4010
+
+Ubuntu's tracker data reaches the same conclusion about which driver is
+at fault: it records "break-fix: 21677cfc562a -" for this CVE, and
+21677cfc562a is "V4L/DVB: ir-core: add imon driver", the commit that
+introduced the driver. Their note explains the choice: "The imon driver
+has been issuing those warnings since its inception, so using that as
+the break commit."
+
+The tie to the fixing commit is an inference: eecd203ada43 carries no
+CVE reference or Fixes tag, so no tracker links the two. It rests on the
+reported function not existing, Ubuntu and the reporter's PoC both
+pointing at imon, and the mechanism the commit fixes matching the
+report.
 
 CC: Paul Barker <paul@pbarker.dev>
 AI-Generated: Uses Claude (claude-opus-5)
@@ -86,30 +102,27 @@ d
 v1: https://lore.kernel.org/openembedded-core/20260802143444.1178575-1-ju=
 njie.cao@linux.dev/
 
- meta/recipes-kernel/linux/cve-exclusion.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-kernel/linux/cve-exclusion.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-k=
 ernel/linux/cve-exclusion.inc
-index 3517318e..827a487e 100644
+index 827a487e..0647586f 100644
 --- a/meta/recipes-kernel/linux/cve-exclusion.inc
 +++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -232,3 +232,10 @@ CVE_STATUS[CVE-2022-1247] =3D "fixed-version: Fixed =
-from version 6.17"
- # https://www.willsroot.io/2022/12/entrybleed.html
- CVE_STATUS[CVE-2022-4543] =3D "upstream-wontfix: no fix planned, KASLR i=
-s not \
- considered a defence against local attackers"
-+
-+# JFS txEnd()/lmLogClose() use-after-free, not slub as the CVE data says=
-.
-+# The only proposed fix was withdrawn by its author; the racy code is
-+# unchanged and syzbot still reproduces it as of June 2026.
-+# https://lore.kernel.org/all/20230515095956.17898-1-zyytlz.wz@163.com/
-+CVE_STATUS[CVE-2023-3397] =3D "unpatched: no upstream fix, the only prop=
+@@ -239,3 +239,8 @@ considered a defence against local attackers"
+ # https://lore.kernel.org/all/20230515095956.17898-1-zyytlz.wz@163.com/
+ CVE_STATUS[CVE-2023-3397] =3D "unpatched: no upstream fix, the only prop=
 osed \
-+patch was withdrawn by its author and the affected fs/jfs code is unchan=
+ patch was withdrawn by its author and the affected fs/jfs code is unchan=
 ged"
++
++# Fix https://git.kernel.org/linus/eecd203ada43a4693ce6fdd3a58ae10c78192=
+52c
++# The CVE names usb_giveback_urb(), which does not exist; the reporter's=
+ PoC
++# and Ubuntu's break-fix data both point at drivers/media/rc/imon.c.
++CVE_STATUS[CVE-2023-4010] =3D "fixed-version: Fixed from version 6.18"
 --=20
 2.43.0
 
