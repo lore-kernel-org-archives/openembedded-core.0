@@ -1,402 +1,354 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A34EBC55162
-	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 04:18:26 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36297.1785730696479266958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AEDC55162
+	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 05:10:47 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36841.1785733838436177497
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Aug 2026 21:18:16 -0700
+ Sun, 02 Aug 2026 22:10:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=kRSTE9xT;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47f703a9d05so1675521f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Aug 2026 21:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1785730695; x=1786335495; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J24wIIXwJmDMAPGBmuNmO9RQai4KEchRfD0k5u5R+RU=;
-        b=kRSTE9xTrs3MJmcIjV1C5+wuMxMDFkjvfDrG+OtxbKlJh2DwnEl+snUPQAFO/IgjyD
-         NRakWSOvETCyVguzfGKbpqoNsMmagSo3uWj7PfhPW2hR/BASk2MmPeYNXOL/51vw4dqX
-         r2FuOVbV+zlrpjXax+Z2xYUvPdhHOfa9uCUXQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785730695; x=1786335495;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=J24wIIXwJmDMAPGBmuNmO9RQai4KEchRfD0k5u5R+RU=;
-        b=ZuS6uEv4FjF1wqA/wjaVAd+JrRd+/ZrXxj5Iw99Pn60PZk8RNcGvM24aBez3R16YMD
-         M4AMmoWrCWYZQ+Qfiq1HB7mBkxwNSYZzRH52z+fb61SGoIKF88zm008Gbh/s+ZHI4NAR
-         nepRA1vaM93Mx4EbRF+q+ktjvKTStoLgRC/bbmmMix/6ReVy1sT7ywAS9v1mALxJ6JyA
-         s8Z7ALwyH8WYs8QV6O+WKdNXalDXbGGal/6fUiS11QmRD6bCuvNdeMkyXR3FI/sem7N2
-         ZszsBtT5LnzfmAsi90snvey8AES1KL26dCWL0O2Hkigxbx1Ug0MsSC1OU3UlQ4hBqEiZ
-         3nMw==
-X-Gm-Message-State: AOJu0Yzq52ES88WTT7rnrOeq6U/ZnAc/mnPYT11KXhbKdgUM/NSQBKfJ
-	LW/NWkEjt82v/TXWvVN3h1Xua/8+/T7+7lorFZ78C1F8UFwUpAavIuvIG1jy4pJixb8uPCCbNVh
-	dWEFahFo=
-X-Gm-Gg: AR+sD11Eps5SF04hq+5Zb2rYEfR4LZnR/uB4ZoPLdjhuznJ0EBWEAf5OL2PraOsmIPC
-	m2TacssANayE7A0nzxbOj9I9dxjCtSF29C+DdNwED1HslJ5Qpm8KDrGBGEngy31XFpDE0EjgGuv
-	FnTbRRiKfFztbpy5b8b480uoVaESCzhA1F8dCABb/fwEFVEaei9NTBUdMiuEG9B0VjdXX1XE3IL
-	X5zFabMNVprWxnLaY71ArEM1LalX88YQYH+ZEtGlfSu6c5lgEu1D08qrShf4qtcXEOtiGg50rre
-	P6bU+wG+Em2gooYVMJO4xblaRxpgsArK7w4FqOwyxfnBImGXnjTeWnev48Y9dhneKup/tHA5zKo
-	MNSsD+lzE6g71B4HlC+silVlOfKRSB6moQlvAfenWunIfeif7xXjXFfwTwJcA0jYFJ06ssr1NpG
-	Q/e6Uf08MkOVupUwa0gTpqi+2/hSxyk+3t9qBXgkThzmAfaTnEB+1tuf577k7rsWqMoM615Cemz
-	7gH+DjaVIZXQ7Fpns6odKWd/WYGGmE2QdshEAihxqdMaZoXw9992sO8CWr2KDgnJlQjYiCz1JRe
-	sI2//8IBomrEiqgni+/kIrQSKEJwFKb0
-X-Received: by 2002:a5d:6e0d:0:b0:47f:8110:3073 with SMTP id ffacd0b85a97d-47fd72e1b04mr15246368f8f.24.1785730694093;
-        Sun, 02 Aug 2026 21:18:14 -0700 (PDT)
-Received: from runner-glrt-sin-project-19509-concurrent-0.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd41cfde0sm27089008f8f.3.2026.08.02.21.18.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 21:18:13 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: OE-Core ML <openembedded-core@lists.openembedded.org>,
-	Yocto Security ML <yocto-security@lists.yoctoproject.org>
-Subject: OE-core CVE metrics for master on Mon Aug 03 03:04:18 2026
-Date: Mon,  3 Aug 2026 04:18:11 +0000
-Message-ID: <20260803041813.20-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DtVmRjkH;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=q7DyqWvY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019fc607f254-8fb1dfbe-682e-464b-a5f6-f8c908f175e2-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1785733837;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=VdThTEXRjq05RAEI5QCBHOJo09a50+eSV1ieWXU7qZM=;
+	b=DtVmRjkH2FYeXfrxP6FsNa20My1lAd7BDl48bryZBu+DdbNnKwvbvmhVSXUJRM6E
+	xNQhfujvERD+irvsODxf1CBGnkyT4JarUX2MBYbCAERpTBQ2eUFzYYfuSln8Kcw91zH
+	Oi+QtCEMVU6ksMWkDst0ulCk80Qutsh6M4DVJ6C0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1785733837;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=VdThTEXRjq05RAEI5QCBHOJo09a50+eSV1ieWXU7qZM=;
+	b=q7DyqWvYjhyJMYkRsq2EjOAquDlfnAFSFGUShcb1JEoTcZpKDCVKGugypRXCaGc4
+	6NtayYYYEQ6VJUyXrULDsSR95S7c0s3VP7jbfDo8EIYYb3gTq+bb0YrlAUcIiIiJAPH
+	AJhi7LbEgoqgT311HNDvKkBoc0EOMrdLgKdLE0co=
+Content-Type: multipart/mixed; boundary="===============5251059944324051677=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] mpg123: upgrading to 1.33.7 SUCCEEDED
+Message-ID: <0101019fc607f254-8fb1dfbe-682e-464b-a5f6-f8c908f175e2-000000@us-west-2.amazonses.com>
+Date: Mon, 3 Aug 2026 05:10:37 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.03-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 04:18:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242598
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 05:10:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242602
 
-Branch: master
+--===============5251059944324051677==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-New this week: 34 CVEs
-CVE-2018-20225 (CVSSv2: 6.8, CVSSv3: 7.8): python3-pip https://nvd.nist.gov/vuln/detail/CVE-2018-20225 *
-CVE-2026-4647 (CVSSv3: 6.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-4647 *
-CVE-2026-5056 (CVSSv3: 7.8): gstreamer1.0 https://nvd.nist.gov/vuln/detail/CVE-2026-5056 *
-CVE-2026-6879 (CVSSv4: 2.0): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-6879 *
-CVE-2026-56389 (CVSSv4: 6.8): bison:bison-native https://nvd.nist.gov/vuln/detail/CVE-2026-56389 *
-CVE-2026-56390 (CVSSv4: 4.6): bison:bison-native https://nvd.nist.gov/vuln/detail/CVE-2026-56390 *
-CVE-2026-64531 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64531 *
-CVE-2026-64532 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64532 *
-CVE-2026-64533 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64533 *
-CVE-2026-64534 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64534 *
-CVE-2026-64535 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64535 *
-CVE-2026-64537 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64537 *
-CVE-2026-64538 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64538 *
-CVE-2026-64539 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64539 *
-CVE-2026-64540 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64540 *
-CVE-2026-64541 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64541 *
-CVE-2026-64542 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64542 *
-CVE-2026-64543 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64543 *
-CVE-2026-64544 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64544 *
-CVE-2026-64545 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64545 *
-CVE-2026-64546 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64546 *
-CVE-2026-64547 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64547 *
-CVE-2026-64548 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64548 *
-CVE-2026-64549 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64549 *
-CVE-2026-64550 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64550 *
-CVE-2026-64551 (CVSSv3: 9.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64551 *
-CVE-2026-64552 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64552 *
-CVE-2026-64553 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64553 *
-CVE-2026-64554 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64554 *
-CVE-2026-64555 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64555 *
-CVE-2026-64557 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64557 *
-CVE-2026-64558 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64558 *
-CVE-2026-64559 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64559 *
-CVE-2026-64560 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64560 *
+Hello,
 
-Removed this week: 25 CVEs
-CVE-2013-10036 (CVSSv4: 8.4): connman https://nvd.nist.gov/vuln/detail/CVE-2013-10036 *
-CVE-2026-4360 (CVSSv3: 5.3, CVSSv4: 2.0): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-4360 *
-CVE-2026-5928 (CVSSv3: 7.5): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-5928 *
-CVE-2026-6238 (CVSSv3: 6.5): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-6238 *
-CVE-2026-10723 (CVSSv3: 6.8): bind https://nvd.nist.gov/vuln/detail/CVE-2026-10723 *
-CVE-2026-10822 (CVSSv3: 6.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-10822 *
-CVE-2026-11331 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11331 *
-CVE-2026-11605 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11605 *
-CVE-2026-11622 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11622 *
-CVE-2026-11721 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11721 *
-CVE-2026-12617 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-12617 *
-CVE-2026-13204 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-13204 *
-CVE-2026-13221 (CVSSv3: 9.1): perl:perl-native https://nvd.nist.gov/vuln/detail/CVE-2026-13221 *
-CVE-2026-13321 (CVSSv3: 8.6): bind https://nvd.nist.gov/vuln/detail/CVE-2026-13321 *
-CVE-2026-16768 (CVSSv3: 5.3): gdk-pixbuf:gdk-pixbuf-native https://nvd.nist.gov/vuln/detail/CVE-2026-16768 *
-CVE-2026-35094 (CVSSv3: 5.5): libinput https://nvd.nist.gov/vuln/detail/CVE-2026-35094 *
-CVE-2026-55653 (CVSSv3: 6.5): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-55653 *
-CVE-2026-55654 (CVSSv3: 3.7): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-55654 *
-CVE-2026-55655 (CVSSv3: 6.1): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-55655 *
-CVE-2026-56288 (CVSSv3: 5.5, CVSSv4: 4.6): patch https://nvd.nist.gov/vuln/detail/CVE-2026-56288 *
-CVE-2026-56289 (CVSSv3: 5.5, CVSSv4: 4.6): patch https://nvd.nist.gov/vuln/detail/CVE-2026-56289 *
-CVE-2026-57432 (CVSSv3: 8.4): perl:perl-native https://nvd.nist.gov/vuln/detail/CVE-2026-57432 *
-CVE-2026-58469 (CVSSv3: 7.5, CVSSv4: 8.7): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58469 *
-CVE-2026-58472 (CVSSv3: 7.1, CVSSv4: 6.0): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58472 *
-CVE-2026-64400 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64400 *
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *mpg123* to *1.33.7* has Succeeded.
 
-Full list: Found 235 unpatched CVEs
-CVE-2011-3374 (CVSSv2: 4.3, CVSSv3: 3.7): apt https://nvd.nist.gov/vuln/detail/CVE-2011-3374 *
-CVE-2018-20225 (CVSSv2: 6.8, CVSSv3: 7.8): python3-pip https://nvd.nist.gov/vuln/detail/CVE-2018-20225 *
-CVE-2019-14899 (CVSSv2: 4.9, CVSSv3: 7.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2019-14899 *
-CVE-2021-3714 (CVSSv3: 5.9): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2021-3714 *
-CVE-2021-3864 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2021-3864 *
-CVE-2022-0400 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2022-0400 *
-CVE-2022-1247 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2022-1247 *
-CVE-2022-4543 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2022-4543 *
-CVE-2023-3397 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-3397 *
-CVE-2023-3640 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-3640 *
-CVE-2023-4010 (CVSSv3: 4.6): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-4010 *
-CVE-2023-6238 (CVSSv3: 6.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-6238 *
-CVE-2023-6240 (CVSSv3: 6.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-6240 *
-CVE-2024-2236 (CVSSv3: 5.9): libgcrypt:libgcrypt-native https://nvd.nist.gov/vuln/detail/CVE-2024-2236 *
-CVE-2024-6519 (CVSSv3: 8.2): qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2024-6519 *
-CVE-2024-43802 (CVSSv3: 4.5): vim https://nvd.nist.gov/vuln/detail/CVE-2024-43802 *
-CVE-2024-47850 (CVSSv3: 7.5): cups https://nvd.nist.gov/vuln/detail/CVE-2024-47850 *
-CVE-2024-50613 (CVSSv3: 6.5): libsndfile1 https://nvd.nist.gov/vuln/detail/CVE-2024-50613 *
-CVE-2024-52005 (CVSSv3: 8.8, CVSSv4: 7.5): git:git-native https://nvd.nist.gov/vuln/detail/CVE-2024-52005 *
-CVE-2025-15366 (CVSSv4: 5.9): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2025-15366 *
-CVE-2025-15367 (CVSSv4: 5.9): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2025-15367 *
-CVE-2025-50422 (CVSSv3: 2.9): cairo:cairo-native https://nvd.nist.gov/vuln/detail/CVE-2025-50422 *
-CVE-2025-52194 (CVSSv3: 7.5): libsndfile1 https://nvd.nist.gov/vuln/detail/CVE-2025-52194 *
-CVE-2025-56005 (CVSSv3: 9.8): python3-ply https://nvd.nist.gov/vuln/detail/CVE-2025-56005 *
-CVE-2025-71074 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71074 *
-CVE-2025-71306 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71306 *
-CVE-2025-71308 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71308 *
-CVE-2025-71313 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71313 *
-CVE-2026-0864 (CVSSv4: 4.1): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-0864 *
-CVE-2026-3099 (CVSSv3: 7.3): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3099 *
-CVE-2026-3184 (CVSSv3: 5.3): util-linux:util-linux-libuuid:util-linux-libuuid-native:util-linux-native https://nvd.nist.gov/vuln/detail/CVE-2026-3184 *
-CVE-2026-3441 (CVSSv3: 7.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-3441 *
-CVE-2026-3442 (CVSSv3: 7.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-3442 *
-CVE-2026-3632 (CVSSv3: 5.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3632 *
-CVE-2026-3633 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3633 *
-CVE-2026-3634 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3634 *
-CVE-2026-4647 (CVSSv3: 6.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-4647 *
-CVE-2026-5056 (CVSSv3: 7.8): gstreamer1.0 https://nvd.nist.gov/vuln/detail/CVE-2026-5056 *
-CVE-2026-5435 (CVSSv3: 7.3): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-5435 *
-CVE-2026-5673 (CVSSv3: 7.1): libtheora https://nvd.nist.gov/vuln/detail/CVE-2026-5673 *
-CVE-2026-6844 (CVSSv3: 5.5): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-6844 *
-CVE-2026-6845 (CVSSv3: 5.0): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-6845 *
-CVE-2026-6879 (CVSSv4: 2.0): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-6879 *
-CVE-2026-12003 (CVSSv4: 5.3): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-12003 *
-CVE-2026-12549 (CVSSv3: 4.8): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-12549 *
-CVE-2026-12891 (CVSSv3: 4.3): gstreamer1.0 https://nvd.nist.gov/vuln/detail/CVE-2026-12891 *
-CVE-2026-12892 (CVSSv3: 4.4): gstreamer1.0 https://nvd.nist.gov/vuln/detail/CVE-2026-12892 *
-CVE-2026-15308 (CVSSv3: 7.5, CVSSv4: 8.7): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-15308 *
-CVE-2026-23328 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-23328 *
-CVE-2026-23374 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-23374 *
-CVE-2026-23377 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-23377 *
-CVE-2026-23459 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-23459 *
-CVE-2026-28529 (CVSSv4: 8.5): cryptodev-linux https://nvd.nist.gov/vuln/detail/CVE-2026-28529 *
-CVE-2026-31501 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-31501 *
-CVE-2026-31771 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-31771 *
-CVE-2026-31777 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-31777 *
-CVE-2026-38752 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38752 *
-CVE-2026-38753 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38753 *
-CVE-2026-38754 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38754 *
-CVE-2026-38755 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38755 *
-CVE-2026-43009 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43009 *
-CVE-2026-43022 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43022 *
-CVE-2026-43042 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43042 *
-CVE-2026-43045 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43045 *
-CVE-2026-43053 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43053 *
-CVE-2026-43095 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43095 *
-CVE-2026-43115 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43115 *
-CVE-2026-43131 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43131 *
-CVE-2026-43174 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43174 *
-CVE-2026-43191 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43191 *
-CVE-2026-43204 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43204 *
-CVE-2026-43228 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43228 *
-CVE-2026-43299 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43299 *
-CVE-2026-43308 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43308 *
-CVE-2026-43310 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43310 *
-CVE-2026-43311 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43311 *
-CVE-2026-43326 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43326 *
-CVE-2026-43344 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43344 *
-CVE-2026-43391 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43391 *
-CVE-2026-43414 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43414 *
-CVE-2026-43443 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43443 *
-CVE-2026-45897 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45897 *
-CVE-2026-45901 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45901 *
-CVE-2026-45961 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45961 *
-CVE-2026-45963 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45963 *
-CVE-2026-45991 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45991 *
-CVE-2026-46008 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46008 *
-CVE-2026-46017 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46017 *
-CVE-2026-46032 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46032 *
-CVE-2026-46130 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46130 *
-CVE-2026-46153 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46153 *
-CVE-2026-46210 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46210 *
-CVE-2026-46245 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46245 *
-CVE-2026-46298 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46298 *
-CVE-2026-46302 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46302 *
-CVE-2026-46311 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46311 *
-CVE-2026-46330 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46330 *
-CVE-2026-52949 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52949 *
-CVE-2026-52956 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52956 *
-CVE-2026-52960 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52960 *
-CVE-2026-52965 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52965 *
-CVE-2026-52988 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52988 *
-CVE-2026-53005 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53005 *
-CVE-2026-53007 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53007 *
-CVE-2026-53008 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53008 *
-CVE-2026-53009 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53009 *
-CVE-2026-53017 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53017 *
-CVE-2026-53024 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53024 *
-CVE-2026-53025 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53025 *
-CVE-2026-53078 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53078 *
-CVE-2026-53089 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53089 *
-CVE-2026-53090 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53090 *
-CVE-2026-53091 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53091 *
-CVE-2026-53102 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53102 *
-CVE-2026-53106 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53106 *
-CVE-2026-53108 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53108 *
-CVE-2026-53113 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53113 *
-CVE-2026-53124 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53124 *
-CVE-2026-53178 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53178 *
-CVE-2026-53222 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53222 *
-CVE-2026-53257 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53257 *
-CVE-2026-53260 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53260 *
-CVE-2026-53285 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53285 *
-CVE-2026-53292 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53292 *
-CVE-2026-53308 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53308 *
-CVE-2026-53313 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53313 *
-CVE-2026-53401 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53401 *
-CVE-2026-53910 (CVSSv4: 2.1): diffutils https://nvd.nist.gov/vuln/detail/CVE-2026-53910 *
-CVE-2026-55999 (CVSSv3: 8.5): xserver-xorg https://nvd.nist.gov/vuln/detail/CVE-2026-55999 *
-CVE-2026-56000 (CVSSv3: 7.8, CVSSv4: 9.0): xserver-xorg https://nvd.nist.gov/vuln/detail/CVE-2026-56000 *
-CVE-2026-56389 (CVSSv4: 6.8): bison:bison-native https://nvd.nist.gov/vuln/detail/CVE-2026-56389 *
-CVE-2026-56390 (CVSSv4: 4.6): bison:bison-native https://nvd.nist.gov/vuln/detail/CVE-2026-56390 *
-CVE-2026-56391 (CVSSv4: 4.6): coreutils:coreutils-native https://nvd.nist.gov/vuln/detail/CVE-2026-56391 *
-CVE-2026-56392 (CVSSv4: 1.8): coreutils:coreutils-native https://nvd.nist.gov/vuln/detail/CVE-2026-56392 *
-CVE-2026-58050 (CVSSv3: 7.5, CVSSv4: 8.3): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-58050 *
-CVE-2026-58051 (CVSSv3: 6.5, CVSSv4: 8.3): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-58051 *
-CVE-2026-58055 (CVSSv3: 5.4, CVSSv4: 6.3): nghttp2 https://nvd.nist.gov/vuln/detail/CVE-2026-58055 *
-CVE-2026-58470 (CVSSv3: 5.3, CVSSv4: 6.9): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58470 *
-CVE-2026-58471 (CVSSv3: 7.1, CVSSv4: 6.0): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58471 *
-CVE-2026-63811 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63811 *
-CVE-2026-63839 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63839 *
-CVE-2026-63872 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63872 *
-CVE-2026-63879 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63879 *
-CVE-2026-63923 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63923 *
-CVE-2026-63941 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63941 *
-CVE-2026-63977 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63977 *
-CVE-2026-63978 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63978 *
-CVE-2026-63979 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63979 *
-CVE-2026-63983 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63983 *
-CVE-2026-64013 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64013 *
-CVE-2026-64019 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64019 *
-CVE-2026-64020 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64020 *
-CVE-2026-64040 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64040 *
-CVE-2026-64057 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64057 *
-CVE-2026-64067 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64067 *
-CVE-2026-64068 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64068 *
-CVE-2026-64070 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64070 *
-CVE-2026-64079 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64079 *
-CVE-2026-64082 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64082 *
-CVE-2026-64117 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64117 *
-CVE-2026-64146 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64146 *
-CVE-2026-64154 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64154 *
-CVE-2026-64160 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64160 *
-CVE-2026-64192 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64192 *
-CVE-2026-64210 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64210 *
-CVE-2026-64227 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64227 *
-CVE-2026-64283 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64283 *
-CVE-2026-64287 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64287 *
-CVE-2026-64292 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64292 *
-CVE-2026-64325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64325 *
-CVE-2026-64341 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64341 *
-CVE-2026-64349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64349 *
-CVE-2026-64352 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64352 *
-CVE-2026-64353 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64353 *
-CVE-2026-64361 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64361 *
-CVE-2026-64371 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64371 *
-CVE-2026-64375 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64375 *
-CVE-2026-64388 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64388 *
-CVE-2026-64389 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64389 *
-CVE-2026-64390 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64390 *
-CVE-2026-64421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64421 *
-CVE-2026-64438 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64438 *
-CVE-2026-64441 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64441 *
-CVE-2026-64472 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64472 *
-CVE-2026-64510 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64510 *
-CVE-2026-64523 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64523 *
-CVE-2026-64530 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64530 *
-CVE-2026-64531 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64531 *
-CVE-2026-64532 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64532 *
-CVE-2026-64533 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64533 *
-CVE-2026-64534 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64534 *
-CVE-2026-64535 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64535 *
-CVE-2026-64537 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64537 *
-CVE-2026-64538 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64538 *
-CVE-2026-64539 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64539 *
-CVE-2026-64540 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64540 *
-CVE-2026-64541 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64541 *
-CVE-2026-64542 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64542 *
-CVE-2026-64543 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64543 *
-CVE-2026-64544 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64544 *
-CVE-2026-64545 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64545 *
-CVE-2026-64546 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64546 *
-CVE-2026-64547 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64547 *
-CVE-2026-64548 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64548 *
-CVE-2026-64549 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64549 *
-CVE-2026-64550 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64550 *
-CVE-2026-64551 (CVSSv3: 9.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64551 *
-CVE-2026-64552 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64552 *
-CVE-2026-64553 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64553 *
-CVE-2026-64554 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64554 *
-CVE-2026-64555 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64555 *
-CVE-2026-64557 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64557 *
-CVE-2026-64558 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64558 *
-CVE-2026-64559 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64559 *
-CVE-2026-64560 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64560 *
-CVE-2026-64830 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64830 *
-CVE-2026-64831 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64831 *
-CVE-2026-64832 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64832 *
-CVE-2026-64833 (CVSSv3: 7.1, CVSSv4: 7.1): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64833 *
-CVE-2026-64834 (CVSSv3: 7.5, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64834 *
-CVE-2026-64835 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64835 *
-CVE-2026-65703 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-65703 *
-CVE-2026-65704 (CVSSv3: 7.8, CVSSv4: 7.3): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-65704 *
-CVE-2026-65705 (CVSSv3: 7.8, CVSSv4: 7.3): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-65705 *
-CVE-2026-65706 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-65706 *
-CVE-2026-66032 (CVSSv3: 8.8, CVSSv4: 8.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66032 *
-CVE-2026-66033 (CVSSv3: 7.5, CVSSv4: 8.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66033 *
-CVE-2026-66034 (CVSSv3: 7.5, CVSSv4: 7.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66034 *
-CVE-2026-66035 (CVSSv3: 7.5, CVSSv4: 7.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66035 *
-CVE-2026-66036 (CVSSv3: 8.8, CVSSv4: 7.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66036 *
-CVE-2026-66037 (CVSSv3: 6.5, CVSSv4: 7.1): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66037 *
-CVE-2026-66038 (CVSSv3: 6.5, CVSSv4: 7.1): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66038 *
-CVE-2026-66039 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66039 *
-CVE-2026-66040 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66040 *
-CVE-2026-66041 (CVSSv3: 8.8, CVSSv4: 7.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66041 *
+Next steps:
+    - apply the patch: git am 0001-mpg123-upgrade-1.33.6-1.33.7.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Summary of CVE counts by recipe:
-  linux-yocto: 165
-  ffmpeg: 16
-  python3:python3-native: 6
-  libssh2:libssh2-native: 6
-  libsoup: 5
-  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 5
-  busybox: 4
-  gstreamer1.0: 3
-  libsndfile1: 2
-  xserver-xorg: 2
-  bison:bison-native: 2
-  coreutils:coreutils-native: 2
-  wget: 2
-  apt: 1
-  python3-pip: 1
-  libgcrypt:libgcrypt-native: 1
-  qemu:qemu-native:qemu-system-native: 1
-  vim: 1
-  cups: 1
-  git:git-native: 1
-  cairo:cairo-native: 1
-  python3-ply: 1
-  util-linux:util-linux-libuuid:util-linux-libuuid-native:util-linux-native: 1
-  glibc: 1
-  libtheora: 1
-  cryptodev-linux: 1
-  diffutils: 1
-  nghttp2: 1
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From e70aa335817809b70b7b6291090e6135630af55b Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 3 Aug 2026 05:10:34 +0000
+Subject: [PATCH] mpg123: upgrade 1.33.6 -> 1.33.7
+
+Source: NEWS
+
+1.33.7
+------
+- mpg123:
+-- Fix heap buffer overflows in unicode path conversion on Windows (bug 388,
+   thanks to Alejandro Ramos).
+-- Fix information disclosure of uninitialied memory for --auth-file without
+   line endings. (bug 390, thanks to Alejandro Ramos)
+-- Fix out-of-bounds read/write when combining --continue --random --listentry <n>
+   where n is larger than the playlist size. (bug 391, thanks to Alejandro Ramos)
+-- Fix a harmless valgrind memory leak report by not nulling playlist name.
+-- Fix error handling of win32_net_writestring() (Windows only) by actually using
+   a signed type, also preventing a OOB read on failure.
+   (bug 392 by Alejandro Ramos)
+-- Fix a mostly harmless OOB read of 1 byte when printing USLT lyrics.
+   (bug 392)
+-- Fix leaking file descriptor on read error from --equalizer file. (bug 392)
+-- Hardening of loading HTTP(S) via curl or wget against funky URLs by including
+   the -- separator. No actual vulnerability, tough, just extra care. (bug 392)
+- out123:
+-- Fix heap overrun on --endian conversion with differing input and output
+   channel counts. (bug 391)
+-- Fix parsing of filter specs with whitespace before commas, which resulted
+   in out-of-bounds writes before. (bug 391)
+- libmpg123, mpg123: Harden memory realloc calls against multiplication overflow
+  of size_t in arguments. Specifically, this addresses part of bug 389 with possible
+  application abuse of mpg123_set_index64(). (bug 389 by Alejandro Ramos)
+- libmpg123:
+-- Fix possible use of uninitialized values in layer III dequantization.
+   III_dequantize_sample() for consistent output also for strange input. The new
+   code seems to be slightly faster after some rearrangements.
+   (thanks to He Huang, Swinburne University of Technology (discovered using
+   NexusSan))
+-- Fix a double free when deleting a handle after failed mpg123_decoder() call
+   (possibly among others). (bug 389)
+-- More strong wording in API that ID3 text convenience links are short-lived,
+   but safeguard against ignorant use by nulling them early.
+   (bug 389)
+-- Prevent double free in mpg123_set_index() 32 bit wrapper being called with
+   index size 0. (bug 392)
+-- Harden against an application wielding a foot gun by handing in an undersized
+   decoding buffer betwee seek and read (return error before trying to decode
+   and discard frames in that case). (bug 392)
+-- Do properly terminate ID3v2 texts coming in UTF16 encoding when they overwrite
+   previous frames, like with other encodings. The symptom was a shorter second
+   frame resulting in a combined text with the earlier longer frame.
+   (bug 392)
+-- Check and properly handle null source buffer and zero size in mpg123_store_utf8()
+   instead of reading past (before) buffers. (bug 392)
+-- Ensure clients get ID3v1 data with (unmotivated) mpg123_id3_raw()
+   only if the parser decided that it is there, not possibly the last 128 bytes of
+   a seekable stream without ID3v1 tag. (bug 392)
+-- Prevent impossible N
+
+[Changelog truncated as it exceeds 3000 characters;
+the full changelog can be found in an attachment to the AUH email]
+---
+ .../mpg123/{mpg123_1.33.6.bb => mpg123_1.33.7.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.33.6.bb => mpg123_1.33.7.bb} (96%)
+
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb b/meta/recipes-multimedia/mpg123/mpg123_1.33.7.bb
+similarity index 96%
+rename from meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb
+rename to meta/recipes-multimedia/mpg123/mpg123_1.33.7.bb
+index 7fa048c9fc..002c4f1cc6 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.33.6.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.33.7.bb
+@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
+ 
+ SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "929a7c18ba662b8927aed4de229ad9ae8ab2b4806dd0f30b90113eb1b4e2195a"
++SRC_URI[sha256sum] = "31d0e35a4ca567ec9b5ebda6c3062bb4435d6d3eacd6ef0d95cadd7854dc03ee"
+ 
+ UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-- 
+2.47.1
+
+
+--===============5251059944324051677==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="mpg123-changelog.txt"
+
+Q2hhbmdlbG9nIGZvciBtcGcxMjM6IDEuMzMuNiAtPiAxLjMzLjcKU291cmNlOiBORVdTCgoxLjMz
+LjcKLS0tLS0tCi0gbXBnMTIzOgotLSBGaXggaGVhcCBidWZmZXIgb3ZlcmZsb3dzIGluIHVuaWNv
+ZGUgcGF0aCBjb252ZXJzaW9uIG9uIFdpbmRvd3MgKGJ1ZyAzODgsCiAgIHRoYW5rcyB0byBBbGVq
+YW5kcm8gUmFtb3MpLgotLSBGaXggaW5mb3JtYXRpb24gZGlzY2xvc3VyZSBvZiB1bmluaXRpYWxp
+ZWQgbWVtb3J5IGZvciAtLWF1dGgtZmlsZSB3aXRob3V0CiAgIGxpbmUgZW5kaW5ncy4gKGJ1ZyAz
+OTAsIHRoYW5rcyB0byBBbGVqYW5kcm8gUmFtb3MpCi0tIEZpeCBvdXQtb2YtYm91bmRzIHJlYWQv
+d3JpdGUgd2hlbiBjb21iaW5pbmcgLS1jb250aW51ZSAtLXJhbmRvbSAtLWxpc3RlbnRyeSA8bj4K
+ICAgd2hlcmUgbiBpcyBsYXJnZXIgdGhhbiB0aGUgcGxheWxpc3Qgc2l6ZS4gKGJ1ZyAzOTEsIHRo
+YW5rcyB0byBBbGVqYW5kcm8gUmFtb3MpCi0tIEZpeCBhIGhhcm1sZXNzIHZhbGdyaW5kIG1lbW9y
+eSBsZWFrIHJlcG9ydCBieSBub3QgbnVsbGluZyBwbGF5bGlzdCBuYW1lLgotLSBGaXggZXJyb3Ig
+aGFuZGxpbmcgb2Ygd2luMzJfbmV0X3dyaXRlc3RyaW5nKCkgKFdpbmRvd3Mgb25seSkgYnkgYWN0
+dWFsbHkgdXNpbmcKICAgYSBzaWduZWQgdHlwZSwgYWxzbyBwcmV2ZW50aW5nIGEgT09CIHJlYWQg
+b24gZmFpbHVyZS4KICAgKGJ1ZyAzOTIgYnkgQWxlamFuZHJvIFJhbW9zKQotLSBGaXggYSBtb3N0
+bHkgaGFybWxlc3MgT09CIHJlYWQgb2YgMSBieXRlIHdoZW4gcHJpbnRpbmcgVVNMVCBseXJpY3Mu
+CiAgIChidWcgMzkyKQotLSBGaXggbGVha2luZyBmaWxlIGRlc2NyaXB0b3Igb24gcmVhZCBlcnJv
+ciBmcm9tIC0tZXF1YWxpemVyIGZpbGUuIChidWcgMzkyKQotLSBIYXJkZW5pbmcgb2YgbG9hZGlu
+ZyBIVFRQKFMpIHZpYSBjdXJsIG9yIHdnZXQgYWdhaW5zdCBmdW5reSBVUkxzIGJ5IGluY2x1ZGlu
+ZwogICB0aGUgLS0gc2VwYXJhdG9yLiBObyBhY3R1YWwgdnVsbmVyYWJpbGl0eSwgdG91Z2gsIGp1
+c3QgZXh0cmEgY2FyZS4gKGJ1ZyAzOTIpCi0gb3V0MTIzOgotLSBGaXggaGVhcCBvdmVycnVuIG9u
+IC0tZW5kaWFuIGNvbnZlcnNpb24gd2l0aCBkaWZmZXJpbmcgaW5wdXQgYW5kIG91dHB1dAogICBj
+aGFubmVsIGNvdW50cy4gKGJ1ZyAzOTEpCi0tIEZpeCBwYXJzaW5nIG9mIGZpbHRlciBzcGVjcyB3
+aXRoIHdoaXRlc3BhY2UgYmVmb3JlIGNvbW1hcywgd2hpY2ggcmVzdWx0ZWQKICAgaW4gb3V0LW9m
+LWJvdW5kcyB3cml0ZXMgYmVmb3JlLiAoYnVnIDM5MSkKLSBsaWJtcGcxMjMsIG1wZzEyMzogSGFy
+ZGVuIG1lbW9yeSByZWFsbG9jIGNhbGxzIGFnYWluc3QgbXVsdGlwbGljYXRpb24gb3ZlcmZsb3cK
+ICBvZiBzaXplX3QgaW4gYXJndW1lbnRzLiBTcGVjaWZpY2FsbHksIHRoaXMgYWRkcmVzc2VzIHBh
+cnQgb2YgYnVnIDM4OSB3aXRoIHBvc3NpYmxlCiAgYXBwbGljYXRpb24gYWJ1c2Ugb2YgbXBnMTIz
+X3NldF9pbmRleDY0KCkuIChidWcgMzg5IGJ5IEFsZWphbmRybyBSYW1vcykKLSBsaWJtcGcxMjM6
+Ci0tIEZpeCBwb3NzaWJsZSB1c2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZXMgaW4gbGF5ZXIgSUlJ
+IGRlcXVhbnRpemF0aW9uLgogICBJSUlfZGVxdWFudGl6ZV9zYW1wbGUoKSBmb3IgY29uc2lzdGVu
+dCBvdXRwdXQgYWxzbyBmb3Igc3RyYW5nZSBpbnB1dC4gVGhlIG5ldwogICBjb2RlIHNlZW1zIHRv
+IGJlIHNsaWdodGx5IGZhc3RlciBhZnRlciBzb21lIHJlYXJyYW5nZW1lbnRzLgogICAodGhhbmtz
+IHRvIEhlIEh1YW5nLCBTd2luYnVybmUgVW5pdmVyc2l0eSBvZiBUZWNobm9sb2d5IChkaXNjb3Zl
+cmVkIHVzaW5nCiAgIE5leHVzU2FuKSkKLS0gRml4IGEgZG91YmxlIGZyZWUgd2hlbiBkZWxldGlu
+ZyBhIGhhbmRsZSBhZnRlciBmYWlsZWQgbXBnMTIzX2RlY29kZXIoKSBjYWxsCiAgIChwb3NzaWJs
+eSBhbW9uZyBvdGhlcnMpLiAoYnVnIDM4OSkKLS0gTW9yZSBzdHJvbmcgd29yZGluZyBpbiBBUEkg
+dGhhdCBJRDMgdGV4dCBjb252ZW5pZW5jZSBsaW5rcyBhcmUgc2hvcnQtbGl2ZWQsCiAgIGJ1dCBz
+YWZlZ3VhcmQgYWdhaW5zdCBpZ25vcmFudCB1c2UgYnkgbnVsbGluZyB0aGVtIGVhcmx5LgogICAo
+YnVnIDM4OSkKLS0gUHJldmVudCBkb3VibGUgZnJlZSBpbiBtcGcxMjNfc2V0X2luZGV4KCkgMzIg
+Yml0IHdyYXBwZXIgYmVpbmcgY2FsbGVkIHdpdGgKICAgaW5kZXggc2l6ZSAwLiAoYnVnIDM5MikK
+LS0gSGFyZGVuIGFnYWluc3QgYW4gYXBwbGljYXRpb24gd2llbGRpbmcgYSBmb290IGd1biBieSBo
+YW5kaW5nIGluIGFuIHVuZGVyc2l6ZWQKICAgZGVjb2RpbmcgYnVmZmVyIGJldHdlZSBzZWVrIGFu
+ZCByZWFkIChyZXR1cm4gZXJyb3IgYmVmb3JlIHRyeWluZyB0byBkZWNvZGUKICAgYW5kIGRpc2Nh
+cmQgZnJhbWVzIGluIHRoYXQgY2FzZSkuIChidWcgMzkyKSAKLS0gRG8gcHJvcGVybHkgdGVybWlu
+YXRlIElEM3YyIHRleHRzIGNvbWluZyBpbiBVVEYxNiBlbmNvZGluZyB3aGVuIHRoZXkgb3Zlcndy
+aXRlCiAgIHByZXZpb3VzIGZyYW1lcywgbGlrZSB3aXRoIG90aGVyIGVuY29kaW5ncy4gVGhlIHN5
+bXB0b20gd2FzIGEgc2hvcnRlciBzZWNvbmQKICAgZnJhbWUgcmVzdWx0aW5nIGluIGEgY29tYmlu
+ZWQgdGV4dCB3aXRoIHRoZSBlYXJsaWVyIGxvbmdlciBmcmFtZS4KICAgKGJ1ZyAzOTIpCi0tIENo
+ZWNrIGFuZCBwcm9wZXJseSBoYW5kbGUgbnVsbCBzb3VyY2UgYnVmZmVyIGFuZCB6ZXJvIHNpemUg
+aW4gbXBnMTIzX3N0b3JlX3V0ZjgoKQogICBpbnN0ZWFkIG9mIHJlYWRpbmcgcGFzdCAoYmVmb3Jl
+KSBidWZmZXJzLiAoYnVnIDM5MikKLS0gRW5zdXJlIGNsaWVudHMgZ2V0IElEM3YxIGRhdGEgd2l0
+aCAodW5tb3RpdmF0ZWQpIG1wZzEyM19pZDNfcmF3KCkKICAgb25seSBpZiB0aGUgcGFyc2VyIGRl
+Y2lkZWQgdGhhdCBpdCBpcyB0aGVyZSwgbm90IHBvc3NpYmx5IHRoZSBsYXN0IDEyOCBieXRlcyBv
+ZgogICBhIHNlZWthYmxlIHN0cmVhbSB3aXRob3V0IElEM3YxIHRhZy4gKGJ1ZyAzOTIpCi0tIFBy
+ZXZlbnQgaW1wb3NzaWJsZSBOdG9NIHJlc2FtcGxpbmcgd2l0aCB0b28gbG93IHRhcmdldCByYXRl
+IChsaWtlIDEgSHopIHdoaWNoCiAgIHdvdWxkIHRyZ2dlciBlbmRsZXNzIGxvb3BpbmcuIChidWcg
+MzkyKQotIGxpYm91dDEyMzoKLS0gRml4IGRlYWRsb2NrIGluIGJ1ZmZlciBtb2RlIHdoZW4gY29t
+YmluZWQgd2l0aCAoc3RlcmVvKSAyNCBiaXQgb3V0cHV0LiBOb3cKICAgYWxzbyBtcGcxMjMgLS1i
+dWZmZXIgNDA5NiAtZSBzMjQgc2hhbGwgYWN0dWFsbGx5IHdvcmsuIFNvcnJ5LiAoYnVnIDM5MikK
+LS0gQWJvcnQgZWFybHkgb24gemVyby9uZWdhdGl2ZSByYXRlIGFuZCBjaGFubmVsIGNvdW50IGlu
+IG91dDEyM19zdGFydCgpLgogICAoYnVnIDM5MikKLS0gRml4IGRpdmlkZSBieSB6ZXJvIGluIFdB
+ViB3cml0aW5nIGJ5IGNhdGNoaW5nIGNoYW5uZWwgY291bnRzIHRoYXQgZ28gemVybyBpbiB0aGUK
+ICAgMTYgYml0IFdBViBoZWFkZXIgZmllbGQuIChidWcgMzkyKQotIGxpYnN5bjEyMzoKLS0gRXhw
+bGljdGx5IHJlamVjdCBtaXNtYXRjaGVkIGZvcm1hdCBmb3IgYXBwZW5kaW5nIGZpbHRlcnMgd2l0
+aAogICBzeW4xMjNfc2V0dXBfZmlsdGVyKCksIHByZXZlbnRpbmcgbWVtb3J5IGVycm9ycyBmcm9t
+IHRoYXQgQVBJLXZpb2xhdGluZyB1c2UuCiAgIChidWcgMzkyKQotLSBIYXJkZW4gdGhlIGRpcnR5
+IHJlc2FtcGxpbmcgaW50ZXJwb2xhdG9yIGFnYWluc3QgZXh0cmVtZSByYXRlcyAoYXJvdW5kIDFl
+MTggSHopCiAgIGJ5IGZpeGluZyBhIHNhbXBsZSBvZmZzZXQgY2hlY2sgdG8gbm90IGRvIHRoZSBl
+eGFjdCBvdmVyZmxvd2luZyBhZGRpdGlvbgogICB0aGF0IGl0IGlzIHN1cHBvc2VkIHRvIGd1YXJk
+IGFnYWluc3QuIFRoZSBmaW5lIHJlc2FtcGxlciB3YXMg4oCmIGZpbmUuIChidWcgMzkyKQotLSBF
+cnJvciBvdXQgb24gdHJ5aW5nIHRvIGNyZWF0ZSBhIGZpbHRlciBvZiBvcmRlciAwIGluc3RlYWQg
+b2YgZGl2aWRpbmcgYnkgemVybwogICBsYXRlci4gKGJ1ZyAzOTIpCg==
+
+--===============5251059944324051677==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mpg123-upgrade-1.33.6-1.33.7.patch"
+
+RnJvbSBlNzBhYTMzNTgxNzgwOWI3MGI3YjYyOTEwOTBlNjEzNTYzMGFmNTViIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMyBBdWcgMjAyNiAwNToxMDozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1w
+ZzEyMzogdXBncmFkZSAxLjMzLjYgLT4gMS4zMy43CgpTb3VyY2U6IE5FV1MKCjEuMzMuNwotLS0t
+LS0KLSBtcGcxMjM6Ci0tIEZpeCBoZWFwIGJ1ZmZlciBvdmVyZmxvd3MgaW4gdW5pY29kZSBwYXRo
+IGNvbnZlcnNpb24gb24gV2luZG93cyAoYnVnIDM4OCwKICAgdGhhbmtzIHRvIEFsZWphbmRybyBS
+YW1vcykuCi0tIEZpeCBpbmZvcm1hdGlvbiBkaXNjbG9zdXJlIG9mIHVuaW5pdGlhbGllZCBtZW1v
+cnkgZm9yIC0tYXV0aC1maWxlIHdpdGhvdXQKICAgbGluZSBlbmRpbmdzLiAoYnVnIDM5MCwgdGhh
+bmtzIHRvIEFsZWphbmRybyBSYW1vcykKLS0gRml4IG91dC1vZi1ib3VuZHMgcmVhZC93cml0ZSB3
+aGVuIGNvbWJpbmluZyAtLWNvbnRpbnVlIC0tcmFuZG9tIC0tbGlzdGVudHJ5IDxuPgogICB3aGVy
+ZSBuIGlzIGxhcmdlciB0aGFuIHRoZSBwbGF5bGlzdCBzaXplLiAoYnVnIDM5MSwgdGhhbmtzIHRv
+IEFsZWphbmRybyBSYW1vcykKLS0gRml4IGEgaGFybWxlc3MgdmFsZ3JpbmQgbWVtb3J5IGxlYWsg
+cmVwb3J0IGJ5IG5vdCBudWxsaW5nIHBsYXlsaXN0IG5hbWUuCi0tIEZpeCBlcnJvciBoYW5kbGlu
+ZyBvZiB3aW4zMl9uZXRfd3JpdGVzdHJpbmcoKSAoV2luZG93cyBvbmx5KSBieSBhY3R1YWxseSB1
+c2luZwogICBhIHNpZ25lZCB0eXBlLCBhbHNvIHByZXZlbnRpbmcgYSBPT0IgcmVhZCBvbiBmYWls
+dXJlLgogICAoYnVnIDM5MiBieSBBbGVqYW5kcm8gUmFtb3MpCi0tIEZpeCBhIG1vc3RseSBoYXJt
+bGVzcyBPT0IgcmVhZCBvZiAxIGJ5dGUgd2hlbiBwcmludGluZyBVU0xUIGx5cmljcy4KICAgKGJ1
+ZyAzOTIpCi0tIEZpeCBsZWFraW5nIGZpbGUgZGVzY3JpcHRvciBvbiByZWFkIGVycm9yIGZyb20g
+LS1lcXVhbGl6ZXIgZmlsZS4gKGJ1ZyAzOTIpCi0tIEhhcmRlbmluZyBvZiBsb2FkaW5nIEhUVFAo
+UykgdmlhIGN1cmwgb3Igd2dldCBhZ2FpbnN0IGZ1bmt5IFVSTHMgYnkgaW5jbHVkaW5nCiAgIHRo
+ZSAtLSBzZXBhcmF0b3IuIE5vIGFjdHVhbCB2dWxuZXJhYmlsaXR5LCB0b3VnaCwganVzdCBleHRy
+YSBjYXJlLiAoYnVnIDM5MikKLSBvdXQxMjM6Ci0tIEZpeCBoZWFwIG92ZXJydW4gb24gLS1lbmRp
+YW4gY29udmVyc2lvbiB3aXRoIGRpZmZlcmluZyBpbnB1dCBhbmQgb3V0cHV0CiAgIGNoYW5uZWwg
+Y291bnRzLiAoYnVnIDM5MSkKLS0gRml4IHBhcnNpbmcgb2YgZmlsdGVyIHNwZWNzIHdpdGggd2hp
+dGVzcGFjZSBiZWZvcmUgY29tbWFzLCB3aGljaCByZXN1bHRlZAogICBpbiBvdXQtb2YtYm91bmRz
+IHdyaXRlcyBiZWZvcmUuIChidWcgMzkxKQotIGxpYm1wZzEyMywgbXBnMTIzOiBIYXJkZW4gbWVt
+b3J5IHJlYWxsb2MgY2FsbHMgYWdhaW5zdCBtdWx0aXBsaWNhdGlvbiBvdmVyZmxvdwogIG9mIHNp
+emVfdCBpbiBhcmd1bWVudHMuIFNwZWNpZmljYWxseSwgdGhpcyBhZGRyZXNzZXMgcGFydCBvZiBi
+dWcgMzg5IHdpdGggcG9zc2libGUKICBhcHBsaWNhdGlvbiBhYnVzZSBvZiBtcGcxMjNfc2V0X2lu
+ZGV4NjQoKS4gKGJ1ZyAzODkgYnkgQWxlamFuZHJvIFJhbW9zKQotIGxpYm1wZzEyMzoKLS0gRml4
+IHBvc3NpYmxlIHVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlcyBpbiBsYXllciBJSUkgZGVxdWFu
+dGl6YXRpb24uCiAgIElJSV9kZXF1YW50aXplX3NhbXBsZSgpIGZvciBjb25zaXN0ZW50IG91dHB1
+dCBhbHNvIGZvciBzdHJhbmdlIGlucHV0LiBUaGUgbmV3CiAgIGNvZGUgc2VlbXMgdG8gYmUgc2xp
+Z2h0bHkgZmFzdGVyIGFmdGVyIHNvbWUgcmVhcnJhbmdlbWVudHMuCiAgICh0aGFua3MgdG8gSGUg
+SHVhbmcsIFN3aW5idXJuZSBVbml2ZXJzaXR5IG9mIFRlY2hub2xvZ3kgKGRpc2NvdmVyZWQgdXNp
+bmcKICAgTmV4dXNTYW4pKQotLSBGaXggYSBkb3VibGUgZnJlZSB3aGVuIGRlbGV0aW5nIGEgaGFu
+ZGxlIGFmdGVyIGZhaWxlZCBtcGcxMjNfZGVjb2RlcigpIGNhbGwKICAgKHBvc3NpYmx5IGFtb25n
+IG90aGVycykuIChidWcgMzg5KQotLSBNb3JlIHN0cm9uZyB3b3JkaW5nIGluIEFQSSB0aGF0IElE
+MyB0ZXh0IGNvbnZlbmllbmNlIGxpbmtzIGFyZSBzaG9ydC1saXZlZCwKICAgYnV0IHNhZmVndWFy
+ZCBhZ2FpbnN0IGlnbm9yYW50IHVzZSBieSBudWxsaW5nIHRoZW0gZWFybHkuCiAgIChidWcgMzg5
+KQotLSBQcmV2ZW50IGRvdWJsZSBmcmVlIGluIG1wZzEyM19zZXRfaW5kZXgoKSAzMiBiaXQgd3Jh
+cHBlciBiZWluZyBjYWxsZWQgd2l0aAogICBpbmRleCBzaXplIDAuIChidWcgMzkyKQotLSBIYXJk
+ZW4gYWdhaW5zdCBhbiBhcHBsaWNhdGlvbiB3aWVsZGluZyBhIGZvb3QgZ3VuIGJ5IGhhbmRpbmcg
+aW4gYW4gdW5kZXJzaXplZAogICBkZWNvZGluZyBidWZmZXIgYmV0d2VlIHNlZWsgYW5kIHJlYWQg
+KHJldHVybiBlcnJvciBiZWZvcmUgdHJ5aW5nIHRvIGRlY29kZQogICBhbmQgZGlzY2FyZCBmcmFt
+ZXMgaW4gdGhhdCBjYXNlKS4gKGJ1ZyAzOTIpCi0tIERvIHByb3Blcmx5IHRlcm1pbmF0ZSBJRDN2
+MiB0ZXh0cyBjb21pbmcgaW4gVVRGMTYgZW5jb2Rpbmcgd2hlbiB0aGV5IG92ZXJ3cml0ZQogICBw
+cmV2aW91cyBmcmFtZXMsIGxpa2Ugd2l0aCBvdGhlciBlbmNvZGluZ3MuIFRoZSBzeW1wdG9tIHdh
+cyBhIHNob3J0ZXIgc2Vjb25kCiAgIGZyYW1lIHJlc3VsdGluZyBpbiBhIGNvbWJpbmVkIHRleHQg
+d2l0aCB0aGUgZWFybGllciBsb25nZXIgZnJhbWUuCiAgIChidWcgMzkyKQotLSBDaGVjayBhbmQg
+cHJvcGVybHkgaGFuZGxlIG51bGwgc291cmNlIGJ1ZmZlciBhbmQgemVybyBzaXplIGluIG1wZzEy
+M19zdG9yZV91dGY4KCkKICAgaW5zdGVhZCBvZiByZWFkaW5nIHBhc3QgKGJlZm9yZSkgYnVmZmVy
+cy4gKGJ1ZyAzOTIpCi0tIEVuc3VyZSBjbGllbnRzIGdldCBJRDN2MSBkYXRhIHdpdGggKHVubW90
+aXZhdGVkKSBtcGcxMjNfaWQzX3JhdygpCiAgIG9ubHkgaWYgdGhlIHBhcnNlciBkZWNpZGVkIHRo
+YXQgaXQgaXMgdGhlcmUsIG5vdCBwb3NzaWJseSB0aGUgbGFzdCAxMjggYnl0ZXMgb2YKICAgYSBz
+ZWVrYWJsZSBzdHJlYW0gd2l0aG91dCBJRDN2MSB0YWcuIChidWcgMzkyKQotLSBQcmV2ZW50IGlt
+cG9zc2libGUgTgoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyAzMDAwIGNoYXJh
+Y3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0YWNobWVudCB0
+byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLi9tcGcxMjMve21wZzEyM18xLjMzLjYuYmIgPT4gbXBn
+MTIzXzEuMzMuNy5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
+L21wZzEyMy97bXBnMTIzXzEuMzMuNi5iYiA9PiBtcGcxMjNfMS4zMy43LmJifSAoOTYlKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEyMy9tcGcxMjNfMS4zMy42LmJi
+IGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbXBnMTIzL21wZzEyM18xLjMzLjcuYmIKc2ltaWxh
+cml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbXBnMTIz
+L21wZzEyM18xLjMzLjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEy
+My9tcGcxMjNfMS4zMy43LmJiCmluZGV4IDdmYTA0OGM5ZmMuLjAwMmM0ZjFjYzYgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEyMy9tcGcxMjNfMS4zMy42LmJiCisrKyBi
+L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEyMy9tcGcxMjNfMS4zMy43LmJiCkBAIC0xMCw3
+ICsxMCw3IEBAIExJQ0VOU0UgPSAiTEdQTC0yLjEtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0NPUFlJTkc7bWQ1PWU3YjljMTVmY2ZiOTg2YWJiNGNjNWU4NDAwYTI0MTY5IgogCiBT
+UkNfVVJJID0gImh0dHBzOi8vd3d3Lm1wZzEyMy5kZS9kb3dubG9hZC8ke0JQfS50YXIuYnoyIgot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjkyOWE3YzE4YmE2NjJiODkyN2FlZDRkZTIyOWFkOWFlOGFi
+MmI0ODA2ZGQwZjMwYjkwMTEzZWIxYjRlMjE5NWEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzFk
+MGUzNWE0Y2E1NjdlYzliNWViZGE2YzMwNjJiYjQ0MzVkNmQzZWFjZDZlZjBkOTVjYWRkNzg1NGRj
+MDNlZSIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAibXBnMTIzLSg/UDxwdmVyPlxkKyhcLlxk
+KykrKVwudGFyIgogCi0tIAoyLjQ3LjEKCg==
+
+--===============5251059944324051677==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/mpg123: SRC_URI changed from "https://www.mpg123.de/download/mpg123-1.33.6.tar.bz2" to "https://www.mpg123.de/download/mpg123-1.33.7.tar.bz2"
+packages/x86-64-v3-poky-linux/mpg123: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123: PV changed from "1.33.6" to "1.33.7"
+packages/x86-64-v3-poky-linux/mpg123/mpg123-dbg: PKGSIZE changed from 2640648 to 2649672 (+0%)
+packages/x86-64-v3-poky-linux/mpg123/mpg123-dbg: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123/mpg123-dbg: PV changed from "1.33.6" to "1.33.7"
+packages/x86-64-v3-poky-linux/mpg123/mpg123-dev: PKGSIZE changed from 197209 to 197706 (+0%)
+packages/x86-64-v3-poky-linux/mpg123/mpg123-dev: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123/mpg123-dev: PV changed from "1.33.6" to "1.33.7"
+packages/x86-64-v3-poky-linux/mpg123/mpg123-doc: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123/mpg123-doc: PV changed from "1.33.6" to "1.33.7"
+packages/x86-64-v3-poky-linux/mpg123/mpg123-locale: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123/mpg123-locale: PV changed from "1.33.6" to "1.33.7"
+packages/x86-64-v3-poky-linux/mpg123/mpg123-src: PKGSIZE changed from 1918426 to 1922933 (+0%)
+packages/x86-64-v3-poky-linux/mpg123/mpg123-src: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123/mpg123-src: FILELIST: directory renamed /usr/src/debug/mpg123/1.33.6/src -> /usr/src/debug/mpg123/1.33.7/src, directory renamed /usr/src/debug/mpg123/1.33.6/src/compat -> /usr/src/debug/mpg123/1.33.7/src/compat, directory renamed /usr/src/debug/mpg123/1.33.6/src/libout123/modules -> /usr/src/debug/mpg123/1.33.7/src/libout123/modules, directory renamed /usr/src/debug/mpg123/1.33.6/src/include -> /usr/src/debug/mpg123/1.33.7/src/include, directory renamed /usr/src/debug/mpg123/1.33.6/src/libmpg123 -> /usr/src/debug/mpg123/1.33.7/src/libmpg123, directory renamed /usr/src/debug/mpg123/1.33.6/src/libout123 -> /usr/src/debug/mpg123/1.33.7/src/libout123, directory renamed /usr/src/debug/mpg123/1.33.6/src/libsyn123 -> /usr/src/debug/mpg123/1.33.7/src/libsyn123, directory renamed /usr/src/debug/mpg123/1.33.6/src/common -> /usr/src/debug/mpg123/1.33.7/src/common
+packages/x86-64-v3-poky-linux/mpg123/mpg123-src: PV changed from "1.33.6" to "1.33.7"
+packages/x86-64-v3-poky-linux/mpg123/mpg123-staticdev: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123/mpg123-staticdev: PV changed from "1.33.6" to "1.33.7"
+packages/x86-64-v3-poky-linux/mpg123/mpg123: PKGSIZE changed from 1034767 to 1042959 (+1%)
+packages/x86-64-v3-poky-linux/mpg123/mpg123: PKGV changed from 1.33.6 [default] to 1.33.7 [default]
+packages/x86-64-v3-poky-linux/mpg123/mpg123: PV changed from "1.33.6" to "1.33.7"
+
+--===============5251059944324051677==--
 
