@@ -2,34 +2,34 @@ Return-Path: <junjie.cao@linux.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38CD9C55184
-	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:50:58 +0000 (UTC)
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.39095.1785747050521069224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 371A2C55175
+	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:51:08 +0000 (UTC)
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.39099.1785747059919858781
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 01:50:50 -0700
+ Mon, 03 Aug 2026 01:51:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=exJe2PVC;
- spf=pass (domain: linux.dev, ip: 91.218.175.173, mailfrom: junjie.cao@linux.dev)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=BxcvSbVo;
+ spf=pass (domain: linux.dev, ip: 91.218.175.189, mailfrom: junjie.cao@linux.dev)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785747047;
+	t=1785747057;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5Ag27dGr5ZrNePSTpMcmiyuLkAlF/sCHTZZPBlhPERQ=;
-	b=exJe2PVCO7sC88nMibkLbVaONYPUCFnMyVybqkTBoXXqWUEWe5H6KQO4Q4cOQ9J2zgiod7
-	wWHl7T3k9EK0GKEsD299ots0CIx0o7h7Gy3CGgYiboLlsR/wvsHDFP2EgQMhTDyZcM5U8U
-	cq+NspRxLzi/J+mqxhfx1PgaRZ7yBkg=
+	bh=OJQPS/QikPsn+CVxX88CQ4ElnIPEhXE59yy0y5khDcw=;
+	b=BxcvSbVoK+JjzWCUIzjR9e9/VopwUY4Ni0DwpQ0tn/i16IFAsNyX7zf8T/7HwW+hHvv9Xh
+	Bz7gvCJlYlkhI/fjIU45TwnDEoAnM0+pACE1xKpTQXdpKhDccgbxFBn4Y8u2IbVUfbk1qk
+	RjEUMk+mhlfMO45UVelqbkIBJR4pbGI=
 From: Junjie Cao <junjie.cao@linux.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: paul@pbarker.dev,
 	randy.macleod@windriver.com,
 	Venkata.Navuduri@windriver.com
-Subject: [OE-core][PATCH v2 09/10] cve-exclusion: set status for CVE-2023-6238
-Date: Mon,  3 Aug 2026 01:48:26 -0700
-Message-ID: <20260803084827.1348810-10-junjie.cao@linux.dev>
+Subject: [OE-core][PATCH v2 10/10] cve-exclusion: set status for CVE-2023-6240
+Date: Mon,  3 Aug 2026 01:48:27 -0700
+Message-ID: <20260803084827.1348810-11-junjie.cao@linux.dev>
 In-Reply-To: <20260803084827.1348810-1-junjie.cao@linux.dev>
 References: <20260803084827.1348810-1-junjie.cao@linux.dev>
 MIME-Version: 1.0
@@ -38,39 +38,42 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:50:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242635
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:51:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242636
 
-NVME_IOCTL_IO_CMD and the io_uring passthrough path accept a
-metadata length from userspace without checking it against the number of
-blocks and the namespace metadata size that the device uses to size the
-transfer, so the device can DMA past the end of the buffer.
+"Marvin" is Hubert Kario's Bleichenbacher-style timing oracle research,
+not a Marvell or s390 issue as some data sets suggest:
 
-Kanchan Joshi posted a stopgap removing unprivileged passthrough,
-reviewed by Christoph Hellwig and applied for nvme-6.6:
+  https://people.redhat.com/~hkario/marvin/
 
-  https://lore.kernel.org/linux-nvme/20231016060519.231880-1-joshi.k@sams=
-ung.com/
+The affected code is the generic software RSA PKCS#1 v1.5 unpadding in
+crypto/rsa-pkcs1pad.c. pkcs1pad_decrypt_complete() has three
+secret-dependent early exits (leading zero byte, block type, minimum
+padding length) and a loop whose trip count depends on the position of
+the separator, so the time taken reveals padding validity. There is no
+constant-time unpadding and no implicit-rejection fallback in the tree,
+and no commit touching that file addresses decryption timing.
 
-It was then backed out. Keith Busch wrote "I believe this large change
-is a bit too late for 6.6 ... It's backed out now", to which Christoph
-Hellwig replied "We leave an exploitable hole in, so I don't think
-waiting any longer is an option". No replacement has been merged: the
-commits the patch would have reverted are all still present, and
-nvme_map_user_request() still passes the user-supplied metadata length
-straight to blk_rq_integrity_map_user() with no cross-check.
+Red Hat classifies it CWE-203 and has shipped fixes only in RHEL
+errata (RHSA-2024:2758 for 9.4, RHSA-2024:3618 for 8.10 and others);
+the corresponding bugzilla is still NEW:
 
-The exposure was introduced by
-855b7717f44b ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
-in v6.2, so branches carrying older kernels are not affected. Debian
-reached the same conclusion independently, marking the older suites
-"Vulnerable code not present":
+  https://access.redhat.com/security/cve/CVE-2023-6240
 
-  https://security-tracker.debian.org/tracker/CVE-2023-6238
+Ubuntu records "appears unfixed in upstream as of 2024.08.24" and
+Debian lists src:linux as vulnerable in all suites:
 
-Red Hat rates it Low because the device node is root-only by default:
+  https://ubuntu.com/security/CVE-2023-6240
+  https://security-tracker.debian.org/tracker/CVE-2023-6240
 
-  https://access.redhat.com/security/cve/CVE-2023-6238
+Practical exposure is narrow: kernel PKCS#1 v1.5 use is dominated by
+signature verification rather than decryption, and an attacker needs a
+service driving KEYCTL_PKEY_DECRYPT with a long-lived key. The leaky
+primitive is nevertheless reachable.
+
+e8829ef1f73f ("crypto: rsa - restrict plaintext/ciphertext values
+more", v6.9) is unrelated: it enforces SP800-56B value restrictions and
+is not a timing fix.
 
 CC: Paul Barker <paul@pbarker.dev>
 AI-Generated: Uses Claude (claude-opus-5)
@@ -88,32 +91,32 @@ d
 v1: https://lore.kernel.org/openembedded-core/20260802143444.1178575-1-ju=
 njie.cao@linux.dev/
 
- meta/recipes-kernel/linux/cve-exclusion.inc | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/recipes-kernel/linux/cve-exclusion.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-k=
 ernel/linux/cve-exclusion.inc
-index 0647586f..506d3705 100644
+index 506d3705..4ac5e343 100644
 --- a/meta/recipes-kernel/linux/cve-exclusion.inc
 +++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -244,3 +244,11 @@ patch was withdrawn by its author and the affected f=
-s/jfs code is unchanged"
- # The CVE names usb_giveback_urb(), which does not exist; the reporter's=
- PoC
- # and Ubuntu's break-fix data both point at drivers/media/rc/imon.c.
- CVE_STATUS[CVE-2023-4010] =3D "fixed-version: Fixed from version 6.18"
-+
-+# The user metadata length is not checked against the length the device
-+# derives from the command. The fix was applied to nvme-6.6 and then bac=
-ked
-+# out; nothing has landed since. Kernels before v6.2 predate unprivilege=
-d
-+# passthrough (855b7717f44b) and are not affected.
-+# https://lore.kernel.org/linux-nvme/20231016060519.231880-1-joshi.k@sam=
+@@ -252,3 +252,10 @@ CVE_STATUS[CVE-2023-4010] =3D "fixed-version: Fixed =
+from version 6.18"
+ # https://lore.kernel.org/linux-nvme/20231016060519.231880-1-joshi.k@sam=
 sung.com/
-+CVE_STATUS[CVE-2023-6238] =3D "unpatched: the proposed fix was applied t=
+ CVE_STATUS[CVE-2023-6238] =3D "unpatched: the proposed fix was applied t=
 o \
-+nvme-6.6 and then reverted, no upstream fix has landed since"
+ nvme-6.6 and then reverted, no upstream fix has landed since"
++
++# "Marvin": the PKCS#1 v1.5 unpadding in crypto/rsa-pkcs1pad.c branches =
+on
++# secret-derived data, leaking padding validity by timing. Not a Marvell=
+ or
++# s390 issue despite some data sets. Fixed only in RHEL downstream.
++# https://people.redhat.com/~hkario/marvin/
++CVE_STATUS[CVE-2023-6240] =3D "unpatched: Bleichenbacher-style timing or=
+acle in \
++crypto/rsa-pkcs1pad.c is still present in mainline, fixed only downstrea=
+m in RHEL"
 --=20
 2.43.0
 
