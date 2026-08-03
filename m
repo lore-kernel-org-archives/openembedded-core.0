@@ -2,119 +2,119 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 305BAC55184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D428C55175
 	for <webhook@archiver.kernel.org>; Mon,  3 Aug 2026 08:42:08 +0000 (UTC)
 Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.66])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.38994.1785746521752005798
  for <openembedded-core@lists.openembedded.org>;
  Mon, 03 Aug 2026 01:42:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=tlOsEBay;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HgOXDPs2;
  spf=pass (domain: est.tech, ip: 40.107.162.66, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dH9qJIrmefeISpekuFtyUBYqqGKr+Q8g3AFTfKfFGMdn5OsiwKE6dSUMkKPH4e74WFl21KK/Q/HG4leP6SJbOctM+zjmIqGJpei8oJCD8xKgjtDdh/3qQq6klgsUFaYAIz66XbRMz19gPILZ1lVEfn+JonVhhDaAmf7PrJUel3mGZQnP7ui86TJg+OLqcejE/T3TGx98JCmjgpuvl8Cl3ftTb9wRiO827KOa22VoIEgAhp/4rfaicNuDs0Ui9vW8d97zkZnJ9X/MqRnflF0nsKqjyfKy8zRu24Mmlo5UsKp+yNW6HoDB6fyTHc3SI/TjIUtNzRIzpeqGMJ1UzKQ/mA==
+ b=kd8wdahNDa1qV/YQSAM9e00Mx0iZOTIT9+rzUYjEia9IuqbZutW8kEYwHrH/w8XI/6Y2RrH+sYKORaKfTEXN4GyJDZcgUD2WqO/GCm7gvZ+yHMrRRZQRUePcZ3SdbJvgFDTym4w0Cjl2povjGaLoNDib8w8WI6I4FAeJbouGREtZYjFtgJH9N93BGHtddt4acYE0TowwqBD/RTU0pIJDGNDVTXAwkRvVcQH4mUoFDWX4rw1vHwr2OWZ5Gl/X0FTWKF7ZChUFWYgDlfM7U2UkIqO5IEjPXnrFvWG7RCcutRGOkO1e+gf9q1saUhVGGGcHLEBx1eJo9aDV99MRLzaNXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6Ug/muZfgng4sA3zW23NllW7kWClP+YDKu9lb+8BIGo=;
- b=RVBRE7oZiFBqF32gVgjDlO/KtWHo62xhlS8nCNWvZIHeQXDgQHHxdmOqYFLjzay9W6iB4+8ACQRpspIhm81vs6sRGBDP0Tai3gBD4uVr5Yjl7O83kto7spBlAezn3IucZSCeZliL4fH6F7JEAca58u3NE4W5DbJswdx6vrLDRZMSdkvfs7jAqwaSrNM+AdGmMHEvi2Indu2/+o6OPK4qI8Y7f7wbf17koZt3VXlkvCH4k3B5V1H7AwHE2IXpdDE2pd+WVVvgfpndTLOtrc3s1g/zBMZcwPcw5eeOoVfj4O4TC3L5IEKDiNkzYI3+6sZRmpMpplC0vGaOfUeUCPFrrg==
+ bh=dFkAVILRPZQAydFaxUNERHxFLKpCZIeVxQCiMRhCvCU=;
+ b=m2xfE7ZKLFfOvL/vGp9+oBNHfSYq4n1LcL5CTymN39bQsjCPSTn4TnAuolxPjSQaZ4fNPm5w69MytgyCQRrVbpkRZJiJJ+APvNlW7SnF4rb5l5Ko/ZAKvgJdU2miFpT07wubnrLCRpJ5vvJy7WL9B3bcp2MDZjSSOwXfJ2eOW8NoSE0oXc6DEIP/pNeIpzcZ4C/LL/FmDdVHDzKStDmsQe6Ly4sYCe9DZIUGNtfuv3iSEdocqkpsRMUD0oSGKZwGh+4v/ioqSijfjAKFuXigdG/pZOSbUIqeRI8jNvaQOYcoXpneWtlu0CjMDKgaahmgeJmuZTkVfwK1w7ylGaAUFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Ug/muZfgng4sA3zW23NllW7kWClP+YDKu9lb+8BIGo=;
- b=tlOsEBayW67DHed7W9I2Wuz6SOUarrBXMbmwze6v5mNnW6xpxr6gLqgvRzZSRpS2mgmAoOFVVFCubUvq+r4zhUj7AkSX/wIeCTAbqajni0SczRYxYTB4NnQ71O8Y+VcqaoT98UwmBCfJ9XhCeXSaTWR3a2msrlm8bo2PvwjjN7N9famevsAw60T8vzridQdVbKlLjAIm6RWNl1RBQjxBRxo2k5m6VSgCwS6jGsYJoMUJDQk4GyVY/YE+vf1d8YCGGAkzEEkkifFpmBZAIhe6/zgHgEYD+dSCzm3/cxE2n+AYI89lMJSw7pkmNAQn1ttZQUsZQz7XVPxSd9LtGxvLzA==
+ bh=dFkAVILRPZQAydFaxUNERHxFLKpCZIeVxQCiMRhCvCU=;
+ b=HgOXDPs2QAFg6cDS+7tlDgrs7KGHryOX1Sq4+FcP0kF1AcGtUHtdoptAQGvh/JNjJnMaDlnp9rRTlrhNeNx/Bvfl1CA3FfZElnSVeGN+z6kbEjx1Mw9dsxeFSlq7fKyBrUc9RD1y0c42XqfFOnk92vbia17ykF1X0kx63aGRNkXonsKDPoY7z8MyLUqF3X9GvwWrxkzfyrpt4w7fHnrUeHZBTTLHWlxhfcsgd/e/xfG48H8TI9d2q4k80gd3mwVRkZcvRf1d6kRI9U2lvPYQIsDGtNbKasggVfZzdvPBqQA3X+S0yi0YjJtLRdb/BlXqXn/cbd/Z4zgUSdzuKnG+qA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by DB4P189MB2215.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:380::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.13; Mon, 3 Aug
- 2026 08:42:00 +0000
+ 2026 08:41:57 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0292.012; Mon, 3 Aug 2026
- 08:42:00 +0000
+ 08:41:57 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [wrynose][PATCH 3/3] libssh2: fix CVE-2026-66035
-Date: Mon,  3 Aug 2026 10:41:41 +0200
-Message-ID: <20260803084141.46902-4-jaipaul.cheernam@est.tech>
+Subject: [wrynose][PATCH 2/3] libssh2: fix CVE-2026-66034
+Date: Mon,  3 Aug 2026 10:41:40 +0200
+Message-ID: <20260803084141.46902-3-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260803084141.46902-1-jaipaul.cheernam@est.tech>
 References: <20260803084141.46902-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0327.eurprd04.prod.outlook.com
- (2603:10a6:10:2b5::32) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU7P191CA0006.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:54e::34) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB4P189MB2215:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8c123f6-a122-46c4-6fb4-08def13b159e
+X-MS-Office365-Filtering-Correlation-Id: 57ea690d-9d5f-4e3f-362e-08def13b1424
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|13003099007|56012099006|10067099003|11063799006|12006099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	XEsrJvDtKJw2Q0hbez7hMo2NHJ9R+PCIfV8WjAA5FhaPh5kphnMnNeG8vG7yEw5SfYUg5Lh1mPjU2ObfXg1hpnfYkIDjyvEsLczID5Yg5fRO1RGvWYV1IbaxTteu8eiKRM3RHDia+bkKnwLVsSaSmBMlg3frNBtr12rC2F6QSIMkwQYYRZofwFRC7/3gw9yXGFlpHqz/oygkOFsptHJa742an0gThtJ+w58crI5I+TbKDhOUPJ4Y4PV4+dQx43JrXxklAYK4Qt/FbBOf4hpLIZ23y8yJWNDCCzqEsrjguTJomJ/b8pYgdVp/GV2Wew+EwFw3Nz4YF7yq5MXdoYVwy01Z9kPld85yP/a4qD/VwGbtCz83zeRyC8TOPPJZlz2WYzUAm3QY64kmriyFxJfl0DCXMeueKwsxZM1TEZH6F1VTmgg8FawA4Z6920/g+xyZ0yBqThJ1aEjGeMF59+BAbTt/rYtwN7Oe6R4r3s9zAcNvjuvfg4axI3S+CPwZtbvHxAwsyEa4dw+AV7DAhUWxDl6MUOijGsNQhKRJBOo12ivjVyUBu/ehxhZQHrnx/RoxbOQNBHGtXZLP6QUpboI2gmgnf/T9TlzM26y613g3hS9xZi6cgRSqTDz5pqeNU4ks9KSF/oKdw7eETnIqeifqiH9XB4Eqt9foXDf2Jnrtt8o=
+	awI7CRbll0jRMfvE3Itxi6gBctLk66HZw8aNB/hSRyWz50B53HiFtNcP9ttB8u0cyUCFqy2sszWKZh8L9j0jEGSpHnqQfYoz1uMRET/tP3HwGtw/nZaK4nT0w16F17ro/PgNJjiNcb1J+UDXBZlkY8L28Ngq3+X1uvTYrQUAhlnxz1lSpTnkxQcq4/zYa0/JYx69+jVXRUIAFqPXtWHsN/Sp2dT/aKoib4zBc334lLUOlvrdvXoJQjD55kvApt2xq41dS0sLBy+rnbMNTXE1P3li81L8XsHHrz4b86WiEWrk83Q11c69mZCIUZsJVCz/vhNJZ2314gvokt6pX9KPuIBae5dJ/xn0T8LO/dzqN1dy70aqt8bOad9Y9gUxTt4rLEzxnDN4vGMrNt70/xE1AvwUNL5/2TBoAyJ0YFN2nAFSzl1MNGMRMoFJwHKAB2wbEdqE8gRCpFUVEQ6+zd9wNrd9IXLKNpq0z0IYK42+TXjR29QL8okTAcQg70XqVoaAb1AzYe4SoWgyf+/U3ylmmDtacIjqZIOO16BnCd+/UeS1mvVRlh0Viq40JdFenIY7mDBRdGZlXuYrVoUiiHEieaMEYlYxZVKCFauVfO0ktISek4vBHkO5RFnmHsV52MqP2vE6OiGLAfhpMMwKCFHaw21NeTZTTkhxZReJ2iea7EI=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(13003099007)(56012099006)(10067099003)(11063799006)(12006099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CZvYO5euw2Eu2vOMGQTj7wbDWg6ok4s2fd6JrBw/NLOTVFWaw8OH0mM6LwqV?=
- =?us-ascii?Q?FrTnimNHHb8JCrTm6QyQYu3RsBUynU2UXzFEAn8Gvu3ylJ11lisdlpdSqOip?=
- =?us-ascii?Q?i1ybICQmuJeYW1TMC+pMJ3xAuj46KwGz2bmqmITZOfPt+zMCyVEG35o9D5WI?=
- =?us-ascii?Q?61whzcD9S7VedUtQL6zQxUvheartYkyBcd0iHcoIaj+IPOOYM7V+kguUwyYU?=
- =?us-ascii?Q?cxELoL/AXg++koFPBM48+Fdip3SW8au6/leBfmUNgb7JXUJxYrx9qMh9F8Ue?=
- =?us-ascii?Q?eckTLAsHU5+K7GiAh15pmA45EyL80mxFT/L3fGwRkpHxXWz/VKaL8eKe8bx7?=
- =?us-ascii?Q?U7llC9LL1SSUAvsjuAJFaP3un10V5qQ6atF2K/tzCH9x6L0TX56c+NuqTAKO?=
- =?us-ascii?Q?Zi+pUl7+HGQPHYGHy28Qg02gKpIoigRcyGNCeg6NkGHKmg0a7jafyR/yC3bg?=
- =?us-ascii?Q?Z4h1ms/FASfCxQ8wOd497jK95ujq4SrKCAe+C9g2m0KoE8dhiahvdGnKb4GI?=
- =?us-ascii?Q?BIMFc7CEjXLRVID/YKYJfVGU5Xve4fjng2KTW2gqi0tOoyZXiqnk/yZa7qFk?=
- =?us-ascii?Q?d5b74J1HGYnJ3IfDxd2aB1zk/8uC6cftNNY/T7joOc7+ZZcNMLMSEDbjwzDu?=
- =?us-ascii?Q?arfTJqMy6Q6sCVTIuobHaIKDTAmRT2abrcTGrQPYBnPf1aTlz6UKDB5mtDJy?=
- =?us-ascii?Q?4NBC4TeKAsOQtlicPnFUdRDkjDyB2Yk6nmj0Pk3LIfGqmHl93SRMTpKxv57W?=
- =?us-ascii?Q?RfuCJ2DqaPySsVGtXume/9GgbcWd0JpfWwJDo/6UDZ1V3zthMP24SsB0xCwx?=
- =?us-ascii?Q?Ptby4JHIVRbLfJf3+wwipYLCRRwi/LKNLTRbjS6Nisj7iboL2loJ1I0wWioE?=
- =?us-ascii?Q?wRf1pvA7qjEwjePIjZYNyBb1tC9kQngusQOXX4ifzfW8rlTKQmfph7L+TMZh?=
- =?us-ascii?Q?aroraqtxpj/1DykVXLOKks91KmlQEzw5Syf8YZaIhl0XNAtmayNF5vXCB5BB?=
- =?us-ascii?Q?SXMEBAUKHZYkR5Dwr6vQKa3QM1ayiuiLadhPECgGhlf0gIdqKHhvk82FmkKv?=
- =?us-ascii?Q?jccj2bqf0vh2rVUI7dV/TGzU2D0NfhJlVWFtsMaNFA7dO4Lu4GddZkS9LEwo?=
- =?us-ascii?Q?AedH/1ThPi/OZnqMTDxWgnWlXnFpm9F+h7+Va57YZbwo4KDCp21OlwTD+zjN?=
- =?us-ascii?Q?vji+pH2IiUw3+YVsnN0+nz25yXQnGRdyLWW6q+0Druw2rBdoNBWkBfay6ne4?=
- =?us-ascii?Q?9FXlT9F/2clFkx0uliWP9LQW+5TyHTrVD2BF+FYVzhZdauliekl2y6vEcUEP?=
- =?us-ascii?Q?2/R03AKsRfEb+ZIFH+RCXBvftfZkGrdte5+NSRt3c64UiV3uDMX+gwADN4e6?=
- =?us-ascii?Q?ncSobzB1PNgjIcjps8zeCTjUO1dgisaNnLg0TaCLrLe6IotCNsEE5Qh3qfnK?=
- =?us-ascii?Q?Bbsmax1USyUbRcUHiB1BkHM2jUF22MKRwbiYfGbe0BEQEn1f9QHng0k+jHFY?=
- =?us-ascii?Q?7eow7waJ7jsSbXC0pdHdkV5uzn1/GARxff5/gWFpltY38ywJRYI29+Nqu9wD?=
- =?us-ascii?Q?Z6iauc+H2V0NH4QTefZt7gyr8+jpgFc+laBcK7CL2uYpyJqflft9Dsps7L6w?=
- =?us-ascii?Q?g9kB+mEAGpvCjqh6w2PqLXPgVq1g/CC+YqSerTDrB+P6zwMW0Ys69wywPVpd?=
- =?us-ascii?Q?bHMVEvmjK1NkED9rWH63slJ9CUB0QkjY/squXZLpG2/s3wvlz2v5/+Bxorus?=
- =?us-ascii?Q?+z2AIiTZIgev6yuM2WrZuI/Bem78iCU=3D?=
+	=?us-ascii?Q?vSIrDGCHoPDSCpPkzOsQWB2pEipxr6AiVAn+cYzirqtDVS5nS15OmV2P5JqL?=
+ =?us-ascii?Q?egiAT0cobRElW79av97WRpkfqwrxu0nJKOnd0xk2Nkpmgav7PXTIiE78FGMR?=
+ =?us-ascii?Q?afYec4fqqljddL5U+hMXyNqdJgNCAdbCGf6glr0haQZwQSUY+QGMnsRBiFgw?=
+ =?us-ascii?Q?oMb4pB47sXLNuJ0cO7yGmCYT1Lvm2M3kjJ3OZClVrGxxUYjxmutXCnODJoq8?=
+ =?us-ascii?Q?z4yo0PKPpFY2Oba61sd+sKqTFbaOsAHyX8iFjMUndOFckdRwvoWcSYL3jxhT?=
+ =?us-ascii?Q?7qpQVQWq7zN717B4V9SDEeJP67H91xlckL4wWG3hv6P02Hs7nF81jLcylRKB?=
+ =?us-ascii?Q?eFHF6+57W8jyydvJorjkdzQ6uS1B3DqYulurnY6SlOkW6sQ5v0fmxhfJPinp?=
+ =?us-ascii?Q?Z5uNFvnzRAi2zxnoWlGf7l83+q4FI7PmPJMkUNFNxp0NJXm1WFtVFxzkRUDW?=
+ =?us-ascii?Q?ovS+6wFiqh2qO2CB1Fu6nVCjTrDG7yh5u80/puHhCR2g4wfb0IlMWA+8p6Co?=
+ =?us-ascii?Q?QQAHnpnkHiXo1F9cIWVeQg+odNepn7m5COUTwecJQ4nX44V1lnBrHJf6fJGC?=
+ =?us-ascii?Q?SxxJnbM/xElJmcdXnPLXCWc2oNmoZzD9iVIkYvjCZijBsPQEF4SIcSvRvGM9?=
+ =?us-ascii?Q?D6eo+9sR5IX67Tjb1pdWqElcKcEz76cNFBVlb1x1V9lgSI44YliRUe+FyRoF?=
+ =?us-ascii?Q?z5UJu/NcPDV5qmz0Prl4lsOjCTjZFWAZDVk39GaOr8OYQrkQi+1WdwXlytI8?=
+ =?us-ascii?Q?nXYo76bWDtkxA+MwhKDTJ/E+j3zQ/sboZcr96hunlpEL2117CaX/BiP/YMIU?=
+ =?us-ascii?Q?muelO19Qg/Yjc6xtTjw1jkooeplKSXxdm2uahXERiPZwHF8P/P9el/61AAK2?=
+ =?us-ascii?Q?XFhnvBzJU0zilesfBMGgSQjUlGZoqzEZQJfnpTE16wJYs9mvaAMUJ+j2qjmP?=
+ =?us-ascii?Q?cpi07kMkYrSC6lHzqd/RZ/971MeF6ueVTt4pkZbs3xlObNj8tLeX/wXWGfiQ?=
+ =?us-ascii?Q?cFamgiuVisnLnAkYbOMLuMQo+tCJ9De2cIk0+h+7NjHF3mQg2/s6BybGexuG?=
+ =?us-ascii?Q?f+xiOfYaHMee4L2g5wuDLVySfFyKb11+0cSJePozW8RHV1Pxrzp+4xEZrsdS?=
+ =?us-ascii?Q?ATJfFuD+84Sc6StMv8OFfh1irPBAgwfClDg97YdfvqkRLQLgVdD0W20P8Rh+?=
+ =?us-ascii?Q?mUHs5HYUvq3E3z+oo6ir7Wx7qt4FaMXFICqm9myVLlWwIt09K4bTswp60kpR?=
+ =?us-ascii?Q?+tpWmq3psIjBCcCocuAgrp4RvKLWtd5tUMwGM90NZ1Xxl3U2H8n9wcBF+mF4?=
+ =?us-ascii?Q?ElVIDlYEUrcB3YnC1KLH9W2ZgLH9bzZDnxEpVaPJWN4nR9z73Dej+O/AtAAI?=
+ =?us-ascii?Q?2dAfJsAtg+Sz78vPeFZ89R4JQcVb1dlTlqGMhY89P2VurtSpORWsIuI2qbVW?=
+ =?us-ascii?Q?bmZ9J+NXnVBiJ6z11/tRjWOT3gY7yZ9Ud1/uHCO1JDzibLQtHdvmI/7BZ20+?=
+ =?us-ascii?Q?P83Ay+svYpukm+uXzLG6duFa4WOrS/UyLXrLZlcXUdm0/voVfm/jCI7W7iv0?=
+ =?us-ascii?Q?yShnYxWW/CMhgzlURXDJStntI29R0DzV5oR880vMx6q6f4aqqMklCkhKM/CE?=
+ =?us-ascii?Q?+bJv6gqXufB+uk7ZeTpcunT6j2y3eY0GBfhpg/ylIk0ZNxZ2dqs2JpovOyy7?=
+ =?us-ascii?Q?M5Kn3O22jlflqoMukF3VHPB/kh2WfDADPh8KS7O8BchfllREAmlcpybQULPq?=
+ =?us-ascii?Q?8BEhlU62zdG8Uv36RvgxmT4fstqAtEw=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8c123f6-a122-46c4-6fb4-08def13b159e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57ea690d-9d5f-4e3f-362e-08def13b1424
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2026 08:42:00.2397
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2026 08:41:57.7518
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uXVliQX7Zcx7PySEvaTQ7Ld/Sz19XNAOh/uGPADc23dunEZkyn9PzPbhOoHgOIbJyKv4uTU2yI7bm7mZRzq2rgsB083jNeOjgTRqFJb48hI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: TPfbuii+fGiQBxPET8tjcMFiyV6NXp2GbkLUe5+awN+lBJBPC+9Qx7hJtKALzrN8sV6xj5+YWGC9FjAt+iT/5/B1S/0zjRFX/tCPQiYAKVk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4P189MB2215
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2026 08:42:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242625
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242624
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-66035
-https://github.com/libssh2/libssh2/commit/42e33d81577ed4b95d4b4f6f845e5ee8e=
-fe5eeb4
+https://nvd.nist.gov/vuln/detail/CVE-2026-66034
+https://github.com/libssh2/libssh2/commit/a13bb6c773f0d55ad1628cede57e99804=
+cd898d9
 
 libssh2 ptest results (qemux86-64):
   before: PASSED: 1 FAILED: 0 SKIPPED: 0
@@ -122,89 +122,73 @@ libssh2 ptest results (qemux86-64):
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../libssh2/libssh2/CVE-2026-66035.patch      | 56 +++++++++++++++++++
+ .../libssh2/libssh2/CVE-2026-66034.patch      | 40 +++++++++++++++++++
  .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66035.pat=
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66034.pat=
 ch
 
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch b/me=
-ta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch b/me=
+ta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch
 new file mode 100644
-index 0000000000..7c15f92fb6
+index 0000000000..906356baf2
 --- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
-@@ -0,0 +1,56 @@
-+From 6671019836476649792eea12868a370133be1abe Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch
+@@ -0,0 +1,40 @@
++From 16720054e0b3f02e36f31dd04add534d73d4a18d Mon Sep 17 00:00:00 2001
 +From: Viktor Szakats <commit@vsz.me>
-+Date: Fri, 3 Jul 2026 18:22:55 +0200
-+Subject: [PATCH] transport: fix potential heap overflow on ETM decrypt
++Date: Sat, 4 Jul 2026 11:19:49 +0200
++Subject: [PATCH] publickey: fix potential OOB read in
++ `libssh2_publickey_list_fetch()`
 +
 +Reported-by: Vladimir Eli Tokarev
-+Fixes GHSA-6c79-444r-wx26
++Fixes GHSA-w6g9-cpfp-22gc
 +
-+Closes #2198
++Closes #2202
 +
 +Backport adaptations:
-+- The upstream fix uses SSH2_SAFEFREE() to safely release allocated
-+  memory and reset the pointer. Since SSH2_SAFEFREE() is not available
-+  in libssh2 1.11.1, replace its usage with the equivalent NULL check,
-+  LIBSSH2_FREE(), and pointer reset sequence.
-+- The upstream fix renames decrypt() to transport_decrypt(). Since this
-+  rename is not present in libssh2 1.11.1, retain the original
-+  decrypt() function name.
++- The upstream fix uses ssh2_err() which is not available in libssh2
++  1.11.1. Replace with the equivalent _libssh2_error() call.
 +
-+CVE: CVE-2026-66035
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/42e33=
-d81577ed4b95d4b4f6f845e5ee8efe5eeb4]
++CVE: CVE-2026-66034
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/a13bb=
+6c773f0d55ad1628cede57e99804cd898d9]
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ src/transport.c | 12 +++++++++++-
-+ 1 file changed, 11 insertions(+), 1 deletion(-)
++ src/publickey.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
 +
-+diff --git a/src/transport.c b/src/transport.c
-+index d147505b..9f386e75 100644
-+--- a/src/transport.c
-++++ b/src/transport.c
-+@@ -242,6 +242,17 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /=
-* 1 or 0 */ )
-+                 unsigned char *decrypt_buffer;
-+                 int blocksize =3D session->remote.crypt->blocksize;
-+=20
-++                if(p->total_num < mac_len + 4 + (size_t)blocksize) {
-++                    if(p->payload) {
-++                        LIBSSH2_FREE(session, p->payload);
-++                        p->payload =3D NULL;
-++                    }
-++                    return LIBSSH2_ERROR_DECRYPT;
-++                }
-++                decrypt_size =3D (ssize_t)(p->total_num - mac_len - 4);
-++
-++                first_block[0] =3D 0;
-++
-+                 rc =3D decrypt(session, p->payload + 4,
-+                              first_block, blocksize, FIRST_BLOCK);
-+                 if(rc) {
-+@@ -249,7 +260,6 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /*=
- 1 or 0 */ )
++diff --git a/src/publickey.c b/src/publickey.c
++index 9c9fa618..f3776d2d 100644
++--- a/src/publickey.c
+++++ b/src/publickey.c
++@@ -988,6 +988,13 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey=
+, unsigned long *num_keys,
 +                 }
 +=20
-+                 /* we need buffer for decrypt */
-+-                decrypt_size =3D p->total_num - mac_len - 4;
-+                 decrypt_buffer =3D LIBSSH2_ALLOC(session, decrypt_size);
-+                 if(!decrypt_buffer) {
-+                     return LIBSSH2_ERROR_ALLOC;
++                 if(comment_len) {
+++                    if(pkey->listFetch_s + comment_len >
+++                       pkey->listFetch_data + pkey->listFetch_data_len) {
+++                        _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_=
+SMALL,
+++                                       "ListFetch data too short");
+++                        goto err_exit;
+++                    }
+++
++                     list[keys].num_attrs =3D 1;
++                     list[keys].attrs =3D
++                         LIBSSH2_ALLOC(session,
 diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-=
 support/libssh2/libssh2_1.11.1.bb
-index 54022aa879..dad363cac5 100644
+index 7e320ed0f8..54022aa879 100644
 --- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
 +++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -18,6 +18,7 @@ SRC_URI =3D "http://www.libssh2.org/download/${BP}.tar.gz=
+@@ -17,6 +17,7 @@ SRC_URI =3D "http://www.libssh2.org/download/${BP}.tar.gz=
  \
+            file://CVE-2025-15661-2.patch \
             file://CVE-2025-15661-3.patch \
             file://CVE-2026-66033.patch \
-            file://CVE-2026-66034.patch \
-+           file://CVE-2026-66035.patch \
++           file://CVE-2026-66034.patch \
             "
 =20
  SRC_URI[sha256sum] =3D "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b=
