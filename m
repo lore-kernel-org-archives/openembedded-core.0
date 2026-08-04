@@ -1,144 +1,130 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A984CC5518F
-	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 17:18:49 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21672.1785863924773412573
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24951C55822
+	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 19:26:31 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24462.1785871583433411613
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Aug 2026 10:18:44 -0700
+ Tue, 04 Aug 2026 12:26:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Blr5jfek;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8f23e851626so313416d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 10:18:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785863924; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qqiQSGOFk/V69h5TaG2mllWVY74X7qQcPPi9tcJrNAws/n5NQo0SjLKz/7AcAr17+Z
-         qgZ1tpeqdwlu59dy3cjzmS1Wno/r6PyK2hxbNJ8fHNuSdgjGjMozwbhh/B0AP62/P5T1
-         /0vmffE3oaClPTIhjA+UeshUccHJYyW5Nkmwq29cDr4/Z1D4i2aOygOL1KoOci7UFcku
-         4Ao5NyBMUoW2B3+7v2d0VdycPf+Dvz9Q0j7F8r6dqofbv8F068zwuyaKOjD6P/89wdk0
-         u0gLrxT88j9c5RWHQEK+7kQw1PnSwYKACW37PWvPyUrPhrdkHLFfQ8LkAZjvwSdbsvgV
-         V5Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xkgeXH43POmjHu1kmEhgno/AWDXZ7fxwey/CSIp4Ptg=;
-        fh=C4ktaacVQu8idYct1+mCFSprzSve79apUqXfoLhYxUI=;
-        b=TN+0ToRyt4bVMrcLyVF6/UZ1mrXvXMKWqZp2evg1h7gvSdENs2KCzruO8U/FokelGu
-         W9tDsaL+u1g4WHC1awf87jKNyA4VBxhNCYiChti4ADf57J4roTsE3mX/UACkOHOpx6Zg
-         x85Djrj28hPlU5DX10jBirhc5GUYx/mprG9RS0wJLFWJ0w/7zbk6tK3Zlclh5wY5voIM
-         wu7oKYEazjBhlB3ymQr39Sm5wXhvIu6Uq2Jm24gWKvuLc+wtW0mn6iTDgI5E6j6+2oFI
-         /6q24MsTJJSoDvREz4WdyXaV+ZH/pwsqgRQ+CdPygwEOxTg22EJdZUbkfY4VGtNJ5bq8
-         hGlQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DmTHWEyy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49545ba3d4eso812355e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 12:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785863924; x=1786468724; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xkgeXH43POmjHu1kmEhgno/AWDXZ7fxwey/CSIp4Ptg=;
-        b=Blr5jfekzrgnQugnGAMisS5VwXHAnT+YNjbMaa+nOnukSgMGnUXcsefVIvamSiOu/9
-         G3C2dqLTBF+4qhtk312vyaELzHTgBpl/KURsQU5+pyho4kLGm8G32smPKFJfcOffRTAt
-         8xdCItUBuDU6hP0ZoLcxxkOs2RqTznoiV3qmb4K77slO/qY8hVh+f6F2OvdDj0GjzlgZ
-         A6iBpHoBDRT72vQpPngVP+m0mRcPnbu4OIFVFtxDsWoOQqXZaWKhGNisw37/6eAf0eNd
-         yThcgi1TRZTw+l6mvPlq/6NiqoykkM0bpkWJWNHbOO36vyCRr/LxRm3zAggusFZ7EjOQ
-         5LRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785863924; x=1786468724;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=linuxfoundation.org; s=google; t=1785871582; x=1786476382; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=xkgeXH43POmjHu1kmEhgno/AWDXZ7fxwey/CSIp4Ptg=;
-        b=WX2X5k1Ywz+N0ziRr/rKEkc0T3351MQjca6OdIWhWynpFBv7ur4lFv4W8KLdyNJ9I+
-         NaMRj+vRU9T0GVapW+6D41/Abz2c3XoZ9sqW273jOUs8ZPYXx00EriYQ3L75dlBaSkme
-         IvP0VK5Rgh5Pnz7v6HWCGDEjpCM6uUcb4TJeUM1quzBIZu3Ce8t0o2E3eZF+p9hL+0uz
-         5wM7vhxu7ThRmgNlyCy1qSG5iEm/bIU3c873N0ARyCG0apbY7EigA4mA3uFpbFQ0xW4c
-         /HCm5C6qFzMPcIvB9silUX+SxTOnQYURRgYVFu+uyOGRXNn9JO635L4MGen0HKh1TCd5
-         LDAg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq/go49Vq/mbuxXqqjsWPF7pQgCFiqoBW8z49QMkV1P8k2+1FbumATXZtJKNgPhQ6IKQfVYAhIuWx+UkqbLwevgqA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzs4t/6fUmygEpE8FHFdRiFQqs3CQBCeJch0PnQopq3F1douKlC
-	jSRp6S9LrwfVJkp81uI2+6tMfeiJaHuTrZ28CG0OA1qSECjq6HD0xyd7ViFwVglWeV8DPg4yAJ/
-	HqSI4dH6HHcnKq6fCUo4WqMVtppczjCI=
-X-Gm-Gg: AR+sD10mw/ZrtVgSZPYj5ODdZztKxpeqmqSOqCUJ1PN1kRT25/8yU4JdCU6SOQj7X90
-	YhhW/DI5mkmTeZ/x3mBtt3R8QNG+RodZstvnp2G6a6M6j6TMm+yjo/xpwNYKmkTJ5fQV3X65yuX
-	L5pnyO75Q40Aa2sfsIJFMAwNyiReEOY9SoeKiQwKFWWgU7BjQzqhpdAfX6vhP/wjYHp3tGdYo8H
-	iCV+EhbS0axlMcw0h1Zgi1i+99YX936keBnM3pRy+GR+SkCWErkempo6WiYwQX48zm0BaWo8QE9
-	dvpzCmPuHSZhpbcxvYmdA29MZ1ZeW49kZYty/l0LscsW/nITP0A2C3Oj5LSJvGy39xn1DwJuhNu
-	HmMs=
-X-Received: by 2002:ad4:574c:0:b0:8cc:15e4:1208 with SMTP id
- 6a1803df08f44-90881394922mr7524126d6.32.1785863923587; Tue, 04 Aug 2026
- 10:18:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260804040815.1499699-1-sumanth.gavini@windriver.com> <DKG838IZIDKF.1IBQ7TAPXMF9E@bootlin.com>
-In-Reply-To: <DKG838IZIDKF.1IBQ7TAPXMF9E@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 4 Aug 2026 19:18:32 +0200
-X-Gm-Features: AUfX_mw6eEqKswWNIyp-eJdhkIrQqKOLIMkDgqhThPOdMz6YTlblLRY1scZb2tY
-Message-ID: <CANNYZj8x654JdZRXfoiceNMGaNM4=fjcf+9k44mLdvzW3nhNoQ@mail.gmail.com>
-Subject: Re: [PATCH v12 0/8] rpm: 4.20.1 -> 6.0.2
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Sumanth Gavini <sumanth.gavini@windriver.com>, openembedded-core@lists.openembedded.org, 
-	mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com, 
-	randy.macleod@windriver.com
+        bh=TdlUAYOo/Ne9k4keogoKd4h1m5BdHKIOkbqyatneFl4=;
+        b=DmTHWEyy8lyio7XO7yihpjWlRC8X7I529k50cS6+CR/CntM9wcXWbAIVJkc0aCP86l
+         ATGJlzB9/KK00w23+VkttihD8tC2PUtVMJwrmnoxDHTTH4zOvgxNAXZuNukvjImqWMP7
+         qUGRjnm20PjReqHmZQE0NKjOHwkuC74/iWS2E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785871582; x=1786476382;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TdlUAYOo/Ne9k4keogoKd4h1m5BdHKIOkbqyatneFl4=;
+        b=kY8KTiFlkWwPKtdOzjP4doxcdFU2CRoL1S+nDOz76CYReonek4poRW9JsXp12sjQh0
+         jFLyqIjMWoEdHRaEmnkG8tm9m1Aer6/feRrm+dQN+eCjIF9pu1cRgEIhzBvjti22Do4U
+         bBlk6IQGfE/2y34aZ4XDAlcOKoNVBnv64M7S0dGE7VzG8oBq5Xl57N7TNdPR9TNWtysc
+         MdhdNtWnwyIWt1exgZwgrs5Ds4v3U0N+kOj+oiwkhSPbefowKdvDiBbuY73gx2CHm2t5
+         DdyteTdu1nu1K6RzYx/T7dZDzFBHl7eWp/ovuiltxeS4YXQxZGeClgkr8J9nW5tUGPpV
+         Fo2g==
+X-Forwarded-Encrypted: i=1; AHgh+Rp85hgMCm600Kk3AXh/x+iKSiV/7DF4cqotEg7KuNvJeocKkX3EuTzUwMQzbNnUsiWCxlE1CStyl+nzIM4CtAPGcg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzCEPv7EW9c4wD591RRix2CKzxli3gw/9tUwNSNU4u0RlWpcW4K
+	7bgfooWWHpOKGTiEiD0SvuKqyGXlLatJwvuObs00kJHIoViLIfxOoGn9W2idueAUomY=
+X-Gm-Gg: AR+sD10qlPXTJeibopmnmW0S3zwz7++njWkXaQx9BMelxxACPz+Nu+FvONBOZhA11HU
+	tnYrgou5fStdG0B9g89vQ/PifTSVsQapuL+p44d9eM7iREmRSeWDyJdNZLfKPvhdV0m0q/vD6hh
+	VsiiScWWxxy07dzSFTJpIp0Cxcp0RuBB9ihcEr9QfkC3QT2B8I+1FIiRh6EhIoekUgepTH12e9s
+	OhSXIrzqnSr/8EMW99sG4yzL28jJcVubTEFUu0VHJIkpZsreX4mR6mE9eaNkEFAwpvC+TBG57aW
+	XweUS+Lov8K6FLdnYiNkD7U7cBGiXZ2yV7KYBxyupMkUi0dp5nE/oXPTy4LzsaLZ8zGChf8riYQ
+	GW7+kZJ1QuBSMSZwspIhTSv/OhSH8DkOZOoPy5Ibk1xLo7a0xBMXnsdMmstcM3pdFuhmuYv0M1K
+	02a/0udVW5W1ai6ttaJiIfR8PxTaUWRt3UO1GORkqNqnSq26MaKCQAucBIbD3I4uyzzU5uGVkyz
+	FwRedyqiavPTGXksJvwsOESitf+aVSAgAESsz0i+fvQK19OgkrFVw==
+X-Received: by 2002:a05:600c:4694:b0:495:3f99:849c with SMTP id 5b1f17b1804b1-4994e7cbb88mr6935045e9.15.1785871581497;
+        Tue, 04 Aug 2026 12:26:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cf1f:6744:c6dd:c3ab? ([2001:8b0:aba:5f3c:cf1f:6744:c6dd:c3ab])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49949fcb345sm113247545e9.6.2026.08.04.12.26.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 12:26:20 -0700 (PDT)
+Message-ID: <91387dc10e9cb054ecece87a3fe5a486d5229993.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH] libva: update 2.23.0 -> 2.24.1
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: f_l_k@t-online.de, openembedded-core@lists.openembedded.org
+Date: Tue, 04 Aug 2026 20:26:17 +0100
+In-Reply-To: <18C8A798080DE499.3417489@lists.openembedded.org>
+References: <20260803134915.8676-1-f_l_k@t-online.de>
+	 <18C8A798080DE499.3417489@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 17:18:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242794
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 19:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242795
 
-On Tue, 4 Aug 2026 at 16:18, Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->  Problem 2: conflicting requests
->   - nothing provides pkgconfig(libxml-2.0) needed by libcomps-dev-0.1.24-r0.core2_64 from oe-repo
+On Tue, 2026-08-04 at 17:38 +0100, Richard Purdie via lists.openembedded.or=
+g wrote:
+> On Mon, 2026-08-03 at 15:49 +0200, Markus Volk via lists.openembedded.org=
+ wrote:
+> > version 2.24.1
+> > va: include <unistd.h> for getuid/getgid in secure_getenv fallback
+> >=20
+> > version 2.24.0
+> > va: Add VA_PICTURE_H264_NON_EXISTING flag
+> > va: use secure_getenv instead of getenv in va_x11.c
+> > doc: fix libva av1 link for doxygen
+> > trace: dump input/output data in va_TraceProtectedSessionExecute
+> > trace: Add ProtectedSession Related Log in Trace
+> >=20
+> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> > ---
+> > =C2=A0.../{libva-initial_2.23.0.bb =3D> libva-initial_2.24.1.bb}=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+> > =C2=A0.../libva/{libva-utils_2.23.0.bb =3D> libva-utils_2.24.1.bb}=C2=
+=A0=C2=A0=C2=A0 | 0
+> > =C2=A0meta/recipes-graphics/libva/libva.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ++--
+> > =C2=A0.../libva/{libva_2.23.0.bb =3D> libva_2.24.1.bb}=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 0
+> > =C2=A04 files changed, 2 insertions(+), 2 deletions(-)
+> > =C2=A0rename meta/recipes-graphics/libva/{libva-initial_2.23.0.bb =3D> =
+libva-initial_2.24.1.bb} (100%)
+> > =C2=A0rename meta/recipes-graphics/libva/{libva-utils_2.23.0.bb =3D> li=
+bva-utils_2.24.1.bb} (100%)
+> > =C2=A0rename meta/recipes-graphics/libva/{libva_2.23.0.bb =3D> libva_2.=
+24.1.bb} (100%)
+>=20
+> I think there is an issue with the gstreamer module with this and the
+> libva-utils upgrade in the tree:
+>=20
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/4601
+>=20
+> 2026-08-04 16:11:43,763 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | ../sources/gst-libav-1.28.5/ext/libav/gstavvidenc.c: In functio=
+n 'gst_ffmpegvidenc_register':
+> 2026-08-04 16:11:43,763 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | ../sources/gst-libav-1.28.5/ext/libav/gstavvidenc.c:1036:26: er=
+ror: 'AV_CODEC_ID_V308' undeclared (first use in this function); did you me=
+an 'AV_CODEC_ID_MV30'?
+> 2026-08-04 16:11:43,763 - oe-selftest - INFO -=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 1036 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in=
+_plugin->id =3D=3D AV_CODEC_ID_V308 ||
+> 2026-08-04 16:11:43,763 - oe-selftest - INFO - Found ERROR (line 31688):
 
-I looked into this a bit. First of all, this is easily reproducible
-locally. Set up qemux86-64 poky, run 'bitbake core-image-sato-sdk' and
-it will trigger.
-
-Second, some observations:
-
-1. Looking at tmp/work/x86-64-v3-poky-linux/libcomps/0.1.24/temp/log.do_package_write_rpm
-I see:
-
-Processing files: libcomps-dev-0.1.24-r0.x86_64_v3
-...
-Requires: pkgconfig(expat) pkgconfig(libxml-2.0)
-
-So why does libcomps-dev rpm require both of these, but only
-libxml-2.0 is mentioned in the error?
-
-2. Let's first look at
-tmp/work/x86-64-v3-poky-linux/expat/2.8.2/temp/log.do_package_write_rpm
-
-Processing files: libexpat-dev-2.8.2-r0.x86_64_v3
-...
-Provides: expat-dev = 2.8.2 libexpat-dev = 2.8.2-r0
-libexpat-dev(x86-64) = 2.8.2-r0 pkgconfig(expat) = 2.8.2
-
-3. Then let's look at
-tmp/work/x86-64-v3-poky-linux/libxml2/2.15.3/temp/log.do_package_write_rpm
-
-Processing files: libxml2-dev-2.15.3-r0.x86_64_v3
-...
-Provides: libxml2-dev = 2.15.3-r0 libxml2-dev(x86-64) = 2.15.3-r0
-
-4. So it seems that for expat rpm does write the needed pkgconfig()
-provides entry, and for libxml2 it does not. Both recipes however do
-install and package those files into their respective -dev packages:
-
-$ find tmp/work/x86-64-v3-poky-linux/expat/2.8.2/packages-split/ |grep pc
-tmp/work/x86-64-v3-poky-linux/expat/2.8.2/packages-split/expat-dev/usr/lib/pkgconfig/expat.pc
-$ find tmp/work/x86-64-v3-poky-linux/libxml2/2.15.3/packages-split/ |grep \\.pc
-tmp/work/x86-64-v3-poky-linux/libxml2/2.15.3/packages-split/libxml2-dev/usr/lib/pkgconfig/libxml-2.0.pc
-
-5. So the next question is why is rpm picking up one as a provides
-entry, but not the other. This is where I stopped, but I hope you
-Sumanth can take it from here.
+It is the ffmpeg upgrade, sorry for the confusion. The libva pieces should =
+be ok.
 
 Cheers,
-Alex
+
+Richard
 
