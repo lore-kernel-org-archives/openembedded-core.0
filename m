@@ -2,39 +2,39 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B276DC55ABA
-	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 04:08:44 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9547.1785816519625790209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E99FAC55184
+	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 04:11:14 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9569.1785816671861773175
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 21:08:39 -0700
+ Mon, 03 Aug 2026 21:11:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=O5/iKPme;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2676761eb7=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6743U3XP2875209
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 Aug 2026 21:08:39 -0700
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=H2BVoJCw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2676761eb7=sumanth.gavini@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6743Tfsu2626960
+	for <openembedded-core@lists.openembedded.org>; Tue, 4 Aug 2026 04:11:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=XddR0/jmFczF+a/KF7fzzJ59dUhFigBtOkt7u8ptAlw=; b=
-	O5/iKPme0ztvHS3OdOl4T3Te7s69blWyUvBQQN/bGitB+5zgH/ecFokZqbvsT9ye
-	5IGgjxqA/OBX+WATcTyxOiWj4uXoTuJdsiRHKuxMtQsN3x+LD/89y/OFSTieEWmQ
-	1J/7f1QmJS6+cjTrbFFSU9wogIWbUE4pkBCfYzMJn5iKTSAb7LEit142aGsXKXhI
-	odlUSewNeWZSnWvC4ecF6tpJvNeGOyaO124nsjgZ+FWFBBdumDU5EV92wgM4J0io
-	xMwXHWHiKPPsebB5cinZRqq8ZdpFEJ8mlSoBC0I9IjMZVJbUfeoCoOZlZ4x9g1ii
-	5MxYpTgLGewt+UN91iKy4A==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011065.outbound.protection.outlook.com [52.101.57.65])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fsgah3aef-1
+	 h=cc:content-id:content-transfer-encoding:content-type:date
+	:from:in-reply-to:message-id:mime-version:references:subject:to;
+	 s=PPS06212021; bh=a31ZdcX/GJmFLaIgO2QLgWatG94iXLOeBJFCX0s/TJA=; b=
+	H2BVoJCwDALMpYkz9CAiNxOwnsUn5lAFGootI7Td7xrI7UOHk0PHyMPLXNnxw84z
+	wsX8LtAqPfS8zBUjGUooySvB/+cwPIxy7D808k+jJ9Gm6sXymU6AuziZTEIBvAi/
+	ZElc/4kbQR9kae+bE02bRLfM87Iv6TcRHSkHwbP3qSU0IkCiLkUinYvXVYEGhFal
+	7Wb92Nkn7FyCLG/0/5XArCALQ71HuK1PpmJbacgAsI8sKWznJ4rx7kCZ4rCwg6Zv
+	M3gcxcGOBAgsY991ofudwWBDSos1MHLK9Lwf1VYNMQGcVIoTk1X1bxh/JUHWgFIx
+	z6VLDo+9GK1EQMcxTTx3xg==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010040.outbound.protection.outlook.com [52.101.193.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fs7s8bjxa-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 03 Aug 2026 21:08:38 -0700 (PDT)
+	Tue, 04 Aug 2026 04:11:09 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jacSlkr00e0lmiPmZDx8sGpuLHKQaAJ7KhsDVm8/V66dgineFt1yfBLAfQ8PxHLXcQt+RPH0e+1tr02AqfQZD0W0g2dhIm3L9n5NP0oRhdIp5+gtBX3V9cgyZPRPufmDJwnKHHtifHyhKu9+olsPGDxDyev4QVtoKHQLvc5/mYiz5wn5ayAS3ylzHMGHs9I6Hf+GN0+A2QMytquHA8FG2maDCibe41ecyNRfGvoNgtos0QGgfLYq6HrwM8M7KWqEbzHv2qxUkqzWsxzXM5fn/gg4TBacLmvMTxe4qdjgCbTLdVmLu01uPqHoJXYdq63vvG2wse2g19UxL+7SLt0JmA==
+ b=XjG5JBLfzJ8v+IF4tBX+pHl5YeKIVYLHFbodnJpDHZy00IvzoP74w3/9b0xYePX7/ZUVowENMXDAuW9pPHM8RzRLsPtzYustTi+1BUn/rTkQ1LzfmX+ICIyfJv+jxTfvNXD0LAPKSFkITZonv8wT/K3SSMKfUWDoHDLvlFbrjzJwu1EqRw4VcAj0jUKoBHUpp6PjrIVCoCb3EIkUTe/GliD8cJYbuQEd4AeaP3aZEm4yAOcibbxpyMKDzAC969x0r5CGotnI0ggfYnDRwlqi5QYGD7Fu930EqNIKOz2Ic3GZqOlX7N0tVDSF9Ra5fD3CJF9N4c91wrZ9dquovUvqDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XddR0/jmFczF+a/KF7fzzJ59dUhFigBtOkt7u8ptAlw=;
- b=pJD/35BOLES3MXe8WSC/yrWejZTxNJo6Wodg32P/F+KyhBkTUyRUxkYWE333JHzoTdLXJK2RqCVKhlgW+wCtZtixF67oVJeEo8aTKo2zCFDhc3enxL+CQhiagTM8FtDGYNbcOotVPbOTuwJDG4nJoWEpaKrgvNxxm9k1LDRgHeENpm/M+Q80+McZYtaXDJ4G/gzuOowLzry0uqWlKp9dwEmfG6/fK2KxfGvsRga5/++EIRlY4eWMT243FR651R3xzHzg0CV/8x6Kz5rNeJNd5AocRPqZxZGIMDzwuiFJSBc39eGdfolhI4o1You2UsWRC1xSx1fYkxKq+mtMEPSZcw==
+ bh=a31ZdcX/GJmFLaIgO2QLgWatG94iXLOeBJFCX0s/TJA=;
+ b=h618/IOAxTXJ9mRbeHtSpaYPDu0jpmoT2TdLirXD8htW5hdtBAcaJ/sY+YMA4TtiaosEOPKLmTgweItt/KgcMd+j7B+NwMSlovW+DA44sT2+W47FrAfTWUKSMzhDy3Lds67yfpR9aEivY5oJKU7IssXe0gaN5JAT5MBORjfrDNNgyMTkCPVOzb4BErChqX23JzJs14W+fHuvTu4r50SRfGyZq3SBOUoDy6zOtD4sx74nkOKjTEFVSwaXDoSajcOLjhgUclJXHRe1QKTS1ajWK1ESLvRMUmv2XV6Sc+NshD4FUKCK5pRcuo2vaQ320f7ruzDKtCdT/f/elWjosoaTrA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,926 +42,351 @@ Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
  by SJ1PR11MB6130.namprd11.prod.outlook.com (2603:10b6:a03:45f::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Tue, 4 Aug
- 2026 04:08:35 +0000
+ 2026 04:11:06 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0270.016; Tue, 4 Aug 2026
- 04:08:35 +0000
-From: Sumanth Gavini <sumanth.gavini@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
-        mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
-        randy.macleod@windriver.com
-Subject: [PATCH v12 6/8] rpm: 4.20.1 -> 6.0.2
-Date: Mon,  3 Aug 2026 21:08:13 -0700
-Message-ID: <20260804040815.1499699-7-sumanth.gavini@windriver.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260804040815.1499699-1-sumanth.gavini@windriver.com>
-References: <20260804040815.1499699-1-sumanth.gavini@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY1P220CA0015.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:5c3::10) To IA3PR11MB9256.namprd11.prod.outlook.com
- (2603:10b6:208:57f::21)
+ 04:11:06 +0000
+From: "Gavini, Sumanth" <sumanth.gavini@windriver.com>
+To: "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+CC: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>,
+        "mattware@cisco.com"
+	<mattware@cisco.com>,
+        "esparlin@cisco.com" <esparlin@cisco.com>,
+        "peter.marko@siemens.com" <peter.marko@siemens.com>,
+        "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+        "MacLeod, Randy"
+	<Randy.MacLeod@windriver.com>,
+        "Kokkonda, Sundeep"
+	<Sundeep.Kokkonda@windriver.com>
+Subject: Re: [OE-core] [PATCH v11 0/9] rpm: 4.20.1 -> 6.0.2
+Thread-Topic: [OE-core] [PATCH v11 0/9] rpm: 4.20.1 -> 6.0.2
+Thread-Index: AQHdH7U7L8xLUDk8a0aF0wfvhrdHE7aGM9UAgAArGYCAAH3WAIAGcluA
+Date: Tue, 4 Aug 2026 04:11:06 +0000
+Message-ID: <098df5b5-02af-4419-ab5e-2388bedd1d47@windriver.com>
+References: <20260729235141.1067679-1-sumanth.gavini@windriver.com>
+ <DKC0OQ8NEVPS.2A0FULELCCRJH@bootlin.com>
+ <40d27de1-afee-4c92-abef-b2d09ab7a036@windriver.com>
+ <7df63fc5-c134-430d-bc49-1ec83b0e517a@windriver.com>
+In-Reply-To: <7df63fc5-c134-430d-bc49-1ec83b0e517a@windriver.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA3PR11MB9256:EE_|SJ1PR11MB6130:EE_
+x-ms-office365-filtering-correlation-id: 9da368ee-227e-4f51-c60d-08def1de6842
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|23010399003|4022899009|376014|1800799024|38070700021|13003099007|6133799003|56012099006|5023799004|11063799006|10067099003|4143699003|22082099003|18002099003;
+x-microsoft-antispam-message-info: 
+ EYZhbGsmRPCsBRF+3D44OqKN/la/McLIuI8ZntlapNeq6lfGTr09AhhagkTfhvNcQMv8YLz99oKnGMFXUrnBqLMtAdWNb/3Pv8m8kLXt7HluXLScWJMdwcUQTtm5ae3rOltzUArxo3qCq5YKZEtOGfT947oVme4A3ZpYKxq0LNmILqnBiTJwa40Tuy03TuYvJl0b51shyv5qFidUl7o62R5AAbvJxP9t0eoeCNq3WmNGd74HStZ7aJNczMzXjcLinPphsfc4fWvz6dhzJGGtFa8sGlXDI+RhmLq+uGymxUd9y4Gfja/BLErrDAF37qQlneOvyl+Xx6IpCULucXew5vZsWFGu6UOzUwa0DKLqlesfbSd0ZHRZKCatzTVz0Y2+cn+r6v7IjCuFQz71XCEFa4aaUi7ya6WDL77+NNmpuu91Ist8KoyRAqL/zSoMT5Q0jwmPdEs8rmTkBVN4IDv0Z21eRMY4JjI1r9by8I/egI7C0f4zbAVwObR2QkiEIfBkX+HdvaVR1l997IPwFC54HkK6vs+6nZ5VDyE91pu3GyXJVp3ndajXqXaR7h/4p+aGm1583Mz7gJ9TkH7Hky5Lsdsw0Frr0/fyc4Y9tPg4RBYi2H+YfZTQ9yZd22uufPmluaVTnKH1wlpdgmMYMUiWNpXSKEHjBthplF3Vs9kH84A=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(4022899009)(376014)(1800799024)(38070700021)(13003099007)(6133799003)(56012099006)(5023799004)(11063799006)(10067099003)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?UjN0UWU2dHpleWNOdE5vUDV5UGZKZ0dOQVlNZWN1TzQzanBMUW4yTDBIYVlN?=
+ =?utf-8?B?MkltZjZ3Z1FqcWtVTHp1WmkrRzNzUU1zaTJyUlBDZmhIV1cwdjh1YjBkOC9M?=
+ =?utf-8?B?eVM4djlaV09FRHNob0N6ajM4Y2Vwekx4YnZuWTF1T2dxdUV0bWlLeDg0Tnk3?=
+ =?utf-8?B?WkgzRXczY2J5N2xtNmlHSkJKZi80V1p0RUs3bWNlNmU3QWZBUkpMWjl3NkZi?=
+ =?utf-8?B?czRqSERrTzJkNGtDdFIzOXdndlJjSVdiWFUxeHhBUkNaa1Voc0l1RS9GVnBE?=
+ =?utf-8?B?K0EvRWkrZWY5TkZBcHRENzJPOGJRdFJHYkJkWlZZRG5zRzFpWEk4L3pJQzd2?=
+ =?utf-8?B?aWxDMXkyYUhrS1VaZGZJZUJJaUF2ZlhHVFlxay9HVnBZZGJwRHFWMlFuaGxv?=
+ =?utf-8?B?NUI5ekpMTUwydTdDNU9BUm1zZythc0pleTNKd3NMRithMjZyNkFlTmtTVFc1?=
+ =?utf-8?B?RjVsNmVpYlFrOTlFaWl5UTQ3VHc5SDZha1JzOWVuNFE0VSt3S1hSazZ2ZFlN?=
+ =?utf-8?B?OHlFTHJoK1hYVndqbUVLOHp2eEFlWSt2Y3Uvc2oxR3oveUlsWlVtUmJUUnY3?=
+ =?utf-8?B?OXNESlZPMXZnYkF3K1hndlJ0ZWNIYit2RFFPRU5LaG5RS2t5OHNPQ2JJaUxC?=
+ =?utf-8?B?YStKNmpUQmRDcjYwOGdCelBpbVU5Y2ZHT2FuR3Z2dERmRlMxKzVCMDVQVDVW?=
+ =?utf-8?B?bTlnMGhHT2RDdnBBU2IvdEp2VWd5TENUVm5MYXhJWlJDbzlaWVZ1QzBxaWRO?=
+ =?utf-8?B?Zld3bXJEanJCV0IxQXFNVExUN3lIY3M5US9kcG5nSHVlRTl6WTE2YkpHOXh5?=
+ =?utf-8?B?aldvc1RuaFNtbHN4cFpQaVRqZGZyRUcwamhDUXpSb1JZdlhHUE5RMTd2YkFs?=
+ =?utf-8?B?TzlZTSs1N0lCcXN6MWRXNkNhZEpnVWVIRzU3eFBPUTd5RXRHQ0FsU2JtQXBX?=
+ =?utf-8?B?QnFwNEVHVUF1dmhISVd2TllwM0t6cVJlS1I3SWFlNU1EazlPMmE4cU9SbGVL?=
+ =?utf-8?B?WjNzWk5rS1dMd1JnNE1oODQ2NUFkV1QrV3duTlJLR3owbURIeEJwZTZOY2d5?=
+ =?utf-8?B?THl3ajlUb21maTY4VXNINmlibThFTHM2b1BLaE40OGdDdGdBYUp4SmRmcmMr?=
+ =?utf-8?B?Y3F2T3J1ZlRtTUx3bDc0Q011aTIzeHZ0RUNjZVhRWktMTlZvM1FxV2hJL1dB?=
+ =?utf-8?B?a29GQlVhWGpGb05mbzdvMm5SNmgrV2VGQzlPdm1DNWx1WUtKZHJsVWF0ZDUr?=
+ =?utf-8?B?YlROWHZ4bGFVYUt4a3lmQjNZMFc1L3Z5d1ZzK3Fjdm1BZ1FxMDEwZnVlTTdS?=
+ =?utf-8?B?SlIwcTdtenBFWk10SThta2tHK3dtWVc0WUNKa3ZhUDZiY2NtTi9GRFB6amZH?=
+ =?utf-8?B?ZmxpdTJwRHdVdWFSbWpvaTd0bFVuSGYvK0pJUWh3YzB6dXdYbzlUVUM1TzdD?=
+ =?utf-8?B?c05CUFB2QnpWUkpUV0hvYTRvR001dFFvUWsvWXZUdzUrelErdG9XSTBkNjRo?=
+ =?utf-8?B?TW5HeEdtWVN1Sm9Hb0pZU2g3LzBTNkJ4UEcySUgrYWFYQ0FPcDBOS09XakQ2?=
+ =?utf-8?B?d1Q3N2REamJiVWsvQ3B5ZEtESzZ0aE9qS0N6bzRKWnRRL1VrQzVKbzVLQTZn?=
+ =?utf-8?B?Rk01M1dwSHljdjd0UmpYRWliQ0QyNkM2M1FaVmd4MEtkK3FrNVFsdTFoQjdp?=
+ =?utf-8?B?Y09pc3lMVklSL09vV2l0aHdSTm5oYUMxN0djMzhNRlVNQ01RT0YrOFZhT2I4?=
+ =?utf-8?B?bHpPaGo1WXZHdDIvV1hLam5Kcjh5MWpyRzl2SFZPTW52WGFyM1FzdkxsYjFq?=
+ =?utf-8?B?ODd4MUM3N0RxRXVGRUNOQVpqUWRMakFwbERPaEd2N2xqdjNGVUZXL1dONEFk?=
+ =?utf-8?B?QzVUQVdhdlh0TERBL1F3dHB2STJObnIrUFVTd213Y0tvZ09MUld0Wm1QWG94?=
+ =?utf-8?B?aEdHNkg2SG1ENmtaaXQ4T0RjWUk0eVFlVGR2SllMNlhaa29tanpWaTMrSDFu?=
+ =?utf-8?B?Z1huOXVWMnE2Slo0VEhTUXRvcU9YTnlRY1hRenZlL1ZRQnV2a1E2T2xvd1cy?=
+ =?utf-8?B?b3czY2hZV2t1LzZpaHBKaHpwNDgrT1lBNWx0LzB2ejJIYU95bmsvVU1WdVFR?=
+ =?utf-8?B?N1VRUWxPbWFFWG92bE1zSGRhOVNYNmVLcU1TdThyelJka2hqRmVuSkZtMjRr?=
+ =?utf-8?B?Qk9zRCtHaDM1Q1RXeFp1TTFjeDNtZzlpRVl3S2lZNTFxNXgwdkpXZzNQMHF4?=
+ =?utf-8?B?L0h0L04rZzdPdVh3TTZmeDI3eU0rZnk3dDVmeSs0bDN5NzdZVEwxM0VsMnRT?=
+ =?utf-8?B?emRORC9vOGREUnkyeEVuUEZjdWU0Y3Z2MUlZd0lnUzJOMHQxS2VrdFVidU0y?=
+ =?utf-8?Q?hQZFHEbkQUoYeEz0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7920AE2B6E7E324090E055474AD3ED48@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|SJ1PR11MB6130:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4938a4e-0eda-4caa-e9c0-08def1de0dbb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|366016|23010399003|376014|1800799024|38350700014|13003099007|6133799003|56012099006|5023799004|11063799006|10067099003|3023799007|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	vnPMl50EvpAtNPSoNnr3zSfSdcV2yZnSmmkzA6fXXz2+LISP4m9v7xO9ECLrn1LW/qRVMzC42ouvdOBd9LIvOyYk6p9wnVTTdHbs0ry1DyIX5jyDz8/E+g7ULcyXbBdA2yN44j5hVUOZw/zvI966xhQvsyKdSHgbWluzIdLm4/WI5xQK5WRNuLPVKsNa3zZddiWWpm5iuFYQGxu11+5zRvELf+Q3feTxGYC/y/AtX3KGP+UaTspU1x+mbw3Xj/fltxmxPcE6XlNfMspNwBxgdzpiYPX7IzelGUe/ZyliuvodC15h7g17hmJ7wZ06i1JAJn7zaY4nwuhl1xhhzC2K7DwG1mnwQEaerW/HA8xKnbEQ3iQlgxzs6R+Xm+hcta55++kwXLBbqUjjVv3dUJhG3D4ang2nCzQ+hbAin/XM/HvCQhSxaN+9FO3IjVx1AEJU2G7NbA5ANbcL4e2Klb91/QT2IuLpC1p9CauPiGJFnyusFwi6mpwvJtjMxAu21pcgozFtxkxrNPHZSdxBP3nHQ5nWT2yLWkksQGX+I76MgodWcKodVFHoT+tk7/WBoH4impGXpzuLjfWd3H4uEMm7tYtwXNx9VNLlTjR0k9J1rk0OsOyk2UqmfOcF3u1tUKDPQulKatSsa1E1CiqhulyLNtC+tiI2K0p5GXLmFL5R7ro=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(23010399003)(376014)(1800799024)(38350700014)(13003099007)(6133799003)(56012099006)(5023799004)(11063799006)(10067099003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?OYOS7to/vYvuiTmubgqAsvxXHpM8RL3eHaHUX/5euWIIpJMg4LEzO8EYz0S3?=
- =?us-ascii?Q?wDnpF407XpSsU5f6YVMGjHZ4PtKe2kHDEi5zSbYjqBKMlQKNOJwT8xhme4wp?=
- =?us-ascii?Q?rh7Ynxx72jPAvG00eUmeID6f86z0+rdT49L3do7WXnOcmLD1ymxSHlE04ifp?=
- =?us-ascii?Q?PHuZMqstYGXCq6x2/YFG1iH8N/f9DHeFZgwGDhLeaXDWLavNwzWwDOa2oktj?=
- =?us-ascii?Q?a0IoWynaVO0N9JdLNxbYdQDMrzBf1UCC9XVXp8zxECoTavFutjT0Imu3Jw+r?=
- =?us-ascii?Q?btM/Z4qY56w1WRWIVHxboVXV3meUl4m6zdEt9W4bM37CLzbvVgLnosbFac1D?=
- =?us-ascii?Q?J8+5A8ViSpYK5oZ5zfa5+Pzft7xwU8UovC45KH6uNwf7wmx2SpWLTI7esDsi?=
- =?us-ascii?Q?IED8Jt5HxrTVt6t8cA4cXNyyTAZnh4nDj2RvBhX8yIHTKu0h9X+O+zQ09nFI?=
- =?us-ascii?Q?GegYRgqNyVRd12PCxjVi2iz4V0RrbSf18S2QmkRaEe1n4ociZ94lpfXnwdBy?=
- =?us-ascii?Q?VmgvRzATHbDKGM5dWOKytK/C8kPfu7qUcNM4ieETnnFNQyhaEPHyrq0KH/k5?=
- =?us-ascii?Q?QLxST8DptfYT8zDmtqJBA+0Ts7pcBoecxA5uiaKq4/LAioslVgK1h4MxXmt4?=
- =?us-ascii?Q?Mzwc+4YbPyo4cWvaa8+cBCxkoWmkFGrUSm9CG/dss65a0Dz0P10s1xl973ho?=
- =?us-ascii?Q?LnsvCsO/fNEAKeAEm2WPfx/57AV0keb1vlnYp++Wzyb58YUc9/XBSTyzAeCY?=
- =?us-ascii?Q?aOfRBKfEuM5UcNWWJJqX7emv2boQfhUfzvRXGODDfer4cyoE4Jrkm4AtQBM3?=
- =?us-ascii?Q?L73CjR8s9/UWsxpL+eFDkvVbK4RVuf+oMlSa5fTUuN2vtXwHBdDJtyuGoKTC?=
- =?us-ascii?Q?m3B6PMGEYdMSEykT1uMnRk98qfDrbM9VagWDu9l9DIcnW4eI6ku4cY3MXP3T?=
- =?us-ascii?Q?4izzzf84j4wNBIiRIbFVrm0OCd4Nzz0F24SGq3Au/T3BO5sVe7hYr2nBzpYp?=
- =?us-ascii?Q?LauCTMBansbRvvug6OplRCfb2UbGf32vfXGN9duvAu6jyl0zw6hqu1UfBadw?=
- =?us-ascii?Q?IW4uu8rU+1zD/IWd9yED7fQcYErPttcuzTVOGDDSA7abHoRBnka6m/PGvIVl?=
- =?us-ascii?Q?BwYEMDMosmiyO8uS831fdoK2uQD3rIYlRrEsoxQDFxqddIeA31DPn5vOF5oZ?=
- =?us-ascii?Q?LFHGAlhnEvXldir//Q8GW9GP8W5+mXYjrB2eZGFasLyMy/7QPqC4OMrdWxBL?=
- =?us-ascii?Q?TFcVjcOnp+t46gavS2W9UsKXHJrvg00oPDbIXAZrmvcxpHD/7EVDdkw8lEJd?=
- =?us-ascii?Q?DKKhfWRYR6suBDO31N1o4hV9u19QCGCj3q5ABPGLNmZvLU/udxmANkJPpjm0?=
- =?us-ascii?Q?miVafEQtqq0uJTXUPdNrsExXVA/q7KcDjCu/bbuhdD2P9yPic1/wszw/Ru6A?=
- =?us-ascii?Q?CYCITFoPIalRUaKvcmNOgkjXrnpH9k22ZcdNiEVKZ19exea8HBEGVxZDdUiT?=
- =?us-ascii?Q?T+R/JhK//0Y076xAY40o9zhyu+PeYd6D/8r23BsDxHWxwudr5IuaJ2QvfC2G?=
- =?us-ascii?Q?B1BzeKOtzegdHUbXlyqKTiN64pZum+frpaPzpgf11DwKmiHfrcL4Oj5BdvZm?=
- =?us-ascii?Q?5Zq+Z02+FVm3NIY0fgynn/hz5dzmEcXY9hkn5FKbI47XHJnFCueaXcT4ktTg?=
- =?us-ascii?Q?GGOR4QPX1wJRs5JQGXjWZQ0Ic9jIbFZTkHrRewoWfLT6oCoGCbVHiI+VJeWv?=
- =?us-ascii?Q?z+0J8C89MdZG5e33OTjaF0zFLDO1XkY=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	TH0+mBDj0VDdFonzDSJ6y96vWzxl2qu/7LgYEMrHUO3f30SII6yP5Hnas0Hk5MQ4mJ9lFS3Uj9A/1TSYGO/0yZcijAfvUsBYlZO2XarjSeBY4t4h07UIEarVoLLQ2jtko2GZazXxMVb+9pE0xt3q0xlLI/WILjmHQ0Fzggg9h3x272NnMQdWpzWvuRekgB/Zo5ICQ71zQ6+3W4/w4BOOlId0PFcGpKjYuHANTN7Y+DNGtctSdJRYiWDl9duwKjk1aWGE74/Rhqz4HpgwD+Cmp8R+KH3p/+NZcc3eRFqb1EBxt/gEUkWf/F0EFbG9SdwDuPpGcwqXHHhAQiOeW/u2IQ==
+	E++UKZW8Hxuc9PO7byVzD7Ihp5AQQTesS+iGcouvbf85TIXcf1LGA3PfIMqKNI0//hvT1QFkmI45SCqCDY+sDhBkjB9MLmYBpWbX+PgPj7KHlvM7KfJkUdeg31IWHnBK7HvoKNE93sGI/l3viuEftt5nObXNZGjz3zngZ5x2uyEx4iFaIbpNZNxhpPjToLQpeZ7NcQlnxuJBKpoDmE4iXwCbvMcQux5RTAYA28llxoSRlcOtMU6NUY20GQo1F4XlJLabL179F2TchrQG4YrYnyGcEN9e4++kLim1RgtHPW352ZJ5xrGhbtfwIq4fRiQIAMicI6/4V1NN7GVnyxzm1Q==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4938a4e-0eda-4caa-e9c0-08def1de0dbb
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 04:08:35.1185
+X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9da368ee-227e-4f51-c60d-08def1de6842
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2026 04:11:06.6893
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UmHq3R4J9cfJ06XaY+wjC0kAUr3Nxw4clsii+ijefyxH3fqDTqk/RqPxG73adt3MDw+tjBfrG0okYQwxvqcD6lPtg6vhZysQxqh1w6O9vtg=
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bD86BLYvd67ltRtg8PsGFZfWU4OJXN2hOU9SuEpRnL7me9PZA0XqPta2t59/+hpbI6Cw6zbIX3p6OLc9GcBsqrwKymAS7C1xJ5R5G0HRKMc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6130
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=cYTiaHDM c=1 sm=1 tr=0 ts=6a7165c7 cx=c_pps
- a=X9aWvzuQDVJ7vSK8h/Ha0w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=NEAV23lmAAAA:8
- a=Q4-j1AaZAAAA:8 a=GMGn13PZAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
- a=Ia9td_k3mc_TV5fArrgA:9 a=2yX8oE26ukr_L8MB:21 a=O8hF6Hzn-FEA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=jIF0orF5dxDFSsn8Ms5I:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfXyODwaq7eY6JI
- cT/j9uy6vXrXJMl2glKVnxB3HzJFkZxx6Mpyb8sJsJnI4HOGGlfDv9fnGe1PP/DRur1gdOuL7f+
- ZuzBsnyoNC3WqqFi1NBX7B6w8aLnQrIhSxdfoEQoHJOljTi8pUsPoxW2VUTkMmm0Pb+JPuxebZ4
- ksqf6WjBJXwymHf243SIRCSesE1nalBRGUNqyjcuSK3h2pJF26WXfnx8+LKYqxN5/Me5TsxBavo
- hmNzgPt/+GqBhChu2diTE9+KadhbXI9kmgA2uH9nrRWFRAutfh4vH8JyMW/ltHmdI+ms6P9zRc/
- R3EnEf5ZxcOL/UypZ5/TRFi7qNw9o1NZMYEISrExs1Nc8ybDgj9lDMmmTqG9kG4b9bSL/jdKNKk
- aWWt9kmdGMnrwq61p36Qa93RxfPorkYSt1kmOSihc+uQ5ciFfqY1309niuOJscv5QnA04NpvdUr
- WHon8K90iHCJJa8EtrQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfX3znVjl6l/Hid
- rg+vniCDxIbmXgPFGVLyyJ0qkEp2q4N+L+NqX7aCITW+nSPiq19oKrt5hMWTxEIdnPdQOZTvgwc
- Vo1v+D3iQl9nZKIhEYjJjQODMQ7UpcLzpxV8xrlQtdENzGtBZOju
-X-Proofpoint-ORIG-GUID: UjHbjVEPSjyxDKmx3oW_E5GR-JsW3Bhx
-X-Proofpoint-GUID: qOnohBi02XfgXPq4goB_Gbr9IZ7qlMdZ
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfX92CtkCogz80l
+ 994kreE9B3eIASd6Ds4jfQEMna9Pbc5t/BndilIw/ffxQZ2ZRXazIVjAAGlLrJ8ed+MzNlURlp4
+ UDOcwIyJToPwVY/+m389sRuHaoyc855tYtd9Oyq6tApQxbb9giok
+X-Proofpoint-ORIG-GUID: jn91pb37YJm0jfeTg87hqBtFEi-oflwB
+X-Authority-Analysis: v=2.4 cv=Q77iJY2a c=1 sm=1 tr=0 ts=6a71665e cx=c_pps
+ a=2d9FbaPwie0YXhWIRYJR4A==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=fTW__CHxibyLmBMfj2wP:22 a=NEAV23lmAAAA:8 a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8
+ a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=5fFz2IKZCbVtut7muYkA:9 a=QEXdDO2ut3YA:10
+ a=nM-MV4yxpKKO9kiQg6Ot:22 a=d3PnA9EDa4IxuAV0gXij:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfX6mHpoAw3mLYw
+ 62EY49pzezZQT+p+pT3ptQ/ZfIrzIB7xgBdYo95R82s+Gce6A8VBwALSa28zi8J17IFKNixju9A
+ Z8Ha2XOt6Gtz4kow76BoLtbfCE8tSEJbYk3BOo46k2U9gS+kpDQex62DgRTCWHyJdwq+LlBgBua
+ 8QRgQA6QHcMHV2dp6V7MT5hxBo6BbK0tyemaXFjKnOcz950zPCa98jCVi5Ulkk8Qvbv/HUCPJT1
+ MtKA3PS20IQKS0kPPeNmovKCBzXsjaySW6gwHdMRTwEE0QFr2XQwL1xo2cPFgHKB3KDO4yS/8Q1
+ wAL/JUQHuJYvdPygT04pRAPOrjTKmqn+gsRb8WKaMsMuYCwcZRSog3O40OBPxXKAJrrPQuMBrdi
+ Z7ERRGjC5KNzCeN//9zLLfkZl1LMWI7J/d8W1sYUFid4jc57ufYz+DwMbbQRZ6BNe2UKENlUXgW
+ HaTzICCJV3k2gbQ2R+Q==
+X-Proofpoint-GUID: ixZk2xAokaOZSC9lMsUG5SrtFMbubqFa
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-04_01,2026-08-03_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 phishscore=0 priorityscore=1501 suspectscore=0
- adultscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608040029
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608040029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 04:08:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242691
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 04:11:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242694
 
-* Add a tag to SRC_URI so that there will be errors when only change the
-filename during upgrade it, as suggested by Alexander.
-
-* Rebase the following patch:
-  - 0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-  - 0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-  - 0001-Do-not-read-config-files-from-HOME.patch
-  - 0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
-  - 0001-When-cross-installing-execute-package-scriptlets-wit.patch
-  - 0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
-  - 0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
-  - 0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
-  - 0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
-  - 0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
-
-* Updated
-  0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-  Remove the changes for macros.in since it doesn't work for rpmbuild, rpmbuild
-  is like cross build, will define the values in package_rpm.bbclass.
-
-* Remove
-  0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch, there
-  are no such warnings in rpm 6.0.2.
-
-* Remove backported patch
-  0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
-
-* Add the following patches:
-  - 0001-tools-elfdeps.cc-Remove-format-module.patch
-    There is no format until gcc 13.1, so remove the format module to make it
-    work on hosts such as Ubuntu 22.04.
-
-  - 0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
-    Fixed:
-    GPG check FAILED
-
-* Fix filter /usr/bin/pkg-config file dependency
-  pkg-config is a build-time tool, not a runtime dependency. Filter the
-  /usr/bin/pkg-config file dependency that RPM pkgconfig.attr
-  auto-detects for packages with .pc files, preventing unnecessary
-  hard dependencies in -dev packages.
-
-* Add scdoc-native to DEPENDS to fix do_configure error for both native and
-  target:
-  Could not find SCDOC using the following names: scdoc
-
-  Note, both target and native need scdoc-native, it is used for generating the
-  manual, the man pages in *man/* are scdoc sources
-
-* Add /etc/rpm to nativesdk-rpm to fix:
-  ERROR: nativesdk-rpm-1_6.0.1-r0 do_package: QA Issue: nativesdk-rpm:
-  Files/directories were installed but not shipped in any package:
-  /etc
-  /etc/rpm
-
-* Add /etc/rpm to nativesdk-rpm to fix:
-
-* Fix build with systemd, the rpm's sysuser creation doesn't work with
-  cross build, and we don't need rpm to create the users since we have
-  useradd.bbclass. The fix is:
-  cmd = cmd + " --define '__sysusers_path %{nil}'"
-
-  The error is:
-  /var/tmp/rpm-tmp.U4iaJX: line 114: tr: command not found
-
-* Make rpmbuild can find the pkgconfig (.pc) files in
-  /usr/share/pkgconfig:
-  cmd = cmd + " --define '_datadir ${datadir}'"
-
-  The error is:
-  - nothing provides pkgconfig(shared-mime-info) needed by libgdk-pixbuf-2.0-dev-2.44.5-r0.x86_6
-
-Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
----
- meta/classes-global/package_rpm.bbclass       |  4 ++
- ...olor-setting-for-mips64_n32-binaries.patch | 22 ++++----
- ...akeLists.txt-Fix-checking-for-CFLAGS.patch | 46 -----------------
- ...et-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch | 50 -------------------
- ...satisfiable-dependency-when-building.patch | 18 ++++---
- ...lib-rpm-as-the-installation-path-for.patch | 24 +++------
- ...1-Do-not-read-config-files-from-HOME.patch | 18 ++++---
- ...-PATH-environment-variable-before-ru.patch | 16 +++---
- ...lling-execute-package-scriptlets-wit.patch | 12 +++--
- ...not-insert-payloadflags-into-.rpm-me.patch | 18 ++++---
- ....c-fix-file-conflicts-for-MIPS64-N32.patch | 18 ++++---
- ...kgverify_level-to-digest-as-RCPM-4.2.patch | 35 +++++++++++++
- ...ools-elfdeps.cc-Remove-format-module.patch | 38 ++++++++++++++
- ...prefixing-etc-from-RPM_ETCCONFIGDIR-.patch | 26 ++++++----
- ...avoid-using-GLOB_BRACE-if-undefined-.patch | 14 ++++--
- ...ge-logging-level-around-scriptlets-t.patch | 14 +++---
- .../rpm/{rpm_4.20.1.bb => rpm_6.0.2.bb}       | 14 +++---
- 17 files changed, 199 insertions(+), 188 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch
- rename meta/recipes-devtools/rpm/{rpm_4.20.1.bb => rpm_6.0.2.bb} (96%)
-
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 9af4cbdd94..51ad195baa 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -587,6 +587,7 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-     cmd = cmd + " --define '_lib ${BASELIB}'"
-     cmd = cmd + " --define '_libdir ${libdir}'"
-+    cmd = cmd + " --define '_datadir ${datadir}'"
-     cmd = cmd + " --define '_builddir " + d.getVar('B') + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
-     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
-@@ -601,6 +602,7 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
-+    cmd = cmd + " --define '__sysusers_path %{nil}'"
-     cmd = cmd + " --define '_use_weak_usergroup_deps 1'"
-     cmd = cmd + " --define '_passwd_path " + "/completely/bogus/path" + "'"
-     cmd = cmd + " --define '_group_path " + "/completely/bogus/path" + "'"
-@@ -622,6 +624,8 @@ python do_package_rpm () {
- python () {
-     if d.getVar('PACKAGES') != '':
-         deps = ' rpm-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot'
-+        # The pkgconfig-native is required by rpm's pkgconfigdeps.sh
-+        deps += ' pkgconfig-native:do_populate_sysroot'
-         d.appendVarFlag('do_package_write_rpm', 'depends', deps)
-         d.setVarFlag('do_package_write_rpm', 'fakeroot', '1')
- 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-index 769d7b3409..a808009058 100644
---- a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
-@@ -5,16 +5,20 @@ Subject: [PATCH] Add a color setting for mips64_n32 binaries
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- build/rpmfc.c | 4 ++++
-+ build/rpmfc.cc | 4 ++++
-  rpmrc.in      | 2 ++
-  2 files changed, 6 insertions(+)
- 
--diff --git a/build/rpmfc.c b/build/rpmfc.c
--index 86dd36d14..df421a23f 100644
----- a/build/rpmfc.c
--+++ b/build/rpmfc.c
--@@ -716,6 +716,7 @@ static int rpmfcHelper(rpmfc fc, int *fnx, int nfn, const char *proto,
-+diff --git a/build/rpmfc.cc b/build/rpmfc.cc
-+index 833e56fa8..d50a3407f 100644
-+--- a/build/rpmfc.cc
-++++ b/build/rpmfc.cc
-+@@ -690,6 +690,7 @@ static int rpmfcHelper(rpmfc fc, int *fnx, int nfn, const char *proto,
-  static const struct rpmfcTokens_s rpmfcTokens[] = {
-    { "directory",		RPMFC_INCLUDE },
-  
-@@ -22,7 +26,7 @@ index 86dd36d14..df421a23f 100644
-    { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
-    { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
-  
--@@ -1258,6 +1259,9 @@ static uint32_t getElfColor(const char *fn)
-+@@ -1191,6 +1192,9 @@ static uint32_t getElfColor(const char *fn)
-  		color = 0;
-  		break;
-  	    }
-@@ -33,10 +37,10 @@ index 86dd36d14..df421a23f 100644
-  	if (elf)
-  	    elf_end(elf);
- diff --git a/rpmrc.in b/rpmrc.in
--index 8646a966b..7349fdfd3 100644
-+index 8fd0d7ee1..4cc52ceb3 100644
- --- a/rpmrc.in
- +++ b/rpmrc.in
--@@ -142,6 +142,8 @@ archcolor: mipsr6el 1
-+@@ -152,6 +152,8 @@ archcolor: mipsr6el 1
-  archcolor: mips64r6 2
-  archcolor: mips64r6el 2
-  
-diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
-deleted file mode 100644
-index 412e1c146d..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From e14502834fe6a9c6c9a439401ac3d2c8fd979267 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Sun, 8 Jun 2025 00:36:38 -0700
--Subject: [PATCH] CMakeLists.txt: Improve checking for CFLAGS
--
--The previous log wasn't clear:
---- Performing Test found
---- Performing Test found - Success
---- Performing Test found
---- Performing Test found - Success
---- Performing Test found
---- Performing Test found - Failed
--
--Use a new var compiler-supports${flag} will make it more clear:
---- Performing Test compiler-supports-fno-strict-overflow
---- Performing Test compiler-supports-fno-strict-overflow - Success
---- Performing Test compiler-supports-fno-delete-null-pointer-checks
---- Performing Test compiler-supports-fno-delete-null-pointer-checks - Success
---- Performing Test compiler-supports-fhardened
---- Performing Test compiler-supports-fhardened - Failed
--
--Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/e14502834fe6a9c6c9a439401ac3d2c8fd979267]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- CMakeLists.txt | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 08e3e5274..f275c396b 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -416,11 +416,10 @@ endif()
-- 
-- # try to ensure some compiler sanity and hardening options where supported
-- foreach (flag -fno-strict-overflow -fno-delete-null-pointer-checks -fhardened)
---	check_c_compiler_flag(${flag} found)
---	if (found)
--+	check_c_compiler_flag(${flag} compiler-supports${flag})
--+	if (compiler-supports${flag})
-- 		add_compile_options(${flag})
-- 	endif()
---	unset(found)
-- endforeach()
-- 
-- # generated sources
-diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
-deleted file mode 100644
-index 7db643871f..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From cb5355da9b47166253dbe5ab3215e433b55068d1 Mon Sep 17 00:00:00 2001
--From: Yi Zhao <yi.zhao@windriver.com>
--Date: Fri, 26 Jul 2024 17:18:30 +0800
--Subject: [PATCH] CMakeLists.txt: set libdir to ${CMAKE_INSTALL_FULL_LIBDIR} in
-- macros
--
--There is a patch in oe-core[1] to avoid hardcoded paths in macros. It
--tries to use libdir to expand %_libdir in macros.in. However, in
--upstream commit[2], libdir for macros in CMakeLists.txt is set to
--${prefix}/=LIB=, which causes %_libdir to expand to ${prefix}/=LIB=
--instead of the correct path in the final macros.
--
--On target:
--$ rpm --showrc | grep _libdir
--[snip]
---13: _libdir    ${prefix}/=LIB=
--[snip]
--
--This also causes %__pkgconfig_path in fileattrs/pkgconfig.attr to become
--an invalid regular expression when building rpm packages. This results a
--warning in log.do_package_write_rpm in all packages:
--
--Warning: Ignoring invalid regular expression ^((${prefix}/=LIB=|usr/share)/pkgconfig/.*.pc|usr/bin/pkg-config)$
--
--Set libdir to ${CMAKE_INSTALL_FULL_LIBDIR} instead of ${prefix}/=LIB= to
--make sure it is expanded to the correct path in macros.
--
--[1] https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
--[2] https://github.com/rpm-software-management/rpm/commit/d2abb7a48760418aacd7f17c8b64e39c25ca50c9
--
--Upstream-Status: Inappropriate [oe specific]
--
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 08dabffd3..1b7661139 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -96,7 +96,7 @@ function(makemacros)
-- 	set(sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
-- 	set(sharedstatedir "${CMAKE_INSTALL_FULL_SHAREDSTATEDIR}")
-- 	set(localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
---	set(libdir "\${prefix}/=LIB=")
--+	set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
-- 	set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
-- 	set(oldincludedir "${CMAKE_INSTALL_FULL_OLDINCLUDEDIR}")
-- 	set(infodir "\${prefix}/${CMAKE_INSTALL_INFODIR}")
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-index 96a5e14999..63a10df0d5 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-@@ -9,16 +9,20 @@ hand produces rpms that way by design.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- build/pack.c | 4 ----
-+ build/pack.cc | 4 ----
-  1 file changed, 4 deletions(-)
- 
--diff --git a/build/pack.c b/build/pack.c
--index eb9c7b3f1..fb1f1bed8 100644
----- a/build/pack.c
--+++ b/build/pack.c
--@@ -712,10 +712,6 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
-- 	headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
-+diff --git a/build/pack.cc b/build/pack.cc
-+index 49c9d0a58..b1cda6d75 100644
-+--- a/build/pack.cc
-++++ b/build/pack.cc
-+@@ -805,10 +805,6 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
-+	headerPutBin(pkg->header, RPMTAG_SOURCESIGMD5, spec->sourcePkgId,16);
-      }
-  
- -    if (cheating) {
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index 6a44f4f22d..309320cf43 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -6,10 +6,16 @@ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
- 
- Upstream-Status: Denied [https://github.com/rpm-software-management/rpm/pull/263]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+Updated for rpm 6.0.2:
-+Remove the changes for macros.in since it doesn't work for rpmbuild, rpmbuild
-+is like cross build, will define the values in package_rpm.bbclass.
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-  CMakeLists.txt | 2 +-
-- macros.in      | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
-+ 1 files changed, 1 insertions(+), 1 deletions(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
- index de0b578a6..9a3aba071 100644
-@@ -23,17 +29,3 @@ index de0b578a6..9a3aba071 100644
- +set(RPM_CONFIGDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/rpm" CACHE PATH "rpm home")
-  set(RPM_MACROSDIR "${RPM_CONFIGDIR}/macros.d")
-  set(RPM_VENDOR "vendor" CACHE STRING "rpm vendor string")
-- 
--diff --git a/macros.in b/macros.in
--index 4d3e8afdc..66e31320f 100644
----- a/macros.in
--+++ b/macros.in
--@@ -964,7 +964,7 @@ Supplements:   (%{name} = %{version}-%{release} and langpacks-%{1})\
-- %_sharedstatedir	%{_var}/lib
-- %_localstatedir		%{_prefix}/var
-- %_lib			lib
---%_libdir		%{_exec_prefix}/%{_lib}
--+%_libdir		@libdir@
-- %_includedir		%{_prefix}/include
-- %_infodir		%{_datadir}/info
-- %_mandir		%{_datadir}/man
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
-index bfc9a74b6c..ae47499e22 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
-@@ -5,15 +5,19 @@ Subject: [PATCH] Do not read config files from $HOME
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- lib/rpmrc.c | 6 ++----
-+ lib/rpmrc.cc | 6 ++----
-  1 file changed, 2 insertions(+), 4 deletions(-)
- 
--diff --git a/lib/rpmrc.c b/lib/rpmrc.c
--index 5d778b8b7..dc8d42aeb 100644
----- a/lib/rpmrc.c
--+++ b/lib/rpmrc.c
--@@ -485,8 +485,7 @@ static void setDefaults(void)
-+diff --git a/lib/rpmrc.cc b/lib/rpmrc.cc
-+index 2b3baeddc..cea6f4bc5 100644
-+--- a/lib/rpmrc.cc
-++++ b/lib/rpmrc.cc
-+@@ -390,8 +390,7 @@ static void setDefaults(void)
-      if (!defrcfiles) {
-  	defrcfiles = rstrscat(NULL, confdir, "/rpmrc", ":",
-  				confdir, "/" RPM_VENDOR "/rpmrc", ":",
-@@ -23,7 +27,7 @@ index 5d778b8b7..dc8d42aeb 100644
-      }
-  
-      /* macrofiles may be pre-set from --macros */
--@@ -498,8 +497,7 @@ static void setDefaults(void)
-+@@ -403,8 +402,7 @@ static void setDefaults(void)
-  				confdir, "/" RPM_VENDOR "/macros", ":",
-  				SYSCONFDIR "/rpm/macros.*", ":",
-  				SYSCONFDIR "/rpm/macros", ":",
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
-index d3263896ef..05c8b79f29 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
-@@ -8,15 +8,19 @@ We add lots of native stuff into it and scriptlets rely on that.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini<sumanth.gavini@windriver.com>
- ---
-- lib/rpmscript.c | 2 +-
-+ lib/rpmscript.cc | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/lib/rpmscript.c b/lib/rpmscript.c
--index 060fd8124..4dc6466a8 100644
----- a/lib/rpmscript.c
--+++ b/lib/rpmscript.c
--@@ -251,7 +251,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
-+diff --git a/lib/rpmscript.cc b/lib/rpmscript.cc
-+index b75a62085..2d7a4c889 100644
-+--- a/lib/rpmscript.cc
-++++ b/lib/rpmscript.cc
-+@@ -260,7 +260,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
-  	if (ipath && ipath[5] != '%')
-  	    path = ipath;
-  
-diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-index b71156fe12..90f5322573 100644
---- a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-@@ -26,15 +26,17 @@ Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- Rebased to 4.20.1
-+Rebased to 6.0.2
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- lib/rpmscript.c | 9 +++++++--
-+ lib/rpmscript.cc | 9 +++++++--
-  1 file changed, 7 insertions(+), 2 deletions(-)
- 
--diff --git a/lib/rpmscript.c b/lib/rpmscript.c
--index eb14870b3..1785e8f30 100644
----- a/lib/rpmscript.c
--+++ b/lib/rpmscript.c
-+diff --git a/lib/rpmscript.cc b/lib/rpmscript.cc
-+index b75a62085..7d667b7f5 100644
-+--- a/lib/rpmscript.cc
-++++ b/lib/rpmscript.cc
- @@ -456,8 +456,7 @@ exit:
-  	Fclose(out);	/* XXX dup'd STDOUT_FILENO */
-  
-diff --git a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
-index 0c29e5543a..fe4e029830 100644
---- a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
-@@ -1,7 +1,7 @@
- From e688eb54fd54d65181e94b854b3568d99cbf3a24 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Tue, 31 Aug 2021 10:37:05 +0200
--Subject: [PATCH] build/pack.c: do not insert payloadflags into .rpm metadata
-+Subject: [PATCH] build/pack.cc: do not insert payloadflags into .rpm metadata
- 
- The flags look like '19T56' where 19 is the compression level
- (deterministic), and 56 is the amount of threads (varies from one
-@@ -9,15 +9,19 @@ host to the next and breaks reproducibility for .rpm).
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- build/pack.c | 2 +-
-+ build/pack.cc | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/build/pack.c b/build/pack.c
--index fb1f1bed8..45885a6ac 100644
----- a/build/pack.c
--+++ b/build/pack.c
--@@ -330,7 +330,7 @@ static char *getIOFlags(Package pkg)
-+diff --git a/build/pack.cc b/build/pack.cc
-+index b1cda6d75..1425d27ba 100644
-+--- a/build/pack.cc
-++++ b/build/pack.cc
-+@@ -338,7 +338,7 @@ static char *getIOFlags(Package pkg)
-  	    headerPutString(pkg->header, RPMTAG_PAYLOADCOMPRESSOR, compr);
-  	buf = xstrdup(rpmio_flags);
-  	buf[s - rpmio_flags] = '\0';
-diff --git a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
-index 7d443ccc6c..5dc059493c 100644
---- a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
-@@ -1,7 +1,7 @@
- From ad530868e37f09e9236c085d25a834304750704b Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Thu, 7 May 2020 17:40:58 +0800
--Subject: [PATCH] lib/transaction.c: fix file conflicts for MIPS64 N32
-+Subject: [PATCH] lib/transaction.cc: fix file conflicts for MIPS64 N32
- 
- This patch is from:
- https://github.com/rpm-software-management/rpm/issues/193
-@@ -27,15 +27,19 @@ Fixed by performing a 'last-in-wins' resolution when "neither is preferred".
- Upstream-Status: Submitted <https://github.com/rpm-software-management/rpm/issues/193>
- 
- Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- lib/transaction.c | 13 ++++++++++++-
-+ lib/transaction.cc | 13 ++++++++++++-
-  1 file changed, 12 insertions(+), 1 deletion(-)
- 
--diff --git a/lib/transaction.c b/lib/transaction.c
--index 5e4414d2a..b1c55bd44 100644
----- a/lib/transaction.c
--+++ b/lib/transaction.c
--@@ -400,7 +400,18 @@ static int handleColorConflict(rpmts ts,
-+diff --git a/lib/transaction.cc b/lib/transaction.cc
-+index de7cdabb2..697268733 100644
-+--- a/lib/transaction.cc
-++++ b/lib/transaction.cc
-+@@ -375,7 +375,18 @@ static int handleColorConflict(rpmts ts,
-  		    rpmfsSetAction(ofs, ofx, FA_CREATE);
-  		rpmfsSetAction(fs, fx, FA_SKIPCOLOR);
-  		rConflicts = 0;
-diff --git a/meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch b/meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
-new file mode 100644
-index 0000000000..500a667a1b
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
-@@ -0,0 +1,35 @@
-+From 1cb53934b83b794c319813106c9f12d75cce66d2 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Sun, 18 Jan 2026 19:24:42 -0800
-+Subject: [PATCH] macros.in: Set _pkgverify_level to digest as RPM 4.20.1
-+
-+Fixed:
-+$ bitbake core-image-minimal
-+Package bash-5.3-r0.16.x86_64_v3.rpm is not signed
-+GPG check FAILED
-+
-+Set _pkgverify_level to digest as RPM 4.20.1 can fix the problem.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
-+---
-+ macros.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/macros.in b/macros.in
-+index 38066f00c..7fe00ad09 100644
-+--- a/macros.in
-++++ b/macros.in
-+@@ -680,7 +680,7 @@ Supplements:   (%{name} = %{version}-%{release} and langpacks-%{1})\
-+ # signature	require valid signature(s)
-+ # digest	require valid digest(s)
-+ # none		traditional rpm behavior, nothing required
-+-%_pkgverify_level all
-++%_pkgverify_level digest
-+ 
-+ # Disabler flags for package verification (similar to vsflags)
-+ # Set to 0x0 for full compatibility with v4 packages.
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch b/meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch
-new file mode 100644
-index 0000000000..25f5496bde
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch
-@@ -0,0 +1,38 @@
-+From 3536ef6bb74144cf9dce10200cd62c2ad9f7cae4 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 15 Jan 2026 19:36:17 -0800
-+Subject: [PATCH] tools/elfdeps.cc: Remove format module
-+
-+There is no format until gcc 13.1, so remove the format module to make it work
-+on hosts such as Ubuntu 22.04.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
-+---
-+ tools/elfdeps.cc | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/tools/elfdeps.cc b/tools/elfdeps.cc
-+index 17884b24e..33ff8d740 100644
-+--- a/tools/elfdeps.cc
-++++ b/tools/elfdeps.cc
-+@@ -1,6 +1,5 @@
-+ #include "system.h"
-+ 
-+-#include <format>
-+ #include <string>
-+ #include <vector>
-+ 
-+@@ -105,7 +104,7 @@ static void addSoDep(std::vector<std::string> & deps,
-+     if (ver.empty() && marker.empty()) {
-+ 	addDep(deps, soname);
-+     } else {
-+-	auto dep = std::format("{}({}){}", soname, ver, marker);
-++	std::string dep = soname + "(" + ver + ")" + marker;
-+ 	addDep(deps, dep);
-+     }
-+ }
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
-index 082fb343c2..1004253ff8 100644
---- a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
-+++ b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
-@@ -9,15 +9,19 @@ from target rootfs instead of its own native sysroot.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- lib/rpmrc.c | 18 +++++++++++++-----
-+ lib/rpmrc.cc | 18 +++++++++++++-----
-  1 file changed, 13 insertions(+), 5 deletions(-)
- 
--diff --git a/lib/rpmrc.c b/lib/rpmrc.c
--index dc8d42aeb..3f2996850 100644
----- a/lib/rpmrc.c
--+++ b/lib/rpmrc.c
--@@ -481,11 +481,14 @@ static void setDefaults(void)
-+diff --git a/lib/rpmrc.cc b/lib/rpmrc.cc
-+index cea6f4bc5..e6cf21e1b 100644
-+--- a/lib/rpmrc.cc
-++++ b/lib/rpmrc.cc
-+@@ -386,11 +386,14 @@ static void setDefaults(void)
-  	    userrc = xstrdup(oldrc);
-  	}
-      }
-@@ -33,7 +37,7 @@ index dc8d42aeb..3f2996850 100644
-      }
-  
-      /* macrofiles may be pre-set from --macros */
--@@ -495,9 +498,9 @@ static void setDefaults(void)
-+@@ -400,9 +403,9 @@ static void setDefaults(void)
-  				confdir, "/platform/%{_target}/macros", ":",
-  				confdir, "/fileattrs/*.attr", ":",
-  				confdir, "/" RPM_VENDOR "/macros", ":",
-@@ -46,7 +50,7 @@ index dc8d42aeb..3f2996850 100644
-      }
-  
-      free(usermacros);
--@@ -1142,7 +1145,11 @@ static void read_auxv(void)
-+@@ -1048,7 +1051,11 @@ static void read_auxv(void)
-   */
-  static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
-  {
-@@ -55,11 +59,11 @@ index dc8d42aeb..3f2996850 100644
- +    if (etcconfdir == NULL)
- +        etcconfdir = "";
- +
--+    const char * const platform_path = rstrscat(NULL, etcconfdir, SYSCONFDIR "/rpm/platform", NULL);
-++    char * const platform_path = rstrscat(NULL, etcconfdir, SYSCONFDIR "/rpm/platform", NULL);
-      static struct utsname un;
-      char * chptr;
--     canonEntry canon;
--@@ -1462,6 +1469,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
-+     int rc;
-+@@ -1378,6 +1385,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
-  
-      if (arch) *arch = un.machine;
-      if (os) *os = un.sysname;
-diff --git a/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch b/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
-index 00fe19108e..59855466da 100644
---- a/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
-+++ b/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
-@@ -1,7 +1,7 @@
- From d8972ff7fa0a30e199144ba135223bf561874e01 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Tue, 16 Jan 2024 09:59:26 +0100
--Subject: [PATCH] rpmio/rpmglob.c: avoid using GLOB_BRACE if undefined by C
-+Subject: [PATCH] rpmio/rpmglob.cc: avoid using GLOB_BRACE if undefined by C
-  library
- 
- This addresses musl failures; if there is code out there relying on
-@@ -11,14 +11,18 @@ This is unlikely to be trivially fixable upstream.
- 
- Upstream-Status: Inappropriate [reported at https://github.com/rpm-software-management/rpm/issues/2844]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+
-+Rebased to 6.0.2
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- rpmio/rpmglob.c | 6 ++++++
-+ rpmio/rpmglob.cc | 6 ++++++
-  1 file changed, 6 insertions(+)
- 
--diff --git a/rpmio/rpmglob.c b/rpmio/rpmglob.c
-+diff --git a/rpmio/rpmglob.cc b/rpmio/rpmglob.cc
- index eb439cad8..1eef0b851 100644
----- a/rpmio/rpmglob.c
--+++ b/rpmio/rpmglob.c
-+--- a/rpmio/rpmglob.cc
-++++ b/rpmio/rpmglob.cc
- @@ -33,6 +33,12 @@
-  
-  #include "debug.h"
-diff --git a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
-index bac2d6331c..84f909c68b 100644
---- a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
-+++ b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
-@@ -1,7 +1,7 @@
- From 452b696ea3e1975ea30cf7a92678aa4b316e6300 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 10 Jan 2019 18:14:18 +0100
--Subject: [PATCH] rpmscript.c: change logging level around scriptlets to INFO
-+Subject: [PATCH] rpmscript.cc: change logging level around scriptlets to INFO
-  from DEBUG
- 
- That way we can debug scriptlet failures without writing lots of
-@@ -11,15 +11,17 @@ Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- Rebased to 4.20.1
-+Rebased to 6.0.2
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
- ---
-- lib/rpmscript.c | 8 ++++----
-+ lib/rpmscript.cc | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
- 
--diff --git a/lib/rpmscript.c b/lib/rpmscript.c
--index e9f288ae0..f0c628708 100644
----- a/lib/rpmscript.c
--+++ b/lib/rpmscript.c
-+diff --git a/lib/rpmscript.cc b/lib/rpmscript.cc
-+index fe5fc9138..861fd8ca8 100644
-+--- a/lib/rpmscript.cc
-++++ b/lib/rpmscript.cc
- @@ -299,7 +299,7 @@ static char * writeScript(const char *cmd, const char *script)
-      if (Ferror(fd))
-  	goto exit;
-diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_6.0.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/rpm/rpm_4.20.1.bb
-rename to meta/recipes-devtools/rpm/rpm_6.0.2.bb
-index 17e75c3e14..e8977aa31a 100644
---- a/meta/recipes-devtools/rpm/rpm_4.20.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_6.0.2.bb
-@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=066ecde17828e5c8911ec9eae8be78f4"
- 
--SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.20.x;protocol=https \
-+SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-6.0.x;protocol=https \
-            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
-            file://0001-Do-not-read-config-files-from-HOME.patch \
-            file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
-@@ -37,14 +37,14 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.20.x;protoc
-            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
-            file://0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch \
-            file://0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch \
--           file://0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch \
--           file://0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch \
-+           file://0001-tools-elfdeps.cc-Remove-format-module.patch \
-+           file://0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch \
-            "
- 
- PE = "1"
--SRCREV = "c8dc5ea575a2e9c1488036d12f4b75f6a5a49120"
-+SRCREV = "a7f89afb57a98f6419d0eff35ca792198293b682"
- 
--DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 zstd"
-+DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 zstd scdoc-native"
- DEPENDS:append:class-native = " file-replacement-native bzip2-replacement-native"
- 
- EXTRA_OECMAKE:append = " -D__CURL:FILEPATH=curl"
-@@ -154,7 +154,8 @@ do_install:append () {
- 
- FILES:${PN} += "${libdir}/rpm-plugins/*.so \
-                "
--FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/rpm.sh"
-+FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/rpm.sh \
-+    /etc/rpm"
- 
- FILES:${PN}-dev += "${libdir}/rpm-plugins/*.la \
-                     "
-@@ -181,6 +182,7 @@ FILES:${PN}-build = "\
-     ${libdir}/rpm/mkinstalldirs \
-     ${libdir}/rpm/macros.p* \
-     ${libdir}/rpm/fileattrs/* \
-+    ${libdir}/rpm/rpm-setup-autosign \
- "
- 
- FILES:${PN}-sign = "\
+T24gNy8zMC8yMDI2IDg6NDQgUE0sIE1hY0xlb2QsIFJhbmR5IHdyb3RlOg0KPiBPbiAyMDI2LTA3
+LTMwIDE0OjEzLCBHYXZpbmksIFN1bWFudGggd3JvdGU6DQo+PiBPbiA3LzMwLzIwMjYgMTA6Mzkg
+QU0sIE1hdGhpZXUgRHVib2lzLUJyaWFuZCB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPj4g
+d3JvdGU6DQo+Pj4gQ0FVVElPTjogVGhpcyBlbWFpbCBjb21lcyBmcm9tIGEgbm9uIFdpbmQgUml2
+ZXIgZW1haWwgYWNjb3VudCENCj4+PiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2ht
+ZW50cyB1bmxlc3MgeW91IHJlY29nbml6ZSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50
+IGlzIHNhZmUuDQo+Pj4NCj4+PiBPbiBUaHUgSnVsIDMwLCAyMDI2IGF0IDE6NTEgQU0gQ0VTVCwg
+U3VtYW50aCBHYXZpbmkgd3JvdGU6DQo+Pj4+ICogVjExOg0KPj4+PiAgICAtIEFkZGVkIDAwMDEt
+cGtnY29uZmlnZGVwcy5zaC1Eby1ub3QtZW1pdC11c3ItYmluLXBrZy1jb25maWctYXMtYS5wYXRj
+aA0KPj4+PiAgICAgIFRvIGZpeCAiYml0YmFrZSBjb3JlLWltYWdlLW1pbmltYWwtZGV2IiBDb3Vs
+ZCBub3QgaW52b2tlIGRuZi4gQ29tbWFuZC4uLg0KPj4+PiAgICAgIHBrZ2NvbmZpZ2RlcHMuc2gg
+dW5jb25kaXRpb25hbGx5IGVtaXRzIC91c3IvYmluL3BrZy1jb25maWcgYXMgYSBoYXJkDQo+Pj4+
+ICAgICAgUmVxdWlyZXMgZm9yIHBhY2thZ2VzIHNoaXBwaW5nIC5wYyBmaWxlcy4gSW4gT0UvWW9j
+dG8gY3Jvc3MtY29tcGlsYXRpb24sDQo+Pj4+ICAgICAgcGtnLWNvbmZpZyBpcyBhIGhvc3Qtb25s
+eSBidWlsZCB0b29sIG5vdCBuZWVkZWQgb24gdGhlIHRhcmdldCByb290ZnMsDQo+Pj4+ICAgICAg
+Y2F1c2luZyBmYWlsdXJlcyB3aXRoIC1kZXYgcGFja2FnZXMuDQo+Pj4+DQo+Pj4+ICogdjEwOg0K
+Pj4+PiAgICAgLSBUaGUgQVJDSElWRV9GSUxURVJfUlBNIG1hY3JvIHdhcyBjb21tZW50ZWQgb3V0
+IGluIGEgcHJldmlvdXMNCj4+Pj4gICAgICAgbGliYXJjaGl2ZSBjaGFuZ2UsIGNhdXNpbmcgZG9f
+Y29tcGlsZV9wdGVzdF9iYXNlIHRvIGZhaWwgd2l0aDoNCj4+Pj4gICAgICAgZXJyb3I6ICdBUkNI
+SVZFX0ZJTFRFUl9SUE0nIHVuZGVjbGFyZWQNCj4+Pj4gICAgICAgUmVzdG9yZSB0aGUgbWFjcm8g
+ZGVmaW5pdGlvbi4gVGhlIHB0ZXN0IG5vdyBjb21waWxlcyBhbmQgcGFzc2VzDQo+Pj4+ICAgICAg
+IHN1Y2Nlc3NmdWxseS4NCj4+Pj4NCj4+Pj4gKiBWOToNCj4+Pj4gICAgIC0gVXBkYXRlZCBTUkNS
+RVYgdG8gdGhlIDYuMC4yIHRhZy4NCj4+Pj4gICAgIC0gSW5jb3Jwb3JhdGVkIGFsbCBWOCBjaGFu
+Z2VzIGFuZCB1cGRhdGVkIHRoZW0gYXMgbmVlZGVkIGZvciA2LjAuMi4NCj4+Pj4gICAgIC0gRHJv
+cHBlZA0KPj4+PiAgICAgICAwMDAxLXNjcmlwdHMtcGtnY29uZmlnZGVwcy5zaC1Vc2UtcGtnLWNv
+bmZpZy1mcm9tLVBBVEgucGF0Y2gNCj4+Pj4gICAgICAgZnJvbSBWOCwgYXMgaXQgaXMgbm8gbG9u
+Z2VyIG5lZWRlZC4gQWZ0ZXIgZmlsdGVyaW5nIG91dCB0aGUNCj4+Pj4gICAgICAgL3Vzci9iaW4v
+cGtnLWNvbmZpZyBmaWxlIGRlcGVuZGVuY3ksICJiaXRiYWtlIGNvcmUtaW1hZ2Utc2F0byAtYw0K
+Pj4+PiAgICAgICBwb3B1bGF0ZV9zZGsiIGNvbXBsZXRlcyBzdWNjZXNzZnVsbHkgd2l0aG91dCB0
+aGUgcGF0Y2guDQo+Pj4+ICAgICAtIEZpeGVkIHRoZSBmaWx0ZXJpbmcgb2YgdGhlIC91c3IvYmlu
+L3BrZy1jb25maWcgZmlsZSBkZXBlbmRlbmN5Lg0KPj4+PiAgICAgICBwa2ctY29uZmlnIGlzIGEg
+YnVpbGQtdGltZSB0b29sLCBub3QgYSBydW50aW1lIGRlcGVuZGVuY3kuIEZpbHRlcmVkDQo+Pj4+
+ICAgICAgIHRoZSAvdXNyL2Jpbi9wa2ctY29uZmlnIGRlcGVuZGVuY3kgYXV0b21hdGljYWxseSBk
+ZXRlY3RlZCBieQ0KPj4+PiAgICAgICBwa2djb25maWcuYXR0ciBmb3IgcGFja2FnZXMgY29udGFp
+bmluZyAucGMgZmlsZXMsIHByZXZlbnRpbmcNCj4+Pj4gICAgICAgdW5uZWNlc3NhcnkgaGFyZCBy
+dW50aW1lIGRlcGVuZGVuY2llcyBpbiAtZGV2IHBhY2thZ2VzLg0KPj4+PiAgICAgLSBSZW1vdmVk
+IHY4IGxpYmFyY2hpdmUtcmVsYXRlZCBjaGFuZ2VzIHNpbmNlIHRoZSBsYXRlc3QgdmVyc2lvbg0K
+Pj4+PiAgICAgICgzLjguOCkgYWxyZWFkeSBpbmNsdWRlcyB0aGUgcmVxdWlyZWQgdXBkYXRlcy4N
+Cj4+Pj4gICAgIC0gRml4ZWQgdGhlICJvZS1zZWxmdGVzdCAtciBkZWJ1Z2luZm9kLkRlYnVnaW5m
+b2QudGVzdF9kZWJ1Z2luZm9kX25hdGl2ZSINCj4+Pj4gICAgICAgZmFpbHVyZSBvYnNlcnZlZCBh
+ZnRlciB1cGdyYWRpbmcgdG8gNi4wLjIuDQo+Pj4+ICAgICAtIFZlcmlmaWVkIHRoYXQgcHJldmlv
+dXNseSByZXBvcnRlZCBBdXRvYnVpbGRlciBpc3N1ZXMgYXJlIG5vIGxvbmdlciBvYnNlcnZlZC4N
+Cj4+Pj4gICAgICAgVGhlIGZvbGxvd2luZyBidWlsZHMvdGVzdHMgd2VyZSBzdWNjZXNzZnVsbHkg
+Y29tcGxldGVkOg0KPj4+PiAgICAgICAgImJpdGJha2UgY29yZS1pbWFnZS1taW5pbWFsIg0KPj4+
+PiAgICAgICAgImJpdGJha2UgY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUiDQo+Pj4+ICAgICAgICAi
+Yml0YmFrZSBjb3JlLWltYWdlLXNhdG8iDQo+Pj4+ICAgICAgICAiYml0YmFrZSBjb3JlLWltYWdl
+LXNhdG8gd29ybGQiDQo+Pj4+ICAgICAgICAiYml0YmFrZSBjb3JlLWltYWdlLWZ1bGwtY21kbGlu
+ZTpkb190ZXN0aW1hZ2UiDQo+Pj4+ICAgICAgICAiYml0YmFrZSBjb3JlLWltYWdlLW1pbmltYWw6
+ZG9fcm9vdGZzIg0KPj4+PiAgICAgICAgImJpdGJha2UgY29yZS1pbWFnZS1zYXRvIC1jIHBvcHVs
+YXRlX3NkayINCj4+Pj4NCj4+Pj4gKiBWODoNCj4+Pj4gICAgIC0gRml4IGJ1aWxkIHdpdGggc3lz
+dGVtZCAoQ2hlY2sgcGF0Y2ggNyBmb3IgZGV0YWlsZXMpDQo+Pj4+ICAgICAtIE1ha2UgcnBtYnVp
+bGQgY2FuIGZpbmQgdGhlIHBrZ2NvbmZpZyAoLnBjKSBmaWxlcyBpbiAvdXNyL3NoYXJlL3BrZ2Nv
+bmZpZw0KPj4+PiAgICAgICAoQ2hlY2sgcGF0Y2ggNyBmb3IgZGV0YWlsZXMpDQo+Pj4+ICAgICAt
+IEJhY2twb3J0IGEgUFVMTCBmcm9tIGdpdC9saWJhcmNoaXZlIHRvIGZpeCBvZS1zZWxmdGVzdCBm
+YWlsdXJlcy4NCj4+Pj4NCj4+Pj4gKiBWNzoNCj4+Pj4gICAgIC0gQWRkIDAwMDEtc2NyaXB0cy1w
+a2djb25maWdkZXBzLnNoLVVzZS1wa2ctY29uZmlnLWZyb20tUEFUSC5wYXRjaDoNCj4+Pj4gICAg
+ICAgVG8gZml4ICJiaXRiYWtlIGNvcmUtaW1hZ2Utc2F0byAtY3BvcHVsYXRlX3NkayIgZXJyb3Ig
+b24gVWJ1bnR1IDI0LjA0IHdoZW4NCj4+Pj4gICAgICAgcGtnLWNvbmZpZyBpcyBpbnN0YWxsZWQg
+b24gaG9zdCwgbm93IHRoZSBob3N0IGNvbnRhbWluYXRpb24gaGFzIGJlZW4gZml4ZWQsDQo+Pj4+
+ICAgICAgIGFuZCB0aGUgcGF0Y2ggaGFzIGJlZW4gc3VibWl0dGVkIHRvIHVwc3RyZWFtOg0KPj4+
+PiAgICAgICBodHRwczovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvcnBtL3B1
+bGwvNDEyNw0KPj4+Pg0KPj4+PiAqIFY2DQo+Pj4+ICAgICAtIEZpeCAtY3BvcHVsYXRlX3NkayBl
+cnJvciB3aGVuIERJU1RSTyA9ICJwb2t5Ig0KPj4+Pg0KPj4+PiAqIFY1DQo+Pj4+ICAgICAtIEZp
+eCBSUCdzIGNvbW1lbnRzOiBEb24ndCBoYXJkY29kZSBsaWJjNiBpbnRvIHBhY2thZ2VfcnBtLmJi
+Y2xhc3MNCj4+Pj4gICAgIC0gVXNlIFNLSVBfTERDT05GSUdfUE9TVElOU1RfRlJBR01FTlQ6JHtQ
+Tn0gdG8gZml4IHRoZSBsb29wIGRlcGVuZGVuY2llcw0KPj4+PiAgICAgICBiZXR3ZWVuIC9iaW4v
+c2ggYW5kIGxpYmMuc28uDQo+Pj4+DQo+Pj4+ICogVjQNCj4+Pj4gICAgIC0gRml4IGxvb3AgZGVw
+ZW5kZW5jaWVzIGlzc3VlcyBmb3IgbGliYzYgYW5kIGJ1c3lib3gNCj4+Pj4gICAgIC0gRml4IGlz
+c3VlcyBmb3IgY2FuJ3QgZmluZCBwa2ctY29uZmlnIGZpbGVzICgucGMpIG9uIHFlbXV4ODYtNjQu
+DQo+Pj4+DQo+Pj4+ICogVjMNCj4+Pj4gICAgIC0gRml4IEFsZXhlbmRlcidzIGNvbW1lbnRzDQo+
+Pj4+ICAgICAgIGEpIFN1cHBvdCBycG0gNg0KPj4+PiAgICAgICBiKSBNb3ZlIHJwbS1zZXR1cC1h
+dXRvc2lnbiB0byBycG0tYnVpbGQNCj4+Pj4gICAgICAgYykgUmVtb3ZlIC1ETElCRUxGX0ZPVU5E
+PUZhbHNlDQo+Pj4+DQo+Pj4+ICAgICAtIEZpeCBidWlsZCBmb3IgbmF0aXZlc2RrLXJwbQ0KPj4+
+Pg0KPj4+PiAgICAgLSBEcm9wIHBhdGNoIGZvciBjcmVhdGVyZXBvLWMgc2luY2UgaXQgaGFzIGJl
+ZW4gdXBncmFkZWQgKHJldjoNCj4+Pj4gICAgICAgODA0YTIzOGM4YTRlODZjMmJjZmIyMTkyZDU0
+Y2I4NjFkNWZkMzJhNikNCj4+Pj4NCj4+Pj4gKiBWMSAmIFYyDQo+Pj4+ICAgICAtIEluaXRpYWwg
+dmVyc2lvbg0KPj4+Pg0KPj4+Pg0KPj4+PiAtLQ0KPj4+PiAjIFN1bWFudGggR2F2aW5pDQo+Pj4+
+ICMgV2luZCBSaXZlciBMaW51eA0KPj4+Pg0KPj4+IEhpIFN1bWFudGgsDQo+Pj4NCj4+PiBUaGFu
+a3MgZm9yIHRoZSBuZXcgdmVyc2lvbi4NCj4+Pg0KPj4+IEl0IGRvZXMgbG9vayBiZXR0ZXIsIGJ1
+dCB3ZSBzdGlsbCBoYXZlIGEgbG90IG9mIGVycm9ycy4gRmlyc3QsIGFub3RoZXINCj4+PiBkbmYg
+ZXJyb3Igb24gY29yZS1pbWFnZS1zYXRvOg0KPj4+DQo+Pj4gRVJST1I6IGNvcmUtaW1hZ2Utc2F0
+by0xLjAtcjAgZG9fcG9wdWxhdGVfc2RrOiBDb3VsZCBub3QgaW52b2tlIGRuZg0KPj4+IC4uLg0K
+Pj4+IEVycm9yOg0KPj4+ICAgIFByb2JsZW0gMTogY29uZmxpY3RpbmcgcmVxdWVzdHMNCj4+PiAg
+ICAgLSBub3RoaW5nIHByb3ZpZGVzIHBrZ2NvbmZpZyhmb250Y29uZmlnKSA+PSAyLjEzLjAgbmVl
+ZGVkIGJ5IGxpYmNhaXJvLWRldi0xLjE4LjQtcjAueDg2XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+
+ICAgIFByb2JsZW0gMjogY29uZmxpY3RpbmcgcmVxdWVzdHMNCj4+PiAgICAgLSBub3RoaW5nIHBy
+b3ZpZGVzIHBrZ2NvbmZpZyhsaWJzb2x2KSBuZWVkZWQgYnkgbGliZG5mLWRldi0wLjc1LjAtcjAu
+eDg2XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+ICAgICAtIG5vdGhpbmcgcHJvdmlkZXMgcGtnY29u
+ZmlnKHNxbGl0ZTMpIG5lZWRlZCBieSBsaWJkbmYtZGV2LTAuNzUuMC1yMC54ODZfNjRfdjMgZnJv
+bSBvZS1yZXBvDQo+Pj4gICAgIC0gbm90aGluZyBwcm92aWRlcyBwa2djb25maWcobGlic29sdmV4
+dCkgbmVlZGVkIGJ5IGxpYmRuZi1kZXYtMC43NS4wLXIwLng4Nl82NF92MyBmcm9tIG9lLXJlcG8N
+Cj4+PiAgICBQcm9ibGVtIDM6IGNvbmZsaWN0aW5nIHJlcXVlc3RzDQo+Pj4gICAgIC0gbm90aGlu
+ZyBwcm92aWRlcyBwa2djb25maWcobW91bnQpID49IDIuMjMgbmVlZGVkIGJ5IGxpYmdsaWItMi4w
+LWRldi0xOjIuODguMi1yMC54ODZfNjRfdjMgZnJvbSBvZS1yZXBvDQo+Pj4gICAgUHJvYmxlbSA0
+OiBjb25mbGljdGluZyByZXF1ZXN0cw0KPj4+ICAgICAtIG5vdGhpbmcgcHJvdmlkZXMgcGtnY29u
+ZmlnKGxpYnVkZXYpID49IDI1MSBuZWVkZWQgYnkgbGliZ3VkZXYtMS4wLWRldi0yMzgtcjAueDg2
+XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+ICAgIFByb2JsZW0gNTogY29uZmxpY3RpbmcgcmVxdWVz
+dHMNCj4+PiAgICAgLSBub3RoaW5nIHByb3ZpZGVzIHBrZ2NvbmZpZyhsaWJ1ZGV2KSBuZWVkZWQg
+YnkgbGliaW5wdXQtZGV2LTEuMzEuMy1yMC54ODZfNjRfdjMgZnJvbSBvZS1yZXBvDQo+Pj4gICAg
+UHJvYmxlbSA2OiBjb25mbGljdGluZyByZXF1ZXN0cw0KPj4+ICAgICAtIG5vdGhpbmcgcHJvdmlk
+ZXMgcGtnY29uZmlnKG5jdXJzZXMpIG5lZWRlZCBieSBsaWJyZWFkbGluZS1kZXYtOC4zLXIwLng4
+Nl82NF92MyBmcm9tIG9lLXJlcG8NCj4+PiAgICBQcm9ibGVtIDc6IGNvbmZsaWN0aW5nIHJlcXVl
+c3RzDQo+Pj4gICAgIC0gbm90aGluZyBwcm92aWRlcyBwa2djb25maWcobGlieG1sLTIuMCkgbmVl
+ZGVkIGJ5IGxpYnJlcG8tZGV2LTEuMjAuMC1yMC54ODZfNjRfdjMgZnJvbSBvZS1yZXBvDQo+Pj4g
+ICAgIC0gbm90aGluZyBwcm92aWRlcyBwa2djb25maWcob3BlbnNzbCkgbmVlZGVkIGJ5IGxpYnJl
+cG8tZGV2LTEuMjAuMC1yMC54ODZfNjRfdjMgZnJvbSBvZS1yZXBvDQo+Pj4gICAgIC0gbm90aGlu
+ZyBwcm92aWRlcyBwa2djb25maWcobGliY3VybCkgbmVlZGVkIGJ5IGxpYnJlcG8tZGV2LTEuMjAu
+MC1yMC54ODZfNjRfdjMgZnJvbSBvZS1yZXBvDQo+Pj4NCj4+PiBFUlJPUjogY29yZS1pbWFnZS1z
+YXRvLXNkay0xLjAtcjAgZG9fcm9vdGZzOiBDb3VsZCBub3QgaW52b2tlIGRuZi4NCj4+PiAuLi4N
+Cj4+PiBFcnJvcjoNCj4+PiAgICBQcm9ibGVtIDE6IGNvbmZsaWN0aW5nIHJlcXVlc3RzDQo+Pj4g
+ICAgIC0gbm90aGluZyBwcm92aWRlcyBwa2djb25maWcoZm9udGNvbmZpZykgPj0gMi4xMy4wIG5l
+ZWRlZCBieSBsaWJjYWlyby1kZXYtMS4xOC40LXIwLng4Nl82NF92MyBmcm9tIG9lLXJlcG8NCj4+
+PiAgICBQcm9ibGVtIDI6IGNvbmZsaWN0aW5nIHJlcXVlc3RzDQo+Pj4gICAgIC0gbm90aGluZyBw
+cm92aWRlcyBwa2djb25maWcoc3FsaXRlMykgbmVlZGVkIGJ5IGxpYmRuZi1kZXYtMC43NS4wLXIw
+Lng4Nl82NF92MyBmcm9tIG9lLXJlcG8NCj4+PiAgICAgLSBub3RoaW5nIHByb3ZpZGVzIHBrZ2Nv
+bmZpZyhsaWJzb2x2KSBuZWVkZWQgYnkgbGliZG5mLWRldi0wLjc1LjAtcjAueDg2XzY0X3YzIGZy
+b20gb2UtcmVwbw0KPj4+ICAgICAtIG5vdGhpbmcgcHJvdmlkZXMgcGtnY29uZmlnKGxpYnNvbHZl
+eHQpIG5lZWRlZCBieSBsaWJkbmYtZGV2LTAuNzUuMC1yMC54ODZfNjRfdjMgZnJvbSBvZS1yZXBv
+DQo+Pj4gICAgUHJvYmxlbSAzOiBjb25mbGljdGluZyByZXF1ZXN0cw0KPj4+ICAgICAtIG5vdGhp
+bmcgcHJvdmlkZXMgcGtnY29uZmlnKG1vdW50KSA+PSAyLjIzIG5lZWRlZCBieSBsaWJnbGliLTIu
+MC1kZXYtMToyLjg4LjItcjAueDg2XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+ICAgIFByb2JsZW0g
+NDogY29uZmxpY3RpbmcgcmVxdWVzdHMNCj4+PiAgICAgLSBub3RoaW5nIHByb3ZpZGVzIHBrZ2Nv
+bmZpZyhsaWJ1ZGV2KSA+PSAyNTEgbmVlZGVkIGJ5IGxpYmd1ZGV2LTEuMC1kZXYtMjM4LXIwLng4
+Nl82NF92MyBmcm9tIG9lLXJlcG8NCj4+PiAgICBQcm9ibGVtIDU6IGNvbmZsaWN0aW5nIHJlcXVl
+c3RzDQo+Pj4gICAgIC0gbm90aGluZyBwcm92aWRlcyBwa2djb25maWcobGlidWRldikgbmVlZGVk
+IGJ5IGxpYmlucHV0LWRldi0xLjMxLjMtcjAueDg2XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+ICAg
+IFByb2JsZW0gNjogY29uZmxpY3RpbmcgcmVxdWVzdHMNCj4+PiAgICAgLSBub3RoaW5nIHByb3Zp
+ZGVzIHBrZ2NvbmZpZyhuY3Vyc2VzKSBuZWVkZWQgYnkgbGlicmVhZGxpbmUtZGV2LTguMy1yMC54
+ODZfNjRfdjMgZnJvbSBvZS1yZXBvDQo+Pj4gICAgUHJvYmxlbSA3OiBjb25mbGljdGluZyByZXF1
+ZXN0cw0KPj4+ICAgICAtIG5vdGhpbmcgcHJvdmlkZXMgcGtnY29uZmlnKGxpYnhtbC0yLjApIG5l
+ZWRlZCBieSBsaWJyZXBvLWRldi0xLjIwLjAtcjAueDg2XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+
+ICAgICAtIG5vdGhpbmcgcHJvdmlkZXMgcGtnY29uZmlnKGxpYmN1cmwpIG5lZWRlZCBieSBsaWJy
+ZXBvLWRldi0xLjIwLjAtcjAueDg2XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+ICAgICAtIG5vdGhp
+bmcgcHJvdmlkZXMgcGtnY29uZmlnKG9wZW5zc2wpIG5lZWRlZCBieSBsaWJyZXBvLWRldi0xLjIw
+LjAtcjAueDg2XzY0X3YzIGZyb20gb2UtcmVwbw0KPj4+IC4uLg0KPj4+DQo+Pj4gaHR0cHM6Ly9h
+dXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMvNjgvYnVpbGRz
+LzQzNjINCj4+PiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUv
+Iy9idWlsZGVycy8xOS9idWlsZHMvNDI1Mw0KPj4+DQo+Pj4NCj4+PiBTb21lIHB0ZXN0IGltYWdl
+cyBhcmUgYWxzbyBmYWlsaW5nOg0KPj4+DQo+Pj4gRVJST1I6IGNvcmUtaW1hZ2UtcHRlc3QtZ2xp
+Yi0yLjAtMS4wLXIwIGRvX3Jvb3RmczogQ291bGQgbm90IGludm9rZSBkbmYuDQo+Pj4gLi4uDQo+
+Pj4gRXJyb3I6DQo+Pj4gICAgUHJvYmxlbTogcGFja2FnZSBsaWJnbGliLTIuMC1wdGVzdC0xOjIu
+ODguMi1yMC54ODZfNjRfdjMgZnJvbSBvZS1yZXBvIHJlcXVpcmVzIGdsaWItMi4wLWRldiwgYnV0
+IG5vbmUgb2YgdGhlIHByb3ZpZGVycyBjYW4gYmUgaW5zdGFsbGVkDQo+Pj4gICAgIC0gY29uZmxp
+Y3RpbmcgcmVxdWVzdHMNCj4+PiAgICAgLSBub3RoaW5nIHByb3ZpZGVzIHBrZ2NvbmZpZyhtb3Vu
+dCkgPj0gMi4yMyBuZWVkZWQgYnkgbGliZ2xpYi0yLjAtZGV2LTE6Mi44OC4yLXIwLng4Nl82NF92
+MyBmcm9tIG9lLXJlcG8NCj4+PiAodHJ5IHRvIGFkZCAnLS1za2lwLWJyb2tlbicgdG8gc2tpcCB1
+bmluc3RhbGxhYmxlIHBhY2thZ2VzKQ0KPj4+DQo+Pj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0
+b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMvMTEwL2J1aWxkcy84MTkNCj4+PiBodHRw
+czovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy83My9i
+dWlsZHMvNDE2Mw0KPj4+DQo+Pj4NCj4+PiBBbmQgYWxzbyB0aGUgbGliYXJjaGl2ZSBwdGVzdCBh
+cmUgZmFpbGluZzoNCj4+Pg0KPj4+IEFzc2VydGlvbkVycm9yOg0KPj4+IEZhaWxlZCBwdGVzdHM6
+DQo+Pj4geydsaWJhcmNoaXZlJzogWydsaWJhcmNoaXZlX3Rlc3QnXX0NCj4+Pg0KPj4+IGh0dHBz
+Oi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy92YWxreXJpZS8jL2J1aWxkZXJzLzYxL2J1
+aWxkcy80MTQ1DQo+Pj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5
+cmllLyMvYnVpbGRlcnMvNTYvYnVpbGRzLzIwMzENCj4+Pg0KPj4+DQo+Pj4gQ2FuIHlvdSBoYXZl
+IGEgbG9vayBhdCB0aGUgaXNzdWVzPw0KPj4+DQo+Pj4gVGhhbmtzLA0KPj4+IE1hdGhpZXUNCj4+
+Pg0KPj4+IC0tDQo+Pj4gTWF0aGlldSBEdWJvaXMtQnJpYW5kLCBCb290bGluDQo+Pj4gRW1iZWRk
+ZWQgTGludXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZw0KPj4+IGh0dHBzOi8vYm9vdGxpbi5jb20N
+Cj4+Pg0KPj4+DQo+Pj4NCj4+PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPj4+IExpbmtzOiBZ
+b3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPj4+IFZpZXcvUmVw
+bHkgT25saW5lICgjMjQyMzY4KTpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVu
+ZW1iZWRkZWQtY29yZS9tZXNzYWdlLzI0MjM2OA0KPj4+IE11dGUgVGhpcyBUb3BpYzpodHRwczov
+L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTIwNTEyMjU4LzEwNTM0NjE5DQo+Pj4gR3JvdXAg
+T3duZXI6b3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPj4+
+IFVuc3Vic2NyaWJlOmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRl
+ZC1jb3JlL3Vuc3ViIFtzdW1hbnRoLmdhdmluaUB3aW5kcml2ZXIuY29tXQ0KPj4+IC09LT0tPS09
+LT0tPS09LT0tPS09LT0tDQo+Pj4NCj4+IEhpIE1hdGhpZXUsDQo+Pg0KPj4gSW4gVjExIHBhdGNo
+DQo+PiAwMDAxLXBrZ2NvbmZpZ2RlcHMuc2gtRG8tbm90LWVtaXQtdXNyLWJpbi1wa2ctY29uZmln
+LWFzLWEucGF0Y2ggc2hvdWxkDQo+PiByZXNvbHZlIHRoZSAicGtnY29uZmlnIGNvdWxkIG5vdCBp
+bnZva2UgZG5mIiBlcnJvciINCj4+DQo+PiBJIGhhdmUgc3VjY2Vzc2Z1bGx5IHZlcmlmaWVkIHRo
+ZSBmb2xsb3dpbmc6DQo+PiBiaXRiYWtlIGNvcmUtaW1hZ2Utc2F0by1zZGs6ZG9fcG9wdWxhdGVf
+c2RrDQo+PiBiaXRiYWtlIGNvcmUtaW1hZ2Utc2F0by1zZGs6ZG9fcm9vdGZzDQo+Pg0KPj4gQm90
+aCBjb21wbGV0ZWQgc3VjY2Vzc2Z1bGx5IG9uIG15IHNpZGUuDQo+PiBDb3VsZCB5b3UgcGxlYXNl
+IHZlcmlmeSBhZ2FpbiBhbmQgbGV0IG1lIGtub3cgaWYgeW91IHN0aWxsIGVuY291bnRlciB0aGUN
+Cj4+IGlzc3VlPw0KPj4NCj4+IEJlbG93IGlzIG15IGxvY2FsLmNvbmY6DQo+PiBNQUNISU5FID8/
+PSAicWVtdXg4Ni02NCINCj4+IFBBQ0tBR0VfQ0xBU1NFUyA9ICJwYWNrYWdlX3JwbSBwYWNrYWdl
+X2RlYiBwYWNrYWdlX2lwayINCj4+IElOSEVSSVQgKz0gJ2ltYWdlLWJ1aWxkaW5mbycNCj4+IElN
+QUdFX0JVSUxESU5GT19WQVJTOmFwcGVuZCA9ICcgSU1BR0VfQkFTRU5BTUUgSU1BR0VfTkFNRScN
+Cj4+IElNQUdFX0lOU1RBTEw6YXBwZW5kID0gJyBzc2gtcHJlZ2VuLWhvc3RrZXlzJw0KPj4gU0FO
+SVRZX1RFU1RFRF9ESVNUUk9TID0gJycNCj4+IE9FUUFfVEVTVERJU1BMQVkgPSAnOjEnDQo+PiBF
+WFRSQV9JTUFHRV9GRUFUVVJFUyA/PSAnYWxsb3ctZW1wdHktcGFzc3dvcmQgZW1wdHktcm9vdC1w
+YXNzd29yZA0KPj4gYWxsb3ctcm9vdC1sb2dpbicNCj4+ICNPRV9GUkFHTUVOVFMgKz0gJ21hY2hp
+bmUvcWVtdXg4Ni02NCBkaXN0cm8vcG9reScNCj4+IElNQUdFX0NMQVNTRVMgKz0gInRlc3RpbWFn
+ZSINCj4+DQo+IE1hdGhpZXXCoCBwbGVhc2UgY29uZmlybSBidXQgc2luY2UgU3VtYW50aCBpcyBu
+ZXcsDQo+IEkgd2FudCB0byBwb2ludCBvdXQgdGhhdCB3ZSBoYXZlIGEgbG9uZyBoaXN0b3J5IG9m
+IHBlb3BsZSBvY2Nhc2lvbmFsbHkgDQo+IG5vdCBiZWluZyBhYmxlIHRvIHJlcHJvZHVjZQ0KPiAo
+YWxsIG9mKSB0aGUgZXJyb3JzIHRoYXQgdGhlIFlQIGF1dG9idWlsZGVyIChBQikgZW5jb3VudGVy
+cy4NCj4gDQo+IFRoaXMgaXMgdXN1YWxseSBiZWNhdXNlOg0KPiAgwqAxLiB0aGV5IG9ubHkgaGF2
+ZSBvbmUgb3IgdHdvIGhvc3QgZGlzdHJvcyBhdCBoYW5kIGFuZC9vcg0KPiAgwqAyLiB0aGV5IGRv
+bid0IHJlLXVzZSBzc3RhdGUgY2FjaGUgYmV0d2VlbiBkaXN0cm9zIGxpa2UgWVAgQUIgZG9lcy4N
+Cj4gDQo+IEluIHRoaXMgY2FzZSwgdGhlIGJ1aWxkIGZhaWx1cmUgbGlua3Mgd2VyZSBmcm9tOg0K
+PiANCj4gQS4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMv
+YnVpbGRlcnMvNjgvYnVpbGRzLzQzNjINCj4gIMKgIMKgIMKgUm9ja3kgOC44IHdvcmtlciAxDQo+
+IA0KPiBhbmQNCj4gQi4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5
+cmllLyMvYnVpbGRlcnMvMTkvYnVpbGRzLzQyNTMNCj4gIMKgIMKgIMKgRGViaWFuIDExIHdvcmtl
+ciAzDQo+IA0KPiBJdCBpcyBuZXZlciBjbGVhciB3aGF0IGRpc3RybyB0aGUgc3N0YXRlIGNhY2hl
+IGlzIHB1bGxlZCBpbiBmcm9tIHNpbmNlIA0KPiBpdCdzIGRlc2lnbmVkIGJlIGRpc3Ryby1pbmRl
+cGVuZGVudC4NCj4gDQo+IEknbSBub3QgZ29pbmcgdG8gbG9vayBhdCB0aGUgb3RoZXIgYnVpbGQg
+ZmFpbHVyZSBsaW5rcy4NCj4gDQo+IFRoaXMgcGFja2FnZSB1cGdyYWRlIGlzIHBhcnRpY3VsYXJs
+eSB0cmlja3kgc28gSSdtIGdvaW5nIHRvIGFzayBTdW5kZWVwIA0KPiB0byBoZWxwIFN1bWFudGgg
+d2l0aA0KPiBydW5uaW5nIHNvbWUgY3VzdG9tZXIgWVAgQUIgYnVpbGRzIGlmIE1hdGhpZXUgdGhp
+bmtzIHRoYXQncyBhIGdvb2QgaWRlYS4gDQo+IER1ZSB0byB0aGUgdGltem9uZQ0KPiBkaWZmZXJl
+bmNlIGJldHdlZW4gU3VtYW50aCAoaW4gVGV4YXMpIGFuZCBTdW5kZWVwIChpbiBJbmRpYSksIHRo
+aXMgbWlnaHQgDQo+IG5vdCBoYXBwZW4gdW50aWwgbmV4dCB3ZWVrLg0KPiANCj4gSG9sZCBvbiB0
+aGVyZSBndXlzLCB3ZSdsbCBnZXQgdGhpcyBmaWd1cmVkIG91dCBzb29uIGhvcGVmdWxseS4NCj4g
+DQo+IA0KPiAtLSANCj4gIyBSYW5keSBNYWNMZW9kDQo+ICMgV2luZCBSaXZlciBMaW51eA0KPiAN
+CkhpIE1hdGhpZXUsDQoNCkkgaGF2ZSBmaXhlZCB0aGUgYnVpbGQgZmFpbHVyZSBhbmQgc3VibWl0
+dGVkIFYxMi4NCg0KLS0gDQojIFN1bWFudGggR2F2aW5pDQojIFdpbmQgUml2ZXIgTGludXgNCg==
 
