@@ -1,129 +1,81 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D17C55184
-	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 11:33:01 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14037.1785842683470230765
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4DBCC55838
+	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 11:41:41 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14263.1785843699545191703
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Aug 2026 04:24:43 -0700
+ Tue, 04 Aug 2026 04:41:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=br9Fptl1;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: roosesweb@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49548e01d02so17677885e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 04:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785842682; x=1786447482; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yQprmaYy9LsJw7WJ7b5qnLvb4GWR+CtMgWgWVDHfDOg=;
-        b=br9Fptl1UCAY9f59SaGHyybbvhPI0uQ4CdHi/jHprbYR4aseaCC1sFNKMmzLKPCitc
-         3IyLkaSuM8fuGCThJqRd1/HQ9yaSoh3f6/OVKGqUP3saPWGPy9BG3FzJYvtvrpncGu6N
-         Hm8MP0jmOxwnR7/AObU1jrDMjMIeAhob4BrZKmNmUioouAYDUpgOH18/aNiwtJVLH0wM
-         fPc8ZQnKsK2aqBqrac21p935ary8xctzWO2g0OI+Qr2ntWthV816pZyWKzaYO0YfDnsa
-         bnU4IjtRqCKmzwzuJ8RyKDxKar1OHRJfuj5KbSWhTsFOzDuWgy6uCbyPPbhT4zd4F5dz
-         FnVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785842682; x=1786447482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yQprmaYy9LsJw7WJ7b5qnLvb4GWR+CtMgWgWVDHfDOg=;
-        b=MRKUbYiLk3s2rcxtltfbjzkvQbqQNFAvQ2uEabVUY7KnWMsKUOy5wlPoeqnsQLfFYm
-         O9X+G/SOnx0F200a30mMtV0kGZqZeKL+uCpHBFyM87cRcg9jX9klBupL5eqy9stQoXKN
-         vYeg3zkiewRv/AOsL0lF4phFhLS046gYL9bf5GpXaaZs3LpM3kd4z9psA/o9oSwW3w9R
-         7RaXMSJcsdiErsRaImhIOqOvJLeNIVwfu4odCMf7RZpDAyFE9qDZzMZcsqqS/hHQ5h1i
-         e7RKCjHeb1ZvhFrtLeNp9A/hUVgIhs2SBL3Q0x13e5QLk8hSy7iY500UdNQdSbf/IOiZ
-         aFSw==
-X-Gm-Message-State: AOJu0YwzP6Hb56Wg8mcaoTW70GzSPKOgNJr0uqrPyMfnnKrnaNeIijnn
-	Qev05l1vPsIRlXrBF2/7zsVUhvccaTbTkS2hyZYvBSQkA1cpR33jEcCDjfjOvQ==
-X-Gm-Gg: AR+sD10n/uWAmwsYzjEJhedhcOmhHTGIoTENSRv9WbPyn4nZf4sOOTgYouY0IKtrlzh
-	aNg0vsrM1Xnzu/t4M06g/srHcKpxneDoHtE3Mg0YXFTpPLT/c3v9RA/1zGg9tv9nPS4Mq8MSOWX
-	yFZJOhWb/8/xoVWeWV8j98oghrPGX55ffhvbrrcZaFBqLnSbfyh4vj63c/KNLHGq9WSFEHk/cLU
-	DeF6kqwOr62arPrCoOoxisIKBd9arWPxzBtLLsi7SyG2y+KVGxKqg6DfLft1s7c4gpX4QxDBxST
-	sdVOyCPaMDeF5R1cJFFqHd5sQcvwXzMdm1pqdHZa25mLGt5EP2mOAYEutmStFVR3h/ijytF2/7/
-	lmA0quM8eBycnLxcxkyy9Hrw+mrAsRLonbr92xfxpuzKHd4eskeWv4CBf/mfDhkr0thOn/aarX0
-	ecIMXIzfwLdHYf+DF23fs/GM3YYZlkwSWT6LTfDwhlLRoI0cVXdflpM4b7EcoxiGukVpkUyTn1E
-	Fhirccr4ui9E35K9MICLuZ/pf0E8BbRrsoRTa4dHVA/
-X-Received: by 2002:a05:600d:640f:20b0:495:503f:cf9a with SMTP id 5b1f17b1804b1-4980c672adbmr256878095e9.9.1785842681737;
-        Tue, 04 Aug 2026 04:24:41 -0700 (PDT)
-Received: from thinkpad.fritz.box ([2a02:810d:ae08:d00:a23e:1b00:ebf4:5b37])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49949f68f95sm91249135e9.0.2026.08.04.04.24.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 04:24:40 -0700 (PDT)
-From: roosesweb@gmail.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=ozxr1mia;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CACA31476
+	for <openembedded-core@lists.openembedded.org>; Tue,  4 Aug 2026 04:41:34 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7B8F63F86F
+	for <openembedded-core@lists.openembedded.org>; Tue,  4 Aug 2026 04:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785843698; bh=7cBdahalfH5KQVKoewW8AF0x/4n5QgSJq0GHUWrgMFQ=;
+	h=From:To:Subject:Date:From;
+	b=ozxr1miahJaUNOg7DrpC6Rh2TGG+stTzx8VL7AcB4Qjwh0hCx9fol5Xz7qGNY+ejA
+	 3J/XY8s0WBZSmlwJ0VeyrdgNOHCsowGbWtOlKzrv2LHIeq8EFKxtoa7j2nkiP+VecY
+	 /Udvx6tEb4MRUTz6PfGQOpF+9mp4mLbmXJnsNrrQ=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Thomas Roos <roosesweb@gmail.com>
-Subject: [PATCH] classes/sbom-cve-check: fall back to the stable SBOM symlink
-Date: Tue,  4 Aug 2026 13:24:37 +0200
-Message-ID: <20260804112437.3357583-1-roosesweb@gmail.com>
-X-Mailer: git-send-email 2.55.0
+Subject: [PATCH] u-boot: always use GCC to build
+Date: Tue,  4 Aug 2026 12:41:34 +0100
+Message-ID: <20260804114134.4028175-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 11:33:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242717
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 11:41:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242718
 
-do_sbom_cve_check builds its input path from ${IMAGE_NAME}, which carries
-${IMAGE_VERSION_SUFFIX} and so ${DATETIME}. That value is excluded from task
-hashes but changes on every bitbake invocation, so the path is only correct when
-do_create_image_sbom_spdx ran in the same invocation.
+Previously, u-boot was almost always built with GCC because the
+kernel-arch inherit set TOOLCHAIN to KERNEL_TOOLCHAIN, which defaulted
+to 'gcc'.
 
-It does not when the class is newly enabled on an existing build tree: the image
-SBOM is already deployed and stamped from an earlier build, do_sbom_cve_check has
-never run, so bitbake executes only the latter and it looks for a file whose
-timestamp belongs to the current invocation. The same happens on any forced re-run
-of just this task:
+However, since kernel-arch inherit was removed, u-boot in theory now
+respects the default toolchain. In practise, the recipe hard-codes CC
+to be gcc, and there are known caveats building u-boot with clang[2].
 
-  $ bitbake -f -c sbom_cve_check core-image-minimal
-  ERROR: core-image-minimal-1.0-r0 do_sbom_cve_check: sbom-cve-check failed: [...]
-  sbom-cve-check: error: [Errno 2] No such file or directory:
-    '.../core-image-minimal-qemux86-64.rootfs-20260804101106.spdx.json'
+In the long term we should be able to make this recipe respect TOOLCHAIN,
+as the upstream u-boot CI does build and test with clang, but for now
+fix the build by restoring the explicit use of gcc.
 
-  $ ls tmp/deploy/images/qemux86-64/*.spdx.json
-  core-image-minimal-qemux86-64.rootfs-20260804095834.spdx.json
-  core-image-minimal-qemux86-64.rootfs.spdx.json -> ...-20260804095834.spdx.json
+[1] oe-core 8fb5470841b ("u-boot: Separate out from kernel-arch.bbclass")
+[2] https://docs.u-boot-project.org/en/latest/build/clang.html
 
-The file is there under ${IMAGE_LINK_NAME}, the symlink do_create_image_sbom_spdx
-maintains. Keep preferring the timestamped name, so behaviour is unchanged whenever
-it exists, and fall back to the symlink rather than failing. Guarded on link_name
-being set, since IMAGE_LINK_NAME can be empty.
-
-Signed-off-by: Thomas Roos <roosesweb@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/sbom-cve-check.bbclass | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-recipe/sbom-cve-check.bbclass
-index 451595f..b184c12 100644
---- a/meta/classes-recipe/sbom-cve-check.bbclass
-+++ b/meta/classes-recipe/sbom-cve-check.bbclass
-@@ -14,9 +14,20 @@ python do_sbom_cve_check() {
-     """
-     Task: Run sbom-cve-check analysis on SBOM.
-     """
--    sbom_path = d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.spdx.json")
-+    import os
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot=
+/u-boot.inc
+index 3e2f5aa1a5f..00a12f1bb91 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -3,6 +3,10 @@ PROVIDES =3D "virtual/bootloader"
+=20
+ PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+=20
++# u-boot is best built with gcc
++# https://docs.u-boot-project.org/en/latest/build/clang.html
++TOOLCHAIN =3D "gcc"
 +
-     image_name = d.getVar("IMAGE_NAME")
-     link_name = d.getVar("IMAGE_LINK_NAME")
-+    deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
-+
-+    # IMAGE_NAME carries DATETIME, which changes on every invocation while being
-+    # excluded from task hashes, so this path is only valid when
-+    # do_create_image_sbom_spdx ran in the same invocation. Fall back to the
-+    # symlink it maintains, which is stable across builds.
-+    sbom_path = os.path.join(deploy_dir, "%s.spdx.json" % image_name)
-+    if not os.path.exists(sbom_path) and link_name:
-+        sbom_path = os.path.join(deploy_dir, "%s.spdx.json" % link_name)
-+
-     run_sbom_cve_check(d, sbom_path, image_name, link_name)
- }
- 
--- 
-2.55.0
+ DEPENDS +=3D "${@bb.utils.contains('UBOOT_ENV_SUFFIX', 'scr', 'u-boot-mk=
+image-native', '', d)}"
+ DEPENDS +=3D "${@ 'u-boot-mkenvimage-native' if bb.utils.to_boolean(d.ge=
+tVar('UBOOT_INITIAL_ENV_BINARY')) else ''}"
+=20
+--=20
+2.43.0
 
 
