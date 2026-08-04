@@ -1,202 +1,158 @@
-Return-Path: <mike.looijmans@topic.nl>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28A72C5518F
-	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 14:09:06 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.138])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17232.1785852538884747101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C204C5518F
+	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 14:11:56 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.59])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17288.1785852711756048471
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Aug 2026 07:09:01 -0700
+ Tue, 04 Aug 2026 07:11:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@topic.nl header.s=selector2 header.b=TOfbjpqq;
- spf=pass (domain: topic.nl, ip: 40.107.159.138, mailfrom: mike.looijmans@topic.nl)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=WE5r59/E;
+ spf=pass (domain: ericsson.com, ip: 52.101.69.59, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cp7kakgbNBFY9U4G7atX7FdPePehaKTkpr149lY3grJtnAvwW1rGZzTqTYg1LfnmVIAeDXl2Ve0gl4ospt37g+Y5IC90TlcjdmqCcb00Be5CEUK0wrEjikrhKzPFbGeRyE3jP16txGAO7ar0EZSDCEnvQG+yell1yXTdjeG1UU+s352E6HBFStctFUTysYdFljfnQiagft464kgJivWdYbJyApcvE3DmdzTT0ii0Qrohjtcb5aNAmwegQapEr9Z1WhgriaGMfmpU0cnPb7AyycTzThv9zhy4ciapxgR2+rhzWf6bpBu/A1mhuu1MhWws7aeOPP5Xjs7RwPfOQO+RBQ==
+ b=XKCvGvxFrQifdHixnJ1N50vatt86HM4RxuSmPunIgvQiG72xoMgGTfG0T1KSiGi8xNJsZ2EZq7doDs53MXCkw4GBPFcOHaYPt0cN1h99XGE+mQBBnIKHhDR3QHHysdmCFsby3uXFum0Am5Fo2jhTNlnskt8VhWaASJvUzzLnoHLbvVz1+i4PtDJZb9jv5QITMfOBTfNHTGMNUks2qSbKF7+pP5Sktdiev9JM9ICDWKxjpTp09unKs6jQ5stveqjx8ZtoXcZ8XXozZOoKhXYKe8TqitSbqqDHU12bF5tEPz1DPsSfid4GzEbVadkB7SsASDbTflE05NpIc6KadYf1lQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hS6OFr7WeoeG3Qc6GTXMIO81C4HCTwFNU+54rXaRsMM=;
- b=ty7GGNF/EKGCmziMd5AfG3CFqHiJomN7Ql61uiSxtEbzTvdpYVE0Afm+SWBxf7PVSdz/SIqBJnovXWAPmxJKVhN/yMGFZgbUjiqm1YOueuryc/Uxf5mnRPeY6HzUpLZ3k0PCjvFKP9T5CfvMnNsNDCnOFwmziGchCWHE75Z+ON/RIj5eH7kxwNP7I8MyeLDNcb2bAxsrtdTj+WR/V4iDlBE/Ae790RLagxvay2LsIE3DRJbBxL3fqB73HaKwiE5rkwNKAXfL2skORJwPZmWHTYscY3jpGQIlMwYfenP1/xacFECK+yUketV8C5X3F+vZUL5d/sPigJM1wvTrtOnBAA==
+ bh=GssADpR4vbgHpKIxMrbIsYSkDUURKLOekGGV608nsxc=;
+ b=r8N/vF8v73Ey3Q+l4lro51b8oTFzAzANuN+LnisZo0tXg0Wg9hZI2PJg2EvcqWcpuggUZlN05UvA4kQFVaNSWfu+VQZwQEC88NidePBrgnb+M7S7ut/TlEOmfzB5bRYTsVaungsJN7IwPvLXZP/X5MFHcsJB/lAAHVRLq2tjAl66/WNyYPB9ByVw669tLC2GbGe+afhRvr/qv654aPizPmwEFscXnVmXVzKsKE9P9hR5/2x7CTlbZDWTFU5HM2uk3wHAH0N93HGT5qO611Hk3AgZGTcV286fM3O2uV7NEtZU/ZAUtAvTuNQ8mLMxGP87N6nxlJ5jz6gt4OFWJHSwCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 20.93.157.195) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=topic.nl; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=topic.nl; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
+ 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hS6OFr7WeoeG3Qc6GTXMIO81C4HCTwFNU+54rXaRsMM=;
- b=TOfbjpqqub993CcB0lqWMNXbgBZg4yN8d09qzyC6aJOI5zliAC7egxnfAPuFAoSG8E3fNMKc7SFEVDFmIRQuB4iJIgRFSK6PY1cktmR4oKBAUmB+T2617qCYQbfhMowQk0CmbsWbUMHE2TGVqMsgUJ/9pZkW8JkE7D5gjvyPWJy4Epiz7F0+lmEv44hajmzqM/7MFkHDV55EhcoLLQSmHPSSHLKIWKVzH3g1O2+RoSdEuLxPMUHUVrS6751ebcnMplrPa6sdJbJK0JQ10FdUGJ8yZ2hHwvOlTotnBjURNbsjyuEhUe0DycUsJcWe24uqzQ6DnXNYocKhQPdvMJdR5w==
-Received: from AS4P189CA0047.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:659::19)
- by DU2PR04MB8757.eurprd04.prod.outlook.com (2603:10a6:10:2e0::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Tue, 4 Aug
- 2026 14:08:54 +0000
-Received: from AM1PEPF000252DB.eurprd07.prod.outlook.com
- (2603:10a6:20b:659::4) by AS4P189CA0047.outlook.office365.com
- (2603:10a6:20b:659::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.16 via Frontend Transport; Tue, 4
- Aug 2026 14:08:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
- smtp.mailfrom=topic.nl; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
- 20.93.157.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
- pr=C
-Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
- AM1PEPF000252DB.mail.protection.outlook.com (10.167.16.53) with Microsoft
+ bh=GssADpR4vbgHpKIxMrbIsYSkDUURKLOekGGV608nsxc=;
+ b=WE5r59/EsqsyKFht6fEMov4+RV3cwI56o2n3J/b5yO5ix/umiJzrNsPd56k8LHxRyT5V6ZKxv3OOL9giYNSi7tNGWjkKPnaE4WTffyZdWYcvierpCMNdLW7EyN5ShUB9ML1KrEWvnj7hEroMSCB0YBr73wWKZCPORa3OMnhEDvWPdOGfnNVNsu4fTWedQKMnYM0rM8mrhN3SeXQO3mb24l8ly6xUtbS70uqfD7NYtQ62QpWCxBrtHxzUB/tLkI0g8CKWPldVXFdW0otCMLX+dfwSLsJyJOP1jBy2WtSPuKRqwEBlFX+ozqQHbsV+FpjKVS48CPPVy6q67nElfVErKg==
+Received: from DUZPR01CA0157.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bd::21) by VI1PR0701MB6973.eurprd07.prod.outlook.com
+ (2603:10a6:800:198::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.13; Tue, 4 Aug
+ 2026 14:11:46 +0000
+Received: from DB1PEPF000509EC.eurprd03.prod.outlook.com
+ (2603:10a6:10:4bd:cafe::10) by DUZPR01CA0157.outlook.office365.com
+ (2603:10a6:10:4bd::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.18 via Frontend Transport; Tue, 4
+ Aug 2026 14:11:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DB1PEPF000509EC.mail.protection.outlook.com (10.167.242.70) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.292.8 via Frontend Transport; Tue, 4 Aug 2026 14:08:53 +0000
-Received: from DB6PR07CU003.outbound.protection.outlook.com (40.93.64.89) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Tue, 04 Aug 2026 14:08:53 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received: from VI0PR04MB12030.eurprd04.prod.outlook.com
- (2603:10a6:800:316::24) by AS8PR04MB9096.eurprd04.prod.outlook.com
- (2603:10a6:20b:447::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.15; Tue, 4 Aug
- 2026 14:08:51 +0000
-Received: from VI0PR04MB12030.eurprd04.prod.outlook.com
- ([fe80::e428:3105:17ec:8224]) by VI0PR04MB12030.eurprd04.prod.outlook.com
- ([fe80::e428:3105:17ec:8224%4]) with mapi id 15.21.0292.013; Tue, 4 Aug 2026
- 14:08:49 +0000
-Message-ID: <08c08476-f920-4a18-b309-0e01a474e8fe@topic.nl>
-Date: Tue, 4 Aug 2026 16:08:48 +0200
-User-Agent: Mozilla Thunderbird
-To: openembedded-core@lists.openembedded.org
-Content-Language: en-US, nl
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: wrynose: Weird error in do_create_recipe_spdx
-Organization: Topic
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AS4P195CA0003.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:5e2::9) To VI0PR04MB12030.eurprd04.prod.outlook.com
- (2603:10a6:800:316::24)
+ 15.21.292.8 via Frontend Transport; Tue, 4 Aug 2026 14:11:45 +0000
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.64) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 4 Aug 2026 16:11:45 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 18D404020C1E;
+	Tue,  4 Aug 2026 16:11:43 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 5772E700DF53; Tue,  4 Aug 2026 16:11:43 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <elin-upstream@mailman.lmera.ericsson.se>,
+	<openembedded-core@lists.openembedded.org>
+CC: <richard.purdie@linuxfoundation.org>, <paul@pbarker.dev>,
+	<Randy.MacLeod@windriver.com>, <alex.kanavin@gmail.com>, Daniel Turull
+	<daniel.turull@ericsson.com>
+Subject: [PATCH 7/7] lttng-tools: inherit upstream-stable-release-point
+Date: Tue, 4 Aug 2026 16:11:35 +0200
+Message-ID: <20260804141135.3779287-8-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260804141135.3779287-1-daniel.turull@ericsson.com>
+References: <20260804141135.3779287-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: 
-	VI0PR04MB12030:EE_|AS8PR04MB9096:EE_|AM1PEPF000252DB:EE_|DU2PR04MB8757:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb391172-344b-4890-04ca-08def231eac9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509EC:EE_|VI1PR0701MB6973:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ccb3b4b-8f01-4eaf-c059-08def232513b
+X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|18002099003|56012099006|10067099003|38350700014;
-X-Microsoft-Antispam-Message-Info-Original: 
- prqXCbaSkZa8+wwkE/6WuIkorHf652Ay2MV02wDMuNXyGQtAiU3cQQ0nVhmc00NhPEicAKQiF6H3K9SwiynHK6l16yXR5NjMpINfZI5JO140qE7GgK+d745PBTcthJmfZ/jS5jjG3h2xVN8CI7P+xwv9gQFaQ8p7/XpbPwPTle3Ds1Ks3awMTMC1+5FbD/G1PRNT8AS0a6hySLMQtBjJV2CF9A/YC61JclVweuEPaFInQOOjpZV5WQHaAD5fpdNQDX5Y5eYA8QJLjRhUSIgpeu4uPh+jVcDrlGyAxOr12XLMG8MUn6c48+1JP0WXV/Df0FG7y2FbLq8NAPuNxik4uYl41EJx8tITnRNhDACFFQkSgaX0nARE7jScUbG2T+e5Rg8tMpQj9ZddG4xfkBEGa0V/wNGxNoQefodzVTdZP4zvxhupJMUY2hOf0yP5a241mns7lZMZgemNIv/3vLd2+N4SbLyaRinLpy9i7GIX3kDBzkwyDUi0YZNRqhrKg5iFFjEENMs5e49Bg5Q1uY+dFKJwr8PrMC0jzUByL0opQRHdTHLSeQ9e9a3a7KKZqGHOjUL9smyVDptvQR6S7Ik4aEU2ywH5yavShZqXMccmOhkSq19WQEz+uC+iWxPvsUKpZO7WK1z6WvyAvSPqxEzD3goGozmn1s5qd4NwgrS2ous=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR04MB12030.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(18002099003)(56012099006)(10067099003)(38350700014);DIR:OUT;SFP:1102;
-X-Exchange-RoutingPolicyChecked: gk/7Vg01MDE8W5q3AwB/HCXOkFc1sRikegUy3V9RnU5BmauwK01c2jt6bMjsT56YVztdnno0nz6iGsowlI2P3Es0pf/jsp1t36glsifQUBQgkimVlGM0RWlg7Ap1HOxSGtDHIUaL5nlLPfLJ/bSn6jTUka8XuYIDpeUvbNtbs6NjLEpH4yNHSO6j2x9lVTFJiDAdQM/G5jCVNliJlI/+4N3/BWeV+8KL0mwpsZb7Oldt9VHYvYuI9ZXvqrvpXhtETzsaDbk0NRlTYItOvvQaUqfouibnq4KMIjIBBjmNKbDCnGxj8cNAf7jUB8t4ICHHswT0epijmKp5O2x9aA6z/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9096
-X-CodeTwo-MessageID: 3567e883-a3a5-4947-b8c7-248a32b38246.20260804140853@westeu11-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM1PEPF000252DB.eurprd07.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	a2c99bcd-82e4-43c8-170b-08def231e835
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|82310400026|1800799024|376014|35042699022|36860700016|23010399003|18002099003|56012099006|10067099003;
+	BCL:0;ARA:13230040|36860700016|376014|23010399003|1800799024|82310400026|13003099007|6133799003|56012099006|10067099003|11063799006|12006099003|18002099003|22082099003|3023799007;
 X-Microsoft-Antispam-Message-Info: 
-	e2m7onfiTv5TIbbm3E9F12VZrOygpN9ApFEAhMQMpUziAXh7DoW5qV7f/BhDfhAkX90ipj7fTXXATMMO1V5SSnKTAz4KXlD1s/46lQFOqZaInROQIAHdLFCA+YUP/glpjcnkCLXQ/MKEkkGIjtx3UFPDlSOCpczZhMDFKC6du/h9X9KKonRvz5nEG/2u6KAgMX8lr1I7VecZD7QSuB09+eZY6f18klWfTCMTwXOxhYseGUIiXxmXaXoazTyZQ7M65+qHfcxENNPzBIBpQ7LyoMxeRMrosIl0sdbjliGbSpN3eoyGTKHSK5pgCnzWqMMmgJkfnocA9T71KV5RPYQYp85u6GaJCquYBAE3XzQM5HeNfAramKYVIavv/8REHxqABNAV4Hjr0n5dQG+PxvgPZLdGHJRLTiyb47fZEHKHvTiNqxXicFXrmZWBhr0MC8I89tw6BQyXZTnZd8IAI4VDsbD/k7J3haFCHdYuoOcQJpUtiF8ACpta2Mz+4QHOHSHXqwkzksOUPZHrNyCIY6UBBN0UOb6qj1+n1JRYZlIgvbbsnOPLtvZU4yHwMA/fXJpwT/ijVOA/srRLHomKORegG4yWlJbeHm/54AtELSXZTYzD/8bnVCJa038JKrGYW1hnKtRWyGlD7D0uHsLK5sQ1yg==
+	Mf2SBkOae0ccfHxvw60tItNprFZgPQI+i8BVPDAP/5461W3NI72qOoJEDxB+Ub+V2h7s1D45pYS+Ig+MQ3phDgQNhGCnqwUanqyoikXEDTqaMiKmpuASEZboMIXuUxoZrVsIouC81gB3y/1sbhuDlJshs4p9w4Ytls2NVYeLrgSSvUQKgtuzlpX/VSXV3yOkVb/LieDtxzyWGLcFC95Qw3hEgbYLAvmRhBE5xlQo6bnizlzrj/bSsvgduFV7HegSeTGEvupY2h6yjgjem9Pu6HWoygv3a7EIgUB1b+qGI2ryWDaXxAFhZNQXs19rbZxoAmkQ9q/n9Wj8Iz8hVgPFizyY5vjyBGm/rYwzp7QYW3LXN4y75lCSrWBGfv23l1gAtnDUE9nY6oiEY994WIONbHHfLXYoV7zFSqOYlwaWKePyizP6qLdapM8cdBL6m4MpIC6u3jOM4TEwjRn2IE8gh1pNWWLPJKCLU7YxhgECH5zqMEnnMAxyw3w/XtA51Rzzt8Ddf9A0if9OPkFnsf+6AybNWzFSSOMbsCh/aNz95AvqfqKXtDm2B/Q9xYmH2QmXXe+to1Le3zl20aJhKocrKMr+TSiy80sLtY2eg8wwNtmThP/yWKZyMq01UK3lLSPC4nmqkiAhfB0dnqWbdmYQipoE9AgSJ5ZPWLAzXHGq6LY=
 X-Forefront-Antispam-Report: 
-	CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230040)(14060799003)(82310400026)(1800799024)(376014)(35042699022)(36860700016)(23010399003)(18002099003)(56012099006)(10067099003);DIR:OUT;SFP:1102;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(1800799024)(82310400026)(13003099007)(6133799003)(56012099006)(10067099003)(11063799006)(12006099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	Rdc11N/bpTYZJEi7F9wzFgdRMddG1oaFgp9enX9yYEkCgTuyj6KraIdMNXr4qaC6VRVJ49DrQX1+C06IBexzUAi6xAtzO1Mem/L82SyPKKNkZisqV82+AMSp9rl7Rc4eJDOQ06NFfeIszJY8XEJxo50UEwfVY086Kwzt2tBBcLkUhRGzWicDTWxdbwdLUFlCA3i7sHUAWNILklcxg6ST5nUW0AeTBF7YqrUCs3OslbHjcYOOtGIwBDJ8xklky1U6ffgxnu2+jGA3HW7EFifrJJ5cc6atYxReM1uceT2uEm5srik3fJVNGW4FLVhnwV6y4oEUeaCjIh0votBEqRHK+E54PJu7q+0WEv7yqg+lTgAKkdUz/NaDy2/xzunLeF4fwHYI47Fsv40XZC0QZfRFtFxBsESskITPHwmZu6UO0L+ySqYsx+WS3Ml5B9FCbCbv
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 14:08:53.9450
+	gXct1LI4+q1Sgu9u40sclUEUYfqMZIJfWxkQDeFx0hHqP2QnLOE6YvE7SiK/dk+BDkKheYr2G1L8O+2muAGgvp0gqxsCK7KCbikUzTq7esm47cCAEFZWOsfHJPWbbqHegg31UvomBUbKN1nDuyr8e8jOeGt8L+BWeHJ4yxs9VQxFTuziPISIj/NCgdSsIf4ne15pN8GtSwqQshkLbE48oGE8mH7BdzBNiTjEgiPdtWaNm8tLe3CTkfj7VmK5TZvV4zv/ILocyIuiLTlZE1SDcQeSLkFdqi72I/KHkKuWTM9u1hzpfr3VMpB6N6TNkpvqZLYl6dakXQE3fRkOSSdsrd7DJjt+CJa11Zm+Wr651UObn9fQKXSimqG+Zza2vOod3ISTi93GFt+3SJPYgUv9ieoYJCkGw5nm7CLLva6I1jMTwl9VZrTSRHUpcFk1F5Ue
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 14:11:45.7508
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb391172-344b-4890-04ca-08def231eac9
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ccb3b4b-8f01-4eaf-c059-08def232513b
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AM1PEPF000252DB.eurprd07.prod.outlook.com
+	DB1PEPF000509EC.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8757
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0701MB6973
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 14:09:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242764
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 14:11:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242771
 
-Taking my first steps in migrating from scarthgap to wrynose. Having=20
-done the obvious things like the UNPACKDIR variable, I'm now stuck at=20
-this, which appears to happen for each and every recipe it tries to build:
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-DEBUG: Executing python function sstate_task_prefunc
-DEBUG: Python function sstate_task_prefunc finished
-DEBUG: Executing python function do_create_recipe_spdx
-ERROR: Error executing a python function in exec_func_python()=20
-autogenerated:
+lttng-tools maintains a branch per minor series (stable-2.11 through
+stable-2.16) and tags point releases from it, releasing from more than one
+at a time: 2.14.2 and 2.15.1 went out the same day. So upgrades within a
+major.minor are stable point upgrades per the OE-Core stable release
+policy (ref-manual, "Stable Point Release Upgrades"). There is no written
+policy document, so qualification rests on the branch structure and the
+release contents below.
 
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
- =C2=A0 =C2=A0 =C2=A00001:
- =C2=A0*** 0002:do_create_recipe_spdx(d)
- =C2=A0 =C2=A0 =C2=A00003:
-File: '/.../oe-core/meta/classes/create-spdx-3.0.bbclass', lineno: 193,=20
-function: do_create_recipe_spdx
- =C2=A0 =C2=A0 =C2=A00189:=C2=A0 =C2=A0 "
- =C2=A0 =C2=A0 =C2=A00190:
- =C2=A0 =C2=A0 =C2=A00191:python do_create_recipe_spdx() {
- =C2=A0 =C2=A0 =C2=A00192:=C2=A0 =C2=A0 import oe.spdx30_tasks
- =C2=A0*** 0193:=C2=A0 =C2=A0 oe.spdx30_tasks.create_recipe_spdx(d)
- =C2=A0 =C2=A0 =C2=A00194:}
- =C2=A0 =C2=A0 =C2=A00195:addtask do_create_recipe_spdx
- =C2=A0 =C2=A0 =C2=A00196:
- =C2=A0 =C2=A0 =C2=A00197:SSTATETASKS +=3D "do_create_recipe_spdx"
-File: '/.../oe-core/meta/lib/oe/spdx30_tasks.py', lineno: 675, function:=20
-create_recipe_spdx
- =C2=A0 =C2=A0 =C2=A00671:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 identifier=3Dcpe_id,
- =C2=A0 =C2=A0 =C2=A00672:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )
- =C2=A0 =C2=A0 =C2=A00673:=C2=A0 =C2=A0 =C2=A0 =C2=A0 )
- =C2=A0 =C2=A0 =C2=A00674:
- =C2=A0*** 0675:=C2=A0 =C2=A0 direct_deps =3D oe.spdx_common.collect_direct=
-_deps(d,=20
-"do_create_recipe_spdx")
- =C2=A0 =C2=A0 =C2=A00676:
- =C2=A0 =C2=A0 =C2=A00677:=C2=A0 =C2=A0 dep_objsets, dep_recipes =3D collec=
-t_dep_objsets(
- =C2=A0 =C2=A0 =C2=A00678:=C2=A0 =C2=A0 =C2=A0 =C2=A0 d, direct_deps, "stat=
-ic", "static-",=20
-oe.spdx30.software_Package
- =C2=A0 =C2=A0 =C2=A00679:=C2=A0 =C2=A0 )
-File: '/.../oe-core/meta/lib/oe/spdx_common.py', lineno: 127, function:=20
-collect_direct_deps
- =C2=A0 =C2=A0 =C2=A00123:=C2=A0 =C2=A0 for dep_name in this_dep.deps:
- =C2=A0 =C2=A0 =C2=A00124:=C2=A0 =C2=A0 =C2=A0 =C2=A0 dep_data =3D taskdepd=
-ata[dep_name]
- =C2=A0 =C2=A0 =C2=A00125:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if dep_data.taskname =
-=3D=3D dep_task and dep_data.pn !=3D pn:
- =C2=A0 =C2=A0 =C2=A00126:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deps.ad=
-d(
- =C2=A0*** 0127:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Dep=
-(dep_data.pn, dep_data.hashfn, dep_name in=20
-this_dep.taskhash_deps)
- =C2=A0 =C2=A0 =C2=A00128:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )
- =C2=A0 =C2=A0 =C2=A00129:
- =C2=A0 =C2=A0 =C2=A00130:=C2=A0 =C2=A0 return sorted(deps)
- =C2=A0 =C2=A0 =C2=A00131:
-Exception: TypeError: argument of type 'NoneType' is not iterable
+  https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-=
+point-release-upgrades
+  https://github.com/lttng/lttng-tools/blob/v2.15.1/ChangeLog
+  https://github.com/lttng/lttng-tools/tree/stable-2.15
 
-DEBUG: Python function do_create_recipe_spdx finished
+Upstream keeps a ChangeLog with a per-release entry list, and all 48
+entries for 2.15.1 (Jun 05 2026, against 2.15.0 in February) are fixes,
+tests, documentation or refactors. Seven address machine interface output
+alone; the rest cover a consumerd lockfile fd leak across fork+exec, a
+missing default kernel probe entry, an uninitialised read in uri_compare,
+a musl compatibility fix, popt error handling, test fixes, and one
+refactor preparing the CPU-mask escaping fix.
 
---=20
-Mike Looijmans
-System Expert
+Already tracked this way on the OE stable branches, counting only bumps
+since each branch forked: kirkstone took 2.13.4 -> 2.13.8 and 2.13.8 ->
+2.13.9, scarthgap 2.13.11 -> 2.13.13. wrynose has taken none and sits at
+2.14.1.
 
-TOPIC Embedded Products B.V.
-Materiaalweg 4, 5681 RJ Best
-The Netherlands
+AI-Generated: Kiro with Claude Opus 5
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+---
+ meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-T: +31 (0) 499 33 69 69
-E: mike.looijmans@topic.nl
-W: www.topic.nl
-
-
-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb b/meta/recipes=
+-kernel/lttng/lttng-tools_2.15.1.bb
+index 9a56d1711b..4623e114ba 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
+@@ -56,7 +56,7 @@ SRC_URI =3D "https://lttng.org/files/lttng-tools/lttng-to=
+ols-${PV}.tar.bz2 \
+=20
+ SRC_URI[sha256sum] =3D "8b6d4ba7ae2c036f7dafbb4e29717677411078f9a9d961b2dc=
+7c1ba16273e9e9"
+=20
+-inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
++inherit autotools ptest pkgconfig useradd python3-dir manpages systemd ups=
+tream-stable-release-point
+=20
+ CACHED_CONFIGUREVARS =3D "PGREP=3D/usr/bin/pgrep"
+=20
 
