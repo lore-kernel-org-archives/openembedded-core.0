@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB04EC55ABA
-	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 12:00:52 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14708.1785844844518546431
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55BBAC56201
+	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 12:00:53 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14574.1785844843951690659
  for <openembedded-core@lists.openembedded.org>;
  Tue, 04 Aug 2026 05:00:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=anxdZVEl;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20260804120040629ea7430b0002075b-8imacr@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260804120040629ea7430b0002075b
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=CD8d21oU;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202608041200398189e5b7ea00020741-5_mumx@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608041200398189e5b7ea00020741
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 04 Aug 2026 14:00:42 +0200
+        Tue, 04 Aug 2026 14:00:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=VlBbab+b47jjuu6VBG+Za41cQO3xmLB1NKGzvLZaJt8=;
- b=anxdZVEloRMavTlTN1rXoICLXws3ujCEBBhzCQxa2WtDxNbbTY5PR8d41EblfcK81Eob+Z
- FH1AabZNrs/UR9MbmfqrooUqXRGXWc9KlXq1HOEx2C1Z8C9y6bztjUiLVvp7B16sjnmoepou
- hsv6YNxpnd/KM39kfv0DsXM50jDzJ8q1UWOwzJtfYQ/x7LwbUsb1ErtwshtvJDZ4B+4ia33Z
- UyIZfJeA2RyFxfyvDtiLh0llV3QVEbNlYD80tUoxmz3OhSSHGVQ5VAaXDA/0nXCAKMl9lk2q
- OeEDGfOuuNBUh4dqfgytrbOY9Oiz0gD+P0hbZtH2TCoB6EoHeIUlYV+Q==;
+ bh=TUhh4S/xuQOOaG8108ECbDcAgmCZ9vMjvAZpHdb6q64=;
+ b=CD8d21oUkBhx83BNiiSVoLm+vegLyAEPtRhezIAeF1lxjpJvcZYAhzcejKSZN5e5e7CRTJ
+ hxEBTcIVKCvUO/4ZiySIg+ordi3tyl/UfwFNJ9t+hRnWQ2vzOqXV7CKBksNMK35gWuXLBmwq
+ yaZR/4rGGkUC+xbLv6+fxpoKHkPrSoBB0zgDj/VR7Huasqe8np4qnPgOKrBM810Dp0oZCcDZ
+ OJ38Ct/bYheGKlonL+Cia8voWvT7Vao7GDp3OZj10gn78s2fEmwTRhVwNpZA6w6v0xzZNtA9
+ 5Eu/j/F955/CXOF0qSpLgIsNoavBznBzcZsTMr3JNRuDNmG1GBaVGMKw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 14/14] oe-selftest: devtool ide-sdk: add test for ide=none LLDB/clang support
-Date: Tue,  4 Aug 2026 13:59:38 +0200
-Message-ID: <20260804120034.378787-15-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 11/14] devtool: ide-sdk: add LLDB support for ide=none (clang toolchain)
+Date: Tue,  4 Aug 2026 13:59:35 +0200
+Message-ID: <20260804120034.378787-12-adrian.freihofer@siemens.com>
 In-Reply-To: <20260804120034.378787-1-adrian.freihofer@siemens.com>
 References: <20260804120034.378787-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,240 +38,252 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 12:00:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242721
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 12:00:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242722
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add test_devtool_ide_sdk_none_cmake_clang to DevtoolIdeSdkTests to
-exercise the new LldbServerConfigNone code path in ide_none.py.
+Bring ide=none to feature parity with ide=code for clang recipes by
+adding LldbServerConfigNone and dispatching on the toolchain in
+IdeNone.setup_modified_recipe.
 
-The test uses the cmake-example-clang recipe (TOOLCHAIN = "clang") and
-runs devtool ide-sdk with --ide=none.  It verifies:
+Three files are generated per binary when toolchain == 'clang':
 
-- lldb_server_<port>_<binary>_multi script is generated
-- lldbinit/lldbinit_<port>_<binary> init file is generated
-- lldb_<port>_<binary> wrapper script is generated
-- No gdbserver_* script is generated for a clang recipe
-- The install_and_deploy script exists
-- The oe-scripts symlink inside the source tree is valid
-- lldb-server can be started on the target via the generated script
-- The pid file written by the start script references the live process
-- An lldb --batch session using the generated wrapper reaches main and
-  can evaluate CppExample::test_string at the breakpoint
-- lldb-server stops cleanly via the generated stop script
+  lldb_server_<port>_<binary>_<mode>
+    Shell script with start/stop logic (same pattern as the existing
+    gdbserver_* scripts).  Passes the lldb-server SSH command produced
+    by LldbServerConfig._target_start_cmd, which already includes the
+    /proc/net/tcp readiness poll for MULTI mode.
 
-A new helper _lldb_none_debugging_multi is added alongside the
-existing _gdb_cross_debugging_multi, following the same structure.
+  lldbinit/lldbinit_<port>_<binary>
+    Init file sourced by lldb via -s.  Sets up the remote platform
+    connection, source maps, debug-file-search-paths and
+    exec-search-paths, then creates the target with
+    "target create --remote-file <target_path> <host_debug_binary>".
+
+  lldb_<port>_<binary>
+    Wrapper script: cd <srctree> && lldb -s <lldbinit> "$@"
+
+Supporting changes:
+
+  LldbServerConfig (ide_plugins/__init__.py): add server_script_file /
+  server_script, which were left as NotImplementedError in the base
+  class.  Required for LldbServerConfigNone to write its start scripts
+  to the correct paths.
+
+  RecipeLldbNative (ide_sdk.py): rename _lldb -> lldb (plain attribute),
+  matching the RecipeGdbCross.gdb convention so that ide_none.py can
+  access the host lldb binary path without going through a property.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 192 ++++++++++++++++++++++++
- 1 file changed, 192 insertions(+)
+ scripts/lib/devtool/ide_plugins/__init__.py |   6 +
+ scripts/lib/devtool/ide_plugins/ide_none.py | 138 +++++++++++++++++++-
+ scripts/lib/devtool/ide_sdk.py              |   4 +-
+ 3 files changed, 143 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index e9b8f38449..7145755fed 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -4378,6 +4378,198 @@ class DevtoolIdeSdkTests(DevtoolBase):
-                 lambda magic_string: self._lldb_server_debugging_once(
-                     tempdir, qemu, magic_string))
+diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
+index 25575f18f4..d50ba7bc65 100644
+--- a/scripts/lib/devtool/ide_plugins/__init__.py
++++ b/scripts/lib/devtool/ide_plugins/__init__.py
+@@ -250,6 +250,12 @@ class LldbServerConfig(DebuggerCrossConfig):
+                % {'pf': pid_file, 'td': tmp_dir})
+         return "\"/bin/sh -c '" + cmd + "'\""
  
-+    def _lldb_none_debugging_multi(self, tempdir, qemu, recipe_name, example_exe, magic_string):
-+        """Verify lldb-server scripts generated by ide=none work end-to-end.
++    def server_script_file(self, mode):
++        return 'lldb_server_' + self.id_pretty_mode(mode)
 +
-+        Mirrors _gdb_cross_debugging_multi but for the LLDB/clang path:
-+        - uses the generated lldb_server_* start/stop script
-+        - uses the generated lldb_* wrapper script with lldb --batch
++    def server_script(self, mode):
++        return os.path.join(self.script_dir, self.server_script_file(mode))
 +
-+        Covers the executable, the library and a header-only inline function
-+        (see _lldb_debug_cpp_example_batch_commands), since a single call-site
-+        breakpoint would not exercise (and thus not catch a regression in) the
-+        lldbinit source map / debug-file-search-paths setup for the library's
-+        own debug info specifically.
-+        """
-+        sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-+        scripts_dir = self._workspace_scripts_dir(recipe_name)
-+        binary_pretty = 'usr-bin-' + example_exe
-+        lldb_server_script = os.path.join(
-+            scripts_dir, 'lldb_server_1234_%s_multi' % binary_pretty)
-+        lldb_script = os.path.join(scripts_dir, 'lldb_1234_%s' % binary_pretty)
-+
-+        self.assertExists(lldb_server_script)
-+        self.assertExists(lldb_script)
-+
-+        # Start lldb-server (script exits once the port is ready)
-+        r = runCmd(lldb_server_script, output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+
-+        # Verify lldb-server is running on the target
-+        r = runCmd('ssh %s root@%s ps' % (sshargs, qemu.ip),
-+                   output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+        self.assertIn('lldb-server', r.output)
-+
-+        # Verify the pid file points at the running lldb-server process
-+        pid_file = '/tmp/lldb_server_1234_%s_multi/lldb_server.pid' % binary_pretty
-+        test_cmd = "'cat /proc/$(cat %s)/cmdline'" % pid_file
-+        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd),
-+                   output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+        self.assertIn('lldb-server', r.output)
-+
-+        # Run an lldb batch session covering the executable, library and
-+        # header breakpoints, then continue to completion
-+        lldb_batch_args = self._lldb_debug_cpp_example_batch_commands(tempdir)
-+        r = runCmd([lldb_script, '--batch'] + lldb_batch_args,
-+                   output_log=self._cmd_logger)
-+        self.logger.debug("lldb batch output: %s", r.output)
-+        self.assertEqual(r.status, 0)
-+        self._lldb_debug_cpp_example_check(r.output, magic_string)
-+
-+        # Stop lldb-server
-+        r = runCmd(lldb_server_script + ' stop', output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+
-+        # Verify lldb-server is no longer running
-+        r = runCmd('ssh %s root@%s ps' % (sshargs, qemu.ip),
-+                   output_log=self._cmd_logger)
-+        self.assertEqual(r.status, 0)
-+        self.assertNotIn('lldb-server', r.output)
-+
-+    @OETestTag("runqemu")
-+    def test_devtool_ide_sdk_none_cmake_clang(self):
-+        """Verify ide=none generates correct LLDB scripts for a clang cmake recipe.
-+
-+        Uses cmake-example-clang (TOOLCHAIN = "clang") which is built with the
-+        clang toolchain.  devtool ide-sdk with --ide=none should produce:
-+          - lldb_server_<port>_<binary>_multi  (start/stop script)
-+          - lldbinit/lldbinit_<port>_<binary>  (platform connect + source maps)
-+          - lldb_<port>_<binary>               (lldb wrapper)
-+
-+        The test verifies that lldb-server can be started via the generated
-+        script, and that a basic lldb --batch debugging session reaches main.
-+        """
-+        recipe_name = 'cmake-example-clang'
-+        example_exe = 'cmake-example-clang'
-+        build_file = 'CMakeLists.txt'
-+        testimage = 'oe-selftest-image'
-+
-+        self._check_workspace()
-+        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._check_runqemu_prerequisites()
-+        bitbake(testimage)
-+        with runqemu(testimage, runqemuparams='nographic') as qemu:
-+            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-+                recipe_name, testimage, qemu.ip)
-+            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-+
-+            # Verify cmake preset still works (build system unchanged)
-+            compile_cmd = self._verify_cmake_preset(tempdir)
-+
-+            # Verify install && deploy script exists
-+            # (_verify_install_script_code opens .vscode/tasks.json which is not
-+            # generated for ide=none; check the script path directly instead)
-+            recipe_id, _ = self._get_recipe_ids(recipe_name)
-+            scripts_dir = self._workspace_scripts_dir(recipe_name)
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'install_and_deploy_' + recipe_id))
-+
-+            # Verify LLDB scripts were generated (not GDB scripts)
-+            binary_pretty = 'usr-bin-' + example_exe
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_server_1234_%s_multi' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldbinit', 'lldbinit_1234_%s' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_1234_%s' % binary_pretty))
-+            # No GDB scripts should have been generated for a clang recipe
-+            self.assertFalse(os.path.exists(os.path.join(
-+                scripts_dir, 'gdbserver_1234_%s_multi' % binary_pretty)),
-+                'gdbserver script should not be generated for clang recipe')
-+
-+            # Verify the oe-scripts sym-link is valid
-+            self.assertEqual(self._workspace_scripts_dir(recipe_name),
-+                             self._sources_scripts_dir(tempdir))
-+
-+            # Verify end-to-end lldb debugging, before and after a code
-+            # change/recompile/redeploy cycle (see _lldb_cross_debugging_multi)
-+            self._lldb_cross_debugging_multi(
-+                tempdir, recipe_name, compile_cmd,
-+                lambda magic_string: self._lldb_none_debugging_multi(
-+                    tempdir, qemu, recipe_name, example_exe, magic_string))
-+
-+    @OETestTag("runqemu")
-+    def test_devtool_ide_sdk_none_meson_clang(self):
-+        """Verify ide=none generates correct LLDB scripts for a clang meson recipe.
-+
-+        This is the meson/ninja counterpart of test_devtool_ide_sdk_none_cmake_clang.
-+        It is required in addition to the cmake/clang test because meson/ninja
-+        (unlike cmake here) invoke the compiler with source paths relative to
-+        the build directory, which is what previously caused source-level
-+        breakpoints to be left unresolved (pending) for devtool workspaces due
-+        to -fdebug-prefix-map/-ffile-prefix-map underflow; see
-+        _lldb_none_debugging_multi.
-+
-+        Uses meson-example-clang (TOOLCHAIN = "clang").
-+        """
-+        recipe_name = 'meson-example-clang'
-+        example_exe = 'mesonex-clang'
-+        build_file = 'meson.build'
-+        testimage = 'oe-selftest-image'
-+
-+        self._check_workspace()
-+        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._check_runqemu_prerequisites()
-+
-+        # Build image with debug settings (lldb-server for clang) before starting QEMU
-+        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
-+        runCmd('devtool ide-sdk %s %s -c --ide=none' % (recipe_name, testimage),
-+               output_log=self._cmd_logger)
-+
-+        with runqemu(testimage, runqemuparams='nographic') as qemu:
-+            # Re-run with actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
-+                recipe_name, testimage, qemu.ip)
-+            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-+
-+            # Verify the meson build system still works (unchanged by clang/lldb support)
-+            compile_cmd = self._verify_meson_build(tempdir, recipe_name)
-+
-+            # Verify install && deploy script exists
-+            # (_verify_install_script_code opens .vscode/tasks.json which is not
-+            # generated for ide=none; check the script path directly instead)
-+            recipe_id, _ = self._get_recipe_ids(recipe_name)
-+            scripts_dir = self._workspace_scripts_dir(recipe_name)
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'install_and_deploy_' + recipe_id))
-+
-+            # Verify LLDB scripts were generated (not GDB scripts)
-+            binary_pretty = 'usr-bin-' + example_exe
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_server_1234_%s_multi' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldbinit', 'lldbinit_1234_%s' % binary_pretty))
-+            self.assertExists(os.path.join(
-+                scripts_dir, 'lldb_1234_%s' % binary_pretty))
-+            # No GDB scripts should have been generated for a clang recipe
-+            self.assertFalse(os.path.exists(os.path.join(
-+                scripts_dir, 'gdbserver_1234_%s_multi' % binary_pretty)),
-+                'gdbserver script should not be generated for clang recipe')
-+
-+            # Verify the oe-scripts sym-link is valid
-+            self.assertEqual(self._workspace_scripts_dir(recipe_name),
-+                             self._sources_scripts_dir(tempdir))
-+
-+            # Verify end-to-end lldb debugging, before and after a code
-+            # change/recompile/redeploy cycle (see _lldb_cross_debugging_multi)
-+            self._lldb_cross_debugging_multi(
-+                tempdir, recipe_name, compile_cmd,
-+                lambda magic_string: self._lldb_none_debugging_multi(
-+                    tempdir, qemu, recipe_name, example_exe, magic_string))
-+
-     def test_devtool_ide_sdk_plugins(self):
-         """Test that devtool ide-sdk can use plugins from other layers."""
+     def server_modes(self):
+         """ATTACH mode is not applicable for lldb-server platform."""
+         return [self.default_mode]
+diff --git a/scripts/lib/devtool/ide_plugins/ide_none.py b/scripts/lib/devtool/ide_plugins/ide_none.py
+index f390331776..a8ddc3f39f 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_none.py
++++ b/scripts/lib/devtool/ide_plugins/ide_none.py
+@@ -9,7 +9,7 @@ import os
+ import logging
+ import stat
+ from bb.utils import mkdirhier
+-from devtool.ide_plugins import IdeBase, GdbCrossConfig, DebuggerServerModes
++from devtool.ide_plugins import IdeBase, GdbCrossConfig, LldbServerConfig, DebuggerServerModes
  
+ logger = logging.getLogger('devtool')
+ 
+@@ -145,6 +145,134 @@ class GdbCrossConfigNone(GdbCrossConfig):
+         logger.info("Created: %s" % script_file)
+ 
+ 
++class LldbServerConfigNone(LldbServerConfig):
++    """Generate lldb helper scripts for ide=none when using the clang toolchain."""
++
++    def __init__(self, image_recipe, modified_recipe, binary,
++                 default_mode=DebuggerServerModes.MULTI):
++        super().__init__(image_recipe, modified_recipe, binary, default_mode)
++
++    @property
++    def lldbinit_dir(self):
++        return os.path.join(self.script_dir, 'lldbinit')
++
++    @property
++    def lldbinit(self):
++        return os.path.join(self.lldbinit_dir, 'lldbinit_' + self.id_pretty)
++
++    @property
++    def lldb_script(self):
++        return os.path.join(self.script_dir, 'lldb_' + self.id_pretty)
++
++    def _target_lldb_server_stop_cmd(self, server_mode):
++        """SSH command to stop lldb-server on the target."""
++        if server_mode == DebuggerServerModes.MULTI:
++            pid_file = self._lldb_server_pid_file(server_mode)
++            tmp_dir = self._lldb_server_tmp_dir(server_mode)
++            cmd = ("test -f %(pf)s && kill \\$(cat %(pf)s) 2>/dev/null; rm -rf %(td)s"
++                   % {'pf': pid_file, 'td': tmp_dir})
++        else:
++            cmd = "killall lldb-server 2>/dev/null || true"
++        return "\"/bin/sh -c '" + cmd + "'\""
++
++    def _gen_lldb_server_start_script(self, server_mode=None):
++        """Generate a shell script starting lldb-server on the remote device via ssh."""
++        if server_mode is None:
++            server_mode = self.default_mode
++        server_cmd_start = self._target_start_cmd(server_mode)
++        server_cmd_stop = self._target_lldb_server_stop_cmd(server_mode)
++        remote_ssh = "%s %s" % (self.debugger_cross.target_device.ssh_sshexec,
++                                " ".join(self._target_ssh_args()))
++        script_lines = ['#!/bin/sh']
++        script_lines.append('if [ "$1" = "stop" ]; then')
++        script_lines.append('  shift')
++        script_lines.append("  %s %s" % (remote_ssh, server_cmd_stop))
++        script_lines.append('else')
++        script_lines.append("  %s %s" % (remote_ssh, server_cmd_start))
++        script_lines.append('fi')
++        LldbServerConfigNone.write_file(self.server_script(server_mode), script_lines, True)
++
++    def _gen_lldbinit_config(self, server_mode=None):
++        """Generate an lldbinit file for connecting to lldb-server on the target."""
++        if server_mode is None:
++            server_mode = self.default_mode
++        lines = ['# This file is generated by devtool ide-sdk']
++        if server_mode == DebuggerServerModes.MULTI:
++            lines.append('# On the remote target:')
++            lines.append('#   lldb-server platform --server --listen *:%d' % self.debug_server_port)
++        else:
++            lines.append('# On the remote target:')
++            lines.append('#   lldb-server platform --one-shot --server --listen *:%d' % self.debug_server_port)
++        lines.append('# On the build machine:')
++        lines.append('#   cd ' + self.modified_recipe.real_srctree)
++        lines.append('#   ' + self.debugger_cross.lldb + ' -s ' + self.lldbinit)
++        lines.append('platform select remote-linux')
++        lines.append('platform connect connect://%s:%d' % (
++            self.debugger_cross.host, self.debug_server_port))
++        lines.append('settings set target.process.thread.step-avoid-regexp ""')
++
++        if self.image_recipe.rootfs_dbg:
++            src_file_map = dict(self.modified_recipe.reverse_debug_prefix_map)
++            if '/usr/src/debug' in src_file_map:
++                logger.error(
++                    'Key "/usr/src/debug" already exists in source map. '
++                    'Something with DEBUG_PREFIX_MAP looks unexpected and finding '
++                    'sources in the rootfs-dbg will not work as expected.')
++            else:
++                src_file_map['/usr/src/debug'] = os.path.join(
++                    self.image_recipe.rootfs_dbg, 'usr', 'src', 'debug')
++            if src_file_map:
++                # Pass all pairs as a single settings set call
++                map_args = []
++                for target_path, host_path in src_file_map.items():
++                    map_args += ['"' + target_path + '"', '"' + host_path + '"']
++                lines.append('settings set target.source-map %s' % ' '.join(map_args))
++
++            debug_search_paths = ' '.join(
++                self.modified_recipe.solib_search_path(self.image_recipe))
++            lines.append('settings set target.debug-file-search-paths %s' % debug_search_paths)
++
++            exec_paths = list(dict.fromkeys([
++                os.path.join(self.modified_recipe.d, self.modified_recipe.libdir.lstrip('/')),
++                os.path.join(self.modified_recipe.d, self.modified_recipe.base_libdir.lstrip('/')),
++                os.path.join(self.modified_recipe.d, self.modified_recipe.bindir.lstrip('/')),
++            ]))
++            lines.append('settings set target.exec-search-paths %s' % ' '.join(exec_paths))
++        else:
++            logger.warning(
++                'Cannot setup debug symbols configuration for LLDB. '
++                'IMAGE_GEN_DEBUGFS is not enabled.')
++
++        lines.append('target create --remote-file %s %s' % (
++            self.binary.binary_path, self.binary.binary_host_path))
++
++        LldbServerConfigNone.write_file(self.lldbinit, lines)
++
++    def _gen_lldb_start_script(self):
++        """Generate a script starting lldb with the lldbinit configuration."""
++        cmd_lines = ['#!/bin/sh']
++        cmd_lines.append('cd ' + self.modified_recipe.real_srctree)
++        cmd_lines.append(self.debugger_cross.lldb + ' -s ' + self.lldbinit + ' "$@"')
++        LldbServerConfigNone.write_file(self.lldb_script, cmd_lines, True)
++
++    def initialize(self):
++        self._gen_lldb_server_start_script()
++        self._gen_lldbinit_config()
++        self._gen_lldb_start_script()
++
++    @staticmethod
++    def write_file(script_file, cmd_lines, executable=False):
++        script_dir = os.path.dirname(script_file)
++        mkdirhier(script_dir)
++        with open(script_file, 'w') as script_f:
++            script_f.write(os.linesep.join(cmd_lines))
++            script_f.write(os.linesep)
++        if executable:
++            st = os.stat(script_file)
++            os.chmod(script_file, st.st_mode | stat.S_IEXEC)
++        logger.info("Created: %s" % script_file)
++
++
+ class IdeNone(IdeBase):
+     """Generate some generic helpers for other IDEs
+ 
+@@ -177,8 +305,12 @@ class IdeNone(IdeBase):
+         script_path = modified_recipe.gen_install_deploy_script(args)
+         logger.info("Created: %s" % script_path)
+ 
+-        self.initialize_cross_debug_configs(
+-            image_recipe, modified_recipe, GdbCrossConfigNone)
++        if modified_recipe.toolchain == 'clang':
++            self.initialize_cross_debug_configs(
++                image_recipe, modified_recipe, LldbServerConfigNone)
++        else:
++            self.initialize_cross_debug_configs(
++                image_recipe, modified_recipe, GdbCrossConfigNone)
+ 
+         IdeBase.gen_oe_scripts_sym_link(modified_recipe)
+ 
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index b56a0925cb..42b6e381c5 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -151,7 +151,7 @@ class RecipeLldbNative(RecipeNative):
+     def __init__(self, args, target_device):
+         super().__init__('lldb-native')
+         self.target_device = target_device
+-        self._lldb = None
++        self.lldb = None
+         self._lldb_server_path = None
+ 
+     def __find_lldb_server(self, config, tinfoil):
+@@ -164,7 +164,7 @@ class RecipeLldbNative(RecipeNative):
+ 
+     def initialize(self, config, workspace, tinfoil):
+         super()._initialize(config, workspace, tinfoil)
+-        self._lldb = os.path.join(self.staging_bindir_native, 'lldb')
++        self.lldb = os.path.join(self.staging_bindir_native, 'lldb')
+         self._lldb_server_path = self.__find_lldb_server(config, tinfoil)
+ 
+     @property
 -- 
 2.55.0
 
