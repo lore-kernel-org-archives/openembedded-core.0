@@ -2,39 +2,39 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D96C55838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D36C55AB9
 	for <webhook@archiver.kernel.org>; Tue,  4 Aug 2026 04:08:44 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9548.1785816521529393840
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9709.1785816518219663203
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2026 21:08:41 -0700
+ Mon, 03 Aug 2026 21:08:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=BWhwOTl+;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hN0v2V7C;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2676761eb7=sumanth.gavini@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6743Vgea2876830
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 Aug 2026 21:08:41 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6741aV5C2679265
+	for <openembedded-core@lists.openembedded.org>; Mon, 3 Aug 2026 21:08:38 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=8kr0g5DQ9X34LBibsh1mZHpiLeMj5sqZfbLU0sFNyRQ=; b=
-	BWhwOTl+mK4saBgTymAy8u+960jgwcF+XDiTbYLMg5MYn/cbW0WDwNjq4d09vivp
-	K5JhHmsopNXM/CGoFp0k29+7tmpU6Sg5AhqpvtaYa/HONGxerWsaFdKjcKbXUwRi
-	5QekjnQgPQmoQ/2ILj88Nnq12t4rudRlOD2SEMR16gmtQMArUsMIs+2At5jABNWl
-	RELJk7fnsmv7oIQWL54YhEPk9uXdoZUSxtgh+YHnPuJQ6ioy1vq1cYk+7ugoyPj7
-	R1u9h8qNym7fnX+JE8mNT1umA1hi6cv/NIVXZoAdJKDXQAJqcYuKb/7D77W4cA5S
-	4dh3HOVZHwunEWdAzbD5OQ==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011063.outbound.protection.outlook.com [52.101.57.63])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fsgah3aem-1
+	PPS06212021; bh=/ud+6qTwHGthzRQFY/Zq22ZvMOftx95yhtndj1FM5ws=; b=
+	hN0v2V7Cp7++xEn+Q33YlcAnuDO6ol+fo8o9oA+rCMlOTRAWRtKT/VfXIBoJn4N6
+	fCwHvPP6oJYE8vDvnxt8bYSv0rn9A2VDZzI94AXw0W71h1F/i2E7acJmzIJOAYxA
+	WR4nlotnLbiJAW7JKezYmnQotA4rDBRVY+f5jOerLZZFQo4hpUe+bANGAFZruK+Y
+	PrDsCQe8grg+ttfZK6e0awb6wg0rgnxS+fL6+sidpJ4R6J0Pu0myjCOp1irT8LIf
+	qO2TZOMSHwfDZx4KbLnZ9iVEukc6ZeRn7fIsBcpdiOcWqhXQusHE45msRDJ19Wa2
+	tfLu5EUcDQCLRZxvUQdelA==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011064.outbound.protection.outlook.com [52.101.57.64])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fsgah3ae4-4
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 03 Aug 2026 21:08:40 -0700 (PDT)
+	Mon, 03 Aug 2026 21:08:37 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qCJ6gADRYaNdKG2T87CfQ4D3SMyxMo2sDop5kunqCm5/DCYdsPB9HwDbZC4ANlF/6v3RaN91rs9JCUFJPuxVxGJzkuXg8TdFxIee5eSY4itafJb+FXss4WUy37lC5qaJ+NZEBC9d7GGVtwpyqc6YQHtocB9moj9YElB6CtWc0k93a2qVcFtYk7BNG14D1jJkZSQiZSt7Myw3tiGPlSN1U72QWpj0eqIx+Z1njThYIoA0DzaxFQWHs/UUvcN9YSAi3AJkYRLxO/9SE/YNu7G6bsCWJIMryaiuDNXAyk3BqSRESAcEBqyW4WWI5pPkcSvG/L8peg4Y0+LRgJMH58oobQ==
+ b=eulMQURmt9cLzfwAKf27VbBC7JFYQn2PmTM5LzoJ8S2FZfkM53JBnMZgN8NGjHuxGDYQ4OIv47WZfyXN0D41U6XUxERYqviNt6BwyQHSOx82FjqNcAN8cxgkwSxzBWxEpJ7UhSoGCsvb34dB1EnjZ9EsWhMRcvPG6qkmO6pcg3If0cunj+uiSHFRGziSQYp0QDlGFkyjpyWb9TIwZpViolLXc2ByfcPU7wNkTZXU/pJn+J1Tw5bar6w4mA939J7rknS5A42gGh4Ddemuc0vuredk1TqsQpQrYGKEdMRne772D2oeh8801FRwGIV9+E1c3p6iyIWsFXtFlZ18qpkk6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8kr0g5DQ9X34LBibsh1mZHpiLeMj5sqZfbLU0sFNyRQ=;
- b=uaaS5Nl4WiZbv4oe4FP7XyL01+D1su9S2X7IYZhOTeNWEwxsbDtvBVYuCpjoWPR7lH7D8y8mLke/jQ5EaWslI04xLBHk0NVL2bgmfQVk79UBWoFiL4CmbvSeAFUwMIJTq/cyoQoizuyZXTCNbLInS9ct+g/HtyZB2z49OPVlxS+xh9ski7FBZALPdVk5ojorFmeGMp1qGzAdDiSu4drK3lDK7Qw3bft3494RQtGubOSyoI3j+BUL42D8suBsPOMggGi+WvldHh/lYmdWCTSvhE4WDowaej8puodT47RqgtZLo/sKJ0wtW4d2/kST709HG+p0X/lDSftGPHr+r+Umgg==
+ bh=/ud+6qTwHGthzRQFY/Zq22ZvMOftx95yhtndj1FM5ws=;
+ b=sTl0ZU7WYmvYl4HnmRmPQ4cI9UVrvJMdUhcsF2cLB8BgvdcNmdHPRTWFyLD08nTM023FZpXiN74okSd0Jp/kq8UE9bPLz727mGDtPf3tYu3XfJ/NkNM40sVSnWcGevNM/0CpSXsFlscCPuG3ZW3mo8h+BXud/GsjmeX0sRWPGZaTfWssY5ZsW+U7lJlTirqXZJ+6/H/W/l35v8y/0TMek4UzhD2E0x55JRXpqzZVoZAgr92lzOu+e/C6AmeEcJyftFowhd3aXFFhRqhVQTXX7+8FXlwKaZyI0x9kg70gqGwK4RNU8SC8ygft7cVdMuLcGHDdhRpRsZKQr/j112gUsg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
  by SJ1PR11MB6130.namprd11.prod.outlook.com (2603:10b6:a03:45f::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Tue, 4 Aug
- 2026 04:08:38 +0000
+ 2026 04:08:34 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0270.016; Tue, 4 Aug 2026
- 04:08:38 +0000
+ 04:08:34 +0000
 From: Sumanth Gavini <sumanth.gavini@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
         mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
         randy.macleod@windriver.com
-Subject: [PATCH v12 8/8] rpm: filter /usr/bin/pkg-config from RPM auto-generated Requires
-Date: Mon,  3 Aug 2026 21:08:15 -0700
-Message-ID: <20260804040815.1499699-9-sumanth.gavini@windriver.com>
+Subject: [PATCH v12 5/8] target-sdk-provides-dummy: Add pkg-config to DUMMYPROVIDES
+Date: Mon,  3 Aug 2026 21:08:12 -0700
+Message-ID: <20260804040815.1499699-6-sumanth.gavini@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260804040815.1499699-1-sumanth.gavini@windriver.com>
 References: <20260804040815.1499699-1-sumanth.gavini@windriver.com>
@@ -66,80 +66,80 @@ X-ClientProxiedBy: BY1P220CA0015.NAMP220.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|SJ1PR11MB6130:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53d15b8c-0961-4569-faf4-08def1de0f30
+X-MS-Office365-Filtering-Correlation-Id: 504dbc2f-19c8-4a75-81ed-08def1de0d18
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|366016|23010399003|376014|1800799024|38350700014|6133799003|56012099006|5023799004|11063799006|10067099003|3023799007|22082099003|18002099003;
+	BCL:0;ARA:13230040|52116014|366016|23010399003|376014|1800799024|38350700014|56012099006|11063799006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	bU/TftERmEDNE4xCfCgmYxLwAk5JSEAFEqh71Z2hQpLzDtKEPVWz7T+ApKBJVjtDnuLZii/ElDmXN1UKwsgC00IIgIO1KKivAjiCsWdEycyKUgVmW7I0d42DsI6VnlSXMMoQpVZP/k/tJuZWOZ+VguCuG2R7sBL/bldChZrVzwThE+wKKxMgl+2J9qPGCTlvszOd4BgtPlwx++prqG1XXm7G9eLZ/xj6uCqaMNOQQ53obeVwut/Si5dJ1Yer/55ezbyyr1/wDki4S4PoHutIyKdZDWb0DwaZX+L/vMbU29IkpoZoBVoNz4AaZnHhLr8v6Z9kUUyfQdrvMkW4cxtIj4QenXvJyThIL3y+ZxNx1b5BZcIlPFNOhJaqVuGOW8lLktQNssEZwTCmvE5Z1Tdy0aoazaVHrCF4KHCYoYK/Cvr8zFDcKFFSTprgjzLvBCAZzNOccILJ12hhEz14+V/UR43knyfN2w7/SC24vPp9Oa/vz4HDOZyZ8xil5O9xfxs36+lnGUBOAykxL+/WCGLxNCapfvc+mVieaaCwnc2PC/NXFZ7C4e5SHpybjXhzDWV/bOyr8n8az3/cXnVbZ+ceyThhjZekJpzNwStgYi+wI7GdlzUiXpfGL8OyaPQqrannw/dq3TFkMbZVkBx5ULzOqgNcodCw093Zi2K3ewmGNpktVkgPVroHkhd0IdBEQuvChPbwOwJfDojh0c9M9scKe8zCV0PWfa2vc9/9Ly0tI9k=
+	EktvLRRodjxz596vEwcT3SCHeESujtxI+RNS07rf/+LMwn0IjodaFQSkqMMN/lPVuMozjNK8hprJJjfDHbcyaDaPs1eJ+Dg3gbSsuUrCE8w5ZZBO2YVaVZtoVM6lYWR8QVlpb8m5530glKyH7eBEJtJGAT9MFZcucSp9cMxWuSYbYDhqCBPtQC0/iWk8xG5VY2BA/wesyDL4/vunzH0dbFr6jFdnt5zlnjVwB21nvsTx9iZ847qrR6VvuEquC2Dbm/itPyI/DjJhuRkEgZLQjWQu1klGuTcUw+Pm9jBeQ/OQ05MZn5OcNK6NcfHTAMj+9kwdgLo94jxLDLwHRlZWvOAS7n5BixUhOrvuWOICj6O2ZbD/1PL/c6UeWNwiziIwhkyUGugTU4Fst5PUQ4iIry9r4EanlklDHDF5sKBv/eogpSRqQgZZktzatC4GgSqGlfS8T6ioicuFh2jrUQ5AIA8f9ciKJ2dHoEv7/CPGMmEWZXBXaJCXgsYPfL5CVF3bm8QXPt4gBkkWwR0Jv3Wpjg6csIlgu2S/u6PoJdxj3UtH3aG0kQNNFQrOWUWzc6sFvFhhi40slzc0piDTYiQ0C8GLBfkCkq+ZNpHzUKiQlMjgpJK0n1yzUQ7zzhc1xmKCk+Bcyue/3YasmHT54Ih8H8aJIFIONkxW9G+zKcFnnv7+Tg1bp2EGP2SUJAF/pp0VQjlKzVCFtgGRBP8TPVDg1j1WS0BiJg480B/DmPcCXTc=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(23010399003)(376014)(1800799024)(38350700014)(6133799003)(56012099006)(5023799004)(11063799006)(10067099003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(23010399003)(376014)(1800799024)(38350700014)(56012099006)(11063799006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?h+PUCKX/adGPkmrEz0yIh2aW6PJ16tB04ApqZZoKJRcz1Ks3KCHaj3p0KLvo?=
- =?us-ascii?Q?5OnLyNRcA2EcS5CY7V8NeMGpfiqSoz1P/7/m+aS2p/4AR1Dm9R/3k/6Xl97Y?=
- =?us-ascii?Q?L6bXAa4gcle/Gr/Cd1qLVWWFsQRCNiE0Xxg8IJLf8e/gGBh9dXpGArdump9J?=
- =?us-ascii?Q?RzAznK7nsVoNsR/XY69m8RI+WWXDpNkPIHxGFmm7Yqway/XVHR6uAs0ANAvi?=
- =?us-ascii?Q?DHvrhJH0xZ7wR3WWPvbNzLzap4xvGdYyxqQkjwVtHDKsTuGeJuM3karHsxvb?=
- =?us-ascii?Q?JBCPso6s8579eJNK1h4bJ4XOKeKVUFGbMPAGqsbS40qwY5nirUqL6CaxxsDA?=
- =?us-ascii?Q?Z8ubfR20TT4E2NRcc0myiu5Tk8bi1mem9kgIaz3Og9M/0dgtV7TVlGK06W5f?=
- =?us-ascii?Q?hhGWCdU/K0HRA5O4+Hx/Let1TCh0ch61+lTctVVCwLlzJ46kPZmavo4xyhBb?=
- =?us-ascii?Q?CECUlWttp0cnAKWYVBB0N1PYkWLsGTigZr5bZLki5YPx6CBpqz46rXSe2syC?=
- =?us-ascii?Q?NtoII1Yb+UPx3/JFf8a+/LVkJ4Qd1TWcI4KFbvrS6WAcd3DVaTbiKQS30fSQ?=
- =?us-ascii?Q?v4t98yPJtDyZru0F73r7lWC5K7GJKeplSDqF8qw0F0Kb+QOmscDMD+06sn23?=
- =?us-ascii?Q?OfRjCBdLIGiU9R2QKq/Bm3ZK5AGtVBpKvNp9IqK7PoWm1bXjvPWcyiJkS5pq?=
- =?us-ascii?Q?aRlfO1XO00PIRSIxH7cSv5WtXnNRwo9cw32IKGfzSpA1B5w21sZOgzAq+irD?=
- =?us-ascii?Q?n/ED3cE8uWRErc9jJAVd65OMvlhI9CHnjZIINr3HWozevtdRFvumf1Zlvnxq?=
- =?us-ascii?Q?XeLzrP+GWP9EJhemp0fXTHu58jloRDnrsNwgWAIJMlk7XLdvck9REeGD8647?=
- =?us-ascii?Q?W+Kt1ClsUsMp0Rp2jbosyLVQf9mSg1us83UbBlFJPYb3KiB/7ummCM1IpJzm?=
- =?us-ascii?Q?r/Wqf3ofJYeh3HUQlYT0OFwvsky/eNXmvaxWMx2DWdjcXuEBWXZ7rSl/s/jA?=
- =?us-ascii?Q?Jn5RUUkeDOOWzVsva8HMEDtt1bCiYw+o89at2kG0jjoRDt4BzJcx9nua/vrG?=
- =?us-ascii?Q?cwSqYBgLp11DFaVgpmj87Rd//anctQqGOWpHqQtVBpOsDToPFJlR8VSIwSej?=
- =?us-ascii?Q?oUQ1pKayJjyvmKwSsdkUMwTvLLQLA6pH0r4MN8/h1bmAmOfj4ws2BukDo4wo?=
- =?us-ascii?Q?ITTXLIBzb+N8LC5BwiDk3nza5qVQZQwu5jx6QmRRLW8/3q9LouK8onGI9rw5?=
- =?us-ascii?Q?YhHDur5q61N2abGDAz2ofiigzA7dgePaXXnPLWi2DI32ps+AsmtDSA/fYPX9?=
- =?us-ascii?Q?0HVHbW7dBvdyJBTIy+pXDr8tGHoG8qNyWa6kedMhcomnx6AmRC9warL8+h5t?=
- =?us-ascii?Q?2PsmMuVleuUD+N/tpbcOha8hOdiu4vKb8UoWeBPLWvGJ0172QyRwDjHmhFZX?=
- =?us-ascii?Q?u92+RZKPG/kJABLgECYFYBNNeaG3V4FI598qE9u7vRilsbI4qrgH49LEq+OI?=
- =?us-ascii?Q?PjnrhB0YUhkvhrN2vikfCmrw9voDXMvJHdUOMCyrEuxsBI4fGqle9Z2e6+g0?=
- =?us-ascii?Q?D15yIpdkvJi9l3fakK1sLJGlGwQeDkYg3HOVHLOTVygwo5Lt4hxjvPxHpUcV?=
- =?us-ascii?Q?Lr6qhK0OaB4NNk8pM5Toze28nZeNe6XLO4OcxQ/Buy/7oCpoy0yGaDXxa/CF?=
- =?us-ascii?Q?g4Xbu7IO3rzgtL5K4ZKK48A2P6anttzZmyYqzLjjSIwLtBVQL+bFq5VpoHnC?=
- =?us-ascii?Q?SGQX8VaJcSjRTl+afYN8Kg0d4lLuLOs=3D?=
+	=?us-ascii?Q?OucbhkYkYHC5M9ux1uIJvqYZyysT65poSD11Hfa6Jfy6VaBE8xZW5HGL4p2Y?=
+ =?us-ascii?Q?Ma9P++SRHIk2iv+xSPS6DAUHkZ1BhelrVfs8hzlcscJ0DATH2tDNFluxzLjn?=
+ =?us-ascii?Q?DQFWlfzdp7tftjtTuW5U07Yf9t5cUd4aOesk9ozabEOc0M2/oYons+Byd07f?=
+ =?us-ascii?Q?8repwF6cUOKPM2rw4r30gUriTLMEW47cF8NK+G/uYSkXDfoRJZrVZT1WdJAG?=
+ =?us-ascii?Q?5k/W4TtuLf1JuYZfttZqe3HqBtsP6RHrvlT8bLKmwi0HloEvSw9kegNz+rNM?=
+ =?us-ascii?Q?0Kl8rh8y/ZpoV6JrJGaL8dVolTgmcIth5EDqC60odis7SVW7vd6LtZmVYbCW?=
+ =?us-ascii?Q?RpD/3dkIO9oEh9SwOGd7wFi078w7URpiYpzq6Vi7P7ujf6F8t1juK7nUl3GX?=
+ =?us-ascii?Q?Qlwh9zrPCh8ME28LaZh1lwD+V/gROEC2ziJYIXlmsCIrGLHJS6pl4Mkg7gAu?=
+ =?us-ascii?Q?GmLp99GPj+r8whji6XEs5iQFawLDD1SPniQeidxjRDMDn1cFxpHYBh9JUCQF?=
+ =?us-ascii?Q?po+Nnyi4IFq9uNvrvfNVQdc27gZ1sF2sMLTCpJN4FOyyY9YXm4H/gzQdp6y5?=
+ =?us-ascii?Q?kh1EF/hGyI6i97c+MTIqX9Pn1AB7OoWzYga1jZzDxPtL58FgtC0f/jZw8OdE?=
+ =?us-ascii?Q?lAEugq4Blyanli4oYFhbd0xUCdLhGv5lg87JzjyQdFyAB4MTsUFs6BlLOsac?=
+ =?us-ascii?Q?uuQOD0aDK7tI1eaW443NEbZfCWxgPOmVQ5UZFPdNZw+2P0oNpzzgb6LVTqKN?=
+ =?us-ascii?Q?iVHAz2wR7KaYkXkTYumtQwiOseuAmBB3oi3D1xZuAdAK7ULBsS/WI1cMOmVz?=
+ =?us-ascii?Q?b9foLjF4FljexDAmo1O4/SXp12ir6Gv4C5G6tNw72azY2+ZBiEhkA/z6rblx?=
+ =?us-ascii?Q?AFLsL6YaE64+5AMvq3Kws1sx1SfwiwRDcWKCsiFGjVuqCzaDdG3dd7cYKqxS?=
+ =?us-ascii?Q?6p7omPtcBPrrowjQGIQIe4VQmA0cQL5eaQwEt3zBTDQFGpzxtse6ytpOU9MG?=
+ =?us-ascii?Q?fYA51YM4M14jZc2JixzR1kD8H2voHEn4CjzelluDOcjyaC5uQXrUYmbOoLtd?=
+ =?us-ascii?Q?hHDxYS9Pmmh1lLr2dc/qkTCUE4mVKf4UhD/fBPOEAwrhpjd28haJQ4bmMqJ1?=
+ =?us-ascii?Q?lt4j40E/Uh4dGS6JkAFhl7rUPIlNs0If1uKvASxC/Oyvb6v8PMC/twtMqqtu?=
+ =?us-ascii?Q?2YqX6eUYipwJFLMhWmyHdoJo3U33f/PzJB7S7R+pK5Q3r05uLCMJbBjKU46c?=
+ =?us-ascii?Q?cTf/t2w+WYlnmhVlwSaXqwpDk669fbZW1YPcxFjRnRMJ16Ef16SOkmlJf5X8?=
+ =?us-ascii?Q?zDAVPJZC/rlXgcHL9IvTTbZb5747TGC3T/K7LaQseozPdHIys2EwQZ7K+0Dl?=
+ =?us-ascii?Q?1Dqk52VD1npSVYxTmHumakDrUE335qhcwdablZ0D4bYfNGSnnTvSrf7ugq5A?=
+ =?us-ascii?Q?JLFFt8ED7eWQ8aSTt3Vk+dV/jmbrvtN2IXanqyWXC29n8T0UwhdA0BOapx2J?=
+ =?us-ascii?Q?P4OCPNZdn9dX74Q8rp/UQuDzersS9mr38fejhy/Njc0i24S3oIQy5BNLs4G4?=
+ =?us-ascii?Q?eeRpn1SUlowZcv6bplSkPYEDj/FE4MueWGeDJiC3M1huPBntlEO4hN3mJiMD?=
+ =?us-ascii?Q?2uyeehdaZzrvB4E1m2jtaZavXrOc+IvzdqoL44nPbjvhEoWFWH0uxu1FClxH?=
+ =?us-ascii?Q?UQWgbRzwJVrJ3QukBdrIqHsJ4DTJXIPWo0Yqv8k0eV2m8Fe0aPf1pCQqYISq?=
+ =?us-ascii?Q?kYDfCJ+3l+q5YPvt/omY32fInZRXId4=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	mZ6G7IkNSp0mI6BiP7Y8kt17+knhY14gPwm+bG5M9Pn0nlwSR0dwrtvsY/d8pz2i6RLIZHrsMQRD7NO22gp+3dCJ5RKIY/fCPDYXnBId2azf90i3hXYsz1RwFAN4oEAbuvyNuLi1DRuwQglBmn8SiUBHci469ZK2nYhALt0KFsDO8kXSLlN8xy8ELGfSUftP+XtmA+316ObbIg4ZMFNYchqOa44R4lBnhopbZB5H+9klYQN75KP+timmKC+MHwSSptzFKs6vaWWAKsrDbG6Tvd4C6TpupNYhEzsKyUiNk6iuNanroLR7DLmeV9IXe83xwOPYfncta0sG8bNl8lAJWg==
+	hvh/e0mlHUd0orr7ciM8+tp/Dm+pcZrW436SZ9iUmljBDPukhmU0UwhE6DlB+KoX+yf2K3u/spu7rPlFZucDzYzGkM6DszQ8IXgAehZ6XqI438ssZ1Emab4eEbDMm7LWU5AIYxlJo/0ndugYs3XMTmOmW20UgtZzKdeBTgwh71/RZCr/P1ApTQM/fCN+zQwooTOLWwLrtnKXswVhaDDnoTUQQ0UvIlSDDnjmN84xpyZnMTP1RB136qKLVccaZKQCugzYeR5UEmBcDPgCGxgfh+az6f231Nnb/L0b4YhESgWekp5nag15h41Qkaal4EF1cKDOLQ+QYU2wyVKxfaZ7yw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53d15b8c-0961-4569-faf4-08def1de0f30
+X-MS-Exchange-CrossTenant-Network-Message-Id: 504dbc2f-19c8-4a75-81ed-08def1de0d18
 X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 04:08:37.4783
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 04:08:33.9350
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h4F/FcBwRaI51nzOaSjU2JXiws77d0RJ2CAGs3mE82fHjyD4PNE7CvS7gWaE7X2NLQPMBtNJyeSS2HxZkRw2KbjP+S/0OGGYQyJJ5AYcmX8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: NBtgO979zX390s1eTSzQM0CTYYdyS50zM46wYLEpa0cmT3zXsbtU5WZJ1kKz4EOeUS7oVtZnsX0SX/fX4azSgpXJeMwxwWZLv+WiDyeyEcc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6130
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=cYTiaHDM c=1 sm=1 tr=0 ts=6a7165c9 cx=c_pps
- a=MlxngMRGYcnGG1Y86Hm5lQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Authority-Analysis: v=2.4 cv=cYTiaHDM c=1 sm=1 tr=0 ts=6a7165c5 cx=c_pps
+ a=pvXDubuVmAGz8fO+OL2vfg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
- a=NEAV23lmAAAA:8 a=HWfS6c1Ke9pW_yr55HYA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfX+D/nezQeVDrP
- 5aazrhgKAmx+Hce3SExUw8VLy3eQZoiEifxw6gTXt4sG7z3o7PriAT+l3Bn8AeVjcOPrX+3DpGz
- 3IfPWFb7EbUAseei+XFApGBhmY2CGD1oleDgGuMm/uqKYdXaprKsYZUqmmGoDuUUa0erYR7GpMF
- Azfngj4eoj3gm8HUq+3xrCD8yXENb5901EFCl+UTYCrwe6nRV+eQDWxNmukmzJEqkfAH94z5klA
- VFBZu6Iqi1sV9tAK5b2TjEdkF5ca/wK9sJv09LRw8R9pa21TUmgCpT1DtvF3AzDXN//CgSwBDPZ
- z6sgD61MSS/l8jGY5/JmkjWw8DfGMpkhlPJrtK3bUkH0tFR8+CgSRwUTCPCnpWht/s2eGDHlKTg
- 0IBoNqCSoNjOd/1M0Bxez37IRNNGJRwxFSJTiy4RBk4jTtA+FioGqLecOrNBtVWPy4oUibeO8UI
- WR2ZkjZp3VKiK8vPvGQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfX/xFEUmBLUIjU
- b3Fh0qR+Do9lckvjiLrEfKwpIhOWGK0J4c94pmgI4AUHfeG5JkUUfcff0ya71LRsteidAk9wkIN
- tLkX5eNiwRBtUuHNY9M5sZmcNrLT7z/8/FDAwuXVPOIC6WKwvlYK
-X-Proofpoint-ORIG-GUID: DhUc3P9l5aHeIIpHF4hAwajW3cdLAhud
-X-Proofpoint-GUID: 7AOT7TP7v1lFNUm-Lr337G_ENOChsLff
+ a=lZurfIDJcIjVqGklx3sA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfX3lvlfIx1o4jQ
+ 75VTQ4UfwVCbMbadqhFrd/ACH3ivI3ig/eTgTa1obmIb0qO15Zz7lCrYblIa4RIX6WAEz+K4Tpx
+ BT7CNzokP5gxyLetwy1YvjS5RvR4/Te+qXQsUSRwoLB1phhlJSQad1AiYRORXZzYeooflDH7sdb
+ PfxFglec/zUEa9Ls8umCcH7Ko61GgMthUQioKyQW+8Hw1HwKTMuPrIBoVIOPeUzMLlP0L7xvRpu
+ uwFQCY/w1+OhjHp8+yt8dyQzf5Xpc1hj45IU/Z6d+vc4qQVSH40ZDc2/zZuzCzAMXp+corteXEP
+ HQZeFMU+0R7zOZcuK8XUL1gi8lkr7Bbhr03TsciTm6fVMc7niZ2Sbiwf/4HMFv1eai3q5P498pQ
+ v/iMfI+qdY5JQHPS5KBzCxYNCpv020+qAk34Ty82ykONx6MmHumLFWecz03BoRwjWa4l2uGZl2T
+ +38yqLBKw6AUwZA0ujw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDAyOSBTYWx0ZWRfX2wTfutrlqx5m
+ NVz4ibBIQs421iRv30yBW9+Q5RKtVo0mIQiGPzqkgCVWy6rft9LWzuyDOhzOeL6x08CTC8f/CuD
+ qKYWb3fvfX40y4PwOB3YJh40IYY2izrEwiv7TGMm/NwmVZB9rBI6
+X-Proofpoint-ORIG-GUID: zljGv3i3ANj4Ffkk5LNxXIoFw78ne6nb
+X-Proofpoint-GUID: QN0XuRkHQIsUyO33QGGoYcU2W4YjhA5Q
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-04_01,2026-08-03_02,2025-10-01_01
@@ -152,96 +152,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2026 04:08:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242692
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242690
 
-* Added 0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch
-  - pkgconfigdeps.sh unconditionally emits /usr/bin/pkg-config as a hard
-    Requires for packages shipping .pc files. In OE/Yocto cross-compilation,
-    pkg-config is a host-only build tool not needed on the target rootfs,
-    causing do_rootfs and do_populate_sdk failures with -dev packages.
+The rpm package requires /usr/bin/pkg-config when it has .pc files.
+Fixed:
+1) target-sdk-provides-dummy.bb:
+  - package acl-dev-2.3.2-r0.core2_64 from oe-repo requires
+    /usr/bin/pkg-config, but none of the providers can be installed
 
+2) nativesdk-sdk-provides-dummy.bb:
+  - package nativesdk-wayland-dev-1.24.0-r0.x86_64_nativesdk from
+    oe-repo requires /usr/bin/pkg-config, but none of the providers can be installed
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
 ---
- ...-Do-not-emit-usr-bin-pkg-config-as-a.patch | 59 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_6.0.2.bb        |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch
+ meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb | 1 +
+ meta/recipes-core/meta/target-sdk-provides-dummy.bb    | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch b/meta/recipes-devtools/rpm/files/0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch
-new file mode 100644
-index 0000000000..4b9f1e1dac
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch
-@@ -0,0 +1,59 @@
-+From f7d33d39e48d8b8c99af1e97bcb4740a9ba6204a Mon Sep 17 00:00:00 2001
-+From: Sumanth Gavini <sumanth.gavini@windriver.com>
-+Date: Wed, 29 Jul 2026 09:10:47 -0700
-+Subject: [PATCH] pkgconfigdeps.sh: Do not emit /usr/bin/pkg-config as a
-+ Requires dependency
-+
-+RPM upstream commit 67b68cbeb978 ("pkgconfig dependency script fixes")
-+changed the --requires output to unconditionally emit
-+/usr/bin/pkg-config
-+as a hard Requires for every package that ships .pc files.
-+
-+This is appropriate for native RPM-based distributions (e.g., Fedora,
-+RHEL) where pkg-config is a target package installed alongside -devel
-+packages on the same development machine. In those environments,
-+requiring
-+pkg-config at runtime makes sense.
-+
-+However, in cross-compilation environments such as OpenEmbedded/Yocto,
-+pkg-config is a host-side build tool used only at compile time to locate
-+libraries and their compiler/linker flags via .pc files. The target
-+rootfs
-+is a cross-compiled embedded image where pkg-config is not installed and
-+not needed - the software is already compiled, and the .pc files in -dev
-+packages are intended for SDK/sysroot use on the build host, not for
-+running pkg-config on the target device.
-+
-+With rpm 6 using its internal dependency generator (rpm 4.x allowed
-+disabling it via _use_internal_dependency_generator=0, but rpm 6 makes
-+that a hard failure for v6 format packages), this file-path dependency
-+ends up in every -dev package's RPM metadata, causing do_rootfs and
-+do_populate_sdk failures:
-+
-+  Error: nothing provides /usr/bin/pkg-config needed by
-+  acl-dev-2.4.0-r0.x86_64_v3 from oe-repo
-+
-+Remove the emission of the /usr/bin/pkg-config file path from the
-+--requires output. The pkgconfig(foo) virtual provides/requires
-+(e.g., pkgconfig(glib-2.0)) are not affected and continue to work
-+correctly for build-time dependency resolution between recipes.
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
-+---
-+ scripts/pkgconfigdeps.sh | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/scripts/pkgconfigdeps.sh b/scripts/pkgconfigdeps.sh
-+index ef4581856..1cab58169 100755
-+--- a/scripts/pkgconfigdeps.sh
-++++ b/scripts/pkgconfigdeps.sh
-+@@ -43,8 +43,6 @@ case $1 in
-+     while read filename ; do
-+     case "${filename}" in
-+     *.pc)
-+-	i="`expr $i + 1`"
-+-	[ $i -eq 1 ] && echo "$pkgconfig"
-+ 	DIR="`dirname ${filename}`"
-+ 	export PKG_CONFIG_PATH="$DIR:$DIR/../../share/pkgconfig"
-+ 	$pkgconfig --print-requires --print-requires-private "$filename" 2> /dev/null | while read n r v ; do
-diff --git a/meta/recipes-devtools/rpm/rpm_6.0.2.bb b/meta/recipes-devtools/rpm/rpm_6.0.2.bb
-index e8977aa31a..32ddebe407 100644
---- a/meta/recipes-devtools/rpm/rpm_6.0.2.bb
-+++ b/meta/recipes-devtools/rpm/rpm_6.0.2.bb
-@@ -39,6 +39,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-6.0.x;protoco
-            file://0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch \
-            file://0001-tools-elfdeps.cc-Remove-format-module.patch \
-            file://0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch \
-+           file://0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch \
-            "
- 
- PE = "1"
+diff --git a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
+index 37dad54409..6075770bf0 100644
+--- a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
+@@ -11,6 +11,7 @@ DUMMYPROVIDES = "\
+     /bin/sh \
+     /bin/bash \
+     /usr/bin/env \
++    /usr/bin/pkg-config \
+     libGL.so()(64bit) \
+     libGL.so \
+ "
+diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+index 65b87fd97d..ca155d0705 100644
+--- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
++++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+@@ -54,6 +54,7 @@ DUMMYPROVIDES = "\
+     /bin/bash \
+     /usr/bin/env \
+     /usr/bin/perl \
++    /usr/bin/pkg-config \
+     libperl.so.5 \
+     libperl.so.5()(64bit) \
+ "
 
