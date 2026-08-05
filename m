@@ -2,75 +2,76 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF0F7C55ABA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 946BDC55822
 	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 08:31:23 +0000 (UTC)
 Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.35941.1785918681011104808
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 01:31:21 -0700
+ Wed, 05 Aug 2026 01:31:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=S183TDGS;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Y5nOrAP9;
  spf=pass (domain: cisco.com, ip: 173.38.203.54, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=11502; q=dns/txt;
-  s=iport01; t=1785918681; x=1787128281;
+  d=cisco.com; i=@cisco.com; l=48337; q=dns/txt;
+  s=iport01; t=1785918682; x=1787128282;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=AaWItv2+P+kQU3lGj6B5wm20guCYneWnlQR1Wp0fWiA=;
-  b=S183TDGS7XpVKJbDm8bjnyFSYr7LIWQ4NiA+8u/bw5bt1vyTDb5Mnn1O
-   oBM6c+KYI0aEfcVlS6vPc0KVzBBhKQQNDrCuKOwQgmpyNR2kTxuicLEeF
-   5hcNO3rNU/hz5JH2ZeY6MjATQu0Q4DkSudKiIFFhs6FR2uXm6tapIWxlm
-   iw4GaHky9xIoYg6707YCo3IJdONlMNWFyCQjBstdGOsdKdm3tDHFB7ZUL
-   EjHdTrNUmd5BtRBOLL5pRhr+8h7P2lDgcmKSaA51ceoXmhcQAa2Kk8RwQ
-   nzjlRoEcxCcKYXsbjVoBWZKcnsUHko84TMz+UXG4Te6OBQ5hKor7BeREU
-   A==;
-X-CSE-ConnectionGUID: b+DFdkF2TfSOaj+kY0FoDQ==
-X-CSE-MsgGUID: J8OOHThWQhuAoea+Vpzo7Q==
-X-IPAS-Result: =?us-ascii?q?A0AaAACA83Jq/9BK/pBaHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBghc/dF9CSYxyhzeCIQOeGxSBag8BAQEPRA0EAQGBcQEggnMCjWYCJ?=
- =?us-ascii?q?jQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgECAQMnC?=
- =?us-ascii?q?wEYAT0cAwECLysjCBEIgwIBgnQDEQa9WoF5M4EBgygBPwICQAFQ2y4BCxQBg?=
- =?us-ascii?q?TgBhT6IIV0YAYNdgR8nGxuBcoEVg2mBBYFcAgEBgSEDASGGXQSCIoEMgVqBJ?=
- =?us-ascii?q?oF+jVNIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQ0bBwWBHYEohG0jG?=
- =?us-ascii?q?TZ8gQlegS0qZRIXgQmCewKCem8LGA1IESw3FBkEPm4HjWggggg3ATEvASECC?=
- =?us-ascii?q?gEpAQEEKyGBMgIoEQwVCJJoDAoakAOCHoE4n1oKKIN1jCGVOhozhASBV5JAk?=
- =?us-ascii?q?lGZCI4KlTQ0aIRpgWg8gVlwFYMiCQkNNBkPVo1XCwuBFAECYYFohkDFYTw1A?=
- =?us-ascii?q?gkyAQEHAgcOAwuBaJAALIFSAQE?=
-IronPort-Data: A9a23:NfRi76sY1siOAeHvOMcMMgHjPOfnVAJfMUV32f8akzHdYApBsoF/q
- tZmKW7TaP2NNmKmL9hxa4zipEtQsJXVxtFiHgJlrCBkQn8RgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZTdJ5xYuajhKs/Lb9Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw8KVbL21N2
- 6YkJgsqZxLAhNPu7rWXc7w57igjBJGD0II3s3x6iDWcBvE8TNWbHOPB5MRT23E7gcUm8fT2P
- pZFL2AyMFKfP1sVYgd/5JEWxI9EglHzfjBCoU6VooI84nPYy0p6172F3N/9J43WHpQPxBvwS
- mTu3TTeJTEmNOOmySes9X+lxdHXjySkYddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUz5RvIzu/f5ByUQzBbCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:RfUizaFB40D5NtVSpLqExMeALOsnbusQ8zAXPidKOHhom6Oj+f
- xG8M536fawskdzZJhCo6HkBED/exLhHPdOiOF7V4tKHjOW2ldAR7sM0WKN+VHd8lXFltJ15O
- NHb7V0DsH2ABxRiMb35xT9LvMbqeP3l5xBQYzlvg5QpcYAUdAH0ztE
-X-Talos-CUID: 9a23:2DrWd2AIFyIOMRL6EyMk2GAYGe5/TnPm637SYEyJUUhuZITAHA==
-X-Talos-MUID: 9a23:aJ3DTAvpkBKf1HR0g82npmFFE+dU45uXCF0klpgP+PecJysvAmLI
+  bh=XumdlH6GYM0/Oh9KUYiZtj/VXMDfniA8DgeTFY0IjGA=;
+  b=Y5nOrAP9IlT1YE+b0KSf077rU/JaUsb1ifN+W0nIiHlF+GAzWM7jlr9A
+   q6bpG/ySzQZHWeYk+Hhmhc9NE9VCeWTPbnhJC9ZdbrnV3JK7vctJxWfZR
+   PMxFUmkA8tbEGngnA3bO5GQ9YqWR9jgFV8QhFHSDkTIyRTahPRojeL6TF
+   DqJzEcPyLggGh9DcM74YxvhDh7UJYB6WsuDaA/VhB+3v0tR3YNLoVKev8
+   MgAkBK+8rk2ROUv6Snm65+BJ9Z+g2wDswvYbKsvsnvuCm+cKXlyJ63X9P
+   YdO+InIr4aUBNi1VjdkD/ksibiQzZrZjJZ+J4jTygaUoE1qFx5SM9pvje
+   g==;
+X-CSE-ConnectionGUID: 0GhfYJ/cQOK6gwf7yITDZQ==
+X-CSE-MsgGUID: st8JSkVCQYyIMquaHlt4ag==
+X-IPAS-Result: =?us-ascii?q?A0BMAgCA83Jq/9RK/pBRCR4BAQsSDIIFC4JXdF9CSZQpg?=
+ =?us-ascii?q?iEDnhsUgWoPAQEBD0QNBAEBgXEBIIJzAo1mAiY0CQ4BAgQDAgMBAQEBAQEBA?=
+ =?us-ascii?q?QEBAQsBAQUBAQECAQcFgQ4Thk8NhloBAgEDGgEMCwEYAT0cAwECGQwKKyMIE?=
+ =?us-ascii?q?AEIgwIBgnQDEQa9WoF5M4EBgmVDAT8CAkABUNsuAQsUAYE4hT+IIV0YAUSEO?=
+ =?us-ascii?q?AgfGxuBcoEVg2mBBYFcAgGBIhF8hXUEgg0VgQyBWh6BCCWBWRmDMYoJSIEeA?=
+ =?us-ascii?q?1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ENGwcFgR2BKIRtIxk2fIEJXoEtK?=
+ =?us-ascii?q?mUSF4EJgnsCgnpvCxgNSBEsNxQZBD5uB41oIIITJgUBAQEVGykGARoHDAEpA?=
+ =?us-ascii?q?i9QIjkeDQEmDgECDAEUknwHAgGQHYIegTifWgoog3WMIZU6GjOEBIFXkkCSU?=
+ =?us-ascii?q?ZkIizeCU5YOAUGEaYFoPIFZcBU7gmcJFjQZD1aDeoldCwuBeIFohkDFWAk8N?=
+ =?us-ascii?q?QIJMgEBBwIHDgMLgWiQJoFYAQE?=
+IronPort-Data: A9a23:sb0Ccam2C32/jYSzv9UWyVbo5gzVJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xIfXmCDbKqJYjakct0nO4nnoEtU7ZTdzd5kTwpuqyEwF1tH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZC31GONgWYubDpEs//b8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FdU3+uhGIyZFz
+ Ns7dj8SYE+Spt6a8ovuH4GAhux7RCXqFIoSoDRkiDreF/tjGMmFSKTR7tge1zA17ixMNa+CO
+ 4xDNGYpM0iGOUQVUrsUIMpWcOOAinTyaTREqFW9rqss6G+Vxwt0uFToGIeEJofbH58K9qqej
+ nnar0bCAS8xDe2O6B+c73uMgvOTlCyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4GuAgrQXIwa3O7kPAXy4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:/0cxe6wwCjYYPH297eNbKrPwAL1zdoMgy1knxilNoHtuA6ilfq
+ +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: =?us-ascii?q?9a23=3ACsFQ2WmrR5GQxoOW7iTFp2M6K8TXOSXyzHnhAQi?=
+ =?us-ascii?q?zMEFKFrKKRwCB2Z9IofM7zg=3D=3D?=
+X-Talos-MUID: 9a23:emZp8wrhM+oEMjzb78kezyp+ZOVT4JqFMXEcsLAfpsCkMTAsMjjI2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,206,1779148800"; 
-   d="scan'208";a="59439225"
-Received: from aer-l-core-07.cisco.com ([144.254.74.208])
-  by aer-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Aug 2026 08:31:18 +0000
+   d="scan'208";a="59439227"
+Received: from aer-l-core-11.cisco.com ([144.254.74.212])
+  by aer-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Aug 2026 08:31:20 +0000
 Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-07.cisco.com (Postfix) with ESMTPS id 8B47B1800020D
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Aug 2026 08:31:18 +0000 (GMT)
+	by aer-l-core-11.cisco.com (Postfix) with ESMTPS id 6A8FB1800042B
+	for <openembedded-core@lists.openembedded.org>; Wed,  5 Aug 2026 08:31:19 +0000 (GMT)
 Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id 50A34CC037D; Wed,  5 Aug 2026 14:01:17 +0530 (IST)
+	id 30816CBEFAA; Wed,  5 Aug 2026 14:01:18 +0530 (IST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 3/8] curl: fix CVE-2026-8927
-Date: Wed,  5 Aug 2026 14:00:58 +0530
-Message-Id: <20260805083103.2633995-4-deeratho@cisco.com>
+Subject: [OE-core][wrynose][PATCH 4/8] curl: fix CVE-2026-8932
+Date: Wed,  5 Aug 2026 14:00:59 +0530
+Message-Id: <20260805083103.2633995-5-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260805083103.2633995-1-deeratho@cisco.com>
 References: <20260805083103.2633995-1-deeratho@cisco.com>
@@ -78,263 +79,968 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: aer-l-core-07.cisco.com
+X-Outbound-Node: aer-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 08:31:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242841
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242842
 
 From: Deepak Rathore <deeratho@cisco.com>
 
 This patch applies the upstream curl security fix backport for
-CVE-2026-8927. The upstream fix commit is referenced in [1],
-and the public curl advisory is referenced in [2]. The backported
-commit link is also recorded in the embedded patch header.
+CVE-2026-8932. The upstream dependency commit is referenced
+in [1], the upstream fix commit is referenced in [2], and the
+public curl advisory is referenced in [3]. The individual
+backported commit links are recorded in the embedded patch
+headers.
 
-[1] https://github.com/curl/curl/commit/5c225384b8d52c67ce8259c6e4203bc57aacb567
-[2] https://curl.se/docs/CVE-2026-8927.html
+[1] https://github.com/curl/curl/commit/67bf021e97bbebadade7e40217a4967042ac6a07
+[2] https://github.com/curl/curl/commit/7541ae569d82fb308a5e2d94916027da4fa3ba3e
+[3] https://curl.se/docs/CVE-2026-8932.html
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../curl/curl/CVE-2026-8927.patch             | 349 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
- 2 files changed, 350 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927.patch
+ .../curl/curl/CVE-2026-8932-dependent.patch   |   71 +
+ .../curl/curl/CVE-2026-8932.patch             | 1148 +++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |    2 +
+ 3 files changed, 1221 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8932-dependent.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8932.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-8927.patch b/meta/recipes-support/curl/curl/CVE-2026-8927.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-8932-dependent.patch b/meta/recipes-support/curl/curl/CVE-2026-8932-dependent.patch
 new file mode 100644
-index 0000000000..653d908eb5
+index 0000000000..c64ced329a
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-8927.patch
-@@ -0,0 +1,349 @@
-+From c3e9c57b5cd128f33250caf86184e23dc1e8c4e5 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-8932-dependent.patch
+@@ -0,0 +1,71 @@
++From a79f8dae1aa632155be430143b4685f0b91d1694 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 30 Jul 2026 04:29:18 -0700
-+Subject: [PATCH] url: detect proxy changes read from environment
++Date: Wed, 6 May 2026 23:59:22 +0200
++Subject: [PATCH] mbedtls: null terminate the private key blob
 +
-+When a proxy is set from an environment variable, detect if that proxy
-+is not the same as previously and flush state.
++Unfortunately, mbedtls_pk_parse_key() requires the data to be
++null-terminated if the data is PEM encoded (even when provided the exact
++length), so this function needs to make a copy that has one.
 +
-+Verified by test1647: verify changing proxy with env variables and make
-+sure Digest state is flushed in the second use
++Reported-by: Elise Vance
++Closes #21515
 +
-+Closes #21666
-+
-+CVE: CVE-2026-8927
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/5c225384b8d52c67ce8259c6e4203bc57aacb567]
++CVE: CVE-2026-8932
++Upstream-Status: Backport [https://github.com/curl/curl/commit/67bf021e97bbebadade7e40217a4967042ac6a07]
 +
 +Backport Changes:
-+- Kept Wrynose test registry ordering and added only the new upstream
-+  test1647/lib1647 regression test entries.
-+- Added the explicit vauth/vauth.h include because Wrynose's url.c did
-+  not already include the Digest cleanup prototype used by this fix.
-+- Placed the env proxy comparison before parse_proxy() because Wrynose
-+  frees the temporary proxy string immediately after parse_proxy() copies
-+  it.
++- Added as a prerequisite for upstream commit [1] because Wrynose curl
++  8.19.0 did not already contain this mbedTLS private-key blob fix.
 +
-+(cherry picked from commit 5c225384b8d52c67ce8259c6e4203bc57aacb567)
++[1] https://github.com/curl/curl/commit/7541ae569d82fb308a5e2d94916027da4fa3ba3e
++
++(cherry picked from commit 67bf021e97bbebadade7e40217a4967042ac6a07)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ lib/url.c                  |  12 ++++
-+ lib/urldata.h              |   1 +
-+ tests/data/Makefile.am     |   2 +-
-+ tests/data/test1647        | 103 +++++++++++++++++++++++++++++++
-+ tests/libtest/Makefile.inc |   1 +
-+ tests/libtest/lib1647.c    | 120 +++++++++++++++++++++++++++++++++++++
-+ 6 files changed, 238 insertions(+), 1 deletion(-)
-+ create mode 100644 tests/data/test1647
-+ create mode 100644 tests/libtest/lib1647.c
++ lib/vtls/mbedtls.c | 15 +++++++++++----
++ 1 file changed, 11 insertions(+), 4 deletions(-)
 +
-+diff --git a/lib/url.c b/lib/url.c
-+index 6c1375f8e3..1cd3955e64 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -99,6 +99,7 @@
-+ #include "headers.h"
-+ #include "curlx/strerr.h"
-+ #include "curlx/strparse.h"
-++#include "vauth/vauth.h"
-+ 
-+ /* And now for the protocols */
-+ #include "ftp.h"
-+@@ -326,6 +327,9 @@ CURLcode Curl_close(struct Curl_easy **datap)
-+   Curl_freeset(data);
-+   Curl_headers_cleanup(data);
-+   Curl_netrc_cleanup(&data->state.netrc);
-++#ifndef CURL_DISABLE_DIGEST_AUTH
-++  curlx_free(data->state.envproxy);
-++#endif
-+   curlx_free(data);
-+   return CURLE_OK;
-+ }
-+@@ -2354,6 +2358,14 @@ static CURLcode create_conn_helper_init_proxy(struct Curl_easy *data,
-+   if(proxy || socksproxy) {
-+     long ptype = conn->http_proxy.proxytype;
-+     if(proxy) {
-++#ifndef CURL_DISABLE_DIGEST_AUTH
-++      if(!Curl_safecmp(data->state.envproxy, proxy)) {
-++        /* proxy changed */
-++        Curl_auth_digest_cleanup(&data->state.proxydigest);
-++        curlx_free(data->state.envproxy);
-++        data->state.envproxy = curlx_strdup(proxy);
-++      }
-++#endif
-+       result = parse_proxy(data, conn, proxy, ptype);
-+       Curl_safefree(proxy); /* parse_proxy copies the proxy string */
-+       if(result)
++diff --git a/lib/vtls/mbedtls.c b/lib/vtls/mbedtls.c
++index 2bac406c35..54f0ac9fd4 100644
++--- a/lib/vtls/mbedtls.c
+++++ b/lib/vtls/mbedtls.c
++@@ -697,11 +697,17 @@ static CURLcode mbed_load_privkey(struct Curl_cfilter *cf,
++     }
++     else {
++       const struct curl_blob *ssl_key_blob = ssl_config->key_blob;
++-      const unsigned char *key_data =
++-        (const unsigned char *)ssl_key_blob->data;
++       const char *passwd = ssl_config->key_passwd;
+++      /* Unfortunately, mbedtls_pk_parse_key() requires the data to be
+++         null-terminated if the data is PEM encoded (even when provided the
+++         exact length). */
+++      unsigned char *newblob = curlx_memdup0(ssl_key_blob->data,
+++                                             ssl_key_blob->len);
+++      if(!newblob)
+++        return CURLE_OUT_OF_MEMORY;
+++
++ #if MBEDTLS_VERSION_NUMBER >= 0x04000000
++-      ret = mbedtls_pk_parse_key(&backend->pk, key_data, ssl_key_blob->len,
+++      ret = mbedtls_pk_parse_key(&backend->pk, newblob, ssl_key_blob->len,
++                                  (const unsigned char *)passwd,
++                                  passwd ? strlen(passwd) : 0);
++       if(ret == 0 &&
++@@ -713,7 +719,7 @@ static CURLcode mbed_load_privkey(struct Curl_cfilter *cf,
++                                  PSA_KEY_USAGE_SIGN_HASH)))
++         ret = MBEDTLS_ERR_PK_TYPE_MISMATCH;
++ #else
++-      ret = mbedtls_pk_parse_key(&backend->pk, key_data, ssl_key_blob->len,
+++      ret = mbedtls_pk_parse_key(&backend->pk, newblob, ssl_key_blob->len,
++                                  (const unsigned char *)passwd,
++                                  passwd ? strlen(passwd) : 0,
++                                  mbedtls_ctr_drbg_random,
++@@ -722,6 +728,7 @@ static CURLcode mbed_load_privkey(struct Curl_cfilter *cf,
++                        mbedtls_pk_can_do(&backend->pk, MBEDTLS_PK_ECKEY)))
++         ret = MBEDTLS_ERR_PK_TYPE_MISMATCH;
++ #endif
+++      curlx_free(newblob);
++
++       if(ret) {
++         mbedtls_strerror(ret, errorbuf, sizeof(errorbuf));
++--
++2.35.6
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-8932.patch b/meta/recipes-support/curl/curl/CVE-2026-8932.patch
+new file mode 100644
+index 0000000000..8fec1a5adb
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-8932.patch
+@@ -0,0 +1,1148 @@
++From c1cf1ddf723cdfcbd071394a6b4e73ea995e100a Mon Sep 17 00:00:00 2001
++From: Joshua Rogers <MegaManSec@users.noreply.github.com>
++Date: Tue, 14 Jul 2026 04:38:15 -0700
++Subject: [PATCH] tls: fix incomplete mTLS config in conn reuse and session
++ cache
++
++cert_type, key, key_type, key_passwd and key_blob lived in
++ssl_config_data but not in ssl_primary_config, so they were invisible to
++match_ssl_primary_config() and to the TLS session cache peer key.
++
++Two easy handles sharing a connection pool could reuse each other's
++authenticated connections when they differed only on SSLKEY, SSLKEYTYPE,
++KEYPASSWD, SSLCERTTYPE or SSLKEYBLOB. The second handle would silently
++inherit the first handle's authenticated identity.
++
++Promote all five fields into ssl_primary_config so the conn-reuse
++predicate and session cache key cover the complete client credential
++set. Also replace the fixed ":CCERT" session cache marker with the
++actual clientcert path so sessions are not shared across different
++client certificates.
++
++Verified by test 3303 and 3304
++
++Reported-By: Joshua Rogers (AISLE Research)
++Closes #21667
++
++CVE: CVE-2026-8932
++Upstream-Status: Backport [https://github.com/curl/curl/commit/7541ae569d82fb308a5e2d94916027da4fa3ba3e]
++
++Backport Changes:
++- Split prerequisite upstream commit [1] before this patch. This patch
++  now applies on top of that dependency and does not fold in the
++  mbedTLS private-key blob null-termination change.
++- Kept Wrynose Curl_safefree() helper usage and local result-variable
++  style while preserving the upstream mTLS credential matching and
++  session-cache key behavior.
++- Wrynose curl 8.19.0 does not have upstream Curl_peer. The
++  Curl_ssl_peer_key_build() helper keeps Wrynose connectdata and
++  conn_to_host/conn_to_port keying while adding the mTLS key fields.
++- Kept Wrynose test registry ordering and added only the new upstream
++  test3303/test3304 and unit3303/unit3304 regression test entries.
++
++[1] https://github.com/curl/curl/commit/67bf021e97bbebadade7e40217a4967042ac6a07
++
++(cherry picked from commit 7541ae569d82fb308a5e2d94916027da4fa3ba3e)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ lib/ldap.c              |   4 +-
++ lib/urldata.h           |  10 +--
++ lib/vssh/libssh.c       |   6 +-
++ lib/vssh/libssh2.c      |   2 +-
++ lib/vtls/gtls.c         |  14 ++--
++ lib/vtls/mbedtls.c      |  24 +++---
++ lib/vtls/openssl.c      |   7 +-
++ lib/vtls/rustls.c       |  13 ++--
++ lib/vtls/schannel.c     |  10 +--
++ lib/vtls/vtls.c         |  37 ++++++---
++ lib/vtls/vtls_scache.c  | 105 +++++++++++++++++++++-----
++ lib/vtls/vtls_scache.h  |  16 ++++
++ lib/vtls/wolfssl.c      |  14 ++--
++ tests/data/Makefile.am  |   3 +
++ tests/data/test3303     |  20 +++++
++ tests/data/test3304     |  20 +++++
++ tests/unit/Makefile.inc |   3 +-
++ tests/unit/unit3303.c   | 127 +++++++++++++++++++++++++++++++
++ tests/unit/unit3304.c   | 163 ++++++++++++++++++++++++++++++++++++++++
++ 19 files changed, 517 insertions(+), 81 deletions(-)
++ create mode 100644 tests/data/test3303
++ create mode 100644 tests/data/test3304
++ create mode 100644 tests/unit/unit3303.c
++ create mode 100644 tests/unit/unit3304.c
++
++diff --git a/lib/ldap.c b/lib/ldap.c
++index e223078b03..5bf76572c8 100644
++--- a/lib/ldap.c
+++++ b/lib/ldap.c
++@@ -329,8 +329,8 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
++ #ifdef LDAP_OPT_X_TLS
++     if(conn->ssl_config.verifypeer) {
++       /* OpenLDAP SDK supports BASE64 files. */
++-      if(data->set.ssl.cert_type &&
++-         !curl_strequal(data->set.ssl.cert_type, "PEM")) {
+++      if(data->set.ssl.primary.cert_type &&
+++         !curl_strequal(data->set.ssl.primary.cert_type, "PEM")) {
++         failf(data, "LDAP local: ERROR OpenLDAP only supports PEM cert-type");
++         result = CURLE_SSL_CERTPROBLEM;
++         goto quit;
 +diff --git a/lib/urldata.h b/lib/urldata.h
-+index d71337c8f6..65005c4b34 100644
++index 65005c4b34..dce181d99d 100644
 +--- a/lib/urldata.h
 ++++ b/lib/urldata.h
-+@@ -959,6 +959,7 @@ struct UrlState {
-+   void (*prev_signal)(int sig);
++@@ -230,9 +230,14 @@ struct ssl_primary_config {
++   char *signature_algorithms; /* list of signature algorithms to use */
++   char *pinned_key;
++   char *CRLfile;         /* CRL to check certificate revocation */
+++  char *cert_type;       /* format for certificate (default: PEM) */
+++  char *key;             /* private key filename */
+++  char *key_type;        /* format for private key (default: PEM) */
+++  char *key_passwd;      /* plain text private key password */
++   struct curl_blob *cert_blob;
++   struct curl_blob *ca_info_blob;
++   struct curl_blob *issuercert_blob;
+++  struct curl_blob *key_blob;
++ #ifdef USE_TLS_SRP
++   char *username; /* TLS username (for, e.g., SRP) */
++   char *password; /* TLS password (for, e.g., SRP) */
++@@ -252,11 +257,6 @@ struct ssl_config_data {
++   long certverifyresult; /* result from the certificate verification */
++   curl_ssl_ctx_callback fsslctx; /* function to initialize ssl ctx */
++   void *fsslctxp;        /* parameter for call back */
++-  char *cert_type; /* format for certificate (default: PEM) */
++-  char *key; /* private key filename */
++-  struct curl_blob *key_blob;
++-  char *key_type; /* format for private key (default: PEM) */
++-  char *key_passwd; /* plain text private key password */
++   BIT(certinfo);     /* gather lots of certificate info */
++   BIT(earlydata);    /* use TLS 1.3 early data */
++   BIT(enable_beast); /* allow this flaw for interoperability's sake */
++diff --git a/lib/vssh/libssh.c b/lib/vssh/libssh.c
++index 3a2a52e1f8..db767f7d00 100644
++--- a/lib/vssh/libssh.c
+++++ b/lib/vssh/libssh.c
++@@ -791,7 +791,7 @@ static int myssh_in_AUTH_PKEY_INIT(struct Curl_easy *data,
++   /* Two choices, (1) private key was given on CMD,
++    * (2) use the "default" keys. */
++   if(data->set.str[STRING_SSH_PRIVATE_KEY]) {
++-    if(sshc->pubkey && !data->set.ssl.key_passwd) {
+++    if(sshc->pubkey && !data->set.ssl.primary.key_passwd) {
++       rc = ssh_userauth_try_publickey(sshc->ssh_session, NULL, sshc->pubkey);
++       if(rc == SSH_AUTH_AGAIN)
++         return SSH_AGAIN;
++@@ -804,7 +804,7 @@ static int myssh_in_AUTH_PKEY_INIT(struct Curl_easy *data,
++
++     rc = ssh_pki_import_privkey_file(data->
++                                      set.str[STRING_SSH_PRIVATE_KEY],
++-                                     data->set.ssl.key_passwd, NULL,
+++                                     data->set.ssl.primary.key_passwd, NULL,
++                                      NULL, &sshc->privkey);
++     if(rc != SSH_OK) {
++       failf(data, "Could not load private key file %s",
++@@ -817,7 +817,7 @@ static int myssh_in_AUTH_PKEY_INIT(struct Curl_easy *data,
++   }
++   else {
++     rc = ssh_userauth_publickey_auto(sshc->ssh_session, NULL,
++-                                     data->set.ssl.key_passwd);
+++                                     data->set.ssl.primary.key_passwd);
++     if(rc == SSH_AUTH_AGAIN)
++       return SSH_AGAIN;
++
++diff --git a/lib/vssh/libssh2.c b/lib/vssh/libssh2.c
++index 63f5735b83..3c25fe7448 100644
++--- a/lib/vssh/libssh2.c
+++++ b/lib/vssh/libssh2.c
++@@ -1144,7 +1144,7 @@ static CURLcode ssh_state_pkey_init(struct Curl_easy *data,
++       return CURLE_OUT_OF_MEMORY;
++     }
++
++-    sshc->passphrase = data->set.ssl.key_passwd;
+++    sshc->passphrase = data->set.ssl.primary.key_passwd;
++     if(!sshc->passphrase)
++       sshc->passphrase = "";
++
++diff --git a/lib/vtls/gtls.c b/lib/vtls/gtls.c
++index a0a465c360..bfeb948542 100644
++--- a/lib/vtls/gtls.c
+++++ b/lib/vtls/gtls.c
++@@ -988,10 +988,11 @@ static CURLcode gtls_client_init(struct Curl_cfilter *cf,
++       if(result)
++         return result;
++     }
++-    if(ssl_config->cert_type && curl_strequal(ssl_config->cert_type, "P12")) {
+++    if(ssl_config->primary.cert_type &&
+++       curl_strequal(ssl_config->primary.cert_type, "P12")) {
++       rc = gnutls_certificate_set_x509_simple_pkcs12_file(
++         gtls->shared_creds->creds, config->clientcert, GNUTLS_X509_FMT_DER,
++-        ssl_config->key_passwd ? ssl_config->key_passwd : "");
+++        ssl_config->primary.key_passwd ? ssl_config->primary.key_passwd : "");
++       if(rc != GNUTLS_E_SUCCESS) {
++         failf(data,
++               "error reading X.509 potentially-encrypted key or certificate "
++@@ -1009,14 +1010,15 @@ static CURLcode gtls_client_init(struct Curl_cfilter *cf,
++       rc = gnutls_certificate_set_x509_key_file2(
++            gtls->shared_creds->creds,
++            config->clientcert,
++-           ssl_config->key ? ssl_config->key : config->clientcert,
++-           gnutls_do_file_type(ssl_config->cert_type),
++-           ssl_config->key_passwd,
+++           ssl_config->primary.key ? ssl_config->primary.key :
+++                                     config->clientcert,
+++           gnutls_do_file_type(ssl_config->primary.cert_type),
+++           ssl_config->primary.key_passwd,
++            supported_key_encryption_algorithms);
++       if(rc != GNUTLS_E_SUCCESS) {
++         failf(data,
++               "error reading X.509 %skey file: %s",
++-              ssl_config->key_passwd ? "potentially-encrypted " : "",
+++              ssl_config->primary.key_passwd ? "potentially-encrypted " : "",
++               gnutls_strerror(rc));
++         return CURLE_SSL_CONNECT_ERROR;
++       }
++diff --git a/lib/vtls/mbedtls.c b/lib/vtls/mbedtls.c
++index 54f0ac9fd4..d2199df884 100644
++--- a/lib/vtls/mbedtls.c
+++++ b/lib/vtls/mbedtls.c
++@@ -484,7 +484,7 @@ static CURLcode mbed_load_cacert(struct Curl_cfilter *cf,
++   const char * const ssl_capath = conn_config->CApath;
++ #ifdef MBEDTLS_PEM_PARSE_C
++   struct ssl_config_data *ssl_config = Curl_ssl_cf_get_config(cf, data);
++-  const char * const ssl_cert_type = ssl_config->cert_type;
+++  const char * const ssl_cert_type = ssl_config->primary.cert_type;
 + #endif
-+ #ifndef CURL_DISABLE_DIGEST_AUTH
-++  char *envproxy; /* last proxy string used for proxy-related state */
-+   struct digestdata digest;      /* state data for host Digest auth */
-+   struct digestdata proxydigest; /* state data for proxy Digest auth */
++   int ret = -1;
++   char errorbuf[128];
++@@ -579,7 +579,7 @@ static CURLcode mbed_load_clicert(struct Curl_cfilter *cf,
++   char * const ssl_cert = ssl_config->primary.clientcert;
++   const struct curl_blob *ssl_cert_blob = ssl_config->primary.cert_blob;
++ #ifdef MBEDTLS_PEM_PARSE_C
++-  const char * const ssl_cert_type = ssl_config->cert_type;
+++  const char * const ssl_cert_type = ssl_config->primary.cert_type;
 + #endif
++   int ret = -1;
++   char errorbuf[128];
++@@ -660,12 +660,12 @@ static CURLcode mbed_load_privkey(struct Curl_cfilter *cf,
++
++   mbedtls_pk_init(&backend->pk);
++
++-  if(ssl_config->key || ssl_config->key_blob) {
++-    if(ssl_config->key) {
+++  if(ssl_config->primary.key || ssl_config->primary.key_blob) {
+++    if(ssl_config->primary.key) {
++ #ifdef MBEDTLS_FS_IO
++ #if MBEDTLS_VERSION_NUMBER >= 0x04000000
++-      ret = mbedtls_pk_parse_keyfile(&backend->pk, ssl_config->key,
++-                                     ssl_config->key_passwd);
+++      ret = mbedtls_pk_parse_keyfile(&backend->pk, ssl_config->primary.key,
+++                                     ssl_config->primary.key_passwd);
++       if(ret == 0 &&
++          !(mbedtls_pk_can_do_psa(&backend->pk,
++                                  PSA_ALG_RSA_PKCS1V15_SIGN(PSA_ALG_ANY_HASH),
++@@ -675,8 +675,8 @@ static CURLcode mbed_load_privkey(struct Curl_cfilter *cf,
++                                  PSA_KEY_USAGE_SIGN_HASH)))
++         ret = MBEDTLS_ERR_PK_TYPE_MISMATCH;
++ #else
++-      ret = mbedtls_pk_parse_keyfile(&backend->pk, ssl_config->key,
++-                                     ssl_config->key_passwd,
+++      ret = mbedtls_pk_parse_keyfile(&backend->pk, ssl_config->primary.key,
+++                                     ssl_config->primary.key_passwd,
++                                      mbedtls_ctr_drbg_random,
++                                      &rng.drbg);
++       if(ret == 0 && !(mbedtls_pk_can_do(&backend->pk, MBEDTLS_PK_RSA) ||
++@@ -687,7 +687,7 @@ static CURLcode mbed_load_privkey(struct Curl_cfilter *cf,
++       if(ret) {
++         mbedtls_strerror(ret, errorbuf, sizeof(errorbuf));
++         failf(data, "mbedTLS: error reading private key %s: (-0x%04X) %s",
++-              ssl_config->key, -ret, errorbuf);
+++              ssl_config->primary.key, -ret, errorbuf);
++         return CURLE_SSL_CERTPROBLEM;
++       }
++ #else
++@@ -696,8 +696,8 @@ static CURLcode mbed_load_privkey(struct Curl_cfilter *cf,
++ #endif
++     }
++     else {
++-      const struct curl_blob *ssl_key_blob = ssl_config->key_blob;
++-      const char *passwd = ssl_config->key_passwd;
+++      const struct curl_blob *ssl_key_blob = ssl_config->primary.key_blob;
+++      const char *passwd = ssl_config->primary.key_passwd;
++       /* Unfortunately, mbedtls_pk_parse_key() requires the data to be
++          null-terminated if the data is PEM encoded (even when provided the
++          exact length). */
++@@ -931,7 +931,7 @@ static CURLcode mbed_configure_ssl(struct Curl_cfilter *cf,
++ #endif
++     );
++
++-  if(ssl_config->key || ssl_config->key_blob) {
+++  if(ssl_config->primary.key || ssl_config->primary.key_blob) {
++     mbedtls_ssl_conf_own_cert(&backend->config, &backend->clicert,
++                               &backend->pk);
++   }
++diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
++index 50bf1e0476..9cbab14b41 100644
++--- a/lib/vtls/openssl.c
+++++ b/lib/vtls/openssl.c
++@@ -3724,7 +3724,7 @@ CURLcode Curl_ossl_ctx_init(struct ossl_ctx *octx,
++   struct ssl_config_data *ssl_config = Curl_ssl_cf_get_config(cf, data);
++   char * const ssl_cert = ssl_config->primary.clientcert;
++   const struct curl_blob *ssl_cert_blob = ssl_config->primary.cert_blob;
++-  const char * const ssl_cert_type = ssl_config->cert_type;
+++  const char * const ssl_cert_type = ssl_config->primary.cert_type;
++   unsigned int ssl_version_min;
++   char error_buffer[256];
++
++@@ -3888,8 +3888,9 @@ CURLcode Curl_ossl_ctx_init(struct ossl_ctx *octx,
++   if(ssl_cert || ssl_cert_blob || ssl_cert_type) {
++     result = client_cert(data, octx->ssl_ctx,
++                          ssl_cert, ssl_cert_blob, ssl_cert_type,
++-                         ssl_config->key, ssl_config->key_blob,
++-                         ssl_config->key_type, ssl_config->key_passwd);
+++                         ssl_config->primary.key, ssl_config->primary.key_blob,
+++                         ssl_config->primary.key_type,
+++                         ssl_config->primary.key_passwd);
++     if(result)
++       /* failf() is already done in client_cert() */
++       return result;
++diff --git a/lib/vtls/rustls.c b/lib/vtls/rustls.c
++index 061b444bce..564b10aa47 100644
++--- a/lib/vtls/rustls.c
+++++ b/lib/vtls/rustls.c
++@@ -841,14 +841,14 @@ init_config_builder_client_auth(struct Curl_easy *data,
++   const struct rustls_certified_key *certified_key = NULL;
++   CURLcode result = CURLE_OK;
++
++-  if(conn_config->clientcert && !ssl_config->key) {
+++  if(conn_config->clientcert && !ssl_config->primary.key) {
++     failf(data, "rustls: must provide key with certificate '%s'",
++           conn_config->clientcert);
++     return CURLE_SSL_CERTPROBLEM;
++   }
++-  else if(!conn_config->clientcert && ssl_config->key) {
+++  else if(!conn_config->clientcert && ssl_config->primary.key) {
++     failf(data, "rustls: must provide certificate with key '%s'",
++-          ssl_config->key);
+++          ssl_config->primary.key);
++     return CURLE_SSL_CERTPROBLEM;
++   }
++
++@@ -862,8 +862,9 @@ init_config_builder_client_auth(struct Curl_easy *data,
++     goto cleanup;
++   }
++
++-  if(!read_file_into(ssl_config->key, &key_contents)) {
++-    failf(data, "rustls: failed to read key file: '%s'", ssl_config->key);
+++  if(!read_file_into(ssl_config->primary.key, &key_contents)) {
+++    failf(data, "rustls: failed to read key file: '%s'",
+++          ssl_config->primary.key);
++     result = CURLE_SSL_CERTPROBLEM;
++     goto cleanup;
++   }
++@@ -1053,7 +1054,7 @@ static CURLcode cr_init_backend(struct Curl_cfilter *cf,
++     }
++   }
++
++-  if(conn_config->clientcert || ssl_config->key) {
+++  if(conn_config->clientcert || ssl_config->primary.key) {
++     result = init_config_builder_client_auth(data,
++                                              conn_config,
++                                              ssl_config,
++diff --git a/lib/vtls/schannel.c b/lib/vtls/schannel.c
++index 650a0e38ca..a4f57c7c0a 100644
++--- a/lib/vtls/schannel.c
+++++ b/lib/vtls/schannel.c
++@@ -414,8 +414,8 @@ static CURLcode get_client_cert(struct Curl_easy *data,
++       }
++     }
++
++-    if((fInCert || blob) && data->set.ssl.cert_type &&
++-       !curl_strequal(data->set.ssl.cert_type, "P12")) {
+++    if((fInCert || blob) && data->set.ssl.primary.cert_type &&
+++       !curl_strequal(data->set.ssl.primary.cert_type, "P12")) {
++       failf(data, "schannel: certificate format compatibility error "
++             "for %s",
++             blob ? "(memory blob)" : data->set.ssl.primary.clientcert);
++@@ -465,15 +465,15 @@ static CURLcode get_client_cert(struct Curl_easy *data,
++       datablob.pbData = (BYTE *)certdata;
++       datablob.cbData = (DWORD)certsize;
++
++-      if(data->set.ssl.key_passwd)
++-        pwd_len = strlen(data->set.ssl.key_passwd);
+++      if(data->set.ssl.primary.key_passwd)
+++        pwd_len = strlen(data->set.ssl.primary.key_passwd);
++       pszPassword = (WCHAR *)curlx_malloc(sizeof(WCHAR) * (pwd_len + 1));
++       if(pszPassword) {
++         int str_w_len = 0;
++         if(pwd_len > 0)
++           str_w_len = MultiByteToWideChar(CP_UTF8,
++                                           MB_ERR_INVALID_CHARS,
++-                                          data->set.ssl.key_passwd,
+++                                          data->set.ssl.primary.key_passwd,
++                                           (int)pwd_len,
++                                           pszPassword, (int)(pwd_len + 1));
++
++diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
++index f7201d18d6..6dcc67dccd 100644
++--- a/lib/vtls/vtls.c
+++++ b/lib/vtls/vtls.c
++@@ -204,6 +204,7 @@ static bool match_ssl_primary_config(struct Curl_easy *data,
++      blobcmp(c1->cert_blob, c2->cert_blob) &&
++      blobcmp(c1->ca_info_blob, c2->ca_info_blob) &&
++      blobcmp(c1->issuercert_blob, c2->issuercert_blob) &&
+++     blobcmp(c1->key_blob, c2->key_blob) &&
++      Curl_safecmp(c1->CApath, c2->CApath) &&
++      Curl_safecmp(c1->CAfile, c2->CAfile) &&
++      Curl_safecmp(c1->issuercert, c2->issuercert) &&
++@@ -217,7 +218,11 @@ static bool match_ssl_primary_config(struct Curl_easy *data,
++      curl_strequal(c1->curves, c2->curves) &&
++      curl_strequal(c1->signature_algorithms, c2->signature_algorithms) &&
++      curl_strequal(c1->CRLfile, c2->CRLfile) &&
++-     curl_strequal(c1->pinned_key, c2->pinned_key))
+++     curl_strequal(c1->pinned_key, c2->pinned_key) &&
+++     curl_strequal(c1->cert_type, c2->cert_type) &&
+++     Curl_safecmp(c1->key, c2->key) &&
+++     curl_strequal(c1->key_type, c2->key_type) &&
+++     !Curl_timestrcmp(c1->key_passwd, c2->key_passwd))
++     return TRUE;
++
++   return FALSE;
++@@ -252,6 +257,7 @@ static bool clone_ssl_primary_config(struct ssl_primary_config *source,
++   CLONE_BLOB(cert_blob);
++   CLONE_BLOB(ca_info_blob);
++   CLONE_BLOB(issuercert_blob);
+++  CLONE_BLOB(key_blob);
++   CLONE_STRING(CApath);
++   CLONE_STRING(CAfile);
++   CLONE_STRING(issuercert);
++@@ -262,6 +268,10 @@ static bool clone_ssl_primary_config(struct ssl_primary_config *source,
++   CLONE_STRING(curves);
++   CLONE_STRING(signature_algorithms);
++   CLONE_STRING(CRLfile);
+++  CLONE_STRING(cert_type);
+++  CLONE_STRING(key);
+++  CLONE_STRING(key_type);
+++  CLONE_STRING(key_passwd);
++ #ifdef USE_TLS_SRP
++   CLONE_STRING(username);
++   CLONE_STRING(password);
++@@ -282,9 +292,14 @@ static void free_primary_ssl_config(struct ssl_primary_config *sslc)
++   Curl_safefree(sslc->cert_blob);
++   Curl_safefree(sslc->ca_info_blob);
++   Curl_safefree(sslc->issuercert_blob);
+++  Curl_safefree(sslc->key_blob);
++   Curl_safefree(sslc->curves);
++   Curl_safefree(sslc->signature_algorithms);
++   Curl_safefree(sslc->CRLfile);
+++  Curl_safefree(sslc->cert_type);
+++  Curl_safefree(sslc->key);
+++  Curl_safefree(sslc->key_type);
+++  Curl_safefree(sslc->key_passwd);
++ #ifdef USE_TLS_SRP
++   Curl_safefree(sslc->username);
++   Curl_safefree(sslc->password);
++@@ -336,12 +351,12 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_easy *data)
++   sslc->primary.username = data->set.str[STRING_TLSAUTH_USERNAME];
++   sslc->primary.password = data->set.str[STRING_TLSAUTH_PASSWORD];
++ #endif
++-  sslc->cert_type = data->set.str[STRING_CERT_TYPE];
++-  sslc->key = data->set.str[STRING_KEY];
++-  sslc->key_type = data->set.str[STRING_KEY_TYPE];
++-  sslc->key_passwd = data->set.str[STRING_KEY_PASSWD];
+++  sslc->primary.cert_type = data->set.str[STRING_CERT_TYPE];
+++  sslc->primary.key = data->set.str[STRING_KEY];
+++  sslc->primary.key_type = data->set.str[STRING_KEY_TYPE];
+++  sslc->primary.key_passwd = data->set.str[STRING_KEY_PASSWD];
++   sslc->primary.clientcert = data->set.str[STRING_CERT];
++-  sslc->key_blob = data->set.blobs[BLOB_KEY];
+++  sslc->primary.key_blob = data->set.blobs[BLOB_KEY];
++
++ #ifndef CURL_DISABLE_PROXY
++   sslc = &data->set.proxy_ssl;
++@@ -377,12 +392,12 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_easy *data)
++   sslc->primary.issuercert = data->set.str[STRING_SSL_ISSUERCERT_PROXY];
++   sslc->primary.issuercert_blob = data->set.blobs[BLOB_SSL_ISSUERCERT_PROXY];
++   sslc->primary.CRLfile = data->set.str[STRING_SSL_CRLFILE_PROXY];
++-  sslc->cert_type = data->set.str[STRING_CERT_TYPE_PROXY];
++-  sslc->key = data->set.str[STRING_KEY_PROXY];
++-  sslc->key_type = data->set.str[STRING_KEY_TYPE_PROXY];
++-  sslc->key_passwd = data->set.str[STRING_KEY_PASSWD_PROXY];
+++  sslc->primary.cert_type = data->set.str[STRING_CERT_TYPE_PROXY];
+++  sslc->primary.key = data->set.str[STRING_KEY_PROXY];
+++  sslc->primary.key_type = data->set.str[STRING_KEY_TYPE_PROXY];
+++  sslc->primary.key_passwd = data->set.str[STRING_KEY_PASSWD_PROXY];
++   sslc->primary.clientcert = data->set.str[STRING_CERT_PROXY];
++-  sslc->key_blob = data->set.blobs[BLOB_KEY_PROXY];
+++  sslc->primary.key_blob = data->set.blobs[BLOB_KEY_PROXY];
++ #ifdef USE_TLS_SRP
++   sslc->primary.username = data->set.str[STRING_TLSAUTH_USERNAME_PROXY];
++   sslc->primary.password = data->set.str[STRING_TLSAUTH_PASSWORD_PROXY];
++diff --git a/lib/vtls/vtls_scache.c b/lib/vtls/vtls_scache.c
++index 673abcfe0d..75e5b89553 100644
++--- a/lib/vtls/vtls_scache.c
+++++ b/lib/vtls/vtls_scache.c
++@@ -50,6 +50,7 @@
++ struct Curl_ssl_scache_peer {
++   char *ssl_peer_key;      /* id for peer + relevant TLS configuration */
++   char *clientcert;
+++  char *key_passwd;
++   char *srp_username;
++   char *srp_password;
++   struct Curl_llist sessions;
++@@ -123,6 +124,48 @@ out:
++   return r;
++ }
++
+++static CURLcode cf_ssl_peer_key_add_mtls(struct dynbuf *buf,
+++                                         struct ssl_primary_config *ssl,
+++                                         bool *is_local)
+++{
+++  CURLcode result = CURLE_OK;
+++  if(ssl->clientcert && ssl->clientcert[0]) {
+++    result = cf_ssl_peer_key_add_path(buf, "CCERT", ssl->clientcert, is_local);
+++    if(result)
+++      goto out;
+++  }
+++  if(ssl->key && ssl->key[0]) {
+++    result = cf_ssl_peer_key_add_path(buf, "KEY", ssl->key, is_local);
+++    if(result)
+++      goto out;
+++  }
+++  if(ssl->key_blob) {
+++    result = cf_ssl_peer_key_add_hash(buf, "KEYBlob", ssl->key_blob);
+++    if(result)
+++      goto out;
+++  }
+++  if(ssl->cert_type && ssl->cert_type[0]) {
+++    size_t i;
+++    result = curlx_dyn_add(buf, ":CT-");
+++    for(i = 0; !result && ssl->cert_type[i]; i++) {
+++      char c = Curl_raw_toupper(ssl->cert_type[i]);
+++      result = curlx_dyn_addn(buf, &c, 1);
+++    }
+++    if(result)
+++      goto out;
+++  }
+++  if(ssl->key_type && ssl->key_type[0]) {
+++    size_t i;
+++    result = curlx_dyn_add(buf, ":KT-");
+++    for(i = 0; !result && ssl->key_type[i]; i++) {
+++      char c = Curl_raw_toupper(ssl->key_type[i]);
+++      result = curlx_dyn_addn(buf, &c, 1);
+++    }
+++  }
+++out:
+++  return result;
+++}
+++
++ #define CURL_SSLS_LOCAL_SUFFIX     ":L"
++ #define CURL_SSLS_GLOBAL_SUFFIX    ":G"
++
++@@ -134,12 +177,12 @@ static bool cf_ssl_peer_key_is_global(const char *peer_key)
++          (peer_key[len - 2] == ':');
++ }
++
++-CURLcode Curl_ssl_peer_key_make(struct Curl_cfilter *cf,
++-                                const struct ssl_peer *peer,
++-                                const char *tls_id,
++-                                char **ppeer_key)
+++CURLcode Curl_ssl_peer_key_build(struct ssl_primary_config *ssl,
+++                                 const struct ssl_peer *peer,
+++                                 const struct connectdata *conn,
+++                                 const char *tls_id,
+++                                 char **ppeer_key)
++ {
++-  struct ssl_primary_config *ssl = Curl_ssl_cf_get_primary_config(cf);
++   struct dynbuf buf;
++   size_t key_len;
++   bool is_local = FALSE;
++@@ -187,13 +230,13 @@ CURLcode Curl_ssl_peer_key_make(struct Curl_cfilter *cf,
++       goto out;
++   }
++   if(!ssl->verifypeer || !ssl->verifyhost) {
++-    if(cf->conn->bits.conn_to_host) {
++-      r = curlx_dyn_addf(&buf, ":CHOST-%s", cf->conn->conn_to_host.name);
+++    if(conn && conn->bits.conn_to_host) {
+++      r = curlx_dyn_addf(&buf, ":CHOST-%s", conn->conn_to_host.name);
++       if(r)
++         goto out;
++     }
++-    if(cf->conn->bits.conn_to_port) {
++-      r = curlx_dyn_addf(&buf, ":CPORT-%d", cf->conn->conn_to_port);
+++    if(conn && conn->bits.conn_to_port) {
+++      r = curlx_dyn_addf(&buf, ":CPORT-%d", conn->conn_to_port);
++       if(r)
++         goto out;
++     }
++@@ -260,11 +303,9 @@ CURLcode Curl_ssl_peer_key_make(struct Curl_cfilter *cf,
++       goto out;
++   }
++
++-  if(ssl->clientcert && ssl->clientcert[0]) {
++-    r = curlx_dyn_add(&buf, ":CCERT");
++-    if(r)
++-      goto out;
++-  }
+++  r = cf_ssl_peer_key_add_mtls(&buf, ssl, &is_local);
+++  if(r)
+++    goto out;
++ #ifdef USE_TLS_SRP
++   if(ssl->username || ssl->password) {
++     r = curlx_dyn_add(&buf, ":SRP-AUTH");
++@@ -295,6 +336,15 @@ out:
++   return r;
++ }
++
+++CURLcode Curl_ssl_peer_key_make(struct Curl_cfilter *cf,
+++                                const struct ssl_peer *peer,
+++                                const char *tls_id,
+++                                char **ppeer_key)
+++{
+++  struct ssl_primary_config *ssl = Curl_ssl_cf_get_primary_config(cf);
+++  return Curl_ssl_peer_key_build(ssl, peer, cf->conn, tls_id, ppeer_key);
+++}
+++
++ struct Curl_ssl_scache {
++   unsigned int magic;
++   struct Curl_ssl_scache_peer *peers;
++@@ -402,6 +452,7 @@ static void cf_ssl_scache_clear_peer(struct Curl_ssl_scache_peer *peer)
++   }
++   peer->sobj_free = NULL;
++   Curl_safefree(peer->clientcert);
+++  Curl_safefree(peer->key_passwd);
++ #ifdef USE_TLS_SRP
++   Curl_safefree(peer->srp_username);
++   Curl_safefree(peer->srp_password);
++@@ -430,8 +481,8 @@ static void cf_ssl_cache_peer_update(struct Curl_ssl_scache_peer *peer)
++    * - its peer key is not yet known, because sessions were
++    *   imported using only the salt+hmac
++    * - the peer key is global, e.g. carrying no relative paths */
++-  peer->exportable = (!peer->clientcert && !peer->srp_username &&
++-                      !peer->srp_password &&
+++  peer->exportable = (!peer->clientcert && !peer->key_passwd &&
+++                      !peer->srp_username && !peer->srp_password &&
++                       (!peer->ssl_peer_key ||
++                        cf_ssl_peer_key_is_global(peer->ssl_peer_key)));
++ }
++@@ -440,6 +491,7 @@ static CURLcode
++ cf_ssl_scache_peer_init(struct Curl_ssl_scache_peer *peer,
++                         const char *ssl_peer_key,
++                         const char *clientcert,
+++                        const char *key_passwd,
++                         const char *srp_username,
++                         const char *srp_password,
++                         const unsigned char *salt,
++@@ -468,6 +520,11 @@ cf_ssl_scache_peer_init(struct Curl_ssl_scache_peer *peer,
++     if(!peer->clientcert)
++       goto out;
++   }
+++  if(key_passwd) {
+++    peer->key_passwd = curlx_strdup(key_passwd);
+++    if(!peer->key_passwd)
+++      goto out;
+++  }
++   if(srp_username) {
++     peer->srp_username = curlx_strdup(srp_username);
++     if(!peer->srp_username)
++@@ -598,7 +655,7 @@ static bool cf_ssl_scache_match_auth(struct Curl_ssl_scache_peer *peer,
++                                      struct ssl_primary_config *conn_config)
++ {
++   if(!conn_config) {
++-    if(peer->clientcert)
+++    if(peer->clientcert || peer->key_passwd)
++       return FALSE;
++ #ifdef USE_TLS_SRP
++     if(peer->srp_username || peer->srp_password)
++@@ -608,6 +665,8 @@ static bool cf_ssl_scache_match_auth(struct Curl_ssl_scache_peer *peer,
++   }
++   else if(!Curl_safecmp(peer->clientcert, conn_config->clientcert))
++     return FALSE;
+++  if(Curl_timestrcmp(peer->key_passwd, conn_config->key_passwd))
+++    return FALSE;
++ #ifdef USE_TLS_SRP
++   if(Curl_timestrcmp(peer->srp_username, conn_config->username) ||
++      Curl_timestrcmp(peer->srp_password, conn_config->password))
++@@ -734,13 +793,21 @@ static CURLcode cf_ssl_add_peer(struct Curl_easy *data,
++
++   peer = cf_ssl_get_free_peer(scache);
++   if(peer) {
+++    char buffer[64];
++     const char *ccert = conn_config ? conn_config->clientcert : NULL;
+++    const char *kpasswd = conn_config ? conn_config->key_passwd : NULL;
++     const char *username = NULL, *password = NULL;
++ #ifdef USE_TLS_SRP
++     username = conn_config ? conn_config->username : NULL;
++     password = conn_config ? conn_config->password : NULL;
++ #endif
++-    result = cf_ssl_scache_peer_init(peer, ssl_peer_key, ccert,
+++    if(!ccert && conn_config && conn_config->cert_blob) {
+++      /* when using a client cert blob, create a name for it */
+++      curl_msnprintf(buffer, sizeof(buffer),
+++                     "cert-%p", conn_config->cert_blob->data);
+++      ccert = buffer; /* data is strduped by cf_ssl_scache_peer_init */
+++    }
+++    result = cf_ssl_scache_peer_init(peer, ssl_peer_key, ccert, kpasswd,
++                                      username, password, NULL, NULL);
++     if(result)
++       goto out;
++@@ -1115,7 +1182,7 @@ CURLcode Curl_ssl_session_import(struct Curl_easy *data,
++     if(!peer) {
++       peer = cf_ssl_get_free_peer(scache);
++       if(peer) {
++-        r = cf_ssl_scache_peer_init(peer, ssl_peer_key, NULL,
+++        r = cf_ssl_scache_peer_init(peer, ssl_peer_key, NULL, NULL,
++                                     NULL, NULL, salt, hmac);
++         if(r)
++           goto out;
++diff --git a/lib/vtls/vtls_scache.h b/lib/vtls/vtls_scache.h
++index b9db0f19b3..d33f2bb1a7 100644
++--- a/lib/vtls/vtls_scache.h
+++++ b/lib/vtls/vtls_scache.h
++@@ -66,6 +66,22 @@ CURLcode Curl_ssl_peer_key_make(struct Curl_cfilter *cf,
++                                 const char *tls_id,
++                                 char **ppeer_key);
++
+++/**
+++ * Like Curl_ssl_peer_key_make() but takes the primary config and peer
+++ * descriptors directly, without requiring a Curl_cfilter. Exposed for
+++ * unit testing.
+++ * @param ssl      the primary SSL config to key on
+++ * @param peer     the peer the filter wants to talk to
+++ * @param conn     connection data for connect-to keying, or NULL
+++ * @param tls_id   identifier of TLS implementation for sessions
+++ * @param ppeer_key on successful return, the key generated
+++ */
+++CURLcode Curl_ssl_peer_key_build(struct ssl_primary_config *ssl,
+++                                 const struct ssl_peer *peer,
+++                                 const struct connectdata *conn,
+++                                 const char *tls_id,
+++                                 char **ppeer_key);
+++
++ /* Return if there is a session cache shall be used.
++  * An ssl session might not be configured or not available for
++  * "connect-only" transfers.
++diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
++index aa841a754a..74bd247e68 100644
++--- a/lib/vtls/wolfssl.c
+++++ b/lib/vtls/wolfssl.c
++@@ -919,10 +919,10 @@ static CURLcode client_certificate(struct Curl_easy *data,
++ #ifndef NO_FILESYSTEM
++   if(ssl_config->primary.cert_blob || ssl_config->primary.clientcert) {
++     const char *cert_file = ssl_config->primary.clientcert;
++-    const char *key_file = ssl_config->key;
+++    const char *key_file = ssl_config->primary.key;
++     const struct curl_blob *cert_blob = ssl_config->primary.cert_blob;
++-    const struct curl_blob *key_blob = ssl_config->key_blob;
++-    int file_type = wssl_do_file_type(ssl_config->cert_type);
+++    const struct curl_blob *key_blob = ssl_config->primary.key_blob;
+++    int file_type = wssl_do_file_type(ssl_config->primary.cert_type);
++     int rc;
++
++     switch(file_type) {
++@@ -953,7 +953,7 @@ static CURLcode client_certificate(struct Curl_easy *data,
++       key_file = cert_file;
++     }
++     else
++-      file_type = wssl_do_file_type(ssl_config->key_type);
+++      file_type = wssl_do_file_type(ssl_config->primary.key_type);
++
++     rc = key_blob ?
++       wolfSSL_CTX_use_PrivateKey_buffer(wctx->ssl_ctx, key_blob->data,
++@@ -967,8 +967,8 @@ static CURLcode client_certificate(struct Curl_easy *data,
++ #else /* NO_FILESYSTEM */
++   if(ssl_config->primary.cert_blob) {
++     const struct curl_blob *cert_blob = ssl_config->primary.cert_blob;
++-    const struct curl_blob *key_blob = ssl_config->key_blob;
++-    int file_type = wssl_do_file_type(ssl_config->cert_type);
+++    const struct curl_blob *key_blob = ssl_config->primary.key_blob;
+++    int file_type = wssl_do_file_type(ssl_config->primary.cert_type);
++     int rc;
++
++     switch(file_type) {
++@@ -993,7 +993,7 @@ static CURLcode client_certificate(struct Curl_easy *data,
++     if(!key_blob)
++       key_blob = cert_blob;
++     else
++-      file_type = wssl_do_file_type(ssl_config->key_type);
+++      file_type = wssl_do_file_type(ssl_config->primary.key_type);
++
++     if(wolfSSL_CTX_use_PrivateKey_buffer(wctx->ssl_ctx, key_blob->data,
++                                          (long)key_blob->len,
 +diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index 1e84b26820..bcee03b938 100644
++index 4fd7dfe912..2217666382 100644
 +--- a/tests/data/Makefile.am
 ++++ b/tests/data/Makefile.am
-+@@ -218,7 +218,7 @@ test1620 test1621 test1622 test1623 test1624 \
++@@ -282,6 +282,9 @@ test3100 test3101 test3102 test3103 test3104 test3105 \
 + \
-+ test1630 test1631 test1632 test1633 test1634 test1635 test1636 test1637 \
-+ \
-+-test1640 test1641 test1642 test1643 \
-++test1640 test1641 test1642 test1643 test1647 \
-+ \
-+ test1650 test1651 test1652 test1653 test1654 test1655 test1656 test1657 \
-+ test1658 \
-+diff --git a/tests/data/test1647 b/tests/data/test1647
++ test3200 test3201 test3202 test3203 test3204 test3205 test3206 test3207 test3208 \
++ test3209 test3210 test3211 test3212 test3213 test3214 test3215 test3216 \
+++\
+++test3303 test3304 \
+++\
++ test4000 test4001
++
++ EXTRA_DIST = $(TESTCASES) DISABLED data-xml1 data320.html \
++diff --git a/tests/data/test3303 b/tests/data/test3303
 +new file mode 100644
-+index 0000000000..a87487fa9f
++index 0000000000..697049f013
 +--- /dev/null
-++++ b/tests/data/test1647
-+@@ -0,0 +1,103 @@
+++++ b/tests/data/test3303
++@@ -0,0 +1,20 @@
 ++<?xml version="1.0" encoding="US-ASCII"?>
 ++<testcase>
 ++<info>
 ++<keywords>
-++HTTP
-++HTTP GET
-++HTTP proxy
-++HTTP proxy Digest auth
-++multi
+++unittest
+++TLS
+++mTLS
 ++</keywords>
 ++</info>
 ++
-++# Server-side
-++<reply>
-++
-++# this is returned first since we get no proxy-auth
-++<data crlf="headers" nocheck="yes">
-++HTTP/1.1 407 Authorization Required to proxy me my dear
-++Proxy-Authenticate: Digest realm="weirdorealm", nonce="12345"
-++Content-Length: 33
-++
-++And you should ignore this data.
-++</data>
-++
-++# then this is returned when we get proxy-auth
-++<data1000 crlf="headers">
-++HTTP/1.1 200 OK
-++Content-Length: 21
-++Server: no
-++
-++Nice proxy auth sir!
-++</data1000>
-++
-++<connect crlf="headers">
-++HTTP/1.1 401 OK
-++Content-Length: 21
-++Server: no
-++
-++Denied access. Leave
-++</connect>
-++
-++</reply>
+++# Client-side
+++<client>
+++<features>
+++unittest
+++</features>
+++<name>
+++conn-reuse match distinguishes mTLS key, cert_type, key_type and key_passwd fields
+++</name>
+++</client>
+++</testcase>
++diff --git a/tests/data/test3304 b/tests/data/test3304
++new file mode 100644
++index 0000000000..4380c0819f
++--- /dev/null
+++++ b/tests/data/test3304
++@@ -0,0 +1,20 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++unittest
+++TLS
+++mTLS
+++</keywords>
+++</info>
 ++
 ++# Client-side
 ++<client>
-++<server>
-++http
-++https-proxy
-++https
-++</server>
-++# tool is what to use instead of 'curl'
-++<tool>
-++lib%TESTNUMBER
-++</tool>
 ++<features>
-++!SSPI
-++crypto
-++proxy
-++digest
-++Debug
+++unittest
 ++</features>
-++<setenv>
-++http_proxy=%HOSTIP:%HTTPPORT
-++https_proxy=https://%HOSTIP:%HTTPSPROXYPORT
-++CURL_ENTROPY=99376
-++</setenv>
 ++<name>
-++HTTP proxy auth Digest, then change proxy with env var and do it again
+++TLS session cache peer key discriminates on mTLS key, key_type and cert_type fields
 ++</name>
-++<command>
-++http://test.remote.example.com/path/%TESTNUMBER https://another.example.com:%HTTPSPORT/ daniel:monkey123 another:bump456
-++</command>
 ++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf="headers">
-++GET http://test.remote.example.com/path/%TESTNUMBER HTTP/1.1
-++Host: test.remote.example.com
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++GET http://test.remote.example.com/path/%TESTNUMBER HTTP/1.1
-++Host: test.remote.example.com
-++Proxy-Authorization: Digest username="daniel", realm="weirdorealm", nonce="12345", uri="/path/%TESTNUMBER", response="7a1672891aff03248887b1a6674b8096"
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++</protocol>
-++
-++<proxy crlf="headers">
-++CONNECT another.example.com:%HTTPSPORT HTTP/1.1
-++Host: another.example.com:%HTTPSPORT
-++Proxy-Connection: Keep-Alive
-++
-++</proxy>
-++
-++# CONNECT fails
-++<errorcode>
-++7
-++</errorcode>
-++</verify>
 ++</testcase>
-+diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-+index 96b82bc059..e938b87bc5 100644
-+--- a/tests/libtest/Makefile.inc
-++++ b/tests/libtest/Makefile.inc
-+@@ -100,6 +100,7 @@ TESTS_C = \
-+   lib1582.c lib1588.c \
-+   lib1591.c lib1592.c lib1593.c lib1594.c                     lib1597.c \
-+   lib1598.c lib1599.c \
-++  lib1647.c \
-+   lib1662.c \
-+   lib1900.c lib1901.c lib1902.c lib1903.c lib1905.c lib1906.c lib1907.c \
-+   lib1908.c           lib1910.c lib1911.c lib1912.c lib1913.c \
-+diff --git a/tests/libtest/lib1647.c b/tests/libtest/lib1647.c
++diff --git a/tests/unit/Makefile.inc b/tests/unit/Makefile.inc
++index 149636cbcc..bba30f6706 100644
++--- a/tests/unit/Makefile.inc
+++++ b/tests/unit/Makefile.inc
++@@ -43,4 +43,5 @@ TESTS_C = \
++   unit1979.c unit1980.c \
++   unit2600.c unit2601.c unit2602.c unit2603.c unit2604.c unit2605.c \
++   unit3200.c                                             unit3205.c \
++-  unit3211.c unit3212.c unit3213.c unit3214.c            unit3216.c
+++  unit3211.c unit3212.c unit3213.c unit3214.c            unit3216.c \
+++  unit3303.c unit3304.c
++diff --git a/tests/unit/unit3303.c b/tests/unit/unit3303.c
 +new file mode 100644
-+index 0000000000..8060e1bfe9
++index 0000000000..41bced542d
 +--- /dev/null
-++++ b/tests/libtest/lib1647.c
-+@@ -0,0 +1,120 @@
+++++ b/tests/unit/unit3303.c
++@@ -0,0 +1,127 @@
 ++/***************************************************************************
 ++ *                                  _   _ ____  _
 ++ *  Project                     ___| | | |  _ \| |
@@ -358,114 +1064,291 @@ index 0000000000..653d908eb5
 ++ * SPDX-License-Identifier: curl
 ++ *
 ++ ***************************************************************************/
-++/*
-++ * argv1 = the first URL
-++ * argv2 = URL2
-++ * argv3 = credentials 1
-++ * argv4 = credentials 2
-++ */
+++#include "unitcheck.h"
+++#include "urldata.h"
 ++
-++#include "first.h"
+++#ifdef USE_SSL
+++#include "vtls/vtls.h"
+++#endif
 ++
-++/* this is meant to pick up the proxy from the environment variable */
-++static CURLcode init1647(CURL *curl, const char *url, const char *userpwd)
+++static CURLcode test_unit3303(const char *arg)
 ++{
-++  CURLcode result = CURLE_OK;
+++  UNITTEST_BEGIN_SIMPLE
 ++
-++  res_easy_setopt(curl, CURLOPT_URL, url);
-++  if(result)
-++    goto init_failed;
+++#ifdef USE_SSL
+++  {
+++    CURL *curl;
+++    struct connectdata *conn;
+++    struct ssl_primary_config *primary;
+++    char *saved;
+++    static char alt_passwd[] = "wrong";
+++    static char alt_key[]    = "other.key";
+++    static char alt_ktype[]  = "DER";
+++    static char alt_ctype[]  = "P12";
 ++
-++  res_easy_setopt(curl, CURLOPT_PROXYUSERPWD, userpwd);
-++  if(result)
-++    goto init_failed;
+++    curl_global_init(CURL_GLOBAL_ALL);
+++    curl = curl_easy_init();
+++    if(!curl) {
+++      curl_global_cleanup();
+++      goto unit_test_abort;
+++    }
 ++
-++  res_easy_setopt(curl, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
-++  if(result)
-++    goto init_failed;
+++    curl_easy_setopt(curl, CURLOPT_SSLCERT, "client.pem");
+++    curl_easy_setopt(curl, CURLOPT_SSLKEY, "client.key");
+++    curl_easy_setopt(curl, CURLOPT_KEYPASSWD, "secret");
+++    curl_easy_setopt(curl, CURLOPT_SSLCERTTYPE, "PEM");
+++    curl_easy_setopt(curl, CURLOPT_SSLKEYTYPE, "PEM");
 ++
-++  res_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-++  if(result)
-++    goto init_failed;
+++    if(Curl_ssl_easy_config_complete((struct Curl_easy *)curl)) {
+++      curl_easy_cleanup(curl);
+++      curl_global_cleanup();
+++      goto unit_test_abort;
+++    }
 ++
-++  res_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-++  if(result)
-++    goto init_failed;
+++    conn = curlx_calloc(1, sizeof(*conn));
+++    if(!conn || Curl_ssl_conn_config_init((struct Curl_easy *)curl, conn)) {
+++      if(conn)
+++        Curl_ssl_conn_config_cleanup(conn);
+++      curlx_free(conn);
+++      curl_easy_cleanup(curl);
+++      curl_global_cleanup();
+++      goto unit_test_abort;
+++    }
 ++
-++  res_easy_setopt(curl, CURLOPT_PROXY_SSL_VERIFYPEER, 0L);
-++  if(result)
-++    goto init_failed;
+++    /* Baseline: identical config must match. */
+++    fail_unless(Curl_ssl_conn_config_match((struct Curl_easy *)curl, conn,
+++                                           FALSE),
+++                "identical mTLS config should match");
 ++
-++  res_easy_setopt(curl, CURLOPT_PROXY_SSL_VERIFYHOST, 0L);
-++  if(result)
-++    goto init_failed;
+++    primary = &((struct Curl_easy *)curl)->set.ssl.primary;
 ++
-++  res_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-++  if(result)
-++    goto init_failed;
+++    /* Different key_passwd must not match. */
+++    saved = primary->key_passwd;
+++    primary->key_passwd = alt_passwd;
+++    fail_unless(!Curl_ssl_conn_config_match((struct Curl_easy *)curl, conn,
+++                                            FALSE),
+++                "different key_passwd must not reuse conn");
+++    primary->key_passwd = saved;
 ++
-++  return CURLE_OK; /* success */
+++    /* Different key path must not match. */
+++    saved = primary->key;
+++    primary->key = alt_key;
+++    fail_unless(!Curl_ssl_conn_config_match((struct Curl_easy *)curl, conn,
+++                                            FALSE),
+++                "different key must not reuse conn");
+++    primary->key = saved;
 ++
-++init_failed:
-++  return result; /* failure */
-++}
+++    /* Different key type must not match. */
+++    saved = primary->key_type;
+++    primary->key_type = alt_ktype;
+++    fail_unless(!Curl_ssl_conn_config_match((struct Curl_easy *)curl, conn,
+++                                            FALSE),
+++                "different key_type must not reuse conn");
+++    primary->key_type = saved;
 ++
-++static CURLcode run1647(CURL *curl, const char *url, const char *userpwd)
-++{
-++  CURLcode result = CURLE_OK;
+++    /* Different cert type must not match. */
+++    saved = primary->cert_type;
+++    primary->cert_type = alt_ctype;
+++    fail_unless(!Curl_ssl_conn_config_match((struct Curl_easy *)curl, conn,
+++                                            FALSE),
+++                "different cert_type must not reuse conn");
+++    primary->cert_type = saved;
 ++
-++  result = init1647(curl, url, userpwd);
-++  if(result)
-++    return result;
+++    /* All fields restored: must match again. */
+++    fail_unless(Curl_ssl_conn_config_match((struct Curl_easy *)curl, conn,
+++                                           FALSE),
+++                "restored mTLS config should match");
 ++
-++  return curl_easy_perform(curl);
-++}
-++
-++static CURLcode test_lib1647(const char *URL)
-++{
-++  CURLcode result = CURLE_OK;
-++  CURL *curl = NULL;
-++
-++  res_global_init(CURL_GLOBAL_ALL);
-++  if(result)
-++    return result;
-++
-++  curl = curl_easy_init();
-++  if(!curl) {
-++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
+++    Curl_ssl_conn_config_cleanup(conn);
+++    curlx_free(conn);
+++    curl_easy_cleanup(curl);
 ++    curl_global_cleanup();
-++    return TEST_ERR_MAJOR_BAD;
 ++  }
+++#endif /* USE_SSL */
 ++
-++  start_test_timing();
-++
-++  curl_mprintf("--- First get '%s'\n", URL);
-++  result = run1647(curl, URL, libtest_arg3);
-++  if(result)
-++    goto test_cleanup;
-++
-++  curl_mprintf("--- Then get '%s'\n", libtest_arg2);
-++  result = run1647(curl, libtest_arg2, libtest_arg4);
-++
-++test_cleanup:
-++
-++  /* proper cleanup sequence - type PB */
-++
-++  curl_easy_cleanup(curl);
-++  curl_global_cleanup();
-++  return result;
+++  UNITTEST_END_SIMPLE
 ++}
-+-- 
++diff --git a/tests/unit/unit3304.c b/tests/unit/unit3304.c
++new file mode 100644
++index 0000000000..4defa1e426
++--- /dev/null
+++++ b/tests/unit/unit3304.c
++@@ -0,0 +1,163 @@
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ ***************************************************************************/
+++
+++/* Unit tests for TLS session cache peer key discrimination on mTLS fields.
+++ * Verifies that Curl_ssl_peer_key_build() produces distinct keys when two
+++ * handles differ only on key, key_type or cert_type.  key_passwd is NOT
+++ * embedded in the peer key; it is compared separately at session lookup via
+++ * cf_ssl_scache_match_auth(), following the same pattern as SRP
+++ * credentials. */
+++
+++#include "unitcheck.h"
+++#include "urldata.h"
+++
+++#ifdef USE_SSL
+++#include "vtls/vtls.h"
+++#include "vtls/vtls_scache.h"
+++#endif
+++
+++static CURLcode test_unit3304(const char *arg)
+++{
+++  UNITTEST_BEGIN_SIMPLE
+++
+++#ifdef USE_SSL
+++  {
+++    struct ssl_peer peer;
+++    struct ssl_primary_config ssl;
+++    char *key1 = NULL;
+++    char *key2 = NULL;
+++    static char base_hostname[] = "example.com";
+++    static char base_cert[]     = "client.pem";
+++    static char base_key[]      = "client.key";
+++    static char base_passwd[]   = "secret";
+++    static char base_ctype[]    = "PEM";
+++    static char base_ktype[]    = "PEM";
+++    static char alt_key[]       = "other.key";
+++    static char alt_ktype[]     = "DER";
+++    static char alt_ctype[]     = "P12";
+++    static char lc_ctype[]      = "pem";
+++    static char lc_ktype[]      = "pem";
+++
+++    memset(&peer, 0, sizeof(peer));
+++    peer.hostname = base_hostname;
+++    peer.port = 443;
+++    peer.transport = TRNSPRT_TCP;
+++
+++    memset(&ssl, 0, sizeof(ssl));
+++    ssl.verifypeer = TRUE;
+++    ssl.verifyhost = TRUE;
+++    ssl.clientcert = base_cert;
+++    ssl.key        = base_key;
+++    ssl.key_passwd = base_passwd;
+++    ssl.cert_type  = base_ctype;
+++    ssl.key_type   = base_ktype;
+++
+++    /* Baseline: same config produces same key. */
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key1),
+++                "peer key build failed");
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key2),
+++                "peer key build failed");
+++    fail_unless(key1 && key2 && !strcmp(key1, key2),
+++                "identical config should produce identical peer key");
+++    curlx_free(key1); key1 = NULL;
+++    curlx_free(key2); key2 = NULL;
+++
+++    /* key_passwd is NOT in the peer key: lookup uses timing-safe comparison
+++     * via cf_ssl_scache_match_auth(), same as SRP credentials. */
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key1),
+++                "peer key build failed");
+++    ssl.key_passwd = NULL;
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key2),
+++                "peer key build failed");
+++    fail_unless(key1 && key2 && !strcmp(key1, key2),
+++                "key_passwd must not affect the peer key");
+++    curlx_free(key1); key1 = NULL;
+++    curlx_free(key2); key2 = NULL;
+++    ssl.key_passwd = base_passwd;
+++
+++    /* Different key path must produce a different peer key. */
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key1),
+++                "peer key build failed");
+++    ssl.key = alt_key;
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key2),
+++                "peer key build failed");
+++    fail_unless(key1 && key2 && strcmp(key1, key2),
+++                "different key must produce different peer key");
+++    curlx_free(key1); key1 = NULL;
+++    curlx_free(key2); key2 = NULL;
+++    ssl.key = base_key;
+++
+++    /* Different key_type must produce a different peer key. */
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key1),
+++                "peer key build failed");
+++    ssl.key_type = alt_ktype;
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key2),
+++                "peer key build failed");
+++    fail_unless(key1 && key2 && strcmp(key1, key2),
+++                "different key_type must produce different peer key");
+++    curlx_free(key1); key1 = NULL;
+++    curlx_free(key2); key2 = NULL;
+++    ssl.key_type = base_ktype;
+++
+++    /* Different cert_type must produce a different peer key. */
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key1),
+++                "peer key build failed");
+++    ssl.cert_type = alt_ctype;
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key2),
+++                "peer key build failed");
+++    fail_unless(key1 && key2 && strcmp(key1, key2),
+++                "different cert_type must produce different peer key");
+++    curlx_free(key1); key1 = NULL;
+++    curlx_free(key2); key2 = NULL;
+++    ssl.cert_type = base_ctype;
+++
+++    /* cert_type is case-insensitive: "PEM" and "pem" must produce the
+++     * same peer key, consistent with the conn-reuse comparison. */
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key1),
+++                "peer key build failed");
+++    ssl.cert_type = lc_ctype;
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key2),
+++                "peer key build failed");
+++    fail_unless(key1 && key2 && !strcmp(key1, key2),
+++                "cert_type case must not affect peer key");
+++    curlx_free(key1); key1 = NULL;
+++    curlx_free(key2); key2 = NULL;
+++    ssl.cert_type = base_ctype;
+++
+++    /* key_type is case-insensitive: "PEM" and "pem" must produce the
+++     * same peer key. */
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key1),
+++                "peer key build failed");
+++    ssl.key_type = lc_ktype;
+++    fail_unless(!Curl_ssl_peer_key_build(&ssl, &peer, NULL, "test", &key2),
+++                "peer key build failed");
+++    fail_unless(key1 && key2 && !strcmp(key1, key2),
+++                "key_type case must not affect peer key");
+++    curlx_free(key1); key1 = NULL;
+++    curlx_free(key2); key2 = NULL;
+++  }
+++#endif /* USE_SSL */
+++
+++  UNITTEST_END_SIMPLE
+++}
++--
 +2.35.6
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 5bec405eb7..193366f657 100644
+index 193366f657..994b1cff28 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = " \
-     file://CVE-2026-7168.patch \
+@@ -25,6 +25,8 @@ SRC_URI = " \
      file://CVE-2026-4873.patch \
      file://CVE-2026-8286.patch \
-+    file://CVE-2026-8927.patch \
+     file://CVE-2026-8927.patch \
++    file://CVE-2026-8932-dependent.patch \
++    file://CVE-2026-8932.patch \
  "
  
  SRC_URI:append:class-nativesdk = " \
