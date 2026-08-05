@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82CFDC55ABA
-	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 19:55:57 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4180.1785959746009670948
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B1CC55ABA
+	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 19:56:07 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4396.1785959760712996005
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 12:55:48 -0700
+ Wed, 05 Aug 2026 12:56:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=YQ1vJbX3;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20260805195542105b43531a00020768-ysalef@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260805195542105b43531a00020768
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=e1PivJrv;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202608051955588197664a4700020745-racu7e@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608051955588197664a4700020745
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 05 Aug 2026 21:55:43 +0200
+        Wed, 05 Aug 2026 21:55:58 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=J7lKor4GJNF069yY5cvcWJgzhaVaYW5lHHZ5KXg+uDc=;
- b=YQ1vJbX3R/yagknoO9F67YkHvF3Vg3Dwi7Uh2039JwIURzkpcgNkXLNnIzdSpe+Kk00lhZ
- +Ny6gdMYLJaqVo2WGc6IFGA2tVY6pGKBE8fdprLdEBQuoDo8QQgMacr3ZtqhmTb+NVr3NVCc
- b3l90p84f6qoG92IkzKV2xEt97I3uktUXnRNqV5mukp1s07uCYhV0m7o29mL8LBU+A7GC6Qt
- q0GqcmTu+dQh1CfUzaNQOeFeuYY92QNnoIF2rLGJtfBbtt2ENuDtpePI7jx9Yv/5yTiiYpVQ
- rr9M2v5D7k75XTQSrdL3nrM2Fxoi1/fecWYr0dskxLMnMANwaSL3AnnA==;
+ bh=tC301Y8OhlbsNhJTFD24dCTVwKmn5Iv+AcI56Bz1Yq0=;
+ b=e1PivJrviwZnq1uCwNPZM4SahVkjRsX98q8w7X/V/vRPfCJSiBuwWQ3Z2DZWxrNe7Q0hGT
+ i/DvyliLuo3hyXsGc54lYAsuTQLoRuvgZedZzDIiBtN37Rf1f9WGPaWd8uyZOaqj2fMEP1ec
+ yRarTo6HsKIl3WJCoQk4qP++9k+98HZEsPf31lcujGIvAitFLxqV01IkF/2jy/0TdmvmOXUG
+ p5WzR25PU96NTqQmaHCPJTXwKR32j9lHuRR1wHSLS4zo6soGoD9EZX01GkMwuB52y8Ktt6pM
+ ZohFMte5lXgHZBDWkx1v/ae+8zBaDgP4CrRXxzO5i1x6GRKxl1+Xvqpw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] libsndfile1: patch CVE-2026-37555
-Date: Wed,  5 Aug 2026 21:55:11 +0200
-Message-ID: <20260805195511.1923188-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] libsndfile1: patch CVE-2026-37555
+Date: Wed,  5 Aug 2026 21:55:36 +0200
+Message-ID: <20260805195536.1923231-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 19:55:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242891
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 19:56:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242893
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -54,7 +54,7 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 
 diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch
 new file mode 100644
-index 0000000000..bac8476ee8
+index 00000000000..bac8476ee8c
 --- /dev/null
 +++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch
 @@ -0,0 +1,44 @@
@@ -103,11 +103,11 @@ index 0000000000..bac8476ee8
 + 
 + 	return -1 ;
 diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-index c1fb522306..a26f57d7f4 100644
+index 4cf42375739..5d2a2c256b0 100644
 --- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
 +++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
-            file://0001-Include-stdbool.h-instead-of-redefining-bool-true-an.patch \
+@@ -13,6 +13,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
+            file://CVE-2024-50612.patch \
             file://CVE-2025-56226-01.patch \
             file://CVE-2025-56226-02.patch \
 +           file://CVE-2026-37555.patch \
