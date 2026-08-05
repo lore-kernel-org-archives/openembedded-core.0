@@ -1,157 +1,280 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA4D2C55822
-	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 10:32:58 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.62])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37456.1785925972697878330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D34D3C55ABA
+	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 10:42:18 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.37558.1785926277664368637
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 03:32:53 -0700
+ Wed, 05 Aug 2026 03:37:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=fRDkVuXF;
- spf=pass (domain: est.tech, ip: 52.101.84.62, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=G7xHlW/I;
+ spf=pass (domain: est.tech, ip: 52.101.65.53, mailfrom: adarsh.jagadish.kamini@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bvvIXFJHVK0RAWE/d1tJ89rpsaMD46m6lRrubHbPoW9MNEKSoJzHutZjC+f8OoovogXO7p1TUm0xH1QKa+2prdJrMMcTZoZZolBCj82MN8uxT4IPmr/hO/o6+6q7SV6F43AUCAHve77tdgr1/92yv9rGRmERYTEcieLeIZB5h1iY1w78FzhD5R+AikdsaXdq8RTsRmhsBC2P+CYcojBBZLQf8n3JaywD5Mcdo0yb7E1A2DD4mkZenBYH9D20Fi50NX1ThScKm/0SWygdctYx+x3+5nkONkAK4j7uQolNMfk6+OCmdBIAIoNH+KJG7DOSUPBv66iPIzdC22VzjR2PwQ==
+ b=BPTeutC1PA8crh0lwbWgz0CDSTQWCZjy1vAjofVs4itSrhQemPLiP+24XkdHGGhjsiKGrBJZFpVXtMVXjxm0zL0sWTD4L53aTtkb3zCzNMOjc0ogMTVGmx4YASHhCws4iNsj5Tc11CA7ka7Jcae/6KNATjyd7cbDokPqZG9b16YRsIkse7hXSNpAO5YjttQSVprBykYYrW05jVcggrYl0btLBPZRGPGcn2uhSJRG+MM04ewcmIaQ/NDl/uFN/E8y8BvVw6bPIjtwtTHq7hRl5fsyhnG6LvQ0e6vm3OaMUjr86J/KndWKxsl9QOiyb6TXexa/X0cwf5Y6ynr2vYEiaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rWHGln63faDdXSbSM4I73d/8Dox7Zw+zBcmyLHIM2xk=;
- b=KwJgblLj7RPbQmCDoTQKSw9Skn+JG47PuwhV3AFnyA1/Ze5FT/FeAMW5A81Q5tTaWfsb+ibzRhWMiMjASLMkLxA0nt0C6MOXt/H6YIOZNk4HCvKAd+gFec8io/TRGTSOiVtQTcjPpkY1x44nsynZA+1A+VSNhZtX8kJtGWTIoDqo+AcLLHBuI2/E3dcgtINMAt0s0jKfb1WXm/m9fBtMywAWp2Vo18vgLKa15BuGIk7d4P9Ef69/Ee40ezaNYFS/pbp+44uLksdo+105SocKLGWFifo2gSP2BzqI9PQOVrKX2AJl5f8mdmr/VHRe0XEHMiGRyihVWMV+LNb2n1axBA==
+ bh=oU3IRshle/axOo5O02TQt7gvTMLWlVv3AMUkdwVpJpA=;
+ b=L2sFSyGDJrkze+zS9gIXoqXCq5XHiUyQMDKr0lp6WWh3LjPr4l8spM5xg2wmrm1CjZwAT7tcssynIzWHrCy9+GC6zGLu+br5F5jc4BA9xM3nDYFhWTx8DLmHC9rE2qrlmj8nE/ffYelPj226JQtV02Fpn17hPH6+lg2EFTII3HfNkNSPewKsKuffZu+CW4AIzYPCmQE7tpSremf3wkG/0K4tFqxry+JihoWcGMvPwVYZKESQiYxUYVwUoY8nqMMajvcIsgodFSo5umEx168lA212O0Q8UZyXMHYF5KFbLYCjI/L1q0hNmPBORKWTXuX4uWMAMrakh2XHkm1XQ6/IXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rWHGln63faDdXSbSM4I73d/8Dox7Zw+zBcmyLHIM2xk=;
- b=fRDkVuXF07osdLM+kVAJU4Zk34ccfS1s8so0NzAlj7yKpzOddwUkntZe2mlKyVod+fJDADn/PZZOUeK8zdawXOkp/yow8aqBEDUqdy0hyYaIIfRug9xKh9QlvJAHPJ1AWesaTaTxx30/q698Asot3mx0esrlj8t79/RZCxweV7rz38lGvIWzEd3pKHiOrySdtl+vLcnOo+hvs9h6SvQF9UN/1ro7dvq36wGd+110yPkCqK6kgdZ89j1j+n6fkq4lIwpmXrBx26l/1CxBejxERjXvinAhHYcm55mG0GuNpOiIKBA/wPRJq7y+4t2ZgQVp7oRFah+4tqxGJ03HGtTv7Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by VI1P18901MB0767.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:123::13) with
+ bh=oU3IRshle/axOo5O02TQt7gvTMLWlVv3AMUkdwVpJpA=;
+ b=G7xHlW/I/KmHaxbUHkf0Js4v8rByibIZDDhAGcbjO4e6BQbLKoTmXEEdW3NjVMCJw54jUPK8Wjnv/aOkb4y5QhpgT5LZTZVZHNY6Ub1XmH8FpAr9JrcgDQeQlaz+3ku7yxgYnM0ct13kDNf/Xkg+1iU7HIemF1cdiFb068mZY5HtALPvpNrwndzRl4j5vji+CfSBY8YtblzDdP0e4QMj6V+2ItYFqyiRVAhtppZJcefdBdvtSH163q3OXayaxHDfZUN4A9Ek8fWyK3h4yxWHi5im8UyCZePacOYVfJBIuJMOvAjzb4XC+RZTU9EiR83SN6waX89v/8FyICaBxvzQOw==
+Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
+ by GVXP189MB3386.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2ac::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Wed, 5 Aug
- 2026 10:32:47 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0292.013; Wed, 5 Aug 2026
- 10:32:47 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH] erofs-utils: upgrade 1.9.2 -> 1.9.3
-Date: Wed,  5 Aug 2026 12:32:42 +0200
-Message-ID: <20260805103242.10520-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0199.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:318::16) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.5; Wed, 5 Aug 2026
+ 10:37:54 +0000
+Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+ ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+ ([fe80::f147:85e5:34de:eeff%4]) with mapi id 15.21.0292.015; Wed, 5 Aug 2026
+ 10:37:53 +0000
+From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][scarthgap][PATCH] thrift: fix CVE-2026-58389
+Thread-Topic: [meta-oe][scarthgap][PATCH] thrift: fix CVE-2026-58389
+Thread-Index: AQHdJMJYYE8CK30SqE+wSTD3DBrXDbaPQyze
+Date: Wed, 5 Aug 2026 10:37:53 +0000
+Message-ID: 
+ <AS8P189MB16722C944EFDB4EECCAAF3DCB3D32@AS8P189MB1672.EURP189.PROD.OUTLOOK.COM>
+References: <20260805100818.975113-1-adarsh.jagadish.kamini@est.tech>
+In-Reply-To: <20260805100818.975113-1-adarsh.jagadish.kamini@est.tech>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8P189MB1672:EE_|GVXP189MB3386:EE_
+x-ms-office365-filtering-correlation-id: c452d6ea-be0b-46f8-75f5-08def2dd9b42
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|12006099003|18002099003|22082099003|11063799006|56012099006|3023799007|38070700021|13003099007|6133799003|10067099003;
+x-microsoft-antispam-message-info: 
+ hkzY/+cj1Wj5a1QgykoSY34FN1amZ9lQQwW92Sgluc2KvbgVFedNWtIKMld81A2pMB259FY9/a6NpPtQrvIFhZpmSPbI7A71RkQHR351Pl6Syp1JJx9Kjz+Ze6pOMvenAPktfb14Ed+rPyRCUWxtET0xhP81mPi8DrUJb1KfTgQ1EW16G8auDwPwseN+YEGeHvxVH/MwFs8C/gFDthMlcUxsf+NuwpcVw30hMBuE5/msFkgmUDCV8ZJLaZh1VK6O+N24HbVNn5Bw1GarlEqO4kwww45bqAf9DfiVjvCj8G0pOYCzYqnnqoaWHlJUj0LZ8jybKCriZhPBd2EOCveqvbRoMFu7/cm8vHC+jECLxgz4YT2ruXjE8UvdZNCGeeFkXxZmgbnUXY94xyzMUx4lvlmRdILnQ57UlxoUvEpU0r83IoZ+8/5e6vv4YJmXMzIvPPjg6g2aTLOmqM7SFJE/ABcEbm0EUv79Hy7PH7v7sf4ygaRDddoz6XDfkQNgR7EC91/uM6JMsf+VzEJUehxTgLlZ9ZByLt+Cnl1+gkGeqEczIjACWrBe99VQp60dyuUm46fflecJ6oCc391b/0HFrr2rVlASB67K3O4lAbhHxjttK+rHu6WGi8feug1U9fZhmJQ74tuOMyH3TRaei2w5mThwB9kgu1LzBMW9OeZ1Yn5Z36r258y4X6mXbJ1Cr+s9d+ZmYlGikMxzOcgGaq7d44tupmBBVB61aIC/QS4neDk=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(12006099003)(18002099003)(22082099003)(11063799006)(56012099006)(3023799007)(38070700021)(13003099007)(6133799003)(10067099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?DY181qv+6RFzxeML9RPxeMy9x2rIeOD+PqGfufmcF07FoRUCCFBjm/1iiqMs?=
+ =?us-ascii?Q?JIp22ks8PyT6pklUn1IvERTbmDo0GGsXLhVTxfLvv5Wzkv6PZ95+gwtkPJyZ?=
+ =?us-ascii?Q?86iKamSPQrmvMhE16oi8nKVZbKh8BT1imRqpkQeiygqDfewDBIXAkp0gGGr5?=
+ =?us-ascii?Q?9d51NgYx1IDbzFKpq9GVpAuz5fSYYhD90fsrxIwdIVHRTN9lORLxBqICd+Ee?=
+ =?us-ascii?Q?ZJgK7F9WtIQtIOhm6vTONE4JB3hWpkhBQE8DB11JXJLSYxBdmQyNTlQXP2OM?=
+ =?us-ascii?Q?C9YPyS+d2N4+uDv2DfDpRGa+USOESsjOTtKJnPvdEktZ3phHunjJYg/OoLZo?=
+ =?us-ascii?Q?z16IhEi3gow/K3gPiwccNY5nSHc0DqO5uOD1mdWfudjmMAAW2PljchTXitt8?=
+ =?us-ascii?Q?EkRYvHoOY76WWeUeEzo96fn2XlOVnidVT3hB8o+9jbktypcftbUCiEgO25Ai?=
+ =?us-ascii?Q?463FPMqMgkUWWWeZzzW0g07/l8T560jAbwTVS7ZYHs6G7sncZrStWs8Z5qrF?=
+ =?us-ascii?Q?IztnfRVwAs6/WfXruXg5nlu4mPBhQNt+4EmhSH16viGeLhUJ+e+nSPXL/TiW?=
+ =?us-ascii?Q?mvyALnJxRaoWp032w0Vtvcfb7lK8uldJPUqqREn0Xxv29Np22KgzwOcxPPX+?=
+ =?us-ascii?Q?lGut8Tf7ERKwJQN2hnAtAGoVi1ag9fdA9LLhdFY6pRDGAYZhoOCktWY2gwJE?=
+ =?us-ascii?Q?Jyjy/3pEL0SAZQK64puJmr5Jh1HojcjBHzHuiP1IjvEX7i8eiSp/1TQnEvsT?=
+ =?us-ascii?Q?hD0n9cvWyYKarT9VaD3apLFVl2GQ5SsDNqWteFI+W5ofgBeWWhAwhyUYClVw?=
+ =?us-ascii?Q?54qE3dTHuPooYlNaCefcd7zPGLSHqWN7YpEpKkCu0hAZtL7eiHz8YbzaiyGF?=
+ =?us-ascii?Q?5wV6v0H1KB9FwVWRMcUAHP31sh6LMjxvoFqQGyQhG1VQm6pHtAtdUzxh/MIL?=
+ =?us-ascii?Q?9Uepz9bXg/GnnksdJ4pVhaJxkq4lILDK6fylkMiqrUVdacXggfTz+dc65VUn?=
+ =?us-ascii?Q?/wZTl+1nk//bAD5VXRz23e+srNqODbAHl0G8/IiJjqgRdueWjBjPiX6edzFa?=
+ =?us-ascii?Q?Z9TXreAhl7h4NDyBRaKk+tx/k8LNLA8br6QkdQVkaXqkd9k6T6FHhkzXw8fX?=
+ =?us-ascii?Q?01x4tbzNAOdRL2LKVINE4mTzcqB7t1rZlq5MaAW8hoCdh45nwNZ26bsrsSUU?=
+ =?us-ascii?Q?JOqckmMx+keL+WRWBqKLfNgpvMwQbY0nooXrZxUnntYqyB8HgbfbX5UnzFw9?=
+ =?us-ascii?Q?mfoVQVNDNDQqxq2H6XApoOxemX4I10YI4CGDq5DZG6F0KCCz1SGfzvJ4NJ1n?=
+ =?us-ascii?Q?g5dh4EaakkuZSKs+wkbdrtd+xlSTJiH+iCGePEsTlu7c4ITrPuechtnrJGmR?=
+ =?us-ascii?Q?+rne/si2hrrPLttXjHJr/Xb+/9HqRT3Am3mAdyAD45BHeH76uaR4E45k7Yid?=
+ =?us-ascii?Q?1KGJ+e20Kx1jhLBn7DwailS8ZeHvBe5J0sWx/SuyoPar9F7qrDm/pTIZZyuS?=
+ =?us-ascii?Q?4UcDAQqcgUa17JFv+NuXg/KlQWtdMfRR6ZtdGoz3y1nnHWNF6ppJf/k1wd4F?=
+ =?us-ascii?Q?6fW5lBezLasalhDC/zKUZFnNhPPlOwgyKzA3dpRNtWjFLzkPT9y9py9Q6nix?=
+ =?us-ascii?Q?qpMkepu709f8u6ey2oQmWr55qA2IvNUCiRaeV9Poucq/iH5UaU00zHI32C0I?=
+ =?us-ascii?Q?anNIV3M/NFAcen1zB1kmkuCPOQdl8edMGUD31+vHboH/gS5/I73p5Gk2j1B3?=
+ =?us-ascii?Q?MUo5muYAyHjzYEwQLgCaWgZfBHq4dOE=3D?=
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|VI1P18901MB0767:EE_
-X-MS-Office365-Filtering-Correlation-Id: 50126213-4c2d-40f7-7f61-08def2dce428
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|10070799003|366016|23010399003|376014|1800799024|6133799003|11063799006|56012099006|10067099003|3023799007|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	fgUKHHkEujZZUumURDQnfSA4FBqsdC1Z1YZHFZ9640OoFgEqrj10LdbGL1wRAYTQK16D6OWketwaIVDlAaG7KoJwFGpXBBnYut/FV707iqzHVpCMaOHaR457GUrjUIFnu5R6bLFovLxfAwZY65wUaBy263r16holi/LtP+Q9sIDWS/D1J+ZFMRpEbobxJ3ALVHI2qj/Nn210/jv8LspbU+Bu+tGn7tO0RgVk9NhifB8oIg4BaSeYvJlexfXpekGieS3naHuuYkVjViKQY1exb1GuGs9kjGsl6TaRtoPC34OW0Ft0xGU/GGqGxOtffttiGdkX9MbzwULTRQWXJX7ZpJIaX1jBaDhbx884Mpaq1G0CiaYudOQEr+YMAHiRPPdmp0WG3F2/sgJwOSH5u3a1abkWjE0cs1Mer1DsB7rKRtbT8qtBHKf8hAumBJd/Ei8fAvNO8njoWUDxcZKhtBPr3oYqYTRo7hpWd2m/r+V2IVjzGvGDVqCjUKH2mPuoYVHeIyRYK7iPJlpMsoB5qDhjB+ZmFr0FL2md8IkYyM8KPo6s0fDzpg6Xy33nTs5fGsltVxRHg1g0s+41Q0CvD/vhtw5hQ+bZBEQMtXAe/TqA4GAQlz5QbydtDJTXwXFY5brm5YY1EQuNsrrwWOshehk6JWtNMFK7Yl2TToCT9Z7Gd5M=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(23010399003)(376014)(1800799024)(6133799003)(11063799006)(56012099006)(10067099003)(3023799007)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?02KORbViVjNXvSDWS5VJtZoJJUMob7sYQMVSqTg8IosCjNQqKwbDar2dQ4yg?=
- =?us-ascii?Q?djUSVDbLuKyQkKqCtCdIXCUAEMmSfEz/dkfhY1vPwviLjRWf62qIr6RaIqQf?=
- =?us-ascii?Q?hBYAB3yxiAxhne+smOdNcbbJuk3keVfCZoW2CDElH9pK1tWii+myXwBy2mv9?=
- =?us-ascii?Q?BMvk9eZmdH49TJQ5HvM47Sm4kcaAwqirsJ4ANxKTO3khOyYFBH9tjM1s6aaK?=
- =?us-ascii?Q?n6qiC34DTUHKTc4VTXmfCiEuItE5+oa645QgAS70anDaUG4OBYiaaiOZs3f+?=
- =?us-ascii?Q?D5bgDoyKEsHYpDv44dzNeOPnV3XJOUsGOf45IapVXWCqCYI2USQhF3wbuXt8?=
- =?us-ascii?Q?Buo/NmIkbW+csX/CSRbh4rb0tJfpBEcNEbWxyU9W26+Ttr+xoaC4y4KHkuwq?=
- =?us-ascii?Q?j8174RpBv1k5J2ZUHibpff3juUODWcFn4ZZVW+W+zqXQ+efCtkOWNz6J+M1Z?=
- =?us-ascii?Q?yVFkxSMCMeQCfIrpsQPyKKhuAo2ZKp9Mh59d+NfF+hBzj5sta/1U0SnZVxaq?=
- =?us-ascii?Q?VtO7UE+HUwUSNtm0YVaXlPDGGHGasXlHEKB56RZr2YT0Cju6kDZbB0sfVNsF?=
- =?us-ascii?Q?iAVnb+/2aamOUYzZmPSxrf2AyAunVC1gL/pl/MVw3NVD44TQ5XzAneFue/DX?=
- =?us-ascii?Q?tACSTbAzqV30DWu4q5EJt+KfhroW1Ij8TPIoca+ijUESalGrpipU9Tlt+lEE?=
- =?us-ascii?Q?lskjYIIWNA9/oZ5fClB/18pnGsid8Z0UQgngOrKD9zKHKtCeHYC9n97o01lf?=
- =?us-ascii?Q?fK7VdJ9Xub3z+GooH9oDDQiJ/lPugTcZAjHeKrOdPwpgvv5eDFqGVrGvx/Kv?=
- =?us-ascii?Q?i9swwgzAbirR3zbl7dxihCi+eb+dkbXhp2DtsB1yfTkO4uZTFvv/V27c7YGg?=
- =?us-ascii?Q?qK7EGbdkcVwcllq/CZWujq6/XCgG7up7NzAY/ZQMLMy2zrQsjaVnC62S4H8L?=
- =?us-ascii?Q?AjbGaf12fsW9/NDv6z46RBvlji5+x//MLptlWs6+/v63jUWZx1FuAXzd/uzr?=
- =?us-ascii?Q?ceZdcYOa4U6yLUuNhperltwnOAGxhGRCer0lNbSEHavB9EPXqkSn3y/zHWSO?=
- =?us-ascii?Q?J1iPl/fDCNtPeOijN0zRyChBJ+3Vg3o93sNJ55c/scXDVHlrZLnkaSG7cKXc?=
- =?us-ascii?Q?LIkMFlyPv4tyIFo9erC0VkbquBB/a4iKQ7/8ilpXCQn1PEhjCqv3ZT1M7P+B?=
- =?us-ascii?Q?Y+XXNPpAec5znj9tyac2go3LrBCTKNbzPJSubI6b7ig9efg2bwYGel2EbHSX?=
- =?us-ascii?Q?d8wNZuCNe3VnVQgz3WrnOSV4aDHS6V5UN/3SyuOTsGhN/XcllXSHQx97nNLH?=
- =?us-ascii?Q?HjRUbE/nlXtkzPEuEcfo2qfw70vTfyetTaJqfgfhWQ6UoXIQEifayNrl6ZZe?=
- =?us-ascii?Q?9CGfrgdGZAzcIAmIprgEbusqOrDFU+2Wxj3/s1I0gcvzNTfUOrsK691hb66p?=
- =?us-ascii?Q?QJA4qvAPC2n6lk+BKmoE1wlZ8GZZEg3uJAPqth13bd1Vy8MRD1YKZ2oqC2PO?=
- =?us-ascii?Q?zaxSUAVSg3GCVYb1Vdf/sP01qwHP8Trg4foSEgIGS0eKMYnmIUoK5lJJrQ5l?=
- =?us-ascii?Q?3DpeD0ASUOAKCQAOM8LgpgNi3JHRvG1p2PMDilJcxyDhf0bXGgsIjAs5XefF?=
- =?us-ascii?Q?Y7M5KAjorMO19UcYK1VxlXExsAJsR6uVORnMUVxxdzwlUBptDgZ5IWgMapE9?=
- =?us-ascii?Q?F0kLQpQHyDK6vb88sxQT2pZawi5quaQ3WrbSlBct8NS6ghw4ZDGw8M6ucO9r?=
- =?us-ascii?Q?HAkwggp0oMA3NBQGn66m4JWWBNzUB+X+Ci8eTL9h/qFc3So5Wh/aUhhQB0ml?=
-X-MS-Exchange-AntiSpam-MessageData-1: Rs794zUN768TsHw3kyjiL8nzFgd1I6xPWXI=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50126213-4c2d-40f7-7f61-08def2dce428
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 10:32:46.8995
+X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: c452d6ea-be0b-46f8-75f5-08def2dd9b42
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2026 10:37:53.9458
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4BJk7mRf7/P1QcBzCKjH4jaHznx0JUznLP8op04Z1pQnRaUqI4F1q8oMTtS54OnEnRuX9Bov0XtJZQ2uvk+zS9hkZEn74aQQt6gnU5c72/Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P18901MB0767
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CKcKGC2CCRk1tl0/PfXWRBSajK1lGtbsDmeWoc9cUR0c5X1yFHlw1uryDGjGtVn5c7z5NRetfvn34GO5fZ+wFbI1gzyk4ekEJyiClczux5M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB3386
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 10:32:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242859
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 10:42:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242860
 
-ChangeLog: https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-util=
-s.git/diff/ChangeLog?id=3D7db78788b000999e2de88decd2ba90654f26171c
 
-ChangeLog:
-erofs-utils 1.9.3
+Hi,
+Please ignore this, I have now sent the patch again to the correct mailing =
+list.
 
-* A quick maintenance release includes the following fixes:
+Thanks!
 
-  - (mkfs.erofs) Sort inline xattrs for reproducible builds (Martin Pitt);
-  - (mkfs.erofs) Fix rebuild mode handling for opaque directories;
-  - (mkfs.erofs) Fix `--incremental=3Ddata` functionality;
-  - (mkfs.erofs) Fix raw inline handling with `-Eztailpacking` (Yifan Zhao)=
-;
-  - (mkfs.erofs) Harden tar index parsing against invalid sizes;
-  - (mkfs.erofs) Fix memory leaks for small fragments (Bingwu Zhang);
-  - Fix various build errors and warnings.
+________________________________________
+From: Adarsh Jagadish Kamini
+Sent: Wednesday, August 5, 2026 12:08
+To: openembedded-core@lists.openembedded.org
+Subject: [meta-oe][scarthgap][PATCH] thrift: fix CVE-2026-58389
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Backport patch to fix CVE-2026-58389.
+
+References:
+  https://nvd.nist.gov/vuln/detail/CVE-2026-58389
+
+Upstream fix:
+  https://github.com/apache/thrift/commit/0ab16e3a83637711f4e0f788c205f6657=
+6fd0a55
+
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 ---
- .../erofs-utils/{erofs-utils_1.9.2.bb =3D> erofs-utils_1.9.3.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.9.2.bb =3D> erofs-=
-utils_1.9.3.bb} (93%)
+- Note on CVE relationship: The patch series that was submitted (https://pa=
+tchwork.yoctoproject.org/project/oe/list/?series=3D48481) contains
+CVE-2026-43868 fix, that introduces the preliminary container/object size c=
+hecks in the Rust client, which CVE-2026-58389 further enhances.
+---
+ .../thrift/thrift/CVE-2026-58389.patch        | 93 +++++++++++++++++++
+ .../thrift/thrift_0.20.0.bb                   |  1 +
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta-oe/recipes-connectivity/thrift/thrift/CVE-2026-583=
+89.patch
 
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.2.bb b/meta/=
-recipes-devtools/erofs-utils/erofs-utils_1.9.3.bb
-similarity index 93%
-rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.9.2.bb
-rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.9.3.bb
-index 3119627adf..2b849f2a4e 100644
---- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.2.bb
-+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.3.bb
-@@ -4,7 +4,7 @@ SECTION =3D "base"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D63afa010baddc7d0905f9c31ac759f5=
-1"
- HOMEPAGE =3D "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-=
-utils.git/tree/README"
-=20
--SRCREV =3D "30711d4b2e234fe3e8aaeb779ade4cb609b0d920"
-+SRCREV =3D "7db78788b000999e2de88decd2ba90654f26171c"
- SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-uti=
-ls.git;branch=3Dmaster;protocol=3Dhttps;tag=3Dv${PV}"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>(\d+(\.\d+)+))"
+diff --git a/meta-oe/recipes-connectivity/thrift/thrift/CVE-2026-58389.patc=
+h b/meta-oe/recipes-connectivity/thrift/thrift/CVE-2026-58389.patch
+new file mode 100644
+index 0000000000..558969f9ce
+--- /dev/null
++++ b/meta-oe/recipes-connectivity/thrift/thrift/CVE-2026-58389.patch
+@@ -0,0 +1,93 @@
++From 0a95520b91c1da608e5530f4299c3b4ffb4b550c Mon Sep 17 00:00:00 2001
++From: Javid Khan <dxbjavid@gmail.com>
++Date: Mon, 29 Jun 2026 19:51:49 +0530
++Subject: [PATCH] enforce max_string_size on non-strict binary message name
++
++
++CVE: CVE-2026-58389
++Upstream-Status: Backport [https://github.com/apache/thrift/commit/0ab16e3=
+a83637711f4e0f788c205f66576fd0a55]
++
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++---
++ lib/rs/src/protocol/binary.rs | 61 +++++++++++++++++++++++++++++++++++
++ 1 file changed, 61 insertions(+)
++
++diff --git a/lib/rs/src/protocol/binary.rs b/lib/rs/src/protocol/binary.rs
++index 596285fb9..38f528571 100644
++--- a/lib/rs/src/protocol/binary.rs
+++++ b/lib/rs/src/protocol/binary.rs
++@@ -137,6 +137,17 @@ where
++                 // is the message name. strings (byte arrays) are length-=
+prefixed,
++                 // so we've just read the length in the first 4 bytes
++                 let name_size =3D BigEndian::read_i32(&first_bytes) as us=
+ize;
+++                if let Some(max_size) =3D self.config.max_string_size() {
+++                    if name_size > max_size {
+++                        return Err(crate::Error::Protocol(ProtocolError::=
+new(
+++                            ProtocolErrorKind::SizeLimit,
+++                            format!(
+++                                "Message name size {} exceeds maximum all=
+owed size of {}",
+++                                name_size, max_size
+++                            ),
+++                        )));
+++                    }
+++                }
++                 let mut name_buf: Vec<u8> =3D vec![0; name_size];
++                 self.transport.read_exact(&mut name_buf)?;
++                 let name =3D String::from_utf8(name_buf)?;
++@@ -1227,6 +1238,56 @@ mod tests {
++         }
++     }
++
+++    #[test]
+++    fn must_enforce_string_size_limit_on_non_strict_message_name() {
+++        let mem =3D TBufferChannel::with_capacity(100, 100);
+++        let (r_mem, mut w_mem) =3D mem.split().unwrap();
+++
+++        let config =3D TConfiguration::builder()
+++            .max_string_size(Some(1000))
+++            .build()
+++            .unwrap();
+++        // non-strict: the first 4 bytes are the (positive) message-name =
+length
+++        let mut i_prot =3D TBinaryInputProtocol::with_config(r_mem, false=
+, config);
+++
+++        w_mem.set_readable_bytes(&[0x00, 0x00, 0x07, 0xD0]);
+++
+++        let result =3D i_prot.read_message_begin();
+++        assert!(result.is_err());
+++        match result {
+++            Err(crate::Error::Protocol(e)) =3D> {
+++                assert_eq!(e.kind, ProtocolErrorKind::SizeLimit);
+++                assert!(e
+++                    .message
+++                    .contains("Message name size 2000 exceeds maximum all=
+owed size of 1000"));
+++            }
+++            _ =3D> panic!("Expected protocol error with SizeLimit"),
+++        }
+++    }
+++
+++    #[test]
+++    fn must_allow_non_strict_message_name_at_limit() {
+++        let mem =3D TBufferChannel::with_capacity(100, 100);
+++        let (r_mem, mut w_mem) =3D mem.split().unwrap();
+++
+++        let config =3D TConfiguration::builder()
+++            .max_string_size(Some(5))
+++            .build()
+++            .unwrap();
+++        // non-strict: the first 4 bytes are the (positive) message-name =
+length
+++        let mut i_prot =3D TBinaryInputProtocol::with_config(r_mem, false=
+, config);
+++
+++        // name length 5 (=3D=3D limit), name "hello", message type Call,=
+ sequence 0
+++        w_mem.set_readable_bytes(&[
+++            0x00, 0x00, 0x00, 0x05, b'h', b'e', b'l', b'l', b'o', 0x01, 0=
+x00, 0x00, 0x00, 0x00,
+++        ]);
+++
+++        let ident =3D i_prot.read_message_begin().unwrap();
+++        assert_eq!(ident.name, "hello");
+++        assert_eq!(ident.message_type, TMessageType::Call);
+++        assert_eq!(ident.sequence_number, 0);
+++    }
+++
++     #[test]
++     fn must_allow_strings_within_limit() {
++         let mem =3D TBufferChannel::with_capacity(100, 100);
+diff --git a/meta-oe/recipes-connectivity/thrift/thrift_0.20.0.bb b/meta-oe=
+/recipes-connectivity/thrift/thrift_0.20.0.bb
+index ded6800bbb..fa01e72ab4 100644
+--- a/meta-oe/recipes-connectivity/thrift/thrift_0.20.0.bb
++++ b/meta-oe/recipes-connectivity/thrift/thrift_0.20.0.bb
+@@ -17,6 +17,7 @@ SRC_URI =3D "https://archive.apache.org/dist/${BPN}/${PV}=
+/${BP}.tar.gz \
+            file://CVE-2026-48144.patch \
+            file://CVE-2026-43868.patch \
+            file://CVE-2026-43870.patch \
++           file://CVE-2026-58389.patch \
+            "
+ SRC_URI[sha256sum] =3D "b5d8311a779470e1502c027f428a1db542f5c051c8e1280ccd=
+2163fa935ff2d6"
+
 
