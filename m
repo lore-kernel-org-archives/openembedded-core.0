@@ -1,226 +1,330 @@
-Return-Path: <mike.looijmans@topic.nl>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66279C55182
-	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 07:30:23 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.125])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35151.1785915016780175047
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA7DC55182
+	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 07:34:53 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32953.1785902440218172646
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 00:30:18 -0700
+ Tue, 04 Aug 2026 21:00:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@topic.nl header.s=selector2 header.b=MYnK+323;
- spf=pass (domain: topic.nl, ip: 40.107.130.125, mailfrom: mike.looijmans@topic.nl)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=c3AEjup/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2677b27f76=himaniramesh.barde@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6752cTQd1035353
+	for <openembedded-core@lists.openembedded.org>; Tue, 4 Aug 2026 20:51:50 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=C4WSDfHayqtc1Ptnapjl1G
+	rkcSq//PteDua+fLKG6aI=; b=c3AEjup/ytSYoZMdUX1CTWP20VSUPrq3QSzRNI
+	WlgrNEq5f9RYOIQ3b8ddTYYfKlhC/OMhHSEbQUkwr0ayHjoTqgqA17j65vPwdpIA
+	WynthqIDM4zkUzfDHZpPJFfxXmWC/EkPQu1khYFznIvvH+oWUbETNlTxs8aU7k2h
+	/h5hna/iVhWINgrvbUnSRHAKQ/iHeEIzwAj0e1BoEpClJqWoYH7nt/hLK1F4huQT
+	wFDG14yvg7S8u7FGNpcJQSF2aiCMv5Zv1u3rmjMCbtLbLanne+iSQqtZ9HM9Om5W
+	HS3I4xjbZz5NQW4mg2n6m6OYV2Weq5aZU4CZbzXk8XFTuR1A==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010025.outbound.protection.outlook.com [52.101.85.25])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fsc31ns94-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 04 Aug 2026 20:51:49 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GO7WblIWbms4zL7JG3zBJaedqUB18863HfZsioEwYnxFsEqA01CqAkgaA4WH941bFExVW9Mbdaozmzj56yIfxiH4JI9UEgp3hfl7ENGlc8kEwbZHcTeLTdyJ7o0DGux/DBysz14fmvWkMJpFVxo8i9vSV1DkNCe3EWdlhNRwCMUIGwnJLTLehtPLEgUKbPnyevo7BWFAzPTzq88qLZTdADFNDt5aEszpxKOCQ8bQ1ZesB2codE0vIkjoopFtWtTyT1zd5dCVp2eXsTQYpQ8OcELnjakv3f3Q6v332MKvV2nU85/RfGYGGYR04Un1gwTwgSD/+Y+HrfWe0hpJPoZ6yg==
+ b=ew0WMAsTf2PHjymKN+XBa8nWE4OV/qV8dt75ZXTlqHlhx4oiNQDkaK/ovYxBd2ou/ajS+cXzNmKLIF92MsnRrr5iDPiEEWJ/IhgukUligN4oC9TijxiviwFdsWql7dJJwBcEl0g9VWEFCH/iIIYVw4n4e7wHMw19b4d9k7zJOEGZTL1T+63LIAGj6J+h7Qsls2MsSgALDBNWeAndNS7h9d8bZxVxMINFvdaWqo6EVYowYQ88sgQQvIjrLi1al7saCQSjErQnozUjPGF+rDd726avbIxzaiouhFuoqk7AhwLq3lMZOVgWjKL98yC/PuDW96av3Ak+CR1ZQZb6nhjVBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h2JqZZt0bbDzgefnDRErDT0qCTYTDCemX7Aqqsfal6c=;
- b=NaENMQdD/U0X0F35Z20X2370b/aYztEh7+49ker+NXr2rihJI2UT8UU916N+dd9Z3ic0lcidDLvESr0SNyFpCXGP4oWVnvYPGQKOG0iw/T1lW2W7enVI7skZIbnp1rhj0R4s900Azv9tsQ0Mn8PajeYkBbD0tTR18uuQUtVf9tHzair5y3lY2/seBXHqVybFEws9HcKV+kW0PEcNRhS3Sc+luDnPRSExR06DyHfIlRjkz1bgBgTdAsMAM9GU5QiVCzReLWeKwuwv20Ne99hojw2R9i3QMxXI5omZx2668mr87C58TbZoGp65bPrE83mQy39FC7uWq8Mf9ptisXaGgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 20.93.157.195) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=topic.nl; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=topic.nl; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h2JqZZt0bbDzgefnDRErDT0qCTYTDCemX7Aqqsfal6c=;
- b=MYnK+323MD5NMLrZHT9VKzjyUJG6CuGvmase9gDzvB+a4dEA4YozzbyRqi+bG2pygAcjSxuBUydIUFTSB3npw48BDRdGCGZgSqUcSYlc11aycPvRjnRGdw6ViHJ8zN9gwnPo/H5fmDdCiu1s6+MrR6lcZ5VEqjq3SxdrWzSY1B9mg2c2vroubDbCLBnkNrfcCPEqnFX+VvWZAiH3wxwNMShMXOhB3wD5R6KvBOYQTXBqrZalgNWR/EV2yyC3GAI65jChQcHcLr8JU8Si/m2utYw7+xwW3z9CTSNct6kDUNtJdS1FAtEh2CbyLYJYoYWVdMA13Jr6n62wllMeYjaAxQ==
-Received: from AS4P190CA0020.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5d0::8)
- by PAXPR04MB8189.eurprd04.prod.outlook.com (2603:10a6:102:1c2::23) with
+ bh=C4WSDfHayqtc1Ptnapjl1GrkcSq//PteDua+fLKG6aI=;
+ b=eCLNqmX+/7ejuHrc9Xigccwa5WYSOt4+FawtT/oFJR26vEQxsQ1IV12peDbX/pmsNDhwjvL/SKjgDqNsdtk3iv8iyyeBbduZ+1htaT+On/nY/7DxUMnYKxE1po+Lzqoej+4jwNqud0gTTWTz/TAVeLL1rh1YtVC6cFKubPAosqvhshjEiePs2hzIMPOcwVIuQ3Ulb7Qyva4dd0SBoUq763zpXW515X9Nwns5zwz5TU9nozGK3NBLfK0p6FVtxDuT5UltpEy1yVhpRdNhaj6MJt32IgTJCPE0O8GLs/U+KPU91w/3+DKnVM5xsWjv1jOsxduSgXHkKaie8gmNNpkHFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8774.namprd11.prod.outlook.com (2603:10b6:610:1cd::15)
+ by DS4PPF382351574.namprd11.prod.outlook.com (2603:10b6:f:fc02::1d) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Wed, 5 Aug
- 2026 07:30:10 +0000
-Received: from AMS1EPF0000004D.eurprd04.prod.outlook.com
- (2603:10a6:20b:5d0:cafe::5b) by AS4P190CA0020.outlook.office365.com
- (2603:10a6:20b:5d0::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.15 via Frontend Transport; Wed, 5
- Aug 2026 07:30:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
- smtp.mailfrom=topic.nl; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
- 20.93.157.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
- pr=C
-Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
- AMS1EPF0000004D.mail.protection.outlook.com (10.167.16.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.292.8 via Frontend Transport; Wed, 5 Aug 2026 07:30:09 +0000
-Received: from DUZPR08CU001.outbound.protection.outlook.com (40.93.64.70) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Wed, 05 Aug 2026 07:30:09 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received: from VI0PR04MB12030.eurprd04.prod.outlook.com
- (2603:10a6:800:316::24) by VI1PR04MB7166.eurprd04.prod.outlook.com
- (2603:10a6:800:121::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.15; Wed, 5 Aug
- 2026 07:30:06 +0000
-Received: from VI0PR04MB12030.eurprd04.prod.outlook.com
- ([fe80::e428:3105:17ec:8224]) by VI0PR04MB12030.eurprd04.prod.outlook.com
- ([fe80::e428:3105:17ec:8224%4]) with mapi id 15.21.0292.013; Wed, 5 Aug 2026
- 07:30:06 +0000
-Message-ID: <681ae53c-7427-4430-87ac-079c3f9aab05@topic.nl>
-Date: Wed, 5 Aug 2026 09:30:04 +0200
-User-Agent: Mozilla Thunderbird
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: Re: [OE-core] [PATCH v2] spdx_common.py: Avoid crash when
- this_dep.taskhash_deps is None
-To: openembedded-core@lists.openembedded.org
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.a0496a1c-b05b-48c5-bb27-609c26e2367d@emailsignatures365.codetwo.com>
- <18C8D5AB3A5C8CDD.1990914@lists.openembedded.org>
-Content-Language: nl, en-US
-Organization: TOPIC
-In-Reply-To: <18C8D5AB3A5C8CDD.1990914@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AS4PR10CA0024.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d8::16) To VI0PR04MB12030.eurprd04.prod.outlook.com
- (2603:10a6:800:316::24)
+ 2026 03:51:46 +0000
+Received: from CH3PR11MB8774.namprd11.prod.outlook.com
+ ([fe80::8925:311f:7018:b3ec]) by CH3PR11MB8774.namprd11.prod.outlook.com
+ ([fe80::8925:311f:7018:b3ec%5]) with mapi id 15.21.0270.017; Wed, 5 Aug 2026
+ 03:51:45 +0000
+From: "Barde, Himani Ramesh" <HimaniRamesh.Barde@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Paul Barker <paul@pbarker.dev>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+        "MacLeod, Randy"
+	<Randy.MacLeod@windriver.com>,
+        "Komati, Shiva" <Shiva.Komati@windriver.com>,
+        Daniel Dittmann <daniel.dittmann@rohde-schwarz.com>
+Subject: Re: [OE-core] [PATCH v3] systemd.bbclass: fix service enablement for cross-install scenarios
+Thread-Topic: [OE-core] [PATCH v3] systemd.bbclass: fix service enablement for
+ cross-install scenarios
+Thread-Index: AQHdGcLZdy0iaYgSoUS8gQ/EL2wnjbaGKWIAgAEO+0aABT77gIAAAJ2AgAJvSDc=
+Date: Wed, 5 Aug 2026 03:51:45 +0000
+Message-ID: 
+ <CH3PR11MB87744A73F7FD9B5CACF586228FD32@CH3PR11MB8774.namprd11.prod.outlook.com>
+References: <20260716061519.765593-1-HimaniRamesh.Barde@windriver.com>
+ <20260722101408.3225399-1-HimaniRamesh.Barde@windriver.com>
+ <52bcf8634847de61960bb1e33f613abf4d11576f.camel@pbarker.dev>
+ <CH3PR11MB8774C3DADBA455D8721EB8198FC82@CH3PR11MB8774.namprd11.prod.outlook.com>
+ <CANNYZj_c+CJ+asij_nZoZ3PsZtjL45aGv3nfLnPXooYGO9gJ=Q@mail.gmail.com>
+ <CANNYZj_29BCC92tXvGX=G2t-G+=abgpEcbWK9Gy4n8wXiuY9=A@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_29BCC92tXvGX=G2t-G+=abgpEcbWK9Gy4n8wXiuY9=A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-08-05T03:51:44.754Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=1;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH3PR11MB8774:EE_|DS4PPF382351574:EE_
+x-ms-office365-filtering-correlation-id: a3c800ae-879e-4af2-c1fa-08def2a4dea6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|23010399003|22082099003|18002099003|11063799006|4143699003|8096899003|38070700021|6133799003|10067099003|56012099006;
+x-microsoft-antispam-message-info: 
+ 8N9qm3GRSdnqFyGCAzuI4PTUvdhfdQZ5UkM4PC2PPV5hChp6CqP7CBByMMzGRSQ4umE9ZwXzxC+3+78JPkE1PcFFOkkqHupekOO364wvicvVIIIg0C1IlDFSToA3a480940EE1XLboDinvHPEf3NjEFWm5cximdfMnA0/Bw1Cujy+0EoK630DwB5aYLYguFnc8f68adRQAJRDRtNZ3aTjIsaKZTJXfma3DAAsXzFFhxAd4fSBnu5hRMO4swUnTthrwBzau88kOfc5xjTScUUS4456hvTg07h2opPifuPTKGMbFi26mUOMMZ1KapjOayqkli1v1cJIqAt6k0rtqVaZVkr9QhDjeuICTtKdwW9dFks2Kh0yk4nvSHXhRA8vzKNn+egPqm7LNfb6WOCL36uzmA9+1oW9gvAkoVKcYoh2SWV9iZiImfDq0QNRK1k4R2QjTKmCwElXvU1PNXgOPjmcM43iCJT64X3dwsC0J+MsL+D5DnXB770jX5kdDVPZTylEv57M7OTOM47d9Ej2F8LW5eOx5J14Os9ldx4EQPDx903AOMcuycKBMOcyzdIlhCI7RVyggVoWeKOlTdIeQNcObsxISPnDEkULTH5U859v9b2U69UGKVumQOZpEoPKr9fl1fRdGfcHG7XPjnnRtK+7F4NWIV0tufCOw+I5qLxgJogrdKsOlLb0MTLXCKRLqmDbn/ySm8of2HXsuk3JULMQWp1NrL1xL3DWbg7cvy+sWs=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8774.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(23010399003)(22082099003)(18002099003)(11063799006)(4143699003)(8096899003)(38070700021)(6133799003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?UjZgtIrDBvx6M2ebaAEAwlAezoYlRljTBZtqxZOpJ5lds2GHzf0a42Wl1ADB?=
+ =?us-ascii?Q?1P2O+c77zjq+R3LR03Q6mO9z9wcpocZP+aAlieF4C0oP7VKArPnG+j+It4N/?=
+ =?us-ascii?Q?7dJQqgrQv0rK9hOCNfi40MpXLMZ/2OeWo9RSBYvP2NynpTV1TsnrQjoBpwBr?=
+ =?us-ascii?Q?E3pf+vMT71iAapnObBNqVW1D7rEr7VIOI3yEIjW5q1opL5ytF++p3Q73RM6o?=
+ =?us-ascii?Q?UKQCO/kwA+V0CZ7F0fOCj5ENewrdQPH23isrQJ2Po6G+Sa0LkDCZC4fEdzFm?=
+ =?us-ascii?Q?qhdntsAWf36INqaYECf7pfbA59pRmSRmAmNXnif6UlNv9ie9vvmxRQl/NKh5?=
+ =?us-ascii?Q?dkXdlsYQXH+xYbrL7lnaaKdPJf596/TYDAB2GvTHc4kpOC52Py+8ze8RYg+b?=
+ =?us-ascii?Q?693tpIPqrQttg5ImFDSvXpOjgDVA1MJcLdk8jW6ezSZAOWCEwNgk7H0rHQMP?=
+ =?us-ascii?Q?xvxgwXogD1EuxaKnMJDCYxUQsrKKxFPDsRFv+sslSzuFmCI8LtW1pvG+b7h5?=
+ =?us-ascii?Q?wzSNY+TgmFP9pDxX89voz33n/YkE4/jEnyzOCpDOXe6wIiFjgmeNlhAkizOF?=
+ =?us-ascii?Q?vLFV7z1D7vT4EW4ad500sloztqwUA1PPh2Ssl0UNoYDROl2mth8+ySWrQRPa?=
+ =?us-ascii?Q?FC3HWFUKwSJdbGGsmkgT5C4Lr3ZIkj72Htxb2rk8MoqC0ZxeLKywYZwcS2xG?=
+ =?us-ascii?Q?wtoHxeKwa3ZcxFg6GZ6f6MPVwecU8i+AYLyNK2a+FsCcpGw9FUK+cmqsFlLB?=
+ =?us-ascii?Q?wUg0VrPlUZpCimdjI1rY7C7nb6r4AJ2d7gaXL2zENaGwiI2A0mjkujrLMi/1?=
+ =?us-ascii?Q?NTRz5GAaTyui6wi+dmIu1h4dsGSnaEdWyJ7JlzOuESZdw1VHCA9fPJjjRk+x?=
+ =?us-ascii?Q?mtZ2/hOo9Pc4e/JA8CL08id07291SKRwLMmbWqm0GHxu0qYk5FgQLWaS/HVN?=
+ =?us-ascii?Q?gHJpZB3ugZwLrIvn7nIssqURWIRtI1OL9T2FYaQXaY/aG/vkrvKkyRwbwLKL?=
+ =?us-ascii?Q?q3Xz+yN01rlFfMZagzjS21mQQ0brdPN50R+hEIS6bYZF3ze76CzFx0CrKxE+?=
+ =?us-ascii?Q?UDOzBzRKxlil3WJhGTiFzLGpZBWQns/O5QO3rojxwFSz8KIeQ7gOPR4Q7m75?=
+ =?us-ascii?Q?ghsTbWL31X32gMXi+6ojaem8LbSzYwRip+bCpIZ2DdpPac9qxOW2sV7ypm8S?=
+ =?us-ascii?Q?b93p1IaNdygodZXfqxmdXfaOFm9NOFarU3v+lhdLElh/1124UZHSGt2MDg9u?=
+ =?us-ascii?Q?ZQK7nG8up++uu9b69AiHR0CWpbcl++paqOok+QHBkjWoTGvDP8by0wV6kdvj?=
+ =?us-ascii?Q?peRaYto+F0HBenUnMLaksneaIBt7M9oxTP7ONu8dooTRwTJnKuevn8agsnBE?=
+ =?us-ascii?Q?5VQfM7GJ2x91z5omLrUNis1Re29+vpCPzBQS8FaKVr0BCgNo78is2KUxs3OC?=
+ =?us-ascii?Q?a9EipcHaUdlvMVVwGxy0YylnCC1jFRb2SURHSfK7E47CXwwifOlIRKbuXsV4?=
+ =?us-ascii?Q?jbVZKojAIMZvf4qFGY2TwNtm/V38ubvjU2+v20WZSz7pAmmg7VECJN+lJmWu?=
+ =?us-ascii?Q?wvEbSQTNu0rDkoUpTuoYnXckLwLyo7VS+YB5xI7GFyeQguqb9AO4tFmln+ww?=
+ =?us-ascii?Q?jLP0qb7dHdbwq/AEfA3fuoOb/oCHvMrpsKdOKAE23U0Aac9/CSF2Z2W/DBbj?=
+ =?us-ascii?Q?jeMb/7NXqVd7sooJgryQ1FR/Z4XOwNoH1z+bQdlqWEHHjWz0BU3im/r4mQ5z?=
+ =?us-ascii?Q?Uz7wZBVl0bxC6Nu6uEvUhPvYN6bzhqI7Ex3YXiAbW+09Wmvy6OjIC4QQCWUk?=
+x-ms-exchange-antispam-messagedata-1: Bdgn2D317VlcpuxsQAn97Ytm7BzTFc+eMeI=
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: 
-	VI0PR04MB12030:EE_|VI1PR04MB7166:EE_|AMS1EPF0000004D:EE_|PAXPR04MB8189:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4eedbfec-b3e4-483e-8273-08def2c36140
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|10067099003|56012099006|6133799003|18002099003|22082099003|3023799007|4143699003;
-X-Microsoft-Antispam-Message-Info-Original: 
- P9bLupZD6A9+GffXpLiEvdKTmIfnw0QmH5Jz0S8ZOPwElX7NBvTQtd8MaVAMgJutFISj6EbunJjfj1Xf2901nSOxKgU84nhYJmJ/kTN5d3XyNa/j6j9GtO2mdf1epTg+75AgfIlnne1MjUfUFj3UpfiqF/WuNEBOoKFEwxJaGhBqPuLNoEkffnXv9EM/b7pJlp2a8E7cPf1MWWsrPmpHSjs0pWgVBHgngd8PLxhZiHC8VjkcwiZjkB+McorAqZTYOi8NUuvvRxuQIGTFjXhc025RoimknKpMYh81Bh8waaTEY04Ghl1VqcUfTYA5kJX11PGHHZ38k0+dAwJEWUSqZBRcxD1RLgvB1elR+ZDjRE1QfmHIwt1e/GaPi/GR4TAw2gxo7pk274ZBEiRZ0ARYtMXHAf4ElkB7xQ5qwHhmP8V2RW0LssvpI8JcG/2Oh5Wa29snPp/rqVXob9PKCy1/Yji7fGnR4I9OJWy70wAaFbJfQ303drCBda0mdh3o9QflNBevTDZgM11De5e3JeHDUCErnsHc68RYmDorySHyovVOrnxKITe+2cD0sRLTJlSvaeGGA6IZhlBQIC47qy2OYcKM0KWuq+8s2ey4dtg6wRI/uh6F37iKoey00ckX/b2L/a3BiK7ZkGcUCZvvIL0MB05WFjc6TzyIhNCXGMD/h5E=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR04MB12030.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(10067099003)(56012099006)(6133799003)(18002099003)(22082099003)(3023799007)(4143699003);DIR:OUT;SFP:1102;
-X-Exchange-RoutingPolicyChecked: foxXooue1fpScH3UT5NczwhXgFFNnYSwAfYIUl8WtLYrOT5ozWyDXelxINi3oqVvmUpqnpSzbIsQPxOF//ORgZqGVp/4JOEgYZISdCWYiQ6XhpwYEkxvj1mLEr2s+MFJoj6nj6yWXuE0GkR8690mKgvsA1/zblZbtcloZTdcDE5xIOX9NC82focj7UCIxkh7EuoGMm1r/Dr/ZJKUoOvxd+QhYylOQ/XmPDfh7Mw6jDUq1BaUH2FxZ8TOhhnOK8md2exkQrmN+ldzUSYD6VkxcKBgXR08ZHbF6Epc1IZYEAxF1vGPbEXqktydNsH9CixdRjt/MWq1/kcDVgSHsvWzXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7166
-X-CodeTwo-MessageID: 46a821e5-fd35-4fed-a4a6-8920987a211e.20260805073009@westeu11-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS1EPF0000004D.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	5be82167-aafc-4292-aff7-08def2c35f1c
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|35042699022|23010399003|376014|14060799003|1800799024|82310400026|6133799003|56012099006|10067099003|4143699003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	wW98f2XgeKSAmPcEbjlnBWAooRSxWi1ULY/bP/D0dQwGDLvVXxrchJoHt4OZLoO/wwztjBU7Xi6tS4DbGEL72HXlsTOY9wTmPnLyxFcp1rsQ26WYpjwUQwXKytwYjYqp/hun2bmZbhkzX0WasYIowY11dqdZmNXXlEdUIcGqk5vMMbDOLpIKNB+t82xCTRQlw5tJwBDwzBES0nUVDkEhCLbvrTOp1KsRixj2vkZByug1u8eBqylH3SmqoCnGCxU1IFb3T29fBQ5YfsTblpeV7UpTl8COrD2BP0vMoh226TdkHU9waf/k+u/5jPGnpMqRMsvjaplz7JqAI4FFJCF4IFV5fy0u98RtWGaIFY2qooD+tPMmVuAfIVtyCQvi9YbdYOAz153RoB5ARjNJsfEiNYYZkFDXnFVpS7z77FNWOkEwm7EzWk0ZXj6Id9B5fzfxCIv6tr13Deh7z6oYIUkiXHVEAf1acmqfj3T6pC8asX8QJUtoKXiev3inJIDsj/QMDnE5knf2yqYyU/u09OKugbCsXVOnbmpsuBF7zRucVKDuE/AmfAJvGvglks1rkM6IKE4lBwH26ph/O+wD7CVRrjmxsQQtAzsDTt5Dg6KAbIDzUzlpMUW+hTYZfuzdtkI/NVTLSIZyjpORrd9HCQhom6pUkhNB8jyGb7WqWM2TdVIhjWA8iHsK0/Lu36XhJm7LWR8aqrwrd4xFfPsuJYJX+w==
-X-Forefront-Antispam-Report: 
-	CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230040)(36860700016)(35042699022)(23010399003)(376014)(14060799003)(1800799024)(82310400026)(6133799003)(56012099006)(10067099003)(4143699003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	wXx8Cs3ZBYIQWW4QkMpVujVm5WVp0bEU7IEEr8M2xQj1fpOjXpi3cNYyPH0u205SsttSKwvG5zIbUaGEDagQhPAFTQey/f68bio6ofeh+mcrLn0K8dvMREn7JzXSdNvz9njhYwAUubwQcUjabHX66vn9qvKbB3ptvPqfiDlV7Er87LoSS5nSppJlmaTxvWXA29PuZ+PUgRLvtC9RWuOt9Nmb9UDw+G3SKhfc1Qq3+gV3nep13BNmBQ47jyhhNLd8ztCR2K5d9n2dja8YWHifN0UUx4QoK6FB84wQnF/gCP29gL8vjDgO+8zzI3yilz9Zg9L/q42mSGCV7mK/Vdv4AC8OKghGR8+VU7XYy9I1UA7atE9NpdOmtQEanPX7dcxgEe3mLe9ay/Ocm+cJu7TWtubnLYpxKp6juxQRtE5ZZjLAL8C0CqZ/lqTwIkSh7pO9
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 07:30:09.7256
+X-Exchange-RoutingPolicyChecked: 
+	CHRq7KqV+9EzEkSZTdmGC4g0Rm7LTUykMQQYuCTsJhBDDvfKUTHbgTzJsY8VwVmIzmxYaLQ7xUem+9ZdbSJ5dzGP2RmQfwMg6ghA60HH2ubOG5kz9CqxSx+psXiHI1yf4x9tot8Qxv+coU0tWpqhLEf9FHHwNYax6DQ3eIQGL2XHBF3kMA9t+KB7CqiQFsXSAqPg1uiK9J3sugU9e9IPytTk94TkOL7h+nQGe3KIPGYTRy7qnSOcoAO8cvtLHCb89qRdhOgw2souctAYACLsvYB//B+olKPepINI1nreHOfgktot5HTVjLeeRe4HOOE2IPmRKIZ9SF1iht36ljB4Hg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8774.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3c800ae-879e-4af2-c1fa-08def2a4dea6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2026 03:51:45.6766
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4eedbfec-b3e4-483e-8273-08def2c36140
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF0000004D.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8189
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zhavT7Edx57SHj4T5BADPl1ZT7KMCeW6HmiPRqLxRZR8/UuJbTTN19b2YnZQt6n+iRR0N5Cw4dZIqWchSG83ERZjXJAi7YI8GA5gpJBbMGj8HtRAp4CQ5xwgGXL1DMh2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF382351574
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: XgF6rVwVsmIoEkyX0OHju_y2DV-qZffH
+X-Proofpoint-ORIG-GUID: lPTcN6hnmKDhrYktS1xsAPTTrO0qAfzI
+X-Authority-Analysis: v=2.4 cv=afFRWxot c=1 sm=1 tr=0 ts=6a72b356 cx=c_pps
+ a=vKxAdbwNlT/VBnJ0vobx9w==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22
+ a=pGLkceISAAAA:8 a=t7CeM3EgAAAA:8 a=Q4-j1AaZAAAA:8 a=wvPkM9v7g1_ikmSEda4A:9
+ a=CjuIK1q_8ugA:10 a=5neErPw3g4MG8boj:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
+ a=FdTzh2GWekK77mhwV6Dw:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDAyNSBTYWx0ZWRfX8F7MnN0mOVlC
+ Q9hTu+bxNNCAjW5zuV5kST0DcUXXT7JUEte8TTyxKd8S4CcQK3DJUwOKx0Tl66mQpi/B2uDqe0b
+ USGA/wMiKvIPVvLuSyjKORAVrt7hcW9YVqrxQ+TKPc5x2gZISJjWPosrG4zJ2PM1w4CkTpF9xrs
+ AUV1doHdXKiKr+IipEt5LklB6GIcDEzZrMIMpRyRBL4RKBuY+oe0BM8Mplx6JheKPzeVSojA3Hw
+ cMp3CW9hsS0DPOPRiJp93bUIpIrYwFfe7Vk6mMT24OWBYlgAsqvr95SvP9/g9lwPBTVZgXdxhX6
+ OmpYxdSQR0Ev2Lyz/fJn9d56Evi9hxLLiBrKCpfZKJL8DcPMHGf1rXQIZYyeZPtCUz94nIN39BV
+ yFPb1x4/cTyWfz+glmqNgzlOQ4EMskBpNLx8v10jIin1Hs8yjivjT6prhjPaLKsUQGvAFmodMd6
+ 2kmc8N8xLlKgapOWsUw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDAyNSBTYWx0ZWRfX4ZRriYUnCnkN
+ 95KFvX5XZRL3rT94hNO9D5nMMYp6ES+fxpnXi/BTA+10ADPxh/IECZpXUNV0PsE+TtjjGOw1glU
+ dpU6eD+BWdXHhlOBRKT5K0cjdgeEPPyFKOlJ2gazGadPTDkNzuoz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-05_01,2026-08-04_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ adultscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608050025
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_CH3PR11MB87744A73F7FD9B5CACF586228FD32CH3PR11MB8774namp_"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 07:30:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242833
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 07:34:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242834
 
-Found out how to re-produce the issue.
+--_000_CH3PR11MB87744A73F7FD9B5CACF586228FD32CH3PR11MB8774namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-It's related to BB_HASHSERVE, setting BB_HASHSERVE =3D "" and=20
-BB_SIGNATURE_HANDLER =3D "" as per the instructions I got on the first buil=
-d=20
-triggers this crash.
+Hi Paul, Alex,
 
-If I set SSTATE_MIRRORS =3D "" instead and build with the defaults, it does=
-n't=20
-happen.
+Thanks for the feedback. I understand that assembling a rootfs from Yocto-g=
+enerated packages using external tools like multistrap isn't a standard Yoc=
+to workflow, and I appreciate the concern about setting precedents without =
+tests.
 
+I'm looping in Daniel (the original bug reporter, CC'd) - Daniel, could you=
+ share more context about your use case and whether you have any thoughts o=
+n how this could be addressed within the existing Yocto framework?
 
-Mike.
+I'm relatively new to the Yocto community and still learning what features =
+make sense for the project. I'm happy to help with implementation if there'=
+s a path forward that the maintainers are comfortable with.
 
-On 8/5/26 08:42, Mike Looijmans via lists.openembedded.org wrote:
-> Apparently this_dep.taskhash_deps can be None in some cases, which
-> results in the stacktrace below. Add a check to avoid this.
+Regards,
+Himani
+________________________________
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Sent: Monday, August 3, 2026 8:08 PM
+To: Barde, Himani Ramesh <HimaniRamesh.Barde@windriver.com>
+Cc: Paul Barker <paul@pbarker.dev>; openembedded-core@lists.openembedded.or=
+g <openembedded-core@lists.openembedded.org>; MacLeod, Randy <Randy.MacLeod=
+@windriver.com>; Komati, Shiva <Shiva.Komati@windriver.com>
+Subject: Re: [OE-core] [PATCH v3] systemd.bbclass: fix service enablement f=
+or cross-install scenarios
+
+CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.
+
+On Mon, 3 Aug 2026 at 16:36, Alexander Kanavin <alex.kanavin@gmail.com> wro=
+te:
+
+> Using apt/dpkg at runtime on a target system to add or update packages
+> is supported. But assembling rootfs from a package repository over the
+> network using Debian-specific tools isn't. I'm not sure we should set
+> a precedent for it, as there are no tests, and it's just not how yocto
+> is meant to be used.
+
+What I meant to say: if you can demonstrate the issue on a target
+system in qemu using apt, we can focus on addressing that. But let's
+not try to support 'external rootfs assembly' please.
+
+Alex
+
+--_000_CH3PR11MB87744A73F7FD9B5CACF586228FD32CH3PR11MB8774namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> Solves:
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Hi Paul, Alex,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Thanks for the feedback. I understand that assembling a rootfs from Yocto-g=
+enerated packages using external tools like multistrap isn't a standard Yoc=
+to workflow, and I appreciate the concern about setting precedents without =
+tests.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I'm looping in Daniel (the original bug reporter, CC'd) - Daniel, could you=
+ share more context about your use case and whether you have any thoughts o=
+n how this could be addressed within the existing Yocto framework?</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I'm relatively new to the Yocto community and still learning what features =
+make sense for the project. I'm happy to help with implementation if there'=
+s a path forward that the maintainers are comfortable with.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Regards,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Himani</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alexander Kanavin &lt=
+;alex.kanavin@gmail.com&gt;<br>
+<b>Sent:</b> Monday, August 3, 2026 8:08 PM<br>
+<b>To:</b> Barde, Himani Ramesh &lt;HimaniRamesh.Barde@windriver.com&gt;<br=
 >
-> DEBUG: Executing python function sstate_task_prefunc
-> DEBUG: Python function sstate_task_prefunc finished
-> DEBUG: Executing python function do_create_recipe_spdx
-> ERROR: Error executing a python function in exec_func_python() autogenera=
-ted:
->
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->       0001:
->   *** 0002:do_create_recipe_spdx(d)
->       0003:
-> File: '/.../oe-core/meta/classes/create-spdx-3.0.bbclass', lineno: 193, f=
-unction: do_create_recipe_spdx
->       0189:    "
->       0190:
->       0191:python do_create_recipe_spdx() {
->       0192:    import oe.spdx30_tasks
->   *** 0193:    oe.spdx30_tasks.create_recipe_spdx(d)
->       0194:}
->       0195:addtask do_create_recipe_spdx
->       0196:
->       0197:SSTATETASKS +=3D "do_create_recipe_spdx"
-> File: '/.../oe-core/meta/lib/oe/spdx30_tasks.py', lineno: 675, function: =
-create_recipe_spdx
->       0671:                identifier=3Dcpe_id,
->       0672:            )
->       0673:        )
->       0674:
->   *** 0675:    direct_deps =3D oe.spdx_common.collect_direct_deps(d, "do_=
-create_recipe_spdx")
->       0676:
->       0677:    dep_objsets, dep_recipes =3D collect_dep_objsets(
->       0678:        d, direct_deps, "static", "static-", oe.spdx30.softwar=
-e_Package
->       0679:    )
-> File: '/.../oe-core/meta/lib/oe/spdx_common.py', lineno: 127, function: c=
-ollect_direct_deps
->       0123:    for dep_name in this_dep.deps:
->       0124:        dep_data =3D taskdepdata[dep_name]
->       0125:        if dep_data.taskname =3D=3D dep_task and dep_data.pn !=
-=3D pn:
->       0126:            deps.add(
->   *** 0127:                Dep(dep_data.pn, dep_data.hashfn, dep_name in =
-this_dep.taskhash_deps)
->       0128:            )
->       0129:
->       0130:    return sorted(deps)
->       0131:
-> Exception: TypeError: argument of type 'NoneType' is not iterable
->
-> DEBUG: Python function do_create_recipe_spdx finished
->
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
->   meta/lib/oe/spdx_common.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-> index 6b1a409c40..d09f749d0e 100644
-> --- a/meta/lib/oe/spdx_common.py
-> +++ b/meta/lib/oe/spdx_common.py
-> @@ -124,7 +124,7 @@ def collect_direct_deps(d, dep_task):
->           dep_data =3D taskdepdata[dep_name]
->           if dep_data.taskname =3D=3D dep_task and dep_data.pn !=3D pn:
->               deps.add(
-> -                Dep(dep_data.pn, dep_data.hashfn, dep_name in this_dep.t=
-askhash_deps)
-> +                Dep(dep_data.pn, dep_data.hashfn, this_dep.taskhash_deps=
- and (p_name in this_dep.taskhash_deps))
->               )
->  =20
->       return sorted(deps)
->
+<b>Cc:</b> Paul Barker &lt;paul@pbarker.dev&gt;; openembedded-core@lists.op=
+enembedded.org &lt;openembedded-core@lists.openembedded.org&gt;; MacLeod, R=
+andy &lt;Randy.MacLeod@windriver.com&gt;; Komati, Shiva &lt;Shiva.Komati@wi=
+ndriver.com&gt;<br>
+<b>Subject:</b> Re: [OE-core] [PATCH v3] systemd.bbclass: fix service enabl=
+ement for cross-install scenarios</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">CAUTION: This email comes from a non Wind River em=
+ail account!<br>
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.<br>
+<br>
+On Mon, 3 Aug 2026 at 16:36, Alexander Kanavin &lt;alex.kanavin@gmail.com&g=
+t; wrote:<br>
+<br>
+&gt; Using apt/dpkg at runtime on a target system to add or update packages=
+<br>
+&gt; is supported. But assembling rootfs from a package repository over the=
+<br>
+&gt; network using Debian-specific tools isn't. I'm not sure we should set<=
+br>
+&gt; a precedent for it, as there are no tests, and it's just not how yocto=
+<br>
+&gt; is meant to be used.<br>
+<br>
+What I meant to say: if you can demonstrate the issue on a target<br>
+system in qemu using apt, we can focus on addressing that. But let's<br>
+not try to support 'external rootfs assembly' please.<br>
+<br>
+Alex<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
-
-
-
+--_000_CH3PR11MB87744A73F7FD9B5CACF586228FD32CH3PR11MB8774namp_--
 
