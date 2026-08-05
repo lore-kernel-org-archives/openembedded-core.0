@@ -1,121 +1,132 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1969C55174
-	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 08:31:43 +0000 (UTC)
-Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35884.1785918696540070133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B5AEC55822
+	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 09:02:44 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36322.1785920552849871037
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 01:31:37 -0700
+ Wed, 05 Aug 2026 02:02:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VSYASk6I;
- spf=pass (domain: cisco.com, ip: 173.38.203.70, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1718; q=dns/txt;
-  s=iport01; t=1785918696; x=1787128296;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=yRzuER7V0WZp0muT9R1IqUg5A31rOewzWi+VyAqx9zU=;
-  b=VSYASk6Idw/Fckea7MKpq5XaAFGl8KX9A9DKS+3mbZAlvNIZGKfJrkLf
-   oUseAmfcUYQ84MNBJ/5W1dm9lDCTL1fPA5dBoqvIIHFzT0Ld81TBFhq5v
-   OEqhfioGvWQzLBCdMeVSeKe1WFSVzpwmXr/0yOxWEWloidIoWuxLXFP4D
-   H6s0QmrxEXyF9ZWjnOUrfUedtFUMXNy9qud4EimIckh7WY8njliFjfon9
-   TQN5T4hscSrAbaqWiyew3dTBsRjrO3XnkrozZY06QXknjTgrIDyo7fwL+
-   Bvrxu+pbBn21GQkvwfZfHKcWBxl0EVYv731V5ejuMSiZjGVOimd11icy3
-   Q==;
-X-CSE-ConnectionGUID: zgu/hW7ITx6MEtNzC+TbrQ==
-X-CSE-MsgGUID: N44Cb6uySySpoisq7Y9StA==
-X-IPAS-Result: =?us-ascii?q?A0BFAgCA83Jq/8tK/pBaHgEBCxIMggULgld0X0JJlCmCI?=
- =?us-ascii?q?QOeG4F+DwEBAQ9EDQQBAYUFAo1mAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhlsCAQMyARgBPSAxKysRCIMCAYJ0AxEGvVqCLIEBg?=
- =?us-ascii?q?ygBPwICQAFQ2y4BCxQBgTiFP4ghdQGEfCcbG4FyhH6BBYFcAwEYghOFeASCI?=
- =?us-ascii?q?noSgXiBLY8sSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ENGwcFgR2BK?=
- =?us-ascii?q?IRtIxk2fIEJXoEtKmUSF4EJgnsCgnpvCxgNSBEsNxQZBD5uB41oIIJAWgctK?=
- =?us-ascii?q?gEBgj2lYqESCiiDdYwhlToaM6psCyOYWo4KllCEaYFoPIFZcBU7gmcJFjQZD?=
- =?us-ascii?q?444iH6BLcVhPDUCAQE5AQEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:G2O5aqIhDS97fWZqFE+RhZQlxSXFcZb7ZxGr2PjKsXjdYENSgzYHx
- zBNCz2EP/jcamfzL9l0aYqy/ExV78PUyYMxQAAd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
- T/Oi5eHYgH9i2Ypajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN18A1xxPbJH29pnX0Rj6
- doKA3MxZAq60rfeLLKTEoGAh+wqIdOuOMYUvWttiGmDS/0nWpvEBa7N4Le03h9p2pwIR6uCI
- ZVFL2A3N3wsYDUXUrsTIJ4zkf2hmnn4WzZZs1mS46Ew5gA/ySQsjuiyboCKIbRmQ+1zwhqzr
- Dzb7l/oOQkdNceGlgvUyW6F07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcRQZ9UVuY98gzIkvCS6AeCDW9CRTlEADA7iPILqfUR/
- gfht7vU6fZH6dV5lVr1Gm+okA6P
-IronPort-HdrOrdr: A9a23:EovohKNWGnYMT8BcTu2jsMiBIKoaSvp037BN7TEUdfU7SKKlfq
- yV8cjzkCWE6wr5O0tQ/OxoRpPgfZq0z/cciuMs1PWZLWvbUQCTQ72Kg7GP/9SZIU3D398Y87
- t8eK5jD9C1J117gcHmpDScKb8bsb66GGTCv5am85+rJjsaDZ1d0w==
-X-Talos-CUID: 9a23:32MuQ20hg6cV+tjl8c9wGrxfCM84NX3ik1bsMxGdJHpPWpbWdVWKwfYx
-X-Talos-MUID: 9a23:abOvNQSVHrWM7KdSRXTK2G1JPpl18p+/M1gKkI4f5PjVDjBZbmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,206,1779148800"; 
-   d="scan'208";a="56876273"
-Received: from aer-l-core-02.cisco.com ([144.254.74.203])
-  by aer-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Aug 2026 08:31:32 +0000
-Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-02.cisco.com (Postfix) with ESMTPS id 4A14C18000143
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Aug 2026 08:31:32 +0000 (GMT)
-Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
-	id 04DE2CBEFAA; Wed,  5 Aug 2026 14:01:31 +0530 (IST)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 8/8] curl: set CVE_STATUS for CVE-2026-12064
-Date: Wed,  5 Aug 2026 14:01:03 +0530
-Message-Id: <20260805083103.2633995-9-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260805083103.2633995-1-deeratho@cisco.com>
-References: <20260805083103.2633995-1-deeratho@cisco.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
-X-Outbound-Node: aer-l-core-02.cisco.com
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=nZdmjGDg;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 866F91A1344;
+	Wed,  5 Aug 2026 09:02:30 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C6CE602AB;
+	Wed,  5 Aug 2026 09:02:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4B63411C344F5;
+	Wed,  5 Aug 2026 11:02:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1785920549; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=w6JnahCE+BoJoZ1Lua11we/NSS2Ni8sv50SSU4IrvD0=;
+	b=nZdmjGDgEcVpHtqP0tzvf7KDwHFatWmu/ERGzkK4XsPcKX1TBci1JXbZ1dm/QVxJak8k6g
+	44gRLpx+DO9FDA7El0sUNTaI+T+6z/azeL3HTb1plISSiuNkMlanF5jqxXzBaiTtyLa3E+
+	kpX7Ah1xRv+8hiGJdA070vKLIPuKA8/8l20tPrRDyg2+WbuZzlTHsGSMY8t7ou/ylM+Tj4
+	1WLXvUw999kiAHFYgH7vopfhp6wz1atOxIBWhQKyp/v1iM2DBxhOwZAV5QmtnquKlg2Drh
+	0KJpTJDFmNL2wnwormBs/4TwpAnmOdP8npXFTovb0Ugf9HjfgHydYBGJFbtwrw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 05 Aug 2026 11:02:27 +0200
+Message-Id: <DKGVZWZHLKDV.2I8XWUPLBII27@bootlin.com>
+Subject: Re: [OE-core] [PATCH 4/9] classes/cargo: consolidate dependencies
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260804165803.598030-1-ross.burton@arm.com>
+ <20260804165803.598030-4-ross.burton@arm.com>
+In-Reply-To: <20260804165803.598030-4-ross.burton@arm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 08:31:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242846
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 09:02:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242847
 
-From: Deepak Rathore <deeratho@cisco.com>
+On Tue Aug 4, 2026 at 6:57 PM CEST, Ross Burton via lists.openembedded.org =
+wrote:
+> Move the dependencies from cargo to cargo_common: if cargo is being used
+> in any way then you need to depend on cargo-native.
+>
+> Inherit rust instead of rust-common or rust-target-config: rust inherits
+> rust-common that inherits rust-target-config, and rust.bbclass simply
+> adds the dependency on rust-native. This means we can drop the explicit
+> rust dependencies to avoid duplication.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
 
-Analysis:
-- CVE-2026-12064 affects the curl command-line tool when
-  SCP/SFTP protocol support is available. [1]
-- Wrynose exposes SCP/SFTP only through the optional libssh2
-  PACKAGECONFIG, which is disabled by default. [2]
-- Hence mark this CVE as not-applicable-config for the default
-  Wrynose recipe configuration, while reporting unpatched if
-  libssh2 is explicitly enabled.
+Hi Ross,
 
-Reference:
-[1] https://curl.se/docs/CVE-2026-12064.html
-[2] https://git.openembedded.org/openembedded-core/tree/meta/recipes-support/curl/curl_8.19.0.bb?h=wrynose
+It looks like this is breaking some selftests on the autobuilder:
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
----
- meta/recipes-support/curl/curl_8.19.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+2026-08-05 04:42:45,835 - oe-selftest - INFO - sstatetests.SStateHashSameSi=
+gs.test_sstate_sdk_arch_same_hash (subunit.RemotedTestCase)
+2026-08-05 04:42:45,835 - oe-selftest - INFO -  ... FAIL
+...
+2026-08-05 04:42:45,835 - oe-selftest - INFO - 6: 27/69 387/763 (108.57s) (=
+2 failed) (sstatetests.SStateHashSameSigs.test_sstate_sdk_arch_same_hash)
+2026-08-05 04:42:45,836 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 416, in test_=
+sstate_sdk_arch_same_hash
+    self.sstate_hashtest("aarch64")
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 401, in sstat=
+e_hashtest
+    self.assertCountEqual(files1, files2)
+  File "/usr/lib/python3.12/unittest/case.py", line 1216, in assertCountEqu=
+al
+    self.fail(msg)
+  File "/usr/lib/python3.12/unittest/case.py", line 715, in fail
+    raise self.failureException(msg)
+AssertionError: Element counts were not equal:
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-3947568/tmp-sstatesamehash/stamps/all-poky-linux/adwaita-ic=
+on-theme/50.0.do_install.sigdata.cf83a7b1dadddfa2d6b44fc9390f46b27793c74918=
+dbab4fe0048d924780eaf5'
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-3947568/tmp-sstatesamehash/stamps/all-poky-linux/adwaita-ic=
+on-theme/50.0.do_create_package_spdx.sigdata.f15f70b42ba9db4c88b4cd7b650ddd=
+f4f7b1dbbd911ff71f2c803f3b16d985ca'
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-3947568/tmp-sstatesamehash/stamps/all-poky-linux/adwaita-ic=
+on-theme/50.0.do_package.sigdata.81c59c71a0ee5154503141307ed14df0ac325fce8e=
+0351ec308317e951ea66f1'
+First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian=
+/build/build-st-3947568/tmp
+...
 
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 4c3e31d438..1bf32ffc53 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -44,6 +44,7 @@ CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on go
- CVE_STATUS[CVE-2026-8924] = "not-applicable-config: public suffix list support is disabled by the recipe with --without-libpsl"
- CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2', d)}"
- CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is not enabled by the recipe"
-+CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
- 
- inherit autotools pkgconfig binconfig multilib_header ptest
- 
--- 
-2.35.6
+And I suspect it's also responsible of these two failures:
+
+2026-08-05 04:39:10,815 - oe-selftest - INFO - sstatetests.SStateHashSameSi=
+gs.test_sstate_32_64_same_hash (subunit.RemotedTestCase)
+2026-08-05 04:39:10,816 - oe-selftest - INFO -  ... FAIL
+...
+2026-08-05 05:32:43,041 - oe-selftest - INFO - devtool.DevtoolIdeSdkTests.t=
+est_devtool_ide_sdk_code_meson_clang (subunit.RemotedTestCase)
+2026-08-05 05:32:43,041 - oe-selftest - INFO -  ... FAIL
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4471
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4289
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
