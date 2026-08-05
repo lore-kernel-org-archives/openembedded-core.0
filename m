@@ -2,105 +2,103 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30290C55174
-	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 07:00:23 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34779.1785913216120266054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3456EC55174
+	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 07:01:43 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34828.1785913301006960153
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 00:00:16 -0700
+ Wed, 05 Aug 2026 00:01:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ego1GpEC;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8f23e851626so3663906d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 00:00:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=erPjVoUF;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51c2a449c57so3721951cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 00:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785913215; x=1786518015; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1785913300; x=1786518100; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qY3+hrtfX47T925s2C2RzsybHcS3Nb3xya67s0wMugE=;
-        b=ego1GpECuHGQhBrgC7e0b3X2HlPhF+uOOSVQcf1JeLbuCNDqPoq46ktAzH2qlc9kXA
-         91UE7VZQbjKcUd0AbkDJ9/s7xSNGfPDsl83J8XNixvaUt8Wu8p596pco0B1rKLTOglQZ
-         hA1rZIZireCSJCV6kWwknw1MP0RhH6mRvf9PfW5CLUoBzHpCqOnfvqTAOz8L0hUvBmpA
-         6QM3wp67A1qR58lToxMhafywLoJjzF0JbMMRhbvVRTFD+DIHkF/y3LuSmtwVZf2cHTxj
-         WVzKLH+2IDxhfgv8JNW8SjJ7l0rOL1mAj9d4cbq863+5EQ+5awfG40J0mzvZbCNJPA3R
-         AkYA==
+        bh=HN5LGifwQvG5R5LqmznLjNiZNWmEwvzYvXTA9FFYpq4=;
+        b=erPjVoUFDADiH58ZoC5S2a/sQGZVRe0RHNR9xqQg2TlyT+UUWeN7nBDkNHPFqrpvnL
+         bFG+2+hmyox4FAwmC6imhtbPgRURA5ZrlyF7FISbnumxxwAOl4Zud/g0AgnA9+WD8fwb
+         0XN5J8nc/ljEsfWyqE8+4BImtj5upFra8pOayMqHPpffVknkb/fJB3yCMTTVgjtF7XU4
+         4dqMMMjRifn1pljCcvc+2O9tzKI9hhq+ktWpHdEO0zFZv4gXBZy9QW/pmkTJrPM4OHJP
+         JfDV2KjskaZnr9Zfkp16lyBtI4mPJ7/0tKpuB1Ze+B5iiDJPX8jWpflhUH30nvEvP7LS
+         a0bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785913215; x=1786518015;
+        d=1e100.net; s=20251104; t=1785913300; x=1786518100;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=qY3+hrtfX47T925s2C2RzsybHcS3Nb3xya67s0wMugE=;
-        b=P0KVhnGLkbwUdJbxKyI41/sbXbcr8r/erlUT81svK7I3ZYYsErr7yJIij463/cFPg6
-         jO2MnAjZU1H6bzu/GepjavsWcGN3MBKrGj/s94xJjHOjqi5zzEu/GmX3rJ2entrCXYQf
-         XiCiVVGYYB8QOVVZWI4Z9W7uHQkG0LPnb5NhBvgNpNjWk/h+lgWp23L8WfvjRZyZStqQ
-         6qbVYpQrcQxz0QHz6SItJAz8otYD7uHJNADxRtJiRKWJE16uQY6d17mJhEUb0LMxQZzE
-         J6JnjzriuCVj6n+hJg0uMWLL1YxmWxX/MqoIejxSwd6n9wiX1xVZ1W3luK/kJ4XDraFj
-         fhWQ==
-X-Gm-Message-State: AOJu0YwyPUcCbAlbtV5AuqZbFFGW7Pb/fExUgCkt9k2fUhdzeFZ6Y2tC
-	fId04X5CSATQVf0NlPHFYRO4XT5jl9sEYOJhu63Rlr82r4w0KTUfp7stDLxIPw==
-X-Gm-Gg: AR+sD1144pNo1Csx++11aPboSCCcgHUK+/T+PhS++eou+AGvbDszsCVOALBgdS9TNlS
-	IUeU6z+YvfDgnuD92KL6vggNk+vUUe3ufhZ7JMXWHvfilvEyl8s6kbFXfoFnDXYBkW7sokPYaMD
-	B9n4CTyIOeJPOPPphBBgZo/7btoGLBOpjVcqStFL7YTy2Thnz4wUgM2Ye6Eruy44Zlk2gdB5Hx2
-	mYq3aAkGx5SXqvpftn0j+sdt/HyDqLBDoa1MtxLSrBY0oqBwF0XvV3VJjhJl3MW7059+Yn/Eb7E
-	RHXGcHdQQMy8Q+NQkboZrbxYyf2vQTqBaDKi8ZRQn80/uti3bTy41ojtg2lXNkM+tB+SR56cWsl
-	1bkJF1A/G4Vi2slxWzPYro6mBDNtduoA3dgpeHTGFarnM0V36lglKOSv1exvWYkU5fvhpcBl79N
-	+3rTQW8Z3IQkFpl5u8PeDHa/rYKmtIu1vH4ThjknvzkG+gjL9AxT2B+iLAi4JeFrqMrC1jsH8sa
-	4/vR7ZVOwrXzGoAL3f9vPRWVnYznOQ=
-X-Received: by 2002:a05:6214:268a:b0:8cc:ee2e:8d9c with SMTP id 6a1803df08f44-90881081346mr53659076d6.5.1785913214747;
-        Wed, 05 Aug 2026 00:00:14 -0700 (PDT)
+        bh=HN5LGifwQvG5R5LqmznLjNiZNWmEwvzYvXTA9FFYpq4=;
+        b=revp4RSG9GBX2sGOIEE8E4nk8+XQ+/0OCOOepbVgs3u4J55WUZkxFdY6NlIUGXmBgg
+         H1j3NN90MP4joRX9HhyOedj4T9wQHXCb9t02qdFean5q8ZEv6UzWQGWlYh5eWncR9GZr
+         bCoWKgS/0aS/BCb/W9MTqL1Z+Ku/RbShVr9PQx75I2p+a0y0MGsvApLNIIaCyIubqsU5
+         GIqdIRwdGmE3XBxjHJ+45o9CVhXEUmU5Oxuiev6tjRnOAahEsbKrBlFhZRCCg1uWBT0V
+         eudSYyFfQ9QdfX9yci6FMHgwl+8G20gx/08zS9SVi8i3luNtoBXyS/ifN/9cVw/pjlz6
+         M1Uw==
+X-Gm-Message-State: AOJu0YwavcZvTduJjV9FtWj/aYMbpavNYHOgs9EBwlsQ+CpUUwcYBdVp
+	egg/XxStVDP48O9+sxFF1HQTHJmpSvgfu5NSdLldKZP6IbOW4WvArNQF62lurQ==
+X-Gm-Gg: AR+sD13tWsFQUdwjCo3GN46UNaeQTTjYML4lDBLBt+jF169gJejt4txFsXclKQThVkX
+	bs0ddO/zI9a5O02LBjDBYg58cZYFFd/D/rlseQIkeigRQvbYP2sa9BXfB/nHIH5SRUL15g93+9/
+	2KsVsW6rriYLLwaR9pmDiBK8QfcSoVA6QbmJYmt7Bk2HIw5ZnQ+5SZgv6J2+ZFQhmYL/gYMN3qZ
+	vC5HBgsGKkAQuxlU4Qv2F5D6LaABs8CbYUnROOvHE89JEWGoci5Z0j2LxRAVofSr/s47PSGXVfi
+	vP6Juka6iQHwvAg9IX36leUHcSQ5esLdejWhi9ivsi9TI9ng0BoTAOUjWz2I+oYjyguhI2B56Q9
+	bRYJww2sm88A8oNJsZmS6NXe2/IQB+df1sH2ZMERLTEaN/9rKic770dqW1mDmF0AP16fKhZk4Kn
+	Pd/c0VDOTs6fWwTzgg0rx+hJlIebXoaLU/TBUtm18l/nI0DECOqCjKvM9To4h2OVIk+NS4tc1GJ
+	KC1UqFZXWRq4OE7Km1UwYg2TqFe+0k=
+X-Received: by 2002:ac8:58ca:0:b0:51c:20:aea7 with SMTP id d75a77b69052e-52ce5f62d41mr43511801cf.9.1785913299902;
+        Wed, 05 Aug 2026 00:01:39 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9087ffb8f76sm21450386d6.11.2026.08.05.00.00.13
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52ce8975b3dsm13211661cf.30.2026.08.05.00.01.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 00:00:14 -0700 (PDT)
+        Wed, 05 Aug 2026 00:01:39 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ruby: scrub build host paths from rbconfig.rb in every class
-Date: Wed,  5 Aug 2026 03:00:09 -0400
-Message-ID: <20260805070009.3498678-1-twoerner@gmail.com>
+Subject: [PATCH 0/2] add an SDK_FEATURES lever
+Date: Wed,  5 Aug 2026 03:01:34 -0400
+Message-ID: <20260805070136.3499233-1-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 07:00:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242829
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 07:01:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242830
 
-rbconfig.rb records the full configure invocation, which contains the
-recipe sysroot, the hosttools directory and the debug prefix map, all of
-them paths on the machine that did the build. The recipe removes them,
-but only for class-target, so a nativesdk build ships them.
+SDK contents are close to all-or-nothing today. The one lever that
+exists, SDK_TOOLCHAIN_LANGS, has the right shape but only ever covered
+languages.
 
-Nothing noticed because nativesdk-ruby has not been installed into an
-SDK before. Doing so fails do_package_qa outright:
+Add SDK_FEATURES, in the spirit of DISTRO_FEATURES and IMAGE_FEATURES,
+and fold SDK_TOOLCHAIN_LANGS into it. BB_RENAMED_VARIABLES keeps the old
+name working.
 
-  QA Issue: File .../rbconfig.rb in package nativesdk-ruby contains
-  reference to TMPDIR [buildpaths]
+Every SDK_FEATURES test resolves inside TOOLCHAIN_HOST_TASK and
+TOOLCHAIN_TARGET_TASK, which are packagegroup lists read at populate_sdk
+time. Nothing in a compiler's configure ever sees SDK_FEATURES, so
+changing it rebuilds no toolchain and two SDKs with different features
+share everything underneath. That property is the point of the design and
+the rest of this work depends on it.
 
-Drop the class-target restriction so the same scrubbing runs whatever
-class is being built. The variables it substitutes are defined for every
-class, and for a target build the result is byte for byte what it was.
+This changes no existing SDK: SDK_FEATURES defaults to empty, and
+BB_RENAMED_VARIABLES maps SDK_TOOLCHAIN_LANGS onto it so configurations
+still using the old name keep working.
 
-AI-Generated: codex/claude-opus 5 (xhigh)
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/recipes-devtools/ruby/ruby_4.0.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_4.0.6.bb b/meta/recipes-devtools/ruby/ruby_4.0.6.bb
-index 13b6746bbeb3..8b8c397963c4 100644
---- a/meta/recipes-devtools/ruby/ruby_4.0.6.bb
-+++ b/meta/recipes-devtools/ruby/ruby_4.0.6.bb
-@@ -78,7 +78,7 @@ EXTRA_OECONF:append:libc-musl = "\
- 
- PARALLEL_MAKEINST = ""
- 
--do_install:append:class-target () {
-+do_install:append () {
-     rbconfig_rb=`find ${D} -name rbconfig.rb`
-     # Remove build host directories
-     sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' \
+Trevor Woerner (2):
+  bitbake.conf: add an SDK_FEATURES lever
+  sdk: fold SDK_TOOLCHAIN_LANGS into SDK_FEATURES
+
+ meta/classes-recipe/populate_sdk_base.bbclass | 21 +++++++++----------
+ meta/conf/bitbake.conf                        |  2 ++
+ meta/conf/documentation.conf                  |  1 +
+ .../yocto-autobuilder/autobuilder.conf        |  2 +-
+ .../packagegroups/packagegroup-core-sdk.bb    |  2 +-
+ 5 files changed, 15 insertions(+), 13 deletions(-)
+
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
