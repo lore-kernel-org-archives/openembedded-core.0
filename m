@@ -1,212 +1,161 @@
-Return-Path: <mike.looijmans@topic.nl>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D97DDC55174
-	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 09:21:37 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36567.1785921694192141195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D41AC55174
+	for <webhook@archiver.kernel.org>; Wed,  5 Aug 2026 09:45:08 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.25])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36860.1785923105630521807
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 02:21:35 -0700
+ Wed, 05 Aug 2026 02:45:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@topic.nl header.s=selector2 header.b=jwuzerkQ;
- spf=pass (domain: topic.nl, ip: 40.107.159.73, mailfrom: mike.looijmans@topic.nl)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=VW0iCGz7;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=VW0iCGz7;
+ spf=pass (domain: arm.com, ip: 40.107.162.25, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=t3fdSxFEpOPix1K1+QVmRfflBfYH3RbJpZouvbBJSmNMydWmAF6lV0pfDgDCEabDfLlBka+WC+o/MCbLxXdNlKVNR7ei42uaGN99MiFdZX51sFsZZUIy9AC6BXDV5pNY4sSJ+iIKMDQG6Zc7Gvv61fc5NjX7cNFTy/3rSR4rI3pH87AvqmuUYkLWMUoTTwMwRaREdpIJXzrnKIG1slf/Az7dFVpxT4lsMPGGv3ibFNCa8f/9S64Zk54Bcvc8QEso37ZVJsqjEILNuVoU3OesXzbsDM78MojBWt2i83PMKxHJtJBiIKOMTI7dkcSbrdhcfAJLOQRflvqcV073t0s5Sg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q30/soUiYyIv79lZaaeb5rLPs8tCX4/UUKew6KleOPY=;
+ b=B65BcyVxRKROC/ohUDJHgZIA6vIwGCNqLBROKCvjW+1t0S16Uk4vjAziq2eS+yHzSay21JRC2Sr64Ey/Sf79Nh5SnmRECrfU4umnxwDtdmaX1wsIzLzgE9eRQ33JhkNPMpNE0F2jegS2uTuTQ4+OQ6a9kvKrjr1UVM8ZB7+8rL+3chJd9/00Ui14p1UPLQZ6glBVz6hMNU2Bf19D/KWIgoGUW04QouVriiPfehibugQDPhAm0nv7fLfXlKOyXWAv1aq9lfvqoO2PNAbHeHuq9yYNLyf1CoNogOBR8oh2vR5jOswpozHTz+b4xbkxaA6e5fedt+dunsXAs68Khgooog==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q30/soUiYyIv79lZaaeb5rLPs8tCX4/UUKew6KleOPY=;
+ b=VW0iCGz7zmgxbNB/xDJr6dUhUlGlXs8h62rn0qh+gznyg9NtPoqHeXPq7nQQ4OI2fFbCK7lPFgbSHPAIE09h7hewVgQXQDuLD1mlnJ/ivsWLp9t3wyQpi7cN6XtwnMUl9LJdhzEeoi+vybuDp5u4cMk2aKj1WbcyNQy8MaHRgvs=
+Received: from DUZPR01CA0256.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b5::16) by VI0PR08MB11296.eurprd08.prod.outlook.com
+ (2603:10a6:800:306::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.15; Wed, 5 Aug
+ 2026 09:44:59 +0000
+Received: from DU2PEPF0001E9C1.eurprd03.prod.outlook.com
+ (2603:10a6:10:4b5:cafe::2f) by DUZPR01CA0256.outlook.office365.com
+ (2603:10a6:10:4b5::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.15 via Frontend Transport; Wed, 5
+ Aug 2026 09:44:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF0001E9C1.mail.protection.outlook.com (10.167.8.70) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.5 via
+ Frontend Transport; Wed, 5 Aug 2026 09:44:58 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=csJWakLf0GKfZOOJK4P2mEf0PFN1QO+mL2UlUPqvRA9j/GSSK7ixmQI5pUmHSJw2Fe/opcGpXG+h4vdu7uOh+gtvJHqhZcqqnN/u/d6LVOZRKoX/Bvq+Gfy7s0V7UgCLBNRmXQ73AYywPmxD85HwuBbVetlq9Z9uC7haT9UuudiSdha2Y6fxaPy88SZy0nsSkf/LQJbaUmgsKBfWCk3enSmS+K5Dp0cIN3sxTbHB+YdgxHzM/C6ovUWjqvqd+xV3aDfIRV+GeJk2AEorpt+9mTL28q5NwODUWktJtmEHZG3V/K6JU8fpIYx4NiaBYEBEpgx3q1/XSKeJLyxHVJXuqA==
+ b=OpUYM71sR4XM+kBSKoJ9pCU0+gXvn8aSzY2Sg4gVDk2GCcla6SI2V1jkhid3h9qPAtz5x14Z4hvqr0rm89DMCsnjuFWvBcjekNp3ZqAJel4TgmtRcxEpLH+PbUJN3MnDKiG7p0s5FKEt1lG3Gie7b6FORIvI7DXV4S4flEpHu/vbC6z+0+t/WgqwR7n3crT5ElUNezloJZKRIpLZ9lv660G/9z1TIIAgzVTgvwwd0nCIUrDOanF3YnJFVs7vf4KTw+Rr7FDJ2NmnQ8USz5t3+Fl6LeAwINb1NzEOpNL8TZnDxXS5kmn6MFIqYckOgb7iZy5iUPnNjZWL46CcuRIK/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RBBqzyBPJcOXBX+ofQYrF9UzhSarZmdH93KlC/c8eV0=;
- b=l7sfRZNa96xxwJpr0nBTWwKbNYtvLolLoTOYfAAxcjt8WNDglV/xNFjt8FLqSLgzwa0EzR+uj18DE5u9ZgPv1oPAUf+7MzsaIELwk8nvwrjg4pFVSr31QItiN5njUWSV1YZ/T4WvM7+ZwYo1I7EaUZ/SHPi0XiK/sjyejjvd5lStaxLEt0nkrvXF+ZkOUtePgMITn+jAXuWpdgNhgohOCokX7OL/A0yIZ+z5CH+VcMPrg4RnDqLFW/JmW6U5d3aUuUBVRutgwZm8hsncbsXgPqMQtHWrw+tikweqFm8LP6qTLBp62Vt4zg7iTtV7Ao36UQkIVC61mb3eNU2GlYUGiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 20.93.157.195) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=topic.nl; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=topic.nl; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2;
+ bh=Q30/soUiYyIv79lZaaeb5rLPs8tCX4/UUKew6KleOPY=;
+ b=yOIpAfu67ifQsYsSJtgjNj3/kFsSkTrcnOckNGZdbBV52xeTcIs+iqBgwsXAqJnNpQCVSpI8f5IhpdOHCPEAPK3qodvE0sf5+RuTsysTKe/cGCcHhCRHuS4DQA50VL9pTlrjoWUZHN0eNGjsvasbqbyK9i9tz1PKNrX3hUb7slqlcVjdv68REcm0NnaesfIAAM4OcXyC8obWUgI9JzFjxEF0UBfEi4v1quoOIgklqtIO4kA7pkbWa9MQTj2pRfgqIJR8X4LEHkWsmCFtH1X/vSL4883eh6aZePgRTz3vETw9R6FdrYyEuQtsJ03YFMwOur0VmY6fmGem8rcaGVaNxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RBBqzyBPJcOXBX+ofQYrF9UzhSarZmdH93KlC/c8eV0=;
- b=jwuzerkQvoBEx4OQygMyIgliWWGmKymSoeqVOc723mAXg1va0tuz6jhCKJQl7teynY71YhXjEw1z9BeEaCOV7jltAtatepLhV02P3PC3XFUx081zaJ5xpx1YvaRY37ltV2G29HAo0/28jXbjLuz3NnP3LU/I8xZaxh00eJcWmVYl7nTMgJaxKi69YYm6kHVPy6uR+xBNNwKKtghQL7J6+GyZaIrZYv5/sjAnzl93ODffTgJNh/i6U9AnRbETjW3J7iU4Pr5VX0scWPddnfg5Dcecl6nD+ZD6mR3GxxCYlOslpEwYCuO0tq0Y7V0L/sVoHezASmasl+Q/Z4lsTaiMSg==
-Received: from AS4P250CA0028.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:5e3::16)
- by PAXPR04MB8942.eurprd04.prod.outlook.com (2603:10a6:102:20d::24) with
+ bh=Q30/soUiYyIv79lZaaeb5rLPs8tCX4/UUKew6KleOPY=;
+ b=VW0iCGz7zmgxbNB/xDJr6dUhUlGlXs8h62rn0qh+gznyg9NtPoqHeXPq7nQQ4OI2fFbCK7lPFgbSHPAIE09h7hewVgQXQDuLD1mlnJ/ivsWLp9t3wyQpi7cN6XtwnMUl9LJdhzEeoi+vybuDp5u4cMk2aKj1WbcyNQy8MaHRgvs=
+Received: from PA4PR08MB6272.eurprd08.prod.outlook.com (2603:10a6:102:ef::11)
+ by AS8PR08MB7909.eurprd08.prod.outlook.com (2603:10a6:20b:52a::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Wed, 5 Aug
- 2026 09:21:26 +0000
-Received: from AM3PEPF0000A799.eurprd04.prod.outlook.com
- (2603:10a6:20b:5e3:cafe::33) by AS4P250CA0028.outlook.office365.com
- (2603:10a6:20b:5e3::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.15 via Frontend Transport; Wed, 5
- Aug 2026 09:21:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
- smtp.mailfrom=topic.nl; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
- 20.93.157.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
- pr=C
-Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
- AM3PEPF0000A799.mail.protection.outlook.com (10.167.16.104) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.292.8 via Frontend Transport; Wed, 5 Aug 2026 09:21:26 +0000
-Received: from GV1PR07CU001.outbound.protection.outlook.com (40.93.214.103) by westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Wed, 05 Aug 2026 09:21:26 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received: from VI0PR04MB12030.eurprd04.prod.outlook.com
- (2603:10a6:800:316::24) by GVXPR04MB12160.eurprd04.prod.outlook.com
- (2603:10a6:150:316::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Wed, 5 Aug
- 2026 09:21:22 +0000
-Received: from VI0PR04MB12030.eurprd04.prod.outlook.com
- ([fe80::e428:3105:17ec:8224]) by VI0PR04MB12030.eurprd04.prod.outlook.com
- ([fe80::e428:3105:17ec:8224%4]) with mapi id 15.21.0292.013; Wed, 5 Aug 2026
- 09:21:22 +0000
-Message-ID: <0f67a28b-d316-4fb4-b7e7-069a44dbca18@topic.nl>
-Date: Wed, 5 Aug 2026 11:21:21 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Fail to compile zlib for 32-bit ARM
-To: openembedded-core@lists.openembedded.org
-References: <18C8DAA25FC16448.3417489@lists.openembedded.org>
-Content-Language: nl, en-US
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-In-Reply-To: <18C8DAA25FC16448.3417489@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AM0PR02CA0183.eurprd02.prod.outlook.com
- (2603:10a6:20b:28e::20) To VI0PR04MB12030.eurprd04.prod.outlook.com
- (2603:10a6:800:316::24)
-MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: 
-	VI0PR04MB12030:EE_|GVXPR04MB12160:EE_|AM3PEPF0000A799:EE_|PAXPR04MB8942:EE_
-X-MS-Office365-Filtering-Correlation-Id: 907892b5-a419-4ec1-d9bb-08def2d2ecf5
+ 2026 09:44:22 +0000
+Received: from PA4PR08MB6272.eurprd08.prod.outlook.com
+ ([fe80::be31:a8d8:c70a:bc0c]) by PA4PR08MB6272.eurprd08.prod.outlook.com
+ ([fe80::be31:a8d8:c70a:bc0c%6]) with mapi id 15.21.0292.018; Wed, 5 Aug 2026
+ 09:44:22 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] u-boot: always use GCC to build
+Thread-Topic: [OE-core] [PATCH] u-boot: always use GCC to build
+Thread-Index: AQHdJAY9YWUmMEOGwk2HP1Lpwnr8HraOpegAgACP+4A=
+Date: Wed, 5 Aug 2026 09:44:22 +0000
+Message-ID: <AB3329F3-0154-4430-A1E7-305B66E9248E@arm.com>
+References: <20260804114134.4028175-1-ross.burton@arm.com>
+ <CAMKF1spL4wUZ_ufSy4Z468nUQYyfXnx2H+bqvKixVk3-KHv=pg@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1spL4wUZ_ufSy4Z468nUQYyfXnx2H+bqvKixVk3-KHv=pg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB6272:EE_|AS8PR08MB7909:EE_|DU2PEPF0001E9C1:EE_|VI0PR08MB11296:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a966715-b4eb-4157-542a-08def2d636a8
+x-checkrecipientrouted: true
+nodisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|56012099006|10067099003|6133799003|3023799007|18002099003|22082099003;
+ BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|10067099003|11063799006|4143699003|56012099006|22082099003|18002099003|38070700021;
 X-Microsoft-Antispam-Message-Info-Original: 
- +bz+6u2iix67v8PTQh5vSKTAghJlfGfPCgIGk3BgN3YRJV6PE4OkAclEzy9SPMFI8rfA6jV/SpLwaGIFnl4J7HfVAujMuSjEqdq467SpqUqk2II90QkKGZFJnNo/M+LDo+xO6r1UMKkEz3pLqxnnQuI94wT27TtQfwa2djisJz6iFo3Ijx7C8yK6BXu1WvlK6ykgTgPmOIDMjExsfggVkDCMcfxATC/pesQSWgUKIwXWlK4u2CupBywKSa2iaRzvHrVvSW2TF8Bp0Q3Nr+5TEamJhag8qLul9lLvUFxoG8YWWbocWYBDnU5IRxVEnvyHHG8eB6LJ9gvWJVrUO5VDva0Z9gp9GAl0YzX58iG1GHkFeCoa+AkAsQvkKBaPbd0cFRUZl9LTX5rFlRtT9uvsGH+aq675egxcUXYIVTdlZysbAegGJlh8qDK03JqZXpQ4GAq5qVinX3Qnc9md8VGgafIGMX6YfN9pWCfMGyQGZ73KH1mFnw6sXmwV7qQRNIV1T9ZoiBF9SKQy78tjSh5qPWUrGcIfnQR0DShDySgnan+A1bf5T0qlZSHvraPKXnRcE/l8kBXVWhS5bKp0a2zgV5OwGnGp5OvdVjLFnGkOk5A3rjFH4Z/ZxF5lNqtRjtv8gLNhiDg1gdK6A0Vvyuj9cy4gWWCQLFzeDFOfznyCFb0=
+ 9a4SqCRQw/I0wGopvQXqoUhEA+H08Xzxf5cHwKQOX38xOcCqZYVAsFXFDpFbTZb9t57hhHV/bqvn/yMWHUDBC24BfYsEgG+gsltJU4aRFVVKTkxt32GOBrqyueHwyzudahdoxfGlWOtc7ar47DPcnU83aHkeAO1DqCY+a1b3Ncqg2bJ6O29v52chyWtY2nNyedDZT30lXCwWry23Qdy0EWYMEvvz84Jq5d6mDSMPlcYTEx/+XCaw65AYCWOjOZmI3suaNOfdpTqjMqqMZI9uEjvLHhwT7kNLovWvyxKjQOPmg2C09A4F6Zr/ZbmVIAZQyKJzMEi4wnXWt5VnXcrKWFCBfSAE4ZRmKgaFOZGK6TMzuYdEV+AsKb53arxmmC8QeVvLvdkK2i2Y7WMQDyXQGWc6aGNf9l/yavmgK2/Vmo1FgPBpMIeWv8DGdlYHnPZlEzBILzQ9MYZujF4zErRpJdOfzb3OfX+FNkOnNqKH/rgXVgUrtB6+OqhGXL4HcmMMauatILWjeIOW57qreoga/9tqpuLknpa9Tu1witHtMHv29l/ThdmaoUeB7XTvFQAE3B5I/UYs0MPr+f4xrfse7WW4XcP89WZbwNTeRSm66OZ6FxDS1Y+EmHrcQJByzdzV7x7KI+r0q6L5sGqzv6JcT+1OIVkj+51iQiHaoqPzaDAIF/1PKEjkuQDNb56yNwAlAbHchYxQuTV5JCMyHyJnogHwqIGmuiQmFHLcW6rlReU=
 X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR04MB12030.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(56012099006)(10067099003)(6133799003)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-Exchange-RoutingPolicyChecked: f22JW1Fm+q0136KbPFJd0lC2OV5XhyuULo9nmEpyUpg0zU2X2/SV29lFo9dEa0yzM9sXVDaqLYhjN9VX0LZth2XpXq+qbDO2ibs9vopw4Uhempk50sKpYhmdD8b2PtixEimu1V2z7gNhMG2pGITk2GLJ5Bq2jaDvhB45lP2KdlXhuHcwyMC+lHV4zhQq7nDjVf+recBf4Cq2NhXFPp/1eUkp6RYFa9JaGj/207+b5R+NLR8zU9ITwqtQlOmz+4/GUGpBkzVCez8uol9THj1Rc89g/IPzkv0L/iL3UZ9zZKqXqMCvzg4/z1vhlOftdDGqT1oJUAmXQvy31yZ0h3tDHA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB12160
-X-CodeTwo-MessageID: 14f61e1c-e5a2-4319-bddb-8c87732ec26a.20260805092126@westeu11-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB6272.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(10067099003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <CFD6AD970423194584BC7F1795F7D2B6@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+ SRzgP7zytwEcA/dbo1/00b+BK3mfP8fw9KemzSqxRhR/mEEGkm2RbEMUnO75e0gH4z0L4TpHsLFswyyCCXRlYyBw9mhbYqPh4PGawTuNpCAnixIlr82WC1rLAcgH6sqVNhloySoLrQDUp+gA+tM3UB1VcHFgsU4CiBXMB1tevuGPiZ0HwdM7w58DpJxcUkbQj4p541zManBs0WSLFl8QOHZOtigDQIX2LGn2DF0umXjA0ELswpfDQiLonhQ5V/UebExMgPcIRQ+Hvk0L+Z64/NqQZaAWGLaLNWaAbKQ2NAWLMVrC4mLVD47/pTXVexQGvFvR75hD9OPRD01+37oMSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7909
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM3PEPF0000A799.eurprd04.prod.outlook.com
+ DU2PEPF0001E9C1.eurprd03.prod.outlook.com
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1f92e5b0-d209-40b1-4f86-08def2d2ea1d
+	dedee532-dc22-4d50-b564-08def2d620d2
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|35042699022|23010399003|36860700016|14060799003|82310400026|1800799024|13003099007|6133799003|10067099003|56012099006|22082099003|18002099003|3023799007;
+	BCL:0;ARA:13230040|14060799003|376014|23010399003|35042699022|36860700016|82310400026|1800799024|10067099003|11063799006|4143699003|56012099006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	otDq6YQltCq9OcLCZL0LRmRZGOeW1ht8bufd5etfMGATvq1O9TZd9teTNomPpGVsa3IO3ChG5gWO6HqRfzGxE/LmRLW/Vj3nqZXr1xusFNlWULSpA1SQIYuqIlWxANkZUPX3o68xTVGJVMgSPEzGrRVSPSxg7ICMw1+Nt8CWazcZIgYBXSjzkxecSzlWhvqnvpJKbVoeneD45qzG31YY7/SZs/d57a4CYXZ8GTIvcEpEzSyRkpmI8Ztics4VIdOvkET0DOZB0J9RDrpJ5+l3h+4b3Z9jiI8PwKmLgXu1XbWe0tyXvRaTKvv247qk27DLUbmSQJp0o0a6e322KNOmtp/mo3IXaEaSev98KlOHkL0NPrk3lAf6dqAPJQGukoedrL81o8ygDOf2KIEzjyU6bBlhIIq9iR4ozdFEeC7sxqFAW3/I+uK9Kd5oXqlq9NnPg7vvBcnniPqcx814SryfaX9kbJVJNpfB3nSm8RC0mHNn4/6pln8sSvg6xBMoDsmW67BChiAk91BkYo8R+pKH4bUdZ0Y0CCn1CyXaQICcMqEG+uhtKZ/C3swNQZHxjEQEN55mvuClnYlUP/0CqrPhqHMzNw8kHZnUG8ipXP4qrozkHeY1VeM0d6+XtZa7KXRsD+PNvEHISLnI1sirT8kh2GAvfsjYwLGIrJpg+pU1pJk/1aNninUCgcliD8DLyCDEVsZsaSXFWVKeC1SdHrNieQ==
+	8ulndHV8rhojRnkfXQZ8TawUCLeY1BTb1WzXbVaStiw+sEJzWLTh/oMWFe/6vm88FUP+8Uh5YlcyIypcWDXz80O2v5xgn9FsL8MoYC7CkPq9uVPpGh5kk5TdNOvEEncfaHSmxqVwnpA94lj9KfIY/Fm5J44D10jI/ZeA2z4JLxeEvdqNwP/ba12XZZYSPE8z1GWCe9HUPRlwTms2TqDoC1NK+U7EnxQKyx0VI15EImRxQRC07/+/oyI5pASgTeBdUH6bO4PQ+iIGrNaawXnSRXB4YqilFMuIG8k7dTM2PgmSLQT6w5X/+f5XKN5NMGL2al8P2Q/eyVOWKWhdTI93XUVUgN4rV4Fq3NALzTYB5uHm7MjRFkfH5/FwvID8O62U4v23pimEUbd18lcpLpUtDib44Cu5nGMeGiWPyVzs74pDBhyWbpumu1TCMsTnu56ehwX2zQx8BRwX5dYO+ZB8Mfnral38LI7gRbg/npm6Nbe8cvI+/HmJg71PMZzVtMI7+TEYC51knsmWrbdPsiZczF45Xpl0Phuxkd8vDE6HVOstopB70ufVMGGEYyTUdl2SQrZZCEAs3Ocw2M4x/oVwzgqQI6wGwA4Jyq3oK7iYMVwDQogzJifS6mJEDIFECQdFGx9HzSFu4a3m+JxSoMXWJ/6VDQNhoPQ7mdJoS0GvGG/tdkCbnajsLZXzMSPQAYbrWEYcAKEI7AQwWWMBpJXC7A==
 X-Forefront-Antispam-Report: 
-	CIP:20.93.157.195;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu11-emailsignatures-cloud.codetwo.com;PTR:westeu11-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230040)(376014)(35042699022)(23010399003)(36860700016)(14060799003)(82310400026)(1800799024)(13003099007)(6133799003)(10067099003)(56012099006)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(376014)(23010399003)(35042699022)(36860700016)(82310400026)(1800799024)(10067099003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	mtC3UvTdHyUHulIBAhtlt9hoz7+sC1eDSoCif8tIcJSsZo4LfNXRte3UyiyGDrQJWwaNSI9oFN4qWkyKlknkreh7Nb3jFwsudcZj+N/EeKoKSNv+QJ9KWkF0nS95JZokncysxKnLqu1gSCSHHCskZqtCwrIvNV+4XfFLhp1efa7x0q1DnLFahu5GD8cJbTfPHNskQbWYE7H9v9xeoKT2pRuD9dqd/EhKy6kTLndsp1NICy7d2KHdDHmDc4wmMOdOrcSqw0OgGjS5oMyrA/0BvZID/z0ZyFjmI+rZL/UVbGEI4xncq8T34/82hx7uiCGhAdd7Eg6JgBGH+8p6thQ1xIhmp52BSv5ITFVai0SSiQhBTkcPWUvoV/hjRzab1gQwyzI1eNh7f8UyvqnNdQFPszMJ5OZajLU2W8xTuSp1v33AEFp3ccfYmly/I3ph2Qwn
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 09:21:26.5657
+	kYc4/AbUOUbM6Cuxd63kiF1R2C5s5pKTqGv2ppXo03jN2pI6bCrY+KIGr+kH1cC3s4bFVB0RXrI5VJFtlYX1tZQDQ9GEULWdl1VMHnGKRcNiZh1V6vY9KwH7OkVzOPXOdukNYz7tuvd52JPkvRivH0Otzj04Vtyvzj821vou+NsItqDjezTOcBtb57C4qbVv/G7CJWRjBSQEkLc4yLwYoSvEOwlnW3O99UFs2g1eWKOfUQLr7KEL1oqygjMzioNO6CmyQm142iDp/Rj7kAh8fnkf36yaFwvZJr3Ep0LKxRqTyelnQHqXGLEsGzpr+Ta9/GK9mual1KkgcbXdKUa6/SHkBOmRAFsw8Y/WzQz9nm4A8PA2nnnIMuu5hxrHS8lhJ+uypienlICCR8yWjmrdAhyWRi1vUibmgeiMLrbAQ6oG5WH2v62ZxpOQ26ZYRXpW
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 09:44:58.6652
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 907892b5-a419-4ec1-d9bb-08def2d2ecf5
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[20.93.157.195];Helo=[westeu11-emailsignatures-cloud.codetwo.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a966715-b4eb-4157-542a-08def2d636a8
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF0000A799.eurprd04.prod.outlook.com
+	DU2PEPF0001E9C1.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8942
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11296
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 09:21:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242848
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 09:45:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242849
 
-Ah, after a lot of searching and debugging, finally found the cause.
+On 5 Aug 2026, at 02:08, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+> None of these caveats are relevant to u-boot and clang versions we use is=
+n't it?
+> so it seems to be workaround for some issue that is now brought forth whi=
+ch was
+> latent before ? if so, why not fix that
 
-Some old config file was setting=C2=A0=C2=A0FULL_OPTIMIZATION:pn-zlib=C2=A0=
- and added flags=20
-that caused the failure below.
+Almost definitely not, but the immediate fix of restoring the original beha=
+viour (always builds with gcc, even when TOOLCHAIN=3Dclang) was provably a =
+quick fix that could be merged.  I filed a bug for myself to do the work so=
+ that the uboot recipe actually respects TOOLCHAIN.
 
-M.
-
-On 8/5/26 10:13, Mike Looijmans via lists.openembedded.org wrote:
-> Using current OE wrynose branch on Ubuntu 22 LTS.
->
-> Everything appears fine until it gets to compiling "gzip", which fails wi=
-th=20
-> the cryptic error trace below. Searching leads me to this page which has=
-=20
-> almost identical output (apart from the version), but there's apparently =
-no=20
-> navigation from there to whatever the solution must have been:
->
-> https://errors.yoctoproject.org/Errors/Details/852396/
->
-> I suspect the real issue is that somehow the ARM compiler dislikes whatev=
-er=20
-> gzit is feeding it. However, it's such a common embedded platform that I=
-=20
-> can't imagine that I'd be the only one in the world to bump against this.
->
-> The error I get now is:
->
-> DEBUG: Executing python function extend_recipe_sysroot
-> NOTE: Direct dependencies are=20
-> ['/.../oe-core/meta/recipes-core/glibc/glibc_2.43.bb:do_populate_sysroot'=
-,=20
-> '/.../oe-core/meta/recipes-devtools/gcc/gcc-cross_15.3.bb:do_populate_sys=
-root',=20
-> '/.../oe-core/meta/recipes-devtools/gcc/gcc-runtime_15.3.bb:do_populate_s=
-ysroot',=20
-> '/.../oe-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populat=
-e_sysroot',=20
-> 'virtual:native:/.../oe-core/meta/recipes-devtools/patch/patch_2.8.bb:do_=
-populate_sysroot',=20
-> 'virtual:native:/.../oe-core/meta/recipes-devtools/pseudo/pseudo_git.bb:d=
-o_populate_sysroot']=20
->
-> NOTE: Installed into sysroot: []
-> NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native',=20
-> 'glibc', 'binutils-cross-arm', 'gcc-cross-arm', 'gcc-runtime', 'libgcc',=
-=20
-> 'libtool-native', 'm4-native', 'quilt-native', 'texinfo-dummy-native',=20
-> 'linux-libc-headers', 'zlib-native', 'flex-native', 'gnu-config-native',=
-=20
-> 'patch-native', 'pseudo-native', 'xz-native', 'zstd-native', 'attr-native=
-',=20
-> 'gmp-native', 'libmpc-native', 'mpfr-native', 'sqlite3-native']
-> DEBUG: Python function extend_recipe_sysroot finished
-> DEBUG: Executing shell function do_configure
-> Compiler error reporting is too harsh for=20
-> /.../build/tmp/work/cortexa9t2hf-neon-oe-linux-gnueabi/zlib/1.3.2/sources=
-/zlib-1.3.2/configure=20
-> (perhaps remove -Werror).
-> **=20
-> /.../build/tmp/work/cortexa9t2hf-neon-oe-linux-gnueabi/zlib/1.3.2/sources=
-/zlib-1.3.2/configure=20
-> aborting.
-> WARNING:=20
-> /.../build/tmp/work/cortexa9t2hf-neon-oe-linux-gnueabi/zlib/1.3.2/temp/ru=
-n.do_configure.817951:133=20
-> exit 1 from 'LDCONFIG=3Dtrue=20
-> /.../build/tmp/work/cortexa9t2hf-neon-oe-linux-gnueabi/zlib/1.3.2/sources=
-/zlib-1.3.2/configure=20
-> --prefix=3D/usr --shared --libdir=3D/usr/lib --uname=3DGNU'
-> WARNING: Backtrace (BB generated script):
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 #1: do_configure,=20
-> /.../build/tmp/work/cortexa9t2hf-neon-oe-linux-gnueabi/zlib/1.3.2/temp/ru=
-n.do_configure.817951,=20
-> line 133
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 #2: main,=20
-> /.../build/tmp/work/cortexa9t2hf-neon-oe-linux-gnueabi/zlib/1.3.2/temp/ru=
-n.do_configure.817951,=20
-> line 137
-> ~
->
->
->
-
-
+Ross =
 
