@@ -1,368 +1,162 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6B8C55ABF
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 11:40:35 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.28])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17780.1786016430699659577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 110ABC56208
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 11:41:05 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.40])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17312.1786016461983822389
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 04:40:31 -0700
+ Thu, 06 Aug 2026 04:41:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=EK349hHz;
- spf=pass (domain: est.tech, ip: 52.101.70.28, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=jHebhk8r;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=jHebhk8r;
+ spf=pass (domain: arm.com, ip: 52.101.70.40, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=M6ODOvzWtXR8P81HJnbzhF/NuZrisIrc1wru2jSpmPUErTlDqqCeFwW9sTF63yOOoEt5UZWMASp4CX+SsAvBlFOmIvYfIUC9t8lqag+wN6pIt+N2vhtuYeIo7GBPb4+FQ7g9zY7s5XApG2eBZqvuiq+YA10PdzNz8viLkxO82GpyRPqm8sp2fET0KbgomHjOFdi30K6tBJDym2HRf2JXWJBflm9mpqOmJNclMDYweBRiL7Kqnwgeh2dAKc8gLUgQgHxWM4rfPE5NqxrKpaSZN8oMpDlYTgnGzGDibtHfDdpRB6fToTGEnCUBWuBZySDpeYsBsjXjLQzZbBkR0pr0mw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/9p1Jbvk8HcSujYnm1NmBIjVzPxiqSlLkm8uvQRo0CY=;
+ b=bGKPSuOTNKk3yjlgiwWH4xHOlHQhG7oTVXCA8iMG9Od+33WvEh7FdOfJJ20ezZIQ14WnYgCi+Kd6k2TpaNJGGf2F8xChEaNVTDQ3su9UYLcBLINT4O8iGRe7R3Zr57/4YvfM/T4xolgxnlLqVxH3l+KkNvRJYbaeO4qJ9EQo5ApGkOcKIUuO3QeLl9oLEYlYokG4LAKFgCCkady85ZCZuh9nGTrY0pLN8i9UAdJ14Grgw76Oc/bQGGyaLKsx+LY8kyMXzLYk0LrAcNgUqWwDHZMWZdHSyJU4bAUUkXLTodqsoWbUhjkrg6nlMZLlKv3OqFEPQt0a5fv2wnT8Pcs5iA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/9p1Jbvk8HcSujYnm1NmBIjVzPxiqSlLkm8uvQRo0CY=;
+ b=jHebhk8rgrpb0Ez/H2ZKbytOEFjQ5x4GLGsDEiPYyfixRHF/UDuWPdw754VbQub4/Dbv1/oOZvX9jnhDdUYJ+nIDmw4QlAxFoRACf7FmnwCFpR98JHp++2rsLrDLa+KxKGwtM9AQkZ8TAbbeFvfuIxZa+lFYvvxe26jaq/h67zg=
+Received: from AS9PR05CA0142.eurprd05.prod.outlook.com (2603:10a6:20b:497::20)
+ by DB3PR08MB9112.eurprd08.prod.outlook.com (2603:10a6:10:43c::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.21; Thu, 6 Aug
+ 2026 11:40:55 +0000
+Received: from AMS0EPF000001AD.eurprd05.prod.outlook.com
+ (2603:10a6:20b:497:cafe::7e) by AS9PR05CA0142.outlook.office365.com
+ (2603:10a6:20b:497::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.19 via Frontend Transport; Thu, 6
+ Aug 2026 11:40:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001AD.mail.protection.outlook.com (10.167.16.153) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
+ via Frontend Transport; Thu, 6 Aug 2026 11:40:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wmtlMxQhB7XyNr3QG5DiQumZyc0y0E68Guzpw+ydYVD0RD6hsDm6NffRLXRcpN+5M7NgmIPMJmL4yP1ag3SxDGXSXd1sdQfbvHZU35a6H1n/eCcvJEf9iax8tQbXzMs3+X6ChJoqmYPCl08iqpJ0QWEawCuvCSJoTaVsguah9rU+oXBPQS6uhKplPaWYspgoqvlzbFFtb7FoNyEioDbI/kRP2avebvIyrJxw3Euq61bsIl+FuOsuzlMgZiZWdIeuKOCRh4F65/EsjWMShUloohrIA071FDoo81Oj4sElR0zqLSOu9Q0dFlwvcw3U4vxJF3akfDhEiLqgzhj9HhNegg==
+ b=GZsjqI2modpSyPZXFyGGhnWYHgs2xwF5sBr4zDFKCMMzh6U8LG5Kdnt2GRWSSXqEI3+4fN4SlGHtqeAPllVuA+zm6Pp6Xlp9JIvBceZJi+GwFajd/KEwEPI28KPnotm+EUnOnp9AOThpbRcBsrmxsyXDq5VJoHtTbScTkUCSaJx9OzP62gAW7LpruxeH42OENuLZWe+9vGFk7IXu3mVstLW5fD6XLonAb6zufSnd74lvrrLlA+TYPw0evIu4D9WYkLcnXtBvlQ8N/UrHXp9cb107EFR66t2BidWRrpk5y45crwd0t+eYJ7Me7oZeoSpivDm44/nUhNBHDkN3+7dlqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nCCvQTfvUCo10gZCZPuMyBCopCImGfTZ4uil8pKo0KY=;
- b=dalUcQGEuR+hWpC9OoIFAD6Xf9uHYX47cM6/mr7BuJj2jW9SOf51x2P303g3y7DlU9Xkzr2ltDqKQ6DBbGQe+mZZ3sJpy6auEdq84bihoCCrDvIvRiu5QB8ZqpzqEEaayi7GLBbXcsPQUqSbfwu90QM8BU1PaSLkDY2CYQmAI4EnT+wznPsnJLqPvL9h6l9wn0kifx1e15PSZ5yQPvHP6SeO0q4/p1xgWYsQkSpJYvqON4uSou6gwXnATIaGFV55djK1i+sfT+6G0mH2jXgtU/5QmRhFBR5xFYjLh/7Pz37/TbOK9lYk8kEnKn1yGn7KZOM84kM4TzpYEHaL9yxOFQ==
+ bh=/9p1Jbvk8HcSujYnm1NmBIjVzPxiqSlLkm8uvQRo0CY=;
+ b=kHKk+oNj4haZrJerp7ede2yl6t2RquaqEm5KMrMQU9W2PvDjXSAKmJnwzmQ1dVWFNDMZnlp2R37Umxwky314yKY1xK3wBKLXG+0UeD+xXL93Xzsgs3TOt888PNJXSlElSZuRNN0JL0D650yfsPbv6mwX2dUrFp0l8TBE38FAxB3o+K4MlK7hppvvvoWCUsJVp/U2XR0Qg2LYIsUbq63bqWGNQxsc3e4o+IICcEvhZWGm5XmXuWA1EaP7++Doh9Ej3TQQn7dgYNo1I7w4j8z59WEm+WQc1LN3QjN52+c3ftyqXeXAOjUvKhfSSTd9q5ZLmjsBCVUe0CITYlDjDpb8rA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nCCvQTfvUCo10gZCZPuMyBCopCImGfTZ4uil8pKo0KY=;
- b=EK349hHzDqq3rxwpYvxZGzDHnbGHB6q8iUgsaapEJ0zbdlXXyLZ31iqRoC4ffzTYZnUHKmsDj9cy4+BUCNeD0tH7p7GoXmuVCyXefGDDE2YBibwqpwr8mK17e9LgJLKVYWQLZBeBLBj2z4zZpinoYTrwpabz92X48d30hM+CQk4MdnwOUsyA9Jv4V1m7ITGWTQEarRjAauASH9YJT0H7MiUXBLhepgLk04Gqw5VczZsIbvmy7L872aCM3UwvZEWPqIrHgyCjbdLmF8sxSg+8cUJWJM+Xcv9Q4qMNVtl5o8yibyX1akTgEtyJtUldlBnsgAjoXy2MmXRVX8LIRSbYLg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by DB9P189MB1809.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:332::7) with
+ bh=/9p1Jbvk8HcSujYnm1NmBIjVzPxiqSlLkm8uvQRo0CY=;
+ b=jHebhk8rgrpb0Ez/H2ZKbytOEFjQ5x4GLGsDEiPYyfixRHF/UDuWPdw754VbQub4/Dbv1/oOZvX9jnhDdUYJ+nIDmw4QlAxFoRACf7FmnwCFpR98JHp++2rsLrDLa+KxKGwtM9AQkZ8TAbbeFvfuIxZa+lFYvvxe26jaq/h67zg=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by GVXPR08MB7677.eurprd08.prod.outlook.com (2603:10a6:150:3f::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.7; Thu, 6 Aug 2026
- 11:40:24 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0292.013; Thu, 6 Aug 2026
- 11:40:23 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH v2] nfs-utils: upgrade 2.9.1 -> 2.9.2
-Date: Thu,  6 Aug 2026 13:40:19 +0200
-Message-ID: <20260806114019.25253-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260805162550.13442-1-jaipaul.cheernam@est.tech>
-References: <20260805162550.13442-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0259.eurprd04.prod.outlook.com
- (2603:10a6:10:28e::24) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB9P189MB1809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 944562ce-499d-45e7-7261-08def3af80bc
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Thu, 6 Aug
+ 2026 11:40:13 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%4]) with mapi id 15.21.0292.019; Thu, 6 Aug 2026
+ 11:40:13 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "deepesh.varatharajan@windriver.com" <deepesh.varatharajan@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Sundeep.Kokkonda@windriver.com"
+	<Sundeep.Kokkonda@windriver.com>, Randy MacLeod <randy.macleod@windriver.com>
+Subject: Re: [OE-core] [PATCH 3/3] oeqa/selftest/clang: Add oe-selftests for
+ Clang/LLVM/LLD test suites
+Thread-Topic: [OE-core] [PATCH 3/3] oeqa/selftest/clang: Add oe-selftests for
+ Clang/LLVM/LLD test suites
+Thread-Index: AQHdIv8pIH+AgidYkUWqYntbj9DITraQ6qWA
+Date: Thu, 6 Aug 2026 11:40:13 +0000
+Message-ID: <04519601-5714-4D12-99A1-2BF15C49B652@arm.com>
+References: <20260803041741.790019-1-Deepesh.Varatharajan@windriver.com>
+ <20260803041741.790019-4-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <20260803041741.790019-4-Deepesh.Varatharajan@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|GVXPR08MB7677:EE_|AMS0EPF000001AD:EE_|DB3PR08MB9112:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9fca300c-ca69-48f1-184d-08def3af9361
+x-checkrecipientrouted: true
+nodisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|4143699003|11063799006|38070700021|56012099006|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ yuU/FCWXfo0cy0cDldSx3s2spNKAd05Z6vunEyuA056Qw19DuAOg6qOsiwzXJHok8daRlPnKKoGtQ8KZlPZNr+leQZ+9wlOGFMUAS3Y1u9B2vS5WbTutchNuMWEefHDahDDk9k6XXZspzYVyobdHXcMXrzVQ4ehMGoWxBwDbDfx0B6Mk9rIVNTZ6yt4Qpv6UOEan3cpdGsDECbtuLAdN/eJMHUeF3fQcPQRI74DxWGrbUyGc80tBXtbaj5A6D8xc0S/rwYz3tzEI0l2X/tKG3blaFc4zGQJzsVB5IKRy5DNfdlAGjGs/LVyNbmGUhBvKk0gALmOHafomheSGWr4brXL4IMLMSqzJF1aDQtReUgNfTDEbxoRRweEPjZrhXeh9Szkef+JJEkainkux9goJMdGNsnJDDh0A928j16AfwL+BrxEdWFBOkRPBFLGMuTQs3O8w82IUrPVWrelUhh8PSjzC+8kTh8+tZrNKHFu6qdUSzmzWFGlpZACYPUJ3/eo02gSdJT9GD5lJNfHhIC8CKteUeGXo4MNkT5DuDNx9m+BPdY2w4pOXP2ycAquTZYvPbiC51OL+EotLgEjErOZuJEwQl3orlxomGxXx6vwFiBvCjMtIDGO084f6VuCTHDZdxS4klZ1fiflqkkLEoVoapqQXNGPeMpFNAHTL4V5+TOdSEQxABnHQV9Qibby4GQjm07sFpO/2z1MNwCgNO9a2UVWelcxUY15vepTbdHAw7ew=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(4143699003)(11063799006)(38070700021)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <650752381DD22C4F92690BABEB5D489C@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+ Qa+Hlezh5mZXYfAs1VZt0kFd7yD+qTbjHU35hhYL/VG+MiMsJyVGbwRE7BGIwTm6VaPjqwRndy6/VcwKRetmUZWRkUafTWUD+ap41ikMr+uKQ4n8GrNpMcfrYdXp8c/cKVDd18U11kzuGZtPN6z2q9DJAMKEz0FnRAYQSBQEz+9OP1pW2NHY6317rFLUJrn2EUs8sXTpmmPXsqJHvtA3VRArgx7WambOynGBpRM+oG/gYTlgpC8a4aoxGBzB9r5/an1I5pDZ8r+GJrftRdJZBJM4c3qLRtT9cILP9HA6yZ53g6AaeD3C9OhoDqxcJ+9r9yAMGQdfD7cR1BKYMUmt6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB7677
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF000001AD.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	f28b744d-c35e-485c-2ef3-08def3af7a83
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|11063799006|56012099006|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|14060799003|376014|35042699022|1800799024|82310400026|36860700016|23010399003|11063799006|56012099006|10067099003|18002099003|22082099003|4143699003;
 X-Microsoft-Antispam-Message-Info: 
-	pRCnVLoxneAlsfa9ErmWUfRzKzADN9a/OkV5tF06XH49jrzFwWloLmkj3lVK87ow4/cgq3MUZElOIGpl3AIQuc41+WPQImxX5DGX+hRJy/+wU+e/dXrxPA0yqIU2LX3oOf6O7h6Bd0lMFfLeCJBK2RlCH7hV1I9/8qbYDz1dAH9Jqg0IqScy8T3y17YN55scqwGOc1Px8t0v38igXQPXUgvivDjrpnBAk9zjSCVGCoRwrbBzgGxkw4u2upvf4+CvNv8rCkOApzvt3v7dqncfhM72nf7b3FN6/YdQsSCsYa0GJjxkyDtAH77GzeDmeXOsb6ADwGKpq7WflmbqHckuD2y1NcqraKSHTaHa5JfV4nS82uHfVhuWrNPAO+WEj6eRTkuAjb2Lrn+K2CgGzsNJWLLH1V0nyB/lCBLWuF5ZnrhyGOXRPzmvLMxVnKx6SJoOZtNDi21XC/P57l+/t5uadubm41tsRDQvDPJlnxV+FQqP9UMiXdMKrMMoNu6RYLNeGxrBGDscVsDDFn2aJXuczYcTuFw2TqrcusNpxZdekIq5uyFrHSO+onyhpwDGacMZrQyImAGGTD5mm04Kftrw67yECCS68JPFlsrLfNhGP2lFn335m3HZx8DIoHEgy9Q8
+	xx+2/nZMzw+kYMio4+Dzisncz/hQ4Z0nM/lGnjmH2CehyVMtGYl921d1Z4YmyZdbdE7szzldBU5+3B0XoGqHibaHLLgiUuSfyFqN0J9Ss0T/xXhYL/pDoF9aVT86q4liIBhH3JxMDBknp2Bpekn/Op0neOzsn75m5qJd3c06ejqIxqtWVO4/3kNHVdgIOfrMnpZBTZSmbK6GYyXMGaPPOx0CPV+3OWy7kJvAjVAbN7BNFT+serAkrtBt3iC1vorUrGS7hyi8z/wYL91r/Fd0YuTTw7gLBe4SvXkjUu1lWIP2pU2bE/aGuL+ApSSfNhTQxbM9BJo17ZZ91RTN7EFCCMDPH/BUuFmW3K2iZ1GCGe3yLLLu4BQfPyULJ1ilZPk8ZagOjoL/yeXdp9UFBA85EEeHbF78oXMtJuIn6fjcyPcu0X20Unvw2XkDPVmtkmUnO+S76PncKliYZGwU8PLRWc5ZwvRi0zSEKnpHz+Z8UnP0BBIJe6A+WZj9F/A8v+P3rDejgWFximgTTkN0JAAmnMtb+dIEsUugorkUNxtC7d6igMuGXkGrNQFRi6fIExkjUwrH23WXZNZYoLDjxe5eENhLha9ZLXlsW9sdX7KtPdctpdgUyDLGyni9ZY6xJnYVFVSQNT9MN8SA4rB1CHQRJlN/uLZVGhaA4u99M9QVZA+ehPcSKTcmRNVuaFExmUmPb2mV4/T/hEkCiDgww7WdDA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(376014)(35042699022)(1800799024)(82310400026)(36860700016)(23010399003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?SuInIsZFcEguQi2Ll09o2HwuE2Z506dEB70WX67u7YnqL404s/9G5a0CcI0p?=
- =?us-ascii?Q?zkNq3q75oZEspz4rFVyQSTHPRDKFj8AbokAfiHkRGRmkAVPW5KOB+b/gxJa6?=
- =?us-ascii?Q?msvAKlK05N6aHy4sE1kcsDTouB0VBxp/Zlm/EQiDZDH2VgNVuDAMrq02j8lG?=
- =?us-ascii?Q?r1ztc9bj+OsZznYEsPnjD5FR5aHE+7yZCYmn9pZhscJu8vYHmegKoyvSMVda?=
- =?us-ascii?Q?pm2TXVcEqrxi1O7OBZZmouOFHOfhPbx8KIM86IbdoaCsbhzYCOHQXxHJ7fss?=
- =?us-ascii?Q?XHmx8eQqFhVxxQ9fdgTkqHGbxEGq+Fco0IoZmXzR3s+tcUPfQ/1317vjPUAU?=
- =?us-ascii?Q?+Hy0dRjsv8IThqwCYMQOEF88JZXxRrN0EoRzdnwRYclIa8psN1gNUWHPee8M?=
- =?us-ascii?Q?SnfxLo71vgXf3z+7TI+/+J2h+/nmSJBHzNfmZGTnbR8n1JDUW3YLV8N0Vstj?=
- =?us-ascii?Q?oThId5a5dwRZD/ckfH7aF9XGIaYkYBEzTsrJXN9Q2MDmiyddWISpxulZVZX1?=
- =?us-ascii?Q?FEo+3NkogKprUBGAbXVrEKeWvjPWIDKZVf6DNs6Y6guSnrZpXrCtUUT/1BDn?=
- =?us-ascii?Q?cO6unEFqKot/9rF9+1psWHE6W6vFA3Shid/3ckDRr1m18K2hVn4x5kl0E/RE?=
- =?us-ascii?Q?aCuT9mM2RK4cSQ5CkWHAAm4wkZ6AMvN9uPqiZct5jGS3FDQrsGtb9ManGhyA?=
- =?us-ascii?Q?iNh/V0zUv1hVJL0Ss5auEjrWabbMeuMsRTF0fxflzOo5ZZETzC7e3D4BdBDr?=
- =?us-ascii?Q?+e/kPjfcSDSW+qPn2rUDC7CCRe1NZ18iEKQ1JWm366tNSlQ+IVAf4TXB59z1?=
- =?us-ascii?Q?ODRhKXxTjosmU6vjb2lihudvzti5ewTnjMsuax3QMGVGwE8li+bM42zw5l4y?=
- =?us-ascii?Q?diyYa7IVLDZfb/GH4cCNBKzt4QeiRXUyXHNSBPAakVeViSmdp4UyfqAMb0po?=
- =?us-ascii?Q?Xl7KlfPpMVZP0uC3rXjw9g3xCqDML+1HT7q+ClqUTQC97ykUCUGXt32kqyHJ?=
- =?us-ascii?Q?9NKO3O+3DeCLKE07AXBOzyVNEI9T8w2gNYbOiFHU+BGsVLrxT4iXvZ8QL1hr?=
- =?us-ascii?Q?boSs8xPgNL7mubSQMMZ+owELBmyl706C6j1Ai9SohbrVMcUxnvc9cGWJ8mXj?=
- =?us-ascii?Q?u7J663elA7Dvilg44SzNcbNYpN27Y2m+3xzollANOhOucefxFrX7uFF6ilY0?=
- =?us-ascii?Q?ofP/INiK8ySczGyfVK0i+VFJWGNMTE2OTT1YKrX7hO9diVO16AQQyAk6ZZ0F?=
- =?us-ascii?Q?XxFAKwvmBlGdzDbeowekNVdeK66RZf2z7hNCQragxBrYVLDaHH/WdRkj54Sd?=
- =?us-ascii?Q?5idO8nf7BeFgaJEQ1ll5GYByg4dwvFnIRbahN9ZPMjXmCwzSivf1K1+n8Hwt?=
- =?us-ascii?Q?JosqagpAiw9HVhTqgBU8zJGkV8e+72PCNAyNWkzEGrAO5ME3HdGi9t2laOGg?=
- =?us-ascii?Q?QcyeW3cFMNBGOTSSl5h3UxV6EuxeOqlcocW+zGwPpUs/y2SY9nZ9pH2JBk2r?=
- =?us-ascii?Q?IQ+/S3g2aQb+e0BVMDO9pM5AhzOinu2KTN6x4g4k70BCHGUzlaRxICkdGMeM?=
- =?us-ascii?Q?a2O6yYbRrZHT3eOwlwzsrp+hD/1Cwjh3+iB60iuIKeec2Wj8x0nGC8YnzJrp?=
- =?us-ascii?Q?/hx7eh0GGS9H7xgnk9pW2iekEH4Pm1dWD26EnCmhvmBts4ge2nV+be6MUouj?=
- =?us-ascii?Q?GS0wTnSAVBiF9dhTLCQwRhZ0hAPNdp56jrejlUnMrcanRCVGLAvkEj0DMegV?=
- =?us-ascii?Q?x1NT8hS+yQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 944562ce-499d-45e7-7261-08def3af80bc
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 11:40:23.8987
+	uxuCffFar8+iDVHfNkTsGNKbCXm9PmmXjJxjGvXarpCXXK5Vp5oBIN8lITp+R/BZMDoa2LACpzjo51ql2WjHt8mDnggCKotziVYcS6Ojeb2N2TSCOSrDRPIGJ22QmWta+J/PTuSsVgUvboMDcOsnJHmKB3FyP7ZjfaI5S1Pvglz2vJYL9G/rikwXuHNnGeBAjJfTjl/cKQ7r396R+qbTtosrtP3Irita69G6SFroDLm4UL1kCWJpcHAg+Q16FdlZRk+lGJD5PyMX8PrtRCPL8C4Mc3rfq7TmjI1cVHLHhzvD7KEIlLHOXKZS0rZlXGzV/+2k6Ax//+NixHyJTqlEuNk+QuNgZgsPrp5BjG6ar6OCYANd5GF+r9Zjjemmr68ZEthIYhIQEOhhq/tNP02fJloMSRerCHNlzZwQbxX7RBOtfUQ0E7LoCqrxRcqIZmlL
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 11:40:54.9555
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zLoFnf/OaB0XkM2xhwiOppa7GK8cb0pRmyYtnzQw3dD+BadJdutIpuRr4xBKNdTi11S6Blo4BnsP+yUawyTR9u77RAuAD3EoYxFmc4sfg0M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1809
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fca300c-ca69-48f1-184d-08def3af9361
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF000001AD.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB9112
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 11:40:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242933
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 11:41:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242934
 
-ChangeLog: https://www.kernel.org/pub/linux/utils/nfs-utils/2.9.2/2.9.2-Cha=
-ngelog
-
-Drop 0001-fh_key_file.c-Fix-build-error-for-musl.patch (fixed upstream).
-
-Add patches to fix build failures:
-- Fix link error with --disable-nfsdctl (undefined reference to
-  nfsd_nl_cmd_str)
-- Fix musl build (missing stddef.h for offsetof in getport.c)
-
-Both reported to linux-nfs@vger.kernel.org.
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
-Changes in v2:
-- Drop 0001-fh_key_file.c patch (fixed upstream in 2.9.2)
-- Add patch to fix musl build (missing stddef.h for offsetof in getport.c)
-
- ..._key_file.c-Fix-build-error-for-musl.patch | 31 ------------
- ...tport-fix-missing-stddef.h-inclusion.patch | 27 +++++++++++
- .../0004-Use-nogroup-for-nobody-group.patch   |  6 +--
- .../0005-find-OE-provided-Kerberos.patch      |  4 +-
- ...e-HAVE_NFSD_NETLINK-on-enable-nfsdct.patch | 47 +++++++++++++++++++
- ...{nfs-utils_2.9.1.bb =3D> nfs-utils_2.9.2.bb} |  5 +-
- 6 files changed, 82 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-fh_k=
-ey_file.c-Fix-build-error-for-musl.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-getp=
-ort-fix-missing-stddef.h-inclusion.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0006-conf=
-igure.ac-gate-HAVE_NFSD_NETLINK-on-enable-nfsdct.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.9.1.bb =3D> nfs-ut=
-ils_2.9.2.bb} (96%)
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-fh_key_file=
-.c-Fix-build-error-for-musl.patch b/meta/recipes-connectivity/nfs-utils/nfs=
--utils/0001-fh_key_file.c-Fix-build-error-for-musl.patch
-deleted file mode 100644
-index d6db1fe0c0..0000000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-fh_key_file.c-Fix-=
-build-error-for-musl.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 98048fd9262b3e4e024248ebd07d5ff66175e4ec Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 7 May 2026 03:32:57 -0700
--Subject: [PATCH] fh_key_file.c: Fix build error with musl
--
--Fixed:
--error: implicit declaration of function 'strerror'
--
--Upstream-Status: Backport [https://lore.kernel.org/linux-nfs/b2b370b6-8576=
--493a-b124-776e1249c312@redhat.com/]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- support/nfs/fh_key_file.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/support/nfs/fh_key_file.c b/support/nfs/fh_key_file.c
--index 5f5eafc..89555ce 100644
----- a/support/nfs/fh_key_file.c
--+++ b/support/nfs/fh_key_file.c
--@@ -30,6 +30,8 @@
--=20
-- #include "nfslib.h"
--=20
--+#include <string.h>
--+
-- #define HASH_BLOCKSIZE  256
-- int hash_fh_key_file(const char *fh_key_file, uuid_t uuid)
-- {
----=20
--2.49.0
--
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-getport-fix=
--missing-stddef.h-inclusion.patch b/meta/recipes-connectivity/nfs-utils/nfs=
--utils/0001-getport-fix-missing-stddef.h-inclusion.patch
-new file mode 100644
-index 0000000000..1683e9692b
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-getport-fix-missin=
-g-stddef.h-inclusion.patch
-@@ -0,0 +1,27 @@
-+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+Date: Thu, 6 Aug 2026 10:55:00 +0000
-+Subject: [PATCH] getport: fix missing stddef.h inclusion
-+
-+getport.c uses offsetof() but does not include <stddef.h>. On glibc
-+this works because offsetof is pulled in transitively, but on musl it
-+is not available without the explicit include, causing:
-+
-+  getport.c:459:41: error: implicit declaration of function 'offsetof'
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/linux-nfs/202608061120=
-23.25090-1-jaipaul.cheernam@est.tech/]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ support/nfs/getport.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/support/nfs/getport.c b/support/nfs/getport.c
-+--- a/support/nfs/getport.c
-++++ b/support/nfs/getport.c
-+@@ -27,6 +27,7 @@
-+ #include <config.h>
-+ #endif
-+=20
-++#include <stddef.h>
-+ #include <sys/types.h>
-+ #include <sys/time.h>
-+ #include <unistd.h>
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0004-Use-nogroup=
--for-nobody-group.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/000=
-4-Use-nogroup-for-nobody-group.patch
-index bbf44d5977..7e63cb6282 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0004-Use-nogroup-for-no=
-body-group.patch
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0004-Use-nogroup-for-no=
-body-group.patch
-@@ -1,4 +1,4 @@
--From 001913c5eb0aad933a93ee966252905cd46d776b Mon Sep 17 00:00:00 2001
-+From 5f4739475f3c01145174734ed8a3b31b3da99b77 Mon Sep 17 00:00:00 2001
- From: Daniel McGregor <daniel.mcgregor@vecima.com>
- Date: Tue, 6 Jun 2023 16:07:53 -0600
- Subject: [PATCH] Use "nogroup" for nobody group
-@@ -11,7 +11,7 @@ Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.co=
-m>
-  2 files changed, 2 insertions(+), 2 deletions(-)
-=20
- diff --git a/support/nfsidmap/idmapd.conf b/support/nfsidmap/idmapd.conf
--index 2a2f79a1..e6f3724f 100644
-+index 2a2f79a..e6f3724 100644
- --- a/support/nfsidmap/idmapd.conf
- +++ b/support/nfsidmap/idmapd.conf
- @@ -41,7 +41,7 @@
-@@ -24,7 +24,7 @@ index 2a2f79a1..e6f3724f 100644
-  [Translation]
- =20
- diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
--index cd9a965f..3be805e9 100644
-+index 5231f56..e1aa8a5 100644
- --- a/utils/idmapd/idmapd.c
- +++ b/utils/idmapd/idmapd.c
- @@ -89,7 +89,7 @@
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-find-OE-pro=
-vided-Kerberos.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-f=
-ind-OE-provided-Kerberos.patch
-index 3241e8e859..bb152c2754 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-find-OE-provided-K=
-erberos.patch
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0005-find-OE-provided-K=
-erberos.patch
-@@ -1,4 +1,4 @@
--From a2af266f013722a64c5d04e0fe097cd711393a53 Mon Sep 17 00:00:00 2001
-+From a1759d9079a436096be5ce44622a3a5a85ec9faa Mon Sep 17 00:00:00 2001
- From: Daniel McGregor <daniel.mcgregor@vecima.com>
- Date: Wed, 8 Nov 2023 16:24:20 -0600
- Subject: [PATCH] find OE provided Kerberos
-@@ -10,7 +10,7 @@ Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.co=
-m>
-  1 file changed, 4 insertions(+), 2 deletions(-)
-=20
- diff --git a/aclocal/kerberos5.m4 b/aclocal/kerberos5.m4
--index f96f0fd4..ad85fdf2 100644
-+index f96f0fd..ad85fdf 100644
- --- a/aclocal/kerberos5.m4
- +++ b/aclocal/kerberos5.m4
- @@ -22,8 +22,8 @@ AC_DEFUN([AC_KERBEROS_V5],[
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-configure.a=
-c-gate-HAVE_NFSD_NETLINK-on-enable-nfsdct.patch b/meta/recipes-connectivity=
-/nfs-utils/nfs-utils/0006-configure.ac-gate-HAVE_NFSD_NETLINK-on-enable-nfs=
-dct.patch
-new file mode 100644
-index 0000000000..d15ea1ac5d
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0006-configure.ac-gate-=
-HAVE_NFSD_NETLINK-on-enable-nfsdct.patch
-@@ -0,0 +1,47 @@
-+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+Date: Wed, 5 Aug 2026 06:55:00 +0000
-+Subject: [PATCH] configure.ac: gate HAVE_NFSD_NETLINK on --enable-nfsdctl
-+
-+HAVE_NFSD_NETLINK is currently defined unconditionally, but the
-+implementation of nfsd_nl_cmd_str() in support/nfs/nfsdnl.c is only
-+compiled into libnfs when CONFIG_NFSDCTL is true (--enable-nfsdctl).
-+
-+This causes a link failure when building with --disable-nfsdctl:
-+
-+  ld: exportfs-exportfs.o: in function `unexportfs_parsed':
-+  exportfs.c:491: undefined reference to `nfsd_nl_cmd_str'
-+
-+The callers (exportfs.c) guard their usage with #ifdef HAVE_NFSD_NETLINK,
-+and nfsdnl.h provides a static inline stub returning -ENOSYS when the
-+macro is not defined.  So the correct fix is to only define
-+HAVE_NFSD_NETLINK when --enable-nfsdctl is in effect, keeping netlink
-+support as an opt-in feature consistent with the CONFIG_NFSDCTL guard
-+on nfsdnl.c.
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/linux-nfs/9fec9f1b-1c1=
-0-4a20-8282-dfc9addb4ee8@est.tech/T/#u]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ configure.ac | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -256,8 +256,6 @@
-+ PKG_CHECK_MODULES(LIBNLGENL3, libnl-genl-3.0 >=3D 3.1)
-+=20
-+ AC_CHECK_HEADERS(linux/nfsd_netlink.h)
-+-AC_DEFINE([HAVE_NFSD_NETLINK], 1,
-+-	  [Define to 1 if nfsd generic netlink support is available])
-+=20
-+ # ensure the system netlink headers have the latest features
-+ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <linux/nfsd_netlink.h>]],
-+@@ -279,6 +277,8 @@
-+ 	enable_nfsdctl=3D"yes")
-+ 	AM_CONDITIONAL(CONFIG_NFSDCTL, [test "$enable_nfsdctl" =3D "yes" ])
-+ 	if test "$enable_nfsdctl" =3D yes; then
-++		AC_DEFINE([HAVE_NFSD_NETLINK], 1,
-++			  [Define to 1 if nfsd generic netlink support is available])
-+ 		PKG_CHECK_MODULES(LIBREADLINE, readline)
-+ 	fi
-+=20
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb b/meta/=
-recipes-connectivity/nfs-utils/nfs-utils_2.9.2.bb
-similarity index 96%
-rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
-rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.2.bb
-index 06e4fcb6e0..e60011ff9f 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.9.2.bb
-@@ -23,10 +23,11 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/nfs-utils/=
-${PV}/nfs-utils-${PV}.tar.x
-            file://nfscommon \
-            file://0004-Use-nogroup-for-nobody-group.patch \
-            file://0005-find-OE-provided-Kerberos.patch \
--           file://0001-fh_key_file.c-Fix-build-error-for-musl.patch \
-+           file://0006-configure.ac-gate-HAVE_NFSD_NETLINK-on-enable-nfsdc=
-t.patch \
-+           file://0001-getport-fix-missing-stddef.h-inclusion.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "302846343bf509f8f884c23bdbd0fe853b7f7cbb6572060a90=
-82279d13b21a2c"
-+SRC_URI[sha256sum] =3D "e1dd8a9c95af15492065942cc3b52b1339ffd586baa2280ed8=
-6c9d3dc4097e8c"
-=20
- # Only kernel-module-nfsd is required here (but can be built-in)  - the nf=
-sd module will
- # pull in the remainder of the dependencies.
+T24gMyBBdWcgMjAyNiwgYXQgMDU6MTcsIFZhcmF0aGFyYWphbiwgRGVlcGVzaCB2aWEgbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZyA8ZGVlcGVzaC52YXJhdGhhcmFqYW49d2luZHJpdmVyLmNvbUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gIC0gRXhjbHVkZXMga25vd24tZmFpbGluZyB0
+ZXN0cyBzcGVjaWZpYyB0byBlYWNoIGNvbXBvbmVudA0KDQpJIHNwb2tlIHRvIG91ciBMTFZNIHRl
+YW0gYW5kIHRoZXkgY29uZmlybWVkIHRoYXQgdGhlIGV4cGVjdGF0aW9uIGlzIHRoYXQgdGhlIExM
+Vk0gdGVzdCBzdWl0ZSBwYXNzZXMgcmVsaWFibHkuICBUaGV5IGhhdmUgYnVpbGJvdHMgdGhhdCBy
+dW4gaXQgY29uc3RhbnRseSBhbmQgaXQgcGFzc2VzIGZ1bGx5Lg0KDQpTbyBfc29tZXRoaW5nXyBp
+cyBoYXBwZW5pbmcgdG8gY2F1c2UgdGhlc2UgaW50ZXJtaXR0ZW50IGZhaWx1cmVzLiAgSSB0aGlu
+ayB3ZSBzaG91bGQgaW52ZXN0aWdhdGUgYXMgYSBtYXR0ZXIgb2YgdXJnZW5jeSBzb21lIG9mIHRo
+ZSBmYWlsdXJlcyB0byB1bmRlcnN0YW5kIHdoYXQgdGhlIHByb2JsZW0gaXM6IG15IGNvbmNlcm4g
+aXMgdGhhdCB0aGVyZeKAmXMgYSBmZXcgdW5kZXJseWluZyBwcm9ibGVtcyB0aGF0IGFyZSB1bnJl
+bGF0ZWQgdG8gc3BlY2lmaWMgdGVzdHMgdGhhdCBpcyBjYXVzaW5nIHRoZSBmYWlsdXJlcywgYW5k
+IHdl4oCZcmUganVzdCBleGNsdWRpbmcgdGVzdHMgcmFuZG9tbHkuDQoNClJvc3M=
 
