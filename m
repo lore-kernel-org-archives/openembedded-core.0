@@ -1,296 +1,190 @@
-Return-Path: <alhe@linux.microsoft.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A491C56208
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 15:53:40 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23064.1786031616810909969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 447F0C56208
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 16:10:00 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22964.1786032595819399379
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 08:53:36 -0700
+ Thu, 06 Aug 2026 09:09:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=DnXPuNnO;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
-Received: from [10.0.5.46] (unknown [70.37.26.61])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C590020B710C;
-	Thu,  6 Aug 2026 08:53:14 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C590020B710C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786031594;
-	bh=GhkHDapsEQmNNembOhgjPucTGBGoAuigIw4Th5EXJWg=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=DnXPuNnOpuMH7KvOGE4WBBmNyrdG3CjhhESIN4e/okm8XUazK629Fzx5J4a5dXquv
-	 3TCcKIdSEW4lE5Z4RVGj3KRDzHhHwmNTDnlZr9Daxk8e5x4lnejUP10q3dJOQrhC2L
-	 w/UwjUnKiTu3i2gakJN1EY4Ys8xJzGXaU9RfnKHQ=
-Content-Type: multipart/alternative;
- boundary="------------Rz7JofQgCAatmN4jMVnl63P4"
-Message-ID: <1e9b2d8b-6527-4e4e-a862-3e8d6cb83b7d@linux.microsoft.com>
-Date: Thu, 6 Aug 2026 09:53:35 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 4/4] bitbake.conf, rust-common.bbclass: include
- RUST_BUILD_SYS in the task hash
-To: mathieu.dubois-briand@bootlin.com,
- openembedded-core@lists.openembedded.org
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fXVArLp5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954a32cf1eso12517045e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 09:09:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1786032594; x=1786637394; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/xU1p6pGIkTR4Lj7KmcijctlBcmbSghqKKkscughWkM=;
+        b=fXVArLp5EFMTV0XJ8eKNGrc2PMwD9Kn6giw1u7RVOtIrhxMHiatCOF7R9FVVV3AZzW
+         37IIHQjZT/1hg6+CJf5kaj9q/uUfQ60mJXC5Tr+Zi0KfRzu+JcskhFXrBGU5w2vBTi+C
+         qCRIEvwtPezyErCFdcBt1joruiwp11uoBaa5Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786032594; x=1786637394;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/xU1p6pGIkTR4Lj7KmcijctlBcmbSghqKKkscughWkM=;
+        b=jnp4P/SYK7yGKlKM85aJBXUfHtcob4pLQnjJYPBXdLecdATscwNlNwjNF06yjkKnGJ
+         n8yQAV27fE7pwoWTXUTkQCWBHDulNM2szN5WkvIJioFkxtSloACtEa/qYSRcB53WmSur
+         PJ739CbHMpUhVPqMC9Jo77kln4A4YgM/B1t7LPDPn6qshUfveVQ1N3OaLdanpgEo9yxh
+         caeyaQxZcdZAAE+u9/yKA6yxSsOmcTLIbTuvYFbyGwHbHkBO+4frTOEZaHIAyzk+QnlL
+         QlzU1OFTuvnU0YiD6yKmSxcjczT+NXqKxvFXCKKT80bdZKC0X9NUM5dLbaWJB4E9MYBY
+         6AiA==
+X-Forwarded-Encrypted: i=1; AHgh+RqsqokiQU67iKtMFtNDKGqHl/rs+Y+x11w+v5WrqmzSszXMuayBmm5UBMkXLXRmBKtkZuAPOsbdSnON7MRglMGtuA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyvNMwjblOH8XnwBro2/Zuwy/VoqznYEZA9rd1Y+XUWwCpbB5Ve
+	Nv7mE6ogsSI4Atz07Is2fxpVQJLdg/skZH1Kb3F98+O+PrV0RMjiKJkI720Wl04rjvA=
+X-Gm-Gg: AR+sD13U1CmQzcYxSjutUwbxZKbQyaoJLk7+IdWBs5G4jgY37Gx8467iZHmwIAsQeDv
+	Hqk4s9fRY+0qFLML6A47S991rquE0ZSSvqzPI+bK3RxjwKWf+AQ84cmyrPDzlWA7sN71PiZaz8Z
+	D2fY4Otm1UXcM9PYefShS3yGtNjouqtIMFfLQ4M9oEK8teJ4bwIqYR0zX/EGT7cj/96CReCzXR9
+	XRyx9bLSnS3FmUGzKuC2OJDIvQvrwDEm9v7mk6EsAOy0n4XSx8Bgu68yl2VtkGHquF0x8UNwfen
+	JcMiX2DBsnWpPXAhSaeDunA88giOmQNSLCduwkNT3KnVwcsLtMoQE8Dr8H1hQ/9WQvEI2Jem7YQ
+	rwPHrfQgz47qQCTSwPnrTJeEgBQSZQGupfwJaYl3TQbXL0l3HSKaJvsYOCiHaZUf1lUM17+2dhS
+	JmjYBrJ097Nftfat7f46dgJ6Znyo7Km8U7orpGrQtjEpzJg2DQcZYSuw+3BnbLrvTa3Os1j3bP9
+	ZQZikqg14YMUWDsnJRLYurkbVMO6X5Zn8C6lEHSYr32P2qdHqJrT+Wb/4GRUIb+ZQ==
+X-Received: by 2002:a05:600c:474a:b0:495:7888:281c with SMTP id 5b1f17b1804b1-4994e6d4a13mr186181965e9.0.1786032593909;
+        Thu, 06 Aug 2026 09:09:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9366:921d:f7c4:9ad6? ([2001:8b0:aba:5f3c:9366:921d:f7c4:9ad6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499541b525dsm85744405e9.0.2026.08.06.09.09.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 09:09:53 -0700 (PDT)
+Message-ID: <c5594afab73a3a5627aa694bb4b879e38f855382.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/4] python_pep517.bbclass: always export
+ _PYTHON_HOST_PLATFORM for wheel tag
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Hernandez <alhe@linux.microsoft.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 06 Aug 2026 17:09:52 +0100
+In-Reply-To: <12ac583b-cb68-48ca-9fdc-28216d706713@linux.microsoft.com>
 References: <20260804220456.2342710-1-alhe@linux.microsoft.com>
- <20260804220456.2342710-4-alhe@linux.microsoft.com>
- <DKHMPRMDWGEP.3NF324RFG6OHF@bootlin.com>
-Content-Language: en-US
-From: Alejandro Hernandez <alhe@linux.microsoft.com>
-In-Reply-To: <DKHMPRMDWGEP.3NF324RFG6OHF@bootlin.com>
+	 <20260804220456.2342710-3-alhe@linux.microsoft.com>
+	 <a863f3a0f5304826bf15afe3fb0767d43d378477.camel@linuxfoundation.org>
+	 <12ac583b-cb68-48ca-9fdc-28216d706713@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 15:53:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242954
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 16:10:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242955
 
-This is a multi-part message in MIME format.
---------------Rz7JofQgCAatmN4jMVnl63P4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Thu, 2026-08-06 at 09:51 -0600, Alejandro Hernandez wrote:
+> =C2=A0
+>=20
+>=20
+> =C2=A0
+>=20
+> =C2=A0
+>=20
+> On 8/6/2026 6:26 AM, Richard Purdie via lists.openembedded.org wrote:
+> =C2=A0
+>=20
+> =C2=A0
+>=20
+> > =C2=A0
+> >=20
+> > On Tue, 2026-08-04 at 22:04 +0000, Alejandro Hernandez Samaniego via li=
+sts.openembedded.org wrote:
+> > =C2=A0
+> >=20
+> > > =C2=A0
+> > >=20
+> > > python distutils/sysconfig.get_platform() falls back to
+> > > distutils.util.get_platform() when the _PYTHON_HOST_PLATFORM
+> > > environment variable is unset, and returns the *build host* arch.
+> > > The result is baked into the produced wheel's filename
+> > > (pkg-<ver>-cp3XX-cp3XX-<PLAT>.whl) and its <pkg>.dist-info/WHEEL
+> > > metadata.
+> > >=20
+> > > Without this export, extension-module wheels tag themselves with
+> > > whichever arch the autobuilder worker happens to have, which makes
+> > > the resulting rpm non-reproducible across mixed-arch autobuilder
+> > > pools.
+> > >=20
+> > > Since python 3.14 + wheel >=3D0.44 also rejects wheels with an empty
+> > > platform tag ("Bad wheel filename"), the value has to be non-empty
+> > > in every class scope. HOST_ARCH is class-scoped by bitbake
+> > > (target/native/cross/nativesdk), so `linux-${HOST_ARCH}` covers
+> > > every case with a single unconditional assignment. Setting per-class
+> > > overrides to "" (as an earlier draft did) trips the wheel filename
+> > > check and must be avoided.
+> > >=20
+> > > Pure-python wheels ignore _PYTHON_HOST_PLATFORM and remain tagged
+> > > "any", so this change only affects wheels that ship compiled
+> > > extensions (cffi, cryptography, numpy, bcrypt, markupsafe, psutil,
+> > > rpds-py, websockets, ...).
+> > >=20
+> > > Assisted-by: AI - OpenAI
+> > > Signed-off-by: Alejandro Hernandez <alhe@linux.microsoft.com>
+> > > ---
+> > > =C2=A0meta/classes-recipe/python_pep517.bbclass | 16 ++++++++++++++++
+> > > =C2=A01 file changed, 16 insertions(+)
+> > >=20
+> > > diff --git a/meta/classes-recipe/python_pep517.bbclass b/meta/classes=
+-recipe/python_pep517.bbclass
+> > > index d6246af5c2..06b23d3cba 100644
+> > > --- a/meta/classes-recipe/python_pep517.bbclass
+> > > +++ b/meta/classes-recipe/python_pep517.bbclass
+> > > @@ -30,6 +30,22 @@ PEP517_INSTALL_PYTHON:class-native =3D "nativepyth=
+on3"
+> > > =C2=A0# pypa/installer option to control the bytecode compilation
+> > > =C2=A0INSTALL_WHEEL_COMPILE_BYTECODE ?=3D "--compile-bytecode=3D0"
+> > > =C2=A0
+> > > +# Force the wheel's platform tag to reflect the target machine rathe=
+r than the
+> > > +# build host. Without this, extension-module wheels bake the build h=
+ost's arch
+> > > +# (e.g. linux_x86_64) into <pkg>.dist-info/WHEEL via distutils/sysco=
+nfig's
+> > > +# get_platform(), which breaks reproducibility across autobuilder wo=
+rkers of
+> > > +# different architectures. Pure-python wheels ignore this variable a=
+nd remain
+> > > +# tagged "any".
+> > > +#
+> > > +# HOST_ARCH is class-scoped by bitbake:
+> > > +#=C2=A0=C2=A0 - target:=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D TAR=
+GET_ARCH (reproducible across workers)
+> > > +#=C2=A0=C2=A0 - native:=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D BUI=
+LD_ARCH=C2=A0 (matches worker arch, unpackaged)
+> > > +#=C2=A0=C2=A0 - cross:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=
+=3D BUILD_ARCH
+> > > +#=C2=A0=C2=A0 - nativesdk:=C2=A0 HOST_ARCH =3D=3D SDK_ARCH
+> > > +# so a single expression covers every class without producing an emp=
+ty tag
+> > > +# (which python 3.14 + wheel >=3D0.44 rejects with "Bad wheel filena=
+me").
+> > > +export _PYTHON_HOST_PLATFORM =3D "linux-${HOST_ARCH}"
+> > > =C2=A0
+> > >=20
+> > =C2=A0
+> >=20
+> > The fix looks right, thanks!
+> >=20
+> > I'm not sure we need the 10+ lines of explanation from AI ;-) The
+> > commit message could be more concise too. We're seening way too much
+> > text being added by AI in general and it will make the codebase harder
+> > to understand in the long run :(.
+> >=20
+> > Cheers,
+> >=20
+> > Richard
+> > =C2=A0
+> >=20
+> =C2=A0
+>=20
+> I agree, I can send a v2 or just keep it in mind for next time, let me kn=
+ow.
 
+v2 please, it is too verbose and I would have to manually trim it...
 
-On 8/5/2026 11:58 PM, Mathieu Dubois-Briand via lists.openembedded.org 
-wrote:
-> On Wed Aug 5, 2026 at 12:04 AM CEST, Alejandro Hernandez Samaniego via lists.openembedded.org wrote:
->> RUST_BUILD_SYS is currently listed in BB_BASEHASH_IGNORE_VARS, which
->> tells bitbake that rust recipes should hash-match regardless of the
->> build machine's triplet. In practice that is not true:
->>
->> rustc computes each crate's Strict Version Hash (SVH) using inputs
->> that include the *stage0/stage1 bootstrap compiler* fingerprint, which
->> in turn depends on the build host arch. That seed cascades through
->> every dependent crate's mangled symbols and the packing order of
->> rodata sections, so an sstate blob populated on one worker arch and
->> reused on a differently-arched worker produces byte-different (but
->> semantically identical) artifacts and fails the reproducibility
->> selftest causing autobuilder intermittent issues when the sstate
->> matches for the incorrect architecture.
->>
->> Remove RUST_BUILD_SYS from BB_BASEHASH_IGNORE_VARS so the task hash
->> tracks the build triplet and mixed-arch autobuilder pools get an
->> sstate miss instead of a silently-wrong hit. RUST_HOST_SYS and
->> RUST_TARGET_SYS stay excluded because they're already covered by the
->> target/host arch hash inputs.
->>
->> While this is not ideal, it should unblock the reproducible test case,
->> another solution would be to patch rust sources manually and attempt
->> to upstream that change.
->>
->> This also has the side-effect that multiple variants of the conflicting
->> rust recipes sstate artifacts are created, but they'll be correctly used
->> now in each architecture.
->>
->> Also add an explanatory comment next to the RUST_*_SYS[vardepvalue]
->> declarations in rust-common.bbclass so future readers don't re-add
->> the exclusion.
->>
->> Verified locally: Tier 1 sighash test toggling BUILD_ARCH now produces
->> different task hashes for rust/libstd-rs/rpm-sequoia/python3-crypto-
->> graphy/cargo/librsvg, where previously the hashes matched despite the
->> build machine change.
->>
->> [YOCTO #15554]
->>
->> Assisted-by: AI - OpenAI
->> Signed-off-by: Alejandro Hernandez<alhe@linux.microsoft.com>
->> ---
-> Hi Alejandro,
->
-> It looks like this is breaking some selftests:
->
-> 2026-08-05 10:11:05,494 - oe-selftest - INFO - sstatetests.SStateHashSameSigs.test_sstate_sdk_arch_same_hash (subunit.RemotedTestCase)
-> 2026-08-05 10:11:05,494 - oe-selftest - INFO -  ... FAIL
-> ...
->
-> 2026-08-05 10:11:05,495 - oe-selftest - INFO - 6: 27/69 496/763 (108.24s) (2 failed) (sstatetests.SStateHashSameSigs.test_sstate_sdk_arch_same_hash)
-> 2026-08-05 10:11:05,495 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
->    File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 416, in test_sstate_sdk_arch_same_hash
->      self.sstate_hashtest("aarch64")
->      ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
->    File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
->      return func(*args, **kwargs)
->    File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 401, in sstate_hashtest
->      self.assertCountEqual(files1, files2)
->      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
->    File "/usr/lib/python3.13/unittest/case.py", line 1238, in assertCountEqual
->      self.fail(msg)
->      ~~~~~~~~~^^^^^
->    File "/usr/lib/python3.13/unittest/case.py", line 732, in fail
->      raise self.failureException(msg)
-> AssertionError: Element counts were not equal:
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/gtk+3-native/3.24.52.do_create_spdx.sigdata.469683d7e676bd4feadb3e363efaa9a55c47eb06559fcda0d3f5cf26473919c5'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/gtk+3-native/3.24.52.do_populate_sysroot.sigdata.c29ff418823da4b52189a4cf7395c310a3c14fed57eb24562cd0e387fe2235a3'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/gtk+3-native/3.24.52.do_create_package_spdx.sigdata.ede62d86abb84a871e239607d0a7173c6a9c45027aafffc624b37e2e1bb5111f'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_create_spdx.sigdata.76ed6652ba8e8eba4e8750240fa7a048fcc90e94b45e753068a44560ef2e29f0'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_create_package_spdx.sigdata.4234a33aff5f4b52703a74c1caec1893206476f908c70b32c78e46dcc3e4fb38'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_compile.sigdata.67ed98cf74ac06f829d6432f4fd904779b2f6e540f588baeab3dcf0ac35a9c75'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_populate_sysroot.sigdata.3203f6ea1fd6bb92ed523ba0e1ef0464166f1e5392207ea002c35e0007d435f9'
-> First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_configure.sigdata.df7cc5717b4cbc2ccb19bdb823fb55193cc2f95049ac7e07d440bc2da5590c96'
-> ...
->
-> And same for sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash:
-> 2026-08-05 10:07:29,974 - oe-selftest - INFO - sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash (subunit.RemotedTestCase)
-> 2026-08-05 10:07:29,975 - oe-selftest - INFO -  ... FAIL
-> ...
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4472
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4290
->
-> Can you have a look at the issue?
->
-> Thanks,
-> Mathieu
+Cheers,
 
-Thanks Mathieu, yes this actually make sense, this is why I wasn't too convinced since the beginning and wanted to send an RFC, I'll attempt to fix this in some other way.
-
-Alejandro
-
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#242899):https://lists.openembedded.org/g/openembedded-core/message/242899
-> Mute This Topic:https://lists.openembedded.org/mt/120602088/4354175
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [alhe@linux.microsoft.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
---------------Rz7JofQgCAatmN4jMVnl63P4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 8/5/2026 11:58 PM, Mathieu
-      Dubois-Briand via lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:DKHMPRMDWGEP.3NF324RFG6OHF@bootlin.com">
-      <pre wrap="" class="moz-quote-pre">On Wed Aug 5, 2026 at 12:04 AM CEST, Alejandro Hernandez Samaniego via lists.openembedded.org wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">RUST_BUILD_SYS is currently listed in BB_BASEHASH_IGNORE_VARS, which
-tells bitbake that rust recipes should hash-match regardless of the
-build machine's triplet. In practice that is not true:
-
-rustc computes each crate's Strict Version Hash (SVH) using inputs
-that include the *stage0/stage1 bootstrap compiler* fingerprint, which
-in turn depends on the build host arch. That seed cascades through
-every dependent crate's mangled symbols and the packing order of
-rodata sections, so an sstate blob populated on one worker arch and
-reused on a differently-arched worker produces byte-different (but
-semantically identical) artifacts and fails the reproducibility
-selftest causing autobuilder intermittent issues when the sstate
-matches for the incorrect architecture.
-
-Remove RUST_BUILD_SYS from BB_BASEHASH_IGNORE_VARS so the task hash
-tracks the build triplet and mixed-arch autobuilder pools get an
-sstate miss instead of a silently-wrong hit. RUST_HOST_SYS and
-RUST_TARGET_SYS stay excluded because they're already covered by the
-target/host arch hash inputs.
-
-While this is not ideal, it should unblock the reproducible test case,
-another solution would be to patch rust sources manually and attempt
-to upstream that change.
-
-This also has the side-effect that multiple variants of the conflicting
-rust recipes sstate artifacts are created, but they'll be correctly used
-now in each architecture.
-
-Also add an explanatory comment next to the RUST_*_SYS[vardepvalue]
-declarations in rust-common.bbclass so future readers don't re-add
-the exclusion.
-
-Verified locally: Tier 1 sighash test toggling BUILD_ARCH now produces
-different task hashes for rust/libstd-rs/rpm-sequoia/python3-crypto-
-graphy/cargo/librsvg, where previously the hashes matched despite the
-build machine change.
-
-[YOCTO #15554]
-
-Assisted-by: AI - OpenAI
-Signed-off-by: Alejandro Hernandez <a class="moz-txt-link-rfc2396E" href="mailto:alhe@linux.microsoft.com">&lt;alhe@linux.microsoft.com&gt;</a>
----
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-Hi Alejandro,
-
-It looks like this is breaking some selftests:
-
-2026-08-05 10:11:05,494 - oe-selftest - INFO - sstatetests.SStateHashSameSigs.test_sstate_sdk_arch_same_hash (subunit.RemotedTestCase)
-2026-08-05 10:11:05,494 - oe-selftest - INFO -  ... FAIL
-...
-
-2026-08-05 10:11:05,495 - oe-selftest - INFO - 6: 27/69 496/763 (108.24s) (2 failed) (sstatetests.SStateHashSameSigs.test_sstate_sdk_arch_same_hash)
-2026-08-05 10:11:05,495 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 416, in test_sstate_sdk_arch_same_hash
-    self.sstate_hashtest("aarch64")
-    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 401, in sstate_hashtest
-    self.assertCountEqual(files1, files2)
-    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.13/unittest/case.py", line 1238, in assertCountEqual
-    self.fail(msg)
-    ~~~~~~~~~^^^^^
-  File "/usr/lib/python3.13/unittest/case.py", line 732, in fail
-    raise self.failureException(msg)
-AssertionError: Element counts were not equal:
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/gtk+3-native/3.24.52.do_create_spdx.sigdata.469683d7e676bd4feadb3e363efaa9a55c47eb06559fcda0d3f5cf26473919c5'
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/gtk+3-native/3.24.52.do_populate_sysroot.sigdata.c29ff418823da4b52189a4cf7395c310a3c14fed57eb24562cd0e387fe2235a3'
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/gtk+3-native/3.24.52.do_create_package_spdx.sigdata.ede62d86abb84a871e239607d0a7173c6a9c45027aafffc624b37e2e1bb5111f'
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_create_spdx.sigdata.76ed6652ba8e8eba4e8750240fa7a048fcc90e94b45e753068a44560ef2e29f0'
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_create_package_spdx.sigdata.4234a33aff5f4b52703a74c1caec1893206476f908c70b32c78e46dcc3e4fb38'
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_compile.sigdata.67ed98cf74ac06f829d6432f4fd904779b2f6e540f588baeab3dcf0ac35a9c75'
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_populate_sysroot.sigdata.3203f6ea1fd6bb92ed523ba0e1ef0464166f1e5392207ea002c35e0007d435f9'
-First has 1, Second has 0:  '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3278758/tmp-sstatesamehash/stamps/x86_64-linux/rust-native/1.96.1.do_configure.sigdata.df7cc5717b4cbc2ccb19bdb823fb55193cc2f95049ac7e07d440bc2da5590c96'
-...
-
-And same for sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash:
-2026-08-05 10:07:29,974 - oe-selftest - INFO - sstatetests.SStateHashSameSigs.test_sstate_32_64_same_hash (subunit.RemotedTestCase)
-2026-08-05 10:07:29,975 - oe-selftest - INFO -  ... FAIL
-...
-
-<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4472">https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4472</a>
-<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4290">https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4290</a>
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu</pre>
-    </blockquote>
-    <pre>Thanks Mathieu, yes this actually make sense, this is why I wasn't too convinced since the beginning and wanted to send an RFC, I'll attempt to fix this in some other way.
-
-Alejandro</pre>
-    <blockquote type="cite"
-      cite="mid:DKHMPRMDWGEP.3NF324RFG6OHF@bootlin.com">
-      <pre wrap="" class="moz-quote-pre">
-
-</pre>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre wrap="" class="moz-quote-pre">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#242899): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/242899">https://lists.openembedded.org/g/openembedded-core/message/242899</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/120602088/4354175">https://lists.openembedded.org/mt/120602088/4354175</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:alhe@linux.microsoft.com">alhe@linux.microsoft.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------Rz7JofQgCAatmN4jMVnl63P4--
+Richard
 
