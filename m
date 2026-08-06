@@ -2,192 +2,154 @@ Return-Path: <alhe@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE3FC56205
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 15:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18439C56205
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 15:51:10 +0000 (UTC)
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22439.1786031410953200139
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22472.1786031469275100271
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 08:50:11 -0700
+ Thu, 06 Aug 2026 08:51:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=JLR6q/Ii;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=b6Ysi9K7;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
-Received: from [10.0.5.46] (unknown [70.37.26.62])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6678C20B710C;
-	Thu,  6 Aug 2026 08:49:48 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6678C20B710C
+Received: from [10.0.5.46] (unknown [70.37.26.60])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0796920B710C;
+	Thu,  6 Aug 2026 08:50:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0796920B710C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1786031388;
-	bh=xScQ+AHcvJRr54CFhX7GaYzuD3/E08pfc6ahM+S4vvI=;
+	s=default; t=1786031447;
+	bh=doknkFkpbWVfsKOoLGmvucW+dQjbDqZ6HkbF6+v6Qyo=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=JLR6q/Ii8EsNDR8sdDPp4d+HkB0/nEx8NLI1yUKgTGDfa1dCNwSMzP2wOFYEZd+Ss
-	 30J9NCjqaeOb+a+KsWRavuE+eFbZ0kOwMQ1EleaJYLmla1Kpj9YMozQA6JwfNYG6nL
-	 zoTGTuywTOzdWoavhQt6UV/Kwk7MiYKcRsGKlV9Q=
+	b=b6Ysi9K7SDP+giVMljpHAigcYT/Jh3nj08K8Y68nJLM7ofwxHwz0sRWvvRX200BaX
+	 G4z+Z4b72uPeeM9INy2ioMmLJu48jbL/8kipHqUqhSHNI1nVMkCRLD2XhpDd7eDqof
+	 jmRj8BAyA201K4AXFhD0FLhA8hHrvX2cbHhZJ3xo=
 Content-Type: multipart/alternative;
- boundary="------------CUltoy2mrvR5MeE4vCt4522a"
-Message-ID: <0add5cde-b000-4147-bce7-8844067d250a@linux.microsoft.com>
-Date: Thu, 6 Aug 2026 09:50:09 -0600
+ boundary="------------dyT7pKAXs8H4TJLL0BziuSTH"
+Message-ID: <12ac583b-cb68-48ca-9fdc-28216d706713@linux.microsoft.com>
+Date: Thu, 6 Aug 2026 09:51:07 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 4/4] bitbake.conf, rust-common.bbclass: include
- RUST_BUILD_SYS in the task hash
+Subject: Re: [OE-core] [PATCH 3/4] python_pep517.bbclass: always export
+ _PYTHON_HOST_PLATFORM for wheel tag
 To: richard.purdie@linuxfoundation.org,
  openembedded-core@lists.openembedded.org
 References: <20260804220456.2342710-1-alhe@linux.microsoft.com>
- <20260804220456.2342710-4-alhe@linux.microsoft.com>
- <90b9c09acf04cca3d4d03e03b14577b0c1c63e11.camel@linuxfoundation.org>
+ <20260804220456.2342710-3-alhe@linux.microsoft.com>
+ <a863f3a0f5304826bf15afe3fb0767d43d378477.camel@linuxfoundation.org>
 Content-Language: en-US
 From: Alejandro Hernandez <alhe@linux.microsoft.com>
-In-Reply-To: <90b9c09acf04cca3d4d03e03b14577b0c1c63e11.camel@linuxfoundation.org>
+In-Reply-To: <a863f3a0f5304826bf15afe3fb0767d43d378477.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 15:50:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242952
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 15:51:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242953
 
 This is a multi-part message in MIME format.
---------------CUltoy2mrvR5MeE4vCt4522a
+--------------dyT7pKAXs8H4TJLL0BziuSTH
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 
-On 8/6/2026 6:53 AM, Richard Purdie via lists.openembedded.org wrote:
+On 8/6/2026 6:26 AM, Richard Purdie via lists.openembedded.org wrote:
 > On Tue, 2026-08-04 at 22:04 +0000, Alejandro Hernandez Samaniego via li=
 sts.openembedded.org wrote:
->> RUST_BUILD_SYS is currently listed in BB_BASEHASH_IGNORE_VARS, which
->> tells bitbake that rust recipes should hash-match regardless of the
->> build machine's triplet. In practice that is not true:
+>> python distutils/sysconfig.get_platform() falls back to
+>> distutils.util.get_platform() when the _PYTHON_HOST_PLATFORM
+>> environment variable is unset, and returns the *build host* arch.
+>> The result is baked into the produced wheel's filename
+>> (pkg-<ver>-cp3XX-cp3XX-<PLAT>.whl) and its <pkg>.dist-info/WHEEL
+>> metadata.
 >>
->> rustc computes each crate's Strict Version Hash (SVH) using inputs
->> that include the *stage0/stage1 bootstrap compiler* fingerprint, which
->> in turn depends on the build host arch. That seed cascades through
->> every dependent crate's mangled symbols and the packing order of
->> rodata sections, so an sstate blob populated on one worker arch and
->> reused on a differently-arched worker produces byte-different (but
->> semantically identical) artifacts and fails the reproducibility
->> selftest causing autobuilder intermittent issues when the sstate
->> matches for the incorrect architecture.
+>> Without this export, extension-module wheels tag themselves with
+>> whichever arch the autobuilder worker happens to have, which makes
+>> the resulting rpm non-reproducible across mixed-arch autobuilder
+>> pools.
 >>
->> Remove RUST_BUILD_SYS from BB_BASEHASH_IGNORE_VARS so the task hash
->> tracks the build triplet and mixed-arch autobuilder pools get an
->> sstate miss instead of a silently-wrong hit. RUST_HOST_SYS and
->> RUST_TARGET_SYS stay excluded because they're already covered by the
->> target/host arch hash inputs.
+>> Since python 3.14 + wheel >=3D0.44 also rejects wheels with an empty
+>> platform tag ("Bad wheel filename"), the value has to be non-empty
+>> in every class scope. HOST_ARCH is class-scoped by bitbake
+>> (target/native/cross/nativesdk), so `linux-${HOST_ARCH}` covers
+>> every case with a single unconditional assignment. Setting per-class
+>> overrides to "" (as an earlier draft did) trips the wheel filename
+>> check and must be avoided.
 >>
->> While this is not ideal, it should unblock the reproducible test case,
->> another solution would be to patch rust sources manually and attempt
->> to upstream that change.
->>
->> This also has the side-effect that multiple variants of the conflictin=
-g
->> rust recipes sstate artifacts are created, but they'll be correctly us=
-ed
->> now in each architecture.
->>
->> Also add an explanatory comment next to the RUST_*_SYS[vardepvalue]
->> declarations in rust-common.bbclass so future readers don't re-add
->> the exclusion.
->>
->> Verified locally: Tier 1 sighash test toggling BUILD_ARCH now produces
->> different task hashes for rust/libstd-rs/rpm-sequoia/python3-crypto-
->> graphy/cargo/librsvg, where previously the hashes matched despite the
->> build machine change.
->>
->> [YOCTO #15554]
+>> Pure-python wheels ignore _PYTHON_HOST_PLATFORM and remain tagged
+>> "any", so this change only affects wheels that ship compiled
+>> extensions (cffi, cryptography, numpy, bcrypt, markupsafe, psutil,
+>> rpds-py, websockets, ...).
 >>
 >> Assisted-by: AI - OpenAI
 >> Signed-off-by: Alejandro Hernandez<alhe@linux.microsoft.com>
 >> ---
->>  =C2=A0meta/classes-recipe/rust-common.bbclass | 10 ++++++++++
->>  =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
->>  =C2=A02 files changed, 11 insertions(+), 1 deletion(-)
+>>  =C2=A0meta/classes-recipe/python_pep517.bbclass | 16 ++++++++++++++++
+>>  =C2=A01 file changed, 16 insertions(+)
 >>
->> diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-re=
-cipe/rust-common.bbclass
->> index 6bc42016d1..98b46c4e3c 100644
->> --- a/meta/classes-recipe/rust-common.bbclass
->> +++ b/meta/classes-recipe/rust-common.bbclass
->> @@ -114,6 +114,16 @@ RUST_HOST_SYS[vardepvalue] =3D "${RUST_HOST_SYS}"
->>  =C2=A0RUST_TARGET_SYS =3D "${@rust_base_triple(d, 'TARGET')}"
->>  =C2=A0RUST_TARGET_SYS[vardepvalue] =3D "${RUST_TARGET_SYS}"
+>> diff --git a/meta/classes-recipe/python_pep517.bbclass b/meta/classes-=
+recipe/python_pep517.bbclass
+>> index d6246af5c2..06b23d3cba 100644
+>> --- a/meta/classes-recipe/python_pep517.bbclass
+>> +++ b/meta/classes-recipe/python_pep517.bbclass
+>> @@ -30,6 +30,22 @@ PEP517_INSTALL_PYTHON:class-native =3D "nativepytho=
+n3"
+>>  =C2=A0# pypa/installer option to control the bytecode compilation
+>>  =C2=A0INSTALL_WHEEL_COMPILE_BYTECODE ?=3D "--compile-bytecode=3D0"
 >>  =20
->> +# Note: RUST_BUILD_SYS is intentionally NOT on BB_BASEHASH_IGNORE_VAR=
-S
->> +# (see meta/conf/bitbake.conf). rustc's crate SVH (Strict Version Has=
-h)
->> +# is seeded by the stage0/stage1 bootstrap compiler whose fingerprint
->> +# depends on the BUILD host arch; that seed cascades through every
->> +# dependent crate's mangled symbols and rodata packing order. Excludi=
-ng
->> +# RUST_BUILD_SYS from task hashes let a mixed-arch autobuilder pool
->> +# populate sstate on one worker arch and get a cache hit on a differe=
-ntly-
->> +# arched worker, producing byte-different (but semantically identical=
-)
->> +# artifacts and failing reproducibility tests. See Yocto bug #15554.
->> +
->>  =C2=A0# wrappers to get around the fact that Rust needs a single
->>  =C2=A0# binary but Yocto's compiler and linker commands have
->>  =C2=A0# arguments. Technically the archiver is always one command but
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index bdf37d0da2..ee23459506 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -969,7 +969,7 @@ BB_HASHEXCLUDE_COMMON ?=3D "TMPDIR FILE PATH PWD B=
-B_TASKHASH BBPATH BBSERVER DL_DI
->>  =C2=A0=C2=A0=C2=A0=C2=A0 SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HAS=
-HSERVE GIT_CEILING_DIRECTORIES \
->>  =C2=A0=C2=A0=C2=A0=C2=A0 OMP_NUM_THREADS BB_CURRENTTASK"
->>  =C2=A0BB_BASEHASH_IGNORE_VARS ?=3D "${BB_HASHEXCLUDE_COMMON} PSEUDO_I=
-NCLUDE_PATHS BUILDHISTORY_DIR \
->> -=C2=A0=C2=A0=C2=A0 SSTATE_DIR SOURCE_DATE_EPOCH RUST_BUILD_SYS RUST_H=
-OST_SYS RUST_TARGET_SYS"
->> +=C2=A0=C2=A0=C2=A0 SSTATE_DIR SOURCE_DATE_EPOCH RUST_HOST_SYS RUST_TA=
-RGET_SYS"
->>  =C2=A0BB_HASHCONFIG_IGNORE_VARS ?=3D "${BB_HASHEXCLUDE_COMMON} DATE T=
-IME SSH_AGENT_PID \
->>  =C2=A0=C2=A0=C2=A0=C2=A0 SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_PASSTHROUG=
-H_ADDITIONS DISABLE_SANITY_CHECKS \
->>  =C2=A0=C2=A0=C2=A0=C2=A0 PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV B=
-B_INVALIDCONF BBINCLUDED \
-> Just to be clear, the sstatetests fail for this change for good reason,
-> it breaks the way "native" works in our system. We work on the
-> principle that "native" things work the same way regardless of
-> architecture and that the sstate hashes remain the same.
+>> +# Force the wheel's platform tag to reflect the target machine rather=
+ than the
+>> +# build host. Without this, extension-module wheels bake the build ho=
+st's arch
+>> +# (e.g. linux_x86_64) into <pkg>.dist-info/WHEEL via distutils/syscon=
+fig's
+>> +# get_platform(), which breaks reproducibility across autobuilder wor=
+kers of
+>> +# different architectures. Pure-python wheels ignore this variable an=
+d remain
+>> +# tagged "any".
+>> +#
+>> +# HOST_ARCH is class-scoped by bitbake:
+>> +#=C2=A0=C2=A0 - target:=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D TARG=
+ET_ARCH (reproducible across workers)
+>> +#=C2=A0=C2=A0 - native:=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D BUIL=
+D_ARCH=C2=A0 (matches worker arch, unpackaged)
+>> +#=C2=A0=C2=A0 - cross:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D=
+ BUILD_ARCH
+>> +#=C2=A0=C2=A0 - nativesdk:=C2=A0 HOST_ARCH =3D=3D SDK_ARCH
+>> +# so a single expression covers every class without producing an empt=
+y tag
+>> +# (which python 3.14 + wheel >=3D0.44 rejects with "Bad wheel filenam=
+e").
+>> +export _PYTHON_HOST_PLATFORM =3D "linux-${HOST_ARCH}"
+> The fix looks right, thanks!
 >
-> If you change this as above all of the rust targets will rebuild
-> depending on the build architecture, despite the fact they're meant to
-> be build architecture independent. It might manage to fool the test but
-> the output would still not be build architecture independent and hence
-> doesn't fix the real issue, just hides it from the tests.
+> I'm not sure we need the 10+ lines of explanation from AI ;-) The
+> commit message could be more concise too. We're seening way too much
+> text being added by AI in general and it will make the codebase harder
+> to understand in the long run :(.
 >
 > Cheers,
 >
 > Richard
 
-Yes, that makes sense, the good thing is I think the root cause is correc=
-t, but if we instead patch rusts sources
-we'll end up with the same problem since the packages would also be arch =
-independent, correct?
+I agree, I can send a v2 or just keep it in mind for next time, let me kn=
+ow.
 
-Is the correct thing here to add packages to an ignore/allow list?
-
-
+Cheers,
 Alejandro
 
 >
 >
+>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#242942):https://lists.openembedded.org/g/openembedd=
-ed-core/message/242942
-> Mute This Topic:https://lists.openembedded.org/mt/120602088/4354175
+> View/Reply Online (#242937):https://lists.openembedded.org/g/openembedd=
+ed-core/message/242937
+> Mute This Topic:https://lists.openembedded.org/mt/120602086/4354175
 > Group Owner:openembedded-core+owner@lists.openembedded.org
 > Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [a=
 lhe@linux.microsoft.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
---------------CUltoy2mrvR5MeE4vCt4522a
+--------------dyT7pKAXs8H4TJLL0BziuSTH
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -200,144 +162,112 @@ Content-Transfer-Encoding: quoted-printable
   <body>
     <p><br>
     </p>
-    <div class=3D"moz-cite-prefix">On 8/6/2026 6:53 AM, Richard Purdie vi=
+    <div class=3D"moz-cite-prefix">On 8/6/2026 6:26 AM, Richard Purdie vi=
 a
       lists.openembedded.org wrote:<br>
     </div>
     <blockquote type=3D"cite"
-cite=3D"mid:90b9c09acf04cca3d4d03e03b14577b0c1c63e11.camel@linuxfoundatio=
+cite=3D"mid:a863f3a0f5304826bf15afe3fb0767d43d378477.camel@linuxfoundatio=
 n.org">
       <pre wrap=3D"" class=3D"moz-quote-pre">On Tue, 2026-08-04 at 22:04 =
 +0000, Alejandro Hernandez Samaniego via lists.openembedded.org wrote:
 </pre>
       <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">RUST_BUILD_SYS is currentl=
-y listed in BB_BASEHASH_IGNORE_VARS, which
-tells bitbake that rust recipes should hash-match regardless of the
-build machine's triplet. In practice that is not true:
+        <pre wrap=3D"" class=3D"moz-quote-pre">python distutils/sysconfig=
+.get_platform() falls back to
+distutils.util.get_platform() when the _PYTHON_HOST_PLATFORM
+environment variable is unset, and returns the *build host* arch.
+The result is baked into the produced wheel's filename
+(pkg-&lt;ver&gt;-cp3XX-cp3XX-&lt;PLAT&gt;.whl) and its &lt;pkg&gt;.dist-i=
+nfo/WHEEL
+metadata.
 
-rustc computes each crate's Strict Version Hash (SVH) using inputs
-that include the *stage0/stage1 bootstrap compiler* fingerprint, which
-in turn depends on the build host arch. That seed cascades through
-every dependent crate's mangled symbols and the packing order of
-rodata sections, so an sstate blob populated on one worker arch and
-reused on a differently-arched worker produces byte-different (but
-semantically identical) artifacts and fails the reproducibility
-selftest causing autobuilder intermittent issues when the sstate
-matches for the incorrect architecture.
+Without this export, extension-module wheels tag themselves with
+whichever arch the autobuilder worker happens to have, which makes
+the resulting rpm non-reproducible across mixed-arch autobuilder
+pools.
 
-Remove RUST_BUILD_SYS from BB_BASEHASH_IGNORE_VARS so the task hash
-tracks the build triplet and mixed-arch autobuilder pools get an
-sstate miss instead of a silently-wrong hit. RUST_HOST_SYS and
-RUST_TARGET_SYS stay excluded because they're already covered by the
-target/host arch hash inputs.
+Since python 3.14 + wheel &gt;=3D0.44 also rejects wheels with an empty
+platform tag ("Bad wheel filename"), the value has to be non-empty
+in every class scope. HOST_ARCH is class-scoped by bitbake
+(target/native/cross/nativesdk), so `linux-${HOST_ARCH}` covers
+every case with a single unconditional assignment. Setting per-class
+overrides to "" (as an earlier draft did) trips the wheel filename
+check and must be avoided.
 
-While this is not ideal, it should unblock the reproducible test case,
-another solution would be to patch rust sources manually and attempt
-to upstream that change.
-
-This also has the side-effect that multiple variants of the conflicting
-rust recipes sstate artifacts are created, but they'll be correctly used
-now in each architecture.
-
-Also add an explanatory comment next to the RUST_*_SYS[vardepvalue]
-declarations in rust-common.bbclass so future readers don't re-add
-the exclusion.
-
-Verified locally: Tier 1 sighash test toggling BUILD_ARCH now produces
-different task hashes for rust/libstd-rs/rpm-sequoia/python3-crypto-
-graphy/cargo/librsvg, where previously the hashes matched despite the
-build machine change.
-
-[YOCTO #15554]
+Pure-python wheels ignore _PYTHON_HOST_PLATFORM and remain tagged
+"any", so this change only affects wheels that ship compiled
+extensions (cffi, cryptography, numpy, bcrypt, markupsafe, psutil,
+rpds-py, websockets, ...).
 
 Assisted-by: AI - OpenAI
 Signed-off-by: Alejandro Hernandez <a class=3D"moz-txt-link-rfc2396E" hre=
 f=3D"mailto:alhe@linux.microsoft.com">&lt;alhe@linux.microsoft.com&gt;</a=
 >
 ---
-=C2=A0meta/classes-recipe/rust-common.bbclass | 10 ++++++++++
-=C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-=C2=A02 files changed, 11 insertions(+), 1 deletion(-)
+=C2=A0meta/classes-recipe/python_pep517.bbclass | 16 ++++++++++++++++
+=C2=A01 file changed, 16 insertions(+)
 
-diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recip=
-e/rust-common.bbclass
-index 6bc42016d1..98b46c4e3c 100644
---- a/meta/classes-recipe/rust-common.bbclass
-+++ b/meta/classes-recipe/rust-common.bbclass
-@@ -114,6 +114,16 @@ RUST_HOST_SYS[vardepvalue] =3D "${RUST_HOST_SYS}"
-=C2=A0RUST_TARGET_SYS =3D "${@rust_base_triple(d, 'TARGET')}"
-=C2=A0RUST_TARGET_SYS[vardepvalue] =3D "${RUST_TARGET_SYS}"
+diff --git a/meta/classes-recipe/python_pep517.bbclass b/meta/classes-rec=
+ipe/python_pep517.bbclass
+index d6246af5c2..06b23d3cba 100644
+--- a/meta/classes-recipe/python_pep517.bbclass
++++ b/meta/classes-recipe/python_pep517.bbclass
+@@ -30,6 +30,22 @@ PEP517_INSTALL_PYTHON:class-native =3D "nativepython3"
+=C2=A0# pypa/installer option to control the bytecode compilation
+=C2=A0INSTALL_WHEEL_COMPILE_BYTECODE ?=3D "--compile-bytecode=3D0"
 =C2=A0
-+# Note: RUST_BUILD_SYS is intentionally NOT on BB_BASEHASH_IGNORE_VARS
-+# (see meta/conf/bitbake.conf). rustc's crate SVH (Strict Version Hash)
-+# is seeded by the stage0/stage1 bootstrap compiler whose fingerprint
-+# depends on the BUILD host arch; that seed cascades through every
-+# dependent crate's mangled symbols and rodata packing order. Excluding
-+# RUST_BUILD_SYS from task hashes let a mixed-arch autobuilder pool
-+# populate sstate on one worker arch and get a cache hit on a differentl=
-y-
-+# arched worker, producing byte-different (but semantically identical)
-+# artifacts and failing reproducibility tests. See Yocto bug #15554.
-+
-=C2=A0# wrappers to get around the fact that Rust needs a single
-=C2=A0# binary but Yocto's compiler and linker commands have
-=C2=A0# arguments. Technically the archiver is always one command but
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bdf37d0da2..ee23459506 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -969,7 +969,7 @@ BB_HASHEXCLUDE_COMMON ?=3D "TMPDIR FILE PATH PWD BB_T=
-ASKHASH BBPATH BBSERVER DL_DI
-=C2=A0=C2=A0=C2=A0=C2=A0 SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSER=
-VE GIT_CEILING_DIRECTORIES \
-=C2=A0=C2=A0=C2=A0=C2=A0 OMP_NUM_THREADS BB_CURRENTTASK"
-=C2=A0BB_BASEHASH_IGNORE_VARS ?=3D "${BB_HASHEXCLUDE_COMMON} PSEUDO_INCLU=
-DE_PATHS BUILDHISTORY_DIR \
--=C2=A0=C2=A0=C2=A0 SSTATE_DIR SOURCE_DATE_EPOCH RUST_BUILD_SYS RUST_HOST=
-_SYS RUST_TARGET_SYS"
-+=C2=A0=C2=A0=C2=A0 SSTATE_DIR SOURCE_DATE_EPOCH RUST_HOST_SYS RUST_TARGE=
-T_SYS"
-=C2=A0BB_HASHCONFIG_IGNORE_VARS ?=3D "${BB_HASHEXCLUDE_COMMON} DATE TIME =
-SSH_AGENT_PID \
-=C2=A0=C2=A0=C2=A0=C2=A0 SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_PASSTHROUGH_AD=
-DITIONS DISABLE_SANITY_CHECKS \
-=C2=A0=C2=A0=C2=A0=C2=A0 PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_IN=
-VALIDCONF BBINCLUDED \
++# Force the wheel's platform tag to reflect the target machine rather th=
+an the
++# build host. Without this, extension-module wheels bake the build host'=
+s arch
++# (e.g. linux_x86_64) into &lt;pkg&gt;.dist-info/WHEEL via distutils/sys=
+config's
++# get_platform(), which breaks reproducibility across autobuilder worker=
+s of
++# different architectures. Pure-python wheels ignore this variable and r=
+emain
++# tagged "any".
++#
++# HOST_ARCH is class-scoped by bitbake:
++#=C2=A0=C2=A0 - target:=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D TARGET_=
+ARCH (reproducible across workers)
++#=C2=A0=C2=A0 - native:=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D BUILD_A=
+RCH=C2=A0 (matches worker arch, unpackaged)
++#=C2=A0=C2=A0 - cross:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HOST_ARCH =3D=3D BU=
+ILD_ARCH
++#=C2=A0=C2=A0 - nativesdk:=C2=A0 HOST_ARCH =3D=3D SDK_ARCH
++# so a single expression covers every class without producing an empty t=
+ag
++# (which python 3.14 + wheel &gt;=3D0.44 rejects with "Bad wheel filenam=
+e").
++export _PYTHON_HOST_PLATFORM =3D "linux-${HOST_ARCH}"
 </pre>
       </blockquote>
       <pre wrap=3D"" class=3D"moz-quote-pre">
-Just to be clear, the sstatetests fail for this change for good reason,
-it breaks the way "native" works in our system. We work on the
-principle that "native" things work the same way regardless of
-architecture and that the sstate hashes remain the same.
+The fix looks right, thanks!
 
-If you change this as above all of the rust targets will rebuild
-depending on the build architecture, despite the fact they're meant to
-be build architecture independent. It might manage to fool the test but
-the output would still not be build architecture independent and hence
-doesn't fix the real issue, just hides it from the tests.
+I'm not sure we need the 10+ lines of explanation from AI ;-) The
+commit message could be more concise too. We're seening way too much
+text being added by AI in general and it will make the codebase harder
+to understand in the long run :(.
 
 Cheers,
 
 Richard</pre>
     </blockquote>
-    <pre>Yes, that makes sense, the good thing is I think the root cause =
-is correct, but if we instead patch rusts sources
-we'll end up with the same problem since the packages would also be arch =
-independent, correct?
+    <pre>I agree, I can send a v2 or just keep it in mind for next time, =
+let me know.
 
-Is the correct thing here to add packages to an ignore/allow list?
-
-
-Alejandro
-
+Cheers,
+Alejandro</pre>
+    <pre>
 </pre>
     <blockquote type=3D"cite"
-cite=3D"mid:90b9c09acf04cca3d4d03e03b14577b0c1c63e11.camel@linuxfoundatio=
+cite=3D"mid:a863f3a0f5304826bf15afe3fb0767d43d378477.camel@linuxfoundatio=
 n.org">
       <pre wrap=3D"" class=3D"moz-quote-pre">
+
 
 </pre>
       <br>
@@ -345,12 +275,12 @@ n.org">
       <pre wrap=3D"" class=3D"moz-quote-pre">
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 Links: You receive all messages sent to this group.
-View/Reply Online (#242942): <a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://lists.openembedded.org/g/openembedded-core/message/242942">https:/=
-/lists.openembedded.org/g/openembedded-core/message/242942</a>
+View/Reply Online (#242937): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/242937">https:/=
+/lists.openembedded.org/g/openembedded-core/message/242937</a>
 Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
-.openembedded.org/mt/120602088/4354175">https://lists.openembedded.org/mt=
-/120602088/4354175</a>
+.openembedded.org/mt/120602086/4354175">https://lists.openembedded.org/mt=
+/120602086/4354175</a>
 Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
 edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
 enembedded.org</a>
@@ -365,5 +295,5 @@ nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
   </body>
 </html>
 
---------------CUltoy2mrvR5MeE4vCt4522a--
+--------------dyT7pKAXs8H4TJLL0BziuSTH--
 
