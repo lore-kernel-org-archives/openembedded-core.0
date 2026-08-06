@@ -1,154 +1,418 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1062FC55ABF
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 14:09:48 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20216.1786025386998246454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B069C55ABF
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 14:26:08 +0000 (UTC)
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21054.1786026360290862008
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 07:09:47 -0700
+ Thu, 06 Aug 2026 07:26:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector2 header.b=P7Jv+mQu;
- spf=pass (domain: ericsson.com, ip: 52.101.65.4, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Atp7re0jZ50SmASMV2F8YeNHiZMV7Fnmb2sCohJcW0cfVoq3OSn+tvvLjyx52G9SL+i0OEwFHjPbhfQKB8hVwhfRVR/ONMRnHssu2/rn9RkGifrJNMKEAmp38X7RLCSXcPtj6nM6zvSsSEgYcPTfxvt4nhzHptxE46UXpnoSwI9+Lkok0y2dA0ElCTxvbPSh1uY9bMutZYuZcbl2+khD7bFKQ/PNPfRkZq3MtcIl4T+pZJLIq5nKQlCMePiC/9th7wNbdN1dYxefU+ZmA5XAHiI8RRtKvsSdBe41CmsAvrzIrspDf/7omLvCdjKx5jmjglzsfhUbmQg3K6cuANt1mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R20Rz3k9lKQjU2FnBvN5y/behdVg85k/zqC8+dmw4pU=;
- b=Bwq6PGBY+l0OK6ZvDf5tYyFr8/p8g03dqbGYg0m78wEEZOeJw9L6AL26lgykw4qRn4fM9mS6jl1RUgr9WQu+XyjSfDl1HEEb2svKXLZB//gjvREAX+33U8DWRIL1fFy/xKutngHtFKxqVXEgqtDdD32zZrfQpalw7TJY7VKNRZay5WRQOlMqKACZkHRGjWOq/Awm3LU7h4SK/wuPG0PbImNwpmCZ/Kla0VwSpCDMtP367wCKf31qQ9vuOqi3JE6Ul86BKf717Tn5YJSj0qfS3cVWc7xvzLYgEW672XEcQQC261LPUsf5m3olOutMl0FyckPemxJtjMaCKxB6BKKuIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R20Rz3k9lKQjU2FnBvN5y/behdVg85k/zqC8+dmw4pU=;
- b=P7Jv+mQuJ8ggczOf9NFVDrWd2b4uxU4RBvWnlY+AmEqA0bw/uYj9mWWPtwbs8W8EB1ndWP3GQkbN7WFniA/AA5oMo0Dr7vDhW13i2yp4IB3/o4CmjCeE4+29Ckz4bGPcFuA9vBShUBChRHeh75XTr809FmP4RGUNP0O3rs7AlvUa2ORbgf5FdiorDn8EpMpOeUW2YD9rAkeMHMb9ooKKbfSgUDQgfCoyBfmg+lEfItgOPzfWZ0zFveHow0pU01xYRfILgxB2rfOXR72rdkMYcH1WlNUFzIwDizmsARuORBoEUyG4UMD/MRAPE9tFf2qtCToNUaYbHXz1yfR/HHhSrA==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by DU2PR07MB9553.eurprd07.prod.outlook.com (2603:10a6:10:49e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.4; Thu, 6 Aug 2026
- 14:09:43 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%6]) with mapi id 15.21.0315.006; Thu, 6 Aug 2026
- 14:09:42 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "Ross.Burton@arm.com" <Ross.Burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 2/3] devtool: upgrade: read changelog blobs
- via a temp file
-Thread-Topic: [OE-core] [PATCH v2 2/3] devtool: upgrade: read changelog blobs
- via a temp file
-Thread-Index: AQHdI9bWAX7lR7cdmECTrdZ3iJpcrraNZwmAgAOqkgCAAAEqAA==
-Date: Thu, 6 Aug 2026 14:09:42 +0000
-Message-ID: <441b84ff90768959e5ff1375d00e18969f53d6b9.camel@ericsson.com>
-References: <20260804060205.179715-1-daniel.turull@ericsson.com>
-	 <18C884DEFF3686EE.1990914@lists.openembedded.org>
-	 <a231432b23b9d9feabb09eca97380c7e93bee8df.camel@ericsson.com>
-	 <11EBBEC5-8521-40C3-81E6-A9E86B2A4A1C@arm.com>
-In-Reply-To: <11EBBEC5-8521-40C3-81E6-A9E86B2A4A1C@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1.1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|DU2PR07MB9553:EE_
-x-ms-office365-filtering-correlation-id: 3bb101f6-64fc-4f25-5e76-08def3c45cca
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|10070799003|376014|23010399003|22082099003|18002099003|56012099006|4143699003|11063799006|38070700021|10067099003;
-x-microsoft-antispam-message-info: 
- 7awmuKUbljg3qrLX3Jor8cG6dIzSvKGgyMAeLd7WiPVAsZvLMuTlHbHXqdnXFGE8URJAuG+oRqJ5/Nvk45gc+7huTdmX7hskUjyunZKGLqa6rFElqAN72cvgnDSYGGqIQRqyjY7LpUz31WKBPrMUYMKmi89l68+5e9laRPZ/mtp9qcmejuvWHBR8aIh6jrd8/c3RrpCMJRFsmCysUEYbmgBJu8UPpIEqfpVtrcmTBOW+rntY5nfgSa/2/FEUrImCCKe1U6ozJzM0RXHgiwR4JBzw9KfjN05mb3yUCrKyrahIIk/euntZv1gk4OEwn2WM9KgpWT23gKpspmDj0Whit746hwHXuyqZfDpfz50bZUUtIjC6D8ZqukO27iJB357JiQLh0d6iyoHx+JCLxQYvOlYpbOHlOCArxYQZ02qwmQAeUmCQhbUpedXx+x25gtj1b1SOfNMWpwovX7ppKnu1tPqopqq7qKz+yWRXoszsODfZzexfVCizoEniEWnbaVkyQqVuLmVpYYNVLvoVaz/FPaN+VvE2Y7GLSppXDPDUevthYmeKvvWGS1d4YDeW+2oyl6EVAP+nJdBxFnHrkUB6tVTa/hP7Yeqz75Ff2YOEShbP+3pAulq0h4UHDNZ+9oxfBb+0vmwOwiEGrkERK4wnq/UA/xJe+15MihxGevdqbnOkmWBJBl0N8uA3TsmD5gRlpOF8/IiiYpqwvYsQCLvRVQ==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(23010399003)(22082099003)(18002099003)(56012099006)(4143699003)(11063799006)(38070700021)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?SktrN3VYRjFUaU50ZE1GMUpBaXdzZ2gwdmgzc2hlTEVhTUI2VmI4SStOUHpu?=
- =?utf-8?B?Z1FxenhZTkxmQ0ZJeFRJb1N2YUxHbFhtbXc2MkExT3J4U0ZKZmYySG9EVHVt?=
- =?utf-8?B?d3lCcUpCU05zRndvM0ZmbjB6REJyWkpYTC82K3hKN20wNkFDenhQaHZERDZV?=
- =?utf-8?B?ajZvMUVwdUFFUnZnN3hrV1E4bU5uUVVib0RCUTZpaVp6YldNUkw1OFlRSlJO?=
- =?utf-8?B?azV2bHZWS1R0UU5RWjBaTmNDYkJrWjltdEVITS9XUHZOWDN4TkhoV3UrenN4?=
- =?utf-8?B?eFF0dnZINHhPUmVCZU1OREJCL1BvRDdVNWZqVjZEbDFDRTFZRXl5ZTFuS0x4?=
- =?utf-8?B?M1FTKzBmOXJxeHdXTy9YcGxSaWl4cURyc2tPT1did1VVQ0tXdVBKMmdpdHZi?=
- =?utf-8?B?alo5WDQ1SEYvMjdlZ0VMM2VvRmYzY2RxOUhYTnFmSXlxb1B2UWFxZURzYyt4?=
- =?utf-8?B?eTR5bm9QdU5sZWpVeDdPS0ViSFJRZGpSM1E0ZEFxYURrdEdOanhuZUcwQTgw?=
- =?utf-8?B?eVRJVWwra2h0YTRWZlpCQVJpN2p3aytPZTZRQ0lNaGhiVmZ3R3MxSHU2N1ky?=
- =?utf-8?B?WC9yb0RVTFllTTRqSmdnbC9LY0xYYVJOSktGcWZRcThuRjJjbWV0dlJsWWpk?=
- =?utf-8?B?L2R6RDBWRzJDSkNMTG0vMllNWnphYUtPU1ZYVjg5WERaMTQwQkJsSUhxUE1L?=
- =?utf-8?B?N3lZS3FUL0VvcGtJMGxqeTQ3UVlCZ2gxREk2NzVqd0JDY3JDalNsOUVkR09z?=
- =?utf-8?B?dS9ya09XZElaSlRLc2pzTE5tU1dCRWI4MU1rSTRPc0tsQ2JQTzZjc3pFQTVX?=
- =?utf-8?B?TW9BVENIeHVMMEgwRFBtTXJ2cnpoQ0E2bGZMLzUvVENvNXkzT3VSc2lCNith?=
- =?utf-8?B?bEttOXMrRk5WMjFjaHJubXYxblJ4QnhpajN0TmpQR3M3ejFxYS9Jb0Z4MjB3?=
- =?utf-8?B?WkZNaXdydkprVWZyR2g5V200Y1ZieUFwSGR4R0xIbnlha1dMUXJaZFNWSXky?=
- =?utf-8?B?eC9NdVRjZFlNWnN5RjV2di9yM0hvczhPYW5NVk9EdEtZTnd2THJUdW5NeWhD?=
- =?utf-8?B?NnZsUCtrUS94RGpINncwNWpRc3haV2hNbUFVOS9SSlFjbXNzRllNMGtsSEU3?=
- =?utf-8?B?aUQyK1V6ZjRkd3g3SWtJakV0SFRabTBYK0xVeFh1Vm85dUN4NVJWWGJFekpO?=
- =?utf-8?B?SUpsM3I4L0cxVldUdzJZZ2VBZk4rVnZQR1ZEdStPdHNTek9iNm53UjBaVWEr?=
- =?utf-8?B?bFowUmRZRTUzNFpUTnAvem1Pd01QTy8zd0szNVlsaHpWWWdYN1JIQytEczVK?=
- =?utf-8?B?VVM0M3dzY0ZORDNwWnFBaXJQdG1QWjhZb1RSbW5mN0tvSjExTFFCWXdkM2Fq?=
- =?utf-8?B?R2p1dGFXaVZmbHU1bVFjVGRBUXVwbUhVa1J4Z0tQRTNQNmx6VWFqbUN5QjVh?=
- =?utf-8?B?cUtuWjFSdno4YXhPVUtwY2FoNHNKOEFaanVvck5TbFV2WkZDaS9IdSs4eGJR?=
- =?utf-8?B?S1Z6eSttYWF3YWpKVnNIT252dkFtNElKcU5DSUxFaTdVOTNvWnFGUHJ3NkpT?=
- =?utf-8?B?bUwwTm5CNUJwaldxc3orcy9rWkFoWGg1a0s5cWk1ZEUvMGVScXZ0VU82dzFp?=
- =?utf-8?B?OGZ1Sk1DSEc0QU1nRXV0TWYrNURSdTJFY3pxTkNoUDVobWJlZERrdzZ6OE43?=
- =?utf-8?B?aDludThKU1IwN3liYWNINTdEZEhEcU8xNUlJcXgzNFY1M01VRWhHMjErTTlT?=
- =?utf-8?B?YUlSUkVyMWVVR3JMdlduOXBBaVRpS2Z1NTE2dCsycmd2bHh0dHB5VjJLOCtw?=
- =?utf-8?B?cjk4WDlVYUlrMnlqeHZOUFRXWUJOWWdlRmR4RFUyUmtYQldraEhnR3d1WDdt?=
- =?utf-8?B?aUMwZ1JKMjQ0NVdvL1dFM0ExTnVxTzhqNzNiR2ZKZXU4azZkZzllanlFV3h6?=
- =?utf-8?B?MWhCMkE0dXJSR3RoMmlMSG0yWmgyTUFFWUJSYXZReUdrMDl4UE5NNUVUV21F?=
- =?utf-8?B?MjNsS25GZFVJMXhZelFCZEFrR3NhS1h0UTM5K2UzenFxMkt1dks1ZnI1dWVQ?=
- =?utf-8?B?bmx2NlB1UGkwNk5RVW42bzQ5cVZrbEpMeUhJZ1VCN28wYTJ3VUdDUkN6RHJS?=
- =?utf-8?B?eE9JQVhIcEJMZWM2b0wzc2lrLzhuaFZQcXRXb0YwdVovekZKa2ZsMWR2TkRM?=
- =?utf-8?B?VGE5bDh5alFMejJORmVCWWtKdGNyRFVBblRMS1ZHOWFtNTlHOUIxelhhY3FG?=
- =?utf-8?B?QkNMbnJoNWFkMFFNOEk4RXRpbFZZNDBodFRLU1pGeTU4TE9WUVF0L0tEZkpS?=
- =?utf-8?B?NFRPS0tLMGFLVUVla3RuUXFzb1oyMVp5M2pYNXR0WW1ycHExajB0Um4zV0ly?=
- =?utf-8?Q?zdejmJoXGwp+RZwFSq6Mo0LZcQf/EcM2mUuk5ERT6TfvD?=
-x-ms-exchange-antispam-messagedata-1: FZG5Nn1IZnrdxyS6lRjzTbMuOJPbSm51LjE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <126B4C472AEEF446AA4B3DAB377316DC@eurprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DSCWc07N;
+ spf=pass (domain: gmail.com, ip: 74.125.224.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-667923d86a7so1882433d50.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 07:26:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786026359; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Y3naTConI+LXQFXGAhpvBTWaBhiTehFmPvvYTZDihUyQPajYOGVcb+khugDMJV7NKX
+         VLFYENAVz2xpGsGnlCsCrS2bLp1KiVDfukoXtfB8D7CohU7vwb53g4+Oy1mjccK9aK2m
+         qziXR8ybs5gU35DzYU1Ow10HfP6Wny0s1lBNyZm/m9qPZqcETkMfXlBf5q3kooFf5l+P
+         0gMDNt1fAO2NcjPmIt6yMfLGi7MgaAa+z7Jd3JCfpD7psedtGdYtebEz30c+KVSNzKN+
+         UsJ5oP2uC0SbrWhUEVF0OajokR6eJvIN4zLhhrl3Oryhlk7gXa9UH+lLhq9eTWTjY4HB
+         xccQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=UkWnQM7W5f2Syhrwqm1R02VCUt+U4Fzl/vaEKgQXeC4=;
+        fh=M9Qp7N4TtDyoX+CgtT9+FnQbFuiO5nllHdvaR98P43E=;
+        b=MhmDycu+7GXBdjEQvpAFBKfa5R3kVbUKUbHz8hE5RlSRRVg+uZYz9dSaActbfkUyAT
+         3icBnUAk4shGvbLVVJqpwUWu3LCt2RvB52CQ80FaGqGsRmt3ShpyIqKwHwkPl371nP3U
+         FjhCcJeaAIBEZ9PNqNmv5EZunbSsE0CFYoGQaleEAHndsbCIL6WdkUcqtUNBSYMyfAk6
+         YbhPBAODQeNf+jhV2M6xLy3EwNo/CmfJuIgw5kBAayt9C4Du7uCChIBPGT00GSINcruk
+         QMkZRuqfX63P/YWwzF59J6lYjMQjvmrhp0Vxjec/P5lZem9vkIzRrWMwQ8a6EX2Btxu9
+         +z+A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786026359; x=1786631159; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UkWnQM7W5f2Syhrwqm1R02VCUt+U4Fzl/vaEKgQXeC4=;
+        b=DSCWc07N4RiWaD4vqqUyECnNXdHBR7WeSwp/Z1kDPrcMiGeIwq4FG/9m368u6gRz9/
+         FHN5xSbFJ+9US3a33kDaT8Xk2wM8u8i7wTcX27eFEWIBSI8Q2SPqpgTkUGzuH9CB0heD
+         MWxDICbABRNFgEZVb/WZdKQC0ozqfYDEFEe+1vVTZAdN99l5IEV60KMSucqFd/NmVzD2
+         fO5PYgq9HRo2upkSzo1hqxrZniGr2Q/KiXRZZPlBK6YEGBODw+FlhufaKP++bJ8fRgTY
+         6bRXEO10eSA3gQXpvuLqQkCkrWEMh0d0R7Z3n4k7967vZb7X/YGEAmywrPZ1AZc7HH/B
+         5FLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786026359; x=1786631159;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UkWnQM7W5f2Syhrwqm1R02VCUt+U4Fzl/vaEKgQXeC4=;
+        b=j8GA+SSAvJsEBDbnNqvLJCO+GopdwB1AVukGRwBfsrCm9ho7TRDwEyJMAXrtoAPZdt
+         FvZjBN+FQRtOlo/vDcv1Yz1ju4KELWRsbFOr4rHhQ9On1gksciu8ABAUze/totXt2wYT
+         zhaQ1JeVufQ1axmsHyl+R/ISnfqd4qCaE8I21Bnz0ZdQNrAC1+azjvpid/kmGjE/ZYIW
+         Pi8MFmF1YnhpXW3yXlEJL3qo9jkA7/WKHly9wzrF5PpCHsW2Ptr7jVZNLziB8mbwF4/r
+         ro7BhCVOi5L73dGEnw9eBsH5sAuyPqKyvUc8ej1qSL4FN+N7EcOcW5WtkeUA3QrU1rJX
+         xcjw==
+X-Gm-Message-State: AOJu0YxbFHHryd8HHAKDp+t/Zvh9jAWJPbs5+j9hahlMCEpTyF99TTAD
+	Zwd63Yh97aLzf2znk2MAb09I3Kxclicgewt8Lt/kHqPy1PiMCevGFNVXYCLUaKZKSN4+tCu3Noy
+	KFoqfa0IFrdbBZ8FRO2YIgkbVQbXEdaU=
+X-Gm-Gg: AR+sD11l1xnZOBs2P6kwUt4egiasrI/Q3MHUoEihbZyzOsl5/lybCA2ZAWrHqFqUtaY
+	j/MkYeIxvlCldBotYl4ceeBsGfm3yBZkyzqbZhL/mKQml0krhJglUxVr5n88XY4YoYkWJ98EiKE
+	0LG6+8QC0mtO4/VrX/fitYXGPgRfQv4rKEhjL6eCSHS2m/dsUB4DJX41aDutYNLedQUq/BWcZLx
+	i+MZhV5B9kPW78a0cFAn7YBxiJJSr0+YS368F+tADVJkXJHvkjhkGQIPddkDOWt49Pu95EeQGee
+	QFRdGXZRIcKEYVPA0wMJ7TuOQlbv404wRU1Bnw5E+Q81h3arb7Xa9GOFshw=
+X-Received: by 2002:a53:ac8e:0:b0:667:f1e8:4772 with SMTP id
+ 956f58d0204a3-66ab284523emr4258438d50.12.1786026359222; Thu, 06 Aug 2026
+ 07:25:59 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bb101f6-64fc-4f25-5e76-08def3c45cca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2026 14:09:42.8708
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gmW5sSMOFt1ASnmse9jAbjmA23WPmpwFibI7rGI58yRhM7eEtx19liKBNRCjjSEbnNF3rneK7AmL/Wk91+o947nI2cTS3GUO6ZxcZyM/09A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR07MB9553
+References: <20260727-fix-get-patched-src-v1-0-f5054ca10e14@bootlin.com> <20260727-fix-get-patched-src-v1-1-f5054ca10e14@bootlin.com>
+In-Reply-To: <20260727-fix-get-patched-src-v1-1-f5054ca10e14@bootlin.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 6 Aug 2026 08:25:47 -0600
+X-Gm-Features: AUfX_mxVYwTnspYcIBBbEfJghbRST9l7U5UANVTMZ8kNqhW-gL2QjH58aJxTrxE
+Message-ID: <CAJdd5GZuhobNYMevSd+gtj+LnEpV1s1iszNm9O4ddaFBWJU_GQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/3] spdx_common: simplify get_patched_src() implementation
+To: Benjamin Robin <benjamin.robin@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, antonin.godard@bootlin.com, 
+	mathieu.dubois-briand@bootlin.com, thomas.petazzoni@bootlin.com, 
+	daniel.turull@ericsson.com
+Content-Type: multipart/alternative; boundary="000000000000b376d9065861aae4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 14:09:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242947
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 14:26:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242948
 
-T24gVGh1LCAyMDI2LTA4LTA2IGF0IDE0OjA1ICswMDAwLCBSb3NzIEJ1cnRvbiB3cm90ZToNCj4g
-T24gNCBBdWcgMjAyNiwgYXQgMDc6MDYsIERhbmllbCBUdXJ1bGwgdmlhIGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4gPGRhbmllbC50dXJ1bGw9ZXJpY3Nzb24uY29tQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc+IHdyb3RlOg0KPiA+IFRoZSBhbHRlcm5hdGl2ZSB0byB1c2UgYSB0bXAgZmlsZSB3YXMg
-dG8gbW9kaWZ5IF9ydW4gdG8gYWxsb3cgb3RoZXIgZW5jb2RpbmdzIHRoYW4gdXRmLTgsIGJ1dCBp
-dA0KPiA+IHdpbGwgYmUgYSBiaWdnZXIgcmVmYWN0b3IuIE9yIG5vdCB1c2UgX3J1biBhbmQgY2Fs
-bCBkaXJlY3RseSB0aGUgcmF3IHN1YnByb2Nlc3MgY2FsbHMuDQo+ID4gDQo+ID4gSSBjYW4gY2hh
-bmdlIGl0IHRvIGVpdGhlciBvcHRpb24gb3Iga2VlcCB0aGUgY3VycmVudCBwYXRjaC4NCj4gDQo+
-IGJiLnByb2Nlc3MucnVuKCkgaXMgbWVhbnQgZm9yIHVzZSBieSBiaXRiYWtlIGl0c2VsZiwgaXTi
-gJlzIGEgZ2xvcmlmaWVkL2JhZCB3cmFwcGVyIGFyb3VuZA0KPiBzdWJwcm9jZXNzLnJ1bigpIHRo
-YXQganVzdCBkb2VzIHNvbWUgbG9nZ2luZyBtYWdpYyB3aGlsc3QgYWxzbyBnZXR0aW5nIGluIHRo
-ZSB3YXkgYW5kIGRvaW5nIHRoaW5ncw0KPiBsaWtlIGZvcmNpbmcgdXRmLTguLi7CoCBUaGF0IG1h
-Z2ljIGlzbuKAmXQgdXNlZnVsIGluIGRldnRvb2wsIHNvIEkgdGhpbmsgd2Ugc2hvdWxkIGJlIGNh
-bGxpbmcNCj4gc3VicHJvY2Vzcy5ydW4oKSBkaXJlY3RseS4NCj4gDQo+IFJvc3MNCm9rLiBJJ2xs
-IGNoYW5nZSBpdCB0byB0aGF0LiBJdCB3YXMgb25lIG9uZSBvZiB0aGUgb3B0aW9ucyB0aGF0IEkg
-aGFkIGluIG1pbmQgYnV0IEkgd2FzIG5vdCBzdXJlIGlmDQp3ZSB3YW50ZWQgdG8gaGF2ZSBhbGwg
-Z29pbmcgdG8gcnVuKCkNCg0KVGhhbmtzIFJvc3MuDQoNCkRhbmllbA0K
+--000000000000b376d9065861aae4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jul 27, 2026 at 2:34=E2=80=AFAM Benjamin Robin <benjamin.robin@boot=
+lin.com>
+wrote:
+
+> The behavior remains unchanged:
+> - Instead of saving and restoring the values of various variables, use a
+>   copy of the data store via `d.createCopy()`. This prevents side effects
+>   for other tasks.
+> - This allows removing the `try ... finally` block.
+> - The function `is_work_shared_spdx()` no longer needs to be called twice=
+.
+> - In the work-shared case, there is no need to modify `WORKDIR` since no
+>   task is executed from that branch.
+>
+> Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
+>
+
+LGTM Thanks.
+
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+
+
+> ---
+>  meta/lib/oe/spdx_common.py | 81
+> ++++++++++++++++++++++------------------------
+>  1 file changed, 39 insertions(+), 42 deletions(-)
+>
+> diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+> index 6b1a409c40c2..9d1e22629b21 100644
+> --- a/meta/lib/oe/spdx_common.py
+> +++ b/meta/lib/oe/spdx_common.py
+> @@ -172,50 +172,47 @@ def get_patched_src(d):
+>      Save patched source of the recipe in SPDX_WORKDIR.
+>      """
+>      spdx_workdir =3D d.getVar("SPDXWORK")
+> -    spdx_sysroot_native =3D d.getVar("STAGING_DIR_NATIVE")
+>
+> -    workdir =3D d.getVar("WORKDIR")
+> +    # The kernel class functions require it to be on work-shared, so we
+> don't change WORKDIR
+> +    if not is_work_shared_spdx(d):
+> +        spdx_sysroot_native =3D d.getVar("STAGING_DIR_NATIVE")
+> +        localdata =3D d.createCopy()
+>
+> -    try:
+> -        # The kernel class functions require it to be on work-shared, so
+> we dont change WORKDIR
+> -        if not is_work_shared_spdx(d):
+> -            # Change the WORKDIR to make do_unpack do_patch run in
+> another dir.
+> -            d.setVar("WORKDIR", spdx_workdir)
+> -            # Restore the original path to recipe's native sysroot (it's
+> relative to WORKDIR).
+> -            d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
+> -
+> -            # The changed 'WORKDIR' also caused 'B' changed, create dir
+> 'B' for the
+> -            # possibly requiring of the following tasks (such as some
+> recipes's
+> -            # do_patch required 'B' existed).
+> -            bb.utils.mkdirhier(d.getVar("B"))
+> -
+> -            bb.build.exec_func("do_unpack", d)
+> -
+> -            if d.getVar("SRC_URI") !=3D "":
+> -                if bb.data.inherits_class("dos2unix", d):
+> -                    bb.build.exec_func("do_convert_crlf_to_lf", d)
+> -                bb.build.exec_func("do_patch", d)
+> -
+> -        # Copy source from work-share to spdx_workdir
+> -        if is_work_shared_spdx(d):
+> -            share_src =3D d.getVar("S")
+> -            d.setVar("WORKDIR", spdx_workdir)
+> -            d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
+> -            # Copy source to ${SPDXWORK}, same basename dir of ${S};
+> -            src_dir =3D spdx_workdir + "/" + os.path.basename(share_src)
+> -            # For kernel souce, rename suffix dir 'kernel-source'
+> -            # to ${BP} (${BPN}-${PV})
+> -            if bb.data.inherits_class("kernel", d):
+> -                src_dir =3D spdx_workdir + "/" + d.getVar("BP")
+> -
+> -            bb.note(f"copyhardlinktree {share_src} to {src_dir}")
+> -            oe.path.copyhardlinktree(share_src, src_dir)
+> -
+> -        # Some userland has no source.
+> -        if not os.path.exists(spdx_workdir):
+> -            bb.utils.mkdirhier(spdx_workdir)
+> -    finally:
+> -        d.setVar("WORKDIR", workdir)
+> +        # Change the WORKDIR to make do_unpack do_patch run in another
+> dir.
+> +        localdata.setVar("WORKDIR", spdx_workdir)
+> +        # Restore the original path to recipe's native sysroot (it's
+> relative to WORKDIR).
+> +        localdata.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
+> +
+> +        # The changed 'WORKDIR' also caused 'B' changed, create dir 'B'
+> for the
+> +        # possibly requiring of the following tasks (such as some recipe=
+'s
+> +        # do_patch required 'B' existed).
+> +        bb.utils.mkdirhier(localdata.getVar("B"))
+> +
+> +        bb.build.exec_func("do_unpack", localdata)
+> +
+> +        if localdata.getVar("SRC_URI") !=3D "":
+> +            if bb.data.inherits_class("dos2unix", localdata):
+> +                bb.build.exec_func("do_convert_crlf_to_lf", localdata)
+> +            bb.build.exec_func("do_patch", localdata)
+> +
+> +    # Copy source from work-shared to spdx_workdir
+> +    else:
+> +        share_src =3D d.getVar("S")
+> +
+> +        if bb.data.inherits_class("kernel", d):
+> +            # For kernel source, rename suffix dir 'kernel-source' to
+> ${BP} (${BPN}-${PV})
+> +            dir_name =3D d.getVar("BP")
+> +        else:
+> +            # Copy source to ${SPDXWORK}, same basename dir of ${S}
+> +            dir_name =3D os.path.basename(share_src)
+> +
+> +        src_dir =3D f"{spdx_workdir}/{dir_name}"
+> +        bb.note(f"copyhardlinktree {share_src} to {src_dir}")
+> +        oe.path.copyhardlinktree(share_src, src_dir)
+> +
+> +    # Some userland has no source.
+> +    if not os.path.exists(spdx_workdir):
+> +        bb.utils.mkdirhier(spdx_workdir)
+>
+>
+>  def has_task(d, task):
+>
+> --
+> 2.55.0
+>
+>
+
+--000000000000b376d9065861aae4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 27,=
+ 2026 at 2:34=E2=80=AFAM Benjamin Robin &lt;<a href=3D"mailto:benjamin.robi=
+n@bootlin.com">benjamin.robin@bootlin.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">The behavior remains unchanged:<br=
+>
+- Instead of saving and restoring the values of various variables, use a<br=
+>
+=C2=A0 copy of the data store via `d.createCopy()`. This prevents side effe=
+cts<br>
+=C2=A0 for other tasks.<br>
+- This allows removing the `try ... finally` block.<br>
+- The function `is_work_shared_spdx()` no longer needs to be called twice.<=
+br>
+- In the work-shared case, there is no need to modify `WORKDIR` since no<br=
+>
+=C2=A0 task is executed from that branch.<br>
+<br>
+Signed-off-by: Benjamin Robin &lt;<a href=3D"mailto:benjamin.robin@bootlin.=
+com" target=3D"_blank">benjamin.robin@bootlin.com</a>&gt;<br></blockquote><=
+div><br></div><div>LGTM Thanks.</div><div><br></div><div>Reviewed-by: Joshu=
+a Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com">JPEWhacker@gmail.com</a>=
+&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+---<br>
+=C2=A0meta/lib/oe/spdx_common.py | 81 ++++++++++++++++++++++---------------=
+---------<br>
+=C2=A01 file changed, 39 insertions(+), 42 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py<br>
+index 6b1a409c40c2..9d1e22629b21 100644<br>
+--- a/meta/lib/oe/spdx_common.py<br>
++++ b/meta/lib/oe/spdx_common.py<br>
+@@ -172,50 +172,47 @@ def get_patched_src(d):<br>
+=C2=A0 =C2=A0 =C2=A0Save patched source of the recipe in SPDX_WORKDIR.<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0spdx_workdir =3D d.getVar(&quot;SPDXWORK&quot;)<br>
+-=C2=A0 =C2=A0 spdx_sysroot_native =3D d.getVar(&quot;STAGING_DIR_NATIVE&qu=
+ot;)<br>
+<br>
+-=C2=A0 =C2=A0 workdir =3D d.getVar(&quot;WORKDIR&quot;)<br>
++=C2=A0 =C2=A0 # The kernel class functions require it to be on work-shared=
+, so we don&#39;t change WORKDIR<br>
++=C2=A0 =C2=A0 if not is_work_shared_spdx(d):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 spdx_sysroot_native =3D d.getVar(&quot;STAGING=
+_DIR_NATIVE&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 localdata =3D d.createCopy()<br>
+<br>
+-=C2=A0 =C2=A0 try:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # The kernel class functions require it to be =
+on work-shared, so we dont change WORKDIR<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not is_work_shared_spdx(d):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Change the WORKDIR to make do_=
+unpack do_patch run in another dir.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;WORKDIR&quot;, sp=
+dx_workdir)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Restore the original path to r=
+ecipe&#39;s native sysroot (it&#39;s relative to WORKDIR).<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;STAGING_DIR_NATIV=
+E&quot;, spdx_sysroot_native)<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # The changed &#39;WORKDIR&#39; =
+also caused &#39;B&#39; changed, create dir &#39;B&#39; for the<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # possibly requiring of the foll=
+owing tasks (such as some recipes&#39;s<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # do_patch required &#39;B&#39; =
+existed).<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier(d.getVar(&quo=
+t;B&quot;))<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.exec_func(&quot;do_unpa=
+ck&quot;, d)<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVar(&quot;SRC_URI&quot;)=
+ !=3D &quot;&quot;:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.data.inherit=
+s_class(&quot;dos2unix&quot;, d):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.b=
+uild.exec_func(&quot;do_convert_crlf_to_lf&quot;, d)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.exec_func=
+(&quot;do_patch&quot;, d)<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Copy source from work-share to spdx_workdir<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if is_work_shared_spdx(d):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 share_src =3D d.getVar(&quot;S&q=
+uot;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;WORKDIR&quot;, sp=
+dx_workdir)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;STAGING_DIR_NATIV=
+E&quot;, spdx_sysroot_native)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Copy source to ${SPDXWORK}, sa=
+me basename dir of ${S};<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_dir =3D spdx_workdir + &quot=
+;/&quot; + os.path.basename(share_src)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # For kernel souce, rename suffi=
+x dir &#39;kernel-source&#39;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # to ${BP} (${BPN}-${PV})<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.data.inherits_class(&quot;=
+kernel&quot;, d):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src_dir =3D spdx_w=
+orkdir + &quot;/&quot; + d.getVar(&quot;BP&quot;)<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(f&quot;copyhardlinktree =
+{share_src} to {src_dir}&quot;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.path.copyhardlinktree(share_s=
+rc, src_dir)<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Some userland has no source.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.exists(spdx_workdir):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier(spdx_workdir)=
+<br>
+-=C2=A0 =C2=A0 finally:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;WORKDIR&quot;, workdir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Change the WORKDIR to make do_unpack do_patc=
+h run in another dir.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 localdata.setVar(&quot;WORKDIR&quot;, spdx_wor=
+kdir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Restore the original path to recipe&#39;s na=
+tive sysroot (it&#39;s relative to WORKDIR).<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 localdata.setVar(&quot;STAGING_DIR_NATIVE&quot=
+;, spdx_sysroot_native)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # The changed &#39;WORKDIR&#39; also caused &#=
+39;B&#39; changed, create dir &#39;B&#39; for the<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # possibly requiring of the following tasks (s=
+uch as some recipe&#39;s<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # do_patch required &#39;B&#39; existed).<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier(localdata.getVar(&quot;B&qu=
+ot;))<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.exec_func(&quot;do_unpack&quot;, loca=
+ldata)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if localdata.getVar(&quot;SRC_URI&quot;) !=3D =
+&quot;&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.data.inherits_class(&quot;=
+dos2unix&quot;, localdata):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.exec_func=
+(&quot;do_convert_crlf_to_lf&quot;, localdata)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.exec_func(&quot;do_patc=
+h&quot;, localdata)<br>
++<br>
++=C2=A0 =C2=A0 # Copy source from work-shared to spdx_workdir<br>
++=C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 share_src =3D d.getVar(&quot;S&quot;)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.data.inherits_class(&quot;kernel&quot;, =
+d):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # For kernel source, rename suff=
+ix dir &#39;kernel-source&#39; to ${BP} (${BPN}-${PV})<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dir_name =3D d.getVar(&quot;BP&q=
+uot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Copy source to ${SPDXWORK}, sa=
+me basename dir of ${S}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dir_name =3D os.path.basename(sh=
+are_src)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 src_dir =3D f&quot;{spdx_workdir}/{dir_name}&q=
+uot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(f&quot;copyhardlinktree {share_src} to=
+ {src_dir}&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.path.copyhardlinktree(share_src, src_dir)<b=
+r>
++<br>
++=C2=A0 =C2=A0 # Some userland has no source.<br>
++=C2=A0 =C2=A0 if not os.path.exists(spdx_workdir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier(spdx_workdir)<br>
+<br>
+<br>
+=C2=A0def has_task(d, task):<br>
+<br>
+-- <br>
+2.55.0<br>
+<br>
+</blockquote></div></div>
+
+--000000000000b376d9065861aae4--
 
