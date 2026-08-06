@@ -1,126 +1,133 @@
-Return-Path: <marek.vasut@mailbox.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F9DC55174
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 00:02:42 +0000 (UTC)
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9212.1785974559850164641
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A276C56205
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 05:14:53 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13247.1785993287393087376
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 17:02:40 -0700
+ Wed, 05 Aug 2026 22:14:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mailbox.org header.s=mail20150812 header.b=gJX9Jewz;
- spf=pass (domain: mailbox.org, ip: 80.241.56.161, mailfrom: marek.vasut@mailbox.org)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4hFnXX2TKwzKn8n;
-	Thu, 06 Aug 2026 02:02:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1785974556;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IPPaRARXjid9kS+Y4YiGQc7gFb6jSPLGyAEPplut6nA=;
-	b=gJX9JewztTIwftuwo6+DPAimRGmQrp9P+n6URWQdRutiGzvdlEWBLwVpjtKvipyzXlH8Gg
-	UASBScv9GpFf/2cJAeKyByYUjHfxlyh+5PdUuTAgTrMc1XI8Gq6Nn9DMljEl3kAu3SmnZ2
-	4n7s3OAlvqbHMYGvAO9ESZYlIYt5v3fJlfdKu7v1vEOBv1l8DeCwHW7GshEF1SlfxTzpZr
-	8Fe00xbht8v7LN6bPufXm9cCBhKj8LxEQ3mZfgM4Vi8p7a0bAdZuMZB3ru9tltu/7A2PvF
-	2oaPxyL4VHAxAKcDZWLuVMwvuzKLsXR01iTLAT56m22GJmnlBfIEPlSMYfPxBA==
-Message-ID: <e1f32ec0-bc37-48d4-bf7e-7dc5d880dfbc@mailbox.org>
-Date: Thu, 6 Aug 2026 02:02:32 +0200
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rJqKc45m;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4954df200ddso11963465e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 22:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785993286; x=1786598086; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MjOBcDOh/Gbbb1Y73jiYcS7HmsdGcEDmQDrGLvwA/+4=;
+        b=rJqKc45mjVP+BcE9HXrNsudW0+NKAaJ+ja3hTlRF9VsXUCYDxEM+rOyQSqNlZUUAJW
+         dPd+v+TL1wx8PhH1VdMh72itqOx6epgvSUj0aMg2bDvSK4VhueQDp7Dq1wBTvGHr7tfu
+         rmYtUiITV+d90rdiZZOAOxyAsLQhc60MyQqKxu3NLfTadHOXBdjnFPJlXqw3+GK8Zv8O
+         bgFzmDnDFQ18LW5Q+7aDoujcaHPQOhpUL8sWelM9QLsJxMVUe3NAOuwnwKkMiaqpz4CD
+         q9kXfpGC0GUx81rrgIH6ku65+hjqwQzu9YUjo4iIXGgvKYfQkJy7p882QzxQMZ+Copov
+         0YDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785993286; x=1786598086;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MjOBcDOh/Gbbb1Y73jiYcS7HmsdGcEDmQDrGLvwA/+4=;
+        b=HBlwFoHVZFZ+OtE7tQWA49SHsZxVfLhtvdCXkqUJIZ7zIUSGvVYaZITgmyIeoCUOwX
+         yyRk5UJXh2v8Zco3Arj+uipTqgtoB/phjuUM8QSylFZoIJcbbLReudLF4FQFpmX7BA4y
+         sX83c7tVffcomlmwkN1oJbuycriy7Sx2QIFsKaw5ZjjAtWYMNWIc0btsCBMZ7ADUb45p
+         zDmA5gVv9bkpJWwP7cW2XMl8A2sBJ/qSSMyfcCJLkgkQa37kZNGUamSTPGxJFxL5UAZx
+         BtXDNFa5+TlA2A3UMy22JoQf1DUu8YpTWTZqh9AuV7Az2RKYHcgHOSL44a2o/9ZboEzM
+         4B8Q==
+X-Gm-Message-State: AOJu0Yys96Ed7I5VB/hLrAYYJlTATV7matFjILa9eVmnXDCwr+vfaAwe
+	e9T7SSmZvVh1zGvGaAh23EQcAggryLhd/Z/MopaR77ApTpw8Y3JY9kqdVjaqZg==
+X-Gm-Gg: AR+sD13GGxRkCkfGWOQ+s4W9zXGhRi+dbt1hbiykLFO/hg1BMjapnA+9qZ7fnSYMECv
+	Ll7u90vc7HbaMq24oTi6AskXErM/q+xZ4cBWUfaGw8O+zNqAsLeIehICNVDwUbVhipSIfIpp92u
+	SACROvBrF3PbJtdieImmDC2GgLQYTZ/wD/lQquPuWFhZ4a8A/LPV3KxHO4BjPtlYoEiAgiTRMw3
+	nvFXVTFHuJLWnTYDUGRggRe+tgh8X7Q5w3UjjZWOT3gBYa11VmJ2CdjfyfMKb2F8+NXsVs7wV9B
+	OalvIEMykMR76Yla/nW8LJMPBdibQD5f6DC6fjCmtV+NlIlFV4wZVq1KhW9GxAg2bA9G2PMXdgv
+	L56jbTnfFQQk+OEbnRU8PgLIflIMH1mZBdsoyTgov6WZN78gOLYZy2C7Oga86ri59c26MiSSHXv
+	cVRzAsTFEyyAG/exg6PGysNBTu5DOSpUHH4oXfOmyuh+B+vd4u5m1Uy58jSZBI
+X-Received: by 2002:a05:600c:1d23:b0:499:516b:83d5 with SMTP id 5b1f17b1804b1-499516b83d9mr83846795e9.11.1785993285585;
+        Wed, 05 Aug 2026 22:14:45 -0700 (PDT)
+Received: from term011.lan (95C81D0F.dsl.pool.telekom.hu. [149.200.29.15])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499542183b2sm35765355e9.4.2026.08.05.22.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2026 22:14:45 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH v3 3/3] mesa, mesa-tools-native: Use mesa-libclc
+Date: Thu,  6 Aug 2026 07:14:37 +0200
+Message-ID: <20260806051437.276400-3-zboszor@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260806051437.276400-1-zboszor@gmail.com>
+References: <20260806051437.276400-1-zboszor@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [OE-core] [wrynose][PATCH] kernel-fit-image.bbclass: Do not
- include kernel property in DTBO config subnodes
-From: Marek Vasut <marek.vasut@mailbox.org>
-To: Yoann Congal <yoann.congal@smile.fr>, adrian.freihofer@gmail.com,
- "Freihofer, Adrian" <adrian.freihofer@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Paul Barker <paul@pbarker.dev>
-Cc: Ryan Eatmon <reatmon@ti.com>
-References: <20260630074356.10265-1-marek.vasut@mailbox.org>
- <6fb0c748f9cbdeb15dc583483486e12af1c7f397.camel@siemens.com>
- <91b15fcf-715b-40cc-8f77-ff4571946725@mailbox.org>
- <DJO1RET2JWA2.2H0HY5TPUI2T5@smile.fr>
- <84bd480810d947c860b95c3cc10f66fced3cdedf.camel@gmail.com>
- <e4369955-eae6-4c45-b00c-01ca18d94fa2@mailbox.org>
- <2304e3c8-1b90-4bbf-8022-80f19d1447a7@mailbox.org>
- <DK3HZYI7OV4C.YF3JS912EHFG@smile.fr>
- <868f8648-d45f-4ba5-a6e5-7eb5fadb2516@mailbox.org>
- <a84070f4-290c-4ada-86ce-7f601bb8870b@mailbox.org>
- <DKBQEXTZ79PI.3DFEPYRHXLBNB@smile.fr>
- <2327c8bd-c465-43ad-bb56-ac571eadafc8@mailbox.org>
- <0be60525b600137c0f723c7faa7ab5c2f04934ae.camel@gmail.com>
- <DKBWUZLGTNVG.ZNWPY3U22BE8@smile.fr>
- <b4fd3e49-e436-40cd-8b62-0c6792cd6f14@mailbox.org>
- <982caddffca561ea3bf1ce907a40447302e74378.camel@gmail.com>
- <DKBYCAF9BZO1.1QQXVA3V614B3@smile.fr>
- <398ede22-152a-4b9b-8eeb-8e252bdab4d4@mailbox.org>
-Content-Language: en-US
-In-Reply-To: <398ede22-152a-4b9b-8eeb-8e252bdab4d4@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 09bcee6e2116aeb5c0b
-X-MBO-RS-META: gwsd98andw43him6fusmz7p9ujsqjp4i
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 00:02:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242895
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 05:14:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242898
 
-On 7/31/26 4:34 AM, Marek Vasut wrote:
+According to the release notes at
+https://lists.freedesktop.org/archives/mesa-dev/2026-August/226690.html
 
-Hello again,
+| One important note for packagers is that there is now a Mesa community
+| maintained libclc fork that is verified to pass the OpenCL CTS with
+| Mesa/Rusticl, and will fix bugs after an upstream libclc major release
+| branch goes EoL. The Mesa build system will pick it up when available,
+| and fall back to upstream libclc if not. This libclc fork is not
+| verified for any other usages or users of libclc outside of Mesa.
 
-+CC Paul , it would be good to finally land those fitImage bugfix 
-backports in OE wrynose , without them I cannot use OE wrynose with 
-fitImages .
+Rusticl would complain if about not this libclc fork is used due to
+OpenCL CTS compliance.
 
->>>>>>> The fitimage fixes landed in oe-core master 6 weeks ago and
->>>>>>> they fix
->>>>>>> fitImage usability issues which block me from updating to
->>>>>>> wrynose in
->>>>>>> multiple projects, that's why I keep monitoring this thread so,
->>>>>>> but
->>>>>>> again, please do not read this as a push.
->>>>>>
->>>>>> I think going with the four patches from
->>>>>> https://lore.kernel.org/all/ 
->>>>>> cover.1784364567.git.yoann.congal@smile.fr/
->>>>>> without a fifth patch which adds test coverage for this fairly
->>>>>> isolated
->>>>>> detail is fine.
->>>>>
->>>>> This is where I disagree. Last time I reviewed this series it
->>>>> looked
->>>>> good but I had no way to check it actually worked once backported
->>>>> to
->>>>> wrynose. That is why I asked Ryan to backport the test from master
->>>>> to
->>>>> wrynose.
->>>>
->>>> Is there a git tree/branch with those patches ? If so, I can at least
->>>> test this locally and confirm whether or not anything is broken on my
->>>> end ?
->>
->> I pushed that here:
->> https://git.openembedded.org/openembedded-core-contrib/log/?h=ycongal/ 
->> wrynose/kernel-fit
-> 
-> This works for my use cases.
-[...]
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa-tools-native.bb | 2 +-
+ meta/recipes-graphics/mesa/mesa.inc             | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> I submitted the backported test, but the test required adjustments to 
-> not depend on the other commits. I think the adjustments are harmless 
-> and the test still works as intended:
-> 
-> [wrynose][PATCH] oe-selftest: fitimage: Add tests for KERNEL_DTBVENDORED
-
-
+diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+index 20207450bf..c495d2e8a8 100644
+--- a/meta/recipes-graphics/mesa/mesa-tools-native.bb
++++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+@@ -11,7 +11,7 @@ PACKAGECONFIG += "gallium-llvm"
+ # to PACKAGECONFIG like in mesa.inc
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
+ 
+-DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
++DEPENDS += "mesa-libclc-native spirv-tools-native spirv-llvm-translator-native"
+ 
+ EXTRA_OEMESON += " \
+     -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index a50b900cf2..fa51d62bfc 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -109,7 +109,7 @@ PACKAGECONFIG[opengl] = "-Dopengl=true, -Dopengl=false"
+ 
+ # "opencl" also requires libclc and gallium-llvm to be present in PACKAGECONFIG!
+ # Be sure to enable them both for the target and for the native build.
+-PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native clang libclc spirv-tools spirv-llvm-translator"
++PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native clang mesa-libclc spirv-tools spirv-llvm-translator"
+ 
+ X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr xorgproto libxshmfence"
+ # "x11" requires "opengl"
+@@ -253,7 +253,7 @@ RPROVIDES:libopencl-mesa += "virtual-opencl-icd"
+ RPROVIDES:libgles2-mesa += "libgles3-mesa"
+ RPROVIDES:libgles2-mesa-dev += "libgles3-mesa-dev"
+ 
+-RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'libclc', '', d)}"
++RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'mesa-libclc', '', d)}"
+ 
+ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libgallium \
 -- 
-Best regards,
-Marek Vasut
+2.55.0
 
 
