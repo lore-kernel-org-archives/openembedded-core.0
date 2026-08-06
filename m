@@ -1,183 +1,153 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FEB9C55ABF
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 12:53:56 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18576.1786020826861246993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D72EC56208
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 13:08:47 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.0])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18878.1786021717341444436
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 05:53:47 -0700
+ Thu, 06 Aug 2026 06:08:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G14C8Hy4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4954a9e8490so5359205e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 05:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786020825; x=1786625625; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5AtKoxW5q8Xd5ge9ZUuCep4n2d3E830UGWWKmfmIvtU=;
-        b=G14C8Hy4uByCfFDLTbORMCzX1a6f74TrYFGlLFw7UuVldlocX5wm7/ef8WufhJOppt
-         W1j6PLbKSO0hPJ3eau1wCABqy15U5ZV4Ks7xF7woaRVM/rREe8qVPj3GD5dEWDjZxKQV
-         pkSiP+kQf2YtWq/ZVoOoebCRxt9CF+sNZq4rU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786020825; x=1786625625;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5AtKoxW5q8Xd5ge9ZUuCep4n2d3E830UGWWKmfmIvtU=;
-        b=LBLr1LOeZ7M9HawxezZz5IKNrnfjEq5WWMkn7YZuitv8EYgc+Ly8lLcNmqnRBFqDoZ
-         2f6AUS1FHd/6YPVqIXeUzFLNSi+WgSZppcjGA4zIfdq3inZ0B/ABus1OM0AIRpnmAT47
-         0txFbaD+PN48igmbC67q9cw2IxsJE250IiTpjznn3Z18e7ZhtLUFiWPjvCsv5WeN6jv5
-         eTNWxThpW1UjW1uWrSk8sAEZk/uUFb5VjvcfNsGQluPnNNY7726wZP08GF8h79lynPu2
-         251VbjV3LiX6zPJAvGY7VpGE3I5Z00qt/toyQthfHvYgNAEmCZDogdVuMfMv/v63wokz
-         S38A==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1ZOdv0RIVR+oQIjbDu6duma9euPh9y6RUuK7BoAM6ZcXflNBZ9XsC5eWsLqhkMcpYlmZiEhTTmyV7pYM5NPHubA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyjjx7cX+oGAodIepLhQ4RLyxj2cKoeLiOiQXzsGWbBSxSFxhT/
-	prPn4YHzjJzV9mKCyKrqJmVtgDUERw4N08slPBo4QJXbW2ii1PtIo1wAoBq4e3z/cQQ=
-X-Gm-Gg: AR+sD11tYlBkB6oUNIunzoNWxN6KI4iIzuRK6eCe/nDK6oIBDtMfN7Blb1q7y8EDxN9
-	PzzPcmohQJebDzxr80YmNdE4OnFMy7cXOxD4XPTBeYqj6WfLplYc3ttHUWXKkStqTfNsMKJHMBm
-	4kKIDuskuC2k7y3wzhEh/OnJBz1e7+/oR4lyxcDMOxkXfqZ4qfL1L1OAnVI670v04ks/NtHpuBA
-	A5pu55AYL68PhFwWnGZpL6ykU2V9vKq8BmSwXkxX8qYwUSeFC0cA234xXMBmXG5LTvXMK8k9g4y
-	zix321PW+roND3Uf1bcm56i5jtKL3ajnie85jubQmMD91XOeLkR5M7iLOB13VL+ElGi5+tY4Z8g
-	A4Te+9h3aBK/dp5v8GhCJM0V/DJcknFpg2wfbGrbP7bLnG0EfQc4v6Ug3+6/XZbV15JOGqng0Xn
-	1LU7wq99hrp3C6Wda4lNgNwR+IMKbFy7NLBz8djGTpc3pG85s4jMU7ITVX3h8AjyTIUMGqnObEB
-	RsbHwN6W5mSDyQQPzNWU59Zqf9i6QBjzCheoU1NwS7Gs3+lhXxrS8y6B50Js/fc
-X-Received: by 2002:a05:600c:3213:b0:495:648c:a1 with SMTP id 5b1f17b1804b1-49952da88a9mr73374075e9.3.1786020824789;
-        Thu, 06 Aug 2026 05:53:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9366:921d:f7c4:9ad6? ([2001:8b0:aba:5f3c:9366:921d:f7c4:9ad6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff79a718bsm6672600f8f.5.2026.08.06.05.53.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 05:53:43 -0700 (PDT)
-Message-ID: <90b9c09acf04cca3d4d03e03b14577b0c1c63e11.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] bitbake.conf, rust-common.bbclass:
- include RUST_BUILD_SYS in the task hash
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alhe@linux.microsoft.com, openembedded-core@lists.openembedded.org
-Date: Thu, 06 Aug 2026 13:53:43 +0100
-In-Reply-To: <20260804220456.2342710-4-alhe@linux.microsoft.com>
-References: <20260804220456.2342710-1-alhe@linux.microsoft.com>
-	 <20260804220456.2342710-4-alhe@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=GE+qhEyM;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=GE+qhEyM;
+ spf=pass (domain: arm.com, ip: 52.101.65.0, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=CeBIqJsZQbiQ2TY1rBR3aGzJlnmFMXQMddJHk40m476dZfVymMt2BF97BPecVOXgM7+MKOTuB/MFRGoI7mXyY8jvK5Ft3M0vJPK90PBIUyHc9NlVmWG2/UedIBRE5VmqCHDdhkfH7MDaVM8SMLHQHpIpIiRYFc8GIQf7rS7cnySWxmw3ag/ezEiuq/jq/734Ucd5ma8flv0YrWJjhkjwqEo0YNx7kw7fSbp9ZxLUmBp2HWIheno3O7QyJEWam9OTQ6RdnFJyQKtyk88JRLmDbp+BZEC59LaLmjeMw+BPo0OsA+0fUtn/rBLaIhyvbf2p3upTps0VxZ/YNSDfn64Mkw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xR8pzqGyn7KX9EG1d1Ixl/pVxbd//uU7Gnb6SJOK5FY=;
+ b=NiFJnUIRhNl85/rz5owfGHpvEUQlVMUMhwBSuiH7yFIkb+eDs00v3+vTOvdQXleU2CuH8Re+k/9RSLrAQ5tBtix4JvtDTm8s0PLyfD0epX+YcLPmvMTnJTTh2oueQ5qcuNP8zi3llByDQ8I5cwJY9uUb0yGp22TCt2Xa+keqKL8bA04oT0C3Rc/u5CI3ZizYWZIy3G+lMK9DcS1DQL0BnxV6xzO7GZC1oH1koS1qJSgIAv+YiyZnHVqfOYpQ2PzSEx8AAj6gTP4py6wLEOvSY156NJ2DUOdmPM1u5/P5NbBB5qeOmW7t102fvS0So6JAG9zZA7iVmyUTgXyJCPV8MA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=cherry.de smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xR8pzqGyn7KX9EG1d1Ixl/pVxbd//uU7Gnb6SJOK5FY=;
+ b=GE+qhEyMvQrdFLKWMBjAhsMcZe490t+RQp2qT6XGD7M3ED6sEknAbEEOe0HnvcnBOxy50t0+VOc7gHHR1tbjtSfImM+oc1XTWbDhC52B4nhJCpJVBAsaWOxohghgCm2wtYIwnlPhJuKmBI/T+ImWfmFgIgBCkeNmzoexWD/ylNc=
+Received: from DU7P191CA0023.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:54e::14)
+ by AS8PR08MB9017.eurprd08.prod.outlook.com (2603:10a6:20b:5b1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Thu, 6 Aug
+ 2026 13:08:30 +0000
+Received: from DB1PEPF000509FA.eurprd03.prod.outlook.com
+ (2603:10a6:10:54e:cafe::6c) by DU7P191CA0023.outlook.office365.com
+ (2603:10a6:10:54e::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.20 via Frontend Transport; Thu, 6
+ Aug 2026 13:08:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF000509FA.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
+ via Frontend Transport; Thu, 6 Aug 2026 13:08:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jQMvHKREYzhYS+4gOESf7CgLZY7AtaA+PPKd+vdvpJI9psU4Siz4cTKeiHWpI4zSa1eJoMx25ibuNdm+ZqOIfxL+Rm5QifY0y2R5/16lMBux0b7LSbikIqJ1XiGkBReaC/kzzwEt2UZLeD5d774P4GQSBgVI4gucoWtRSM0/9ESp5JcHJSRGxFrjgxN+/W3Y8Z27mgmAGY8OK2Ex6HvLJT8sN5WDvkxTZh2FMiOPM8QOzMLySUb5xWrewIdjfg6rvldI2wpMdwrCeXpXplkcctPafLgQWa9rvvkcThjcpf0rRegKgfDOrowEFN7xiJUhyluflegXhGOxTjpKkzEhlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xR8pzqGyn7KX9EG1d1Ixl/pVxbd//uU7Gnb6SJOK5FY=;
+ b=NlWz7jgfenp66tob5kDmv64pxiwPQ4hCBIfcHbyKjBxGkODGtLE8bPVT9Pq42PEuAfJfYcErbgcFWlglUrV2ZDN7TaWDQDduXizY4cjkSS3U63XwcQYZUQfA/YgN68BpobVBG8Hf0k1Nk2zuRRa8T9+Fdm1WXSlZRkaaeZ7duaW3D0DJKs+mdluMhuGxYh8f1dMzNS17q6yfVWHnDsE0l+lLqd0sBltZYLGZaDp/TA5lVID0koubh/8AmnxkaRrL3KXuH6zccA8X8WKJ5C4O2opHbbAQ1sw5kMu5XJ27j0WWksIgoUdox/dTnDXa37wKeIzOmrrg9m1Ozck9MQTY5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xR8pzqGyn7KX9EG1d1Ixl/pVxbd//uU7Gnb6SJOK5FY=;
+ b=GE+qhEyMvQrdFLKWMBjAhsMcZe490t+RQp2qT6XGD7M3ED6sEknAbEEOe0HnvcnBOxy50t0+VOc7gHHR1tbjtSfImM+oc1XTWbDhC52B4nhJCpJVBAsaWOxohghgCm2wtYIwnlPhJuKmBI/T+ImWfmFgIgBCkeNmzoexWD/ylNc=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by PA4PR08MB7387.eurprd08.prod.outlook.com (2603:10a6:102:2a2::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Thu, 6 Aug
+ 2026 13:07:55 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%4]) with mapi id 15.21.0292.019; Thu, 6 Aug 2026
+ 13:07:55 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] u-boot: always use GCC to build
+Thread-Topic: [OE-core] [PATCH] u-boot: always use GCC to build
+Thread-Index: AQHdJAY9YWUmMEOGwk2HP1Lpwnr8HraQsOIAgABQNAA=
+Date: Thu, 6 Aug 2026 13:07:55 +0000
+Message-ID: <82E3C14F-1B0A-4315-AFA0-08593B3EC738@arm.com>
+References: <20260804114134.4028175-1-ross.burton@arm.com>
+ <37264213-bd7e-4e4d-b584-3468cd946865@cherry.de>
+In-Reply-To: <37264213-bd7e-4e4d-b584-3468cd946865@cherry.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|PA4PR08MB7387:EE_|DB1PEPF000509FA:EE_|AS8PR08MB9017:EE_
+X-MS-Office365-Filtering-Correlation-Id: 882a49b5-efae-424a-c73b-08def3bbcff3
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|22082099003|18002099003|56012099006|4143699003|11063799006|38070700021|10067099003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ 8B1h+54NYXgTqpaFVtu4tr++xVzoNcjb4Hd7XhFrntN/AOe4V4ZaLw+13cG3m9/5HHyw/7SBFlfoaWKeMq6mqJWvHdClHbMWXFVgif2s+7r7Dhilx8AYhVyqvtnld62tWQvdMZyb3IxDjjbi/aZxrC5vzAOWZSjzOZ5kN6cPsY/6+2Gj4YOR9ECJlmfu/ZbrkE4Rj642sZnyjW6r8pd46M9EkK9b8kUxrEla3WOIUWRpsTjxyh225XtoMxVT+aBiUnkP+ZxVNl0WjpLYcXQPkZnQ43kMduPSEnEaMuLa3s9bD7UjaOaPxfOPB1bG7B7HqE/5ncKr3n9mAQ/wK/Y5qtmmV4izoRSqPIL87cdsfmtH/XcjQyXNVzLL3PTFtakM9hcAkagBkavHYZmMH9+jSzaxexlKd74aZZff4xLRTcLDt3fFP1L/v7KFxGtSrM0/Ld73w6vNcK7RHMab/2Ea3IJO640nLrbfqfBskwnLM63LxONb0UEZHZBRmfMkiDyxTG75emTu/RPnnVrM74B3lg6Sco6NNSRNQX5JlMxgccpKxxu1LJGiGolRIMb9le/X25I3b/982QMi8+xq2vaPUGuNpTaGi6Q9Wah3glL5BDdrIlggRE4tDB2JTPII4+LwwCwqVU8hc/gSwykAzKfNf8fOAjvxYmjGIdxWpuJaUwZiY0g/EZa1Fn0f4T+DJpI1uaGMUVhz+UCxVRLbH+TVupNLgCb2PCP5gZIElfCD/1g=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(22082099003)(18002099003)(56012099006)(4143699003)(11063799006)(38070700021)(10067099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0CC3A19D5D993F4B80C35FE1758E2CD2@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+ NOb6wFW4jYOxaOXNGjCCInTYP6Ndv3fkyELoNq3SHbrSerxwBvPywmM+PN2QkiH64VrrV5hKbvMRt9D5S3KqCq56Ou4T4uJRirUK5uzLGK1r7j5PcrmzH5PDMQOtZQIhM6RaDdd751y4GdKMHGwcH39xjaCfQlu30yv4ujkjCeEKCwd1H0nQQySKSvlGBdknOlQOKSTHGJQjvjpZd7l+XPqSJr97PKDv5AdUQby9Ok0S9FMwSMWICmBgS4kaUB4Dnhzj88ebGz7w6AmbzxDiGXjeMYpdAV0f7YBmgqRikbAuoondLh9CwQyKgmrnbK24pSxozGKKmMuNYqiB38OyBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7387
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF000509FA.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	c48c470f-e97e-4006-b520-08def3bbbabe
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|1800799024|82310400026|23010399003|36860700016|35042699022|376014|22082099003|18002099003|11063799006|4143699003|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	aoWEhpStDGgANKo0xa2RYKyNrk3gNt7s2617BjPLAiwsvQYVdS2Psf1qiE63Vr6HEpKuXGxcXzWEl1dAyL34nY/76e0CcIS3lDbRP3ZmppTpM6S2COdXLAvtd+C3nTbLfZ2dChtmTE2z4GHMAjLY4seG/9bvefvY3Rp900EsMgwAkxcnSv6fPQsDMtpk33eB1RgbR5qZEXqjMubL+mlsOxMlknzfEPg79MhUyzYbZjMoJ5CPwoYm7Fl3Q66yzBe84DVGo/UgVU8/vqq7BeCLaewqf4WOyzwcuHdZRHUBXjzi7ERk4yjvXlF+2l0yHiTofxf+cIBaUM1oFIlmh3KS7K0Wd0xMCfa6CKVx40LhJs+T6fGMpIMxncvVsjscFkmimMS4Fv7kMEngJTdBzpKyiGyLIU10Tx/483ID3OOf5FAQcAzm7E2mibL4NvoyjgJwL9Y29qN2JjzIl60CFdtCw3Z4cz7XUbw54+ZMGujZNWOQaVFAHgrGyJM6koLPBZ2pFhIy/Z/9la/tQICJ5ToNX+d93/GiLQx4i7u96YMGLApbU1SgmRT4wkAcFmMeSlCKJnue9G22WQFV02jZyJkIVVNNtPUwqGZBCTkG4tschNfo52sc8GfoVl7t3XozGOhUAB/d3HKKn1mcaznBxGmAA6zEN744lV4iqtjsoBuna+izs65MrQsYwTPzYfyqfXNIT9y4KXcdlYT6jhWMrV98QQ==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(1800799024)(82310400026)(23010399003)(36860700016)(35042699022)(376014)(22082099003)(18002099003)(11063799006)(4143699003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	BJ4WmqvcKw92/tTALm4dEzsvjihO9vlq9f2c3SIK80uaCstfDKf0cdjMXnYEWE+VnohzCilhl0XBnuUKOLWaDERRrwDSLIkvnYNSXfPQ/sJuN54A0ZuSAaWR4bjNCpAVhmAFNInaiMrym9PLLc5Ophm+4sYbpNtsaPm02G8n6/y/ZOES/RU2fWTSR0IY3TrjWC7dBxa8eiHjQ9921u3VgYX5Yloy6CIY6HUzv9iXp1TwD8tiS+dBLbw/MQ8scHIaGbUQwicwA/+QAhTcz22eqz6udNHnV/qgY6AnRf3JqRC7sutEEOOD1DHw+dYmjr4LXrJiai8yBe0MEpIv4DP5VajBtRxWNhznlrMkT3x2wXCF3Jj03u/Q6CSVuiX3Ub9DLfb5jlgLnJe/bjHNttLnjSo8M6Rofu1KHqUhSU3sUfFeIUqEMITj56G0D195qyRY
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 13:08:30.6004
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 882a49b5-efae-424a-c73b-08def3bbcff3
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509FA.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 12:53:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242942
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 13:08:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242943
 
-On Tue, 2026-08-04 at 22:04 +0000, Alejandro Hernandez Samaniego via lists.=
-openembedded.org wrote:
-> RUST_BUILD_SYS is currently listed in BB_BASEHASH_IGNORE_VARS, which
-> tells bitbake that rust recipes should hash-match regardless of the
-> build machine's triplet. In practice that is not true:
->=20
-> rustc computes each crate's Strict Version Hash (SVH) using inputs
-> that include the *stage0/stage1 bootstrap compiler* fingerprint, which
-> in turn depends on the build host arch. That seed cascades through
-> every dependent crate's mangled symbols and the packing order of
-> rodata sections, so an sstate blob populated on one worker arch and
-> reused on a differently-arched worker produces byte-different (but
-> semantically identical) artifacts and fails the reproducibility
-> selftest causing autobuilder intermittent issues when the sstate
-> matches for the incorrect architecture.
->=20
-> Remove RUST_BUILD_SYS from BB_BASEHASH_IGNORE_VARS so the task hash
-> tracks the build triplet and mixed-arch autobuilder pools get an
-> sstate miss instead of a silently-wrong hit. RUST_HOST_SYS and
-> RUST_TARGET_SYS stay excluded because they're already covered by the
-> target/host arch hash inputs.
->=20
-> While this is not ideal, it should unblock the reproducible test case,
-> another solution would be to patch rust sources manually and attempt
-> to upstream that change.
->=20
-> This also has the side-effect that multiple variants of the conflicting
-> rust recipes sstate artifacts are created, but they'll be correctly used
-> now in each architecture.
->=20
-> Also add an explanatory comment next to the RUST_*_SYS[vardepvalue]
-> declarations in rust-common.bbclass so future readers don't re-add
-> the exclusion.
->=20
-> Verified locally: Tier 1 sighash test toggling BUILD_ARCH now produces
-> different task hashes for rust/libstd-rs/rpm-sequoia/python3-crypto-
-> graphy/cargo/librsvg, where previously the hashes matched despite the
-> build machine change.
->=20
-> [YOCTO #15554]
->=20
-> Assisted-by: AI - OpenAI
-> Signed-off-by: Alejandro Hernandez <alhe@linux.microsoft.com>
-> ---
-> =C2=A0meta/classes-recipe/rust-common.bbclass | 10 ++++++++++
-> =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A02 files changed, 11 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recip=
-e/rust-common.bbclass
-> index 6bc42016d1..98b46c4e3c 100644
-> --- a/meta/classes-recipe/rust-common.bbclass
-> +++ b/meta/classes-recipe/rust-common.bbclass
-> @@ -114,6 +114,16 @@ RUST_HOST_SYS[vardepvalue] =3D "${RUST_HOST_SYS}"
-> =C2=A0RUST_TARGET_SYS =3D "${@rust_base_triple(d, 'TARGET')}"
-> =C2=A0RUST_TARGET_SYS[vardepvalue] =3D "${RUST_TARGET_SYS}"
-> =C2=A0
-> +# Note: RUST_BUILD_SYS is intentionally NOT on BB_BASEHASH_IGNORE_VARS
-> +# (see meta/conf/bitbake.conf). rustc's crate SVH (Strict Version Hash)
-> +# is seeded by the stage0/stage1 bootstrap compiler whose fingerprint
-> +# depends on the BUILD host arch; that seed cascades through every
-> +# dependent crate's mangled symbols and rodata packing order. Excluding
-> +# RUST_BUILD_SYS from task hashes let a mixed-arch autobuilder pool
-> +# populate sstate on one worker arch and get a cache hit on a differentl=
-y-
-> +# arched worker, producing byte-different (but semantically identical)
-> +# artifacts and failing reproducibility tests. See Yocto bug #15554.
-> +
-> =C2=A0# wrappers to get around the fact that Rust needs a single
-> =C2=A0# binary but Yocto's compiler and linker commands have
-> =C2=A0# arguments. Technically the archiver is always one command but
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index bdf37d0da2..ee23459506 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -969,7 +969,7 @@ BB_HASHEXCLUDE_COMMON ?=3D "TMPDIR FILE PATH PWD BB_T=
-ASKHASH BBPATH BBSERVER DL_DI
-> =C2=A0=C2=A0=C2=A0=C2=A0 SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSER=
-VE GIT_CEILING_DIRECTORIES \
-> =C2=A0=C2=A0=C2=A0=C2=A0 OMP_NUM_THREADS BB_CURRENTTASK"
-> =C2=A0BB_BASEHASH_IGNORE_VARS ?=3D "${BB_HASHEXCLUDE_COMMON} PSEUDO_INCLU=
-DE_PATHS BUILDHISTORY_DIR \
-> -=C2=A0=C2=A0=C2=A0 SSTATE_DIR SOURCE_DATE_EPOCH RUST_BUILD_SYS RUST_HOST=
-_SYS RUST_TARGET_SYS"
-> +=C2=A0=C2=A0=C2=A0 SSTATE_DIR SOURCE_DATE_EPOCH RUST_HOST_SYS RUST_TARGE=
-T_SYS"
-> =C2=A0BB_HASHCONFIG_IGNORE_VARS ?=3D "${BB_HASHEXCLUDE_COMMON} DATE TIME =
-SSH_AGENT_PID \
-> =C2=A0=C2=A0=C2=A0=C2=A0 SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_PASSTHROUGH_AD=
-DITIONS DISABLE_SANITY_CHECKS \
-> =C2=A0=C2=A0=C2=A0=C2=A0 PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_IN=
-VALIDCONF BBINCLUDED \
-
-Just to be clear, the sstatetests fail for this change for good reason,
-it breaks the way "native" works in our system. We work on the
-principle that "native" things work the same way regardless of
-architecture and that the sstate hashes remain the same.
-
-If you change this as above all of the rust targets will rebuild
-depending on the build architecture, despite the fact they're meant to
-be build architecture independent. It might manage to fool the test but
-the output would still not be build architecture independent and hence
-doesn't fix the real issue, just hides it from the tests.
-
-Cheers,
-
-Richard
-
+T24gNiBBdWcgMjAyNiwgYXQgMDk6MjAsIFF1ZW50aW4gU2NodWx6IDxxdWVudGluLnNjaHVsekBj
+aGVycnkuZGU+IHdyb3RlOg0KPiBZb3UgZG9uJ3Qgc2F5IHdoYXQgaXMgdGhlIGlzc3VlIHdlIGVu
+Y291bnRlciB3aGVuIGJ1aWxkaW5nIHRoaXMgcmVjaXBlIHdpdGggY2xhbmcgc28gdGhpcyBjYW4g
+YmUgc3VtbWVkIHVwIHRvICJmaXggaXNzdWUiIHdoaWNoIGlzbid0IHBhcnRpY3VsYXJseSBoZWxw
+ZnVsIDopIA0KDQpTb3JyeS4gIEF0IHRoZSB0aW1lIHRoZSBtZXNzYWdlIHdhcyBzZW50IHRoZSBm
+YWlsdXJlIHdhcyDigJx0aGUgbWFrZWZpbGUgZXhwbGljaXRseSBjYWxscyBnY2MsIGJ1dCBjbGFu
+ZyBpcyBpbiB0aGUgc3lzcm9vdOKAnS4NCg0KUm9zcw==
 
