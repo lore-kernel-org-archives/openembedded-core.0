@@ -1,242 +1,205 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 430ABC55838
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 06:48:07 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13490.1785997962826347905
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 959C1C55ABF
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 07:20:17 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14068.1786000810999917384
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2026 23:32:42 -0700
+ Thu, 06 Aug 2026 00:20:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=aezncNEC;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: fjpedrazag@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8fdc45afa16so2688316d6.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2026 23:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785997962; x=1786602762; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=64Mv0Evt+H8Jt5lgnNSEuLIun12iJTsGicQAOe+r1ZI=;
-        b=aezncNEC1jtf8H+anp5y34237LfUEsbQKYL8gxeoSAw4iuHOABloVQtQGFhmD2v2Bs
-         TyChniUbDzyiRhaRPjsYEvwmmFYnCzwCR2KQiZyfiKI8ADG1zYbQat47ytJAHDC3/6uE
-         fQpGiHOoeh0CSgc/YBWCzEVcz648qE5byg6eF29zGhyIXRs+32KrSU2184yiWwXPuPmL
-         82goxkQmiAMbTBN3dC3simxQ7bJL+szQ8Xh+dZZOgQQ8nW9Kputi3pmGABWUAqzUWISc
-         hh/flH5aTMSM/wRjCACn23LxR9NoabGQDAtuLIsxpkcrwpuyMSfM5Oo5/1554bxrz/VB
-         OoiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785997962; x=1786602762;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=64Mv0Evt+H8Jt5lgnNSEuLIun12iJTsGicQAOe+r1ZI=;
-        b=NOd1nWSVuuDkhkjm+wEAjE7w4yhmw/H8J5guWhHBINuS7xFi04vSrgQTHJ+9etBzD7
-         nK/ouKBQzsixNdQV4pxmsCcOPNzR/Mr9BWEuSeW28KLbFtUafJBZiTrwecpl5+oMzr4B
-         GXIDyjYQK+T75Ek9Xk1wDC83f867XauvjHXrzCVn6iT52/f9pnDAavSXqX98o8h1VpT4
-         ZLsBYS0j04UyvDxbHcNz3hY+K6Q5/HtHAd8TUCBjFJa2ODc2Di8sVFpB4cTrFbsMwifL
-         d54k9o1N/SdnO+m6UXg2dSBAfyA41FzHGRPQ4JydUA3F0elAgrQDQRaIpJMINwQPnF8c
-         SoUw==
-X-Gm-Message-State: AOJu0YzAhxIiHFI6/R/4drvL47RPewvH1OnCkVAk6qbuWiMkKTvxd6OI
-	JBFZpj2a+UmQV7JtG2FXTB4lmddMnyhFLDEMkyB0hAkK68oI6RfVTi8MsLBB7XXU
-X-Gm-Gg: AR+sD10Xk300iYnOc4Zau35fXDjF1Cl7qojuOGXc58fBS73GO+4Z2RjksKlAUkdSkG6
-	rb3L+tHLJJA8Mg+iq+XAWSb+yNNglCuRdN9F+hFnMuurbaRsfXgxZ1B57+bzp7jAvCwNovHaDbh
-	bMbRUuI0Xl1/+zXOsOXcBfZdaFLSi12hDCKsz3z99pXlOfFK1BviJl05I44g9sSfsXHRR3vL+Jg
-	o5qJ9Kfd0imdlRQziwWsYP1rIppEEsywvzu5qbl50HTPxqHJW3UGZJmZBPN995l4RhwN75iGMsU
-	agkrFLLcrTgAHkbwJPIdMsFmgoZT+XRz6K52df7Hu7YBEHHrpZgq+7bf5dEeCO3nTGYfH+D1BDc
-	Xo3ZCYrl2eGH1hHOuUipwZUFQ1MBGiB86NBDb25WxiWmGS5O7w92clbnua++tbZs3QcUdR1ZYTF
-	MEe2PsnH5/hJmeGRQOOgFJunAmuRG4jdvdTegvnOPS1vMNWMleto6jo2lZOUfSxrfOncRGbf5Yy
-	VJVf0HIyE1IMgmycRXRBU/qe1GXcAg=
-X-Received: by 2002:a17:90b:3a81:b0:381:28e0:6248 with SMTP id 98e67ed59e1d1-3903c510c3cmr8646652a91.1.1785997580805;
-        Wed, 05 Aug 2026 23:26:20 -0700 (PDT)
-Received: from fedora (c-73-63-238-177.hsd1.ca.comcast.net. [73.63.238.177])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3903f5ab7a4sm2696890a91.2.2026.08.05.23.26.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 23:26:19 -0700 (PDT)
-From: Francisco Pedraza <fjpedrazag@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Francisco Pedraza <fjpedrazag@gmail.com>
-Subject: [PATCH] scripts/lib/buildstats: allow aggregation to skip mismatched recipes
-Date: Wed,  5 Aug 2026 23:23:42 -0700
-Message-ID: <20260806062342.3737135-1-fjpedrazag@gmail.com>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@ericsson.com header.s=selector2 header.b=ENSeRMPf;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.43, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ifyH9VptinGXox5BA9Wv0e5H5ImXfekSZSEh538C1eGxobueMrguDzv7gvqAwO/lG9ezWkMmVVpDI19Mwkt3MUBr1EWmSVkRcr8Qyoz5ThvZGwVhIyDIB9rdeK7JZQFmRmEt3o27cDhQ3n81sg6gHVjBbska+QjM+e3b2VXfoUsAo6zgnlh06PEb9FoTl9GzZbuibMPaYMOzjss0qTCNGErZ02dBhH6CXTlHNUuyXJiFsRQxAU0FOyEDL3gPsy3FpxOf1w2WEpy0U2jf11Z9BtNN6VJRUHUPnmx3XTv8/dvf8RDfZbOkBgHCyCPdiWM3wLJtheEkYWTJy0+C3nnCrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sURxslJmQrEXkM5xgOLVDcXsBM8aMDO9DZRyaNpbdp0=;
+ b=nZLYDtvh6iR9i4ePod3sRDgjE0MV2vDwJR6+3H1WvzJRvpFfr/GcjwKWtyoyhQ04Mwq6g4FXh6EKzY4zC2eiiJ3euzLbN6ow2tU/QK0j4veky8kyaLEttrID8m9D0LZZQaKi/8dXtWClw9qj6x7CU+aK75g74xJrpI/fL+K22KY0GaWcfZg6wz0pXOMCZtUtVuvWPFL4+dptXBTQ2smMfQF8z+Db9tHGgUePatLIhBrM6jtwwpmPtPdRdGHwvPdMYWxVUIuF5g1h1FOLGkYhqKfJaZ/Ou+eCqCHkI5hstLiuaawv2Cj+s2NyTCopn5vtwUHUb7XGCE3Eox5CsBt2Vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sURxslJmQrEXkM5xgOLVDcXsBM8aMDO9DZRyaNpbdp0=;
+ b=ENSeRMPfoa6K75JiBeuet6CCK6ggBqhEEDQ3ACtdf6Eba5xq1DZt3vNdBbAVKUgTIn8AwI6636itIiRiO3Aa9roRcOU62oU5yC2PZuq0dc4wQJu5+lKqtdQKGhtKzmMjNgxZ0XXF5k4rH+hbc/+nA8oAaJwluAM2fNLPvwrtn+s9pj4OrO4JjA7DA6IB8CFXnEpE9cNWSWMv8dmqZw2Q2/yvDXnxona9amWJjMz1qv5B0iFYmUmP1BX0elcOb1ipapIHxs+vi8PpeTN7jxNRreEYrVs7AdPpnyCBIqAVgyhtZLAYkgaHK8be/OO9+504WltL3q6b87/WtsTZFVowgA==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by DB9PR07MB9885.eurprd07.prod.outlook.com (2603:10a6:10:4c8::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.4; Thu, 6 Aug 2026
+ 07:20:05 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%6]) with mapi id 15.21.0315.006; Thu, 6 Aug 2026
+ 07:20:05 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+Subject: Re: [OE-core] [PATCH] systemd: upgrade to 261.2
+Thread-Topic: [OE-core] [PATCH] systemd: upgrade to 261.2
+Thread-Index: AQHdJMThIz4JE6lAgUyojI4ZQrxl07aPoewAgAD8igA=
+Date: Thu, 6 Aug 2026 07:20:05 +0000
+Message-ID: <f4bcbd624c31338ec5c50181522c9ac076dea1dc.camel@ericsson.com>
+References: <20260805102615.1663361-1-daniel.turull@ericsson.com>
+	 <DKH580UVDLMW.GKGLCST2LEAG@bootlin.com>
+In-Reply-To: <DKH580UVDLMW.GKGLCST2LEAG@bootlin.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1.1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|DB9PR07MB9885:EE_
+x-ms-office365-filtering-correlation-id: de3ab98e-349a-40b5-c5b9-08def38b238a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|38070700021|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003|4133799003|3023799007;
+x-microsoft-antispam-message-info: 
+ 3MzLfmPam+P2wctdjwA91mIo2BIutJ9VobSXbK2E6eV/l8d39jWNeyPyCL8tRmkclVTHtn8lD/cNyh3j3HlahEzYP1g6NqNwWjU+bnvkQmurj1qINgJwR1LRW+TjGhBi530/zQfYzn0nJ60HLD6kd3OzZRNxk3HQUTwyw0UJopSzqLrY9gyUcj6Iz14/dtxtcR1jJwYXfjgX90d2Bn7hXRFCH5px0+13nWqJSzV8Z6dkO3cPg4OGqTdoZbUHte45g3Pz6Uc1haDDlyXEMSoQgKFyQTHAADJ1WyXcWe6P6A4L/UnhNKsXqAm3q6IuTy6hSZ0HZxhOLuwhFWt6DwfzfCgrRVSMlogeokkZGTVOEVWj2wxgo3ImmpGETqC3ZPOwpGVYUtlygw7FaJ+cRshM/3ybN6xtEUDUX4uqXaTxx0DFJoexSgILyDxA0M7x8vdbmsuy1+8DSNAb3tYJKKNn7uUPVWex1LI135S8mjQCklOXxBBxOjnPjLXt8nm/cSz3ep+Y8axwrw1X3gqEEw3HY+224iy7Wt9KjbScPM/pTd2WqdnXKQjLOfUWl9r2+NZ+UqHH+GkB8oQ6ed3rR3S/OGaP1eG73ZrIUgABGNKJQIfOilADpaCkd/IowB1p3UtY49WG7IrinsYGO6z/TkH3AtpS2kEtH6nrKikxP2YhF4Voa+ilv4ixUp3Lz/KcYBOS6D7JXaj0ESBNXURfXp9M7/cZw/appz8zWvBorF7rDGo=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(38070700021)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003)(4133799003)(3023799007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?N1pKeGRoVUUrcG5lSXNvSkY5Wm5RNWFIVnVHV2U0cEdObzJFT0NnWHpxRUxm?=
+ =?utf-8?B?N0ZEdHlwTFJxRGQwODhZYk4vZko1dmZCdjMzS0Y3TjdnU090aFJpOU45ek5P?=
+ =?utf-8?B?U2U0MnFkMStYVmExZnNIdmRWaFFwSnFSL0FySkszWGwyeFJ5c3gzUllWYWE4?=
+ =?utf-8?B?a25HSVNQakl5TmJUeVE2SWtwYXBBU1huanpRTXROYmVkM3d2K2J6M1FrNTBD?=
+ =?utf-8?B?K3V4b1hEdVg4OXlFV0tXUURLclp5WHplQ1JueWhCL0lPNDduc0hLQ1krV1Zz?=
+ =?utf-8?B?UzRxMjFmR1dMWGs5SlZxVGhRN2R0eWpDTjZiY0F4czdDQURBTlUwaXdNOUw4?=
+ =?utf-8?B?Y0hWSU50NkpmZGZnZ0NWQW9jMHpad3hBaEVNUFY2cXoyRUExRklCOHhxTVBy?=
+ =?utf-8?B?T1ZjTGxRQlNMRUVQL0J1UXhpQW1nVThmMm5Ub0pWYUZSMlU1UlU2QUFnNEdr?=
+ =?utf-8?B?Sjl6MXZUYllCWlR4U05KRmxxd1JFSjdPNklVTkNSVEVEMjVMOXZRa2VGSlV6?=
+ =?utf-8?B?U0tWK25yaWtFblF2NmhrV3VEY0R3L1p3QS8yL1lmSCtTT3hrVFhBS0dLNVFz?=
+ =?utf-8?B?UWFLUmwrUW80dFIzbnN1ZHlXQU00aVB5OXVlT0VWYmxiN0l2NDlBRlRYbVcr?=
+ =?utf-8?B?WENBWGdwWUlTc1drUlhHbVhTWC92WFN6K0NaTFNtVGVOTzBmRjFzMWZCbTAr?=
+ =?utf-8?B?UHUzdUVvUlJSREFDdlM0Mk8xcnp0NDJVaHI0MFF5d3ZxaUlBR1N1WlJnOHBC?=
+ =?utf-8?B?NGNneHJnL21tQTZ6T24yM3FsMjA2RVgzd1VEMGdRSVZiY2NpWlU4dXl6Y0Zy?=
+ =?utf-8?B?TmZLc1ZOR0xNRWg4N1E2NkNXWEJNdGgzbmhyRzNkSkFXTENKbjV6LzJjZUxR?=
+ =?utf-8?B?bGpML0E3WithR3A5c2RxRTJQRTRXeS9QZ2VvblNNVU5MZTQ5ZlVHZ25QYnBL?=
+ =?utf-8?B?ZTlKejBJVXJPbk8rcVYvakIwVkdVYnZxTFBMazlCb0RvbFdqYnM1TGxSbllp?=
+ =?utf-8?B?aERrVzY1NWJqdG9XSVI1aHlQdzR0VzdVZEl3eUpFU2FhUlZZdVJGdzRnTlM5?=
+ =?utf-8?B?Wkc4SmNKdTh4Z2pRU3R6OGhuSEk0ZjhmMHRIZ2NHYmdzV1R3NWtpcjlkUURx?=
+ =?utf-8?B?ejFFTlhsK0F1aGh3Z2RGNGl3OTRwY3dQa283clhOUjgyZTNUU0FGQ3pMaFgx?=
+ =?utf-8?B?aTFlZ2YvQnhxT3hyVVhWd3F6ckV1cGhLWGtrNjFXaHFrb2JPUjcvQnF3ZGZa?=
+ =?utf-8?B?WithMGcxbmpNM1dKQWdIVVRCMTU2OHloUUkxWEtsdHNYOFNoYW1WTTNKcFpY?=
+ =?utf-8?B?dnk0VmkxVGx5a2FIcUtCanNOV3c3SU5sUDNvd2E3WGU0endoYlpNNWdqbWh5?=
+ =?utf-8?B?R1U1ZkQ0cGhYc24vKzBTMjdIdmY3d0xLbjJnU09LOThrSmp2MVp4dVIzL2xV?=
+ =?utf-8?B?UHRUTGI5bHBSdmN3K3ZCUWRQcjRHaytRZTkwNENYa0FTcVJON0JEOXFGUkg1?=
+ =?utf-8?B?N3VvWkcvaFZRbnFDQTRlU2xzME5zcnRwS3pUaVJKbmdWOVBWS2VOckRvcFNq?=
+ =?utf-8?B?RDNvS1ZqTkk3S21BME5SMDRjcnp5WnN3ZS9hU0FwZjF5dDMwWlNKSEtjWEdk?=
+ =?utf-8?B?K253d2syK2QrWXZ4QVZNb25xQVVLSzZtZmhBZ2RpaDk3NVZZQXVjWTQvbkhY?=
+ =?utf-8?B?WDVoVTlXWWtLb1lXbnMrYitoZWh2ZVRsYXpucUQ4RldRYmlGdHlkRHdvMXhl?=
+ =?utf-8?B?TFNyeC9ZR3dhY3Zrc0J0d0JLbkRGRFhSajBqSjA4QzFGYjhNczBVSExGaEZI?=
+ =?utf-8?B?ZWd2elVFK3dLRlM1ZnJYUXV6V1lnOVFzV05tNTZEbXFwUVg5R3RJVTEyVitG?=
+ =?utf-8?B?T1ZwZ2lZSUhEWjZFNFV1V0JlMmM1aWNqS3JHMk96Znh5N08vQXRaaWhsTE9F?=
+ =?utf-8?B?ZHZVeDZIdmc5QVdORldnT1hyK2tBNXpoZXlOUUxRKy83Ym84Z0FjS0NmYXJE?=
+ =?utf-8?B?eFNHdVBDWmp2Q1Y5Um5wM0hwTTk4U0tBTnBCZk1hUUQxakV4NnpYZHlQWHRO?=
+ =?utf-8?B?VFVPOWVobGQ3SHpoZW0yVnhiNGZrS3hMZVlYQ2FmNTRZTUVNQU01dUhlVWpa?=
+ =?utf-8?B?T3pwLzJHNTVPbVlTOW9MSGVLU0dzeVd3akc5UGswaE5tN01uZW1VS2NKdnNG?=
+ =?utf-8?B?YkI3QWJBcGpSWGU5OFRoZU1xOFBnVmI3RFk4YmJPNURzd2M5clFMZFdubDRX?=
+ =?utf-8?B?VWs3V3ZJMEt1S3BXVUlBY3c4K3BuWUt6dGVHT3lHQThjNlhSaTlkNkhOajFT?=
+ =?utf-8?B?MHRMUThRVHNxUTF2U1RRUUNmK3BwZmkwblpualZXVm00WnAzTU5Eb2IzWk53?=
+ =?utf-8?Q?Sb5nsRHw5t7J9pRc=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <01F86C2880F7064D992E49FBFC5E3A9D@eurprd07.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de3ab98e-349a-40b5-c5b9-08def38b238a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2026 07:20:05.5378
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Y7qS6UrhfMKP4kpkVFiNBb4GnXOjS0exF33EkXOURUbuoi0Id5nvH/I7wvdTVgbB9HZLkkXIt9I5dC5kBEltsx8fzcs7T1Up6bDf86hrOps=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB9885
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 06:48:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242917
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 07:20:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242918
 
-oe-build-perf-report aggregates the buildstats of every test run sharing
-an openembedded-core commit. Since buildperf began tracking
-openembedded-core rather than poky, metadata changes in meta-yocto no
-longer alter the commit hash, so two runs at the same revision can
-legitimately contain different recipe versions. When that happens
-BSRecipe.aggregate() raises and report generation aborts entirely:
-
-  Refusing to aggregate buildstats, recipe version differs:
-  linux-yocto-6.16.11+git-r0 vs. linux-yocto-6.18.1+git-r0
-
-Two problems follow. The failure discards the entire run rather than the
-recipe that differs, so data for every other recipe is lost with it. And
-because BuildStats.aggregate() mutates as it iterates, recipes processed
-before the mismatch have already been converted to BSTaskAggregate when
-the exception is raised, leaving the object partially merged; which
-recipes survive depends on the ordering returned by os.listdir() in
-from_dir().
-
-Check every recipe before modifying any of them, and add a strict
-argument to BuildStats.aggregate(). With strict=True, the default, a
-ValueError is still raised, but now before anything has been mutated, so
-buildstats-diff keeps refusing to combine buildstats that a user has
-explicitly asked it to combine. The message it raises now names all
-offending recipes rather than only the first. oe-build-perf-report
-passes strict=False, which skips the recipes that cannot be aggregated,
-logs which ones and why, and aggregates the rest.
-
-Skipping only the mismatched recipes preserves the most data, at the
-cost of recipes having differing sample counts within a revision.
-BSTaskAggregate already handles that, as it averages over its own task
-list.
-
-Tested with:
-
-  oe-selftest -r oescripts.OEBuildStatsAggregateTests
-
-covering the strict and non-strict paths in both recipe orderings, the
-differing-task-set condition, and that identical runs still aggregate.
-
-Fixes [YOCTO #16119]
-
-Signed-off-by: Francisco Pedraza <fjpedrazag@gmail.com>
----
- meta/lib/oeqa/selftest/cases/oescripts.py | 44 +++++++++++++++++++++++
- scripts/lib/buildstats.py                 | 34 ++++++++++++++++--
- scripts/oe-build-perf-report              |  2 +-
- 3 files changed, 77 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index 3e0bd6f4ec..2082898081 100644
---- a/meta/lib/oeqa/selftest/cases/oescripts.py
-+++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -7,6 +7,7 @@
- import os
- import shutil
- import importlib
-+import sys
- import unittest
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-@@ -172,3 +173,46 @@ class OEListPackageconfigTests(OESelftestTestCase):
- 
-         self.check_endlines(results, expected_endlines)
- 
-+
-+class OEBuildStatsAggregateTests(OESelftestTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        super().setUpClass()
-+        scripts_lib = os.path.join(get_bb_var('COREBASE'), 'scripts', 'lib')
-+        if scripts_lib not in sys.path:
-+            sys.path.insert(0, scripts_lib)
-+
-+    def _make_run(self, kernel_version, order):
-+        from buildstats import BuildStats
-+        task = {'start_time': 1000.0, 'elapsed_time': 42.0, 'status': 'PASSED',
-+                'iostat': {}, 'rusage': {'ru_stime': 1.0, 'ru_utime': 2.0},
-+                'child_rusage': {}}
-+        recipes = {
-+            'busybox': {'name': 'busybox', 'epoch': None, 'version': '1.37.0',
-+                        'revision': 'r0', 'tasks': {'do_compile': dict(task)}},
-+            'linux-yocto': {'name': 'linux-yocto', 'epoch': None,
-+                            'version': kernel_version, 'revision': 'r0',
-+                            'tasks': {'do_compile': dict(task)}},
-+        }
-+        return BuildStats.from_json([recipes[n] for n in order])
-+
-+    def test_aggregate_strict_does_not_mutate(self):
-+        # Matching recipe first: it must not be aggregated when a later one fails
-+        from buildstats import BSTask
-+        order = ['busybox', 'linux-yocto']
-+        bs1 = self._make_run('6.16.11+git', order)
-+        bs2 = self._make_run('6.18.1+git', order)
-+        with self.assertRaises(ValueError):
-+            bs1.aggregate(bs2)
-+        self.assertIsInstance(bs1['busybox'].tasks['do_compile'], BSTask)
-+
-+    def test_aggregate_non_strict_skips_mismatch(self):
-+        from buildstats import BSTask, BSTaskAggregate
-+        for order in (['busybox', 'linux-yocto'], ['linux-yocto', 'busybox']):
-+            bs1 = self._make_run('6.16.11+git', order)
-+            bs2 = self._make_run('6.18.1+git', order)
-+            bs1.aggregate(bs2, strict=False)
-+            self.assertIsInstance(bs1['busybox'].tasks['do_compile'], BSTaskAggregate)
-+            self.assertIsInstance(bs1['linux-yocto'].tasks['do_compile'], BSTask)
-+
-diff --git a/scripts/lib/buildstats.py b/scripts/lib/buildstats.py
-index 6db60d5bcf..20e17f07cd 100644
---- a/scripts/lib/buildstats.py
-+++ b/scripts/lib/buildstats.py
-@@ -274,12 +274,42 @@ class BuildStats(dict):
- 
-         return buildstats
- 
--    def aggregate(self, buildstats):
--        """Aggregate other buildstats into this"""
-+    def aggregate(self, buildstats, strict=True):
-+        """Aggregate other buildstats into this
-+
-+        Recipes that cannot be aggregated, i.e. those whose version or set of
-+        tasks differs, are collected before any data is modified. With
-+        strict=True a ValueError is raised and this object is left untouched.
-+        With strict=False those recipes are skipped with a warning and the
-+        remaining ones are aggregated.
-+        """
-         if set(self.keys()) != set(buildstats.keys()):
-             raise ValueError("Refusing to aggregate buildstats, set of "
-                              "recipes is different: %s" % (set(self.keys()) ^ set(buildstats.keys())))
-+
-+        # Aggregation mutates in place, so every recipe must be checked before
-+        # any of them is modified: failing partway through would leave this
-+        # object partially merged.
-+        skip = {}
-         for pkg, data in buildstats.items():
-+            if self[pkg].nevr != data.nevr:
-+                skip[pkg] = "recipe version differs: {} vs. {}".format(
-+                    self[pkg].nevr, data.nevr)
-+            elif set(self[pkg].tasks.keys()) != set(data.tasks.keys()):
-+                skip[pkg] = "set of tasks differs"
-+
-+        if skip:
-+            details = ", ".join("{} ({})".format(pkg, reason)
-+                                for pkg, reason in sorted(skip.items()))
-+            if strict:
-+                raise ValueError("Refusing to aggregate buildstats, {} recipe(s) "
-+                                 "cannot be aggregated: {}".format(len(skip), details))
-+            log.warning("Skipping %d recipe(s) that cannot be aggregated: %s",
-+                        len(skip), details)
-+
-+        for pkg, data in buildstats.items():
-+            if pkg in skip:
-+                continue
-             self[pkg].aggregate(data)
- 
- 
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index a36f3c1bca..c53d4c7b9c 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -427,7 +427,7 @@ def get_buildstats(repo, notes_ref, notes_ref2, revs, outdir=None):
-                 if measurement not in buildstats[rev.commit_number]:
-                     buildstats[rev.commit_number][measurement] = _bs
-                 else:
--                    buildstats[rev.commit_number][measurement].aggregate(_bs)
-+                    buildstats[rev.commit_number][measurement].aggregate(_bs, strict=False)
- 
-     if missing:
-         log.info("Buildstats were missing for some test runs, please "
--- 
-2.55.0
-
+T24gV2VkLCAyMDI2LTA4LTA1IGF0IDE4OjE2ICswMjAwLCBNYXRoaWV1IER1Ym9pcy1CcmlhbmQg
+d3JvdGU6DQo+IE9uIFdlZCBBdWcgNSwgMjAyNiBhdCAxMjoyNiBQTSBDRVNULCBEYW5pZWwgVHVy
+dWxsIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPiA+IEZyb206IERhbmllbCBU
+dXJ1bGwgPGRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29tPg0KPiA+DQo+ID4gRHJvcCB0d28gYmFj
+a3BvcnRzIHRoYXQgYXJlIGFscmVhZHkgaW4gdGhlIG5ldyB2ZXJzaW9uDQo+DQo+IEhpIERhbmll
+bCwNCj4NCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPg0KPiBJdCBsb29rcyBsaWtlIG9uZSBv
+ZiB0aGUgcGF0Y2ggaXMgc3RpbGwgdXNlZCBpbiBzeXN0ZW1kLWJvb3Q6DQo+DQo+IFBhcnNpbmcg
+cmVjaXBlcy4uLkVSUk9SOiAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvZ2VuZXJpY3g4Ni02
+NC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVkLQ0KPiBjb3JlL21ldGEvcmVjaXBlcy1jb3JlL3N5
+c3RlbWQvc3lzdGVtZC1ib290XzI2MS4yLmJiOiBVbmFibGUgdG8gZ2V0IGNoZWNrc3VtIGZvciBz
+eXN0ZW1kLWJvb3QNCj4gU1JDX1VSSSBlbnRyeSAwMDA1LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1P
+UllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2g6IGZpbGUgY291bGQgbm90IGJlDQo+
+IGZvdW5kDQo+IFRoZSBmb2xsb3dpbmcgcGF0aHMgd2VyZSBzZWFyY2hlZDoNCj4gL3Nydi9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRl
+ZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQvcG9reS8wMDA1LWJv
+b3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gN
+Cj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJz
+L29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQt
+Ym9vdC0yNjEuMi9wb2t5LzAwMDUtYm9vdC1kb3duZ3JhZGUtRUZJX01FTU9SWV9BVFRSSUJVVEVf
+UFJPVE9DT0wtDQo+IHdhcm5pbmcucGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2Vy
+L2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBl
+cy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQtYm9vdC9wb2t5LzAwMDUtYm9vdC1kb3duZ3JhZGUt
+RUZJX01FTU9SWV9BVFRSSUJVVEVfUFJPVE9DT0wtd2FybmluZy5wYXRjaA0KPiAvc3J2L3Bva3li
+dWlsZC95b2N0by13b3JrZXIvZ2VuZXJpY3g4Ni02NC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVk
+LWNvcmUvbWV0YS9yZWNpcGVzLQ0KPiBjb3JlL3N5c3RlbWQvZmlsZXMvcG9reS8wMDA1LWJvb3Qt
+ZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gNCj4g
+L3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29w
+ZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQvZ2Vu
+ZXJpY3g4Ni02NC8wMDA1LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RP
+Q09MLXdhcm5pbmcucGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4
+ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29y
+ZS9zeXN0ZW1kL3N5c3RlbWQtYm9vdC0yNjEuMi9nZW5lcmljeDg2LTY0LzAwMDUtYm9vdC1kb3du
+Z3JhZGUtRUZJX01FTU9SWV9BVFRSSUJVVEVfUFJPVE9DT0wtDQo+IHdhcm5pbmcucGF0Y2gNCj4g
+L3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29w
+ZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQtYm9v
+dC9nZW5lcmljeDg2LTY0LzAwMDUtYm9vdC1kb3duZ3JhZGUtRUZJX01FTU9SWV9BVFRSSUJVVEVf
+UFJPVE9DT0wtDQo+IHdhcm5pbmcucGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2Vy
+L2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBl
+cy0NCj4gY29yZS9zeXN0ZW1kL2ZpbGVzL2dlbmVyaWN4ODYtNjQvMDAwNS1ib290LWRvd25ncmFk
+ZS1FRklfTUVNT1JZX0FUVFJJQlVURV9QUk9UT0NPTC13YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9r
+eWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2LTY0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRk
+ZWQtY29yZS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9zeXN0ZW1kL3g4Ni02NC8wMDA1
+LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0
+Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5
+ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3Rl
+bWQtYm9vdC0yNjEuMi94ODYtNjQvMDAwNS1ib290LWRvd25ncmFkZS1FRklfTUVNT1JZX0FUVFJJ
+QlVURV9QUk9UT0NPTC0NCj4gd2FybmluZy5wYXRjaA0KPiAvc3J2L3Bva3lidWlsZC95b2N0by13
+b3JrZXIvZ2VuZXJpY3g4Ni02NC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVkLWNvcmUvbWV0YS9y
+ZWNpcGVzLQ0KPiBjb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290L3g4Ni02NC8wMDA1LWJvb3QtZG93
+bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gNCj4gL3Ny
+di9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5l
+bWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL2ZpbGVzL3g4Ni02NC8w
+MDA1LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcu
+cGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQv
+bGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5
+c3RlbWQvMDAwNS1ib290LWRvd25ncmFkZS1FRklfTUVNT1JZX0FUVFJJQlVURV9QUk9UT0NPTC13
+YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2LTY0
+L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQtY29yZS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvc3lz
+dGVtZC9zeXN0ZW1kLWJvb3QtMjYxLjIvMDAwNS1ib290LWRvd25ncmFkZS1FRklfTUVNT1JZX0FU
+VFJJQlVURV9QUk9UT0NPTC13YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdv
+cmtlci9nZW5lcmljeDg2LTY0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQtY29yZS9tZXRhL3Jl
+Y2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9zeXN0ZW1kLWJvb3QvMDAwNS1ib290LWRvd25ncmFkZS1F
+RklfTUVNT1JZX0FUVFJJQlVURV9QUk9UT0NPTC13YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9reWJ1
+aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2LTY0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQt
+Y29yZS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9maWxlcy8wMDA1LWJvb3QtZG93bmdy
+YWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gNCj4gRVJST1I6
+IFBhcnNpbmcgaGFsdGVkIGR1ZSB0byBlcnJvcnMsIHNlZSBlcnJvciBtZXNzYWdlcyBhYm92ZQ0K
+Pg0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWls
+ZGVycy80L2J1aWxkcy80MzMxDQo+DQo+IENhbiB5b3UgaGF2ZSBhIGxvb2sgYXQgdGhlIGlzc3Vl
+Pw0KPg0KDQpTdXJlLiBJJ2xsIHNlbmQgYSB2Mi4gSSBkaWQgdGhlIHRlc3QgY29tbWVudGluZyB0
+aGUgU1JDX1VSSSBiZWZvcmUgZG9pbmcgdGhlIHJlbW92ZWQgYW5kIEkgbWlzc2VkDQpzeXN0ZW1k
+LWJvb3QuIGFmdGVyIGRvaW5nIGdpdCBybSBJIG1pc3NlZCB0byByZWJ1aWxkIGl0Lg0KDQpJJ2xs
+IHJ1biB0aGUgc3lzdGVtZCB0ZXN0IHN1aXRlIGFuZCByZXNlbmQuDQoNCkJlc3QgcmVnYXJkcywN
+CkRhbmllbA0KPiBUaGFua3MsDQo+IE1hdGhpZXUNCj4NCg0K
 
