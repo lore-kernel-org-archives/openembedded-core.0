@@ -1,100 +1,83 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D300C55838
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 07:22:57 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14507.1786000967977531546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D316C55ABF
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 08:46:08 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14875.1786005959934563461
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 00:22:48 -0700
+ Thu, 06 Aug 2026 01:46:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=f_l_k@t-online.de header.s=20260216 header.b=JiemirIL;
- spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
-Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
-	by mailout07.t-online.de (Postfix) with SMTP id 58D33E96F
-	for <openembedded-core@lists.openembedded.org>; Thu,  6 Aug 2026 09:22:45 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.166.211]) by fwd85.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1wrsR5-19fAFF0; Thu, 6 Aug 2026 09:22:39 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] rust: patch uninative loader into snapshot's self-contained lld
-Date: Thu,  6 Aug 2026 09:22:22 +0200
-Message-ID: <20260806072223.3043147-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.55.0
-MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1786000959-FA7FB93F-8BC92A29/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9fb0d658-689c-4a77-b5bd-e5eb50724827
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-online.de;
-	s=20260216; t=1786000965; i=f_l_k@t-online.de;
-	bh=3vZDbX02eEvEFLqeNwuavi45H2uowAacUq2E2awjYzE=;
-	h=From:To:Subject:Date;
-	b=JiemirILAlT0OJsvDPzYyz/xjzalZReF22klE+HaZwBD3ZwinvxRj1WnOTyhY8HGw
-	 +AxW9ubMURhSHddDgFNWayR4Yepf4PRqgPTM3S7W56b47Tt5ES+uMyj8lGSUxKFb3q
-	 URcZrKbtOgw2HicFXYuwWQbZwk6QzIPzTXllt4keTY1dn8juFH1BFpsC+C3sp3N9sk
-	 L7hQLNr5rTdCHQFn/XWwSrRE0sNLkPaO6Dn7DZyR/l4vwxHt4jme+UADrCE4KCro0e
-	 EREnAoayqBKgLXqbEVpILEm39hj86MDE17OEs15qXHXwtFXNBK9WZ+mbpajazn0wI8
-	 LglipmlAH0LMw==
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=K/DVYEqA;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 9DF8C1A1461;
+	Thu,  6 Aug 2026 08:45:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 64FB1602B8;
+	Thu,  6 Aug 2026 08:45:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DA1B711C35C8D;
+	Thu,  6 Aug 2026 10:45:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786005953; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Kqwo4MS3e2y//CWJLnOaLjoiQ5ZpQFxhRMdgYKPgzCo=;
+	b=K/DVYEqAGc1M7svs58S+Lg7Suo5qcKXg1rD7fvc2HowEHIrtbx6XEjbBBX2aAbWrjPJQ3z
+	jtwy5Yrbep2nkaH1VUmpiu9ecH4Co6nIMRvqBP3Bc1epis4Yte0YaAKRTL0V6K8KA2LuPX
+	1EsFhZiaYs8ENAZ3Mf0P7fM15nuU8LgiKlj1D6chq5bOLq2vZCo0G3NnPqlth21Gk9yCzL
+	Xts7BcTWncZgNHL173qSs1+F1Wec4R574cLAWkatpEj1evE1oCYRsa1IV0ycf+5u6WSdSB
+	wj1Xj8dn6+pzDvyG8ddQ/ffIsZtRC4PTtdV9UCz/PL6uk4g1qUhM3+AFnlh4Fw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 06 Aug 2026 10:45:50 +0200
+Message-Id: <DKHQ9QS4ARKV.2IP7MUBX0ANXA@bootlin.com>
+Subject: Re: [OE-core] [PATCH 0/3 v7] Oe-selftest for Clang, LLVM, LLD
+Cc: <Sundeep.Kokkonda@windriver.com>, <Deepesh.Varatharajan@windriver.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <deepesh.varatharajan@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260803041741.790019-1-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <20260803041741.790019-1-Deepesh.Varatharajan@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 07:22:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242919
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 08:46:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242920
 
-Since Rust 1.90, rustc defaults to using the self-contained lld
-linker (lib/rustlib/<triple>/bin/gcc-ld/ld.lld, which execs
-rust-lld) on x86_64-unknown-linux-gnu.
+On Mon Aug 3, 2026 at 6:17 AM CEST, Deepesh via lists.openembedded.org Vara=
+tharajan wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>
+> This patch series introduces a test framework to run selftests for
+> target builds of Clang, LLVM, and LLD.
+>
 
-https://blog.rust-lang.org/2025/09/01/rust-lld-on-1.90.0-stable/
+Hi Deepesh,
 
-This applies to the snapshot compiler used to bootstrap the target
-rustc, before the rust.lld/use-lld settings in the config.toml we
-generate for the target compiler can take effect. Without patching
-these too, they fail to exec on build hosts without a /lib64
-compatibility path.
+Thanks for the new series.
 
-collect2: fatal error: posix_spawnp: No such file or directory
-|           compilation terminated.
-|
-|
-| error: linking with
-`/home/flk/bitbake/bitbake-builds/master/build/tmp/work/x86_64-linux/rust=
--native/1.96.1/wrapper/target-rust-ccld`
-failed: exit status: 1
+Can you have a run at these runs? We do have some intermittent failures:
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-devtools/rust/rust_1.96.1.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+XFAIL: LLVM :: Analysis/DDG/basic-loopnest.ll (343 of 27205)
+XFAIL: LLVM :: Analysis/DependenceAnalysis/Invariant.ll (394 of 27205)
+XFAIL: LLVM :: Analysis/ScalarEvolution/2008-12-14-StrideAndSigned.ll (756 =
+of 27205)
+...
+198 fails on both builds, I didn't check if they are exactly the same.
 
-diff --git a/meta/recipes-devtools/rust/rust_1.96.1.bb b/meta/recipes-dev=
-tools/rust/rust_1.96.1.bb
-index f8f47b0414..344e4f5293 100644
---- a/meta/recipes-devtools/rust/rust_1.96.1.bb
-+++ b/meta/recipes-devtools/rust/rust_1.96.1.bb
-@@ -71,8 +71,12 @@ do_rust_setup_snapshot () {
-     # Need to use uninative's loader if enabled/present since the librar=
-y paths
-     # are used internally by rust and result in symbol mismatches if we =
-don't
-     if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
--        for bin in cargo rustc rustdoc; do
--            patchelf ${WORKDIR}/rust-snapshot/bin/$bin --set-interpreter=
- ${UNINATIVE_LOADER}
-+        for bin in ${WORKDIR}/rust-snapshot/bin/cargo \
-+                   ${WORKDIR}/rust-snapshot/bin/rustc \
-+                   ${WORKDIR}/rust-snapshot/bin/rustdoc \
-+                   ${WORKDIR}/rust-snapshot/lib/rustlib/*/bin/rust-lld \
-+                   ${WORKDIR}/rust-snapshot/lib/rustlib/*/bin/gcc-ld/*; =
-do
-+            [ -f "$bin" ] && patchelf "$bin" --set-interpreter ${UNINATI=
-VE_LOADER}
-         done
-     fi
- }
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/4264
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/4275
+
+Thanks,
+Mathieu
+
 --=20
-2.55.0
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
