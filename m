@@ -1,94 +1,101 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C669C56208
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 16:27:40 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23853.1786033656921063685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A653FC56208
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 16:32:20 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23444.1786033931217113692
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 09:27:37 -0700
+ Thu, 06 Aug 2026 09:32:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=rgAP2PhI;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D42E9153B
-	for <openembedded-core@lists.openembedded.org>; Thu,  6 Aug 2026 09:27:31 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7B6E33F9A2
-	for <openembedded-core@lists.openembedded.org>; Thu,  6 Aug 2026 09:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786033655; bh=ouf3suhtMX1ktXxC+M5zoJvFHpuY1EsqfJQ64/9nLuU=;
-	h=From:To:Subject:Date:From;
-	b=rgAP2PhI5BTGQB3oHOflIrctTbEvyPYhDZav69DZ+7H3hj2vjGM6TF43dSSgc+ICk
-	 SL3lSyYOqyQ5nuD5+Ly7szBjtDz4YmIIv64+66ydr/6XD8wBHnDpeg7W3/dEIKiUt4
-	 D93vCPOI33vWNFIeo10XjzDSzz8PBb5ox2HiesyY=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] cross-localedef-native: prune patch list
-Date: Thu,  6 Aug 2026 17:27:28 +0100
-Message-ID: <20260806162730.352060-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=qTLBsc+m;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zZbK93Xk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019fd7eaffb0-9a6e2c82-77dc-4818-bf0b-10f4f03b5692-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1786033930; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=kwHVrQd0v1Cjp4x0r+tA+8+GUwHBJ2LYCcL4s64cIKw=;
+	b=qTLBsc+mkOKmbWLu1yUYOGBUFkgE5OrdusOuR7jYN4eGpmAVQTStFqEClkgeaCIy
+	RuIFupdlUOjty8wZmWkhM1T6+g18l7DgTQ1MYVcY4XvB1hFoEvSoL5nZrJBMWsNapdn
+	Ae4GigMiZA/FlmU44etdFsaMjC1dgIsqbD3zg0wU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786033930;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=kwHVrQd0v1Cjp4x0r+tA+8+GUwHBJ2LYCcL4s64cIKw=;
+	b=zZbK93XkZsUnSj5mSwXxVOGilUXr3xE6YU/vTe/P++1Bvjg3pGoeUy4yetLVi7Iq
+	gOl7hhxcVzbxZXM0/XbgHw5+ET6A5pEilzC+4dmY1YEaqCn2mWejdstL3WAlYf8pZ0o
+	LOI9Mc/a0lChT8D+jJDDMiTE1VCAkI4PKOPSkiYA=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/3] cross-localedef-native: prune patch list
+In-Reply-To: <20260806162730.352060-1-ross.burton@arm.com>
+References: <20260806162730.352060-1-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019fd7eaffb0-9a6e2c82-77dc-4818-bf0b-10f4f03b5692-000000@us-west-2.amazonses.com>
+Date: Thu, 6 Aug 2026 16:32:10 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.06-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 16:27:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242957
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 16:32:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242960
 
-The cross-localedef-native recipe builds on top of glibc and drops in an
-autoconf tree to build just localedef.  For some reason we're applying a
-partial subset of glibc patches that do not impact the localedef build
-at all, for example adding documentation or fixing nscd.
+--NextPart
+Content-Type: text/plain
 
-Remove patches and other assignments that don't impact the build of
-localedef.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-core/glibc/cross-localedef-native_2.44.bb | 9 ---------
- 1 file changed, 9 deletions(-)
+Testing patch /home/patchtest/share/mboxes/1-3-cross-localedef-native-prune-patch-list.patch
 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.44.bb b/met=
-a/recipes-core/glibc/cross-localedef-native_2.44.bb
-index cf48b9c83bf..47018ff23b4 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.44.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.44.bb
-@@ -25,13 +25,8 @@ SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};na=
-me=3Dglibc \
-            file://0001-localedef-Add-hardlink-resolver-from-util-linux.p=
-atch \
-            file://0002-localedef-fix-ups-hardlink-to-make-it-compile.pat=
-ch \
-            \
--           file://0009-eglibc-Cross-building-and-testing-instructions.pa=
-tch \
--           file://0010-eglibc-Help-bootstrap-cross-toolchain.patch \
--           file://0011-eglibc-Resolve-__fpscr_values-on-SH4.patch \
-            file://0012-eglibc-Forward-port-cross-locale-generation-suppo=
-rt.patch \
-            file://0013-localedef-add-to-archive-uses-a-hard-coded-locale=
--pa.patch \
--           file://0016-Replace-echo-with-printf-builtin-in-nscd-init-scr=
-ipt.patch \
--           file://0018-timezone-Make-shell-interpreter-overridable-in-tz=
-sel.patch \
-            "
- # Makes for a rather long rev (22 characters), but...
- #
-@@ -39,10 +34,6 @@ SRCREV_FORMAT =3D "glibc_localedef"
-=20
- EXTRA_OECONF =3D "--with-glibc=3D${S}"
-=20
--# We do not need bash to run tzselect script, the default is to use
--# bash but it can be configured by setting KSHELL Makefile variable
--EXTRA_OEMAKE +=3D "KSHELL=3D/bin/sh"
--
- CFLAGS +=3D "-fgnu89-inline -std=3Dgnu99 -DIS_IN\(x\)=3D'0'"
-=20
- do_install() {
---=20
-2.43.0
+FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
