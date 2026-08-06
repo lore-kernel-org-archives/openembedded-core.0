@@ -1,205 +1,100 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 959C1C55ABF
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 07:20:17 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14068.1786000810999917384
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D300C55838
+	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 07:22:57 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14507.1786000967977531546
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 00:20:11 -0700
+ Thu, 06 Aug 2026 00:22:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector2 header.b=ENSeRMPf;
- spf=pass (domain: ericsson.com, ip: 52.101.66.43, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ifyH9VptinGXox5BA9Wv0e5H5ImXfekSZSEh538C1eGxobueMrguDzv7gvqAwO/lG9ezWkMmVVpDI19Mwkt3MUBr1EWmSVkRcr8Qyoz5ThvZGwVhIyDIB9rdeK7JZQFmRmEt3o27cDhQ3n81sg6gHVjBbska+QjM+e3b2VXfoUsAo6zgnlh06PEb9FoTl9GzZbuibMPaYMOzjss0qTCNGErZ02dBhH6CXTlHNUuyXJiFsRQxAU0FOyEDL3gPsy3FpxOf1w2WEpy0U2jf11Z9BtNN6VJRUHUPnmx3XTv8/dvf8RDfZbOkBgHCyCPdiWM3wLJtheEkYWTJy0+C3nnCrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sURxslJmQrEXkM5xgOLVDcXsBM8aMDO9DZRyaNpbdp0=;
- b=nZLYDtvh6iR9i4ePod3sRDgjE0MV2vDwJR6+3H1WvzJRvpFfr/GcjwKWtyoyhQ04Mwq6g4FXh6EKzY4zC2eiiJ3euzLbN6ow2tU/QK0j4veky8kyaLEttrID8m9D0LZZQaKi/8dXtWClw9qj6x7CU+aK75g74xJrpI/fL+K22KY0GaWcfZg6wz0pXOMCZtUtVuvWPFL4+dptXBTQ2smMfQF8z+Db9tHGgUePatLIhBrM6jtwwpmPtPdRdGHwvPdMYWxVUIuF5g1h1FOLGkYhqKfJaZ/Ou+eCqCHkI5hstLiuaawv2Cj+s2NyTCopn5vtwUHUb7XGCE3Eox5CsBt2Vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sURxslJmQrEXkM5xgOLVDcXsBM8aMDO9DZRyaNpbdp0=;
- b=ENSeRMPfoa6K75JiBeuet6CCK6ggBqhEEDQ3ACtdf6Eba5xq1DZt3vNdBbAVKUgTIn8AwI6636itIiRiO3Aa9roRcOU62oU5yC2PZuq0dc4wQJu5+lKqtdQKGhtKzmMjNgxZ0XXF5k4rH+hbc/+nA8oAaJwluAM2fNLPvwrtn+s9pj4OrO4JjA7DA6IB8CFXnEpE9cNWSWMv8dmqZw2Q2/yvDXnxona9amWJjMz1qv5B0iFYmUmP1BX0elcOb1ipapIHxs+vi8PpeTN7jxNRreEYrVs7AdPpnyCBIqAVgyhtZLAYkgaHK8be/OO9+504WltL3q6b87/WtsTZFVowgA==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by DB9PR07MB9885.eurprd07.prod.outlook.com (2603:10a6:10:4c8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.4; Thu, 6 Aug 2026
- 07:20:05 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%6]) with mapi id 15.21.0315.006; Thu, 6 Aug 2026
- 07:20:05 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [OE-core] [PATCH] systemd: upgrade to 261.2
-Thread-Topic: [OE-core] [PATCH] systemd: upgrade to 261.2
-Thread-Index: AQHdJMThIz4JE6lAgUyojI4ZQrxl07aPoewAgAD8igA=
-Date: Thu, 6 Aug 2026 07:20:05 +0000
-Message-ID: <f4bcbd624c31338ec5c50181522c9ac076dea1dc.camel@ericsson.com>
-References: <20260805102615.1663361-1-daniel.turull@ericsson.com>
-	 <DKH580UVDLMW.GKGLCST2LEAG@bootlin.com>
-In-Reply-To: <DKH580UVDLMW.GKGLCST2LEAG@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1.1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|DB9PR07MB9885:EE_
-x-ms-office365-filtering-correlation-id: de3ab98e-349a-40b5-c5b9-08def38b238a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|38070700021|56012099006|10067099003|4143699003|11063799006|18002099003|22082099003|4133799003|3023799007;
-x-microsoft-antispam-message-info: 
- 3MzLfmPam+P2wctdjwA91mIo2BIutJ9VobSXbK2E6eV/l8d39jWNeyPyCL8tRmkclVTHtn8lD/cNyh3j3HlahEzYP1g6NqNwWjU+bnvkQmurj1qINgJwR1LRW+TjGhBi530/zQfYzn0nJ60HLD6kd3OzZRNxk3HQUTwyw0UJopSzqLrY9gyUcj6Iz14/dtxtcR1jJwYXfjgX90d2Bn7hXRFCH5px0+13nWqJSzV8Z6dkO3cPg4OGqTdoZbUHte45g3Pz6Uc1haDDlyXEMSoQgKFyQTHAADJ1WyXcWe6P6A4L/UnhNKsXqAm3q6IuTy6hSZ0HZxhOLuwhFWt6DwfzfCgrRVSMlogeokkZGTVOEVWj2wxgo3ImmpGETqC3ZPOwpGVYUtlygw7FaJ+cRshM/3ybN6xtEUDUX4uqXaTxx0DFJoexSgILyDxA0M7x8vdbmsuy1+8DSNAb3tYJKKNn7uUPVWex1LI135S8mjQCklOXxBBxOjnPjLXt8nm/cSz3ep+Y8axwrw1X3gqEEw3HY+224iy7Wt9KjbScPM/pTd2WqdnXKQjLOfUWl9r2+NZ+UqHH+GkB8oQ6ed3rR3S/OGaP1eG73ZrIUgABGNKJQIfOilADpaCkd/IowB1p3UtY49WG7IrinsYGO6z/TkH3AtpS2kEtH6nrKikxP2YhF4Voa+ilv4ixUp3Lz/KcYBOS6D7JXaj0ESBNXURfXp9M7/cZw/appz8zWvBorF7rDGo=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(38070700021)(56012099006)(10067099003)(4143699003)(11063799006)(18002099003)(22082099003)(4133799003)(3023799007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?N1pKeGRoVUUrcG5lSXNvSkY5Wm5RNWFIVnVHV2U0cEdObzJFT0NnWHpxRUxm?=
- =?utf-8?B?N0ZEdHlwTFJxRGQwODhZYk4vZko1dmZCdjMzS0Y3TjdnU090aFJpOU45ek5P?=
- =?utf-8?B?U2U0MnFkMStYVmExZnNIdmRWaFFwSnFSL0FySkszWGwyeFJ5c3gzUllWYWE4?=
- =?utf-8?B?a25HSVNQakl5TmJUeVE2SWtwYXBBU1huanpRTXROYmVkM3d2K2J6M1FrNTBD?=
- =?utf-8?B?K3V4b1hEdVg4OXlFV0tXUURLclp5WHplQ1JueWhCL0lPNDduc0hLQ1krV1Zz?=
- =?utf-8?B?UzRxMjFmR1dMWGs5SlZxVGhRN2R0eWpDTjZiY0F4czdDQURBTlUwaXdNOUw4?=
- =?utf-8?B?Y0hWSU50NkpmZGZnZ0NWQW9jMHpad3hBaEVNUFY2cXoyRUExRklCOHhxTVBy?=
- =?utf-8?B?T1ZjTGxRQlNMRUVQL0J1UXhpQW1nVThmMm5Ub0pWYUZSMlU1UlU2QUFnNEdr?=
- =?utf-8?B?Sjl6MXZUYllCWlR4U05KRmxxd1JFSjdPNklVTkNSVEVEMjVMOXZRa2VGSlV6?=
- =?utf-8?B?U0tWK25yaWtFblF2NmhrV3VEY0R3L1p3QS8yL1lmSCtTT3hrVFhBS0dLNVFz?=
- =?utf-8?B?UWFLUmwrUW80dFIzbnN1ZHlXQU00aVB5OXVlT0VWYmxiN0l2NDlBRlRYbVcr?=
- =?utf-8?B?WENBWGdwWUlTc1drUlhHbVhTWC92WFN6K0NaTFNtVGVOTzBmRjFzMWZCbTAr?=
- =?utf-8?B?UHUzdUVvUlJSREFDdlM0Mk8xcnp0NDJVaHI0MFF5d3ZxaUlBR1N1WlJnOHBC?=
- =?utf-8?B?NGNneHJnL21tQTZ6T24yM3FsMjA2RVgzd1VEMGdRSVZiY2NpWlU4dXl6Y0Zy?=
- =?utf-8?B?TmZLc1ZOR0xNRWg4N1E2NkNXWEJNdGgzbmhyRzNkSkFXTENKbjV6LzJjZUxR?=
- =?utf-8?B?bGpML0E3WithR3A5c2RxRTJQRTRXeS9QZ2VvblNNVU5MZTQ5ZlVHZ25QYnBL?=
- =?utf-8?B?ZTlKejBJVXJPbk8rcVYvakIwVkdVYnZxTFBMazlCb0RvbFdqYnM1TGxSbllp?=
- =?utf-8?B?aERrVzY1NWJqdG9XSVI1aHlQdzR0VzdVZEl3eUpFU2FhUlZZdVJGdzRnTlM5?=
- =?utf-8?B?Wkc4SmNKdTh4Z2pRU3R6OGhuSEk0ZjhmMHRIZ2NHYmdzV1R3NWtpcjlkUURx?=
- =?utf-8?B?ejFFTlhsK0F1aGh3Z2RGNGl3OTRwY3dQa283clhOUjgyZTNUU0FGQ3pMaFgx?=
- =?utf-8?B?aTFlZ2YvQnhxT3hyVVhWd3F6ckV1cGhLWGtrNjFXaHFrb2JPUjcvQnF3ZGZa?=
- =?utf-8?B?WithMGcxbmpNM1dKQWdIVVRCMTU2OHloUUkxWEtsdHNYOFNoYW1WTTNKcFpY?=
- =?utf-8?B?dnk0VmkxVGx5a2FIcUtCanNOV3c3SU5sUDNvd2E3WGU0endoYlpNNWdqbWh5?=
- =?utf-8?B?R1U1ZkQ0cGhYc24vKzBTMjdIdmY3d0xLbjJnU09LOThrSmp2MVp4dVIzL2xV?=
- =?utf-8?B?UHRUTGI5bHBSdmN3K3ZCUWRQcjRHaytRZTkwNENYa0FTcVJON0JEOXFGUkg1?=
- =?utf-8?B?N3VvWkcvaFZRbnFDQTRlU2xzME5zcnRwS3pUaVJKbmdWOVBWS2VOckRvcFNq?=
- =?utf-8?B?RDNvS1ZqTkk3S21BME5SMDRjcnp5WnN3ZS9hU0FwZjF5dDMwWlNKSEtjWEdk?=
- =?utf-8?B?K253d2syK2QrWXZ4QVZNb25xQVVLSzZtZmhBZ2RpaDk3NVZZQXVjWTQvbkhY?=
- =?utf-8?B?WDVoVTlXWWtLb1lXbnMrYitoZWh2ZVRsYXpucUQ4RldRYmlGdHlkRHdvMXhl?=
- =?utf-8?B?TFNyeC9ZR3dhY3Zrc0J0d0JLbkRGRFhSajBqSjA4QzFGYjhNczBVSExGaEZI?=
- =?utf-8?B?ZWd2elVFK3dLRlM1ZnJYUXV6V1lnOVFzV05tNTZEbXFwUVg5R3RJVTEyVitG?=
- =?utf-8?B?T1ZwZ2lZSUhEWjZFNFV1V0JlMmM1aWNqS3JHMk96Znh5N08vQXRaaWhsTE9F?=
- =?utf-8?B?ZHZVeDZIdmc5QVdORldnT1hyK2tBNXpoZXlOUUxRKy83Ym84Z0FjS0NmYXJE?=
- =?utf-8?B?eFNHdVBDWmp2Q1Y5Um5wM0hwTTk4U0tBTnBCZk1hUUQxakV4NnpYZHlQWHRO?=
- =?utf-8?B?VFVPOWVobGQ3SHpoZW0yVnhiNGZrS3hMZVlYQ2FmNTRZTUVNQU01dUhlVWpa?=
- =?utf-8?B?T3pwLzJHNTVPbVlTOW9MSGVLU0dzeVd3akc5UGswaE5tN01uZW1VS2NKdnNG?=
- =?utf-8?B?YkI3QWJBcGpSWGU5OFRoZU1xOFBnVmI3RFk4YmJPNURzd2M5clFMZFdubDRX?=
- =?utf-8?B?VWs3V3ZJMEt1S3BXVUlBY3c4K3BuWUt6dGVHT3lHQThjNlhSaTlkNkhOajFT?=
- =?utf-8?B?MHRMUThRVHNxUTF2U1RRUUNmK3BwZmkwblpualZXVm00WnAzTU5Eb2IzWk53?=
- =?utf-8?Q?Sb5nsRHw5t7J9pRc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <01F86C2880F7064D992E49FBFC5E3A9D@eurprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="dkim: body hash did not verify" header.i=f_l_k@t-online.de header.s=20260216 header.b=JiemirIL;
+ spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
+Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
+	by mailout07.t-online.de (Postfix) with SMTP id 58D33E96F
+	for <openembedded-core@lists.openembedded.org>; Thu,  6 Aug 2026 09:22:45 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.166.211]) by fwd85.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1wrsR5-19fAFF0; Thu, 6 Aug 2026 09:22:39 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] rust: patch uninative loader into snapshot's self-contained lld
+Date: Thu,  6 Aug 2026 09:22:22 +0200
+Message-ID: <20260806072223.3043147-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de3ab98e-349a-40b5-c5b9-08def38b238a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2026 07:20:05.5378
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y7qS6UrhfMKP4kpkVFiNBb4GnXOjS0exF33EkXOURUbuoi0Id5nvH/I7wvdTVgbB9HZLkkXIt9I5dC5kBEltsx8fzcs7T1Up6bDf86hrOps=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB9885
+X-TOI-EXPURGATEID: 150726::1786000959-FA7FB93F-8BC92A29/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9fb0d658-689c-4a77-b5bd-e5eb50724827
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-online.de;
+	s=20260216; t=1786000965; i=f_l_k@t-online.de;
+	bh=3vZDbX02eEvEFLqeNwuavi45H2uowAacUq2E2awjYzE=;
+	h=From:To:Subject:Date;
+	b=JiemirILAlT0OJsvDPzYyz/xjzalZReF22klE+HaZwBD3ZwinvxRj1WnOTyhY8HGw
+	 +AxW9ubMURhSHddDgFNWayR4Yepf4PRqgPTM3S7W56b47Tt5ES+uMyj8lGSUxKFb3q
+	 URcZrKbtOgw2HicFXYuwWQbZwk6QzIPzTXllt4keTY1dn8juFH1BFpsC+C3sp3N9sk
+	 L7hQLNr5rTdCHQFn/XWwSrRE0sNLkPaO6Dn7DZyR/l4vwxHt4jme+UADrCE4KCro0e
+	 EREnAoayqBKgLXqbEVpILEm39hj86MDE17OEs15qXHXwtFXNBK9WZ+mbpajazn0wI8
+	 LglipmlAH0LMw==
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 07:20:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242918
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 07:22:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242919
 
-T24gV2VkLCAyMDI2LTA4LTA1IGF0IDE4OjE2ICswMjAwLCBNYXRoaWV1IER1Ym9pcy1CcmlhbmQg
-d3JvdGU6DQo+IE9uIFdlZCBBdWcgNSwgMjAyNiBhdCAxMjoyNiBQTSBDRVNULCBEYW5pZWwgVHVy
-dWxsIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPiA+IEZyb206IERhbmllbCBU
-dXJ1bGwgPGRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29tPg0KPiA+DQo+ID4gRHJvcCB0d28gYmFj
-a3BvcnRzIHRoYXQgYXJlIGFscmVhZHkgaW4gdGhlIG5ldyB2ZXJzaW9uDQo+DQo+IEhpIERhbmll
-bCwNCj4NCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPg0KPiBJdCBsb29rcyBsaWtlIG9uZSBv
-ZiB0aGUgcGF0Y2ggaXMgc3RpbGwgdXNlZCBpbiBzeXN0ZW1kLWJvb3Q6DQo+DQo+IFBhcnNpbmcg
-cmVjaXBlcy4uLkVSUk9SOiAvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvZ2VuZXJpY3g4Ni02
-NC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVkLQ0KPiBjb3JlL21ldGEvcmVjaXBlcy1jb3JlL3N5
-c3RlbWQvc3lzdGVtZC1ib290XzI2MS4yLmJiOiBVbmFibGUgdG8gZ2V0IGNoZWNrc3VtIGZvciBz
-eXN0ZW1kLWJvb3QNCj4gU1JDX1VSSSBlbnRyeSAwMDA1LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1P
-UllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2g6IGZpbGUgY291bGQgbm90IGJlDQo+
-IGZvdW5kDQo+IFRoZSBmb2xsb3dpbmcgcGF0aHMgd2VyZSBzZWFyY2hlZDoNCj4gL3Nydi9wb2t5
-YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRl
-ZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQvcG9reS8wMDA1LWJv
-b3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gN
-Cj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJz
-L29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQt
-Ym9vdC0yNjEuMi9wb2t5LzAwMDUtYm9vdC1kb3duZ3JhZGUtRUZJX01FTU9SWV9BVFRSSUJVVEVf
-UFJPVE9DT0wtDQo+IHdhcm5pbmcucGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2Vy
-L2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBl
-cy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQtYm9vdC9wb2t5LzAwMDUtYm9vdC1kb3duZ3JhZGUt
-RUZJX01FTU9SWV9BVFRSSUJVVEVfUFJPVE9DT0wtd2FybmluZy5wYXRjaA0KPiAvc3J2L3Bva3li
-dWlsZC95b2N0by13b3JrZXIvZ2VuZXJpY3g4Ni02NC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVk
-LWNvcmUvbWV0YS9yZWNpcGVzLQ0KPiBjb3JlL3N5c3RlbWQvZmlsZXMvcG9reS8wMDA1LWJvb3Qt
-ZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gNCj4g
-L3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29w
-ZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQvZ2Vu
-ZXJpY3g4Ni02NC8wMDA1LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RP
-Q09MLXdhcm5pbmcucGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4
-ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29y
-ZS9zeXN0ZW1kL3N5c3RlbWQtYm9vdC0yNjEuMi9nZW5lcmljeDg2LTY0LzAwMDUtYm9vdC1kb3du
-Z3JhZGUtRUZJX01FTU9SWV9BVFRSSUJVVEVfUFJPVE9DT0wtDQo+IHdhcm5pbmcucGF0Y2gNCj4g
-L3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29w
-ZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3RlbWQtYm9v
-dC9nZW5lcmljeDg2LTY0LzAwMDUtYm9vdC1kb3duZ3JhZGUtRUZJX01FTU9SWV9BVFRSSUJVVEVf
-UFJPVE9DT0wtDQo+IHdhcm5pbmcucGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2Vy
-L2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBl
-cy0NCj4gY29yZS9zeXN0ZW1kL2ZpbGVzL2dlbmVyaWN4ODYtNjQvMDAwNS1ib290LWRvd25ncmFk
-ZS1FRklfTUVNT1JZX0FUVFJJQlVURV9QUk9UT0NPTC13YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9r
-eWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2LTY0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRk
-ZWQtY29yZS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9zeXN0ZW1kL3g4Ni02NC8wMDA1
-LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0
-Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5
-ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5c3Rl
-bWQtYm9vdC0yNjEuMi94ODYtNjQvMDAwNS1ib290LWRvd25ncmFkZS1FRklfTUVNT1JZX0FUVFJJ
-QlVURV9QUk9UT0NPTC0NCj4gd2FybmluZy5wYXRjaA0KPiAvc3J2L3Bva3lidWlsZC95b2N0by13
-b3JrZXIvZ2VuZXJpY3g4Ni02NC9idWlsZC9sYXllcnMvb3BlbmVtYmVkZGVkLWNvcmUvbWV0YS9y
-ZWNpcGVzLQ0KPiBjb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290L3g4Ni02NC8wMDA1LWJvb3QtZG93
-bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gNCj4gL3Ny
-di9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQvbGF5ZXJzL29wZW5l
-bWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL2ZpbGVzL3g4Ni02NC8w
-MDA1LWJvb3QtZG93bmdyYWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcu
-cGF0Y2gNCj4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYtNjQvYnVpbGQv
-bGF5ZXJzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy0NCj4gY29yZS9zeXN0ZW1kL3N5
-c3RlbWQvMDAwNS1ib290LWRvd25ncmFkZS1FRklfTUVNT1JZX0FUVFJJQlVURV9QUk9UT0NPTC13
-YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2LTY0
-L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQtY29yZS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvc3lz
-dGVtZC9zeXN0ZW1kLWJvb3QtMjYxLjIvMDAwNS1ib290LWRvd25ncmFkZS1FRklfTUVNT1JZX0FU
-VFJJQlVURV9QUk9UT0NPTC13YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdv
-cmtlci9nZW5lcmljeDg2LTY0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQtY29yZS9tZXRhL3Jl
-Y2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9zeXN0ZW1kLWJvb3QvMDAwNS1ib290LWRvd25ncmFkZS1F
-RklfTUVNT1JZX0FUVFJJQlVURV9QUk9UT0NPTC13YXJuaW5nLnBhdGNoDQo+IC9zcnYvcG9reWJ1
-aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2LTY0L2J1aWxkL2xheWVycy9vcGVuZW1iZWRkZWQt
-Y29yZS9tZXRhL3JlY2lwZXMtDQo+IGNvcmUvc3lzdGVtZC9maWxlcy8wMDA1LWJvb3QtZG93bmdy
-YWRlLUVGSV9NRU1PUllfQVRUUklCVVRFX1BST1RPQ09MLXdhcm5pbmcucGF0Y2gNCj4gRVJST1I6
-IFBhcnNpbmcgaGFsdGVkIGR1ZSB0byBlcnJvcnMsIHNlZSBlcnJvciBtZXNzYWdlcyBhYm92ZQ0K
-Pg0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWls
-ZGVycy80L2J1aWxkcy80MzMxDQo+DQo+IENhbiB5b3UgaGF2ZSBhIGxvb2sgYXQgdGhlIGlzc3Vl
-Pw0KPg0KDQpTdXJlLiBJJ2xsIHNlbmQgYSB2Mi4gSSBkaWQgdGhlIHRlc3QgY29tbWVudGluZyB0
-aGUgU1JDX1VSSSBiZWZvcmUgZG9pbmcgdGhlIHJlbW92ZWQgYW5kIEkgbWlzc2VkDQpzeXN0ZW1k
-LWJvb3QuIGFmdGVyIGRvaW5nIGdpdCBybSBJIG1pc3NlZCB0byByZWJ1aWxkIGl0Lg0KDQpJJ2xs
-IHJ1biB0aGUgc3lzdGVtZCB0ZXN0IHN1aXRlIGFuZCByZXNlbmQuDQoNCkJlc3QgcmVnYXJkcywN
-CkRhbmllbA0KPiBUaGFua3MsDQo+IE1hdGhpZXUNCj4NCg0K
+Since Rust 1.90, rustc defaults to using the self-contained lld
+linker (lib/rustlib/<triple>/bin/gcc-ld/ld.lld, which execs
+rust-lld) on x86_64-unknown-linux-gnu.
+
+https://blog.rust-lang.org/2025/09/01/rust-lld-on-1.90.0-stable/
+
+This applies to the snapshot compiler used to bootstrap the target
+rustc, before the rust.lld/use-lld settings in the config.toml we
+generate for the target compiler can take effect. Without patching
+these too, they fail to exec on build hosts without a /lib64
+compatibility path.
+
+collect2: fatal error: posix_spawnp: No such file or directory
+|           compilation terminated.
+|
+|
+| error: linking with
+`/home/flk/bitbake/bitbake-builds/master/build/tmp/work/x86_64-linux/rust=
+-native/1.96.1/wrapper/target-rust-ccld`
+failed: exit status: 1
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/recipes-devtools/rust/rust_1.96.1.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/rust/rust_1.96.1.bb b/meta/recipes-dev=
+tools/rust/rust_1.96.1.bb
+index f8f47b0414..344e4f5293 100644
+--- a/meta/recipes-devtools/rust/rust_1.96.1.bb
++++ b/meta/recipes-devtools/rust/rust_1.96.1.bb
+@@ -71,8 +71,12 @@ do_rust_setup_snapshot () {
+     # Need to use uninative's loader if enabled/present since the librar=
+y paths
+     # are used internally by rust and result in symbol mismatches if we =
+don't
+     if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
+-        for bin in cargo rustc rustdoc; do
+-            patchelf ${WORKDIR}/rust-snapshot/bin/$bin --set-interpreter=
+ ${UNINATIVE_LOADER}
++        for bin in ${WORKDIR}/rust-snapshot/bin/cargo \
++                   ${WORKDIR}/rust-snapshot/bin/rustc \
++                   ${WORKDIR}/rust-snapshot/bin/rustdoc \
++                   ${WORKDIR}/rust-snapshot/lib/rustlib/*/bin/rust-lld \
++                   ${WORKDIR}/rust-snapshot/lib/rustlib/*/bin/gcc-ld/*; =
+do
++            [ -f "$bin" ] && patchelf "$bin" --set-interpreter ${UNINATI=
+VE_LOADER}
+         done
+     fi
+ }
+--=20
+2.55.0
+
 
