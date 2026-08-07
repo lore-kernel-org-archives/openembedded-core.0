@@ -2,84 +2,88 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AE9C5AC7C
-	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 07:53:46 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37572.1786088858286328615
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E78C5AC7C
+	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 08:51:56 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.37820.1786090481411718172
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2026 00:47:38 -0700
+ Fri, 07 Aug 2026 01:14:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=TRX2LWIA;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=26793a5159=himaniramesh.barde@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6776WJUE2019659
-	for <openembedded-core@lists.openembedded.org>; Fri, 7 Aug 2026 07:47:37 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=tJ4cBx88;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=26793a5159=himaniramesh.barde@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6774Wgnc2019643
+	for <openembedded-core@lists.openembedded.org>; Fri, 7 Aug 2026 00:35:05 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=hpdIpxXyj
-	L1EuknqsikH6ssbyOzhU1muPjIzn7bBL7Q=; b=TRX2LWIA3ChouP5cPTdPN6far
-	W3z/0FTKEGojJSstkKw0V/EJO5TuyQ3oIvA6Lt+VxrCsaiaxZNs+cKuiwbHgmjPe
-	JpA3NsFCl0eed8c3kM+SDATEgQJxPy3Q8FxidpO4vElVEfOPzqbYSlqd334Cd/mm
-	v14LSiEpn2yDyvMpd90EuR3Qrk/0eY69kJbhvX2hqlOoRTJjYiVqipA2seCI3H+W
-	HYaNBssaa3yp17MTHCcXQAZoS14dRGEX/vjzdDLqRdMVooOcdvzmiwl2e2BbfTrB
-	sZ60nM3/bS69q90L8r4e0OY6yyP5HA0hmP+C8NyTUexkf3LlhxToMvstudKMQ==
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=8uHxrsCql
+	DjaYJ4UK/CYydgROQZYrweLeNAF0Kuxv08=; b=tJ4cBx88nUZRojifBjWE8RViI
+	7R6k03kEjx8ulQ/O1Fsb7b3LyGQtkiGrKVkz33OxPrlOv2iAUCzaPUx6K4E2+Mb4
+	8tvXEKagKMPVF+U1swGtmqJlTyI0GagFJhD8QNIVypTtuPPnpmpNJi+K/VPxTYuQ
+	EQpiosYifQ3hxISBQbzzLE38ADojmbw4DKA/jz7akzmWCped80zDnD2Xqe5xCBYk
+	Sqd0LDOPbvUvke5Wd78+IPt2Kwgz9gAaQyoTKdj+aM6thXGh8Xh3Xd7E+xqVEiUG
+	l8mpVgbFhGcoy3N+mnav1ajwP2zUNnbiCnRq7SWrIBqUNf+D5kulDTRIPJYpQ==
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fvpq929uw-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fvpv1tedm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 07:47:36 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+	for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 00:35:04 -0700 (PDT)
+Received: from ala-p2exch02.corp.ad.wrs.com (10.11.226.102) by
  ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Fri, 7 Aug 2026 00:47:35 -0700
+ 15.1.2507.61; Fri, 7 Aug 2026 00:35:04 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-p2exch02.corp.ad.wrs.com (10.11.226.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.45; Fri, 7 Aug 2026 00:35:03 -0700
 Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Fri, 7 Aug 2026 00:47:35 -0700
+ 15.1.2507.61 via Frontend Transport; Fri, 7 Aug 2026 00:35:03 -0700
 From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <randy.macleod@windriver.com>, <Shiva.Komati@windriver.com>,
         Himani Barde
-	<HimaniRamesh.Barde@windriver.com>
+	<himani.barde@windriver.com>
 Subject: [PATCH] libarchive: backport fix for archive_read_append_filter test failure
-Date: Fri, 7 Aug 2026 07:47:31 +0000
-Message-ID: <20260807074731.3271248-1-HimaniRamesh.Barde@windriver.com>
+Date: Fri, 7 Aug 2026 07:34:59 +0000
+Message-ID: <20260807073459.3269750-1-HimaniRamesh.Barde@windriver.com>
 X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=ErHiaycA c=1 sm=1 tr=0 ts=6a758d98 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDA1NSBTYWx0ZWRfX3EgNX0nPMWRp
+ wlBqV109tc5ferkG4oDdXcHubq9kwHyUgtn5StOdUZa8jfcwXi23MYAENDAfR/0VqLPhm6C0eTz
+ 9wBXPPVpkOBuYhgVrCBA7/+zw0AG+6G+fsC05LVZXUSZGjbSqdPojSrfkEdVwQMKGBejxc2Ocoy
+ sfOV+qS3cA7ZkM+8yhmiLRoAhICWMN0YPzdl4ecSQOY1P7601Hyyf580UHnZQaXvFEmKJMexZpV
+ oREjtVTMqBCjoLm6fj9Rj5/VkbBxuKVQm4wHO2AMl4STed7Vo5x8IdXoP36N3KKltMjLKFeHTpM
+ uDyS3Z7CAGiF+cGPwHXy+WZ+/hcAcB94B1uTom/BcPREueTYYHu3QjNp2XFvc/UR5GSTCoD6qbG
+ 11A2Bgbube5ABHCZ/WN7SdS76l7LCTb1Vp16H3cof/65jYf7GvpuJMt0ULQ+RRSgFYAImklWD5k
+ 863UZ1lFxWCFEBe+QiQ==
+X-Authority-Analysis: v=2.4 cv=G7ks1dk5 c=1 sm=1 tr=0 ts=6a758aa8 cx=c_pps
  a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
  a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=fTW__CHxibyLmBMfj2wP:22 a=NEAV23lmAAAA:8 a=3uWsZ661AAAA:8 a=t7CeM3EgAAAA:8
+ a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8 a=3uWsZ661AAAA:8 a=t7CeM3EgAAAA:8
  a=tyuvAb6jAAAA:8 a=BNUgh-rdlzo89TnIHOUA:9 a=fYNom5PXsM5enKJDCoVv:22
  a=FdTzh2GWekK77mhwV6Dw:22 a=vMd6T1JfvD_20K6YSfI9:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDA1NyBTYWx0ZWRfX+dO14hmmXZK2
- JSX5AVndG1Dj22Y3O0JXkqNX3cWNdb3sb2c19W8UbbKUHE5scAygv+8ls7nZQ6r7P3m+0WXZ156
- F+PGqfXkVfvD7ha6T9ZycwzW6ztcHruh6fdKuvVwdQorLFRQehYV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDA1NyBTYWx0ZWRfX2G6mkU3zlm6J
- KywfxXbf1PYIpGaa3vKetvbfaqsDRB81KLqBllT49Pwujm8J+mhMScFehszUL7Ye0EI52ErS9SD
- R+YnbBuynNX7V3hbmJ1+4F2wm0f5SUq7+eadtNkpLz5ddHObys4fbcxD0Y/chgabW5Ncu1Ahxfl
- 8IX/i2pinWVzcC3fCXGoadnmnIdlW8O7Jy9TG3U8koWBJY6xHX9Nog2WHEiDjMXjrHiH/CZPB8j
- HBUWmel3ZZfmU+Yqjw6AHcbj/15M2g9Bo/SUuTG2sJAo1AqKcyG6S3PQBD90oC1Fdp/O+QLkEj/
- nthDOL1V/iHkJu8vZLHWSc9W8rSxHMCsyLZeX8s0uOP+wLNMLFoXydJES2IxoNwwxSjldt+U3+3
- i0jdCqv8bgBmC2z7iRSFiPtnhsh4dH1DkO62YVwqQtwD6EmjmBJ0Jgbmc4Ilzs/2aw+uHsHxF+Y
- RnOExzTdpLRmsL9vGpw==
-X-Proofpoint-ORIG-GUID: kjzgEUgQbFQ590VRWIyJSiRHWTmRjzCQ
-X-Proofpoint-GUID: kjzgEUgQbFQ590VRWIyJSiRHWTmRjzCQ
+X-Proofpoint-ORIG-GUID: UuK1p4MJI4U2FfKqfAoipXF2qHHehquz
+X-Proofpoint-GUID: UuK1p4MJI4U2FfKqfAoipXF2qHHehquz
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDA1NSBTYWx0ZWRfX9N0Y11LOiJij
+ 7919C5VrxKRfwxCgDy3/ZFHdNvC/xgOnRf8tVu4fzMvEVej6RBwnVwRpnydVGV3lX2IshtlnPZU
+ vfBDWAH4UOjBkKrKn20ujGFjccVNT9ZobWPPVmBe888pG/rZV3uc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-07_01,2026-08-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 priorityscore=1501 adultscore=0 clxscore=1015
- malwarescore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 clxscore=1015 bulkscore=0 impostorscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608070057
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608070055
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 07:53:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242990
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 08:51:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242991
 
-From: Himani Barde <HimaniRamesh.Barde@windriver.com>
+From: Himani Barde <himani.barde@windriver.com>
 
 Backport upstream commit 50b585bb ('append_filter: Use last bidder for
 filter') to fix test_read_append_rpm_filter ptest failure.
@@ -92,7 +96,7 @@ bidder.
 
 Upstream: https://github.com/libarchive/libarchive/commit/50b585bb
 
-Signed-off-by: Himani Barde <HimaniRamesh.Barde@windriver.com>
+Signed-off-by: Himani Barde <himani.barde@windriver.com>
 ---
  ...nd_filter-Use-last-bidder-for-filter.patch | 188 ++++++++++++++++++
  .../libarchive/libarchive_3.8.9.bb            |   1 +
