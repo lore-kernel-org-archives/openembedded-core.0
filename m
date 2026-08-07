@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A17F7C2A09B
-	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 05:30:40 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36636.1786080634605410011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE178C5AC81
+	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 05:30:41 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36317.1786080635042624574
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 22:30:34 -0700
+ Thu, 06 Aug 2026 22:30:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=T5E4+5Zp;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bK6C6UzY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019fdab3a2f4-5319f0d4-1efc-4e6a-a650-4612bbaed33d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VrHKj2kK;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IAOugPEU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019fdab3a4d1-e80dffad-7a6d-4e57-a090-ee6ef1061074-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786080633;
+	t=1786080634;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=HYvvoSoz4NNLg72O8dQ/CzlyMxVoNr2w9BKjIaNG+B0=;
-	b=T5E4+5Zp6x4BIZum1DAbJcCadcHA5NKllpu1YExtzH+9n303/2RJTrveSE/i6aPV
-	IN408mNzvSpRiRltdvXTki+cdn4plaIqPgXV8+XFBOf+rWM4HB5QcjMpBuDoAtX0WQx
-	8Q4gZmr0lyoUV3zaBLJnsBxn7RaBS9v2xnuc8iUk=
+	bh=zBrgnUcyaOKObie3XO0ks8OkLDRARHOcKhPcxBak0SY=;
+	b=VrHKj2kKW/kFwWs9OLZ3opPaS1uR654v/egz/ruvTrt5eudy4p1uovGBmzrLGhQ4
+	JaoX24IrcmvU09mKyC7bmcLPEbzzSdMN7O3BvPafc0TBA4f5CQzm1xi/FTVA7XGRdVM
+	vqP/OfiPj9bz57lqeeY3lO15VHDD7tFClyKDVmR0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786080633;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786080634;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=HYvvoSoz4NNLg72O8dQ/CzlyMxVoNr2w9BKjIaNG+B0=;
-	b=bK6C6UzY5tBwG6XJVYTNojEwIspQ4i7qGVDeW4IPuTGImr817I33geZTyKcWe++5
-	Y+EdBuHjaL+rgkUCF+5nbSbFZQvNgmCHY/x2kwTr6PYbo0OflJ8FYsSiBxfr5kMGR+o
-	E6QOmmIfm8goNK3kzC4MHQ3ttQs1Wygu2aMYWbDo=
-Content-Type: multipart/mixed; boundary="===============0240311783068394625=="
+	bh=zBrgnUcyaOKObie3XO0ks8OkLDRARHOcKhPcxBak0SY=;
+	b=IAOugPEUQPcNglshjWpMaY+Z1tTkzsdkkMckG6crAU4sYRdNOPznWdtAsOTsO1OQ
+	HmcahuA6UV9OmUN8R2nS6aeqW7a8d0TR0Qvy61Fjq4mILeuIL2Js1rvruiY/aJGOO56
+	ItBxK2xL7Kxk0SGTiJ/YKK0CFLVznVpx4zgUlWho=
+Content-Type: multipart/mixed; boundary="===============6972104474679990654=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-llvm-translator: upgrading to 23.1.0 FAILED
-Message-ID: <0101019fdab3a2f4-5319f0d4-1efc-4e6a-a650-4612bbaed33d-000000@us-west-2.amazonses.com>
-Date: Fri, 7 Aug 2026 05:30:33 +0000
+Subject: [AUH] fontconfig: upgrading to 2.18.3 SUCCEEDED
+Message-ID: <0101019fdab3a4d1-e80dffad-7a6d-4e57-a090-ee6ef1061074-000000@us-west-2.amazonses.com>
+Date: Fri, 7 Aug 2026 05:30:34 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.07-54.240.27.23
+X-SES-Outgoing: 2026.08.07-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 05:30:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242976
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 05:30:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242977
 
---===============0240311783068394625==
+--===============6972104474679990654==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,193 +51,276 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *spirv-llvm-translator* to *23.1.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *fontconfig* to *2.18.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-fontconfig-upgrade-2.18.2-2.18.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe spirv-llvm-translator failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 956 .bb files complete (0 cached, 956 parsed). 1987 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-f198bbe538ed0d698f12c8cca3ea999639e4b6cc"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:f198bbe538ed0d698f12c8cca3ea999639e4b6cc"
-meta-yocto-bsp       
-meta-poky            = "master:9c6cf36c3511b94957aba04002d98bec665e9f1e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 19a29d4376ab470909ba43ca014ae668fb1156c9
-WARNING: Command 'git rebase 19a29d4376ab470909ba43ca014ae668fb1156c9' failed:
-Auto-merging .github/workflows/check-code-style.yml
-CONFLICT (content): Merge conflict in .github/workflows/check-code-style.yml
-Auto-merging .github/workflows/check-in-tree-build.yml
-CONFLICT (content): Merge conflict in .github/workflows/check-in-tree-build.yml
-Auto-merging .github/workflows/check-out-of-tree-build.yml
-CONFLICT (content): Merge conflict in .github/workflows/check-out-of-tree-build.yml
-Auto-merging CMakeLists.txt
-CONFLICT (content): Merge conflict in CMakeLists.txt
-Auto-merging README.md
-CONFLICT (content): Merge conflict in README.md
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/spirv-llvm-translator
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/spirv-llvm-translator/spirv-llvm-translator_23.1.0.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/spirv-llvm-translator.txt
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0240311783068394625==
+
+-- >8 --
+From 853b830bf505dd79f3befdb69b22fd1148550edb Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 7 Aug 2026 05:12:39 +0000
+Subject: [PATCH] fontconfig: upgrade 2.18.2 -> 2.18.3
+
+Source: NEWS
+
+Version 2.18.3
+                              2026-08-06
+2.18.3
+
+Akira TAGOH (33):
+      ci: Add --werror option to the build script
+      fc-cat: exit with non-zero if not successfully done
+      Workaround a longstanding use-after-free warning
+      Fix a null pointer dereference
+      Add Noto Sans as system-ui for fallback
+      Drop Noto Sans CJK KR from 60-nonlatin.conf
+      Correct sat.orth
+      Add an orth file for Balinese
+      Update orth files for jv, so, su, tl to use native scripts
+      Add orth files for scripts used by Noto font families
+      Update mni.orth to use Meetei Mayek script
+      Add orth files for Cuneiform languages (akk, sux, hit)
+      ci: Suppress abidiff false positives for all internal structs
+      test: Add cache format compatibility tests for orth file additions
+      Add orth files for ancient scripts (xna, hlu, ecy)
+      fc-cache: Create backward-compatible cache symlinks for cross-version discovery
+      ci: Update dependencies
+      Add implicit rule to update genericfamily property against syntactic-sugar
+      fc-genconf: Use alias syntactic-sugar instead of the pair of test-edit config
+      Allow to limit the targeted family for TTC
+      test: Fix test_genconf.py to avoid unexpected family name in testing conf
+      ci: Enable -Werror in CI
+      ci: drop duplicate pipelines
+      ci: cleanup
+      ci: gate distro jobs until all tests passed
+      ci: reduce more duplicate jobs
+      ci: Update base ci-templates
+      test: Fix compiler warnings
+      fc-fontations: Allow unnecessary_transmutes lint in bindgen-generated Rust code
+      Fix another compiler warnings
+      ci: Bump FreeBSD version to 14.4
+      Fix the compiler warnings on MinGW
+      Update INSTALL
+
+Julien Nabet (2):
+      Fix "FileType is deprecated"
+      Fix unknown type name locale_t on macOS
+---
+ .../fontconfig/fontconfig/revert-static-pkgconfig.patch         | 2 +-
+ .../fontconfig/{fontconfig_2.18.2.bb => fontconfig_2.18.3.bb}   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.18.2.bb => fontconfig_2.18.3.bb} (96%)
+
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig/revert-static-pkgconfig.patch b/meta/recipes-graphics/fontconfig/fontconfig/revert-static-pkgconfig.patch
+index 4337da724f..be90a5d1f9 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig/revert-static-pkgconfig.patch
++++ b/meta/recipes-graphics/fontconfig/fontconfig/revert-static-pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From 1de775180219a57c85a0cdcc62fc6482ef8e581e Mon Sep 17 00:00:00 2001
++From d30924b17c93f8085f8357640b766e139a022d95 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 23 Apr 2015 20:35:32 -0700
+ Subject: [PATCH] fontconfig: Fix pkgconfig file generation to not have
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.18.2.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb
+similarity index 96%
+rename from meta/recipes-graphics/fontconfig/fontconfig_2.18.2.bb
+rename to meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb
+index 792d44b7f0..16037aeaa3 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.18.2.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb
+@@ -23,7 +23,7 @@ DEPENDS = "expat freetype zlib gperf-native util-linux"
+ SRC_URI = "https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/${PV}/fontconfig-${PV}.tar.xz \
+            file://revert-static-pkgconfig.patch \
+            "
+-SRC_URI[sha256sum] = "cf8e6576ef0484c15079bdaf77cd9c51c464df5365814ada4d3ee7331ea31eb5"
++SRC_URI[sha256sum] = "4f7b554a38cdf78c033f666c8871f3749e14a094f65a07f630c91ed0b43d35e3"
+ 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/fontconfig/fontconfig/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
+-- 
+2.47.1
+
+
+--===============6972104474679990654==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="fontconfig-changelog.txt"
+
+Changelog for fontconfig: 2.18.2 -> 2.18.3
+Source: NEWS
+
+Version 2.18.3
+                              2026-08-06
+2.18.3
+
+Akira TAGOH (33):
+      ci: Add --werror option to the build script
+      fc-cat: exit with non-zero if not successfully done
+      Workaround a longstanding use-after-free warning
+      Fix a null pointer dereference
+      Add Noto Sans as system-ui for fallback
+      Drop Noto Sans CJK KR from 60-nonlatin.conf
+      Correct sat.orth
+      Add an orth file for Balinese
+      Update orth files for jv, so, su, tl to use native scripts
+      Add orth files for scripts used by Noto font families
+      Update mni.orth to use Meetei Mayek script
+      Add orth files for Cuneiform languages (akk, sux, hit)
+      ci: Suppress abidiff false positives for all internal structs
+      test: Add cache format compatibility tests for orth file additions
+      Add orth files for ancient scripts (xna, hlu, ecy)
+      fc-cache: Create backward-compatible cache symlinks for cross-version discovery
+      ci: Update dependencies
+      Add implicit rule to update genericfamily property against syntactic-sugar
+      fc-genconf: Use alias syntactic-sugar instead of the pair of test-edit config
+      Allow to limit the targeted family for TTC
+      test: Fix test_genconf.py to avoid unexpected family name in testing conf
+      ci: Enable -Werror in CI
+      ci: drop duplicate pipelines
+      ci: cleanup
+      ci: gate distro jobs until all tests passed
+      ci: reduce more duplicate jobs
+      ci: Update base ci-templates
+      test: Fix compiler warnings
+      fc-fontations: Allow unnecessary_transmutes lint in bindgen-generated Rust code
+      Fix another compiler warnings
+      ci: Bump FreeBSD version to 14.4
+      Fix the compiler warnings on MinGW
+      Update INSTALL
+
+Julien Nabet (2):
+      Fix "FileType is deprecated"
+      Fix unknown type name locale_t on macOS
+
+--===============6972104474679990654==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-dbg: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-dbg: PKGSIZE changed from 2843696 to 3022808 (+6%)
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-dbg: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-dev: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-dev: PKGSIZE changed from 45176 to 45210 (+0%)
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-dev: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-doc: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-doc: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-locale-ka: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-locale-ka: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-locale-zh-cn: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-locale-zh-cn: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-src: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-src: FILELIST: directory renamed /usr/src/debug/fontconfig/2.18.2/fc-match -> /usr/src/debug/fontconfig/2.18.3/fc-match, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-list -> /usr/src/debug/fontconfig/2.18.3/fc-list, directory renamed /usr/src/debug/fontconfig/2.18.2/src -> /usr/src/debug/fontconfig/2.18.3/src, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-validate -> /usr/src/debug/fontconfig/2.18.3/fc-validate, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-cache -> /usr/src/debug/fontconfig/2.18.3/fc-cache, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-case -> /usr/src/debug/fontconfig/2.18.3/fc-case, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-cat -> /usr/src/debug/fontconfig/2.18.3/fc-cat, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-lang -> /usr/src/debug/fontconfig/2.18.3/fc-lang, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-query -> /usr/src/debug/fontconfig/2.18.3/f
+ c-query, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-genericfamily -> /usr/src/debug/fontconfig/2.18.3/fc-genericfamily, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-pattern -> /usr/src/debug/fontconfig/2.18.3/fc-pattern, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-genconf -> /usr/src/debug/fontconfig/2.18.3/fc-genconf, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-scan -> /usr/src/debug/fontconfig/2.18.3/fc-scan, directory renamed /usr/src/debug/fontconfig/2.18.2 -> /usr/src/debug/fontconfig/2.18.3, directory renamed /usr/src/debug/fontconfig/2.18.2/fontconfig -> /usr/src/debug/fontconfig/2.18.3/fontconfig, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-const -> /usr/src/debug/fontconfig/2.18.3/fc-const, directory renamed /usr/src/debug/fontconfig/2.18.2/fc-conflist -> /usr/src/debug/fontconfig/2.18.3/fc-conflist
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-src: PKGSIZE changed from 1104491 to 1129859 (+2%)
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-src: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-staticdev: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-staticdev: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-utils: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig-utils: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig: PKGSIZE changed from 643819 to 662895 (+3%)
+packages/x86-64-v3-poky-linux/fontconfig/fontconfig: PV changed from "2.18.2" to "2.18.3"
+packages/x86-64-v3-poky-linux/fontconfig: SRC_URI changed from "https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/2.18.2/fontconfig-2.18.2.tar.xz file://revert-static-pkgconfig.patch" to "https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/2.18.3/fontconfig-2.18.3.tar.xz file://revert-static-pkgconfig.patch"
+packages/x86-64-v3-poky-linux/fontconfig: PKGV changed from 2.18.2 [default] to 2.18.3 [default]
+packages/x86-64-v3-poky-linux/fontconfig: PV changed from "2.18.2" to "2.18.3"
+
+--===============6972104474679990654==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="spirv-llvm-translator-changelog.txt"
+ filename="0001-fontconfig-upgrade-2.18.2-2.18.3.patch"
 
-Changelog for spirv-llvm-translator: 22.1.5 -> 23.1.0
+RnJvbSA4NTNiODMwYmY1MDVkZDc5ZjNiZWZkYjY5YjIyZmQxMTQ4NTUwZWRiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgNyBBdWcgMjAyNiAwNToxMjozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGZv
+bnRjb25maWc6IHVwZ3JhZGUgMi4xOC4yIC0+IDIuMTguMwoKU291cmNlOiBORVdTCgpWZXJzaW9u
+IDIuMTguMwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyMDI2LTA4LTA2CjIuMTguMwoK
+QWtpcmEgVEFHT0ggKDMzKToKICAgICAgY2k6IEFkZCAtLXdlcnJvciBvcHRpb24gdG8gdGhlIGJ1
+aWxkIHNjcmlwdAogICAgICBmYy1jYXQ6IGV4aXQgd2l0aCBub24temVybyBpZiBub3Qgc3VjY2Vz
+c2Z1bGx5IGRvbmUKICAgICAgV29ya2Fyb3VuZCBhIGxvbmdzdGFuZGluZyB1c2UtYWZ0ZXItZnJl
+ZSB3YXJuaW5nCiAgICAgIEZpeCBhIG51bGwgcG9pbnRlciBkZXJlZmVyZW5jZQogICAgICBBZGQg
+Tm90byBTYW5zIGFzIHN5c3RlbS11aSBmb3IgZmFsbGJhY2sKICAgICAgRHJvcCBOb3RvIFNhbnMg
+Q0pLIEtSIGZyb20gNjAtbm9ubGF0aW4uY29uZgogICAgICBDb3JyZWN0IHNhdC5vcnRoCiAgICAg
+IEFkZCBhbiBvcnRoIGZpbGUgZm9yIEJhbGluZXNlCiAgICAgIFVwZGF0ZSBvcnRoIGZpbGVzIGZv
+ciBqdiwgc28sIHN1LCB0bCB0byB1c2UgbmF0aXZlIHNjcmlwdHMKICAgICAgQWRkIG9ydGggZmls
+ZXMgZm9yIHNjcmlwdHMgdXNlZCBieSBOb3RvIGZvbnQgZmFtaWxpZXMKICAgICAgVXBkYXRlIG1u
+aS5vcnRoIHRvIHVzZSBNZWV0ZWkgTWF5ZWsgc2NyaXB0CiAgICAgIEFkZCBvcnRoIGZpbGVzIGZv
+ciBDdW5laWZvcm0gbGFuZ3VhZ2VzIChha2ssIHN1eCwgaGl0KQogICAgICBjaTogU3VwcHJlc3Mg
+YWJpZGlmZiBmYWxzZSBwb3NpdGl2ZXMgZm9yIGFsbCBpbnRlcm5hbCBzdHJ1Y3RzCiAgICAgIHRl
+c3Q6IEFkZCBjYWNoZSBmb3JtYXQgY29tcGF0aWJpbGl0eSB0ZXN0cyBmb3Igb3J0aCBmaWxlIGFk
+ZGl0aW9ucwogICAgICBBZGQgb3J0aCBmaWxlcyBmb3IgYW5jaWVudCBzY3JpcHRzICh4bmEsIGhs
+dSwgZWN5KQogICAgICBmYy1jYWNoZTogQ3JlYXRlIGJhY2t3YXJkLWNvbXBhdGlibGUgY2FjaGUg
+c3ltbGlua3MgZm9yIGNyb3NzLXZlcnNpb24gZGlzY292ZXJ5CiAgICAgIGNpOiBVcGRhdGUgZGVw
+ZW5kZW5jaWVzCiAgICAgIEFkZCBpbXBsaWNpdCBydWxlIHRvIHVwZGF0ZSBnZW5lcmljZmFtaWx5
+IHByb3BlcnR5IGFnYWluc3Qgc3ludGFjdGljLXN1Z2FyCiAgICAgIGZjLWdlbmNvbmY6IFVzZSBh
+bGlhcyBzeW50YWN0aWMtc3VnYXIgaW5zdGVhZCBvZiB0aGUgcGFpciBvZiB0ZXN0LWVkaXQgY29u
+ZmlnCiAgICAgIEFsbG93IHRvIGxpbWl0IHRoZSB0YXJnZXRlZCBmYW1pbHkgZm9yIFRUQwogICAg
+ICB0ZXN0OiBGaXggdGVzdF9nZW5jb25mLnB5IHRvIGF2b2lkIHVuZXhwZWN0ZWQgZmFtaWx5IG5h
+bWUgaW4gdGVzdGluZyBjb25mCiAgICAgIGNpOiBFbmFibGUgLVdlcnJvciBpbiBDSQogICAgICBj
+aTogZHJvcCBkdXBsaWNhdGUgcGlwZWxpbmVzCiAgICAgIGNpOiBjbGVhbnVwCiAgICAgIGNpOiBn
+YXRlIGRpc3RybyBqb2JzIHVudGlsIGFsbCB0ZXN0cyBwYXNzZWQKICAgICAgY2k6IHJlZHVjZSBt
+b3JlIGR1cGxpY2F0ZSBqb2JzCiAgICAgIGNpOiBVcGRhdGUgYmFzZSBjaS10ZW1wbGF0ZXMKICAg
+ICAgdGVzdDogRml4IGNvbXBpbGVyIHdhcm5pbmdzCiAgICAgIGZjLWZvbnRhdGlvbnM6IEFsbG93
+IHVubmVjZXNzYXJ5X3RyYW5zbXV0ZXMgbGludCBpbiBiaW5kZ2VuLWdlbmVyYXRlZCBSdXN0IGNv
+ZGUKICAgICAgRml4IGFub3RoZXIgY29tcGlsZXIgd2FybmluZ3MKICAgICAgY2k6IEJ1bXAgRnJl
+ZUJTRCB2ZXJzaW9uIHRvIDE0LjQKICAgICAgRml4IHRoZSBjb21waWxlciB3YXJuaW5ncyBvbiBN
+aW5HVwogICAgICBVcGRhdGUgSU5TVEFMTAoKSnVsaWVuIE5hYmV0ICgyKToKICAgICAgRml4ICJG
+aWxlVHlwZSBpcyBkZXByZWNhdGVkIgogICAgICBGaXggdW5rbm93biB0eXBlIG5hbWUgbG9jYWxl
+X3Qgb24gbWFjT1MKLS0tCiAuLi4vZm9udGNvbmZpZy9mb250Y29uZmlnL3JldmVydC1zdGF0aWMt
+cGtnY29uZmlnLnBhdGNoICAgICAgICAgfCAyICstCiAuLi4vZm9udGNvbmZpZy97Zm9udGNvbmZp
+Z18yLjE4LjIuYmIgPT4gZm9udGNvbmZpZ18yLjE4LjMuYmJ9ICAgfCAyICstCiAyIGZpbGVzIGNo
+YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvZm9udGNvbmZpZy97Zm9udGNvbmZpZ18yLjE4LjIuYmIgPT4gZm9udGNvbmZp
+Z18yLjE4LjMuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2Zv
+bnRjb25maWcvZm9udGNvbmZpZy9yZXZlcnQtc3RhdGljLXBrZ2NvbmZpZy5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9mb250Y29uZmlnL2ZvbnRjb25maWcvcmV2ZXJ0LXN0YXRpYy1wa2dj
+b25maWcucGF0Y2gKaW5kZXggNDMzN2RhNzI0Zi4uYmU5MGE1ZDFmOSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL2ZvbnRjb25maWcvZm9udGNvbmZpZy9yZXZlcnQtc3RhdGljLXBr
+Z2NvbmZpZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZm9udGNvbmZpZy9mb250
+Y29uZmlnL3JldmVydC1zdGF0aWMtcGtnY29uZmlnLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSAxZGU3NzUxODAyMTlhNTdjODVhMGNkY2M2MmZjNjQ4MmVmOGU1ODFlIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSBkMzA5MjRiMTdjOTNmODA4NWY4MzU3NjQwYjc2NmUxMzlhMDIyZDk1
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWls
+LmNvbT4KIERhdGU6IFRodSwgMjMgQXByIDIwMTUgMjA6MzU6MzIgLTA3MDAKIFN1YmplY3Q6IFtQ
+QVRDSF0gZm9udGNvbmZpZzogRml4IHBrZ2NvbmZpZyBmaWxlIGdlbmVyYXRpb24gdG8gbm90IGhh
+dmUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9mb250Y29uZmlnL2ZvbnRjb25m
+aWdfMi4xOC4yLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ZvbnRjb25maWcvZm9udGNvbmZp
+Z18yLjE4LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL2ZvbnRjb25maWcvZm9udGNvbmZpZ18yLjE4LjIuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1ncmFwaGljcy9mb250Y29uZmlnL2ZvbnRjb25maWdfMi4xOC4zLmJiCmluZGV4IDc5
+MmQ0NGI3ZjAuLjE2MDM3YWVhYTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9m
+b250Y29uZmlnL2ZvbnRjb25maWdfMi4xOC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9mb250Y29uZmlnL2ZvbnRjb25maWdfMi4xOC4zLmJiCkBAIC0yMyw3ICsyMyw3IEBAIERFUEVO
+RFMgPSAiZXhwYXQgZnJlZXR5cGUgemxpYiBncGVyZi1uYXRpdmUgdXRpbC1saW51eCIKIFNSQ19V
+UkkgPSAiaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2FwaS92NC9wcm9qZWN0cy84OTAv
+cGFja2FnZXMvZ2VuZXJpYy9mb250Y29uZmlnLyR7UFZ9L2ZvbnRjb25maWctJHtQVn0udGFyLnh6
+IFwKICAgICAgICAgICAgZmlsZTovL3JldmVydC1zdGF0aWMtcGtnY29uZmlnLnBhdGNoIFwKICAg
+ICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImNmOGU2NTc2ZWYwNDg0YzE1MDc5YmRh
+Zjc3Y2Q5YzUxYzQ2NGRmNTM2NTgxNGFkYTRkM2VlNzMzMWVhMzFlYjUiCitTUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiNGY3YjU1NGEzOGNkZjc4YzAzM2Y2NjZjODg3MWYzNzQ5ZTE0YTA5NGY2NWEwN2Y2
+MzBjOTFlZDBiNDNkMzVlMyIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vZ2l0bGFi
+LmZyZWVkZXNrdG9wLm9yZy9mb250Y29uZmlnL2ZvbnRjb25maWcvLS90YWdzIgogVVBTVFJFQU1f
+Q0hFQ0tfUkVHRVggPSAicmVsZWFzZXMvKD9QPHB2ZXI+LispIgotLSAKMi40Ny4xCgo=
 
-19a29d43 Revert "[CI] Temporarily work around missing llvm 23 packages" (#3950)
-e51894c2 [CI] Temporarily work around missing llvm 23 packages
-30777e6d Prepare release branch for LLVM 23.x
-b888251d Read old SPV_INTEL_float4 type for StochasticRound*ToE2M1INTEL (#3901)
-2a28bf4a Use OpImageQuerySize for multisampled image size queries (#3776)
-09adb2b3 Propagate intrinsic param attributes to generated helper functions (#3821)
-a3789718 Fix OpGroupNonUniformRotateKHR mangling (#3863)
-fa264644 Replace decode-path asserts with runtime error checks (#3798)
-4ace1857 Add missing coverage for SPV_EXT_long_vector (#3869)
-ee776682 Avoid per-instruction stream seeks in validateWordCount (#3850)
-6734efd9 Add 2 opcodes back from old SPV_INTEL_fp_conversions spec (#3868)
-880cbb08 Early-out transIntelFPGADecorations for undecorated values (#3851)
-959eb891 Represent FP4 E2M1 with SPV_EXT_ocp_microscaling_types (#3828)
-db650121 Adapt to latest llvm changes (#3859)
-94156dfb Drop constant zero-sized memcpy/memmove/memset before selection (#3827)
-696e6751 Allow FPFastMathMode decoration on OpFmaKHR (#3820)
-3238c290 Keep VectorAnyINTEL for VectorCompute modules with SPV_EXT_long_vector (#3829)
-0a6abf0d Add storage class memory semantics bit to LLVM IR atomic translation (#3826)
-a1441b28 Add additional guardrails against unsigned underflows caused by wrong WordCount (#3787)
-7d759325 Optimize checkError (#3840)
-7d4b128d Use SPV_EXT_long_vector extension for non-standard vector size (#3777)
-0382b779 chore: Add AI-Assisted Contributions in CONTRIBUTING.md (#3824)
-f361da03 Implement SPV_INTEL_subgroup_scaled_matrix_multiply_accumulate (#3815)
-dd66f0bd Re-enable spirv-val for tests of published extensions (#3818)
-e32b76f6 Avoid duplicate spirv-fp-contract registration with LLVM SPIR-V backend (#3819)
-8edb4243 Update SPV_INTEL_fp_conversions to the latest spec revision (#3782)
-a2a27749 Fix SPIR-V module assert when translating freeze without SPV_KHR_poison_freeze (#3778)
-a3937121 Support SPV_INTEL_rounded_div_sqrt extension (#3770)
-766ab20c [DebugInfo] Distinguish absent and empty DIFile source on round-trip (#3781)
-a34ca53e Re-enable spirv-val for some tests (#3783)
-5b7e49f0 Fix build after IRBuilder::CreateIntrinsic change (#3784)
-148a0b95 Preventing generating FPRoundingMode for arithmetic constrained intrinsics (#3771)
-b1ea8cba Translate undef array global initializers to OpConstantComposite (#3775)
-3532d745 Add reqd_sub_group_size metadata for SubgroupSize (#3764)
-6fcf2004 Fix tests broken by LLVM Constant and Verifier updates (#3780)
-ce486d2c [CI] Switch lit to internal shell (#3779)
-31301b17 Support `SaturatedToLargestFloat8NormalConversionEXT` decoration (#3767)
-33aa12bc Add Int64ImageEXT capability for OpTypeImage with 64-bit integer sampled type (#3773)
-26682004 Avoid duplicate spirv-preserve-auxdata registration with LLVM SPIR-V backend (#3774)
-8e958fcc Add SPV_NV_shader_atomic_fp16_vector extension (#3772)
-bd15d75e Translate llvm.exp10.* intrinsics (#3766)
-06bd1600 Configurable address space numbering (#3716)
-19833602 [NFC] Remove unussed `.travis.yml` (#3765)
-a81d73ed Make `this` captures explicit for C++20; NFC (#3763)
-9f48169a ESIMD W/A Feature Check Guard (#3759)
-cfecbadc Implement SPV_KHR_poison_freeze extension (#3751)
-fac93141 [NFC] Sort some misplaced list entries (#3757)
-78ee81dd [SPIRV->LLVM] Fix missing spir_func CC on builtin FP4/i4 conversion calls (#3746)
-ce41b712 [DebugInfo] Fix DebugFunction Parent when DISubprogram is scoped in DIModule (#3753)
-2569028f Fix is_fpclass translation for inverted case (#3750)
-77625e8c [CI] Build SPIRV-Tools from main instead of lunarg packages (#3748)
-ba34cbb6 Add SPV_AMD_weak_linkage (#3693)
-f48615b9 Drop undef/poison initializers for global variables in SPIR-V translation (#3661)
-38a315ed [DebugInfo] Fix NonSemantic DebugLine Source operand (#3747)
-1406f979 Skip unknown nonsemantic instructions and sets (#3744)
-c2ba98f7 Add NonSemanticAuxData::Linkage translation (#3743)
-28cfd130 [DebugInfo] Fix NonSemantic DebugTypeBasic Flags operand (#3740)
-63cae912 [NFC] Fix typo in the error message (#3739)
-e6a66994 Update floating point literal CHECKs after AsmWriter change (#3741)
-bb853893 [DOC] Add NonSemantic AuxData set specification (#3734)
-8f759502 Add round-trip tests through SPIR-V backend for previously failing tests (#3717)
-d62c9277 Ensure DISubprogram always has a type (#3738)
-c1c1f797 Disable spirv-val for SPV_KHR_abort tests (#3735)
-8324c559 SPIRVReader: Add spirv.nontemporal for Nontemporal image op (#3720)
-c5dbe566 Implement SPV_KHR_abort extension (#3691)
-5a8baf6c Remove internal values for SPV_INTEL_predicated_io (#3721)
-a94d7338 Fix DebugTypeFunction void return type (#3718)
-bd774ef4 [NFC] Use tool substitution for spirv-val in lit config (#3704)
-39e94f89 Fix OpVariable ordering violation in NonSemantic debug info (#3692)
-d4d65d5e Handle ConstantFP vector splats in transConstant (#3705)
-c8862dd4 Add SPV_INTEL_subgroup_buffer_prefetch extension support (#3690)
-daa7d18d Add workaround to translate casts from target ext types to int (#3689)
-31ba7d13 Extend INT4/FP4 packed conversions for i16, i64, and vector packed inputs (#3675)
-508c2aeb Add round-trip tests through SPIR-V backend for previously failing tests (#3669)
-f417c2db Update prefalign in DebugInfo test (#3681)
-7de094bd Disable spirv-val in global_block test that fails newer spirv-val (#3680)
-b2410000 Add `sadd_with_overflow_i8` support (#3673)
-5adf335e Guard setWordCount() resizes against unsigned underflow (CWE-191) (#3671)
-bf469923 Make DebugLinePriority test valid SPIR-V (#3672)
-8f16307f SPIRVReader: Move UserSemantic strings to constant addrspace (#3670)
-01ee67cc Restore SPIRVUseTextFormat on error in readSpirv (#3622)
-34fdf7fc Adjust tests where DCE is removing IR and enable round-trip tests (#3665)
-40ce6c71 Add SPV_KHR_non_semantic_info to some llc tests (#3668)
-9691713f Avoid losing DebugInfo in some tests
-6b5f17f1 Migrate away from BranchInst
-3f525768 Add round-trip tests through SPIR-V backend for previously failing tests (#3660)
-13f1c79e Avoid creating ConstantComposites with spec constants (#3662)
-12645e34 Make DebugInfo tests robust for newer SPIRV-Tools (#3659)
-f66eceee Enable llc RUN line in create-placeholders-for-phi-operands.ll test (#3656)
-787f1e76 Check for spirv-dis tool in DebugMacro tests (#3648)
-3ce38f4e Update OCL nan builtin translation to work with bfloat type (#3558)
-9981b92e Update DebugInfo tests for LLVM changes (#3625)
-735dc42f Remove leftovers of deprecated SPV_INTEL_fast_composite (#3607)
-9223610c Add translation of ptrtoaddr (#3619)
-3c31709b [CI] Fix llvm-lit path for LLVM 23 apt packages (#3620)
-0337510a Translate llvm.ldexp.* intrinsics. (#3608)
-564a5623 Add FP4/FP8 operand support for SubgroupMatrixMultiplyAccumulateINTEL (#3609)
-cb7e40b4 [NFC] Add testing for cross-compilation with SPIR-V backend (#3564)
-b30f6281 Add SPV_ALTERA_arbitrary_precision_integers (#3606)
-a76f8208 [CI] Remove job to cleanup backport branches (#3601)
-ee801714 [CMake] Force LLVM discovery via LLVMConfig.cmake (CONFIG mode) (#3598)
-8c36d7fa [NFC] Check for ptrtoadd instead of ptrtoint (#3605)
-9b0d02a7 Add support for debug macro information (DW_MACINFO_define/undef) (#3562)
-8dfdbae1 Implement extension SPV_KHR_float_controls2 (#3475)
-a37f629c Fix BFloat16 argument type demangling (#3563)
-81895515 Disable spirv-val in some tests (#3584)
-30258ee3 fix a spir-val error in the cooperative_matrix_constant_null test (#3568)
-58b467a7 Fix in-tree build: replace isZeroValue with isNullValue (#3582)
-28b0cb08 Limit the instructions that enable `BFloat16ArithmeticINTEL` capability (#3561)
-3515e17b Update memset test after LLVM IR changes
-b5e67e3e [CI] Upgrade CI jobs to Ubuntu 24.04
-aef1b521 Update LLVM version from 22 to 23
-6f7fe8be [NFC] Allow `llvm::Value` derived types on `SPIRVMDWalker::get` (#3557)
-14d53695 [NFC] Change ExtensionNamesMap type to DenseMap<StringRef, ExtensionID> (#3516)
-60fa4bf3 Fix backward translation of `OpFmaKHR` (#3529)
-1d8f38fd Update for DITypeRefArray removal (#3519)
-fdbf9279 Enhance handling of umul_with_overflow in reverse translation (#3518)
-
---===============0240311783068394625==--
+--===============6972104474679990654==--
 
