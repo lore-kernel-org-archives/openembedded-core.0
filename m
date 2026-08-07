@@ -1,221 +1,196 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <Hemanth.KumarMD@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BD25C5AC7A
-	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 09:45:53 +0000 (UTC)
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39123.1786095943708229900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC69C5AC7C
+	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 10:03:13 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39333.1786096982070231432
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2026 02:45:44 -0700
+ Fri, 07 Aug 2026 03:03:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=OVChVTnv;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Re2qAQkP;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.144, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id B79CDEC011C;
-	Fri,  7 Aug 2026 05:45:42 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 07 Aug 2026 05:45:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1786095942; x=1786182342; bh=Pa5uv9kpFd
-	cjHZX30SiNQyWa7RnZwSpBwaWGKZ2OwKw=; b=OVChVTnvmwv46jFFcmn2Kxs69f
-	fqOu+MY2GMlnSzrlye0K72flLT0JnjwXRr+UDGOH4pjJHm0tJorkER6oqFRObKZd
-	ph6dYcNW6/lFBH9zrcfwxGLV7IxE5toc9g1ju4SEOtXPH2pPjYT8vSMX2+vdt3/H
-	ENjJEJHQjoVLOELQIg2iImV68bTYSLOKw//FGvOZem6oIAl7YQhyjecHrwjqc2fh
-	Swa9Wsiq5dL6yOIdnj82vKY9aFLFJyMrszks9yrITzlgru8Az3hCriu0Hqx6P0nt
-	vQIMM/Ts+Te8Z6Kv38HXtO0V6j01hOUSo+XftRBFg2aSUc0O+bTI/auQSrBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1786095942; x=1786182342; bh=Pa5uv9kpFdcjHZX30SiNQyWa7RnZwSpBwaW
-	GKZ2OwKw=; b=Re2qAQkPpQ/b0WadDSKg2FHI2Z24LBtWJAEigv0soA1OJC8zJ2y
-	/tS3VZDmLPHYE4aN9dl6Coxny0N4kWYNt4X6Z9BuS5K9C8Ym8HKb94lb9fx4tTJf
-	v+VYX3QXAmm7er3iigOMpXDibZvdY3azj3ZZonJy4awDhhkQ9LOQn2czeuZH0c9m
-	zpRRwWQcBY7OgUxUxtpVa/nOzXhgKKrfbltvpVWOGwYOZ/UODDW8l+2PpLol7rPN
-	OsOUFsVaNDMmBjpi7b832WlZElz29nZwAubVOVnpDjEfMv1ucK48PcxGTQIbCSgN
-	e9lI3Lb21mlmbKipY7A+CwZZ14L3ttw3j7w==
-X-ME-Sender: <xms:Rql1ak5V4DaFZ_-AadZskYo3NQJGh-CZy7MiN8BrsyTgaZU-gxeK0A>
-    <xme:Rql1asxMPU3va2biNItgJXv8q1hUprVfJF8B88I4a3rYLOqusAcJe9jSQVlEAGvHT
-    vB6UC4nU4aLYL5EHnMblFUI2YV44567VQxgwYYPpnqvpp-T4ioonj6W>
-X-ME-Received: <xmr:Rql1aryNO02PaQJt4tIg9vW8y8LH8BUzdpPwrBE6hkdmk39hVjMRXCmu_mVk6XPT7Dj-Dfs3mne5ny8RjoT1xfn65rl4ydfFIdR2XjCzedfK>
-X-ME-Proxy-Cause: dmFkZTEW8DatIMziu+x/CTbPupcg+L9ku7un+I/DMsjGI9c17dsj8O9M8olVJuJ+Wakv4O
-    AvmENu1Mi/MZ0MLPPVKV+5Ibb7DDgIhTAL5P6xWbfBR7nJiBiak+vsfQRTQaSzovjshVfA
-    2wfaYZ85VVB+etG4WU0bU4WFPkica37zoo3Wr4Cf7MOOpp67y+Vf85HI6A9AWxW7A0Ddys
-    bqtipZOaf07u5XUBxT6Z0prkO3vmikKeNa+TiIe4YGcR2gZrv96D3GL2ZzSbTNR3hoegZH
-    hDA7VGQ9w2SbXZ4kvN5qCUcOOA/ohTYg7ecZPFty1CY0G1Vjm8Grve3sTwsQ6Oy/q7CBZI
-    HW5xTiCr672nfqD9rhxYQBN7gBrb9aad2+mjY4MtBbn7mx/oF/whpBqu8+1GRWYlqbPnXx
-    xYbqr3Xoyq6qCg3lMfiGuFJ+McbugVSJ5/ZJwtS10BCqEmgvwq+8UTanCBV0Su1lZjIfMp
-    7RoqB2e5tUeuNwFXv5tZ3mlI2ANqlz37Jfq1uCrCD0S5qmOD+kyI0v5SgZzYTGBxnrKJQt
-    IzL7n6o4/D+4KsceO6MfkNB616mDkD1tVvYTTNYCiwJfU6fkSXCy6WllsO+TEy3Pz7SRAK
-    2WKqhbmIp2o5MHsqeGwuqj2GBpxfECjGzBwIO0EA4ztBKZeY2qbHlCe37HPw
-X-ME-Proxy: <xmx:Rql1akxro5pePzYqYd53PpoNwRI-2T1VWHKG4WHXFUJ-kvIYRZWR7g>
-    <xmx:Rql1ala0ILGCzv57B_7H7XuKY4je7jy46NxyeL5ZqMSLH9kJRjQb4A>
-    <xmx:Rql1alVmNqRzMzHE3HfuOaSzxE6JwinbR-C3SRPfBkHy9sjQoKEqCA>
-    <xmx:Rql1ajg4ry2h3RrhQ7C5ipGvBwiggt73LDviswftsZdBEa-dIDx0KA>
-    <xmx:Rql1aoNnphAnVqGdTNyf7v0Pk0PrEetulzby0yVXvtAgya9pQfvcXxDi>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Aug 2026 05:45:41 -0400 (EDT)
-Message-ID: <72c5184f8c87333de0b988aa9df125abf1da1393.camel@pbarker.dev>
-Subject: Re: [PATCH 1/7] util-linux: inherit upstream-stable-release-point
-From: Paul Barker <paul@pbarker.dev>
-To: daniel.turull@ericsson.com, openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org, Randy.MacLeod@windriver.com, 
-	alex.kanavin@gmail.com
-Date: Fri, 07 Aug 2026 10:45:37 +0100
-In-Reply-To: <20260731122522.1647968-2-daniel.turull@ericsson.com>
-References: <20260731122522.1647968-1-daniel.turull@ericsson.com>
-	 <20260731122522.1647968-2-daniel.turull@ericsson.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-KKHBNweyDY8E0Cr3KRmE"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hToQkrGZ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2679201048=hemanth.kumarmd@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6776rFGR2475712
+	for <openembedded-core@lists.openembedded.org>; Fri, 7 Aug 2026 10:03:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=OAJmN43qq
+	CwNhPBNNiEK5J9VW9mQwpe7Z5v8b4WnEjM=; b=hToQkrGZl5yeEwbNJ5l7+iAM/
+	PRmmZrJlGZc1bxbiBNmKsio3oqvWGO6B8VEpfrIXMRLw+uzXdot3QNSz8z4onOsl
+	/R5v3nYI1vI4y/xVQLVgrjW/2Drs/WJ/JTt5JzKykjB6ETTw52YBRv53yQgD+oZj
+	F1jmN2gSD4WLCLNKsW8KMatmiHG41EKOkkHRC5Onxah81fg+B4zCCH7Dq10DjCS2
+	61Ku7TU0AQQvt0gvflKvVDEmUT17lbcGOflW/SxIBTgU+/WoWEQHPnYFyeDtC24c
+	Xck2inVF/FHZXjXK2FZ9lryzPpb9H7Zt1sAmVoGB8rXzjk4WCtvxJliq8X6Mg==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012000.outbound.protection.outlook.com [40.107.209.0])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fvpjctesj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 10:03:00 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VQ3grw7N5uKhXd41+PWOqh0eOTxqH4T0i53im0HPpzD6qMECFP2snsjiXnO/APtiWpyjBAMytq6Q/BQ+DGoAxUNbTejiPQF6GDLhcnMdtPY0Ixm84gHcXfYE2ef13Vd6cfVTyYb412klOX/ovUHg8ZZnni5FPpJ5idknMB2Ep8qVqR2Y2Ydy93+NbOSD9zfS30fTgjWQt4GrKcKj3RmZT0lKPCW5xn58HNWd9Zs8X3Rx2PqMLceplrgHtz01GxkG6Tti/amz+WXQahE+tfNG4Q/ooaU9roMyPFLpUa5JoX7CpD9XN0ItWN0FttcHyLU9+Sta0JRfdxR6j0fTaOTh2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OAJmN43qqCwNhPBNNiEK5J9VW9mQwpe7Z5v8b4WnEjM=;
+ b=ID0CUl47vRRW8AgoxyQfTQ+xIyWLmsU0g73IBGJgwsnu6elpdpZbfMQqOwHF7Mz8TjdIcGvXJE4UdGTLtfgCCi/hgjcpN/FwBTOsVNuAb+Tu0wN6LCKVSHVPkURBo9dqnnZ20J/2koaIHxPAqOtTJ73VALUv0h830jTtEmZI2gUUSeatFYp4uLW4ms7lW5ixgWlCf3GSNx0dhvxlK5hzNxUo2O7IlKOs1D8KOxor5MQXceSTKW2hEP/6EiNCrYVjc7+Zpmi3KQOHLBYjk/41phZrSKd8N3EnYQXIeIDqj7gt9xKmmrNnxvB8LPYlufy3l0eDBjDRt4OBusnFa5oPPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
+ MN6PR11MB8103.namprd11.prod.outlook.com (2603:10b6:208:473::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.23; Fri, 7 Aug
+ 2026 10:02:58 +0000
+Received: from DM6PR11MB4564.namprd11.prod.outlook.com
+ ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
+ ([fe80::21dd:5cab:fc47:1dfe%4]) with mapi id 15.21.0292.022; Fri, 7 Aug 2026
+ 10:02:57 +0000
+From: Hemanth.KumarMD@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
+Subject: [PATCH] bitbake.conf: Add timeout to HOSTTOOLS
+Date: Fri,  7 Aug 2026 03:02:37 -0700
+Message-ID: <20260807100237.1218728-1-Hemanth.KumarMD@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR05CA0079.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::24) To DM6PR11MB4564.namprd11.prod.outlook.com
+ (2603:10b6:5:2a0::7)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|MN6PR11MB8103:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38558d8a-797e-4dfd-d41c-08def46b0e40
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|23010399003|366016|1800799024|38350700014|6133799003|10067099003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	ECtIxsgyIdEqARVmXCWrji38ojc5CUQIhuvT0M57vEg3qRqxIJFrBf7otu3MzbyEywYq/y7TLnoqPEEBQwpzaJhWhBhikCc8iCs8ffeQtfxR3yZEBVGI4BBcm0gSIA1mSkfLN11UKHXzb8Ep9dnTBgdZd686RU+qTiilrNncfeE/QnKxHlsm5ZbBQ8qxKeb4yPH2nT3DaQOwIlP5Y7EY6tTuesTBvn71qC94ZwEyPEBHWSt8VTNGiEqKPg9ZloCWZy56PPQ69JEkL3+mJ5/9XgWx+4a2D4neWFAITpt5WABMxvu/5/y2Ys7cUwiZ9DKPmvohPA5RPqCR/+/NW9B1Y1KOT/5vOwWA5EWlja8CwzjABavEM/TdBlrErqvR6GGBFgOcLjdBrxNaSH2Gua/iloYdEd36LkRkbDVwXaVCQul5dRv37PjArSdjqPpptm8458qNQyAQVOk+mKS9/p6RT+PdC+QEuSfg9KGq8ufYxHpjbSDU7A23RGVXW7shFsdDkGaCBEaWYIdVmPsQ671OUZ22wEA4VgWkomHVfAH+JoJ+wydSWTYO9cm5AGAACNY9hEeI/W5G1anNEK0IsKQrUcz/A/RW2Q70GhnlemAvBVIUDObek6pHCR5jC9ZzWr0DYt4lzCuSw9t4cfdWnp862sq/5uqiRKnqJLBcdpgBGVi91Z25yrllDKw1BsUjBdv06BFrY0JIbzLLz9JWh2QlDe+QgkCKVEIl9Sxy2TMqdUg=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(23010399003)(366016)(1800799024)(38350700014)(6133799003)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ygTBM/MzdtMRGz6Hpt5DjhNBdpTNArHrIio+A5Hda7xi7Kwuwkhl7eS0Qbsa?=
+ =?us-ascii?Q?TV5tTIWCNj5U8kiSUvEWQJLFGF+6p/CdFCTso0JPSSeIqzzp6nF+2xhfQQHM?=
+ =?us-ascii?Q?xL/MFYNfaw1Nobxq4z3FCjcot5gwvlhWToV+g7yfSxqeHIPPv6Wqq8eBvjbf?=
+ =?us-ascii?Q?Z/dQiya+OdEphpWqjBmAUhMGohhZ2gyvTh0eP5+TquwxBGT5AermVCOUqAgz?=
+ =?us-ascii?Q?11Nz/fL+6o9lPV//+h8pCjltUBYaqGwHwVzpGaB/vgliasovj5Ghea41pDVL?=
+ =?us-ascii?Q?KT7iY/LVXStiUJSujWq58oFwIDi3rx53z37qm9I1lK/0wp1f94FKNa90z6IU?=
+ =?us-ascii?Q?EwoEEduMyUUy5p3tbLwxhvUdVuzXB2JnZWJCzF0ddNGDhS694o9oC1jQ2rog?=
+ =?us-ascii?Q?tgzdsBIvPQEjXWQ1nxDv234zyK7tKjasGXRVvisJtt84L1IsblQNZ6YFBzrv?=
+ =?us-ascii?Q?YumwBU6QTqR5VeZpd8P4seIOm8suKsrJIUtLyrRvL4kvlq+G2n5wbNJPI9rp?=
+ =?us-ascii?Q?ecIPd7nVCvM5At31o6uEQdmDB3zJSl9uSPdo93h/h9vMi9CEhIXdy1hP0R96?=
+ =?us-ascii?Q?PpXllehQk552ry1EqIKbvjzzn8dak6IRR+lkL8cY1BK+7DIlqiusvJkfIAlp?=
+ =?us-ascii?Q?gMqVz0t5Pjwo5bwjdpQ4ULyGt8lMRNfCxE3EJ4ZJNEKiseJyFHW/lpkmqDxc?=
+ =?us-ascii?Q?SB2UXMtb3ulZRuOYv78wTWnWfK/ccSkY6AL59flCBJotxF/LjKdukhE70/Qk?=
+ =?us-ascii?Q?eXCELwobLPaDkrB/jXoqtNXEaBE5cG24VUpSY5Vqhhwz0ubucTl/FhL4213r?=
+ =?us-ascii?Q?1Mpj0Jz/SLKheCRfvlebV4fnMzJTF1djilaVD7qBV6f+v7P2Qf/R0HuSKPBI?=
+ =?us-ascii?Q?ZV+EjOufgcrU8+iIp26WqSC4fBrVyLpDrXrSXRczP9xUJQwaylyKNPSGz8MF?=
+ =?us-ascii?Q?0T5QmgFmQISlR69kaAJ+HY9cpZwh8Y/8rEnmLDp1Yx2PwyCoX1rnujNxVSRo?=
+ =?us-ascii?Q?jCB1eDxA8BQsZOiGvzTlLBhwVQrnCsfJweH8xVAYfzkIkA4IhjXUJQRlvxih?=
+ =?us-ascii?Q?QFMf62F+tNEug+bE7DqkrTFlHveM0k+owgnV3SnyuasrDT5lWkT/WzlBPS/V?=
+ =?us-ascii?Q?odh461gTuMFfExFkpPGthCSn75ZmDUbFzkutcG1dZSHxrHVYqxKImPbf+iO8?=
+ =?us-ascii?Q?2q95WjvkLBDYLFx8Upr4l3Vc9k6aO6W4PaU3DVqnvxSf4PB6TafDaNKB72wQ?=
+ =?us-ascii?Q?PWwy4/x2tgoGavOyROVlxzy/rcFi4mxCW50nMNL8yq2I+o21I8R2xYBntjUG?=
+ =?us-ascii?Q?L1O2OBx06bw9V7xRuUtypluy1/xY2TWF5IZjvAqE7VwQVEafo+PkJTj0Qxps?=
+ =?us-ascii?Q?6uo9se952jdroH8zsFzgB7n5+jO3+M5aNU7F274cxamZMME8Ke6thhUEGcwN?=
+ =?us-ascii?Q?NbEKVGzjq3Sdd24LP70bcEByg+OA1qsLpyXuVx+FsOuZHPdeA0YbL9Gqp5ta?=
+ =?us-ascii?Q?d2EU+iC+Ug4XCYJjWRoWZJ6HufpMaAT7WVuo43rrCCr5ypDyihWpU8IZxuxg?=
+ =?us-ascii?Q?KduSkWXReLU71EgmRvgHLx5KI9c9ArZJ6XK3nMhAKwTpJvDj++0m9oXEJ1/l?=
+ =?us-ascii?Q?sbnE+/bK4E1NNLaPQUzFst6WnSBnURqm5MYA9ayigUm9LRZaykwCPDTuFiAe?=
+ =?us-ascii?Q?srqdvuSQe/2vR/BZZ3fV8NqnHlqJGHcks6+9Vb6r7DF9wH9XlW9o3XHGlZYS?=
+ =?us-ascii?Q?IbF0PZqjXRV+e2MZAAO9p9JIDICVGH0=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	dLsDuKBuafmTXfI46QUMQwWwVdKPc6J1RbxM1SEAqtMkpVcD9qAfilwwolQvWqYlhPXfTB1iDFyWzTUF6dF/wvWLeDLXFiuMwyGzO6nrRt2v2BSKf1QchFeRjIb2f1yon4NTZVgYyEI1/+ADIsoHJ2MaXl1cyepXWJJXSbzMj5Hb9OraQ5UJa1L3Xjbe5/OdAUsHRlzu1hxMditL51pZQlBgE1vtAheLXs/JqBYrhPSPpUYj7Em+qqOB62KxoxUnjBl42yU26BEE8nT20xSCE0S0BGBHJWFXzCNftX1sJFZBxLFTbhY0VamWzOvvMkolkYOsn+W7d/DL0KxjafTJZQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38558d8a-797e-4dfd-d41c-08def46b0e40
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 10:02:57.4624
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p1gd2stt1ddqhdekwlIcZzRLXW8bAQ31x6IchgoLJydhYZRTovo1q84VhR6FA7gNPkmzkD7fmE4RlQlgHfe03arL2mW2+NLuA3g/KY72cEI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8103
+X-Proofpoint-ORIG-GUID: jhP9s2AVlQN5xJUHVgAvDn4BQMIt4Edi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDA3NiBTYWx0ZWRfX/l8uioDxXIjr
+ Qw25xpJglXDcffLPMSc7ZvfCnr93fwYEdD3OqNdXe5Wx1zzhuVVWmEIFxiHLx7Br95FAJqtpjqp
+ IxF18gnR0/1gGj/DC1enD7+4RaxqOrjsIV8qfLTwTwzpqB9RU6jHaBRh6OhNd4Xj+APqwjS/QFL
+ GYl3MmaV6RZjITQuDaLnHAVzmBeCtQbwDgir+qWAGuA2iP05kxu0VJoJ339zEOUW5p8QpNrLy3w
+ 04B2nyW3I7EZbrmlE9cxwVeHGU6DZ7Tcq1mgAKMyDWKFxVEiza36JI3z5NcadHTOoXtqdI9b7zT
+ JRzTwwyyNKe/A15GQIFFkNoti1BKKopqs34GEoecn9DyVnCkmlH2gP6etd0mJ2aV+Xcf8WsDoNS
+ YKbUn6hKg+zk4CKCbOBoA7fDdALfmmZFkkvRfmdwrnhITZReinhwlaEPasOysLSn61RMk3WGy7M
+ Fye7lFteg09NPU9Rqkw==
+X-Authority-Analysis: v=2.4 cv=Ic63n2qa c=1 sm=1 tr=0 ts=6a75ad54 cx=c_pps
+ a=6APEVz27trGWNYyenu7PEA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
+ a=BueZr9OacWAYg2AdSfMA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDA3NiBTYWx0ZWRfXyTbepjd/b+sG
+ OhyE1COQk7DBg0nL/9Kb45mwVL0CyGCb81wArwr6nxPQV+umnQDmk/ZjalQ3fpq5ZgGRIn867hE
+ CB8NuZvsQVsCzVheYW7hfvnhJ0GWDkIVg/29s1eVpTar12Sa44ok
+X-Proofpoint-GUID: jhP9s2AVlQN5xJUHVgAvDn4BQMIt4Edi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-07_01,2026-08-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 malwarescore=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608070076
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 09:45:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242997
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 10:03:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242998
 
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
---=-KKHBNweyDY8E0Cr3KRmE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The glibc iconv/tst-iconv_prog test uses timeout(1) on the host to
+guard against hangs during charset conversion testing. Since timeout
+is not listed in HOSTTOOLS, it is unavailable in the Yocto build
+environment, causing the test to fail with exit code 127 (command not
+found) instead of the expected conversion error code.
 
-On Fri, 2026-07-31 at 14:25 +0200, daniel.turull@ericsson.com wrote:
-> From: Daniel Turull <daniel.turull@ericsson.com>
->=20
-> util-linux's README ("Stable Branches") documents stable/v<major>.<minor>
-> branches whose maintenance releases are bug fixes only, so upgrades
-> within a major.minor are stable point upgrades per the OE-Core stable
-> release policy (ref-manual, "Stable Point Release Upgrades").
->=20
->   https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stabl=
-e-point-release-upgrades
->   https://github.com/util-linux/util-linux/blob/v2.42.2/README#L95
->=20
-> Checked the last point release for feature creep:
->=20
->   2.42.2 (Jun 16 2026), against 2.42.1 (May 18 2026): 32 commits, all
->   fixes or hardening -- memory safety (a libblkid use-after-free, two
->   buffer overflows, a libfdisk GPT fix), privilege tightening
->   (X-mount.subdir restricted for non-root), diagnostics (fanotify queue
->   overflow detection) and documentation. No new options or behaviour.
->=20
-> These releases are not picked up on the OE stable branches: util-linux ha=
-s
-> had zero point-release bumps on kirkstone, scarthgap or wrynose since eac=
-h
-> branch forked from master, leaving them at 2.37.4, 2.39.3 and 2.41.3
-> respectively. This addresses that gap going forward.
->=20
-> This addresses the general case on master, where PV is 2.42.x. Since the
-> regex is derived from PV, an older branch scopes it to that branch's seri=
-es,
-> and the 2.39 series scarthgap ships does not qualify. 2.39 adopted the ne=
-w
-> kernel mount API, so 2.39.1 introduced
-> LIBMOUNT_FORCE_MOUNT2=3D{always,never,auto} as, in its own words, "a stab=
-le
-> workaround for use cases where new kernel API is not ready to use"; the
-> series also took new CPU model support and libblkid bcachefs sub-device
-> label probing. That is a property of the 2.39 series rather than of the
-> project -- 2.42.2 is 32 commits of pure fixes -- but it means this must n=
-ot
-> be backported unchanged, and each branch's series needs checking on its o=
-wn.
-> For the avoidance of doubt it is not a development-series effect either:
-> util-linux has no development/stable version split, and pre-release work
-> goes to -rc tags.
->=20
-> AI-Generated: Kiro with Claude Opus 5
-> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+AB testresults (qemux86-64-tc):
 
-Hi Daniel,
+  +--------------+--------+--------+------+
+  | Result       | Before | After  | Diff |
+  +--------------+--------+--------+------+
+  | PASS         | 6759   | 6760   | +1   |
+  | FAIL         | 30     | 29     | -1   |
+  | UNSUPPORTED  | 584    | 584    |  0   |
+  | XFAIL        | 16     | 16     |  0   |
+  +--------------+--------+--------+------+
 
-We merged the rest of this series but skipped this patch as I wanted to
-take a closer look at that last paragraph above.
+  iconv/tst-iconv_prog  FAIL -> PASS
 
-Scarthgap already has v2.39.3, so API fixes in 2.39.1 aren't really an
-issue. However, reading the 2.39.1 release notes it aimed to "resolve
-the regression that occurred due to the v2.39 rewrite for the new kernel
-mount interface" which sounds like a valid fix for me. Supporting new
-CPU models is low risk and likely wanted by many users of our stable
-branches anyway. And allowing libblkid to handle bcachefs' version
-scheme and sub-device labels is low risk and a sensible way to handle
-what was still a moving target.
+With this fix, iconv/tst-iconv_prog now passes on all architectures.
+Verified on AB.
 
-So I'd say util-linux have shown good judgement in managing a stable
-branch and we should be able to track any of their stable branches.
+Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please send a v2 with an updated commit message if you agree with my
-conclusions.
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index bdf37d0da2..39966d60ef 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -533,7 +533,7 @@ HOSTTOOLS += " \
+     mktemp mv nm objcopy objdump od patch perl pr printf pwd \
+     python3 pzstd ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
+     sha1sum sha224sum sha256sum sha384sum sha512sum \
+-    sleep sort split stat strings strip tail tar tee test touch tr true truncate uname \
++    sleep sort split stat strings strip tail tar tee test timeout touch tr true truncate uname \
+     uniq unzstd wc wget which xargs zstd xz \
+ "
+ 
+-- 
+2.49.0
 
-Best regards,
-
---=20
-Paul Barker
-
-
---=-KKHBNweyDY8E0Cr3KRmE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCanWpQREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bnS7AQCYCAXxzSB9SAGJtMXhlB3dfVl1I3Y7gjJL
-l5QN0GDSdwD+MxSceRhG55kgl0X8hvG++EoJ53stfhKMzuj2ASDQoAM=
-=+2LZ
------END PGP SIGNATURE-----
-
---=-KKHBNweyDY8E0Cr3KRmE--
 
