@@ -2,63 +2,63 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D129C5AC67
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B756C5AC7A
 	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 00:17:57 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33205.1786061871767585467
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32739.1786061874865121037
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 17:17:51 -0700
+ Thu, 06 Aug 2026 17:17:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=OAfAHkub;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51c16ac21acso17939511cf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 17:17:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ZSTqhd8y;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51e4ba1cfb4so18031111cf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 17:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786061871; x=1786666671; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1786061874; x=1786666674; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=S9MA3BkeAUW1gwWM4YeFUgLSlsZwglWsqKY2qrRK8vY=;
-        b=OAfAHkub7fnAeC9EVZrpDTCUrdDglSqpCssoY76Wp8O4EFqFphh3HdeSJo6PAKa4nP
-         mYCYr1Eav4oz49CtijPCt5Y2MnSc3HI/MehkHRpR6xmb4yNzjNTQ8KmZoH6dJac2Oyrk
-         RVMK+zxmvRhCCcygDOg6KDoa17So3dumfpmjFJwARQEzMvWjgJZydSOhWuKotOQnXBQB
-         HPpgoHopl+z6Oywe/gRjNa+G2Nhj9X3Tp/mZqbiFLqJhTxK4FF15gf2Ez3FR1D74nADo
-         2itxxhVyCFgiF2+L9AFsdUf3xa+SyivmcQllYQX4PTTbK/ujvwm+PIVv/hK8r53yW9G+
-         W6Cw==
+        bh=cjhhcXKQcPZbDvw6eD5AVa4y0Fwq7PSPiaRGsCVZ/MI=;
+        b=ZSTqhd8yfdR+uPuRtKXe0ujU1Cy5zLbSugZ5kLQQ+ihID1wXEdvOz5K/4KxrcEXyQM
+         cSvNgJzC3vfln6q5bUA3C8C4LnXtKMA1CzqscdQrJdQuujTqFrkjZBV0bnwpm9y+hJl1
+         //kQRaJem5BGhV+fJ4tQUWLqOZ5fYZWzO7FVKKMvP7qot1P2BiENXWpaMM3Weo2YDcUw
+         TBRs0T2VWSDrVVpk+cNX5JfSYd516XERmmGoPcY0Cf0qSt/OtPfGTwFj/8BlTLqJv1XY
+         OPtMGKV9RZWVr28WtiHZo+RB41gVR+AQIl1CheKDe0x9SzxX/+ppCC1Dx4CwwwvXOC66
+         OyOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786061871; x=1786666671;
+        d=1e100.net; s=20251104; t=1786061874; x=1786666674;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=S9MA3BkeAUW1gwWM4YeFUgLSlsZwglWsqKY2qrRK8vY=;
-        b=rFd9hQ/SoONXOCYjKg247HhPT0wM/vMtsEvSMWVK/RrhtDhvMSQFavjvLdcDoJraW3
-         EOHqda9moqdqOe90XAyGihR3xtXPhyolEjNYOiAyAZlNN8UGzp/qVwnDXLxbv50zN1gz
-         FV+YwyoI9yN1nGdFH5Kx7l7dZasHA81amQQSOsHLMAZNt+eZrwhmQSyEQgbp7/O7U7kr
-         Ut+Qn0uPHnW2JQFchnG+wCcM3VlBliJyjGXb84OgR+NtgrC146rJmoOBIofOMSU1C3hx
-         uZGhhd66w2UJkm6GK/T0J6hE/ubjTpAy3YXo2XUostq0H9itsMAravXKV1WnK5EpmZ4P
-         aQwA==
-X-Gm-Message-State: AOJu0YwmIQJYf/Ikmp+MjotjEkRmle2mAZ6iH1vNP5rshcOsvxs3qtmI
-	vtrxJiAiGKjGtou0F8pQ7D974qttGg2ImIb4WI7Sf2P86ayWfZYbflIgJuRZMYI3
-X-Gm-Gg: AR+sD10I/wSqciCZvlRgAxj6CiEsdQlWPmWKhJ7McjSZ/01/Qfa52YOvv9tAYJ8YZRG
-	/o/7HXFhOkDd4iGxyTy4Ad1KE+4lrcDTtX1YE04VV7dyB5SiBm76QGZlMzXDT0aV1zkAoCJs5uG
-	k8ugpavIhJI5GX0LM0W46DWO5KEhqI6T9VdV+HF57AbGjJukZTXUSTzYCS6RJcNyZllj5MuPjzp
-	CALiRvv47R48/sx9fhH3oj/sRoUhvgzDrf+wpFkfpX1pdNcBckbM6YL+8yj6s2m490ebK9YUsR2
-	GZ3qk0ARpKOWvk+PEo56sbR34f98RtT3CmIFMRdtEtd6WY2iRQO1W6PZrVIlLEZyIIkvGiYRPz1
-	wbyTxReBYM3TkoJ9QZGCNh146zqSZC1LrPTM2cXYGfhkVVOn6PupMOtQb/GR/uiCxGwJd2/s+ES
-	C8b4n2bmUUnc8cnzdwCOVTrrQg24ITT/tjL56WK8TA2kG0zR8zgjW+eWYIOJeQf5DKk5EXjtxam
-	z1uYjxQV95RQ/mdJuns+A/SJ92oN8k=
-X-Received: by 2002:a05:622a:60a:b0:51c:1d18:2fe9 with SMTP id d75a77b69052e-52ce5f269bamr194321241cf.5.1786061870645;
-        Thu, 06 Aug 2026 17:17:50 -0700 (PDT)
+        bh=cjhhcXKQcPZbDvw6eD5AVa4y0Fwq7PSPiaRGsCVZ/MI=;
+        b=TgGEmHVW1sPb7a124uME6LDt8B1Q9pfcRPOC/yyJMRMeuxgW7d8DP2XMTMX/aYyW5m
+         G8/hxoNA65OHhPUA9ntS9evV8Tf4wz2mSR85pRo5fFIlFCsi7gic++6zm5G22rNx2Mg3
+         shDkWyds60PvvYfLM/VTV4Nziru6LVtH2xoSTtue1gXnsYkxMAi64ORdCDYJV/Tbpzi6
+         NK1iyUGAEsOC5YFr/WKRLArDmABl2HSJk+seemaj5hPKgMgWugefoQX6rqOEQL8SuAW6
+         2t1/IZjR/qgAfc3V0sZueDoybWo1d7eJhcThsLIy8R9MTlPk8jtYEIOuHv6LFYUpdj47
+         fWtQ==
+X-Gm-Message-State: AOJu0YwgbO5sDeZIxfIJYOCrpsSmEr/YV3A+f4nBl0bmQXrzJI3Jvo/R
+	e/mG/Ybr8KaKGH1tBjJ3rfa82h2QxbEcF1bOL4a/rojzzjIHDwhnj+U3D8cYVXAV
+X-Gm-Gg: AR+sD11zM6YGxs2V8ya2rUF/bF9Kpc7IisrEJ8FgSN9ob31Mlhigm5F1VZZXg9p20Dp
+	zOB/2ZdZaQNYRltd4PU7T2S23nFbaw48f7IznYaBsbOvg688QHiet9HoiEUfO4Ukvz4fUUJfkFo
+	5BVPkIVMEt/Ohr5fkWRvyJmGYJs+BIrBmAJ2OtgmUaDCO4CFXbsOoLbo+mgCed7fYYip7dDCV5F
+	gdxCvtzei7uBK19Nv8G4sxznjgBlLek1UfnA1O3y44+OmQ8DM5FxJ4fJmhVrcJF93qMTlWKbcpO
+	dk0pHDmY11bdz37EUxUe0ZAHijMMuypEF8EQ0BZZndneQ6bq+FKOOMVp1SBllbGXMREJ96LnOl9
+	VgZM/7eptvhbbM3Q6kjfNCz14Ac67IM3kD89Zx9MIHgyN6q7zezT+AMAcX/p7tMwUco/ptdMrlQ
+	u8f8DIUf62jLuD54ccLqk87kdpykYPmqn4XJBML8t4Q+cIrEHAo4zLN1F1Np91mxgB2Zg5gAG+a
+	7NombTmB2yzcl1EL+lANnPeCHsNyJc=
+X-Received: by 2002:a05:622a:4a8b:b0:51c:1132:c80d with SMTP id d75a77b69052e-52ce611c93emr231060031cf.28.1786061873658;
+        Thu, 06 Aug 2026 17:17:53 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d160da94dsm993411cf.0.2026.08.06.17.17.49
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d160da94dsm993411cf.0.2026.08.06.17.17.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 17:17:49 -0700 (PDT)
+        Thu, 06 Aug 2026 17:17:52 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] bitbake.conf: add an SDK_FEATURES lever
-Date: Thu,  6 Aug 2026 20:17:43 -0400
-Message-ID: <20260807001744.3874352-2-twoerner@gmail.com>
+Subject: [PATCH v2 2/2] sdk: fold SDK_TOOLCHAIN_LANGS into SDK_FEATURES
+Date: Thu,  6 Aug 2026 20:17:44 -0400
+Message-ID: <20260807001744.3874352-3-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260807001744.3874352-1-twoerner@gmail.com>
 References: <20260807001744.3874352-1-twoerner@gmail.com>
@@ -68,47 +68,107 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 00:17:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242972
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242973
 
-Add SDK_FEATURES, a list for optionally adding features to a standalone
-SDK in the same spirit as DISTRO_FEATURES and IMAGE_FEATURES. It only
-introduces the variable and its documentation, defaulting to empty, so
-nothing consumes it yet.
+Selecting the toolchain languages for an SDK is the same kind of choice
+as selecting any other optional SDK content, so it does not need a list
+of its own.
 
-AI-Generated: codex/claude-opus 4.8 (xhigh)
+Make "go" and "rust" values of SDK_FEATURES and mark SDK_TOOLCHAIN_LANGS
+as renamed so existing settings are reported rather than silently
+ignored.
+
+AI-Generated: codex/claude-opus 5 (xhigh)
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
 changes in v2:
-- none
+- autobuilder.conf keeps += rather than switching to :append
 ---
- meta/conf/bitbake.conf       | 1 +
- meta/conf/documentation.conf | 1 +
- 2 files changed, 2 insertions(+)
+ meta/classes-recipe/populate_sdk_base.bbclass | 21 +++++++++----------
+ meta/conf/bitbake.conf                        |  1 +
+ .../yocto-autobuilder/autobuilder.conf        |  2 +-
+ .../packagegroups/packagegroup-core-sdk.bb    |  2 +-
+ 4 files changed, 13 insertions(+), 13 deletions(-)
 
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index aea4226ec33e..b2e6f1cae9eb 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -59,27 +59,26 @@ B:task-populate-sdk = "${SDK_DIR}"
+ 
+ SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
+ 
+-SDK_TOOLCHAIN_LANGS ??= ""
+-SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 = "rust"
++SDK_FEATURES:remove:sdkmingw32 = "rust"
+ # libstd-rs doesn't build for mips n32 with compiler constraint errors
+-SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 = "rust"
++SDK_FEATURES:remove:mipsarchn32 = "rust"
+ # go will not build for x86-x32 or mingw
+-SDK_TOOLCHAIN_LANGS:remove:linux-gnux32 = "go"
+-SDK_TOOLCHAIN_LANGS:remove:riscv32 = "go"
+-SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 = "go"
+-SDK_TOOLCHAIN_LANGS:remove:powerpc = "go"
++SDK_FEATURES:remove:linux-gnux32 = "go"
++SDK_FEATURES:remove:riscv32 = "go"
++SDK_FEATURES:remove:sdkmingw32 = "go"
++SDK_FEATURES:remove:powerpc = "go"
+ 
+ TOOLCHAIN_HOST_TASK ?= " \
+     nativesdk-packagegroup-sdk-host \
+     packagegroup-cross-canadian-${MACHINE} \
+-    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', 'packagegroup-go-cross-canadian-${MACHINE}', '', d)} \
+-    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', 'packagegroup-rust-cross-canadian-${MACHINE}', '', d)} \
++    ${@bb.utils.contains('SDK_FEATURES', 'go', 'packagegroup-go-cross-canadian-${MACHINE}', '', d)} \
++    ${@bb.utils.contains('SDK_FEATURES', 'rust', 'packagegroup-rust-cross-canadian-${MACHINE}', '', d)} \
+ "
+ TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_TARGET_TASK ?= " \
+     ${@oe.utils.multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
+-    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', oe.utils.multilib_pkg_extend(d, 'packagegroup-go-sdk-target'), '', d)} \
+-    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', oe.utils.multilib_pkg_extend(d, 'libstd-rs'), '', d)} \
++    ${@bb.utils.contains('SDK_FEATURES', 'go', oe.utils.multilib_pkg_extend(d, 'packagegroup-go-sdk-target'), '', d)} \
++    ${@bb.utils.contains('SDK_FEATURES', 'rust', oe.utils.multilib_pkg_extend(d, 'libstd-rs'), '', d)} \
+     target-sdk-provides-dummy \
+ "
+ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1830cab753e6..c402f9f0b7c8 100644
+index c402f9f0b7c8..8eae49650bd3 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -898,6 +898,7 @@ OES_BITBAKE_CONF = "1"
+@@ -128,6 +128,7 @@ BB_RENAMED_VARIABLES[DISTRO_FEATURES_BACKFILL_CONSIDERED] = "DISTRO_FEATURES_OPT
+ BB_RENAMED_VARIABLES[MACHINE_FEATURES_DEFAULT] = "is obsolete, add all default features to MACHINE_FEATURES_DEFAULTS"
+ BB_RENAMED_VARIABLES[MACHINE_FEATURES_BACKFILL] = "is obsolete, add all default features to MACHINE_FEATURES_DEFAULTS"
+ BB_RENAMED_VARIABLES[MACHINE_FEATURES_BACKFILL_CONSIDERED] = "MACHINE_FEATURES_OPTED_OUT"
++BB_RENAMED_VARIABLES[SDK_TOOLCHAIN_LANGS] = "SDK_FEATURES"
  
- MACHINE_FEATURES:append = " ${@oe.utils.filter_default_features('MACHINE_FEATURES', d)}"
- SDK_MACHINE_FEATURES ?= ""
-+SDK_FEATURES ?= ""
+ ##################################################################
+ # Architecture-dependent build variables.
+diff --git a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+index a9ae99a451e6..4f1b1ca777f6 100644
+--- a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
++++ b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+@@ -9,6 +9,6 @@ IMAGE_CLASSES += 'testimage'
+ SDK_EXT_TYPE = 'minimal'
+ SDK_INCLUDE_TOOLCHAIN = '1'
+ ESDK_LOCALCONF_REMOVE:append = 'BB_HASHSERVE'
+-SDK_TOOLCHAIN_LANGS += 'go rust'
++SDK_FEATURES += 'go rust'
+ PTEST_EXPECT_FAILURE = '1'
  
- DISTRO_FEATURES:append = " ${@oe.utils.filter_default_features('DISTRO_FEATURES', d)}"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index 4a147c059e96..b3010d767456 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -10,7 +10,7 @@ inherit packagegroup
  
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 1a6ec8fdd5bc..4c5a5ee8c233 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -362,6 +362,7 @@ SANITY_TESTED_DISTROS[doc] = "A list of the host distribution identifiers that t
- SDK_ARCH[doc] = "The target architecture for the SDK."
- SDK_DEPLOY[doc] = "The directory set up and used by the populate_sdk_base to which the SDK is deployed."
- SDK_DIR[doc] = "The parent directory used by the OpenEmbedded build system when creating SDK output."
-+SDK_FEATURES[doc] = "The list of features to include in a standalone SDK, resolved at populate_sdk time. Analogous to IMAGE_FEATURES but for the SDK."
- SDK_NAME[doc] = "The base name for SDK output files."
- SDK_OUTPUT[doc] = "The location used by the OpenEmbedded build system when creating SDK output."
- SDKIMAGE_FEATURES[doc] = "Equivalent to IMAGE_FEATURES. However, this variable applies to the SDK generated from an image using the command 'bitbake -c populate_sdk imagename'."
+ #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
+ 
+-TARGET_TOOLCHAIN_LANGS ??= "${SDK_TOOLCHAIN_LANGS}"
++TARGET_TOOLCHAIN_LANGS ??= "${@bb.utils.filter('SDK_FEATURES', 'go rust', d)}"
+ TARGET_TOOLCHAIN_LANGS:remove:sdkmingw32 = "rust"
+ # libstd-rs doesn't build for mips n32 with compiler constraint errors
+ TARGET_TOOLCHAIN_LANGS:remove:mipsarchn32 = "rust"
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
