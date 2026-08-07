@@ -1,351 +1,145 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0617DC5AC9E
-	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 05:30:42 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36637.1786080637976950960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 554BFC5AC7A
+	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 05:45:02 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36764.1786081495544183023
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 22:30:38 -0700
+ Thu, 06 Aug 2026 22:44:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=oJUeKllj;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yTE4ZDwZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019fdab3b030-b91ec13b-b79d-469f-a83d-55b984d356c5-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786080637;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=gHr3abyLWGqJ0aukyRjCSVBmLTo5GLRTt5yFdGiXLIY=;
-	b=oJUeKlljzPFGbus4+mT4qvtQEv0xHbA49+htCy+OTXeIgDsVLDt/DU2U6K/qwzh4
-	vl2Ktr9nWB4aslakxs34BwhRlIwSey8MiCfaB4+T6VT1OFJHBJMqoXUy4f9rxXavqwF
-	TaH0auRElM8pWlN5xzXl1LE6RItzn+MVyJgLwHIY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786080637;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=gHr3abyLWGqJ0aukyRjCSVBmLTo5GLRTt5yFdGiXLIY=;
-	b=yTE4ZDwZ3bOtvwgzWk+Zk5AmaNW8QWJKzSLqSYqO4pTt+EYZbK8NnpGA6y9if85h
-	n33nJA9s8LMj++4KGRpnGpi+i3WIN3H5OUbf0+sWGY3+GWjkcvNIBDJ35qw052c87rb
-	XLI4tA7/4rjMWq+0tkpt6RUevnv6ieD7d4X8T3Ug=
-Content-Type: multipart/mixed; boundary="===============5320804208019231011=="
-MIME-Version: 1.0
-From: auh@yoctoproject.org
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=kj/obF03;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47fecbbafdaso894240f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 22:44:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786081494; x=1786686294; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UamD8LC9Ob41ervZlIjlJNXWuPpzE3H3vVphI7AEY7c=;
+        b=kj/obF03neRFgBMeTrwOu1lOpRwjJvkk+8KqryCMXfQJMVD4AWfPWiv7SL0NFfWl+1
+         aI/mWG9iPHcatHjb9XqFqxAdmvnQY7Obw+vhyyNgki9xTtEiTB5Rkr2CBp9Nf6WrP8Tt
+         PHnm98lBGqpBxIPJHR9MlHhndgtbTaaouUy8WNkbDuTgX7zx3Mtu8PQK1CL7SPWlg0Hc
+         v+XA5PL1w4LjAzPHH5T9VTcjHhF7YVps9gzG2tI+O+BGbUqhXSxZBLG3DencWNFXHUmh
+         qUzHjtlbhdMcyzOP8pxrvfqejL+X/jJ2QRgtDwDWLokop5BthdfWskLnXjAnQjBQZiOj
+         MH1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786081494; x=1786686294;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UamD8LC9Ob41ervZlIjlJNXWuPpzE3H3vVphI7AEY7c=;
+        b=BJuvsHSCFA9/TDoTai7NXxdonjfBCIw6MRWNxihVX1b/ir1dWUQvQ4thLmngIFL8hA
+         usyZHwlZqUkPa1BKj6Z1f5RS7x58/fTQ2n1MzGpneJFtC20qwCSikwPeR1GLyFImpWDA
+         E13+UckmSwOI2OFdt1BenJMAYyQKf4+jRTVHivOUc3Xsj35WznQRMjBTJzVNKg7A8gPS
+         fVzwb8/GGiWKfbfANsct7U2RwofW05PIdIzQ6BVsFUycC2sHTSMjaljtCwAju0ApOwyO
+         YGPVsIF0fC6h9rsNBoStCRfVoWbKedFeUXduyDLOPQx3tDAZ7vORNIxo55L3JOhiP8cB
+         YU1A==
+X-Gm-Message-State: AOJu0YwHyPxPfjjSvPu9YW6wJ6FtMbva8FDPOh51cm5Zdlpv/EtD7rLT
+	QZ8QKakJ6vxhMEYZ1yOLBCne781S1HrMmNcbfeRyHseiwgQIRnjySdUmlHQUiA==
+X-Gm-Gg: AR+sD12wXAzyoLKZFapoBerR7ZeUeOzBFn4OsNYfYFyDNf2IR7hCVd403vjHJLrGqS2
+	5BUKqm5QdmFEK4Q23QmOndvTFdVASmOf89k4o6J/cnM3T4McbubTQrrM0oFWeDMl+P+qfBZkZrP
+	dbMrPJZOg23draQ/bRXSuuviMzUnbvfObw7hZr4C8qaFQWjSImO9X106vpB8VD1uIhAt22BDHxO
+	GZ6J6cPS2qgPK8g5hfPJF/IVsRtlGJJKkltEMF4AMPbRMuVZ9YUx8gbC2XkIcsHH7acHXhjFG8A
+	Hr9LyKAMI+95WqcEFeLOC4XOXdG8a6m2+gH7tDgDW9Z2ywKjYnLA7uXNFKMt1ES33ithYus7OgN
+	1rGFZRUQTPjeJxSezBV3pO0STF+Fr3Cdtb1RRhNAFThF6oOzH20uXrvs/RK2UoV2IctSdXlRGRO
+	oEuhqdtCZ5qZnu11nscgvmD8wNM7HP/yR8rSIElYBd2IS2846NNcy8qK+ZsGEn6QdVXpjoxpw6c
+	a7dflWTvxgrzb3MFxnJlyMdZTtj+j8qC4r4cwmRc3wTyZBQppqX1ReSaQDbuprjEXuDkfwa2rQH
+	IxFqQS33T3RJ6nn/dJdGMKYdbA==
+X-Received: by 2002:a05:6000:186a:b0:47f:97ee:f1d4 with SMTP id ffacd0b85a97d-47fec512785mr30905791f8f.9.1786081493795;
+        Thu, 06 Aug 2026 22:44:53 -0700 (PDT)
+Received: from 2A0011100124613F533917970D022288.mobile.pool.telekom.hu (2A0011100124613F533917970D022288.mobile.pool.telekom.hu. [2a00:1110:124:613f:5339:1797:d02:2288])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480021e8c5asm2743096f8f.18.2026.08.06.22.44.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 22:44:53 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] p11-kit: upgrading to 0.26.5 SUCCEEDED
-Message-ID: <0101019fdab3b030-b91ec13b-b79d-469f-a83d-55b984d356c5-000000@us-west-2.amazonses.com>
-Date: Fri, 7 Aug 2026 05:30:36 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.07-54.240.27.30
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Jose Quaresma <jose.quaresma@oss.qualcomm.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH v4 2/3] mesa-libclc: New recipe for forking libclc for Rusticl purposes in Mesa
+Date: Fri,  7 Aug 2026 07:44:47 +0200
+Message-ID: <20260807054448.1301957-2-zboszor@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260807054448.1301957-1-zboszor@gmail.com>
+References: <20260807054448.1301957-1-zboszor@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 05:30:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242979
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 05:45:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242982
 
---===============5320804208019231011==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+See the reasoning and discussion at
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43020
+which was merged and backported to 26.2.0.
 
-Hello,
+TL;DR: LLVM constantly introduces breaking changes that cause
+regressions for running OpenCL CTS with Rusticl and finally
+Karol Herbst had enough.
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *p11-kit* to *0.26.5* has Succeeded.
+This fork is from the LLVM 22 version of libclc and contains the
+necessary fixes to make Rusticl pass OpenCL CTS.
 
-Next steps:
-    - apply the patch: git am 0001-p11-kit-upgrade-0.26.4-0.26.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 16cf86106f11a029db1c39fdca3919d89b09b8eb Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 7 Aug 2026 05:30:30 +0000
-Subject: [PATCH] p11-kit: upgrade 0.26.4 -> 0.26.5
-
-Source: NEWS
-
-0.26.5 (stable)
-* rpc: guard against overflow when decoding nested attributes (CVE-2026-18938) [PR#777]
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- .../p11-kit/{p11-kit_0.26.4.bb => p11-kit_0.26.5.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/p11-kit/{p11-kit_0.26.4.bb => p11-kit_0.26.5.bb} (97%)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../mesa/mesa-libclc_22.1.8.3.bb              | 26 +++++++++++++++++++
+ 2 files changed, 27 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb b/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
-similarity index 97%
-rename from meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
-index 4828d6f942..722f2d876e 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
-@@ -11,7 +11,7 @@ DEPENDS = "libffi"
- DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
- 
- SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https;tag=${PV}"
--SRCREV = "a14788849d1ef44422d679534a13821eab5bb5f4"
-+SRCREV = "120050e353e8f43d7c40bbcc047f667f903f4de5"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} trust"
- PACKAGECONFIG[systemd] = "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index c5b701c244..feccf29ce4 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -524,6 +524,7 @@ RECIPE_MAINTAINER:pn-menu-cache = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-mesa = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-mesa-demos = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-mesa-gl = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-mesa-libclc = "Zoltán Böszörményi <zboszor@gmail.com>"
+ RECIPE_MAINTAINER:pn-mesa-tools-native = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-meson = "Trevor Gamblin <tgamblin@baylibre.com>"
+ RECIPE_MAINTAINER:pn-meta-environment-${MACHINE} = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+diff --git a/meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb b/meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
+new file mode 100644
+index 0000000000..c93b5b9d9d
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "Mesa fork of libclc: Implementation of the library requirements of the OpenCL C programming language."
++HOMEPAGE = "https://gitlab.freedesktop.org/karolherbst/mesa-libclc/"
++SECTION = "devel"
++LICENSE = "Apache-2.0-with-LLVM-exception"
++LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=7cc795f6cbb2d801d84336b83c8017db"
++
++SRC_URI = "git://gitlab.freedesktop.org/karolherbst/mesa-libclc.git;protocol=https;branch=llvm_22"
++
++SRCREV = "87f66007242ff10e9e84bf32be84f9057f6abc75"
++
++inherit cmake pkgconfig
++
++# Depend explicitly on clang-native instead of using TOOLCHAIN as the build
++# objects from this recipe are build explicitly using clang for GPU targets.
++# We could INHIBIT_DEFAULT_DEPS to avoid any other toolchain but then we need
++# to wrestle CMake to configure without a toolchain.
++DEPENDS += "clang-native spirv-llvm-translator-native"
++
++# Semicolon-separated list of targets to build
++LIBCLC_TARGETS ?= "all"
++
++EXTRA_OECMAKE += "-DLIBCLC_TARGETS_TO_BUILD='${LIBCLC_TARGETS}'"
++
++FILES:${PN} += "${datadir}/mesa-clc"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.47.1
+2.55.0
 
-
---===============5320804208019231011==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit: FILELIST: removed "/usr/lib/libp11-kit.so.0.4.10", added "/usr/lib/libp11-kit.so.0.4.11"
-Changes to packages/x86-64-v3-poky-linux/p11-kit (sysroot):
-  /usr/lib/libp11-kit.so.0 changed symlink target from libp11-kit.so.0.4.10 to libp11-kit.so.0.4.11
-  /usr/lib/libp11-kit.so.0.4.10 moved to /usr/lib/libp11-kit.so.0.4.11
-Changes to packages/x86_64-linux/p11-kit-native (sysroot):
-  /usr/lib/libp11-kit.so.0 changed symlink target from libp11-kit.so.0.4.10 to libp11-kit.so.0.4.11
-  /usr/lib/libp11-kit.so.0.4.10 moved to /usr/lib/libp11-kit.so.0.4.11
-
---===============5320804208019231011==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="p11-kit-changelog.txt"
-
-Changelog for p11-kit: 0.26.4 -> 0.26.5
-Source: NEWS
-
-0.26.5 (stable)
-* rpc: guard against overflow when decoding nested attributes (CVE-2026-18938) [PR#777]
-
---===============5320804208019231011==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-p11-kit-upgrade-0.26.4-0.26.5.patch"
-
-RnJvbSAxNmNmODYxMDZmMTFhMDI5ZGIxYzM5ZmRjYTM5MTlkODliMDliOGViIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgNyBBdWcgMjAyNiAwNTozMDozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHAx
-MS1raXQ6IHVwZ3JhZGUgMC4yNi40IC0+IDAuMjYuNQoKU291cmNlOiBORVdTCgowLjI2LjUgKHN0
-YWJsZSkKKiBycGM6IGd1YXJkIGFnYWluc3Qgb3ZlcmZsb3cgd2hlbiBkZWNvZGluZyBuZXN0ZWQg
-YXR0cmlidXRlcyAoQ1ZFLTIwMjYtMTg5MzgpIFtQUiM3NzddCi0tLQogLi4uL3AxMS1raXQve3Ax
-MS1raXRfMC4yNi40LmJiID0+IHAxMS1raXRfMC4yNi41LmJifSAgICAgICAgICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvcDExLWtpdC97cDExLWtpdF8wLjI2LjQuYmIgPT4gcDExLWtpdF8w
-LjI2LjUuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvcDExLWtp
-dC9wMTEta2l0XzAuMjYuNC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3AxMS1raXQvcDExLWtp
-dF8wLjI2LjUuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvcDExLWtpdC9wMTEta2l0XzAuMjYuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvcDExLWtpdC9wMTEta2l0XzAuMjYuNS5iYgppbmRleCA0ODI4ZDZmOTQyLi43MjJm
-MmQ4NzZlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9wMTEta2l0L3AxMS1raXRf
-MC4yNi40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3AxMS1raXQvcDExLWtpdF8wLjI2
-LjUuYmIKQEAgLTExLDcgKzExLDcgQEAgREVQRU5EUyA9ICJsaWJmZmkiCiBERVBFTkRTOmFwcGVu
-ZCA9ICIke0AnIGdsaWItMi4wJyBpZiBkLmdldFZhcignR1RLRE9DX0VOQUJMRUQnKSA9PSAnVHJ1
-ZScgZWxzZSAnJ30iCiAKIFNSQ19VUkkgPSAiZ2l0c206Ly9naXRodWIuY29tL3AxMS1nbHVlL3Ax
-MS1raXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwczt0YWc9JHtQVn0iCi1TUkNSRVYgPSAi
-YTE0Nzg4ODQ5ZDFlZjQ0NDIyZDY3OTUzNGExMzgyMWVhYjViYjVmNCIKK1NSQ1JFViA9ICIxMjAw
-NTBlMzUzZThmNDNkN2M0MGJiY2MwNDdmNjY3ZjkwM2Y0ZGU1IgogCiBQQUNLQUdFQ09ORklHID8/
-PSAiJHtAYmIudXRpbHMuZmlsdGVyKCdESVNUUk9fRkVBVFVSRVMnLCAnc3lzdGVtZCcsIGQpfSB0
-cnVzdCIKIFBBQ0tBR0VDT05GSUdbc3lzdGVtZF0gPSAiLURzeXN0ZW1kPWVuYWJsZWQsLURzeXN0
-ZW1kPWRpc2FibGVkLHN5c3RlbWQiCi0tIAoyLjQ3LjEKCg==
-
---===============5320804208019231011==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/p11-kit: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit: SRC_URI changed from "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https;tag=0.26.4" to "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https;tag=0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-bash-completion: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-bash-completion: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-bin: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-bin: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-dbg: FILELIST: removed "/usr/lib/.debug/libp11-kit.so.0.4.10", added "/usr/lib/.debug/libp11-kit.so.0.4.11"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-dbg: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-dbg: PKGSIZE changed from 18070152 to 18070176 (+0%)
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-dbg: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-dev: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-dev: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-doc: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-doc: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ar: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ar: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-as: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-as: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ast: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ast: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-az: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-az: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-bg: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-bg: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-bn-in: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-bn-in: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ca+valencia: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ca+valencia: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ca: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ca: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-cs: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-cs: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-cy: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-cy: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-da: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-da: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-de: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-de: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-el: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-el: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-en-gb: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-en-gb: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-eo: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-eo: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-es: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-es: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-et: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-et: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-eu: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-eu: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fa: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fa: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fi: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fi: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fo: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fo: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fr: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fr: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fur: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-fur: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ga: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ga: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-gl: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-gl: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-gu: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-gu: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-he: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-he: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-hi: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-hi: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-hr: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-hr: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-hu: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-hu: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ia: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ia: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-id: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-id: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-it: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-it: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ja: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ja: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ka: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ka: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-kk: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-kk: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-kn: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-kn: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ko: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ko: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-lt: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-lt: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-lv: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-lv: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ml: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ml: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-mr: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-mr: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ms: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ms: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-nb: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-nb: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-nl: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-nl: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-nn: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-nn: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-oc: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-oc: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-or: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-or: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pa: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pa: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pl: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pl: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pt-br: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pt-br: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pt: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-pt: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ro: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ro: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ru: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ru: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-si: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-si: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sk: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sk: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sl: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sl: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sq: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sq: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sr+latin: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sr+latin: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sr: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sr: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sv: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-sv: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ta: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-ta: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-te: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-te: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-th: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-th: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-tr: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-tr: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-uk: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-uk: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-vi: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-vi: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-wa: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-wa: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-zh-cn: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-zh-cn: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-zh-hk: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-zh-hk: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-zh-tw: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-locale-zh-tw: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-modules: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-modules: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-remote: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-remote: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-src: FILELIST: directory renamed /usr/src/debug/p11-kit/0.26.4/common -> /usr/src/debug/p11-kit/0.26.5/common, directory renamed /usr/src/debug/p11-kit/0.26.4/p11-kit -> /usr/src/debug/p11-kit/0.26.5/p11-kit, directory renamed /usr/src/debug/p11-kit/0.26.4/trust -> /usr/src/debug/p11-kit/0.26.5/trust
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-src: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-src: PKGSIZE changed from 2033023 to 2033248 (+0%)
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-src: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-staticdev: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit-staticdev: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit: FILELIST: removed "/usr/lib/libp11-kit.so.0.4.10", added "/usr/lib/libp11-kit.so.0.4.11"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit: PV changed from "0.26.4" to "0.26.5"
-packages/x86-64-v3-poky-linux/p11-kit/p11-kit: PKGV changed from 0.26.4 [default] to 0.26.5 [default]
-Changes to packages/x86-64-v3-poky-linux/p11-kit (sysroot):
-  /usr/lib/libp11-kit.so.0 changed symlink target from libp11-kit.so.0.4.10 to libp11-kit.so.0.4.11
-  /usr/lib/libp11-kit.so.0.4.10 moved to /usr/lib/libp11-kit.so.0.4.11
-Changes to packages/x86_64-linux/p11-kit-native (sysroot):
-  /usr/lib/libp11-kit.so.0 changed symlink target from libp11-kit.so.0.4.10 to libp11-kit.so.0.4.11
-  /usr/lib/libp11-kit.so.0.4.10 moved to /usr/lib/libp11-kit.so.0.4.11
-
---===============5320804208019231011==--
 
