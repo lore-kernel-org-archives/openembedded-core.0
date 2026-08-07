@@ -1,115 +1,115 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2B56C5AC67
-	for <webhook@archiver.kernel.org>; Thu,  6 Aug 2026 21:26:46 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29862.1786051596435618501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D129C5AC67
+	for <webhook@archiver.kernel.org>; Fri,  7 Aug 2026 00:17:57 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33205.1786061871767585467
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2026 14:26:36 -0700
+ Thu, 06 Aug 2026 17:17:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MREfarkx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4720f3bf164so955474f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 14:26:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=OAfAHkub;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51c16ac21acso17939511cf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 17:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786051594; x=1786656394; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=5ds8PN7DqHxl0XK/4wCf9tYR6YVYyUvm6HVFUcdBUNE=;
-        b=MREfarkxaDU+VgK8c4tc+RxjcZ1DB6NJE/EoF8/NGmikPTAtUJySFaVBUUQdk1rMnV
-         fugRSROU/aX51rU7BH6HYgE1kr+AE8l8UfSk2jo4sf8dxWeTcI4g7BuRJkbmqwk/HOOt
-         4kazS/Fqm0RgYohyGWE541ss4CLHvzYEt3pcY=
+        d=gmail.com; s=20251104; t=1786061871; x=1786666671; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=S9MA3BkeAUW1gwWM4YeFUgLSlsZwglWsqKY2qrRK8vY=;
+        b=OAfAHkub7fnAeC9EVZrpDTCUrdDglSqpCssoY76Wp8O4EFqFphh3HdeSJo6PAKa4nP
+         mYCYr1Eav4oz49CtijPCt5Y2MnSc3HI/MehkHRpR6xmb4yNzjNTQ8KmZoH6dJac2Oyrk
+         RVMK+zxmvRhCCcygDOg6KDoa17So3dumfpmjFJwARQEzMvWjgJZydSOhWuKotOQnXBQB
+         HPpgoHopl+z6Oywe/gRjNa+G2Nhj9X3Tp/mZqbiFLqJhTxK4FF15gf2Ez3FR1D74nADo
+         2itxxhVyCFgiF2+L9AFsdUf3xa+SyivmcQllYQX4PTTbK/ujvwm+PIVv/hK8r53yW9G+
+         W6Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786051594; x=1786656394;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5ds8PN7DqHxl0XK/4wCf9tYR6YVYyUvm6HVFUcdBUNE=;
-        b=CuYDrYYQVikDH6vyWHiitaFaB7cCzuYldq/hslUCeXH52QEoZellyXrE22sAok7SIC
-         lU248uCadkGFi2zKw65yqAwkXli/oJAe76TfvV+mpGR0l9saEP7qZq77Dw4aQrcwzpww
-         P7t+xSSq2/GAxkVTetpr2LV+itqZslYpLRhOU2U6MaMGCEEDxLinwh3CnNs8yeKjKswl
-         mO30cQVLQpt/OzaKbGLHBCgkevw84c+e8LP6WaLyGUOeGSLjSHoQYb0f/SikkSUxm0KN
-         I3ZRrS0Fb7QDO2ukpKpQNlDrzV4XrkjFixRIlBh2wZdKbV4MWI2vGFFAcHUQrhP1B+Yc
-         7czg==
-X-Forwarded-Encrypted: i=1; AHgh+RpWWXT6+5PSVx4QgQYDZas/cdTLaagXMje5kxt9JqFtfTgqApcEvwNkTRd2qUTSq4zCxyduwdm4P4MErQKDuhbbnw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwEd9JL2BXFhTgg+w1Z2hCySXLKbrMDkIvDAbkGvGfcXa5KKZaw
-	7vB9vacy6ONw419ICM8h5CFLBjiLywB9u8FR87HMsWX34kIv7KZex9ZJhdb4CQ2dCSY=
-X-Gm-Gg: AR+sD10M3tpEVSci70B0arJi8+8NPfKDvdNGXQhGZGJacNCqXtfFSz2s9fyD2s80CAX
-	VRdeSYqYrk4mF3f+J8UivUPOM6NUb3lPlO3uNIWHnfvtYYBTQ8gvlqRTmGXi53MfO66N7oETrzL
-	z1HbMy1yv+rgQCp8Ox2bVmAyumz/8LwtYAUTyv49miQtldFwRRfica1NJW3WHCdnfXDbQC/lg97
-	E6RQMPE6nWKfeI1KADa5JztVR667iR/dmf1ZAEYAWfRSdPM0nSogvAvrIAb4AmBWE8591RVfvHW
-	K55Jtq3OlUBJEBkwoxbpdxhb7tuvUHUYyCpKUNPVF+DHPAqY2pMhchkHN6ebju1PrlgxiD2hoxh
-	1Pkn2ZhidtvWNLuGAyzzPnK2mHluU/mz4B/kNdXDY+Qmj8LTGG65CUgLTdNkDi+DcFu9yQckrNL
-	8dng8s9QhCwnn6IoUlHN6nKDAQKIB0uMYW2itgozRtybm/a2hnW/xvYVFKbwcEMovMwoNaaPTkQ
-	AKTcaN2ENpc279p90Ul/GX2miw4Dox64TgV4/pG3RLJwYnzBkv4fA==
-X-Received: by 2002:a05:600c:811b:b0:493:f478:4c71 with SMTP id 5b1f17b1804b1-499553e60d8mr85179435e9.7.1786051594587;
-        Thu, 06 Aug 2026 14:26:34 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:eaa9:3aab:7057:3a99? ([2001:8b0:aba:5f3c:eaa9:3aab:7057:3a99])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995c7b4499sm6248515e9.3.2026.08.06.14.26.32
+        d=1e100.net; s=20251104; t=1786061871; x=1786666671;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=S9MA3BkeAUW1gwWM4YeFUgLSlsZwglWsqKY2qrRK8vY=;
+        b=rFd9hQ/SoONXOCYjKg247HhPT0wM/vMtsEvSMWVK/RrhtDhvMSQFavjvLdcDoJraW3
+         EOHqda9moqdqOe90XAyGihR3xtXPhyolEjNYOiAyAZlNN8UGzp/qVwnDXLxbv50zN1gz
+         FV+YwyoI9yN1nGdFH5Kx7l7dZasHA81amQQSOsHLMAZNt+eZrwhmQSyEQgbp7/O7U7kr
+         Ut+Qn0uPHnW2JQFchnG+wCcM3VlBliJyjGXb84OgR+NtgrC146rJmoOBIofOMSU1C3hx
+         uZGhhd66w2UJkm6GK/T0J6hE/ubjTpAy3YXo2XUostq0H9itsMAravXKV1WnK5EpmZ4P
+         aQwA==
+X-Gm-Message-State: AOJu0YwmIQJYf/Ikmp+MjotjEkRmle2mAZ6iH1vNP5rshcOsvxs3qtmI
+	vtrxJiAiGKjGtou0F8pQ7D974qttGg2ImIb4WI7Sf2P86ayWfZYbflIgJuRZMYI3
+X-Gm-Gg: AR+sD10I/wSqciCZvlRgAxj6CiEsdQlWPmWKhJ7McjSZ/01/Qfa52YOvv9tAYJ8YZRG
+	/o/7HXFhOkDd4iGxyTy4Ad1KE+4lrcDTtX1YE04VV7dyB5SiBm76QGZlMzXDT0aV1zkAoCJs5uG
+	k8ugpavIhJI5GX0LM0W46DWO5KEhqI6T9VdV+HF57AbGjJukZTXUSTzYCS6RJcNyZllj5MuPjzp
+	CALiRvv47R48/sx9fhH3oj/sRoUhvgzDrf+wpFkfpX1pdNcBckbM6YL+8yj6s2m490ebK9YUsR2
+	GZ3qk0ARpKOWvk+PEo56sbR34f98RtT3CmIFMRdtEtd6WY2iRQO1W6PZrVIlLEZyIIkvGiYRPz1
+	wbyTxReBYM3TkoJ9QZGCNh146zqSZC1LrPTM2cXYGfhkVVOn6PupMOtQb/GR/uiCxGwJd2/s+ES
+	C8b4n2bmUUnc8cnzdwCOVTrrQg24ITT/tjL56WK8TA2kG0zR8zgjW+eWYIOJeQf5DKk5EXjtxam
+	z1uYjxQV95RQ/mdJuns+A/SJ92oN8k=
+X-Received: by 2002:a05:622a:60a:b0:51c:1d18:2fe9 with SMTP id d75a77b69052e-52ce5f269bamr194321241cf.5.1786061870645;
+        Thu, 06 Aug 2026 17:17:50 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d160da94dsm993411cf.0.2026.08.06.17.17.49
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 14:26:33 -0700 (PDT)
-Message-ID: <8569f35daf6584ca49d9d7b0a599847266494869.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 5/9] libtool: 2.5.4 -> 2.6.2
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 06 Aug 2026 22:26:31 +0100
-In-Reply-To: <DU7PPF66507B2D7F686F5CF25824702B130F3D42@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
-References: <20260804122335.3094065-1-richard.purdie@linuxfoundation.org>
-			 <18C899AE0F118A3D.1990914@lists.openembedded.org>
-		 <18C8A8C4FB56E625.3417489@lists.openembedded.org>
-	 <19f7ec53e3ecdf3dece894a2049acd408ac6ef9b.camel@linuxfoundation.org>
-	 <DU7PPF66507B2D7F686F5CF25824702B130F3D42@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Thu, 06 Aug 2026 17:17:49 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] bitbake.conf: add an SDK_FEATURES lever
+Date: Thu,  6 Aug 2026 20:17:43 -0400
+Message-ID: <20260807001744.3874352-2-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260807001744.3874352-1-twoerner@gmail.com>
+References: <20260807001744.3874352-1-twoerner@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2026 21:26:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242970
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2026 00:17:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/242972
 
-On Tue, 2026-08-04 at 21:36 +0000, Jaipaul Cheernam wrote:
-> Actually , I also sent a patch for lib tool upgrade on
-> masterhttps://lists.openembedded.org/g/openembedded-core/message/2427
-> 34=C2=A0
-> =C2=A0=C2=A0
-> =C2=A0=C2=A0I reproduced it locally and dug into why. The root cause is t=
-hat -
-> WCClinker=C2=A0was never a valid libtool flag (only -XCClinker=C2=A0is).
-> =C2=A0=C2=A0It worked in 2.5.4 by accident, but 2.6.2 widened the passthr=
-ough
-> pattern from -Wa,*|-Werror|-Werror=3D*=C2=A0to -W*=C2=A0(for LTO warnings=
-),
-> =C2=A0=C2=A0so now -WCClinker=C2=A0gets passed directly to gcc which reje=
-cts it.
+Add SDK_FEATURES, a list for optionally adding features to a standalone
+SDK in the same spirit as DISTRO_FEATURES and IMAGE_FEATURES. It only
+introduces the variable and its documentation, defaulting to empty, so
+nothing consumes it yet.
 
-It was fixed upstream here:
+AI-Generated: codex/claude-opus 4.8 (xhigh)
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+changes in v2:
+- none
+---
+ meta/conf/bitbake.conf       | 1 +
+ meta/conf/documentation.conf | 1 +
+ 2 files changed, 2 insertions(+)
 
-https://github.com/libunwind/libunwind/commit/8e6a348b94a1b8e77ec2a086ff27e=
-a9b78357d71
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1830cab753e6..c402f9f0b7c8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -898,6 +898,7 @@ OES_BITBAKE_CONF = "1"
+ 
+ MACHINE_FEATURES:append = " ${@oe.utils.filter_default_features('MACHINE_FEATURES', d)}"
+ SDK_MACHINE_FEATURES ?= ""
++SDK_FEATURES ?= ""
+ 
+ DISTRO_FEATURES:append = " ${@oe.utils.filter_default_features('DISTRO_FEATURES', d)}"
+ 
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 1a6ec8fdd5bc..4c5a5ee8c233 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -362,6 +362,7 @@ SANITY_TESTED_DISTROS[doc] = "A list of the host distribution identifiers that t
+ SDK_ARCH[doc] = "The target architecture for the SDK."
+ SDK_DEPLOY[doc] = "The directory set up and used by the populate_sdk_base to which the SDK is deployed."
+ SDK_DIR[doc] = "The parent directory used by the OpenEmbedded build system when creating SDK output."
++SDK_FEATURES[doc] = "The list of features to include in a standalone SDK, resolved at populate_sdk time. Analogous to IMAGE_FEATURES but for the SDK."
+ SDK_NAME[doc] = "The base name for SDK output files."
+ SDK_OUTPUT[doc] = "The location used by the OpenEmbedded build system when creating SDK output."
+ SDKIMAGE_FEATURES[doc] = "Equivalent to IMAGE_FEATURES. However, this variable applies to the SDK generated from an image using the command 'bitbake -c populate_sdk imagename'."
+-- 
+2.50.0.173.g8b6f19ccfc3a
 
-> =C2=A0=C2=A0I'd go with --disable-cxx-exceptions for riscv64 =E2=80=94 co=
-nsistent with
-> all other arches. The -WCClinker typo can be reported upstream to
-> libunwind separately.
->=20
-
-and upstream do unconditionally disable it now:
-
-https://github.com/libunwind/libunwind/commit/bda7a2267b8385b869b4eef6a2fcd=
-d696b887ed8
-
-:)
-
-Cheers,
-
-Richard
 
