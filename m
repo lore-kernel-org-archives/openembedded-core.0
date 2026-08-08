@@ -2,106 +2,89 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33CAEC5AD55
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C10C5AD56
 	for <webhook@archiver.kernel.org>; Sat,  8 Aug 2026 21:10:07 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13790.1786223402883586549
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13787.1786223398218443409
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Aug 2026 14:10:03 -0700
+ Sat, 08 Aug 2026 14:09:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d9mR1Oe/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f84023916so530934f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2026 14:10:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QfmOw1Tc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49553515a8bso9825555e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2026 14:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786223401; x=1786828201; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=7RHUpMcrKACCdSyWbgWLSbArvSexK9xYvzCLT1rpFKo=;
-        b=d9mR1Oe/QiwrmabH+pZJXjeHDzjhuCz89nhlayVIkmEKixpwFCL2iMBWPovJc2ZI8j
-         74PElGQsv6AaYwWQuTAboz0VHJiL8cJE8Cu1ZRVJoeQW3W1CU/cDgjc6OxP+9qhJJkay
-         AObHz/tYLMLKe+e4Y16yhQkaTjpb4EX58a+bw=
+        d=linuxfoundation.org; s=google; t=1786223396; x=1786828196; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FhrP/Jpt0T8PNXK+OxvTliwMMUngYMGpxS4Vhf6N47M=;
+        b=QfmOw1TcGFxhyNfwJt6upJw5MClJKgSUM6aF+z+EPMTAW3ZYfQ2m5H+m5xCOaiwSc+
+         Dv199G46gpF/VMcFP6FvpsJsm8+UypHWyCcQQ+qhe3Tp5fx3yBLwcuAOw7T7de0fuAeq
+         av5F2t/8+8GlUlQ8ZQ1BZ1YwMAgOze1OBcAl0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786223401; x=1786828201;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=7RHUpMcrKACCdSyWbgWLSbArvSexK9xYvzCLT1rpFKo=;
-        b=rFk6fYzOm3TtPqQXYQsrsvvZOdnb3E/tqczEDiA1xRwpD6OiXeLDDLpabvMLqF0Y/O
-         C+vgvaxHebWDqh0O0IPnYc7uTsNWoJIF1+s3RseBwBRZq8gU5oCJSy81F7Fl8c9AonXO
-         pBQKtJ2qA60+o43/KtDt7+iGa1kBZv2rWlFSgiuIOqXWvHpPhXr4TrbTbo3UbS/oX3MY
-         vJM8x+bOTFsVG+BKe1Wv6DsIE5tGrh7+DVCMEsKUSW+RfuJte5V41fWbYT36pClbsWjr
-         Qs/huzpEalaQrTSit5iAyA/a4Buu+zw6PQu21d+NKWI2pRGdCEx5qC2WAclCaw8UGZch
-         iHHw==
-X-Gm-Message-State: AOJu0Yz7NrqSA4DY1d3j0xLkDyvh4+c5xTp0eeFhVtdiG3qa/btBxrGp
-	hs66hEri6c8jJzRo2h7WLBoORFZQG4RW2PCDS12K8fLNRS43J84K70IurCvmQID2z1rPuCOlLNY
-	mYdN1Zsw=
-X-Gm-Gg: AR+sD116TqdKj3lUMQ4pYha6eSDsGZFAjuO94E43xwkUfGNZlvvZULe3VX3VFYo7Hov
-	rWN6sHVgo9PE3xx5mbFqatPCbmbl2ouo+VmzqN5Z7ILdDrNklBOjwnOZyvEY1yf/4O1BLsWdGwO
-	8EhluSmfOMDbCEmmOt1F1sfrnRzHNywAQpJQQqrlMSPwK/iartezaQFyLSfKvvaM7MraUwlJilc
-	nVRkPc+nk+dBstMCAipU56ubGUrqy16QYqEkZ8rxvQFTYliRw0hS63BQiBx4pxZ/ELbLUVObw34
-	oGV0ff8Mr70iKrRuILsMDYLyZCxuv2EUpzemidE1668sed1sz1aGuVSSrxI/AnCePC1L7gs1MnR
-	WrjAYxMgAeigcGnW7BuM6OBX/k8vNPiH0CYAq4QXGjFwJJeJW4U2JcIzy1Q6oANkoZBNN/d8lLZ
-	OoelrU1xT42SIUk60K71ke4j9AwI3G5SX9VfoLMs4ksDXpMAwCDie2EoAlWG9QHA3CWWglAP7qN
-	GV+huNG3/6ReLVeYg==
-X-Received: by 2002:a5d:5f94:0:b0:47f:8ff9:c9bc with SMTP id ffacd0b85a97d-47fec51a037mr50957143f8f.14.1786223401066;
-        Sat, 08 Aug 2026 14:10:01 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786223396; x=1786828196;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=FhrP/Jpt0T8PNXK+OxvTliwMMUngYMGpxS4Vhf6N47M=;
+        b=LX+KRTeEvJvzKyuXC2zdJ5bBOYXMRj0z2+snhWnOx4WRvkbmn3BKvbllnLQViSBoIu
+         7xW1CwjLmAECXxWEdRR+CP8rRoUP7mZ2yrkzxmN4/gSUOA/127LlvV22EYV8Mtxqza+X
+         Vkr0+8e/VbV5dz5Tfv6XMbWcbNKousvBq8imfjAPSRPg2/u+5MclZa3huz/KlfGoOiNU
+         4eHBRL5mHcNeOs63yX9GedjJxDkVyboLsozVRIVm2y2rFXI7PNNhfxqtLIsBIztDAvSf
+         /2k7HI/09XTDIyhynd2Lbfh45DsA0On4cW5Dt6uC5qbx+kI9jZ9f/Vt8y3zO1a0ijGUZ
+         RBHg==
+X-Gm-Message-State: AOJu0YwRrMopZYu45Dil+GR9FODs0KsxKpl71Ehe7oJRJIHfoe4gSxQK
+	7K3PCbSCrM0kG5ZF6JkM4nbwkh0nX4XyBcOPXP2BwBQQ3dzh/IymoVqTU+qFID2duOzBhftMQ8T
+	1Xv+uEmE=
+X-Gm-Gg: AR+sD12pzkavSyAJkKbsx0eLgmBe7IdXAwCzzNa1nKTRaEjnU9J6Z6szmOnKEYO+JIx
+	pfQqMa3muXiOOKBwZSkGl0IZCwb2V2fWcW5EwHJtgvhOZ5FjT4f7O9/nVevsUqQmPyGorCPI3Qf
+	1HPKw4scPm3b8jGrtK2UdK95fGFW2iNY7Yel0H7U+5Kkt/HyUhAHenKYylhrkkUcTLcw41XkW7J
+	bij9GMaWB2wv3NtFFKgFWjuZpTxVqWX9DE/JWUT4cA8PIlmoDoBW407L1+LG9ZpsTHIIt7ciaQH
+	p5C6Q9SM+vsjquyKmVg2XLqo9rF8QybeyryYjoiCzVGcOX43ZHzXcBVegQjrXl6Zf7jvx72Xzuq
+	T97mZakuIa2HvR1EYhKN+qCkwSFIcjK8oapRl0a1qpIVIQSJmD/shshTX5Ug1Fs6Fbwbn/TZqlM
+	ZtYrt+lU4hUBQQxqAo8JaG9y+a6uxIKopUHt2eUHDJNzPRtB4j5b+LSg3IcDjF2OBC8c6RIYy9S
+	H5vNWa6o23/1LWzDw==
+X-Received: by 2002:a05:600c:4f4a:b0:499:51f0:a9b2 with SMTP id 5b1f17b1804b1-49959e0179bmr219187215e9.1.1786223396307;
+        Sat, 08 Aug 2026 14:09:56 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a306:3637:68aa:bc01])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48002145679sm17050471f8f.3.2026.08.08.14.10.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48002145679sm17050471f8f.3.2026.08.08.14.09.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 14:10:00 -0700 (PDT)
+        Sat, 08 Aug 2026 14:09:55 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] python3-vcs-versioning: upgrade 2.2.3 -> 2.2.4
-Date: Sat,  8 Aug 2026 22:09:54 +0100
-Message-ID: <20260808210954.994064-4-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/4] diffoscope: upgrade 326 -> 327
+Date: Sat,  8 Aug 2026 22:09:51 +0100
+Message-ID: <20260808210954.994064-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260808210954.994064-1-richard.purdie@linuxfoundation.org>
-References: <20260808210954.994064-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2026 21:10:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243054
-
-- Speed up jujutsu version inference in large repositories.
-
-  The jj backend filtered whole-ancestry revsets with `empty()`, which makes
-  jj diff every commit in the history and took minutes on large repos.  The
-  scan for the newest real commit is now bounded to the most recent
-  generations, distances are counted without the filter, and the working copy
-  is snapshotted only once per run (later queries pass
-  `--ignore-working-copy`).
-
-  As a side effect distances now match `git describe --long`: merge commits
-  count even though jj considers them empty. ([#1477](https://github.com/pypa/setuptools-scm/issues/1477))
-- Improve reproducibility of scm_file_list.json ([#1488](https://github.com/pypa/setuptools-scm/issues/1488))
-- Route the hg-git tag mismatch warning through the module logger instead of the root logger. ([#1489](https://github.com/pypa/setuptools-scm/issues/1489))
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243051
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...-vcs-versioning_2.2.3.bb => python3-vcs-versioning_2.2.4.bb} | 2 +-
+ .../diffoscope/{diffoscope_326.bb => diffoscope_327.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-vcs-versioning_2.2.3.bb => python3-vcs-versioning_2.2.4.bb} (91%)
+ rename meta/recipes-support/diffoscope/{diffoscope_326.bb => diffoscope_327.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-vcs-versioning_2.2.3.bb b/meta/recipes-devtools/python/python3-vcs-versioning_2.2.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-vcs-versioning_2.2.3.bb
-rename to meta/recipes-devtools/python/python3-vcs-versioning_2.2.4.bb
-index eb81e4d4d35..c8665d90c9c 100644
---- a/meta/recipes-devtools/python/python3-vcs-versioning_2.2.3.bb
-+++ b/meta/recipes-devtools/python/python3-vcs-versioning_2.2.4.bb
-@@ -5,7 +5,7 @@ library that can be used independently of setuptools."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c9b06ad2ebd7e2e82d34b3caf353e7d5"
+diff --git a/meta/recipes-support/diffoscope/diffoscope_326.bb b/meta/recipes-support/diffoscope/diffoscope_327.bb
+similarity index 93%
+rename from meta/recipes-support/diffoscope/diffoscope_326.bb
+rename to meta/recipes-support/diffoscope/diffoscope_327.bb
+index 3ab679f34f6..30d33732f6e 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_326.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_327.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--SRC_URI[sha256sum] = "c21e284aa98c8269996791a19d6173baf953cf9996ef42ec3ebcbdc151e18b9b"
-+SRC_URI[sha256sum] = "ed718fdee42170e128a8add6f23f53aa64dc7d9ab2de87d3083a691df881a809"
+ inherit pypi setuptools3
  
- SRC_URI += "\
-     file://run-ptest \
+-SRC_URI[sha256sum] = "21aaa977a9fbdf6e2b70b675a700ad1f80e878ac1dac59cf6fb0ba5f319616c7"
++SRC_URI[sha256sum] = "b5a398de17b180637cf091ba5c3c9fecde9dc8f5c2c80204ff8dd78e1b9d5358"
+ 
+ RDEPENDS:${PN} += "\
+         binutils \
 
