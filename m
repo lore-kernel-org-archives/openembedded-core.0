@@ -2,98 +2,108 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E7C0C5AD5A
-	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 23:22:19 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19010.1786317730701303505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E3E7C5AD4E
+	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 23:27:29 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19088.1786318039254052868
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2026 16:22:10 -0700
+ Sun, 09 Aug 2026 16:27:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=dxj/P5cF;
- spf=pass (domain: konsulko.com, ip: 209.85.215.175, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cb5a6aa8760so617643a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 16:22:10 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=XD9ESWQ0;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.170, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2caced6038eso11943675ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 16:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1786317730; x=1786922530; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CdB6fbDpc76w3WyzN9BGzqmi401GqtQR4BL67ko8JEM=;
-        b=dxj/P5cFAbyZvWDAZ+1S72xhWqgbLTl3oL91dYP2JUYc4NHl5B/kxb8SDcxV3E0wGC
-         Vhw/Q0G7LuC9X1XpJrZ91NV6mLPiIKjlmDdfgcT7Zp9LAsdQlQxYWWzIFCSHmhNe+vlA
-         1kLZZ7v6+4wySXH8C7L9M4yye0pNBEPEtMJjU=
+        d=konsulko.com; s=google; t=1786318039; x=1786922839; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qGWeE5BGhcQN+FDqvH3SQReU9gVCeRm4r0mYOu8Q0mM=;
+        b=XD9ESWQ0rnb0uWb+asXx7Rjr0wFDB9H9DnNolw/oUrS5PXdxJdyPMJuVovyO1Dokut
+         euv0Xuw7yJ3e3El7DXuLM8arz/iNosoIoPycloc5JAJgci13MMiAGOcO0ucAdXsb8Rxq
+         ZOUHGpijlK3pQ3Dnga7RS1C1TMwM6if+s5PbE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786317730; x=1786922530;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CdB6fbDpc76w3WyzN9BGzqmi401GqtQR4BL67ko8JEM=;
-        b=nI5sF4TKu/qJcm5E7a+WOJnwBnE1zn5brl6OSiHxLt9G1s2v7Sw9bQQQycZOlzH7cZ
-         +J4s+IXLyaTzfKSyluloDYKSSKUFvscxwxvLGPJEloA3lcX20pSbFhJr0FlAlPfMUIdj
-         +Kub3NqPJ/9Yilg4NgDClQ/vUE0eL/oSMacUlx3Cb+QhhgdZz8ZDiJz5pVXRc7M5DXFK
-         QDdz6mVehHm5OMFKzfQ8HoCORCrIKTHMI4GIBMYD+9H3wUMmLY5puf2rQWgnbps7I+P0
-         +9SjBe7/fLpzs+1X96s0yfohKXLPGXS0z5eFOg2rnZjIGaE3aIK8IRZr9Dln5k+mDHbx
-         k5Hw==
-X-Gm-Message-State: AOJu0YxkHAUeXecW89Ba/AWZCfdrZR2CFDr7323EtB36epQj/bJyoChd
-	L99EubAdcM9XxAH3pLwO0n407+WYhvZT+Lx1IaJIsZYoZqEz9macriaJihHFr8YX+oi6DKX5sH2
-	ujkZP
-X-Gm-Gg: AR+sD13qkULzOHLoUI1tVFH+HAhXgkpoFioILPRG1PqopiwwThBrP/WeoK98qZFXlui
-	NT3kbx4la0kL+28xaR7m4IgFq+uYaPHPf1rw476nadTgfalq9rfTvjm/bO7GIwBAShtrYiQxytQ
-	po9q5CRLfLFo/eah7HRYSBDw+oekdwO3AYPTKKKWDD9v5EdY9efckRM4ZLBnbpwxEjCOLGmePjN
-	GPCBkZPS8bcINieeDkQgFuxAQZsUM/gDvhsrD7yvlE8PbA0LRQFSbB3Ipeb4DHXAp0/4HX+hbyO
-	0qwaKn+lnlyxukkddXQAwDBHDqCccgXRG9Joil99oY1HK47E8DClijWmSLSioTy+6HE+nTYKNdt
-	8wprNxprGdMKQ/mnO4qb88ovMKq/ZtAso9SgsxdGnQLn6DChekoSijP/8uW+osoE49y2r+Bylpb
-	k6qwiIz83kKDeu9hYsPHemrPemWjOA2ZEIw5PPT/ZDsLlyFQShYh4j8iV31sVRlcj3vPUr1lseP
-	A6XLw==
-X-Received: by 2002:a05:6a20:9c15:b0:3b3:2703:110 with SMTP id adf61e73a8af0-3cbada680bfmr31121748637.4.1786317729854;
-        Sun, 09 Aug 2026 16:22:09 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786318039; x=1786922839;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qGWeE5BGhcQN+FDqvH3SQReU9gVCeRm4r0mYOu8Q0mM=;
+        b=P3WZmbY4K0s1U5u/hCr/vkmZkYKbnNzSZBj13fhS8zuowcfTSfe+pCfMiGCKBsxl9U
+         J6ARTc7QDQ4dQdiygSTbM9H3QCdf/R2f4GKXBw+pa9W34Y1BQF4D1T7kuTxIAZANXn6n
+         mEL69o3/6RPcZ+VAuLSN0GSkDFAoD2adkZ/Mte841ClXiNp+U6AGUmGibHqUI7Muop/J
+         1QaGOlSDsFlBFjFTwMCUcCeB+vTe8vCNaVj/Nrc+2FYQ7V2qYEwJo0ju1C4s1BXFBhBb
+         DkQMZf4Pf4tqdDzRTBhkXOu1O69S3uOvI0F8XP+N5Bl2XeAW29fwo+UwTRKvJcpiBC4E
+         /9+g==
+X-Gm-Message-State: AOJu0YyokrKsDCu+abjQ8YHv6bb9fV4B2Tgc2xDGDuXJBIyUskZye+fa
+	7uAsurzZBa+TlqcdkEfON9wevMxqmgUACMckhgOZFIdi3mvm4JhEZ3GUZWALk/pysY1wwYHJ7mG
+	R/yBM
+X-Gm-Gg: AR+sD12oPoad7zbVAN+RiRVfyUkMK/CO6wgEf+Q0wsptoYjzJPzLTT9c8twQQBwgPPn
+	BGLc6zJWmO23Nbxws6hFt4lO3kEZI56QG1fbLwFHtwLQFnieozshW8kcgW/ZSoWlw01ZwzaHMha
+	x7CYsaNw4g8XzfzBVvyaeMXRgJfLlmEZSjowN5uCL7MMl3GeSUif4U9K+ddt1pM7xgz6PbzMJua
+	T5x1uTZEVNL1YcVouWSB3l0Yscdq+6cT2fcYsJc3rqxpel5nNj3GM5oAal+7izt2epv94bqfnH3
+	h3QfpuTNiNO/LT6YlBAlqh0qB3KWjHQ3VhGY5JgAVoiSvH0ndLT3Vx0QR52AX/3o4mBP/WZQR5m
+	hDyPrJRMi0J2eVLHo40oC+Yglm47qNK+aTU8kmJdHsJxCyYeVGqzbJUuj9Urmy3XTJGvcL48SIt
+	ZdFZw0gjfidsz+p8oHAOScHJLTK/85o/aPgdSYxgBpgIj6V6RnYOxt7IhPANxkGExvTdIdRQRrY
+	fC++A==
+X-Received: by 2002:a17:902:f612:b0:2d2:a982:a388 with SMTP id d9443c01a7336-2d2b2eb169fmr184024025ad.15.1786318038565;
+        Sun, 09 Aug 2026 16:27:18 -0700 (PDT)
 Received: from thetis.home.local ([2606:c800:6024:2000:6f86:9ad6:671d:ec76])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe8f1af992sm2950850a12.14.2026.08.09.16.22.08
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d14ccae6f8sm26373605ad.1.2026.08.09.16.27.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2026 16:22:09 -0700 (PDT)
+        Sun, 09 Aug 2026 16:27:17 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 3/5] python3-babel: fix CVE_PRODUCT
-Date: Sun,  9 Aug 2026 16:21:09 -0700
-Message-ID: <20260809232107.367378-7-tim.orling@konsulko.com>
+Subject: [PATCH 4/5] python3-click: fix CVE_PRODUCT
+Date: Sun,  9 Aug 2026 16:26:49 -0700
+Message-ID: <20260809232649.368812-5-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260809232107.367378-3-tim.orling@konsulko.com>
-References: <20260809232107.367378-3-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 23:22:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243085
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 23:27:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243086
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-Recipe (PV): python3-babel (2.18.0)
-Before -> After: python:babel -> pocoo:babel
-Newly caught CVEs: CVE-2021-42771 (locale .dat deserialization RCE)
-Status: patched (fixed 2.9.1)
+Fix " vs ' in DESCRIPTION
+
+Recipe (PV): python3-click (8.4.2)
+Before -> After python:click -> palletsprojects:click
+Newly caught: CVE-2026-7246 (command injection in click.edit())
+Status: patched (fixed 8.3.3)
 
 AI-Generated: Claude Sonnet 5
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-devtools/python/python3-babel_2.18.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/python/python3-click_8.4.2.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-babel_2.18.0.bb b/meta/recipes-devtools/python/python3-babel_2.18.0.bb
-index b0abb2c62e..26847372bf 100644
---- a/meta/recipes-devtools/python/python3-babel_2.18.0.bb
-+++ b/meta/recipes-devtools/python/python3-babel_2.18.0.bb
-@@ -7,6 +7,8 @@ SRC_URI[sha256sum] = "b80b99a14bd085fcacfa15c9165f651fbb3406e66cc603abf11c575093
+diff --git a/meta/recipes-devtools/python/python3-click_8.4.2.bb b/meta/recipes-devtools/python/python3-click_8.4.2.bb
+index b13bdc9285..0578a0421e 100644
+--- a/meta/recipes-devtools/python/python3-click_8.4.2.bb
++++ b/meta/recipes-devtools/python/python3-click_8.4.2.bb
+@@ -1,8 +1,8 @@
+ SUMMARY = "A simple wrapper around optparse for powerful command line utilities."
+ DESCRIPTION = "\
+ Click is a Python package for creating beautiful command line interfaces \
+-in a composable way with as little code as necessary. It's the "Command \
+-Line Interface Creation Kit". It's highly configurable but comes with \
++in a composable way with as little code as necessary. It is the 'Command \
++Line Interface Creation Kit'. It is highly configurable but comes with \
+ sensible defaults out of the box."
+ HOMEPAGE = "http://click.pocoo.org/"
+ LICENSE = "BSD-3-Clause"
+@@ -13,6 +13,8 @@ SRC_URI[sha256sum] = "9a6cea6e60b17ebe0a44c5cc636d94f09bd66142c1cd7d8b4cd731c491
  
- inherit pypi setuptools3
+ inherit pypi python_flit_core ptest-python-pytest
  
-+CVE_PRODUCT = "pocoo:babel"
++CVE_PRODUCT = "palletsprojects:click"
 +
- S = "${UNPACKDIR}/babel-${PV}"
- 
- CLEANBROKEN = "1"
+ RDEPENDS:${PN}-ptest += " \
+ 	python3-pytest \
+ 	python3-terminal \
 -- 
 2.47.3
 
