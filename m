@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C05B7C5AD55
-	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 09:36:49 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6564.1786268196863618279
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 710ABC5AC80
+	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 09:36:48 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6422.1786268196863093921
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2026 02:36:38 -0700
+ Sun, 09 Aug 2026 02:36:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Rr8GSOW8;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202608090936340011cb2fea000207f9-vzszut@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608090936340011cb2fea000207f9
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Vm+gBXEM;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-2026080909363315f36ffe9100020748-7nr_tu@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026080909363315f36ffe9100020748
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 09 Aug 2026 11:36:34 +0200
+        Sun, 09 Aug 2026 11:36:33 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=gCz80k2B7e3TlVlYvGqb3t/4a1F1SvIHNfzJV+3kYPU=;
- b=Rr8GSOW8Ivw0E0tCQ0jHCLE9GJMyYuOC3QYMSjR6uC25FqWzugBKIukXr7ILfglQ3ERlKJ
- sE+gWVOp9EcahebSU6mlktAOS5SK0LbZy4TmupBuBe5v4C0ebYWra3Q/WwsflNQzdSMbCiLG
- FziIkqwYukZ5ezZ00v7QCgw0vweJXYGtV1w5H8/ZcyCL7hQ74fjomPWvFVewqv3EqKOvsUtx
- RF0HXLe/qbjSNgQWa5/IvYHp7l7axjrC8J7/ASSnXa0iyCSyE2F2tRaIoQ2KB/QzEkAiLDsC
- lDocfk5onkUb98PXU7M/qCoHqgrwihqi950KhYY1aJoU3cH+omWDI6GA==;
+ bh=Kum9CQdJuuamVg6rmFywavt0Xv/I1XmIkTkUItQHSsU=;
+ b=Vm+gBXEMt2Kh2+FQqDyeO7E/O96XmfSnM0LSGY3ll0sUmmZvok7/Io9413XPgwDZRbVUPT
+ Gmmm2slSDM5efPNnDGAeHXpmZ8YzZL/jiVnGTrNpJGpyTndszAkLSrEpFxEPxymkofUDBkih
+ DT7+gQIQ3DSxSVqaUii328B+exYo6f4jnlDwz6cOdTxb3h72BJBd/bownBv9LPOqIyC6gLuI
+ i5Joa7o7SO7zzumg3y/FOdrO+YjPNkBk3YojwRYrGWQYRx7p7VRHZK/bqXM8dpdwUeYTgUa7
+ LF7/LTjPx3jHeQMbCSGrSdPRO5JcXLiNujTJP7hFfuJkwLCPbpND0E5A==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 7/8] oe-selftest: devtool: use QEMU target commands
-Date: Sun,  9 Aug 2026 11:35:58 +0200
-Message-ID: <20260809093629.3457107-8-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 2/8] oe-selftest: devtool ide-sdk: wait for lldb-server readiness
+Date: Sun,  9 Aug 2026 11:35:53 +0200
+Message-ID: <20260809093629.3457107-3-adrian.freihofer@siemens.com>
 In-Reply-To: <20260809093629.3457107-1-adrian.freihofer@siemens.com>
 References: <20260809093629.3457107-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,79 +38,132 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 09:36:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243068
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 09:36:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243073
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Use the QEMU target API for target-side verification in devtool selftests
-instead of invoking SSH directly. Copy the generated file list through
-the target API before comparing deployed file metadata.
+The generated MULTI preLaunchTask starts lldb-server on the target and waits
+for its TCP port to appear before its SSH command completes. The selftest
+bypassed that contract by starting SSH in the background, sleeping for one
+second, and only checking that lldb-server appeared in ps. On a loaded
+autobuilder this allowed lldb --batch to connect before lldb-server had bound
+its listening socket.
+
+Run the generated preLaunchTask SSH command synchronously before lldb --batch.
+This follows VS Code's foreground-task behavior and leaves listener readiness
+and timeout handling in _target_start_cmd(), where the server is started.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 29 ++++++++++++++-----------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 78 ++++++++++++-------------
+ 1 file changed, 36 insertions(+), 42 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index df77c628bb..06be7ef2df 100644
+index 7145755fed..d84a18e8b6 100644
 --- a/meta/lib/oeqa/selftest/cases/devtool.py
 +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2012,8 +2012,8 @@ class DevtoolDeployTargetTests(DevtoolBase):
-                 self.logger.debug(deploy_cmd)
-                 result = runCmd(deploy_cmd)
-                 # Run a test command to see if it was installed properly
--                sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
--                result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
-+                status, _ = qemu.run(testcommand)
-+                self.assertEqual(status, 0)
-                 # Check if it deployed all of the files with the right ownership/perms
-                 # First look on the host - need to do this under pseudo to get the correct ownership/perms
-                 bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD', 'PATH'], testrecipe)
-@@ -2032,15 +2032,21 @@ class DevtoolDeployTargetTests(DevtoolBase):
-                     for line in filelist1:
-                         splitline = line.split()
-                         f.write(splitline[-1] + '\n')
--                result = runCmd('cat %s | ssh -q %s root@%s \'xargs ls -l\'' % (tmpfilelist, sshargs, qemu.ip))
--                filelist2 = self._process_ls_output(result.output)
-+                remotefilelist = '/tmp/%s' % os.path.basename(tmpfilelist)
-+                status, _ = qemu.copy_to(tmpfilelist, remotefilelist)
-+                self.assertEqual(status, 0)
-+                status, output = qemu.run(
-+                    'xargs ls -l < %s; status=$?; rm -f %s; exit $status' % (
-+                        remotefilelist, remotefilelist))
-+                self.assertEqual(status, 0)
-+                filelist2 = self._process_ls_output(output)
-                 filelist1.sort(key=lambda item: item.split()[-1])
-                 filelist2.sort(key=lambda item: item.split()[-1])
-                 self.assertEqual(filelist1, filelist2)
-                 # Test undeploy-target
-                 result = runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
--                result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand), ignore_status=True)
--                self.assertNotEqual(result, 0, 'undeploy-target did not remove command as it should have')
-+                status, _ = qemu.run(testcommand)
-+                self.assertNotEqual(status, 0, 'undeploy-target did not remove command as it should have')
- 
- class DevtoolBuildImageTests(DevtoolBase):
- 
-@@ -3510,13 +3516,10 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.assertEqual(task_command, "ssh", f"Task '{prelaunch_task_name}' should use ssh command")
-         self.assertTrue(len(task_args) >= 2, f"Task '{prelaunch_task_name}' should have at least 2 args (ssh options and remote command)")
- 
+@@ -4175,8 +4175,6 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         (see _lldb_debug_cpp_example_batch_commands), and checks that the
+         expected magic string and variable values are visible.
+         """
 -        sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
--        result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'test -x /usr/bin/gdbserver'),
--                        output_log=self._cmd_logger)
--        self.assertEqual(result.status, 0, "gdbserver should be installed on target")
--        result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'test -x ' + os.path.join('/usr/bin', example_exe)),
--                        output_log=self._cmd_logger)
--        self.assertEqual(result.status, 0, "Example binary should be installed on target")
-+        status, _ = qemu.run('test -x /usr/bin/gdbserver')
-+        self.assertEqual(status, 0, "gdbserver should be installed on target")
-+        status, _ = qemu.run('test -x ' + os.path.join('/usr/bin', example_exe))
-+        self.assertEqual(status, 0, "Example binary should be installed on target")
+-
+         with open(os.path.join(tempdir, '.vscode', 'launch.json')) as f:
+             launch_d = json.load(f)
+         with open(os.path.join(tempdir, '.vscode', 'tasks.json')) as f:
+@@ -4208,7 +4206,9 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             # to SSH via subprocess without an intermediate shell.
+             ssh_cmd[-1] = ssh_cmd[-1][1:-1].replace('\\$', '$')
  
-         # Start gdbserver on target using the task command (keep the ssh connection open while debugging)
-         ssh_gdbserver_cmd = [task_command] + task_args
+-        # Extract connection details from initCommands
++        # The generated foreground preLaunchTask does not complete until its
++        # target-side command has observed lldb-server listening.  Run it
++        # synchronously so this selftest follows the same ordering as VS Code.
+         init_commands = lldb_config["initCommands"]
+         connect_cmd = next((c for c in init_commands if "platform connect" in c), None)
+         self.assertIsNotNone(connect_cmd, "initCommands should contain a platform connect command")
+@@ -4218,47 +4218,41 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         lldb_binary = os.path.join(lldb_native_sysroot, 'usr', 'bin', 'lldb')
+         self.assertExists(lldb_binary, "lldb binary should exist in lldb-native sysroot")
+ 
+-        with RunCmdBackground(ssh_cmd, output_log=self._cmd_logger):
+-            time.sleep(1)
++        self.logger.debug("Starting lldb-server via SSH: %s", " ".join(ssh_cmd))
++        runCmd(ssh_cmd, output_log=self._cmd_logger)
+ 
+-            # Verify lldb-server is running on the target
+-            r = runCmd('ssh %s root@%s ps' % (sshargs, qemu.ip),
+-                       output_log=self._cmd_logger)
+-            self.assertIn("lldb-server", r.output,
+-                          "lldb-server should be running on target")
++        # Run lldb --batch: connect to platform, create target with remote-file,
++        # set a source-level breakpoint, and run.
++        # targetCreateCommands replaces the "program" field; each entry is
++        # passed as a separate -o command in batch mode.
++        target_create_commands = lldb_config.get("targetCreateCommands", [])
++        source_map = lldb_config.get("sourceMap", {})
+ 
+-            # Run lldb --batch: connect to platform, create target with remote-file,
+-            # set a source-level breakpoint, and run.
+-            # targetCreateCommands replaces the "program" field; each entry is
+-            # passed as a separate -o command in batch mode.
+-            target_create_commands = lldb_config.get("targetCreateCommands", [])
+-            source_map = lldb_config.get("sourceMap", {})
+-
+-            lldb_batch = [lldb_binary, "--batch"]
+-            for cmd in init_commands:
+-                lldb_batch += ["-o", cmd]
+-            for cmd in target_create_commands:
+-                lldb_batch += ["-o", cmd]
+-            if source_map:
+-                # "settings set target.source-map" replaces the *entire*
+-                # mapping list rather than appending to it. Issuing one
+-                # "-o settings set target.source-map ..." per entry (as done
+-                # previously) silently discards all but the last mapping, so
+-                # LLDB ends up resolving source files (and verifying their
+-                # DWARF MD5 checksum) against the wrong location, e.g. a
+-                # stale rootfs-dbg copy of a devtool-modified recipe's own
+-                # sources instead of the freshly edited workspace srctree.
+-                # All pairs must therefore be set together in a single
+-                # command, exactly like CodeLLDB itself does.
+-                source_map_args = []
+-                for k, v in source_map.items():
+-                    v_resolved = v.replace("${workspaceFolder}", tempdir)
+-                    source_map_args += [k, v_resolved]
+-                lldb_batch += ["-o", "settings set target.source-map %s" % " ".join(source_map_args)]
+-            lldb_batch += self._lldb_debug_cpp_example_batch_commands(tempdir)
+-            r = runCmd(lldb_batch, output_log=self._cmd_logger)
+-            self.assertEqual(r.status, 0, "lldb batch session failed: %s" % r.output)
+-            self._lldb_debug_cpp_example_check(r.output, magic_string)
++        lldb_batch = [lldb_binary, "--batch"]
++        for cmd in init_commands:
++            lldb_batch += ["-o", cmd]
++        for cmd in target_create_commands:
++            lldb_batch += ["-o", cmd]
++        if source_map:
++            # "settings set target.source-map" replaces the *entire*
++            # mapping list rather than appending to it. Issuing one
++            # "-o settings set target.source-map ..." per entry (as done
++            # previously) silently discards all but the last mapping, so
++            # LLDB ends up resolving source files (and verifying their
++            # DWARF MD5 checksum) against the wrong location, e.g. a
++            # stale rootfs-dbg copy of a devtool-modified recipe's own
++            # sources instead of the freshly edited workspace srctree.
++            # All pairs must therefore be set together in a single
++            # command, exactly like CodeLLDB itself does.
++            source_map_args = []
++            for k, v in source_map.items():
++                v_resolved = v.replace("${workspaceFolder}", tempdir)
++                source_map_args += [k, v_resolved]
++            lldb_batch += ["-o", "settings set target.source-map %s" % " ".join(source_map_args)]
++        lldb_batch += self._lldb_debug_cpp_example_batch_commands(tempdir)
++        r = runCmd(lldb_batch, output_log=self._cmd_logger)
++        self.assertEqual(r.status, 0, "lldb batch session failed: %s" % r.output)
++        self._lldb_debug_cpp_example_check(r.output, magic_string)
+ 
+     @OETestTag("runqemu")
+     def test_devtool_ide_sdk_code_cmake_clang(self):
 -- 
 2.55.0
 
