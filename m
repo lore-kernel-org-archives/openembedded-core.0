@@ -1,101 +1,99 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 911BAC5AD4E
-	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 20:47:28 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16083.1786308445008948566
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4335BC5AD5A
+	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 23:19:29 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18965.1786317559652069163
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2026 13:47:25 -0700
+ Sun, 09 Aug 2026 16:19:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XMCaiwNR;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VN7qWZRA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019fe847beae-ee66794a-d48f-486c-af58-d0ce02b3b809-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786308444; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=4BnxinzpRjgvENmU04Sao+HTN+1t2R6rFJo47dfBlio=;
-	b=XMCaiwNR+xfxjWOSP1+xkdQsr4MiyFOWHfrFgLV3zJS9TJcFvd4HmSdxpCL2jKk3
-	TcfI0YV8VR9dPdvjSigYu7OT/cdUE/I3hkqIwJdPryUqoTLzSDhCi7s9D2cFh7j4MGH
-	oZAIshyNCa6TPj7MurTlalm3QZ8aUg9VYU0vfz5Q=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786308444;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=4BnxinzpRjgvENmU04Sao+HTN+1t2R6rFJo47dfBlio=;
-	b=VN7qWZRAl2tAhRtuhdVs4MkrJaGbV4IqtUA78rXyOhBpVOjCLFxWo3QC9Kw+/WMi
-	TGgEq02DpnVbMy3j3bIF9LTsDzH6xCPDaVDGpNdOZLrHib6DGxtHwIL2OBs6AvV49H3
-	IhDjN+gJuS6FG/B5eXnFMnv04W2l9jNqziS3utzQ=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/4] python3-setuptools: upgrade 83.0.0 -> 84.0.0
-In-Reply-To: <20260809202935.1904858-3-richard.purdie@linuxfoundation.org>
-References: <20260809202935.1904858-3-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019fe847beae-ee66794a-d48f-486c-af58-d0ce02b3b809-000000@us-west-2.amazonses.com>
-Date: Sun, 9 Aug 2026 20:47:23 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.09-54.240.27.33
+ dkim=pass header.i=@konsulko.com header.s=google header.b=bRaBfpwq;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.172, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-84862b0d5aeso1167728b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 16:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1786317559; x=1786922359; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VvQDB1TOPAKE75weNymHpmNw/wtMEhxjFmdIyOmkddw=;
+        b=bRaBfpwq5gw6vr4Gz7EqfNZH7J/PThFsn4/Pa4SBiJhsFvDVoCeVZYnYkbJJkHxgdO
+         XrCXDfvvDTDvwM0L01mkN93mbI6yzMr5VyzDYio9AojjYE4HT49V0OVdE5xtDsDWB+sa
+         MOS6LWduAfhRoR2rpfkrCnICG+YS/MLEpnJv8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786317559; x=1786922359;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VvQDB1TOPAKE75weNymHpmNw/wtMEhxjFmdIyOmkddw=;
+        b=hdHAj9d1OuTT2yZYcfaZXn3PgyiFg1wMPnWHLY/eei8tD2ydHPJWouXJlvJB6H+Ehx
+         CumxOmPrGNlws6N6tIw8mjFVf87+CGNaaICO/TwkBDgNBHHAJB0UwxWsmC0LTFdsEEO2
+         BNWR/boeEUazGnagtFmEthg+zbINtsnof8kQPZyVAl5v4fJnHkx5SE2sc4f8YcuW4kWz
+         9zxd2GmjNzTY/ggLTKlRhb/OXb0gfgPqd1ohBm91D/FILS21z2Eq4EQ2ETP0qOz6AGs4
+         jKv89wtxAjNepWS7+T0zP2RD/xajISxmLxjUVhZpBAjtbacfiES//MDS3IFexSCxapMG
+         ZB4Q==
+X-Gm-Message-State: AOJu0YyUvgHpr68+dzMZGFB9muRDQE/in/jOqBz3ahMGC5+e7sJDubJJ
+	RpI3kPaD3gsyC6mWqXWDH0L2v0sPclo2DgPALH15SOa9jtLI6NfSBog1QGqXa1wCMGXvoNa1av+
+	Pa3TX
+X-Gm-Gg: AR+sD12SYEcqKYvOO4KdNEJNVxMp2t9IT6BY0kaSW5DFlFgk8s/TThn3TW13VL8EA6h
+	LEv1tMKAI+krs5uIhoG5tHtzNy3y0jYHL8/f5q5PNZD9TRevHAR67PhO673RCi4uumRd8Jle6E6
+	+N4Az58Z0wWpcbUXVjdqX1De9eElYxx4zxqJ70MzYVEP2rsMd1PdNx3NRGZ5KN7hF5xPpkwtTwr
+	sCA9goukUrFWmYmrv1/2k85R6aLgKfK9cPJ8PKBiSmQ4BKbhvtcg0y7Yoiv7c4VTpS73XMpMslM
+	yODAU4Q4Mk6DLDMplj4T2X2DeFFNAdfaXjQY7rSX3m7qwB1VrAb5oZpKTTQpZB0jhch1ZY2E9hy
+	x4ByAXOYrt1J31taoHSdysPkwoT8DQ613J9iZEWqz8JQ6HViteHwJT1/C5yClzKYgipiIpvRQ8o
+	csXauvRepcKQFdZdaYxhreyPPQz2FGAihLALh3WNxDVCNF8MDZe5FnyzCl1khxwbVRJ204EvpKG
+	++lQUc=
+X-Received: by 2002:a05:6a00:4288:b0:847:83bc:d2a4 with SMTP id d2e1a72fcca58-84f2dfc8c42mr44718348b3a.2.1786317558928;
+        Sun, 09 Aug 2026 16:19:18 -0700 (PDT)
+Received: from thetis.home.local ([2606:c800:6024:2000:6f86:9ad6:671d:ec76])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f5a58998bsm2976866b3a.55.2026.08.09.16.19.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2026 16:19:18 -0700 (PDT)
+From: tim.orling@konsulko.com
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH 1/3] python3-git: fix CVE_PRODUCT
+Date: Sun,  9 Aug 2026 16:19:00 -0700
+Message-ID: <20260809231901.366919-2-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 20:47:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243079
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 23:19:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243080
 
---NextPart
-Content-Type: text/plain
+From: Tim Orling <tim.orling@konsulko.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Using the pypi.bbclass default CPE of python:GitPython detects no CVEs.
+With CVE_PRODUCT = "gitpython_project:gitpython" we properly detect
+9 CVEs, with 4 unpatched.
 
+WARNING: core-image-full-cmdline-1.0-r0 do_sbom_cve_check:
+python3-git-3.1.43: Found unpatched CVEs: CVE-2026-42215, CVE-2026-42284,
+CVE-2026-44243, CVE-2026-44244
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Testing patch /home/patchtest/share/mboxes/3-4-python3-setuptools-upgrade-83.0.0---84.0.0.patch
+ meta/recipes-devtools/python/python3-git_3.1.43.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
+index 45c988117b..ccf6def292 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
+@@ -10,6 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5279a7ab369ba336989dcf2a107e5c8e"
+ 
+ PYPI_PACKAGE = "GitPython"
+ 
++CVE_PRODUCT = "gitpython_project:gitpython"
++
+ inherit pypi python_setuptools_build_meta
+ 
+ SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
+-- 
+2.47.3
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
