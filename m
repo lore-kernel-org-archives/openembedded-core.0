@@ -1,186 +1,117 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87295C5AD4E
-	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 07:20:54 +0000 (UTC)
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10853.1786213023696355941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C05B7C5AD55
+	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 09:36:49 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6564.1786268196863618279
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Aug 2026 11:17:03 -0700
+ Sun, 09 Aug 2026 02:36:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@elder-tomes-com.20251104.gappssmtp.com header.s=20251104 header.b=lu8RMUFd;
- spf=pass (domain: elder-tomes.com, ip: 74.125.224.45, mailfrom: levi.shafter@elder-tomes.com)
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-669944f60b3so667691d50.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2026 11:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=elder-tomes-com.20251104.gappssmtp.com; s=20251104; t=1786213023; x=1786817823; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:content-language:to:subject
-         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4ViBhAyqgpTUtu6s1BTP5ADB62vJw0mJv0tQUkAQYnU=;
-        b=lu8RMUFdYRdSC7vlDDSYFCKVGv9nDvW9sEMWCbgwn/u35lEl9ffhSjEG6i2P9QREYn
-         Qachvt6rivdqYJA4lmrizuxjsLB5Yo3dLuSdp0iLlMO59iADYJe28JYViyYUmuoN//Qv
-         35kKB0eu/QemWKTfdzeiZ2Wcjtbq+VpKmvRC7GexM0/qD+RIYD4u4egTM4uR5UfngJ7W
-         EI8TuXK5+aWzoJ/dyh4PNDnp8SgrvREEIrdqP5g8+BbZzZSWNCEpGlgqyeLpRNeG4wwe
-         /nGi9L52+poJ0H54NK051VyGqRJRFaYiSX/AAWncrVj0Uh67NVsu3tBDO/BmT7LOVMb7
-         zXIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786213023; x=1786817823;
-        h=content-transfer-encoding:content-type:content-language:to:subject
-         :from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4ViBhAyqgpTUtu6s1BTP5ADB62vJw0mJv0tQUkAQYnU=;
-        b=HFclRbQfBNZhJ0at6F8Wj7xkE3mk/Jslak5enn/btsfHzkLi9s/JOEZIOTFg0pUcnU
-         u72BFHpTxwzEoEV0zzuEv+jDcemN17/TaYo+t5cyjpRciKOU+ydlrKVjANt2OEpoaqwi
-         B1FKe4lqNXtZjaRhJ8RZdN7bCDuedfaAoWbtY4pi67KGrGnEZMOKCGDUfjrCbZu/eiJ7
-         f60zWDJBSTaAoroXX7U+ySzSnfcuNazGpBIrlYwX4RSDuczjuJSgr+WwG2FPQ4CjqYHo
-         SYR4yYCzoCcDOwF1+guecnXLG2s8JGst38q+PP7oZu+X/DRFg1Mvjg4kAABzN2+cbhzt
-         iyNA==
-X-Gm-Message-State: AOJu0YzPhsamp670CHo4eynYBVig21lwnHeTbV8TXH6IPlzJRdbDofqy
-	KpaXN1TH103hFAourX1BoB6B2PRgV42vPm2wFezR0i7/NPwpspcn2FSlxLlREbUzA1azVb0KfC1
-	UUn2Z
-X-Gm-Gg: AR+sD12VYOcZuwS8DcSTWbtH2pC87pcPIcL8K1bHADWoC0m9xM3Gqs6pEqR2CqvHJw4
-	jOUTju7oPnnWwFep8scKarBjGGMh3ucg9MUUljbitNhbutr/uNU+d4RqmdX1hcfadr5lN/0fGs4
-	7hJ1Bz6BSlXww5TC+HIMpL9x7VnIHFQcY9B5bOdunS/dYLQorkd+y4GFSBS9Ny+JWfoo16XwRrG
-	lW6KTdLu1KVvnS8ugwMHnvAUumLL+oAvfXPQyw8H7s2RPNGCHHqi4v+ukzLmiKC4Sz8Bd0SWILY
-	Kfew+zdIC9WwWiGIR4X6urkeR86Kt9azNgOFsOACoj1oqBkDwWSDj7RWm2F/NfZeQBYDUkbfdrT
-	kAP0Y29tAxQEWUOR/m2J3dvw7wqqg5gxmcgSO2tpx6j7yjdkJd65PqvR/wD1Fo1f8r8VgVy0oz1
-	EsQPP7VAGPe7wEVDxn8Ah6I2fq7/lQ6SzXuMRgPW7eIOcYjnDo1fHVRy7Pia+PigNxJXgfj6nD9
-	g8pUxTYvK52M3d6KKut81Zt8kqdeC/7E1gvOw33
-X-Received: by 2002:a05:6820:1889:b0:6ac:c1b4:1a21 with SMTP id 006d021491bc7-6ae96c1b323mr16877170eaf.6.1786212712931;
-        Sat, 08 Aug 2026 11:11:52 -0700 (PDT)
-Received: from [192.168.0.86] (ip-204-57-18-28.co.bambroadband.net. [204.57.18.28])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-459f1a9e431sm4462965fac.6.2026.08.08.11.11.51
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Aug 2026 11:11:52 -0700 (PDT)
-Message-ID: <a380db6d-e22b-4417-ac04-d32cc23c698a@elder-tomes.com>
-Date: Sat, 8 Aug 2026 12:11:51 -0600
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Rr8GSOW8;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202608090936340011cb2fea000207f9-vzszut@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608090936340011cb2fea000207f9
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 09 Aug 2026 11:36:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=gCz80k2B7e3TlVlYvGqb3t/4a1F1SvIHNfzJV+3kYPU=;
+ b=Rr8GSOW8Ivw0E0tCQ0jHCLE9GJMyYuOC3QYMSjR6uC25FqWzugBKIukXr7ILfglQ3ERlKJ
+ sE+gWVOp9EcahebSU6mlktAOS5SK0LbZy4TmupBuBe5v4C0ebYWra3Q/WwsflNQzdSMbCiLG
+ FziIkqwYukZ5ezZ00v7QCgw0vweJXYGtV1w5H8/ZcyCL7hQ74fjomPWvFVewqv3EqKOvsUtx
+ RF0HXLe/qbjSNgQWa5/IvYHp7l7axjrC8J7/ASSnXa0iyCSyE2F2tRaIoQ2KB/QzEkAiLDsC
+ lDocfk5onkUb98PXU7M/qCoHqgrwihqi950KhYY1aJoU3cH+omWDI6GA==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v2 7/8] oe-selftest: devtool: use QEMU target commands
+Date: Sun,  9 Aug 2026 11:35:58 +0200
+Message-ID: <20260809093629.3457107-8-adrian.freihofer@siemens.com>
+In-Reply-To: <20260809093629.3457107-1-adrian.freihofer@siemens.com>
+References: <20260809093629.3457107-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Levi Shafter <levi.shafter@elder-tomes.com>
-Subject: [PATCH] image_types: make oe_mkext234fs reproducible
-To: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 07:20:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243064
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 09:36:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243068
 
-oe_mkext234fs() creates ext2/3/4 images with mke2fs and then runs
-"fsck -pvfD". Unlike the ext4 partitions produced by wic
-(scripts/lib/wic/partition.py), this direct IMAGE_CMD path embeds build
-time into the result and is not reproducible:
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-  - mke2fs picks a random directory hash seed, and the fsck "-D" pass
-    reorders every directory using it;
-  - mke2fs and e2fsck stamp the superblock mkfs/write/last-check times
-    with the wall clock.
+Use the QEMU target API for target-side verification in devtool selftests
+instead of invoking SSH directly. Copy the generated file list through
+the target API before comparing deployed file metadata.
 
-When SOURCE_DATE_EPOCH is set, apply the same handling wic already uses
-for its ext4 partitions:
-
-  - export E2FSPROGS_FAKE_TIME and pass a deterministic "-E hash_seed"
-    derived from SOURCE_DATE_EPOCH (reusing wic's namespace UUID);
-  - after mkfs+fsck, normalize the superblock time fields with debugfs,
-    since e2fsck stamps wtime/lastcheck with the current time even under
-    E2FSPROGS_FAKE_TIME (debugfs takes epochs with a leading '@').
-
-The filesystem UUID is still assigned by mke2fs and is left for the user
-to pin (e.g. "-U ..." via EXTRA_IMAGECMD), matching wic where the UUID
-comes from the .wks.
-
-Verified with comparison via xdelta3, getfattr, find, debugfs, and
-dumpe2fs between two custom builds using the patch against two custom
-builds omitting the patch. Builds were successful, and no delta was
-observed due to the usage of fsck.
-
-[YOCTO #16110]
-
-Signed-off-by: Levi Shafter <lshafter@elder-tomes.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
-Sponsor: 21SoftWare LLC
+ meta/lib/oeqa/selftest/cases/devtool.py | 29 ++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
 
-v2: Pass deterministic data instead of implementing fsck toggle
-v1: https://lists.openembedded.org/g/openembedded-core/topic/117020092
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index df77c628bb..06be7ef2df 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2012,8 +2012,8 @@ class DevtoolDeployTargetTests(DevtoolBase):
+                 self.logger.debug(deploy_cmd)
+                 result = runCmd(deploy_cmd)
+                 # Run a test command to see if it was installed properly
+-                sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+-                result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
++                status, _ = qemu.run(testcommand)
++                self.assertEqual(status, 0)
+                 # Check if it deployed all of the files with the right ownership/perms
+                 # First look on the host - need to do this under pseudo to get the correct ownership/perms
+                 bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD', 'PATH'], testrecipe)
+@@ -2032,15 +2032,21 @@ class DevtoolDeployTargetTests(DevtoolBase):
+                     for line in filelist1:
+                         splitline = line.split()
+                         f.write(splitline[-1] + '\n')
+-                result = runCmd('cat %s | ssh -q %s root@%s \'xargs ls -l\'' % (tmpfilelist, sshargs, qemu.ip))
+-                filelist2 = self._process_ls_output(result.output)
++                remotefilelist = '/tmp/%s' % os.path.basename(tmpfilelist)
++                status, _ = qemu.copy_to(tmpfilelist, remotefilelist)
++                self.assertEqual(status, 0)
++                status, output = qemu.run(
++                    'xargs ls -l < %s; status=$?; rm -f %s; exit $status' % (
++                        remotefilelist, remotefilelist))
++                self.assertEqual(status, 0)
++                filelist2 = self._process_ls_output(output)
+                 filelist1.sort(key=lambda item: item.split()[-1])
+                 filelist2.sort(key=lambda item: item.split()[-1])
+                 self.assertEqual(filelist1, filelist2)
+                 # Test undeploy-target
+                 result = runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
+-                result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand), ignore_status=True)
+-                self.assertNotEqual(result, 0, 'undeploy-target did not remove command as it should have')
++                status, _ = qemu.run(testcommand)
++                self.assertNotEqual(status, 0, 'undeploy-target did not remove command as it should have')
+ 
+ class DevtoolBuildImageTests(DevtoolBase):
+ 
+@@ -3510,13 +3516,10 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertEqual(task_command, "ssh", f"Task '{prelaunch_task_name}' should use ssh command")
+         self.assertTrue(len(task_args) >= 2, f"Task '{prelaunch_task_name}' should have at least 2 args (ssh options and remote command)")
+ 
+-        sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+-        result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'test -x /usr/bin/gdbserver'),
+-                        output_log=self._cmd_logger)
+-        self.assertEqual(result.status, 0, "gdbserver should be installed on target")
+-        result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'test -x ' + os.path.join('/usr/bin', example_exe)),
+-                        output_log=self._cmd_logger)
+-        self.assertEqual(result.status, 0, "Example binary should be installed on target")
++        status, _ = qemu.run('test -x /usr/bin/gdbserver')
++        self.assertEqual(status, 0, "gdbserver should be installed on target")
++        status, _ = qemu.run('test -x ' + os.path.join('/usr/bin', example_exe))
++        self.assertEqual(status, 0, "Example binary should be installed on target")
+ 
+         # Start gdbserver on target using the task command (keep the ssh connection open while debugging)
+         ssh_gdbserver_cmd = [task_command] + task_args
+-- 
+2.55.0
 
- meta/classes-recipe/image_types.bbclass | 32
-++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/meta/classes-recipe/image_types.bbclass
-b/meta/classes-recipe/image_types.bbclass
-index ca13729225..c0b3a78013 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -72,6 +72,17 @@ IMAGE_CMD:jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS}
---faketime --output=${IMGDE
-
- IMAGE_CMD:cramfs = "mkfs.cramfs ${IMAGE_ROOTFS}
-${IMGDEPLOYDIR}/${IMAGE_NAME}.cramfs ${EXTRA_IMAGECMD}"
-
-+# Derive a deterministic directory hash seed from SOURCE_DATE_EPOCH so
-+# reproducible builds get stable ext2/3/4 directory indexes
-+def oe_ext234_hash_seed(d):
-+    sde = d.getVar('SOURCE_DATE_EPOCH')
-+    if not sde:
-+        return ''
-+    import uuid
-+    return
-str(uuid.uuid5(uuid.UUID('e7429877-e7b3-4a68-a5c9-2f2fdf33d460'), sde))
-+
-+REPRODUCIBLE_EXT234_HASH_SEED ?= "${@oe_ext234_hash_seed(d)}"
-+
- oe_mkext234fs () {
- 	fstype=$1
- 	extra_imagecmd=""
-@@ -81,6 +92,14 @@ oe_mkext234fs () {
- 		extra_imagecmd=$@
- 	fi
-
-+	# For reproducible builds, make mke2fs/e2fsck deterministic: a fixed
-time and
-+	# directory hash seed (the fsck "-D" pass reorders directories using it).
-+	# This mirrors what wic does for its ext4 partitions.
-+	if [ -n "$SOURCE_DATE_EPOCH" ]; then
-+		export E2FSPROGS_FAKE_TIME="$SOURCE_DATE_EPOCH"
-+		extra_imagecmd="$extra_imagecmd -E
-hash_seed=${REPRODUCIBLE_EXT234_HASH_SEED}"
-+	fi
-+
- 	# If generating an empty image the size of the sparse block should be
-large
- 	# enough to allocate an ext4 filesystem using 4096 bytes per inode,
-this is
- 	# about 60K, so dd needs a minimum count of 60, with bs=1024 (bytes
-per IO)
-@@ -98,6 +117,19 @@ oe_mkext234fs () {
- 	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype
--d ${IMAGE_ROOTFS}
- 	# Error codes 0-3 indicate successfull operation of fsck (no errors or
-errors corrected)
- 	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype || [ $? -le 3 ]
-+
-+	# e2fsck stamps the superblock write/last-check times with the current
-time
-+	# even under E2FSPROGS_FAKE_TIME, so normalize every superblock time field
-+	if [ -n "$SOURCE_DATE_EPOCH" ]; then
-+		printf '%s\n' \
-+			"set_super_value mkfs_time @$SOURCE_DATE_EPOCH" \
-+			"set_super_value wtime @$SOURCE_DATE_EPOCH" \
-+			"set_super_value lastcheck @$SOURCE_DATE_EPOCH" \
-+			"set_super_value mtime @0" \
-+			"set_super_value first_error_time @0" \
-+			"set_super_value last_error_time @0" \
-+			| debugfs -w -f - ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype
-+	fi
- }
-
- IMAGE_CMD:ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
 
