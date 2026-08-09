@@ -1,91 +1,118 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3239FC5AE5D
-	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 09:36:50 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6561.1786268196862831030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A2BC5AD4E
+	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 09:46:20 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6528.1786268775064731072
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2026 02:36:38 -0700
+ Sun, 09 Aug 2026 02:46:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=fQR77ELO;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-20260809093633baa4cc5fcb00020747-tpoc_g@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260809093633baa4cc5fcb00020747
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 09 Aug 2026 11:36:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=rYixf6joq6L4rYnhUy7QOCg/66GRhzer8dbHT4ZdYgs=;
- b=fQR77ELOIY/in5HBbhPPFq1AFtz4KsC9ll8d+wXVaYBdH4UZJOMl6GZkvpNtjVjdODumqE
- DpTlME9bqbJ0oo82wvIYfJf2OWB278fSA51IArqPXyoCWyoxnXlKypM9wTTSJ3KCQQUfqHRo
- DZRIAkvTb+xBo/z9YseBrcTR4r1qGtOBt4gqiw1uIdWB1qjLM7BJANWCZalbcUwVWRtcAPop
- O7DJ8PjSzQ7qqCuPFAKYtQ7MiUZjko7btvwZaphNZ+FEijquJKb/Myu+0/eV/OM9U2UptZdQ
- UI24mKzwZnpChe7XlDhkniG/uMrEaBC4jQaHdMYHetzu6zGa5MOcK9uw==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 0/8] oe-selftest: devtool ide-sdk: fix lldb connect race in _lldb_server_debugging_once
-Date: Sun,  9 Aug 2026 11:35:51 +0200
-Message-ID: <20260809093629.3457107-1-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rGCSoxXx;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so6181655e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 02:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786268773; x=1786873573; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zndhXWiXdLmXwhVrm4kpV5Jrks18S61v59ZVBTKXo2g=;
+        b=rGCSoxXxhVyoywNAtySDTclLam3fR8lYpdsqYCOwRZPLccxAPt8AbNn5MB9PXwStdN
+         a0vCtBIsqITqCZ4BOO/tFurOwzS6UCpcmglAQMVCivF5oEW0s3ZjE/zAclZjgOdUSyUg
+         4FGuVCDYByEUlJKdWy2StbvwJdETzZd1b35IMBaaXcyCd0GNmCZudnXQ7zqryAO+jvMm
+         +kO2ApHpela/H1eTO15ryZ/evXb1JYCdPk1KMy3O4xlD3ZKIvdqA0gdWxwgymQaDYREi
+         1EfNVuwEfJUT/vBu5hd7tHqW0QShupIt/LGXeY+k4gmpLcBVI09L+fxVQo68aguRNC4g
+         clkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786268773; x=1786873573;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zndhXWiXdLmXwhVrm4kpV5Jrks18S61v59ZVBTKXo2g=;
+        b=E14R8foOdqQn2q1myV453CpbWDDbwYQhDoBEICEzV+REAyMJmJoWJZdwOGBl+FgKZJ
+         wh14ue64arAxjVqpwBWkZLkXTyavv6qlOsgIe10N89BrtGCNj2oRhpDaxNEoojFrvloM
+         y4XGqDZfFNnxNFq64WQb8TKkieIwOP9sgb39QnX34sx21/riphQjNBA9Yi4fRP5oIcR7
+         Cf/KNw2O84WSr9zVkBIq4OinvQJrJZ8BiclZoJiwglY51JEvkvXfg5m8Lvc1ls5JKgJJ
+         ZNOH8YT9VkRoba5mGGKyxCdZDIQL3it2p5JQBDaS9Z+zYDZXfddIIx9BXc2IkiO8+Oly
+         gs+g==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4mlZZ9iHOZt+aoBT8GhMsrIuHIRbKrp1z64B6UXNEPlpzNcqJnZCDl+cmUdHE0/8tOTitT8sHAzm56w4SkhBl8A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz0bkvwyxdOtY/fQR+xWCm6HgXiSYFvJ/6rhkE3QhfS2TYr54ZB
+	1eZVXXQrmyz81GiJnW9w3nCpymblgThkWLPllpvkdLpgC+Wbb5vlNEAq
+X-Gm-Gg: AR+sD10lagUxnjdsg8LoeXbQDufncEx7/MrdOjkVfjGwGbfaUID439MUEBTYV9/P9UR
+	8AxI1407lMPeVkLCI5F16qDjx1Wyy2tDY3jXUvMAZFlTRTR5j1ze1b3zn8KnQ/P3NIT6/tvrS7l
+	VvFZfyhDkmGrZNT5/IpnrjdMVsz6qoG9b6kvUT09lLIvoZ8gEKi9G5D7F0gaXAAyu4ZkBOxdYhv
+	lu2lFWIvXhwpT1LVrwIEduMqwEWPNxXQWVcg9DUxO2bJFFpZ548lqnS8hYqbt0IHvlFgzYkhKlv
+	zz3sIIC6JeYEvNaaJt5WhKjxoghdOWUJKuuFz98kcpM7hF32Q8viHmbAPzLdUFXSm8T3sMI/ZDZ
+	NNgHyELXGM7C37XdUDmY/TX1bQLjGCGqgo6R24VsTZfXvjkvc8YPBqTnjWz8pMg7ICoid82v1Ca
+	I1P8zaZxEBB3QrldFJ95ct6k6uk2/+RLbgIvhsBMo+cv41v4f/4IKmxU+hNOfq0D5KVGJHNmEQW
+	QExe7acEBXIYr9GUYDEwWbuMuPZX3zmNy0UK3GrxLRjxBGWjw==
+X-Received: by 2002:a05:600c:4e87:b0:493:e365:ace9 with SMTP id 5b1f17b1804b1-4994e7c0356mr458108885e9.11.1786268773148;
+        Sun, 09 Aug 2026 02:46:13 -0700 (PDT)
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995ea27b29sm229383655e9.11.2026.08.09.02.46.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2026 02:46:11 -0700 (PDT)
+Message-ID: <4ab31dbae472a30a5dd3ecd2ee624ed0547b63fd.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH v2 13/14] oe-selftest: devtool ide-sdk: add
+ clang/LLDB test
+From: adrian.freihofer@gmail.com
+To: mathieu.dubois-briand@bootlin.com, "Freihofer, Adrian"
+	 <adrian.freihofer@siemens.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Sun, 09 Aug 2026 11:46:06 +0200
+In-Reply-To: <DKITSV7NF7Z2.3PZ90BU6Y01O@bootlin.com>
+References: <20260804120034.378787-1-adrian.freihofer@siemens.com>
+	 <20260804120034.378787-14-adrian.freihofer@siemens.com>
+	 <DKIT3XLETTWD.4QS3K7M6HPXE@bootlin.com>
+	 <08283607bf7d58c11af1c20c84e553c62150f511.camel@siemens.com>
+	 <DKITSV7NF7Z2.3PZ90BU6Y01O@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 09:36:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243067
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 09:46:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243074
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+Hi Mathieu
 
-The autobuilder intermittently failed the clang devtool ide-sdk selftest when
-LLDB attempted to connect before lldb-server had started listening. The first
-two commits prevent that race: generated LLDB MULTI tasks wait for the target
-TCP listener before returning, and the selftest runs that startup task
-synchronously before starting LLDB.
+There is now a v2
+https://lists.openembedded.org/g/openembedded-core/message/243067
 
-The remaining commits make the debugger lifecycle and its coverage more
-robust. Centralize TCP polling, timeout cleanup, server naming,
-readiness-marker generation, and shutdown handling in DebuggerCrossConfig.
-GDB ONCE and ATTACH tasks emit a dedicated readiness marker and retain their
-SSH connection for the debug session. Remove the unused LLDB one-shot start
-path and reject unsupported LLDB modes explicitly.
+Regards,
+Adrian
 
-Strengthen the devtool ide-sdk selftests to exercise these generated task
-contracts rather than rely on timing or process-list probes. Use QEMU target
-commands, wait for GDB's readiness marker, and normalize task-shell dollar
-escaping before invoking SSH directly. Keep the C++ debugger test code
-observable so breakpoint checks remain meaningful across toolchains and
-rebuilds.
 
-Changes from v1 to v2:
-- Rather than making the connection-failure path more robust, v2 prevents the
-  failure by waiting for lldb-server to become ready before connecting.
-- Extend the same lifecycle synchronization and coverage to related debugger
-  startup and shutdown paths.
-
-Adrian Freihofer (8):
-  devtool: ide-sdk: wait for lldb-server readiness
-  oe-selftest: devtool ide-sdk: wait for lldb-server readiness
-  devtool: ide-sdk: synchronize debugger server readiness
-  oe-selftest: devtool ide-sdk: wait for gdbserver readiness
-  devtool: ide-sdk: wait for debugger server shutdown
-  oe-selftest: devtool ide-sdk: verify debugger shutdown
-  oe-selftest: devtool: use QEMU target commands
-  cpp-example: prevent compiler from eliminating debugger test code
-
- .../cpp/files/cpp-example-lib.hpp             |   6 +-
- .../recipes-test/cpp/files/cpp-example.cpp    |  10 +-
- meta/lib/oeqa/selftest/cases/devtool.py       | 222 +++++++++---------
- scripts/lib/devtool/ide_plugins/__init__.py   |  74 ++++--
- scripts/lib/devtool/ide_plugins/ide_code.py   |   7 +-
- scripts/lib/devtool/ide_plugins/ide_none.py   |  17 +-
- 6 files changed, 193 insertions(+), 143 deletions(-)
-
--- 
-2.55.0
-
+On Fri, 2026-08-07 at 17:44 +0200, Mathieu Dubois-Briand via
+lists.openembedded.org wrote:
+> On Fri Aug 7, 2026 at 5:17 PM CEST, Adrian Freihofer wrote:
+> >=20
+> > Hi Mathieu
+> >=20
+> > I hope this will fix it:
+> > https://lists.openembedded.org/g/openembedded-core/message/242995
+> >=20
+> > Regards,
+> > Adrian
+>=20
+> Oh yes, it might fix it, thanks! Sorry, I haven't had time to look at
+> today
+> patches so far.
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#243016):
+> https://lists.openembedded.org/g/openembedded-core/message/243016
+> Mute This Topic: https://lists.openembedded.org/mt/120592137/4454582
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> adrian.freihofer@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 
