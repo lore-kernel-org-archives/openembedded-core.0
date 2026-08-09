@@ -1,101 +1,76 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 939DAC5AD4E
-	for <webhook@archiver.kernel.org>; Sat,  8 Aug 2026 21:17:47 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13890.1786223857880551620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15662C5AD55
+	for <webhook@archiver.kernel.org>; Sun,  9 Aug 2026 06:00:03 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4793.1786255199230858191
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Aug 2026 14:17:38 -0700
+ Sat, 08 Aug 2026 22:59:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rukQf7o3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O3TZbym+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019fe33d0bcb-b1827310-ff05-4d6f-8dc9-346eef8670cb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=kOH55PY3;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4iW7Qntu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019fe51b47ee-538a9cd2-24c7-431d-bf8b-ceb319cbda97-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786223857; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=sXQekaBWqbMmRRVWyXob6ygZID7oGPEbX5swEUfEkcw=;
-	b=rukQf7o3foeCZzO9UW8Qsq1zDnU+QhJZTvxkHO0oiRjl8eOmIMS/b7ZtXPY+d7tC
-	h62U0U/KLU8apGJR1eZrxZ5Hlq3i61ydM7q+Nf7Y8kkkb76/S3m/bOdmiDdWkj074Sk
-	3iBLqJ0EgMNdX7Mjn5yN0Jtui0B0z5mF5RRW0IsA=
+	t=1786255198;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=GnL/2YT5TzY5Ed9Gba2ygS2SRja5QnkAJRZf6VnBSYQ=;
+	b=kOH55PY3MypN6C1dHxYw1STZ755eAEYVuzATbn1Zc1lxUFy2zsJwm8RfSvmGnarv
+	/9tCaOGNTrlf+thv3XouNWDOGhsen/z8/4SBBuNMvRTnOTJl4XrSCLEyRPrINKPXjDp
+	NZRF61HhuRC54p4oz4a8qrh1XAkPgCbwmjku3DzQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786223857;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=sXQekaBWqbMmRRVWyXob6ygZID7oGPEbX5swEUfEkcw=;
-	b=O3TZbym+B/FQTKng9NTv3nANW3GATR1D4dCdnn0Hp4KzFVUwWuha3B+IsjtgunWx
-	x+HECvaNkTtrTfb6bQ0al3WMyazKtwf5gNKCYTStInvKBA5RiMCqN5PDJAn4cbjiI//
-	B1execYRjgmXBThPvElQc47AirQpQnRWs28m6LRM=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/4] diffoscope: upgrade 326 -> 327
-In-Reply-To: <20260808210954.994064-1-richard.purdie@linuxfoundation.org>
-References: <20260808210954.994064-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019fe33d0bcb-b1827310-ff05-4d6f-8dc9-346eef8670cb-000000@us-west-2.amazonses.com>
-Date: Sat, 8 Aug 2026 21:17:36 +0000
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786255198;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=GnL/2YT5TzY5Ed9Gba2ygS2SRja5QnkAJRZf6VnBSYQ=;
+	b=4iW7QntuIT+jKxyADnd+iuw07ZihOVHkY/GEVy7xvlQD9ISxFl0qrKy68NT7gguS
+	SPV0ctVBYB5rkTZC54BUf0rtWy6fGWQ+G/WfEIIxtMjTH+g4vB0gTaBqFERV93pL0XC
+	vkBhdOoHuLuIOzEWTxhRLf3EYJl9zI46I9Vb6w1U=
+Content-Type: multipart/mixed; boundary="===============5206259403672787231=="
+MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gcc-source-16.1.0: upgrading to 16.2.0 FAILED
+Message-ID: <0101019fe51b47ee-538a9cd2-24c7-431d-bf8b-ceb319cbda97-000000@us-west-2.amazonses.com>
+Date: Sun, 9 Aug 2026 05:59:58 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.08-54.240.27.33
+X-SES-Outgoing: 2026.08.09-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2026 21:17:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243055
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2026 06:00:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243057
 
---NextPart
-Content-Type: text/plain
+--===============5206259403672787231==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello,
 
----
-Testing patch /home/patchtest/share/mboxes/1-4-diffoscope-upgrade-326---327.patch
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *gcc-source-16.1.0* to *16.2.0* has Failed (devtool error).
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+Detailed error information:
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+The following devtool command failed:  upgrade gcc-source-16.1.0 -V 16.2.0
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 956 .bb files complete (0 cached, 956 parsed). 1987 targets, 40 skipped, 0 masked, 0 errors.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+ERROR: The gcc-source-16.1.0 recipe is not supported by this tool
 
 
---NextPart--
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============5206259403672787231==--
 
