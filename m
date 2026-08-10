@@ -1,144 +1,146 @@
-Return-Path: <chris.laplante@agilent.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F387C5AD55
-	for <webhook@archiver.kernel.org>; Mon, 10 Aug 2026 13:37:38 +0000 (UTC)
-Received: from BYAPR05CU005.outbound.protection.outlook.com (BYAPR05CU005.outbound.protection.outlook.com [52.101.85.22])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29694.1786369051359361088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E21DC5AD55
+	for <webhook@archiver.kernel.org>; Mon, 10 Aug 2026 13:57:59 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.26])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30121.1786370276424035096
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2026 06:37:31 -0700
+ Mon, 10 Aug 2026 06:57:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=t5an9kFj;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 52.101.85.22, mailfrom: chris.laplante@agilent.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=N+8JAvqE;
+ spf=pass (domain: est.tech, ip: 52.101.69.26, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uW4vV3NU5Il3MpEdRFEzn4OXiEeDaexq7EnSnvukwuXLx+1uE+p18ph+wWvBSB6XyX34ukeeuP5Ueu5TSg5OGS0+UvcMD4mc/A9roMmYL6HSEgQ1iY0zMDEDFQ9Elt+JI6i3VsjuvOkEu/HuH2irEhrlpNENFK4uIoj8UaxnqDxDJOUff58I4aD4or2tPrdOIdHfEBQ5JlKIZeU2YQfTcfrHsbUFefq3/MnOqivFzUoTiicWrGyUZbvXxZ7Y9cVnbGiHMxjPWcdP2RkgPpPd4oEAseolHxQGl13L/oQtaRdfUXQQKn6hy9iXBmm4I2cx6rPexMR/Q5hOQby2SOmMug==
+ b=FOJbnSCr27KvPdPOKRCWlH4SAkjwtmIRMFuNDRpekWi8+DnzCgY8I0HHrqJGEwES4nQ9JMq2hv8cPe7aLkqkX/mE24LAJ4XpJ0GHPfXZEMuUoml5oyx2KPvx2zLcj3mZroaz2bgqUs+dYX9xNXMpvAkDsd70S4CT7s4KoPHYEvmQR+gNa/f3M+kEobM1mqxZRvwnkCP+8qRxbjmGswRxrDMFE4DPyx6tg8JTmdKmZ/EqEf79vU3JNOuMD/C0TMiFI/PZvC7n+dxqGyGxoBglBTgUZ1LfRYaZnDgAAXP6oSqycmYcVTguH4Aj5XG69lHx2EUeB1kXrnA6soXheRa2sA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MZawl/QK23tOltI2Dd76m/j6vVkRifU1aDRTVsntpHs=;
- b=RJndCPBbn1z/fQGGr26Buj52PyFzxifc9ZQsssLUf9gmaVkiwUiQCxmrmFPckTtLjnD8Hgzxzd7+uiamr4U4db2lLSogosxPKA3pDpKMZI842HA/axy+DNs2CZ8yHbJdbaLstr5oUQlp40zx+NjkSw+18V1eAT2WWiFr3N/EoovWZtkOArL2QwH5VAnh2HN1GRein3ElUltLB45cv9m1mRrxmirxY2jy3Ti9qx7oZrSmIktXKpMLGzFW+uwMNyNgnQVEKa6fKQret1iC0achnVFpjPycMsHt6b0HEKrUEod8ltDMFV8iWztKHnfRXVsy0opKcU7ZzhvMhranKvNJLA==
+ bh=599/z+x+faJaEnEg19QpLE+zQpxTZP8DEb011kVOkyY=;
+ b=dStB83Tri/ys6X1QrjbqXaVr2rUTd8r8R1GoUkAyy3zX/3WFGb5poYAAoiyGWDYMwrtTdSGSFcZU3L8PYEmHlt45NUvHsBElONemsM9h9to85L7TMJhl39WW4NfQdGkDgzx/Hgyg62dKyZniYTd8DB6yNF3gJlgmOdNYLM/E3Nfr1YH1D1aF7+IRyKlg8DZbvl+Sp/FKUTxoJ0kte1J/+xvrK9Qqw4pZHmri75emWYenu2bxXFMV9wo/fK1Vzkobrym3T189ZHnK5LV7Js+6Jf9pGrWniVuhtX7GSF17PzJT7TNEsGAWLLqmbkTiXHZ74pB9ygrfCtTKRNGOYSqD6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
- dkim=pass header.d=agilent.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MZawl/QK23tOltI2Dd76m/j6vVkRifU1aDRTVsntpHs=;
- b=t5an9kFjMEo8U1Wtgg0JBIPDjh8EfoeXzCwhpRrh+/1O/d/4+h/4m1iSN0oaw1UGvGF04KNkblvKm89SAn63EGn0BW3PJVLeC1dN49sQwSPKTX5+7prqFnMdytgCzKD8uBjs96EFKGp34SIv7Aobq6e/yhb1ATwXfstaEecq7HSHC36MVDwkdH/f/ecCmxFZi5yiGLlbnTpFH7rcv+Hx6STe3hHB2Q1gn9A9tRr5FOdWmQdjpP5XWm9MKToziv94wwZMINBls+Ea5ZdftPyQB4Y+3+FN5pgnNHCKMBm4VhsFCEoiHmsisglRtgElYyw717xxCgg2RCW5asrs5X19RQ==
-Received: from DM8PR12MB5430.namprd12.prod.outlook.com (2603:10b6:8:28::6) by
- LV5PR12MB9753.namprd12.prod.outlook.com (2603:10b6:408:2b6::12) with
+ bh=599/z+x+faJaEnEg19QpLE+zQpxTZP8DEb011kVOkyY=;
+ b=N+8JAvqE1pb3eWFeh0iGfY8DtN9nioqg55Lk12Wamca04A0gQXqpqRPPIp4p1CRd22QRpH/205z7/9bykq0glc0HluKzNR9ncM7Do0BYN5TyeSqko3ntubFIYiJdxJA5r+Up/Lm2HZKJAu0/u9jndg1vlZCzBhJJWPbpAXz6WriZHYS5FDfRKwH+DlijgSwVwjo4/9NCPv9SysGJHzDjnXrfeLM92iVInHS9wG8cPJncQoTC/Dr8xe517jIiFrs7v1/vUYDGnAga8QF0adWZoKnkP6noomNojnctdItM4X64ARqJYu1GJr0lAy9CLDbvEHotiZNnWWTcSYt2b/q/hw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AS8P189MB2363.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5bb::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 13:37:27 +0000
-Received: from DM8PR12MB5430.namprd12.prod.outlook.com
- ([fe80::152b:7346:321d:4a2]) by DM8PR12MB5430.namprd12.prod.outlook.com
- ([fe80::152b:7346:321d:4a2%6]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
- 13:37:26 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] "Checking sstate mirror object availability" progress
- bars
-Thread-Topic: [OE-core] "Checking sstate mirror object availability" progress
- bars
-Thread-Index: Ad0moIqENvNpiy4/SdClFe5zENmSsAAEnvsAAIZbPnA=
-Date: Mon, 10 Aug 2026 13:37:26 +0000
-Message-ID: 
- <DM8PR12MB5430E69F7A83E64281F346338BDE2@DM8PR12MB5430.namprd12.prod.outlook.com>
-References: 
- <DM8PR12MB5430689E7FD5CCD1E6FF60AB8BD12@DM8PR12MB5430.namprd12.prod.outlook.com>
- <c31ac176c2733e3b8e65d87ee03bf07a6c57116b.camel@linuxfoundation.org>
-In-Reply-To: 
- <c31ac176c2733e3b8e65d87ee03bf07a6c57116b.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_ActionId=d267ccde-e725-4e2c-a569-12b85a77a64a;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_ContentBits=0;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Enabled=true;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Method=Standard;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Name=General;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_SetDate=2026-08-10T13:30:46Z;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_SiteId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=agilent.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR12MB5430:EE_|LV5PR12MB9753:EE_
-x-ms-office365-filtering-correlation-id: 6b454b30-6a5b-45c1-56c5-08def6e4845d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|10067099003|11063799006|4143699003|56012099006|38070700021|3023799007|22082099003|18002099003;
-x-microsoft-antispam-message-info: 
- cHMrt8AGm6d3nDJeG0dBj+v5Apq7Ohw04zDCfgB8HkAUwpYEKD8sGE3gI4vPW6duuWinE/ueZww7MnmFhjlaZAE+Fh4TNFAX2y5V51JxCju/Qos7GpLLOUuwW1GXOIr9jLiZ1HGZCd5gVg4ey9QW+vaO6J9VYXkSxxueoD7JU1tSFhrUlc9hpI419zVmxMYd1JqDi4RiOUdyX0aSk6i4AE+5uKfpp8XlJ4pcYZckyf6/ZErQcw+k0ld2JiXGtVfBNsiW/MqsR/WNySkTSqAuHPgZlCggKj3gTS58Qdo1CqBk1VWQuNKaoTkDF9SEIcEg4Y7thWx+6ujT96Z9Qv8wvxRmRHVF0Zs7RREO2OHUeZWBQkFwNkRPVafeM1Bzy1EwzS/4Y2UGhMQx2sAigkQ0YqnpLkdoaJWli60qwOJxYLdWFGmE3X+1N5x6xCeEctX7cwNLpZEd1cTF+TxeDSKY2CApJDhBegK4mZqNo8DaA4XzurnWRf7qwa3Htg395uu1jRZ3nvJJie2SJDRoROITwxr6Sl4065Jgbd1MZWmQAxc/mSEu2Gwl05wbdP1iT6bx1Y8F0efxqizUdUjz2CIHWKOjYGmCKRzryG1+SwDzY9Vq81cQGOjHUShXPlE/HvRDd4VGXPPZrJ39ZES0PI0n5uA3OH2LZ8rqQO1B57A6zZJjkevwnxIqzFGp1CzX8uc+9hwhcCmJ3O4OCgwgnB0uI5cR5Z0TFS54Sait1wG+0Mg=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5430.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(10067099003)(11063799006)(4143699003)(56012099006)(38070700021)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?QTRCUU9tUWd3Vm9MeXh1SWwxVHZMMUphMFI0MWlEcm1uODZBNDl3bkJQZ01m?=
- =?utf-8?B?T3kzRDJWUWpxQjRpRUlCVlJSUEZMSXVUdnNyOENGSHRJN2doYi9OTnZLYXJ3?=
- =?utf-8?B?RFZySndqbWYzVE1nWVlFazN6SnhXYzVMTTVrZ3U1K2wwYUlFaVJrMG9SYXBH?=
- =?utf-8?B?YWdpeWM3ejFJUkJiYUQ0M0Nzb3E4YTNhaDFteWI3bS9iQmU2R1ZrU0cwNEUr?=
- =?utf-8?B?YmNOcnRpWEVQTk9mM3pRUFhBUHQ1eUVFR1JKVzEzRkxEWFRMRi8vWVFLRkJr?=
- =?utf-8?B?QkZaVmFKbGRUc1NSS2RjTE9XNWZrckMyc09TWmtYSzhVeE00QzROODh0cGpV?=
- =?utf-8?B?Q3JqWGVHdVJVdmhEUzB4MndkWFlxL01GcDBnNWlqejA2blllUlRjWERJcWtC?=
- =?utf-8?B?REs0WXQydFRpdkZSYmp4T1Fqc00xMHo1bG9qNlcvZ2xYdjE4eVVjOENEcmhR?=
- =?utf-8?B?Tm44Q3FRZHBKc3pkMXJXcndoV1RORGV5Nk9scE1ic24zMW1oYk15NFBtbEpj?=
- =?utf-8?B?anhmTURhODRLOTJZTXhYSUNxRmx5bHI1Y0JkS2MvbjcvNy9zWmdTQTUrZVF4?=
- =?utf-8?B?bnk0YXZBVG01eTVDTStZWHNURUdrTE9KcUN1Ynh5Vmx5RnI2VCtUTEJYalJP?=
- =?utf-8?B?ejJUNVN6MllybHJ4dHBmYUt3UHJlQm9vMXhRZzBDN2FCM0RMc01yZ1BuQ2pq?=
- =?utf-8?B?R1QxS3FmbURkZEFxdmN4d2tqSGN5OC9DeGM0OGpYN00yZlBJVTgvMkttb2VL?=
- =?utf-8?B?dWtxL3hjTVkzK0ozVE5MQkVmTjB2VmtsQm1rRlRBVXkxWVI0Q3lDcUtkOVJv?=
- =?utf-8?B?bmpaMXd4V0RCajF6U01FU050Q3ljV2pHWUF6ejc1UUJpclBRVCtsY3hXTHlZ?=
- =?utf-8?B?L2FrS0FOUkZCUWhyM2p3YkVITm9FM1ZxUWxaQld4Q0lTYmlFQkp2ZHEwQTJa?=
- =?utf-8?B?dVV4dElRNlpac1hUMFR3WVJLbXlOd2V0OXE3VHhsR3MreWdIUjVhMklZVlJs?=
- =?utf-8?B?VjcvamxoRVkxRzI3ZXhIRVo3M3p6UnZuVi9odW9KYUEwN2hQd3drTnVMdUZ6?=
- =?utf-8?B?TVVleVdpVVZoeng0WEpnVzdlWUJMVmpuWnVoSVhESjFoL1lYMElrMzJLR1dl?=
- =?utf-8?B?b0dRYW9xMXNQRUg4YmliWXZKY1dpTVhiQUw4RU5NR0lSUjI4VDljYjZVUmNm?=
- =?utf-8?B?M2NIcUI3R2M4cUpZYVRrU082RnEwdjE5RTdDZzRlbWdITlA2YTl3T0Znd2Vh?=
- =?utf-8?B?Mm05YTBOZStCRXN0S25EWDYvTXlJaC9idTNJRElXVUdhNXBoY3o5bGdhRFc3?=
- =?utf-8?B?T3pYNzVSS1FYRVVhUlRRQjRRNWdGZVMvdDZ5RmRNeisxL2hPV3J2RzQwMjdq?=
- =?utf-8?B?bzlQajR3dTBoYXZpQnNKZDlybDhIUGErZHBDVktuM3hzVDRzK0ZWWGJXOE1H?=
- =?utf-8?B?NEtOendvTXJMVDNvdThXOHM5bVlHM2FFSVZNUkI3dUpSa1M3TXAyNzQ1RU9l?=
- =?utf-8?B?UlU4KzhQMnI0ZFdCTVV4VlVIbHkya21kNVVqeStHUTBaZUszSmZtNnVvVGo4?=
- =?utf-8?B?eHBVVHoxWDF4RUVYOWhtZ25rcDk5UE8wenRyUURWWUNJdk5adDJwU2c3U0dm?=
- =?utf-8?B?eVp6cFhnVWRrcktXcXFzSXd5dzNCeVhWZGl2UzBMcmJEN2twOE1kMGhiWEds?=
- =?utf-8?B?T04zcytOeXBSbXMyd2VKRlB4MFNaL1JDNmJXeVcrOXdRb0pmRWUvaFVzNkVo?=
- =?utf-8?B?VG05ZzhNeXZhcklDM1hjRVpVQnVqbFFYN0M1N2JrMGdBOXU5QzlNYnFLcXpp?=
- =?utf-8?B?VGpPMTNUQ2cwcTEydXV1UkdyNTBaOHorZzdwd0pVTGU0VDc4K090Yy8zWmps?=
- =?utf-8?B?VnowWFZ0TFVja08vM2pRSmxROU9lR3ZzekxUS1hIdjhGemltM2cwc21XMEk5?=
- =?utf-8?B?dkV5WVAwbW0vUk41L1VtT21MMDlRT1NhcURnbjRyeU5ZZkZKeGV4UWVTalA4?=
- =?utf-8?B?ZEF5QU11d1dSd3owcW5XNGMvQVViWEpWYW1QMkhsclRpV0N5eFZ4N3A1QzAr?=
- =?utf-8?B?KzdQWkJ6SFlqVjl1Y1dnV21PUjFqejhyNDlVTTRCYVJBNm9vZ0RHT0RLUElz?=
- =?utf-8?B?eTJlUHJ5cUhxdktxaDFLQi9BdkU5SEtlY1pObC9PWVV6YnJYdkl6blUvQ3NP?=
- =?utf-8?B?QytzYnptZksvOVdlckRBRlI1RHpqTlFBd0VlNkNoUGFHUnhmN1JaTmpTM21i?=
- =?utf-8?B?aW5QOXp5YkFJSWxFVWRQNEZQTjBpZDF6bGZpRm83NjhDR1QxelBUMUhYd2pH?=
- =?utf-8?B?cmhYb1YvUnhUUDhPNU5VZVVkMGF4dnAwTFh4elIySHhGSnlNcGJHQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Mon, 10 Aug
+ 2026 13:57:53 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.008; Mon, 10 Aug 2026
+ 13:57:53 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [PATCH 2/2] python3-numpy: upgrade 2.5.1 -> 2.5.2
+Date: Mon, 10 Aug 2026 15:57:39 +0200
+Message-ID: <05b29ad982ea9fe14a3d1ed22d29490d12da5baa.1786370158.git.jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <cover.1786370158.git.jaipaul.cheernam@est.tech>
+References: <cover.1786370158.git.jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0033.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:468::8) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AS8P189MB2363:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e3a08e8-f874-4a84-6497-08def6e75fb6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|22082099003|10067099003|56012099006|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info: 
+	VDaohGtXMn9Vv0RjmoyWmhz0/5biq5Zwa6z9zPQGfBbWYAdiRXnGrST+pu+ygk2O0RICmVtJxe4sJjDtCe/ULxThNmKobJxpD7dwhnTKqVIn2swer+zzDOxK8Rx1KZLHCyXA4nAVFH94onGlY2QdgME/jZ/RK48bypWOelEIGMFfzm/GEyBpkZBU8KqXi3AMFnAr4YojcpdV9X5Au6SgOD6hOdY00hjhakcVJ6HfDJkl/UkoM76mahqohmU+Axl5hwzRWJIPWkz9d8zhBcCZffMAfQhNDkOhCBObAECblgX0by3rnAV5Ox8Chtdo5eSTSjW7gAy47+vhTJPntK/WHU1QDCjeTF980niB6aaZBiD/WxWRgOxKjbC69kyomIYUlvLEcWcsYox6EG3g5ZCJ4iK1F2Nw8HUqeBwqyPIcXU/yu4aLAKBDAMDb8qgbtZdXadGxK/lkDG0ZkInsxlJB9auJXmrRn/paoNGk0H8GSfSwbG3lUMRhr7CSDTAM9/FJG8rULUZ6ch4rKvR+WdGpFExll6TphtAoWhzfNK/MXLfu61sQdXbYHdilv7aeTdsz0JYPEvJKtKDpUddiCmZpiz5OiuMGDV6Vf7T1i5Duv71x4TElxL0ZOzCg5jrA+DzNWZMudih8V1Blq5z0Jh0Ellm5nq3BImPrtqs+WQvF49M=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(22082099003)(10067099003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?MuM0Yq8Da9pMtmoOlDWq7dkpIjyCjLjvZh7hLaSjiu8/mmHHHFKDkxtNGxu/?=
+ =?us-ascii?Q?yzYr0ESQUWRzVIEPRLAuXX8I6XxM8hTKBIMdpQBEk7Ohcm8lgh6kgIBi+Yyx?=
+ =?us-ascii?Q?9tcYAGvfel3EHW7W7q1+qYB0pYpLYyLEd0eSMEeZayVY+BUIYrN3pcyjyoVQ?=
+ =?us-ascii?Q?f4LfD/PwmZtZIugZgRvwHXRHWx90i8fPMsVesJGNmQR9qVnjrze+FO+alkzb?=
+ =?us-ascii?Q?j2xYBizQSCMJuvz2X7xtNLjOzcS8tbDm6F4IgIaRCxFC2lPFM2tq+lHf6ebk?=
+ =?us-ascii?Q?GUIiQpmLcz659xVW+9v+VvzoeqbqkAauKpekQDWoja4B8oPUwyXYuDrh25Oh?=
+ =?us-ascii?Q?jxU7w9mIlwmeYoIsw2qk3qOqOgDyQRe5VC4U0/yeJmbHUaEhuZ0jz/QlgiP2?=
+ =?us-ascii?Q?Z9TXBLfLi5aQ1UrQ/g8EBJvLZQFtnvniAFF3vDL7u8rOjfWRU7kz80yuBnJT?=
+ =?us-ascii?Q?W+ypXHP5PZDsTeN5s184oVtQ+pHS5TMFhUDZUSuAAnyBo6jeKpvtB95UM/U8?=
+ =?us-ascii?Q?Jtzu1j23HQs6jW82hRYoA1sbwsMSsTZT0gExUsU0grIUQ4/bBAp+yK6y0jF4?=
+ =?us-ascii?Q?roqn5uxSequz57acfFBDv1MysHklqjJ+fefqwmB9MU4sf2F/jkKKYuKPbIz8?=
+ =?us-ascii?Q?uZqBCGp1z+PVK9Bx8jpg7kH8WsI9O2+5146KTcEsc0W/ThneGRj8DLTZi22Z?=
+ =?us-ascii?Q?PtvQuSsoXPtLxlldhyD1q+BmVcGXCotgBYltcUIkG3hE/eYez8KscnC7fnID?=
+ =?us-ascii?Q?Df6kpvATRMZKTsBCuKIe28f2GARTFP7j+/AWV/CR4vEmN9Sc3p2ofYw3bSN3?=
+ =?us-ascii?Q?KDEo2a3w6AL9ZzNvQ+bKdcRufXYfQQOHwmr5JxnJvqP99Rke4c3isCpu15Ec?=
+ =?us-ascii?Q?Hvge69V15Wz6qimrAar26YX46r+TvgoalV15Kbtys8LWvCkERRMC7PzZsq2Q?=
+ =?us-ascii?Q?T2CH/8yyScuTyp9mAHxmKXVCRrhRIJClv3O/VTHZjUvC4H3GZ2az04rzK2Vc?=
+ =?us-ascii?Q?ctC1EDjS3WjAOgn9VSSl7pPOjyTFzGTFFWkxzJyREOjW9w7nGnMTsqcmPWSu?=
+ =?us-ascii?Q?tdm2HhB5ptuH8MS3OcjhKg9tU2XE1gDOQjh76FYLkvtWsTPdvK7Vna2jOq+0?=
+ =?us-ascii?Q?aiE50t3Ht6j9zicWfU3eokPyChiiRMNjXIDVd21YxzDUa0YzsEODcfxsZ+f9?=
+ =?us-ascii?Q?ndxCaSoCOdnkp8TdfhrYj+Ap2LU/XODZZGYADNslzk9a9Zwan2Gam1ZyzBKX?=
+ =?us-ascii?Q?1tek+04ezDqkNiI5BhqPe6AGN9ngf09LVpV/m0BOnz16baPc2XL2LGwS6/Rb?=
+ =?us-ascii?Q?7+JAoDcSfqEk/tBrDf4EzUc1E7laEKpszz/8OooGBs0prgeHevmOew7hbINS?=
+ =?us-ascii?Q?aP6HhYnQViNJCfakgSklAX9JiJYugMO36TDsNuiEkjZH7WsqkQ4P1iUHZp7T?=
+ =?us-ascii?Q?PRBpcvmwRPODbolEdJGkszvxm7rlUlLiZ7c7XI4+d0a0pO3GQyz/f098kwqh?=
+ =?us-ascii?Q?f0F8/KrzmOIARZXL4i3jR6rP4+QxW6SDyxS1/2alshLbm60dQkfai/oWeycu?=
+ =?us-ascii?Q?gRoV/V/J+FO712RIWlFte8rJxsew1D2r2PvAupkqgWvnePW0O8wylfscAgAu?=
+ =?us-ascii?Q?4RetBzxvIeSNBtsY21pEIgyvkwC26yL8zFrG8Vmh+kixOOqEj6JCH1AjmiOe?=
+ =?us-ascii?Q?nKKmNt0JJ/400I88fk4ieuZpLfdeHisSGJy75/NNO6Oxs26FdjZswO9Xd1kD?=
+ =?us-ascii?Q?+5sHDbrT57o37rQY34g+HXZPLMPPlVM=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e3a08e8-f874-4a84-6497-08def6e75fb6
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5430.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b454b30-6a5b-45c1-56c5-08def6e4845d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2026 13:37:26.6256
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 13:57:53.8010
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OclMzVkjRKIgM8ngxXgw53SaNjhCMNYuU+88z4ZDi2UXwhIv0Z1l7TmItLpYRDqq740vw0peefNzGp6cW5y98ruyp9RcP4AYoJ9oDQ2VYOw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR12MB9753
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fk0zhgEBPfGmn2QqI93ZTESzDbPZAwYJXWZS4Rs2blVe70ehIcJIq+Kjv1T0PY3SqqLn0r6nuVfXM0UINAuHOYubs4ZeXprU4e+CBij+cQY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2363
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 13:37:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243131
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 13:57:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243134
 
-SGkgUmljaGFyZCwNCg0KPiBBbGwgdGhhdCBzYWlkLCBJJ20gb3BlbiB0byB0cnlpbmcgdG8gZmlu
-ZCBhIHdheSB0byBpbXByb3ZlIHRoZSBvdXRwdXQgaWYgd2UgY2FuDQo+IHdvcmsgb3V0IHRoZSBz
-cGVjaWZpYyBjaXJjdW1zdGFuY2VzIHdoZXJlIGl0IGlzIHBvb3IgYW5kIHRoZXJlIGlzIHNvbWV0
-aGluZyB0aGF0DQo+IGlzbid0IHRvbyBjb21wbGV4IHdlIGNhbiBkbyBhYm91dCBpdC4NCg0KVGhl
-IGNoYW5nZSBJIHdpbGwgYXR0ZW1wdCB0byBpbXBsZW1lbnQgKHdoaWNoIEkgdGhpbmsgbWF5IG5l
-ZWQgY2hhbmdlcyB0byBiaXRiYWtlIGFzIHdlbGw/KSBpcyB0byBqdXN0IG1ha2UgdGhpcyBwcm9n
-cmVzcyBiYXIgY28tZXhpc3Qgd2l0aCB0aGUgb3ZlcmFsbCAiQ3VycmVudGx5IG4gcnVubmluZyB0
-YXNrcyIgYW5kIHBlci10YXNrIHByb2dyZXNzIGJhcnMuIA0KDQpUaGFua3MsDQpDaHJpcw0K
+ChangeLog: https://github.com/numpy/numpy/blob/v2.5.2/doc/changelog/2.5.2-c=
+hangelog.rst
+
+ReleaseNotes: https://github.com/numpy/numpy/blob/v2.5.2/doc/source/release=
+/2.5.2-notes.rst
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../python/{python3-numpy_2.5.1.bb =3D> python3-numpy_2.5.2.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-numpy_2.5.1.bb =3D> python3-n=
+umpy_2.5.2.bb} (97%)
+
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.5.1.bb b/meta/rec=
+ipes-devtools/python/python3-numpy_2.5.2.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-numpy_2.5.1.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.5.2.bb
+index 88786dc016..b0c0e85c67 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.5.1.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.5.2.bb
+@@ -10,7 +10,7 @@ SRCNAME =3D "numpy"
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] =3D "a48a113e6afea91f5608793bafa7ef2ad481fefbda87ec5069=
+f483de61cb9fa3"
++SRC_URI[sha256sum] =3D "d482d171c406ae88c5b19cad3b6a1c4c5209f886ab74bc44c2=
+c865c23f52d860"
+=20
+ GITHUB_BASE_URI =3D "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX =3D "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
 
