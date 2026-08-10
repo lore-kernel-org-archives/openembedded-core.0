@@ -2,68 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE8E7C5B567
-	for <webhook@archiver.kernel.org>; Mon, 10 Aug 2026 20:24:42 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39429.1786393477024201729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C58C5AD7B
+	for <webhook@archiver.kernel.org>; Mon, 10 Aug 2026 21:02:44 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.39881.1786395755822727496
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2026 13:24:37 -0700
+ Mon, 10 Aug 2026 14:02:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LZeE6s3L;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f84023916so2030749f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 13:24:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fbh5zp+p;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47f904e80eeso1887733f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 14:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786393475; x=1786998275; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1786395754; x=1787000554; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=JjYRf+bk7CW4xV2xpTrSyQZhuz18/8PdB//l9u4akMw=;
-        b=LZeE6s3L8Z0tQa2mzXnNXcl8yFG1hDyMGKGjvROdtJxkco77R8cbxe6J/mJhGiJTzO
-         KEPIBuP61jUBp6S18yWCoD8T5+4vSqy1NO3g51kOcOCNdnHUO5hIA1SkcCtEc77ldrPa
-         a8YYUwRE9Ozp8wmRSLFVNU9F1U4xgTms95lRQ=
+        bh=MxOvrmqZtiLhGDyC4RT1UNpIp5reD7l1RlJbIO2hBfo=;
+        b=Fbh5zp+pT3p2cRFezj+cot3glZq8U1BKcwpbI+yMmlSyKQFB5KKK6iSI3Avq2u9qNe
+         nT9d9O0clXF+KhEmaO7+azf1vAXjWEYrMr7p4IP14FS215T9JEGnWQIJ/hg64IT0DLc0
+         ObkTdQaIHF4B6qCXO2GqwKaf0HPZ5982iMZjs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786393475; x=1786998275;
+        d=1e100.net; s=20251104; t=1786395754; x=1787000554;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JjYRf+bk7CW4xV2xpTrSyQZhuz18/8PdB//l9u4akMw=;
-        b=omH9XDTj1zhxX0WFZ2CQ6cEuiQJkS/drZWw+k8za3GZnnsmMi+vi6S6l2FKeNhjgzS
-         MNC7wwxugLu9EP9T0aSJWvgUglGjmb0uVXFM67ISnGBVlQxODTRa/wSAeWbj/8H402Ol
-         tULZLv7Rr/DsWdo4NAZEVEOw6sgzRBEKbJIG99meaz3UKcD8jDOTjQLwvGERkkeEdQsa
-         rcKDuUbBdMmIECU0s4dUO36f4pWTKYS8q1G/dkF0961hL1471nVIrniqGvDldB/o5ynh
-         OtuL9bppy9FVnbL70BykJsKD0jLHXVZUmy2fizdLOLd2/D/ZbMzzgURC06ul4yr8Q8hY
-         Bpqg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqtfy3VTUr1NH8qoYTcyz4mkH9+wqvSJs356UTigSIxhSuEJOg/g/Sn05/tIgVcltDh5R43aLV4qJH93HQjxG/KsQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw3pGKnbNUYAUJ4HCY7U54W8uNb3Bsdzhuoc5ieuP4bGB768sm7
-	M1na2tSQDF3swWkRsJuXzp0rS20hiY2B7zZpjLcRtrZm9tCjFYD+LRDx4m6y9XxKs6IcmccW9Ka
-	Xk/Bp9tE=
-X-Gm-Gg: AR+sD11RhFscWmCjIaiqyN21Eavq/OtUY1m7HqaWW99g6MhIXfR02SjzvUocAFVWC7D
-	qndrFeUl2VomIging0cpVQupuhrFtq6ZP9+N1qMqCI51RnnF7/SYh3W8JiK/ixUu6KhRqhc8v/C
-	e9MKoeyllLmOu5hEASYZGCOI2hUPSVNRMSTOTpTD2ieSslCS/1UmQ79TF1wNyPK+9JkfsnE7dhj
-	JPxvnKrSvfklr/1W+OK7AgofMMfTpGw+1tnVWny4CIBfssbD3cLXzPxJJ34L1zQ5VPwnxBQMRi2
-	leYKLO3GJ6YGEGYaSjte/aiQVoR3nn8Ydq0Q7zuD2j8Nh9lCHdbRX/39+UCGUK3bgjI6D4JRxip
-	RzO/335Qa14W+J+El8RFnjBziVGLq5DzMBLAvZEmKFSGMlyciG1Jr7GtA0CYutMM8ZlYl30h6cH
-	3aXrjcvJB3kuxDqcQpg5MEDMMaie7OX2PNqmIMX88kVMtXUGaFZr1HIaBySNSb5X069lI1JWQ2p
-	Yi6W1wZ4VN74sMohbS5JV64m5cfTyemf2LSh8UpaSCxSWbapK+6X4oXg5c=
-X-Received: by 2002:a05:6000:2c0d:b0:47f:6f9e:1e82 with SMTP id ffacd0b85a97d-47fec4f11cbmr69344712f8f.9.1786393475031;
-        Mon, 10 Aug 2026 13:24:35 -0700 (PDT)
+        bh=MxOvrmqZtiLhGDyC4RT1UNpIp5reD7l1RlJbIO2hBfo=;
+        b=lH+iS9UIt+0NqIXX/E5di7FN6owJt3X5l/HgLHzz5kZUTMonZlNxe9UCxaLwqOJGwH
+         R0K3plPtqyFxQss1RKOAvJpWBsvmOP3aTWE6oDcMpHTZysN+e6yPluyAVwNuMf88fESY
+         RF470icIbl2xq3w9Dkoif3YUdZwHosYCfP8jX+COXj3WyV47DF4UlZTaBK3jJ8TilkH1
+         hwfBtsJ9Z1UVOrIM+fonirwwavRF3uWMdfDd5+cF36C99UpEqBaC7Lo79N1D4VC1wyVb
+         IMfHNqFzxe6hEf8vNt+/TtjH63ePBhXJ4ie8urB4I90b8IqKQ0X7Wjgeffn+Z1aF88/y
+         51vQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3f3slrWx2Ha/jutX6JugPA5NuUjAW5JfFp32wncsoGzCLhF0CFbSiTt5XlY00ODaIvg0TYnN3BZd5b3mUGxsXSQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzJ/UE7qLwVinhcJynwMzNsCNeorAa9MdrCpu8Y+NruvHFr6zMz
+	vfGbv0PDq7c6uIZ5dmXo+TBpTQWkiU1EUQaxwQLK5cikNjO8yhZChgdfso2H5+8TAsY=
+X-Gm-Gg: AR+sD12IbzYw85FvkYCZ16RRGc6995D9ELIdrEKPT1XqUOPCWbMzn+8fqj5/ci/h56w
+	fYRcGWqrkEpGGBKsTw+1zV4zJVwY7Hd/XjoXFe+/CIEDl9xUZaJH21bfUGjpQR4aEG+E//lldd1
+	q1xdQiQgUKlf7tmRrmNFt1MwzgQGaac60M8CKAOiIUulNV3Xbt7Ufi0DtlC0928lWut6Xt7096z
+	tfVHBKW4uLx20N9QNVZKOyssa1ANUKMGgZnErfYE70Sgv/WQCDqNC6ZHO4kiWFSbsyjwVQkzkZn
+	FZhzgal4Dupg3zLIFq06rpDnJZKTBRxCf3LuOhAQJVc/egdMGUG1GVD7tBQ4cIWSYmQgtTE2oW7
+	mrSOEjV8u1rYHLz4UvAY/H/E0268a5h7OWtPpyyWnj7gYvaHEl+nyl4GxEj5EJ/bQgZdBGWTrNS
+	R6SNoXgfq2s8KiVdj5WoCZlBT71BK6azIM0FXgYwQ4Xj/4YFIX3dp6AfcrApv1FDK9ZtUA7TRNs
+	5LCi2pFkkujqq7+05ubxkeW74SXacJt4W385yfloMMpOr8aPz9pjw==
+X-Received: by 2002:adf:f184:0:b0:47f:8fc8:af01 with SMTP id ffacd0b85a97d-47fec63302bmr54341860f8f.27.1786395753984;
+        Mon, 10 Aug 2026 14:02:33 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:eeae:76a1:bebb:c786? ([2001:8b0:aba:5f3c:eeae:76a1:bebb:c786])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4800220ab04sm34408251f8f.37.2026.08.10.13.24.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480021f8f33sm43578781f8f.27.2026.08.10.14.02.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 13:24:34 -0700 (PDT)
-Message-ID: <771f5608ec2ae8629df1586583b17ef295a7efb0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Patchtest results for [PATCH 1/2] boost: Use
- python3-native executable
+        Mon, 10 Aug 2026 14:02:33 -0700 (PDT)
+Message-ID: <d7fc4bae1fc4bddb2e407d19aaa8b4a1cce0a89b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] swig: upgrade 4.4.1 -> 4.5.0
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rob.woolley@windriver.com, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Aug 2026 21:24:33 +0100
-In-Reply-To: <DM8PR11MB5655753E6248ACA20E89EB95E1DE2@DM8PR11MB5655.namprd11.prod.outlook.com>
-References: <20260810-fix-boost-v1-1-4e838b3d43b4@windriver.com>
-	 <0101019fecc87cde-ae7af74b-20a3-4087-a07c-1e32c67bc8e0-000000@us-west-2.amazonses.com>
-	 <DM8PR11MB5655753E6248ACA20E89EB95E1DE2@DM8PR11MB5655.namprd11.prod.outlook.com>
+To: jaipaul.cheernam@est.tech, openembedded-core@lists.openembedded.org
+Date: Mon, 10 Aug 2026 22:02:31 +0100
+In-Reply-To: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
+References: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -71,18 +66,32 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 20:24:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243147
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 21:02:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243148
 
-On Mon, 2026-08-10 at 18:16 +0000, Rob Woolley via lists.openembedded.org w=
-rote:
+On Mon, 2026-08-10 at 17:45 +0200, Jaipaul Cheernam via lists.openembedded.=
+org wrote:
+> ChangeLog: https://www.swig.org/Release/CHANGES.current
 >=20
-> The original line is already 236 characters wide, so a larger change
-> would be necessary to get it under 200.
+> Release Notes: https://www.swig.org/Release/RELEASENOTES
 >=20
-> Is there a preferred way to deal with this?
+> CompareLog: https://github.com/swig/swig/compare/v4.4.1...v4.5.0
+>=20
+> - Refresh determinism.patch
+>=20
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> ---
+> =C2=A0.../swig/swig/determinism.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 20 +++++++++----------
+> =C2=A0.../swig/{swig_4.4.1.bb =3D> swig_4.5.0.bb}=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 4 ++--
+> =C2=A02 files changed, 12 insertions(+), 12 deletions(-)
+> =C2=A0rename meta/recipes-devtools/swig/{swig_4.4.1.bb =3D> swig_4.5.0.bb=
+} (92%)
 
-Don't worry about this one. It is more a warning than a must fix IMO...
+Seems to break babeltrace2, e.g.:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/4362
 
 Cheers,
 
