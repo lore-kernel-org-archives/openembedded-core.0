@@ -1,173 +1,296 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F4AC5AD4E
-	for <webhook@archiver.kernel.org>; Mon, 10 Aug 2026 09:44:03 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.28])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26424.1786355034331790993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21280C5AD4E
+	for <webhook@archiver.kernel.org>; Mon, 10 Aug 2026 09:45:13 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.69])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26231.1786355111132147835
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2026 02:43:54 -0700
+ Mon, 10 Aug 2026 02:45:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=KRLJrZEI;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=KRLJrZEI;
- spf=pass (domain: arm.com, ip: 52.101.65.28, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=FbPOQAUtEB93z0F/Gl/2QkX3G17BjxbuXTTacDaKdwiMv2WU1G+Cy/o2honex/oc0aQU87+BLN343qlmdhwfam3nsWNYlEL5OTUNMswj23GYsihzKZDosaflhJe+aDFaHuMug0Ix+p7/3n9KY1IebsyQATaKk3i9vWEf50tZxXWOIgwfreq0UvHmRO3tQC6iCoT5Ri8InJtokvRZQZ6/km10JfLcsRHdAOlaxORHXgyimAuAWJz9/z/aqPl3xwUfAG/7LAjAbyOukINerwBq9oY/X/bRFuQFFQTQ9IgDRxdItmdlWJ9GCQPaVbu8F0sDtiQha6b/ic+qSd4QdySj2w==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qw86VZxuEXK3pjviI5f+1jMQnqN1NR9h8ONs9j/cX3k=;
- b=XIx1ODx/BVsuJIXy7St1dGkyx9o2ZVVOVjCiz2OEWRwzSbtdHXtTBnthbYj9qW+NSwihZKpYj5t5C623wC+WvEAEjTIcWI1HpY3igyEhntxdl5DLdE4ZeniUMg5rck1mLFOQkoN40JXnmpkJotBDzcxV1gzCTnrvIZ/DxcEGynh0WpOZqzxNyorOu7NeWitbAXiAp0bJKm5x9t2vhKw9URlyPK38NqVD/2KI2vYpOOAa4bd+BEJQQkoMUCo8RPRrQKOI7qA1HDYhN5hrmaAJmwJOJ/wWHfd4BAVZ7bexmA80qKANilnXmPJEGOJi7Es98YkuheFiYDD9R9mnMR4Zew==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qw86VZxuEXK3pjviI5f+1jMQnqN1NR9h8ONs9j/cX3k=;
- b=KRLJrZEIVJAXE1HucOwrI0hPrDxTrCPh6U+AAP1s91DVDNay621s4WgdOxgrcIbasBmtz2Xmod+e/5QhP4kZJTAAvp3V4uqR5re2mWip9HCdqTgPtnBHWIVb0CIUW6YDzwxoCfh2KNlEiBwJL1TTuDZG+kNifKuzgYYnKHECi2Q=
-Received: from DU7PR01CA0004.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:50f::18) by DB3PR08MB8939.eurprd08.prod.outlook.com
- (2603:10a6:10:42b::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 09:43:47 +0000
-Received: from DB5PEPF00014B97.eurprd02.prod.outlook.com
- (2603:10a6:10:50f:cafe::8c) by DU7PR01CA0004.outlook.office365.com
- (2603:10a6:10:50f::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.25 via Frontend Transport; Mon,
- 10 Aug 2026 09:43:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB5PEPF00014B97.mail.protection.outlook.com (10.167.8.235) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
- via Frontend Transport; Mon, 10 Aug 2026 09:43:45 +0000
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=h1VDUacP;
+ spf=pass (domain: est.tech, ip: 40.107.130.69, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I6xaJJ0MszU5VJVE/Guhv5uCy8Y0pbJpMrox2u6xIfqrOQcwf63ZkwnE1GHTNWkGoizzrqptGBgJZ0gweE8o6zFR9X2mkPz8VyiImPj+HRji+9edPXnZbNlXTMpe0jYuwHn+Wef5vyp/YhVTo0ii1IM3nOaBfw49wXsvEyYuzfp11LqJdXnFaGAB5X5ScrOR6OF64w4YwuHnPW1vc3ypeCN/f9AVTK7RxWhB3TaSGTVCs2voPEXAf9Q+tDBCjcHWT8rM7YRcrOhMmKmH3O2wMvfSIGWmv+VOiLz1Wq4SvprBxts07wMOjuy+bZo8SVFHMaEP+3kuqc2MfjV5PAtUxg==
+ b=YbAjyGrWAlxWhDM5qDPbhP0JKx/S3zypSmZ00RIwfhovLFhsqx0pj/oR72qr+FcXAOc3ACAQ1mIhHu+G0n/551Jxm6aj90IgEexKQTEm1F0GgEb4Cc36r4DQBwSIVCkUJ/i3nk4GQgPO1wj+5z9uW3EvMO5/Eu8feDGa0jf3ZKippfPuwwFo511odhxm+GfR/5xOgTBB+3PH5xkKf5DPuCr3OJo8tcPdA+QadPUATTYbmHH4UX3B18YVjjH9+SLG8Y8LheWMHI50qBTHC3R64Ok516Wuav7BJZaaJ/hMFZeA1kI/LAdlroBDV4Q4FWVbDfdqZvGce3Upv382tJS5mA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qw86VZxuEXK3pjviI5f+1jMQnqN1NR9h8ONs9j/cX3k=;
- b=eZzR4940NygTq30+ayT/F5B2NCnvsC6RLSIZB5iww+RkC2zCLOK3rEKVWtu8H3QkRLF4buJppGNxLqvKIeS1CBijGnKU3U0NxX5apjj1n5yp4qz5UX0+xvV5+4avVcA4kIkQCseP7PT6G2Ws6sM6jaXUlATr8Iw1tpvtagJriRp7JVmV7yV0FOG/zUEB0G1ZH6bpDkJT25BP5iCp89qxGhYCoZ2Y/RZptjvghVhDN9rF1Nu+LnzEUqGOF8MBh5nexYjK/6NWgX69TuH6uTyda73bn1VwCD/RlIX5Q8M6hXaaL5W93jnkzjf4qc6E5pdywM9vGo3FUrUQt3B6B8LfUw==
+ bh=rte2NvzDA4tpqShEYerTf3JxLAm7Kao7C23HTuMg5BQ=;
+ b=AuftBMroWGwDsaxHTtmDlLMFcxkffaJl0eu7zogUPCw/DExwJSY9EjE9WSAul4TqcENWEOt2RvktC4sToL3waymNwyNn08Z/wzLbwXPAgA4qUi4f25JTMcd3wA7qV+oLbEgKcMsSgBFBO2Klysz3VjoxhLuQRktbhSMUq02trZN+URc3yHV9kzELWNxCqlcDzkzEVmanpWaFtgdH3lJ1xkNtGFqVAzK/fwJROkbaFtcOf+WumezCDXly3MpHhc3aoFeZHAUY7HgpDxunuyoH90G77RhNz4BQ9lyZja9eaa1oeJPmFk6dNXBYxHrGsr1en8ifO/LWu0Km2vkEnxsLFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qw86VZxuEXK3pjviI5f+1jMQnqN1NR9h8ONs9j/cX3k=;
- b=KRLJrZEIVJAXE1HucOwrI0hPrDxTrCPh6U+AAP1s91DVDNay621s4WgdOxgrcIbasBmtz2Xmod+e/5QhP4kZJTAAvp3V4uqR5re2mWip9HCdqTgPtnBHWIVb0CIUW6YDzwxoCfh2KNlEiBwJL1TTuDZG+kNifKuzgYYnKHECi2Q=
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
- by AS4PR08MB8045.eurprd08.prod.outlook.com (2603:10a6:20b:585::20) with
+ bh=rte2NvzDA4tpqShEYerTf3JxLAm7Kao7C23HTuMg5BQ=;
+ b=h1VDUacPO6H4bCIMD+zG8dc5iUi8AgjvfBX5legood6nzBT34UoO5MSlpDlYGCtCZMeJdkZfLFQ5AzErWfiZKkVkbziVykd45rmMSefyH1PF7rfUZMcnfnmEvbOeR4aHlKXI4wIK3esfNKCQwkcQ/n+jZU2ka7HDzihjkMNeib5V/kOfwAiozWXMCeyjeV3tkz62VyjZmctShUDNHqcDr4uf4p7A+DJKZLhEihB2rV2nd5gQiEdneRqugBtfltFosRTTapmjCt1VurrNn55yvNdHY7NZN2zum2YXXaBL7M2qhiYOc6/Fzor9le44IrWwvH2qaMLzVxK2fryzuddsnA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by DU7PPF1F0458E20.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::acb) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 09:43:08 +0000
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b%4]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
- 09:43:08 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "sumanth.gavini@windriver.com" <sumanth.gavini@windriver.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
-	<alex.kanavin@gmail.com>, "mathieu.dubois-briand@bootlin.com"
-	<mathieu.dubois-briand@bootlin.com>, "mattware@cisco.com"
-	<mattware@cisco.com>, "esparlin@cisco.com" <esparlin@cisco.com>,
-	"peter.marko@siemens.com" <peter.marko@siemens.com>,
-	"randy.macleod@windriver.com" <randy.macleod@windriver.com>
-Subject: Re: [OE-core] [PATCH v13 08/10] rpm: filter /usr/bin/pkg-config from
- RPM auto-generated Requires
-Thread-Topic: [OE-core] [PATCH v13 08/10] rpm: filter /usr/bin/pkg-config from
- RPM auto-generated Requires
-Thread-Index: AQHdKIRnIWz6MuqNgEKJhxm8Iw/KVbaXCDaA
-Date: Mon, 10 Aug 2026 09:43:08 +0000
-Message-ID: <1A55FDD7-E4F7-4423-BA3B-7A91F3586AB2@arm.com>
-References: <20260810045250.3903576-1-sumanth.gavini@windriver.com>
- <20260810045250.3903576-9-sumanth.gavini@windriver.com>
-In-Reply-To: <20260810045250.3903576-9-sumanth.gavini@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3864.600.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AM9PR08MB6258:EE_|AS4PR08MB8045:EE_|DB5PEPF00014B97:EE_|DB3PR08MB8939:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8de49e3-81c7-4d53-c4e8-08def6c3df04
-x-checkrecipientrouted: true
-nodisclaimer: true
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Mon, 10 Aug
+ 2026 09:45:06 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.008; Mon, 10 Aug 2026
+ 09:45:06 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [PATCH v2] shadow: upgrade 4.20.0 -> 4.20.2
+Date: Mon, 10 Aug 2026 11:44:56 +0200
+Message-ID: <20260810094456.9931-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Reply-To: 20260810080517.8329-1-jaipaul.cheernam@est.tech
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0649.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:296::9) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DU7PPF1F0458E20:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94e85032-190c-4fe9-e323-08def6c40f01
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|22082099003|18002099003|10067099003|56012099006|11063799006|4143699003|38070700021|6133799003;
-X-Microsoft-Antispam-Message-Info-Original: 
- GCwBihq4veHsUyh5GD2BLucLPe2NayiHz8D4I11EiOznOluTpt3H8An0/niZUGWSs3WiniknwC5AnWydm4n14X75ZMcj3CWPVbRO0nbdxal6Yr4tAvxlIjlnDfQZS1IrnYeszjLHZfLhuqXLC/AefGhhWRGfpfO+EUhbNDmBvZbkcu9X1JssrWE3vBIF5Wf3ndv1w4uWVVBdNNKxm+wimF6DrmtFL+NxBLfNj19X6WrAHEjAPcVr7PL/O66bGX0EY/YwSKDjwrpF+GNJ84Ng438/fIil2QxnKS7clsxnYazh4HoTJUh8QiaiK8rBKOq3NQ7C7+Y+y4KZrp08XUHvxQOlDCaxoPdkwD0zYFN6IUywOJWKgLbZDkhw9FD9mFBYg0PlOSr8uGF8RiYR7Uz4G2gfWIne3+l5f/upZIPsjvbEVt6wlDK/x+uA/bbpZ7lnIWPABXMGeD3MmczkhV29uePz0EVAAdz/MZOmwBKKdHF26Na6AKnkM7pqK1rz8P7Dsoy+z5KSm0vwC6OPH/V2nwO1gsMHhl0ZEOPO/j8oXwCncDC2Y3LIu5Wm/7F8hYU+e/ZJ8z4s6IukBTWFj6DGEW5HM1laig9HEE+S5G13gxb7FQ9gVrFdIW1hATiHqmsbsJeNZAcgwp2ORmnz1l0vR2k0UJKyqPi+yFLo19Dj64dMHYarFvO4VevOGziuMlupj/eUTNySHzK1whb4CCGsGGC1zgDGPpovziWDTTNPIdk=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(22082099003)(18002099003)(10067099003)(56012099006)(11063799006)(4143699003)(38070700021)(6133799003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EC6943A07468914CB76D7D527898AE34@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- dDgJUYxIFSbt+r4R42MR1YLoSgIaYHugJwgdaFNyrVmaCZ+pCLUK4TBuqCyLpoiZlD+GJk3K9+XucSrjkyV0cGQnesAWNihTN7E3KdE3GIjMSy+F+qWfuJpPFi8aZ4/tH+X6QjsGqy+25tvbrnokzR2/fo9qngGhaCFBBcFSwM8wkT9vMel0yPnxvLf5TFc3mzTZcRJHuNwCYMKPVBwtrqgKRw44EPfknnjf8ozEY6ksSf+nPmFB9l0tyRSpWNjJbaEDdpKVj/MA8F+CMQVbVeYm0m+u3/yApYI5D0Qdo9lljGeYMwj7wyuJUTLtdIOrO2hSVcRW7pLnJCQKqFnpmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB8045
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5PEPF00014B97.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9f4de263-1067-44d5-b690-08def6c3c8c0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|35042699022|376014|36860700016|23010399003|82310400026|14060799003|6133799003|11063799006|56012099006|4143699003|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|11063799006|56012099006|6133799003|10067099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	TDzof3a7Tw629Qzt7mB95NO4bfHok3D2h5+KsnV6DDC77ZLfMGLuwskMd/LVUI9H2VHUzTAwqogSmN6ipReKfI7ZcxstcwlEBzy612QBsjJKr8AlD9RzYRTOxU9CNDSDKsQwosRqpBDmrTrOz8ByKcaS/Mi7u2/MDG5TMK4BkXm/LDOlWfrrn4Z3bSwvwHg4axJiJzXQHsaaq06RVVsDCtFPUgmek6rhhiiR+iU5QibOclNxQ1WufGFiBu9aD1zL1RW4Sd0gyJLGbgSEWLxljgozEHg/fRF5Zcy3T0bSLDhcvsrvvHVmHRASsRF744sQiIV2NR6f9KG2mto2kc+PJmV87IEoRFPZx5rXg6KNeMeHGL0nY62QIchyNp3LY3eZIMqfKZew07KR0BFabrxDhtWDc6aXKZcsbgYe6HUHi5fs+B8+GbSzOmxqV80z+boT3lNA/2GxCqzPGRixoH6K+ep+Ur8z22Iix7HqqV9ZCHZwrEnGSENW+8yc1npEKPm9P1YYBeg5Ax0kh3wU2hA6KMQCLi5GxM1bSYIfYYcpbUEGAj6O93ZkdnHpNJ1jumsrvU02zVcm9PW4G46jpWFiFkAYdCiBaW7im4LA2LR+47sahdXnpehIIB+4LJlfk01eQn03ZKmN7wTgelXE58hcf0m7+VntvgB9qRmOS4VfICcTYFZpuVfLBNLzfyrTV4jYgQao4xBgsiDNL23dpHrqCQ==
+	jldtX+50q+t6VlhLj07ATqr4lak/nGY7x05mT1K0FrVRp5FbpYVU3WIMq1RZAyluac/RL1ModZ+YGkIaK1nFfsy5Q4Kvd0eu39zZ/muEsRnlemy3L4SlsLJ491c9YV84ZeM6qD9IxGMD6IX3JAtEmGdNGena0nzioS965+GtaQND6jwG7cT+e4PvvtpJs2pSGZB7jkrHv+Ce0XpcZhLCkr76NMmMLnM7YkoVv6KwVEkwpd6CXyPKDhmProrYektZpwlQhFw8Qs15YRVY7IOH8E0CkaEiCTtl1Dly7QLmI7mITuy0ZtoV5QfY52912RhOVk0vS32pv/uPbgx0xytNBD8Lp3n7ThpdjJ+DOEeForI+/Q2Zx7gat9ujWfy6uMM3tF34d1PCWdjSMRgOjuo4MMmSv4FS8Cy2tDO5CdNACqojW216mQ8D90/Hz0FOU8nrDLGxhF8chDX/V0Bq45k0Aj/UEY9IVAms2I9O7hZ2a6wqAGUfIYCNvVaHRodLNo46KUC/Ee1HK+uHkK2o5URWphiDljhJCj0KXLooE63AuksRjfJEaoXdZetFglScoffvZ6quHeGHhhtCwSwIzoUdT2I0vUB5CaUDjXIQrF7u07zPZiXYWAW9EdEALmvyOwrh
 X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(35042699022)(376014)(36860700016)(23010399003)(82310400026)(14060799003)(6133799003)(11063799006)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(11063799006)(56012099006)(6133799003)(10067099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	x3erzzyIJ/HiRVAvjjvPtoGaeGrZ78pkXZzAHRtoJQpKPLcOf/YBvAg12iwJ7Y5xFEFg9+MBCgkYNQ7x1ix9o3L2LtrM9YsIqooDlz9+QX8UyiDrlSkD7QdjS0ZpQXRyLGnto9j1HrdrfBd5M17JmmfpKyHAfgv+z/Or64oXATC860HYfNJnHTTZ9vPAORx4jmbhAX8l8C1kcD7/WXLNJMI59LeEVaIdKc26cC6A/HbQZ78HrPCaLxnSa+vhLIPpIu++zUfUjk9vIpiIzA8djAr821XgwAPB7LX32t2+4hc69SJctzlY8OdTwrC+oYFiny8li3lHpOedNrCi9Yq/7pp/D/5/3cvYN6B4DPuU/7wuGtKyqnAXFZYHyTEEeNU8TEK61KT35toH+f2vyRk8ySkHKP6Zw1mEO6VW4DxNpDdLcKZItHI8lvZoXwHUMsF3
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 09:43:45.2820
+	=?us-ascii?Q?agEZi0j2JBcZMc/iutc1+zXKJbZv5Tn0E5kba9DSnmDC2e7PLZoA7GHbJtxP?=
+ =?us-ascii?Q?uWGh12zwUyMHmdOwOYOuVOKcBejnTBqCC+cPoGigVsfbJCT949bb6E4VugkO?=
+ =?us-ascii?Q?1Q7k/ZzIDeJIofayG9vKa2nZHePxURAJ7hK/DHqMOSH2IXlDMtHWo6JJ0m95?=
+ =?us-ascii?Q?cKTMmO5ajbt2fD8Bzh97jm2c89WC2INJtC2RWKng7F1gqLsrh3iiaNpdoW6T?=
+ =?us-ascii?Q?wlUaB6L2uw1afPKFMKXi6T9azw19gIfrIR547TUWYW/bBAtST0ixoti64MKG?=
+ =?us-ascii?Q?2P43sNDUnZP/AJUPb3QxI2IZjKoSdlLCmMCP63poRaGyPMFpX3RV8wvDT8yj?=
+ =?us-ascii?Q?aDYxes11BfpjsNbSmLxcDWaDMUxll0nS/VvdpHJModgsptPozdHTnP+LZyRu?=
+ =?us-ascii?Q?llZEpzKLWDlWvy6qUsa/3AtgWNCiR+h0rnHv120wl6EwaYeAMxBCNBSowP1T?=
+ =?us-ascii?Q?ra2tXw1JYbNErZ/2I18TT8EgZJH1p5zO0lbP4UyS3814LSQT4TvNIo85TMRQ?=
+ =?us-ascii?Q?OH7SP61pjU7aFFGIXk9TO7FI9/AImWzi731p5lqbXPY6BTX+cA8AenRsKJ7f?=
+ =?us-ascii?Q?TubJw0qZ4YacpOLck8D2oy0QR4NKcQ2ZqBnENKml5u57xs0Cd64MedLbyUMX?=
+ =?us-ascii?Q?JiRCYVbIaE0DLfcLjxmp//QMEpXrUAzuBRLlg74sB3E/7H8wElJ5CGKSQ13P?=
+ =?us-ascii?Q?ZyfsNOxEOINBtUopScBv5fv/ztu2a6r4pUZHHSdjUQ+r3GccOW/UN8bVbkxy?=
+ =?us-ascii?Q?OVkIrdmx/J/EeyWEPh+dOpKn3AahSn1NLt1StpyL3wN/22ms3SfPf67eGrIb?=
+ =?us-ascii?Q?bd9X/+fN/BIhusvXYIM3qYclE5LimvX9v7qKDfAeLmU2xdez/Xs2SYIbdeO6?=
+ =?us-ascii?Q?WJpNnaeIAJJ5YV+f717+efxUkTY/fYU0KuDbSPQrfFyuw/D78N6eCCBhMysK?=
+ =?us-ascii?Q?9sk941g+/UVePu4u+fu8ni3XLvmpJySQVXJbnLJ+nUjXpFpU3qF7BfsZnFn/?=
+ =?us-ascii?Q?SMvZOC7rv1ab2ZKsmqdI5oLCnTuVP3KfHWsegV/xBWza8Pz7/xCZFl8kn5vB?=
+ =?us-ascii?Q?bOWZYZJLx5hXDOSmkf/x/9WYS6GKIrQuzWACcidjOG9+2ZyY1qzOcCc4gzXD?=
+ =?us-ascii?Q?c1LjS67k3idtPttkhdDVs4tNL/Vrmb+oYnsvM5BK26lBkkxmPXlHGCf+ROht?=
+ =?us-ascii?Q?uN0vY927vjwOkyGKLIlNH0pZMdRrkDYRAENmucSVKpmWzJWsmc/so/R3Z8h/?=
+ =?us-ascii?Q?y+UNPxnpnmO4Uk85ZdRNI+VDsRyUukjz4ts3f8HrF+42b8Dvgiz0leg03ZMm?=
+ =?us-ascii?Q?Ymbp0mIkHjwHn8RAqm6Y0SWzTw3PayDnJzkMLi21qzI+xFkFhesYcKT051eS?=
+ =?us-ascii?Q?1XZg7l3HrorEAcqagzFMFvswEtYPZa+sSxSzDeX0pT+MyRiYIpcqR9OHBpr8?=
+ =?us-ascii?Q?xVPE+6v0hFeQ3GGj1dY2EiGsNPDF5wI7N554yfWggsTLkT83A9IHEauSddIo?=
+ =?us-ascii?Q?kUzygiGGV8xvCtrqNvO88m9l8QSMbK4iRu2hDtuXFNdoeJ9oI/P0JJstIsOQ?=
+ =?us-ascii?Q?snLTrjBlllSqr+PdirqGHalLj4EQh0kl2dI4QuxDwgVJCxIad7riR3x3OzKc?=
+ =?us-ascii?Q?zHfR9KxoRMGi98ripBPxx+x76d3cV4bfDOuv3C4HY5tzjsuy+MiCVp1tBOf3?=
+ =?us-ascii?Q?kD/Rv0Pp0BZCKnm4lO2ZwTYhvZrl33N8OQC1AnHTQArjToKeDiPsDzE+vy2w?=
+ =?us-ascii?Q?4Ye6+plMcQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94e85032-190c-4fe9-e323-08def6c40f01
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 09:45:06.0405
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8de49e3-81c7-4d53-c4e8-08def6c3df04
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B97.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB8939
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: arygxQaenhnLHuwVBhOC7Og4vJzDS/5iWycPVoWfc6Wk9/HKUH5OziYYxqlyQqef7sTy0j6qZXvnLKDA+UL/FrcUczXD0HwQg3Ir9/Te61o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPF1F0458E20
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 09:44:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243122
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 09:45:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243123
 
-T24gMTAgQXVnIDIwMjYsIGF0IDA1OjUyLCBTdW1hbnRoIEdhdmluaSB2aWEgbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyA8c3VtYW50aC5nYXZpbmk9d2luZHJpdmVyLmNvbUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiB3cm90ZToNCj4gDQo+ICogQWRkZWQgMDAwMS1wa2djb25maWdkZXBzLnNoLURvLW5v
-dC1lbWl0LXVzci1iaW4tcGtnLWNvbmZpZy1hcy1hLnBhdGNoDQo+ICAtIHBrZ2NvbmZpZ2RlcHMu
-c2ggdW5jb25kaXRpb25hbGx5IGVtaXRzIC91c3IvYmluL3BrZy1jb25maWcgYXMgYSBoYXJkDQo+
-ICAgIFJlcXVpcmVzIGZvciBwYWNrYWdlcyBzaGlwcGluZyAucGMgZmlsZXMuIEluIE9FL1lvY3Rv
-IGNyb3NzLWNvbXBpbGF0aW9uLA0KPiAgICBwa2ctY29uZmlnIGlzIGEgaG9zdC1vbmx5IGJ1aWxk
-IHRvb2wgbm90IG5lZWRlZCBvbiB0aGUgdGFyZ2V0IHJvb3RmcywNCj4gICAgY2F1c2luZyBkb19y
-b290ZnMgYW5kIGRvX3BvcHVsYXRlX3NkayBmYWlsdXJlcyB3aXRoIC1kZXYgcGFja2FnZXMuDQoN
-CkJ1dCB0aGF04oCZcyBub3QgZW50aXJlbHkgdHJ1ZSAtIGEgcGFja2FnZSB3aGljaCBzaGlwcyBh
-IC5wYyBmaWxlIGFyZ3VhYmx5IG5lZWRzIHBrZ2NvbmZpZyBvZiBzb21lIHNvcnQgZm9yIHRoYXQg
-dG8gYmUgdXNlZnVsLCBhbmQgaXTigJlzIGFic29sdXRlbHkgcG9zc2libGUgdG8gZG8gZGV2ZWxv
-cG1lbnQgb24gdGhlIHRhcmdldC4NCg0KWW91IGNhbiBhcmd1ZSB3aGV0aGVyIHRoaXMgZGVwZW5k
-ZW5jeSBpcyBhY3R1YWxseSB1c2VmdWwgLSBhbmQgSSBkb27igJl0IGJlbGlldmUgaXQgaXMsIHRo
-ZSB1c2VyIG9mIHRoZSAucGMgZmlsZSBzaG91bGQgYmUgdGhlIG9yaWdpbiBvZiB0aGUgcGtnY29u
-ZiBkZXBlbmRlbmN5LCBidXQgd2UgY2FuIGZpeCB0aGlzIGFuZCBrZWVwIHRoZSBleGlzdGluZyBi
-ZWhhdmlvdXIgYnkgYWRkaW5nIGFub3RoZXIgUlBST1ZJREVTIHRvIHBrZ2NvbmYuDQoNCihub3Rl
-IHRoYXQgbXkgV0lQIGJyYW5jaCB0byByZW1vdmUgcnBtZGVwcyBlbnRpcmVseSBkb2VzbuKAmXQg
-Z2VuZXJhdGUgdGhlc2UgZGVwZW5kZW5jaWVzIGF0IGFsbCwgYXMgSSByZWFsbHkgZG8gYmVsaWV2
-ZSB0aGV54oCZcmUgcG9pbnRsZXNzKQ0KDQpSb3Nz
+ChangeLog:
+https://github.com/shadow-maint/shadow/releases/tag/4.20.2
+
+Compare log: https://github.com/shadow-maint/shadow/compare/4.20.0...4.20.2
+
+git log --oneline 4.20.0...4.20.2
+f8331a33 configure.ac: Ready for 4.20.2
+6dbdb68e configure.ac: remove --with-attr option
+0182cfc9 subid: Add `<stdint.h>` for `uintmax_t
+
+Drop:
+0001-subid-Add-stdint.h-for-uintmax_t.patch
+(fixed upstream)
+
+attr and libbsd are no longer dependencies, remove the related
+PACKAGECONFIG entries and lib-shadow-deps bundling.
+
+Refresh notallylog.patch.
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+Changes since v1:
+ - Remove login_defs_pam.sed added to base SRC_URI by devtool
+ ...001-subid-Add-stdint.h-for-uintmax_t.patch | 43 -------------------
+ .../shadow/files/notallylog.patch             | 18 +++++---
+ .../{shadow_4.20.0.bb =3D> shadow_4.20.2.bb}    | 10 +----
+ 3 files changed, 15 insertions(+), 56 deletions(-)
+ delete mode 100644 meta/recipes-extended/shadow/files/0001-subid-Add-stdin=
+t.h-for-uintmax_t.patch
+ rename meta/recipes-extended/shadow/{shadow_4.20.0.bb =3D> shadow_4.20.2.b=
+b} (92%)
+
+diff --git a/meta/recipes-extended/shadow/files/0001-subid-Add-stdint.h-for=
+-uintmax_t.patch b/meta/recipes-extended/shadow/files/0001-subid-Add-stdint=
+.h-for-uintmax_t.patch
+deleted file mode 100644
+index 5679be0e61..0000000000
+--- a/meta/recipes-extended/shadow/files/0001-subid-Add-stdint.h-for-uintma=
+x_t.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From ba4419c57b222b0d34a2b933e7ee92914a51b596 Mon Sep 17 00:00:00 2001
+-From: ojab <ojab@ojab.ru>
+-Date: Wed, 29 Jul 2026 15:07:43 +0000
+-Subject: [PATCH] subid: Add `<stdint.h>` for `uintmax_t`
+-
+-```
+-find_new_sub_uids.c:80:27: error: 'uintmax_t' undeclared (first use in thi=
+s function)
+-find_new_sub_gids.c:80:27: error: 'uintmax_t' undeclared (first use in thi=
+s function)
+-```
+-
+-Fixes: 4d800cf2eb9e (2026-04-09; "subid: Add deterministic subid ranges")
+-
+-Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/b=
+a4419c57b222b0d34a2b933e7ee92914a51b596]
+-Signed-off-by: ojab <ojab@ojab.ru>
+----
+- lib/find_new_sub_gids.c | 1 +
+- lib/find_new_sub_uids.c | 1 +
+- 2 files changed, 2 insertions(+)
+-
+-diff --git a/lib/find_new_sub_gids.c b/lib/find_new_sub_gids.c
+-index 3971ce922e..de514d6b09 100644
+---- a/lib/find_new_sub_gids.c
+-+++ b/lib/find_new_sub_gids.c
+-@@ -8,6 +8,7 @@
+-=20
+- #ifdef ENABLE_SUBIDS
+-=20
+-+#include <stdint.h>
+- #include <stdio.h>
+- #include <errno.h>
+-=20
+-diff --git a/lib/find_new_sub_uids.c b/lib/find_new_sub_uids.c
+-index 65f6815467..f0b4328387 100644
+---- a/lib/find_new_sub_uids.c
+-+++ b/lib/find_new_sub_uids.c
+-@@ -8,6 +8,7 @@
+-=20
+- #ifdef ENABLE_SUBIDS
+-=20
+-+#include <stdint.h>
+- #include <stdio.h>
+- #include <errno.h>
+-=20
+diff --git a/meta/recipes-extended/shadow/files/notallylog.patch b/meta/rec=
+ipes-extended/shadow/files/notallylog.patch
+index 94773ace2b..6d6957bbf8 100644
+--- a/meta/recipes-extended/shadow/files/notallylog.patch
++++ b/meta/recipes-extended/shadow/files/notallylog.patch
+@@ -1,13 +1,21 @@
++From 20dc49519cc177d4c829f4dd5cc277ada24376d7 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Tue, 21 Apr 2026 11:30:52 +0100
++Subject: [PATCH] shadow: Disable tallylog execution
++
+ We don't want to call /sbin/pam_tally2 in the native tools case so
+ disable this function.
+=20
+ Upstream-Status: Inappropriate [OE cross configuration specific]
++---
++ src/useradd.c | 3 +++
++ 1 file changed, 3 insertions(+)
+=20
+-Index: shadow-4.19.4/src/useradd.c
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- shadow-4.19.4.orig/src/useradd.c
+-+++ shadow-4.19.4/src/useradd.c
+-@@ -2046,6 +2046,9 @@ static void tallylog_reset (const char *
++diff --git a/src/useradd.c b/src/useradd.c
++index 5404b46..78bb70a 100644
++--- a/src/useradd.c
+++++ b/src/useradd.c
++@@ -2015,6 +2015,9 @@ static void tallylog_reset (const char *user_name)
+  	int failed;
+  	int status;
+ =20
+diff --git a/meta/recipes-extended/shadow/shadow_4.20.0.bb b/meta/recipes-e=
+xtended/shadow/shadow_4.20.2.bb
+similarity index 92%
+rename from meta/recipes-extended/shadow/shadow_4.20.0.bb
+rename to meta/recipes-extended/shadow/shadow_4.20.2.bb
+index bb247cee9d..cf7d253a7f 100644
+--- a/meta/recipes-extended/shadow/shadow_4.20.0.bb
++++ b/meta/recipes-extended/shadow/shadow_4.20.2.bb
+@@ -14,7 +14,6 @@ GITHUB_BASE_URI =3D "https://github.com/shadow-maint/shad=
+ow/releases"
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', =
+'', d)} \
+            file://useradd \
+-           file://0001-subid-Add-stdint.h-for-uintmax_t.patch \
+            "
+=20
+ SRC_URI:append:class-target =3D " \
+@@ -24,7 +23,7 @@ SRC_URI:append:class-target =3D " \
+ SRC_URI:append:class-native =3D " \
+            file://notallylog.patch \
+            "
+-SRC_URI[sha256sum] =3D "5e1eee2709a540ac07e4e5bb0d30f7b97d6ee1e3714ef52704=
+7fe2ffb5fdaa5c"
++SRC_URI[sha256sum] =3D "e5016b40541ee6fa02ea3d409547cef6e7eea9b31f0e3482e4=
+874f87c1d0c7c5"
+ UPSTREAM_CHECK_REGEX =3D "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+=20
+ # Additional Policy files for PAM
+@@ -68,12 +67,9 @@ PAM_PLUGINS =3D "libpam-runtime \
+                pam-plugin-shells \
+                pam-plugin-rootok"
+=20
+-PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'acl audit pam =
+selinux', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr'=
+, '', d)}"
+-PACKAGECONFIG:class-native ??=3D "${@bb.utils.contains('DISTRO_FEATURES', =
+'xattr', 'attr', '', d)} libbsd"
++PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'acl audit pam =
+selinux', d)}"
+ PACKAGECONFIG:class-nativesdk =3D ""
+ PACKAGECONFIG[pam] =3D "--with-libpam,--without-libpam,libpam,${PAM_PLUGIN=
+S}"
+-PACKAGECONFIG[attr] =3D "--with-attr,--without-attr,attr"
+ PACKAGECONFIG[acl] =3D "--with-acl,--without-acl,acl"
+ PACKAGECONFIG[audit] =3D "--with-audit,--without-audit,audit"
+ PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux li=
+bsemanage"
+@@ -163,8 +159,6 @@ do_install:append:class-native() {
+         binaries=3D$(find ${D}${base_bindir}/ ${D}${base_sbindir}/ ${D}${b=
+indir}/ ${D}${sbindir}/ -executable -type f)
+         chrpath -k -r ${STAGING_DIR_NATIVE}/lib-shadow-deps $binaries
+         mkdir -p ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+-        libattr=3D${@bb.utils.contains('DISTRO_FEATURES', 'xattr', "${STAG=
+ING_LIBDIR_NATIVE}/libattr.so.*", '', d)}
+-        install $libattr ${STAGING_LIBDIR_NATIVE}/libbsd.so.* ${STAGING_LI=
+BDIR_NATIVE}/libmd.so.* ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+         install ${D}${libdir}/*.so.* ${D}${STAGING_DIR_NATIVE}/lib-shadow-=
+deps/
+ }
+=20
 
