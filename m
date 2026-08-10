@@ -2,39 +2,39 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FCDBC5AD55
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F29BC5AE49
 	for <webhook@archiver.kernel.org>; Mon, 10 Aug 2026 04:53:22 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23022.1786337595536121234
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23019.1786337592250024602
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2026 21:53:15 -0700
+ Sun, 09 Aug 2026 21:53:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QvsONg/p;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=26826cd257=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67A4iwHM1002694
-	for <openembedded-core@lists.openembedded.org>; Sun, 9 Aug 2026 21:53:15 -0700
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=U03FDv0M;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=26826cd257=sumanth.gavini@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67A4Fsof1184487
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 04:53:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=R2W4t9rW4aWdHP16R7XZs9kXGRfzBiamh897UfVOfaQ=; b=
-	QvsONg/pHyGlK22Dt4AcDkyuXSwsKxrXyXiPO2vgdD/EzC6FfMf+G9PygsWSn/3y
-	WCy/PdRQ3sXTkgQeBda1j3mW31TjXOiASRoh/R8WCzmUWU6ZvxJK+NULaoPZu8NF
-	ILzLOfn2D2rQ80C7jiuOy7PrbzLml/kOsPIKENyXC0XCWbjlvq1AOASmmlx1X7ll
-	GEqxRJOgkbjA4iZfIcDjsrT3PlpxuUtQdkDmlB8/IXJ6Nf58ewsp01YkJYuhOcpr
-	on+D1uOZLVuObJcpnKsVFSzTmUYUavbYzhogD7zF+FuHsTPK71au7FqV8PiLhMzq
-	3zgghwmnGUKIygMPo6WiIg==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010012.outbound.protection.outlook.com [52.101.56.12])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fwyr1smpc-1
+	PPS06212021; bh=XddR0/jmFczF+a/KF7fzzJ59dUhFigBtOkt7u8ptAlw=; b=
+	U03FDv0M/IP6lowoGCujUUrD5IhouvepGQ+yjUvr5uKf/Iul8554QyUYBTKDDEVz
+	NheuEBEMnpAxMDsnZ26897UXyB4insNSLbA54M1IeNjLeN8qg0J2Jx4bwfmSTYdS
+	gd0aVefDtjAQXcbDEWLgirsFMVPMjw0f+vY9NyDUlacZfg3LnpLvHcGAnnLJCgI1
+	FyKYkNpQiJw5tlQiJS21TPqLlfzGDWQXdIv8/P/vhDsLbSqchO+j/wdX+52bRhZg
+	naaLt1jfDKYsILGWcGg2Ex1Q0UUDGVG7v1PiL1TxhDvRZrd/Coa8zd0raofgpQYj
+	xMSYtZ07HLqY0tvLgllxeA==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012012.outbound.protection.outlook.com [40.107.209.12])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fwsnwhv0e-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 09 Aug 2026 21:53:14 -0700 (PDT)
+	Mon, 10 Aug 2026 04:53:10 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LFAdqcQczohOhcgQoOITcMZtpOyVmteAkrO2yKVMGzivydoShqWf6KyngiZUe7JHnMiJXNiiv5d5pLJ+tcvWjRui9SR5SBlW9Xm8+9/5gDU+55s3IsruPHeDI/mPpRe/4LXZQuK45S5OuNCiMUGl4i+wEupdTbt5lx4i9Fp9AoSOQHIDCUuSCcLiDmAxr2aJs6eHeRNqDVE5QCmB3IosvgNHHX5YaQQ2dyaxRaSj7wUBd4BCAclTgd+iP/pes88ezXK06bwkKEJboQ5RQ/+/IPHh8jDZXnUOdpOa2A3ikeBUnmQG8p9k1B8MKBVQwslZyE+R/PHQjheph/lyUMIg/g==
+ b=elqMRs7PhCG1oVXD+Yn3bj3aVMUdnEzbDIBirrgxm7gFaICyeQAyJaU5mh08Pcq4eWBERzPzjLv8W2Or7FDmelRoKPbtoJcAB7mg+rK1AtHZL9/II5z+QSeSQ6qeH7+zpP4LX40449oHKICdkWEVvqAb8tHZYLXOFjvuazJjxltDobIE/zjfGVDUPizi4hJhmb63TWrcyUX/F5Upvb7DqWMWokmT1GBLxHFqXkvgT18zQAcDO0HAavzm5kL1SK4GtDBMmwlzR7n9PrG5wBbpkz1ouwQuyWfHXSVLvbSXcywW7zZ3+i7JZBXBXNdcP3T1OTb2lxiChW3qNZ4ljTgJsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R2W4t9rW4aWdHP16R7XZs9kXGRfzBiamh897UfVOfaQ=;
- b=V8cmmo1HPMUItSEqhATZWTLhQJClWungyOQkfRe//Zj3RAmTgfpYOP4trgjogMwUWb2I3A9bcn6cnCDbkAUlrfSzPe9D4llXU9J+L6qz56CEntNk+UeIc4LoXg/2jIvZCEbU4uJPWrYFygvqgU8EkkBwlhxHGZ9cDUzUVp7WF2hNR/4VIixLFO6px+oQplChCf/qgk2RratLm30N+qPFb21MOREqjEGOER2W352XcE7j4P83zHEZ1gC9ZOzhEhSxfwwmxgnZ0/0oycWDdKZ7saWXCTzpDn8+xzqy+7+zGmQ3WNKSZ/mfRLxM1sRG/WHf1kasq0BkZJ2plshXKB9WwA==
+ bh=XddR0/jmFczF+a/KF7fzzJ59dUhFigBtOkt7u8ptAlw=;
+ b=ZCpLknFFjxAx36837rOBjLa0C9CUDt3YVlSh/G5fzmtQGpypocygra8HZUugboBTsPbTAAzZCxG9DQSptknDXryyybHXSTHCSK3SEDWB7cojqTza4pstjGgr1+fpr3co4VRqdqBH6WOhSB3PkVJhkyPUNWC3+0Ckuv1gZSnyz3PjMOr+6ZoprX68D/bTKGgZ50w7lZjEi/hRnd9Vyju5Q0I1SncP0FQLd8iNeFYYSMVm/WEqSFm/36U6ZTNzwUsA23HfkEWj/nVH45ifogMLTCm5kiCiqrLvsYpjzZROgOoB8UrSaOXpVUswdk/TpyHVa4z6UIttPt0ujwMyk9iBvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
  by PH7PR11MB7595.namprd11.prod.outlook.com (2603:10b6:510:27a::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 04:53:11 +0000
+ 2026 04:53:08 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0270.016; Mon, 10 Aug 2026
- 04:53:11 +0000
+ 04:53:08 +0000
 From: Sumanth Gavini <sumanth.gavini@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
         mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
         randy.macleod@windriver.com
-Subject: [PATCH v13 09/10] rpm: Fix pkgconfig() Provides missing in cross-built RPMs
-Date: Sun,  9 Aug 2026 21:52:49 -0700
-Message-ID: <20260810045250.3903576-10-sumanth.gavini@windriver.com>
+Subject: [PATCH v13 06/10] rpm: 4.20.1 -> 6.0.2
+Date: Sun,  9 Aug 2026 21:52:46 -0700
+Message-ID: <20260810045250.3903576-7-sumanth.gavini@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260810045250.3903576-1-sumanth.gavini@windriver.com>
 References: <20260810045250.3903576-1-sumanth.gavini@windriver.com>
@@ -66,200 +66,902 @@ X-ClientProxiedBy: SJ0PR05CA0120.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|PH7PR11MB7595:EE_
-X-MS-Office365-Filtering-Correlation-Id: f31867e9-99e5-4471-bc6d-08def69b4743
+X-MS-Office365-Filtering-Correlation-Id: e6ddbdb8-9249-48ec-049e-08def69b4591
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|23010399003|18002099003|22082099003|38350700014|6133799003|3023799007|56012099006|5023799004|11063799006|10067099003;
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|23010399003|18002099003|22082099003|13003099007|38350700014|6133799003|3023799007|56012099006|5023799004|11063799006|10067099003;
 X-Microsoft-Antispam-Message-Info: 
-	svXejcKBWqECUmZC0K/ie/TUZLfLeSgrA8gpbxWYP4XdEBYt0gO6IFvi7f8mEPXDx6vh3gsC0hBnXJCVK/9CchWRHH2A32hYTu+ZjOJ6+pUl46N/Th954caVtpIHIFI29kqSQKHTwDr//c1WaNmuhpyNLmRv66bmNEPbPH28O+xc//Q5FU73zqMLC5+/HZrTzNIVKP1Dgip48jFKY0eaZXj1ggQbbni2+CNIczEa/JLFhl/GwUtUQFV/10BcATcHBOa6Q4oE8jv1DiDYM24oGDfsaK3olCibY2y+LWQ0yTUQNKeGjXt0y75Kfroi2jetukcCCRvOYIKsD5E6KWFG8m4d4MPRweTZh0cX5+xW0WD4LMsfdDdDedzx+bMQzm/GrQv3lSZSfqSZZAiiwighuceAnc1JTYzKG+CMU91WNs9SqUT+Dn0/bUw0eVUhGc5oejmn7+8Ru6Ij0+8kB66aGScUR6js/QLq+lscMPYmLMsXlr6sLVeuVMJ1D55UAL8jSjwxHf6nPel1KiitP0S96gb73ag7e8jTBinGjOL6vo/rmR14hVs1oIFxg3x1iTSvOWxOvw+eq44JuuujYcGUaMatYRjH5eBrjZ0HqipNzC7icvviPjU27IzgQztuYp2OSLtcYuM+NXBrK8sgGdEdwyprdm/wWWw0Mz3D7R/OjP65EUs0VZzC0+WYnNW+WL8/7fQjxvpVDSFW7VWlVqcdJOHjwSYfppq+kYQRxE49/fk=
+	wQL4NxC4rfUCnwkLqHchIAQCt3ceyHbOsoz1E/8u2D01PUvJh42tar94+ODMRIEKEGB4mOBgfSPt+y7fKUOLPihCIF6CM3Jfv968WUvvyCOHYzUsQRi77+xYGou+tJirriWADkxlOq390O25oFIoYkeQ/YSA1DKJSR5qWlrPL0fw6L/nI+zE8WKQpJOc8pRzvO+7PTMlAz+K4CLDjPty2b/CSCtifZ5NY+GYssyJ3jWYers5fywgYtdxWkOzSZtFiSx9k9upSqDGznZAcA/nSUettzM3y1KW61AoJ7lz6Duw6i1+vigXjUcMWJhInlaXaMPnYTdjBuv9z9XyA+HysKx8ZzDeCx6uG/gcdTcxbVMZDNVSLflTOnafBR6hGG+LmZgvWuAUbEz6Yn2sOVpYMzvn+APxe6GE1QA5ySE+VtwNdbd3A1tn0ntQTJGWtYw+qc9X4t2LwXOaVK2PTH52i1eR8SiXeCyfzkOEZDdmUl+dfltC8jnfVONBFkrf7MRxHElNA25kHGCJDfkWlouJoQ3/pZlvnsDvzwfnhHIIC9Uw564hM1nArdM4KYZ/A6AmHrtI0LGrvDAIit2r8R8nqo088P9O/6OqydxuBq6w2eQ0SQxhXPZH4IOcwj5Jyq1OeY/iBVrPrCaAFfu/zpDyK4wHmmikSjI68zbQd8uZXnI=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(23010399003)(18002099003)(22082099003)(38350700014)(6133799003)(3023799007)(56012099006)(5023799004)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(23010399003)(18002099003)(22082099003)(13003099007)(38350700014)(6133799003)(3023799007)(56012099006)(5023799004)(11063799006)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?7qSokcor9ael1JeTaGDrnpzzJ525jASDlgCyh8gUWGDzUhw9tB5kzGl0pBVm?=
- =?us-ascii?Q?JM4sMOJmrN8mhD60JMDzrsFx04yJq+4vWAQXYih+8v9iD01d7PLE732BUQd8?=
- =?us-ascii?Q?fkEJBgempcsTo84adGFGwo4uv0RLiQy0h4g1IH6051/DXjQcslDKjKLrhr/Q?=
- =?us-ascii?Q?GDM3CLNXf6ON8yvv5xN7m7lo/RlJSMyyk7Skmw7VE8ze29xGeKEQWHTJgNkf?=
- =?us-ascii?Q?AS72mGBvRgE4zNga6NKupzUBvq/UvtWD40RZNH+VXhOJP/wpokA8h3wnthnZ?=
- =?us-ascii?Q?Tf5D+o4EX71jcLx6xNOe7eSVyYXZwzFmhY/t2NPmN8BTRv1fZ54Bq4xQPeFk?=
- =?us-ascii?Q?GIdpc8Fe1bTfEr1lDlCXT/8OlUKCqGNLRCM1kIDI8JPNyHLFhZwtfcqTsEDV?=
- =?us-ascii?Q?4GVR/jjdNxFNX1CIU7YIX3PN0jR2gzVSwh8t3H4a5aqpnpHn/zREu05HnU7+?=
- =?us-ascii?Q?thApkO+S814Uan/Jj+ENSwYbP4DoagS1KrA7C51uDB1E8PsPTOjiGGggac8f?=
- =?us-ascii?Q?CY07aoxXlknznTyvFiGORLEP2Kgcrdr+kLGcbrG1fZ+4y3QqTIrFnmnGVYFC?=
- =?us-ascii?Q?MPuUnzdBbgm351yxBrJuRbQXEkPNtGlNZWQ9TDBKevd5JWDopebMbl251Nnj?=
- =?us-ascii?Q?bftAlgjsmuPR9N/YVEMGAoYuKOAvcgvWWWcXPq7Xir/269uV17aurlyYH1uX?=
- =?us-ascii?Q?90riee59EwjGxdjdwBreXqqwVlnE9sWB39SYlb13T+1XyF4knT/Q2XLoVgn7?=
- =?us-ascii?Q?EQo3bBEMf2UATD4uzEr4v8hkQ6OiwOnde5Fj6XFE6DOzGIUqMKbaGS/LsAjt?=
- =?us-ascii?Q?z6gYiXtULkA2Xt4cdWi8QUoa7WXMSjHYnUVEQoI//inloTUNEPz5RUaR0pqZ?=
- =?us-ascii?Q?3hzmZj17TJ+FtWtlPa4HujyOq0+goU82GH94HPdtKpYknL0bggnNg3iNkUEK?=
- =?us-ascii?Q?HgWSMIXsc4kImMMCyDvZ9V6riXKpO6IynD5HkosCT3K2akaXAF0HvUuzm2pO?=
- =?us-ascii?Q?qr/Dirl8M2dGVLZTvh/Fxmg+18jp9Hdjf7pUDZPzESVUR4Tl8cIv0iLjNzpP?=
- =?us-ascii?Q?tyvOSQA//oJMfX1lvYoiRtM0M8ZU0cAYFG2WawL2XNUaAD+7FWAqFGio2WOW?=
- =?us-ascii?Q?Sd4fbjdKoKBGyolGnV3S4MsvKYjQiM5HxTsFC/W8Bm/wyKaT0il2YITo/O+a?=
- =?us-ascii?Q?taFxl7bF87mq3BS40Aro8XI74G6+jU5XXxSvJl8FE8ma55jYWbeQvChjygCW?=
- =?us-ascii?Q?3nWvyVW+uZut5km7vN5feI4wa1IjXbAF/6/qpYwRUP++bUVklhBauwUhGy4T?=
- =?us-ascii?Q?ud6XnyzaLqzC02wk9ZixLcxsbqb6dokK/d3/d3DfWviFOMaLXnv2rrKFCWWx?=
- =?us-ascii?Q?czDpOazbX3SCvDmb/LLpPDpKo2RfRJbxLunnUoyiXrdyyP/JuYj8P9GdhY9e?=
- =?us-ascii?Q?yyu2vYcAn9oeHO1eLd98Vrd3frrGZVb+KWxdGhgoD9SAe2R8NTBHh/L2Daod?=
- =?us-ascii?Q?x9EmsAAiQ/SkAczcYZh/7ZpZVmxwq1yiIURXoIU+aRklItque3EdKHFhwJap?=
- =?us-ascii?Q?Hj2x6ih1zH7wSD4bb2mwE5O8U8A/TCWjVu694Z4z+wQnDevJDlYGllC5vAcv?=
- =?us-ascii?Q?oa/zbNAi4NlAvHrCi4wceTl91ld0oGKTyd81MTPtzjZwz33u5pArfzQnNmbi?=
- =?us-ascii?Q?ynwUfnObGrVnsKVOoHODKf3uAmSjmhrQFrPCw2I84w4wfql+0qTh4Vjs47LZ?=
- =?us-ascii?Q?RzTa8/R5ShFLyqOcaRnXA/Gw6iP+3kY=3D?=
+	=?us-ascii?Q?d+3+NeRIIWx8LRZb5niYIWgB+QOlNMka98u1lvsLuqA0UPAeO64AUlvinyA7?=
+ =?us-ascii?Q?N235xLvlDDWlNkvBWPBup+NnIBYf2bLYhnaHWFmrTzCrvianUkJzPd1LZrHD?=
+ =?us-ascii?Q?O0Ky9Uub8BcgWRiJhXNCZ1FLhxSveuAfeAgV44cEQ9INbV/t6j/kJQB2MbZ7?=
+ =?us-ascii?Q?ABTsYrcsd5+z8DGZRCSg/6DxZjbczll3UsZUVNZHWUeBOH5SU+KucfcyIgB7?=
+ =?us-ascii?Q?bJnlpL7R3Ee12rydCMUxuSQgLZLSCWEMW+Fpmtx/X/qDQKRinrSrhJuvm0Us?=
+ =?us-ascii?Q?SEGGVTV8n2LwLsa6sxxkP9DMQnfFp45wMBPKZxNE2f23RLG6nxuCBHOH5hHL?=
+ =?us-ascii?Q?Du1JQZS8S6lyghAkQqujs048rOxA2tSEKbXhFPud8ZV2wPZz0xhA30rvbyCj?=
+ =?us-ascii?Q?SVhwtlhlSKJKBerikw6mQ6C24kNGByKE5J8q6L41LUZk+WsyNjSQRDu9XpH9?=
+ =?us-ascii?Q?7wrjOXZ3z0zyXBKIop5n1pI7UXP/75Qtro80MUU4noH/v0BmRYZdHgxLQRsg?=
+ =?us-ascii?Q?KBy1Rk4jEW2MwijdZdtm1pQUjWS0sMn4EDP6GmaNPwT9OluLjRCZjr3DdoIC?=
+ =?us-ascii?Q?AgtuMSpWJ0wJBhBRd+UtERRtqzsowSp5JNDM/3PPhkE2r4knEodEdkORvx8W?=
+ =?us-ascii?Q?c5uRtKGjM1tsglkixDHtplPGp45cZRJQWvTD6Y90pxQPxIDAIq50mm3hc18o?=
+ =?us-ascii?Q?8rR6hTO4SHkox/S8FPmMtdPVsOFKtrztupfsDKV40vZPeG/JjURzWETAAYk3?=
+ =?us-ascii?Q?+zkP7FBtPhkNE5n9I/jYAukUKWjDWkHiDjr0mAz8wnFdRCiBZ2raAEarO4/E?=
+ =?us-ascii?Q?2mPWM6tyO7AyNUT6Ei/F6aprywrQ7tnMQsFTSb0FxJkQeAhVhlbQZTb68xXb?=
+ =?us-ascii?Q?f+dSRQkYjkoSIsAC1Mzsyk/3awO9UmVE2ai9N2vpfQwuUer8N/fxdFgZ6JOR?=
+ =?us-ascii?Q?0m8FtwYeFuMGbBEVLAZ64bo+gnVHST9ymuU0RPflRLRdZ03B/MNsLvhpzpI/?=
+ =?us-ascii?Q?CoWBL690MdWjV2Mjwo1r1IP3F0MVVGxSEbKPdnJdC1xH7/aL8SsY6PVl2Bvd?=
+ =?us-ascii?Q?uHZJ+8x7/uVhPswaADOj3lNag+Rre7w9cVir0U0LOVlpJK8LIKMzapPGwM2a?=
+ =?us-ascii?Q?N8+GnNSc/NwKddAlMh2J3RSwp8wxMNubMwRVZXCSPVixszAQiKHGP19+DRVC?=
+ =?us-ascii?Q?+1+YmmmMG3XObTwZr2706GwlNCuFqiKK7K8lORQwTUKpmL57y0rwx0xR28L6?=
+ =?us-ascii?Q?P6K3+TXxmQqjrW+IcJZVXI/miVhPVjTpDVInuh8XlzQWAi6DZ3Gyal1hpGBt?=
+ =?us-ascii?Q?lv197sFhaDxTdeO8vMT3yQKIhsejVenyUYBzO/2klKN2tYjKoN9kuT4Sq2im?=
+ =?us-ascii?Q?TjIpNzniTngiW6HLGS/DcE77gK+Z1lERJOOkIK7SOpMEfswWkMn1FlGx+fgn?=
+ =?us-ascii?Q?MXfwY4TZYqcyLfJHnXIsNHO5+RIi1CjgFdo0/8v7+QwopYqxPW+1SfzzpVFU?=
+ =?us-ascii?Q?oUl3pcwbELdOQMVF5PNEAZP4at9aKjUaFEVljwEY18wq1QETiRiLwnIt6HcK?=
+ =?us-ascii?Q?cHCdfKq2PEv2ftPBhjSw8trqAWt/FJS4nPyf2VcfWmHDGelQdVeMC4A6cikS?=
+ =?us-ascii?Q?SVQbWZXra9NwyyOhgtrfsSMj7Sn3crU5R+HiQJQAukzOzkHwcqEUfWYtmoK8?=
+ =?us-ascii?Q?DFXisw4pj7SBdjAchTByJ1osf+1nyfraoDcgHDG0ehTOsAKJrNn0kHnhAeOK?=
+ =?us-ascii?Q?iZ8fZgKCgaRO+ZjZdVgdsgYYrCePx8s=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	kZJ/CiFEzfQu7a5Q0qAoqYh3TkoG12+Oap4YMKrPSBtc7Toym+fIazKqQ1jGvKqGYgEnELjSly0720XHfshkA6eUKXDhPjR3kLBYh5XPS/GV0tEhhY1s49f0E8SQYfimHM6P15BkRncLIesBIwHxZMnhhBIfd8HcDWroR5rINj57ZJgjtzyluXcyLauao2ZKd7diFDjdyMzcFXKBShm7lmKHaYDQdgA5bgsLYhHO1l1rXdMblmV8rHb7P/DLiZiWdxn0KkWuWQGY05y6i+qMgqUMsdkWDnZ7tC7MBktZQZc62vflk6nhygShrGF5NRLw6KpzP76F0OeFgGeDZuL7iQ==
+	Huf2lvASUhSIZNhPoa7HvJ1piz0E55uaAm6MjzQCSObNuzMUGSqVNX008OBU++McFI/zNopoubn0uChL/l5k2Oh+b0RCPImeRkJCxkCE5hr/2PrxLpWXazsdYiWlJZH3TunUv1rMCR3jDeCD0qq9/FJia8Fxb8ORjNj1R2Lgy2tVhUWqrGuAVyMDQkO+SCHrgr0s41keMXH98q1AJc0+Sl1QUKFjiejDJq4XKU/N6uF5Jaemc7J/EachkeVUFrEKg2rAbzk0eq+0A8HGtBwX5wUvH6TbQl5VE4dGanTSoRbHX1EZqExuneilsYLxLgNCU7ldVm4fIh9nDhP996DVJQ==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f31867e9-99e5-4471-bc6d-08def69b4743
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6ddbdb8-9249-48ec-049e-08def69b4591
 X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 04:53:11.0713
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 04:53:08.2302
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TCTkYnc2AbD4z1gNMLMinpTvDdGoyzrep/4uNrLhveX4p0QaG02i3HrPxAtEKbYMu5LwRm+ohZErxnKQiUtyxhYLaowKC3OC2SsXm+mIrKc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: aCi20nJdxl0LKpI0IVSlSmBIorVlKdPb6vBmV8gsuak/PLJzm0pK0o8ChBQM0GllfI+E4TFO15pEHDJtpe8YUlyv4qzjuQayMUAqZdpL4Pw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7595
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDAzOCBTYWx0ZWRfX3JyI+Ra5wZ4i
- SC4nvGMPwAR4iG1jwM8UyNhcjTqmXra9PAJf2dsOg6VPuGMPHBN5Zmn/f/6+3HIxSqliVekEVpn
- SbmOBmrWuBTKGBuyOK5NlM4N9SOE/ka49ruDHCHsq16wuOMUK7Ekpo0vJSI4sO3xUdm4zw7o/8E
- 7d0IMioWCdJZLSqcUZ+HhX3sAT4cg5+bgcEJZkrU1HXObMiSkdulgSDNzYMHyVSaDXiVReAy16I
- 9OoNVkblv81J3SsmoentbXKXpIOucGZoyLiaF9PxNWiLjalU5WyF0MBoRUpoFlxjrRQUZtWIcEo
- D7vW/d0DgeIHGoPwND57b6/1cs/uP7eyBYjZTddmDvqvAjUuLOZXbUS+8FUJW2YJzoUx5pWiYNh
- mmuJJ0QYGV2AkbJxam8As0r7IwE59mAuX1e/eUDMTay4HZZNtOJDjoB6MLT3M55M5YLDGa3bK28
- sxJ6wdNPY/8tZq49gOQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDAzOCBTYWx0ZWRfX5hN+8OTy+H1/
- jI5LZCXMdcz3VKQbPzqacw8pJ7Wn55eJz61ub7V26wAcsoPP0Tqf8C7+KN/256myZi8tgkiujpZ
- 39nP6azvPK7i+uQ7ZRFda65+uxQ20OSDxdb6opEeYS2idrL2yONd
-X-Authority-Analysis: v=2.4 cv=Z5Lc2nRA c=1 sm=1 tr=0 ts=6a79593b cx=c_pps
- a=CjRpyDoPu1ZhyeacGh9KdQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDAzOCBTYWx0ZWRfX9ym1gFVXnh3M
+ bLuIkIZC1BrwxoWSQW9ljJK4x7pWoQlkhFHijNcjKJZ9bAsF35fWPNO3S5CfXn8K1pnUmCtricz
+ 95NIpH+RgbCAKzzS8vGV/Ywru2ib3bYpqU11lf7x0r8hJafHH9Hh
+X-Proofpoint-GUID: ldeGq4dxegG5J7Z06GHd2B6xoP0zgAbR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDAzOCBTYWx0ZWRfX/Y8u4HEKpaXp
+ 7V8Y6IFxQ6wJzsWc/31qHrWqdiPu84SE70bgrxHydG+bP+rEpHmkAwnY1mKE7eDQSIEv0e+/AVz
+ wivaxGCp/Vu9l6ZskLcYVmM7jLCyhtKijJRX7i3wv9sENXEmvR53hu6/fjxuRZrdrPEj+EtPMj4
+ KpQxkOyxY72UAQiU0m0XR4D1l0kmMHsP+eWOBng73GO18lxWSpUrZhF/EkWbcznM3cVlhsHJ0vI
+ vuhNNnFEDtMXPttEgmyYXVhf1z7Yagn1klxD46yMntFlS2HE0FjoAM3UaPk5kA7Fv5i/6PZq3xF
+ H9PVt5VCOMePcqjuzwxeu8HKzLtGy2MzXey1VNwhW0YldV3KNRPAOiwLNWqGjdg/34WHgoxNsO2
+ pI8lGcfUuu3tG4kPemtdPYS8116es7my0xTPDBvmnw2bsUfqsRO4vBUESCfADqJzSSebf3tN37R
+ py1nsEc4H7F3kGrzEMA==
+X-Authority-Analysis: v=2.4 cv=ZZEt8MVA c=1 sm=1 tr=0 ts=6a795936 cx=c_pps
+ a=ul7AMzggcqKAecwK2qVOCw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
- a=NEAV23lmAAAA:8 a=A6YZNiJOG_xbVXSWyD8A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: E4D1lgka0UykY04NfTIF0W8z7Efm74l0
-X-Proofpoint-GUID: igF15cnPpM83IMjfG2Jm8pOPU38O9LiZ
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=NEAV23lmAAAA:8
+ a=Q4-j1AaZAAAA:8 a=GMGn13PZAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=Ia9td_k3mc_TV5fArrgA:9 a=2yX8oE26ukr_L8MB:21 a=O8hF6Hzn-FEA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=jIF0orF5dxDFSsn8Ms5I:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: lvpo7RN1cgt7STBA7FL5jlHIxp2-cEWn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-09_07,2026-08-07_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608100038
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2026 04:53:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243101
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243099
 
-* Added 0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch
-  - rpm 6's internal dependency generator runs pkgconfigdeps.sh during
-    rpmbuild, but OE's cross-build environment exports PKG_CONFIG_SYSROOT_DIR
-    which causes pkg-config --print-provides to silently fail on .pc files
-    in the package buildroot.
+* Add a tag to SRC_URI so that there will be errors when only change the
+filename during upgrade it, as suggested by Alexander.
 
-    Unset cross-compilation PKG_CONFIG_* variables in pkgconfigdeps.sh so
-    that pkgconfig() Provides/Requires are correctly generated.
+* Rebase the following patch:
+  - 0001-Add-a-color-setting-for-mips64_n32-binaries.patch
+  - 0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+  - 0001-Do-not-read-config-files-from-HOME.patch
+  - 0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
+  - 0001-When-cross-installing-execute-package-scriptlets-wit.patch
+  - 0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+  - 0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
+  - 0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
+  - 0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
+  - 0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
 
-    Without this fix, do_rootfs fails with errors like:
-    nothing provides pkgconfig(ogg) needed by flac-dev
+* Updated
+  0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+  Remove the changes for macros.in since it doesn't work for rpmbuild, rpmbuild
+  is like cross build, will define the values in package_rpm.bbclass.
+
+* Remove
+  0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch, there
+  are no such warnings in rpm 6.0.2.
+
+* Remove backported patch
+  0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
+
+* Add the following patches:
+  - 0001-tools-elfdeps.cc-Remove-format-module.patch
+    There is no format until gcc 13.1, so remove the format module to make it
+    work on hosts such as Ubuntu 22.04.
+
+  - 0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
+    Fixed:
+    GPG check FAILED
+
+* Fix filter /usr/bin/pkg-config file dependency
+  pkg-config is a build-time tool, not a runtime dependency. Filter the
+  /usr/bin/pkg-config file dependency that RPM pkgconfig.attr
+  auto-detects for packages with .pc files, preventing unnecessary
+  hard dependencies in -dev packages.
+
+* Add scdoc-native to DEPENDS to fix do_configure error for both native and
+  target:
+  Could not find SCDOC using the following names: scdoc
+
+  Note, both target and native need scdoc-native, it is used for generating the
+  manual, the man pages in *man/* are scdoc sources
+
+* Add /etc/rpm to nativesdk-rpm to fix:
+  ERROR: nativesdk-rpm-1_6.0.1-r0 do_package: QA Issue: nativesdk-rpm:
+  Files/directories were installed but not shipped in any package:
+  /etc
+  /etc/rpm
+
+* Add /etc/rpm to nativesdk-rpm to fix:
+
+* Fix build with systemd, the rpm's sysuser creation doesn't work with
+  cross build, and we don't need rpm to create the users since we have
+  useradd.bbclass. The fix is:
+  cmd = cmd + " --define '__sysusers_path %{nil}'"
+
+  The error is:
+  /var/tmp/rpm-tmp.U4iaJX: line 114: tr: command not found
+
+* Make rpmbuild can find the pkgconfig (.pc) files in
+  /usr/share/pkgconfig:
+  cmd = cmd + " --define '_datadir ${datadir}'"
+
+  The error is:
+  - nothing provides pkgconfig(shared-mime-info) needed by libgdk-pixbuf-2.0-dev-2.44.5-r0.x86_6
 
 Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
 ---
- ...Unset-cross-compilation-PKG_CONFIG-v.patch | 71 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_6.0.2.bb        |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch
+ meta/classes-global/package_rpm.bbclass       |  4 ++
+ ...olor-setting-for-mips64_n32-binaries.patch | 22 ++++----
+ ...akeLists.txt-Fix-checking-for-CFLAGS.patch | 46 -----------------
+ ...et-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch | 50 -------------------
+ ...satisfiable-dependency-when-building.patch | 18 ++++---
+ ...lib-rpm-as-the-installation-path-for.patch | 24 +++------
+ ...1-Do-not-read-config-files-from-HOME.patch | 18 ++++---
+ ...-PATH-environment-variable-before-ru.patch | 16 +++---
+ ...lling-execute-package-scriptlets-wit.patch | 12 +++--
+ ...not-insert-payloadflags-into-.rpm-me.patch | 18 ++++---
+ ....c-fix-file-conflicts-for-MIPS64-N32.patch | 18 ++++---
+ ...kgverify_level-to-digest-as-RCPM-4.2.patch | 35 +++++++++++++
+ ...ools-elfdeps.cc-Remove-format-module.patch | 38 ++++++++++++++
+ ...prefixing-etc-from-RPM_ETCCONFIGDIR-.patch | 26 ++++++----
+ ...avoid-using-GLOB_BRACE-if-undefined-.patch | 14 ++++--
+ ...ge-logging-level-around-scriptlets-t.patch | 14 +++---
+ .../rpm/{rpm_4.20.1.bb => rpm_6.0.2.bb}       | 14 +++---
+ 17 files changed, 199 insertions(+), 188 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch
+ rename meta/recipes-devtools/rpm/{rpm_4.20.1.bb => rpm_6.0.2.bb} (96%)
 
-diff --git a/meta/recipes-devtools/rpm/files/0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch b/meta/recipes-devtools/rpm/files/0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index 9af4cbdd94..51ad195baa 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -587,6 +587,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
+     cmd = cmd + " --define '_lib ${BASELIB}'"
+     cmd = cmd + " --define '_libdir ${libdir}'"
++    cmd = cmd + " --define '_datadir ${datadir}'"
+     cmd = cmd + " --define '_builddir " + d.getVar('B') + "'"
+     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
+     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
+@@ -601,6 +602,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
+     cmd = cmd + " --define 'debug_package %{nil}'"
+     cmd = cmd + " --define '_tmppath " + workdir + "'"
++    cmd = cmd + " --define '__sysusers_path %{nil}'"
+     cmd = cmd + " --define '_use_weak_usergroup_deps 1'"
+     cmd = cmd + " --define '_passwd_path " + "/completely/bogus/path" + "'"
+     cmd = cmd + " --define '_group_path " + "/completely/bogus/path" + "'"
+@@ -622,6 +624,8 @@ python do_package_rpm () {
+ python () {
+     if d.getVar('PACKAGES') != '':
+         deps = ' rpm-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot'
++        # The pkgconfig-native is required by rpm's pkgconfigdeps.sh
++        deps += ' pkgconfig-native:do_populate_sysroot'
+         d.appendVarFlag('do_package_write_rpm', 'depends', deps)
+         d.setVarFlag('do_package_write_rpm', 'fakeroot', '1')
+ 
+diff --git a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
+index 769d7b3409..a808009058 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
+@@ -5,16 +5,20 @@ Subject: [PATCH] Add a color setting for mips64_n32 binaries
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- build/rpmfc.c | 4 ++++
++ build/rpmfc.cc | 4 ++++
+  rpmrc.in      | 2 ++
+  2 files changed, 6 insertions(+)
+ 
+-diff --git a/build/rpmfc.c b/build/rpmfc.c
+-index 86dd36d14..df421a23f 100644
+---- a/build/rpmfc.c
+-+++ b/build/rpmfc.c
+-@@ -716,6 +716,7 @@ static int rpmfcHelper(rpmfc fc, int *fnx, int nfn, const char *proto,
++diff --git a/build/rpmfc.cc b/build/rpmfc.cc
++index 833e56fa8..d50a3407f 100644
++--- a/build/rpmfc.cc
+++++ b/build/rpmfc.cc
++@@ -690,6 +690,7 @@ static int rpmfcHelper(rpmfc fc, int *fnx, int nfn, const char *proto,
+  static const struct rpmfcTokens_s rpmfcTokens[] = {
+    { "directory",		RPMFC_INCLUDE },
+  
+@@ -22,7 +26,7 @@ index 86dd36d14..df421a23f 100644
+    { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
+    { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
+  
+-@@ -1258,6 +1259,9 @@ static uint32_t getElfColor(const char *fn)
++@@ -1191,6 +1192,9 @@ static uint32_t getElfColor(const char *fn)
+  		color = 0;
+  		break;
+  	    }
+@@ -33,10 +37,10 @@ index 86dd36d14..df421a23f 100644
+  	if (elf)
+  	    elf_end(elf);
+ diff --git a/rpmrc.in b/rpmrc.in
+-index 8646a966b..7349fdfd3 100644
++index 8fd0d7ee1..4cc52ceb3 100644
+ --- a/rpmrc.in
+ +++ b/rpmrc.in
+-@@ -142,6 +142,8 @@ archcolor: mipsr6el 1
++@@ -152,6 +152,8 @@ archcolor: mipsr6el 1
+  archcolor: mips64r6 2
+  archcolor: mips64r6el 2
+  
+diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
+deleted file mode 100644
+index 412e1c146d..0000000000
+--- a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From e14502834fe6a9c6c9a439401ac3d2c8fd979267 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Sun, 8 Jun 2025 00:36:38 -0700
+-Subject: [PATCH] CMakeLists.txt: Improve checking for CFLAGS
+-
+-The previous log wasn't clear:
+--- Performing Test found
+--- Performing Test found - Success
+--- Performing Test found
+--- Performing Test found - Success
+--- Performing Test found
+--- Performing Test found - Failed
+-
+-Use a new var compiler-supports${flag} will make it more clear:
+--- Performing Test compiler-supports-fno-strict-overflow
+--- Performing Test compiler-supports-fno-strict-overflow - Success
+--- Performing Test compiler-supports-fno-delete-null-pointer-checks
+--- Performing Test compiler-supports-fno-delete-null-pointer-checks - Success
+--- Performing Test compiler-supports-fhardened
+--- Performing Test compiler-supports-fhardened - Failed
+-
+-Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/e14502834fe6a9c6c9a439401ac3d2c8fd979267]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- CMakeLists.txt | 5 ++---
+- 1 file changed, 2 insertions(+), 3 deletions(-)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 08e3e5274..f275c396b 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -416,11 +416,10 @@ endif()
+- 
+- # try to ensure some compiler sanity and hardening options where supported
+- foreach (flag -fno-strict-overflow -fno-delete-null-pointer-checks -fhardened)
+--	check_c_compiler_flag(${flag} found)
+--	if (found)
+-+	check_c_compiler_flag(${flag} compiler-supports${flag})
+-+	if (compiler-supports${flag})
+- 		add_compile_options(${flag})
+- 	endif()
+--	unset(found)
+- endforeach()
+- 
+- # generated sources
+diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
+deleted file mode 100644
+index 7db643871f..0000000000
+--- a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From cb5355da9b47166253dbe5ab3215e433b55068d1 Mon Sep 17 00:00:00 2001
+-From: Yi Zhao <yi.zhao@windriver.com>
+-Date: Fri, 26 Jul 2024 17:18:30 +0800
+-Subject: [PATCH] CMakeLists.txt: set libdir to ${CMAKE_INSTALL_FULL_LIBDIR} in
+- macros
+-
+-There is a patch in oe-core[1] to avoid hardcoded paths in macros. It
+-tries to use libdir to expand %_libdir in macros.in. However, in
+-upstream commit[2], libdir for macros in CMakeLists.txt is set to
+-${prefix}/=LIB=, which causes %_libdir to expand to ${prefix}/=LIB=
+-instead of the correct path in the final macros.
+-
+-On target:
+-$ rpm --showrc | grep _libdir
+-[snip]
+--13: _libdir    ${prefix}/=LIB=
+-[snip]
+-
+-This also causes %__pkgconfig_path in fileattrs/pkgconfig.attr to become
+-an invalid regular expression when building rpm packages. This results a
+-warning in log.do_package_write_rpm in all packages:
+-
+-Warning: Ignoring invalid regular expression ^((${prefix}/=LIB=|usr/share)/pkgconfig/.*.pc|usr/bin/pkg-config)$
+-
+-Set libdir to ${CMAKE_INSTALL_FULL_LIBDIR} instead of ${prefix}/=LIB= to
+-make sure it is expanded to the correct path in macros.
+-
+-[1] https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+-[2] https://github.com/rpm-software-management/rpm/commit/d2abb7a48760418aacd7f17c8b64e39c25ca50c9
+-
+-Upstream-Status: Inappropriate [oe specific]
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- CMakeLists.txt | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 08dabffd3..1b7661139 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -96,7 +96,7 @@ function(makemacros)
+- 	set(sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
+- 	set(sharedstatedir "${CMAKE_INSTALL_FULL_SHAREDSTATEDIR}")
+- 	set(localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
+--	set(libdir "\${prefix}/=LIB=")
+-+	set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
+- 	set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+- 	set(oldincludedir "${CMAKE_INSTALL_FULL_OLDINCLUDEDIR}")
+- 	set(infodir "\${prefix}/${CMAKE_INSTALL_INFODIR}")
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+index 96a5e14999..63a10df0d5 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+@@ -9,16 +9,20 @@ hand produces rpms that way by design.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- build/pack.c | 4 ----
++ build/pack.cc | 4 ----
+  1 file changed, 4 deletions(-)
+ 
+-diff --git a/build/pack.c b/build/pack.c
+-index eb9c7b3f1..fb1f1bed8 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -712,10 +712,6 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
+- 	headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
++diff --git a/build/pack.cc b/build/pack.cc
++index 49c9d0a58..b1cda6d75 100644
++--- a/build/pack.cc
+++++ b/build/pack.cc
++@@ -805,10 +805,6 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
++	headerPutBin(pkg->header, RPMTAG_SOURCESIGMD5, spec->sourcePkgId,16);
+      }
+  
+ -    if (cheating) {
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index 6a44f4f22d..309320cf43 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -6,10 +6,16 @@ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+ 
+ Upstream-Status: Denied [https://github.com/rpm-software-management/rpm/pull/263]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++Updated for rpm 6.0.2:
++Remove the changes for macros.in since it doesn't work for rpmbuild, rpmbuild
++is like cross build, will define the values in package_rpm.bbclass.
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+  CMakeLists.txt | 2 +-
+- macros.in      | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
++ 1 files changed, 1 insertions(+), 1 deletions(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+ index de0b578a6..9a3aba071 100644
+@@ -23,17 +29,3 @@ index de0b578a6..9a3aba071 100644
+ +set(RPM_CONFIGDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/rpm" CACHE PATH "rpm home")
+  set(RPM_MACROSDIR "${RPM_CONFIGDIR}/macros.d")
+  set(RPM_VENDOR "vendor" CACHE STRING "rpm vendor string")
+- 
+-diff --git a/macros.in b/macros.in
+-index 4d3e8afdc..66e31320f 100644
+---- a/macros.in
+-+++ b/macros.in
+-@@ -964,7 +964,7 @@ Supplements:   (%{name} = %{version}-%{release} and langpacks-%{1})\
+- %_sharedstatedir	%{_var}/lib
+- %_localstatedir		%{_prefix}/var
+- %_lib			lib
+--%_libdir		%{_exec_prefix}/%{_lib}
+-+%_libdir		@libdir@
+- %_includedir		%{_prefix}/include
+- %_infodir		%{_datadir}/info
+- %_mandir		%{_datadir}/man
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
+index bfc9a74b6c..ae47499e22 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
+@@ -5,15 +5,19 @@ Subject: [PATCH] Do not read config files from $HOME
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- lib/rpmrc.c | 6 ++----
++ lib/rpmrc.cc | 6 ++----
+  1 file changed, 2 insertions(+), 4 deletions(-)
+ 
+-diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+-index 5d778b8b7..dc8d42aeb 100644
+---- a/lib/rpmrc.c
+-+++ b/lib/rpmrc.c
+-@@ -485,8 +485,7 @@ static void setDefaults(void)
++diff --git a/lib/rpmrc.cc b/lib/rpmrc.cc
++index 2b3baeddc..cea6f4bc5 100644
++--- a/lib/rpmrc.cc
+++++ b/lib/rpmrc.cc
++@@ -390,8 +390,7 @@ static void setDefaults(void)
+      if (!defrcfiles) {
+  	defrcfiles = rstrscat(NULL, confdir, "/rpmrc", ":",
+  				confdir, "/" RPM_VENDOR "/rpmrc", ":",
+@@ -23,7 +27,7 @@ index 5d778b8b7..dc8d42aeb 100644
+      }
+  
+      /* macrofiles may be pre-set from --macros */
+-@@ -498,8 +497,7 @@ static void setDefaults(void)
++@@ -403,8 +402,7 @@ static void setDefaults(void)
+  				confdir, "/" RPM_VENDOR "/macros", ":",
+  				SYSCONFDIR "/rpm/macros.*", ":",
+  				SYSCONFDIR "/rpm/macros", ":",
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
+index d3263896ef..05c8b79f29 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
+@@ -8,15 +8,19 @@ We add lots of native stuff into it and scriptlets rely on that.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini<sumanth.gavini@windriver.com>
+ ---
+- lib/rpmscript.c | 2 +-
++ lib/rpmscript.cc | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index 060fd8124..4dc6466a8 100644
+---- a/lib/rpmscript.c
+-+++ b/lib/rpmscript.c
+-@@ -251,7 +251,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
++diff --git a/lib/rpmscript.cc b/lib/rpmscript.cc
++index b75a62085..2d7a4c889 100644
++--- a/lib/rpmscript.cc
+++++ b/lib/rpmscript.cc
++@@ -260,7 +260,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
+  	if (ipath && ipath[5] != '%')
+  	    path = ipath;
+  
+diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+index b71156fe12..90f5322573 100644
+--- a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
++++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+@@ -26,15 +26,17 @@ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ 
+ Rebased to 4.20.1
++Rebased to 6.0.2
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- lib/rpmscript.c | 9 +++++++--
++ lib/rpmscript.cc | 9 +++++++--
+  1 file changed, 7 insertions(+), 2 deletions(-)
+ 
+-diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index eb14870b3..1785e8f30 100644
+---- a/lib/rpmscript.c
+-+++ b/lib/rpmscript.c
++diff --git a/lib/rpmscript.cc b/lib/rpmscript.cc
++index b75a62085..7d667b7f5 100644
++--- a/lib/rpmscript.cc
+++++ b/lib/rpmscript.cc
+ @@ -456,8 +456,7 @@ exit:
+  	Fclose(out);	/* XXX dup'd STDOUT_FILENO */
+  
+diff --git a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+index 0c29e5543a..fe4e029830 100644
+--- a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
++++ b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+@@ -1,7 +1,7 @@
+ From e688eb54fd54d65181e94b854b3568d99cbf3a24 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 31 Aug 2021 10:37:05 +0200
+-Subject: [PATCH] build/pack.c: do not insert payloadflags into .rpm metadata
++Subject: [PATCH] build/pack.cc: do not insert payloadflags into .rpm metadata
+ 
+ The flags look like '19T56' where 19 is the compression level
+ (deterministic), and 56 is the amount of threads (varies from one
+@@ -9,15 +9,19 @@ host to the next and breaks reproducibility for .rpm).
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- build/pack.c | 2 +-
++ build/pack.cc | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/build/pack.c b/build/pack.c
+-index fb1f1bed8..45885a6ac 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -330,7 +330,7 @@ static char *getIOFlags(Package pkg)
++diff --git a/build/pack.cc b/build/pack.cc
++index b1cda6d75..1425d27ba 100644
++--- a/build/pack.cc
+++++ b/build/pack.cc
++@@ -338,7 +338,7 @@ static char *getIOFlags(Package pkg)
+  	    headerPutString(pkg->header, RPMTAG_PAYLOADCOMPRESSOR, compr);
+  	buf = xstrdup(rpmio_flags);
+  	buf[s - rpmio_flags] = '\0';
+diff --git a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
+index 7d443ccc6c..5dc059493c 100644
+--- a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
++++ b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
+@@ -1,7 +1,7 @@
+ From ad530868e37f09e9236c085d25a834304750704b Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Thu, 7 May 2020 17:40:58 +0800
+-Subject: [PATCH] lib/transaction.c: fix file conflicts for MIPS64 N32
++Subject: [PATCH] lib/transaction.cc: fix file conflicts for MIPS64 N32
+ 
+ This patch is from:
+ https://github.com/rpm-software-management/rpm/issues/193
+@@ -27,15 +27,19 @@ Fixed by performing a 'last-in-wins' resolution when "neither is preferred".
+ Upstream-Status: Submitted <https://github.com/rpm-software-management/rpm/issues/193>
+ 
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- lib/transaction.c | 13 ++++++++++++-
++ lib/transaction.cc | 13 ++++++++++++-
+  1 file changed, 12 insertions(+), 1 deletion(-)
+ 
+-diff --git a/lib/transaction.c b/lib/transaction.c
+-index 5e4414d2a..b1c55bd44 100644
+---- a/lib/transaction.c
+-+++ b/lib/transaction.c
+-@@ -400,7 +400,18 @@ static int handleColorConflict(rpmts ts,
++diff --git a/lib/transaction.cc b/lib/transaction.cc
++index de7cdabb2..697268733 100644
++--- a/lib/transaction.cc
+++++ b/lib/transaction.cc
++@@ -375,7 +375,18 @@ static int handleColorConflict(rpmts ts,
+  		    rpmfsSetAction(ofs, ofx, FA_CREATE);
+  		rpmfsSetAction(fs, fx, FA_SKIPCOLOR);
+  		rConflicts = 0;
+diff --git a/meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch b/meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
 new file mode 100644
-index 0000000000..eccf708872
+index 0000000000..500a667a1b
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch
-@@ -0,0 +1,71 @@
-+From a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0 Mon Sep 17 00:00:00 2001
-+From: Sumanth Gavini <sumanth.gavini@windriver.com>
-+Date: Tue, 04 Aug 2026 23:30:00 -0700
-+Subject: [PATCH] pkgconfigdeps.sh: Unset cross-compilation PKG_CONFIG variables
++++ b/meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
+@@ -0,0 +1,35 @@
++From 1cb53934b83b794c319813106c9f12d75cce66d2 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Sun, 18 Jan 2026 19:24:42 -0800
++Subject: [PATCH] macros.in: Set _pkgverify_level to digest as RPM 4.20.1
 +
-+In OpenEmbedded/Yocto cross-compilation environments, several
-+PKG_CONFIG_* environment variables are set to point pkg-config at the
-+target sysroot for recipe builds:
++Fixed:
++$ bitbake core-image-minimal
++Package bash-5.3-r0.16.x86_64_v3.rpm is not signed
++GPG check FAILED
 +
-+  PKG_CONFIG_SYSROOT_DIR=".../recipe-sysroot"
-+  PKG_CONFIG_LIBDIR=".../recipe-sysroot/usr/lib/pkgconfig:..."
-+  PKG_CONFIG_SYSTEM_INCLUDE_PATH=".../recipe-sysroot/usr/include"
-+  PKG_CONFIG_SYSTEM_LIBRARY_PATH=".../recipe-sysroot/lib:..."
++Set _pkgverify_level to digest as RPM 4.20.1 can fix the problem.
 +
-+These variables persist into the do_package_write_rpm task environment.
-+When rpmbuild's internal dependency generator invokes pkgconfigdeps.sh,
-+the script calls pkg-config --print-provides and --print-requires on .pc
-+files located in the package buildroot directory (e.g.,
-+.../package/usr/lib/pkgconfig/ogg.pc).
-+
-+With PKG_CONFIG_SYSROOT_DIR set, pkg-config fails silently (exit 1, no
-+output) when querying these .pc files because it attempts to validate
-+paths with the sysroot prefix prepended, which doesn't match the
-+buildroot location. This causes all pkgconfig(...) Provides and Requires
-+to be missing from the generated RPMs.
-+
-+The result is do_rootfs failures like:
-+  nothing provides pkgconfig(ogg) needed by flac-dev
-+  nothing provides pkgconfig(libxml-2.0) needed by libcomps-dev
-+  nothing provides pkgconfig(ncurses) needed by libreadline-dev
-+
-+Fix this by unsetting the cross-compilation PKG_CONFIG variables at the
-+top of pkgconfigdeps.sh. The script already sets PKG_CONFIG_PATH
-+explicitly to the directory containing the .pc file being scanned, so
-+these external variables are not needed and only cause interference.
-+
-+This was not an issue with rpm 4.x because OE-core disabled the
-+internal dependency generator entirely via:
-+  --define '_use_internal_dependency_generator 0'
-+  --define '__find_provides %{nil}'
-+  --define '__find_requires %{nil}'
-+
-+rpm 6 no longer supports disabling the internal dependency generator
-+for v6 format packages, making pkgconfigdeps.sh active for the first
-+time in the OE cross-build environment.
-+
-+Upstream-Status: Inappropriate [OE specific]
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
 +---
-+ scripts/pkgconfigdeps.sh | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
++ macros.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/scripts/pkgconfigdeps.sh b/scripts/pkgconfigdeps.sh
-+index 1cab58169..f9a3b7c21 100755
-+--- a/scripts/pkgconfigdeps.sh
-++++ b/scripts/pkgconfigdeps.sh
-+@@ -1,5 +1,14 @@
-+ #!/bin/bash
++diff --git a/macros.in b/macros.in
++index 38066f00c..7fe00ad09 100644
++--- a/macros.in
+++++ b/macros.in
++@@ -680,7 +680,7 @@ Supplements:   (%{name} = %{version}-%{release} and langpacks-%{1})\
++ # signature	require valid signature(s)
++ # digest	require valid digest(s)
++ # none		traditional rpm behavior, nothing required
++-%_pkgverify_level all
+++%_pkgverify_level digest
 + 
-++# Clear cross-compilation PKG_CONFIG variables that interfere with querying
-++# .pc files directly from the package buildroot. In cross-build environments
-++# (e.g., OpenEmbedded/Yocto), these variables point at the target sysroot and
-++# cause pkg-config to fail when processing buildroot-relative .pc files.
-++unset PKG_CONFIG_SYSROOT_DIR
-++unset PKG_CONFIG_LIBDIR
-++unset PKG_CONFIG_SYSTEM_INCLUDE_PATH
-++unset PKG_CONFIG_SYSTEM_LIBRARY_PATH
-++
-+ pkgconfig=/usr/bin/pkg-config
-+ test -x $pkgconfig || {
-+     cat > /dev/null
-diff --git a/meta/recipes-devtools/rpm/rpm_6.0.2.bb b/meta/recipes-devtools/rpm/rpm_6.0.2.bb
-index 32ddebe407..4644051fa3 100644
---- a/meta/recipes-devtools/rpm/rpm_6.0.2.bb
++ # Disabler flags for package verification (similar to vsflags)
++ # Set to 0x0 for full compatibility with v4 packages.
++-- 
++2.49.0
++
+diff --git a/meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch b/meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch
+new file mode 100644
+index 0000000000..25f5496bde
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch
+@@ -0,0 +1,38 @@
++From 3536ef6bb74144cf9dce10200cd62c2ad9f7cae4 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Thu, 15 Jan 2026 19:36:17 -0800
++Subject: [PATCH] tools/elfdeps.cc: Remove format module
++
++There is no format until gcc 13.1, so remove the format module to make it work
++on hosts such as Ubuntu 22.04.
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
++---
++ tools/elfdeps.cc | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/tools/elfdeps.cc b/tools/elfdeps.cc
++index 17884b24e..33ff8d740 100644
++--- a/tools/elfdeps.cc
+++++ b/tools/elfdeps.cc
++@@ -1,6 +1,5 @@
++ #include "system.h"
++ 
++-#include <format>
++ #include <string>
++ #include <vector>
++ 
++@@ -105,7 +104,7 @@ static void addSoDep(std::vector<std::string> & deps,
++     if (ver.empty() && marker.empty()) {
++ 	addDep(deps, soname);
++     } else {
++-	auto dep = std::format("{}({}){}", soname, ver, marker);
+++	std::string dep = soname + "(" + ver + ")" + marker;
++ 	addDep(deps, dep);
++     }
++ }
++-- 
++2.49.0
++
+diff --git a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
+index 082fb343c2..1004253ff8 100644
+--- a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
++++ b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
+@@ -9,15 +9,19 @@ from target rootfs instead of its own native sysroot.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- lib/rpmrc.c | 18 +++++++++++++-----
++ lib/rpmrc.cc | 18 +++++++++++++-----
+  1 file changed, 13 insertions(+), 5 deletions(-)
+ 
+-diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+-index dc8d42aeb..3f2996850 100644
+---- a/lib/rpmrc.c
+-+++ b/lib/rpmrc.c
+-@@ -481,11 +481,14 @@ static void setDefaults(void)
++diff --git a/lib/rpmrc.cc b/lib/rpmrc.cc
++index cea6f4bc5..e6cf21e1b 100644
++--- a/lib/rpmrc.cc
+++++ b/lib/rpmrc.cc
++@@ -386,11 +386,14 @@ static void setDefaults(void)
+  	    userrc = xstrdup(oldrc);
+  	}
+      }
+@@ -33,7 +37,7 @@ index dc8d42aeb..3f2996850 100644
+      }
+  
+      /* macrofiles may be pre-set from --macros */
+-@@ -495,9 +498,9 @@ static void setDefaults(void)
++@@ -400,9 +403,9 @@ static void setDefaults(void)
+  				confdir, "/platform/%{_target}/macros", ":",
+  				confdir, "/fileattrs/*.attr", ":",
+  				confdir, "/" RPM_VENDOR "/macros", ":",
+@@ -46,7 +50,7 @@ index dc8d42aeb..3f2996850 100644
+      }
+  
+      free(usermacros);
+-@@ -1142,7 +1145,11 @@ static void read_auxv(void)
++@@ -1048,7 +1051,11 @@ static void read_auxv(void)
+   */
+  static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
+  {
+@@ -55,11 +59,11 @@ index dc8d42aeb..3f2996850 100644
+ +    if (etcconfdir == NULL)
+ +        etcconfdir = "";
+ +
+-+    const char * const platform_path = rstrscat(NULL, etcconfdir, SYSCONFDIR "/rpm/platform", NULL);
+++    char * const platform_path = rstrscat(NULL, etcconfdir, SYSCONFDIR "/rpm/platform", NULL);
+      static struct utsname un;
+      char * chptr;
+-     canonEntry canon;
+-@@ -1462,6 +1469,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
++     int rc;
++@@ -1378,6 +1385,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
+  
+      if (arch) *arch = un.machine;
+      if (os) *os = un.sysname;
+diff --git a/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch b/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
+index 00fe19108e..59855466da 100644
+--- a/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
++++ b/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
+@@ -1,7 +1,7 @@
+ From d8972ff7fa0a30e199144ba135223bf561874e01 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 16 Jan 2024 09:59:26 +0100
+-Subject: [PATCH] rpmio/rpmglob.c: avoid using GLOB_BRACE if undefined by C
++Subject: [PATCH] rpmio/rpmglob.cc: avoid using GLOB_BRACE if undefined by C
+  library
+ 
+ This addresses musl failures; if there is code out there relying on
+@@ -11,14 +11,18 @@ This is unlikely to be trivially fixable upstream.
+ 
+ Upstream-Status: Inappropriate [reported at https://github.com/rpm-software-management/rpm/issues/2844]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++
++Rebased to 6.0.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- rpmio/rpmglob.c | 6 ++++++
++ rpmio/rpmglob.cc | 6 ++++++
+  1 file changed, 6 insertions(+)
+ 
+-diff --git a/rpmio/rpmglob.c b/rpmio/rpmglob.c
++diff --git a/rpmio/rpmglob.cc b/rpmio/rpmglob.cc
+ index eb439cad8..1eef0b851 100644
+---- a/rpmio/rpmglob.c
+-+++ b/rpmio/rpmglob.c
++--- a/rpmio/rpmglob.cc
+++++ b/rpmio/rpmglob.cc
+ @@ -33,6 +33,12 @@
+  
+  #include "debug.h"
+diff --git a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
+index bac2d6331c..84f909c68b 100644
+--- a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
++++ b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
+@@ -1,7 +1,7 @@
+ From 452b696ea3e1975ea30cf7a92678aa4b316e6300 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 10 Jan 2019 18:14:18 +0100
+-Subject: [PATCH] rpmscript.c: change logging level around scriptlets to INFO
++Subject: [PATCH] rpmscript.cc: change logging level around scriptlets to INFO
+  from DEBUG
+ 
+ That way we can debug scriptlet failures without writing lots of
+@@ -11,15 +11,17 @@ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ 
+ Rebased to 4.20.1
++Rebased to 6.0.2
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+ ---
+- lib/rpmscript.c | 8 ++++----
++ lib/rpmscript.cc | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+-diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index e9f288ae0..f0c628708 100644
+---- a/lib/rpmscript.c
+-+++ b/lib/rpmscript.c
++diff --git a/lib/rpmscript.cc b/lib/rpmscript.cc
++index fe5fc9138..861fd8ca8 100644
++--- a/lib/rpmscript.cc
+++++ b/lib/rpmscript.cc
+ @@ -299,7 +299,7 @@ static char * writeScript(const char *cmd, const char *script)
+      if (Ferror(fd))
+  	goto exit;
+diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_6.0.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/rpm/rpm_4.20.1.bb
+rename to meta/recipes-devtools/rpm/rpm_6.0.2.bb
+index 17e75c3e14..e8977aa31a 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.20.1.bb
 +++ b/meta/recipes-devtools/rpm/rpm_6.0.2.bb
-@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-6.0.x;protoco
-            file://0001-tools-elfdeps.cc-Remove-format-module.patch \
-            file://0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch \
-            file://0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch \
-+           file://0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch \
+@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=066ecde17828e5c8911ec9eae8be78f4"
+ 
+-SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.20.x;protocol=https \
++SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-6.0.x;protocol=https \
+            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
+            file://0001-Do-not-read-config-files-from-HOME.patch \
+            file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
+@@ -37,14 +37,14 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.20.x;protoc
+            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
+            file://0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch \
+            file://0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch \
+-           file://0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch \
+-           file://0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch \
++           file://0001-tools-elfdeps.cc-Remove-format-module.patch \
++           file://0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch \
             "
  
  PE = "1"
+-SRCREV = "c8dc5ea575a2e9c1488036d12f4b75f6a5a49120"
++SRCREV = "a7f89afb57a98f6419d0eff35ca792198293b682"
+ 
+-DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 zstd"
++DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 zstd scdoc-native"
+ DEPENDS:append:class-native = " file-replacement-native bzip2-replacement-native"
+ 
+ EXTRA_OECMAKE:append = " -D__CURL:FILEPATH=curl"
+@@ -154,7 +154,8 @@ do_install:append () {
+ 
+ FILES:${PN} += "${libdir}/rpm-plugins/*.so \
+                "
+-FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/rpm.sh"
++FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/rpm.sh \
++    /etc/rpm"
+ 
+ FILES:${PN}-dev += "${libdir}/rpm-plugins/*.la \
+                     "
+@@ -181,6 +182,7 @@ FILES:${PN}-build = "\
+     ${libdir}/rpm/mkinstalldirs \
+     ${libdir}/rpm/macros.p* \
+     ${libdir}/rpm/fileattrs/* \
++    ${libdir}/rpm/rpm-setup-autosign \
+ "
+ 
+ FILES:${PN}-sign = "\
 
