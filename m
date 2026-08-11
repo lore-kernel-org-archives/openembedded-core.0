@@ -1,119 +1,106 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBB8C5B570
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 06:57:00 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48708.1786431410979871879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 523D0C5B569
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 07:09:10 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.48913.1786432144616853596
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2026 23:56:52 -0700
+ Tue, 11 Aug 2026 00:09:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=PtiFnP+Q;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-202608110656473e935a31fd00020761-yslwph@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202608110656473e935a31fd00020761
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 11 Aug 2026 08:56:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=I7c3NU26NEBx/MtPHsHv81f3sw5wKjXQuzH7Fjke7kA=;
- b=PtiFnP+QcXPmhtPJCUaGwERaEg9Gjh+26q8pQxdvYGQiwQbWxoad9cDw5HA4KNUu2OMLJ6
- fzrvLBuUXfgQS9BE9/6NB/grJIDwG+Gdd90nS7QGs8r51C5UObGMciEl9duDf5SefPQqUjbG
- z89SUgkKJEroOXRyQscveXm2T6c7pAYYP7A3POFNYl8uOsLAUZMijF4GMZQSzmow24BlKoRp
- +IqqOndLzUU70UJHZFtsqc3lLUJeQsDVdDvJy5Tohd7vfiCcqueIwY96GU9mt7Cv156HqOCC
- 3vrQqGUORhUe7o55PNH6zbZeRpj8xT5uou1olZ0n5M11gKy7oOJbrK0w==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH] devtool: ide-sdk: report why the debug server did not start
-Date: Tue, 11 Aug 2026 08:56:44 +0200
-Message-ID: <20260811065645.51586-1-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M8sHh9kX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4957eefd361so20146055e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 00:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1786432143; x=1787036943; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=AY7tfrSKV7m+7zE+P6XUAtMpBqlGY/f6ohB9zCY3Lz4=;
+        b=M8sHh9kXarmI6aovwS1OEGpJoWKrP8bOvSd0Sow/oW0PMiH2PP6L5L4toVSQo9aIKn
+         cTUdEfQ8YLKh8P3ucQs0het57tIQjgE7Y3OWZfPVdlAcmp0A/JRK3p2yNh784yyVxH6X
+         MH/7CpE2eelaF302lx8cAAoq9VJUHQYejwqng=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786432143; x=1787036943;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AY7tfrSKV7m+7zE+P6XUAtMpBqlGY/f6ohB9zCY3Lz4=;
+        b=FzDc0SEXAJ/sfiP/ohkCF6vV6lP7nTRLV5ybmMHRTubATTr5R7BZlXi6RaPq7tMhfP
+         MlwdrrsqWF93c+3OYvrsipJ6hpS72atI/I+VzJ+GjNLRUnAfj/ncSTKKvkZq94OcDgXL
+         dIlF33clQ6r2FEGL43xZuENxp+6zcStRhXuHdWhvN9kEKS6HKhiOvMQ6f0ado7p+26WF
+         OeSUQbZqTHDFp1JuLRYFHGMESmF3R0/CAXPxUvSMU9YrvpMZQmNFdov0yN9Kv6Zj4/KZ
+         sQc33OmWgYa14HkFh5uhSeMzpebw4xkx/X7k7LrhLtvi5nu5IQ2JEeMcnjfVMYep+rHp
+         bb+Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrKl3abI2XkzkvL2J4jLVvcV0hD6zXTpD8kwRks5ZC41uPjvLOAdITDS0Novb4W2wPx0F1+V4DE8Vktf5EvTPH6TQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzSk9xmpCm5O+JNY/E+6AfiCQ4cLQraQcaKEZjLl5VmDTkFCjRT
+	IKtgJxWNSV/z5uTzhQsLMsjTv579dp3vpRwcQpcftQDeTvP+RgJuEFWSs+/laBvQYPo=
+X-Gm-Gg: AR+sD137/sWLl0WEeABUCZ8FWVBEmw46kvZco21T4Mrs0XpYei56AWX+JBoBz+67M2S
+	04bIb3Od5SvgNzoPaAZHXc1gueiCOiz6p8/qCj/hP+Gy6kr6dnvxOHaDb60ye4bcwbKeiwHZL3A
+	1RNLl9HHX2tVHPVWCDPkjzIJUOU7oi/Lv/dJzA04ji6rXqqW64IEd0pBWFFdyE+hY/CqE/7x9OP
+	rtJxMFNvccc6W9oUJogp4sET6iQTt1xbA5zZijvLprXCIVgUe6qjCP7WzRd4R+twYLxWd8j0GFp
+	W8FAmhmSbFyvbeXxBVzZmR8eiXd8d7x7hU9IMzaKvvlWw3/Hu5ZGzAvTiBahBQsRuuqsTiXdpQ3
+	lFy03RsS96eh453RrRPgt/FR/JmHyD/PswljzW8QCtv1OahzRSMcrVG3R/xWua5e3BRXPHa2/kT
+	dnzJED6G99D0ixumJxTe88tNAz/RT3MgFLqXdnCmjIglMSlG7QgXufX+3P9Zw8jp1JWukivINSO
+	tYijCrKHGwWbQjXFWupidUczG4Q0CvY/5mUh7AbiqQqqXa28hGqcQ==
+X-Received: by 2002:a05:600c:3553:b0:499:7312:2d5f with SMTP id 5b1f17b1804b1-49978494c8cmr15507205e9.19.1786432142796;
+        Tue, 11 Aug 2026 00:09:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4732:d3f8:90a6:fc6a? ([2001:8b0:aba:5f3c:4732:d3f8:90a6:fc6a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499740c4a87sm43958475e9.5.2026.08.11.00.09.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2026 00:09:02 -0700 (PDT)
+Message-ID: <80c4628227ad5d46f784e06f5804209b38af9f7b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] pango: upgrade 1.58.0 -> 1.58.2
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
+Date: Tue, 11 Aug 2026 08:09:00 +0100
+In-Reply-To: <20260810130443.796578-1-ross.burton@arm.com>
+References: <20260810130443.796578-1-ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 06:57:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243153
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:09:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243154
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+On Mon, 2026-08-10 at 14:04 +0100, Ross Burton via lists.openembedded.org w=
+rote:
+> Overview of changes in 1.58.2, 05-08-2026
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> * Test case fixes
+>=20
+> Overview of changes in 1.58.1, 03-08-2026
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> * Require harfbuzz 11
+> * Require glib 2.88
+> * CoreText: Support variations
+> * CoreText: Support font features from descriptions
+> * Renderer: Keep over/under/through lines in sync
+> * Fixes for undefined behavior
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+> =C2=A0.../recipes-graphics/pango/{pango_1.58.0.bb =3D> pango_1.58.2.bb} |=
+ 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> =C2=A0rename meta/recipes-graphics/pango/{pango_1.58.0.bb =3D> pango_1.58=
+.2.bb} (94%)
 
-The generated preLaunchTask SSH command waits for the debug server to listen
-on its port by polling /proc/net/tcp(6), and gave up after 100 retries with a
-0.1s sleep each, reporting only "<server> did not start on port <port>".
+I confirmed this caused ptest failures in all librsvg runs, e.g.:
 
-test_devtool_ide_sdk_code_cmake_clang hit this intermittently on the
-autobuilder. The message does not say whether the server was still starting or
-had already failed, so the cause could not be determined from the logs.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/4242
 
-Dump the debug server log to stderr when giving up, so the reason ends up in
-the SSH command output which both the IDE and oe-selftest already surface, and
-include the number of retries reached.
+Cheers,
 
-Raise the retry count from 100 to 300. The loop sleeps 0.1s per retry, and the
-wall-clock time is dominated by that sleep: it barely grows under CPU load (100
-retries took 10.5s idle and 12.0s with the host CPUs oversubscribed 4x), so the
-previous limit really was a ~10s budget for the debug server to come up.
-
-The helper is used by the lldb-server path only, so the gdbserver commands are
-unchanged.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- scripts/lib/devtool/ide_plugins/__init__.py | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
-index deb6050907..63e9682e73 100644
---- a/scripts/lib/devtool/ide_plugins/__init__.py
-+++ b/scripts/lib/devtool/ide_plugins/__init__.py
-@@ -97,19 +97,28 @@ class DebuggerCrossConfig:
-             modes.append(DebuggerServerModes.ATTACH)
-         return modes
- 
-+    # Re-tries in 0.1s Example: 300 * 0.1s, i.e. ~30s.
-+    TARGET_START_RETRIES = 300
-+
-     def _target_tcp_port_check_cmd(self):
-         hex_port = "%04X" % self.debug_server_port
-         return "grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null" % hex_port
- 
--    def _target_wait_for_tcp_port_cmd(self, pid_var=None):
-+    def _target_wait_for_tcp_port_cmd(self, pid_var=None, log_file=None):
-+        """Shell fragment waiting until the debug server listens on its port.
-+
-+        The server log is dumped to stderr when giving up.
-+        """
-+        dump_log = "cat %s >&2; " % log_file if log_file else ""
-         cleanup = ""
-         if pid_var:
-             cleanup = "kill \\$_%s 2>/dev/null; " % pid_var
-         return (
--            "_w=0; while ! %s; do _w=\\$((_w+1)); [ \\$_w -lt 100 ] || { "
--            "%secho %s did not start on port %s >&2; exit 1; }; sleep 0.1; done;"
--            % (self._target_tcp_port_check_cmd(), cleanup, self.DEBUG_SERVER_NAME,
--               self.debug_server_port))
-+            "_w=0; while ! %s; do _w=\\$((_w+1)); [ \\$_w -lt %d ] || { "
-+            "%secho %s did not start on port %s after \\$_w retries >&2; %sexit 1; }; "
-+            "sleep 0.1; done;"
-+            % (self._target_tcp_port_check_cmd(), self.TARGET_START_RETRIES,
-+               cleanup, self.DEBUG_SERVER_NAME, self.debug_server_port, dump_log))
- 
-     def initialize(self):
-         """Called after construction to generate any required config files."""
-@@ -249,7 +258,7 @@ class LldbServerConfig(DebuggerCrossConfig):
-                 lldb_server, self.debug_server_port, log_file)
-             cmd += "echo \\$_lldb_server_pid > %s; " % pid_file
-             cmd += self._target_wait_for_tcp_port_cmd(
--                "lldb_server_pid")
-+                "lldb_server_pid", log_file)
-         else:
-             raise DevtoolError(
-                 "lldb-server does not support mode %s "
--- 
-2.55.0
-
+Richard
 
