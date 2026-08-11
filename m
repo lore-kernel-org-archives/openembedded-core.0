@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E218C5CFEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F817C5CFE6
 	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 07:24:01 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.49086.1786433036914633627
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.49081.1786433034887924389
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 00:23:57 -0700
+ Tue, 11 Aug 2026 00:23:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=shrgjOZ7;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lqDYx5QP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019fefb4ded0-40c12336-da26-4154-b2b9-563f6eb6eba8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FsMuHQS9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ccrJMnmM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019fefb4d6ab-9d3238ff-11bc-4570-b7aa-bac56222d5e5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786433036;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=XQ4JADrKfOQx8GnJCoJdKahn3z9t260fvZxv7DMkMbE=;
-	b=shrgjOZ7QtPoXbB3gS7pINm0yaQP0BGQ0EuIv7IheZLViBBHIY9cq6VkPsKFh5cA
-	pXfjT8vD27mvn7zTlQgt1hjtVxrzdTpp3TNJ18p/kAU3A9t85xlroNUe9kc5BI7EaSw
-	ib0l81SxJ0hJdfZA+bYvIzwKysiUF75bLwKaE7nM=
+	t=1786433034;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=TWYXtvbSPWG/zbxUCtvX2JzUZlMqVjrJRdFkmqOPOCM=;
+	b=FsMuHQS9iLYBlYuLOeHr2ivNTj45RCKAB63vB9WG1iYAJG9VlFGb+Ufva+HU3iUw
+	Stt8H0sxPQ0KQo+2FlBspuZjwCLOeUry/PpqdUKWc5R+EA1UlFFizH1va+MSQ5WsOPg
+	umuUajMtQs9Hs478Ez60pA5w1XXqO8GVORP6pZPg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786433036;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=XQ4JADrKfOQx8GnJCoJdKahn3z9t260fvZxv7DMkMbE=;
-	b=lqDYx5QPfFQULyZ8bHZV+FBvBdiRTuEfBhnjML4JxKppuRDze/GsCm1zuvOM8ZGP
-	B7plFAk2xxkUyS0L2KvZ8ic7AqQjI+TZMNDamDCdEF2UtTcuEpwqtIQ5TtxZ13rwWLt
-	0hvHBnGBQeLBd1/M2FRZ/a7m8Y1AuIFwr0aKtApg=
-Content-Type: multipart/mixed; boundary="===============7472454452549078255=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786433034;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=TWYXtvbSPWG/zbxUCtvX2JzUZlMqVjrJRdFkmqOPOCM=;
+	b=ccrJMnmMdfMazPgOx05kmZBfcN96rsZ7sS9TDdGiVKG1TbkLLaYU0680IvGPJyTX
+	9bTnlA/Kh6VygGF8VB4p/zJMi3vlzKcM+FuzqxdO6mAZkMPhVt063bfUbqhXPnZtMXk
+	2tI8BJQto+VIhBqUY9urBUz2vCHrP6TNGb9jA/kM=
+Content-Type: multipart/mixed; boundary="===============8486174108846027934=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] powertop: upgrading to 2.16 FAILED
-Message-ID: <0101019fefb4ded0-40c12336-da26-4154-b2b9-563f6eb6eba8-000000@us-west-2.amazonses.com>
-Date: Tue, 11 Aug 2026 07:23:55 +0000
+To: Benjamin Robin <benjamin.robin@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-shacl2code: upgrading to 1.2.0 FAILED
+Message-ID: <0101019fefb4d6ab-9d3238ff-11bc-4570-b7aa-bac56222d5e5-000000@us-west-2.amazonses.com>
+Date: Tue, 11 Aug 2026 07:23:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.11-54.240.27.23
+X-SES-Outgoing: 2026.08.11-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:24:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243169
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243162
 
---===============7472454452549078255==
+--===============8486174108846027934==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *powertop* to *2.16* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *python3-shacl2code* to *1.2.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-powertop-upgrade-2.15-2.16.patch
+    - apply the patch: git am 0001-python3-shacl2code-upgrade-1.1.0-1.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,1323 +78,990 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e62feea31fd5175bea2d355d00189a56cdf67c15 Mon Sep 17 00:00:00 2001
+From b73a0d3601d424791ce9ff9662a8dbaded3722e3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 11 Aug 2026 07:18:10 +0000
-Subject: [PATCH] powertop: upgrade 2.15 -> 2.16
+Date: Tue, 11 Aug 2026 06:17:09 +0000
+Subject: [PATCH] python3-shacl2code: upgrade 1.1.0 -> 1.2.0
 
-6147262 release: v2.16
-b44c8f2 calibrate: replace xset DPMS with sysfs-first display power control
-b9ee1c1 extech: annotate samples_mutex with locking comment
-a6b38d5 one more code annotation comment
-eb7b708 src: add subclass navigation tables to all parent class headers
-6aa7c4b tunable: Use default member initializers for all class fields
-b122429 wakeup: Use default member initializers for all class fields
-694c315 refactor: Convert RAPL device classes to RAII with std::unique_ptr
-30e3757 refactor: Convert device_consumer to RAII with std::unique_ptr
-6d56a12 cpu, display: add subclass tables to parent class headers
-be46737 code guidelines update
-04d97b7 cpu: skip empty cores in Frequency Stats display
-af6bf3e cpu: fix Frequency Stats bar width and intra-core spacing
-c2096d5 cpu: redesign Frequency Stats TUI with progress bars
-af474ad cpu_linux: fix C0 active column misalignment in Idle stats TUI
-0a183da gitignore: ignore clang-native.ini
-ce1307c src: replace C headers with C++ equivalents throughout
-ff73795 lib.cpp: clean up and deduplicate include directives
-7694edd doc: replace dead 01.org links in man page
-2c1e4e7 cpu.cpp: add null check before accessing system_level.children[0]
-c9c2083 cpu.cpp: fix potential memory leak in GPU handlers
-81b7335 thread safety: use atomic and once_flag for _max_cpu and pretty_prints
-4f8f6d1 refactor(lib.cpp): reorganize and deduplicate include headers
-ee82998 Merge pull request #209 from fenrus75/fix-test
-45431d5 src: add missing <unistd.h> in lib.h and test_framework
-c79c847 xe_gpu: add missing <unistd.h> include for R_OK
-aab7b38 doc: bring powertop.8 manpage up to date for v2.16
-ad2e51c doc: add --auto-tune-dump to manpage
-5fb15ba persistent: fix noisy startup messages and restore bundle_saved flag
-d06b421 tuning: add AMD GPU panel power savings tunable
-45a1046 gpu-tab: require xe hwmon to be present before showing the tab
-3133114 gpu-tab: only show GPU tab for Xe GPUs
-f9e2bb4 update notes
-f0820e6 report-formatter-csv: remove unused csv_need_quotes field
-ea19e8e review: fix style violations in changes since v2.16-rc2
-0608205 update release checklist
-b3a2725 release-checklist: remove ninja | grep anti-pattern
-2889994 release: v2.16-rc3 preparation
-6eb3097 gpu-tab: use bold attribute for idle/C6 bar green segment
-013f43f gpu-tab: combine C0/C6 idle bars into one two-colour bar
-c35efcb gpu-tab: show xe power profile on Power Overview section
-91c50fc meson: replace deprecated meson.source_root/build_root calls
-17acebf gpu-tab: replace policy markers with four-segment colour bar
-f072c54 gpu-tab: start frequency bars at 0 instead of hw_min
-5ee54da gpu-tab: always show scale_max right-aligned on progress bar
-cdac168 missing file
-86e880a trim local.md back
-245877f local.md: record Xe GPU coverage results and linker gotchas
-9873257 tests/devices: add Xe GPU test coverage
-a56de81 src/lib.h: document trace_tool.py spoof command for each interceptable function
-7a7f1d9 scripts/test_tools/trace_tool.py: improve add command
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
 ---
- .../0001-wakeup_xxx.h-include-limits.h.patch  | 21 ++++++++-----------
- .../{powertop_2.15.bb => powertop_2.16.bb}    |  2 +-
- 2 files changed, 10 insertions(+), 13 deletions(-)
- rename meta/recipes-kernel/powertop/{powertop_2.15.bb => powertop_2.16.bb} (93%)
+ ...{python3-shacl2code_1.1.0.bb => python3-shacl2code_1.2.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-shacl2code_1.1.0.bb => python3-shacl2code_1.2.0.bb} (81%)
 
-diff --git a/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch b/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
-index 7bfca8abfd..33ae8ac7e1 100644
---- a/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
-+++ b/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
-@@ -1,4 +1,4 @@
--From 4c24fdd8e0a42359df7308155b2d43c28a5e02fd Mon Sep 17 00:00:00 2001
-+From e5c2e4cb8372d4aa4891f6980a0f1cae072f2082 Mon Sep 17 00:00:00 2001
- From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
- Date: Mon, 20 May 2019 20:25:00 +0200
- Subject: [PATCH] wakeup_xxx.h: include limits.h
-@@ -27,29 +27,26 @@ Upstream-Status: Submitted [https://lists.01.org/pipermail/powertop/2019-May/002
-  2 files changed, 2 insertions(+)
+diff --git a/meta/recipes-devtools/python/python3-shacl2code_1.1.0.bb b/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-shacl2code_1.1.0.bb
+rename to meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb
+index a9c8bec84f..6956aad618 100644
+--- a/meta/recipes-devtools/python/python3-shacl2code_1.1.0.bb
++++ b/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=0582f358628f299f29c23bf5fb2f73c9"
  
- diff --git a/src/wakeup/wakeup_ethernet.h b/src/wakeup/wakeup_ethernet.h
--index 682bf95..e0fa628 100644
-+index 8175f4e..73296c8 100644
- --- a/src/wakeup/wakeup_ethernet.h
- +++ b/src/wakeup/wakeup_ethernet.h
--@@ -25,6 +25,7 @@
-- #ifndef _INCLUDE_GUARD_ETHERNET_WAKEUP_H
-- #define _INCLUDE_GUARD_ETHERNET_WAKEUP_H
-+@@ -24,6 +24,7 @@
-+  */
-+ #pragma once
-  
- +#include <limits.h>
-  #include <vector>
-  
-  #include "wakeup.h"
- diff --git a/src/wakeup/wakeup_usb.h b/src/wakeup/wakeup_usb.h
--index f7a1f7e..15898e3 100644
-+index 239ea75..3c1f402 100644
- --- a/src/wakeup/wakeup_usb.h
- +++ b/src/wakeup/wakeup_usb.h
--@@ -25,6 +25,7 @@
-- #ifndef _INCLUDE_GUARD_USB_WAKEUP_H
-- #define _INCLUDE_GUARD_USB_WAKEUP_H
-+@@ -24,6 +24,7 @@
-+  */
-+ #pragma once
-  
- +#include <limits.h>
-  #include <vector>
-  
-  #include "wakeup.h"
---- 
--2.20.1
--
-diff --git a/meta/recipes-kernel/powertop/powertop_2.15.bb b/meta/recipes-kernel/powertop/powertop_2.16.bb
-similarity index 93%
-rename from meta/recipes-kernel/powertop/powertop_2.15.bb
-rename to meta/recipes-kernel/powertop/powertop_2.16.bb
-index 5dceac17d3..7b25b2b7b8 100644
---- a/meta/recipes-kernel/powertop/powertop_2.15.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.16.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
- SRC_URI = "git://github.com/fenrus75/powertop;protocol=https;branch=master;tag=v${PV} \
-            file://0001-wakeup_xxx.h-include-limits.h.patch \
-            "
--SRCREV = "d51ad395436d4d1dcc3ca46e1519ffeb475bf651"
-+SRCREV = "6147262e506c607036eaca4182ee491b61d06aa3"
+ PYPI_PACKAGE = "shacl2code"
+-SRC_URI[sha256sum] = "0f3a243c6482a0f95c5a793288d304908506b51b82dc6133de22be477cd75c24"
++SRC_URI[sha256sum] = "92c5bb633b232bb914699157b3e79796aaf1672f22c0cac0cc633f353aa8a398"
  
- LDFLAGS += "-pthread"
+ inherit pypi python_hatchling
  
 -- 
 2.47.1
 
 
---===============7472454452549078255==
+--===============8486174108846027934==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: FILELIST: directory renamed /usr/lib/python3.14/site-packages/shacl2code-1.1.0.dist-info -> /usr/lib/python3.14/site-packages/shacl2code-1.2.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/shacl2code-1.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/shacl2code-1.2.0.dist-info/licenses, added "/usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/lib.rs.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/__pycache__/rust.cpython-314.pyc /usr/lib/python3.14/site-packages/shacl2code/lang/rust.py /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/Cargo.toml.j2"
+Changes to packages/x86-64-v3-poky-linux/python3-shacl2code (sysroot):
+  /usr/lib/python3.14/site-packages/shacl2code-1.1.0.dist-info moved to /usr/lib/python3.14/site-packages/shacl2code-1.2.0.dist-info
+  /usr/lib/python3.14/site-packages/shacl2code/lang/__pycache__/rust.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/rust.py was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/Cargo.toml.j2 was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/lib.rs.j2 was added
+
+--===============8486174108846027934==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-shacl2code: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/shacl2code/shacl2code-1.1.0.tar.gz;downloadfilename=shacl2code-1.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/s/shacl2code/shacl2code-1.2.0.tar.gz;downloadfilename=shacl2code-1.2.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-shacl2code: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dbg: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dbg: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-dev: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-doc: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-doc: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-locale: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-locale: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-src: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-src: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-staticdev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code-staticdev: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: PKGSIZE changed from 1610517 to 1726614 (+7%)
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: PV changed from "1.1.0" to "1.2.0"
+packages/x86-64-v3-poky-linux/python3-shacl2code/python3-shacl2code: FILELIST: directory renamed /usr/lib/python3.14/site-packages/shacl2code-1.1.0.dist-info -> /usr/lib/python3.14/site-packages/shacl2code-1.2.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/shacl2code-1.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/shacl2code-1.2.0.dist-info/licenses, added "/usr/lib/python3.14/site-packages/shacl2code/lang/__pycache__/rust.cpython-314.pyc /usr/lib/python3.14/site-packages/shacl2code/lang/rust.py /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/lib.rs.j2 /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/Cargo.toml.j2"
+Changes to packages/x86-64-v3-poky-linux/python3-shacl2code (sysroot):
+  /usr/lib/python3.14/site-packages/shacl2code-1.1.0.dist-info moved to /usr/lib/python3.14/site-packages/shacl2code-1.2.0.dist-info
+  /usr/lib/python3.14/site-packages/shacl2code/lang/__pycache__/rust.cpython-314.pyc was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/rust.py was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/Cargo.toml.j2 was added
+  /usr/lib/python3.14/site-packages/shacl2code/lang/templates/rust/lib.rs.j2 was added
+
+--===============8486174108846027934==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-powertop-upgrade-2.15-2.16.patch"
+ filename="0001-python3-shacl2code-upgrade-1.1.0-1.2.0.patch"
 
-RnJvbSBlNjJmZWVhMzFmZDUxNzViZWEyZDM1NWQwMDE4OWE1NmNkZjY3YzE1IE1vbiBTZXAgMTcg
+RnJvbSBiNzNhMGQzNjAxZDQyNDc5MWNlOWZmOTY2MmE4ZGJhZGVkMzcyMmUzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTEgQXVnIDIwMjYgMDc6MTg6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-b3dlcnRvcDogdXBncmFkZSAyLjE1IC0+IDIuMTYKCjYxNDcyNjIgcmVsZWFzZTogdjIuMTYKYjQ0
-YzhmMiBjYWxpYnJhdGU6IHJlcGxhY2UgeHNldCBEUE1TIHdpdGggc3lzZnMtZmlyc3QgZGlzcGxh
-eSBwb3dlciBjb250cm9sCmI5ZWUxYzEgZXh0ZWNoOiBhbm5vdGF0ZSBzYW1wbGVzX211dGV4IHdp
-dGggbG9ja2luZyBjb21tZW50CmE2YjM4ZDUgb25lIG1vcmUgY29kZSBhbm5vdGF0aW9uIGNvbW1l
-bnQKZWI3YjcwOCBzcmM6IGFkZCBzdWJjbGFzcyBuYXZpZ2F0aW9uIHRhYmxlcyB0byBhbGwgcGFy
-ZW50IGNsYXNzIGhlYWRlcnMKNmFhN2M0YiB0dW5hYmxlOiBVc2UgZGVmYXVsdCBtZW1iZXIgaW5p
-dGlhbGl6ZXJzIGZvciBhbGwgY2xhc3MgZmllbGRzCmIxMjI0Mjkgd2FrZXVwOiBVc2UgZGVmYXVs
-dCBtZW1iZXIgaW5pdGlhbGl6ZXJzIGZvciBhbGwgY2xhc3MgZmllbGRzCjY5NGMzMTUgcmVmYWN0
-b3I6IENvbnZlcnQgUkFQTCBkZXZpY2UgY2xhc3NlcyB0byBSQUlJIHdpdGggc3RkOjp1bmlxdWVf
-cHRyCjMwZTM3NTcgcmVmYWN0b3I6IENvbnZlcnQgZGV2aWNlX2NvbnN1bWVyIHRvIFJBSUkgd2l0
-aCBzdGQ6OnVuaXF1ZV9wdHIKNmQ1NmExMiBjcHUsIGRpc3BsYXk6IGFkZCBzdWJjbGFzcyB0YWJs
-ZXMgdG8gcGFyZW50IGNsYXNzIGhlYWRlcnMKYmU0NjczNyBjb2RlIGd1aWRlbGluZXMgdXBkYXRl
-CjA0ZDk3YjcgY3B1OiBza2lwIGVtcHR5IGNvcmVzIGluIEZyZXF1ZW5jeSBTdGF0cyBkaXNwbGF5
-CmFmNmJmM2UgY3B1OiBmaXggRnJlcXVlbmN5IFN0YXRzIGJhciB3aWR0aCBhbmQgaW50cmEtY29y
-ZSBzcGFjaW5nCmMyMDk2ZDUgY3B1OiByZWRlc2lnbiBGcmVxdWVuY3kgU3RhdHMgVFVJIHdpdGgg
-cHJvZ3Jlc3MgYmFycwphZjQ3NGFkIGNwdV9saW51eDogZml4IEMwIGFjdGl2ZSBjb2x1bW4gbWlz
-YWxpZ25tZW50IGluIElkbGUgc3RhdHMgVFVJCjBhMTgzZGEgZ2l0aWdub3JlOiBpZ25vcmUgY2xh
-bmctbmF0aXZlLmluaQpjZTEzMDdjIHNyYzogcmVwbGFjZSBDIGhlYWRlcnMgd2l0aCBDKysgZXF1
-aXZhbGVudHMgdGhyb3VnaG91dApmZjczNzk1IGxpYi5jcHA6IGNsZWFuIHVwIGFuZCBkZWR1cGxp
-Y2F0ZSBpbmNsdWRlIGRpcmVjdGl2ZXMKNzY5NGVkZCBkb2M6IHJlcGxhY2UgZGVhZCAwMS5vcmcg
-bGlua3MgaW4gbWFuIHBhZ2UKMmMxZTRlNyBjcHUuY3BwOiBhZGQgbnVsbCBjaGVjayBiZWZvcmUg
-YWNjZXNzaW5nIHN5c3RlbV9sZXZlbC5jaGlsZHJlblswXQpjOWMyMDgzIGNwdS5jcHA6IGZpeCBw
-b3RlbnRpYWwgbWVtb3J5IGxlYWsgaW4gR1BVIGhhbmRsZXJzCjgxYjczMzUgdGhyZWFkIHNhZmV0
-eTogdXNlIGF0b21pYyBhbmQgb25jZV9mbGFnIGZvciBfbWF4X2NwdSBhbmQgcHJldHR5X3ByaW50
-cwo0ZjhmNmQxIHJlZmFjdG9yKGxpYi5jcHApOiByZW9yZ2FuaXplIGFuZCBkZWR1cGxpY2F0ZSBp
-bmNsdWRlIGhlYWRlcnMKZWU4Mjk5OCBNZXJnZSBwdWxsIHJlcXVlc3QgIzIwOSBmcm9tIGZlbnJ1
-czc1L2ZpeC10ZXN0CjQ1NDMxZDUgc3JjOiBhZGQgbWlzc2luZyA8dW5pc3RkLmg+IGluIGxpYi5o
-IGFuZCB0ZXN0X2ZyYW1ld29yawpjNzljODQ3IHhlX2dwdTogYWRkIG1pc3NpbmcgPHVuaXN0ZC5o
-PiBpbmNsdWRlIGZvciBSX09LCmFhYjdiMzggZG9jOiBicmluZyBwb3dlcnRvcC44IG1hbnBhZ2Ug
-dXAgdG8gZGF0ZSBmb3IgdjIuMTYKYWQyZTUxYyBkb2M6IGFkZCAtLWF1dG8tdHVuZS1kdW1wIHRv
-IG1hbnBhZ2UKNWZiMTViYSBwZXJzaXN0ZW50OiBmaXggbm9pc3kgc3RhcnR1cCBtZXNzYWdlcyBh
-bmQgcmVzdG9yZSBidW5kbGVfc2F2ZWQgZmxhZwpkMDZiNDIxIHR1bmluZzogYWRkIEFNRCBHUFUg
-cGFuZWwgcG93ZXIgc2F2aW5ncyB0dW5hYmxlCjQ1YTEwNDYgZ3B1LXRhYjogcmVxdWlyZSB4ZSBo
-d21vbiB0byBiZSBwcmVzZW50IGJlZm9yZSBzaG93aW5nIHRoZSB0YWIKMzEzMzExNCBncHUtdGFi
-OiBvbmx5IHNob3cgR1BVIHRhYiBmb3IgWGUgR1BVcwpmOWUyYmI0IHVwZGF0ZSBub3RlcwpmMDgy
-MGU2IHJlcG9ydC1mb3JtYXR0ZXItY3N2OiByZW1vdmUgdW51c2VkIGNzdl9uZWVkX3F1b3RlcyBm
-aWVsZAplYTE5ZThlIHJldmlldzogZml4IHN0eWxlIHZpb2xhdGlvbnMgaW4gY2hhbmdlcyBzaW5j
-ZSB2Mi4xNi1yYzIKMDYwODIwNSB1cGRhdGUgcmVsZWFzZSBjaGVja2xpc3QKYjNhMjcyNSByZWxl
-YXNlLWNoZWNrbGlzdDogcmVtb3ZlIG5pbmphIHwgZ3JlcCBhbnRpLXBhdHRlcm4KMjg4OTk5NCBy
-ZWxlYXNlOiB2Mi4xNi1yYzMgcHJlcGFyYXRpb24KNmViMzA5NyBncHUtdGFiOiB1c2UgYm9sZCBh
-dHRyaWJ1dGUgZm9yIGlkbGUvQzYgYmFyIGdyZWVuIHNlZ21lbnQKMDEzZjQzZiBncHUtdGFiOiBj
-b21iaW5lIEMwL0M2IGlkbGUgYmFycyBpbnRvIG9uZSB0d28tY29sb3VyIGJhcgpjMzVlZmNiIGdw
-dS10YWI6IHNob3cgeGUgcG93ZXIgcHJvZmlsZSBvbiBQb3dlciBPdmVydmlldyBzZWN0aW9uCjkx
-YzUwZmMgbWVzb246IHJlcGxhY2UgZGVwcmVjYXRlZCBtZXNvbi5zb3VyY2Vfcm9vdC9idWlsZF9y
-b290IGNhbGxzCjE3YWNlYmYgZ3B1LXRhYjogcmVwbGFjZSBwb2xpY3kgbWFya2VycyB3aXRoIGZv
-dXItc2VnbWVudCBjb2xvdXIgYmFyCmYwNzJjNTQgZ3B1LXRhYjogc3RhcnQgZnJlcXVlbmN5IGJh
-cnMgYXQgMCBpbnN0ZWFkIG9mIGh3X21pbgo1ZWU1NGRhIGdwdS10YWI6IGFsd2F5cyBzaG93IHNj
-YWxlX21heCByaWdodC1hbGlnbmVkIG9uIHByb2dyZXNzIGJhcgpjZGFjMTY4IG1pc3NpbmcgZmls
-ZQo4NmU4ODBhIHRyaW0gbG9jYWwubWQgYmFjawoyNDU4NzdmIGxvY2FsLm1kOiByZWNvcmQgWGUg
-R1BVIGNvdmVyYWdlIHJlc3VsdHMgYW5kIGxpbmtlciBnb3RjaGFzCjk4NzMyNTcgdGVzdHMvZGV2
-aWNlczogYWRkIFhlIEdQVSB0ZXN0IGNvdmVyYWdlCmE1NmRlODEgc3JjL2xpYi5oOiBkb2N1bWVu
-dCB0cmFjZV90b29sLnB5IHNwb29mIGNvbW1hbmQgZm9yIGVhY2ggaW50ZXJjZXB0YWJsZSBmdW5j
-dGlvbgo3YTdmMWQ5IHNjcmlwdHMvdGVzdF90b29scy90cmFjZV90b29sLnB5OiBpbXByb3ZlIGFk
-ZCBjb21tYW5kCgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNlZWRzIDMwMDAgY2hhcmFj
-dGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBhbiBhdHRhY2htZW50IHRv
-IHRoZSBBVUggZW1haWxdCi0tLQogLi4uLzAwMDEtd2FrZXVwX3h4eC5oLWluY2x1ZGUtbGltaXRz
-LmgucGF0Y2ggIHwgMjEgKysrKysrKystLS0tLS0tLS0tLQogLi4uL3twb3dlcnRvcF8yLjE1LmJi
-ID0+IHBvd2VydG9wXzIuMTYuYmJ9ICAgIHwgIDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMTAgaW5z
-ZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9w
-b3dlcnRvcC97cG93ZXJ0b3BfMi4xNS5iYiA9PiBwb3dlcnRvcF8yLjE2LmJifSAoOTMlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3AvMDAwMS13YWtl
-dXBfeHh4LmgtaW5jbHVkZS1saW1pdHMuaC5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvcG93
-ZXJ0b3AvcG93ZXJ0b3AvMDAwMS13YWtldXBfeHh4LmgtaW5jbHVkZS1saW1pdHMuaC5wYXRjaApp
-bmRleCA3YmZjYThhYmZkLi4zM2FlOGFjN2UxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2Vy
-bmVsL3Bvd2VydG9wL3Bvd2VydG9wLzAwMDEtd2FrZXVwX3h4eC5oLWluY2x1ZGUtbGltaXRzLmgu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9wb3dlcnRvcC9wb3dlcnRvcC8wMDAxLXdh
-a2V1cF94eHguaC1pbmNsdWRlLWxpbWl0cy5oLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0
-YzI0ZmRkOGUwYTQyMzU5ZGY3MzA4MTU1YjJkNDNjMjhhNWUwMmZkIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQorRnJvbSBlNWMyZTRjYjgzNzJkNGFhNDg5MWY2OTgwYTBmMWNhZTA3MmYyMDgyIE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogRmFicmljZSBGb250YWluZSA8Zm9udGFpbmUu
-ZmFicmljZUBnbWFpbC5jb20+CiBEYXRlOiBNb24sIDIwIE1heSAyMDE5IDIwOjI1OjAwICswMjAw
-CiBTdWJqZWN0OiBbUEFUQ0hdIHdha2V1cF94eHguaDogaW5jbHVkZSBsaW1pdHMuaApAQCAtMjcs
-MjkgKzI3LDI2IEBAIFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2xpc3RzLjAx
-Lm9yZy9waXBlcm1haWwvcG93ZXJ0b3AvMjAxOS1NYXkvMDAyCiAgMiBmaWxlcyBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKykKIAogZGlmZiAtLWdpdCBhL3NyYy93YWtldXAvd2FrZXVwX2V0aGVybmV0
-LmggYi9zcmMvd2FrZXVwL3dha2V1cF9ldGhlcm5ldC5oCi1pbmRleCA2ODJiZjk1Li5lMGZhNjI4
-IDEwMDY0NAoraW5kZXggODE3NWY0ZS4uNzMyOTZjOCAxMDA2NDQKIC0tLSBhL3NyYy93YWtldXAv
-d2FrZXVwX2V0aGVybmV0LmgKICsrKyBiL3NyYy93YWtldXAvd2FrZXVwX2V0aGVybmV0LmgKLUBA
-IC0yNSw2ICsyNSw3IEBACi0gI2lmbmRlZiBfSU5DTFVERV9HVUFSRF9FVEhFUk5FVF9XQUtFVVBf
-SAotICNkZWZpbmUgX0lOQ0xVREVfR1VBUkRfRVRIRVJORVRfV0FLRVVQX0gKK0BAIC0yNCw2ICsy
-NCw3IEBACisgICovCisgI3ByYWdtYSBvbmNlCiAgCiArI2luY2x1ZGUgPGxpbWl0cy5oPgogICNp
-bmNsdWRlIDx2ZWN0b3I+CiAgCiAgI2luY2x1ZGUgIndha2V1cC5oIgogZGlmZiAtLWdpdCBhL3Ny
-Yy93YWtldXAvd2FrZXVwX3VzYi5oIGIvc3JjL3dha2V1cC93YWtldXBfdXNiLmgKLWluZGV4IGY3
-YTFmN2UuLjE1ODk4ZTMgMTAwNjQ0CitpbmRleCAyMzllYTc1Li4zYzFmNDAyIDEwMDY0NAogLS0t
-IGEvc3JjL3dha2V1cC93YWtldXBfdXNiLmgKICsrKyBiL3NyYy93YWtldXAvd2FrZXVwX3VzYi5o
-Ci1AQCAtMjUsNiArMjUsNyBAQAotICNpZm5kZWYgX0lOQ0xVREVfR1VBUkRfVVNCX1dBS0VVUF9I
-Ci0gI2RlZmluZSBfSU5DTFVERV9HVUFSRF9VU0JfV0FLRVVQX0gKK0BAIC0yNCw2ICsyNCw3IEBA
-CisgICovCisgI3ByYWdtYSBvbmNlCiAgCiArI2luY2x1ZGUgPGxpbWl0cy5oPgogICNpbmNsdWRl
-IDx2ZWN0b3I+CiAgCiAgI2luY2x1ZGUgIndha2V1cC5oIgotLS0gCi0yLjIwLjEKLQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9wb3dlcnRvcC9wb3dlcnRvcF8yLjE1LmJiIGIvbWV0
-YS9yZWNpcGVzLWtlcm5lbC9wb3dlcnRvcC9wb3dlcnRvcF8yLjE2LmJiCnNpbWlsYXJpdHkgaW5k
-ZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3Bf
-Mi4xNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC9wb3dlcnRvcC9wb3dlcnRvcF8y
-LjE2LmJiCmluZGV4IDVkY2VhYzE3ZDMuLjdiMjViMmI3YjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3BfMi4xNS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-a2VybmVsL3Bvd2VydG9wL3Bvd2VydG9wXzIuMTYuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxF
-U19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTEyZjg4NGQyYWUxZmY4N2MwOWU1YjdjY2My
-YzRjYTdlIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2ZlbnJ1czc1L3Bvd2VydG9wO3By
-b3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXI7dGFnPXYke1BWfSBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLXdha2V1cF94eHguaC1pbmNsdWRlLWxpbWl0cy5oLnBhdGNoIFwKICAgICAgICAgICAg
-IgotU1JDUkVWID0gImQ1MWFkMzk1NDM2ZDRkMWRjYzNjYTQ2ZTE1MTlmZmViNDc1YmY2NTEiCitT
-UkNSRVYgPSAiNjE0NzI2MmU1MDZjNjA3MDM2ZWFjYTQxODJlZTQ5MWI2MWQwNmFhMyIKIAogTERG
-TEFHUyArPSAiLXB0aHJlYWQiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMTEgQXVnIDIwMjYgMDY6MTc6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNoYWNsMmNvZGU6IHVwZ3JhZGUgMS4xLjAgLT4gMS4yLjAKCi0tLQogLi4ue3B5dGhv
+bjMtc2hhY2wyY29kZV8xLjEuMC5iYiA9PiBweXRob24zLXNoYWNsMmNvZGVfMS4yLjAuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1zaGFjbDJjb2RlXzEuMS4w
+LmJiID0+IHB5dGhvbjMtc2hhY2wyY29kZV8xLjIuMC5iYn0gKDgxJSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2hhY2wyY29kZV8xLjEuMC5iYiBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zaGFjbDJjb2RlXzEuMi4wLmJi
+CnNpbWlsYXJpdHkgaW5kZXggODElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1zaGFjbDJjb2RlXzEuMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2hhY2wyY29kZV8xLjIuMC5iYgppbmRleCBhOWM4YmVj
+ODRmLi42OTU2YWFkNjE4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtc2hhY2wyY29kZV8xLjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtc2hhY2wyY29kZV8xLjIuMC5iYgpAQCAtNSw3ICs1LDcgQEAgTElDRU5T
+RSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0wNTgyZjM1
+ODYyOGYyOTlmMjljMjNiZjVmYjJmNzNjOSIKIAogUFlQSV9QQUNLQUdFID0gInNoYWNsMmNvZGUi
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMGYzYTI0M2M2NDgyYTBmOTVjNWE3OTMyODhkMzA0OTA4
+NTA2YjUxYjgyZGM2MTMzZGUyMmJlNDc3Y2Q3NWMyNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5
+MmM1YmI2MzNiMjMyYmI5MTQ2OTkxNTdiM2U3OTc5NmFhZjE2NzJmMjJjMGNhYzBjYzYzM2YzNTNh
+YThhMzk4IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2hhdGNobGluZwogCi0tIAoyLjQ3LjEKCg==
 
---===============7472454452549078255==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="powertop-changelog.txt"
-
-Q2hhbmdlbG9nIGZvciBwb3dlcnRvcDogMi4xNSAtPiAyLjE2Cgo2MTQ3MjYyIHJlbGVhc2U6IHYy
-LjE2CmI0NGM4ZjIgY2FsaWJyYXRlOiByZXBsYWNlIHhzZXQgRFBNUyB3aXRoIHN5c2ZzLWZpcnN0
-IGRpc3BsYXkgcG93ZXIgY29udHJvbApiOWVlMWMxIGV4dGVjaDogYW5ub3RhdGUgc2FtcGxlc19t
-dXRleCB3aXRoIGxvY2tpbmcgY29tbWVudAphNmIzOGQ1IG9uZSBtb3JlIGNvZGUgYW5ub3RhdGlv
-biBjb21tZW50CmViN2I3MDggc3JjOiBhZGQgc3ViY2xhc3MgbmF2aWdhdGlvbiB0YWJsZXMgdG8g
-YWxsIHBhcmVudCBjbGFzcyBoZWFkZXJzCjZhYTdjNGIgdHVuYWJsZTogVXNlIGRlZmF1bHQgbWVt
-YmVyIGluaXRpYWxpemVycyBmb3IgYWxsIGNsYXNzIGZpZWxkcwpiMTIyNDI5IHdha2V1cDogVXNl
-IGRlZmF1bHQgbWVtYmVyIGluaXRpYWxpemVycyBmb3IgYWxsIGNsYXNzIGZpZWxkcwo2OTRjMzE1
-IHJlZmFjdG9yOiBDb252ZXJ0IFJBUEwgZGV2aWNlIGNsYXNzZXMgdG8gUkFJSSB3aXRoIHN0ZDo6
-dW5pcXVlX3B0cgozMGUzNzU3IHJlZmFjdG9yOiBDb252ZXJ0IGRldmljZV9jb25zdW1lciB0byBS
-QUlJIHdpdGggc3RkOjp1bmlxdWVfcHRyCjZkNTZhMTIgY3B1LCBkaXNwbGF5OiBhZGQgc3ViY2xh
-c3MgdGFibGVzIHRvIHBhcmVudCBjbGFzcyBoZWFkZXJzCmJlNDY3MzcgY29kZSBndWlkZWxpbmVz
-IHVwZGF0ZQowNGQ5N2I3IGNwdTogc2tpcCBlbXB0eSBjb3JlcyBpbiBGcmVxdWVuY3kgU3RhdHMg
-ZGlzcGxheQphZjZiZjNlIGNwdTogZml4IEZyZXF1ZW5jeSBTdGF0cyBiYXIgd2lkdGggYW5kIGlu
-dHJhLWNvcmUgc3BhY2luZwpjMjA5NmQ1IGNwdTogcmVkZXNpZ24gRnJlcXVlbmN5IFN0YXRzIFRV
-SSB3aXRoIHByb2dyZXNzIGJhcnMKYWY0NzRhZCBjcHVfbGludXg6IGZpeCBDMCBhY3RpdmUgY29s
-dW1uIG1pc2FsaWdubWVudCBpbiBJZGxlIHN0YXRzIFRVSQowYTE4M2RhIGdpdGlnbm9yZTogaWdu
-b3JlIGNsYW5nLW5hdGl2ZS5pbmkKY2UxMzA3YyBzcmM6IHJlcGxhY2UgQyBoZWFkZXJzIHdpdGgg
-QysrIGVxdWl2YWxlbnRzIHRocm91Z2hvdXQKZmY3Mzc5NSBsaWIuY3BwOiBjbGVhbiB1cCBhbmQg
-ZGVkdXBsaWNhdGUgaW5jbHVkZSBkaXJlY3RpdmVzCjc2OTRlZGQgZG9jOiByZXBsYWNlIGRlYWQg
-MDEub3JnIGxpbmtzIGluIG1hbiBwYWdlCjJjMWU0ZTcgY3B1LmNwcDogYWRkIG51bGwgY2hlY2sg
-YmVmb3JlIGFjY2Vzc2luZyBzeXN0ZW1fbGV2ZWwuY2hpbGRyZW5bMF0KYzljMjA4MyBjcHUuY3Bw
-OiBmaXggcG90ZW50aWFsIG1lbW9yeSBsZWFrIGluIEdQVSBoYW5kbGVycwo4MWI3MzM1IHRocmVh
-ZCBzYWZldHk6IHVzZSBhdG9taWMgYW5kIG9uY2VfZmxhZyBmb3IgX21heF9jcHUgYW5kIHByZXR0
-eV9wcmludHMKNGY4ZjZkMSByZWZhY3RvcihsaWIuY3BwKTogcmVvcmdhbml6ZSBhbmQgZGVkdXBs
-aWNhdGUgaW5jbHVkZSBoZWFkZXJzCmVlODI5OTggTWVyZ2UgcHVsbCByZXF1ZXN0ICMyMDkgZnJv
-bSBmZW5ydXM3NS9maXgtdGVzdAo0NTQzMWQ1IHNyYzogYWRkIG1pc3NpbmcgPHVuaXN0ZC5oPiBp
-biBsaWIuaCBhbmQgdGVzdF9mcmFtZXdvcmsKYzc5Yzg0NyB4ZV9ncHU6IGFkZCBtaXNzaW5nIDx1
-bmlzdGQuaD4gaW5jbHVkZSBmb3IgUl9PSwphYWI3YjM4IGRvYzogYnJpbmcgcG93ZXJ0b3AuOCBt
-YW5wYWdlIHVwIHRvIGRhdGUgZm9yIHYyLjE2CmFkMmU1MWMgZG9jOiBhZGQgLS1hdXRvLXR1bmUt
-ZHVtcCB0byBtYW5wYWdlCjVmYjE1YmEgcGVyc2lzdGVudDogZml4IG5vaXN5IHN0YXJ0dXAgbWVz
-c2FnZXMgYW5kIHJlc3RvcmUgYnVuZGxlX3NhdmVkIGZsYWcKZDA2YjQyMSB0dW5pbmc6IGFkZCBB
-TUQgR1BVIHBhbmVsIHBvd2VyIHNhdmluZ3MgdHVuYWJsZQo0NWExMDQ2IGdwdS10YWI6IHJlcXVp
-cmUgeGUgaHdtb24gdG8gYmUgcHJlc2VudCBiZWZvcmUgc2hvd2luZyB0aGUgdGFiCjMxMzMxMTQg
-Z3B1LXRhYjogb25seSBzaG93IEdQVSB0YWIgZm9yIFhlIEdQVXMKZjllMmJiNCB1cGRhdGUgbm90
-ZXMKZjA4MjBlNiByZXBvcnQtZm9ybWF0dGVyLWNzdjogcmVtb3ZlIHVudXNlZCBjc3ZfbmVlZF9x
-dW90ZXMgZmllbGQKZWExOWU4ZSByZXZpZXc6IGZpeCBzdHlsZSB2aW9sYXRpb25zIGluIGNoYW5n
-ZXMgc2luY2UgdjIuMTYtcmMyCjA2MDgyMDUgdXBkYXRlIHJlbGVhc2UgY2hlY2tsaXN0CmIzYTI3
-MjUgcmVsZWFzZS1jaGVja2xpc3Q6IHJlbW92ZSBuaW5qYSB8IGdyZXAgYW50aS1wYXR0ZXJuCjI4
-ODk5OTQgcmVsZWFzZTogdjIuMTYtcmMzIHByZXBhcmF0aW9uCjZlYjMwOTcgZ3B1LXRhYjogdXNl
-IGJvbGQgYXR0cmlidXRlIGZvciBpZGxlL0M2IGJhciBncmVlbiBzZWdtZW50CjAxM2Y0M2YgZ3B1
-LXRhYjogY29tYmluZSBDMC9DNiBpZGxlIGJhcnMgaW50byBvbmUgdHdvLWNvbG91ciBiYXIKYzM1
-ZWZjYiBncHUtdGFiOiBzaG93IHhlIHBvd2VyIHByb2ZpbGUgb24gUG93ZXIgT3ZlcnZpZXcgc2Vj
-dGlvbgo5MWM1MGZjIG1lc29uOiByZXBsYWNlIGRlcHJlY2F0ZWQgbWVzb24uc291cmNlX3Jvb3Qv
-YnVpbGRfcm9vdCBjYWxscwoxN2FjZWJmIGdwdS10YWI6IHJlcGxhY2UgcG9saWN5IG1hcmtlcnMg
-d2l0aCBmb3VyLXNlZ21lbnQgY29sb3VyIGJhcgpmMDcyYzU0IGdwdS10YWI6IHN0YXJ0IGZyZXF1
-ZW5jeSBiYXJzIGF0IDAgaW5zdGVhZCBvZiBod19taW4KNWVlNTRkYSBncHUtdGFiOiBhbHdheXMg
-c2hvdyBzY2FsZV9tYXggcmlnaHQtYWxpZ25lZCBvbiBwcm9ncmVzcyBiYXIKY2RhYzE2OCBtaXNz
-aW5nIGZpbGUKODZlODgwYSB0cmltIGxvY2FsLm1kIGJhY2sKMjQ1ODc3ZiBsb2NhbC5tZDogcmVj
-b3JkIFhlIEdQVSBjb3ZlcmFnZSByZXN1bHRzIGFuZCBsaW5rZXIgZ290Y2hhcwo5ODczMjU3IHRl
-c3RzL2RldmljZXM6IGFkZCBYZSBHUFUgdGVzdCBjb3ZlcmFnZQphNTZkZTgxIHNyYy9saWIuaDog
-ZG9jdW1lbnQgdHJhY2VfdG9vbC5weSBzcG9vZiBjb21tYW5kIGZvciBlYWNoIGludGVyY2VwdGFi
-bGUgZnVuY3Rpb24KN2E3ZjFkOSBzY3JpcHRzL3Rlc3RfdG9vbHMvdHJhY2VfdG9vbC5weTogaW1w
-cm92ZSBhZGQgY29tbWFuZCBlcmdvbm9taWNzCjRmNDlmNGEgaWdub3JlIGdjb3YgZmlsZXMKYmZi
-NWUzZSBtYWtlIGEgQysrIHdyYXBwZXIgZm9yIGFjY2VzcygpIHNvIHRoYXQgd2UgY2FuIGludGVy
-Y2VwdCBmb3IgdGhlIHRlc3QgZnJhbWV3b3JrCjZmNzU4NDEgdGVzdHM6IGFkZCBhY2Nlc3MoKSBy
-ZWNvcmRzIHRvIGRldmljZSB0ZXN0IGZpeHR1cmVzCmZjZTU3MTUgZ3B1LXRhYjogYWRkIEdULUM2
-IHJlc2lkZW5jeSB0byBJZGxlIC8gQnVzeSBzZWN0aW9uCjlkYWYzN2YgZ3B1LXRhYjogYWRkIHJl
-cG9ydF9ncHVfc3RhdHMoKSBmb3IgSFRNTC9DU1YvTUQgcmVwb3J0cwplMDU3YThkIGdwdS10YWI6
-IGFkZCBQb3dlciBPdmVydmlldyBzZWN0aW9uOyBzY2FuIGFsbCB4ZSBod21vbiBwb3dlciBjaGFu
-bmVscwoyMGRmYTRmIGdwdS10YWI6IG1vdmUgaWRsZS9idXN5IG1lYXN1cmVtZW50IGludG8geGVf
-Y29yZSBkYXRhIGNsYXNzCjkxODY4NDAgZ3B1LXRhYjogYWRkIEZhbiBTcGVlZHMgc2VjdGlvbgo4
-ZmFhODlhIGdwdS10YWI6IHVzZSA+IGFuZCA8IGFzIHJhbmdlIG1hcmtlcnMgaW5zdGVhZCBvZiBe
-Cjk3MWRkNDcgZ3B1LXRhYjogZml4IGJhciBhbGlnbm1lbnQsIHVzZSBoel90b19odW1hbiwgZHlu
-YW1pYyBiYXIgd2lkdGgKMzkyMjFlYiBncHUtdGFiOiBhZGQgRnJlcXVlbmN5IE92ZXJ2aWV3IHNl
-Y3Rpb24gd2l0aCBnZW5lcmljIHByb2dyZXNzIGJhcgo1NzE5MmVkIGRpc3BsYXk6IHVzZSB0cmFu
-c2xhdGlvbiBsZW5ndGggZm9yIHRhYiBwb3NpdGlvbiBhZHZhbmNlCmY0ZWQ5ZDMgZ3B1LXRhYjog
-YWRkIGNvbmRpdGlvbmFsIEdQVSB0YWIgaW5mcmFzdHJ1Y3R1cmUKMTg4YTRjYiB0dW5pbmc6IGdy
-b3VwIGFuZCBzb3J0IHR1bmFibGVzIGJ5IHR5cGUgaW4gc291cmNlCmIxNDQwNGMgdHVuaW5nOiBj
-b252ZXJ0IHJlbWFpbmluZyBudW1lcmljIHR1bmFibGVzIHRvIG51bWVyaWNfc3lzZnNfdHVuYWJs
-ZQo1ODRmMjk3IHR1bmluZzogYWRkIG51bWVyaWNfc3lzZnNfdHVuYWJsZSB3aXRoIEhJQi9MSUIg
-Y29tcGFyaXNvbjsgYWRkIHhlIHNlcmlhbGl6ZQo3NzdiYWRiIHR1bmluZzogZXh0cmFjdF9icmFj
-a2V0X3NlbGVjdGlvbiByZXR1cm5zIGNvbnRlbnQgdW5jaGFuZ2VkIGlmIG5vIGJyYWNrZXRzCjI0
-NjNiN2YgdHVuaW5nOiBhZGQgWGUgR1BVIHBvd2VyX3Byb2ZpbGUgdHVuYWJsZTsgZml4IG11bHRp
-LXdpbGRjYXJkIGFuZCBicmFja2V0LXNlbGVjdGlvbgo0ODQ3Y2EzIHhlLWdwdTogYWRkIGZhbiBS
-UE0gcmVwb3J0aW5nIHRvIGRldmljZSBzdGF0cyB0YWIKNmE3ZTRmMCBkZXZpY2VzLGNwdTogYWRk
-IEludGVsIFhlIEdQVSBzdXBwb3J0CjRkYmUwMWEgcmVsbm90ZXM6IGFkZCBuZXcgdHVuYWJsZXMg
-c2VjdGlvbjsgY2hlY2tsaXN0OiBhZGQgdHVuYWJsZSBkaXNjb3Zlcnkgc3RlcAphMjNjNDVjIEFk
-ZCBUaGFua3Mgc2VjdGlvbiB0byByZWxub3RlczsgY2xhcmlmeSBSQyB1cGRhdGUgcG9saWN5IGlu
-IGNoZWNrbGlzdAo0ZDVlYTRkIHJlbGVhc2UtY2hlY2tsaXN0OiB1cGRhdGUgd2l0aCB0cmlhbCBy
-dW4gbGVhcm5pbmdzCjQyNTU3OWUgcmVsZWFzZTogdHJpYWwgcnVuIG9mIHYyLjE2LXJjMiByZWxl
-YXNlIGNoZWNrbGlzdAplM2MzM2IzIHRlc3RzOiBmaXggYWx3YXlzLXRydWUgdW5zaWduZWQgY29t
-cGFyaXNvbiB3YXJuaW5ncyBpbiB0ZXN0X2xpYl9wY2kuY3BwCjA1YTE2MDcgcG86IG1lY2hhbmlj
-YWxseSByZXBsYWNlIHByaW50ZiBzcGVjaWZpZXJzIHdpdGgge30gaW4gZnV6enkgdHJhbnNsYXRp
-b25zCmVlMzk0ODIgcG86IHJlc3RvcmUgdHJhbnNsYXRpb25zIGxvc3QgZHVlIHRvIHByaW50ZuKG
-knB0X2Zvcm1hdCBtc2dpZCBjaGFuZ2VzCjdjMzcyYjIgcG86IGFkZCAxNyBtaXNzaW5nIGZpbGVz
-IHRvIFBPVEZJTEVTLmluIGFuZCByZWdlbmVyYXRlIHRyYW5zbGF0aW9ucwpjNTkwNGQ2IHBvOiBy
-ZWdlbmVyYXRlIC5wb3QgYW5kIG1lcmdlIGludG8gYWxsIC5wbyBmaWxlcwoyNGFjNWQ3IGRpc3Bs
-YXk6IHNob3cgIlByZXBhcmluZyB0byB0YWtlIG1lYXN1cmVtZW50cyIgZHVyaW5nIGluaXQKYjhl
-YWJmMyBmaXgtZGV2ZnJlcS10ZXN0OiB1cGRhdGUgc3R1YnMgYW5kIHRlc3Qgb3ZlcnJpZGVzIGZv
-ciBjb25zdCBjaGFuZ2VzCjgyY2VlMDkgdHVuaW5nc3lzZnM6IG1ha2UgbG9jYWwgdmFyaWFibGVz
-IGNvbnN0CjBjM2JkNzIgdHVuaW5naTJjOiBtYWtlIGRldm5hbWUgYW5kIGdvb2QgY29uc3QKNDlm
-NjYxZCB0dW5pbmc6IGNvbnN0IHRvZ2dsZV9zY3JpcHQgYW5kIGNvbXBhcmF0b3IgbG9jYWxzCmU0
-NjUwNmYgdHVuYWJsZTogZHVtcF9jbWRfZ29vZCgpIGFuZCBkZXNjcmlwdGlvbigpIGNvbnN0CjY5
-NjBjYTYgdHVuaW5nL3J1bnRpbWU6IGNvbnN0IGxvY2FscyBhbmQgY29uc3RleHByIG1heF9wb3J0
-cwpmYjMzOGI3IGV0aGVybmV0OiBnZXRfd29sKCkgY29uc3QsIHNvY2sgbG9jYWwgY29uc3QKNTE0
-Y2VlNiBibHVldG9vdGg6IGNvbnN0IGxvY2FscyBhbmQgbWVtYmVyIGZ1bmN0aW9ucwo3Njc1Y2E0
-IHJlcG9ydDogY29uc3QgZ2V0X3Jlc3VsdCgpIGFuZCBjb25zdCBjaGFyKiBwYXJhbXMgaW4gZm9y
-bWF0dGVyIGhpZXJhcmNoeQpkYWY3ZDMwIHJlcG9ydC1kYXRhLWh0bWw6IGNvbnN0IHBhcmFtcyBh
-bmQgbG9jYWwgZG90CjdiNTU5MDUgcmVwb3J0OiBjb25zdCBsb2NhbHMgaW4gcmVwb3J0LmNwcApk
-OGQ4YWU1IHdvcms6IGNvbnN0IGxvY2FsIHQgYW5kIGNvbGxlY3RfanNvbl9maWVsZHMoKQphZWFj
-MTU0IHRpbWVyOiBjb25zdCBsb2NhbHMgYW5kIGlzX2RlZmVycmVkKCkgYWNjZXNzb3IKOGZlNWRj
-NSBwcm9jZXNzZGV2aWNlOiBjb25zdCBtZW1iZXIgZnVuY3Rpb25zIGluIGRldmljZV9jb25zdW1l
-cgpiYmQ2MmJiIHByb2Nlc3M6IGNvbnN0IGxvY2FscyBhbmQgbWVtYmVyIGZ1bmN0aW9ucwo0ZjBm
-MzkzIGludGVycnVwdDogY29uc3RleHByIHNvZnRpcnFzLCBjb25zdCBsb2NhbHMsIGNvbnN0IG1l
-bWJlciBmdW5jdGlvbnMKNGUyNTQ4YiBkb19wcm9jZXNzOiBjb25zdCBjb21wYXJhdG9yIGxvY2Fs
-cyBhbmQgY29uc3RleHByIHN1bW1hcnlfc2l6ZQpmN2JmODlkIHBlcmY6IGNvbnN0IGhlYWQgbG9j
-YWwgYW5kIGhhbmRsZV9ldmVudCBoZWFkZXIgcGFyYW0KYjFhNzNmNSBwZXJmX2J1bmRsZTogY29u
-c3QgZXZlbnQvc2FtcGxlIHBhcmFtcyBhbmQgY29tcGFyYXRvciBsb2NhbHMKMGQxODFiNSBwZXJz
-aXN0ZW50OiBtYWtlIGxvY2FsIHZhcmlhYmxlcyBjb25zdAo4M2ZjNjk1IHBhcmFtZXRlcnM6IGNv
-bnN0IHBhcmFtcyBhbmQgbG9jYWxzIGluIHBhcmFtZXRlci9yZXN1bHQgYnVuZGxlIGhlbHBlcnMK
-NGYyZDNkNCBsZWFybjogbWFrZSBwYXJhbWV0ZXJzIGFuZCBsb2NhbHMgY29uc3QKZGNhMWRlNiBt
-ZWFzdXJlbWVudF9tYW5hZ2VyOiBtYWtlIGxvY2FsIHN0cmluZyB2YXJpYWJsZXMgY29uc3QKMDYz
-YTY4NSBtZWFzdXJlbWVudDogY29uc3QgdmlydHVhbCBtZXRob2RzIGluIHBvd2VyX21ldGVyIGhp
-ZXJhcmNoeQo5NDg5NjViIHVzYjogbWFrZSBsb2NhbCBzdHJpbmcgdmFyaWFibGVzIGNvbnN0CjNj
-NTIwOGYgcnVudGltZV9wbTogbWFrZSBkZWx0YV9hY3RpdmUsIGRlbHRhX3N1c3BlbmRlZCwgdG90
-YWxfdGltZSBjb25zdCBkb3VibGUKNjdjZjc5MyBuZXR3b3JrOiBtYWtlIGdldF9pZmFjZV91cCgp
-IGFuZCBnZXRfaWZhY2Vfc3BlZWQoKSBjb25zdAozMzZhODY3IGdwdV9yYXBsX2RldmljZTogY29u
-c3QgbG9jYWwgdmFycyBhbmQgZGV2aWNlX3ByZXNlbnQoKQpmNTUxOGNiIGRldmljZTogY29uc3Qt
-Y29ycmVjdCB2aXJ0dWFsIG1ldGhvZCBoaWVyYXJjaHkgYWNyb3NzIGFsbCBkZXZpY2UgY2xhc3Nl
-cwo2ZmQwMWVkIGRldmZyZXE6IGNvbnN0IG1lbWJlciBmdW5jdGlvbnMgYW5kIGxvY2FsIHZhcmlh
-Ymxlcwo4NzUyMzA3IGJhY2tsaWdodDogbWFrZSBkaXNwbGF5X2lzX29uKCkgY29uc3QKZGQ0YWIy
-MSBhbHNhOiBtYWtlIGFjdGl2ZV9kZWx0YSBhbmQgdG90YWxfZGVsdGEgY29uc3QgZG91YmxlCjAy
-NmIxNzggYWhjaTogbWFrZSByZXBvcnRfZGV2aWNlX3N0YXRzKCkgY29uc3QsIGNvbnN0IGxvY2Fs
-IHV0aWwgdmFyaWFibGVzCjMzMjIxNTIgcmFwbF9pbnRlcmZhY2U6IGNvbnN0ZXhwciBpbnRlcnZh
-bCwgY29uc3QgZ2V0dGVycywgY29uc3QgcmVhZF9tc3IoKQo4NjRlM2E4IGludGVsX2dwdTogbWFr
-ZSBwYXRoIGxvY2FsIHZhcmlhYmxlcyBjb25zdApiYzEzMGJlIGludGVsX2NwdXM6IGNvbnN0ZXhw
-ciBtb2RlbCB0YWJsZSwgY29uc3QgbG9jYWxzLCBjb25zdCBnZXR0ZXIKMjA5ZTRkNCBmcmVxdWVu
-Y3k6IG1ha2Ugc2VyaWFsaXplKCkgY29uc3QgaW4gaWRsZV9zdGF0ZSBhbmQgZnJlcXVlbmN5IHN0
-cnVjdHMKMThmNWE5ZiBkcmFtX3JhcGxfZGV2aWNlOiBtYWtlIGRldmljZV9wcmVzZW50KCkgY29u
-c3QKZDk2YWQ5NSBjcHVfcmFwbF9kZXZpY2U6IG1ha2UgZGV2aWNlX3ByZXNlbnQoKSBjb25zdAoz
-M2Q5ZWZjIGNwdV9saW51eDogY29uc3QtY29ycmVjdCBsb2NhbCB2YXJpYWJsZXMgaW4gY3N0YXRl
-L3BzdGF0ZSBwYXJzZXJzCjM4OGQyYjMgY3B1OiBjb25zdC1jb3JyZWN0IGdldHRlciBtZXRob2Rz
-IGFuZCBjYXNjYWRlIHRvIGRlcml2ZWQgY2xhc3NlcwpmMDU5MjNhIGFic3RyYWN0X2NwdTogbWFr
-ZSBjb250ZW50IGxvY2FsIHZhcmlhYmxlIGNvbnN0CmQyOGIzN2IgY2FsaWJyYXRlOiBjb25zdC1j
-b3JyZWN0IGxvY2FsIHZhcmlhYmxlcyBhbmQgcGFyYW1ldGVycwo5ZDY1NmIzIGRpc3BsYXk6IGNv
-bnN0LWNvcnJlY3QgcGFyYW1ldGVycyBhbmQgbG9jYWwgdmFyaWFibGVzCmE3NzJmY2MgZGV2bGlz
-dDogbWFrZSBsaW5rIGxvY2FsIHZhcmlhYmxlIGNvbnN0IGluIGNoYXJnZV9kZXZpY2VfdG9fb3Bl
-bmVycygpCmVhNzhmMGUgbGliOiBjb25zdC1jb3JyZWN0IGxvY2FsIHZhcmlhYmxlcyBpbiBzeXNm
-cyBoZWxwZXJzIGFuZCB1dGlsaXRpZXMKMGI3ZmU5NCBtYWluOiBjb25zdC1jb3JyZWN0IG1ha2Vf
-cmVwb3J0KCkgcGFyYW1ldGVycyBhbmQgdWlkIGxvY2FsIHZhcgo4NTI3ZTZlIHdha2V1cDogY29u
-c3QtY29ycmVjdCB3YWtldXAgY2xhc3MgaGllcmFyY2h5CjQ2M2VlNWQgcGVyZjogbWlncmF0ZSBw
-ZXJmX2J1bmRsZTo6ZXZlbnRzIHRvIHVuaXF1ZV9wdHIKNjQxYjcyNiBjcHU6IG1pZ3JhdGUgY3N0
-YXRlcywgcHN0YXRlcywgY2hpbGRyZW4gdG8gdW5pcXVlX3B0cgpmN2FiYzE5IHJhbmdlLWZvcjog
-ZGV2bGlzdC5jcHAgYW5kIGNwdS9jcHUuY3BwIGxvb3AgbW9kZXJuaXphdGlvbgo1YWIzOTM1IHJh
-bmdlLWZvcjogcGFyYW1ldGVycy5jcHAsIGxlYXJuLmNwcCwgcGVyc2lzdGVudC5jcHAgbG9vcCBt
-b2Rlcm5pemF0aW9uCjUxMWY5M2IgcmFuZ2UtZm9yOiBjYWxpYnJhdGUuY3BwLCBjcHVfbGludXgu
-Y3BwLCBpOTE1LWdwdS5jcHAgbG9vcCBtb2Rlcm5pemF0aW9uCjE4NTJlMzMgcmFuZ2UtZm9yOiBp
-bnRlbF9jcHVzLmNwcCBhbmQgcGVyZl9idW5kbGUuY3BwIGxvb3AgbW9kZXJuaXphdGlvbgo2ZTBl
-ZTMyIGRvX3Byb2Nlc3MsZGV2aWNlX21hbmFnZXI6IHJhbmdlLWZvciBsb29wIGNsZWFudXAKNmQ0
-ZjI0ZCBhYnN0cmFjdF9jcHU6IHJhbmdlLWZvciBsb29wIGNsZWFudXAKMWQxNWQxYyBkZXZmcmVx
-OiBtaWdyYXRlIGRzdGF0ZXMgYW5kIGFsbF9kZXZmcmVxIHRvIHVuaXF1ZV9wdHIKNDQzYjljYiB0
-dW5pbmcsbWVhc3VyZW1lbnQsaW50ZXJydXB0LHdha2V1cDogcmFuZ2UtZm9yIGxvb3AgY2xlYW51
-cApmMTVhNThjIHByb2Nlc3M6IG1pZ3JhdGUgYWxsX3Byb2Nlc3NlcyB0byB1bmlxdWVfcHRyCjZk
-MzQwM2IgcHJvY2VzczogbWlncmF0ZSBhbGxfaW50ZXJydXB0cyB0byB1bmlxdWVfcHRyCmZhNGI3
-MjAgcHJvY2VzczogY29uc3QtY29ycmVjdCBzb3J0IGNvbXBhcmF0b3JzIGFuZCBXaXR0cygpCmQz
-ZTdiN2YgdHVuaW5nOiBtaWdyYXRlIGFsbF90dW5hYmxlcy9hbGxfdW50dW5hYmxlcyB0byB1bmlx
-dWVfcHRyCmFmZTdhYzcgd2FrZXVwOiBtaWdyYXRlIHdha2V1cF9hbGwgdG8gdW5pcXVlX3B0cgpj
-NjFhYTU1IG1lYXN1cmVtZW50OiBtaWdyYXRlIHBvd2VyX21ldGVycyB0byB1bmlxdWVfcHRyCmI5
-ZTE4ODIgQWRkZWQgUG9ydHVndWVzIFBvcnR1Z2FsIHRyYW5zbGF0aW9uCjk0MGJhZjYgbWVzb246
-IGFkZCB2YWxncmluZCB0ZXN0cyBmb3IgY3N2IGFuZCBtYXJrZG93biBvdXRwdXQgcGF0aHMKNDNj
-ZjFiZSBtYWluLHR1bmluZyx3YWtldXA6IGFkZCBzaHV0ZG93biBmdW5jdGlvbnMgYW5kIHZhbGdy
-aW5kIHRlc3Qgc3VpdGUKNzc5MWE0NSBsaWIsdHVuaW5nLHdha2V1cDogZml4IHRocmVlIG1lbW9y
-eSBsZWFrcyBmb3VuZCBieSB2YWxncmluZAowMWVmMzNkIGRlc2NyaWJlIHJldmlldyBjeWNsZQo5
-M2JmMWRlIG5vIHRlcm5hcnkgb3BlcmF0b3JzIHBsZWFzZQpmYjUzZjg2IHRlc3RzOiBhZGQgY292
-ZXJhZ2UgZm9yIHBhcmFtZXRlcnMsIHByb2Nlc3MsIHdvcmsgYW5kIGRldmljZSBiYXNlCmIxNGQ1
-YWEgc3R5bGU6IHJlcGxhY2UgdGVybmFyeSBvcGVyYXRvcnMgd2l0aCBpZi9lbHNlIHN0YXRlbWVu
-dHMKNTg1NDEyMCBkaXNwbGF5OiBhbHdheXMgY2xlYXIgc2Nyb2xsYmFyIGNvbHVtbiBvbiByZWRy
-YXcKMjljNzA5YSBkaXNwbGF5OiBjYXAgc2Nyb2xsLWRvd24gYXQgY29udGVudCBleHRlbnQgKyAy
-LWxpbmUgbWFyZ2luCmZhMjM2YjIgZGlzcGxheTogdXNlIEFDU19DS0JPQVJEIChtZWRpdW0gc2hh
-ZGUpIGZvciBzY3JvbGxiYXIgdGh1bWIKMTI4Y2ExOSBkaXNwbGF5OiBhZGQgdmVydGljYWwgc2Ny
-b2xsYmFyIHVzaW5nIGNvbnRlbnRfbWF4X3kgdHJhY2tpbmcKNTdjYmVmNiBkaXNwbGF5OiB0cmFj
-ayBjb250ZW50IGV4dGVudCBpbiB0YWJfd2luZG93IGZvciBmdXR1cmUgcGFkIHJlc2l6aW5nCmZm
-ZDY3NTIgbWFpbjogaGFuZGxlIHRlcm1pbmFsIHJlc2l6ZSB2aWEgS0VZX1JFU0laRSBpbiBnZXRj
-aCgpIGxvb3AKZjY3ZjFjMyBkaXNwbGF5OiBuYW1lIHRoZSBzY3JvbGwgbWFyZ2luIGNvbnN0YW50
-IGluIGN1cnNvcl9kb3duKCkKMGU4ZmE3YyBkaXNwbGF5OiBmaXggdGFiX2JhciBXSU5ET1cgbGVh
-ayBpbiBzaG93X3RhYigpIGFuZCByZXNldF9kaXNwbGF5KCkKNmY1N2I5NiBsaWIsd2FrZXVwOiBm
-aXggZmZsdXNoKHN0ZG91dCkgd2l0aCBuY3Vyc2VzIGFuZCBzcHVyaW91cyBuY3Vyc2VzIGluY2x1
-ZGUKZjkzOWRjZiBkaXNwbGF5OiBkZWR1cGxpY2F0ZSBwcmVmcmVzaCgpIHZpZXdwb3J0IGNvb3Jk
-aW5hdGVzCmIyZTdlN2YgZGlzcGxheSx0dW5pbmcsd2FrZXRhYjogcmVwbGFjZSBkZXByZWNhdGVk
-IHdhdHRyc2V0KCkgd2l0aCB3YXR0cm9uL29mZgo5MjQ1NDI0IGRpc3BsYXk6IHVzZSBDT0xTIHRv
-IGZpbGwgdGFiX2JhciBhbmQgYm90dG9tX2xpbmUgYmFja2dyb3VuZHMKMWRiMDkzMCBkaXNwbGF5
-OiByZWRlc2lnbiBub3RpZmljYXRpb24gc3lzdGVtIHRvIHVzZSBzdGF0dXMgYmFyCmI2Y2E2M2Yg
-bGliOiByZW1vdmUgcmVkdW5kYW50IHN0YXJ0X2NvbG9yIG5vdGlmaWNhdGlvbiBjYWxsCjk3YzQ5
-NzkgbWFpbjogY2xhbXAgaGFsZmRlbGF5IHRpbWVvdXQgdG8gdmFsaWQgcmFuZ2UKYjg1ZWFhZSBk
-aXNwbGF5OiByZXBsYWNlIHJlc2V0dGVybSgpIHdpdGggZW5kd2luKCksIGZpeCBpbmNvbnNpc3Rl
-bnQgdGVhcmRvd24KYjljMjZlOCB0ZXN0cy9iYXNlOiBmaXggbWVtb3J5IGxlYWsgaW4gdGVzdF9l
-dGhfdHVuYWJsZQo0NWRjODMyIGZpeCBtaXNzaW5nIGNtYXRoIGluY2x1ZGUKMzEwN2JiZCBnZW1p
-bmkgcnVsZXMKY2M1NGM5MyBidWlsZDogZml4IG1lc29uIHdhcm5pbmdzIGFuZCBkZXByZWNhdGlv
-bnMKYWJlOTQ4MSB0ZXN0czogYWRkIGh0bWwydGV4dCB2ZXJpZmljYXRpb24gdG8gSFRNTCByZXBv
-cnQgdGVzdHMKZjlkY2E4NCBVcGRhdGUgc3JjL3JlcG9ydC9yZXBvcnQtZm9ybWF0dGVyLWh0bWwu
-Y3BwCjg1ODBiNGMgVXBkYXRlIHNyYy9yZXBvcnQvcmVwb3J0LWZvcm1hdHRlci1odG1sLmNwcApj
-MWU5MDRkIHJlcG9ydHM6IG1vZGVybml6ZSBDU1YgZm9ybWF0IGFuZCBhZGQgcHl0aG9uMyB2YWxp
-ZGF0aW9uCjkzYzViOWQgYmx1ZXRvb3RoOiByZWZhY3RvciBmb3IgZHluYW1pYyBkZXZpY2UgZGlz
-Y292ZXJ5IGFuZCBpMThuCmNiZWEzMWIgcmVwb3J0czogZml4IEhUTUwgYW5kIENTViBlc2NhcGlu
-ZyBhbmQgaTE4bgo1YTE3NzAwIGJhdGNoOiBmaXggbnVtZXJpYyBzYWZldHksIGkxOG4sIGFuZCB2
-YXJpb3VzIGhpZ2gtc2V2ZXJpdHkgaXNzdWVzCmUwNmM4YzMgZ3B1OiBmaXggc3lzZnMgcmVzaWRl
-bmN5IG92ZXJmbG93IGFuZCBzdHJpbmcgZm9ybWF0dGluZwo5YmNjNjZiIHJhcGw6IGZpeCBkaXZp
-c2lvbiBndWFyZCwgaTE4biwgYW5kIGVycm9yIGhhbmRsaW5nIGluIHJhcGxfaW50ZXJmYWNlCmVj
-N2M5NzggZGV2ZnJlcTogZml4IGRvdWJsZS1mcmVlIGluIGNsZWFyX2FsbF9kZXZmcmVxCjU4ZTA2
-MmQgZGV2aWNlczogYWRkIG5lYXItemVybyBkaXZpc2lvbiBndWFyZHMgZm9yIEFIQ0kgYW5kIEFM
-U0EKNTk1YTYzNyBjcHU6IHRyYW5zbGF0ZSBodW1hbi1yZWFkYWJsZSBDLXN0YXRlIGxhYmVscyBm
-b3IgSW50ZWwgQ1BVcwo0ODI2NmY4IHJhcGw6IGFkZCBuZWFyLXplcm8gZGl2aXNpb24gZ3VhcmRz
-IGZvciBwb3dlciBjYWxjdWxhdGlvbgo5YTE3M2MwIGNpOiBhZGQgR2l0SHViIEFjdGlvbnMgYnVp
-bGQgd29ya2Zsb3cgYW5kIENvcGlsb3QgaW5zdHJ1Y3Rpb25zCmQwOGNlNjggZG9jczogY29tcHJl
-aGVuc2l2ZSBSRUFETUUgaW1wcm92ZW1lbnRzCjg1NTYxMTQgZG9jczogcmVtb3ZlIHN0YWxlIHBh
-dGNoZXMvIGRpcmVjdG9yeSByZWZlcmVuY2UKZTVlODdhZCBkb2NzOiBhZGQgbGlidHJhY2VldmVu
-dC1kZXYgZGVwZW5kZW5jeSBhbmQgTWFya2Rvd24gb3V0cHV0IG9wdGlvbgo0YjlhODE2IGRvY3M6
-IHVwZGF0ZSBSRUFETUUgZm9yIG1lc29uIGJ1aWxkIHN5c3RlbSBhbmQgZ2VuZXJhbCBjbGVhbnVw
-CjYwZGVhZDQgY3JlYXRlIG1vcmUgdGVzdGNhc2VzCjBiNjRjMDQgdGVzdHM6IGFkZCBwb3dlcl91
-c2FnZSB0ZXN0cyBmb3IgbmV0d29yayBkZXZpY2UKZGVmY2YzMSB0dW5pbmcvZXRoZXJuZXQsIGRl
-dmljZXMvbmV0d29yazogZXh0cmFjdCBpb2N0bHMgaW50byB2aXJ0dWFsIGhlbHBlcnMKMmEyZWNh
-NiB0ZXN0cy9ibHVldG9vdGg6IGFkZCB1bml0IHRlc3RzIGZvciBidF90dW5hYmxlIHVzaW5nIHZp
-cnR1YWwgaGVscGVycwo2MTk5YzY0IHR1bmluZzogYmx1ZXRvb3RoOiBleHRyYWN0IGlvY3RsIGNh
-bGxzIGludG8gdmlydHVhbCBoZWxwZXIgbWV0aG9kcwpkMGFlZGE2IHR1bmluZzogYmx1ZXRvb3Ro
-OiB1c2UgdHdvLWxldmVsIHRpbWVzdGFtcGVkIGJ5dGUtY291bnRlciBzbmFwc2hvdHMKODRmYzA4
-YyB0dW5pbmc6IGZpeCBibHVldG9vdGguY3BwIGxvZ2ljIGJ1Z3MgYW5kIHJlbW92ZSBkZXByZWNh
-dGVkIHRvb2xzCjE1ZjY1ZWIgcGFyYW1ldGVyczogZ3VhcmQgYWdhaW5zdCBkaXZpZGUtYnktemVy
-byBpbiBsZWFybl9wYXJhbWV0ZXJzCjA5OTFkYjggdGVzdHM6IGFkZCByZWdyZXNzaW9uIHRlc3Qg
-Zm9yIGxlYXJuX3BhcmFtZXRlcnMgZGl2aWRlLWJ5LXplcm8KZjE2MDcwMiB1cGRhdGUgbG9jYWwu
-bWQKNzQxNWM1OSByZXBvcnQ6IGZpeCBlbXB0eS1yb3cgcmVncmVzc2lvbiBpbiBDU1YgYWRkX3Rh
-YmxlCjgzOWYwMTAgcmVwb3J0OiBwcmV2ZW50IHJlcG9ydF9tYWtlciBmcm9tIHdpcGluZyBkb2N1
-bWVudCBoZWFkZXJzCjVjMWM2N2MgcmVwb3J0OiBmaXggY29sdW1uIHNoaWZ0aW5nIGluIENTViB0
-YWJsZSBvdXRwdXQgZm9yIGVtcHR5IGNlbGxzCjllZWZjZjIgY3B1OiBtb3ZlIGk5NjVfY29yZTo6
-Y29sbGVjdF9qc29uX2ZpZWxkcyB0byBpbnRlbF9ncHUuY3BwCjJiZGFkYWUgY3B1OiBhZGQgZGl2
-aXNpb24tYnktemVybyBndWFyZHMgaW4gbmhtX2NwdTo6ZmlsbF9wc3RhdGVfbGluZQo5YjNlOWFm
-IHJlcG9ydDogbW92ZSBnZXRfdGltZV9zdHJpbmcgdG8gbGliLmNwcCwgdXNlIHN0ZDo6Y2hyb25v
-IGFuZCBzdGQ6OmZvcm1hdAo0ZmFmOWI5IGNhbGlicmF0ZTogdXNlIHN0ZDo6Zm9ybWF0IGluIHRy
-eV94c2V0X2RwbXMgaW5zdGVhZCBvZiBjaGFyIGJ1ZmZlcgowZjIxYzlmIGNhbGlicmF0ZTogc2ls
-ZW5jZSB4c2V0IGZhaWx1cmVzIG9uIFdheWxhbmQgYW5kIG5vbi1zdGFuZGFyZCBpbnN0YWxscwoy
-NmEyYzE2IGRybTogZW51bWVyYXRlIERSTSBjYXJkcyBkeW5hbWljYWxseSBpbnN0ZWFkIG9mIGhh
-cmRjb2RpbmcgY2FyZDAKYTlkOGE5YiB0ZXN0czogYWRkIGNvdmVyYWdlIGZvciBkZXZsaXN0IGFu
-ZCByYXBsX2ludGVyZmFjZTsgYWRkIE0gcmVjb3JkIHN1cHBvcnQgdG8gdHJhY2VfdG9vbAo0MjVi
-NWI3IGxvY2FsLm1kOiB1cGRhdGUgd2l0aCBuZXcgdGVzdCBjb3ZlcmFnZSBhZGRpdGlvbnMKNjgx
-YmFlYSB0ZXN0czogYWRkIGNvdmVyYWdlIGZvciBwYXJzZV9jc3RhdGVzLCBkcG1zX3NjcmVlbl9v
-biwgYWhjaSBtb2RlbF9uYW1lLCB3aWZpIHR1bmFibGVzCjJmYWIxYmQgbG9jYWwubWQ6IHVwZGF0
-ZSBsaXN0X2RpcmVjdG9yeSBzZWN0aW9uIHdpdGggYWxsIGNvbnZlcnRlZCBjYWxsZXJzCjEyODgz
-YTkgUmVwbGFjZSBhbGwgcmVtYWluaW5nIG9wZW5kaXIvcmVhZGRpci9jbG9zZWRpciB3aXRoIGxp
-c3RfZGlyZWN0b3J5KCkKNGFkYWU1OCBBZGQgbGlzdF9kaXJlY3RvcnkoKSBoZWxwZXIgd2l0aCB0
-ZXN0IGZyYW1ld29yayBzdXBwb3J0CjcwNjliZGYgbG9jYWw6IHJlY29yZCBjb3ZlcmFnZSBiYXNl
-bGluZSBhbmQgZmlsZSBjb3ZlcmFnZSBzdGF0dXMKODkwNjk5OSB0ZXN0czogZXhwYW5kIGNvdmVy
-YWdlIGZvciBwb3dlcmNvbnN1bWVyLCBpbnRlcnJ1cHQsIGFic3RyYWN0X2NwdSwgY3B1X2xpbnV4
-CmYwZGMyOWUgdGVzdHM6IGFkZCBOYU4vemVyby10aW1lX2ZhY3RvciBndWFyZHMgdG8gY3B1IGFu
-ZCByZXBvcnQgdGVzdHMKZTVlYjBiMyByZXZpZXc6IGFkZCBkaXZpc2lvbiB6ZXJvLWd1YXJkIGNo
-ZWNrIHRvIHJ1bGVzLm1kCmEzZWQzZmQgcmV2aWV3OiBhZGQgc3R5bGUgcnVsZSA3LjEg4oCUIG1h
-bmRhdG9yeSBkaXZpc2lvbiB6ZXJvIGd1YXJkCjg1YjBmNWYgY3B1OiBndWFyZCB0aW1lX2ZhY3Rv
-ciBhbmQgdGltZV9kZWx0YSBkaXZpc2lvbnMgYWdhaW5zdCB6ZXJvCjQ2YWQ1YzggY2xhcmlmeSBk
-ZXYgcHJvY2VzcyBpbiBsb2NhbC5tZApjMzEzNDM0IHJlcG9ydDogQXBwbHkgY29kaW5nIHN0eWxl
-IGZpeGVzIHRvIE1hcmtkb3duIGZvcm1hdHRlcgpmMGZkNjIxIHJlcG9ydDogRml4IE1hcmtkb3du
-IHRhYmxlIGhlYWRlcnMgYW5kIHJlc29sdmUgY29tcGlsZXIgd2FybmluZ3MKNzQzOWVhYiBtYXJr
-ZG93biB0ZXN0cwpiMWQ3MmE0IG1vcmUgbG9jYWwubWQgdXBkYXRlcwphM2FkMjUxIHJlcG9ydDog
-TWFrZSBNYXJrZG93biBvdXRwdXQgbWRmb3JtYXQgYW5kIG1kbCBjb21wbGlhbnQKOTA2ZDgzNyBy
-ZXBvcnQ6IEFkZCBNYXJrZG93biBvdXRwdXQgc3VwcG9ydAoxOGQwZTY0IGxpYjogUmVwbGFjZSBw
-cm9jZXNzX2dsb2Igd2l0aCBzdGQ6OmZpbGVzeXN0ZW0KMjEwNzc1NiByZW1vdmUgZGVidWcgcHJp
-bnQgaW4gcmFwbAozZDU1YmE1IHJlbW92ZSBkdXBsaWNhdGUKN2ViMzU5MCB0dW5pbmc6IEFkZCB3
-aWxkY2FyZCBzdXBwb3J0IHRvIHN5c2ZzX3R1bmFibGUKYjFlODkzYyB0dW5pbmc6IEFkZCBzeXNm
-cyB0dW5hYmxlcyBmcm9tIGNsci1wb3dlci10d2Vha3MKYjFhYTQzYSBjcHU6IEFkZCBtaXNzaW5n
-IENQVXMgdG8gYzhjOWMxMF9yZXMgc3dpdGNoIGJsb2NrCjM2MWEyMDIgY3B1OiBBZGQgbWlzc2lu
-ZyBDUFVzIHRvIGM3X3JlcyBzd2l0Y2ggYmxvY2tzCmNmNzAzZmUgY3B1OiBTb3J0IEludGVsIENQ
-VSBtb2RlbHMgYnkgZmFtaWx5IGFuZCBtb2RlbAo2NDc0ZmFhIGNwdTogQWRkIG1pc3NpbmcgSW50
-ZWwgQ1BVIG1vZGVscyBmcm9tIG1pc3NpbmcubWQKOWE2MmNmZiBjcHU6IEFkZCBtaXNzaW5nIElu
-dGVsIENQVSBmYW1pbGllcyAxOCBhbmQgMTkKM2FjYjE1MSBjcHU6IFVwZGF0ZSBJbnRlbCBDUFUg
-bW9kZWwgY29tbWVudHMgdG8gbWF0Y2gga2VybmVsIG1hY3Jvcwo3MjA4N2VjIGNwdTogSW50cm9k
-dWNlIElGTSBtYWNybyBmb3IgSW50ZWwgQ1BVIGZhbWlseSBzdXBwb3J0CmRjYTZmNWMgcHJldmVu
-dCBuZWdhdGl2ZSB1dGlsaXphdGlvbiByZXBvcnRzCmQ1OTIzYWYgdXNlIEFTQU4gYnkgZGVmYXVs
-dCBmb3IgdGVzdHMKNjg1NjZhZSBkZXZmcmVxOiBhZGQgZGVzdHJ1Y3RvciB0byBmcmVlIGRzdGF0
-ZXMgb24gb2JqZWN0IGRlc3RydWN0aW9uCjU3MWU5OTYgbWFpbjogZml4IG1pc3NpbmcgI2luY2x1
-ZGUKMTUxMDAwMiB0ZXN0czogZGVlcGVyIFJBUEwgZGV2aWNlIHRlc3RzIHVzaW5nIHB0X2dldHRp
-bWUoKSBUIHJlY29yZHMKNjI3MWRiMCByYXBsOiByZXBsYWNlIHRpbWUoKSB3aXRoIHB0X2dldHRp
-bWUoKSBmb3IgaW50ZXJjZXB0YWJsZSB0aW1pbmcKMDE0MWY0ZiB0ZXN0czogYWRkIFJBUEwgZGV2
-aWNlIHRlc3RzIGZvciBjcHUvZHJhbS9ncHVfcmFwbF9kZXZpY2UgKCswLjklIGxpbmUsICsyLjIl
-IGZ1bmN0aW9uKQphZWUzODFkIHRlc3RzOiBhZGQgaTkxNWdwdSB0ZXN0cyB3aXRoIFJBUEwgc3R1
-YiAoKzAuNSUgbGluZSwgKzEuMCUgZnVuY3Rpb24pCmY5MjQwY2YgdGVzdHM6IGFkZCBydW50aW1l
-X3R1bmFibGUgdGVzdHMgKDggdGVzdHMsICswLjUlIGxpbmUgLyArMC41JSBmdW5jdGlvbiBjb3Zl
-cmFnZSkKZDdlZDA3OSB0ZXN0czogYWRkIHRpbWVyIHRlc3RzICgxMSB0ZXN0cywgKzAuNyUgbGlu
-ZSAvICsxLjUlIGZ1bmN0aW9uIGNvdmVyYWdlKQo2YzA1ODc5IHRlc3RzOiBhZGQgYWhjaSBkZXZp
-Y2UgdGVzdHMgKDQgdGVzdHMsICsxLjRwcCBsaW5lIGNvdmVyYWdlKQozNTg2ZWMzIHRlc3RzOiBh
-ZGQgcHJvY2Vzc2RldmljZSB0ZXN0cyAoMTEgdGVzdHMsICsycHAgb3ZlcmFsbCBjb3ZlcmFnZSkK
-MjlkZjVmZCB0ZXN0czogYWRkIGNwdV9jb3JlIGFuZCBjcHVfcGFja2FnZSBmb3JtYXR0aW5nIHRl
-c3RzICgxOCB0ZXN0cykKYWFhMmQzZCBsb2NhbC5tZDogdXBkYXRlIGNvdmVyYWdlIGJhc2VsaW5l
-IGFmdGVyIGxpYnBjaSB0ZXN0cwozOGQzMTE5IHRlc3RzOiBhZGQgbGlicGNpIHdyYXBwZXIgdGVz
-dHMsIGxpYi5jcHAgY292ZXJhZ2UgNzQuOCUgLT4gNzguOSUKZjg2NjM1YSBsb2NhbC5tZDogdXBk
-YXRlIGNvdmVyYWdlIGJhc2VsaW5lIGFuZCBub3RlIGxpYnBjaSBvcHBvcnR1bml0eQo3YzdkZTMx
-IHRlc3RzOiBleHRlbmQgbGliLmNwcCBjb3ZlcmFnZSBmcm9tIDcyLjclIHRvIDc0LjglIGxpbmVz
-CjQxNzY0NTggbG9jYWwubWQ6IHVwZGF0ZSBjb3ZlcmFnZSBiYXNlbGluZSBhZnRlciBsaWIuY3Bw
-IGltcHJvdmVtZW50cwo1YzZkOWI1IHRlc3RzOiBleHRlbmQgbGliLmNwcCBjb3ZlcmFnZSBmcm9t
-IDU5JSB0byA3Mi43JSBsaW5lcwoyNjU1MWViIGxvY2FsLm1kOiB1cGRhdGUgY292ZXJhZ2UgYmFz
-ZWxpbmUgdG8gMjAuMSUvMzEuOSUgYWZ0ZXIgQ1NWIHRlc3RzCmZlMGY5NzcgdGVzdHMvcmVwb3J0
-OiBhZGQgQ1NWIHJlcG9ydCBmb3JtYXR0ZXIgdGVzdHM7IGZpeCBhZGRfc3VtbWFyeV9saXN0IE9P
-QgplYjQxYWU0IGxvY2FsLm1kOiB1cGRhdGUgY292ZXJhZ2UgYmFzZWxpbmUgYW5kIGRvY3VtZW50
-IHJlcG9ydCB0ZXN0IHBhdHRlcm5zCmY5YjY0ZmUgdGVzdHMvcmVwb3J0OiBhZGQgSFRNTCByZXBv
-cnQgZ2VuZXJhdGlvbiB0ZXN0czsgZml4IHJlYWRfb3NfcmVsZWFzZQphMTc5MmU0IHRlc3RzOiBh
-ZGQgY292ZXJhZ2Ugd29ya2Zsb3cgZG9jdW1lbnRhdGlvbiBhbmQgaGVscGVyIHNjcmlwdAo3NmMw
-NjJkIGRvY3M6IHVwZGF0ZSB0b29scy5tZCBhbmQgbG9jYWwubWQgZm9yIFQgcmVjb3JkcyBhbmQg
-bmV3IHRlc3RzCjE5NTk3YjggY3B1ZGV2aWNlOiBhZGQgY29uc3RydWN0b3IsIHNlcmlhbGl6ZSwg
-YW5kIGNoaWxkX2RldmljZXMgdGVzdHMKYjlhOGNjOCBvcGFsLXNlbnNvcnM6IGFkZCB0ZXN0cyBm
-b3IgcG93ZXIoKSBhbmQgc2VyaWFsaXplKCkKOTAxOTkzNyBkZXZmcmVxOiBhZGQgbWVhc3VyZW1l
-bnQgY3ljbGUgYW5kIHV0aWxpemF0aW9uIHRlc3RzCjRkNTk4ZmEgdHVuaW5naTJjOiBhZGQgdGVz
-dHMgZm9yIHNlcmlhbGl6ZSwgdG9nZ2xlIChnb29kL2JhZCkKNzc2NGNkZCB0dW5pbmd1c2I6IGFk
-ZCB0ZXN0cyBmb3Igc2VyaWFsaXplLCB0b2dnbGUgKGdvb2QvYmFkKQo0MzE2NzY5IGV0aGVybmV0
-X3dha2V1cDogYWRkIHRlc3RzIGNvdmVyaW5nIGFsbCBwdWJsaWMgbWV0aG9kcwo3NzI5YzE0IHdv
-cms6IGFkZCBmaXJlL2RvbmUgbWVhc3VyZW1lbnQgdGVzdHMKOTc4NTVlZCB0aGlua3BhZDogYWRk
-IHNlcmlhbGl6ZSArIG1lYXN1cmVtZW50IHRlc3RzIGZvciB0aGlua3BhZF9mYW4gYW5kIHRoaW5r
-cGFkX2xpZ2h0CmExZDdjZmYgbG9jYWwubWQ6IGRvY3VtZW50IGJhY2tsaWdodCBkaXNwbGF5X2lz
-X29uIGhvb2sgYW5kIHRyYWNlX3Rvb2wgLS1wYXRoIGZpbHRlcgoyMjU2OTNmIGJhY2tsaWdodDog
-YWRkIHNlcmlhbGl6ZSB0ZXN0czsgYWRkIGRpc3BsYXlfaXNfb24oKSB2aXJ0dWFsIGhvb2s7IHRy
-YWNlX3Rvb2w6IGFkZCAtLXBhdGggZmlsdGVyIHRvIGxpc3QKNGZkNzMyZSB0cmFjZV90b29sOiBh
-ZGQgTCByZWNvcmQgc3VwcG9ydCBhbmQgYGFkZGAgY29tbWFuZDsgdXBkYXRlIHRvb2xzLm1kCmQ5
-MDVmYTUgbG9jYWwubWQ6IGRvY3VtZW50IHdyaXRlX2xvZywgbWV0aG9kIHRlc3RzLCByZmtpbGwg
-Zml4LCBtZWFzdXJlbWVudCBwYXR0ZXJucwplOWFiNWNhIHByb2Nlc3M6IGFkZCBzY2hlZHVsZV90
-aHJlYWQvZGVzY2hlZHVsZV90aHJlYWQgdGVzdApkNWVmZTZhIHVzYmRldmljZTogYWRkIHN0YXJ0
-L2VuZF9tZWFzdXJlbWVudCB0ZXN0CjY3ZWJkNzQgcmZraWxsOiBmaXggc3lzZnNfcGF0aCBhc3Np
-Z25tZW50IGFuZCBhZGQgbWVhc3VyZW1lbnQgdGVzdHMKZDk4YjJiNSBBZGQgd3JpdGVfbG9nIGNh
-cHR1cmUsIGZpeCByZmtpbGwgc3lzZnNfcGF0aCwgYWRkIHN5c2ZzX3R1bmFibGUgbWV0aG9kIHRl
-c3RzCmNiZWE4OTkgQWRkIGludGVycnVwdCBzZXJpYWxpemUgc25hcHNob3QgdGVzdAo2YjRjNjcy
-IEFkZCB1c2JkZXZpY2Ugc2VyaWFsaXplIHNuYXBzaG90IHRlc3QKOTU3MWU1MiBBZGQgcnVudGlt
-ZV9wbWRldmljZSBzZXJpYWxpemUgc25hcHNob3QgdGVzdAo4MjVmZjQ4IEFkZCByZmtpbGwgc2Vy
-aWFsaXplIHNuYXBzaG90IHRlc3QgdXNpbmcgcHRfcmVhZGxpbmsoKSByZXBsYXkKZmVlMTEzYyBS
-ZXBsYWNlIHN0ZDo6ZmlsZXN5c3RlbTo6cmVhZF9zeW1saW5rIHdpdGggcHRfcmVhZGxpbmsoKSBp
-biByZmtpbGwvbmV0d29yawozZWYyMDdjIHB0X3JlYWRsaW5rOiB1c2Ugc3RkOjpmaWxlc3lzdGVt
-OjpyZWFkX3N5bWxpbmsgaW5zdGVhZCBvZiByYXcgcmVhZGxpbmsoKQo1ZTdjZTI3IEFkZCBwdF9y
-ZWFkbGluaygpIHdpdGggdGVzdCBmcmFtZXdvcmsgcmVjb3JkL3JlcGxheSBzdXBwb3J0CjQ2MGVj
-OTcgQWRkIHN5c2ZzX3Bvd2VyX21ldGVyIHNlcmlhbGl6ZSBzbmFwc2hvdCB0ZXN0CmY5NjczOGQg
-QWRkIHVzYl93YWtldXAgc2VyaWFsaXplIHNuYXBzaG90IHRlc3QKMzQzNGVhOCBBZGQgcHJvY2Vz
-cyBzZXJpYWxpemUgc25hcHNob3QgdGVzdAo5YzdiZTExIFNwbGl0IGZyZXF1ZW5jeS5oL2NwcCBv
-dXQgb2YgY3B1LmgvY3B1LmNwcDsgYWRkIGJhc2UgY2xhc3Mgc2VyaWFsaXplIHRlc3RzCmFmMGFi
-N2YgU3BsaXQgbWVhc3VyZW1lbnQuY3BwOyBhZGQgYWNwaV9wb3dlcl9tZXRlciBzbmFwc2hvdCB0
-ZXN0CjE0OTQ1ZTUgQWRkIHNlcmlhbGl6ZSBzbmFwc2hvdCB0ZXN0cyBmb3Igc3lzZnNfdHVuYWJs
-ZQowZjJjZTg4IFNwbGl0IGRldmljZS5jcHAgaW50byBkZXZpY2UuY3BwIGFuZCBkZXZpY2VfbWFu
-YWdlci5jcHAKMjQ5NTYwMCBBZGQgc2VyaWFsaXplIHNuYXBzaG90IHRlc3QgZm9yIGFsc2EgZGV2
-aWNlCjM4Y2U2ZGMgbG9jYWwubWQ6IGRvY3VtZW50IGNvbGxlY3RfanNvbl9maWVsZHMgcGF0dGVy
-biBhbmQgZ2l0IGNvbW1pdCBmaWxlIGhhbmRsaW5nCjdhYWNhNmYgQWRkIGNvbGxlY3RfanNvbl9m
-aWVsZHMoKSB0byBhbGwgZGVyaXZlZCBjbGFzc2VzCmIxYzIxYmQgQWRkIEpTT04gc2VyaWFsaXpl
-KCkgdG8gYWxsIGJhc2UgY2xhc3Nlcwo2YzFiZWNjIHRlc3RkZXNpZ24ubWQ6IGRvY3VtZW50IGtl
-cm5lbF9mdW5jdGlvbiBjYWNoZSwgY2FsbGJhY2ssIGFuZCBmaXh0dXJlIHNlZWRpbmcKMTJlM2M1
-ZCBBZGQgY29tcHJlaGVuc2l2ZSB0ZXN0cyBmb3IgbGliLmNwcCBmdW5jdGlvbnMKMTQyOGI3NCBs
-aWI6IGRvY3VtZW50IHRoYXQgYWxpZ25fc3RyaW5nJ3MgbWF4X3N6IGhhcyBubyBlZmZlY3QKNWZl
-OWZlMCBBZGQgdGVzdHMgZm9yIHB0X2dldHRpbWUoKSBhbmQgYWxpZ25fc3RyaW5nKCkKZDVjZTdi
-ZCBBZGQgdGVzdCBkZXNpZ24gZ3VpZGUgYW5kIHJlZmVyZW5jZSBpdCBmcm9tIGxvY2FsLm1kCjA0
-NGI5YmMgQWRkIHRlc3Qgc3VpdGUgaW5mcmFzdHJ1Y3R1cmUgYW5kIHJlYWRfZmlsZV9jb250ZW50
-IHRlc3RzCmU4Y2Q5YmIgQWRkIC0tb25jZSBjb21tYW5kIGxpbmUgb3B0aW9uCmViNmJiNmQgRml4
-IG1pc3BsYWNlZCBbW21heWJlX3VudXNlZF1dIGF0dHJpYnV0ZXMgYWNyb3NzIGNvZGViYXNlCjYx
-ODhkOGQgY2xlYW51cDogcmVwbGFjZSBjaGFyIGJ1Zls0MDk2XS9yZWFkbGluay9iYXNlbmFtZSB3
-aXRoIHN0ZDo6ZmlsZXN5c3RlbQpkMDkwNzEwIHN0eWxlOiBmaXggbWlzc2luZyBzcGFjZSBhZnRl
-ciBpZi93aGlsZS9mb3Iga2V5d29yZHMgYW5kIHJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlCjkx
-NTg1MjEgY2xlYW51cDogcmVwbGFjZSBfX3VudXNlZCB3aXRoIFtbbWF5YmVfdW51c2VkXV0gaW4g
-QysrIGZpbGVzCjE1NDdjMjggY2xlYW51cDogcmVtb3ZlIHJlZHVuZGFudCBgY2xhc3NgIGtleXdv
-cmQgZnJvbSBgbmV3YCBleHByZXNzaW9ucwpjYzk4NDIyIHNwZWxsaW5nOiBmaXggdHlwb3MgYWNy
-b3NzIHNvdXJjZSBmaWxlcwo3MGFlMTVhIEZpeCBjbGFuZyBtaXNtYXRjaGVkLXRhZ3Mgd2Fybmlu
-ZyBmb3IgZnJlcXVlbmN5IGNsYXNzCmRkM2Y4YjUgRml4IHRhYl93aW5kb3cgbWVtb3J5IGxlYWsg
-aW4gdmlzdWFsIG1vZGUKZDIwMmVhMiB3ZSBjYW4gZG8gT0sgd2l0aG91dCBkZWJ1Z2ZzIC0gbm90
-IGdyZWF0LCBidXQgZW5vdWdoIHRvIGRlYnVnIHRoaW5ncwpjNWVhYzU1IEZpeCBtZW1vcnkgbGVh
-a3MgcmVwb3J0ZWQgYnkgQWRkcmVzc1Nhbml0aXplcgpkZjNjMzVmIEZpeCBpbnRlZ2VyIHNpZ25l
-ZG5lc3MgY29tcGFyaXNvbiB3YXJuaW5nIGluIHBhcmFtZXRlcnMuY3BwCjM2ODZlYzMgRml4IHVu
-dXNlZCBwYXJhbWV0ZXIgd2FybmluZ3MgaW4gdGVzdF9mcmFtZXdvcmsuaApjMjdmYmJiIG5vcHRl
-IG9uIGdpdCBjb21taXQKOGQ1OGM4MSBjbGVhbnVwOiByZXBsYWNlIC5sZW5ndGgoKT4wIC8gLnNp
-emUoKT4wIHdpdGggIWVtcHR5KCkKNDc1NjJlMCB0aW1lcjogcmVtb3ZlIGRlYWQgdGltZXJfbGlz
-dCBjbGFzcwo4OWVhZWEwIHBlcmY6IGZpeCBhYnN0cmFjdCBoYW5kbGVfdHJhY2VfcG9pbnQgZGlh
-Z25vc3RpYwphN2ExOWJlIHJ1bnRpbWU6IHJlbW92ZSBkdXBsaWNhdGUvdW51c2VkIGluY2x1ZGVz
-CjdkNjQ0YjEgZXJyb3JzOiByZWRpcmVjdCBjb3V0IGVycm9yIG91dHB1dCB0byBmcHJpbnRmKHN0
-ZGVyciwgLi4uKQo1NTIxMjM3IGNsZWFudXA6IHJlcGxhY2Ugc3RyaW5nLmggd2l0aCA8Y3N0cmlu
-Zz4gb3IgcmVtb3ZlIHdoZXJlIHVudXNlZAoyMzJjNGY5IGRldmljZXM6IHJlbW92ZSBkdXBsaWNh
-dGUgYW5kIHVudXNlZCBpbmNsdWRlcwo2Y2ZlMzllIHdpZmk6IHJlbW92ZSBkdXBsaWNhdGUgaW5j
-b3JyZWN0bHktcXVvdGVkICNpbmNsdWRlICJ1bmlzdGQuaCIKNjRiNTczMyByYXBsOiB1c2UgY2Fj
-aGVkIGVuZXJneV9zdGF0dXNfdW5pdHMgaW5zdGVhZCBvZiByZXBlYXRlZCBNU1IgcmVhZHMKZGNj
-NTUxNiB3YWtldXA6IGZpeCBzcGFjZSBpbmRlbnRhdGlvbiBpbiBjb25zdHJ1Y3RvcnMKODAwZTFh
-ZSBjcHVfbGludXg6IHJlcGxhY2UgaW1wbGljaXQgZG90L2RvdGRvdCBza2lwIHdpdGggZXhwbGlj
-aXQgY2hlY2sKN2I3ZTg4YSByZXBvcnQtY3N2OiByZW1vdmUgdW5kZWZpbmVkIGFkZF9xdW90ZXMo
-KSBhbmQgdW51c2VkIHRleHRfc3RhcnQgbWVtYmVyCmU0NjQwZTIgYWhjaTogcmVtb3ZlIGRlYWQg
-emVyby1pbml0aWFsaXplcnMgZm9yIGNvbHMgYW5kIHJvd3MKMWM2MWI1NCB1c2I6IHJlcGxhY2Ug
-Zml4ZWQtc2l6ZSBzbnByaW50ZiBidWZmZXIgd2l0aCBzdGQ6OmZvcm1hdAplOTkwZGViIHJ1bnRp
-bWVfcG06IHNraXAgZGV2aWNlcyB3aXRob3V0IHJ1bnRpbWUgUE0gc3lzZnMgZmlsZXMgaW4gZG9f
-YnVzKCkKOGU1MWMyMiByYXBsOiByZXBsYWNlIGF0b2YoKSB3aXRoIHN0ZDo6c3RvZCgpIGZvciBz
-eXNmcyBlbmVyZ3kgcmVhZHMKYzU3NTZjMiBjcHU6IGZpeCBjb3JlX251bSBuZXZlciBpbmNyZW1l
-bnRlZCDigJQgZGVhZC1jb2RlIGJyYW5jaCBpbiByZXBvcnRfZGlzcGxheV9jcHVfY3N0YXRlcwpm
-ZjRmYzI4IHJlcG9ydDogaW5pdGlhbGl6ZSB0aXRsZV9tb2QgaW4gaW5pdF90dW5lX3RhYmxlX2F0
-dHIgYW5kIGluaXRfd2FrZXVwX3RhYmxlX2F0dHIKMjg2OGVlYyBncHVfcmFwbF9kZXZpY2U6IGd1
-YXJkIHN0YXJ0L2VuZF9tZWFzdXJlbWVudCBhZ2FpbnN0IGludmFsaWQgUkFQTCBkb21haW4KNDJj
-ZDgyNyBjcHUvbWVhc3VyZW1lbnQvZGV2aWNlczogZml4IG5hcnJvd2luZywgVFNDIGRpdmlkZS1i
-eS16ZXJvLCBhbmQgdW5kZXJmbG93cwoyYmVkNTJiIHByb2Nlc3MvcGVyZi9wYXJhbXM6IGZpeCBu
-YXJyb3dpbmcgY29udmVyc2lvbnMsIHR5cGUgbWlzbWF0Y2hlcywgYW5kIGxlYWtzCmJhYzRkOTkg
-dHVuaW5nOiBmaXggZGFuZ2xpbmcgcG9pbnRlciwgbGFzdF9jaGVja190aW1lIGNhY2hlLCBlbXB0
-eSB0dW5hYmxlcyB1bmRlcmZsb3cKM2EyZjkzNCBjYWxpYnJhdGU6IGZpeCBwdGhyZWFkIFVCLCB1
-bmNoZWNrZWQgY3JlYXRlcywgZHVwbGljYXRlIGxvYWQsIG1pc3NpbmcgZXhpdAplYzEzYjVjIGNs
-YXJpZnkgd2hlbiB0byB1cGRhdGUgbG9jYWwubWQKODAxYjRmZSBpMThuOiB3cmFwIGFsbCB1c2Vy
-LXZpc2libGUgc3RyaW5ncyBpbiBfKCkgZm9yIHRyYW5zbGF0aW9uCjU4Y2ZmZGIgcnVsZXM6IGRv
-Y3VtZW50IHB0X2Zvcm1hdCB2cyBzdGQ6OmZvcm1hdCBhbmQgb3ZlcnJpZGUvbnVsbHB0ciBydWxl
-cwoyMjQ2NWIxIG1vZGVybml6ZTogcmVwbGFjZSBOVUxMIHdpdGggbnVsbHB0ciBpbiBhbGwgQysr
-IHNvdXJjZSBmaWxlcwplZTA5NDgyIEFkZCBvdmVycmlkZSBzcGVjaWZpZXIgdG8gYWxsIHZpcnR1
-YWwgbWV0aG9kIG92ZXJyaWRlcwo2NjMxOTM4IHJlbW92ZSBleHRyYSBmaWxlcwpjMWM5NTNjIGk5
-MTUtZ3B1OiBkZWxldGUgZ3B1X3JhcGxfZGV2aWNlIHdoZW4gZGV2aWNlX3ByZXNlbnQoKSByZXR1
-cm5zIGZhbHNlCjI0ZmM5ZTQgZGV2ZnJlcTogZ3VhcmQgYWdhaW5zdCBuZWFyLXplcm8gc2FtcGxl
-X3RpbWUgaW4gZmlsbF9mcmVxX3V0aWxpemF0aW9uKCkKNTkyOTc2ZCBkZXZmcmVxOiBndWFyZCBh
-Z2FpbnN0IGVtcHR5IGRzdGF0ZXMgaW4gcHJvY2Vzc190aW1lX3N0YW1wcygpCmQxZDJkZjUgYWhj
-aTogY2xvc2UgZGlyIGJlZm9yZSBlYXJseSByZXR1cm4gaW4gbW9kZWxfbmFtZSgpCjA4NDYwNTUg
-YWhjaTogZml4IHJlcG9ydF9kZXZpY2Vfc3RhdHMgbWlzc2luZyBsaW5rLW5hbWUgY29sdW1uCmMz
-N2ZjMmQgZGV2aWNlczogY2hhbmdlIHBvd2VyX3ZhbGlkKCkgdG8gcmV0dXJuIGJvb2wgdGhyb3Vn
-aG91dAoxM2YxMmM2IGJhY2tsaWdodDogZ3VhcmQgYWdhaW5zdCBtYXhfbGV2ZWwgPT0gMCBiZWZv
-cmUgZGl2aXNpb24KYjdlY2Q4YyBleHRlY2g6IGZpeCBkYXRhIHJhY2VzIGFuZCBkaXNjYXJkIGVy
-cm9yIHNlbnRpbmVsIHZhbHVlcwoxZTkwNTE1IG1lYXN1cmVtZW50OiB1c2UgQ0xPQ0tfTU9OT1RP
-TklDIGZvciBlbGFwc2VkLXRpbWUgbWVhc3VyZW1lbnQKZjhhNzdkZSBhY3BpOiByZXBsYWNlIC9w
-cm9jL2FjcGkvYmF0dGVyeSB3aXRoIC9zeXMvY2xhc3MvcG93ZXJfc3VwcGx5CmU1NDEwMjUgd2Fr
-ZXVwOiByZW1vdmUgc3RyYXkgc2VtaWNvbG9uOyBmaXggZW1wdHkgd2FrZXVwX2FsbCBjcmFzaApk
-YWEwYTBmIHJhcGw6IHNraXAgJy4nIGFuZCAnLi4nIGVudHJpZXMgaW4gcmVhZGRpciBsb29wcwoz
-ZGE3OTExIGNwdTogZ3VhcmQgX2NvcmUgbnVsbCBkZXJlZmVyZW5jZSBpbiByZXBvcnRfZGlzcGxh
-eV9jcHVfY3N0YXRlcwpmZjg4YjU5IGNwdTogZ3VhcmQgYWdhaW5zdCBkaXZpc2lvbiBieSB6ZXJv
-IHdoZW4gbnVtX2NvcmVzID09IDAKZjQzZjM4YyByZXBvcnQ6IGZpeCBvdXQtb2YtYm91bmRzIGFj
-Y2VzcyBpbiBhZGRfc3VtbWFyeV9saXN0IGZvciBvZGQtbGVuZ3RoIGxpc3RzCjRhY2U5NTUgcmVw
-b3J0OiBmaXggZG91YmxlX3RvX3N0cmluZyB0cnVuY2F0aW5nIGludGVnZXItdmFsdWVkIGRvdWJs
-ZXMKZTQ5MDY3NSByZXBvcnQ6IGNoZWNrIGxvY2FsdGltZSgpIHJldHVybiBiZWZvcmUgcGFzc2lu
-ZyB0byBzdHJmdGltZQpjOTNiNDBjIHJlcG9ydDogbWFrZSAncmFuIGF0JyBzdHJpbmcgdHJhbnNs
-YXRhYmxlCmFkOWQzY2EgcGFyYW1ldGVyczogZml4IG1pc3NpbmcgZ3VhcmRzIGluIHV0aWxpemF0
-aW9uX3Bvd2VyX3ZhbGlkKHN0cmluZykKOGY1ZmM3ZiBwYXJhbWV0ZXJzOiBhZGQgYm91bmRzIGNo
-ZWNrIHRvIGdldF9wYXJhbWV0ZXJfd2VpZ2h0KCkKNGIwYjNiOCBwYXJhbWV0ZXJzOiBmaXggbWVt
-b3J5IGxlYWtzIHdoZW4gcGFzdF9yZXN1bHRzIGJ1ZmZlciBpcyBmdWxsCmNlNmZlMWIgcGVyZjog
-YWRkIHJlcXVpcmVkIG1lbW9yeSBiYXJyaWVyIGFmdGVyIHJlYWRpbmcgZGF0YV9oZWFkCmI4NTA0
-M2QgcGVyZjogZml4IGZkIGFuZCBtbWFwIGxlYWsgaW4gcGVyZl9ldmVudCBkZXN0cnVjdG9yCjNk
-YWU2NTYgdGltZXI6IGZpbHRlciB6ZXJvLXJ1bnRpbWUgdGltZXJzIGluIGFsbF90aW1lcnNfdG9f
-YWxsX3Bvd2VyKCkKZjllODIwMSBkb19wcm9jZXNzOiBmaXggY29weS1wYXN0ZSBlcnJvciBpbiB0
-aW1lcl9leHBpcmVfZW50cnkgZXJyb3IgbWVzc2FnZQowNjE4MGFlIGRvX3Byb2Nlc3M6IGZpeCBz
-dGF0aWMgcHJldl90aW1lIHBlcnNpc3RpbmcgYWNyb3NzIG1lYXN1cmVtZW50IGN5Y2xlcwowMDc1
-OGMzIGRvX3Byb2Nlc3M6IGd1YXJkIG1lYXN1cmVtZW50X3RpbWUgZGl2aXNpb25zIGFnYWluc3Qg
-bmVhci16ZXJvCjhlZDg2OTcgZG9fcHJvY2VzczogY2hlY2sgdGVwX2dldF9maWVsZF92YWwgcmV0
-dXJuIGZvciBjcHVfaWRsZSBzdGF0ZSBmaWVsZAo1YjQwMjQwIHByb2Nlc3M6IGZpeCBpbnZlcnRl
-ZCBjb25kaXRpb24gaW4ga2VybmVsLXByb2Nlc3MgZGV0ZWN0aW9uCjcwM2UzOWMgcHJvY2Vzczog
-Zml4IHVuc2lnbmVkIHdyYXBhcm91bmQgaW4gZGVzY2hlZHVsZV90aHJlYWQKMGVhNjk2MiBwb3dl
-cmNvbnN1bWVyOiBndWFyZCBhZ2FpbnN0IG1lYXN1cmVtZW50X3RpbWUgPCAwLjAwMDAxIGJlZm9y
-ZSBkaXZpZGluZwpkNGZmNzViIGl3OiBjaGVjayBubGFfcGFyc2UoKSByZXR1cm4gaW4gcHJpbnRf
-cG93ZXJfc2F2ZV9oYW5kbGVyCmRjNjFjNzAgaXc6IGZpeCByZXNvdXJjZSBsZWFrIGluIF9faGFu
-ZGxlX2NtZCBvbiBOTEFfUFVUX1UzMiBmYWlsdXJlCjgwMGY0MmUgd2lmaTogbW9kZXJuaXNlIGFk
-ZF93aWZpX3R1bmFibGVzIGxvb3AKNTgxZThmZSBldGhlcm5ldDogY2hlY2sgaW9jdGwoU0lPQ0VU
-SFRPT0wpIHJldHVybiB2YWx1ZSBpbiBnb29kX2JhZCBhbmQgdG9nZ2xlCmVkOTM5NGUgcnVudGlt
-ZTogZml4IGdvb2RfYmFkKCkg4oCUIHJ1bnRpbWUgUE0gJ29uJyBpcyBUVU5FX0JBRCBub3QgVFVO
-RV9HT09ECmYzZDM4ODkgZGlzcGxheTogYWRkIGJvdW5kcyBjaGVjayBpbiBzaG93X3RhYigpIGJl
-Zm9yZSBhY2Nlc3NpbmcgdGFiX25hbWVzCmIxN2ZkOWIgbGliOiBjbGFtcCBucGZ4IGluIGZtdF9w
-cmVmaXggdG8gcHJldmVudCBvdXQtb2YtYm91bmRzIGFycmF5IGFjY2VzcwplN2Q2NzhjIGRldmxp
-c3Q6IGNsZWFyIHZlY3RvcnMgYWZ0ZXIgZGVsZXRpbmcgb2JqZWN0cyBpbiBjbGVhbl9vcGVuX2Rl
-dmljZXMKN2E2ZjY2ZCBjYWxpYnJhdGU6IGZpeCB0aHJlYWQgbGVha3MsIGludmVydGVkIHN5c3Rl
-bSgpIGNoZWNrcywgYW5kIGZyZW9wZW4gY2hlY2sKZDMyMGIyNCBleHRlY2g6IGZpeCBpKjAgdHlw
-byBpbiBwYXJzZV9wYWNrZXQg4oCUIHNob3VsZCBiZSBpKjUKZWI0NTk2ZiBjcHU6IGFkZCBudWxs
-IGNoZWNrIGZvciBjcHUgcG9pbnRlciBpbiBoYW5kbGVfdHJhY2VfcG9pbnQKYzc2N2Y0OCBBZGQg
-aW4tY2xhc3MgZGVmYXVsdCBtZW1iZXIgaW5pdGlhbGl6ZXJzIHRvIGFsbCBoZWFkZXIgY2xhc3Nl
-cy9zdHJ1Y3RzCjc3ODM1NDAgcGVyZjogZml4IG51bGwgcGMgZGVyZWYgd2hlbiBtbWFwIGZhaWxz
-IGluIGNyZWF0ZV9wZXJmX2V2ZW50CmUzZmFlMmQgcGVyZjogZml4IG51bGwgZGVyZWYgaW4gc2V0
-X2V2ZW50X25hbWUgYWZ0ZXIgdGVwX2ZpbmRfZXZlbnRfYnlfbmFtZQpiMTcxOTY3IGRvX3Byb2Nl
-c3M6IGZpeCBkYW5nbGluZyBwZXJmX2V2ZW50cyBwb2ludGVyIGFmdGVyIGRlbGV0ZQo3NzM3NjBj
-IGRvX3Byb2Nlc3M6IGFkZCBib3VuZHMgY2hlY2sgaW4gY2hhbmdlX2JsYW1lKCkKM2ViYTAxNCBo
-ZWFkZXJzOiByZXBsYWNlICNpZm5kZWYgaW5jbHVkZSBndWFyZHMgd2l0aCAjcHJhZ21hIG9uY2UK
-NGEzYjk0MCBSZXBsYWNlICNpZm5kZWYvI2RlZmluZSBpbmNsdWRlIGd1YXJkcyB3aXRoICNwcmFn
-bWEgb25jZQo5N2I2YzQ4IHRlc3RfZnJhbWV3b3JrOiBmaXggcmVtYWluaW5nIG1pc3Npbmcgc3Rk
-OjogcXVhbGlmaWVycwpmNmYwZGNkIHRlc3RfZnJhbWV3b3JrOiBhZGQgbWlzc2luZyBzdGQ6OiBx
-dWFsaWZpZXJzCmE1Y2ZjNmQgVXBkYXRlIGxvY2FsLm1kIHdpdGggZGVlcCByZXZpZXcgZmluZGlu
-Z3MgYW5kIG5hbWVzcGFjZSBmaXggbm90ZXMKYzVkOTIyMSBBZGQgc3RkOjogcHJlZml4ZXMgdGhy
-b3VnaG91dCBjb2RlYmFzZSBhZnRlciByZW1vdmluZyB1c2luZyBuYW1lc3BhY2Ugc3RkCmFkYzU1
-NWQgUmVtb3ZlICd1c2luZyBuYW1lc3BhY2Ugc3RkOycgZnJvbSBhbGwgc291cmNlIGZpbGVzCjNl
-ZWNmOWQgdXBkYXRlIHJldmlldyBydWxlcwphMjEzZWE5IFVwZGF0ZSByZXZpZXcvcmV2aWV3Lm1k
-CmI3OTlmNmIgVXBkYXRlIHJldmlldy9yZXZpZXcubWQKOTQwMTkzZiBVcGRhdGUgcmV2aWV3L3Jl
-dmlldy5tZAo5OGJlNmE2IFVwZGF0ZSByZXZpZXcvcmV2aWV3Lm1kCmJjYjMyZWUgVXBkYXRlIHJl
-dmlldy9yZXZpZXcubWQKZGViZDBhMSB0dW5pbmc6IGZpeCB1bnVzZWQgcGFyYW1ldGVyIHdhcm5p
-bmdzIGluIGl3LmMKZmNmMjMyYSBzcmM6IHNpbGVuY2UgdW51c2VkIHBhcmFtZXRlciBhbmQgZmFs
-bHRocm91Z2ggd2FybmluZ3MKZWI4YTQ3ZSBoZWFkZXJzOiBhcHBseSBfX3VudXNlZCB0byB2aXJ0
-dWFsIG1ldGhvZCBwYXJhbWV0ZXJzCjlmNmZkY2YgbGliOiBtb3ZlIF9fdW51c2VkIG1hY3JvIGFu
-ZCBwcm90ZWN0IEMrKyBjb250ZW50CmRkNzgxMjQgaW5sY3VkZSByZXZpZXcgcnVsZXMKNjI4ODQ4
-YSBuZXcgcmV2aWV3IHJ1bGVzIGZpbGUKYThjZTBjOCB3YWtldXA6IHVzZSBfX3VudXNlZCBmb3Ig
-dW51c2VkICdwYXRoJyBwYXJhbWV0ZXIgaW4gdXNiX3dha2V1cApkOTZlYjAxIGxpYjogYWRkIF9f
-dW51c2VkIG1hY3JvIGZvciBjb21waWxlciB1bnVzZWQgYXR0cmlidXRlCmRiMTdlODUgYnVpbGQ6
-IGFkZCAtVyB0byBwcm9qZWN0LXdpZGUgY29tcGlsZXIgZmxhZ3MKY2M1MmRkNiBidWlsZDogaW5j
-bHVkZSAtV2FsbCBpbiBwcm9qZWN0LXdpZGUgY29tcGlsZXIgZmxhZ3MKNTk0ZGFiYiBmcmFtZXdv
-cms6IGludHJvZHVjZSBwdF9nZXR0aW1lKCkgd3JhcHBlciBhbmQgcmVjb3JkL3JlcGxheSB0aW1l
-CmI2MzYxYzMgZnJhbWV3b3JrOiBmaXggY29tcGlsYXRpb24gZXJyb3IgYnkgdXNpbmcgZXhwbGlj
-aXQgc3RkOjpnZXQKZWIyZmI0NCBmcmFtZXdvcms6IGFkZCBzdXBwb3J0IGZvciByZWNvcmRpbmcg
-YW5kIHJlcGxheWluZyBNU1IgcmVhZHMKMzFiYmM0MCBtYWluOiBza2lwIHByb2Nlc3NfcHJvY2Vz
-c19kYXRhKCkgZHVyaW5nIHJlcGxheQo2NzhjNTc2IGZyYW1ld29yazogc3VwcG9ydCBzeXN0ZW0g
-cGF0aHMgd2l0aCBzcGFjZXMgaW4gdHJhY2UgZmlsZXMKYjk1MTFhZCBmcmFtZXdvcms6IGhhbmRs
-ZSBtaXNzaW5nIGZpbGVzIGR1cmluZyByZWNvcmQgYW5kIHJlcGxheQpiNTMzNDdjIG1haW46IGZp
-eCBzdGFydHVwIGNyYXNoIGFuZCBidWlsZCBzeXN0ZW0gaW50ZWdyYXRpb24KNGRiY2M1YSBsb2Nh
-bC5tZCB1cGRhdGUKY2RjOTA2ZCBmcmFtZXdvcms6IGltcGxlbWVudCByZWNvcmQvcmVwbGF5IHRl
-c3QgaW5mcmFzdHJ1Y3R1cmUKYjlkMGQyZCBtb2Rlcm5pemU6IHJlbW92ZSByZWR1bmRhbnQgLmNf
-c3RyKCkgY2FsbHMgZm9yIGludGVybmFsIGhlbHBlcnMKNjU3ZGQ5MyBsaWI6IG1vZGVybml6ZSBm
-bXRfcHJlZml4IGFuZCBlbGltaW5hdGUgbGVnYWN5IGJ1ZmZlcnMKMmFjOGM2YyBtZWFzdXJlbWVu
-dDogbW9kZXJuaXplIGV4dGVjaC5jcHAgZGV2aWNlIG9wZW5pbmcKMmQ5ODJmNCBwcm9jZXNzOiBt
-b2Rlcm5pemUgc29mdGlycV9lbnRyeSBoYW5kbGVyCjc5YTMzYmEgbW9kZXJuaXplOiBUYXNrIDEg
-LSBJbnRlcm5hbCBDb21wb25lbnQgTG9naWMgc3RyaW5nIG1vZGVybml6YXRpb24KYTdlNTIwNSBk
-aXNwbGF5OiBtb2Rlcm5pemUgdGFiIGRpc3BsYXkgbG9naWMKNjc4ZTY4NyBkZXZsaXN0OiBtb2Rl
-cm5pemUgZGV2aWNlIHBvd2VyIHJlZ2lzdHJhdGlvbgpiYWIwZGJhIG1vZGVybml6ZTogdW5pZnkg
-Y2FsbGJhY2sgdHlwZSBhbmQgbW9kZXJuaXplIGtlcm5lbF9mdW5jdGlvbgphNTcxY2FjIG1vZGVy
-bml6ZTogZmluYWxpemUgY2VudHJhbGl6YXRpb24gb2YgZmlsZSByZWFkaW5nIGluIGxpYiBhbmQg
-cmVwb3J0Cjk1ODdkYmUgY3B1OiBtb2Rlcm5pemUgY3B1X2xpbnV4LmNwcCBhbmQgY2VudHJhbGl6
-ZSBzeXNmcyBhY2Nlc3MKOTZmYjQyMyB0dW5pbmc6IG1vZGVybml6ZSB2YXJpb3VzIGNvbXBvbmVu
-dHMgdG8gdXNlIGNlbnRyYWxpemVkIHN5c2ZzIGFjY2Vzcwo1M2MwMmU4IGRldmljZXM6IG1vZGVy
-bml6ZSBhaGNpLmNwcCBhbmQgY2VudHJhbGl6ZSBzeXNmcyBhY2Nlc3MKNzg5ZDdhMiBtb2Rlcm5p
-emU6IGZ1cnRoZXIgY2VudHJhbGl6YXRpb24gb2YgZmlsZSByZWFkaW5nIGluIGNwdSBhbmQgbWFp
-bgo3MjM0YzVjIGNwdTogbW9kZXJuaXplIGFic3RyYWN0X2NwdSBhbmQgaW50ZWxfZ3B1IHRvIHVz
-ZSBjZW50cmFsaXplZCBoZWxwZXJzCmM5MWFhMmYgZGV2aWNlczogbW9kZXJuaXplIHJma2lsbC5j
-cHAgYW5kIGNlbnRyYWxpemUgc3lzZnMgYWNjZXNzCmY2ZTZmNDYgZGV2aWNlczogbW9kZXJuaXpl
-IGJhY2tsaWdodC5jcHAgYW5kIGNlbnRyYWxpemUgc3lzZnMgYWNjZXNzCjQ2ZTkzZDggZGV2aWNl
-czogbW9kZXJuaXplIHJ1bnRpbWVfcG0uY3BwIGFuZCBjZW50cmFsaXplIHN5c2ZzIGFjY2Vzcwo1
-NDNhOTYwIG1vZGVybml6ZTogY2VudHJhbGl6ZSBmaWxlIHJlYWRpbmcgdXNpbmcgcmVhZF9maWxl
-X2NvbnRlbnQgYW5kIHJlYWRfc3lzZnMgaGVscGVycwo4OTI2ZTVkIHByb2Nlc3M6IG1vZGVybml6
-ZSB0ZXAgZmllbGQgc3RyaW5nIHJldHJpZXZhbAoxODZkODAwIHByb2Nlc3M6IG1vZGVybml6ZSBz
-b2Z0aXJxcyBhbmQgL3Byb2MgZmlsZSByZWFkaW5nCmYxNzMyYWQgcmVwb3J0OiB1c2UgYSBoZWxw
-ZXIgZm9yIGRhdGUvdGltZSBzdHJpbmdzIHRvIGF2b2lkIGxvY2FsIGJ1ZmZlcnMKNGYzZjMzMyBy
-ZXBvcnQ6IGZpbmFsaXplIHJlcG9ydC5jcHAgbW9kZXJuaXphdGlvbiBhbmQgdXNlIHN0ZDo6b2Zz
-dHJlYW0KM2Y2ZmFjOCByZXBvcnQ6IG1vZGVybml6ZSBvdXRwdXQgaW5pdGlhbGl6YXRpb24gYW5k
-IGZpbGVuYW1lIGhhbmRsaW5nCmE1YTJjYzAgcmVwb3J0OiBtb2Rlcm5pemUgc3lzdGVtIGluZm8g
-aGVscGVycwoxYTE3NzQ5IHJlcG9ydDogbW9kZXJuaXplIGZvcm1hdHRpbmcgYW5kIGVsaW1pbmF0
-ZSBmaXhlZCBidWZmZXJzCjEyODdiNzAgZGV2aWNlczogbW9kZXJuaXplIG5ldHdvcmsgaW50ZXJm
-YWNlIGFuZCAvcHJvYy9uZXQvZGV2IHBhcnNpbmcKNTE0MTM4ZCBkZXZpY2VzOiBtb2Rlcm5pemUg
-ZGV2ZnJlcSBzeXNmcyBwYXJzaW5nCmFiYTRkMDAgcmVwb3J0OiBnbG9iYWxseSBtb2Rlcm5pemUg
-dGFibGUgYW5kIHN1bW1hcnkgbGlzdCBoYW5kbGluZwo2Njc5NWQ1IGRldmljZXM6IG1vZGVybml6
-ZSBBSENJIGRldmljZSBpZGVudGlmaWNhdGlvbiBhbmQgcmVwb3J0aW5nCmI4YmFhMTIgZGV2aWNl
-czogbW9kZXJuaXplIGRpcmVjdG9yeSBjYWxsYmFja3MgYW5kIGhlbHBlciBmdW5jdGlvbnMKNjgw
-YjgwYiBjcHU6IG1vZGVybml6ZSBkaXNwbGF5IGJ1ZmZlcmluZyBhbmQgaW50ZWxfcHN0YXRlIGRl
-dGVjdGlvbgowNDMxMjNiIGNwdTogbW9kZXJuaXplIHN5c2ZzIHBzdGF0ZSBwYXJzaW5nCmNiM2Zi
-ODMgY3B1OiBtb2Rlcm5pemUgL3Byb2MvY3B1aW5mbyBwYXJzaW5nCmM0MDA1MDMgY2FsaWJyYXRl
-OiBtb2Rlcm5pemUgc3RyaW5nIGhhbmRsaW5nIGFuZCBmdW5jdGlvbiBzaWduYXR1cmVzCmI0M2Fk
-YWEgcHJvY2VzczogbW9kZXJuaXplIHJlcG9ydGluZyBhbmQgZXZlbnQgZGlzcGF0Y2hpbmcKNGZh
-MDdjNSBwcm9jZXNzOiBtb2Rlcm5pemUgcHJldHR5X3ByaW50IGFuZCB0aW1lcl9pc19kZWZlcnJl
-ZAozYTg0MTBjIHByb2Nlc3M6IG1vZGVybml6ZSBwcm9jZXNzIGFuZCBpbnRlcnJ1cHQgbWFuYWdl
-cnMKNTQ1NWJlOSBtZWFzdXJlbWVudDogbW9kZXJuaXplIEFDUEkgYmF0dGVyeSBzdGF0ZSBwYXJz
-aW5nIGFuZCBhZGQgcmVhZF9maWxlX2NvbnRlbnQKNGM0MzJlNCBtZWFzdXJlbWVudDogbW9kZXJu
-aXplIGNhbGxiYWNrIGFuZCBzZXR1cCBmdW5jdGlvbnMKYmMwMDM5MyBwYXJhbWV0ZXJzOiBtb2Rl
-cm5pemUgc3RyaW5nIGhhbmRsaW5nCjBlOWI3ZDYgdHVuaW5nOiBtb2Rlcm5pemUgbG9jYWwgY2Fs
-bGJhY2tzIGFuZCBoZWxwZXIgZnVuY3Rpb25zIHRvIHVzZSBzdGQ6OnN0cmluZwo4MTkxODQ2IHBj
-aV9pZF90b19uYW1lOiBzaW5nbGUgc3RkOjpzdHJpbmcgaW1wbGVtZW50YXRpb24sIHJlbW92ZSBj
-aGFyKiBvdmVybG9hZHMKZmNhODZhMSBNZXJnZSBwdWxsIHJlcXVlc3QgIzE5NSBmcm9tIGZlbnJ1
-czc1L3JlZmFjdG9yMwo0MWNhODU2IEZpeCBwY2lfaWRfdG9fbmFtZSByZXR1cm4gdmFsdWUgYW5k
-IHVuaW5pdGlhbGl6ZWQgY3RpbWUKZWY4YTgwZiBmaXg6IEFkZHJlc3MgcmV2aWV3IGNvbW1lbnRz
-IGZyb20gUFIgIzE5MwoyY2QzYjgwIE1lcmdlIHB1bGwgcmVxdWVzdCAjMTk0IGZyb20gZmVucnVz
-NzUvcmVmYWN0b3IyCmQ0ZDYxMDcgbW9kZXJuaXplOiBDb252ZXJ0IGdldF9yZXN1bHQgdG8gcmV0
-dXJuIHN0ZDo6c3RyaW5nIGJ5IHZhbHVlCmRmMDg2N2UgTWVyZ2UgcHVsbCByZXF1ZXN0ICMxOTMg
-ZnJvbSBmZW5ydXM3NS9yZWZhY3RvcgoxOGRkMTE4IGZpeDogUmVzb2x2ZSByZWdyZXNzaW9ucyBp
-bnRyb2R1Y2VkIGR1cmluZyBDKysyMCBtb2Rlcm5pemF0aW9uCjAxZTNiYTEgbW9kZXJuaXplOiBD
-b21wbGV0ZSBtb2Rlcm5pemF0aW9uIG9mIHJlbWFpbmluZyBjbGFzc2VzCmMxNGU3ODUgcGVyZjog
-TW9kZXJuaXplIHBlcmZfZXZlbnQgYW5kIHBlcmZfYnVuZGxlIHRvIHVzZSBzdGQ6OnN0cmluZwoz
-ZWFjMmNiIG1vZGVybml6ZTogQmF0Y2ggY29tbWl0IG9mIGhpZXJhcmNoeSBhbmQgY2xhc3MgbW9k
-ZXJuaXphdGlvbiBmaXhlcwpkZDU3ZDlkIHJhcGw6IE1vZGVybml6ZSBjX3JhcGxfaW50ZXJmYWNl
-IGNvbnN0cnVjdG9yIHRvIHVzZSBzdGQ6OnN0cmluZwoxNDdlYmUzIG1vZGVybml6ZTogTW9kZXJu
-aXplIGxpYi5oIGFuZCBsaWIuY3BwIHRvIHByZWZlciBzdGQ6OnN0cmluZwo3ZWRhYWFkIG1vZGVy
-bml6ZTogU3lzdGVtYXRpYyByZWZhY3RvciBvZiBvYmplY3QgaGllcmFyY2h5IHRvIHByZWZlciBz
-dGQ6OnN0cmluZwo5MWYzNjIxIG1vZGVybml6ZTogQ29tcHJlaGVuc2l2ZSBtb2Rlcm5pemF0aW9u
-IG9mIHBhdGggY29uc3RydWN0aW9uIGFuZCBsb2NhbCBidWZmZXJzCmE4ZDc4NzMgbW9kZXJuaXpl
-OiBDb252ZXJ0IGRldmljZV9oYXNfcnVudGltZV9wbSB0byB0YWtlIHN0ZDo6c3RyaW5nCmRjMjk0
-YjMgdHVuaW5nOiBNb2Rlcm5pemUgcGF0aCBjb25zdHJ1Y3Rpb24gYW5kIGVsaW1pbmF0ZSBsb2Nh
-bCBjaGFyIGJ1ZmZlcnMKZjU0YjczZSBwcm9jZXNzOiBNb2Rlcm5pemUgVUkgZm9ybWF0dGluZyBh
-bmQgZWxpbWluYXRlIHNucHJpbnRmIGludG8gbG9jYWwgYnVmZmVycwpjYjEzMDMxIGNwdTogTW9k
-ZXJuaXplIHBhdGggY29uc3RydWN0aW9uIGFuZCBlbGltaW5hdGUgZmlsZW5hbWUgYnVmZmVycwo0
-ZDc2MzExIGNwdTogTW9kZXJuaXplIENQVSBoZWFkZXIgZm9ybWF0dGluZyBhbmQgZWxpbWluYXRl
-IHNucHJpbnRmIGludG8gbG9jYWwgYnVmZmVycwpmZGJhNzQ5IG1vZGVybml6ZTogRWxpbWluYXRl
-IG1vcmUgcHRfc3RyY3B5IHVzYWdlcyBieSBjb252ZXJ0aW5nIHRhcmdldHMgdG8gc3RkOjpzdHJp
-bmcKNTA5MmJhZCBtb2Rlcm5pemU6IEVsaW1pbmF0ZSBwdF9zdHJjcHkgaW4gdHVuaW5nLmNwcCBh
-bmQgbW9kZXJuaXplIHJlc3VsdF9zdHJpbmcoKQo5YTkzZmVjIHJlcG9ydDogTW9kZXJuaXplIHJl
-cG9ydHN0cmVhbSBhbmQgb3V0cHV0IGluaXRpYWxpemF0aW9uCjViYmYzMDEgd2FrZXVwOiBGaW5h
-bGl6ZSBtb2Rlcm5pemF0aW9uIG9mIHdha2V1cCBzdWJjbGFzc2VzCjQ4MGMzM2QgZGV2aWNlczog
-Q29tcGxldGUgbW9kZXJuaXphdGlvbiBvZiBodW1hbl9uYW1lIG1ldGhvZAo3ZjQ3ZjE4IGxpYjog
-TW9kZXJuaXplIHByZXR0eV9wcmludCB3aXRoIHN0ZDo6c3RyaW5nIG92ZXJsb2FkCjAyZjRlNGYg
-bW9kZXJuaXplOiBDb252ZXJ0IGRlc2NyaXB0aW9uKCkgdG8gcmV0dXJuIHN0ZDo6c3RyaW5nCmJm
-M2RlMTUgdHVuaW5nOiBNb2Rlcm5pemUgZXRoZXJuZXRfdHVuYWJsZSB3aXRoIHN0ZDo6c3RyaW5n
-Cjg0Zjk4NDcgZGV2aWNlczogUmVuYW1lIGh1bWFuX25hbWUgdG8gaHVtYW5fbmFtZV9jc3RyIGFu
-ZCBwcmVmZXIgaHVtYW5fbmFtZV9zCmY1N2I2MzkgcHJvY2VzczogTW9kZXJuaXplIGZpbmRfY3Jl
-YXRlX3Byb2Nlc3MgdG8gdXNlIHN0ZDo6c3RyaW5nCmViMjZkZWUgZGV2bGlzdDogTW9kZXJuaXpl
-IGRldnVzZXIgYW5kIGRldnBvd2VyIHN0cnVjdHMgd2l0aCBzdGQ6OnN0cmluZwoxNTdhZDVmIHBy
-b2Nlc3M6IE1vZGVybml6ZSBwcm9jZXNzIGhpZXJhcmNoeSB3aXRoIHN0ZDo6c3RyaW5nCjI1MTZm
-NTAgbGliOiBNb2Rlcm5pemUgcmVhZF9zeXNmc19zdHJpbmcgYW5kIHVuaWZ5IG9uIHN0ZDo6c3Ry
-aW5nCmQ3NWU0ZTIgbWVhc3VyZW1lbnQ6IE1vZGVybml6ZSBwb3dlcl9tZXRlciBoaWVyYXJjaHkg
-d2l0aCBzdGQ6OnN0cmluZyBmb3IgbmFtZXMKMThiNzM0NyB0dW5pbmc6IE1vZGVybml6ZSBydW50
-aW1lX3R1bmFibGUgYW5kIGFkZF9ydW50aW1lX3R1bmFibGVzCjFjNDg3YTYgZGV2aWNlczogTW9k
-ZXJuaXplIHJlZ2lzdGVyX3N5c2ZzX3BhdGgKNWViMzljOSB3YWtldXA6IENvbXBsZXRlIG1vZGVy
-bml6YXRpb24gb2YgY2xhc3Mgd2FrZXVwIGFuZCBzdWJjbGFzc2VzCjM2NTA5NGEgd2FrZXVwOiBN
-b2Rlcm5pemUgdG9nZ2xlIHNjcmlwdHMgdG8gc3RkOjpzdHJpbmcKM2ZjNjFmNiBsaWI6IEFkZCBw
-dF9mb3JtYXQgaGVscGVyIGFuZCByZWZhY3RvciB0cmFuc2xhdGVkIHN0cmluZ3MKNTg1ZWRhNSBj
-cHU6IEZpbmFsaXplIGJ1ZmZlciBhbmQgc3RyaW5nIGNvbnZlcnNpb25zCjg0NmNhYjggYSBsb3Qg
-bW9yZSBidWZmZXIgY29udmVyc2lvbnMKZWQ4NWM1YyBSZWZhY3RvcjogQ29udmVydCB0b2dnbGVf
-c2NyaXB0IHRvIHN0ZDo6c3RyaW5nIGFuZCByZW1vdmUgcmVkdW5kYW50IG92ZXJyaWRlcwo1MzQ0
-Y2EzIERvYzogVXBkYXRlIGNsYXNzIGRlc2NyaXB0aW9uIHdpdGggcmVjZW50IHN0cmluZyByZWZh
-Y3RvcnMKZGQwNDY3YyBSZWZhY3RvcjogQ29udmVydCB0dW5hYmxlIG1lbWJlcnMgdG8gc3RkOjpz
-dHJpbmcgYW5kIHVzZSBzdGQ6OmZvcm1hdCBpbiBkZXJpdmVkIGNsYXNzZXMKZjc0ZmJiNyBSZWZh
-Y3RvcjogQ29udmVydCB1c2JkZXZpY2U6OnN5c2ZzX3BhdGggdG8gc3RkOjpzdHJpbmcgYW5kIHVz
-ZSBzdGQ6OmZvcm1hdAo2OGZmNjgzIFJlZmFjdG9yOiBDb252ZXJ0IGFoY2k6OnN5c2ZzX3BhdGgg
-dG8gc3RkOjpzdHJpbmcgYW5kIHVzZSBzdGQ6OmZvcm1hdApjMDRjMzIyIFJlZmFjdG9yOiBDb252
-ZXJ0IG5ldHdvcms6OnN5c2ZzX3BhdGggdG8gc3RkOjpzdHJpbmcgYW5kIHVzZSBzdGQ6OmZvcm1h
-dApjOTg4YmRkIFJlZmFjdG9yOiBDb252ZXJ0IHJma2lsbDo6c3lzZnNfcGF0aCB0byBzdGQ6OnN0
-cmluZyBhbmQgdXNlIHN0ZDo6Zm9ybWF0CjQ3YThmYmQgUmVmYWN0b3I6IENvbnZlcnQgcnVudGlt
-ZV9wbWRldmljZTo6c3lzZnNfcGF0aCB0byBzdGQ6OnN0cmluZyBhbmQgdXNlIHN0ZDo6Zm9ybWF0
-CmU2ODZjNDUgUmVmYWN0b3I6IENvbnZlcnQgYmFja2xpZ2h0OjpzeXNmc19wYXRoIHRvIHN0ZDo6
-c3RyaW5nIGFuZCB1c2Ugc3RkOjpmb3JtYXQKMzMyOTgxNCBSZWZhY3RvcjogQ29udmVydCBhbHNh
-OjpzeXNmc19wYXRoIHRvIHN0ZDo6c3RyaW5nIGFuZCB1c2Ugc3RkOjpmb3JtYXQKNDlhNTE2ZSBS
-ZWZhY3RvcjogQ29udmVydCBkZXZpY2U6OnJlYWxfcGF0aCB0byBzdGQ6OnN0cmluZwo0YThhODMz
-IFJlZmFjdG9yOiBDb252ZXJ0IGNwdWRldmljZSBuYW1pbmcgbWVtYmVycyB0byBzdGQ6OnN0cmlu
-ZyBhbmQgaW1wbGVtZW50IG5hbWluZyBtZXRob2RzCjUzMzNmZmIgQ2xlYW51cDogVXNlIGRpcmVj
-dCBzdGQ6OnN0cmluZyBjb21wYXJpc29uIGluIHJ1bnRpbWVfdHVuYWJsZQoxMDliNzVmIENsZWFu
-dXA6IFVzZSBkaXJlY3Qgc3RkOjpzdHJpbmcgY29tcGFyaXNvbiBpbiBpMmNfdHVuYWJsZQo2MGMy
-ODkxIENsZWFudXA6IFVzZSBkaXJlY3Qgc3RkOjpzdHJpbmcgY29tcGFyaXNvbiBpbiB1c2JfdHVu
-YWJsZQplNGRkMWVmIENsZWFudXA6IFVzZSBkaXJlY3Qgc3RkOjpzdHJpbmcgY29tcGFyaXNvbiBp
-biBldGhlcm5ldF93YWtldXAKMDczZGExNyBDbGVhbnVwOiBVc2UgZGlyZWN0IHN0ZDo6c3RyaW5n
-IGNvbXBhcmlzb24gaW4gdXNiX3dha2V1cAo3NGNkOGVkIHVwZGF0ZSByZXZpZXcgcnVsZXMgdG8g
-dXNlIGNvbnN0IHdoZW4gcG9zc2libGUKNGQ1ZTkxOCBSZWZhY3RvcjogQWRkIHN0ZDo6c3RyaW5n
-IHZhcmlhbnRzIGZvciB3aWZpIHBvd2VyIHNhdmluZyBhbmQgY2xlYW51cCAuY19zdHIoKSBjYWxs
-cwo2NTAxMzlhIFJlZmFjdG9yOiBBZGQgX3MoKSBzdHJpbmcgbWV0aG9kcyB0byBkcmFtX3JhcGxf
-ZGV2aWNlCjI5NDU4OTQgUmVmYWN0b3I6IEFkZCBfcygpIHN0cmluZyBtZXRob2RzIHRvIGNwdV9y
-YXBsX2RldmljZQo0YjFlNzYyIFJlZmFjdG9yOiBDb252ZXJ0IGNwdWRldmljZSBuYW1pbmcgbWVt
-YmVycyB0byBzdGQ6OnN0cmluZwo4MWJiYTk5IFJlZmFjdG9yOiBBZGQgX3MoKSBzdHJpbmcgbWV0
-aG9kcyB0byBncHVfcmFwbF9kZXZpY2UKNzk3MDdhOCBSZWZhY3RvcjogQWRkIF9zKCkgc3RyaW5n
-IG1ldGhvZHMgdG8gaTkxNWdwdSBhbmQgaW5jb3Jwb3JhdGUgbmFtaW5nIGxvZ2ljCmU2NDIyMDQg
-UmVmYWN0b3I6IENvbnZlcnQgbmV0d29yayBuYW1lIHRvIHN0ZDo6c3RyaW5nIGFuZCB1c2Ugc3Rk
-Ojpmb3JtYXQKMDYwOWIxZCBSZWZhY3RvcjogQ29udmVydCB1c2JkZXZpY2UgbmFtZSB0byBzdGQ6
-OnN0cmluZwphOTU5NWI0IFJlZmFjdG9yOiBBZGQgc3RkOjpzdHJpbmcgdmFyaWFudHMgZm9yIHJl
-Z2lzdGVyX2RldnBvd2VyIGFuZCBwYXJhbWV0ZXIvcmVzdWx0IG1ldGhvZHMsIGFuZCBjbGVhbnVw
-IC5jX3N0cigpIGNhbGxzCjMzMjYwZDYgQ2xlYW51cDogUmVtb3ZlIHJlZHVuZGFudCAuY19zdHIo
-KSBjYWxscyBpbiBiYWNrbGlnaHQuY3BwCjczNGJhNTAgQ2xlYW51cDogUmVtb3ZlIHJlZHVuZGFu
-dCAuY19zdHIoKSBjYWxscyBpbiByZmtpbGwuY3BwCmMyNTc4ZTIgQ2xlYW51cDogUmVtb3ZlIHJl
-ZHVuZGFudCAuY19zdHIoKSBjYWxscyBpbiBhaGNpLmNwcApiMjdkZDUyIENsZWFudXA6IFJlbW92
-ZSByZWR1bmRhbnQgLmNfc3RyKCkgY2FsbHMgaW4gcnVudGltZV9wbS5jcHAKNjY0ZWIzMyBSZWZh
-Y3RvcjogQWRkIHN0ZDo6c3RyaW5nIHZhcmlhbnRzIGZvciBwYXJhbWV0ZXIvcmVzdWx0IGFjY2Vz
-cyBtZXRob2RzCmI3ZWFiY2IgUmVmYWN0b3I6IFVzZSBzdGQ6OnN0cmluZyBhbmQgc3RkOjpmb3Jt
-YXQgaW4gZGV2aWNlIHJlcG9ydGluZyBtZXRob2RzCmRiNzRjZGMgUmVmYWN0b3I6IEFkZCBfcygp
-IHN0cmluZyBtZXRob2RzIHRvIHRoaW5rcGFkX2xpZ2h0CjE2YzBlMmQgUmVmYWN0b3I6IEFkZCBf
-cygpIHN0cmluZyBtZXRob2RzIHRvIHRoaW5rcGFkX2Zhbgo3ZGY1NTkxIFJlZmFjdG9yOiBDb252
-ZXJ0IGRldmZyZXEgZGlyX25hbWUgdG8gc3RkOjpzdHJpbmcgYW5kIHVzZSBzdGQ6OmZvcm1hdAo0
-ZjgxNTU3IFJlZmFjdG9yOiBDb252ZXJ0IGJhY2tsaWdodCBuYW1lIHRvIHN0ZDo6c3RyaW5nIGFu
-ZCB1c2Ugc3RkOjpmb3JtYXQKYWQ4NDk0MCBSZWZhY3RvcjogQ29udmVydCBhbHNhIGh1bWFubmFt
-ZSBhbmQgbmFtZSB0byBzdGQ6OnN0cmluZyBhbmQgdXNlIHN0ZDo6Zm9ybWF0CmM4ODhmZjUgUmVm
-YWN0b3I6IENvbnZlcnQgcmZraWxsIGh1bWFubmFtZSBhbmQgbmFtZSB0byBzdGQ6OnN0cmluZyBh
-bmQgdXNlIHN0ZDo6Zm9ybWF0CjI1MDdlZDcgUmVmYWN0b3I6IENvbnZlcnQgYWhjaSBodW1hbm5h
-bWUgYW5kIG5hbWUgdG8gc3RkOjpzdHJpbmcgYW5kIHVzZSBzdGQ6OmZvcm1hdAo0MjJjZjA5IFJl
-ZmFjdG9yOiBDb252ZXJ0IHJ1bnRpbWVfcG1kZXZpY2UgaHVtYW5uYW1lIGFuZCBuYW1lIHRvIHN0
-ZDo6c3RyaW5nIGFuZCB1c2Ugc3RkOjpmb3JtYXQKOGQzMmYwOCBSZWZhY3RvcjogQ29udmVydCB1
-c2JkZXZpY2UgaHVtYW5uYW1lIGFuZCBkZXZuYW1lIHRvIHN0ZDo6c3RyaW5nIGFuZCB1c2Ugc3Rk
-Ojpmb3JtYXQKN2ZjMjAzZSBSZWZhY3RvcjogQ29udmVydCBuZXR3b3JrOjpodW1hbm5hbWUgdG8g
-c3RkOjpzdHJpbmcgYW5kIHVzZSBzdGQ6OmZvcm1hdAozOTY2NjI2IFJlZmFjdG9yOiBDb252ZXJ0
-IGFsc2E6Omh1bWFubmFtZSB0byBzdGQ6OnN0cmluZyBhbmQgdXNlIHN0ZDo6Zm9ybWF0Cjg4OGFj
-NmQgQ2xlYW51cDogUmVtb3ZlIHJlZHVuZGFudCBsZW5ndGggY2hlY2tzIGZvciBzdGQ6OnN0cmlu
-ZyBndWlsdHkKNmE5OTg1MCBSZWZhY3RvcjogQ29udmVydCBkZXZpY2U6Omd1aWx0eSB0byBzdGQ6
-OnN0cmluZyBhbmQgdXNlIHN0ZDo6Zm9ybWF0IGluIGFsc2E6Omh1bWFuX25hbWUKN2Y5ZTVjYiBS
-ZWZhY3RvcjogVXNlIHN0ZDo6Zm9ybWF0IGluIGkyY190dW5hYmxlCjMzZDE2ZTQgUmVmYWN0b3I6
-IFVzZSBzdGQ6OmZvcm1hdCBpbiB1c2JfdHVuYWJsZQpiZWYzYTJmIFJlZmFjdG9yOiBVc2Ugc3Rk
-Ojpmb3JtYXQgaW4gZXRoZXJuZXRfdHVuYWJsZQo3YWU0MTI0IFJlZmFjdG9yOiBVc2Ugc3RkOjpm
-b3JtYXQgaW4gYnRfdHVuYWJsZQplYjVlMTAzIFJlZmFjdG9yOiBVc2Ugc3RkOjpmb3JtYXQgaW4g
-cnVudGltZV90dW5hYmxlCjk5YjBlMTUgUmVmYWN0b3I6IFVzZSBzdGQ6OmZvcm1hdCBpbiBldGhl
-cm5ldF93YWtldXAKM2FkNWIzZiBSZWZhY3RvcjogVXNlIHN0ZDo6Zm9ybWF0IGluIHVzYl93YWtl
-dXAKMGY0NDVmYyBSZWZhY3RvcjogVXNlIHN0ZDo6Zm9ybWF0IGluIHdpZmlfdHVuYWJsZQpkMDlh
-ODljIEJ1aWxkOiBVcGRhdGUgdG8gQysrMjAgc3RhbmRhcmQKMWM1MzZjOSBSZWZhY3RvcjogQ29u
-dmVydCB0dW5hYmxlIGFuZCB3YWtldXAgZGVzYyB0byBzdGQ6OnN0cmluZyBhbmQgYWRkIF9zKCkg
-c3RyaW5nIG1ldGhvZHMKNmExOGZlMiBBZGQgTWVzb24gYnVpbGQgc3lzdGVtCjQ1ODQ4NmEgc3R5
-bGUgZ3VpZGUgdXBkYXRlCmUyZmRjOGIgQWRkIGEgc2ltcGxlIGNsYXNzIGRlc2NyaXB0aW9uIGRv
-Y3VtZW50CjFlZDE0Mzggc3RhcnQgYnVpbGRpbmcgYSB2ZXJ5IGJhc2ljIGNvZGUgcmV2aWV3IGd1
-aWRlbGluZSBzZXQKOWIxOGE2YSBVcGRhdGUgcHRfUFQucG8KODJjYjk1ZCBVcGRhdGUgcHRfUFQu
-cG8KYjgyMDdlNiBVcGRhdGUgcHRfUFQucG8KOGUyNWJiMSBSZW5hbWUgcHRfUFQgdG8gcHRfUFQu
-cG8KODgwOGZiMyBDcmVhdGUgcHRfUFQKNGU1ZmNlMyBVcGRhdGUgTElOR1VBUwo0OTA0NWMwIE1l
-cmdlIHB1bGwgcmVxdWVzdCAjMTgyIGZyb20gZnJhZ2dsZXQvbWFzdGVyCmI1ZDFkM2QgRml4IHJv
-b3QgcHJpdmlsZWdlcyBjaGVjawpkM2QxMDYyIE1lcmdlIHB1bGwgcmVxdWVzdCAjMTczIGZyb20g
-YXJ1aGllci9wYXRjaF9zeXNmcwo4YmM5NGVkIEZpeCBiYXR0ZXJ5IHJ1bnRpbWUgZXN0aW1hdGlv
-biB3aXRoIG5lZ2F0aXZlIHN5c2ZzIHZhbHVlcwplNTk4MjkxIE1lcmdlIHB1bGwgcmVxdWVzdCAj
-MTcwIGZyb20gbmFzYWhscGEvYXJsX3N1cHBvcnQKOTc5ZTMxYiBNZXJnZSBwdWxsIHJlcXVlc3Qg
-IzE3MiBmcm9tIHlhcmRhL2dldHRleHQtdmVyc2lvbgo5NTJmNWQ4IFVzZSBBTV9HTlVfR0VUVEVY
-VF9SRVFVSVJFX1ZFUlNJT04gdG8gYXZvaWQgdmVyc2lvbiBtaXNtYXRjaAo0ZTQ4NmVlIEFkZCBJ
-bnRlbCBBcnJvdyBMYWtlIHN1cHBvcnQKOWJlYWZlMyAib24iIGlzIGFsc28gZ29vZCwgYXMgcmVw
-b3J0ZWQgYnkgUGF1bCBNZW56ZWwKOTRiMDhkNCBBZGQgLS1hdXRvLXR1bmUtZHVtcCB0byBtYW5w
-YWdlCjRiZGZiYTEgTWVyZ2UgcHVsbCByZXF1ZXN0ICMxNDEgZnJvbSByZW5hdC1zYWJpdG92L3Qt
-aGVhZC0xNTIwLWxwaTRhCjE4NGIyZjQgRml4ZWQgUklTQ1YgVC1IZWFkIDE1MjAgQ1BVIGlkZW50
-aWZpY2F0aW9uCjI0YTk2ZWEgTWVyZ2UgcHVsbCByZXF1ZXN0ICMxMzMgZnJvbSBtYXR0c3Q4OC9u
-Y3Vyc2VzCmMzMzlkZjUgRml4IGNvbmZpZ3VyZSB0byBzdXBwb3J0IG5jdXJzZXMgdy8gdGluZm8K
-YjZkMTU2OSBNZXJnZSBwdWxsIHJlcXVlc3QgIzEyMiBmcm9tIHJvc3RlZHQvbGlidHJhY2Vmcwox
-ZjJhNjZlIGk5MTU6IEhhdmUgaTkxNSBkZXZpY2UgdXNlIHRyYWNlZnNfZXZlbnRfZmlsZV9leGlz
-dHMoKQo5NTY3ZTkzIHRyYWNlZnM6IFVzZSB0cmFjZWZzX2V2ZW50X2ZpbGVfcmVhZCgpIHRvIGZp
-bmQgdGhlIGV2ZW50cwoyYjEzM2VkIHRyYWNlZnM6IFVzZSBsaWJ0cmFjZWZzIGFuZCBsaWJ0cmFj
-ZWV2ZW50CjNmODY5ZGMgTWVyZ2UgcHVsbCByZXF1ZXN0ICMxMTYgZnJvbSBqdHJ1L2F1dG8tdHVu
-ZS1kdW1wCmZhOTE2ZjEgSW1wbGVtZW50IC0tYXV0by10dW5lLWR1bXAK
-
---===============7472454452549078255==
+--===============8486174108846027934==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 956 .bb files complete (0 cached, 956 parsed). 1987 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
+Parsing of 956 .bb files complete (0 cached, 956 parsed). 1987 targets, 63 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.19.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-f5004b1575b233976db037eb097a38406f8507cf"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:f5004b1575b233976db037eb097a38406f8507cf"
+DISTRO_VERSION       = "6.0.99+snapshot-2be8bb818b656ef2c419cf7f7b7d449695585934"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:2be8bb818b656ef2c419cf7f7b7d449695585934"
 meta-yocto-bsp       
 meta-poky            = "master:0afedb9b1195525861f9140d6f33e9cd4118b199"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 255 Local 241 Mirrors 0 Missed 14 Current 565 (94% match, 98% complete)
+Sstate summary: Wanted 514 Local 428 Mirrors 0 Missed 86 Current 302 (83% match, 89% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 748 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 767 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 774 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-bsp/pciutils/pciutils_3.15.0.bb:do_create_spdx_setscene)
-NOTE: Running task 1165 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_recipe_qa)
+NOTE: Running setscene task 311 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 371 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 413 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 422 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 425 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 439 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 442 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 444 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 456 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 459 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 462 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 464 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 465 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 468 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 473 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 476 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_create_spdx_setscene)
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe openssl-3.5.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe coreutils-9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 477 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 478 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.47.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 479 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 480 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 481 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 483 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 484 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 485 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_create_spdx_setscene)
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 486 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_create_spdx_setscene)
+NOTE: recipe binutils-2.47-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 487 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 488 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 489 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libmpc-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-pytest-9.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sed-4.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 490 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe expat-2.8.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 491 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_16.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 495 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_packagedata_setscene)
+NOTE: recipe gcc-16.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe binutils-2.47-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 498 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 499 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 500 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-pytest-9.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libedit-20260512-3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libmpc-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 510 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libffi-3.8.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 511 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 514 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 518 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 520 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 523 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.195.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 528 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 530 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 534 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_populate_sysroot_setscene)
+NOTE: recipe json-c-0.19-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 535 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libmpc-1.4.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
 NOTE: recipe ncurses-6.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pciutils-3.15.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe powertop-2.16-r0: task do_recipe_qa: Started
-NOTE: recipe pciutils-3.15.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 806 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-bsp/pciutils/pciutils_3.15.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe elfutils-0.195-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pytest-9.1.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-16.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 537 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_packagedata_setscene)
+NOTE: Running setscene task 539 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 540 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe json-c-0.19-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 542 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_recipe_qa_setscene)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe elfutils-0.195-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: recipe ncurses-6.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 811 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 812 of 820 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 543 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.47.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 545 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.20.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pytest-9.1.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 546 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
+NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 548 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.195.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 549 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 560 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe binutils-2.47-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe shadow-4.20.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 561 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_create_spdx_setscene)
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 564 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmpc-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe json-c-0.19-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 565 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-poetry-core_2.4.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 566 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pip_26.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe elfutils-0.195-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
 NOTE: recipe libtool-cross-2.6.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pciutils-3.15.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 571 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pip-native-26.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libarchive-3.8.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe json-c-0.19-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 572 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.48.bb:do_packagedata_setscene)
+NOTE: Running setscene task 576 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 584 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-2.47-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 588 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe elfutils-0.195-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 590 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.48.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe file-5.48-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 591 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe json-c-0.19-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe mpfr-4.2.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 592 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_recipe_qa_setscene)
 NOTE: recipe libtool-cross-2.6.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe pciutils-3.15.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 594 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe file-5.48-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 596 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 597 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_packagedata_setscene)
+NOTE: recipe libmpc-1.4.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-poetry-core-native-2.4.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 601 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 604 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libarchive-3.8.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 605 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_recipe_qa_setscene)
+NOTE: recipe libgpg-error-1.61-r0: task do_packagedata_setscene: Started
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 606 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_packagedata_setscene)
+NOTE: recipe libseccomp-2.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 607 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_recipe_qa_setscene)
+NOTE: recipe json-c-0.19-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 610 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmpc-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 613 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 614 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_recipe_qa_setscene)
+NOTE: recipe file-5.48-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libseccomp-2.6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 615 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_spdx_setscene)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 616 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-pip-native-26.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 617 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.13.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 618 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe nettle-4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe mpfr-4.2.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 619 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_package_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe curl-8.21.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe file-5.48-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gnutls-3.8.13-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 620 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 625 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 629 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libgpg-error-1.61-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 630 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libseccomp-2.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 634 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_packagedata_setscene)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 635 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 637 of 816 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pip_26.2.bb:do_recipe_qa_setscene)
+NOTE: recipe nettle-4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 638 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.16.bb:do_packagedata_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 644 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpsl-0.23.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe curl-8.21.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe acl-2.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.78-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 645 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-pip-native-26.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 646 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libseccomp-2.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe nettle-4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 648 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
+NOTE: recipe gnutls-3.8.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 650 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 651 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 654 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe lzlib-1.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe acl-2.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mpfr-4.2.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 656 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 659 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libpsl-0.23.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 660 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.48.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_package_setscene: Started
+NOTE: recipe python3-pip-native-26.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe curl-8.21.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 661 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_recipe_qa_setscene)
+NOTE: recipe file-5.48-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 662 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 664 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.13.bb:do_recipe_qa_setscene)
+NOTE: recipe libidn2-2.3.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 666 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.1.bb:do_recipe_qa_setscene)
+NOTE: recipe acl-2.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.78-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 667 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 669 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_recipe_qa_setscene)
+NOTE: recipe mpfr-4.2.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 670 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 671 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gnutls-3.8.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libseccomp-2.6.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe acl-2.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 673 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe lzlib-1.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 674 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 679 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libpsl-0.23.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe curl-8.21.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe file-5.48-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 680 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 681 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_packagedata_setscene)
+NOTE: recipe nettle-4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 683 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtasn1-4.21.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe attr-2.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.6.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 684 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_recipe_qa_setscene)
+NOTE: recipe gnutls-3.8.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 685 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.16.bb:do_recipe_qa_setscene)
+NOTE: recipe acl-2.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-2.78-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 686 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libseccomp-2.6.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe lzlib-1.16-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 687 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libpsl-0.23.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe nettle-4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe acl-2.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 855 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_fetch)
+NOTE: Running task 862 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_fetch)
+NOTE: Running task 864 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_fetch)
+NOTE: Running task 870 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_fetch)
+NOTE: Running task 873 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_fetch)
+NOTE: Running task 874 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.13.bb:do_fetch)
+NOTE: recipe attr-2.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe lzlib-1.16-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 876 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_fetch)
+NOTE: Running task 879 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_write_config)
+NOTE: recipe libcap-2.78-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 888 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_recipe_qa)
+NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 693 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_recipe_qa_setscene)
+NOTE: Running task 904 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb:do_fetch)
+NOTE: recipe libpsl-0.23.1-r0: task do_fetch: Started
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 695 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libidn2-2.3.8-r0: task do_fetch: Started
+NOTE: recipe curl-8.21.0-r0: task do_fetch: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_fetch: Started
+NOTE: recipe attr-2.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_fetch: Started
+NOTE: recipe libpsl-0.23.1-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.13-r0: task do_fetch: Started
+NOTE: Running setscene task 698 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libpsl-0.23.1-r0: task do_write_config: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_fetch: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_fetch: Succeeded
+NOTE: recipe curl-8.21.0-r0: task do_fetch: Succeeded
+NOTE: recipe libarchive-3.8.9-r0: task do_fetch: Started
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_recipe_qa: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.13-r0: task do_fetch: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 905 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_unpack)
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_fetch: Started
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running task 957 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_unpack)
+NOTE: Running task 990 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.195.bb:do_fetch)
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_fetch: Succeeded
+NOTE: Running task 991 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_unpack)
+NOTE: recipe libpsl-0.23.1-r0: task do_write_config: Succeeded
+NOTE: Running task 992 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_unpack)
+NOTE: Running task 993 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.13.bb:do_unpack)
+NOTE: recipe attr-2.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 994 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_unpack)
+NOTE: Running task 1007 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb:do_unpack)
+NOTE: Running task 1021 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb:do_fetch)
+NOTE: recipe libidn2-2.3.8-r0: task do_unpack: Started
+NOTE: recipe libpsl-0.23.1-r0: task do_unpack: Started
+NOTE: recipe elfutils-0.195-r0: task do_fetch: Started
+NOTE: recipe curl-8.21.0-r0: task do_unpack: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_unpack: Started
+NOTE: recipe elfutils-0.195-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.13-r0: task do_unpack: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_unpack: Started
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_fetch: Started
+NOTE: Running task 1022 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.195.bb:do_unpack)
+NOTE: recipe libunistring-1.4.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1024 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_fetch)
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_unpack: Succeeded
+NOTE: recipe elfutils-0.195-r0: task do_unpack: Started
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1083 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb:do_recipe_qa)
+NOTE: recipe attr-2.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 712 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libidn2-2.3.8-r0: task do_unpack: Succeeded
+NOTE: Running task 1097 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-rdflib_7.6.0.bb:do_recipe_qa)
+NOTE: Running task 1098 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_patch)
+NOTE: recipe libunistring-1.4.2-r0: task do_fetch: Started
+NOTE: Running task 1099 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb:do_unpack)
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_recipe_qa: Started
+NOTE: Running task 1100 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_patch)
+NOTE: recipe libunistring-1.4.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_recipe_qa: Started
+NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1101 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_fetch)
+NOTE: recipe libtasn1-4.21.0-r0: task do_patch: Started
+NOTE: Running task 1102 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_unpack)
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_unpack: Started
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_unpack: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_patch: Started
+NOTE: Running task 1103 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb:do_patch)
+NOTE: recipe libunistring-1.4.2-r0: task do_unpack: Started
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_fetch: Started
+NOTE: recipe libpsl-0.23.1-r0: task do_unpack: Succeeded
+NOTE: recipe curl-8.21.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1104 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_patch)
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_patch: Started
+NOTE: Running task 1105 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb:do_patch)
+NOTE: Running task 1106 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_patch)
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_fetch: Succeeded
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_patch: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_patch: Succeeded
+NOTE: Running task 1107 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_unpack)
+NOTE: recipe libpsl-0.23.1-r0: task do_patch: Started
+NOTE: recipe curl-8.21.0-r0: task do_patch: Started
+NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1122 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe libmicrohttpd-1.0.10-r0: task do_patch: Succeeded
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1251 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_fetch)
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_unpack: Started
+NOTE: Running task 1253 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_fetch)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_patch: Succeeded
+NOTE: Running task 1254 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb:do_fetch)
+NOTE: recipe libunistring-1.4.2-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe libpsl-0.23.1-r0: task do_patch: Succeeded
+NOTE: Running task 1255 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-rdflib_7.6.0.bb:do_fetch)
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_fetch: Started
+NOTE: Running task 1256 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pytest-9.1.1-r0: task do_fetch: Started
+NOTE: Running task 1257 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1258 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_patch)
+NOTE: Running task 1260 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_fetch: Started
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_fetch: Started
+NOTE: Running task 1261 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_patch)
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.13-r0: task do_unpack: Succeeded
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_patch: Started
+NOTE: Running task 1262 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.13.bb:do_patch)
+NOTE: Running task 1263 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb:do_unpack)
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_patch: Started
+NOTE: recipe python3-pytest-9.1.1-r0: task do_fetch: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_unpack: Started
+NOTE: recipe gnutls-3.8.13-r0: task do_patch: Started
+NOTE: Running task 1264 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_patch)
+NOTE: Running task 1265 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb:do_fetch)
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_patch: Succeeded
+NOTE: Running task 1269 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.47.bb:do_fetch)
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_patch: Started
+NOTE: Running task 1270 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb:do_patch)
+NOTE: Running task 1271 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-rdflib_7.6.0.bb:do_unpack)
+NOTE: Running task 1292 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_unpack)
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_patch: Succeeded
+NOTE: Running task 1294 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe python3-markupsafe-3.0.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running noexec task 1328 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_16.1.bb:do_fetch)
+NOTE: Running task 1365 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb:do_create_recipe_spdx)
+NOTE: recipe binutils-2.47-r0: task do_fetch: Started
+NOTE: Running task 1366 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_patch: Started
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_unpack: Started
+NOTE: recipe python3-pytest-9.1.1-r0: task do_unpack: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb:do_deploy_source_date_epoch unihash changed to 29b2d2009b0b936ed2d026f93fa18bb3f723303aebc56f4601a0cae395097392
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe binutils-2.47-r0: task do_fetch: Succeeded
+NOTE: recipe curl-8.21.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 1368 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.47.bb:do_unpack)
+NOTE: Running task 1370 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_create_recipe_spdx)
+NOTE: Running task 1371 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-rdflib_7.6.0.bb:do_create_recipe_spdx)
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: recipe python3-pytest-9.1.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1373 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe binutils-2.47-r0: task do_unpack: Started
+NOTE: Running task 1374 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_patch)
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 1375 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb:do_unpack)
+NOTE: Running task 1376 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe python3-pytest-9.1.1-r0: task do_patch: Started
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_unpack: Started
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1377 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: Load average limiting set to True as load average: 1.5018259684244792 - using 14/16 bitbake threads
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pytest-9.1.1-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_unpack: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-jinja2_3.1.6.bb:do_deploy_source_date_epoch unihash changed to f5fb11a830ca434568e1253f47338aa1f1dac9a3e3a89255813a1f2d1c62c571
+NOTE: recipe elfutils-0.195-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: recipe python3-jinja2-3.1.6-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-shacl2code-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_fetch: Succeeded
+NOTE: recipe gnutls-3.8.13-r0: task do_patch: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_patch: Succeeded
+NOTE: recipe binutils-2.47-r0: task do_unpack: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 713 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 714 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 715 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 716 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: Running setscene task 717 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 718 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 719 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 720 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 721 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 722 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 723 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 724 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 725 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 726 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 727 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 728 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_packagedata_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 729 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 731 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 732 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.8.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 733 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 734 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 735 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 736 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 738 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 742 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.8.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 746 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 748 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: recipe libedit-20260512-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 752 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libedit-20260512-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 754 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 756 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 757 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 760 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 762 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.8.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 765 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 767 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.2.bb:do_recipe_qa_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 769 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.8.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 771 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 773 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 775 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 776 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 777 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
+NOTE: recipe openssl-3.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.6.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 779 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 781 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.6.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 782 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 784 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.6.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.6.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 786 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 788 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 790 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 791 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 793 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 794 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 795 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 796 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 798 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 802 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 805 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 807 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 810 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 813 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 814 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 816 of 816 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Load average limiting set to False as load average: 1.460906982421875 - using 1/16 bitbake threads
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe powertop-2.16-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1820 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_fetch)
-NOTE: Running task 1958 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_create_recipe_spdx)
-NOTE: recipe powertop-2.16-r0: task do_fetch: Started
-NOTE: recipe powertop-2.16-r0: task do_create_recipe_spdx: Started
-NOTE: recipe powertop-2.16-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe powertop-2.16-r0: task do_fetch: Succeeded
-NOTE: Running task 1963 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_unpack)
-NOTE: Running task 1964 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe powertop-2.16-r0: task do_unpack: Started
-NOTE: recipe powertop-2.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe powertop-2.16-r0: task do_unpack: Succeeded
-NOTE: Running task 1965 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_patch)
-NOTE: recipe powertop-2.16-r0: task do_patch: Started
-NOTE: recipe powertop-2.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe powertop-2.16-r0: task do_patch: Succeeded
-NOTE: Running task 1966 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1967 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_populate_lic)
-NOTE: recipe powertop-2.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe powertop-2.16-r0: task do_populate_lic: Started
-NOTE: recipe powertop-2.16-r0: task do_populate_lic: Succeeded
-NOTE: recipe powertop-2.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1968 of 1980 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_configure)
-NOTE: recipe powertop-2.16-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-bsp/pciutils/pciutils_3.15.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.44.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-native_2.6.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/lay
- ers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/gettext/gettext_1.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/autoconf-archive/autoconf-archive_2024.10.16.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/autoconf/autoconf_2.73.bb:do_populate_sysroot', 'virtual:native:/srv/poky
- build/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/automake/automake_1.18.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_3.0.5.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['pciutils', 'openssl', 'base-files', 'base-passwd', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'systemd', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'quilt-native', 'bzip2', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'wayland-protocols', 'wayland', 'libpthread-stubs', 'libxau', 'libxcb', 'libxdmcp', 'libxkbcommon', 'xkeyboard-config', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'acl', 'attr', 'bash-completion', 'gdbm', 'libcap-ng', 'libcap', 'libcheck', 'libffi', 'libnl', 'libpcre2', 'libseccomp', 'shared-mime-info', 'sqlite3', 'gettext-native', 'zlib-native', 'autoconf-archive-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-nat
- ive', 'patch-native', 'pkgconf-native', 'pseudo-native', 'shadow-native', 'zstd-native', 'acl-native', 'attr-native', 'gmp-native', 'libmpc-native', 'mpfr-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_sitefiles
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_sitefiles finished
-| DEBUG: Executing shell function do_configure
-| NOTE: List of Makefile.in.ins to update: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/sources/powertop-2.16/po/Makefile.in.in
-| NOTE: Executing: cp /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/gettext/po/Makefile.in.in /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/sources/powertop-2.16/po/
-| NOTE: Concatenating Makevars: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/sources/powertop-2.16/po/Makevars
-| NOTE: Executing ACLOCAL="aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/" autoreconf -Wcross --verbose --install --force --exclude=autopoint
-| autoreconf: export WARNINGS=cross,no-obsolete
-| autoreconf: Entering directory '.'
-| autoreconf: configure.ac: not running autopoint: --exclude autopoint was given
-| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/ --force --install -I m4
-| aclocal: installing 'm4/ax_add_fortify_source.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/ax_add_fortify_source.m4'
-| aclocal: overwriting 'm4/ax_check_compile_flag.m4' with '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/ax_check_compile_flag.m4'
-| aclocal: installing 'm4/ax_cxx_compile_stdcxx.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/ax_cxx_compile_stdcxx.m4'
-| aclocal: installing 'm4/ax_pthread.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/ax_pthread.m4'
-| aclocal: installing 'm4/gettext.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/gettext.m4'
-| aclocal: installing 'm4/host-cpu-c-abi.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/host-cpu-c-abi.m4'
-| aclocal: installing 'm4/iconv.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/iconv.m4'
-| aclocal: installing 'm4/intlmacosx.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/intlmacosx.m4'
-| aclocal: installing 'm4/lib-ld.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/lib-ld.m4'
-| aclocal: installing 'm4/lib-link.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/lib-link.m4'
-| aclocal: installing 'm4/lib-prefix.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/lib-prefix.m4'
-| aclocal: installing 'm4/nls.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/nls.m4'
-| aclocal: installing 'm4/pkg.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/pkg.m4'
-| aclocal: installing 'm4/po.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/po.m4'
-| aclocal: installing 'm4/progtest.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/share/aclocal/progtest.m4'
-| aclocal: installing 'm4/libtool.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/libtool.m4'
-| aclocal: installing 'm4/ltoptions.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/ltoptions.m4'
-| aclocal: installing 'm4/ltsugar.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/ltsugar.m4'
-| aclocal: installing 'm4/ltversion.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/ltversion.m4'
-| aclocal: installing 'm4/lt~obsolete.m4' from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/lt~obsolete.m4'
-| autoreconf: configure.ac: tracing
-| autoreconf: running: libtoolize --copy --force
-| libtoolize: putting auxiliary files in '.'.
-| libtoolize: copying file './ltmain.sh'
-| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
-| libtoolize: copying file 'm4/libtool.m4'
-| libtoolize: copying file 'm4/ltoptions.m4'
-| libtoolize: copying file 'm4/ltsugar.m4'
-| libtoolize: copying file 'm4/ltversion.m4'
-| libtoolize: copying file 'm4/lt~obsolete.m4'
-| autoreconf: configure.ac: not using Intltool
-| autoreconf: configure.ac: not using Gtkdoc
-| autoreconf: configure.ac: not running autopoint: --exclude autopoint was given
-| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot/usr/share/aclocal/ --force --install -I m4
-| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/bin/autoconf --force
-| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/bin/autoheader --force
-| autoreconf: running: automake --add-missing --copy --force-missing
-| configure.ac:30: installing './ar-lib'
-| configure.ac:27: installing './compile'
-| configure.ac:27: installing './config.guess'
-| configure.ac:27: installing './config.sub'
-| configure.ac:6: installing './install-sh'
-| configure.ac:6: installing './missing'
-| src/Makefile.am: installing './depcomp'
-| autoreconf: './config.sub' is updated
-| autoreconf: './config.guess' is updated
-| autoreconf: configure.ac: not running make: --make not given
-| autoreconf: Leaving directory '.'
-| NOTE: Running ../sources/powertop-2.16/configure  --build=x86_64-linux 		  --host=x86_64-poky-linux 		  --target=x86_64-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking  --disable-static  --enable-nls
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/endian-little
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/common-linux
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/common-glibc
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/x86_64-linux
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/site/common
-| checking for a BSD-compatible install... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c
-| checking whether sleep supports fractional seconds... yes
-| checking filesystem timestamp resolution... 0.01
-| checking whether build environment is sane... yes
-| checking for x86_64-poky-linux-strip... x86_64-poky-linux-strip
-| checking for a race-free mkdir -p... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p
-| checking for gawk... gawk
-| checking whether make sets $(MAKE)... yes
-| checking whether make supports nested variables... yes
-| checking xargs -n works... yes
-| checking whether UID '6000' is supported by ustar format... yes
-| checking whether GID '6000' is supported by ustar format... yes
-| checking how to create a ustar tar archive... gnutar
-| checking whether make supports the include directive... yes (GNU style)
-| checking whether the C++ compiler works... yes
-| checking for C++ compiler default output file name... a.out
-| checking for suffix of executables...
-| checking whether we are cross compiling... yes
-| checking for suffix of object files... o
-| checking whether the compiler supports GNU C++... yes
-| checking whether x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot accepts -g... yes
-| checking dependency style of x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot... none
-| checking for stdio.h... yes
-| checking for stdlib.h... yes
-| checking for string.h... yes
-| checking for inttypes.h... yes
-| checking for stdint.h... yes
-| checking for strings.h... yes
-| checking for sys/stat.h... yes
-| checking for sys/types.h... yes
-| checking for unistd.h... yes
-| checking for wchar.h... yes
-| checking for minix/config.h... no
-| checking for sys/param.h... yes
-| checking whether it is safe to define __EXTENSIONS__... yes
-| checking whether _XOPEN_SOURCE should be defined... no
-| checking for a sed that does not truncate output... (cached) sed
-| checking whether NLS is requested... yes
-| checking for msgfmt... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/bin/msgfmt
-| checking for gmsgfmt... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/bin/msgfmt
-| checking for xgettext... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/bin/xgettext
-| checking for msgmerge... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/bin/msgmerge
-| checking for x86_64-poky-linux-gcc... x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot
-| checking whether the compiler supports GNU C... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot accepts -g... yes
-| checking for x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot option to enable C23 features... none needed
-| checking whether x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot understands -c and -o together... yes
-| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot... none
-| checking build system type... x86_64-pc-linux-gnu
-| checking host system type... x86_64-poky-linux-gnu
-| checking for ld... x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot
-| checking if the linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot  ) is GNU ld... yes
-| checking for shared library run path origin... done
-| checking 32-bit host C ABI... no
-| checking how to run the C++ preprocessor... x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot -E
-| checking for egrep -e... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -E
-| checking for ELF binary format... yes
-| checking for the common suffixes of directories in the library search path... lib,lib,lib64
-| checking for CFPreferencesCopyAppValue... no
-| checking for CFLocaleCopyPreferredLanguages... no
-| checking for GNU gettext in libc... yes
-| checking whether to use NLS... yes
-| checking where the gettext function comes from... libc
-| checking for x86_64-poky-linux-ar... x86_64-poky-linux-gcc-ar
-| checking the archiver (x86_64-poky-linux-gcc-ar) interface... ar
-| checking how to run the C preprocessor... x86_64-poky-linux-gcc -E --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
-| checking whether the compiler supports GNU C++... (cached) yes
-| checking whether x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot accepts -g... (cached) yes
-| checking dependency style of x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot... (cached) none
-| checking how to print strings... printf
-| checking for a sed that does not truncate output... (cached) sed
-| checking for grep that handles long lines and -e... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep
-| checking for egrep... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -E
-| checking for fgrep... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -F
-| checking for ld used by x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot... x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot
-| checking if the linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot  ) is GNU ld... yes
-| checking for BSD- or MS-compatible name lister (nm)... x86_64-poky-linux-gcc-nm
-| checking the name lister (x86_64-poky-linux-gcc-nm) interface... BSD nm
-| checking whether ln -s works... yes
-| checking the maximum length of command line arguments... 1572864
-| checking how to convert x86_64-pc-linux-gnu file names to x86_64-poky-linux-gnu format... func_convert_file_noop
-| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-| checking for x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot   option to reload object files... -r
-| checking for file... file
-| checking for x86_64-poky-linux-objdump... x86_64-poky-linux-objdump
-| checking how to recognize dependent libraries... pass_all
-| checking for x86_64-poky-linux-dlltool... no
-| checking for dlltool... no
-| checking how to associate runtime and link libraries... printf %s\n
-| checking for x86_64-poky-linux-ranlib... x86_64-poky-linux-gcc-ranlib
-| checking for x86_64-poky-linux-ar... (cached) x86_64-poky-linux-gcc-ar
-| checking for archiver @FILE support... @
-| checking for x86_64-poky-linux-strip... (cached) x86_64-poky-linux-strip
-| checking command to parse x86_64-poky-linux-gcc-nm output from x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot object... ok
-| checking for sysroot... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot
-| checking for a working dd... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd
-| checking how to truncate binary pipes... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd bs=4096 count=1
-| checking for x86_64-poky-linux-mt... no
-| checking for mt... no
-| checking if : is a manifest tool... no
-| checking for dlfcn.h... yes
-| checking which variant of shared library versioning to provide... (default) aix
-| checking for objdir... .libs
-| checking if x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot supports -fno-rtti -fno-exceptions... no
-| checking for x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot static flag -static works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot supports -c -o file.o... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot   -m elf_x86_64) supports shared libraries... yes
-| checking whether -lc should be explicitly linked in... no
-| checking dynamic linker characteristics... GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking whether stripping libraries is possible... yes
-| checking if libtool supports shared libraries... yes
-| checking whether to build shared libraries... yes
-| checking whether to build static libraries... no
-| checking how to run the C++ preprocessor... x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot -E
-| checking for ld used by x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot... x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot   -m elf_x86_64
-| checking if the linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot   -m elf_x86_64) is GNU ld... yes
-| checking whether the x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot   -m elf_x86_64) supports shared libraries... yes
-| checking for x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot static flag -static works... yes
-| checking if x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot supports -c -o file.o... yes
-| checking if x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot   -m elf_x86_64) supports shared libraries... yes
-| checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking for x86_64-poky-linux-gcc... (cached) x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot
-| checking whether the compiler supports GNU C... (cached) yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot accepts -g... (cached) yes
-| checking for x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot option to enable C23 features... (cached) none needed
-| checking whether x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot understands -c and -o together... (cached) yes
-| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot... (cached) none
-| checking whether the C++ compiler accepts -Werror... yes
-| checking whether to add -D_FORTIFY_SOURCE=3 to CPPFLAGS... no
-| checking whether to add -D_FORTIFY_SOURCE=2 to CPPFLAGS... no
-| checking whether x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot supports C++11 features with -std=gnu++11... yes
-| checking for x86_64-poky-linux-pkg-config... no
-| checking for pkg-config... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot-native/usr/bin/pkg-config
-| configure: WARNING: using cross tools not prefixed with host triplet
-| checking pkg-config is at least version 0.9.0... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot is Clang... no
-| checking whether pthreads work with "-pthread" and "-lpthread"... yes
-| checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
-| checking whether more special flags are required for pthreads... no
-| checking for PTHREAD_PRIO_INHERIT... yes
-| checking for fcntl.h... yes
-| checking for libintl.h... yes
-| checking for limits.h... yes
-| checking for locale.h... yes
-| checking for malloc.h... yes
-| checking for ncurses.h... yes
-| checking for stdint.h... (cached) yes
-| checking for stdlib.h... (cached) yes
-| checking for string.h... (cached) yes
-| checking for sys/ioctl.h... yes
-| checking for sys/socket.h... yes
-| checking for sys/statfs.h... yes
-| checking for sys/time.h... yes
-| checking for termios.h... yes
-| checking for unistd.h... (cached) yes
-| checking for _Bool... no
-| checking for stdbool.h that conforms to C99 or later... yes
-| checking for inline... inline
-| checking for int64_t... yes
-| checking for pid_t... yes
-| checking for size_t... yes
-| checking for ssize_t... yes
-| checking for uint16_t... yes
-| checking for uint32_t... yes
-| checking for uint64_t... yes
-| checking whether malloc (0) returns nonnull... (cached) yes
-| checking for getpagesize... (cached) yes
-| checking for working mmap... (cached) yes
-| checking whether realloc (0, 0) returns nonnull... (cached) yes
-| checking for x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot -std=gnu++11 options to detect undeclared functions... none needed
-| checking for x86_64-poky-linux-g++  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/recipe-sysroot -std=gnu++11 options to ignore future-version functions... none needed
-| checking whether strerror_r is declared... yes
-| checking whether strerror_r returns char *... yes
-| checking for working strtod... (cached) yes
-| checking for clock_gettime... yes
-| checking for fdatasync... yes
-| checking for getpagesize... (cached) yes
-| checking for gettimeofday... yes
-| checking for memmove... yes
-| checking for memset... yes
-| checking for mkdir... yes
-| checking for munmap... yes
-| checking for pow... yes
-| checking for realpath... yes
-| checking for regcomp... yes
-| checking for select... yes
-| checking for setlocale... yes
-| checking for socket... yes
-| checking for sqrt... yes
-| checking for strcasecmp... yes
-| checking for strchr... yes
-| checking for strrchr... yes
-| checking for strdup... yes
-| checking for strerror... (cached) yes
-| checking for strncasecmp... yes
-| checking for strstr... yes
-| checking for strtoul... yes
-| checking for strtoull... yes
-| checking for library containing clock_gettime... none required
-| checking for ncursesw... yes
-| checking for libpci... yes
-| checking for libtracefs... no
-| checking for library containing tracefs_local_events... no
-| configure: error: libtracefs is required but was not found
-| NOTE: The following config.log files may provide further information.
-| NOTE: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/build/config.log
-| ERROR: configure failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/run.do_configure.3150378:281 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/run.do_configure.3150378, line 281
-| 	#2: oe_runconf, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/run.do_configure.3150378, line 257
-| 	#3: autotools_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/run.do_configure.3150378, line 230
-| 	#4: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/run.do_configure.3150378, line 151
-| 	#5: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/run.do_configure.3150378, line 285
-NOTE: recipe powertop-2.16-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1968 tasks of which 1959 didn't need to be rerun and 1 failed.
+NOTE: Running task 1572 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_fetch)
+NOTE: Running task 1598 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1691 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1699 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1715 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.195.bb:do_patch)
+NOTE: Running task 1766 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-rdflib_7.6.0.bb:do_patch)
+NOTE: Running task 1800 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: Running task 1806 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_unpack)
+NOTE: Running task 1808 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb:do_patch)
+NOTE: Running task 1811 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.47.bb:do_patch)
+NOTE: recipe libunistring-1.4.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1860 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_16.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-3.14.7-r0: task do_fetch: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_unpack: Started
+NOTE: recipe elfutils-0.195-r0: task do_patch: Started
+NOTE: recipe python3-3.14.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_patch: Started
+NOTE: Running task 1888 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_unpack)
+NOTE: Running task 1889 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe binutils-2.47-r0: task do_patch: Started
+NOTE: recipe gcc-16.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_patch: Succeeded
+NOTE: Running task 1890 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-rdflib_7.6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_patch: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1891 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1892 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_configure)
+NOTE: recipe python3-3.14.7-r0: task do_unpack: Started
+NOTE: recipe python3-3.14.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1893 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_configure)
+NOTE: recipe libunistring-1.4.2-r0: task do_configure: Started
+NOTE: recipe gcc-16.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1894 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_16.1.bb:do_configure)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure: Started
+NOTE: recipe python3-pyparsing-3.3.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb:do_deploy_source_date_epoch unihash changed to ae8b90f41f17b4d6edb82315aeddc81481082e77f94e90a87fd1c627522e1be3
+NOTE: recipe python3-rdflib-7.6.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-16.1.0-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1895 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_configure)
+NOTE: Running task 1899 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-rdflib_7.6.0.bb:do_deploy_source_date_epoch unihash changed to a501aaaff664d600f3d2fd52fdef8c5e34e774f38098e40cae5da57619bf174c
+NOTE: Setscene tasks completed
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1902 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_patch)
+NOTE: recipe libtasn1-4.21.0-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe elfutils-0.195-r0: task do_patch: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_patch: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_patch: Succeeded
+NOTE: recipe binutils-2.47-r0: task do_patch: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1906 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_patch)
+NOTE: recipe python3-3.14.7-r0: task do_patch: Started
+NOTE: recipe python3-3.14.7-r0: task do_patch: Succeeded
+NOTE: Running task 1908 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_configure)
+NOTE: recipe python3-3.14.7-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 1909 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 01601c830bf0505dffefe38b59daca3ab016e10d573425e9e20abf8724f20aa7
+NOTE: recipe gcc-16.1.0-r0: task do_configure: Succeeded
+NOTE: Running task 1912 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_16.1.bb:do_compile)
+NOTE: recipe gcc-16.1.0-r0: task do_compile: Started
+WARNING: libarchive-3.8.9-r0 do_fetch: Failed to fetch URL https://libarchive.org/downloads/libarchive-3.8.9.tar.gz, attempting MIRRORS if available
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure: Succeeded
+NOTE: Running task 1913 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_configure_ptest_base)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1914 of 2084 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_compile)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_compile: Started
+NOTE: recipe libarchive-3.8.9-r0: task do_fetch: Failed
+NOTE: recipe libtasn1-4.21.0-r0: task do_configure: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_configure: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_configure: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_compile: Succeeded
+NOTE: recipe gcc-16.1.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1914 tasks of which 1824 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260811071741.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260811060900.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260811071741.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260811060900.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/log.do_configure.3150378
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_fetch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libarchive/3.8.9/temp/log.do_fetch.1777426
+Summary: There was 1 WARNING message.
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: powertop-2.16-r0 do_configure: configure failed
-ERROR: powertop-2.16-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/run.do_configure.3150378' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/powertop/2.16/temp/log.do_configure.3150378
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/powertop/powertop_2.16.bb:do_configure) failed with exit code '1'
+ERROR: libarchive-3.8.9-r0 do_fetch: Fetcher failure: Fetch command ['wget', '--tries=2', '--timeout=100', '--output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/libarchive-3.8.9.tar.gz.tmp', '--continue', '--directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads', 'https://libarchive.org/downloads/libarchive-3.8.9.tar.gz', '--progress=dot', '--verbose'] failed with exit code 4, see logfile for output
+ERROR: libarchive-3.8.9-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://libarchive.org/downloads/libarchive-3.8.9.tar.gz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libarchive/3.8.9/temp/log.do_fetch.1777426
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_fetch) failed with exit code '1'
 
---===============7472454452549078255==--
+--===============8486174108846027934==--
 
