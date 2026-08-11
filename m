@@ -1,839 +1,483 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B70CAC5CFCF
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 14:48:19 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.56116.1786459695822718947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B54C5B572
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 15:04:40 +0000 (UTC)
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.56517.1786460675115536774
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 07:48:16 -0700
+ Tue, 11 Aug 2026 08:04:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=PpNWgOJJ;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6acc2a10023so993885eaf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:48:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786459695; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ZkWvhe/i;
+ spf=pass (domain: gmail.com, ip: 74.125.224.53, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6685001353fso3278292d50.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 08:04:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786460674; cv=none;
         d=google.com; s=arc-20260327;
-        b=mUL3ixeI1QHMdF4aAB3adO0nmclDUPL1JfRjYDgezBgQ2W9DVAzCYSwHfSWx5xImlz
-         oVuiEdo77oShuIltJV6a7L3GM7H3USgbwjHzIuCn9GV4glCqeo6qdCHczXfbjUrJOzBo
-         Iekypeb3OuK5bvPxwhFpNLEirlYtBT5g7bPiYb6JTuqP+k3OkQJbKzpKQ2+OYG3P3EIv
-         yUyBW7F0tYzXebp1UeG+BxqhnmrYP5si6CRz0iah/rPTgX2nuS8JG+RnBN1vTa1I/2Lx
-         LqehnbOPgi/gInKxfh9Iee6etvFdQ3a5ZTaDxD/eSDKpaBimRQxqlpo7z1GNi0sELSHM
-         BCgg==
+        b=VJdEHiw9yQuZz+WhVP/N+/qqjhqixbO+CTyC0JLJjJemrvPDIqTFE4mQC7R3O+hvaB
+         uTXiOmLrn5JVj3vyDSXmj3RM0Qdn+ECMGlT6Kqb0KgZ5AasFE56rh0GBWVMKHG1qjTcm
+         zNel2e1keFJW/4U8dn5XcVmnDeXJm1NUGgBC1vo82KaEWKLDa+T4Voz1BTwetjgGLlye
+         +J7WHXSfUbwoZMw2Cx7SPMGTExOjJ4RGPDy6qRjVMAYBCbKfRwOB2t3SfId38dNpRDWU
+         EBY5Qj4Fl6OCWGxaNjtCFYKuSQYwPtOYM5+y15fY22DpDzsTRloZSTLj8d5OKf2xYzrO
+         BoqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=gAndZuON6NeKOiLtXDR3Vm7eHkLau4hn1k2iaT1Xe5g=;
-        fh=9sATOddhxHOdzgppYxw2sWv+MTxnuw5KiIVI7m9hIBc=;
-        b=WU9e6+/BcbJaB/UJsrEnEy4+OFGVHpZ7q5dQTg9jksivVvwJ/oXhnX5710LU0U3Wzs
-         SV7Tdnmw3IOOUETozpvktjePv97vEKHKv+KhnmzCH+2T7++V8ScnJdevgR+kIlqRRzr/
-         KRH63bmT6/HW6jnBTsd+Dbdqms+dv/sLW1fmKk3a/7ooCcJtqamLRGQKTLdf8Px0PKOI
-         EkWL2X9+3sJkt/FkoHr3bIQ68gxhHekePalSFj7sDzh6cg9UkQqGZoX41JDXCBIn4m4B
-         VUcO4GDSOB5afYEj1QRro5YtloCublAXkYSWKcrz/vCdDWPetdspXnX32zKqKxlI2Ug+
-         jm9w==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Vb/soWOSB4diji7SS1uU73EzIITj8SeNKHJ49jYFtyk=;
+        fh=kyrcx/wGdP1K8AcZ1t5dlAg43e9Kck6gc8gLfroTQbI=;
+        b=IAXuUuvs/x74ginUybZWAgbRbYbSdSQv2nNWCbQYzyLAdSZP3cjKw53s5FHgxlplqK
+         /dpSplJTKHZmm1raEbM71KjO2eOYPyMLSlOwNb5wvIN0dLsICJ6MGQIOEwqCXGp5ACdC
+         jsS5qOi+z1K0PUasMmfTT534jcC8w7X1BQdonz341jx7pKdX2hfOEg4onzSlSqkl5BbR
+         6L3mlX9SuXyEqcT+mnF8y9Ws/l8b31QX6yyjXuJVA7Xwt59K3g3hz5A+c2F4zOU6wLOu
+         GF+yjJPE2ui1Em4MRaAXwAsDDoX44AdyL/DIdRTvUK7gkknLfKrxWrP1GUk3r9RtP9/1
+         G+Jg==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786459695; x=1787064495; darn=lists.openembedded.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=gAndZuON6NeKOiLtXDR3Vm7eHkLau4hn1k2iaT1Xe5g=;
-        b=PpNWgOJJw3/HQTBM8IBusD+kxxuVvBS9vV+Hw0reDPr9YdOUhTPH1cgAeNZ/p5d1ss
-         6JKYjMvjh+yfpDCyxJosej/RABuiJHJpVnQEz3c78xwa9PT/wdg6XCBjIOawTpeuEZkg
-         jxe+Q3RXXI7jL7hyN9cwk32eu52AMpCTrWAZEZoIhhellJ11zNU8cuHHJldq+rT4ryKC
-         LOJH8CniqVcUXckFZ44MHF32pQ3ZAyDh90qWaYyzmpmrXI/L7Mclj8w4g3S96g9PkeLv
-         tgNhn1l/DId0apqobc8AtlZ3hjRM3Kxoyuh+d/qIylp6bNZHEJ+wyLsGHKZ35XKfBJuu
-         iVyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786459695; x=1787064495;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1786460674; x=1787065474; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gAndZuON6NeKOiLtXDR3Vm7eHkLau4hn1k2iaT1Xe5g=;
-        b=GDpAhn6qzCYRXMrdDaSxA0qKp5qA2uiwOYh/O7/uGy/Hbm41Yw92bkNvNMbJf6owb1
-         D3PrUrLN4hzaBOfPheHlq1g8sn74CwqU2c6h3pQ4ILDdfluLkuQlWCGaThpEbRZxzLkd
-         QSsc9aedeYVn0AdIuWIwP1yy0Ns6h7mCcq04KD6klqoXkXK/cOrOVdzet12iTgJZovWk
-         w41rtUhs1+9KegNFhBBJIDzm63WzJBoYc5kjyU/TlQePVrO7Tv1pzyUBRcaQ12U2OiL6
-         eY2W+yJRuuUCq2E6L5XhJPF/bcZyGKUS6JbUPx+zNkN4i02TqUyZHCxvRBOi6tkFwgIT
-         CrZA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq7Q17P0Xuj77JGp6JCTpagR7cRbR0gXojaPioZ4AhCpXwSlOV+A+3Y6XLHKEoljPhj0sS7M6SA0OfSK9GB7JZx1g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxvxM74YujIf4p9xEU/EE48u9lXl+qLM0urkdETxPT/zEusnzj9
-	9T5jzLcj/xQ5LIl45yuiLR7udnZjZxKOWUuUrvrggIALud03q5VRpkDqALPkI46r3C8v0rbjY1A
-	Qjh6g40yEwrjAVm3ivcaIJEv6JweeJh840YFb
-X-Gm-Gg: AR+sD10ygc5/HRuzrq/Zhlf8MBjXEwZD2D4zjpJtNQnyBPxhon2ODRG+HbpiaRAKnfk
-	WgW8VZmXVD2FHvKq5anXproMnjbQOO/3Aw0u6enOKoL238RMGC2bJCwG6PfDFJ9fxrSquYa94ZU
-	nM9aC+aBa+X+krJvVt/XadwHrRZWNWBW5ImEeKAgHPH0Qf1J0guuTzEPOYq0mvqPBQXDS/dO3aX
-	xwDMKSM2rKK4BYzRbA4WmbbCLoB9hzd9vm1nSKVafz3TR4i0SeaUDceV5v8/D3QPsvGfaFFUtP3
-	aXqqELoREEFuro4JXOG1EKfdkF560vZo/PMISmO7IzdtIIC8DomW1h4qKjgG55lqUj4flm4bKxD
-	ByyH8svM/t0DkETVI0y0JbV3nxDH8sKquVGMqyxfZVEBXz1TL5+1ot3tR2gtbvL5h6ElLpgWvDJ
-	AOmeQcgAdQA5pWgwZKMRgZxZUUjeSMPkKR2/5/NnB0bQ9KMA1C8w21xLD5uwmcw5yAah6Hk2lAL
-	MxraIUGm1c3h0JOjYrqf6gQL3M=
-X-Received: by 2002:a05:6820:4b03:b0:6a3:c1a2:bd4 with SMTP id
- 006d021491bc7-6b0acbbee01mr147028eaf.20.1786459694559; Tue, 11 Aug 2026
- 07:48:14 -0700 (PDT)
+        bh=Vb/soWOSB4diji7SS1uU73EzIITj8SeNKHJ49jYFtyk=;
+        b=ZkWvhe/i6jgeicdL9m3yOPjtgDRM8lwkXQV7oh2OBlAlSBr754Jo0sxREsEUDoR+gm
+         kz/2984ZO6MW/Ha39ajo1vTJoD+hSjIHN1K5DCXszp4C1Q7xTxkmB6KbJlgwJJT1EyhU
+         1WM9oEKLwll3rnzoAJX5ta2YlhsK72pWe7N/rBDLdImPjpGldUelGeJiZPTqzlm3qxIO
+         x7xc6lgnRf3+ql6Um+pXxRKbsSAUunWQY8fvl1uhbOBdYDtWYgdw/izWjfFoM3xR7DZr
+         ABNwTY604Jzp68YjBfKEY+hRnMfCuOfAy3RI6h3PvFL/fK+J1nYoqE1/o945zpm2ZawC
+         35cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786460674; x=1787065474;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Vb/soWOSB4diji7SS1uU73EzIITj8SeNKHJ49jYFtyk=;
+        b=DkPbBY696UIjCA++JuXUSzTEJw4JSZ09I586omFof5PfHiGacZfb6RYV3B3atUR12Q
+         WHqtzezKo338vCBBN4f9oFcAJl1su5BU9Ha/k2BCHEwC2zG53f2eG3ddZWeRxv5EIssS
+         ZNX3TlT18XQbX/dauk7nYgw10m9JHEm/7InVaFyix1ic8gqnI714UjfZkhDG7YdDCE7T
+         Q31qMOxPN/6hqx19UsavWoXAkuiWUHPZXbDMulah3HD41nuLJVH5WIOY+TTlUqvRHI7Q
+         DP7l+QQYKJ7rfekMR8Kdo4IDO/up8Cap1H0tJB1bMc8svVGgj3AWkgIPOAe90hAkZRU8
+         h2OA==
+X-Gm-Message-State: AOJu0Ywe57H+ituILPbPZwDlfii5fEmlWW7Cir2X0izDjC+3CDZwUEuh
+	9xJWhSInk9JeClOebaPGL8cYOUKJgT6r4XjnaudpcBkxjVAiPt2N06vBJCwPe2UXMAACX1JxcBg
+	L9e4eQyYent0CPfMzWfF9IlxXqUNiRvYNRFfL
+X-Gm-Gg: AR+sD12GbApzaNuNv/gt57bf4ZWxa9qS9xQ4NOVn1D9sAxv4oe2yALOaN3nHzYOWJGN
+	IkM6uHl20cjckSZCDUIr79UonoIbsfb72Nd0ogd6z4AfVxywJuNnWVz7RH3Mkqqw2Q0ifBvWyCk
+	UFNkLovl8kXV9Ift2OKDBQwHZ5H5rnKaGzvHq91IusGyt8VetMuFjyL6rfzk0RWoyhbkPTXiBLN
+	ntYoYGCRRUj/vyK/DUpPQ90F+vCztONGu8NMBGuJ6muVDEqs6AmbyHiTJW4N1lVZvxZAvU7Em3f
+	yhimSo6UuO/fQPAQ98aYUVJyCFyCj+xe+pEYdpHr/ewqNfK8FDpBOZHbGgd6d/wr94/Axw==
+X-Received: by 2002:a53:d04e:0:10b0:667:c3c0:f2b7 with SMTP id
+ 956f58d0204a3-66b22dc1b64mr2356761d50.19.1786460673738; Tue, 11 Aug 2026
+ 08:04:33 -0700 (PDT)
 MIME-Version: 1.0
-From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
-Date: Tue, 11 Aug 2026 07:48:01 -0700
-X-Gm-Features: AUfX_myR3s86Ol6Jm6PtUfXUg_CtteoHQ3UlsTQotOnSN_xdAXbDeyWZyqzrcVs
-Message-ID: <CAK5yBb_tawHj4dS3n61zSkW7CGeStApOK4NaTXzRJDb8Y+CXSA@mail.gmail.com>
-Subject: Yocto Project Status 11 August 2026 (WW33)
-To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	yocto-status@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000007ff6410658c68f9c"
+References: <20260810161132.614235-1-JPEWhacker@gmail.com> <AS8PR10MB5073A8A1830344344A974B7EFDDD2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS8PR10MB5073A8A1830344344A974B7EFDDD2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 11 Aug 2026 09:04:21 -0600
+X-Gm-Features: AUfX_mx39QaiW_X7em-J9Ho1yZf1IIWXCyR8AszDmIoBmn1-EDlbsN7wt79kN5o
+Message-ID: <CAJdd5GapVFB23bv2aZtDVGHXnJ3LwnE+rnLGNdgfY++ZzATKow@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] AGENTS.md: Add file
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000dd0bd80658c6c9b2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 14:48:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243211
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 15:04:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243212
 
---0000000000007ff6410658c68f9c
+--000000000000dd0bd80658c6c9b2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Current Dev Position: YP 6.1 M3
+On Tue, Aug 11, 2026 at 2:22=E2=80=AFAM Marko, Peter <Peter.Marko@siemens.c=
+om>
+wrote:
 
-Next Deadline: YP 6.1 M3: w/c 2026-08-31
-
-Next Team Meetings:
-
-   -
-
-   Bug Triage meeting - Thursday 13rd Aug. 7:30am PDT (
-   https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
-   -
-
-   Weekly Project Engineering Sync  - Tuesday 11th Aug. 8am PDT (
-   https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
-   <https://zoom.us/j/990892712>
-   -
-
-   Yocto Project Patch Review - Thursday 13rd Aug. 10am GMT and Monday 17th
-   Aug. 9am PDT (
-   https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1)
-
-
-Project data dashboard: https://dashboard.yoctoproject.org/
-
-Key Status/Updates:
-
-   -
-
-   YP 6.1 M2 has been released
-   -
-
-   YP 6.1 M3 is due in three weeks and this will be the feature freeze
-   point for YP 6.1.
-   -
-
-   We would like to remind everyone that AI-generated code submitted to
-   Yocto Project must include disclosure of the use of AI tools, in line wi=
-th
-   our policy in the contributor guide (
-   https://docs.yoctoproject.org/contributor-guide/submit-changes.html#acce=
-ptance-of-ai-generated-code).
-   Joshua has sent patches adding AGENTS.md <http://agents.md> files to
-   bitbake and openembedded-core to prompt agents to follow this policy. We
-   are discussing further updates to our policy on AI assisted submissions =
-as
-   this is a rapidly evolving area.
-   -
-
-   Alex Stewart is stepping down as maintainer of opkg - huge thanks to him
-   for his work on the project over the last 5 years, and thanks to Nationa=
-l
-   Instruments/Emerson for their continued support of opkg. Maintainership =
-is
-   being handed over to Erick Shepherd (also from NI/Emerson), there is als=
-o a
-   call for input and anyone interested in being a co-maintainer:
-   https://lists.yoctoproject.org/g/opkg/topic/120687514
-   -
-
-   The NPM fetcher has been re-enabled in bitbake with security
-   improvements and additional test cases
-   -
-
-   The upgrade to sbom-cve-check 1.3.3 has more correct handling of
-   Ubuntu/Red Hat specific CVEs, which may require new patches or CVE_STATU=
-S
-   assignments. The fallout in OE-core has been handled, other layers may s=
-ee
-   an uptick in reported CVEs.
-   -
-
-   The SDK_TOOLCHAIN_LANGS variable has been replaced with a more general
-   SDK_FEATURES variable to support improved SDK configurability. Uses of t=
-he
-   old variable will need to be updated, `go` and `rust` langs are still
-   supported as SDK features.
-   -
-
-   There are two AB-INT issues which are in a position where others could
-   now help, as detailed in
-   https://lists.openembedded.org/g/openembedded-core/message/242105:
-   -
-
-      Matchbox-wm segfault/xserver restart
-      -
-
-      aarch64/x86-64 build host contamination/reproducibility issue
-
-We get a lot of comments about these being hard to reproduce or work on, in
-both cases, these have specific well defined things which need to be done
-and a basic understanding of what the issue relates to, if not the actual
-fix.
-
-   -
-
-   Remaining intermittent build failures of concern:
-   -
-
-      other qemu =E2=80=98hang=E2=80=99 type issues on ARM
-      -
-
-      sometimes yocto-check-layer is showing checksum mismatch issues
-      -
-
-      intermittent ptest failures in many recipes
-
-
-Want to contribute? We would appreciate help with the following areas:
-
-   -
-
-   We have several open issues for pseudo and limited maintainer time to
-   work on them. Help from someone familiar with systems programming in C
-   would be greatly appreciated.
-   https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
-=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
-ution=3D---
-   -
-
-   There are a large number of intermittent failures on our autobuilder,
-   any help with investigating, reproducing or solving these issues would b=
+>
+>
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Joshua Watt via
+> > lists.openembedded.org
+> > Sent: Monday, August 10, 2026 6:12 PM
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Joshua Watt <JPEWhacker@gmail.com>
+> > Subject: [OE-core][PATCH] AGENTS.md: Add file
+> >
+> > Adds an AGENTS.md file to direct agents about better commit practices.
+> > This is specifically *not* attempting to improve or direct agents about
+> > the code that they generate. It has been noted that when AI is used to
+> > write code and commit code, the commit messages that it generates can b=
 e
-   welcome! https://valkyrie.yocto.io/pub/non-release/abint/
-   -
-
-   Many recipes in openembedded-core would benefit from a new recipe
-   maintainer. Please look at
-   https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/inc=
-lude/maintainers.inc
-   and see if you can adopt any of the unassigned recipes.
-   -
-
-   For more ways to contribute, see
-   https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuC=
-WbzgjOk/edit?usp=3Dsharing
-
-
-New to the project?
-
-   -
-
-   We have a list of issues we think are good places to start contributing:
-   https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
-
-
-Tracking Metrics:
-
-   -
-
-   WDD 2694 (last week 2694) (
-   https://wiki.yoctoproject.org/charts/combo.html)
-   -
-
-   OE-Core/Poky Patch Metrics
-   -
-
-      Total patches found: 1028 (last week 1029)
-      -
-
-      Patches in the Pending State: 139 (14%) [last week 141 (14%)]
-      -
-
-      https://valkyrie.yocto.io/pub/non-release/patchmetrics/
-
-
-Upcoming development releases:
-
-   -
-
-   6.1 M2: is released,
-   -
-
-   6.1 M3:
-   -
-
-      Build Date: w/c 2026-08-31
-      -
-
-      Release Date: w/c 2026-09-14
-      -
-
-   6.1.0:
-   -
-
-      Build Date (M4): w/c 2026-10-12
-      -
-
-      Release Date: w/c 2026-11-02
+> > long and draw out (e.g. a "wall of text") which affects maintainer
+> > ability to review the patches. Therefore, this AGENTS.md text file is
+> > only focused on instructing the agents to produce commits that are more
+> > suitable for our review process.
+> >
+> > This file is intended to help agents comply with the existing project
+> > document (and specifically, the AI Policy[1]), and does not constitute =
+a
+> > new policy. Any subsequent changes to this file should derive and compl=
+y
+> > with the project documentation and policies.
+> >
+> > It what can only be described as the most bizarre interaction with a
+> > computer I've ever experienced, the best way to get an AGENTS.md file
+> > that AI agents actually respect as intended is to instruct one to write
+> > it for you (as opposed to writing one by hand). Future edits to this
+> > file will likely be most effective if written by an Agent.
+> >
+> > [1]: https://docs.yoctoproject.org/contributor-guide/submit-
+> > changes.html#acceptance-of-ai-generated-code
+> > AI-Generated: Uses Claude Sonnet 5
+> >
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >  AGENTS.md | 55
+> > +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 55 insertions(+)
+> >  create mode 100644 AGENTS.md
+> >
+> > diff --git a/AGENTS.md b/AGENTS.md
+> > new file mode 100644
+> > index 0000000000..ce4d6d9e6e
+> > --- /dev/null
+> > +++ b/AGENTS.md
+> > @@ -0,0 +1,55 @@
+> > +# AGENTS.md =E2=80=94 OpenEmbedded-Core & BitBake
+> > +
+> > +Guidance for AI agents working in the `openembedded-core` repository.
+> > +
+> > +## Making changes
+> > +
+> > +- No web PR workflow. The project use **patches on mailing lists**
+> > +  (openembedded-core@lists.openembedded.org) tracked via patchwork.
+> Don't
+> > +  assume GitHub PR conventions apply.
+> > +- One Git commit per logical change (e.g., one commit per recipe
+> > added/upgraded).
+> > +- Commit message format:
+> > +  - Summary line prefixed with the recipe name or short file path,
+> > +    e.g. `openssl: upgrade to 3.2.1` or `classes/rootfs-postcommands:
+> fix typo`.
+>
+> Current standard for upgrade commit message is "openssl: upgrade 3.2.0 ->
+> 3.2.1"
 
 
-Upcoming dot releases:
+I would probably recommend leaving it and seeing how it goes? This file is
+almost certainly better written reactively to things we actually see
+happening than trying to guess what an agent _might_ do. It's really hard
+to tell how the Agent will behave with regard to some of these things, and
+I tried pretty hard to not try and enumerate all the ways it _could_ go
+wrong (e.g. Do we need to specify that commit messages should not contain
+emoji? I just don't know). Instead, we plan to keep an eye on it and if we
+see agents doing other things that are undesirable, then we will add more
+rules to this file as appropriate.
 
-   -
-
-   YP 6.0.3
-   -
-
-      Build Date w/c 2026-08-10
-      -
-
-      Release Date w/c 2026-08-24
-      -
-
-   YP 5.0.20
-   -
-
-      Build Date w/c 2026-08-17
-      -
-
-      Release Date w/c 2026-08-31
-      -
-
-   For future release dates, see
-   https://wiki.yoctoproject.org/wiki/Release_calendar
+FWIW, most of this section was generated by Claude by reading our
+documentation, although I did specifically prompt it to add in text about
+making more succinct commit messages
 
 
-The Yocto Project=E2=80=99s technical governance is through its Technical S=
-teering
-Committee, more information is available at:
+>
+> > +    Check `git log --oneline <path>` for the prefix convention already
+> in use.
+> > +  - Body explains what/why/how, and how it was tested.
+> > +  - Prefer explaining *why* a change was made over restating what's
+> > +    already visible in the diff, unless the diff is long/hard to follo=
+w
+> > +    or the reason for the change isn't known =E2=80=94 in those cases,=
+ summarize
+> > +    what changed instead.
+> > +  - Be succinct: use as few sentences and lines as possible while stil=
+l
+> > +    covering what/why/how. Cut restatements, filler, and any detail a
+> > +    reviewer wouldn't need (e.g. exact test-run counts, step-by-step
+> > +    narration). One short paragraph is usually enough; only add a seco=
+nd
+> > +    if a distinct point (e.g. testing) needs it.
+> > +  - The most relevant information about the change should be presented
+> first.
+> > +  - Reference bugs as `Fixes [YOCTO #1234]` when applicable.
+> > +  - Use `Reported-by`, `Suggested-by`, `Tested-by`, `Reviewed-by`, `Cc=
+`
+> tags
+> > +    where relevant.
+>
+> Where should the agent get yocto bugzilla ID or the personal tags from?
+> This may lead to hallucinations.
+> Maybe we can suggest to ask/remind user about those?
 
-https://wiki.yoctoproject.org/wiki/TSC
 
-The Status reports are stored on the wiki at:
-https://wiki.yoctoproject.org/wiki/Weekly_Status
+If we really think an agent will trip on this, we should just remove the
+line for now until we have actual examples of it doing something wrong
+(which, I understand, is a little tricky, because we also expect the human
+submitting the patch to look at and fix any problems :)
 
-[If anyone has suggestions for other information you=E2=80=99d like to see =
-on this
-weekly status update, let us know!]
+In the future if we did change anything, I'd probably rather err on the
+side of asking the user or never adding a tag than trying to look up a bug
+in bugzilla. The agents are pretty good at incorporating context, so a
+prompt like, "Fix Yocto bug 12345 by doing XYZ" would likely do the right
+thing.
 
-Thanks,
 
+> > +
+> > +### AI-generated code
+> > +
+> > +- **Mandatory**: any AI-generated code/commit must add an
+> `AI-Generated:`
+> > +  tag line in the commit message, placed *before* `Signed-off-by` (if
+> present),
+> > +  naming the tool used, e.g.:
+> > +
+> > +  ```
+> > +  component: Add the ability to ...
+> > +
+> > +  AI-Generated: Uses GitHub Copilot
+> > +  ```
+> > +
+> > +- Also add a code comment or other in-patch indication that the code i=
+s
+> > +  AI-generated (recommended, not just the commit tag).
+> > +- **Mandatory** Do not automatically add a `Signed-off-by`. This tag
+> must
+> > +  always be written by the human contributor, never by the AI tool =E2=
+=80=94 the
+> > +  DCO/Developer's Statement of Origin still applies in full.
+> > +- Contributor is responsible for confirming the AI tool's terms don't
+> > +  conflict with the project's open source license/IP policy, and that
+> > +  any third-party copyrighted material in the AI output is properly
+> > +  licensed before contributing it. See the Linux Foundation generative
+> AI
+> > +  guidance: https://www.linuxfoundation.org/legal/generative-ai.
+> > +- `Co-authored-by` should be omitted in favor of the `AI-generated` ta=
+g.
+>
+> Do you have references about AI-generated git tags?
+> I think that the AssistedBy is the current state-of-the-art way of
+> annotating this...
+>
+> > +
+> > +When in doubt about a convention, grep `git log --oneline <path>` in t=
+he
+> > +target repo for precedent before inventing a new style.
+> > --
+> > 2.54.0
+>
+>
 
-
-*Stephen K. Jolley*
-
-*Yocto Project Program Manager*
-
-(    *Cell*:                (208) 244-4460
-
-* *Email*:                 *s
-<stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com <jolley.yp.pm@gmail.com>=
-*
-
---0000000000007ff6410658c68f9c
+--000000000000dd0bd80658c6c9b2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><span id=3D"gmail-docs-internal-guid-9c56c850-7fff-4a=
-fd-bf32-fac60c7b4313"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
-pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-=
-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ver=
-tical-align:baseline;white-space:pre-wrap">Current Dev Position: YP 6.1 M3<=
-/span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
-ttom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:=
-rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
-baseline;white-space:pre-wrap">Next Deadline: YP 6.1 M3: w/c 2026-08-31</sp=
-an></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
-ottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color=
-:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align=
-:baseline;white-space:pre-wrap">Next Team Meetings:</span></p><ul style=3D"=
-margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:=
-disc;font-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgrou=
-nd-color:transparent;font-variant:normal;vertical-align:baseline;white-spac=
-e:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-botto=
-m:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-color=
-:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-wr=
-ap">Bug Triage meeting - Thursday 13rd Aug. 7:30am PDT (</span><a href=3D"h=
-ttps://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" style=3D=
-"text-decoration:none"><span style=3D"font-size:11pt;background-color:trans=
-parent;font-variant:normal;text-decoration:underline;vertical-align:baselin=
-e;white-space:pre-wrap">https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0b=
-Fd5aVpHVVZ6dz09</span></a><span style=3D"font-size:11pt;background-color:tr=
-ansparent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap"=
->)</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:9=
-.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpa=
-rent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D=
-"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"p=
-resentation"><span style=3D"font-size:11pt;background-color:transparent;fon=
-t-variant:normal;vertical-align:baseline;white-space:pre-wrap">Weekly Proje=
-ct Engineering Sync=C2=A0 - Tuesday 11th Aug. 8am PDT (</span><a href=3D"ht=
-tps://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09" style=3D"=
-text-decoration:none"><span style=3D"font-size:11pt;background-color:transp=
-arent;font-variant:normal;text-decoration:underline;vertical-align:baseline=
-;white-space:pre-wrap">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bk=
-crYjRrcmJsUT09</span></a><a href=3D"https://zoom.us/j/990892712" style=3D"t=
-ext-decoration:none"><span style=3D"font-size:11pt;background-color:transpa=
-rent;font-variant:normal;text-decoration:underline;vertical-align:baseline;=
-white-space:pre-wrap">)</span></a></p></li><li dir=3D"ltr" style=3D"list-st=
-yle-type:disc;font-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0)=
-;background-color:transparent;font-variant:normal;vertical-align:baseline;w=
-hite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
-gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgro=
-und-color:transparent;font-variant:normal;vertical-align:baseline;white-spa=
-ce:pre-wrap">Yocto Project Patch Review - Thursday 13rd Aug. 10am GMT and M=
-onday 17th Aug. 9am PDT (</span><a href=3D"https://zoom.us/j/97762397148?pw=
-d=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1" style=3D"text-decoration:none"><span=
- style=3D"font-size:11pt;background-color:transparent;font-variant:normal;t=
-ext-decoration:underline;vertical-align:baseline;white-space:pre-wrap">http=
-s://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1</span></a=
-><span style=3D"font-size:11pt;background-color:transparent;font-variant:no=
-rmal;vertical-align:baseline;white-space:pre-wrap">)</span></p></li></ul><b=
-r><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
-"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,=
-0);background-color:transparent;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap">Project data dashboard: </span><a href=3D"https://da=
-shboard.yoctoproject.org/" style=3D"text-decoration:none"><span style=3D"fo=
-nt-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font=
--variant:normal;text-decoration:underline;vertical-align:baseline;white-spa=
-ce:pre-wrap">https://dashboard.yoctoproject.org/</span></a><span style=3D"f=
-ont-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-colo=
-r:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-w=
-rap">=C2=A0</span></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
-op:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre-wrap">Key Status/Updates:</span></=
-p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"l=
-ist-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0=
-,0,0);background-color:transparent;font-variant:normal;vertical-align:basel=
-ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
-t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
-ckground-color:transparent;font-variant:normal;vertical-align:baseline;whit=
-e-space:pre-wrap">YP 6.1 M2 has been released</span></p></li><li dir=3D"ltr=
-" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif=
-;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical=
--align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;m=
-argin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-=
-size:11pt;background-color:transparent;font-variant:normal;vertical-align:b=
-aseline;white-space:pre-wrap">YP 6.1 M3 is due in three weeks and this will=
- be the feature freeze point for YP 6.1.</span></p></li><li dir=3D"ltr" sty=
-le=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;colo=
-r:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-alig=
-n:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin=
--top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:=
-11pt;background-color:transparent;font-variant:normal;vertical-align:baseli=
-ne;white-space:pre-wrap">We would like to remind everyone that AI-generated=
- code submitted to Yocto Project must include disclosure of the use of AI t=
-ools, in line with our policy in the contributor guide (</span><a href=3D"h=
-ttps://docs.yoctoproject.org/contributor-guide/submit-changes.html#acceptan=
-ce-of-ai-generated-code" style=3D"text-decoration:none"><span style=3D"font=
--size:11pt;background-color:transparent;font-variant:normal;text-decoration=
-:underline;vertical-align:baseline;white-space:pre-wrap">https://docs.yocto=
-project.org/contributor-guide/submit-changes.html#acceptance-of-ai-generate=
-d-code</span></a><span style=3D"font-size:11pt;background-color:transparent=
-;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">). Joshu=
-a has sent patches adding </span><a href=3D"http://agents.md" style=3D"text=
--decoration:none"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;text-decoration:underline;vertical-align:baseline;whi=
-te-space:pre-wrap">AGENTS.md</span></a><span style=3D"font-size:11pt;backgr=
-ound-color:transparent;font-variant:normal;vertical-align:baseline;white-sp=
-ace:pre-wrap"> files to bitbake and openembedded-core to prompt agents to f=
-ollow this policy. We are discussing further updates to our policy on AI as=
-sisted submissions as this is a rapidly evolving area.</span></p></li><li d=
-ir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
-ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">Alex Stewart is stepping down as mai=
-ntainer of opkg - huge thanks to him for his work on the project over the l=
-ast 5 years, and thanks to National Instruments/Emerson for their continued=
- support of opkg. Maintainership is being handed over to Erick Shepherd (al=
-so from NI/Emerson), there is also a call for input and anyone interested i=
-n being a co-maintainer: </span><a href=3D"https://lists.yoctoproject.org/g=
-/opkg/topic/120687514" style=3D"text-decoration:none"><span style=3D"font-s=
-ize:11pt;background-color:transparent;font-variant:normal;text-decoration:u=
-nderline;vertical-align:baseline;white-space:pre-wrap">https://lists.yoctop=
-roject.org/g/opkg/topic/120687514</span></a></p></li><li dir=3D"ltr" style=
-=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:=
-rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
-baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
-op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
-pt;background-color:transparent;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap">The NPM fetcher has been re-enabled in bitbake with =
-security improvements and additional test cases</span></p></li><li dir=3D"l=
-tr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-ser=
-if;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertic=
-al-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38=
-;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fon=
-t-size:11pt;background-color:transparent;font-variant:normal;vertical-align=
-:baseline;white-space:pre-wrap">The upgrade to sbom-cve-check 1.3.3 has mor=
-e correct handling of Ubuntu/Red Hat specific CVEs, which may require new p=
-atches or CVE_STATUS assignments. The fallout in OE-core has been handled, =
-other layers may see an uptick in reported CVEs.</span></p></li><li dir=3D"=
-ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-se=
-rif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;verti=
-cal-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.3=
-8;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fo=
-nt-size:11pt;background-color:transparent;font-variant:normal;vertical-alig=
-n:baseline;white-space:pre-wrap">The SDK_TOOLCHAIN_LANGS variable has been =
-replaced with a more general SDK_FEATURES variable to support improved SDK =
-configurability. Uses of the old variable will need to be updated, `go` and=
- `rust` langs are still supported as SDK features.</span></p></li><li dir=
-=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,san=
-s-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;v=
-ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">There are two AB-INT issues which ar=
-e in a position where others could now help, as detailed in </span><a href=
-=3D"https://lists.openembedded.org/g/openembedded-core/message/242105" styl=
-e=3D"text-decoration:none"><span style=3D"font-size:11pt;background-color:t=
-ransparent;font-variant:normal;text-decoration:underline;vertical-align:bas=
-eline;white-space:pre-wrap">https://lists.openembedded.org/g/openembedded-c=
-ore/message/242105</span></a><span style=3D"font-size:11pt;background-color=
-:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-wr=
-ap">:</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
-=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
-ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">Matchbox-wm segfault/xserver restart=
-</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:1=
-1pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpar=
-ent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"=
-ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pr=
-esentation"><span style=3D"font-size:11pt;background-color:transparent;font=
--variant:normal;vertical-align:baseline;white-space:pre-wrap">aarch64/x86-6=
-4 build host contamination/reproducibility issue</span></p></li></ul></ul><=
-p dir=3D"ltr" style=3D"line-height:1.38;margin-left:36pt;margin-top:0pt;mar=
-gin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;=
-color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-=
-align:baseline;white-space:pre-wrap">We get a lot of comments about these b=
-eing hard to reproduce or work on, in both cases, these have specific well =
-defined things which need to be done and a basic understanding of what the =
-issue relates to, if not the actual fix.</span></p><ul style=3D"margin-top:=
-0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
-ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
-nsparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Remaini=
-ng intermittent build failures of concern:</span></p></li><ul style=3D"marg=
-in-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:circ=
-le;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-=
-color:transparent;font-variant:normal;vertical-align:baseline;white-space:p=
-re"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
-pt" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tr=
-ansparent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap"=
->other qemu =E2=80=98hang=E2=80=99 type issues on ARM</span></p></li><li di=
-r=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,=
-sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:norma=
-l;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-hei=
-ght:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span styl=
-e=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertic=
-al-align:baseline;white-space:pre-wrap">sometimes yocto-check-layer is show=
-ing checksum mismatch issues</span></p></li><li dir=3D"ltr" style=3D"list-s=
-tyle-type:circle;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,=
-0);background-color:transparent;font-variant:normal;vertical-align:baseline=
-;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
-argin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backg=
-round-color:transparent;font-variant:normal;vertical-align:baseline;white-s=
-pace:pre-wrap">intermittent ptest failures in many recipes</span></p></li><=
-/ul></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin=
--bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;col=
-or:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-ali=
-gn:baseline;white-space:pre-wrap">Want to contribute? We would appreciate h=
-elp with the following areas:</span></p><ul style=3D"margin-top:0px;margin-=
-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;fo=
-nt-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fo=
-nt-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" s=
-tyle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presenta=
-tion"><span style=3D"font-size:11pt;background-color:transparent;font-varia=
-nt:normal;vertical-align:baseline;white-space:pre-wrap">We have several ope=
-n issues for pseudo and limited maintainer time to work on them. Help from =
-someone familiar with systems programming in C would be greatly appreciated=
-. </span><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?list_id=
-=3D661406&amp;priority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo=
-&amp;query_format=3Dadvanced&amp;resolution=3D---" style=3D"text-decoration=
-:none"><span style=3D"font-size:11pt;background-color:transparent;font-vari=
-ant:normal;text-decoration:underline;vertical-align:baseline;white-space:pr=
-e-wrap">https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&amp;=
-priority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&amp;query_for=
-mat=3Dadvanced&amp;resolution=3D---</span></a></p></li><li dir=3D"ltr" styl=
-e=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color=
-:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align=
-:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-=
-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:1=
-1pt;background-color:transparent;font-variant:normal;vertical-align:baselin=
-e;white-space:pre-wrap">There are a large number of intermittent failures o=
-n our autobuilder, any help with investigating, reproducing or solving thes=
-e issues would be welcome! </span><a href=3D"https://valkyrie.yocto.io/pub/=
-non-release/abint/" style=3D"text-decoration:none"><span style=3D"font-size=
-:11pt;background-color:transparent;font-variant:normal;text-decoration:unde=
-rline;vertical-align:baseline;white-space:pre-wrap">https://valkyrie.yocto.=
-io/pub/non-release/abint/</span></a></p></li><li dir=3D"ltr" style=3D"list-=
-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0=
-);background-color:transparent;font-variant:normal;vertical-align:baseline;=
-white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
-rgin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgr=
-ound-color:transparent;font-variant:normal;vertical-align:baseline;white-sp=
-ace:pre-wrap">Many recipes in openembedded-core would benefit from a new re=
-cipe maintainer. Please look at </span><a href=3D"https://git.openembedded.=
-org/openembedded-core/tree/meta/conf/distro/include/maintainers.inc" style=
-=3D"text-decoration:none"><span style=3D"font-size:11pt;background-color:tr=
-ansparent;font-variant:normal;text-decoration:underline;vertical-align:base=
-line;white-space:pre-wrap">https://git.openembedded.org/openembedded-core/t=
-ree/meta/conf/distro/include/maintainers.inc</span></a><span style=3D"font-=
-size:11pt;background-color:transparent;font-variant:normal;vertical-align:b=
-aseline;white-space:pre-wrap"> and see if you can adopt any of the unassign=
-ed recipes.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
-nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
-:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><=
-p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" r=
-ole=3D"presentation"><span style=3D"font-size:11pt;background-color:transpa=
-rent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">For =
-more ways to contribute, see </span><a href=3D"https://docs.google.com/docu=
-ment/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing" sty=
-le=3D"text-decoration:none"><span style=3D"font-size:11pt;background-color:=
-transparent;font-variant:normal;text-decoration:underline;vertical-align:ba=
-seline;white-space:pre-wrap">https://docs.google.com/document/d/18oxKWxLorf=
-F813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing</span></a></p></li></u=
-l><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom=
-:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(=
-0,0,0);background-color:transparent;font-variant:normal;vertical-align:base=
-line;white-space:pre-wrap">New to the project?</span></p><ul style=3D"margi=
-n-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;=
-font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-col=
-or:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
- role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
-parent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">We=
- have a list of issues we think are good places to start contributing: </sp=
-an><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DN=
-EWCOMER" style=3D"text-decoration:none"><span style=3D"font-size:11pt;backg=
-round-color:transparent;font-variant:normal;text-decoration:underline;verti=
-cal-align:baseline;white-space:pre-wrap">https://bugzilla.yoctoproject.org/=
-buglist.cgi?quicksearch=3DNEWCOMER</span></a></p></li></ul><br><p dir=3D"lt=
-r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=
-=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
--color:transparent;font-variant:normal;vertical-align:baseline;white-space:=
-pre-wrap">Tracking Metrics:</span></p><ul style=3D"margin-top:0px;margin-bo=
-ttom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font=
--family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font=
--variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" sty=
-le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentati=
-on"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
-:normal;vertical-align:baseline;white-space:pre-wrap">WDD 2694 (last week 2=
-694) </span><span style=3D"font-size:11pt;font-family:Consolas,sans-serif;b=
-ackground-color:transparent;font-variant:normal;vertical-align:baseline;whi=
-te-space:pre-wrap">(</span><a href=3D"https://wiki.yoctoproject.org/charts/=
-combo.html" style=3D"text-decoration:none"><span style=3D"font-size:11pt;ba=
-ckground-color:transparent;font-variant:normal;text-decoration:underline;ve=
-rtical-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/c=
-harts/combo.html</span></a><span style=3D"font-size:11pt;font-family:Consol=
-as,sans-serif;background-color:transparent;font-variant:normal;vertical-ali=
-gn:baseline;white-space:pre-wrap">)</span></p></li><li dir=3D"ltr" style=3D=
-"list-style-type:disc;font-size:11pt;font-family:Consolas,sans-serif;color:=
-rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
-baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
-op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
-pt;font-family:Arial,sans-serif;background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre-wrap">OE-Core/Poky Patch Metr=
-ics</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
-=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
-ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">Total patches found: 1028 (last week=
- 1029)</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-=
-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tr=
-ansparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p d=
-ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Patches=
- in the Pending State: 139 (14%) [last week 141 (14%)]</span></p></li><li d=
-ir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Conso=
-las,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line=
--height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><a hre=
-f=3D"https://valkyrie.yocto.io/pub/non-release/patchmetrics/" style=3D"text=
--decoration:none"><span style=3D"font-size:11pt;font-family:Arial,sans-seri=
-f;background-color:transparent;font-variant:normal;text-decoration:underlin=
-e;vertical-align:baseline;white-space:pre-wrap">https://valkyrie.yocto.io/p=
-ub/non-release/patchmetrics/</span></a></p></li></ul></ul><br><p dir=3D"ltr=
-" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=
-=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
--color:transparent;font-variant:normal;vertical-align:baseline;white-space:=
-pre-wrap">Upcoming development releases:</span></p><ul style=3D"margin-top:=
-0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
-ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
-nsparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1 M2:=
- is released,</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;=
-font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-col=
-or:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
- role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
-parent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.=
-1 M3:</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
-=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
-ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">Build Date: w/c 2026-08-31</span></p=
-></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-f=
-amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
-ariant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026-=
-09-14</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;fon=
-t-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
-transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p=
- dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" ro=
-le=3D"presentation"><span style=3D"font-size:11pt;background-color:transpar=
-ent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1.0=
-:</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"=
-ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-=
-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ver=
-tical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1=
-.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"=
-font-size:11pt;background-color:transparent;font-variant:normal;vertical-al=
-ign:baseline;white-space:pre-wrap">Build Date (M4): w/c 2026-10-12</span></=
-p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-=
-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-=
-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" styl=
-e=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentatio=
-n"><span style=3D"font-size:11pt;background-color:transparent;font-variant:=
-normal;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026=
--11-02</span></p></li></ul></ul><br><p dir=3D"ltr" style=3D"line-height:1.3=
-8;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-fami=
-ly:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-vari=
-ant:normal;vertical-align:baseline;white-space:pre-wrap">Upcoming dot relea=
-ses:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"lt=
-r" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-seri=
-f;background-color:transparent;font-variant:normal;vertical-align:baseline;=
-white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
-rgin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-v=
-ariant:normal;vertical-align:baseline;white-space:pre-wrap">YP 6.0.3</span>=
-</p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" sty=
-le=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-serif;ba=
-ckground-color:transparent;font-variant:normal;vertical-align:baseline;whit=
-e-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin=
--bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-varia=
-nt:normal;vertical-align:baseline;white-space:pre-wrap">Build Date w/c 2026=
--08-10</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-=
-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font-va=
-riant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap">Release Date w/c 2026-08-24</span></p></li></ul><li =
-dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,=
-sans-serif;background-color:transparent;font-variant:normal;vertical-align:=
-baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
-op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
-pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP 5.0=
-.20</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
-=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
-ans-serif;background-color:transparent;font-variant:normal;vertical-align:b=
-aseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
-p:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11p=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Build D=
-ate w/c 2026-08-17</span></p></li><li dir=3D"ltr" style=3D"list-style-type:=
-circle;font-size:11pt;font-family:Arial,sans-serif;background-color:transpa=
-rent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D=
-"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"p=
-resentation"><span style=3D"font-size:11pt;font-variant:normal;vertical-ali=
-gn:baseline;white-space:pre-wrap">Release Date w/c 2026-08-31</span></p></l=
-i></ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fa=
-mily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-va=
-riant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre-wrap">For future release date=
-s, see </span><a href=3D"https://wiki.yoctoproject.org/wiki/Release_calenda=
-r" style=3D"text-decoration:none"><span style=3D"font-size:11pt;background-=
-color:transparent;font-variant:normal;text-decoration:underline;vertical-al=
-ign:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/wiki/Relea=
-se_calendar</span></a></p></li></ul><br><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-=
-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-=
-variant:normal;vertical-align:baseline;white-space:pre-wrap">The Yocto Proj=
-ect=E2=80=99s technical governance is through its Technical Steering Commit=
-tee, more information is available at:</span></p><p dir=3D"ltr" style=3D"li=
-ne-height:1.38;margin-top:0pt;margin-bottom:0pt"><a href=3D"https://wiki.yo=
-ctoproject.org/wiki/TSC" style=3D"text-decoration:none"><span style=3D"font=
--size:11pt;font-family:Arial,sans-serif;background-color:transparent;font-v=
-ariant:normal;text-decoration:underline;vertical-align:baseline;white-space=
-:pre-wrap">https://wiki.yoctoproject.org/wiki/TSC</span></a></p><br><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span =
-style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backg=
-round-color:transparent;font-variant:normal;vertical-align:baseline;white-s=
-pace:pre-wrap">The Status reports are stored on the wiki at: </span><a href=
-=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status" style=3D"text-decorat=
-ion:none"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;backgr=
-ound-color:transparent;font-variant:normal;text-decoration:underline;vertic=
-al-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/wiki/=
-Weekly_Status</span></a></p><br><p dir=3D"ltr" style=3D"line-height:1.38;ma=
-rgin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:A=
-rial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:=
-normal;vertical-align:baseline;white-space:pre-wrap">[If anyone has suggest=
-ions for other information you=E2=80=99d like to see on this weekly status =
-update, let us know!]</span></p></span><br class=3D"gmail-Apple-interchange=
--newline"></div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=
-=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><p class=3D"MsoNorma=
-l" style=3D"background-image:initial;background-position:initial;background=
--repeat:initial"><span style=3D"font-size:12pt;font-family:Arial,sans-serif=
-">Thanks,<span></span></span></p>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 11,=
+ 2026 at 2:22=E2=80=AFAM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@sie=
+mens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
+-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>&gt; On Behalf Of Joshua Watt via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; Sent: Monday, August 10, 2026 6:12 PM<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Cc: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" target=3D"=
+_blank">JPEWhacker@gmail.com</a>&gt;<br>
+&gt; Subject: [OE-core][PATCH] AGENTS.md: Add file<br>
+&gt; <br>
+&gt; Adds an AGENTS.md file to direct agents about better commit practices.=
+<br>
+&gt; This is specifically *not* attempting to improve or direct agents abou=
+t<br>
+&gt; the code that they generate. It has been noted that when AI is used to=
+<br>
+&gt; write code and commit code, the commit messages that it generates can =
+be<br>
+&gt; long and draw out (e.g. a &quot;wall of text&quot;) which affects main=
+tainer<br>
+&gt; ability to review the patches. Therefore, this AGENTS.md text file is<=
+br>
+&gt; only focused on instructing the agents to produce commits that are mor=
+e<br>
+&gt; suitable for our review process.<br>
+&gt; <br>
+&gt; This file is intended to help agents comply with the existing project<=
+br>
+&gt; document (and specifically, the AI Policy[1]), and does not constitute=
+ a<br>
+&gt; new policy. Any subsequent changes to this file should derive and comp=
+ly<br>
+&gt; with the project documentation and policies.<br>
+&gt; <br>
+&gt; It what can only be described as the most bizarre interaction with a<b=
+r>
+&gt; computer I&#39;ve ever experienced, the best way to get an AGENTS.md f=
+ile<br>
+&gt; that AI agents actually respect as intended is to instruct one to writ=
+e<br>
+&gt; it for you (as opposed to writing one by hand). Future edits to this<b=
+r>
+&gt; file will likely be most effective if written by an Agent.<br>
+&gt; <br>
+&gt; [1]: <a href=3D"https://docs.yoctoproject.org/contributor-guide/submit=
+-" rel=3D"noreferrer" target=3D"_blank">https://docs.yoctoproject.org/contr=
+ibutor-guide/submit-</a><br>
+&gt; changes.html#acceptance-of-ai-generated-code<br>
+&gt; AI-Generated: Uses Claude Sonnet 5<br>
+&gt; <br>
+&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com"=
+ target=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 AGENTS.md | 55<br>
+&gt; +++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 55 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 AGENTS.md<br>
+&gt; <br>
+&gt; diff --git a/AGENTS.md b/AGENTS.md<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..ce4d6d9e6e<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/AGENTS.md<br>
+&gt; @@ -0,0 +1,55 @@<br>
+&gt; +# AGENTS.md =E2=80=94 OpenEmbedded-Core &amp; BitBake<br>
+&gt; +<br>
+&gt; +Guidance for AI agents working in the `openembedded-core` repository.=
+<br>
+&gt; +<br>
+&gt; +## Making changes<br>
+&gt; +<br>
+&gt; +- No web PR workflow. The project use **patches on mailing lists**<br=
+>
+&gt; +=C2=A0 (<a href=3D"mailto:openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">openembedded-core@lists.openembedded.org</a>) tracked via =
+patchwork. Don&#39;t<br>
+&gt; +=C2=A0 assume GitHub PR conventions apply.<br>
+&gt; +- One Git commit per logical change (e.g., one commit per recipe<br>
+&gt; added/upgraded).<br>
+&gt; +- Commit message format:<br>
+&gt; +=C2=A0 - Summary line prefixed with the recipe name or short file pat=
+h,<br>
+&gt; +=C2=A0 =C2=A0 e.g. `openssl: upgrade to 3.2.1` or `classes/rootfs-pos=
+tcommands: fix typo`.<br>
+<br>
+Current standard for upgrade commit message is &quot;openssl: upgrade 3.2.0=
+ -&gt; 3.2.1&quot;</blockquote><div><br></div><div>I would probably recomme=
+nd leaving it and seeing how it goes? This file is almost certainly=C2=A0be=
+tter written reactively to things we actually see happening than trying to =
+guess what an agent _might_ do. It&#39;s really hard to tell how the Agent =
+will behave with regard to=20
+some of these things, and I tried pretty hard to not try and enumerate=20
+all the ways it _could_ go wrong (e.g. Do we need to specify that commit
+ messages should not contain emoji? I just don&#39;t know). Instead, we pla=
+n
+ to keep an eye on it and if we see agents doing other things that are=20
+undesirable, then we will add more rules to this file as appropriate.</div>=
+<div><br></div><div></div><div>FWIW, most of this section was generated by =
+Claude by reading our documentation, although I did specifically prompt it =
+to add in text about making more succinct=C2=A0commit messages</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 Check `git log --oneline &lt;path&gt;` for the prefix c=
+onvention already in use.<br>
+&gt; +=C2=A0 - Body explains what/why/how, and how it was tested.<br>
+&gt; +=C2=A0 - Prefer explaining *why* a change was made over restating wha=
+t&#39;s<br>
+&gt; +=C2=A0 =C2=A0 already visible in the diff, unless the diff is long/ha=
+rd to follow<br>
+&gt; +=C2=A0 =C2=A0 or the reason for the change isn&#39;t known =E2=80=94 =
+in those cases, summarize<br>
+&gt; +=C2=A0 =C2=A0 what changed instead.<br>
+&gt; +=C2=A0 - Be succinct: use as few sentences and lines as possible whil=
+e still<br>
+&gt; +=C2=A0 =C2=A0 covering what/why/how. Cut restatements, filler, and an=
+y detail a<br>
+&gt; +=C2=A0 =C2=A0 reviewer wouldn&#39;t need (e.g. exact test-run counts,=
+ step-by-step<br>
+&gt; +=C2=A0 =C2=A0 narration). One short paragraph is usually enough; only=
+ add a second<br>
+&gt; +=C2=A0 =C2=A0 if a distinct point (e.g. testing) needs it.<br>
+&gt; +=C2=A0 - The most relevant information about the change should be pre=
+sented first.<br>
+&gt; +=C2=A0 - Reference bugs as `Fixes [YOCTO #1234]` when applicable.<br>
+&gt; +=C2=A0 - Use `Reported-by`, `Suggested-by`, `Tested-by`, `Reviewed-by=
+`, `Cc` tags<br>
+&gt; +=C2=A0 =C2=A0 where relevant.<br>
+<br>
+Where should the agent get yocto bugzilla ID or the personal tags from?<br>
+This may lead to hallucinations.<br>
+Maybe we can suggest to ask/remind user about those?</blockquote><div><br><=
+/div><div>If we really think an agent will trip on this, we should just rem=
+ove the line for now until we have actual examples of it doing something wr=
+ong (which, I understand, is a little tricky, because we also expect the hu=
+man submitting the patch to look at and fix any problems :)</div><div><br><=
+/div><div>In the future if we did change anything, I&#39;d probably rather =
+err on the side of asking the user or never adding a tag than trying to loo=
+k up a bug in bugzilla. The agents are pretty good at incorporating=C2=A0co=
+ntext, so a prompt like, &quot;Fix Yocto bug 12345 by doing XYZ&quot; would=
+ likely do the right thing.</div><div></div><div><br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+<br>
+&gt; +<br>
+&gt; +### AI-generated code<br>
+&gt; +<br>
+&gt; +- **Mandatory**: any AI-generated code/commit must add an `AI-Generat=
+ed:`<br>
+&gt; +=C2=A0 tag line in the commit message, placed *before* `Signed-off-by=
+` (if present),<br>
+&gt; +=C2=A0 naming the tool used, e.g.:<br>
+&gt; +<br>
+&gt; +=C2=A0 ```<br>
+&gt; +=C2=A0 component: Add the ability to ...<br>
+&gt; +<br>
+&gt; +=C2=A0 AI-Generated: Uses GitHub Copilot<br>
+&gt; +=C2=A0 ```<br>
+&gt; +<br>
+&gt; +- Also add a code comment or other in-patch indication that the code =
+is<br>
+&gt; +=C2=A0 AI-generated (recommended, not just the commit tag).<br>
+&gt; +- **Mandatory** Do not automatically add a `Signed-off-by`. This tag =
+must<br>
+&gt; +=C2=A0 always be written by the human contributor, never by the AI to=
+ol =E2=80=94 the<br>
+&gt; +=C2=A0 DCO/Developer&#39;s Statement of Origin still applies in full.=
+<br>
+&gt; +- Contributor is responsible for confirming the AI tool&#39;s terms d=
+on&#39;t<br>
+&gt; +=C2=A0 conflict with the project&#39;s open source license/IP policy,=
+ and that<br>
+&gt; +=C2=A0 any third-party copyrighted material in the AI output is prope=
+rly<br>
+&gt; +=C2=A0 licensed before contributing it. See the Linux Foundation gene=
+rative AI<br>
+&gt; +=C2=A0 guidance: <a href=3D"https://www.linuxfoundation.org/legal/gen=
+erative-ai" rel=3D"noreferrer" target=3D"_blank">https://www.linuxfoundatio=
+n.org/legal/generative-ai</a>.<br>
+&gt; +- `Co-authored-by` should be omitted in favor of the `AI-generated` t=
+ag.<br>
+<br>
+Do you have references about AI-generated git tags?<br>
+I think that the AssistedBy is the current state-of-the-art way of annotati=
+ng this...<br>
+<br>
+&gt; +<br>
+&gt; +When in doubt about a convention, grep `git log --oneline &lt;path&gt=
+;` in the<br>
+&gt; +target repo for precedent before inventing a new style.<br>
+&gt; --<br>
+&gt; 2.54.0<br>
+<br>
+</blockquote></div></div>
 
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:12pt;font-fam=
-ily:Arial,sans-serif">=C2=A0<span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><b><i><span style=3D"font-size:16pt;co=
-lor:purple">Stephen K. Jolley</span></i></b><span style=3D"font-size:12pt;f=
-ont-family:Arial,sans-serif"><span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><b><span style=3D"font-size:8pt;font-f=
-amily:&quot;Courier New&quot;;color:blue">Yocto Project Program Manager</sp=
-an></b></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
-ly:Wingdings;color:black">(</span><span style=3D"font-size:9pt;font-family:=
-&quot;MS Sans Serif&quot;,serif;color:teal">=C2=A0=C2=A0=C2=A0=C2=A0</span>=
-<b><span style=3D"font-size:8pt;font-family:&quot;Comic Sans MS&quot;;color=
-:teal">Cell</span></b><span style=3D"font-size:9pt;font-family:&quot;MS San=
-s Serif&quot;,serif;color:teal">:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 </span><span style=3D"font=
--size:9pt;font-family:&quot;MS Sans Serif&quot;,serif">(208) 244-4460</span=
-><span style=3D"font-size:12pt;font-family:Arial,sans-serif"><span></span><=
-/span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
-ly:Wingdings">*=C2=A0</span><b><span lang=3D"FR" style=3D"font-size:8pt;fon=
-t-family:&quot;Comic Sans MS&quot;;color:teal">Email</span></b><span lang=
-=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;=
-color:teal">:</span><span lang=3D"FR" style=3D"font-size:9pt;font-family:&q=
-uot;MS Sans Serif&quot;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><u><span=
- lang=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,s=
-erif;color:blue"><span style=3D"color:rgb(17,85,204)"><a href=3D"mailto:ste=
-phen.k.jolley@intel.com" target=3D"_blank">s</a><a href=3D"mailto:jolley.yp=
-.pm@gmail.com" target=3D"_blank">jolley.yp.pm@gmail.com</a></span></span></=
-u></p></div></div></div></div>
-
---0000000000007ff6410658c68f9c--
+--000000000000dd0bd80658c6c9b2--
 
