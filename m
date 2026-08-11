@@ -1,134 +1,119 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48283C5AD7B
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 06:13:49 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.0])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48324.1786428820246534812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBB8C5B570
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 06:57:00 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.48708.1786431410979871879
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2026 23:13:40 -0700
+ Mon, 10 Aug 2026 23:56:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=ojCYwEgr;
- spf=pass (domain: est.tech, ip: 40.107.159.0, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vb6hHIST9OIQn24T+dx+IQ2k+uIz3FWkFeaNfSAAdP3rKfadD0FJNU3N7UOP4teV1kpjx7zVL1SjZmMEZHMfWKfxKXdKUwF2EpPsPYA+KaTIEDb+1Eg9JFx49r+hcawOr0jbEiMgJLIsLHNEbYGFjgVzl6o7ye4azm2UGiBYEUjjtKhTI1ARjwmbs5S1t3Pczi1Pbvcb9UEjLKenhN/8fiKHgsZsmob83vRN94UGKX3lQgO8o6KCykkWxwexwabqKrBpq+7MOV+Susg3fRgTvaQ39/OPrxeYSBgEIxxTHEST7HP5WhIw6J94WlnM1OsU8UeN9v53MapGTvOjp9rDLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qG2p4rP1hzMAXnST5nnLUZAImJBxNlJdzVDEHDf+/kw=;
- b=O8UPdPlCkj/QSM7uon2w+6rwUeabFbhNKyWEcqY1+qqrCDQt1o1NOKRtvvegrd7STX2zQbiRTjpue+5R+VLWMMXa4nphY+jlZFkf/aErNTrfdWtSHNPlm7RBEj+jIlFG0E6Yr+/i5LSCvaJI5pnPREzjoARyECL71rXv4jRXZoi6D9XL0KU2zzuErkqF2Y0NvacK+sxnFZUpMHbCq58Artsz20oGlpZ3+PCmGmcnZD7+r6gaf12HaRbzm9AQGP0XN0GTHwFg98JVVWHCnXRK+OPCNVJE6dl2xV3qhs0g1b2mxvh98kMgHJDyLcuH4hOr5mKJxGOlFba52QYzIAvb4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qG2p4rP1hzMAXnST5nnLUZAImJBxNlJdzVDEHDf+/kw=;
- b=ojCYwEgrsxHBe7idUMmYiNGStR2UggHr5hmNStBhgdM6wpNiqzhCv2tR32PB60RsRGLiJrXg5TSo819YHulq7mPgd9qzT2OHjDVgC3EL7asYpjkNVOFaDeEQDGUKthagpYOnd1T52tzhWylOgpp2UnvG/TOwBy3j+QoR6gH0Mfy01uWtqy+z+9oDNSBBpwqEl/0SOJIHDjHgUG0EOQ0+Ku632pYJsXqfiKctYIOwLjI4pDK5JJH3imPxepPNU3yrazLgNIxS5glNAbZSnLYBsqalGyeLoXCA0SkAMoiD3JgBihO7Qaltm8OYrGZn01JN/tHfb3YNnrTCvRedBDUwFA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by AS2P189MB2581.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:644::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 06:13:34 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.008; Tue, 11 Aug 2026
- 06:13:34 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=PtiFnP+Q;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-202608110656473e935a31fd00020761-yslwph@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202608110656473e935a31fd00020761
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 11 Aug 2026 08:56:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=I7c3NU26NEBx/MtPHsHv81f3sw5wKjXQuzH7Fjke7kA=;
+ b=PtiFnP+QcXPmhtPJCUaGwERaEg9Gjh+26q8pQxdvYGQiwQbWxoad9cDw5HA4KNUu2OMLJ6
+ fzrvLBuUXfgQS9BE9/6NB/grJIDwG+Gdd90nS7QGs8r51C5UObGMciEl9duDf5SefPQqUjbG
+ z89SUgkKJEroOXRyQscveXm2T6c7pAYYP7A3POFNYl8uOsLAUZMijF4GMZQSzmow24BlKoRp
+ +IqqOndLzUU70UJHZFtsqc3lLUJeQsDVdDvJy5Tohd7vfiCcqueIwY96GU9mt7Cv156HqOCC
+ 3vrQqGUORhUe7o55PNH6zbZeRpj8xT5uou1olZ0n5M11gKy7oOJbrK0w==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH v2 0/2] swig: upgrade 4.4.1 -> 4.5.0
-Date: Tue, 11 Aug 2026 08:12:49 +0200
-Message-ID: <20260811061251.14757-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
-References: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU7PR01CA0015.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:50f::13) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH] devtool: ide-sdk: report why the debug server did not start
+Date: Tue, 11 Aug 2026 08:56:44 +0200
+Message-ID: <20260811065645.51586-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AS2P189MB2581:EE_
-X-MS-Office365-Filtering-Correlation-Id: cdb42dcb-2c5b-4748-7051-08def76facd7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|23010399003|18002099003|22082099003|11063799006|56012099006|6133799003|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	h+xUotunvdagW/QMOUJaqXS3ckqIA0FVhd4D+KfrTxNdspmTw74Ge1DtlCuWfhUO22ef5sNZXg8hE3+8nnPcBTjFxMtKGMEbgtu0lm99uimO4lN1Y690BcrkCGHaZLy1PiUV1VU6qUoODkg5EV4zPHCbZIgXowalgSfNyq2nImQBE1tZSe5CqE6cKCxbmQXS1i1maaJ5++yKO34FZdVWLm7/3yOMuJa+UC/5F3kfcFL+7WJ3aN/7PQS78DRTvgy5tV7iwod0Meu1HDG6yJPh2BHnPJuPdvVbSGhIq+bb5Jdo6SYsKJY6dZjvsFeAHUXMRv68ba3Y/I/WYfw6eUyvEQ5jAHvBkPIqDXKJxRXKxuS84FaAoUzQvN7IfLgFMvWJkbeEa/VtCyhzdRGgNQ4mj8lzC/WIGh3PrSRabiUW3b27u3IWjfL99sZ83rp+u+wx8jP69r/gGB8KV8y3zR1yqYa51F//UVY2nqm+2asj1LGOIC/66yNbQW/vFcIgD2lVXY0s/S1+JnDTwD5KtO7Maf5p70OLUuMl1chwpf2p9mJnPZqZTyVbWJ+M7XHNytcwbWyTnmqAcTrFwYUeH8hnkzG0necrEG3xR0HOYAJ2u+1yIYf81E7JxtlXgmyZbvr5ChKIInSBKX/ZN3PllzLnTpjRecLES2aJNEuVlJMSbVk=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(23010399003)(18002099003)(22082099003)(11063799006)(56012099006)(6133799003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?mfpn1D2R0bLlN8FN3qlcHWxEBZLhHm+3iRNpku+81jn8ELy/ktivkZ6ROFOs?=
- =?us-ascii?Q?2K0fm0Y8QiELdlNGR0q1rzy9fMHYmzHbxYMYtngj74W+GltqfLy/BAFzbA5w?=
- =?us-ascii?Q?PBxO/HRyWeLPmDLQOKgyNHAQQ6ZIMhq2hj1eBpFiq2O7VB//1mmScRuY81EE?=
- =?us-ascii?Q?Jx/JfMLDxuihe+0Y7a9PBB99yOvsJunodoqZLh3oVFp3bkY/yWGCQ7uvB9DR?=
- =?us-ascii?Q?F/VOAc7aUl5Jogy0MaUOsGlKjeP9csDlZPm2Jto5o2C6e/3wHixFAhVc7Rny?=
- =?us-ascii?Q?+bCgWhkZqYKRMbfnLVJlf4VqYbWYgpo9m+4vGzUHeO65gzMbcgu2GkLt3AFr?=
- =?us-ascii?Q?tYGabU/8pIxyzi0eha2KVm3n6PgMJwC6xzBoI5HngL8ugSeedsD4qpjkYcYb?=
- =?us-ascii?Q?IuJoW8tFhcqewwHsrrGw6n5vKX9qi7ILRulDytIoNNU4EQphRI90+SRuZoBF?=
- =?us-ascii?Q?NK1Y2zUC/NFGEYOK5SwxwDf9d8pRg7+i/tfyZeOB3/HNeQvkYQ2nFZMIgViA?=
- =?us-ascii?Q?GwYVp3kVBE18hYqvWdGDWNU2pFuK/iv1ZU2ytp8e8VAzHxeB0O/bwj5ZXE9y?=
- =?us-ascii?Q?6o1OUMZagkVxY/Qfm/efR5I1rp+hd4S/CXuo1XhtEVYXy8SWL7Sap11+rg87?=
- =?us-ascii?Q?LEtDavdE9pB2uTWREtSHhDw4TdBwuR57P4fbsmmr7JRRo+3pNaXYKNHXDKKP?=
- =?us-ascii?Q?wmcWqVBNEKwO8U9e5GH5fkZpDlqNWgVN0iEe6WmF1mqIcCajpwUQP49G2DYz?=
- =?us-ascii?Q?yEf9Fnec5IzRz05viJz2F7q3+hiPdYYKtip9IZd2DK3gLLmFfI0ZrrNbeQ2d?=
- =?us-ascii?Q?rRDFYtjbX0i1jN0mdRKW4DvNZ/yJ/ZUpEFom67zKfb4YFkmGNDiwiBTEX3au?=
- =?us-ascii?Q?mcXNb85q2Nwd79gJEZAu6aB7jJeBjQf+UY+DKG+obtMDlGz3P+8126X2eymf?=
- =?us-ascii?Q?cT9E4/0VqlJUfRzcbrWAqRF46cO12FgxdCAvLMH510CeNb8AwKMNja50/5Sf?=
- =?us-ascii?Q?yCFVCEKGks5wlk/u8XpdQ0AyAWsO3hjSyYo+bnPY6AybZzjAOg4Ea7bOVeIA?=
- =?us-ascii?Q?H2orG+npXfF1WlN8yKG3l37llaBK+hs8wEszzzs7iCQNGdYdkaMlZ+b08S3Y?=
- =?us-ascii?Q?avq4whTwN3p4BaBri79q/dc0fTKRRLo6juSdtcWQ3U9ZlN1Q2XJsgSsvFhd8?=
- =?us-ascii?Q?Mq1u1pDwk8k3+NSS+7+1eoB48c7YlUKkvR71Xs+mMoc/H8p+/3XmsiVagWt4?=
- =?us-ascii?Q?HwtLKpkkLE1JQCxuZK7r9VWsYUcQmhgb0h1EwxF6C5LWE/BTVZNYrbV9bnxK?=
- =?us-ascii?Q?w08YldyyVDuoIlVD89JUeA4vlhfE3rK3SamS+IL5YGCB2boUln874Spm9ZaN?=
- =?us-ascii?Q?aupmQFJb8bvmAUImstTFrZoXId3pkdRgtiD8eTMX5k1mw9ht7NwaVdHVWaFO?=
- =?us-ascii?Q?DjDqBrhU7bly/ENgdXpDTFPo9KBPa4uiYqafcc9OGj5gSFXME4rkpel+Ra+v?=
- =?us-ascii?Q?SFYDCC8A8hVkeE/tlMqUM3QTqaj2WYJaeSkSjMBxLICIDXy45yfy1efPQDmq?=
- =?us-ascii?Q?orfV7riakAN8WB3fCJX2OnhUgeE7Wv5xN4+DrClbSswbzVF0rSwa4KhJif5z?=
- =?us-ascii?Q?PFVWSBxqB25Ijh7bZySKd+3D+1+kY2dS67Lj3n2pxR0NoQsUDBLxrnHB1K6n?=
- =?us-ascii?Q?8S5CPl+PwrbXH2tU9IomOIlQ3wY9Gtlr8A7Jb+W310N+nTWLJvMoUULW/yH5?=
- =?us-ascii?Q?q/1zQnAA93F0FEjWu6lhU0D/xez5b1pU1mfxu/OGhelk5+/bBMTh4YFr7CiM?=
-X-MS-Exchange-AntiSpam-MessageData-1: ZLBKimfywv0uExo/2RLOJsP3cnHqw+8ONuY=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdb42dcb-2c5b-4748-7051-08def76facd7
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 06:13:34.7551
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SV+ih0wGoaLmU+dJVp4Ail9WMBL5EEBO6ZJ2GyX2qlXOyQqVK7PCUeCjMXs6GjQ1X7cJps1wHA8bTY7tTXQdSc03uEIf488lHSuU+3IV0y0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2P189MB2581
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 06:13:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243150
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 06:57:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243153
 
-Upgrade swig to 4.5.0 and fix babeltrace2 build breakage caused by
-removal of Python 2 compatibility macros in the new swig version.
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Changes in v2:
-- Added babeltrace2 patch to fix SWIG 4.5.0 compatibility
+The generated preLaunchTask SSH command waits for the debug server to listen
+on its port by polling /proc/net/tcp(6), and gave up after 100 retries with a
+0.1s sleep each, reporting only "<server> did not start on port <port>".
 
-Jaipaul Cheernam (2):
-  swig: upgrade 4.4.1 -> 4.5.0
-  babeltrace2: fix build with swig 4.5.0
+test_devtool_ide_sdk_code_cmake_clang hit this intermittently on the
+autobuilder. The message does not say whether the server was still starting or
+had already failed, so the cause could not be determined from the logs.
 
- .../swig/swig/determinism.patch               | 20 +++---
- .../swig/{swig_4.4.1.bb =3D> swig_4.5.0.bb}     |  4 +-
- ...Python-2-C-API-macros-for-SWIG-4.5.0.patch | 70 +++++++++++++++++++
- .../recipes-kernel/lttng/babeltrace2_2.1.2.bb |  1 +
- 4 files changed, 83 insertions(+), 12 deletions(-)
- rename meta/recipes-devtools/swig/{swig_4.4.1.bb =3D> swig_4.5.0.bb} (92%)
- create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-bt2-replace-=
-removed-Python-2-C-API-macros-for-SWIG-4.5.0.patch
+Dump the debug server log to stderr when giving up, so the reason ends up in
+the SSH command output which both the IDE and oe-selftest already surface, and
+include the number of retries reached.
+
+Raise the retry count from 100 to 300. The loop sleeps 0.1s per retry, and the
+wall-clock time is dominated by that sleep: it barely grows under CPU load (100
+retries took 10.5s idle and 12.0s with the host CPUs oversubscribed 4x), so the
+previous limit really was a ~10s budget for the debug server to come up.
+
+The helper is used by the lldb-server path only, so the gdbserver commands are
+unchanged.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/lib/devtool/ide_plugins/__init__.py | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
+index deb6050907..63e9682e73 100644
+--- a/scripts/lib/devtool/ide_plugins/__init__.py
++++ b/scripts/lib/devtool/ide_plugins/__init__.py
+@@ -97,19 +97,28 @@ class DebuggerCrossConfig:
+             modes.append(DebuggerServerModes.ATTACH)
+         return modes
+ 
++    # Re-tries in 0.1s Example: 300 * 0.1s, i.e. ~30s.
++    TARGET_START_RETRIES = 300
++
+     def _target_tcp_port_check_cmd(self):
+         hex_port = "%04X" % self.debug_server_port
+         return "grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null" % hex_port
+ 
+-    def _target_wait_for_tcp_port_cmd(self, pid_var=None):
++    def _target_wait_for_tcp_port_cmd(self, pid_var=None, log_file=None):
++        """Shell fragment waiting until the debug server listens on its port.
++
++        The server log is dumped to stderr when giving up.
++        """
++        dump_log = "cat %s >&2; " % log_file if log_file else ""
+         cleanup = ""
+         if pid_var:
+             cleanup = "kill \\$_%s 2>/dev/null; " % pid_var
+         return (
+-            "_w=0; while ! %s; do _w=\\$((_w+1)); [ \\$_w -lt 100 ] || { "
+-            "%secho %s did not start on port %s >&2; exit 1; }; sleep 0.1; done;"
+-            % (self._target_tcp_port_check_cmd(), cleanup, self.DEBUG_SERVER_NAME,
+-               self.debug_server_port))
++            "_w=0; while ! %s; do _w=\\$((_w+1)); [ \\$_w -lt %d ] || { "
++            "%secho %s did not start on port %s after \\$_w retries >&2; %sexit 1; }; "
++            "sleep 0.1; done;"
++            % (self._target_tcp_port_check_cmd(), self.TARGET_START_RETRIES,
++               cleanup, self.DEBUG_SERVER_NAME, self.debug_server_port, dump_log))
+ 
+     def initialize(self):
+         """Called after construction to generate any required config files."""
+@@ -249,7 +258,7 @@ class LldbServerConfig(DebuggerCrossConfig):
+                 lldb_server, self.debug_server_port, log_file)
+             cmd += "echo \\$_lldb_server_pid > %s; " % pid_file
+             cmd += self._target_wait_for_tcp_port_cmd(
+-                "lldb_server_pid")
++                "lldb_server_pid", log_file)
+         else:
+             raise DevtoolError(
+                 "lldb-server does not support mode %s "
+-- 
+2.55.0
 
 
