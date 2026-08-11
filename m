@@ -2,231 +2,254 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 535D6C5CFDB
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 11:11:47 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51814.1786446698270951245
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF8BC5CFC1
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 11:15:27 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.38])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.52227.1786446921670166351
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 04:11:38 -0700
+ Tue, 11 Aug 2026 04:15:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=D++QD89t;
- spf=pass (domain: est.tech, ip: 52.101.72.27, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=uIoytfKH;
+ spf=pass (domain: est.tech, ip: 40.107.162.38, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eLWWLyCVxfFt8pQ4Dz6zatj7tbPA57Wr+XbWu9iI9/yS4dDOpY3kJPs+e1378jzBencg4zaLmvlg7YvpeeWCO+zJZkCbepf8Lx4QGDKEZnR61hY/4JY2NTxXbZH9sT/A7dz7PmyRqQPE94qASCiZvoDTOAL9n08I74QhZ50fYcxvccFTq3VQ3r7I7/QLbnQX/w3fM4vLgaa9NywLzUZH1SAHLD06XFc2vR9j96NURPLBZ44c2N9Y86UOGyGv8cWgIDrpMFIqe5KORk1eIu0JgFB09ApsoeylCoaicieHycDY476gbDNiX0if53hiIwB35rf03dQOZ+iZ8KXdWmilDg==
+ b=d8t0pHc5FRGIXgORjjNrovl3Zw38ei0+aHBwVTC3N6nkJxww5ntP6XD1AGVmjItOzyVPPvof6LsuGT0jujiqyQyvNp5DJK22MWUNqYj8Pq28I5tLiNQLyE4Oe94VnKSSB78Y2NYGHMD2+208dB75+mLfOAKCUDAEcpg4gUrgj43XpaT4WFUe0+aRCNVtHfGxJLX2nPSOZxKpGNoK8tcAHqokUEHeXkHqwf/0brshws4PNofAOjDUZGsCsZzewlAu5wm3IXy0u27kD19N4WFdoFpOTOXB1yeptht+Q6NnRitoQbknBrnuWAPH8O5Du+hWKQvZBSfK20d99Bq0UW+u3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d+/lnZ3d6XyrajaW9EhHRaZaOPgvrRx37NLiFsR71WA=;
- b=mhLdmRBsEr9/HzdLAc4Nj6DVIkDTDaRBfiMBtNWivC6bVyS0a5D5pzZexBWDtqhI/twCVZ2IurxPogRDP3+/8GMqW1MdElXtvwm5EMhrbREyHG4uHZH5BiMJmEz/JAZ6tsWJpHumX5bxkZLxYEfJLgKVTIwRWtGooj8J3WnrJI2pLMKgOgKQomscd5tJM7WVhwXB8ryrGN9BleLCEHIiEOLnIOavAB71RCaSkWTiwOikdR1imaGUQ4l/L+dABYWiTza3/N1kV44fUS2KkDqxnbMT9HtCQBBgf/PGRUXgyD65CbsGLOJyLXALnAApQLug/d4LzcDEAb1fh92vylU1vg==
+ bh=qMvX/uGki81OgyTcmJ9hZIXaeeXZuGOfeBngoXSfoE4=;
+ b=rZf855tCfcDBnahMDVls24YXQHTk6b3Mb53sLjJknXqRLsmqYmS0+iI6nT4VWhGI0JahQ7KDdgxwfI5xiEOaDk9pwBNkEekhhTqvahYicUM9OIxk1nk6o8+vAWkpSyAIicxarIhJb236BmKpZFOSQz7MLyuSC8nd/Qxqe+1l31EdpyTUseFXW6+bVocqhV7gjW+7W9WwQJxattMIlLVOfIEnSF72XB8M72aDq61FfJrgoJ9wsr6KM0vya8z7pB0/VgxQVJ6yAOqLns6JTHszkC7O7QFscdtlDgr0xsI1uC2awicZxnjgCvuEhyzzAKPmth18HavDoQWoNayIkrmyIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d+/lnZ3d6XyrajaW9EhHRaZaOPgvrRx37NLiFsR71WA=;
- b=D++QD89tul5PSQGw/SKTnoGhrtnZ/P4cSTC1wE8LQrbEjfRkuforgPIro2UbUG/Wwh3dG3piz4J2PbrnfpY40MDIk+65b2Ty4EyoEa4iC8oFAZKpBpXR84mImhFkcuXHdAhfhQCQIl/iOf8VceUVX77pLV3C3RMudIQrucw9kqwqHj1kgXApFUCw7mL634A6ysW9hlRbrG4NYB9y67CQtaPByR8qt4xCrCNGtwMiUjAQZJ1epVT0a/KER9jW5HMB+pUItHPd5JsrA8xnuq6g88Xoabpde+fa53aG7g62H6dLpoFfX2NFfY/OuAu5YDAJj95OFj0gfiubJ2ZRp5UPmQ==
+ bh=qMvX/uGki81OgyTcmJ9hZIXaeeXZuGOfeBngoXSfoE4=;
+ b=uIoytfKH/dIYCEQQBE1+zJYsFQBclHrowDbBbSNBuJUpGVxb1SCgrW1+LWXA0Vd1h96dDrrIplWnomeqMma5xWF262j18UeMgVDVe+f5nN/6hRlBC3eSkqOo9/VdM+sJnsc10m1ZyZJSFLphY6dKBWOlIT9sWNDChXouDFxjxyFz1a3JJEXxj/lm0OsDDWkJ8TdCZDe5wHD2N5oIh7x1id8nLm46dxzQbn9qPbI8ABA1TcPhoOZeM/zcMneyI0eM5wfWAwpD4PfI6nK/6t7k3Rk39FiAnecAiWiaa0r7uYiLyoPiNb4DsrSvt1xfHIPF6UMfwGElIHbWZ9Njneyamw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by DB8P189MB0826.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:12f::24) with
+ by PA1P189MB2695.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:449::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 11:11:33 +0000
+ 2026 11:15:15 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.008; Tue, 11 Aug 2026
- 11:11:33 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH v3 2/4] babeltrace2: fix build with swig 4.5.0
-Date: Tue, 11 Aug 2026 13:11:18 +0200
-Message-ID: <20260811111120.17612-3-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260811111120.17612-1-jaipaul.cheernam@est.tech>
+ 11:15:15 +0000
+Content-Type: multipart/alternative;
+ boundary="------------Pub8wFFaUpck99gM0nTAiowL"
+Message-ID: <f012bd8b-154a-43db-84e4-37ebd361a4fe@est.tech>
+Date: Tue, 11 Aug 2026 13:15:14 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2 1/2] swig: upgrade 4.4.1 -> 4.5.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
 References: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
- <20260811111120.17612-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0236.eurprd04.prod.outlook.com
- (2603:10a6:10:2b1::31) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ <20260811061251.14757-1-jaipaul.cheernam@est.tech>
+ <20260811061251.14757-2-jaipaul.cheernam@est.tech>
+ <61f96793beba861118dc9502be1590176dfef6af.camel@linuxfoundation.org>
+Content-Language: en-US
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+In-Reply-To: <61f96793beba861118dc9502be1590176dfef6af.camel@linuxfoundation.org>
+X-ClientProxiedBy: DU2PR04CA0221.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b1::16) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB8P189MB0826:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5ff000c-a2cb-4fb7-9a31-08def7994d7a
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PA1P189MB2695:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9bce5de-ff56-403b-4310-08def799d1a2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|10067099003|11063799006|4143699003|56012099006|6133799003|3023799007|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|11063799006|56012099006|10067099003|6133799003|22082099003|18002099003|4143699003|8096899003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	qWFk/3UmvFjgx0rpUzvL5MSzLAAmWl3oYEsQvMKfVVGTcm6TtMvNkP2cU2fT8rVUHS896Yh1/Fqp9N6ZDTPB1XrXMh9YAyyhf7kxxR6qQa+nOSfJ7n6ucIm7baAmKtL5la++n/8sL6leqTnSMphjV37QuoXgWs32hB/muRziCo4E66YCFh2fV8rMU8jf+wybGkGwn1RAQxUgFPJlTHQ5Zgynua55OUcXVS9PzfcTdbuCTwvWM9co1N6NFfn3EPipO07lhrcKsG8KwspeWGYp663PLZ0yrF62hszPArfWvV5c98J8IJLkWf5shXgc0HR9F/fNuiYLa8g0Ni2FFEqN63gbJgNpW/0MWr6AESQ/tzhN0BxlSY6kQK0x/diW0u/MFOOPFp7yfmpgoVUcQBPfBVwcTDOH/vUNVk2y2SaqvxedLTIl1IfQoa+X5Oc1vC959GmbuLgo7rZNCWRf6/L4sI93c2ZY9RY5m1S9mHQw3r9K2KcaJqJhYD5uWZ5T1MBGPxtLb6SSaaBsMRXSjArSwAz8Rp09Ru0nKndF7AtFyAKFQqUJ01DHEbqPTpx8ZCQYEuAlLiQhgBL7W42xGjizmol85k13qz/kSZBUvHmsd/vt/ty1E6Z4t6+14/2av0VE
+	LWmVgicZcj0pt+dvY8AcZtAVkKQwbSuKXKhS4zBkt7RDbh+Zx0ZmK0n7TcHRuih6mHEkgcdo2YdhCicoi7+7Qw0bK9anQv6juGDtGXbFwYtav7QWsOEWFSBmIAI+Yi1/ild7tTSLxrJdd9FlH+fewGEhQYzboVXke0d/RbF7bkBjmZ5DXfp6lYbtt8mvfyzLOWUTcE1+vfn/Xc1y2I9W5JGN6oO9d0r68np4FVeydvZ5UpmKXFOJDptcnRmP2JQv9Gj1octPvK85dnDBxaytQzDP4D0/zNcKoQpS5/okTkfSJISagjOin6NEGYM/AWRKkRtrslQHyxLHLHokuYpfC6BWVgOlPDP1pjFK50VLH7RMG7P3Oj8VBt5sYXlzO9qgVQZjAHTAanwW/D1COS8u8ru7rdmbKLU976WxZDFDVHVNC7Ar5CAxVPZ8HcpKcHR36ctevsyGJYQTDjddzpDu//+4Gm4WpTzZwqwmNUFnC1Il2S60Ana9Vlr072XTMsq1Uie1SYmFWmMfYf7SutmifB/fX/iBWxzfPdj4YjVwGteumL1/8pU1zTHeQsolY9OxTC1ADohDGqg9T8doVXdSLzCrrEhUMWdliB/cCWteyzg=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(10067099003)(11063799006)(4143699003)(56012099006)(6133799003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(11063799006)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003)(4143699003)(8096899003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Btva8ba8p/3dfmDSvQt6pK1RoIIezwO5pJP49B7LWlg5p5+1iqzALH02b7HF?=
- =?us-ascii?Q?S0q3mvvP2IjFZmbn8odtZOo/lPtZzVEGpZan0r/lyVHXxcjOyGGauPpGKlN6?=
- =?us-ascii?Q?hdOjSKJwWgv0i3sTBuFNqhIlQW2dZtBXrIyDnYo2XkOBs6xpQR5IS8xlywoU?=
- =?us-ascii?Q?+YH3tBEq2jqzvCDt3CU42ZzT9fe0Vq/wcgFZPfBC8wbUTFn6VcXkat8Ts1Dz?=
- =?us-ascii?Q?tMVYxqTB7ObHQ0lBwP/fabmDSJQz5PfIwhnKosoehYa5Kd/ZpgfCuEpg1aL5?=
- =?us-ascii?Q?GODYodzFEFuHe80OidrOU1qYFtuWSXa/aJoSbvsqN0Pi+nd7rqxD1XVR4DXn?=
- =?us-ascii?Q?dN978z7EqhpM7zmPSgnV/JxTqOoYI7iGBe3ScA/RuJ5WhNzR2vCosmdMQZHB?=
- =?us-ascii?Q?+7TbScNV7koxy/ygFOD53NMOSgyIlLkfVaXLNzfS6+d37onwdwEGCqJDjWYB?=
- =?us-ascii?Q?0PdDL2jp1pBhD4Z/J+p7zGEfaz0EWYvcniMsMKUHDBnK+9IkRAEZbfFWYmKv?=
- =?us-ascii?Q?ba0eEgJkWcWTbHKfwK32GRX2bTcV1fAJcHw6IAfNt65tQ3i21KjehDl2ZW0j?=
- =?us-ascii?Q?hyQSyfvUSkqYgdpeu2PcEiIw3vDZ9e3dmZLvZTzmjJUCunTcCOMTYwLey0pu?=
- =?us-ascii?Q?Ep+zBoriG+FhH/aLn381btdnA3iDmFWhgTBHtNj8Yg/KlP4Z65wkrWgIBunQ?=
- =?us-ascii?Q?Gn1N95PQH5QdaWOlXvXQRzfD/4AlO74VNji9XW/uLduixw/rgR6UtO0WPAvw?=
- =?us-ascii?Q?bwhBK6pIoeZcxx69XY2aEgZ4nnOFwQG07lh02aH3AE+LUjdc8WIrajcRi1QH?=
- =?us-ascii?Q?0Mq+EXpDf28BlTlOZ1U9tIO6hKQNvke6HM62GVSoHT944czaXVWnsfEoku+K?=
- =?us-ascii?Q?Qa1vRWqv6u5vlpRWfZ64ToFWUIUzdjxjDNf8/RVhPbzi7T55ie9PhEyQNf6K?=
- =?us-ascii?Q?qNr53sfubVdvmtA+EOCU7lqsP3ANULYBXCtStSVRq3oTfrxj61oRG8l8X+eS?=
- =?us-ascii?Q?6FnfThU4K92Z1EFM9dZ4VovsLI+iDxmACxZUU6YuPhfXVaqP1eFTbqy5f1uO?=
- =?us-ascii?Q?LS4dygwFuxkVv3Mlj9TgMzwTsSXHgSbmWfyZIKKzdevFydTG+PaZMQxzfdf2?=
- =?us-ascii?Q?YbO5Kz/f/dBYycMoW202TbZMNb2sbrfKYMF2ugggbU/0nhG1cEPCoOHjQy1u?=
- =?us-ascii?Q?13ZJZ4+1Mt4Ko3F4PjF8lHb5pw/z2pq0XT3rHecUG9I4Q1R4EbeYaejN/REk?=
- =?us-ascii?Q?Os7G1wW3szTm7unE9DDL9Q5a9g2SceiAaGNhb5VfIFdidFELtsfMPdi2Goe8?=
- =?us-ascii?Q?4tqEtQbKIKdJp8MSGcfSrIOHSymKdIU/PMoRCRLx3RSE5YENeBH4mvSFymOk?=
- =?us-ascii?Q?22pOWqskwKCwJZGv/97A3us0VCLItBVeP3pzSvjlM6UtXi50m6nxDKqu/YJn?=
- =?us-ascii?Q?uuVNd4nJBN99Yon3NTtgogoYSvkfI5ynA59bgoWAqHLVLp5IhptiXky+NQpb?=
- =?us-ascii?Q?WdvxMUMCssAgV4KXJ95GlDgcytl5XSjdCq3mvB6DdQSUGnlgUoZ/wpG4RkzL?=
- =?us-ascii?Q?CwXkrwSm4nF5k8LooScGWWYfKbXibjki9ukZBgKGJmQqgKxIG75kZLFyVJL+?=
- =?us-ascii?Q?RYJ/ONtNohRwvuzAVJGe4O3AoVvni/B76kbrjPASxFfFwfzjj7dTAlKaDHfO?=
- =?us-ascii?Q?q+8iHjYLEFeElHoLLP7NEnsnHiTb5dTYrItPNO4vNBD/kmcMOsl7txYpmCsk?=
- =?us-ascii?Q?kWbekb10t0DcQu7Wfi/WuiFP7TKrFjw=3D?=
+	=?utf-8?B?dFNIeS9QMjZldDgwTjlqT2hSS1FBU2phTnZBSDRKQ0h0SDNxNjdnNmczYzN2?=
+ =?utf-8?B?WC9zVHV5a1lKZ29UZlEwVmIwMi8wNTdtakxsUDVYNHV6SXBUajFMRDBBTjRM?=
+ =?utf-8?B?c1huVVo5YUFBVm9QYXdpdm9WSXBHcW1YMDZ3VEJiS3dodnJkMGllNzFBM0Zp?=
+ =?utf-8?B?dUxNZForMTBmSHpGNFBGenU4bEN1Vm8rRVo1M2p4SGVXbjlnZk42L256cTRH?=
+ =?utf-8?B?anNuWDcwbnJMb3ZQMFZpaTdFak9tdGYxT0h6SlRkM05aNHhoUnBYUnJJVFVT?=
+ =?utf-8?B?WXQ2OUhyNXFVam1sYy9sTEh5eXprOS9qVTU1ZEI5ZjM2TVNmaTd6b1VQbGlr?=
+ =?utf-8?B?M2R2M0NDOHJneCtaRDBWM3ovV3d3ODN3WXJZK3BlV1ZTb2RJUzc0Um1pWFZ3?=
+ =?utf-8?B?SjUwTlZ3dm1JVE53eWt0VzVvV0pGamNmOXBhRmVEUWYxQUxVemdaVnp2RFdl?=
+ =?utf-8?B?TWt3dG9NYWhuQlUzUnhRa1orSG5FcXkvcXBZYmUvb2pLQ2ROSkRrc054TGlF?=
+ =?utf-8?B?Nm5TMnRrK3l1WGdvWlQzVXl2Y255T2l2cFBrOG4xQi9sN2FyMTJmNzJ1eGxJ?=
+ =?utf-8?B?WVE0Y01pKzNPb0NVZjQ0Tk4vT3FqMEpaQmVWenRLQVQ0L0dIdjZZaVhrVU1E?=
+ =?utf-8?B?K3lZQ1VTeVhncVJWNGorZnVhNHpJYVY5UGVqbWFaUXF4OXkvbWJibVFIZWRp?=
+ =?utf-8?B?NEhabUNMdGtmaUE4L0xOeXVEQk9PdFlOZ1FWNW8wblplQ1FTOVpVZHp6WmtT?=
+ =?utf-8?B?WUFMbjdBc2xIRGd3TVNqQ0dwQUxybEZ0b0pIZjRUWHBkS09Wam44ZDFRdDZC?=
+ =?utf-8?B?aVpzV2FtR1pvUktPdWJ0UjE5SStBT1JvSFpKd1U4Q1FPaTJKdXE4YWVrU01K?=
+ =?utf-8?B?WXorNGs4cHZUV1BYYXI3Wm5pczhGSEhrTHB0NFlSalhmTWlFOGw3K0oxeE1E?=
+ =?utf-8?B?YmNRd3kyd2pKZlJPN01PMlN5Yk1wZXQvNTFud0hLMWhtR0NoV3l0TjJCRlZp?=
+ =?utf-8?B?UHY1cHpFRUcxK21Ecnc4ODIvbUtPeXQrSDlTWFNmQkpYd1FWQjM4b2c1MDhq?=
+ =?utf-8?B?WmVWSnhseU96S0JuVjJlRTZHTGdTS1V6Q09jL1diTVN2dEVvVVZQb3NSdlVi?=
+ =?utf-8?B?b1Ezdk5SWit6TGlVakNTdmcrS1JLT2ZzTTR6TkV4M0NvUHRDdDRQbm9sWTZm?=
+ =?utf-8?B?TWpZK2FnTlpOYlM4dW9CQzFQeFo0QndqZm5lMkpzRmFpTlROa0owSUJPaWZE?=
+ =?utf-8?B?NkN1U3BWa2dFa1JFeDkzRG9KbnYzZFlrK0RXZFl6Z250R3krbDUwM2Z0WDBy?=
+ =?utf-8?B?c1h0eUgydi9pdjNZYjl0L2oxR3Znd1dRT0d4d25oQjJBQSsxcVFJMFhVRzJD?=
+ =?utf-8?B?TW0wNy9qTmVlckVZeFZYRjcxdHRzNDk0djFhTjhtSW9Lc1luOUVKcnk2Wm4z?=
+ =?utf-8?B?YUF3c0dkcEs3QVVNdEFsSXJoamxqTkh4UzJPOFIwRTRFT1lsM1ByOHk0eXE4?=
+ =?utf-8?B?Kytlb1N1Yy9jVFoxTTRvVUQyWmYzYTQ0eGRSSHhmQmk5eEd6aktIUjdVOFVW?=
+ =?utf-8?B?RE5WbHRTaUtaQ250VjVDcGw5ajVKc0dqNVh0UnVReE5mcnhFUmFYUXlGY1lw?=
+ =?utf-8?B?R1dWNGFMWWhhZytzRGMwTGM4UDQ4a0cvakZYaHdnQkxpRGIyejMvb0pxbWpz?=
+ =?utf-8?B?Zm1VOUtNaDRvUXNqTzhLQ1FpOW40V0xiTU5uRTBHU2ZzSDR0cTdWUmo2aS9G?=
+ =?utf-8?B?SnJiNDlQT0tDdXdOS2VsTWhSK3dWN0FqL0t6ZjU5eFE0cUh5WkNlZXdTY2hW?=
+ =?utf-8?B?ZWZSWXJDY2t0VTBaUUMwQXcvQXBsM1EyQzRBQW9JUG5YTTQ0TGwwN0tPZlNZ?=
+ =?utf-8?B?cTJkOC9Fb1FzMEhRVlg0eWtqUnN3RHBzQnN4OUJVcHJndGRVZnowK2tXT0VL?=
+ =?utf-8?B?ZW1scUwvYXdSUzhBbHBaRzc3TFl4U0tIK1ZRdkxnSFBtK0xMbDk0bllMTXlC?=
+ =?utf-8?B?L0hvVW5FUE9pYVk1dlhvLzYxdk9HaFBDWXE2K3F3RERiRlFzVXY5a290Ulpn?=
+ =?utf-8?B?MTA3TFFvVHdhYlhod1MzVEdMdHU2OWU4Y1NxVm1ETkF0U3pheTA2aWdwY0x3?=
+ =?utf-8?B?Z0xBRW9ncjBrZ0YxeXpGOUExcSt1MzUxYU9vZmt0RUNHUEU0NmtQSzRxU3pN?=
+ =?utf-8?B?K1dpL3VxSGJuKzAvMHQ3bDFRS3dHRmR0QXNhQ29nMHpTdXg2M3czTG1qRzdE?=
+ =?utf-8?B?L3dyUDV2cFpPb1RLaTJad1daQ0xxMFAza1JZR2NjY0U3b1VVVDVjZXE2SG5H?=
+ =?utf-8?B?NWhhUWlWVXFLVnYrTDFzVis5MlJMSko1MGNIOEwzS1pIVTcvSU05eFVFTVp0?=
+ =?utf-8?Q?3onKvOjdZtapNEkQ=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5ff000c-a2cb-4fb7-9a31-08def7994d7a
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9bce5de-ff56-403b-4310-08def799d1a2
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:11:33.6214
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:15:15.3442
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pEUtsHRcCriWVoqJAQ+rgwgU3ym7/qiGrcV+/fUilIiK4t8i/OQTAV3nNzu9le7KAX/qlXDeZswJmBgAlhNVtkzrh2JISOFWCQcz47cvTOU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0826
+X-MS-Exchange-CrossTenant-UserPrincipalName: wZlpohaDwjhy19P4aCctzk04qz195TnW8W/6L80ity+JKA0wMSqpeVR6eaQ/vioOqXzH6y2Gk5bPNBEu1bOexO97kuhRE/rI55HtYBAO0cA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB2695
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 11:11:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243189
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 11:15:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243192
 
-SWIG 4.5.0 removed Python 2/3 compatibility macros PyString_FromString
-and SWIG_Python_str_FromChar. Backport upstream fix that replaces both
-with PyUnicode_FromString.
+--------------Pub8wFFaUpck99gM0nTAiowL
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Hi Richard,
+
+I will send v3 by fixing dtc and u-boot-tools.
+
+Note: The following recipes in meta-openembedded may also be affected
+if python/swig bindings are enabled:
+- gensio (meta-oe): fix available upstream [1]
+- unbound (meta-networking): fix available upstream [2]
+- ldns (meta-oe): fix pending upstream [3]
+
+[1]https://github.com/cminyard/gensio/commit/e024df7fc3d21896bd9d2e26964a0b59b7c2a91b
+[2]https://github.com/NLnetLabs/unbound/commit/93a56205cfa6b9a6d34db7245aa71e5ca67d1fd7
+[3]https://github.com/NLnetLabs/ldns/issues/314
+
+As they are not enabled now, will not provide a fix.
+
+Regards,
+
+Jaipaul
+
+
+On 2026-08-11 12:25, Richard Purdie wrote:
+> On Tue, 2026-08-11 at 08:12 +0200, Jaipaul Cheernam via lists.openembedded.org wrote:
+>> ChangeLog:https://www.swig.org/Release/CHANGES.current
+>>
+>> Release Notes:https://www.swig.org/Release/RELEASENOTES
+>>
+>> CompareLog:https://github.com/swig/swig/compare/v4.4.1...v4.5.0
+>>
+>> - Refresh determinism.patch
+>>
+>> Signed-off-by: Jaipaul Cheernam<jaipaul.cheernam@est.tech>
+>> ---
+>>   .../swig/swig/determinism.patch               | 20 +++++++++----------
+>>   .../swig/{swig_4.4.1.bb => swig_4.5.0.bb}     |  4 ++--
+>>   2 files changed, 12 insertions(+), 12 deletions(-)
+>>   rename meta/recipes-devtools/swig/{swig_4.4.1.bb => swig_4.5.0.bb} (92%)
+> I suspect this breaks u-boot-tools:
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/4370
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/4214
+>
+> and maybe python3-dtc:
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/4188
+>
+> Cheers,
+>
+> Richard
+--------------Pub8wFFaUpck99gM0nTAiowL
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><font face="monospace">Hi Richard,</font></p>
+    <p><font face="monospace">I will send v3 by fixing dtc and
+        u-boot-tools.&nbsp;</font></p>
+    <p><font face="monospace"><span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">Note:
+          The following recipes in meta-openembedded may also be
+          affected</span><br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">if
+          python/swig bindings are enabled:</span><br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">-
+          gensio (meta-oe): fix available upstream [1]</span><br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">-
+          unbound (meta-networking): fix available upstream [2]</span><br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">-
+          ldns (meta-oe): fix pending upstream [3]</span><br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">[1]<span class="Apple-converted-space">&nbsp;</span></span><a href="https://github.com/cminyard/gensio/commit/e024df7fc3d21896bd9d2e26964a0b59b7c2a91b" title="https://github.com/cminyard/gensio/commit/e024df7fc3d21896bd9d2e26964a0b59b7c2a91b" style="color: rgb(0, 120, 212); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;" class="moz-txt-link-freetext">https://github.com/cminyard/gensio/commit/e024df7fc3d21896bd9d2e26964a0b59b7c2a91b</a><br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">[2]<span class="Apple-converted-space">&nbsp;</span></span><a href="https://github.com/NLnetLabs/unbound/commit/93a56205cfa6b9a6d34db7245aa71e5ca67d1fd7" title="https://github.com/NLnetLabs/unbound/commit/93a56205cfa6b9a6d34db7245aa71e5ca67d1fd7" style="color: rgb(0, 120, 212); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;" class="moz-txt-link-freetext">https://github.com/NLnetLabs/unbound/commit/93a56205cfa6b9a6d34db7245aa71e5ca67d1fd7</a><br style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: none; text-decoration-thickness: auto; text-decoration-style: solid;">
+        <span style="caret-color: rgb(33, 33, 33); color: rgb(33, 33, 33); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; display: inline !important; float: none;">[3]<span class="Apple-converted-space">&nbsp;</span></span><a href="https://github.com/NLnetLabs/ldns/issues/314" title="https://github.com/NLnetLabs/ldns/issues/314" style="color: rgb(0, 120, 212); font-size: 14.6667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;" class="moz-txt-link-freetext">https://github.com/NLnetLabs/ldns/issues/314</a></font></p>
+    <p><font face="monospace">As they are not enabled now, will not
+        provide a fix.&nbsp;</font></p>
+    <p><font face="monospace">Regards,</font></p>
+    <p><font face="monospace">Jaipaul</font></p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2026-08-11 12:25, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:61f96793beba861118dc9502be1590176dfef6af.camel@linuxfoundation.org">
+      <pre wrap="" class="moz-quote-pre">On Tue, 2026-08-11 at 08:12 +0200, Jaipaul Cheernam via lists.openembedded.org wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">ChangeLog: <a class="moz-txt-link-freetext" href="https://www.swig.org/Release/CHANGES.current">https://www.swig.org/Release/CHANGES.current</a>
+
+Release Notes: <a class="moz-txt-link-freetext" href="https://www.swig.org/Release/RELEASENOTES">https://www.swig.org/Release/RELEASENOTES</a>
+
+CompareLog: <a class="moz-txt-link-freetext" href="https://github.com/swig/swig/compare/v4.4.1...v4.5.0">https://github.com/swig/swig/compare/v4.4.1...v4.5.0</a>
+
+- Refresh determinism.patch
+
+Signed-off-by: Jaipaul Cheernam <a class="moz-txt-link-rfc2396E" href="mailto:jaipaul.cheernam@est.tech">&lt;jaipaul.cheernam@est.tech&gt;</a>
 ---
- ...Python-2-C-API-macros-for-SWIG-4.5.0.patch | 70 +++++++++++++++++++
- .../recipes-kernel/lttng/babeltrace2_2.1.2.bb |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-bt2-replace-=
-removed-Python-2-C-API-macros-for-SWIG-4.5.0.patch
+&nbsp;.../swig/swig/determinism.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 20 +++++++++----------
+&nbsp;.../swig/{swig_4.4.1.bb =&gt; swig_4.5.0.bb}&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 4 ++--
+&nbsp;2 files changed, 12 insertions(+), 12 deletions(-)
+&nbsp;rename meta/recipes-devtools/swig/{swig_4.4.1.bb =&gt; swig_4.5.0.bb} (92%)
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+I suspect this breaks u-boot-tools:
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-bt2-replace-removed=
--Python-2-C-API-macros-for-SWIG-4.5.0.patch b/meta/recipes-kernel/lttng/bab=
-eltrace2/0001-bt2-replace-removed-Python-2-C-API-macros-for-SWIG-4.5.0.patc=
-h
-new file mode 100644
-index 0000000000..e0b042d62d
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-bt2-replace-removed-Python=
--2-C-API-macros-for-SWIG-4.5.0.patch
-@@ -0,0 +1,70 @@
-+From 1c59884d4d3c74d8ea7257d9cdc0fa4b533ae7b3 Mon Sep 17 00:00:00 2001
-+From: Jitka Plesnikova <jplesnik@redhat.com>
-+Date: Mon, 28 Jul 2026 13:29:18 +0000
-+Subject: [PATCH] bt2: replace removed Python 2 C API macros for SWIG 4.5.0
-+ compatibility
-+
-+SWIG 4.5.0 has removed some Python 2/3 compatibility macros.  The two
-+that affect us are `PyString_FromString` and
-+`SWIG_Python_str_FromChar`, which are both replaced with
-+`PyUnicode_FromString`.
-+
-+Change-Id: I3c74d8ea7257d9cdc0fa4b533ae7b3a5ef9521d1
-+Signed-off-by: Simon Marchi <simon.marchi@efficios.com>
-+Signed-off-by: Jitka Plesnikova <jplesnik@redhat.com>
-+Reviewed-on: https://review.lttng.org/c/babeltrace/+/18423
-+Tested-by: jenkins <jenkins@lttng.org>
-+(cherry picked from commit 1c59884d4d3c74d8ea7257d9cdc0fa4b533ae7b3)
-+
-+Upstream-Status: Backport [https://github.com/efficios/babeltrace/commit/1=
-c59884d4d]
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ src/bindings/python/bt2/bt2/native_bt.i           | 4 ++--
-+ src/bindings/python/bt2/bt2/native_bt_error.i.hpp | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/bindings/python/bt2/bt2/native_bt.i b/src/bindings/python=
-/bt2/bt2/native_bt.i
-+index 7f8d9f699..1807d8ff6 100644
-+--- a/src/bindings/python/bt2/bt2/native_bt.i
-++++ b/src/bindings/python/bt2/bt2/native_bt.i
-+@@ -56,7 +56,7 @@ typedef uint64_t bt_listener_id;
-+  *
-+  * We initialize the output parameter `temp_value` to an invalid but non-=
-zero
-+  * pointer value.  This is to make sure we don't rely on its initial valu=
-e in
-+- * the epilogue (where we call SWIG_Python_str_FromChar).  When they fail=
-,
-++ * the epilogue (where we call PyUnicode_FromString).  When they fail,
-+  * functions on which we apply this typemap don't guarantee that the valu=
-e of
-+  * `temp_value` will be unchanged or valid.
-+  */
-+@@ -67,7 +67,7 @@ typedef uint64_t bt_listener_id;
-+ %typemap(argout) (const char **) {
-+ 	if (*$1) {
-+ 		/* SWIG_AppendOutput() steals the created object */
-+-		$result =3D SWIG_AppendOutput($result, SWIG_Python_str_FromChar(*$1));
-++		$result =3D SWIG_AppendOutput($result, PyUnicode_FromString(*$1));
-+ 	} else {
-+ 		/* SWIG_AppendOutput() steals Py_None */
-+ 		Py_INCREF(Py_None);
-+diff --git a/src/bindings/python/bt2/bt2/native_bt_error.i.hpp b/src/bindi=
-ngs/python/bt2/bt2/native_bt_error.i.hpp
-+index ba8cef097..2be1e347c 100644
-+--- a/src/bindings/python/bt2/bt2/native_bt_error.i.hpp
-++++ b/src/bindings/python/bt2/bt2/native_bt_error.i.hpp
-+@@ -19,7 +19,7 @@ static PyObject *bt_bt2_format_bt_error_cause(const bt_e=
-rror_cause *error_cause)
-+                               BT_COMMON_COLOR_WHEN_NEVER);
-+     BT_ASSERT(error_cause_str);
-+=20
-+-    py_error_cause_str =3D PyString_FromString(error_cause_str);
-++    py_error_cause_str =3D PyUnicode_FromString(error_cause_str);
-+=20
-+     g_free(error_cause_str);
-+=20
-+@@ -35,7 +35,7 @@ static PyObject *bt_bt2_format_bt_error(const bt_error *=
-error)
-+                                 BT_COMMON_COLOR_WHEN_NEVER);
-+     BT_ASSERT(error_str);
-+=20
-+-    py_error_str =3D PyString_FromString(error_str);
-++    py_error_str =3D PyUnicode_FromString(error_str);
-+=20
-+     g_free(error_str);
-+=20
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb b/meta/recipes-=
-kernel/lttng/babeltrace2_2.1.2.bb
-index 7c151bf729..9962ef377c 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-@@ -15,6 +15,7 @@ SRC_URI =3D "git://git.efficios.com/babeltrace.git;branch=
-=3Dstable-2.1;protocol=3Dhttp
-            file://0001-Make-bt_field_blob_get_length-return-size_t-instead=
--.patch \
-            file://external-python-tests.patch \
-            file://0001-src-explicitly-only-build-shared-plugins.patch \
-+           file://0001-bt2-replace-removed-Python-2-C-API-macros-for-SWIG-=
-4.5.0.patch \
-            "
- SRCREV =3D "d0e946a71faf5f0c2d7f1fb5b92a369983e9cf10"
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>2(\.\d+)+)$"
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/4370">https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/4370</a>
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/4214">https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/4214</a>
+
+and maybe python3-dtc:
+
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/4188">https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/4188</a>
+
+Cheers,
+
+Richard
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------Pub8wFFaUpck99gM0nTAiowL--
 
