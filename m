@@ -1,186 +1,174 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A00B5C5CFC1
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 12:00:07 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52838.1786449592800207329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4193C5B56A
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 12:13:17 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.27])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.53066.1786450394290123162
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 05:00:00 -0700
+ Tue, 11 Aug 2026 05:13:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jrwDJUj0;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=26837d46ec=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BAMwY54069273
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 04:59:52 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=n6hC9i7xl
-	biYl3lLyVpRyVrZEF7RWjnFTUtczKidYqE=; b=jrwDJUj0WagLTqIXYzub6HJDW
-	KDqqhlHqIz9B0iyLYBaFkCfOXkfqLqqxkQ++yrRmglaMniAOl82dPp9ltIaq7Ctx
-	ight9M5+uXEmkk4FFZ3nOxHEd5CbUyiIxmQU7Kfymp/hevJtqd/RC95Rwdw2NlhB
-	hygdAyxlbPSexYtbAS0bx6JMFVHfS+hxDRrSmnPlI2A5Aos2WjPcV6AgDmm1CX/3
-	7fUzU9qCw+80A0P2kwF+I3o9ac4cc/rz4Zagp7/qJ9uE0weeqICtnDL/o1k2dSTR
-	Z+bIWS96Ealux3ZNcajxvgQ1wS+7cLFL4rJQmxQP6hIQLNQfhYKt/4dUUEWwg==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022134.outbound.protection.outlook.com [52.101.48.134])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fyspugp1f-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 04:59:52 -0700 (PDT)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=KbfILtKd;
+ spf=pass (domain: cherry.de, ip: 52.101.69.27, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g2v/icoweD//9itcFZCiOO9/aAXXI3C6KUJoMExB/v8md1hKR6E9r4RfEaffx1WWNDxYwYuq7i3gM+pJM44FgLZvLxbTpSeSjYbW/HRrATk0RHpHOLVkTEkS/Qph/+hoT1d1zzSk5l0b08CVqJIOVIH0vZmBndQBLsBIUYaVON6S1Rb8SzpUBBnNgnoZ6ginC7PulpqysBEBgW6J4M8QpFW+cRLtTNBuRlUsIKI8c9TW+5rcblf0/j5S6jfYiR3fZ9FWFSUt8n9pWrArOnSH0XvGVjLPEBDsTDO1LRFE1UG+Z9U42MjKmT1rtsCF9YEff3xw4DpUXoWLAVy3iwTp1g==
+ b=WBDpge2CRjg/22yDeyqchVKwesXuxHV7C1m9Rw/AV57qUmDpfXidcly8mn6iGZYeGk8o6mmFNYrXcucT87c2+3XVQW8wLThr4WjWVx9NCOKIPcH70M0R1+tJbX59VRrdtBcOLOTqShdHoTsEgrAkvCQsRGM8awGS3HgyxuFzF+MLVCrLv1dQzjke6ElcC4gzU+OYm1erVczK23eRZjWBteWhFUH3Cz1WTZIZCgZUltnO9zvTd3Mi6fLyH8UqdZCYUbTh/TfoecWAuFctWN3e3jjjdOvRnqwxI97aSIlWhYKfoS8vjeTW+PIQJF2LusQScMCmB2rl5EtwS5xkgZS6Lg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n6hC9i7xlbiYl3lLyVpRyVrZEF7RWjnFTUtczKidYqE=;
- b=afLSffyJT9WqT0ZMjLHLsuYf1vuiNIn/+VogCqej09dXIMmOQOmABVpwjLu8ZbqMgvfQ4zO+CE7R7a4R23mi+6J4OfPo6vBrJiBz6FWP+8fbclbIWJosSRXNzonrBBdJR+qrHc/Mf+RIMu1licyPR/jQ73tVQxCfTBWctLwjNXKQSdUoi187J5PMEFUNz82PtOavUdoX5rr3BzXRAj4cZQrUJFOjJqP1nFRFHIq29p9UeZa+/+/j4m9rd/C619c2ayNBzllXdXTUfc0R/od0NY9xYEgGW8i+wt/Xx9jbmibbUfE8Wb/eQEFox7iw/31lfz1/9lsiGeDSVWTsv8lzSw==
+ bh=+DL2pR6a8jCM710qf529FzzWr0TItuXwp2IKjr3ZeHY=;
+ b=abaYLzTB3u/N4NH5ZZZKKgAzP6tku6v50miyJKDLrD4WGiBvBi7d2PSKRtiG0l48htSNv4WoNNjaOWlqOYK63M2M3pENyGUFugjn7k0n8r/t5fjPwy1hx8gt45isMBSl30aGqOqo0D9VSzH7Scx3mGr7Wf7KpBuR6J5nsqImcdfU/UspdWnIBg2wXyPq/1LORSD+9Na+peXc9WDRrTRwbHkyMTcES4p+eGbdASDwZftPP4k2l15drXY8omQP93CUQyJyZpz5ETy0V1ni22bHfxI3OcPJ+Tkl3upQG681/YRR/XK2y3W/+sp/b4A3BAsCdBZgAQZ993P9mPct8a3Hkg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9) with
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+DL2pR6a8jCM710qf529FzzWr0TItuXwp2IKjr3ZeHY=;
+ b=KbfILtKdkhGG8HqPZa6Kj7mWZR5/Krx/lhMOcpNTE0hChY6zR35giJTnfXO9HJcROrfL49Ox/XTsLC1TUmh+J0wZTmRJQX/fcdbMVEZmOXNb/vWmwN7CWQPwvKvG6NkGRTLpEH7ndb1DmBc1iyForVxpDBVailzrGQvajDa0tzY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from PA4PR04MB7743.eurprd04.prod.outlook.com (2603:10a6:102:b8::20)
+ by FRWPR04MB11198.eurprd04.prod.outlook.com (2603:10a6:d10:171::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 11:59:45 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
- 11:59:45 +0000
-From: Harish.Sadineni@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Subject: [wrynose][PATCH] kernel-yocto-rust: skip recipe for riscv64 when Rust support is enabled
-Date: Tue, 11 Aug 2026 04:58:55 -0700
-Message-ID: <20260811115855.4033577-1-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.53.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0180.namprd05.prod.outlook.com
- (2603:10b6:a03:339::35) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Tue, 11 Aug
+ 2026 12:13:09 +0000
+Received: from PA4PR04MB7743.eurprd04.prod.outlook.com
+ ([fe80::9a4e:252f:2fd:97b7]) by PA4PR04MB7743.eurprd04.prod.outlook.com
+ ([fe80::9a4e:252f:2fd:97b7%6]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
+ 12:13:09 +0000
+Message-ID: <274b9268-b499-44b7-9297-628de8facb23@cherry.de>
+Date: Tue, 11 Aug 2026 14:13:07 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] u-boot: add support for Clang toolchain
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: ross.burton@arm.com, Sundeep.Kokkonda@windriver.com
+References: <20260811105603.3447122-1-Harish.Sadineni@windriver.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260811105603.3447122-1-Harish.Sadineni@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM8P189CA0007.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:218::12) To PA4PR04MB7743.eurprd04.prod.outlook.com
+ (2603:10a6:102:b8::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|MN0PR11MB6059:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60cfc1da-1339-4306-49eb-08def7a00900
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7743:EE_|FRWPR04MB11198:EE_
+X-MS-Office365-Filtering-Correlation-Id: aca44a52-7609-4cc6-9614-08def7a1e846
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|10067099003|56012099006|11063799006|18002099003;
+	BCL:0;ARA:13230040|366016|23010399003|10070799003|1800799024|376014|10067099003|6133799003|56012099006|11063799006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	89UUY6Tpiip7zMIYBI4vN9gLhfmn/Z30oV9uRosGybKqlRz+PNQX3FaYMc+lge3V48/77lxe+fbhbjbWcjNhQnlNbL/JgWYTNqvF0S0sC9yP8QHEy0tHhrynEYRTzd/r4NcoANgxxBK2yM5kKDtSPmjm8vouWntvP+6g1usmHXYlRuX5UYCrOicOhDnQ9HtG8e4yP7EbUIwSUfxxOpPX+zF03w7I+qowvZZRhw5g4AlX4xOjFmwt5IHGD8uVbP8sOzqKSJNbqEl4HCeeSuwuB0XL1sDaUfj932MDTz+c+OLClULUE72jRfMN+Hjw1ibWj9iUbDUYWmaJ/vVlUdXbdXFqNox6GQhTiq2O1bxDBM0vVo+yHdwBH83/Uhj60FeXVN+ZNRBUFyBZAZ3I2iQ6bwXvrtCpEoN8nBHpM+qLOV1ZwkGxG/A90JN+ME3T6W5n1TkTUD5+n0Nk3cLPLhVI51AYn8lZCy/q6OhoF9Xxlot1cIPfmJMOW7mCuW1HeObyun8Z04DyKdntdE2vHQEvVxIotlwOy8dnlXOFdfT2lu1+mhguwTG3RDEat2iH8Hjz+DBJrxHa9WkOSAhhpS0FPk48lRC0EhaSiCxksHcVcZm/VdXf3zpAAagJX9KMrYEjZlCkF/Dm8tAGIP47r/oBmIMluQuzK7ZeMHlLa3eS+pV5mFS8HXOQk5YuDqXwUKQfHnsC6oKqA7bLhTgNk1V3tcGL/vAbYSNFbpFek+FR10Q=
+	szbdr4eBJg3I+GM35RLhUWYWHmTsUMLxiGMbmF++kMFfxeap+62yLwUdENCG3ca8AMiLGy14bxXy6jO0mTfjNllKberRwf0GuDBJgZ0iAA/aADB035A+APbde19UK1qx8u6+pArMp8GFvOFLzLr1gPSDlSdwiXgjkadxogwU0OF1p3O2c8IDZZ/w7HiQRH6OG44VUAGtzlT0qydGCZzOtRBxx4X0MNhSZqJDpcbGGz4lV3FMA3vYkrjQjZKEuoUr3SI2VNcXA11BlL70Os3HeqYkXvtvhJkKtBgRrQczRryeFSJP/+5I/hDM0zKxlPHRc5iBDeWU3xBJJih8mRrTx0VTgKK38KqAB4ijH8tB6l5FdRx9G6Ry7+n2f2oxgUxc7KejsD9DaWNgJhhdPAlwL8KR+yvQcvohm2BITNPPm4+E6uMpzW/h9RJG245ENlJJ2tVbuAo1FuXysGUIuBsw3sIwdn5KpMkXXcpc8/Ximdeb1EvDwrQ+TzA/ZqifVVz1FOwTkymejRnh4AJ38s7C2G38g2WWDUdjiYF9D10KldG97+pBPY6Bn4FE9t3mPJmcCj2n9xU4SNF5fE+icSjMZDyT+XHotw46dPJw1gWaG7E=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(10070799003)(1800799024)(376014)(10067099003)(6133799003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?/fAF1lH8tWkAc17RM6YKI0MG6Jm340k02XIUN6+UdQrUeXk6vDXP60i6yzjD?=
- =?us-ascii?Q?j7v/1SnwPsy6JYuvv0wNk8RU6j3y+eZxUaC147X3C5IpF1uO6YzlXiCChd2Z?=
- =?us-ascii?Q?wca7qT91G+GKsf38LA/PwS+IS9wNcrOkqS2uEc8N2nHmKTG1roPJeg7OQmLL?=
- =?us-ascii?Q?gTVJjAR/BWH2MSNho5yFb4UfqqRJGsw4D0GlK9Zh3amdePKLoZy+m3oCSJAt?=
- =?us-ascii?Q?10jkfU7zwgMdgqs74pDRnGA+fqy10QAFFsN6AHw7WOhiW3Dhn9HVNTJZirje?=
- =?us-ascii?Q?gVwff812eimSkKmn8pEeCUxMrEwHG4LE30ga3V38rNo/mSJmwyBPkbbOq5VX?=
- =?us-ascii?Q?j0WiR9hnjb1rJjHwM0/cPlme55GrWeFi6GAC9AshhBJDJkiPPpeWYCkxVHLY?=
- =?us-ascii?Q?Hks/akfh3WNNSt3TssfKljC/8NEllHlL7WtBMJGyZtcO51ICjjXsOoLye46V?=
- =?us-ascii?Q?XWLAiNnSeMtR3FQ3uHUgyxqIMoCfYWLVvJ4xUOU2uNDzpfRmE9ZKRp90KiaB?=
- =?us-ascii?Q?EilekiPba+O8ZRIGJAZhmLL20GnvsjAhqy9s0UjPLu4dTaFXSzTeiA0jfm95?=
- =?us-ascii?Q?GqHcXoIsgWkEvSZtfqUA2wgThHrIJhKmAO/H30WQRTbd3lDCGEVJ1TWE5g9w?=
- =?us-ascii?Q?ShQGxsKohL979v7YRAVPXwWJxqOvieirpmBWJfvpGB5ymstWPaIja45ZzxIQ?=
- =?us-ascii?Q?mc0l3VrhX81dZ0Zjs9nnjbdC7dnDrS45Jr64QAirqz18fZ9FdgpanMtu+seZ?=
- =?us-ascii?Q?YPLWbIJprp7Ep5YvN8LYpzsfKExSEBearFO3jqKvcJLJqsnS/YvabLLAFs6q?=
- =?us-ascii?Q?5iGU3VJ7cAPcqdRkCwb6Go7dRLBa+oyHeN76vdNaoKqerxM2E3UsG0vCMb46?=
- =?us-ascii?Q?7Tp64yNMv/Q5OtE5j2kpVw+RNafbijdvtHO20EZLHevFdTQBTw9p6Orslw//?=
- =?us-ascii?Q?1zFTk2YtCVHng0kHGWDfSMCo6JI5YvrrL9rry6DMW3Rf8g7T3LQb+eTGUKQN?=
- =?us-ascii?Q?mU+p9TzCq4sIU5uquLGZiEbX98CZU9iHhkoMOav1yZYPIQwh8mk+TQm9OSZJ?=
- =?us-ascii?Q?VgGdVNe7TiiqoXgbuRd2imy9buNU8/tEUvolVgONcIVe2ub7O3KAYyLgiVql?=
- =?us-ascii?Q?B0raZK0a3zcwbH9tVZ51qmaIHZQcvGX/UFj8Z5kylHAf0pdleDwD2hBXvikF?=
- =?us-ascii?Q?USUEbTc0BCAs35UDzY5U4eC1vNj7ge9JccU+vyuXLHLbxlhiAIp6CZUg1Pjd?=
- =?us-ascii?Q?MmCXXNSz6PQq1i2JsTAU0OYIf+ukcCSbfIq/+ZBREO0QznmK4YtQjoBdh5+V?=
- =?us-ascii?Q?fERsp9aUngjW0lJOK309GhevCAxLl7OgbH0bVXH2WtHHXxl4OzCid86uAsso?=
- =?us-ascii?Q?S4kIQBHnUo+0+4TK/BMBBjkFRLaesRp4a3qkvLwtbfHAIbJarnXKK7ykR3aP?=
- =?us-ascii?Q?zJlZ1E60weYgG93FIlDqzvMImAclPuo0hrxRklD72wjKFuTcLpjTj7ygy/8+?=
- =?us-ascii?Q?S7DI+vwu2UaamLTY755ao8rg/An7PGRLOwIAt8MFtarmIL6kWZhSuXT4gt+S?=
- =?us-ascii?Q?Oo93LLeF5vEcmew7TdCeK1tGW4WH76Vgnm9tTTZg0Mnhy8B7RpHW4hMn81Xj?=
- =?us-ascii?Q?1JjUbdeQD34LYPK8G4HHNFu6pZeEts43ix+gr2MVgaGZZ9Oxj0ioTqnD9HeF?=
- =?us-ascii?Q?4MOlTn9Okq98gc3a0hbygURycfENqUmYDQNKoFrygUsZo5z7+smHQjULun2l?=
- =?us-ascii?Q?Y1ssGjJOOMEMc1hc5wA7nJYUkAlD1j8=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	NWqBNkCO+kniLwbcO+CGjz5s9xd+L6xCAXeRR7SwUPvkXvpQU1cug2wjeGw85c582lpwhYJNOmL068gtPKc7qn91lfnIlEPRbgsydT70s/AspwEeQmNeN4cI3iQPKgPssWKM3pu0GQAd5KRAJPV+2EH31uKcYLlDWMDsZYPU1Vr3qlqRiwTFdg3TSqnq6hRhHAcqfz8/5vrNjW/0haJDZLUZAWkTRPlnMx91lFvKr1i8xYCK30Yuz35Zir8NkuFsSjhZQcglyizMBB6RFydeD0vavExniMiZiWsqe0HSotMi1xrUrn5v/gYGFoLblzKbUE9bMBrMY3sbmis4A7umQA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60cfc1da-1339-4306-49eb-08def7a00900
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+	=?utf-8?B?ejZkTGRRUkxBTGhWYjdWQ2VUYTlzcGFuOWhrMURaNDRNOC83bFphRllZaGRm?=
+ =?utf-8?B?LzdXSnNuTWYwU3grQzNJb1gyM2ZnRG9wVnBqQ2QzT3FzeWN6a0Y5SkpmbXJC?=
+ =?utf-8?B?OTZ3M0liOUxNWjFTL0d6RlJBdW9icFBoYXc0bHVGMW8xM0haUnp2cGJrTm5x?=
+ =?utf-8?B?ck5tUHBmRnJBdkYxTjduemI0WFloOXlIbmZ0bmRhU2NVelNPdHpEUlRpT1Fi?=
+ =?utf-8?B?NTI3RWdGbGIxRHZEdnlmYWtXcFdhSThVVWNKMlUvaUJWYWxkWVJncjg3WXJ5?=
+ =?utf-8?B?eElNMEE1RWswUm82TTVuWHQvT1gvWEtLL0xTZDFnUnVmRmxSYXJXQkRkdHlR?=
+ =?utf-8?B?dDl4djNwb2pPK3hhTytnRFhBTG5VaUFaSlBYMVkyRHp0T2JsUFdKZVRtdEYr?=
+ =?utf-8?B?STloMnNuS3hNdE5waytZVWM3am9kdGxnTXJzbVdmVGFlNGxiMDkweE5hSnB4?=
+ =?utf-8?B?VWRBYllnRnZKQWZHTE9aeWpPcCtEU2Q3ZVJ1WjRyYVRCK3lxVTZkVk5udFRP?=
+ =?utf-8?B?eVNGZFY2V0hjanJ6dHljVmwvT3h0SnJIY29GVVIvczYvdGJnRmpFbjFCcGg3?=
+ =?utf-8?B?ZmtHSnNuUy9uS2NsSUxlSytGMTVaYVRtU3BJTTRYb3h5NEtqS2ZCaG04cm84?=
+ =?utf-8?B?LzVjRVg3VG1xZFlNQUNLSFVXcmJLVFVwQmNUWFpCQXdoK09VZVVlQm8xZ3Jo?=
+ =?utf-8?B?WmN1cUNSRGJRVTVrQUJ3b2d3TTRsRUthUnlQUXFPdXR1bWh5UUY1VEpoMXp1?=
+ =?utf-8?B?K3ozdXZzeHhHM0lGdzJ6VzlRdDkzcUpabExQMTdRcmk1ejNlM1FFS3MvQ2pZ?=
+ =?utf-8?B?VWhINTJjNFVDaGpPczZobVpZM1FSNGl4NTZ0R2oyU0tiQmNLWG4yR2dYZGtX?=
+ =?utf-8?B?THNOTG1haFZDUjFIRnkrdVR0Q2tkQnhxV1hpMC9uUzV5Q0JKem1ZWWxSRHFn?=
+ =?utf-8?B?WE84RDFieW5aSFAvRkN1T1lxV2NjTjg3bS9zQ2xxUHFwanZvNEJiakdVZkpv?=
+ =?utf-8?B?TjMwcFpiaDJ1bG1CelFBeGcyTGVZVVRsbU01aWZpa09JbVl5QUN0L2R3WjRo?=
+ =?utf-8?B?UVN3cjBib2hPT3RKS1F1Z3BNMEhNVnVORHRpQWM0ZGRYWWVoRTJ0b2lqWThm?=
+ =?utf-8?B?MmVPb2FRUHg2QnllNzdRT3A1ZlVNVmRzcHk3R3A5VTMvSmRJN3JWckJNTFNl?=
+ =?utf-8?B?UDg5bE1LV2tobG5kVUdNVlBFYXBGMmV2aTluWEcyN2JacUltV3dxM3UvN25F?=
+ =?utf-8?B?NVFzSnB6eEFzRTNtQ0w0b2g3dFkvTmZTV2YrOW5kK2FBcjh2alZUWWIyZmN0?=
+ =?utf-8?B?RGxreG9uSEpkai9zbjZIU1VhdC83Q1VlZXg2elZwWjNDbEs1aG5zMmFFblFW?=
+ =?utf-8?B?UFhZdEU0Y1ZzOVpOdk0yUFozZEFTZ3lNUkgzNVh6VUtxQWc0bzFZbXlxeVpk?=
+ =?utf-8?B?emNjbC80eHMrYWl0cFlUQUJBM0lmaERkaGIveEpyakRBSmFYcW42VGt5Rm9W?=
+ =?utf-8?B?dTI4S0t2S2JQUzBvQ05RR0psSUdSbmgraGNRNktyMGlDaTBqdWtsemhjRXdy?=
+ =?utf-8?B?UG1rNG5WR1lmVjh5eDdlOTAvRXdhUGxyKzRyeTNqeVRqSTFIUjBZUjNXRUFP?=
+ =?utf-8?B?UFBVUXY4b1VMS05saWNzZU9qZGtVc2JEVmF2V3JhTXZ5RlhiWjdLVW5acHJx?=
+ =?utf-8?B?bjBnVDI2dlF3U0tJWW1tSUVGQWpiYnhLZzZTVlA5OUZpUnpZaDRFZ1ozRUhq?=
+ =?utf-8?B?WnBMY3gzd2xTbU5tb25paTc2NGZEbEdUVDlYWnRBb2RCR28xd0RhUlpRMGdE?=
+ =?utf-8?B?NWtGV1hTVTRRVVJBY2FBVStGMTNNZUpyRDhnY1EvSUlZQlhOQjl5L1JvZHpr?=
+ =?utf-8?B?dng3NkNPOTNhVFdkMExpckJzUEJlbnVzUnFneDVuOC9ZbWdiT1l0anZ5ZDFy?=
+ =?utf-8?B?Z2YyZ2gvclhUbGw2a3pCb3ZybU9HbFJ1dEwyZHh1dnB4dG0vWldHSW5HNUJZ?=
+ =?utf-8?B?S2FvWVgyOWV1OWNtbkI0bE9MWXVYOE5BN21rcVF0NXY5UVZXL2QyNHEvME1P?=
+ =?utf-8?B?VXJLWFppaGt6M1dFbU5PU2U2Q0M1M2JBdjRYZWhDK0c3Vkh4QTFXVDF6U2RG?=
+ =?utf-8?B?TGNKSityRWl6azA1M2gzS3FUT2ZIN29MR1JtSjdwbThRdVNxWXJNZEtMNitW?=
+ =?utf-8?B?MXEyUXJsYmw2bUtZSUxLYjRjWXk5ajAzVW9wNFZuamo4cGpaLzNtV3dXM21z?=
+ =?utf-8?B?SDMyK1YwK0ZDNjBOdFIzejJYS0JPS1kyalVkYmozYUJ1Vyt3TGl3MU50SHhY?=
+ =?utf-8?B?QlA1K1F2WEliRFZ1YWlOakdXYXdXRW1BbDhISE1uQ3VudExaNVJJUjF3TmZu?=
+ =?utf-8?Q?3iGFDIXqNLfi72HQdSNpPD1OWJd6hppnrki2RLvXEDXpZ?=
+X-MS-Exchange-AntiSpam-MessageData-1: 5uDVfIaKXmR9zQ==
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: aca44a52-7609-4cc6-9614-08def7a1e846
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7743.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:59:45.1981
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 12:13:09.4236
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hvoRHx6MJG1hVp/L6WCebat/Zh9YDLjkojPDbY8wqAMu08XBpTvOV1FtiZWY01OWvOXr/2i8i5FRTcZ33kel78yD1nHb010NAP7Zebo+e9o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6059
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDA5OSBTYWx0ZWRfX4q+zTtL9ABsa
- 9WcTcV6BpyUwRGTzfTt7qpmqLNV6uEtAXbs6sHK9C4syeyl80vMTPaKRwB/bYIGRNWDKMyD4BNs
- MXqHfkJn+z+d1p5y07m2qmU35jEA20ddH8Rt/Uj7hFBDaDzAr/7ds4BFHwZTmCFkOp0A0Wnx3Bc
- S1WfdUTMc+efB3ux9vF2igNL3puD8BzcLsc/vv60+gs/GiuV9YD8T6cs1oCYMGzSNbsP7cwQwNj
- MOe5kvpboPPh7oNo0qtMM5QMYlCYuthEdz8pw5ilPUV+qkOiErT3GJJqc+t2r1bB2jUtDt5rywd
- krVC5WA5Gf3KwUxJQ/kpFPnD1C4tcHMZr2zce6+iSMGFvvfGyHTf8Zcrdwz9YXv6U+Hr2E5sxqN
- a9wpHGiJhZ370HvDt7BPrV9IX4vYe1aXf2Qun6ruRwIFqvlN+Jtx+75SRC1/ErMXWR74U5XPQ1X
- jyXUgnh3bynG6yf8ipw==
-X-Authority-Analysis: v=2.4 cv=K8US2SWI c=1 sm=1 tr=0 ts=6a7b0eb8 cx=c_pps
- a=xo3zWrN9qLO3Lphhql2lSw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=Q4-j1AaZAAAA:8
- a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=ix9RSEJc0yqSKBuBtuQA:9
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: b1qFutXdcM1U_2-O_g5YPSJlJZiuBeX6
-X-Proofpoint-ORIG-GUID: b1qFutXdcM1U_2-O_g5YPSJlJZiuBeX6
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDA5OSBTYWx0ZWRfX2VnysWP9YLQ9
- scP7HHVua8f+q7+yqDbKyQyLDBE9/kRaM51TRMtdqr9MSf6XR8ehVKIfDULqiZgmZ+9YpPp0NJz
- 8zimk6IvfDoU0mgRJLnw28K2WJn8IqjfC1HgWEafr9iCYCKQr8pc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-11_01,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
- adultscore=0 phishscore=0 spamscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608110099
+X-MS-Exchange-CrossTenant-UserPrincipalName: XcZzwyobJftpkn8sBO8x+JLqp3vubI6yzi0N6e81/R/lgjDv0RU68JxXyiKkoeT27SWkL5xplFwoiO6A5p4JhBptHmX3W1Y/GQ2I6t5OcdM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWPR04MB11198
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 12:00:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243194
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 12:13:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243195
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+Hi Harish,
 
-Kernel Rust support on riscv64 requires building the kernel with Clang.
-Since Wrynose does not provide Clang toolchian support for kernel
-builds, skip the recipe when TARGET_ARCH is riscv64.
+On 8/11/26 12:56 PM, Sadineni, Harish via lists.openembedded.org wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+> 
+> Fix build issues that occur when the Clang toolchain is selected.
+> 
+> Remove the hard-coded TOOLCHAIN = "gcc" behavior and make the target compiler
+> selection conditional on TOOLCHAIN. This preserves GCC as the default compiler
+> while allowing Clang to be selected when TOOLCHAIN = "clang".
+> 
+> YOCTO [#16385]
+> 
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>   meta/recipes-bsp/u-boot/u-boot.inc | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> index 00a12f1bb9..2197039dbc 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -3,10 +3,6 @@ PROVIDES = "virtual/bootloader"
+>   
+>   PACKAGE_ARCH = "${MACHINE_ARCH}"
+>   
+> -# u-boot is best built with gcc
+> -# https://docs.u-boot-project.org/en/latest/build/clang.html
+> -TOOLCHAIN = "gcc"
+> -
+>   DEPENDS += "${@bb.utils.contains('UBOOT_ENV_SUFFIX', 'scr', 'u-boot-mkimage-native', '', d)}"
+>   DEPENDS += "${@ 'u-boot-mkenvimage-native' if bb.utils.to_boolean(d.getVar('UBOOT_INITIAL_ENV_BINARY')) else ''}"
+>   
+> @@ -15,7 +11,7 @@ inherit uboot-config uboot-extlinux-config uboot-sign deploy python3native
+>   DEPENDS += "swig-native"
+>   
+>   EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} V=1'
+> -EXTRA_OEMAKE += 'CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP}"'
+> +EXTRA_OEMAKE += 'CC="${TARGET_PREFIX}${@bb.utils.contains('TOOLCHAIN', 'clang', 'clang', 'gcc', d)} ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP}"'
 
-This avoids attempting an unsupported kernel Rust build and provides a
-clear parse-time error explaining the limitation.
+Why not simply ${TOOLCHAIN}?
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
----
- meta/classes-recipe/kernel-yocto-rust.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Have you checked we can build u-boot-tools, u-boot-tools-native and 
+nativesdk-u-boot-tools with clang?
 
-diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
-index 49f2bfc1ae..6be97c2db8 100644
---- a/meta/classes-recipe/kernel-yocto-rust.bbclass
-+++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
-@@ -25,3 +25,12 @@ do_kernel_configme:append () {
- # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
- # Disable ccache for kernel build if kernel rust support is enabled to workaround this.
- CCACHE_DISABLE ?= "1"
-+
-+python () {
-+    if d.getVar('TARGET_ARCH') == 'riscv64' :
-+        raise bb.parse.SkipRecipe(
-+            "Rust support in the kernel on riscv64 requires kernel to build with clang, "
-+            "Wrynose doesn't have clang toolchain support for kernel. See "
-+            "https://docs.kernel.org/rust/arch-support.html for details."
-+        )
-+}
--- 
-2.53.0
-
+Cheers,
+Quentin
 
