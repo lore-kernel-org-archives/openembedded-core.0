@@ -2,71 +2,73 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53663C5CFCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68200C5B56A
 	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 14:36:19 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.55472.1786458974535672719
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.55470.1786458973010026772
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 07:36:14 -0700
+ Tue, 11 Aug 2026 07:36:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=d9DdiX6t;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=aLqrn4MH;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 148EF1516
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93B721516
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:08 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9B4283F86F
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:13 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 227793F86F
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786458974; bh=CBTL8w7PyjoW5FihN9FoEaM3z7EUXRbJL1cL/EvMihE=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=d9DdiX6tZhA5cetpGBeXlmL85Hs6qaqyCr7O02SqOLtcrnwKhg27YW98HF6qVY/F0
-	 5VphV5jvy0m3hnmd+mOgU+8c++ZIL40PYzBQNRvoNbq+VjQ8ElnmXlFGB5DYTrOC3e
-	 fz1h5hcU6BVc8KB+qVe5FxVAY91tY701S0rVvVT0=
+	t=1786458972; bh=0DDTtvzLeCxHqqP5MDiZgAE/5W2zZCulnKFqZ5K4H6s=;
+	h=From:To:Subject:Date:From;
+	b=aLqrn4MHiXgLxx7CGxfI+/Bbk8UWdzRGfI6pxuz0W9UZFhRLR1QKOAhgIlacJljR7
+	 iaXuiyZYA/wccIb7VCEpBf1Y1gVarOJTg0bYLzDfJuq9wE3u4XtEqK+ysDMX78cY6c
+	 VeBeEYu9oMyaV66JI2/LiMh4LQz2u9G3zbTStkkE=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] classes/setuptools3: remove wheel dependency
-Date: Tue, 11 Aug 2026 15:36:06 +0100
-Message-ID: <20260811143607.1200407-3-ross.burton@arm.com>
+Subject: [PATCH 1/4] python3-setuptools-rust: remove wheel dependency
+Date: Tue, 11 Aug 2026 15:36:04 +0100
+Message-ID: <20260811143607.1200407-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260811143607.1200407-1-ross.burton@arm.com>
-References: <20260811143607.1200407-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 14:36:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243208
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243206
 
-Historically, setuptools provided most of the build commands but the
-wheel package provided bdist_wheel.
+The dependency on wheel was removed in 2021[1].
 
-However, as of setuptools 70.1.0[1], this command is part of setuptools
-itself and the wheel package is not required.
-
-[1] https://github.com/pypa/setuptools/commit/b3d3e93a834426f1bef8712e140=
-5495084eb3b7f
+[1] https://github.com/PyO3/setuptools-rust/commit/1d7ee9fc239c846fdd5aac=
+5f3a28705333d47d77
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/setuptools3.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/setuptools3.bbclass b/meta/classes-recip=
-e/setuptools3.bbclass
-index 0bbe3780231..c6578f27de7 100644
---- a/meta/classes-recipe/setuptools3.bbclass
-+++ b/meta/classes-recipe/setuptools3.bbclass
-@@ -6,7 +6,7 @@
+diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.=
+bb b/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb
+index 884d6a6771e..ecb2169a3f6 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb
+@@ -16,7 +16,7 @@ PYPI_PACKAGE =3D "setuptools_rust"
 =20
- inherit setuptools3-base python_pep517
+ inherit cargo pypi python_setuptools_build_meta
 =20
--DEPENDS +=3D "python3-setuptools-native python3-wheel-native"
-+DEPENDS +=3D "python3-setuptools-native"
+-DEPENDS +=3D "python3-setuptools-scm-native python3-wheel-native"
++DEPENDS +=3D "python3-setuptools-scm-native"
 =20
- SETUPTOOLS_BUILD_ARGS ?=3D ""
+ RDEPENDS:${PN} +=3D " \
+     python3-json \
+@@ -25,7 +25,6 @@ RDEPENDS:${PN} +=3D " \
+     python3-setuptools-scm \
+     python3-shell \
+     python3-typing-extensions \
+-    python3-wheel \
+ "
 =20
+ BBCLASSEXTEND =3D "native nativesdk"
 --=20
 2.43.0
 
