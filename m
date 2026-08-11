@@ -1,186 +1,186 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA53C5CFC1
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 11:21:37 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51955.1786447286741177648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A00B5C5CFC1
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 12:00:07 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.52838.1786449592800207329
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 04:21:27 -0700
+ Tue, 11 Aug 2026 05:00:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=TV9tAAsO;
- spf=pass (domain: ericsson.com, ip: 52.101.83.30, mailfrom: edaturu@ericsson.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jrwDJUj0;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=26837d46ec=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BAMwY54069273
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 04:59:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=n6hC9i7xl
+	biYl3lLyVpRyVrZEF7RWjnFTUtczKidYqE=; b=jrwDJUj0WagLTqIXYzub6HJDW
+	KDqqhlHqIz9B0iyLYBaFkCfOXkfqLqqxkQ++yrRmglaMniAOl82dPp9ltIaq7Ctx
+	ight9M5+uXEmkk4FFZ3nOxHEd5CbUyiIxmQU7Kfymp/hevJtqd/RC95Rwdw2NlhB
+	hygdAyxlbPSexYtbAS0bx6JMFVHfS+hxDRrSmnPlI2A5Aos2WjPcV6AgDmm1CX/3
+	7fUzU9qCw+80A0P2kwF+I3o9ac4cc/rz4Zagp7/qJ9uE0weeqICtnDL/o1k2dSTR
+	Z+bIWS96Ealux3ZNcajxvgQ1wS+7cLFL4rJQmxQP6hIQLNQfhYKt/4dUUEWwg==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022134.outbound.protection.outlook.com [52.101.48.134])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fyspugp1f-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 04:59:52 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KOU7Z7eZqk+zcV1UFN8JuoCwZbKcaf/OiIxqWVNSENlXH6nB0pY60Qdowg1XccapQ+ri2+dn8cn58pvj6fRM3JI67T1SxTHX9SfLV3Y5OWofbkKuSzQvkchPXX2Yh/oVb+7Dexk7/7ETeBAPw7exQ99F5eyKDpYy2MEPNcVYkhhfjFVEbagTgjNr9mm3JQDRjMVCL70exNVwJCV1dxOwyOH6jqNNF0M1iJh4JfnIllEubnt74wbace5a1Nzm4E7GVk0dz+FmpvYtlZpmKRESRtVRw4kqeTiRB74bE2CmB+ed8lR2isLzmQc7qPRyM8rg+xUBxat3WIsn2H9jOe6XTw==
+ b=g2v/icoweD//9itcFZCiOO9/aAXXI3C6KUJoMExB/v8md1hKR6E9r4RfEaffx1WWNDxYwYuq7i3gM+pJM44FgLZvLxbTpSeSjYbW/HRrATk0RHpHOLVkTEkS/Qph/+hoT1d1zzSk5l0b08CVqJIOVIH0vZmBndQBLsBIUYaVON6S1Rb8SzpUBBnNgnoZ6ginC7PulpqysBEBgW6J4M8QpFW+cRLtTNBuRlUsIKI8c9TW+5rcblf0/j5S6jfYiR3fZ9FWFSUt8n9pWrArOnSH0XvGVjLPEBDsTDO1LRFE1UG+Z9U42MjKmT1rtsCF9YEff3xw4DpUXoWLAVy3iwTp1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Zwo0NZ4Cvo20jbxgXz7xQQYbey1WaPC6gb+1z5PRxY=;
- b=kSyhhnkJN+ZL4q6CuDp6ihMcCMKSQYELjiqA4OmNNyW3++vaPC4LvTCYnqiGFkrnbtKw9GFzMMxkymxKbEcaDts1/9sUey4raHjbLBOFmTn2n2AsStSowR8KcbIN6aEf549x4FZoG5wYpNxnhizXhY8CCBig3PtVZIS5M/r0OnRBmNhn+/8VtU5VeicCAmNuoKX2CHPoyDjtlr9i/su2tVD4RvYEti/txJR8+u33ua+i1BKYU4Xvm+Nd3rSkfejYSerMgljbv0mdi9N+1A1d8vcEd71bWQf9mOtQEVVMmuUWyd3OnTxg9uuezw25PclOSzqoNsLpk7E2V9bwkPnNlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Zwo0NZ4Cvo20jbxgXz7xQQYbey1WaPC6gb+1z5PRxY=;
- b=TV9tAAsOiy7uaaY8vFQQZw48utgyxBWAbbiLWxiWwuHlhGyOxXY/v4LrjBabeBIJKUna+2IS0t3EtWAko/8FDJnSQli8/F0/30FT/gafN7dlkvKdR/wMY1XCK9vdvZwKA4ktaYzy0sG4eB2KOGkZsV/jLTx9yKbQOV5NYoPhLsCnODPM45ByqxOzmYmUK0QlUGhWcvAWCL5Q1BbQJ155PGEXHUA8mPpmLNAvroFzYkyB/5WQo9swE0Nm6+Ic7mgwlqm0JPyiXfHWUDuTE3/2XZP2UmKnyc2NZCUkK5ecBkgi4zv4qbnZ0hNtbCwCQYmjA5bVgM68NVyY+c2AnKpVfg==
-Received: from AM0PR02CA0143.eurprd02.prod.outlook.com (2603:10a6:20b:28d::10)
- by PAWPR07MB9832.eurprd07.prod.outlook.com (2603:10a6:102:387::17) with
+ bh=n6hC9i7xlbiYl3lLyVpRyVrZEF7RWjnFTUtczKidYqE=;
+ b=afLSffyJT9WqT0ZMjLHLsuYf1vuiNIn/+VogCqej09dXIMmOQOmABVpwjLu8ZbqMgvfQ4zO+CE7R7a4R23mi+6J4OfPo6vBrJiBz6FWP+8fbclbIWJosSRXNzonrBBdJR+qrHc/Mf+RIMu1licyPR/jQ73tVQxCfTBWctLwjNXKQSdUoi187J5PMEFUNz82PtOavUdoX5rr3BzXRAj4cZQrUJFOjJqP1nFRFHIq29p9UeZa+/+/j4m9rd/C619c2ayNBzllXdXTUfc0R/od0NY9xYEgGW8i+wt/Xx9jbmibbUfE8Wb/eQEFox7iw/31lfz1/9lsiGeDSVWTsv8lzSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 11:21:19 +0000
-Received: from AM3PEPF0000A796.eurprd04.prod.outlook.com
- (2603:10a6:20b:28d:cafe::ae) by AM0PR02CA0143.outlook.office365.com
- (2603:10a6:20b:28d::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.25 via Frontend Transport; Tue,
- 11 Aug 2026 11:21:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM3PEPF0000A796.mail.protection.outlook.com (10.167.16.101) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.6 via Frontend Transport; Tue, 11 Aug 2026 11:21:19 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 11 Aug 2026 13:21:19 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id A3039957C5;
-	Tue, 11 Aug 2026 13:21:15 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 697D1700DBB0; Tue, 11 Aug 2026 13:21:15 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <richard.purdie@linuxfoundation.org>, <paul@pbarker.dev>,
-	<Randy.MacLeod@windriver.com>, <alex.kanavin@gmail.com>, Daniel Turull
-	<daniel.turull@ericsson.com>
-Subject: [PATCH] lttng-modules: inherit upstream-stable-release-point
-Date: Tue, 11 Aug 2026 13:21:04 +0200
-Message-ID: <20260811112104.3470671-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ 2026 11:59:45 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
+ 11:59:45 +0000
+From: Harish.Sadineni@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Subject: [wrynose][PATCH] kernel-yocto-rust: skip recipe for riscv64 when Rust support is enabled
+Date: Tue, 11 Aug 2026 04:58:55 -0700
+Message-ID: <20260811115855.4033577-1-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.53.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: SJ0PR05CA0180.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::35) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF0000A796:EE_|PAWPR07MB9832:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64ae5b5b-1768-48d8-7566-08def79aaaee
-X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|MN0PR11MB6059:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60cfc1da-1339-4306-49eb-08def7a00900
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700016|23010399003|12006099003|18002099003|56012099006|11063799006|13003099007|6133799003|10067099003;
+	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|10067099003|56012099006|11063799006|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	ewUKA/aoU4J0r7Kl/QqR0eaui6EolpWLZvu6qIKR2wMMNvcpFY8mi2Y9rBJ/XDCbVAAmtiY8exZITMu0i3vjns9x350oqv5AcOQUCot9jAMR9uLhI7mS8VtsQFvrLCMNVauA1UbIvkss3mKgIOc0NgrzfxFWClvt+zQHg6zvjjsgkebTJZ+Ugfj5yuvcW51boFSGhBLTEsVYnqrZTL1DOdx0fdOYtNO6eVc4sMQzCzg0PS0eZ5M5Mav9PDlkaxuUb/A/JWncqlueH0DaFk+1N+U4SCGMcU5soyv5iE2N/II/h9Z0Eu8bDGQTJVwdGkoZSJrhXfrvE45r1XL//Z+iYEsHS0A9dCqKkoFghwKj9Ov782UHmELlQnLCGp2FCsBSbIzhfLSXkZKJ+wYNeiHIVvlm05vO+FKvOI2GG3DZqqo3C4OnHGTcsn9rGcDczBlw5Xrdsk0ftUJ39x6sJMFvNV8RfenSQM3POWMYexa+TRQ0gv/EFu4Mppl/EOaqhDSDkVCmqRqWh9XSnnBCivkKmPN8p1u77qmZqcsNJMd2pAWUUnirCQt4tcWMAEppP/OCwCitNn6OWM30hDCYC1WGpB4aDiooIRbfGlIA1MNnMDesIlBkOKyodwb8hpFNdb2QxLoftYVUVEtYcDdwdU8JZG5fOvGm4iTDlaTYhrRPrGE=
+	89UUY6Tpiip7zMIYBI4vN9gLhfmn/Z30oV9uRosGybKqlRz+PNQX3FaYMc+lge3V48/77lxe+fbhbjbWcjNhQnlNbL/JgWYTNqvF0S0sC9yP8QHEy0tHhrynEYRTzd/r4NcoANgxxBK2yM5kKDtSPmjm8vouWntvP+6g1usmHXYlRuX5UYCrOicOhDnQ9HtG8e4yP7EbUIwSUfxxOpPX+zF03w7I+qowvZZRhw5g4AlX4xOjFmwt5IHGD8uVbP8sOzqKSJNbqEl4HCeeSuwuB0XL1sDaUfj932MDTz+c+OLClULUE72jRfMN+Hjw1ibWj9iUbDUYWmaJ/vVlUdXbdXFqNox6GQhTiq2O1bxDBM0vVo+yHdwBH83/Uhj60FeXVN+ZNRBUFyBZAZ3I2iQ6bwXvrtCpEoN8nBHpM+qLOV1ZwkGxG/A90JN+ME3T6W5n1TkTUD5+n0Nk3cLPLhVI51AYn8lZCy/q6OhoF9Xxlot1cIPfmJMOW7mCuW1HeObyun8Z04DyKdntdE2vHQEvVxIotlwOy8dnlXOFdfT2lu1+mhguwTG3RDEat2iH8Hjz+DBJrxHa9WkOSAhhpS0FPk48lRC0EhaSiCxksHcVcZm/VdXf3zpAAagJX9KMrYEjZlCkF/Dm8tAGIP47r/oBmIMluQuzK7ZeMHlLa3eS+pV5mFS8HXOQk5YuDqXwUKQfHnsC6oKqA7bLhTgNk1V3tcGL/vAbYSNFbpFek+FR10Q=
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700016)(23010399003)(12006099003)(18002099003)(56012099006)(11063799006)(13003099007)(6133799003)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	QpCEFCT/P4HaYZIn2An9jtMpwe8FvVfU5tDbtEISKJY/Fd8TKpU8d42r5E9pyRuAyyYyUfvd0OuGBmzZyPucfczz6VhuTfKoJCwDANMg07xoFinUJTnWBVYLFjHsZ3ZGVEd89YMz8M8u2APbCYpmCJC2yG1fOOQOz/LUcYvUT7CFapjFDpkBf+JJTdWo1qGe49kXDq09/e0PI+Bh23YQKalNr/xE4pPwN0mD0B99NW0NBV2IJJzndcWZD1dbgtzXabZ8WtKPM1SfMgvqHuLPrqGECO1T5KaTh4yLsATvrrNxUFvKAxIv97f8cii8AUPRK/GkMd9RkEbjzma3uW4T7ugSPuD4sbYseKEHFbMQ6N+1iaajAmfMO8buSYxnxkPHmy8IBL0wzQKBTOGuR6vby1uCBUQ/0ETYG2wwfP9UtAkSQA5KaBo67os2Up9NkbDa
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:21:19.7331
+	=?us-ascii?Q?/fAF1lH8tWkAc17RM6YKI0MG6Jm340k02XIUN6+UdQrUeXk6vDXP60i6yzjD?=
+ =?us-ascii?Q?j7v/1SnwPsy6JYuvv0wNk8RU6j3y+eZxUaC147X3C5IpF1uO6YzlXiCChd2Z?=
+ =?us-ascii?Q?wca7qT91G+GKsf38LA/PwS+IS9wNcrOkqS2uEc8N2nHmKTG1roPJeg7OQmLL?=
+ =?us-ascii?Q?gTVJjAR/BWH2MSNho5yFb4UfqqRJGsw4D0GlK9Zh3amdePKLoZy+m3oCSJAt?=
+ =?us-ascii?Q?10jkfU7zwgMdgqs74pDRnGA+fqy10QAFFsN6AHw7WOhiW3Dhn9HVNTJZirje?=
+ =?us-ascii?Q?gVwff812eimSkKmn8pEeCUxMrEwHG4LE30ga3V38rNo/mSJmwyBPkbbOq5VX?=
+ =?us-ascii?Q?j0WiR9hnjb1rJjHwM0/cPlme55GrWeFi6GAC9AshhBJDJkiPPpeWYCkxVHLY?=
+ =?us-ascii?Q?Hks/akfh3WNNSt3TssfKljC/8NEllHlL7WtBMJGyZtcO51ICjjXsOoLye46V?=
+ =?us-ascii?Q?XWLAiNnSeMtR3FQ3uHUgyxqIMoCfYWLVvJ4xUOU2uNDzpfRmE9ZKRp90KiaB?=
+ =?us-ascii?Q?EilekiPba+O8ZRIGJAZhmLL20GnvsjAhqy9s0UjPLu4dTaFXSzTeiA0jfm95?=
+ =?us-ascii?Q?GqHcXoIsgWkEvSZtfqUA2wgThHrIJhKmAO/H30WQRTbd3lDCGEVJ1TWE5g9w?=
+ =?us-ascii?Q?ShQGxsKohL979v7YRAVPXwWJxqOvieirpmBWJfvpGB5ymstWPaIja45ZzxIQ?=
+ =?us-ascii?Q?mc0l3VrhX81dZ0Zjs9nnjbdC7dnDrS45Jr64QAirqz18fZ9FdgpanMtu+seZ?=
+ =?us-ascii?Q?YPLWbIJprp7Ep5YvN8LYpzsfKExSEBearFO3jqKvcJLJqsnS/YvabLLAFs6q?=
+ =?us-ascii?Q?5iGU3VJ7cAPcqdRkCwb6Go7dRLBa+oyHeN76vdNaoKqerxM2E3UsG0vCMb46?=
+ =?us-ascii?Q?7Tp64yNMv/Q5OtE5j2kpVw+RNafbijdvtHO20EZLHevFdTQBTw9p6Orslw//?=
+ =?us-ascii?Q?1zFTk2YtCVHng0kHGWDfSMCo6JI5YvrrL9rry6DMW3Rf8g7T3LQb+eTGUKQN?=
+ =?us-ascii?Q?mU+p9TzCq4sIU5uquLGZiEbX98CZU9iHhkoMOav1yZYPIQwh8mk+TQm9OSZJ?=
+ =?us-ascii?Q?VgGdVNe7TiiqoXgbuRd2imy9buNU8/tEUvolVgONcIVe2ub7O3KAYyLgiVql?=
+ =?us-ascii?Q?B0raZK0a3zcwbH9tVZ51qmaIHZQcvGX/UFj8Z5kylHAf0pdleDwD2hBXvikF?=
+ =?us-ascii?Q?USUEbTc0BCAs35UDzY5U4eC1vNj7ge9JccU+vyuXLHLbxlhiAIp6CZUg1Pjd?=
+ =?us-ascii?Q?MmCXXNSz6PQq1i2JsTAU0OYIf+ukcCSbfIq/+ZBREO0QznmK4YtQjoBdh5+V?=
+ =?us-ascii?Q?fERsp9aUngjW0lJOK309GhevCAxLl7OgbH0bVXH2WtHHXxl4OzCid86uAsso?=
+ =?us-ascii?Q?S4kIQBHnUo+0+4TK/BMBBjkFRLaesRp4a3qkvLwtbfHAIbJarnXKK7ykR3aP?=
+ =?us-ascii?Q?zJlZ1E60weYgG93FIlDqzvMImAclPuo0hrxRklD72wjKFuTcLpjTj7ygy/8+?=
+ =?us-ascii?Q?S7DI+vwu2UaamLTY755ao8rg/An7PGRLOwIAt8MFtarmIL6kWZhSuXT4gt+S?=
+ =?us-ascii?Q?Oo93LLeF5vEcmew7TdCeK1tGW4WH76Vgnm9tTTZg0Mnhy8B7RpHW4hMn81Xj?=
+ =?us-ascii?Q?1JjUbdeQD34LYPK8G4HHNFu6pZeEts43ix+gr2MVgaGZZ9Oxj0ioTqnD9HeF?=
+ =?us-ascii?Q?4MOlTn9Okq98gc3a0hbygURycfENqUmYDQNKoFrygUsZo5z7+smHQjULun2l?=
+ =?us-ascii?Q?Y1ssGjJOOMEMc1hc5wA7nJYUkAlD1j8=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	NWqBNkCO+kniLwbcO+CGjz5s9xd+L6xCAXeRR7SwUPvkXvpQU1cug2wjeGw85c582lpwhYJNOmL068gtPKc7qn91lfnIlEPRbgsydT70s/AspwEeQmNeN4cI3iQPKgPssWKM3pu0GQAd5KRAJPV+2EH31uKcYLlDWMDsZYPU1Vr3qlqRiwTFdg3TSqnq6hRhHAcqfz8/5vrNjW/0haJDZLUZAWkTRPlnMx91lFvKr1i8xYCK30Yuz35Zir8NkuFsSjhZQcglyizMBB6RFydeD0vavExniMiZiWsqe0HSotMi1xrUrn5v/gYGFoLblzKbUE9bMBrMY3sbmis4A7umQA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60cfc1da-1339-4306-49eb-08def7a00900
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:59:45.1981
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64ae5b5b-1768-48d8-7566-08def79aaaee
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF0000A796.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR07MB9832
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hvoRHx6MJG1hVp/L6WCebat/Zh9YDLjkojPDbY8wqAMu08XBpTvOV1FtiZWY01OWvOXr/2i8i5FRTcZ33kel78yD1nHb010NAP7Zebo+e9o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6059
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDA5OSBTYWx0ZWRfX4q+zTtL9ABsa
+ 9WcTcV6BpyUwRGTzfTt7qpmqLNV6uEtAXbs6sHK9C4syeyl80vMTPaKRwB/bYIGRNWDKMyD4BNs
+ MXqHfkJn+z+d1p5y07m2qmU35jEA20ddH8Rt/Uj7hFBDaDzAr/7ds4BFHwZTmCFkOp0A0Wnx3Bc
+ S1WfdUTMc+efB3ux9vF2igNL3puD8BzcLsc/vv60+gs/GiuV9YD8T6cs1oCYMGzSNbsP7cwQwNj
+ MOe5kvpboPPh7oNo0qtMM5QMYlCYuthEdz8pw5ilPUV+qkOiErT3GJJqc+t2r1bB2jUtDt5rywd
+ krVC5WA5Gf3KwUxJQ/kpFPnD1C4tcHMZr2zce6+iSMGFvvfGyHTf8Zcrdwz9YXv6U+Hr2E5sxqN
+ a9wpHGiJhZ370HvDt7BPrV9IX4vYe1aXf2Qun6ruRwIFqvlN+Jtx+75SRC1/ErMXWR74U5XPQ1X
+ jyXUgnh3bynG6yf8ipw==
+X-Authority-Analysis: v=2.4 cv=K8US2SWI c=1 sm=1 tr=0 ts=6a7b0eb8 cx=c_pps
+ a=xo3zWrN9qLO3Lphhql2lSw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=Q4-j1AaZAAAA:8
+ a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=ix9RSEJc0yqSKBuBtuQA:9
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: b1qFutXdcM1U_2-O_g5YPSJlJZiuBeX6
+X-Proofpoint-ORIG-GUID: b1qFutXdcM1U_2-O_g5YPSJlJZiuBeX6
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDA5OSBTYWx0ZWRfX2VnysWP9YLQ9
+ scP7HHVua8f+q7+yqDbKyQyLDBE9/kRaM51TRMtdqr9MSf6XR8ehVKIfDULqiZgmZ+9YpPp0NJz
+ 8zimk6IvfDoU0mgRJLnw28K2WJn8IqjfC1HgWEafr9iCYCKQr8pc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-11_01,2026-08-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ adultscore=0 phishscore=0 spamscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608110099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 11:21:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243193
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 12:00:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243194
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-The LTTng project documents its stable-branch policy in README.md,
-"Supported versions" at L171: fixes are backported to the last stable
-version unless they would break the ABI or API, and security fixes to the
-last two. So upgrades within a major.minor are stable point upgrades per
-the OE-Core stable release policy (ref-manual, "Stable Point Release
-Upgrades").
+Kernel Rust support on riscv64 requires building the kernel with Clang.
+Since Wrynose does not provide Clang toolchian support for kernel
+builds, skip the recipe when TARGET_ARCH is riscv64.
 
-  https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-=
-point-release-upgrades
-  https://github.com/lttng/lttng-modules/blob/v2.15.2/README.md#supported-v=
-ersions
-  https://github.com/lttng/lttng-modules/tree/stable-2.15
+This avoids attempting an unsupported kernel Rust build and provides a
+clear parse-time error explaining the limitation.
 
-This recipe's policy differs from the rest of the project in one respect
-worth stating. Where lttng-ust and lttng-tools do not backport new
-features at all, L185 says kernel-version enablement is backported to the
-last stable version. That is the only non-fix content a point release
-carries, and for a kernel tracer it keeps existing probes working against
-newer kernels rather than adding anything a user can call: no new options,
-no new API, no changed defaults. Upstream labels these entries "fix:"
-alongside the rest.
-
-Six branches are maintained in parallel, stable-2.11 through stable-2.16,
-and released from together: 2.14.6 and 2.15.2 the same day in June 2026,
-2.14.5 and 2.15.1 in April, seven such days in the last two years.
-
-The ChangeLog entries for the current series are fixes throughout. 2.15.2
-(Jun 19 2026) is 13 entries: a leaked file and fd on channel create error,
-plus twelve probe adjustments tracking kernel changes to ext4, btrfs, vfs,
-vmscan and hrtimer tracepoints. 2.15.1 (Apr 24 2026) is three, covering
-kallsyms on powerpc64 with ABI V1, a snd_soc_dapm_context move and a btrfs
-probe range.
-
-This recipe must share its minor version with lttng-ust and lttng-tools:
-lttng-tools README.adoc L123 states it supports the kernel and user space
-tracers "sharing the same _minor_ version", and that cross-version
-combinations are untested. Pinning the regex to the minor is what keeps
-that guarantee, permitting 2.15.x -> 2.15.y and excluding the 2.15 -> 2.16
-bump that would need the three coordinated. Within a series they have
-never moved together on any branch: taking modules, tools and ust in turn,
-kirkstone ships 2.13.14, 2.13.9 and 2.13.6; scarthgap 2.13.12, 2.13.13 and
-2.13.10; wrynose 2.14.4, 2.14.1 and 2.14.0. The minor agrees in every row
-and the patch in none, and scarthgap has lttng-tools ahead of this recipe
-rather than behind. There is no build dependency between them either.
-
-Already tracked this way on the OE stable branches, and more thoroughly
-than most: counting only bumps since each branch forked, kirkstone took
-2.13.4 -> 2.13.5 -> 2.13.7 -> 2.13.8 -> 2.13.9 -> 2.13.14, scarthgap
-2.13.9 -> 2.13.10 -> 2.13.11 -> 2.13.12, and wrynose 2.14.0 through
-2.14.4. Each also carries local "fix build for kernel N" patches between
-those bumps, which is the burden that staying current within a series
-reduces.
-
-AI-Generated: Kiro with Claude Opus 5
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 ---
- meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes-recipe/kernel-yocto-rust.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb b/meta/recip=
-es-kernel/lttng/lttng-modules_2.15.2.bb
-index 49f2bc8eb2..bfa1fc619a 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb
-@@ -7,6 +7,12 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D018e002dbdda330=
-6682e394ddd65fa32"
-=20
- inherit module
-=20
-+# lttng-modules publishes bugfix/security-only releases on its per-minor
-+# stable-X.Y branches. Point releases also carry kernel-version enablement=
-,
-+# which keeps existing probes working against newer kernels rather than ad=
-ding
-+# user-visible functionality.
-+inherit upstream-stable-release-point
+diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
+index 49f2bfc1ae..6be97c2db8 100644
+--- a/meta/classes-recipe/kernel-yocto-rust.bbclass
++++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
+@@ -25,3 +25,12 @@ do_kernel_configme:append () {
+ # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
+ # Disable ccache for kernel build if kernel rust support is enabled to workaround this.
+ CCACHE_DISABLE ?= "1"
 +
- include lttng-platforms.inc
-=20
- SRC_URI =3D "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
++python () {
++    if d.getVar('TARGET_ARCH') == 'riscv64' :
++        raise bb.parse.SkipRecipe(
++            "Rust support in the kernel on riscv64 requires kernel to build with clang, "
++            "Wrynose doesn't have clang toolchain support for kernel. See "
++            "https://docs.kernel.org/rust/arch-support.html for details."
++        )
++}
+-- 
+2.53.0
+
 
