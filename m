@@ -2,136 +2,136 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C38CC5CFC1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 456D4C5CFCF
 	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 11:11:47 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.24])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52154.1786446699216408260
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.51815.1786446704258916405
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 04:11:39 -0700
+ Tue, 11 Aug 2026 04:11:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HCoJ8CN3;
- spf=pass (domain: est.tech, ip: 52.101.72.24, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=v14rGeE8;
+ spf=pass (domain: est.tech, ip: 40.107.130.51, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LM940KAxg/UuNHtYp5Lcarj0hgvlHZX8cKFdNnXz7vu4RYmH7SgLPkBILwfslRk16wayzTaycTnxlmhhYFYOeIAMC/eJ5Dmcqz41KR3VAHUYJdoI7E62EiDE4dxLLqPJJNLWXBL3DoUYQDwWhdhZ7AAeOzAUYPoRp2d8T1fDguZJ8fMG1PBwgDSm3RvwxJCyWWR+P8TqixMQ303l7BJypoLJ0fKa/ZsNLSb9Shh2DKfoed37nHooZOT8FVuvqvNOf338fbNS42u18I2J9DaIWicc3auRnvkGx+cK5AavX17yzfv6e7RdZXAVvS/OxvgAuROtPHjcOqFZ66KVp9vwHA==
+ b=Bak7ulKieGi9kuhJVqNvYeKZCJc3bzoo/q/MkPZt4SiO0hirjRWvK26GJYfozVvovAYliET/Tqgtej0L1HqUYq6mLlt1mSB2jW+DZw/GOO8ZnbXWljlLuhy70JkTSt1NZWq3GG2ype/+ey9l2dQ59hOMhjQIE7ZueqoxsHMnwcye2dTyGt1+N2zB/rZHWmmVM13/uBKYNqd79jmIdCdVH2lAHkLakETpPCLuuB5p2I6CLyA3inSevTGMVE+J+WlAFRRycfa4VCbDRQIFB7c+o7Mtt5HhxrRPh5OGo8ZRWFmyxzCGdrzeWQYdPX/4SNQ+iZPSMsiyax56Khyh3OEY6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P5WWm3HvHzi0s57pWeCW+c7mMXPkccmF2ls5eOv0Dt8=;
- b=OMCqnMUVT2rHlowBPa4XvOLPbyCwrj4mLuFrXyDWAHCUweQOv8ni4xaankY8TI1y3A8rWikXm3krTDPZVAvSLrMtFP0YMTeH3+80Qw7eiESbdvT8e6HbSXKJgLsd1S/OHDRsXwXSNQNm94xA3sVDOjki6luZXie3HrbP3KD6/xCFwQhpnhEzcJ/v5jAtfeDm8xTIaxtiVHbh1YFEXvF4eq3CaMj6PSpE/DL40UXKMjb00XU4fvxc3gxcIeBXIXWLiR1hpGRJuwd6GS1KupfC6+BF9I/2h6KouVKhGobAT/HKQjVeM3OsNGw+G6NbEuL+L6lAM2UjFsOOM0iV55O+wg==
+ bh=XM5YQI/lslHiglH9MyBwMrqHkHW+wlBZynVs2tpt0XI=;
+ b=BCTzVHHaX9ovofJxe6qeE+rOHLxMUgAo8SEFiNRs7DJvIfrEJ7taUVOUYPuXJsqG9x5Zv+9crZGye2zci9Bxd2RyqRF70LQznZt5bRnjRXNLEDavHkqp4+zKb7dlA8sHmzI4lF4/OmDDA5n0CxKO3B/h+A8yvjXxYrO/MW1lKz+HmeixwthEiH6uATAzRK6jqaA74qJHQC1VGWnbDOLz1/txnRmhKAmI+dZeWQ4AE6MUpqUP/Hof0FeG7VE6DLt+Mrkcn5eXY72dHyFS42aHhvqBUgGG/UVZZkiWRD57HBE20SddaauptGOGZEPtw2nWtLkAIoVdv6VfScRb1FEvOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P5WWm3HvHzi0s57pWeCW+c7mMXPkccmF2ls5eOv0Dt8=;
- b=HCoJ8CN3ZlUhX6XCTKV69ctN124ATKxADgn/ildE/ddbG+ux449ZfcZqtwYI8dJX1GWcPsmNx77aQ2ahj4PxGIIrOSdV+w1MwBWB6Pq5F/Cq9Unr5XAHpCqExNgeNgwbDDQpctXIfr4v87ZVy/VTUd2vzusrEkhGO8XZS64c+B0Fr7JLWugAT0AY4iu0D7tOWMux14frG9NRJHOhwa3Dyu3iVV1WppEmziNZJIJh3tQjTkYpnp21qwNBRSfo5q7WFEDdRGfWup8STxTRGJWKFXlmKnchBb2MDfBYAv5+kWCFXFyxB6//lAkGIq0fT11Y2BSCQ/48fW8c94uS0tUIHw==
+ bh=XM5YQI/lslHiglH9MyBwMrqHkHW+wlBZynVs2tpt0XI=;
+ b=v14rGeE86zLLgHVgWaedHjxYyIWZHYibmHKMR0zmOmATMdYKoKa6n+vh9vXwdBvybvXAMbB3mAq/L77S26uylJCuck5pHjUixVfKtLQwvOM9i620qIKLEv161ZEAMHsCyaP7eBtX/rZFNnzx3clZ72mKhiLROzRUZMV9O6740RbefTP4FHG7lU3bdNNJr/jL7q9eraQAyKOJhMEkNMt8Qd2mWFtsVZr8ACLaVUHagJMQmMY/RjpEU4stUnqF8h7iaGaWY9TRZrm4i/FZqtyfwRHyyyUtgh6OSZ15N4Vqz1A7mjAoVIFnD2JkkffPHxn13GOHCRrW4TbOTvl0zk0yDQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by AMBP189MB3247.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6a5::19) with
+ by VE1P189MB1135.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:148::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Tue, 11 Aug
- 2026 11:11:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
+ 2026 11:11:37 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.008; Tue, 11 Aug 2026
- 11:11:35 +0000
+ 11:11:37 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH v3 3/4] u-boot-tools: fix pylibfdt build with swig 4.5.0
-Date: Tue, 11 Aug 2026 13:11:19 +0200
-Message-ID: <20260811111120.17612-4-jaipaul.cheernam@est.tech>
+Subject: [PATCH v3 4/4] python3-dtc: fix build with swig 4.5.0
+Date: Tue, 11 Aug 2026 13:11:20 +0200
+Message-ID: <20260811111120.17612-5-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260811111120.17612-1-jaipaul.cheernam@est.tech>
 References: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
  <20260811111120.17612-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DB8PR04CA0014.eurprd04.prod.outlook.com
- (2603:10a6:10:110::24) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0028.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46b::7) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AMBP189MB3247:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a6505be-13c7-4d63-1020-08def7994ea2
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|VE1P189MB1135:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57110213-e3d8-4073-557c-08def7994fc8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|11063799006|10067099003|4143699003|6133799003|22082099003|18002099003;
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|22082099003|6133799003|11063799006|4143699003|56012099006|3023799007|10067099003;
 X-Microsoft-Antispam-Message-Info: 
-	W5JNwa8K+olY8wcpTOTGMpHw7/f4pVHX59SHM6aCCz1iHVayNFiLtAC/IRXpr3K52VvBdkVSGN8ahZ12cyLn7lgmJCEq1UtiJfWb4B+A3jvwYOVZMG68G19iXPawHscqElJoYI/pG00jlfBbfXdN8l/XZEjnGkSc3AO9OednY7KEixwr0qqzisYbSbNeBaJ9HpR4Y+gJu3tOIWLMtjbqvofpalen9JqJ9pch1naFqEE7aUsN623T2lc9Ie4H77GAz9VWmFV+/zOW1DZLIQx4j/5QdOntVb//9f/0NkdM0UobTO35aVQVKXckElNGQ03wa5aJ1s/B5nptm1205Ya8K5LGp8Ve6g4bdVxOA5u6ju3hZ9fjYDeUPUD3bcF4QLKvbq2rY/5WNLkaG0K+uVGLSwTslB0Ht/U5NF6S67YXjsOr9aAkm081Esod62cvUGSpspUVvZUmHNQVqTSVZOBiI/sXRLf1fIX3lYMDA0NjDgHrB7yhaeC1ylnu4slJOupK6xNqS0QmxwZIp2smn7+6cUgCT6K6QuQnmzJmU63fa5gp0uM9cSeq8yxwv7O8mAJZ7HrlQP9mufpO6puqWYlGB44gd0u5JJr24FN/xFdGho5FApuG7p0njEyQhbIDSpFrWkTqY5lRDSCDIpkHjh62XHqyfzvRLV/4eWdVfv+8voM=
+	wT9hOtMP01k9G40O/rbRYVQmagQfrYu3BDm4iJXSuBnzsDeQY6ttRB4iAoO9lizshcBn/KGJX/R8CIOefa86yIPD8wDKT/vu0NKIRDZi0QLf/4XH2sml3B20TUDJTx6eymK4Ws+pYsekqLduSuM/r4ZS7pvbipNlSqymVZA5gRd/xupwckyirZIZCmB1yhOTrDCJitjX5mhQSdrdNbkOhGBqLJnhaJoX7K/UC9ZnrnXlG31eqeTbqsYxrMuQS2KnRD01mw7I7rSyxblFBXONXNzi7pFPQibKLxik6sAXYsxZqPnkDz+tyxmZ7jcscd/GTV3kdwvQtvaIAPo6oRDj8cXQt8nDLka6MhbeaAMBMuIvrqBQnjNF5G6IVLR5cUZDLwh/HuDCQqhXiHj2s/EuEFVqwzp4quDeXeMQ115KeaKE3xU16syYm9R5u+p80u/gT7W09q0xttuz52Ja/K7j/VRNtxFPoB7s8AtL6gokWGP0BHvbjfMLwKF/8sRKUGH5k4UPeD2vljs0v6G2OxZNdATMjYow8NFpunDM/FiLm7tZmTqeMJ1j16gi8QjAWHSeafn8SN0fNwWkmqWWAWnxnm+OJMaNQkmeXSDhtHMPwpeLm/EynT2795qRvTdKTyKZLRj0oHZ4Bfbh5mYTjYqvOdCkRSmjxwTweZ834nl1StE=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(11063799006)(10067099003)(4143699003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(22082099003)(6133799003)(11063799006)(4143699003)(56012099006)(3023799007)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?EBeVgPa6gnAlOj9xmZy6iCcX4YvBV3lZMyWZcywwN8+Djb9LCtNcmJQbdmNx?=
- =?us-ascii?Q?5YbnMcb+bvKHkzJJCVfPGkphI74oAZo6qaL/e13mxXbrd8/7fLlUVoiMKBdL?=
- =?us-ascii?Q?ynHqyGim5T0n3hP3sf14wGePCnTrzT01Hqum7pSW4pI7HqGM5bG0bYWUWtA6?=
- =?us-ascii?Q?zj4Bnrs2cLR55WljVLhLmio/PUSrPAxXUpxTW9xjCNQkzwgSVi6SuACRospL?=
- =?us-ascii?Q?KMTONSPri9rs6qSuT0OKc0k4bFFsxpqGfbx9L+DgCW6StrflU6KwmbQ33T+6?=
- =?us-ascii?Q?OkqZ+xVrKvFdAEgHALWjypMFTIfGzBnKxhFCYiQlQxX4H8LyVRFKCl3TUGtG?=
- =?us-ascii?Q?famboS1u6/pnuqNb0Ctlq6iwccsuVe6MqqBt8suuXDX3qOzpRg3VHX4IbRpD?=
- =?us-ascii?Q?wjTABRq4N+3kU7+am/2XlKzZU1OJCyx65BiKE0ISMsi1IrOtj/5gzIGoiMbt?=
- =?us-ascii?Q?vgK8RJkMZasfX9W1CR2n8/78DuiHds4FtrwEAqvLCtzQS4Wq1A821BsWV4Vd?=
- =?us-ascii?Q?I0jJp9QNlplRX0b9Q1g4OQR0o3A2B1m1DwOn0c9Lob7QJKZt/cN0f1qP+tEv?=
- =?us-ascii?Q?mIn9PMSvj9jbmqhXgwwAiEq2yTHQY5rNn8wS2LYvriOo9dFmGcVgNvJKkZDr?=
- =?us-ascii?Q?2H1wU+JVBg/Hs8HLxgr97TIf3pxClgzzmW35BOUS85CbM4ntiWWbC/QI92O/?=
- =?us-ascii?Q?NjFydNfud6ZZTsbuPyiDLgcPuzz2cTu46k+rQNmEWHtgOpT7turF/XniKh5E?=
- =?us-ascii?Q?4S6O0y4rXmEEDb4VNI/fEGnA3Y/XpBnjpwc3SVGaSIMEnwj4FzUoBGd39gVP?=
- =?us-ascii?Q?jcmuhtPxAxTa4gz8YMwCgW6wZRUnkWYMFdf6vTel3Jx6rVhH2FFmcGv2EGOO?=
- =?us-ascii?Q?VONUGPMQtRJIx0ZtPnAttUoa71N2T7D9P3EpqzBQ6ccTw6URmu9+R25up4fg?=
- =?us-ascii?Q?PvLfJdGRDG3tWoQJrk17PFrr0eU0heP+f5QALmxvwi0yWCvXarxy2Gt87qKV?=
- =?us-ascii?Q?S9E4V/WVQSxA3u+4o/LJcRMJa3YZ0G29gxCgL8Oc8UUuvxBVKhZgfI+y7tI1?=
- =?us-ascii?Q?Lw1tuJL5jTo3bG8ziftu6pVnXUCwBWBQ3HJqGQT0uRZ7VCx5ndw8DVosCKHL?=
- =?us-ascii?Q?llmMy70paud/1bRI4I/ByFG6KGzQdr5ZaABW6VWe0HNQPD1jCPwQNJzU1MSE?=
- =?us-ascii?Q?WcACk0fplBMYvknA29qFqnqwMywyt+efbGI91VjgCQJrF8UuUmEntIGg/jNa?=
- =?us-ascii?Q?ylwee2yRaJCir3v37HiPQimm7tAJ0ffhvouWTRKrxAFx7w7LinDnbNdVkS5i?=
- =?us-ascii?Q?e8FUh/7HPPfqc7roin5NJCpxecceyU+JavfOE/7No/2oeC0FEiGb0uuCXFQl?=
- =?us-ascii?Q?LUXq78eBtfrYAYrjK00XWl3fSnMezRwKE2ihQnMMhTZXG9RPX4I6Eds+/dhK?=
- =?us-ascii?Q?jquqo2V09gyOGgwJFR7A2uTxbbVQD5cYdKrbS+v1xFupFG7LvQfUw9wY03SD?=
- =?us-ascii?Q?A4B5N5Ctb2DR0G0ePZKzosavIomQA+QQqOXhGmIFrZJcxzTvYFX98qYP/iMf?=
- =?us-ascii?Q?7xMkBCKpFQCo6TDKUHjwTSSmXrFj+TJ2wn+0J4jRZnafhe8XROWfdKb0VQu4?=
- =?us-ascii?Q?XeqY0O32Pd36DV31jCVZ+qonjxJrJsA3+jGduQDqVNkCqtT1c4l87NZUXccL?=
- =?us-ascii?Q?v4CrwkKhnFlEHL5YrFquOBY/OkmluSjkudS7PfO2i4ORNuEjH0jE+my9C1lz?=
- =?us-ascii?Q?2LnraqMxoEcrN2hJ3ZC2mFslvwVJQVI=3D?=
+	=?us-ascii?Q?DWngt8qJ1oMr7IMFUziyfJXx66n4pFJiWkmPK5VwxPybjzr9Gofteh2JLvFn?=
+ =?us-ascii?Q?s/EsHkKb2Ic++YqgnpQbpPwHyWYM2Ysk5SQOoz97Tt6HcOWJK/UWNknsKsCF?=
+ =?us-ascii?Q?yi5+xs/8K2LhzIsiMEsuJ/yRLNrRtgxKyMJt3GsH0OT8MNITy0ljtSJT+NfW?=
+ =?us-ascii?Q?/0eAv+MDCSEGjcsJLNG2yH+e51346wRHcSeIwMmoPkGqf1P9x20GLwLYkFbU?=
+ =?us-ascii?Q?cglTeJTrjuEOR18l1QHtvHX+hCt4ODsj5T16MoJqPlUnDfuBvbJiwDwGIbi+?=
+ =?us-ascii?Q?AdWl+Ws/Dlad1qNAjLPCUWO3NGVFhlE5ZwyQtmdIlf1GZvDPiw4OEsnBt3vj?=
+ =?us-ascii?Q?0WlPRyeYwsZtVWXJ4c7+NUqB0/86gOqn2Adcm7/NowxkcfX3YGBqMz59BMks?=
+ =?us-ascii?Q?rINyZbZ2qXwn+W4QLwlmaqaevkwJL9ETdYKwx1Tsav0BPYkqLUqMryDVRigY?=
+ =?us-ascii?Q?u5F5yxsaUjEuK4WQEQcB8FvzDgcg/hs4zYgRTkBZDPIApmNhEgEIs0c8Hz1T?=
+ =?us-ascii?Q?rKDJXMRdNQgt26L/ErXgBiSrGQKI/lxz7sI6dU8RP/w+kHRIxh8o38xWPX+a?=
+ =?us-ascii?Q?fQ5WgrOgAJ96CVlCoMwmguoc72X9EyTyajGrmELOcGn5ciVnYXvQxLgyBypq?=
+ =?us-ascii?Q?JZvDrYMJUe80ABl1kZ6zgBEgn5NjTLLLg4a7dkX+3TLPBxNfpX2bTbmpmqUD?=
+ =?us-ascii?Q?rao+4xDFDsGnFMw5hKpRUVi/n9KEnGxgzSqibxOd+FpnFQofztz1cr7IEHpI?=
+ =?us-ascii?Q?wYr6DtRqW3z4qnY1URUoUifysAPG3hYx/keYNqVUw+jBD38pbmOKV9I4uzsq?=
+ =?us-ascii?Q?enH8/BuRkDR6Ry0999HfuaQ+1LC/M3veRC3U7GwjvgSJe3qR8QpvDU9+MnDN?=
+ =?us-ascii?Q?PDiacUJdIpBVxskPDLfs0yjWj8v0BsBypnCYWHyxzaDgKRqaeVjMqvbJti+3?=
+ =?us-ascii?Q?RmO/WrRnVVIcXt0GGl1g5OZfiea2dojd5TegMiKfVVILX33srzMgMxqSyHBf?=
+ =?us-ascii?Q?5TVyc3ezj0LDlTi7xU7R9GDSbUclj1UGo1xnFlDDzDRZKbCDl+BtA9pGDxWy?=
+ =?us-ascii?Q?vxDIzdSpecnfgiFKOBdBl+lUnc0PsLyjJAnDy0hLkUOZ8jpqnEpqZxi8frSv?=
+ =?us-ascii?Q?hUWhv+rpIwEZafW+8fMwBe1heTC/U3UuQmIzM/NIV0tNVKoc2+fFarIr+Zxx?=
+ =?us-ascii?Q?QJn6GpbsCmiPLo8wl7T32kmKNWY9r7vevLfJxYPOvAJs3iB6ZlvkaCnAmvlf?=
+ =?us-ascii?Q?LxfjMEDPD8GxlGi4NCwZfOIKJbN9WAlxFu11V1IR2FTGXFTw9x8WOyno+gsX?=
+ =?us-ascii?Q?xtMtVvc3je78VHydtgmRCoR51/4ujzQVl+4Iq61okkzzEOy0m+9Gek2Qqw8n?=
+ =?us-ascii?Q?I5Ty7VJQoGOpcL/GFKQObQqtyRr67rKQsV2f3W4xSS498KnZ79GBQHxV2tJn?=
+ =?us-ascii?Q?Zd+b5DrmCLR37dtK0SQHHijAyO0ey+UHyQ6TraQnUT2Y2KBFEx4qayZaGypE?=
+ =?us-ascii?Q?Z1ZkUJdy7H5IrDO8Juo8OW4VW9U8M2KHi6FP9dcDlbMGpxvJ0h1An4ayDJzg?=
+ =?us-ascii?Q?YK2oJtI7ihV114wApx9wUVOpkLC23eAnupNjaIinntx2XC5XdJwBO4EY3m3D?=
+ =?us-ascii?Q?U/8Xh/nwz6qgSEPK8Ak2Uc+fqkiuAvryH/JinrbwTZoYRnHwZp4kU5+kVgFn?=
+ =?us-ascii?Q?JQHAVyvIuvWp8VQGcjJ62XIzb/QlrodFoFMwXgATpAnAo7hJ3OzX8Kdurze8?=
+ =?us-ascii?Q?KGHnilbAyfv5dRs06NckfDz07icuGq0=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a6505be-13c7-4d63-1020-08def7994ea2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57110213-e3d8-4073-557c-08def7994fc8
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:11:35.5410
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:11:37.4865
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QwJuO8rXd7GrgFh8b3mQ06lBmd5jGYOymi5T5AHSeob7rmngnyvHacwh45OXwu4Fu0n01oVkg82M1Ymhhydr3nHMQkb7SxOBWDM0FQEyHM8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP189MB3247
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8AqdNzJH3IOjYoHj9ibfKTdEt2UR6OuykHoD6RhAGyAIcf3OE4238uHTcvNPwQQieCHaLda8p2cvyh0Kl7pXixPhue3tmKaUAsuoskHWIvE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1P189MB1135
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 11:11:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243190
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243191
 
 SWIG 4.5.0 removed Python 2 compatibility macros (PyInt_*, PyString_*)
-from its runtime. Backport the dtc upstream fix to u-boot's bundled
-pylibfdt/libfdt.i to replace them with Python 3 equivalents.
+from its runtime. Backport the upstream fix to replace them with
+Python 3 equivalents.
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
  ...-removed-SWIG-Python-2-compatibility.patch | 57 +++++++++++++++++++
- .../u-boot/u-boot-tools_2026.07.bb            |  4 +-
- 2 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-pylibfdt-Replace-rem=
-oved-SWIG-Python-2-compatibility.patch
+ .../python/python3-dtc_1.8.1.bb               |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-dtc/0001-pylibfdt-=
+Replace-removed-SWIG-Python-2-compatibility.patch
 
-diff --git a/meta/recipes-bsp/u-boot/files/0001-pylibfdt-Replace-removed-SW=
-IG-Python-2-compatibility.patch b/meta/recipes-bsp/u-boot/files/0001-pylibf=
-dt-Replace-removed-SWIG-Python-2-compatibility.patch
+diff --git a/meta/recipes-devtools/python/python3-dtc/0001-pylibfdt-Replace=
+-removed-SWIG-Python-2-compatibility.patch b/meta/recipes-devtools/python/p=
+ython3-dtc/0001-pylibfdt-Replace-removed-SWIG-Python-2-compatibility.patch
 new file mode 100644
-index 0000000000..5fdccf5e9d
+index 0000000000..877aea3a8d
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/0001-pylibfdt-Replace-removed-SWIG-Pyth=
-on-2-compatibility.patch
++++ b/meta/recipes-devtools/python/python3-dtc/0001-pylibfdt-Replace-remove=
+d-SWIG-Python-2-compatibility.patch
 @@ -0,0 +1,57 @@
 +From 32378d7b4383a79d13da9005035600d8f0c8c29d Mon Sep 17 00:00:00 2001
 +From: Jitka Plesnikova <jplesnik@redhat.com>
@@ -160,13 +160,13 @@ ros
 +
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ scripts/dtc/pylibfdt/libfdt.i | 6 +++---
++ pylibfdt/libfdt.i | 6 +++---
 + 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/scripts/dtc/pylibfdt/libfdt.i b/scripts/dtc/pylibfdt/libfdt.i
++diff --git a/pylibfdt/libfdt.i b/pylibfdt/libfdt.i
 +index 1f9c0471..b1cb9873 100644
-+--- a/scripts/dtc/pylibfdt/libfdt.i
-++++ b/scripts/dtc/pylibfdt/libfdt.i
++--- a/pylibfdt/libfdt.i
+++++ b/pylibfdt/libfdt.i
 +@@ -1136,7 +1136,7 @@ typedef uint32_t fdt32_t;
 + 	PyObject *buff;
 +=20
@@ -192,20 +192,20 @@ ros
 +    $1 =3D &depth;
 + }
 +=20
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2026.07.bb b/meta/recipes=
--bsp/u-boot/u-boot-tools_2026.07.bb
-index 9e7a178310..ea90b726c5 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2026.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2026.07.bb
-@@ -1,4 +1,6 @@
- require u-boot-common.inc
- require u-boot-tools.inc
+diff --git a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb b/meta/recip=
+es-devtools/python/python3-dtc_1.8.1.bb
+index 51abf3640a..915cd6a730 100644
+--- a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
++++ b/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
+@@ -7,6 +7,7 @@ LICENSE =3D "BSD-2-Clause OR GPL-2.0-only"
+ DEPENDS =3D "flex-native bison-native swig-native python3-setuptools-scm-n=
+ative libyaml dtc"
 =20
--SRC_URI +=3D "file://0001-tools-mkeficapsule-Detect-GnuTLS-PKCS-11-support=
-.patch"
-+SRC_URI +=3D "file://0001-tools-mkeficapsule-Detect-GnuTLS-PKCS-11-support=
-.patch \
-+            file://0001-pylibfdt-Replace-removed-SWIG-Python-2-compatibili=
-ty.patch \
-+            "
+ SRC_URI =3D "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmain;=
+protocol=3Dhttps;tag=3Dv${PV} \
++           file://0001-pylibfdt-Replace-removed-SWIG-Python-2-compatibilit=
+y.patch \
+            "
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
 
