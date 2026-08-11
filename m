@@ -1,103 +1,74 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1115FC5B572
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 14:20:19 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55477.1786458008839530502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F66DC5B572
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 14:36:19 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.55473.1786458975274497400
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 07:20:09 -0700
+ Tue, 11 Aug 2026 07:36:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=mnnKkGbT;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id DD7171A1563;
-	Tue, 11 Aug 2026 14:20:06 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A97306033C;
-	Tue, 11 Aug 2026 14:20:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F003C11C48CBA;
-	Tue, 11 Aug 2026 16:19:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786458002; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=oPMvcz0uXkN40q8AelKPoih5q0FwgEW88maSQmp23QE=;
-	b=mnnKkGbTkTmqErKMocHAEDlO8V7qL3+BQgTZ7gQ/CgbGDrjYaK8+MmJtVFbPfCamnoqCbi
-	r1YLLcG3zsqWLK3+ZxFFwCTydkDdgggKkdKGXDb0S1GqRndHrfjq995mORfwYW91i4n1nM
-	l4hIePIVgcK/IkffxM27MHaGM7KVJEQ0cTCkaM7bQ34dW7C3XLeC1LC/SpK/7qamRHYaHl
-	Fn/OCI9DUShPZIDA6T3//3tUTpbnG57JQXRDklp9rxz32TgKqEfqy7a6L9QSURInqrODJB
-	DMUR+47m23MHxNQ7PFyw+agZmDCyKhPCAYBNc1hPm6Np1Qn7Bb266NSgGTfOPA==
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Q+TbzXSm;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC9FA1516
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:10 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5DB573F86F
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786458974; bh=G1ApRCJH1Wkj6gQp0ZRcJRKGp5snEm7YwALUOZemPaw=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Q+TbzXSmvi2BZuJrxJKwBXdNuSQ/n0YgBlLyPyTER+ERWWtAhYB37spIyK3fd1qFe
+	 JuhQYBzRpwzcVS5XyJpF1F2s6bZqjS0XKTn3wDcFEYd2lzR60x23BvWHr3gHMbUAkR
+	 bufn02gQzNSmjTNbDYuWZUF1fFnSlqRIIZt6g6U4=
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 4/4] classes/python_setuptools_build_meta: remove wheel dependency
+Date: Tue, 11 Aug 2026 15:36:07 +0100
+Message-ID: <20260811143607.1200407-4-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260811143607.1200407-1-ross.burton@arm.com>
+References: <20260811143607.1200407-1-ross.burton@arm.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 11 Aug 2026 16:19:58 +0200
-Message-Id: <DKM6IAUNZOOF.11QH0FJ6NRSQ2@bootlin.com>
-Subject: Re: [PATCH v13 09/10] rpm: Fix pkgconfig() Provides missing in
- cross-built RPMs
-Cc: <alex.kanavin@gmail.com>, <mattware@cisco.com>, <esparlin@cisco.com>,
- <peter.marko@siemens.com>, <randy.macleod@windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Sumanth Gavini" <sumanth.gavini@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260810045250.3903576-1-sumanth.gavini@windriver.com>
- <20260810045250.3903576-10-sumanth.gavini@windriver.com>
-In-Reply-To: <20260810045250.3903576-10-sumanth.gavini@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 14:20:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243205
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 14:36:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243209
 
-On Mon Aug 10, 2026 at 6:52 AM CEST, Sumanth Gavini wrote:
-> * Added 0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch
->   - rpm 6's internal dependency generator runs pkgconfigdeps.sh during
->     rpmbuild, but OE's cross-build environment exports PKG_CONFIG_SYSROOT=
-_DIR
->     which causes pkg-config --print-provides to silently fail on .pc file=
-s
->     in the package buildroot.
->
->     Unset cross-compilation PKG_CONFIG_* variables in pkgconfigdeps.sh so
->     that pkgconfig() Provides/Requires are correctly generated.
->
->     Without this fix, do_rootfs fails with errors like:
->     nothing provides pkgconfig(ogg) needed by flac-dev
->
-> Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
-> ---
+Historically, setuptools provided most of the build commands but the
+wheel package provided bdist_wheel.
 
-Hi Sumanth,
+However, as of setuptools 70.1.0[1], this command is part of setuptools
+itself and the wheel package is not required.
 
-Thanks for the new version.
+[1] https://github.com/pypa/setuptools/commit/b3d3e93a834426f1bef8712e140=
+5495084eb3b7f
 
-This looks better, at least for the dnf install errors. Yet we still
-have errors when reusing sstate-cache, as recipes generating pkgconfig
-should be rebuilt, but their signatures did not change:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes-recipe/python_setuptools_build_meta.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4377
-
-I made some horrible hack in my branch to change the PR of many
-recipes, and the build now succeeds. I only tested one configuration,
-but we can expect similar results on the other ones.
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4386
-
-So, depending on how you address Ross comment, you might need to make
-sure recipes signature is going to change.
-
-We also had some selftest errors: I will investigate a bit further and
-come back to you.
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4525
-
-Thanks,
-Mathieu
-
+diff --git a/meta/classes-recipe/python_setuptools_build_meta.bbclass b/m=
+eta/classes-recipe/python_setuptools_build_meta.bbclass
+index f09f7e9a918..d488debdb0e 100644
+--- a/meta/classes-recipe/python_setuptools_build_meta.bbclass
++++ b/meta/classes-recipe/python_setuptools_build_meta.bbclass
+@@ -6,7 +6,7 @@
+=20
+ inherit python_pep517
+=20
+-DEPENDS +=3D "python3-setuptools-native python3-wheel-native"
++DEPENDS +=3D "python3-setuptools-native"
+=20
+ # This isn't nice, but is the best solutions to ensure clean builds for =
+now.
+ # https://github.com/pypa/setuptools/issues/4732
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
 
 
