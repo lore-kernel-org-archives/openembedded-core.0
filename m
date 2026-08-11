@@ -1,68 +1,69 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B78C5CFEB
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 14:36:19 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55860.1786458973685647803
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7398FC5B572
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 14:44:59 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.55656.1786459455185351792
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 07:36:13 -0700
+ Tue, 11 Aug 2026 07:44:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=OFOZ7tc1;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5246A1516
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:09 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D8DAA3F86F
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 07:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786458973; bh=CGESz5gqGrgFX47gvN9QZm42yNrNaCxnrL4kn6xdh3U=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=OFOZ7tc1vmstD++zTJqDi9KOFtoXbC7QaFzrA9PpwP+TWhyDRMlQo7LM+8x/XYSqJ
-	 fqaUm1UobSQ3qYpvqF0zcPx4UT7p0v7S/MLauotAeydMSNtltC5ihcUlPUKLQuG+yC
-	 peRGRK8KrMB9kTBLEl1iYUqQNyHObSKvKKioZ3cE=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=alessandro.zini@siemens.com header.s=fm2 header.b=RdCigj0p;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1327013-202608111434077b15145e1600020794-afvx9k@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202608111434077b15145e1600020794
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 11 Aug 2026 16:34:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=alessandro.zini@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=wqGKe4YA6M9Fp62ctQ2HV7brwAM9KPdnxaDftFNbNMc=;
+ b=RdCigj0pSNgaVegjb9i78dLpwxJ1KXdxVgAykuTjQTCUQ9yDlcPpw00rx8yVbFpS9J5vtv
+ qPOHNQu00yKPwxcY96ntBaWBhBupdCtTGjMNnZOn8cEMXnFcud85jKiO0SPGgkBzL0xa3oyY
+ OMfDfqTWrCqxFYHlDgLwxO6XFYHgIzJ/MR8o3mnnThpnVkt3gYPHk9a1ydBQgmzTq5c7h97G
+ jZTuwGmHnkpzt2kjrNyknQq6CDC/7HgGG1r1rLy3i7vIQMZha6kYQeI7Gidw9VvzOjnqy8lp
+ Gb3imkI5UqVVhe4Yx0uQa1/S5kDejP2ya7iUbpD4drTCa5ehqvt9dLZQ==;
+From: Alessandro Zini <alessandro.zini@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] classes/python_mesonpy: remove wheel dependency
-Date: Tue, 11 Aug 2026 15:36:05 +0100
-Message-ID: <20260811143607.1200407-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260811143607.1200407-1-ross.burton@arm.com>
-References: <20260811143607.1200407-1-ross.burton@arm.com>
+Cc: Alessandro Zini <alessandro.zini@siemens.com>
+Subject: [OE-core][PATCH] toolchain-scripts: fix tree env script restoring caller's cwd
+Date: Tue, 11 Aug 2026 16:33:43 +0200
+Message-ID: <20260811143343.36011-1-alessandro.zini@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1327013:519-21489:flowmailer
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 14:36:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243207
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 14:44:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243210
 
-This class has never needed the wheel package, as it builds wheels on
-its own.  I suspect this was copy-pasted from the setuptools classes.
+Backticks inside double quotes are expanded at build time, so the
+generated script always cd's back to COREBASE rather than to the
+directory the user was in when they sourced the script.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Replace with a (correctly escaped) $(pwd).
+
+Signed-off-by: Alessandro Zini <alessandro.zini@siemens.com>
 ---
- meta/classes-recipe/python_mesonpy.bbclass | 2 +-
+ meta/classes-recipe/toolchain-scripts.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/python_mesonpy.bbclass b/meta/classes-re=
-cipe/python_mesonpy.bbclass
-index 3613ea19c76..0ad1c970a9f 100644
---- a/meta/classes-recipe/python_mesonpy.bbclass
-+++ b/meta/classes-recipe/python_mesonpy.bbclass
-@@ -17,7 +17,7 @@ meson_do_qa_configure () {
- # ERROR: Got argument buildtype as both -Dbuildtype and --buildtype. Pic=
-k one.
- MESONOPTS:remove =3D "--buildtype ${MESON_BUILDTYPE}"
-=20
--DEPENDS +=3D "python3-wheel-native python3-meson-python-native"
-+DEPENDS +=3D "python3-meson-python-native"
-=20
- def mesonpy_get_args(d):
-     vars =3D ['MESONOPTS', 'MESON_CROSS_FILE', 'EXTRA_OEMESON']
---=20
-2.43.0
+diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes-recipe/toolchain-scripts.bbclass
+index ab526c31f6..a4e8d3aa9b 100644
+--- a/meta/classes-recipe/toolchain-scripts.bbclass
++++ b/meta/classes-recipe/toolchain-scripts.bbclass
+@@ -96,7 +96,7 @@ toolchain_create_tree_env_script () {
+ 	touch $script
+ 	echo 'standalone_sysroot_target="${STAGING_DIR}/${MACHINE}"' >> $script
+ 	echo 'standalone_sysroot_native="${STAGING_DIR}/${BUILD_ARCH}"' >> $script
+-	echo "orig=`pwd`; cd ${COREBASE}; set ${TOPDIR} $bitbakedir; . ./oe-init-build-env; cd \$orig" >> $script
++	echo "orig=\$(pwd); cd ${COREBASE}; set ${TOPDIR} $bitbakedir; . ./oe-init-build-env; cd \$orig" >> $script
+ 	echo 'export PATH=$standalone_sysroot_native/${bindir_native}:$standalone_sysroot_native/${bindir_native}/${TARGET_SYS}:$PATH' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$standalone_sysroot_target' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$standalone_sysroot_target'"$libdir"'/pkgconfig:$standalone_sysroot_target'"$prefix"'/share/pkgconfig' >> $script
+-- 
+2.55.0
 
 
