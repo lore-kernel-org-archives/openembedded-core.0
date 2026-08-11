@@ -2,210 +2,231 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 456D4C5CFCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 535D6C5CFDB
 	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 11:11:47 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51815.1786446704258916405
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.27])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.51814.1786446698270951245
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 04:11:44 -0700
+ Tue, 11 Aug 2026 04:11:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=v14rGeE8;
- spf=pass (domain: est.tech, ip: 40.107.130.51, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=D++QD89t;
+ spf=pass (domain: est.tech, ip: 52.101.72.27, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Bak7ulKieGi9kuhJVqNvYeKZCJc3bzoo/q/MkPZt4SiO0hirjRWvK26GJYfozVvovAYliET/Tqgtej0L1HqUYq6mLlt1mSB2jW+DZw/GOO8ZnbXWljlLuhy70JkTSt1NZWq3GG2ype/+ey9l2dQ59hOMhjQIE7ZueqoxsHMnwcye2dTyGt1+N2zB/rZHWmmVM13/uBKYNqd79jmIdCdVH2lAHkLakETpPCLuuB5p2I6CLyA3inSevTGMVE+J+WlAFRRycfa4VCbDRQIFB7c+o7Mtt5HhxrRPh5OGo8ZRWFmyxzCGdrzeWQYdPX/4SNQ+iZPSMsiyax56Khyh3OEY6A==
+ b=eLWWLyCVxfFt8pQ4Dz6zatj7tbPA57Wr+XbWu9iI9/yS4dDOpY3kJPs+e1378jzBencg4zaLmvlg7YvpeeWCO+zJZkCbepf8Lx4QGDKEZnR61hY/4JY2NTxXbZH9sT/A7dz7PmyRqQPE94qASCiZvoDTOAL9n08I74QhZ50fYcxvccFTq3VQ3r7I7/QLbnQX/w3fM4vLgaa9NywLzUZH1SAHLD06XFc2vR9j96NURPLBZ44c2N9Y86UOGyGv8cWgIDrpMFIqe5KORk1eIu0JgFB09ApsoeylCoaicieHycDY476gbDNiX0if53hiIwB35rf03dQOZ+iZ8KXdWmilDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XM5YQI/lslHiglH9MyBwMrqHkHW+wlBZynVs2tpt0XI=;
- b=BCTzVHHaX9ovofJxe6qeE+rOHLxMUgAo8SEFiNRs7DJvIfrEJ7taUVOUYPuXJsqG9x5Zv+9crZGye2zci9Bxd2RyqRF70LQznZt5bRnjRXNLEDavHkqp4+zKb7dlA8sHmzI4lF4/OmDDA5n0CxKO3B/h+A8yvjXxYrO/MW1lKz+HmeixwthEiH6uATAzRK6jqaA74qJHQC1VGWnbDOLz1/txnRmhKAmI+dZeWQ4AE6MUpqUP/Hof0FeG7VE6DLt+Mrkcn5eXY72dHyFS42aHhvqBUgGG/UVZZkiWRD57HBE20SddaauptGOGZEPtw2nWtLkAIoVdv6VfScRb1FEvOQ==
+ bh=d+/lnZ3d6XyrajaW9EhHRaZaOPgvrRx37NLiFsR71WA=;
+ b=mhLdmRBsEr9/HzdLAc4Nj6DVIkDTDaRBfiMBtNWivC6bVyS0a5D5pzZexBWDtqhI/twCVZ2IurxPogRDP3+/8GMqW1MdElXtvwm5EMhrbREyHG4uHZH5BiMJmEz/JAZ6tsWJpHumX5bxkZLxYEfJLgKVTIwRWtGooj8J3WnrJI2pLMKgOgKQomscd5tJM7WVhwXB8ryrGN9BleLCEHIiEOLnIOavAB71RCaSkWTiwOikdR1imaGUQ4l/L+dABYWiTza3/N1kV44fUS2KkDqxnbMT9HtCQBBgf/PGRUXgyD65CbsGLOJyLXALnAApQLug/d4LzcDEAb1fh92vylU1vg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XM5YQI/lslHiglH9MyBwMrqHkHW+wlBZynVs2tpt0XI=;
- b=v14rGeE86zLLgHVgWaedHjxYyIWZHYibmHKMR0zmOmATMdYKoKa6n+vh9vXwdBvybvXAMbB3mAq/L77S26uylJCuck5pHjUixVfKtLQwvOM9i620qIKLEv161ZEAMHsCyaP7eBtX/rZFNnzx3clZ72mKhiLROzRUZMV9O6740RbefTP4FHG7lU3bdNNJr/jL7q9eraQAyKOJhMEkNMt8Qd2mWFtsVZr8ACLaVUHagJMQmMY/RjpEU4stUnqF8h7iaGaWY9TRZrm4i/FZqtyfwRHyyyUtgh6OSZ15N4Vqz1A7mjAoVIFnD2JkkffPHxn13GOHCRrW4TbOTvl0zk0yDQ==
+ bh=d+/lnZ3d6XyrajaW9EhHRaZaOPgvrRx37NLiFsR71WA=;
+ b=D++QD89tul5PSQGw/SKTnoGhrtnZ/P4cSTC1wE8LQrbEjfRkuforgPIro2UbUG/Wwh3dG3piz4J2PbrnfpY40MDIk+65b2Ty4EyoEa4iC8oFAZKpBpXR84mImhFkcuXHdAhfhQCQIl/iOf8VceUVX77pLV3C3RMudIQrucw9kqwqHj1kgXApFUCw7mL634A6ysW9hlRbrG4NYB9y67CQtaPByR8qt4xCrCNGtwMiUjAQZJ1epVT0a/KER9jW5HMB+pUItHPd5JsrA8xnuq6g88Xoabpde+fa53aG7g62H6dLpoFfX2NFfY/OuAu5YDAJj95OFj0gfiubJ2ZRp5UPmQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by VE1P189MB1135.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:148::17) with
+ by DB8P189MB0826.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:12f::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 11:11:37 +0000
+ 2026 11:11:33 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.008; Tue, 11 Aug 2026
- 11:11:37 +0000
+ 11:11:33 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH v3 4/4] python3-dtc: fix build with swig 4.5.0
-Date: Tue, 11 Aug 2026 13:11:20 +0200
-Message-ID: <20260811111120.17612-5-jaipaul.cheernam@est.tech>
+Subject: [PATCH v3 2/4] babeltrace2: fix build with swig 4.5.0
+Date: Tue, 11 Aug 2026 13:11:18 +0200
+Message-ID: <20260811111120.17612-3-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260811111120.17612-1-jaipaul.cheernam@est.tech>
 References: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
  <20260811111120.17612-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0028.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::7) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU2PR04CA0236.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b1::31) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|VE1P189MB1135:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57110213-e3d8-4073-557c-08def7994fc8
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB8P189MB0826:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5ff000c-a2cb-4fb7-9a31-08def7994d7a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|22082099003|6133799003|11063799006|4143699003|56012099006|3023799007|10067099003;
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|10067099003|11063799006|4143699003|56012099006|6133799003|3023799007|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	wT9hOtMP01k9G40O/rbRYVQmagQfrYu3BDm4iJXSuBnzsDeQY6ttRB4iAoO9lizshcBn/KGJX/R8CIOefa86yIPD8wDKT/vu0NKIRDZi0QLf/4XH2sml3B20TUDJTx6eymK4Ws+pYsekqLduSuM/r4ZS7pvbipNlSqymVZA5gRd/xupwckyirZIZCmB1yhOTrDCJitjX5mhQSdrdNbkOhGBqLJnhaJoX7K/UC9ZnrnXlG31eqeTbqsYxrMuQS2KnRD01mw7I7rSyxblFBXONXNzi7pFPQibKLxik6sAXYsxZqPnkDz+tyxmZ7jcscd/GTV3kdwvQtvaIAPo6oRDj8cXQt8nDLka6MhbeaAMBMuIvrqBQnjNF5G6IVLR5cUZDLwh/HuDCQqhXiHj2s/EuEFVqwzp4quDeXeMQ115KeaKE3xU16syYm9R5u+p80u/gT7W09q0xttuz52Ja/K7j/VRNtxFPoB7s8AtL6gokWGP0BHvbjfMLwKF/8sRKUGH5k4UPeD2vljs0v6G2OxZNdATMjYow8NFpunDM/FiLm7tZmTqeMJ1j16gi8QjAWHSeafn8SN0fNwWkmqWWAWnxnm+OJMaNQkmeXSDhtHMPwpeLm/EynT2795qRvTdKTyKZLRj0oHZ4Bfbh5mYTjYqvOdCkRSmjxwTweZ834nl1StE=
+	qWFk/3UmvFjgx0rpUzvL5MSzLAAmWl3oYEsQvMKfVVGTcm6TtMvNkP2cU2fT8rVUHS896Yh1/Fqp9N6ZDTPB1XrXMh9YAyyhf7kxxR6qQa+nOSfJ7n6ucIm7baAmKtL5la++n/8sL6leqTnSMphjV37QuoXgWs32hB/muRziCo4E66YCFh2fV8rMU8jf+wybGkGwn1RAQxUgFPJlTHQ5Zgynua55OUcXVS9PzfcTdbuCTwvWM9co1N6NFfn3EPipO07lhrcKsG8KwspeWGYp663PLZ0yrF62hszPArfWvV5c98J8IJLkWf5shXgc0HR9F/fNuiYLa8g0Ni2FFEqN63gbJgNpW/0MWr6AESQ/tzhN0BxlSY6kQK0x/diW0u/MFOOPFp7yfmpgoVUcQBPfBVwcTDOH/vUNVk2y2SaqvxedLTIl1IfQoa+X5Oc1vC959GmbuLgo7rZNCWRf6/L4sI93c2ZY9RY5m1S9mHQw3r9K2KcaJqJhYD5uWZ5T1MBGPxtLb6SSaaBsMRXSjArSwAz8Rp09Ru0nKndF7AtFyAKFQqUJ01DHEbqPTpx8ZCQYEuAlLiQhgBL7W42xGjizmol85k13qz/kSZBUvHmsd/vt/ty1E6Z4t6+14/2av0VE
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(22082099003)(6133799003)(11063799006)(4143699003)(56012099006)(3023799007)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(10067099003)(11063799006)(4143699003)(56012099006)(6133799003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?DWngt8qJ1oMr7IMFUziyfJXx66n4pFJiWkmPK5VwxPybjzr9Gofteh2JLvFn?=
- =?us-ascii?Q?s/EsHkKb2Ic++YqgnpQbpPwHyWYM2Ysk5SQOoz97Tt6HcOWJK/UWNknsKsCF?=
- =?us-ascii?Q?yi5+xs/8K2LhzIsiMEsuJ/yRLNrRtgxKyMJt3GsH0OT8MNITy0ljtSJT+NfW?=
- =?us-ascii?Q?/0eAv+MDCSEGjcsJLNG2yH+e51346wRHcSeIwMmoPkGqf1P9x20GLwLYkFbU?=
- =?us-ascii?Q?cglTeJTrjuEOR18l1QHtvHX+hCt4ODsj5T16MoJqPlUnDfuBvbJiwDwGIbi+?=
- =?us-ascii?Q?AdWl+Ws/Dlad1qNAjLPCUWO3NGVFhlE5ZwyQtmdIlf1GZvDPiw4OEsnBt3vj?=
- =?us-ascii?Q?0WlPRyeYwsZtVWXJ4c7+NUqB0/86gOqn2Adcm7/NowxkcfX3YGBqMz59BMks?=
- =?us-ascii?Q?rINyZbZ2qXwn+W4QLwlmaqaevkwJL9ETdYKwx1Tsav0BPYkqLUqMryDVRigY?=
- =?us-ascii?Q?u5F5yxsaUjEuK4WQEQcB8FvzDgcg/hs4zYgRTkBZDPIApmNhEgEIs0c8Hz1T?=
- =?us-ascii?Q?rKDJXMRdNQgt26L/ErXgBiSrGQKI/lxz7sI6dU8RP/w+kHRIxh8o38xWPX+a?=
- =?us-ascii?Q?fQ5WgrOgAJ96CVlCoMwmguoc72X9EyTyajGrmELOcGn5ciVnYXvQxLgyBypq?=
- =?us-ascii?Q?JZvDrYMJUe80ABl1kZ6zgBEgn5NjTLLLg4a7dkX+3TLPBxNfpX2bTbmpmqUD?=
- =?us-ascii?Q?rao+4xDFDsGnFMw5hKpRUVi/n9KEnGxgzSqibxOd+FpnFQofztz1cr7IEHpI?=
- =?us-ascii?Q?wYr6DtRqW3z4qnY1URUoUifysAPG3hYx/keYNqVUw+jBD38pbmOKV9I4uzsq?=
- =?us-ascii?Q?enH8/BuRkDR6Ry0999HfuaQ+1LC/M3veRC3U7GwjvgSJe3qR8QpvDU9+MnDN?=
- =?us-ascii?Q?PDiacUJdIpBVxskPDLfs0yjWj8v0BsBypnCYWHyxzaDgKRqaeVjMqvbJti+3?=
- =?us-ascii?Q?RmO/WrRnVVIcXt0GGl1g5OZfiea2dojd5TegMiKfVVILX33srzMgMxqSyHBf?=
- =?us-ascii?Q?5TVyc3ezj0LDlTi7xU7R9GDSbUclj1UGo1xnFlDDzDRZKbCDl+BtA9pGDxWy?=
- =?us-ascii?Q?vxDIzdSpecnfgiFKOBdBl+lUnc0PsLyjJAnDy0hLkUOZ8jpqnEpqZxi8frSv?=
- =?us-ascii?Q?hUWhv+rpIwEZafW+8fMwBe1heTC/U3UuQmIzM/NIV0tNVKoc2+fFarIr+Zxx?=
- =?us-ascii?Q?QJn6GpbsCmiPLo8wl7T32kmKNWY9r7vevLfJxYPOvAJs3iB6ZlvkaCnAmvlf?=
- =?us-ascii?Q?LxfjMEDPD8GxlGi4NCwZfOIKJbN9WAlxFu11V1IR2FTGXFTw9x8WOyno+gsX?=
- =?us-ascii?Q?xtMtVvc3je78VHydtgmRCoR51/4ujzQVl+4Iq61okkzzEOy0m+9Gek2Qqw8n?=
- =?us-ascii?Q?I5Ty7VJQoGOpcL/GFKQObQqtyRr67rKQsV2f3W4xSS498KnZ79GBQHxV2tJn?=
- =?us-ascii?Q?Zd+b5DrmCLR37dtK0SQHHijAyO0ey+UHyQ6TraQnUT2Y2KBFEx4qayZaGypE?=
- =?us-ascii?Q?Z1ZkUJdy7H5IrDO8Juo8OW4VW9U8M2KHi6FP9dcDlbMGpxvJ0h1An4ayDJzg?=
- =?us-ascii?Q?YK2oJtI7ihV114wApx9wUVOpkLC23eAnupNjaIinntx2XC5XdJwBO4EY3m3D?=
- =?us-ascii?Q?U/8Xh/nwz6qgSEPK8Ak2Uc+fqkiuAvryH/JinrbwTZoYRnHwZp4kU5+kVgFn?=
- =?us-ascii?Q?JQHAVyvIuvWp8VQGcjJ62XIzb/QlrodFoFMwXgATpAnAo7hJ3OzX8Kdurze8?=
- =?us-ascii?Q?KGHnilbAyfv5dRs06NckfDz07icuGq0=3D?=
+	=?us-ascii?Q?Btva8ba8p/3dfmDSvQt6pK1RoIIezwO5pJP49B7LWlg5p5+1iqzALH02b7HF?=
+ =?us-ascii?Q?S0q3mvvP2IjFZmbn8odtZOo/lPtZzVEGpZan0r/lyVHXxcjOyGGauPpGKlN6?=
+ =?us-ascii?Q?hdOjSKJwWgv0i3sTBuFNqhIlQW2dZtBXrIyDnYo2XkOBs6xpQR5IS8xlywoU?=
+ =?us-ascii?Q?+YH3tBEq2jqzvCDt3CU42ZzT9fe0Vq/wcgFZPfBC8wbUTFn6VcXkat8Ts1Dz?=
+ =?us-ascii?Q?tMVYxqTB7ObHQ0lBwP/fabmDSJQz5PfIwhnKosoehYa5Kd/ZpgfCuEpg1aL5?=
+ =?us-ascii?Q?GODYodzFEFuHe80OidrOU1qYFtuWSXa/aJoSbvsqN0Pi+nd7rqxD1XVR4DXn?=
+ =?us-ascii?Q?dN978z7EqhpM7zmPSgnV/JxTqOoYI7iGBe3ScA/RuJ5WhNzR2vCosmdMQZHB?=
+ =?us-ascii?Q?+7TbScNV7koxy/ygFOD53NMOSgyIlLkfVaXLNzfS6+d37onwdwEGCqJDjWYB?=
+ =?us-ascii?Q?0PdDL2jp1pBhD4Z/J+p7zGEfaz0EWYvcniMsMKUHDBnK+9IkRAEZbfFWYmKv?=
+ =?us-ascii?Q?ba0eEgJkWcWTbHKfwK32GRX2bTcV1fAJcHw6IAfNt65tQ3i21KjehDl2ZW0j?=
+ =?us-ascii?Q?hyQSyfvUSkqYgdpeu2PcEiIw3vDZ9e3dmZLvZTzmjJUCunTcCOMTYwLey0pu?=
+ =?us-ascii?Q?Ep+zBoriG+FhH/aLn381btdnA3iDmFWhgTBHtNj8Yg/KlP4Z65wkrWgIBunQ?=
+ =?us-ascii?Q?Gn1N95PQH5QdaWOlXvXQRzfD/4AlO74VNji9XW/uLduixw/rgR6UtO0WPAvw?=
+ =?us-ascii?Q?bwhBK6pIoeZcxx69XY2aEgZ4nnOFwQG07lh02aH3AE+LUjdc8WIrajcRi1QH?=
+ =?us-ascii?Q?0Mq+EXpDf28BlTlOZ1U9tIO6hKQNvke6HM62GVSoHT944czaXVWnsfEoku+K?=
+ =?us-ascii?Q?Qa1vRWqv6u5vlpRWfZ64ToFWUIUzdjxjDNf8/RVhPbzi7T55ie9PhEyQNf6K?=
+ =?us-ascii?Q?qNr53sfubVdvmtA+EOCU7lqsP3ANULYBXCtStSVRq3oTfrxj61oRG8l8X+eS?=
+ =?us-ascii?Q?6FnfThU4K92Z1EFM9dZ4VovsLI+iDxmACxZUU6YuPhfXVaqP1eFTbqy5f1uO?=
+ =?us-ascii?Q?LS4dygwFuxkVv3Mlj9TgMzwTsSXHgSbmWfyZIKKzdevFydTG+PaZMQxzfdf2?=
+ =?us-ascii?Q?YbO5Kz/f/dBYycMoW202TbZMNb2sbrfKYMF2ugggbU/0nhG1cEPCoOHjQy1u?=
+ =?us-ascii?Q?13ZJZ4+1Mt4Ko3F4PjF8lHb5pw/z2pq0XT3rHecUG9I4Q1R4EbeYaejN/REk?=
+ =?us-ascii?Q?Os7G1wW3szTm7unE9DDL9Q5a9g2SceiAaGNhb5VfIFdidFELtsfMPdi2Goe8?=
+ =?us-ascii?Q?4tqEtQbKIKdJp8MSGcfSrIOHSymKdIU/PMoRCRLx3RSE5YENeBH4mvSFymOk?=
+ =?us-ascii?Q?22pOWqskwKCwJZGv/97A3us0VCLItBVeP3pzSvjlM6UtXi50m6nxDKqu/YJn?=
+ =?us-ascii?Q?uuVNd4nJBN99Yon3NTtgogoYSvkfI5ynA59bgoWAqHLVLp5IhptiXky+NQpb?=
+ =?us-ascii?Q?WdvxMUMCssAgV4KXJ95GlDgcytl5XSjdCq3mvB6DdQSUGnlgUoZ/wpG4RkzL?=
+ =?us-ascii?Q?CwXkrwSm4nF5k8LooScGWWYfKbXibjki9ukZBgKGJmQqgKxIG75kZLFyVJL+?=
+ =?us-ascii?Q?RYJ/ONtNohRwvuzAVJGe4O3AoVvni/B76kbrjPASxFfFwfzjj7dTAlKaDHfO?=
+ =?us-ascii?Q?q+8iHjYLEFeElHoLLP7NEnsnHiTb5dTYrItPNO4vNBD/kmcMOsl7txYpmCsk?=
+ =?us-ascii?Q?kWbekb10t0DcQu7Wfi/WuiFP7TKrFjw=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57110213-e3d8-4073-557c-08def7994fc8
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5ff000c-a2cb-4fb7-9a31-08def7994d7a
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:11:37.4865
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 11:11:33.6214
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8AqdNzJH3IOjYoHj9ibfKTdEt2UR6OuykHoD6RhAGyAIcf3OE4238uHTcvNPwQQieCHaLda8p2cvyh0Kl7pXixPhue3tmKaUAsuoskHWIvE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1P189MB1135
+X-MS-Exchange-CrossTenant-UserPrincipalName: pEUtsHRcCriWVoqJAQ+rgwgU3ym7/qiGrcV+/fUilIiK4t8i/OQTAV3nNzu9le7KAX/qlXDeZswJmBgAlhNVtkzrh2JISOFWCQcz47cvTOU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0826
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 11:11:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243191
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243189
 
-SWIG 4.5.0 removed Python 2 compatibility macros (PyInt_*, PyString_*)
-from its runtime. Backport the upstream fix to replace them with
-Python 3 equivalents.
+SWIG 4.5.0 removed Python 2/3 compatibility macros PyString_FromString
+and SWIG_Python_str_FromChar. Backport upstream fix that replaces both
+with PyUnicode_FromString.
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...-removed-SWIG-Python-2-compatibility.patch | 57 +++++++++++++++++++
- .../python/python3-dtc_1.8.1.bb               |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-dtc/0001-pylibfdt-=
-Replace-removed-SWIG-Python-2-compatibility.patch
+ ...Python-2-C-API-macros-for-SWIG-4.5.0.patch | 70 +++++++++++++++++++
+ .../recipes-kernel/lttng/babeltrace2_2.1.2.bb |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-bt2-replace-=
+removed-Python-2-C-API-macros-for-SWIG-4.5.0.patch
 
-diff --git a/meta/recipes-devtools/python/python3-dtc/0001-pylibfdt-Replace=
--removed-SWIG-Python-2-compatibility.patch b/meta/recipes-devtools/python/p=
-ython3-dtc/0001-pylibfdt-Replace-removed-SWIG-Python-2-compatibility.patch
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-bt2-replace-removed=
+-Python-2-C-API-macros-for-SWIG-4.5.0.patch b/meta/recipes-kernel/lttng/bab=
+eltrace2/0001-bt2-replace-removed-Python-2-C-API-macros-for-SWIG-4.5.0.patc=
+h
 new file mode 100644
-index 0000000000..877aea3a8d
+index 0000000000..e0b042d62d
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-dtc/0001-pylibfdt-Replace-remove=
-d-SWIG-Python-2-compatibility.patch
-@@ -0,0 +1,57 @@
-+From 32378d7b4383a79d13da9005035600d8f0c8c29d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-bt2-replace-removed-Python=
+-2-C-API-macros-for-SWIG-4.5.0.patch
+@@ -0,0 +1,70 @@
++From 1c59884d4d3c74d8ea7257d9cdc0fa4b533ae7b3 Mon Sep 17 00:00:00 2001
 +From: Jitka Plesnikova <jplesnik@redhat.com>
-+Date: Tue, 29 Jul 2026 05:55:56 +0000
-+Subject: [PATCH] pylibfdt: Replace removed SWIG Python 2 compatibility mac=
-ros
++Date: Mon, 28 Jul 2026 13:29:18 +0000
++Subject: [PATCH] bt2: replace removed Python 2 C API macros for SWIG 4.5.0
++ compatibility
 +
-+SWIG 4.5.0 removed Python 2 compatibility macros (PyInt_*, PyString_*)
-+from its runtime header pyhead.swg (see commit 79f7a2b7cb7d). Replace
-+them with their Python 3 C API equivalents:
++SWIG 4.5.0 has removed some Python 2/3 compatibility macros.  The two
++that affect us are `PyString_FromString` and
++`SWIG_Python_str_FromChar`, which are both replaced with
++`PyUnicode_FromString`.
 +
-+- PyString_FromString -> PyUnicode_FromString
-+- PyString_AsString -> PyBytes_AsString
-+- PyInt_AsLong -> PyLong_AsLong
-+
-+The replacements are safe since the macros were already aliased to
-+these exact functions in SWIG's Python 3 code path.
-+
++Change-Id: I3c74d8ea7257d9cdc0fa4b533ae7b3a5ef9521d1
++Signed-off-by: Simon Marchi <simon.marchi@efficios.com>
 +Signed-off-by: Jitka Plesnikova <jplesnik@redhat.com>
-+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
-+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-+(cherry picked from commit 5008d1d6a356b8d0a78060da2e1021507d529cff)
++Reviewed-on: https://review.lttng.org/c/babeltrace/+/18423
++Tested-by: jenkins <jenkins@lttng.org>
++(cherry picked from commit 1c59884d4d3c74d8ea7257d9cdc0fa4b533ae7b3)
 +
-+Upstream-Status: Backport [https://github.com/dgibson/dtc/commit/5008d1d6a=
-356b8d0a78060da2e1021507d529cff]
++Upstream-Status: Backport [https://github.com/efficios/babeltrace/commit/1=
+c59884d4d]
 +
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ pylibfdt/libfdt.i | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ src/bindings/python/bt2/bt2/native_bt.i           | 4 ++--
++ src/bindings/python/bt2/bt2/native_bt_error.i.hpp | 4 ++--
++ 2 files changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/pylibfdt/libfdt.i b/pylibfdt/libfdt.i
-+index 1f9c0471..b1cb9873 100644
-+--- a/pylibfdt/libfdt.i
-++++ b/pylibfdt/libfdt.i
-+@@ -1136,7 +1136,7 @@ typedef uint32_t fdt32_t;
-+ 	PyObject *buff;
++diff --git a/src/bindings/python/bt2/bt2/native_bt.i b/src/bindings/python=
+/bt2/bt2/native_bt.i
++index 7f8d9f699..1807d8ff6 100644
++--- a/src/bindings/python/bt2/bt2/native_bt.i
+++++ b/src/bindings/python/bt2/bt2/native_bt.i
++@@ -56,7 +56,7 @@ typedef uint64_t bt_listener_id;
++  *
++  * We initialize the output parameter `temp_value` to an invalid but non-=
+zero
++  * pointer value.  This is to make sure we don't rely on its initial valu=
+e in
++- * the epilogue (where we call SWIG_Python_str_FromChar).  When they fail=
+,
+++ * the epilogue (where we call PyUnicode_FromString).  When they fail,
++  * functions on which we apply this typemap don't guarantee that the valu=
+e of
++  * `temp_value` will be unchanged or valid.
++  */
++@@ -67,7 +67,7 @@ typedef uint64_t bt_listener_id;
++ %typemap(argout) (const char **) {
++ 	if (*$1) {
++ 		/* SWIG_AppendOutput() steals the created object */
++-		$result =3D SWIG_AppendOutput($result, SWIG_Python_str_FromChar(*$1));
+++		$result =3D SWIG_AppendOutput($result, PyUnicode_FromString(*$1));
++ 	} else {
++ 		/* SWIG_AppendOutput() steals Py_None */
++ 		Py_INCREF(Py_None);
++diff --git a/src/bindings/python/bt2/bt2/native_bt_error.i.hpp b/src/bindi=
+ngs/python/bt2/bt2/native_bt_error.i.hpp
++index ba8cef097..2be1e347c 100644
++--- a/src/bindings/python/bt2/bt2/native_bt_error.i.hpp
+++++ b/src/bindings/python/bt2/bt2/native_bt_error.i.hpp
++@@ -19,7 +19,7 @@ static PyObject *bt_bt2_format_bt_error_cause(const bt_e=
+rror_cause *error_cause)
++                               BT_COMMON_COLOR_WHEN_NEVER);
++     BT_ASSERT(error_cause_str);
 +=20
-+ 	if ($1) {
-+-		resultobj =3D PyString_FromString(
-++		resultobj =3D PyUnicode_FromString(
-+ 			fdt_string(fdt1, fdt32_to_cpu($1->nameoff)));
-+ 		buff =3D PyByteArray_FromStringAndSize(
-+ 			(const char *)($1 + 1), fdt32_to_cpu($1->len));
-+@@ -1169,13 +1169,13 @@ typedef uint32_t fdt32_t;
-+         }
-+         $1 =3D PyBytes_AsString($input);
-+     %#else
-+-        $1 =3D PyString_AsString($input);   /* char *str */
-++        $1 =3D PyBytes_AsString($input);   /* char *str */
-+     %#endif
-+ }
++-    py_error_cause_str =3D PyString_FromString(error_cause_str);
+++    py_error_cause_str =3D PyUnicode_FromString(error_cause_str);
 +=20
-+ /* typemaps used for fdt_next_node() */
-+ %typemap(in, numinputs=3D1) int *depth (int depth) {
-+-   depth =3D (int) PyInt_AsLong($input);
-++   depth =3D (int) PyLong_AsLong($input);
-+    $1 =3D &depth;
-+ }
++     g_free(error_cause_str);
 +=20
-diff --git a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb b/meta/recip=
-es-devtools/python/python3-dtc_1.8.1.bb
-index 51abf3640a..915cd6a730 100644
---- a/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
-+++ b/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
-@@ -7,6 +7,7 @@ LICENSE =3D "BSD-2-Clause OR GPL-2.0-only"
- DEPENDS =3D "flex-native bison-native swig-native python3-setuptools-scm-n=
-ative libyaml dtc"
-=20
- SRC_URI =3D "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=3Dmain;=
-protocol=3Dhttps;tag=3Dv${PV} \
-+           file://0001-pylibfdt-Replace-removed-SWIG-Python-2-compatibilit=
-y.patch \
++@@ -35,7 +35,7 @@ static PyObject *bt_bt2_format_bt_error(const bt_error *=
+error)
++                                 BT_COMMON_COLOR_WHEN_NEVER);
++     BT_ASSERT(error_str);
++=20
++-    py_error_str =3D PyString_FromString(error_str);
+++    py_error_str =3D PyUnicode_FromString(error_str);
++=20
++     g_free(error_str);
++=20
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb b/meta/recipes-=
+kernel/lttng/babeltrace2_2.1.2.bb
+index 7c151bf729..9962ef377c 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
+@@ -15,6 +15,7 @@ SRC_URI =3D "git://git.efficios.com/babeltrace.git;branch=
+=3Dstable-2.1;protocol=3Dhttp
+            file://0001-Make-bt_field_blob_get_length-return-size_t-instead=
+-.patch \
+            file://external-python-tests.patch \
+            file://0001-src-explicitly-only-build-shared-plugins.patch \
++           file://0001-bt2-replace-removed-Python-2-C-API-macros-for-SWIG-=
+4.5.0.patch \
             "
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
+ SRCREV =3D "d0e946a71faf5f0c2d7f1fb5b92a369983e9cf10"
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>2(\.\d+)+)$"
 
