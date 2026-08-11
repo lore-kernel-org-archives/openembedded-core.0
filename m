@@ -1,72 +1,106 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B08C5B56A
-	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 18:33:23 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.61496.1786473197770515759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFEC6C5AC67
+	for <webhook@archiver.kernel.org>; Tue, 11 Aug 2026 18:48:53 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.61495.1786474126100886609
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 11:33:19 -0700
+ Tue, 11 Aug 2026 11:48:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DLE/zsgK;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202608111833147676a386ed000207a1-_vv1ng@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608111833147676a386ed000207a1
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 11 Aug 2026 20:33:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=OL4Jsjyyjw1Z8EpFOuiB02Mz+p6NhDYyU6Xzbd9cAbo=;
- b=DLE/zsgKND4qT/4lY0ifYLHiJJRzxCE28YIw8tnGII/umWjClpWH70OYLbl8j5/FyenyqJ
- +SygHbSnasQrQogXogAN2GMktpg7khSkHBqVPVjJ1ALn6Xe75kejoHMPpmusNFUHSsucmrFL
- kHEZvR4veJfq+nGbo9BLpugeGpAfmcGJpH3alcHghfzUNcH8qVdqcT7eIC+paGfNwrxuoN9Q
- R0BFOgUaq5WOHRuv1P6HRRamnTJy+7PUYe7jwT+O8iq7dCNzRb9MAAMYi77Qh5ToJII7PNXq
- 7klGK2EoCNrJnbX7eYcgGgboCtb1/lUDxflkhAIU+Ju5yPARYjALM/RQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] expat: upgrade 2.8.2 -> 2.8.3
-Date: Tue, 11 Aug 2026 20:32:56 +0200
-Message-ID: <20260811183256.2325708-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=IkI+s291;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C78931A1577
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 18:48:43 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 876A36033C;
+	Tue, 11 Aug 2026 18:48:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E11D911C4C0FB;
+	Tue, 11 Aug 2026 20:48:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786474119; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=es8s8oi8r0hnSVZrSAbaNkXv2pdFLLa5/eXleqlpveM=;
+	b=IkI+s291M/5h0koH0aheKqs7+RzH25dvCbpGNqRp/v+SleuUVZuyJgdGKCtA7wSabEMu/4
+	qWpLyOoMr28qW9fv78uBHImIfRZtnH4oUTzrZ4pLgb6tduk7mpDrlTn/n+BziKK1Huo8mg
+	EAP2s1uoCcj524HWmTGGxjsu3hJ+8wjDCDCWVDJMZmp3IBLUCiA5kEIPmqDGaB/zAuqQUi
+	VZ8E+H9j0vEFHmZAkdFPheZ8fJvWfZ6UJz6Kn0js3wCiN+ceRkzV+1iGM7QFi5COrg3hCZ
+	Ou2Cat7xytpmcoOc/yZ4OsYqVQ90KmwkayRhl57dRmDwvdfo0q8apbOXCbS6rQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 11 Aug 2026 20:48:37 +0200
+Message-Id: <DKMC7ZM6NDM7.3U64VA8LP2GYM@bootlin.com>
+Cc: <twoerner@gmail.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/2] gptfdisk: remove recipe
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260811153619.2048639-1-ross.burton@arm.com>
+ <20260811153619.2048639-2-ross.burton@arm.com>
+In-Reply-To: <20260811153619.2048639-2-ross.burton@arm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 18:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243219
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2026 18:48:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243220
 
-From: Peter Marko <peter.marko@siemens.com>
+On Tue Aug 11, 2026 at 5:36 PM CEST, Ross Burton via lists.openembedded.org=
+ wrote:
+> There are no dependencies on this recipe in oe-core or meta-oe now, as
+> the standard fdisk command in util-linux has both a scriptable frontend
+> and supports GPT partition tables.
+>
+> Also the last release was in 2024 and there's very little activity
+> upstream.
+>
+> As such, remove the recipe.
+>
 
-Handle CVE-2026-72522.
+And break the build :)
 
-Release information:
-* https://blog.hartwork.org/posts/expat-2-8-3-released/
-* https://github.com/libexpat/libexpat/blob/R_2_8_3/expat/Changes
+Looks like we do have a dependency on gptfdisk-native. Maybe this match
+in meta-yocto?
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-core/expat/{expat_2.8.2.bb => expat_2.8.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.8.2.bb => expat_2.8.3.bb} (92%)
+meta-yocto-bsp/conf/machine/include/genericx86-common.inc:do_image_wic[depe=
+nds] +=3D "gptfdisk-native:do_populate_sysroot"
 
-diff --git a/meta/recipes-core/expat/expat_2.8.2.bb b/meta/recipes-core/expat/expat_2.8.3.bb
-similarity index 92%
-rename from meta/recipes-core/expat/expat_2.8.2.bb
-rename to meta/recipes-core/expat/expat_2.8.3.bb
-index 0b9dbe161b..79e8c15227 100644
---- a/meta/recipes-core/expat/expat_2.8.2.bb
-+++ b/meta/recipes-core/expat/expat_2.8.3.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
- 
--SRC_URI[sha256sum] = "69e7f52417d85b1c2b7fe855e176eec55d0b2d7d92d691372d833a1c7df7923b"
-+SRC_URI[sha256sum] = "b4cc2483927d5e90bf8c40b44a6b95b368b42a8a96e25883fce188b48a92b670"
- 
- EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
- 
+Here is the error:
+ERROR: Nothing PROVIDES 'gptfdisk-native'. Close matches:
+  gperf-native
+  gtk+3-native
+  gtk4-native
+ERROR: Nothing RPROVIDES 'core-image-sato'
+No eligible RPROVIDERs exist for 'core-image-sato'
+NOTE: Runtime target 'core-image-sato' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['core-image-sato']
+ERROR: Nothing RPROVIDES 'core-image-sato-sdk'
+No eligible RPROVIDERs exist for 'core-image-sato-sdk'
+NOTE: Runtime target 'core-image-sato-sdk' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['core-image-sato-sdk']
+ERROR: Nothing RPROVIDES 'core-image-minimal'
+No eligible RPROVIDERs exist for 'core-image-minimal'
+NOTE: Runtime target 'core-image-minimal' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['core-image-minimal']
+ERROR: Nothing RPROVIDES 'core-image-full-cmdline'
+No eligible RPROVIDERs exist for 'core-image-full-cmdline'
+NOTE: Runtime target 'core-image-full-cmdline' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['core-image-full-cmdline']
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4388
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/4362
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/65/builds/4336
+...
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
