@@ -2,587 +2,221 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A79C5CFEB
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 08:54:47 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.18])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3616.1786524882971122681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8163C5B56A
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 08:56:27 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3783.1786524984630400137
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 01:54:44 -0700
+ Wed, 12 Aug 2026 01:56:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=0oBpkmUU;
- spf=pass (domain: est.tech, ip: 52.101.72.18, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=qFbXxyZb;
+ spf=pass (domain: est.tech, ip: 52.101.83.44, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o5AK6PRXV50yk9/WsBfXdsN04ufjOs6RGZ+IpylvyyMFFThEj7t3IdDYaq67HLGTbO9mvRV//ekPAN2lhmvfAw0hN1lkes129U/1Ghplv7XM18wslMocYZgdVMGxaNAWYyOyOXXYXq2fGq0dPWxgXUQn8CW9N999RoeLxLKfADKSzkrHpzl7yuiLcAIEJKlY30xvqbyiXjkftBLX8aU+yzbyKpp3s6Y34QKqWoEW7NPAWRfiaZ0EWasO8Ooad7iQr4xvydEZ1HKRR9uR1OOET47qeNK477J/3eaywkXy1Y4kEv3liOxo5KKgd027MDG2qx+klzElD372xl7ff+kTsg==
+ b=vEAA25MzTKdKlmgasQln6q/WdjGtQyBRusH6KLqOlghJWYS0F9/+njNnpKuPkzr0JI19IgUIxBHgyUi7FBETWSGeFFGYZnl44glR3ZFK++hkD5mbTg+MCluA/FUqsJcfduR7bHmqimcSGFX2n962Opyez0YBZzfhXbtrAxts/Cf4233cmXJo25ezyPB+YXiRYSjGgaW9/fRYyLw2kxUyle8UB5TXLKkofgWKMV491c2g+PPEqvrMEWMIVujl/UY6oiIW9bSZ7TzE5Re2LvxqIphC929qhIIA4SN4HbNYWdTE8km7Que/ap/6xScrQ36R6vpxFa6CY/CQUhNIfBMrHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lJy8HCD9PzlbGGNEjBQn6VcfuIFBAjaelUmmIHR2tTE=;
- b=kGTuxVh28WcKvDN5mSd5mJ7GDyWwgBdrVvDPIqCvV7m8M07h+hrh5uFDkjGmvHPsZMJ0dK0cvCA+aNXL9YAWb48YWAUMWgEfrkOh1DfJS0rYAym6l32V02QTiercHSUw6KbmkTZosxMqLmAn0VE1FCqAQRBn81h6IPmksmiqBPjRCBuQW5VHag3/RJ7NvAaNTQhn9eqKxhUtj6Kg4aoouZn4rO+yToUeN4NqJLnJmB/ebWSN4u6IxCAC1n8CgtZz1wmSsqiU3KwdhuIAIaqRqMPuXpfilXFnQFRodDSCXwVe60YawUq3lyYBJZK4/wL7riaCTGbMmNKmW+4LOhzdFg==
+ bh=EyQhdrNR47uukV29HAN4XWR3L2KFKt6ywxmldp9Ym9A=;
+ b=Fx7CqcexVv21vwFtPhjFI1c7DZpAhnS8B3MUxhXflvP0wWep87bWOOJzr0ltJaRe0gqTlSzJjkgR4QxZi4sY7GOI8jP+g38Wq2f0d/SY1dS1Y5Pif0ExR0CwonR/ypgyoV00rCF74Mntjwg5WT/PKLNWlqJp9YJSF9TB4gN9aL8dOK0SD+pK5p3NIYysAZhRIy23I7/Du1srltu7Jy5G9x9gQkDka894GXEnqWRqE31ddM5qsJ84pkswbB0WuV6iww3GFAacucf1yNrIJu4f5o72m6pntNs03AK/6Zd/me8p/mPEyzHR2teNrJ4QyeZlhDRb3ELvjdJ/LtztPFuDQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lJy8HCD9PzlbGGNEjBQn6VcfuIFBAjaelUmmIHR2tTE=;
- b=0oBpkmUUQKjjqpU4nZagHeO4PWImbvXCRB6RcrPVlchAhOlwOe04UYjGT8DWPzD673MNc0f3QHRG5o0XPsHMRVPA+ey2lKSeuhFrRFqu1SZP0TOjIplFiQ0KHEE/Xzs09xMG0ufEDkYl4UEj3C4wQCxy2NNT0vPb4hO5du0bmaobUxaN8YX5v54cO1SUOLYkecQbg6ivdkq7cFhWec4TokZoGPzprK2QzAr5hY1/mQFYOkiNX5vIlcimr6hKQN0dTZqpIXHOBGGNlrcvisHe4mXiREXEuiT6pOeD7nCPXIy966IxiGyiThTRszGuyxoMPRQnGv8vKV8KSnN/zquARw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
+ bh=EyQhdrNR47uukV29HAN4XWR3L2KFKt6ywxmldp9Ym9A=;
+ b=qFbXxyZbI2uMho5ukt6f1VIwYaG++4g8V9qHaUveSgqE4eXAN1xITuCmpdJHo1i38HenUicrx5zCplLZafznNLH2FjBaFLvWBVIUtXB9oAcLJmnOIeQ0j4VkaEnJgBwFFvJIjQdGMASg39lXr+AFPOiIl4AZyW6AaKXBNXruM5j7IC5xM9CvPBMTd66yww9FhC3zBDbrRho9pRghhmf/gyd9LO6fNJCH1dFUzPeIjhe/NOsPepJ2rk2ugp9rC6iMXITrr3urWaW5pN/ko19gbGtdl+4EZDtgsnr78mRjeue0vBZSKTW5VZFrWbWxbWBK87jMbiMzP3xTZt1zj1Ftwg==
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by DB9P189MB2099.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:397::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Wed, 12 Aug
- 2026 08:54:38 +0000
+ 2026 08:56:20 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
- 08:54:38 +0000
+ 08:56:20 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [wrynose][PATCH 1/2] binutils: Patch for CVE-2026-15003
-Date: Wed, 12 Aug 2026 10:54:31 +0200
-Message-ID: <20260812085432.22810-2-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260812085432.22810-1-jaipaul.cheernam@est.tech>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [wrynose][PATCH 0/2] binutils: fix CVE-2026-15003 and
+ CVE-2026-18220
+Thread-Topic: [wrynose][PATCH 0/2] binutils: fix CVE-2026-15003 and
+ CVE-2026-18220
+Thread-Index: AQHdKjgzim0nT3AJrUCBhgM410PiNbaaHEyA
+Date: Wed, 12 Aug 2026 08:56:20 +0000
+Message-ID: 
+ <DU7PPF66507B2D78C5BDBDB4B34215D85FEF3DC2@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
 References: <20260807140902.4732-1-jaipaul.cheernam@est.tech>
  <20260812085432.22810-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0057.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:469::6) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+In-Reply-To: <20260812085432.22810-1-jaipaul.cheernam@est.tech>
+Accept-Language: en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-reactions: allow
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU7PPF66507B2D7:EE_|DB9P189MB2099:EE_
+x-ms-office365-filtering-correlation-id: bf907a65-7164-4d43-e005-08def84f93ed
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|38070700021|6133799003|10067099003|4143699003|56012099006|11063799006|18002099003|22082099003|8096899003;
+x-microsoft-antispam-message-info: 
+ 8ulMQZWtlCgGnQLDwKM/Laj5qMRbGrRmslIXgVHxxhqK6DfYJYmpfKU4U8RAtSeC03Cb1jfjcz8Q0OiP2NCgdc5JCVisSwRb5gkcUaGxWUeYvmpM4VyDvY+ipWRow0XgPxoj7z/R+eiqKg81sskSefJDTJpV9qwLvMDkxkWfCpXaEc5meMg1qr5DrNPib2fasf+rDrQPdqWjxEDZuKj7IM6EAlBKo+8l7twFzZAq/mLoC4PDAyrecktAHR1dgsECKo6atnUKeLJ4snFz3HC+0o9UTcIT3Fey9h4y+DAV/KcLyMLfxidldas0k8SBSfJn+nP6V+OCHsV5BAUv8CxR66NsXQ3jU5S1WY850m9uzLQM6+F0GxmDkZAFHr2duwvvZaZAQzDsQ8eiSrE1LgCkP15N1qTuXnXitShDrMh8z88egiTNkRplHmtqLs3PGDYn1KkwlYBBc43WP0U9k6NlVA0cBe3o0EUgHP1sk7QGWiYUhkuY2S7ZxOHpdH9B1wEVeYcFDCzfmCgpOswYXnUfcJNMMhOls+hfAVuwa8dS+OupjT3egquVm+O9IcZfSO9u2QeT7YHIWLFJ5KF2b1pmn6Cd5nX/UxE0sqQss6rt/YgEiugAljwBg9s8GfPDM0iWYeVYnx6mQS3D+Ya8D0QV+H9AJ0DRJb3jI358DuNSHLpJekUAtuSUWwEoLGph8RMp1fCfbJsN+3hEY1XjHggD8w==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(38070700021)(6133799003)(10067099003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003)(8096899003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?enorbnRETFFJMkpNYkpEVmptVWhPK1liTGtmMUFBTkpIRm9LMVI1RXplcTZR?=
+ =?utf-8?B?aEVIaUkrK1NmWThuZytlQnlrYndwQit6SGFvajVpS3liNXZnU3RSTElMWFNC?=
+ =?utf-8?B?M28wc1RGaloxVVVId3VxTWNmaHljNVRGK0dvWTQ3VExDTlE5NnRCYTdVS2tL?=
+ =?utf-8?B?MFV5SFpkZURWT3ZKVy80cVNaVGt2ajdDRTF4b3AwUWxJWFA4eG1MZHRVcnhN?=
+ =?utf-8?B?Z0lmSzdyMnZBWEo1ZkZ3NHpHS0lPQldTSVV3bWJ4blFvcTZha2luTzlkK2RK?=
+ =?utf-8?B?QllEWjRSZldiOVVKMm5EQ0V0ejlwOUQ5VTgvcFdCK3c5VTR5QktDb1dzelBu?=
+ =?utf-8?B?YmhLMy8wenNXT2wzclQrcWp6YXhJU3VycExBYTVDN3JWYzdvZmM2NlNzTXh2?=
+ =?utf-8?B?US8zKy9kS0hOTE5hK0NCMkNjNUE3Ry9PY1A1WVh0MGJnTW1nNThJMlFxTitV?=
+ =?utf-8?B?L3IyUkhDQzM2Z0JiWmlPdzIrWDB3QU9rZzh3c3J5THVwdkhlQURLUlFmRmpz?=
+ =?utf-8?B?allobElSSHJYRGF2WUdIZ2cxeUVCaXk1UWcyUVliOEt3MzRDTEJJbUthL1NE?=
+ =?utf-8?B?SGp5ZnovdmlDYlBMN2dtQ0FKNjBpTDBzNFNpeTJNa1lsbzE2QnZBak5ySklB?=
+ =?utf-8?B?R1dmd2duUHlDWlNGMUE0UWpsWkFmbmtlV21hUXFQVkVCcnc3cVR6YUt4SE5H?=
+ =?utf-8?B?TkQwbDZaa0VLKzRzNW9GTlMrQVl0THNnN0xYUG8zYm90MlJWZVozWXNIVzF0?=
+ =?utf-8?B?cnIyc2ZETDA0clJieTZnQzd2bmw1dlZlM2FQNDRKNGRWT1c0ZUxuRVNTVElk?=
+ =?utf-8?B?L2ZVMFEwMnFDNG9tSE5MSmNCeFNkTi9UbGdBSGJVWXA1MFN5WlgzV2h5QTlu?=
+ =?utf-8?B?MmJmMFRKSEI0aGpkV01kb2RhampyckRwNHNhNHNTaWlKSkNvTnVENGRDS2F3?=
+ =?utf-8?B?a0tsNFpyOW1uQ1MrUXAvQXB6c0RxcUpOWDVLRXVBd3dMQ3ZJT0RXalZ0bHhr?=
+ =?utf-8?B?Y3ljMXJhdFBLSWhKb21tZ01TL2VvTC8zajUwRWV1NEg1b1gxanZ6SGRqQVdz?=
+ =?utf-8?B?WDlEVTEwNFY3MXYzS3ZBcGZrVTcvNGN0Nkt6UG04azJVK2dzN2ViYUVFcEFF?=
+ =?utf-8?B?bXRGNjg0ZXgvenpaZWxIOVMrWTVsUDAwb0RZSmJVQXdRWk1aV0sxQW5uWDh0?=
+ =?utf-8?B?cWJZWVJabThabFJhOG41ejJMMEE0eHcyWS9yYU5CZjJuZDNsc3Q5eE8wNjBY?=
+ =?utf-8?B?YU9Ya3ZUY05Vb0o2M2YrR3hSRzFTMlF4MllqeXloWXZWUTZLVWpteFNEc1VY?=
+ =?utf-8?B?RTE0MzBzSG9NemJiZ0E4YVRCdlZDQS9JTk82V0k5c0srVXFaZHhjMlArWHF4?=
+ =?utf-8?B?OXJWZDZIVmhCb1Z0SkpTbXg3MkVQRnRLS1F1YzB1eEM1akF3VGpFL3RyT1hT?=
+ =?utf-8?B?QzNmYkR1N3p3aEgxeFN2Y0dOcmZGSXpSOW9VTVhsZ1hGZEJPdUdjanJqd0Er?=
+ =?utf-8?B?b1VjM2hYaVBTR2t0SVF2UTg3VG8ySDBReTJQOVd0OEp3Vi94YnNZbWF0QTlm?=
+ =?utf-8?B?N2x4c0dzenVkMSs4QWE5SW9vWk5wWlJhZHNGajlOeDJENFpqam1OdXMxTkFz?=
+ =?utf-8?B?bnZaNUNHc2VPeW96NzNML2J0QlNhdjZTSllQaktnbTc5Zk1FM3dHcFcvUXA1?=
+ =?utf-8?B?ZS9FY0l5YVBFVGFZcTRMMGhod3hDeDRSSktkUVdkMzhlMlZ5SlFuWDdROTFo?=
+ =?utf-8?B?WTRGa1dyM2ZsSVAwbi83bmNnM3ZUcFUxVmZldmxTUW41YXBuS1lVb3EzSFM5?=
+ =?utf-8?B?azh3ZVBEQXdPdjZPazEyaDZUazZXd2xPR2pPYUNocVdhNVBVU1VWdDd5WHhL?=
+ =?utf-8?B?OUJTdWQvK2RoY1c5WksrNFZpRDNuZngraDY0T2UvQmp2aWlpOXBkUlZGNHo3?=
+ =?utf-8?B?MVNJSkJyajkrWUsvUnBVNHk0N3V6bk1nelQ5TDFrRC9JaG5NQjlJV2FSdENs?=
+ =?utf-8?B?YXdlODBmRHd4MGlBSkt3WXZtL3BKdWhBNTV0T21NOUZkMUZYVzNJelRGdENR?=
+ =?utf-8?B?U3JTVG52TndWQllHNkN1WlVLR09hbzJBWEhoaDI5QzFsV21LUXVxenY5Z1Ez?=
+ =?utf-8?B?cURFaUpFWlB5TkNsZGZRUlFNZXk0WlM4RWN0MWNObUVOMlUyMU5JUUluZG5i?=
+ =?utf-8?B?clFGYXUvMUJ5eXBHRXoveG41UVJKSkc3Qm85OFFCQXFrU3pOdFBONi9oQ05Y?=
+ =?utf-8?B?OXcyVG1tMU84ekpXeG1BM2dXNkd1NGJpL3RLcjE2cUltZi9ac3E4azVodG5H?=
+ =?utf-8?B?ejcySWdVSnZQbnhSSjVvTjVoUmlubldOd0FhQXNodWw0azcvUkdEd2lKdi9L?=
+ =?utf-8?Q?x1i/kiqp+qC2/i1E=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_DU7PPF66507B2D78C5BDBDB4B34215D85FEF3DC2DU7PPF66507B2D7_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB9P189MB2099:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe7ef1ab-274d-43cc-2aa3-08def84f574c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|13003099007|6133799003|10067099003|4143699003|56012099006|11063799006|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	xYaHdGHlRXh2dT/OzVF7xfTvIXHOqYjiQITamftGpXhCYUCb1RnbFBG9RlDcsLhhxdxTyJ4NdaS31gP+luBGktmkTATVcQE3MOWaz7qToaNK14hJTk9Gtj2s0OrJgTZ60fv554Q3xuB8iyWfr0dVnjaMzpYMLJLg0w544egG8QREqsBipsPH8VvLsBFSn8E/uaGWon0OMcrKyDDum1YkcM+3nB6lM/2LKBtommKF2/+HLe8KXTKewKF4gchbJizfmvQ+QqqTbwLaCTs2h6t3JK0guVTnzITquuxprc+320di6KS6nosZ5Y5UxnE/wuLcnoZRS/NO6ceAw29LIpm9X1VMsOqngMia4I69iUWelK59KzCL0MdTcrrnPMBgUpCJcoe58hYlRqPTpmoJoipQFpdlbvmD5E4ggqiGyryJCDTM49mCeDb96dPxA8zNAuHwdVfq4epMjyEDmaoPmdGkPi+R74xuxF9Ka+XwzKHz22+iwztmRh017b8s6INYEhMRkrZ7xKdJ1C3fYnCE51m5qPypIlxx9lBQg1Xn5AMtYQP52gme30MdOnDPnSB2AGS6HkVPbDiEg2CerCseChbOGBeCqqy9mfPWIxyLOpxQOydlfwPaLRPUsG7BRxexPC3r
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(13003099007)(6133799003)(10067099003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2K6PTj7vQ1aR65xUOy5edB3sf5yXE88msy42WjuXlQx6bJtHkXLcUZKK3jDk?=
- =?us-ascii?Q?YOeYd7sw0vKe6sPQYH4MwzuWxoa01peGIU0ZOcJZQAmPO0lB4dITKH8QmbQB?=
- =?us-ascii?Q?ed9li5Z3iIkGRLD0ZvT9u+R56gmf7YK/JJWGwjydBMQtTuzfQKB6KlTrDLOg?=
- =?us-ascii?Q?quem83Eq+PK10hj1IvAmsJEGIh+GIndGCz+5lSI8PG6uDKe/NaBcTYkz0Wt4?=
- =?us-ascii?Q?YAhzDhZW+uXtu1ZLiA6argKuCVhCB23epvVFwuuK8im6+QaKAKBihqGY4gW5?=
- =?us-ascii?Q?wT2rfM9okrYXJo3bDnNCDm1E3mNKvp8TIlyNPSkqFiXQdTdE6+y8/W+T8YUa?=
- =?us-ascii?Q?P7darIyF1mpP9BIXPh7ka8w+f21/Pj/ZuNO9dBPTxnFRLTq3+h5k3hepJJZ4?=
- =?us-ascii?Q?oSBCM6wjJnKDzSQWxLkBCD8793V5pwqtJAsK9GXN96VCEwOGEYzQvUgIwFMT?=
- =?us-ascii?Q?IfibRTxA0WABNvnORwN0XFV1ttO/IcbMXJxBPbGG4a0Ns6Xvam5ztvGck0Cx?=
- =?us-ascii?Q?1fwifgGpoI+TBMQeFCl71QTyGKmJm5FB/2y8PVhHye+awTcbHhnsBSxv2oDM?=
- =?us-ascii?Q?T7HxZYZ4/OB+UpFKBU0edvNGkS3rzWT1rKEZm86XRTaU5UWoPgUEyBlv83i3?=
- =?us-ascii?Q?hmEoU5sB6x2pKRWl1AWqMWHfYall5ENuQbG1U6OAJPkxTfxmPxdxaWFtUvXf?=
- =?us-ascii?Q?Bsy19rGLCKkarjiGS2YebvuIRcOBHiy/mihfkUCPVv3ZzIzX5z+w/P5PPFgA?=
- =?us-ascii?Q?T9fP1NqXRL9nOiDvU2MYjeybC1GO9RPxR9J2NeIyOlZe0viaOpRpWlZKmVvv?=
- =?us-ascii?Q?BL868Q8PxUmSlrfUogusVpaFAA25ofq+5NE0EMF2ZoQH0S9adG9Z8iaHQkLp?=
- =?us-ascii?Q?9e4Bd5rQ06vTgkVTdazYXQsRIRb1JQ4lmJUDaVgUv073/kc0h3uzjVXQLi9a?=
- =?us-ascii?Q?3nyZX8ARf2vzVNLn9bT1jBLI6gxshiEnuMqC89Wgn+/9D0mbzqjYSMBHL6Hm?=
- =?us-ascii?Q?kspXoqIwwCrG8WuI2sBQriz9cFlzv0H2uonIt/hg6PJhZ9WYVdw9WdmqfONf?=
- =?us-ascii?Q?OPrrSmHBJOimBK5C1i/cEWDEiqKZaxtwQcLcR9rGL1YsOWZSxuYqcqncc3nP?=
- =?us-ascii?Q?i8UDVGxfGhpYiYh49V0wDqNyGVngnk7v4idgCsAIf/JbKCWxNfVhjp3bUyc/?=
- =?us-ascii?Q?6lxrvT4eb2UA7U4ERldcBqA+eGapjojVPyjrq0R77dkaUBS/vAAB6Tv6k5O5?=
- =?us-ascii?Q?7Vz8OArEHBDERfu5LAo113VZyc+jCNyOF9X2J2s3DdUqPjSKFEUI589+x26t?=
- =?us-ascii?Q?jTuAl4leX9JQbiD/fxanFTUGQYjtVujHt9XQUrnn5VS0eNllFjGA70UHF3qO?=
- =?us-ascii?Q?1mAWGFRlaAGH2mN+EsMsaMwXhJmr5CQZX9lbSG1GBsKp+qBmZTSmRqVEFrdB?=
- =?us-ascii?Q?c3emc6SjyXcUOCBRVErD7PI+X8OSdJ/GdlKM6eXMOiph8tVTPN4Cqzz5A6J+?=
- =?us-ascii?Q?d+Dq66aDJmAwSuTxhTypgQ3liR+97/8byvtsPxo55P6bf8I7YYIfRMzkXbme?=
- =?us-ascii?Q?qETCDM4aqjATHmevRTZ8qcYN3ggzRQfTkD7+zsRX97VgP0pNKNwcX8ZM3WMG?=
- =?us-ascii?Q?xWHexGJFoORrHN8LWI9q2dNAwayWv4yoDlDNUMe0lFJAQJcxVxZ8arqxXgTq?=
- =?us-ascii?Q?EOUc+pAxLbk3RAswnhwbTuDiaynkDiXnO1apfQLf9eNN2ia5d5wiu3yPwCKE?=
- =?us-ascii?Q?Eya/rw2qt7o+2pZkhUqqLZwk4qktME8=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe7ef1ab-274d-43cc-2aa3-08def84f574c
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 08:54:38.5256
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf907a65-7164-4d43-e005-08def84f93ed
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2026 08:56:20.1039
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G/QeRQ3hOpMQ3d1v/PCHS5PTk7kN0dtnr23Wz2GZ9wayGGWE5v5b+kzoAwnknEYevH5NfKyhQ3XsprgKGcjjVeAkZHAFTSiYrCp7D9cd7pw=
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: t9B4i4oQtsQSR24gNlc891Sz3Tdq90Or1OCOiN2cFtHDJaPopvy/1NrmV3wS5/QgoEEh070azf26OqLdp5PqdS41yW31wtLlbQ24UlnwHDQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB2099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 08:54:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243261
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 08:56:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243263
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-15003
-https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D23acf2f003f8=
-1b2f8d9d1997ea45d822d33d386c
+--_000_DU7PPF66507B2D78C5BDBDB4B34215D85FEF3DC2DU7PPF66507B2D7_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Test results:
-  binutils-testsuite 2.46.1 (x86_64-oe-linux) - All tests PASSED
+U29ycnkgZm9yIGNvbmZ1c2lvbiDimLnvuI8gLi4gUGxlYXNlIGlnbm9yZSBteSBWMSBhbmQgSSB3
+aWxsIHNlbmQgVjIgYnkgZml4aW5nIC4NCg0KUmVnYXJkcywNCkphaXBhdWwgQ2hlZXJuYW0NCg0K
+RnJvbTogSmFpcGF1bCBDaGVlcm5hbSA8amFpcGF1bC5jaGVlcm5hbUBlc3QudGVjaD4NCkRhdGU6
+IFdlZG5lc2RheSwgMTIgQXVndXN0IDIwMjYgYXQgMTA6NTQNClRvOiBvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnPg0KQ2M6IEphaXBhdWwgQ2hlZXJuYW0gPGphaXBhdWwuY2hlZXJuYW1AZXN0LnRl
+Y2g+DQpTdWJqZWN0OiBbd3J5bm9zZV1bUEFUQ0ggMC8yXSBiaW51dGlsczogZml4IENWRS0yMDI2
+LTE1MDAzIGFuZCBDVkUtMjAyNi0xODIyMA0KDQpCYWNrcG9ydCB0d28gdXBzdHJlYW0gZml4ZXMg
+Zm9yIGJpbnV0aWxzIDIuNDYuMToNCg0KLSBDVkUtMjAyNi0xNTAwMzogYnVmZmVyIG92ZXJmbG93
+IGluIHhjb2ZmX2xpbmtfYWRkX3N5bWJvbHMgKFBSIDM0MDUzKQ0KLSBDVkUtMjAyNi0xODIyMDog
+YnVmZmVyIG92ZXJmbG93IGluIGVsZjMyX2RseF9yZWxvY2F0ZTI2DQoNCkJvdGggcGF0Y2hlcyBh
+cHBseSBjbGVhbmx5IGFuZCBhbGwgdGVzdHMgcGFzcyB3aXRoIG5vIHJlZ3Jlc3Npb25zLg0KDQpU
+ZXN0IHJlc3VsdHM6DQogIGJpbnV0aWxzLXRlc3RzdWl0ZSAyLjQ2LjEgKHg4Nl82NC1vZS1saW51
+eCkgLSBBbGwgdGVzdHMgUEFTU0VEDQoNCiAgYmludXRpbHM6IDMyNyBwYXNzZWQsIDUgdW50ZXN0
+ZWQsIDkgdW5zdXBwb3J0ZWQNCiAgZ2FzOiAgICAgIDIwOTEgcGFzc2VkLCA0IHVuc3VwcG9ydGVk
+DQogIGxkOiAgICAgICAxODk5IHBhc3NlZCwgNyBleHBlY3RlZCBmYWlsdXJlcywgMjAgdW50ZXN0
+ZWQsIDEwOSB1bnN1cHBvcnRlZA0KDQpKYWlwYXVsIENoZWVybmFtICgyKToNCiAgYmludXRpbHM6
+IFBhdGNoIGZvciBDVkUtMjAyNi0xNTAwMw0KICBiaW51dGlsczogZml4IENWRS0yMDI2LTE4MjIw
+DQoNCiAuLi4vYmludXRpbHMvYmludXRpbHMtMi40Ni5pbmMgICAgICAgICAgICAgICAgfCAgIDIg
+Kw0KIC4uLi9iaW51dGlscy9iaW51dGlscy9DVkUtMjAyNi0xNTAwMy5wYXRjaCAgICB8IDQwMiAr
+KysrKysrKysrKysrKysrKysNCiAuLi4vYmludXRpbHMvYmludXRpbHMvQ1ZFLTIwMjYtMTgyMjAu
+cGF0Y2ggICAgfCAgNjUgKysrDQogMyBmaWxlcyBjaGFuZ2VkLCA0NjkgaW5zZXJ0aW9ucygrKQ0K
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRp
+bHMvQ1ZFLTIwMjYtMTUwMDMucGF0Y2gNCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2JpbnV0aWxzL2JpbnV0aWxzL0NWRS0yMDI2LTE4MjIwLnBhdGNoDQoNCg==
 
-  binutils: 327 passed, 5 untested, 9 unsupported
-  gas:      2091 passed, 4 unsupported
-  ld:       1899 passed, 7 expected failures, 20 untested, 109 unsupported
+--_000_DU7PPF66507B2D78C5BDBDB4B34215D85FEF3DC2DU7PPF66507B2D7_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- .../binutils/binutils-2.46.inc                |   1 +
- .../binutils/binutils/CVE-2026-15003.patch    | 402 ++++++++++++++++++
- 2 files changed, 403 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-15003.=
-patch
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdiBzdHlsZT0i
+ZGlyZWN0aW9uOiBsdHI7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXJpYWwsIEhlbHZldGljYSwgc2Fu
+cy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpTb3JyeSBm
+b3IgY29uZnVzaW9uIOKYue+4jyAuLiBQbGVhc2UgaWdub3JlIG15IFYxIGFuZCBJIHdpbGwgc2Vu
+ZCBWMiBieSBmaXhpbmcgLiZuYnNwOzwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7
+IGZvbnQtZmFtaWx5OiBBcHRvcywgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1z
+aXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgaWQ9
+Im1zLW91dGxvb2stbW9iaWxlLXNpZ25hdHVyZSI+DQo8ZGl2PlJlZ2FyZHMsPC9kaXY+DQo8ZGl2
+IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcmlhbCwgSGVsdmV0
+aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4N
+CkphaXBhdWwgQ2hlZXJuYW08L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyBmb250
+LWZhbWlseTogQXB0b3MsIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTog
+MTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXYg
+aWQ9Im1haWwtZWRpdG9yLXJlZmVyZW5jZS1tZXNzYWdlLWNvbnRhaW5lciI+DQo8ZGl2IGNsYXNz
+PSJtcy1vdXRsb29rLW1vYmlsZS1yZWZlcmVuY2UtbWVzc2FnZSBza2lwUHJvb2ZpbmciPg0KPG1l
+dGEgbmFtZT0iR2VuZXJhdG9yIiBjb250ZW50PSJNaWNyb3NvZnQgRXhjaGFuZ2UgU2VydmVyIj4N
+CjwvZGl2Pg0KPGRpdiBzdHlsZT0icGFkZGluZzogM3B0IDBpbiAwaW47IGJvcmRlci13aWR0aDog
+MXB0IG1lZGl1bSBtZWRpdW07IGJvcmRlci1zdHlsZTogc29saWQgbm9uZSBub25lOyBib3JkZXIt
+Y29sb3I6IHJnYigxODEsIDE5NiwgMjIzKSBjdXJyZW50Y29sb3IgY3VycmVudGNvbG9yOyI+DQo8
+ZGl2IGNsYXNzPSJtcy1vdXRsb29rLW1vYmlsZS1yZWZlcmVuY2UtbWVzc2FnZSBza2lwUHJvb2Zp
+bmciIHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyBmb250LWZhbWlseTogQXB0b3M7IGZvbnQtc2l6
+ZTogMTJwdDsgY29sb3I6IGJsYWNrOyI+DQo8Yj5Gcm9tOiA8L2I+SmFpcGF1bCBDaGVlcm5hbSAm
+bHQ7amFpcGF1bC5jaGVlcm5hbUBlc3QudGVjaCZndDs8YnI+DQo8Yj5EYXRlOiA8L2I+V2VkbmVz
+ZGF5LCAxMiBBdWd1c3QgMjAyNiBhdCAxMDo1NDxicj4NCjxiPlRvOiA8L2I+b3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5DYzogPC9iPkphaXBhdWwgQ2hlZXJuYW0gJmx0
+O2phaXBhdWwuY2hlZXJuYW1AZXN0LnRlY2gmZ3Q7PGJyPg0KPGI+U3ViamVjdDogPC9iPlt3cnlu
+b3NlXVtQQVRDSCAwLzJdIGJpbnV0aWxzOiBmaXggQ1ZFLTIwMjYtMTUwMDMgYW5kIENWRS0yMDI2
+LTE4MjIwPGJyPg0KPGJyPg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9IlBsYWluVGV4dCIg
+c3R5bGU9ImZvbnQtc2l6ZTogMTFwdDsiPkJhY2twb3J0IHR3byB1cHN0cmVhbSBmaXhlcyBmb3Ig
+YmludXRpbHMgMi40Ni4xOjxicj4NCjxicj4NCi0gQ1ZFLTIwMjYtMTUwMDM6IGJ1ZmZlciBvdmVy
+ZmxvdyBpbiB4Y29mZl9saW5rX2FkZF9zeW1ib2xzIChQUiAzNDA1Myk8YnI+DQotIENWRS0yMDI2
+LTE4MjIwOiBidWZmZXIgb3ZlcmZsb3cgaW4gZWxmMzJfZGx4X3JlbG9jYXRlMjY8YnI+DQo8YnI+
+DQpCb3RoIHBhdGNoZXMgYXBwbHkgY2xlYW5seSBhbmQgYWxsIHRlc3RzIHBhc3Mgd2l0aCBubyBy
+ZWdyZXNzaW9ucy48YnI+DQo8YnI+DQpUZXN0IHJlc3VsdHM6PGJyPg0KJm5ic3A7IGJpbnV0aWxz
+LXRlc3RzdWl0ZSAyLjQ2LjEgKHg4Nl82NC1vZS1saW51eCkgLSBBbGwgdGVzdHMgUEFTU0VEPGJy
+Pg0KPGJyPg0KJm5ic3A7IGJpbnV0aWxzOiAzMjcgcGFzc2VkLCA1IHVudGVzdGVkLCA5IHVuc3Vw
+cG9ydGVkPGJyPg0KJm5ic3A7IGdhczombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgMjA5
+MSBwYXNzZWQsIDQgdW5zdXBwb3J0ZWQ8YnI+DQombmJzcDsgbGQ6Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7IDE4OTkgcGFzc2VkLCA3IGV4cGVjdGVkIGZhaWx1cmVzLCAyMCB1
+bnRlc3RlZCwgMTA5IHVuc3VwcG9ydGVkPGJyPg0KPGJyPg0KSmFpcGF1bCBDaGVlcm5hbSAoMik6
+PGJyPg0KJm5ic3A7IGJpbnV0aWxzOiBQYXRjaCBmb3IgQ1ZFLTIwMjYtMTUwMDM8YnI+DQombmJz
+cDsgYmludXRpbHM6IGZpeCBDVkUtMjAyNi0xODIyMDxicj4NCjxicj4NCiZuYnNwOy4uLi9iaW51
+dGlscy9iaW51dGlscy0yLjQ2LmluYyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB8
+Jm5ic3A7Jm5ic3A7IDIgKzxicj4NCiZuYnNwOy4uLi9iaW51dGlscy9iaW51dGlscy9DVkUtMjAy
+Ni0xNTAwMy5wYXRjaCZuYnNwOyZuYnNwOyZuYnNwOyB8IDQwMiArKysrKysrKysrKysrKysrKys8
+YnI+DQombmJzcDsuLi4vYmludXRpbHMvYmludXRpbHMvQ1ZFLTIwMjYtMTgyMjAucGF0Y2gmbmJz
+cDsmbmJzcDsmbmJzcDsgfCZuYnNwOyA2NSArKys8YnI+DQombmJzcDszIGZpbGVzIGNoYW5nZWQs
+IDQ2OSBpbnNlcnRpb25zKCspPGJyPg0KJm5ic3A7Y3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlscy9DVkUtMjAyNi0xNTAwMy5wYXRjaDxicj4N
+CiZuYnNwO2NyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMv
+YmludXRpbHMvQ1ZFLTIwMjYtMTgyMjAucGF0Y2g8YnI+DQo8YnI+DQo8L2Rpdj4NCjwvZGl2Pg0K
+PC9ib2R5Pg0KPC9odG1sPg0K
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.46.inc b/meta/recipe=
-s-devtools/binutils/binutils-2.46.inc
-index cab270cea5..177ae04ee3 100644
---- a/meta/recipes-devtools/binutils/binutils-2.46.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.46.inc
-@@ -40,4 +40,5 @@ SRC_URI =3D "\
-      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patc=
-h \
-      file://CVE-2026-4647.patch \
-      file://CVE-2026-6846.patch \
-+     file://CVE-2026-15003.patch \
- "
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
-new file mode 100644
-index 0000000000..016b342c87
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
-@@ -0,0 +1,402 @@
-+From 8552afe151ef0513d4afe90f809408509ce77d20 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 9 Apr 2026 09:06:27 +0930
-+Subject: [PATCH] PR 34053 buffer overflow in xcoff_link_add_symbols
-+
-+This patch adds two sanity checks with error reporting in
-+xcoff_link_add_symbols before reading symbol aux entries, add extends
-+assertions in later functions.  A whole lot of unnecessary casts are
-+also tidied.
-+
-+	PR 34053
-+	* xcofflink.c: Remove unnecessary casts throughout.
-+	(xcoff_link_add_symbols): Sanity check aux entries are within
-+	symbol buffer.
-+	(bfd_xcoff_build_dynamic_sections): Assert the above is true.
-+	(xcoff_link_input_bfd): Likewise.
-+
-+(cherry picked from commit 23acf2f003f81b2f8d9d1997ea45d822d33d386c)
-+
-+CVE: CVE-2026-15003
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
-ils-gdb.git;h=3D23acf2f003f81b2f8d9d1997ea45d822d33d386c]
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ bfd/xcofflink.c | 132 +++++++++++++++++++++++-------------------------
-+ 1 file changed, 62 insertions(+), 70 deletions(-)
-+
-+diff --git a/bfd/xcofflink.c b/bfd/xcofflink.c
-+index 691acc854ae..cb279b9db9d 100644
-+--- a/bfd/xcofflink.c
-++++ b/bfd/xcofflink.c
-+@@ -371,7 +371,7 @@ _bfd_xcoff_canonicalize_dynamic_symtab (bfd *abfd, asy=
-mbol **psyms)
-+ 	{
-+ 	  char *c;
-+=20
-+-	  c =3D bfd_alloc (abfd, (bfd_size_type) SYMNMLEN + 1);
-++	  c =3D bfd_alloc (abfd, SYMNMLEN + 1);
-+ 	  if (c =3D=3D NULL)
-+ 	    return -1;
-+ 	  memcpy (c, ldsym._l._l_name, SYMNMLEN);
-+@@ -1038,7 +1038,7 @@ xcoff_link_add_dynamic_symbols (bfd *abfd, struct bf=
-d_link_info *info)
-+ 	    {
-+ 	      char *dsnm;
-+=20
-+-	      dsnm =3D bfd_malloc ((bfd_size_type) strlen (name) + 2);
-++	      dsnm =3D bfd_malloc (strlen (name) + 2);
-+ 	      if (dsnm =3D=3D NULL)
-+ 		return false;
-+ 	      dsnm[0] =3D '.';
-+@@ -1081,7 +1081,7 @@ xcoff_link_add_dynamic_symbols (bfd *abfd, struct bf=
-d_link_info *info)
-+   coff_section_data (abfd, lsec)->contents =3D NULL;
-+=20
-+   /* Record this file in the import files.  */
-+-  n =3D bfd_alloc (abfd, (bfd_size_type) sizeof (struct xcoff_import_file=
-));
-++  n =3D bfd_alloc (abfd, sizeof (*n));
-+   if (n =3D=3D NULL)
-+     return false;
-+   n->next =3D NULL;
-+@@ -1464,7 +1464,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
-nfo *info)
-+       bfd_vma value;
-+       struct xcoff_link_hash_entry *set_toc;
-+=20
-+-      bfd_coff_swap_sym_in (abfd, (void *) esym, (void *) &sym);
-++      bfd_coff_swap_sym_in (abfd, esym, &sym);
-+=20
-+       /* In this pass we are only interested in symbols with csect
-+ 	 information.  */
-+@@ -1510,9 +1510,12 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_=
-info *info)
-+ 	{
-+ 	  union internal_auxent auxlin;
-+=20
-+-	  bfd_coff_swap_aux_in (abfd, (void *) (esym + symesz),
-++	  if (symesz >=3D (size_t) (esym_end - esym))
-++	    goto badaux;
-++
-++	  bfd_coff_swap_aux_in (abfd, esym + symesz,
-+ 				sym.n_type, sym.n_sclass,
-+-				0, sym.n_numaux, (void *) &auxlin);
-++				0, sym.n_numaux, &auxlin);
-+=20
-+ 	  if (auxlin.x_sym.x_fcnary.x_fcn.x_lnnoptr !=3D 0)
-+ 	    {
-+@@ -1539,7 +1542,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
-nfo *info)
-+=20
-+ 		  linpstart =3D (reloc_info[enclosing->target_index].linenos
-+ 			       + linoff);
-+-		  bfd_coff_swap_lineno_in (abfd, (void *) linpstart, (void *) &lin);
-++		  bfd_coff_swap_lineno_in (abfd, linpstart, &lin);
-+ 		  if (lin.l_lnno =3D=3D 0
-+ 		      && ((bfd_size_type) lin.l_addr.l_symndx
-+ 			  =3D=3D ((esym
-+@@ -1554,8 +1557,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
-nfo *info)
-+ 			   linp < linpend;
-+ 			   linp +=3D linesz)
-+ 			{
-+-			  bfd_coff_swap_lineno_in (abfd, (void *) linp,
-+-						   (void *) &lin);
-++			  bfd_coff_swap_lineno_in (abfd, linp, &lin);
-+ 			  if (lin.l_lnno =3D=3D 0)
-+ 			    break;
-+ 			}
-+@@ -1576,21 +1578,21 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link=
-_info *info)
-+       visibility =3D sym.n_type & SYM_V_MASK;
-+=20
-+       /* Pick up the csect auxiliary information.  */
-+-      if (sym.n_numaux =3D=3D 0)
-++      if (sym.n_numaux < 1
-++	  || sym.n_numaux * symesz >=3D (size_t) (esym_end - esym))
-+ 	{
-++	badaux:
-+ 	  _bfd_error_handler
-+ 	    /* xgettext:c-format */
-+-	    (_("%pB: class %d symbol `%s' has no aux entries"),
-++	    (_("%pB: class %d symbol '%s' has missing aux entries"),
-+ 	     abfd, sym.n_sclass, name);
-+ 	  bfd_set_error (bfd_error_bad_value);
-+ 	  goto error_return;
-+ 	}
-+=20
-+-      bfd_coff_swap_aux_in (abfd,
-+-			    (void *) (esym + symesz * sym.n_numaux),
-++      bfd_coff_swap_aux_in (abfd, esym + symesz * sym.n_numaux,
-+ 			    sym.n_type, sym.n_sclass,
-+-			    sym.n_numaux - 1, sym.n_numaux,
-+-			    (void *) &aux);
-++			    sym.n_numaux - 1, sym.n_numaux, &aux);
-+=20
-+       smtyp =3D SMTYP_SMTYP (aux.x_csect.x_smtyp);
-+=20
-+@@ -1713,7 +1715,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
-nfo *info)
-+=20
-+ 		  erelsym =3D ((bfd_byte *) obj_coff_external_syms (abfd)
-+ 			     + rel->r_symndx * symesz);
-+-		  bfd_coff_swap_sym_in (abfd, (void *) erelsym, (void *) &relsym);
-++		  bfd_coff_swap_sym_in (abfd, erelsym, &relsym);
-+ 		  if (EXTERN_SYM_P (relsym.n_sclass))
-+ 		    {
-+ 		      const char *relname;
-+@@ -2496,7 +2498,7 @@ xcoff_link_check_ar_symbols (bfd *abfd,
-+     {
-+       struct internal_syment sym;
-+=20
-+-      bfd_coff_swap_sym_in (abfd, (void *) esym, (void *) &sym);
-++      bfd_coff_swap_sym_in (abfd, esym, &sym);
-+       esym +=3D (sym.n_numaux + 1) * symesz;
-+=20
-+       if (EXTERN_SYM_P (sym.n_sclass) && sym.n_scnum !=3D N_UNDEF)
-+@@ -3989,7 +3991,7 @@ bfd_xcoff_size_dynamic_sections (bfd *output_bfd,
-+     return true;
-+=20
-+   xcoff_link_hash_traverse (xcoff_hash_table (info), xcoff_post_gc_symbol=
-,
-+-			    (void *) ldinfo);
-++			    ldinfo);
-+   if (ldinfo->failed)
-+     goto error_return;
-+=20
-+@@ -4200,7 +4202,8 @@ bfd_xcoff_build_dynamic_sections (bfd *output_bfd,
-+ 	  /* Read in the csect information, if any.  */
-+ 	  if (CSECT_SYM_P (sym.n_sclass))
-+ 	    {
-+-	      BFD_ASSERT (sym.n_numaux > 0);
-++	      BFD_ASSERT (sym.n_numaux > 0
-++			  && symesz * sym.n_numaux < (size_t) (esymend - esym));
-+ 	      bfd_coff_swap_aux_in (sub, esym + symesz * sym.n_numaux,
-+ 				    sym.n_type, sym.n_sclass,
-+ 				    sym.n_numaux - 1, sym.n_numaux, &aux);
-+@@ -4291,7 +4294,7 @@ bfd_xcoff_link_generate_rtinit (bfd *abfd,
-+ {
-+   struct bfd_in_memory *bim;
-+=20
-+-  bim =3D bfd_malloc ((bfd_size_type) sizeof (* bim));
-++  bim =3D bfd_malloc (sizeof (*bim));
-+   if (bim =3D=3D NULL)
-+     return false;
-+=20
-+@@ -4300,7 +4303,7 @@ bfd_xcoff_link_generate_rtinit (bfd *abfd,
-+=20
-+   abfd->link.next =3D 0;
-+   abfd->format =3D bfd_object;
-+-  abfd->iostream =3D (void *) bim;
-++  abfd->iostream =3D bim;
-+   abfd->flags =3D BFD_IN_MEMORY;
-+   abfd->iovec =3D &_bfd_memory_iovec;
-+   abfd->direction =3D write_direction;
-+@@ -4860,8 +4863,8 @@ bfd_xcoff_size_stubs (struct bfd_link_info *info)
-+ 			}
-+=20
-+ 		      bfd_coff_swap_sym_in (input_bfd,
-+-					    (void *) esyms + irel->r_symndx * symesz,
-+-					    (void *) &sym);
-++					    esyms + irel->r_symndx * symesz,
-++					    &sym);
-+=20
-+ 		      sym_sec =3D xcoff_data (input_bfd)->csects[irel->r_symndx];
-+ 		      sym_value =3D sym.n_value - sym_sec->vma;
-+@@ -5234,17 +5237,16 @@ xcoff_link_input_bfd (struct xcoff_final_link_info=
- *flinfo,
-+       int smtyp =3D 0;
-+       int add;
-+=20
-+-      bfd_coff_swap_sym_in (input_bfd, (void *) esym, (void *) isymp);
-++      bfd_coff_swap_sym_in (input_bfd, esym, isymp);
-+=20
-+       /* Read in the csect information, if any.  */
-+       if (CSECT_SYM_P (isymp->n_sclass))
-+ 	{
-+-	  BFD_ASSERT (isymp->n_numaux > 0);
-+-	  bfd_coff_swap_aux_in (input_bfd,
-+-				(void *) (esym + isymesz * isymp->n_numaux),
-++	  BFD_ASSERT (isymp->n_numaux > 0
-++		      && isymesz * isymp->n_numaux < (size_t) (esym_end - esym));
-++	  bfd_coff_swap_aux_in (input_bfd, esym + isymesz * isymp->n_numaux,
-+ 				isymp->n_type, isymp->n_sclass,
-+-				isymp->n_numaux - 1, isymp->n_numaux,
-+-				(void *) &aux);
-++				isymp->n_numaux - 1, isymp->n_numaux, &aux);
-+=20
-+ 	  smtyp =3D SMTYP_SMTYP (aux.x_csect.x_smtyp);
-+ 	}
-+@@ -5459,12 +5461,10 @@ xcoff_link_input_bfd (struct xcoff_final_link_info=
- *flinfo,
-+ 		  if ((bfd_size_type) flinfo->last_file_index >=3D syment_base)
-+ 		    {
-+ 		      /* The last C_FILE symbol is in this input file.  */
-+-		      bfd_coff_swap_sym_out (output_bfd,
-+-					     (void *) &flinfo->last_file,
-+-					     (void *) (flinfo->outsyms
-+-						    + ((flinfo->last_file_index
-+-							- syment_base)
-+-						       * osymesz)));
-++		      bfd_coff_swap_sym_out
-++			(output_bfd, &flinfo->last_file,
-++			 flinfo->outsyms + (flinfo->last_file_index
-++					    - syment_base) * osymesz);
-+ 		    }
-+ 		  else
-+ 		    {
-+@@ -5473,9 +5473,8 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
-flinfo,
-+ 			 borrow *outsym temporarily.  */
-+ 		      file_ptr pos;
-+=20
-+-		      bfd_coff_swap_sym_out (output_bfd,
-+-					     (void *) &flinfo->last_file,
-+-					     (void *) outsym);
-++		      bfd_coff_swap_sym_out (output_bfd, &flinfo->last_file,
-++					     outsym);
-+=20
-+ 		      pos =3D obj_sym_filepos (output_bfd);
-+ 		      pos +=3D flinfo->last_file_index * osymesz;
-+@@ -5541,7 +5540,7 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
-flinfo,
-+ 	    }
-+=20
-+ 	  /* Output the symbol.  */
-+-	  bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym);
-++	  bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
-+=20
-+ 	  esym +=3D isymesz;
-+ 	  outsym +=3D osymesz;
-+@@ -5550,9 +5549,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
-flinfo,
-+ 	    {
-+ 	      union internal_auxent aux;
-+=20
-+-	      bfd_coff_swap_aux_in (input_bfd, (void *) esym, isymp->n_type,
-+-				    isymp->n_sclass, i, isymp->n_numaux,
-+-				    (void *) &aux);
-++	      bfd_coff_swap_aux_in (input_bfd, esym,
-++				    isymp->n_type, isymp->n_sclass, i,
-++				    isymp->n_numaux, &aux);
-+=20
-+ 	      if (isymp->n_sclass =3D=3D C_FILE)
-+ 		{
-+@@ -5780,9 +5779,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
-flinfo,
-+ 		    }
-+ 		}
-+=20
-+-	      bfd_coff_swap_aux_out (output_bfd, (void *) &aux, isymp->n_type,
-++	      bfd_coff_swap_aux_out (output_bfd, &aux, isymp->n_type,
-+ 				     isymp->n_sclass, i, isymp->n_numaux,
-+-				     (void *) outsym);
-++				     outsym);
-+ 	      outsym +=3D osymesz;
-+ 	      esym +=3D isymesz;
-+ 	    }
-+@@ -5804,10 +5803,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info =
-*flinfo,
-+       && (bfd_size_type) flinfo->last_file_index >=3D syment_base)
-+     {
-+       flinfo->last_file.n_value =3D output_index;
-+-      bfd_coff_swap_sym_out (output_bfd, (void *) &flinfo->last_file,
-+-			     (void *) (flinfo->outsyms
-+-				    + ((flinfo->last_file_index - syment_base)
-+-				       * osymesz)));
-++      bfd_coff_swap_sym_out (output_bfd, &flinfo->last_file,
-++			     flinfo->outsyms + (flinfo->last_file_index
-++						- syment_base) * osymesz);
-+     }
-+=20
-+   /* Write the modified symbols to the output file.  */
-+@@ -6020,16 +6018,13 @@ xcoff_link_input_bfd (struct xcoff_final_link_info=
- *flinfo,
-+ 			      void * auxptr;
-+ 			      union internal_auxent aux;
-+=20
-+-			      auxptr =3D ((void *)
-+-					(((bfd_byte *)
-+-					  obj_coff_external_syms (input_bfd))
-+-					 + ((r_symndx + is->n_numaux)
-+-					    * isymesz)));
-++			      auxptr =3D ((bfd_byte *)
-++					obj_coff_external_syms (input_bfd)
-++					+ (r_symndx + is->n_numaux) * isymesz);
-+ 			      bfd_coff_swap_aux_in (input_bfd, auxptr,
-+ 						    is->n_type, is->n_sclass,
-+ 						    is->n_numaux - 1,
-+-						    is->n_numaux,
-+-						    (void *) &aux);
-++						    is->n_numaux, &aux);
-+ 			      if (SMTYP_SMTYP (aux.x_csect.x_smtyp) =3D=3D XTY_SD
-+ 				  && aux.x_csect.x_smclas =3D=3D XMC_TC0)
-+ 				indx =3D flinfo->toc_symindx;
-+@@ -6548,12 +6543,12 @@ xcoff_write_global_symbol (struct bfd_hash_entry *=
-bh, void * inf)
-+ 	  irsym.n_type =3D T_NULL;
-+ 	  irsym.n_numaux =3D 1;
-+=20
-+-	  bfd_coff_swap_sym_out (output_bfd, (void *) &irsym, (void *) outsym);
-++	  bfd_coff_swap_sym_out (output_bfd, &irsym, outsym);
-+ 	  outsym +=3D bfd_coff_symesz (output_bfd);
-+=20
-+ 	  /* Note : iraux is initialized above.  */
-+-	  bfd_coff_swap_aux_out (output_bfd, (void *) &iraux, T_NULL, C_HIDEXT,
-+-				 0, 1, (void *) outsym);
-++	  bfd_coff_swap_aux_out (output_bfd, &iraux, T_NULL, C_HIDEXT,
-++				 0, 1, outsym);
-+ 	  outsym +=3D bfd_coff_auxesz (output_bfd);
-+=20
-+ 	  if (h->indx >=3D 0)
-+@@ -6791,12 +6786,11 @@ xcoff_write_global_symbol (struct bfd_hash_entry *=
-bh, void * inf)
-+   isym.n_type =3D T_NULL;
-+   isym.n_numaux =3D 1;
-+=20
-+-  bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym);
-++  bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
-+   outsym +=3D bfd_coff_symesz (output_bfd);
-+=20
-+   aux.x_csect.x_smclas =3D h->smclas;
-+-  bfd_coff_swap_aux_out (output_bfd, (void *) &aux, T_NULL, isym.n_sclass=
-, 0, 1,
-+-			 (void *) outsym);
-++  bfd_coff_swap_aux_out (output_bfd, &aux, T_NULL, isym.n_sclass, 0, 1, o=
-utsym);
-+   outsym +=3D bfd_coff_auxesz (output_bfd);
-+=20
-+   if ((h->root.type =3D=3D bfd_link_hash_defined
-+@@ -6811,13 +6805,12 @@ xcoff_write_global_symbol (struct bfd_hash_entry *=
-bh, void * inf)
-+ 	isym.n_sclass =3D C_WEAKEXT;
-+       else
-+ 	isym.n_sclass =3D C_EXT;
-+-      bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym)=
-;
-++      bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
-+       outsym +=3D bfd_coff_symesz (output_bfd);
-+=20
-+       aux.x_csect.x_smtyp =3D XTY_LD;
-+       aux.x_csect.x_scnlen.u64 =3D obj_raw_syment_count (output_bfd);
-+-      bfd_coff_swap_aux_out (output_bfd, (void *) &aux, T_NULL, C_EXT, 0,=
- 1,
-+-			     (void *) outsym);
-++      bfd_coff_swap_aux_out (output_bfd, &aux, T_NULL, C_EXT, 0, 1, outsy=
-m);
-+       outsym +=3D bfd_coff_auxesz (output_bfd);
-+     }
-+=20
-+@@ -6913,8 +6906,8 @@ xcoff_reloc_link_order (bfd *output_bfd,
-+ 	     howto->name, addend, NULL, NULL, (bfd_vma) 0);
-+ 	  break;
-+ 	}
-+-      ok =3D bfd_set_section_contents (output_bfd, output_section, (void =
-*) buf,
-+-				     (file_ptr) link_order->offset, size);
-++      ok =3D bfd_set_section_contents (output_bfd, output_section, buf,
-++				     link_order->offset, size);
-+       free (buf);
-+       if (! ok)
-+ 	return false;
-+@@ -7379,8 +7372,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_lin=
-k_info *info)
-+   if (flinfo.last_file_index !=3D -1)
-+     {
-+       flinfo.last_file.n_value =3D -(bfd_vma) 1;
-+-      bfd_coff_swap_sym_out (abfd, (void *) &flinfo.last_file,
-+-			     (void *) flinfo.outsyms);
-++      bfd_coff_swap_sym_out (abfd, &flinfo.last_file, flinfo.outsyms);
-+       pos =3D obj_sym_filepos (abfd) + flinfo.last_file_index * symesz;
-+       if (bfd_seek (abfd, pos, SEEK_SET) !=3D 0
-+ 	  || bfd_write (flinfo.outsyms, symesz, abfd) !=3D symesz)
-+@@ -7464,7 +7456,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_lin=
-k_info *info)
-+ 	 appear in the symbol table, which is not necessarily by
-+ 	 address.  So we sort them here.  There may be a better way to
-+ 	 do this.  */
-+-      qsort ((void *) flinfo.section_info[o->target_index].relocs,
-++      qsort (flinfo.section_info[o->target_index].relocs,
-+ 	     o->reloc_count, sizeof (struct internal_reloc),
-+ 	     xcoff_sort_relocs);
-+=20
-+@@ -7472,7 +7464,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_lin=
-k_info *info)
-+       irelend =3D irel + o->reloc_count;
-+       erel =3D external_relocs;
-+       for (; irel < irelend; irel++, rel_hash++, erel +=3D relsz)
-+-	bfd_coff_swap_reloc_out (abfd, (void *) irel, (void *) erel);
-++	bfd_coff_swap_reloc_out (abfd, irel, erel);
-+=20
-+       rel_size =3D relsz * o->reloc_count;
-+       if (bfd_seek (abfd, o->rel_filepos, SEEK_SET) !=3D 0
+--_000_DU7PPF66507B2D78C5BDBDB4B34215D85FEF3DC2DU7PPF66507B2D7_--
 
