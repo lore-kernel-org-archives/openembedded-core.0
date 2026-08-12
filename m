@@ -2,126 +2,121 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF08BC5CFDB
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 10:55:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F978C5CFEB
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 10:55:04 +0000 (UTC)
 Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.4])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.5121.1786532095724458653
  for <openembedded-core@lists.openembedded.org>;
  Wed, 12 Aug 2026 03:54:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=vefwWANn;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=lDRTkJka;
  spf=pass (domain: est.tech, ip: 40.107.162.4, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MQ7+kry0sNR/ArdqIZWV6YBPS3HafWfhkXGzfNVw+KXj5C/b6xRUMxwzZukDfzOIXTF6fuUThcmnDaJs9ctUxtj55Hi/9zLf9MpZFBNDPnFflLtIXMfrhOiHrjuKktiNbpNDC90hxe+HjHaY2kdAGxH96Fy7vjKmPU0Ge8IrYHJPbpcacOn0lqEHTwdhUnYsn7PcF++KSErqZyCoMiaMdGeu8R5ekScPiCQfpAEGhjyKYivKvAkvd4tq9Uw/59J6A8jmeY6XzNV7Pk7AYJyY8K+8SresWpMlg+uNYIn9yzAbd5Uklgwkcr8WGoNHpsuvJRYQLgXWB4S9MOi0ztBgDA==
+ b=YXfLwD8vGEJTL8mc9joGesUt5vfgj6BZPHFKpNpAL7dj1izcyyQNWi52c8yOHdtwWvI/MCCY11ezAFDBk4T48Jk07C40LtqbcpEDKKgvQy1CU5j6RG6/NwOEWxdd9R4pLTTY1kARd7qlCkvMQMWVxQUacIZf8lkyhY/eWIvVV3GMRbyKHgv0Gxcgv9BOg2hTXTG2ky7ShT6i4BRv6nKnsdvD9jHw6KY+mG5d+zGSTYAk4hdgdfi+Pz9FYGzhoKaD3jQH0c5ZDYcqFlnb+IwCrMCXvSe9pkBuMZQWhLkdCAFpDcm68bg/t6To38Tos9e8fMhpkyIHEhL4iTXR5A5IZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uvQKDsLWRD0W3UDGOCq0Nr8jdgQWede8TPpxnWi5y0U=;
- b=TsqtAW7/9sRY3LvqYi78cXfL6qJSVcF7nwODLhGT6zVThFq0yGFpBpIXxCrTyLykGnYwV14iqHnJtGQUyfhmhNgLyH9nu+qJU5wDVJu9DWRvwzYOsbjEs6YhS6py6GUO1RevoGM74/UVNqaUOWDBr2QLV2SufW1laYpRtgcFiIxwYkjWRNg6Z1sQ0h6dWGt+P3j5bm8+5pth6MeLTzPxZBd600VAVIJoyYVpuIO3wkmeNGZeRLKx7nso2cuW0wyKbNK6CyJ0Mj4Llpl4GkVEvufyLrCpkGGC3su9+bnNw1jCy2afJtX/5QAgBPfvOy5RGES5HZdKULirANQwKSuiuQ==
+ bh=wRTSUyxRe1ExoAXiyyRq5yoTqq5FBasaIInyDPuKebA=;
+ b=TY0cM02gn2WolYv4WHZIWXqqbKJ0F1T3B51PCK3QwAPgdfFEjVyljkkvzDLZBu+rw30g9Ti9HrKWySTwQVjNEa0bnLz4h7r3sQuSaUYZ5ESScX3/EC8j74n1vX/fbC3ST4V2onwwxa/L1JtMOhLfch3oqh6rOcs0BtYKlkO6Vy6IROF17FKByCs7X6N5Pd+6jwP24A4GjaQ9yRbVomRDzQjGL3HsFca2fqAiPQtzK7e8ZrA+NWtj1zd2anEHvHm5raMiQPbsqn+pfX4EE74jz/Iw7+Bx105sa10JgSuwxXiKv6nX+5d9DuiOAaU6F1uqAuUMammR5ecHFea1KTGWhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uvQKDsLWRD0W3UDGOCq0Nr8jdgQWede8TPpxnWi5y0U=;
- b=vefwWANn61i7qs7K5tj4kL7ZsOYCx5v0Erx6mBXNsbzfkcVHpEnaAylXALrGaGeUrmNi0mmYldrrNjj3rDEosv+RJS0gvBIqo4YaTwe4KMLAmx9+sVOIJwIIWDcHiajBEMl7EBTzkojp7A/X2/bkcLZMAS4ocfD2MsWvbPyr0lIrAGKLuAysk+4xfGN7zeRXqbGJc337OS5yM+BGRNf8Wk25E//rNZ78falNl6/JR6/VACxgcl97pSjYza/S7XX+nhk6PFRHoEvQ31LToL/2yr8RN2NAzeREspawplaNagBcET46kIYrUXqfCwIeFCR6Y75VANjijgzwVR+yM4ibHA==
+ bh=wRTSUyxRe1ExoAXiyyRq5yoTqq5FBasaIInyDPuKebA=;
+ b=lDRTkJka+uWjZAttHerXlxRe3eYkd+hNZQiETk0E9uQ28AM79WrFqSGm6RbQofy+4fgCwOt4MIsHvAEBGgFLiZWL9IaTYqwfcrZqmUY4i7Os8l4liGJIaguLaHBvC4aeTNS2JapUCfi427LCiUmeYo3m4ZsQ4eoFCCjj5N7W6rVok59VbScSDNr4htcg+KUw3oaQVMoYdcx2mPN0iZlpf8PFbg9hdiyYooCf5ChMjZTWxu5hKspzHomIbvbHP6OlcN9ZumD2+DFEENG42/zG6ZO1vfyCJnxgtZxRQFh5REZa00gAfJxpomc5D/AVdIndHeOrtTyxmM7es4hDmcEegQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by GV4P189MB3581.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2b4::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Wed, 12 Aug
- 2026 10:54:54 +0000
+ 2026 10:54:52 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
- 10:54:54 +0000
+ 10:54:52 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [scarthgap][PATCH v2 2/4] binutils: fix CVE-2025-8224
-Date: Wed, 12 Aug 2026 12:54:43 +0200
-Message-ID: <20260812105445.24234-3-jaipaul.cheernam@est.tech>
+Subject: [scarthgap][PATCH v2 1/4] binutils: fix CVE-2025-1147
+Date: Wed, 12 Aug 2026 12:54:42 +0200
+Message-ID: <20260812105445.24234-2-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260812105445.24234-1-jaipaul.cheernam@est.tech>
 References: <20260812072822.22227-1-jaipaul.cheernam@est.tech>
  <20260812105445.24234-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0140.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c4::13) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO0P123CA0002.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:354::13) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GV4P189MB3581:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03d70453-0ec9-49c2-2c12-08def860240e
+X-MS-Office365-Filtering-Correlation-Id: 072e09f4-5cf5-4c9c-3d23-08def8602300
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|10067099003|56012099006|11063799006|6133799003|4143699003|18002099003|22082099003|13003099007;
+	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|10067099003|56012099006|11063799006|6133799003|4143699003|3023799007|18002099003|22082099003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	4Tv8AuqbL11YIEE8RSP6oaXPFJZGRoHJy8vZttyEZtRf6u/XKoSCtbDcZcdg4R5OIOvGXbG5GlaqTeosTEoxNir0Nlil6Z4HXKOVA737pN1YaQmA4U4vAJ3RniPknxkTj5OiwE6KqHhKzukXD25m3GAosOo5HtqZuhy/K+F8Y9EwRLJC9gqX+qVcgXNBSdrvzyO9KKYdU5mvyh99A6Kg3SU4xR2otuw2AvcbZk4rAI8jt2a6CrDiitn/NJBB31SA7juwWuc/Xm6pYiulpzaCEbrEhEx9NYy4Yp8kKhO72DqX9cAFzmHzoEKCDgBoCxrJlc4Q/VSKHwd91ph9CmwOlL29BvTxFYWtHOOv97LJyQNSynpWhPva+FyxSkenXJWXPaoYOXns6tDZ3srqS56dtjpSFIQ8ZSNbB4KfXlB0BcMWHwF+LqPFA6N2p+hpKEE1q3dm5oD2tWUxeF0DDEOv/sb2l0r0v42i+v41Y7rpqdh9bHSMSSP/HhPn+I0/7Mhyxw9HYUMym08rthORzI8jEdpJp2zIGg7kOAlJ9SRq9dij+evOVHc8Xi4f4TRapd04lviXYGtuFIKN6xkdAfJuJE7Dy9Nb7MYN9dVeVcguVQ0Otyq7/r1O+yd9mhasROqM
+	CNNm91k64EzzgRdMcEYel01hCFf+r6JRv3bVHsB1/k2slksjouhD3ab3UGXNZ7P7tBc9DsuubdUqHQJ9NDTGIykavJqVFKNg6d2zf1KPbXF9bZjG6Vo7SUj3sN41RzHsMnMtykGKVTAypFx3v6fQaUIDF1XaFqNvSkr5OBnvhVQjxXnwZe+Lv074D21Rs/E559+k2LSGuyWD8OkMcRRC5JT+Qxu23mviZQDb4KFnJWZJZAcVx9oipeHp89mhuMYaKMSIy6T7IWy4kCzYD+bijtSbaaxn+qVb1g0U7I8ULch8q8NvnEHm2lKP1q4y9MuoGnKUiQZAY2XHwQWRqe+3fS+RTk0XsXzliftmMHgCQP7QTUA4P+TBTu/HoE+m+1zbz7mo+r/y2mJCIShAvxnwiMJdsmjXIVVOsgl1lp81NhhK8BTu/xWz/vzVhxhuuldnu9MLcvOrXE95JD0KqSyzK9Hl/R/NDApyJ+lmmUxM9254798199iaK8ulbAkEmpbOA89KWcp5OpHwKyqE0UPdhlXLpM/r7CJRyjRFs4HoCxDlGJ+oRB0WdLbhRax1/SKe3wDYWMPf/N8yRHOcolDAjYdE8NhFUe4ORez5GITgZKEZ0jdSaUh+O/WBM5L2IHp6
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(10067099003)(56012099006)(11063799006)(6133799003)(4143699003)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(10067099003)(56012099006)(11063799006)(6133799003)(4143699003)(3023799007)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?56JBVuNYI/8CW12gWeu8La6WQGVkN4Tn/G+52iQ+R4s1ilEEyFmeip3vbQp8?=
- =?us-ascii?Q?p9Qp/ecKs7kdXSy1Z9eh+yHXOMRlZBBPZ1nsU2uG043RGB71DjH9uqkpRmCo?=
- =?us-ascii?Q?K2Kzcqs9GH6rUtNxnGoRZKgDSgZWxi6W8JDZspFTOm386Gu+iUHWKYCKWzUR?=
- =?us-ascii?Q?KEnHrpOMw+Dyq66T1WE2KlZTcWjXuPsnA8XFUEMAFYoeWzuX0H3m5b9MEfk0?=
- =?us-ascii?Q?s7V5OCdxVHMUwZUwabXH6mRZUlSABwbNtemoht+R7Ki40tvzrLC0UEgCYT3W?=
- =?us-ascii?Q?XWKTta5ub1YiZJT0Zkw/3N0k1B5Nt2nsOAUSRPDJIeIRKz6Vv/6KIKUeV9DW?=
- =?us-ascii?Q?xQnT5UC7SoplMHNelzc5yhsKFuKDg7YufFyVi9fjdQkqRjmPjXfg7mBFz647?=
- =?us-ascii?Q?VH0JcO0M+JpUUY8D4jDV05w023g5rvklCCAhWRCXMFmYxD/lHKMwrcNjE4Lk?=
- =?us-ascii?Q?M5PGNSg5R9KjNb/kGZCHrpvBU2+BpXM2O3fXADPCoSt15ceEKYttiX0p5TGG?=
- =?us-ascii?Q?TlSu3nl9AJUVV1AGfUODup2PBT+0GztN/7ZXb3TLDhLdVdmilRTlWZuJRtMU?=
- =?us-ascii?Q?JKQXORReFpX0CmQFL1Ej3jxeQXu1jKSaB2YBYTKBppfqp+vj0DjqVWVHDDcU?=
- =?us-ascii?Q?f2NezYloA+EUoiEwNtncrwuG2+fbsSKUptVvHZTHgjlI5sq0Tao6FzCbRcY0?=
- =?us-ascii?Q?JrBLgyTJfOoAWz3uzNpk7D29GcXCsl2OOpGSFYZ2vOeskjWl2zfTxEw0nQJA?=
- =?us-ascii?Q?w+OjSV0AYZ9YpqYIkmuIazFFBforUxP+em+kJzNGUmL39aWxhICBvk8gduVt?=
- =?us-ascii?Q?mtXNSoAsF5LIJMz2ILevUY15JWnx61gTE465ogQDvvi+ZBxYdxiU55VgFyFX?=
- =?us-ascii?Q?L0qygS/wqjaY+oKFXaa0oa9trqJFm8bNhp7E4IRuUalDKNi9fyG0O6p+t6fr?=
- =?us-ascii?Q?aFdgUugCXYv5YTJ5sf4N7S+1vHtV1MbRgYuzuGkiFApfWgBaRYs8pJA7CVEj?=
- =?us-ascii?Q?br9HGmD7ye5dxNNC84Ok//0NH+KSxzcP6wAuRiFsvEGLwTjnOXrGb3ELpSam?=
- =?us-ascii?Q?RbfW1Wzi+aFSfvJruR1we8ADpgFVpX5QgSBU2aIp6NfyKjE3TDjEt2gFZu5i?=
- =?us-ascii?Q?YA1b5nrRRctzbh9G74Vuc3Zeo3SzMjaqxt6DhrYXYKEe3XFhzlGQH4EAp3ti?=
- =?us-ascii?Q?l5vLCX0S2jwnzdOiUpMM7UCrN/aFVh5WFh8mFuE8fjeK2NJa4JjayJ5GNGhd?=
- =?us-ascii?Q?dOOhVp9JxObUK196aeDZHku/r0cZh0ARhklnqHzg+woUubzP2nTa2gehGhL/?=
- =?us-ascii?Q?fD4eqtyytbvGdddjyHlGAMc4D2thSRiZF5/jqKY9jJqpp/kT8UxZctLKgeOb?=
- =?us-ascii?Q?touq/GJMehZAV95orcp6hSPrAr8GM/o9yLITxs6ZRCamBtd9toMq8v5/91Fa?=
- =?us-ascii?Q?6/0awVMKuOzUFuQNeZOoDwRtuTSecW9azKSnTbLibvGqP7lGHEyV524D5d3g?=
- =?us-ascii?Q?9R5ryF3aa37RFATC9R5HODLSQW7faBvvHh7yj/Z6OV2gux32PJzSnUHa+Yqa?=
- =?us-ascii?Q?ia1hwmwGK+7YJABhd78HCNGyWpaOqV4qkUaXCdmui0ymvukQDnHGJ7I75gCh?=
- =?us-ascii?Q?D/lE8UJYcrjLHl3bvwWwVJE8tNfcp8jLlce0bgwZXFf/lxMGE1YBv47hUw9N?=
- =?us-ascii?Q?D2M55SQXxnl+12cNbFj2jt+g553OSAr8CN1mpCPbBHst8n8ClUTGd/QeRLpl?=
- =?us-ascii?Q?Sfu3HEv3jwxggJ7LNOuWb9TVYs0Aqsc=3D?=
+	=?us-ascii?Q?G80grXjN+RsUCEB1pXf/RXSziX5VdgTE2FanctAkiVEb+RYdDCN6UDW9usx7?=
+ =?us-ascii?Q?BZOzdG6eSSBDnu+CESxA7vUo6W4XU8R7Vn6H2OpnmM+8iDedbpmzt6QctHxF?=
+ =?us-ascii?Q?eKFiQEHtbbF2mZSXe0/vJiK2YoW3ED0/6TAaXakw0PXD7Kcb1smMrXugo/1m?=
+ =?us-ascii?Q?vDYw4M4agXsN5YpAwj2CwLF/owFxcQUTO4v7plStuem5S5JRCvpnNDoSKcR3?=
+ =?us-ascii?Q?8qZNuV57Kq1RaqAMTlMkWCKEexI43xgSyVQfWj29urD776AzXvsrtPdZ5775?=
+ =?us-ascii?Q?jK3jFsWx+hs/ixk6foqUQ1QoxBi3s5rwxlJWL7LrQIv3Nn2BSrThxIyHrZb2?=
+ =?us-ascii?Q?c5+pDC577M5K2oLPAL7U7zvSoPQFXfXXrKBpkXy/0tY0QcKMrDhO/fVxALtO?=
+ =?us-ascii?Q?Gdl1GSNGfk03n7+myUqsCatKVaLJbZx9iS7LSc7MAmdX4B1e+yxpm+k+/0Yp?=
+ =?us-ascii?Q?5eNVpXqhvtGZcSoSuFsdxBHCkovv66MopEiQkMdP++cVi3AdBTAxb/Mn9GSZ?=
+ =?us-ascii?Q?F6q13NES9StIsp8LH8y271cgYD59pwty5XB9L0tiSo0ABH6lSoPjA/lq1ns/?=
+ =?us-ascii?Q?0cHDH1WQ2ECXIHMxSl7WGYQ5Xf+aNe+K+XY1oYq3BT4dZXVkg0xi4Ec0nC4M?=
+ =?us-ascii?Q?vLvTUaN05hD/x7Qil/i2K6Raw8nFIlLpI5VjoIZcKvFLNy7LHegfHK1CDrXR?=
+ =?us-ascii?Q?oFqNdltItduOES9JMjfpw/khBLPkr/tKz8Z9SjHbBZO/1Qf6IEGpwpjeckmX?=
+ =?us-ascii?Q?N7Uk98cA/BDOiYXB46hiqkpG83tJSlpwHMEcWQm87+9bxZtxHhpeK34E0ytL?=
+ =?us-ascii?Q?7mVNJoX03SFwmcRFKjECxpEotC7KJgrF3dzSF4xDk6Vh2HhrJv+z/paqX2zx?=
+ =?us-ascii?Q?nFwX8T7lQnK8X5oxgWiUZBzxbfZvzGdTSg/X/ucIGJDE9ANRHIdztbnHa6NN?=
+ =?us-ascii?Q?QpwHPHLSwCkVB9UfkGWQuEFtp8OZakOAylb9n7sAgDe+itC/iW4nhnplWQsw?=
+ =?us-ascii?Q?aixXYmYQzgAFP0B8WNVjW3XUZL6+wk200hG+gODjmR17LtDq4yKd4CA7Y/JP?=
+ =?us-ascii?Q?NJtt/wrAcP//ZKQLbn2zZwal40BHEKpzkSIhiPyOJyTKMRHqJf9zyhiixf66?=
+ =?us-ascii?Q?cmf+WQwjWaMHjlvqZSYrVnU8ZwOqtkxNp1uiyYsc4ATq22Api1fi0OIsnIRu?=
+ =?us-ascii?Q?UtzjQBR+tn3fiO0r1H/nmRfhn+bI9O/LdWYR0F84qhzeie1E5vr9htWMf0Ws?=
+ =?us-ascii?Q?nGrSOVyHRWxuCTuSLsl4loYJB/ahvQnkg0E6UBUz1/QESDU4SyAeOx/5OqK1?=
+ =?us-ascii?Q?0ZAuMDVcVBDQBUBQVhgmnEljlGk/wXszqBZCgK3CHTGWhm7wGwUXs7GiqYOr?=
+ =?us-ascii?Q?H3HnzxWT796KeC7w+ZNUzYzMZSFe8RORZY5ZwFshRxG1mCID2SwOIZU3ZvmE?=
+ =?us-ascii?Q?hAlTmFopZzN5jQX11FNBRhFELR7O4TOikmPkyCecmD7czoctj/NzzGgRNoXw?=
+ =?us-ascii?Q?Yz26319sTRKYw6fLiaxx2gWm6qoPAHbl0RrTsdrK4fA3AGUGoCG+AKNsh/E1?=
+ =?us-ascii?Q?ORWT5n5ICKQfpyRTM8BmQvZIJRuLx/RJ3MIl+9dEU6EZ5sr3eK59OY7SNmyH?=
+ =?us-ascii?Q?UC4n9TEgkVSPOQ/JASbadvNEkHg8j2jasdXjIn0lQu4zQ5d5mR3eaedGAHOf?=
+ =?us-ascii?Q?3rocNJuolU2ivjjw6TvW6Pxw4OiG5zYGN3RS3czFYcdntHYclSpbVzCYkuLe?=
+ =?us-ascii?Q?Z+e+TWR76juj2Eu2P5gX6LpDBZfCXT8=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03d70453-0ec9-49c2-2c12-08def860240e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 072e09f4-5cf5-4c9c-3d23-08def8602300
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 10:54:54.0237
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 10:54:52.2112
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1lcOqs0zdGB3RuUPwkXMC3E6zE1KfRA9QkxnJgmtCOx5scl/MWbgQYwK0wo4hPNe+p5UJsME3/i0JAsfsx6CqalT7RkQP+y1pwtDaNGkm6A=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BrLIV2pgBqYQdXNFN8AuJTe/hzgIi3RXC+O6O5LPe4HuaH7lMfg2ZZS20PvWiQ+Jkq9eG9t8F/xNpcjiEMT+3oywTqSRG8uL5FfzE9/rvC4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P189MB3581
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 10:55:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243273
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 10:55:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243272
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-8224
-https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3Ddb856d41004=
-301b3a56438efd957ef5cabb91530
+https://nvd.nist.gov/vuln/detail/CVE-2025-1147
+https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3D7be4186c22f=
+89a87fff048c28910f5d26a0f61ce
 
-
-[Adapted for binutils 2.42: only the shstrtabsize overflow check in
-bfd_elf_get_str_section applies. The second upstream hunk (DT_STRTAB)
-does not apply as 2.42 already unconditionally null-terminates the
-dynamic string table.]
 
 Test results:
   binutils-cross-testsuite 2.42 (x86_64-oe-linux):
@@ -133,95 +128,154 @@ Test results:
 solved, 20 untested, 99 unsupported
 
   After:
-  binutils: 304 passed, 2 unexpected failures, 1 untested, 7 unsupported
+  binutils: 304 passed, 2 unexpected failures, 1 untested, 7 unsupported (+=
+2 new passes from nm --ifunc-chars=3D-- tests)
   gas:      1871 passed, 4 unexpected failures, 2 unsupported
   ld:       1728 passed, 5 unexpected failures, 7 expected failures, 1 unre=
 solved, 20 untested, 99 unsupported
 
 Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.git=
-;a=3Dcommitdiff;h=3Ddb856d41004301b3a56438efd957ef5cabb91530]
+;a=3Dcommitdiff;h=3D7be4186c22f89a87fff048c28910f5d26a0f61ce]
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../binutils/binutils-2.42.inc                |  1 +
- .../binutils/binutils/CVE-2025-8224.patch     | 54 +++++++++++++++++++
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-8224.p=
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../binutils/binutils/CVE-2025-1147.patch     | 110 ++++++++++++++++++
+ 2 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1147.p=
 atch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
 s-devtools/binutils/binutils-2.42.inc
-index 063c6cc2a4..5534ce577f 100644
+index d455acd786..063c6cc2a4 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -79,5 +79,6 @@ SRC_URI =3D "\
+@@ -78,5 +78,6 @@ SRC_URI =3D "\
+      file://CVE-2025-69652.patch \
       file://CVE-2026-6846.patch \
       file://CVE-2025-69645.patch \
-      file://CVE-2025-1147.patch \
-+     file://CVE-2025-8224.patch \
++     file://CVE-2025-1147.patch \
  "
  S  =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-8224.patch b/=
-meta/recipes-devtools/binutils/binutils/CVE-2025-8224.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1147.patch b/=
+meta/recipes-devtools/binutils/binutils/CVE-2025-1147.patch
 new file mode 100644
-index 0000000000..914b9084c2
+index 0000000000..9a95775d3f
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-8224.patch
-@@ -0,0 +1,54 @@
-+From db856d41004301b3a56438efd957ef5cabb91530 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 25 Aug 2024 15:20:21 +0930
-+Subject: [PATCH] PR32109, aborting at bfd/bfd.c:1236 in int _bfd_doprnt
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1147.patch
+@@ -0,0 +1,110 @@
++From 7be4186c22f89a87fff048c28910f5d26a0f61ce Mon Sep 17 00:00:00 2001
++From: Dmitry Klochkov <dmitry.klochkov@bell-sw.com>
++Date: Tue, 9 Sep 2025 12:06:25 +0200
++Subject: [PATCH] nm: fix treating an ifunc symbol as a stab if
++ '--ifunc-chars=3D--' is given
 +
-+Since bfd_section for .strtab isn't set, print the section index
-+instead.  Also, don't return NULL on this error as that results in
-+multiple mmap/read of the string table.  (We could return NULL if we
-+arranged to set sh_size zero first, but just what we do with fuzzed
-+object files is of no concern, and terminating the table might make a
-+faulty object file usable.)
++If an ifunc symbol is processed in print_symbol(), a 'type' field of a
++'syminfo' structure is set to any character specified by a user with an
++'--ifunc-chars' option.  But afterwards the 'type' field is used to
++check whether a symbol is a stab in print_symbol_info_{bsd,sysv}()
++functions in order to print additional stab related data.  If the 'type'
++field equals '-', a symbol is treated as a stab.  If '--ifunc-chars=3D--'
++is given, all ifunc symbols will be treated as stab symbols and
++uninitialized stab related fields of the 'syminfo' structure will be
++printed which can lead to segmentation fault.
 +
-+	PR 32109
-+	* elf.c (bfd_elf_get_str_section): Remove outdated comment, and
-+	tweak shstrtabsize test to suit.  Don't use string tab bfd_section
-+	in error message, use index instead.  Don't return NULL on
-+	unterminated string section, terminate it.
-+	(_bfd_elf_get_dynamic_symbols): Similarly terminate string table
-+	section.
++To fix this, check if a symbol is a stab before override the 'type'
++field.  Also, add a test case for this fix.
 +
-+[Backport note: Adapted for binutils 2.42. The upstream commit targets
-+a newer codebase that uses _bfd_mmap_readonly_persistent and has an
-+explicit unterminated-string error path with return NULL. In 2.42 the
-+code uses _bfd_alloc_and_read with shstrtabsize+1 allocation and
-+unconditionally null-terminates via shstrtab[shstrtabsize] =3D '\0'.
-+Only the shstrtabsize overflow check fix applies here (shstrtabsize + 1 <=
-=3D 1
-+changed to shstrtabsize =3D=3D 0). The second upstream hunk (DT_STRTAB
-+error_return -> terminate) does not apply as 2.42 already
-+unconditionally null-terminates the dynamic string table.]
++	PR binutils/32556
++	* nm.c (extended_symbol_info): Add is_stab.
++	(print_symbol): Check if a symbol is a stab.
++	(print_symbol_info_bsd): Use info->is_stab.
++	(print_symbol_info_sysv): Use info->is_stab.
++	* testsuite/binutils-all/nm.exp: Test nm --ifunc-chars=3D--.
 +
-+CVE: CVE-2025-8224
++Bug: https://sourceware.org/bugzilla/show_bug.cgi?id=3D32556
++Fixes: e6f6aa8d184 ("Add option to nm to change the characters displayed f=
+or ifunc symbols")
++Signed-off-by: Dmitry Klochkov <dmitry.klochkov@bell-sw.com>
++
++CVE: CVE-2025-1147
 +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.gi=
-t;a=3Dcommitdiff;h=3Ddb856d41004301b3a56438efd957ef5cabb91530]
+t;a=3Dcommitdiff;h=3D7be4186c22f89a87fff048c28910f5d26a0f61ce]
 +
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ bfd/elf.c | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
++ binutils/nm.c                          | 10 +++++++---
++ binutils/testsuite/binutils-all/nm.exp | 17 +++++++++++++++++
++ 2 files changed, 24 insertions(+), 3 deletions(-)
 +
-+diff --git a/bfd/elf.c b/bfd/elf.c
-+--- a/bfd/elf.c
-++++ b/bfd/elf.c
-+@@ -285,9 +285,7 @@ bfd_elf_get_str_section (bfd *abfd, unsigned int shind=
-ex)
-+       offset =3D i_shdrp[shindex]->sh_offset;
-+       shstrtabsize =3D i_shdrp[shindex]->sh_size;
++diff --git a/binutils/nm.c b/binutils/nm.c
++index dce9207f44f..c3d118a93c3 100644
++--- a/binutils/nm.c
+++++ b/binutils/nm.c
++@@ -70,6 +70,7 @@ struct extended_symbol_info
++   bfd_vma ssize;
++   elf_symbol_type *elfinfo;
++   coff_symbol_type *coffinfo;
+++  bool is_stab;
++   /* FIXME: We should add more fields for Type, Line, Section.  */
++ };
++ #define SYM_VALUE(sym)       (sym->sinfo->value)
++@@ -1208,8 +1209,11 @@ print_symbol (bfd *        abfd,
 +=20
-+-      /* Allocate and clear an extra byte at the end, to prevent crashes
-+-	 in case the string table is not terminated.  */
-+-      if (shstrtabsize + 1 <=3D 1
-++      if (shstrtabsize =3D=3D 0
-+ 	  || bfd_seek (abfd, offset, SEEK_SET) !=3D 0
-+ 	  || (shstrtab =3D _bfd_alloc_and_read (abfd, shstrtabsize + 1,
-+ 					      shstrtabsize)) =3D=3D NULL)
-+--=20
-+2.43.7
++   bfd_get_symbol_info (abfd, sym, &syminfo);
++=20
+++  info.is_stab =3D false;
+++  if (syminfo.type =3D=3D '-')
+++    info.is_stab =3D true;
++   /* PR 22967 - Distinguish between local and global ifunc symbols.  */
++-  if (syminfo.type =3D=3D 'i'
+++  else if (syminfo.type =3D=3D 'i'
++       && sym->flags & BSF_GNU_INDIRECT_FUNCTION)
++     {
++       if (ifunc_type_chars =3D=3D NULL || ifunc_type_chars[0] =3D=3D 0)
++@@ -1873,7 +1877,7 @@ print_symbol_info_bsd (struct extended_symbol_info *=
+info, bfd *abfd)
++=20
++   printf (" %c", SYM_TYPE (info));
++=20
++-  if (SYM_TYPE (info) =3D=3D '-')
+++  if (info->is_stab)
++     {
++       /* A stab.  */
++       printf (" ");
++@@ -1902,7 +1906,7 @@ print_symbol_info_sysv (struct extended_symbol_info =
+*info, bfd *abfd)
++=20
++   printf ("|   %c  |", SYM_TYPE (info));
++=20
++-  if (SYM_TYPE (info) =3D=3D '-')
+++  if (info->is_stab)
++     {
++       /* A stab.  */
++       printf ("%18s|  ", SYM_STAB_NAME (info));		/* (C) Type.  */
++diff --git a/binutils/testsuite/binutils-all/nm.exp b/binutils/testsuite/b=
+inutils-all/nm.exp
++index fea68bf76bc..1feb8578fba 100644
++--- a/binutils/testsuite/binutils-all/nm.exp
+++++ b/binutils/testsuite/binutils-all/nm.exp
++@@ -329,6 +329,23 @@ if [is_elf_format] {
++ 	    fail "$testname (local ifunc)"
++ 	}
++=20
+++	# PR 32556
+++	# Test nm --ifunc-chars=3D--
+++
+++	set got [binutils_run $NM "$NMFLAGS --ifunc-chars=3D-- $tmpfile"]
+++
+++	if [regexp -line "^\\S+ - global_foo$" $got] then {
+++	    pass "$testname=3D-- (global ifunc)"
+++	} else {
+++	    fail "$testname=3D-- (global ifunc)"
+++	}
+++
+++	if [regexp -line "^\\S+ - local_foo$" $got] then {
+++	    pass "$testname=3D-- (local ifunc)"
+++	} else {
+++	    fail "$testname=3D-- (local ifunc)"
+++	}
+++
++ 	if { $verbose < 1 } {
++ 	    remote_file host delete "tmpdir/ifunc.o"
++ 	}
 
