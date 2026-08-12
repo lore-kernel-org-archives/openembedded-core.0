@@ -2,120 +2,120 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 438A8C5AD5A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35313C5CFDB
 	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 10:55:14 +0000 (UTC)
 Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.49])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.5125.1786532103872253773
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 03:55:05 -0700
+ Wed, 12 Aug 2026 03:55:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=zwRC4jxQ;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=IOSD1ZFI;
  spf=pass (domain: est.tech, ip: 52.101.72.49, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LrsDj7SKoA3ny4c1AWqxLPJCcvQfjMCvR9AIVSoU6LDwZduNcr/r2rtRJf06R7xNbbV/auoAfiYKTreFR1yDrRm2ov0r8ZW0RD04rBg5tMcj10+VEIR8P3yOdbBv/Uv8o/jxYWPHwvZpaNpDC0m720BXC7RwnGqcyt95sX47y5rKLfXYIDg2ztBnSieMfDIsePfYpZK6AWVpeRsIjOhIwIdHo3XkCHuo4mP+GG6SXslPhcZ+5+B55rPSjtADJGXZ4IfhBIU/iqQVXPbA6lVYAQbNKGNUmnQcqLk5P8sCY7iSldlfXhZmSSt8UN2ykGO9L0dcZKiGxvRbELMDn+KhaA==
+ b=NxATG+dkxt73rXoIIy4C8tBtY8yPzRGENzi0LqahSOEB0ouayju/ZT3AeUVzlWw+Klvf4ySqN0SvfZ0qromNFPaTMK34fWeW/4P7BI5A+WD4MD+yf/941w9IxvndUqDkv3BWw1vZ3rBwNS2aNhbUgtPc4qB6wJ4zjP8HsRJ3YYU6HhrsbUsnBvHoprr2wEPFkdnwW7ltEXsbXTh1O9M3dOengYg2/ALRaKZ7/yd9QHzRL47fAmlAiDPPB5xx4xoFKX+6qgRy1lrsVI8dXyoyRn9IWJh2YsV6E5ReY+iLdBvRffSZLyoQKTNy7QNQSeyd9+q7YhfB5PwDXREQH5pDSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6JGdcsbxBOQsgtUJrTVny4PGBf7Nds75KsYALml/jxo=;
- b=hO/g0+xZjGLhcDj/G6LW59t7xLx1asmNprj5NFaE+/Obb0Ec9JQtw4hd/vSqFCAGP4JQraZgkKqLyt0wG87aM4N+ivCnIsKbF36umPOX93f3jR6FGQhO6Twrxv5l6kMd65U31SbNY8stjE/uSI/WR4xlkVvrDFLJCKHNa5ibvYaVN/vBFQ0FkAgVI5LyJ9kVtee/+neEdPm6Q6EG6NJ4ykca52DkJOyF3mIt0nLRNo1XjsYtvW0xR9R/+TgA71DCbW+Luy2cBg14joRcyqhOdrrqAMzSfcZKrapeAmJqB+IppS2RM8Sq5qL1zT1B3wv7U1x3BPZZHBEEZLVG09T6iQ==
+ bh=5cZdPCEEWDGa8tzABx3+Ro41QEKj4PCF802cMOuxNvA=;
+ b=fN4+UXVKzDfag2RTR9frJzn4SsRry78r3IJiqqfw2DQXJhOlYHTFjuj9aDA91etcjECXdr/DNkGPhE5Y3HXrQ4mlXARvMY6XoRoK7IP0A+3egurTIfZH8P4nX1eC/OwCQBNxYybaKlos6gC1AmKNB1ErtOVLxEYJHC8nhfshj3wTR2TKL1LBGRd1CBn3JeWXdJ9x1i9426s1gqGyh6SWyVr3+hemzgj0X4cbQpJkEHAn9eWdCxNOnsCyDqoI/Eu1GknFnS4/F2jPaVXgiM85ocpkwCqOyl2117YQaSJSVbPjwbLdUxNhE/iWSets0pB8RFZhB2GjjHW41VI0+C5ghg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6JGdcsbxBOQsgtUJrTVny4PGBf7Nds75KsYALml/jxo=;
- b=zwRC4jxQPy8aQ71YjraQvleF/yvtB9AzNzre/Tm54kKDV31gKoDfLVdUs8kXnk00o+5Mb7XJ9vojYktptUS4CRJCenuizHTLfeB5KfxRLMqylSvnxarsDBEYZk1BffWXveZy+nHRe5/3+0zuIgYi/KEJs9L5ECPt3wyR4xWspNKQPD64d1fQKGZfYW27Cj5cpShLi/Tst7X3MAu17l3Dwh+uXS63YlkPwYbL0YX/6eEWYT+1EIBxAkO0C/ao2HtuaqHQsKFcDylUdryxGKS3zcgQeIG8Qp9A176hv5hXMsazXkO4XB/7ZTDUG71Lkg75nnIhsdYT8wv74c1pkYBxYQ==
+ bh=5cZdPCEEWDGa8tzABx3+Ro41QEKj4PCF802cMOuxNvA=;
+ b=IOSD1ZFIpUs7p9TIwoBVHCVKWovzPcSunkKoJnC7m4wfUv0SjvwvEX3+JY8kd2nRrHMoI3BZih16g20nfH+hQVqxIudhJ13roNWAylx21PeZznXJyZ9hOazuEBcHnFm8gv6PguuLW65iO1SaGrij7tPIZjbDsw4rTI+FRqJsBUaq9f2cEB7QsEC024TGsp/Llm64o3ihWyvSwRU6w2SoJnZKA5WS24pqLSFkb+tbQc6+K55YlI3n6trqWOfvINcKgkU60vY5QFClusOXc+vvBVYFivvUm8Q4HlquiT+Ifg0uoKaUEeKgC4mjSHDS7SO7ztC0QJEibgVkFgwIfhhUBQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by GV4P189MB3581.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2b4::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Wed, 12 Aug
- 2026 10:54:57 +0000
+ 2026 10:54:55 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
- 10:54:57 +0000
+ 10:54:55 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [scarthgap][PATCH v2 4/4] binutils: fix CVE-2026-18220
-Date: Wed, 12 Aug 2026 12:54:45 +0200
-Message-ID: <20260812105445.24234-5-jaipaul.cheernam@est.tech>
+Subject: [scarthgap][PATCH v2 3/4] binutils: fix CVE-2026-15003
+Date: Wed, 12 Aug 2026 12:54:44 +0200
+Message-ID: <20260812105445.24234-4-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260812105445.24234-1-jaipaul.cheernam@est.tech>
 References: <20260812072822.22227-1-jaipaul.cheernam@est.tech>
  <20260812105445.24234-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0162.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:188::23) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P265CA0496.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:13a::21) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GV4P189MB3581:EE_
-X-MS-Office365-Filtering-Correlation-Id: dacf39e8-b4d9-403c-7079-08def860261e
+X-MS-Office365-Filtering-Correlation-Id: 0a2934b5-ce91-4cdf-446b-08def8602519
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|10067099003|56012099006|11063799006|6133799003|4143699003|3023799007|18002099003|22082099003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	x0xyKaH2/lx2XlzX6L8iIOysltAtijm5l01VgLcQAqFwBwJGC8OEl7jv981ZgcJMCib8nvm3oNYRTPZnxVVg9fcmHgkco/4TKi9a5wcOnxdHhczm3yv9HQIdif68wJgCaSeyZ+vsipcfkDjqeVxlGx2axxKL+OCfSOqHSs35qlRdhAyFv9MnxJHBofMK/bxuyaNncjJfdicSH5sgOpFBc6wHOzy+2cycTB6NX0qtDrQkwsN0HJI7mpA+uPKSRtAMZ5ei7WeFEDi9WgQ/HGA2X++0bo/6bTSLSCicJq6ay0vLt02+5fHfSr+zuzoDDe1t5N8JXrXd3t62ipAGjl4EEqIJuDXOs/DgqiGuo+Kw7fkKLuq/RCfDXu2WxuyBuPBqOk2tOCFaIZC06RjociLxiXWrHNmAChM5fmCbab66dKLjFTLJF8+I5uefxSOH2PPIC3D58pdhhVpTkrh5X5Z09+nu9moWdTbNUaAKw7v7pDYehpE41ndsuc7nzmXjfQwFpQVhfS5EJ71mbJdRRGn0bo8L9B62HaVqHI0xN6+vW0xfs0jIE+orNiDz+6RMVvGaT2zLjpKuKETISzwF2AW+J6mNc71WuOJlLBtNEyIhVvSLcaFJFHCVlEp+EIK8pGFN
+	oi+Dju1T2SdWUMdo1rMQSipmyhTJmvRlnXTOTVna61YkYGDjvTB4jfUMHrriyNiWfbHAYry7S6jySD7OuiCzUxG1LbBE1pws+fGmGak5I45l2MTmxhEv8wPFHpr9NMuqre7UXpsV/le52a3aIABNID/arAng6/u3KwPcZacXBI6pmKBIwqWZaFnsLnNVc34XkfRSnTH62k0TD3IWUaOIugOlVTOvGzC1kuX4JfbAQRlp/IWAhjHa4JyqgDyBE2p9mS/gahr+VzX0l5gvgOAKMwgegx+UDcoo5zefusoiDHhcNj0Nvsh/fb44891bf9B+EhjBadwgAcl5ct2UZ2KohP0hBZT9ReIZHoJhE7Vb2i6WMXqnO9HfxONcT2P3Hwb+LOBl8/yeUd8SrK/JreUwxrrRaLZbJRiMjFpDr+zzpvYt2QcG46t54v97GPb6nvvoe4qSu5faFGlikrnHh+1zTJTfQf2TCkX7LBvMtBkgwBp0oSbvOh3V0b8Uvgt/dIuVlb/QO7agrKvfQlt1cHz/enhu5YBbIaKDVxeIEFY+8KIi7xSzNT9ucliLfyWZjwgrfLH2AyhET3R6JfOFogp/8ynluhDJ7bUEK+JeeMgkDk1OHooAuFATtC3Sbz/B9O3V
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(10067099003)(56012099006)(11063799006)(6133799003)(4143699003)(3023799007)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?A78DzU/ik+nB4bLrTPSQAIgl3sq2lQr6iq88UqnJQtFQHvytp1boNllIGaKn?=
- =?us-ascii?Q?F+/rmUf57I8K+N2VgEUARZgYUU09mfHfrU+BEWdNg0zpzeefx6c0tq2Byp4p?=
- =?us-ascii?Q?TU4ChdXfwTqnkIwxvZcPkzt8ywR58ARm7tWUzHLsbA7KIEa5+S6LFApeh+pE?=
- =?us-ascii?Q?Sb6j6JprEBHU6GXU9c6/CK5tnD1TY3h83RF306gAxHAkMVNT/WailtM7/gSM?=
- =?us-ascii?Q?ENM40iJImakHr7r+T7v+fMvLNQAZBNwyi97pMV8rEhONJpHTYY5YquhVemf6?=
- =?us-ascii?Q?tf5dxzfOmNpIqxL+0VJt/0zRQKeC1xvYhoIHluWgnLNBCC8BZ4bZNO/ickRq?=
- =?us-ascii?Q?Gz6g8OEYmsd5pHLVTjwQak2uQYMcdCTJmLmDykwYzv7MFqklxvie2iGzgjt9?=
- =?us-ascii?Q?ZjsvrVtImdNKgu+OI1WmhdKOGeT6xDw29+WQMXPcWFQadv3Z1+NhXhcl04i2?=
- =?us-ascii?Q?PXBkDJ4S8pbumbKKVg70VHqdvLfvAYNEbOeh5vFhrNz9II8ZVbRXVUpY43se?=
- =?us-ascii?Q?ABaHOvJj02cfaBa5ylIGiNhA7bRPk8Er5aW3nbyEJyjdicZxiXDwpySRbmhy?=
- =?us-ascii?Q?vn0MaafUh2/lBUIstymFPL9PVBk7ozGTC0H0k5zE95L2prjfbfYytauN8C7P?=
- =?us-ascii?Q?VR9+OInGGz+kFS6MoIcBrkSjLD/lC16m42pCtrBHP2yeJB46PzqgsQuVepaL?=
- =?us-ascii?Q?qj8RxuMWmYTTfwzzTjhaJ+zHJxvftL8iKmmN8zazRDcZ92wyvDTXNj9N6s8h?=
- =?us-ascii?Q?xtQfFBvrqULbglq7iVbGAM+uGZud7ilo3JLrSE1OtMCIKR25jPmIN+J9YJEc?=
- =?us-ascii?Q?XiidlJCR02Mr4oXomAd1zfqqAJzGazHkSeq7krauIAYStbWRsDuKEP+YTQZ3?=
- =?us-ascii?Q?H1D+R2Q5lpcNQdIo/EwmlduJUSqWepwdZCHyWHbY7ufZISJfjSc1lvArAE3h?=
- =?us-ascii?Q?P3fBC2gxZaI26WZPuxjf96hYZOa5GJ81aJhgBjRlqDzfpr9vhwjxfsqhVofs?=
- =?us-ascii?Q?+lN87O5w1Zj6BwXmiUo8CI3FpQMJ0s2JIINUk0wqTZovOxQ31PjZDfSng2Rs?=
- =?us-ascii?Q?O7kf2Aupfvnr6FaFfEBy2+7/5S080OTme2m4lZMtCP+jR9dVakgc9kDs6UwY?=
- =?us-ascii?Q?od1vVYVzjDg9bfWIVpQG6XuVXyBPPYh6x/1igXGme5HPAWko6P+UKTKsN7im?=
- =?us-ascii?Q?GX2KYQPTTzyNb+8nat0bq8Kr+GXyGo5TFNQ5GfdIAYvfSQm+oiZgi8A99JDG?=
- =?us-ascii?Q?iKIH6wrYdEr/5rpk+gInUrUgU1zNrrqrvrVYsenKL9TEYD6FjyGcTfcv9XyV?=
- =?us-ascii?Q?WQX6g+UKY/sQ4sJ/TfJbvVsnshaO3RYq4d4qW3a2xky+RHXsoq3WipC/TlAM?=
- =?us-ascii?Q?elRBMFs45+7xZQX3kj/Z5gJQE7DR3wH43ok2/U/1o8o47MEuPgZVBu+EVSj2?=
- =?us-ascii?Q?7CORpxiBUvCo+Am/1OyjqRhfnQy6Ct+ymXMHYEq3/Anpz7NI/O//yatH+uhA?=
- =?us-ascii?Q?FfcCMfJxz7vAoITLG/RIIelwD8oJO2H5NmINRf/CLkMNyjeYAm+PZodetTDV?=
- =?us-ascii?Q?Tl9jklnfqAPoAijT/YkButbVTfoXVd6+d4Y8vz92P9UYw2xbzhEMXf8FYqwY?=
- =?us-ascii?Q?dUwCAZx46kRLONmmWKyQ/mSuwkuwIUSbORM8EcOai+MtZE/TRvtw0h9C8erB?=
- =?us-ascii?Q?I05+yWlOsYpanTClYbLqKLkfWR/WIL4LMtEZ5fySvBaYE89OUnGq4qT862f4?=
- =?us-ascii?Q?6MpFkWIlDIqPfNM9oNZeSX9laWuOnvc=3D?=
+	=?us-ascii?Q?Bw6NOCRrCvRzuMd/CfLUVNzj0f3edHfa0U8826o+Nj8sIC//F9/Q1YC4Yi3N?=
+ =?us-ascii?Q?Oq4dHpdQKuWsVC4qALu85Menn71T5w0ze7nLx1shhmUzI92+6pvnAZopvguA?=
+ =?us-ascii?Q?OHjucT2AZf9RPnXPS6N3z8PJVg8sNC0Z0AqMWKYofmmHt5SwPOvCYkzDcHMw?=
+ =?us-ascii?Q?ia/yzqOn1WLP5M4hac/erO950gzQXNTbN8poef3zqBHt1eOsxhaS/K8dCHQT?=
+ =?us-ascii?Q?JGiRI0tdwqaXPHTbVJ4s70krSKY9wcM4F9Vj9s9yUy7M94+1Admgf0JUdxvc?=
+ =?us-ascii?Q?zjeGH81pwpQbT9s7uC0WMRJox8D5+LLOxINqHoBJOsEK+cDkFhji+VVveFgu?=
+ =?us-ascii?Q?2foZbZTrVAbzF6wVz7c9WrDKSThPBGUwkPrrbcX4kPGHVVJAhyBU3ASsZrsx?=
+ =?us-ascii?Q?ihv7O1Hmpj9hrwoBV9SZtvrYWGruvlLL2mc2l4axcDEwbV2ph2W4ZThfV0Ig?=
+ =?us-ascii?Q?fzwuaIa1P8eX3Eh5HjC+X5eB/auHrABi2boiE0qcHCkWdM6EzSOtLKwrjO93?=
+ =?us-ascii?Q?WS528drbON2Mc7S1L8uGFVjh4tyMN8ZsdJcG8zoeavH+FkuNrBmjLfX8tWYW?=
+ =?us-ascii?Q?8KyxECydRiaguAYM787F9xNSWgmU1/j+oFZqB8mIibAbOklHU9wYDfiH2tY4?=
+ =?us-ascii?Q?CEeA7Yp7gQTJpajjkEQPXv1YiKv7Li3eGhSDFaavqK1Bf+1UtGdCKdCw7nB9?=
+ =?us-ascii?Q?P2gfvvNW32M5uLyLXbTsQ3zR2N2gYPudygjhobR+LIT5F6MBLq3srx2Lgkm5?=
+ =?us-ascii?Q?kOqFgw4m//AZL5WA5m8atiICZMAXpAX77mPnC9+9R/jplHEsT59CBTP4fEcZ?=
+ =?us-ascii?Q?SYZycJWcmJheDmydOPsFeU6iXcvtU1T+6zX6pKhv+RaUphMNElDuq4V+aqFO?=
+ =?us-ascii?Q?hImnI5Tv1Ccg8HKH8iF9e818lcdg6Io1zbG2TbCpWL0KPKAohy6eBE3jUiZb?=
+ =?us-ascii?Q?mb+11LEIxRzn8zDind6xrdPQlyOeG2q8TsgAi1UP1UO7Q03hFuWOUXrbgfob?=
+ =?us-ascii?Q?+yzTQapfklfYkF1kINn6QtMLWX6R+5OzPdQ5LpvB8GlMhY6XrNv2VklXBemn?=
+ =?us-ascii?Q?MXk3Uy7H3ld8sdjI/mk77AbgxesUQydg3a8LabuVqSLZhK4PIiQcIPoRZA9D?=
+ =?us-ascii?Q?k/CikN5xMRvOd/wlZ8RlWUpYGhvepj+xFkvyYzhtgGmxsK6iIvm01yiXl0SH?=
+ =?us-ascii?Q?BDyVnTXCBUhT35GSGkdESvpeD3kROR29pKqBuaBSa+1We4462X/fNX12hgXI?=
+ =?us-ascii?Q?3gZsqre19rGkHM60yS3tA6yBRAQ9TsC3r5GA4sM8QvTus+1e9oRgGHIKWc8d?=
+ =?us-ascii?Q?0VoVFope+DxBsGFwVH3u+q07U1AZCXwyUIonUFnoM0Q0XE2Q3W1+6+fERR3r?=
+ =?us-ascii?Q?n8jchoFN3BlgRIWq/TnA2cNsokpqdcw3Kc0JVDdihnynMtuhGy9o877vl1Iq?=
+ =?us-ascii?Q?I8wVUgj5SlJ4Yb/aLALX1KHhVjmzRPvufIaf9DxYeR/2C1j+16/yVjaRJTy6?=
+ =?us-ascii?Q?NBu1yCPct+LckOOyKmPulfVYOQFlw/umkCWZJXcwtyQXYgf0pQnJ/F2utFA0?=
+ =?us-ascii?Q?MSHO6c9gqtAgqDo3WRn6YRlyMQSJlqsFkEsXVpTqcd9Jp2Z9ZBfoflsVcrd0?=
+ =?us-ascii?Q?IbZsjZB7VteZMI69HPiQSd3yl/laoOX9CtJR3J6v0kXhJ6bX24EMffcs+zL2?=
+ =?us-ascii?Q?0Yd3kt2u5nA8Ws25wcD3ld6ukmFZDQ4516j7aI7h+vlFJ9LwU+eVoGQSUkVl?=
+ =?us-ascii?Q?DWWGeF61sjFg/Ce5TVmY8T5BABnqDsw=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: dacf39e8-b4d9-403c-7079-08def860261e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a2934b5-ce91-4cdf-446b-08def8602519
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 10:54:57.4305
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 10:54:55.7218
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FtY8K0g0e8Tfogc0ZdvtnPArzlPHOtOxL/hyxHE5/M8CBqeRdAnNhnBhiF9QQNZkkxLW2Tx7iwILe4GwS9ABfovqGGCx5BQKKSEm5IuzIAI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: xSZAk2g5oxkqjJ4c8F+TwhEodJi9JbPVLXv4vFE0vA6mtQGkxe5zhy/oF+evLDKdA7R9e1LmnlTP4eEGliOEpjXehHi7F221VoYoxRzr0Aw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P189MB3581
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 10:55:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243275
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243274
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-18220
-https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3D114e3aae2b7=
-e34057c8909301eaf78c15687e8e5
+https://nvd.nist.gov/vuln/detail/CVE-2026-15003
+https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3D23acf2f003f=
+81b2f8d9d1997ea45d822d33d386c
 
 
 Test results:
@@ -134,101 +134,464 @@ solved, 20 untested, 99 unsupported
 solved, 20 untested, 99 unsupported
 
 Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.git=
-;a=3Dcommitdiff;h=3D114e3aae2b7e34057c8909301eaf78c15687e8e5]
+;a=3Dcommitdiff;h=3D23acf2f003f81b2f8d9d1997ea45d822d33d386c]
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../binutils/binutils-2.42.inc                |  1 +
- .../binutils/binutils/CVE-2026-18220.patch    | 65 +++++++++++++++++++
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-18220.=
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../binutils/binutils/CVE-2026-15003.patch    | 400 ++++++++++++++++++
+ 2 files changed, 401 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-15003.=
 patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
 s-devtools/binutils/binutils-2.42.inc
-index 447529ffa9..d395ae1b1e 100644
+index 5534ce577f..447529ffa9 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -81,5 +81,6 @@ SRC_URI =3D "\
+@@ -80,5 +80,6 @@ SRC_URI =3D "\
+      file://CVE-2025-69645.patch \
       file://CVE-2025-1147.patch \
       file://CVE-2025-8224.patch \
-      file://CVE-2026-15003.patch \
-+     file://CVE-2026-18220.patch \
++     file://CVE-2026-15003.patch \
  "
  S  =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch b=
+/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
 new file mode 100644
-index 0000000000..e915fb223a
+index 0000000000..2f5c42e1b9
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
-@@ -0,0 +1,65 @@
-+From 114e3aae2b7e34057c8909301eaf78c15687e8e5 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
+@@ -0,0 +1,400 @@
++From 23acf2f003f81b2f8d9d1997ea45d822d33d386c Mon Sep 17 00:00:00 2001
 +From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 28 Jun 2026 09:11:46 +0930
-+Subject: [PATCH] asan: buffer overflow in elf32_dlx_relocate26
++Date: Thu, 9 Apr 2026 09:06:27 +0930
++Subject: [PATCH] PR 34053 buffer overflow in xcoff_link_add_symbols
 +
-+	* elf32-dlx.c (elf32_dlx_relocate26): Sanity check reloc offset.
-+	(elf32_dlx_relocate16): Likewise.
-+	(_bfd_dlx_elf_hi16_reloc): Likewise, and remove ineffective
-+	existing check.
++This patch adds two sanity checks with error reporting in
++xcoff_link_add_symbols before reading symbol aux entries, add extends
++assertions in later functions.  A whole lot of unnecessary casts are
++also tidied.
 +
-+CVE: CVE-2026-18220
++	PR 34053
++	* xcofflink.c: Remove unnecessary casts throughout.
++	(xcoff_link_add_symbols): Sanity check aux entries are within
++	symbol buffer.
++	(bfd_xcoff_build_dynamic_sections): Assert the above is true.
++	(xcoff_link_input_bfd): Likewise.
++
++CVE: CVE-2026-15003
 +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.gi=
-t;a=3Dcommitdiff;h=3D114e3aae2b7e34057c8909301eaf78c15687e8e5]
+t;a=3Dcommitdiff;h=3D23acf2f003f81b2f8d9d1997ea45d822d33d386c]
 +
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ bfd/elf32-dlx.c | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
++ bfd/xcofflink.c | 132 +++++++++++++++++++++++-------------------------
++ 1 file changed, 62 insertions(+), 70 deletions(-)
 +
-+diff --git a/bfd/elf32-dlx.c b/bfd/elf32-dlx.c
-+index 2dfeb4d7390..0f9a49695d7 100644
-+--- a/bfd/elf32-dlx.c
-++++ b/bfd/elf32-dlx.c
-+@@ -77,6 +77,10 @@ _bfd_dlx_elf_hi16_reloc (bfd *abfd,
-+       return bfd_reloc_ok;
++diff --git a/bfd/xcofflink.c b/bfd/xcofflink.c
++index 7f1c0df760f..cf3b33e7202 100644
++--- a/bfd/xcofflink.c
+++++ b/bfd/xcofflink.c
++@@ -371,7 +371,7 @@ _bfd_xcoff_canonicalize_dynamic_symtab (bfd *abfd, asy=
+mbol **psyms)
++ 	{
++ 	  char *c;
++=20
++-	  c =3D bfd_alloc (abfd, (bfd_size_type) SYMNMLEN + 1);
+++	  c =3D bfd_alloc (abfd, SYMNMLEN + 1);
++ 	  if (c =3D=3D NULL)
++ 	    return -1;
++ 	  memcpy (c, ldsym._l._l_name, SYMNMLEN);
++@@ -1038,7 +1038,7 @@ xcoff_link_add_dynamic_symbols (bfd *abfd, struct bf=
+d_link_info *info)
++ 	    {
++ 	      char *dsnm;
++=20
++-	      dsnm =3D bfd_malloc ((bfd_size_type) strlen (name) + 2);
+++	      dsnm =3D bfd_malloc (strlen (name) + 2);
++ 	      if (dsnm =3D=3D NULL)
++ 		return false;
++ 	      dsnm[0] =3D '.';
++@@ -1081,7 +1081,7 @@ xcoff_link_add_dynamic_symbols (bfd *abfd, struct bf=
+d_link_info *info)
++   coff_section_data (abfd, lsec)->contents =3D NULL;
++=20
++   /* Record this file in the import files.  */
++-  n =3D bfd_alloc (abfd, (bfd_size_type) sizeof (struct xcoff_import_file=
+));
+++  n =3D bfd_alloc (abfd, sizeof (*n));
++   if (n =3D=3D NULL)
++     return false;
++   n->next =3D NULL;
++@@ -1477,7 +1477,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
+nfo *info)
++       bfd_vma value;
++       struct xcoff_link_hash_entry *set_toc;
++=20
++-      bfd_coff_swap_sym_in (abfd, (void *) esym, (void *) &sym);
+++      bfd_coff_swap_sym_in (abfd, esym, &sym);
++=20
++       /* In this pass we are only interested in symbols with csect
++ 	 information.  */
++@@ -1523,9 +1523,12 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_=
+info *info)
++ 	{
++ 	  union internal_auxent auxlin;
++=20
++-	  bfd_coff_swap_aux_in (abfd, (void *) (esym + symesz),
+++	  if (symesz >=3D (size_t) (esym_end - esym))
+++	    goto badaux;
+++
+++	  bfd_coff_swap_aux_in (abfd, esym + symesz,
++ 				sym.n_type, sym.n_sclass,
++-				0, sym.n_numaux, (void *) &auxlin);
+++				0, sym.n_numaux, &auxlin);
++=20
++ 	  if (auxlin.x_sym.x_fcnary.x_fcn.x_lnnoptr !=3D 0)
++ 	    {
++@@ -1552,7 +1555,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
+nfo *info)
++=20
++ 		  linpstart =3D (reloc_info[enclosing->target_index].linenos
++ 			       + linoff);
++-		  bfd_coff_swap_lineno_in (abfd, (void *) linpstart, (void *) &lin);
+++		  bfd_coff_swap_lineno_in (abfd, linpstart, &lin);
++ 		  if (lin.l_lnno =3D=3D 0
++ 		      && ((bfd_size_type) lin.l_addr.l_symndx
++ 			  =3D=3D ((esym
++@@ -1567,8 +1570,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
+nfo *info)
++ 			   linp < linpend;
++ 			   linp +=3D linesz)
++ 			{
++-			  bfd_coff_swap_lineno_in (abfd, (void *) linp,
++-						   (void *) &lin);
+++			  bfd_coff_swap_lineno_in (abfd, linp, &lin);
++ 			  if (lin.l_lnno =3D=3D 0)
++ 			    break;
++ 			}
++@@ -1589,21 +1591,21 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link=
+_info *info)
++       visibility =3D sym.n_type & SYM_V_MASK;
++=20
++       /* Pick up the csect auxiliary information.  */
++-      if (sym.n_numaux =3D=3D 0)
+++      if (sym.n_numaux < 1
+++	  || sym.n_numaux * symesz >=3D (size_t) (esym_end - esym))
++ 	{
+++	badaux:
++ 	  _bfd_error_handler
++ 	    /* xgettext:c-format */
++-	    (_("%pB: class %d symbol `%s' has no aux entries"),
+++	    (_("%pB: class %d symbol '%s' has missing aux entries"),
++ 	     abfd, sym.n_sclass, name);
++ 	  bfd_set_error (bfd_error_bad_value);
++ 	  goto error_return;
++ 	}
++=20
++-      bfd_coff_swap_aux_in (abfd,
++-			    (void *) (esym + symesz * sym.n_numaux),
+++      bfd_coff_swap_aux_in (abfd, esym + symesz * sym.n_numaux,
++ 			    sym.n_type, sym.n_sclass,
++-			    sym.n_numaux - 1, sym.n_numaux,
++-			    (void *) &aux);
+++			    sym.n_numaux - 1, sym.n_numaux, &aux);
++=20
++       smtyp =3D SMTYP_SMTYP (aux.x_csect.x_smtyp);
++=20
++@@ -1726,7 +1728,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_i=
+nfo *info)
++=20
++ 		  erelsym =3D ((bfd_byte *) obj_coff_external_syms (abfd)
++ 			     + rel->r_symndx * symesz);
++-		  bfd_coff_swap_sym_in (abfd, (void *) erelsym, (void *) &relsym);
+++		  bfd_coff_swap_sym_in (abfd, erelsym, &relsym);
++ 		  if (EXTERN_SYM_P (relsym.n_sclass))
++ 		    {
++ 		      const char *relname;
++@@ -2507,7 +2509,7 @@ xcoff_link_check_ar_symbols (bfd *abfd,
++     {
++       struct internal_syment sym;
++=20
++-      bfd_coff_swap_sym_in (abfd, (void *) esym, (void *) &sym);
+++      bfd_coff_swap_sym_in (abfd, esym, &sym);
++       esym +=3D (sym.n_numaux + 1) * symesz;
++=20
++       if (EXTERN_SYM_P (sym.n_sclass) && sym.n_scnum !=3D N_UNDEF)
++@@ -4005,7 +4007,7 @@ bfd_xcoff_size_dynamic_sections (bfd *output_bfd,
++     return true;
++=20
++   xcoff_link_hash_traverse (xcoff_hash_table (info), xcoff_post_gc_symbol=
+,
++-			    (void *) ldinfo);
+++			    ldinfo);
++   if (ldinfo->failed)
++     goto error_return;
++=20
++@@ -4216,7 +4218,8 @@ bfd_xcoff_build_dynamic_sections (bfd *output_bfd,
++ 	  /* Read in the csect information, if any.  */
++ 	  if (CSECT_SYM_P (sym.n_sclass))
++ 	    {
++-	      BFD_ASSERT (sym.n_numaux > 0);
+++	      BFD_ASSERT (sym.n_numaux > 0
+++			  && symesz * sym.n_numaux < (size_t) (esymend - esym));
++ 	      bfd_coff_swap_aux_in (sub, esym + symesz * sym.n_numaux,
++ 				    sym.n_type, sym.n_sclass,
++ 				    sym.n_numaux - 1, sym.n_numaux, &aux);
++@@ -4307,7 +4310,7 @@ bfd_xcoff_link_generate_rtinit (bfd *abfd,
++ {
++   struct bfd_in_memory *bim;
++=20
++-  bim =3D bfd_malloc ((bfd_size_type) sizeof (* bim));
+++  bim =3D bfd_malloc (sizeof (*bim));
++   if (bim =3D=3D NULL)
++     return false;
++=20
++@@ -4316,7 +4319,7 @@ bfd_xcoff_link_generate_rtinit (bfd *abfd,
++=20
++   abfd->link.next =3D 0;
++   abfd->format =3D bfd_object;
++-  abfd->iostream =3D (void *) bim;
+++  abfd->iostream =3D bim;
++   abfd->flags =3D BFD_IN_MEMORY;
++   abfd->iovec =3D &_bfd_memory_iovec;
++   abfd->direction =3D write_direction;
++@@ -4876,8 +4879,8 @@ bfd_xcoff_size_stubs (struct bfd_link_info *info)
++ 			}
++=20
++ 		      bfd_coff_swap_sym_in (input_bfd,
++-					    (void *) esyms + irel->r_symndx * symesz,
++-					    (void *) &sym);
+++					    esyms + irel->r_symndx * symesz,
+++					    &sym);
++=20
++ 		      sym_sec =3D xcoff_data (input_bfd)->csects[irel->r_symndx];
++ 		      sym_value =3D sym.n_value - sym_sec->vma;
++@@ -5250,17 +5253,16 @@ xcoff_link_input_bfd (struct xcoff_final_link_info=
+ *flinfo,
++       int smtyp =3D 0;
++       int add;
++=20
++-      bfd_coff_swap_sym_in (input_bfd, (void *) esym, (void *) isymp);
+++      bfd_coff_swap_sym_in (input_bfd, esym, isymp);
++=20
++       /* Read in the csect information, if any.  */
++       if (CSECT_SYM_P (isymp->n_sclass))
++ 	{
++-	  BFD_ASSERT (isymp->n_numaux > 0);
++-	  bfd_coff_swap_aux_in (input_bfd,
++-				(void *) (esym + isymesz * isymp->n_numaux),
+++	  BFD_ASSERT (isymp->n_numaux > 0
+++		      && isymesz * isymp->n_numaux < (size_t) (esym_end - esym));
+++	  bfd_coff_swap_aux_in (input_bfd, esym + isymesz * isymp->n_numaux,
++ 				isymp->n_type, isymp->n_sclass,
++-				isymp->n_numaux - 1, isymp->n_numaux,
++-				(void *) &aux);
+++				isymp->n_numaux - 1, isymp->n_numaux, &aux);
++=20
++ 	  smtyp =3D SMTYP_SMTYP (aux.x_csect.x_smtyp);
++ 	}
++@@ -5475,12 +5477,10 @@ xcoff_link_input_bfd (struct xcoff_final_link_info=
+ *flinfo,
++ 		  if ((bfd_size_type) flinfo->last_file_index >=3D syment_base)
++ 		    {
++ 		      /* The last C_FILE symbol is in this input file.  */
++-		      bfd_coff_swap_sym_out (output_bfd,
++-					     (void *) &flinfo->last_file,
++-					     (void *) (flinfo->outsyms
++-						    + ((flinfo->last_file_index
++-							- syment_base)
++-						       * osymesz)));
+++		      bfd_coff_swap_sym_out
+++			(output_bfd, &flinfo->last_file,
+++			 flinfo->outsyms + (flinfo->last_file_index
+++					    - syment_base) * osymesz);
++ 		    }
++ 		  else
++ 		    {
++@@ -5489,9 +5489,8 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
+flinfo,
++ 			 borrow *outsym temporarily.  */
++ 		      file_ptr pos;
++=20
++-		      bfd_coff_swap_sym_out (output_bfd,
++-					     (void *) &flinfo->last_file,
++-					     (void *) outsym);
+++		      bfd_coff_swap_sym_out (output_bfd, &flinfo->last_file,
+++					     outsym);
++=20
++ 		      pos =3D obj_sym_filepos (output_bfd);
++ 		      pos +=3D flinfo->last_file_index * osymesz;
++@@ -5557,7 +5556,7 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
+flinfo,
++ 	    }
++=20
++ 	  /* Output the symbol.  */
++-	  bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym);
+++	  bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
++=20
++ 	  esym +=3D isymesz;
++ 	  outsym +=3D osymesz;
++@@ -5566,9 +5565,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
+flinfo,
++ 	    {
++ 	      union internal_auxent aux;
++=20
++-	      bfd_coff_swap_aux_in (input_bfd, (void *) esym, isymp->n_type,
++-				    isymp->n_sclass, i, isymp->n_numaux,
++-				    (void *) &aux);
+++	      bfd_coff_swap_aux_in (input_bfd, esym,
+++				    isymp->n_type, isymp->n_sclass, i,
+++				    isymp->n_numaux, &aux);
++=20
++ 	      if (isymp->n_sclass =3D=3D C_FILE)
++ 		{
++@@ -5796,9 +5795,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *=
+flinfo,
++ 		    }
++ 		}
++=20
++-	      bfd_coff_swap_aux_out (output_bfd, (void *) &aux, isymp->n_type,
+++	      bfd_coff_swap_aux_out (output_bfd, &aux, isymp->n_type,
++ 				     isymp->n_sclass, i, isymp->n_numaux,
++-				     (void *) outsym);
+++				     outsym);
++ 	      outsym +=3D osymesz;
++ 	      esym +=3D isymesz;
++ 	    }
++@@ -5820,10 +5819,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info =
+*flinfo,
++       && (bfd_size_type) flinfo->last_file_index >=3D syment_base)
++     {
++       flinfo->last_file.n_value =3D output_index;
++-      bfd_coff_swap_sym_out (output_bfd, (void *) &flinfo->last_file,
++-			     (void *) (flinfo->outsyms
++-				    + ((flinfo->last_file_index - syment_base)
++-				       * osymesz)));
+++      bfd_coff_swap_sym_out (output_bfd, &flinfo->last_file,
+++			     flinfo->outsyms + (flinfo->last_file_index
+++						- syment_base) * osymesz);
 +     }
 +=20
-++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
-++				  input_section, reloc_entry->address))
-++    return bfd_reloc_outofrange;
-++
-+   ret =3D bfd_reloc_ok;
++   /* Write the modified symbols to the output file.  */
++@@ -6036,16 +6034,13 @@ xcoff_link_input_bfd (struct xcoff_final_link_info=
+ *flinfo,
++ 			      void * auxptr;
++ 			      union internal_auxent aux;
 +=20
-+   if (bfd_is_und_section (symbol->section)
-+@@ -89,9 +93,6 @@ _bfd_dlx_elf_hi16_reloc (bfd *abfd,
-+   relocation +=3D reloc_entry->addend;
-+   relocation +=3D bfd_get_16 (abfd, (bfd_byte *)data + reloc_entry->addre=
-ss);
++-			      auxptr =3D ((void *)
++-					(((bfd_byte *)
++-					  obj_coff_external_syms (input_bfd))
++-					 + ((r_symndx + is->n_numaux)
++-					    * isymesz)));
+++			      auxptr =3D ((bfd_byte *)
+++					obj_coff_external_syms (input_bfd)
+++					+ (r_symndx + is->n_numaux) * isymesz);
++ 			      bfd_coff_swap_aux_in (input_bfd, auxptr,
++ 						    is->n_type, is->n_sclass,
++ 						    is->n_numaux - 1,
++-						    is->n_numaux,
++-						    (void *) &aux);
+++						    is->n_numaux, &aux);
++ 			      if (SMTYP_SMTYP (aux.x_csect.x_smtyp) =3D=3D XTY_SD
++ 				  && aux.x_csect.x_smclas =3D=3D XMC_TC0)
++ 				indx =3D flinfo->toc_symindx;
++@@ -6564,12 +6559,12 @@ xcoff_write_global_symbol (struct bfd_hash_entry *=
+bh, void * inf)
++ 	  irsym.n_type =3D T_NULL;
++ 	  irsym.n_numaux =3D 1;
 +=20
-+-  if (reloc_entry->address > bfd_get_section_limit (abfd, input_section))
-+-    return bfd_reloc_outofrange;
-+-
-+   bfd_put_16 (abfd, (short)((relocation >> 16) & 0xFFFF),
-+ 	      (bfd_byte *)data + reloc_entry->address);
++-	  bfd_coff_swap_sym_out (output_bfd, (void *) &irsym, (void *) outsym);
+++	  bfd_coff_swap_sym_out (output_bfd, &irsym, outsym);
++ 	  outsym +=3D bfd_coff_symesz (output_bfd);
 +=20
-+@@ -143,6 +144,10 @@ elf32_dlx_relocate16 (bfd *abfd,
-+       return bfd_reloc_undefined;
++ 	  /* Note : iraux is initialized above.  */
++-	  bfd_coff_swap_aux_out (output_bfd, (void *) &iraux, T_NULL, C_HIDEXT,
++-				 0, 1, (void *) outsym);
+++	  bfd_coff_swap_aux_out (output_bfd, &iraux, T_NULL, C_HIDEXT,
+++				 0, 1, outsym);
++ 	  outsym +=3D bfd_coff_auxesz (output_bfd);
++=20
++ 	  if (h->indx >=3D 0)
++@@ -6807,12 +6802,11 @@ xcoff_write_global_symbol (struct bfd_hash_entry *=
+bh, void * inf)
++   isym.n_type =3D T_NULL;
++   isym.n_numaux =3D 1;
++=20
++-  bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym);
+++  bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
++   outsym +=3D bfd_coff_symesz (output_bfd);
++=20
++   aux.x_csect.x_smclas =3D h->smclas;
++-  bfd_coff_swap_aux_out (output_bfd, (void *) &aux, T_NULL, isym.n_sclass=
+, 0, 1,
++-			 (void *) outsym);
+++  bfd_coff_swap_aux_out (output_bfd, &aux, T_NULL, isym.n_sclass, 0, 1, o=
+utsym);
++   outsym +=3D bfd_coff_auxesz (output_bfd);
++=20
++   if ((h->root.type =3D=3D bfd_link_hash_defined
++@@ -6827,13 +6821,12 @@ xcoff_write_global_symbol (struct bfd_hash_entry *=
+bh, void * inf)
++ 	isym.n_sclass =3D C_WEAKEXT;
++       else
++ 	isym.n_sclass =3D C_EXT;
++-      bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym)=
+;
+++      bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
++       outsym +=3D bfd_coff_symesz (output_bfd);
++=20
++       aux.x_csect.x_smtyp =3D XTY_LD;
++       aux.x_csect.x_scnlen.u64 =3D obj_raw_syment_count (output_bfd);
++-      bfd_coff_swap_aux_out (output_bfd, (void *) &aux, T_NULL, C_EXT, 0,=
+ 1,
++-			     (void *) outsym);
+++      bfd_coff_swap_aux_out (output_bfd, &aux, T_NULL, C_EXT, 0, 1, outsy=
+m);
++       outsym +=3D bfd_coff_auxesz (output_bfd);
 +     }
 +=20
-++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
-++				  input_section, reloc_entry->address))
-++    return bfd_reloc_outofrange;
-++
-+   insn  =3D bfd_get_32 (abfd, (bfd_byte *)data + reloc_entry->address);
-+   allignment =3D 1 << (input_section->output_section->alignment_power - 1=
-);
-+   vallo =3D insn & 0x0000FFFF;
-+@@ -206,6 +211,10 @@ elf32_dlx_relocate26 (bfd *abfd,
-+       return bfd_reloc_undefined;
-+     }
++@@ -6929,8 +6922,8 @@ xcoff_reloc_link_order (bfd *output_bfd,
++ 	     howto->name, addend, NULL, NULL, (bfd_vma) 0);
++ 	  break;
++ 	}
++-      ok =3D bfd_set_section_contents (output_bfd, output_section, (void =
+*) buf,
++-				     (file_ptr) link_order->offset, size);
+++      ok =3D bfd_set_section_contents (output_bfd, output_section, buf,
+++				     link_order->offset, size);
++       free (buf);
++       if (! ok)
++ 	return false;
++@@ -7395,8 +7388,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_lin=
+k_info *info)
++   if (flinfo.last_file_index !=3D -1)
++     {
++       flinfo.last_file.n_value =3D -(bfd_vma) 1;
++-      bfd_coff_swap_sym_out (abfd, (void *) &flinfo.last_file,
++-			     (void *) flinfo.outsyms);
+++      bfd_coff_swap_sym_out (abfd, &flinfo.last_file, flinfo.outsyms);
++       pos =3D obj_sym_filepos (abfd) + flinfo.last_file_index * symesz;
++       if (bfd_seek (abfd, pos, SEEK_SET) !=3D 0
++ 	  || bfd_write (flinfo.outsyms, symesz, abfd) !=3D symesz)
++@@ -7480,7 +7472,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_lin=
+k_info *info)
++ 	 appear in the symbol table, which is not necessarily by
++ 	 address.  So we sort them here.  There may be a better way to
++ 	 do this.  */
++-      qsort ((void *) flinfo.section_info[o->target_index].relocs,
+++      qsort (flinfo.section_info[o->target_index].relocs,
++ 	     o->reloc_count, sizeof (struct internal_reloc),
++ 	     xcoff_sort_relocs);
 +=20
-++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
-++				  input_section, reloc_entry->address))
-++    return bfd_reloc_outofrange;
-++
-+   insn  =3D bfd_get_32 (abfd, (bfd_byte *)data + reloc_entry->address);
-+   allignment =3D 1 << (input_section->output_section->alignment_power - 1=
-);
-+   vallo =3D insn & 0x03FFFFFF;
++@@ -7488,7 +7480,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_lin=
+k_info *info)
++       irelend =3D irel + o->reloc_count;
++       erel =3D external_relocs;
++       for (; irel < irelend; irel++, rel_hash++, erel +=3D relsz)
++-	bfd_coff_swap_reloc_out (abfd, (void *) irel, (void *) erel);
+++	bfd_coff_swap_reloc_out (abfd, irel, erel);
++=20
++       rel_size =3D relsz * o->reloc_count;
++       if (bfd_seek (abfd, o->rel_filepos, SEEK_SET) !=3D 0
 
