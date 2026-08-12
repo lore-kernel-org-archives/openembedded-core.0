@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DA1C5CFF1
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 07:48:25 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2939.1786520897982248988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B197C5B56A
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 07:48:26 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2782.1786520899400007013
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 00:48:18 -0700
+ Wed, 12 Aug 2026 00:48:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gluUB3g5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IMtzcpxU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019ff4f1853d-dc0e7c88-f789-4128-8c48-6ac6189128db-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XF6xeQux;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HafPGz4H;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ff4f18bb0-9cb5e6d8-7a30-4936-b821-66dabef6e12c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786520897; i=@automation.yoctoproject.org;
+	t=1786520898; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Rpo6Wf+UaXuvZbjZ1Px+LgIkun5FD/bIpBilpmsGlbQ=;
-	b=gluUB3g5bqaO/h/XMcIdevyrwtCqP5UGMdWxIU7qzlEzNBdvveI3MCXdR0AKRc/G
-	XbNTqu4k2bwHFPiUSPdhivbgLPJdMd6NMUUlZayWfN5G7IjyyrLwmEaOxpdwg5G583A
-	5tsICTLBhYdFgRxAX/0lxJOipwIIaE6dgdZY45Hg=
+	bh=oEeJV9Lj4nNKBeV905PwrDG0Q2Vbvshlq9j7KpopIn4=;
+	b=XF6xeQux4znvQJLUmj93bVay6cpqPeFwjooFYARgMvzWHEebEcxtpiWUaHLETGoB
+	XNOKuiEQ/4m6E5gUwuTNtBzzV9iCwsfgr6v3nSfV5PWx8L2ZbbB7IhMQDUea4vlSD5X
+	tIndU9Ubb3tQd2fS1qwAjPuYr2KxSNG2gabY0yeY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786520897;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786520898;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Rpo6Wf+UaXuvZbjZ1Px+LgIkun5FD/bIpBilpmsGlbQ=;
-	b=IMtzcpxUGRn108LDn+10iFCYc5KKOsCqzly8lEcE2dedveGb9mMbp28Qz/PfDrsX
-	vM4I0KT+5GqP1gQT3+/SrWVodLTLoRzeQMC7I2nrmZoDvtqaV7bMNIKzdKHGk83O0UD
-	oFbf4qjoISRfit54RKPtWtNv5LK7jyz10ft+gS6A=
+	bh=oEeJV9Lj4nNKBeV905PwrDG0Q2Vbvshlq9j7KpopIn4=;
+	b=HafPGz4HWuF7V5RXjXOijq1ky6LFyikAwMELlKiew4Hv+n+koryvfEoU5ZJJq+jW
+	ZA/n2qpfvymWL1ztkZzeov+/cgZ+/7k54xGZYRCH0petmD+ZYX4FBoJRL7SQ3Kq13nw
+	RPqjzYMXyIC2NvHmVNJv+IkPIt8/YUjyAmXG0ZS4=
 From: patchtest@automation.yoctoproject.org
 To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap][PATCH 2/4] binutils: fix CVE-2025-8224
-In-Reply-To: <20260812072822.22227-3-jaipaul.cheernam@est.tech>
-References: <20260812072822.22227-3-jaipaul.cheernam@est.tech>
+Subject: Patchtest results for [scarthgap][PATCH 4/4] binutils: fix CVE-2026-18220
+In-Reply-To: <20260812072822.22227-5-jaipaul.cheernam@est.tech>
+References: <20260812072822.22227-5-jaipaul.cheernam@est.tech>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019ff4f1853d-dc0e7c88-f789-4128-8c48-6ac6189128db-000000@us-west-2.amazonses.com>
-Date: Wed, 12 Aug 2026 07:48:16 +0000
+Message-ID: <0101019ff4f18bb0-9cb5e6d8-7a30-4936-b821-66dabef6e12c-000000@us-west-2.amazonses.com>
+Date: Wed, 12 Aug 2026 07:48:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.12-54.240.27.29
+X-SES-Outgoing: 2026.08.12-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 07:48:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243256
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 07:48:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243258
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-2-4-binutils-fix-CVE-2025-8224.patch
+Testing patch /home/patchtest/share/mboxes/scarthgap-4-4-binutils-fix-CVE-2026-18220.patch
 
 FAIL: test Upstream-Status presence: Upstream-Status is present only after the patch scissors. It must be placed in the patch header before the scissors line. (test_patch.TestPatch.test_upstream_status_presence_format)
 
