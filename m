@@ -2,59 +2,62 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31761C5CFDB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52419C5DF65
 	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 23:49:35 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8362.1786578564165100360
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8370.1786578571195839216
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 16:49:26 -0700
+ Wed, 12 Aug 2026 16:49:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=O537ITtO;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2684dbd6f8=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67CNj2bI4005569
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 23:49:23 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Urkerf1A;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2684dbd6f8=sumanth.gavini@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67CNgGpX3893031
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 16:49:31 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=c3e9YLRB7
-	vz52hO0iJ+DJS3xoFNhhkGCFriW4eazjLU=; b=O537ITtODOkmpOdCd2lxdzSIV
-	+YvjeDF2HdNFO7sjz2P4rjwrErbFADpC2s98yZ6Bw+49D6HOrrvLb3VlwtOb5CzW
-	b1KXx01TBvHnnlXPcDZOo6YDzQmXy9rrFyJhnIfAQXhzNzJjlJFnLBfet0IEOCqn
-	VBRCBHr2s0u6cgC6r0rjzAa2vxwNGu0FJkcMkkzzpt0vMz6JkNanvSgZdUqava+l
-	nnmlyOsLMLFySmUjQuw06/F+ahcJxQEMuCwkYehyzlBPLau2jtcttkvsDaJthff4
-	d3+eEeiJoRNVKsrmhwCkOgfizQc6RQs2BwKYbbGaVCKe9qp2ooJNmEDRN7XRA==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021138.outbound.protection.outlook.com [52.101.57.138])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fyshwv4n0-3
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=/hL9ZgrwrmNI/Gw8MgEdfDqfAVKTZQxOnkwWcU7u0pY=; b=
+	Urkerf1A51m6u/KHiteDTYX396PmFjxOOjWagtcXACXnO+R+LsCxqI7Vm+MTtPdX
+	VAIPQLtNHwYfMvAoUTwr8uNOMbm8mauxrN7ywtAdY6Pj/EyizOVBhouj7Lf4nine
+	nIaOP7QYs8mTvZB+6LKX1iL3h9oRcbNmlLGMMqMJOC6vrWq9ntIbjepWRb4j/NpR
+	j/MM0GA7/3lngOgqXZkum+KneF09T9b/V2jDCRzNFVi8JEuC7tMxhSnwvpdte1KI
+	qen+OjxhvTLP4EP5JybfFmWZmIh1JYQg66Pi3tayIg5cHkC1ahgPp41vPy4itVHn
+	3BGyO8UHBegWCJpn2Xaamw==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022094.outbound.protection.outlook.com [52.101.48.94])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fysggc4em-3
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 12 Aug 2026 23:49:22 +0000 (GMT)
+	Wed, 12 Aug 2026 16:49:30 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tVKs2Rs6JD8IfSyL+qxdfAkRgrB0odbU4kSecCx/qAp5cvLm2H8LE4bu4QixA+eGxxp5FD7WyivnhjrvgFuW0Ot81iI1FRPhcVsrUiMj7WzWXI01ky9T09XZNHu0d5WDOJ7/f8+G1vQGAw9cyZ20fCs9Ge2KHSGaUfbbkzlOE1CtT25GP523ci7liO+rf/FpjPi3y8NpN0a0uJVw0JyzXDH2WRvL8xQgO7o+REr9AeHM3nZuACznry3igMMOa5rhbx1RphKNOMzJjtGbzBojTHCEJbd1+I5rVHG3GFv7F4vmsM01koDwI+fiLKTLF/ZGvbtQieT098+s4ZugPYNSig==
+ b=XpJP6Q6F02soSlcyVXY7flAcx76F/oGkD7E71hOufVNWiyAz/5+/kf6Wnece3oKYJtJ1wMht4BSTma5DR4y+nIgb3buGyCVJK8etI6Zubn+BZCs/vS7EXYJfcngMrKwjqYz3jGRHfm4NWHq2eQr+bWJsTeTl8caqrWSQnve/7LwIssPkjUBJZ96E9zgk1EE/3ZNYj4UjwYxm0sxD+Il5xtAOo+L5nBf5/R3rG2+BMLVH1Md1v8R7jH/vkHpk22qEg9di+fm5l77MVB7Kuk/jSlb1NQsxJe/rg5Au+vxI7IixhlahkbQFQKSI/HZE6D4mZJt7VRc91HpQpDow7bQ/cQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c3e9YLRB7vz52hO0iJ+DJS3xoFNhhkGCFriW4eazjLU=;
- b=GOSh291vIpzSYfzfnMETnNY2D8A+moocCrtxRWt8axHQwXqbfaKxr+oRixGJwNwayj1uP/wuWyZoZIv7TVLwwPCpY5CQKzncKI43JKjJcImdHRd168VtR7sUmPm7ELcGMz+9NMXsx904Wao+7Vwp4k6GTz3CIOp8a0M6pv0IGWejhYJMTqoPiZmnUK2znkhbmaWV6GlKZrlzo8RkUdlocHB10qTaVSKqsZaP9uCF/NbLzpmehHEfkRmg9lreTkvUpI1RwGyeETi1O2132CwEVfoRvX2bHedtl6nd2BocIQceHuUaJTbH/m4tHFa3inVEAEX7PNCrEx4sxE6p8YgXGQ==
+ bh=/hL9ZgrwrmNI/Gw8MgEdfDqfAVKTZQxOnkwWcU7u0pY=;
+ b=G6Izhs7vuuC+B5ZZmlXL4wUf2EXhJQ2zifD5Zmry5weLnHddnYlk6pK5HxChkil1q9fDcK1hwJd/QnYHZy80V1f+WWTFIy3Cwa/CDB60BUovUUyDUjYFG79I1D7Eey8AzegGVDEEvAjZnGyWqmonACP8C8p5aW4Vrk9sXXYdANhUoJNjAnTMloLB7cGvul0oF0Puhu5dF9t9R4eP9JJodkWH1Oj1XxeVBf6zjtkumwQ54aWDozogRpzPMxFjlAMP2JP2hmvLBPp+w4Oba8pRZKn9qxmgqkMiyqECyM1eNA1FgPuN2IEU04W16E3o6nsadPJ2va0991ib3lQQ22qWEg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
- by DM4PR11MB5296.namprd11.prod.outlook.com (2603:10b6:5:393::22) with
+ by IA4PR11MB9059.namprd11.prod.outlook.com (2603:10b6:208:560::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Wed, 12 Aug
- 2026 23:49:18 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Wed, 12 Aug
+ 2026 23:49:27 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0270.016; Wed, 12 Aug 2026
- 23:49:17 +0000
+ 23:49:27 +0000
 From: Sumanth Gavini <sumanth.gavini@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
         mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
         randy.macleod@windriver.com
-Subject: [PATCH v14 00/10] rpm: 4.20.1 -> 6.0.2
-Date: Wed, 12 Aug 2026 16:48:50 -0700
-Message-ID: <20260812234900.866436-1-sumanth.gavini@windriver.com>
+Subject: [PATCH v14 09/10] libarchive: Add RPM format reader to support rpm 6
+Date: Wed, 12 Aug 2026 16:48:59 -0700
+Message-ID: <20260812234900.866436-10-sumanth.gavini@windriver.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260812234900.866436-1-sumanth.gavini@windriver.com>
+References: <20260812234900.866436-1-sumanth.gavini@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SJ0PR13CA0102.namprd13.prod.outlook.com
@@ -62,329 +65,1543 @@ X-ClientProxiedBy: SJ0PR13CA0102.namprd13.prod.outlook.com
  (2603:10b6:208:57f::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|DM4PR11MB5296:EE_
-X-MS-Office365-Filtering-Correlation-Id: e263538f-f974-4ecc-c50f-08def8cc527f
+X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|IA4PR11MB9059:EE_
+X-MS-Office365-Filtering-Correlation-Id: 36b4a2ae-b304-4337-a8c7-08def8cc5871
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|23010399003|10067099003|56012099006|11063799006|5023799004|6133799003|18002099003|38350700014;
+	BCL:0;ARA:13230040|23010399003|52116014|376014|366016|1800799024|38350700014|13003099007|29003799003|6133799003|25016099003|12006099003|56012099006|11063799006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	DQXJ3vop3sYa1yHqp+wOtutu09jhIdi9oE85zsL7+OlrleSB4645RRjMK6zvujbUz60+oSRDdnhlWHmBpZ/k6xZ4Ju46yDG6byq5H5Ux/IYkf8ymBMuXYbdRo+55elFBBCgD5ywJBh3vg412NeWThEX35qr2nkCIHno7yrl4UvCyWoOxiQynL5RGSOk3ux73BrQnDQVCq1IMnVgAj+2PjqQLEUntR9kTF0tTFeotPHl8jWKsIcfYDHDVVIBy+NabVbpCBafdg0aEIdiOM5Pq3YUT1XxRO4+Aw7dsZRospyRZQWrNEguTb8K+BsaZY9rJVRBAxZKdUST3K+NET//RjJ6X1JcdqDpOwN9EhCzpKVekt7wwgx988Ydxx8ueu4bOqy9HyYcXs8je4ofdvNZIOva5igTAKdV1GU2SdTlV5Ssu1haLMhGtu0azagoOmuyN2B2AxqBoOdmve8CxGCWmOsn/aSIzgrNDfrkGC4n9MoslIkfJaRysWuEnNg3hkBQIv4QTy2+XNcLkg7+vdfLYPo3eKqNSfUp1X+8bDImg6ObyLRbR13NyBZaIA6pG4NEENJQEMPNL97q6N5ZVyiyxVBJivSipGCE30bp3zsNgly68u8XcgWwQf28JGkmSLtU4l9D1S5Pcx0j24MN4H1CA5MRmXRJ2af5KyRNdPfkA/G48Waq8LgLYcMADquX78os4HFg/Fbh41yt7nNoM1tXioZ9qEl+RQSbv7LhQBQDhaY8=
+	uWJ0TXQ7aTmeUP2RbzE0qckuJd7HpScEset1/yPmtJTs46Rqp9Siw8zBQqi2E4uPyNuZ+aCYQwGmdCGA8UhteZ8Gldw5HQJzeb9vAzm702nMgUbb5Gx/4kvfaE3MhyaACigvZPbBxDm6uZ/bsJdP7xZNKpWiIiEkdEHOTsR3ycT+VoWOdxgtQ1bdRHL6WRUKrVtgvLER+oU6F1KDRDfnOeLr2P2TSjz/AMXSnPqmuioNY41mSXrPSU3W0KCfrRzy8ARYbEOCWlGrEGwPrxts28ZglQsmi0r5ZLsISE5RktPhJKA7pr+nJV/Hn9VAWjGk399RsXXlcVtdMcoh7Ibg9DXBPD299mBiQihjYgVcq3VFFbobLT3Gn5/0RzZLt1WWjKv6KcWBDVXpu0wC1RCCeF+z7io+sQaqyNe7wvIV7LGBQ0aovW5ntWCwIUqdm/eJUPSwrlLyIAYyKDxkW9w0EGpE/qUS5bg1zSKjfGwbjfn3Les7n9/HRwyIi7O+ba8hmGp7ipUvRGsekpx45T2gkDwDBFgls1EpNmi7D71eeFT8S3bagAoPM0Quzav9GtEdT04TvzAUIlkY589VwMQgy3uvmjJ7awW94sBVSP4nGyQZepPIDmyVhrw3cwwfOX6TQ8YhKhbfCudTUTyAKshkSV76WqTS7O62cG6hArAA5Sw=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(23010399003)(10067099003)(56012099006)(11063799006)(5023799004)(6133799003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(52116014)(376014)(366016)(1800799024)(38350700014)(13003099007)(29003799003)(6133799003)(25016099003)(12006099003)(56012099006)(11063799006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?y3H/aBxXESUo0ea5Jae1vzSQiemOuXnbB4yPZEOV+o/ChmV2zXop/pT5UGDx?=
- =?us-ascii?Q?CtYjQISiI2+8fet4IWME5QgKqSGm2DHm/HGcyEAR3EVwqmLevIg1nUSEtbwC?=
- =?us-ascii?Q?GmPIxLYOp+SCBwv5YtPlkk5zXnjDgek+LMOtn3HSvLnckp6OR0/DG1DFLbdF?=
- =?us-ascii?Q?hF3VORWCdLCI9enHq1mysfJp7ZeO5qgXBknWCnV2XcI9K00EwllDeuzc4P4z?=
- =?us-ascii?Q?VBL4kfW19oGIv7tYxW3wJDHw6Tehf6BtrUlNKbBzOfdAU6htNzG5nidXTlia?=
- =?us-ascii?Q?CblTfJwyxMOAd0JWvagEljJxEYa4H6WWh5n/vZEBPrg2Cl/sMZLXepWGitP/?=
- =?us-ascii?Q?EBmCdY3YQIIrJyDBuXR3rK1eCBsmFnLwZnH1DK4LnheKi82c0R6aY2wijgNZ?=
- =?us-ascii?Q?LqBvJRUH2SmUHJI4BP0YggaIvwfa/Qpy0XkHHpcaqBtxhTg0x9rPMKoHbtpA?=
- =?us-ascii?Q?8EKH8XEu+JinaMcRHvuLluIBLL3Yo/9sSRKR8HmuRUxb4IwyzkYWPOwmO/BG?=
- =?us-ascii?Q?eXT/bB7fbz69z68w4oApTePiwnHrVkUB4Oi7WmxtpBRJ6uLkGfZBOAA7DPLa?=
- =?us-ascii?Q?+sb0hq8QeWz+FsJR0qEOY0k+ZSMLNaD0JEd5oGEOF5ckP+xmr48ymERYLR9K?=
- =?us-ascii?Q?h+D4pH1kcK/1INtFoCDh0JRPALKr7box61xPOiU9XHboufN3pWn15/b7YioE?=
- =?us-ascii?Q?+gsatMkK/+34Hm1Wk307pQdDsaN1Ea13QxlFRZLT9p0TK+6+kfWMn1hk5RLS?=
- =?us-ascii?Q?prM7BR2ROBjRMbALPMmvh4cCoPWP9fz7B9KRUbIpgkMCKajgcUUOnVvRI3AJ?=
- =?us-ascii?Q?T66kw2dKG18hWXrNjgTwhpEuOEDJl72Qkb3dt0IZJUaU6scWCqamyZgMuRUZ?=
- =?us-ascii?Q?zWhybpKOiPzaHL+XSddH7LCaD9x2ZKL444+g56rTsiZS+8YUNq+Q0O3J/OaP?=
- =?us-ascii?Q?xbWyXQ4QFCxaLrLep0YqOqZro1JjSnQN6IU7b9QSbUj1t4insEPf/6AeXCvg?=
- =?us-ascii?Q?07qUCtZl+votC8TyD/zaCiGgJPPLeEFXGfDQsk//btyN76h+vpgsZVbX54qR?=
- =?us-ascii?Q?uSzWqD4/ltEHsvNARVQj3Z4pFK0GUM512Ou1E//rjjuKBgvXy13Bvwb8FcoB?=
- =?us-ascii?Q?bYXUvq/ZGsCPjLeW82LPUQIJXeL7QgsZbb/VDGCIE0FhRq9YW30Sj4/Vh2Lf?=
- =?us-ascii?Q?Z1ioEoqU76sSGc+LIDqtV3wCeQ9GGA27fGmH1FIEz4ih0zS7r4rnt5Fw2dbC?=
- =?us-ascii?Q?p6+SPZcSX1X1tzf6ordxfWWBjbx5/xW98fXAa/ennkr5bSZOiC3hgT+9B8gF?=
- =?us-ascii?Q?zYvvqZNLXt0XoSq67fXsH1aGBcua8spZ81Od2JxQ1vanwW2jYCQAyUV+aeuR?=
- =?us-ascii?Q?lOnh5Fe4SK2L4bQm87126IgB0n5sWQHvoIK+7C3v0ZZ+wQYLitwxOxOZ4WZ8?=
- =?us-ascii?Q?BbguzX4mL9e3zojT5iPnSeearUInGliS2G28fxFQpsxW4ougnpGTndYQyz4u?=
- =?us-ascii?Q?81p+XP4jph23HVjXZmt6Vl8CHaaDhyR/XY9ba6F6cDkNO1+fGHmMKgPIF9hU?=
- =?us-ascii?Q?pF646+/2ytlCakQhgGSsEYwxu1xnVv4LMigJtUydsM3lFt64I+YINvu0rbiI?=
- =?us-ascii?Q?QJ+YUYq/2SIzoEK1CI4tT8aJzZqnPiQdfMiIqSP3LtolftKCQ7S2Y4WpyZ3R?=
- =?us-ascii?Q?JgMVCt9y0+miFfbywILaHVbPCg9ILjw28KfEbsMdLOqKvPYGl4821N9iDm87?=
- =?us-ascii?Q?eYc8av96lzUN4ebighsVi4kGLogFjZE=3D?=
+	=?us-ascii?Q?AjvF0vGQ3G5m6HJCfuhtI14MxkAFs5AiMKyAAyIIGn6vkQnBkzMTl9zXXZxy?=
+ =?us-ascii?Q?DXX7OTPWqyBAjnT+2AHG9EgEphg3XBDb9mkvIkoT5FFpBQy1aghN+R3zCIvB?=
+ =?us-ascii?Q?MyKC1Zj95X+SmAHqV6unTkj6kZ2AD5fIGEGb0F+Zd90+CIAgpblpIE9Eeroc?=
+ =?us-ascii?Q?BhOSaie7XSbAQlbfclAIMnpNHX87BV/D4eW1ZvUra4gK13N2il6O5OvXaHvT?=
+ =?us-ascii?Q?EZgx+gG/W8yaB5DpOTcmrwqbiaW2bn+WdJU8yIh4QXQPCZok4nSqaXkjOnWA?=
+ =?us-ascii?Q?JqMgLNjlrSxWMm0DuxuLS/kE3y6ly5ljf67KLfty/JRMDhcEt18wcsL2gLcT?=
+ =?us-ascii?Q?kMgIs4UNZsHvpXrKnlG8Jx/dabl+S0dBOYbmdPARmkmusPkDMkRGEq7vH7az?=
+ =?us-ascii?Q?csKpMSkx+4nHBO1m5E4ZfIMSJg/BE4ZcTvOh0UyQmAFP3CxdD6EQ7habseoq?=
+ =?us-ascii?Q?OXEPBc1is7bQRqwxdxR03YcuKvvZM+tnzMGKJStZ6VnKTzYllB0ViUdZyXu5?=
+ =?us-ascii?Q?5P3qsgxMKYuB4HFavjnh6BvcSIQkiUusF5232GMvIW0aFxzR/Tfg6T/rg7dV?=
+ =?us-ascii?Q?5lCQyPKvqwRVMn+HqMTol03XJY48apbLsrWpc31q2TYU/2J4t2pzh5ACYnOu?=
+ =?us-ascii?Q?VVt1PFzqQMUf3d2pGkO0mXWqh/Ru1x0/RRxcu1bJiAoYuVllsDc0CG6j/Lt4?=
+ =?us-ascii?Q?izDkQIFxCBvuLltCUuAz2nQRmx0o0juQReWjFxCFEiU9NJ7PfCaRopHSLwjW?=
+ =?us-ascii?Q?NqBOcJYgCnwS0XMfc+R54zFy9HlexgNhSq5iKJVRMdQPXEf+JrzM147VAP3K?=
+ =?us-ascii?Q?U6QRhviZMKFvsCkR3I6JXFqBXvUDyMZzCaLHYxPTmqFiJifuTWb5ltwDB14X?=
+ =?us-ascii?Q?1HeqhgqVNrB6vL57ZzSVjWf5ZADsDwyHTGUIdI7dtgPCs3dZNHVqiuhbvWZk?=
+ =?us-ascii?Q?nvqMiPZ7txq6qbvxGCk1cMbNrMq0RS00eBkqB+aXRPYroxzLIhL6Gf8lgH60?=
+ =?us-ascii?Q?gcACAwX/Q0n6njQ4N9ozXWNXPl/f02Ob7VSj7sKsq4xhb8NhbvhGHKMd8mdq?=
+ =?us-ascii?Q?GD3/BtRurPuzWZJjQdlugnPWNhplHm32Qsxr2Z8Uy0t5QI19EUl4b+Y++4v1?=
+ =?us-ascii?Q?pNIeskZK9JATeu0gkf/po5TJ9utPJUgcDSxUP45X9pbJ7jyud3dJZaq26sTW?=
+ =?us-ascii?Q?l2pC/plgVlWx8CLygwiS/9oS6VizsnN5qXTBY4OJ28foN6QN6A+x4AqKN3uT?=
+ =?us-ascii?Q?MgLEfUYTf5L87TZkBh9uTU6XZ7mi34wS0XM6w05NfuTiw0St6oq5Sk1oZjdG?=
+ =?us-ascii?Q?suixMFMGHdY8PL+xK3hgagdj838h2GUIQ0ZeOVA/Xjo3EEM0fcETnLpABHeG?=
+ =?us-ascii?Q?FarOr4O9GKq89C0+cUsppK6tzj8O9NMywy2bCttrAMjXd0lDUuftON2xbjkI?=
+ =?us-ascii?Q?l1/AqYVsFlIQ8DOxHG88jl5ZKv4owGNwGLuJdDlH/qzuIG7e/kYqWpHByVeE?=
+ =?us-ascii?Q?Mk4QAa2wfekaiR5bl1AXX0rrWFDwEL7+8zyXLcCCks7xw/mKn/UslKp5AW0K?=
+ =?us-ascii?Q?HObU1imoONfFgr0gJoDfDGmub+l0AIoZKc3k9FEdea7180hQoKlIN6Ke/uyV?=
+ =?us-ascii?Q?o6LvOn2IBVUw56zrM354cu0UKMAwtK1Tu+LoRTvhio2DK4UhpMEZvG7FMxF3?=
+ =?us-ascii?Q?KEumyE5VNGxoM3TqnZt3jq9NE0PuNFCDK/+x0nz0fM2lmVhctiKVp2CzmHM8?=
+ =?us-ascii?Q?UUWCcpVakNuoQlKi4p/T1SKxgmMK7p0=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	NwJ+IVzwSCPGQbEvJRLSIi9IbSYVi16aO2V9tAoFcZobtEdk6q1prpKzcdd5vplGIxD9HsJEnYrduHSw3CMuV695zK1sCGyKNJsnu8lYZitbg8pgfL6kKZnOnyeZHUMR8y/zcTvaLk4vOzT3NXdUrTLMwn7A14pyykrlUI5cmyfmbcrDIEGwnOemuAk57LCFZTVqzO++ES5+dz1+LYths5QPVdUo6Yo4Za3RY1kHndCxFeWKnBia0cXnQqBnVjook1oE7lDiU0+Y18XR8DeBHvhTjKlfeYatla+I70VmcRZ3DjwneEC9bLOHO7Nmhta6AH46BwXZlUIIDocuoWvlGA==
+	IiJ9w+1HEC2Q9UYyF3A4sv6yap+w3kKliQezdoiS3Fp80q9TZFK6iyg0WVz1TiwwRNPrQJ7RTe+ClIwj3OtjxQPSRoJGC/vU7aHmVW0+F0hX103Nxd/dQX6Dyav+wNmM2tIWpMubx9RaQEK8lx6o5jiqjEvloG7KS9GyYBn7HLgWSEtPLkXsHvrbFX2OuEjBXuAutKzSE2aRkR6e2Lsy1M/EwWDRWffmtFeU7p0NsqytNHRPdpRw0mIb/8JlhtR0ORxLRCINcicIyvFhTaHBFJlKTCw4vLSqPm1kCDMfs4xFO4fOeDlLLX+UIjN5MCjJvXCR1TLPiNkDOtWFBAdqUA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e263538f-f974-4ecc-c50f-08def8cc527f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36b4a2ae-b304-4337-a8c7-08def8cc5871
 X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 23:49:17.7873
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 23:49:27.7157
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: goxEpEz70rWV5Rco3msmY9vVEbSDbB3a0sVbedXXX5y7cJ0VsJ51CFSIV+Cqe1k8pHzSA3Lx4F+vubMGGyC/7mbz73shhOOyNlkTClFeluc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5296
+X-MS-Exchange-CrossTenant-UserPrincipalName: rZ2/raoQApcyl1WPbjfSEU2hP71wZpKZpbBrocgWwPufrD4GtzoHh6QI8RI0VcE8kgkIpVV32JCy3T8H/SnN3+fIH/dgJNzrnchkkCzn4ts=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9059
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=IYK3n2qa c=1 sm=1 tr=0 ts=6a7d0682 cx=c_pps
- a=i28SWj9gb4XoQK1xikdYvA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: a9sf7qAKJRZHl-aH5bC4VjjrzN3Okeum
+X-Authority-Analysis: v=2.4 cv=fr3sol4f c=1 sm=1 tr=0 ts=6a7d068a cx=c_pps
+ a=kWDUzu7Sg0boEHrzbzcNEA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=NEAV23lmAAAA:8
- a=KET-q-R6hpJHq7B5zCgA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDE5MiBTYWx0ZWRfXzFUlKfWA3G3P
- gtB4BU1i9asD/NF4A526bU3MJ3XxAoSBrGxg0NXtVnC0u+wJW0PLZ93jNrSEb3HQCr7jmyH4TK+
- DpB8JWFw7NN0LjWWC7f0BSwm/JfImb2xRi3wGJd/ssE3zzK7gwcO
-X-Proofpoint-GUID: g77BS7Mse4J9PTP3oUJYw1wFROVvCMPS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDE5MiBTYWx0ZWRfX9DI7Fmp03BJE
- c625pIOeiCaC/Oo/4N6h8gDQPFFJ0KTDx4AQJewvFS/fW3A29qmpe8oW+JduKhqCxtZX2J1uDkV
- qlFi4c3Zs9aU4E0ZChDVp9pGB4D0cY60MYO3Kj+rrnokj9tO0VLJJd+3za265Rk3J+izqDAspR4
- dInf4FFfnpsY3ngmdnLrgnja3K7LiG+Ybj8Y0DJgvkbyRRAylYC2+PiJBp6l9EjdSebYEE+7/Oy
- KmPLRWpT6meiCmXKr7qxZSLF2qfTfKD1kTpujfT+odGBF8fCQfEzywAOc2+nPY/40QgbZ4832SX
- 1SZC5sQvfX3+/ap11/lwYY5XX3j9iDYYG39PCXKkBsDfC8eIhpSOQS1arrNoAJ4Fg3Cuil7FBJy
- vPxrxVnFazJwWScRhGu3/NsMae4HgSq7QXDfzf9gcDx37eECD0q9GxBX//YovrMrB9Xvw1VDXnH
- wZR5XwTygtyLgV5GWzA==
-X-Proofpoint-ORIG-GUID: rmMJGbhMYNctFXVsUrhcCrCNtGnV7-fi
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=NEAV23lmAAAA:8
+ a=3uWsZ661AAAA:8 a=t7CeM3EgAAAA:8 a=xumDe5_XqNxy1WfVeCAA:9
+ a=fYNom5PXsM5enKJDCoVv:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDE5MiBTYWx0ZWRfX1ut6TvXN9RSn
+ gMFtKSTNBV/34BG7GUdgd+dvi+elGhOZ1T3kgyuS4+94nf76KggqTWneHJBJ46EZ7ui0v19/C3d
+ uxfNYLgEqXiyraJYUMy1L9bmMoFRv+2MFiVfjeJK88JYh1QnxRmjux9Xft5xqE5vKLHXgJNsRhI
+ aEKIOITSkhquUQk0ZdoHCNLFd2V7VYtyXpFlCahYZCqXiQra2X8Oqs9P4IMUDoLQiew6lTtW7a4
+ j+eYt2p0/NxelQFr/3iLhp0p/pum8mDCxwkaHD0iYOwrcc0mrYzIe7QmBaQJjDQzvOjpkSokBtE
+ /n8Qz8CxYIVsUUB6ySMwEIaoXRkbehdY8SRPBtC4CqFZwiGr/IhOCR/bnF+fzS9wRPLWCvVTnpM
+ BszUTs1zYqOcW46a3L1S6PP5XHqvlHveISnucxPs6cGVP0TPL1DiXfAKwslPDEL49ZEDAnbBIH7
+ p4KbCKwEW0Vn+GbZ56Q==
+X-Proofpoint-ORIG-GUID: yyFJUhvRpuDf345iQUFEDzMOzKMd1BRg
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDE5MiBTYWx0ZWRfX63bd5ad9Gctb
+ fgnt3HcvEyR6/sHB6dJdnnySWpuoynkGP5C1VsXgd7qjIRB/OE3FlOFVHd98IGVgAp6Pp/4F1PF
+ QnE/+mHBOsW0qoobvgBGXybUlev9Y2dN9Q5bAHz/KiS7L2hVkw7S
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-12_07,2026-08-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 bulkscore=0 adultscore=0
- spamscore=0 malwarescore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608120192
+ clxscore=1015 spamscore=0 impostorscore=0 phishscore=0 bulkscore=0
+ adultscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608120192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 23:49:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243311
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243318
 
-* V14:
-    - Dropped "rpm: filter /usr/bin/pkg-config from RPM auto-generated Requires"
-    (pkgconfigdeps.sh patch). Per Ross Burton's review, instead of suppressing
-    the /usr/bin/pkg-config emission, added:
-      RPROVIDES:${PN} += "pkgconfig /usr/bin/pkg-config"
-    to the pkgconf recipe so it satisfies the auto-generated Requires without
-    modifying the upstream rpm script.
+* Added 0004-Convert-RPM-reader-into-a-proper-format.patch to convert
+  the RPM reader into a proper format handler. This is needed because
+  RPM 6 changed its internal payload structure and the existing RPM
+  filter (which only strips headers and passes payload through) can
+  no longer parse RPM 6 packages.
 
-   - Removed /usr/bin/pkg-config from nativesdk-sdk-provides-dummy.bb.
-     RPM 6's internal dependency generator auto-detects file-level Provides
-     from installed files, so nativesdk-pkgconf already provides
-     /usr/bin/pkg-config via the wrapper script it installs. Keeping the
-     dummy entry caused a DNF conflict during do_populate_sdk:
-       nativesdk-sdk-provides-dummy conflicts with /usr/bin/pkg-config
-       provided by nativesdk-pkgconf
+  Without this patch, debuginfod (elfutils) cannot scan RPM 6 packages:
+  libarchive error: cannot open archive from pipe: Unrecognized
+  archive format
 
-   - Added "libarchive: Disable RPM filter auto-bidding" (0005 patch).
-     With both the RPM filter and RPM format reader registered, the filter
-     intercepted RPM files first and failed to parse RPM 6 packages
-     (debuginfod scanning still failed after the 0004 patch). Disabling the
-     filter's automatic bidding lets the format reader handle RPM files,
-     while archive_read_append_filter(ARCHIVE_FILTER_RPM) still works
-     explicitly, keeping test_read_append_rpm_filter passing.
+  The existing RPM filter is kept unchanged for API compatibility.
+  The new format reader coexists with it - debuginfod and other tools
+  that use archive_read_support_format_all() will use the format reader
+  for RPM 6 packages.
 
-   - Updated 0004-Convert-RPM-reader-into-a-proper-format.patch to include
-     the test_read_format_huge_rpm.c changes from upstream PR #2846. This
-     test now correctly exercises the format reader instead of the filter.
- 
-   - Updated patches 7,9 and 10 for the latest master changes; no code 
-     changes; removed upstream modifications   
+  Fixed:
+  $ oe-selftest -r debuginfod.Debuginfod.test_debuginfod_native
+  $ oe-selftest -r debuginfod.Debuginfod.test_debuginfod_qemu
+  $ bitbake core-image-ptest-libarchive:do_testimage (libarchive_test
+    PASS)
 
-   Tests verified:
-     - oe-selftest -r debuginfod.Debuginfod.test_debuginfod_qemu
-     - oe-selftest -r debuginfod.Debuginfod.test_debuginfod_native
-     - oe-selftest -r sdk.SDKTests.test_sdk_manifests
-     - oe-selftest -r sdk.SDKTests.test_sdk_runqemu
-     - bitbake core-image-ptest-libarchive:do_testimage
-     - bitbake core-image-sato -c populate_sdk
-     - bitbake core-image-sato-sdk:do_rootfs
+  The patch is from:[https://github.com/libarchive/libarchive/pull/2846]
 
-* V13:
-  - Added "rpm: Fix pkgconfig() Provides missing in cross-built RPMs"
-    Unset cross-compilation PKG_CONFIG_* variables in pkgconfigdeps.sh
-    so pkgconfig() Provides/Requires are correctly generated during
-    rpmbuild.
-
-  - Added "libarchive: Add RPM format reader to support rpm 6"
-    PR #3346 from v12 was insufficient alone. Added PR #2846 patch that
-    converts RPM into a proper format reader for RPM 6 packages.
-    Existing RPM filter kept for API compatibility.
-    test_read_format_huge_rpm.c excluded (filter intercepts before
-    format reader).
-
-    Tests verified:
-    - oe-selftest -r debuginfod.Debuginfod.test_debuginfod_qemu
-    - bitbake core-image-ptest-libarchive:do_testimage (libarchive_test PASS)
-    - bitbake core-image-sato:do_populate_sdk 
-    - bitbake core-image-sato-sdk: do_rootfs 
-
-* V12:
-  - The previous libarchive-related changes for 3.8.8 are no longer
-    applicable because libarchive has been upgraded to 3.8.9. Updated the
-    implementation to work with libarchive 3.8.9 and applied the upstream
-    fix for "attach filter to correct bidder".
-    Upstream patch: Upstream patch:
-    https://github.com/libarchive/libarchive/pull/3346/
- 
- -  Dropped the following changes:
-    rpm: lib/oe/package.py: Filter out /usr/bin/pkg-config file dependency
-    rpm: Filter /usr/bin/pkg-config from RPM auto-generated Requires
-  
-    Why drop the old change:
-   The filedeprunner() fix runs at OE's external scanning stage
-   (do_package), but RPM 6's internal dependency generator runs later,
-   inside rpmbuild itself. It re-adds Requires:
-   /usr/bin/pkg-config regardless of what OE filtered. The old fix simply
-   operates at the wrong layer it's like closing a door that RPM 6 walks
-   around.
-
-   Why the new changes:
-   It operates at the same layer where the problem originates, inside
-   rpmbuild. By setting __pkgconfig_provides and __pkgconfig_requires to
-   %{nil}, we tell RPM 6's internal
-   scanner to skip pkgconfigdeps.sh entirely. This is the RPM 6
-   equivalent of what _use_internal_dependency_generator 0 did in RPM 4
-   just scoped to pkgconfig specifically rather than globally.
-  
-  With these changes, the previously observed test failures have been resolved:
-  - bitbake core-image-sato:do_populate_sdk 
-  - bitbake core-image-sato-sdk: do_rootfs 
-  - bitbake core-image-ptest-glib-2.0 
-  - bitbake core-image-ptest-libarchive
-  - bitbake core-image-ptest-libarchive:do_testimage
-
-* V11: 
- - Added 0001-pkgconfigdeps.sh-Do-not-emit-usr-bin-pkg-config-as-a.patch
-   To fix "bitbake core-image-minimal-dev" Could not invoke dnf. Command...
-   pkgconfigdeps.sh unconditionally emits /usr/bin/pkg-config as a hard
-   Requires for packages shipping .pc files. In OE/Yocto cross-compilation,
-   pkg-config is a host-only build tool not needed on the target rootfs,
-   causing failures with -dev packages.
-
-* v10:
-  - The ARCHIVE_FILTER_RPM macro was commented out in a previous
-    libarchive change, causing do_compile_ptest_base to fail with:
-    error: 'ARCHIVE_FILTER_RPM' undeclared
-    Restore the macro definition. The ptest now compiles and passes
-    successfully.
-
-* V9:
-  - Updated SRCREV to the 6.0.2 tag.
-  - Incorporated all V8 changes and updated them as needed for 6.0.2.
-  - Dropped
-    0001-scripts-pkgconfigdeps.sh-Use-pkg-config-from-PATH.patch
-    from V8, as it is no longer needed. After filtering out the
-    /usr/bin/pkg-config file dependency, "bitbake core-image-sato -c
-    populate_sdk" completes successfully without the patch.
-  - Fixed the filtering of the /usr/bin/pkg-config file dependency.
-    pkg-config is a build-time tool, not a runtime dependency. Filtered
-    the /usr/bin/pkg-config dependency automatically detected by
-    pkgconfig.attr for packages containing .pc files, preventing
-    unnecessary hard runtime dependencies in -dev packages.
-  - Removed v8 libarchive-related changes since the latest version
-   (3.8.8) already includes the required updates.
-  - Fixed the "oe-selftest -r debuginfod.Debuginfod.test_debuginfod_native"
-    failure observed after upgrading to 6.0.2.
-  - Verified that previously reported Autobuilder issues are no longer observed.
-    The following builds/tests were successfully completed:
-     "bitbake core-image-minimal"
-     "bitbake core-image-full-cmdline"
-     "bitbake core-image-sato"
-     "bitbake core-image-sato world"
-     "bitbake core-image-full-cmdline:do_testimage"
-     "bitbake core-image-minimal:do_rootfs"
-     "bitbake core-image-sato -c populate_sdk"
-
-* V8:
-  - Fix build with systemd (Check patch 7 for detailes)
-  - Make rpmbuild can find the pkgconfig (.pc) files in /usr/share/pkgconfig 
-    (Check patch 7 for detailes)
-  - Backport a PULL from git/libarchive to fix oe-selftest failures.
-
-* V7:
-  - Add 0001-scripts-pkgconfigdeps.sh-Use-pkg-config-from-PATH.patch:
-    To fix "bitbake core-image-sato -cpopulate_sdk" error on Ubuntu 24.04 when
-    pkg-config is installed on host, now the host contamination has been fixed,
-    and the patch has been submitted to upstream:
-    https://github.com/rpm-software-management/rpm/pull/4127
-
-* V6
-  - Fix -cpopulate_sdk error when DISTRO = "poky"
-
-* V5
-  - Fix RP's comments: Don't hardcode libc6 into package_rpm.bbclass
-  - Use SKIP_LDCONFIG_POSTINST_FRAGMENT:${PN} to fix the loop dependencies
-    between /bin/sh and libc.so. 
-
-* V4
-  - Fix loop dependencies issues for libc6 and busybox
-  - Fix issues for can't find pkg-config files (.pc) on qemux86-64.
-
-* V3
-  - Fix Alexender's comments
-    a) Suppot rpm 6
-    b) Move rpm-setup-autosign to rpm-build
-    c) Remove -DLIBELF_FOUND=False
-
-  - Fix build for nativesdk-rpm
-
-  - Drop patch for createrepo-c since it has been upgraded (rev:
-    804a238c8a4e86c2bcfb2192d54cb861d5fd32a6)
-
-* V1 & V2
-  - Initial version
-
-
---
-# Sumanth Gavini
-# Wind River Linux 
-
------------------------------------------------------------------------
-
-Sumanth Gavini (10):
-  package_rpm.bbclass: Drop external dependency generator to support rpm
-    6
-  package_rpm.bbclass: Define _lib and _libdir for rpmbuild
-  lib/oe/package.py: Don't add ldconfig_postinst_fragment for glibc or
-    musl
-  lib/oe/package.py: Don't redirect stderr
-  target-sdk-provides-dummy: Add pkg-config to DUMMYPROVIDES
-  rpm: 4.20.1 -> 6.0.2
-  libarchive: Make it work with rpm 6.0.2
-  rpm: Fix pkgconfig() Provides missing in cross-built RPMs
-  libarchive: Add RPM format reader to support rpm 6
-  libarchive: Disable RPM filter auto-bidding and update huge_rpm test
-
- meta/classes-global/package_rpm.bbclass       |   90 +-
- meta/lib/oe/package.py                        |    5 +-
- meta/recipes-core/glibc/glibc-package.inc     |    5 +
- .../meta/target-sdk-provides-dummy.bb         |    1 +
- meta/recipes-core/musl/musl_git.bb            |    4 +
- .../recipes-devtools/pkgconf/pkgconf_3.0.5.bb |    2 +-
- ...olor-setting-for-mips64_n32-binaries.patch |   22 +-
- ...akeLists.txt-Fix-checking-for-CFLAGS.patch |   46 -
- ...et-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch |   50 -
- ...satisfiable-dependency-when-building.patch |   18 +-
- ...lib-rpm-as-the-installation-path-for.patch |   24 +-
- ...1-Do-not-read-config-files-from-HOME.patch |   18 +-
- ...-PATH-environment-variable-before-ru.patch |   16 +-
- ...lling-execute-package-scriptlets-wit.patch |   12 +-
- ...not-insert-payloadflags-into-.rpm-me.patch |   18 +-
- ....c-fix-file-conflicts-for-MIPS64-N32.patch |   18 +-
- ...kgverify_level-to-digest-as-RCPM-4.2.patch |   35 +
- ...ools-elfdeps.cc-Remove-format-module.patch |   38 +
- ...prefixing-etc-from-RPM_ETCCONFIGDIR-.patch |   26 +-
- ...Unset-cross-compilation-PKG_CONFIG-v.patch |   71 +
- ...avoid-using-GLOB_BRACE-if-undefined-.patch |   14 +-
- ...ge-logging-level-around-scriptlets-t.patch |   14 +-
- .../rpm/{rpm_4.20.1.bb => rpm_6.0.2.bb}       |   15 +-
- ...-Verify-that-bidder-and-filter-match.patch |  103 ++
- .../libarchive/0003-Remove-bidder-name.patch  |  258 +++
- ...vert-RPM-reader-into-a-proper-format.patch | 1440 +++++++++++++++++
- ...0005-Disable-RPM-filter-auto-bidding.patch |   73 +
- .../libarchive/libarchive_3.8.9.bb            |    4 +
- 28 files changed, 2168 insertions(+), 272 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-macros.in-Set-_pkgverify_level-to-digest-as-RCPM-4.2.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-tools-elfdeps.cc-Remove-format-module.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch
- rename meta/recipes-devtools/rpm/{rpm_4.20.1.bb => rpm_6.0.2.bb} (95%)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-append_filter-Verify-that-bidder-and-filter-match.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0003-Remove-bidder-name.patch
+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+---
+ ...vert-RPM-reader-into-a-proper-format.patch | 1400 +++++++++++++++++
+ .../libarchive/libarchive_3.8.9.bb            |    1 +
+ 2 files changed, 1401 insertions(+)
  create mode 100644 meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0005-Disable-RPM-filter-auto-bidding.patch
 
+diff --git a/meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch b/meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch
+new file mode 100644
+index 0000000000..29d12bb539
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch
+@@ -0,0 +1,1400 @@
++From 2606336bce3a7f66cc6c8af28687a82536c9086c Mon Sep 17 00:00:00 2001
++From: Davide Beatrici <git@davidebeatrici.dev>
++Date: Sun, 9 Aug 2026 14:14:59 -0700
++Subject: [PATCH] libarchive: Convert RPM reader into a proper format
++
++This adds a new RPM format reader that can handle RPM 6 packages
++with their new internal structure. The existing RPM filter is kept
++unchanged for API compatibility.
++
++Without this patch, debuginfod cannot scan RPM 6 packages:
++  libarchive error: cannot open archive from pipe: Unrecognized
++  archive format
++
++Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/2846]
++
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
++---
++ Makefile.am                                   |    1 +
++ contrib/android/Android.mk                    |    1 +
++ libarchive/CMakeLists.txt                     |    1 +
++ libarchive/archive.h                          |    6 +
++ libarchive/archive_read.c                     |    9 +-
++ libarchive/archive_read_private.h             |    2 +-
++ libarchive/archive_read_set_format.c          |    3 +
++ libarchive/archive_read_support_filter_all.c  |    2 +
++ .../archive_read_support_filter_by_code.c     |    2 +
++ libarchive/archive_read_support_format_all.c  |    1 +
++ libarchive/archive_read_support_format_rpm.c  | 1126 +++++++++++++++++
++ libarchive/test/test_archive_read_support.c   |    2 +-
++ .../test_read_format_cpio_svr4_bzip2_rpm.c    |    4 +-
++ .../test_read_format_cpio_svr4_gzip_rpm.c     |    4 +-
++ 14 files changed, 1162 insertions(+), 15 deletions(-)
++ create mode 100644 libarchive/archive_read_support_format_rpm.c
++
++diff --git a/Makefile.am b/Makefile.am
++index c96b3bc..725e20c 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -210,6 +210,7 @@ libarchive_la_SOURCES= \
++ 	libarchive/archive_read_support_format_rar.c \
++ 	libarchive/archive_read_support_format_rar5.c \
++ 	libarchive/archive_read_support_format_raw.c \
+++	libarchive/archive_read_support_format_rpm.c \
++ 	libarchive/archive_read_support_format_tar.c \
++ 	libarchive/archive_read_support_format_warc.c \
++ 	libarchive/archive_read_support_format_xar.c \
++diff --git a/contrib/android/Android.mk b/contrib/android/Android.mk
++index 9e1c72f..3d1f087 100644
++--- a/contrib/android/Android.mk
+++++ b/contrib/android/Android.mk
++@@ -91,6 +91,7 @@ libarchive_src_files := libarchive/archive_acl.c \
++ 						libarchive/archive_read_support_format_rar.c \
++ 						libarchive/archive_read_support_format_rar5.c \
++ 						libarchive/archive_read_support_format_raw.c \
+++						libarchive/archive_read_support_format_rpm.c \
++ 						libarchive/archive_read_support_format_tar.c \
++ 						libarchive/archive_read_support_format_warc.c \
++ 						libarchive/archive_read_support_format_xar.c \
++diff --git a/libarchive/CMakeLists.txt b/libarchive/CMakeLists.txt
++index b296637..d132123 100644
++--- a/libarchive/CMakeLists.txt
+++++ b/libarchive/CMakeLists.txt
++@@ -110,6 +110,7 @@ SET(libarchive_SOURCES
++   archive_read_support_format_rar.c
++   archive_read_support_format_rar5.c
++   archive_read_support_format_raw.c
+++  archive_read_support_format_rpm.c
++   archive_read_support_format_tar.c
++   archive_read_support_format_warc.c
++   archive_read_support_format_xar.c
++diff --git a/libarchive/archive.h b/libarchive/archive.h
++index a7de6f6..89c60b3 100644
++--- a/libarchive/archive.h
+++++ b/libarchive/archive.h
++@@ -314,7 +314,9 @@ typedef const char *archive_passphrase_callback(struct archive *,
++ #define	ARCHIVE_FILTER_LZMA	5
++ #define	ARCHIVE_FILTER_XZ	6
++ #define	ARCHIVE_FILTER_UU	7
+++#if ARCHIVE_VERSION_NUMBER < 4000000
++ #define	ARCHIVE_FILTER_RPM	8
+++#endif
++ #define	ARCHIVE_FILTER_LZIP	9
++ #define	ARCHIVE_FILTER_LRZIP	10
++ #define	ARCHIVE_FILTER_LZOP	11
++@@ -385,6 +387,7 @@ typedef const char *archive_passphrase_callback(struct archive *,
++ #define	ARCHIVE_FORMAT_7ZIP			0xE0000
++ #define	ARCHIVE_FORMAT_WARC			0xF0000
++ #define	ARCHIVE_FORMAT_RAR_V5			0x100000
+++#define	ARCHIVE_FORMAT_RPM			0x110000
++ 
++ /*
++  * Codes returned by archive_read_format_capabilities().
++@@ -478,7 +481,9 @@ __LA_DECL int archive_read_support_filter_program(struct archive *,
++ __LA_DECL int archive_read_support_filter_program_signature
++ 		(struct archive *, const char * /* cmd */,
++ 				    const void * /* match */, size_t);
+++#if ARCHIVE_VERSION_NUMBER < 4000000
++ __LA_DECL int archive_read_support_filter_rpm(struct archive *);
+++#endif
++ __LA_DECL int archive_read_support_filter_uu(struct archive *);
++ __LA_DECL int archive_read_support_filter_xz(struct archive *);
++ __LA_DECL int archive_read_support_filter_zstd(struct archive *);
++@@ -499,6 +504,7 @@ __LA_DECL int archive_read_support_format_mtree(struct archive *);
++ __LA_DECL int archive_read_support_format_rar(struct archive *);
++ __LA_DECL int archive_read_support_format_rar5(struct archive *);
++ __LA_DECL int archive_read_support_format_raw(struct archive *);
+++__LA_DECL int archive_read_support_format_rpm(struct archive *);
++ __LA_DECL int archive_read_support_format_tar(struct archive *);
++ __LA_DECL int archive_read_support_format_warc(struct archive *);
++ __LA_DECL int archive_read_support_format_xar(struct archive *);
++diff --git a/libarchive/archive_read.c b/libarchive/archive_read.c
++index 406d84d..150bd31 100644
++--- a/libarchive/archive_read.c
+++++ b/libarchive/archive_read.c
++@@ -1296,13 +1296,18 @@ __archive_read_register_bidder(struct archive_read *a,
++ 	int i, number_slots;
++ 
++ 	archive_check_magic(&a->archive, ARCHIVE_READ_MAGIC,
++-	    ARCHIVE_STATE_NEW, "__archive_read_register_bidder");
+++	    ARCHIVE_STATE_NEW | ARCHIVE_STATE_HEADER,
+++		"__archive_read_register_bidder");
++ 
++ 	number_slots = sizeof(a->bidders) / sizeof(a->bidders[0]);
++ 
++ 	for (i = 0; i < number_slots; i++) {
++-		if (a->bidders[i].vtable != NULL)
+++		if (a->bidders[i].vtable != NULL) {
+++			if (a->bidders[i].vtable == vtable)
+++				/* Already registered. */
+++				return (ARCHIVE_OK);
++ 			continue;
+++		}
++ 		memset(a->bidders + i, 0, sizeof(a->bidders[0]));
++ 		bidder = (a->bidders + i);
++ 		bidder->data = bidder_data;
++diff --git a/libarchive/archive_read_private.h b/libarchive/archive_read_private.h
++index e30b6c2..9ff3602 100644
++--- a/libarchive/archive_read_private.h
+++++ b/libarchive/archive_read_private.h
++@@ -212,7 +212,7 @@ struct archive_read {
++ 		int	(*cleanup)(struct archive_read *);
++ 		int	(*format_capabilties)(struct archive_read *);
++ 		int	(*has_encrypted_entries)(struct archive_read *);
++-	}	formats[16];
+++	}	formats[18];
++ 	struct archive_format_descriptor	*format; /* Active format. */
++ 
++ 	/*
++diff --git a/libarchive/archive_read_set_format.c b/libarchive/archive_read_set_format.c
++index 552ab12..6a176e3 100644
++--- a/libarchive/archive_read_set_format.c
+++++ b/libarchive/archive_read_set_format.c
++@@ -81,6 +81,9 @@ archive_read_set_format(struct archive *_a, int code)
++     case ARCHIVE_FORMAT_RAW:
++       str = "raw";
++       break;
+++    case ARCHIVE_FORMAT_RPM:
+++      str = "rpm";
+++      break;
++     case ARCHIVE_FORMAT_TAR:
++       str = "tar";
++       break;
++diff --git a/libarchive/archive_read_support_filter_all.c b/libarchive/archive_read_support_filter_all.c
++index f086773..cc5c2b2 100644
++--- a/libarchive/archive_read_support_filter_all.c
+++++ b/libarchive/archive_read_support_filter_all.c
++@@ -60,8 +60,10 @@ archive_read_support_filter_all(struct archive *a)
++ 	archive_read_support_filter_xz(a);
++ 	/* The decode code doesn't use an outside library. */
++ 	archive_read_support_filter_uu(a);
+++#if ARCHIVE_VERSION_NUMBER < 4000000
++ 	/* The decode code doesn't use an outside library. */
++ 	archive_read_support_filter_rpm(a);
+++#endif
++ 	/* The decode code always uses "lrzip -d -q" command-line. */
++ 	archive_read_support_filter_lrzip(a);
++ 	/* Lzop decompress falls back to "lzop -d" command-line. */
++diff --git a/libarchive/archive_read_support_filter_by_code.c b/libarchive/archive_read_support_filter_by_code.c
++index 4c8b6cb..d3c7d21 100644
++--- a/libarchive/archive_read_support_filter_by_code.c
+++++ b/libarchive/archive_read_support_filter_by_code.c
++@@ -49,8 +49,10 @@ archive_read_support_filter_by_code(struct archive *a, int filter_code)
++ 		return archive_read_support_filter_xz(a);
++ 	case ARCHIVE_FILTER_UU:
++ 		return archive_read_support_filter_uu(a);
+++#if ARCHIVE_VERSION_NUMBER < 4000000
++ 	case ARCHIVE_FILTER_RPM:
++ 		return archive_read_support_filter_rpm(a);
+++#endif
++ 	case ARCHIVE_FILTER_LZIP:
++ 		return archive_read_support_filter_lzip(a);
++ 	case ARCHIVE_FILTER_LRZIP:
++diff --git a/libarchive/archive_read_support_format_all.c b/libarchive/archive_read_support_format_all.c
++index a2c5a4c..729b4c4 100644
++--- a/libarchive/archive_read_support_format_all.c
+++++ b/libarchive/archive_read_support_format_all.c
++@@ -58,6 +58,7 @@ archive_read_support_format_all(struct archive *a)
++ 	archive_read_support_format_empty(a);
++ 	archive_read_support_format_lha(a);
++ 	archive_read_support_format_mtree(a);
+++	archive_read_support_format_rpm(a);
++ 	archive_read_support_format_tar(a);
++ 	archive_read_support_format_xar(a);
++ 	archive_read_support_format_warc(a);
++diff --git a/libarchive/archive_read_support_format_rpm.c b/libarchive/archive_read_support_format_rpm.c
++new file mode 100644
++index 0000000..fe0e500
++--- /dev/null
+++++ b/libarchive/archive_read_support_format_rpm.c
++@@ -0,0 +1,1126 @@
+++/*-
+++ * Copyright (c) 2026 Davide Beatrici
+++ * All rights reserved.
+++ *
+++ * Redistribution and use in source and binary forms, with or without
+++ * modification, are permitted provided that the following conditions
+++ * are met:
+++ * 1. Redistributions of source code must retain the above copyright
+++ *    notice, this list of conditions and the following disclaimer.
+++ * 2. Redistributions in binary form must reproduce the above copyright
+++ *    notice, this list of conditions and the following disclaimer in the
+++ *    documentation and/or other materials provided with the distribution.
+++ *
+++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
+++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
+++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+++ */
+++
+++#include "archive_platform.h"
+++
+++#ifdef HAVE_ERRNO_H
+++#include <errno.h>
+++#endif
+++
+++#ifdef HAVE_STDLIB_H
+++#include <stdlib.h>
+++#endif
+++#ifdef HAVE_STRING_H
+++#include <string.h>
+++#endif
+++
+++#include "archive.h"
+++#include "archive_endian.h"
+++#include "archive_entry.h"
+++#include "archive_entry_locale.h"
+++#include "archive_private.h"
+++#include "archive_read_private.h"
+++
+++#define MAX_NFILES		100000
+++#define STR_SIZE_LIMIT	(1024 * 1024)	/* 1 MiB */
+++
+++#define LEAD_MAGIC		"\xed\xab\xee\xdb"
+++#define HEADER_MAGIC	"\x8e\xad\xe8\x01\x00\x00\x00\x00"
+++
+++#define CPIO_END_MARK		"TRAILER!!!"
+++#define CPIO_END_MARK_SIZE	10
+++
+++#define CPIO_HEADER_STR_SIZE		16
+++#define CPIO_HEADER_SVR_SIZE		110
+++#define CPIO_HEADER_SVR_PATH_OFF	94
+++
+++#define CPIO_MAGIC_SIZE			6
+++#define CPIO_MAGIC_STR			"07070X"
+++#define CPIO_MAGIC_SVR4_CRC		"070702"
+++#define CPIO_MAGIC_SVR4_NOCRC	"070701"
+++
+++#define TAG_FILESIZES		1028
+++#define TAG_FILEMODES		1030
+++#define TAG_FILERDEVS		1033
+++#define TAG_FILEMTIMES		1034
+++#define TAG_FILEUSERNAMES	1039
+++#define TAG_FILEGROUPNAMES	1040
+++#define TAG_FILEDEVICES		1095
+++#define TAG_FILEINODES		1096
+++
+++#define TAG_DIRINDEXES	1116
+++#define TAG_BASENAMES	1117
+++#define TAG_DIRNAMES	1118
+++
+++#define TAG_PAYLOADCOMPRESSOR	1125
+++
+++#define TAG_LONGFILESIZES	5008
+++
+++enum rpm_cpio_format {
+++	CPIO_UNKNOWN,
+++	CPIO_STR,
+++	CPIO_SVR4_CRC,
+++	CPIO_SVR4_NOCRC
+++};
+++
+++struct rpm_file_info {
+++	char		*pathname;
+++	char		*uname;
+++	char		*gname;
+++	uint64_t	size;
+++	uint16_t	mode;
+++	int32_t		dev;
+++	int16_t		rdev;
+++	uint32_t	mtime;
+++	uint32_t	ino;
+++};
+++
+++struct rpm_inode_info {
+++	uint32_t				n_files;
+++	struct rpm_file_info	**files;
+++	uint32_t				n_processed;
+++};
+++
+++struct rpm_inode_temp_entry {
+++	uint64_t ino;
+++	struct rpm_file_info **files;
+++	uint32_t n_files;
+++	size_t capacity;
+++	struct rpm_inode_temp_entry *next;
+++};
+++
+++struct rpm_lead {
+++    unsigned char	magic[4];
+++    unsigned char	major, minor;
+++    short			type;
+++    short			archnum;
+++    char			name[66];
+++    short			osnum;
+++    short			signature_type;
+++    char			reserved[16];
+++};
+++
+++struct rpm_header {
+++	unsigned char	magic[8];
+++	uint32_t		n_entries;
+++	uint32_t		data_size;
+++};
+++
+++struct rpm_entry {
+++	uint32_t	tag;
+++	uint32_t	type;
+++	int32_t		offset;
+++	uint32_t	count;
+++};
+++
+++struct rpm {
+++	enum {
+++		ST_LEAD,
+++		ST_HEADER,
+++		ST_PADDING,
+++		ST_ARCHIVE
+++	}	state;
+++	uint8_t	first_header;
+++
+++	char	*compressor;
+++
+++	uint32_t				n_files;
+++	uint32_t				n_inodes;
+++	struct rpm_file_info	*files;
+++	struct rpm_inode_info	*inodes;
+++
+++	struct inode_hash_entry {
+++		uint64_t ino;
+++		struct rpm_inode_info *info;
+++		struct inode_hash_entry *next;
+++	}	**inode_hash;
+++
+++	size_t	inode_hash_size;
+++
+++	ssize_t	 entry_bytes_remaining;
+++	ssize_t	 entry_bytes_unconsumed;
+++	ssize_t	 entry_offset;
+++	ssize_t	 entry_padding;
+++};
+++
+++static int archive_read_format_rpm_bid(struct archive_read *, int);
+++static int archive_read_format_rpm_read_header(struct archive_read *,
+++	struct archive_entry *);
+++static int archive_read_format_rpm_read_data(struct archive_read *,
+++	const void **, size_t *, int64_t *);
+++static int archive_read_format_rpm_read_data_skip(struct archive_read *);
+++static int archive_read_format_rpm_cleanup(struct archive_read *);
+++
+++static int rpm_add_entry(struct archive_read *, struct archive_entry *);
+++static int	rpm_parse_main_header(struct archive_read *,
+++	const struct rpm_header *header);
+++
+++static struct rpm_inode_info *rpm_get_inode(struct archive_read *, uint32_t);
+++static enum rpm_cpio_format rpm_get_cpio_format(struct archive_read *);
+++static uint8_t rpm_is_eof(struct archive_read *);
+++
+++static uint16_t	rpm_be16_at(const void *buf_start,
+++	const void *buf_end, const size_t off);
+++static uint32_t	rpm_be32_at(const void *buf_start,
+++	const void *buf_end, const size_t off);
+++static uint64_t	rpm_be64_at(const void *buf_start,
+++	const void *buf_end, const size_t off);
+++
+++static inline size_t	rpm_limit_bytes(size_t, size_t);
+++static char	*rpm_strndup(struct archive_read *, const char *, size_t);
+++static char	*rpm_strread(struct archive_read *, size_t);
+++static void	rpm_strcat(struct archive_string *, const void *, const void *);
+++static const char	*rpm_strlist_at(const char *, const void *,
+++	uint64_t, uint64_t);
+++
+++static void	rpm_free_inode_temp_hash(struct rpm_inode_temp_entry **, size_t);
+++
+++int
+++archive_read_support_format_rpm(struct archive *_a)
+++{
+++	struct archive_read *a = (struct archive_read *)_a;
+++	struct rpm *rpm;
+++	int r;
+++
+++	archive_check_magic(_a, ARCHIVE_READ_MAGIC,
+++	    ARCHIVE_STATE_NEW, "archive_read_support_format_rpm");
+++
+++	rpm = calloc(1, sizeof(*rpm));
+++	if (!rpm) {
+++		archive_set_error(&a->archive,
+++			ENOMEM,
+++			"Can't allocate rpm data");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	r = __archive_read_register_format(a,
+++	    rpm,
+++	    "rpm",
+++	    archive_read_format_rpm_bid,
+++	    NULL,
+++	    archive_read_format_rpm_read_header,
+++	    archive_read_format_rpm_read_data,
+++	    archive_read_format_rpm_read_data_skip,
+++	    NULL,
+++	    archive_read_format_rpm_cleanup,
+++	    NULL,
+++	    NULL);
+++
+++	if (r != ARCHIVE_OK)
+++		free(rpm);
+++
+++	return ARCHIVE_OK;
+++}
+++
+++static int
+++archive_read_format_rpm_bid(struct archive_read *a, int best_bid)
+++{
+++	const unsigned char *p;
+++
+++	(void)best_bid;
+++
+++	if ((p = __archive_read_ahead(a, sizeof(LEAD_MAGIC) - 1, NULL)) == NULL)
+++		return -1;
+++
+++	if (memcmp(p, LEAD_MAGIC, sizeof(LEAD_MAGIC) - 1) == 0)
+++		return 48;
+++	else
+++		return ARCHIVE_WARN;
+++}
+++
+++static int
+++archive_read_format_rpm_read_header(struct archive_read *a,
+++    struct archive_entry *entry)
+++{
+++	struct rpm *rpm = a->format->data;
+++	const unsigned char *p;
+++	int r;
+++
+++	a->archive.archive_format = ARCHIVE_FORMAT_RPM;
+++
+++	for (;;) {
+++		switch (rpm->state) {
+++		case ST_LEAD: {
+++			const struct rpm_lead *lead = __archive_read_ahead(a, sizeof(*lead), NULL);
+++			if (lead == NULL) {
+++				archive_set_error(&a->archive,
+++					ARCHIVE_ERRNO_FILE_FORMAT,
+++					"Truncated lead");
+++				return ARCHIVE_FATAL;
+++			}
+++
+++			if (memcmp(lead->magic, LEAD_MAGIC, sizeof(lead->magic)) != 0) {
+++				archive_set_error(&a->archive,
+++					ARCHIVE_ERRNO_FILE_FORMAT,
+++					"Unrecognized lead");
+++				return ARCHIVE_FATAL;
+++			}
+++
+++			__archive_read_consume(a, sizeof(*lead));
+++
+++			rpm->state = ST_HEADER;
+++			rpm->first_header = 1;
+++			break;
+++		}
+++		case ST_HEADER: {
+++			struct rpm_header header;
+++
+++			p = __archive_read_ahead(a, sizeof(header), NULL);
+++			if (p == NULL) {
+++				archive_set_error(&a->archive,
+++					ARCHIVE_ERRNO_FILE_FORMAT,
+++					"Truncated header");
+++				return ARCHIVE_FATAL;
+++			}
+++
+++			memcpy(&header, p, sizeof(header));
+++
+++			if (memcmp(header.magic, HEADER_MAGIC, sizeof(header.magic)) != 0) {
+++				archive_set_error(&a->archive,
+++					ARCHIVE_ERRNO_FILE_FORMAT,
+++					"Unrecognized header");
+++				return ARCHIVE_FATAL;
+++			}
+++
+++			header.n_entries = archive_be32dec(&header.n_entries);
+++			header.data_size = archive_be32dec(&header.data_size);
+++
+++			__archive_read_consume(a, sizeof(header));
+++
+++			r = rpm_parse_main_header(a, &header);
+++			if (r != ARCHIVE_OK)
+++				return r;
+++
+++			rpm->state = ST_PADDING;
+++			break;
+++		}
+++		case ST_PADDING: {
+++			for (;;) {
+++				p = __archive_read_ahead(a, 1, NULL);
+++				if (p == NULL) {
+++					archive_set_error(&a->archive,
+++						ARCHIVE_ERRNO_FILE_FORMAT,
+++						"Truncated padding");
+++					return ARCHIVE_FATAL;
+++				}
+++
+++				if (*p != 0)
+++					break;
+++
+++				__archive_read_consume(a, 1);
+++			}
+++
+++			if (rpm->first_header) {
+++				rpm->first_header = 0;
+++				rpm->state = ST_HEADER;
+++			} else {
+++				enum rpm_cpio_format cpio_format;
+++
+++				if (!rpm->compressor) {
+++					/* No compression. */
+++				} else if (strcmp(rpm->compressor, "zstd") == 0) {
+++					r = archive_read_append_filter(&a->archive, ARCHIVE_FILTER_ZSTD);
+++				} else if (strcmp(rpm->compressor, "xz") == 0) {
+++					archive_read_append_filter(&a->archive, ARCHIVE_FILTER_XZ);
+++				} else if (strcmp(rpm->compressor, "gzip") == 0) {
+++					archive_read_append_filter(&a->archive, ARCHIVE_FILTER_GZIP);
+++				} else if (strcmp(rpm->compressor, "bzip2") == 0) {
+++					archive_read_append_filter(&a->archive, ARCHIVE_FILTER_BZIP2);
+++				} else if (strcmp(rpm->compressor, "lzma") == 0) {
+++					archive_read_append_filter(&a->archive, ARCHIVE_FILTER_LZMA);
+++				} else {
+++					archive_set_error(&a->archive,
+++						ARCHIVE_ERRNO_FILE_FORMAT,
+++						"Unrecognized compressor: %s", rpm->compressor);
+++					return ARCHIVE_FATAL;
+++				}
+++
+++				if (r != ARCHIVE_OK) {
+++					archive_set_error(&a->archive, r, "Cannot append %s filter",
+++						rpm->compressor);
+++					return r;
+++				}
+++
+++				cpio_format = rpm_get_cpio_format(a);
+++				switch (cpio_format) {
+++				case CPIO_STR:
+++					a->archive.archive_format_name = "RPM (stripped CPIO)";
+++					break;
+++				case CPIO_SVR4_CRC:
+++					a->archive.archive_format_name = "RPM (SVR4 cpio with CRC)";
+++					break;
+++				case CPIO_SVR4_NOCRC:
+++					a->archive.archive_format_name = "RPM (SVR4 cpio with no CRC)";
+++					break;
+++				case CPIO_UNKNOWN:
+++				default:
+++					return ARCHIVE_FATAL;
+++				}
+++
+++				rpm->state = ST_ARCHIVE;
+++			}
+++			break;
+++		}
+++		case ST_ARCHIVE:
+++			return rpm_add_entry(a, entry);
+++		}
+++	}
+++}
+++
+++static int
+++archive_read_format_rpm_read_data(struct archive_read *a,
+++    const void **buff, size_t *size, int64_t *offset)
+++{
+++	struct rpm *rpm = a->format->data;
+++	ssize_t bytes_read;
+++
+++	if (rpm->entry_bytes_unconsumed > 0) {
+++		__archive_read_consume(a, rpm->entry_bytes_unconsumed);
+++		rpm->entry_bytes_unconsumed = 0;
+++	}
+++
+++	if (rpm->entry_bytes_remaining > 0) {
+++		*buff = __archive_read_ahead(a, 1, &bytes_read);
+++		if (bytes_read <= 0)
+++			return ARCHIVE_FATAL;
+++
+++		if (bytes_read > rpm->entry_bytes_remaining)
+++			bytes_read = (ssize_t)rpm->entry_bytes_remaining;
+++
+++		*size = bytes_read;
+++		rpm->entry_bytes_unconsumed = bytes_read;
+++		*offset = rpm->entry_offset;
+++		rpm->entry_offset += bytes_read;
+++		rpm->entry_bytes_remaining -= bytes_read;
+++
+++		return ARCHIVE_OK;
+++	} else {
+++		if (rpm->entry_padding !=
+++			__archive_read_consume(a, rpm->entry_padding)) {
+++			return ARCHIVE_FATAL;
+++		}
+++
+++		rpm->entry_padding = 0;
+++		*buff = NULL;
+++		*size = 0;
+++		*offset = rpm->entry_offset;
+++
+++		return ARCHIVE_EOF;
+++	}
+++}
+++
+++static int
+++archive_read_format_rpm_read_data_skip(struct archive_read *a)
+++{
+++	struct rpm *rpm = a->format->data;
+++	const ssize_t to_skip = rpm->entry_bytes_remaining + rpm->entry_padding
+++		+ rpm->entry_bytes_unconsumed;
+++
+++	if (to_skip != __archive_read_consume(a, to_skip))
+++		return ARCHIVE_FATAL;
+++
+++	rpm->entry_bytes_remaining = 0;
+++	rpm->entry_padding = 0;
+++	rpm->entry_bytes_unconsumed = 0;
+++
+++	return ARCHIVE_OK;
+++}
+++
+++static int
+++archive_read_format_rpm_cleanup(struct archive_read *a)
+++{
+++	struct rpm *rpm = a->format->data;
+++	size_t i;
+++
+++	free(rpm->compressor);
+++
+++	if (rpm->inode_hash) {
+++		for (i = 0; i < rpm->inode_hash_size; ++i) {
+++			free(rpm->inode_hash[i]);
+++		}
+++
+++		free(rpm->inode_hash);
+++	}
+++
+++	if (rpm->inodes != NULL) {
+++		for (i = 0; i < rpm->n_inodes; i++) {
+++			free(rpm->inodes[i].files);
+++		}
+++
+++		free(rpm->inodes);
+++	}
+++
+++	if (rpm->files != NULL) {
+++		for (i = 0; i < rpm->n_files; i++) {
+++			free(rpm->files[i].pathname);
+++			free(rpm->files[i].uname);
+++			free(rpm->files[i].gname);
+++		}
+++
+++		free(rpm->files);
+++	}
+++
+++	free(rpm);
+++
+++	a->format->data = NULL;
+++
+++	return ARCHIVE_OK;
+++}
+++
+++static int
+++rpm_add_entry(struct archive_read *a, struct archive_entry *entry)
+++{
+++	struct rpm *rpm = a->format->data;
+++	struct rpm_file_info *file = NULL;
+++	struct rpm_inode_info *inode;
+++	uint64_t idx_ino;
+++	const void *p;
+++
+++	const enum rpm_cpio_format cpio_format = rpm_get_cpio_format(a);
+++
+++	p = __archive_read_ahead(a, CPIO_HEADER_STR_SIZE, NULL);
+++	if (!p) {
+++		archive_set_error(&a->archive,
+++			ARCHIVE_ERRNO_FILE_FORMAT,
+++			"Premature EOF");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	char hex_str[9] = {0};
+++	memcpy(hex_str, p + CPIO_MAGIC_SIZE, sizeof(idx_ino));
+++	idx_ino = strtoull(hex_str, NULL, 16);
+++
+++	switch (cpio_format) {
+++	case CPIO_STR:
+++		__archive_read_consume(a, CPIO_HEADER_STR_SIZE);
+++
+++		if (rpm_is_eof(a))
+++			return ARCHIVE_EOF;
+++
+++		if (idx_ino >= rpm->n_files) {
+++			archive_set_error(&a->archive,
+++				ARCHIVE_ERRNO_FILE_FORMAT,
+++				"File index %" PRIu64 " out of range (max %u)", idx_ino, rpm->n_files - 1);
+++			return ARCHIVE_FATAL;
+++		}
+++
+++		file = &rpm->files[idx_ino];
+++		inode = rpm_get_inode(a, file->ino);
+++		if (!inode)
+++			return ARCHIVE_FATAL;
+++
+++		break;
+++	case CPIO_SVR4_CRC:
+++	case CPIO_SVR4_NOCRC: {
+++		size_t i;
+++		uint64_t size;
+++		char *path;
+++
+++		p = __archive_read_ahead(a, CPIO_HEADER_SVR_SIZE, NULL);
+++		if (!p) {
+++			archive_set_error(&a->archive,
+++				ARCHIVE_ERRNO_FILE_FORMAT,
+++				"Truncated SVR4 header");
+++			return ARCHIVE_FATAL;
+++		}
+++
+++		memcpy(hex_str, p + CPIO_HEADER_SVR_PATH_OFF, sizeof(size));
+++
+++		__archive_read_consume(a, CPIO_HEADER_SVR_SIZE);
+++
+++		if (rpm_is_eof(a))
+++			return ARCHIVE_EOF;
+++
+++		inode = rpm_get_inode(a, idx_ino);
+++		if (!inode)
+++			return ARCHIVE_FATAL;
+++
+++		size = strtoull(hex_str, NULL, 16);
+++
+++		path = rpm_strread(a, size);
+++		if (!path)
+++			return ARCHIVE_FATAL;
+++
+++		for (i = 0; i < inode->n_files; ++i) {
+++			if (strcmp(inode->files[i]->pathname, path) == 0) {
+++				file = inode->files[i];
+++				break;
+++			}
+++		}
+++
+++		free(path);
+++
+++		if (!file) {
+++			archive_set_error(&a->archive,
+++				ARCHIVE_ERRNO_FILE_FORMAT,
+++				"Path not found");
+++			return ARCHIVE_FATAL;
+++		}
+++
+++		/* Pad name to 2 more than a multiple of 4. */
+++		size += (2 - size) & 3;
+++		__archive_read_consume(a, size);
+++
+++		break;
+++	}
+++	default:
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	archive_entry_set_pathname_utf8(entry, file->pathname);
+++	archive_entry_set_uname_utf8(entry, file->uname);
+++	archive_entry_set_gname_utf8(entry, file->gname);
+++	archive_entry_set_dev(entry, file->dev);
+++	archive_entry_set_ino(entry, file->ino);
+++	archive_entry_set_mode(entry, file->mode);
+++	archive_entry_set_rdev(entry, file->rdev);
+++	archive_entry_set_mtime(entry, file->mtime, 0);
+++	archive_entry_set_nlink(entry, inode->n_files);
+++
+++	/* Hardlink: only last entry carries payload */
+++	if (++inode->n_processed == inode->n_files)
+++		rpm->entry_bytes_remaining = file->size;
+++	else
+++		rpm->entry_bytes_remaining = 0;
+++
+++	/* Pad file contents to a multiple of 4. */
+++	rpm->entry_padding = 3 & -rpm->entry_bytes_remaining;
+++	rpm->entry_offset = 0;
+++	rpm->entry_bytes_unconsumed = 0;
+++
+++	if (S_ISLNK(file->mode)) {
+++		char *target = rpm_strread(a, file->size);
+++		if (!target)
+++			return ARCHIVE_FATAL;
+++
+++		__archive_read_consume(a, rpm->entry_bytes_remaining);
+++		rpm->entry_bytes_remaining = 0;
+++
+++		archive_entry_set_symlink_utf8(entry, target);
+++
+++		free(target);
+++	}
+++
+++	archive_entry_set_size(entry, rpm->entry_bytes_remaining);
+++
+++	return ARCHIVE_OK;
+++}
+++
+++static int
+++rpm_parse_main_header(struct archive_read *a, const struct rpm_header *header)
+++{
+++	struct rpm *rpm = a->format->data;
+++
+++	struct rpm_header_parse {
+++		uint32_t	 n_files;
+++
+++		const char	 *basenames;
+++		uint32_t	 n_basenames;
+++
+++		const char	 *dirnames;
+++		uint32_t	 n_dirnames;
+++
+++		const char	 *usernames;
+++		uint32_t	 n_usernames;
+++
+++		const char	 *groupnames;
+++		uint32_t	 n_groupnames;
+++
+++		union {
+++			const int64_t	*filesizes64;
+++			const int32_t	*filesizes32;
+++		};
+++		uint8_t	is_filesizes64;
+++
+++		const int32_t	*dirindexes;
+++		const int16_t	*filemodes;
+++		const int32_t	*filedevices;
+++		const int16_t	*filerdevs;
+++		const int32_t	*filemtimes;
+++		const int32_t	*fileinodes;
+++	} hp;
+++
+++	const struct rpm_entry *entries;
+++	struct rpm_inode_temp_entry **temp_hash;
+++	size_t hlen, temp_hash_size = 1;
+++	uint64_t i, ino = 0;
+++
+++	memset(&hp, 0, sizeof(hp));
+++
+++	hlen = sizeof(struct rpm_entry)
+++		 * (size_t)header->n_entries
+++		 + (size_t)header->data_size;
+++
+++	entries = __archive_read_ahead(a, hlen, NULL);
+++	if (entries == NULL)
+++		return ARCHIVE_EOF;
+++
+++	if (rpm->first_header) {
+++		__archive_read_consume(a, hlen);
+++		return ARCHIVE_OK;
+++	}
+++
+++	for (i = 0; i < header->n_entries; i++) {
+++		uint32_t tag, cnt;
+++		int32_t off;
+++		const void *p;
+++
+++		tag = archive_be32dec(&entries[i].tag);
+++		off = archive_be32dec(&entries[i].offset);
+++		cnt = archive_be32dec(&entries[i].count);
+++
+++		if (off < 0 || (uint32_t)off >= header->data_size)
+++			continue;
+++
+++		p = (const uint8_t *)&entries[header->n_entries] + off;
+++
+++		switch (tag) {
+++		case TAG_PAYLOADCOMPRESSOR:
+++			rpm->compressor = rpm_strndup(a, p ? p : "", 0);
+++			break;
+++		case TAG_BASENAMES:
+++			hp.basenames = p;
+++			hp.n_basenames = cnt;
+++			break;
+++		case TAG_DIRNAMES:
+++			hp.dirnames = p;
+++			hp.n_dirnames = cnt;
+++			break;
+++		case TAG_FILEUSERNAMES:
+++			hp.usernames = p;
+++			hp.n_usernames = cnt;
+++			break;
+++		case TAG_FILEGROUPNAMES:
+++			hp.groupnames = p;
+++			hp.n_groupnames = cnt;
+++			break;
+++		case TAG_LONGFILESIZES:
+++			hp.filesizes64 = p;
+++			hp.n_files = cnt;
+++			hp.is_filesizes64 = 1;
+++			break;
+++		case TAG_FILESIZES:
+++			/* This tag should never appear when Longfilesizes is present,
+++			 * but checking doesn't hurt. */
+++			if (!hp.is_filesizes64) {
+++				hp.filesizes32 = p;
+++				hp.n_files = cnt;
+++			}
+++			break;
+++		case TAG_DIRINDEXES:
+++			hp.dirindexes = p;
+++			break;
+++		case TAG_FILEINODES:
+++			hp.fileinodes = p;
+++			break;
+++		case TAG_FILEMODES:
+++			hp.filemodes = p;
+++			break;
+++		case TAG_FILEDEVICES:
+++			hp.filedevices = p;
+++			break;
+++		case TAG_FILERDEVS:
+++			hp.filerdevs = p;
+++			break;
+++		case TAG_FILEMTIMES:
+++			hp.filemtimes = p;
+++			break;
+++		}
+++	}
+++
+++	if (hp.n_files >= MAX_NFILES) {
+++		archive_set_error(&a->archive,
+++			ARCHIVE_ERRNO_FILE_FORMAT,
+++			"n_files out of range");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	rpm->files = calloc(hp.n_files, sizeof(*rpm->files));
+++	if (rpm->files == NULL) {
+++		archive_set_error(&a->archive,
+++			ENOMEM,
+++			"Can't allocate files data");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	rpm->n_files = hp.n_files;
+++
+++	while (temp_hash_size < hp.n_files * 2)
+++		temp_hash_size <<= 1;
+++
+++	temp_hash = calloc(temp_hash_size, sizeof(*temp_hash));
+++	if (!temp_hash) {
+++		archive_set_error(&a->archive,
+++			ENOMEM,
+++			"Can't allocate temp hash");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	for (i = 0; i < hp.n_files; i++) {
+++		const void *hbuf_end = (const uint8_t *)entries + hlen;
+++		struct rpm_file_info *file = &rpm->files[i];
+++		struct rpm_inode_temp_entry *group;
+++		struct archive_string as;
+++		const char *dname, *bname, *uname, *gname;
+++		size_t bucket;
+++
+++		if (hp.dirindexes != NULL) {
+++			const uint32_t diri = rpm_be32_at(hp.dirindexes, hbuf_end, i);
+++
+++			if (diri >= hp.n_dirnames) {
+++				rpm_free_inode_temp_hash(temp_hash, temp_hash_size);
+++				archive_set_error(&a->archive,
+++					ARCHIVE_ERRNO_FILE_FORMAT,
+++					"dirindex out of range");
+++				return ARCHIVE_FATAL;
+++			}
+++
+++			dname = rpm_strlist_at(hp.dirnames, hbuf_end, diri, hp.n_dirnames);
+++		} else
+++			dname = NULL;
+++
+++		bname = rpm_strlist_at(hp.basenames, hbuf_end, i, hp.n_basenames);
+++		uname = rpm_strlist_at(hp.usernames, hbuf_end, i, hp.n_usernames);
+++		gname = rpm_strlist_at(hp.groupnames, hbuf_end, i, hp.n_groupnames);
+++
+++		archive_string_init(&as);
+++		archive_strappend_char(&as, '.');
+++		rpm_strcat(&as, dname, hbuf_end);
+++		rpm_strcat(&as, bname, hbuf_end);
+++		file->pathname = strdup(as.s);
+++		archive_string_free(&as);
+++
+++		file->uname = rpm_strndup(a, uname ? uname : "", 0);
+++		file->gname = rpm_strndup(a, gname ? gname : "", 0);
+++
+++		if (hp.is_filesizes64)
+++			file->size = rpm_be64_at(hp.filesizes64, hbuf_end, i);
+++		else
+++			file->size = rpm_be32_at(hp.filesizes32, hbuf_end, i);
+++		file->mode = rpm_be16_at(hp.filemodes, hbuf_end, i);
+++		file->dev = rpm_be32_at(hp.filedevices, hbuf_end, i);
+++		file->rdev = rpm_be16_at(hp.filerdevs, hbuf_end, i);
+++		file->mtime = rpm_be32_at(hp.filemtimes, hbuf_end, i);
+++		file->ino = rpm_be32_at(hp.fileinodes, hbuf_end, i);
+++
+++		bucket = file->ino & (temp_hash_size - 1);
+++		group = temp_hash[bucket];
+++
+++		while (group) {
+++			if (group->ino == file->ino)
+++				break;
+++
+++			group = group->next;
+++		}
+++
+++		if (!group) {
+++			group = calloc(1, sizeof(*group));
+++			if (!group) {
+++				rpm_free_inode_temp_hash(temp_hash, temp_hash_size);
+++				archive_set_error(&a->archive,
+++					ENOMEM,
+++					"Can't allocate inode group");
+++				return ARCHIVE_FATAL;
+++			}
+++
+++			group->ino = file->ino;
+++			group->files = NULL;
+++			group->n_files = 0;
+++			group->capacity = 0;
+++
+++			group->next = temp_hash[bucket];
+++			temp_hash[bucket] = group;
+++		}
+++
+++		if (group->n_files >= group->capacity) {
+++			group->capacity = group->capacity ? group->capacity * 2 : 8;
+++			void *prev_ptr = group->files;
+++
+++			group->files = realloc(group->files, group->capacity * sizeof(*group->files));
+++			if (!group->files) {
+++				free(prev_ptr);
+++				rpm_free_inode_temp_hash(temp_hash, temp_hash_size);
+++				archive_set_error(&a->archive,
+++					ENOMEM,
+++					"Can't grow inode file list");
+++				return ARCHIVE_FATAL;
+++			}
+++		}
+++
+++		group->files[group->n_files++] = file;
+++	}
+++
+++	rpm->n_inodes = 0;
+++	for (i = 0; i < temp_hash_size; i++) {
+++		for (struct rpm_inode_temp_entry *e = temp_hash[i]; e; e = e->next)
+++			rpm->n_inodes++;
+++	}
+++
+++	rpm->inodes = calloc(rpm->n_inodes, sizeof(*rpm->inodes));
+++	if (!rpm->inodes) {
+++		rpm_free_inode_temp_hash(temp_hash, temp_hash_size);
+++		archive_set_error(&a->archive,
+++			ENOMEM,
+++			"Can't allocate inodes array");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	for (i = 0; i < temp_hash_size; i++) {
+++		struct rpm_inode_temp_entry *e = temp_hash[i];
+++		while (e) {
+++			struct rpm_inode_info *info = &rpm->inodes[ino++];
+++			info->n_files = e->n_files;
+++			info->files = e->files;
+++			info->n_processed = 0;
+++
+++			struct rpm_inode_temp_entry *next = e->next;
+++			free(e);
+++			e = next;
+++		}
+++	}
+++
+++	free(temp_hash);
+++
+++	rpm->inode_hash_size = 1;
+++	while (rpm->inode_hash_size < rpm->n_inodes * 2)
+++		rpm->inode_hash_size <<= 1;
+++
+++	rpm->inode_hash = calloc(rpm->inode_hash_size, sizeof(*rpm->inode_hash));
+++	if (!rpm->inode_hash) {
+++		archive_set_error(&a->archive,
+++			ENOMEM,
+++			"Can't allocate inode hash");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	for (i = 0; i < rpm->n_inodes; i++) {
+++		uint64_t raw = rpm->inodes[i].files[0]->ino;
+++		size_t bucket = raw & (rpm->inode_hash_size - 1);
+++
+++		struct inode_hash_entry *e = malloc(sizeof(*e));
+++		if (!e) {
+++			archive_set_error(&a->archive,
+++				ENOMEM,
+++				"Can't allocate inode hash entry");
+++			return ARCHIVE_FATAL;
+++		}
+++
+++		e->ino = raw;
+++		e->info = &rpm->inodes[i];
+++		e->next = rpm->inode_hash[bucket];
+++		rpm->inode_hash[bucket] = e;
+++	}
+++
+++	__archive_read_consume(a, hlen);
+++
+++	return ARCHIVE_OK;
+++}
+++
+++static struct rpm_inode_info *
+++rpm_get_inode(struct archive_read *a, const uint32_t ino)
+++{
+++	const struct rpm *rpm = a->format->data;
+++	struct inode_hash_entry *e;
+++	size_t bucket;
+++
+++	if (!rpm->inode_hash)
+++		return NULL;
+++
+++	bucket = ino & (rpm->inode_hash_size - 1);
+++
+++	for (e = rpm->inode_hash[bucket]; e; e = e->next)
+++		if (e->ino == ino)
+++			return e->info;
+++
+++	return NULL;
+++}
+++
+++static enum rpm_cpio_format
+++rpm_get_cpio_format(struct archive_read *a)
+++{
+++	const char *magic = __archive_read_ahead(a, CPIO_MAGIC_SIZE, NULL);
+++	if (!magic) {
+++		archive_set_error(&a->archive,
+++			ARCHIVE_ERRNO_FILE_FORMAT,
+++			"Premature EOF");
+++		return ARCHIVE_FATAL;
+++	}
+++
+++	if (memcmp(magic, CPIO_MAGIC_STR, CPIO_MAGIC_SIZE) == 0)
+++		return CPIO_STR;
+++	else if (memcmp(magic, CPIO_MAGIC_SVR4_CRC, CPIO_MAGIC_SIZE) == 0)
+++		return CPIO_SVR4_CRC;
+++	else if (memcmp(magic, CPIO_MAGIC_SVR4_NOCRC, CPIO_MAGIC_SIZE) == 0)
+++		return CPIO_SVR4_NOCRC;
+++	else {
+++		archive_set_error(&a->archive,
+++			ARCHIVE_ERRNO_FILE_FORMAT,
+++			"Unrecognized magic");
+++		return CPIO_UNKNOWN;
+++	}
+++}
+++
+++static uint8_t
+++rpm_is_eof(struct archive_read *a)
+++{
+++	const void *p = __archive_read_ahead(a, CPIO_END_MARK_SIZE, NULL);
+++	if (!p)
+++		return 1;
+++
+++	return memcmp(p, CPIO_END_MARK, CPIO_END_MARK_SIZE) == 0;
+++}
+++
+++static uint16_t
+++rpm_be16_at(const void *buf_start, const void *buf_end, size_t off)
+++{
+++	off *= sizeof(uint16_t);
+++
+++	if (!buf_start || (buf_end <= buf_start) ||
+++		(size_t)(buf_end - buf_start) < (off + sizeof(uint16_t)))
+++		return 0;
+++
+++	return archive_be16dec(buf_start + off);
+++}
+++
+++static uint32_t
+++rpm_be32_at(const void *buf_start, const void *buf_end, size_t off)
+++{
+++	off *= sizeof(uint32_t);
+++
+++	if (!buf_start || (buf_end <= buf_start) ||
+++		(size_t)(buf_end - buf_start) < (off + sizeof(uint32_t)))
+++		return 0;
+++
+++	return archive_be32dec(buf_start + off);
+++}
+++
+++static uint64_t
+++rpm_be64_at(const void *buf_start, const void *buf_end, size_t off)
+++{
+++	off *= sizeof(uint64_t);
+++
+++	if (!buf_start || (buf_end <= buf_start) ||
+++		(size_t)(buf_end - buf_start) < (off + sizeof(uint64_t)))
+++		return 0;
+++
+++	return archive_be64dec(buf_start + off);
+++}
+++
+++static inline size_t
+++rpm_limit_bytes(const size_t bytes, const size_t max)
+++{
+++	return (bytes > max ? max : bytes);
+++}
+++
+++static char *
+++rpm_strndup(struct archive_read *a, const char *s, size_t len)
+++{
+++	if (s == NULL)
+++		return NULL;
+++
+++	if (len == 0)
+++		len = strnlen(s, STR_SIZE_LIMIT);
+++
+++	if (len > STR_SIZE_LIMIT) {
+++		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+++			"String too long (malformed?)");
+++		return NULL;
+++	}
+++
+++	return strndup(s, len);
+++}
+++
+++static char *
+++rpm_strread(struct archive_read *a, size_t len) {
+++	const void *p;
+++
+++	if (len > STR_SIZE_LIMIT) {
+++		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+++			"String too long");
+++		return NULL;
+++	}
+++
+++	p = __archive_read_ahead(a, len, NULL);
+++	if (!p) {
+++		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+++			"Truncated string");
+++		return NULL;
+++	}
+++
+++	return rpm_strndup(a, p, len);
+++}
+++
+++static void
+++rpm_strcat(struct archive_string *a, const void *s, const void *buf_end)
+++{
+++	if (!s || s >= buf_end)
+++		return;
+++
+++	archive_strncat(a, s, rpm_limit_bytes(buf_end - s, STR_SIZE_LIMIT));
+++}
+++
+++static const char *
+++rpm_strlist_at(const char *p, const void *end, uint64_t i, uint64_t n)
+++{
+++	uint64_t k;
+++
+++	if (p == NULL || i >= n || (const char *)end < p)
+++		return NULL;
+++
+++	for (k = 0; k < n; k++) {
+++		const uint64_t max_len = rpm_limit_bytes((const char *)end - p,
+++			STR_SIZE_LIMIT);
+++		const uint64_t len = strnlen(p, max_len);
+++		if (len == max_len)
+++			/* Unterminated or absurdly long string. */
+++			return NULL;
+++
+++		if (k == i)
+++			return p;
+++
+++		p += len + 1;
+++
+++		if (p >= (const char *)end)
+++			return NULL;
+++	}
+++
+++	return NULL;
+++}
+++
+++static void
+++rpm_free_inode_temp_hash(struct rpm_inode_temp_entry **hash, const size_t hash_size)
+++{
+++	for (size_t i = 0; i < hash_size; i++) {
+++		struct rpm_inode_temp_entry *e = hash[i];
+++		while (e) {
+++			struct rpm_inode_temp_entry *next = e->next;
+++			free(e->files);
+++			free(e);
+++			e = next;
+++		}
+++	}
+++
+++	free(hash);
+++}
++diff --git a/libarchive/test/test_archive_read_support.c b/libarchive/test/test_archive_read_support.c
++index b0c9280..bc256a1 100644
++--- a/libarchive/test/test_archive_read_support.c
+++++ b/libarchive/test/test_archive_read_support.c
++@@ -91,6 +91,7 @@ DEFINE_TEST(test_archive_read_support)
++ 	test_filter_or_format(archive_read_support_format_iso9660);
++ 	test_filter_or_format(archive_read_support_format_lha);
++ 	test_filter_or_format(archive_read_support_format_mtree);
+++	test_filter_or_format(archive_read_support_format_rpm);
++ 	test_filter_or_format(archive_read_support_format_tar);
++ 	test_filter_or_format(archive_read_support_format_xar);
++ 	test_filter_or_format(archive_read_support_format_zip);
++@@ -140,7 +141,6 @@ DEFINE_TEST(test_archive_read_support)
++ 	test_filter_or_format(archive_read_support_filter_lzip);
++ 	test_filter_or_format(archive_read_support_filter_lzma);
++ 	test_filter_or_format(archive_read_support_filter_none);
++-	test_filter_or_format(archive_read_support_filter_rpm);
++ 	test_filter_or_format(archive_read_support_filter_uu);
++ 	test_filter_or_format(archive_read_support_filter_xz);
++ }
++diff --git a/libarchive/test/test_read_format_cpio_svr4_bzip2_rpm.c b/libarchive/test/test_read_format_cpio_svr4_bzip2_rpm.c
++index 1c421df..550b5be 100644
++--- a/libarchive/test/test_read_format_cpio_svr4_bzip2_rpm.c
+++++ b/libarchive/test/test_read_format_cpio_svr4_bzip2_rpm.c
++@@ -97,8 +97,6 @@ DEFINE_TEST(test_read_format_cpio_svr4_bzip2_rpm)
++ 		return;
++         }
++ 	assertEqualIntA(a, ARCHIVE_OK, r);
++-	assertEqualIntA(a, ARCHIVE_OK,
++-	    archive_read_support_filter_rpm(a));
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
++ 	extract_reference_file(name);
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, name, 2));
++@@ -121,7 +119,7 @@ DEFINE_TEST(test_read_format_cpio_svr4_bzip2_rpm)
++ 	/* Verify that the format detection worked. */
++ 	assertEqualInt(archive_filter_code(a, 0), ARCHIVE_FILTER_BZIP2);
++ 	assertEqualString(archive_filter_name(a, 0), "bzip2");
++-	assertEqualInt(archive_format(a), ARCHIVE_FORMAT_CPIO_SVR4_NOCRC);
+++	assertEqualInt(archive_format(a), ARCHIVE_FORMAT_RPM);
++ 
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
++ 	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
++diff --git a/libarchive/test/test_read_format_cpio_svr4_gzip_rpm.c b/libarchive/test/test_read_format_cpio_svr4_gzip_rpm.c
++index 6062c48..11dbbb4 100644
++--- a/libarchive/test/test_read_format_cpio_svr4_gzip_rpm.c
+++++ b/libarchive/test/test_read_format_cpio_svr4_gzip_rpm.c
++@@ -97,8 +97,6 @@ DEFINE_TEST(test_read_format_cpio_svr4_gzip_rpm)
++ 		return;
++         }
++ 	assertEqualIntA(a, ARCHIVE_OK, r);
++-	assertEqualIntA(a, ARCHIVE_OK,
++-	    archive_read_support_filter_rpm(a));
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
++ 	extract_reference_file(name);
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, name, 2));
++@@ -121,7 +119,7 @@ DEFINE_TEST(test_read_format_cpio_svr4_gzip_rpm)
++ 	/* Verify that the format detection worked. */
++ 	assertEqualInt(archive_filter_code(a, 0), ARCHIVE_FILTER_GZIP);
++ 	assertEqualString(archive_filter_name(a, 0), "gzip");
++-	assertEqualInt(archive_format(a), ARCHIVE_FORMAT_CPIO_SVR4_NOCRC);
+++	assertEqualInt(archive_format(a), ARCHIVE_FORMAT_RPM);
++  
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
++ 	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
+index 01a5249a88..3b3824e778 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
+@@ -35,6 +35,7 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://0001-test-skip-ppmd8-aes256-streaming-test-when-no-crypto.patch \
+            file://0001-append_filter-Verify-that-bidder-and-filter-match.patch \
+            file://0003-Remove-bidder-name.patch \
++           file://0004-Convert-RPM-reader-into-a-proper-format.patch \
+           "
+ UPSTREAM_CHECK_URI = "https://www.libarchive.org/"
+ 
 
