@@ -2,119 +2,119 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 981ADC5B56A
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 07:28:33 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2585.1786519710665362221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6825BC5B56A
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 07:28:43 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.28])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2741.1786519720345856902
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 00:28:31 -0700
+ Wed, 12 Aug 2026 00:28:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=bWFoI38j;
- spf=pass (domain: est.tech, ip: 52.101.69.41, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=sh6kCJbQ;
+ spf=pass (domain: est.tech, ip: 40.107.159.28, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tumb6tek2TFF/YemG1GZq9V6LgEHRjSiJ4kawY2FKDtyTnRhtmn+Jpzwsi+ljZgXQNjo53MME5NWp8rRTS7bK9c5DfjXSVdv1IHM2S4wEzNyU2aaRIJ7B//44jsOK74UdSloqil97JQ7e/cH+rkOMKXsUJglqYTeR5G2ecmGm4976S7QJQl7hNqgNUYF++7bdcql/J4PXWtFwWRVomhi4mCm5J8KnDQfjc12cXupSjBA5ziJKaX4xSBQA2F3wnsaOtvaTU6x1nlb3yeb3/xBiep7V0hgvI9+GVXqEshPH7og6YLqmR4TPRmZrW4SuFX4x/Me5UrqOMwXIlJXAR9ylQ==
+ b=MH7YT5MYn7rieBeCOQm3qj+ozYutijiYlg8o4WlsDlbixjikdYj9W2rqA0TwTjtH5qtZJK7xzYaVbygwJOZR+dVXjgglpg4bp3TjmcR0+caaqSGB7fKWYEvMAGavTTfZnMYocsUk+yImD6v7apcYiMRAOjPiQy6nFW5t2T0FCdS22Ju2c75ZQQ14WxiG+2bC/J+VniG2Tjo+UHkSLuvzbintQilTQjN8IK2Ez6gF1Tl1LkCGy0vdrXbMumj8JVX7MzwWjApTR2r+JkZq2CCz6M8jB4UJXnbMYfhai/+A5G/GNI5dXVcpYuSoVhM7WPJdmcARBOUNqe8xFjQd3hDi7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QTW5CVUwQH0WP5kmovY7bGNLSPOHg72gAD5J7bXWF+w=;
- b=puUM8l/06lA2OtSIxxH5xx1qsV34cYfsWN+RLTRa2AyDlmbH8tFxK108TjTbkOUkBPvFlOmFDtvkZX6Ny0bIqWmOpLi/sqdGCvAtYELfHdlIWZk4w3iJwnX9uBexi+aUd3uuTx4AFqXu1ODJqFBY2/RTdcLANv6sKXCHhErpXj7oOD5FiXmGbnlic37II6t7Qd4VCQ4d3kxxGzyT9xyZE+wcEvZTDxIVQH5LtNgt2n4K2Uh/Haoro4HwuLBRy3ySUjcy9WRCdhuD/owF/t+LAB1TGE1kVdIm+Yt+EU2ik97fOs9+5O51GSF2LWaDYx0Adh07yQ/gljhrUQ8W0tS3Xg==
+ bh=x8EcuYzM3/fOwNIQNz2j6cPz50KFc+/v1FC08EGBCls=;
+ b=LUYw/rHF3ZHVRA5qddyiSkCQppUhNA9iSDU0H6ZgtcC0dkyO2Po08u2lqZkDIxNtODPo++GxCdnj7A+sMPCUuw1k/J+JIyDrzfGBwqD6X818LuzNxWLKqa4jTYqIl3yMbfyTg39KU1gKg4rq2PrBLZeZnXj4BIUJMUYKOOTkcu71wOUK/m1Ha0+JfQJ2SOyItLscH+6f/56uL5tgdAHKh3zIu5BXUfHFxTpGdxUKT1avlTnr7JR4HON32Fs+QElAE1Ln0gfNH5ka9Ad1sF/bhOM0xiZVPYFp2iAF5ovSL+6jTDCoGy5ckC7FKn50zQW8eZYsz5RiCkloyPoxoTBYoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QTW5CVUwQH0WP5kmovY7bGNLSPOHg72gAD5J7bXWF+w=;
- b=bWFoI38jLvUtrcE3vEdDzmvcQYK6ATRsOkRNjHCQu9iMQlZbPS1o1lVejlaJ3ncXKP6ifHlf2XPoLmAbZZ5RqkYrnIuIlKUseLxHZ78Wcf7RcGVqkqwWKmFbe7ksIX1glWf/V640xMxvsrkhB6H7hL5BuVvTv6Y+ma6SG4Nju4yTYWae1yAHjvz6a17u8vp3up9hGOB5l7k/x9Sos7uy20+k0ZsGbGGJgi7DhrjWQhaK7hc0aBLMc42fOvXb4BzKDc5yT3cqy9EHcGOs7eJjBiDSwbmBcv6lK0WMESlMxqyovoIVziGS3/RKCNJIYlw21JCxI9aq1rEJF54Ixa+FEA==
+ bh=x8EcuYzM3/fOwNIQNz2j6cPz50KFc+/v1FC08EGBCls=;
+ b=sh6kCJbQtZNLu74iC9e+GXSH5Jm5KuZJ1riWUtmYthv4VKALaT74voPZySDJ/vdN0wsBA4GZaKwtQcchMF2Jsb2VDx9gmHAiZEM+dpiiHx33BQRgFKjaoNflrbI2XMham5E8iv6PHTawD790nAM5bObAJPE1oprI6pVo0egrFqToHTuGpg00QDNErz3Gv0zr/wy9rkK7dNsdMse7nztzkUfQzaHxbPEHzG3Vp1x3evHTCtuk7OeTvmS7dKbIrkCI4b8Gra8DbHq9fEwpo0LIWBTAXVkp5B37rkue5iC5VPdouT6LqdidX1apj3VhMSIQvjQvHoy65qtsm3c3tDW3fA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by BESP189MB3212.EURP189.PROD.OUTLOOK.COM (2603:10a6:b10:f5::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.3; Wed, 12 Aug
- 2026 07:28:29 +0000
+ 2026 07:28:36 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
- 07:28:29 +0000
+ 07:28:36 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [scarthgap][PATCH 1/4] binutils: fix CVE-2025-1147
-Date: Wed, 12 Aug 2026 09:28:19 +0200
-Message-ID: <20260812072822.22227-2-jaipaul.cheernam@est.tech>
+Subject: [scarthgap][PATCH 4/4] binutils: fix CVE-2026-18220
+Date: Wed, 12 Aug 2026 09:28:22 +0200
+Message-ID: <20260812072822.22227-5-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260812072822.22227-1-jaipaul.cheernam@est.tech>
 References: <20260812072822.22227-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DB9PR05CA0020.eurprd05.prod.outlook.com
- (2603:10a6:10:1da::25) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU2P250CA0029.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:10:231::34) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|BESP189MB3212:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab162b71-3404-462e-f8e2-08def8434df7
+X-MS-Office365-Filtering-Correlation-Id: b004b6fe-fd9a-4cc9-64b2-08def843526e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|6133799003|56012099006|11063799006|10067099003|3023799007|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	jUANzd9ixFcGu5b59CIuc9gw1z9Q5pZSCSpOZWKN8d9+4kprSnVwPu4742k2z2n6qPPA6urEq4FmIDlBINjyzUcyCO6aGpVipxsbR7m1gWNyPt/FD2cpXSPK7Uuiz7cD7hcLy2i+QFi7fbj1Zn6irMruXoqSYA9BZ8v028sQ3raqm8dz9rSuCa+T58U/I52Y6Evs9nQWm+5cuOWpVlGaVFhMG9EVECxb9ajgtxAw8FMp2jM4zWuDv9cX8I+54UvSUYTa3CXdIMX+q9klDMPrDCqQVqhR+aw3YGHCyGFSrs0OnHWpHA7y9/XRBoAM6HOqclspeE1Vs4jOy54dMgPeM38/CdjMZkKWjoSPO7CRjwBwfyjMPCcSzG20RuYshOjLeLsaHxDkpFRsLd578Znnzaxqv6KhooRhdPkgh5qTgzPquGPywzmPBVA4thhflnZs6hdouaX3m6+D0jq3Tvu/r6QB69I2iV6mEbZXUBcXUSeSt5HSpzMfiC15vWlu3f3tJRVhKlQiNILs4ZidZiTSugdwztliIm0Jfw23CWrK53ZQB/wVwapUPcdlqyF4+uHTsooo50L8uCizMY3ED9VL/M1VxxubISN0JTShI4ahhSE=
+	GIYCTxvZWKWw3XdlFKeeXq+aYAsfFMUAn8LU39y1yWpJzhk95+xdXVuKNDT+XnSD1CdlGfVBTJQnTTDgXtN1WtEmJaOyxcvTDRnaIloIIWYM/LSQlAlrOgSujrtXheaFec3ciyDKtKN8GGRGiyzOPVkVxEDvM5KlX1FgCTkrVpX3BrzzmXXBtn9tJVAsB4CR9NVAr8v/Uu7Cvu3+rv4dBmiI6ryYUkYCVAdp1k2YlEScW4ac/f1E/QKVVbjZwNWO1indkkywLrHn9auXxPhM8D+Fz8KzawD4D0aHj5+6mO2g5hBmbW5eiyeDEVUV5G+JRxRNM0Wm/YdQVIWvqdGXc9qE02hfGhm0XEfLzZK1OAqKTkfOeXfPfYLkaAZjKZlXSzqJwc51JpOudVn06sNwV43vjiwLRSd0l+RbXkvlPiA/UOj4aNstGQLgyFqzPdyu3W9z6zbKRvf7JBdanB5RNUYr4bfb12Q6XKMpvDm7+1eOnpyr/cRM5OlSZlU6tPzbaN8h3ezTJbCSfYocpdhl+Qxe0ztVLOrjEpg3SHeDIXV+kKbsMLYsb2SFeRatH6RUvyb2ENxJZGAesaPJ/WLSZN6ShhPczjnwL9oQZmjXxVRcisvpEbB9JWs5d1r0Bs89
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(6133799003)(56012099006)(11063799006)(10067099003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?LnDtfekago/sXW7wm2KLPfx18MfTIKOEdYypNL8hT0zdjjHe7sbH6SASzG9B?=
- =?us-ascii?Q?4Z141yF7HgdgccyzuCiRsM9m9ibJt9PJCU6pA1ATSnxWqy5WR/NK3rV3HN6r?=
- =?us-ascii?Q?E72+V+/bhGUaTn5cfuV/cEnNCQpp8fkZDkN1LWH3OttvT1vcfFn1IJ3it0ae?=
- =?us-ascii?Q?4Hn/PI8dp04LOfYvksKoBA7jmjyqT6WQgGyTOS24+lKSumSHc8m0zyW4Td2I?=
- =?us-ascii?Q?K3V4ci7VY+WMbaN2Wc4miJ60UVmvo53eNrQEIa+X42m5iw0z9Om3J+NbBzEA?=
- =?us-ascii?Q?VqzB39aQyraVZPfjhMSUohZa7d+BgtM+8efVALC/T6csqFFQGM2cEuGAUBEW?=
- =?us-ascii?Q?Ffdb+z3NGpbvhotK2FfO7u04D2jZrG2J5jZNKLawIzxUSBth3eKznv/pdZM9?=
- =?us-ascii?Q?7+omScmKtQfRwvD9GFjLWxZDJHVCa02csmSUZQJZSFQ7oYvahhH9P6jybnq0?=
- =?us-ascii?Q?Z1nvpn4px2NzwXXcrN2jR/zqKxHdJhSrWbB47e1blB2CfAI9YfRq7CmHOItH?=
- =?us-ascii?Q?NKcNrEpIEv1/bZRvOPiGCZLo/U4j3M8C7Zorpb01QXiGtAH7ysFfojLnZf+A?=
- =?us-ascii?Q?QvVAC0yqvLzxKqOlJF3j3kqgBNPQb/mt5v35l6+WS+NKgxsAgCNtuYVaD6ZD?=
- =?us-ascii?Q?U0ZjHSbphib+zqssaKLK7HBynErX4XCNImbAUu0jmwdEph4+F6g/CJKhSkYB?=
- =?us-ascii?Q?76HgZOHiUfdnpHq83TE3QGQRIT0YSG/HeGFpTORBi4hWxiiwmu7KDscsWB5O?=
- =?us-ascii?Q?TcytOMb+Pytv1h/OCbT4EeePjzt7lGjS/i1uIEtPJZmtWr/l7krTf7bYo1Gh?=
- =?us-ascii?Q?y3O6k5+VgnXjCpvw1ZoUHB9xrpJCseki6QGRyA3uniq4F4E85mc6TJkAzjdg?=
- =?us-ascii?Q?UkHOvEF7t54sUMHmKcGOgQgcBnhSkKcAlU1dcV9sWgGu6ERlchuEc4Qzg6NX?=
- =?us-ascii?Q?c8QjdIpyI2gC2yjrtLrCbX9yv7HR1GgPU7/xw91KXqFrs7LNNWf2yNVwFOuO?=
- =?us-ascii?Q?wAKsOwuj0uWY0tMz8LEBszvTbuGoJ0774/ja1OEbGCY9GA1rMrv8eSKi7zgY?=
- =?us-ascii?Q?n8jlpjIbiwTNktCrImzRVYZ8kfnaoo5WWf4xt2R5Lz65sRisgXg/4durMMia?=
- =?us-ascii?Q?ICbXLJDGlpBjYSTJYe7nL91Wc9NvGmmk84BftHuys5nsai8ZfX9zWeOI2U+i?=
- =?us-ascii?Q?eKGRRj0g7Xu+fY6Jkvdhm/keXv1TjrcWEZFt+fX0OPYaEyeumfDZsI6JYlYW?=
- =?us-ascii?Q?2MGUFiwOwtoYwTM/mzY7J/BaEOFOxmxj7PrfZp3shN6KGT9LfL7mkcvHK8ug?=
- =?us-ascii?Q?1AYCXuSsYtF02+fe6igtHm7tgLdGUu0GmCRRdYE8+keIePPWyRyGuY/GBcxB?=
- =?us-ascii?Q?nIYb8KyxO+/3TrDjQN/bRzYVYqIWg3JUoSk1v8CHN5EQ11IxLsrISMec5qaG?=
- =?us-ascii?Q?eQq/C8GA4NHCfXcxYObit+Mw80ld1V02tcgWj7/NX2tqMPAv2KlUQw43XUor?=
- =?us-ascii?Q?7Y/5BvtoueXE8ChdddhiIzIk9vVkeGsvuXh3shQSyUozswh1lQEcOphJreYE?=
- =?us-ascii?Q?4FeGeszB1Wiu4nUeZvHw0XgiGVUFvN7hy0jdQNNR4Lklprk2NBogXkUX0Vfd?=
- =?us-ascii?Q?aYgfIYU/3O5zXZymvvHJbbSMSNCPOBMkrqkwXfqHRVY8kS3fq+7qs28WRuoc?=
- =?us-ascii?Q?wyBmtQyWltTVov4HNuL5TmIAZS6KYbPRfw2uc6STqSiiXuOlFYu4M3QpQpYd?=
- =?us-ascii?Q?yR0+CWHVk1eQAMF2qbnKI9yTB4r3XoI=3D?=
+	=?us-ascii?Q?V9+PnDhx6B4BRejatt+XheKLLUubV2zsdCe4/Kk3tKYRACJYx7n0JLFwg3yv?=
+ =?us-ascii?Q?Jo2Do+gWjR0LvU2zJNrdHwU72vetqA6r/wur+X8DPbreWc8RsfRg/nKqwacK?=
+ =?us-ascii?Q?rAU4mdcVtOl2XedLvJjZ0GvDppLQhgD6iiFtN4ubBqFtDIGFof3PIfyIprpp?=
+ =?us-ascii?Q?W2ByS2B/OaIllejO1T8lM7i1v9dPw3KQ6guwvUEFfMJki6JjLHCzBERmvwbY?=
+ =?us-ascii?Q?ldtzGE3epia8Fszmd8LfOp7Os8LPlnI4nU1gkDb+8QF3wB4RsP1fnSQOsdV4?=
+ =?us-ascii?Q?n6sXlbe59JbNU4Yas3/VZN2yFRQ5MAXK05Cjtp9OBSPEGj6x1ruZrkC6Zkti?=
+ =?us-ascii?Q?aIkkD0ZWKyOra0KhdSkIx6eMhh6ReZuhDWsGwkAKwLb4XbYZ+hVrBgN/NX76?=
+ =?us-ascii?Q?IagHa5JXPjQLTDQIN45CPfOLjNLB1OqI/0CCTW/PFpiWjSO7b8CJ7EKFHOVN?=
+ =?us-ascii?Q?nlWqQx4qm/38TTTfddzFMRAkPCyhFAEsjvJwiHNrfVWPsjy3g6Qyi9Yai/5N?=
+ =?us-ascii?Q?3CWyMu57IuhFdTcZKc1kRG+rIIpFYVwVQP3efnLM3F7ppeLHxoskVRYzjPCO?=
+ =?us-ascii?Q?t4xya9G6vD4pFvlKyomAegONWrfuWLliWD4L+E3WbVNaczhJIlbQxJN+W5v+?=
+ =?us-ascii?Q?tDEH89tJn+Z/vSUCotHNs+5ZfV16MTLIX58La53ccRK19EBhpgpDhiR9KZOs?=
+ =?us-ascii?Q?DjM+f8rQc8yorT1qu6nahPsk9Oy1aQYivjA4L6PxxcVdUOf4TMj0W8ULGR06?=
+ =?us-ascii?Q?HU8VKKUI/SVjb+g4hILT+2vN/RuvgyxiVqX4vSLdXt351FA9gMzIL0kX7n+y?=
+ =?us-ascii?Q?q35P8Lj5+qBW9H28SOuolXEScL4rhAPpvDgt++RVCq7GKYAoDCS/xii7xCZY?=
+ =?us-ascii?Q?fX6ik28hcvqckDAlHM+EI9tzgS6TVxTGzAvuGalwtQxVMAOlGGrtCNs53Gxv?=
+ =?us-ascii?Q?hhd9MQQSIfkFmjvSQuOeh34DGFTGW6UvGnb78RkB8K0Snj33dMfrpM/SjdT8?=
+ =?us-ascii?Q?2WoOz+soFuoCSmvmTE3oBRWWVKrGp8IwYfUhcDep/TqbBi1Yh0nnCv/cZaVo?=
+ =?us-ascii?Q?W0fkJn4AC+wrr/qvdA78l0lg/pNjQ2IjbSrxBOMLkwQ1hkuYNXdBMkee+ESa?=
+ =?us-ascii?Q?VcRAwsA/Zpxza8zHvESIcaHLA+/5q//0McbplIPcI0w99SSqYNHmDcji4htv?=
+ =?us-ascii?Q?I5q05J3q/x8NdDoQTYmFtk7U5hlVGP2IWoHl6RDlYmgw5b/wNIKN18174h76?=
+ =?us-ascii?Q?CpvYGbkUv+aIs1GIECyrjTKL3Yr6pXDeaRsnrPxfjx/ev0M+9H+jVieOotvW?=
+ =?us-ascii?Q?HW9DbzJf34knCOZPqteI5zQ1JFs5YOeC1QkRr9Cgy94Eew02x0EDXz30qxQ7?=
+ =?us-ascii?Q?tLdG2gtAQwhX3nzSQgSLN0MF2Zom1M2+FM5Ab8QsvjJfJAvg6q8rdeNhBACc?=
+ =?us-ascii?Q?ka0dkd4c+Zc3uzZtTwWWqAsRXdCTplQ4SUzCuKK11HP1DMV1fQgBbXB/tHAP?=
+ =?us-ascii?Q?1UrZPq9xPRsHYvKVJNUYRAhS/351cT13P2Hw4XHOq57sfJjfP2WDza7/Q6qv?=
+ =?us-ascii?Q?QW3C5Ax56mEs2jhqE//f04n5L4eqWAYjbmh5i8qddglVRnhRCZdP2i1EXLrj?=
+ =?us-ascii?Q?gnRqo3RD0x+thNYqmZ6d+Y0VpFrTzUmjzKer6uiMSHeNSuhlosaihVOowA3y?=
+ =?us-ascii?Q?TvgyMF38R0Xo2Bz3rs4XTjLi7PEhBZnNSDayrGRV06HV+MlcA8O2ofxBIzRX?=
+ =?us-ascii?Q?w28E/kNdmfhmwGbB5Ig1bknh+fuqwM4=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab162b71-3404-462e-f8e2-08def8434df7
+X-MS-Exchange-CrossTenant-Network-Message-Id: b004b6fe-fd9a-4cc9-64b2-08def843526e
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 07:28:28.9778
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 07:28:36.4208
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UI71W/5OuAXFukHQbAkixRP5WH5IMOSQDfkxOK7Ti/V+qiHNW7sxnFns8XAuGyVApG5q/GTUSefspR4FLu6PX2eDV+6YtaLBC71wmTqozxs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5OaCf7xSEDvZ6hE+77xcmOV6UykF5Ql5NYaj2u1NnTQ0jbMFr+JucNygj9taQgOjgCFxWmv3wTHfaXOy67zgqUiyxMSUVR61PSipGKeD+cg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BESP189MB3212
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 07:28:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243248
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 07:28:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243251
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-1147
-https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3D7be4186c22f=
-89a87fff048c28910f5d26a0f61ce
+https://nvd.nist.gov/vuln/detail/CVE-2026-18220
+https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3D114e3aae2b7=
+e34057c8909301eaf78c15687e8e5
 
 Test results:
   binutils-cross-testsuite 2.42 (x86_64-oe-linux):
@@ -126,152 +126,105 @@ Test results:
 solved, 20 untested, 99 unsupported
 
   After:
-  binutils: 304 passed, 2 unexpected failures, 1 untested, 7 unsupported (+=
-2 new passes from nm --ifunc-chars=3D-- tests)
+  binutils: 304 passed, 2 unexpected failures, 1 untested, 7 unsupported
   gas:      1871 passed, 4 unexpected failures, 2 unsupported
   ld:       1728 passed, 5 unexpected failures, 7 expected failures, 1 unre=
 solved, 20 untested, 99 unsupported
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../binutils/binutils-2.42.inc                |   1 +
- .../binutils/binutils/CVE-2025-1147.patch     | 110 ++++++++++++++++++
- 2 files changed, 111 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1147.p=
-atch
+ .../binutils/binutils-2.42.inc                |  1 +
+ .../binutils/binutils/CVE-2026-18220.patch    | 65 +++++++++++++++++++
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-18220.=
+patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
 s-devtools/binutils/binutils-2.42.inc
-index d455acd786..063c6cc2a4 100644
+index 447529ffa9..d395ae1b1e 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -78,5 +78,6 @@ SRC_URI =3D "\
-      file://CVE-2025-69652.patch \
-      file://CVE-2026-6846.patch \
-      file://CVE-2025-69645.patch \
-+     file://CVE-2025-1147.patch \
+@@ -81,5 +81,6 @@ SRC_URI =3D "\
+      file://CVE-2025-1147.patch \
+      file://CVE-2025-8224.patch \
+      file://CVE-2026-15003.patch \
++     file://CVE-2026-18220.patch \
  "
  S  =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1147.patch b/=
-meta/recipes-devtools/binutils/binutils/CVE-2025-1147.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch b=
+/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
 new file mode 100644
-index 0000000000..d8a3f90ede
+index 0000000000..36d4ae28b1
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1147.patch
-@@ -0,0 +1,110 @@
-+From 7be4186c22f89a87fff048c28910f5d26a0f61ce Mon Sep 17 00:00:00 2001
-+From: Dmitry Klochkov <dmitry.klochkov@bell-sw.com>
-+Date: Tue, 9 Sep 2025 12:06:25 +0200
-+Subject: [PATCH] nm: fix treating an ifunc symbol as a stab if
-+ '--ifunc-chars=3D--' is given
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
+@@ -0,0 +1,65 @@
++From 114e3aae2b7e34057c8909301eaf78c15687e8e5 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sun, 28 Jun 2026 09:11:46 +0930
++Subject: [PATCH] asan: buffer overflow in elf32_dlx_relocate26
 +
-+If an ifunc symbol is processed in print_symbol(), a 'type' field of a
-+'syminfo' structure is set to any character specified by a user with an
-+'--ifunc-chars' option.  But afterwards the 'type' field is used to
-+check whether a symbol is a stab in print_symbol_info_{bsd,sysv}()
-+functions in order to print additional stab related data.  If the 'type'
-+field equals '-', a symbol is treated as a stab.  If '--ifunc-chars=3D--'
-+is given, all ifunc symbols will be treated as stab symbols and
-+uninitialized stab related fields of the 'syminfo' structure will be
-+printed which can lead to segmentation fault.
-+
-+To fix this, check if a symbol is a stab before override the 'type'
-+field.  Also, add a test case for this fix.
-+
-+	PR binutils/32556
-+	* nm.c (extended_symbol_info): Add is_stab.
-+	(print_symbol): Check if a symbol is a stab.
-+	(print_symbol_info_bsd): Use info->is_stab.
-+	(print_symbol_info_sysv): Use info->is_stab.
-+	* testsuite/binutils-all/nm.exp: Test nm --ifunc-chars=3D--.
-+
-+Bug: https://sourceware.org/bugzilla/show_bug.cgi?id=3D32556
-+Fixes: e6f6aa8d184 ("Add option to nm to change the characters displayed f=
-or ifunc symbols")
-+Signed-off-by: Dmitry Klochkov <dmitry.klochkov@bell-sw.com>
++	* elf32-dlx.c (elf32_dlx_relocate26): Sanity check reloc offset.
++	(elf32_dlx_relocate16): Likewise.
++	(_bfd_dlx_elf_hi16_reloc): Likewise, and remove ineffective
++	existing check.
 +---
-+ binutils/nm.c                          | 10 +++++++---
-+ binutils/testsuite/binutils-all/nm.exp | 17 +++++++++++++++++
-+ 2 files changed, 24 insertions(+), 3 deletions(-)
++ bfd/elf32-dlx.c | 15 ++++++++++++---
++ 1 file changed, 12 insertions(+), 3 deletions(-)
 +
 +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.gi=
-t;a=3Dcommitdiff;h=3D7be4186c22f89a87fff048c28910f5d26a0f61ce]
-+CVE: CVE-2025-1147
+t;a=3Dcommitdiff;h=3D114e3aae2b7e34057c8909301eaf78c15687e8e5]
++CVE: CVE-2026-18220
 +
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +
-+diff --git a/binutils/nm.c b/binutils/nm.c
-+index dce9207f44f..c3d118a93c3 100644
-+--- a/binutils/nm.c
-++++ b/binutils/nm.c
-+@@ -70,6 +70,7 @@ struct extended_symbol_info
-+   bfd_vma ssize;
-+   elf_symbol_type *elfinfo;
-+   coff_symbol_type *coffinfo;
-++  bool is_stab;
-+   /* FIXME: We should add more fields for Type, Line, Section.  */
-+ };
-+ #define SYM_VALUE(sym)       (sym->sinfo->value)
-+@@ -1208,8 +1209,11 @@ print_symbol (bfd *        abfd,
++diff --git a/bfd/elf32-dlx.c b/bfd/elf32-dlx.c
++index 2dfeb4d7390..0f9a49695d7 100644
++--- a/bfd/elf32-dlx.c
+++++ b/bfd/elf32-dlx.c
++@@ -77,6 +77,10 @@ _bfd_dlx_elf_hi16_reloc (bfd *abfd,
++       return bfd_reloc_ok;
++     }
 +=20
-+   bfd_get_symbol_info (abfd, sym, &syminfo);
-+=20
-++  info.is_stab =3D false;
-++  if (syminfo.type =3D=3D '-')
-++    info.is_stab =3D true;
-+   /* PR 22967 - Distinguish between local and global ifunc symbols.  */
-+-  if (syminfo.type =3D=3D 'i'
-++  else if (syminfo.type =3D=3D 'i'
-+       && sym->flags & BSF_GNU_INDIRECT_FUNCTION)
-+     {
-+       if (ifunc_type_chars =3D=3D NULL || ifunc_type_chars[0] =3D=3D 0)
-+@@ -1873,7 +1877,7 @@ print_symbol_info_bsd (struct extended_symbol_info *=
-info, bfd *abfd)
-+=20
-+   printf (" %c", SYM_TYPE (info));
-+=20
-+-  if (SYM_TYPE (info) =3D=3D '-')
-++  if (info->is_stab)
-+     {
-+       /* A stab.  */
-+       printf (" ");
-+@@ -1902,7 +1906,7 @@ print_symbol_info_sysv (struct extended_symbol_info =
-*info, bfd *abfd)
-+=20
-+   printf ("|   %c  |", SYM_TYPE (info));
-+=20
-+-  if (SYM_TYPE (info) =3D=3D '-')
-++  if (info->is_stab)
-+     {
-+       /* A stab.  */
-+       printf ("%18s|  ", SYM_STAB_NAME (info));		/* (C) Type.  */
-+diff --git a/binutils/testsuite/binutils-all/nm.exp b/binutils/testsuite/b=
-inutils-all/nm.exp
-+index fea68bf76bc..1feb8578fba 100644
-+--- a/binutils/testsuite/binutils-all/nm.exp
-++++ b/binutils/testsuite/binutils-all/nm.exp
-+@@ -329,6 +329,23 @@ if [is_elf_format] {
-+ 	    fail "$testname (local ifunc)"
-+ 	}
-+=20
-++	# PR 32556
-++	# Test nm --ifunc-chars=3D--
+++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
+++				  input_section, reloc_entry->address))
+++    return bfd_reloc_outofrange;
 ++
-++	set got [binutils_run $NM "$NMFLAGS --ifunc-chars=3D-- $tmpfile"]
++   ret =3D bfd_reloc_ok;
++=20
++   if (bfd_is_und_section (symbol->section)
++@@ -89,9 +93,6 @@ _bfd_dlx_elf_hi16_reloc (bfd *abfd,
++   relocation +=3D reloc_entry->addend;
++   relocation +=3D bfd_get_16 (abfd, (bfd_byte *)data + reloc_entry->addre=
+ss);
++=20
++-  if (reloc_entry->address > bfd_get_section_limit (abfd, input_section))
++-    return bfd_reloc_outofrange;
++-
++   bfd_put_16 (abfd, (short)((relocation >> 16) & 0xFFFF),
++ 	      (bfd_byte *)data + reloc_entry->address);
++=20
++@@ -143,6 +144,10 @@ elf32_dlx_relocate16 (bfd *abfd,
++       return bfd_reloc_undefined;
++     }
++=20
+++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
+++				  input_section, reloc_entry->address))
+++    return bfd_reloc_outofrange;
 ++
-++	if [regexp -line "^\\S+ - global_foo$" $got] then {
-++	    pass "$testname=3D-- (global ifunc)"
-++	} else {
-++	    fail "$testname=3D-- (global ifunc)"
-++	}
++   insn  =3D bfd_get_32 (abfd, (bfd_byte *)data + reloc_entry->address);
++   allignment =3D 1 << (input_section->output_section->alignment_power - 1=
+);
++   vallo =3D insn & 0x0000FFFF;
++@@ -206,6 +211,10 @@ elf32_dlx_relocate26 (bfd *abfd,
++       return bfd_reloc_undefined;
++     }
++=20
+++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
+++				  input_section, reloc_entry->address))
+++    return bfd_reloc_outofrange;
 ++
-++	if [regexp -line "^\\S+ - local_foo$" $got] then {
-++	    pass "$testname=3D-- (local ifunc)"
-++	} else {
-++	    fail "$testname=3D-- (local ifunc)"
-++	}
-++
-+ 	if { $verbose < 1 } {
-+ 	    remote_file host delete "tmpdir/ifunc.o"
-+ 	}
++   insn  =3D bfd_get_32 (abfd, (bfd_byte *)data + reloc_entry->address);
++   allignment =3D 1 << (input_section->output_section->alignment_power - 1=
+);
++   vallo =3D insn & 0x03FFFFFF;
 
