@@ -1,140 +1,140 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <rob.woolley@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 569A5C5B572
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 16:20:10 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12158.1786551600536167730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86CCEC5CFDB
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 20:35:01 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4712.1786566899377477740
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 09:20:00 -0700
+ Wed, 12 Aug 2026 13:34:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=XKbRANv6;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b159850b16so1140972e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 09:20:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786551598; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TKowGn47PSip8vb30QupWJVLtCZPGShUZjy1tLQDh6k2ZWA8rOE+zd1k4EcHi2dvX+
-         /gAfjdz/TEZAdSp9dx9XDNnzj7X1fngLGEYjx315iBcj8ApZ2XJnPidxf4KgQGEXwF20
-         d/gj/QRtIE3N+y44dmrh4WUVMHbcKtEgekfsGWBYqhLQFTqh1uqRHPiXCOSG8mXj8O1Z
-         ma3jaC4eZWR5x3zmu+Bf32mS9dwC+xWJwhewD6BWRWeat8CCWVAM6rotX/zyn766mclP
-         BtkfPGdY7nKzO0rtm/m3p3U2GzxeBAmenNOYqJYHJQmAdZsZ0dd8ju91rUB26AIl47jL
-         MHXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rVN7R0gNINTNivuaZy/4598xzsYnBs7giZb1iOZEjyM=;
-        fh=iLxLyOM54FLinVTD4yJZjCAe61vvhDN8mI5G2/rtDKk=;
-        b=DG21J9YXSAriu+Nk+u87bGOghlZc29+eqgl5ltN50A7MPBDV95s3lbU8cjlC1teR1u
-         ZO8wu3hJOhh7O3yku4jaN56aBtH5bv26ia7RmKZUqUZ9DydZdCWd7XFTCCzz8rLrAYY+
-         TgTe9HXxUa5OVzyZ7KH1JDHR4p5N+TZ6fpAHSvMkvt8TkXoGzXiDrbf2uLrBlbJluhLt
-         SxxbhRmIdOv9V7Ff0x9BfHrEd8TwR3qLFtOQy+Vx3wjluy1iudqR1/vwjBiRmrMtgknm
-         8qtqC0dTuCDu7fFwOqjEMW3FnzJb48fFcQiYxjJrlnFUjxfB8ADV1UWuYMjFkGV2xAkM
-         hNeQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786551598; x=1787156398; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rVN7R0gNINTNivuaZy/4598xzsYnBs7giZb1iOZEjyM=;
-        b=XKbRANv6Vwsiw5QZit/msVHbz9S8ilhJh1l0N+uvVzAs2g73frMqHRGA/aIHoV964E
-         NjKvI3/VulSXAfTNsVUSWeaGKWnexH4D3dWKhMy9o8WQf1er/XCNmib4iYxPXGNyoIp4
-         3ciKYBUcm2Y2Adf184nS/4UuhrG9xyBBsO4ykKWEhDVmGTqpjjaoflkDcHJFw5ABLbZo
-         mksWC06wF5Mwh8NPMJyLfOXgcJsYL8jI4ZZ65DWxdr0oAz6ffxj+Fc+iOoqn57R0Nseu
-         4bU//FI38o2SA992uJqIg4e3GNhMCmyb+yf9ocq4Ds+qRe5FCLnh6kb9HeGtmCvqdDJm
-         3YHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786551598; x=1787156398;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rVN7R0gNINTNivuaZy/4598xzsYnBs7giZb1iOZEjyM=;
-        b=QsNzhadF/L3dgiiwqChBIrK5KQ/E8lspvi7hon/KvdP3LUVKt81eFgt7GHBEbFVvnO
-         uB1h9amyC1E+4585YRWsBeJhvxwwHjRL9303JgyQgKu4svgu8mQf8MKEOJ5W7xc+svX8
-         2hK9I5u5NcDRFRZyf9TIiNgWbkGZlgLs48Y2AyqQEcR8Q92XFyV3Wfe2LcmRFdcNyg29
-         9wmGLVI/aYBFElcrnkpoetiRIQ2obEB/8Zev8wL/oNwkJVCPLmwFvZSIcvAG+yBx9Xiy
-         Ve8gZKBRYQ2iWCKZ8VE2kKGEGEeAz6dJUNiVrZP8HT7PU43ZY3z3LA+RdQHOYWQGg9/u
-         Tpxg==
-X-Gm-Message-State: AOJu0Yzhe+mim/iKF/Ia5G3cIPLKCgcEqbA+CPF8MrLh1Bo+a6tqEce1
-	rBNX8EK9C0IZmsReqpBjlLopcTl3e/oQabWGUjpMNWptjhg/XisCWJ+2T0nOBX+b7rTnYu4z4OO
-	L4GUZBkXGZ2ebrMbz+awZhuGRFdVy8Co=
-X-Gm-Gg: AR+sD11xIsV/018ig1Fb1Skh12J+vdFLJFkqj9NNftq9r6/kct/sFgOehUrryTdzxjn
-	kohb1BrXvc7ZIQeJimZ/gja6nfIN6yivj4tHmyqLWXRjbv8ZAp1IFzk2y7BWV8YsoA1E8/YTdGh
-	bYP3kaJFHW4khS8/JH5rMK1zeIn4KeYl1/rdOOIs7mDJ9GaXkoRDezUCzPVLHjOK2SSOg9srJ8m
-	DQaBnC190c6Ku2twGxIsywYNMqVMAek8AeSpFrya1p8S/X3u3UI/WEJOxE/i7HtQKzkEqtk1pRF
-	uch+qRRyXTg/sQSFuCpuyc5ecKDKbsDcsscFynHIgyGSaPBpuCVI7cODd9EskLZXEfh8JjMq/9x
-	1AWPjYJ0+2evQGg==
-X-Received: by 2002:a05:6512:1090:b0:5b1:5ccf:5268 with SMTP id
- 2adb3069b0e04-5b44e2dad0emr895988e87.1.1786551598255; Wed, 12 Aug 2026
- 09:19:58 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=aWFh9Vbx;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2684cb9286=rob.woolley@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67CK2GhB3165167;
+	Wed, 12 Aug 2026 20:34:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=1yTBg0Q1cp58uAC92S2AqeAOpGlUVVso3Bf3IQiSV8c=; b=
+	aWFh9VbxK1T7/hW6gxWZhowPY2Ugj3aF7i2lkLVPS5jAGdVjjhYKCQbYRbZWL+jV
+	q+NqB0AidK63U8m13hnaVDJqnNyyjTiiBLgDOhn7DDvNnahKVhMAJel+fGsIbYLS
+	oYEt/BUA2ZSD80WaNhO2QVFCoxioNDmJR8u8Tlhc7dkcl/2Ivwnvl90wzB1nVEQ/
+	Y1vh94gBwUVDUYb854SSIK68CRJaF+6lFqglEKV/zcH24IxL3IqEQkG32UksaPWS
+	DceFk3Ijx+k9v05ptVTEp33iNkkJv5j8ejk5W0IQU/m/rVBSI7QOcsVBYEG3l6ul
+	sOI+F8NOKzsXNrJ7shFPNQ==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fysguuv5b-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 12 Aug 2026 20:34:57 +0000 (GMT)
+Received: from ala-p2exch01.corp.ad.wrs.com (10.11.226.101) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 12 Aug 2026 13:34:56 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-p2exch01.corp.ad.wrs.com (10.11.226.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.45; Wed, 12 Aug 2026 13:34:55 -0700
+Received: from ala-lpggp3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 12 Aug 2026 13:34:56 -0700
+From: Rob Woolley <rob.woolley@windriver.com>
+Date: Wed, 12 Aug 2026 13:34:33 -0700
+Subject: [PATCH v2 3/3] boost: Add support for Boost.Python NumPy extension
 MIME-Version: 1.0
-References: <20260810-tune-a32-v2-0-52045fd54937@gmail.com>
- <20260810-tune-a32-v2-2-52045fd54937@gmail.com> <214ED404-A4E7-4F85-89B3-C1C78006DE76@arm.com>
-In-Reply-To: <214ED404-A4E7-4F85-89B3-C1C78006DE76@arm.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 12 Aug 2026 17:19:46 +0100
-X-Gm-Features: AUfX_myfoxbdpEVmlBq6CuBSHW3g5xKdS4Uhf0NQStIGbC2naH9JXg3_rfYNr7Y
-Message-ID: <CAO5Uq5RzOr+oMNFOqRMdPHoRW4ghmcHD5xuH9HMKgtESok9iow@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/2] qemuarmv8a32: add QEMU machine for
- AArch32 ARMv8-A
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Alex Kiernan <alexk@a-squared-projects.uk>, Jon Mason <jdmason@kudzu.us>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20260812-fix-boost-v2-3-cbcb65f5e186@windriver.com>
+References: <20260812-fix-boost-v2-0-cbcb65f5e186@windriver.com>
+In-Reply-To: <20260812-fix-boost-v2-0-cbcb65f5e186@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Rob Woolley <rob.woolley@windriver.com>, <alex.kanavin@gmail.com>
+X-Mailer: b4 0.15.2
+X-Proofpoint-GUID: roQbdVt3c9kA0doNFO9lrkZupoAIpCjc
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDE2NSBTYWx0ZWRfX+GhegoyRdQOv
+ cGSXlAnVzoYHPbN3pC6EpndGXaUr1n3TSLs3w1Tk/6RctflVaFVbX1GYLSWxf/Rs5odRAPJkzcS
+ T/bxu01nvaGG1r79PtxKQ3jRJZaYsmALwQpKs6vWihwLpSl53Ir4
+X-Authority-Analysis: v=2.4 cv=BYroFLt2 c=1 sm=1 tr=0 ts=6a7cd8f1 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
+ a=Hm44SGKBWFUMy9nAVjsA:9 a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDE2NSBTYWx0ZWRfX9auCK5Wx6nKj
+ 5vciWwJwxR4ywW+LutbzLvM6v8KGsFqAdPIffZYn3/A1veZhM2LjkJPu9Rdl6zANgCXu88jcUD5
+ Dm4ng7EzaqTue1jfO1faB6brNhPAf1D+j9nIcJhJNHqibMrjQqVNHFqETxbNxlHB0d1WhLNkj8G
+ KFa+ntV+ekPtAHJbxdaf1CIje+autnyw1ucYDg+o79qyoJky+8mWB8ASniEWsiKRRScLkNusUn6
+ X7jmjFDNNBDoAzSEkR/DPAVViSDfCC0i1Sxunt9o+P7+3VJkYd3tpZfBlty8CA/DyUAdwPu3FVW
+ KHNBT0q7kXRq3FiH1Y9LwClpbjTbR3vzU8Ql69aJIbuMg/VNdL/UASn9DXvfbiSz7zhgI/MbN7b
+ ac7nEXOlE3D958UQmR/YMH0eIB641h64py0xrlkUxUne31+M/wLvqJlmDPGXGA66ZlCs1uxIci0
+ KPrvE/oZTR7oRzgM6dQ==
+X-Proofpoint-ORIG-GUID: roQbdVt3c9kA0doNFO9lrkZupoAIpCjc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-12_06,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608120165
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 16:20:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243299
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 20:35:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243303
 
-On Wed, Aug 12, 2026 at 2:25=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> w=
-rote:
->
-> On 10 Aug 2026, at 06:11, Alex Kiernan via lists.openembedded.org <alex.k=
-iernan=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > Add a QEMU machine for exercising an AArch32-only ARMv8-A target
-> > (Cortex-A32) under emulation, defaulting to the cortexa32-crypto tune.
-> > QEMU has no Cortex-A32 model, so it runs on the 'virt' machine with
-> > qemu-system-aarch64 using the Cortex-A32's AArch64-capable sibling, the
-> > Cortex-A35, with 'aarch64=3Doff' so the guest is AArch32-only. This
-> > provides the ARMv8-A AArch32 feature set including the crypto extension=
-s
-> > needed by the crypto tune, and the same binary supports KVM on AArch64
-> > hosts whose CPUs implement AArch32 at EL1 via '-cpu host,aarch64=3Doff'=
-.
-> > The kernel is built as a zImage and u-boot uses qemu_arm_defconfig,
-> > matching the other 32-bit ARM QEMU machines.
->
-> Whilst this is an interesting machine, I=E2=80=99m not sure I see a lot o=
-f value in adding it to oe-core.  You could easily maintain a tiny BSP laye=
-r to do this, for example.
->
-> If we=E2=80=99re adding this to core then we either need to support it (w=
-hich means someone needs to confirm that they=E2=80=99ll be maintaining it,=
- we need to build it on the autobuilder which means more resources are used=
- on every build, and build release artefacts for it), or explicitly say tha=
-t it=E2=80=99s in the same tier as qemuppc etc where someone commits to mai=
-ntaining the BSP but it=E2=80=99s not tested automatically and may well be =
-broken.
->
-> Personally, I feel that qemuppc/qemumips are in that second tier for hist=
-orical reasons, and if they were being added to core now I'd say to put the=
-m in a separate layer.
->
+Support for NumPy was added to Boost release 1.63.
 
-That's fair. Mostly it was having done the work to get the tune right
-(which is already in), it was having a way to demonstrate it without
-an actual board. But I agree without it hitting the AB matrix, it'll
-likely rot.
+This additional numpy PACKAGECONFIG ensures that python3-numpy
+is added as build-time and run-time dependencies. It uses the
+custom-made python-numpy-include feature to supply the directory
+for the numpy module headers to the b2 build system.
 
-Happy for it to be dropped.
+If numpy is not added the PACKAGECONFIG it will still attempt the
+probe and fail gracefully like before.
 
---=20
-Alex Kiernan
+Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
+---
+ meta/recipes-support/boost/boost.inc | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index a718a735dd..e0ffc20447 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -53,6 +53,7 @@ PACKAGECONFIG ??= "locale python"
+ PACKAGECONFIG[locale] = ",,icu"
+ PACKAGECONFIG[graph_parallel] = ",,,boost-mpi mpich"
+ PACKAGECONFIG[mpi] = ",,mpich"
++PACKAGECONFIG[numpy] = ",,python3-numpy"
+ PACKAGECONFIG[python] = ",,python3"
+ 
+ inherit python3-dir
+@@ -86,6 +87,8 @@ FILES:${PN}-serialization = "${libdir}/libboost_serialization*.so.* \
+ 	${libdir}/libboost_wserialization*.so.*"
+ FILES:${PN}-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
+ 	${libdir}/libboost_unit_test_framework*.so.*"
++FILES:${PN}-python = "${libdir}/libboost_python*.so.* \
++        ${libdir}/libboost_numpy*.so.*"
+ 
+ # -dev last to pick up the remaining stuff
+ PACKAGES += "${PN}-dev ${PN}-staticdev"
+@@ -173,7 +176,11 @@ do_configure() {
+ 
+ 	# If we want Python then we need to tell Boost *exactly* where to find it
+ 	if ${@bb.utils.contains('BOOST_LIBS', 'python', 'true', 'false', d)}; then
+-		echo "using python : ${PYTHON_BASEVERSION} : ${STAGING_DIR_NATIVE}${bindir}/python3-native/python3 : ${STAGING_DIR_HOST}${includedir}/${PYTHON_DIR}${PYTHON_ABI} : ${STAGING_DIR_HOST}${libdir}/${PYTHON_DIR} ;" >> ${WORKDIR}/user-config.jam
++		if ${@bb.utils.contains('PACKAGECONFIG', 'numpy', 'true', 'false', d)}; then
++                        # Use the python-numpy-include feature patched in to boost-build-native
++			ENABLE_NUMPY="<python-numpy-include>${STAGING_LIBDIR}/${PYTHON_DIR}/site-packages/numpy/_core/include"
++		fi
++		echo "using python : ${PYTHON_BASEVERSION} : ${STAGING_DIR_NATIVE}${bindir}/python3-native/python3 : ${STAGING_DIR_HOST}${includedir}/${PYTHON_DIR}${PYTHON_ABI} : ${STAGING_DIR_HOST}${libdir}/${PYTHON_DIR} : ${ENABLE_NUMPY} ;" >> ${WORKDIR}/user-config.jam
+ 	fi
+ 
+ 	if ${@bb.utils.contains('BOOST_LIBS', 'mpi', 'true', 'false', d)}; then
+
+-- 
+2.49.0
+
 
