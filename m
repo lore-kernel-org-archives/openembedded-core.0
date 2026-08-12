@@ -1,121 +1,99 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <michael.opdenacker@rootcommit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B1A5C5CFEE
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 09:11:28 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3993.1786525884564067882
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA3AC5AD5A
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 10:02:13 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4540.1786528931985781137
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 02:11:25 -0700
+ Wed, 12 Aug 2026 03:02:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=O6hvFV+p;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=fail reason="dkim: key syntax error: missing public key data" header.i=@rootcommit.com header.s=dkim header.b=f/KAq7UH;
+ spf=pass (domain: rootcommit.com, ip: 185.246.84.56, mailfrom: michael.opdenacker@rootcommit.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4AE7B4E411D1;
-	Wed, 12 Aug 2026 09:11:22 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C0B7E1A15AC
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 10:02:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1F00C6045E;
-	Wed, 12 Aug 2026 09:11:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D705F11C4CA62;
-	Wed, 12 Aug 2026 11:11:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786525877; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=3W5WJkUkxYO6aOZlfF//1pYUkpOyBV4lKXd9W8aYpiI=;
-	b=O6hvFV+pupq/px6KdbnV+rRTTTAp5cxRVBQNmu575CVAiSotB1+JP6xFjziBNMQemiHanL
-	psZfDp70aHuzr2G8Wj1t3oM5eccXT5OXuqpBj1VZppDtXVbraGUWdzu/FtPgnsrEuKzLCx
-	TKHLvOKtpVFhQNUUgY9u3fg7xqg2mmDlha0Ijvn6jZQPWVcPiXRecTnJnIMEChXhLL2jpa
-	AbqRAA6T861BtE6LWK3OYjnLx0TE+xfBPiwCyVKf3X0/lqq48kdL/M+pcdrXg/4hZkIE9o
-	eBZYRidvCDVeVuR8t1T8e0t28HmxhoGU0tkVlzKdkQZDQGI8Ag1kgECDkxq11w==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Aug 2026 11:11:16 +0200
-Message-Id: <DKMUKHF4QT1Y.1GT8GMSZB2SWY@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v4 4/4] python3-dtc: fix build with swig 4.5.0
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260810154520.12466-1-jaipaul.cheernam@est.tech>
- <20260811135200.18942-1-jaipaul.cheernam@est.tech>
- <20260811135200.18942-5-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260811135200.18942-5-jaipaul.cheernam@est.tech>
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 877546045E
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 10:02:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B035911C4CBB9;
+	Wed, 12 Aug 2026 12:02:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
+	s=dkim; t=1786528925;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=ekoOisqsRoR0ti2kpvVF6uxJf+3teJC4sHMBfc4nXFs=;
+	b=f/KAq7UHdYHQbH1puEP82TbdRzsyuWd2f84hB1mp5R7slIO/iDFbkmUcjHqn5rc5B/vipB
+	yMIdGzL0BJFsF+9DQXibtP9F1lt42JTXSQ+Y9nppQ7GqRHRI0NeP7b6VwV7p6B5ij7VATZ
+	fRx80nIbtGzZgVUJftnsKzf1ERv3UKfM3EuU7HLIzwoN42Qh1zoufDfm3gidWuDa/pTTRa
+	MeiSohFwiaw3ZvC1yKnZ4O9letaayeJxGJR7L1CqNkxNlYjGKvOFq5thvWndUvqtYWlVYO
+	Th5I6gcsmrMxn7j1xlwi4AE4hoJxJNgVBvbj3Dtp1SlR0rok+BM6Mxz6yt8nTA==
+Message-ID: <0dd7fa14-5907-482c-984e-85668310496d@rootcommit.com>
+Date: Wed, 12 Aug 2026 12:02:03 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: michael.opdenacker@rootcommit.com
+Subject: Re: [OE-core] [AUH] lame: upgrading to 4.0 FAILED
+To: openembedded-core@lists.openembedded.org
+References: <0101019ff48e96f5-dc53eef9-0f32-469c-b1c0-5ee97f8cbd7c-000000@us-west-2.amazonses.com>
+Content-Language: en-US
+From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+Autocrypt: addr=michael.opdenacker@rootcommit.com; keydata=
+ xjMEagLVOhYJKwYBBAHaRw8BAQdApKjypQYDpk7gc2tKU7srAaN/v2wqp3zsRtrICl5tMarN
+ Nk1pY2hhZWwgT3BkZW5hY2tlciA8bWljaGFlbC5vcGRlbmFja2VyQHJvb3Rjb21taXQuY29t
+ PsKQBBMWCgA4FiEEHltE0IOQ91GyZqTazXRqZ2jNCaAFAmoC1ToCGwMFCwkIBwIGFQoJCAsC
+ BBYCAwECHgECF4AACgkQzXRqZ2jNCaAK/QD/fCa/2kPEcJYpt3XjoXUFC40rV5p92/Mn/CcV
+ cDDLTNcA/19zgdNIKAqVOaJAcLwhBjCCIZJfAQ80CuPOdGRR5NMGzjgEagLVOhIKKwYBBAGX
+ VQEFAQEHQCujvLLf/3B2yAjCRJWU9BUta58RTcZ9ZYYxzsOBj5FmAwEIB8J4BBgWCgAgFiEE
+ HltE0IOQ91GyZqTazXRqZ2jNCaAFAmoC1ToCGwwACgkQzXRqZ2jNCaAWEgD/SY55n6h+sq1u
+ /Kdbsd4z+uOz2+0Z9V0HtrYLdfgdBTIA/0nuXShti770G4hZDQD52XLANSdPbO7hbwmpNKHm y3UE
+In-Reply-To: <0101019ff48e96f5-dc53eef9-0f32-469c-b1c0-5ee97f8cbd7c-000000@us-west-2.amazonses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 09:11:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243267
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 10:02:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243268
 
-On Tue Aug 11, 2026 at 3:52 PM CEST, Jaipaul Cheernam wrote:
-> SWIG 4.5.0 removed Python 2 compatibility macros (PyInt_*, PyString_*)
-> from its runtime. Backport the upstream fix to replace them with
-> Python 3 equivalents.
->
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
+Greetings
 
-Hi Jaipaul,
+To anyone interested in supporting newer versions of lame...
 
-Thanks for the new version.
+On 8/12/26 8:00 AM, Auto Upgrade Helper via lists.openembedded.org wrote:
+> Adding changed files: 100% |####################################| Time: 0:00:00
+> INFO: Extracting current version source...
+> INFO: Extracting upgraded version source...
+> INFO: Fetching https://downloads.sourceforge.net/lame/lame-4.0.tar.gz...
+> INFO: Rebasing devtool onto edd6b1bec7fec9d6c710d2a627cf0f2388135db1
+> WARNING: Command 'git rebase edd6b1bec7fec9d6c710d2a627cf0f2388135db1' failed:
+> Auto-merging configure.ac
+> CONFLICT (content): Merge conflict in configure.ac
 
-I suspect this is the source of some selftest fails:
+I tried to build lame 4.0 and overcame some obstacles, but it turns out 
+that 4.0 has build issues that apparently were addressed later in the 
+development tree.
 
-2026-08-12 06:27:00,896 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_uboot_kernel_individual (subunit.RemotedTestCase)
-2026-08-12 06:27:00,896 - oe-selftest - INFO -  ... FAIL
-...
-ERROR: u-boot-1_2026.07-r0 do_compile: oe_runmake failed
-ERROR: u-boot-1_2026.07-r0 do_compile: Execution of '/srv/pokybuild/yocto-w=
-orker/oe-selftest-debian/build/build-st-3408129/tmp/work/qemux86_64-poky-li=
-nux/u-boot/2026.07/temp/run.do_compile.180130' failed with exit code 1
-...
-| ImportError: /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-s=
-t-3408129/tmp/work/qemux86_64-poky-linux/u-boot/2026.07/build/scripts/dtc/p=
-ylibfdt/_libfdt.so: undefined symbol: PyInt_AsLong
-| make[1]: *** [/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-=
-st-3408129/tmp/work/qemux86_64-poky-linux/u-boot/2026.07/sources/u-boot-202=
-6.07/Makefile:1395: .binman_stamp] Error 1
-| make: Leaving directory '/srv/pokybuild/yocto-worker/oe-selftest-debian/b=
-uild/build-st-3408129/tmp/work/qemux86_64-poky-linux/u-boot/2026.07/sources=
-/u-boot-2026.07'
-| make: *** [Makefile:189: __sub-make] Error 2
-| ERROR: oe_runmake failed
-| WARNING: exit code 1 from a shell command.
-NOTE: recipe u-boot-1_2026.07-r0: task do_compile: Failed
-ERROR: Task (/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/op=
-enembedded-core/meta/recipes-bsp/u-boot/u-boot_2026.07.bb:do_compile) faile=
-d with exit code '1'
+The maintainer shared some patches that were supposed to help, but they 
+didn't. What happens is that the sources are still managed with SVN (!), 
+and I not really interested in exploring an SVN "tree" to identify and 
+generate patches.
 
-And other fails:
+The maintainer eventually advised to build a development version, or 
+wait for the 4.1 release which should happen in the near future (a few 
+weeks or months). I guess this second option is the best plan, unless 
+someone has interest in getting 4.0 fixed.
 
-2026-08-12 06:25:29,098 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_uboot_fit_image_without_spl (subunit.RemotedTestCase)
-2026-08-12 06:25:29,124 - oe-selftest - INFO -  ... FAIL
-...
-2026-08-12 06:28:15,880 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_uboot_fit_image (subunit.RemotedTestCase)
-2026-08-12 06:28:15,881 - oe-selftest - INFO -  ... FAIL
-...
-2026-08-12 08:27:05,250 - oe-selftest - INFO - uboot.UBootTest.test_uboot_c=
-onfig_initial_env_binary (subunit.RemotedTestCase)
-2026-08-12 08:27:05,263 - oe-selftest - INFO -  ... FAIL
-...
-2026-08-12 08:28:04,129 - oe-selftest - INFO - uboot.UBootTest.test_uboot_i=
-nitial_env_binary (subunit.RemotedTestCase)
-2026-08-12 08:28:04,141 - oe-selftest - INFO -  ... FAIL
+See the conversation on 
+https://sourceforge.net/p/lame/mailman/message/59366194/
+Cheers
+Michael
 
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+Root Commit
+Embedded Linux Training and Consulting
+https://rootcommit.com
 
 
