@@ -1,119 +1,146 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3B6C5AD5A
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 11:37:35 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5969.1786534649243422330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3116EC5CFDB
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 11:41:15 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6019.1786534867360104527
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 04:37:29 -0700
+ Wed, 12 Aug 2026 04:41:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=WKKM5Ttj;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 883471596
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 04:37:24 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DA0E53F632
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 04:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786534648; bh=VzFPrKFj4+K2jB3RH+Z/L+z79tIzhs1lh/2jIlUIwMQ=;
-	h=From:To:Subject:Date:From;
-	b=WKKM5TtjKJdvL8S190zeYbsVjjuJcxiAScJfUA28lBNKAnfwAR4zqJoQxSJAyD4NI
-	 2Pl/krb2Yl7mczIQCm94eTwNg4PntPwlvSq8qG3zo+Xci5C9hxKFDTQe0ScQszaW0y
-	 WiNEiqoW+fWy4KZm0qPjh8M8cFX9GyDXSICWRqX8=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-build: verify that found dependencies are valid
-Date: Wed, 12 Aug 2026 12:35:29 +0100
-Message-ID: <20260812113529.2829703-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=AJV1Zw6w;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 079E14E411D6;
+	Wed, 12 Aug 2026 11:41:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B45856045E;
+	Wed, 12 Aug 2026 11:41:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 76B1111C4CDDE;
+	Wed, 12 Aug 2026 13:40:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786534860; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=TsBuevinepdAVaZ5zwTOkn6mvlHt57/noq43POs29vk=;
+	b=AJV1Zw6w0Z9CM/cWXi3pytMOnuOZKZKlupNQxc84U+Dy5KDOTyildDsPprz9rsSANzvgky
+	tBdJLh5qLbcRfWESpivYKfqF87pmhJydlL/OBL/Iobe5uhrbpbMn1VjGTASOSzv4+zF6gc
+	qJgjWvRbkxvHVa31PG/WDsl25zOnlQtuCthv1sKxYyYACqS0qr1nqmMLVFiG2yNx8S9SDx
+	gtBdokkN1AN2rX6kybtxyhGNuVZX+FOT5aJ4o0o5I4JhRg0hMqcUck+iJFovNDF2cPlYj7
+	5+lsFIqD9EeDagFURMnWbPVpHBAMcgh5q5BDsUIY+PaQoUxCOC19SU3HR7RKTQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Aug 2026 13:40:55 +0200
+Message-Id: <DKMXR2LKXWBZ.3C4RKC617CK0H@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Sumanth Gavini" <sumanth.gavini@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v13 09/10] rpm: Fix pkgconfig() Provides missing in
+ cross-built RPMs
+Cc: <alex.kanavin@gmail.com>, <mattware@cisco.com>, <esparlin@cisco.com>,
+ <peter.marko@siemens.com>, <randy.macleod@windriver.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260810045250.3903576-1-sumanth.gavini@windriver.com>
+ <20260810045250.3903576-10-sumanth.gavini@windriver.com>
+ <DKM6IAUNZOOF.11QH0FJ6NRSQ2@bootlin.com>
+In-Reply-To: <DKM6IAUNZOOF.11QH0FJ6NRSQ2@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 11:37:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243276
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 11:41:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243277
 
-Due to how recipes are removed from the sysroot, it is possible for
-packages to be found by python's importlib when they do not exist. This
-is because when a recipe is removed from the sysroot we only delete the
-files and leave empty directories, so if a recipe that provides a python
-package is removed then the foo-1.2.3.dist-info/ directory remains and
-that is found by importlib.
+On Tue Aug 11, 2026 at 4:19 PM CEST, Mathieu Dubois-Briand wrote:
+> On Mon Aug 10, 2026 at 6:52 AM CEST, Sumanth Gavini wrote:
+>> * Added 0002-pkgconfigdeps.sh-Unset-cross-compilation-PKG_CONFIG-v.patch
+>>   - rpm 6's internal dependency generator runs pkgconfigdeps.sh during
+>>     rpmbuild, but OE's cross-build environment exports PKG_CONFIG_SYSROO=
+T_DIR
+>>     which causes pkg-config --print-provides to silently fail on .pc fil=
+es
+>>     in the package buildroot.
+>>
+>>     Unset cross-compilation PKG_CONFIG_* variables in pkgconfigdeps.sh s=
+o
+>>     that pkgconfig() Provides/Requires are correctly generated.
+>>
+>>     Without this fix, do_rootfs fails with errors like:
+>>     nothing provides pkgconfig(ogg) needed by flac-dev
+>>
+>> Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+>> ---
+>
+> Hi Sumanth,
+>
+> Thanks for the new version.
+>
+> This looks better, at least for the dnf install errors. Yet we still
+> have errors when reusing sstate-cache, as recipes generating pkgconfig
+> should be rebuilt, but their signatures did not change:
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4377
+>
+> I made some horrible hack in my branch to change the PR of many
+> recipes, and the build now succeeds. I only tested one configuration,
+> but we can expect similar results on the other ones.
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4386
+>
+> So, depending on how you address Ross comment, you might need to make
+> sure recipes signature is going to change.
+>
+> We also had some selftest errors: I will investigate a bit further and
+> come back to you.
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4525
+>
+> Thanks,
+> Mathieu
 
-Add a check to the dependency resolve in pypa/build so that it verifies
-that found packages have some metadata (by checking for a name). This
-will fail on these ghost packages as they have no metadata files.
+So, talking about failed selftests. We can see three failing tests on
+the autobuilder:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../python3-build/check-valid-dist.patch      | 31 +++++++++++++++++++
- .../python/python3-build_1.5.1.bb             |  2 ++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-build/check-vali=
-d-dist.patch
+2026-08-11 15:19:21,651 - oe-selftest - INFO - debuginfod.Debuginfod.test_d=
+ebuginfod_qemu (subunit.RemotedTestCase)
+2026-08-11 15:19:21,652 - oe-selftest - INFO -  ... FAIL
+...
+2026-08-11 16:53:01,397 - oe-selftest - INFO - sdk.SDKTests.test_sdk_manife=
+sts (subunit.RemotedTestCase)
+2026-08-11 16:53:01,401 - oe-selftest - INFO -  ... FAIL
+...
+2026-08-11 16:55:44,191 - oe-selftest - INFO - sdk.SDKTests.test_sdk_runqem=
+u (subunit.RemotedTestCase)
+2026-08-11 16:55:44,191 - oe-selftest - INFO -  ... FAIL
 
-diff --git a/meta/recipes-devtools/python/python3-build/check-valid-dist.=
-patch b/meta/recipes-devtools/python/python3-build/check-valid-dist.patch
-new file mode 100644
-index 00000000000..dd6f256e266
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-build/check-valid-dist.patch
-@@ -0,0 +1,31 @@
-+Ignore invalid distributions when checking dependencies
-+
-+If there's an empty directory foo-1.2.dist-info/ on the search path then
-+importlib will return that as a distribution called "foo".
-+
-+However it has no code and no metadata, so doesn't exist in any real way=
-.
-+Check that the found distribution is in some way valid by verifying that
-+it has a name set.
-+
-+In Yocto this can happen if foo was removed as a dependency from the sys=
-root:
-+the dist-info directory is empties but remains in the sysroot.
-+
-+Upstream-Status: Submitted [https://github.com/pypa/build/pull/1145]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git i/src/build/_util.py w/src/build/_util.py
-+index c365003..ba047c7 100644
-+--- i/src/build/_util.py
-++++ w/src/build/_util.py
-+@@ -67,6 +67,11 @@ def _check_dependency(
-+         yield (*ancestral_req_strings, normalised_req_string)
-+         return
-+=20
-++    if not dist.name:
-++        # If the distribution doesn't have a name it has no metadata
-++        yield (*ancestral_req_strings, normalised_req_string)
-++        return
-++
-+     if req.specifier and not req.specifier.contains(dist.version, prere=
-leases=3DTrue):
-+         # the installed version is incompatible.
-+         yield (*ancestral_req_strings, normalised_req_string)
-diff --git a/meta/recipes-devtools/python/python3-build_1.5.1.bb b/meta/r=
-ecipes-devtools/python/python3-build_1.5.1.bb
-index dd741cb8623..d572ca846fc 100644
---- a/meta/recipes-devtools/python/python3-build_1.5.1.bb
-+++ b/meta/recipes-devtools/python/python3-build_1.5.1.bb
-@@ -3,6 +3,8 @@ HOMEPAGE =3D "https://github.com/pypa/build"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D310439af287b0fb4780b2ad6907c2=
-56c"
-=20
-+SRC_URI +=3D "file://check-valid-dist.patch"
-+
- SRC_URI[sha256sum] =3D "94e17f1db803ab22f46049376c44c8437c52090f0dfdf1ad=
-c43df56542d644fb"
-=20
- inherit pypi python_flit_core
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4537
+
+The first one is easy to reproduce locally. Basically, I have this in my
+local.conf:
+SDKMACHINE =3D "x86_64"
+PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
+INHERIT +=3D 'image-buildinfo'
+IMAGE_BUILDINFO_VARS:append =3D ' IMAGE_BASENAME IMAGE_NAME'
+SANITY_TESTED_DISTROS =3D ''
+OEQA_TESTDISPLAY =3D ':1'
+EXTRA_IMAGE_FEATURES ?=3D 'allow-empty-password empty-root-password allow-r=
+oot-login'
+OE_FRAGMENTS +=3D 'distro/poky'
+
+Then you can run:
+oe-selftest -v -r debuginfod.Debuginfod.test_debuginfod_qemu
+
+I was not able to reproduce the two other ones locally so far. It looks
+like another pkgconfig issue. I suggest we focus on other issues right
+now, hopefully the SDKTests failures will be gone with your next
+changes.
+
+Thanks,
+Mathieu
+
 --=20
-2.43.0
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
