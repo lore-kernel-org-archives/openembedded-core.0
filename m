@@ -1,107 +1,76 @@
-Return-Path: <junjie.cao@linux.dev>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D900EC5B567
-	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 05:33:20 +0000 (UTC)
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [37.59.57.117])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1502.1786512798502560219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43942C5B567
+	for <webhook@archiver.kernel.org>; Wed, 12 Aug 2026 06:00:11 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1783.1786514407900377535
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2026 22:33:18 -0700
+ Tue, 11 Aug 2026 23:00:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@linux.dev header.s=key1 header.b=N4f/PhB3;
- spf=pass (domain: linux.dev, ip: 37.59.57.117, mailfrom: junjie.cao@linux.dev)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786512796;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JcyfdIorAxCqa+NrHLQeR+0arq9JpIWM1Vab1fp751o=;
-	b=N4f/PhB3BfRx28Tp+bkIIimy1gu1NYVkjvimJ6oxWgQqeHX+SKwdqpDWPZ8BCM5dJbZzpO
-	9Oj/RQj4+xPsLTWk4d1SWz1Iiz/uSwQ950FQlyMBguBFOOPiNq1trer6MX7pW6m4Px+KU6
-	BWJwvCdgxd4vht1+j1MjlKBTEXoTaCA=
-From: Junjie Cao <junjie.cao@linux.dev>
-To: openembedded-core@lists.openembedded.org
-Cc: paul@pbarker.dev
-Subject: [OE-core][PATCH v3 9/9] cve-exclusions: set status for CVE-2023-6240
-Date: Wed, 12 Aug 2026 02:28:42 -0500
-Message-ID: <20260812072842.1176341-10-junjie.cao@linux.dev>
-In-Reply-To: <20260812072842.1176341-1-junjie.cao@linux.dev>
-References: <20260812072842.1176341-1-junjie.cao@linux.dev>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SzBJ7EtP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OazEdEib;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019ff48e7d87-c9003220-76c6-400c-898a-0c97daf20be6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1786514406;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=LaIlata61tmx4IReyGgDcgGt/KKVF4w8hGUhaj5LOVY=;
+	b=SzBJ7EtPJjLNf7kC+QWvi5ogTYSI7XGNNAhptYhjFtFZ8J4zvdt6roiqcCZRpiJ8
+	V9U2+CkIcaxrJxZlunKoxcDmQDu4KDJaTvWl0cBtryM4h0F2WviiMx35HLZF8+pHCER
+	iIBwZX8lsPOgPXEhfXP296jxzJlMkhmfr9x7cxN8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786514406;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=LaIlata61tmx4IReyGgDcgGt/KKVF4w8hGUhaj5LOVY=;
+	b=OazEdEibXE5aCOQTA/cdX3x907XiZVhpUVHObEJbitwD5I/QxrxkGzreu5517AJj
+	lRqg5D4jvVd+oGVenTiDdp1vedn4k4NxHCgnkYP46CmY9s8vyhFRxRMT9jBf+rTmBwx
+	kab51v6HyjP3+BoAqmKi47fby8cQzDimK8F6Pv7E=
+Content-Type: multipart/mixed; boundary="===============6119436811367914412=="
 MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
-Content-Transfer-Encoding: quoted-printable
+From: auh@yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] qemu-system-native,qemu-native,qemu: upgrading to
+ 11.1.0,11.1.0,11.1.0 FAILED
+Message-ID: <0101019ff48e7d87-c9003220-76c6-400c-898a-0c97daf20be6-000000@us-west-2.amazonses.com>
+Date: Wed, 12 Aug 2026 06:00:06 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.12-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 05:33:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243234
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 06:00:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243235
 
-"Marvin" is Hubert Kario's Bleichenbacher-style timing oracle research:
+--===============6119436811367914412==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-  https://people.redhat.com/~hkario/marvin/
+Hello,
 
-The affected code is the generic software RSA PKCS#1 v1.5 unpadding in
-crypto/rsa-pkcs1pad.c. pkcs1pad_decrypt_complete() has three
-secret-dependent early exits (leading zero byte, block type, minimum
-padding length) and a loop whose trip count depends on the position of
-the separator, so the time taken reveals padding validity. There is no
-constant-time unpadding or implicit-rejection fallback in the tree.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *qemu-system-native,qemu-native,qemu* to *11.1.0,11.1.0,11.1.0* has Failed(get_env).
 
-Red Hat classifies it CWE-203 and has shipped fixes only in RHEL errata
-(RHSA-2024:2758, RHSA-2024:3618 and others); the bugzilla is still NEW.
-Ubuntu records it unfixed upstream as of 2024-08-24 and Debian lists
-src:linux vulnerable in all suites:
+Detailed error information:
 
-  https://access.redhat.com/security/cve/CVE-2023-6240
-  https://ubuntu.com/security/CVE-2023-6240
-  https://security-tracker.debian.org/tracker/CVE-2023-6240
+Empty environment returned
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1987 entries from dependency cache.
 
-Practical exposure is narrow: kernel PKCS#1 v1.5 use is dominated by
-signature verification rather than decryption, and an attacker needs a
-service driving KEYCTL_PKEY_DECRYPT with a long-lived key. The leaky
-primitive is nevertheless reachable.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
 
-CC: Paul Barker <paul@pbarker.dev>
-AI-Generated: Uses Claude (claude-opus-5)
-Signed-off-by: Junjie Cao <junjie.cao@linux.dev>
----
-v3:
-- drop the Marvell/s390 aside and the unrelated e8829ef1f73f paragraph
-  flagged in review as LLM confusion artifacts
 
-v2: https://lore.kernel.org/openembedded-core/20260803084827.1348810-1-ju=
-njie.cao@linux.dev/
 
- meta/recipes-kernel/linux/cve-exclusion.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-k=
-ernel/linux/cve-exclusion.inc
-index 35e0a66..637f8b6 100644
---- a/meta/recipes-kernel/linux/cve-exclusion.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -252,3 +252,10 @@ affected fs/jfs txEnd()/lmLogClose() unmount race is=
- unchanged"
- # https://lore.kernel.org/linux-nvme/20231016060519.231880-1-joshi.k@sam=
-sung.com/
- CVE_STATUS[CVE-2023-6238] =3D "unpatched: the proposed fix was applied t=
-o \
- nvme-6.6 and then reverted, no upstream fix has landed since"
-+
-+# "Marvin": the PKCS#1 v1.5 unpadding in crypto/rsa-pkcs1pad.c branches =
-on
-+# secret-derived data, leaking padding validity by timing. Still present=
- in
-+# mainline; fixed only in RHEL errata.
-+# https://people.redhat.com/~hkario/marvin/
-+CVE_STATUS[CVE-2023-6240] =3D "unpatched: Bleichenbacher-style timing or=
-acle in \
-+crypto/rsa-pkcs1pad.c is still present in mainline, fixed only downstrea=
-m in RHEL"
---=20
-2.43.0
-
+Regards,
+The Upgrade Helper
+--===============6119436811367914412==--
 
