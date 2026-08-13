@@ -2,62 +2,62 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1FBC5DF6B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F800C5DF6E
 	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 15:22:34 +0000 (UTC)
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21789.1786634551436978718
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21612.1786634546686571393
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 08:22:31 -0700
+ Thu, 13 Aug 2026 08:22:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=nPszeMNs;
+ dkim=pass header.i=@smile.fr header.s=google header.b=J3VpPN8j;
  spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f703a9e5dso1092306f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:31 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f96c5b722so1239621f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1786634550; x=1787239350; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1786634545; x=1787239345; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=k+Mx1FARql4uRwbb1fGQ//IEa7I3JeXKBcc2LccMuno=;
-        b=nPszeMNsuxa+uhQWECud9DScy6M3Y7P+vGyrWjDdQMNv8LJ9NaLbf8hh9pMKO/ycPa
-         ScFu6FthSBRp3XX3ahEkNvt+dTlWmKDZpvEflCc8LZZP2MPp1P+r5c+c7VKfxj/EYDoH
-         wVVCdv9cIU+4gC2nQaNlKeriYEa8JzB9zM8ZY=
+        bh=F15afBGJ2QP9GGqsAiijYxD3U75XQL7vcqfFaYY9vW4=;
+        b=J3VpPN8jzhpUpR3TiNJFJ4kjfoKUOLzpPBwlhbDV2/4c1dd+VPAZWsqTs7olrazfSO
+         kwrB7gMNbgOXERtnEfakkLXEds3HkjRSRU8yl2zRXSM3wknA+vuQRzjTMHxb2Uy3dNHf
+         Kz3+CcLYw2SYIFxvFSNNFcX4DQ5xfrT6TCRCQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786634550; x=1787239350;
+        d=1e100.net; s=20251104; t=1786634545; x=1787239345;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=k+Mx1FARql4uRwbb1fGQ//IEa7I3JeXKBcc2LccMuno=;
-        b=mmFfKkcPn0DW0Fel7JSO1k2zNlriG/TDA5t65ytGnBxWHzQwEPuXWdQJqiJltQnd+S
-         Ro93ID9DVXz467LgBfqYBV2FQo/YGiJU3OqPyHH7X2+UP3uQ+b3NIggZR8vWnbUFgYmP
-         P5OF6oli+HmpcwCntIkLLHc3eBHIgNqAU9lemBJNCSpSlN/RNxYTdMCTIG9jIVmkPEOw
-         2YM55rJ8JxnAsj8vKK1BAW6p4xpaH7kI67E+7A7U3UlfUEhGmISKWSf0drBfyaTDH1u+
-         IVaT77tiUh2RA50g16/6fUrPTrTDMp6Y7hbVZvWZTI5j0vC9gx5b3l0WQBIUvfiYvjq3
-         1uow==
-X-Gm-Message-State: AOJu0YxKHxrQV494TgblUxim4nf1WRqIGTEk4nHm74RMSGeySjBrg9/e
-	mP0pkYOVvHh1YbazkfGxUwJJGeSGoS3GGodMCP+/mOKBL6p1BMkzLW31i+55fmLoSON82ZOnPQ2
-	YT4XsaU+RBw==
-X-Gm-Gg: AR+sD13QVDSdqPjZSLd7V/tuywGSiuP2LzzLKoadFZ+u57CRNZTqFgdGN6e7wVZfE7a
-	7m6r2Unrvh1s96qN86OIqPb7GZqw2lZvDKIIf3qPJtCvdxDQ4S+UHLuqIcMgteuZ5lpOTGSgnyl
-	0wRd40qfdT6+WaDJYuNM+EGXmKccFxQbSThPHDDjGy5xvzMi2dvlLgr1s2WzcqUt49IZWAkGrBJ
-	aHA5Vk3MW/QlwnkH86Go4bgJS6Kk9JIBhlqkb0MwJq1U+S7BeSN4CxdUoe1esfmZRcRerjOmQ6C
-	WWPainwoAo4dThQdL9mwXC0ET1MqNJSb/fZJDlDjrByj6LpySrOdyreBAyJX7fp0UjRmr90MLX2
-	SK5vJbDq+CCw8tdrlgoPGd1Lu9hpgtZA0UmzquAcd9u9XAkJdQrIB94FOEmZnZa20I2nBa8TLf2
-	881ojfYrvmnEuCoo/ueYo3BG1lsvEkaaJdZUKF54NLcpO+1EtKK2sfauN34FgN+8X2wcl9B1ZsU
-	BWvddz0SqOdQ/9XLscatHjW/tY9VPtKPdtl/s85SFrH3h4HclFMonx3Tr3Yv0moCCOawrZYyinW
-	XErjVXGQeoKkiIcGC8WSkOz/xrt1eZWROMJkg9EO
-X-Received: by 2002:adf:fdce:0:b0:47f:9750:26cc with SMTP id ffacd0b85a97d-48159ff10c6mr7227658f8f.23.1786634549532;
-        Thu, 13 Aug 2026 08:22:29 -0700 (PDT)
+        bh=F15afBGJ2QP9GGqsAiijYxD3U75XQL7vcqfFaYY9vW4=;
+        b=MDnIj0DpXSRWGXHK4c526HGhQ1yTnRZkpZvZBnmBVntJRD9/6cOx5zYvD8ZqVcqDEV
+         PNpQe+RokpKUFqqMgSWEkYHB+VhJdZUxDUDQoZXq7eNpdpEeSxof5M3G0/DCHYzmAjrT
+         jbGSWN4WXh5V7ML8XMsI/MFvRZSINBrfeVEsb77TTReJNEBaLjKVfrgdBtOOB9FezNuF
+         +YZ38JSTW4LqKuZ9YUhHiPEusyoZS3dG832puGRkm7WuvjMtd95FQfNrvBaKnCaNlO6V
+         hBUm6nRI3dJ+nEKNuq6htn78xRHqsld8v7ibq0B7JZjzxtWz4aX9Kk0p1+RP7BI/3BJW
+         Tohw==
+X-Gm-Message-State: AOJu0YyHPibh1M9FNe2F/e/XPvV5GyMTmlyMDc4+S7YOXYRwjUi6RgZz
+	UNo3dV3K3eWv7w+jPZ3dSNkHZs6ObczrH+fQ/Xy3XZ6irirGZoaGS7RYYM7/GVHM9bvRm7Af2id
+	0pCzdcrAqZQ==
+X-Gm-Gg: AR+sD13Soe+gAynt+MpSVAgwaLRkxpO9HMtvNhQyJyCadQx9y2ki0twNXZ5hoHZaPlE
+	q7+/rs0YTzo7qZVBZrqFrYiUcJr58itz6YNPRl4ug0AaS50GR9ro37N18HgzraflDTve8B0CUbE
+	3eXm7foae2ulAuPS22bIcv3GvbWeUz86MfHITlbJz2S4iee2c1eVrT10ig6IG0bOXJ7hr/oOQTI
+	Q+r2D0Fj0cqRjgKbJnl5x6nBZd2NXBsK+3uTQQJQWiZR0LH20zGj/mIB883qKzADiQOQui+Rx3n
+	r/61004vKVt8vkp9GuNyH/zqpJ7L/CBO0qRNKuGMygzktAPhc538Jud4yWqWaMZUzAS/CRkxKl3
+	NLanQFMw+bnMU3zsKeIz1tj7qE9gSuKgiVWDtpyB2Hdb6PDDRWUK659zFnvFByZiLPGUXHxgipp
+	zLspcEoZYZe9il5TACt078Iw0DuheoigQQ7CSiv6DCOgMDCYvESw+4sOsuVVUgGDupiCtpRxmc4
+	1C4MUvimfwnQTZX6wCEUr03bMBi66pUd+dFVNPU94iGb/DPOLAPfZL0NKHpoNwbEz9xaHUaEl+y
+	JOkr+bbySiHbtB64Vxzu395ArIhdWHt8jmsxq+SAqamFs8XXVEI5
+X-Received: by 2002:a05:6000:61a:b0:47f:f20d:8d4f with SMTP id ffacd0b85a97d-48159eea130mr10351099f8f.18.1786634544898;
+        Thu, 13 Aug 2026 08:22:24 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 08:22:29 -0700 (PDT)
+        Thu, 13 Aug 2026 08:22:24 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 09/17] cpan_build: disable .packlist and html doc
-Date: Thu, 13 Aug 2026 17:21:59 +0200
-Message-ID: <6b415937b4263c69f085c0faea426660f59b0d69.1786633048.git.fabien.thomas@smile.fr>
+Subject: [OE-core][wrynose 04/17] python3-pyopenssl: set CVE_PRODUCT
+Date: Thu, 13 Aug 2026 17:21:54 +0200
+Message-ID: <9d4253c4fecdf17354779ca0ff198a0129d63ae4.1786633048.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1786633048.git.fabien.thomas@smile.fr>
 References: <cover.1786633048.git.fabien.thomas@smile.fr>
@@ -67,59 +67,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 15:22:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243366
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243361
 
-From: Wes Malone <wes@mitsi.com>
+From: "mark.yang" <mark.yang@lge.com>
 
-Currently, Makefile.PL-built Perl recipes (cpan.bbclass) exclude
-.packlist files with NO_PACKLIST=1, but Build.PL recipes
-(cpan_build.bbclass) do not. This now results in a QA error due to the
-TMPDIR paths included in the .packlist file.
+The pypi class default python:pyopenssl matches nothing in the CVE
+databases, which have used four vendor spellings for pyOpenSSL over
+the years:
 
-  ERROR: x do_package_qa: QA Issue: File [...]/.packlist in package x
-         contains reference to TMPDIR [buildpaths]
+* CVE-2013-4314 (jean-paul_calderone:pyopenssl)
+* CVE-2018-1000807 (pyopenssl:pyopenssl)
+* CVE-2018-1000808 (pyopenssl_project:pyopenssl)
+* CVE-2026-27448, CVE-2026-27459 (pyca:pyopenssl in the CNA records,
+pyopenssl:pyopenssl in the NVD CPEs)
 
-A similar error is produced by generated html doc.
+Set all four vendor:product pairs. All five CVEs are fixed before
+26.3.0 (the two 2026 ones in 26.0.0), so they resolve as not
+affected.
 
-Here we add the corresponding Build.PL arg to disable packlists and html
-doc.
-
-Signed-off-by: Wes Malone <wes@mitsi.com>
+Signed-off-by: mark.yang <mark.yang@lge.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ba3d752e577004f871fe7f4235e2625410140a08)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- meta/classes-recipe/cpan_build.bbclass                    | 7 +++++++
- meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb | 2 --
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python3-pyopenssl_26.0.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes-recipe/cpan_build.bbclass b/meta/classes-recipe/cpan_build.bbclass
-index 026859b6c7..03289dc21c 100644
---- a/meta/classes-recipe/cpan_build.bbclass
-+++ b/meta/classes-recipe/cpan_build.bbclass
-@@ -25,6 +25,13 @@ cpan_build_do_configure () {
- 	fi
+diff --git a/meta/recipes-devtools/python/python3-pyopenssl_26.0.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_26.0.0.bb
+index ca2ee93d29..43977d75b9 100644
+--- a/meta/recipes-devtools/python/python3-pyopenssl_26.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pyopenssl_26.0.0.bb
+@@ -18,4 +18,6 @@ RDEPENDS:${PN}:class-target = " \
+ "
+ RDEPENDS:${PN}-tests = "${PN}"
  
- 	perl Build.PL --installdirs vendor --destdir ${D} \
-+                        --create_packlist=0 \
-+                        --config installhtml1dir= \
-+                        --config installhtml3dir= \
-+                        --config installsitehtml1dir= \
-+                        --config installsitehtml3dir= \
-+                        --config installvendorhtml1dir= \
-+                        --config installvendorhtml3dir= \
- 			${EXTRA_CPAN_BUILD_FLAGS}
- 
- 	# Build.PLs can exit with success without generating a
-diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-index b27a8c15e6..0f992dea6d 100644
---- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-+++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-@@ -32,8 +32,6 @@ do_patch_module_build () {
- 
- do_patch[postfuncs] += "do_patch_module_build"
- 
--EXTRA_CPAN_BUILD_FLAGS = "--create_packlist=0"
--
- do_install:prepend () {
- 	# We do not have a recipe for libpod-parser-perl which is for
- 	# documentation (and is deprecated in favor of Pod::Simple)
++CVE_PRODUCT = "jean-paul_calderone:pyopenssl pyca:pyopenssl pyopenssl:pyopenssl pyopenssl_project:pyopenssl"
++
+ BBCLASSEXTEND = "native nativesdk"
 
