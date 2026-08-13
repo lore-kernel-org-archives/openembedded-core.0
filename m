@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3267FC5DF66
-	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 20:15:02 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27925.1786652089692433268
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A5FC5CFDB
+	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 20:54:53 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28838.1786654488148431992
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 13:14:51 -0700
+ Thu, 13 Aug 2026 13:54:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=fFMjL7/m;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2026081320144694d66157b900020746-behwd5@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026081320144694d66157b900020746
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=KqEc1Pqr;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026081320544457f6ad800c00020791-tiot4g@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026081320544457f6ad800c00020791
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 13 Aug 2026 22:14:46 +0200
+        Thu, 13 Aug 2026 22:54:45 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=cuj/cgOonA5Q1Yx9qwDIZnpQB1QwX7AmL2HqdxFkqgc=;
- b=fFMjL7/m8iUOWk7GTCTYBwGe6wllaXFWZQwT3nuhppUirS0U3bYLzFkBETkmFifyZ8uY/f
- T/bPSIeInIv+q2XqVygL0x1lT35nJAAeycrlyVWk3iTsQz/Yc/OOEMFcv8/ROsZCS44EETXP
- EGnme1CfkXVaSQ8cfrlNrgcgPrDprPVCYDv6bYvZgFSOpAKziSG7x9z9TUH/qhpuVOeiev6Z
- zdk81yUFqvsl2ZMpxC530qh2u1vPnAqBoRkyXmRiVLtNUXWLhlCUIrHpMfdV1HjIyFmGU1JQ
- loiCp8IHI6hOISj6TlqlA4iDZbFq7HzMQ4czNUchA3o5if6bGpf54lRw==;
+ bh=kx4ADdfvaJJJA2W999d4jXlQcbD6ByqBnC04jQxp12Y=;
+ b=KqEc1Pqrgq8UWBi4UM2Myx/vtYXSHftuBFR8+10wOYONjxLU5lk7KxCWkIPIR46OUhpDSI
+ Lrc9+GY0kSdJuzU1tV/kXdubTvaedRnH2fhSsyto5sCLBhulQZN6C9im02HiY0d93wcN/atQ
+ IcRG05REUG6D6M5JplO+ZEq92J+WbGLSFwJmC2BawMWhe5pt3yKJSURlFyVjRSkzTgIxSWGl
+ 3Nkg4IkAVkOvEt4aqyCpQkeOJSjtfuUdGRA09sGdkXdBgunXIvV/MBZLJ6kM9yMir8llTbQ6
+ zxzLOq5kVX7NQ7exm1b3FI5EFWilNXjQ/CPm91yFS+fK4yslj9FzkpXg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] go: upgrade 1.26.5 -> 1.26.6
-Date: Thu, 13 Aug 2026 22:14:24 +0200
-Message-ID: <20260813201424.3934767-1-peter.marko@siemens.com>
+Subject: [PATCH] openssh: upgrade 10.4p1 -> 10.5.p1
+Date: Thu, 13 Aug 2026 22:54:23 +0200
+Message-ID: <20260813205423.4001787-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,120 +36,137 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 20:15:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243388
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 20:54:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243389
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Upgrade to latest 1.26.x release [1]:
+Handle CVE-2026-73281, CVE-2026-73282 and CVE-2026-73283.
 
-$ git --no-pager log --oneline go1.26.5..go1.26.6
-1ea5a71ad8 (tag: go1.26.6) [release-branch.go1.26] go1.26.6
-115eb476aa [release-branch.go1.26] cmd/vendor: fix CVE-2026-56865 in x/mod
-9f6980fd5c [release-branch.go1.26] cmd/vendor: fix CVE-2026-56864 in x/mod
-6ec908dd24 [release-branch.go1.26] encoding/asn1: enforce maximum recursion depth
-9918f26ab3 [release-branch.go1.26] encoding/xml: fix depth processing in (*Decoder).unmarshal
-33ecb966ca [release-branch.go1.26] html/template: fix JavaScript regexp tracking
-128893dbf9 [release-branch.go1.26] net/url: avoid quadratic complexity in resolvePath
-13c194062c [release-branch.go1.26] cmd/compile: do not elide riscv64 sign extension of unsigned values
-52e5e2f22a [release-branch.go1.26] cmd/compile: fix time traveling proofs in prove
-db38ee7121 [release-branch.go1.26] cmd/compile: fix prove to generate Const64 for 64bits slicemasks
-f5bf46f361 [release-branch.go1.26] cmd/compile: fix mips64le bigger than 32bits pointer offsets
-f8d4fa6213 [release-branch.go1.26] runtime: fix frame pointer adjustment around injected calls
-efc79671b1 [release-branch.go1.26] cmd/compile: do not home mul/div results in HI/LO
-605fd48711 [release-branch.go1.26] crypto/tls: add fips140ems GODEBUG setting to disable EMS enforcement
-100fb8f023 [release-branch.go1.26] cmd/link: quote PE .def library name
-4d522f275f [release-branch.go1.26] cmd/compile: tighten mergelocals address use analysis
-0e8a244fe5 [release-branch.go1.26] all: update x/net
-019fcb0152 [release-branch.go1.26] cmd/compile: don't require Heapaddr for heap vars in dead code
-b6432317a1 [release-branch.go1.26] crypto/tls: do not count handshake messages as state-advancing post-handshake
-ae63e27897 [release-branch.go1.26] runtime: fix uninitialized 7th argument in mach_vm_region_trampoline
-88bf57924f [release-branch.go1.26] runtime: don't emit write barrier for code pointers in itabInit
-4238449188 [release-branch.go1.26] os: strip trailing slashes in RemoveAll on Plan 9
-28f27d64cf [release-branch.go1.26] os: properly handle trailing / in Root.MkdirAll
-cc312256f8 [release-branch.go1.26] runtime: be sure to scan small frame introduced by (*sigctxt).pushCall
-07a0bbba1b [release-branch.go1.26] os: don't expect an error from Root.ReadFile from a directory on NetBSD
-a42fec40ab [release-branch.go1.26] all: update x/net
-5bbd22ff78 [release-branch.go1.26] net/http: apply header timeout to server's unencrypted HTTP/2 check
+Release notes [1]:
 
-Fixes CVE-2026-56865, CVE-2026-56864, CVE-2026-56859, CVE-2026-56853,
-      CVE-2026-56860, CVE-2026-46600, CVE-2026-56862, CVE-2026-56858,
-      CVE-2026-39821 and CVE-2026-33818.
+Potentially-incompatible changes
+--------------------------------
 
-Release information: [2]
+ * Portable OpenSSH now requires ECC (Elliptic Curve Cryptography)
+   support in libcrypto, including support for the NISTP521 curve.
+   ECC is included in the default build configurations of all
+   versions of all libcrypto implementations currently supported by
+   OpenSSH, including LibreSSL, OpenSSL, BoringSSL and AWS LC.
+   The --without-openssl build configuration is not affected.
 
-[1] https://github.com/golang/go/compare/go1.26.5...go1.26.6
-[2] https://groups.google.com/g/golang-announce/c/94pEornpRlI
+Changes since OpenSSH 10.4
+==========================
+
+This release contains a number of security fixes and small bugfixes.
+
+Security
+========
+
+ * ssh-agent(1): fix an interaction between agent locking and the
+   session-bind@openssh.com extension that is used to identify
+   forwarded agents. These binding requests were refused when the
+   agent was locked, with the result that operations that were
+   intended to be limited to local use only could be performed
+   remotely, including the ability to add PKCS#11 tokens and make
+   use of keys that had destination restrictions applied.
+   Reported by sn0x-sharma
+
+ * ssh(1): avoid potential realloc use-after-free in the client if a
+   remote forwarding is added via the local session multiplexing
+   socket while a remote forwarding open request is pending with the
+   server. Report and fix from Brian Mingus of Cognatory
+
+ * sshd(8): make the authorized_keys "restrict" keyword apply
+   correctly to tunnel forwarding too (which is administratively
+   disabled by default). Reported by Erichen, Institute of Computing
+   Technology, Chinese Academy of Sciences
+
+New features
+------------
+
+ * ssh-keygen(1): add ability to set or clear the touch-required and
+   verify-required flags on FIDO private keys when resetting a
+   private key's passphrase.
+
+ * ssh(1): tweak ordering of certificates tried during pubkey
+    authentication to prefer FIDO keys that do not require user
+    presence (touch) first, and FIDO keys that require user
+    verification via PIN or biometrics last. This effectively tries
+    low-friction authenticators before higher friction ones.
+
+ * ssh(1): add a "ssh -Z user@host" mode that prints the keys that
+   will be tried for public key authentication in the order that
+   they will be used.
+
+ * sshd(8) use setproctitle(3) to identify sshd-session when its
+   acting as a post-authentication monitor.
+
+Bugfixes
+--------
+
+ * ssh-keyscan(1): make reading the server banner a non-blocking
+   operation to prevent a stuck server from blocking a many-host
+   keyscan from proceeding.
+
+ * sshd(8): use sshpkt_fatal() instead of plain fatal() for errors
+   in the packet code as this provides context of the failing peer
+   (address, port, user, etc).
+
+ * sshd(8): when signing hostkey proofs for a client UpdateHostKeys
+   request, allow each hostkey to perform at most one signature
+   operation.
+
+ * sshd(8) fix GSSAPI option names, that were broken during a
+   servconf.c refactoring in openssh-10.4; bz3974.
+
+ * ssh-keygen(1): pass back errors from ed25519 key generation, which
+   theoretically can fail. GHPR702.
+
+ * sshd(8): move check of public key type against allowed algorithms
+   to before parsing of the key sent by the peer. This removes at
+   least some key parsing and verification paths from the pre-auth
+   attack surface. Suggested by Christopher Paul Rohlf of Anthropic.
+
+ * ssh-keygen(1): fix double frees (impossible to reach outside of a
+   test harness), and also use freezero where possible. From
+   Christopher Paul Rohlf at Anthropic.
+
+ * sshd(8): fix ChannelTimeout and RekeyLimit not being applied in
+   sshd_config Match blocks.
+
+ * sshd(8): in sshd config dump mode, write all directives in mixed
+   case for consistency
+
+Portability
+-----------
+
+ * sshd(8): re-allow PAMServiceName inside a Match block, which
+   was incorrectly disabled during a refactoring in openssh-10.4.
+   bz3987
+
+[1] https://www.openssh.org/txt/release-10.5
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/go/{go-1.26.5.inc => go-1.26.6.inc}   | 2 +-
- ...o-binary-native_1.26.5.bb => go-binary-native_1.26.6.bb} | 6 +++---
- ...cross-canadian_1.26.5.bb => go-cross-canadian_1.26.6.bb} | 0
- .../go/{go-cross_1.26.5.bb => go-cross_1.26.6.bb}           | 0
- .../go/{go-crosssdk_1.26.5.bb => go-crosssdk_1.26.6.bb}     | 0
- .../go/{go-runtime_1.26.5.bb => go-runtime_1.26.6.bb}       | 0
- meta/recipes-devtools/go/{go_1.26.5.bb => go_1.26.6.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.26.5.inc => go-1.26.6.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.5.bb => go-binary-native_1.26.6.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.5.bb => go-cross-canadian_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.5.bb => go-cross_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.5.bb => go-crosssdk_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.5.bb => go-runtime_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.5.bb => go_1.26.6.bb} (100%)
+ .../openssh/{openssh_10.4p1.bb => openssh_10.5p1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssh/{openssh_10.4p1.bb => openssh_10.5p1.bb} (99%)
 
-diff --git a/meta/recipes-devtools/go/go-1.26.5.inc b/meta/recipes-devtools/go/go-1.26.6.inc
-similarity index 90%
-rename from meta/recipes-devtools/go/go-1.26.5.inc
-rename to meta/recipes-devtools/go/go-1.26.6.inc
-index a4302b2790..fa6b0a50a1 100644
---- a/meta/recipes-devtools/go/go-1.26.5.inc
-+++ b/meta/recipes-devtools/go/go-1.26.6.inc
-@@ -16,4 +16,4 @@ SRC_URI += "\
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
- "
--SRC_URI[main.sha256sum] = "495be4bc87176ac567392e5b4116abd98466d33d7b49d41e764ccc6976b2dc42"
-+SRC_URI[main.sha256sum] = "a0721c54c688901448d77ad9b3ec7ea7c474730755ff891382e92ecb93ff2cb1"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.5.bb b/meta/recipes-devtools/go/go-binary-native_1.26.6.bb
-similarity index 80%
-rename from meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.26.6.bb
-index 97a8270be2..2913fb6515 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.26.6.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.4p1.bb b/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh_10.4p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_10.5p1.bb
+index 96903bbc0c..e4b6ddef9d 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://sshd_check_keys \
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            "
+-SRC_URI[sha256sum] = "ef6026dd2aea8d56059638d5d3262902c892ceba9f88395835e0d06d3fb63238"
++SRC_URI[sha256sum] = "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11"
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053"
--SRC_URI[go_linux_arm64.sha256sum] = "fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49"
--SRC_URI[go_linux_ppc64le.sha256sum] = "c5d60e2b303bb612f20cd82786594b64874e73b35134025e27d3390bf284ae43"
-+SRC_URI[go_linux_amd64.sha256sum] = "708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89"
-+SRC_URI[go_linux_arm64.sha256sum] = "d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "232b65543a42eda95df6a63f76235c1795bb535eba5c74e509faec71bc648388"
+ CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.26.5.bb b/meta/recipes-devtools/go/go-cross_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.26.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.26.5.bb b/meta/recipes-devtools/go/go-runtime_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.26.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go_1.26.5.bb b/meta/recipes-devtools/go/go_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.26.5.bb
-rename to meta/recipes-devtools/go/go_1.26.6.bb
 
