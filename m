@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE7EC5AC67
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF31C5DF64
 	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 05:55:59 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12995.1786600551435262977
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12997.1786600554327421333
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 22:55:51 -0700
+ Wed, 12 Aug 2026 22:55:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OEakW8Hz;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gUcQKXln;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019ff9b0f00e-b5a71760-5c21-40f5-adef-b00d80083e79-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TiVMGf3g;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=e7asHMvl;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019ff9b0fc09-cf4df431-eb47-4fff-9e0a-c3321eddd462-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786600550;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=p1h6jM8qnzYw0rRnZ+LXL2+adesgzEv6OyVm1ksQ4T4=;
-	b=OEakW8Hz1h8/7bKnO5JDiaTCrU+GqlM6YbEa9aEH+ysf4bmlutD2WcVxd+aF2aEY
-	mMo0xDrCTFPEDAwfmc4gRCTet7reTaR++jEDPiNx/EQviE6dCAO7ZC6Cjv0qZWjrZrg
-	dZEgl1+WgVG1dTLFhP3ObMrXN+08g1bUc9KIB02Y=
+	t=1786600553;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=IP/iVWR1aPd4zOeBo8CvSUYD+ADt8MSRLshPkBScyVs=;
+	b=TiVMGf3gbUFdYOaUtS/3IuNseMwEQvRbhLXohUhEu3ggblwBGCPzCebddOLLPv23
+	8QRzTqAkTKMof74DCPA2tKLED72WhxmCltD1rKx3HNv35aFtFb9alpHPkbE95iReLkc
+	oiCkeBaDqkrI2r3MMi8XohynwioPouLFBcp7URqk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786600550;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=p1h6jM8qnzYw0rRnZ+LXL2+adesgzEv6OyVm1ksQ4T4=;
-	b=gUcQKXlnwSFZER4iWXChuc6fDXH45//FVgxls0q6nIodwGC8U8Gfp1bfmWQyYQbH
-	Zd7fUkbtjIv8cQQAc/xKkq1L7V9zTSztTADv8UrcvogslFFL821HkJ5gW4y4DnQ7sbr
-	19pI0JVMYX8lxtTE3+so1HiyRyuFWZtMhds2vTvU=
-Content-Type: multipart/mixed; boundary="===============7987044427264203231=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786600553;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=IP/iVWR1aPd4zOeBo8CvSUYD+ADt8MSRLshPkBScyVs=;
+	b=e7asHMvlVQBTvv5zdvI7lgl8Qi7QY7rhSP/M/CuhLJHubJhEm7RcMTXv1yk3AL/3
+	DHcebBA0KbQu4FAGCAfIeSORcVYNS2MDh8nKlXoAPUJ+M/c3HlfHLvYSn+MGsJTL9pr
+	AXYaiR76bouLx1ngZVSczxhfQ6w2tBKU5BiGYGK4=
+Content-Type: multipart/mixed; boundary="===============6682479375877673392=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.165.5 FAILED
-Message-ID: <0101019ff9b0f00e-b5a71760-5c21-40f5-adef-b00d80083e79-000000@us-west-2.amazonses.com>
-Date: Thu, 13 Aug 2026 05:55:50 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] harfbuzz: upgrading to 14.3.1 SUCCEEDED
+Message-ID: <0101019ff9b0fc09-cf4df431-eb47-4fff-9e0a-c3321eddd462-000000@us-west-2.amazonses.com>
+Date: Thu, 13 Aug 2026 05:55:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.13-54.240.27.33
+X-SES-Outgoing: 2026.08.13-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 05:55:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243324
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243328
 
---===============7987044427264203231==
+--===============6682479375877673392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.165.5* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *harfbuzz* to *14.3.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.155.7-6.165.5.patch
+    - apply the patch: git am 0001-harfbuzz-upgrade-14.3.0-14.3.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,342 +71,182 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 85dd0eb5b93e6e694126d5391793fe8f690017cf Mon Sep 17 00:00:00 2001
+From d52208fbcfc55cfadc9db69bcb5eefcbd053b9c2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 13 Aug 2026 05:08:33 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.155.7 -> 6.165.5
+Date: Thu, 13 Aug 2026 05:38:46 +0000
+Subject: [PATCH] harfbuzz: upgrade 14.3.0 -> 14.3.1
 
+Source: NEWS
+
+Overview of changes leading to 14.3.1
+Thursday, August 13, 2026
+=====================================
+- Various fuzzing and build fixes.
+- Various subsetting fixes.
+- Fix AAT insertion at the end of the text.
+- Fix various rendering bugs in the experimental GPU library.
+- WASM shaper code can now read the user features.
 ---
- ...hon3-hypothesis_6.155.7.bb => python3-hypothesis_6.165.5.bb} | 2 +-
+ .../harfbuzz/{harfbuzz_14.3.0.bb => harfbuzz_14.3.1.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.155.7.bb => python3-hypothesis_6.165.5.bb} (91%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_14.3.0.bb => harfbuzz_14.3.1.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb b/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb
-index 70ae7877a1..e19ac60725 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.1.bb
+similarity index 96%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_14.3.1.bb
+index 6e4e9b7b85..4f0d5d3ec2 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
--SRC_URI[sha256sum] = "d8d6091753d0669db3c90c5e5b346cb37c72f3dd9378c8413acb1fd5da63f7ea"
-+SRC_URI[sha256sum] = "0df7fdefd2e10bbfe7d690eb22c7181a739e8040026907207faa305d86e6e4db"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "16070d77cfc4ba1f1e7327e83bf9b3f55898081cabdb94e56a33e04fc8874eae"
++SRC_URI[sha256sum] = "9dae9538aae2ffdf70cec31f2c27bf68e2aaeeae3112688467697d5faf6194f7"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection github-releases
+ 
 -- 
 2.47.1
 
 
---===============7987044427264203231==
+--===============6682479375877673392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 956 .bb files complete (0 cached, 956 parsed). 1987 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: FILES: removed "/usr/lib/libharfbuzz-cairo.so.0.61430.0", added "/usr/lib/libharfbuzz-cairo.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.61430.0", added "/usr/lib/libharfbuzz-cairo.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-cairo.so.0.61430.0 /usr/lib/.debug/libharfbuzz.so.0.61430.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61430.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61430.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61430.0", added "/usr/lib/.debug/libharfbuzz.so.0.61431.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61431.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61431.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61431.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 91844560 to 91939040 (+0%)
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: FILES: removed "/usr/lib/libharfbuzz-gobject.so.0.61430.0", added "/usr/lib/libharfbuzz-gobject.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61430.0", added "/usr/lib/libharfbuzz-gobject.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILES: removed "/usr/lib/libharfbuzz-icu.so.0.61430.0", added "/usr/lib/libharfbuzz-icu.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61430.0", added "/usr/lib/libharfbuzz-icu.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Color/CPAL -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Color/CPAL, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Layout/GPOS -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Layout/GPOS, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Layout/Common -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Layout/Common, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Color/COLR -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Color/COLR, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/glyf -> /usr/src/debug/harfbuzz/14.3.1/src/OT/glyf, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/name -> /usr/src/debug/harfbuzz/14.3.1/src/OT/name, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Color/CBDT -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Color/CBDT, directory renamed /usr/src/debug/harfbuzz/14.3.0/src -> /usr/src/debug/harfbuzz/14.3.1/src, directory renamed /
+ usr/src/debug/harfbuzz/14.3.0/src/OT/Layout/GDEF -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Layout/GDEF, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Var/VARC -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Var/VARC, directory renamed /usr/src/debug/harfbuzz/14.3.0/util -> /usr/src/debug/harfbuzz/14.3.1/util, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Layout -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Layout, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Layout/GSUB -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Layout/GSUB, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/graph -> /usr/src/debug/harfbuzz/14.3.1/src/graph, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Color/sbix -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Color/sbix, directory renamed /usr/src/debug/harfbuzz/14.3.0/src/OT/Color/svg -> /usr/src/debug/harfbuzz/14.3.1/src/OT/Color/svg
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 5501685 to 5512119 (+0%)
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILES: removed "/usr/lib/libharfbuzz-subset.so.0.61430.0", added "/usr/lib/libharfbuzz-subset.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61430.0", added "/usr/lib/libharfbuzz-subset.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.61430.0", added "/usr/lib/libharfbuzz.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz: PV changed from "14.3.0" to "14.3.1"
+packages/x86-64-v3-poky-linux/harfbuzz: PKGV changed from 14.3.0 [default] to 14.3.1 [default]
+packages/x86-64-v3-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/14.3.0/harfbuzz-14.3.0.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/14.3.1/harfbuzz-14.3.1.tar.xz"
+Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61430.0 to libharfbuzz-cairo.so.0.61431.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61430.0 to libharfbuzz-gobject.so.0.61431.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61430.0 to libharfbuzz-icu.so.0.61431.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61430.0 to libharfbuzz.so.0.61431.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61430.0 to libharfbuzz-subset.so.0.61431.0
+  /usr/lib/libharfbuzz-cairo.so.0.61430.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61431.0
+  /usr/lib/libharfbuzz-gobject.so.0.61430.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61431.0
+  /usr/lib/libharfbuzz-icu.so.0.61430.0 moved to /usr/lib/libharfbuzz-icu.so.0.61431.0
+  /usr/lib/libharfbuzz.so.0.61430.0 moved to /usr/lib/libharfbuzz.so.0.61431.0
+  /usr/lib/libharfbuzz-subset.so.0.61430.0 moved to /usr/lib/libharfbuzz-subset.so.0.61431.0
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-2bb062e403c7093734de6467c49503a7d8970d9e"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:2bb062e403c7093734de6467c49503a7d8970d9e"
-meta-yocto-bsp       
-meta-poky            = "master:0afedb9b1195525861f9140d6f33e9cd4118b199"
-workspace            = "<unknown>:<unknown>"
+--===============6682479375877673392==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="harfbuzz-changelog.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 636 Local 619 Mirrors 0 Missed 17 Current 228 (97% match, 98% complete)
-done.
-Removing 4 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 307 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 314 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 329 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 340 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 341 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_create_spdx_setscene)
-NOTE: Running task 171 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_recipe_qa)
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_recipe_qa: Started
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 439 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_package_setscene)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_recipe_qa: Succeeded
-NOTE: Running setscene task 461 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 495 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_84.0.0.bb:do_create_spdx_setscene)
-NOTE: Running task 284 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_fetch)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_fetch: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_fetch: Succeeded
-NOTE: Running task 304 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_unpack)
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.14.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 539 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 540 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_84.0.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_unpack: Started
-NOTE: recipe python3-3.14.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 554 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 590 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.44.bb:do_create_spdx_setscene)
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.44+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-3.14.7-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe glibc-2.44+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 593 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 594 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 600 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.14.7-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 627 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 653 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 654 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 656 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.44.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.44+git-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 657 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 659 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 660 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 686 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_84.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-build-native-1.5.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 695 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 697 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_create_spdx_setscene)
-NOTE: recipe glibc-2.44+git-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 702 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-native-3.14.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 708 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 720 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_84.0.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 721 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-native-3.14.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 722 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-native-3.14.7-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-setuptools-native-84.0.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-native-3.14.7-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 809 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 810 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_recipe_qa_setscene)
-NOTE: Running task 558 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_create_recipe_spdx)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-build-native-1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 811 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 812 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 814 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-packaging-native-26.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-build-native-1.5.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 816 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.47.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 817 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 819 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 822 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-packaging-native-26.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 823 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 825 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmpc-native-1.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-packaging-native-26.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmpc-native-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 827 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 828 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-packaging-native-26.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 829 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 831 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libmpc-native-1.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mpfr-native-4.2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 835 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 837 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.47.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmpc-native-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-installer-native-1.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mpfr-native-4.2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 842 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_recipe_qa_setscene)
-NOTE: recipe flex-native-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 844 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 845 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe mpfr-native-4.2.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flex-native-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 851 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/m4/m4-native_1.4.21.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 853 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/flex/flex_2.6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe mpfr-native-4.2.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe unzip-native-1_6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe m4-native-1.4.21-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-native-2.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe flex-native-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe m4-native-1.4.21-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 856 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 857 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/m4/m4-native_1.4.21.bb:do_recipe_qa_setscene)
-NOTE: recipe unzip-native-1_6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 859 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_recipe_qa_setscene)
-NOTE: recipe m4-native-1.4.21-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe m4-native-1.4.21-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe unzip-native-1_6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe unzip-native-1_6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 861 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 862 of 864 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_recipe_qa_setscene)
-NOTE: recipe quilt-native-0.69-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe quilt-native-0.69-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 864 of 864 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_recipe_qa_setscene)
-NOTE: recipe quilt-native-0.69-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe quilt-native-0.69-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1635 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_patch)
-NOTE: Running task 1672 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_patch: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_patch: Succeeded
-NOTE: Running task 2121 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2122 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_populate_lic)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_populate_lic: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2123 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_configure)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_configure: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_configure: Succeeded
-NOTE: Running task 2124 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_configure_ptest_base)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2125 of 2142 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_compile)
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| 
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
-|     raise BackendUnavailable(
-|     ...<4 lines>...
-|     )
-| pyproject_hooks._impl.BackendUnavailable: Cannot import 'maturin'
-| 
-| TIP pass --env-dir and --sdist-extract-dir to keep the build environment and sources, then see https://build.pypa.io/en/stable/how-to/troubleshooting.html#debug-a-failed-build for help debugging a failed build
-| ERROR Backend 'maturin' is not available.
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/temp/run.do_compile.3755149:152 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/sources/hypothesis-6.165.5'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/temp/run.do_compile.3755149, line 152
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/temp/run.do_compile.3755149, line 147
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/temp/run.do_compile.3755149, line 164
-NOTE: recipe python3-hypothesis-6.165.5-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2125 tasks of which 2114 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260813050810.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260813050810.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Changelog for harfbuzz: 14.3.0 -> 14.3.1
+Source: NEWS
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/temp/log.do_compile.3755149
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-hypothesis-6.165.5-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/temp/run.do_compile.3755149' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.165.5/temp/log.do_compile.3755149
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.165.5.bb:do_compile) failed with exit code '1'
+Overview of changes leading to 14.3.1
+Thursday, August 13, 2026
+=====================================
+- Various fuzzing and build fixes.
+- Various subsetting fixes.
+- Fix AAT insertion at the end of the text.
+- Fix various rendering bugs in the experimental GPU library.
+- WASM shaper code can now read the user features.
 
---===============7987044427264203231==
+--===============6682479375877673392==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.61430.0", added "/usr/lib/libharfbuzz-cairo.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61430.0", added "/usr/lib/libharfbuzz-gobject.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61430.0", added "/usr/lib/libharfbuzz-icu.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61430.0", added "/usr/lib/libharfbuzz-subset.so.0.61431.0"
+packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.61430.0", added "/usr/lib/libharfbuzz.so.0.61431.0"
+Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61430.0 to libharfbuzz-cairo.so.0.61431.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61430.0 to libharfbuzz-gobject.so.0.61431.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61430.0 to libharfbuzz-icu.so.0.61431.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61430.0 to libharfbuzz.so.0.61431.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61430.0 to libharfbuzz-subset.so.0.61431.0
+  /usr/lib/libharfbuzz-cairo.so.0.61430.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61431.0
+  /usr/lib/libharfbuzz-gobject.so.0.61430.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61431.0
+  /usr/lib/libharfbuzz-icu.so.0.61430.0 moved to /usr/lib/libharfbuzz-icu.so.0.61431.0
+  /usr/lib/libharfbuzz.so.0.61430.0 moved to /usr/lib/libharfbuzz.so.0.61431.0
+  /usr/lib/libharfbuzz-subset.so.0.61430.0 moved to /usr/lib/libharfbuzz-subset.so.0.61431.0
+
+--===============6682479375877673392==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.155.7-6.165.5.patch"
+ filename="0001-harfbuzz-upgrade-14.3.0-14.3.1.patch"
 
-RnJvbSA4NWRkMGViNWI5M2U2ZTY5NDEyNmQ1MzkxNzkzZmU4ZjY5MDAxN2NmIE1vbiBTZXAgMTcg
+RnJvbSBkNTIyMDhmYmNmYzU1Y2ZhZGM5ZGI2OWJjYjVlZWZjYmQwNTNiOWMyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTMgQXVnIDIwMjYgMDU6MDg6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNTUuNyAtPiA2LjE2NS41CgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2NS41LmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2NS41LmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTU1LjcuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjE2NS41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjcuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY1LjUu
-YmIKaW5kZXggNzBhZTc4NzdhMS4uZTE5YWM2MDcyNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTUuNy5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE2NS41LmJiCkBA
-IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkOGQ2MDkxNzUzZDA2NjlkYjNjOTBjNWU1
-YjM0NmNiMzdjNzJmM2RkOTM3OGM4NDEzYWNiMWZkNWRhNjNmN2VhIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjBkZjdmZGVmZDJlMTBiYmZlN2Q2OTBlYjIyYzcxODFhNzM5ZTgwNDAwMjY5MDcyMDdm
-YWEzMDVkODZlNmU0ZGIiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMTMgQXVnIDIwMjYgMDU6Mzg6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
+YXJmYnV6ejogdXBncmFkZSAxNC4zLjAgLT4gMTQuMy4xCgpTb3VyY2U6IE5FV1MKCk92ZXJ2aWV3
+IG9mIGNoYW5nZXMgbGVhZGluZyB0byAxNC4zLjEKVGh1cnNkYXksIEF1Z3VzdCAxMywgMjAyNgo9
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0gVmFyaW91cyBmdXp6aW5nIGFu
+ZCBidWlsZCBmaXhlcy4KLSBWYXJpb3VzIHN1YnNldHRpbmcgZml4ZXMuCi0gRml4IEFBVCBpbnNl
+cnRpb24gYXQgdGhlIGVuZCBvZiB0aGUgdGV4dC4KLSBGaXggdmFyaW91cyByZW5kZXJpbmcgYnVn
+cyBpbiB0aGUgZXhwZXJpbWVudGFsIEdQVSBsaWJyYXJ5LgotIFdBU00gc2hhcGVyIGNvZGUgY2Fu
+IG5vdyByZWFkIHRoZSB1c2VyIGZlYXR1cmVzLgotLS0KIC4uLi9oYXJmYnV6ei97aGFyZmJ1enpf
+MTQuMy4wLmJiID0+IGhhcmZidXp6XzE0LjMuMS5iYn0gICAgICAgICB8IDIgKy0KIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy9oYXJmYnV6ei97aGFyZmJ1enpfMTQuMy4wLmJiID0+IGhhcmZidXp6XzE0LjMu
+MS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enov
+aGFyZmJ1enpfMTQuMy4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZi
+dXp6XzE0LjMuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTQuMy4wLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTQuMy4xLmJiCmluZGV4IDZlNGU5Yjdi
+ODUuLjRmMGQ1ZDNlYzIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6
+ei9oYXJmYnV6el8xNC4zLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
+L2hhcmZidXp6XzE0LjMuMS5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9Yjk4NDI5YjhlOGUzYzJhNjdjZmVmMDFlOTllNDg5M2QgXAogICAg
+ICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25s
+b2FkLyR7UFZ9LyR7QlBOfS0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTYw
+NzBkNzdjZmM0YmExZjFlNzMyN2U4M2JmOWIzZjU1ODk4MDgxY2FiZGI5NGU1NmEzM2UwNGZjODg3
+NGVhZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5ZGFlOTUzOGFhZTJmZmRmNzBjZWMzMWYyYzI3
+YmY2OGUyYWFlZWFlMzExMjY4ODQ2NzY5N2Q1ZmFmNjE5NGY3IgogCiBpbmhlcml0IG1lc29uIHBr
+Z2NvbmZpZyBsaWJfcGFja2FnZSBndGstZG9jIGdvYmplY3QtaW50cm9zcGVjdGlvbiBnaXRodWIt
+cmVsZWFzZXMKIAotLSAKMi40Ny4xCgo=
 
---===============7987044427264203231==--
+--===============6682479375877673392==--
 
