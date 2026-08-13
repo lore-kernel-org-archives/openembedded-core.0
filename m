@@ -1,154 +1,134 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB90BC5CFDB
-	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 11:12:39 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16684.1786619548860417092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B11C5CFDB
+	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 11:46:29 +0000 (UTC)
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17084.1786621585377121929
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 04:12:30 -0700
+ Thu, 13 Aug 2026 04:46:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=duffh1Zm;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 849A71A15D4;
-	Thu, 13 Aug 2026 11:12:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 50A45602B8;
-	Thu, 13 Aug 2026 11:12:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 32AF511C4DDD2;
-	Thu, 13 Aug 2026 13:12:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786619545; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=xrnB4a+Ur0BFa9GN+ycexcSNfEfrvBWCyNkko7Jagxw=;
-	b=duffh1ZmeobgYhn+hhXUhnVg0bRnKgpPPCaHJFWNg4TpXW9H8Hzzb5fbsZuOQjeUzCL2vn
-	mnNd1RN1Pu3SPCP5aQjeuN+GkGycjDyJnOl5dHWF8cZYH7mWVeqVz55ikEi3wY1w7Bs5Hi
-	FGIaYe/8h6rqRgw5QGfNeYCasiD257YEQMVBh5CC1dqeLoRwAqDrgTPGhjhPhbN/5uEZpb
-	ilDAdn4ngahHXOujFWNhNCf7gZrLMFzf98zdsc6XWpaK1hxDTdUPTm84ve4iZHbOg0ZxJf
-	l6imMvxB0R2/efViiLFf7LXSWrYl6qBErEpY+cRCzzYqFzhwgeOt6uyhUa0FJw==
-Mime-Version: 1.0
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=WaOmFkUj;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Wl6CK8zu;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.158, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 63E027A00CC;
+	Thu, 13 Aug 2026 07:46:24 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 13 Aug 2026 07:46:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1786621584;
+	 x=1786707984; bh=keVv90ptRmtwIngdZjpBw/NIzMxcmcTP9msDfVoB0UE=; b=
+	WaOmFkUjF3WPEmi9VDxoTLvqrW9om8oi3ERDYfF3IDIFsnebzarMDDefCyAZb1Z4
+	Anpl0oIGKU2GLwtUxhBjtTbC2178ktIy9/bduBwmqur4KhjNWSVRS0L3yfXLNhHR
+	JhTA5oSb4Al46Ty1hm24G6Cs9mUQnc7Gs3OSXSjZ1YUUYHJxVevsyN9rgZ6BQ+2E
+	CJ5k2lTq/bMvjIxlcNEUPS0uYuLQYQ+96QvtrUkFjCJbwpU2EEv7BcfVMvZOcyoC
+	hsCmKbjuEmBkVw+Uo3zeaxLuRixSvfeH2egC0siJr2uZpc6gqm2+cdQpnpb6u3ag
+	k2doHRAu8Z+MFApsJHO3GQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786621584; x=
+	1786707984; bh=keVv90ptRmtwIngdZjpBw/NIzMxcmcTP9msDfVoB0UE=; b=W
+	l6CK8zumd3FJjf0a/fo+Wb2FLqPNmROZWk+rqfgFpCWR4k15BqxHr45BOat9hACT
+	5X8u2JxJCj/ZhDd+GNz87V26s5KzyKdE/rW/gyxuGSGq+1sOnaA+47xCamAKpaY/
+	EwtnJBiAFOqa+jN68hmdil9PYzw2RudcfeVo+ibSF3Oo3tjzDWjCQuRXcpjmhQoz
+	634KcSkuoQsu46vGPVHEiS6hVT8nMcLwBfJo3yAM/hMwXpJRVj5mjPZy5KC2mMFZ
+	1goyPBNNCE/dZIj0fpxeAwvD9hEMAsXvf6DFHDgvkiLi6z87AuE+qpgGxAjgdteK
+	VKZYogXOmHqe+1urm9AzA==
+X-ME-Sender: <xms:j659arLPcyyK2BDdSHIaqe4G1mqoYiZ2Mtp1HLm96alqIHxjvps3XA>
+    <xme:j659ai2ccsWhts5gGwzocPNdjT7Y8qz62vUXR5piXWJnABTsK889upv2r1EZdM_VZ
+    qxEgsvyxn3uxtHTycpsu8i_60XRqme7Ss9cP_2O7LG5fwWVV9YdeL3F>
+X-ME-Received: <xmr:j659athHXFLAiyN5O9Egk7LXHNHc8c_Qm7XDgnCsdqgYrozo-EAzWcuBEMQhwGi4ShX6DJM7Pz4za2MEkGZVO73EE2EPfrtrUttvMd4>
+X-ME-Proxy-Cause: dmFkZTEYSKvJcSLxgoAYxE7I/eo7m2fZDVGCHeDnsBIUHOAorbcL7j+07XNJqaQgkvDeu+
+    iaY8FeSb+3vg0Uvys4bajC7P8cRocoH8yIWvgZW+wlk9Xe+FRZgsqtjyOF8kV9h0nLIQyy
+    kfnLF8OybeltSYnDuBGNcZInQjmNPIx3rgbxBOAYvtq+3ZIjwhBrz2kZ5WI1kMM4b6gAUD
+    nkiiUHjaDxf/wWqUYhZaBDB6+B4S5ydunDK3t6avLBdBiG4UvUWo8R8ueYhhwN66f2B5Qz
+    xwbq1hWcGBqBekAEOI/WKHZTP+cYtIBGz9mmXX8IlvuLMCWpjwJBQfyyCVGIYiyemJD4bQ
+    Z9vl3BQDa/KjXvQW58JJ7TvbkHahril7Xw6jeYMYTGgIvSgYsesML+sF6ObaCAu2Wlw+SM
+    +hGlwfPeoZ4JhUawK1w4VNMgG8tsf7Edk1oMyhserRamp7GMp3C6jt5qLYb8arXpuY0Kse
+    PWF01MW2cqLySTi9QZGBpzWLoQBeR1yILO2Np90RqbSkT0TDBFKOGUvZo/l3eikcYDFQnm
+    5eMYJS5iYWXnjDG95k7Jxg9qWGiwTljPb6epYNXa8F3/krRgsEMoEqtIRwZ8gA8DYfYtBj
+    4IU+exNBY4DVLpYcJPg6Hz5nJaedMTxrvGl3L4CqmJ011C0WwYaKauwaxJ/Q
+X-ME-Proxy: <xmx:j659arUW5GjbCz2NBlAPJs5V2EbtC8W6cKaeQcvdd9rulFg9nnnoXA>
+    <xmx:j659akUY1uBEd3KkqnheayfNK6CNVfiPhtn1oQFUoj8j5eioin_xEw>
+    <xmx:j659ajhywtlr64s_-okRacD3ATKUX-2cq0HNWEeJLdS0J4A2o6t-yw>
+    <xmx:j659anZoEVS3KBSlVke5NjSmIU6remxaiC94tGNIizUPs1H36gLOSw>
+    <xmx:kK59arldEnyFzQEK_WzpUxfZX0q23C7qkmQGcJFkvIYIEoVV2u2JRbvc>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Aug 2026 07:46:22 -0400 (EDT)
+Message-ID: <2edd57716d5a827ffe58d9001323098a045be7a6.camel@pbarker.dev>
+Subject: Re: [wrynose][RFC PATCH 00/11] sbom-cve-check update
+From: Paul Barker <paul@pbarker.dev>
+To: Peter Marko <peter.marko@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Benjamin Robin
+ <benjamin.robin@bootlin.com>, Yoann Congal <yoann.congal@smile.fr>, Ross
+ Burton <ross.burton@arm.com>
+Date: Thu, 13 Aug 2026 12:46:21 +0100
+In-Reply-To: <20260808105147.42294-1-peter.marko@siemens.com>
+References: <20260808105147.42294-1-peter.marko@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 13 Aug 2026 13:12:21 +0200
-Message-Id: <DKNRRQM7Q3FN.34QV9VN15JGBS@bootlin.com>
-Subject: Re: [PATCH v14 00/10] rpm: 4.20.1 -> 6.0.2
-Cc: <alex.kanavin@gmail.com>, <mattware@cisco.com>, <esparlin@cisco.com>,
- <peter.marko@siemens.com>, <randy.macleod@windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Sumanth Gavini" <sumanth.gavini@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260812234900.866436-1-sumanth.gavini@windriver.com>
-In-Reply-To: <20260812234900.866436-1-sumanth.gavini@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 11:12:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243348
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 11:46:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243349
 
-On Thu Aug 13, 2026 at 1:48 AM CEST, Sumanth Gavini wrote:
-> * V14:
->     - Dropped "rpm: filter /usr/bin/pkg-config from RPM auto-generated Re=
-quires"
->     (pkgconfigdeps.sh patch). Per Ross Burton's review, instead of suppre=
-ssing
->     the /usr/bin/pkg-config emission, added:
->       RPROVIDES:${PN} +=3D "pkgconfig /usr/bin/pkg-config"
->     to the pkgconf recipe so it satisfies the auto-generated Requires wit=
-hout
->     modifying the upstream rpm script.
->
->    - Removed /usr/bin/pkg-config from nativesdk-sdk-provides-dummy.bb.
->      RPM 6's internal dependency generator auto-detects file-level Provid=
-es
->      from installed files, so nativesdk-pkgconf already provides
->      /usr/bin/pkg-config via the wrapper script it installs. Keeping the
->      dummy entry caused a DNF conflict during do_populate_sdk:
->        nativesdk-sdk-provides-dummy conflicts with /usr/bin/pkg-config
->        provided by nativesdk-pkgconf
->
->    - Added "libarchive: Disable RPM filter auto-bidding" (0005 patch).
->      With both the RPM filter and RPM format reader registered, the filte=
-r
->      intercepted RPM files first and failed to parse RPM 6 packages
->      (debuginfod scanning still failed after the 0004 patch). Disabling t=
-he
->      filter's automatic bidding lets the format reader handle RPM files,
->      while archive_read_append_filter(ARCHIVE_FILTER_RPM) still works
->      explicitly, keeping test_read_append_rpm_filter passing.
->
->    - Updated 0004-Convert-RPM-reader-into-a-proper-format.patch to includ=
-e
->      the test_read_format_huge_rpm.c changes from upstream PR #2846. This
->      test now correctly exercises the format reader instead of the filter=
-.
-> =20
->    - Updated patches 7,9 and 10 for the latest master changes; no code=20
->      changes; removed upstream modifications  =20
->
->    Tests verified:
->      - oe-selftest -r debuginfod.Debuginfod.test_debuginfod_qemu
->      - oe-selftest -r debuginfod.Debuginfod.test_debuginfod_native
->      - oe-selftest -r sdk.SDKTests.test_sdk_manifests
->      - oe-selftest -r sdk.SDKTests.test_sdk_runqemu
->      - bitbake core-image-ptest-libarchive:do_testimage
->      - bitbake core-image-sato -c populate_sdk
->      - bitbake core-image-sato-sdk:do_rootfs
->
+On Sat, 2026-08-08 at 12:51 +0200, Peter Marko wrote:
+> This series updates sbom-cve-check tooling in wrynose to current master.
+> Unfortunately it shows that having cve-check tooling in upstream
+> components violates LTS patch acceptance policies.
+>=20
+> In this case the most visible is python3-shacl2code (1.0.1 -> 1.1.0),
+> but also sbom-cve-check-update-nvd-native introduces new features
+> (which is actually the reason why this upgrade is wanted).
+> For now this should not be a big issue as all the dependencies are very
+> new and used exclusively in cve-check, however by time they may be used
+> in other recipes or tooling, too.
+>=20
+> So I am sending this series as RFC to discuss future of CVE checking on
+> LTS branches.
+> * should we go with this series as is (possibly updating policy text)?
+> * or are we stuck with old code for next 3.5 years?
+> * or separate the tooling to meta-sbom-cve-check which would only have
+>   master branch to service all currently supported releases?
+> * or create mixins layer (to be also used by AB cve-metrics jobs)?
+> * or are there some other suggestions how to rework this series?
+>=20
+> My preference would be to have cve-check aligned for all supported
+> releases (even scarthgap), so I would welcome opinions and discussion
+> on this topic.
+>=20
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Benjamin Robin <benjamin.robin@bootlin.com>
+> Cc: Yoann Congal <yoann.congal@smile.fr>
+> Cc: Paul Barker <paul@pbarker.dev>
+> Cc: Ross Burton <ross.burton@arm.com>
 
-Hi Sumanth,
+Hi Peter,
 
-We again have some pkgconfig errors. I suspect it's the same issue as
-for the previous series: the generated recipe signatures are the same as
-before, so we are re-using old data from the sstate-cache.
+The TSC has discussed this series and is happy for sbom-cve-check to be
+updated on wrynose. It's in line with the expectations we had when
+wrynose was released, and the upstream maintainer is involved.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/4439
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/8/builds/4413
+For scarthgap it's a different question. That still has the
+cve-check.bbclass implementation instead of sbom-cve-check, this would
+be whole new framework rather than a set of updates. I wonder if this
+can be handled via an LTS mixin layer instead of a backport in OE-core?
 
-I also note a new failure:
-
-Error:
- Problem 1: conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by acl-dev-2.4.0-r0.cortexa=
-57 from oe-repo
- Problem 2: conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by eudev-dev-3.2.14-r0.cort=
-exa57 from oe-repo
- Problem 3: conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by kmod-dev-34.2-r0.cortexa=
-57 from oe-repo
- Problem 4: conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by libz-dev-1.3.2-r0.cortex=
-a57 from oe-repo
- Problem 5: conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by openssl-dev-3.5.7-r0.cor=
-texa57 from oe-repo
- Problem 6: conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by util-linux-dev-2.42.2-r0=
-.cortexa57 from oe-repo
- Problem 7: conflicting requests
-  - nothing provides /usr/bin/pkg-config needed by xz-dev-5.8.3-r0.cortexa5=
-7 from oe-repo
-(try to add '--skip-broken' to skip uninstallable packages or '--setopt=3Do=
-ptional_metadata_types=3Dfilelists' to load additional filelists metadata)
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/4371
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/4269
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4286
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/942
-
-As usual, the detailed configuration can be found in the "Write config"
-step.
-
-Thanks,
-Mathieu
+Best regards,
 
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Paul Barker
 
 
