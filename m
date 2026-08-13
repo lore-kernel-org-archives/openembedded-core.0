@@ -1,242 +1,215 @@
-Return-Path: <jose.quaresma@oss.qualcomm.com>
+Return-Path: <anis.bougrine10@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768EEC5B572
-	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 18:46:36 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26110.1786646789865635931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D1CC5B572
+	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 19:11:46 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26613.1786648299426676490
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 11:46:30 -0700
+ Thu, 13 Aug 2026 12:11:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=jOqdtTMH;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=iIdao2UE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: jose.quaresma@oss.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67DIhkMv3929205
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 18:46:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=xQZo8F+AvC65I8E6YUl/wGc+
-	StXtWMyh9qThYd3qT8w=; b=jOqdtTMH/pg1VAKnTzF45dlTv7HEpAHZv/TQD8dS
-	Hcai1AwSutJ09VNGEnkH+HIqJvWD3SMRkbAcNs1TSU7ruMYEB/4Ad5fxGajAhzvS
-	1ORApRV9bhS+5a4dn8iTfBmKM5CanMuRkgvnR/+H6pxzoPhIyAA0mJzMOqrEOdSc
-	hxteBl5gS9QeOZEEHRm3wi5SVyHO+F0JV6ZC2nznTM4hG6OsMRL0E3LdLan/Y6LL
-	D6I0McOw7w4GR75CtG+dT9sQD6WNlZ/lhbaAulGbWXrESGtKHSa+q+CSr9bS/s3x
-	6kJhziE7SiMkTgb0Ox2Y8odqDm2mb2butSYBnmjxyDOYSQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g18183btp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 18:46:28 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-8eeba1d9e47so1566126d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 11:46:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786646787; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=AqG7NxVN;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: anis.bougrine10@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c15d47266baso30906266b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 12:11:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786648297; cv=none;
         d=google.com; s=arc-20260327;
-        b=msl9zNSogAxZ+Bs654eCwmDtEWo4nq/CNjMWN9iER38yvSAo6AYBsRd4r240LnInax
-         bl6T+dC2cWH6TGXfTOuNC+Dlq+mQ09+PF5B4Jq5utsGTge1CMJba9BnPKejGNHnfaT9s
-         MZdUIgd5I7Iee94eEEjRUEC1Ax+ffxV4J0iRSOogKAA4SYaiBYaA7XeTLuMRr0OD3Unk
-         uVfLYjHZaQDJyxP/ALV99bq/gG5BnATjy10Sy1bjJf1kvoJ3GJ5kndu/YzmkKALHr6qW
-         wOcN6hQA9wtcruV8dk7YTmLIwET6ddqn9CX4/xoeH2+j5sXKC+Yt0tocW5LcuvkTgt5M
-         ZPfA==
+        b=ZQpZn7Ep99EtviooT+2356xaCxmZX7+ZbZgGrIQswhe/B+cas4RHprHYwcV6KaECaX
+         Mpuyaqj544CugObmFY16m2YzQj1l9x0zUBtNxJNduxTvnnYLjIGD7DxsznZNnOILgKQf
+         4Fy4EMIQRXi/AUx4SKZDLVKy6OyAaBppKdc0FTZBVsYtFHd8TudrrGuuwYcbAoAEi6q8
+         aHf5yRrYRfqZOQZ83AhuEg6lQKhQcCTdY9MlO6n+dgLOBFYNQWj/C48EqAFc9s2TpHLQ
+         m5a+lfizlM1PoVW84s1FrkqJDQeuSC176d3BtfOD8MjLBbJ/vTAgZA/BlGWmj6zCtWlo
+         DVew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=xQZo8F+AvC65I8E6YUl/wGc+StXtWMyh9qThYd3qT8w=;
-        fh=cfC4IFB603Q1BdLghAo4qn/aweuyA4eERpE+s9yd/uw=;
-        b=auJ6kw5WKtw90wY8jvHmXmQUvahalK1lTMyLA/Q069tVTEdV+fhbqdGvoef4pz1Wjm
-         +61Xw24IDtXsD6uJ7h0rxhyIx7bgk9P3J4Anf78aIVHnWsohwtBSA8lsK3IatxyGaWez
-         KWVmuGhGvN/CIwW2Kj8jX6dKQozzLZnxaJa3gcwHoXPbJKxD5FHnJ94Jf3t+AmCum0G2
-         b7qS+XxdcqMNM0MN/Hs1xzlW43aXb96p5hi913YjF7lTRSMA5yv7EG1nKfOl7APuORwV
-         0ZyjWEra2qWmqIueIDZmzL9FI5ETqYX6vQ2/P7nLBLCg2McS8KxWFi/slxBOAzn57ylX
-         BmfQ==;
+        bh=p8myjrwUSytMewJVefmyv6ezORJy1K1eZ/cN4k0PhiM=;
+        fh=w5+IFFRrl7grbE/PEIEl+x2WbZtGy9KZKqrV2NvVqvI=;
+        b=iUfj7vToap7RTd+HQRIa1vbcckidKbqdFt83dLKFreKvG5a+2szdlo5w14U+l0GgvH
+         gVOPidkZmLa5Nj90kcdcGWv+1jUC7fqYIl06h4Jvi99JTgzKJoqlLiwckRkDDc4Nzz6o
+         sdF6Nj9hZKejPXhPL2WHaiXYhaLgOYkNAzhvroX3gAIzzqXOMphE2WeG/ysrWm3Crpr9
+         taiRc69B6UdGQhTaFbP6e1lspafHEqCXUwTrVtf0INwhWck/9+1+H9C4vlNHIm6RIIgs
+         E+GXf+6oaMKUFnWPGojBMkXi6e2GCt3qoBxMRj2kOfJEAiKMB56BD065Cu7iZwvib2Jy
+         JxNA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786646787; x=1787251587; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1786648297; x=1787253097; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xQZo8F+AvC65I8E6YUl/wGc+StXtWMyh9qThYd3qT8w=;
-        b=iIdao2UEo8PpNkH7tHMwobvDlO7uyYhqGNkUfOrw9GwRMfQDkpZaAShs0CvWVJVWce
-         kDxmWbJgizUE6XenfFbRpsqCias7J+8VylmhKImUpDTktUGbvcgFEEJNNEsO4lSgOArb
-         INJWuo8EkxQhrNeODJbKSqzc0+QDE+VuGpXBa9HEPLuKjBo8arE37Jh8djNYNdEWgDUD
-         OK64lHfcZ3DVfTfi7S/qeLMZ2ZJFo0pqItuecx0AAy4GjtLwPYaVsk90G1p7mpMQUUSN
-         a5jmQCauZng4TVPkJ/P+vRyBLwyGxkRfAO48b8pvtulHzBZ3pqBvEkNh70nc4K+RTv/4
-         o7hg==
+        bh=p8myjrwUSytMewJVefmyv6ezORJy1K1eZ/cN4k0PhiM=;
+        b=AqG7NxVNL7l0nSJ7Iqxmm/Vb6Lw1sC+GSoeyIr9JFomwhEFsB0E4oD8UpRCDmXGBnV
+         kFFcPYpCtL5GlZmIGwfGbN1jOhaGKxeRhbdhmNRYme5sq8HoIh10OvZnxfRhaMATWv6S
+         IizpynRBvw9iqHoOnuqdzriD4yZpBHoSFlnSZLPfllF70u84Eq7B2JwY0nvBhvykZu1I
+         PfVfIALNoSGaMO9VAQn/33uIq8t3sKVXxgofUafF/vtipqYYd2cyO1PKZW/yQNcJLFow
+         Y8kcLRttIEcFjYAKWML7gtmIJiXHJAyte9QsauwDkqq197XlQAOZQZScU9ZrWJeLS5P3
+         c7uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786646787; x=1787251587;
+        d=1e100.net; s=20251104; t=1786648297; x=1787253097;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=xQZo8F+AvC65I8E6YUl/wGc+StXtWMyh9qThYd3qT8w=;
-        b=AMzcaXz9fslHvXDnIF6av36IdbSi5YFyWHipGivg+KsLPEINbX/ukZ0cRSNtnb9bCI
-         htCz7V4N420x4xq+giwTiBl8ymB57qqYnbJAXAJGyrnuANT+zZU0XFJEM1C27+sZ2eBY
-         BPhVKlIJAzHI8hUUFGdf5XPrJThUBgEjywOnSZZXYIqpTIzLeZDfM/Xaw/TvAeR1KkTU
-         w9B6nWiDGlLsWRP8dR3rVj/SPQcBGYJsjUXmV+4K688My/Rfs8Yn5sePdGusEmO/Nk1J
-         GVOM1UIMaYA/kYfDTA/USnwDScZ0qUogCWwHb9YMOeh1hgDhrV/4UUGsq/AfzIr4tckQ
-         OSDw==
-X-Gm-Message-State: AOJu0YwYKdFHAK6fXresAu2H7fUc6CBkeiWPBYlHsr8+TuiynMWsRRN6
-	mupQ5qotmxyHJDujP7s9fYbGltIrf3FDDvPEou7z1LMe1YGrvVgcY8iXMtiIcNMrtARY9+sa35E
-	bdx8VkFydCx6biTtyuKZrOE1ok2Y+YiIurd1VXN5sm+zycaHLki4zc9nx6sh/HXwf/rN9h8oJYM
-	5QgH3rrQB2ZpD89wV/yTe+NKkVWjWsvXY0WmsHvARNXGMDdm8k/ebcgRkP6w==
-X-Gm-Gg: AR+sD120HA/ntREerTPmyJZ6lYrUlfN3YRtqahQSDP5iZBJMSWOjH1kiyIDEclOtxG7
-	e48yMm/nkgvfz+iEKRdlsEPH5H+26SK9SdCMxSWEmgrLLpbM5CfYtJeAH2U+DdS+lQH6qdQAvGO
-	ZQIIRHn2K9vvHBuNiQ+srcBWvEqFJKK/h6fpSAPZSDi0iN6dUi66TeVUux61o=
-X-Received: by 2002:a05:6214:54c6:b0:8ef:e857:c9d6 with SMTP id 6a1803df08f44-90a80c5003emr101475546d6.22.1786646787134;
-        Thu, 13 Aug 2026 11:46:27 -0700 (PDT)
-X-Received: by 2002:a05:6214:54c6:b0:8ef:e857:c9d6 with SMTP id
- 6a1803df08f44-90a80c5003emr101474776d6.22.1786646786542; Thu, 13 Aug 2026
- 11:46:26 -0700 (PDT)
+        bh=p8myjrwUSytMewJVefmyv6ezORJy1K1eZ/cN4k0PhiM=;
+        b=GMLdtLC1BJflVqNeucozCXXMhjALARubLSKQjK3t2UTsHHqxkfE0sv+anwi62OXoeL
+         F0vN0BOcFmIWf3szVvibX9KLVXXoJ6TsRTWM/oo/j+GMKeVBpDs1i63Hssvb8qmUziQz
+         dIPLuC1//4QQ+IdOtSuP+qCvghbSWauOjxT6XmVHCTMP8JJhAmxfhbCYoZ6pJp+dWDR7
+         CxxYmgHj78ey810LlGoeT6GuhU0mhQpSicw1k6/0QEup3M8hZoqBFkOpeQSSOd4/kATr
+         0YhD7mkELnNJdYmf089cyRqvK9hD36rjNuKH4fapSb8a9oRm40AoGO0WJTQlHrixQthy
+         KY1w==
+X-Gm-Message-State: AOJu0YyY5/DMUpzVqT0Ag4TbvhxgI4GtbEYRU2JtDNIXga6LPPCYmAdT
+	GWkktYZCLve3x9SdSW9vY0bz7Q0rRFCDBmWH0CsQcpWRjCIzKbTGUBGVVjlrTiHP+IaubK3AEmZ
+	PGHOEtGwoCoPHbo4gGWleBJOtywqHmmo=
+X-Gm-Gg: AR+sD11q+nqprad1BQZLgipT5QqvdvWfYtu9+yLMaeoUM+zB/3TjmBhMlwlCaWUD3mA
+	TFSb2Vm5iQ800x03eYXV0gbCVQs3l+wDlu9YVXqZfo+mv+lEBINpEr8lZwEOphV1gJ3oGuinaNH
+	wVeDXnko/W6tq9RG3sVklx+KeNcOtNdQipqfotJsQ0XhEaQuIGxFLTyYufhZAPVn4VfDNDtKyd3
+	bOfhNBJjvzZxRyy0hlsE8UYgb8OWxo7hkqfIad2ujHZwjYJToHpM6BWgYnZnjo5hg+CTlmhjuHk
+	UCOPtjHrUB2CvJv4SvJrDRe7l6MzWQQ++lI2H6y0A14dttZzt0jDjqJn5aqSmPDWcyzGT4Blwka
+	kSvKyEsQx26dLqvBZcHtRsY6n0z8ewQdowd7RN0gfjR/62xrfxk33QJ1DKs/UlNE=
+X-Received: by 2002:a17:907:928b:b0:c16:4e5:944a with SMTP id
+ a640c23a62f3a-c212a1d6bf2mr21202566b.21.1786648297411; Thu, 13 Aug 2026
+ 12:11:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260813181719.44168-1-anis.bougrine10@gmail.com>
-In-Reply-To: <20260813181719.44168-1-anis.bougrine10@gmail.com>
-From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-Date: Thu, 13 Aug 2026 19:46:15 +0100
-X-Gm-Features: AUfX_myxSUImxpXrbJonzkfxJyPgZnbsEO_1ZRTilTXkw6Rj9IlYol4KbN848_k
-Message-ID: <CADWMC-b1Q7USpOSxnwSbR_xhzdh4P0JgrH4SntkuqB-bkqT0tQ@mail.gmail.com>
+References: <20260813181719.44168-1-anis.bougrine10@gmail.com> <CADWMC-b1Q7USpOSxnwSbR_xhzdh4P0JgrH4SntkuqB-bkqT0tQ@mail.gmail.com>
+In-Reply-To: <CADWMC-b1Q7USpOSxnwSbR_xhzdh4P0JgrH4SntkuqB-bkqT0tQ@mail.gmail.com>
+From: Bougrine Anis <anis.bougrine10@gmail.com>
+Date: Thu, 13 Aug 2026 21:11:26 +0200
+X-Gm-Features: AUfX_my0QSkIprEydcT-MUVxpupC_SK6Ekv57ccNhNRTaFVG7HgbgTJr01slOuU
+Message-ID: <CAGgtUzaR6JW0Uwgwxn28qS8bX7K0-W34+xSPKPVzEoVcYJgyfQ@mail.gmail.com>
 Subject: Re: [OE-core][PATCH v2] kernel.bbclass: add strip process for signed
  kernel modules
-To: anis.bougrine10@gmail.com
-Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com,
-        Antonin Godard <antonin.godard@bootlin.com>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000000d1f5f0658f21f0a"
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEzMDEzNSBTYWx0ZWRfX1KlRDyfxHAoc
- L2C6qGlMH9XeJ8RP+l4y4rhtsT4a07duPtadR9hMQAn7AepxsRA2tSJ+h33NvOffItF3QmSZUf1
- xFXDb4cM2sMo8QoJDHkxOaBjwjbw7c4=
-X-Authority-Analysis: v=2.4 cv=I45Vgtgg c=1 sm=1 tr=0 ts=6a7e1104 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=Q4-j1AaZAAAA:8 a=7CQSdrXTAAAA:8 a=pGLkceISAAAA:8 a=P-IC7800AAAA:8
- a=EUspDBNiAAAA:8 a=IkxTdPDVkC3NrnBputMA:9 a=QEXdDO2ut3YA:10
- a=GZ1iYpm_OdrDBXsgtwsA:9 a=fJpJCDylWyacQvhE:21 a=lqcHg5cX4UMA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: ODbhNqnGQqprnXyCcra5xpEIdLc80ctf
-X-Proofpoint-ORIG-GUID: ODbhNqnGQqprnXyCcra5xpEIdLc80ctf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEzMDEzNSBTYWx0ZWRfX3hvQ6wyaTGV4
- /jHEH5zykpnwxA/0B47IPxMJiIJbcJxw/UMLaQh1Z4ImQyolyuMR4RHDhdMsaApYJHk73ST4y20
- ySzdM1r6p24Am0mvAsOUJSQO4LgsrqAfnw3Ggxt1ID47NCD2jv3KpD99J489MNqbPy1zpmgFfKw
- bKGSPaO84VU4SJB8wG4SVw/UVYNJzO27ANAg2lV2v5NfmQApw25om64c9arDUik7KbtFAaoMtHL
- SyuQNZwi96+cCWC7Q8HDNCKWvzGAWF+zyfhtXDd2bdwkekg/sFMT3KApWb5GoV/ZcVAMpqrFcv/
- JZDt+tKNqqrIXZnFXB2evLGrjzHLxPhqCFSPhPcacM1T6Sut+RJK73+xL5mSyiKY6DEC31Qq9gt
- t4T7uXZ8uma2HCLWAd8BUR/13AxsTodgucJpciJeTF7NQxot/c2cW0yk1oap83IXHGhFxXPQwWd
- cdgc8eAv5+pCAB272DA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-13_06,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 adultscore=0 phishscore=0 bulkscore=0
- clxscore=1015 suspectscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608130135
+To: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com, 
+	Antonin Godard <antonin.godard@bootlin.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000001b17070658f2794a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 18:46:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243379
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 19:11:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243380
 
---0000000000000d1f5f0658f21f0a
+--0000000000001b17070658f2794a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 13, 2026 at 7:18=E2=80=AFPM Anis Bougrine via lists.openembedde=
-d.org
-<anis.bougrine10=3Dgmail.com@lists.openembedded.org> wrote:
+Hi Jose,
 
-> Currently, signed kernel modules skip the stripping process in order
-> to preserve the file contents after signing. See commit:
-> 4c47e5f171fa2603355e2f9183065ce8137a18c7
->
-> However, the kernel install Makefile supports stripping modules before
-> signing them. This allows signed modules to be stripped while preserving
-> a valid signature.
->
-> Make non-signed kernel modules follow the standard Yocto stripping flow,
-> while signed kernel modules use the kernel Makefile stripping flow.
->
-> Fixes [YOCTO #12927]
->
-> Reported-by: ross.burton@arm.com
-> Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
-> Cc: Antonin Godard <antonin.godard@bootlin.com>
-> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
-> changes in v2:
->
-> - Use the conditional INSTALL_MOD_STRIP environment variable to avoid
->   duplicating the oe_runmake call.
-> - Use `scripts/config` script instead of grepping .config file.
-> ---
->  meta/classes-recipe/kernel.bbclass | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes-recipe/kernel.bbclass
-> b/meta/classes-recipe/kernel.bbclass
-> index a82bdf7ecb..dd6e203701 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -451,9 +451,13 @@ kernel_do_install() {
->         #
->         # First install the modules
->         #
-> -       unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> +       unset CFLAGS CPPFLAGS CXXFLAGS INSTALL_MOD_STRIP LDFLAGS MACHINE
->         if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
-> -               oe_runmake DEPMOD=3Decho
-> MODLIB=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}
-> INSTALL_FW_PATH=3D${D}${firmwaredir} modules_install
->
+Sorry, that was due to a rebase issue.
+I'll submit v3 shortly.
 
-You didn't test it on the master? What is the reason to drop firmwaredir?
+BR,
+Anis
 
-Jose
+On Thu, Aug 13, 2026 at 8:46=E2=80=AFPM Jose Quaresma <
+jose.quaresma@oss.qualcomm.com> wrote:
 
-
-> +               # If the module will be auto-signed, perform stripping
-> before signing.
-> +               if [ "$(${S}/scripts/config --state MODULE_SIG)" =3D "y" =
-]
-> && [ "$(${S}/scripts/config --state MODULE_SIG_ALL)" =3D "y" ]; then
-> +                       export INSTALL_MOD_STRIP=3D"--strip-debug
-> --remove-section=3D.comment --remove-section=3D.note --preserve-dates"
-> +               fi
-> +               oe_runmake DEPMOD=3Decho
-> MODLIB=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}
-> INSTALL_FW_PATH=3D${D}${nonarch_base_libdir}/firmware modules_install
->                 rm -f
-> "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
->                 rm -f
-> "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
->                 # Remove empty module directories to prevent QA issues
-> --
-> 2.50.1 (Apple Git-155)
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243378):
-> https://lists.openembedded.org/g/openembedded-core/message/243378
-> Mute This Topic: https://lists.openembedded.org/mt/120738257/10043485
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> jose.quaresma@oss.qualcomm.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> On Thu, Aug 13, 2026 at 7:18=E2=80=AFPM Anis Bougrine via lists.openembed=
+ded.org
+> <anis.bougrine10=3Dgmail.com@lists.openembedded.org> wrote:
+>
+>> Currently, signed kernel modules skip the stripping process in order
+>> to preserve the file contents after signing. See commit:
+>> 4c47e5f171fa2603355e2f9183065ce8137a18c7
+>>
+>> However, the kernel install Makefile supports stripping modules before
+>> signing them. This allows signed modules to be stripped while preserving
+>> a valid signature.
+>>
+>> Make non-signed kernel modules follow the standard Yocto stripping flow,
+>> while signed kernel modules use the kernel Makefile stripping flow.
+>>
+>> Fixes [YOCTO #12927]
+>>
+>> Reported-by: ross.burton@arm.com
+>> Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
+>> Cc: Antonin Godard <antonin.godard@bootlin.com>
+>> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+>> ---
+>> changes in v2:
+>>
+>> - Use the conditional INSTALL_MOD_STRIP environment variable to avoid
+>>   duplicating the oe_runmake call.
+>> - Use `scripts/config` script instead of grepping .config file.
+>> ---
+>>  meta/classes-recipe/kernel.bbclass | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes-recipe/kernel.bbclass
+>> b/meta/classes-recipe/kernel.bbclass
+>> index a82bdf7ecb..dd6e203701 100644
+>> --- a/meta/classes-recipe/kernel.bbclass
+>> +++ b/meta/classes-recipe/kernel.bbclass
+>> @@ -451,9 +451,13 @@ kernel_do_install() {
+>>         #
+>>         # First install the modules
+>>         #
+>> -       unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>> +       unset CFLAGS CPPFLAGS CXXFLAGS INSTALL_MOD_STRIP LDFLAGS MACHINE
+>>         if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
+>> -               oe_runmake DEPMOD=3Decho
+>> MODLIB=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}
+>> INSTALL_FW_PATH=3D${D}${firmwaredir} modules_install
+>>
+>
+> You didn't test it on the master? What is the reason to drop firmwaredir?
+>
+> Jose
 >
 >
+>> +               # If the module will be auto-signed, perform stripping
+>> before signing.
+>> +               if [ "$(${S}/scripts/config --state MODULE_SIG)" =3D "y"=
+ ]
+>> && [ "$(${S}/scripts/config --state MODULE_SIG_ALL)" =3D "y" ]; then
+>> +                       export INSTALL_MOD_STRIP=3D"--strip-debug
+>> --remove-section=3D.comment --remove-section=3D.note --preserve-dates"
+>> +               fi
+>> +               oe_runmake DEPMOD=3Decho
+>> MODLIB=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}
+>> INSTALL_FW_PATH=3D${D}${nonarch_base_libdir}/firmware modules_install
+>>                 rm -f
+>> "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+>>                 rm -f
+>> "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
+>>                 # Remove empty module directories to prevent QA issues
+>> --
+>> 2.50.1 (Apple Git-155)
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#243378):
+>> https://lists.openembedded.org/g/openembedded-core/message/243378
+>> Mute This Topic: https://lists.openembedded.org/mt/120738257/10043485
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>> jose.quaresma@oss.qualcomm.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
 
---0000000000000d1f5f0658f21f0a
+--0000000000001b17070658f2794a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 13,=
- 2026 at 7:18=E2=80=AFPM Anis Bougrine via <a href=3D"http://lists.openembe=
-dded.org">lists.openembedded.org</a> &lt;anis.bougrine10=3D<a href=3D"mailt=
-o:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Current=
-ly, signed kernel modules skip the stripping process in order<br>
+<div dir=3D"ltr">Hi Jose,<br><br>Sorry, that was due to a rebase issue.<br>=
+I&#39;ll submit v3 shortly.<br><br>BR,<br>Anis</div><br><div class=3D"gmail=
+_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu,=
+ Aug 13, 2026 at 8:46=E2=80=AFPM Jose Quaresma &lt;<a href=3D"mailto:jose.q=
+uaresma@oss.qualcomm.com">jose.quaresma@oss.qualcomm.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
+iv dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Thu, Aug 13, 2026 at 7:18=E2=80=AFPM Anis Bougrine vi=
+a <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.openemb=
+edded.org</a> &lt;anis.bougrine10=3D<a href=3D"mailto:gmail.com@lists.opene=
+mbedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Currently, s=
+igned kernel modules skip the stripping process in order<br>
 to preserve the file contents after signing. See commit:<br>
 4c47e5f171fa2603355e2f9183065ce8137a18c7<br>
 <br>
@@ -335,6 +308,7 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:jose.quaresma@oss.qualcomm=
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div></div>
+</blockquote></div>
 
---0000000000000d1f5f0658f21f0a--
+--0000000000001b17070658f2794a--
 
