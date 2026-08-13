@@ -2,62 +2,62 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD257C5DF69
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1ED7C5B572
 	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 15:22:33 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21615.1786634548597485775
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21787.1786634549692475349
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 08:22:28 -0700
+ Thu, 13 Aug 2026 08:22:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=rW6ILy/d;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4994c49f588so10690335e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=IoYltndv;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so912186f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1786634547; x=1787239347; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1786634548; x=1787239348; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=b+lEHtEV6PTO9pYYyJfBmZxhfMHzpqEvcpu0Ng0VDJE=;
-        b=rW6ILy/dM2fXc51MceFx7HifQEIfN/ianf7LKV7OgJtzDIpmdfD9Y5/oWdc/hhumO4
-         LqqDJ21cv/n2aiIPTfybvo/WVCJmAtA3JzXI1oZ++1p9BRZrlIvZuXe6S9GkAnF95M/q
-         socDHO3ZMZRURIqIuR+m3ACoSeaV1kxHQ90f0=
+        bh=UB5Pur79hQfzK7YDWe0et3T6YYOBlHReF0O5fw3/OY8=;
+        b=IoYltndvcfC9b1/Dq1TqNIhNqMqqTlW4Y4AepoTnsMjy2aQqdPQXpHNy/rDcC9XnF2
+         WyARnaR+UF3EAJL5VrNBdD8XJDX4mHmAJ70zXBZZDguXvyEZ8XBh8j8i7Si8Z5d+O72i
+         aBAZ3vXXtj0A5vBjQIxFwRLtcwWPH2vNUF/JI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786634547; x=1787239347;
+        d=1e100.net; s=20251104; t=1786634548; x=1787239348;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=b+lEHtEV6PTO9pYYyJfBmZxhfMHzpqEvcpu0Ng0VDJE=;
-        b=BWB6IHqC1vlXKbnFZqAlvuNIUhFQ3PI71CCXl7u7ZkPsoWhytJVAZ/ix+yC5KHtlyD
-         N+tDCr2eOF9sG6TXnmWv8/19DIv9k0oy1AeWNtr/dda+8dKkXpQmssEr2Yd7Xj3Kae2z
-         uJwC9D/VIpl6KOKTLFw4CrMHmL3vh9FpCzo0wQuRwIHpYmTZ5MYfJHRDaMlblspwz6fk
-         x+Kxfz5lCQQSTw9MeUdAi8Zp4ODODOKjo2RJcNCGXjgmd7kE8kLIsKiQ8OJzumPJu35d
-         da4zjz4pvrY5hBkfaYgv6NmTSCErokdthqY2mNXG8SLx7EC1T6JnSeVd7wchOa/l5z7z
-         B24Q==
-X-Gm-Message-State: AOJu0YwBT0vIJ2o/AAwC2bxXTssSB3Q93hSy6U6h1HTZUwTbcOeeUZnM
-	qJeFQlBB3iNw1Z+Bw6XhBxFl2CqnITUQcnNg1eSqV+NmGC+onmg30FYyPovxWDiDKzVq4i+/95k
-	vRo2W6pn0qQ==
-X-Gm-Gg: AR+sD12cw3HerOu8QHz5szYyHZxsS17HRKC4de6EEt6ifRywpOtOz48CISDTVDVNVBL
-	dPe0Rjn7mfbyZjqC5b8gpw4UR60pSg9cS6tai35/dajkFslAuI+NnnK9XpaNbUm5E2wRvLzic49
-	5ga2P09YIs8T64+FyI1Mh+We2I3lRTkuw5rGHKgIMFGARurU1qdOFdFWBCMxcPSAiAR3PEICd3A
-	mR+Fy4vgLn8rtO+r7t2Orc6K23neIlDU/9m+1tmg9uVvXtEAXTK/8r/q9F31h0j0l1RGtu5clbM
-	02khqJaIfi1zMkUqbsy0lPtIs3KGJQg25EXbILH1/vk4NOdnmfXS3fyCDMDLkqCCxqMUIRv0YoY
-	rajcBEQ04m46Gure8fFpWkKca46n0jpU6krL4sNEPssif7jkQLb7dlLVg4PCTS8jTe6J6jIVsyv
-	Nb9f9FBhqaNToHL0K4V7bweg2bOGsogC5kitTV0/1N5MHIX8YWdG7Cuog8fjJngDJ0WZ4iUDUcG
-	LNdYIZVej4739pqHp7u7ZrKLApmak8JkA8/4xolAmtGZqAq1ZnD4odZxj4C6Veh16Kuu6k6pDvc
-	J9FDEGLiMJYuKLMHoYGX1E80RswBtVLoA3DRirWU
-X-Received: by 2002:a05:600c:231a:b0:495:58fe:88e5 with SMTP id 5b1f17b1804b1-4998215464cmr70229795e9.2.1786634546836;
-        Thu, 13 Aug 2026 08:22:26 -0700 (PDT)
+        bh=UB5Pur79hQfzK7YDWe0et3T6YYOBlHReF0O5fw3/OY8=;
+        b=E8h5hUrdRYW/c7k64ng1M8m1Y9NmdMRudSWWCf7Qsjor/m5eH60Gz9ZS4e/UJsF6Kr
+         eLVixLk+IjOLXkcQBoE9ai0Bli9mKcf52ZtM67q5/Tm9z2Y/qyZYaUsXY/KgAimdq/5g
+         sqNErLzmHS3tyCOe4n7vaUMEBvUnX9jBNo3zI0NeU0k/Sdci29Hj/zA7DxWthuuqg8jE
+         Ql12aqsmd/3+xlYOAlwAW6luLybLHPH3HZgqhSyUcWZMy88a/AvFYAE+rmO2/DK50ubE
+         TC+phmnX6UVlYZevdKUh5RhVxJLo4ynH5rLm7TRKL0HFP7ei1C7Y7wq+3xew+yDri0qb
+         eUVg==
+X-Gm-Message-State: AOJu0YwJY/B1feNaBUOtYnl43ZUlM9zTe5UFbOevC+sFb/6VqY5O/fLM
+	dtnGIcwdlJHcuEAfCFVlnxzH2huUideITs755R9TnZf349lzm3TPZHEQDOhrQ/m7eCzGDtugTk5
+	xSq/fLQs2SA==
+X-Gm-Gg: AR+sD10EBR2bj9HSE6ylwwS6MZe8WRQBKGSYzGBD88KbIiDKMDAgf6g6gerqI2m+ZH7
+	KJlcz/KI5CPDF58yOkn3rHF+cIL0xT+e3Wc8L1QnVoHvCCBtFaL3uq4k3ISY5wMVimGGHbAfWn0
+	ukbS7JzUqcSsLEx+nFn9q8rcKxd8RYraACglY1tAHSJIKolA9iju3EKlDZ6T1OKKtk9UwOJDJy/
+	Rvp6h9XKbM4HDVes9neDyhik6Udvq5A3KUoK7PR8aN4AitDqMbdvX/WMhuC6lQrIHjOyFgixQY/
+	J/nBx/nufL2AgvPu1BGxilt7r/ERHKVJTKhY8wg4rjqpTzVPdF4K6e4UAH5Y9XH6YfUGYPNVSRS
+	9Gy7TPOUFMm46NaJjWRFNzrpaQLWYaAGFKPK5It6r95jV5y5fmh7sm9rVlJ8/RWabEQj8Ve/qpi
+	QZue9wZyMmPozd58hCwaDuZ3oLWdLiYzYrJtKIwN4p+hbvGBAT01D0hZJ96TYfhrDxkzJjLDtEZ
+	ZZcv0+U+djGIFvCEYxnVastwE87fOxCvEeVxwO5fCDJu0eR9C8wix2+8R4cPJ/uyEfB8Gahc2+n
+	qVXdaJAHygQ4+ChBYVne8rIEbNTwQKjKnYgFu2QqTrs9kkEdsfrLazUzseitPfw=
+X-Received: by 2002:a05:6000:61a:b0:480:d9:ee6d with SMTP id ffacd0b85a97d-48159eea176mr10359901f8f.19.1786634547811;
+        Thu, 13 Aug 2026 08:22:27 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 08:22:26 -0700 (PDT)
+        Thu, 13 Aug 2026 08:22:27 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 06/17] python3-xmltodict: set CVE_PRODUCT
-Date: Thu, 13 Aug 2026 17:21:56 +0200
-Message-ID: <197a3a9b94a14865fe34645ee7ca8251ba500124.1786633048.git.fabien.thomas@smile.fr>
+Subject: [OE-core][wrynose 07/17] python3-certifi: set CVE_PRODUCT
+Date: Thu, 13 Aug 2026 17:21:57 +0200
+Message-ID: <6d00f679f22dd61a5414369ac21db016fe31d495.1786633048.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1786633048.git.fabien.thomas@smile.fr>
 References: <cover.1786633048.git.fabien.thomas@smile.fr>
@@ -67,37 +67,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 15:22:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243363
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243364
 
 From: "mark.yang" <mark.yang@lge.com>
 
-The CVE databases track xmltodict as xmltodict:xmltodict, so the
-default python:xmltodict vendor prefix never matches and its CVEs
-are not evaluated at all. Use the exact vendor:product pair.
+NVD tracks certifi as certifi:certifi, so the default python:certifi
+vendor prefix never matches and its CVEs are not evaluated at all.
+Use the exact vendor:product pair.
 
-The only existing CVE (CVE-2025-9375, disputed by upstream) affects
-0.14.2 before 0.15.1, so it resolves as not affected at 1.0.4.
+All three existing CVEs (CVE-2022-23491, CVE-2023-37920,
+CVE-2024-39689) are fixed before 2024.7.4. The wrynose recipe version
+is 2026.2.25, so it is outside the affected ranges and these CVEs
+resolve as not affected.
 
 Signed-off-by: mark.yang <mark.yang@lge.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2229426b729adf85780c23d38c85fc3cf090f6ba)
+(cherry picked from commit 26c49743ec431a3cc39803664eec8851be75756e)
 Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb | 2 ++
+ meta/recipes-devtools/python/python3-certifi_2026.2.25.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb b/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb
-index e622c00dae..04632de099 100644
---- a/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb
-+++ b/meta/recipes-devtools/python/python3-xmltodict_1.0.4.bb
-@@ -7,6 +7,8 @@ SRC_URI[sha256sum] = "6d94c9f834dd9e44514162799d344d815a3a4faec913717a9ecbfa5be1
+diff --git a/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb b/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb
+index 7034f7a6f1..0425f3544f 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2026.2.25.bb
+@@ -11,6 +11,8 @@ SRC_URI[sha256sum] = "e887ab5cee78ea814d3472169153c2d12cd43b14bd03329a39a9c6e2e8
  
- PYPI_PACKAGE = "xmltodict"
+ inherit pypi python_setuptools_build_meta
  
-+CVE_PRODUCT = "xmltodict:xmltodict"
++CVE_PRODUCT = "certifi:certifi"
 +
  BBCLASSEXTEND = "native nativesdk"
  
- inherit pypi python_setuptools_build_meta ptest-python-pytest
+ RDEPENDS:${PN} += "python3-io"
 
