@@ -2,108 +2,101 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B70BC5B572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC12C5AD5A
 	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 03:05:28 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11347.1786590321243394629
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11345.1786590320032560311
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 20:05:21 -0700
+ Wed, 12 Aug 2026 20:05:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=sbGP78ND;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-52cd38ddcdfso10267771cf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 20:05:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=kE3iJPSH;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c15bf5000so821651cf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 20:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786590320; x=1787195120; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=l4VbPHgQWMbiXCuCwENlfKXJCuheAQlsZNAD2LKk5IM=;
-        b=sbGP78NDEIOb/EWP4mn3oApJtenLv70F0qSRjA7el8I+Ike+E0FiIrt2qZO/hSm/UG
-         a1pk21KYIbhTWLs14WpCaNEGuuV2HlcJgMKPh0Xv6J0dVV4rVnNgbA7NDAl9+SUV1lPn
-         MZ8MF0ldumYktoT3ydgEI+2EpZL9Sn9ERTJDYYHEQlH0f9NerO1dM2HIAjtvxYhGHhmQ
-         zjYDG0BuzR2Kqe3h4ip6zLqAn5NRDzjPjOncTAAZAnWMZNAkcb7HsS1E1/o2B3jeYcbq
-         OeOjyq490//fHPZ0NDChBWXBZw5+jnXY2MDAVLf8voREOQtK6K6rcBlZ0aPWn6mt1Cph
-         g84g==
+        d=gmail.com; s=20251104; t=1786590319; x=1787195119; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ut8BV08sN0BTkLnbTb81MsyBxXNDHyYkzcCCrTiEleA=;
+        b=kE3iJPSHY4QgvSi3KNw7bAsJxM0xcn5XMYhD/duJfgvMx2jXepLgAiYOwy1Xo4Ma22
+         N7+bld1Pf8kc83DHSN9nK3wMZBHbdCDwLuruoSyptNMMZXNu4A/H0MKbhAkk/ALoAG0Z
+         tvkuaruWmB5Dndu20j3W/lEEkKoafWWpnWFwEM/wYG1w3254IWZa1BvhkeLnawL/04/M
+         U7KB8aOf9Y4uVBDXlZ2o26mJzREaJveLD2SHWOJL0ZgViRdtJhErbWs6/jwCzgWSmM2P
+         m+I2wAeSib3oho6Gqlqrug2WV6kBVZtSaBWFmw6A4C/GjLutudcibKlxXaYBMFM6fb3D
+         E4Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786590320; x=1787195120;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=l4VbPHgQWMbiXCuCwENlfKXJCuheAQlsZNAD2LKk5IM=;
-        b=pyVKufO3Qq3KZeb7FtmVKkfk3aZAyzdNAk1liLntl2x8CsV/xqJBo5eEte/iUiBjBG
-         cptTQi688EDchPkwN85Ge4Rt9r2vHRRzhvsMzNo90HYoBxuJAFS4dPhLj3PkIvYKK3oY
-         a+Gef1GMNYd8sx3JwfblILwyi7B5Z195HG28+6KGAk4LFk3YLOr+QjlPHvchxQefNSjy
-         eV4KXWSG3+Ive/xuOQpdVXZrvrzII4L9WaezMkksJ2O+4byy1VFmgv3A0U1Mj0PnGL0e
-         uNx01TzfVsR+mQxCS7Bo16NxfUvSQmvH0ybkyMGXNzlEz/IHneBNhsPFBkQ1QirBtAOb
-         Iyhw==
-X-Gm-Message-State: AOJu0YyLL/BKItNrchdBcZ1GL9VGbZQWFOAApC7ioEP6hE2+jPCXJYya
-	WIWEMGf8RIp/xC6fU4kU8EzdlCtxhq8vZWh2VFc7SMWZgK1imcYQvkH3PcB8c0ZK
-X-Gm-Gg: AR+sD13oos9wIf2BtaU6VC0PEzkSOW9ARPz/J2XP0vNaYkqgRfhdXh7A9rnP9dP4764
-	mg0yqIxZiVkiWe3WHcaw6AbvQQhIYCFXeuJFXi+H8S4VSX3WyebwYYkhcIVO8L58Hn5vWBpd/XG
-	huRm1MuQahJmDHLtv3DjxhHSaHxhRrdj7q1BwtJRn+SBnNweC+DwdGHH2mVZTxuQ4EpIoEi5K8v
-	pWZcox4oatAQZgxzUVGheWqjB1FHAqYqN8HXU0g4MbG7JCWPaNE12/Yq2FIgwVem8Z9U1ZjjGYG
-	3PUjFlo3iLwMjYw1nLHQBlpMmnm9PIpxVsS9VP089N4cLMOYcUo/DrmzBRJN8e1h6az1KXvT2dh
-	fOwaFHu0qwRWCx43AiNy6ne32P0+rWooGr8rlPwrWOUpVnScidS5C6ZnqwJIDeWwxtzeZI5QkAv
-	DXfpA7mV/6ECdrHvszJK3NsAsiEN5AjHnicpGbnFJldGTnc8ortbqIMkaN+xH2nDbYkNPxOmQ4B
-	r+2eTfhMK/qWO03Bn4jh2t9WG29uCI0qfXv3ohXYg==
-X-Received: by 2002:a05:622a:2507:b0:527:9603:8123 with SMTP id d75a77b69052e-52d73c37b2amr27710741cf.2.1786590320184;
-        Wed, 12 Aug 2026 20:05:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786590319; x=1787195119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ut8BV08sN0BTkLnbTb81MsyBxXNDHyYkzcCCrTiEleA=;
+        b=GOln4R5ETWE9vgxJjxXg+seyd0rnNpvoByreNl3yay4sFvcgzXphoDNrcnyLtvElgr
+         2eqBFq84kuwQ+SHpqyqOP7Lftt1Jm//PTsXXh8Jwe2722R/Y8XU5qclLunpfqOFhWxjF
+         UoSqP6i3JTB4yaipVvKcbtxm5lyiKGdeMMMEcBPq02xOfAXaaRJCV3DNiX/CsGUWYetz
+         i2FrhzOuqM3q9vQbPG0z6CeWB2N3A5LdxKy/1tHYX3398D/pfnQN5C2RhAbGJfZQPe4X
+         Ig6vBFBS4qHxI8wWMB/c2hAv9HYd6V3xG5HEwX2Fq61T1W9P/6FWZXw91sp+Dwf4GX8U
+         VJCg==
+X-Gm-Message-State: AOJu0YzBmnCIfMKhLZYKlV8oWhJRdSSlUIyMih1Ct14n2I4aeexVAH0P
+	CgUEjDgyTGTkwBAdmIopOJpYi6SkL8KIHUo2ei70id7AyOVMTHnUg+SlPtlRJcm9
+X-Gm-Gg: AR+sD10NqHIuqncdvpj6pwfvYhtcx8ZaUFo5bCwMgjy4+OQq/gCO/xZU0huc1XZXWTo
+	2bb719uE2k+VJhbZlOmo70WXD62DbcJXW09HMB5X3n4FsmFBuoA+hCyVPuDGXbZTBt7UyiTwrvw
+	YphJpN8vYdwPI5lbuzoG6iJMzd7rOMEoyCCi21O/iu4n657WVDEfZDQ1m6OislNyONVeoOWFfwS
+	yiqxr44oX5E5FFGel1GTDlTVmcie0uI2oh3eCuy4FTWtCJ1f3ELdg4wUgt+Q1fjURfL2RfiL1dz
+	iKayiKukIiDU+Ir+Yf/BQXmN2rTw0X+FJADvTBHX15plBk+Z0tz7Bw7m2w6jRBmL0TBD1yPcTPd
+	aOafDN3Yc9UQFq/M85/lFiIrlr0UfEKnhpHe3biDNQHxAw20POzqZ4IeNN/fnql0fCKEgbfSJsY
+	N60amthXy+SzSMoThAfqC0MOzi/+aa9hHT01N/XVItZWalIfl7xrIXr4b1gAoZEbs97MXvYhQ8O
+	2HvM/6GVkHgsiXQKFIYhbFQGQta1Dg=
+X-Received: by 2002:ac8:5f06:0:b0:528:22:8c61 with SMTP id d75a77b69052e-52d73e3f63amr25936061cf.38.1786590318828;
+        Wed, 12 Aug 2026 20:05:18 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d73e2e596sm8013921cf.9.2026.08.12.20.05.19
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d73e2e596sm8013921cf.9.2026.08.12.20.05.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 20:05:19 -0700 (PDT)
+        Wed, 12 Aug 2026 20:05:17 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] oeqa/sdk: update cryptodev to a revision that builds on kernel 6.18
-Date: Wed, 12 Aug 2026 23:05:14 -0400
-Message-ID: <20260813030515.1028627-2-twoerner@gmail.com>
+Subject: [PATCH v2 0/2] fix the SDK kernel module test
+Date: Wed, 12 Aug 2026 23:05:13 -0400
+Message-ID: <20260813030515.1028627-1-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260813030515.1028627-1-twoerner@gmail.com>
-References: <20260813030515.1028627-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 03:05:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243322
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243321
 
-The out-of-tree kernel module test pins a cryptodev-linux revision from
-before the 1.14 release, which predates the removal of
-crypto_ahash_alignmask() from the kernel and so no longer compiles:
+The kernel module test in the SDK test suite does not pass today.
 
-  cryptlib.c:384:28: error: implicit declaration of function
-  'crypto_ahash_alignmask' [-Wimplicit-function-declaration]
+The cryptodev revision it builds no longer builds against kernel 6.18,
+and the kernel's host tools are compiled with a pkg-config that the SDK
+environment has pointed at the target sysroot, so a host compile is
+handed target include paths and fails under -Werror. OE-Core already
+solves the second one for its own kernel builds, where kernel.bbclass
+passes HOSTPKG_CONFIG=pkg-config-native; the SDK simply had no
+equivalent.
 
-Move to upstream's "Fix build for Linux 6.18-rc1", which is the revision
-that restores compatibility.
+These are independent of any SDK feature work and fix a test that is
+broken in master today.
 
-AI-Generated: codex/claude-opus 5 (xhigh)
+Changes in v2:
+ - the SDK environment script no longer exports HOSTPKG_CONFIG. That
+   half only ever took effect against a proposed kernel change that has
+   since been abandoned, so nothing honoured it. The make command line
+   assignment, which is what makes the test work, is unchanged
+ - the second patch loses its toolchain-scripts subject prefix, since it
+   no longer touches that file
+
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
-changes in v2:
-- none
----
- meta/lib/oeqa/sdk/cases/kmod.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdk/cases/kmod.py b/meta/lib/oeqa/sdk/cases/kmod.py
-index 0c4d8ddb543f..1be23e994fd2 100644
---- a/meta/lib/oeqa/sdk/cases/kmod.py
-+++ b/meta/lib/oeqa/sdk/cases/kmod.py
-@@ -31,8 +31,8 @@ class KernelModuleTest(OESDKTestCase):
- 
-         with tempfile.TemporaryDirectory(prefix="cryptodev", dir=self.tc.sdk_dir) as testdir:
-             git_url = "https://github.com/cryptodev-linux/cryptodev-linux"
--            # This is a knnown-good commit post-1.13 that builds with kernel 6.7+
--            git_sha = "bb8bc7cf60d2c0b097c8b3b0e807f805b577a53f"
-+            # This is a known-good commit post-1.14 that builds with kernel 6.18+
-+            git_sha = "08644db02d43478f802755903212f5ee506af73b"
- 
-             sourcedir = os.path.join(testdir, "cryptodev-linux")
-             subprocess.check_output(["git", "clone", git_url, sourcedir], stderr=subprocess.STDOUT)
+Trevor Woerner (2):
+  oeqa/sdk: update cryptodev to a revision that builds on kernel 6.18
+  oeqa/sdk: build the kernel's host tools with a host pkg-config
+
+ meta/lib/oeqa/sdk/cases/kmod.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
