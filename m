@@ -2,101 +2,134 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC12C5AD5A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48668C5DF64
 	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 03:05:28 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11345.1786590320032560311
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11349.1786590324485899756
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2026 20:05:20 -0700
+ Wed, 12 Aug 2026 20:05:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=kE3iJPSH;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c15bf5000so821651cf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 20:05:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Kcco9xbt;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-51c04bf4711so1827141cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2026 20:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786590319; x=1787195119; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ut8BV08sN0BTkLnbTb81MsyBxXNDHyYkzcCCrTiEleA=;
-        b=kE3iJPSHY4QgvSi3KNw7bAsJxM0xcn5XMYhD/duJfgvMx2jXepLgAiYOwy1Xo4Ma22
-         N7+bld1Pf8kc83DHSN9nK3wMZBHbdCDwLuruoSyptNMMZXNu4A/H0MKbhAkk/ALoAG0Z
-         tvkuaruWmB5Dndu20j3W/lEEkKoafWWpnWFwEM/wYG1w3254IWZa1BvhkeLnawL/04/M
-         U7KB8aOf9Y4uVBDXlZ2o26mJzREaJveLD2SHWOJL0ZgViRdtJhErbWs6/jwCzgWSmM2P
-         m+I2wAeSib3oho6Gqlqrug2WV6kBVZtSaBWFmw6A4C/GjLutudcibKlxXaYBMFM6fb3D
-         E4Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786590319; x=1787195119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20251104; t=1786590323; x=1787195123; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ut8BV08sN0BTkLnbTb81MsyBxXNDHyYkzcCCrTiEleA=;
-        b=GOln4R5ETWE9vgxJjxXg+seyd0rnNpvoByreNl3yay4sFvcgzXphoDNrcnyLtvElgr
-         2eqBFq84kuwQ+SHpqyqOP7Lftt1Jm//PTsXXh8Jwe2722R/Y8XU5qclLunpfqOFhWxjF
-         UoSqP6i3JTB4yaipVvKcbtxm5lyiKGdeMMMEcBPq02xOfAXaaRJCV3DNiX/CsGUWYetz
-         i2FrhzOuqM3q9vQbPG0z6CeWB2N3A5LdxKy/1tHYX3398D/pfnQN5C2RhAbGJfZQPe4X
-         Ig6vBFBS4qHxI8wWMB/c2hAv9HYd6V3xG5HEwX2Fq61T1W9P/6FWZXw91sp+Dwf4GX8U
-         VJCg==
-X-Gm-Message-State: AOJu0YzBmnCIfMKhLZYKlV8oWhJRdSSlUIyMih1Ct14n2I4aeexVAH0P
-	CgUEjDgyTGTkwBAdmIopOJpYi6SkL8KIHUo2ei70id7AyOVMTHnUg+SlPtlRJcm9
-X-Gm-Gg: AR+sD10NqHIuqncdvpj6pwfvYhtcx8ZaUFo5bCwMgjy4+OQq/gCO/xZU0huc1XZXWTo
-	2bb719uE2k+VJhbZlOmo70WXD62DbcJXW09HMB5X3n4FsmFBuoA+hCyVPuDGXbZTBt7UyiTwrvw
-	YphJpN8vYdwPI5lbuzoG6iJMzd7rOMEoyCCi21O/iu4n657WVDEfZDQ1m6OislNyONVeoOWFfwS
-	yiqxr44oX5E5FFGel1GTDlTVmcie0uI2oh3eCuy4FTWtCJ1f3ELdg4wUgt+Q1fjURfL2RfiL1dz
-	iKayiKukIiDU+Ir+Yf/BQXmN2rTw0X+FJADvTBHX15plBk+Z0tz7Bw7m2w6jRBmL0TBD1yPcTPd
-	aOafDN3Yc9UQFq/M85/lFiIrlr0UfEKnhpHe3biDNQHxAw20POzqZ4IeNN/fnql0fCKEgbfSJsY
-	N60amthXy+SzSMoThAfqC0MOzi/+aa9hHT01N/XVItZWalIfl7xrIXr4b1gAoZEbs97MXvYhQ8O
-	2HvM/6GVkHgsiXQKFIYhbFQGQta1Dg=
-X-Received: by 2002:ac8:5f06:0:b0:528:22:8c61 with SMTP id d75a77b69052e-52d73e3f63amr25936061cf.38.1786590318828;
-        Wed, 12 Aug 2026 20:05:18 -0700 (PDT)
+        bh=QirHiywQjsG19JcUJ9KLCnhUGdgjFbu54BG+q4PtAhk=;
+        b=Kcco9xbtDkCZ70wueNxw4uTaTX5IC53sh1uh2CWIgifqBUXxyGqAQjcdMk4qJazZHh
+         fh+l5SKCIa/fJT3Z5sgwQhcLzGhfMkVsLhyDibeq9ExPYufh+sfxr+GQf1xoJj2aRiZT
+         J7rdQEQ6mTyB2Miv33QwU5dSgt3qFL408n5ljmukmm6MfJyTH6VQUF45FMgaI00cl9Lm
+         X87xF95ng23Bk+CYBO3vtOU7lW+yZEAbVo7EugB9A1P4eq1nLpcDEHcCNMY5QCl7Jsf8
+         YQTdJ7e4OKd1m3K7OKqmVBanYWMLP2FM6KbPnkVBkXHvt0+sFaqoa21pUv+vQz9E6D6l
+         UWGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786590323; x=1787195123;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=QirHiywQjsG19JcUJ9KLCnhUGdgjFbu54BG+q4PtAhk=;
+        b=QX1zF5sbpzTyTVvQDU35z0fP4XueewlSMIWrMbdDC87qpqhM0Ypoh5+ziCDysMFHDF
+         3D2rnazG7LP+6nJKuhHhek9x6ZvBFAl/tUnQzFB/J1xV4CucziK5A/mDnJ23u6nl3ugu
+         xqBbNw/hlo4u/DvDhhttj/iA4SUbbrwgRBzHKyAiHQs8j8i3GNANrjchOF4z+n1I7vTF
+         2/cfpx4ACIoaKdor3gRHZT+xCxuGoOvTrM62stgyEmPAXs2xF2tfSBgkzItqpPSHVYLl
+         BlBcgiPTsVYidElFK9ZiiXojWXKJnPYk36aNY/tPRmw4zbc+2Ft6Swm57KAJv3nyxHuE
+         RVtg==
+X-Gm-Message-State: AOJu0YywkNWII1A9gUMI6P+DxBHJp9B9mTaSlqFQXMCye2pi1Wqz5kJx
+	TVR3cRUMfWz0LuKNa7ZgwXo/8O3z3K2HlfV9GMdAwSw2nFrVm2Z0STsV9Pp7Pq5u
+X-Gm-Gg: AR+sD10tqTv9Pva952MdmWLb7VY3gxhES5r0lbUlOql6Bha8xu6EBhLtm07R9W614ui
+	vXghMUSxnzweYIjwoipuSoEsutXf2Bz+Fs9Khi74drj4iHx3acwuB2lHsP9lcxn1aJeJpV+WV1/
+	aXd5TfaQNNwjlSSWGO2UG18HdFMNLBjSoS3RcSJdrylQiG9LTjxItcTHsU1L7F7FCI4ZLmCeZcO
+	txH1r7p4a0GaXUcYgZPP3sr3HcEID08dqol95+jxxK5N/bulSm8g075FLfZTAYuzUTCAZn1B3Ac
+	Q+jAMkpYbeFj8sJToZa71J7mG8tLvLVbySQAE0TkxdDBH0ghg6JxByWJ3etPdhcOtu0VvbAp7do
+	ab43YvsJbEwu3Ef9+p+z/JYgeU5MMvdvLCKtkPtNEvLapbA9rvAR79yK6ojIcfyPE6GJXxKI0ro
+	FLkRJqGMcjUCGCrr/aPtwPES+oCNCNMEPcNso7oB6fFxE8ReYm/l8jzAJc6vQtMyj6LULej8YZC
+	WFkpnR9jzjCECby8fJhZ7ZTMk1KoFk=
+X-Received: by 2002:ac8:7f03:0:b0:51a:6feb:dc8a with SMTP id d75a77b69052e-52d73c9533dmr29326821cf.18.1786590323340;
+        Wed, 12 Aug 2026 20:05:23 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d73e2e596sm8013921cf.9.2026.08.12.20.05.17
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d73e2e596sm8013921cf.9.2026.08.12.20.05.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 20:05:17 -0700 (PDT)
+        Wed, 12 Aug 2026 20:05:21 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 0/2] fix the SDK kernel module test
-Date: Wed, 12 Aug 2026 23:05:13 -0400
-Message-ID: <20260813030515.1028627-1-twoerner@gmail.com>
+Subject: [PATCH v2 2/2] oeqa/sdk: build the kernel's host tools with a host pkg-config
+Date: Wed, 12 Aug 2026 23:05:15 -0400
+Message-ID: <20260813030515.1028627-3-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260813030515.1028627-1-twoerner@gmail.com>
+References: <20260813030515.1028627-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 03:05:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243321
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243323
 
-The kernel module test in the SDK test suite does not pass today.
+The SDK environment sets PKG_CONFIG_SYSROOT_DIR, PKG_CONFIG_PATH and
+PKG_CONFIG_LIBDIR so that pkg-config answers for the target. That is
+right for everything built to run there and wrong for a program built to
+run on the SDK host.
 
-The cryptodev revision it builds no longer builds against kernel 6.18,
-and the kernel's host tools are compiled with a pkg-config that the SDK
-environment has pointed at the target sysroot, so a host compile is
-handed target include paths and fails under -Werror. OE-Core already
-solves the second one for its own kernel builds, where kernel.bbclass
-passes HOSTPKG_CONFIG=pkg-config-native; the SDK simply had no
-equivalent.
+The kernel build compiles host tools of its own, and objtool asks
+pkg-config where libelf is. It gets the target's include directory,
+compiles a host tool against the target's C library headers, and stops
+on warnings that -Wno-system-headers would otherwise have covered:
 
-These are independent of any SDK feature work and fix a test that is
-broken in master today.
+  usr/include/sys/cdefs.h:486: error: "__attribute_const__" redefined
 
-Changes in v2:
- - the SDK environment script no longer exports HOSTPKG_CONFIG. That
-   half only ever took effect against a proposed kernel change that has
-   since been abandoned, so nothing honoured it. The make command line
-   assignment, which is what makes the test work, is unchanged
- - the second patch loses its toolchain-scripts subject prefix, since it
-   no longer touches that file
+Pass a pkg-config that undoes those three variables on the make command
+line when the test builds an external module. It has to be a command
+line assignment: the kernel assigns HOSTPKG_CONFIG with '=', so an
+exported value is ignored. OE-Core already does the same thing for its
+own kernel builds, in kernel.bbclass.
 
+Fixes [YOCTO #16239].
+
+AI-Generated: codex/claude-opus 5 (xhigh)
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+changes in v2:
+- drop the HOSTPKG_CONFIG export from the SDK environment script. It
+  only ever took effect against a proposed kernel change that has since
+  been abandoned, so no kernel honours it and it was dead weight. The
+  make command line assignment, which is what makes the test work, is
+  unchanged
+- the subject loses its toolchain-scripts prefix, since that file is no
+  longer touched
+- drop the paragraph citing the kernel proposal
+---
+ meta/lib/oeqa/sdk/cases/kmod.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Trevor Woerner (2):
-  oeqa/sdk: update cryptodev to a revision that builds on kernel 6.18
-  oeqa/sdk: build the kernel's host tools with a host pkg-config
-
- meta/lib/oeqa/sdk/cases/kmod.py | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
+diff --git a/meta/lib/oeqa/sdk/cases/kmod.py b/meta/lib/oeqa/sdk/cases/kmod.py
+index 1be23e994fd2..1d73f076e552 100644
+--- a/meta/lib/oeqa/sdk/cases/kmod.py
++++ b/meta/lib/oeqa/sdk/cases/kmod.py
+@@ -26,8 +26,11 @@ class KernelModuleTest(OESDKTestCase):
+         parallel_make = "-j %d" % (pmv) if pmv else ""
+ 
+         self.ensure_target_package("kernel-devsrc")
++        # the kernel assigns HOSTPKG_CONFIG with '=', so it has to come from
++        # the make command line, as kernel.bbclass does
++        host_pkg_config = 'HOSTPKG_CONFIG="env -u PKG_CONFIG_SYSROOT_DIR -u PKG_CONFIG_PATH -u PKG_CONFIG_LIBDIR pkg-config"'
+         # These targets need to be built before kernel modules can be built.
+-        self._run("make %s -C $OECORE_TARGET_SYSROOT/usr/src/kernel prepare scripts" % (parallel_make))
++        self._run("make %s %s -C $OECORE_TARGET_SYSROOT/usr/src/kernel prepare scripts" % (parallel_make, host_pkg_config))
+ 
+         with tempfile.TemporaryDirectory(prefix="cryptodev", dir=self.tc.sdk_dir) as testdir:
+             git_url = "https://github.com/cryptodev-linux/cryptodev-linux"
+@@ -39,5 +42,5 @@ class KernelModuleTest(OESDKTestCase):
+             self.assertTrue(os.path.isdir(sourcedir))
+             subprocess.check_output(["git", "-C", sourcedir, "checkout", git_sha], stderr=subprocess.STDOUT)
+ 
+-            self._run("make -C %s V=1 KERNEL_DIR=$OECORE_TARGET_SYSROOT/usr/src/kernel" % sourcedir)
++            self._run("make -C %s V=1 %s KERNEL_DIR=$OECORE_TARGET_SYSROOT/usr/src/kernel" % (sourcedir, host_pkg_config))
+             self.check_elf(os.path.join(sourcedir, "cryptodev.ko"))
 -- 
 2.50.0.173.g8b6f19ccfc3a
 
