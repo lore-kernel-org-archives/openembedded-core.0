@@ -2,185 +2,178 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A301DC5B572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C2CC5DF69
 	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 19:16:36 +0000 (UTC)
 Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.69])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.26926.1786648589065447847
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 12:16:30 -0700
+ Thu, 13 Aug 2026 12:16:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=WcCUnqsp;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=dcEHt0TH;
  spf=pass (domain: est.tech, ip: 52.101.83.69, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hq+L3Yt1cKbKKzT+gl5udfNqNmtyB1BJkoFmD7NXoH7N7o06i6n+nmBQI82qrMdFaGYJMW1TU/RJOUxSneZ1S7zfxuOOQ2Rxgy8osMkQdH2EWdI5d4RjWdPsJ1RSXsvE9xW2UcsaggvGuvrJAFAjTQmX+fftS0xtZG5s0GUavHshKHIY9Qw27JPvBe++JCIq1gdK5Qu6cE29+abD3A7OWDNmdCp0QqAjh9VYR74e31klImsTl7LeX+49qDHi4qRpQoIsoRLey5twAOfC0DkydcwYT9pSsiqjOkli/ZXT3BNvC3h/LHIorac3H/fqUpE3G/PlapU6yPGqrLHXdwUNRQ==
+ b=whZC6jKk5aw+5XX0rDMsllA7KHGezqkz/iLVh3FNbrxKE/vDH+Hkv1z7Ty653MfJlSEZyUZwor8nUTUjWdeVcsI6xNXNayZDBDgK9EFNEm4VNasp6vr5UJRDvL0Wg3uFh2qg7xVchtOxxhuyfsmu2wCfV9R6LdTiUKtSYSkAiYIWBzlzZxdBlAh/ePSw16EmOMcdh0cDN+bMx8dzA0MrJwObbZe004CVHq1QF0BPAY2ITW54D7Yeev8aaIAosG6THRf0bWwUhBJ+tUBPDP8OXCOMk5aPo3ppa2zNNVGgGq6l0LpGiS7AbcqTMNgYPpm93pYPTeAG3S3iSCkLnxIj9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ffHO7BV+kXn7lQ6BD8QYEFXLwx6u7OmXbSJCTad6Zfo=;
- b=hV6kMSzsEicEUGHviFVETQsqfO5KTKiqg0IEqrvt7DHpxBiFODJL3nsFnZaEeFZGISl8GdiHAjIeODtia70t2mMtyhVhd0vpZri4fN10Azw4xRh8gNsV99zS92ZFW6GhCuUeOTZKpRaF6vO0ZaHbFSXyc5nWYe4Tn9UU9+iTOPYgtI/lJo05K3rtlHFkmrGHSdZOEyTLe0zyXwZ0OXVyH+2Q5zKuu1bHtXOI1KBah2T60x7XUqQqsOnoUP74rSgDHVOroXGkqSPUwrkgV7Ehe+qe27evFH2qHZfZlVnFo0YAXZ4gU/NuOwwZ2laag2JoGuXZLNBLQChkZBHRO3EWQw==
+ bh=QJ2LvawMP/+eB5dodhDdxG9LY98ysdCZ7ok1EwI1j5g=;
+ b=KcZm7HU84zddqm/wAWDw2eBnVqiofhAfbt07azln6i2dnGpilbfv8JhC45Ks9G/4pyZV6wV5iJBZd+cUVy/ivQm96tlNB7eEiWI9DF2FbqUWpy0pu0lh+j0nWsA+nsc2ILOTVscDUg1tHZ5Z9G3fLnjDmYf7rjx6/Xc0iUF3ZHEhf8Yuf+gdT76KeRaOqggsGiHf4EfRGGst4XGKUY+qjTRzpocU8SyZpuSUlcy0U5SAKAz/xJa7bhJSWiR9iY9+ntJG3bzZga6q+A6//Lf3EkYVCXlj5eOTBXYwDHwWg7dbuwVx+xGg23GpObHawg/9XfxFFOKEsIx05C2mLun88A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ffHO7BV+kXn7lQ6BD8QYEFXLwx6u7OmXbSJCTad6Zfo=;
- b=WcCUnqspANxM4zL+LMky7d40+YW5550/XGZ03SKlYuI5blB2isgvbh5pjn6R3HYdYe/HWxrfqMMfdVmCBylFQuhRa2ExA0KYcE24u0Rncj6GHtcYn+ZFC0Z4UgsFSk5q4RAj82a/zlt1JzhJmO/x7yAfyHt6VFqbcd+zSJXmyIEHEe07iq5LzFx34h8CIp9Iz6gt2IBX4ww+r7Sn24VrDJvobnOkiRMFujnUNar9T8FfIFrZJJMN/OgxoIgSowTHcPjB7mHDTQI05E7QKkt7KZ2qYhySVnnLMJjjMdU7t8JmnshCBRwYm7DtwZj5XhryaBON2jIDIcTj8oNvpiUyxg==
+ bh=QJ2LvawMP/+eB5dodhDdxG9LY98ysdCZ7ok1EwI1j5g=;
+ b=dcEHt0THSrDgojeiSgz4FaGXtxujqiwEgSK1po+VFB6CTlWI+jtP/2rl2HBC+pOQyVNxo69zNexeYhvIE+A3ZqxtisjIb0vuXIS6cEfgO+SSHNNeaxSATb6gCDhjFn1qIKa9ibugwaFvKNk/J2c/O8mUcGeccoqQiyYVO39cFJX1HCKojAQozeiIGMA+M3fd/KEdGrjFTdUA7vMeZUMO/Pf5OLjvD4HanFoXOHBsEa1JdUdBveda6Jk7v/Zwhz73hlgG0yNgafYnMLmKWeYuUFPZFs7l4kYPzoP4vzwr/WkFWXfNp1MvgbtvCjEdVMrRLDhHYDs8hOIcoWevh+7RdQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by GV2P189MB3733.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2f6::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Thu, 13 Aug
- 2026 19:16:22 +0000
+ 2026 19:16:28 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.004; Thu, 13 Aug 2026
- 19:16:22 +0000
+ 19:16:28 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH 0/5] meta: fix trailing whitespace across classes, conf and recipes
-Date: Thu, 13 Aug 2026 21:16:10 +0200
-Message-ID: <20260813191615.34122-1-jaipaul.cheernam@est.tech>
+Subject: [PATCH 3/5] classes: fix trailing whitespace
+Date: Thu, 13 Aug 2026 21:16:13 +0200
+Message-ID: <20260813191615.34122-4-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260813191615.34122-1-jaipaul.cheernam@est.tech>
+References: <20260813191615.34122-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0058.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:469::12) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0266.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b9::29) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GV2P189MB3733:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4aa5c6a3-0772-423c-8500-08def96f5c48
+X-MS-Office365-Filtering-Correlation-Id: f28f97e9-0a6c-4133-eafc-08def96f6007
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|10070799003|376014|366016|11063799006|18002099003|10067099003|56012099006|6133799003;
+	BCL:0;ARA:13230040|23010399003|1800799024|10070799003|376014|366016|11063799006|3023799007|22082099003|18002099003|10067099003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	GrzkbtVcAE6i7++6ISdlHo3uAs+R4bdg1dqkbYEm0mwMTsDRblVEJYX1+esmwiGGMW6hwh6WHUR81Ok/LKkWVSNklySL45U3tkvu9k6hlVfnt3oKTHKUZe1138/IjX0aUttkMVHMTm6OeWxW48Y9ZH0xiZc3DXzHJWNIUXtZYYMVtaKPp6rVgSutWOfa/JX26fSAxwRHuXCXAj587rphiv890OXJEno+631A1qnA1kpQbTtzKX2Az5q9KLKJLrJa9+P95w2xzAU5e56t7WKUddSQZk00T6A0ueNHuVIqMviJO5MLMBwRM4HksttQENrEUlGZUGLXjmPRDzaODWUuTsyBZwPljAZySOTL5wtGiXUe9yU5liWOCHkTfdoTuZuWfynHHM4mtb3VZsktxcluVVU0kMDnrMWHteoGbjBIfLLFwa408REsbfKurxaWkuC31RkFzuqqy65EVEHsMK3J9KrUcCeOE1iBICsx+b7bpEQzhwwp6JPh3kBGxpDq8CPkQ0lm7ZpXr7FE0AxOOCBehL52KRMhRd7gtflGy6tH7Gn7WU7XMqb+6NlqVKfZNVlgYbp38i1069yetUnn++IWTyq3Po16PbOLjDAscgQiKCqVXCiftDmewVg17Z5UEmvf
+	EAcaqBfBSivv61XiU3Bc48TxQUD3sLaMxB5Nf/dgGaN9BITZn94A9OvNtknMNtcMrqvlSPbn+4q1sO+W3gjWhj/HoO6wbN7vgXmTuW8g65oDkO9CYzLVYLRgcdCP/O/PiFvSPGyBvAgAulhWkbUXKppBEa60YUArgUCNe2wvKfMgeLEmN22cqtQadc4AN+2MAMxb8BPBvFRy1LJBg6VTb5lgjhGjMW5T8GFYoPYCITKcsaYB1iZjRWZHe/7C0YR7L4/KOgiea1Zmh8ov2GKAeuv3nB+e9FHZYW5FIaj9V8JLvjcvKBbMpnHLBSSGof4XDCnVUayCyqk8eI4FtFCizcMZezmU+Ul/hnHMDqXhMmvTBbl3m7+pj9tm8BpZy3CkRuWos46QLpQDbarF+J2KaOQIKklK8i5ByhFvtTC15qKcd8ME/Qpwm52cOkfJCThuRffrACAPoEW35uAoiVWe047MpJBMfmW47l5LCLZrbINZx5tOgzrsOSlK0l4RiO3KCd4WGxBWpDqBtGmMuBYec5VNNLbAVNPPp3IHcR55+OlQ7Jb+0NRmbTGDW0QrO6hOAShkhadq6pL9Vo3hf9EGTCg6PEo1SEfIIvwitwIxK7QSPbmVpb7l5RXvlRSp22gnQMU7MarzEWTAArzYXUAiZCW3cNFaDDOzt6DOXVTjqrk=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(10070799003)(376014)(366016)(11063799006)(18002099003)(10067099003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(10070799003)(376014)(366016)(11063799006)(3023799007)(22082099003)(18002099003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?KCYWLMSkxEi1grqKyT+W67xtCDg0jwPtPH7X5WrbNLSHhiRBW/zpIPYDNBr5?=
- =?us-ascii?Q?5TyRh4plsy9koMwoc6UmhP09cwuSxpq6y0yjOlnABSpa2P3pGC3oYzaN4+W7?=
- =?us-ascii?Q?uCsO26EiIxNTemsoc0RwMnSQSNcLxFjZh8lay5yaQOQQWpmhc8Gz53IhZ8V/?=
- =?us-ascii?Q?jplVZz+vfFhZUXjLU8FWYATounmskNG+/cm0WAWmDuXrk2PDMJrksvwUC/hd?=
- =?us-ascii?Q?4KynH09X4Yf61dwpX9wZodYDoUcH0BXYYndrCjuSKqZ8+LyariiJUJUuePH9?=
- =?us-ascii?Q?bXCX+PaV9wF0OVZJu0L7B4phHLjRnT3+dmXBhirocpntNDOG0Wt11/QbcaHe?=
- =?us-ascii?Q?C7G0PoVkVW4LUr4x3X+g+OJVRzMJFqjyUdT0+MZDNPJZLQnzcI9uArG9obtF?=
- =?us-ascii?Q?6ddkF+MgUx0XEyRjFDDVi+CwqmLNYydIco1NtOdbrDaUVUq/0LakJkCAvRou?=
- =?us-ascii?Q?ogdMdx2mWi9EUZf4cVPb+SFP0q1j1jBMhZM4PR6aEOW7H/XK2GyMo9JcQaz5?=
- =?us-ascii?Q?EOaO0iorVnQkyRTB5XAbZNMrQEHNLMPt0aohs0XdNqMW2THcPXjX1bPU7Crs?=
- =?us-ascii?Q?gTEkbikt8r2rReH/BkUJdiwPU9pFSfxmYztyuaXunTC8z+iXUW8exvCnSKTb?=
- =?us-ascii?Q?+QUXVh7qwBqbCcbxI4jM4vZKCMHJKRZKrmtwc0AEoDqFLUE3v+aba6Dw2J8h?=
- =?us-ascii?Q?Vz9MExGGqq+W5sDW42tPM6vdwv7SLUnZt5SCWzEWhHOEr0Ym+0KK3eCcM3CK?=
- =?us-ascii?Q?qK2IPfgUsXOGSJKuGYfQTwXkDS3pEwlXY/SHw6b+ubYEG1W5zBDSZNzrJ+z6?=
- =?us-ascii?Q?nK6ZuWRBZVU19Lgx2EZybx/9pKxdHk0sXZzuwHUhcRzKD7ibLUPB/vnicTqT?=
- =?us-ascii?Q?Urmn4NgrnlGB7UPczMuTdhK2A17TH9OuYINwGmC/unhubw0mQWYkcXEw1VQ4?=
- =?us-ascii?Q?SCyJG1B1eQbAZh2DpVtezcxw+EJ//Ose6gXQ8Itu4CMJPwj+CxtmgaRBQkl4?=
- =?us-ascii?Q?KkZsAzRFUSWy188jJQzd4/hgVj/GdBhoRRKo4YU+EGOaRVBly2Vd2F4EYSzF?=
- =?us-ascii?Q?SNr7Z/1ZdfHW5iK65TH3YvVS6BK5QieXMo6Qjq6mQJrvEnD8HNmr6N9NRRe8?=
- =?us-ascii?Q?eCH1k0ahPCGuckASIlYaMenQEJfSw6MKiHONy1Ovz4mAthc9uSLHs96kmvY5?=
- =?us-ascii?Q?nVlvA2Wi4cukVcQ27Xxs22ki1h5MF3R5qfPiUyKjeYXwLrqz8LkvQ+6fZ+dw?=
- =?us-ascii?Q?fJ6zezcQA+L3DbA/sCBCVP2mC9uN/usASLhCijlWKmnpt96W9Mkysy8BbQ8y?=
- =?us-ascii?Q?cmgNmP2gy7p8lZa2FzsnQcWawE+b7XwVNQTPBmBTVMGORDSGIjnRkN2q56Aq?=
- =?us-ascii?Q?KooGUunu4EjEdmbSjAOOGJA4hZ01CQ5lc/IyVOe2DuR8MOudBX0QE926zQ3Y?=
- =?us-ascii?Q?XCATxi8BYEksGVWWtyEEeZx2H1S7oWmtGh9u8NQtvxEZ6PDTUr4VxkUOY+ih?=
- =?us-ascii?Q?i84KN3C2wvfAAogAlmVW2NU2X2oCxizxSDx2uEP2vPg/u0FljCILJe1Kzvrj?=
- =?us-ascii?Q?ypnkYQomysZU8Y1kj0psAkhP1dRgWqwfv18nNtJUIN0gfYLcGUyo0PtAp6ax?=
- =?us-ascii?Q?VmpjI1Kfpn7NwdD/ZSgK5Cx86ZyqzpUYYSjMdKlrNDp9bVO0ABZDLjHduxhL?=
- =?us-ascii?Q?CTFF9kj5twxL0HdzKkFM8PaZw58GBJxOPzobVaCL5P3twSxzPwVs/MjZSHqQ?=
- =?us-ascii?Q?7owqyohVgqmmopnqqH3esjZuZGQKb60ZvPGqiC+eay3pD0HfA6D3seJ2F46i?=
-X-MS-Exchange-AntiSpam-MessageData-1: OZNMHgz6DxYHj8fGesKk8zGA7kxSzxeLZmQ=
+	=?us-ascii?Q?PmqNHsy7i3Ywn9QuOzJ9m+Qqm/ps6OVDEd3nWoXSytkWP/fMJhHsYInZIvI0?=
+ =?us-ascii?Q?Z/VzFZ7i8Bpn+ZkDoKK9cQn02gvgquM7o6FdNafVs8gO6bMQ5N+9jqihdnXE?=
+ =?us-ascii?Q?Y+C9B96PYaInb0KbVSV2Kuq8bKDp2+o0pls3iqPyrmYlsCtVtmST31WCTFK9?=
+ =?us-ascii?Q?k15giDiAewd8K8I967ZVhg5of3jws4+AP9xQXgQgWow8wLCb853gwg0r7GLD?=
+ =?us-ascii?Q?7Uuh3Dg1nE0h31EVWZZY7wPComf1Rlh2B0RO2r2HZaSbvoKmSH0K7Kqzqsmx?=
+ =?us-ascii?Q?zVLwT6x0CUXQoi+3kbd3NQ4DCBF9j82PcB230F0xJp52huOYJ7huACfduXU1?=
+ =?us-ascii?Q?gFNDKTJm3orF2EaH3KWeMXWsmx0J8RJVoQZ5gNvyGFITAutscePhTggerBmh?=
+ =?us-ascii?Q?9NGm+TGjOgimqe0ggoN+Ra3aupS6KPYbvG+B8f7e0xn/KMxEQet1sVYLR8+l?=
+ =?us-ascii?Q?JJ+eFtyxewI1DfgoC4EST2r1TucWL0ItPs2iFKq8g2LWYwSTj8K/IUzgpfiI?=
+ =?us-ascii?Q?IwObH7Xi2NELazzfWM9ktb3KFgj+kiM913HM8xztXkzuWOp0YkghFTtnSjZa?=
+ =?us-ascii?Q?krhW62BDpSgYFDBVrdkRZ/QPSDm8i2R7mcSHgp3wqBgsHXo7Y+6P/eLnBh6Q?=
+ =?us-ascii?Q?U/rqFWH7R1Oy2koSwrWARj4ejWxJZ51LY156UMnilLatxPK7tl+HT97wg4/T?=
+ =?us-ascii?Q?okk9hQWQcfERavK2YwVN1XvvIo34HvdlPZEc9pHOqFkE40yng0DkssfhS4Tr?=
+ =?us-ascii?Q?SW/sPfEl9GT5k+jf5d2Y2S1kllK287E+mMGXUQQWQbQwOqiuXLs58dLfSULO?=
+ =?us-ascii?Q?yd/NFrq3AaAMHScHQsfZMDGa//CwlPk/jDdWHX4mgX1t4hgehYNJlLr5OsN/?=
+ =?us-ascii?Q?pmU0JPF/DovEqBnrhf2PaYQbBWSqjdAEClqIOd3WVd0EEnDLVyDCXRCSz3ip?=
+ =?us-ascii?Q?8K7lGkVpPGerawp0fp44C1jaAAYLTeEbfnvXt7TZAt8M8yIq046aCcWb2SsL?=
+ =?us-ascii?Q?W47/RLMmwKkyDtze6271pS2iqGjGiDZgBc/X6MlRSq0nPKnIRIvWYei7A6Wp?=
+ =?us-ascii?Q?6nMmEKXpk4hV78K4/ICopUKjgGyLkUu9Qe7d8W4nOb3c2HoSo76YFxmMv21W?=
+ =?us-ascii?Q?Um0lHCekuaxWUvQiGNXCsvZWu9BOQ1ZI8SfJ0v2BC/M97WCxMSjbNJLbJOR0?=
+ =?us-ascii?Q?N+GHJaB9aadOQAUnyz68wXq88absR4IMhXnZjqIJPe4JfDLThsEws2+H7U7+?=
+ =?us-ascii?Q?DkbJJsRr5HjftcCB68I5qoHON01sFyIIrzTQMWuxQdAkx9nbvXh+jW375Wbx?=
+ =?us-ascii?Q?CDYi7+axgwXLTw3/9aiagasMcjoc6qhehiHRhuI4A6OCI/HzsK/hNq23hu38?=
+ =?us-ascii?Q?z4eFBY/Tvapz9OWPch02XFxT88SFU2hbwcz6lp1JgvrPgWO9QyRsZFyhasGi?=
+ =?us-ascii?Q?P6JcPWM6jsHoX2zi1+2mo4gUElAzFvWrntyqIp/RGLsLYH2iLylVnG/YDyjP?=
+ =?us-ascii?Q?Lnh+QeSw6q9kxCloa1mmiu4fbcFaGEhDB6LfSn2i7MA7IOCct/ji76MYi34h?=
+ =?us-ascii?Q?cTNt3Js7pM7IzZiEwoKaRpCo+Fx2fmfWoFr/fSEso6LDaFKnsuPN9AInXtEO?=
+ =?us-ascii?Q?OJdNGGGDFAO8ndol0Ai5ziWjYV3RBEa5r2KYA3srcSg/mquio3LUe+vjVzAJ?=
+ =?us-ascii?Q?AT7M8K1ku9MsNgZG5I75nlSzOxVCTtvzygNCUzD8ATPPDLXQv9iTBf68oybx?=
+ =?us-ascii?Q?tlVweLfsQRPNPQzxWV7l2D3oPlqBmcDw1BnGN/UR8A3QBDEn1DN1+V48QpG/?=
+X-MS-Exchange-AntiSpam-MessageData-1: eIz3xLtNcFmCM1WLODxaPacPP2mcBAv84P4=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4aa5c6a3-0772-423c-8500-08def96f5c48
+X-MS-Exchange-CrossTenant-Network-Message-Id: f28f97e9-0a6c-4133-eafc-08def96f6007
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 19:16:22.0830
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 19:16:28.2203
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O1KcE0P/3mgQFfvIaQakgjYXto3ObrDb2Sk6MGstgFDjB4r9GML42VvST1WBFQ+OEElQx+26Ku5SjlUC+sBXvQWq8DnnT23rMIdsyPRVF6A=
+X-MS-Exchange-CrossTenant-UserPrincipalName: POJFHudltR3v7N4GlAHQtsIAYxR6YM1jCSpxVw0597sPPNxVXOra86l/iVrJUBSjQW9BGyTNZ6ivhfADAmflNUWmsuaF8Hl+uFLxW+EDN34=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P189MB3733
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 19:16:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243382
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243384
 
-Fix all trailing whitespace warnings reported by bitbake during parsing.
-These were flagged on the Yocto autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4405
+Fix trailing whitespace in classes bbclass files to resolve
+bitbake parsing warnings.
 
-53 files fixed across 5 patches, split by category:
-- classes-global (7 files)
-- classes-recipe (11 files)
-- classes (2 files)
-- conf (2 files)
-- recipes (31 files)
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ meta/classes/image-buildinfo.bbclass | 2 +-
+ meta/classes/useradd.bbclass         | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-Jaipaul Cheernam (5):
-  classes-global: fix trailing whitespace
-  classes-recipe: fix trailing whitespace
-  classes: fix trailing whitespace
-  conf: fix trailing whitespace
-  recipes: fix trailing whitespace
-
- meta/classes-global/base.bbclass              |  2 +-
- meta/classes-global/buildstats.bbclass        | 10 ++++----
- meta/classes-global/debian.bbclass            |  2 +-
- meta/classes-global/devshell.bbclass          |  2 +-
- meta/classes-global/logging.bbclass           |  4 ++--
- meta/classes-global/packagedata.bbclass       |  4 ++--
- meta/classes-global/sanity.bbclass            | 16 ++++++-------
- meta/classes-recipe/core-image.bbclass        |  2 +-
- .../gobject-introspection.bbclass             |  4 ++--
- meta/classes-recipe/kernel-yocto.bbclass      | 10 ++++----
- meta/classes-recipe/lib_package.bbclass       |  2 +-
- meta/classes-recipe/libc-package.bbclass      |  6 ++---
- meta/classes-recipe/mime-xdg.bbclass          |  2 +-
- meta/classes-recipe/multilib_header.bbclass   |  4 ++--
- meta/classes-recipe/populate_sdk_ext.bbclass  |  2 +-
- meta/classes-recipe/ptest-cargo.bbclass       |  4 ++--
- .../ptest-python-pytest.bbclass               |  4 ++--
- meta/classes-recipe/uboot-config.bbclass      |  2 +-
- meta/classes/image-buildinfo.bbclass          |  2 +-
- meta/classes/useradd.bbclass                  |  8 +++----
- meta/conf/abi_version.conf                    |  4 ++--
- meta/conf/templates/default/local.conf.sample |  2 +-
- meta/recipes-connectivity/avahi/avahi_0.9.bb  |  2 +-
- .../base-files/base-files_3.0.14.bb           |  2 +-
- .../gettext/gettext-minimal-native_1.0.bb     |  2 +-
- meta/recipes-core/glibc/glibc-scripts.inc     |  2 +-
- .../initramfs-live-install_1.0.bb             |  2 +-
- .../nativesdk-packagegroup-sdk-host.bb        |  2 +-
- .../packagegroup-cross-canadian.bb            |  2 +-
- meta/recipes-devtools/apt/apt_3.0.3.bb        |  2 +-
- .../autoconf/autoconf_2.73.bb                 |  2 +-
- .../bootchart2/bootchart2_0.14.9.bb           | 24 +++++++++----------
- .../gcc/gcc-configure-common.inc              |  2 +-
- .../gcc/gcc-multilib-config.inc               |  2 +-
- meta/recipes-devtools/gcc/gcc-runtime.inc     |  2 +-
- .../opkg/opkg-arch-config_1.0.bb              |  2 +-
- meta/recipes-devtools/perl/perl_5.44.0.bb     |  4 ++--
- meta/recipes-devtools/pseudo/pseudo.inc       |  6 ++---
- meta/recipes-devtools/ruby/ruby_4.0.6.bb      |  2 +-
- .../iptables/iptables_1.8.13.bb               |  2 +-
- meta/recipes-extended/mc/mc_4.8.33.bb         |  6 ++---
- .../perl/libxml-sax-perl_1.02.bb              |  2 +-
- meta/recipes-extended/psmisc/psmisc_23.7.bb   |  4 ++--
- .../xorg-font/xorg-font-common.inc            |  2 +-
- .../xorg-lib/pixman_0.46.4.bb                 |  2 +-
- .../kern-tools/kern-tools-native_git.bb       |  2 +-
- .../linux-libc-headers/linux-libc-headers.inc |  8 +++----
- meta/recipes-kernel/linux/kernel-devsrc.bb    |  2 +-
- .../lttng/lttng-tools_2.15.1.bb               |  2 +-
- meta/recipes-kernel/perf/perf.bb              |  2 +-
- meta/recipes-support/libcap/libcap_2.78.bb    |  4 ++--
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  2 +-
- .../recipes-support/numactl/numactl_2.0.19.bb |  2 +-
- 53 files changed, 101 insertions(+), 101 deletions(-)
-
+diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buil=
+dinfo.bbclass
+index b83ce650ad..01636dac65 100644
+--- a/meta/classes/image-buildinfo.bbclass
++++ b/meta/classes/image-buildinfo.bbclass
+@@ -9,7 +9,7 @@
+ # Usage: add INHERIT +=3D "image-buildinfo" to your conf file
+ #
+=20
+-# Desired variables to display=20
++# Desired variables to display
+ IMAGE_BUILDINFO_VARS ?=3D "DISTRO DISTRO_VERSION"
+=20
+ # Desired location of the output file in the image.
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index e9e835e1a2..aafd996fae 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -68,7 +68,7 @@ if test "x`echo $GROUPADD_PARAM | tr -d '[:space:]'`" !=
+=3D "x"; then
+ 		opts=3D`echo "$remaining" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
+ 		remaining=3D`echo "$remaining" | cut -d ';' -f 2- | sed -e 's#[ \t]*$##'=
+`
+ 	done
+-fi=20
++fi
+=20
+ if test "x`echo $USERADD_PARAM | tr -d '[:space:]'`" !=3D "x"; then
+ 	echo "Running useradd commands..."
+@@ -132,8 +132,8 @@ usermod_sysroot() {
+ }
+=20
+ common_useradd_sysroot() {
+-	# Pseudo may (do_prepare_recipe_sysroot) or may not (do_populate_sysroot_=
+setscene) be running=20
+-	# at this point so we're explicit about the environment so pseudo can loa=
+d if=20
++	# Pseudo may (do_prepare_recipe_sysroot) or may not (do_populate_sysroot_=
+setscene) be running
++	# at this point so we're explicit about the environment so pseudo can loa=
+d if
+ 	# not already present.
+ 	# PSEUDO_SYSROOT can contain references to the build architecture and COM=
+PONENT_DIR
+ 	# so needs the STAGING_FIXME below
+@@ -247,7 +247,7 @@ python __anonymous() {
+ # (groupadd|useradd|usermod) parameters for all USERADD_PACKAGES in this r=
+ecipe
+ def get_all_cmd_params(d, cmd_type):
+     import string
+-   =20
++
+     param_type =3D cmd_type.upper() + "_PARAM:%s"
+     params =3D []
+=20
 
