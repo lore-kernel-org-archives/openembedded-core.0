@@ -2,62 +2,62 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A26F7C5DF67
-	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 15:22:33 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21613.1786634547559735767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06957C5DF6A
+	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 15:22:34 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21788.1786634550544689392
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 08:22:27 -0700
+ Thu, 13 Aug 2026 08:22:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ub9H7jF5;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so611881f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:27 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=MSUhseeR;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4815b8781c7so352695f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1786634546; x=1787239346; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1786634549; x=1787239349; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=pgKs2uifWMqCkFgbp25F3ek3PtUWIPKnOPbbEDeiPNg=;
-        b=Ub9H7jF5EYOkXjSx3opdf2Oz3eG6tzyB3NjFjU+/TVHuvEA+7DDPPX/eiCgYqCX98o
-         7JfviwQomS2D6LZnj8/KUQucr0utAUFcPGV9+aFte+LN3tXl/XA3yqDmFIG/9+bu27JQ
-         pdfhhjX6n6cHCvxmwmYA0YMmnxBa83B0G2lB0=
+        bh=PlLRZ0kArsFcdivnjDjJ8A90Z5BwwHet1IJDF8SAvis=;
+        b=MSUhseeRC1OdHNGq9m1sJjEbCuYc8hHPLDz9wp3NqtwARSNxcct2rI2LCT8mwpV4jc
+         zyPLLRN2YcqK011qOGK4a5qwL/pxvjEzTtXJXEcP5qXbgVpUvHUKKS7nU2CHw4KCbVAe
+         pRhlEO2QjEBHd8nDLGcRL/RShNiaxHrbUqPrU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786634546; x=1787239346;
+        d=1e100.net; s=20251104; t=1786634549; x=1787239349;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=pgKs2uifWMqCkFgbp25F3ek3PtUWIPKnOPbbEDeiPNg=;
-        b=TSwhYyg3LjsyE7OysincoyFrU7+MAZp/KdS4/jW5uLXw+wQJt5z/Gdmm897QqFgib6
-         ldH+Mn5ujgPbYAlUoBemRlkR7XRYQBfmdYOsU9VSr2GLKO8p2k6utwxei0GfHw4/aKrV
-         VtFIk8VRpqoNWLQCYOW/j7LNx4cFkF6bSuHYv3SNWGUWg4abcxTiGOwKPaeYFbAt5edX
-         gg9KITo85DaCISjceKKdg+EiEq/QTAKPtFU0LTJQTSZVuswYc8wXWJikYFJYeYGEkF1k
-         pIPf81G+V8tLorB9qrWlRUBli2D+IJ7+DNGAmos1E3hwD9eprPuEhBxRCKjtxzyI7mXL
-         rlqA==
-X-Gm-Message-State: AOJu0YyQ/1DHmOjtwh36Gci+qtrL9SorKLNAAwGUVujh81w2AXTnLUP2
-	cyHaYkuR6+B7wT1hEBQjnJSpSnO2zHl72qRXd9/PpTJO3un2wxprD8ceIvtn+8ts+rOW1u1wRh8
-	WWdshYTp2gg==
-X-Gm-Gg: AR+sD12+mCdpqL72GyLiDxucbDZta6l9hU1yVbfd3VMD//JiO31gG/8kPzHZ6D0jArf
-	BzpfDLsCwmsWSBmIOu5WtKiUzARnktGWojKySmvH8/tRuQ+mhO/431uT9cWS2bNzQnGl07pJjCt
-	LR8cmyGN1+zO5LWWQ5ysVtThZP7ACm4qXIQOh49piYGsfGNQNv5pG8NveEqHkSODM9CeAWSWdKs
-	+OIqzbJL5jNsBKvUrQA0K9KaOFHfUOhGUvMVQDeuK8AUJ3QdOIPvDpudtWd/er1MH/8BVp6bc1J
-	xcwQbCSoXt4Io18Wxt06PkA9g+SANQlEcR8F7xAYqu/rTwaTZOJJ/YYIfIbO8moxaYsv/JEwKC2
-	py8E7KMtvKhZ9/yUIjXygbQELjVYDnHm+SZjdjpokUYhe88JC49e+vslAXridVJa4+KfGVEtaDm
-	pvxFdpADcUTxgGqf1NiqjkGDKIWcVUkpIiAH4JCfWD8YyRZj/I42DTZC0HqniEpAOrvGiXXTAn5
-	76IlrctrQmHGZY4Br+4jQJCcTSBszofrc4CMh3XgXI91ojBTIno7hXSBgX+XjY8WDVyygA0Zjgq
-	ywK2acPdL1j8YeED5hPI3VuJDsy+D1XsR9QaBfu3eWly5eF1kI4=
-X-Received: by 2002:adf:ed10:0:b0:47f:93b4:2def with SMTP id ffacd0b85a97d-4815a045f04mr7903726f8f.28.1786634545652;
-        Thu, 13 Aug 2026 08:22:25 -0700 (PDT)
+        bh=PlLRZ0kArsFcdivnjDjJ8A90Z5BwwHet1IJDF8SAvis=;
+        b=X+xtGqhiI3zBU/9P9SI1ALz6rLokxEWj3oVglA+qs/GF+zObA3FaLOKj3wVL0KlNc0
+         uLSwCQWOkfkCw/xA4Fr/low9e1vo95G2Dp1kH60n29ecJrlJ8+TC7BG7WtMFO2vN04Z2
+         N4fLBfGBh/TL0F0ZjxTJxIQ4e/B69oAxUDcfhf/WCOB9mPbhK9+StYavEaK0pS6NN5Mo
+         apbGvo/luWUHOSfCKwfKRnfPl/EeAklAJlU/OA2OrRXbUsLPviFbUe/ktNQbhDsF4Lyq
+         /oIPQuVTolU3u0T8ePvK5OQi91IDFlIt+dW8CYk+/xFrbcZrSkqgRzf3OqjUl27O8hbI
+         8D9Q==
+X-Gm-Message-State: AOJu0Yyr8+PQYEictP7mdiLQzOlz1jeonEuKkZt2ufMw16m642VOwJeP
+	oD5jALvgpnJHdQu46BWwVaXN7obD9FzpnTgXvw7gi2JoiujKuRp9AeBbzn4yuUOeq1rTcxUYmE1
+	hG+hAf7D7MQ==
+X-Gm-Gg: AR+sD12e7HGnV0W7GHJdgfzxw+U/GnzCZzoV6tMTgM8/oZFp9vhmF0LP58VprjZKffZ
+	wcc1NLVUCtF1+TRia3V0qz4VrVHJIjacOG7rihyNLgKqDpFXeEbRzUe90XBDyXlHYTaqjZ4i4eF
+	t26JFCzxtsZ9PzNcKbdBce4XWKrncMmvVOrZSLyKwAE7ZP9xepnReOyfu9/FW4URp7KC8U7RNsF
+	loH/8YQJ76Iby8oLovxMRU5CtYRKWmtDHD2WKWFuMW3/i/IxivpY6aTDtqz05gTy8up8XfGJKJZ
+	TXA+UQC6moadQzEOd8k2GVDOb3dbuyPoPyVgOHt0O5YO2Ppy8PXObS5llvZLZtuqajCULXNxTz7
+	PpZrleGcKe8uiHltsYTFO9H8I4/dmlmIZQzQ7zU2WPPlqLoYaB8i1qxqrrE8vC55q3gU+ImMhEp
+	GR7dupRgA1YMHeVivA+jcAdvrK35efivOsIB/L6x670AmQE3/9F+m5IXYY6ZlA/u7Nmvphtu783
+	AuO4FQYk2hFS6rs3y/zfUEEQXOOJ/u4dNu/A2MXzezNCFVqu7XQKG9FvEY3zKrnlJmIXiIHFKiY
+	FWcRR9aM45fqVLI7Bg0fdnIW+eeXtOtcKnMMreD0
+X-Received: by 2002:a05:6000:41ea:b0:47f:eca7:ad1a with SMTP id ffacd0b85a97d-48159cbd2ecmr11718082f8f.1.1786634548762;
+        Thu, 13 Aug 2026 08:22:28 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 08:22:25 -0700 (PDT)
+        Thu, 13 Aug 2026 08:22:28 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 05/17] python3-pyyaml: set CVE_PRODUCT
-Date: Thu, 13 Aug 2026 17:21:55 +0200
-Message-ID: <a0ff52f6af3f599eac0598913f84c65c10a4a0fb.1786633048.git.fabien.thomas@smile.fr>
+Subject: [OE-core][wrynose 08/17] python3-idna: set CVE_PRODUCT
+Date: Thu, 13 Aug 2026 17:21:58 +0200
+Message-ID: <4a4f4851bc2bbd9b45485de05d47c9ac72bba1db.1786633048.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1786633048.git.fabien.thomas@smile.fr>
 References: <cover.1786633048.git.fabien.thomas@smile.fr>
@@ -66,39 +66,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 15:22:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243362
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 15:22:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243365
 
 From: "mark.yang" <mark.yang@lge.com>
 
-The pypi class default python:pyyaml vendor prefix matches nothing,
-so PyYAML CVEs are not evaluated at all. The databases use two
-vendor spellings: pyyaml in the NVD CPEs, and "Red Hat" (with a
-space, not expressible as a vendor:product pair) in CVE-2020-1747's
-CNA record. Use the bare product name to cover both.
+The pypi class default python:idna matches nothing in the CVE
+databases, which track the Python idna CVEs as:
 
-All four existing CVEs (CVE-2017-18342, CVE-2019-20477,
-CVE-2020-1747, CVE-2020-14343) are fixed by 5.4, so they resolve as
-not affected at 6.0.3.
+* CVE-2024-3651 (kjd:internationalized_domain_names_in_applications) [1]
+* CVE-2026-45409 (kjd:idna in the CNA record, same NVD CPE as above)
+
+Set both vendor:product pairs.
+
+For wrynose, python3-idna is 3.11. CVE-2024-3651 is fixed before
+3.7, so it does not apply here. CVE-2026-45409 affects idna versions
+before 3.15, so this metadata change will expose that CVE as
+applicable/unpatched for wrynose.
+
+The bare product name is not an option here: it would also match
+"servo:idna", the Rust idna crate (e.g. CVE-2024-12224).
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-3651
 
 Signed-off-by: mark.yang <mark.yang@lge.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 89a0ba3c2da2a7755bafb28afbf75dc7112e2549)
+(cherry picked from commit 48428c0fe22d8ecbfa53efffb28173d4d37539e6)
 Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb | 2 ++
+ meta/recipes-devtools/python/python3-idna_3.11.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb b/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-index 7e2b088ca5..849e2c9cc8 100644
---- a/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-@@ -21,4 +21,6 @@ RDEPENDS:${PN} += "\
-     python3-netclient \
- "
+diff --git a/meta/recipes-devtools/python/python3-idna_3.11.bb b/meta/recipes-devtools/python/python3-idna_3.11.bb
+index de4595c1d4..eb87572934 100644
+--- a/meta/recipes-devtools/python/python3-idna_3.11.bb
++++ b/meta/recipes-devtools/python/python3-idna_3.11.bb
+@@ -10,4 +10,6 @@ inherit pypi python_flit_core ptest-python-pytest
+ RDEPENDS:${PN} += "python3-codecs"
+ RDEPENDS:${PN}-ptest += "python3-unittest-automake-output"
  
-+CVE_PRODUCT = "pyyaml"
++CVE_PRODUCT = "kjd:idna kjd:internationalized_domain_names_in_applications"
 +
  BBCLASSEXTEND = "native nativesdk"
 
