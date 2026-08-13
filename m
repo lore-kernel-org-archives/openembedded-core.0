@@ -2,62 +2,62 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95028C5CFEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95089C5DF64
 	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 15:22:33 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21784.1786634543541640861
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21616.1786634552286149514
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 08:22:23 -0700
+ Thu, 13 Aug 2026 08:22:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=xu9KO4tT;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f93b2fe4cso502965f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:23 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=iyfP98Tr;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f84023916so1981634f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1786634542; x=1787239342; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1786634550; x=1787239350; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=xiDj5rjAGvS/ZsPre8YsIb92mZ/JO86A+0F0UBTmouI=;
-        b=xu9KO4tTUZTguZQnFEkUWZ4BwULk2oQU95qho/P6+KfhHKij8M3xaVj2Owi93hc8RL
-         +gH+yc+pli254vlp0ZDv/P9P2aWtfsG6nvc7M5P2ETDEkrjYeqWQAgp8xOBTdXkCDDoo
-         35nyt1qIWH+5DZHdH/Eovln1lTSAxU/vK341I=
+        bh=jirj9i/9CbzsOpJD809WUiqTW2/NP6bHVcmn37Ce83I=;
+        b=iyfP98TraHDNHGQBWizO/2jAx/0MvndMWYpQ9hlwE66Nl01rGK0oMM0rinUV0r+Bas
+         CPGpggb3qOpIDqHU7cwMA0sJT6YHThX3UVyLUM+x5ZH5tCMhl1D81KkbrhJw24c6xOQD
+         o9IWIG6E5b3pScqX4dN4hZXxdV4T5no4iD2Zs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786634542; x=1787239342;
+        d=1e100.net; s=20251104; t=1786634550; x=1787239350;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=xiDj5rjAGvS/ZsPre8YsIb92mZ/JO86A+0F0UBTmouI=;
-        b=TCnLLuLDPYJ2ebdNnfmyVUVesCCnpVdlVX/HPn0XdlgeYOUEa8AcX4sFqyw0Y0NWjI
-         JZdmVQpGfbHANWiYrNDzblsZNUxUgddrR/peOxfetx7OwIz3eNsNRMY1saMO2fXWuHnt
-         yMzw+BDXxFpwmZ/PDX7xceqz55+VMThvvD2bC8CKvTOUgG8Fk0nc1W1xMNO+Tixkkzzc
-         ptfgekygFniPC6UhNftNOq14PxKYQat8TXw4Bpvms7KvZM7A1mNDRvWTuZQiwWdFbpri
-         PKlfrMlnNMLoVZ3t3K7MkW2GS2zItnEdpwrKJVf0efGoYN1wHF4eZ9649hFguG/FS4pS
-         F9jg==
-X-Gm-Message-State: AOJu0YzdNMm+Iv/laPgVQZl3QR2EFNjgMZehjQqHKXxn9ZyJ23rYZeM2
-	1NCc+wwfNIQmzepmZ/SIXqxaq6y1lyndE168mO6R8bAtiSxDIyc880cLib8gXydRXOx9WiGoX3U
-	/FQkajKV8zQ==
-X-Gm-Gg: AR+sD139d6lIA90xz1wYGsX1CU4e97a2urrBNv5eAwG5rxG+0s48FKQ/VBh/9ucWffZ
-	m757Vc+xWIzdYnbMwA7f+qtQw2SR8pP8d5eikAxQ05VQChIIUx6N6gWjlV+atSt6DFIHZ/FYAbA
-	/54jrhdoY+kUe9X1qxFUUVBCc/syAUXYxI37PoA4jUsU2N7hLHlOXu1WdarPLrmPz1vj9wQBc5b
-	xCCAnQvSBN5BsEZGNiZ97At2clWLYTcZjAwkxWarB6JspjWs6R89ArLSQ54lBXbkjw7Pm2SjCj7
-	73VVz6Mv+k80ssHCgWE+riPGViCCwYBfr5BhC/uzXmecMu4Vm8d4T+ON6+h3KLH/oATV2xYyZPm
-	n+PfEVX37JdTRQToNDJN1CqGK5gfydBMTnQn5ptaMtfW6hTzWO+Rf54x7cRBKP4+UI5WnBWpmux
-	cgvzvelwf/nl4vYXADIF1EaxJlXuMmucaI9XzP8GzYwXDtckaJe/U9S3R2eGQchTg0+ZaREn9k/
-	h5pOl6WCvMqz6VGFDcvnK+A/UgaDAUK3DjOK5FvRJDf730aqf41I5f3c5oMF/l5WWyc5vRNSzzX
-	SNenEx7Y+3tUCDieZRSuOgwwe9Drl9Zrj8OD4sn0
-X-Received: by 2002:a5d:64cb:0:b0:481:51b5:7503 with SMTP id ffacd0b85a97d-48159cbfa53mr10909283f8f.7.1786634541755;
-        Thu, 13 Aug 2026 08:22:21 -0700 (PDT)
+        bh=jirj9i/9CbzsOpJD809WUiqTW2/NP6bHVcmn37Ce83I=;
+        b=eLp14VhRbes2H0fu/7YCT4Sr2G5VMcxlkfpaXomcPISG0z6nR8xnOxQkVQE/QTMZ22
+         QZ3R3kSnPTfDHBN92K3QwXeM+gNt2CIglN2Nv0/AWNdKabo5Rvq9nWmVjlm0Q2g39gRU
+         7KZ/iF3c9l3PXo/19QJaTzz+uzdVPTKqMbTkRo7ps6E8eJThNnfKLqCTYOKCzFx9BmuD
+         WVUvZ0O3GsnDBf4QYcV8UNfKPRDYCm6lRy3GP8Fjs+hjfwWmi0MOsF43mG/5RHyDm2qv
+         dDqTu4auY833qdzeGYXMu1sINxrdFGr2z4ZtPIAEdWdgiLQmoXUQhTIkk2KKVdyzKn5b
+         /Xfw==
+X-Gm-Message-State: AOJu0YwP96WKUlLP0J6qc4fg6F5+1pCa2PWNrXyACJ/Vhko0frl6o7cU
+	xPkbi4RpjCaTOYNuZIGfOC/uGiuBoko0TVAoI4nv5Hs7tsuPFpX5JPkziSNa8mkcCtaNVlraHNI
+	DK9GIT+KfGA==
+X-Gm-Gg: AR+sD13gq9MIphADu40i+DmXtSW1nHHFeod1NjW3EzV/Hd2g6DSkzDIskEoqz+qPlde
+	kmqw2EzawjwMpx/XkA6/bghSpqxDDiLP4V8Ul6HNMtKMMANiEQlAWYpJvrKOlj+y1aKODxzOYsY
+	iMfdNZTQuQZaysHsJl3EPRaRDwTeAGRLqr05BAyP9DPb0XP8KALMMINyDaxruuEC5rcKnyolJtG
+	UA2dggw37rR1R74vFizQltHbneUSYBYRTgGpadNRyoqRNoXPdQzpRIJ/y5ZRkERiG1Vckbxv4Ig
+	N/ABwRDJ0L1f6P5tbe1Q/GCT5ff0dzzeUzHeUZcsmPQdll8U70egfwd+FhEtjR/qnD4itULnBbq
+	uBBE0dxXkDSuCcr9RAFQ5ZVT5f2vDBt4tDYP7zsOelKYx9fiDDG/HRFoIGXSzJrVo2OmE072+W3
+	3Q9MUc7x5IpUnxXw2zltGsHYLUYhUcpQNv+8e59uSyE3Tb92KYeGrfNzsn4nVaq8gEG74rOLLle
+	RmU6qTJVcBR84riTcJLqzTvmcV61YaUkDXCLuJSW+7Z0jOblB1FKdF4yK86qgp5mMskSwOPV0kc
+	wG3eIuJqTTRUv30oCewaD3ulZCebTAz/cXemdZC+ZTPX3aDHauA=
+X-Received: by 2002:a5d:4152:0:b0:481:4f7a:f685 with SMTP id ffacd0b85a97d-4815a0128afmr8807464f8f.29.1786634550242;
+        Thu, 13 Aug 2026 08:22:30 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 08:22:21 -0700 (PDT)
+        Thu, 13 Aug 2026 08:22:29 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 01/17] selftest: uboot: remove duplicated KVM presence test
-Date: Thu, 13 Aug 2026 17:21:51 +0200
-Message-ID: <19e2414c7ec6e95fe36d13f0b2a83a273c0141b0.1786633048.git.fabien.thomas@smile.fr>
+Subject: [OE-core][wrynose 10/17] glibc: CVE-2026-5358 add CVE_STATUS
+Date: Thu, 13 Aug 2026 17:22:00 +0200
+Message-ID: <75d7aa9f43395c673a5a41511cee34c5bb62d199.1786633048.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1786633048.git.fabien.thomas@smile.fr>
 References: <cover.1786633048.git.fabien.thomas@smile.fr>
@@ -67,53 +67,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 15:22:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243358
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243367
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-test_boot_uboot_kvm_to_full_target test, needs a working KVM.
-It checked it with the kvm-ok tool but that tool is not documented as a
-requirement. Also, the check is also done by runqemu called later in the
-test.
+CVE-2026-5358 has been marked rejected.
+https://sourceware.org/bugzilla/show_bug.cgi?id=34067#c6
 
-Remove it from the test and let runqemu have the responsibility of
-checking for KVM.
+https://inbox.sourceware.org/libc-alpha/20260421164416.4031726-1-carlos@redhat.com/T/#mf76c27025e603294611196b90e428769c9fc5a4e
 
-Note that the KVM check now happens *after* the image build instead of
-before it.
+Add CVE-2026-5358 to CVE_STATUS_RECIPE group as the CVE is disputed
+by upstream glibc maintainers.
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6a91494f29a1f9da28280bc93771714c4545da46)
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- meta/lib/oeqa/selftest/cases/uboot.py | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-core/glibc/glibc_2.43.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/uboot.py b/meta/lib/oeqa/selftest/cases/uboot.py
-index 2e4530fddd..847fa205a1 100644
---- a/meta/lib/oeqa/selftest/cases/uboot.py
-+++ b/meta/lib/oeqa/selftest/cases/uboot.py
-@@ -9,7 +9,7 @@ import os
- import textwrap
- 
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake, runqemu, get_bb_var, get_bb_vars, runCmd
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_var, get_bb_vars
- from oeqa.core.decorator.data import skipIfNotArch, skipIfNotBuildArch
- from oeqa.core.decorator import OETestTag
- 
-@@ -51,11 +51,9 @@ QEMU_USE_KVM = "False"
-     def test_boot_uboot_kvm_to_full_target(self):
-         """
-         Tests building u-boot and booting it with QEMU and KVM.
--        Requires working KVM on build host. See "kvm-ok" output.
-+        Requires working KVM on build host.
-         """
- 
--        runCmd("kvm-ok")
--
-         image = "core-image-minimal"
-         vars = get_bb_vars(['HOST_ARCH', 'BUILD_ARCH'], image)
-         host_arch = vars['HOST_ARCH']
+diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
+index b84c55ca17..a856554782 100644
+--- a/meta/recipes-core/glibc/glibc_2.43.bb
++++ b/meta/recipes-core/glibc/glibc_2.43.bb
+@@ -5,7 +5,7 @@ require glibc-version.inc
+ # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023
+ # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024
+ CVE_STATUS_GROUPS = "CVE_STATUS_RECIPE"
+-CVE_STATUS_RECIPE = "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024"
++CVE_STATUS_RECIPE = "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024 CVE-2026-5358"
+ CVE_STATUS_RECIPE[status] = "disputed: \
+ Upstream glibc maintainers dispute there is any issue and have no plans to address it further. \
+ this is being treated as a non-security bug and no real threat."
 
