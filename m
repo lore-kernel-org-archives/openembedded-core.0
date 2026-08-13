@@ -1,182 +1,66 @@
-Return-Path: <fabien.thomas@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 895F8C5DF64
-	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 15:22:44 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21623.1786634559042427452
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E504C5B572
+	for <webhook@archiver.kernel.org>; Thu, 13 Aug 2026 15:56:35 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22398.1786636590715889418
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 08:22:39 -0700
+ Thu, 13 Aug 2026 08:56:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=M4c941i2;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4998590d392so541045e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 08:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1786634557; x=1787239357; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=A8AHs1ylDIbWoWM8khx49NBOGIBfL422tBGEC4AB8Cw=;
-        b=M4c941i2BexGNLV54nyB8FXoCnVmpLgPdIyzWlsuG2tc0fqkKM4PKxjjHneEyjx1Lf
-         YXQvazHQZBSxGqpv4Z0yIFlLPv7WNfOmUtm8j7Y2Lu9JJs/V//dOybhqntmXQBVnR1L+
-         g0WcOx18xHm1XPLpotvmEwd05VtXIrOmLIz18=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786634557; x=1787239357;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=A8AHs1ylDIbWoWM8khx49NBOGIBfL422tBGEC4AB8Cw=;
-        b=VmNKzVNVPyJjVXZClfL6z5t7Vu4TTVaGOywgYxTQ/208/Arr37FtJUUdcWRGzkeNHl
-         VVsvEZw+e0u6TmvRTbbywxbDB4jHEbRXGzyJ5XLg9hDUJVb6xD7u59B+NntySmkJS2WM
-         KIVjhbTliW2u0HHvYSQG6nhSTH9549Zf71uD5jXtVKaXe05XnCDZFvhbcK9oI6VKIiO/
-         3qPs3ajbPhzWrK6xsIRlDRlmiNNK3xPr4NE2JZDGuYRzK++0QMFMw9uBoEQ4o2N0MeHK
-         lBwWB1Q6txU1EU/WOHmebl7TiWoSXEbwF0AQtKL1/KeEyAAZ6Pozz5lrj+uPXXquqPvc
-         16Iw==
-X-Gm-Message-State: AOJu0YxfNmaq16tYkjDDJ3P+y2IqgnvmOntI/MB4MSpJURUPQddtflgd
-	EpttJ0dRzWtlBtQQDuXyncuOnJMJLn1RqqiLYxt8ArylwW7gjd2KZtrEPpqJEQV5uR1lxxWW2Sr
-	FuOth2Ew5XA==
-X-Gm-Gg: AR+sD13yh8pBgIsaQJQiaoOIq3R4RZSs6Eitt0y9qdJp4tGjYjv+jX0YfLz4czHIyL8
-	d5CLxhM6Wvv/BXSEbvbHJnn118yusp6zi9ZK2TAruAoegVRtn18nTOSPeYUJuAuTRWPsEpGb1Io
-	Nl8M+VezTxpoH2NATpQiDNUdbCqLHN43dTxMfA6RYiuP0SJY1Tm9uJZ7oQWAhphyEhp5siCDlOR
-	2km4EvfppE3CTiT0+/d1MEvMDFzNSQ2EL3cL0GLbw0ApW8ZoiNPwfDdKw+lK5ChVithYm0e6Cnp
-	RutAhvCUoR0jv0j9B42r/5/RoeTcf2YZTT5NQ5+cY++OOjb6m/AnGEoEpJMNSLusuyBMfvpWv9r
-	X5wYcLStXrDz80llq0LwUCFlkBWEjPbOeeAcJobXaB8WnxolP/isLPTIvldCZ0dPfBiaKsVdWIQ
-	G4yAjyF2p/S/joKx/qlLYhGpNTEvi1bTNyxx9UNUdDKA5a21umA+b8QSVd092TZLVdc263Twu7I
-	oqPifzGk8AKrvoHGkcTN/9OYGJfR0JqmfVKsJGd1YBdNyQf4DmTLlDakJbDKaqqLYYUbtNrTJoC
-	Lav514xmkvD2KzBuuH1x5xtm0/jAK9+ZsiiWBzix
-X-Received: by 2002:a05:6000:4403:b0:481:4f2a:bdb0 with SMTP id ffacd0b85a97d-48159fe3cf8mr7741603f8f.18.1786634557104;
-        Thu, 13 Aug 2026 08:22:37 -0700 (PDT)
-Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f21a068sm110450f8f.12.2026.08.13.08.22.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 08:22:36 -0700 (PDT)
-From: Fabien Thomas <fabien.thomas@smile.fr>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=XOUajg4R;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202608131556272a8e0d9c4d000207fd-pjxih4@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202608131556272a8e0d9c4d000207fd
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 13 Aug 2026 17:56:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=KglKsH1RAGGcNKf6M0C7WHy+N2sokmN+45LXooc0waI=;
+ b=XOUajg4Rlp9ZPWldGFxuxu3OHleRqnG97tXOMbWPOJyNF0buavr3A3TyBaVjLKoJRfhP1U
+ N8Wns7XZqb+hRSFAeXL7XKaq5nfDqG1PhSjhlJkxPwNQsTPOAGvEZwG58fkShu2rNKmL+J7P
+ UCI9JzHoH3RG2qXz7llsOflfRcp+D577hKSAS14s0biflO/w0mdNc6Oh5TVdAmJrhrAImqfS
+ FsLQOj+a6AEuEb6YxTcgXJABJgqQARBoO68aYg45LpbRJ/gZdiQqau7EShIKGd40Urur3dK6
+ n9lhmWa0RIiokPmD/kQ8lXfX6pWA3KuZW2G2uCJrO64CZkq3cKydmkTA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 17/17] oe-selftest: fitimage: Add tests for KERNEL_DTBVENDORED
-Date: Thu, 13 Aug 2026 17:22:07 +0200
-Message-ID: <d75e9cc17035bcd403b101298be1503697a6f929.1786633048.git.fabien.thomas@smile.fr>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1786633048.git.fabien.thomas@smile.fr>
-References: <cover.1786633048.git.fabien.thomas@smile.fr>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] qemu: set status for CVE-2024-6519
+Date: Thu, 13 Aug 2026 17:56:07 +0200
+Message-ID: <20260813155607.64382-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 15:22:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243374
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 15:56:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243375
 
-From: Ryan Eatmon <reatmon@ti.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-The recent changes to fixing KERNEL_DTBVENDORED support and then adding
-the same mapping for FIT_CONF_DEFAULT_DTB exposed that we were missing
-tests for these two cases.
+Per [1] this is finxed in v11.0.0-rc2.
+This is RedHat version-less CVE so needs explicit status set.
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit de2e11e63624f86583875163e66f63ea7457c121)
-Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
-Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
+[1] https://security-tracker.debian.org/tracker/CVE-2024-6519
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 55 +++++++++++++++++++++++-
- 1 file changed, 53 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index e8435fb43c..b35dda6674 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -183,6 +183,16 @@ class FitImageTestCase(OESelftestTestCase):
-                 pass
-         return a_comment
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 9ec522124c..b28f4002ee 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -54,6 +54,7 @@ CVE_STATUS[CVE-2023-2680] = "not-applicable-platform: RHEL specific issue."
  
-+    @staticmethod
-+    def _apply_dtbvendored(bb_vars,dtb):
-+        """ This is (and should remain) the same logic that is in kernel-fit-image.bbclass
-+        """
-+        if bb_vars.get('KERNEL_DTBVENDORED') != "1":
-+            mapped_name = os.path.basename(dtb)
-+        else:
-+            mapped_name = dtb.replace('/', '_')
-+        return mapped_name
-+
-     @staticmethod
-     def _get_dtb_files(bb_vars):
-         """Return a list of devicetree names
-@@ -195,7 +205,7 @@ class FitImageTestCase(OESelftestTestCase):
-         all_dtbs = []
-         dtb_symlinks = []
-         if kernel_devicetree:
--            all_dtbs += [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
-+            all_dtbs += [FitImageTestCase._apply_dtbvendored(bb_vars, dtb) for dtb in kernel_devicetree.split()]
-         # Support only the test recipe which provides 1 devicetree and 1 devicetree overlay
-         pref_prov_dtb = bb_vars.get('PREFERRED_PROVIDER_virtual/dtb')
-         if pref_prov_dtb == "bbb-dtbs-as-ext":
-@@ -437,6 +447,7 @@ class KernelFitImageBase(FitImageTestCase):
-             'INITRAMFS_IMAGE',
-             'KERNEL_DEPLOYSUBDIR',
-             'KERNEL_DEVICETREE',
-+            'KERNEL_DTBVENDORED',
-             'KERNEL_FIT_LINK_NAME',
-             'MACHINE',
-             'PREFERRED_PROVIDER_virtual/dtb',
-@@ -653,7 +664,7 @@ class KernelFitImageBase(FitImageTestCase):
-         fit_conf_default_dtb = bb_vars.get('FIT_CONF_DEFAULT_DTB')
-         if fit_conf_default_dtb:
-             fit_conf_prefix = bb_vars.get('FIT_CONF_PREFIX', "conf-")
--            its_field_check.append('default = "' + fit_conf_prefix + fit_conf_default_dtb + '";')
-+            its_field_check.append('default = "' + fit_conf_prefix + self._apply_dtbvendored(bb_vars, fit_conf_default_dtb) + '";')
+ # NVD DB has this CVE as version-less (with "-")
+ CVE_STATUS[CVE-2024-6505] = "fixed-version: this CVE is fixed since 9.1.0"
++CVE_STATUS[CVE-2024-6519] = "fixed-version: this CVE is fixed since 11.0.0"
+ CVE_STATUS[CVE-2024-8354] = "fixed-version: this CVE is fixed since 10.0.5"
  
-         # configuration nodes (one per DTB and also one per symlink)
-         dtb_files, dtb_symlinks = FitImageTestCase._get_dtb_files(bb_vars)
-@@ -1142,6 +1153,46 @@ FIT_HASH_ALG = "sha256"
-         self._gen_signing_key(bb_vars)
-         self._test_fitimage(bb_vars)
- 
-+    def test_vendored_dtb_without_kernel_dtbvendored(self):
-+        """
-+        Summary:     Check if FIT image and Image Tree Source (its) are created correctly with KERNEL_DTBVENDORED turned off.
-+        Expected:    1) its and FIT image are built successfully
-+                     2) Dumping the FIT image indicates the devicetree overlay
-+        """
-+
-+        config = """
-+MACHINE:forcevariable = "beaglebone-yocto"
-+UBOOT_MACHINE = "am335x_evm_defconfig"
-+UBOOT_ARCH = "arm"
-+UBOOT_DTB_BINARY = "u-boot.dtb"
-+KERNEL_DTBVENDORED = "0"
-+"""
-+        config = self._config_add_kernel_classes(config)
-+        config = self._config_add_uboot_env(config)
-+        self.write_config(config)
-+        bb_vars = self._fit_get_bb_vars()
-+        self._test_fitimage(bb_vars)
-+
-+    def test_vendored_dtb_with_kernel_dtbvendored(self):
-+        """
-+        Summary:     Check if FIT image and Image Tree Source (its) are created correctly with KERNEL_DTBVENDORED turned on.
-+        Expected:    1) its and FIT image are built successfully
-+                     2) Dumping the FIT image indicates the devicetree overlay
-+        """
-+
-+        config = """
-+MACHINE:forcevariable = "beaglebone-yocto"
-+UBOOT_MACHINE = "am335x_evm_defconfig"
-+UBOOT_ARCH = "arm"
-+UBOOT_DTB_BINARY = "u-boot.dtb"
-+KERNEL_DTBVENDORED = "1"
-+"""
-+        config = self._config_add_kernel_classes(config)
-+        config = self._config_add_uboot_env(config)
-+        self.write_config(config)
-+        bb_vars = self._fit_get_bb_vars()
-+        self._test_fitimage(bb_vars)
-+
- class FitImagePyTests(KernelFitImageBase):
-     """Test cases for the fitimage.py module without calling bitbake"""
- 
+ CVE_STATUS[CVE-2023-1386] = "disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985"
 
