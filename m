@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2962C5DF70
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 06:36:47 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7566.1786689403866196761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C9F9C5DF76
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 06:36:48 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7503.1786689407384559951
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 23:36:44 -0700
+ Thu, 13 Aug 2026 23:36:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RWMhgcUF;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=R+98qQUG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019ffefcb8f7-9264d597-6e96-4bba-b676-5323496836f9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rHhYedC6;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O5WGYIPD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019ffefcc67e-b14ce8b1-9a36-4a63-9c3c-2c697434ede4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786689403;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Hqv6dCg+GmaBJ7nru42tFG5oxJaiFs3IP/BgipmpwNw=;
-	b=RWMhgcUFkaqC3d0kouSWw1i7FPbIaW2i1r5mMLiWA8iOFOMBglLM6g4dZkydER5a
-	svm5IZ2Tm13aF0cAKMdtaK056dcnRkajTPd3Qt/QQ1lLmvws9B+rh7vWytlEpOY3uDf
-	rAiPAsL933XMWV4Mt9vNnOktVGkJzgsBTuv/EOPI=
+	t=1786689406;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=yWi36VUKQGZYRpfjdSQbs8oEwr4wHyC+Ngw1oDV0T4g=;
+	b=rHhYedC6JFz993mHM8SL/W4BJCPAn2SaH3Ua6G7PIvFDHBwHAC32bD9I56vleKom
+	WiIs+wBAZtMwnDBTkDClEXh9xYtsWwv+MkKJ6rFO766IQw87GSdX7xFqEvFfG0jQL6M
+	we0l7szmp1unRMGGEV85Ml/EnJMNrXNk4BXoDwps=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786689403;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Hqv6dCg+GmaBJ7nru42tFG5oxJaiFs3IP/BgipmpwNw=;
-	b=R+98qQUGJBQvz+fVIrpnrLHoH9WAArHNT3c4Bsyojzde0jFgpKX3pqdTNErweqh3
-	0EAJe7dImxCFL+6a4HacCFdGvVcuGNazyP0Ssh0ScnpK4zTc0g+runMMLn+kUshkxn4
-	vUtz9l6tBo5uKkldurYQ0KLf2XBNW0P1iKjEPcfY=
-Content-Type: multipart/mixed; boundary="===============8461105619342298061=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786689406;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=yWi36VUKQGZYRpfjdSQbs8oEwr4wHyC+Ngw1oDV0T4g=;
+	b=O5WGYIPDe+jvJjNu0NRJz/WMiJa8PLTu+MOirgk5H2940NTiYD7lQsJ6xkPkZZzk
+	0BPPSYgQAYYR+vy8wbN2hUsyiAU2kFMbE5mEmGGSCGjsbyWDqi2NV0m0pcEqKYvSRC5
+	NqJorYgcYu5vYONNa8d/9D9y9uHB5CZ7GR2Qlt7o=
+Content-Type: multipart/mixed; boundary="===============5714043520528367112=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] findutils: upgrading to 4.11.0 SUCCEEDED
-Message-ID: <0101019ffefcb8f7-9264d597-6e96-4bba-b676-5323496836f9-000000@us-west-2.amazonses.com>
-Date: Fri, 14 Aug 2026 06:36:43 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] bash-completion: upgrading to 2.18.0 SUCCEEDED
+Message-ID: <0101019ffefcc67e-b14ce8b1-9a36-4a63-9c3c-2c697434ede4-000000@us-west-2.amazonses.com>
+Date: Fri, 14 Aug 2026 06:36:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.14-54.240.27.191
+X-SES-Outgoing: 2026.08.14-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 06:36:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243410
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 06:36:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243417
 
---===============8461105619342298061==
+--===============5714043520528367112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *findutils* to *4.11.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *bash-completion* to *2.18.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-findutils-upgrade-4.10.0-4.11.0.patch
+    - apply the patch: git am 0001-bash-completion-upgrade-2.17.0-2.18.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,2213 +71,757 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1c0d3705c9ba5b50599b3423e2c62003a2569328 Mon Sep 17 00:00:00 2001
+From c3f156f068910a009b0afa72bff9e4764bf5bb10 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 14 Aug 2026 05:43:49 +0000
-Subject: [PATCH] findutils: upgrade 4.10.0 -> 4.11.0
+Date: Fri, 14 Aug 2026 06:31:25 +0000
+Subject: [PATCH] bash-completion: upgrade 2.17.0 -> 2.18.0
 
-Source: ChangeLog
+Source: CHANGELOG.md
 
-2026-07-11  Bernhard Voelker  <mail@bernhard-voelker.de>
+# Changelog
 
-	version 4.11.0
-	* NEWS: Record release date.
+## [2.18.0](https://github.com/scop/bash-completion/compare/2.17.0...2.18.0) (2026-07-05)
 
-2026-07-11  Bernhard Voelker  <mail@bernhard-voelker.de>
+This release comes with notable changes to the directories used for
+looking up and sourcing completion recipes and helpers, allowing for
+more flexibility and customization and fewer conflicts between things
+shipping with bash-completion and third party/upstream/origin packages.
 
-	NEWS: attribute an entry with its Savannah bug number
-	* NEWS: Mention #66365.
-	While at it, remove a double-newline before "Future Changes".
+Files that come with bash-completion itself are located in directories
+reserved for that use, their names ending with `-core` and
+`-fallback`. Packages should continue install their files in the same
+`completions` and `helpers` dirs like before; these directories
+precede the bash-completion "core" ones in lookup order.
 
-2026-07-11  Bernhard Voelker  <mail@bernhard-voelker.de>
+A new concept of `startup` dirs has been introduced. Files from these
+directories are sourced eagerly on bash-completion startup. This
+replaces and allows for more flexibility than using the deprecated
+`/etc/bash_completion.d` directory for this purpose.
 
-	doc: mention check-root tests in maintainer's manual
-	* doc/find-maint.texi (Making Releases): Document the various flavors
-	of testing: check, syntax-check and check-root.
+See README.md for more information.
 
-2026-07-11  Bernhard Voelker  <mail@bernhard-voelker.de>
+### Features
 
-	NEWS: mention translation updates
-	* NEWS (Translations): List the languagues changes since the last release.
-
-2026-07-09  James Youngman  <james@youngman.org>
-
-	NEWS: add a 2024 POSIX change and predict the future of -perm /000.
-	* NEWS (Documentation Changes): "find -iname" is in IEEE Std
-	1003.1-2024.  Improvements to the portability of the man pages to
-	other nroff implementations.
-	(Future Changes): we're going to remove the warning about -perm /000
-	in a future release.
-
-2026-07-09  Bernhard Voelker  <mail@bernhard-voelker.de>
-
-	doc: propagate recent xargs exit status changes from find.1 to find.texi
-	This merges the changes of recent commit 1c2c1fcc33d from the xargs
-	manpage to the Texinfo manual.
-
-	* doc/find.texi (Invoking xargs): exit status 123 also covers cases where
-	the command's (normal) exit status was a value greater than 125.
-	Explain that xargs might in the future use other values in the 2-233
-	range to indicate other failure modes.
-	Improve the hint that xargs uses execvp rather than invoking via the shell.
-
-2026-07-09  James Youngman  <james@youngman.org>
-
-	doc: find(1): point out -{a,c,}newer / -newerXY eqivalence.
-	* find/find.1 (OPTIONS): be more explicit in pointing out
-	equivalences between -newer, -anewer, -xnewer and -newerXY.
-	This is already explicit in the Texinfo documentation.
-
-2026-07-08  James Youngman  <james@youngman.org>
-
-	doc: correct/improve EXIT STATUS section of xargs man page.
-	* xargs/xargs.1 (EXIT STATUS): exit status 123 also covers cases where
-	the command's (normal) exit status was a value greater than 125.
-	Explain that xargs might in the future use other values in the 2-233
-	range to indicate other failure modes (as the STANDARDS CONFORMANCE
-	section already points out).
-
-2026-07-08  James Youngman  <james@youngman.org>
-
-	doc: improve formatting of xargs man page on narrow terminals.
-	* xargs/xargs.1 (STANDARDS CONFORMANCE): tweak table so that it's
-	readable on narrow terminals.  Previously the table would not format
-	legibly on an 80-column terminal.  Now, it is legible on a 68-column
-	terminal.
-
-2026-07-08  James Youngman  <james@youngman.org>
-
-	doc: prefer neutral double-quotes in xargs man page.
-	* xargs/xargs.1: instead of a mix of single and double quotes in
-	option examples, use double quotes.  However, examples in the text are
-	still quoted using left and right quotes.  The distinc
+* **_comp__init:** source system startup files earlier ([b09700d](https://github.com/scop/bash-completion/commit/b09700dda29b56fb89812e1215956a631cc7c848))
+* **_comp_compgen_filedir:** automatically add `-f` on _comp_compgen `-C` or `-P` ([#1552](https://github.com/scop/bash-completion/issues/1552)) ([6d5fca6](https://github.com/scop/bash-completion/commit/6d5fca6eaeb4e33750a187072efceecd22e82346))
+* **_comp_compgen_filedir:** support "filedir -X" ([ce28419](https://github.com/scop/bash-completion/commit/ce2841911c7a3f5a056b6a310038f0df17a8da42))
+* **_comp_compgen_sysv_services:** factorize SysV service generation ([c4c8c4b](https://github.com/scop/bash-completion/commit/c4c8c4b54040d4acc2688ed8fc040330d964fe12))
+* **aclocal,automake:** support versioned 1.17 executables ([94bbb3a](https://github.com/scop/bash-completion/commit/94bbb3a1b6fafeac96c27e1899dd5efc920a6a89))
+* **aclocal,automake:** support versioned 1.18 executables ([9287b4b](https://github.com/scop/bash-completion/commit/9287b4be2d49be873aded3fb40f56380fd8f97d8))
+* **apt-*:** update known options up to apt 3.2.0 ([c421d50](https://github.com/scop/bash-completion/commit/c421d508b6d922ee43364fd9e0d9bc3bddb5f56c))
+* **apt-cache:** update known options up to apt 3.2.0 ([0ab85c5](https://github.com/scop/bash-completion/commit/0ab85c5ff2c39300acfce0afde2e65b707e314b4))
+* **apt-get:** update known options up to apt 3.2.0 ([6a18e0c](https://github.com/scop/bash-completion/commit/6a18e0c0cf11c9be16616bc817f4613cb9ba95b0))
+* **apt-mark:** update known options up to apt 3.2.0 ([644a026](https://github.com/scop/bash-completion/commit/644a0268c117c98a6915dfd23548a3a8b8def6db))
+* **codex:** 3rd party fallback completion loader ([0f425bd](https://github.com/scop/bash-completion/commit/0f425bd37c2982b70f6c2ce865eeae0af05a715d))
+* **copilot:** 3rd party fallback completion loader ([744602a](https://github.com/scop/bash-completion/commit/744602ac64dc24586e2492813751cc38a0aef2d7))
+* **c
 
 [Changelog truncated as it exceeds 3000 characters;
 the full changelog can be found in an attachment to the AUH email]
 ---
- .../findutils/{findutils_4.10.0.bb => findutils_4.11.0.bb}      | 2 +-
+ .../{bash-completion_2.17.0.bb => bash-completion_2.18.0.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/findutils/{findutils_4.10.0.bb => findutils_4.11.0.bb} (90%)
+ rename meta/recipes-support/bash-completion/{bash-completion_2.17.0.bb => bash-completion_2.18.0.bb} (92%)
 
-diff --git a/meta/recipes-extended/findutils/findutils_4.10.0.bb b/meta/recipes-extended/findutils/findutils_4.11.0.bb
-similarity index 90%
-rename from meta/recipes-extended/findutils/findutils_4.10.0.bb
-rename to meta/recipes-extended/findutils/findutils_4.11.0.bb
-index 91bb1be170..aa5313e991 100644
---- a/meta/recipes-extended/findutils/findutils_4.10.0.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.11.0.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+diff --git a/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb b/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb
+similarity index 92%
+rename from meta/recipes-support/bash-completion/bash-completion_2.17.0.bb
+rename to meta/recipes-support/bash-completion/bash-completion_2.18.0.bb
+index 843b5b831d..c14681bc96 100644
+--- a/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb
++++ b/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb
+@@ -14,7 +14,7 @@ SECTION = "console/utils"
  
- DEPENDS = "bison-native"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
  
--SRC_URI[sha256sum] = "1387e0b67ff247d2abde998f90dfbf70c1491391a59ddfecb8ae698789f0a4f5"
-+SRC_URI[sha256sum] = "bfd19cb06cc71f3352d567e90284d8cdac02ac89774bbeadf0b533b0c11432fd"
+-SRC_URI[sha256sum] = "dd9d825e496435fb3beba3ae7bea9f77e821e894667d07431d1d4c8c570b9e58"
++SRC_URI[sha256sum] = "88bcf85124f77f74f2f2f8bcd16ac4382d807a827ede742a64940c7116aea33f"
+ GITHUB_BASE_URI = "https://github.com/scop/bash-completion/releases"
  
- PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
- 
+ PARALLEL_MAKE = ""
 -- 
 2.47.1
 
 
---===============8461105619342298061==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="findutils-changelog.txt"
-
-Q2hhbmdlbG9nIGZvciBmaW5kdXRpbHM6IDQuMTAuMCAtPiA0LjExLjAKU291cmNlOiBDaGFuZ2VM
-b2cKCjIwMjYtMDctMTEgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIu
-ZGU+CgoJdmVyc2lvbiA0LjExLjAKCSogTkVXUzogUmVjb3JkIHJlbGVhc2UgZGF0ZS4KCjIwMjYt
-MDctMTEgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJTkVX
-UzogYXR0cmlidXRlIGFuIGVudHJ5IHdpdGggaXRzIFNhdmFubmFoIGJ1ZyBudW1iZXIKCSogTkVX
-UzogTWVudGlvbiAjNjYzNjUuCglXaGlsZSBhdCBpdCwgcmVtb3ZlIGEgZG91YmxlLW5ld2xpbmUg
-YmVmb3JlICJGdXR1cmUgQ2hhbmdlcyIuCgoyMDI2LTA3LTExICBCZXJuaGFyZCBWb2Vsa2VyICA8
-bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCWRvYzogbWVudGlvbiBjaGVjay1yb290IHRlc3Rz
-IGluIG1haW50YWluZXIncyBtYW51YWwKCSogZG9jL2ZpbmQtbWFpbnQudGV4aSAoTWFraW5nIFJl
-bGVhc2VzKTogRG9jdW1lbnQgdGhlIHZhcmlvdXMgZmxhdm9ycwoJb2YgdGVzdGluZzogY2hlY2ss
-IHN5bnRheC1jaGVjayBhbmQgY2hlY2stcm9vdC4KCjIwMjYtMDctMTEgIEJlcm5oYXJkIFZvZWxr
-ZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJTkVXUzogbWVudGlvbiB0cmFuc2xhdGlv
-biB1cGRhdGVzCgkqIE5FV1MgKFRyYW5zbGF0aW9ucyk6IExpc3QgdGhlIGxhbmd1YWd1ZXMgY2hh
-bmdlcyBzaW5jZSB0aGUgbGFzdCByZWxlYXNlLgoKMjAyNi0wNy0wOSAgSmFtZXMgWW91bmdtYW4g
-IDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJTkVXUzogYWRkIGEgMjAyNCBQT1NJWCBjaGFuZ2UgYW5k
-IHByZWRpY3QgdGhlIGZ1dHVyZSBvZiAtcGVybSAvMDAwLgoJKiBORVdTIChEb2N1bWVudGF0aW9u
-IENoYW5nZXMpOiAiZmluZCAtaW5hbWUiIGlzIGluIElFRUUgU3RkCgkxMDAzLjEtMjAyNC4gIElt
-cHJvdmVtZW50cyB0byB0aGUgcG9ydGFiaWxpdHkgb2YgdGhlIG1hbiBwYWdlcyB0bwoJb3RoZXIg
-bnJvZmYgaW1wbGVtZW50YXRpb25zLgoJKEZ1dHVyZSBDaGFuZ2VzKTogd2UncmUgZ29pbmcgdG8g
-cmVtb3ZlIHRoZSB3YXJuaW5nIGFib3V0IC1wZXJtIC8wMDAKCWluIGEgZnV0dXJlIHJlbGVhc2Uu
-CgoyMDI2LTA3LTA5ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRl
-PgoKCWRvYzogcHJvcGFnYXRlIHJlY2VudCB4YXJncyBleGl0IHN0YXR1cyBjaGFuZ2VzIGZyb20g
-ZmluZC4xIHRvIGZpbmQudGV4aQoJVGhpcyBtZXJnZXMgdGhlIGNoYW5nZXMgb2YgcmVjZW50IGNv
-bW1pdCAxYzJjMWZjYzMzZCBmcm9tIHRoZSB4YXJncwoJbWFucGFnZSB0byB0aGUgVGV4aW5mbyBt
-YW51YWwuCgoJKiBkb2MvZmluZC50ZXhpIChJbnZva2luZyB4YXJncyk6IGV4aXQgc3RhdHVzIDEy
-MyBhbHNvIGNvdmVycyBjYXNlcyB3aGVyZQoJdGhlIGNvbW1hbmQncyAobm9ybWFsKSBleGl0IHN0
-YXR1cyB3YXMgYSB2YWx1ZSBncmVhdGVyIHRoYW4gMTI1LgoJRXhwbGFpbiB0aGF0IHhhcmdzIG1p
-Z2h0IGluIHRoZSBmdXR1cmUgdXNlIG90aGVyIHZhbHVlcyBpbiB0aGUgMi0yMzMKCXJhbmdlIHRv
-IGluZGljYXRlIG90aGVyIGZhaWx1cmUgbW9kZXMuCglJbXByb3ZlIHRoZSBoaW50IHRoYXQgeGFy
-Z3MgdXNlcyBleGVjdnAgcmF0aGVyIHRoYW4gaW52b2tpbmcgdmlhIHRoZSBzaGVsbC4KCjIwMjYt
-MDctMDkgIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWRvYzogZmluZCgx
-KTogcG9pbnQgb3V0IC17YSxjLH1uZXdlciAvIC1uZXdlclhZIGVxaXZhbGVuY2UuCgkqIGZpbmQv
-ZmluZC4xIChPUFRJT05TKTogYmUgbW9yZSBleHBsaWNpdCBpbiBwb2ludGluZyBvdXQKCWVxdWl2
-YWxlbmNlcyBiZXR3ZWVuIC1uZXdlciwgLWFuZXdlciwgLXhuZXdlciBhbmQgLW5ld2VyWFkuCglU
-aGlzIGlzIGFscmVhZHkgZXhwbGljaXQgaW4gdGhlIFRleGluZm8gZG9jdW1lbnRhdGlvbi4KCjIw
-MjYtMDctMDggIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWRvYzogY29y
-cmVjdC9pbXByb3ZlIEVYSVQgU1RBVFVTIHNlY3Rpb24gb2YgeGFyZ3MgbWFuIHBhZ2UuCgkqIHhh
-cmdzL3hhcmdzLjEgKEVYSVQgU1RBVFVTKTogZXhpdCBzdGF0dXMgMTIzIGFsc28gY292ZXJzIGNh
-c2VzIHdoZXJlCgl0aGUgY29tbWFuZCdzIChub3JtYWwpIGV4aXQgc3RhdHVzIHdhcyBhIHZhbHVl
-IGdyZWF0ZXIgdGhhbiAxMjUuCglFeHBsYWluIHRoYXQgeGFyZ3MgbWlnaHQgaW4gdGhlIGZ1dHVy
-ZSB1c2Ugb3RoZXIgdmFsdWVzIGluIHRoZSAyLTIzMwoJcmFuZ2UgdG8gaW5kaWNhdGUgb3RoZXIg
-ZmFpbHVyZSBtb2RlcyAoYXMgdGhlIFNUQU5EQVJEUyBDT05GT1JNQU5DRQoJc2VjdGlvbiBhbHJl
-YWR5IHBvaW50cyBvdXQpLgoKMjAyNi0wNy0wOCAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3Vu
-Z21hbi5vcmc+CgoJZG9jOiBpbXByb3ZlIGZvcm1hdHRpbmcgb2YgeGFyZ3MgbWFuIHBhZ2Ugb24g
-bmFycm93IHRlcm1pbmFscy4KCSogeGFyZ3MveGFyZ3MuMSAoU1RBTkRBUkRTIENPTkZPUk1BTkNF
-KTogdHdlYWsgdGFibGUgc28gdGhhdCBpdCdzCglyZWFkYWJsZSBvbiBuYXJyb3cgdGVybWluYWxz
-LiAgUHJldmlvdXNseSB0aGUgdGFibGUgd291bGQgbm90IGZvcm1hdAoJbGVnaWJseSBvbiBhbiA4
-MC1jb2x1bW4gdGVybWluYWwuICBOb3csIGl0IGlzIGxlZ2libGUgb24gYSA2OC1jb2x1bW4KCXRl
-cm1pbmFsLgoKMjAyNi0wNy0wOCAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+
-CgoJZG9jOiBwcmVmZXIgbmV1dHJhbCBkb3VibGUtcXVvdGVzIGluIHhhcmdzIG1hbiBwYWdlLgoJ
-KiB4YXJncy94YXJncy4xOiBpbnN0ZWFkIG9mIGEgbWl4IG9mIHNpbmdsZSBhbmQgZG91YmxlIHF1
-b3RlcyBpbgoJb3B0aW9uIGV4YW1wbGVzLCB1c2UgZG91YmxlIHF1b3Rlcy4gIEhvd2V2ZXIsIGV4
-YW1wbGVzIGluIHRoZSB0ZXh0IGFyZQoJc3RpbGwgcXVvdGVkIHVzaW5nIGxlZnQgYW5kIHJpZ2h0
-IHF1b3Rlcy4gIFRoZSBkaXN0aW5jdGlvbiBpbiB1c2UgaGVyZQoJaXMgd2hldGhlciB0aGUgcHVu
-Y3R1YXRpb24gd291bGQgbmVlZCB0byBiZSBwYXN0ZWQgaW50byBhIHNjcmlwdCAoaW4KCXdoaWNo
-IGNhc2Ugd2UgdXNlIFxbZHFdIHNpbmNlIGl0IGdlbmVyYXRlcyBwbGFpbiBBU0NJSSBvdXRwdXQp
-IG9yCgl3aGV0aGVyIGl0IHNpbXBseSBpbmRpY2F0ZXMgYW4gZXhhbXBsZSAoaW4gd2hpY2ggY2Fz
-ZSB3ZSB1c2UgbGVmdCBhbmQKCXJpZ2h0IHF1b3RhdGlvbiBtYXJrcykuCgoyMDI2LTA3LTA4ICBC
-ZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiBhdm9p
-ZCBjaGVjay1hbGwtbWFucGFnZXMgZXJyb3JzCgknbWFrZSBjaGVjay1hbGwtbWFucGFnZXMnIGNv
-bXBsYWluczoKCSAgdHJvZmY6Li94YXJncy4xOjE1NTogd2FybmluZzogbWFjcm8gJyInIG5vdCBk
-ZWZpbmVkCgkgIGFuLnRtYWM6Li94YXJncy4xOjU3MTogc3R5bGU6IGJsYW5rIGxpbmUgaW4gaW5w
-dXQKCgkqIHhhcmdzL3hhcmdzLjE6IEZpeCBjb21tZW50IHN0YXJ0LgoJRWxpbWluYXRlIGJsYW5r
-IGxpbmUuCgoyMDI2LTA3LTA4ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4K
-Cgl4YXJnczogUmUtb3JnYW5pc2UgU1RBTkRBUkRTIENPTkZPUk1BTkNFIHNlY3Rpb24gb2YgdGhl
-IG1hbiBwYWdlLgoJKiB4YXJncy94YXJncy4xIChTVEFOREFSRFMgQ09ORk9STUFOQ0UpOiByZS1v
-cmdhbmlzZS4KCjIwMjYtMDctMDggIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3Jn
-PgoKCWRvYzogUE9TSVggMjAwNCBhZGRlZCB4YXJncyBvcHRpb24gLXAgYW5kIHJlbW92ZWQgLWUg
-YW5kIC1pLgoJKiB4YXJncy94YXJncy4xOiBwb2ludCBvdXQgdGhhdCAtZSBhbmQgLWkgd2VyZSBy
-ZW1vdmVkIGZyb20gUE9TSVggbG9uZwoJYWdvLCBpbiAyMDA0LCBhbmQgdGhhdCAtcCB3YXMgYWRk
-ZWQgaW4gdGhlIHNhbWUgdmVyc2lvbiBvZiB0aGUKCXN0YW5kYXJkLgoJKiBkb2MvZmluZC50ZXhp
-OiBMaWtld2lzZS4KCjIwMjYtMDctMDggIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4u
-b3JnPgoKCWRvYzogZXhwbGFpbiB0aGUgcmVsYXRpb25zaGlwIGJldHdlZW4geGFyZ3MgZXhpdCBz
-dGF0dXMgYW5kIFBPU0lYIHJlcXVpcmVtZW50cy4KCSogeGFyZ3MveGFyZ3MuMSAoU1RBTkRBUkRT
-IENPTkZPUk1BTkNFKTogYWRkIGEgdGFibGUgc2hvd2luZyB0aGUKCXJlcXVpcmVtZW50cyBvZiB0
-aGUgUE9TSVggc3RhbmRhcmQgZm9yIHhhcmdzIGV4aXQgc3RhdHVzLCBhbmQgaG93IHRoZQoJYWN0
-dWFsIGJlaGF2aW9yIG9mIEdOVSB4YXJncyBjb21wbGllcyB3aXRoIHRoaXMuCgoyMDI2LTA3LTA4
-ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCglkb2M6IFBPU0lYIHN0YXR1
-cyBvZiB4YXJncyAtbCwgLWksIC1lIHVuY2hhbmdlZCBzaW5jZSAyMDA0LgoJKiB4YXJncy94YXJn
-cy4xOiB0aGUgZXhpc3RpbmcgdGV4dCBkZXNjcmliZWQgdGhlIHN0YXR1cyBhcyBvZiAyMDA0LCB3
-ZQoJdXBkYXRlIGl0IHRvIHBvaW50IG91dCB0aGF0IHRob3NlIHRoaW5ncyBhcmUgc3RpbGwgdGhl
-IGNhc2UuCgoyMDI2LTA3LTA4ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4K
-Cglkb2M6IFBPU0lYIDIwMjQgYWRkZWQgeGFyZ3Mgb3B0aW9uIC1yLgoJKiBkb2MvZmluZC50ZXhp
-OiB4YXJncyAtciBpcyBubyBsb25nZXIgYSBHTlUgZXh0ZW5zaW9uLCBzaW5jZSBQT1NJWAoJbm93
-IHNwZWNpZmllcyBpdCAoYXMgb2YgMjAyNCkuCgkqIHhhcmdzL3hhcmdzLjE6IExpa2V3aXNlLgoK
-MjAyNi0wNy0wOCAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJZG9jOiBQ
-T1NJWCAyMDA0IGFkZGVkIHhhcmdzIG9wdGlvbiAtcCBhbmQgcmVtb3ZlZCAtZSBhbmQgLWkuCgkq
-IHhhcmdzL3hhcmdzLjE6IHBvaW50IG91dCB0aGF0IC1lIGFuZCAtaSB3ZXJlIHJlbW92ZWQgZnJv
-bSBQT1NJWCBsb25nCglhZ28sIGluIDIwMDQsIGFuZCB0aGF0IC1wIHdhcyBhZGRlZCBpbiB0aGUg
-c2FtZSB2ZXJzaW9uIG9mIHRoZQoJc3RhbmRhcmQuCgkqIGRvYy9maW5kLnRleGk6IExpa2V3aXNl
-LgoKMjAyNi0wNy0wNiAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJZG9j
-OiB4YXJncyBkb2VzIG5vdCB1c2UgdGhlICgxMjgrc2lnKSBjb252ZW50aW9uIG9mIC9iaW4vc2gu
-CgkqIGRvYy9maW5kLnRleGk6IFBvaW50IG91dCB0aGF0IHhhcmdzIGRvZXMgbm90IGxhdW5jaCBj
-b21tYW5kcyB2aWEgdGhlCglzaGVsbCBhbmQgZG9lcyBub3QgdXNlIHRoZSAiMTI4ICsgc2lnbmFs
-IiBjb252ZW50aW9uIHVzZWQgZm9yICQ/IGluCgl0aGUgc2hlbGwuCgkqIHhhcmdzL3hhcmdzLjE6
-IExpa2V3aXNlLgoKMjAyNi0wNy0wNiAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5v
-cmc+CgoJeGFyZ3M6IHJlbW92ZSBzcHVyaW91cyBwYXJlbnRoZXNlcyBpbiBhIGNvbW1lbnQuCgkq
-IHhhcmdzL3hhcmdzLmM6IHJlbW92ZSBzcHVyaW91cyBwYXJlbnRoZXNlcyBhZnRlciBhIHZhcmlh
-YmxlIG5hbWUuCgoyMDI2LTA3LTA2ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9y
-Zz4KCglkb2M6IGFkZCByZWxlYXNlIHllYXIgd2hlbiBtZW50aW9uaW5nIHJlbGVhc2UgbnVtYmVy
-cy4KCSogZG9jL2ZpbmQudGV4aTogYWRkIHllYXIgb2YgcmVsZWFzZSBlYWNoIHRpbWUgd2UgbWVu
-dGlvbiBhIGZpbmR1dGlscwoJcmVsZWFzZSBudW1iZXIuCgkqIGZpbmQvZmluZC4xOiBMaWtld2lz
-ZS4KCSogeGFyZ3MveGFyZ3MuMTogTGlrZXdpc2UuCgoyMDI2LTA2LTMwICBCZXJuaGFyZCBWb2Vs
-a2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiBhZGQgaW50ZXJtZWRpYXRl
-ICoudDJwIGRpcmVjdG9yaWVzIHRvIGRvYy8uZ2l0aWdub3JlCglJZ25vcmUgbW9yZSBUZXhpbmZv
-IHJlbWFpbnMgZnJvbSAnbWFrZSBwZGYnLgoKCSogZG9jLy5naXRpZ25vcmUgKC9maW5kLnQycC8p
-OiBBZGQgZW50cnkuCgkoL2ZpbmQtbWFpbnQudDJwLyk6IExpa2V3aXNlLgoKMjAyNi0wNi0zMCAg
-QmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCglkb2M6IG1lbnRp
-b24gdGhlIGZ1bmN0aW9uYWwgY2hhbmdlIG9mIGZpbmQgLW1vdW50CgkqIGZpbmQvZmluZC4xIChG
-dW5jdGlvbmFsIENoYW5nZXMpOiBEb2N1bWVudCB0aGF0IC1tb3VudCBpcyBubyBsb25nZXIKCWEg
-c3lub255bSBmb3IgLXhkZXYuCgoyMDI2LTA2LTI4ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlv
-dW5nbWFuLm9yZz4KCglmaW5kOiBmaXggbWlzc2luZyBzcGFjZSBpbiBlcnJvciBtZXNzYWdlLgoJ
-KiBmaW5kL3BhcnNlci5jIChwYXJzZV9wZXJtKTogYWRkIG1pc3Npbmcgc3BhY2UgaW4gZXJyb3Ig
-bWVzc2FnZS4gIEkKCWludHJvZHVjZWQgdGhlIGJ1ZyBlYXJsaWVyIHRvZGF5IChpbgoJM2YyYzli
-ODhlMTgwYTc2MmNlNDNjMWJlNWIwNTIwZTA5Y2QyZDQzZCkuCgoyMDI2LTA2LTI4ICBKYW1lcyBZ
-b3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCglsb2NhdGU6ICJlbmQtb2YtZmlsZSIgbm90
-ICJlbmQgb2YgZmlsZSIgaW4gZXJyb3IgbWVzc2FnZS4KCSogbG9jYXRlL3dvcmRfaW8uYyAoZ2V0
-d29yZCk6ICJlbmQtb2YtZmlsZSIgbm90ICJlbmQgb2YgZmlsZSIuCgoyMDI2LTA2LTI4ICBKYW1l
-cyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCgltYWludDogc3BhY2VzLCBub3QgdGFi
-cy4KCSogZmluZC9leGVjLmM6IGNvbnZlcnQgdGFicyB0byBzcGFjZXMgaW4gdGhlIHNvdXJjZS4K
-CSogZmluZC9wYXJzZXIuYzogTGlrZXdpc2UuCgkqIGZpbmQvdXRpbC5jOiBMaWtld2lzZS4KCSog
-bGliL2ZpbmR1dGlscy12ZXJzaW9uLmM6IExpa2V3aXNlLgoJKiB4YXJncy94YXJncy5jOiBMaWtl
-d2lzZS4KCjIwMjYtMDYtMjggIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoK
-CW1haW50OiBhZGQgQmVybmhhcmQgVm9lbGtlciB0byBhdXRob3JzIGxpc3RlZCBpbiAtLXZlcnNp
-b24gb3V0cHV0LgoJVGhpcyBpcyBsb25nIG92ZXJkdWUuICBTb3JyeSwgQmVybmhhcmQsIGFuZCB0
-aGFua3MgZm9yIGV2ZXJ5dGhpbmcgeW91CgloYXZlIGRvbmUgc28gZmFyLgoKCSogbGliL2ZpbmR1
-dGlscy12ZXJzaW9uLmMgKGRpc3BsYXlfZmluZHV0aWxzX3ZlcnNpb24pOiBBZGQgQmVybmhhcmQu
-CgkqIFRIQU5LUzogbWVudGlvbiB0aGF0IHBlb3BsZSBzaG91bGQgYWxzbyBsb29rIGF0IHRoZSBB
-VVRIT1JTIGZpbGUuCgoyMDI2LTA2LTI4ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFu
-Lm9yZz4KCgltYWludDogQWRkIGEgY291cGxlIG9mIGNvbW1lbnRzIGZvciBiYWNrZ3JvdW5kIGlu
-Zm8gZm9yIG1haW50YWluZXJzLgoJKiBmaW5kL3V0aWwuYyAoc2V0X29wdGlvbl9kZWZhdWx0cyk6
-IHBvaW50IG91dCB0aGF0IHdlIHN0b3BwZWQKCXN1cHBvcnRpbmcgRklORF9CTE9DS19TSVpFIGlu
-IDIwMDMuCgkqIHhhcmdzL3hhcmdzLmMgKHByaW50X2FyZ3MpOiBwb2ludCBvdXQgdGhhdCB3ZSB0
-cnkgdG8gaXNzdWUgYW4gZXJyb3IKCW1lc3NhZ2UgaW4gYSBzaXR1YXRpb24gd2hlcmUgaXQgaXMg
-dW5saWtlbHkgdGhhdCB0aGUgdXNlciB3aWxsIHNlZQoJaXQgKGFzIHRoZSBtZXNzYWdlIHJlcG9y
-dHMgYW4gaW5hYmlsaXR5IHRvIHdyaXRlIHRvIHRoZSBzdGFuZGFyZCBlcnJvcgoJb3V0cHV0KS4K
-CjIwMjYtMDYtMjggIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCVVwZGF0
-ZSB2YXJpb3VzIGVycm9yIG1lc3NhZ2VzIGZvciBiZXR0ZXIgY29tcHJlaGVuc2liaWxpdHkuCgkq
-IGZpbmQvZXhlYy5jIChwcmVwX2NoaWxkX2Zvcl9leGVjKTogc2VwYXJhdGUgbWVzc2FnZXMgZm9y
-IHdoZW4gd2UgZG8KCW9yIGRvIG5vdCBrbm93IHRoZSBuYW1lIG9mIHRoZSBkaXJlY3Rvcnkgd2Ug
-d2FudGVkIHRvIGNoYW5nZSB0by4KCSogZmluZC9wYXJzZXIuYyAobGF1bmNoKTogd2hlbiB3YWl0
-cGlkIGZhaWxzLCB0aGUgZXJyb3IgbWVzc2FnZSB3ZQoJaXNzdWVkIG5vIGxvbmdlciBzZWVtcyB0
-byBpbXBseSB0aGF0IHdlIHdlcmUgd2FpdGluZyBmb3IgYSBmaWxlLgoJKiBmaW5kL3RyZWUuYyAo
-Z2V0X2V4cHIpOiB3aGVuIGlzc3VpbmcgYW4gZXJyb3IgbWVzc2FnZSBhYm91dCBhbgoJZmFpbGVk
-IGludGVybmFsIGNvbnNpc3RlbmN5IGNoZWNrLCBzdGF0ZSB0aGF0IHRoaXMgaXMgcHJvYmFibHkg
-YSBidWcKCXNvIHRoYXQgdGhlIHByb2JsZW0gd2lsbCBub3QgYmUgYXR0cmlidXRlZCB0byB1c2Vy
-IGVycm9yLgoJKHNjYW5fcmVzdCk6IExpa2V3aXNlLgoJKG9wdF9leHByKTogTGlrZXdpc2UuCgko
-Z2V0X25ld19wcmVkX2Noa19vcCk6IExpa2V3aXNlLgoJKiBsb2NhdGUvd29yZF9pby5jIChnZXR3
-b3JkKTogVXNlICJlbmQgb2YgZmlsZSIgcmF0aGVyIHRoYW4gIkVPRiIgaW4KCXRoZSBlcnJvciBt
-ZXNzYWdlLgoKMjAyNi0wNi0yOCAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+
-CgoJbWFpbnQ6IGFkZCBzb21lICJUUkFOU0xBVE9SUzoiIGNvbW1lbnRzIHRvIGhlbHAgdHJhbnNs
-YXRpb24gdGVhbXMuCgkqIGZpbmQvZXhlYy5jOiBhZGQgVFJBTlNMQVRPUlM6IGNvbW1lbnRzIHdo
-ZXJlIHRoaXMgbWlnaHQgYmUgaGVscGZ1bC4KCSogZmluZC9mc3R5cGUuYzogTGlrZXdpc2UuCgkq
-IGZpbmQvcGFyc2VyLmM6IExpa2V3aXNlLgoJKiBsaWIvc2FmZS1hdG9pLmM6IExpa2V3aXNlLgoJ
-KiB4YXJncy94YXJncy5jOiBMaWtld2lzZS4KCjIwMjYtMDYtMjggIEphbWVzIFlvdW5nbWFuICA8
-amFtZXNAeW91bmdtYW4ub3JnPgoKCWZpbmQ6IHVwZGF0ZSBjd2Qgc2F2ZS9yZXN0b3JlIGVycm9y
-IG1lc3NhZ2VzIGZvciBiZXR0ZXIgdHJhbnNsYXRpb24uCgkqIGZpbmQvdXRpbC5jIChyZWNvcmRf
-aW5pdGlhbF9jd2QpOiB1c2UgYSBkaWZmZXJlbnQgZXJyb3IgbWVzc2FnZQoJYWNjb3JkaW5nIHRv
-IHdoZXRoZXIgb3Igbm90IHdlIGtub3cgdGhlIG5hbWUgb2YgdGhlIGluaXRpYWwgd29ya2luZwoJ
-ZGlyZWN0b3J5LCByYXRoZXIgdGhhbiBjb25zdHJ1Y3RpbmcgdGhlIEVuZ2xpc2ggc2VudGVuY2Ug
-ZHluYW1pY2FsbHkuCglUaGlzIHNob3VsZCBtYWtlIHRoZSBlcnJvciBtZXNzYWdlcyBlYXNpZXIg
-dG8gdHJhbnNsYXRlLgoJKGNsZWFudXBfaW5pdGlhbF9jd2QpOiBMaWtld2lzZS4KCjIwMjYtMDYt
-MjggIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWZpbmQ6IHVwZGF0ZSAt
-cGVybSAvMDAwIHdhcm5pbmcgbWVzc2FnZSB0byBzYXkgdGhhdCBpdCB3aWxsIGJlIHJlbW92ZWQu
-CgkqIGZpbmQvcGFyc2VyLmMgKHBhcnNlX3Blcm0pOiB1cGRhdGUgdGhlIHdhcm5pbmcgbWVzc2Fn
-ZSBmb3IKCSItcGVybSAvMDAwIi4gVGhpcyB1c2VkIHRvIGluZGljYXRlIHRoYXQgdGhlcmUgaGFk
-IGJlZW4gYSByZWNlbnQKCWNoYW5nZS4gIEJ1dCB0aGUgY2hhbmdlIHdhcyBpbiAyMDA3LCBzbyB1
-cGRhdGUgdGhlIG1lc3NhZ2UgdG8gc2F5Cgl0aGF0IGluIHNvbWUgZnV0dXJlIHJlbGVhc2UsIGEg
-d2FybmluZyB3aWxsIG5vIGxvbmdlciBiZSBpc3N1ZWQuCgoyMDI2LTA2LTI4ICBKYW1lcyBZb3Vu
-Z21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCgltYWludDogZml4IGJ1ZyBpbiBzY190ZXN0c19l
-eGVjdXRhYmxlIGZvciBWUEFUSCBidWlsZHMuCgkqIGNmZy5tayAoc2NfdGVzdHNfZXhlY3V0YWJs
-ZSk6ICJnaXQgbHMtZmlsZXMgLi4vZm9vL3Rlc3RzIiBmYWlscyB3aGVuCgl0aGUgY3VycmVudCBk
-aXJlY3RvcnkgaXMgbm90IGJlbG93IGEgZGlyZWN0b3J5IHdoaWNoIGhhcyBhIC5naXQKCXN1YmRp
-cmVjdG9yeS4gIEJ1dCB0aGlzIGlzIG9mdGVuIHRoZSBjYXNlIGZvciBWUEFUSAoJYnVpbGRzIChp
-LmUuIGJ1aWxkcyBydW4gb3V0c2lkZSB0aGUgc291cmNlIHRyZWUpLiAgQXZvaWQgdGhlIHByb2Js
-ZW0KCWJ5IHRlbXBvcmFyaWx5IGNoYW5naW5nIHdvcmtpbmcgZGlyZWN0b3J5LCBhcyB3ZSBkbyBp
-biBvdGhlciBzeW50YXgKCWNoZWNrcy4KCjIwMjYtMDYtMjggIEphbWVzIFlvdW5nbWFuICA8amFt
-ZXNAeW91bmdtYW4ub3JnPgoKCW1haW50OiBmaXggc29tZSBsaW50LXN0eWxlIGNvbXBsYWludHMg
-ZnJvbSAibWFrZSBzeW50YXgtY2hlY2siLgoJKiBsb2NhdGUvd29yZF9pby5jOiBpbmNsdWRlIGdu
-dWxpYiBoZWFkZXJzIHdpdGggPGZvby5oPiBub3QgImZvby5oIi4KCSogZmluZC9mdHNmaW5kLmM6
-IGNvbnZlcnQgdGFicyB0byBzcGFjZXMuICBXaW5uaWUgd2FzIHJpZ2h0LCBvZgoJY291cnNlLgoK
-MjAyNi0wNi0yOCAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJRml4IHNv
-bWUgc3BlbGxpbmcgZXJyb3JzIGluIGRvY3VtZW50YXRpb24uCgkqIGRvYy9maW5kLnRleGk6IGZp
-eCBhIHNwZWxsaW5nIGVycm9yLgoJKiBmaW5kL2ZpbmQuMTogZml4IHR3byBzcGVsbGluZyBlcnJv
-cnMuCgoyMDI2LTA2LTI4ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCglD
-bGFyaWZ5IGVycm9yIHdoZW4gLWZpbGVzMC1mcm9tIGFuZCAtb2sgYm90aCByZWFkIHRoZSBzYW1l
-IGZpbGUuCglUaGUgcHJvYmxlbSAodGhhdCB0aGUgZXhpc3RpbmcgZXJyb3IgbWVzc2FnZSB3YXMg
-dW5jbGVhcikgd2FzIHJlcG9ydGVkCglieSB0aGUgVHJhbnNsYXRpb24gUHJvamVjdC4gIFRoaXMg
-aXMgdGhlIHNlY29uZCBvZiB0aGUgdHdvIHVuY2xlYXIKCWVycm9yIG1lc3NhZ2VzLgoKCSogZmlu
-ZC9mdHNmaW5kLmMgKHByb2Nlc3NfYWxsX3N0YXJ0cG9pbnRzKTogY2xhcmlmeSBlcnJvciBtZXNz
-YWdlLgoJKiB0ZXN0cy9maW5kL2ZpbGVzMC1mcm9tLnNoOiB1cGRhdGUgdGVzdHMgdG8gZXhwZWN0
-IHRoZSB1cGRhdGVkIGVycm9yCgltZXNzYWdlLiAgRmFjdG9yIG91dCBzb21lIG9mIHRoZSByZWdl
-eCBtYXRjaGluZyBsb2dpYyBzbyB0aGF0IHRlc3QKCWZhaWx1cmUgbWVzc2FnZXMgYXJlIG1vcmUg
-ZXhwbGljaXQgYWJvdXQgdGhlIG5hdHVyZSBvZiB0aGUgcHJvYmxlbS4KCjIwMjYtMDYtMjcgIEph
-bWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCUNsYXJpZnkgZXJyb3IgbWVzc2Fn
-ZSB3aGVuIC1maWxlczAtZnJvbSBhbmQgLW9rIGJvdGggd2FudCB0byByZWFkIHN0ZGluLgoJVGhl
-IHByb2JsZW0gKHRoYXQgdGhlIGV4aXN0aW5nIGVycm9yIG1lc3NhZ2Ugd2FzIHVuY2xlYXIpIHdh
-cyByZXBvcnRlZAoJYnkgdGhlIFRyYW5zbGF0aW9uIFByb2plY3QuCgoJKiBmaW5kL2Z0c2ZpbmQu
-YyAocHJvY2Vzc19hbGxfc3RhcnRwb2ludHMpOiBjbGFyaWZ5IGVycm9yIG1lc3NhZ2UuCgkqIHRl
-c3RzL2ZpbmQvZmlsZXMwLWZyb20uc2g6IHVwZGF0ZSB0ZXN0cyB0byBleHBlY3QgdGhlIHVwZGF0
-ZWQgZXJyb3IKCW1lc3NhZ2UuCgoyMDI2LTA2LTI3ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlv
-dW5nbWFuLm9yZz4KCglFbXBoYXNpemUgdGhlIHdhcm5pbmdzIGFib3V0IGNvbnN0cnVjdHMgbGlr
-ZSBgLXNpemUgLTFNYC4KCSogZmluZC9maW5kLjEgKC1zaXplKTogYWRkICJJTVBPUlRBTlQ6IiB0
-byB0aGUgd2FybmluZyBhYm91dAoJY29uc3RydWN0cyBsaWtlIGAtc2l6ZSAtMU1gLgoJKiBkb2Mv
-ZmluZC50ZXhpIChTaXplKTogZW1waGFzaXplIHRoZSBzYW1lIHdhcm5pbmcgYnkgdXNpbmcgYQoJ
-Y2FydG91Y2hlLgoKMjAyNi0wNi0yNyAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5v
-cmc+CgoJUmV2ZXJ0ICJtYWludDogcHJlZmVyIGVuZGlhbi5oIGZvciBieXRlIG9yZGVyIGNvbnZl
-cnNpb25zIiwgZml4aW5nICM2ODQ4Mi4KCVRoaXMgZml4ZXMgaHR0cHM6Ly9zYXZhbm5haC5nbnUu
-b3JnL2J1Z3MvaW5kZXgucGhwPzY4NDgyIGFuZCByZXZlcnRzCgljb21taXQgNzQ0ZGE2ZGRjYzgw
-YjkxYWJlMDZhNmU5ODIzYTUzN2NkZTI2YTI3ZS4KCgkqIGJvb3RzdHJhcC5jb25mIChnbnVsaWJf
-bW9kdWxlcyk6IHJlbW92ZSBlbmRpYW4uCgkqIGxvY2F0ZS93b3JkX2lvLmMgKGRlY29kZV92YWx1
-ZSk6IHVuY29uZGl0aW9uYWxseSBzd2FwIGJ5dGVzIHRvIHByb2R1Y2UgdGhlCglgc3dhcHBlZGAg
-dmFsdWUuCgoyMDI2LTA2LTI3ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4K
-CglNb3JlIHN1YnN0YW50aWFsIGRvY3VtZW50YXRpb24gb2YgLXhkZXYgYW5kIC1tb3VudC4KCSog
-ZG9jL2ZpbmQudGV4aSAoRmlsZXN5c3RlbXMpOiBleHBsYWluIHRoZSBkaWZmZXJlbmNlIGJldHdl
-ZW4gLXhkZXYKCWFuZCAtbW91bnQuICBBZGQgYW4gZXhhbXBsZS4KCSogZmluZC9maW5kLjEgKEVY
-QU1QTEVTKTogYWRkIHNvbWUgLXhkZXYgYW5kIC1tb3VudCBleGFtcGxlcy4KCjIwMjYtMDYtMjcg
-IEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWZpbmQ6IGZpeCBtaW5vciBy
-b2ZmIHN0eWxlIGlzc3VlcyBpbiBtYW51YWwgcGFnZS4KCSogZmluZC9maW5kLjEgKC1leGVjZGly
-KTogZml4IHR5cG8gaW4gdHJvZmYgZGlyZWN0aXZlICguQlMgc2hvdWxkIGJlCgkuQlIpLiAgQWxz
-byBlbGltaW5hdGUgYmxhbmsgbGluZXMuCgoyMDI2LTA2LTI3ICBKYW1lcyBZb3VuZ21hbiAgPGph
-bWVzQHlvdW5nbWFuLm9yZz4KCglGaXggc21hbGwgZXJyb3IgaW4gZGVzY3JpcHRpb24gb2YgLW5h
-bWUgaW4gdGhlIGZpbmQgbWFudWFsIHBhZ2UuCgkqIGZpbmQvZmluZC4xICgtbmFtZSk6IGNvcnJl
-Y3Qgc21hbGwgZXJyb3IgaW4gd2hpY2ggIi0iIHdhcyB1c2VkIHdoZXJlCgkiLyIgd2FzIHByZXN1
-bWFibHkgbWVhbnQuICBUaGlzIGZpeGVzCglodHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVncy9p
-bmRleC5waHA/Njc3MDcuCgoyMDI2LTA2LTI3ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5n
-bWFuLm9yZz4KCgl0ZXN0cy9taXNjL2hlbHAtdmVyc2lvbi5zaDogZG9uJ3QgcHJlcGVuZCBzb3Vy
-Y2UgZGlycyB0byAkUEFUSC4KCSogdGVzdHMvbWlzYy9oZWxwLXZlcnNpb24uc2g6IHJlbW92ZSB1
-bm5lY2Vzc2FyeSBjYWxsIHRvCglmdV9wYXRoX3ByZXBlbmRfLiAgVGhlIGNoYW5nZXMgbmVlZGVk
-IHRvIGVuc3VyZSB0aGUgcmVsZXZhbnQgYmluYXJpZXMKCWFyZSBvbiB0aGUgUEFUSCB3ZXJlIGFs
-cmVhZHkgbWFkZSBpbiAkKFRFU1RTX0VOVklST05NRU5UKS4gIFRoaXMKCXNob3VsZCBwcmV2ZW50
-IGh0dHBzOi8vc2F2YW5uYWguZ251Lm9yZy9idWdzLz82ODQ4MC4KCjIwMjYtMDYtMjcgIEphbWVz
-IFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWZpbmQ6IERvbid0IHN1Z2dlc3QgLXBy
-aW50MCB3aGVuIHRoZSBvdXRwdXQgaXMgZm9yIGEgaHVtYW4uCgkqIGZpbmQvZmluZC4xIChPUFRJ
-T05TKTogU3VnZ2VzdCAtcHJpbnQwIGlmIHRoZSBvdXRwdXQgaXMgZ29pbmcgdG8KCWFub3RoZXIg
-cHJvZ3JhbSwgYXMgb3Bwb3NlZCB0byBzdWdnZXN0aW5nIGl0IGlzIHN1aXRhYmxlIGZvciBnZW5l
-cmFsCgl1c2UuCgoyMDI2LTA2LTI3ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9y
-Zz4KCglkb2M6IEZvcm1hdCBleGFtcGxlcyAmIHdhcm5pbmdzIGZvciAtZmlsZXMwLWZyb20gdXNp
-bmcgVGV4aW5mby4KCSogZG9jL2ZpbmQudGV4aSAoT3B0aW9uIC1maWxlczAtZnJvbSBmaWxlKTog
-dXNlIEBleGFtcGxlIGZvciB0aGUKCWV4YW1wbGUgYW5kIGNhcnRvdWNoZSB0byBoaWdobGlnaHQg
-dGhlIGl0ZW1pc2VkIGxpc3Qgb2YgY2F2ZWF0cy4KCjIwMjYtMDYtMjcgIEphbWVzIFlvdW5nbWFu
-ICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWZpbmQ6ICItcGVybSArYSt4IiBpcyBubyBsb25nZXIg
-YWNjZXB0ZWQgZXZlbiB3aXRoIFBPU0lYTFlfQ09SUkVDVCB1bnNldC4KCSogZmluZC9maW5kLjEg
-KFNUQU5EQVJEUyBDT05GT1JNQU5DRSk6IFVuc2V0dGluZyBQT1NJWExZX0NPUlJFQ1QKCSAgbm8g
-bG9uZ2VyIGNhdXNlcyBmaW5kIHRvIGFjY2VwdCAtcGVybSArYSt4LgoKMjAyNi0wNi0yNyAgSmFt
-ZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJZmluZDogSW1wcm92ZSBjb25zaXN0
-ZW5jeSBiZXR3ZWVuIHRoZSBmaW5kIG1hbnBhZ2UgYW5kIHRoZSBUZXhpbmZvIGRvYy4KCSogZG9j
-L2ZpbmQudGV4aSAoRGVidWcgT3B0aW9ucyk6IERvY3VtZW50IHRoZSBleGVjIGFuZCBzZWFyY2gK
-CWRlYnVnIG9wdGlvbnMuCgkoQ29tYmluaW5nIFByaW1hcmllcyBXaXRoIE9wZXJhdG9ycyk6IHBv
-aW50IG91dCB0aGF0IHRoZSAtbm90LAoJLWFuZCwgYW5kIC1vciBvcGVyYXRvcnMgYXJlIG5vdCBp
-biBQT1NJWC4gIFBvaW50IG91dCB0aGF0ICJmaW5kCglhZmlsZSBiZmlsZSAtbmFtZSBhZmlsZSAt
-byAtbmFtZSBiZmlsZSAtcHJpbnQiIHdpbGwgbmV2ZXIgcHJpbnQKCWFmaWxlLgoJKEZpbGUgTW9k
-ZSBCaXRzKTogRXhwbGFpbiB0aGF0IHVzZXJzIHNob3VsZCBhdm9pZCB0aGUgbm93LXJlbW92ZWQK
-CS1wZXJtICttb2RlIHVzYWdlIHRvIHByZXZlbnQgY29uZnVzaW9uLCB1c2luZyB3b3JkaW5nIHRo
-YXQgaXMgbW9yZQoJY29uc2lzdGVudCBiZXR3ZWVuIHRoZSB0d28gZG9jdW1lbnRzLgoJKEZpbGUg
-U3lzdGVtIFRyYXZlcnNhbCBPcHRpb25zKTogbW9yZSBleHBsaWNpdCB3b3JkaW5nIGFib3V0IGZp
-bGVzCgluYW1lZCBvbiB0aGUgY29tbWFuZCBsaW5lLgoJKFN5bWJvbGljIExpbmtzKTogTGlrZXdp
-c2UuCgkoRXJyb3IgTWVzc2FnZXMgRnJvbSBmaW5kKTogcmVtb3ZlIHNvbWUgZXJyb3IgbWVzc2Fn
-ZXMgd2hpY2gKCXdlcmUgb25seSBpc3N1ZWQgYnkgYG9sZGZpbmRgLCB3aGljaCBoYXMgYWxyZWFk
-eSBiZWVuIGRlbGV0ZWQuCgkoVGVzdCAtbmFtZSBwYXR0ZXJuKTogbWVudGlvbiB0aGF0IC1uYW1l
-IC8gbWF0Y2hlcyB0aGUgcm9vdAoJZGlyZWN0b3J5LgoJKE5hbWUgRGlyZWN0aXZlcyk6IFBvaW50
-IG91dCB0aGF0ICVmIHlpZWxkcyAiLyIgZm9yIHRoZSByb290CglkaXJlY3RvcnkgYW5kIHRoYXQg
-JWggeWllbGRzIGFuIGVtcHR5IHN0cmluZyBmb3IgZGlyZWN0b3JpZXMgd2hvc2UKCW5hbWUgY29u
-dGFpbnMgYSBzbGFzaC4gIFN0YXRlIHRoYXQgJWYgeWllbGRzICIvIiBmb3IgdGhlIHJvb3QKCWRp
-cmVjdG9yeS4KCShMb2NhdGlvbiBEaXJlY3RpdmVzKTogU3RhdGUgdGhhdCAleSB5aWVsZHMgIlUi
-IGZvciBmaWxlcyBvZgoJdW5rbm93biB0eXBlLgoJKEdvaW5nIGJhY2sgdG8gLWV4ZWMpOiBnaXZl
-IHJlbGVhc2UgeWVhciBvZiB0aGUgZmlyc3QgZmluZHV0aWxzCglyZWxlYXNlIHdoaWNoIHN1cHBv
-cnRlZCAtZXhlYyAuLi4ge30gKy4KCSogZmluZC9maW5kLjEgKEVSUk9SUyk6IE5ldyBzZWN0aW9u
-LCBjb250YWluaW5nIHNpbWlsYXIgdGV4dCB0bwoJdGhlIGBFcnJvciBNZXNzYWdlcyBGcm9tIGZp
-bmQnIHNlY3Rpb24gb2YgdGhlIFRleGluZm8gZG9jdW1lbnQuCgkoT1BFUkFUT1JTKTogU2xpZ2h0
-bHkgY2xhcmlmeSB0aGUgZXhwbGFuYXRpb24gb2YgImZpbmQgLi4uIC1uYW1lCglhZmlsZSAtbyAt
-bmFtZSBiZmlsZSAtcHJpbnQiLgoJKC1wcmludGYgJUEpOiBleHBsYWluIHRoZSBsZW5ndGggYW5k
-IHByZWNpc2lvbiBvZiBzZWNvbmRzIGZpZWxkcy4KCSgtZXhlY2RpciBjb21tYW5kLi4uIHt9ICsp
-OiBleHBsaWNpdGx5IHBvaW50IG91dCB0aGF0IGZhaWxlZAoJY29tbWFuZHMgd291bGQgYWZmZWN0
-IGZpbmQncyBldmVudHVhbCBleGl0IHN0YXR1cy4KCShDQVZFQVRTKTogbmV3IHNlY3Rpb24sIGRl
-c2NyaWJpbmcgcG9zc2libGUgZnV0dXJlIGNoYW5nZXMuCgoyMDI2LTA2LTI3ICBKYW1lcyBZb3Vu
-Z21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCgltYWludDogTGludCBtYW5wYWdlcyB3aXRoIENI
-RUNLU1RZTEU9MyAodXAgZnJvbSAyKS4KCSogYnVpbGQtYXV4L21hbi1saW50LnNoIChjaGVja19t
-YW5wYWdlc193aXRoX2dyb2ZmX2NoZWNrc3R5bGVfMik6CgljaGFuZ2UgQ0hFQ0tTVFlMRSB0byAz
-LiAgUmVuYW1lIHRoaXMgZnVuY3Rpb24gdG8gc2ltcGx5CgljaGVja19tYW5wYWdlc193aXRoX2dy
-b2ZmX2NoZWNrc3R5bGUuCgoyMDI2LTA2LTI3ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5n
-bWFuLm9yZz4KCgltYWludDogQWRkIGEgY29udmVuaWVuY2UgdGFyZ2V0IGZvciBjaGVja2luZyBt
-YW51YWwgcGFnZXMuCgkqIGNvbmZpZ3VyZS5hYzogTmV3IHJlY3Vyc2l2ZSB0YXJnZXQsIGNoZWNr
-LWFsbC1tYW5wYWdlcywgZm9yCgljb252ZW5pZW5jZSBpbiBsaW50LWNoZWNraW5nIG1hbnVhbCBw
-YWdlcy4KCSogZmluZC9NYWtlZmlsZS5hbTogQWRkIG5ldyB0YXJnZXQgY2hlY2stYWxsLW1hbnBh
-Z2VzLWxvY2FsLiAgVGhpcwoJY2hlY2tzIHRoZSBtYW5wYWdlcyBvbmx5LiAgVGhpcyBpcyBmYXN0
-ZXIgdGhhbiBpbnZva2luZyAibWFrZQoJY2hlY2siIHNvIGl0IGlzIGNvbnZlbmllbnQgd2hlbiB3
-b3JraW5nIHdpdGggbWFudWFsIHBhZ2UgdXBkYXRlcy4KCSogbG9jYXRlL01ha2VmaWxlLmFtOiBM
-aWtld2lzZS4KCSogeGFyZ3MvTWFrZWZpbGUuYW06IExpa2V3aXNlLgoJKiBwby9SdWxlcy1maW5k
-dXRpbHMtbm8tb3BzOiBhZGQgZHVtbXkgcnVsZXMgZm9yIHRoZSBuZXcKCXJlY3Vyc2l2ZSBhbmQg
-bG9jYWwgdGFyZ2V0cy4gVGhlc2UgbmVlZCB0byBzdWNjZWVkLCBidXQgQXV0b21ha2UKCWRvZXMg
-bm90IGFkZCB0aGVzZSBydWxlcyBpbiBwby8gYXMgaXQgZG9lc24ndCBtYW5hZ2UgdGhlIE1ha2Vm
-aWxlCgl0aGVyZS4KCjIwMjYtMDYtMjUgIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4u
-b3JnPgoKCUV2ZW4gd2l0aCAtLWVuYWJsZS1jb21waWxlci13YXJuaW5ncywgbGVhdmUgLVd1c2Vs
-ZXNzLWNhc3QgZGlzYWJsZWQuCglXaGlsZSB0aGVzZSB3YXJuaW5ncyBhcmUgc29tZXRpbWVzIGhl
-bHBmdWwsIHRoZXJlIGFyZSBjYXNlcyB3aGVyZSBpdCdzCglkaWZmaWN1bHQgdG8gdGVsbCB0aGF0
-IHRoZSBjYXN0IGlzIG5ldmVyIG5lZWRlZCBvbiBhbnkgcGxhdGZvcm0uCgoJKiBjb25maWd1cmUu
-YWMgKC0tZW5hYmxlLWNvbXBpbGVyLXdhcm5pbmdzKTogZGlzYWJsZSAtV3VzZWxlc3MtY2FzdC4K
-CjIwMjYtMDYtMjQgIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCW1haW50
-OiB1cGRhdGUgZ251bGliCgkqIGdudWxpYjogVXBkYXRlIHRvIGEgcmVjZW50ICgyMDI2LTA2LTE5
-KSB2ZXJzaW9uLiAgVGhpcyB2ZXJzaW9uIGlzCgluZXcgZW5vdWdoIHRoYXQgaXQgY29udGFpbnMg
-bWFueSBpbXByb3ZlbWVudHMsIGJ1dCBzdGlsbCBhIGZldyBkYXlzCglvbGQgKG1lYW5pbmcgdGhh
-dCB0aGVyZSB3aWxsIGhhdmUgYmVlbiB0aW1lIHRvIG5vdGljZSBhbnkgcHJvYmxlbXMKCXdpdGgg
-cmVjZW50IGNvbW1pdHMpLiAgVGhlcmUgaGF2ZSBiZWVuIHRoZXJlIGhhdmUgYmVlbiA1MjkgY29t
-bWl0cyBvbgoJZ251bGliIHNpbmNlIHRoZSBsYXN0IHVwZGF0ZS4KCjIwMjYtMDYtMjQgIEphbWVz
-IFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCUlnbm9yZSBlZGl0b3IgYmFja3VwIGZp
-bGVzIGluIHBvLy4uLgoJKiBwby8uZ2l0aWdub3JlOiBpZ25vcmUgKn4KCjIwMjYtMDQtMjggIEJl
-cm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJdXBkYXRlZGI6IHBy
-b3Blcmx5IHF1b3RlIHZhcmlhYmxlcyBhbmQgYXZvaWQgcmVkdW5kYW50IGV2YWwKCSogbG9jYXRl
-L3VwZGF0ZWRiLnNoIChjaGVja2JpbmFyeSk6IFJlbW92ZSAnZXZhbCcgYmVmb3JlIGVjaG8gd2hp
-Y2ggc2VydmVzCglubyBwdXJwb3NlIGhlcmUsIGJ1dCBpbnN0ZWFkIG9wZW4gYW4gYXR0YWNrIHN1
-cmZhY2UgaWYgdGhlIGdpdmVuIGJpbmFyeQoJY29udGFpbnMgZGFuZ2Vyb3VzbHkgY3JhZnRlZCBj
-b250ZW50LgoJQWRkIHByb3BlciBxdW90ZXMgaW4gdGhlIGNhbGxlciBsb29wIGFzIHdlbGwuCgkq
-IE5FV1M6IE1lbnRpb24gdGhlIGZpeC4KCglSZXBvcnRlZCBieSBNaWNoYcWCIE1hamNocm93aWN6
-IDxtbWFqY2hyb3dpY3pAYWZpbmUuY29tPi4KCjIwMjYtMDQtMjYgIEJlcm5oYXJkIFZvZWxrZXIg
-IDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJZmluZDogd29yayBhcm91bmQgLXVzZWQgaXNz
-dWUgb24gT3BlbkJTRAoJVGhlIEMgbGlicmFyeSBmdW5jdGlvbiBkaWZmdGltZSgzKSBoYWQgYSBi
-dWcgb24gT3BlbkJTRCA3LjggdW50aWwgYSB2ZXJ5CglyZWNlbnQgY29tbWl0IFsxXSB3aGljaCBt
-YWRlICdmaW5kIC11c2VkJyBiZWhhdmUgd3Jvbmcgd2hlbiBhdGltZT09Y3RpbWUuCgoJWzFdIGh0
-dHBzOi8vZ2l0aHViLmNvbS9vcGVuYnNkL3NyYy9jb21taXQvYjAxOGZmZmJkNmM5N2EKCglBdm9p
-ZCBkaWZmdGltZSgzKSBhdCBhbGwgYmVjYXVzZSBtb3N0IGNhbGxlcnMgKC1hY25ld2VyLC1jbmV3
-ZXIsIGFuZCBtb3N0Cgltb2RlcyBvZiAtbmV3ZXJYWSkgb25seSBuZWVkIHRoZSByZXN1bHQgb2Yg
-dGhlIDwsPSw+IGNvbXBhcmlzb24gaW5zdGVhZCBvZgoJdGhlIGV4YWN0IHRpbWUgZGlmZmVyZW5j
-ZS4KCgkqIGZpbmQvcHJlZC5jICh0c19kaWZmZXJlbmNlKTogUmVtb3ZlLgoJKGNvbXBhcmVfdHMp
-OiBSZW1vdmUsIGFuZCByZXBsYWNlIGJ5IGdudWxpYiB0aW1lc3BlY19jbXAgaW4gYWxsIGNhbGxl
-cnM6CglwcmVkX3RpbWV3aW5kb3csIHByZWRfYW5ld2VyLCBwcmVkX2NuZXdlciwgcHJlZF9uZXdl
-ciwgcHJlZF9uZXdlclhZLAoJcHJlZF91c2VkLgoJKHByZWRfdGltZXdpbmRvdyk6IFVzZSBnbnVs
-aWIgdGltZXNwZWNfc3ViIHRvIGNhbGN1bGF0ZSBERUxUQSwgYW5kIHVzZQoJdGltZXNwZWNfY21w
-IHRvIGRldGVybWluZSB3aGV0aGVyIERFTFRBIGlzIGdyZWF0ZXIgdGhhbiAwIGFuZCBzbWFsbGVy
-LWVxdWFsCgl0aGFuIHRoZSBnaXZlbiBXSU5ET1cuCgkqIGJvb3RzdHJhcC5jb25mIChnbnVsaWJf
-bW9kdWxlcyk6IEFkZCB0aW1lc3BlYy1zdWIuCgkqIE5FV1M6IE1lbnRpb24gdGhlIGZpeC4KCglG
-aXhlcyBodHRwczovL3N2LmdudS5vcmcvYnVncy8/NjgyNjQKCjIwMjYtMDQtMjYgIEJlcm5oYXJk
-IFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJdGVzdHM6IHRyeSB0byB1c2Ug
-R05VIGRhdGUgYW5kIHN0YXQgZm9yIHRlc3RzL2ZpbmQvdXNlZC5zaAoJT3RoZXIgaW1wbGVtZW50
-YXRpb25zIGxpa2UgdGhvc2Ugb24gT3BlbkJTRCBhcmUgbGFja2luZyB0aGUgb3B0aW9ucwoJbmVl
-ZGVkIGJ5IHRoaXMgdGVzdCwgYW5kIHRoZXJlZm9yZSB0aGUgdGVzdCB3b3VsZCBiZSBza2lwcGVk
-LgoKCSogdGVzdHMvZmluZC91c2VkLnNoOiBUcnkgdG8gZmluZCBHTlUtbGlrZSBkYXRlKDEpIGFu
-ZCBzdGF0KDEpIHRvb2xzLAoJZmFsbGluZyBiYWNrIHRvICdnZGF0ZScgYW5kICdnc3RhdCcsIGFu
-ZCB1c2UgdGhlbS4KCjIwMjYtMDMtMTkgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJk
-LXZvZWxrZXIuZGU+CgoJTkVXUzogYWRkIGVudHJ5IGZvciByZWNlbnQgLXJlZ2V4IGFsaWdubWVu
-dCB3aXRoIEVtYWNzCgkqIE5FV1MgKENoYW5nZXMgaW4gZmluZCk6IERvY3VtZW50IHRoYXQgJ2Zp
-bmQgLXJlZ2V4JyBub3cgc3VwcG9ydHMKCWNoYXJhY3RlciBjbGFzc2VzIChzaW5jZSBnbnVsaWIg
-Y29tbWl0IGVmZDVjMzgwZmYpLgoKMjAyNi0wMi0yMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxA
-YmVybmhhcmQtdm9lbGtlci5kZT4KCgl4YXJnczogbWFrZSBlcnJubyBoYW5kbGluZyBhZnRlciBl
-eGVjdnAgZmFpbHVyZSBtb3JlIHJvYnVzdAoJKiB4YXJncy94YXJncy5jICh4YXJnc19kb19leGVj
-KTogU2F2ZSBlcnJubyBpbiBhIG5ldyB2YXJpYWJsZSB0byBhdm9pZAoJdGhhdCB3cml0ZSgpIG9y
-IGNsb3NlKCkgY2xvYmJlciBpdCBiZWZvcmUgaXRzIHZhbHVlIGlzIHVzZWQgaW4gZXJyb3IoKS4K
-CjIwMjYtMDItMjMgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+
-CgoJeGFyZ3M6IGltcHJvdmUgZXJyb3IgZGlhZ25vc3RpYyB3aGVuIGV4ZWN2cCBmYWlscwoJKiB4
-YXJncy94YXJncy5jICh4YXJnc19kb19leGVjKTogVXNlIHRyYW5zbGF0aW9uIHN0cmluZyB0byBk
-aWFnbm9zZQoJdGhhdCBydW5uaW5nIHRoZSBjb21tYW5kIHZpYSBleGVjcHYgZmFpbGVkLCBhbmQg
-cXVvdGUgdGhlIGdpdmVuIGNvbW1hbmQKCWFwcHJvcHJpYXRlbHkuCgkqIE5FV1MgKEltcHJvdmVt
-ZW50cyk6IE1lbnRpb24gdGhlIGNoYW5nZS4KCglSZXBvcnRlZCBieSBEYXZpZCBNYXJjZWF1LgoK
-MjAyNi0wMS0yNSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-CgltYWludDogdXBkYXRlIGdudWxpYiB0byBsYXRlc3QKCVJ1biAnbWFrZSB1cGRhdGUtZ251bGli
-LXRvLWxhdGVzdCc7IHRoZXJlIGhhdmUgYmVlbiA1OCBjb21taXRzIG9uIGdudWxpYgoJc2luY2Ug
-dGhlIGxhc3QgdXBkYXRlLgoKCSogZ251bGliOiBVcGRhdGUgdG8gbGF0ZXN0LgoKMjAyNi0wMS0y
-NSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCgltYWludDog
-c2ltcGxpZnkgdXBkYXRpbmcgJ2Jvb3RzdHJhcCcgYW5kIGFkanVzdCB0YXJnZXQgJ2dudWxpYi1z
-eW5jJwoJQ29weSB0aGUgJ2Jvb3RzdHJhcCcgc2NyaXB0IGZyb20gdGhlICdidWlsZC1hdXgnIGRp
-cmVjdG9yeSBpbiBnbnVsaWIKCWluc3RlYWQgb2YgZnJvbSB0aGUgJ3RvcCcgZGlyZWN0b3J5LiAg
-VGhlIGZvcm1lciBvbmUgYWxyZWFkeSBjb250YWlucwoJdGhlICdib290c3RyYXAtZnVuY2xpYi5z
-aCcgY29kZSB3aGljaCBjYW4gdGhlbiBiZSByZW1vdmVkIGFzIHdlbGwgaGVyZS4KCUZpbmFsbHks
-IHJlbW92ZSB0aGUgb2Jzb2xldGUgJ2F1dG9nZW4uc2gnIGFuZCAnYXV0b3B1bGwuc2gnIHNjcmlw
-dHMuCgoJKiBhdXRvZ2VuLnNoOiBSZW1vdmUuCgkqIGF1dG9wdWxsLnNoOiBSZW1vdmUuCgkqIGJv
-b3RzdHJhcC1mdW5jbGliLnNoOiBSZW1vdmUuCgkqIGJvb3RzdHJhcDogVXBkYXRlIGZyb20gJ2du
-dWxpYi9idWlsZC1hdXgvYm9vdHN0cmFwJy4KCSogTWFrZWZpbGUuYW0gKGdudWxpYi1zeW5jKTog
-Q2hhbmdlIHRoZSBzb3VyY2UgZGlyc2N0b3J5IG9mICdib290c3RyYXAnCglmcm9tICd0b3AnIHRv
-ICdidWlsZC1hdXgnLCBhbmQgcmVtb3ZlIHRoZSBjb3B5aW5nIG9mIGFib3ZlIG9ic29sZXRlCglm
-aWxlcy4KCjIwMjYtMDEtMjAgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxr
-ZXIuZGU+CgoJbWFpbnQ6IHByZWZlciBOVUxMIHRvIG51bGxwdHIKCU5VTEwgaXMgYmVzdCBmb3Ig
-QyBhcyBkaXNjdXNzZWQgLSBmb3IgY29yZXV0aWxzIC0gYXQ6CgkgIGh0dHBzOi8vYnVncy5nbnUu
-b3JnLzY2MjIxIzUzCgoJKiBib290c3RyYXAuY29uZjogUmVtb3ZlIGRlcGVuZGVuY3kgb24gbnVs
-bHB0ci4KCSogcy9udWxscHRyL05VTEwvLgoKCVRoaXMgZWZmZWN0aXZlbHkgcmV2ZXJ0cyA5M2Nl
-MTlmMGQ1YTEuCgoyMDI2LTAxLTA2ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12
-b2Vsa2VyLmRlPgoKCXRlc3RzOiBhdm9pZCB1bnBvcnRhYmxlICdzZWQgLWknCglUaGUgc2VkKDEp
-IGltcGxlbWVudGF0aW9ucyBhdCBsZWFzdCBvbiBTb2xhcmlzIGFuZCB0aGUgQlNEIGZhbWlsaXkg
-T1NlcyBkbwoJbm90IHN1cHBvcnQgdGhlIC1pIGZsYWcsIGFuZCBsYXRlc3QgUE9TSVggMjAyNCBz
-dGlsbCBkb2VzIG5vdCBzcGVjaWZ5IGl0LgoKCSogdGVzdHMvZmluZC91c2VyLWdyb3VwLW1heC5z
-aDogQXZvaWQgJ3NlZCAtaScgYnkgcmVkaXJlY3RpbmcgdG8KCWFub3RoZXIgZmlsZSBFUlIyLgoK
-MjAyNi0wMS0wNiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-Cgl0ZXN0czogbWFrZSBuZXcgLW1vdW50IHRlc3QgbW9yZSByb2J1c3QKCVRoaXMgdGVzdCBmYWls
-ZWQgb24gbm9uLUxpbnV4IHN5c3RlbXM6CgktIE9uIFNvbGFyaXMgMTEsIHRoZSBvdXRwdXQgb2Yg
-dGhlIG5hdGl2ZSBkZigxKSB0b29sIGhhcyBhIGRpZmZlcmVudCBvcmRlciwKCSAgYW5kIGhlbmNl
-IHRoZSBkZXRlY3Rpb24gb2YgYSB1c2FibGUgbW91bnQgcG9pbnQgZm9yIHRoZSB0ZXN0IGZhaWxz
-LgoJICBWZXJpZnkgdGhhdCBkZigxKSBpcyBmcm9tIEdOVSBjb3JldXRpbHMsIG9yIGZhbGwgYmFj
-ayB0byAnZ2RmJywKCSAgZWxzZSBza2lwIHRoZSB0ZXN0LgoJLSBPbiBhIEZyZWVCU0Qgc3lzdGVt
-IHdoZXJlIC9ob21lIHdhcyBhIHN5bWxpbmsgdG8gL3Vzci9ob21lLCB0aGUgY29kZQoJICBmb3Ig
-ZmluZGluZyBhIHVzYWJsZSBtb3VudCBwb2ludCBmYWlsZWQsIGJlY2F1c2UgdGhlIHN5bWxpbmsg
-aXRzZWxmCgkgIGlzIG9uIHRoZSAnLycgZmlsZSBzeXN0ZW0uCgkgIEVuc3VyZSB0aGF0IHRoZSBm
-b3VuZCBtb3VudCBwb2ludCBpcyBpZGVudGljYWwgdG8gdGhlIG9yaWdpbmFsIHRlc3QKCSAgZGly
-ZWN0b3J5IGxpa2UgL2hvbWUgZXRjLgoKCSogdGVzdHMvZmluZC9tb3VudC12cy14ZGV2LnNoOiBU
-cnkgaGFyZGVyIHRvIHVzZSBhIEdOVSBkZigxKSB0b29sLgoJQ2hlY2sgd2hldGhlciB0aGUgZm91
-bmQgbW91bnQgcG9pbnQgaXMgaWRlbnRpY2FsIHRvIHRoZSBvcmlnaW5hbAoJZGlyZWN0b3J5IG5h
-bWUsIHRodXMgYXZvaWRpbmcgc3ltbGlua3MuCgoyMDI2LTAxLTA1ICBCZXJuaGFyZCBWb2Vsa2Vy
-ICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCWRvYzogYXZvaWQgbWFuLWxpbnQgZXJyb3Jz
-IGR1ZSB0byBkZXByZWNhdGVkIC5IUCBtYWNybwoJVGhlIC5IUCBtYWNybyBpbnRyb2R1Y2VkIG9u
-bHkgcmVjZW50bHkgdHJpZ2dlcnMgYSAnbWFrZSBjaGVjaycgZXJyb3JzOgoKCSAgIGVudiBHUk9G
-Rj1ncm9mZiAuLi9idWlsZC1hdXgvbWFuLWxpbnQuc2ggLiBmaW5kLjEKCSAgIGNoZWNrX21hbnBh
-Z2VzX2Zvcm1hdF93aXRob3V0X2Vycm9yX21lc3NhZ2VzICAoICAgICAgICAgZmluZC4xKTogT0sK
-CSAgIGNoZWNrX21hbnBhZ2VzX3dpdGhfZ3JvZmZfY2hlY2tzdHlsZV8yICAgICAgICAoICAgICAg
-ICAgZmluZC4xKTogRkFJTEVECgkgICBhbi50bWFjOi4vZmluZC4xOjIzOiBzdHlsZTogdXNlIG9m
-IGRlcHJlY2F0ZWQgbWFjcm86IC5IUAoJICAgbWFrZVszXTogKioqIFtNYWtlZmlsZTozMTEyOiBm
-aW5kdXRpbHMtY2hlY2stbWFucGFnZXNdIEVycm9yIDEKCglhbmQKCgkgICBlbnYgR1JPRkY9Z3Jv
-ZmYgLi4vYnVpbGQtYXV4L21hbi1saW50LnNoIC4gbG9jYXRlLjEgdXBkYXRlZGIuMSBsb2NhdGVk
-Yi41CgkgICBjaGVja19tYW5wYWdlc19mb3JtYXRfd2l0aG91dF9lcnJvcl9tZXNzYWdlcyAgKCAg
-ICAgICBsb2NhdGUuMSk6IE9LCgkgICBjaGVja19tYW5wYWdlc19mb3JtYXRfd2l0aG91dF9lcnJv
-cl9tZXNzYWdlcyAgKCAgICAgdXBkYXRlZGIuMSk6IE9LCgkgICBjaGVja19tYW5wYWdlc19mb3Jt
-YXRfd2l0aG91dF9lcnJvcl9tZXNzYWdlcyAgKCAgICAgbG9jYXRlZGIuNSk6IE9LCgkgICBjaGVj
-a19tYW5wYWdlc193aXRoX2dyb2ZmX2NoZWNrc3R5bGVfMiAgICAgICAgKCAgICAgICBsb2NhdGUu
-MSk6IEZBSUxFRAoJICAgYW4udG1hYzouL2xvY2F0ZS4xOjE4OiBzdHlsZTogdXNlIG9mIGRlcHJl
-Y2F0ZWQgbWFjcm86IC5IUAoJICAgbWFrZVszXTogKioqIFtNYWtlZmlsZTozMjg3OiBmaW5kdXRp
-bHMtY2hlY2stbWFucGFnZXNdIEVycm9yIDEKCSAgIG1ha2VbM106IFRhcmdldCAnY2hlY2stbG9j
-YWwnIG5vdCByZW1hZGUgYmVjYXVzZSBvZiBlcnJvcnMuCgoJVGhlIEhQIGhhbmdpbmcgcGFyYWdy
-YXBoIHdvdWxkIHdvcmsgbmljZWx5LCBidXQgaXMgbWFya2VkIGFzIGRlcHJlY2F0ZWQKCWluIGdy
-b2ZmLTEuMjM7IHRoZSBkZXByZWNhdGlvbnMgd2FybmluZyB3aWxsIGRpc2FwcGVhciBpbiBncm9m
-Zi0xLjI0LgoJVW50aWwgdGhlbiwgdXNlIC5UUCBpbnN0ZWFkIHRvIGF2b2lkIHRoZSBjaGVjayBl
-cnJvcnMuCgoJKiBmaW5kL2ZpbmQuMTogQ2hhbmdlICcuSFAnIHRvIHRoZSAnLlRQJyB0YWdnZWQg
-cGFyYWdyYXBoIG1hY3JvLgoJQWRkIGEgRklYTUUgZm9yIDIwMjcgdG8gc3dpdGNoIHRvIC5IUCB3
-aGVuIGdyb2ZmLTEuMjQgaXMgbW9yZSBjb21tb25seQoJYXZhaWxhYmxlLgoJKiBsb2NhdGUvbG9j
-YXRlLjE6IExpa2V3aXNlLgoKMjAyNi0wMS0wNSAgRy4gQnJhbmRlbiBSb2JpbnNvbiAgPGcuYnJh
-bmRlbi5yb2JpbnNvbkBnbWFpbC5jb20+ICAodGlueSBjaGFuZ2UpCgoJeGFyZ3MuMTogcmV2aXNl
-IG9wdGlvbiBmb3JtYXR0aW5nCgkqIHhhcmdzL3hhcmdzLjE6CgoJLSBNaWdyYXRlIGZyb20gY29t
-bWEtc2VwYXJhdGVkIHRvICJzdGFja2VkIHRhZyIgZm9ybWF0dGluZyBmb3IgY29tbWFuZAoJICBv
-cHRpb25zLiAgVGhpcyBpcyBlYXNpZXIgdG8gcmVhZCBhbmQgdW5kZXJzdGFuZCB3aGVuIG9wdGlv
-biBzeW50YXggaXMKCSAgY29tcGxleCwgYW5kIGVsaW1pbmF0ZXMgdGhlIHByb2JsZW0gb2YgdGhl
-IGNvbW1hIGJlaW5nIG1pc2ludGVycHJldGVkLgoJICBTZXR0aW5nIHRoZSBjb21tYSBpbiBib2xk
-LCBub3Qgcm9tYW4sIG1pZ2h0IGhhdmUgaW5jcmVhc2VkIHRoaXMgcmlzay4KCgkgIFN0YWNraW5n
-IHRhZ3MtLXdpdGhvdXQgZGlyZWN0IHJlY291cnNlIHRvIGZvcm1hdHRlciByZXF1ZXN0cy0taG93
-ZXZlcgoJICByZXF1aXJlcyB0aGUgdXNlIG9mIGEgZ3JvZmYgbWFuKDcpIGV4dGVuc2lvbiBtYWNy
-bywgYFRRYCAoZnJvbSBncm9mZgoJICAxLjIwLCAyMDA5KS4gIEJlY2F1c2UgdGhpcyBwYWdlIG5l
-ZWRzIHRvIGJlIHBvcnRhYmxlIHRvIG5vbi1ncm9mZgoJICBmb3JtYXR0ZXJzLCBkZWZpbmUgYSBw
-YWdlLWxvY2FsIHZlcnNpb24gYWZ0ZXIgdGVzdGluZyBmb3IgaXRzCgkgIG5vbmV4aXN0ZW5jZSB1
-c2luZyBvdGhlciBHTlUgdHJvZmYgZXh0ZW5zaW9ucyAodGhlIGBkb2AgcmVxdWVzdCBhbmQKCSAg
-dGhlIGBkYCBjb25kaXRpb25hbCBleHByZXNzaW9uIG9wZXJhdG9yKS4gIChBY3R1YWxseSwgdGhl
-IG1ldGhvZCBoZXJlCgkgIGlzIHRvIHRlc3QgZm9yIGBUUWAncyBleGlzdGVuY2UgYW5kIHRoZW4g
-aWdub3JlIHRoZSBtYWNybyBkZWZpbml0aW9uCgkgIGlmIHRoZSB0ZXN0IHN1Y2NlZWRzOyB0aGUg
-dG9rZW4gYC4uYCB0ZXJtaW5hdGVzIHdoaWNoZXZlciBldmVudHVhdGVzLikKCgktIFVzZSB0aGUg
-YFRRYCBtYWNybyB0byBzdGFjayBwYXJhZ3JhcGggdGFncyBwcmVzZW50aW5nIHN5bm9ueW1vdXMK
-CSAgb3B0aW9ucyB0byB4YXJncygxKS4KCgktIFVzZSB0aGUgcGFnZS1sb2NhbCBgfn5gIHN0cmlu
-ZyB0byBwdXQgdW5icmVha2FibGUgc3BhY2VzICh3aGVyZQoJICBzdXBwb3J0ZWQpIGJldHdlZW4g
-c2hvcnQgb3B0aW9ucyBhbmQgdGhlaXIgYXJndW1lbnRzLiAgKE9uIHRoZSBvdGhlcgoJICBoYW5k
-LCBpZiBhIHBhcmFncmFwaCB0YWcgYnJlYWtzIGFjcm9zcyBsaW5lcywgdGhlIGRvY3VtZW50IGxp
-a2VseQoJICByZXF1aXJlcyByZXZpc2lvbi4pCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0
-cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEt
-MDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwuY29tPiAg
-KHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IGZpeCBtYXJrdXAgbml0CgkqIHhhcmdzL3hhcmdzLjE6
-IENvbnNpc3RlbnRseSB1c2UgZW1wdHkgcmVxdWVzdCBiZWZvcmUgcGFyYWdyYXBoaW5nIG1hY3Jv
-cwoJdG8gYWlkIGRvY3VtZW50IG1haW50YWluZXJzLiAgVGhpcyB3YXMgYWxyZWFkeSBkb25lLCBp
-bmNvbnNpc3RlbnRseS4KCglEaXNjdXNzZWQgYXQ6CglodHRwczovL2xpc3RzLmdudS5vcmcvci9i
-dWctZmluZHV0aWxzLzIwMjUtMTEvbXNnMDAwOTQuaHRtbAoKMjAyNi0wMS0wNSAgRy4gQnJhbmRl
-biBSb2JpbnNvbiAgPGcuYnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5jb20+ICAodGlueSBjaGFuZ2Up
-CgoJeGFyZ3MuMTogZml4IG1hcmt1cCBuaXQKCWdyb2ZmX21hbig3KToKCSAgIEhpc3RvcnkKCSAg
-ICAgTS4gRG91Z2xhcyBNY0lscm95IOKfqG0uZG91Z2xhcy5tY2lscm95QGRhcnRtb3V0aC5lZHXi
-n6kgZGVzaWduZWQsCgkgICAgIGltcGxlbWVudGVkLCBhbmQgZG9jdW1lbnRlZCB0aGUgQVQmVCBt
-YW4gbWFjcm9zIGZvciBVbml4IFZlcnNpb24gNwoJICAgICAoMTk3OSkgYW5kIGVtcGxveWVkIHRo
-ZW0gdG8gZWRpdCBWb2x1bWUgMSBvZiBpdHMgUHJvZ3JhbW1lcuKAmXMKCSAgICAgTWFudWFsLCBh
-IGNvbXBpbGF0aW9uIG9mIGFsbCBtYW4gcGFnZXMgc3VwcGxpZWQgYnkgdGhlIHN5c3RlbS4gIFRo
-ZQoJICAgICBwYWNrYWdlIHN1cHBvcnRlZCB0aGUgbWFjcm9zIGxpc3RlZCBpbiB0aGlzIHBhZ2Ug
-bm90IGRlc2NyaWJlZCBhcwoJICAgICBleHRlbnNpb25zLCBleGNlcHQgUCBhbmQgdGhlIGRlcHJl
-Y2F0ZWQgQVQgYW5kIFVDLiAgSXQgZG9jdW1lbnRlZAoJICAgICBubyByZWdpc3RlcnMgYW5kIGRl
-ZmluZWQgb25seSBSIGFuZCBTIHN0cmluZ3MuCgoJICAgICBVQyBhcHBlYXJlZCBpbiAzQlNEICgx
-OTgwKS4gIFVuaXggU3lzdGVtIElJSSAoMTk4MCkgaW50cm9kdWNlZCBQCgkgICAgIGFuZCBleHBv
-c2VkIHRoZSByZWdpc3RlcnMgSU4gYW5kIExMLCB3aGljaCBoYWQgYmVlbiBpbnRlcm5hbCB0bwoJ
-ICAgICBTZXZlbnRoIEVkaXRpb24gVW5peCBtYW4uICBQV0IvVW5peCAyLjAgKDE5ODApIGFkZGVk
-IHRoZSBUbSBzdHJpbmcuCgkgICAgIDRCU0QgKDE5ODApIGFkZGVkIGxxIGFuZCBycSBzdHJpbmdz
-LiAgU3VuT1MgMi4wICgxOTg1KSByZWNvZ25pemVkCgkgICAgIEMsIEQsIFAsIGFuZCBYIHJlZ2lz
-dGVycy4gIDQuM0JTRCAoMTk4NikgYWRkZWQgQVQgYW5kIFAuICBOaW50aAoJICAgICBFZGl0aW9u
-IFVuaXggKDE5ODYpIGludHJvZHVjZWQgRVggYW5kIEVFLiAgU3VuT1MgNC4wICgxOTg4KSBhZGRl
-ZAoJICAgICBTQi4gIFVuaXggU3lzdGVtIFYgKDE5ODgpIGluY29ycG9yYXRlZCBCU0TigJlzIGxx
-IGFuZCBycSBzdHJpbmdzLgoKCSAgICAgRXhjZXB0IGZvciBFWC9FRSwgSmFtZXMgQ2xhcmsgaW1w
-bGVtZW50ZWQgdGhlIGZvcmVnb2luZyBmZWF0dXJlcyBpbgoJICAgICBlYXJseSB2ZXJzaW9ucyBv
-ZiBncm9mZi4gIExhdGVyLCBncm9mZiAxLjIwICgyMDA5KSByZXN1cnJlY3RlZAoJICAgICBFWC9F
-RSBhbmQgb3JpZ2luYXRlZCBTWS9ZUywgVFEsIE1UL01FLCBhbmQgVVIvVUUuICBQbGFuIDkgZnJv
-bSBVc2VyCgkgICAgIFNwYWNl4oCZcyB0cm9mZiBpbnRyb2R1Y2VkIE1SIGluIDIwMjAuCgoJKiB4
-YXJncy94YXJncy4xOiBGYXZvciBgUGAgbWFjcm8sIHdoaWNoIHRoZSBwYWdlIHByZWRvbWluYW50
-bHkgdXNlcywgb3ZlcgoJYFBQYCAoYExQYCBpcyBub3Qgb2JzZXJ2ZWQpLiAgYFBgIGhhcyBiZWVu
-IHVuaXZlcnNhbGx5IHBvcnRhYmxlIHNpbmNlIDE5ODYuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6
-Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIw
-MjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwu
-Y29tPiAgKHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IGZpeCBtYXJrdXAgbml0CgkqIHhhcmdzL3hh
-cmdzLjE6CglEcm9wIHVubmVjZXNzYXJ5IHF1b3RlcyBhcm91bmQgc2luZ2xlLXdvcmQgbWFjcm8g
-YXJndW1lbnRzLgoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1m
-aW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJv
-Ymluc29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCgl4
-YXJncy4xOiBmaXggdW5lc2NhcGVkIGh5cGhlbnMKCSogeGFyZ3MveGFyZ3MuMTogRG8gdGhlIGFi
-b3ZlLgoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5kdXRp
-bHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJvYmluc29u
-ICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCgl4YXJncy4x
-OiBjbGFyaWZ5IC0tbWF4LWFyZ3MgdmFsdWUgIjEiIGJldHRlcgoJKiB4YXJncy94YXJncy4xOiBE
-byB0aGUgYWJvdmUuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVn
-LWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4g
-Um9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoK
-CXhhcmdzLjE6IGh5cGhlbmF0ZSBhdHRyaWJ1dGl2ZSBwaHJhc2UKCSogeGFyZ3MveGFyZ3MuMSAo
-T1BUSU9OUyk6IFVzZSBoeXBoZW4gaW4gIlBPU0lYLWNvbXBsaWFudCIuCgoJRGlzY3Vzc2VkIGF0
-OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0
-Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5z
-b25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IGZpeCBmb250IG1hcmt1cCBu
-aXQKCSogeGFyZ3MveGFyZ3MuMToKCUZhdm9yIG1hbig3KSBmb250IG1hY3JvcyBvdmVyICpyb2Zm
-IGZvbnQgc2VsZWN0aW9uIGVzY2FwZSBzZXF1ZW5jZXMuCglNYWNyb3MgYXJlIChhKSB2aXN1YWxs
-eSBsZXNzIGNsdXR0ZXJlZCwgKGIpIGludGVyZmVyZSBsZXNzIHdpdGggc3BlbGwKCWNoZWNraW5n
-LCBhbmQgKGMpLCBpbiBncm9mZiBtYW4oNyksIGF1dG9tYXRpY2FsbHkgYXBwbHkgaXRhbGljCglj
-b3JyZWN0aW9ucywgd2hpY2ggb3RoZXJ3aXNlIHJlcXVpcmVzIGV4cGxpY2l0IHVzZSBvZiBHTlUg
-dHJvZmYKCWV4dGVuc2lvbiBlc2NhcGUgc2VxdWVuY2VzIChgXC9gIGFuZCBgXCxgKS4KCglEaXNj
-dXNzZWQgYXQ6CglodHRwczovL2xpc3RzLmdudS5vcmcvci9idWctZmluZHV0aWxzLzIwMjUtMTEv
-bXNnMDAwOTQuaHRtbAoKMjAyNi0wMS0wNSAgRy4gQnJhbmRlbiBSb2JpbnNvbiAgPGcuYnJhbmRl
-bi5yb2JpbnNvbkBnbWFpbC5jb20+ICAodGlueSBjaGFuZ2UpCgoJeGFyZ3MuMTogdXNlIGVsbGlw
-c2VzIGluIHN5bm9wc2lzCgkuLi5yYXRoZXIgdGhhbiBwbHVyYWxpemF0aW9uLgoKCSogeGFyZ3Mv
-eGFyZ3MuMSAoU1lOT1BTSVMpOiBEbyB0aGUgYWJvdmUuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6
-Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIw
-MjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwu
-Y29tPiAgKHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IHNldCBmaWxlIG5hbWVzIGluIGl0YWxpY3MK
-CS4uLm5vdCByb21hbi4KCglncm9mZl9tYW5fc3R5bGUoNyk6CgkgICBGb250IHN0eWxlIG1hY3Jv
-cwoJLi4uCgkgICAgIC5JIFt0ZXh0XQoJICAgICAgICAgICAgU2V0IHRleHQgaW4gYW4gaXRhbGlj
-IG9yIG9ibGlxdWUgZmFjZS4gIEdpdmVuIG5vIGFyZ3VtZW50LCBJCgkgICAgICAgICAgICBwbGFu
-dHMgYSBvbmXigJBsaW5lIGlucHV0IHRyYXA7IHRleHQgb24gdGhlIG5leHQgbGluZSwgd2hpY2gK
-CSAgICAgICAgICAgIGNhbiBiZSBmdXJ0aGVyIGZvcm1hdHRlZCB3aXRoIGEgbWFjcm8sIGlzIHNl
-dCBpbiBhbiBpdGFsaWMKCSAgICAgICAgICAgIG9yIG9ibGlxdWUgZmFjZS4KCgkgICAgICAgICAg
-ICBVc2UgaXRhbGljcyBmb3IgZmlsZSBhbmQgcGF0aCBuYW1lcywgZm9yIGVudmlyb25tZW50Cgkg
-ICAgICAgICAgICB2YXJpYWJsZXMsIGZvciBDIGRhdGEgdHlwZXMsIGZvciBlbnVtZXJhdGlvbiBv
-ciBwcmVwcm9jZXNzb3IKCSAgICAgICAgICAgIGNvbnN0YW50cyBpbiBDLCBmb3IgdmFyaWFudCAo
-dXNlcuKAkHJlcGxhY2VhYmxlKSBwb3J0aW9ucyBvZgoJICAgICAgICAgICAgc3ludGF4IHN5bm9w
-c2VzLCBmb3IgdGhlIGZpcnN0IG9jY3VycmVuY2UgKG9ubHkpIG9mIGEKCSAgICAgICAgICAgIHRl
-Y2huaWNhbCBjb25jZXB0IGJlaW5nIGludHJvZHVjZWQsIGZvciBuYW1lcyBvZiBqb3VybmFscwoJ
-ICAgICAgICAgICAgYW5kIG9mIGxpdGVyYXJ5IHdvcmtzIGxvbmdlciB0aGFuIGFuIGFydGljbGUs
-IGFuZCBhbnl3aGVyZSBhCgkgICAgICAgICAgICBwYXJhbWV0ZXIgcmVxdWlyaW5nIHJlcGxhY2Vt
-ZW50IGJ5IHRoZSB1c2VyIGlzIGVuY291bnRlcmVkLgoJICAgICAgICAgICAgQW4gZXhjZXB0aW9u
-IGludm9sdmVzIHZhcmlhbnQgdGV4dCBpbiBhIGNvbnRleHQgYWxyZWFkeQoJICAgICAgICAgICAg
-dHlwZXNldCBpbiBpdGFsaWNzLCBzdWNoIGFzIGZpbGUgb3IgcGF0aCBuYW1lcyB3aXRoCgkgICAg
-ICAgICAgICByZXBsYWNlYWJsZSBjb21wb25lbnRzOyBpbiBzdWNoIGNhc2VzLCBmb2xsb3cgdGhl
-IGNvbnZlbnRpb24KCSAgICAgICAgICAgIG9mIG1hdGhlbWF0aWNhbCB0eXBvZ3JhcGh5OiBzZXQg
-dGhlIGZpbGUgb3IgcGF0aCBuYW1lIGluCgkgICAgICAgICAgICBpdGFsaWNzIGFzIHVzdWFsIGJ1
-dCB1c2Ugcm9tYW4gZm9yIHRoZSB2YXJpYW50IHBhcnQgKHNlZSBJUgoJICAgICAgICAgICAgYW5k
-IFJJIGJlbG93KSwgYW5kIGl0YWxpY3MgYWdhaW4gaW4gcnVubmluZyByb21hbiB0ZXh0IHdoZW4K
-CSAgICAgICAgICAgIHJlZmVycmluZyB0byB0aGUgdmFyaWFudCBtYXRlcmlhbC4KCgkqIHhhcmdz
-L3hhcmdzLjE6IERvIHRoZSBhYm92ZS4KCglEaXNjdXNzZWQgYXQ6CglodHRwczovL2xpc3RzLmdu
-dS5vcmcvci9idWctZmluZHV0aWxzLzIwMjUtMTEvbXNnMDAwOTQuaHRtbAoKMjAyNi0wMS0wNSAg
-Ry4gQnJhbmRlbiBSb2JpbnNvbiAgPGcuYnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5jb20+ICAodGlu
-eSBjaGFuZ2UpCgoJeGFyZ3MuMTogdXNlIHF1b3RhdGlvbiBtYXJrcwoJKiB4YXJncy94YXJncy4x
-OiBBbHNvIHNldCB0aGUgYnJhY2VzIGluIGAtSXt9YCBpbiBib2xkLCBub3Qgcm9tYW4sCglzaW5j
-ZSB0aGV5IGFyZSBsaXRlcmFsLgoKCVRoZSBgbHFgIGFuZCBgcnFgIHN0cmluZ3MgYXJlIHdpZGVs
-eSBwb3J0YWJsZS4KCglncm9mZl9tYW5fc3R5bGUoNyk6CgkgICBTdHJpbmdzCgkgICAgIFwqKGxx
-CgkgICAgIFwqKHJxICAgaW50ZXJwb2xhdGUgc3BlY2lhbCBjaGFyYWN0ZXIgZXNjYXBlIHNlcXVl
-bmNlcyBmb3IgbGVmdCBhbmQKCSAgICAgICAgICAgICByaWdodCBkb3VibGXigJBxdW90YXRpb24g
-bWFya3MsIFwobHEgYW5kIFwocnEsIHJlc3BlY3RpdmVseS4KCS4uLgoJICAgICBBIGNvbnRlbXBv
-cmFyeSBtYW4gcGFnZSBuZWVkcyBub25lIG9mIHRoZSBhYm92ZS4gIFwqUyBpcwoJICAgICBzdXBl
-cmZsdW91czsgdHlwZSBzaXplIGNoYW5nZXMgYXJlIGludmlzaWJsZSBvbiB0ZXJtaW5hbHMsIGFu
-ZAoJICAgICBtYWNyb3MgdGhhdCBjaGFuZ2UgaXQgcmVzdG9yZSBpdHMgb3JpZ2luYWwgdmFsdWUg
-YWZ0ZXJ3YXJkLiAgQmV0dGVyCgkgICAgIGFsdGVybmF0aXZlcyBleGlzdCBmb3IgdGhlIHJlc3Q7
-IHNpbXBseSB1c2UgdGhlIFxbcmddLCBcW2xxXSwKCSAgICAgXFtycV0sIGFuZCBcW3RtXSBzcGVj
-aWFsIGNoYXJhY3RlciBlc2NhcGUgc2VxdWVuY2VzIGRpcmVjdGx5LgoJICAgICBVbmxlc3MgeW91
-IGFyZSBhaW1pbmcgZm9yIGEgcGF0aG9sb2dpY2FsIGxldmVsIG9mIHBvcnRhYmlsaXR54oCU4oCU
-CgkgICAgIHBlcmhhcHMgY29tcG9zaW5nIGEgbWFuIHBhZ2UgZm9yIGNvbnN1bXB0aW9uIG9uIHNp
-bXVsYXRvcnMgb2YgMTk4MHMKCSAgICAgVW5peCBzeXN0ZW1zIChvciBTb2xhcmlzIDEwIHRyb2Zm
-LCB0aG91Z2ggZXZlbiBpdCBzdXBwb3J0cwoJICAgICDigJxcKHJn4oCdKeKAlOKAlGF2b2lkIHVz
-aW5nIHRoZSBhYm92ZSBzdHJpbmdzLgoJLi4uCglOb3RlcwoJICAgICBTb21lIHRpcHMgb24gY29t
-cG9zaW5nIGFuZCB0cm91Ymxlc2hvb3RpbmcgeW91ciBtYW4gcGFnZXMgZm9sbG93LgoJLi4uCgkg
-ICAgIOKAoiBXaGVuIGFuZCBob3cgc2hvdWxkIEkgdXNlIHF1b3RhdGlvbiBtYXJrcz8KCgkgICAg
-ICAgQXMgbm90ZWQgYWJvdmUgaW4gc3Vic2VjdGlvbiDigJxGb250IHN0eWxlIG1hY3Jvc+KAnSwg
-YXBwbHkgcXVvdGF0aW9uCgkgICAgICAgbWFya3MgdG8g4oCcYnJpZWYgc3BlY2ltZW5zIG9mIGxp
-dGVyYWwgdGV4dCwgc3VjaCBhcyBhcnRpY2xlCgkgICAgICAgdGl0bGVzLCBpbmxpbmUgZXhhbXBs
-ZXMsIG1lbnRpb25zIG9mIGluZGl2aWR1YWwgY2hhcmFjdGVycyBvcgoJICAgICAgIHNob3J0IHN0
-cmluZ3MsIGFuZCAoc3ViKXNlY3Rpb24gaGVhZGluZ3MgaW4gbWFuIHBhZ2Vz4oCdLiAgTXVsdGni
-gJAKCSAgICAgICB3b3JkIGxpdGVyYWxzLCBzdWNoIGFzIFVuaXggY29tbWFuZHMgd2l0aCBhcmd1
-bWVudHMsIHdoZW4gc2V0CgkgICAgICAgaW5saW5lIChhcyBvcHBvc2VkIHRvIGRpc3BsYXllZCBi
-ZXR3ZWVuIEVYIGFuZCBFRSksIHNob3VsZCBiZQoJICAgICAgIHF1b3RlZCB0byBlbnN1cmUgdGhh
-dCB0aGUgYm91bmRhcmllcyBvZiB0aGUgbGl0ZXJhbCBhcmUgY2xlYXIKCSAgICAgICBldmVuIHdo
-ZW4gdGhlIG1hdGVyaWFsIGlzIHN0cmlwcGVkIG9mIGZvbnQgc3R5bGluZyBieSwgZm9yCgkgICAg
-ICAgZXhhbXBsZSwgY29weeKAkGFuZOKAkHBhc3RlIG9wZXJhdGlvbnMuICBncm9mZiwgSGVpcmxv
-b20gRG9jdG9vbHMKCSAgICAgICB0cm9mZiwgbmVhdHJvZmYsIGFuZCBtYW5kb2Mgc3VwcG9ydCBh
-bGwgb2YgdGhlIHNwZWNpYWwgY2hhcmFjdGVycwoJICAgICAgIFxbb3FdLCBcW2NxXSwgXFtscV0s
-IFxbcnFdLCBcW2FxXSwgYW5kIFxbZHFdIGRlc2NyaWJlZCBpbgoJICAgICAgIHN1YnNlY3Rpb24g
-4oCcUG9ydGFiaWxpdHnigJ0gYWJvdmUuICBEV0IsIFBsYW4gOSwgYW5kIFNvbGFyaXMgMTAKCSAg
-ICAgICB0cm9mZnMgZG8gbm90LiAgSW50ZXJwb2xhdGluZyB0aGUgc3RyaW5ncyBcKihscSBhbmQg
-XCoocnEKCSAgICAgICBwb3J0YWJseSB5aWVsZHMgZGlyZWN0aW9uYWwgZG91YmxlIHF1b3RhdGlv
-biBtYXJrcywgaWYgYXZhaWxhYmxlLAoJICAgICAgIGluIGFsbCB0aGVzZSBmb3JtYXR0ZXJzICh0
-aG91Z2ggbmVhdHJvZmYgZG9lcyBub3Qgc3VwcGx5IGEgbWFuCgkgICAgICAgbWFjcm8gcGFja2Fn
-ZSksIGJ1dCB0aGV5IGNhbm5vdCByZWxpYWJseSBiZSB1c2VkIGluIG1hY3JvCgkgICAgICAgYXJn
-dW1lbnRzLgoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5k
-dXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJvYmlu
-c29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCgl4YXJn
-cy4xOiBzZXQgImZpbmR1dGlscyIgaW4gaXRhbGljcwoJLi4ubm90IHJvbWFuLgoKCSogeGFyZ3Mv
-eGFyZ3MuMSAoU1RBTkRBUkRTIENPTkZPUk1BTkNFKTogRG8gdGhlIGFib3ZlLgoKCURpc2N1c3Nl
-ZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0xMS9tc2cw
-MDA5NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFuZGVuLnJv
-Ymluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCgl4YXJncy4xOiBmaXggdHJ1bmNhdGVk
-IGV4YW1wbGVzIG9uIG9sZCB0cm9mZgoJU2V2ZW50aCBFZGl0aW9uIFVuaXggbWFuKDcpWzFdIGFu
-ZCBpdHMgZGVzY2VuZGFudHMgaGFuZGxlIGF0IG1vc3Qgc2l4Cglhcmd1bWVudHMgdG8gbWFjcm9z
-LiAgRXhjZXNzIGFyZ3VtZW50cyBhcmUgaWdub3JlZCBhbmQgbm90IGZvcm1hdHRlZC4KCglbMV0g
-aHR0cHM6Ly9taW5uaWUudHVocy5vcmcvY2dpLWJpbi91dHJlZS5wbD9maWxlPVY3L3Vzci9saWIv
-dG1hYy90bWFjLmFuCgoJKiB4YXJncy94YXJncy4xIChFWEFNUExFUyk6IEFkZCBxdW90ZXMuCgoJ
-RGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1
-LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJy
-YW5kZW4ucm9iaW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IGFkZCBz
-dHlsaW5nIHRvIHRleHQKCS4uLmZvciBjb25zaXN0ZW5jeSB3aXRoIGV4aXN0aW5nIHByYWN0aWNl
-IGluIGZpbmR1dGlscyBtYW4gcGFnZXMuCgoJKiB4YXJncy94YXJncy4xOiBTZXQgImZpbmQiICh0
-aGUgY29tbWFuZCkgYW5kICItcHJpbnQwIiBpbiBib2xkLCBub3Qgcm9tYW4uCgoJRGlzY3Vzc2Vk
-IGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAw
-MDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9i
-aW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IGFjY2VzcyAnIGNoYXJh
-Y3RlciBwb3J0YWJseQoJKiB4YXJncy94YXJncy4xOiBEbyB0aGUgYWJvdmUuCgoJRGlzY3Vzc2Vk
-IGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAw
-MDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9i
-aW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IG92ZXJjb21lIGxpbWl0
-ZWQgcG9ydGFiaWxpdHkgb2YgXH4KCVdhcm5pbmdzIGZyb20gYGdyb2ZmIC1DIC13dyAtbWFuYCBp
-biB0aGUgZm9ydGhjb21pbmcgZ3JvZmYgMS4yNDoKCXRyb2ZmOnhhcmdzL3hhcmdzLjE6Mjk1OiB3
-YXJuaW5nOiBhbiBlc2NhcGVkICd+JyBpcyBub3QgcG9ydGFibGUgdG8gQVQmVCB0cm9mZgoJdHJv
-ZmY6eGFyZ3MveGFyZ3MuMToyOTY6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ34nIGlzIG5vdCBwb3J0
-YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjp4YXJncy94YXJncy4xOjI5Njogd2FybmluZzogYW4g
-ZXNjYXBlZCAnficgaXMgbm90IHBvcnRhYmxlIHRvIEFUJlQgdHJvZmYKCXRyb2ZmOnhhcmdzL3hh
-cmdzLjE6Mjk4OiB3YXJuaW5nOiBhbiBlc2NhcGVkICd+JyBpcyBub3QgcG9ydGFibGUgdG8gQVQm
-VCB0cm9mZgoKCWdyb2ZmX21hbl9zdHlsZSgxKToKCSAgIFBvcnRhYmlsaXR5CgkuLi4KCSAgICAg
-XH4gICAgICAgIEFkanVzdGFibGUgbm9u4oCQYnJlYWtpbmcgc3BhY2UuICBVc2UgdGhpcyBlc2Nh
-cGUgc2VxdWVuY2UKCSAgICAgICAgICAgICAgIHRvIHByZXZlbnQgYSBicmVhayBpbnNpZGUgYSBz
-aG9ydCBwaHJhc2Ugb3IgYmV0d2VlbiBhCgkgICAgICAgICAgICAgICBudW1lcmljYWwgcXVhbnRp
-dHkgYW5kIGl0cyBjb3JyZXNwb25kaW5nIHVuaXQocykuCgoJICAgICAgICAgICAgICAgICAgICAg
-IEJlZm9yZSBzdGFydGluZyB0aGUgbW90b3IsCgkgICAgICAgICAgICAgICAgICAgICAgc2V0IHRo
-ZSBvdXRwdXQgc3BlZWQgdG9cfjEuCgkgICAgICAgICAgICAgICAgICAgICAgVGhlcmUgYXJlIDEs
-MDI0XH5ieXRlcyBpbiAxXH5LaUIuCgkgICAgICAgICAgICAgICAgICAgICAgQ1NUUlx+IzggZG9j
-dW1lbnRzIHRoZSBCXH5sYW5ndWFnZS4KCgkgICAgICAgICAgICAgICBcfiBpcyBhIEdOVSBleHRl
-bnNpb24gYWxzbyBzdXBwb3J0ZWQgYnkgSGVpcmxvb20gRG9jdG9vbHMKCSAgICAgICAgICAgICAg
-IHRyb2ZmIDA1MDkxNSAoU2VwdGVtYmVyIDIwMDUpLCBtYW5kb2MgMS45LjE0CgkgICAgICAgICAg
-ICAgICAoMjAwOeKAkDEx4oCQMTYpLCBuZWF0cm9mZiAoY29tbWl0IDFjNmFiMGY2ZSwgMjAxNuKA
-kDA54oCQMTMpLAoJICAgICAgICAgICAgICAgYW5kIFBsYW4gOSBmcm9tIFVzZXIgU3BhY2UgdHJv
-ZmYgKGNvbW1pdCA5M2Y4MTQzNjAwLAoJICAgICAgICAgICAgICAgMjAyMuKAkDA44oCQMTIpLCBi
-dXQgbm90IGJ5IERXQiBvciBTb2xhcmlzIDEwIHRyb2Zmcy4KCgkqIHhhcmdzL3hhcmdzLjE6CglE
-ZWZpbmUgYSBzdHJpbmcgdG8gaW5kaXJlY3QgdXNlIG9mIGBcfmAgZXNjYXBlIHNlcXVlbmNlLiAg
-T24gZm9ybWF0dGVycwoJdGhhdCBkb24ndCBzdXBwb3J0IGdyb2ZmIGV4dGVuc2lvbnMsIHVzZSB0
-aGUgQVQmVCB0cm9mZiBgXCBgCgkoYmFja3NsYXNoLXNwYWNlKSBlc2NhcGUgc2VxdWVuY2UsIHdo
-aWNoIGlzbid0IHF1aXRlIGFzIGdvb2QgYmVjYXVzZSBpdAoJaXMgYSBzcGFjZSB0aGF0IGlzIG5v
-dCBvbmx5IHVuYnJlYWthYmxlLCBidXQgdW5hZGp1c3RhYmxlLS13aGljaCwKCWhvd2V2ZXIsIGRv
-ZXNuJ3QgbWF0dGVyIHdoZW4gZm9ybWF0dGluZyBtYW4gcGFnZXMgd2l0aCBhZGp1c3RtZW50Cglk
-aXNhYmxlZCwgYXMgc29tZSBpbXBsZW1lbnRhdGlvbnMgZG8gKGFuZCB3aGljaCBncm9mZiBtYWtl
-cwoJY29uZmlndXJhYmxlKS4KCglEaXNjdXNzZWQgYXQ6CglodHRwczovL2xpc3RzLmdudS5vcmcv
-ci9idWctZmluZHV0aWxzLzIwMjUtMTEvbXNnMDAwOTQuaHRtbAoKMjAyNi0wMS0wNSAgRy4gQnJh
-bmRlbiBSb2JpbnNvbiAgPGcuYnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5jb20+ICAodGlueSBjaGFu
-Z2UpCgoJbG9jYXRlLjE6IGFjY2VzcyBeIGNoYXJhY3RlciBwb3J0YWJseQoJVGhlIGBcKGhhYCBz
-cGVjaWFsIGNoYXJhY3RlciBlc2NhcGUgc2VxdWVuY2UgaXMgbm90IHVuaXZlcnNhbGx5Cglwb3J0
-YWJsZS4gIEluZGlyZWN0IGl0IHRocm91Z2ggYSBzdHJpbmcgZGVmaW5pdGlvbi4gIChHTlUgQmFz
-aCBhbHNvIHVzZXMKCXRoaXMgdGVjaG5pcXVlLlsxXSkKCgkqIGxvY2F0ZS9sb2NhdGUuMTogRG8g
-dGhlIGFib3ZlLgoKCVsxXSBodHRwczovL2dpdGh1Yi5jb20vYm1pbm9yL2Jhc2gvYmxvYi9hOGEx
-YzJmYWMwMjk0MDRkM2Y0MmNkMzlmNWEyMGYyNGI2ZTRmZTRiL2RvYy9iYXNoLjEjTDI2CgoJRGlz
-Y3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTEx
-L21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5k
-ZW4ucm9iaW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCWxvY2F0ZWRiLjU6IGZpeCB1
-bmVzY2FwZWQgaHlwaGVucwoJVGhlc2UgaW5zdGFuY2VzIHJlcHJlc2VudCBoeXBoZW4tbWludXMg
-Y2hhcmFjdGVycywgc28gc2hvdWxkIGJlIHNwZWxsZWQKCWluIG1hbig3KSBzb3VyY2UgYXMgYFwt
-YC4KCgkqIGxvY2F0ZS9sb2NhdGVkYi41OiBEbyB0aGUgYWJvdmUuCgoJRGlzY3Vzc2VkIGF0OgoJ
-aHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0
-bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25A
-Z21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCXhhcmdzLjE6IHVzZSBwb3J0YWJsZSB0eXBvZ3Jh
-cGhlcidzIHF1b3RlcwoJKiB4YXJncy94YXJncy4xOiBEbyB0aGUgYWJvdmUuCgoJRGlzY3Vzc2Vk
-IGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAw
-MDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9i
-aW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCWZpbmQuMTogc2V0IGZpbGUgbmFtZSBs
-aXRlcmFscyBpbiBpdGFsaWNzCgkuLi5ub3Qgcm9tYW4sIGFuZCBwcm90ZWN0IHRoZW0gZnJvbSBo
-eXBoZW5hdGlvbi4KCglHTlUgdHJvZmYsIEhlaXJsb29tIERvY3Rvb2xzIHRyb2ZmLCBhbmQgbWFu
-ZG9jIGFsbCBzdXBwb3J0IHVzZSBvZiB0aGUKCWBcJWAgaHlwaGVuYXRpb24gY29udHJvbCBlc2Nh
-cGUgc2VxdWVuY2UgYXQgdGhlIF9iZWdpbm5pbmdfIG9mIGEgd29yZAoJc3VwcHJlc3MgaXRzIGh5
-cGhlbmF0aW9uLiAgT3RoZXIgdHJvZmZzIGRvIG5vdC4gIEluZGlyZWN0IHRoaXMKCWFwcGxpY2F0
-aW9uIG9mIHRoZSBlc2NhcGUgc2VxdWVuY2UgdGhyb3VnaCBhIHN0cmluZywgaW50ZXJwb2xhdGlu
-ZwoJbm90aGluZyBvbiBmb3JtYXR0ZXJzIHRoYXQgZG9uJ3QgYWR2ZXJ0aXNlIEdOVSBjb21wYXRp
-YmlsaXR5IHZpYSB0aGUKCWAuZ2AgcmVnaXN0ZXIuICAoVGhpcyBtZWFucyB0aGF0IGxpdGVyYWxz
-IGNhbiBoeXBoZW5hdGUgdW5kZXNpcmFibHkgb24KCURXQiwgU29sYXJpcywgYW5kIFBsYW4gOSB0
-cm9mZnMuKQoKCUdOVSB0cm9mZiwgSGVpcmxvb20gRG9jdG9vbHMgdHJvZmYsIGFuZCBtYW5kb2Mg
-YWxsIGFsc28gc3VwcG9ydCB0aGUgR05VCglgXDpgIGV4dGVuc2lvbiB0byBtYXJrIGJyZWFrIHBv
-aW50cyB0aGF0IHNob3VsZCBub3QgcHJvZHVjZSBoeXBoZW5zLgoJQXBwbHkgdGhlIHNhbWUgdGVj
-aG5pcXVlIHRvIGF2b2lkIHVuZGVzaXJlZCBmb3JtYXR0aW5nIG9mIGEgJzonCgljaGFyYWN0ZXIg
-b24gRFdCLCBTb2xhcmlzLCBhbmQgUGxhbiA5IHRyb2Zmcy4KCgkqIGZpbmQvZmluZC4xOiBEbyB0
-aGUgYWJvdmUuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZp
-bmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9i
-aW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCWZp
-bmQuMTogYWNjZXNzIOKAnCBhbmQg4oCdIHBvcnRhYmx5CglUaGUgYFwobHFgIGFuZCBgXChycWAg
-YW5kIHNwZWNpYWwgY2hhcmFjdGVyIGVzY2FwZSBzZXF1ZW5jZXMgYXJlIG5vdAoJdW5pdmVyc2Fs
-bHkgcG9ydGFibGUuCgoJVHJhZGl0aW9uYWxseSwgQVQmVCB0cm9mZiBkaWQgbm90IGJvdGhlciB0
-byBpZGVudGlmeSB0aGVzZSBzcGVjaWFsCgljaGFyYWN0ZXJzIGF0IGFsbDsgaXQgd2FzIGFwcGFy
-ZW50bHkgZmVsdCB0aGF0IGFkamFjZW50bHkgc2V0dGluZwoJZGlyZWN0aW9uYWwgc2luZ2xlIHF1
-b3RlcyBzdWZmaWNlZC4gIFlvdSBjYW4gZGlzY2VybiB0aGlzIGZhY3QgaW4KCW1hdGVyaWFscyB0
-eXBlc2V0IGJ5IEFUJlQgdHJvZmYgYnkgb2JzZXJ2aW5nIHdoYXQgb25lIG1pZ2h0IGNhbGwKCWdl
-bmVyb3VzIGtlcm5pbmcgb2YgdGhlc2UgZ2x5cGhzIHdoZW4gdXNlZCBhcyAiZG91YmxlIiBxdW90
-ZXMuCgoJSG93ZXZlciwgc29tZW9uZSBhdCB0aGUgQmVya2VsZXkgQ1NSRyBoYWQgYSBicmFpbndh
-dmUsIGFuZCBmb3IgNEJTRCBpbgoJMTk4MCwgYWRkZWQgc3RyaW5ncyBuYW1lZCBgbHFgIGFuZCBg
-cnFgIHRvIHRoZSBtYW4oNykgcGFja2FnZSBzbyB0aGF0CgltYW4gcGFnZXMgY291bGQgYWNjZXNz
-IGRvdWJsZSBxdW90ZXMgYnkgd2hhdGV2ZXIgbWVhbnMgdGhlIHVuZGVybHlpbmcKCWltcGxlbWVu
-dGF0aW9uIGhhZCBmb3IgcmVhbGl6aW5nIHRoZW0uICBUaGlzIGV4Y2VsbGVudCBpZGVhIG1hZGUg
-aXQgaW50bwoJVW5peCBTeXN0ZW0gViAoMTk4OC85KSwgc28gdGhhdCBldmVyeSBzdXJ2aXZpbmcg
-dHJvZmYgaW1wbGVtZW50YXRpb24KCWtub3duIHRvIG1lLCBpbmNsdWRpbmcgRFdCIGFuZCBTb2xh
-cmlzIDEwLCBzdXBwb3J0cyB0aGVtLS1zYXZlIG9uZS4gIFRoZQoJZXhjZXB0aW9uIGlzIFBsYW4g
-OS4gIEZvcnR1bmF0ZWx5LCB0aGUgUGxhbiA5IGZyb20gVXNlciBTcGFjZQoJKCJwbGFuOXBvcnQi
-KSBwcm9qZWN0IGFjY2VwdGVkIGEgcGF0Y2ggZnJvbSBtZSBvbiAxMCBPY3RvYmVyIHRvIGFkZAoJ
-c3VwcG9ydCB0aGVyZSBhcyB3ZWxsLlsxXQoKCUxpa2UgdGhlIFwqIiBzdHJpbmcsIFwqKGxxIGFu
-ZCBcKihycSBzaG91bGQgbm90IGJlIHVzZWQgaW4gcXVvdGVkIG1hY3JvCglhcmd1bWVudHMgaWYg
-b25lIGRlc2lyZXMgcG9ydGFiaWxpdHkgdG8gQVQmVCB0cm9mZi1kZXNjZW5kZWQgZm9ybWF0dGVy
-cwoJKG90aGVyIHRoYW4gSGVpcmxvb20gRG9jdG9vbHMgdHJvZmYpOyBpZiB0aGUgaW1wbGVtZW50
-YXRpb24gZGVmaW5lcwoJdGhlc2Ugc3RyaW5ncyBzdWNoIHRoYXQgdGhlaXIgaW50ZXJwb2xhdGlv
-bnMgY29udGFpbiBgImAsIHVuZGVzaXJlZAoJb3V0cHV0IGlzIHRoZSBsaWtlbHkgcmVzdWx0LgoK
-CVsxXSBodHRwczovL2dpdGh1Yi5jb20vOWZhbnMvcGxhbjlwb3J0L3B1bGwvNzM1CgoJKiBmaW5k
-L2ZpbmQuMTogRG8gdGhlIGFib3ZlLgoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251
-Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBH
-LiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55
-IGNoYW5nZSkKCglmaW5kLjE6IHVzZSBuZXcgfiBzdHJpbmcgZm9yIHBhc3RhYmxlIHRpbGRlCgkq
-IGZpbmQvZmluZC4xOiBEbyB0aGUgYWJvdmUuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0
-cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEt
-MDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwuY29tPiAg
-KHRpbnkgY2hhbmdlKQoKCWZpbmQuMTogYWNjZXNzIH4gY2hhcmFjdGVyIHBvcnRhYmx5CgkqIGZp
-bmQvZmluZC4xOgoJVGhlIGBcKHRpYCBzcGVjaWFsIGNoYXJhY3RlciBlc2NhcGUgc2VxdWVuY2Ug
-aXMgbm90IHVuaXZlcnNhbGx5Cglwb3J0YWJsZS4gIEluZGlyZWN0IGl0IHRocm91Z2ggYSBzdHJp
-bmcgZGVmaW5pdGlvbi4gIChHTlUgQmFzaCBhbHNvIHVzZXMKCXRoaXMgdGVjaG5pcXVlLlsxXSkK
-CglbMV0gaHR0cHM6Ly9naXRodWIuY29tL2JtaW5vci9iYXNoL2Jsb2IvYThhMWMyZmFjMDI5NDA0
-ZDNmNDJjZDM5ZjVhMjBmMjRiNmU0ZmU0Yi9kb2MvYmFzaC4xI0wyNgoKCURpc2N1c3NlZCBhdDoK
-CWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5o
-dG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFuZGVuLnJvYmluc29u
-QGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCglmaW5kLjE6IGltcHJvdmUgY29zbWV0aWNzIG9m
-ICpyb2ZmIGxvZ2ljCgkqIGZpbmQvZmluZC4xOiBEbyB0aGUgYWJvdmUuCgoJRGlzY3Vzc2VkIGF0
-OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0
-Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5z
-b25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCWRvYzogYWNjZXNzIGVuIGRhc2ggY2hhcmFj
-dGVyIHBvcnRhYmx5CglUaGUgYFwoZW5gIHNwZWNpYWwgY2hhcmFjdGVyIGVzY2FwZSBzZXF1ZW5j
-ZSBpcyBub3QgdW5pdmVyc2FsbHkKCXBvcnRhYmxlLiAgSW5kaXJlY3QgaXQgdGhyb3VnaCBhIHN0
-cmluZyBkZWZpbml0aW9uLgoKCSogZmluZC9maW5kLjE6CgkqIGxvY2F0ZS9sb2NhdGUuMToKCSog
-bG9jYXRlL2xvY2F0ZWRiLjU6CgkqIGxvY2F0ZS91cGRhdGVkYi4xOgoJKiB4YXJncy94YXJncy4x
-OiBEbyB0aGUgYWJvdmUuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3Iv
-YnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5k
-ZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdl
-KQoKCWZpbmQuMTogdXNlIGVtIGRhc2ggZm9yIGxpbmd1aXN0aWMgcGF1c2EKCUFuIGVtIGRhc2gg
-aXMgdGhlIG1vcmUgb3J0aG9ncmFwaGljYWxseSBjb3JyZWN0IGRhc2ggZm9yIGEgY291cGxlIG9m
-Cgljb250ZXh0cyB3aGVyZSB0aGUgcGFnZSBoYWQgYmVlbiB1c2luZyBhbiBlbiBkYXNoICh3aGlj
-aCBkZW5vdGVzIGEKCXJhbmdlKSwgYW5kIGl0cyBzcGVjaWFsIGNoYXJhY3RlciBlc2NhcGUgc2Vx
-dWVuY2UgaXMgdW5pdmVyc2FsbHkKCXBvcnRhYmxlIHRvIGJvb3QuCgoJKiBmaW5kL2ZpbmQuMTog
-XFJlcGxhY2UgIihlbiIgYnkgIlwoZW0iLgoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMu
-Z251Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1
-ICBHLiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0
-aW55IGNoYW5nZSkKCglmaW5kLjE6IHNldCBxdW90YXRpb24gbWFya3MgYXMgc3VjaCBpbiByb21h
-bgoJKiBmaW5kL2ZpbmQuMTogLi4ubm90IGJvbGQuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9s
-aXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYt
-MDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwuY29t
-PiAgKHRpbnkgY2hhbmdlKQoKCWZpbmQuMTogYWNjZXNzIGAgY2hhcmFjdGVyIHBvcnRhYmx5CglX
-aGVuIHVzaW5nIGAgYXMgdGhlIFVuaXggc2hlbGwncyBjb21tYW5kIG91dHB1dCBzdWJzdGl0dXRp
-b24gb3BlcmF0b3IsCgl1c2UgdGhlIHBvcnRhYmxlICpyb2ZmIGBcKGdhYCBzcGVjaWFsIGNoYXJh
-Y3RlciBlc2NhcGUgc2VxdWVuY2UgdG8KCWVuc3VyZSB0aGF0IHdlIHJlYWxseSBmb3JtYXQgYSBn
-cmF2ZSBhY2NlbnQgcmF0aGVyIHRoYW4gYSB0eXBvZ3JhcGhlcidzCglzaW5nbGUgcXVvdGF0aW9u
-IG1hcmsgKOKAmCkuCgoJKiBmaW5kL2ZpbmQuMTogRG8gdGhlIGFib3ZlLgoKCURpc2N1c3NlZCBh
-dDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5
-NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFuZGVuLnJvYmlu
-c29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCglmaW5kLjE6IGFjY2VzcyAnIGNoYXJhY3Rl
-ciBwb3J0YWJseQoJVGhlIGBcKGFxYCBzcGVjaWFsIGNoYXJhY3RlciBlc2NhcGUgc2VxdWVuY2Ug
-aXMgbm90IHVuaXZlcnNhbGx5Cglwb3J0YWJsZS4gIEluZGlyZWN0IGl0IHRocm91Z2ggYSBzdHJp
-bmcgZGVmaW5pdGlvbi4gIChHTlUgQmFzaCBhbHNvIHVzZXMKCXRoaXMgdGVjaG5pcXVlLlsxXSkK
-CglbMV0gaHR0cHM6Ly9naXRodWIuY29tL2JtaW5vci9iYXNoL2Jsb2IvYThhMWMyZmFjMDI5NDA0
-ZDNmNDJjZDM5ZjVhMjBmMjRiNmU0ZmU0Yi9kb2MvYmFzaC4xI0wyNgoKCSogZmluZC9maW5kLjE6
-IERvIHRoZSBhYm92ZS4KCglEaXNjdXNzZWQgYXQ6CglodHRwczovL2xpc3RzLmdudS5vcmcvci9i
-dWctZmluZHV0aWxzLzIwMjUtMTEvbXNnMDAwOTQuaHRtbAoKMjAyNi0wMS0wNSAgRy4gQnJhbmRl
-biBSb2JpbnNvbiAgPGcuYnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5jb20+ICAodGlueSBjaGFuZ2Up
-CgoJZmluZC4xOiBhY2Nlc3MgIiBjaGFyYWN0ZXIgc29tZXdoYXQgcG9ydGFibHkKCVRoZSBgXChk
-cWAgc3BlY2lhbCBjaGFyYWN0ZXIgZXNjYXBlIHNlcXVlbmNlIGlzIG5vdCB1bml2ZXJzYWxseQoJ
-cG9ydGFibGUuICBJbmRpcmVjdCBpdCB0aHJvdWdoIGEgc3RyaW5nIGRlZmluaXRpb24uICAoR05V
-IEJhc2ggYWxzbyB1c2VzCgl0aGlzIHRlY2huaXF1ZS5bMV0pCgoJVW5mb3J0dW5hdGVseSwgYCJg
-IGlzIG9uZSBvZiB0aGUgd29yc3QtYmVoYXZlZCBhbmQgbGVhc3QtYWNjZXNzaWJsZQoJY2hhcmFj
-dGVycyBpbiBBVCZUIHRyb2ZmOyBhIHBsZWFzYW50IERyLiBKZWt5bGwgd2hlbiB1c2VkIG9uIHRl
-eHQgbGluZXMsCglpdHMgTXIuIEh5ZGUgcGVyc29uYSBlcnVwdHMgd2hlbiB1c2VkIGluIG1hY3Jv
-IGNhbGxzLCBhbmQgaXMgd2hvbGx5Cgl1bnByZWRpY3RhYmxlIHRvIG5vbi1leHBlcnRzIHdoZW4g
-YXBwZWFyaW5nIGluIHJlcXVlc3QgYXJndW1lbnRzLlsyXQoJX1NvbWVfIEFUJlQgdHJvZmZzIG9m
-ZmVyIGBcKGRxYCBvbiBfc29tZV8gb3V0cHV0IGRldmljZXMuICBBVCZUIHRyb2ZmCglhbHNvIGhh
-cyBubyBtZWNoYW5pc20gZm9yIGEgZG9jdW1lbnQgdG8gZGVmaW5lIGl0cyBvd24gc3BlY2lhbCBj
-aGFyYWN0ZXIKCWVzY2FwZSBzZXF1ZW5jZXMuICBHTlUgdHJvZmYgb2ZmZXJzIGBcKGRxYCBvbiBh
-bGwgb3V0cHV0IGRldmljZXMuCgoJWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9ibWlub3IvYmFzaC9i
-bG9iL2E4YTFjMmZhYzAyOTQwNGQzZjQyY2QzOWY1YTIwZjI0YjZlNGZlNGIvZG9jL2Jhc2guMSNM
-MjYKCglbMl0gIkZvciB0aGUgKG5ldXRyYWwpIGRvdWJsZSBxdW90ZSwgeW91IGhhdmUgcmVjb3Vy
-c2UgdG8gYW4gb2JzY3VyZQoJICAgIHN5bnRhY3RpY2FsIGZlYXR1cmUgb2YgQVQmVCB0cm9mZi4g
-IEJlY2F1c2UgYSBkb3VibGUgcXVvdGUgY2FuIGJlZ2luCgkgICAgYSBtYWNybyBhcmd1bWVudCwg
-dGhlIGZvcm1hdHRlciBrZWVwcyB0cmFjayBvZiB3aGV0aGVyIHRoZSBjdXJyZW50CgkgICAgYXJn
-dW1lbnQgd2FzIHN0YXJ0ZWQgdGh1cywgYW5kIGRvZXNu4oCZdCByZXF1aXJlIGEgc3BhY2UgYWZ0
-ZXIgdGhlCgkgICAgZG91YmxlIHF1b3RlIHRoYXQgZW5kcyBpdC4gIEluIHRoZSBhcmd1bWVudCBs
-aXN0IHRvIGEgbWFjcm8sIGEKCSAgICBkb3VibGUgcXVvdGUgdGhhdCBpc27igJl0IHByZWNlZGVk
-IGJ5IGEgc3BhY2UgZG9lc27igJl0IHN0YXJ0IGEgbWFjcm8KCSAgICBhcmd1bWVudC4gIElmIG5v
-dCBwcmVjZWRlZCBieSBhIGRvdWJsZSBxdW90ZSB0aGF0IGJlZ2FuIGFuIGFyZ3VtZW50LAoJICAg
-IHRoaXMgZG91YmxlIHF1b3RlIGJlY29tZXMgcGFydCBvZiB0aGUgYXJndW1lbnQuICBGdXJ0aGVy
-bW9yZSwgd2l0aGluCgkgICAgYSBxdW90ZWQgYXJndW1lbnQsIGEgcGFpciBvZiBhZGphY2VudCBk
-b3VibGUgcXVvdGVzIGJlY29tZXMgYQoJICAgIGxpdGVyYWwgZG91YmxlIHF1b3RlLiIKCgkgICAg
-aHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS9ncm9mZi9tYW51YWwvZ3JvZmYuaHRtbC5ub2Rl
-L0NhbGxpbmctTWFjcm9zLmh0bWwKCgkqIGZpbmQvZmluZC4xOiBEbyB0aGUgYWJvdmUuCgoJRGlz
-Y3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTEx
-L21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5k
-ZW4ucm9iaW5zb25AZ21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCWZpbmQuMTogaW1wcm92ZSB0
-YWJsZSBmb3JtYXR0aW5nCgkqIGZpbmQvZmluZC4xOgoJLSBVc2UgcGFyYWdyYXBoaW5nIG1hY3Jv
-cyB0byBwdXQgdmVydGljYWwgc3BhY2UgYWJvdmUgYW5kIGJlbG93IHRoZQoJICB0YWJsZXMgKHdo
-ZXJlIG5vdCBhbHJlYWR5IHByZXNlbnQpIHNvIHRoYXQgdGhleSBsb29rcyBtb3JlIGxpa2UKCSAg
-dHlwb2dyYXBoaWNhbCAiZGlzcGxheXMiLlsxXQoJLSBTaW1wbGlmeSAiWFkiIHRhYmxlIGRlZmlu
-aXRpb24gKHNlZSBncm9mZidzIHRibCgxKSBtYW4gcGFnZSkuICBUaGlzCgkgIHNpbXBsZXIgZGVm
-aW5pdGlvbiBoYXMgdGhlIHNhbWUgcmVzdWx0IChhbmQgaXMgbW9yZSBhZGFwdGFibGUgaW4gdGhl
-CgkgIGV2ZW50IHRoZSB0ZXh0IG9mIHRoZSB0YWJsZSBpcyByZXZpc2VkKS4KCS0gUHV0IGhvcml6
-b250YWwgcnVsZSBiZWxvdyBjb2x1bW4gaGVhZGluZ3MgaW4gdGFibGUgdGhhdCB1c2VzIHRoZW0u
-CgktIFVzZSB0aGluIHNwYWNlIGVzY2FwZSBzZXF1ZW5jZXMgYFx8YCBiZXR3ZWVuIHRoZSBkb3Rz
-IG9mIGFuIGVsbGlwc2lzOwoJICB0aGUgZWZmZWN0IGlzIHZpc2libGUgb25seSBvbiB0eXBlc2V0
-dGluZyBkZXZpY2VzLlsyXSAgSSBsZWZ0IHRoZQoJICBkdW1teSBjaGFyYWN0ZXIgZXNjYXBlIHNl
-cXVlbmNlIGBcJmAgdHJhaWxpbmcgaXQgaW50YWN0LCBidXQgb2JzZXJ2ZQoJICBmb3IgdGhlIGVk
-aWZpY2F0aW9uIG9mIG5pdC1waWNrZXJzIHRoYXQgaXQgaGFzIG5vIGVmZmVjdCBpbiB0aGlzCgkg
-IGNvbnRleHQuWzNdCgoJWzFdIG1hbig3KSBpbXBsZW1lbnRhdGlvbnMgYXJlIGhpc3RvcmljYWxs
-eSBpbmNvbnNpc3RlbnQgd2l0aCByZXNwZWN0IHRvCgkgICAgd2hldGhlciBhIGBUU2AgbWFjcm8g
-Y2FsbCBzaG91bGQgcHV0IGFueSB2ZXJ0aWNhbCBzcGFjZSBvbiB0aGUKCSAgICBvdXRwdXQsIGFu
-ZCBjb21wb3NpdGlvbmFsIHByYWN0aWNlcyBvbiB0aGUgcGFydCBvZiBtYW4gcGFnZSBhdXRob3Jz
-CgkgICAgaGF2ZSB0aHVzIGJlZW4sIHRvIHF1b3RlIEluZ28gU2Nod2FyemUsICJ3aWxkbHkgaW5j
-b25zaXN0ZW50Ii4KCgkgICAgaHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzYyODQxCgoJ
-WzJdIGdyb2ZmX21hbl9zdHlsZSg3KToKCgkgICAgICAgRXhhbXBsZXMgb2YgZWxsaXBzaXMgdXNh
-Z2UgYXJlIHNob3duIGFib3ZlLCBpbiBzdWJzZWN0aW9uCgkgICAgICAg4oCcU3lub3BzaXMgbWFj
-cm9z4oCdLiAgVGhlIGlkaW9tYXRpYyByb2ZmIGVsbGlwc2lzIGlzIHRocmVlIGRvdHMKCSAgICAg
-ICAocGVyaW9kcykgd2l0aCB0aGluIHNwYWNlIGVzY2FwZSBzZXF1ZW5jZXMgXHwgaW50ZXJuYWxs
-eQoJICAgICAgIHNlcGFyYXRpbmcgdGhlbS4KCglbM10gdGJsKDEpOgoKCSAgICAgT3JkaW5hcmls
-eSwgYSB0YWJsZSBlbnRyeSBpcyB0eXBlc2V0IHJpZ2lkbHkuICBJdCBpcyBub3QgZmlsbGVkLAoJ
-ICAgICBicm9rZW4sIGh5cGhlbmF0ZWQsIGFkanVzdGVkLCBvciBwb3B1bGF0ZWQgd2l0aCBzdXBw
-bGVtZW50YWwgaW50ZXLigJAKCSAgICAgc2VudGVuY2Ugc3BhY2UuCgoJRGlzY3Vzc2VkIGF0OgoJ
-aHR0cHM6Ly9saXN0cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0
-bWwKCjIwMjYtMDEtMDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25A
-Z21haWwuY29tPiAgKHRpbnkgY2hhbmdlKQoKCWZpbmQuMTogcXVvdGUgbXVsdGktd29yZCBgU0hg
-LCBgU1NgIGNhbGwgYXJndW1lbnRzCglUaGUgbWFuKDcpIG1hY3JvIHBhY2thZ2UgZnJvbSBBVCZU
-IHRyb2ZmIGFuZCBtb3N0IG9mIGl0cyBkZXNjZW5kYW50cywKCWluY2x1ZGluZyB0aG9zZSBpbiBE
-V0IsIFBsYW4gOSwgYW5kIFNvbGFyaXMgdHJvZmZzLCBzdXBwb3J0IGF0IG1vc3Qgc2l4Cglhcmd1
-bWVudHMgdG8gYW55IG1hY3JvIGNhbGwuCgoJKiBmaW5kL2ZpbmQuMTogUXVvdGUgYWxsIG11bHRp
-LXdvcmQgYXJndW1lbnRzIHRvIHRoZXNlIG1hY3Jvcywgbm90IGp1c3QgdGhvc2UKCWluIGV4Y2Vz
-cyBvZiBzaXggYXJndW1lbnRzLCBhcyBhIHJlbWluZGVyIG9mIGRlZmVuc2l2ZSBwcmFjdGljZSB0
-byBkb2N1bWVudAoJbWFpbnRhaW5lcnMuCgoJQmVmb3JlIGFuZCBhZnRlciBvbiBQbGFuIDkgZnJv
-bSBVc2VyIFNwYWNlIHRyb2ZmOgoKCSAgJCBkaWZmIC1iIC1VMCBmaW5kLXBsYW45cG9ydC1bMTJd
-LnR4dAoJICAtLS0gZmluZC1wbGFuOXBvcnQtMS50eHQgICAgICAgIDIwMjUtMTEtMTggMjA6MjA6
-MDguMzg4ODg3Mzc1IC0wNjAwCgkgICsrKyBmaW5kLXBsYW45cG9ydC0yLnR4dCAgICAgICAgMjAy
-NS0xMS0xOCAyMDoyMDoxNC43MTI4ODE5NDkgLTA2MDAKCSAgQEAgLTIwNjggKzIwNjggQEAKCSAg
-LSAgICAgICBTYWZlciBgZmluZCAtcHJpbnQwIHwgeGFyZ3MgLTBgCgkgICsgICAgICAgU2FmZXIg
-YGZpbmQgLXByaW50MCB8IHhhcmdzIC0wYCBhcHByb2FjaAoJICBAQCAtMjEyOSArMjEyOSwyIEBA
-CgkgIC0gICAgICAgVHJhdmVyc2luZyB0aGUgZmlsZXN5c3RlbSBqdXN0IG9uY2UgZW4KCSAgKyAg
-ICAgICBUcmF2ZXJzaW5nIHRoZSBmaWxlc3lzdGVtIGp1c3Qgb25jZSBlbiBmb3IgMiBkaWZmZXJl
-bnQgYWN0aW9ucwoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1m
-aW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJv
-Ymluc29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCgls
-b2NhdGUuMTogaW1wcm92ZSB0YWJsZSBmb3JtYXR0aW5nCgkqIGxvY2F0ZS9sb2NhdGUuMSAoSElT
-VE9SWSk6CgktIFVzZSBwYXJhZ3JhcGhpbmcgbWFjcm8gdG8gcHV0IHZlcnRpY2FsIHNwYWNlIGFi
-b3ZlIHRoZSB0YWJsZSBzbyB0aGF0CgkgIGl0IGxvb2tzIG1vcmUgbGlrZSBhIHR5cG9ncmFwaGlj
-YWwgImRpc3BsYXkiLlsxXQoJLSBTZXQgdGFibGUgY2VsbHMgdGhhdCBvdmVyc2V0IHRoZSBsaW5l
-IG9uIEFUJlQgbnJvZmYgKHdoZXJlIHRoZSBsaW5lCgkgIGxlbmd0aCBpcyA2NW4pIHVzaW5nIHRl
-eHQgYmxvY2tzLgoJLSBJc3N1ZSBgbmFgIHJlcXVlc3QgaW4gdGhlc2UgdGV4dCBibG9ja3MgdG8g
-cHJldmVudCB0aGUgY2VsbCBjb250ZW50cwoJICBmcm9tIGFkanVzdGluZyBpbiB0aGUgZXZlbnQg
-dGhlIGZvcm1hdHRlci9wYWNrYWdlL3VzZXIgaGFzIGNvbmZpZ3VyZWQKCSAgbWFuIHBhZ2VzIHRv
-IGVtcGxveSBhZGp1c3RtZW50IGJ5IGRlZmF1bHQuICAoUHJhY3RpY2VzIHZhcnk7IGl0J3MgYQoJ
-ICBsb25nIHN0b3J5LlsyXSkKCS0gUmVtb3ZlIHNwYWNlcyBhcm91bmQgdGhlIGNvbmZpZ3VyZWQg
-dGJsKDEpIHRhYiBjaGFyYWN0ZXIgb2YgYHxgLiAgVGhpcwoJICBjZXJ0YWlubHkgZG9lcyBtYWtl
-IHRoZSB0YWJsZSB1Z2xpZXIgaW4gc291cmNlIGZvcm0uICBVbmZvcnR1bmF0ZWx5LAoJICBBVCZU
-IHRibCgxKSB0YWtlcyB0aG9zZSBzcGFjZXMgZGVhZGx5IHNlcmlvdXNseSBhbmQgdGhleSBpbXBh
-Y3QgdGhlCgkgIGNvbXB1dGVkIGNlbGwgKGFuZCB0aGVyZWZvcmUgY29sdW1uKSB3aWR0aHMuICBH
-TlUgdGJsIGhhcyBmb3IgZGVjYWRlcwoJICBzdXBwb3J0ZWQgYSAibm9zcGFjZXMiIHJlZ2lvbiBv
-cHRpb24gdG8gYWRkcmVzcyBwcmVjaXNlbHkgdGhpcwoJICBwcm9ibGVtOyB1bmZvcnR1bmF0ZWx5
-IGl0IGlzIG5vdCBwb3J0YWJsZSB0byBEV0IgMy4zLCBQbGFuIDksIG9yCgkgIFNvbGFyaXMgMTAg
-dHJvZmZzLCBhbmQgSSBzdXNwZWN0IG5vdCB0byBfYW55XyBzdXJ2aXZpbmcgU3lzdGVtIFYKCSAg
-dHJvZmYuCgoJRml4ZXMgd2FybmluZyBmcm9tIHRibCgxKSBpbiBncm9mZiAxLjIzLjA6CgoJbG9j
-YXRlL2xvY2F0ZS4xOjI4OTogd2FybmluZzogdGFibGUgd2lkZXIgdGhhbiBsaW5lIGxlbmd0aCBt
-aW51cyBpbmRlbnRhdGlvbgoKCVsxXSBtYW4oNykgaW1wbGVtZW50YXRpb25zIGFyZSBoaXN0b3Jp
-Y2FsbHkgaW5jb25zaXN0ZW50IHdpdGggcmVzcGVjdCB0bwoJICAgIHdoZXRoZXIgYSBgVFNgIG1h
-Y3JvIGNhbGwgc2hvdWxkIHB1dCBhbnkgdmVydGljYWwgc3BhY2Ugb24gdGhlCgkgICAgb3V0cHV0
-LCBhbmQgY29tcG9zaXRpb25hbCBwcmFjdGljZXMgb24gdGhlIHBhcnQgb2YgbWFuIHBhZ2UgYXV0
-aG9ycwoJICAgIGhhdmUgdGh1cyBiZWVuLCB0byBxdW90ZSBJbmdvIFNjaHdhcnplLCAid2lsZGx5
-IGluY29uc2lzdGVudCIuCgoJICAgIGh0dHBzOi8vc2F2YW5uYWguZ251Lm9yZy9idWdzLz82Mjg0
-MQoKCVsyXSAiU29tZSBwZW9wbGUgZG8gaGF0ZSBhZGp1c3RtZW50IG9mIG5yb2ZmIG91dHB1dCwg
-dGhvdWdoLCB3aGljaCBpcwoJICAgIHdoeSBJIGFkZGVkIGEgZmVhdHVyZSB0byBncm9mZiBtYW4o
-NykgdG8gc3VwcG9ydCBkaXNhYmxpbmcgaXQuCgoJICAgIFRoZSBoaXN0b3J5IG9mIHRoaXMgcHJh
-Y3RpY2UgaXMgaW5jb25zaXN0ZW50LiAgU2V2ZW50aCBFZGl0aW9uIFVuaXgKCSAgICAoMTk3OSkg
-ZGlzYWJsZWQgYWRqdXN0bWVudCBvZiBtYW4gcGFnZXMgd2hlbiByZW5kZXJpbmcgaW4gbnJvZmYK
-CSAgICBtb2RlLFszXSBhbmQgQlNEIHJldGFpbmVkIHRoYXQgZGlzYWJsZW1lbnQgdW50aWwgZGVh
-dGguICBTdW5PUwoJICAgIGNvbW1lbnRlZCBpdCBhcyBlYXJseSBhcyBTdW5PUyAyLjAgKDE5ODUp
-LCB0aHVzIHJlc3RvcmluZyBhZGp1c3RtZW50CgkgICAgaW4gbnJvZmYgbW9kZSwgYW5kIHJldGFp
-bmVkIHRoYXQgYWxsIHRoZSB3YXkgdGhyb3VnaCBTb2xhcmlzIDEwCgkgICAgKDIwMDUpLiAgV2hl
-biBKYW1lcyBDbGFyayB3cm90ZSBncm9mZiBzdGFydGluZyBpbiBhYm91dCAxOTg5LCBoaXMKCSAg
-ICBtYW4oNykgaW1wbGVtZW50YXRpb24gY2xvc2VseSBlbXVsYXRlZCBTdW5PUy4gIFdpdGggdGhl
-IFNvbGFyaXMgMTEKCSAgICByZWxlYXNlIGluIDIwMTAsIE9yYWNsZSBkaXNjYXJkZWQgaXRzIEFU
-JlQtZGVzY2VuZGVkIHRyb2ZmIGluIGZhdm9yCgkgICAgb2YgdGhlIHRoZW4tY3VycmVudCBncm9m
-ZiByZWxlYXNlLiAgW1RoYXQncyBub3QgcXVpdGUgdHJ1ZS0tc2VlCgkgICAgYmVsb3cuXSAgVGhl
-eSdyZSBzdGlsbCBvbiBncm9mZiAxLjIyLjIgKDIwMTMpIHRvZGF5LCBhbmQgc28gdGhleSd2ZQoJ
-ICAgIGJlZW4gYWRqdXN0aW5nIHRoZWlyIG1hbiBwYWdlcyBpbiBucm9mZiBtb2RlIGZvciBhdCBs
-ZWFzdCA0MCB5ZWFycywKCSAgICBhcyBoYXMgZ3JvZmYgZm9yIGFib3V0IDM1W10uICBJIGRvbid0
-IGtub3cgd2hhdCBvdGhlciBTeXN0ZW0gVgoJICAgIFVuaWNlcyBkaWQuIgoKCSAgICBodHRwczov
-L2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL2dyb2ZmLzIwMjUtMDUvbXNnMDAwMDEuaHRtbAoK
-CSAgICAoSSBtYWRlIGFuIGluY29ycmVjdCBjbGFpbSBpbiB0aGUgZm9yZWdvaW5nOyBTb2xhcmlz
-IDExIHN0aWxsIGhhcwoJICAgIGl0cyBBVCZUIHRyb2ZmIGFyb3VuZCwgYnV0IGl0cyBtYW4gcGFn
-ZSByZW5kZXJpbmcgaXMgbm93IHBlcmZvcm1lZAoJICAgIGJ5IFthbiBvbGQgdmVyc2lvbiBvZl0g
-Z3JvZmYuKQoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5k
-dXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVuIFJvYmlu
-c29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCglkb2M6
-IGltcHJvdmUgZm9ybWF0dGluZyBvZiBjb21tYW5kIHN5bm9wc2VzICgyLzIpCgkqIGZpbmQvZmlu
-ZC4xOgoJKiBsb2NhdGUvbG9jYXRlLjE6IFVzZSB1bmJyZWFrYWJsZSBzcGFjZXMgYmV0d2VlbiBv
-cHRpb25zIGFuZCB0aGVpcgoJICBhcmd1bWVudHMsIHBvdGVudGlhbGx5IGltcHJvdmluZyBsZWdp
-YmlsaXR5LgoKCVRoZSBleGlzdGluZyBzeW5vcHNlcyBhcmUgc2hvcnQgZW5vdWdoIHRoYXQgdGhl
-eSBkb24ndCBicmVhayBpbiBzdWNoIGEKCXdheSBhcyB0byBwcm9tb3RlIGNvbmZ1c2lvbiBldmVu
-IG9uIG9sZC1mYXNoaW9uZWQgQVQmVCB0cm9mZnMgdGhhdCB1c2UgYQoJbGluZSBsZW5ndGggb2Yg
-NjVuIGluIG5yb2ZmIG1vZGUgKHZzLiBncm9mZiBtYW4oNykncyBoaXN0b3JpY2FsIDc4biBhbmQK
-CXByZXNlbnQtZGF5IDgwbikuICBUaHVzIHRoaXMgY2hhbmdlIG1lcmVseSBtYWtlcyB0aGUgc3lu
-b3BzZXMgcm9idXN0IHRvCglmdXR1cmUgY2hhbmdlcy4KCglEaXNjdXNzZWQgYXQ6CglodHRwczov
-L2xpc3RzLmdudS5vcmcvci9idWctZmluZHV0aWxzLzIwMjUtMTEvbXNnMDAwOTQuaHRtbAoKMjAy
-Ni0wMS0wNSAgRy4gQnJhbmRlbiBSb2JpbnNvbiAgPGcuYnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5j
-b20+ICAodGlueSBjaGFuZ2UpCgoJZG9jOiBpbXByb3ZlIGZvcm1hdHRpbmcgb2YgY29tbWFuZCBz
-eW5vcHNlcyAoMS8yKQoJKiBmaW5kL2ZpbmQuMToKCSogbG9jYXRlL2xvY2F0ZS4xOiBVc2UgYEhQ
-YCBoYW5naW5nIHBhcmFncmFwaCBtYWNybyB0byBpbmRlbnQKCSAgbm9uLWluaXRpYWwgbGluZXMg
-b2Ygc3lub3BzaXMuICBUZW1wb3JhcmlseSBkaXNhYmxlIGFkanVzdG1lbnQuCgoJQW4gYWx0ZXJu
-YXRpdmUgYXBwcm9hY2ggd291bGQgYmUgdG8gdXNlIGdyb2ZmIG1hbig3KSdzIGBTWWAgYW5kIGBZ
-U2AKCWV4dGVuc2lvbiBtYWNyb3M7IGVhY2ggbWFuIHBhZ2Ugd291bGQgdGhlbiBuZWVkIHRvIGRl
-ZmluZSBsb2NhbCB2ZXJzaW9ucwoJZm9yIHBvcnRhYmlsaXR5IHRvIERXQiAzLjMsIFBsYW4gOSwg
-YW5kIFNvbGFyaXMgMTAgdHJvZmZzLgoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251
-Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBH
-LiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55
-IGNoYW5nZSkKCglkb2M6IGltcHJvdmUgdHlwb2dyYXBoeSBvZiBzeW5vcHNlcwoJKiBmaW5kL2Zp
-bmQuMToKCSogbG9jYXRlL2xvY2F0ZS4xOiBQbGFjZSB0aGluIHNwYWNlIGVzY2FwZSBzZXF1ZW5j
-ZXMgYmV0d2VlbiBlbGxpcHNpcwoJICBkb3RzIGZvciBtb3JlIHBsZWFzYW50IG91dHB1dCB3aGVu
-IHR5cGVzZXR0aW5nLgoKCURpc2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1
-Zy1maW5kdXRpbHMvMjAyNS0xMS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTA1ICBHLiBCcmFuZGVu
-IFJvYmluc29uICA8Zy5icmFuZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkK
-Cglkb2M6IHVzZSBtYW4oNykgbWFjcm9zIHRvIHN0eWxlIGNvbW1hbmQgc3lub3BzZXMKCSogZmlu
-ZC9maW5kLjE6CgkqIGxvY2F0ZS9sb2NhdGUuMToKCSogbG9jYXRlL3VwZGF0ZWRiLjE6CgkqIHhh
-cmdzL3hhcmdzLjE6IEZhdm9yIG1hbig3KSBmb250IGFsdGVybmF0aW9uIG1hY3JvcyBvdmVyICpy
-b2ZmIGZvbnQKCSAgZXNjYXBlIHNlcXVlbmNlcy4gIFdoZW4gdHlwZXNldHRpbmcgd2l0aCBncm9m
-ZigxKSwgdGhlIG1hY3JvcwoJICBhdXRvbWF0aWNhbGx5IGFwcGx5IGl0YWxpYyBjb3JyZWN0aW9u
-cy4KCgkqIGxvY2F0ZS9sb2NhdGUuMTogUHJvdGVjdCBsb25nIG9wdGlvbiBuYW1lIGxpdGVyYWxz
-IGZyb20gaHlwaGVuYXRpb24uCgkgIEdOVSB0cm9mZiwgSGVpcmxvb20gRG9jdG9vbHMgdHJvZmYs
-IGFuZCBtYW5kb2MgYWxsIHN1cHBvcnQgdXNlIG9mIHRoZQoJICBgXCVgIGh5cGhlbmF0aW9uIGNv
-bnRyb2wgZXNjYXBlIHNlcXVlbmNlIGF0IHRoZSBfYmVnaW5uaW5nXyBvZiBhIHdvcmQKCSAgc3Vw
-cHJlc3MgaXRzIGh5cGhlbmF0aW9uLiAgT3RoZXIgdHJvZmZzIGRvIG5vdC4gIEluZGlyZWN0IHRo
-aXMKCSAgYXBwbGljYXRpb24gb2YgdGhlIGVzY2FwZSBzZXF1ZW5jZSB0aHJvdWdoIGEgc3RyaW5n
-LCBpbnRlcnBvbGF0aW5nCgkgIG5vdGhpbmcgb24gZm9ybWF0dGVycyB0aGF0IGRvbid0IGFkdmVy
-dGlzZSBHTlUgY29tcGF0aWJpbGl0eSB2aWEgdGhlCgkgIGAuZ2AgcmVnaXN0ZXIuICAoVGhpcyBt
-ZWFucyB0aGF0IGxpdGVyYWxzIGNhbiBoeXBoZW5hdGUgdW5kZXNpcmFibHkgb24KCSAgRFdCLCBT
-b2xhcmlzLCBhbmQgUGxhbiA5IHRyb2Zmcy4pCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0
-cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDk0Lmh0bWwKCjIwMjYtMDEt
-MDUgIEcuIEJyYW5kZW4gUm9iaW5zb24gIDxnLmJyYW5kZW4ucm9iaW5zb25AZ21haWwuY29tPiAg
-KHRpbnkgY2hhbmdlKQoKCWZpbmQuMTogdXNlIEFUJlQgdHJvZmYtY29tcGF0aWJsZSBzeW50YXgK
-CUJlZm9yZSBhbmQgYWZ0ZXIsIHVzaW5nIERXQiAzLjMgdHJvZmYgKFBsYW4gOSBhbmQgU29sYXJp
-cyAxMCB0cm9mZnMgYXJlCglzaW1pbGFyKToKCgkgICQgZGlmZiAtVTAgZmluZC4xLmR3Yi1bMTJd
-LnR4dHxoZWFkIC1uIDE5CgkgIC0tLSBmaW5kLjEuZHdiLTEudHh0ICAgIDIwMjUtMTAtMTMgMTA6
-MDk6MTcuMDI0MDU0ODI0IC0wNTAwCgkgICsrKyBmaW5kLjEuZHdiLTIudHh0ICAgIDIwMjUtMTAt
-MTMgMTA6MDk6MjQuNzY0MDEyMjgyIC0wNTAwCgkgIEBAIC0yMDM5ICsyMDM5IEBACgkgIC0gICAg
-ICAgICAgICBbYnVdCgkgICsgICAgICAgICAgICBvICAgRmluZCBmaWxlcyBuYW1lZCBjb3JlIGlu
-IG9yIGJlbG93IHRoZSBkaXJlY3RvcnkgL3RtcCBhbmQKCSAgQEAgLTIwNTQgKzIwNTMsMCBAQAoJ
-ICAtICAgICAgICAgICAgICAgIEZpbmQgZmlsZXMgbmFtZWQgY29yZSBpbiBvciBiZWxvdyB0aGUg
-ZGlyZWN0b3J5IC90bXAgYW5kCgkgIEBAIC0yMDY0LDIgKzIwNjMgQEAKCSAgLSAgICAgICAgICAg
-IFtidV0KCSAgLSAgICAgICAgICAgICAgICBGaW5kIGZpbGVzIG5hbWVkIGNvcmUgaW4gb3IgYmVs
-b3cgdGhlIGRpcmVjdG9yeSAvdG1wIGFuZAoJICArICAgICAgICAgICAgbyAgIEZpbmQgZmlsZXMg
-bmFtZWQgY29yZSBpbiBvciBiZWxvdyB0aGUgZGlyZWN0b3J5IC90bXAgYW5kCgkgIEBAIC0yMDgw
-LDIgKzIwNzggQEAKCSAgLSAgICAgICAgICAgIFtidV0KCSAgLSAgICAgICAgICAgICAgICBHaXZl
-biB0aGF0IGFub3RoZXIgcHJvZ3JhbSBwcm9nZ3kgcHJlLWZpbHRlcnMgYW5kIGNyZS0KCSAgKyAg
-ICAgICAgICAgIG8gICBHaXZlbiB0aGF0IGFub3RoZXIgcHJvZ3JhbSBwcm9nZ3kgcHJlLWZpbHRl
-cnMgYW5kIGNyZS0KCSAgQEAgLTIwOTcsMiArMjA5NCBAQAoJICAtICAgICAgICAgICAgW2J1XQoJ
-ICAtICAgICAgICAgICAgICAgIFJ1biBmaWxlIG9uIGV2ZXJ5IGZpbGUgaW4gb3IgYmVsb3cgdGhl
-IGN1cnJlbnQgZGlyZWMtCgkgICsgICAgICAgICAgICBvICAgUnVuIGZpbGUgb24gZXZlcnkgZmls
-ZSBpbiBvciBiZWxvdyB0aGUgY3VycmVudCBkaXJlYy0KCglGdXJ0aGVyIGNoYW5nZXMgaW4gdGhl
-IGRpZmYgYXBwZWFyIGJlY2F1c2UgdGhlIGRvY3VtZW50IG5vdyBwYWdpbmF0ZXMKCWRpZmZlcmVu
-dGx5IHdpdGggdGhlc2UgdHJvZmZzLiAgVGhhdCdzIGJlY2F1c2UgYSBvbmUtZW4td2lkZSBtYXJr
-ICdvJwoJKHRoZSBBU0NJSSByZXByZXNlbnRhdGlvbiBvZiBhIGJ1bGxldCkgZml0cyB3aXRoaW4g
-dGhlIDRuIHNwYWNlIGFsbG90dGVkCglieSB0aGUgZG9jdW1lbnQncyBgSVBgIGNhbGxzLCB3aGVy
-ZWFzICJbYnVdIiBkb2VzIG5vdC4KCglGaXhlcyB3YXJuaW5ncyBmcm9tICJucm9mZiAtQyAtd3cg
-LW1hbiIgaW4gdGhlIGZvcnRoY29taW5nIGdyb2ZmIDEuMjQ6Cgl0cm9mZjouL2ZpbmQvZmluZC4x
-OjIyNjA6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRy
-b2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjIyNzc6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlz
-IG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjIzMDU6IHdh
-cm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9m
-ZjouL2ZpbmQvZmluZC4xOjIzMjY6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0
-YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjIzNDk6IHdhcm5pbmc6IGFu
-IGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQv
-ZmluZC4xOjIzNzI6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBB
-VCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjIzOTI6IHdhcm5pbmc6IGFuIGVzY2FwZWQg
-J1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjI0
-MDI6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2Zm
-Cgl0cm9mZjouL2ZpbmQvZmluZC4xOjI0MTU6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5v
-dCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjI0MzE6IHdhcm5p
-bmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjou
-L2ZpbmQvZmluZC4xOjI0NDI6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJs
-ZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjI0NTk6IHdhcm5pbmc6IGFuIGVz
-Y2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmlu
-ZC4xOjI0NzE6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZU
-IHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjI0OTg6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1sn
-IGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjI1NDI6
-IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0
-cm9mZjouL2ZpbmQvZmluZC4xOjI1OTc6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBw
-b3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2ZpbmQvZmluZC4xOjI2MTg6IHdhcm5pbmc6
-IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0byBBVCZUIHRyb2ZmCgl0cm9mZjouL2Zp
-bmQvZmluZC4xOjI2MzA6IHdhcm5pbmc6IGFuIGVzY2FwZWQgJ1snIGlzIG5vdCBwb3J0YWJsZSB0
-byBBVCZUIHRyb2ZmCgoJKiBmaW5kL2ZpbmQuMTogUmVwbGFjZSAnXFtidV0nIGJ5ICdcKGJ1Jy4K
-CglEaXNjdXNzZWQgYXQ6CglodHRwczovL2xpc3RzLmdudS5vcmcvci9idWctZmluZHV0aWxzLzIw
-MjUtMTEvbXNnMDAwOTQuaHRtbAoKMjAyNi0wMS0wNSAgRy4gQnJhbmRlbiBSb2JpbnNvbiAgPGcu
-YnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5jb20+ICAodGlueSBjaGFuZ2UpCgoJZG9jOiBkZWxldGUg
-YmxhbmsgbGluZXMgZnJvbSBtYW4gcGFnZSBzb3VyY2VzCgkqIGZpbmQvZmluZC4xOgoJKiB4YXJn
-cy94YXJncy4xOiBSZXBsYWNlIGJsYW5rIGxpbmVzIHdpdGggZW1wdHkgcmVxdWVzdHMgb3IgcGFy
-YWdyYXBoaW5nCgkgIG1hY3JvIGNhbGxzIGFzIHNlZW1zIHRvIGJlIGludGVuZGVkLgoJKiBmaW5k
-L2ZpbmQuMTogRGVsZXRlIGJsYW5rIGxpbmVzIHByZWNlZGluZyBwYXJhZ3JhcGhpbmcgb3Igc2Vj
-dGlvbmluZwoJICBtYWNyb3MgdGhhdCBzZXJ2ZSBvbmx5IHRvIHB1dCBleGNlc3MgdmVydGljYWwg
-c3BhY2UgaW4gdGhlIG91dHB1dC4KCSogbG9jYXRlL2xvY2F0ZWRiLjU6IFJlcGxhY2UgYmxhbmsg
-bGluZXMgd2l0aCBhIGR1bW15IGNoYXJhY3RlcgoJICBwcm9kdWNpbmcgYSBibGFuayBvdXRwdXQg
-bGluZSBhcyBfbWlnaHRfIGJlIGludGVuZGVkLgoKCWdyb2ZmX21hbl9zdHlsZSg3KToKCSAgICAg
-PyAgVGhlIGVtcHR5IHJlcXVlc3QgKC4pLCB3aGljaCBkb2VzIG5vdGhpbmcsIHZlcnRpY2FsbHkg
-c3BhY2VzIHRoZQoJICAgICAgICBpbnB1dCBmaWxlIGZvciByZWFkYWJpbGl0eSBieSB0aGUgZG9j
-dW1lbnQgbWFpbnRhaW5lci4gIERvIG5vdAoJICAgICAgICBwdXQgYmxhbmsgKGVtcHR5KSBsaW5l
-cyBpbiBhIG1hbiBwYWdlIHNvdXJjZSBkb2N1bWVudC4gIFNvbWUKCSAgICAgICAgbWFuKDEpIHBy
-b2dyYW1zID9zcXVlZXplPyBtdWx0aXBsZSBibGFuayBvdXRwdXQgbGluZXMgaW50byBvbmUuCgoJ
-Rml4ZXMgc3R5bGUgd2FybmluZ3MgZnJvbSBgZ3JvZmYgLXJDSEVDS1NUWUxFPTMgLW1hbmA6Cglh
-bi50bWFjOi8uLi4vc2hhcmUvbWFuL21hbjEvZmluZC4xOjg3OiBzdHlsZTogYmxhbmsgbGluZSBp
-biBpbnB1dAoJLi4uCglhbi50bWFjOi8uLi4vc2hhcmUvbWFuL21hbjEveGFyZ3MuMToyMzE6IHN0
-eWxlOiBibGFuayBsaW5lIGluIGlucHV0CgkuLi4KCWFuLnRtYWM6Ly4uLi9zaGFyZS9tYW4vbWFu
-NS9sb2NhdGVkYi41OjExODogc3R5bGU6IGJsYW5rIGxpbmUgaW4gaW5wdXQKCS4uLgoKCURpc2N1
-c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0xMS9t
-c2cwMDA5NC5odG1sCgoyMDI2LTAxLTAyICBHLiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFuZGVu
-LnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCglmaW5kLjE6IGZpeCB0eXBvIGlu
-ICpyb2ZmIHN5bnRheAoJU3R5bGUgd2FybmluZyBmcm9tIGBncm9mZiAtckNIRUNLU1RZTEU9MyAt
-bWFuYDoKCWFuLnRtYWM6Ly4uLi9zaGFyZS9tYW4vbWFuMS9maW5kLjE6OTogc3R5bGU6IDEgbGVh
-ZGluZyBzcGFjZShzKSBvbiBpbnB1dCBsaW5lCgoJKiBmaW5kL2ZpbmQuMSAoU1lOT1BTSVMpOiBN
-YWtlIGFuIGludGVuZGVkIGVtcHR5IHJlcXVlc3Qgd29yayB0aGF0IHdheS4KCglEaXNjdXNzZWQg
-YXQ6CglodHRwczovL2xpc3RzLmdudS5vcmcvci9idWctZmluZHV0aWxzLzIwMjUtMTEvbXNnMDAw
-OTQuaHRtbAoKMjAyNi0wMS0wMiAgRy4gQnJhbmRlbiBSb2JpbnNvbiAgPGcuYnJhbmRlbi5yb2Jp
-bnNvbkBnbWFpbC5jb20+ICAodGlueSBjaGFuZ2UpCgoJZG9jOiBwb3B1bGF0ZSBtYW4gcGFnZXMn
-IGhlYWRlcnMgYW5kIGZvb3RlcnMgbW9yZQoJU3R5bGUgd2FybmluZ3MgZnJvbSBgZ3JvZmYgLXJD
-SEVDS1NUWUxFPTMgLW1hbmAuCglhbi50bWFjOi8uLi4vc2hhcmUvbWFuL21hbjEvbG9jYXRlLjE6
-MTogc3R5bGU6IC5USCBtaXNzaW5nIHRoaXJkIGFyZ3VtZW50OyBcCgkgIGNvbnNpZGVyIGRvY3Vt
-ZW50IG1vZGlmaWNhdGlvbiBkYXRlIGluIElTTyA4NjAxIGZvcm1hdCAoWVlZWS1NTS1ERCkKCWFu
-LnRtYWM6Ly4uLi9zaGFyZS9tYW4vbWFuMS9sb2NhdGUuMToxOiBzdHlsZTogLlRIIG1pc3Npbmcg
-Zm91cnRoIGFyZ3VtZW50OyBcCgkgIGNvbnNpZGVyIHBhY2thZ2UvcHJvamVjdCBuYW1lIGFuZCB2
-ZXJzaW9uIChlLmcuLCAiZ3JvZmYgMS4yMy4wIikKCS4uLmFuZCBzaW1pbGFyLgoKCWdyb2ZmX21h
-bl9zdHlsZSg3KToKCSAgICAgLlRIIGlkZW50aWZpZXIgc2VjdGlvbiBbZm9vdGVy4oCQbWlkZGxl
-IFtmb290ZXLigJBpbnNpZGUgW2hlYWRlcuKAkAoJICAgICBtaWRkbGVdXV0KCS4uLgoJICAgICAg
-ICAgICAgQnkgY29udmVudGlvbiwgZm9vdGVy4oCQbWlkZGxlIGlzIHRoZSBkYXRlIG9mIHRoZSBt
-b3N0IHJlY2VudAoJICAgICAgICAgICAgbW9kaWZpY2F0aW9uIHRvIHRoZSBtYW4gcGFnZSBzb3Vy
-Y2UgZG9jdW1lbnQsIGFuZCBmb290ZXLigJAKCSAgICAgICAgICAgIGluc2lkZSBpcyB0aGUgbmFt
-ZSBhbmQgdmVyc2lvbiBvciByZWxlYXNlIG9mIHRoZSBwcm9qZWN0CgkgICAgICAgICAgICBwcm92
-aWRpbmcgaXQuCgoJKiBmaW5kL2ZpbmQuMToKCSogbG9jYXRlL2xvY2F0ZS4xOgoJKiBsb2NhdGUv
-bG9jYXRlZGIuNToKCSogbG9jYXRlL3VwZGF0ZWRiLjE6CgkqIHhhcmdzL3hhcmdzLjE6IEFkZCBh
-cHByb3ByaWF0ZSB0aGlyZCBhbmQgZm91cnRoIGFyZ3VtZW50cyB0byBgVEhgIG1hY3JvIGNhbGxz
-LgoKCVRvIGRldGVybWluZSB0aGUgcmV2aXNpb24gZGF0ZSB0byBpbmNsdWRlIGluIHRoZSBwYWdl
-LCBJIHVzZWQgdGhlIEdpdAoJIkF1dGhvckRhdGUiIG9mIHRoZSBsYXN0IGNvbW1pdCBjb25zaXR1
-dGluZyBhbnl0aGluZyBidXQgYSAiYnVtcCIgdG8gdGhlCgljb3B5cmlnaHQgbm90aWNlLgoKCURp
-c2N1c3NlZCBhdDoKCWh0dHBzOi8vbGlzdHMuZ251Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0x
-MS9tc2cwMDA5NC5odG1sCgoyMDI2LTAxLTAyICBHLiBCcmFuZGVuIFJvYmluc29uICA8Zy5icmFu
-ZGVuLnJvYmluc29uQGdtYWlsLmNvbT4gICh0aW55IGNoYW5nZSkKCglmaW5kLjE6IGRyb3AgdW5w
-b3J0YWJsZSB0YmwoMSkgJ3gnIG1vZGlmaWVyCglQbGFuIDkgYW5kIFNvbGFyaXMgdGJsLCBsaWtl
-IFNldmVudGggRWRpdGlvbiBVbml4IHRibCwgZG8gbm90IHN1cHBvcnQKCXRoZSAneCcgY29sdW1u
-IG1vZGlmaWVyLiAgVGhpcyBleHRlbnNpb24gYXBwZWFyZWQgaW4gRFdCIHRibCBieSB2ZXJzaW9u
-CgkzLjMgYW5kIGVhcmx5IGluIEdOVSB0cm9mZiBkZXZlbG9wbWVudCAoYm90aCBjaXJjYSAxOTkw
-KS4gIEkgc3VzcGVjdCwKCWJ1dCBkbyBub3Qga25vdywgdGhhdCBvdGhlciBTeXN0ZW0gViBVbml4
-IHRibCBwcm9ncmFtcyBkb24ndCBzdXBwb3J0IGl0CgllaXRoZXIuCgoJVGhlc2Ugb2xkIHRibCBw
-cm9ncmFtcyBhcmUgYnJ1dGFsIHdoZW4gdGhleSBlbmNvdW50ZXIgYW4gdW5zdXBwb3J0ZWQKCWNv
-bHVtbiBtb2RpZmllci0tdGhleSBhYm9ydCB0aGUgcHJlcHJvY2Vzc29yIGFsdG9nZXRoZXIgKCJ0
-YmwgcXVpdHMiKQoJd2l0aG91dCBhdHRlbXB0aW5nIHJlY292ZXJ5LlsxXSAgQmVjYXVzZSB0Ymwg
-d29ya3MgYXMgYSBmaWx0ZXIsIGxpa2UKCWVxbiwgcGljLCBzb2VsaW0sIG9yIG1vcmUgZmFtaWxp
-YXIgVW5peCB0b29scyAoY2F0LCBzZWQsIG5sKSwgdGhpcyBtZWFucwoJdGhhdCB0YmwgdHJ1bmNh
-dGVkIHRoZSBlbnRpcmUgcmVtYWluZGVyIG9mIHRoZSBpbnB1dCBhdCB0aGF0IHBvaW50LiAgR05V
-Cgl0YmwgaXMgbW9yZSByb2J1c3QsIGFuZCBkaXNjYXJkcyBpbnB1dCBvbmx5IHVudGlsIHRoZSBu
-ZXh0IGAuVEVgIHRva2VuLgoKCUR1ZSB0byB0aGlzIHJ1ZGVuZXNzIGl0J3MgaW1wb3NzaWJsZSB0
-byBwb3J0YWJseSB1c2UgJ3gnIHdpdGhvdXQKCXJld3JpdGluZyB0aGUgcGFnZSB0ZXh0LCBhbmQg
-SSBrbm93IG9mIG5vIGdvb2Qgd2F5IHRvIHBhcmFtZXRlcml6ZSBhCgl0YWJsZSBmb3JtYXQuICAo
-dGJsKDEpIGRvZXNuJ3QgaGF2ZSB2YXJpYWJsZXMgb3IgYW55dGhpbmcgbGlrZSBhIG1hY3JvCglw
-cmVwcm9jZXNzb3IuICAqcm9mZiBzdHJpbmdzIGFyZSBubyB1c2UgYmVjYXVzZSB0YmwgaXMgYSBf
-cHJlX3Byb2Nlc3NvcgoJZm9yIHRyb2ZmLikKCglUbyBwb3J0YWJseSB1c2UgJ3gnIHJlcXVpcmVz
-IGEgbWFuIHBhZ2UgdG8gdGVzdCB0aGUgdW5kZXJseWluZwoJaW1wbGVtZW50YXRpb24gYW5kIHBv
-dGVudGlhbGx5IHJld3JpdGUgdGhlIHBhZ2UgcHJpb3IgdG8gaW5zdGFsbGluZyBpdC4KCglTZWUg
-YSByZWNlbnQgcGF0Y2ggb2YgbWluZSB0byBuY3Vyc2VzIChtZXJnZWQgaW4gaXRzIDIwMjUxMTE1
-IHJlbGVhc2UpCglmb3IgYW4gYXBwcm9hY2ggcG90ZW50aWFsbHkgYWRhcHRhYmxlIHRvIGZpbmR1
-dGlscy4KCglodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL2J1Zy1uY3Vyc2VzLzIw
-MjUtMTEvbXNnMDAwMzUuaHRtbAoKCVsxXSBJJ3ZlIHByb3Bvc2VkIGEgbWVyZ2UgcmVxdWVzdCB0
-byBQbGFuIDkgZnJvbSBVc2VyIFNwYWNlIHRvIG1ha2UgaXRzCgkgICAgdGJsIGxlc3MgaW50b2xl
-cmFudC4gIEV2ZW4gaWYgYWNjZXB0ZWQsIHRoYXQgd29uJ3QgaGVscCBhbnlvbmUgd2hvCgkgICAg
-dXNlcyBvdGhlciAibGVnYWN5IiB0cm9mZnMuCgoJICAgIGh0dHBzOi8vZ2l0aHViLmNvbS85ZmFu
-cy9wbGFuOXBvcnQvcHVsbC83MzkKCgkqIGZpbmQvZmluZC4xIChGdW5jdGlvbmFsIENoYW5nZXMp
-OiBEcm9wICd4JyB0YWJsZSBtb2RpZmllci4KCglEaXNjdXNzZWQgYXQ6CglodHRwczovL2xpc3Rz
-LmdudS5vcmcvci9idWctZmluZHV0aWxzLzIwMjUtMTEvbXNnMDAwOTQuaHRtbAoKMjAyNi0wMS0w
-MiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCglmaW5kOiBh
-ZGQgbW9yZSAtbW91bnQgdGVzdHMgKGNoZWNrLXJvb3QpCglBZGQgc29tZSBtb3JlIHRlc3RzIGV4
-ZXJjaXNpbmcgYmluZCBtb3VudHMgb24gdGhlIHNhbWUgZGV2aWNlIHdoaWNoCglzaG91bGQgbm90
-IGJlIGFmZmVjdGVkIGJ5IC1tb3VudCBvciAteGRldiwgYW5kIHRlc3RzIHdpdGggYSBsb29wYmFj
-awoJZmlsZSBzeXN0ZW0gYW5kIGEgYmluZCBtb3VudCBmcm9tIHRoZXJlLgoKCSogdGVzdHMvZmlu
-ZC9tb3VudC12cy14ZGV2LWJpbmQuc2g6IEFkZCB0ZXN0LgoJKiB0ZXN0cy9maW5kL21vdW50LXZz
-LXhkZXYtb3RoZXItZnMuc2g6IExpa2V3aXNlLgoJKiB0ZXN0cy9sb2NhbC5tayAoYWxsX3Jvb3Rf
-dGVzdHMpOiBSZWZlcmVuY2UgdGhlbS4KCjIwMjYtMDEtMDIgIEJlcm5oYXJkIFZvZWxrZXIgIDxt
-YWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJZmluZDogYWRkIC1tb3VudCB0ZXN0cwoJKiB0ZXN0
-cy9maW5kL21vdW50LXZzLXhkZXYuc2g6IEFkZCB0ZXN0LgoJKiB0ZXN0cy9sb2NhbC5tayAoc2hf
-dGVzdHMpOiBSZWZlcmVuY2UgaXQuCgoyMDI2LTAxLTAyICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFp
-bEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCU5FV1M6IGVuaGFuY2UgZGVzY3JpcHRpb24gYWJvdXQg
-dGhlIC1tb3VudCBjaGFuZ2UKCSogTkVXUyAoQ2hhbmdlcyBpbiBmaW5kKTogQ2xhcmlmeSBiZXR0
-ZXIgd2hhdCBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuCgl0aGUgLW1vdW50IGFuZCAteGRldiBv
-cHRpb25zIGluY2x1ZGluZyBhbiBleGFtcGxlLiAgQWxzbyBtb3ZlIHRoZQoJdG9waWMgdG8gdGhl
-IHRvcCBvZiB0aGUgc2VjdGlvbiBkdWUgdG8gaXRzIGltcG9ydGFuY2UuCgoyMDI2LTAxLTAyICBM
-dWvDocWhIFphb3JhbCAgPGx6YW9yYWxAcmVkaGF0LmNvbT4KCglmaW5kOiBtYWtlIC1tb3VudCBQ
-T1NJWCAyMDI0IGNvbXBsaWFudAoJKiBmaW5kL2RlZnMuaCAoc3RydWN0IG9wdGlvbnMpOiBBZGQg
-bW91bnQgbWVtYmVyIGFuZCByZW5hbWUKCXN0YXlfb25fZmlsZXN5c3RlbSB0byB4ZGV2LgoJKiBm
-aW5kL2Z0c2ZpbmQuYyAoZmluZCk6IFNldCBGVFNfTU9VTlQgZmxhZyB3aGVuIC1tb3VudCBpcyBl
-bmFibGVkLgoJKiBmaW5kL3BhcnNlci5jIChwYXJzZV90YWJsZSk6IFVzZSBhIHNlcGFyYXRlIHBh
-cnNlciBmb3IgLW1vdW50LgoJKHBhcnNlX21vdW50KTogRGVjbGFyZSBhbmQgZGVmaW5lIGZ1bmN0
-aW9uLgoJKHBhcnNlX3hkZXYpOiBVc2UgeGRldiBvcHRpb24gZmxhZy4KCSogZmluZC91dGlsLmMg
-KHNldF9vcHRpb25fZGVmYXVsdHMpOiBJbml0aWFsaXplIG5ldyBzdHJ1Y3QgbWVtYmVycy4KCSog
-ZG9jL2ZpbmQudGV4aSAobm9kZSBGaWxlc3lzdGVtcyk6IEFkZCBuZXcgc2VjdGlvbiBkZXNjcmli
-aW5nIHRoZSBuZXcKCWJlaGF2aW91ciBvZiAtbW91bnQgYW5kIHNwZWNpZnkgdGhlIGN1cnJlbnQg
-YmVoYXZpb3VyIG9mIC14ZGV2LgoJKiBmaW5kL2ZpbmQuMTogRG9jdW1lbnQgdGhlIG5ldyAtbW91
-bnQgYmVoYXZpb3VyIGFuZCBzcGVjaWZ5IGN1cnJlbnQKCWJlaGF2aW91ciBvZiAteGRldi4KCSog
-TkVXUyAoQ2hhbmdlcyBpbiBmaW5kKTogTWVudGlvbiB0aGUgLW1vdW50IGJlaGF2aW91ciBjaGFu
-Z2UuCgoyMDI2LTAxLTAyICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2Vy
-LmRlPgoKCW1haW50OiB1cGRhdGUgY29weXJpZ2h0IHllYXIgbnVtYmVyIHJhbmdlcwoJUnVuICdt
-YWtlIHVwZGF0ZS1jb3B5cmlnaHQnLgoKCSogbGliL3JlZ2V4cHJvcHMuYyAoY29weWluZyk6IFVw
-ZGF0ZSB0aGUgeWVhciBudW1iZXIgbWFudWFsbHkuCgkqIHRlc3RzL3NhbXBsZS10ZXN0OiBBZGp1
-c3QgdG8gdXNlIHRoZSBzaW5nbGUgbW9zdCByZWNlbnQgeWVhci4KCSogQWxsIG90aGVyIGZpbGVz
-OiBVcGRhdGUgY29weXJpZ2h0IHllYXJzIHZpYSB0aGUgYWJvdmUgbWFrZSBydW4uCgoyMDI2LTAx
-LTAyICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50
-OiB1cGRhdGUgZ251bGliIHRvIGxhdGVzdAoJUnVuICdtYWtlIHVwZGF0ZS1nbnVsaWItdG8tbGF0
-ZXN0JzsgdGhlcmUgaGF2ZSBiZWVuIDEzNSBjb21taXRzIG9uIGdudWxpYgoJc2luY2UgdGhlIGxh
-c3QgdXBkYXRlLgoJVGhpcyBpcyBtYWlubHkgZm9yIHRoZSBmb2xsb3dpbmcgY2hhbmdlIG1ha2lu
-ZyBzY19jb3B5cmlnaHRfY2hlY2sgcGFzcwoJYWdhaW4sIGJ1dCB0aGVyZSBhcmUgYWxzbyBvdGhl
-ciB1c2VmdWwgZml4ZXMgYW5kIGltcHJvdmVtZW50czoKCSAgPiBtYWludDogcnVuICdtYWtlIHVw
-ZGF0ZS1jb3B5cmlnaHQnCgoJKiBnbnVsaWI6IFVwZGF0ZSB0byBsYXRlc3QuCgkqIGF1dG9nZW4u
-c2g6IExpa2V3aXNlLgoJKiBhdXRvcHVsbC5zaDogTGlrZXdpc2UuCgkqIGJvb3RzdHJhcDogTGlr
-ZXdpc2UuCgkqIGJvb3RzdHJhcC1mdW5jbGliLnNoOiBMaWtld2lzZS4KCjIwMjUtMTEtMTggIEph
-bWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCVtmaW5kXSBGb3JtYXQgZmluZHV0
-aWxzIGNoYW5nZXMgYXMgcmV2ZXJzZS10aW1lLW9yZGVyZWQgdGFibGVzLgoJKiBmaW5kL2ZpbmQu
-MSAoQ09NUEFUSUJJTElUWSk6IEFkZCByZWxlYXNlLXllYXIgaW5mb3JtYXRpb24gdG8gdGhlCglm
-ZWF0dXJlIGFkZGl0aW9uIHRhYmxlLiAgRm9ybWF0IHRoZSBmdW5jdGlvbmFsIGNoYW5nZXMgYXMg
-YSB0YWJsZSwKCXRvby4KCjIwMjUtMTEtMTcgIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdt
-YW4ub3JnPgoKCVttYWludF0gU3RyaWN0ZXIgbWFucGFnZSBjaGVja3MuCglGcm9tIGEgc3VnZ2Vz
-dGlvbiBieSBHLiBCcmFuZGVuIFJvYmluc29uIHRvIHVzZSBgZ3JvZmYgLXQgLXogLXd3CgktckNI
-RUNLU1RZTEU9MiAtbWFuYCwgYnkgcG9pbnRpbmcgdG8gYW5kIGV4YW1wbGUgaW4KCWh0dHBzOi8v
-bGlzdHMuZ251Lm9yZy9hcmNoaXZlL2h0bWwvYnVnLWZpbmR1dGlscy8yMDI1LTExL21zZzAwMDA0
-Lmh0bWwuCgoJKiBjb25maWd1cmUuYWM6IGRpc2NvdmVyIHRoZSBsb2NhdGlvbiBvZiB0aGUgZ3Jv
-ZmYgYmluYXJ5LgoJKiBidWlsZC1hdXgvbWFuLWxpbnQuc2g6IGFsc28gcnVuIGdyb2ZmIHdpdGgg
-LXJDSEVDS1NUWUxFPTIuICAgVXNlCgkgIGdyb2ZmIGF0IHRoZSBwYXRoIGRpc2NvdmVyZWQgZHVy
-aW5nIGNvbmZpZ3VyYXRpb24uCgkqIGZpbmQvTWFrZWZpbGUuYW06IExpbnQtY2hlY2sgbWFucGFn
-ZXMgZHVyaW5nICJtYWtlIGNoZWNrIiwKCSAgbm90ICJtYWtlIGRpc3QiLiBTZXQgdGhlIGVudmly
-b25tZW50IHZhcmlhYmxlIEdST0ZGIHRvIHRoZQoJICBsb2NhdGlvbiBvZiB0aGUgZ3JvZmYgYmlu
-YXJ5LgoJKiBsb2NhdGUvTWFrZWZpbGUuYW06IExpa2V3aXNlLgoJKiB4YXJncy9NYWtlZmlsZS5h
-bTogTGlrZXdpc2UuCgoyMDI1LTExLTE3ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFu
-Lm9yZz4KCglbZmluZF0gRml4IGEgbGludCBwcm9ibGVtIGluIHRoZSBmaW5kIG1hbnVhbCBwYWdl
-LgoJV2l0aG91dCB0aGlzIGZpeCwgd2UgZ2V0IHRoaXMgZXJyb3IgZnJvbSBgZ3JvZmYgLUMgLXQg
-LXogLXd3CgktckNIRUNLU1RZTEU9MiAtbWFuIGZpbmQvZmluZC4xYDoKCgl0cm9mZjogZmluZC9m
-aW5kLjE6MjI1NTogd2FybmluZzogbWFjcm8gJy4iJyBub3QgZGVmaW5lZAoJdHJvZmY6IGZpbmQv
-ZmluZC4xOjIyNTU6IHdhcm5pbmc6IG51bWJlciByZWdpc3RlciAnWycgbm90IGRlZmluZWQKCgkq
-IGZpbmQvZmluZC4xOiByZXZlcnQgYSBjaGFuZ2Ugd2hpY2ggY2F1c2VkIGEgbGludCB3YXJuaW5n
-IGZyb20KCSAgdHJvZmYuCgoyMDI1LTExLTE3ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5n
-bWFuLm9yZz4KCglbZmluZF0gVXNlIEFTQ0lJIGFwb3N0cm9waGUgaW4gZmluZC4xIChpbnN0ZWFk
-IG9mIFUrMjAxOSkuCgkqIGZpbmQvZmluZC4xOiBVc2UgQVNDSUkgYXBvc3Ryb3BoZSBVKzAwMjcg
-aW5zdGVhZCBvZiBVKzIwMTkuCgoyMDI1LTExLTE1ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBi
-ZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiBzd2l0Y2ggZnJvbSBnbnVsaWIgY3R5cGUgdG8g
-Y3R5cGUtaCBtb2R1bGUKCVByb21wdGVkIGJ5IHRoZSBmb2xsb3dpbmcgYm9vdHN0cmFwIG5vdGlj
-ZToKCSAgTm90aWNlIGZyb20gbW9kdWxlIGN0eXBlOgoJICAgIFRoaXMgbW9kdWxlIGlzIGRlcHJl
-Y2F0ZWQuIFVzZSB0aGUgbW9kdWxlICdjdHlwZS1oJyBpbnN0ZWFkLgoKCSogYm9vdHN0cmFwLmNv
-bmYgKGdudWxpYl9tb2R1bGVzKTogY3R5cGUgLT4gY3R5cGUtaAoKMjAyNS0xMS0xNSAgQmVybmhh
-cmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCgltYWludDogdXBkYXRlIGdu
-dWxpYiB0byBsYXRlc3QKCVJ1biAnbWFrZSB1cGRhdGUtZ251bGliLXRvLWxhdGVzdCc7IHRoZXJl
-IGhhdmUgYmVlbiA0NTAgY29tbWl0cyBvbiBnbnVsaWIKCXNpbmNlIHRoZSBsYXN0IHVwZGF0ZS4K
-CglUaGlzIHB1bGxzIGluIHRoZSBuZXcgRlRTX01PVU5UIGZsYWcgbmVlZGVkIGZvciB0aGUgdXBj
-b21pbmcgY2hhbmdlcwoJdG8gLW1vdW50IHZzLiAteGRldiBtYW5kYXRlZCBieSBQT1NJWCBJc3N1
-ZSA4IChJRUVFIFN0ZCAxMDAzLjEtMjAyNCksCgl0aGFua3MgdG8gTHVrw6HFoSBaYW9yYWwgPGx6
-YW9yYWxAcmVkaGF0LmNvbT46Cgk+IGZ0czogSW50cm9kdWNlIHRoZSBGVFNfTU9VTlQgZmxhZy4K
-CgkqIGdudWxpYjogVXBkYXRlIHRvIGxhdGVzdC4KCSogYm9vdHN0cmFwLWZ1bmNsaWIuc2g6IExp
-a2V3aXNlLgoKMjAyNS0xMS0xNSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9l
-bGtlci5kZT4KCglwYXJzZXIuYzogc2ltcGxpZnkgcGFyc2VfdGFibGUKCUF2b2lkIG1hY3JvIHBy
-ZXByb2Nlc3Npbmcgd2hlbiBmaWxsaW5nIHRoZSBwYXJzZV90YWJsZSBmb3IgYmV0dGVyCglyZWFk
-YWJpbGl0eS4KCgkqIGZpbmQvcGFyc2VyLmMgKFBBU1RFLCBQQVJTRV9PUFRJT04sIFBBUlNFX1BP
-U09QVCwgUEFSU0VfVEVTVCwKCVBBUlNFX1RFU1RfTlAsIFBBUlNFX0FDVElPTiwgUEFSU0VfUFVO
-Q1RVQVRJT04pOiBSZW1vdmUgbWFjcm9zLgoJKHBhcnNlX3RhYmxlKTogUmVwbGFjZSBtYWNyby1i
-YXNlZCBmaWxsaW5nIHdpdGggcmVndWxhciBzdHJ1Y3R1cmUgZW50cmllcy4KCUdyb3VwIGVudHJp
-ZXMgYnkgdHlwZXM6IHJlZ3VsYXIgb3B0aW9ucywgcG9zaXRpb25hbCBvcHRpb25zLCBwdW5jdHVh
-dGlvbiwKCXRlc3RzIGFuZCBhY3Rpb25zOyBsb29zZWx5IHNvcnQgd2l0aGluIGVhY2ggZ3JvdXAu
-CglSZW1vdmUgZHVwbGljYXRlICJhdGltZSIgZW50cnkgaW50cm9kdWNlZCBpbiBjb21taXQgNzEw
-MmEyMjlmYS4KCVdoaWxlIGF0IGl0LCBjaGFuZ2UgLWhlbHAgYW5kIC12ZXJzaW9uIGZyb20gQVJH
-X1RFU1QgdG8gQVJHX09QVElPTi4KCjIwMjUtMTEtMTUgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWls
-QGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJbWFpbnQ6IGhlbHAgdHJhbnNsYXRvcnMgdG8gZGlzYW1i
-aWd1YXRlIC0wIGFzIC0tbnVsbCwgbm90IG9wdGlvbiAibyIKCUFzIHJlcG9ydGVkIGluIDxodHRw
-czovL3NhdmFubmFoLmdudS5vcmcvYnVncy8/Njc0MzI+LCBpdCBpcyBlYXN5IHRvCgljb25mdXNl
-IC0wIHdpdGggLU8uICBHaXZlIGEgaGludCB0byB0cmFuc2xhdG9ycy4KCgkqIHhhcmdzL3hhcmdz
-LmMgKG1haW4pOiBBZGQgVFJBTlNMQVRPUlMgaGludHMuCgoyMDI1LTExLTE1ICBCZXJuaGFyZCBW
-b2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiBhZGQgZW50cnkgdG8g
-LmdpdGlnbm9yZSBmaWxlCgkqIHBvLy5naXRpZ25vcmUgKC9pbnNlcnQtaGVhZGVyLnNlZCk6IEFk
-ZC4KCjIwMjUtMTEtMTUgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIu
-ZGU+CgoJbWFpbnQ6IHByZWZlciBDMjMtc3R5bGUgbnVsbHB0cgoJKiBib290c3RyYXAuY29uZiAo
-Z251bGliX21vZHVsZXMpOiBBZGQgbnVsbHB0ci4KCUluIGNvZGUsIHByZWZlciBudWxscHRyIHRv
-IE5VTEwgd2hlcmUgZWl0aGVyIHdpbGwgZG8uCgkqIGNmZy5tayAoc2NfcHJvaGliaXRfTlVMTCk6
-IERpcmVjdCB0byB1c2UgbnVsbHB0ciBpbnN0ZWFkLgoJKGJlZ3dvcmQsIGVuZHdvcmQpOiBBZGQg
-cmVnZXggaGVscGVyIG1hY3Jvcy4KCjIwMjUtMTEtMTUgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWls
-QGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJbWFpbnQ6IGRvIG5vdCBwcm9kdWNlIERWSS1mb3JtYXQg
-bWFudWFsIGFueW1vcmUKCVRoZSBHTlUgc3RhbmRhcmRzIGRvbid0IHJlcXVpcmUgRFZJLWZvcm1h
-dCBkb2N1bWVudGF0aW9uIGFueW1vcmU6CglodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9o
-dG1sL2J1Zy1zdGFuZGFyZHMvMjAyNS0wNy9tc2cwMDAxMS5odG1sCgoJKiBidWlsZC1hdXgvdXBk
-YXRlLW9ubGluZS1tYW51YWwuc2g6IFJlbW92ZSBEVkkgZm9ybWF0LgoJKiBkb2MvLmdpdGlnbm9y
-ZTogUmVtb3ZlIGlnbm9yZSBlbnRyaWVzIGZvciBEVkkgZmlsZXMuCgoyMDI1LTExLTE1ICBCZXJu
-aGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiB1c2UgY29u
-c2lzdGVudCByZWZlcmVuY2VzIHRvIHN0YW5kYXJkIGZpbGVzIGluIG1lc3NhZ2VzCglVc2Ugc3Rh
-bmRhcmQgaW5wdXQgaW5zdGVhZCBvZiBzdGRpbiwgc3RhbmRhcmQgb3V0cHV0IGluc3RlYWQgb2Yg
-c3Rkb3V0LAoJYW5kIHN0YW5kYXJkIGVycm9yIGluc3RlYWQgb2Ygc3RkZXJyIGluIG1lc3NhZ2Vz
-IGFuZCBkb2N1bWVudGF0aW9uLgoJSW5zcGlyZWQgYnkgY29yZXV0aWxzIGNvbW1pdDoKCWh0dHBz
-Oi8vY2dpdC5naXQuc3YuZ251Lm9yZy9jZ2l0L2NvcmV1dGlscy5naXQvY29tbWl0Lz9pZD1jOWEz
-MGQ2NzgxCgoJKiBjZmcubWsgKHNjX3N0YW5kYXJkX291dHB1dHMpOiBBZGQgc3ludGF4LWNoZWNr
-IHJ1bGUuCgkqIGRvYy9maW5kLnRleGk6IERvIHRoZSBhYm92ZS4KCSogZmluZC9maW5kLjE6IExp
-a2V3aXNlLgoJKiBsb2NhdGUvbG9jYXRlLjE6IExpa2V3aXNlLgoJKiBsb2NhdGUvbG9jYXRlLmM6
-IExpa2V3aXNlLgoJKiB4YXJncy94YXJncy4xOiBMaWtld2lzZS4KCSogeGFyZ3MveGFyZ3MuYzog
-TGlrZXdpc2UuCgoyMDI1LTExLTE1ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12
-b2Vsa2VyLmRlPgoKCWRvYzogY2xhcmlmeSB0aGF0IFBPU0lYIElzc3VlIDggaXMgIklFRUUgU3Rk
-IDEwMDMuMS0yMDI0IgoJKiBkb2MvZmluZC50ZXhpOiBEbyB0aGUgYWJvdmUgaW4gdmFyaW91cyBw
-bGFjZXMuCgkqIGZpbmQvZmluZC4xOiAgTGlrZXdpc2UuCgkqIHhhcmdzL3hhcmdzLjE6IExpa2V3
-aXNlLgoKMjAyNS0xMS0xNSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtl
-ci5kZT4KCglkb2M6IHN0YXRlIHRoYXQgUE9TSVggZnJvbSBJc3N1ZSA4IHNwZWNpZmllcyAnZmlu
-ZCAtaW5hbWUnCgkqIGRvYy9maW5kLnRleGkgKC1pbmFtZSk6IERvY3VtZW50IFBPU0lYIGNvbXBs
-aWFuY2UuCgkqIGZpbmQvZmluZC4xIChDT01QQVRJQklMSVRZKTogTWFyayBQT1NJWCBjb21wbGlh
-bmNlIG9mIC1pbmFtZS4KCjIwMjUtMTEtMTUgIENvbGxpbiBGdW5rICA8Y29sbGluLmZ1bmsxQGdt
-YWlsLmNvbT4KCgltYWludDogZW5zdXJlIHRoYXQgbmV3ICJtYWtlIHN5bnRheC1jaGVjayItcnVu
-IHNjX2NvZGVzcGVsbCBwYXNzZXMKCSogY2ZnLm1rIChjb2Rlc3BlbGxfaWdub3JlX3dvcmRzX2xp
-c3QpOiBJZ25vcmUgZmFsc2UtcG9zaXRpdmVzLgoJKGV4Y2x1ZGVfZmlsZV9uYW1lX3JlZ2V4cC0t
-c2NfY29kZXNwZWxsKTogU2tpcCBzb21lIGZpbGUgbmFtZXMuCgkqIE5FV1M6IEZpeCB0eXBvcy4K
-CSogUkVBRE1FLWhhY2tpbmc6IExpa2V3aXNlLgoJKiBkb2MvZmluZC1tYWludC50ZXhpOiBMaWtl
-d2lzZS4KCSogZG9jL2ZpbmQudGV4aTogTGlrZXdpc2UuCgkqIGJvb3RzdHJhcC5jb25mOiBGaXgg
-dHlwb3MgaW4gY29tbWVudHMuCgkqIGZpbmQvZnRzZmluZC5jOiBMaWtld2lzZS4KCSogZmluZC9w
-YXJzZXIuYzogTGlrZXdpc2UuCgkqIGZpbmQvcHJpbnQuYzogTGlrZXdpc2UuCgkqIGZpbmQvdGVz
-dHN1aXRlL2ZpbmQuZ251L2V4ZWMtb25lLXJ0bi1mYWlsLmV4cDogTGlrZXdpc2UuCgkqIGZpbmQv
-dGVzdHN1aXRlL2ZpbmQucG9zaXgvYnJhY2tldC1kZXB0aC5leHA6IExpa2V3aXNlLgoJKiBmaW5k
-L3Rlc3RzdWl0ZS9maW5kLnBvc2l4L2V4ZWMtbm9nYXBzLmV4cDogTGlrZXdpc2UuCgkqIGZpbmQv
-dGVzdHN1aXRlL2ZpbmQucG9zaXgvZmlsZXMtbm90LWV4cHJlc3Npb25zMS5leHA6IExpa2V3aXNl
-LgoJKiBmaW5kL3Rlc3RzdWl0ZS9maW5kLnBvc2l4L2ZpbGVzLW5vdC1leHByZXNzaW9uczIuZXhw
-OiBMaWtld2lzZS4KCSogZmluZC90ZXN0c3VpdGUvZmluZC5wb3NpeC9maWxlcy1ub3QtZXhwcmVz
-c2lvbnMzLmV4cDogTGlrZXdpc2UuCgkqIGZpbmQvdXRpbC5jOiBMaWtld2lzZS4KCSogaW5pdC5j
-Zmc6IExpa2V3aXNlLgoJKiBsaWIvcmVnZXh0eXBlLmg6IExpa2V3aXNlLgoJKiBsaWIvc3BsaXRz
-dHJpbmcuaDogTGlrZXdpc2UuCgkqIGxvY2F0ZS9sb2NhdGUuYzogTGlrZXdpc2UuCgkqIGxvY2F0
-ZS91cGRhdGVkYi5zaDogTGlrZXdpc2UuCgkqIHRlc3RzL2ZpbmQvZXhlYy1wbHVzLWxhc3QtZmls
-ZS5zaDogTGlrZXdpc2UuCgkqIHRlc3RzL2ZpbmQvZmlsZXMwLWZyb20uc2g6IExpa2V3aXNlLgoJ
-KiB0ZXN0cy94YXJncy90ZXN0LXNpZ3Vzci5jOiBMaWtld2lzZS4KCSogdGVzdHMveGFyZ3MvdmVy
-Ym9zZS1xdW90ZS5zaDogTGlrZXdpc2UuCgkqIHhhcmdzL3hhcmdzLmM6IExpa2V3aXNlLgoKMjAy
-NS0xMC0xNSAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJZG9jOiBtaW5v
-ciBzaGVsbCBjb2RpbmcgaW1wcm92ZW1lbnRzIGluIGV4YW1wbGVzLgoJLSBVc2UgLXR5cGUgZiBz
-byB0aGF0IHRoZSB0aW1lc3RhbXAgb2YgYHN1YmRpcmAgaXMgbm90IHJlbGV2YW50LgoJLSBVc2Ug
-TENfQUxMPUMgd2l0aCBzb3J0LCB0YWlsLCBjdXQgKGFzIGZpbGUgbmFtZXMgYXJlIG5vdCB0ZXh0
-KS4KCS0gVXNlICIkKC4uLikiIGluc3RlYWQgb2YganVzdCAkKC4uLikuCgoJQWxzbyBtZW50aW9u
-IHRoYXQgSXNzdWUgOCBvZiB0aGUgUE9TSVggc3RhbmRhcmQgaGFzIGJlZW4gcHVibGlzaGVkCglu
-b3cuCgoyMDI1LTEwLTE1ICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCglm
-aW5kOiBwb2ludCBvdXQgdGhhdCAtbmV3ZXIgaXMgZmFsc2Ugd2hlbiB0aW1lc3RhbXBzIGFyZSBl
-cXVhbC4KCjIwMjUtMTAtMTMgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxr
-ZXIuZGU+CgoJZmluZDogZG9jdW1lbnQgLW5ld2VyWFkgaW4gLS1oZWxwIG91dHB1dAoJKiBmaW5k
-L3V0aWwuYyAodXNhZ2UpOiBBZGQgYWJvdmUgZmluZCgxKSBvcHRpb24sIGFuZCBicmllZmx5IGV4
-cGxhaW4KCXRoYXQgWFkgc3RhbmRzIGZvciB0aGUgY29tYmluYXRpb24gW2FCY21dW2FCY210XS4K
-CjIwMjUtMTAtMTMgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+
-CgoJZmluZDogZml4IG1pbm9yIHR5cG8gaW4gLS1oZWxwIG91dHB1dAoJKiBmaW5kL3V0aWwuYyAo
-dXNhZ2UpOiBUZXJtaW5hdGUgc2VudGVuY2UgYWJvdXQgLUQgd2l0aCBhIGRvdC4KCShzaG93X3Zh
-bGlkX2RlYnVnX29wdGlvbnMpOiBXaGlsZSBhdCBpdCwgYWRkIGluZGVudGF0aW9uIGZvciAtRCB2
-YWx1ZXMuCgoyMDI1LTA4LTI0ICBkYW5ueSBtY0NsYW5haGFuICA8ZG1jMkBhbWFzcy5lbmVyZ3k+
-ICAodGlueSBjaGFuZ2UpCgoJZG9jOiBmaXggdHlwbyBpbiBzeW1ib2xpY3MgbGlua3Mgbm9kZQoJ
-KiBkb2MvZmluZC50ZXhpIChub2RlIFN5bWJvbGljIExpbmtzKTogcy9kaXJlY3RvaXJlcy9kaXJl
-Y3Rvcmllcy8KCSogZmluZC90ZXN0c3VpdGUvZmluZC5nbnUvZXhlY2Rpci1oaWVyLmV4cDogTGlr
-ZXdpc2UgaGVyZSBpbiBhIGNvbW1lbnQuCgoyMDI1LTA3LTA5ICBCZXJuaGFyZCBWb2Vsa2VyICA8
-bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCWRvYzogcmVnZW5lcmF0ZSByZWdleHByb3BzLnRl
-eGkKCSogZG9jL3JlZ2V4cHJvcHMudGV4aTogUmVnZW5lcmF0ZSBkdWUgdG8gcmVjZW50IGNoYW5n
-ZXMgaW4gZ251bGliIHJlZ2V4LmgKCXRvIGFsaWduIHdpdGggY3VycmVudCBFbWFjcyBiZWhhdmlv
-ciAoZ251bGliIGNvbW1pdCBlZmQ1YzM4MGZmKSwgYW5kIGFsc28KCWR1ZSB0byB0aGUgY2hhbmdl
-IG9mIHRoZSBub2RlIHNvcnQgb3JkZXIgaW4gcmVnZXh0eXBlLmMgaW4gdGhlIHByZXZpb3VzCglj
-b21taXQuCgoJUmVwb3J0ZWQgYnkgQ29sbGluIEZ1bmsgaW4KCSAgaHR0cHM6Ly9saXN0cy5nbnUu
-b3JnL3IvYnVnLWdudWxpYi8yMDI1LTA3L21zZzAwMDM3Lmh0bWwKCjIwMjUtMDctMDkgIEJlcm5o
-YXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJcmVnZXhwcm9wczogc29y
-dCByZWdleF9tYXAgYWxwaGFiZXRpY2FsbHkKCUNvbW1pdCAnMWI1MzgzOGRkZicgaGFzIGNoYW5n
-ZWQgdGhlIG9yZGVyIG9mIHRoZSBub2RlcywgeWV0IG5vdAoJcXVpdGUgd2VsbC4gIExldCdzIHVz
-ZSBhbHBoYWJldGljYWwgc29ydCBvcmRlci4KCgkqIGxpYi9yZWdleHR5cGUuYyAocmVnZXhfbWFw
-KTogTW92ZSAnYXdrJyBhbmQgJ2VncmVwJyBlbnRyaWVzIHVwLgoKMjAyNS0wNy0wOSAgQmVybmhh
-cmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCgltYWludDogdXBkYXRlIGdu
-dWxpYiB0byBsYXRlc3QKCVJ1biAnbWFrZSB1cGRhdGUtZ251bGliLXRvLWxhdGVzdCc7IHRoZXJl
-IGhhdmUgYmVlbiA2NDUgY29tbWl0cyBvbiBnbnVsaWIKCXNpbmNlIHRoZSBsYXN0IHVwZGF0ZS4K
-CgkqIGdudWxpYjogVXBkYXRlIHRvIGxhdGVzdC4KCSogYm9vdHN0cmFwOiBMaWtld2lzZS4KCSog
-Ym9vdHN0cmFwLWZ1bmNsaWIuc2g6IExpa2V3aXNlLgoKMjAyNS0wNy0wMSAgQmVybmhhcmQgVm9l
-bGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCglkb2M6IHJlZmVyZW5jZSAtbmV3ZXIg
-Zm9yIC1hbmV3ZXIsLWNuZXdlciBpbiBmaW5kLjEKCSogZmluZC9maW5kLjEgKC1hbmV3ZXIpOiBS
-ZWZlcmVuY2UgdGhlIHNpbWlsYXJpdHkgdG8gLW5ld2VyLgoJKC1jbmV3ZXIpOiBMaWtld2lzZS4K
-CglEaXNjdXNzZWQgYXQ6CgkgIGh0dHBzOi8vc3YuZ251Lm9yZy9idWdzLz82NzIyMAoKMjAyNS0w
-NC0xOCAgcmFmICA8cmFmQHJhZi5vcmc+CgoJZG9jOiBzdXBwbGVtZW50IGxpc3Qgb2YgYWN0aW9u
-cyB0aGF0IHN1cHByZXNzIGRlZmF1bHQgLXByaW50CgkqIGZpbmQvZmluZC4xIChFWFBSRVNTSU9O
-KTogQWRkIG1pc3NpbmcgLXByaW50MCBhbmQgLWZwcmludDAgdG8KCXRoZSBsaXN0IG9mIGFjdGlv
-bnMgdGhhdCBzdXBwcmVzcyB0aGUgZGVmYXVsdCAtcHJpbnQgYWN0aW9uLgoJU29ydCBpdGVtcy4K
-CSogZG9jL2ZpbmQudGV4aSAoZmluZCBFeHByZXNzaW9ucyk6IExpa2V3aXNlLgoJKiBORVdTOiBN
-ZW50aW9uIHRoZSBmaXguCgoyMDI1LTA0LTE4ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJu
-aGFyZC12b2Vsa2VyLmRlPgoKCU5FV1M6IG1lbnRpb24gdGhlIHByZXZpb3VzIGRvYyBmaXhlcwoJ
-KiBORVdTIChEb2N1bWVudGF0aW9uIENoYW5nZXMpOiBEZXNjcmliZSB0aGUgZml4IGRvbmUgYnkg
-dGhlIHR3bwoJcHJldmlvdXMgY29tbWl0cy4KCjIwMjUtMDQtMTggIEJlcm5oYXJkIFZvZWxrZXIg
-IDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJZG9jOiBmaXggdGhlICJGaW5kaW5nIHRoZSBT
-aGFsbG93ZXN0IEluc3RhbmNlIiBleGFtcGxlIGluIGZpbmQuMQoJKiBmaW5kL2ZpbmQuMSAoRVhB
-TVBMRVMpOiBGaXggdGhlIFBydW5pbmcgU0NNIGV4YW1wbGUgYnkgY2hhbmdpbmcgdGhlCglhdHRy
-aWJ1dGlvbiBvZiB0aGUgbGlzdCBmcm9tICJTYW1wbGUgb3V0cHV0IiB0byAiU2FtcGxlIGRpcmVj
-dG9yaWVzIi4KCVRoZSB3cm9uZyBhdHRyaWJ1dGlvbiB3YXMgbWFkZSBpbiBjb21taXQgdjQuNy4w
-LTc2LWc5MzAyYWZiOS4KCVRoZW4sIGFkZCB0aGUgb3V0cHV0IGZvciBjbGFyaXR5LgoKCUZpeGVz
-IGh0dHBzOi8vc3YuZ251Lm9yZy9idWdzLz82MjI1OQoKMjAyNS0wNC0xOCAgcmFmICA8cmFmQHJh
-Zi5vcmc+CgoJZG9jOiBmaXggdGhlICJGaW5kaW5nIHRoZSBTaGFsbG93ZXN0IEluc3RhbmNlIiBl
-eGFtcGxlIGluIFRleGluZm8gbWFudWFsCgkqIGRvYy9maW5kLnRleGkgKEZpbmRpbmcgdGhlIFNo
-YWxsb3dlc3QgSW5zdGFuY2UpOiBBZGQgc3Vycm91bmRpbmcgXCgKCWFuZCBcKSBhcm91bmQgdGhl
-IDN4IC1leGVjIGFjdGlvbnMgdG8gY29ycmVjdGx5IGdyb3VwIHRoZW0gd2l0aCBoaWdoZXIKCXBy
-aW9yaXR5IHRoYW4gdGhlIGltcGxpY2l0ICctYScgZm9yIHRoZSBmb2xsb3dpbmcgJy1wcmludCcu
-ICBPdGhlcndpc2UsCglvbmx5IHRoZSBTQ00gcm9vdHMgbWF0Y2hpbmcgdGhlIGxhc3QgdGVzdCwg
-IkNWUyIsIHdvdWxkIGJlIHByaW50ZWQuCglJbXByb3ZlIGluZGVudGF0aW9uIG9mIHRoZSBtdWx0
-aS1saW5lIGNvbW1hbmQuCglBZGQgc2FtcGxlIG91dHB1dCBmb3IgY2xhcml0eS4KCVdoaWxlIGF0
-IGl0LCBmaXggYSBtaW5vciB0eXBvLgoKCVRoaXMgYnVnIHdhcyBwcmVzZW50IHNpbmNlIGFkZGlu
-ZyB0aGF0IGV4YW1wbGUgaW4gMjAwOC4KCVRoZSB2ZXJ5IHNhbWUgaXNzdWUgd2FzIGFscmVhZHkg
-Zml4ZWQgZm9yIHRoZSBtYW4gcGFnZSBpbiBjb21taXQKCXY0LjYuMC01NS1nNDdkOGZkMzguCgoJ
-Rml4ZXMgaHR0cHM6Ly9zdi5nbnUub3JnL2J1Z3MvPzYyMjU5CgoyMDI1LTA0LTA2ICBCZXJuaGFy
-ZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCXRlc3RzOiBhZGQgY2FzZSBm
-b3IgcGFzc2luZyAtZmlsZXMwLWZyb20gbXVsdGlwbGUgdGltZXMKCVBhc3NpbmcgLWZpbGVzMC1m
-cm9tIHNldmVyYWwgdGltZXMgc2lsZW50bHkgb3ZlcnJpZGVzIHRoZSBwcmV2aW91c2x5IGdpdmVu
-CglmaWxlIG5hbWVzLCBhbmQgb25seSB0YWtlcyB0aGUgbGFzdCBvbmUuICBUaGlzIGJlaGF2aW9y
-IGlzIHF1aXRlIGNvbW1vbgoJYW5kIGhhcyBwcmVjZWRlbmNlIGUuZy4gaW4gJ2R1IC0tZmlsZXMw
-LWZyb20gLi4uJy4KCUFkZCBhIHRlc3QgdG8gZG9jdW1lbnQgdGhlIGN1cnJlbnQgYmVoYXZpb3Iu
-CgoJKiB0ZXN0cy9maW5kL2ZpbGVzMC1mcm9tLnNoOiBBZGQgYSB0ZXN0IHBhc3NpbmcgLWZpbGVz
-MC1mcm9tIDMgdGltZXMuCgoJRGlzY3Vzc2VkIGF0OgoJICBodHRwczovL3N2LmdudS5vcmcvYnVn
-cy8/NjY5NjUKCjIwMjUtMDMtMjUgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZv
-ZWxrZXIuZGU+CgoJTkVXUzogZG9jdW1lbnQgdGhlIHByZXZpb3VzIGZpeGVzIGluIGZpbmQuMQoJ
-KiBORVdTIChEb2N1bWVudGF0aW9uIENoYW5nZXMpOiBNZW50aW9uIHRoZSBjaGFuZ2Ugb2YgdGhl
-IHByZXZpb3VzIGNvbW1pdC4KCjIwMjUtMDMtMjUgIEJqYXJuaSBJbmdpIEdpc2xhc29uICA8Ymph
-cm5paWdAc2ltbmV0LmlzPgoKCWZpbmQuMTogc29tZSByZW1hcmtzIGFuZCBlZGl0aW5nIGZpeGVz
-IGluIHRoZSBtYW4gcGFnZQoJUmVwb3J0ZWQgYXQ6CgkgIGh0dHBzOi8vbGlzdHMuZ251Lm9yZy9y
-L2J1Zy1maW5kdXRpbHMvMjAyNS0wMy9tc2cwMDAwMi5odG1sCgoJT3V0cHV0IGZyb20gIm1hbmRv
-YyAtVCBsaW50ICBmaW5kLjEiOiAoc2hvcnRlbmVkIGxpc3QpCgoJICAgICAgMSBpbnB1dCB0ZXh0
-IGxpbmUgbG9uZ2VyIHRoYW4gODAgYnl0ZXM6IFNvbWUgb2YgdGhlIGNvbnZlcnNpLi4uCgkgICAg
-ICAxIG1pc3NpbmcgZGF0ZSwgdXNpbmcgIiI6IFRICgkgICAgICAxIHVudGVybWluYXRlZCBxdW90
-ZWQgYXJndW1lbnQKCgktLi0uCgoJT3V0cHV0IGZyb20gInRlc3QtbnJvZmYgLW1hbmRvYyAtdCAt
-d3cgLXogZmluZC4xIjogKHNob3J0ZW5lZCBsaXN0KQoKCSAgICAgIDEgCVVzZSBtYWNybyAnLkIn
-IGZvciBvbmUgYXJndW1lbnQgb3Igc3BsaXQgYXJndW1lbnQuCgkgICAgICAxIAlVc2UgbWFjcm8g
-Jy5JJyBmb3Igb25lIGFyZ3VtZW50IG9yIHNwbGl0IGFyZ3VtZW50LgoJICAgICAgMSAuQlIgaXMg
-Zm9yIGF0IGxlYXN0IDIgYXJndW1lbnRzLCBnb3QgMQoJICAgICAgMSAuSVIgaXMgZm9yIGF0IGxl
-YXN0IDIgYXJndW1lbnRzLCBnb3QgMQoKCS0uLS4KCglDaGFuZ2UgYSBIWVBIRU4tTUlOVVMgKGNv
-ZGUgMHgyRCkgdG8gYSBtaW51cygtZGFzaCkgKFwtKSwKCWlmIGl0CglpcyBpbiBmcm9udCBvZiBh
-IG5hbWUgZm9yIGFuIG9wdGlvbiwKCWlzIGEgc3ltYm9sIGZvciBzdGFuZGFyZCBpbnB1dCwKCWlz
-IGEgc2luZ2xlIGNoYXJhY3RlciB1c2VkIHRvIGluZGljYXRlIGFuIG9wdGlvbiwKCW9yIGlzIGlu
-IHRoZSBOQU1FIHNlY3Rpb24gKG1hbi1wYWdlcyg3KSkuCglOLkIuIC0gKDB4MkQpLCBwcm9jZXNz
-ZWQgYXMgYSBVVEYtOCBmaWxlLCBpcyBjaGFuZ2VkIHRvIGEgaHlwaGVuCgkoMHgyMDEwLCBncm9m
-ZiBcW3UyMDEwXSBvciBcW2h5XSkgaW4gdGhlIG91dHB1dC4KCgk3Mzp1bnRpbCBhbiBleHByZXNz
-aW9uIGFyZ3VtZW50IGNvbWVzICh3aGljaCBhbHNvIHN0YXJ0cyB3aXRoIGEgYC0nKS4KCTc0Ok5v
-dywgaWYgYSBwYXRoIGFyZ3VtZW50IHdvdWxkIHN0YXJ0IHdpdGggYSBgLScsIHRoZW4KCTg3NTpB
-biBleGNlcHRpb24gdG8gdGhpcyBpcyB3aGVuIHVzaW5nIG9ubHkgYSBzbGFzaCBhcyBcZklwYXR0
-ZXJuXGZSIChgLW5hbWUgLycpLAoJODc4OkEgd2FybmluZyBpcyBpc3N1ZWQgaWYgeW91IHRyeSB0
-byBwYXNzIGEgcGF0dGVybiBjb250YWluaW5nIGEgLSBidXQgbm90Cgk4Nzk6Y29uc2lzdGluZyBz
-b2xlbHkgb2Ygb25lIC0gc2xhc2gsIHVubGVzcyB0aGUgZW52aXJvbm1lbnQgdmFyaWFibGUKCTEw
-OTU6VGhlICsgYW5kIC0gcHJlZml4ZXMgc2lnbmlmeSBncmVhdGVyIHRoYW4gYW5kIGxlc3MgdGhh
-biwgYXMgdXN1YWw7CgkxODMyOmZpbmQgLyAtbmFtZSBuZWVkbGUgLXByaW50IC1xdWl0CgkyMjUy
-Oi5TUyBTYWZlciBgZmluZCAtcHJpbnQwIHwgeGFyZ3MgLTBgIGFwcHJvYWNoCgkyMzI0Oi5TUyBU
-cmF2ZXJzaW5nIHRoZSBmaWxlc3lzdGVtIGp1c3Qgb25jZSAtIGZvciAyIGRpZmZlcmVudCBhY3Rp
-b25zCgkyNDczOlBydW5pbmcgLSBvbWl0dGluZyBmaWxlcyBhbmQgc3ViZGlyZWN0b3JpZXMKCTI1
-OTA6LkIgJCBmaW5kIC8gLW5hbWUgbmVlZGxlIC1wcmludCAtcXVpdAoJMjYwNzouQiAkIGZpbmQg
-LiAuLiAvIC90bXAgL3RtcC9UUkFDRSBjb21waWxlIGNvbXBpbGUvNjQvdGVzdHMvZmluZCAtbWF4
-ZGVwdGggMCAtcHJpbnRmICdbJWhdWyVmXVxlbicKCTI2NTQ6LkIgZmluZCAtcHJpbnQwCgkyNjU2
-Oi5CIHhhcmdzIC0wCgkyNzQzOmZpbmQ6IHBvc3NpYmxlIHVucXVvdGVkIHBhdHRlcm4gYWZ0ZXIg
-cHJlZGljYXRlIGAtbmFtZSc/CgoJLS4tLgoKCUFkZCBhICJcJiIgKG9yIGEgY29tbWEgKE94Zm9y
-ZCBjb21tYSkpIGFmdGVyICJlLmcuIiBhbmQgImkuZS4iLAoJb3IgdXNlIEVuZ2xpc2ggd29yZHMK
-CShtYW4tcGFnZXMoNykpLgoJQWJicmV2aWF0aW9uIHBvaW50cyBzaG91bGQgYmUgbWFya2VkIGFz
-IHN1Y2ggYW5kIHByb3RlY3RlZCBhZ2FpbnN0IGJlaW5nCglpbnRlcnByZXRlZCBhcyBhbiBlbmQg
-b2Ygc2VudGVuY2UsIGlmIHRoZXkgYXJlIG5vdCwgYW5kIHRoYXQgaW5kZXBlbmRlbnQKCW9mIHRo
-ZSBjdXJyZW50IHBsYWNlIG9uIHRoZSBsaW5lLgoKCTU0NjphbmQgZS5nLiBmcm9tIGEgcGlwZS4K
-CTU2NTpUaGUgcHJvY2Vzc2luZyBvZiB0aGUgc3RhcnRpbmcgcG9pbnRzIGlzIG90aGVyd2lzZSBh
-cyB1c3VhbCwgZS5nLgoKCS0uLS4KCglXcm9uZyBkaXN0YW5jZSAobm90IHR3byBzcGFjZXMpIGJl
-dHdlZW4gc2VudGVuY2VzIGluIHRoZSBpbnB1dCBmaWxlLgoKCSAgU2VwYXJhdGUgdGhlIHNlbnRl
-bmNlcyBhbmQgc3Vib3JkaW5hdGUgY2xhdXNlczsgZWFjaCBiZWdpbnMgb24gYSBuZXcKCWxpbmUu
-ICBTZWUgbWFuLXBhZ2VzKDcpICgiQ29udmVudGlvbnMgZm9yIHNvdXJjZSBmaWxlIGxheW91dCIp
-IGFuZAoJImluZm8gZ3JvZmYiICgiSW5wdXQgQ29udmVudGlvbnMiKS4KCgkgIFRoZSBiZXN0IHBy
-b2NlZHVyZSBpcyB0byBhbHdheXMgc3RhcnQgYSBuZXcgc2VudGVuY2Ugb24gYSBuZXcgbGluZSwK
-CWF0IGxlYXN0LCBpZiB5b3UgYXJlIHR5cGluZyBvbiBhIGNvbXB1dGVyLgoKCVJlbWVtYmVyIGNv
-ZGluZzogT25seSBvbmUgY29tbWFuZCAoInNlbnRlbmNlIikgb24gZWFjaCAobG9naWNhbCkgbGlu
-ZS4KCglFLW1haWw6IEVhc2llciB0byBxdW90ZSBleGFjdGx5IHRoZSByZWxldmFudCBsaW5lcy4K
-CglHZW5lcmFsbHk6IEVhc2llciB0byBlZGl0IHRoZSBzZW50ZW5jZS4KCglQYXRjaGVzOiBMZXNz
-IHVuYWZmZWN0ZWQgdGV4dC4KCglTZWFyY2ggZm9yIHR3byBhZGphY2VudCB3b3JkcyBpcyBlYXNp
-ZXIsIHdoZW4gdGhleSBiZWxvbmcgdG8gdGhlIHNhbWUgbGluZSwKCWFuZCB0aGUgc2FtZSBwaHJh
-c2UuCgoJICBUaGUgYW1vdW50IG9mIHNwYWNlIGJldHdlZW4gc2VudGVuY2VzIGluIHRoZSBvdXRw
-dXQgY2FuIHRoZW4gYmUKCWNvbnRyb2xsZWQgd2l0aCB0aGUgIi5zcyIgcmVxdWVzdC4KCglNYXJr
-IGEgZmluYWwgYWJicmV2aWF0aW9uIHBvaW50IGFzIHN1Y2ggYnkgc3VmZml4aW5nIGl0IHdpdGgg
-IlwmIi4KCglTb21lIHNlbnRlbmNlcyAoZXRjLikgZG8gbm90IGJlZ2luIG9uIGEgbmV3IGxpbmUu
-CgoJU3BsaXQgKHNvbWV0aW1lcykgbGluZXMgYWZ0ZXIgYSBwdW5jdHVhdGlvbiBtYXJrOyBiZWZv
-cmUgYSBjb25qdW5jdGlvbi4KCgkgIExpbmVzIHdpdGggb25seSBvbmUgKG9yIHR3bykgc3BhY2Uo
-cykgYmV0d2VlbiBzZW50ZW5jZXMgY291bGQgYmUgc3BsaXQsCglzbyBsYXR0ZXIgc2VudGVuY2Vz
-IGJlZ2luIG9uIGEgbmV3IGxpbmUuCgoJVXNlCgoJc2VkIC1lICcvXlwuL24nIFwKCS1lICdzL1wo
-W1s6YWxwaGE6XV1cKVwuICAqL1wxLlxuL2cnICQxCgoJdG8gc3BsaXQgbGluZXMgYWZ0ZXIgYSBz
-ZW50ZW5jZSBwZXJpb2QuCglDaGVjayByZXN1bHQgd2l0aCB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVu
-IHRoZSBmb3JtYXR0ZWQgb3V0cHV0cy4KCVNlZSBhbHNvIHRoZSBhdHRhY2htZW50ICJnZW5lcmFs
-LmJ1Z3MiCgoJW0xpc3Qgb2YgYWZmZWN0ZWQgbGluZXMgcmVtb3ZlZC5dCgoJLS4tLgoKCVNwbGl0
-IGxpbmVzIGxvbmdlciB0aGFuIDgwIGNoYXJhY3RlcnMgaW50byB0d28gb3IgbW9yZSBsaW5lcy4K
-CUFwcHJvcHJpYXRlIGJyZWFrIHBvaW50cyBhcmUgdGhlIGVuZCBvZiBhIHNlbnRlbmNlIGFuZCBh
-IHN1Ym9yZGluYXRlCgljbGF1c2U7IGFmdGVyIHB1bmN0dWF0aW9uIG1hcmtzLgoJQWRkICJcOiIg
-dG8gc3BsaXQgdGhlIHN0cmluZyBmb3IgdGhlIG91dHB1dCwgIlw8bmV3bGluZT4iIGluIHRoZSBz
-b3VyY2UuCgoJTGluZSAxNTQ2LCBsZW5ndGggODYKCglTb21lIG9mIHRoZSBjb252ZXJzaW9uIHNw
-ZWNpZmljYXRpb24gY2hhcmFjdGVycyBtaWdodCBub3QgYmUgYXZhaWxhYmxlIG9uIGFsbCBzeXN0
-ZW1zLAoKCUxpbmUgMjQ4NywgbGVuZ3RoIDgyCgoJLkIgJCBmaW5kIC4gXC1uYW1lIC5zbmFwc2hv
-dCBcLXBydW5lIFwtbyBcZSggXGUhIFwtbmFtZSBcKGFxKn5cKGFxIFwtcHJpbnQwIFxlKSBcZQoK
-CUxpbmUgMjYwNywgbGVuZ3RoIDk2CgoJLkIgJCBmaW5kIC4gLi4gLyAvdG1wIC90bXAvVFJBQ0Ug
-Y29tcGlsZSBjb21waWxlLzY0L3Rlc3RzL2ZpbmQgLW1heGRlcHRoIDAgLXByaW50ZiAnWyVoXVsl
-Zl1cZW4nCgoJTGluZSAyNjQ1LCBsZW5ndGggODcKCgkuSSBBIFJlc2VhcmNoIFVOSVggUmVhZGVy
-OiBBbm5vdGF0ZWQgRXhjZXJwdHMgZnJvbSB0aGUgUHJvZ3JhbW1lcsOiwoDCmXMgTWFudWFsLCAx
-OTcxLTE5ODYKCgktLi0uCgoJVXNlIFwoZW4gKGVuLWRhc2gpIGZvciBhIGRhc2ggYXQgdGhlIGJl
-Z2lubmluZyAoZW5kKSBvZiBhIGxpbmUsCglvciBiZXR3ZWVuIHNwYWNlIGNoYXJhY3RlcnMsCglu
-b3QgYSBtaW51cyAoXC0pIG9yIGEgaHlwaGVuICgtKSwgZXhjZXB0IGluIHRoZSBOQU1FIHNlY3Rp
-b24uCgoJZmluZC4xOjIzMjQ6LlNTIFRyYXZlcnNpbmcgdGhlIGZpbGVzeXN0ZW0ganVzdCBvbmNl
-IC0gZm9yIDIgZGlmZmVyZW50IGFjdGlvbnMKCWZpbmQuMToyNDczOlBydW5pbmcgLSBvbWl0dGlu
-ZyBmaWxlcyBhbmQgc3ViZGlyZWN0b3JpZXMKCgktLi0uCgoJUmVtb3ZlIHJldmVyc2Ugc2xhc2gg
-KFwpIGluIGZyb250IG9mIGEgcGVyaW9kICguKSB0aGF0IGlzIHRvIGJlIHByaW50ZWQKCWFzIHN1
-Y2gsIGFuZCBjYW4gbm90IGNvbWUgYSBjb250cm9sIGNoYXJhY3RlciBpbiB0aGUgZmlyc3QgY29s
-dW1uIG9mIGEgbGluZS4KCVVzZSAiXCYiIHRvIHByb3RlY3QgdGhlIHBlcmlvZCB0byBhdm9pZCB0
-aGF0LgoJVGhpcyBpcyBhIHNpZ24sIHRoYXQgdGhlIG1hbiBwYWdlIHdhcyB0cmFuc2Zvcm1lZCBm
-cm9tIGFub3RoZXIgc291cmNlCglmaWxlIHdpdGggYSBwcm9ncmFtLCB3aG9zZSBuYW1lIGlzIE5P
-VCBtZW50aW9uZWQgaW4gYSBjb21tZW50LgoKCTI3MTU6XC5CIFwtcGVybSArTU9ERQoJMjcxNzpc
-LkIgXC1wZXJtCgoJLS4tLgoKCVNwbGl0IGEgcHVuY3R1YXRpb24gbWFyayBmcm9tIGEgc2luZ2xl
-IGFyZ3VtZW50IGZvciBhIHR3by1mb250IG1hY3JvCgoJMTA0ODouSVIgLi9mdWJhcjMsCgoJLS4t
-LgoKCVB1dCBhIHBhcmVudGhldGljYWwgc2VudGVuY2UsIHBocmFzZSBvbiBhIHNlcGFyYXRlIGxp
-bmUsCglpZiBub3QgcGFydCBvZiBhIGNvZGUuCglTZWUgbWFuLXBhZ2VzKDcpLCBpdGVtICJzZW1h
-bnRpYyBuZXdsaW5lIi4KCglbTGlzdCBvZiBhZmZlY3RlZCBsaW5lcyByZW1vdmVkLl0KCgktLi0u
-CgoJT25lIHNwYWNlIG9ubHkgYWZ0ZXIgYW4gZW5kIG9mIHNlbnRlbmNlLgoKCWZpbmQuMTozMzk6
-bm8gZXJyb3IgbWVzc2FnZSB3aWxsIGJlIGlzc3VlZC4gVGhpcyBpcyB0aGUgcmVhc29uIHdoeSBz
-dWNoIG9wZXJhdGlvbgoJZmluZC4xOjU0NjphbmQgZS5nLiBmcm9tIGEgcGlwZS4KCWZpbmQuMTo5
-NjA6ZmluZCAuIFwtcGF0aCBcKGRxLi9zcipzY1woZHEKCWZpbmQuMToxNzk3OmZpbmQgLiBcLXBh
-dGggLi9zcmMvZW1hY3MgXC1wcnVuZSBcLW8gXC1wcmludAoJZmluZC4xOjE4OTY6LkIgZmluZCAu
-IFwtbmFtZSBhZmlsZSBcLW8gXC1uYW1lIGJmaWxlIFwtcHJpbnQKCWZpbmQuMToyMzA5Oi5CICQg
-ZmluZCAuIFwtdHlwZSBmIFwtZXhlYyBmaWxlIFwoYXF7fVwoYXEgXGU7CglmaW5kLjE6MjM4NDou
-QiAkIGZpbmQgLiBcLXBlcm0gNjY0CglmaW5kLjE6MjM5OTouQiAkIGZpbmQgLiBcLXBlcm0gXC02
-NjQKCWZpbmQuMToyNDEzOi5CICQgZmluZCAuIFwtcGVybSAvMjIyCglmaW5kLjE6MjQyMzouQiAk
-IGZpbmQgLiBcLXBlcm0gLzIyMAoJZmluZC4xOjI0MjQ6LkIgJCBmaW5kIC4gXC1wZXJtIC91K3cs
-Zyt3CglmaW5kLjE6MjQyNTouQiAkIGZpbmQgLiBcLXBlcm0gL3U9dyxnPXcKCWZpbmQuMToyNDQw
-Oi5CICQgZmluZCAuIFwtcGVybSBcLTIyMAoJZmluZC4xOjI0NDE6LkIgJCBmaW5kIC4gXC1wZXJt
-IFwtZyt3LHUrdwoJZmluZC4xOjI0NTI6LkIgJCBmaW5kIC4gXC1wZXJtIFwtNDQ0IFwtcGVybSAv
-MjIyIFxlISBcLXBlcm0gLzExMQoJZmluZC4xOjI0NTM6LkIgJCBmaW5kIC4gXC1wZXJtIFwtYSty
-IFwtcGVybSAvYSt3IFxlISBcLXBlcm0gL2EreAoJZmluZC4xOjI0Njc6LlJCICggIiEgXC1wZXJt
-IC8xMTEiCglmaW5kLjE6MjQ2OTouQiAhIFwtcGVybSAvYSt4CglmaW5kLjE6MjQ4NzouQiAkIGZp
-bmQgLiBcLW5hbWUgLnNuYXBzaG90IFwtcHJ1bmUgXC1vIFxlKCBcZSEgXC1uYW1lIFwoYXEqflwo
-YXEgXC1wcmludDAgXGUpIFxlCglmaW5kLjE6MjYwNzouQiAkIGZpbmQgLiAuLiAvIC90bXAgL3Rt
-cC9UUkFDRSBjb21waWxlIGNvbXBpbGUvNjQvdGVzdHMvZmluZCAtbWF4ZGVwdGggMCAtcHJpbnRm
-ICdbJWhdWyVmXVxlbicKCWZpbmQuMToyNzI3Oi5CIGZpbmQgLiBcLW5hbWUgYWZpbGUgXC1vIFwt
-bmFtZSBiZmlsZSBcLXByaW50CglmaW5kLjE6MjczMTouQlIgImZpbmQgLiBcLW5hbWUgYWZpbGUg
-XC1vIFxlKCBcLW5hbWUgYmZpbGUgXC1hIFwtcHJpbnQgXGUpIiAuCglmaW5kLjE6Mjc0MTouQiAk
-IGZpbmQgLiBcLW5hbWUgKi5jIFwtcHJpbnQKCWZpbmQuMToyNzU0Oi5CIGZpbmQgLiBcLW5hbWUg
-ZnJjb2RlLmMgbG9jYXRlLmMgd29yZF9pby5jIFwtcHJpbnQKCWZpbmQuMToyNzY2Oi5CICQgZmlu
-ZCAuIFwtbmFtZSBcKGFxKi5jXChhcSBcLXByaW50CglmaW5kLjE6Mjc2NzouQiAkIGZpbmQgLiBc
-LW5hbWUgXGUqLmMgXC1wcmludAoKCS0uLS4KCglQdXQgYSBzdWJvcmRpbmF0ZSBzZW50ZW5jZSAo
-YWZ0ZXIgYSBjb21tYSkgb24gYSBuZXcgbGluZS4KCglbTGlzdCBvZiBhZmZlY3RlZCBsaW5lcyBy
-ZW1vdmVkLl0KCgktLi0uCgoJUmVtb3ZlIHF1b3RlcyB3aGVuIHRoZXJlIGlzIGEgcHJpbnRhYmxl
-CglidXQgbm8gc3BhY2UgY2hhcmFjdGVyIGJldHdlZW4gdGhlbQoJYW5kIHRoZSBxdW90ZXMgYXJl
-IG5vdCBmb3IgZW1waGFzaXMgKG1hcmt1cCksCglmb3IgZXhhbXBsZSBhcyBhbiBhcmd1bWVudCB0
-byBhIG1hY3JvLgoKCWZpbmQuMTo2Mzg6LklQICJcLW5vbGVhZiIKCWZpbmQuMToxMTU0Oi5JUCAi
-XC13cml0YWJsZSIKCWZpbmQuMToxMTk2Oi5JUCAiXC1kZWxldGVcZlIiCglmaW5kLjE6MTgwMjou
-SVAgIlwtcXVpdCIKCWZpbmQuMToyMjMzOi5TSCAiRVhBTVBMRVMiCglmaW5kLjE6MjYzODouU0gg
-IkhJU1RPUlkiCglmaW5kLjE6MjY1OTouU0ggIkNPTVBBVElCSUxJVFkiCglmaW5kLjE6MjcyNDou
-U0ggIk5PTi1CVUdTIgoJZmluZC4xOjI3NzA6LlNIICJCVUdTIgoKCS0uLS4KCglTZWN0aW9uIGhl
-YWRpbmdzICguU0ggYW5kIC5TUykgZG8gbm90IG5lZWQgcXVvdGluZyB0aGVpciBhcmd1bWVudHMu
-CgoJMTk2ODouU0ggIlNUQU5EQVJEUyBDT05GT1JNQU5DRSIKCTIxMjA6LlNIICJFTlZJUk9OTUVO
-VCBWQVJJQUJMRVMiCgkyMjMzOi5TSCAiRVhBTVBMRVMiCgkyNjM4Oi5TSCAiSElTVE9SWSIKCTI2
-NTk6LlNIICJDT01QQVRJQklMSVRZIgoJMjcyNDouU0ggIk5PTi1CVUdTIgoJMjc3MDouU0ggIkJV
-R1MiCgkyNzg4Oi5TSCAiUkVQT1JUSU5HIEJVR1MiCgkyODExOi5TSCAiU0VFIEFMU08iCgoJLS4t
-LgoKCVNwYWNlIGFmdGVyIGFuIGVuZCBvZiBzZW50ZW5jZS4KCgl0ZW1wLnRhYmxlOjI1OlwtZXhl
-YyAuLi4gKwk0LjIuMTIJUE9TSVgKCgktLi0uCgoJT3V0cHV0IGZyb20gInRlc3QtZ3JvZmYgIC1t
-YW5kb2MgLXQgLUsgdXRmOCAtckYwIC1ySFk9MCAtckNIRUNLU1RZTEU9MTAgLXd3IC16ICI6CgoJ
-YW4udG1hYzo8c3RkaW4+OjI6IHN0eWxlOiAuVEggbWlzc2luZyB0aGlyZCBhcmd1bWVudDsgY29u
-c2lkZXIgZG9jdW1lbnQgbW9kaWZpY2F0aW9uIGRhdGUgaW4gSVNPIDg2MDEgZm9ybWF0IChZWVlZ
-LU1NLUREKQoJYW4udG1hYzo8c3RkaW4+OjI6IHN0eWxlOiAuVEggbWlzc2luZyBmb3VydGggYXJn
-dW1lbnQ7IGNvbnNpZGVyIHBhY2thZ2UvcHJvamVjdCBuYW1lIGFuZCB2ZXJzaW9uIChlLmcuLCAi
-Z3JvZmYgMS4yMy4wIikKCWFuLnRtYWM6PHN0ZGluPjo2OTA6IG1pc3VzZSwgd2FybmluZzogLkJS
-IGlzIGZvciBhdCBsZWFzdCAyIGFyZ3VtZW50cywgZ290IDEKCQlVc2UgbWFjcm8gJy5CJyBmb3Ig
-b25lIGFyZ3VtZW50IG9yIHNwbGl0IGFyZ3VtZW50LgoJYW4udG1hYzo8c3RkaW4+OjEwNDg6IG1p
-c3VzZSwgd2FybmluZzogLklSIGlzIGZvciBhdCBsZWFzdCAyIGFyZ3VtZW50cywgZ290IDEKCQlV
-c2UgbWFjcm8gJy5JJyBmb3Igb25lIGFyZ3VtZW50IG9yIHNwbGl0IGFyZ3VtZW50LgoKCS0uLS4K
-CglBZGRpdGlvbmFsbHk6CgoJICBDaGFuZ2UgIjFcIEtCIiB0byAiMVwgS2lCIgoKCSAgQ2hhbmdl
-IGluZGVudCAiNG0iIHRvICI0biIuICAiNG0iIGlzIHRvbyB3aWRlIGluIHRyb2ZmLW1vZGUuCgoJ
-ICBJbmhpYml0IGh5cGhlbmF0aW9uIG9mICJzdHJmdGltZSIgb25jZSAoYmFzZWQgb24gYW4gQTQg
-cGFnZSBzaXplKS4KCgkgIENyZWF0ZSBhICJzcGFjZSIgYmV0d2VlbiBzb21lIHRhZ3MgYW5kIHRo
-ZSBpdHMgZm9sbG93aW5nIHRleHQgYnkgYWRkaW5nCgkiIFwmIiB0byB0aGUgdGFnLgoKCSAgRGVj
-cmVhc2UgaW5kZW50IGFmdGVyIGEgYnVsbGV0IGluIGxpc3RzLgoKCUdlbmVyYWxseToKCglTcGxp
-dCAoc29tZXRpbWVzKSBsaW5lcyBhZnRlciBhIHB1bmN0dWF0aW9uIG1hcms7IGJlZm9yZSBhIGNv
-bmp1bmN0aW9uLgoKCSogZmluZC9maW5kLjE6IENoYW5nZSBhcyBkZXNjcmliZWQgYWJvdmUuCgoy
-MDI1LTAzLTI1ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoK
-CW1haW50OiByZW1vdmUgZGVjbGFyZWQtb25seSBmaW5kX3ByZWRfbmFtZQoJT25seSB1c2VyIHdh
-cyBpbnNpZGUgYSBhbiAjaWZkZWYgREVCVUcgLyAjZW5kaWYgYmxvY2suCglJbnRyb2R1Y2VkIHdp
-dGggLWNvbnRleHQgaW4gY29tbWl0IHY0LjUuNS00Mi1nMWEwNWFmNmEuCgoJKiBmaW5kL3BhcnNl
-ci5jIChwYXJzZV9jb250ZXh0KTogUmVtb3ZlICNpZmRlZi8jZW5kaWYgYmxvY2suCgkqIGZpbmQv
-ZGVmcy5oIChmaW5kX3ByZWRfbmFtZSk6IFJlbW92ZSBkZWNsYXJhdGlvbi4KCjIwMjUtMDMtMjMg
-IEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJZmluZDogaXNz
-dWUgYSB3YXJuaW5nIGZvciB3cm9uZ2x5IGFjY2VwdGVkIG9wZXJhdG9ycyBsaWtlICctIScKCUlu
-IHRoZSBjdXJyZW50IGltcGxlbWVudGF0aW9uLCBHTlUgZmluZCBhY2NlcHRzIHRoZSBvcGVyYXRv
-cnMgJyEnLCAnLCcsCgknKCcgYW5kICcpJyB3aXRoIGEgbGVhZGluZyBkYXNoLCBlLmcuICctIScu
-CglMZXQncyBpc3N1ZSBhIHdhcm5pbmcgdG8gc2VlIGlmIGFueW9uZSByZWxpZXMgb24gdGhhdCBv
-ZGQgYmVoYXZpb3IuCglXaXRoIGEgbGF0ZXIgcmVsZWFzZSwgbGV0J3MgZml4IHRoZSBwYXJzZXIs
-IGFuZCBub3QgYWNjZXB0IHRoZXNlIGFueW1vcmUuCgoJKiBmaW5kL3BhcnNlci5jIChmaW5kX3Bh
-cnNlcik6IElzc3VlIGEgd2FybmluZyBpbiB0aGUgY2FzZSBvbmUgb2YgdGhlCglhYm92ZSBvcGVy
-YXRvcnMgaGFzIGJlZW4gcGFzc2VkIHdpdGggYSBsZWFkaW5nICctJy4KCSogdGVzdHMvZmluZC9v
-cGVyYXRvcnMtd3Jvbmctd2l0aC1kYXNoLnNoOiBBZGQgdGVzdC4KCSogdGVzdHMvbG9jYWwubWsg
-KHNoX3Rlc3RzKTogUmVmZXJlbmNlIGl0LgoJKiBORVdTIChDaGFuZ2VzIGluIGZpbmQpOiBNZW50
-aW9uIHRoZSBjaGFuZ2UgaW4gYmVoYXZpb3IuCgoJRGlzY3Vzc2VkIGF0OgoJaHR0cHM6Ly9saXN0
-cy5nbnUub3JnL3IvYnVnLWZpbmR1dGlscy8yMDI1LTAzL21zZzAwMDA1Lmh0bWwKCjIwMjUtMDEt
-MjYgIENvbGxpbiBGdW5rICA8Y29sbGluLmZ1bmsxQGdtYWlsLmNvbT4KCgl0ZXN0czogYWRqdXN0
-IHNoZWxsIHN5bnRheCB0aGF0IGJyZWFrcyBBSVggL2Jpbi9zaAoJKiBmaW5kL3Rlc3RzdWl0ZS9m
-aW5kLmdudS9leGVjZGlyLW11bHRpcGxlLmV4cDogTW92ZSB0aGUgJ2RvJyBvZiBhIGZvcgoJbG9v
-cCB0byB0aGUgc2FtZSBsaW5lIHNvIEFJWCBkb2Vzbid0IGZhaWwuCgoyMDI1LTAxLTI2ICBCZXJu
-aGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCWZpbmQ6IGF2b2lkIGNy
-YXNoIHdoZW4gZGlhZ25vc2luZyBhIGZpbGUgc3lzdGVtIGxvb3AKCVdoZW4gZ251bGliJ3MgRlRT
-IHJldHVybnMgRlRTX0RDIGluZGljYXRpbmcgYSBkaXJlY3RvcnkgY3ljbGUsIHRoZW4gdGhlCglz
-dHJ1Y3QgbWVtYmVyICdmdHNfY3ljbGUnIGlzIG5vdCBndWFyYW50ZWVkIHRvIGNvbnRhaW4gdmFs
-aWQgZGF0YS4KCUF2b2lkIGRlcmVmZXJlbmNpbmcgaXQgd2hlbiBkaWFnbm9zaW5nIHRoZSBmaWxl
-IHN5c3RlbSBsb29wLgoKCSogZmluZC9mdHNmaW5kLmMgKGlzc3VlX2xvb3Bfd2FybmluZyk6IENo
-YW5nZSB0aGUgZXJyb3IgbWVzc2FnZSB0byBhdm9pZAoJbWVudGlvbmluZyB0aGUgb3RoZXIgZW50
-cnkgaW52b2x2ZWQgaW4gdGhlIGxvb3AgYW55bW9yZS4KCShwYXJ0aWFsX3F1b3RlYXJnX24pOiBS
-ZW1vdmUgbm93LXVudXNlZCBmdW5jdGlvbi4KCSogTkVXUyAoQnVnIEZpeGVzKTogTWVudGlvbiB0
-aGUgZml4LgoKCVJlcG9ydGVkIGJ5IERpZXRtYXIgSGFobiBpbgoJPGh0dHBzOi8vbGlzdHMuZ251
-Lm9yZy9yL2J1Zy1maW5kdXRpbHMvMjAyNS0wMS9tc2cwMDAxMy5odG1sPgoKMjAyNS0wMS0wNiAg
-QmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCglwcmVkLmM6IGNv
-bnNvbGlkYXRlIG51bWVyaWNhbCBjb21wYXJpc29ucwoJU2V2ZXJhbCBwcmVkaWNhdGUgdGVzdHMg
-cGVyZm9ybSBhIG51bWVyaWNhbCBjb21wYXJpc29uIGJhc2VkIG9uIHRoZQoJY29tcGFyaXNvbl90
-eXBlIChDT01QX0dULCBDT01QX0xULCBDT01QX0VRKS4KCUZhY3RvciB0aGF0IG91dCBpbnRvIGEg
-dXRpbGl0eSBmdW5jdGlvbi4KCgkqIGZpbmQvcHJlZC5jIChjb21wYXJlX251bSk6IEFkZCBzdGF0
-aWMgZnVuY3Rpb24uCgkocHJlZF9naWQsIHByZWRfaW51bSwgcHJlZF9saW5rcywgcHJlZF9zaXpl
-LCBwcmVkX3VpZCk6IFVzZSBpdC4KCjIwMjUtMDEtMDUgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWls
-QGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJeGFyZ3M6IGNsYXJpZnkgY29tbWFuZCBhcyBvcHRpb25h
-bCBpbiAtLWhlbHAgb3V0cHV0CgkqIHhhcmdzL3hhcmdzLmMgKHVzYWdlKTogRml4IHN5bm9wc2lz
-IGJ5IHdyYXBwaW5nIENPTU1BTkQgaW4gJ1suLi5dJywKCWJlY2F1c2UgaXQgaXMgaW4gZmFjdCBv
-cHRpb25hbC4gIEFsc28gYWRkIGEgc2VudGVuY2UgdGhhdCB0aGUgZGVmYXVsdAoJQ09NTUFORCBp
-cyAnZWNobycuCgoyMDI1LTAxLTA1ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12
-b2Vsa2VyLmRlPgoKCWRvYzogbWVudGlvbiBkZWZhdWx0IGNvbW1hbmQgb2YgeGFyZ3MgaW4gJ0lu
-dm9raW5nIHhhcmdzJwoJKiBkb2MvZmluZC50ZXhpIChub2RlIEludm9raW5nIHhhcmdzKTogQWRk
-IHNlbnRlbmNlIGFib3V0IGRlZmF1bHQKCWNvbW1hbmQgJ2VjaG8nLgoKCVJlcG9ydGVkIGJ5IDx0
-b29tYXNAcm9zaW4uZWU+IGluCglodHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVncy8/NjY1OTEK
-CjIwMjUtMDEtMDUgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+
-CgoJbWFpbnQ6IHNpbGVuY2UgR0NDLTE0IG9uIHV0aWxpdHkgc291cmNlIGdldGxpbWl0cy5jCglT
-ZWVuIG9uIEdDQyAxNDoKCSAgZ2V0bGltaXRzLmM6NzM6Mzogd2FybmluZzogc3RhY2stYmFzZWQg
-YnVmZmVyIG92ZXJmbG93IFtDV0UtMTIxXSBcCgkgICAgIFstV2FuYWx5emVyLW91dC1vZi1ib3Vu
-ZHNdCgkgICAgIDczIHwgICBzcHJpbnRmIChsaW1pdCArIDEsICIlIiAianUiLCAodWludG1heF90
-KSBUWVBFIyNfTUFYKTsgICAgIFwKCSAgICAgICAgfCAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CgkuLi4gd2hpbGUgbGltaXQgaXMgZGVmaW5l
-ZCBtb3JlIHRoYW4gbGFyZ2UgZW5vdWdoLgoKCSogZmluZC9nZXRsaW1pdHMuYzogQWRkIHByYWdt
-YSBmb3IgR0NDIHZlcnNpb24gPj0gMTQuCgoyMDI1LTAxLTA0ICBCZXJuaGFyZCBWb2Vsa2VyICA8
-bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiBhZGp1c3QgdG8gZ251bGliIG1vZHVs
-ZSByZW5hbWluZwoJU2luY2UgcHJldmlvdXMgZ251bGliIHVwZGF0ZSwgJy4vYm9vdHN0cmFwJyBz
-aG93cyBkZXByZWNhdGlvbiB3YXJuaW5ncwoJbGlrZSB0aGUgZm9sbG93aW5nIGZvciBzZXZlcmFs
-IG1vZHVsZXM6CgkgIE5vdGljZSBmcm9tIG1vZHVsZSBlcnJubzoKCSAgICBUaGlzIG1vZHVsZSBp
-cyBkZXByZWNhdGVkLiBVc2UgdGhlIG1vZHVsZSAnZXJybm8taCcgaW5zdGVhZC4KCVVzZSB0aGUg
-bmV3ZXIgbmFtZXMgaW5zdGVhZDoKCS0gZXJybm8gLT4gZXJybm8taAoJLSBpbnR0eXBlcyAtPiBp
-bnR0eXBlcy1oCgktIGxvY2FsZSAtPiBsb2NhbGUtaAoJLSBtYXRoIC0+IG1hdGgtaAoJLSByZWFs
-bG9jLWdudSAtPiByZWFsbG9jLXBvc2l4CgktIHN0ZGFyZyAtPiBzdGRhcmctaAoJLSBzdGRib29s
-IC0+IGJvb2wKCS0gc3RkZGVmIC0+IHN0ZGRlZi1oCgktIHN0ZGludCAtPiBzdGRpbnQtaAoJLSBz
-dGRpbyAtPiBzdGRpby1oCgktIHN0ZGxpYiAtPiBzdGRsaWItaAoJLSBzdHJpbmcgLT4gc3RyaW5n
-LWgKCS0gc3lzX3N0YXQgLT4gc3lzX3N0YXQtaAoJLSBzeXNfdGltZSAtPiBzeXNfdGltZS1oCgkt
-IHN5c190eXBlcyAtPiBzeXNfdHlwZXMtaAoJLSBzeXNfd2FpdCAtPiBzeXNfd2FpdC1oCgktIHdj
-aGFyIC0+IHdjaGFyLWgKCgkqIGJvb3RzdHJhcC5jb25mIChnbnVsaWJfbW9kdWxlcyk6IERvIHRo
-ZSBhYm92ZSByZXBsYWNlbWVudHMuCgoyMDI1LTAxLTA0ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFp
-bEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCXhhcmdzOiBzaW1wbGlmeSBlcnJvciBoYW5kbGluZyBm
-b3IgZ251bGliJ3Mgc2FmZV9yZWFkIGZ1bmN0aW9uCglUaGUgZ251bGliL05FV1MgZmlsZSBzdGF0
-ZXM6CgkgIFNBRkVfUkVBRF9FUlJPUiBhbmQgU0FGRV9XUklURV9FUlJPUiBhcmUgbm93CgkgIG9i
-c29sZXNjZW50OyBjYWxsZXJzIGNhbiBqdXN0IGNoZWNrIGZvciA8IDAuCgoJKiB4YXJncy94YXJn
-cy5jICh4YXJnc19kb19leGVjKTogQWRqdXN0IGVycm9yIGhhbmRsaW5nIG9mIHNhZmVfcmVhZAoJ
-YWNjb3JkaW5nbHkuCgoyMDI1LTAxLTA0ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFy
-ZC12b2Vsa2VyLmRlPgoKCW1haW50OiB1cGRhdGUgZ251bGliIHRvIGxhdGVzdAoJUnVuICdtYWtl
-IHVwZGF0ZS1nbnVsaWItdG8tbGF0ZXN0JzsgdGhlcmUgaGF2ZSBiZWVuIDExMjcgY29tbWl0cyBv
-biBnbnVsaWIKCXNpbmNlIHRoZSBsYXN0IHVwZGF0ZS4KCgkqIGdudWxpYjogVXBkYXRlIHRvIGxh
-dGVzdC4KCSogYm9vdHN0cmFwOiBMaWtld2lzZS4KCSogYm9vdHN0cmFwLWZ1bmNsaWIuc2g6IExp
-a2V3aXNlLgoJKiBjZmcubWsgKGV4Y2x1ZGVfZmlsZV9uYW1lX3JlZ2V4cC0tc2NfZnNmX3Bvc3Rh
-bCk6IEFkZCB0byBleGVtcHQgdGhlCglzY3JpcHQgYnVpbGQtYXV4L3NyYy1zbmlmZi5weSBmcm9t
-IHRoaXMgc3ludGF4LWNoZWNrLgoKMjAyNS0wMS0wNCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxA
-YmVybmhhcmQtdm9lbGtlci5kZT4KCgltYWludDogdXBkYXRlIGNvcHlyaWdodCB5ZWFyIG51bWJl
-ciByYW5nZXMKCVJ1biAnbWFrZSB1cGRhdGUtY29weXJpZ2h0Jy4KCgkqIGxpYi9yZWdleHByb3Bz
-LmMgKGNvcHlpbmcpOiBVcGRhdGUgdGhlIHllYXIgbnVtYmVyIG1hbnVhbGx5LgoJKiB0ZXN0cy9z
-YW1wbGUtdGVzdDogQWRqdXN0IHRvIHVzZSB0aGUgc2luZ2xlIG1vc3QgcmVjZW50IHllYXIuCgkq
-IEFsbCBvdGhlciBmaWxlczogVXBkYXRlIGNvcHlyaWdodCB5ZWFycyB2aWEgdGhlIGFib3ZlIG1h
-a2UgcnVuLgoKMjAyNC0xMi0yNCAgQ2hyaXN0b3BoIEFudG9uIE1pdHRlcmVyICA8bWFpbEBjaHJp
-c3RvcGguYW50b24ubWl0dGVyZXIubmFtZT4gICh0aW55IGNoYW5nZSkKCglkb2M6IHN0YXRlIHRo
-YXQgLWV4ZWNkaXIgcHJlcGVuZHMgdGhlIGJhc2UgbmFtZXMgd2l0aCAiLi8iCglUaGUgJ3t9JyBy
-ZXBsYWNlbWVudCBkb25lIGJ5IHRoZSAtZXhlY2RpciBhY3Rpb24gcHJlcGVuZHMgZWFjaCBlbnRy
-eSwKCWkuZS4sIHRoZSBiYXNlIG5hbWVzLCB3aXRoICIuLyIgdW5sZXNzIGZvciB0aGUgcm9vdCBk
-aXJlY3RvcnkgIi8iLgoKCSogZG9jL2ZpbmQudGV4aSAoLWV4ZWNkaXIpOiBEb2N1bWVudCB0aGF0
-IGJlaGF2aW9yLgoJKiBmaW5kL2ZpbmQuMTogTGlrZXdpc2UuCgoJRGlzY3Vzc2VkIGF0OiBodHRw
-czovL3N2LmdudS5vcmcvYnVncy8/NjY1NjgKCjIwMjQtMTItMjQgIEJlcm5oYXJkIFZvZWxrZXIg
-IDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJZG9jOiBtYWludDogYnJlYWsgbGluZXMgYXQg
-c2VudGVuY2VzIGluIGEgcGFyYWdyYXBoIHRvIGNoYW5nZQoJQXMgdGhlIHRleGluZm8gcmVuZGVy
-ZXIgaXMgY2FyaW5nIGFib3V0IHByb3BlciBsYXlvdXQsIHdlIGNhbiBsZXQgc2VudGVuY2VzCglz
-dGFydCBhdCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBsaW5lLCB0aHVzIG1ha2luZyBmdXJ0aGVyIGNo
-YW5nZXMgZWFzaWVyCgl0byByZXZpZXcuCgoJKiBkb2MvZmluZC50ZXhpICgtZXhlY2Rpcik6IEJy
-ZWFrIGxpbmVzIGF0IHRoZSBlbmQgb2Ygc2VudGVuY2VzLgoKMjAyNC0xMi0yNCAgQmVybmhhcmQg
-Vm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCgltYWludDogZml4IHR5cG8gaW4g
-Y29tbWVudAoJKiBmaW5kL2V4ZWMuYyAoaW1wbF9wcmVkX2V4ZWMpOiBBZGQgJy0nIHRvICdleGVj
-ZGlyJyBleGFtcGxlIGluIGNvbW1lbnQuCgoyMDI0LTEyLTIzICBCZXJuaGFyZCBWb2Vsa2VyICA8
-bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiBwdWxsIGluIGdudWxpYiBtb2R1bGUg
-YmFzZW5hbWUtbGdwbAoJKiBib290c3RyYXAuY29uZiAoZ251bGliX21vZHVsZXMpOiBBZGQgJ2Jh
-c2VuYW1lLWxncGwnLCBiZWNhdXNlIHdlJ3JlCgl1c2luZyB0aGUgZ251bGliICdiYXNlX25hbWUn
-IGZ1bmN0aW9uLgoKMjAyNC0xMi0yMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQt
-dm9lbGtlci5kZT4KCglmaW5kOiBpZ25vcmUgbW9yZSB2YW5pc2hlZCBzdWJkaXJlY3RvcmllcyB3
-aXRoIC1pZ25vcmVfcmVhZGRpcl9yYWNlCglTaW1pbGFyIHRvIGNvbW1pdCA4ODlkMDAxYWI3NTAg
-d2hpY2ggaGFuZGxlcyB2YW5pc2hlZCBmaWxlcyBiZXR0ZXIsCglhbHNvIGZpeCB0aGUgcmFjZSBm
-b3Igc3ViZGlyZWN0b3JpZXMgKEZUU19ETlIpLgoKCVJlcHJvZHVjZXI6CglJbiBhdmVyYWdlLCB0
-aGUgZm9sbG93aW5nIHByb2R1Y2VkIDYtMTAgZmFpbHVyZXMgb3V0IG9mIDEwMDAgcnVuczoKCSAg
-JCBta2RpciB0ZXN0ZGlyCgkgICQgd2hpbGUgOjsgZG8gbWtkaXIgdGVzdGRpci9mb287IHJtZGly
-IHRlc3RkaXIvZm9vOyBkb25lICYKCSAgJCBmb3IgZiBpbiAkKHNlcSAxMDAwKTsgZG8gXAoJICAg
-ICAgZmluZCB0ZXN0ZGlyIC1pZ25vcmVfcmVhZGRpcl9yYWNlIC1scyA7IGRvbmUgPi9kZXYvbnVs
-bAoJICBmaW5kOiAndGVzdGRpci9mb28nOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5CgkgIGZp
-bmQ6ICd0ZXN0ZGlyL2Zvbyc6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKCgkqIGZpbmQvZnRz
-ZmluZC5jIChjb25zaWRlcl92aXNpdGluZyk6IFJldHVybiB3aGVuIEZUUyByZXR1cm5lZCBFTk9F
-TlQKCWZvciBGVFNfRE5SLCBpLmUuLCB1bnJlYWRhYmxlIGRpcmVjdG9yeSwgd2l0aCAtaWdub3Jl
-X3JlYWRkaXJfcmFjZS4KCSogdGVzdHMvZmluZC9yZWFkZGlyX3JhY2Uuc2g6IEFkZCB0ZXN0LgoJ
-KiB0ZXN0cy9sb2NhbC5tayAoc2hfdGVzdHMpOiBSZWZlcmVuY2UgaXQuCgkqIE5FV1MgKEJ1ZyBG
-aXhlcyk6IEFtZW5kIGFuZCBpbXByb3ZlIGRlc2NyaXB0aW9uIG9mIHRoZSBwcmV2aW91cyBmaXgu
-CgoJU2VlIGFsc28gaHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzQ1OTMwCgoyMDI0LTEy
-LTAyICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50
-OiB1cGRhdGUgZnVydGhlciBNYWtlZmlsZSB2YXJpYWJsZXMgdXNlZCBieSBHbnVsaWIKCUxpa2Ug
-aW4gdGhlIHJlY2VudCBjb21taXQsIGFsc28gY2hhbmdlIHRoZSBmb2xsb3dpbmcgdmFyaWFibGVz
-IHRvIGZvbGxvdwoJdGhlIHJlbmFtaW5nIGRvbmUgaW4gZ251bGliOgoJLSBMSUJfU0VUTE9DQUxF
-X05VTEwgLT4gU0VUTE9DQUxFX05VTExfTElCLAoJLSBMSUJfTUJSVE9XQyAtPiBNQlJUT1dDX0xJ
-QiwKCS0gTElCX0VBQ0NFU1MgLT4gRVVJREFDQ0VTU19MSUJHRU4uCgoJKiBmaW5kL01ha2VmaWxl
-LmFtIChMREFERCk6IENoYW5nZSBhcyBkZXNjcmliZWQgYWJvdmUuCgkqIGxpYi9NYWtlZmlsZS5h
-bTogTGlrZXdpc2UuCgkqIGxvY2F0ZS9NYWtlZmlsZS5hbTogTGlrZXdpc2UuCgkqIHhhcmdzL01h
-a2VmaWxlLmFtOiBMaWtld2lzZS4KCjIwMjQtMTItMDIgIENvbGxpbiBGdW5rICA8Y29sbGluLmZ1
-bmsxQGdtYWlsLmNvbT4KCgltYWludDogdXBkYXRlIE1ha2VmaWxlIHZhcmlhYmxlcyB1c2VkIGJ5
-IEdudWxpYgoJKiBsb2NhdGUvTWFrZWZpbGUuYW0gKExEQUREKTogUmVtb3ZlICQoTElCX0NMT1NF
-KSBhcyBpdCBpcyBubyBsb25nZXIKCXJlcXVpcmVkIHBlciBHbnVsaWIgTkVXUyAyMDA5LTAzLTIw
-LgoJKiB4YXJncy9NYWtlZmlsZS5hbSAoTEFERCk6IExpa2V3aXNlLgoJKiBmaW5kL01ha2VmaWxl
-LmFtIChMREFERCk6IExpa2V3aXNlLiBDaGFuZ2UgJChMSUJfRUFDQ0VTUykgdG8KCSQoRVVJREFD
-Q0VTU19MSUJHRU4pIHBlciBHbnVsaWIgTkVXUyAyMDIzLTAxLTA3LgoKMjAyNC0xMi0wMiAgQ29s
-bGluIEZ1bmsgIDxjb2xsaW4uZnVuazFAZ21haWwuY29tPgoKCW1haW50OiBkb24ndCB1c2UgZ2V0
-dGltZW9mZGF5CglQT1NJWCBtYXJrZWQgZ2V0dGltZW9mZGF5IG9ic29sZXRlIGluIFBPU0lYLjEt
-MjAxNyBhbmQgcmVtb3ZlZCBpdCBpbgoJUE9TSVguMS0yMDI0LiBQcmVmZXIgR251bGliIGZ1bmN0
-aW9ucyB3aGljaCB1c2UgbmFub3NlY29uZCByZXNvbHV0aW9uIGlmCglzdXBwb3J0ZWQgYnkgdGhl
-IG9wZXJhdGluZyBzeXN0ZW0uCgoJKiBib290c3RyYXAuY29uZiAoZ251bGliX2V4dHJhX2ZpbGVz
-KTogUmVtb3ZlIGdldHRpbWVvZmRheS4gQWRkIGdldHRpbWUuCgkqIGZpbmQvdXRpbC5jIChub3cp
-OiBSZW1vdmUgZnVuY3Rpb24uCgkoc2V0X29wdGlvbl9kZWZhdWx0cyk6IFVzZSBjdXJyZW50X3Rp
-bWVzcGVjLgoJKiBmaW5kL01ha2VmaWxlLmFtIChMREFERCk6IFJlbmFtZSAkKExJQl9DTE9DS19H
-RVRUSU1FKSB0bwoJJChDTE9DS19USU1FX0xJQikgcGVyIEdudWxpYiBORVdTIDIwMjMtMDEtMDcu
-CgoyMDI0LTExLTEwICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRl
-PgoKCWRvYzogZml4IHR5cG8gaW4gVGV4aW5mbyBtYW51YWwKCSogZG9jL2ZpbmQudGV4aSAobm9k
-ZSBMZWFmIE9wdGltaXNhdGlvbik6IHMvZmlsc3N5dGVtcy9maWxlc3lzdGVtcy8KCUJ1ZyBpbnRy
-b2R1Y2VkIGluIHY0LjUuMTAtOS1nYjI4Y2M4YzQgaW4gMjAxMS4KCglSZXBvcnRlZCBieSA8Zmly
-YXN1a2VAZ21haWwuY29tPiBpbgoJaHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY2NDE4
-CgoyMDI0LTExLTAzICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRl
-PgoKCW1haW50OiByZW1vdmUgdW51c2VkIGluY2x1ZGUgZnJvbSBmc3R5cGUuYwoJV2l0aCBuZXdl
-ciBnbnVsaWIsIHRoZSBzY19wcm9oaWJpdF9hbHdheXNfdHJ1ZV9oZWFkZXJfdGVzdHMgY2hlY2sK
-CWZhaWxzIHdpdGg6CgkgIGZpbmQvZnN0eXBlLmM6MzA6I2lmIEhBVkVfTU5URU5UX0gKCSAgbWFp
-bnQubWs6IGRvIG5vdCB0ZXN0IHRoZSBhYm92ZSBIQVZFXzxoZWFkZXI+X0ggc3ltYm9sKHMpOwoJ
-ICAgIHdpdGggdGhlIGNvcnJlc3BvbmRpbmcgZ251bGliIG1vZHVsZSwgdGhleSBhcmUgYWx3YXlz
-IHRydWUKCSAgbWFrZTogKioqIFttYWludC5tazo5Njk6IHNjX3Byb2hpYml0X2Fsd2F5c190cnVl
-X2hlYWRlcl90ZXN0c10gRXJyb3IgMQoKCSogZmluZC9mc3R5cGUuYyAoI2luY2x1ZGUgPG1udGVu
-dC5oPik6IFJlbW92ZSBhcyBpdCBpcyBub3QgYWN0dWFsbHkgdXNlZC4KCjIwMjQtMTEtMDMgIEJl
-cm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJbWFpbnQ6IHByZWZl
-ciBlbmRpYW4uaCBmb3IgYnl0ZSBvcmRlciBjb252ZXJzaW9ucwoJTm93IHRoYXQgPGVuZGlhbi5o
-PiBpcyBhIHBhcnQgb2YgUE9TSVggMjAyNCBpdCBzaG91bGQgYmVjb21lIG1vcmUKCXBvcnRhYmxl
-IHRoYW4gPGJ5dGVzd2FwLmg+LgoKCSogYm9vdHN0cmFwLmNvbmYgKGdudWxpYl9tb2R1bGVzKTog
-UmVtb3ZlIGJ5dGVzd2FwOyBhZGQgZW5kaWFuLgoJKiBsb2NhdGUvd29yZF9pby5jOiBJbmNsdWRl
-IGVuZGlhbi5oIGluc3RlYWQgb2YgYnl0ZXN3YXAuaC4KCShkZWNvZGVfdmFsdWUpOiBVc2UgaHRv
-YmUzMiBpbnN0ZWFkIG9mIGJzd2FwXzMyLgoKMjAyNC0xMS0wMyAgQmVybmhhcmQgVm9lbGtlciAg
-PG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCgltYWludDogaW1wb3J0IHRlc3RzL2luaXQuc2gg
-ZnJvbSBHbnVsaWIgZHVyaW5nIGJvb3RzdHJhcAoJKiBib290c3RyYXAuY29uZiAoYm9vdHN0cmFw
-X3Bvc3RfaW1wb3J0X2hvb2spOiBVc2UgZ251bGliLXRvb2wKCS0tY29weS1maWxlIHRvIGltcG9y
-dCB0ZXN0cy9pbml0LnNoLgoJKiB0ZXN0cy9pbml0LnNoOiBSZW1vdmUgZmlsZS4KCSogdGVzdHMv
-LmdpdGlnbm9yZSAoL2luaXQuc2gpOiBBZGQgZW50cnkuCgkqIE1ha2VmaWxlLmFtICh1cGRhdGUt
-Z251bGliLXRvLWxhdGVzdCk6IFJlbW92ZSBoYW5kbGluZyB0ZXN0cy9pbml0LnNoLgoKMjAyNC0x
-MS0wMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCgltYWlu
-dDogbGlzdCBHbnVsaWIgc3lzX3R5cGVzIGRpcmVjdGx5CgkqIGJvb3RzdHJhcC5jb25mIChnbnVs
-aWJfbW9kdWxlcyk6IEFkZCBzeXNfdHlwZXMuCglBbHRob3VnaCBpdOKAmXMgYWxyZWFkeSBicm91
-Z2h0IGluIGluZGlyZWN0bHksIGZpbmR1dGlscyBjb2RlCglpbmNsdWRlcyA8c3lzL3R5cGVzLmg+
-IGRpcmVjdGx5LgoKMjAyNC0xMS0wMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQt
-dm9lbGtlci5kZT4KCgltYWludDogYWRkIE5FV1MgZW50cnkgZm9yIHJlY2VudCAnZmluZCAtZXhl
-Y2Rpci8tb2tkaXInIGNoYW5nZQoJKiBORVdTIChDaGFuZ2VzIGluIGZpbmQpOiBSZWZsZWN0IHRo
-ZSBjaGFuZ2UgaW4gYmVoYXZpciBpbiByZWNlbnQKCWNvbW1pdCB2NC4xMC4wLTE1LWcxZGNkZjNk
-ZS4KCjIwMjQtMTEtMDMgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIu
-ZGU+CgoJbWFpbnQ6IGZpeCBpbmRlbnRhdGlvbiBpbiBORVdTCgkqIE5FV1M6IFVzZSAyIGNoYXIg
-aW5kZW50YXRpb24uCgoyMDI0LTExLTAzICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFy
-ZC12b2Vsa2VyLmRlPgoKCW1haW50OiBtYWtlIHRlc3RzL3NhbXBsZS10ZXN0IGV4ZWN1dGFibGUK
-CVRvIGF2b2lkIHRoYXQgbmV3IHRlc3RzIGNvcGllZCBmcm9tIHRoZSB0ZW1wbGF0ZSBzYW1wbGUt
-dGVzdCBsYWNrIHRoZQoJZXhlY3V0YWJsZSBiaXQsIGFkZCB0aGUgZXhlY3V0YWJsZSBiaXQgdG8g
-dGhhdCBmaWxlLgoKCSogdGVzdHMvc2FtcGxlLXRlc3Q6IFNldCBleGVjdXRhYmxlIHBlcm1pc3Np
-b24gYml0LgoKMjAyNC0xMS0wMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9l
-bGtlci5kZT4KCgltYWludDogbWFrZSBuZXcgdGVzdHMvZmluZC9zdi1idWctNjYzNjUtZXhlYy5z
-aCBleGVjdXRhYmxlCgknbWFrZSBzeW50YXgtY2hlY2snIGZhaWxzIHdpdGg6CgkgIHRlc3RzX2V4
-ZWN1dGFibGUKCSAgbWFpbnQubWs6IFBsZWFzZSBtYWtlIHRlc3QgZXhlY3V0YWJsZTogdGVzdHMv
-ZmluZC9zdi1idWctNjYzNjUtZXhlYy5zaAoJICBtYWtlOiAqKiogW2NmZy5tazoxMjk6IHNjX3Rl
-c3RzX2V4ZWN1dGFibGVdIEVycm9yIDEKCgkqIHRlc3RzL2ZpbmQvc3YtYnVnLTY2MzY1LWV4ZWMu
-c2g6IFNldCBleGVjdXRhYmxlIHBlcm1pc3Npb24gYml0LgoKMjAyNC0xMS0wMiAgSmFtZXMgWW91
-bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJZmluZDogLWV4ZWMgaXMgdGVybWluYXRlZCBi
-eSArIG9ubHkgaWYgdGhlIHByaW9yIGFyZyBpcyBleGFjdGx5ICd7fScKCUEgIisiIG9ubHkgdGVy
-bWluYXRlcyAtZXhlYyB3aGVuIGl0IGltbWVkaWF0ZWx5IGZvbGxvd3MgYW4gYXJndW1lbnQKCXdo
-aWNoIGlzIGV4YWN0bHkgInt9IiAoYW5kIG5vdCwgZm9yIGV4YW1wbGUsICJ7fXgiKS4gIFRoaXMg
-Zml4ZXMKCVNhdmFubmFoIGJ1ZyA2NjM2NS4KCgkqIE5FV1M6IGV4cGxhaW4gdGhpcyBjaGFuZ2Uu
-CgkqIGRvYy9maW5kLnRleGk6IHVwZGF0ZSBvbmUgcGxhY2Ugd2hpY2ggb21pdHRlZCB0aGUgJ3t9
-JyBiZWZvcmUgJysnLgoJKiBmaW5kL3BhcnNlci5jIChpbnNlcnRfZXhlY19vayk6IGNvbnNpZGVy
-ICsgdG8gYmUgc3BlY2lhbCBvbnkgaWYgaXQKCSAgZm9sbG93cyBhbiBhcmd1bWVudCB3aGljaCBp
-cyBleGFjdGx5ICd7fScuCgkqIHRlc3RzL2ZpbmQvc3YtYnVnLTY2MzY1LWV4ZWMuc2g6IHRlc3Qg
-Zm9yIHRoaXMgYnVnLgoJKiB0ZXN0cy9sb2NhbC5tazogYWRkIHRoZSBuZXcgdGVzdCBmaWxlLgoK
-MjAyNC0xMC0zMSAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJRml4IFZQ
-QVRIIGNvbXBpbGF0aW9uIGZhaWx1cmUgZm9yICdtYWtlIGNoZWNrJwoJVGhlIGxpYmdudWxpYi5h
-IGxpYnJhcnkgaXNuJ3QgKG5lY2Vzc2FyaWx5KSBiZWxvdyAkKHRvcF9zcmNkaXIpLCBpdCdzCgli
-ZWxvdyAkKHRvcF9idWlsZGRpcikuICBUaGlzIGZpeGVzIGEgYnVnIGludHJvZHVjZWQgaW4gY29t
-bWl0Cgk4NWZjODk2NmU1OTEyMzkwYWQyMjBkMDNiMTg4ZGQzMTljODVlZDFlLgoKMjAyNC0wOS0x
-NyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCgl0ZXN0czog
-YXZvaWQgLVdzaGFkb3cgd2FybmluZwoJU2VlbiBvbiBHQ0MgMTQuMi4wOgoKCXRlc3RzL3hhcmdz
-L3Rlc3Qtc2lndXNyLmM6IEluIGZ1bmN0aW9uICdydW5feGFyZ3MnOgoJdGVzdHMveGFyZ3MvdGVz
-dC1zaWd1c3IuYzoxNTk6NDM6IHdhcm5pbmc6IGRlY2xhcmF0aW9uIG9mICdvcHRhcmcnIFwKCSAg
-c2hhZG93cyBhIGdsb2JhbCBkZWNsYXJhdGlvbiBbLVdzaGFkb3ddCgkgIDE1OSB8IHJ1bl94YXJn
-cyhjb25zdCBjaGFyICpvcHRpb24sIGNvbnN0IGNoYXIgKm9wdGFyZywgaW50IHNlbmRfc2lnbmFs
-KQoJICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB+fn5+fn5+fn5+fn5efn5+
-fn4KCSAgLi4uCgkgIC91c3IvaW5jbHVkZS9iaXRzL2dldG9wdF9jb3JlLmg6MzY6MTQ6IG5vdGU6
-IHNoYWRvd2VkIGRlY2xhcmF0aW9uIGlzIGhlcmUKCSAgIDM2IHwgZXh0ZXJuIGNoYXIgKm9wdGFy
-ZzsKCSAgICAgIHwgICAgICAgICAgICAgIF5+fn5+fgoKCSogdGVzdHMveGFyZ3MvdGVzdC1zaWd1
-c3IuYyAocnVuX3hhcmdzKTogUmVuYW1lICdvcHRhcmcnIHBhcmFtZXRlcgoJdG8gJ29wdF9hcmcn
-LgoKMjAyNC0wOS0xNyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5k
-ZT4KCgltYWludDogYXZvaWQgdXNpbmcgRlNGIHBvc3RhbCBhZGRyZXNzCglUaGUgcG9zdGFsIGFk
-ZHJlc3Mgb2YgdGhlIEZTRiBoYXMgY2hhbmdlZCBmcm9tIEZyYW5rbGluIFN0cmVldCB0bwoJTWls
-ayBTdHJlZXQgaW4gQm9zdG9uLCB5ZXQgYWNjb3JkaW5nIHRvIFJNUyB3ZSBzaGFsbCBiZXR0ZXIg
-YXZvaWQKCXRoZSBwb3N0YWwgYWRkcmVzcy4KCgkqIGJ1aWxkLWF1eC91cGRhdGUtb25saW5lLW1h
-bnVhbC5zaCAoQ29weXJpZ2h0KTogQ2hhbmdlIGZyb20gcG9zdGFsCglhZGRyZXNzIHRvIHRoZSBG
-U0YgVVJMLgoKMjAyNC0wOS0xNyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9l
-bGtlci5kZT4KCgltYWludDogYWRqdXN0IHRvIEdudWxpYiAtV3N5c3RlbS1oZWFkZXJzIGNoYW5n
-ZQoJKiBjb25maWd1cmUuYWM6IERvbuKAmXQgc3VwcHJlc3MgLVdzeXN0ZW0taGVhZGVycyBzaW5j
-ZSBHbnVsaWIgbm8KCWxvbmdlciBlbmFibGVzIGl0LgoKCUJvcnJvd2VkIGZyb20KCSAgaHR0cHM6
-Ly9naXQuc3YuZ251Lm9yZy9jZ2l0L2NvcmV1dGlscy5naXQvY29tbWl0Lz9pZD05NGU4ZjJiMDEy
-ZWIKCjIwMjQtMDktMTcgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIu
-ZGU+CgoJbWFpbnQ6IHBhY2lmeSBHQ0MgMTQuMgoJQXZvaWQgdGhlIGZvbGxvd2luZyB3YXJuaW5n
-czoKCXRyZWUuYzoxNTczOjE5OiB3YXJuaW5nOiBubyBwcmV2aW91cyBkZWNsYXJhdGlvbiBmb3Ig
-J2Nvc3RfdGFibGUnIFstV21pc3NpbmctdmFyaWFibGUtZGVjbGFyYXRpb25zXQoJIDE1NzMgfCBz
-dHJ1Y3QgY29zdF9hc3NvYyBjb3N0X3RhYmxlW10gPQoJICAgICAgfCAgICAgICAgICAgICAgICAg
-ICBefn5+fn5+fn5+CglmaW5kdXRpbHMtdmVyc2lvbi5jOjM3OjEzOiB3YXJuaW5nOiBubyBwcmV2
-aW91cyBkZWNsYXJhdGlvbiBmb3IgJ3ZlcnNpb25fc3RyaW5nJyBbLVdtaXNzaW5nLXZhcmlhYmxl
-LWRlY2xhcmF0aW9uc10KCSAgIDM3IHwgY29uc3QgY2hhciAqdmVyc2lvbl9zdHJpbmcgPSBWRVJT
-SU9OOwoJICAgICAgfCAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fgoKCSogZmluZC90cmVlLmMg
-KGNvc3RfdGFibGUpOiBEZWNsYXJlIHN0YXRpYy4KCSogbGliL2ZpbmR1dGlscy12ZXJzaW9uLmMg
-KHZlcnNpb25fc3RyaW5nKTogTGlrZXdpc2UuCgkqIGxvY2F0ZS9mcmNvZGUuYyAodmVyc2lvbl9z
-dHJpbmcpOiBSZW1vdmUgZXh0ZXJuIGRlY2xhcmF0aW9uLgoJKiBsb2NhdGUvbG9jYXRlLmM6IExp
-a2V3aXNlLgoJKiB4YXJncy94YXJncy5jOiBMaWtld2lzZS4KCjIwMjQtMDktMTcgIEJlcm5oYXJk
-IFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJZmluZDogaWdub3JlIG1vcmUg
-dmFuaXNoZWQgZW50cmllcyB3aXRoIC1pZ25vcmVfcmVhZGRpcl9yYWNlCglSZXByb2R1Y2VyOgoJ
-ICAjIFNwaW4gdXAgbG90cyBvZiBzaG9ydC1saXZpbmcgcHJvY2Vzc2VzLgoJICAkIHdoaWxlIGVu
-diB0cnVlOyBkbyBzbGVlcCAuMDAxOyBkb25lICYKCgkgICMgSW52b2tlICdmaW5kJyBvbiB0aGUg
-L3Byb2MgZmlsZSBzeXN0ZW07CgkgICMgdGhpcyBwcmV0dHkgcmVsaWFibHkgZ2l2ZXMgdGhlIGZv
-bGxvd2luZyBlcnJvcjoKCSAgJCBmaW5kIC9wcm9jIC1pZ25vcmVfcmVhZGRpcl9yYWNlIC1tYXhk
-ZXB0aCAzID4gL2Rldi9udWxsCgkgIGZpbmQ6ICcvcHJvYy84NDUwNzgnOiBObyBzdWNoIGZpbGUg
-b3IgZGlyZWN0b3J5CgoJKiBmaW5kL2Z0c2ZpbmQuYyAoY29uc2lkZXJfdmlzaXRpbmcpOiBSZXR1
-cm4gd2hlbiBGVFMgcmV0dXJuZWQgRU5PRU5UCgl3aXRoIHRoZSBvcHRpb24gLWlnbm9yZV9yZWFk
-ZGlyX3JhY2UuCgkqIE5FV1MgKEJ1ZyBGaXhlcyk6IE1lbnRpb24gdGhlIGZpeC4KCglGaXhlcyBo
-dHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVncy8/NDU5MzAKCjIwMjQtMDktMTcgIERhdmUgIDxk
-ai4yZGl4eEBnbWFpbC5jb20+ICAodGlueSBjaGFuZ2UpCgkgICAgQmVybmhhcmQgVm9lbGtlciAg
-PG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KCglidWlsZDogYWRkIGJpc29uIGFzIHJlcXVpcmVt
-ZW50CglCdWlsZGluZyBmcm9tIGdpdCB3aXRob3V0IGJpc29uIGF2YWlsYWJsZSB3b3VsZCByZXN1
-bHQgaW4KCSAgY2MxOiBmYXRhbCBlcnJvcjogLi9wYXJzZS1kYXRldGltZS5jOiBObyBzdWNoIGZp
-bGUgb3IgZGlyZWN0b3J5Cgl3aGljaCBpcyBub3QgYSB2ZXJ5IGhlbHBmdWwgZXJyb3IgbWVzc2Fn
-ZS4KCUxldCBnbnVsaWIgYm9vdHN0cmFwIGNoZWNrIGZvciBiaXNvbiBtdWNoIGVhcmxpZXIuCgoJ
-KiBSRUFETUUtaGFja2luZyAoUHJlcmVxdWlzaXRlcyk6IEFkZCBCaXNvbiBleHBsaWNpdGx5LgoJ
-KiBib290c3RyYXAuY29uZiAoYnVpbGRyZXEpOiBBZGQgYmlzb24uCgkqIGNmZy5tayAoYm9vdHN0
-cmFwLXRvb2xzKTogQWRkIGdudWxpYiB2YXJpYWJsZSB3aXRoIHRvb2xzIGluY2x1ZGluZwoJYmlz
-b24uCgoyMDI0LTA2LTI0ICBDb2xsaW4gRnVuayAgPGNvbGxpbi5mdW5rMUBnbWFpbC5jb20+ICAo
-dGlueSBjaGFuZ2UpCgoJdGVzdHM6IGxpbmsgYmluYXJpZXMgdG8gZ251bGliCgkqIHRlc3RzL2xv
-Y2FsLm1rIChBTV9DUFBGTEFHUyk6IEluY2x1ZGUgZ251bGliIGhlYWRlcnMuCgkoTERBREQpOiBM
-aW5rIHRvIGdudWxpYi4KCjIwMjQtMDYtMjQgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5o
-YXJkLXZvZWxrZXIuZGU+CgoJZG9jOiBhdm9pZCBzY19wcm9oaWJpdF91bmh5cGhlbmF0ZWRfZW9m
-IGZhaWx1cmUKCSdtYWtlIHN5bnRheC1jaGVjaycgY29tcGxhaW5zOgoJICBtYWludC5tazogdXNl
-ICJlbmQtb2YtZmlsZSIsIG5vdCAiZW5kIG9mIGZpbGUiCgkgIG1ha2U6ICoqKiBbY2ZnLm1rOjI3
-Mzogc2NfcHJvaGliaXRfdW5oeXBoZW5hdGVkX2VvZl0gRXJyb3IgMQoKCSogZG9jL2ZpbmQudGV4
-aSAoeGFyZ3Mgb3B0aW9ucyk6IENoYW5nZSBhcyBzdWdnZXN0ZWQgYnkgdGhlIFNDIHJ1bGUuCgoy
-MDI0LTA2LTAzICBKYW1lcyBZb3VuZ21hbiAgPGphbWVzQHlvdW5nbWFuLm9yZz4KCglkb2M6IFN0
-YXRlIHRoYXQgZmluZCAtcHJpbnQwIGFuZCB4YXJncyAtMCBhcmUgaW4gUE9TSVggZnJvbSBJc3N1
-ZSA4LgoJVGhlIGZvcnRoY29taW5nIElzc3VlIDggb2YgdGhlIFBPU0lYIHN0YW5kYXJkIGluY2x1
-ZGVzIGZpbmQgLXByaW50MAoJYW5kIHhhcmdzIC0wLgoJKiBkb2MvZmluZC50ZXhpOiBmaW5kIC1w
-cmludDAgaXMgbm8gbG9uZ2VyIEdOVS1zcGVjaWZpYy4gIFNpbWlsYXJseQoJZm9yIHhhcmdzIC0w
-LgoJKiB4YXJncy94YXJncy4xOiBMaWtld2lzZS4KCSogTkVXUzogbWVudGlvbiB0aGVzZSBjaGFu
-Z2VzLgoKMjAyNC0wNi0wMyAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJ
-ZmluZDogbWVudGlvbiB3aGVuIC1wcmludDAgd2FzIGludHJvZHVjZWQuCgkqIGZpbmQvZmluZC4x
-KENPTVBBVElCSUxJVFkpOiBtZW50aW9uIHRoYXQgLXByaW50MCB3YXMgaW50cm9kdWNlZCBpbgoJ
-cmVsZWFzZSAyLjAgYW5kIGlzIHBsYW5uZWQgZm9yIGluY2x1c2lvbiBpbiBQT1NJWCBJc3N1ZSA4
-LgoKMjAyNC0wNi0wMSAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJbWFp
-bnQ6IHByb2hpYml0IHRoZSB1c2Ugb2YgdGFicyBpbiBGaW5kdXRpbHMgQyBzb3VyY2VzLgoJVGhp
-cyBjaGVjayBkb2VzIG5vdCBhcHBseSB0byBnbnVsaWIgY29kZS4KCSogY2ZnLm1rIChzY19zcGFj
-ZXNfbm90X3RhYnMpOiBhZGQgc3ludGF4IGNoZWNrIHByb2hpYml0aW5nCgl0aGUgdXNlIG9mIHRh
-YnMgaW4gRmluZHV0aWxzIGNvZGUuCgkqIGJ1aWxkLWF1eC90YWJzLXRvLXNwYWNlcy5zaDogQWRk
-IHNtYWxsIHRvb2wgZm9yIGNvbnZlcnRpbmcKCXNvdXJjZSBmaWxlIHRhYnMgdG8gc3BhY2VzLgoK
-MjAyNC0wNi0wMSAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJbWFpbnQ6
-IGNvbnZlcnQgdGFicyB0byBzcGFjZXMgaW4gQyBzb3VyY2UgZmlsZXMuCgoyMDI0LTA2LTAxICBC
-ZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCW1haW50OiBwb3N0
-LXJlbGVhc2UgYWRtaW5pc3RyaXZpYQoJKiBORVdTOiBBZGQgbmV3IGR1bW15IHJlbGVhc2UgaGVh
-ZGVyLgoKMjAyNC0wMS0wMSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtl
-ci5kZT4KMjAyMy0wNS0yMiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtl
-ci5kZT4KMjAyMy0wNS0yMiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtl
-ci5kZT4KMjAyMy0wMS0wMSAgcmliYm9uICA8cHBwMTU0NzdAeWFob28uY28uanA+ICAodGlueSBj
-aGFuZ2UpCjIwMjItMTEtMTUgIEFudG9uaW8gRGlheiBEaWF6ICA8YW50b25pb0BnbnUub3JnPiAg
-KHRpbnkgY2hhbmdlKQoyMDIyLTExLTE1ICBBbnRvbmlvIERpYXogRGlheiAgPGFudG9uaW9AZ251
-Lm9yZz4gICh0aW55IGNoYW5nZSkKMjAyMi0wMi0wMSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxA
-YmVybmhhcmQtdm9lbGtlci5kZT4KMjAyMi0wMS0zMCAgQW5kcmVhcyBNZXR6bGVyICA8YW1ldHps
-ZXJAYmVidC5kZT4KMjAyMS0xMS0yNyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQt
-dm9lbGtlci5kZT4KMjAyMS0wOS0xOSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQt
-dm9lbGtlci5kZT4KMjAyMC0xMC0wNiAgS2FtaWwgRHVka2EgIDxrZHVka2FAcmVkaGF0LmNvbT4K
-MjAyMC0wOS0xNiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOS0xNiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAyMC0wOC0xMiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0xMS0xMiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wOC0yOSAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOS0wMS0wOCAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxOC0wNy0wNyAgQW5kcmVhcyBNZXR6bGVyICA8YW1ldHpsZXJAYmVidC5kZT4KMjAxOC0wNy0w
-NyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0xMS0w
-NyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0xMC0y
-MiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0xMC0y
-MiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0xMC0y
-MiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0xMC0y
-MiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0xMC0y
-MiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0xMC0y
-MiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0wOS0x
-MyAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNy0wNi0w
-OCAgQW5kcmVhcyBNZXR6bGVyICA8YW1ldHpsZXJAYmVidC5kZT4KMjAxNy0wNi0wOCAgQmVybmhh
-cmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNi0xMS0wMiAgQmVybmhh
-cmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4KMjAxNi0wMS0yNSAgSmFtZXMg
-WW91bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNi0wMS0yNSAgSmFtZXMgWW91bmdtYW4gIDxqYXlA
-Z251Lm9yZz4KMjAxNi0wMS0yNSAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNi0w
-MS0yNCAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNi0wMS0wMyAgSmFtZXMgWW91
-bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNi0wMS0wMyAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251
-Lm9yZz4KMjAxNi0wMS0wMSAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNS0xMi0z
-MCAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNS0xMi0yMyAgSmFtZXMgWW91bmdt
-YW4gIDxqYXlAZ251Lm9yZz4KMjAxNS0xMi0yMyAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9y
-Zz4KMjAxNS0xMi0yMyAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNS0xMC0zMSAg
-SmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9yZz4KMjAxNS0xMC0zMSAgSmFtZXMgWW91bmdtYW4g
-IDxqYXlAZ251Lm9yZz4KMjAxNS0wNS0xMiAgSmFtZXMgWW91bmdtYW4gIDxqYXlAZ251Lm9yZz4K
-MjAxNS0wNS0xMiAgQmVybmhhcmQgVm9lbGtlciAgPG1haWxAYmVybmhhcmQtdm9lbGtlci5kZT4K
-MjAxNS0wNS0xMiAgUGhpbCBNaWxsZXIgIDxtaWxsZTEyMUBpbGxpbm9pcy5lZHU+ICAodGlueSBj
-aGFuZ2UpCjIwMTUtMDUtMDkgIEphbWVzIFlvdW5nbWFuICA8amF5QGdudS5vcmc+CjIwMTQtMDEt
-MTQgIEphbWVzIFlvdW5nbWFuICA8amF5QGdudS5vcmc+CjIwMTQtMDEtMDUgIFJpY2hhcmQgSGFy
-dG1hbm4gIDxyaWNoaWhAZGViaWFuLm9yZz4KMjAxNC0wMS0wNSAgSmFtZXMgWW91bmdtYW4gIDxq
-YXlAZ251Lm9yZz4K
-
---===============8461105619342298061==
+--===============5714043520528367112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-be: PKGSIZE changed from 54561 to 48566 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ca: PKGSIZE changed from 5930 to 5201 (-12%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-de: PKGSIZE changed from 32546 to 46528 (+43%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-et: PKGSIZE changed from 29743 to 42773 (+44%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-lg: PKGSIZE changed from 2662 to 2359 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-nb: PKGSIZE changed from 41565 to 36763 (-12%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pt: PKGSIZE changed from 30973 to 44492 (+44%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ru: PKGSIZE changed from 54481 to 48584 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sr: PKGSIZE changed from 54653 to 48526 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-tr: PKGSIZE changed from 41764 to 36977 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-zh-tw: PKGSIZE changed from 16962 to 34686 (+104%)
-packages/x86-64-v3-poky-linux/findutils/findutils-ptest: PKGSIZE changed from 131863 to 147868 (+12%)
-packages/x86-64-v3-poky-linux/findutils/findutils-ptest: FILELIST: added "/usr/lib/findutils/ptest/tests/find/mount-vs-xdev.sh /usr/lib/findutils/ptest/tests/find/sv-bug-66365-exec.sh /usr/lib/findutils/ptest/tests/find/mount-vs-xdev-other-fs.sh /usr/lib/findutils/ptest/tests/find/operators-wrong-with-dash.sh /usr/lib/findutils/ptest/tests/find/readdir_race.sh /usr/lib/findutils/ptest/tests/find/mount-vs-xdev-bind.sh"
-packages/x86-64-v3-poky-linux/findutils: PACKAGES: added "findutils-locale-ar"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: FILELIST: removed "/usr/share/bash-completion/completions/strace /usr/share/bash-completion/completions/asciidoc.py /usr/share/bash-completion/completions/pm-suspend /usr/share/bash-completion/completions/tracepath6 /usr/share/bash-completion/completions/pyvenv-3.13 /usr/share/bash-completion/completions/pyvenv-3.12 /usr/share/bash-completion/completions/pyvenv-3.11 /usr/share/bash-completion/completions/pyvenv-3.10 /usr/share/bash-completion/completions/ldapcompare /usr/share/bash-completion/completions/jar /usr/share/bash-completion/completions/tar /usr/share/bash-completion/completions/man /usr/share/bash-completion/completions/iwpriv /usr/share/bash-completion/completions/gssdp-device-sniffer /usr/share/bash-completion/completions/useradd /usr/share/bash-completion/completions/_kubespy /usr/share/bash-completion/completions/resolvconf /usr/share/bash-completion/completions/_dlv /usr/share/bash-completion/complet
+ ions/aptitude /usr/share/bash-completion/completions/ncftp /usr/share/bash-completion/completions/_kapp /usr/share/bash-completion/completions/pack200 /usr/share/bash-completion/completions/_yum /usr/share/bash-completion/completions/_k9s /usr/share/bash-completion/completions/postconf /usr/share/bash-completion/completions/rcsdiff /usr/share/bash-completion/completions/checksec /usr/share/bash-completion/completions/_fx /usr/share/bash-completion/completions/fbgs /usr/share/bash-completion/completions/clisp /usr/share/bash-completion/completions/gcc-6 /usr/share/bash-completion/completions/gcc-7 /usr/share/bash-completion/completions/gcc-5 /usr/share/bash-completion/completions/change_pw /usr/share/bash-completion/completions/gcc-8 /usr/share/bash-completion/completions/vgmknodes /usr/share/bash-completion/completions/sha1sum /usr/share/bash-completion/completions/_odo /usr/share/bash-completion/completions/vgsplit /usr/share/bash-completion/completions/pydoc /usr/share/bash-comple
+ tion/completions/mailsnarf /usr/share/bash-completion/completions/puppetrun /usr/share/bash-completion/completions/javaws /usr/share/bash-completion/completions/lvcreate /usr/share/bash-completion/completions/pvcreate /usr/share/bash-completion/completions/javac /usr/share/bash-completion/completions/firefox-esr /usr/share/bash-completion/completions/ether-wake /usr/share/bash-completion/completions/_ansible-doc /usr/share/bash-completion/completions/_allero /usr/share/bash-completion/completions/_depot /usr/share/bash-completion/completions/_dprint /usr/share/bash-completion/completions/_nova /usr/share/bash-completion/completions/_driftctl /usr/share/bash-completion/completions/make /usr/share/bash-completion/completions/_golangci-lint /usr/share/bash-completion/completions/_tendermint /usr/share/bash-completion/completions/getent /usr/share/bash-completion/completions/pydoc3 /usr/share/bash-completion/completions/_wasmer /usr/share/bash-completion/completions/nsupdate /usr/share/
+ bash-completion/completions/postalias /usr/share/bash-completion/completions/_tokio-console /usr/share/bash-completion/completions/btdownloadheadless.py /usr/share/bash-completion/completions/_crc /usr/share/bash-completion/completions/_ngrok /usr/share/bash-completion/completions/puppetd /usr/share/bash-completion/completions/patch /usr/share/bash-completion/completions/lvchange /usr/share/bash-completion/completions/postcat /usr/share/bash-completion/completions/pvchange /usr/share/bash-completion/completions/watch /usr/share/bash-completion/completions/genaliases /usr/share/bash-completion/completions/pylint-3 /usr/share/bash-completion/completions/pylint-2 /usr/share/bash-completion/completions/koji /usr/share/bash-completion/completions/ping6 /usr/share/bash-completion/completions/ping4 /usr/share/bash-completion/completions/arch /usr/share/bash-completion/completions/vgcfgbackup /usr/share/bash-completion/completions/pytest /usr/share/bash-completion/completions/_trash-restore
+  /usr/share/bash-completion/completions/sbopkg /usr/share/bash-completion/completions/_hugo /usr/share/bash-completion/completions/newusers /usr/share/bash-completion/completions/_kubectl-argo-rollouts /usr/share/bash-completion/completions/_mattermost /usr/share/bash-completion/completions/htpasswd /usr/share/bash-completion/completions/lftpget /usr/share/bash-completion/completions/xrdb /usr/share/bash-completion/completions/vigr /usr/share/bash-completion/completions/pigz /usr/share/bash-completion/completions/cardctl /usr/share/bash-completion/completions/_gopass /usr/share/bash-completion/completions/groupmod /usr/share/bash-completion/completions/_ghorg /usr/share/bash-completion/completions/animate /usr/share/bash-completion/completions/usermod /usr/share/bash-completion/completions/lua52 /usr/share/bash-completion/completions/lua53 /usr/share/bash-completion/completions/lua50 /usr/share/bash-completion/completions/lua51 /usr/share/bash-completion/completions/lua54 /usr/share
+ /bash-completion/completions/pyston3 /usr/share/bash-completion/completions/lastlog /usr/share/bash-completion/completions/_trash-empty /usr/share/bash-completion/completions/fprintd-enroll /usr/share/bash-completion/completions/lvextend /usr/share/bash-completion/completions/_modules /usr/share/bash-completion/completions/_regctl /usr/share/bash-completion/completions/ping /usr/share/bash-completion/completions/pine /usr/share/bash-completion/completions/bind /usr/share/bash-completion/completions/find /usr/share/bash-completion/completions/wine /usr/share/bash-completion/completions/zopfli /usr/share/bash-completion/completions/_atmos /usr/share/bash-completion/completions/lua5.4 /usr/share/bash-completion/completions/iceweasel /usr/share/bash-completion/completions/lua5.2 /usr/share/bash-completion/completions/lua5.1 /usr/share/bash-completion/completions/lua5.0 /usr/share/bash-completion/completions/lua5.3 /usr/share/bash-completion/completions/update-rc.d /usr/share/bash-comple
+ tion/completions/gtar /usr/share/bash-completion/completions/star /usr/share/bash-completion/completions/chgrp /usr/share/bash-completion/completions/_grype /usr/share/bash-completion/completions/_vacuum /usr/share/bash-completion/completions/unpack200 /usr/share/bash-completion/completions/_httpx /usr/share/bash-completion/completions/cowthink /usr/share/bash-completion/completions/dumpe2fs /usr/share/bash-completion/completions/zopflipng /usr/share/bash-completion/completions/arm-koji /usr/share/bash-completion/completions/whatis /usr/share/bash-completion/completions/python3.3 /usr/share/bash-completion/completions/python3.4 /usr/share/bash-completion/completions/python3.5 /usr/share/bash-completion/completions/python3.6 /usr/share/bash-completion/completions/_tfctl /usr/share/bash-completion/completions/filefrag /usr/share/bash-completion/completions/python3.7 /usr/share/bash-completion/completions/python3.8 /usr/share/bash-completion/completions/python3.9 /usr/share/bash-comple
+ tion/completions/perldoc /usr/share/bash-completion/completions/_cmctl /usr/share/bash-completion/completions/mii-tool /usr/share/bash-completion/completions/route /usr/share/bash-completion/completions/gpg2 /usr/share/bash-completion/completions/_rfkill /usr/share/bash-completion/completions/_pipenv /usr/share/bash-completion/completions/badblocks /usr/share/bash-completion/completions/_tilt /usr/share/bash-completion/completions/_eject /usr/share/bash-completion/completions/cdrecord /usr/share/bash-completion/completions/pytest-2 /usr/share/bash-completion/completions/pytest-3 /usr/share/bash-completion/completions/flake8 /usr/share/bash-completion/completions/ifstatus /usr/share/bash-completion/completions/apt-get /usr/share/bash-completion/completions/vgconvert /usr/share/bash-completion/completions/vmstat /usr/share/bash-completion/completions/compare /usr/share/bash-completion/completions/povray /usr/share/bash-completion/completions/interdiff /usr/share/bash-completion/comple
+ tions/gpgv /usr/share/bash-completion/completions/pngfix /usr/share/bash-completion/completions/_umount /usr/share/bash-completion/completions/ipmitool /usr/share/bash-completion/completions/vpnc /usr/share/bash-completion/completions/pvmove /usr/share/bash-completion/completions/smbget /usr/share/bash-completion/completions/freeciv-sdl /usr/share/bash-completion/completions/co /usr/share/bash-completion/completions/gm /usr/share/bash-completion/completions/bk /usr/share/bash-completion/completions/sh /usr/share/bash-completion/completions/ci /usr/share/bash-completion/completions/_istioctl /usr/share/bash-completion/completions/curl /usr/share/bash-completion/completions/cd /usr/share/bash-completion/completions/dd /usr/share/bash-completion/completions/e2freefrag /usr/share/bash-completion/completions/cc /usr/share/bash-completion/completions/hd /usr/share/bash-completion/completions/id /usr/share/bash-completion/completions/lintian /usr/share/bash-completion/completions/mc /usr/s
+ hare/bash-completion/completions/nc /usr/share/bash-completion/completions/7z /usr/share/bash-completion/completions/xz /usr/share/bash-completion/completions/pv /usr/share/bash-completion/completions/_delta /usr/share/bash-completion/completions/mr /usr/share/bash-completion/completions/ip /usr/share/bash-completion/completions/jq /usr/share/bash-completion/completions/lisp /usr/share/bash-completion/completions/ps /usr/share/bash-completion/completions/ss /usr/share/bash-completion/completions/yum-arch /usr/share/bash-completion/completions/civserver /usr/share/bash-completion/completions/rdict /usr/share/bash-completion/completions/_chsh /usr/share/bash-completion/completions/_renice /usr/share/bash-completion/completions/cowsay /usr/share/bash-completion/completions/remove_members /usr/share/bash-completion/completions/_ory /usr/share/bash-completion/completions/strings /usr/share/bash-completion/completions/shellcheck /usr/share/bash-completion/completions/_trash-put /usr/share
+ /bash-completion/completions/k3b /usr/share/bash-completion/completions/g4 /usr/share/bash-completion/completions/p4 /usr/share/bash-completion/completions/perltidy /usr/share/bash-completion/completions/screen /usr/share/bash-completion/completions/vgmerge /usr/share/bash-completion/completions/mozilla-firefox /usr/share/bash-completion/completions/valgrind /usr/share/bash-completion/completions/_gitleaks /usr/share/bash-completion/completions/_flask /usr/share/bash-completion/completions/vgremove /usr/share/bash-completion/completions/check_db /usr/share/bash-completion/completions/smbcquotas /usr/share/bash-completion/completions/_mtr /usr/share/bash-completion/completions/prelink /usr/share/bash-completion/completions/_regal /usr/share/bash-completion/completions/perl /usr/share/bash-completion/completions/rpmbuild-md5 /usr/share/bash-completion/completions/ssh-keyscan /usr/share/bash-completion/completions/b2sum /usr/share/bash-completion/completions/_ansible-galaxy /usr/share/
+ bash-completion/completions/ccze /usr/share/bash-completion/completions/_tkn /usr/share/bash-completion/completions/tsig-keygen /usr/share/bash-completion/completions/slogin /usr/share/bash-completion/completions/_trivy /usr/share/bash-completion/completions/pdlzip /usr/share/bash-completion/completions/hunspell /usr/share/bash-completion/completions/mkisofs /usr/share/bash-completion/completions/mysqladmin /usr/share/bash-completion/completions/_aqua /usr/share/bash-completion/completions/_cal /usr/share/bash-completion/completions/makepkg /usr/share/bash-completion/completions/ncal /usr/share/bash-completion/completions/check_perms /usr/share/bash-completion/completions/firefox /usr/share/bash-completion/completions/mfiutil /usr/share/bash-completion/completions/_su /usr/share/bash-completion/completions/google-chrome /usr/share/bash-completion/completions/fprintd-delete /usr/share/bash-completion/completions/_pulumi /usr/share/bash-completion/completions/dcop /usr/share/bash-comp
+ letion/completions/sdptool /usr/share/bash-completion/completions/kcov /usr/share/bash-completion/completions/ssh /usr/share/bash-completion/completions/_diffoci /usr/share/bash-completion/completions/_cosign /usr/share/bash-completion/completions/7zz /usr/share/bash-completion/completions/gpasswd /usr/share/bash-completion/completions/getconf /usr/share/bash-completion/completions/7zr /usr/share/bash-completion/completions/puppetmasterd /usr/share/bash-completion/completions/nethogs /usr/share/bash-completion/completions/autossh /usr/share/bash-completion/completions/_dmesg /usr/share/bash-completion/completions/_dyff /usr/share/bash-completion/completions/_tanzu-core /usr/share/bash-completion/completions/7za /usr/share/bash-completion/completions/montage /usr/share/bash-completion/completions/gccgo-6 /usr/share/bash-completion/completions/gccgo-7 /usr/share/bash-completion/completions/etherwake /usr/share/bash-completion/completions/_buf /usr/share/bash-completion/completions/_jw
+ t /usr/share/bash-completion/completions/gccgo-5 /usr/share/bash-completion/completions/gccgo-8 /usr/share/bash-completion/completions/dfutool /usr/share/bash-completion/completions/vgchange /usr/share/bash-completion/completions/cancel /usr/share/bash-completion/completions/xmlwf /usr/share/bash-completion/completions/civclient /usr/share/bash-completion/completions/ngrep /usr/share/bash-completion/completions/pgrep /usr/share/bash-completion/completions/_random /usr/share/bash-completion/completions/pycodestyle /usr/share/bash-completion/completions/lz4 /usr/share/bash-completion/completions/fprintd-list /usr/share/bash-completion/completions/inotifywait /usr/share/bash-completion/completions/_helmfile /usr/share/bash-completion/completions/aclocal /usr/share/bash-completion/completions/nmap /usr/share/bash-completion/completions/_zola /usr/share/bash-completion/completions/genisoimage /usr/share/bash-completion/completions/lzma /usr/share/bash-completion/completions/_conftest /us
+ r/share/bash-completion/completions/_minishift /usr/share/bash-completion/completions/vgscan /usr/share/bash-completion/completions/xhost /usr/share/bash-completion/completions/mysql /usr/share/bash-completion/completions/composite /usr/share/bash-completion/completions/rpm2txz /usr/share/bash-completion/completions/fusermount /usr/share/bash-completion/completions/_ansible-vault /usr/share/bash-completion/completions/_lefthook /usr/share/bash-completion/completions/svcadm /usr/share/bash-completion/completions/_gh-label /usr/share/bash-completion/completions/shasum /usr/share/bash-completion/completions/pxz /usr/share/bash-completion/completions/explodepkg /usr/share/bash-completion/completions/_xc /usr/share/bash-completion/completions/_k3sup /usr/share/bash-completion/completions/qdbus /usr/share/bash-completion/completions/xxd /usr/share/bash-completion/completions/ri /usr/share/bash-completion/completions/_xm /usr/share/bash-completion/completions/cvs /usr/share/bash-completion
+ /completions/lvs /usr/share/bash-completion/completions/pvs /usr/share/bash-completion/completions/_gaiad /usr/share/bash-completion/completions/svk /usr/share/bash-completion/completions/chronyc /usr/share/bash-completion/completions/lvm /usr/share/bash-completion/completions/brctl /usr/share/bash-completion/completions/_npm /usr/share/bash-completion/completions/_krane /usr/share/bash-completion/completions/_write /usr/share/bash-completion/completions/_trash /usr/share/bash-completion/completions/ktutil /usr/share/bash-completion/completions/dnssec-keygen /usr/share/bash-completion/completions/vgck /usr/share/bash-completion/completions/_coder /usr/share/bash-completion/completions/_polygon-edge /usr/share/bash-completion/completions/edquota /usr/share/bash-completion/completions/_slsa-verifier /usr/share/bash-completion/completions/_stern /usr/share/bash-completion/completions/_op /usr/share/bash-completion/completions/_todoist /usr/share/bash-completion/completions/_mount.linux
+  /usr/share/bash-completion/completions/dot /usr/share/bash-completion/completions/iftop /usr/share/bash-completion/completions/tox /usr/share/bash-completion/completions/vgexport /usr/share/bash-completion/completions/sbcl-mt /usr/share/bash-completion/completions/_oc /usr/share/bash-completion/completions/pkg-get /usr/share/bash-completion/completions/lvremove /usr/share/bash-completion/completions/eog /usr/share/bash-completion/completions/pvremove /usr/share/bash-completion/completions/wol /usr/share/bash-completion/completions/_chamber /usr/share/bash-completion/completions/py.test-3 /usr/share/bash-completion/completions/py.test-2 /usr/share/bash-completion/completions/wine64-stable /usr/share/bash-completion/completions/brave /usr/share/bash-completion/completions/lbzip2 /usr/share/bash-completion/completions/pbzip2 /usr/share/bash-completion/completions/cpan2dist /usr/share/bash-completion/completions/_udevadm /usr/share/bash-completion/completions/avctrl /usr/share/bash-com
+ pletion/completions/_bao /usr/share/bash-completion/completions/idn /usr/share/bash-completion/completions/appdata-validate /usr/share/bash-completion/completions/mdtool /usr/share/bash-completion/completions/_crane /usr/share/bash-completion/completions/gdb /usr/share/bash-completion/completions/mogrify /usr/share/bash-completion/completions/autoscan /usr/share/bash-completion/completions/_pluto /usr/share/bash-completion/completions/webmitm /usr/share/bash-completion/completions/dnsspoof /usr/share/bash-completion/completions/_git-bump /usr/share/bash-completion/completions/py.test /usr/share/bash-completion/completions/_cargo /usr/share/bash-completion/completions/_arduino-cli /usr/share/bash-completion/completions/automake /usr/share/bash-completion/completions/colormake /usr/share/bash-completion/completions/_glow /usr/share/bash-completion/completions/openssl /usr/share/bash-completion/completions/pdftotext /usr/share/bash-completion/completions/_linkerd /usr/share/bash-comple
+ tion/completions/_repomanage /usr/share/bash-completion/completions/ulimit /usr/share/bash-completion/completions/_apko /usr/share/bash-completion/completions/mdecrypt /usr/share/bash-completion/completions/arping /usr/share/bash-completion/completions/_just /usr/share/bash-completion/completions/sparc-koji /usr/share/bash-completion/completions/dhclient /usr/share/bash-completion/completions/apache2ctl /usr/share/bash-completion/completions/pkgadd /usr/share/bash-completion/completions/ifstat /usr/share/bash-completion/completions/quota /usr/share/bash-completion/completions/wsimport /usr/share/bash-completion/completions/_insmod /usr/share/bash-completion/completions/dmypy /usr/share/bash-completion/completions/repquota /usr/share/bash-completion/completions/rpmbuild /usr/share/bash-completion/completions/geoiplookup6 /usr/share/bash-completion/completions/gssdp-discover /usr/share/bash-completion/completions/_sopstool /usr/share/bash-completion/completions/_mock /usr/share/bash-c
+ ompletion/completions/f77 /usr/share/bash-completion/completions/g77 /usr/share/bash-completion/completions/_alp /usr/share/bash-completion/completions/smbtree /usr/share/bash-completion/completions/_starship /usr/share/bash-completion/helpers/perl /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/acpi /usr/share/bash-completion/completions/brave-browser /usr/share/bash-completion/completions/_kube-capacity /usr/share/bash-completion/completions/unace /usr/share/bash-completion/completions/postfix /usr/share/bash-completion/completions/_gardenctl /usr/share/bash-completion/completions/_svnlook /usr/share/bash-completion/completions/gnumake /usr/share/bash-completion/completions/sha256sum /usr/share/bash-completion/completions/f95 /usr/share/bash-completion/completions/configure /usr/share/bash-completion/completions/g95 /usr/share/bash-completion/completions/tshark /usr/share/bash-completion/completions/monodevelop /usr/share/bash-completion/comple
+ tions/mmsitepass /usr/share/bash-completion/completions/fio /usr/share/bash-completion/completions/_rustic /usr/share/bash-completion/completions/pushd /usr/share/bash-completion/completions/radvdump /usr/share/bash-completion/completions/wget /usr/share/bash-completion/completions/_insmod.static /usr/share/bash-completion/completions/ifquery /usr/share/bash-completion/completions/_argo /usr/share/bash-completion/completions/puppet /usr/share/bash-completion/completions/_argc /usr/share/bash-completion/completions/userdel /usr/share/bash-completion/completions/qrunner /usr/share/bash-completion/completions/ldapadd /usr/share/bash-completion/completions/rpm /usr/share/bash-completion/completions/gpc /usr/share/bash-completion/completions/_modprobe /usr/share/bash-completion/completions/_nvm /usr/share/bash-completion/completions/gpg /usr/share/bash-completion/completions/_px /usr/share/bash-completion/completions/deja-dup /usr/share/bash-completion/completions/lpq /usr/share/bash-com
+ pletion/completions/jps /usr/share/bash-completion/completions/lpr /usr/share/bash-completion/completions/python3.11 /usr/share/bash-completion/completions/python3.10 /usr/share/bash-completion/completions/python3.13 /usr/share/bash-completion/completions/python3.12 /usr/share/bash-completion/completions/_tctl /usr/share/bash-completion/completions/smbcacls /usr/share/bash-completion/completions/mkinitrd /usr/share/bash-completion/completions/mplayer2 /usr/share/bash-completion/completions/_k0sctl /usr/share/bash-completion/completions/tracepath /usr/share/bash-completion/completions/lsscsi /usr/share/bash-completion/completions/iptables /usr/share/bash-completion/completions/_ansible-pull /usr/share/bash-completion/completions/_helm /usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/ant /usr/share/bash-completion/completions/pydocstyle /usr/share/bash-completion/completions/_multi-gitter /usr/share/bash-completion/completions/muttng /usr/share/bash-co
+ mpletion/completions/pylint /usr/share/bash-completion/completions/tcpdump /usr/share/bash-completion/completions/slabtop /usr/share/bash-completion/completions/_ytt /usr/share/bash-completion/completions/gccgo /usr/share/bash-completion/completions/pkg-config /usr/share/bash-completion/completions/_conform /usr/share/bash-completion/completions/_glen /usr/share/bash-completion/completions/gnome-mplayer /usr/share/bash-completion/completions/_ctlptl /usr/share/bash-completion/completions/_gh /usr/share/bash-completion/completions/_kind /usr/share/bash-completion/completions/spovray /usr/share/bash-completion/completions/xpovray /usr/share/bash-completion/completions/chage /usr/share/bash-completion/completions/vgs /usr/share/bash-completion/completions/pypy3 /usr/share/bash-completion/completions/ipv6calc /usr/share/bash-completion/completions/cfrun /usr/share/bash-completion/completions/isql /usr/share/bash-completion/completions/psql /usr/share/bash-completion/completions/iconv /u
+ sr/share/bash-completion/completions/iscsiadm /usr/share/bash-completion/completions/sitecopy /usr/share/bash-completion/completions/ciptool /usr/share/bash-completion/completions/inject /usr/share/bash-completion/completions/_kubecm /usr/share/bash-completion/completions/pyston /usr/share/bash-completion/completions/synclient /usr/share/bash-completion/completions/typeset /usr/share/bash-completion/completions/_kyverno /usr/share/bash-completion/completions/msgsnarf /usr/share/bash-completion/completions/pm-suspend-hybrid /usr/share/bash-completion/completions/_crictl /usr/share/bash-completion/completions/_airflow /usr/share/bash-completion/completions/fsnotifywatch /usr/share/bash-completion/completions/dsniff /usr/share/bash-completion/completions/quotaoff /usr/share/bash-completion/completions/mutt /usr/share/bash-completion/completions/_svnadmin /usr/share/bash-completion/completions/hping /usr/share/bash-completion/completions/dpkg-query /usr/share/bash-completion/completions
+ /sidedoor /usr/share/bash-completion/completions/_bombadil /usr/share/bash-completion/completions/_kube-linter /usr/share/bash-completion/completions/_gopherjs /usr/share/bash-completion/completions/_task /usr/share/bash-completion/completions/avahi-browse /usr/share/bash-completion/completions/_melange /usr/share/bash-completion/completions/_gaiacli /usr/share/bash-completion/completions/munin-node-configure /usr/share/bash-completion/completions/asciidoc /usr/share/bash-completion/completions/rfcomm /usr/share/bash-completion/completions/wodim /usr/share/bash-completion/completions/_glances /usr/share/bash-completion/completions/medusa /usr/share/bash-completion/completions/gnatmake /usr/share/bash-completion/completions/wine-development /usr/share/bash-completion/completions/_ansible /usr/share/bash-completion/completions/lrzip /usr/share/bash-completion/completions/evince /usr/share/bash-completion/completions/declare /usr/share/bash-completion/completions/sha512sum /usr/share/b
+ ash-completion/completions/sqlite3 /usr/share/bash-completion/completions/chflags /usr/share/bash-completion/completions/xdg-mime /usr/share/bash-completion/completions/unrar /usr/share/bash-completion/completions/free /usr/share/bash-completion/completions/tree /usr/share/bash-completion/completions/_opa /usr/share/bash-completion/completions/pinfo /usr/share/bash-completion/completions/vgdisplay /usr/share/bash-completion/completions/autoconf /usr/share/bash-completion/completions/_adb /usr/share/bash-completion/completions/export /usr/share/bash-completion/completions/_kconf /usr/share/bash-completion/completions/setquota /usr/share/bash-completion/completions/java /usr/share/bash-completion/completions/_blackd /usr/share/bash-completion/completions/_mado /usr/share/bash-completion/completions/aclocal-1.14 /usr/share/bash-completion/completions/aclocal-1.15 /usr/share/bash-completion/completions/aclocal-1.16 /usr/share/bash-completion/completions/aclocal-1.10 /usr/share/bash-comp
+ letion/completions/aclocal-1.11 /usr/share/bash-completion/completions/aclocal-1.12 /usr/share/bash-completion/completions/aclocal-1.13 /usr/share/bash-completion/completions/chkconfig /usr/share/bash-completion/completions/pmake /usr/share/bash-completion/completions/bmake /usr/share/bash-completion/completions/gmake /usr/share/bash-completion/completions/hcitool /usr/share/bash-completion/completions/_kubeadm /usr/share/bash-completion/completions/dpkg-deb /usr/share/bash-completion/completions/_hostctl /usr/share/bash-completion/completions/mcrypt /usr/share/bash-completion/completions/quotacheck /usr/share/bash-completion/completions/lvresize /usr/share/bash-completion/completions/ccache /usr/share/bash-completion/completions/sshfs /usr/share/bash-completion/completions/apropos /usr/share/bash-completion/completions/iperf3 /usr/share/bash-completion/completions/_gitsign /usr/share/bash-completion/completions/_kata-runtime /usr/share/bash-completion/completions/pyvenv-3.9 /usr/sh
+ are/bash-completion/completions/pyvenv-3.8 /usr/share/bash-completion/completions/pyvenv-3.5 /usr/share/bash-completion/completions/pyvenv-3.4 /usr/share/bash-completion/completions/pyvenv-3.7 /usr/share/bash-completion/completions/pyvenv-3.6 /usr/share/bash-completion/completions/_hwclock /usr/share/bash-completion/completions/tcpnice /usr/share/bash-completion/completions/_kompose /usr/share/bash-completion/completions/cvsps /usr/share/bash-completion/completions/dpkg-source /usr/share/bash-completion/completions/geoiplookup /usr/share/bash-completion/completions/cryptsetup /usr/share/bash-completion/completions/g++-6 /usr/share/bash-completion/completions/desktop-file-validate /usr/share/bash-completion/completions/g++-7 /usr/share/bash-completion/completions/g++-5 /usr/share/bash-completion/completions/timeout /usr/share/bash-completion/completions/dumpdb /usr/share/bash-completion/completions/g++-8 /usr/share/bash-completion/completions/l2ping /usr/share/bash-completion/complet
+ ions/_venom /usr/share/bash-completion/completions/gmplayer /usr/share/bash-completion/completions/puppetqd /usr/share/bash-completion/completions/lzop /usr/share/bash-completion/completions/_clusterctl /usr/share/bash-completion/completions/gphoto2 /usr/share/bash-completion/completions/iwspy /usr/share/bash-completion/completions/dpkg-reconfigure /usr/share/bash-completion/completions/vgimport /usr/share/bash-completion/completions/mrsasutil /usr/share/bash-completion/completions/groupadd /usr/share/bash-completion/helpers/python /usr/share/bash-completion/completions/ypmatch /usr/share/bash-completion/completions/_popeye /usr/share/bash-completion/completions/mtx /usr/share/bash-completion/completions/_datree /usr/share/bash-completion/completions/bts /usr/share/bash-completion/completions/conjure /usr/share/bash-completion/completions/fprintd-verify /usr/share/bash-completion/completions/wtf /usr/share/bash-completion/completions/ntpdate /usr/share/bash-completion/completions/eb
+ tables /usr/share/bash-completion/completions/groupmems /usr/share/bash-completion/completions/clzip /usr/share/bash-completion/completions/plzip /usr/share/bash-completion/completions/_slackpkg /usr/share/bash-completion/completions/file-roller /usr/share/bash-completion/completions/_sshi /usr/share/bash-completion/completions/jshint /usr/share/bash-completion/completions/_goreleaser /usr/share/bash-completion/completions/_ionice /usr/share/bash-completion/completions/_jungle /usr/share/bash-completion/completions/_gomarklint /usr/share/bash-completion/completions/pdftoppm /usr/share/bash-completion/completions/qemu-system-x86_64 /usr/share/bash-completion/completions/puppetca /usr/share/bash-completion/completions/slapt-src /usr/share/bash-completion/completions/_sops /usr/share/bash-completion/completions/xgamma /usr/share/bash-completion/completions/munindoc /usr/share/bash-completion/completions/_modinfo /usr/share/bash-completion/completions/_notation /usr/share/bash-completio
+ n/completions/apt-build /usr/share/bash-completion/completions/list_members /usr/share/bash-completion/completions/ssh-add /usr/share/bash-completion/completions/btdownloadgui.py /usr/share/bash-completion/completions/plague-client /usr/share/bash-completion/completions/postsuper /usr/share/bash-completion/completions/sbcl /usr/share/bash-completion/completions/fbi /usr/share/bash-completion/completions/filesnarf /usr/share/bash-completion/completions/_dagger /usr/share/bash-completion/completions/_watchexec /usr/share/bash-completion/completions/md5sum /usr/share/bash-completion/completions/python2.7 /usr/share/bash-completion/completions/_k3s /usr/share/bash-completion/completions/_tanzu /usr/share/bash-completion/completions/_keyring /usr/share/bash-completion/completions/_k3d /usr/share/bash-completion/completions/mktemp /usr/share/bash-completion/completions/lftp /usr/share/bash-completion/completions/avahi-browse-domains /usr/share/bash-completion/completions/_ssh-inscribe /us
+ r/share/bash-completion/completions/sftp /usr/share/bash-completion/completions/_bosh /usr/share/bash-completion/completions/freeciv-xaw /usr/share/bash-completion/completions/iwlist /usr/share/bash-completion/completions/wvdial /usr/share/bash-completion/completions/xdg-settings /usr/share/bash-completion/completions/javadoc /usr/share/bash-completion/completions/printenv /usr/share/bash-completion/completions/cppcheck /usr/share/bash-completion/completions/_mise /usr/share/bash-completion/completions/chromium-browser /usr/share/bash-completion/completions/alpine /usr/share/bash-completion/completions/jarsigner /usr/share/bash-completion/completions/filebucket /usr/share/bash-completion/completions/smartctl /usr/share/bash-completion/completions/links /usr/share/bash-completion/completions/info /usr/share/bash-completion/completions/_secret-tool /usr/share/bash-completion/completions/_asdf /usr/share/bash-completion/completions/chrpath /usr/share/bash-completion/completions/freeciv
+ -server /usr/share/bash-completion/completions/htop /usr/share/bash-completion/completions/display /usr/share/bash-completion/completions/alternatives /usr/share/bash-completion/completions/_deno /usr/share/bash-completion/completions/function /usr/share/bash-completion/completions/links2 /usr/share/bash-completion/completions/quotaon /usr/share/bash-completion/completions/dropuser /usr/share/bash-completion/completions/_nox /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/_yq /usr/share/bash-completion/completions/lsusb /usr/share/bash-completion/completions/2to3 /usr/share/bash-completion/completions/puppetdoc /usr/share/bash-completion/completions/_upctl /usr/share/bash-completion/completions/freeciv-gtk3 /usr/share/bash-completion/completions/freeciv-gtk2 /usr/share/bash-completion/completions/cksum /usr/share/bash-completion/completions/rlog /usr/share/bash-completion/completions/cfagent /usr/share/bash-completion/completions/_kubectl /usr/shar
+ e/bash-completion/completions/autorpm /usr/share/bash-completion/completions/truncate /usr/share/bash-completion/completions/mii-diag /usr/share/bash-completion/completions/_docker /usr/share/bash-completion/completions/_atlas /usr/share/bash-completion/completions/pwd /usr/share/bash-completion/completions/grpck /usr/share/bash-completion/completions/unshunt /usr/share/bash-completion/completions/pyvenv /usr/share/bash-completion/completions/rdesktop /usr/share/bash-completion/completions/google-chrome-stable /usr/share/bash-completion/completions/sysctl /usr/share/bash-completion/completions/sha224sum /usr/share/bash-completion/completions/nslookup /usr/share/bash-completion/completions/gpgv2 /usr/share/bash-completion/completions/_container-structure-test /usr/share/bash-completion/completions/apt-cache /usr/share/bash-completion/completions/xvfb-run /usr/share/bash-completion/completions/_kubesec /usr/share/bash-completion/completions/autoupdate /usr/share/bash-completion/comple
+ tions/autoreconf /usr/share/bash-completion/completions/rrdtool /usr/share/bash-completion/completions/autoheader /usr/share/bash-completion/completions/phing /usr/share/bash-completion/completions/hciconfig /usr/share/bash-completion/completions/feh /usr/share/bash-completion/completions/pm-hibernate /usr/share/bash-completion/completions/_diesel /usr/share/bash-completion/completions/sync_members /usr/share/bash-completion/completions/pkill /usr/share/bash-completion/completions/xev /usr/share/bash-completion/completions/upgradepkg /usr/share/bash-completion/completions/set /usr/share/bash-completion/completions/_constellation /usr/share/bash-completion/completions/hciattach /usr/share/bash-completion/completions/_hexdump /usr/share/bash-completion/completions/_rtcwake /usr/share/bash-completion/completions/fsnotifywait /usr/share/bash-completion/completions/nload /usr/share/bash-completion/completions/_sinker /usr/share/bash-completion/completions/_qrpc /usr/share/bash-completion
+ /completions/nproc /usr/share/bash-completion/completions/dpkg /usr/share/bash-completion/completions/gprof /usr/share/bash-completion/completions/hostname /usr/share/bash-completion/completions/lsof /usr/share/bash-completion/completions/_reptyr /usr/share/bash-completion/completions/_umount.linux /usr/share/bash-completion/completions/lusermod /usr/share/bash-completion/completions/btdownloadcurses.py /usr/share/bash-completion/completions/sudo /usr/share/bash-completion/completions/pidof /usr/share/bash-completion/completions/ssh-keygen /usr/share/bash-completion/completions/_mmctl /usr/share/bash-completion/completions/growisofs /usr/share/bash-completion/completions/mdadm /usr/share/bash-completion/completions/xrandr /usr/share/bash-completion/completions/arpspoof /usr/share/bash-completion/completions/vgextend /usr/share/bash-completion/completions/_devspace /usr/share/bash-completion/completions/_uvx /usr/share/bash-completion/completions/vgcreate /usr/share/bash-completion/c
+ ompletions/hid2hci /usr/share/bash-completion/completions/alias /usr/share/bash-completion/completions/complete /usr/share/bash-completion/completions/_runuser /usr/share/bash-completion/completions/_svn /usr/share/bash-completion/completions/ypcat /usr/share/bash-completion/completions/sshow /usr/share/bash-completion/completions/_virtctl /usr/share/bash-completion/completions/_terraform /usr/share/bash-completion/completions/_metalctl /usr/share/bash-completion/completions/luac50 /usr/share/bash-completion/completions/e2label /usr/share/bash-completion/completions/faillog /usr/share/bash-completion/completions/luac51 /usr/share/bash-completion/completions/luac52 /usr/share/bash-completion/completions/groupdel /usr/share/bash-completion/completions/luac53 /usr/share/bash-completion/completions/luac54 /usr/share/bash-completion/completions/_ansible-config /usr/share/bash-completion/completions/_pip3 /usr/share/bash-completion/completions/ldapmodify /usr/share/bash-completion/complet
+ ions/ldappasswd /usr/share/bash-completion/completions/ldapdelete /usr/share/bash-completion/completions/ldapmodrdn /usr/share/bash-completion/completions/ldapsearch /usr/share/bash-completion/completions/_caddy /usr/share/bash-completion/completions/ldapwhoami /usr/share/bash-completion/completions/_infracost /usr/share/bash-completion/completions/postmap /usr/share/bash-completion/completions/sudoedit /usr/share/bash-completion/completions/_minikube /usr/share/bash-completion/completions/luac /usr/share/bash-completion/completions/compgen /usr/share/bash-completion/completions/cpio /usr/share/bash-completion/completions/gnokii /usr/share/bash-completion/completions/rpm2targz /usr/share/bash-completion/completions/pkgrm /usr/share/bash-completion/completions/_spacectl /usr/share/bash-completion/completions/_pip /usr/share/bash-completion/completions/lvscan /usr/share/bash-completion/completions/pvscan /usr/share/bash-completion/completions/gendiff /usr/share/bash-completion/complet
+ ions/pwck /usr/share/bash-completion/completions/_packer /usr/share/bash-completion/completions/_ansible-inventory /usr/share/bash-completion/completions/_kafkactl /usr/share/bash-completion/completions/mencoder /usr/share/bash-completion/completions/killall /usr/share/bash-completion/completions/xfreerdp /usr/share/bash-completion/completions/createuser /usr/share/bash-completion/completions/_timoni /usr/share/bash-completion/completions/xmodmap /usr/share/bash-completion/completions/scrub /usr/share/bash-completion/completions/vipw /usr/share/bash-completion/completions/stream /usr/share/bash-completion/completions/abook /usr/share/bash-completion/completions/pwdx /usr/share/bash-completion/completions/tipc /usr/share/bash-completion/completions/removepkg /usr/share/bash-completion/completions/rpm2tgz /usr/share/bash-completion/completions/host /usr/share/bash-completion/completions/c++ /usr/share/bash-completion/completions/g++ /usr/share/bash-completion/completions/import /usr/s
+ hare/bash-completion/completions/jsonschema /usr/share/bash-completion/completions/a2x /usr/share/bash-completion/completions/_kubescape /usr/share/bash-completion/completions/_kustomize /usr/share/bash-completion/completions/ifdown /usr/share/bash-completion/completions/_kubelogin /usr/share/bash-completion/completions/_kubemqctl /usr/share/bash-completion/completions/_kubeshark /usr/share/bash-completion/completions/gkrellm2 /usr/share/bash-completion/completions/list_admins /usr/share/bash-completion/completions/_flamegraph /usr/share/bash-completion/completions/_gcrane /usr/share/bash-completion/completions/_dapr /usr/share/bash-completion/completions/pccardctl /usr/share/bash-completion/completions/smbtar /usr/share/bash-completion/completions/sysbench /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/hping2 /usr/share/bash-completion/completions/hping3 /usr/share/bash-completion/completions/_esc /usr/share/bash-completion/completions/macof /us
+ r/share/bash-completion/completions/tmux /usr/share/bash-completion/completions/iwconfig /usr/share/bash-completion/completions/_consul /usr/share/bash-completion/completions/tightvncviewer /usr/share/bash-completion/completions/cksfv /usr/share/bash-completion/completions/sshmitm /usr/share/bash-completion/completions/_deck /usr/share/bash-completion/completions/crontab /usr/share/bash-completion/completions/gkrellm /usr/share/bash-completion/completions/wine64-development /usr/share/bash-completion/completions/_chezmoi /usr/share/bash-completion/completions/chmod /usr/share/bash-completion/completions/gzip /usr/share/bash-completion/completions/lzip /usr/share/bash-completion/completions/clone_member /usr/share/bash-completion/completions/sha384sum /usr/share/bash-completion/completions/rsync /usr/share/bash-completion/completions/_cloudquery /usr/share/bash-completion/completions/_mount /usr/share/bash-completion/completions/gfortran-5 /usr/share/bash-completion/completions/gfort
+ ran-6 /usr/share/bash-completion/completions/gfortran-7 /usr/share/bash-completion/completions/gfortran-8 /usr/share/bash-completion/completions/kill /usr/share/bash-completion/completions/_stripe /usr/share/bash-completion/completions/lilo /usr/share/bash-completion/completions/file /usr/share/bash-completion/completions/qemu-system-i386 /usr/share/bash-completion/completions/gfortran /usr/share/bash-completion/completions/ssh-copy-id /usr/share/bash-completion/completions/_pitchfork /usr/share/bash-completion/completions/perlcritic /usr/share/bash-completion/completions/urlsnarf /usr/share/bash-completion/completions/_kool /usr/share/bash-completion/completions/_black /usr/share/bash-completion/completions/arp /usr/share/bash-completion/completions/_rg /usr/share/bash-completion/completions/qemu-kvm /usr/share/bash-completion/completions/help /usr/share/bash-completion/completions/rpmcheck /usr/share/bash-completion/completions/xvnc4viewer /usr/share/bash-completion/completions/_f
+ uryctl /usr/share/bash-completion/completions/_mdbook /usr/share/bash-completion/completions/_rclone /usr/share/bash-completion/completions/msynctool /usr/share/bash-completion/completions/_nfpm /usr/share/bash-completion/completions/_kn /usr/share/bash-completion/completions/_ko /usr/share/bash-completion/completions/_imgpkg /usr/share/bash-completion/completions/_nomad /usr/share/bash-completion/completions/dselect /usr/share/bash-completion/completions/_look /usr/share/bash-completion/completions/lvreduce /usr/share/bash-completion/completions/vgcfgrestore /usr/share/bash-completion/completions/locale-gen /usr/share/bash-completion/completions/lintian-info /usr/share/bash-completion/completions/reportbug /usr/share/bash-completion/completions/rmlist /usr/share/bash-completion/completions/_gitconfig /usr/share/bash-completion/completions/isort /usr/share/bash-completion/completions/optipng /usr/share/bash-completion/completions/_ansible-console /usr/share/bash-completion/completio
+ ns/freeciv /usr/share/bash-completion/completions/json_xs /usr/share/bash-completion/completions/_k6 /usr/share/bash-completion/completions/mussh /usr/share/bash-completion/completions/passwd /usr/share/bash-completion/completions/pyflakes /usr/share/bash-completion/completions/ipcalc /usr/share/bash-completion/completions/s390-koji /usr/share/bash-completion/completions/_wasmer-headless /usr/share/bash-completion/completions/xmllint /usr/share/bash-completion/completions/kplayer /usr/share/bash-completion/completions/_kubectl-kuttl /usr/share/bash-completion/completions/mplayer /usr/share/bash-completion/completions/neomutt /usr/share/bash-completion/completions/_flux /usr/share/bash-completion/completions/_limactl /usr/share/bash-completion/completions/carton /usr/share/bash-completion/completions/newlist /usr/share/bash-completion/completions/_zitadel /usr/share/bash-completion/completions/smbpasswd /usr/share/bash-completion/completions/_tkn-pac /usr/share/bash-completion/comple
+ tions/aspell /usr/share/bash-completion/completions/_kontena /usr/share/bash-completion/completions/_cue /usr/share/bash-completion/completions/munin-update /usr/share/bash-completion/completions/inotifywatch /usr/share/bash-completion/completions/_velero /usr/share/bash-completion/completions/dict /usr/share/bash-completion/completions/_moldy /usr/share/bash-completion/completions/lvdisplay /usr/share/bash-completion/completions/pvdisplay /usr/share/bash-completion/completions/chromium /usr/share/bash-completion/completions/ppc-koji /usr/share/bash-completion/completions/chpasswd /usr/share/bash-completion/completions/_oras /usr/share/bash-completion/completions/xzdec /usr/share/bash-completion/completions/micropython /usr/share/bash-completion/completions/update-alternatives /usr/share/bash-completion/completions/_go-licenses /usr/share/bash-completion/completions/hash /usr/share/bash-completion/completions/influx /usr/share/bash-completion/completions/minicom /usr/share/bash-comp
+ letion/completions/config_list /usr/share/bash-completion/completions/protoc /usr/share/bash-completion/completions/lvrename /usr/share/bash-completion/completions/python2 /usr/share/bash-completion/completions/python3 /usr/share/bash-completion/completions/smbclient /usr/share/bash-completion/completions/withlist /usr/share/bash-completion/completions/_tldr /usr/share/bash-completion/completions/hddtemp /usr/share/bash-completion/completions/luserdel /usr/share/bash-completion/completions/lz4c /usr/share/bash-completion/completions/jpegoptim /usr/share/bash-completion/completions/bsdtar /usr/share/bash-completion/completions/invoke-rc.d /usr/share/bash-completion/completions/oggdec /usr/share/bash-completion/completions/_ruff /usr/share/bash-completion/completions/xmms /usr/share/bash-completion/completions/ecryptfs-migrate-home /usr/share/bash-completion/completions/_trash-list /usr/share/bash-completion/completions/_okteto /usr/share/bash-completion/completions/_ignite /usr/share
+ /bash-completion/completions/find_member /usr/share/bash-completion/completions/luseradd /usr/share/bash-completion/completions/_skaffold /usr/share/bash-completion/completions/_sentry-cli /usr/share/bash-completion/completions/_uv /usr/share/bash-completion/completions/_bashbot /usr/share/bash-completion/completions/_conda /usr/share/bash-completion/completions/cleanarch /usr/share/bash-completion/completions/querybts /usr/share/bash-completion/completions/chown /usr/share/bash-completion/completions/_rustup /usr/share/bash-completion/completions/vgrename /usr/share/bash-completion/completions/ldapvi /usr/share/bash-completion/completions/list_lists /usr/share/bash-completion/completions/_kratos /usr/share/bash-completion/completions/lua /usr/share/bash-completion/completions/qemu /usr/share/bash-completion/completions/apt-mark /usr/share/bash-completion/completions/vncviewer /usr/share/bash-completion/completions/_syft /usr/share/bash-completion/completions/mailmanctl /usr/share/b
+ ash-completion/completions/_nmcli /usr/share/bash-completion/completions/wine64 /usr/share/bash-completion/completions/xsltproc /usr/share/bash-completion/completions/wine-stable /usr/share/bash-completion/completions/add_members /usr/share/bash-completion/completions/pkgtool /usr/share/bash-completion/completions/_vault /usr/share/bash-completion/completions/_jj /usr/share/bash-completion/completions/_kops /usr/share/bash-completion/completions/ipsec /usr/share/bash-completion/completions/gnome-screenshot /usr/share/bash-completion/completions/lvmdiskscan /usr/share/bash-completion/completions/_ansible-playbook /usr/share/bash-completion/completions/createdb /usr/share/bash-completion/completions/_kubebuilder /usr/share/bash-completion/completions/_gsctl /usr/share/bash-completion/completions/larch /usr/share/bash-completion/completions/vgreduce /usr/share/bash-completion/completions/snownews /usr/share/bash-completion/completions/installpkg /usr/share/bash-completion/completions/7
+ zzs /usr/share/bash-completion/completions/_rmmod /usr/share/bash-completion/completions/opera /usr/share/bash-completion/completions/iperf /usr/share/bash-completion/completions/aptitude-curses /usr/share/bash-completion/completions/rpcdebug /usr/share/bash-completion/completions/munin-run /usr/share/bash-completion/completions/_steampipe /usr/share/bash-completion/completions/tune2fs /usr/share/bash-completion/completions/_nerdctl /usr/share/bash-completion/completions/pm-powersave /usr/share/bash-completion/completions/automake-1.14 /usr/share/bash-completion/completions/automake-1.15 /usr/share/bash-completion/completions/automake-1.16 /usr/share/bash-completion/completions/automake-1.10 /usr/share/bash-completion/completions/automake-1.11 /usr/share/bash-completion/completions/automake-1.12 /usr/share/bash-completion/helpers/make-extract-targets.awk /usr/share/bash-completion/completions/automake-1.13 /usr/share/bash-completion/completions/pkgconf /usr/share/bash-completion/com
+ pletions/chrome /usr/share/bash-completion/completions/python /usr/share/bash-completion/completions/tcpkill /usr/share/bash-completion/completions/gcc /usr/share/bash-completion/completions/gcl /usr/share/bash-completion/completions/pwgen /usr/share/bash-completion/completions/_zarf /usr/share/bash-completion/completions/ralsh /usr/share/bash-completion/completions/gcj /usr/share/bash-completion/completions/_colima /usr/share/bash-completion/completions/_mockery /usr/share/bash-completion/completions/scp /usr/share/bash-completion/completions/rcs /usr/share/bash-completion/completions/_shtab /usr/share/bash-completion/completions/_cz /usr/share/bash-completion/completions/convert /usr/share/bash-completion/completions/_dasel /usr/share/bash-completion/completions/dropdb /usr/share/bash-completion/completions/_talhelper /usr/share/bash-completion/completions/_vela /usr/share/bash-completion/completions/pm-is-supported /usr/share/bash-completion/completions/_chfn /usr/share/bash-comp
+ letion/completions/identify /usr/share/bash-completion/completions/_changie /usr/share/bash-completion/completions/_cilium /usr/share/bash-completion/completions/ifup /usr/share/bash-completion/completions/luac5.1 /usr/share/bash-completion/completions/luac5.0 /usr/share/bash-completion/completions/_newgrp /usr/share/bash-completion/completions/_glab /usr/share/bash-completion/completions/bzip2 /usr/share/bash-completion/completions/luac5.2 /usr/share/bash-completion/completions/luac5.3 /usr/share/bash-completion/completions/luac5.4 /usr/share/bash-completion/completions/mypy /usr/share/bash-completion/completions/pypy /usr/share/bash-completion/completions/slapt-get /usr/share/bash-completion/completions/list_owners", added "/usr/share/bash-completion/completions/README.md /usr/share/bash-completion/helpers/README.md"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PKGSIZE changed from 917819 to 2266 (-100%)
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion: FILELIST: directory renamed /etc/bash_completion.d -> /usr/share/bash-completion/startup-core, added "/usr/share/bash-completion/completions-core/tcpnice.bash /usr/share/bash-completion/completions-core/add_members.bash /usr/share/bash-completion/completions-fallback/driftctl.bash /usr/share/bash-completion/completions-core/xvnc4viewer.bash /usr/share/bash-completion/completions-fallback/jwt.bash /usr/share/bash-completion/completions-fallback/eject.bash /usr/share/bash-completion/completions-fallback/regal.bash /usr/share/bash-completion/completions-fallback/rumdl.bash /usr/share/bash-completion/completions-core/autoupdate.bash /usr/share/bash-completion/completions-fallback/flux.bash /usr/share/bash-completion/completions-fallback/virtctl.bash /usr/share/bash-completion/completions-core/munindoc.bash /usr/share/bash-completion/completions-core/pylint-2.bash /usr/share/bash-completion/completions-core/pylint-3.bash /usr/
+ share/bash-completion/completions-core/geoiplookup.bash /usr/share/bash-completion/completions-core/inject.bash /usr/share/bash-completion/completions-core/shellcheck.bash /usr/share/bash-completion/completions-fallback/gup.bash /usr/share/bash-completion/completions-fallback/airflow.bash /usr/share/bash-completion/completions-core/smbcacls.bash /usr/share/bash-completion/completions-core/neomutt.bash /usr/share/bash-completion/completions-fallback/argc.bash /usr/share/bash-completion/completions-fallback/argo.bash /usr/share/bash-completion/completions-core/lua53.bash /usr/share/bash-completion/completions-core/pypy3.bash /usr/share/bash-completion/completions-fallback/gitsign.bash /usr/share/bash-completion/completions-fallback/nvm.bash /usr/share/bash-completion/completions-fallback/delta.bash /usr/share/bash-completion/completions-fallback/depot.bash /usr/share/bash-completion/completions-core/acpi.bash /usr/share/bash-completion/completions-core/xdg-settings.bash /usr/share/bas
+ h-completion/completions-core/arch.bash /usr/share/bash-completion/completions-core/qemu-system-x86_64.bash /usr/share/bash-completion/completions-fallback/notation.bash /usr/share/bash-completion/completions-core/timeout.bash /usr/share/bash-completion/completions-core/minicom.bash /usr/share/bash-completion/completions-core/gfortran-5.bash /usr/share/bash-completion/completions-core/gfortran-6.bash /usr/share/bash-completion/completions-core/gfortran-7.bash /usr/share/bash-completion/completions-core/gfortran-8.bash /usr/share/bash-completion/completions-core/lua50.bash /usr/share/bash-completion/completions-fallback/sopstool.bash /usr/share/bash-completion/completions-core/avahi-browse.bash /usr/share/bash-completion/completions-core/fsnotifywait.bash /usr/share/bash-completion/completions-fallback/keyring.bash /usr/share/bash-completion/completions-fallback/kubeadm.bash /usr/share/bash-completion/completions-fallback/kubectl.bash /usr/share/bash-completion/completions-fallback/k
+ ubesec.bash /usr/share/bash-completion/completions-fallback/kubespy.bash /usr/share/bash-completion/completions-core/chkconfig.bash /usr/share/bash-completion/completions-core/hciconfig.bash /usr/share/bash-completion/completions-core/python2.7.bash /usr/share/bash-completion/completions-core/python3.3.bash /usr/share/bash-completion/completions-core/python3.4.bash /usr/share/bash-completion/completions-core/python3.5.bash /usr/share/bash-completion/completions-core/python3.6.bash /usr/share/bash-completion/completions-core/python3.7.bash /usr/share/bash-completion/completions-core/python3.8.bash /usr/share/bash-completion/completions-core/python3.9.bash /usr/share/bash-completion/completions-fallback/bao.bash /usr/share/bash-completion/completions-core/btdownloadheadless.py.bash /usr/share/bash-completion/completions-fallback/hd.bash /usr/share/bash-completion/completions-core/chmod.bash /usr/share/bash-completion/completions-core/nload.bash /usr/share/bash-completion/completions-c
+ ore/g++-6.bash /usr/share/bash-completion/completions-core/gcc-6.bash /usr/share/bash-completion/completions-core/ping6.bash /usr/share/bash-completion/completions-core/ebtables.bash /usr/share/bash-completion/completions-core/iptables.bash /usr/share/bash-completion/completions-core/pushd.bash /usr/share/bash-completion/completions-fallback/ionice.bash /usr/share/bash-completion/completions-fallback/random.bash /usr/share/bash-completion/completions-core/cancel.bash /usr/share/bash-completion/completions-fallback/multi-gitter.bash /usr/share/bash-completion/completions-core/pm-suspend.bash /usr/share/bash-completion/completions-core/invoke-rc.d.bash /usr/share/bash-completion/completions-core/ssh-keyscan.bash /usr/share/bash-completion/completions-fallback/mdbook.bash /usr/share/bash-completion/completions-fallback/zitadel.bash /usr/share/bash-completion/completions-core/apt-mark.bash /usr/share/bash-completion/completions-core/automake.bash /usr/share/bash-completion/completions-c
+ ore/gnatmake.bash /usr/share/bash-completion/completions-core/mfiutil.bash /usr/share/bash-completion/completions-core/ifquery.bash /usr/share/bash-completion/completions-core/fprintd-list.bash /usr/share/bash-completion/completions-fallback/k6.bash /usr/share/bash-completion/completions-core/pkgadd.bash /usr/share/bash-completion/completions-fallback/git-bump.bash /usr/share/bash-completion/completions-fallback/gitleaks.bash /usr/share/bash-completion/completions-core/iceweasel.bash /usr/share/bash-completion/completions-core/a2x.bash /usr/share/bash-completion/completions-core/ant.bash /usr/share/bash-completion/completions-core/arp.bash /usr/share/bash-completion/completions-core/repquota.bash /usr/share/bash-completion/completions-core/setquota.bash /usr/share/bash-completion/completions-fallback/syft.bash /usr/share/bash-completion/completions-fallback/opa.bash /usr/share/bash-completion/completions-core/xmllint.bash /usr/share/bash-completion/completions-core/alternatives.bash
+  /usr/share/bash-completion/completions-fallback/helm.bash /usr/share/bash-completion/completions-fallback/hugo.bash /usr/share/bash-completion/completions-core/deja-dup.bash /usr/share/bash-completion/completions-core/dnssec-keygen.bash /usr/share/bash-completion/completions-core/growisofs.bash /usr/share/bash-completion/completions-core/ldapmodify.bash /usr/share/bash-completion/completions-core/ldapmodrdn.bash /usr/share/bash-completion/completions-core/apt-cache.bash /usr/share/bash-completion/completions-core/gpg2.bash /usr/share/bash-completion/completions-core/gpgv.bash /usr/share/bash-completion/completions-core/gtar.bash /usr/share/bash-completion/completions-core/gzip.bash /usr/share/bash-completion/completions-fallback/black.bash /usr/share/bash-completion/completions-fallback/steampipe.bash /usr/share/bash-completion/completions-fallback/etcdctl.bash /usr/share/bash-completion/completions-fallback/etcdutl.bash /usr/share/bash-completion/completions-core/gprof.bash /usr/s
+ hare/bash-completion/completions-core/iperf.bash /usr/share/bash-completion/completions-core/macof.bash /usr/share/bash-completion/completions-core/pidof.bash /usr/share/bash-completion/completions-core/xmlwf.bash /usr/share/bash-completion/startup/README.md /usr/share/bash-completion/completions-core/ifstat.bash /usr/share/bash-completion/completions-core/vmstat.bash /usr/share/bash-completion/completions-fallback/trash-put.bash /usr/share/bash-completion/completions-core/pm-powersave.bash /usr/share/bash-completion/completions-core/asciidoc.py.bash /usr/share/bash-completion/completions-fallback/gardenctl.bash /usr/share/bash-completion/completions-core/mrsasutil.bash /usr/share/bash-completion/completions-core/postsuper.bash /usr/share/bash-completion/completions-core/wine64.bash /usr/share/bash-completion/completions-core/tightvncviewer.bash /usr/share/bash-completion/completions-fallback/syncthing.bash /usr/share/bash-completion/completions-fallback/zarf.bash /usr/share/bash-co
+ mpletion/completions-fallback/kubescape.bash /usr/share/bash-completion/completions-fallback/kustomize.bash /usr/share/bash-completion/completions-fallback/uvx.bash /usr/share/bash-completion/completions-core/ldapdelete.bash /usr/share/bash-completion/completions-fallback/gitconfig.bash /usr/share/bash-completion/completions-core/locale-gen.bash /usr/share/bash-completion/completions-core/mcrypt.bash /usr/share/bash-completion/completions-fallback/task.bash /usr/share/bash-completion/completions-fallback/gh-label.bash /usr/share/bash-completion/completions-fallback/umount.bash /usr/share/bash-completion/completions-fallback/ngrok.bash /usr/share/bash-completion/completions-core/mogrify.bash /usr/share/bash-completion/completions-core/spovray.bash /usr/share/bash-completion/completions-core/xpovray.bash /usr/share/bash-completion/completions-core/qemu-kvm.bash /usr/share/bash-completion/completions-fallback/dagger.bash /usr/share/bash-completion/completions-fallback/datree.bash /usr/
+ share/bash-completion/completions-core/ip.bash /usr/share/bash-completion/completions-core/vgcfgrestore.bash /usr/share/bash-completion/completions-core/jq.bash /usr/share/bash-completion/completions-fallback/limactl.bash /usr/share/bash-completion/completions-fallback/linkerd.bash /usr/share/bash-completion/completions-core/postalias.bash /usr/share/bash-completion/completions-core/mc.bash /usr/share/bash-completion/completions-core/mr.bash /usr/share/bash-completion/completions-core/nc.bash /usr/share/bash-completion/completions-core/p4.bash /usr/share/bash-completion/completions-core/cppcheck.bash /usr/share/bash-completion/completions-core/rpmcheck.bash /usr/share/bash-completion/completions-core/etherwake.bash /usr/share/bash-completion/completions-fallback/vacuum.bash /usr/share/bash-completion/completions-fallback/minishift.bash /usr/share/bash-completion/completions-fallback/jungle.bash /usr/share/bash-completion/completions-core/puppetmasterd.bash /usr/share/bash-completion
+ /completions-core/sbcl-mt.bash /usr/share/bash-completion/completions-fallback/encore.bash /usr/share/bash-completion/completions-core/lua5.2.bash /usr/share/bash-completion/completions-core/slogin.bash /usr/share/bash-completion/completions-core/dmypy.bash /usr/share/bash-completion/completions-core/iwspy.bash /usr/share/bash-completion/completions-fallback/nox.bash /usr/share/bash-completion/completions-core/remove_members.bash /usr/share/bash-completion/completions-fallback/pipenv.bash /usr/share/bash-completion/completions-fallback/px.bash /usr/share/bash-completion/completions-fallback/nova.bash /usr/share/bash-completion/completions-core/rpmbuild-md5.bash /usr/share/bash-completion/completions-core/tcpdump.bash /usr/share/bash-completion/completions-core/filesnarf.bash /usr/share/bash-completion/completions-core/mailsnarf.bash /usr/share/bash-completion/completions-fallback/kratos.bash /usr/share/bash-completion/completions-fallback/crictl.bash /usr/share/bash-completion/compl
+ etions-core/puppet.bash /usr/share/bash-completion/completions-core/smbget.bash /usr/share/bash-completion/completions-fallback/kubeshark.bash /usr/share/bash-completion/completions-core/hostname.bash /usr/share/bash-completion/completions-core/lvrename.bash /usr/share/bash-completion/completions-core/msgsnarf.bash /usr/share/bash-completion/completions-core/faillog.bash /usr/share/bash-completion/completions-core/lastlog.bash /usr/share/bash-completion/completions-core/unshunt.bash /usr/share/bash-completion/completions-core/urlsnarf.bash /usr/share/bash-completion/completions-core/vgrename.bash /usr/share/bash-completion/completions-core/apt-build.bash /usr/share/bash-completion/completions-core/explodepkg.bash /usr/share/bash-completion/completions-core/kplayer.bash /usr/share/bash-completion/completions-core/mplayer.bash /usr/share/bash-completion/completions-fallback/umount.linux.bash /usr/share/bash-completion/completions-core/brctl.bash /usr/share/bash-completion/completions-
+ core/mysql.bash /usr/share/bash-completion/completions-core/pkill.bash /usr/share/bash-completion/completions-fallback/ansible-inventory.bash /usr/share/bash-completion/completions-fallback/gopherjs.bash /usr/share/bash-completion/completions-fallback/pip3.bash /usr/share/bash-completion/completions-core/lua5.0.bash /usr/share/bash-completion/completions-core/lbzip2.bash /usr/share/bash-completion/completions-core/pbzip2.bash /usr/share/bash-completion/completions-core/lzip.bash /usr/share/bash-completion/completions-core/vgck.bash /usr/share/bash-completion/completions-fallback/tokio-console.bash /usr/share/bash-completion/completions-core/vigr.bash /usr/share/bash-completion/completions-core/vipw.bash /usr/share/bash-completion/completions-core/vpnc.bash /usr/share/bash-completion/completions-core/dict.bash /usr/share/bash-completion/helpers-core/python /usr/share/bash-completion/completions-fallback/sops.bash /usr/share/bash-completion/completions-core/nethogs.bash /usr/share/bas
+ h-completion/completions-core/unrar.bash /usr/share/bash-completion/completions-core/aclocal-1.18.bash /usr/share/bash-completion/completions-core/aclocal-1.10.bash /usr/share/bash-completion/completions-core/aclocal-1.11.bash /usr/share/bash-completion/completions-core/aclocal-1.12.bash /usr/share/bash-completion/completions-core/aclocal-1.13.bash /usr/share/bash-completion/completions-core/aclocal-1.14.bash /usr/share/bash-completion/completions-core/aclocal-1.15.bash /usr/share/bash-completion/completions-core/aclocal-1.16.bash /usr/share/bash-completion/completions-core/aclocal-1.17.bash /usr/share/bash-completion/completions-core/lua51.bash /usr/share/bash-completion/completions-core/mailmanctl.bash /usr/share/bash-completion/completions-fallback/dpkg.bash /usr/share/bash-completion/completions-core/ccache.bash /usr/share/bash-completion/completions-core/pydoc3.bash /usr/share/bash-completion/completions-core/gmake.bash /usr/share/bash-completion/completions-core/bmake.bash /us
+ r/share/bash-completion/completions-core/gcc-7.bash /usr/share/bash-completion/completions-core/brave.bash /usr/share/bash-completion/completions-core/chage.bash /usr/share/bash-completion/completions-core/g++-7.bash /usr/share/bash-completion/completions-core/pmake.bash /usr/share/bash-completion/completions-core/route.bash /usr/share/bash-completion/completions-core/unace.bash /usr/share/bash-completion/completions-fallback/ruff.bash /usr/share/bash-completion/completions-core/g++-5.bash /usr/share/bash-completion/completions-core/gcc-5.bash /usr/share/bash-completion/completions-core/lusermod.bash /usr/share/bash-completion/completions-fallback/kapp.bash /usr/share/bash-completion/completions-core/firefox-esr.bash /usr/share/bash-completion/completions-core/killall.bash /usr/share/bash-completion/completions-fallback/dpkg-source.bash /usr/share/bash-completion/completions-core/feh.bash /usr/share/bash-completion/completions-core/fio.bash /usr/share/bash-completion/completions-cor
+ e/g++.bash /usr/share/bash-completion/completions-core/wol.bash /usr/share/bash-completion/completions-core/wtf.bash /usr/share/bash-completion/completions-core/chflags.bash /usr/share/bash-completion/completions-core/tar.bash /usr/share/bash-completion/completions-core/lz4.bash /usr/share/bash-completion/completions-core/man.bash /usr/share/bash-completion/completions-core/mtx.bash /usr/share/bash-completion/completions-core/firefox.bash /usr/share/bash-completion/completions-core/pyvenv-3.4.bash /usr/share/bash-completion/completions-core/pyvenv-3.5.bash /usr/share/bash-completion/completions-core/pyvenv-3.6.bash /usr/share/bash-completion/completions-core/pyvenv-3.7.bash /usr/share/bash-completion/completions-core/pyvenv-3.8.bash /usr/share/bash-completion/completions-core/pyvenv-3.9.bash /usr/share/bash-completion/completions-core/strace.bash /usr/share/bash-completion/completions-core/evince.bash /usr/share/bash-completion/completions-core/sshow.bash /usr/share/bash-completion/
+ completions-fallback/container-structure-test.bash /usr/share/bash-completion/completions-fallback/nfpm.bash /usr/share/bash-completion/completions-core/filefrag.bash /usr/share/bash-completion/completions-fallback/ssh-inscribe.bash /usr/share/bash-completion/completions-core/btdownloadgui.py.bash /usr/share/bash-completion/completions-fallback/kn.bash /usr/share/bash-completion/completions-core/gnumake.bash /usr/share/bash-completion/completions-fallback/kubecm.bash /usr/share/bash-completion/completions-fallback/ghorg.bash /usr/share/bash-completion/completions-fallback/rfkill.bash /usr/share/bash-completion/completions-core/google-chrome-stable.bash /usr/share/bash-completion/completions-core/list_members.bash /usr/share/bash-completion/completions-core/sync_members.bash /usr/share/bash-completion/completions-core/automake-1.10.bash /usr/share/bash-completion/completions-fallback/zola.bash /usr/share/bash-completion/completions-core/tsig-keygen.bash /usr/share/bash-completion/com
+ pletions-core/puppetca.bash /usr/share/bash-completion/completions-core/puppetqd.bash /usr/share/bash-completion/completions-core/sudoedit.bash /usr/share/bash-completion/completions-fallback/tofu.bash /usr/share/bash-completion/completions-fallback/release-plz.bash /usr/share/bash-completion/completions-core/wine-development.bash /usr/share/bash-completion/completions-core/puppetdoc.bash /usr/share/bash-completion/completions-core/automake-1.14.bash /usr/share/bash-completion/completions-core/puppetrun.bash /usr/share/bash-completion/completions-fallback/gopass.bash /usr/share/bash-completion/completions-fallback/dasel.bash /usr/share/bash-completion/completions-core/tracepath6.bash /usr/share/bash-completion/completions-core/sudo.bash /usr/share/bash-completion/completions-core/xmms.bash /usr/share/bash-completion/completions-core/xrdb.bash /usr/share/bash-completion/completions-core/lftp.bash /usr/share/bash-completion/completions-core/lilo.bash /usr/share/bash-completion/complet
+ ions-core/lisp.bash /usr/share/bash-completion/completions-fallback/docker.bash /usr/share/bash-completion/completions-core/lsof.bash /usr/share/bash-completion/completions-core/luac.bash /usr/share/bash-completion/completions-core/lz4c.bash /usr/share/bash-completion/completions-core/msynctool.bash /usr/share/bash-completion/completions-core/ifup.bash /usr/share/bash-completion/completions-core/info.bash /usr/share/bash-completion/completions-core/colormake.bash /usr/share/bash-completion/completions-core/groupmod.bash /usr/share/bash-completion/completions-core/clone_member.bash /usr/share/bash-completion/completions-core/automake-1.17.bash /usr/share/bash-completion/completions-core/gfortran.bash /usr/share/bash-completion/completions-fallback/coder.bash /usr/share/bash-completion/completions-fallback/codex.bash /usr/share/bash-completion/completions-fallback/conda.bash /usr/share/bash-completion/completions-fallback/k9s.bash /usr/share/bash-completion/completions-fallback/xc.bas
+ h /usr/share/bash-completion/completions-core/ether-wake.bash /usr/share/bash-completion/completions-core/fusermount.bash /usr/share/bash-completion/completions-core/luserdel.bash /usr/share/bash-completion/completions-fallback/kubectl-kuttl.bash /usr/share/bash-completion/completions-fallback/jreleaser.bash /usr/share/bash-completion/completions-fallback/su.bash /usr/share/bash-completion/completions-fallback/goreleaser.bash /usr/share/bash-completion/completions-core/lintian-info.bash /usr/share/bash-completion/completions-core/rdesktop.bash /usr/share/bash-completion/completions-fallback/k3sup.bash /usr/share/bash-completion/completions-fallback/kconf.bash /usr/share/bash-completion/completions-fallback/okteto.bash /usr/share/bash-completion/completions-core/gccgo.bash /usr/share/bash-completion/completions-core/pinfo.bash /usr/share/bash-completion/completions-fallback/bashbot.bash /usr/share/bash-completion/completions-core/config_list.bash /usr/share/bash-completion/helpers-co
+ re/perl /usr/share/bash-completion/completions-fallback/tox.bash /usr/share/bash-completion/completions-fallback/zed.bash /usr/share/bash-completion/completions-core/aclocal.bash /usr/share/bash-completion/completions-fallback/k0sctl.bash /usr/share/bash-completion/completions-fallback/gaiad.bash /usr/share/bash-completion/completions-fallback/rustic.bash /usr/share/bash-completion/completions-fallback/rustup.bash /usr/share/bash-completion/completions-fallback/regctl.bash /usr/share/bash-completion/completions-fallback/terraform.bash /usr/share/bash-completion/completions-fallback/renice.bash /usr/share/bash-completion/completions-fallback/reptyr.bash /usr/share/bash-completion/completions-fallback/skupper.bash /usr/share/bash-completion/completions-core/chromium-browser.bash /usr/share/bash-completion/completions-core/btdownloadcurses.py.bash /usr/share/bash-completion/completions-core/rpm2targz.bash /usr/share/bash-completion/completions-fallback/hwclock.bash /usr/share/bash-comp
+ letion/completions-fallback/op.bash /usr/share/bash-completion/completions-core/cksfv.bash /usr/share/bash-completion/completions-core/iconv.bash /usr/share/bash-completion/completions-core/bind.bash /usr/share/bash-completion/completions-core/ccze.bash /usr/share/bash-completion/completions-core/cpio.bash /usr/share/bash-completion/completions-core/curl.bash /usr/share/bash-completion/completions-core/dcop.bash /usr/share/bash-completion/completions-core/isql.bash /usr/share/bash-completion/completions-core/java.bash /usr/share/bash-completion/completions-core/kcov.bash /usr/share/bash-completion/completions-core/kill.bash /usr/share/bash-completion/completions-core/koji.bash /usr/share/bash-completion/completions-core/medusa.bash /usr/share/bash-completion/completions-core/pvmove.bash /usr/share/bash-completion/completions-fallback/rg.bash /usr/share/bash-completion/completions-core/cleanarch.bash /usr/share/bash-completion/completions-core/dropuser.bash /usr/share/bash-completion
+ /completions-fallback/nerdctl.bash /usr/share/bash-completion/completions-core/newusers.bash /usr/share/bash-completion/completions-core/nsupdate.bash /usr/share/bash-completion/completions-core/python2.bash /usr/share/bash-completion/completions-core/pdlzip.bash /usr/share/bash-completion/completions-fallback/yq.bash /usr/share/bash-completion/completions-core/oggdec.bash /usr/share/bash-completion/completions-fallback/k3s.bash /usr/share/bash-completion/completions-core/wine64-development.bash /usr/share/bash-completion/completions-core/smbpasswd.bash /usr/share/bash-completion/completions-core/smbcquotas.bash /usr/share/bash-completion/completions-core/aptitude.bash /usr/share/bash-completion/completions-core/createdb.bash /usr/share/bash-completion/completions-core/lvextend.bash /usr/share/bash-completion/completions-core/printenv.bash /usr/share/bash-completion/completions-core/vgextend.bash /usr/share/bash-completion/completions-core/bsdtar.bash /usr/share/bash-completion/comp
+ letions-core/smbtar.bash /usr/share/bash-completion/completions-core/alpine.bash /usr/share/bash-completion/completions-fallback/kool.bash /usr/share/bash-completion/completions-fallback/kops.bash /usr/share/bash-completion/completions-core/micropython.bash /usr/share/bash-completion/completions-core/optipng.bash /usr/share/bash-completion/completions-fallback/polygon-edge.bash /usr/share/bash-completion/completions-core/ipv6calc.bash /usr/share/bash-completion/completions-core/truncate.bash /usr/share/bash-completion/completions-fallback/svnadmin.bash /usr/share/bash-completion/completions-core/arm-koji.bash /usr/share/bash-completion/completions-core/check_db.bash /usr/share/bash-completion/completions-core/ppc-koji.bash /usr/share/bash-completion/helpers-core/make-extract-targets.awk /usr/share/bash-completion/completions-core/isort.bash /usr/share/bash-completion/completions-core/rdict.bash /usr/share/bash-completion/completions-core/xhost.bash /usr/share/bash-completion/complet
+ ions-core/ypcat.bash /usr/share/bash-completion/completions-core/aspell.bash /usr/share/bash-completion/completions-core/pigz.bash /usr/share/bash-completion/completions-core/pine.bash /usr/share/bash-completion/completions-core/ping.bash /usr/share/bash-completion/completions-core/psql.bash /usr/share/bash-completion/completions-core/pwck.bash /usr/share/bash-completion/completions-core/pwdx.bash /usr/share/bash-completion/completions-core/pypy.bash /usr/share/bash-completion/completions-core/qemu.bash /usr/share/bash-completion/completions-core/wget.bash /usr/share/bash-completion/completions-core/wine.bash /usr/share/bash-completion/completions-core/curlie.bash /usr/share/bash-completion/completions-core/montage.bash /usr/share/bash-completion/completions-core/composite.bash /usr/share/bash-completion/completions-fallback/kube-linter.bash /usr/share/bash-completion/completions-core/cfagent.bash /usr/share/bash-completion/completions-fallback/tanzu.bash /usr/share/bash-completion/
+ completions-core/tipc.bash /usr/share/bash-completion/completions-core/tmux.bash /usr/share/bash-completion/completions-core/automake-1.18.bash /usr/share/bash-completion/completions-core/tree.bash /usr/share/bash-completion/completions-core/ulimit.bash /usr/share/bash-completion/completions-fallback/adb.bash /usr/share/bash-completion/completions-core/lintian.bash /usr/share/bash-completion/completions-core/sudo.ws.bash /usr/share/bash-completion/completions-core/sysbench.bash /usr/share/bash-completion/completions-core/genaliases.bash /usr/share/bash-completion/completions-core/smbtree.bash /usr/share/bash-completion/completions-fallback/mado.bash /usr/share/bash-completion/completions-fallback/mago.bash /usr/share/bash-completion/completions-core/gmplayer.bash /usr/share/bash-completion/completions-core/gpasswd.bash /usr/share/bash-completion/completions-fallback/constellation.bash /usr/share/bash-completion/completions-fallback/yum.bash /usr/share/bash-completion/completions-cor
+ e/lsusb.bash /usr/share/bash-completion/completions-core/scrub.bash /usr/share/bash-completion/completions-fallback/venom.bash /usr/share/bash-completion/completions-core/pytest-2.bash /usr/share/bash-completion/completions-core/pytest-3.bash /usr/share/bash-completion/completions-core/pvs.bash /usr/share/bash-completion/completions-core/pwd.bash /usr/share/bash-completion/completions-core/pxz.bash /usr/share/bash-completion/completions-core/rcs.bash /usr/share/bash-completion/completions-core/rpm.bash /usr/share/bash-completion/completions-core/scp.bash /usr/share/bash-completion/completions-core/g77.bash /usr/share/bash-completion/completions-core/g95.bash /usr/share/bash-completion/completions-core/gcc.bash /usr/share/bash-completion/completions-core/dot.bash /usr/share/bash-completion/completions-fallback/infracost.bash /usr/share/bash-completion/completions-fallback/dapr.bash /usr/share/bash-completion/completions-core/cowthink.bash /usr/share/bash-completion/completions-fallba
+ ck/trash-list.bash /usr/share/bash-completion/completions-fallback/shtab.bash /usr/share/bash-completion/completions-fallback/velero.bash /usr/share/bash-completion/completions-core/pm-suspend-hybrid.bash /usr/share/bash-completion/completions-core/vgcfgbackup.bash /usr/share/bash-completion/completions-fallback/caddy.bash /usr/share/bash-completion/completions-fallback/cargo.bash /usr/share/bash-completion/completions-core/perlcritic.bash /usr/share/bash-completion/completions-fallback/ansible-pull.bash /usr/share/bash-completion/completions-fallback/chfn.bash /usr/share/bash-completion/completions-fallback/chsh.bash /usr/share/bash-completion/completions-core/sysctl.bash /usr/share/bash-completion/completions-core/7z.bash /usr/share/bash-completion/completions-core/bk.bash /usr/share/bash-completion/completions-core/cc.bash /usr/share/bash-completion/completions-core/cd.bash /usr/share/bash-completion/completions-core/ci.bash /usr/share/bash-completion/completions-core/co.bash /us
+ r/share/bash-completion/completions-core/dd.bash /usr/share/bash-completion/completions-core/g4.bash /usr/share/bash-completion/completions-core/gm.bash /usr/share/bash-completion/completions-core/id.bash /usr/share/bash-completion/completions-core/xgamma.bash /usr/share/bash-completion/completions-core/cpan2dist.bash /usr/share/bash-completion/completions-core/sha224sum.bash /usr/share/bash-completion/completions-fallback/ko.bash /usr/share/bash-completion/completions-fallback/oc.bash /usr/share/bash-completion/completions-fallback/ncal.bash /usr/share/bash-completion/completions-core/g++-8.bash /usr/share/bash-completion/completions-core/gcc-8.bash /usr/share/bash-completion/completions-fallback/tfctl.bash /usr/share/bash-completion/completions-core/ldappasswd.bash /usr/share/bash-completion/completions-core/luac50.bash /usr/share/bash-completion/completions-fallback/diffoci.bash /usr/share/bash-completion/completions-fallback/gsctl.bash /usr/share/bash-completion/completions-core
+ /snownews.bash /usr/share/bash-completion/completions-core/sha384sum.bash /usr/share/bash-completion/completions-fallback/clusterctl.bash /usr/share/bash-completion/completions-fallback/update-alternatives.bash /usr/share/bash-completion/completions-core/lvcreate.bash /usr/share/bash-completion/completions-core/pvcreate.bash /usr/share/bash-completion/completions-core/vgcreate.bash /usr/share/bash-completion/completions-core/lvremove.bash /usr/share/bash-completion/completions-core/pvremove.bash /usr/share/bash-completion/completions-core/vgremove.bash /usr/share/bash-completion/completions-core/pm-is-supported.bash /usr/share/bash-completion/completions-core/google-chrome.bash /usr/share/bash-completion/completions-core/iperf3.bash /usr/share/bash-completion/completions-core/groupmems.bash /usr/share/bash-completion/completions-fallback/pluto.bash /usr/share/bash-completion/completions-core/installpkg.bash /usr/share/bash-completion/completions-core/py.test-2.bash /usr/share/bash-c
+ ompletion/completions-core/py.test-3.bash /usr/share/bash-completion/completions-fallback/asdf.bash /usr/share/bash-completion/completions-fallback/sshi.bash /usr/share/bash-completion/completions-core/luac5.0.bash /usr/share/bash-completion/completions-fallback/flask.bash /usr/share/bash-completion/completions-core/xvfb-run.bash /usr/share/bash-completion/completions-core/e2freefrag.bash /usr/share/bash-completion/completions-core/munin-node-configure.bash /usr/share/bash-completion/completions-fallback/dprint.bash /usr/share/bash-completion/completions-core/pydoc3.13.bash /usr/share/bash-completion/completions-core/pydoc3.14.bash /usr/share/bash-completion/completions-core/pydoc3.15.bash /usr/share/bash-completion/completions-fallback/kubemqctl.bash /usr/share/bash-completion/completions-core/pccardctl.bash /usr/share/bash-completion/completions-core/reportbug.bash /usr/share/bash-completion/completions-core/ipmitool.bash /usr/share/bash-completion/completions-core/mii-tool.bash /
+ usr/share/bash-completion/completions-core/vgs.bash /usr/share/bash-completion/completions-core/jar.bash /usr/share/bash-completion/completions-core/jps.bash /usr/share/bash-completion/completions-core/k3b.bash /usr/share/bash-completion/completions-core/lpq.bash /usr/share/bash-completion/completions-core/lpr.bash /usr/share/bash-completion/completions-core/lua.bash /usr/share/bash-completion/completions-core/lvm.bash /usr/share/bash-completion/completions-core/lvs.bash /usr/share/bash-completion/completions-core/gcj.bash /usr/share/bash-completion/completions-fallback/ansible-galaxy.bash /usr/share/bash-completion/completions-core/luseradd.bash /usr/share/bash-completion/completions-core/sparc-koji.bash /usr/share/bash-completion/completions-core/hping3.bash /usr/share/bash-completion/completions-core/update-rc.d.bash /usr/share/bash-completion/completions-fallback/slackpkg.bash /usr/share/bash-completion/completions-fallback/mockery.bash /usr/share/bash-completion/completions-fal
+ lback/modinfo.bash /usr/share/bash-completion/completions-fallback/modules.bash /usr/share/bash-completion/completions-core/list_admins.bash /usr/share/bash-completion/completions-core/dsniff.bash /usr/share/bash-completion/completions-core/inotifywait.bash /usr/share/bash-completion/completions-core/aptitude-curses.bash /usr/share/bash-completion/completions-core/typeset.bash /usr/share/bash-completion/completions-fallback/metalctl.bash /usr/share/bash-completion/completions-core/mplayer2.bash /usr/share/bash-completion/completions-fallback/cilium.bash /usr/share/bash-completion/completions-fallback/crc.bash /usr/share/bash-completion/completions-core/sbopkg.bash /usr/share/bash-completion/completions-fallback/rmmod.bash /usr/share/bash-completion/completions-core/desktop-file-validate.bash /usr/share/bash-completion/completions-fallback/svnlook.bash /usr/share/bash-completion/completions-core/conjure.bash /usr/share/bash-completion/completions-core/passwd.bash /usr/share/bash-comp
+ letion/completions-core/ldapadd.bash /usr/share/bash-completion/completions-core/ssh-add.bash /usr/share/bash-completion/completions-core/useradd.bash /usr/share/bash-completion/completions-fallback/ansible-playbook.bash /usr/share/bash-completion/completions-core/hciattach.bash /usr/share/bash-completion/completions-core/bzip2.bash /usr/share/bash-completion/completions-core/gpgv2.bash /usr/share/bash-completion/completions-core/lua52.bash /usr/share/bash-completion/completions-fallback/tctl.bash /usr/share/bash-completion/completions-fallback/mock.bash /usr/share/bash-completion/completions-core/pyflakes.bash /usr/share/bash-completion/completions-core/freeciv-sdl.bash /usr/share/bash-completion/completions-core/freeciv-xaw.bash /usr/share/bash-completion/completions-core/iscsiadm.bash /usr/share/bash-completion/completions-core/abook.bash /usr/share/bash-completion/completions-core/grpck.bash /usr/share/bash-completion/completions-core/quotacheck.bash /usr/share/bash-completion/c
+ ompletions-core/tracepath.bash /usr/share/bash-completion/completions-core/pgrep.bash /usr/share/bash-completion/completions-fallback/stripe.bash /usr/share/bash-completion/completions-core/slabtop.bash /usr/share/bash-completion/completions-fallback/gcrane.bash /usr/share/bash-completion/completions-fallback/nmcli.bash /usr/share/bash-completion/completions-core/dropdb.bash /usr/share/bash-completion/completions-core/dumpdb.bash /usr/share/bash-completion/completions-fallback/gaiacli.bash /usr/share/bash-completion/completions-fallback/watchexec.bash /usr/share/bash-completion/completions-core/gendiff.bash /usr/share/bash-completion/completions-core/rcsdiff.bash /usr/share/bash-completion/completions-fallback/dmesg.bash /usr/share/bash-completion/completions-core/autorpm.bash /usr/share/bash-completion/completions-core/luac5.2.bash /usr/share/bash-completion/completions-core/lua54.bash /usr/share/bash-completion/completions-core/ping4.bash /usr/share/bash-completion/completions-cor
+ e/gcl.bash /usr/share/bash-completion/completions-core/gdb.bash /usr/share/bash-completion/completions-core/hping.bash /usr/share/bash-completion/completions-core/phing.bash /usr/share/bash-completion/completions-core/gpc.bash /usr/share/bash-completion/completions-core/gpg.bash /usr/share/bash-completion/completions-core/f95.bash /usr/share/bash-completion/completions-core/fbi.bash /usr/share/bash-completion/completions-core/groupadd.bash /usr/share/bash-completion/completions-core/apropos.bash /usr/share/bash-completion/completions-core/iwpriv.bash /usr/share/bash-completion/completions-core/compare.bash /usr/share/bash-completion/completions-core/declare.bash /usr/share/bash-completion/completions-core/userdel.bash /usr/share/bash-completion/completions-core/appdata-validate.bash /usr/share/bash-completion/completions-fallback/cal.bash /usr/share/bash-completion/completions-fallback/kubebuilder.bash /usr/share/bash-completion/completions-core/patch.bash /usr/share/bash-completion
+ /completions-core/lvmdiskscan.bash /usr/share/bash-completion/completions-fallback/odo.bash /usr/share/bash-completion/completions-core/gccgo-7.bash /usr/share/bash-completion/completions-core/geoiplookup6.bash /usr/share/bash-completion/completions-core/vgdisplay.bash /usr/share/bash-completion/completions-core/lvdisplay.bash /usr/share/bash-completion/completions-core/influx.bash /usr/share/bash-completion/completions-core/pvdisplay.bash /usr/share/bash-completion/completions-fallback/ignite.bash /usr/share/bash-completion/completions-fallback/dselect.bash /usr/share/bash-completion/completions-fallback/kubelogin.bash /usr/share/bash-completion/completions-fallback/ctlptl.bash /usr/share/bash-completion/completions-core/arping.bash /usr/share/bash-completion/completions-core/chrpath.bash /usr/share/bash-completion/completions-core/crontab.bash /usr/share/bash-completion/completions-core/l2ping.bash /usr/share/bash-completion/completions-core/muttng.bash /usr/share/bash-completion/
+ completions-fallback/moldy.bash /usr/share/bash-completion/completions-fallback/mount.bash /usr/share/bash-completion/completions-core/mdtool.bash /usr/share/bash-completion/completions-core/py.test.bash /usr/share/bash-completion/completions-core/civclient.bash /usr/share/bash-completion/completions-core/smbclient.bash /usr/share/bash-completion/completions-core/synclient.bash /usr/share/bash-completion/completions-core/zopflipng.bash /usr/share/bash-completion/completions-core/xrandr.bash /usr/share/bash-completion/completions-core/slapt-get.bash /usr/share/bash-completion/completions-core/slapt-src.bash /usr/share/bash-completion/completions-core/tcpkill.bash /usr/share/bash-completion/completions-core/opera.bash /usr/share/bash-completion/completions-core/quota.bash /usr/share/bash-completion/completions-core/resolvconf.bash /usr/share/bash-completion/completions-core/chromium.bash /usr/share/bash-completion/completions-core/xdg-mime.bash /usr/share/bash-completion/completions-c
+ ore/gccgo-8.bash /usr/share/bash-completion/completions-core/sha512sum.bash /usr/share/bash-completion/completions-fallback/ansible.bash /usr/share/bash-completion/completions-core/lvchange.bash /usr/share/bash-completion/completions-core/pvchange.bash /usr/share/bash-completion/completions-core/vgchange.bash /usr/share/bash-completion/completions-core/asciidoc.bash /usr/share/bash-completion/completions-core/mkinitrd.bash /usr/share/bash-completion/completions-fallback/aqua.bash /usr/share/bash-completion/completions-core/munin-run.bash /usr/share/bash-completion/completions-core/luac54.bash /usr/share/bash-completion/completions-core/lua5.3.bash /usr/share/bash-completion/completions-fallback/newgrp.bash /usr/share/bash-completion/completions-fallback/httpx.bash /usr/share/bash-completion/completions-core/b2sum.bash /usr/share/bash-completion/completions-core/cksum.bash /usr/share/bash-completion/completions-core/mdadm.bash /usr/share/bash-completion/completions-core/pkgrm.bash /u
+ sr/share/bash-completion/completions-core/wodim.bash /usr/share/bash-completion/completions-core/lvresize.bash /usr/share/bash-completion/completions-core/lvreduce.bash /usr/share/bash-completion/completions-core/radvdump.bash /usr/share/bash-completion/completions-core/gkrellm.bash /usr/share/bash-completion/completions-core/vgreduce.bash /usr/share/bash-completion/completions-fallback/golangci-lint.bash /usr/share/bash-completion/completions-core/carton.bash /usr/share/bash-completion/completions-core/pyston.bash /usr/share/bash-completion/completions-core/python.bash /usr/share/bash-completion/completions-core/getent.bash /usr/share/bash-completion/completions-core/jshint.bash /usr/share/bash-completion/completions-core/pylint.bash /usr/share/bash-completion/completions-core/7zzs.bash /usr/share/bash-completion/completions-core/prelink.bash /usr/share/bash-completion/completions-fallback/slsa-verifier.bash /usr/share/bash-completion/completions-core/alias.bash /usr/share/bash-com
+ pletion/completions-core/cvsps.bash /usr/share/bash-completion/completions-core/groupdel.bash /usr/share/bash-completion/completions-core/ipcalc.bash /usr/share/bash-completion/completions-core/links.bash /usr/share/bash-completion/completions-core/qdbus.bash /usr/share/bash-completion/completions-core/sshfs.bash /usr/share/bash-completion/completions-core/fprintd-verify.bash /usr/share/bash-completion/completions-core/identify.bash /usr/share/bash-completion/completions-core/function.bash /usr/share/bash-completion/completions-core/perltidy.bash /usr/share/bash-completion/completions-core/gnome-mplayer.bash /usr/share/bash-completion/completions-core/brave-browser.bash /usr/share/bash-completion/completions-core/pkg-config.bash /usr/share/bash-completion/completions-core/createuser.bash /usr/share/bash-completion/completions-core/mmsitepass.bash /usr/share/bash-completion/completions-core/checksec.bash /usr/share/bash-completion/completions-core/whatis.bash /usr/share/bash-completi
+ on/completions-core/list_owners.bash /usr/share/bash-completion/completions-core/pdftoppm.bash /usr/share/bash-completion/completions-core/usermod.bash /usr/share/bash-completion/completions-fallback/go-licenses.bash /usr/share/bash-completion/completions-core/freeciv-server.bash /usr/share/bash-completion/completions-core/vgsplit.bash /usr/share/bash-completion/completions-core/luac51.bash /usr/share/bash-completion/completions-fallback/just.bash /usr/share/bash-completion/completions-fallback/dpkg-deb.bash /usr/share/bash-completion/completions-fallback/bosh.bash /usr/share/bash-completion/completions-fallback/insmod.bash /usr/share/bash-completion/completions-core/sha256sum.bash /usr/share/bash-completion/completions-fallback/colima.bash /usr/share/bash-completion/completions-fallback/consul.bash /usr/share/bash-completion/completions-fallback/cosign.bash /usr/share/bash-completion/completions-core/monodevelop.bash /usr/share/bash-completion/completions-core/pycodestyle.bash /usr
+ /share/bash-completion/completions-core/ldapwhoami.bash /usr/share/bash-completion/completions-core/luac5.1.bash /usr/share/bash-completion/completions-fallback/svn.bash /usr/share/bash-completion/completions-core/iwconfig.bash /usr/share/bash-completion/completions-fallback/sentry-cli.bash /usr/share/bash-completion/completions-core/dumpe2fs.bash /usr/share/bash-completion/completions-core/rpcdebug.bash /usr/share/bash-completion/completions-core/vgmerge.bash /usr/share/bash-completion/completions-core/xfreerdp.bash /usr/share/bash-completion/completions-fallback/tilt.bash /usr/share/bash-completion/completions-core/gnokii.bash /usr/share/bash-completion/completions-core/ldapcompare.bash /usr/share/bash-completion/completions-core/ssh-copy-id.bash /usr/share/bash-completion/completions-fallback/udevadm.bash /usr/share/bash-completion/completions-fallback/rtcwake.bash /usr/share/bash-completion/completions-fallback/pitchfork.bash /usr/share/bash-completion/completions-fallback/apko.
+ bash /usr/share/bash-completion/completions-fallback/waydroid.bash /usr/share/bash-completion/completions-fallback/nomad.bash /usr/share/bash-completion/completions-fallback/vault.bash /usr/share/bash-completion/completions-core/s390-koji.bash /usr/share/bash-completion/completions-core/lzma.bash /usr/share/bash-completion/completions-core/lzop.bash /usr/share/bash-completion/completions-core/make.bash /usr/share/bash-completion/completions-core/mutt.bash /usr/share/bash-completion/completions-core/mypy.bash /usr/share/bash-completion/completions-core/nmap.bash /usr/share/bash-completion/completions-core/perl.bash /usr/share/bash-completion/completions-core/sbcl.bash /usr/share/bash-completion/completions-core/sftp.bash /usr/share/bash-completion/completions-core/star.bash /usr/share/bash-completion/completions-core/screen.bash /usr/share/bash-completion/completions-fallback/ansible-console.bash /usr/share/bash-completion/completions-core/lua5.4.bash /usr/share/bash-completion/compl
+ etions-core/ifdown.bash /usr/share/bash-completion/completions-fallback/diesel.bash /usr/share/bash-completion/completions-core/display.bash /usr/share/bash-completion/completions-fallback/mtr.bash /usr/share/bash-completion/completions-core/gccgo-5.bash /usr/share/bash-completion/completions-fallback/deck.bash /usr/share/bash-completion/completions-fallback/deno.bash /usr/share/bash-completion/completions-core/fsnotifywatch.bash /usr/share/bash-completion/completions-fallback/talhelper.bash /usr/share/bash-completion/completions-fallback/stern.bash /usr/share/bash-completion/completions-fallback/cmctl.bash /usr/share/bash-completion/completions-core/svcadm.bash /usr/share/bash-completion/completions-fallback/todoist.bash /usr/share/bash-completion/completions-fallback/ytt.bash /usr/share/bash-completion/completions-fallback/vela.bash /usr/share/bash-completion/completions-fallback/cloudquery.bash /usr/share/bash-completion/completions-core/puppetd.bash /usr/share/bash-completion/co
+ mpletions-core/postfix.bash /usr/share/bash-completion/completions-fallback/kompose.bash /usr/share/bash-completion/completions-fallback/kontena.bash /usr/share/bash-completion/completions-core/filebucket.bash /usr/share/bash-completion/completions-fallback/packer.bash /usr/share/bash-completion/completions-core/pdftotext.bash /usr/share/bash-completion/completions-fallback/trash.bash /usr/share/bash-completion/completions-fallback/trivy.bash /usr/share/bash-completion/completions-fallback/conftest.bash /usr/share/bash-completion/completions-fallback/tkn.bash /usr/share/bash-completion/completions-core/querybts.bash /usr/share/bash-completion/completions-fallback/imgpkg.bash /usr/share/bash-completion/completions-fallback/mattermost.bash /usr/share/bash-completion/completions-core/list_lists.bash /usr/share/bash-completion/completions-fallback/trash-empty.bash /usr/share/bash-completion/completions-core/badblocks.bash /usr/share/bash-completion/completions-core/postmap.bash /usr/sha
+ re/bash-completion/completions-core/xmodmap.bash /usr/share/bash-completion/completions-fallback/kafkactl.bash /usr/share/bash-completion/completions-fallback/jj.bash /usr/share/bash-completion/completions-core/flake8.bash /usr/share/bash-completion/completions-core/pngfix.bash /usr/share/bash-completion/completions-fallback/hexdump.bash /usr/share/bash-completion/completions-core/cardctl.bash /usr/share/bash-completion/completions-core/ssh-keygen.bash /usr/share/bash-completion/completions-fallback/tldr.bash /usr/share/bash-completion/completions-core/iwlist.bash /usr/share/bash-completion/completions-core/pytest.bash /usr/share/bash-completion/completions-core/rmlist.bash /usr/share/bash-completion/completions-fallback/tendermint.bash /usr/share/bash-completion/completions-core/autossh.bash /usr/share/bash-completion/completions-fallback/kata-runtime.bash /usr/share/bash-completion/completions-fallback/runuser.bash /usr/share/bash-completion/completions-core/pack200.bash /usr/shar
+ e/bash-completion/completions-fallback/sinker.bash /usr/share/bash-completion/completions-core/pyston3.bash /usr/share/bash-completion/completions-core/python3.bash /usr/share/bash-completion/completions-core/luac5.3.bash /usr/share/bash-completion/completions-core/rpmbuild.bash /usr/share/bash-completion/completions-fallback/furyctl.bash /usr/share/bash-completion/completions-fallback/conform.bash /usr/share/bash-completion/completions-fallback/copilot.bash /usr/share/bash-completion/completions-fallback/npm.bash /usr/share/bash-completion/completions-core/autoscan.bash /usr/share/bash-completion/completions-core/chpasswd.bash /usr/share/bash-completion/completions-core/htpasswd.bash /usr/share/bash-completion/completions-core/ktutil.bash /usr/share/bash-completion/completions-core/sidedoor.bash /usr/share/bash-completion/completions-fallback/kubectl-argo-rollouts.bash /usr/share/bash-completion/completions-core/freeciv-gtk2.bash /usr/share/bash-completion/completions-core/freeciv-
+ gtk3.bash /usr/share/bash-completion/completions-core/complete.bash /usr/share/bash-completion/completions-core/postcat.bash /usr/share/bash-completion/completions-fallback/buf.bash /usr/share/bash-completion/completions-core/openssl.bash /usr/share/bash-completion/completions-core/smartctl.bash /usr/share/bash-completion/completions-fallback/allero.bash /usr/share/bash-completion/completions-fallback/crane.bash /usr/share/bash-completion/completions-fallback/kind.bash /usr/share/bash-completion/completions-core/genisoimage.bash /usr/share/bash-completion/completions-fallback/secret-tool.bash /usr/share/bash-completion/completions-core/autoconf.bash /usr/share/bash-completion/completions-core/cdrecord.bash /usr/share/bash-completion/completions-fallback/spacectl.bash /usr/share/bash-completion/completions-core/postconf.bash /usr/share/bash-completion/completions-core/sitecopy.bash /usr/share/bash-completion/completions-core/pm-hibernate.bash /usr/share/bash-completion/completions-co
+ re/find_member.bash /usr/share/bash-completion/completions-core/compgen.bash /usr/share/bash-completion/completions-core/json_xs.bash /usr/share/bash-completion/completions-fallback/pip.bash /usr/share/bash-completion/completions-core/luac5.4.bash /usr/share/bash-completion/completions-core/plague-client.bash /usr/share/bash-completion/completions-core/bts.bash /usr/share/bash-completion/completions-core/c++.bash /usr/share/bash-completion/completions-core/cvs.bash /usr/share/bash-completion/completions-core/env.bash /usr/share/bash-completion/completions-core/eog.bash /usr/share/bash-completion/completions-core/f77.bash /usr/share/bash-completion/completions-core/7zz.bash /usr/share/bash-completion/completions-core/set.bash /usr/share/bash-completion/completions-core/ssh.bash /usr/share/bash-completion/completions-core/svk.bash /usr/share/bash-completion/completions-core/cowsay.bash /usr/share/bash-completion/completions-core/povray.bash /usr/share/bash-completion/completions-core/
+ wvdial.bash /usr/share/bash-completion/completions-core/pyvenv.bash /usr/share/bash-completion/completions-fallback/minikube.bash /usr/share/bash-completion/completions-fallback/qrpc.bash /usr/share/bash-completion/completions-core/ciptool.bash /usr/share/bash-completion/completions-core/dfutool.bash /usr/share/bash-completion/completions-core/hcitool.bash /usr/share/bash-completion/completions-core/pkgtool.bash /usr/share/bash-completion/completions-core/rrdtool.bash /usr/share/bash-completion/completions-core/sdptool.bash /usr/share/bash-completion/completions-core/hash.bash /usr/share/bash-completion/completions-core/help.bash /usr/share/bash-completion/completions-core/host.bash /usr/share/bash-completion/completions-core/htop.bash /usr/share/bash-completion/completions-fallback/timoni.bash /usr/share/bash-completion/completions-core/luac53.bash /usr/share/bash-completion/completions-core/wine-stable.bash /usr/share/bash-completion/completions-core/munin-update.bash /usr/share/b
+ ash-completion/completions-core/quotaoff.bash /usr/share/bash-completion/completions-fallback/uv.bash /usr/share/bash-completion/completions-core/dhclient.bash /usr/share/bash-completion/completions-core/7za.bash /usr/share/bash-completion/completions-core/7zr.bash /usr/share/bash-completion/completions-fallback/cue.bash /usr/share/bash-completion/completions-fallback/atlas.bash /usr/share/bash-completion/completions-core/avctrl.bash /usr/share/bash-completion/completions-fallback/ansible-config.bash /usr/share/bash-completion/completions-fallback/atmos.bash /usr/share/bash-completion/completions-fallback/wasmer.bash /usr/share/bash-completion/completions-fallback/chamber.bash /usr/share/bash-completion/completions-core/tshark.bash /usr/share/bash-completion/completions-fallback/changie.bash /usr/share/bash-completion/completions-fallback/chezmoi.bash /usr/share/bash-completion/completions-core/gssdp-discover.bash /usr/share/bash-completion/completions-core/gkrellm2.bash /usr/share/
+ bash-completion/completions-core/automake-1.11.bash /usr/share/bash-completion/completions-fallback/arduino-cli.bash /usr/share/bash-completion/completions-core/ipsec.bash /usr/share/bash-completion/completions-core/javac.bash /usr/share/bash-completion/completions-core/nproc.bash /usr/share/bash-completion/completions-core/pydoc.bash /usr/share/bash-completion/completions-core/apache2ctl.bash /usr/share/bash-completion/completions-core/autoheader.bash /usr/share/bash-completion/completions-core/rsync.bash /usr/share/bash-completion/completions-core/xzdec.bash /usr/share/bash-completion/completions-core/hunspell.bash /usr/share/bash-completion/completions-core/sqlite3.bash /usr/share/bash-completion/completions-fallback/trash-restore.bash /usr/share/bash-completion/completions-core/autoreconf.bash /usr/share/bash-completion/completions-fallback/bombadil.bash /usr/share/bash-completion/completions-fallback/skaffold.bash /usr/share/bash-completion/completions-core/automake-1.13.bash /
+ usr/share/bash-completion/completions-fallback/kyverno.bash /usr/share/bash-completion/completions-fallback/wasmer-headless.bash /usr/share/bash-completion/completions-fallback/popeye.bash /usr/share/bash-completion/completions-core/e2label.bash /usr/share/bash-completion/completions-fallback/devspace.bash /usr/share/bash-completion/completions-core/edquota.bash /usr/share/bash-completion/completions-core/gnome-screenshot.bash /usr/share/bash-completion/completions-fallback/k3d.bash /usr/share/bash-completion/completions-core/plzip.bash /usr/share/bash-completion/completions-core/chgrp.bash /usr/share/bash-completion/completions-core/clisp.bash /usr/share/bash-completion/completions-core/clzip.bash /usr/share/bash-completion/completions-core/iftop.bash /usr/share/bash-completion/completions-core/jsonschema.bash /usr/share/bash-completion/completions-core/javaws.bash /usr/share/bash-completion/completions-core/lrzip.bash /usr/share/bash-completion/completions-core/ncftp.bash /usr/sha
+ re/bash-completion/completions-core/ngrep.bash /usr/share/bash-completion/completions-core/fbgs.bash /usr/share/bash-completion/completions-core/file.bash /usr/share/bash-completion/completions-core/find.bash /usr/share/bash-completion/completions-core/free.bash /usr/share/bash-completion/completions-fallback/tanzu-core.bash /usr/share/bash-completion/completions-core/helium.bash /usr/share/bash-completion/completions-core/md5sum.bash /usr/share/bash-completion/completions-core/shasum.bash /usr/share/bash-completion/completions-core/sha1sum.bash /usr/share/bash-completion/completions-core/automake-1.15.bash /usr/share/bash-completion/completions-core/python3.10.bash /usr/share/bash-completion/completions-core/python3.11.bash /usr/share/bash-completion/completions-core/python3.12.bash /usr/share/bash-completion/completions-core/python3.13.bash /usr/share/bash-completion/completions-core/python3.14.bash /usr/share/bash-completion/completions-core/python3.15.bash /usr/share/bash-comple
+ tion/completions-fallback/helmfile.bash /usr/share/bash-completion/completions-core/mozilla-firefox.bash /usr/share/bash-completion/completions-fallback/hostctl.bash /usr/share/bash-completion/completions-core/cfrun.bash /usr/share/bash-completion/completions-core/chown.bash /usr/share/bash-completion/completions-core/pwgen.bash /usr/share/bash-completion/completions-core/zopfli.bash /usr/share/bash-completion/completions-core/yum-arch.bash /usr/share/bash-completion/completions-fallback/dpkg-query.bash /usr/share/bash-completion/completions-core/lsscsi.bash /usr/share/bash-completion/completions-core/getconf.bash /usr/share/bash-completion/completions-core/chronyc.bash /usr/share/bash-completion/completions-core/pkgconf.bash /usr/share/bash-completion/completions-fallback/kube-capacity.bash /usr/share/bash-completion/completions-core/removepkg.bash /usr/share/bash-completion/completions-core/idn.bash /usr/share/bash-completion/completions-fallback/alp.bash /usr/share/bash-completio
+ n/completions-core/apt-get.bash /usr/share/bash-completion/completions-core/lftpget.bash /usr/share/bash-completion/completions-core/pkg-get.bash /usr/share/bash-completion/completions-core/lua5.1.bash /usr/share/bash-completion/completions-core/mii-diag.bash /usr/share/bash-completion/completions-core/lvscan.bash /usr/share/bash-completion/completions-core/pvscan.bash /usr/share/bash-completion/completions-core/vgscan.bash /usr/share/bash-completion/completions-core/configure.bash /usr/share/bash-completion/completions-core/gphoto2.bash /usr/share/bash-completion/completions-core/jarsigner.bash /usr/share/bash-completion/completions-fallback/ansible-vault.bash /usr/share/bash-completion/completions-fallback/opencode.bash /usr/share/bash-completion/completions-core/pydocstyle.bash /usr/share/bash-completion/completions-core/makepkg.bash /usr/share/bash-completion/completions-core/fprintd-enroll.bash /usr/share/bash-completion/completions-core/ecryptfs-migrate-home.bash /usr/share/ba
+ sh-completion/completions-core/hddtemp.bash /usr/share/bash-completion/completions-fallback/melange.bash /usr/share/bash-completion/completions-fallback/oras.bash /usr/share/bash-completion/completions-core/stream.bash /usr/share/bash-completion/completions-core/strings.bash /usr/share/bash-completion/completions-fallback/incus.bash /usr/share/bash-completion/completions-fallback/glab.bash /usr/share/bash-completion/completions-fallback/glen.bash /usr/share/bash-completion/completions-fallback/glow.bash /usr/share/bash-completion/completions-core/mencoder.bash /usr/share/bash-completion/completions-fallback/ty.bash /usr/share/bash-completion/completions-core/mktemp.bash /usr/share/bash-completion/completions-fallback/dlv.bash /usr/share/bash-completion/completions-fallback/lefthook.bash /usr/share/bash-completion/completions-fallback/interdiff.bash /usr/share/bash-completion/completions-core/hid2hci.bash /usr/share/bash-completion/completions-core/export.bash /usr/share/bash-complet
+ ion/completions-core/import.bash /usr/share/bash-completion/completions-core/chrome.bash /usr/share/bash-completion/completions-fallback/modprobe.bash /usr/share/bash-completion/completions-fallback/ory.bash /usr/share/bash-completion/completions-fallback/grype.bash /usr/share/bash-completion/completions-core/freeciv.bash /usr/share/bash-completion/completions-fallback/istioctl.bash /usr/share/bash-completion/completions-core/doas.bash /usr/share/bash-completion/completions-core/mkisofs.bash /usr/share/bash-completion/completions-core/wine64-stable.bash /usr/share/bash-completion/completions-core/rpm2txz.bash /usr/share/bash-completion/completions-core/automake-1.12.bash /usr/share/bash-completion/completions-core/mysqladmin.bash /usr/share/bash-completion/completions-fallback/mise.bash /usr/share/bash-completion/completions-core/luac52.bash /usr/share/bash-completion/completions-fallback/pnpm.bash /usr/share/bash-completion/completions-core/civserver.bash /usr/share/bash-completion
+ /completions-core/qemu-system-i386.bash /usr/share/bash-completion/completions-fallback/flamegraph.bash /usr/share/bash-completion/completions-core/convert.bash /usr/share/bash-completion/completions-core/vgconvert.bash /usr/share/bash-completion/completions-fallback/ansible-doc.bash /usr/share/bash-completion/completions-core/rfcomm.bash /usr/share/bash-completion/completions-core/ldapvi.bash /usr/share/bash-completion/completions-fallback/upctl.bash /usr/share/bash-completion/completions-fallback/write.bash /usr/share/bash-completion/completions-core/quotaon.bash /usr/share/bash-completion/completions-fallback/look.bash /usr/share/bash-completion/completions-fallback/repomanage.bash /usr/share/bash-completion/completions-fallback/dive.bash /usr/share/bash-completion/completions-fallback/dyff.bash /usr/share/bash-completion/completions-core/ri.bash /usr/share/bash-completion/completions-core/sh.bash /usr/share/bash-completion/completions-core/ss.bash /usr/share/bash-completion/comp
+ letions-core/xz.bash /usr/share/bash-completion/completions-core/vgexport.bash /usr/share/bash-completion/completions-core/ralsh.bash /usr/share/bash-completion/completions-core/watch.bash /usr/share/bash-completion/completions-core/vgimport.bash /usr/share/bash-completion/completions-core/wsimport.bash /usr/share/bash-completion/completions-core/rpm2tgz.bash /usr/share/bash-completion/completions-core/arpspoof.bash /usr/share/bash-completion/completions-core/dnsspoof.bash /usr/share/bash-completion/completions-core/hping2.bash /usr/share/bash-completion/completions-core/larch.bash /usr/share/bash-completion/completions-core/mussh.bash /usr/share/bash-completion/completions-fallback/esc.bash /usr/share/bash-completion/completions-core/gssdp-device-sniffer.bash /usr/share/bash-completion/completions-fallback/tkn-pac.bash /usr/share/bash-completion/completions-fallback/xm.bash /usr/share/bash-completion/completions-core/nslookup.bash /usr/share/bash-completion/completions-core/gccgo-6
+ .bash /usr/share/bash-completion/completions-fallback/pulumi.bash /usr/share/bash-completion/completions-core/links2.bash /usr/share/bash-completion/completions-core/javadoc.bash /usr/share/bash-completion/completions-core/jpegoptim.bash /usr/share/bash-completion/completions-core/perldoc.bash /usr/share/bash-completion/completions-fallback/gomarklint.bash /usr/share/bash-completion/completions-core/tune2fs.bash /usr/share/bash-completion/completions-fallback/mount.linux.bash /usr/share/bash-completion/completions-core/ldapsearch.bash /usr/share/bash-completion/completions-fallback/rclone.bash /usr/share/bash-completion/completions-fallback/mmctl.bash /usr/share/bash-completion/completions-core/2to3.bash /usr/share/bash-completion/completions-core/rlog.bash /usr/share/bash-completion/completions-core/ypmatch.bash /usr/share/bash-completion/completions-core/check_perms.bash /usr/share/bash-completion/completions-core/file-roller.bash /usr/share/bash-completion/completions-core/qrunne
+ r.bash /usr/share/bash-completion/completions-core/fprintd-delete.bash /usr/share/bash-completion/completions-fallback/insmod.static.bash /usr/share/bash-completion/completions-fallback/fx.bash /usr/share/bash-completion/completions-core/ifstatus.bash /usr/share/bash-completion/completions-core/change_pw.bash /usr/share/bash-completion/completions-core/upgradepkg.bash /usr/share/bash-completion/completions-core/vgmknodes.bash /usr/share/bash-completion/completions-fallback/gh.bash /usr/share/bash-completion/completions-fallback/glances.bash /usr/share/bash-completion/completions-core/withlist.bash /usr/share/bash-completion/completions-core/vncviewer.bash /usr/share/bash-completion/completions-core/ps.bash /usr/share/bash-completion/completions-core/pv.bash /usr/share/bash-completion/completions-core/unpack200.bash /usr/share/bash-completion/completions-core/newlist.bash /usr/share/bash-completion/completions-core/pyvenv-3.10.bash /usr/share/bash-completion/completions-core/pyvenv-3
+ .11.bash /usr/share/bash-completion/completions-core/pyvenv-3.12.bash /usr/share/bash-completion/completions-core/pyvenv-3.13.bash /usr/share/bash-completion/completions-core/pyvenv-3.14.bash /usr/share/bash-completion/completions-core/pyvenv-3.15.bash /usr/share/bash-completion/completions-core/xsltproc.bash /usr/share/bash-completion/completions-core/sshmitm.bash /usr/share/bash-completion/completions-core/webmitm.bash /usr/share/bash-completion/completions-core/avahi-browse-domains.bash /usr/share/bash-completion/completions-fallback/cz.bash /usr/share/bash-completion/completions-core/dpkg-reconfigure.bash /usr/share/bash-completion/completions-core/mdecrypt.bash /usr/share/bash-completion/completions-core/valgrind.bash /usr/share/bash-completion/completions-fallback/blackd.bash /usr/share/bash-completion/completions-core/animate.bash /usr/share/bash-completion/completions-core/ntpdate.bash /usr/share/bash-completion/completions-core/cryptsetup.bash /usr/share/bash-completion/com
+ pletions-core/protoc.bash /usr/share/bash-completion/completions-fallback/starship.bash /usr/share/bash-completion/completions-core/automake-1.16.bash /usr/share/bash-completion/completions-core/inotifywatch.bash /usr/share/bash-completion/completions-fallback/krane.bash /usr/share/bash-completion/completions-core/sudo-rs.bash /usr/share/bash-completion/completions-core/xev.bash /usr/share/bash-completion/completions-core/xxd.bash"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PKGSIZE changed from 150458 to 1048173 (+597%)
 
---===============8461105619342298061==
+--===============5714043520528367112==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="bash-completion-changelog.txt"
+
+Q2hhbmdlbG9nIGZvciBiYXNoLWNvbXBsZXRpb246IDIuMTcuMCAtPiAyLjE4LjAKU291cmNlOiBD
+SEFOR0VMT0cubWQKCiMgQ2hhbmdlbG9nCgojIyBbMi4xOC4wXShodHRwczovL2dpdGh1Yi5jb20v
+c2NvcC9iYXNoLWNvbXBsZXRpb24vY29tcGFyZS8yLjE3LjAuLi4yLjE4LjApICgyMDI2LTA3LTA1
+KQoKVGhpcyByZWxlYXNlIGNvbWVzIHdpdGggbm90YWJsZSBjaGFuZ2VzIHRvIHRoZSBkaXJlY3Rv
+cmllcyB1c2VkIGZvcgpsb29raW5nIHVwIGFuZCBzb3VyY2luZyBjb21wbGV0aW9uIHJlY2lwZXMg
+YW5kIGhlbHBlcnMsIGFsbG93aW5nIGZvcgptb3JlIGZsZXhpYmlsaXR5IGFuZCBjdXN0b21pemF0
+aW9uIGFuZCBmZXdlciBjb25mbGljdHMgYmV0d2VlbiB0aGluZ3MKc2hpcHBpbmcgd2l0aCBiYXNo
+LWNvbXBsZXRpb24gYW5kIHRoaXJkIHBhcnR5L3Vwc3RyZWFtL29yaWdpbiBwYWNrYWdlcy4KCkZp
+bGVzIHRoYXQgY29tZSB3aXRoIGJhc2gtY29tcGxldGlvbiBpdHNlbGYgYXJlIGxvY2F0ZWQgaW4g
+ZGlyZWN0b3JpZXMKcmVzZXJ2ZWQgZm9yIHRoYXQgdXNlLCB0aGVpciBuYW1lcyBlbmRpbmcgd2l0
+aCBgLWNvcmVgIGFuZApgLWZhbGxiYWNrYC4gUGFja2FnZXMgc2hvdWxkIGNvbnRpbnVlIGluc3Rh
+bGwgdGhlaXIgZmlsZXMgaW4gdGhlIHNhbWUKYGNvbXBsZXRpb25zYCBhbmQgYGhlbHBlcnNgIGRp
+cnMgbGlrZSBiZWZvcmU7IHRoZXNlIGRpcmVjdG9yaWVzCnByZWNlZGUgdGhlIGJhc2gtY29tcGxl
+dGlvbiAiY29yZSIgb25lcyBpbiBsb29rdXAgb3JkZXIuCgpBIG5ldyBjb25jZXB0IG9mIGBzdGFy
+dHVwYCBkaXJzIGhhcyBiZWVuIGludHJvZHVjZWQuIEZpbGVzIGZyb20gdGhlc2UKZGlyZWN0b3Jp
+ZXMgYXJlIHNvdXJjZWQgZWFnZXJseSBvbiBiYXNoLWNvbXBsZXRpb24gc3RhcnR1cC4gVGhpcwpy
+ZXBsYWNlcyBhbmQgYWxsb3dzIGZvciBtb3JlIGZsZXhpYmlsaXR5IHRoYW4gdXNpbmcgdGhlIGRl
+cHJlY2F0ZWQKYC9ldGMvYmFzaF9jb21wbGV0aW9uLmRgIGRpcmVjdG9yeSBmb3IgdGhpcyBwdXJw
+b3NlLgoKU2VlIFJFQURNRS5tZCBmb3IgbW9yZSBpbmZvcm1hdGlvbi4KCiMjIyBGZWF0dXJlcwoK
+KiAqKl9jb21wX19pbml0OioqIHNvdXJjZSBzeXN0ZW0gc3RhcnR1cCBmaWxlcyBlYXJsaWVyIChb
+YjA5NzAwZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9i
+MDk3MDBkZGEyOWI1NmZiODk4MTJlMTIxNTk1NmE2MzFjYzdjODQ4KSkKKiAqKl9jb21wX2NvbXBn
+ZW5fZmlsZWRpcjoqKiBhdXRvbWF0aWNhbGx5IGFkZCBgLWZgIG9uIF9jb21wX2NvbXBnZW4gYC1D
+YCBvciBgLVBgIChbIzE1NTJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
+bi9pc3N1ZXMvMTU1MikpIChbNmQ1ZmNhNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
+b21wbGV0aW9uL2NvbW1pdC82ZDVmY2E2ZWFlYjRlMzM3NTBhMTg3MDcyZWZjZWVjZDIyZTgyMzQ2
+KSkKKiAqKl9jb21wX2NvbXBnZW5fZmlsZWRpcjoqKiBzdXBwb3J0ICJmaWxlZGlyIC1YIiAoW2Nl
+Mjg0MTldKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvY2Uy
+ODQxOTExYzdhM2Y1YTA1NmI2YTMxMDAzOGYwZGYxN2E4ZGE0MikpCiogKipfY29tcF9jb21wZ2Vu
+X3N5c3Zfc2VydmljZXM6KiogZmFjdG9yaXplIFN5c1Ygc2VydmljZSBnZW5lcmF0aW9uIChbYzRj
+OGM0Yl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jNGM4
+YzRiNTQwNDBkNGFjYzI2ODhlZDhmYzA0MDMzMGQ5NjRmZTEyKSkKKiAqKmFjbG9jYWwsYXV0b21h
+a2U6Kiogc3VwcG9ydCB2ZXJzaW9uZWQgMS4xNyBleGVjdXRhYmxlcyAoWzk0YmJiM2FdKGh0dHBz
+Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvOTRiYmIzYTFiNmZhZmVh
+Yzk2YzI3ZTE4OTlkZDVlZmM5MjBhNmE4OSkpCiogKiphY2xvY2FsLGF1dG9tYWtlOioqIHN1cHBv
+cnQgdmVyc2lvbmVkIDEuMTggZXhlY3V0YWJsZXMgKFs5Mjg3YjRiXShodHRwczovL2dpdGh1Yi5j
+b20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzkyODdiNGJlMmQ0OWJlODczYWRlZDNmYjQw
+ZjU2MzgwZmQ4Zjk3ZDgpKQoqICoqYXB0LSo6KiogdXBkYXRlIGtub3duIG9wdGlvbnMgdXAgdG8g
+YXB0IDMuMi4wIChbYzQyMWQ1MF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
+aW9uL2NvbW1pdC9jNDIxZDUwOGI2ZDkyMmVlNDMzNjRmZDllMGQ5YmMzYmRkYjVmNTZjKSkKKiAq
+KmFwdC1jYWNoZToqKiB1cGRhdGUga25vd24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFswYWI4
+NWM1XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBhYjg1
+YzVmZjJjMzkzMDBhY2ZjZTBhZmRlMmU2NWI3MDdlMzE0YjQpKQoqICoqYXB0LWdldDoqKiB1cGRh
+dGUga25vd24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFs2YTE4ZTBjXShodHRwczovL2dpdGh1
+Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzZhMThlMGMwY2YxMWM5YmUxNjYxNmJj
+ODE3ZjQ2MTNjYjliYTk1YjApKQoqICoqYXB0LW1hcms6KiogdXBkYXRlIGtub3duIG9wdGlvbnMg
+dXAgdG8gYXB0IDMuMi4wIChbNjQ0YTAyNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
+b21wbGV0aW9uL2NvbW1pdC82NDRhMDI2OGMxMTdjOThhNjkxNWRmZDIzNTQ4YTNhOGI4ZGVmNmRi
+KSkKKiAqKmNvZGV4OioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzBm
+NDI1YmRdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMGY0
+MjViZDM3YzI5ODJiNzBmNmMyY2U4NjVlZWFlMGFmMDVhNzE1ZCkpCiogKipjb3BpbG90OioqIDNy
+ZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzc0NDYwMmFdKGh0dHBzOi8vZ2l0
+aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvNzQ0NjAyYWM2NGRjMjQ1ODZlMjQ5
+MjgxMzc1MWNjMzhhMGFlZjJkNykpCiogKipjdXJsaWU6KiogYWxpYXMgdG8gY3VybCAoW2RkOGY2
+ZTBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZGQ4ZjZl
+MGJmODM3OTQwM2Y0MzRmNzMyZDU2OGJjMTVjMTZiOTgwOSkpCiogKipjdXJsOioqIG1vcmUgb3B0
+aW9uIGFyZ3VtZW50IChub24tKWNvbXBsZXRpb25zIChbNTA5OWNlZl0oaHR0cHM6Ly9naXRodWIu
+Y29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC81MDk5Y2VmMTNmZjcxZDE2NjI0M2VmNjY3
+Nzc2MjBkMGY4ZTcxNGI2KSkKKiAqKmRpdmU6KiogYWRkIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21w
+bGV0aW9uIGxvYWRlciAoW2Y4MTdjY2FdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29t
+cGxldGlvbi9jb21taXQvZjgxN2NjYWJlOGRiNjMxYjk2ZDRiODQ3ODRiYjAxMDkzMzllZWJhZSkp
+CiogKipkb2FzOioqIGFkZCBuZXcgY29tcGxldGlvbiAoW2YwNDdiNzBdKGh0dHBzOi8vZ2l0aHVi
+LmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZjA0N2I3MGYxNDBkMmNhMTE4NjUzOWY1
+ZTJiZjg2YTBkNzk3YWExOSkpCiogKipkb2FzOioqIGdlbmVyYXRlIGNvbXBsZXRpb25zIGFzIGlm
+IHdlJ3JlIHJvb3QgKFthNzA1NzEzXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
+ZXRpb24vY29tbWl0L2E3MDU3MTNmOGE1Nzg1ZDhlMGEzNzMyMjQxMzhkMjQ5NzdiYzU4NjUpKQoq
+ICoqZW5jb3JlOioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzFlNTRk
+MDJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMWU1NGQw
+MjdlZmJjNDdjNmE3Y2QzMGI5OTM3NTg4ZDY5NmJlNTQ3ZikpCiogKipldGNkY3RsLGV0Y2R1dGw6
+KiogM3JkIHBhcnR5IGZhbGxiYWNrIGNvbXBsZXRpb24gbG9hZGVycyAoWzM5ZjhkZGZdKGh0dHBz
+Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMzlmOGRkZjE4NzI2YzFm
+MTRkMGZhYmIzNTUzOGRiZjljMzhhODg4NCkpCiogKipoZWxpdW06KiogYWxpYXMgdG8gY2hyb21p
+dW0tYnJvd3NlciAoWzg2MDBhZjBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxl
+dGlvbi9jb21taXQvODYwMGFmMDI5Yzc1ZmVlMTQxYWY5YWY2YmMzMDFkOGMzMWU0NTU1MSkpCiog
+Kippbm90aWZ5d2FpdDI6KiogZ2VuZXJhdGUgZXhjbHVkZSBmaWxlbmFtZXMgcHJlZml4ZWQgYnkg
+YEBgIChbYzFlMmYxYl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2Nv
+bW1pdC9jMWUyZjFiNDdhZjRmODQzYzBkZDQxZTZlZDA2NmQ2N2I5OWI3NmYzKSkKKiAqKmlub3Rp
+Znl3YWl0OioqIGdlbmVyYXRlIGV4Y2x1ZGUgZmlsZW5hbWVzIHByZWZpeGVkIGJ5IEAgKFswYTJj
+MTY1XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBhMmMx
+NjUzNzhhNzRmYTkxOGFjZTNkYzA3NzllN2NhMTMyMTJhZTUpKQoqICoqaXA6KiogQ2hlY2sgL3Vz
+ci9zaGFyZSBjb25maWcgcGF0aCAoWzQ1NTMwYjBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
+c2gtY29tcGxldGlvbi9jb21taXQvNDU1MzBiMDk1ZmQwYWYyZDRlNmIyNDMwZjJlYjI1NThjNmVm
+NjU4YykpCiogKipqcToqKiAtLXJhd2ZpbGUgYXJnIChub24tKWNvbXBsZXRpb24gKFs0ZjQ1NGQ4
+XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzRmNDU0ZDg0
+MjdmODJlYmI3MjAwYmM5MWVkM2Q1ZDRjYmZiYmIwNGYpKQoqICoqanJlbGVhc2VyOioqIGFkZCAz
+cmQgcGFydHkgZmFsbGJhY2sgY29tcGxldGlvbiBsb2FkZXIgKFtlMWMyODE1XShodHRwczovL2dp
+dGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2UxYzI4MTUzYjc0Mzg4ZjZmN2Rl
+NDhjNGZmZTk5NmFhYzg5MWNiMTQpKQoqICoqbWFnbzoqKiBhZGQgM3JkIHBhcnR5IGZhbGxiYWNr
+IGNvbXBsZXRpb24gbG9hZGVyIChbOTdjNGM0OV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFz
+aC1jb21wbGV0aW9uL2NvbW1pdC85N2M0YzQ5NGY0MTQzNjNjNjZkZDBlN2UyZjM0ODVkNjVmNTRl
+ODc5KSkKKiAqKm9nZzEyMzoqKiBhc3NvY2lhdGUgb3B1cyBleHRlbnNpb24gKFs3ZDNlYTMzXSho
+dHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzdkM2VhMzM3Njg2
+NTQ3MDIwN2RhYjI1MDY3MjA5Mzk0YzAwMmIzMmUpKQoqICoqb3BlbmNvZGU6KiogYWRkIDNyZCBw
+YXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoW2RiY2VhMThdKGh0dHBzOi8vZ2l0aHVi
+LmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZGJjZWExODI4OTkwMTU1Y2YzMGMzN2Iz
+MGQ3MGFkNWViNmI0MWZkMikpCiogKipwbnBtOioqIGFkZCAzcmQgcGFydHkgZmFsbGJhY2sgY29t
+cGxldGlvbiBsb2FkZXIgKFs0NDgwNGFlXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNv
+bXBsZXRpb24vY29tbWl0LzQ0ODA0YWU4OWZkMDMyYWY2MDU4Y2Q4MzA3MDgwYWE3NTlhMGE3M2Qp
+KQoqICoqcHlkb2M6Kiogc3VwcG9ydCB2ZXJzaW9uZWQgMy4xMy4uMTUgZXhlY3V0YWJsZXMgKFti
+ZDYwYjI2XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2Jk
+NjBiMjZlNmZiM2M3NzRjOTU5YWQzZTdmODU1ODQ4NWI2MGM0MDUpKQoqICoqcHl0aG9uLHB5dmVu
+djoqKiBzdXBwb3J0IHZlcnNpb25lZCAzLjE0IGFuZCAuMTUgZXhlY3V0YWJsZXMgKFs3MmEyZTQ3
+XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzcyYTJlNDc5
+Y2ZlNzQzYWI4NzBiZjQ3OWFkYjNhM2MyN2ViN2U2NGYpKQoqICoqcmVsZWFzZS1wbHo6KiogYWRk
+IDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoW2MzYzQwNjZdKGh0dHBzOi8v
+Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvYzNjNDA2Njc0ZTkyYjQ1MDNi
+MjYyMDI3NjRkZTlkYTg3ZmIzYzQxYykpCiogKipydW1kbDoqKiBhZGQgM3JkIHBhcnR5IGZhbGxi
+YWNrIGNvbXBsZXRpb24gbG9hZGVyIChbNWVmOTc5MF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3Av
+YmFzaC1jb21wbGV0aW9uL2NvbW1pdC81ZWY5NzkwOTBlMGNhNmVmYjlkOTc5Yzg0NDdjNzRkOTAy
+YjE4YTFlKSkKKiAqKnNrdXBwZXI6KiogYWRkIDNyZC1wYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9u
+IGxvYWRlciAoWzQyMzdjOWNdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
+bi9jb21taXQvNDIzN2M5YzIwNmM0NDE1N2U1Y2U2NDUwMTc4OWM3YTY3NjgxYWMzNSkpCiogKipz
+c2gta2V5Z2VuOioqIC1NIGFyZyBjb21wbGV0aW9uIChbYjEzYmY5OV0oaHR0cHM6Ly9naXRodWIu
+Y29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9iMTNiZjk5YWM4Zjc2NWZkZTg4MGI0NjRl
+NDFlMWU2NGIxZjExNjFkKSkKKiAqKnNzaC1rZXlnZW46KiogLVogYXJndW1lbnQgY29tcGxldGlv
+biAoW2M3NjNkNTJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
+aXQvYzc2M2Q1MmRmZDg5MzRjNTllOGZhN2Y4ZDk1MTQyNDQ0ZDA4ZGM4ZSkpCiogKipzc2gta2V5
+Z2VuOioqIHVwZGF0ZSAtdCBhcmcgY29tcGxldGlvbnMgKFs0MjY5YTkwXShodHRwczovL2dpdGh1
+Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzQyNjlhOTBmYTRkMDkyMGMzMzBjOTBh
+Njc5YzE4ZThjYWZiMTllN2IpKQoqICoqc3NoLWtleWdlbjoqKiB1cGRhdGUgLVkgYXJnIGNvbXBs
+ZXRpb25zIChbYTczYmNhZl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9u
+L2NvbW1pdC9hNzNiY2FmMWUxZWUzNjYzNjJkMTIxNTM0Y2UxY2M4ZTZkZWNlMDkwKSkKKiAqKnNz
+aDoqKiBkbyBub3QgY29tcGxldGUgLVAgYXJnICh0YWcpIChbN2QyNmE4Nl0oaHR0cHM6Ly9naXRo
+dWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC83ZDI2YTg2ZjNlOTcxNzM5ZjA4MmMx
+ZTczYzQ1ZjY1ZWE4ODdjZmQ0KSkKKiAqKnNzaDoqKiBpbmNsdWRlIHByb3h5IGluIC1PIGFyZyBj
+b21wbGV0aW9ucyAoW2ZjMWRmMWZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxl
+dGlvbi9jb21taXQvZmMxZGYxZjU2ZWI2MzYxNTM3ZjRjMTE5ZDE3MGNhYjE2MzQ5NjE1ZCkpCiog
+Kipzc2g6KiogbW9yZSBvcHRpb24gYXJnIChub24tKWNvbXBsZXRpb25zIChbMzNmNzg5Y10oaHR0
+cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8zM2Y3ODljOTZhZTM1
+OTkxMDY0YzljYTkxZGZlZmQyMzU5NWYzYzBhKSkKKiAqKnN1ZG8tcnMsc3Vkby53czoqKiBhbGlh
+cyB0byBzdWRvIChbMDg0Y2M2OF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
+aW9uL2NvbW1pdC8wODRjYzY4NDA3MWZjZDAyNWVhZTY1MGJkZjA5NDI5YThkM2ViMzNkKSkKKiAq
+KnN1ZG86KiogbW9yZSBvcHRpb24gYXJndW1lbnQgKG5vbi0pY29tcGxldGlvbnMgKFsyMTYxMzVl
+XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzIxNjEzNWVj
+YjEwNDU3ZjI0N2UzM2E0MGFhMzI0NzkxNWFiMDk1Y2MpKQoqIHN1cHBvcnQgdGhlICJzdGFydHVw
+eywtY29yZX0iIGRpcmVjdG9yeSAoW2Q2MTY5YWZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
+c2gtY29tcGxldGlvbi9jb21taXQvZDYxNjlhZmM1Mzc5OWQ3OWFlZTQzN2UxNGJlMTA5Njk4MjE1
+YTBkYSkpCiogKipzeW5jdGhpbmc6KiogYWRkIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9u
+IGxvYWRlciAoW2JjNWRmZmZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
+bi9jb21taXQvYmM1ZGZmZmZmZTRlMWQ1ZTRiNzMwNTQ5NGE3ZTA3NDNkYTRhZmNkMykpCiogKip0
+bXV4OioqIGNvbXBsZXRlIHNyYy90YXJnZXQgc2Vzc2lvbiBhcmd1bWVudHMgKFsxOGI2ZGE0XSho
+dHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzE4YjZkYTRmNThl
+NzI5ZWE4MmQ4ZjljYzQ5ZGZkN2ZjZmQ2OTIzODgpKQoqICoqdG11eDoqKiBjb21wbGV0ZSB0YXJn
+ZXQtc2Vzc2lvbiBhcmd1bWVudHMgKFtjZWQ1OWMzXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9i
+YXNoLWNvbXBsZXRpb24vY29tbWl0L2NlZDU5YzM4ZTlkMDFjMjAwZTZiY2I3MDZhOGRmNDk3YWVk
+NmZmOTApKQoqICoqdHk6KiogYWRkIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRl
+ciAoWzU3YTJiMzFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
+aXQvNTdhMmIzMWU4NjZiZDViMDFlODVmYjE0ODQ0ZTJhOWZlMGMzNzhlYykpCiogKip3YXlkcm9p
+ZDoqKiBhZGQgM3JkIHBhcnR5IGZhbGxiYWNrIGNvbXBsZXRpb24gbG9hZGVyIChbYWNjODAwZl0o
+aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9hY2M4MDBmMDIz
+YWI0NDY3NzVjNGFiMWRiN2M3N2RiM2QyZmRjNzM5KSkKKiAqKnhyZGI6KiogbWlzYyBpbXByb3Zl
+bWVudHMgKFsjMTY2OV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2lz
+c3Vlcy8xNjY5KSkgKFs0NjFmOTBjXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
+ZXRpb24vY29tbWl0LzQ2MWY5MGM2YTc1ZjJlMDlhYjRmNDI2MmZmMzY1YzNhZDBmYWM5ZGQpKQoq
+ICoqemVkOioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzgzNTMyZmFd
+KGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvODM1MzJmYTNi
+Y2ExOGFiZWQyNmFmYWE0NDhlMGYxYmY3NWZmZjlhMikpCgojIyMgQnVnIEZpeGVzCgoqICoqX2Nv
+bXBfY29tcGdlbl9zZXJ2aWNlczoqKiBmaXggbm8gY29tcGxldGlvbnMgd2l0aG91dCBzeXN2ZGly
+IChbYTJlMjY1OV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1p
+dC9hMmUyNjU5MjIxOGUxYmViYjU1ZjE4YWIzZTNiNThmMmZlN2VjMTUxKSkKKiAqKl9jb21wX2Nv
+bXBnZW5fc2VydmljZXM6Kiogc2tpcCBzZXJ2aWNlIHN0YXR1cyBtYXJrcyAoWzFhYzkxNjldKGh0
+dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMWFjOTE2OTU5M2Zm
+MjY5ODVmMzFiYTQ4MWFhODg5YjlkNjQxNTFlYykpCiogKipfY29tcF9jb21wZ2VuX3N5c3Zfc2Vy
+dmljZXM6KiogZG8gbm90IGdlbmVyYXRlIG5hbWVzIGluIHN1YmRpcnMgKFs1NTU3ZmJlXShodHRw
+czovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzU1NTdmYmU0ODhjMTBj
+YmMwN2E2MDRjYzMzMGU4NmVlMWRlMTdlZmIpKQoqICoqX2NvbXBfY29tcGdlbjoqKiBjbGVhciB0
+aGUgdmFyaWFibGUgd2hlbiBubyBjb21wbGV0aW9ucyBhcmUgZ2VuZXJhdGVkIChbYzA3YmQ2Nl0o
+aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jMDdiZDY2MWM0
+MWZjOTc0MTYzMzk4YmE4NjhiMjI4NjJmYThkZDMzKSkKKiAqKl9jb21wX2NvbXBsZXRlX3NlcnZp
+Y2U6KiogZml4IGluaXQtc2NyaXB0LWFjdGlvbiBwYXJzaW5nIChbIzE0OTldKGh0dHBzOi8vZ2l0
+aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9pc3N1ZXMvMTQ5OSkpIChbOTFlMDc1YV0oaHR0
+cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC85MWUwNzVhOTZkMzlk
+MDIzNGFkYTc1MmE2MzkzN2Y2M2VhMTg2ZWI4KSkKKiAqKl9jb21wX2NvbXBsZXRlX3VzZXJfYXRf
+aG9zdDoqKiBjYXJlIGFib3V0ICRjdXIgc3RhcnRpbmcgd2l0aCAiLSIgKFsyNzdkYTU4XShodHRw
+czovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzI3N2RhNThjZmNmYzBj
+Y2E1NWFkZjdmM2ZmZjBiOTc4NjM2OTg3YzUpKQoqICoqX2NvbXBfbG9hZDoqKiBkZXByZWNhdGUg
+dW5zdWZmaXhlZCAiY29tcGxldGlvbnMvJmx0O2NtZCZndDsiIHcvbyAiLmJhc2giIChbMDY5MTBk
+YV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8wNjkxMGRh
+YjFiMThjZjEwZjQ4MDdkZWE5MzA5MWZkODFlZjY1MzFlKSkKKiAqKl9jb21wX2xvYWQ6KiogZHJv
+cCBzdXBwb3J0IGZvciAiXyZsdDtjbWQmZ3Q7IiAoW2YyNDUzNTZdKGh0dHBzOi8vZ2l0aHViLmNv
+bS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZjI0NTM1NmQwNTJkZDUwNmEyN2FlOTlhNmQy
+ZjZiMGM0ZmJlYTFhYykpCiogKipfa25vd25faG9zdHM6KiogZml4IHNwYWNpbmcgb2YgYW4gZXJy
+b3IgbWVzc2FnZSAoWzA0NjM1NzBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxl
+dGlvbi9jb21taXQvMDQ2MzU3MDk0Y2Q0YzEwYjlkZWI3MTQ1OTRjNDA5MTAwY2ZlZGZlMykpCiog
+Kipfa25vd25faG9zdHM6Kiogd29yayBhcm91bmQgY3VzdG9tIElGUyAoWzgxNzE5MjldKGh0dHBz
+Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvODE3MTkyOTgyN2VkZTli
+MmNlODYxZmVjNzNmODU3MjIzMGQzYzU4NykpCiogKipfdmFyaWFibGVfYXNzaWdubWVudHM6Kiog
+ZXhjbHVkZSBpbnZhbGlkIHRpbWV6b25lcyBmb3IgIlRaIiAoW2Q0MDVhMWRdKGh0dHBzOi8vZ2l0
+aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZDQwNWExZGVlMDQ3ODY4NDZjODhm
+MWYwMmZmMzdkYmFmYWEwZDk5MCkpCiogYWRkIGNvbXBhdGliaWxpdHkgd3JhcHBlciBmb3IgdGFp
+bCAoW2Y2ZmVlOGFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
+aXQvZjZmZWU4YWY2ZDc0NGMxZGRiY2M0YTk0N2ExMjVhODk3YmJhYWE2ZSkpCiogKiphbHRlcm5h
+dGl2ZXM6Kiogd29yayBhcm91bmQgbG9jYWx2YXJfaW5oZXJpdCAoWzM2MDE5MmFdKGh0dHBzOi8v
+Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMzYwMTkyYWJlOTZmNmQ5ODBl
+NmRmOGE3ZmU4NWRiNzU1Y2U4ZDNjMSkpCiogKiphcHQtZ2V0LGVidGFibGVzLGlwdGFibGVzLG1w
+bGF5ZXIsc2VydmljZToqKiBhdm9pZCB8IGFuZCBcfCBpbiBzZWQgKFtlZDY0YzMwXShodHRwczov
+L2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2VkNjRjMzBiNWU3N2FhMTNj
+ZjdlMGU4OWRhYjJiNGJhMTllYTE2MTQpKQoqICoqYXB0LWdldCxncGd7LDJ9LGlwbWl0b29sLHNj
+cmVlbjoqKiBhdm9pZCBcdCwgXHIsIFx3IGluIFBPU0lYIHNlZCAoW2RhNDBlN2FdKGh0dHBzOi8v
+Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZGE0MGU3YTg1ZWQzNTRhMmMw
+ZWU3ODM0NDE2NGQ4YzhiY2UwYzEzMCkpCiogKipjY2FjaGU6KiogZml4IGEgd3JvbmcgQVdLIGNv
+bmRpdGlvbiAoW2MzMDBjMGZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
+bi9jb21taXQvYzMwMGMwZmUyYTk5NGUyN2U2NzlhYTg5YTczOWJhMWMxMmYyNWM3YSkpCiogKipj
+ZDoqKiBDb21wbGV0ZSBmcm9tIC4gb24gZW1wdHkgQ0RQQVRIIGVudHJ5IChbIzE1MjddKGh0dHBz
+Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9pc3N1ZXMvMTUyNykpIChbNmYxZWJh
+Nl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC82ZjFlYmE2
+MzhmNzc1YjU3MjlmYjQ0NWQyYTExMjc4Zjk3ZDc5ZjM2KSkKKiAqKmNkOioqIGZpeCBjZGFibGVf
+dmFycyBvdmVyd3JpdHRlbiBieSBhbm90aGVyIGdlbmVyYXRvciAoWzI0YmQ0MjBdKGh0dHBzOi8v
+Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMjRiZDQyMGFkZjJjMDZiZWVj
+MDY3MmNiZWFjNTkwZjEwNTc5MjMzMSkpCiogKipjZDoqKiB3b3JrIGFyb3VuZCBiYXNoLTQuMiBu
+b3Vuc2V0IChbNDVkMWM5M10oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9u
+L2NvbW1pdC80NWQxYzkzY2QxMTFlZDVhMTU1NWI3MzE5Nzg0ZGFjMTM1OTQzODBjKSkKKiAqKmNv
+bXBhdGRpcjoqKiBzaGFkb3cgY29tcGF0IGZpbGVzIG9mIHRoZSBzYW1lIG5hbWUgKFtmZjFiZjcy
+XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2ZmMWJmNzIy
+YzZlY2JmMGQ2ZmU0OTFkMzQ1YzA4ZmEwYzk4MTAzNWUpKQoqIGNvbXBsZXRpb24gbG9hZCBwcmVj
+ZWRlbmNlIG1vcmUgKFswYTE1NDA4XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
+ZXRpb24vY29tbWl0LzBhMTU0MDhmYjdkNmY0N2Q3ZjE4ZjRiOTVhYzZlY2FjN2U5ZTFmNjkpKQoq
+ICoqZXhwb3J0OioqIGNvbXBsZXRlIG9wdGlvbnMgbm90IGF0ICQxIChbODMyODIyZF0oaHR0cHM6
+Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC84MzI4MjJkY2NiYmNhNDRk
+MTNkYmJmM2E0YjZiNjM5MDVkZDc0ZDllKSkKKiAqKmV4cG9ydDoqKiBzdWZmaXggIj0iIG9ubHkg
+d2hlbiB1bmlxdWUgYW5kIGFscmVhZHkgY29tcGxldGUgKFs3NmY5ODBjXShodHRwczovL2dpdGh1
+Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0Lzc2Zjk4MGMzMTk1Mjg5YWYyNWE1OTQx
+ZDliY2ZjZGViNDBlNDJlYjYpKQoqICoqZXhwb3J0OioqIHdvcmsgYXJvdW5kIGN1c3RvbSBJRlMg
+KFsyNjE3ZDI2XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0
+LzI2MTdkMjZkMzM5NzI0ZWI1MDUyYTk1ZmIwYTdhZDhkZDY0ZDBmNDMpKQoqICoqZmJncyxmYmk6
+KiogYWRkIG1hbmRhdG9yeSBzZW1pY29sb25zIGJlZm9yZSAifSIgaW4gUE9TSVggc2VkIChbMjg4
+ZTc3ZV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8yODhl
+NzdlY2Y3MmE2NDA5ODdiNmYzNmU1MDRiZjcyNTk4ODhhNWNiKSkKKiBmaXggbm9uLVBPU0lYIHNl
+ZCBleHByZXNzaW9ucyAoW2U5OTkwOTFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29t
+cGxldGlvbi9jb21taXQvZTk5OTA5MTY2OGVlNTc3ZDdiNzQ2MWYwYTFhNDYyNWMxMGMyNzc1Mykp
+CiogKipnbm9raWk6KiogdXNlIGRvdWJsZSBcXCBpbiBbLi4uXSBmb3IgUE9TSVguMS0yMDI0IHJl
+Y29tbWVuZGF0aW9uIChbYWIwNDgzYV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21w
+bGV0aW9uL2NvbW1pdC9hYjA0ODNhMWUxZjE5NTk5YWFjYmI0YzU3MjViY2E3YjJkOTc3ZWRhKSkK
+KiAqKmlub3RpZnl3YWl0OioqIGFkZCBgLXRgIGluIGBub2FyZ29wdHNgIChbMDI5NTEyOV0oaHR0
+cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8wMjk1MTI5NGQzOWZk
+OTZmYWRkYzc2MTRmNTc3MTQ3NWNmMjg2M2ExKSkKKiAqKmludGVyZGlmZjoqKiBtb3ZlIHRvIGZh
+bGxiYWNrIGZvciB0aGUgdXBzdHJlYW0gY29tcGxldGlvbiAoWzExOTg3YTRdKGh0dHBzOi8vZ2l0
+aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMTE5ODdhNGRlNmVlN2U0MjQyZTQ2
+MzMzNjAyNWJmN2QwZGRlODYwOSkpCiogKippbnZva2UtcmMuZDoqKiBhdm9pZCB1c2luZyBub24t
+UE9TSVggXHwgaW4gc2VkIChbZGI5MjhkZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
+b21wbGV0aW9uL2NvbW1pdC9kYjkyOGRkMDIxNWM3MTRmMTdlNzFlOWUwNDI0ZDI0NWNmOWFkNDQz
+KSkKKiAqKmludm9rZS1yYy5kOioqIGZpeCBhIGJ1ZyBvZiBnZW5lcmF0aW5nIGV4aXN0aW5nIHdv
+cmRzIChbZGZiOTAzYl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2Nv
+bW1pdC9kZmI5MDNiZmM5MDMzZDZmMTEzNDkzYjMwMDgzZDQ1ZDFiODNlZTFkKSkKKiAqKmlwc3Rh
+YmxlcyxlYnRhYmxlczoqKiBmaXggZmlsdGVyaW5nIG9mIGNoYWluIG5hbWVzIChbMjEzYTFkMl0o
+aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8yMTNhMWQyOTA0
+ZGU0OTkwY2NkNDQzNDRhNjg4ODQ5ZDNhZWFhOWQ4KSkKKiAqKmlzY3NpYWRtOioqIHNlcGFyYXRl
+IG1lcmdlZCBvcHRpb25zICgtLWxvZ291dGFsbC0tc2hvdyDihpIgLS1sb2dvdXRhbGwgLS1zaG93
+KSAoWyMxNjEyXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vaXNzdWVz
+LzE2MTIpKSAoWzBhN2NhNDRdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
+bi9jb21taXQvMGE3Y2E0NDBiMTE4NmQxOWVjOWMwZTVkZGJhODlhMWM1OGIwZGQ2MCkpCiogKipq
+cToqKiAtLWluZGVudCBhcmcgcmFuZ2UgKFtkMDJlNDA1XShodHRwczovL2dpdGh1Yi5jb20vc2Nv
+cC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2QwMmU0MDU0ZmE5NGVmYWEwMjcxNjdiNzMxZTFkM2Fk
+NzM3NGJiMjkpKQoqICoqanE6KiogbWlzc2luZyBoeXBoZW4gaW4gLS1tb25vY2hyb21lLW91dHB1
+dCAoW2VmNjkxOThdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
+aXQvZWY2OTE5ODg3YThmYzFmNDMwZDQ3NGJiYTY2N2UxMmFmM2Q3MGVkMCkpCiogKipsaWxvLG11
+dHQ6KiogcmVtb3ZlIHVubmVjZXNzYXJ5IGVzY2FwaW5nIFwiIGluIHNlZCByZWdleHAgKFtiOGY2
+ZWYyXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2I4ZjZl
+ZjI4MmVhZWI0MWFmNDhmZTVlMGVjZjgxYjI3NDEyODcwMWMpKQoqICoqbGludGlhbjoqKiBmaXgg
+dmFyaWFibGUgbGVha3MgKFtlMGU5MTZhXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNv
+bXBsZXRpb24vY29tbWl0L2UwZTkxNmFiYjA5M2IzZmQzM2Q4ZjM3Y2U3YjRlZDZjNTFmZTY2ODIp
+KQoqICoqbGludGlhbjoqKiB1c2UgY29tcGdlbiAtWCBpbnN0ZWFkIG9mIHNlZCB3aXRoIG5vbi1Q
+T1NJWCBcJmx0O1wmZ3Q7IChbYjZmMzRlZl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
+b21wbGV0aW9uL2NvbW1pdC9iNmYzNGVmOWI4M2U1YzY4MmFlN2E5OTNmMTQ5MzZkYTEyZmQ3ZjQx
+KSkKKiBsb2FkIGZyb20gbW9yZSBuZXcgc3R5bGUgY29tcGxldGlvbiBkaXJzIChbMTAzNzdmY10o
+aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8xMDM3N2ZjZDE1
+YWIwMmFjMTk5ZjBjM2I0ZTQ4NGQwMTY3NmU0ZWYxKSkKKiBtaXNjZWxsYW5lb3VzIGZpeGVzIGFm
+dGVyIHNlcGFyYXRpb24gb2YgZGlyZWN0b3JpZXMgKFtjNGE4ZmQwXShodHRwczovL2dpdGh1Yi5j
+b20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2M0YThmZDAwY2Y3Y2NmYjg3YTIxMWI2ZWQy
+ZGIzZGQyNTBjNDA3YjMpKQoqICoqbnN1cGRhdGU6KiogZml4IHR5cG8gIl9jb21wX2NvbXt0cCA9
+Jmd0OyBwZ31lbiIgKFszYjFhZGUyXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
+ZXRpb24vY29tbWl0LzNiMWFkZTIwZTliOTVkNDcxYjc2ZmM5OTM2OWUzZDYzNzQ2ZTQzYzIpKQoq
+ICoqcGtnLWdldDoqKiBhdm9pZCBkb3VibGUgZXhwYW5zaW9ucyAoW2ZiNWUzMmNdKGh0dHBzOi8v
+Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZmI1ZTMyY2UzMDgyNjBjM2Mx
+MTMxZGJmOTcxMjEzYzg3ZjZjNTMwMykpCiogKipwa2ctZ2V0OioqIGRvIG5vdCBjaGVjayB0aGUg
+Y29tbWFuZCBuYW1lIGFzIGFyZ3VtZW50cyAoW2E4NjE3NWRdKGh0dHBzOi8vZ2l0aHViLmNvbS9z
+Y29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvYTg2MTc1ZDZkNDliNjM1ZjVmMzk3MzM0ZDE2MzY2
+ZGY0NWU3ZWY0OCkpCiogKipwa2ctZ2V0OioqIGxvY2FsaXplIHZhcmlhYmxlICJmaWxlIiBwcm9w
+ZXJseSAoW2MzN2JlZDFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9j
+b21taXQvYzM3YmVkMWYzNTJhODNiZjM2YWZjN2E2NTA4OGRjMWM0MjIxOWRhZSkpCiogKipwa2ct
+Z2V0OioqIHdvcmsgYXJvdW5kIGxvY2FsdmFyX2luaGVyaXQgKFs3ODgxNzk1XShodHRwczovL2dp
+dGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0Lzc4ODE3OTVmNTYyMDE3YmNlMDAw
+Y2MzZDA2MzA3NmIwMWM1ZjZmMjMpKQoqICoqcGtnLWdldDoqKiB3b3JrIGFyb3VuZCBub3Vuc2V0
+IChbY2Q1YzI4ZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1p
+dC9jZDVjMjhkZjcwMGNiNWQ0NjI2ZDJmYzExMDY2NDc0MWMzYmYzYmYzKSkKKiAqKnBvdnJheToq
+KiB3b3JrIGFyb3VuZCBiYXNoLTQuMyBub3Vuc2V0IChbOGY4NTg4N10oaHR0cHM6Ly9naXRodWIu
+Y29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC84Zjg1ODg3ZDAyZGM5ZTU3MzljMDY3ZDMy
+ODE4NTBiZTU2MjA0MGQ4KSkKKiAqKnNlcnZpY2Use2ludm9rZSx1cGRhdGV9LXJjLmQ6KiogZml4
+IHJlZ3Jlc3Npb25zIGFuZCByZWZhY3RvciAoWzFlZTI2OWZdKGh0dHBzOi8vZ2l0aHViLmNvbS9z
+Y29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMWVlMjY5Zjg2ZTRjYjZkMDQ4Yzg2ZDZiNDgzYTQ2
+Yjg2OGFiYTIwMCkpCiogKipzaGVsbGNoZWNrOioqIGF2b2lkIG5vbi1QT1NJWCBcPiBpbiBzZWQg
+cmVndWxhciBleHByZXNzaW9ucyAoW2MwYjM2MjBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
+c2gtY29tcGxldGlvbi9jb21taXQvYzBiMzYyMGUwYjhkZDA4MmYwNzRjZmU1N2Y3NjFiN2E5YmJk
+MDU4MykpCiogKip0b3g6KiogbW92ZSBjb21wbGV0aW9uIHRvIGZhbGxiYWNrIGRpcmVjdG9yeSAo
+W2JlMzk3YzJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQv
+YmUzOTdjMmMwNDZhYzJiZDM3YTI4ZTI5YjFjZTY2NTVmOWE0NzVmYSkpCiogKip0c2hhcms6Kiog
+cmVuYW1lICJfY21wX2NtZF90c2hhcmtfX3sgPSZndDsgbXV0X317cHJlZnMscHJvdG9jb2xzfSIg
+KFtkZmFjZDJiXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0
+L2RmYWNkMmJlYjc0YmU3Y2RlYjQzZDQ5Y2JlZmZiNzlmMmNmZTJhNWEpKQoqICoqdXBkYXRlLXJj
+LmQ6KiogZml4IHRoZSB1c2FnZSBvZiB0aGUgWCBvcHRhcmcgKFswZjQ3OTU5XShodHRwczovL2dp
+dGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBmNDc5NTk3NDYwN2NmNGJhOTNj
+YjlmMzJiMDMxOGI2NTMyNWZjMzEpKQoqICoqeHJhbmRyOioqIHJlbW92ZSB3cm9uZyBcIGZyb20g
+Y2hhcmFjdGVyIHJhbmdlIChbY2M3NWRhMl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
+b21wbGV0aW9uL2NvbW1pdC9jYzc1ZGEyMDk3ZWYwYzJjODlmNmZhMTA1ODcyZWE2MDQyNmFjYTI0
+KSkKCiMjIyBQZXJmb3JtYW5jZSBJbXByb3ZlbWVudHMKCiogKipfY29tcF9jb21wZ2VuX2ZpbGVk
+aXJfeHNwZWM6KiogYXZvaWQgZG91YmxlIG5lZ2F0aW9uIGAhKCEoLi4uKSlgIChbYjI0MzA1ZF0o
+aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9iMjQzMDVkZmVi
+Y2NiYjJiY2JhNjZmOTgzODcwNDE4NzQ4OWVhYTRlKSkKKiAqKmZpbGVkaXJfeHNwZWM6KiogYXZv
+aWQgZG91YmxlIG5lZ2F0aW9uICEoISguLi4pKSBpbiBleHRnbG9iIChbYzUzMjU5YV0oaHR0cHM6
+Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jNTMyNTlhZTU4ZTU0NWIw
+Yjc1NzdlNWQ0MWE0ODNmMWYxNmM5NTNjKSkKKiAqKm5tY2xpOioqIHJlZHVjZSB1c2VzIG9mIHRo
+ZSAidGFpbCIgY29tbWFuZCAoW2UzNzYwYzJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gt
+Y29tcGxldGlvbi9jb21taXQvZTM3NjBjMmYyNmViZjI1MDdmMmUxZjE3MDc2YmRmYjdlM2I5OTIw
+NikpCiogKipwb3ZyYXk6KiogdXNlIGdsb2IgbWF0Y2hpbmcgaW5zdGVhZCBvZiBncmVwIChbMjVm
+M2JiNV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8yNWYz
+YmI1MmEwOWU3NmJjOGY4YzNmNGY4N2JiZjI1YmQxYTJmMTRlKSkK
+
+--===============5714043520528367112==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-findutils-upgrade-4.10.0-4.11.0.patch"
+ filename="0001-bash-completion-upgrade-2.17.0-2.18.0.patch"
 
-RnJvbSAxYzBkMzcwNWM5YmE1YjUwNTk5YjM0MjNlMmM2MjAwM2EyNTY5MzI4IE1vbiBTZXAgMTcg
+RnJvbSBjM2YxNTZmMDY4OTEwYTAwOWIwYWZhNzJiZmY5ZTQ3NjRiZjViYjEwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTQgQXVnIDIwMjYgMDU6NDM6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
-aW5kdXRpbHM6IHVwZ3JhZGUgNC4xMC4wIC0+IDQuMTEuMAoKU291cmNlOiBDaGFuZ2VMb2cKCjIw
-MjYtMDctMTEgIEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJ
-dmVyc2lvbiA0LjExLjAKCSogTkVXUzogUmVjb3JkIHJlbGVhc2UgZGF0ZS4KCjIwMjYtMDctMTEg
-IEJlcm5oYXJkIFZvZWxrZXIgIDxtYWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJTkVXUzogYXR0
-cmlidXRlIGFuIGVudHJ5IHdpdGggaXRzIFNhdmFubmFoIGJ1ZyBudW1iZXIKCSogTkVXUzogTWVu
-dGlvbiAjNjYzNjUuCglXaGlsZSBhdCBpdCwgcmVtb3ZlIGEgZG91YmxlLW5ld2xpbmUgYmVmb3Jl
-ICJGdXR1cmUgQ2hhbmdlcyIuCgoyMDI2LTA3LTExICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBi
-ZXJuaGFyZC12b2Vsa2VyLmRlPgoKCWRvYzogbWVudGlvbiBjaGVjay1yb290IHRlc3RzIGluIG1h
-aW50YWluZXIncyBtYW51YWwKCSogZG9jL2ZpbmQtbWFpbnQudGV4aSAoTWFraW5nIFJlbGVhc2Vz
-KTogRG9jdW1lbnQgdGhlIHZhcmlvdXMgZmxhdm9ycwoJb2YgdGVzdGluZzogY2hlY2ssIHN5bnRh
-eC1jaGVjayBhbmQgY2hlY2stcm9vdC4KCjIwMjYtMDctMTEgIEJlcm5oYXJkIFZvZWxrZXIgIDxt
-YWlsQGJlcm5oYXJkLXZvZWxrZXIuZGU+CgoJTkVXUzogbWVudGlvbiB0cmFuc2xhdGlvbiB1cGRh
-dGVzCgkqIE5FV1MgKFRyYW5zbGF0aW9ucyk6IExpc3QgdGhlIGxhbmd1YWd1ZXMgY2hhbmdlcyBz
-aW5jZSB0aGUgbGFzdCByZWxlYXNlLgoKMjAyNi0wNy0wOSAgSmFtZXMgWW91bmdtYW4gIDxqYW1l
-c0B5b3VuZ21hbi5vcmc+CgoJTkVXUzogYWRkIGEgMjAyNCBQT1NJWCBjaGFuZ2UgYW5kIHByZWRp
-Y3QgdGhlIGZ1dHVyZSBvZiAtcGVybSAvMDAwLgoJKiBORVdTIChEb2N1bWVudGF0aW9uIENoYW5n
-ZXMpOiAiZmluZCAtaW5hbWUiIGlzIGluIElFRUUgU3RkCgkxMDAzLjEtMjAyNC4gIEltcHJvdmVt
-ZW50cyB0byB0aGUgcG9ydGFiaWxpdHkgb2YgdGhlIG1hbiBwYWdlcyB0bwoJb3RoZXIgbnJvZmYg
-aW1wbGVtZW50YXRpb25zLgoJKEZ1dHVyZSBDaGFuZ2VzKTogd2UncmUgZ29pbmcgdG8gcmVtb3Zl
-IHRoZSB3YXJuaW5nIGFib3V0IC1wZXJtIC8wMDAKCWluIGEgZnV0dXJlIHJlbGVhc2UuCgoyMDI2
-LTA3LTA5ICBCZXJuaGFyZCBWb2Vsa2VyICA8bWFpbEBiZXJuaGFyZC12b2Vsa2VyLmRlPgoKCWRv
-YzogcHJvcGFnYXRlIHJlY2VudCB4YXJncyBleGl0IHN0YXR1cyBjaGFuZ2VzIGZyb20gZmluZC4x
-IHRvIGZpbmQudGV4aQoJVGhpcyBtZXJnZXMgdGhlIGNoYW5nZXMgb2YgcmVjZW50IGNvbW1pdCAx
-YzJjMWZjYzMzZCBmcm9tIHRoZSB4YXJncwoJbWFucGFnZSB0byB0aGUgVGV4aW5mbyBtYW51YWwu
-CgoJKiBkb2MvZmluZC50ZXhpIChJbnZva2luZyB4YXJncyk6IGV4aXQgc3RhdHVzIDEyMyBhbHNv
-IGNvdmVycyBjYXNlcyB3aGVyZQoJdGhlIGNvbW1hbmQncyAobm9ybWFsKSBleGl0IHN0YXR1cyB3
-YXMgYSB2YWx1ZSBncmVhdGVyIHRoYW4gMTI1LgoJRXhwbGFpbiB0aGF0IHhhcmdzIG1pZ2h0IGlu
-IHRoZSBmdXR1cmUgdXNlIG90aGVyIHZhbHVlcyBpbiB0aGUgMi0yMzMKCXJhbmdlIHRvIGluZGlj
-YXRlIG90aGVyIGZhaWx1cmUgbW9kZXMuCglJbXByb3ZlIHRoZSBoaW50IHRoYXQgeGFyZ3MgdXNl
-cyBleGVjdnAgcmF0aGVyIHRoYW4gaW52b2tpbmcgdmlhIHRoZSBzaGVsbC4KCjIwMjYtMDctMDkg
-IEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWRvYzogZmluZCgxKTogcG9p
-bnQgb3V0IC17YSxjLH1uZXdlciAvIC1uZXdlclhZIGVxaXZhbGVuY2UuCgkqIGZpbmQvZmluZC4x
-IChPUFRJT05TKTogYmUgbW9yZSBleHBsaWNpdCBpbiBwb2ludGluZyBvdXQKCWVxdWl2YWxlbmNl
-cyBiZXR3ZWVuIC1uZXdlciwgLWFuZXdlciwgLXhuZXdlciBhbmQgLW5ld2VyWFkuCglUaGlzIGlz
-IGFscmVhZHkgZXhwbGljaXQgaW4gdGhlIFRleGluZm8gZG9jdW1lbnRhdGlvbi4KCjIwMjYtMDct
-MDggIEphbWVzIFlvdW5nbWFuICA8amFtZXNAeW91bmdtYW4ub3JnPgoKCWRvYzogY29ycmVjdC9p
-bXByb3ZlIEVYSVQgU1RBVFVTIHNlY3Rpb24gb2YgeGFyZ3MgbWFuIHBhZ2UuCgkqIHhhcmdzL3hh
-cmdzLjEgKEVYSVQgU1RBVFVTKTogZXhpdCBzdGF0dXMgMTIzIGFsc28gY292ZXJzIGNhc2VzIHdo
-ZXJlCgl0aGUgY29tbWFuZCdzIChub3JtYWwpIGV4aXQgc3RhdHVzIHdhcyBhIHZhbHVlIGdyZWF0
-ZXIgdGhhbiAxMjUuCglFeHBsYWluIHRoYXQgeGFyZ3MgbWlnaHQgaW4gdGhlIGZ1dHVyZSB1c2Ug
-b3RoZXIgdmFsdWVzIGluIHRoZSAyLTIzMwoJcmFuZ2UgdG8gaW5kaWNhdGUgb3RoZXIgZmFpbHVy
-ZSBtb2RlcyAoYXMgdGhlIFNUQU5EQVJEUyBDT05GT1JNQU5DRQoJc2VjdGlvbiBhbHJlYWR5IHBv
-aW50cyBvdXQpLgoKMjAyNi0wNy0wOCAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5v
-cmc+CgoJZG9jOiBpbXByb3ZlIGZvcm1hdHRpbmcgb2YgeGFyZ3MgbWFuIHBhZ2Ugb24gbmFycm93
-IHRlcm1pbmFscy4KCSogeGFyZ3MveGFyZ3MuMSAoU1RBTkRBUkRTIENPTkZPUk1BTkNFKTogdHdl
-YWsgdGFibGUgc28gdGhhdCBpdCdzCglyZWFkYWJsZSBvbiBuYXJyb3cgdGVybWluYWxzLiAgUHJl
-dmlvdXNseSB0aGUgdGFibGUgd291bGQgbm90IGZvcm1hdAoJbGVnaWJseSBvbiBhbiA4MC1jb2x1
-bW4gdGVybWluYWwuICBOb3csIGl0IGlzIGxlZ2libGUgb24gYSA2OC1jb2x1bW4KCXRlcm1pbmFs
-LgoKMjAyNi0wNy0wOCAgSmFtZXMgWW91bmdtYW4gIDxqYW1lc0B5b3VuZ21hbi5vcmc+CgoJZG9j
-OiBwcmVmZXIgbmV1dHJhbCBkb3VibGUtcXVvdGVzIGluIHhhcmdzIG1hbiBwYWdlLgoJKiB4YXJn
-cy94YXJncy4xOiBpbnN0ZWFkIG9mIGEgbWl4IG9mIHNpbmdsZSBhbmQgZG91YmxlIHF1b3RlcyBp
-bgoJb3B0aW9uIGV4YW1wbGVzLCB1c2UgZG91YmxlIHF1b3Rlcy4gIEhvd2V2ZXIsIGV4YW1wbGVz
-IGluIHRoZSB0ZXh0IGFyZQoJc3RpbGwgcXVvdGVkIHVzaW5nIGxlZnQgYW5kIHJpZ2h0IHF1b3Rl
-cy4gIFRoZSBkaXN0aW5jCgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNlZWRzIDMwMDAg
-Y2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBhbiBhdHRhY2ht
-ZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL2ZpbmR1dGlscy97ZmluZHV0aWxzXzQuMTAu
-MC5iYiA9PiBmaW5kdXRpbHNfNC4xMS4wLmJifSAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2ZpbmR1dGlscy97ZmluZHV0aWxzXzQuMTAuMC5iYiA9PiBmaW5kdXRpbHNfNC4xMS4wLmJi
-fSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmlu
-ZHV0aWxzXzQuMTAuMC5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmluZHV0
-aWxzXzQuMTEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvZmluZHV0aWxzL2ZpbmR1dGlsc180LjEwLjAuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1leHRlbmRlZC9maW5kdXRpbHMvZmluZHV0aWxzXzQuMTEuMC5iYgppbmRleCA5MWJi
-MWJlMTcwLi5hYTUzMTNlOTkxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZmlu
-ZHV0aWxzL2ZpbmR1dGlsc180LjEwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Zp
-bmR1dGlscy9maW5kdXRpbHNfNC4xMS4wLmJiCkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hL
-U1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0xZWJiZDNlMzQyMzdhZjI2ZGE1ZGMwOGE0ZTQ0MDQ2
-NCIKIAogREVQRU5EUyA9ICJiaXNvbi1uYXRpdmUiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIx
-Mzg3ZTBiNjdmZjI0N2QyYWJkZTk5OGY5MGRmYmY3MGMxNDkxMzkxYTU5ZGRmZWNiOGFlNjk4Nzg5
-ZjBhNGY1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImJmZDE5Y2IwNmNjNzFmMzM1MmQ1NjdlOTAy
-ODRkOGNkYWMwMmFjODk3NzRiYmVhZGYwYjUzM2IwYzExNDMyZmQiCiAKIFBBQ0tBR0VDT05GSUdb
-c2VsaW51eF0gPSAiLS13aXRoLXNlbGludXgsLS13aXRob3V0LXNlbGludXgsbGlic2VsaW51eCIK
-IAotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMTQgQXVnIDIwMjYgMDY6MzE6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+YXNoLWNvbXBsZXRpb246IHVwZ3JhZGUgMi4xNy4wIC0+IDIuMTguMAoKU291cmNlOiBDSEFOR0VM
+T0cubWQKCiMgQ2hhbmdlbG9nCgojIyBbMi4xOC4wXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9i
+YXNoLWNvbXBsZXRpb24vY29tcGFyZS8yLjE3LjAuLi4yLjE4LjApICgyMDI2LTA3LTA1KQoKVGhp
+cyByZWxlYXNlIGNvbWVzIHdpdGggbm90YWJsZSBjaGFuZ2VzIHRvIHRoZSBkaXJlY3RvcmllcyB1
+c2VkIGZvcgpsb29raW5nIHVwIGFuZCBzb3VyY2luZyBjb21wbGV0aW9uIHJlY2lwZXMgYW5kIGhl
+bHBlcnMsIGFsbG93aW5nIGZvcgptb3JlIGZsZXhpYmlsaXR5IGFuZCBjdXN0b21pemF0aW9uIGFu
+ZCBmZXdlciBjb25mbGljdHMgYmV0d2VlbiB0aGluZ3MKc2hpcHBpbmcgd2l0aCBiYXNoLWNvbXBs
+ZXRpb24gYW5kIHRoaXJkIHBhcnR5L3Vwc3RyZWFtL29yaWdpbiBwYWNrYWdlcy4KCkZpbGVzIHRo
+YXQgY29tZSB3aXRoIGJhc2gtY29tcGxldGlvbiBpdHNlbGYgYXJlIGxvY2F0ZWQgaW4gZGlyZWN0
+b3JpZXMKcmVzZXJ2ZWQgZm9yIHRoYXQgdXNlLCB0aGVpciBuYW1lcyBlbmRpbmcgd2l0aCBgLWNv
+cmVgIGFuZApgLWZhbGxiYWNrYC4gUGFja2FnZXMgc2hvdWxkIGNvbnRpbnVlIGluc3RhbGwgdGhl
+aXIgZmlsZXMgaW4gdGhlIHNhbWUKYGNvbXBsZXRpb25zYCBhbmQgYGhlbHBlcnNgIGRpcnMgbGlr
+ZSBiZWZvcmU7IHRoZXNlIGRpcmVjdG9yaWVzCnByZWNlZGUgdGhlIGJhc2gtY29tcGxldGlvbiAi
+Y29yZSIgb25lcyBpbiBsb29rdXAgb3JkZXIuCgpBIG5ldyBjb25jZXB0IG9mIGBzdGFydHVwYCBk
+aXJzIGhhcyBiZWVuIGludHJvZHVjZWQuIEZpbGVzIGZyb20gdGhlc2UKZGlyZWN0b3JpZXMgYXJl
+IHNvdXJjZWQgZWFnZXJseSBvbiBiYXNoLWNvbXBsZXRpb24gc3RhcnR1cC4gVGhpcwpyZXBsYWNl
+cyBhbmQgYWxsb3dzIGZvciBtb3JlIGZsZXhpYmlsaXR5IHRoYW4gdXNpbmcgdGhlIGRlcHJlY2F0
+ZWQKYC9ldGMvYmFzaF9jb21wbGV0aW9uLmRgIGRpcmVjdG9yeSBmb3IgdGhpcyBwdXJwb3NlLgoK
+U2VlIFJFQURNRS5tZCBmb3IgbW9yZSBpbmZvcm1hdGlvbi4KCiMjIyBGZWF0dXJlcwoKKiAqKl9j
+b21wX19pbml0OioqIHNvdXJjZSBzeXN0ZW0gc3RhcnR1cCBmaWxlcyBlYXJsaWVyIChbYjA5NzAw
+ZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9iMDk3MDBk
+ZGEyOWI1NmZiODk4MTJlMTIxNTk1NmE2MzFjYzdjODQ4KSkKKiAqKl9jb21wX2NvbXBnZW5fZmls
+ZWRpcjoqKiBhdXRvbWF0aWNhbGx5IGFkZCBgLWZgIG9uIF9jb21wX2NvbXBnZW4gYC1DYCBvciBg
+LVBgIChbIzE1NTJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9pc3N1
+ZXMvMTU1MikpIChbNmQ1ZmNhNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
+aW9uL2NvbW1pdC82ZDVmY2E2ZWFlYjRlMzM3NTBhMTg3MDcyZWZjZWVjZDIyZTgyMzQ2KSkKKiAq
+Kl9jb21wX2NvbXBnZW5fZmlsZWRpcjoqKiBzdXBwb3J0ICJmaWxlZGlyIC1YIiAoW2NlMjg0MTld
+KGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvY2UyODQxOTEx
+YzdhM2Y1YTA1NmI2YTMxMDAzOGYwZGYxN2E4ZGE0MikpCiogKipfY29tcF9jb21wZ2VuX3N5c3Zf
+c2VydmljZXM6KiogZmFjdG9yaXplIFN5c1Ygc2VydmljZSBnZW5lcmF0aW9uIChbYzRjOGM0Yl0o
+aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jNGM4YzRiNTQw
+NDBkNGFjYzI2ODhlZDhmYzA0MDMzMGQ5NjRmZTEyKSkKKiAqKmFjbG9jYWwsYXV0b21ha2U6Kiog
+c3VwcG9ydCB2ZXJzaW9uZWQgMS4xNyBleGVjdXRhYmxlcyAoWzk0YmJiM2FdKGh0dHBzOi8vZ2l0
+aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvOTRiYmIzYTFiNmZhZmVhYzk2YzI3
+ZTE4OTlkZDVlZmM5MjBhNmE4OSkpCiogKiphY2xvY2FsLGF1dG9tYWtlOioqIHN1cHBvcnQgdmVy
+c2lvbmVkIDEuMTggZXhlY3V0YWJsZXMgKFs5Mjg3YjRiXShodHRwczovL2dpdGh1Yi5jb20vc2Nv
+cC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzkyODdiNGJlMmQ0OWJlODczYWRlZDNmYjQwZjU2Mzgw
+ZmQ4Zjk3ZDgpKQoqICoqYXB0LSo6KiogdXBkYXRlIGtub3duIG9wdGlvbnMgdXAgdG8gYXB0IDMu
+Mi4wIChbYzQyMWQ1MF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2Nv
+bW1pdC9jNDIxZDUwOGI2ZDkyMmVlNDMzNjRmZDllMGQ5YmMzYmRkYjVmNTZjKSkKKiAqKmFwdC1j
+YWNoZToqKiB1cGRhdGUga25vd24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFswYWI4NWM1XSho
+dHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBhYjg1YzVmZjJj
+MzkzMDBhY2ZjZTBhZmRlMmU2NWI3MDdlMzE0YjQpKQoqICoqYXB0LWdldDoqKiB1cGRhdGUga25v
+d24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFs2YTE4ZTBjXShodHRwczovL2dpdGh1Yi5jb20v
+c2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzZhMThlMGMwY2YxMWM5YmUxNjYxNmJjODE3ZjQ2
+MTNjYjliYTk1YjApKQoqICoqYXB0LW1hcms6KiogdXBkYXRlIGtub3duIG9wdGlvbnMgdXAgdG8g
+YXB0IDMuMi4wIChbNjQ0YTAyNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
+aW9uL2NvbW1pdC82NDRhMDI2OGMxMTdjOThhNjkxNWRmZDIzNTQ4YTNhOGI4ZGVmNmRiKSkKKiAq
+KmNvZGV4OioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzBmNDI1YmRd
+KGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMGY0MjViZDM3
+YzI5ODJiNzBmNmMyY2U4NjVlZWFlMGFmMDVhNzE1ZCkpCiogKipjb3BpbG90OioqIDNyZCBwYXJ0
+eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzc0NDYwMmFdKGh0dHBzOi8vZ2l0aHViLmNv
+bS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvNzQ0NjAyYWM2NGRjMjQ1ODZlMjQ5MjgxMzc1
+MWNjMzhhMGFlZjJkNykpCiogKipjCgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNlZWRz
+IDMwMDAgY2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBhbiBh
+dHRhY2htZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL3tiYXNoLWNvbXBsZXRpb25fMi4x
+Ny4wLmJiID0+IGJhc2gtY29tcGxldGlvbl8yLjE4LjAuYmJ9ICAgIHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL3tiYXNoLWNvbXBsZXRpb25fMi4xNy4wLmJiID0+IGJh
+c2gtY29tcGxldGlvbl8yLjE4LjAuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE3LjAuYmIgYi9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIuMTguMC5i
+YgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9i
+YXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIuMTcuMC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE4LjAuYmIK
+aW5kZXggODQzYjViODMxZC4uYzE0NjgxYmM5NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE3LjAuYmIKKysrIGIvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE4LjAu
+YmIKQEAgLTE0LDcgKzE0LDcgQEAgU0VDVElPTiA9ICJjb25zb2xlL3V0aWxzIgogCiBTUkNfVVJJ
+ID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6
+IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGQ5ZDgyNWU0OTY0MzVmYjNiZWJhM2FlN2JlYTlm
+NzdlODIxZTg5NDY2N2QwNzQzMWQxZDRjOGM1NzBiOWU1OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICI4OGJjZjg1MTI0Zjc3Zjc0ZjJmMmY4YmNkMTZhYzQzODJkODA3YTgyN2VkZTc0MmE2NDk0MGM3
+MTE2YWVhMzNmIgogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
+c2gtY29tcGxldGlvbi9yZWxlYXNlcyIKIAogUEFSQUxMRUxfTUFLRSA9ICIiCi0tIAoyLjQ3LjEK
+Cg==
 
---===============8461105619342298061==
+--===============5714043520528367112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/findutils/findutils-dbg: PKGSIZE changed from 2313776 to 2297736 (-1%)
-packages/x86-64-v3-poky-linux/findutils/findutils-dbg: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-dbg: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-dev: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-dev: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-doc: PKGSIZE changed from 532223 to 546526 (+3%)
-packages/x86-64-v3-poky-linux/findutils/findutils-doc: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-doc: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-be: PKGSIZE changed from 54561 to 48566 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-be: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-be: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-bg: PKGSIZE changed from 55782 to 59251 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-bg: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-bg: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ca: PKGSIZE changed from 5930 to 5201 (-12%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ca: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ca: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-cs: PKGSIZE changed from 42667 to 45238 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-cs: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-cs: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-da: PKGSIZE changed from 30408 to 28597 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-da: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-da: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-de: PKGSIZE changed from 32546 to 46528 (+43%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-de: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-de: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-el: PKGSIZE changed from 39353 to 37108 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-el: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-el: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-eo: PKGSIZE changed from 30201 to 28402 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-eo: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-eo: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-es: PKGSIZE changed from 43678 to 46363 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-es: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-es: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-et: PKGSIZE changed from 29743 to 42773 (+44%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-et: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-et: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-fi: PKGSIZE changed from 31562 to 29689 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-fi: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-fi: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-fr: PKGSIZE changed from 43912 to 46734 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-fr: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-fr: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ga: PKGSIZE changed from 16353 to 14819 (-9%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ga: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ga: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-gl: PKGSIZE changed from 19821 to 18252 (-8%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-gl: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-gl: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-hr: PKGSIZE changed from 42115 to 44831 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-hr: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-hr: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-hu: PKGSIZE changed from 32776 to 30812 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-hu: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-hu: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-id: PKGSIZE changed from 41757 to 44285 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-id: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-id: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-it: PKGSIZE changed from 29091 to 27404 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-it: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-it: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ja: PKGSIZE changed from 23750 to 21814 (-8%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ja: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ja: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ka: PKGSIZE changed from 39722 to 36515 (-8%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ka: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ka: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ko: PKGSIZE changed from 44028 to 46620 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ko: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ko: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-lg: PKGSIZE changed from 2662 to 2359 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-lg: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-lg: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-lt: PKGSIZE changed from 4320 to 4008 (-7%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-lt: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-lt: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ms: PKGSIZE changed from 1514 to 1453 (-4%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ms: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ms: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-nb: PKGSIZE changed from 41565 to 36763 (-12%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-nb: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-nb: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-nl: PKGSIZE changed from 41264 to 44254 (+7%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-nl: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-nl: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pl: PKGSIZE changed from 42547 to 45187 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pl: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pl: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pt-br: PKGSIZE changed from 42738 to 45341 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pt-br: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pt-br: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pt: PKGSIZE changed from 30973 to 44492 (+44%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pt: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-pt: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ro: PKGSIZE changed from 45037 to 47805 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ro: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ro: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ru: PKGSIZE changed from 54481 to 48584 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ru: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-ru: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sk: PKGSIZE changed from 20465 to 19176 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sk: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sk: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sl: PKGSIZE changed from 30830 to 29041 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sl: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sl: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sr: PKGSIZE changed from 54653 to 48526 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sr: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sr: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sv: PKGSIZE changed from 41666 to 44241 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sv: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-sv: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-tr: PKGSIZE changed from 41764 to 36977 (-11%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-tr: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-tr: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-uk: PKGSIZE changed from 55085 to 58440 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-uk: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-uk: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-vi: PKGSIZE changed from 33643 to 31530 (-6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-vi: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-vi: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-zh-cn: PKGSIZE changed from 39642 to 42035 (+6%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-zh-cn: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-zh-cn: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-zh-tw: PKGSIZE changed from 16962 to 34686 (+104%)
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-zh-tw: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-locale-zh-tw: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-ptest: PKGSIZE changed from 131863 to 147868 (+12%)
-packages/x86-64-v3-poky-linux/findutils/findutils-ptest: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-ptest: FILELIST: added "/usr/lib/findutils/ptest/tests/find/operators-wrong-with-dash.sh /usr/lib/findutils/ptest/tests/find/readdir_race.sh /usr/lib/findutils/ptest/tests/find/mount-vs-xdev-bind.sh /usr/lib/findutils/ptest/tests/find/mount-vs-xdev.sh /usr/lib/findutils/ptest/tests/find/sv-bug-66365-exec.sh /usr/lib/findutils/ptest/tests/find/mount-vs-xdev-other-fs.sh"
-packages/x86-64-v3-poky-linux/findutils/findutils-ptest: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-src: PKGSIZE changed from 2637106 to 2837652 (+8%)
-packages/x86-64-v3-poky-linux/findutils/findutils-src: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-src: FILELIST: directory renamed /usr/src/debug/findutils/4.10.0/xargs -> /usr/src/debug/findutils/4.11.0/xargs, directory renamed /usr/src/debug/findutils/4.10.0/lib -> /usr/src/debug/findutils/4.11.0/lib, directory renamed /usr/src/debug/findutils/4.10.0/find -> /usr/src/debug/findutils/4.11.0/find, directory renamed /usr/src/debug/findutils/4.10.0/gl/lib/selinux -> /usr/src/debug/findutils/4.11.0/gl/lib/selinux, directory renamed /usr/src/debug/findutils/4.10.0/gl/lib/malloc -> /usr/src/debug/findutils/4.11.0/gl/lib/malloc, directory renamed /usr/src/debug/findutils/4.10.0/locate -> /usr/src/debug/findutils/4.11.0/locate, removed "/usr/src/debug/findutils/4.10.0/gl/lib/mountlist.c /usr/src/debug/findutils/4.10.0/gl/lib/opendirat.c /usr/src/debug/findutils/4.10.0/gl/lib/idcache.c /usr/src/debug/findutils/4.10.0/gl/lib/c-ctype.h /usr/src/debug/findutils/4.10.0/gl/lib/opendirat.h /usr/src/debug/findutils/4.10.0/gl/lib/mountlist.h /usr
- /src/debug/findutils/4.10.0/gl/lib/memchr.c /usr/src/debug/findutils/4.10.0/gl/lib/idcache.h /usr/src/debug/findutils/4.10.0/gl/lib/close-stream.c /usr/src/debug/findutils/4.10.0/gl/lib/hard-locale.h /usr/src/debug/findutils/4.10.0/gl/lib/string.h /usr/src/debug/findutils/4.10.0/gl/lib/hard-locale.c /usr/src/debug/findutils/4.10.0/gl/lib/time-internal.h /usr/src/debug/findutils/4.10.0/gl/lib/close-stream.h /usr/src/debug/findutils/4.10.0/gl/lib/filemode.h /usr/src/debug/findutils/4.10.0/gl/lib/xstrtod.c /usr/src/debug/findutils/4.10.0/gl/lib/xstrtod.h /usr/src/debug/findutils/4.10.0/gl/lib/filemode.c /usr/src/debug/findutils/4.10.0/gl/lib/i-ring.c /usr/src/debug/findutils/4.10.0/gl/lib/save-cwd.c /usr/src/debug/findutils/4.10.0/gl/lib/save-cwd.h /usr/src/debug/findutils/4.10.0/gl/lib/i-ring.h /usr/src/debug/findutils/4.10.0/gl/lib/mbrtowc.c /usr/src/debug/findutils/4.10.0/gl/lib/openat-safer.c /usr/src/debug/findutils/4.10.0/gl/lib/areadlinkat.c /usr/src/debug/findutils/4.10.0/gl/li
- b/fd-safer.c /usr/src/debug/findutils/4.10.0/gl/lib/dup-safer.c /usr/src/debug/findutils/4.10.0/gl/lib/btowc.c /usr/src/debug/findutils/4.10.0/gl/lib/time_rz.c /usr/src/debug/findutils/4.10.0/gl/lib/localcharset.c /usr/src/debug/findutils/4.10.0/gl/lib/c-strcase.h /usr/src/debug/findutils/4.10.0/gl/lib/at-func.c /usr/src/debug/findutils/4.10.0/gl/lib/localcharset.h /usr/src/debug/findutils/4.10.0/gl/lib/closeout.c /usr/src/debug/findutils/4.10.0/gl/lib/openat.h /usr/src/debug/findutils/4.10.0/gl/lib/mbscasestr.c /usr/src/debug/findutils/4.10.0/gl/lib/closeout.h /usr/src/debug/findutils/4.10.0/gl/lib/cloexec.h /usr/src/debug/findutils/4.10.0/gl/lib/pipe-safer.c /usr/src/debug/findutils/4.10.0/gl/lib/yesno.c /usr/src/debug/findutils/4.10.0/gl/lib/xstrtol-error.c /usr/src/debug/findutils/4.10.0/gl/lib/str-two-way.h /usr/src/debug/findutils/4.10.0/gl/lib/yesno.h /usr/src/debug/findutils/4.10.0/gl/lib/xstrtol-error.h /usr/src/debug/findutils/4.10.0/gl/lib/cloexec.c /usr/src/debug/finduti
- ls/4.10.0/gl/lib/getopt1.c /usr/src/debug/findutils/4.10.0/gl/lib/mbslen.c /usr/src/debug/findutils/4.10.0/gl/lib/unistd.h /usr/src/debug/findutils/4.10.0/gl/lib/fcntl.h /usr/src/debug/findutils/4.10.0/gl/lib/fcntl.c /usr/src/debug/findutils/4.10.0/gl/lib/regex.h /usr/src/debug/findutils/4.10.0/gl/lib/strstr.c /usr/src/debug/findutils/4.10.0/gl/lib/strcasestr.c /usr/src/debug/findutils/4.10.0/gl/lib/openat-proc.c /usr/src/debug/findutils/4.10.0/gl/lib/fflush.c /usr/src/debug/findutils/4.10.0/gl/lib/hash.c /usr/src/debug/findutils/4.10.0/gl/lib/chdir-long.c /usr/src/debug/findutils/4.10.0/gl/lib/xmalloc.c /usr/src/debug/findutils/4.10.0/gl/lib/argmatch.h /usr/src/debug/findutils/4.10.0/gl/lib/fnmatch.c /usr/src/debug/findutils/4.10.0/gl/lib/progname.h /usr/src/debug/findutils/4.10.0/gl/lib/chdir-long.h /usr/src/debug/findutils/4.10.0/gl/lib/dirent-safer.h /usr/src/debug/findutils/4.10.0/gl/lib/setlocale_null.c /usr/src/debug/findutils/4.10.0/gl/lib/hash.h /usr/src/debug/findutils/4.1
- 0.0/gl/lib/setlocale_null.h /usr/src/debug/findutils/4.10.0/gl/lib/fnmatch.h /usr/src/debug/findutils/4.10.0/gl/lib/argmatch.c /usr/src/debug/findutils/4.10.0/gl/lib/mbchar.h /usr/src/debug/findutils/4.10.0/gl/lib/progname.c /usr/src/debug/findutils/4.10.0/gl/lib/setlocale_null-unlocked.c /usr/src/debug/findutils/4.10.0/gl/lib/modechange.h /usr/src/debug/findutils/4.10.0/gl/lib/dirname.h /usr/src/debug/findutils/4.10.0/gl/lib/mbswidth.h /usr/src/debug/findutils/4.10.0/gl/lib/mbuiterf.h /usr/src/debug/findutils/4.10.0/gl/lib/mbsstr.c /usr/src/debug/findutils/4.10.0/gl/lib/modechange.c /usr/src/debug/findutils/4.10.0/gl/lib/regexec.c /usr/src/debug/findutils/4.10.0/gl/lib/unistd-safer.h /usr/src/debug/findutils/4.10.0/gl/lib/mbswidth.c /usr/src/debug/findutils/4.10.0/gl/lib/sys-limits.h /usr/src/debug/findutils/4.10.0/gl/lib/regcomp.c /usr/src/debug/findutils/4.10.0/gl/lib/version-etc-fsf.c /usr/src/debug/findutils/4.10.0/gl/lib/mbsrtowcs-impl.h /usr/src/debug/findutils/4.10.0/gl/lib/
- xalloc-die.c /usr/src/debug/findutils/4.10.0/gl/lib/time.h /usr/src/debug/findutils/4.10.0/gl/lib/str-kmp.h /usr/src/debug/findutils/4.10.0/gl/lib/ialloc.h /usr/src/debug/findutils/4.10.0/gl/lib/xalloc.h /usr/src/debug/findutils/4.10.0/gl/lib/freadahead.h /usr/src/debug/findutils/4.10.0/gl/lib/freadahead.c /usr/src/debug/findutils/4.10.0/gl/lib/mbsrtowcs.c /usr/src/debug/findutils/4.10.0/gl/lib/stdlib.h /usr/src/debug/findutils/4.10.0/gl/lib/quote.h /usr/src/debug/findutils/4.10.0/gl/lib/openat-die.c /usr/src/debug/findutils/4.10.0/gl/lib/fts_.h /usr/src/debug/findutils/4.10.0/gl/lib/getcwd.c /usr/src/debug/findutils/4.10.0/gl/lib/timespec.h /usr/src/debug/findutils/4.10.0/gl/lib/fseeko.c /usr/src/debug/findutils/4.10.0/gl/lib/basename-lgpl.h /usr/src/debug/findutils/4.10.0/gl/lib/bitrotate.h /usr/src/debug/findutils/4.10.0/gl/lib/basename-lgpl.c /usr/src/debug/findutils/4.10.0/gl/lib/fopen.c /usr/src/debug/findutils/4.10.0/gl/lib/basename.c /usr/src/debug/findutils/4.10.0/gl/lib/op
- endir-safer.c /usr/src/debug/findutils/4.10.0/gl/lib/careadlinkat.c /usr/src/debug/findutils/4.10.0/gl/lib/safe-read.c /usr/src/debug/findutils/4.10.0/gl/lib/strftime.h /usr/src/debug/findutils/4.10.0/gl/lib/strnlen1.c /usr/src/debug/findutils/4.10.0/gl/lib/strnlen1.h /usr/src/debug/findutils/4.10.0/gl/lib/fnmatch_loop.c /usr/src/debug/findutils/4.10.0/gl/lib/version-etc.c /usr/src/debug/findutils/4.10.0/gl/lib/version-etc.h /usr/src/debug/findutils/4.10.0/gl/lib/safe-read.h /usr/src/debug/findutils/4.10.0/gl/lib/careadlinkat.h /usr/src/debug/findutils/4.10.0/gl/lib/mbsrtowcs-state.c /usr/src/debug/findutils/4.10.0/gl/lib/exitfail.h /usr/src/debug/findutils/4.10.0/gl/lib/stdio-safer.h /usr/src/debug/findutils/4.10.0/gl/lib/exitfail.c /usr/src/debug/findutils/4.10.0/gl/lib/stdio.h /usr/src/debug/findutils/4.10.0/gl/lib/uchar.h /usr/src/debug/findutils/4.10.0/gl/lib/wchar.h /usr/src/debug/findutils/4.10.0/gl/lib/fcntl-safer.h /usr/src/debug/findutils/4.10.0/gl/lib/closein.c /usr/src/d
- ebug/findutils/4.10.0/gl/lib/dirname-lgpl.c /usr/src/debug/findutils/4.10.0/gl/lib/closein.h /usr/src/debug/findutils/4.10.0/gl/lib/dirent.h /usr/src/debug/findutils/4.10.0/gl/lib/getopt-ext.h /usr/src/debug/findutils/4.10.0/gl/lib/getopt_int.h /usr/src/debug/findutils/4.10.0/gl/lib/selinux-at.h /usr/src/debug/findutils/4.10.0/gl/lib/gettime.c /usr/src/debug/findutils/4.10.0/gl/lib/parse-datetime.y /usr/src/debug/findutils/4.10.0/gl/lib/openat-priv.h /usr/src/debug/findutils/4.10.0/gl/lib/parse-datetime.h /usr/src/debug/findutils/4.10.0/gl/lib/xstrtol.h /usr/src/debug/findutils/4.10.0/gl/lib/regex_internal.c /usr/src/debug/findutils/4.10.0/gl/lib/parse-datetime.c /usr/src/debug/findutils/4.10.0/gl/lib/xstrtol.c /usr/src/debug/findutils/4.10.0/gl/lib/regex_internal.h /usr/src/debug/findutils/4.10.0/gl/lib/human.c /usr/src/debug/findutils/4.10.0/gl/lib/human.h /usr/src/debug/findutils/4.10.0/gl/lib/getopt-core.h /usr/src/debug/findutils/4.10.0/gl/lib/mbuiter.h /usr/src/debug/findutils
- /4.10.0/gl/lib/allocator.h /usr/src/debug/findutils/4.10.0/gl/lib/c-strcaseeq.h /usr/src/debug/findutils/4.10.0/gl/lib/cycle-check.h /usr/src/debug/findutils/4.10.0/gl/lib/fts-cycle.c /usr/src/debug/findutils/4.10.0/gl/lib/stat-time.h /usr/src/debug/findutils/4.10.0/gl/lib/cycle-check.c /usr/src/debug/findutils/4.10.0/gl/lib/allocator.c /usr/src/debug/findutils/4.10.0/gl/lib/dev-ino.h /usr/src/debug/findutils/4.10.0/gl/lib/argv-iter.c /usr/src/debug/findutils/4.10.0/gl/lib/mbrtoc32.c /usr/src/debug/findutils/4.10.0/gl/lib/stripslash.c /usr/src/debug/findutils/4.10.0/gl/lib/argv-iter.h /usr/src/debug/findutils/4.10.0/gl/lib/areadlink.h /usr/src/debug/findutils/4.10.0/gl/lib/getopt.c /usr/src/debug/findutils/4.10.0/gl/lib/idx.h /usr/src/debug/findutils/4.10.0/gl/lib/open-safer.c /usr/src/debug/findutils/4.10.0/gl/lib/fopen-safer.c /usr/src/debug/findutils/4.10.0/gl/lib/fts.c /usr/src/debug/findutils/4.10.0/gl/lib/malloca.h /usr/src/debug/findutils/4.10.0/gl/lib/quotearg.c /usr/src/deb
- ug/findutils/4.10.0/gl/lib/malloca.c /usr/src/debug/findutils/4.10.0/gl/lib/quotearg.h", added "/usr/src/debug/findutils/4.11.0/gl/lib/mountlist.c /usr/src/debug/findutils/4.11.0/gl/lib/opendirat.c /usr/src/debug/findutils/4.11.0/gl/lib/idcache.c /usr/src/debug/findutils/4.11.0/gl/lib/c-ctype.h /usr/src/debug/findutils/4.11.0/gl/lib/opendirat.h /usr/src/debug/findutils/4.11.0/gl/lib/mountlist.h /usr/src/debug/findutils/4.11.0/gl/lib/memchr.c /usr/src/debug/findutils/4.11.0/gl/lib/idcache.h /usr/src/debug/findutils/4.11.0/gl/lib/close-stream.c /usr/src/debug/findutils/4.11.0/gl/lib/hard-locale.h /usr/src/debug/findutils/4.11.0/gl/lib/string.h /usr/src/debug/findutils/4.11.0/gl/lib/hard-locale.c /usr/src/debug/findutils/4.11.0/gl/lib/time-internal.h /usr/src/debug/findutils/4.11.0/gl/lib/close-stream.h /usr/src/debug/findutils/4.11.0/gl/lib/filemode.h /usr/src/debug/findutils/4.11.0/gl/lib/xstrtod.c /usr/src/debug/findutils/4.11.0/gl/lib/xstrtod.h /usr/src/debug/findutils/4.11.0/gl/li
- b/filemode.c /usr/src/debug/findutils/4.11.0/gl/lib/i-ring.c /usr/src/debug/findutils/4.11.0/gl/lib/save-cwd.c /usr/src/debug/findutils/4.11.0/gl/lib/langinfo.h /usr/src/debug/findutils/4.11.0/gl/lib/save-cwd.h /usr/src/debug/findutils/4.11.0/gl/lib/i-ring.h /usr/src/debug/findutils/4.11.0/gl/lib/mbrtowc.c /usr/src/debug/findutils/4.11.0/gl/lib/openat-safer.c /usr/src/debug/findutils/4.11.0/gl/lib/areadlinkat.c /usr/src/debug/findutils/4.11.0/gl/lib/fd-safer.c /usr/src/debug/findutils/4.11.0/gl/lib/dup-safer.c /usr/src/debug/findutils/4.11.0/gl/lib/fstatat.c /usr/src/debug/findutils/4.11.0/gl/lib/btowc.c /usr/src/debug/findutils/4.11.0/gl/lib/time_rz.c /usr/src/debug/findutils/4.11.0/gl/lib/at-func.c /usr/src/debug/findutils/4.11.0/gl/lib/closeout.c /usr/src/debug/findutils/4.11.0/gl/lib/localeinfo.c /usr/src/debug/findutils/4.11.0/gl/lib/openat.h /usr/src/debug/findutils/4.11.0/gl/lib/mbscasestr.c /usr/src/debug/findutils/4.11.0/gl/lib/localeinfo.h /usr/src/debug/findutils/4.11.0/g
- l/lib/closeout.h /usr/src/debug/findutils/4.11.0/gl/lib/cloexec.h /usr/src/debug/findutils/4.11.0/gl/lib/pipe-safer.c /usr/src/debug/findutils/4.11.0/gl/lib/yesno.c /usr/src/debug/findutils/4.11.0/gl/lib/xstrtol-error.c /usr/src/debug/findutils/4.11.0/gl/lib/str-two-way.h /usr/src/debug/findutils/4.11.0/gl/lib/yesno.h /usr/src/debug/findutils/4.11.0/gl/lib/xstrtol-error.h /usr/src/debug/findutils/4.11.0/gl/lib/cloexec.c /usr/src/debug/findutils/4.11.0/gl/lib/getopt1.c /usr/src/debug/findutils/4.11.0/gl/lib/mbslen.c /usr/src/debug/findutils/4.11.0/gl/lib/unistd.h /usr/src/debug/findutils/4.11.0/gl/lib/filesystem-remote.h /usr/src/debug/findutils/4.11.0/gl/lib/fcntl.h /usr/src/debug/findutils/4.11.0/gl/lib/filesystem-remote.c /usr/src/debug/findutils/4.11.0/gl/lib/fcntl.c /usr/src/debug/findutils/4.11.0/gl/lib/nl_langinfo.c /usr/src/debug/findutils/4.11.0/gl/lib/regex.h /usr/src/debug/findutils/4.11.0/gl/lib/strstr.c /usr/src/debug/findutils/4.11.0/gl/lib/strcasestr.c /usr/src/debug/f
- indutils/4.11.0/gl/lib/openat-proc.c /usr/src/debug/findutils/4.11.0/gl/lib/fflush.c /usr/src/debug/findutils/4.11.0/gl/lib/hash.c /usr/src/debug/findutils/4.11.0/gl/lib/chdir-long.c /usr/src/debug/findutils/4.11.0/gl/lib/xmalloc.c /usr/src/debug/findutils/4.11.0/gl/lib/argmatch.h /usr/src/debug/findutils/4.11.0/gl/lib/fnmatch.c /usr/src/debug/findutils/4.11.0/gl/lib/progname.h /usr/src/debug/findutils/4.11.0/gl/lib/chdir-long.h /usr/src/debug/findutils/4.11.0/gl/lib/dirent-safer.h /usr/src/debug/findutils/4.11.0/gl/lib/setlocale_null.c /usr/src/debug/findutils/4.11.0/gl/lib/hash.h /usr/src/debug/findutils/4.11.0/gl/lib/setlocale_null.h /usr/src/debug/findutils/4.11.0/gl/lib/fnmatch.h /usr/src/debug/findutils/4.11.0/gl/lib/argmatch.c /usr/src/debug/findutils/4.11.0/gl/lib/mbchar.h /usr/src/debug/findutils/4.11.0/gl/lib/progname.c /usr/src/debug/findutils/4.11.0/gl/lib/setlocale_null-unlocked.c /usr/src/debug/findutils/4.11.0/gl/lib/modechange.h /usr/src/debug/findutils/4.11.0/gl/lib
- /dirname.h /usr/src/debug/findutils/4.11.0/gl/lib/mbswidth.h /usr/src/debug/findutils/4.11.0/gl/lib/mbuiterf.h /usr/src/debug/findutils/4.11.0/gl/lib/mbsstr.c /usr/src/debug/findutils/4.11.0/gl/lib/modechange.c /usr/src/debug/findutils/4.11.0/gl/lib/regexec.c /usr/src/debug/findutils/4.11.0/gl/lib/unistd-safer.h /usr/src/debug/findutils/4.11.0/gl/lib/mbswidth.c /usr/src/debug/findutils/4.11.0/gl/lib/sys-limits.h /usr/src/debug/findutils/4.11.0/gl/lib/regcomp.c /usr/src/debug/findutils/4.11.0/gl/lib/version-etc-fsf.c /usr/src/debug/findutils/4.11.0/gl/lib/mbsrtowcs-impl.h /usr/src/debug/findutils/4.11.0/gl/lib/xalloc-die.c /usr/src/debug/findutils/4.11.0/gl/lib/time.h /usr/src/debug/findutils/4.11.0/gl/lib/str-kmp.h /usr/src/debug/findutils/4.11.0/gl/lib/ialloc.h /usr/src/debug/findutils/4.11.0/gl/lib/xalloc.h /usr/src/debug/findutils/4.11.0/gl/lib/freadahead.h /usr/src/debug/findutils/4.11.0/gl/lib/freadahead.c /usr/src/debug/findutils/4.11.0/gl/lib/mbsrtowcs.c /usr/src/debug/findut
- ils/4.11.0/gl/lib/stdlib.h /usr/src/debug/findutils/4.11.0/gl/lib/quote.h /usr/src/debug/findutils/4.11.0/gl/lib/openat-die.c /usr/src/debug/findutils/4.11.0/gl/lib/reallocarray.c /usr/src/debug/findutils/4.11.0/gl/lib/sys/stat.h /usr/src/debug/findutils/4.11.0/gl/lib/fts_.h /usr/src/debug/findutils/4.11.0/gl/lib/getcwd.c /usr/src/debug/findutils/4.11.0/gl/lib/timespec-sub.c /usr/src/debug/findutils/4.11.0/gl/lib/timespec.h /usr/src/debug/findutils/4.11.0/gl/lib/fseeko.c /usr/src/debug/findutils/4.11.0/gl/lib/basename-lgpl.h /usr/src/debug/findutils/4.11.0/gl/lib/bitrotate.h /usr/src/debug/findutils/4.11.0/gl/lib/basename-lgpl.c /usr/src/debug/findutils/4.11.0/gl/lib/fopen.c /usr/src/debug/findutils/4.11.0/gl/lib/basename.c /usr/src/debug/findutils/4.11.0/gl/lib/opendir-safer.c /usr/src/debug/findutils/4.11.0/gl/lib/careadlinkat.c /usr/src/debug/findutils/4.11.0/gl/lib/safe-read.c /usr/src/debug/findutils/4.11.0/gl/lib/strnlen1.h /usr/src/debug/findutils/4.11.0/gl/lib/strnlen1.c /us
- r/src/debug/findutils/4.11.0/gl/lib/version-etc.c /usr/src/debug/findutils/4.11.0/gl/lib/fnmatch_loop.c /usr/src/debug/findutils/4.11.0/gl/lib/version-etc.h /usr/src/debug/findutils/4.11.0/gl/lib/safe-read.h /usr/src/debug/findutils/4.11.0/gl/lib/careadlinkat.h /usr/src/debug/findutils/4.11.0/gl/lib/mbsrtowcs-state.c /usr/src/debug/findutils/4.11.0/gl/lib/exitfail.h /usr/src/debug/findutils/4.11.0/gl/lib/stdio-safer.h /usr/src/debug/findutils/4.11.0/gl/lib/exitfail.c /usr/src/debug/findutils/4.11.0/gl/lib/stdio.h /usr/src/debug/findutils/4.11.0/gl/lib/uchar.h /usr/src/debug/findutils/4.11.0/gl/lib/wchar.h /usr/src/debug/findutils/4.11.0/gl/lib/fcntl-safer.h /usr/src/debug/findutils/4.11.0/gl/lib/closein.c /usr/src/debug/findutils/4.11.0/gl/lib/next-prime.c /usr/src/debug/findutils/4.11.0/gl/lib/dirname-lgpl.c /usr/src/debug/findutils/4.11.0/gl/lib/closein.h /usr/src/debug/findutils/4.11.0/gl/lib/dirent.h /usr/src/debug/findutils/4.11.0/gl/lib/next-prime.h /usr/src/debug/findutils/4.
- 11.0/gl/lib/getopt-ext.h /usr/src/debug/findutils/4.11.0/gl/lib/getopt_int.h /usr/src/debug/findutils/4.11.0/gl/lib/mbiter-aux.c /usr/src/debug/findutils/4.11.0/gl/lib/gettime.c /usr/src/debug/findutils/4.11.0/gl/lib/parse-datetime.y /usr/src/debug/findutils/4.11.0/gl/lib/selinux-at.h /usr/src/debug/findutils/4.11.0/gl/lib/openat-priv.h /usr/src/debug/findutils/4.11.0/gl/lib/mbiter-aux.h /usr/src/debug/findutils/4.11.0/gl/lib/parse-datetime.h /usr/src/debug/findutils/4.11.0/gl/lib/xstrtol.h /usr/src/debug/findutils/4.11.0/gl/lib/regex_internal.c /usr/src/debug/findutils/4.11.0/gl/lib/parse-datetime.c /usr/src/debug/findutils/4.11.0/gl/lib/xstrtol.c /usr/src/debug/findutils/4.11.0/gl/lib/regex_internal.h /usr/src/debug/findutils/4.11.0/gl/lib/human.c /usr/src/debug/findutils/4.11.0/gl/lib/human.h /usr/src/debug/findutils/4.11.0/gl/lib/getopt-core.h /usr/src/debug/findutils/4.11.0/gl/lib/mbuiter.h /usr/src/debug/findutils/4.11.0/gl/lib/allocator.h /usr/src/debug/findutils/4.11.0/gl/li
- b/cycle-check.h /usr/src/debug/findutils/4.11.0/gl/lib/fts-cycle.c /usr/src/debug/findutils/4.11.0/gl/lib/stat-time.h /usr/src/debug/findutils/4.11.0/gl/lib/cycle-check.c /usr/src/debug/findutils/4.11.0/gl/lib/allocator.c /usr/src/debug/findutils/4.11.0/gl/lib/dev-ino.h /usr/src/debug/findutils/4.11.0/gl/lib/argv-iter.c /usr/src/debug/findutils/4.11.0/gl/lib/mbrtoc32.c /usr/src/debug/findutils/4.11.0/gl/lib/stripslash.c /usr/src/debug/findutils/4.11.0/gl/lib/argv-iter.h /usr/src/debug/findutils/4.11.0/gl/lib/areadlink.h /usr/src/debug/findutils/4.11.0/gl/lib/getopt.c /usr/src/debug/findutils/4.11.0/gl/lib/idx.h /usr/src/debug/findutils/4.11.0/gl/lib/open-safer.c /usr/src/debug/findutils/4.11.0/gl/lib/fopen-safer.c /usr/src/debug/findutils/4.11.0/gl/lib/fts.c /usr/src/debug/findutils/4.11.0/gl/lib/malloca.h /usr/src/debug/findutils/4.11.0/gl/lib/quotearg.c /usr/src/debug/findutils/4.11.0/gl/lib/malloca.c /usr/src/debug/findutils/4.11.0/gl/lib/quotearg.h"
-packages/x86-64-v3-poky-linux/findutils/findutils-src: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils-staticdev: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils-staticdev: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils/findutils: PKGSIZE changed from 662656 to 658245 (-1%)
-packages/x86-64-v3-poky-linux/findutils/findutils: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils/findutils: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
-packages/x86-64-v3-poky-linux/findutils: PV changed from "4.10.0" to "4.11.0"
-packages/x86-64-v3-poky-linux/findutils: SRC_URI changed from "https://ftpmirror.gnu.org/gnu/findutils/findutils-4.10.0.tar.xz file://run-ptest" to "https://ftpmirror.gnu.org/gnu/findutils/findutils-4.11.0.tar.xz file://run-ptest"
-packages/x86-64-v3-poky-linux/findutils: PACKAGES: added "findutils-locale-ar"
-packages/x86-64-v3-poky-linux/findutils: PKGV changed from 4.10.0 [default] to 4.11.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dbg: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dbg: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dev: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dev: PKGSIZE changed from 979 to 1025 (+5%)
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dev: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-doc: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-doc: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: FILELIST: removed "/usr/share/bash-completion/completions/rpmcheck /usr/share/bash-completion/completions/autoheader /usr/share/bash-completion/completions/info /usr/share/bash-completion/completions/perl /usr/share/bash-completion/completions/tcpnice /usr/share/bash-completion/completions/gpasswd /usr/share/bash-completion/completions/_nerdctl /usr/share/bash-completion/completions/_black /usr/share/bash-completion/completions/_limactl /usr/share/bash-completion/completions/dpkg-deb /usr/share/bash-completion/completions/rsync /usr/share/bash-completion/completions/autoupdate /usr/share/bash-completion/completions/autoreconf /usr/share/bash-completion/completions/python /usr/share/bash-completion/completions/_nox /usr/share/bash-completion/completions/quota /usr/share/bash-completion/completions/fprintd-list /usr/share/bash-completion/completions/openssl /usr/share/bash-completion/completions/_flask /usr/share/bash
+ -completion/completions/_mise /usr/share/bash-completion/completions/_tendermint /usr/share/bash-completion/completions/dpkg-reconfigure /usr/share/bash-completion/completions/_apko /usr/share/bash-completion/completions/pdlzip /usr/share/bash-completion/completions/rlog /usr/share/bash-completion/completions/ipmitool /usr/share/bash-completion/completions/pack200 /usr/share/bash-completion/completions/_sinker /usr/share/bash-completion/completions/plague-client /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/avahi-browse /usr/share/bash-completion/completions/strings /usr/share/bash-completion/completions/_popeye /usr/share/bash-completion/completions/_vela /usr/share/bash-completion/completions/faillog /usr/share/bash-completion/completions/brctl /usr/share/bash-completion/completions/civserver /usr/share/bash-completion/completions/iwconfig /usr/share/bash-completion/completions/btdownloadcurses.py /usr/share/bash-completion/completions/_changi
+ e /usr/share/bash-completion/completions/_docker /usr/share/bash-completion/completions/gmplayer /usr/share/bash-completion/completions/xmllint /usr/share/bash-completion/completions/lrzip /usr/share/bash-completion/completions/munin-node-configure /usr/share/bash-completion/completions/f77 /usr/share/bash-completion/completions/g77 /usr/share/bash-completion/completions/lzop /usr/share/bash-completion/completions/_bombadil /usr/share/bash-completion/completions/_rustic /usr/share/bash-completion/completions/inotifywait /usr/share/bash-completion/completions/dpkg-source /usr/share/bash-completion/completions/dselect /usr/share/bash-completion/completions/lvscan /usr/share/bash-completion/completions/pvscan /usr/share/bash-completion/completions/_dmesg /usr/share/bash-completion/completions/asciidoc.py /usr/share/bash-completion/completions/sparc-koji /usr/share/bash-completion/completions/_trash-put /usr/share/bash-completion/completions/apache2ctl /usr/share/bash-completion/complet
+ ions/btdownloadheadless.py /usr/share/bash-completion/completions/pvmove /usr/share/bash-completion/completions/_crc /usr/share/bash-completion/completions/smbget /usr/share/bash-completion/completions/cpan2dist /usr/share/bash-completion/completions/micropython /usr/share/bash-completion/completions/tcpkill /usr/share/bash-completion/completions/ssh-add /usr/share/bash-completion/completions/python3.9 /usr/share/bash-completion/completions/gpgv2 /usr/share/bash-completion/completions/python3.8 /usr/share/bash-completion/completions/py.test /usr/share/bash-completion/completions/python3.3 /usr/share/bash-completion/completions/python3.5 /usr/share/bash-completion/completions/python3.4 /usr/share/bash-completion/completions/python3.7 /usr/share/bash-completion/completions/python3.6 /usr/share/bash-completion/completions/timeout /usr/share/bash-completion/completions/phing /usr/share/bash-completion/completions/_jj /usr/share/bash-completion/completions/_k9s /usr/share/bash-completion
+ /completions/ping6 /usr/share/bash-completion/completions/ping4 /usr/share/bash-completion/completions/gphoto2 /usr/share/bash-completion/completions/dumpdb /usr/share/bash-completion/completions/crontab /usr/share/bash-completion/completions/getconf /usr/share/bash-completion/completions/chronyc /usr/share/bash-completion/completions/_deno /usr/share/bash-completion/completions/nmap /usr/share/bash-completion/completions/freeciv-xaw /usr/share/bash-completion/completions/pyston /usr/share/bash-completion/completions/scrub /usr/share/bash-completion/completions/unace /usr/share/bash-completion/completions/fprintd-delete /usr/share/bash-completion/completions/iceweasel /usr/share/bash-completion/completions/vgcfgrestore /usr/share/bash-completion/completions/vgmknodes /usr/share/bash-completion/completions/_gitconfig /usr/share/bash-completion/completions/mailsnarf /usr/share/bash-completion/completions/_tanzu-core /usr/share/bash-completion/completions/lastlog /usr/share/bash-comple
+ tion/completions/printenv /usr/share/bash-completion/completions/e2freefrag /usr/share/bash-completion/completions/pwd /usr/share/bash-completion/completions/_dagger /usr/share/bash-completion/completions/ssh-keyscan /usr/share/bash-completion/completions/lvdisplay /usr/share/bash-completion/completions/pvdisplay /usr/share/bash-completion/completions/ngrep /usr/share/bash-completion/completions/pgrep /usr/share/bash-completion/completions/explodepkg /usr/share/bash-completion/completions/pxz /usr/share/bash-completion/completions/dpkg /usr/share/bash-completion/completions/dropuser /usr/share/bash-completion/completions/_xc /usr/share/bash-completion/completions/_pip3 /usr/share/bash-completion/completions/xxd /usr/share/bash-completion/completions/_xm /usr/share/bash-completion/completions/sudo /usr/share/bash-completion/completions/rpmbuild /usr/share/bash-completion/completions/_ansible-inventory /usr/share/bash-completion/completions/_reptyr /usr/share/bash-completion/completio
+ ns/rfcomm /usr/share/bash-completion/completions/_infracost /usr/share/bash-completion/completions/wget /usr/share/bash-completion/completions/_todoist /usr/share/bash-completion/completions/_eject /usr/share/bash-completion/completions/pdftotext /usr/share/bash-completion/completions/luserdel /usr/share/bash-completion/completions/gendiff /usr/share/bash-completion/completions/_mattermost /usr/share/bash-completion/completions/ralsh /usr/share/bash-completion/completions/dumpe2fs /usr/share/bash-completion/completions/man /usr/share/bash-completion/completions/cfrun /usr/share/bash-completion/completions/pngfix /usr/share/bash-completion/completions/jar /usr/share/bash-completion/completions/tar /usr/share/bash-completion/completions/_ytt /usr/share/bash-completion/completions/vgcfgbackup /usr/share/bash-completion/completions/smbcacls /usr/share/bash-completion/completions/_kool /usr/share/bash-completion/completions/pwck /usr/share/bash-completion/completions/nethogs /usr/share/b
+ ash-completion/completions/jpegoptim /usr/share/bash-completion/completions/_adb /usr/share/bash-completion/completions/querybts /usr/share/bash-completion/completions/lbzip2 /usr/share/bash-completion/completions/pbzip2 /usr/share/bash-completion/completions/sshmitm /usr/share/bash-completion/completions/_cilium /usr/share/bash-completion/completions/_ory /usr/share/bash-completion/completions/_nmcli /usr/share/bash-completion/completions/autorpm /usr/share/bash-completion/completions/clisp /usr/share/bash-completion/completions/hostname /usr/share/bash-completion/completions/cvs /usr/share/bash-completion/completions/lvs /usr/share/bash-completion/completions/pvs /usr/share/bash-completion/completions/iscsiadm /usr/share/bash-completion/completions/lvm /usr/share/bash-completion/completions/lvrename /usr/share/bash-completion/completions/svk /usr/share/bash-completion/completions/kcov /usr/share/bash-completion/completions/bmake /usr/share/bash-completion/completions/dcop /usr/sha
+ re/bash-completion/completions/gmake /usr/share/bash-completion/completions/_k3sup /usr/share/bash-completion/completions/mrsasutil /usr/share/bash-completion/completions/apt-mark /usr/share/bash-completion/completions/pmake /usr/share/bash-completion/completions/_renice /usr/share/bash-completion/completions/pkgadd /usr/share/bash-completion/completions/hciattach /usr/share/bash-completion/completions/yum-arch /usr/share/bash-completion/completions/_kontena /usr/share/bash-completion/completions/_watchexec /usr/share/bash-completion/completions/_kops /usr/share/bash-completion/completions/_atmos /usr/share/bash-completion/completions/_rfkill /usr/share/bash-completion/completions/_steampipe /usr/share/bash-completion/completions/clone_member /usr/share/bash-completion/completions/shellcheck /usr/share/bash-completion/completions/complete /usr/share/bash-completion/completions/_nomad /usr/share/bash-completion/completions/_linkerd /usr/share/bash-completion/completions/ifup /usr/sha
+ re/bash-completion/completions/pyston3 /usr/share/bash-completion/completions/_kompose /usr/share/bash-completion/completions/_ansible /usr/share/bash-completion/completions/interdiff /usr/share/bash-completion/completions/_gomarklint /usr/share/bash-completion/completions/vgrename /usr/share/bash-completion/completions/wine-development /usr/share/bash-completion/completions/_esc /usr/share/bash-completion/completions/list_members /usr/share/bash-completion/completions/chrpath /usr/share/bash-completion/completions/gssdp-device-sniffer /usr/share/bash-completion/completions/vgsplit /usr/share/bash-completion/completions/ccze /usr/share/bash-completion/completions/perlcritic /usr/share/bash-completion/completions/compgen /usr/share/bash-completion/completions/_ansible-vault /usr/share/bash-completion/completions/_goreleaser /usr/share/bash-completion/completions/hcitool /usr/share/bash-completion/completions/configure /usr/share/bash-completion/completions/dpkg-query /usr/share/bash-
+ completion/completions/xmodmap /usr/share/bash-completion/completions/typeset /usr/share/bash-completion/completions/_ruff /usr/share/bash-completion/completions/geoiplookup6 /usr/share/bash-completion/completions/_secret-tool /usr/share/bash-completion/completions/_syft /usr/share/bash-completion/completions/flake8 /usr/share/bash-completion/completions/sitecopy /usr/share/bash-completion/completions/_cal /usr/share/bash-completion/completions/ncal /usr/share/bash-completion/completions/pwdx /usr/share/bash-completion/completions/checksec /usr/share/bash-completion/completions/tcpdump /usr/share/bash-completion/completions/dropdb /usr/share/bash-completion/completions/lsscsi /usr/share/bash-completion/completions/pm-is-supported /usr/share/bash-completion/completions/fusermount /usr/share/bash-completion/completions/vgimport /usr/share/bash-completion/completions/display /usr/share/bash-completion/completions/_krane /usr/share/bash-completion/completions/_colima /usr/share/bash-com
+ pletion/completions/_glow /usr/share/bash-completion/completions/vgreduce /usr/share/bash-completion/completions/2to3 /usr/share/bash-completion/completions/abook /usr/share/bash-completion/completions/ifstat /usr/share/bash-completion/completions/_furyctl /usr/share/bash-completion/completions/_go-licenses /usr/share/bash-completion/completions/sbopkg /usr/share/bash-completion/completions/_clusterctl /usr/share/bash-completion/completions/function /usr/share/bash-completion/completions/ulimit /usr/share/bash-completion/completions/htop /usr/share/bash-completion/completions/iwpriv /usr/share/bash-completion/completions/pdftoppm /usr/share/bash-completion/completions/_umount /usr/share/bash-completion/completions/pkill /usr/share/bash-completion/completions/postcat /usr/share/bash-completion/completions/cksfv /usr/share/bash-completion/completions/_mtr /usr/share/bash-completion/completions/_tilt /usr/share/bash-completion/completions/tightvncviewer /usr/share/bash-completion/compl
+ etions/sync_members /usr/share/bash-completion/completions/_stripe /usr/share/bash-completion/completions/_yum /usr/share/bash-completion/completions/_polygon-edge /usr/share/bash-completion/completions/_crictl /usr/share/bash-completion/completions/_glab /usr/share/bash-completion/completions/tsig-keygen /usr/share/bash-completion/completions/_trash-list /usr/share/bash-completion/completions/alias /usr/share/bash-completion/completions/apropos /usr/share/bash-completion/completions/puppetca /usr/share/bash-completion/completions/ssh-copy-id /usr/share/bash-completion/completions/valgrind /usr/share/bash-completion/completions/smartctl /usr/share/bash-completion/completions/pm-hibernate /usr/share/bash-completion/completions/_ngrok /usr/share/bash-completion/completions/fio /usr/share/bash-completion/completions/pm-suspend /usr/share/bash-completion/completions/_blackd /usr/share/bash-completion/completions/slabtop /usr/share/bash-completion/completions/genisoimage /usr/share/bash-
+ completion/completions/update-alternatives /usr/share/bash-completion/completions/_rustup /usr/share/bash-completion/completions/rpm2targz /usr/share/bash-completion/completions/_vault /usr/share/bash-completion/completions/arpspoof /usr/share/bash-completion/completions/javac /usr/share/bash-completion/completions/lua /usr/share/bash-completion/completions/webmitm /usr/share/bash-completion/completions/_alp /usr/share/bash-completion/completions/_rtcwake /usr/share/bash-completion/completions/_uv /usr/share/bash-completion/completions/pylint-2 /usr/share/bash-completion/completions/pylint-3 /usr/share/bash-completion/completions/mktemp /usr/share/bash-completion/completions/identify /usr/share/bash-completion/completions/sysbench /usr/share/bash-completion/completions/neomutt /usr/share/bash-completion/completions/_crane /usr/share/bash-completion/completions/tmux /usr/share/bash-completion/completions/_ansible-pull /usr/share/bash-completion/completions/route /usr/share/bash-compl
+ etion/completions/povray /usr/share/bash-completion/completions/cryptsetup /usr/share/bash-completion/completions/rrdtool /usr/share/bash-completion/completions/ccache /usr/share/bash-completion/completions/_gh /usr/share/bash-completion/completions/_bosh /usr/share/bash-completion/completions/_udevadm /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/wodim /usr/share/bash-completion/completions/repquota /usr/share/bash-completion/completions/vgs /usr/share/bash-completion/completions/_svnlook /usr/share/bash-completion/completions/gssdp-discover /usr/share/bash-completion/completions/_lefthook /usr/share/bash-completion/completions/_tokio-console /usr/share/bash-completion/completions/_pulumi /usr/share/bash-completion/completions/hash /usr/share/bash-completion/completions/_tctl /usr/share/bash-completion/completions/lz4c /usr/share/bash-completion/completions/ypcat /usr/share/bash-completion/completions/_kratos /usr/share/bash-completion/complet
+ ions/_dprint /usr/share/bash-completion/completions/mdecrypt /usr/share/bash-completion/helpers/perl /usr/share/bash-completion/completions/_kubectl-kuttl /usr/share/bash-completion/completions/colormake /usr/share/bash-completion/completions/dict /usr/share/bash-completion/completions/smbcquotas /usr/share/bash-completion/completions/snownews /usr/share/bash-completion/completions/_mdbook /usr/share/bash-completion/completions/jshint /usr/share/bash-completion/completions/newusers /usr/share/bash-completion/completions/brave /usr/share/bash-completion/completions/_dyff /usr/share/bash-completion/completions/killall /usr/share/bash-completion/completions/host /usr/share/bash-completion/completions/_hugo /usr/share/bash-completion/completions/_multi-gitter /usr/share/bash-completion/completions/_spacectl /usr/share/bash-completion/completions/_modules /usr/share/bash-completion/completions/_helm /usr/share/bash-completion/completions/sha256sum /usr/share/bash-completion/completions/a
+ vahi-browse-domains /usr/share/bash-completion/completions/sha1sum /usr/share/bash-completion/completions/e2label /usr/share/bash-completion/completions/gtar /usr/share/bash-completion/completions/star /usr/share/bash-completion/completions/_jungle /usr/share/bash-completion/completions/pushd /usr/share/bash-completion/completions/geoiplookup /usr/share/bash-completion/completions/pyvenv-3.4 /usr/share/bash-completion/completions/pyvenv-3.5 /usr/share/bash-completion/completions/pyvenv-3.6 /usr/share/bash-completion/completions/_virtctl /usr/share/bash-completion/completions/pyvenv-3.7 /usr/share/bash-completion/completions/lusermod /usr/share/bash-completion/completions/apt-build /usr/share/bash-completion/completions/rpm2tgz /usr/share/bash-completion/completions/pyvenv-3.8 /usr/share/bash-completion/completions/pyvenv-3.9 /usr/share/bash-completion/completions/locale-gen /usr/share/bash-completion/completions/_argc /usr/share/bash-completion/completions/_argo /usr/share/bash-comp
+ letion/completions/apt-get /usr/share/bash-completion/completions/pyflakes /usr/share/bash-completion/completions/_wasmer /usr/share/bash-completion/completions/muttng /usr/share/bash-completion/completions/_kafkactl /usr/share/bash-completion/completions/ldapvi /usr/share/bash-completion/completions/_newgrp /usr/share/bash-completion/completions/gccgo /usr/share/bash-completion/completions/htpasswd /usr/share/bash-completion/completions/_skaffold /usr/share/bash-completion/completions/_repomanage /usr/share/bash-completion/completions/medusa /usr/share/bash-completion/completions/stream /usr/share/bash-completion/completions/pyvenv /usr/share/bash-completion/completions/smbpasswd /usr/share/bash-completion/completions/export /usr/share/bash-completion/completions/rmlist /usr/share/bash-completion/completions/bzip2 /usr/share/bash-completion/completions/vgscan /usr/share/bash-completion/completions/_venom /usr/share/bash-completion/completions/iperf3 /usr/share/bash-completion/compl
+ etions/xdg-mime /usr/share/bash-completion/completions/ypmatch /usr/share/bash-completion/completions/desktop-file-validate /usr/share/bash-completion/completions/iconv /usr/share/bash-completion/completions/ipv6calc /usr/share/bash-completion/completions/change_pw /usr/share/bash-completion/completions/_kube-linter /usr/share/bash-completion/completions/mplayer2 /usr/share/bash-completion/completions/_conftest /usr/share/bash-completion/completions/postalias /usr/share/bash-completion/completions/_deck /usr/share/bash-completion/completions/postconf /usr/share/bash-completion/completions/xmms /usr/share/bash-completion/completions/_ghorg /usr/share/bash-completion/completions/_fx /usr/share/bash-completion/completions/luac5.0 /usr/share/bash-completion/completions/luac5.1 /usr/share/bash-completion/completions/luac5.2 /usr/share/bash-completion/completions/luac5.3 /usr/share/bash-completion/completions/luac5.4 /usr/share/bash-completion/completions/prelink /usr/share/bash-completio
+ n/completions/sidedoor /usr/share/bash-completion/completions/_kubectl /usr/share/bash-completion/completions/eog /usr/share/bash-completion/completions/pkg-config /usr/share/bash-completion/completions/_driftctl /usr/share/bash-completion/completions/_oc /usr/share/bash-completion/completions/wol /usr/share/bash-completion/completions/gprof /usr/share/bash-completion/completions/nproc /usr/share/bash-completion/completions/check_db /usr/share/bash-completion/completions/dot /usr/share/bash-completion/completions/_op /usr/share/bash-completion/completions/zopflipng /usr/share/bash-completion/completions/_just /usr/share/bash-completion/completions/pm-powersave /usr/share/bash-completion/completions/tox /usr/share/bash-completion/completions/7zzs /usr/share/bash-completion/completions/vgremove /usr/share/bash-completion/completions/_k3d /usr/share/bash-completion/completions/_helmfile /usr/share/bash-completion/completions/truncate /usr/share/bash-completion/completions/_k3s /usr/sha
+ re/bash-completion/completions/ipsec /usr/share/bash-completion/completions/cancel /usr/share/bash-completion/completions/pwgen /usr/share/bash-completion/completions/_velero /usr/share/bash-completion/completions/python2 /usr/share/bash-completion/completions/python3 /usr/share/bash-completion/completions/autoscan /usr/share/bash-completion/completions/_ansible-doc /usr/share/bash-completion/completions/_gitleaks /usr/share/bash-completion/completions/_su /usr/share/bash-completion/completions/growisofs /usr/share/bash-completion/completions/munin-update /usr/share/bash-completion/completions/cksum /usr/share/bash-completion/completions/_ssh-inscribe /usr/share/bash-completion/completions/ssh /usr/share/bash-completion/completions/xgamma /usr/share/bash-completion/completions/_packer /usr/share/bash-completion/completions/_mado /usr/share/bash-completion/completions/firefox-esr /usr/share/bash-completion/completions/lvreduce /usr/share/bash-completion/completions/_gitsign /usr/shar
+ e/bash-completion/completions/nload /usr/share/bash-completion/completions/groupmod /usr/share/bash-completion/completions/ppc-koji /usr/share/bash-completion/completions/_trash-empty /usr/share/bash-completion/completions/gnome-mplayer /usr/share/bash-completion/completions/wtf /usr/share/bash-completion/completions/upgradepkg /usr/share/bash-completion/completions/freeciv-server /usr/share/bash-completion/completions/sha384sum /usr/share/bash-completion/completions/kplayer /usr/share/bash-completion/completions/mplayer /usr/share/bash-completion/completions/bts /usr/share/bash-completion/completions/genaliases /usr/share/bash-completion/completions/mtx /usr/share/bash-completion/completions/removepkg /usr/share/bash-completion/completions/_insmod /usr/share/bash-completion/completions/_mock /usr/share/bash-completion/completions/lvcreate /usr/share/bash-completion/completions/pvcreate /usr/share/bash-completion/completions/xmlwf /usr/share/bash-completion/completions/dsniff /usr/s
+ hare/bash-completion/completions/wine64-development /usr/share/bash-completion/completions/fsnotifywait /usr/share/bash-completion/completions/python2.7 /usr/share/bash-completion/completions/vgextend /usr/share/bash-completion/completions/minicom /usr/share/bash-completion/completions/quotacheck /usr/share/bash-completion/completions/_timoni /usr/share/bash-completion/completions/installpkg /usr/share/bash-completion/completions/sshfs /usr/share/bash-completion/completions/lftp /usr/share/bash-completion/completions/sftp /usr/share/bash-completion/completions/luseradd /usr/share/bash-completion/completions/_diesel /usr/share/bash-completion/completions/invoke-rc.d /usr/share/bash-completion/completions/gnome-screenshot /usr/share/bash-completion/completions/msynctool /usr/share/bash-completion/completions/slapt-get /usr/share/bash-completion/completions/_ansible-galaxy /usr/share/bash-completion/completions/puppetd /usr/share/bash-completion/completions/influx /usr/share/bash-compl
+ etion/completions/mii-tool /usr/share/bash-completion/completions/_kata-runtime /usr/share/bash-completion/completions/vgexport /usr/share/bash-completion/completions/sudoedit /usr/share/bash-completion/completions/_chsh /usr/share/bash-completion/completions/fprintd-enroll /usr/share/bash-completion/completions/_zarf /usr/share/bash-completion/completions/ipcalc /usr/share/bash-completion/completions/ifstatus /usr/share/bash-completion/completions/mcrypt /usr/share/bash-completion/completions/wine-stable /usr/share/bash-completion/completions/arping /usr/share/bash-completion/completions/freeciv-gtk2 /usr/share/bash-completion/completions/freeciv-gtk3 /usr/share/bash-completion/completions/_gaiacli /usr/share/bash-completion/completions/iperf /usr/share/bash-completion/completions/vgmerge /usr/share/bash-completion/completions/opera /usr/share/bash-completion/completions/mysql /usr/share/bash-completion/completions/_zitadel /usr/share/bash-completion/completions/_dlv /usr/share/bas
+ h-completion/completions/gnokii /usr/share/bash-completion/completions/py.test-2 /usr/share/bash-completion/completions/py.test-3 /usr/share/bash-completion/completions/_minishift /usr/share/bash-completion/completions/sshow /usr/share/bash-completion/completions/zopfli /usr/share/bash-completion/completions/lftpget /usr/share/bash-completion/completions/perldoc /usr/share/bash-completion/completions/resolvconf /usr/share/bash-completion/completions/filebucket /usr/share/bash-completion/completions/_terraform /usr/share/bash-completion/completions/mogrify /usr/share/bash-completion/completions/withlist /usr/share/bash-completion/completions/mozilla-firefox /usr/share/bash-completion/completions/sbcl /usr/share/bash-completion/completions/lzma /usr/share/bash-completion/completions/b2sum /usr/share/bash-completion/completions/iwlist /usr/share/bash-completion/completions/_imgpkg /usr/share/bash-completion/completions/_tanzu /usr/share/bash-completion/completions/_sshi /usr/share/bash
+ -completion/completions/pccardctl /usr/share/bash-completion/completions/_asdf /usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/ant /usr/share/bash-completion/completions/pm-suspend-hybrid /usr/share/bash-completion/completions/sysctl /usr/share/bash-completion/completions/spovray /usr/share/bash-completion/completions/xpovray /usr/share/bash-completion/completions/qemu-system-x86_64 /usr/share/bash-completion/completions/links /usr/share/bash-completion/completions/_ansible-playbook /usr/share/bash-completion/completions/_glances /usr/share/bash-completion/completions/cdrecord /usr/share/bash-completion/completions/chage /usr/share/bash-completion/completions/puppetrun /usr/share/bash-completion/completions/_gaiad /usr/share/bash-completion/completions/_grype /usr/share/bash-completion/completions/gnumake /usr/share/bash-completion/completions/_conform /usr/share/bash-completion/completions/groupmems /usr/share/bash-completion/completions/createuser
+  /usr/share/bash-completion/completions/apt-cache /usr/share/bash-completion/completions/_modinfo /usr/share/bash-completion/completions/_tkn-pac /usr/share/bash-completion/completions/patch /usr/share/bash-completion/completions/watch /usr/share/bash-completion/completions/rdict /usr/share/bash-completion/completions/luac /usr/share/bash-completion/completions/hunspell /usr/share/bash-completion/completions/_odo /usr/share/bash-completion/completions/aclocal /usr/share/bash-completion/completions/setquota /usr/share/bash-completion/completions/check_perms /usr/share/bash-completion/completions/_nfpm /usr/share/bash-completion/completions/lisp /usr/share/bash-completion/completions/_kubebuilder /usr/share/bash-completion/completions/avctrl /usr/share/bash-completion/completions/alpine /usr/share/bash-completion/completions/mypy /usr/share/bash-completion/completions/pypy /usr/share/bash-completion/completions/xev /usr/share/bash-completion/completions/set /usr/share/bash-completion/
+ completions/_pitchfork /usr/share/bash-completion/completions/munindoc /usr/share/bash-completion/completions/_metalctl /usr/share/bash-completion/completions/hciconfig /usr/share/bash-completion/completions/pycodestyle /usr/share/bash-completion/completions/feh /usr/share/bash-completion/completions/_ansible-config /usr/share/bash-completion/completions/chflags /usr/share/bash-completion/completions/koji /usr/share/bash-completion/completions/_kyverno /usr/share/bash-completion/completions/appdata-validate /usr/share/bash-completion/completions/_caddy /usr/share/bash-completion/completions/_gcrane /usr/share/bash-completion/completions/_sops /usr/share/bash-completion/completions/_cargo /usr/share/bash-completion/completions/slogin /usr/share/bash-completion/completions/chgrp /usr/share/bash-completion/completions/dhclient /usr/share/bash-completion/completions/btdownloadgui.py /usr/share/bash-completion/completions/_devspace /usr/share/bash-completion/completions/arm-koji /usr/sha
+ re/bash-completion/completions/useradd /usr/share/bash-completion/completions/perltidy /usr/share/bash-completion/completions/sbcl-mt /usr/share/bash-completion/completions/_tfctl /usr/share/bash-completion/completions/_cue /usr/share/bash-completion/completions/lsof /usr/share/bash-completion/completions/_melange /usr/share/bash-completion/completions/pypy3 /usr/share/bash-completion/completions/slapt-src /usr/share/bash-completion/completions/xsltproc /usr/share/bash-completion/completions/sqlite3 /usr/share/bash-completion/completions/protoc /usr/share/bash-completion/completions/xrandr /usr/share/bash-completion/completions/bind /usr/share/bash-completion/completions/find /usr/share/bash-completion/completions/compare /usr/share/bash-completion/completions/pine /usr/share/bash-completion/completions/ping /usr/share/bash-completion/completions/wine /usr/share/bash-completion/completions/_svn /usr/share/bash-completion/completions/screen /usr/share/bash-completion/completions/lua5
+ 3 /usr/share/bash-completion/completions/_wasmer-headless /usr/share/bash-completion/completions/lua51 /usr/share/bash-completion/completions/lua50 /usr/share/bash-completion/completions/lua52 /usr/share/bash-completion/completions/rpmbuild-md5 /usr/share/bash-completion/completions/lua54 /usr/share/bash-completion/completions/usermod /usr/share/bash-completion/completions/pydoc /usr/share/bash-completion/completions/gfortran-5 /usr/share/bash-completion/completions/gfortran-7 /usr/share/bash-completion/completions/gfortran-6 /usr/share/bash-completion/completions/_uvx /usr/share/bash-completion/completions/gkrellm2 /usr/share/bash-completion/completions/ktutil /usr/share/bash-completion/completions/gfortran-8 /usr/share/bash-completion/completions/montage /usr/share/bash-completion/completions/_mount /usr/share/bash-completion/completions/grpck /usr/share/bash-completion/completions/reportbug /usr/share/bash-completion/completions/fsnotifywatch /usr/share/bash-completion/completion
+ s/alternatives /usr/share/bash-completion/completions/_gardenctl /usr/share/bash-completion/completions/sha512sum /usr/share/bash-completion/completions/tracepath /usr/share/bash-completion/completions/_rclone /usr/share/bash-completion/completions/remove_members /usr/share/bash-completion/completions/jsonschema /usr/share/bash-completion/completions/google-chrome-stable /usr/share/bash-completion/completions/vmstat /usr/share/bash-completion/completions/_tldr /usr/share/bash-completion/completions/tune2fs /usr/share/bash-completion/completions/_umount.linux /usr/share/bash-completion/completions/_pluto /usr/share/bash-completion/completions/chown /usr/share/bash-completion/completions/mmsitepass /usr/share/bash-completion/completions/_zola /usr/share/bash-completion/completions/_chfn /usr/share/bash-completion/completions/k3b /usr/share/bash-completion/completions/_diffoci /usr/share/bash-completion/completions/ldapadd /usr/share/bash-completion/completions/_kubesec /usr/share/bash
+ -completion/completions/pydoc3 /usr/share/bash-completion/completions/_upctl /usr/share/bash-completion/completions/createdb /usr/share/bash-completion/completions/_ansible-console /usr/share/bash-completion/completions/oggdec /usr/share/bash-completion/completions/_kconf /usr/share/bash-completion/completions/gfortran /usr/share/bash-completion/completions/puppetdoc /usr/share/bash-completion/completions/puppetqd /usr/share/bash-completion/completions/_stern /usr/share/bash-completion/completions/luac53 /usr/share/bash-completion/completions/luac52 /usr/share/bash-completion/completions/luac51 /usr/share/bash-completion/completions/luac50 /usr/share/bash-completion/completions/luac54 /usr/share/bash-completion/completions/mysqladmin /usr/share/bash-completion/completions/conjure /usr/share/bash-completion/completions/groupdel /usr/share/bash-completion/completions/macof /usr/share/bash-completion/completions/groupadd /usr/share/bash-completion/completions/wine64 /usr/share/bash-com
+ pletion/completions/_flamegraph /usr/share/bash-completion/completions/_trash /usr/share/bash-completion/completions/_moldy /usr/share/bash-completion/completions/_svnadmin /usr/share/bash-completion/completions/xvfb-run /usr/share/bash-completion/completions/filefrag /usr/share/bash-completion/completions/qemu-kvm /usr/share/bash-completion/completions/find_member /usr/share/bash-completion/completions/_tkn /usr/share/bash-completion/completions/_bao /usr/share/bash-completion/completions/_allero /usr/share/bash-completion/completions/mkisofs /usr/share/bash-completion/completions/munin-run /usr/share/bash-completion/completions/_notation /usr/share/bash-completion/completions/_golangci-lint /usr/share/bash-completion/completions/edquota /usr/share/bash-completion/completions/gpgv /usr/share/bash-completion/completions/lintian-info /usr/share/bash-completion/completions/gdb /usr/share/bash-completion/completions/idn /usr/share/bash-completion/completions/_depot /usr/share/bash-comp
+ letion/completions/_keyring /usr/share/bash-completion/completions/pytest /usr/share/bash-completion/completions/_glen /usr/share/bash-completion/completions/_insmod.static /usr/share/bash-completion/completions/_write /usr/share/bash-completion/completions/ciptool /usr/share/bash-completion/completions/_k0sctl /usr/share/bash-completion/completions/asciidoc /usr/share/bash-completion/completions/import /usr/share/bash-completion/completions/gpg2 /usr/share/bash-completion/completions/lsusb /usr/share/bash-completion/completions/declare /usr/share/bash-completion/completions/mii-diag /usr/share/bash-completion/completions/_trivy /usr/share/bash-completion/completions/_flux /usr/share/bash-completion/completions/_minikube /usr/share/bash-completion/completions/freeciv-sdl /usr/share/bash-completion/completions/_dasel /usr/share/bash-completion/completions/mailmanctl /usr/share/bash-completion/completions/quotaoff /usr/share/bash-completion/completions/lvchange /usr/share/bash-complet
+ ion/completions/pvchange /usr/share/bash-completion/completions/_mockery /usr/share/bash-completion/completions/_modprobe /usr/share/bash-completion/completions/pydocstyle /usr/share/bash-completion/completions/_git-bump /usr/share/bash-completion/completions/_atlas /usr/share/bash-completion/completions/pidof /usr/share/bash-completion/completions/xvnc4viewer /usr/share/bash-completion/completions/_runuser /usr/share/bash-completion/completions/evince /usr/share/bash-completion/completions/tshark /usr/share/bash-completion/completions/_slackpkg /usr/share/bash-completion/completions/ifdown /usr/share/bash-completion/completions/arp /usr/share/bash-completion/completions/aspell /usr/share/bash-completion/completions/g++-8 /usr/share/bash-completion/completions/python3.10 /usr/share/bash-completion/completions/nslookup /usr/share/bash-completion/completions/python3.11 /usr/share/bash-completion/completions/json_xs /usr/share/bash-completion/completions/python3.12 /usr/share/bash-comp
+ letion/completions/python3.13 /usr/share/bash-completion/helpers/make-extract-targets.awk /usr/share/bash-completion/completions/g++-7 /usr/share/bash-completion/completions/g++-6 /usr/share/bash-completion/completions/g++-5 /usr/share/bash-completion/completions/md5sum /usr/share/bash-completion/completions/_rg /usr/share/bash-completion/completions/optipng /usr/share/bash-completion/completions/iftop /usr/share/bash-completion/completions/unrar /usr/share/bash-completion/completions/qrunner /usr/share/bash-completion/completions/autossh /usr/share/bash-completion/completions/chmod /usr/share/bash-completion/completions/a2x /usr/share/bash-completion/completions/_dapr /usr/share/bash-completion/completions/dnsspoof /usr/share/bash-completion/completions/convert /usr/share/bash-completion/completions/mc /usr/share/bash-completion/completions/nc /usr/share/bash-completion/completions/cc /usr/share/bash-completion/completions/hd /usr/share/bash-completion/completions/id /usr/share/bas
+ h-completion/completions/hping2 /usr/share/bash-completion/completions/ri /usr/share/bash-completion/completions/sh /usr/share/bash-completion/completions/cd /usr/share/bash-completion/completions/dd /usr/share/bash-completion/completions/_npm /usr/share/bash-completion/completions/_sopstool /usr/share/bash-completion/completions/_kubectl-argo-rollouts /usr/share/bash-completion/completions/bk /usr/share/bash-completion/completions/ci /usr/share/bash-completion/completions/gm /usr/share/bash-completion/completions/ss /usr/share/bash-completion/completions/co /usr/share/bash-completion/completions/ip /usr/share/bash-completion/completions/_gh-label /usr/share/bash-completion/completions/jq /usr/share/bash-completion/completions/mr /usr/share/bash-completion/completions/ps /usr/share/bash-completion/completions/javadoc /usr/share/bash-completion/completions/pv /usr/share/bash-completion/completions/7z /usr/share/bash-completion/completions/svcadm /usr/share/bash-completion/completions
+ /vncviewer /usr/share/bash-completion/completions/xz /usr/share/bash-completion/completions/_talhelper /usr/share/bash-completion/completions/java /usr/share/bash-completion/completions/l2ping /usr/share/bash-completion/completions/chrome /usr/share/bash-completion/completions/synclient /usr/share/bash-completion/completions/g4 /usr/share/bash-completion/completions/p4 /usr/share/bash-completion/completions/_hexdump /usr/share/bash-completion/completions/add_members /usr/share/bash-completion/completions/_random /usr/share/bash-completion/completions/carton /usr/share/bash-completion/completions/_kube-capacity /usr/share/bash-completion/completions/gzip /usr/share/bash-completion/completions/lzip /usr/share/bash-completion/completions/gnatmake /usr/share/bash-completion/completions/tracepath6 /usr/share/bash-completion/completions/deja-dup /usr/share/bash-completion/completions/google-chrome /usr/share/bash-completion/completions/ncftp /usr/share/bash-completion/completions/newlist 
+ /usr/share/bash-completion/completions/_mount.linux /usr/share/bash-completion/completions/_okteto /usr/share/bash-completion/completions/pylint /usr/share/bash-completion/completions/_nvm /usr/share/bash-completion/completions/chromium /usr/share/bash-completion/completions/_kubescape /usr/share/bash-completion/completions/_kustomize /usr/share/bash-completion/completions/_kubeshark /usr/share/bash-completion/completions/cvsps /usr/share/bash-completion/completions/_kubelogin /usr/share/bash-completion/completions/_kubemqctl /usr/share/bash-completion/completions/pkgconf /usr/share/bash-completion/completions/larch /usr/share/bash-completion/completions/acpi /usr/share/bash-completion/completions/aptitude /usr/share/bash-completion/completions/file-roller /usr/share/bash-completion/completions/_cmctl /usr/share/bash-completion/completions/_mmctl /usr/share/bash-completion/completions/iwspy /usr/share/bash-completion/completions/aptitude-curses /usr/share/bash-completion/completions
+ /autoconf /usr/share/bash-completion/completions/_bashbot /usr/share/bash-completion/completions/vgchange /usr/share/bash-completion/completions/_slsa-verifier /usr/share/bash-completion/completions/_trash-restore /usr/share/bash-completion/completions/iptables /usr/share/bash-completion/completions/pinfo /usr/share/bash-completion/completions/_task /usr/share/bash-completion/completions/rcsdiff /usr/share/bash-completion/completions/animate /usr/share/bash-completion/completions/_httpx /usr/share/bash-completion/completions/gcc-8 /usr/share/bash-completion/completions/lvremove /usr/share/bash-completion/completions/_container-structure-test /usr/share/bash-completion/completions/msgsnarf /usr/share/bash-completion/completions/pvremove /usr/share/bash-completion/completions/javaws /usr/share/bash-completion/completions/gcc-7 /usr/share/bash-completion/completions/gcc-6 /usr/share/bash-completion/completions/gcc-5 /usr/share/bash-completion/completions/rdesktop /usr/share/bash-comple
+ tion/completions/mdadm /usr/share/bash-completion/completions/lvresize /usr/share/bash-completion/completions/whatis /usr/share/bash-completion/completions/jarsigner /usr/share/bash-completion/completions/_cloudquery /usr/share/bash-completion/completions/passwd /usr/share/bash-completion/completions/etherwake /usr/share/bash-completion/completions/composite /usr/share/bash-completion/completions/_pipenv /usr/share/bash-completion/completions/getent /usr/share/bash-completion/completions/_kind /usr/share/bash-completion/completions/hping3 /usr/share/bash-completion/completions/shasum /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/inotifywatch /usr/share/bash-completion/completions/lz4 /usr/share/bash-completion/completions/_pip /usr/share/bash-completion/completions/free /usr/share/bash-completion/completions/pkgrm /usr/share/bash-completion/completions/tree /usr/share/bash-completion/completions/puppetmasterd /usr/share/bash-completion/completion
+ s/pkgtool /usr/share/bash-completion/completions/links2 /usr/share/bash-completion/completions/s390-koji /usr/share/bash-completion/completions/_look /usr/share/bash-completion/completions/_oras /usr/share/bash-completion/completions/_chezmoi /usr/share/bash-completion/completions/cpio /usr/share/bash-completion/completions/vgdisplay /usr/share/bash-completion/completions/make /usr/share/bash-completion/completions/7za /usr/share/bash-completion/completions/_ionice /usr/share/bash-completion/completions/7zz /usr/share/bash-completion/completions/mfiutil /usr/share/bash-completion/completions/7zr /usr/share/bash-completion/completions/_shtab /usr/share/bash-completion/completions/quotaon /usr/share/bash-completion/completions/gcc /usr/share/bash-completion/completions/hddtemp /usr/share/bash-completion/completions/vpnc /usr/share/bash-completion/completions/tipc /usr/share/bash-completion/completions/gcj /usr/share/bash-completion/completions/gcl /usr/share/bash-completion/completion
+ s/scp /usr/share/bash-completion/completions/rcs /usr/share/bash-completion/completions/_arduino-cli /usr/share/bash-completion/completions/gkrellm /usr/share/bash-completion/completions/hping /usr/share/bash-completion/completions/_cz /usr/share/bash-completion/completions/vipw /usr/share/bash-completion/completions/cowsay /usr/share/bash-completion/completions/help /usr/share/bash-completion/completions/isql /usr/share/bash-completion/completions/psql /usr/share/bash-completion/completions/smbtar /usr/share/bash-completion/completions/xfreerdp /usr/share/bash-completion/completions/_hostctl /usr/share/bash-completion/completions/dnssec-keygen /usr/share/bash-completion/completions/monodevelop /usr/share/bash-completion/completions/cowthink /usr/share/bash-completion/completions/badblocks /usr/share/bash-completion/completions/userdel /usr/share/bash-completion/completions/file /usr/share/bash-completion/completions/lilo /usr/share/bash-completion/completions/kill /usr/share/bash-c
+ ompletion/completions/firefox /usr/share/bash-completion/completions/inject /usr/share/bash-completion/completions/bsdtar /usr/share/bash-completion/completions/chpasswd /usr/share/bash-completion/completions/wsimport /usr/share/bash-completion/completions/unshunt /usr/share/bash-completion/completions/aclocal-1.11 /usr/share/bash-completion/completions/aclocal-1.10 /usr/share/bash-completion/completions/aclocal-1.13 /usr/share/bash-completion/completions/aclocal-1.12 /usr/share/bash-completion/completions/aclocal-1.15 /usr/share/bash-completion/completions/aclocal-1.14 /usr/share/bash-completion/completions/aclocal-1.16 /usr/share/bash-completion/completions/_starship /usr/share/bash-completion/completions/_cosign /usr/share/bash-completion/completions/ebtables /usr/share/bash-completion/completions/pigz /usr/share/bash-completion/completions/mutt /usr/share/bash-completion/completions/vigr /usr/share/bash-completion/completions/filesnarf /usr/share/bash-completion/completions/cfag
+ ent /usr/share/bash-completion/completions/strace /usr/share/bash-completion/completions/_gopass /usr/share/bash-completion/completions/rpm2txz /usr/share/bash-completion/completions/f95 /usr/share/bash-completion/completions/g95 /usr/share/bash-completion/completions/chkconfig /usr/share/bash-completion/completions/_gopherjs /usr/share/bash-completion/completions/_jwt /usr/share/bash-completion/completions/_ignite /usr/share/bash-completion/completions/cleanarch /usr/share/bash-completion/completions/cardctl /usr/share/bash-completion/completions/update-rc.d /usr/share/bash-completion/completions/list_admins /usr/share/bash-completion/completions/automake /usr/share/bash-completion/completions/qemu /usr/share/bash-completion/completions/_nova /usr/share/bash-completion/completions/pkg-get /usr/share/bash-completion/completions/makepkg /usr/share/bash-completion/completions/brave-browser /usr/share/bash-completion/completions/_kapp /usr/share/bash-completion/completions/_delta /usr/
+ share/bash-completion/completions/lua5.0 /usr/share/bash-completion/completions/lua5.1 /usr/share/bash-completion/completions/lua5.2 /usr/share/bash-completion/completions/lua5.3 /usr/share/bash-completion/completions/curl /usr/share/bash-completion/completions/lua5.4 /usr/share/bash-completion/completions/lintian /usr/share/bash-completion/completions/_buf /usr/share/bash-completion/completions/ssh-keygen /usr/share/bash-completion/completions/rpcdebug /usr/share/bash-completion/completions/qemu-system-i386 /usr/share/bash-completion/completions/dfutool /usr/share/bash-completion/completions/mencoder /usr/share/bash-completion/completions/_istioctl /usr/share/bash-completion/completions/_conda /usr/share/bash-completion/completions/mkinitrd /usr/share/bash-completion/completions/automake-1.13 /usr/share/bash-completion/completions/automake-1.12 /usr/share/bash-completion/completions/automake-1.11 /usr/share/bash-completion/completions/automake-1.10 /usr/share/bash-completion/comple
+ tions/automake-1.16 /usr/share/bash-completion/completions/automake-1.15 /usr/share/bash-completion/completions/automake-1.14 /usr/share/bash-completion/completions/urlsnarf /usr/share/bash-completion/completions/_gsctl /usr/share/bash-completion/completions/fprintd-verify /usr/share/bash-completion/completions/postmap /usr/share/bash-completion/completions/dmypy /usr/share/bash-completion/completions/clzip /usr/share/bash-completion/completions/plzip /usr/share/bash-completion/completions/smbclient /usr/share/bash-completion/completions/list_lists /usr/share/bash-completion/completions/_kubespy /usr/share/bash-completion/completions/pytest-2 /usr/share/bash-completion/completions/ether-wake /usr/share/bash-completion/completions/pytest-3 /usr/share/bash-completion/completions/_rmmod /usr/share/bash-completion/completions/xhost /usr/share/bash-completion/completions/config_list /usr/share/bash-completion/completions/ldapcompare /usr/share/bash-completion/completions/xdg-settings /us
+ r/share/bash-completion/completions/vgcreate /usr/share/bash-completion/completions/mussh /usr/share/bash-completion/completions/postsuper /usr/share/bash-completion/completions/sdptool /usr/share/bash-completion/completions/fbgs /usr/share/bash-completion/completions/qdbus /usr/share/bash-completion/completions/ntpdate /usr/share/bash-completion/completions/lvmdiskscan /usr/share/bash-completion/completions/_k6 /usr/share/bash-completion/completions/_constellation /usr/share/bash-completion/completions/_yq /usr/share/bash-completion/completions/postfix /usr/share/bash-completion/completions/chromium-browser /usr/share/bash-completion/completions/fbi /usr/share/bash-completion/completions/_datree /usr/share/bash-completion/completions/_airflow /usr/share/bash-completion/completions/_vacuum /usr/share/bash-completion/completions/vgck /usr/share/bash-completion/completions/_chamber /usr/share/bash-completion/completions/ecryptfs-migrate-home /usr/share/bash-completion/completions/_ctl
+ ptl /usr/share/bash-completion/completions/_ko /usr/share/bash-completion/completions/_kn /usr/share/bash-completion/completions/smbtree /usr/share/bash-completion/completions/sha224sum /usr/share/bash-completion/completions/unpack200 /usr/share/bash-completion/completions/xzdec /usr/share/bash-completion/completions/_kubeadm /usr/share/bash-completion/completions/_coder /usr/share/bash-completion/completions/_aqua /usr/share/bash-completion/completions/isort /usr/share/bash-completion/completions/_hwclock /usr/share/bash-completion/completions/ldapmodrdn /usr/share/bash-completion/completions/ifquery /usr/share/bash-completion/completions/ldapwhoami /usr/share/bash-completion/completions/ldapsearch /usr/share/bash-completion/completions/hid2hci /usr/share/bash-completion/completions/ldapdelete /usr/share/bash-completion/completions/ldappasswd /usr/share/bash-completion/completions/mdtool /usr/share/bash-completion/helpers/python /usr/share/bash-completion/completions/_qrpc /usr/sha
+ re/bash-completion/completions/wvdial /usr/share/bash-completion/completions/pyvenv-3.10 /usr/share/bash-completion/completions/pyvenv-3.11 /usr/share/bash-completion/completions/ldapmodify /usr/share/bash-completion/completions/pyvenv-3.12 /usr/share/bash-completion/completions/pyvenv-3.13 /usr/share/bash-completion/completions/vgconvert /usr/share/bash-completion/completions/radvdump /usr/share/bash-completion/completions/puppet /usr/share/bash-completion/completions/_consul /usr/share/bash-completion/completions/_regctl /usr/share/bash-completion/completions/arch /usr/share/bash-completion/completions/_opa /usr/share/bash-completion/completions/_px /usr/share/bash-completion/completions/_regal /usr/share/bash-completion/completions/_sentry-cli /usr/share/bash-completion/completions/lpq /usr/share/bash-completion/completions/lpr /usr/share/bash-completion/completions/jps /usr/share/bash-completion/completions/lvextend /usr/share/bash-completion/completions/c++ /usr/share/bash-comp
+ letion/completions/freeciv /usr/share/bash-completion/completions/g++ /usr/share/bash-completion/completions/gccgo-6 /usr/share/bash-completion/completions/civclient /usr/share/bash-completion/completions/gccgo-5 /usr/share/bash-completion/completions/gccgo-7 /usr/share/bash-completion/completions/rpm /usr/share/bash-completion/completions/gccgo-8 /usr/share/bash-completion/completions/gpc /usr/share/bash-completion/completions/_kubecm /usr/share/bash-completion/completions/gpg /usr/share/bash-completion/completions/xrdb /usr/share/bash-completion/completions/wine64-stable /usr/share/bash-completion/completions/cppcheck /usr/share/bash-completion/completions/list_owners /usr/share/bash-completion/completions/nsupdate", added "/usr/share/bash-completion/completions/README.md /usr/share/bash-completion/helpers/README.md"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PKGSIZE changed from 917819 to 2266 (-100%)
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-locale: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-locale: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-src: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-src: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-staticdev: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion-staticdev: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion: FILELIST: directory renamed /etc/bash_completion.d -> /usr/share/bash-completion/startup-core, added "/usr/share/bash-completion/completions-core/passwd.bash /usr/share/bash-completion/completions-fallback/helm.bash /usr/share/bash-completion/completions-fallback/hugo.bash /usr/share/bash-completion/completions-core/luac5.1.bash /usr/share/bash-completion/completions-core/getent.bash /usr/share/bash-completion/completions-core/jshint.bash /usr/share/bash-completion/completions-core/pylint.bash /usr/share/bash-completion/completions-core/automake-1.16.bash /usr/share/bash-completion/completions-core/oggdec.bash /usr/share/bash-completion/completions-core/xdg-settings.bash /usr/share/bash-completion/completions-core/chromium.bash /usr/share/bash-completion/completions-core/xdg-mime.bash /usr/share/bash-completion/completions-fallback/gitconfig.bash /usr/share/bash-completion/completions-core/e2freefrag.bash /usr/share/bash-
+ completion/completions-core/sudo-rs.bash /usr/share/bash-completion/completions-fallback/npm.bash /usr/share/bash-completion/completions-core/asciidoc.bash /usr/share/bash-completion/completions-core/mkinitrd.bash /usr/share/bash-completion/completions-core/ldapadd.bash /usr/share/bash-completion/completions-core/ssh-add.bash /usr/share/bash-completion/completions-core/useradd.bash /usr/share/bash-completion/completions-core/pkgadd.bash /usr/share/bash-completion/completions-core/ldapwhoami.bash /usr/share/bash-completion/completions-core/lvdisplay.bash /usr/share/bash-completion/completions-core/pvdisplay.bash /usr/share/bash-completion/completions-core/vgdisplay.bash /usr/share/bash-completion/completions-fallback/blackd.bash /usr/share/bash-completion/completions-fallback/k3d.bash /usr/share/bash-completion/completions-fallback/nova.bash /usr/share/bash-completion/completions-fallback/driftctl.bash /usr/share/bash-completion/completions-fallback/clusterctl.bash /usr/share/bash-co
+ mpletion/completions-core/hid2hci.bash /usr/share/bash-completion/completions-core/upgradepkg.bash /usr/share/bash-completion/completions-core/autoreconf.bash /usr/share/bash-completion/completions-fallback/mtr.bash /usr/share/bash-completion/completions-fallback/upctl.bash /usr/share/bash-completion/completions-core/automake-1.12.bash /usr/share/bash-completion/completions-core/hciattach.bash /usr/share/bash-completion/completions-core/micropython.bash /usr/share/bash-completion/completions-core/smbtree.bash /usr/share/bash-completion/completions-core/pccardctl.bash /usr/share/bash-completion/completions-core/feh.bash /usr/share/bash-completion/completions-core/fio.bash /usr/share/bash-completion/completions-core/monodevelop.bash /usr/share/bash-completion/completions-core/pycodestyle.bash /usr/share/bash-completion/completions-core/g++.bash /usr/share/bash-completion/completions-core/g77.bash /usr/share/bash-completion/completions-core/g95.bash /usr/share/bash-completion/completio
+ ns-core/gcc.bash /usr/share/bash-completion/completions-core/gcj.bash /usr/share/bash-completion/completions-core/dcop.bash /usr/share/bash-completion/completions-core/dict.bash /usr/share/bash-completion/completions-core/dpkg-reconfigure.bash /usr/share/bash-completion/completions-core/doas.bash /usr/share/bash-completion/completions-fallback/runuser.bash /usr/share/bash-completion/completions-core/xrandr.bash /usr/share/bash-completion/completions-core/lbzip2.bash /usr/share/bash-completion/completions-core/bsdtar.bash /usr/share/bash-completion/completions-core/pbzip2.bash /usr/share/bash-completion/completions-core/smbtar.bash /usr/share/bash-completion/completions-core/ssh.bash /usr/share/bash-completion/completions-core/xvfb-run.bash /usr/share/bash-completion/completions-fallback/cloudquery.bash /usr/share/bash-completion/completions-core/javadoc.bash /usr/share/bash-completion/completions-core/perldoc.bash /usr/share/bash-completion/completions-core/screen.bash /usr/share/ba
+ sh-completion/completions-fallback/nomad.bash /usr/share/bash-completion/completions-core/sha256sum.bash /usr/share/bash-completion/completions-fallback/imgpkg.bash /usr/share/bash-completion/completions-core/freeciv-server.bash /usr/share/bash-completion/completions-core/tracepath6.bash /usr/share/bash-completion/completions-core/g++-5.bash /usr/share/bash-completion/completions-core/gcc-5.bash /usr/share/bash-completion/completions-core/nethogs.bash /usr/share/bash-completion/completions-core/lsusb.bash /usr/share/bash-completion/completions-core/scrub.bash /usr/share/bash-completion/completions-fallback/tofu.bash /usr/share/bash-completion/completions-core/curlie.bash /usr/share/bash-completion/completions-fallback/tanzu-core.bash /usr/share/bash-completion/completions-core/ifup.bash /usr/share/bash-completion/completions-core/info.bash /usr/share/bash-completion/completions-core/dumpe2fs.bash /usr/share/bash-completion/completions-core/rpcdebug.bash /usr/share/bash-completion/co
+ mpletions-core/xfreerdp.bash /usr/share/bash-completion/completions-fallback/trash-put.bash /usr/share/bash-completion/completions-core/newlist.bash /usr/share/bash-completion/completions-core/gprof.bash /usr/share/bash-completion/completions-core/genaliases.bash /usr/share/bash-completion/completions-core/iperf.bash /usr/share/bash-completion/completions-core/macof.bash /usr/share/bash-completion/completions-core/pidof.bash /usr/share/bash-completion/completions-core/xmlwf.bash /usr/share/bash-completion/completions-fallback/cz.bash /usr/share/bash-completion/completions-core/b2sum.bash /usr/share/bash-completion/completions-core/cksum.bash /usr/share/bash-completion/completions-core/mdadm.bash /usr/share/bash-completion/completions-core/pkgrm.bash /usr/share/bash-completion/completions-core/cpan2dist.bash /usr/share/bash-completion/completions-core/sha224sum.bash /usr/share/bash-completion/completions-core/plague-client.bash /usr/share/bash-completion/completions-core/postalias.ba
+ sh /usr/share/bash-completion/completions-core/wodim.bash /usr/share/bash-completion/completions-fallback/bashbot.bash /usr/share/bash-completion/completions-core/quotacheck.bash /usr/share/bash-completion/completions-core/ifquery.bash /usr/share/bash-completion/completions-core/lvreduce.bash /usr/share/bash-completion/completions-core/radvdump.bash /usr/share/bash-completion/completions-core/vgreduce.bash /usr/share/bash-completion/completions-core/civserver.bash /usr/share/bash-completion/completions-core/slapt-get.bash /usr/share/bash-completion/completions-core/slapt-src.bash /usr/share/bash-completion/completions-fallback/pipenv.bash /usr/share/bash-completion/completions-core/arm-koji.bash /usr/share/bash-completion/completions-core/check_db.bash /usr/share/bash-completion/completions-core/ppc-koji.bash /usr/share/bash-completion/completions-core/pdftoppm.bash /usr/share/bash-completion/completions-core/automake-1.14.bash /usr/share/bash-completion/completions-core/colormake.b
+ ash /usr/share/bash-completion/completions-fallback/constellation.bash /usr/share/bash-completion/completions-fallback/argc.bash /usr/share/bash-completion/completions-fallback/argo.bash /usr/share/bash-completion/completions-fallback/gopherjs.bash /usr/share/bash-completion/completions-fallback/rtcwake.bash /usr/share/bash-completion/completions-core/check_perms.bash /usr/share/bash-completion/completions-core/iwconfig.bash /usr/share/bash-completion/completions-core/brave-browser.bash /usr/share/bash-completion/completions-core/gnome-mplayer.bash /usr/share/bash-completion/completions-core/tshark.bash /usr/share/bash-completion/completions-core/unshunt.bash /usr/share/bash-completion/completions-core/opera.bash /usr/share/bash-completion/completions-core/quota.bash /usr/share/bash-completion/completions-fallback/helmfile.bash /usr/share/bash-completion/completions-fallback/repomanage.bash /usr/share/bash-completion/completions-core/geoiplookup6.bash /usr/share/bash-completion/comp
+ letions-fallback/cal.bash /usr/share/bash-completion/completions-core/apropos.bash /usr/share/bash-completion/completions-fallback/kube-capacity.bash /usr/share/bash-completion/completions-core/puppet.bash /usr/share/bash-completion/completions-core/smbget.bash /usr/share/bash-completion/completions-core/aspell.bash /usr/share/bash-completion/completions-fallback/limactl.bash /usr/share/bash-completion/completions-fallback/flamegraph.bash /usr/share/bash-completion/completions-fallback/linkerd.bash /usr/share/bash-completion/completions-core/optipng.bash /usr/share/bash-completion/completions-core/lvremove.bash /usr/share/bash-completion/completions-core/pvremove.bash /usr/share/bash-completion/completions-core/vgremove.bash /usr/share/bash-completion/completions-fallback/terraform.bash /usr/share/bash-completion/completions-core/pm-is-supported.bash /usr/share/bash-completion/completions-fallback/cmctl.bash /usr/share/bash-completion/completions-fallback/hostctl.bash /usr/share/bas
+ h-completion/completions-fallback/ory.bash /usr/share/bash-completion/completions-core/aclocal.bash /usr/share/bash-completion/completions-core/luac5.0.bash /usr/share/bash-completion/completions-fallback/ansible-vault.bash /usr/share/bash-completion/completions-fallback/trash.bash /usr/share/bash-completion/completions-fallback/trivy.bash /usr/share/bash-completion/completions-core/civclient.bash /usr/share/bash-completion/completions-core/smbclient.bash /usr/share/bash-completion/completions-core/synclient.bash /usr/share/bash-completion/completions-core/zopflipng.bash /usr/share/bash-completion/completions-core/dsniff.bash /usr/share/bash-completion/completions-fallback/kind.bash /usr/share/bash-completion/completions-core/complete.bash /usr/share/bash-completion/completions-fallback/dpkg-source.bash /usr/share/bash-completion/completions-core/killall.bash /usr/share/bash-completion/completions-fallback/pluto.bash /usr/share/bash-completion/completions-core/wine.bash /usr/share/b
+ ash-completion/completions-core/qemu.bash /usr/share/bash-completion/completions-core/vgck.bash /usr/share/bash-completion/completions-core/vigr.bash /usr/share/bash-completion/completions-core/vipw.bash /usr/share/bash-completion/completions-core/vpnc.bash /usr/share/bash-completion/completions-core/2to3.bash /usr/share/bash-completion/completions-core/7zzs.bash /usr/share/bash-completion/completions-core/acpi.bash /usr/share/bash-completion/completions-core/arch.bash /usr/share/bash-completion/completions-core/python3.10.bash /usr/share/bash-completion/completions-core/freeciv-sdl.bash /usr/share/bash-completion/completions-core/freeciv-xaw.bash /usr/share/bash-completion/completions-core/python3.11.bash /usr/share/bash-completion/completions-core/python3.12.bash /usr/share/bash-completion/completions-core/python3.13.bash /usr/share/bash-completion/completions-core/python3.14.bash /usr/share/bash-completion/completions-core/python3.15.bash /usr/share/bash-completion/completions-fa
+ llback/waydroid.bash /usr/share/bash-completion/completions-core/isort.bash /usr/share/bash-completion/completions-core/rdict.bash /usr/share/bash-completion/completions-core/ldapmodify.bash /usr/share/bash-completion/completions-core/ldapmodrdn.bash /usr/share/bash-completion/completions-core/xhost.bash /usr/share/bash-completion/completions-core/ypcat.bash /usr/share/bash-completion/completions-fallback/gup.bash /usr/share/bash-completion/startup/README.md /usr/share/bash-completion/completions-fallback/rg.bash /usr/share/bash-completion/completions-fallback/bombadil.bash /usr/share/bash-completion/completions-fallback/krane.bash /usr/share/bash-completion/completions-core/arpspoof.bash /usr/share/bash-completion/completions-core/dnsspoof.bash /usr/share/bash-completion/completions-core/vgexport.bash /usr/share/bash-completion/completions-core/vgimport.bash /usr/share/bash-completion/completions-core/wsimport.bash /usr/share/bash-completion/completions-fallback/ctlptl.bash /usr/sh
+ are/bash-completion/completions-fallback/gaiacli.bash /usr/share/bash-completion/completions-core/lisp.bash /usr/share/bash-completion/completions-core/lsof.bash /usr/share/bash-completion/completions-core/luac.bash /usr/share/bash-completion/completions-core/lz4c.bash /usr/share/bash-completion/completions-core/xmms.bash /usr/share/bash-completion/completions-core/xrdb.bash /usr/share/bash-completion/completions-core/rlog.bash /usr/share/bash-completion/completions-core/wget.bash /usr/share/bash-completion/completions-fallback/asdf.bash /usr/share/bash-completion/completions-fallback/tokio-console.bash /usr/share/bash-completion/completions-fallback/gh-label.bash /usr/share/bash-completion/completions-core/typeset.bash /usr/share/bash-completion/completions-core/sha512sum.bash /usr/share/bash-completion/completions-core/avahi-browse-domains.bash /usr/share/bash-completion/completions-fallback/conform.bash /usr/share/bash-completion/completions-core/google-chrome-stable.bash /usr/sh
+ are/bash-completion/completions-fallback/spacectl.bash /usr/share/bash-completion/completions-core/sshmitm.bash /usr/share/bash-completion/completions-core/webmitm.bash /usr/share/bash-completion/completions-core/lintian-info.bash /usr/share/bash-completion/completions-core/cardctl.bash /usr/share/bash-completion/completions-core/smbcquotas.bash /usr/share/bash-completion/completions-core/pdftotext.bash /usr/share/bash-completion/completions-core/pyvenv-3.4.bash /usr/share/bash-completion/completions-core/pyvenv-3.5.bash /usr/share/bash-completion/completions-fallback/rustic.bash /usr/share/bash-completion/completions-fallback/rustup.bash /usr/share/bash-completion/completions-core/pyvenv-3.6.bash /usr/share/bash-completion/completions-core/pyvenv-3.7.bash /usr/share/bash-completion/completions-core/pyvenv-3.8.bash /usr/share/bash-completion/completions-core/pyvenv-3.9.bash /usr/share/bash-completion/completions-fallback/regctl.bash /usr/share/bash-completion/completions-fallback/re
+ nice.bash /usr/share/bash-completion/completions-fallback/reptyr.bash /usr/share/bash-completion/completions-core/filefrag.bash /usr/share/bash-completion/completions-fallback/modprobe.bash /usr/share/bash-completion/completions-fallback/zed.bash /usr/share/bash-completion/completions-core/idn.bash /usr/share/bash-completion/completions-core/jar.bash /usr/share/bash-completion/completions-core/jps.bash /usr/share/bash-completion/completions-core/k3b.bash /usr/share/bash-completion/completions-core/lpq.bash /usr/share/bash-completion/completions-core/lpr.bash /usr/share/bash-completion/completions-core/pvs.bash /usr/share/bash-completion/completions-core/pwd.bash /usr/share/bash-completion/completions-core/pxz.bash /usr/share/bash-completion/completions-core/dot.bash /usr/share/bash-completion/completions-fallback/rmmod.bash /usr/share/bash-completion/completions-core/lusermod.bash /usr/share/bash-completion/completions-core/tcpkill.bash /usr/share/bash-completion/completions-core/is
+ csiadm.bash /usr/share/bash-completion/completions-fallback/dapr.bash /usr/share/bash-completion/completions-fallback/grype.bash /usr/share/bash-completion/completions-core/plzip.bash /usr/share/bash-completion/completions-core/s390-koji.bash /usr/share/bash-completion/completions-fallback/devspace.bash /usr/share/bash-completion/completions-core/luac54.bash /usr/share/bash-completion/completions-core/google-chrome.bash /usr/share/bash-completion/completions-core/automake-1.10.bash /usr/share/bash-completion/completions-fallback/dselect.bash /usr/share/bash-completion/completions-core/xsltproc.bash /usr/share/bash-completion/completions-core/puppetdoc.bash /usr/share/bash-completion/completions-core/puppetrun.bash /usr/share/bash-completion/completions-core/rcs.bash /usr/share/bash-completion/completions-core/rpm.bash /usr/share/bash-completion/completions-core/gpgv2.bash /usr/share/bash-completion/completions-core/bzip2.bash /usr/share/bash-completion/completions-core/lua52.bash /u
+ sr/share/bash-completion/completions-core/sha384sum.bash /usr/share/bash-completion/completions-core/ant.bash /usr/share/bash-completion/completions-core/arp.bash /usr/share/bash-completion/completions-core/bts.bash /usr/share/bash-completion/completions-core/c++.bash /usr/share/bash-completion/completions-core/cancel.bash /usr/share/bash-completion/completions-core/neomutt.bash /usr/share/bash-completion/completions-fallback/cilium.bash /usr/share/bash-completion/completions-fallback/mount.linux.bash /usr/share/bash-completion/completions-fallback/flask.bash /usr/share/bash-completion/completions-fallback/pip.bash /usr/share/bash-completion/completions-fallback/ansible.bash /usr/share/bash-completion/completions-fallback/mattermost.bash /usr/share/bash-completion/completions-core/bind.bash /usr/share/bash-completion/completions-fallback/kubectl-kuttl.bash /usr/share/bash-completion/completions-fallback/gomarklint.bash /usr/share/bash-completion/completions-core/perlcritic.bash /usr
+ /share/bash-completion/completions-fallback/update-alternatives.bash /usr/share/bash-completion/completions-core/luac51.bash /usr/share/bash-completion/completions-core/rpm2tgz.bash /usr/share/bash-completion/completions-fallback/allero.bash /usr/share/bash-completion/completions-core/javaws.bash /usr/share/bash-completion/completions-fallback/airflow.bash /usr/share/bash-completion/completions-fallback/dlv.bash /usr/share/bash-completion/completions-fallback/coder.bash /usr/share/bash-completion/completions-fallback/codex.bash /usr/share/bash-completion/completions-fallback/conda.bash /usr/share/bash-completion/completions-fallback/k6.bash /usr/share/bash-completion/completions-fallback/su.bash /usr/share/bash-completion/completions-fallback/tkn.bash /usr/share/bash-completion/completions-core/alpine.bash /usr/share/bash-completion/completions-fallback/oras.bash /usr/share/bash-completion/completions-core/luac52.bash /usr/share/bash-completion/completions-core/cowsay.bash /usr/shar
+ e/bash-completion/completions-core/povray.bash /usr/share/bash-completion/completions-fallback/kube-linter.bash /usr/share/bash-completion/completions-core/resolvconf.bash /usr/share/bash-completion/completions-fallback/svn.bash /usr/share/bash-completion/completions-fallback/uvx.bash /usr/share/bash-completion/completions-fallback/kratos.bash /usr/share/bash-completion/completions-core/ldapvi.bash /usr/share/bash-completion/completions-core/explodepkg.bash /usr/share/bash-completion/completions-fallback/ansible-doc.bash /usr/share/bash-completion/completions-fallback/ncal.bash /usr/share/bash-completion/completions-fallback/kn.bash /usr/share/bash-completion/completions-fallback/newgrp.bash /usr/share/bash-completion/completions-core/wine-stable.bash /usr/share/bash-completion/completions-fallback/ytt.bash /usr/share/bash-completion/completions-core/hunspell.bash /usr/share/bash-completion/completions-core/iceweasel.bash /usr/share/bash-completion/completions-fallback/insmod.static
+ .bash /usr/share/bash-completion/completions-fallback/ty.bash /usr/share/bash-completion/completions-fallback/crictl.bash /usr/share/bash-completion/completions-core/rdesktop.bash /usr/share/bash-completion/completions-fallback/gardenctl.bash /usr/share/bash-completion/completions-fallback/trash-empty.bash /usr/share/bash-completion/completions-fallback/delta.bash /usr/share/bash-completion/completions-fallback/depot.bash /usr/share/bash-completion/completions-core/export.bash /usr/share/bash-completion/completions-core/import.bash /usr/share/bash-completion/completions-core/list_members.bash /usr/share/bash-completion/completions-core/sync_members.bash /usr/share/bash-completion/completions-fallback/nvm.bash /usr/share/bash-completion/completions-fallback/sentry-cli.bash /usr/share/bash-completion/completions-fallback/tendermint.bash /usr/share/bash-completion/completions-core/find_member.bash /usr/share/bash-completion/completions-core/sparc-koji.bash /usr/share/bash-completion/co
+ mpletions-core/freeciv.bash /usr/share/bash-completion/completions-core/gccgo-8.bash /usr/share/bash-completion/completions-fallback/rclone.bash /usr/share/bash-completion/completions-fallback/metalctl.bash /usr/share/bash-completion/completions-core/apt-get.bash /usr/share/bash-completion/completions-core/lftpget.bash /usr/share/bash-completion/completions-core/pkg-get.bash /usr/share/bash-completion/completions-core/btdownloadcurses.py.bash /usr/share/bash-completion/completions-fallback/istioctl.bash /usr/share/bash-completion/completions-fallback/tctl.bash /usr/share/bash-completion/completions-fallback/venom.bash /usr/share/bash-completion/completions-core/display.bash /usr/share/bash-completion/completions-core/larch.bash /usr/share/bash-completion/completions-core/mussh.bash /usr/share/bash-completion/completions-core/patch.bash /usr/share/bash-completion/completions-core/ralsh.bash /usr/share/bash-completion/completions-core/watch.bash /usr/share/bash-completion/completions-
+ core/whatis.bash /usr/share/bash-completion/completions-core/sysbench.bash /usr/share/bash-completion/completions-fallback/release-plz.bash /usr/share/bash-completion/completions-core/gccgo-5.bash /usr/share/bash-completion/completions-core/ypmatch.bash /usr/share/bash-completion/completions-fallback/umount.bash /usr/share/bash-completion/completions-core/evince.bash /usr/share/bash-completion/completions-core/strace.bash /usr/share/bash-completion/completions-fallback/ansible-config.bash /usr/share/bash-completion/completions-core/locale-gen.bash /usr/share/bash-completion/completions-core/pdlzip.bash /usr/share/bash-completion/completions-core/dd.bash /usr/share/bash-completion/completions-core/g4.bash /usr/share/bash-completion/completions-core/gm.bash /usr/share/bash-completion/completions-core/id.bash /usr/share/bash-completion/completions-core/ip.bash /usr/share/bash-completion/completions-core/7z.bash /usr/share/bash-completion/completions-core/bk.bash /usr/share/bash-complet
+ ion/completions-core/cc.bash /usr/share/bash-completion/completions-core/cd.bash /usr/share/bash-completion/completions-core/ci.bash /usr/share/bash-completion/completions-core/createuser.bash /usr/share/bash-completion/completions-core/mmsitepass.bash /usr/share/bash-completion/completions-core/nsupdate.bash /usr/share/bash-completion/completions-fallback/zarf.bash /usr/share/bash-completion/completions-core/ipv6calc.bash /usr/share/bash-completion/completions-core/ipmitool.bash /usr/share/bash-completion/completions-core/mii-tool.bash /usr/share/bash-completion/completions-core/rpm2targz.bash /usr/share/bash-completion/completions-core/svcadm.bash /usr/share/bash-completion/completions-core/truncate.bash /usr/share/bash-completion/completions-core/pyvenv.bash /usr/share/bash-completion/completions-core/mogrify.bash /usr/share/bash-completion/completions-core/msynctool.bash /usr/share/bash-completion/completions-fallback/nox.bash /usr/share/bash-completion/completions-core/fbgs.bas
+ h /usr/share/bash-completion/completions-core/file.bash /usr/share/bash-completion/completions-core/find.bash /usr/share/bash-completion/completions-core/free.bash /usr/share/bash-completion/completions-core/add_members.bash /usr/share/bash-completion/completions-core/hping2.bash /usr/share/bash-completion/completions-core/lua5.0.bash /usr/share/bash-completion/completions-fallback/px.bash /usr/share/bash-completion/completions-fallback/skaffold.bash /usr/share/bash-completion/completions-fallback/kubectl-argo-rollouts.bash /usr/share/bash-completion/completions-core/lvmdiskscan.bash /usr/share/bash-completion/completions-fallback/jj.bash /usr/share/bash-completion/completions-fallback/golangci-lint.bash /usr/share/bash-completion/completions-core/composite.bash /usr/share/bash-completion/completions-core/wine64-stable.bash /usr/share/bash-completion/completions-core/mozilla-firefox.bash /usr/share/bash-completion/completions-fallback/ansible-playbook.bash /usr/share/bash-completion
+ /completions-core/tipc.bash /usr/share/bash-completion/completions-core/tmux.bash /usr/share/bash-completion/completions-core/gpg2.bash /usr/share/bash-completion/completions-core/gpgv.bash /usr/share/bash-completion/completions-core/gtar.bash /usr/share/bash-completion/completions-core/gzip.bash /usr/share/bash-completion/completions-core/hash.bash /usr/share/bash-completion/completions-core/help.bash /usr/share/bash-completion/completions-core/host.bash /usr/share/bash-completion/completions-core/isql.bash /usr/share/bash-completion/completions-core/pack200.bash /usr/share/bash-completion/completions-core/gssdp-discover.bash /usr/share/bash-completion/completions-fallback/tldr.bash /usr/share/bash-completion/completions-core/querybts.bash /usr/share/bash-completion/completions-fallback/alp.bash /usr/share/bash-completion/completions-core/desktop-file-validate.bash /usr/share/bash-completion/completions-core/lvcreate.bash /usr/share/bash-completion/completions-core/pvcreate.bash /u
+ sr/share/bash-completion/completions-core/vgcreate.bash /usr/share/bash-completion/completions-fallback/jwt.bash /usr/share/bash-completion/completions-core/sbcl-mt.bash /usr/share/bash-completion/completions-core/fprintd-verify.bash /usr/share/bash-completion/completions-fallback/xm.bash /usr/share/bash-completion/completions-core/gccgo-6.bash /usr/share/bash-completion/completions-core/usermod.bash /usr/share/bash-completion/completions-fallback/multi-gitter.bash /usr/share/bash-completion/completions-core/chflags.bash /usr/share/bash-completion/completions-fallback/mdbook.bash /usr/share/bash-completion/completions-core/py.test-2.bash /usr/share/bash-completion/completions-core/py.test-3.bash /usr/share/bash-completion/completions-fallback/dagger.bash /usr/share/bash-completion/completions-core/abook.bash /usr/share/bash-completion/completions-core/grpck.bash /usr/share/bash-completion/completions-fallback/datree.bash /usr/share/bash-completion/completions-core/chrpath.bash /usr/
+ share/bash-completion/completions-core/g++-7.bash /usr/share/bash-completion/completions-core/gcc-7.bash /usr/share/bash-completion/completions-core/appdata-validate.bash /usr/share/bash-completion/completions-core/apt-cache.bash /usr/share/bash-completion/completions-core/lua54.bash /usr/share/bash-completion/completions-core/ping4.bash /usr/share/bash-completion/completions-core/ping.bash /usr/share/bash-completion/completions-core/list_lists.bash /usr/share/bash-completion/completions-core/psql.bash /usr/share/bash-completion/completions-core/pwck.bash /usr/share/bash-completion/completions-core/pwdx.bash /usr/share/bash-completion/completions-core/pypy.bash /usr/share/bash-completion/completions-core/cfagent.bash /usr/share/bash-completion/completions-core/arping.bash /usr/share/bash-completion/completions-core/l2ping.bash /usr/share/bash-completion/completions-core/muttng.bash /usr/share/bash-completion/completions-core/slabtop.bash /usr/share/bash-completion/completions-core/d
+ eja-dup.bash /usr/share/bash-completion/completions-core/wol.bash /usr/share/bash-completion/completions-core/spovray.bash /usr/share/bash-completion/completions-core/snownews.bash /usr/share/bash-completion/completions-core/rpmbuild-md5.bash /usr/share/bash-completion/completions-core/wtf.bash /usr/share/bash-completion/completions-core/py.test.bash /usr/share/bash-completion/completions-core/xpovray.bash /usr/share/bash-completion/completions-core/autorpm.bash /usr/share/bash-completion/completions-core/list_owners.bash /usr/share/bash-completion/completions-fallback/starship.bash /usr/share/bash-completion/completions-core/asciidoc.py.bash /usr/share/bash-completion/completions-core/links2.bash /usr/share/bash-completion/completions-core/pydocstyle.bash /usr/share/bash-completion/completions-fallback/wasmer-headless.bash /usr/share/bash-completion/completions-core/avahi-browse.bash /usr/share/bash-completion/completions-core/munin-node-configure.bash /usr/share/bash-completion/co
+ mpletions-fallback/look.bash /usr/share/bash-completion/completions-fallback/nerdctl.bash /usr/share/bash-completion/completions-fallback/umount.linux.bash /usr/share/bash-completion/completions-fallback/syncthing.bash /usr/share/bash-completion/completions-fallback/ionice.bash /usr/share/bash-completion/completions-core/chmod.bash /usr/share/bash-completion/completions-core/nload.bash /usr/share/bash-completion/completions-core/cksfv.bash /usr/share/bash-completion/completions-core/iconv.bash /usr/share/bash-completion/completions-core/ifstat.bash /usr/share/bash-completion/completions-core/pushd.bash /usr/share/bash-completion/completions-core/update-rc.d.bash /usr/share/bash-completion/completions-core/vmstat.bash /usr/share/bash-completion/completions-fallback/trash-list.bash /usr/share/bash-completion/completions-core/qemu-system-i386.bash /usr/share/bash-completion/completions-core/mdecrypt.bash /usr/share/bash-completion/completions-core/valgrind.bash /usr/share/bash-completi
+ on/completions-fallback/deck.bash /usr/share/bash-completion/completions-core/fsnotifywatch.bash /usr/share/bash-completion/completions-fallback/deno.bash /usr/share/bash-completion/completions-core/gendiff.bash /usr/share/bash-completion/completions-core/rcsdiff.bash /usr/share/bash-completion/completions-fallback/tilt.bash /usr/share/bash-completion/completions-core/lua5.1.bash /usr/share/bash-completion/completions-core/smbcacls.bash /usr/share/bash-completion/completions-fallback/pnpm.bash /usr/share/bash-completion/completions-core/puppetca.bash /usr/share/bash-completion/completions-core/puppetqd.bash /usr/share/bash-completion/completions-core/sh.bash /usr/share/bash-completion/completions-core/ss.bash /usr/share/bash-completion/completions-core/ecryptfs-migrate-home.bash /usr/share/bash-completion/completions-core/sudoedit.bash /usr/share/bash-completion/completions-core/xz.bash /usr/share/bash-completion/completions-core/g++-6.bash /usr/share/bash-completion/completions-cor
+ e/gcc-6.bash /usr/share/bash-completion/completions-core/ping6.bash /usr/share/bash-completion/completions-core/stream.bash /usr/share/bash-completion/completions-core/aclocal-1.18.bash /usr/share/bash-completion/completions-core/aclocal-1.10.bash /usr/share/bash-completion/completions-core/aclocal-1.11.bash /usr/share/bash-completion/completions-core/aclocal-1.12.bash /usr/share/bash-completion/completions-core/aclocal-1.13.bash /usr/share/bash-completion/completions-core/aclocal-1.14.bash /usr/share/bash-completion/completions-core/aclocal-1.15.bash /usr/share/bash-completion/completions-core/aclocal-1.16.bash /usr/share/bash-completion/completions-core/aclocal-1.17.bash /usr/share/bash-completion/completions-core/unpack200.bash /usr/share/bash-completion/completions-fallback/nfpm.bash /usr/share/bash-completion/completions-fallback/sops.bash /usr/share/bash-completion/completions-core/userdel.bash /usr/share/bash-completion/completions-core/convert.bash /usr/share/bash-completion
+ /completions-core/lua5.3.bash /usr/share/bash-completion/completions-core/groupmems.bash /usr/share/bash-completion/completions-fallback/tox.bash /usr/share/bash-completion/completions-fallback/crc.bash /usr/share/bash-completion/completions-core/file-roller.bash /usr/share/bash-completion/completions-core/sqlite3.bash /usr/share/bash-completion/completions-core/jsonschema.bash /usr/share/bash-completion/completions-core/hping3.bash /usr/share/bash-completion/completions-core/smartctl.bash /usr/share/bash-completion/completions-fallback/zola.bash /usr/share/bash-completion/completions-fallback/flux.bash /usr/share/bash-completion/completions-core/pyston3.bash /usr/share/bash-completion/completions-core/python3.bash /usr/share/bash-completion/completions-fallback/glances.bash /usr/share/bash-completion/completions-fallback/ruff.bash /usr/share/bash-completion/completions-core/rfcomm.bash /usr/share/bash-completion/completions-core/ktutil.bash /usr/share/bash-completion/completions-fa
+ llback/git-bump.bash /usr/share/bash-completion/completions-fallback/gitleaks.bash /usr/share/bash-completion/completions-core/ulimit.bash /usr/share/bash-completion/completions-core/invoke-rc.d.bash /usr/share/bash-completion/completions-core/ssh-keyscan.bash /usr/share/bash-completion/completions-fallback/mado.bash /usr/share/bash-completion/completions-fallback/mago.bash /usr/share/bash-completion/completions-core/sysctl.bash /usr/share/bash-completion/completions-core/qemu-kvm.bash /usr/share/bash-completion/completions-core/ldapdelete.bash /usr/share/bash-completion/completions-core/autoscan.bash /usr/share/bash-completion/completions-core/htpasswd.bash /usr/share/bash-completion/completions-core/chpasswd.bash /usr/share/bash-completion/completions-core/mcrypt.bash /usr/share/bash-completion/completions-core/growisofs.bash /usr/share/bash-completion/completions-core/zopfli.bash /usr/share/bash-completion/completions-core/apt-mark.bash /usr/share/bash-completion/completions-core
+ /automake.bash /usr/share/bash-completion/completions-core/gnatmake.bash /usr/share/bash-completion/completions-fallback/stripe.bash /usr/share/bash-completion/completions-fallback/hexdump.bash /usr/share/bash-completion/completions-fallback/gaiad.bash /usr/share/bash-completion/completions-core/openssl.bash /usr/share/bash-completion/completions-core/yum-arch.bash /usr/share/bash-completion/completions-core/sbopkg.bash /usr/share/bash-completion/completions-core/badblocks.bash /usr/share/bash-completion/completions-core/munin-run.bash /usr/share/bash-completion/completions-core/alternatives.bash /usr/share/bash-completion/completions-core/ipsec.bash /usr/share/bash-completion/completions-core/javac.bash /usr/share/bash-completion/completions-core/nproc.bash /usr/share/bash-completion/completions-core/pydoc.bash /usr/share/bash-completion/completions-core/rsync.bash /usr/share/bash-completion/completions-core/dropuser.bash /usr/share/bash-completion/completions-core/xzdec.bash /usr/
+ share/bash-completion/completions-fallback/op.bash /usr/share/bash-completion/completions-fallback/zitadel.bash /usr/share/bash-completion/completions-core/animate.bash /usr/share/bash-completion/completions-core/ntpdate.bash /usr/share/bash-completion/completions-fallback/glab.bash /usr/share/bash-completion/completions-fallback/glen.bash /usr/share/bash-completion/completions-fallback/glow.bash /usr/share/bash-completion/completions-fallback/kubemqctl.bash /usr/share/bash-completion/completions-core/ldapcompare.bash /usr/share/bash-completion/completions-core/ssh-copy-id.bash /usr/share/bash-completion/completions-core/montage.bash /usr/share/bash-completion/completions-core/mailmanctl.bash /usr/share/bash-completion/completions-core/influx.bash /usr/share/bash-completion/completions-fallback/odo.bash /usr/share/bash-completion/completions-core/installpkg.bash /usr/share/bash-completion/completions-fallback/kompose.bash /usr/share/bash-completion/completions-fallback/kontena.bash 
+ /usr/share/bash-completion/completions-core/ether-wake.bash /usr/share/bash-completion/completions-core/fusermount.bash /usr/share/bash-completion/completions-core/gfortran-5.bash /usr/share/bash-completion/completions-core/gfortran-6.bash /usr/share/bash-completion/completions-core/gfortran-7.bash /usr/share/bash-completion/completions-core/gfortran-8.bash /usr/share/bash-completion/completions-core/gnokii.bash /usr/share/bash-completion/completions-core/groupadd.bash /usr/share/bash-completion/completions-core/gfortran.bash /usr/share/bash-completion/completions-core/vgsplit.bash /usr/share/bash-completion/completions-core/autoheader.bash /usr/share/bash-completion/completions-core/apache2ctl.bash /usr/share/bash-completion/completions-fallback/docker.bash /usr/share/bash-completion/completions-fallback/dasel.bash /usr/share/bash-completion/completions-core/pydoc3.13.bash /usr/share/bash-completion/completions-core/pydoc3.14.bash /usr/share/bash-completion/completions-core/pydoc3.
+ 15.bash /usr/share/bash-completion/completions-core/puppetd.bash /usr/share/bash-completion/completions-core/tree.bash /usr/share/bash-completion/completions-core/gnome-screenshot.bash /usr/share/bash-completion/completions-core/pm-suspend.bash /usr/share/bash-completion/completions-core/cvs.bash /usr/share/bash-completion/completions-core/ebtables.bash /usr/share/bash-completion/completions-core/iptables.bash /usr/share/bash-completion/completions-core/list_admins.bash /usr/share/bash-completion/completions-core/inotifywait.bash /usr/share/bash-completion/completions-fallback/ngrok.bash /usr/share/bash-completion/completions-fallback/encore.bash /usr/share/bash-completion/completions-fallback/secret-tool.bash /usr/share/bash-completion/completions-core/vgcfgbackup.bash /usr/share/bash-completion/completions-fallback/go-licenses.bash /usr/share/bash-completion/completions-core/compare.bash /usr/share/bash-completion/completions-core/chrome.bash /usr/share/bash-completion/completions
+ -core/declare.bash /usr/share/bash-completion/completions-core/alias.bash /usr/share/bash-completion/completions-core/cvsps.bash /usr/share/bash-completion/completions-core/links.bash /usr/share/bash-completion/completions-core/qdbus.bash /usr/share/bash-completion/completions-core/sshfs.bash /usr/share/bash-completion/completions-core/compgen.bash /usr/share/bash-completion/completions-fallback/minikube.bash /usr/share/bash-completion/completions-fallback/sinker.bash /usr/share/bash-completion/completions-core/brctl.bash /usr/share/bash-completion/completions-core/mysql.bash /usr/share/bash-completion/completions-core/pkill.bash /usr/share/bash-completion/completions-fallback/crane.bash /usr/share/bash-completion/completions-core/lua50.bash /usr/share/bash-completion/completions-core/xgamma.bash /usr/share/bash-completion/completions-fallback/ghorg.bash /usr/share/bash-completion/completions-fallback/vault.bash /usr/share/bash-completion/completions-fallback/oc.bash /usr/share/bash
+ -completion/completions-core/gmplayer.bash /usr/share/bash-completion/completions-fallback/mockery.bash /usr/share/bash-completion/completions-fallback/modinfo.bash /usr/share/bash-completion/completions-fallback/modules.bash /usr/share/bash-completion/completions-core/rpm2txz.bash /usr/share/bash-completion/completions-core/aptitude-curses.bash /usr/share/bash-completion/completions-core/puppetmasterd.bash /usr/share/bash-completion/completions-core/mysqladmin.bash /usr/share/bash-completion/completions-fallback/opa.bash /usr/share/bash-completion/completions-core/automake-1.17.bash /usr/share/bash-completion/completions-core/cowthink.bash /usr/share/bash-completion/completions-core/fsnotifywait.bash /usr/share/bash-completion/helpers-core/python /usr/share/bash-completion/completions-core/automake-1.11.bash /usr/share/bash-completion/completions-fallback/diffoci.bash /usr/share/bash-completion/completions-fallback/black.bash /usr/share/bash-completion/completions-core/groupdel.bas
+ h /usr/share/bash-completion/completions-core/function.bash /usr/share/bash-completion/completions-core/identify.bash /usr/share/bash-completion/completions-core/perltidy.bash /usr/share/bash-completion/completions-core/btdownloadgui.py.bash /usr/share/bash-completion/completions-core/ifdown.bash /usr/share/bash-completion/completions-fallback/bosh.bash /usr/share/bash-completion/completions-fallback/packer.bash /usr/share/bash-completion/completions-core/bmake.bash /usr/share/bash-completion/completions-core/brave.bash /usr/share/bash-completion/completions-core/chage.bash /usr/share/bash-completion/completions-core/gmake.bash /usr/share/bash-completion/completions-core/pmake.bash /usr/share/bash-completion/completions-core/route.bash /usr/share/bash-completion/completions-core/unace.bash /usr/share/bash-completion/completions-fallback/k3s.bash /usr/share/bash-completion/completions-core/hping.bash /usr/share/bash-completion/completions-core/phing.bash /usr/share/bash-completion/co
+ mpletions-fallback/jungle.bash /usr/share/bash-completion/completions-fallback/goreleaser.bash /usr/share/bash-completion/completions-fallback/mock.bash /usr/share/bash-completion/completions-core/xvnc4viewer.bash /usr/share/bash-completion/completions-core/nmap.bash /usr/share/bash-completion/completions-core/perl.bash /usr/share/bash-completion/completions-core/pigz.bash /usr/share/bash-completion/completions-core/pine.bash /usr/share/bash-completion/completions-core/java.bash /usr/share/bash-completion/completions-core/kcov.bash /usr/share/bash-completion/completions-core/kill.bash /usr/share/bash-completion/completions-core/koji.bash /usr/share/bash-completion/completions-core/lftp.bash /usr/share/bash-completion/completions-core/lilo.bash /usr/share/bash-completion/completions-fallback/sopstool.bash /usr/share/bash-completion/completions-core/config_list.bash /usr/share/bash-completion/completions-fallback/trash-restore.bash /usr/share/bash-completion/completions-core/inotifywa
+ tch.bash /usr/share/bash-completion/completions-fallback/buf.bash /usr/share/bash-completion/completions-fallback/cue.bash /usr/share/bash-completion/completions-core/lvresize.bash /usr/share/bash-completion/completions-core/vncviewer.bash /usr/share/bash-completion/completions-core/gpasswd.bash /usr/share/bash-completion/completions-core/genisoimage.bash /usr/share/bash-completion/completions-fallback/insmod.bash /usr/share/bash-completion/completions-core/inject.bash /usr/share/bash-completion/completions-core/faillog.bash /usr/share/bash-completion/completions-core/lastlog.bash /usr/share/bash-completion/completions-fallback/dpkg-query.bash /usr/share/bash-completion/completions-core/luac5.4.bash /usr/share/bash-completion/completions-core/env.bash /usr/share/bash-completion/completions-core/eog.bash /usr/share/bash-completion/completions-core/f77.bash /usr/share/bash-completion/completions-core/f95.bash /usr/share/bash-completion/completions-core/fbi.bash /usr/share/bash-complet
+ ion/completions-core/7za.bash /usr/share/bash-completion/completions-fallback/hwclock.bash /usr/share/bash-completion/completions-core/7zr.bash /usr/share/bash-completion/completions-core/7zz.bash /usr/share/bash-completion/completions-core/a2x.bash /usr/share/bash-completion/completions-core/python3.7.bash /usr/share/bash-completion/completions-core/getconf.bash /usr/share/bash-completion/completions-core/pkgconf.bash /usr/share/bash-completion/completions-core/gphoto2.bash /usr/share/bash-completion/completions-core/prelink.bash /usr/share/bash-completion/completions-fallback/gsctl.bash /usr/share/bash-completion/completions-core/ccze.bash /usr/share/bash-completion/completions-core/cpio.bash /usr/share/bash-completion/completions-core/curl.bash /usr/share/bash-completion/completions-fallback/kapp.bash /usr/share/bash-completion/completions-core/vgmknodes.bash /usr/share/bash-completion/completions-core/rpmbuild.bash /usr/share/bash-completion/completions-core/mfiutil.bash /usr/sh
+ are/bash-completion/completions-core/sudo.ws.bash /usr/share/bash-completion/completions-core/sha1sum.bash /usr/share/bash-completion/completions-fallback/furyctl.bash /usr/share/bash-completion/completions-fallback/slsa-verifier.bash /usr/share/bash-completion/completions-core/apt-build.bash /usr/share/bash-completion/completions-fallback/incus.bash /usr/share/bash-completion/completions-fallback/dpkg-deb.bash /usr/share/bash-completion/completions-fallback/kyverno.bash /usr/share/bash-completion/completions-core/filebucket.bash /usr/share/bash-completion/completions-core/medusa.bash /usr/share/bash-completion/completions-fallback/steampipe.bash /usr/share/bash-completion/completions-core/remove_members.bash /usr/share/bash-completion/completions-fallback/vacuum.bash /usr/share/bash-completion/completions-core/nslookup.bash /usr/share/bash-completion/completions-core/luac53.bash /usr/share/bash-completion/completions-fallback/shtab.bash /usr/share/bash-completion/completions-fallba
+ ck/infracost.bash /usr/share/bash-completion/completions-fallback/virtctl.bash /usr/share/bash-completion/completions-fallback/gitsign.bash /usr/share/bash-completion/completions-fallback/notation.bash /usr/share/bash-completion/completions-core/htop.bash /usr/share/bash-completion/completions-core/mktemp.bash /usr/share/bash-completion/completions-core/mdtool.bash /usr/share/bash-completion/completions-fallback/polygon-edge.bash /usr/share/bash-completion/completions-core/dmypy.bash /usr/share/bash-completion/completions-core/iwspy.bash /usr/share/bash-completion/completions-core/hostname.bash /usr/share/bash-completion/completions-core/lvrename.bash /usr/share/bash-completion/completions-core/msgsnarf.bash /usr/share/bash-completion/completions-core/urlsnarf.bash /usr/share/bash-completion/completions-core/vgrename.bash /usr/share/bash-completion/helpers-core/perl /usr/share/bash-completion/completions-core/tune2fs.bash /usr/share/bash-completion/completions-fallback/todoist.bash 
+ /usr/share/bash-completion/completions-core/ldappasswd.bash /usr/share/bash-completion/completions-core/pkg-config.bash /usr/share/bash-completion/completions-fallback/udevadm.bash /usr/share/bash-completion/completions-core/strings.bash /usr/share/bash-completion/completions-fallback/lefthook.bash /usr/share/bash-completion/completions-fallback/jreleaser.bash /usr/share/bash-completion/completions-fallback/regal.bash /usr/share/bash-completion/completions-fallback/rumdl.bash /usr/share/bash-completion/completions-fallback/dive.bash /usr/share/bash-completion/completions-fallback/dyff.bash /usr/share/bash-completion/completions-fallback/gopass.bash /usr/share/bash-completion/completions-core/mplayer2.bash /usr/share/bash-completion/completions-core/quotaoff.bash /usr/share/bash-completion/completions-fallback/tanzu.bash /usr/share/bash-completion/completions-core/automake-1.18.bash /usr/share/bash-completion/completions-fallback/kubescape.bash /usr/share/bash-completion/completions-
+ fallback/kustomize.bash /usr/share/bash-completion/completions-core/fprintd-delete.bash /usr/share/bash-completion/completions-core/fprintd-list.bash /usr/share/bash-completion/completions-fallback/adb.bash /usr/share/bash-completion/completions-fallback/sshi.bash /usr/share/bash-completion/completions-core/hddtemp.bash /usr/share/bash-completion/completions-fallback/kubelogin.bash /usr/share/bash-completion/completions-core/lintian.bash /usr/share/bash-completion/completions-fallback/pitchfork.bash /usr/share/bash-completion/completions-core/tar.bash /usr/share/bash-completion/completions-core/lua.bash /usr/share/bash-completion/completions-core/lvm.bash /usr/share/bash-completion/completions-core/lvs.bash /usr/share/bash-completion/completions-core/lz4.bash /usr/share/bash-completion/completions-core/man.bash /usr/share/bash-completion/completions-core/mtx.bash /usr/share/bash-completion/completions-core/svk.bash /usr/share/bash-completion/completions-core/scp.bash /usr/share/bash
+ -completion/completions-core/set.bash /usr/share/bash-completion/completions-fallback/okteto.bash /usr/share/bash-completion/completions-core/removepkg.bash /usr/share/bash-completion/completions-fallback/popeye.bash /usr/share/bash-completion/completions-core/etherwake.bash /usr/share/bash-completion/completions-core/protoc.bash /usr/share/bash-completion/completions-fallback/apko.bash /usr/share/bash-completion/completions-core/helium.bash /usr/share/bash-completion/completions-core/md5sum.bash /usr/share/bash-completion/completions-core/shasum.bash /usr/share/bash-completion/completions-core/conjure.bash /usr/share/bash-completion/completions-core/munindoc.bash /usr/share/bash-completion/completions-core/pylint-2.bash /usr/share/bash-completion/completions-core/pylint-3.bash /usr/share/bash-completion/completions-core/dnssec-keygen.bash /usr/share/bash-completion/completions-core/postmap.bash /usr/share/bash-completion/completions-core/xmodmap.bash /usr/share/bash-completion/comp
+ letions-core/firefox-esr.bash /usr/share/bash-completion/completions-core/configure.bash /usr/share/bash-completion/completions-core/jarsigner.bash /usr/share/bash-completion/completions-core/minicom.bash /usr/share/bash-completion/completions-fallback/rfkill.bash /usr/share/bash-completion/completions-core/btdownloadheadless.py.bash /usr/share/bash-completion/completions-fallback/ko.bash /usr/share/bash-completion/completions-core/luserdel.bash /usr/share/bash-completion/completions-core/geoiplookup.bash /usr/share/bash-completion/completions-fallback/arduino-cli.bash /usr/share/bash-completion/completions-core/gnumake.bash /usr/share/bash-completion/completions-core/iwpriv.bash /usr/share/bash-completion/completions-core/lvchange.bash /usr/share/bash-completion/completions-core/pvchange.bash /usr/share/bash-completion/completions-core/vgchange.bash /usr/share/bash-completion/completions-fallback/kool.bash /usr/share/bash-completion/completions-core/cleanarch.bash /usr/share/bash-c
+ ompletion/completions-fallback/kops.bash /usr/share/bash-completion/completions-core/repquota.bash /usr/share/bash-completion/completions-core/setquota.bash /usr/share/bash-completion/completions-core/qemu-system-x86_64.bash /usr/share/bash-completion/completions-core/smbpasswd.bash /usr/share/bash-completion/completions-core/iwlist.bash /usr/share/bash-completion/completions-core/pytest.bash /usr/share/bash-completion/completions-core/rmlist.bash /usr/share/bash-completion/completions-core/tsig-keygen.bash /usr/share/bash-completion/completions-core/lua51.bash /usr/share/bash-completion/completions-fallback/kata-runtime.bash /usr/share/bash-completion/completions-core/avctrl.bash /usr/share/bash-completion/completions-core/groupmod.bash /usr/share/bash-completion/completions-core/chromium-browser.bash /usr/share/bash-completion/completions-core/ciptool.bash /usr/share/bash-completion/completions-core/dfutool.bash /usr/share/bash-completion/completions-core/change_pw.bash /usr/share
+ /bash-completion/completions-core/hcitool.bash /usr/share/bash-completion/completions-core/pkgtool.bash /usr/share/bash-completion/completions-core/rrdtool.bash /usr/share/bash-completion/completions-core/sdptool.bash /usr/share/bash-completion/completions-fallback/ansible-console.bash /usr/share/bash-completion/completions-core/g++-8.bash /usr/share/bash-completion/completions-core/gcc-8.bash /usr/share/bash-completion/completions-fallback/dmesg.bash /usr/share/bash-completion/completions-fallback/vela.bash /usr/share/bash-completion/completions-fallback/aqua.bash /usr/share/bash-completion/completions-core/makepkg.bash /usr/share/bash-completion/completions-core/chronyc.bash /usr/share/bash-completion/completions-core/lua5.2.bash /usr/share/bash-completion/completions-fallback/svnadmin.bash /usr/share/bash-completion/completions-fallback/container-structure-test.bash /usr/share/bash-completion/completions-core/mkisofs.bash /usr/share/bash-completion/completions-core/gccgo-7.bash /
+ usr/share/bash-completion/completions-fallback/wasmer.bash /usr/share/bash-completion/completions-core/ssh-keygen.bash /usr/share/bash-completion/completions-fallback/conftest.bash /usr/share/bash-completion/completions-fallback/ssh-inscribe.bash /usr/share/bash-completion/completions-fallback/k9s.bash /usr/share/bash-completion/completions-fallback/skupper.bash /usr/share/bash-completion/completions-core/python3.8.bash /usr/share/bash-completion/completions-core/python3.9.bash /usr/share/bash-completion/completions-core/chkconfig.bash /usr/share/bash-completion/completions-core/hciconfig.bash /usr/share/bash-completion/completions-core/python2.7.bash /usr/share/bash-completion/completions-core/python2.bash /usr/share/bash-completion/completions-core/python3.3.bash /usr/share/bash-completion/completions-core/python3.4.bash /usr/share/bash-completion/completions-core/python3.5.bash /usr/share/bash-completion/completions-core/python3.6.bash /usr/share/bash-completion/completions-fallb
+ ack/yum.bash /usr/share/bash-completion/helpers-core/make-extract-targets.awk /usr/share/bash-completion/completions-fallback/qrpc.bash /usr/share/bash-completion/completions-core/tcpnice.bash /usr/share/bash-completion/completions-fallback/opencode.bash /usr/share/bash-completion/completions-fallback/fx.bash /usr/share/bash-completion/completions-core/automake-1.13.bash /usr/share/bash-completion/completions-core/tcpdump.bash /usr/share/bash-completion/completions-core/vgmerge.bash /usr/share/bash-completion/completions-core/mrsasutil.bash /usr/share/bash-completion/completions-core/postsuper.bash /usr/share/bash-completion/completions-core/vgconvert.bash /usr/share/bash-completion/completions-core/kplayer.bash /usr/share/bash-completion/completions-core/mplayer.bash /usr/share/bash-completion/completions-fallback/bao.bash /usr/share/bash-completion/completions-core/postfix.bash /usr/share/bash-completion/completions-core/sshow.bash /usr/share/bash-completion/completions-core/pyven
+ v-3.10.bash /usr/share/bash-completion/completions-core/pyvenv-3.11.bash /usr/share/bash-completion/completions-fallback/kubebuilder.bash /usr/share/bash-completion/completions-core/pngfix.bash /usr/share/bash-completion/completions-core/cppcheck.bash /usr/share/bash-completion/completions-core/pyvenv-3.12.bash /usr/share/bash-completion/completions-core/pyvenv-3.13.bash /usr/share/bash-completion/completions-fallback/hd.bash /usr/share/bash-completion/completions-core/pyvenv-3.14.bash /usr/share/bash-completion/completions-core/pyvenv-3.15.bash /usr/share/bash-completion/completions-fallback/syft.bash /usr/share/bash-completion/completions-core/rpmcheck.bash /usr/share/bash-completion/completions-core/carton.bash /usr/share/bash-completion/completions-core/pyston.bash /usr/share/bash-completion/completions-core/python.bash /usr/share/bash-completion/completions-core/mii-diag.bash /usr/share/bash-completion/completions-fallback/just.bash /usr/share/bash-completion/completions-core/l
+ dapsearch.bash /usr/share/bash-completion/completions-fallback/k3sup.bash /usr/share/bash-completion/completions-fallback/kconf.bash /usr/share/bash-completion/completions-fallback/dprint.bash /usr/share/bash-completion/completions-core/createdb.bash /usr/share/bash-completion/completions-core/aptitude.bash /usr/share/bash-completion/completions-core/lvextend.bash /usr/share/bash-completion/completions-core/printenv.bash /usr/share/bash-completion/completions-core/vgextend.bash /usr/share/bash-completion/completions-fallback/ansible-pull.bash /usr/share/bash-completion/completions-fallback/mmctl.bash /usr/share/bash-completion/completions-fallback/colima.bash /usr/share/bash-completion/completions-fallback/consul.bash /usr/share/bash-completion/completions-fallback/cosign.bash /usr/share/bash-completion/completions-fallback/pulumi.bash /usr/share/bash-completion/completions-core/checksec.bash /usr/share/bash-completion/completions-core/mencoder.bash /usr/share/bash-completion/comple
+ tions-core/e2label.bash /usr/share/bash-completion/completions-core/pydoc3.bash /usr/share/bash-completion/completions-core/firefox.bash /usr/share/bash-completion/completions-core/luac5.3.bash /usr/share/bash-completion/completions-core/slogin.bash /usr/share/bash-completion/completions-core/wine64-development.bash /usr/share/bash-completion/completions-core/pm-hibernate.bash /usr/share/bash-completion/completions-core/chgrp.bash /usr/share/bash-completion/completions-core/clisp.bash /usr/share/bash-completion/completions-core/clzip.bash /usr/share/bash-completion/completions-core/iftop.bash /usr/share/bash-completion/completions-core/lrzip.bash /usr/share/bash-completion/completions-core/ncftp.bash /usr/share/bash-completion/completions-core/newusers.bash /usr/share/bash-completion/completions-core/ngrep.bash /usr/share/bash-completion/completions-core/pgrep.bash /usr/share/bash-completion/completions-core/pm-suspend-hybrid.bash /usr/share/bash-completion/completions-fallback/svnl
+ ook.bash /usr/share/bash-completion/completions-core/quotaon.bash /usr/share/bash-completion/completions-fallback/caddy.bash /usr/share/bash-completion/completions-fallback/cargo.bash /usr/share/bash-completion/completions-fallback/dpkg.bash /usr/share/bash-completion/completions-core/edquota.bash /usr/share/bash-completion/completions-core/co.bash /usr/share/bash-completion/completions-core/jq.bash /usr/share/bash-completion/completions-core/mc.bash /usr/share/bash-completion/completions-core/mr.bash /usr/share/bash-completion/completions-fallback/watchexec.bash /usr/share/bash-completion/completions-core/nc.bash /usr/share/bash-completion/completions-core/p4.bash /usr/share/bash-completion/completions-core/ps.bash /usr/share/bash-completion/completions-core/pv.bash /usr/share/bash-completion/completions-core/ri.bash /usr/share/bash-completion/completions-fallback/ansible-inventory.bash /usr/share/bash-completion/completions-core/lua53.bash /usr/share/bash-completion/completions-co
+ re/ifstatus.bash /usr/share/bash-completion/completions-core/pypy3.bash /usr/share/bash-completion/completions-fallback/tfctl.bash /usr/share/bash-completion/completions-fallback/pip3.bash /usr/share/bash-completion/completions-core/filesnarf.bash /usr/share/bash-completion/completions-core/iperf3.bash /usr/share/bash-completion/completions-core/mailsnarf.bash /usr/share/bash-completion/completions-core/ccache.bash /usr/share/bash-completion/completions-core/flake8.bash /usr/share/bash-completion/completions-core/withlist.bash /usr/share/bash-completion/completions-core/xev.bash /usr/share/bash-completion/completions-core/xxd.bash /usr/share/bash-completion/completions-core/automake-1.15.bash /usr/share/bash-completion/completions-core/unrar.bash /usr/share/bash-completion/completions-core/gccgo.bash /usr/share/bash-completion/completions-core/pinfo.bash /usr/share/bash-completion/completions-fallback/k0sctl.bash /usr/share/bash-completion/completions-core/munin-update.bash /usr/sha
+ re/bash-completion/completions-fallback/keyring.bash /usr/share/bash-completion/completions-fallback/kubeadm.bash /usr/share/bash-completion/completions-fallback/kubectl.bash /usr/share/bash-completion/completions-fallback/kubesec.bash /usr/share/bash-completion/completions-fallback/kubespy.bash /usr/share/bash-completion/completions-fallback/diesel.bash /usr/share/bash-completion/completions-core/clone_member.bash /usr/share/bash-completion/completions-fallback/velero.bash /usr/share/bash-completion/completions-fallback/stern.bash /usr/share/bash-completion/completions-core/ipcalc.bash /usr/share/bash-completion/completions-fallback/ansible-galaxy.bash /usr/share/bash-completion/completions-core/wine64.bash /usr/share/bash-completion/completions-core/pvmove.bash /usr/share/bash-completion/completions-fallback/write.bash /usr/share/bash-completion/completions-core/gkrellm.bash /usr/share/bash-completion/completions-core/gcl.bash /usr/share/bash-completion/completions-core/gdb.bash /
+ usr/share/bash-completion/completions-core/gpc.bash /usr/share/bash-completion/completions-core/gpg.bash /usr/share/bash-completion/completions-core/qrunner.bash /usr/share/bash-completion/completions-core/timeout.bash /usr/share/bash-completion/completions-core/fprintd-enroll.bash /usr/share/bash-completion/completions-core/lsscsi.bash /usr/share/bash-completion/completions-fallback/slackpkg.bash /usr/share/bash-completion/completions-fallback/tkn-pac.bash /usr/share/bash-completion/completions-fallback/nmcli.bash /usr/share/bash-completion/completions-fallback/interdiff.bash /usr/share/bash-completion/completions-core/reportbug.bash /usr/share/bash-completion/completions-core/tightvncviewer.bash /usr/share/bash-completion/completions-fallback/chamber.bash /usr/share/bash-completion/completions-fallback/changie.bash /usr/share/bash-completion/completions-fallback/chezmoi.bash /usr/share/bash-completion/completions-core/pytest-2.bash /usr/share/bash-completion/completions-core/pytes
+ t-3.bash /usr/share/bash-completion/completions-fallback/esc.bash /usr/share/bash-completion/completions-core/jpegoptim.bash /usr/share/bash-completion/completions-fallback/random.bash /usr/share/bash-completion/completions-core/lua5.4.bash /usr/share/bash-completion/completions-fallback/ignite.bash /usr/share/bash-completion/completions-core/wine-development.bash /usr/share/bash-completion/completions-core/sbcl.bash /usr/share/bash-completion/completions-core/sftp.bash /usr/share/bash-completion/completions-core/star.bash /usr/share/bash-completion/completions-core/sudo.bash /usr/share/bash-completion/completions-core/lzip.bash /usr/share/bash-completion/completions-core/lzma.bash /usr/share/bash-completion/completions-core/lzop.bash /usr/share/bash-completion/completions-core/make.bash /usr/share/bash-completion/completions-core/mutt.bash /usr/share/bash-completion/completions-core/mypy.bash /usr/share/bash-completion/completions-core/dropdb.bash /usr/share/bash-completion/complet
+ ions-core/dumpdb.bash /usr/share/bash-completion/completions-fallback/httpx.bash /usr/share/bash-completion/completions-core/luseradd.bash /usr/share/bash-completion/completions-core/dhclient.bash /usr/share/bash-completion/completions-core/luac5.2.bash /usr/share/bash-completion/completions-fallback/gcrane.bash /usr/share/bash-completion/completions-fallback/task.bash /usr/share/bash-completion/completions-core/pyflakes.bash /usr/share/bash-completion/completions-fallback/eject.bash /usr/share/bash-completion/completions-fallback/kubeshark.bash /usr/share/bash-completion/completions-fallback/timoni.bash /usr/share/bash-completion/completions-fallback/melange.bash /usr/share/bash-completion/completions-core/vgs.bash /usr/share/bash-completion/completions-core/gkrellm2.bash /usr/share/bash-completion/completions-core/xmllint.bash /usr/share/bash-completion/completions-core/luac50.bash /usr/share/bash-completion/completions-fallback/atlas.bash /usr/share/bash-completion/completions-fa
+ llback/atmos.bash /usr/share/bash-completion/completions-core/freeciv-gtk2.bash /usr/share/bash-completion/completions-core/shellcheck.bash /usr/share/bash-completion/completions-core/freeciv-gtk3.bash /usr/share/bash-completion/completions-fallback/chfn.bash /usr/share/bash-completion/completions-fallback/chsh.bash /usr/share/bash-completion/completions-core/cfrun.bash /usr/share/bash-completion/completions-core/chown.bash /usr/share/bash-completion/completions-core/autossh.bash /usr/share/bash-completion/completions-core/pwgen.bash /usr/share/bash-completion/completions-core/pm-powersave.bash /usr/share/bash-completion/completions-fallback/kubecm.bash /usr/share/bash-completion/completions-fallback/talhelper.bash /usr/share/bash-completion/completions-fallback/gh.bash /usr/share/bash-completion/completions-fallback/xc.bash /usr/share/bash-completion/completions-core/cryptsetup.bash /usr/share/bash-completion/completions-fallback/kafkactl.bash /usr/share/bash-completion/completions
+ -core/sidedoor.bash /usr/share/bash-completion/completions-fallback/etcdctl.bash /usr/share/bash-completion/completions-fallback/etcdutl.bash /usr/share/bash-completion/completions-core/tracepath.bash /usr/share/bash-completion/completions-core/json_xs.bash /usr/share/bash-completion/completions-core/autoconf.bash /usr/share/bash-completion/completions-core/cdrecord.bash /usr/share/bash-completion/completions-core/postconf.bash /usr/share/bash-completion/completions-core/sitecopy.bash /usr/share/bash-completion/completions-fallback/moldy.bash /usr/share/bash-completion/completions-fallback/mount.bash /usr/share/bash-completion/completions-core/lvscan.bash /usr/share/bash-completion/completions-core/pvscan.bash /usr/share/bash-completion/completions-core/vgscan.bash /usr/share/bash-completion/completions-core/vgcfgrestore.bash /usr/share/bash-completion/completions-core/wvdial.bash /usr/share/bash-completion/completions-fallback/minishift.bash /usr/share/bash-completion/completions-c
+ ore/autoupdate.bash /usr/share/bash-completion/completions-fallback/mise.bash /usr/share/bash-completion/completions-core/crontab.bash /usr/share/bash-completion/completions-core/postcat.bash /usr/share/bash-completion/completions-fallback/uv.bash /usr/share/bash-completion/completions-fallback/yq.bash /usr/share/bash-completion/completions-fallback/copilot.bash /usr/share/bash-completion/completions-core/gssdp-device-sniffer.bash"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PKGSIZE changed from 150458 to 1048173 (+597%)
+packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion: PV changed from "2.17.0" to "2.18.0"
+packages/x86-64-v3-poky-linux/bash-completion: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
+packages/x86-64-v3-poky-linux/bash-completion: SRC_URI changed from "https://github.com/scop/bash-completion/releases/download/2.17.0/bash-completion-2.17.0.tar.xz" to "https://github.com/scop/bash-completion/releases/download/2.18.0/bash-completion-2.18.0.tar.xz"
 
---===============8461105619342298061==--
+--===============5714043520528367112==--
 
