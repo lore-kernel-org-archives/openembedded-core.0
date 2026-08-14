@@ -2,159 +2,174 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B713FC5CFDB
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 12:49:06 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12153.1786711739302818248
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B809AC5CFC1
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 12:50:36 +0000 (UTC)
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12172.1786711835409901467
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 05:48:59 -0700
+ Fri, 14 Aug 2026 05:50:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=daQnNAvX;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-81ff017d420so27159217b3.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 05:48:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786711738; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=K1ho1OB0;
+ spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-66bee28e978so964187d50.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 05:50:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786711834; cv=none;
         d=google.com; s=arc-20260327;
-        b=rEEggYYq9UlnQrMY69H4uM4kl5xrthQvS6ruaE4rOZcTtVUkUTikL8G/niAllNNdlA
-         WhhYGH5BYS6kUaW6NSErvwHeUuOgRxPqgWf7VihejvVVYjqfVWK6YEm9wuVw/cBFZOsY
-         W6Q5rwqlAQ43C7IakfI2drf8yYbYM9n4GEWkKckioCHbzjNbhdr4onPU5mBqVOLzry40
-         5cybv+rzwrtWFF4vtISpa0wEVN/SY4fijrhH1Z9fruBRUFUy2nIohDvZfEHlvz1ssuz+
-         bS042tcFsC6zl4+M0hExvFRki+nn2H2gHSk4xIxiWLkRHCTPdAzu/SXxfD2zYU6D/r1c
-         iNcw==
+        b=JW3VepaSnSC1JzBhnBeBfqjVguctdncwRaivhLj4jKTSnAEdFk2kNyjhclzdBEsTbY
+         gXidLWCuSIsOQDegtNERYBCjg7q8Z6ClZsUHDhBv1C9lfYboWv+YPWl7J1NNXosG6qUV
+         CZuSRZXSA2+zJ4ggkmKBPEXDv3BAPejGIt2+h0VEuhXLOKXDAw6P6DJ0B1b+yoeZ16v0
+         Zv+xj+IocBbXl0hu3q2ffmRbmpJ1NLFRCpdKD4ir1USgXfv99kwXL4YeS8OnmZz/QDim
+         +6sJjl3rb9Sw+JX7o7UPF0Wz+kgQPaPZ4iVA07N/4DpynupKVcyBWl/3+kPf/1dxIjLT
+         eWJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=dlseqNNW/YeH5QA5KupLBmSsSsxGPT2DXOS/LV8zGF0=;
-        fh=kWKt4UINZ1F4UonjK/V/OyGHrn7Nboyn6VF2ZUoMrMc=;
-        b=fNAQ6BGuArHmpaBEhlMDVZ005XzJ2sb45c8IVhU84hKs62PUUMqFw9O9GQoFQRw6E9
-         zM1WmiUDI4wDYc7WVFA/s+CnEIgpR7nKuvkDMoyWicWLsdMG/RepL01f0xIDpCNOFJZe
-         0/6d9AuPQribbxjP8SbenWtnK4LqZJnzBJCeD8+TyyQm60AOUbkADA0xNeCrXlecmhE9
-         tSVsJKkzRbyanD1Mxh6n+7bj9BlY+lyK7sNGKbWn6m8AzNLzf22qpQvLXFgDXguCVt9G
-         H8ijant3290T4OkwcPB6+/0DG754goCJ+Ht2h5HL62EQHUx/kS6HJ/GgU3biz+W33czh
-         hZgQ==;
+        bh=lBfYiL5/6M57HSy2wUUlVco7DUxr1x/V7cp7AcUDWbI=;
+        fh=heBv7Q8QSBlQD5pj12K48PD4D2gkoJcezBJG9xnrvFM=;
+        b=KNVVycC/pmgv2SI+RcWhAuNdVA6voATabpZu5P+JDaD8dbwHKqhJFh+ABDwkqTtNkl
+         2fNXDji24CE/U6NZkDP9ly26HszC5xfe08haqQzwAS9lV4S96xtPa8ZNOOJcsl+vDTiz
+         Xdz5XMO1b858Qb7RcKoit7Tr+H1xRXgJrZsSVxhJm33QswTZWsrYdnlz6oeB7VFB6/gR
+         w6f09E2g8KsO2zBDsHEy0byB5fgha2O1C/IsomzUxo0sUSXSlThEVY5ie8G06/GF/qab
+         ma+vqKdos+KPAlxylwFR45lS1Oe+fytEfrYspGC88ZhmvJUYf35YbBwDrJpttCvTkpoj
+         OawQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786711738; x=1787316538; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1786711834; x=1787316634; darn=lists.openembedded.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dlseqNNW/YeH5QA5KupLBmSsSsxGPT2DXOS/LV8zGF0=;
-        b=daQnNAvX+FlzbTRzhB3AYlReZ1o/+y6RWOnSnyLjc0jrcvujVj3ZLQkEDTqaeQPeiL
-         THSHsWiGNrOyhypx5E4UZ4/7R5wojWST+9nF0R+y5NNLI135uMzbvne/RFXKa/Ctc3Hj
-         R91A6MeU+CPICIvm37A3TqETz6oeprrKD/O8rv10uEGPegglQf/JZfLpqRz79p/fdlgy
-         GxVAgAm+K87uYR3nBgu2tWhLvpXZSz/c/DA5oK0PmKOH/Iqvjsxjc3Cq2bE/Y/jywT2v
-         a/6ABOT3Wxhzx+2jPaKOHdh1/regzQjMZFzgpfaZGnGRI/k08zU1K2raDQ8cEtYkQIkv
-         SSXg==
+        bh=lBfYiL5/6M57HSy2wUUlVco7DUxr1x/V7cp7AcUDWbI=;
+        b=K1ho1OB0ZN/18aqmLE81WF3FjfKYv3lVdivrrZ6GNqYAuLQRxiAlq4QV9pxakH0QYp
+         Mq66hi/aUCo/Fr/mDuHhZcE4+PJmzTSZ/LK0zPuvqh7qqLViZCcT/4RKQqQza1b5vPBC
+         l7/I/2QmD1qnvXVz1znoIrCugfmyp81hTZtc5CKauPdmeAseuhqJeYdiPj/d0VkUkPow
+         4Cw63xDYYHiiES4ZC0RW6/OhYuOFbOKDTiKM2NQi7RkXWjeL2jtfa5sxHaSDpehOFxzH
+         JcVXEUOQPEbDI2rMrpaWr/eHh/Y0FCkCT3egbOYRHF6S+dNbSPm0csJlxghNoc6aLsRk
+         f6gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786711738; x=1787316538;
+        d=1e100.net; s=20251104; t=1786711834; x=1787316634;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dlseqNNW/YeH5QA5KupLBmSsSsxGPT2DXOS/LV8zGF0=;
-        b=loPtegneIoyq4ttfuekHEhCQVWdCLSMpY4SoUjuhydgBOky7ZY2BCoCf22qRCQ9BVq
-         WLwJBrLpVhD1zCKWNwM1lhZ4IDsXI1nHNy4v5cRAwChNR7KJcYS8OmjrdCwPa60YmPR2
-         oeXkjXr+XNiV4kXVwgnHw4bmFKU8s8EnHWtwOUK/0E988NDFgzAWkhKGFPqy+3augoAZ
-         ICrmvrXxnfl3XjOq6SRZ01Bj9OO8udY8psuBmhGBUS/MIY4xgGjjhWjAZnloPCASdS0b
-         faxoobGTFnYSzDyVn9bvKhCq3ClJi2KfO6AyUvgCWgdgsJrTRdCtqlC3uR64eoRhr1JJ
-         1Fuw==
-X-Gm-Message-State: AOJu0YxRluaCEtoakh8vJjOCFq+EOt5A5rsn7IrQHefM4Hcf28GhMXm/
-	UvuvLCXs8S0Ctv5/Kr+BYIWTOY9qYPGR1ILw63RQQ09i+GkMOj486dwQRA0niiS3w9ufe+jHbiZ
-	CeWC2HGvsVPblunDp42PN4i239knfKDg=
-X-Gm-Gg: AR+sD12k88QGkrTwa8kVNI8jv7d6A7F83qDjBKsXhuHkeKrF2IMVC0l5QB+03+CAlrT
-	qTK4J7XNtKd9b1nq5c/gTNjh0sGFRxNC7FkiBM3caN17FMmuMUhpjru+kadKbE3HwijHiqbeCOg
-	LCfPB/qlFcOnSAT/N07e8s3D5MF2e60A4U7KpmJhXR0NS7Mw3I3ncxgLXstxPOUpBSUL8uC9MMy
-	BIFWoUP20p82mlYE8/oLrQ2LEiTzFTXlj3v5iqOQXpCOEyZilUjdLBG91JRVa/1bBhV6wpudGgO
-	e0k2Qq3qj14ibh2Dj3PMBecpiBfhLr6JxCT8RWoQEWhqUVa+dgFmIep3eQK6jlxspV8Vjmp1Y2E
-	+vqp95jdbjHvEifcW7ARZHboQpzbJ7hzqcRJqKFcNfJM8xkfS3fgVeB1c0SbDkcw=
-X-Received: by 2002:a05:690c:c510:b0:834:fadf:603c with SMTP id
- 00721157ae682-8370d7e9fefmr22553657b3.2.1786711738212; Fri, 14 Aug 2026
- 05:48:58 -0700 (PDT)
+        bh=lBfYiL5/6M57HSy2wUUlVco7DUxr1x/V7cp7AcUDWbI=;
+        b=kh37+TDAatcStvwJSbm+uBh4ygoMIxedbKjt6BF28NzT/2Bf+mcypVBuIsPe00q0FN
+         iEqK6Lz2PBToVPpJO0BaaGnRbI11dxPgE34Zj8W7GMlqjIkHwHAiKGeF+cwJZoFrs7xP
+         kIzWxJ97pLD1S1omBWK289Hn5uxiZa9S7RbtoaDvCY6PpHNvcfR8a3FtwqYlfcRWwDTx
+         6TAcxmKOuDjk2uU/ycrPf4zu6B6AccTiSxELv+rogPL4SYtQgRU5KgvbVHclVByP+lWn
+         TLe0cdtkfMCAxRyhL3DZ93pjKdHt9BkmT2toJUGt05bNzfO/I9J83jVAgobbd6JCKntb
+         w0/g==
+X-Forwarded-Encrypted: i=1; AHgh+RoO8ZUJq5V/4hvxRkZfR9YiqfnFwDlCYoj5F/1aWF/7rpVXsykW3GvhsCMP8exIzEWfB2Il18FZa6ZCZKSzEEqAkw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzVKqjCAVq5NXXIQgtLY/YA7VVbw8M+QwkOID6zFr4x7nzBn+qW
+	X2J5u/KaWKXwo2oLxrDLx3WA7iq3E3V7kQYPyMe79tcviia9QUC4vC9eDMaH2CsBUumoGsJhyN3
+	hPVjEJ4+rq00BkGWqCxcqEiMMPlxS5bw=
+X-Gm-Gg: AR+sD13MvmqhvJdu/YMIb3PYyDprxxGCeH8GvrZZ7bIePbvxF3QqKT/3W0Pg8La2OwS
+	08NuAinjn7BUlZj3bPKFPgsOCHeaq/7o9CTSE17J7UUWNGDWfQhG8lO1hkYH3wPFqsAk1lg9dnE
+	yZ2D2UCj7Kia84WtTlZXeUY8UUl9wCojmgbBOFBZYFPvMvxGegYd3spfckRlg2DbH3YysSAdGRS
+	vKVjKdxslY3w+QzwfdIW1M1w4AESyCdc4u9wy7i+ZuVDRHQaebKIsfY/vZG9hkoBxUTbQY5a5Fu
+	3IsnuOyVtbDnxotohYyEBsEMFtcN1F7umgOe1DEU+wEX4edl7PoILe+nazCE3yINTdYi6vLTS+f
+	PuzWWpOIiBc5CskIGSwRPwudJNSRbFWxt9B1s4eDOSET4BjF1PMylSkN6fadZT7k=
+X-Received: by 2002:a05:690e:1904:b0:66b:178c:936 with SMTP id
+ 956f58d0204a3-66c72ce70edmr2594474d50.43.1786711834267; Fri, 14 Aug 2026
+ 05:50:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260814064812.1071873-1-mikko.rapeli@linaro.org> <20260814064812.1071873-5-mikko.rapeli@linaro.org>
-In-Reply-To: <20260814064812.1071873-5-mikko.rapeli@linaro.org>
+References: <20260814064812.1071873-1-mikko.rapeli@linaro.org>
+ <20260814064812.1071873-2-mikko.rapeli@linaro.org> <2b6fbd07547d07ddb00539fc0bf7b8434633f26e.camel@linuxfoundation.org>
+ <an77qXLFBuw245kW@nuoska>
+In-Reply-To: <an77qXLFBuw245kW@nuoska>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 14 Aug 2026 08:48:45 -0400
-X-Gm-Features: AUfX_mz-GXpCQoyG0_hqCWpxry_hHCmEZ-ZMGe24ym0F45iTOwxh2PDzYpd2-iA
-Message-ID: <CADkTA4OfiyTA=V+6s_nu+27HK6PZXcojwm=H7AkOch1huwFDHQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] kernel-devsrc: copy kernel/sched/ext directory
-To: mikko.rapeli@linaro.org
-Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Aug 2026 08:50:20 -0400
+X-Gm-Features: AUfX_mwQNKZInooVSFJ_Nes347XYfeoZYpwREzDRKe5KOIiM7TL3oiK9uxDWbW8
+Message-ID: <CADkTA4PdqyL4GjRAE+ob4vYMxVuKdQZ22Yc+3kTE-O1NMrji2Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/4] lttng-modules: update from 2.15.2 to 2.16.0-rc2
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 12:49:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243449
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 12:50:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243450
 
-On Fri, Aug 14, 2026 at 2:48=E2=80=AFAM Mikko Rapeli via
-lists.openembedded.org
-<mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
+On Fri, Aug 14, 2026 at 7:27=E2=80=AFAM Mikko Rapeli <mikko.rapeli@linaro.o=
+rg> wrote:
 >
-> ext_* files were moved there in upstream commit
-> bba2c3615bd sched_ext: Move sources under kernel/sched/ext/
+> Hi,
 >
-> Fixes oeqa kernelmodule.py failure with 7.2 kernel:
+> On Fri, Aug 14, 2026 at 11:48:32AM +0100, Richard Purdie wrote:
+> > On Fri, 2026-08-14 at 09:48 +0300, Mikko Rapeli via lists.openembedded.=
+org wrote:
+> > > To support kernel version 7.2. Fixes build error:
+> > >
+> > > > lttng-syscalls.c: In function 'lttng_syscall_event_enabler_create_e=
+vent':
+> > > > lttng-syscalls.c:612:17: error: implicit declaration of function 's=
+trncpy' [-Wimplicit-function-declaration]
+> > > >   612 |                 strncpy(ev.name, desc->event_name, LTTNG_KE=
+RNEL_ABI_SYM_NAME_LEN - 1);
+> > > >       |                 ^~~~~~~
+> > > > lttng-syscalls.c:101:1: note: include '<string.h>' or provide a dec=
+laration of 'strncpy'
+> > > >   100 | #include <instrumentation/syscalls/syscalls_unknown.h>
+> > > >   +++ |+#include <string.h>
+> > > >   101 | #undef TRACE_SYSTEM
+> > > > lttng-syscalls.c:612:17: warning: incompatible implicit declaration=
+ of built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
+> > > >   612 |                 strncpy(ev.name, desc->event_name, LTTNG_KE=
+RNEL_ABI_SYM_NAME_LEN - 1);
+> > > >       |                 ^~~~~~~
+> > > > lttng-syscalls.c:612:17: note: include '<string.h>' or provide a de=
+claration of 'strncpy'
+> > > > lttng-syscalls.c:704:17: warning: incompatible implicit declaration=
+ of built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
+> > > >   704 |                 strncpy(ev.name, desc->event_name, LTTNG_KE=
+RNEL_ABI_SYM_NAME_LEN - 1);
+> > > >       |                 ^~~~~~~
+> > > > lttng-syscalls.c:704:17: note: include '<string.h>' or provide a de=
+claration of 'strncpy'
+> > >
+> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > ---
+> > >  .../{lttng-modules_2.15.2.bb =3D> lttng-modules_2.16.0-rc2.bb} | 5 +=
+++--
+> > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > >  rename meta/recipes-kernel/lttng/{lttng-modules_2.15.2.bb =3D> lttng=
+-modules_2.16.0-rc2.bb} (94%)
+> >
+> > This probably needs to have a PV of 2.16.0~rc2 else the version sorting
+> > when we upgrade to the release won't work...
 >
->   CC      kernel/sched/rq-offsets.s
-> In file included from kernel/sched/rq-offsets.c:5:
-> kernel/sched/sched.h:4214:10: fatal error: ext/ext.h: No such file or dir=
-ectory
->  4214 | #include "ext/ext.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
-> make[2]: *** [scripts/Makefile.build:184: kernel/sched/rq-offsets.s] Erro=
-r 1
-> make[1]: *** [/usr/lib/modules/7.2.0-rc7-yoctodev-standard/build/Makefile=
-:1408: prepare0] Error 2
+> Then the version is different compared to upstream tags. For CVEs I can s=
+et
+> CVE_VERSION.
 >
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
->  1 file changed, 3 insertions(+)
+> > Do we know how far off the final release is?
 >
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-ke=
-rnel/linux/kernel-devsrc.bb
-> index 0b52f5d48c..da33e9facb 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -368,6 +368,9 @@ do_install() {
->          cp -a --parents kernel/sched/ext.h $kerneldir/build 2>/dev/null =
-|| :
->          cp -a --parents kernel/workqueue_internal.h $kerneldir/build 2>/=
-dev/null || :
->
-> +        # 7.1+
-> +        cp -a --parents kernel/sched/ext $kerneldir/build 2>/dev/null ||=
- :
+> Honestly I don't know. Past releases seem to have around six weeks betwee=
+n
+> last release candidate and actual release. v2.16.0-rc1 was tagged 7 weeks=
+ ago,
+> v2.16.0-rc2 just two weeks ago so feels like it is quite close now.
 
-Is it actually all of the files we need from the directory ?
+That's why I've always avoided the lttng-modules -rc releases and have opte=
+d
+to just cherry-pick the patches supporting the newer kernels when I go thro=
+ugh
+an uprev cycle.
 
-We avoid full directory copies wherever possible.
+That being said, the -rc isn't any riskier than that approach, I just don't=
+ like
+timing their release.
 
 Bruce
 
-> +
->          if [ "${ARCH}" =3D "mips" ]; then
->              cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
->              cp --parents $(find -type f -name "Platform") $kerneldir/bui=
-ld
-> --
-> 2.55.0
 >
+> Cheers,
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243422): https://lists.openembedded.org/g/openembedde=
-d-core/message/243422
-> Mute This Topic: https://lists.openembedded.org/mt/120745544/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> -Mikko
+
 
 
 --=20
