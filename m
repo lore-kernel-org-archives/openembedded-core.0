@@ -1,252 +1,208 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE7FC5DF66
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 01:03:12 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3999.1786669382897666585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6138BC5DF66
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 03:03:43 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5390.1786676621403627423
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 18:03:03 -0700
+ Thu, 13 Aug 2026 20:03:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=cXGBMfHt;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a0a4aa99bdso642247a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 18:03:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786669381; cv=none;
-        d=google.com; s=arc-20260327;
-        b=B3hQlybClOCqoEsT4DoniJjSWLh+XO22t2toQsQ6KzpBOlyv+DDW2aZoGxoFlRuBqJ
-         tBeUC1x5EDWA5QtSFK/Ou+Hgc5FcT2NPn92YA+PdZDqfZmPodLbTBO0ySMP+cGw/9nxi
-         +fzGwfWY8K/SeiMVsKQqi7XSjS3sL5oK8TK3uefo1xtapTHPbKPvjBjAT1oJ2J5A/Xoy
-         StSeFoPtpImCrl7fA1jUW3h8WP7DcxRSwiph3bU2uEaRp68S461VFed/8iDQvBON4xGb
-         hFQuI1p8wqu5OaGbVstmvZxd7bUauGdXiQ/6Ird/VQsI+jjTKCr9R2KOUvB7z676VuYR
-         7cNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kLKW7F8YpvXPK892dO43H/bhoy9e3MWsWADTU+ljUVk=;
-        fh=Bc7VRjYxp1iBuEwP+uYYgAFRnFFVP3c8EW7fySjCzvc=;
-        b=epmKNhcEa6XynBIpSwf4LkFoTmAIxcly1VknT8Zrry+gDFDX8we5aatox4eF6V9Btr
-         L5ciFMNeQ5E75mIoiqvwf75leMMKKV3eZ/MwgMy02oHt2YsZRPgJDLSYvSvJyONsIlwu
-         S99UKN5PSoOZHjhOQQv4QxkTN5ZP6XzoMqREr8v4fxMiqbfReik3XavxFVNRB1Pb02y2
-         gTrclOqmV2XQip8nbxZA+sAF8JJ2RehUeicNHmjGg8NHh49ifmZHB3E2TyJxWN24Yft3
-         BAE26Lhh7VQ3tlU4Y0PeLSVCf+Nkfoc1vavxuL+tVRHpZsa0twDyrsjsnu4rg+bJu3pn
-         kIdA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hzudDaY2;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Mgu0V+Aq;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E19br1241803
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:03:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=rHKiORMflsvgbyrsvDyc+ss5lq4T/J69ijM
+	jF4o8JYM=; b=hzudDaY2+ioq2qYjz290ejwOlD8190rR4CkT7qQC5AeYSj4jF8y
+	HuUZ5MTyCbvR5S2irS+xcz8Ixka7vVvcc3MapGLiQmVSv3Je+1IV+qvpmMIcza9X
+	91kLhbSh1nT4G2ONSFR+EmgKVBO/Bd0D/F3Y5W6IYN48sipCIOq55mut3jyZuBKG
+	RspMJRW3XNpYrKiqxgJM3rUpBXuCq5M/b3qOgOuK5jdAMNEVWgUBn046X2/SgLze
+	7lQ2HNGCFVafOFmR4ed5WeLpFVcxh6RdA/6XDD3mJvZhjSU+jTLugzaDTDuRJeaj
+	bNCTqloM1pMpOtU1OIoI5Y56dLmlLaQEUAA==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g1h1utcha-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:03:40 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-84a251c2e3eso1914058b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 20:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786669381; x=1787274181; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kLKW7F8YpvXPK892dO43H/bhoy9e3MWsWADTU+ljUVk=;
-        b=cXGBMfHteediC6KmZam2bFEy/o1TOF13lwHw95epoCRoBaUMc34qln1NVUcn29rwpY
-         x8Bqa7+EAC7BQJRAFxsVVZ4FwFfTSZg7B0iUNuyvy+ech0XHMJE1QT4nuyoEPAHvV0cR
-         2ccZOXELJdfcU3eQ5iVaKMkP6GmKNwVJZ/OT1nmRF8BBUXiPcCwIXhWOstPoBKC+S2EA
-         3jlVV9gMP9hJM7jbBbPn61r/gfDq3qvIqMeXnPPRgUeOinyVtsUUmvgb8K/A1Idacei+
-         H28lFCXnu9XDC4Vova690E7DiHh1gqs2XDz+188igF6iIaOYHD/NASXhS340SCCA3BRR
-         wNgg==
+        d=oss.qualcomm.com; s=google; t=1786676619; x=1787281419; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rHKiORMflsvgbyrsvDyc+ss5lq4T/J69ijMjF4o8JYM=;
+        b=Mgu0V+Aqkf0mGzCPQDEpAPnu6m0Xb4Lhf5dutkaRGXD2CukcWjvBeIVDCyliq6ou0E
+         melyvNflGDNfL5duurw12uSZRmZMX/yxOX6+Cr62YZGTWGHn50MYi0I5bvhru0m5rZRb
+         v7PXfHXVJcJCIawr3oPRA0lmtSAMnE6CrF51kCf6/oBQ5XsWt86HaaU60N/18Izf4FE5
+         F0t9/WdbbKS5cDgzuBOA/D+Lps2ej94huh48OCz2C4T/QfxNiCXffjDAIKVT+LdkvELb
+         GDd2B+gfWcQoAnzPDz5ceqoPusJnxP39vmOZGzywHmWPR4S0Yj1X0jSlKBBauRS6qV4m
+         5lMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786669381; x=1787274181;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=kLKW7F8YpvXPK892dO43H/bhoy9e3MWsWADTU+ljUVk=;
-        b=rGqlDtDhf68FmIgUtClnm/8FSNHavTEFOYPAa4C3k5X9v1oFlkbqXjDbIv8SeB7SS9
-         NE/2zBGjBpG/XJ45+zhOyEZXd9SwZp49iFQcuHEZ8Wy2oJ7aKQoupYunjhX9u2fByp1Q
-         bAdabvxqVcQvCNWktEZ+VAy/kZ+N7766c1jroW2L+PMZie1FmwJVGhElwrWXxQ0vdiXF
-         htfgtpcCU/TJBbL54LgULYXtQl7ni4Es/ELDYGI9Ex4hX7zpZmfS4UUbLr60f6dxbefq
-         lw0rLy+9rTA55bmHhNLozALyc5gujOdqsfOjDzzohIfs9mLvdu06j2tXecv/rvpke7Fg
-         STHw==
-X-Gm-Message-State: AOJu0Yx6AhDV5m2awZQam8SRygtBVRzG2SF/Hx7PmG3FQzSGVaQYzu1l
-	MWcG9GdlNNPm8wMiczS/Zq/+b2n04JoJDPkVWshQsr1TuLRFXzQNxWBBwdSq8rhNyqA58Pe82aQ
-	wackUUKSIRFpleIjk/q4kKSXqpf+1WwY=
-X-Gm-Gg: AR+sD13aRFsI5CilLWN8wLfo+sBe8awmAst0a07+YNBpn6KLyXOfjxEgN8GdMb+b4VI
-	v3i5d/mWT+BQtqGQAzIrc9Fjgchdgi2Rz+VGlbxyNk2L7WEHl4yxgPKb4hxtZ+nIOUgdH4WMtYR
-	g7NXOUmD96YjWrkR1cfmtPxtSMR0B56HUsXpDCllI8Pqh35+wGpSwy8Bm3tOV5kDQTXIdpJsbQj
-	mSgbWySZ08hxlrNrYiU3UY+v/obrKhaYrJSAus+O5+w1H2PBBS3wOAeempT3Obh71d1gj9dBF5t
-	UAAv6I1PjE8lmsfCUD4c7Nm904VE1eX1ZuPLTUsK826OZqkZXYDWJMy7s46OTV+ug19R00YLiTr
-	L3XTgKEBwFcFm6wUWsNk7P05wCftVVa0Eg9ObZFsI+O8IkiiMySNJ3r+KhtMdfDiY/EbOz+kZME
-	P08QaKaeG1ZzuMym+LrysnZnSzcxme6ywGQ7zmUpsWA8De2n28907Yx4laNiQ7uxW+tAMdaIfQc
-	aRyMVs/C3NozQ==
-X-Received: by 2002:a05:6402:2111:b0:6a0:dd2a:a7b8 with SMTP id
- 4fb4d7f45d1cf-6a38a9bac9dmr973496a12.21.1786669380927; Thu, 13 Aug 2026
- 18:03:00 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786676619; x=1787281419;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=rHKiORMflsvgbyrsvDyc+ss5lq4T/J69ijMjF4o8JYM=;
+        b=sApUk1ec3t5q3zK5gsf55Mn7nEn6Y9mJAE6WE4h6b7xgUISYqgDjlXPYJeuHMkoeP5
+         6pkc9bT0MwnKdEaPXfeIv4oeTTnwVvMIQtHkKxh3W+xwPPh4eu0aj5mY5vqiiM24O7vE
+         SUimhUuZ6vGJSI6BZf3rkFB5YNRN1ozKzAW97gI4UHtnm0rJfIgRzuPtOlHoG0Q3vmL2
+         nDeyBhH3zeHLV37LKiqqD/jjoUbBGrZiM4RIAEINAiEIaCs+Es7WBil1O2XlQGqlk+/u
+         JazgIItps0fJP+mXQWWQXMH5PIe97Yywml6lc0o6I9xr6LD2LVB4Tvcl/Nd4QoIL1Xlz
+         ep6A==
+X-Gm-Message-State: AOJu0YxMjrYMKVc09LNyDVQ8rBssu+rn0lwAFwMC4FtDv4xzNDLuZQj8
+	km0W9opdMaKmSpKplP4ojniw1D0E6iqKUD0Vk61DlGyUIymcB2Geiz8FYuRjO6flOWJqG4sQU4J
+	/DIAhstrB2GhdDrCDGuq2ilGPVw3HZE7NwkwWKWXgzmfKRiqucuglk4vQB5SOROz8P5MpexPXBM
+	bGWp1I/isoqiGiFKAWRw==
+X-Gm-Gg: AR+sD11GIaOcBL2vb9RJWFMCITGbf2jW/wcmsw8fuvMZhFMgjPPLQlm9oNdAxA63rNC
+	fUT60D4h6EEEVkbRN49+Wn6a7RtvHUsDJJUdZau6i+dO0R2hzE3qAVVP7VJ+qMHk1QZpxnmjxvQ
+	AxoR8iKOzhdLPPEkOkWYSsb0Wgs7S9g9tukG9i9/7qACS7+TWlfngSrludBreBT6Ggim8uNXCOD
+	fOShepjcZSLJQpPwZRADCofgiQ2ry5Yls1VTIZOS1R7e2JIt2tdiehMb6iVNfPSes4OmaYeDAOv
+	vtwsQStieEAbsbz3PTRbrb27h6+R2qCl9dnLaZZzdFTwevBwavGoY/23fqkn+RFFvNEJF0ntHwy
+	5BBEyqtgbO0oquSULAD8o0hzJmnF4TedRMt84fQimwFEN1YHoJszYx+D4NgRh+98LdZ6ept9yhJ
+	dVOmU1rUkU/1i+eyuAXkdD/RbetOkWzBkrrEMfcKc=
+X-Received: by 2002:a05:6a00:6c87:b0:84a:29af:a0eb with SMTP id d2e1a72fcca58-84fdc77ab89mr2750945b3a.9.1786676619017;
+        Thu, 13 Aug 2026 20:03:39 -0700 (PDT)
+X-Received: by 2002:a05:6a00:6c87:b0:84a:29af:a0eb with SMTP id d2e1a72fcca58-84fdc77ab89mr2750878b3a.9.1786676618153;
+        Thu, 13 Aug 2026 20:03:38 -0700 (PDT)
+Received: from ip-172-31-25-255.us-west-2.compute.internal (ec2-35-83-207-173.us-west-2.compute.amazonaws.com. [35.83.207.173])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fc5a4e828sm1550081b3a.44.2026.08.13.20.03.37
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 20:03:37 -0700 (PDT)
+From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] uboot-sign: list the TEE loadable behind U-Boot
+Date: Fri, 14 Aug 2026 03:03:28 +0000
+Message-ID: <20260814030328.192752-1-ricardo.salveti@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260812161341.822689-1-f_l_k@t-online.de> <20260812161341.822689-2-f_l_k@t-online.de>
-In-Reply-To: <20260812161341.822689-2-f_l_k@t-online.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Aug 2026 18:02:32 -0700
-X-Gm-Features: AUfX_mxGPCOdTnCpOa0IYZY8gUg8WsAJ5b9_IMd2sRlyo3uIvwLKoIL6ZD7jauc
-Message-ID: <CAMKF1spJ66aBORv02hW-gGRm4X1q0mBG1q4V6eHMhCWGOXmE_Q@mail.gmail.com>
-Subject: Re: [oe-core][PATCH 2/2] clang: auto-derive CLANG_EXTRA_OE_DISTRO
- from DISTRO
-To: f_l_k@t-online.de
-Cc: openembedded-core@lists.openembedded.org, Claude <noreply@anthropic.com>
-Content-Type: multipart/alternative; boundary="000000000000c808330658f761b7"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 0o6GrIk7sBB2nJg06Xkr71c9m2bsL302
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDAyNCBTYWx0ZWRfX2yNyz6aIdrcu
+ 1hnJXd7kIdvY+2lvsKZc7s/LuB/66f7zSpMDCJv4gANdpH5/WooEV7pjJCnjMsPy/++DJQ4/8km
+ sbij3aeBbKwlGvP6mXZtd0bDfjEK2EK+OwNW7Q5FXsHvt+EnjLSzr/3WA5txNkPhsUEhlSTdD9T
+ frn19VC7kF20ukkV8ah7nTPrxoW7fnKZOdtrHZ2WGob+zFQEPOqXClbYhlHMzhpKwEfYL4Me50d
+ Lq5SVuCTsCSpUylYEgTHG6N+jBcyjzUDi+VX4UdtYfN+gzmvXCx9+aqrYVHvuFxK9DhiBmNEvIB
+ NrM6VONWrtSPQ55AAy82ihX02iIxnuIzbcMNYFAXVBhVnfiFef73PaXkvGBmqYwjCKQZVAoTMQm
+ wwPMYj4pBZh22028geYg3Duk3aA5DTzOsuQQSiEe1HpI5MYfF3rn5+29WemPrQ+767YhwEPV4L/
+ 5h9a1qzhkYnCDUhRSbQ==
+X-Proofpoint-ORIG-GUID: 0o6GrIk7sBB2nJg06Xkr71c9m2bsL302
+X-Authority-Analysis: v=2.4 cv=HMjz0Itv c=1 sm=1 tr=0 ts=6a7e858c cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=P2/bgbqRawb6I1+7fxbs5g==:17
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
+ a=VTT31UuMaAZhFUJcaEgA:9 a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDAyNCBTYWx0ZWRfXwUcOTN1FA8GO
+ L40jfKyzl7EFXbk+EkHQz6n6t44gXQF14cANItCDVcMCU0AX3zmUMvq/1PLoeKNkIohqP5W4qX8
+ 6HQ7tQSxleBtqZFobRdgsX0X3gYTEqw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-14_01,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 impostorscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140024
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 01:03:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243392
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:03:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243393
 
---000000000000c808330658f761b7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+uboot_fitimage_assemble() prepends the TEE image to the "loadables"
+property of the configuration, which puts it ahead of U-Boot. That order
+is not only cosmetic.
 
-I am seeing a libcxx-native failure on debian13/arm64 host building for
-'yoe' distro. See
+An SPL that hands off to the ARM Trusted Firmware (CONFIG_SPL_ATF)
+describes the images it loaded to the next stage through the /fit-images
+node of the device tree it passes on, and common/spl/spl_fit.c only
+records a loadable there once spl_image->fdt_addr is set. That happens
+when it loads an image os_takes_devicetree() accepts, which is U-Boot.
+Images listed ahead of U-Boot are therefore loaded but never described,
+and spl_invoke_atf() in common/spl/spl_atf.c, which looks up the BL32
+entry point by searching /fit-images for an IH_OS_TEE image, finds
+nothing. BL31 is then entered without a BL32 entry point and OP-TEE is
+never started.
 
-https://errors.yoctoproject.org/Errors/Details/962419/
+Append the TEE image instead, so that the assembled order becomes "atf",
+"uboot", "tee".
 
-On Wed, Aug 12, 2026 at 9:13=E2=80=AFAM Markus Volk via lists.openembedded.=
-org
-<f_l_k=3Dt-online.de@lists.openembedded.org> wrote:
+This does not regress the configurations that work today:
 
-> CLANG_EXTRA_OE_VENDORS already auto-derives from TARGET_VENDOR and
-> SDK_VENDOR, recognizing a self-hosted OE build host without manual
-> configuration. CLANG_EXTRA_OE_DISTRO has no equivalent -- it ships
-> only 'poky:poky', so a self-hosted host running a custom DISTRO must
-> be manually registered before Distro::IsOpenEmbedded() recognizes it
-> via /etc/os-release.
->
-> This is easy to get wrong by hand, since the registered id must
-> exactly match the raw ID=3D value in /etc/os-release, including any
-> hyphens, which must NOT be converted to underscores (unlike the
-> generated C++ enumerator name, which requires the conversion). A
-> single typo silently disables the OE-specific GCC-install candidate
-> with no error, causing native clang-toolchain builds to fail to find
-> crtbeginS.o/libgcc despite running on a genuinely OE-built host.
->
-> Auto-derive an entry for the current DISTRO the same way
-> CLANG_EXTRA_OE_VENDORS already does, so self-hosted OE build hosts
-> are recognized out of the box with no configuration and no
-> hyphen/underscore typo risk. 'poky' is skipped since it is already
-> the shipped default.
->
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> Co-authored-by: Claude <noreply@anthropic.com>
-> ---
->  meta/recipes-devtools/clang/llvm-project-source.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/clang/llvm-project-source.inc
-> b/meta/recipes-devtools/clang/llvm-project-source.inc
-> index 5cd08d4085..5a07080d55 100644
-> --- a/meta/recipes-devtools/clang/llvm-project-source.inc
-> +++ b/meta/recipes-devtools/clang/llvm-project-source.inc
-> @@ -28,6 +28,7 @@ CLANG_EXTRA_OE_VENDORS ?=3D "${TARGET_VENDOR}
-> ${SDK_VENDOR}"
->  # ":" separated the ID in "/etc/os-release" and the triple for finding
-> gcc on this OE DISTRO.
->  # eg: "poky:poky wrlinux:wrs"
->  CLANG_EXTRA_OE_DISTRO ?=3D "poky:poky"
-> +CLANG_EXTRA_OE_DISTRO:append =3D "${@ ' ' + d.getVar('DISTRO') + ':oe' i=
-f
-> d.getVar('DISTRO') not in ['poky', ''] else ''}"
->  # Match with MULTILIB_GLOBAL_VARIANTS
->  ML_VARIANTS =3D "lib32 lib64 libx32"
->
-> --
-> 2.55.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243297):
-> https://lists.openembedded.org/g/openembedded-core/message/243297
-> Mute This Topic: https://lists.openembedded.org/mt/120720285/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+- Where U-Boot is the image selected as firmware, it is loaded before the
+  loop over the loadables runs, so the device tree is already in place and
+  every loadable is recorded whatever its position. This is the shape of
+  the FIT that arch/arm/dts/imx8mm-u-boot.dtsi describes, with
+  firmware = "uboot" and loadables = "atf", "tee".
 
---000000000000c808330658f761b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- Where the ARM Trusted Firmware is the firmware, U-Boot has to come
+  first among the loadables, which is what this change produces. The
+  binman description in arch/arm/dts/rockchip-u-boot.dtsi already ends up
+  in that order: it selects fit,firmware = "atf-1", "u-boot" and generates
+  the loadables from its images node, where the U-Boot entry precedes the
+  OP-TEE one.
 
-<div dir=3D"ltr">I am seeing a libcxx-native failure on debian13/arm64 host=
- building for &#39;yoe&#39; distro. See<div><br></div><div><a href=3D"https=
-://errors.yoctoproject.org/Errors/Details/962419/">https://errors.yoctoproj=
-ect.org/Errors/Details/962419/</a></div></div><br><div class=3D"gmail_quote=
- gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 1=
-2, 2026 at 9:13=E2=80=AFAM Markus Volk via <a href=3D"http://lists.openembe=
-dded.org">lists.openembedded.org</a> &lt;f_l_k=3D<a href=3D"mailto:t-online=
-.de@lists.openembedded.org">t-online.de@lists.openembedded.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">CLANG_EXTRA_O=
-E_VENDORS already auto-derives from TARGET_VENDOR and<br>
-SDK_VENDOR, recognizing a self-hosted OE build host without manual<br>
-configuration. CLANG_EXTRA_OE_DISTRO has no equivalent -- it ships<br>
-only &#39;poky:poky&#39;, so a self-hosted host running a custom DISTRO mus=
-t<br>
-be manually registered before Distro::IsOpenEmbedded() recognizes it<br>
-via /etc/os-release.<br>
-<br>
-This is easy to get wrong by hand, since the registered id must<br>
-exactly match the raw ID=3D value in /etc/os-release, including any<br>
-hyphens, which must NOT be converted to underscores (unlike the<br>
-generated C++ enumerator name, which requires the conversion). A<br>
-single typo silently disables the OE-specific GCC-install candidate<br>
-with no error, causing native clang-toolchain builds to fail to find<br>
-crtbeginS.o/libgcc despite running on a genuinely OE-built host.<br>
-<br>
-Auto-derive an entry for the current DISTRO the same way<br>
-CLANG_EXTRA_OE_VENDORS already does, so self-hosted OE build hosts<br>
-are recognized out of the box with no configuration and no<br>
-hyphen/underscore typo risk. &#39;poky&#39; is skipped since it is already<=
-br>
-the shipped default.<br>
-<br>
-Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=
-=3D"_blank">f_l_k@t-online.de</a>&gt;<br>
-Co-authored-by: Claude &lt;<a href=3D"mailto:noreply@anthropic.com" target=
-=3D"_blank">noreply@anthropic.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/clang/llvm-project-source.inc | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/clang/llvm-project-source.inc b/meta/rec=
-ipes-devtools/clang/llvm-project-source.inc<br>
-index 5cd08d4085..5a07080d55 100644<br>
---- a/meta/recipes-devtools/clang/llvm-project-source.inc<br>
-+++ b/meta/recipes-devtools/clang/llvm-project-source.inc<br>
-@@ -28,6 +28,7 @@ CLANG_EXTRA_OE_VENDORS ?=3D &quot;${TARGET_VENDOR} ${SDK_=
-VENDOR}&quot;<br>
-=C2=A0# &quot;:&quot; separated the ID in &quot;/etc/os-release&quot; and t=
-he triple for finding gcc on this OE DISTRO.<br>
-=C2=A0# eg: &quot;poky:poky wrlinux:wrs&quot;<br>
-=C2=A0CLANG_EXTRA_OE_DISTRO ?=3D &quot;poky:poky&quot;<br>
-+CLANG_EXTRA_OE_DISTRO:append =3D &quot;${@ &#39; &#39; + d.getVar(&#39;DIS=
-TRO&#39;) + &#39;:oe&#39; if d.getVar(&#39;DISTRO&#39;) not in [&#39;poky&#=
-39;, &#39;&#39;] else &#39;&#39;}&quot;<br>
-=C2=A0# Match with MULTILIB_GLOBAL_VARIANTS<br>
-=C2=A0ML_VARIANTS =3D &quot;lib32 lib64 libx32&quot;<br>
-<br>
--- <br>
-2.55.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#243297): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/243297" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/243297</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120720285/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/120720285/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+- Nothing else in the SPL depends on the position of the TEE image. An
+  arm32 OP-TEE image is recorded by spl_fit_image_record_arm32_optee()
+  wherever it appears, and the fallback that takes the entry point from
+  the first loadable only applies when the image selected as firmware
+  carries none, while every image generated here is emitted with one.
 
---000000000000c808330658f761b7--
+The images in the FIT and their contents are unchanged; only the order in
+which they are named in the property differs. Update the order the
+selftest expects accordingly.
+
+AI-Generated: Uses Claude Code
+
+Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+---
+ meta/classes-recipe/uboot-sign.bbclass   | 5 ++++-
+ meta/lib/oeqa/selftest/cases/fitimage.py | 4 ++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index 33f9abdb79..66d8171c9f 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -458,7 +458,10 @@ EOF
+         };
+ EOF
+ 	if [ "${UBOOT_FIT_TEE}" = "1" ] ; then
+-		conf_loadables="\"tee\", ${conf_loadables}"
++		# Listed behind U-Boot: an SPL handing off to the ARM Trusted
++		# Firmware only describes the images it loaded to the next stage
++		# once it has loaded the one it appends the device tree to.
++		conf_loadables="${conf_loadables}, \"tee\""
+ 		uboot_fitimage_tee
+ 	fi
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 451878aafd..3d8bdc4a74 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -1798,7 +1798,7 @@ class UBootFitImageTests(FitImageTestCase):
+                 'entry = <%s>;' % bb_vars['UBOOT_FIT_TEE_ENTRYPOINT'],
+                 'compression = "none";',
+             ]
+-            loadables.insert(0, "tee")
++            loadables.append("tee")
+         if bb_vars['UBOOT_FIT_ARM_TRUSTED_FIRMWARE'] == "1":
+             its_field_check += [
+                 'description = "ARM Trusted Firmware";',
+@@ -1850,7 +1850,7 @@ class UBootFitImageTests(FitImageTestCase):
+             }
+         }
+         if bb_vars['UBOOT_FIT_TEE'] == "1":
+-            loadables.insert(0, "tee")
++            loadables.append("tee")
+             req_sections['tee'] = {
+                 "Type": "Trusted Execution Environment Image",
+                 # "Load Address": bb_vars['UBOOT_FIT_TEE_LOADADDRESS'], not printed by mkimage?
+-- 
+2.43.0
+
 
