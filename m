@@ -2,826 +2,4868 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C9F9C5DF76
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 06:36:48 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7503.1786689407384559951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EACDC5DF6D
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 06:36:47 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7569.1786689404830990636
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 23:36:47 -0700
+ Thu, 13 Aug 2026 23:36:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rHhYedC6;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O5WGYIPD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019ffefcc67e-b14ce8b1-9a36-4a63-9c3c-2c697434ede4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=nEa0pP4k;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=l482VS7a;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019ffefcbb36-2b884697-3475-47a7-a397-1c1b7001199a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786689406;
+	t=1786689403;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=yWi36VUKQGZYRpfjdSQbs8oEwr4wHyC+Ngw1oDV0T4g=;
-	b=rHhYedC6JFz993mHM8SL/W4BJCPAn2SaH3Ua6G7PIvFDHBwHAC32bD9I56vleKom
-	WiIs+wBAZtMwnDBTkDClEXh9xYtsWwv+MkKJ6rFO766IQw87GSdX7xFqEvFfG0jQL6M
-	we0l7szmp1unRMGGEV85Ml/EnJMNrXNk4BXoDwps=
+	bh=zDRuzg2tX5PD0Fk/PiknMxJqdSqwvK8x5QcLQJKErB0=;
+	b=nEa0pP4kISgxZcMDtGhAf8U8SP1Yznnh5QEnT9NKbrXB3qZolrBc3MwTur+ZdfYa
+	nxb5iYTCkUXFOZyHYe3p466O2c+ixwx41LrVoShvoVqyntXpsuZlT/WXnaZ4KVsjqFf
+	C0wxFxmr8vax7KThsHLK1rnIzpZUiEaEh0D0jotY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786689406;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786689403;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=yWi36VUKQGZYRpfjdSQbs8oEwr4wHyC+Ngw1oDV0T4g=;
-	b=O5WGYIPDe+jvJjNu0NRJz/WMiJa8PLTu+MOirgk5H2940NTiYD7lQsJ6xkPkZZzk
-	0BPPSYgQAYYR+vy8wbN2hUsyiAU2kFMbE5mEmGGSCGjsbyWDqi2NV0m0pcEqKYvSRC5
-	NqJorYgcYu5vYONNa8d/9D9y9uHB5CZ7GR2Qlt7o=
-Content-Type: multipart/mixed; boundary="===============5714043520528367112=="
+	bh=zDRuzg2tX5PD0Fk/PiknMxJqdSqwvK8x5QcLQJKErB0=;
+	b=l482VS7aulxFEnU0IFYn+/QDIOvBbLbD685y0Ve3dF71Ty20rbdbYK7xdL6hijQK
+	1NA6XEhsuEatAzcfppNlZ5BZagJ0O1SLetZPhSYVtJ3/QvGJZEEmFG+loLJeBDYadq+
+	q9oB3CEkAz3C2LaJbE6L50R/+qkL3bGeCiQmk+wM=
+Content-Type: multipart/mixed; boundary="===============4149441841723606521=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] bash-completion: upgrading to 2.18.0 SUCCEEDED
-Message-ID: <0101019ffefcc67e-b14ce8b1-9a36-4a63-9c3c-2c697434ede4-000000@us-west-2.amazonses.com>
-Date: Fri, 14 Aug 2026 06:36:46 +0000
+Subject: [AUH] epiphany: upgrading to 50.6 FAILED
+Message-ID: <0101019ffefcbb36-2b884697-3475-47a7-a397-1c1b7001199a-000000@us-west-2.amazonses.com>
+Date: Fri, 14 Aug 2026 06:36:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.14-54.240.27.192
+X-SES-Outgoing: 2026.08.14-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 06:36:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243417
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 06:36:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243414
 
---===============5714043520528367112==
-Content-Type: text/plain; charset="us-ascii"
+--===============4149441841723606521==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICplcGlwaGFueSogdG8gKjUwLjYqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxl
+ZCBlcnJvciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAg
+ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZXBpcGhhbnktdXBncmFkZS01MC40LTUw
+LjYucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQg
+c3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGlt
+YWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNh
+bml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29t
+bWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9w
+cmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVj
+aXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVD
+SVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1
+dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJl
+dmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxk
+L3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6
+Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0
+ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44
+IC0tCkZyb20gYTJkY2JiMGM0OTYzOTJiYTk3MDg3MzZiMTgzOTcxMmNkNzExNDdhNCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qu
+b3JnPgpEYXRlOiBGcmksIDE0IEF1ZyAyMDI2IDA2OjI1OjU2ICswMDAwClN1YmplY3Q6IFtQQVRD
+SF0gZXBpcGhhbnk6IHVwZ3JhZGUgNTAuNCAtPiA1MC42Ck1JTUUtVmVyc2lvbjogMS4wCkNvbnRl
+bnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVyLUVuY29k
+aW5nOiA4Yml0CgpTb3VyY2U6IE5FV1MKCjUwLjYgLSBBdWd1c3QgMTMsIDIwMjYKPT09PT09PT09
+PT09PT09PT09PT09PQoKKiBCdWdzIGZpeGVkOgogIC0gIzI4OTggSW52YWxpZCBib29rbWFyayBp
+bXBvcnQgY3Jhc2hlcyBicm93c2VyCiAgLSAjMjkyMSBBdXRvZmlsbCBKUyBDb2RlIEluamVjdGlv
+biB2aWEgQ1NTIFNlbGVjdG9yCiAgLSAjMjkyMiBXZWJFeHRlbnNpb24gWFBJIFBhdGggVHJhdmVy
+c2FsIFpJUFNMSVAKCjUwLjUgLSBBdWd1c3QgMTAsIDIwMjYKPT09PT09PT09PT09PT09PT09PT09
+PQoKKiBCdWdzIGZpeGVkOgogIC0gIzI3MTIgQ3Jhc2ggd2hlbiBvcGVuaW5nIHByZWZlcmVuY2Vz
+IGRpYWxvZyBhZnRlciBkZWxldGluZyBkZWZhdWx0IHNlYXJjaAogICAgZW5naW5lCiAgLSAjMjg2
+OCBBZGRyZXNzYmFyIFVSTCBwcmV0dGlmaWNhdGlvbiBkb2VzIG5vdCB1bmRlcnN0YW5kIElQdjYg
+YWRkcmVzc2VzCiAgLSAjMjg3NSBFZGl0aW5nIHBhc3N3b3JkIHVzZXJuYW1lIGNyZWF0ZXMgZHVw
+bGljYXRlIGVudHJpZXMKICAtICMyOTAxIE1lbW9yeSBsZWFrIGluIHRoZSBjb3JlIHN0cmluZyB1
+dGlsaXR5IGZ1bmN0aW9uIGVwaHlfc3RyaW5nX3Nob3J0ZW4oKQogIC0gITIwOTEgcGFzc3dvcmQt
+bWFuYWdlcjogZml4IGNyYXNoIHdoZW4gZGVsZXRpbmcgcGFzc3dvcmQgcmVjb3JkCiAgLSAhMjA5
+NCBRdW90ZSBjb21tYW5kIGxpbmUgaW5wdXQgYmVmb3JlIHBhc3NpbmcgdG8gc2hlbGwKICAtICEy
+MDk4IHBhc3N3b3JkLW1hbmFnZXI6IGF2b2lkIGR1cGxpY2F0ZSByZWNvcmQgd2hlbiBjaGFuZ2lu
+ZyB1c2VybmFtZQogIC0gITIwOTkgRml4IGNyYXNoIHdoZW4gb3BlbmluZyBwcmVmZXJlbmNlcyBk
+aWFsb2cgYWZ0ZXIgZGVsZXRpbmcgYSBzZWFyY2gKICAgIGVuZ2luZQogIC0gITIxMDQgRml4IGNy
+YXNoIGFmdGVyIGFkZGluZyBhIG5ldyBPcGVuU2VhcmNoIGVuZ2luZQoKKiBUcmFuc2xhdGlvbiB1
+cGRhdGVzOgogIC0gQmVsYXJ1c2lhbiAoVmFzaWwgUHVwa2luKQogIC0gQnVsZ2FyaWFuICh0d2x2
+bm4ga3JhZnR3ZXJrKQogIC0gR2VybWFuIChDaHJpc3RpYW4gS2lyYmFjaCkKICAtIEluZG9uZXNp
+YW4gKEFuZGlrYSBUcml3aWRhZGEpCiAgLSBMYW8gKFNhaWtlbyBLYXZoYW54YXkpCiAgLSBOb3J3
+ZWdpYW4gQm9rbcOlbCAoS2phcnRhbiBNYXJhYXMpCiAgLSBQZXJzaWFuIChEYW5pYWwgQmVoemFk
+aSkKICAtIFBvbGlzaCAoVmljdG9yaWEgTmllZHppZWxza2EpCiAgLSBTbG92YWsgKEpvc2UgUmlo
+YSkKICAtIFRoYWkgKEFlZmdoIFRocmVlbmluZSkKLS0tCiAuLi4vZXBpcGhhbnkve2VwaXBoYW55
+XzUwLjQuYmIgPT4gZXBpcGhhbnlfNTAuNi5iYn0gICAgICAgICAgIHwgMiArLQogLi4uL2ZpbGVz
+LzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRoZS11c2Utb2YteWVscC5wYXRjaCB8IDIg
+Ky0KIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaCAg
+ICAgICAgICAgfCA0ICsrLS0KIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdy
+YXRvci5wYXRjaCAgICAgICAgICAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0
+aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
+bnkve2VwaXBoYW55XzUwLjQuYmIgPT4gZXBpcGhhbnlfNTAuNi5iYn0gKDk0JSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNTAuNC5iYiBiL21ldGEv
+cmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MC42LmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MC40
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNTAuNi5i
+YgppbmRleCAyYjJkMDhiNjE1Li5hZDBmYWQxYTY1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+Z25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNTAuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUv
+ZXBpcGhhbnkvZXBpcGhhbnlfNTAuNi5iYgpAQCAtMzEsNyArMzEsNyBAQCBTUkNfVVJJICs9ICJc
+CiAgICAgICAgICAgIGZpbGU6Ly9taWdyYXRvci5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9k
+aXN0cmlidXRvci5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZz
+dW1dID0gIjFlMjZmOTkwMWYwZjA4YmZlOTQzYWE3MDE2M2M5NTMzMzRjN2VjM2Q0YWVmYzhkMzU0
+ZThhOWMxNDBiMzM0YTciCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI0NTgyMjJhODY5
+NGNmYzkxNGU3YTJkNmRlOTg3OTA2NzAwMWE4ZDY1ZTAwYTkwN2Q5NjExMjA1OWM2N2FkNDQ2Igog
+CiBleHBvcnQgR0lfVFlQRUxJQl9QQVRIID0gIiR7U1RBR0lOR19MSUJESVJ9L2dpcmVwb3NpdG9y
+eS0xLjAvIgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMv
+MDAwMi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNh
+YmxlLXRoZS11c2Utb2YteWVscC5wYXRjaAppbmRleCAzNTA2MTEzOTQ1Li4xMmU5ZDk4MjMzIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxwLW1l
+c29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUt
+dXNlLW9mLXllbHAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDAwNDY5Y2ZjNTgxOGM3NzZh
+YTAyNTQ2ZTllNTY0M2E1Y2Y5MDNlOGIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDll
+NTFjYTQ3ZWZjNzRmZWRiNDIwZTZiNjY0MzY1NjlkNTY2MjNlMmQgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4K
+IERhdGU6IFdlZCwgMzEgSmFuIDIwMTggMTU6NTA6MzggKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0g
+aGVscC9tZXNvbi5idWlsZDogZGlzYWJsZSB0aGUgdXNlIG9mIHllbHAKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaAppbmRleCA0ZDNl
+MTNiYjMxLi5iMTY1NTJiZmM2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
+bnkvZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBo
+YW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkM2E5OTE1
+MTA2OGM5YWJjMjMxY2Y1NjJiMjg3NWJlYzgzZGRkMWViIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSBjYzBiOWE2OTA0Mjk3Mzg3MDY4Mjc0YzgwMjc4NGVlYTc0MDc4MmExIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxp
+bnV4Zm91bmRhdGlvbi5vcmc+CiBEYXRlOiBGcmksIDI2IEZlYiAyMDIxIDEwOjE3OjUyICswMDAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIERvbid0IGVuY29kZSB0aGUgZGlzdHJvIGZyb20gL2V0Yy9vcy1y
+ZWxlYXNlIGludG8gdGhlCkBAIC0xMSw3ICsxMSw3IEBAIFJQIDIwMjEvMi8yNgogIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNv
+bi5idWlsZAotaW5kZXggYzdkZWRjYi4uOTUxOGNlZCAxMDA2NDQKK2luZGV4IGMwMmI1OTEuLjhh
+ZjlmZTcgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKIEBAIC0x
+NSw2ICsxNSw3IEBAIGlmIHIucmV0dXJuY29kZSgpID09IDAKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaCBiL21ldGEvcmVjaXBlcy1n
+bm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaAppbmRleCAwYWVlZmM2ZjJiLi5iMjBj
+YzMwNThiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWln
+cmF0b3IucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3Jh
+dG9yLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0MzVkODlmZDI2NWMzMzRmYzRiNjRhMzE1
+ZDZkMjczMjg1M2M0NDYzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxMmVhZDJhZmJk
+YWI5NmVlYjZiYWM4MjBjMzljMWU5NTFhMDQ3YzhiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
+RnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+
+CiBEYXRlOiBUaHUsIDI1IEZlYiAyMDIxIDE0OjUyOjMyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IGVwaXBoYW55OiBGaXggcmVwcm9kdWNpYmlsaXR5IGlzc3VlCi0tIAoyLjQ3LjEKCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *bash-completion* to *2.18.0* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-bash-completion-upgrade-2.17.0-2.18.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From c3f156f068910a009b0afa72bff9e4764bf5bb10 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 14 Aug 2026 06:31:25 +0000
-Subject: [PATCH] bash-completion: upgrade 2.17.0 -> 2.18.0
-
-Source: CHANGELOG.md
-
-# Changelog
-
-## [2.18.0](https://github.com/scop/bash-completion/compare/2.17.0...2.18.0) (2026-07-05)
-
-This release comes with notable changes to the directories used for
-looking up and sourcing completion recipes and helpers, allowing for
-more flexibility and customization and fewer conflicts between things
-shipping with bash-completion and third party/upstream/origin packages.
-
-Files that come with bash-completion itself are located in directories
-reserved for that use, their names ending with `-core` and
-`-fallback`. Packages should continue install their files in the same
-`completions` and `helpers` dirs like before; these directories
-precede the bash-completion "core" ones in lookup order.
-
-A new concept of `startup` dirs has been introduced. Files from these
-directories are sourced eagerly on bash-completion startup. This
-replaces and allows for more flexibility than using the deprecated
-`/etc/bash_completion.d` directory for this purpose.
-
-See README.md for more information.
-
-### Features
-
-* **_comp__init:** source system startup files earlier ([b09700d](https://github.com/scop/bash-completion/commit/b09700dda29b56fb89812e1215956a631cc7c848))
-* **_comp_compgen_filedir:** automatically add `-f` on _comp_compgen `-C` or `-P` ([#1552](https://github.com/scop/bash-completion/issues/1552)) ([6d5fca6](https://github.com/scop/bash-completion/commit/6d5fca6eaeb4e33750a187072efceecd22e82346))
-* **_comp_compgen_filedir:** support "filedir -X" ([ce28419](https://github.com/scop/bash-completion/commit/ce2841911c7a3f5a056b6a310038f0df17a8da42))
-* **_comp_compgen_sysv_services:** factorize SysV service generation ([c4c8c4b](https://github.com/scop/bash-completion/commit/c4c8c4b54040d4acc2688ed8fc040330d964fe12))
-* **aclocal,automake:** support versioned 1.17 executables ([94bbb3a](https://github.com/scop/bash-completion/commit/94bbb3a1b6fafeac96c27e1899dd5efc920a6a89))
-* **aclocal,automake:** support versioned 1.18 executables ([9287b4b](https://github.com/scop/bash-completion/commit/9287b4be2d49be873aded3fb40f56380fd8f97d8))
-* **apt-*:** update known options up to apt 3.2.0 ([c421d50](https://github.com/scop/bash-completion/commit/c421d508b6d922ee43364fd9e0d9bc3bddb5f56c))
-* **apt-cache:** update known options up to apt 3.2.0 ([0ab85c5](https://github.com/scop/bash-completion/commit/0ab85c5ff2c39300acfce0afde2e65b707e314b4))
-* **apt-get:** update known options up to apt 3.2.0 ([6a18e0c](https://github.com/scop/bash-completion/commit/6a18e0c0cf11c9be16616bc817f4613cb9ba95b0))
-* **apt-mark:** update known options up to apt 3.2.0 ([644a026](https://github.com/scop/bash-completion/commit/644a0268c117c98a6915dfd23548a3a8b8def6db))
-* **codex:** 3rd party fallback completion loader ([0f425bd](https://github.com/scop/bash-completion/commit/0f425bd37c2982b70f6c2ce865eeae0af05a715d))
-* **copilot:** 3rd party fallback completion loader ([744602a](https://github.com/scop/bash-completion/commit/744602ac64dc24586e2492813751cc38a0aef2d7))
-* **c
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
----
- .../{bash-completion_2.17.0.bb => bash-completion_2.18.0.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/bash-completion/{bash-completion_2.17.0.bb => bash-completion_2.18.0.bb} (92%)
-
-diff --git a/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb b/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb
-similarity index 92%
-rename from meta/recipes-support/bash-completion/bash-completion_2.17.0.bb
-rename to meta/recipes-support/bash-completion/bash-completion_2.18.0.bb
-index 843b5b831d..c14681bc96 100644
---- a/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb
-+++ b/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb
-@@ -14,7 +14,7 @@ SECTION = "console/utils"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "dd9d825e496435fb3beba3ae7bea9f77e821e894667d07431d1d4c8c570b9e58"
-+SRC_URI[sha256sum] = "88bcf85124f77f74f2f2f8bcd16ac4382d807a827ede742a64940c7116aea33f"
- GITHUB_BASE_URI = "https://github.com/scop/bash-completion/releases"
- 
- PARALLEL_MAKE = ""
--- 
-2.47.1
-
-
---===============5714043520528367112==
+--===============4149441841723606521==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: FILELIST: removed "/usr/share/bash-completion/completions/strace /usr/share/bash-completion/completions/asciidoc.py /usr/share/bash-completion/completions/pm-suspend /usr/share/bash-completion/completions/tracepath6 /usr/share/bash-completion/completions/pyvenv-3.13 /usr/share/bash-completion/completions/pyvenv-3.12 /usr/share/bash-completion/completions/pyvenv-3.11 /usr/share/bash-completion/completions/pyvenv-3.10 /usr/share/bash-completion/completions/ldapcompare /usr/share/bash-completion/completions/jar /usr/share/bash-completion/completions/tar /usr/share/bash-completion/completions/man /usr/share/bash-completion/completions/iwpriv /usr/share/bash-completion/completions/gssdp-device-sniffer /usr/share/bash-completion/completions/useradd /usr/share/bash-completion/completions/_kubespy /usr/share/bash-completion/completions/resolvconf /usr/share/bash-completion/completions/_dlv /usr/share/bash-completion/complet
- ions/aptitude /usr/share/bash-completion/completions/ncftp /usr/share/bash-completion/completions/_kapp /usr/share/bash-completion/completions/pack200 /usr/share/bash-completion/completions/_yum /usr/share/bash-completion/completions/_k9s /usr/share/bash-completion/completions/postconf /usr/share/bash-completion/completions/rcsdiff /usr/share/bash-completion/completions/checksec /usr/share/bash-completion/completions/_fx /usr/share/bash-completion/completions/fbgs /usr/share/bash-completion/completions/clisp /usr/share/bash-completion/completions/gcc-6 /usr/share/bash-completion/completions/gcc-7 /usr/share/bash-completion/completions/gcc-5 /usr/share/bash-completion/completions/change_pw /usr/share/bash-completion/completions/gcc-8 /usr/share/bash-completion/completions/vgmknodes /usr/share/bash-completion/completions/sha1sum /usr/share/bash-completion/completions/_odo /usr/share/bash-completion/completions/vgsplit /usr/share/bash-completion/completions/pydoc /usr/share/bash-comple
- tion/completions/mailsnarf /usr/share/bash-completion/completions/puppetrun /usr/share/bash-completion/completions/javaws /usr/share/bash-completion/completions/lvcreate /usr/share/bash-completion/completions/pvcreate /usr/share/bash-completion/completions/javac /usr/share/bash-completion/completions/firefox-esr /usr/share/bash-completion/completions/ether-wake /usr/share/bash-completion/completions/_ansible-doc /usr/share/bash-completion/completions/_allero /usr/share/bash-completion/completions/_depot /usr/share/bash-completion/completions/_dprint /usr/share/bash-completion/completions/_nova /usr/share/bash-completion/completions/_driftctl /usr/share/bash-completion/completions/make /usr/share/bash-completion/completions/_golangci-lint /usr/share/bash-completion/completions/_tendermint /usr/share/bash-completion/completions/getent /usr/share/bash-completion/completions/pydoc3 /usr/share/bash-completion/completions/_wasmer /usr/share/bash-completion/completions/nsupdate /usr/share/
- bash-completion/completions/postalias /usr/share/bash-completion/completions/_tokio-console /usr/share/bash-completion/completions/btdownloadheadless.py /usr/share/bash-completion/completions/_crc /usr/share/bash-completion/completions/_ngrok /usr/share/bash-completion/completions/puppetd /usr/share/bash-completion/completions/patch /usr/share/bash-completion/completions/lvchange /usr/share/bash-completion/completions/postcat /usr/share/bash-completion/completions/pvchange /usr/share/bash-completion/completions/watch /usr/share/bash-completion/completions/genaliases /usr/share/bash-completion/completions/pylint-3 /usr/share/bash-completion/completions/pylint-2 /usr/share/bash-completion/completions/koji /usr/share/bash-completion/completions/ping6 /usr/share/bash-completion/completions/ping4 /usr/share/bash-completion/completions/arch /usr/share/bash-completion/completions/vgcfgbackup /usr/share/bash-completion/completions/pytest /usr/share/bash-completion/completions/_trash-restore
-  /usr/share/bash-completion/completions/sbopkg /usr/share/bash-completion/completions/_hugo /usr/share/bash-completion/completions/newusers /usr/share/bash-completion/completions/_kubectl-argo-rollouts /usr/share/bash-completion/completions/_mattermost /usr/share/bash-completion/completions/htpasswd /usr/share/bash-completion/completions/lftpget /usr/share/bash-completion/completions/xrdb /usr/share/bash-completion/completions/vigr /usr/share/bash-completion/completions/pigz /usr/share/bash-completion/completions/cardctl /usr/share/bash-completion/completions/_gopass /usr/share/bash-completion/completions/groupmod /usr/share/bash-completion/completions/_ghorg /usr/share/bash-completion/completions/animate /usr/share/bash-completion/completions/usermod /usr/share/bash-completion/completions/lua52 /usr/share/bash-completion/completions/lua53 /usr/share/bash-completion/completions/lua50 /usr/share/bash-completion/completions/lua51 /usr/share/bash-completion/completions/lua54 /usr/share
- /bash-completion/completions/pyston3 /usr/share/bash-completion/completions/lastlog /usr/share/bash-completion/completions/_trash-empty /usr/share/bash-completion/completions/fprintd-enroll /usr/share/bash-completion/completions/lvextend /usr/share/bash-completion/completions/_modules /usr/share/bash-completion/completions/_regctl /usr/share/bash-completion/completions/ping /usr/share/bash-completion/completions/pine /usr/share/bash-completion/completions/bind /usr/share/bash-completion/completions/find /usr/share/bash-completion/completions/wine /usr/share/bash-completion/completions/zopfli /usr/share/bash-completion/completions/_atmos /usr/share/bash-completion/completions/lua5.4 /usr/share/bash-completion/completions/iceweasel /usr/share/bash-completion/completions/lua5.2 /usr/share/bash-completion/completions/lua5.1 /usr/share/bash-completion/completions/lua5.0 /usr/share/bash-completion/completions/lua5.3 /usr/share/bash-completion/completions/update-rc.d /usr/share/bash-comple
- tion/completions/gtar /usr/share/bash-completion/completions/star /usr/share/bash-completion/completions/chgrp /usr/share/bash-completion/completions/_grype /usr/share/bash-completion/completions/_vacuum /usr/share/bash-completion/completions/unpack200 /usr/share/bash-completion/completions/_httpx /usr/share/bash-completion/completions/cowthink /usr/share/bash-completion/completions/dumpe2fs /usr/share/bash-completion/completions/zopflipng /usr/share/bash-completion/completions/arm-koji /usr/share/bash-completion/completions/whatis /usr/share/bash-completion/completions/python3.3 /usr/share/bash-completion/completions/python3.4 /usr/share/bash-completion/completions/python3.5 /usr/share/bash-completion/completions/python3.6 /usr/share/bash-completion/completions/_tfctl /usr/share/bash-completion/completions/filefrag /usr/share/bash-completion/completions/python3.7 /usr/share/bash-completion/completions/python3.8 /usr/share/bash-completion/completions/python3.9 /usr/share/bash-comple
- tion/completions/perldoc /usr/share/bash-completion/completions/_cmctl /usr/share/bash-completion/completions/mii-tool /usr/share/bash-completion/completions/route /usr/share/bash-completion/completions/gpg2 /usr/share/bash-completion/completions/_rfkill /usr/share/bash-completion/completions/_pipenv /usr/share/bash-completion/completions/badblocks /usr/share/bash-completion/completions/_tilt /usr/share/bash-completion/completions/_eject /usr/share/bash-completion/completions/cdrecord /usr/share/bash-completion/completions/pytest-2 /usr/share/bash-completion/completions/pytest-3 /usr/share/bash-completion/completions/flake8 /usr/share/bash-completion/completions/ifstatus /usr/share/bash-completion/completions/apt-get /usr/share/bash-completion/completions/vgconvert /usr/share/bash-completion/completions/vmstat /usr/share/bash-completion/completions/compare /usr/share/bash-completion/completions/povray /usr/share/bash-completion/completions/interdiff /usr/share/bash-completion/comple
- tions/gpgv /usr/share/bash-completion/completions/pngfix /usr/share/bash-completion/completions/_umount /usr/share/bash-completion/completions/ipmitool /usr/share/bash-completion/completions/vpnc /usr/share/bash-completion/completions/pvmove /usr/share/bash-completion/completions/smbget /usr/share/bash-completion/completions/freeciv-sdl /usr/share/bash-completion/completions/co /usr/share/bash-completion/completions/gm /usr/share/bash-completion/completions/bk /usr/share/bash-completion/completions/sh /usr/share/bash-completion/completions/ci /usr/share/bash-completion/completions/_istioctl /usr/share/bash-completion/completions/curl /usr/share/bash-completion/completions/cd /usr/share/bash-completion/completions/dd /usr/share/bash-completion/completions/e2freefrag /usr/share/bash-completion/completions/cc /usr/share/bash-completion/completions/hd /usr/share/bash-completion/completions/id /usr/share/bash-completion/completions/lintian /usr/share/bash-completion/completions/mc /usr/s
- hare/bash-completion/completions/nc /usr/share/bash-completion/completions/7z /usr/share/bash-completion/completions/xz /usr/share/bash-completion/completions/pv /usr/share/bash-completion/completions/_delta /usr/share/bash-completion/completions/mr /usr/share/bash-completion/completions/ip /usr/share/bash-completion/completions/jq /usr/share/bash-completion/completions/lisp /usr/share/bash-completion/completions/ps /usr/share/bash-completion/completions/ss /usr/share/bash-completion/completions/yum-arch /usr/share/bash-completion/completions/civserver /usr/share/bash-completion/completions/rdict /usr/share/bash-completion/completions/_chsh /usr/share/bash-completion/completions/_renice /usr/share/bash-completion/completions/cowsay /usr/share/bash-completion/completions/remove_members /usr/share/bash-completion/completions/_ory /usr/share/bash-completion/completions/strings /usr/share/bash-completion/completions/shellcheck /usr/share/bash-completion/completions/_trash-put /usr/share
- /bash-completion/completions/k3b /usr/share/bash-completion/completions/g4 /usr/share/bash-completion/completions/p4 /usr/share/bash-completion/completions/perltidy /usr/share/bash-completion/completions/screen /usr/share/bash-completion/completions/vgmerge /usr/share/bash-completion/completions/mozilla-firefox /usr/share/bash-completion/completions/valgrind /usr/share/bash-completion/completions/_gitleaks /usr/share/bash-completion/completions/_flask /usr/share/bash-completion/completions/vgremove /usr/share/bash-completion/completions/check_db /usr/share/bash-completion/completions/smbcquotas /usr/share/bash-completion/completions/_mtr /usr/share/bash-completion/completions/prelink /usr/share/bash-completion/completions/_regal /usr/share/bash-completion/completions/perl /usr/share/bash-completion/completions/rpmbuild-md5 /usr/share/bash-completion/completions/ssh-keyscan /usr/share/bash-completion/completions/b2sum /usr/share/bash-completion/completions/_ansible-galaxy /usr/share/
- bash-completion/completions/ccze /usr/share/bash-completion/completions/_tkn /usr/share/bash-completion/completions/tsig-keygen /usr/share/bash-completion/completions/slogin /usr/share/bash-completion/completions/_trivy /usr/share/bash-completion/completions/pdlzip /usr/share/bash-completion/completions/hunspell /usr/share/bash-completion/completions/mkisofs /usr/share/bash-completion/completions/mysqladmin /usr/share/bash-completion/completions/_aqua /usr/share/bash-completion/completions/_cal /usr/share/bash-completion/completions/makepkg /usr/share/bash-completion/completions/ncal /usr/share/bash-completion/completions/check_perms /usr/share/bash-completion/completions/firefox /usr/share/bash-completion/completions/mfiutil /usr/share/bash-completion/completions/_su /usr/share/bash-completion/completions/google-chrome /usr/share/bash-completion/completions/fprintd-delete /usr/share/bash-completion/completions/_pulumi /usr/share/bash-completion/completions/dcop /usr/share/bash-comp
- letion/completions/sdptool /usr/share/bash-completion/completions/kcov /usr/share/bash-completion/completions/ssh /usr/share/bash-completion/completions/_diffoci /usr/share/bash-completion/completions/_cosign /usr/share/bash-completion/completions/7zz /usr/share/bash-completion/completions/gpasswd /usr/share/bash-completion/completions/getconf /usr/share/bash-completion/completions/7zr /usr/share/bash-completion/completions/puppetmasterd /usr/share/bash-completion/completions/nethogs /usr/share/bash-completion/completions/autossh /usr/share/bash-completion/completions/_dmesg /usr/share/bash-completion/completions/_dyff /usr/share/bash-completion/completions/_tanzu-core /usr/share/bash-completion/completions/7za /usr/share/bash-completion/completions/montage /usr/share/bash-completion/completions/gccgo-6 /usr/share/bash-completion/completions/gccgo-7 /usr/share/bash-completion/completions/etherwake /usr/share/bash-completion/completions/_buf /usr/share/bash-completion/completions/_jw
- t /usr/share/bash-completion/completions/gccgo-5 /usr/share/bash-completion/completions/gccgo-8 /usr/share/bash-completion/completions/dfutool /usr/share/bash-completion/completions/vgchange /usr/share/bash-completion/completions/cancel /usr/share/bash-completion/completions/xmlwf /usr/share/bash-completion/completions/civclient /usr/share/bash-completion/completions/ngrep /usr/share/bash-completion/completions/pgrep /usr/share/bash-completion/completions/_random /usr/share/bash-completion/completions/pycodestyle /usr/share/bash-completion/completions/lz4 /usr/share/bash-completion/completions/fprintd-list /usr/share/bash-completion/completions/inotifywait /usr/share/bash-completion/completions/_helmfile /usr/share/bash-completion/completions/aclocal /usr/share/bash-completion/completions/nmap /usr/share/bash-completion/completions/_zola /usr/share/bash-completion/completions/genisoimage /usr/share/bash-completion/completions/lzma /usr/share/bash-completion/completions/_conftest /us
- r/share/bash-completion/completions/_minishift /usr/share/bash-completion/completions/vgscan /usr/share/bash-completion/completions/xhost /usr/share/bash-completion/completions/mysql /usr/share/bash-completion/completions/composite /usr/share/bash-completion/completions/rpm2txz /usr/share/bash-completion/completions/fusermount /usr/share/bash-completion/completions/_ansible-vault /usr/share/bash-completion/completions/_lefthook /usr/share/bash-completion/completions/svcadm /usr/share/bash-completion/completions/_gh-label /usr/share/bash-completion/completions/shasum /usr/share/bash-completion/completions/pxz /usr/share/bash-completion/completions/explodepkg /usr/share/bash-completion/completions/_xc /usr/share/bash-completion/completions/_k3sup /usr/share/bash-completion/completions/qdbus /usr/share/bash-completion/completions/xxd /usr/share/bash-completion/completions/ri /usr/share/bash-completion/completions/_xm /usr/share/bash-completion/completions/cvs /usr/share/bash-completion
- /completions/lvs /usr/share/bash-completion/completions/pvs /usr/share/bash-completion/completions/_gaiad /usr/share/bash-completion/completions/svk /usr/share/bash-completion/completions/chronyc /usr/share/bash-completion/completions/lvm /usr/share/bash-completion/completions/brctl /usr/share/bash-completion/completions/_npm /usr/share/bash-completion/completions/_krane /usr/share/bash-completion/completions/_write /usr/share/bash-completion/completions/_trash /usr/share/bash-completion/completions/ktutil /usr/share/bash-completion/completions/dnssec-keygen /usr/share/bash-completion/completions/vgck /usr/share/bash-completion/completions/_coder /usr/share/bash-completion/completions/_polygon-edge /usr/share/bash-completion/completions/edquota /usr/share/bash-completion/completions/_slsa-verifier /usr/share/bash-completion/completions/_stern /usr/share/bash-completion/completions/_op /usr/share/bash-completion/completions/_todoist /usr/share/bash-completion/completions/_mount.linux
-  /usr/share/bash-completion/completions/dot /usr/share/bash-completion/completions/iftop /usr/share/bash-completion/completions/tox /usr/share/bash-completion/completions/vgexport /usr/share/bash-completion/completions/sbcl-mt /usr/share/bash-completion/completions/_oc /usr/share/bash-completion/completions/pkg-get /usr/share/bash-completion/completions/lvremove /usr/share/bash-completion/completions/eog /usr/share/bash-completion/completions/pvremove /usr/share/bash-completion/completions/wol /usr/share/bash-completion/completions/_chamber /usr/share/bash-completion/completions/py.test-3 /usr/share/bash-completion/completions/py.test-2 /usr/share/bash-completion/completions/wine64-stable /usr/share/bash-completion/completions/brave /usr/share/bash-completion/completions/lbzip2 /usr/share/bash-completion/completions/pbzip2 /usr/share/bash-completion/completions/cpan2dist /usr/share/bash-completion/completions/_udevadm /usr/share/bash-completion/completions/avctrl /usr/share/bash-com
- pletion/completions/_bao /usr/share/bash-completion/completions/idn /usr/share/bash-completion/completions/appdata-validate /usr/share/bash-completion/completions/mdtool /usr/share/bash-completion/completions/_crane /usr/share/bash-completion/completions/gdb /usr/share/bash-completion/completions/mogrify /usr/share/bash-completion/completions/autoscan /usr/share/bash-completion/completions/_pluto /usr/share/bash-completion/completions/webmitm /usr/share/bash-completion/completions/dnsspoof /usr/share/bash-completion/completions/_git-bump /usr/share/bash-completion/completions/py.test /usr/share/bash-completion/completions/_cargo /usr/share/bash-completion/completions/_arduino-cli /usr/share/bash-completion/completions/automake /usr/share/bash-completion/completions/colormake /usr/share/bash-completion/completions/_glow /usr/share/bash-completion/completions/openssl /usr/share/bash-completion/completions/pdftotext /usr/share/bash-completion/completions/_linkerd /usr/share/bash-comple
- tion/completions/_repomanage /usr/share/bash-completion/completions/ulimit /usr/share/bash-completion/completions/_apko /usr/share/bash-completion/completions/mdecrypt /usr/share/bash-completion/completions/arping /usr/share/bash-completion/completions/_just /usr/share/bash-completion/completions/sparc-koji /usr/share/bash-completion/completions/dhclient /usr/share/bash-completion/completions/apache2ctl /usr/share/bash-completion/completions/pkgadd /usr/share/bash-completion/completions/ifstat /usr/share/bash-completion/completions/quota /usr/share/bash-completion/completions/wsimport /usr/share/bash-completion/completions/_insmod /usr/share/bash-completion/completions/dmypy /usr/share/bash-completion/completions/repquota /usr/share/bash-completion/completions/rpmbuild /usr/share/bash-completion/completions/geoiplookup6 /usr/share/bash-completion/completions/gssdp-discover /usr/share/bash-completion/completions/_sopstool /usr/share/bash-completion/completions/_mock /usr/share/bash-c
- ompletion/completions/f77 /usr/share/bash-completion/completions/g77 /usr/share/bash-completion/completions/_alp /usr/share/bash-completion/completions/smbtree /usr/share/bash-completion/completions/_starship /usr/share/bash-completion/helpers/perl /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/acpi /usr/share/bash-completion/completions/brave-browser /usr/share/bash-completion/completions/_kube-capacity /usr/share/bash-completion/completions/unace /usr/share/bash-completion/completions/postfix /usr/share/bash-completion/completions/_gardenctl /usr/share/bash-completion/completions/_svnlook /usr/share/bash-completion/completions/gnumake /usr/share/bash-completion/completions/sha256sum /usr/share/bash-completion/completions/f95 /usr/share/bash-completion/completions/configure /usr/share/bash-completion/completions/g95 /usr/share/bash-completion/completions/tshark /usr/share/bash-completion/completions/monodevelop /usr/share/bash-completion/comple
- tions/mmsitepass /usr/share/bash-completion/completions/fio /usr/share/bash-completion/completions/_rustic /usr/share/bash-completion/completions/pushd /usr/share/bash-completion/completions/radvdump /usr/share/bash-completion/completions/wget /usr/share/bash-completion/completions/_insmod.static /usr/share/bash-completion/completions/ifquery /usr/share/bash-completion/completions/_argo /usr/share/bash-completion/completions/puppet /usr/share/bash-completion/completions/_argc /usr/share/bash-completion/completions/userdel /usr/share/bash-completion/completions/qrunner /usr/share/bash-completion/completions/ldapadd /usr/share/bash-completion/completions/rpm /usr/share/bash-completion/completions/gpc /usr/share/bash-completion/completions/_modprobe /usr/share/bash-completion/completions/_nvm /usr/share/bash-completion/completions/gpg /usr/share/bash-completion/completions/_px /usr/share/bash-completion/completions/deja-dup /usr/share/bash-completion/completions/lpq /usr/share/bash-com
- pletion/completions/jps /usr/share/bash-completion/completions/lpr /usr/share/bash-completion/completions/python3.11 /usr/share/bash-completion/completions/python3.10 /usr/share/bash-completion/completions/python3.13 /usr/share/bash-completion/completions/python3.12 /usr/share/bash-completion/completions/_tctl /usr/share/bash-completion/completions/smbcacls /usr/share/bash-completion/completions/mkinitrd /usr/share/bash-completion/completions/mplayer2 /usr/share/bash-completion/completions/_k0sctl /usr/share/bash-completion/completions/tracepath /usr/share/bash-completion/completions/lsscsi /usr/share/bash-completion/completions/iptables /usr/share/bash-completion/completions/_ansible-pull /usr/share/bash-completion/completions/_helm /usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/ant /usr/share/bash-completion/completions/pydocstyle /usr/share/bash-completion/completions/_multi-gitter /usr/share/bash-completion/completions/muttng /usr/share/bash-co
- mpletion/completions/pylint /usr/share/bash-completion/completions/tcpdump /usr/share/bash-completion/completions/slabtop /usr/share/bash-completion/completions/_ytt /usr/share/bash-completion/completions/gccgo /usr/share/bash-completion/completions/pkg-config /usr/share/bash-completion/completions/_conform /usr/share/bash-completion/completions/_glen /usr/share/bash-completion/completions/gnome-mplayer /usr/share/bash-completion/completions/_ctlptl /usr/share/bash-completion/completions/_gh /usr/share/bash-completion/completions/_kind /usr/share/bash-completion/completions/spovray /usr/share/bash-completion/completions/xpovray /usr/share/bash-completion/completions/chage /usr/share/bash-completion/completions/vgs /usr/share/bash-completion/completions/pypy3 /usr/share/bash-completion/completions/ipv6calc /usr/share/bash-completion/completions/cfrun /usr/share/bash-completion/completions/isql /usr/share/bash-completion/completions/psql /usr/share/bash-completion/completions/iconv /u
- sr/share/bash-completion/completions/iscsiadm /usr/share/bash-completion/completions/sitecopy /usr/share/bash-completion/completions/ciptool /usr/share/bash-completion/completions/inject /usr/share/bash-completion/completions/_kubecm /usr/share/bash-completion/completions/pyston /usr/share/bash-completion/completions/synclient /usr/share/bash-completion/completions/typeset /usr/share/bash-completion/completions/_kyverno /usr/share/bash-completion/completions/msgsnarf /usr/share/bash-completion/completions/pm-suspend-hybrid /usr/share/bash-completion/completions/_crictl /usr/share/bash-completion/completions/_airflow /usr/share/bash-completion/completions/fsnotifywatch /usr/share/bash-completion/completions/dsniff /usr/share/bash-completion/completions/quotaoff /usr/share/bash-completion/completions/mutt /usr/share/bash-completion/completions/_svnadmin /usr/share/bash-completion/completions/hping /usr/share/bash-completion/completions/dpkg-query /usr/share/bash-completion/completions
- /sidedoor /usr/share/bash-completion/completions/_bombadil /usr/share/bash-completion/completions/_kube-linter /usr/share/bash-completion/completions/_gopherjs /usr/share/bash-completion/completions/_task /usr/share/bash-completion/completions/avahi-browse /usr/share/bash-completion/completions/_melange /usr/share/bash-completion/completions/_gaiacli /usr/share/bash-completion/completions/munin-node-configure /usr/share/bash-completion/completions/asciidoc /usr/share/bash-completion/completions/rfcomm /usr/share/bash-completion/completions/wodim /usr/share/bash-completion/completions/_glances /usr/share/bash-completion/completions/medusa /usr/share/bash-completion/completions/gnatmake /usr/share/bash-completion/completions/wine-development /usr/share/bash-completion/completions/_ansible /usr/share/bash-completion/completions/lrzip /usr/share/bash-completion/completions/evince /usr/share/bash-completion/completions/declare /usr/share/bash-completion/completions/sha512sum /usr/share/b
- ash-completion/completions/sqlite3 /usr/share/bash-completion/completions/chflags /usr/share/bash-completion/completions/xdg-mime /usr/share/bash-completion/completions/unrar /usr/share/bash-completion/completions/free /usr/share/bash-completion/completions/tree /usr/share/bash-completion/completions/_opa /usr/share/bash-completion/completions/pinfo /usr/share/bash-completion/completions/vgdisplay /usr/share/bash-completion/completions/autoconf /usr/share/bash-completion/completions/_adb /usr/share/bash-completion/completions/export /usr/share/bash-completion/completions/_kconf /usr/share/bash-completion/completions/setquota /usr/share/bash-completion/completions/java /usr/share/bash-completion/completions/_blackd /usr/share/bash-completion/completions/_mado /usr/share/bash-completion/completions/aclocal-1.14 /usr/share/bash-completion/completions/aclocal-1.15 /usr/share/bash-completion/completions/aclocal-1.16 /usr/share/bash-completion/completions/aclocal-1.10 /usr/share/bash-comp
- letion/completions/aclocal-1.11 /usr/share/bash-completion/completions/aclocal-1.12 /usr/share/bash-completion/completions/aclocal-1.13 /usr/share/bash-completion/completions/chkconfig /usr/share/bash-completion/completions/pmake /usr/share/bash-completion/completions/bmake /usr/share/bash-completion/completions/gmake /usr/share/bash-completion/completions/hcitool /usr/share/bash-completion/completions/_kubeadm /usr/share/bash-completion/completions/dpkg-deb /usr/share/bash-completion/completions/_hostctl /usr/share/bash-completion/completions/mcrypt /usr/share/bash-completion/completions/quotacheck /usr/share/bash-completion/completions/lvresize /usr/share/bash-completion/completions/ccache /usr/share/bash-completion/completions/sshfs /usr/share/bash-completion/completions/apropos /usr/share/bash-completion/completions/iperf3 /usr/share/bash-completion/completions/_gitsign /usr/share/bash-completion/completions/_kata-runtime /usr/share/bash-completion/completions/pyvenv-3.9 /usr/sh
- are/bash-completion/completions/pyvenv-3.8 /usr/share/bash-completion/completions/pyvenv-3.5 /usr/share/bash-completion/completions/pyvenv-3.4 /usr/share/bash-completion/completions/pyvenv-3.7 /usr/share/bash-completion/completions/pyvenv-3.6 /usr/share/bash-completion/completions/_hwclock /usr/share/bash-completion/completions/tcpnice /usr/share/bash-completion/completions/_kompose /usr/share/bash-completion/completions/cvsps /usr/share/bash-completion/completions/dpkg-source /usr/share/bash-completion/completions/geoiplookup /usr/share/bash-completion/completions/cryptsetup /usr/share/bash-completion/completions/g++-6 /usr/share/bash-completion/completions/desktop-file-validate /usr/share/bash-completion/completions/g++-7 /usr/share/bash-completion/completions/g++-5 /usr/share/bash-completion/completions/timeout /usr/share/bash-completion/completions/dumpdb /usr/share/bash-completion/completions/g++-8 /usr/share/bash-completion/completions/l2ping /usr/share/bash-completion/complet
- ions/_venom /usr/share/bash-completion/completions/gmplayer /usr/share/bash-completion/completions/puppetqd /usr/share/bash-completion/completions/lzop /usr/share/bash-completion/completions/_clusterctl /usr/share/bash-completion/completions/gphoto2 /usr/share/bash-completion/completions/iwspy /usr/share/bash-completion/completions/dpkg-reconfigure /usr/share/bash-completion/completions/vgimport /usr/share/bash-completion/completions/mrsasutil /usr/share/bash-completion/completions/groupadd /usr/share/bash-completion/helpers/python /usr/share/bash-completion/completions/ypmatch /usr/share/bash-completion/completions/_popeye /usr/share/bash-completion/completions/mtx /usr/share/bash-completion/completions/_datree /usr/share/bash-completion/completions/bts /usr/share/bash-completion/completions/conjure /usr/share/bash-completion/completions/fprintd-verify /usr/share/bash-completion/completions/wtf /usr/share/bash-completion/completions/ntpdate /usr/share/bash-completion/completions/eb
- tables /usr/share/bash-completion/completions/groupmems /usr/share/bash-completion/completions/clzip /usr/share/bash-completion/completions/plzip /usr/share/bash-completion/completions/_slackpkg /usr/share/bash-completion/completions/file-roller /usr/share/bash-completion/completions/_sshi /usr/share/bash-completion/completions/jshint /usr/share/bash-completion/completions/_goreleaser /usr/share/bash-completion/completions/_ionice /usr/share/bash-completion/completions/_jungle /usr/share/bash-completion/completions/_gomarklint /usr/share/bash-completion/completions/pdftoppm /usr/share/bash-completion/completions/qemu-system-x86_64 /usr/share/bash-completion/completions/puppetca /usr/share/bash-completion/completions/slapt-src /usr/share/bash-completion/completions/_sops /usr/share/bash-completion/completions/xgamma /usr/share/bash-completion/completions/munindoc /usr/share/bash-completion/completions/_modinfo /usr/share/bash-completion/completions/_notation /usr/share/bash-completio
- n/completions/apt-build /usr/share/bash-completion/completions/list_members /usr/share/bash-completion/completions/ssh-add /usr/share/bash-completion/completions/btdownloadgui.py /usr/share/bash-completion/completions/plague-client /usr/share/bash-completion/completions/postsuper /usr/share/bash-completion/completions/sbcl /usr/share/bash-completion/completions/fbi /usr/share/bash-completion/completions/filesnarf /usr/share/bash-completion/completions/_dagger /usr/share/bash-completion/completions/_watchexec /usr/share/bash-completion/completions/md5sum /usr/share/bash-completion/completions/python2.7 /usr/share/bash-completion/completions/_k3s /usr/share/bash-completion/completions/_tanzu /usr/share/bash-completion/completions/_keyring /usr/share/bash-completion/completions/_k3d /usr/share/bash-completion/completions/mktemp /usr/share/bash-completion/completions/lftp /usr/share/bash-completion/completions/avahi-browse-domains /usr/share/bash-completion/completions/_ssh-inscribe /us
- r/share/bash-completion/completions/sftp /usr/share/bash-completion/completions/_bosh /usr/share/bash-completion/completions/freeciv-xaw /usr/share/bash-completion/completions/iwlist /usr/share/bash-completion/completions/wvdial /usr/share/bash-completion/completions/xdg-settings /usr/share/bash-completion/completions/javadoc /usr/share/bash-completion/completions/printenv /usr/share/bash-completion/completions/cppcheck /usr/share/bash-completion/completions/_mise /usr/share/bash-completion/completions/chromium-browser /usr/share/bash-completion/completions/alpine /usr/share/bash-completion/completions/jarsigner /usr/share/bash-completion/completions/filebucket /usr/share/bash-completion/completions/smartctl /usr/share/bash-completion/completions/links /usr/share/bash-completion/completions/info /usr/share/bash-completion/completions/_secret-tool /usr/share/bash-completion/completions/_asdf /usr/share/bash-completion/completions/chrpath /usr/share/bash-completion/completions/freeciv
- -server /usr/share/bash-completion/completions/htop /usr/share/bash-completion/completions/display /usr/share/bash-completion/completions/alternatives /usr/share/bash-completion/completions/_deno /usr/share/bash-completion/completions/function /usr/share/bash-completion/completions/links2 /usr/share/bash-completion/completions/quotaon /usr/share/bash-completion/completions/dropuser /usr/share/bash-completion/completions/_nox /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/_yq /usr/share/bash-completion/completions/lsusb /usr/share/bash-completion/completions/2to3 /usr/share/bash-completion/completions/puppetdoc /usr/share/bash-completion/completions/_upctl /usr/share/bash-completion/completions/freeciv-gtk3 /usr/share/bash-completion/completions/freeciv-gtk2 /usr/share/bash-completion/completions/cksum /usr/share/bash-completion/completions/rlog /usr/share/bash-completion/completions/cfagent /usr/share/bash-completion/completions/_kubectl /usr/shar
- e/bash-completion/completions/autorpm /usr/share/bash-completion/completions/truncate /usr/share/bash-completion/completions/mii-diag /usr/share/bash-completion/completions/_docker /usr/share/bash-completion/completions/_atlas /usr/share/bash-completion/completions/pwd /usr/share/bash-completion/completions/grpck /usr/share/bash-completion/completions/unshunt /usr/share/bash-completion/completions/pyvenv /usr/share/bash-completion/completions/rdesktop /usr/share/bash-completion/completions/google-chrome-stable /usr/share/bash-completion/completions/sysctl /usr/share/bash-completion/completions/sha224sum /usr/share/bash-completion/completions/nslookup /usr/share/bash-completion/completions/gpgv2 /usr/share/bash-completion/completions/_container-structure-test /usr/share/bash-completion/completions/apt-cache /usr/share/bash-completion/completions/xvfb-run /usr/share/bash-completion/completions/_kubesec /usr/share/bash-completion/completions/autoupdate /usr/share/bash-completion/comple
- tions/autoreconf /usr/share/bash-completion/completions/rrdtool /usr/share/bash-completion/completions/autoheader /usr/share/bash-completion/completions/phing /usr/share/bash-completion/completions/hciconfig /usr/share/bash-completion/completions/feh /usr/share/bash-completion/completions/pm-hibernate /usr/share/bash-completion/completions/_diesel /usr/share/bash-completion/completions/sync_members /usr/share/bash-completion/completions/pkill /usr/share/bash-completion/completions/xev /usr/share/bash-completion/completions/upgradepkg /usr/share/bash-completion/completions/set /usr/share/bash-completion/completions/_constellation /usr/share/bash-completion/completions/hciattach /usr/share/bash-completion/completions/_hexdump /usr/share/bash-completion/completions/_rtcwake /usr/share/bash-completion/completions/fsnotifywait /usr/share/bash-completion/completions/nload /usr/share/bash-completion/completions/_sinker /usr/share/bash-completion/completions/_qrpc /usr/share/bash-completion
- /completions/nproc /usr/share/bash-completion/completions/dpkg /usr/share/bash-completion/completions/gprof /usr/share/bash-completion/completions/hostname /usr/share/bash-completion/completions/lsof /usr/share/bash-completion/completions/_reptyr /usr/share/bash-completion/completions/_umount.linux /usr/share/bash-completion/completions/lusermod /usr/share/bash-completion/completions/btdownloadcurses.py /usr/share/bash-completion/completions/sudo /usr/share/bash-completion/completions/pidof /usr/share/bash-completion/completions/ssh-keygen /usr/share/bash-completion/completions/_mmctl /usr/share/bash-completion/completions/growisofs /usr/share/bash-completion/completions/mdadm /usr/share/bash-completion/completions/xrandr /usr/share/bash-completion/completions/arpspoof /usr/share/bash-completion/completions/vgextend /usr/share/bash-completion/completions/_devspace /usr/share/bash-completion/completions/_uvx /usr/share/bash-completion/completions/vgcreate /usr/share/bash-completion/c
- ompletions/hid2hci /usr/share/bash-completion/completions/alias /usr/share/bash-completion/completions/complete /usr/share/bash-completion/completions/_runuser /usr/share/bash-completion/completions/_svn /usr/share/bash-completion/completions/ypcat /usr/share/bash-completion/completions/sshow /usr/share/bash-completion/completions/_virtctl /usr/share/bash-completion/completions/_terraform /usr/share/bash-completion/completions/_metalctl /usr/share/bash-completion/completions/luac50 /usr/share/bash-completion/completions/e2label /usr/share/bash-completion/completions/faillog /usr/share/bash-completion/completions/luac51 /usr/share/bash-completion/completions/luac52 /usr/share/bash-completion/completions/groupdel /usr/share/bash-completion/completions/luac53 /usr/share/bash-completion/completions/luac54 /usr/share/bash-completion/completions/_ansible-config /usr/share/bash-completion/completions/_pip3 /usr/share/bash-completion/completions/ldapmodify /usr/share/bash-completion/complet
- ions/ldappasswd /usr/share/bash-completion/completions/ldapdelete /usr/share/bash-completion/completions/ldapmodrdn /usr/share/bash-completion/completions/ldapsearch /usr/share/bash-completion/completions/_caddy /usr/share/bash-completion/completions/ldapwhoami /usr/share/bash-completion/completions/_infracost /usr/share/bash-completion/completions/postmap /usr/share/bash-completion/completions/sudoedit /usr/share/bash-completion/completions/_minikube /usr/share/bash-completion/completions/luac /usr/share/bash-completion/completions/compgen /usr/share/bash-completion/completions/cpio /usr/share/bash-completion/completions/gnokii /usr/share/bash-completion/completions/rpm2targz /usr/share/bash-completion/completions/pkgrm /usr/share/bash-completion/completions/_spacectl /usr/share/bash-completion/completions/_pip /usr/share/bash-completion/completions/lvscan /usr/share/bash-completion/completions/pvscan /usr/share/bash-completion/completions/gendiff /usr/share/bash-completion/complet
- ions/pwck /usr/share/bash-completion/completions/_packer /usr/share/bash-completion/completions/_ansible-inventory /usr/share/bash-completion/completions/_kafkactl /usr/share/bash-completion/completions/mencoder /usr/share/bash-completion/completions/killall /usr/share/bash-completion/completions/xfreerdp /usr/share/bash-completion/completions/createuser /usr/share/bash-completion/completions/_timoni /usr/share/bash-completion/completions/xmodmap /usr/share/bash-completion/completions/scrub /usr/share/bash-completion/completions/vipw /usr/share/bash-completion/completions/stream /usr/share/bash-completion/completions/abook /usr/share/bash-completion/completions/pwdx /usr/share/bash-completion/completions/tipc /usr/share/bash-completion/completions/removepkg /usr/share/bash-completion/completions/rpm2tgz /usr/share/bash-completion/completions/host /usr/share/bash-completion/completions/c++ /usr/share/bash-completion/completions/g++ /usr/share/bash-completion/completions/import /usr/s
- hare/bash-completion/completions/jsonschema /usr/share/bash-completion/completions/a2x /usr/share/bash-completion/completions/_kubescape /usr/share/bash-completion/completions/_kustomize /usr/share/bash-completion/completions/ifdown /usr/share/bash-completion/completions/_kubelogin /usr/share/bash-completion/completions/_kubemqctl /usr/share/bash-completion/completions/_kubeshark /usr/share/bash-completion/completions/gkrellm2 /usr/share/bash-completion/completions/list_admins /usr/share/bash-completion/completions/_flamegraph /usr/share/bash-completion/completions/_gcrane /usr/share/bash-completion/completions/_dapr /usr/share/bash-completion/completions/pccardctl /usr/share/bash-completion/completions/smbtar /usr/share/bash-completion/completions/sysbench /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/hping2 /usr/share/bash-completion/completions/hping3 /usr/share/bash-completion/completions/_esc /usr/share/bash-completion/completions/macof /us
- r/share/bash-completion/completions/tmux /usr/share/bash-completion/completions/iwconfig /usr/share/bash-completion/completions/_consul /usr/share/bash-completion/completions/tightvncviewer /usr/share/bash-completion/completions/cksfv /usr/share/bash-completion/completions/sshmitm /usr/share/bash-completion/completions/_deck /usr/share/bash-completion/completions/crontab /usr/share/bash-completion/completions/gkrellm /usr/share/bash-completion/completions/wine64-development /usr/share/bash-completion/completions/_chezmoi /usr/share/bash-completion/completions/chmod /usr/share/bash-completion/completions/gzip /usr/share/bash-completion/completions/lzip /usr/share/bash-completion/completions/clone_member /usr/share/bash-completion/completions/sha384sum /usr/share/bash-completion/completions/rsync /usr/share/bash-completion/completions/_cloudquery /usr/share/bash-completion/completions/_mount /usr/share/bash-completion/completions/gfortran-5 /usr/share/bash-completion/completions/gfort
- ran-6 /usr/share/bash-completion/completions/gfortran-7 /usr/share/bash-completion/completions/gfortran-8 /usr/share/bash-completion/completions/kill /usr/share/bash-completion/completions/_stripe /usr/share/bash-completion/completions/lilo /usr/share/bash-completion/completions/file /usr/share/bash-completion/completions/qemu-system-i386 /usr/share/bash-completion/completions/gfortran /usr/share/bash-completion/completions/ssh-copy-id /usr/share/bash-completion/completions/_pitchfork /usr/share/bash-completion/completions/perlcritic /usr/share/bash-completion/completions/urlsnarf /usr/share/bash-completion/completions/_kool /usr/share/bash-completion/completions/_black /usr/share/bash-completion/completions/arp /usr/share/bash-completion/completions/_rg /usr/share/bash-completion/completions/qemu-kvm /usr/share/bash-completion/completions/help /usr/share/bash-completion/completions/rpmcheck /usr/share/bash-completion/completions/xvnc4viewer /usr/share/bash-completion/completions/_f
- uryctl /usr/share/bash-completion/completions/_mdbook /usr/share/bash-completion/completions/_rclone /usr/share/bash-completion/completions/msynctool /usr/share/bash-completion/completions/_nfpm /usr/share/bash-completion/completions/_kn /usr/share/bash-completion/completions/_ko /usr/share/bash-completion/completions/_imgpkg /usr/share/bash-completion/completions/_nomad /usr/share/bash-completion/completions/dselect /usr/share/bash-completion/completions/_look /usr/share/bash-completion/completions/lvreduce /usr/share/bash-completion/completions/vgcfgrestore /usr/share/bash-completion/completions/locale-gen /usr/share/bash-completion/completions/lintian-info /usr/share/bash-completion/completions/reportbug /usr/share/bash-completion/completions/rmlist /usr/share/bash-completion/completions/_gitconfig /usr/share/bash-completion/completions/isort /usr/share/bash-completion/completions/optipng /usr/share/bash-completion/completions/_ansible-console /usr/share/bash-completion/completio
- ns/freeciv /usr/share/bash-completion/completions/json_xs /usr/share/bash-completion/completions/_k6 /usr/share/bash-completion/completions/mussh /usr/share/bash-completion/completions/passwd /usr/share/bash-completion/completions/pyflakes /usr/share/bash-completion/completions/ipcalc /usr/share/bash-completion/completions/s390-koji /usr/share/bash-completion/completions/_wasmer-headless /usr/share/bash-completion/completions/xmllint /usr/share/bash-completion/completions/kplayer /usr/share/bash-completion/completions/_kubectl-kuttl /usr/share/bash-completion/completions/mplayer /usr/share/bash-completion/completions/neomutt /usr/share/bash-completion/completions/_flux /usr/share/bash-completion/completions/_limactl /usr/share/bash-completion/completions/carton /usr/share/bash-completion/completions/newlist /usr/share/bash-completion/completions/_zitadel /usr/share/bash-completion/completions/smbpasswd /usr/share/bash-completion/completions/_tkn-pac /usr/share/bash-completion/comple
- tions/aspell /usr/share/bash-completion/completions/_kontena /usr/share/bash-completion/completions/_cue /usr/share/bash-completion/completions/munin-update /usr/share/bash-completion/completions/inotifywatch /usr/share/bash-completion/completions/_velero /usr/share/bash-completion/completions/dict /usr/share/bash-completion/completions/_moldy /usr/share/bash-completion/completions/lvdisplay /usr/share/bash-completion/completions/pvdisplay /usr/share/bash-completion/completions/chromium /usr/share/bash-completion/completions/ppc-koji /usr/share/bash-completion/completions/chpasswd /usr/share/bash-completion/completions/_oras /usr/share/bash-completion/completions/xzdec /usr/share/bash-completion/completions/micropython /usr/share/bash-completion/completions/update-alternatives /usr/share/bash-completion/completions/_go-licenses /usr/share/bash-completion/completions/hash /usr/share/bash-completion/completions/influx /usr/share/bash-completion/completions/minicom /usr/share/bash-comp
- letion/completions/config_list /usr/share/bash-completion/completions/protoc /usr/share/bash-completion/completions/lvrename /usr/share/bash-completion/completions/python2 /usr/share/bash-completion/completions/python3 /usr/share/bash-completion/completions/smbclient /usr/share/bash-completion/completions/withlist /usr/share/bash-completion/completions/_tldr /usr/share/bash-completion/completions/hddtemp /usr/share/bash-completion/completions/luserdel /usr/share/bash-completion/completions/lz4c /usr/share/bash-completion/completions/jpegoptim /usr/share/bash-completion/completions/bsdtar /usr/share/bash-completion/completions/invoke-rc.d /usr/share/bash-completion/completions/oggdec /usr/share/bash-completion/completions/_ruff /usr/share/bash-completion/completions/xmms /usr/share/bash-completion/completions/ecryptfs-migrate-home /usr/share/bash-completion/completions/_trash-list /usr/share/bash-completion/completions/_okteto /usr/share/bash-completion/completions/_ignite /usr/share
- /bash-completion/completions/find_member /usr/share/bash-completion/completions/luseradd /usr/share/bash-completion/completions/_skaffold /usr/share/bash-completion/completions/_sentry-cli /usr/share/bash-completion/completions/_uv /usr/share/bash-completion/completions/_bashbot /usr/share/bash-completion/completions/_conda /usr/share/bash-completion/completions/cleanarch /usr/share/bash-completion/completions/querybts /usr/share/bash-completion/completions/chown /usr/share/bash-completion/completions/_rustup /usr/share/bash-completion/completions/vgrename /usr/share/bash-completion/completions/ldapvi /usr/share/bash-completion/completions/list_lists /usr/share/bash-completion/completions/_kratos /usr/share/bash-completion/completions/lua /usr/share/bash-completion/completions/qemu /usr/share/bash-completion/completions/apt-mark /usr/share/bash-completion/completions/vncviewer /usr/share/bash-completion/completions/_syft /usr/share/bash-completion/completions/mailmanctl /usr/share/b
- ash-completion/completions/_nmcli /usr/share/bash-completion/completions/wine64 /usr/share/bash-completion/completions/xsltproc /usr/share/bash-completion/completions/wine-stable /usr/share/bash-completion/completions/add_members /usr/share/bash-completion/completions/pkgtool /usr/share/bash-completion/completions/_vault /usr/share/bash-completion/completions/_jj /usr/share/bash-completion/completions/_kops /usr/share/bash-completion/completions/ipsec /usr/share/bash-completion/completions/gnome-screenshot /usr/share/bash-completion/completions/lvmdiskscan /usr/share/bash-completion/completions/_ansible-playbook /usr/share/bash-completion/completions/createdb /usr/share/bash-completion/completions/_kubebuilder /usr/share/bash-completion/completions/_gsctl /usr/share/bash-completion/completions/larch /usr/share/bash-completion/completions/vgreduce /usr/share/bash-completion/completions/snownews /usr/share/bash-completion/completions/installpkg /usr/share/bash-completion/completions/7
- zzs /usr/share/bash-completion/completions/_rmmod /usr/share/bash-completion/completions/opera /usr/share/bash-completion/completions/iperf /usr/share/bash-completion/completions/aptitude-curses /usr/share/bash-completion/completions/rpcdebug /usr/share/bash-completion/completions/munin-run /usr/share/bash-completion/completions/_steampipe /usr/share/bash-completion/completions/tune2fs /usr/share/bash-completion/completions/_nerdctl /usr/share/bash-completion/completions/pm-powersave /usr/share/bash-completion/completions/automake-1.14 /usr/share/bash-completion/completions/automake-1.15 /usr/share/bash-completion/completions/automake-1.16 /usr/share/bash-completion/completions/automake-1.10 /usr/share/bash-completion/completions/automake-1.11 /usr/share/bash-completion/completions/automake-1.12 /usr/share/bash-completion/helpers/make-extract-targets.awk /usr/share/bash-completion/completions/automake-1.13 /usr/share/bash-completion/completions/pkgconf /usr/share/bash-completion/com
- pletions/chrome /usr/share/bash-completion/completions/python /usr/share/bash-completion/completions/tcpkill /usr/share/bash-completion/completions/gcc /usr/share/bash-completion/completions/gcl /usr/share/bash-completion/completions/pwgen /usr/share/bash-completion/completions/_zarf /usr/share/bash-completion/completions/ralsh /usr/share/bash-completion/completions/gcj /usr/share/bash-completion/completions/_colima /usr/share/bash-completion/completions/_mockery /usr/share/bash-completion/completions/scp /usr/share/bash-completion/completions/rcs /usr/share/bash-completion/completions/_shtab /usr/share/bash-completion/completions/_cz /usr/share/bash-completion/completions/convert /usr/share/bash-completion/completions/_dasel /usr/share/bash-completion/completions/dropdb /usr/share/bash-completion/completions/_talhelper /usr/share/bash-completion/completions/_vela /usr/share/bash-completion/completions/pm-is-supported /usr/share/bash-completion/completions/_chfn /usr/share/bash-comp
- letion/completions/identify /usr/share/bash-completion/completions/_changie /usr/share/bash-completion/completions/_cilium /usr/share/bash-completion/completions/ifup /usr/share/bash-completion/completions/luac5.1 /usr/share/bash-completion/completions/luac5.0 /usr/share/bash-completion/completions/_newgrp /usr/share/bash-completion/completions/_glab /usr/share/bash-completion/completions/bzip2 /usr/share/bash-completion/completions/luac5.2 /usr/share/bash-completion/completions/luac5.3 /usr/share/bash-completion/completions/luac5.4 /usr/share/bash-completion/completions/mypy /usr/share/bash-completion/completions/pypy /usr/share/bash-completion/completions/slapt-get /usr/share/bash-completion/completions/list_owners", added "/usr/share/bash-completion/completions/README.md /usr/share/bash-completion/helpers/README.md"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PKGSIZE changed from 917819 to 2266 (-100%)
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion: FILELIST: directory renamed /etc/bash_completion.d -> /usr/share/bash-completion/startup-core, added "/usr/share/bash-completion/completions-core/tcpnice.bash /usr/share/bash-completion/completions-core/add_members.bash /usr/share/bash-completion/completions-fallback/driftctl.bash /usr/share/bash-completion/completions-core/xvnc4viewer.bash /usr/share/bash-completion/completions-fallback/jwt.bash /usr/share/bash-completion/completions-fallback/eject.bash /usr/share/bash-completion/completions-fallback/regal.bash /usr/share/bash-completion/completions-fallback/rumdl.bash /usr/share/bash-completion/completions-core/autoupdate.bash /usr/share/bash-completion/completions-fallback/flux.bash /usr/share/bash-completion/completions-fallback/virtctl.bash /usr/share/bash-completion/completions-core/munindoc.bash /usr/share/bash-completion/completions-core/pylint-2.bash /usr/share/bash-completion/completions-core/pylint-3.bash /usr/
- share/bash-completion/completions-core/geoiplookup.bash /usr/share/bash-completion/completions-core/inject.bash /usr/share/bash-completion/completions-core/shellcheck.bash /usr/share/bash-completion/completions-fallback/gup.bash /usr/share/bash-completion/completions-fallback/airflow.bash /usr/share/bash-completion/completions-core/smbcacls.bash /usr/share/bash-completion/completions-core/neomutt.bash /usr/share/bash-completion/completions-fallback/argc.bash /usr/share/bash-completion/completions-fallback/argo.bash /usr/share/bash-completion/completions-core/lua53.bash /usr/share/bash-completion/completions-core/pypy3.bash /usr/share/bash-completion/completions-fallback/gitsign.bash /usr/share/bash-completion/completions-fallback/nvm.bash /usr/share/bash-completion/completions-fallback/delta.bash /usr/share/bash-completion/completions-fallback/depot.bash /usr/share/bash-completion/completions-core/acpi.bash /usr/share/bash-completion/completions-core/xdg-settings.bash /usr/share/bas
- h-completion/completions-core/arch.bash /usr/share/bash-completion/completions-core/qemu-system-x86_64.bash /usr/share/bash-completion/completions-fallback/notation.bash /usr/share/bash-completion/completions-core/timeout.bash /usr/share/bash-completion/completions-core/minicom.bash /usr/share/bash-completion/completions-core/gfortran-5.bash /usr/share/bash-completion/completions-core/gfortran-6.bash /usr/share/bash-completion/completions-core/gfortran-7.bash /usr/share/bash-completion/completions-core/gfortran-8.bash /usr/share/bash-completion/completions-core/lua50.bash /usr/share/bash-completion/completions-fallback/sopstool.bash /usr/share/bash-completion/completions-core/avahi-browse.bash /usr/share/bash-completion/completions-core/fsnotifywait.bash /usr/share/bash-completion/completions-fallback/keyring.bash /usr/share/bash-completion/completions-fallback/kubeadm.bash /usr/share/bash-completion/completions-fallback/kubectl.bash /usr/share/bash-completion/completions-fallback/k
- ubesec.bash /usr/share/bash-completion/completions-fallback/kubespy.bash /usr/share/bash-completion/completions-core/chkconfig.bash /usr/share/bash-completion/completions-core/hciconfig.bash /usr/share/bash-completion/completions-core/python2.7.bash /usr/share/bash-completion/completions-core/python3.3.bash /usr/share/bash-completion/completions-core/python3.4.bash /usr/share/bash-completion/completions-core/python3.5.bash /usr/share/bash-completion/completions-core/python3.6.bash /usr/share/bash-completion/completions-core/python3.7.bash /usr/share/bash-completion/completions-core/python3.8.bash /usr/share/bash-completion/completions-core/python3.9.bash /usr/share/bash-completion/completions-fallback/bao.bash /usr/share/bash-completion/completions-core/btdownloadheadless.py.bash /usr/share/bash-completion/completions-fallback/hd.bash /usr/share/bash-completion/completions-core/chmod.bash /usr/share/bash-completion/completions-core/nload.bash /usr/share/bash-completion/completions-c
- ore/g++-6.bash /usr/share/bash-completion/completions-core/gcc-6.bash /usr/share/bash-completion/completions-core/ping6.bash /usr/share/bash-completion/completions-core/ebtables.bash /usr/share/bash-completion/completions-core/iptables.bash /usr/share/bash-completion/completions-core/pushd.bash /usr/share/bash-completion/completions-fallback/ionice.bash /usr/share/bash-completion/completions-fallback/random.bash /usr/share/bash-completion/completions-core/cancel.bash /usr/share/bash-completion/completions-fallback/multi-gitter.bash /usr/share/bash-completion/completions-core/pm-suspend.bash /usr/share/bash-completion/completions-core/invoke-rc.d.bash /usr/share/bash-completion/completions-core/ssh-keyscan.bash /usr/share/bash-completion/completions-fallback/mdbook.bash /usr/share/bash-completion/completions-fallback/zitadel.bash /usr/share/bash-completion/completions-core/apt-mark.bash /usr/share/bash-completion/completions-core/automake.bash /usr/share/bash-completion/completions-c
- ore/gnatmake.bash /usr/share/bash-completion/completions-core/mfiutil.bash /usr/share/bash-completion/completions-core/ifquery.bash /usr/share/bash-completion/completions-core/fprintd-list.bash /usr/share/bash-completion/completions-fallback/k6.bash /usr/share/bash-completion/completions-core/pkgadd.bash /usr/share/bash-completion/completions-fallback/git-bump.bash /usr/share/bash-completion/completions-fallback/gitleaks.bash /usr/share/bash-completion/completions-core/iceweasel.bash /usr/share/bash-completion/completions-core/a2x.bash /usr/share/bash-completion/completions-core/ant.bash /usr/share/bash-completion/completions-core/arp.bash /usr/share/bash-completion/completions-core/repquota.bash /usr/share/bash-completion/completions-core/setquota.bash /usr/share/bash-completion/completions-fallback/syft.bash /usr/share/bash-completion/completions-fallback/opa.bash /usr/share/bash-completion/completions-core/xmllint.bash /usr/share/bash-completion/completions-core/alternatives.bash
-  /usr/share/bash-completion/completions-fallback/helm.bash /usr/share/bash-completion/completions-fallback/hugo.bash /usr/share/bash-completion/completions-core/deja-dup.bash /usr/share/bash-completion/completions-core/dnssec-keygen.bash /usr/share/bash-completion/completions-core/growisofs.bash /usr/share/bash-completion/completions-core/ldapmodify.bash /usr/share/bash-completion/completions-core/ldapmodrdn.bash /usr/share/bash-completion/completions-core/apt-cache.bash /usr/share/bash-completion/completions-core/gpg2.bash /usr/share/bash-completion/completions-core/gpgv.bash /usr/share/bash-completion/completions-core/gtar.bash /usr/share/bash-completion/completions-core/gzip.bash /usr/share/bash-completion/completions-fallback/black.bash /usr/share/bash-completion/completions-fallback/steampipe.bash /usr/share/bash-completion/completions-fallback/etcdctl.bash /usr/share/bash-completion/completions-fallback/etcdutl.bash /usr/share/bash-completion/completions-core/gprof.bash /usr/s
- hare/bash-completion/completions-core/iperf.bash /usr/share/bash-completion/completions-core/macof.bash /usr/share/bash-completion/completions-core/pidof.bash /usr/share/bash-completion/completions-core/xmlwf.bash /usr/share/bash-completion/startup/README.md /usr/share/bash-completion/completions-core/ifstat.bash /usr/share/bash-completion/completions-core/vmstat.bash /usr/share/bash-completion/completions-fallback/trash-put.bash /usr/share/bash-completion/completions-core/pm-powersave.bash /usr/share/bash-completion/completions-core/asciidoc.py.bash /usr/share/bash-completion/completions-fallback/gardenctl.bash /usr/share/bash-completion/completions-core/mrsasutil.bash /usr/share/bash-completion/completions-core/postsuper.bash /usr/share/bash-completion/completions-core/wine64.bash /usr/share/bash-completion/completions-core/tightvncviewer.bash /usr/share/bash-completion/completions-fallback/syncthing.bash /usr/share/bash-completion/completions-fallback/zarf.bash /usr/share/bash-co
- mpletion/completions-fallback/kubescape.bash /usr/share/bash-completion/completions-fallback/kustomize.bash /usr/share/bash-completion/completions-fallback/uvx.bash /usr/share/bash-completion/completions-core/ldapdelete.bash /usr/share/bash-completion/completions-fallback/gitconfig.bash /usr/share/bash-completion/completions-core/locale-gen.bash /usr/share/bash-completion/completions-core/mcrypt.bash /usr/share/bash-completion/completions-fallback/task.bash /usr/share/bash-completion/completions-fallback/gh-label.bash /usr/share/bash-completion/completions-fallback/umount.bash /usr/share/bash-completion/completions-fallback/ngrok.bash /usr/share/bash-completion/completions-core/mogrify.bash /usr/share/bash-completion/completions-core/spovray.bash /usr/share/bash-completion/completions-core/xpovray.bash /usr/share/bash-completion/completions-core/qemu-kvm.bash /usr/share/bash-completion/completions-fallback/dagger.bash /usr/share/bash-completion/completions-fallback/datree.bash /usr/
- share/bash-completion/completions-core/ip.bash /usr/share/bash-completion/completions-core/vgcfgrestore.bash /usr/share/bash-completion/completions-core/jq.bash /usr/share/bash-completion/completions-fallback/limactl.bash /usr/share/bash-completion/completions-fallback/linkerd.bash /usr/share/bash-completion/completions-core/postalias.bash /usr/share/bash-completion/completions-core/mc.bash /usr/share/bash-completion/completions-core/mr.bash /usr/share/bash-completion/completions-core/nc.bash /usr/share/bash-completion/completions-core/p4.bash /usr/share/bash-completion/completions-core/cppcheck.bash /usr/share/bash-completion/completions-core/rpmcheck.bash /usr/share/bash-completion/completions-core/etherwake.bash /usr/share/bash-completion/completions-fallback/vacuum.bash /usr/share/bash-completion/completions-fallback/minishift.bash /usr/share/bash-completion/completions-fallback/jungle.bash /usr/share/bash-completion/completions-core/puppetmasterd.bash /usr/share/bash-completion
- /completions-core/sbcl-mt.bash /usr/share/bash-completion/completions-fallback/encore.bash /usr/share/bash-completion/completions-core/lua5.2.bash /usr/share/bash-completion/completions-core/slogin.bash /usr/share/bash-completion/completions-core/dmypy.bash /usr/share/bash-completion/completions-core/iwspy.bash /usr/share/bash-completion/completions-fallback/nox.bash /usr/share/bash-completion/completions-core/remove_members.bash /usr/share/bash-completion/completions-fallback/pipenv.bash /usr/share/bash-completion/completions-fallback/px.bash /usr/share/bash-completion/completions-fallback/nova.bash /usr/share/bash-completion/completions-core/rpmbuild-md5.bash /usr/share/bash-completion/completions-core/tcpdump.bash /usr/share/bash-completion/completions-core/filesnarf.bash /usr/share/bash-completion/completions-core/mailsnarf.bash /usr/share/bash-completion/completions-fallback/kratos.bash /usr/share/bash-completion/completions-fallback/crictl.bash /usr/share/bash-completion/compl
- etions-core/puppet.bash /usr/share/bash-completion/completions-core/smbget.bash /usr/share/bash-completion/completions-fallback/kubeshark.bash /usr/share/bash-completion/completions-core/hostname.bash /usr/share/bash-completion/completions-core/lvrename.bash /usr/share/bash-completion/completions-core/msgsnarf.bash /usr/share/bash-completion/completions-core/faillog.bash /usr/share/bash-completion/completions-core/lastlog.bash /usr/share/bash-completion/completions-core/unshunt.bash /usr/share/bash-completion/completions-core/urlsnarf.bash /usr/share/bash-completion/completions-core/vgrename.bash /usr/share/bash-completion/completions-core/apt-build.bash /usr/share/bash-completion/completions-core/explodepkg.bash /usr/share/bash-completion/completions-core/kplayer.bash /usr/share/bash-completion/completions-core/mplayer.bash /usr/share/bash-completion/completions-fallback/umount.linux.bash /usr/share/bash-completion/completions-core/brctl.bash /usr/share/bash-completion/completions-
- core/mysql.bash /usr/share/bash-completion/completions-core/pkill.bash /usr/share/bash-completion/completions-fallback/ansible-inventory.bash /usr/share/bash-completion/completions-fallback/gopherjs.bash /usr/share/bash-completion/completions-fallback/pip3.bash /usr/share/bash-completion/completions-core/lua5.0.bash /usr/share/bash-completion/completions-core/lbzip2.bash /usr/share/bash-completion/completions-core/pbzip2.bash /usr/share/bash-completion/completions-core/lzip.bash /usr/share/bash-completion/completions-core/vgck.bash /usr/share/bash-completion/completions-fallback/tokio-console.bash /usr/share/bash-completion/completions-core/vigr.bash /usr/share/bash-completion/completions-core/vipw.bash /usr/share/bash-completion/completions-core/vpnc.bash /usr/share/bash-completion/completions-core/dict.bash /usr/share/bash-completion/helpers-core/python /usr/share/bash-completion/completions-fallback/sops.bash /usr/share/bash-completion/completions-core/nethogs.bash /usr/share/bas
- h-completion/completions-core/unrar.bash /usr/share/bash-completion/completions-core/aclocal-1.18.bash /usr/share/bash-completion/completions-core/aclocal-1.10.bash /usr/share/bash-completion/completions-core/aclocal-1.11.bash /usr/share/bash-completion/completions-core/aclocal-1.12.bash /usr/share/bash-completion/completions-core/aclocal-1.13.bash /usr/share/bash-completion/completions-core/aclocal-1.14.bash /usr/share/bash-completion/completions-core/aclocal-1.15.bash /usr/share/bash-completion/completions-core/aclocal-1.16.bash /usr/share/bash-completion/completions-core/aclocal-1.17.bash /usr/share/bash-completion/completions-core/lua51.bash /usr/share/bash-completion/completions-core/mailmanctl.bash /usr/share/bash-completion/completions-fallback/dpkg.bash /usr/share/bash-completion/completions-core/ccache.bash /usr/share/bash-completion/completions-core/pydoc3.bash /usr/share/bash-completion/completions-core/gmake.bash /usr/share/bash-completion/completions-core/bmake.bash /us
- r/share/bash-completion/completions-core/gcc-7.bash /usr/share/bash-completion/completions-core/brave.bash /usr/share/bash-completion/completions-core/chage.bash /usr/share/bash-completion/completions-core/g++-7.bash /usr/share/bash-completion/completions-core/pmake.bash /usr/share/bash-completion/completions-core/route.bash /usr/share/bash-completion/completions-core/unace.bash /usr/share/bash-completion/completions-fallback/ruff.bash /usr/share/bash-completion/completions-core/g++-5.bash /usr/share/bash-completion/completions-core/gcc-5.bash /usr/share/bash-completion/completions-core/lusermod.bash /usr/share/bash-completion/completions-fallback/kapp.bash /usr/share/bash-completion/completions-core/firefox-esr.bash /usr/share/bash-completion/completions-core/killall.bash /usr/share/bash-completion/completions-fallback/dpkg-source.bash /usr/share/bash-completion/completions-core/feh.bash /usr/share/bash-completion/completions-core/fio.bash /usr/share/bash-completion/completions-cor
- e/g++.bash /usr/share/bash-completion/completions-core/wol.bash /usr/share/bash-completion/completions-core/wtf.bash /usr/share/bash-completion/completions-core/chflags.bash /usr/share/bash-completion/completions-core/tar.bash /usr/share/bash-completion/completions-core/lz4.bash /usr/share/bash-completion/completions-core/man.bash /usr/share/bash-completion/completions-core/mtx.bash /usr/share/bash-completion/completions-core/firefox.bash /usr/share/bash-completion/completions-core/pyvenv-3.4.bash /usr/share/bash-completion/completions-core/pyvenv-3.5.bash /usr/share/bash-completion/completions-core/pyvenv-3.6.bash /usr/share/bash-completion/completions-core/pyvenv-3.7.bash /usr/share/bash-completion/completions-core/pyvenv-3.8.bash /usr/share/bash-completion/completions-core/pyvenv-3.9.bash /usr/share/bash-completion/completions-core/strace.bash /usr/share/bash-completion/completions-core/evince.bash /usr/share/bash-completion/completions-core/sshow.bash /usr/share/bash-completion/
- completions-fallback/container-structure-test.bash /usr/share/bash-completion/completions-fallback/nfpm.bash /usr/share/bash-completion/completions-core/filefrag.bash /usr/share/bash-completion/completions-fallback/ssh-inscribe.bash /usr/share/bash-completion/completions-core/btdownloadgui.py.bash /usr/share/bash-completion/completions-fallback/kn.bash /usr/share/bash-completion/completions-core/gnumake.bash /usr/share/bash-completion/completions-fallback/kubecm.bash /usr/share/bash-completion/completions-fallback/ghorg.bash /usr/share/bash-completion/completions-fallback/rfkill.bash /usr/share/bash-completion/completions-core/google-chrome-stable.bash /usr/share/bash-completion/completions-core/list_members.bash /usr/share/bash-completion/completions-core/sync_members.bash /usr/share/bash-completion/completions-core/automake-1.10.bash /usr/share/bash-completion/completions-fallback/zola.bash /usr/share/bash-completion/completions-core/tsig-keygen.bash /usr/share/bash-completion/com
- pletions-core/puppetca.bash /usr/share/bash-completion/completions-core/puppetqd.bash /usr/share/bash-completion/completions-core/sudoedit.bash /usr/share/bash-completion/completions-fallback/tofu.bash /usr/share/bash-completion/completions-fallback/release-plz.bash /usr/share/bash-completion/completions-core/wine-development.bash /usr/share/bash-completion/completions-core/puppetdoc.bash /usr/share/bash-completion/completions-core/automake-1.14.bash /usr/share/bash-completion/completions-core/puppetrun.bash /usr/share/bash-completion/completions-fallback/gopass.bash /usr/share/bash-completion/completions-fallback/dasel.bash /usr/share/bash-completion/completions-core/tracepath6.bash /usr/share/bash-completion/completions-core/sudo.bash /usr/share/bash-completion/completions-core/xmms.bash /usr/share/bash-completion/completions-core/xrdb.bash /usr/share/bash-completion/completions-core/lftp.bash /usr/share/bash-completion/completions-core/lilo.bash /usr/share/bash-completion/complet
- ions-core/lisp.bash /usr/share/bash-completion/completions-fallback/docker.bash /usr/share/bash-completion/completions-core/lsof.bash /usr/share/bash-completion/completions-core/luac.bash /usr/share/bash-completion/completions-core/lz4c.bash /usr/share/bash-completion/completions-core/msynctool.bash /usr/share/bash-completion/completions-core/ifup.bash /usr/share/bash-completion/completions-core/info.bash /usr/share/bash-completion/completions-core/colormake.bash /usr/share/bash-completion/completions-core/groupmod.bash /usr/share/bash-completion/completions-core/clone_member.bash /usr/share/bash-completion/completions-core/automake-1.17.bash /usr/share/bash-completion/completions-core/gfortran.bash /usr/share/bash-completion/completions-fallback/coder.bash /usr/share/bash-completion/completions-fallback/codex.bash /usr/share/bash-completion/completions-fallback/conda.bash /usr/share/bash-completion/completions-fallback/k9s.bash /usr/share/bash-completion/completions-fallback/xc.bas
- h /usr/share/bash-completion/completions-core/ether-wake.bash /usr/share/bash-completion/completions-core/fusermount.bash /usr/share/bash-completion/completions-core/luserdel.bash /usr/share/bash-completion/completions-fallback/kubectl-kuttl.bash /usr/share/bash-completion/completions-fallback/jreleaser.bash /usr/share/bash-completion/completions-fallback/su.bash /usr/share/bash-completion/completions-fallback/goreleaser.bash /usr/share/bash-completion/completions-core/lintian-info.bash /usr/share/bash-completion/completions-core/rdesktop.bash /usr/share/bash-completion/completions-fallback/k3sup.bash /usr/share/bash-completion/completions-fallback/kconf.bash /usr/share/bash-completion/completions-fallback/okteto.bash /usr/share/bash-completion/completions-core/gccgo.bash /usr/share/bash-completion/completions-core/pinfo.bash /usr/share/bash-completion/completions-fallback/bashbot.bash /usr/share/bash-completion/completions-core/config_list.bash /usr/share/bash-completion/helpers-co
- re/perl /usr/share/bash-completion/completions-fallback/tox.bash /usr/share/bash-completion/completions-fallback/zed.bash /usr/share/bash-completion/completions-core/aclocal.bash /usr/share/bash-completion/completions-fallback/k0sctl.bash /usr/share/bash-completion/completions-fallback/gaiad.bash /usr/share/bash-completion/completions-fallback/rustic.bash /usr/share/bash-completion/completions-fallback/rustup.bash /usr/share/bash-completion/completions-fallback/regctl.bash /usr/share/bash-completion/completions-fallback/terraform.bash /usr/share/bash-completion/completions-fallback/renice.bash /usr/share/bash-completion/completions-fallback/reptyr.bash /usr/share/bash-completion/completions-fallback/skupper.bash /usr/share/bash-completion/completions-core/chromium-browser.bash /usr/share/bash-completion/completions-core/btdownloadcurses.py.bash /usr/share/bash-completion/completions-core/rpm2targz.bash /usr/share/bash-completion/completions-fallback/hwclock.bash /usr/share/bash-comp
- letion/completions-fallback/op.bash /usr/share/bash-completion/completions-core/cksfv.bash /usr/share/bash-completion/completions-core/iconv.bash /usr/share/bash-completion/completions-core/bind.bash /usr/share/bash-completion/completions-core/ccze.bash /usr/share/bash-completion/completions-core/cpio.bash /usr/share/bash-completion/completions-core/curl.bash /usr/share/bash-completion/completions-core/dcop.bash /usr/share/bash-completion/completions-core/isql.bash /usr/share/bash-completion/completions-core/java.bash /usr/share/bash-completion/completions-core/kcov.bash /usr/share/bash-completion/completions-core/kill.bash /usr/share/bash-completion/completions-core/koji.bash /usr/share/bash-completion/completions-core/medusa.bash /usr/share/bash-completion/completions-core/pvmove.bash /usr/share/bash-completion/completions-fallback/rg.bash /usr/share/bash-completion/completions-core/cleanarch.bash /usr/share/bash-completion/completions-core/dropuser.bash /usr/share/bash-completion
- /completions-fallback/nerdctl.bash /usr/share/bash-completion/completions-core/newusers.bash /usr/share/bash-completion/completions-core/nsupdate.bash /usr/share/bash-completion/completions-core/python2.bash /usr/share/bash-completion/completions-core/pdlzip.bash /usr/share/bash-completion/completions-fallback/yq.bash /usr/share/bash-completion/completions-core/oggdec.bash /usr/share/bash-completion/completions-fallback/k3s.bash /usr/share/bash-completion/completions-core/wine64-development.bash /usr/share/bash-completion/completions-core/smbpasswd.bash /usr/share/bash-completion/completions-core/smbcquotas.bash /usr/share/bash-completion/completions-core/aptitude.bash /usr/share/bash-completion/completions-core/createdb.bash /usr/share/bash-completion/completions-core/lvextend.bash /usr/share/bash-completion/completions-core/printenv.bash /usr/share/bash-completion/completions-core/vgextend.bash /usr/share/bash-completion/completions-core/bsdtar.bash /usr/share/bash-completion/comp
- letions-core/smbtar.bash /usr/share/bash-completion/completions-core/alpine.bash /usr/share/bash-completion/completions-fallback/kool.bash /usr/share/bash-completion/completions-fallback/kops.bash /usr/share/bash-completion/completions-core/micropython.bash /usr/share/bash-completion/completions-core/optipng.bash /usr/share/bash-completion/completions-fallback/polygon-edge.bash /usr/share/bash-completion/completions-core/ipv6calc.bash /usr/share/bash-completion/completions-core/truncate.bash /usr/share/bash-completion/completions-fallback/svnadmin.bash /usr/share/bash-completion/completions-core/arm-koji.bash /usr/share/bash-completion/completions-core/check_db.bash /usr/share/bash-completion/completions-core/ppc-koji.bash /usr/share/bash-completion/helpers-core/make-extract-targets.awk /usr/share/bash-completion/completions-core/isort.bash /usr/share/bash-completion/completions-core/rdict.bash /usr/share/bash-completion/completions-core/xhost.bash /usr/share/bash-completion/complet
- ions-core/ypcat.bash /usr/share/bash-completion/completions-core/aspell.bash /usr/share/bash-completion/completions-core/pigz.bash /usr/share/bash-completion/completions-core/pine.bash /usr/share/bash-completion/completions-core/ping.bash /usr/share/bash-completion/completions-core/psql.bash /usr/share/bash-completion/completions-core/pwck.bash /usr/share/bash-completion/completions-core/pwdx.bash /usr/share/bash-completion/completions-core/pypy.bash /usr/share/bash-completion/completions-core/qemu.bash /usr/share/bash-completion/completions-core/wget.bash /usr/share/bash-completion/completions-core/wine.bash /usr/share/bash-completion/completions-core/curlie.bash /usr/share/bash-completion/completions-core/montage.bash /usr/share/bash-completion/completions-core/composite.bash /usr/share/bash-completion/completions-fallback/kube-linter.bash /usr/share/bash-completion/completions-core/cfagent.bash /usr/share/bash-completion/completions-fallback/tanzu.bash /usr/share/bash-completion/
- completions-core/tipc.bash /usr/share/bash-completion/completions-core/tmux.bash /usr/share/bash-completion/completions-core/automake-1.18.bash /usr/share/bash-completion/completions-core/tree.bash /usr/share/bash-completion/completions-core/ulimit.bash /usr/share/bash-completion/completions-fallback/adb.bash /usr/share/bash-completion/completions-core/lintian.bash /usr/share/bash-completion/completions-core/sudo.ws.bash /usr/share/bash-completion/completions-core/sysbench.bash /usr/share/bash-completion/completions-core/genaliases.bash /usr/share/bash-completion/completions-core/smbtree.bash /usr/share/bash-completion/completions-fallback/mado.bash /usr/share/bash-completion/completions-fallback/mago.bash /usr/share/bash-completion/completions-core/gmplayer.bash /usr/share/bash-completion/completions-core/gpasswd.bash /usr/share/bash-completion/completions-fallback/constellation.bash /usr/share/bash-completion/completions-fallback/yum.bash /usr/share/bash-completion/completions-cor
- e/lsusb.bash /usr/share/bash-completion/completions-core/scrub.bash /usr/share/bash-completion/completions-fallback/venom.bash /usr/share/bash-completion/completions-core/pytest-2.bash /usr/share/bash-completion/completions-core/pytest-3.bash /usr/share/bash-completion/completions-core/pvs.bash /usr/share/bash-completion/completions-core/pwd.bash /usr/share/bash-completion/completions-core/pxz.bash /usr/share/bash-completion/completions-core/rcs.bash /usr/share/bash-completion/completions-core/rpm.bash /usr/share/bash-completion/completions-core/scp.bash /usr/share/bash-completion/completions-core/g77.bash /usr/share/bash-completion/completions-core/g95.bash /usr/share/bash-completion/completions-core/gcc.bash /usr/share/bash-completion/completions-core/dot.bash /usr/share/bash-completion/completions-fallback/infracost.bash /usr/share/bash-completion/completions-fallback/dapr.bash /usr/share/bash-completion/completions-core/cowthink.bash /usr/share/bash-completion/completions-fallba
- ck/trash-list.bash /usr/share/bash-completion/completions-fallback/shtab.bash /usr/share/bash-completion/completions-fallback/velero.bash /usr/share/bash-completion/completions-core/pm-suspend-hybrid.bash /usr/share/bash-completion/completions-core/vgcfgbackup.bash /usr/share/bash-completion/completions-fallback/caddy.bash /usr/share/bash-completion/completions-fallback/cargo.bash /usr/share/bash-completion/completions-core/perlcritic.bash /usr/share/bash-completion/completions-fallback/ansible-pull.bash /usr/share/bash-completion/completions-fallback/chfn.bash /usr/share/bash-completion/completions-fallback/chsh.bash /usr/share/bash-completion/completions-core/sysctl.bash /usr/share/bash-completion/completions-core/7z.bash /usr/share/bash-completion/completions-core/bk.bash /usr/share/bash-completion/completions-core/cc.bash /usr/share/bash-completion/completions-core/cd.bash /usr/share/bash-completion/completions-core/ci.bash /usr/share/bash-completion/completions-core/co.bash /us
- r/share/bash-completion/completions-core/dd.bash /usr/share/bash-completion/completions-core/g4.bash /usr/share/bash-completion/completions-core/gm.bash /usr/share/bash-completion/completions-core/id.bash /usr/share/bash-completion/completions-core/xgamma.bash /usr/share/bash-completion/completions-core/cpan2dist.bash /usr/share/bash-completion/completions-core/sha224sum.bash /usr/share/bash-completion/completions-fallback/ko.bash /usr/share/bash-completion/completions-fallback/oc.bash /usr/share/bash-completion/completions-fallback/ncal.bash /usr/share/bash-completion/completions-core/g++-8.bash /usr/share/bash-completion/completions-core/gcc-8.bash /usr/share/bash-completion/completions-fallback/tfctl.bash /usr/share/bash-completion/completions-core/ldappasswd.bash /usr/share/bash-completion/completions-core/luac50.bash /usr/share/bash-completion/completions-fallback/diffoci.bash /usr/share/bash-completion/completions-fallback/gsctl.bash /usr/share/bash-completion/completions-core
- /snownews.bash /usr/share/bash-completion/completions-core/sha384sum.bash /usr/share/bash-completion/completions-fallback/clusterctl.bash /usr/share/bash-completion/completions-fallback/update-alternatives.bash /usr/share/bash-completion/completions-core/lvcreate.bash /usr/share/bash-completion/completions-core/pvcreate.bash /usr/share/bash-completion/completions-core/vgcreate.bash /usr/share/bash-completion/completions-core/lvremove.bash /usr/share/bash-completion/completions-core/pvremove.bash /usr/share/bash-completion/completions-core/vgremove.bash /usr/share/bash-completion/completions-core/pm-is-supported.bash /usr/share/bash-completion/completions-core/google-chrome.bash /usr/share/bash-completion/completions-core/iperf3.bash /usr/share/bash-completion/completions-core/groupmems.bash /usr/share/bash-completion/completions-fallback/pluto.bash /usr/share/bash-completion/completions-core/installpkg.bash /usr/share/bash-completion/completions-core/py.test-2.bash /usr/share/bash-c
- ompletion/completions-core/py.test-3.bash /usr/share/bash-completion/completions-fallback/asdf.bash /usr/share/bash-completion/completions-fallback/sshi.bash /usr/share/bash-completion/completions-core/luac5.0.bash /usr/share/bash-completion/completions-fallback/flask.bash /usr/share/bash-completion/completions-core/xvfb-run.bash /usr/share/bash-completion/completions-core/e2freefrag.bash /usr/share/bash-completion/completions-core/munin-node-configure.bash /usr/share/bash-completion/completions-fallback/dprint.bash /usr/share/bash-completion/completions-core/pydoc3.13.bash /usr/share/bash-completion/completions-core/pydoc3.14.bash /usr/share/bash-completion/completions-core/pydoc3.15.bash /usr/share/bash-completion/completions-fallback/kubemqctl.bash /usr/share/bash-completion/completions-core/pccardctl.bash /usr/share/bash-completion/completions-core/reportbug.bash /usr/share/bash-completion/completions-core/ipmitool.bash /usr/share/bash-completion/completions-core/mii-tool.bash /
- usr/share/bash-completion/completions-core/vgs.bash /usr/share/bash-completion/completions-core/jar.bash /usr/share/bash-completion/completions-core/jps.bash /usr/share/bash-completion/completions-core/k3b.bash /usr/share/bash-completion/completions-core/lpq.bash /usr/share/bash-completion/completions-core/lpr.bash /usr/share/bash-completion/completions-core/lua.bash /usr/share/bash-completion/completions-core/lvm.bash /usr/share/bash-completion/completions-core/lvs.bash /usr/share/bash-completion/completions-core/gcj.bash /usr/share/bash-completion/completions-fallback/ansible-galaxy.bash /usr/share/bash-completion/completions-core/luseradd.bash /usr/share/bash-completion/completions-core/sparc-koji.bash /usr/share/bash-completion/completions-core/hping3.bash /usr/share/bash-completion/completions-core/update-rc.d.bash /usr/share/bash-completion/completions-fallback/slackpkg.bash /usr/share/bash-completion/completions-fallback/mockery.bash /usr/share/bash-completion/completions-fal
- lback/modinfo.bash /usr/share/bash-completion/completions-fallback/modules.bash /usr/share/bash-completion/completions-core/list_admins.bash /usr/share/bash-completion/completions-core/dsniff.bash /usr/share/bash-completion/completions-core/inotifywait.bash /usr/share/bash-completion/completions-core/aptitude-curses.bash /usr/share/bash-completion/completions-core/typeset.bash /usr/share/bash-completion/completions-fallback/metalctl.bash /usr/share/bash-completion/completions-core/mplayer2.bash /usr/share/bash-completion/completions-fallback/cilium.bash /usr/share/bash-completion/completions-fallback/crc.bash /usr/share/bash-completion/completions-core/sbopkg.bash /usr/share/bash-completion/completions-fallback/rmmod.bash /usr/share/bash-completion/completions-core/desktop-file-validate.bash /usr/share/bash-completion/completions-fallback/svnlook.bash /usr/share/bash-completion/completions-core/conjure.bash /usr/share/bash-completion/completions-core/passwd.bash /usr/share/bash-comp
- letion/completions-core/ldapadd.bash /usr/share/bash-completion/completions-core/ssh-add.bash /usr/share/bash-completion/completions-core/useradd.bash /usr/share/bash-completion/completions-fallback/ansible-playbook.bash /usr/share/bash-completion/completions-core/hciattach.bash /usr/share/bash-completion/completions-core/bzip2.bash /usr/share/bash-completion/completions-core/gpgv2.bash /usr/share/bash-completion/completions-core/lua52.bash /usr/share/bash-completion/completions-fallback/tctl.bash /usr/share/bash-completion/completions-fallback/mock.bash /usr/share/bash-completion/completions-core/pyflakes.bash /usr/share/bash-completion/completions-core/freeciv-sdl.bash /usr/share/bash-completion/completions-core/freeciv-xaw.bash /usr/share/bash-completion/completions-core/iscsiadm.bash /usr/share/bash-completion/completions-core/abook.bash /usr/share/bash-completion/completions-core/grpck.bash /usr/share/bash-completion/completions-core/quotacheck.bash /usr/share/bash-completion/c
- ompletions-core/tracepath.bash /usr/share/bash-completion/completions-core/pgrep.bash /usr/share/bash-completion/completions-fallback/stripe.bash /usr/share/bash-completion/completions-core/slabtop.bash /usr/share/bash-completion/completions-fallback/gcrane.bash /usr/share/bash-completion/completions-fallback/nmcli.bash /usr/share/bash-completion/completions-core/dropdb.bash /usr/share/bash-completion/completions-core/dumpdb.bash /usr/share/bash-completion/completions-fallback/gaiacli.bash /usr/share/bash-completion/completions-fallback/watchexec.bash /usr/share/bash-completion/completions-core/gendiff.bash /usr/share/bash-completion/completions-core/rcsdiff.bash /usr/share/bash-completion/completions-fallback/dmesg.bash /usr/share/bash-completion/completions-core/autorpm.bash /usr/share/bash-completion/completions-core/luac5.2.bash /usr/share/bash-completion/completions-core/lua54.bash /usr/share/bash-completion/completions-core/ping4.bash /usr/share/bash-completion/completions-cor
- e/gcl.bash /usr/share/bash-completion/completions-core/gdb.bash /usr/share/bash-completion/completions-core/hping.bash /usr/share/bash-completion/completions-core/phing.bash /usr/share/bash-completion/completions-core/gpc.bash /usr/share/bash-completion/completions-core/gpg.bash /usr/share/bash-completion/completions-core/f95.bash /usr/share/bash-completion/completions-core/fbi.bash /usr/share/bash-completion/completions-core/groupadd.bash /usr/share/bash-completion/completions-core/apropos.bash /usr/share/bash-completion/completions-core/iwpriv.bash /usr/share/bash-completion/completions-core/compare.bash /usr/share/bash-completion/completions-core/declare.bash /usr/share/bash-completion/completions-core/userdel.bash /usr/share/bash-completion/completions-core/appdata-validate.bash /usr/share/bash-completion/completions-fallback/cal.bash /usr/share/bash-completion/completions-fallback/kubebuilder.bash /usr/share/bash-completion/completions-core/patch.bash /usr/share/bash-completion
- /completions-core/lvmdiskscan.bash /usr/share/bash-completion/completions-fallback/odo.bash /usr/share/bash-completion/completions-core/gccgo-7.bash /usr/share/bash-completion/completions-core/geoiplookup6.bash /usr/share/bash-completion/completions-core/vgdisplay.bash /usr/share/bash-completion/completions-core/lvdisplay.bash /usr/share/bash-completion/completions-core/influx.bash /usr/share/bash-completion/completions-core/pvdisplay.bash /usr/share/bash-completion/completions-fallback/ignite.bash /usr/share/bash-completion/completions-fallback/dselect.bash /usr/share/bash-completion/completions-fallback/kubelogin.bash /usr/share/bash-completion/completions-fallback/ctlptl.bash /usr/share/bash-completion/completions-core/arping.bash /usr/share/bash-completion/completions-core/chrpath.bash /usr/share/bash-completion/completions-core/crontab.bash /usr/share/bash-completion/completions-core/l2ping.bash /usr/share/bash-completion/completions-core/muttng.bash /usr/share/bash-completion/
- completions-fallback/moldy.bash /usr/share/bash-completion/completions-fallback/mount.bash /usr/share/bash-completion/completions-core/mdtool.bash /usr/share/bash-completion/completions-core/py.test.bash /usr/share/bash-completion/completions-core/civclient.bash /usr/share/bash-completion/completions-core/smbclient.bash /usr/share/bash-completion/completions-core/synclient.bash /usr/share/bash-completion/completions-core/zopflipng.bash /usr/share/bash-completion/completions-core/xrandr.bash /usr/share/bash-completion/completions-core/slapt-get.bash /usr/share/bash-completion/completions-core/slapt-src.bash /usr/share/bash-completion/completions-core/tcpkill.bash /usr/share/bash-completion/completions-core/opera.bash /usr/share/bash-completion/completions-core/quota.bash /usr/share/bash-completion/completions-core/resolvconf.bash /usr/share/bash-completion/completions-core/chromium.bash /usr/share/bash-completion/completions-core/xdg-mime.bash /usr/share/bash-completion/completions-c
- ore/gccgo-8.bash /usr/share/bash-completion/completions-core/sha512sum.bash /usr/share/bash-completion/completions-fallback/ansible.bash /usr/share/bash-completion/completions-core/lvchange.bash /usr/share/bash-completion/completions-core/pvchange.bash /usr/share/bash-completion/completions-core/vgchange.bash /usr/share/bash-completion/completions-core/asciidoc.bash /usr/share/bash-completion/completions-core/mkinitrd.bash /usr/share/bash-completion/completions-fallback/aqua.bash /usr/share/bash-completion/completions-core/munin-run.bash /usr/share/bash-completion/completions-core/luac54.bash /usr/share/bash-completion/completions-core/lua5.3.bash /usr/share/bash-completion/completions-fallback/newgrp.bash /usr/share/bash-completion/completions-fallback/httpx.bash /usr/share/bash-completion/completions-core/b2sum.bash /usr/share/bash-completion/completions-core/cksum.bash /usr/share/bash-completion/completions-core/mdadm.bash /usr/share/bash-completion/completions-core/pkgrm.bash /u
- sr/share/bash-completion/completions-core/wodim.bash /usr/share/bash-completion/completions-core/lvresize.bash /usr/share/bash-completion/completions-core/lvreduce.bash /usr/share/bash-completion/completions-core/radvdump.bash /usr/share/bash-completion/completions-core/gkrellm.bash /usr/share/bash-completion/completions-core/vgreduce.bash /usr/share/bash-completion/completions-fallback/golangci-lint.bash /usr/share/bash-completion/completions-core/carton.bash /usr/share/bash-completion/completions-core/pyston.bash /usr/share/bash-completion/completions-core/python.bash /usr/share/bash-completion/completions-core/getent.bash /usr/share/bash-completion/completions-core/jshint.bash /usr/share/bash-completion/completions-core/pylint.bash /usr/share/bash-completion/completions-core/7zzs.bash /usr/share/bash-completion/completions-core/prelink.bash /usr/share/bash-completion/completions-fallback/slsa-verifier.bash /usr/share/bash-completion/completions-core/alias.bash /usr/share/bash-com
- pletion/completions-core/cvsps.bash /usr/share/bash-completion/completions-core/groupdel.bash /usr/share/bash-completion/completions-core/ipcalc.bash /usr/share/bash-completion/completions-core/links.bash /usr/share/bash-completion/completions-core/qdbus.bash /usr/share/bash-completion/completions-core/sshfs.bash /usr/share/bash-completion/completions-core/fprintd-verify.bash /usr/share/bash-completion/completions-core/identify.bash /usr/share/bash-completion/completions-core/function.bash /usr/share/bash-completion/completions-core/perltidy.bash /usr/share/bash-completion/completions-core/gnome-mplayer.bash /usr/share/bash-completion/completions-core/brave-browser.bash /usr/share/bash-completion/completions-core/pkg-config.bash /usr/share/bash-completion/completions-core/createuser.bash /usr/share/bash-completion/completions-core/mmsitepass.bash /usr/share/bash-completion/completions-core/checksec.bash /usr/share/bash-completion/completions-core/whatis.bash /usr/share/bash-completi
- on/completions-core/list_owners.bash /usr/share/bash-completion/completions-core/pdftoppm.bash /usr/share/bash-completion/completions-core/usermod.bash /usr/share/bash-completion/completions-fallback/go-licenses.bash /usr/share/bash-completion/completions-core/freeciv-server.bash /usr/share/bash-completion/completions-core/vgsplit.bash /usr/share/bash-completion/completions-core/luac51.bash /usr/share/bash-completion/completions-fallback/just.bash /usr/share/bash-completion/completions-fallback/dpkg-deb.bash /usr/share/bash-completion/completions-fallback/bosh.bash /usr/share/bash-completion/completions-fallback/insmod.bash /usr/share/bash-completion/completions-core/sha256sum.bash /usr/share/bash-completion/completions-fallback/colima.bash /usr/share/bash-completion/completions-fallback/consul.bash /usr/share/bash-completion/completions-fallback/cosign.bash /usr/share/bash-completion/completions-core/monodevelop.bash /usr/share/bash-completion/completions-core/pycodestyle.bash /usr
- /share/bash-completion/completions-core/ldapwhoami.bash /usr/share/bash-completion/completions-core/luac5.1.bash /usr/share/bash-completion/completions-fallback/svn.bash /usr/share/bash-completion/completions-core/iwconfig.bash /usr/share/bash-completion/completions-fallback/sentry-cli.bash /usr/share/bash-completion/completions-core/dumpe2fs.bash /usr/share/bash-completion/completions-core/rpcdebug.bash /usr/share/bash-completion/completions-core/vgmerge.bash /usr/share/bash-completion/completions-core/xfreerdp.bash /usr/share/bash-completion/completions-fallback/tilt.bash /usr/share/bash-completion/completions-core/gnokii.bash /usr/share/bash-completion/completions-core/ldapcompare.bash /usr/share/bash-completion/completions-core/ssh-copy-id.bash /usr/share/bash-completion/completions-fallback/udevadm.bash /usr/share/bash-completion/completions-fallback/rtcwake.bash /usr/share/bash-completion/completions-fallback/pitchfork.bash /usr/share/bash-completion/completions-fallback/apko.
- bash /usr/share/bash-completion/completions-fallback/waydroid.bash /usr/share/bash-completion/completions-fallback/nomad.bash /usr/share/bash-completion/completions-fallback/vault.bash /usr/share/bash-completion/completions-core/s390-koji.bash /usr/share/bash-completion/completions-core/lzma.bash /usr/share/bash-completion/completions-core/lzop.bash /usr/share/bash-completion/completions-core/make.bash /usr/share/bash-completion/completions-core/mutt.bash /usr/share/bash-completion/completions-core/mypy.bash /usr/share/bash-completion/completions-core/nmap.bash /usr/share/bash-completion/completions-core/perl.bash /usr/share/bash-completion/completions-core/sbcl.bash /usr/share/bash-completion/completions-core/sftp.bash /usr/share/bash-completion/completions-core/star.bash /usr/share/bash-completion/completions-core/screen.bash /usr/share/bash-completion/completions-fallback/ansible-console.bash /usr/share/bash-completion/completions-core/lua5.4.bash /usr/share/bash-completion/compl
- etions-core/ifdown.bash /usr/share/bash-completion/completions-fallback/diesel.bash /usr/share/bash-completion/completions-core/display.bash /usr/share/bash-completion/completions-fallback/mtr.bash /usr/share/bash-completion/completions-core/gccgo-5.bash /usr/share/bash-completion/completions-fallback/deck.bash /usr/share/bash-completion/completions-fallback/deno.bash /usr/share/bash-completion/completions-core/fsnotifywatch.bash /usr/share/bash-completion/completions-fallback/talhelper.bash /usr/share/bash-completion/completions-fallback/stern.bash /usr/share/bash-completion/completions-fallback/cmctl.bash /usr/share/bash-completion/completions-core/svcadm.bash /usr/share/bash-completion/completions-fallback/todoist.bash /usr/share/bash-completion/completions-fallback/ytt.bash /usr/share/bash-completion/completions-fallback/vela.bash /usr/share/bash-completion/completions-fallback/cloudquery.bash /usr/share/bash-completion/completions-core/puppetd.bash /usr/share/bash-completion/co
- mpletions-core/postfix.bash /usr/share/bash-completion/completions-fallback/kompose.bash /usr/share/bash-completion/completions-fallback/kontena.bash /usr/share/bash-completion/completions-core/filebucket.bash /usr/share/bash-completion/completions-fallback/packer.bash /usr/share/bash-completion/completions-core/pdftotext.bash /usr/share/bash-completion/completions-fallback/trash.bash /usr/share/bash-completion/completions-fallback/trivy.bash /usr/share/bash-completion/completions-fallback/conftest.bash /usr/share/bash-completion/completions-fallback/tkn.bash /usr/share/bash-completion/completions-core/querybts.bash /usr/share/bash-completion/completions-fallback/imgpkg.bash /usr/share/bash-completion/completions-fallback/mattermost.bash /usr/share/bash-completion/completions-core/list_lists.bash /usr/share/bash-completion/completions-fallback/trash-empty.bash /usr/share/bash-completion/completions-core/badblocks.bash /usr/share/bash-completion/completions-core/postmap.bash /usr/sha
- re/bash-completion/completions-core/xmodmap.bash /usr/share/bash-completion/completions-fallback/kafkactl.bash /usr/share/bash-completion/completions-fallback/jj.bash /usr/share/bash-completion/completions-core/flake8.bash /usr/share/bash-completion/completions-core/pngfix.bash /usr/share/bash-completion/completions-fallback/hexdump.bash /usr/share/bash-completion/completions-core/cardctl.bash /usr/share/bash-completion/completions-core/ssh-keygen.bash /usr/share/bash-completion/completions-fallback/tldr.bash /usr/share/bash-completion/completions-core/iwlist.bash /usr/share/bash-completion/completions-core/pytest.bash /usr/share/bash-completion/completions-core/rmlist.bash /usr/share/bash-completion/completions-fallback/tendermint.bash /usr/share/bash-completion/completions-core/autossh.bash /usr/share/bash-completion/completions-fallback/kata-runtime.bash /usr/share/bash-completion/completions-fallback/runuser.bash /usr/share/bash-completion/completions-core/pack200.bash /usr/shar
- e/bash-completion/completions-fallback/sinker.bash /usr/share/bash-completion/completions-core/pyston3.bash /usr/share/bash-completion/completions-core/python3.bash /usr/share/bash-completion/completions-core/luac5.3.bash /usr/share/bash-completion/completions-core/rpmbuild.bash /usr/share/bash-completion/completions-fallback/furyctl.bash /usr/share/bash-completion/completions-fallback/conform.bash /usr/share/bash-completion/completions-fallback/copilot.bash /usr/share/bash-completion/completions-fallback/npm.bash /usr/share/bash-completion/completions-core/autoscan.bash /usr/share/bash-completion/completions-core/chpasswd.bash /usr/share/bash-completion/completions-core/htpasswd.bash /usr/share/bash-completion/completions-core/ktutil.bash /usr/share/bash-completion/completions-core/sidedoor.bash /usr/share/bash-completion/completions-fallback/kubectl-argo-rollouts.bash /usr/share/bash-completion/completions-core/freeciv-gtk2.bash /usr/share/bash-completion/completions-core/freeciv-
- gtk3.bash /usr/share/bash-completion/completions-core/complete.bash /usr/share/bash-completion/completions-core/postcat.bash /usr/share/bash-completion/completions-fallback/buf.bash /usr/share/bash-completion/completions-core/openssl.bash /usr/share/bash-completion/completions-core/smartctl.bash /usr/share/bash-completion/completions-fallback/allero.bash /usr/share/bash-completion/completions-fallback/crane.bash /usr/share/bash-completion/completions-fallback/kind.bash /usr/share/bash-completion/completions-core/genisoimage.bash /usr/share/bash-completion/completions-fallback/secret-tool.bash /usr/share/bash-completion/completions-core/autoconf.bash /usr/share/bash-completion/completions-core/cdrecord.bash /usr/share/bash-completion/completions-fallback/spacectl.bash /usr/share/bash-completion/completions-core/postconf.bash /usr/share/bash-completion/completions-core/sitecopy.bash /usr/share/bash-completion/completions-core/pm-hibernate.bash /usr/share/bash-completion/completions-co
- re/find_member.bash /usr/share/bash-completion/completions-core/compgen.bash /usr/share/bash-completion/completions-core/json_xs.bash /usr/share/bash-completion/completions-fallback/pip.bash /usr/share/bash-completion/completions-core/luac5.4.bash /usr/share/bash-completion/completions-core/plague-client.bash /usr/share/bash-completion/completions-core/bts.bash /usr/share/bash-completion/completions-core/c++.bash /usr/share/bash-completion/completions-core/cvs.bash /usr/share/bash-completion/completions-core/env.bash /usr/share/bash-completion/completions-core/eog.bash /usr/share/bash-completion/completions-core/f77.bash /usr/share/bash-completion/completions-core/7zz.bash /usr/share/bash-completion/completions-core/set.bash /usr/share/bash-completion/completions-core/ssh.bash /usr/share/bash-completion/completions-core/svk.bash /usr/share/bash-completion/completions-core/cowsay.bash /usr/share/bash-completion/completions-core/povray.bash /usr/share/bash-completion/completions-core/
- wvdial.bash /usr/share/bash-completion/completions-core/pyvenv.bash /usr/share/bash-completion/completions-fallback/minikube.bash /usr/share/bash-completion/completions-fallback/qrpc.bash /usr/share/bash-completion/completions-core/ciptool.bash /usr/share/bash-completion/completions-core/dfutool.bash /usr/share/bash-completion/completions-core/hcitool.bash /usr/share/bash-completion/completions-core/pkgtool.bash /usr/share/bash-completion/completions-core/rrdtool.bash /usr/share/bash-completion/completions-core/sdptool.bash /usr/share/bash-completion/completions-core/hash.bash /usr/share/bash-completion/completions-core/help.bash /usr/share/bash-completion/completions-core/host.bash /usr/share/bash-completion/completions-core/htop.bash /usr/share/bash-completion/completions-fallback/timoni.bash /usr/share/bash-completion/completions-core/luac53.bash /usr/share/bash-completion/completions-core/wine-stable.bash /usr/share/bash-completion/completions-core/munin-update.bash /usr/share/b
- ash-completion/completions-core/quotaoff.bash /usr/share/bash-completion/completions-fallback/uv.bash /usr/share/bash-completion/completions-core/dhclient.bash /usr/share/bash-completion/completions-core/7za.bash /usr/share/bash-completion/completions-core/7zr.bash /usr/share/bash-completion/completions-fallback/cue.bash /usr/share/bash-completion/completions-fallback/atlas.bash /usr/share/bash-completion/completions-core/avctrl.bash /usr/share/bash-completion/completions-fallback/ansible-config.bash /usr/share/bash-completion/completions-fallback/atmos.bash /usr/share/bash-completion/completions-fallback/wasmer.bash /usr/share/bash-completion/completions-fallback/chamber.bash /usr/share/bash-completion/completions-core/tshark.bash /usr/share/bash-completion/completions-fallback/changie.bash /usr/share/bash-completion/completions-fallback/chezmoi.bash /usr/share/bash-completion/completions-core/gssdp-discover.bash /usr/share/bash-completion/completions-core/gkrellm2.bash /usr/share/
- bash-completion/completions-core/automake-1.11.bash /usr/share/bash-completion/completions-fallback/arduino-cli.bash /usr/share/bash-completion/completions-core/ipsec.bash /usr/share/bash-completion/completions-core/javac.bash /usr/share/bash-completion/completions-core/nproc.bash /usr/share/bash-completion/completions-core/pydoc.bash /usr/share/bash-completion/completions-core/apache2ctl.bash /usr/share/bash-completion/completions-core/autoheader.bash /usr/share/bash-completion/completions-core/rsync.bash /usr/share/bash-completion/completions-core/xzdec.bash /usr/share/bash-completion/completions-core/hunspell.bash /usr/share/bash-completion/completions-core/sqlite3.bash /usr/share/bash-completion/completions-fallback/trash-restore.bash /usr/share/bash-completion/completions-core/autoreconf.bash /usr/share/bash-completion/completions-fallback/bombadil.bash /usr/share/bash-completion/completions-fallback/skaffold.bash /usr/share/bash-completion/completions-core/automake-1.13.bash /
- usr/share/bash-completion/completions-fallback/kyverno.bash /usr/share/bash-completion/completions-fallback/wasmer-headless.bash /usr/share/bash-completion/completions-fallback/popeye.bash /usr/share/bash-completion/completions-core/e2label.bash /usr/share/bash-completion/completions-fallback/devspace.bash /usr/share/bash-completion/completions-core/edquota.bash /usr/share/bash-completion/completions-core/gnome-screenshot.bash /usr/share/bash-completion/completions-fallback/k3d.bash /usr/share/bash-completion/completions-core/plzip.bash /usr/share/bash-completion/completions-core/chgrp.bash /usr/share/bash-completion/completions-core/clisp.bash /usr/share/bash-completion/completions-core/clzip.bash /usr/share/bash-completion/completions-core/iftop.bash /usr/share/bash-completion/completions-core/jsonschema.bash /usr/share/bash-completion/completions-core/javaws.bash /usr/share/bash-completion/completions-core/lrzip.bash /usr/share/bash-completion/completions-core/ncftp.bash /usr/sha
- re/bash-completion/completions-core/ngrep.bash /usr/share/bash-completion/completions-core/fbgs.bash /usr/share/bash-completion/completions-core/file.bash /usr/share/bash-completion/completions-core/find.bash /usr/share/bash-completion/completions-core/free.bash /usr/share/bash-completion/completions-fallback/tanzu-core.bash /usr/share/bash-completion/completions-core/helium.bash /usr/share/bash-completion/completions-core/md5sum.bash /usr/share/bash-completion/completions-core/shasum.bash /usr/share/bash-completion/completions-core/sha1sum.bash /usr/share/bash-completion/completions-core/automake-1.15.bash /usr/share/bash-completion/completions-core/python3.10.bash /usr/share/bash-completion/completions-core/python3.11.bash /usr/share/bash-completion/completions-core/python3.12.bash /usr/share/bash-completion/completions-core/python3.13.bash /usr/share/bash-completion/completions-core/python3.14.bash /usr/share/bash-completion/completions-core/python3.15.bash /usr/share/bash-comple
- tion/completions-fallback/helmfile.bash /usr/share/bash-completion/completions-core/mozilla-firefox.bash /usr/share/bash-completion/completions-fallback/hostctl.bash /usr/share/bash-completion/completions-core/cfrun.bash /usr/share/bash-completion/completions-core/chown.bash /usr/share/bash-completion/completions-core/pwgen.bash /usr/share/bash-completion/completions-core/zopfli.bash /usr/share/bash-completion/completions-core/yum-arch.bash /usr/share/bash-completion/completions-fallback/dpkg-query.bash /usr/share/bash-completion/completions-core/lsscsi.bash /usr/share/bash-completion/completions-core/getconf.bash /usr/share/bash-completion/completions-core/chronyc.bash /usr/share/bash-completion/completions-core/pkgconf.bash /usr/share/bash-completion/completions-fallback/kube-capacity.bash /usr/share/bash-completion/completions-core/removepkg.bash /usr/share/bash-completion/completions-core/idn.bash /usr/share/bash-completion/completions-fallback/alp.bash /usr/share/bash-completio
- n/completions-core/apt-get.bash /usr/share/bash-completion/completions-core/lftpget.bash /usr/share/bash-completion/completions-core/pkg-get.bash /usr/share/bash-completion/completions-core/lua5.1.bash /usr/share/bash-completion/completions-core/mii-diag.bash /usr/share/bash-completion/completions-core/lvscan.bash /usr/share/bash-completion/completions-core/pvscan.bash /usr/share/bash-completion/completions-core/vgscan.bash /usr/share/bash-completion/completions-core/configure.bash /usr/share/bash-completion/completions-core/gphoto2.bash /usr/share/bash-completion/completions-core/jarsigner.bash /usr/share/bash-completion/completions-fallback/ansible-vault.bash /usr/share/bash-completion/completions-fallback/opencode.bash /usr/share/bash-completion/completions-core/pydocstyle.bash /usr/share/bash-completion/completions-core/makepkg.bash /usr/share/bash-completion/completions-core/fprintd-enroll.bash /usr/share/bash-completion/completions-core/ecryptfs-migrate-home.bash /usr/share/ba
- sh-completion/completions-core/hddtemp.bash /usr/share/bash-completion/completions-fallback/melange.bash /usr/share/bash-completion/completions-fallback/oras.bash /usr/share/bash-completion/completions-core/stream.bash /usr/share/bash-completion/completions-core/strings.bash /usr/share/bash-completion/completions-fallback/incus.bash /usr/share/bash-completion/completions-fallback/glab.bash /usr/share/bash-completion/completions-fallback/glen.bash /usr/share/bash-completion/completions-fallback/glow.bash /usr/share/bash-completion/completions-core/mencoder.bash /usr/share/bash-completion/completions-fallback/ty.bash /usr/share/bash-completion/completions-core/mktemp.bash /usr/share/bash-completion/completions-fallback/dlv.bash /usr/share/bash-completion/completions-fallback/lefthook.bash /usr/share/bash-completion/completions-fallback/interdiff.bash /usr/share/bash-completion/completions-core/hid2hci.bash /usr/share/bash-completion/completions-core/export.bash /usr/share/bash-complet
- ion/completions-core/import.bash /usr/share/bash-completion/completions-core/chrome.bash /usr/share/bash-completion/completions-fallback/modprobe.bash /usr/share/bash-completion/completions-fallback/ory.bash /usr/share/bash-completion/completions-fallback/grype.bash /usr/share/bash-completion/completions-core/freeciv.bash /usr/share/bash-completion/completions-fallback/istioctl.bash /usr/share/bash-completion/completions-core/doas.bash /usr/share/bash-completion/completions-core/mkisofs.bash /usr/share/bash-completion/completions-core/wine64-stable.bash /usr/share/bash-completion/completions-core/rpm2txz.bash /usr/share/bash-completion/completions-core/automake-1.12.bash /usr/share/bash-completion/completions-core/mysqladmin.bash /usr/share/bash-completion/completions-fallback/mise.bash /usr/share/bash-completion/completions-core/luac52.bash /usr/share/bash-completion/completions-fallback/pnpm.bash /usr/share/bash-completion/completions-core/civserver.bash /usr/share/bash-completion
- /completions-core/qemu-system-i386.bash /usr/share/bash-completion/completions-fallback/flamegraph.bash /usr/share/bash-completion/completions-core/convert.bash /usr/share/bash-completion/completions-core/vgconvert.bash /usr/share/bash-completion/completions-fallback/ansible-doc.bash /usr/share/bash-completion/completions-core/rfcomm.bash /usr/share/bash-completion/completions-core/ldapvi.bash /usr/share/bash-completion/completions-fallback/upctl.bash /usr/share/bash-completion/completions-fallback/write.bash /usr/share/bash-completion/completions-core/quotaon.bash /usr/share/bash-completion/completions-fallback/look.bash /usr/share/bash-completion/completions-fallback/repomanage.bash /usr/share/bash-completion/completions-fallback/dive.bash /usr/share/bash-completion/completions-fallback/dyff.bash /usr/share/bash-completion/completions-core/ri.bash /usr/share/bash-completion/completions-core/sh.bash /usr/share/bash-completion/completions-core/ss.bash /usr/share/bash-completion/comp
- letions-core/xz.bash /usr/share/bash-completion/completions-core/vgexport.bash /usr/share/bash-completion/completions-core/ralsh.bash /usr/share/bash-completion/completions-core/watch.bash /usr/share/bash-completion/completions-core/vgimport.bash /usr/share/bash-completion/completions-core/wsimport.bash /usr/share/bash-completion/completions-core/rpm2tgz.bash /usr/share/bash-completion/completions-core/arpspoof.bash /usr/share/bash-completion/completions-core/dnsspoof.bash /usr/share/bash-completion/completions-core/hping2.bash /usr/share/bash-completion/completions-core/larch.bash /usr/share/bash-completion/completions-core/mussh.bash /usr/share/bash-completion/completions-fallback/esc.bash /usr/share/bash-completion/completions-core/gssdp-device-sniffer.bash /usr/share/bash-completion/completions-fallback/tkn-pac.bash /usr/share/bash-completion/completions-fallback/xm.bash /usr/share/bash-completion/completions-core/nslookup.bash /usr/share/bash-completion/completions-core/gccgo-6
- .bash /usr/share/bash-completion/completions-fallback/pulumi.bash /usr/share/bash-completion/completions-core/links2.bash /usr/share/bash-completion/completions-core/javadoc.bash /usr/share/bash-completion/completions-core/jpegoptim.bash /usr/share/bash-completion/completions-core/perldoc.bash /usr/share/bash-completion/completions-fallback/gomarklint.bash /usr/share/bash-completion/completions-core/tune2fs.bash /usr/share/bash-completion/completions-fallback/mount.linux.bash /usr/share/bash-completion/completions-core/ldapsearch.bash /usr/share/bash-completion/completions-fallback/rclone.bash /usr/share/bash-completion/completions-fallback/mmctl.bash /usr/share/bash-completion/completions-core/2to3.bash /usr/share/bash-completion/completions-core/rlog.bash /usr/share/bash-completion/completions-core/ypmatch.bash /usr/share/bash-completion/completions-core/check_perms.bash /usr/share/bash-completion/completions-core/file-roller.bash /usr/share/bash-completion/completions-core/qrunne
- r.bash /usr/share/bash-completion/completions-core/fprintd-delete.bash /usr/share/bash-completion/completions-fallback/insmod.static.bash /usr/share/bash-completion/completions-fallback/fx.bash /usr/share/bash-completion/completions-core/ifstatus.bash /usr/share/bash-completion/completions-core/change_pw.bash /usr/share/bash-completion/completions-core/upgradepkg.bash /usr/share/bash-completion/completions-core/vgmknodes.bash /usr/share/bash-completion/completions-fallback/gh.bash /usr/share/bash-completion/completions-fallback/glances.bash /usr/share/bash-completion/completions-core/withlist.bash /usr/share/bash-completion/completions-core/vncviewer.bash /usr/share/bash-completion/completions-core/ps.bash /usr/share/bash-completion/completions-core/pv.bash /usr/share/bash-completion/completions-core/unpack200.bash /usr/share/bash-completion/completions-core/newlist.bash /usr/share/bash-completion/completions-core/pyvenv-3.10.bash /usr/share/bash-completion/completions-core/pyvenv-3
- .11.bash /usr/share/bash-completion/completions-core/pyvenv-3.12.bash /usr/share/bash-completion/completions-core/pyvenv-3.13.bash /usr/share/bash-completion/completions-core/pyvenv-3.14.bash /usr/share/bash-completion/completions-core/pyvenv-3.15.bash /usr/share/bash-completion/completions-core/xsltproc.bash /usr/share/bash-completion/completions-core/sshmitm.bash /usr/share/bash-completion/completions-core/webmitm.bash /usr/share/bash-completion/completions-core/avahi-browse-domains.bash /usr/share/bash-completion/completions-fallback/cz.bash /usr/share/bash-completion/completions-core/dpkg-reconfigure.bash /usr/share/bash-completion/completions-core/mdecrypt.bash /usr/share/bash-completion/completions-core/valgrind.bash /usr/share/bash-completion/completions-fallback/blackd.bash /usr/share/bash-completion/completions-core/animate.bash /usr/share/bash-completion/completions-core/ntpdate.bash /usr/share/bash-completion/completions-core/cryptsetup.bash /usr/share/bash-completion/com
- pletions-core/protoc.bash /usr/share/bash-completion/completions-fallback/starship.bash /usr/share/bash-completion/completions-core/automake-1.16.bash /usr/share/bash-completion/completions-core/inotifywatch.bash /usr/share/bash-completion/completions-fallback/krane.bash /usr/share/bash-completion/completions-core/sudo-rs.bash /usr/share/bash-completion/completions-core/xev.bash /usr/share/bash-completion/completions-core/xxd.bash"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PKGSIZE changed from 150458 to 1048173 (+597%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-th: PKGSIZE changed from 118004 to 145891 (+24%)
+packages/x86-64-v3-poky-linux/epiphany: PACKAGES: added "epiphany-locale-lo"
 
---===============5714043520528367112==
+--===============4149441841723606521==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="bash-completion-changelog.txt"
+Content-Disposition: attachment; filename="epiphany-changelog.txt"
 
-Q2hhbmdlbG9nIGZvciBiYXNoLWNvbXBsZXRpb246IDIuMTcuMCAtPiAyLjE4LjAKU291cmNlOiBD
-SEFOR0VMT0cubWQKCiMgQ2hhbmdlbG9nCgojIyBbMi4xOC4wXShodHRwczovL2dpdGh1Yi5jb20v
-c2NvcC9iYXNoLWNvbXBsZXRpb24vY29tcGFyZS8yLjE3LjAuLi4yLjE4LjApICgyMDI2LTA3LTA1
-KQoKVGhpcyByZWxlYXNlIGNvbWVzIHdpdGggbm90YWJsZSBjaGFuZ2VzIHRvIHRoZSBkaXJlY3Rv
-cmllcyB1c2VkIGZvcgpsb29raW5nIHVwIGFuZCBzb3VyY2luZyBjb21wbGV0aW9uIHJlY2lwZXMg
-YW5kIGhlbHBlcnMsIGFsbG93aW5nIGZvcgptb3JlIGZsZXhpYmlsaXR5IGFuZCBjdXN0b21pemF0
-aW9uIGFuZCBmZXdlciBjb25mbGljdHMgYmV0d2VlbiB0aGluZ3MKc2hpcHBpbmcgd2l0aCBiYXNo
-LWNvbXBsZXRpb24gYW5kIHRoaXJkIHBhcnR5L3Vwc3RyZWFtL29yaWdpbiBwYWNrYWdlcy4KCkZp
-bGVzIHRoYXQgY29tZSB3aXRoIGJhc2gtY29tcGxldGlvbiBpdHNlbGYgYXJlIGxvY2F0ZWQgaW4g
-ZGlyZWN0b3JpZXMKcmVzZXJ2ZWQgZm9yIHRoYXQgdXNlLCB0aGVpciBuYW1lcyBlbmRpbmcgd2l0
-aCBgLWNvcmVgIGFuZApgLWZhbGxiYWNrYC4gUGFja2FnZXMgc2hvdWxkIGNvbnRpbnVlIGluc3Rh
-bGwgdGhlaXIgZmlsZXMgaW4gdGhlIHNhbWUKYGNvbXBsZXRpb25zYCBhbmQgYGhlbHBlcnNgIGRp
-cnMgbGlrZSBiZWZvcmU7IHRoZXNlIGRpcmVjdG9yaWVzCnByZWNlZGUgdGhlIGJhc2gtY29tcGxl
-dGlvbiAiY29yZSIgb25lcyBpbiBsb29rdXAgb3JkZXIuCgpBIG5ldyBjb25jZXB0IG9mIGBzdGFy
-dHVwYCBkaXJzIGhhcyBiZWVuIGludHJvZHVjZWQuIEZpbGVzIGZyb20gdGhlc2UKZGlyZWN0b3Jp
-ZXMgYXJlIHNvdXJjZWQgZWFnZXJseSBvbiBiYXNoLWNvbXBsZXRpb24gc3RhcnR1cC4gVGhpcwpy
-ZXBsYWNlcyBhbmQgYWxsb3dzIGZvciBtb3JlIGZsZXhpYmlsaXR5IHRoYW4gdXNpbmcgdGhlIGRl
-cHJlY2F0ZWQKYC9ldGMvYmFzaF9jb21wbGV0aW9uLmRgIGRpcmVjdG9yeSBmb3IgdGhpcyBwdXJw
-b3NlLgoKU2VlIFJFQURNRS5tZCBmb3IgbW9yZSBpbmZvcm1hdGlvbi4KCiMjIyBGZWF0dXJlcwoK
-KiAqKl9jb21wX19pbml0OioqIHNvdXJjZSBzeXN0ZW0gc3RhcnR1cCBmaWxlcyBlYXJsaWVyIChb
-YjA5NzAwZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9i
-MDk3MDBkZGEyOWI1NmZiODk4MTJlMTIxNTk1NmE2MzFjYzdjODQ4KSkKKiAqKl9jb21wX2NvbXBn
-ZW5fZmlsZWRpcjoqKiBhdXRvbWF0aWNhbGx5IGFkZCBgLWZgIG9uIF9jb21wX2NvbXBnZW4gYC1D
-YCBvciBgLVBgIChbIzE1NTJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
-bi9pc3N1ZXMvMTU1MikpIChbNmQ1ZmNhNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
-b21wbGV0aW9uL2NvbW1pdC82ZDVmY2E2ZWFlYjRlMzM3NTBhMTg3MDcyZWZjZWVjZDIyZTgyMzQ2
-KSkKKiAqKl9jb21wX2NvbXBnZW5fZmlsZWRpcjoqKiBzdXBwb3J0ICJmaWxlZGlyIC1YIiAoW2Nl
-Mjg0MTldKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvY2Uy
-ODQxOTExYzdhM2Y1YTA1NmI2YTMxMDAzOGYwZGYxN2E4ZGE0MikpCiogKipfY29tcF9jb21wZ2Vu
-X3N5c3Zfc2VydmljZXM6KiogZmFjdG9yaXplIFN5c1Ygc2VydmljZSBnZW5lcmF0aW9uIChbYzRj
-OGM0Yl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jNGM4
-YzRiNTQwNDBkNGFjYzI2ODhlZDhmYzA0MDMzMGQ5NjRmZTEyKSkKKiAqKmFjbG9jYWwsYXV0b21h
-a2U6Kiogc3VwcG9ydCB2ZXJzaW9uZWQgMS4xNyBleGVjdXRhYmxlcyAoWzk0YmJiM2FdKGh0dHBz
-Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvOTRiYmIzYTFiNmZhZmVh
-Yzk2YzI3ZTE4OTlkZDVlZmM5MjBhNmE4OSkpCiogKiphY2xvY2FsLGF1dG9tYWtlOioqIHN1cHBv
-cnQgdmVyc2lvbmVkIDEuMTggZXhlY3V0YWJsZXMgKFs5Mjg3YjRiXShodHRwczovL2dpdGh1Yi5j
-b20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzkyODdiNGJlMmQ0OWJlODczYWRlZDNmYjQw
-ZjU2MzgwZmQ4Zjk3ZDgpKQoqICoqYXB0LSo6KiogdXBkYXRlIGtub3duIG9wdGlvbnMgdXAgdG8g
-YXB0IDMuMi4wIChbYzQyMWQ1MF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
-aW9uL2NvbW1pdC9jNDIxZDUwOGI2ZDkyMmVlNDMzNjRmZDllMGQ5YmMzYmRkYjVmNTZjKSkKKiAq
-KmFwdC1jYWNoZToqKiB1cGRhdGUga25vd24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFswYWI4
-NWM1XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBhYjg1
-YzVmZjJjMzkzMDBhY2ZjZTBhZmRlMmU2NWI3MDdlMzE0YjQpKQoqICoqYXB0LWdldDoqKiB1cGRh
-dGUga25vd24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFs2YTE4ZTBjXShodHRwczovL2dpdGh1
-Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzZhMThlMGMwY2YxMWM5YmUxNjYxNmJj
-ODE3ZjQ2MTNjYjliYTk1YjApKQoqICoqYXB0LW1hcms6KiogdXBkYXRlIGtub3duIG9wdGlvbnMg
-dXAgdG8gYXB0IDMuMi4wIChbNjQ0YTAyNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
-b21wbGV0aW9uL2NvbW1pdC82NDRhMDI2OGMxMTdjOThhNjkxNWRmZDIzNTQ4YTNhOGI4ZGVmNmRi
-KSkKKiAqKmNvZGV4OioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzBm
-NDI1YmRdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMGY0
-MjViZDM3YzI5ODJiNzBmNmMyY2U4NjVlZWFlMGFmMDVhNzE1ZCkpCiogKipjb3BpbG90OioqIDNy
-ZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzc0NDYwMmFdKGh0dHBzOi8vZ2l0
-aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvNzQ0NjAyYWM2NGRjMjQ1ODZlMjQ5
-MjgxMzc1MWNjMzhhMGFlZjJkNykpCiogKipjdXJsaWU6KiogYWxpYXMgdG8gY3VybCAoW2RkOGY2
-ZTBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZGQ4ZjZl
-MGJmODM3OTQwM2Y0MzRmNzMyZDU2OGJjMTVjMTZiOTgwOSkpCiogKipjdXJsOioqIG1vcmUgb3B0
-aW9uIGFyZ3VtZW50IChub24tKWNvbXBsZXRpb25zIChbNTA5OWNlZl0oaHR0cHM6Ly9naXRodWIu
-Y29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC81MDk5Y2VmMTNmZjcxZDE2NjI0M2VmNjY3
-Nzc2MjBkMGY4ZTcxNGI2KSkKKiAqKmRpdmU6KiogYWRkIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21w
-bGV0aW9uIGxvYWRlciAoW2Y4MTdjY2FdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29t
-cGxldGlvbi9jb21taXQvZjgxN2NjYWJlOGRiNjMxYjk2ZDRiODQ3ODRiYjAxMDkzMzllZWJhZSkp
-CiogKipkb2FzOioqIGFkZCBuZXcgY29tcGxldGlvbiAoW2YwNDdiNzBdKGh0dHBzOi8vZ2l0aHVi
-LmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZjA0N2I3MGYxNDBkMmNhMTE4NjUzOWY1
-ZTJiZjg2YTBkNzk3YWExOSkpCiogKipkb2FzOioqIGdlbmVyYXRlIGNvbXBsZXRpb25zIGFzIGlm
-IHdlJ3JlIHJvb3QgKFthNzA1NzEzXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
-ZXRpb24vY29tbWl0L2E3MDU3MTNmOGE1Nzg1ZDhlMGEzNzMyMjQxMzhkMjQ5NzdiYzU4NjUpKQoq
-ICoqZW5jb3JlOioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzFlNTRk
-MDJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMWU1NGQw
-MjdlZmJjNDdjNmE3Y2QzMGI5OTM3NTg4ZDY5NmJlNTQ3ZikpCiogKipldGNkY3RsLGV0Y2R1dGw6
-KiogM3JkIHBhcnR5IGZhbGxiYWNrIGNvbXBsZXRpb24gbG9hZGVycyAoWzM5ZjhkZGZdKGh0dHBz
-Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMzlmOGRkZjE4NzI2YzFm
-MTRkMGZhYmIzNTUzOGRiZjljMzhhODg4NCkpCiogKipoZWxpdW06KiogYWxpYXMgdG8gY2hyb21p
-dW0tYnJvd3NlciAoWzg2MDBhZjBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxl
-dGlvbi9jb21taXQvODYwMGFmMDI5Yzc1ZmVlMTQxYWY5YWY2YmMzMDFkOGMzMWU0NTU1MSkpCiog
-Kippbm90aWZ5d2FpdDI6KiogZ2VuZXJhdGUgZXhjbHVkZSBmaWxlbmFtZXMgcHJlZml4ZWQgYnkg
-YEBgIChbYzFlMmYxYl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2Nv
-bW1pdC9jMWUyZjFiNDdhZjRmODQzYzBkZDQxZTZlZDA2NmQ2N2I5OWI3NmYzKSkKKiAqKmlub3Rp
-Znl3YWl0OioqIGdlbmVyYXRlIGV4Y2x1ZGUgZmlsZW5hbWVzIHByZWZpeGVkIGJ5IEAgKFswYTJj
-MTY1XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBhMmMx
-NjUzNzhhNzRmYTkxOGFjZTNkYzA3NzllN2NhMTMyMTJhZTUpKQoqICoqaXA6KiogQ2hlY2sgL3Vz
-ci9zaGFyZSBjb25maWcgcGF0aCAoWzQ1NTMwYjBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
-c2gtY29tcGxldGlvbi9jb21taXQvNDU1MzBiMDk1ZmQwYWYyZDRlNmIyNDMwZjJlYjI1NThjNmVm
-NjU4YykpCiogKipqcToqKiAtLXJhd2ZpbGUgYXJnIChub24tKWNvbXBsZXRpb24gKFs0ZjQ1NGQ4
-XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzRmNDU0ZDg0
-MjdmODJlYmI3MjAwYmM5MWVkM2Q1ZDRjYmZiYmIwNGYpKQoqICoqanJlbGVhc2VyOioqIGFkZCAz
-cmQgcGFydHkgZmFsbGJhY2sgY29tcGxldGlvbiBsb2FkZXIgKFtlMWMyODE1XShodHRwczovL2dp
-dGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2UxYzI4MTUzYjc0Mzg4ZjZmN2Rl
-NDhjNGZmZTk5NmFhYzg5MWNiMTQpKQoqICoqbWFnbzoqKiBhZGQgM3JkIHBhcnR5IGZhbGxiYWNr
-IGNvbXBsZXRpb24gbG9hZGVyIChbOTdjNGM0OV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFz
-aC1jb21wbGV0aW9uL2NvbW1pdC85N2M0YzQ5NGY0MTQzNjNjNjZkZDBlN2UyZjM0ODVkNjVmNTRl
-ODc5KSkKKiAqKm9nZzEyMzoqKiBhc3NvY2lhdGUgb3B1cyBleHRlbnNpb24gKFs3ZDNlYTMzXSho
-dHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzdkM2VhMzM3Njg2
-NTQ3MDIwN2RhYjI1MDY3MjA5Mzk0YzAwMmIzMmUpKQoqICoqb3BlbmNvZGU6KiogYWRkIDNyZCBw
-YXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoW2RiY2VhMThdKGh0dHBzOi8vZ2l0aHVi
-LmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZGJjZWExODI4OTkwMTU1Y2YzMGMzN2Iz
-MGQ3MGFkNWViNmI0MWZkMikpCiogKipwbnBtOioqIGFkZCAzcmQgcGFydHkgZmFsbGJhY2sgY29t
-cGxldGlvbiBsb2FkZXIgKFs0NDgwNGFlXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNv
-bXBsZXRpb24vY29tbWl0LzQ0ODA0YWU4OWZkMDMyYWY2MDU4Y2Q4MzA3MDgwYWE3NTlhMGE3M2Qp
-KQoqICoqcHlkb2M6Kiogc3VwcG9ydCB2ZXJzaW9uZWQgMy4xMy4uMTUgZXhlY3V0YWJsZXMgKFti
-ZDYwYjI2XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2Jk
-NjBiMjZlNmZiM2M3NzRjOTU5YWQzZTdmODU1ODQ4NWI2MGM0MDUpKQoqICoqcHl0aG9uLHB5dmVu
-djoqKiBzdXBwb3J0IHZlcnNpb25lZCAzLjE0IGFuZCAuMTUgZXhlY3V0YWJsZXMgKFs3MmEyZTQ3
-XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzcyYTJlNDc5
-Y2ZlNzQzYWI4NzBiZjQ3OWFkYjNhM2MyN2ViN2U2NGYpKQoqICoqcmVsZWFzZS1wbHo6KiogYWRk
-IDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoW2MzYzQwNjZdKGh0dHBzOi8v
-Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvYzNjNDA2Njc0ZTkyYjQ1MDNi
-MjYyMDI3NjRkZTlkYTg3ZmIzYzQxYykpCiogKipydW1kbDoqKiBhZGQgM3JkIHBhcnR5IGZhbGxi
-YWNrIGNvbXBsZXRpb24gbG9hZGVyIChbNWVmOTc5MF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3Av
-YmFzaC1jb21wbGV0aW9uL2NvbW1pdC81ZWY5NzkwOTBlMGNhNmVmYjlkOTc5Yzg0NDdjNzRkOTAy
-YjE4YTFlKSkKKiAqKnNrdXBwZXI6KiogYWRkIDNyZC1wYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9u
-IGxvYWRlciAoWzQyMzdjOWNdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
-bi9jb21taXQvNDIzN2M5YzIwNmM0NDE1N2U1Y2U2NDUwMTc4OWM3YTY3NjgxYWMzNSkpCiogKipz
-c2gta2V5Z2VuOioqIC1NIGFyZyBjb21wbGV0aW9uIChbYjEzYmY5OV0oaHR0cHM6Ly9naXRodWIu
-Y29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9iMTNiZjk5YWM4Zjc2NWZkZTg4MGI0NjRl
-NDFlMWU2NGIxZjExNjFkKSkKKiAqKnNzaC1rZXlnZW46KiogLVogYXJndW1lbnQgY29tcGxldGlv
-biAoW2M3NjNkNTJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
-aXQvYzc2M2Q1MmRmZDg5MzRjNTllOGZhN2Y4ZDk1MTQyNDQ0ZDA4ZGM4ZSkpCiogKipzc2gta2V5
-Z2VuOioqIHVwZGF0ZSAtdCBhcmcgY29tcGxldGlvbnMgKFs0MjY5YTkwXShodHRwczovL2dpdGh1
-Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzQyNjlhOTBmYTRkMDkyMGMzMzBjOTBh
-Njc5YzE4ZThjYWZiMTllN2IpKQoqICoqc3NoLWtleWdlbjoqKiB1cGRhdGUgLVkgYXJnIGNvbXBs
-ZXRpb25zIChbYTczYmNhZl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9u
-L2NvbW1pdC9hNzNiY2FmMWUxZWUzNjYzNjJkMTIxNTM0Y2UxY2M4ZTZkZWNlMDkwKSkKKiAqKnNz
-aDoqKiBkbyBub3QgY29tcGxldGUgLVAgYXJnICh0YWcpIChbN2QyNmE4Nl0oaHR0cHM6Ly9naXRo
-dWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC83ZDI2YTg2ZjNlOTcxNzM5ZjA4MmMx
-ZTczYzQ1ZjY1ZWE4ODdjZmQ0KSkKKiAqKnNzaDoqKiBpbmNsdWRlIHByb3h5IGluIC1PIGFyZyBj
-b21wbGV0aW9ucyAoW2ZjMWRmMWZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxl
-dGlvbi9jb21taXQvZmMxZGYxZjU2ZWI2MzYxNTM3ZjRjMTE5ZDE3MGNhYjE2MzQ5NjE1ZCkpCiog
-Kipzc2g6KiogbW9yZSBvcHRpb24gYXJnIChub24tKWNvbXBsZXRpb25zIChbMzNmNzg5Y10oaHR0
-cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8zM2Y3ODljOTZhZTM1
-OTkxMDY0YzljYTkxZGZlZmQyMzU5NWYzYzBhKSkKKiAqKnN1ZG8tcnMsc3Vkby53czoqKiBhbGlh
-cyB0byBzdWRvIChbMDg0Y2M2OF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
-aW9uL2NvbW1pdC8wODRjYzY4NDA3MWZjZDAyNWVhZTY1MGJkZjA5NDI5YThkM2ViMzNkKSkKKiAq
-KnN1ZG86KiogbW9yZSBvcHRpb24gYXJndW1lbnQgKG5vbi0pY29tcGxldGlvbnMgKFsyMTYxMzVl
-XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzIxNjEzNWVj
-YjEwNDU3ZjI0N2UzM2E0MGFhMzI0NzkxNWFiMDk1Y2MpKQoqIHN1cHBvcnQgdGhlICJzdGFydHVw
-eywtY29yZX0iIGRpcmVjdG9yeSAoW2Q2MTY5YWZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
-c2gtY29tcGxldGlvbi9jb21taXQvZDYxNjlhZmM1Mzc5OWQ3OWFlZTQzN2UxNGJlMTA5Njk4MjE1
-YTBkYSkpCiogKipzeW5jdGhpbmc6KiogYWRkIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9u
-IGxvYWRlciAoW2JjNWRmZmZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
-bi9jb21taXQvYmM1ZGZmZmZmZTRlMWQ1ZTRiNzMwNTQ5NGE3ZTA3NDNkYTRhZmNkMykpCiogKip0
-bXV4OioqIGNvbXBsZXRlIHNyYy90YXJnZXQgc2Vzc2lvbiBhcmd1bWVudHMgKFsxOGI2ZGE0XSho
-dHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzE4YjZkYTRmNThl
-NzI5ZWE4MmQ4ZjljYzQ5ZGZkN2ZjZmQ2OTIzODgpKQoqICoqdG11eDoqKiBjb21wbGV0ZSB0YXJn
-ZXQtc2Vzc2lvbiBhcmd1bWVudHMgKFtjZWQ1OWMzXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9i
-YXNoLWNvbXBsZXRpb24vY29tbWl0L2NlZDU5YzM4ZTlkMDFjMjAwZTZiY2I3MDZhOGRmNDk3YWVk
-NmZmOTApKQoqICoqdHk6KiogYWRkIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRl
-ciAoWzU3YTJiMzFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
-aXQvNTdhMmIzMWU4NjZiZDViMDFlODVmYjE0ODQ0ZTJhOWZlMGMzNzhlYykpCiogKip3YXlkcm9p
-ZDoqKiBhZGQgM3JkIHBhcnR5IGZhbGxiYWNrIGNvbXBsZXRpb24gbG9hZGVyIChbYWNjODAwZl0o
-aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9hY2M4MDBmMDIz
-YWI0NDY3NzVjNGFiMWRiN2M3N2RiM2QyZmRjNzM5KSkKKiAqKnhyZGI6KiogbWlzYyBpbXByb3Zl
-bWVudHMgKFsjMTY2OV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2lz
-c3Vlcy8xNjY5KSkgKFs0NjFmOTBjXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
-ZXRpb24vY29tbWl0LzQ2MWY5MGM2YTc1ZjJlMDlhYjRmNDI2MmZmMzY1YzNhZDBmYWM5ZGQpKQoq
-ICoqemVkOioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzgzNTMyZmFd
-KGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvODM1MzJmYTNi
-Y2ExOGFiZWQyNmFmYWE0NDhlMGYxYmY3NWZmZjlhMikpCgojIyMgQnVnIEZpeGVzCgoqICoqX2Nv
-bXBfY29tcGdlbl9zZXJ2aWNlczoqKiBmaXggbm8gY29tcGxldGlvbnMgd2l0aG91dCBzeXN2ZGly
-IChbYTJlMjY1OV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1p
-dC9hMmUyNjU5MjIxOGUxYmViYjU1ZjE4YWIzZTNiNThmMmZlN2VjMTUxKSkKKiAqKl9jb21wX2Nv
-bXBnZW5fc2VydmljZXM6Kiogc2tpcCBzZXJ2aWNlIHN0YXR1cyBtYXJrcyAoWzFhYzkxNjldKGh0
-dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMWFjOTE2OTU5M2Zm
-MjY5ODVmMzFiYTQ4MWFhODg5YjlkNjQxNTFlYykpCiogKipfY29tcF9jb21wZ2VuX3N5c3Zfc2Vy
-dmljZXM6KiogZG8gbm90IGdlbmVyYXRlIG5hbWVzIGluIHN1YmRpcnMgKFs1NTU3ZmJlXShodHRw
-czovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzU1NTdmYmU0ODhjMTBj
-YmMwN2E2MDRjYzMzMGU4NmVlMWRlMTdlZmIpKQoqICoqX2NvbXBfY29tcGdlbjoqKiBjbGVhciB0
-aGUgdmFyaWFibGUgd2hlbiBubyBjb21wbGV0aW9ucyBhcmUgZ2VuZXJhdGVkIChbYzA3YmQ2Nl0o
-aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jMDdiZDY2MWM0
-MWZjOTc0MTYzMzk4YmE4NjhiMjI4NjJmYThkZDMzKSkKKiAqKl9jb21wX2NvbXBsZXRlX3NlcnZp
-Y2U6KiogZml4IGluaXQtc2NyaXB0LWFjdGlvbiBwYXJzaW5nIChbIzE0OTldKGh0dHBzOi8vZ2l0
-aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9pc3N1ZXMvMTQ5OSkpIChbOTFlMDc1YV0oaHR0
-cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC85MWUwNzVhOTZkMzlk
-MDIzNGFkYTc1MmE2MzkzN2Y2M2VhMTg2ZWI4KSkKKiAqKl9jb21wX2NvbXBsZXRlX3VzZXJfYXRf
-aG9zdDoqKiBjYXJlIGFib3V0ICRjdXIgc3RhcnRpbmcgd2l0aCAiLSIgKFsyNzdkYTU4XShodHRw
-czovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzI3N2RhNThjZmNmYzBj
-Y2E1NWFkZjdmM2ZmZjBiOTc4NjM2OTg3YzUpKQoqICoqX2NvbXBfbG9hZDoqKiBkZXByZWNhdGUg
-dW5zdWZmaXhlZCAiY29tcGxldGlvbnMvJmx0O2NtZCZndDsiIHcvbyAiLmJhc2giIChbMDY5MTBk
-YV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8wNjkxMGRh
-YjFiMThjZjEwZjQ4MDdkZWE5MzA5MWZkODFlZjY1MzFlKSkKKiAqKl9jb21wX2xvYWQ6KiogZHJv
-cCBzdXBwb3J0IGZvciAiXyZsdDtjbWQmZ3Q7IiAoW2YyNDUzNTZdKGh0dHBzOi8vZ2l0aHViLmNv
-bS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZjI0NTM1NmQwNTJkZDUwNmEyN2FlOTlhNmQy
-ZjZiMGM0ZmJlYTFhYykpCiogKipfa25vd25faG9zdHM6KiogZml4IHNwYWNpbmcgb2YgYW4gZXJy
-b3IgbWVzc2FnZSAoWzA0NjM1NzBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxl
-dGlvbi9jb21taXQvMDQ2MzU3MDk0Y2Q0YzEwYjlkZWI3MTQ1OTRjNDA5MTAwY2ZlZGZlMykpCiog
-Kipfa25vd25faG9zdHM6Kiogd29yayBhcm91bmQgY3VzdG9tIElGUyAoWzgxNzE5MjldKGh0dHBz
-Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvODE3MTkyOTgyN2VkZTli
-MmNlODYxZmVjNzNmODU3MjIzMGQzYzU4NykpCiogKipfdmFyaWFibGVfYXNzaWdubWVudHM6Kiog
-ZXhjbHVkZSBpbnZhbGlkIHRpbWV6b25lcyBmb3IgIlRaIiAoW2Q0MDVhMWRdKGh0dHBzOi8vZ2l0
-aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZDQwNWExZGVlMDQ3ODY4NDZjODhm
-MWYwMmZmMzdkYmFmYWEwZDk5MCkpCiogYWRkIGNvbXBhdGliaWxpdHkgd3JhcHBlciBmb3IgdGFp
-bCAoW2Y2ZmVlOGFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
-aXQvZjZmZWU4YWY2ZDc0NGMxZGRiY2M0YTk0N2ExMjVhODk3YmJhYWE2ZSkpCiogKiphbHRlcm5h
-dGl2ZXM6Kiogd29yayBhcm91bmQgbG9jYWx2YXJfaW5oZXJpdCAoWzM2MDE5MmFdKGh0dHBzOi8v
-Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMzYwMTkyYWJlOTZmNmQ5ODBl
-NmRmOGE3ZmU4NWRiNzU1Y2U4ZDNjMSkpCiogKiphcHQtZ2V0LGVidGFibGVzLGlwdGFibGVzLG1w
-bGF5ZXIsc2VydmljZToqKiBhdm9pZCB8IGFuZCBcfCBpbiBzZWQgKFtlZDY0YzMwXShodHRwczov
-L2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2VkNjRjMzBiNWU3N2FhMTNj
-ZjdlMGU4OWRhYjJiNGJhMTllYTE2MTQpKQoqICoqYXB0LWdldCxncGd7LDJ9LGlwbWl0b29sLHNj
-cmVlbjoqKiBhdm9pZCBcdCwgXHIsIFx3IGluIFBPU0lYIHNlZCAoW2RhNDBlN2FdKGh0dHBzOi8v
-Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZGE0MGU3YTg1ZWQzNTRhMmMw
-ZWU3ODM0NDE2NGQ4YzhiY2UwYzEzMCkpCiogKipjY2FjaGU6KiogZml4IGEgd3JvbmcgQVdLIGNv
-bmRpdGlvbiAoW2MzMDBjMGZdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
-bi9jb21taXQvYzMwMGMwZmUyYTk5NGUyN2U2NzlhYTg5YTczOWJhMWMxMmYyNWM3YSkpCiogKipj
-ZDoqKiBDb21wbGV0ZSBmcm9tIC4gb24gZW1wdHkgQ0RQQVRIIGVudHJ5IChbIzE1MjddKGh0dHBz
-Oi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9pc3N1ZXMvMTUyNykpIChbNmYxZWJh
-Nl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC82ZjFlYmE2
-MzhmNzc1YjU3MjlmYjQ0NWQyYTExMjc4Zjk3ZDc5ZjM2KSkKKiAqKmNkOioqIGZpeCBjZGFibGVf
-dmFycyBvdmVyd3JpdHRlbiBieSBhbm90aGVyIGdlbmVyYXRvciAoWzI0YmQ0MjBdKGh0dHBzOi8v
-Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMjRiZDQyMGFkZjJjMDZiZWVj
-MDY3MmNiZWFjNTkwZjEwNTc5MjMzMSkpCiogKipjZDoqKiB3b3JrIGFyb3VuZCBiYXNoLTQuMiBu
-b3Vuc2V0IChbNDVkMWM5M10oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9u
-L2NvbW1pdC80NWQxYzkzY2QxMTFlZDVhMTU1NWI3MzE5Nzg0ZGFjMTM1OTQzODBjKSkKKiAqKmNv
-bXBhdGRpcjoqKiBzaGFkb3cgY29tcGF0IGZpbGVzIG9mIHRoZSBzYW1lIG5hbWUgKFtmZjFiZjcy
-XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2ZmMWJmNzIy
-YzZlY2JmMGQ2ZmU0OTFkMzQ1YzA4ZmEwYzk4MTAzNWUpKQoqIGNvbXBsZXRpb24gbG9hZCBwcmVj
-ZWRlbmNlIG1vcmUgKFswYTE1NDA4XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
-ZXRpb24vY29tbWl0LzBhMTU0MDhmYjdkNmY0N2Q3ZjE4ZjRiOTVhYzZlY2FjN2U5ZTFmNjkpKQoq
-ICoqZXhwb3J0OioqIGNvbXBsZXRlIG9wdGlvbnMgbm90IGF0ICQxIChbODMyODIyZF0oaHR0cHM6
-Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC84MzI4MjJkY2NiYmNhNDRk
-MTNkYmJmM2E0YjZiNjM5MDVkZDc0ZDllKSkKKiAqKmV4cG9ydDoqKiBzdWZmaXggIj0iIG9ubHkg
-d2hlbiB1bmlxdWUgYW5kIGFscmVhZHkgY29tcGxldGUgKFs3NmY5ODBjXShodHRwczovL2dpdGh1
-Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0Lzc2Zjk4MGMzMTk1Mjg5YWYyNWE1OTQx
-ZDliY2ZjZGViNDBlNDJlYjYpKQoqICoqZXhwb3J0OioqIHdvcmsgYXJvdW5kIGN1c3RvbSBJRlMg
-KFsyNjE3ZDI2XShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0
-LzI2MTdkMjZkMzM5NzI0ZWI1MDUyYTk1ZmIwYTdhZDhkZDY0ZDBmNDMpKQoqICoqZmJncyxmYmk6
-KiogYWRkIG1hbmRhdG9yeSBzZW1pY29sb25zIGJlZm9yZSAifSIgaW4gUE9TSVggc2VkIChbMjg4
-ZTc3ZV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8yODhl
-NzdlY2Y3MmE2NDA5ODdiNmYzNmU1MDRiZjcyNTk4ODhhNWNiKSkKKiBmaXggbm9uLVBPU0lYIHNl
-ZCBleHByZXNzaW9ucyAoW2U5OTkwOTFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29t
-cGxldGlvbi9jb21taXQvZTk5OTA5MTY2OGVlNTc3ZDdiNzQ2MWYwYTFhNDYyNWMxMGMyNzc1Mykp
-CiogKipnbm9raWk6KiogdXNlIGRvdWJsZSBcXCBpbiBbLi4uXSBmb3IgUE9TSVguMS0yMDI0IHJl
-Y29tbWVuZGF0aW9uIChbYWIwNDgzYV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21w
-bGV0aW9uL2NvbW1pdC9hYjA0ODNhMWUxZjE5NTk5YWFjYmI0YzU3MjViY2E3YjJkOTc3ZWRhKSkK
-KiAqKmlub3RpZnl3YWl0OioqIGFkZCBgLXRgIGluIGBub2FyZ29wdHNgIChbMDI5NTEyOV0oaHR0
-cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8wMjk1MTI5NGQzOWZk
-OTZmYWRkYzc2MTRmNTc3MTQ3NWNmMjg2M2ExKSkKKiAqKmludGVyZGlmZjoqKiBtb3ZlIHRvIGZh
-bGxiYWNrIGZvciB0aGUgdXBzdHJlYW0gY29tcGxldGlvbiAoWzExOTg3YTRdKGh0dHBzOi8vZ2l0
-aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMTE5ODdhNGRlNmVlN2U0MjQyZTQ2
-MzMzNjAyNWJmN2QwZGRlODYwOSkpCiogKippbnZva2UtcmMuZDoqKiBhdm9pZCB1c2luZyBub24t
-UE9TSVggXHwgaW4gc2VkIChbZGI5MjhkZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
-b21wbGV0aW9uL2NvbW1pdC9kYjkyOGRkMDIxNWM3MTRmMTdlNzFlOWUwNDI0ZDI0NWNmOWFkNDQz
-KSkKKiAqKmludm9rZS1yYy5kOioqIGZpeCBhIGJ1ZyBvZiBnZW5lcmF0aW5nIGV4aXN0aW5nIHdv
-cmRzIChbZGZiOTAzYl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2Nv
-bW1pdC9kZmI5MDNiZmM5MDMzZDZmMTEzNDkzYjMwMDgzZDQ1ZDFiODNlZTFkKSkKKiAqKmlwc3Rh
-YmxlcyxlYnRhYmxlczoqKiBmaXggZmlsdGVyaW5nIG9mIGNoYWluIG5hbWVzIChbMjEzYTFkMl0o
-aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8yMTNhMWQyOTA0
-ZGU0OTkwY2NkNDQzNDRhNjg4ODQ5ZDNhZWFhOWQ4KSkKKiAqKmlzY3NpYWRtOioqIHNlcGFyYXRl
-IG1lcmdlZCBvcHRpb25zICgtLWxvZ291dGFsbC0tc2hvdyDihpIgLS1sb2dvdXRhbGwgLS1zaG93
-KSAoWyMxNjEyXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vaXNzdWVz
-LzE2MTIpKSAoWzBhN2NhNDRdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlv
-bi9jb21taXQvMGE3Y2E0NDBiMTE4NmQxOWVjOWMwZTVkZGJhODlhMWM1OGIwZGQ2MCkpCiogKipq
-cToqKiAtLWluZGVudCBhcmcgcmFuZ2UgKFtkMDJlNDA1XShodHRwczovL2dpdGh1Yi5jb20vc2Nv
-cC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2QwMmU0MDU0ZmE5NGVmYWEwMjcxNjdiNzMxZTFkM2Fk
-NzM3NGJiMjkpKQoqICoqanE6KiogbWlzc2luZyBoeXBoZW4gaW4gLS1tb25vY2hyb21lLW91dHB1
-dCAoW2VmNjkxOThdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21t
-aXQvZWY2OTE5ODg3YThmYzFmNDMwZDQ3NGJiYTY2N2UxMmFmM2Q3MGVkMCkpCiogKipsaWxvLG11
-dHQ6KiogcmVtb3ZlIHVubmVjZXNzYXJ5IGVzY2FwaW5nIFwiIGluIHNlZCByZWdleHAgKFtiOGY2
-ZWYyXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2I4ZjZl
-ZjI4MmVhZWI0MWFmNDhmZTVlMGVjZjgxYjI3NDEyODcwMWMpKQoqICoqbGludGlhbjoqKiBmaXgg
-dmFyaWFibGUgbGVha3MgKFtlMGU5MTZhXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNv
-bXBsZXRpb24vY29tbWl0L2UwZTkxNmFiYjA5M2IzZmQzM2Q4ZjM3Y2U3YjRlZDZjNTFmZTY2ODIp
-KQoqICoqbGludGlhbjoqKiB1c2UgY29tcGdlbiAtWCBpbnN0ZWFkIG9mIHNlZCB3aXRoIG5vbi1Q
-T1NJWCBcJmx0O1wmZ3Q7IChbYjZmMzRlZl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
-b21wbGV0aW9uL2NvbW1pdC9iNmYzNGVmOWI4M2U1YzY4MmFlN2E5OTNmMTQ5MzZkYTEyZmQ3ZjQx
-KSkKKiBsb2FkIGZyb20gbW9yZSBuZXcgc3R5bGUgY29tcGxldGlvbiBkaXJzIChbMTAzNzdmY10o
-aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8xMDM3N2ZjZDE1
-YWIwMmFjMTk5ZjBjM2I0ZTQ4NGQwMTY3NmU0ZWYxKSkKKiBtaXNjZWxsYW5lb3VzIGZpeGVzIGFm
-dGVyIHNlcGFyYXRpb24gb2YgZGlyZWN0b3JpZXMgKFtjNGE4ZmQwXShodHRwczovL2dpdGh1Yi5j
-b20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0L2M0YThmZDAwY2Y3Y2NmYjg3YTIxMWI2ZWQy
-ZGIzZGQyNTBjNDA3YjMpKQoqICoqbnN1cGRhdGU6KiogZml4IHR5cG8gIl9jb21wX2NvbXt0cCA9
-Jmd0OyBwZ31lbiIgKFszYjFhZGUyXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
-ZXRpb24vY29tbWl0LzNiMWFkZTIwZTliOTVkNDcxYjc2ZmM5OTM2OWUzZDYzNzQ2ZTQzYzIpKQoq
-ICoqcGtnLWdldDoqKiBhdm9pZCBkb3VibGUgZXhwYW5zaW9ucyAoW2ZiNWUzMmNdKGh0dHBzOi8v
-Z2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvZmI1ZTMyY2UzMDgyNjBjM2Mx
-MTMxZGJmOTcxMjEzYzg3ZjZjNTMwMykpCiogKipwa2ctZ2V0OioqIGRvIG5vdCBjaGVjayB0aGUg
-Y29tbWFuZCBuYW1lIGFzIGFyZ3VtZW50cyAoW2E4NjE3NWRdKGh0dHBzOi8vZ2l0aHViLmNvbS9z
-Y29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvYTg2MTc1ZDZkNDliNjM1ZjVmMzk3MzM0ZDE2MzY2
-ZGY0NWU3ZWY0OCkpCiogKipwa2ctZ2V0OioqIGxvY2FsaXplIHZhcmlhYmxlICJmaWxlIiBwcm9w
-ZXJseSAoW2MzN2JlZDFdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9j
-b21taXQvYzM3YmVkMWYzNTJhODNiZjM2YWZjN2E2NTA4OGRjMWM0MjIxOWRhZSkpCiogKipwa2ct
-Z2V0OioqIHdvcmsgYXJvdW5kIGxvY2FsdmFyX2luaGVyaXQgKFs3ODgxNzk1XShodHRwczovL2dp
-dGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0Lzc4ODE3OTVmNTYyMDE3YmNlMDAw
-Y2MzZDA2MzA3NmIwMWM1ZjZmMjMpKQoqICoqcGtnLWdldDoqKiB3b3JrIGFyb3VuZCBub3Vuc2V0
-IChbY2Q1YzI4ZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1p
-dC9jZDVjMjhkZjcwMGNiNWQ0NjI2ZDJmYzExMDY2NDc0MWMzYmYzYmYzKSkKKiAqKnBvdnJheToq
-KiB3b3JrIGFyb3VuZCBiYXNoLTQuMyBub3Vuc2V0IChbOGY4NTg4N10oaHR0cHM6Ly9naXRodWIu
-Y29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC84Zjg1ODg3ZDAyZGM5ZTU3MzljMDY3ZDMy
-ODE4NTBiZTU2MjA0MGQ4KSkKKiAqKnNlcnZpY2Use2ludm9rZSx1cGRhdGV9LXJjLmQ6KiogZml4
-IHJlZ3Jlc3Npb25zIGFuZCByZWZhY3RvciAoWzFlZTI2OWZdKGh0dHBzOi8vZ2l0aHViLmNvbS9z
-Y29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMWVlMjY5Zjg2ZTRjYjZkMDQ4Yzg2ZDZiNDgzYTQ2
-Yjg2OGFiYTIwMCkpCiogKipzaGVsbGNoZWNrOioqIGF2b2lkIG5vbi1QT1NJWCBcPiBpbiBzZWQg
-cmVndWxhciBleHByZXNzaW9ucyAoW2MwYjM2MjBdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
-c2gtY29tcGxldGlvbi9jb21taXQvYzBiMzYyMGUwYjhkZDA4MmYwNzRjZmU1N2Y3NjFiN2E5YmJk
-MDU4MykpCiogKip0b3g6KiogbW92ZSBjb21wbGV0aW9uIHRvIGZhbGxiYWNrIGRpcmVjdG9yeSAo
-W2JlMzk3YzJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQv
-YmUzOTdjMmMwNDZhYzJiZDM3YTI4ZTI5YjFjZTY2NTVmOWE0NzVmYSkpCiogKip0c2hhcms6Kiog
-cmVuYW1lICJfY21wX2NtZF90c2hhcmtfX3sgPSZndDsgbXV0X317cHJlZnMscHJvdG9jb2xzfSIg
-KFtkZmFjZDJiXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0
-L2RmYWNkMmJlYjc0YmU3Y2RlYjQzZDQ5Y2JlZmZiNzlmMmNmZTJhNWEpKQoqICoqdXBkYXRlLXJj
-LmQ6KiogZml4IHRoZSB1c2FnZSBvZiB0aGUgWCBvcHRhcmcgKFswZjQ3OTU5XShodHRwczovL2dp
-dGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBmNDc5NTk3NDYwN2NmNGJhOTNj
-YjlmMzJiMDMxOGI2NTMyNWZjMzEpKQoqICoqeHJhbmRyOioqIHJlbW92ZSB3cm9uZyBcIGZyb20g
-Y2hhcmFjdGVyIHJhbmdlIChbY2M3NWRhMl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1j
-b21wbGV0aW9uL2NvbW1pdC9jYzc1ZGEyMDk3ZWYwYzJjODlmNmZhMTA1ODcyZWE2MDQyNmFjYTI0
-KSkKCiMjIyBQZXJmb3JtYW5jZSBJbXByb3ZlbWVudHMKCiogKipfY29tcF9jb21wZ2VuX2ZpbGVk
-aXJfeHNwZWM6KiogYXZvaWQgZG91YmxlIG5lZ2F0aW9uIGAhKCEoLi4uKSlgIChbYjI0MzA1ZF0o
-aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9iMjQzMDVkZmVi
-Y2NiYjJiY2JhNjZmOTgzODcwNDE4NzQ4OWVhYTRlKSkKKiAqKmZpbGVkaXJfeHNwZWM6KiogYXZv
-aWQgZG91YmxlIG5lZ2F0aW9uICEoISguLi4pKSBpbiBleHRnbG9iIChbYzUzMjU5YV0oaHR0cHM6
-Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jNTMyNTlhZTU4ZTU0NWIw
-Yjc1NzdlNWQ0MWE0ODNmMWYxNmM5NTNjKSkKKiAqKm5tY2xpOioqIHJlZHVjZSB1c2VzIG9mIHRo
-ZSAidGFpbCIgY29tbWFuZCAoW2UzNzYwYzJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gt
-Y29tcGxldGlvbi9jb21taXQvZTM3NjBjMmYyNmViZjI1MDdmMmUxZjE3MDc2YmRmYjdlM2I5OTIw
-NikpCiogKipwb3ZyYXk6KiogdXNlIGdsb2IgbWF0Y2hpbmcgaW5zdGVhZCBvZiBncmVwIChbMjVm
-M2JiNV0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC8yNWYz
-YmI1MmEwOWU3NmJjOGY4YzNmNGY4N2JiZjI1YmQxYTJmMTRlKSkK
+Q2hhbmdlbG9nIGZvciBlcGlwaGFueTogNTAuNCAtPiA1MC42ClNvdXJjZTogTkVXUwoKNTAuNiAt
+IEF1Z3VzdCAxMywgMjAyNgo9PT09PT09PT09PT09PT09PT09PT09CgoqIEJ1Z3MgZml4ZWQ6CiAg
+LSAjMjg5OCBJbnZhbGlkIGJvb2ttYXJrIGltcG9ydCBjcmFzaGVzIGJyb3dzZXIKICAtICMyOTIx
+IEF1dG9maWxsIEpTIENvZGUgSW5qZWN0aW9uIHZpYSBDU1MgU2VsZWN0b3IKICAtICMyOTIyIFdl
+YkV4dGVuc2lvbiBYUEkgUGF0aCBUcmF2ZXJzYWwgWklQU0xJUAoKNTAuNSAtIEF1Z3VzdCAxMCwg
+MjAyNgo9PT09PT09PT09PT09PT09PT09PT09CgoqIEJ1Z3MgZml4ZWQ6CiAgLSAjMjcxMiBDcmFz
+aCB3aGVuIG9wZW5pbmcgcHJlZmVyZW5jZXMgZGlhbG9nIGFmdGVyIGRlbGV0aW5nIGRlZmF1bHQg
+c2VhcmNoCiAgICBlbmdpbmUKICAtICMyODY4IEFkZHJlc3NiYXIgVVJMIHByZXR0aWZpY2F0aW9u
+IGRvZXMgbm90IHVuZGVyc3RhbmQgSVB2NiBhZGRyZXNzZXMKICAtICMyODc1IEVkaXRpbmcgcGFz
+c3dvcmQgdXNlcm5hbWUgY3JlYXRlcyBkdXBsaWNhdGUgZW50cmllcwogIC0gIzI5MDEgTWVtb3J5
+IGxlYWsgaW4gdGhlIGNvcmUgc3RyaW5nIHV0aWxpdHkgZnVuY3Rpb24gZXBoeV9zdHJpbmdfc2hv
+cnRlbigpCiAgLSAhMjA5MSBwYXNzd29yZC1tYW5hZ2VyOiBmaXggY3Jhc2ggd2hlbiBkZWxldGlu
+ZyBwYXNzd29yZCByZWNvcmQKICAtICEyMDk0IFF1b3RlIGNvbW1hbmQgbGluZSBpbnB1dCBiZWZv
+cmUgcGFzc2luZyB0byBzaGVsbAogIC0gITIwOTggcGFzc3dvcmQtbWFuYWdlcjogYXZvaWQgZHVw
+bGljYXRlIHJlY29yZCB3aGVuIGNoYW5naW5nIHVzZXJuYW1lCiAgLSAhMjA5OSBGaXggY3Jhc2gg
+d2hlbiBvcGVuaW5nIHByZWZlcmVuY2VzIGRpYWxvZyBhZnRlciBkZWxldGluZyBhIHNlYXJjaAog
+ICAgZW5naW5lCiAgLSAhMjEwNCBGaXggY3Jhc2ggYWZ0ZXIgYWRkaW5nIGEgbmV3IE9wZW5TZWFy
+Y2ggZW5naW5lCgoqIFRyYW5zbGF0aW9uIHVwZGF0ZXM6CiAgLSBCZWxhcnVzaWFuIChWYXNpbCBQ
+dXBraW4pCiAgLSBCdWxnYXJpYW4gKHR3bHZubiBrcmFmdHdlcmspCiAgLSBHZXJtYW4gKENocmlz
+dGlhbiBLaXJiYWNoKQogIC0gSW5kb25lc2lhbiAoQW5kaWthIFRyaXdpZGFkYSkKICAtIExhbyAo
+U2Fpa2VvIEthdmhhbnhheSkKICAtIE5vcndlZ2lhbiBCb2ttw6VsIChLamFydGFuIE1hcmFhcykK
+ICAtIFBlcnNpYW4gKERhbmlhbCBCZWh6YWRpKQogIC0gUG9saXNoIChWaWN0b3JpYSBOaWVkemll
+bHNrYSkKICAtIFNsb3ZhayAoSm9zZSBSaWhhKQogIC0gVGhhaSAoQWVmZ2ggVGhyZWVuaW5lKQo=
 
---===============5714043520528367112==
+--===============4149441841723606521==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-bash-completion-upgrade-2.17.0-2.18.0.patch"
+ filename="0001-epiphany-upgrade-50.4-50.6.patch"
 
-RnJvbSBjM2YxNTZmMDY4OTEwYTAwOWIwYWZhNzJiZmY5ZTQ3NjRiZjViYjEwIE1vbiBTZXAgMTcg
+RnJvbSBhMmRjYmIwYzQ5NjM5MmJhOTcwODczNmIxODM5NzEyY2Q3MTE0N2E0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTQgQXVnIDIwMjYgMDY6MzE6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-YXNoLWNvbXBsZXRpb246IHVwZ3JhZGUgMi4xNy4wIC0+IDIuMTguMAoKU291cmNlOiBDSEFOR0VM
-T0cubWQKCiMgQ2hhbmdlbG9nCgojIyBbMi4xOC4wXShodHRwczovL2dpdGh1Yi5jb20vc2NvcC9i
-YXNoLWNvbXBsZXRpb24vY29tcGFyZS8yLjE3LjAuLi4yLjE4LjApICgyMDI2LTA3LTA1KQoKVGhp
-cyByZWxlYXNlIGNvbWVzIHdpdGggbm90YWJsZSBjaGFuZ2VzIHRvIHRoZSBkaXJlY3RvcmllcyB1
-c2VkIGZvcgpsb29raW5nIHVwIGFuZCBzb3VyY2luZyBjb21wbGV0aW9uIHJlY2lwZXMgYW5kIGhl
-bHBlcnMsIGFsbG93aW5nIGZvcgptb3JlIGZsZXhpYmlsaXR5IGFuZCBjdXN0b21pemF0aW9uIGFu
-ZCBmZXdlciBjb25mbGljdHMgYmV0d2VlbiB0aGluZ3MKc2hpcHBpbmcgd2l0aCBiYXNoLWNvbXBs
-ZXRpb24gYW5kIHRoaXJkIHBhcnR5L3Vwc3RyZWFtL29yaWdpbiBwYWNrYWdlcy4KCkZpbGVzIHRo
-YXQgY29tZSB3aXRoIGJhc2gtY29tcGxldGlvbiBpdHNlbGYgYXJlIGxvY2F0ZWQgaW4gZGlyZWN0
-b3JpZXMKcmVzZXJ2ZWQgZm9yIHRoYXQgdXNlLCB0aGVpciBuYW1lcyBlbmRpbmcgd2l0aCBgLWNv
-cmVgIGFuZApgLWZhbGxiYWNrYC4gUGFja2FnZXMgc2hvdWxkIGNvbnRpbnVlIGluc3RhbGwgdGhl
-aXIgZmlsZXMgaW4gdGhlIHNhbWUKYGNvbXBsZXRpb25zYCBhbmQgYGhlbHBlcnNgIGRpcnMgbGlr
-ZSBiZWZvcmU7IHRoZXNlIGRpcmVjdG9yaWVzCnByZWNlZGUgdGhlIGJhc2gtY29tcGxldGlvbiAi
-Y29yZSIgb25lcyBpbiBsb29rdXAgb3JkZXIuCgpBIG5ldyBjb25jZXB0IG9mIGBzdGFydHVwYCBk
-aXJzIGhhcyBiZWVuIGludHJvZHVjZWQuIEZpbGVzIGZyb20gdGhlc2UKZGlyZWN0b3JpZXMgYXJl
-IHNvdXJjZWQgZWFnZXJseSBvbiBiYXNoLWNvbXBsZXRpb24gc3RhcnR1cC4gVGhpcwpyZXBsYWNl
-cyBhbmQgYWxsb3dzIGZvciBtb3JlIGZsZXhpYmlsaXR5IHRoYW4gdXNpbmcgdGhlIGRlcHJlY2F0
-ZWQKYC9ldGMvYmFzaF9jb21wbGV0aW9uLmRgIGRpcmVjdG9yeSBmb3IgdGhpcyBwdXJwb3NlLgoK
-U2VlIFJFQURNRS5tZCBmb3IgbW9yZSBpbmZvcm1hdGlvbi4KCiMjIyBGZWF0dXJlcwoKKiAqKl9j
-b21wX19pbml0OioqIHNvdXJjZSBzeXN0ZW0gc3RhcnR1cCBmaWxlcyBlYXJsaWVyIChbYjA5NzAw
-ZF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9iMDk3MDBk
-ZGEyOWI1NmZiODk4MTJlMTIxNTk1NmE2MzFjYzdjODQ4KSkKKiAqKl9jb21wX2NvbXBnZW5fZmls
-ZWRpcjoqKiBhdXRvbWF0aWNhbGx5IGFkZCBgLWZgIG9uIF9jb21wX2NvbXBnZW4gYC1DYCBvciBg
-LVBgIChbIzE1NTJdKGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9pc3N1
-ZXMvMTU1MikpIChbNmQ1ZmNhNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
-aW9uL2NvbW1pdC82ZDVmY2E2ZWFlYjRlMzM3NTBhMTg3MDcyZWZjZWVjZDIyZTgyMzQ2KSkKKiAq
-Kl9jb21wX2NvbXBnZW5fZmlsZWRpcjoqKiBzdXBwb3J0ICJmaWxlZGlyIC1YIiAoW2NlMjg0MTld
-KGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvY2UyODQxOTEx
-YzdhM2Y1YTA1NmI2YTMxMDAzOGYwZGYxN2E4ZGE0MikpCiogKipfY29tcF9jb21wZ2VuX3N5c3Zf
-c2VydmljZXM6KiogZmFjdG9yaXplIFN5c1Ygc2VydmljZSBnZW5lcmF0aW9uIChbYzRjOGM0Yl0o
-aHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2NvbW1pdC9jNGM4YzRiNTQw
-NDBkNGFjYzI2ODhlZDhmYzA0MDMzMGQ5NjRmZTEyKSkKKiAqKmFjbG9jYWwsYXV0b21ha2U6Kiog
-c3VwcG9ydCB2ZXJzaW9uZWQgMS4xNyBleGVjdXRhYmxlcyAoWzk0YmJiM2FdKGh0dHBzOi8vZ2l0
-aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvOTRiYmIzYTFiNmZhZmVhYzk2YzI3
-ZTE4OTlkZDVlZmM5MjBhNmE4OSkpCiogKiphY2xvY2FsLGF1dG9tYWtlOioqIHN1cHBvcnQgdmVy
-c2lvbmVkIDEuMTggZXhlY3V0YWJsZXMgKFs5Mjg3YjRiXShodHRwczovL2dpdGh1Yi5jb20vc2Nv
-cC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzkyODdiNGJlMmQ0OWJlODczYWRlZDNmYjQwZjU2Mzgw
-ZmQ4Zjk3ZDgpKQoqICoqYXB0LSo6KiogdXBkYXRlIGtub3duIG9wdGlvbnMgdXAgdG8gYXB0IDMu
-Mi4wIChbYzQyMWQ1MF0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0aW9uL2Nv
-bW1pdC9jNDIxZDUwOGI2ZDkyMmVlNDMzNjRmZDllMGQ5YmMzYmRkYjVmNTZjKSkKKiAqKmFwdC1j
-YWNoZToqKiB1cGRhdGUga25vd24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFswYWI4NWM1XSho
-dHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzBhYjg1YzVmZjJj
-MzkzMDBhY2ZjZTBhZmRlMmU2NWI3MDdlMzE0YjQpKQoqICoqYXB0LWdldDoqKiB1cGRhdGUga25v
-d24gb3B0aW9ucyB1cCB0byBhcHQgMy4yLjAgKFs2YTE4ZTBjXShodHRwczovL2dpdGh1Yi5jb20v
-c2NvcC9iYXNoLWNvbXBsZXRpb24vY29tbWl0LzZhMThlMGMwY2YxMWM5YmUxNjYxNmJjODE3ZjQ2
-MTNjYjliYTk1YjApKQoqICoqYXB0LW1hcms6KiogdXBkYXRlIGtub3duIG9wdGlvbnMgdXAgdG8g
-YXB0IDMuMi4wIChbNjQ0YTAyNl0oaHR0cHM6Ly9naXRodWIuY29tL3Njb3AvYmFzaC1jb21wbGV0
-aW9uL2NvbW1pdC82NDRhMDI2OGMxMTdjOThhNjkxNWRmZDIzNTQ4YTNhOGI4ZGVmNmRiKSkKKiAq
-KmNvZGV4OioqIDNyZCBwYXJ0eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzBmNDI1YmRd
-KGh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvMGY0MjViZDM3
-YzI5ODJiNzBmNmMyY2U4NjVlZWFlMGFmMDVhNzE1ZCkpCiogKipjb3BpbG90OioqIDNyZCBwYXJ0
-eSBmYWxsYmFjayBjb21wbGV0aW9uIGxvYWRlciAoWzc0NDYwMmFdKGh0dHBzOi8vZ2l0aHViLmNv
-bS9zY29wL2Jhc2gtY29tcGxldGlvbi9jb21taXQvNzQ0NjAyYWM2NGRjMjQ1ODZlMjQ5MjgxMzc1
-MWNjMzhhMGFlZjJkNykpCiogKipjCgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNlZWRz
-IDMwMDAgY2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBhbiBh
-dHRhY2htZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL3tiYXNoLWNvbXBsZXRpb25fMi4x
-Ny4wLmJiID0+IGJhc2gtY29tcGxldGlvbl8yLjE4LjAuYmJ9ICAgIHwgMiArLQogMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL3tiYXNoLWNvbXBsZXRpb25fMi4xNy4wLmJiID0+IGJh
-c2gtY29tcGxldGlvbl8yLjE4LjAuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE3LjAuYmIgYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9iYXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIuMTguMC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9i
-YXNoLWNvbXBsZXRpb24vYmFzaC1jb21wbGV0aW9uXzIuMTcuMC5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE4LjAuYmIK
-aW5kZXggODQzYjViODMxZC4uYzE0NjgxYmM5NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE3LjAuYmIKKysrIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvYmFzaC1jb21wbGV0aW9uL2Jhc2gtY29tcGxldGlvbl8yLjE4LjAu
-YmIKQEAgLTE0LDcgKzE0LDcgQEAgU0VDVElPTiA9ICJjb25zb2xlL3V0aWxzIgogCiBTUkNfVVJJ
-ID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6
-IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGQ5ZDgyNWU0OTY0MzVmYjNiZWJhM2FlN2JlYTlm
-NzdlODIxZTg5NDY2N2QwNzQzMWQxZDRjOGM1NzBiOWU1OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICI4OGJjZjg1MTI0Zjc3Zjc0ZjJmMmY4YmNkMTZhYzQzODJkODA3YTgyN2VkZTc0MmE2NDk0MGM3
-MTE2YWVhMzNmIgogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9zY29wL2Jh
-c2gtY29tcGxldGlvbi9yZWxlYXNlcyIKIAogUEFSQUxMRUxfTUFLRSA9ICIiCi0tIAoyLjQ3LjEK
-Cg==
+CkRhdGU6IEZyaSwgMTQgQXVnIDIwMjYgMDY6MjU6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+cGlwaGFueTogdXBncmFkZSA1MC40IC0+IDUwLjYKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1U
+eXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6
+IDhiaXQKClNvdXJjZTogTkVXUwoKNTAuNiAtIEF1Z3VzdCAxMywgMjAyNgo9PT09PT09PT09PT09
+PT09PT09PT09CgoqIEJ1Z3MgZml4ZWQ6CiAgLSAjMjg5OCBJbnZhbGlkIGJvb2ttYXJrIGltcG9y
+dCBjcmFzaGVzIGJyb3dzZXIKICAtICMyOTIxIEF1dG9maWxsIEpTIENvZGUgSW5qZWN0aW9uIHZp
+YSBDU1MgU2VsZWN0b3IKICAtICMyOTIyIFdlYkV4dGVuc2lvbiBYUEkgUGF0aCBUcmF2ZXJzYWwg
+WklQU0xJUAoKNTAuNSAtIEF1Z3VzdCAxMCwgMjAyNgo9PT09PT09PT09PT09PT09PT09PT09Cgoq
+IEJ1Z3MgZml4ZWQ6CiAgLSAjMjcxMiBDcmFzaCB3aGVuIG9wZW5pbmcgcHJlZmVyZW5jZXMgZGlh
+bG9nIGFmdGVyIGRlbGV0aW5nIGRlZmF1bHQgc2VhcmNoCiAgICBlbmdpbmUKICAtICMyODY4IEFk
+ZHJlc3NiYXIgVVJMIHByZXR0aWZpY2F0aW9uIGRvZXMgbm90IHVuZGVyc3RhbmQgSVB2NiBhZGRy
+ZXNzZXMKICAtICMyODc1IEVkaXRpbmcgcGFzc3dvcmQgdXNlcm5hbWUgY3JlYXRlcyBkdXBsaWNh
+dGUgZW50cmllcwogIC0gIzI5MDEgTWVtb3J5IGxlYWsgaW4gdGhlIGNvcmUgc3RyaW5nIHV0aWxp
+dHkgZnVuY3Rpb24gZXBoeV9zdHJpbmdfc2hvcnRlbigpCiAgLSAhMjA5MSBwYXNzd29yZC1tYW5h
+Z2VyOiBmaXggY3Jhc2ggd2hlbiBkZWxldGluZyBwYXNzd29yZCByZWNvcmQKICAtICEyMDk0IFF1
+b3RlIGNvbW1hbmQgbGluZSBpbnB1dCBiZWZvcmUgcGFzc2luZyB0byBzaGVsbAogIC0gITIwOTgg
+cGFzc3dvcmQtbWFuYWdlcjogYXZvaWQgZHVwbGljYXRlIHJlY29yZCB3aGVuIGNoYW5naW5nIHVz
+ZXJuYW1lCiAgLSAhMjA5OSBGaXggY3Jhc2ggd2hlbiBvcGVuaW5nIHByZWZlcmVuY2VzIGRpYWxv
+ZyBhZnRlciBkZWxldGluZyBhIHNlYXJjaAogICAgZW5naW5lCiAgLSAhMjEwNCBGaXggY3Jhc2gg
+YWZ0ZXIgYWRkaW5nIGEgbmV3IE9wZW5TZWFyY2ggZW5naW5lCgoqIFRyYW5zbGF0aW9uIHVwZGF0
+ZXM6CiAgLSBCZWxhcnVzaWFuIChWYXNpbCBQdXBraW4pCiAgLSBCdWxnYXJpYW4gKHR3bHZubiBr
+cmFmdHdlcmspCiAgLSBHZXJtYW4gKENocmlzdGlhbiBLaXJiYWNoKQogIC0gSW5kb25lc2lhbiAo
+QW5kaWthIFRyaXdpZGFkYSkKICAtIExhbyAoU2Fpa2VvIEthdmhhbnhheSkKICAtIE5vcndlZ2lh
+biBCb2ttw6VsIChLamFydGFuIE1hcmFhcykKICAtIFBlcnNpYW4gKERhbmlhbCBCZWh6YWRpKQog
+IC0gUG9saXNoIChWaWN0b3JpYSBOaWVkemllbHNrYSkKICAtIFNsb3ZhayAoSm9zZSBSaWhhKQog
+IC0gVGhhaSAoQWVmZ2ggVGhyZWVuaW5lKQotLS0KIC4uLi9lcGlwaGFueS97ZXBpcGhhbnlfNTAu
+NC5iYiA9PiBlcGlwaGFueV81MC42LmJifSAgICAgICAgICAgfCAyICstCiAuLi4vZmlsZXMvMDAw
+Mi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoIHwgMiArLQog
+bWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoICAgICAg
+ICAgICB8IDQgKystLQogbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9y
+LnBhdGNoICAgICAgICAgICAgICB8IDIgKy0KIDQgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25z
+KCspLCA1IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS97
+ZXBpcGhhbnlfNTAuNC5iYiA9PiBlcGlwaGFueV81MC42LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MC40LmJiIGIvbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzUwLjYuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzUwLjQuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MC42LmJiCmlu
+ZGV4IDJiMmQwOGI2MTUuLmFkMGZhZDFhNjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9t
+ZS9lcGlwaGFueS9lcGlwaGFueV81MC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlw
+aGFueS9lcGlwaGFueV81MC42LmJiCkBAIC0zMSw3ICszMSw3IEBAIFNSQ19VUkkgKz0gIlwKICAg
+ICAgICAgICAgZmlsZTovL21pZ3JhdG9yLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL2Rpc3Ry
+aWJ1dG9yLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0g
+PSAiMWUyNmY5OTAxZjBmMDhiZmU5NDNhYTcwMTYzYzk1MzMzNGM3ZWMzZDRhZWZjOGQzNTRlOGE5
+YzE0MGIzMzRhNyIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjQ1ODIyMmE4Njk0Y2Zj
+OTE0ZTdhMmQ2ZGU5ODc5MDY3MDAxYThkNjVlMDBhOTA3ZDk2MTEyMDU5YzY3YWQ0NDYiCiAKIGV4
+cG9ydCBHSV9UWVBFTElCX1BBVEggPSAiJHtTVEFHSU5HX0xJQkRJUn0vZ2lyZXBvc2l0b3J5LTEu
+MC8iCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAy
+LWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUt
+dGhlLXVzZS1vZi15ZWxwLnBhdGNoCmluZGV4IDM1MDYxMTM5NDUuLjEyZTlkOTgyMzMgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24u
+YnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdu
+b21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRoZS11c2Ut
+b2YteWVscC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDA0NjljZmM1ODE4Yzc3NmFhMDI1
+NDZlOWU1NjQzYTVjZjkwM2U4YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOWU1MWNh
+NDdlZmM3NGZlZGI0MjBlNmI2NjQzNjU2OWQ1NjYyM2UyZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0
+ZTogV2VkLCAzMSBKYW4gMjAxOCAxNTo1MDozOCArMDIwMAogU3ViamVjdDogW1BBVENIXSBoZWxw
+L21lc29uLmJ1aWxkOiBkaXNhYmxlIHRoZSB1c2Ugb2YgeWVscApkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCmluZGV4IDRkM2UxM2Ji
+MzEuLmIxNjU1MmJmYzYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9m
+aWxlcy9kaXN0cmlidXRvci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkv
+ZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQzYTk5MTUxMDY4
+YzlhYmMyMzFjZjU2MmIyODc1YmVjODNkZGQxZWIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIGNjMGI5YTY5MDQyOTczODcwNjgyNzRjODAyNzg0ZWVhNzQwNzgyYTEgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhm
+b3VuZGF0aW9uLm9yZz4KIERhdGU6IEZyaSwgMjYgRmViIDIwMjEgMTA6MTc6NTIgKzAwMDAKIFN1
+YmplY3Q6IFtQQVRDSF0gRG9uJ3QgZW5jb2RlIHRoZSBkaXN0cm8gZnJvbSAvZXRjL29zLXJlbGVh
+c2UgaW50byB0aGUKQEAgLTExLDcgKzExLDcgQEAgUlAgMjAyMS8yLzI2CiAgMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1
+aWxkCi1pbmRleCBjN2RlZGNiLi45NTE4Y2VkIDEwMDY0NAoraW5kZXggYzAyYjU5MS4uOGFmOWZl
+NyAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAogQEAgLTE1LDYg
+KzE1LDcgQEAgaWYgci5yZXR1cm5jb2RlKCkgPT0gMApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21l
+L2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoCmluZGV4IDBhZWVmYzZmMmIuLmIyMGNjMzA1
+OGIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRv
+ci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWlncmF0b3Iu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQzNWQ4OWZkMjY1YzMzNGZjNGI2NGEzMTVkNmQy
+NzMyODUzYzQ0NjMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDEyZWFkMmFmYmRhYjk2
+ZWViNmJhYzgyMGMzOWMxZTk1MWEwNDdjOGIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERh
+dGU6IFRodSwgMjUgRmViIDIwMjEgMTQ6NTI6MzIgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXBp
+cGhhbnk6IEZpeCByZXByb2R1Y2liaWxpdHkgaXNzdWUKLS0gCjIuNDcuMQoK
 
---===============5714043520528367112==
+--===============4149441841723606521==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dbg: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dbg: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dev: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dev: PKGSIZE changed from 979 to 1025 (+5%)
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-dev: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-doc: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-doc: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: FILELIST: removed "/usr/share/bash-completion/completions/rpmcheck /usr/share/bash-completion/completions/autoheader /usr/share/bash-completion/completions/info /usr/share/bash-completion/completions/perl /usr/share/bash-completion/completions/tcpnice /usr/share/bash-completion/completions/gpasswd /usr/share/bash-completion/completions/_nerdctl /usr/share/bash-completion/completions/_black /usr/share/bash-completion/completions/_limactl /usr/share/bash-completion/completions/dpkg-deb /usr/share/bash-completion/completions/rsync /usr/share/bash-completion/completions/autoupdate /usr/share/bash-completion/completions/autoreconf /usr/share/bash-completion/completions/python /usr/share/bash-completion/completions/_nox /usr/share/bash-completion/completions/quota /usr/share/bash-completion/completions/fprintd-list /usr/share/bash-completion/completions/openssl /usr/share/bash-completion/completions/_flask /usr/share/bash
- -completion/completions/_mise /usr/share/bash-completion/completions/_tendermint /usr/share/bash-completion/completions/dpkg-reconfigure /usr/share/bash-completion/completions/_apko /usr/share/bash-completion/completions/pdlzip /usr/share/bash-completion/completions/rlog /usr/share/bash-completion/completions/ipmitool /usr/share/bash-completion/completions/pack200 /usr/share/bash-completion/completions/_sinker /usr/share/bash-completion/completions/plague-client /usr/share/bash-completion/completions/_tofu /usr/share/bash-completion/completions/avahi-browse /usr/share/bash-completion/completions/strings /usr/share/bash-completion/completions/_popeye /usr/share/bash-completion/completions/_vela /usr/share/bash-completion/completions/faillog /usr/share/bash-completion/completions/brctl /usr/share/bash-completion/completions/civserver /usr/share/bash-completion/completions/iwconfig /usr/share/bash-completion/completions/btdownloadcurses.py /usr/share/bash-completion/completions/_changi
- e /usr/share/bash-completion/completions/_docker /usr/share/bash-completion/completions/gmplayer /usr/share/bash-completion/completions/xmllint /usr/share/bash-completion/completions/lrzip /usr/share/bash-completion/completions/munin-node-configure /usr/share/bash-completion/completions/f77 /usr/share/bash-completion/completions/g77 /usr/share/bash-completion/completions/lzop /usr/share/bash-completion/completions/_bombadil /usr/share/bash-completion/completions/_rustic /usr/share/bash-completion/completions/inotifywait /usr/share/bash-completion/completions/dpkg-source /usr/share/bash-completion/completions/dselect /usr/share/bash-completion/completions/lvscan /usr/share/bash-completion/completions/pvscan /usr/share/bash-completion/completions/_dmesg /usr/share/bash-completion/completions/asciidoc.py /usr/share/bash-completion/completions/sparc-koji /usr/share/bash-completion/completions/_trash-put /usr/share/bash-completion/completions/apache2ctl /usr/share/bash-completion/complet
- ions/btdownloadheadless.py /usr/share/bash-completion/completions/pvmove /usr/share/bash-completion/completions/_crc /usr/share/bash-completion/completions/smbget /usr/share/bash-completion/completions/cpan2dist /usr/share/bash-completion/completions/micropython /usr/share/bash-completion/completions/tcpkill /usr/share/bash-completion/completions/ssh-add /usr/share/bash-completion/completions/python3.9 /usr/share/bash-completion/completions/gpgv2 /usr/share/bash-completion/completions/python3.8 /usr/share/bash-completion/completions/py.test /usr/share/bash-completion/completions/python3.3 /usr/share/bash-completion/completions/python3.5 /usr/share/bash-completion/completions/python3.4 /usr/share/bash-completion/completions/python3.7 /usr/share/bash-completion/completions/python3.6 /usr/share/bash-completion/completions/timeout /usr/share/bash-completion/completions/phing /usr/share/bash-completion/completions/_jj /usr/share/bash-completion/completions/_k9s /usr/share/bash-completion
- /completions/ping6 /usr/share/bash-completion/completions/ping4 /usr/share/bash-completion/completions/gphoto2 /usr/share/bash-completion/completions/dumpdb /usr/share/bash-completion/completions/crontab /usr/share/bash-completion/completions/getconf /usr/share/bash-completion/completions/chronyc /usr/share/bash-completion/completions/_deno /usr/share/bash-completion/completions/nmap /usr/share/bash-completion/completions/freeciv-xaw /usr/share/bash-completion/completions/pyston /usr/share/bash-completion/completions/scrub /usr/share/bash-completion/completions/unace /usr/share/bash-completion/completions/fprintd-delete /usr/share/bash-completion/completions/iceweasel /usr/share/bash-completion/completions/vgcfgrestore /usr/share/bash-completion/completions/vgmknodes /usr/share/bash-completion/completions/_gitconfig /usr/share/bash-completion/completions/mailsnarf /usr/share/bash-completion/completions/_tanzu-core /usr/share/bash-completion/completions/lastlog /usr/share/bash-comple
- tion/completions/printenv /usr/share/bash-completion/completions/e2freefrag /usr/share/bash-completion/completions/pwd /usr/share/bash-completion/completions/_dagger /usr/share/bash-completion/completions/ssh-keyscan /usr/share/bash-completion/completions/lvdisplay /usr/share/bash-completion/completions/pvdisplay /usr/share/bash-completion/completions/ngrep /usr/share/bash-completion/completions/pgrep /usr/share/bash-completion/completions/explodepkg /usr/share/bash-completion/completions/pxz /usr/share/bash-completion/completions/dpkg /usr/share/bash-completion/completions/dropuser /usr/share/bash-completion/completions/_xc /usr/share/bash-completion/completions/_pip3 /usr/share/bash-completion/completions/xxd /usr/share/bash-completion/completions/_xm /usr/share/bash-completion/completions/sudo /usr/share/bash-completion/completions/rpmbuild /usr/share/bash-completion/completions/_ansible-inventory /usr/share/bash-completion/completions/_reptyr /usr/share/bash-completion/completio
- ns/rfcomm /usr/share/bash-completion/completions/_infracost /usr/share/bash-completion/completions/wget /usr/share/bash-completion/completions/_todoist /usr/share/bash-completion/completions/_eject /usr/share/bash-completion/completions/pdftotext /usr/share/bash-completion/completions/luserdel /usr/share/bash-completion/completions/gendiff /usr/share/bash-completion/completions/_mattermost /usr/share/bash-completion/completions/ralsh /usr/share/bash-completion/completions/dumpe2fs /usr/share/bash-completion/completions/man /usr/share/bash-completion/completions/cfrun /usr/share/bash-completion/completions/pngfix /usr/share/bash-completion/completions/jar /usr/share/bash-completion/completions/tar /usr/share/bash-completion/completions/_ytt /usr/share/bash-completion/completions/vgcfgbackup /usr/share/bash-completion/completions/smbcacls /usr/share/bash-completion/completions/_kool /usr/share/bash-completion/completions/pwck /usr/share/bash-completion/completions/nethogs /usr/share/b
- ash-completion/completions/jpegoptim /usr/share/bash-completion/completions/_adb /usr/share/bash-completion/completions/querybts /usr/share/bash-completion/completions/lbzip2 /usr/share/bash-completion/completions/pbzip2 /usr/share/bash-completion/completions/sshmitm /usr/share/bash-completion/completions/_cilium /usr/share/bash-completion/completions/_ory /usr/share/bash-completion/completions/_nmcli /usr/share/bash-completion/completions/autorpm /usr/share/bash-completion/completions/clisp /usr/share/bash-completion/completions/hostname /usr/share/bash-completion/completions/cvs /usr/share/bash-completion/completions/lvs /usr/share/bash-completion/completions/pvs /usr/share/bash-completion/completions/iscsiadm /usr/share/bash-completion/completions/lvm /usr/share/bash-completion/completions/lvrename /usr/share/bash-completion/completions/svk /usr/share/bash-completion/completions/kcov /usr/share/bash-completion/completions/bmake /usr/share/bash-completion/completions/dcop /usr/sha
- re/bash-completion/completions/gmake /usr/share/bash-completion/completions/_k3sup /usr/share/bash-completion/completions/mrsasutil /usr/share/bash-completion/completions/apt-mark /usr/share/bash-completion/completions/pmake /usr/share/bash-completion/completions/_renice /usr/share/bash-completion/completions/pkgadd /usr/share/bash-completion/completions/hciattach /usr/share/bash-completion/completions/yum-arch /usr/share/bash-completion/completions/_kontena /usr/share/bash-completion/completions/_watchexec /usr/share/bash-completion/completions/_kops /usr/share/bash-completion/completions/_atmos /usr/share/bash-completion/completions/_rfkill /usr/share/bash-completion/completions/_steampipe /usr/share/bash-completion/completions/clone_member /usr/share/bash-completion/completions/shellcheck /usr/share/bash-completion/completions/complete /usr/share/bash-completion/completions/_nomad /usr/share/bash-completion/completions/_linkerd /usr/share/bash-completion/completions/ifup /usr/sha
- re/bash-completion/completions/pyston3 /usr/share/bash-completion/completions/_kompose /usr/share/bash-completion/completions/_ansible /usr/share/bash-completion/completions/interdiff /usr/share/bash-completion/completions/_gomarklint /usr/share/bash-completion/completions/vgrename /usr/share/bash-completion/completions/wine-development /usr/share/bash-completion/completions/_esc /usr/share/bash-completion/completions/list_members /usr/share/bash-completion/completions/chrpath /usr/share/bash-completion/completions/gssdp-device-sniffer /usr/share/bash-completion/completions/vgsplit /usr/share/bash-completion/completions/ccze /usr/share/bash-completion/completions/perlcritic /usr/share/bash-completion/completions/compgen /usr/share/bash-completion/completions/_ansible-vault /usr/share/bash-completion/completions/_goreleaser /usr/share/bash-completion/completions/hcitool /usr/share/bash-completion/completions/configure /usr/share/bash-completion/completions/dpkg-query /usr/share/bash-
- completion/completions/xmodmap /usr/share/bash-completion/completions/typeset /usr/share/bash-completion/completions/_ruff /usr/share/bash-completion/completions/geoiplookup6 /usr/share/bash-completion/completions/_secret-tool /usr/share/bash-completion/completions/_syft /usr/share/bash-completion/completions/flake8 /usr/share/bash-completion/completions/sitecopy /usr/share/bash-completion/completions/_cal /usr/share/bash-completion/completions/ncal /usr/share/bash-completion/completions/pwdx /usr/share/bash-completion/completions/checksec /usr/share/bash-completion/completions/tcpdump /usr/share/bash-completion/completions/dropdb /usr/share/bash-completion/completions/lsscsi /usr/share/bash-completion/completions/pm-is-supported /usr/share/bash-completion/completions/fusermount /usr/share/bash-completion/completions/vgimport /usr/share/bash-completion/completions/display /usr/share/bash-completion/completions/_krane /usr/share/bash-completion/completions/_colima /usr/share/bash-com
- pletion/completions/_glow /usr/share/bash-completion/completions/vgreduce /usr/share/bash-completion/completions/2to3 /usr/share/bash-completion/completions/abook /usr/share/bash-completion/completions/ifstat /usr/share/bash-completion/completions/_furyctl /usr/share/bash-completion/completions/_go-licenses /usr/share/bash-completion/completions/sbopkg /usr/share/bash-completion/completions/_clusterctl /usr/share/bash-completion/completions/function /usr/share/bash-completion/completions/ulimit /usr/share/bash-completion/completions/htop /usr/share/bash-completion/completions/iwpriv /usr/share/bash-completion/completions/pdftoppm /usr/share/bash-completion/completions/_umount /usr/share/bash-completion/completions/pkill /usr/share/bash-completion/completions/postcat /usr/share/bash-completion/completions/cksfv /usr/share/bash-completion/completions/_mtr /usr/share/bash-completion/completions/_tilt /usr/share/bash-completion/completions/tightvncviewer /usr/share/bash-completion/compl
- etions/sync_members /usr/share/bash-completion/completions/_stripe /usr/share/bash-completion/completions/_yum /usr/share/bash-completion/completions/_polygon-edge /usr/share/bash-completion/completions/_crictl /usr/share/bash-completion/completions/_glab /usr/share/bash-completion/completions/tsig-keygen /usr/share/bash-completion/completions/_trash-list /usr/share/bash-completion/completions/alias /usr/share/bash-completion/completions/apropos /usr/share/bash-completion/completions/puppetca /usr/share/bash-completion/completions/ssh-copy-id /usr/share/bash-completion/completions/valgrind /usr/share/bash-completion/completions/smartctl /usr/share/bash-completion/completions/pm-hibernate /usr/share/bash-completion/completions/_ngrok /usr/share/bash-completion/completions/fio /usr/share/bash-completion/completions/pm-suspend /usr/share/bash-completion/completions/_blackd /usr/share/bash-completion/completions/slabtop /usr/share/bash-completion/completions/genisoimage /usr/share/bash-
- completion/completions/update-alternatives /usr/share/bash-completion/completions/_rustup /usr/share/bash-completion/completions/rpm2targz /usr/share/bash-completion/completions/_vault /usr/share/bash-completion/completions/arpspoof /usr/share/bash-completion/completions/javac /usr/share/bash-completion/completions/lua /usr/share/bash-completion/completions/webmitm /usr/share/bash-completion/completions/_alp /usr/share/bash-completion/completions/_rtcwake /usr/share/bash-completion/completions/_uv /usr/share/bash-completion/completions/pylint-2 /usr/share/bash-completion/completions/pylint-3 /usr/share/bash-completion/completions/mktemp /usr/share/bash-completion/completions/identify /usr/share/bash-completion/completions/sysbench /usr/share/bash-completion/completions/neomutt /usr/share/bash-completion/completions/_crane /usr/share/bash-completion/completions/tmux /usr/share/bash-completion/completions/_ansible-pull /usr/share/bash-completion/completions/route /usr/share/bash-compl
- etion/completions/povray /usr/share/bash-completion/completions/cryptsetup /usr/share/bash-completion/completions/rrdtool /usr/share/bash-completion/completions/ccache /usr/share/bash-completion/completions/_gh /usr/share/bash-completion/completions/_bosh /usr/share/bash-completion/completions/_udevadm /usr/share/bash-completion/completions/_incus /usr/share/bash-completion/completions/wodim /usr/share/bash-completion/completions/repquota /usr/share/bash-completion/completions/vgs /usr/share/bash-completion/completions/_svnlook /usr/share/bash-completion/completions/gssdp-discover /usr/share/bash-completion/completions/_lefthook /usr/share/bash-completion/completions/_tokio-console /usr/share/bash-completion/completions/_pulumi /usr/share/bash-completion/completions/hash /usr/share/bash-completion/completions/_tctl /usr/share/bash-completion/completions/lz4c /usr/share/bash-completion/completions/ypcat /usr/share/bash-completion/completions/_kratos /usr/share/bash-completion/complet
- ions/_dprint /usr/share/bash-completion/completions/mdecrypt /usr/share/bash-completion/helpers/perl /usr/share/bash-completion/completions/_kubectl-kuttl /usr/share/bash-completion/completions/colormake /usr/share/bash-completion/completions/dict /usr/share/bash-completion/completions/smbcquotas /usr/share/bash-completion/completions/snownews /usr/share/bash-completion/completions/_mdbook /usr/share/bash-completion/completions/jshint /usr/share/bash-completion/completions/newusers /usr/share/bash-completion/completions/brave /usr/share/bash-completion/completions/_dyff /usr/share/bash-completion/completions/killall /usr/share/bash-completion/completions/host /usr/share/bash-completion/completions/_hugo /usr/share/bash-completion/completions/_multi-gitter /usr/share/bash-completion/completions/_spacectl /usr/share/bash-completion/completions/_modules /usr/share/bash-completion/completions/_helm /usr/share/bash-completion/completions/sha256sum /usr/share/bash-completion/completions/a
- vahi-browse-domains /usr/share/bash-completion/completions/sha1sum /usr/share/bash-completion/completions/e2label /usr/share/bash-completion/completions/gtar /usr/share/bash-completion/completions/star /usr/share/bash-completion/completions/_jungle /usr/share/bash-completion/completions/pushd /usr/share/bash-completion/completions/geoiplookup /usr/share/bash-completion/completions/pyvenv-3.4 /usr/share/bash-completion/completions/pyvenv-3.5 /usr/share/bash-completion/completions/pyvenv-3.6 /usr/share/bash-completion/completions/_virtctl /usr/share/bash-completion/completions/pyvenv-3.7 /usr/share/bash-completion/completions/lusermod /usr/share/bash-completion/completions/apt-build /usr/share/bash-completion/completions/rpm2tgz /usr/share/bash-completion/completions/pyvenv-3.8 /usr/share/bash-completion/completions/pyvenv-3.9 /usr/share/bash-completion/completions/locale-gen /usr/share/bash-completion/completions/_argc /usr/share/bash-completion/completions/_argo /usr/share/bash-comp
- letion/completions/apt-get /usr/share/bash-completion/completions/pyflakes /usr/share/bash-completion/completions/_wasmer /usr/share/bash-completion/completions/muttng /usr/share/bash-completion/completions/_kafkactl /usr/share/bash-completion/completions/ldapvi /usr/share/bash-completion/completions/_newgrp /usr/share/bash-completion/completions/gccgo /usr/share/bash-completion/completions/htpasswd /usr/share/bash-completion/completions/_skaffold /usr/share/bash-completion/completions/_repomanage /usr/share/bash-completion/completions/medusa /usr/share/bash-completion/completions/stream /usr/share/bash-completion/completions/pyvenv /usr/share/bash-completion/completions/smbpasswd /usr/share/bash-completion/completions/export /usr/share/bash-completion/completions/rmlist /usr/share/bash-completion/completions/bzip2 /usr/share/bash-completion/completions/vgscan /usr/share/bash-completion/completions/_venom /usr/share/bash-completion/completions/iperf3 /usr/share/bash-completion/compl
- etions/xdg-mime /usr/share/bash-completion/completions/ypmatch /usr/share/bash-completion/completions/desktop-file-validate /usr/share/bash-completion/completions/iconv /usr/share/bash-completion/completions/ipv6calc /usr/share/bash-completion/completions/change_pw /usr/share/bash-completion/completions/_kube-linter /usr/share/bash-completion/completions/mplayer2 /usr/share/bash-completion/completions/_conftest /usr/share/bash-completion/completions/postalias /usr/share/bash-completion/completions/_deck /usr/share/bash-completion/completions/postconf /usr/share/bash-completion/completions/xmms /usr/share/bash-completion/completions/_ghorg /usr/share/bash-completion/completions/_fx /usr/share/bash-completion/completions/luac5.0 /usr/share/bash-completion/completions/luac5.1 /usr/share/bash-completion/completions/luac5.2 /usr/share/bash-completion/completions/luac5.3 /usr/share/bash-completion/completions/luac5.4 /usr/share/bash-completion/completions/prelink /usr/share/bash-completio
- n/completions/sidedoor /usr/share/bash-completion/completions/_kubectl /usr/share/bash-completion/completions/eog /usr/share/bash-completion/completions/pkg-config /usr/share/bash-completion/completions/_driftctl /usr/share/bash-completion/completions/_oc /usr/share/bash-completion/completions/wol /usr/share/bash-completion/completions/gprof /usr/share/bash-completion/completions/nproc /usr/share/bash-completion/completions/check_db /usr/share/bash-completion/completions/dot /usr/share/bash-completion/completions/_op /usr/share/bash-completion/completions/zopflipng /usr/share/bash-completion/completions/_just /usr/share/bash-completion/completions/pm-powersave /usr/share/bash-completion/completions/tox /usr/share/bash-completion/completions/7zzs /usr/share/bash-completion/completions/vgremove /usr/share/bash-completion/completions/_k3d /usr/share/bash-completion/completions/_helmfile /usr/share/bash-completion/completions/truncate /usr/share/bash-completion/completions/_k3s /usr/sha
- re/bash-completion/completions/ipsec /usr/share/bash-completion/completions/cancel /usr/share/bash-completion/completions/pwgen /usr/share/bash-completion/completions/_velero /usr/share/bash-completion/completions/python2 /usr/share/bash-completion/completions/python3 /usr/share/bash-completion/completions/autoscan /usr/share/bash-completion/completions/_ansible-doc /usr/share/bash-completion/completions/_gitleaks /usr/share/bash-completion/completions/_su /usr/share/bash-completion/completions/growisofs /usr/share/bash-completion/completions/munin-update /usr/share/bash-completion/completions/cksum /usr/share/bash-completion/completions/_ssh-inscribe /usr/share/bash-completion/completions/ssh /usr/share/bash-completion/completions/xgamma /usr/share/bash-completion/completions/_packer /usr/share/bash-completion/completions/_mado /usr/share/bash-completion/completions/firefox-esr /usr/share/bash-completion/completions/lvreduce /usr/share/bash-completion/completions/_gitsign /usr/shar
- e/bash-completion/completions/nload /usr/share/bash-completion/completions/groupmod /usr/share/bash-completion/completions/ppc-koji /usr/share/bash-completion/completions/_trash-empty /usr/share/bash-completion/completions/gnome-mplayer /usr/share/bash-completion/completions/wtf /usr/share/bash-completion/completions/upgradepkg /usr/share/bash-completion/completions/freeciv-server /usr/share/bash-completion/completions/sha384sum /usr/share/bash-completion/completions/kplayer /usr/share/bash-completion/completions/mplayer /usr/share/bash-completion/completions/bts /usr/share/bash-completion/completions/genaliases /usr/share/bash-completion/completions/mtx /usr/share/bash-completion/completions/removepkg /usr/share/bash-completion/completions/_insmod /usr/share/bash-completion/completions/_mock /usr/share/bash-completion/completions/lvcreate /usr/share/bash-completion/completions/pvcreate /usr/share/bash-completion/completions/xmlwf /usr/share/bash-completion/completions/dsniff /usr/s
- hare/bash-completion/completions/wine64-development /usr/share/bash-completion/completions/fsnotifywait /usr/share/bash-completion/completions/python2.7 /usr/share/bash-completion/completions/vgextend /usr/share/bash-completion/completions/minicom /usr/share/bash-completion/completions/quotacheck /usr/share/bash-completion/completions/_timoni /usr/share/bash-completion/completions/installpkg /usr/share/bash-completion/completions/sshfs /usr/share/bash-completion/completions/lftp /usr/share/bash-completion/completions/sftp /usr/share/bash-completion/completions/luseradd /usr/share/bash-completion/completions/_diesel /usr/share/bash-completion/completions/invoke-rc.d /usr/share/bash-completion/completions/gnome-screenshot /usr/share/bash-completion/completions/msynctool /usr/share/bash-completion/completions/slapt-get /usr/share/bash-completion/completions/_ansible-galaxy /usr/share/bash-completion/completions/puppetd /usr/share/bash-completion/completions/influx /usr/share/bash-compl
- etion/completions/mii-tool /usr/share/bash-completion/completions/_kata-runtime /usr/share/bash-completion/completions/vgexport /usr/share/bash-completion/completions/sudoedit /usr/share/bash-completion/completions/_chsh /usr/share/bash-completion/completions/fprintd-enroll /usr/share/bash-completion/completions/_zarf /usr/share/bash-completion/completions/ipcalc /usr/share/bash-completion/completions/ifstatus /usr/share/bash-completion/completions/mcrypt /usr/share/bash-completion/completions/wine-stable /usr/share/bash-completion/completions/arping /usr/share/bash-completion/completions/freeciv-gtk2 /usr/share/bash-completion/completions/freeciv-gtk3 /usr/share/bash-completion/completions/_gaiacli /usr/share/bash-completion/completions/iperf /usr/share/bash-completion/completions/vgmerge /usr/share/bash-completion/completions/opera /usr/share/bash-completion/completions/mysql /usr/share/bash-completion/completions/_zitadel /usr/share/bash-completion/completions/_dlv /usr/share/bas
- h-completion/completions/gnokii /usr/share/bash-completion/completions/py.test-2 /usr/share/bash-completion/completions/py.test-3 /usr/share/bash-completion/completions/_minishift /usr/share/bash-completion/completions/sshow /usr/share/bash-completion/completions/zopfli /usr/share/bash-completion/completions/lftpget /usr/share/bash-completion/completions/perldoc /usr/share/bash-completion/completions/resolvconf /usr/share/bash-completion/completions/filebucket /usr/share/bash-completion/completions/_terraform /usr/share/bash-completion/completions/mogrify /usr/share/bash-completion/completions/withlist /usr/share/bash-completion/completions/mozilla-firefox /usr/share/bash-completion/completions/sbcl /usr/share/bash-completion/completions/lzma /usr/share/bash-completion/completions/b2sum /usr/share/bash-completion/completions/iwlist /usr/share/bash-completion/completions/_imgpkg /usr/share/bash-completion/completions/_tanzu /usr/share/bash-completion/completions/_sshi /usr/share/bash
- -completion/completions/pccardctl /usr/share/bash-completion/completions/_asdf /usr/share/bash-completion/completions/env /usr/share/bash-completion/completions/ant /usr/share/bash-completion/completions/pm-suspend-hybrid /usr/share/bash-completion/completions/sysctl /usr/share/bash-completion/completions/spovray /usr/share/bash-completion/completions/xpovray /usr/share/bash-completion/completions/qemu-system-x86_64 /usr/share/bash-completion/completions/links /usr/share/bash-completion/completions/_ansible-playbook /usr/share/bash-completion/completions/_glances /usr/share/bash-completion/completions/cdrecord /usr/share/bash-completion/completions/chage /usr/share/bash-completion/completions/puppetrun /usr/share/bash-completion/completions/_gaiad /usr/share/bash-completion/completions/_grype /usr/share/bash-completion/completions/gnumake /usr/share/bash-completion/completions/_conform /usr/share/bash-completion/completions/groupmems /usr/share/bash-completion/completions/createuser
-  /usr/share/bash-completion/completions/apt-cache /usr/share/bash-completion/completions/_modinfo /usr/share/bash-completion/completions/_tkn-pac /usr/share/bash-completion/completions/patch /usr/share/bash-completion/completions/watch /usr/share/bash-completion/completions/rdict /usr/share/bash-completion/completions/luac /usr/share/bash-completion/completions/hunspell /usr/share/bash-completion/completions/_odo /usr/share/bash-completion/completions/aclocal /usr/share/bash-completion/completions/setquota /usr/share/bash-completion/completions/check_perms /usr/share/bash-completion/completions/_nfpm /usr/share/bash-completion/completions/lisp /usr/share/bash-completion/completions/_kubebuilder /usr/share/bash-completion/completions/avctrl /usr/share/bash-completion/completions/alpine /usr/share/bash-completion/completions/mypy /usr/share/bash-completion/completions/pypy /usr/share/bash-completion/completions/xev /usr/share/bash-completion/completions/set /usr/share/bash-completion/
- completions/_pitchfork /usr/share/bash-completion/completions/munindoc /usr/share/bash-completion/completions/_metalctl /usr/share/bash-completion/completions/hciconfig /usr/share/bash-completion/completions/pycodestyle /usr/share/bash-completion/completions/feh /usr/share/bash-completion/completions/_ansible-config /usr/share/bash-completion/completions/chflags /usr/share/bash-completion/completions/koji /usr/share/bash-completion/completions/_kyverno /usr/share/bash-completion/completions/appdata-validate /usr/share/bash-completion/completions/_caddy /usr/share/bash-completion/completions/_gcrane /usr/share/bash-completion/completions/_sops /usr/share/bash-completion/completions/_cargo /usr/share/bash-completion/completions/slogin /usr/share/bash-completion/completions/chgrp /usr/share/bash-completion/completions/dhclient /usr/share/bash-completion/completions/btdownloadgui.py /usr/share/bash-completion/completions/_devspace /usr/share/bash-completion/completions/arm-koji /usr/sha
- re/bash-completion/completions/useradd /usr/share/bash-completion/completions/perltidy /usr/share/bash-completion/completions/sbcl-mt /usr/share/bash-completion/completions/_tfctl /usr/share/bash-completion/completions/_cue /usr/share/bash-completion/completions/lsof /usr/share/bash-completion/completions/_melange /usr/share/bash-completion/completions/pypy3 /usr/share/bash-completion/completions/slapt-src /usr/share/bash-completion/completions/xsltproc /usr/share/bash-completion/completions/sqlite3 /usr/share/bash-completion/completions/protoc /usr/share/bash-completion/completions/xrandr /usr/share/bash-completion/completions/bind /usr/share/bash-completion/completions/find /usr/share/bash-completion/completions/compare /usr/share/bash-completion/completions/pine /usr/share/bash-completion/completions/ping /usr/share/bash-completion/completions/wine /usr/share/bash-completion/completions/_svn /usr/share/bash-completion/completions/screen /usr/share/bash-completion/completions/lua5
- 3 /usr/share/bash-completion/completions/_wasmer-headless /usr/share/bash-completion/completions/lua51 /usr/share/bash-completion/completions/lua50 /usr/share/bash-completion/completions/lua52 /usr/share/bash-completion/completions/rpmbuild-md5 /usr/share/bash-completion/completions/lua54 /usr/share/bash-completion/completions/usermod /usr/share/bash-completion/completions/pydoc /usr/share/bash-completion/completions/gfortran-5 /usr/share/bash-completion/completions/gfortran-7 /usr/share/bash-completion/completions/gfortran-6 /usr/share/bash-completion/completions/_uvx /usr/share/bash-completion/completions/gkrellm2 /usr/share/bash-completion/completions/ktutil /usr/share/bash-completion/completions/gfortran-8 /usr/share/bash-completion/completions/montage /usr/share/bash-completion/completions/_mount /usr/share/bash-completion/completions/grpck /usr/share/bash-completion/completions/reportbug /usr/share/bash-completion/completions/fsnotifywatch /usr/share/bash-completion/completion
- s/alternatives /usr/share/bash-completion/completions/_gardenctl /usr/share/bash-completion/completions/sha512sum /usr/share/bash-completion/completions/tracepath /usr/share/bash-completion/completions/_rclone /usr/share/bash-completion/completions/remove_members /usr/share/bash-completion/completions/jsonschema /usr/share/bash-completion/completions/google-chrome-stable /usr/share/bash-completion/completions/vmstat /usr/share/bash-completion/completions/_tldr /usr/share/bash-completion/completions/tune2fs /usr/share/bash-completion/completions/_umount.linux /usr/share/bash-completion/completions/_pluto /usr/share/bash-completion/completions/chown /usr/share/bash-completion/completions/mmsitepass /usr/share/bash-completion/completions/_zola /usr/share/bash-completion/completions/_chfn /usr/share/bash-completion/completions/k3b /usr/share/bash-completion/completions/_diffoci /usr/share/bash-completion/completions/ldapadd /usr/share/bash-completion/completions/_kubesec /usr/share/bash
- -completion/completions/pydoc3 /usr/share/bash-completion/completions/_upctl /usr/share/bash-completion/completions/createdb /usr/share/bash-completion/completions/_ansible-console /usr/share/bash-completion/completions/oggdec /usr/share/bash-completion/completions/_kconf /usr/share/bash-completion/completions/gfortran /usr/share/bash-completion/completions/puppetdoc /usr/share/bash-completion/completions/puppetqd /usr/share/bash-completion/completions/_stern /usr/share/bash-completion/completions/luac53 /usr/share/bash-completion/completions/luac52 /usr/share/bash-completion/completions/luac51 /usr/share/bash-completion/completions/luac50 /usr/share/bash-completion/completions/luac54 /usr/share/bash-completion/completions/mysqladmin /usr/share/bash-completion/completions/conjure /usr/share/bash-completion/completions/groupdel /usr/share/bash-completion/completions/macof /usr/share/bash-completion/completions/groupadd /usr/share/bash-completion/completions/wine64 /usr/share/bash-com
- pletion/completions/_flamegraph /usr/share/bash-completion/completions/_trash /usr/share/bash-completion/completions/_moldy /usr/share/bash-completion/completions/_svnadmin /usr/share/bash-completion/completions/xvfb-run /usr/share/bash-completion/completions/filefrag /usr/share/bash-completion/completions/qemu-kvm /usr/share/bash-completion/completions/find_member /usr/share/bash-completion/completions/_tkn /usr/share/bash-completion/completions/_bao /usr/share/bash-completion/completions/_allero /usr/share/bash-completion/completions/mkisofs /usr/share/bash-completion/completions/munin-run /usr/share/bash-completion/completions/_notation /usr/share/bash-completion/completions/_golangci-lint /usr/share/bash-completion/completions/edquota /usr/share/bash-completion/completions/gpgv /usr/share/bash-completion/completions/lintian-info /usr/share/bash-completion/completions/gdb /usr/share/bash-completion/completions/idn /usr/share/bash-completion/completions/_depot /usr/share/bash-comp
- letion/completions/_keyring /usr/share/bash-completion/completions/pytest /usr/share/bash-completion/completions/_glen /usr/share/bash-completion/completions/_insmod.static /usr/share/bash-completion/completions/_write /usr/share/bash-completion/completions/ciptool /usr/share/bash-completion/completions/_k0sctl /usr/share/bash-completion/completions/asciidoc /usr/share/bash-completion/completions/import /usr/share/bash-completion/completions/gpg2 /usr/share/bash-completion/completions/lsusb /usr/share/bash-completion/completions/declare /usr/share/bash-completion/completions/mii-diag /usr/share/bash-completion/completions/_trivy /usr/share/bash-completion/completions/_flux /usr/share/bash-completion/completions/_minikube /usr/share/bash-completion/completions/freeciv-sdl /usr/share/bash-completion/completions/_dasel /usr/share/bash-completion/completions/mailmanctl /usr/share/bash-completion/completions/quotaoff /usr/share/bash-completion/completions/lvchange /usr/share/bash-complet
- ion/completions/pvchange /usr/share/bash-completion/completions/_mockery /usr/share/bash-completion/completions/_modprobe /usr/share/bash-completion/completions/pydocstyle /usr/share/bash-completion/completions/_git-bump /usr/share/bash-completion/completions/_atlas /usr/share/bash-completion/completions/pidof /usr/share/bash-completion/completions/xvnc4viewer /usr/share/bash-completion/completions/_runuser /usr/share/bash-completion/completions/evince /usr/share/bash-completion/completions/tshark /usr/share/bash-completion/completions/_slackpkg /usr/share/bash-completion/completions/ifdown /usr/share/bash-completion/completions/arp /usr/share/bash-completion/completions/aspell /usr/share/bash-completion/completions/g++-8 /usr/share/bash-completion/completions/python3.10 /usr/share/bash-completion/completions/nslookup /usr/share/bash-completion/completions/python3.11 /usr/share/bash-completion/completions/json_xs /usr/share/bash-completion/completions/python3.12 /usr/share/bash-comp
- letion/completions/python3.13 /usr/share/bash-completion/helpers/make-extract-targets.awk /usr/share/bash-completion/completions/g++-7 /usr/share/bash-completion/completions/g++-6 /usr/share/bash-completion/completions/g++-5 /usr/share/bash-completion/completions/md5sum /usr/share/bash-completion/completions/_rg /usr/share/bash-completion/completions/optipng /usr/share/bash-completion/completions/iftop /usr/share/bash-completion/completions/unrar /usr/share/bash-completion/completions/qrunner /usr/share/bash-completion/completions/autossh /usr/share/bash-completion/completions/chmod /usr/share/bash-completion/completions/a2x /usr/share/bash-completion/completions/_dapr /usr/share/bash-completion/completions/dnsspoof /usr/share/bash-completion/completions/convert /usr/share/bash-completion/completions/mc /usr/share/bash-completion/completions/nc /usr/share/bash-completion/completions/cc /usr/share/bash-completion/completions/hd /usr/share/bash-completion/completions/id /usr/share/bas
- h-completion/completions/hping2 /usr/share/bash-completion/completions/ri /usr/share/bash-completion/completions/sh /usr/share/bash-completion/completions/cd /usr/share/bash-completion/completions/dd /usr/share/bash-completion/completions/_npm /usr/share/bash-completion/completions/_sopstool /usr/share/bash-completion/completions/_kubectl-argo-rollouts /usr/share/bash-completion/completions/bk /usr/share/bash-completion/completions/ci /usr/share/bash-completion/completions/gm /usr/share/bash-completion/completions/ss /usr/share/bash-completion/completions/co /usr/share/bash-completion/completions/ip /usr/share/bash-completion/completions/_gh-label /usr/share/bash-completion/completions/jq /usr/share/bash-completion/completions/mr /usr/share/bash-completion/completions/ps /usr/share/bash-completion/completions/javadoc /usr/share/bash-completion/completions/pv /usr/share/bash-completion/completions/7z /usr/share/bash-completion/completions/svcadm /usr/share/bash-completion/completions
- /vncviewer /usr/share/bash-completion/completions/xz /usr/share/bash-completion/completions/_talhelper /usr/share/bash-completion/completions/java /usr/share/bash-completion/completions/l2ping /usr/share/bash-completion/completions/chrome /usr/share/bash-completion/completions/synclient /usr/share/bash-completion/completions/g4 /usr/share/bash-completion/completions/p4 /usr/share/bash-completion/completions/_hexdump /usr/share/bash-completion/completions/add_members /usr/share/bash-completion/completions/_random /usr/share/bash-completion/completions/carton /usr/share/bash-completion/completions/_kube-capacity /usr/share/bash-completion/completions/gzip /usr/share/bash-completion/completions/lzip /usr/share/bash-completion/completions/gnatmake /usr/share/bash-completion/completions/tracepath6 /usr/share/bash-completion/completions/deja-dup /usr/share/bash-completion/completions/google-chrome /usr/share/bash-completion/completions/ncftp /usr/share/bash-completion/completions/newlist 
- /usr/share/bash-completion/completions/_mount.linux /usr/share/bash-completion/completions/_okteto /usr/share/bash-completion/completions/pylint /usr/share/bash-completion/completions/_nvm /usr/share/bash-completion/completions/chromium /usr/share/bash-completion/completions/_kubescape /usr/share/bash-completion/completions/_kustomize /usr/share/bash-completion/completions/_kubeshark /usr/share/bash-completion/completions/cvsps /usr/share/bash-completion/completions/_kubelogin /usr/share/bash-completion/completions/_kubemqctl /usr/share/bash-completion/completions/pkgconf /usr/share/bash-completion/completions/larch /usr/share/bash-completion/completions/acpi /usr/share/bash-completion/completions/aptitude /usr/share/bash-completion/completions/file-roller /usr/share/bash-completion/completions/_cmctl /usr/share/bash-completion/completions/_mmctl /usr/share/bash-completion/completions/iwspy /usr/share/bash-completion/completions/aptitude-curses /usr/share/bash-completion/completions
- /autoconf /usr/share/bash-completion/completions/_bashbot /usr/share/bash-completion/completions/vgchange /usr/share/bash-completion/completions/_slsa-verifier /usr/share/bash-completion/completions/_trash-restore /usr/share/bash-completion/completions/iptables /usr/share/bash-completion/completions/pinfo /usr/share/bash-completion/completions/_task /usr/share/bash-completion/completions/rcsdiff /usr/share/bash-completion/completions/animate /usr/share/bash-completion/completions/_httpx /usr/share/bash-completion/completions/gcc-8 /usr/share/bash-completion/completions/lvremove /usr/share/bash-completion/completions/_container-structure-test /usr/share/bash-completion/completions/msgsnarf /usr/share/bash-completion/completions/pvremove /usr/share/bash-completion/completions/javaws /usr/share/bash-completion/completions/gcc-7 /usr/share/bash-completion/completions/gcc-6 /usr/share/bash-completion/completions/gcc-5 /usr/share/bash-completion/completions/rdesktop /usr/share/bash-comple
- tion/completions/mdadm /usr/share/bash-completion/completions/lvresize /usr/share/bash-completion/completions/whatis /usr/share/bash-completion/completions/jarsigner /usr/share/bash-completion/completions/_cloudquery /usr/share/bash-completion/completions/passwd /usr/share/bash-completion/completions/etherwake /usr/share/bash-completion/completions/composite /usr/share/bash-completion/completions/_pipenv /usr/share/bash-completion/completions/getent /usr/share/bash-completion/completions/_kind /usr/share/bash-completion/completions/hping3 /usr/share/bash-completion/completions/shasum /usr/share/bash-completion/completions/_gup /usr/share/bash-completion/completions/inotifywatch /usr/share/bash-completion/completions/lz4 /usr/share/bash-completion/completions/_pip /usr/share/bash-completion/completions/free /usr/share/bash-completion/completions/pkgrm /usr/share/bash-completion/completions/tree /usr/share/bash-completion/completions/puppetmasterd /usr/share/bash-completion/completion
- s/pkgtool /usr/share/bash-completion/completions/links2 /usr/share/bash-completion/completions/s390-koji /usr/share/bash-completion/completions/_look /usr/share/bash-completion/completions/_oras /usr/share/bash-completion/completions/_chezmoi /usr/share/bash-completion/completions/cpio /usr/share/bash-completion/completions/vgdisplay /usr/share/bash-completion/completions/make /usr/share/bash-completion/completions/7za /usr/share/bash-completion/completions/_ionice /usr/share/bash-completion/completions/7zz /usr/share/bash-completion/completions/mfiutil /usr/share/bash-completion/completions/7zr /usr/share/bash-completion/completions/_shtab /usr/share/bash-completion/completions/quotaon /usr/share/bash-completion/completions/gcc /usr/share/bash-completion/completions/hddtemp /usr/share/bash-completion/completions/vpnc /usr/share/bash-completion/completions/tipc /usr/share/bash-completion/completions/gcj /usr/share/bash-completion/completions/gcl /usr/share/bash-completion/completion
- s/scp /usr/share/bash-completion/completions/rcs /usr/share/bash-completion/completions/_arduino-cli /usr/share/bash-completion/completions/gkrellm /usr/share/bash-completion/completions/hping /usr/share/bash-completion/completions/_cz /usr/share/bash-completion/completions/vipw /usr/share/bash-completion/completions/cowsay /usr/share/bash-completion/completions/help /usr/share/bash-completion/completions/isql /usr/share/bash-completion/completions/psql /usr/share/bash-completion/completions/smbtar /usr/share/bash-completion/completions/xfreerdp /usr/share/bash-completion/completions/_hostctl /usr/share/bash-completion/completions/dnssec-keygen /usr/share/bash-completion/completions/monodevelop /usr/share/bash-completion/completions/cowthink /usr/share/bash-completion/completions/badblocks /usr/share/bash-completion/completions/userdel /usr/share/bash-completion/completions/file /usr/share/bash-completion/completions/lilo /usr/share/bash-completion/completions/kill /usr/share/bash-c
- ompletion/completions/firefox /usr/share/bash-completion/completions/inject /usr/share/bash-completion/completions/bsdtar /usr/share/bash-completion/completions/chpasswd /usr/share/bash-completion/completions/wsimport /usr/share/bash-completion/completions/unshunt /usr/share/bash-completion/completions/aclocal-1.11 /usr/share/bash-completion/completions/aclocal-1.10 /usr/share/bash-completion/completions/aclocal-1.13 /usr/share/bash-completion/completions/aclocal-1.12 /usr/share/bash-completion/completions/aclocal-1.15 /usr/share/bash-completion/completions/aclocal-1.14 /usr/share/bash-completion/completions/aclocal-1.16 /usr/share/bash-completion/completions/_starship /usr/share/bash-completion/completions/_cosign /usr/share/bash-completion/completions/ebtables /usr/share/bash-completion/completions/pigz /usr/share/bash-completion/completions/mutt /usr/share/bash-completion/completions/vigr /usr/share/bash-completion/completions/filesnarf /usr/share/bash-completion/completions/cfag
- ent /usr/share/bash-completion/completions/strace /usr/share/bash-completion/completions/_gopass /usr/share/bash-completion/completions/rpm2txz /usr/share/bash-completion/completions/f95 /usr/share/bash-completion/completions/g95 /usr/share/bash-completion/completions/chkconfig /usr/share/bash-completion/completions/_gopherjs /usr/share/bash-completion/completions/_jwt /usr/share/bash-completion/completions/_ignite /usr/share/bash-completion/completions/cleanarch /usr/share/bash-completion/completions/cardctl /usr/share/bash-completion/completions/update-rc.d /usr/share/bash-completion/completions/list_admins /usr/share/bash-completion/completions/automake /usr/share/bash-completion/completions/qemu /usr/share/bash-completion/completions/_nova /usr/share/bash-completion/completions/pkg-get /usr/share/bash-completion/completions/makepkg /usr/share/bash-completion/completions/brave-browser /usr/share/bash-completion/completions/_kapp /usr/share/bash-completion/completions/_delta /usr/
- share/bash-completion/completions/lua5.0 /usr/share/bash-completion/completions/lua5.1 /usr/share/bash-completion/completions/lua5.2 /usr/share/bash-completion/completions/lua5.3 /usr/share/bash-completion/completions/curl /usr/share/bash-completion/completions/lua5.4 /usr/share/bash-completion/completions/lintian /usr/share/bash-completion/completions/_buf /usr/share/bash-completion/completions/ssh-keygen /usr/share/bash-completion/completions/rpcdebug /usr/share/bash-completion/completions/qemu-system-i386 /usr/share/bash-completion/completions/dfutool /usr/share/bash-completion/completions/mencoder /usr/share/bash-completion/completions/_istioctl /usr/share/bash-completion/completions/_conda /usr/share/bash-completion/completions/mkinitrd /usr/share/bash-completion/completions/automake-1.13 /usr/share/bash-completion/completions/automake-1.12 /usr/share/bash-completion/completions/automake-1.11 /usr/share/bash-completion/completions/automake-1.10 /usr/share/bash-completion/comple
- tions/automake-1.16 /usr/share/bash-completion/completions/automake-1.15 /usr/share/bash-completion/completions/automake-1.14 /usr/share/bash-completion/completions/urlsnarf /usr/share/bash-completion/completions/_gsctl /usr/share/bash-completion/completions/fprintd-verify /usr/share/bash-completion/completions/postmap /usr/share/bash-completion/completions/dmypy /usr/share/bash-completion/completions/clzip /usr/share/bash-completion/completions/plzip /usr/share/bash-completion/completions/smbclient /usr/share/bash-completion/completions/list_lists /usr/share/bash-completion/completions/_kubespy /usr/share/bash-completion/completions/pytest-2 /usr/share/bash-completion/completions/ether-wake /usr/share/bash-completion/completions/pytest-3 /usr/share/bash-completion/completions/_rmmod /usr/share/bash-completion/completions/xhost /usr/share/bash-completion/completions/config_list /usr/share/bash-completion/completions/ldapcompare /usr/share/bash-completion/completions/xdg-settings /us
- r/share/bash-completion/completions/vgcreate /usr/share/bash-completion/completions/mussh /usr/share/bash-completion/completions/postsuper /usr/share/bash-completion/completions/sdptool /usr/share/bash-completion/completions/fbgs /usr/share/bash-completion/completions/qdbus /usr/share/bash-completion/completions/ntpdate /usr/share/bash-completion/completions/lvmdiskscan /usr/share/bash-completion/completions/_k6 /usr/share/bash-completion/completions/_constellation /usr/share/bash-completion/completions/_yq /usr/share/bash-completion/completions/postfix /usr/share/bash-completion/completions/chromium-browser /usr/share/bash-completion/completions/fbi /usr/share/bash-completion/completions/_datree /usr/share/bash-completion/completions/_airflow /usr/share/bash-completion/completions/_vacuum /usr/share/bash-completion/completions/vgck /usr/share/bash-completion/completions/_chamber /usr/share/bash-completion/completions/ecryptfs-migrate-home /usr/share/bash-completion/completions/_ctl
- ptl /usr/share/bash-completion/completions/_ko /usr/share/bash-completion/completions/_kn /usr/share/bash-completion/completions/smbtree /usr/share/bash-completion/completions/sha224sum /usr/share/bash-completion/completions/unpack200 /usr/share/bash-completion/completions/xzdec /usr/share/bash-completion/completions/_kubeadm /usr/share/bash-completion/completions/_coder /usr/share/bash-completion/completions/_aqua /usr/share/bash-completion/completions/isort /usr/share/bash-completion/completions/_hwclock /usr/share/bash-completion/completions/ldapmodrdn /usr/share/bash-completion/completions/ifquery /usr/share/bash-completion/completions/ldapwhoami /usr/share/bash-completion/completions/ldapsearch /usr/share/bash-completion/completions/hid2hci /usr/share/bash-completion/completions/ldapdelete /usr/share/bash-completion/completions/ldappasswd /usr/share/bash-completion/completions/mdtool /usr/share/bash-completion/helpers/python /usr/share/bash-completion/completions/_qrpc /usr/sha
- re/bash-completion/completions/wvdial /usr/share/bash-completion/completions/pyvenv-3.10 /usr/share/bash-completion/completions/pyvenv-3.11 /usr/share/bash-completion/completions/ldapmodify /usr/share/bash-completion/completions/pyvenv-3.12 /usr/share/bash-completion/completions/pyvenv-3.13 /usr/share/bash-completion/completions/vgconvert /usr/share/bash-completion/completions/radvdump /usr/share/bash-completion/completions/puppet /usr/share/bash-completion/completions/_consul /usr/share/bash-completion/completions/_regctl /usr/share/bash-completion/completions/arch /usr/share/bash-completion/completions/_opa /usr/share/bash-completion/completions/_px /usr/share/bash-completion/completions/_regal /usr/share/bash-completion/completions/_sentry-cli /usr/share/bash-completion/completions/lpq /usr/share/bash-completion/completions/lpr /usr/share/bash-completion/completions/jps /usr/share/bash-completion/completions/lvextend /usr/share/bash-completion/completions/c++ /usr/share/bash-comp
- letion/completions/freeciv /usr/share/bash-completion/completions/g++ /usr/share/bash-completion/completions/gccgo-6 /usr/share/bash-completion/completions/civclient /usr/share/bash-completion/completions/gccgo-5 /usr/share/bash-completion/completions/gccgo-7 /usr/share/bash-completion/completions/rpm /usr/share/bash-completion/completions/gccgo-8 /usr/share/bash-completion/completions/gpc /usr/share/bash-completion/completions/_kubecm /usr/share/bash-completion/completions/gpg /usr/share/bash-completion/completions/xrdb /usr/share/bash-completion/completions/wine64-stable /usr/share/bash-completion/completions/cppcheck /usr/share/bash-completion/completions/list_owners /usr/share/bash-completion/completions/nsupdate", added "/usr/share/bash-completion/completions/README.md /usr/share/bash-completion/helpers/README.md"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PKGSIZE changed from 917819 to 2266 (-100%)
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-extra: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-locale: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-locale: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-src: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-src: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-staticdev: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion-staticdev: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion: FILELIST: directory renamed /etc/bash_completion.d -> /usr/share/bash-completion/startup-core, added "/usr/share/bash-completion/completions-core/passwd.bash /usr/share/bash-completion/completions-fallback/helm.bash /usr/share/bash-completion/completions-fallback/hugo.bash /usr/share/bash-completion/completions-core/luac5.1.bash /usr/share/bash-completion/completions-core/getent.bash /usr/share/bash-completion/completions-core/jshint.bash /usr/share/bash-completion/completions-core/pylint.bash /usr/share/bash-completion/completions-core/automake-1.16.bash /usr/share/bash-completion/completions-core/oggdec.bash /usr/share/bash-completion/completions-core/xdg-settings.bash /usr/share/bash-completion/completions-core/chromium.bash /usr/share/bash-completion/completions-core/xdg-mime.bash /usr/share/bash-completion/completions-fallback/gitconfig.bash /usr/share/bash-completion/completions-core/e2freefrag.bash /usr/share/bash-
- completion/completions-core/sudo-rs.bash /usr/share/bash-completion/completions-fallback/npm.bash /usr/share/bash-completion/completions-core/asciidoc.bash /usr/share/bash-completion/completions-core/mkinitrd.bash /usr/share/bash-completion/completions-core/ldapadd.bash /usr/share/bash-completion/completions-core/ssh-add.bash /usr/share/bash-completion/completions-core/useradd.bash /usr/share/bash-completion/completions-core/pkgadd.bash /usr/share/bash-completion/completions-core/ldapwhoami.bash /usr/share/bash-completion/completions-core/lvdisplay.bash /usr/share/bash-completion/completions-core/pvdisplay.bash /usr/share/bash-completion/completions-core/vgdisplay.bash /usr/share/bash-completion/completions-fallback/blackd.bash /usr/share/bash-completion/completions-fallback/k3d.bash /usr/share/bash-completion/completions-fallback/nova.bash /usr/share/bash-completion/completions-fallback/driftctl.bash /usr/share/bash-completion/completions-fallback/clusterctl.bash /usr/share/bash-co
- mpletion/completions-core/hid2hci.bash /usr/share/bash-completion/completions-core/upgradepkg.bash /usr/share/bash-completion/completions-core/autoreconf.bash /usr/share/bash-completion/completions-fallback/mtr.bash /usr/share/bash-completion/completions-fallback/upctl.bash /usr/share/bash-completion/completions-core/automake-1.12.bash /usr/share/bash-completion/completions-core/hciattach.bash /usr/share/bash-completion/completions-core/micropython.bash /usr/share/bash-completion/completions-core/smbtree.bash /usr/share/bash-completion/completions-core/pccardctl.bash /usr/share/bash-completion/completions-core/feh.bash /usr/share/bash-completion/completions-core/fio.bash /usr/share/bash-completion/completions-core/monodevelop.bash /usr/share/bash-completion/completions-core/pycodestyle.bash /usr/share/bash-completion/completions-core/g++.bash /usr/share/bash-completion/completions-core/g77.bash /usr/share/bash-completion/completions-core/g95.bash /usr/share/bash-completion/completio
- ns-core/gcc.bash /usr/share/bash-completion/completions-core/gcj.bash /usr/share/bash-completion/completions-core/dcop.bash /usr/share/bash-completion/completions-core/dict.bash /usr/share/bash-completion/completions-core/dpkg-reconfigure.bash /usr/share/bash-completion/completions-core/doas.bash /usr/share/bash-completion/completions-fallback/runuser.bash /usr/share/bash-completion/completions-core/xrandr.bash /usr/share/bash-completion/completions-core/lbzip2.bash /usr/share/bash-completion/completions-core/bsdtar.bash /usr/share/bash-completion/completions-core/pbzip2.bash /usr/share/bash-completion/completions-core/smbtar.bash /usr/share/bash-completion/completions-core/ssh.bash /usr/share/bash-completion/completions-core/xvfb-run.bash /usr/share/bash-completion/completions-fallback/cloudquery.bash /usr/share/bash-completion/completions-core/javadoc.bash /usr/share/bash-completion/completions-core/perldoc.bash /usr/share/bash-completion/completions-core/screen.bash /usr/share/ba
- sh-completion/completions-fallback/nomad.bash /usr/share/bash-completion/completions-core/sha256sum.bash /usr/share/bash-completion/completions-fallback/imgpkg.bash /usr/share/bash-completion/completions-core/freeciv-server.bash /usr/share/bash-completion/completions-core/tracepath6.bash /usr/share/bash-completion/completions-core/g++-5.bash /usr/share/bash-completion/completions-core/gcc-5.bash /usr/share/bash-completion/completions-core/nethogs.bash /usr/share/bash-completion/completions-core/lsusb.bash /usr/share/bash-completion/completions-core/scrub.bash /usr/share/bash-completion/completions-fallback/tofu.bash /usr/share/bash-completion/completions-core/curlie.bash /usr/share/bash-completion/completions-fallback/tanzu-core.bash /usr/share/bash-completion/completions-core/ifup.bash /usr/share/bash-completion/completions-core/info.bash /usr/share/bash-completion/completions-core/dumpe2fs.bash /usr/share/bash-completion/completions-core/rpcdebug.bash /usr/share/bash-completion/co
- mpletions-core/xfreerdp.bash /usr/share/bash-completion/completions-fallback/trash-put.bash /usr/share/bash-completion/completions-core/newlist.bash /usr/share/bash-completion/completions-core/gprof.bash /usr/share/bash-completion/completions-core/genaliases.bash /usr/share/bash-completion/completions-core/iperf.bash /usr/share/bash-completion/completions-core/macof.bash /usr/share/bash-completion/completions-core/pidof.bash /usr/share/bash-completion/completions-core/xmlwf.bash /usr/share/bash-completion/completions-fallback/cz.bash /usr/share/bash-completion/completions-core/b2sum.bash /usr/share/bash-completion/completions-core/cksum.bash /usr/share/bash-completion/completions-core/mdadm.bash /usr/share/bash-completion/completions-core/pkgrm.bash /usr/share/bash-completion/completions-core/cpan2dist.bash /usr/share/bash-completion/completions-core/sha224sum.bash /usr/share/bash-completion/completions-core/plague-client.bash /usr/share/bash-completion/completions-core/postalias.ba
- sh /usr/share/bash-completion/completions-core/wodim.bash /usr/share/bash-completion/completions-fallback/bashbot.bash /usr/share/bash-completion/completions-core/quotacheck.bash /usr/share/bash-completion/completions-core/ifquery.bash /usr/share/bash-completion/completions-core/lvreduce.bash /usr/share/bash-completion/completions-core/radvdump.bash /usr/share/bash-completion/completions-core/vgreduce.bash /usr/share/bash-completion/completions-core/civserver.bash /usr/share/bash-completion/completions-core/slapt-get.bash /usr/share/bash-completion/completions-core/slapt-src.bash /usr/share/bash-completion/completions-fallback/pipenv.bash /usr/share/bash-completion/completions-core/arm-koji.bash /usr/share/bash-completion/completions-core/check_db.bash /usr/share/bash-completion/completions-core/ppc-koji.bash /usr/share/bash-completion/completions-core/pdftoppm.bash /usr/share/bash-completion/completions-core/automake-1.14.bash /usr/share/bash-completion/completions-core/colormake.b
- ash /usr/share/bash-completion/completions-fallback/constellation.bash /usr/share/bash-completion/completions-fallback/argc.bash /usr/share/bash-completion/completions-fallback/argo.bash /usr/share/bash-completion/completions-fallback/gopherjs.bash /usr/share/bash-completion/completions-fallback/rtcwake.bash /usr/share/bash-completion/completions-core/check_perms.bash /usr/share/bash-completion/completions-core/iwconfig.bash /usr/share/bash-completion/completions-core/brave-browser.bash /usr/share/bash-completion/completions-core/gnome-mplayer.bash /usr/share/bash-completion/completions-core/tshark.bash /usr/share/bash-completion/completions-core/unshunt.bash /usr/share/bash-completion/completions-core/opera.bash /usr/share/bash-completion/completions-core/quota.bash /usr/share/bash-completion/completions-fallback/helmfile.bash /usr/share/bash-completion/completions-fallback/repomanage.bash /usr/share/bash-completion/completions-core/geoiplookup6.bash /usr/share/bash-completion/comp
- letions-fallback/cal.bash /usr/share/bash-completion/completions-core/apropos.bash /usr/share/bash-completion/completions-fallback/kube-capacity.bash /usr/share/bash-completion/completions-core/puppet.bash /usr/share/bash-completion/completions-core/smbget.bash /usr/share/bash-completion/completions-core/aspell.bash /usr/share/bash-completion/completions-fallback/limactl.bash /usr/share/bash-completion/completions-fallback/flamegraph.bash /usr/share/bash-completion/completions-fallback/linkerd.bash /usr/share/bash-completion/completions-core/optipng.bash /usr/share/bash-completion/completions-core/lvremove.bash /usr/share/bash-completion/completions-core/pvremove.bash /usr/share/bash-completion/completions-core/vgremove.bash /usr/share/bash-completion/completions-fallback/terraform.bash /usr/share/bash-completion/completions-core/pm-is-supported.bash /usr/share/bash-completion/completions-fallback/cmctl.bash /usr/share/bash-completion/completions-fallback/hostctl.bash /usr/share/bas
- h-completion/completions-fallback/ory.bash /usr/share/bash-completion/completions-core/aclocal.bash /usr/share/bash-completion/completions-core/luac5.0.bash /usr/share/bash-completion/completions-fallback/ansible-vault.bash /usr/share/bash-completion/completions-fallback/trash.bash /usr/share/bash-completion/completions-fallback/trivy.bash /usr/share/bash-completion/completions-core/civclient.bash /usr/share/bash-completion/completions-core/smbclient.bash /usr/share/bash-completion/completions-core/synclient.bash /usr/share/bash-completion/completions-core/zopflipng.bash /usr/share/bash-completion/completions-core/dsniff.bash /usr/share/bash-completion/completions-fallback/kind.bash /usr/share/bash-completion/completions-core/complete.bash /usr/share/bash-completion/completions-fallback/dpkg-source.bash /usr/share/bash-completion/completions-core/killall.bash /usr/share/bash-completion/completions-fallback/pluto.bash /usr/share/bash-completion/completions-core/wine.bash /usr/share/b
- ash-completion/completions-core/qemu.bash /usr/share/bash-completion/completions-core/vgck.bash /usr/share/bash-completion/completions-core/vigr.bash /usr/share/bash-completion/completions-core/vipw.bash /usr/share/bash-completion/completions-core/vpnc.bash /usr/share/bash-completion/completions-core/2to3.bash /usr/share/bash-completion/completions-core/7zzs.bash /usr/share/bash-completion/completions-core/acpi.bash /usr/share/bash-completion/completions-core/arch.bash /usr/share/bash-completion/completions-core/python3.10.bash /usr/share/bash-completion/completions-core/freeciv-sdl.bash /usr/share/bash-completion/completions-core/freeciv-xaw.bash /usr/share/bash-completion/completions-core/python3.11.bash /usr/share/bash-completion/completions-core/python3.12.bash /usr/share/bash-completion/completions-core/python3.13.bash /usr/share/bash-completion/completions-core/python3.14.bash /usr/share/bash-completion/completions-core/python3.15.bash /usr/share/bash-completion/completions-fa
- llback/waydroid.bash /usr/share/bash-completion/completions-core/isort.bash /usr/share/bash-completion/completions-core/rdict.bash /usr/share/bash-completion/completions-core/ldapmodify.bash /usr/share/bash-completion/completions-core/ldapmodrdn.bash /usr/share/bash-completion/completions-core/xhost.bash /usr/share/bash-completion/completions-core/ypcat.bash /usr/share/bash-completion/completions-fallback/gup.bash /usr/share/bash-completion/startup/README.md /usr/share/bash-completion/completions-fallback/rg.bash /usr/share/bash-completion/completions-fallback/bombadil.bash /usr/share/bash-completion/completions-fallback/krane.bash /usr/share/bash-completion/completions-core/arpspoof.bash /usr/share/bash-completion/completions-core/dnsspoof.bash /usr/share/bash-completion/completions-core/vgexport.bash /usr/share/bash-completion/completions-core/vgimport.bash /usr/share/bash-completion/completions-core/wsimport.bash /usr/share/bash-completion/completions-fallback/ctlptl.bash /usr/sh
- are/bash-completion/completions-fallback/gaiacli.bash /usr/share/bash-completion/completions-core/lisp.bash /usr/share/bash-completion/completions-core/lsof.bash /usr/share/bash-completion/completions-core/luac.bash /usr/share/bash-completion/completions-core/lz4c.bash /usr/share/bash-completion/completions-core/xmms.bash /usr/share/bash-completion/completions-core/xrdb.bash /usr/share/bash-completion/completions-core/rlog.bash /usr/share/bash-completion/completions-core/wget.bash /usr/share/bash-completion/completions-fallback/asdf.bash /usr/share/bash-completion/completions-fallback/tokio-console.bash /usr/share/bash-completion/completions-fallback/gh-label.bash /usr/share/bash-completion/completions-core/typeset.bash /usr/share/bash-completion/completions-core/sha512sum.bash /usr/share/bash-completion/completions-core/avahi-browse-domains.bash /usr/share/bash-completion/completions-fallback/conform.bash /usr/share/bash-completion/completions-core/google-chrome-stable.bash /usr/sh
- are/bash-completion/completions-fallback/spacectl.bash /usr/share/bash-completion/completions-core/sshmitm.bash /usr/share/bash-completion/completions-core/webmitm.bash /usr/share/bash-completion/completions-core/lintian-info.bash /usr/share/bash-completion/completions-core/cardctl.bash /usr/share/bash-completion/completions-core/smbcquotas.bash /usr/share/bash-completion/completions-core/pdftotext.bash /usr/share/bash-completion/completions-core/pyvenv-3.4.bash /usr/share/bash-completion/completions-core/pyvenv-3.5.bash /usr/share/bash-completion/completions-fallback/rustic.bash /usr/share/bash-completion/completions-fallback/rustup.bash /usr/share/bash-completion/completions-core/pyvenv-3.6.bash /usr/share/bash-completion/completions-core/pyvenv-3.7.bash /usr/share/bash-completion/completions-core/pyvenv-3.8.bash /usr/share/bash-completion/completions-core/pyvenv-3.9.bash /usr/share/bash-completion/completions-fallback/regctl.bash /usr/share/bash-completion/completions-fallback/re
- nice.bash /usr/share/bash-completion/completions-fallback/reptyr.bash /usr/share/bash-completion/completions-core/filefrag.bash /usr/share/bash-completion/completions-fallback/modprobe.bash /usr/share/bash-completion/completions-fallback/zed.bash /usr/share/bash-completion/completions-core/idn.bash /usr/share/bash-completion/completions-core/jar.bash /usr/share/bash-completion/completions-core/jps.bash /usr/share/bash-completion/completions-core/k3b.bash /usr/share/bash-completion/completions-core/lpq.bash /usr/share/bash-completion/completions-core/lpr.bash /usr/share/bash-completion/completions-core/pvs.bash /usr/share/bash-completion/completions-core/pwd.bash /usr/share/bash-completion/completions-core/pxz.bash /usr/share/bash-completion/completions-core/dot.bash /usr/share/bash-completion/completions-fallback/rmmod.bash /usr/share/bash-completion/completions-core/lusermod.bash /usr/share/bash-completion/completions-core/tcpkill.bash /usr/share/bash-completion/completions-core/is
- csiadm.bash /usr/share/bash-completion/completions-fallback/dapr.bash /usr/share/bash-completion/completions-fallback/grype.bash /usr/share/bash-completion/completions-core/plzip.bash /usr/share/bash-completion/completions-core/s390-koji.bash /usr/share/bash-completion/completions-fallback/devspace.bash /usr/share/bash-completion/completions-core/luac54.bash /usr/share/bash-completion/completions-core/google-chrome.bash /usr/share/bash-completion/completions-core/automake-1.10.bash /usr/share/bash-completion/completions-fallback/dselect.bash /usr/share/bash-completion/completions-core/xsltproc.bash /usr/share/bash-completion/completions-core/puppetdoc.bash /usr/share/bash-completion/completions-core/puppetrun.bash /usr/share/bash-completion/completions-core/rcs.bash /usr/share/bash-completion/completions-core/rpm.bash /usr/share/bash-completion/completions-core/gpgv2.bash /usr/share/bash-completion/completions-core/bzip2.bash /usr/share/bash-completion/completions-core/lua52.bash /u
- sr/share/bash-completion/completions-core/sha384sum.bash /usr/share/bash-completion/completions-core/ant.bash /usr/share/bash-completion/completions-core/arp.bash /usr/share/bash-completion/completions-core/bts.bash /usr/share/bash-completion/completions-core/c++.bash /usr/share/bash-completion/completions-core/cancel.bash /usr/share/bash-completion/completions-core/neomutt.bash /usr/share/bash-completion/completions-fallback/cilium.bash /usr/share/bash-completion/completions-fallback/mount.linux.bash /usr/share/bash-completion/completions-fallback/flask.bash /usr/share/bash-completion/completions-fallback/pip.bash /usr/share/bash-completion/completions-fallback/ansible.bash /usr/share/bash-completion/completions-fallback/mattermost.bash /usr/share/bash-completion/completions-core/bind.bash /usr/share/bash-completion/completions-fallback/kubectl-kuttl.bash /usr/share/bash-completion/completions-fallback/gomarklint.bash /usr/share/bash-completion/completions-core/perlcritic.bash /usr
- /share/bash-completion/completions-fallback/update-alternatives.bash /usr/share/bash-completion/completions-core/luac51.bash /usr/share/bash-completion/completions-core/rpm2tgz.bash /usr/share/bash-completion/completions-fallback/allero.bash /usr/share/bash-completion/completions-core/javaws.bash /usr/share/bash-completion/completions-fallback/airflow.bash /usr/share/bash-completion/completions-fallback/dlv.bash /usr/share/bash-completion/completions-fallback/coder.bash /usr/share/bash-completion/completions-fallback/codex.bash /usr/share/bash-completion/completions-fallback/conda.bash /usr/share/bash-completion/completions-fallback/k6.bash /usr/share/bash-completion/completions-fallback/su.bash /usr/share/bash-completion/completions-fallback/tkn.bash /usr/share/bash-completion/completions-core/alpine.bash /usr/share/bash-completion/completions-fallback/oras.bash /usr/share/bash-completion/completions-core/luac52.bash /usr/share/bash-completion/completions-core/cowsay.bash /usr/shar
- e/bash-completion/completions-core/povray.bash /usr/share/bash-completion/completions-fallback/kube-linter.bash /usr/share/bash-completion/completions-core/resolvconf.bash /usr/share/bash-completion/completions-fallback/svn.bash /usr/share/bash-completion/completions-fallback/uvx.bash /usr/share/bash-completion/completions-fallback/kratos.bash /usr/share/bash-completion/completions-core/ldapvi.bash /usr/share/bash-completion/completions-core/explodepkg.bash /usr/share/bash-completion/completions-fallback/ansible-doc.bash /usr/share/bash-completion/completions-fallback/ncal.bash /usr/share/bash-completion/completions-fallback/kn.bash /usr/share/bash-completion/completions-fallback/newgrp.bash /usr/share/bash-completion/completions-core/wine-stable.bash /usr/share/bash-completion/completions-fallback/ytt.bash /usr/share/bash-completion/completions-core/hunspell.bash /usr/share/bash-completion/completions-core/iceweasel.bash /usr/share/bash-completion/completions-fallback/insmod.static
- .bash /usr/share/bash-completion/completions-fallback/ty.bash /usr/share/bash-completion/completions-fallback/crictl.bash /usr/share/bash-completion/completions-core/rdesktop.bash /usr/share/bash-completion/completions-fallback/gardenctl.bash /usr/share/bash-completion/completions-fallback/trash-empty.bash /usr/share/bash-completion/completions-fallback/delta.bash /usr/share/bash-completion/completions-fallback/depot.bash /usr/share/bash-completion/completions-core/export.bash /usr/share/bash-completion/completions-core/import.bash /usr/share/bash-completion/completions-core/list_members.bash /usr/share/bash-completion/completions-core/sync_members.bash /usr/share/bash-completion/completions-fallback/nvm.bash /usr/share/bash-completion/completions-fallback/sentry-cli.bash /usr/share/bash-completion/completions-fallback/tendermint.bash /usr/share/bash-completion/completions-core/find_member.bash /usr/share/bash-completion/completions-core/sparc-koji.bash /usr/share/bash-completion/co
- mpletions-core/freeciv.bash /usr/share/bash-completion/completions-core/gccgo-8.bash /usr/share/bash-completion/completions-fallback/rclone.bash /usr/share/bash-completion/completions-fallback/metalctl.bash /usr/share/bash-completion/completions-core/apt-get.bash /usr/share/bash-completion/completions-core/lftpget.bash /usr/share/bash-completion/completions-core/pkg-get.bash /usr/share/bash-completion/completions-core/btdownloadcurses.py.bash /usr/share/bash-completion/completions-fallback/istioctl.bash /usr/share/bash-completion/completions-fallback/tctl.bash /usr/share/bash-completion/completions-fallback/venom.bash /usr/share/bash-completion/completions-core/display.bash /usr/share/bash-completion/completions-core/larch.bash /usr/share/bash-completion/completions-core/mussh.bash /usr/share/bash-completion/completions-core/patch.bash /usr/share/bash-completion/completions-core/ralsh.bash /usr/share/bash-completion/completions-core/watch.bash /usr/share/bash-completion/completions-
- core/whatis.bash /usr/share/bash-completion/completions-core/sysbench.bash /usr/share/bash-completion/completions-fallback/release-plz.bash /usr/share/bash-completion/completions-core/gccgo-5.bash /usr/share/bash-completion/completions-core/ypmatch.bash /usr/share/bash-completion/completions-fallback/umount.bash /usr/share/bash-completion/completions-core/evince.bash /usr/share/bash-completion/completions-core/strace.bash /usr/share/bash-completion/completions-fallback/ansible-config.bash /usr/share/bash-completion/completions-core/locale-gen.bash /usr/share/bash-completion/completions-core/pdlzip.bash /usr/share/bash-completion/completions-core/dd.bash /usr/share/bash-completion/completions-core/g4.bash /usr/share/bash-completion/completions-core/gm.bash /usr/share/bash-completion/completions-core/id.bash /usr/share/bash-completion/completions-core/ip.bash /usr/share/bash-completion/completions-core/7z.bash /usr/share/bash-completion/completions-core/bk.bash /usr/share/bash-complet
- ion/completions-core/cc.bash /usr/share/bash-completion/completions-core/cd.bash /usr/share/bash-completion/completions-core/ci.bash /usr/share/bash-completion/completions-core/createuser.bash /usr/share/bash-completion/completions-core/mmsitepass.bash /usr/share/bash-completion/completions-core/nsupdate.bash /usr/share/bash-completion/completions-fallback/zarf.bash /usr/share/bash-completion/completions-core/ipv6calc.bash /usr/share/bash-completion/completions-core/ipmitool.bash /usr/share/bash-completion/completions-core/mii-tool.bash /usr/share/bash-completion/completions-core/rpm2targz.bash /usr/share/bash-completion/completions-core/svcadm.bash /usr/share/bash-completion/completions-core/truncate.bash /usr/share/bash-completion/completions-core/pyvenv.bash /usr/share/bash-completion/completions-core/mogrify.bash /usr/share/bash-completion/completions-core/msynctool.bash /usr/share/bash-completion/completions-fallback/nox.bash /usr/share/bash-completion/completions-core/fbgs.bas
- h /usr/share/bash-completion/completions-core/file.bash /usr/share/bash-completion/completions-core/find.bash /usr/share/bash-completion/completions-core/free.bash /usr/share/bash-completion/completions-core/add_members.bash /usr/share/bash-completion/completions-core/hping2.bash /usr/share/bash-completion/completions-core/lua5.0.bash /usr/share/bash-completion/completions-fallback/px.bash /usr/share/bash-completion/completions-fallback/skaffold.bash /usr/share/bash-completion/completions-fallback/kubectl-argo-rollouts.bash /usr/share/bash-completion/completions-core/lvmdiskscan.bash /usr/share/bash-completion/completions-fallback/jj.bash /usr/share/bash-completion/completions-fallback/golangci-lint.bash /usr/share/bash-completion/completions-core/composite.bash /usr/share/bash-completion/completions-core/wine64-stable.bash /usr/share/bash-completion/completions-core/mozilla-firefox.bash /usr/share/bash-completion/completions-fallback/ansible-playbook.bash /usr/share/bash-completion
- /completions-core/tipc.bash /usr/share/bash-completion/completions-core/tmux.bash /usr/share/bash-completion/completions-core/gpg2.bash /usr/share/bash-completion/completions-core/gpgv.bash /usr/share/bash-completion/completions-core/gtar.bash /usr/share/bash-completion/completions-core/gzip.bash /usr/share/bash-completion/completions-core/hash.bash /usr/share/bash-completion/completions-core/help.bash /usr/share/bash-completion/completions-core/host.bash /usr/share/bash-completion/completions-core/isql.bash /usr/share/bash-completion/completions-core/pack200.bash /usr/share/bash-completion/completions-core/gssdp-discover.bash /usr/share/bash-completion/completions-fallback/tldr.bash /usr/share/bash-completion/completions-core/querybts.bash /usr/share/bash-completion/completions-fallback/alp.bash /usr/share/bash-completion/completions-core/desktop-file-validate.bash /usr/share/bash-completion/completions-core/lvcreate.bash /usr/share/bash-completion/completions-core/pvcreate.bash /u
- sr/share/bash-completion/completions-core/vgcreate.bash /usr/share/bash-completion/completions-fallback/jwt.bash /usr/share/bash-completion/completions-core/sbcl-mt.bash /usr/share/bash-completion/completions-core/fprintd-verify.bash /usr/share/bash-completion/completions-fallback/xm.bash /usr/share/bash-completion/completions-core/gccgo-6.bash /usr/share/bash-completion/completions-core/usermod.bash /usr/share/bash-completion/completions-fallback/multi-gitter.bash /usr/share/bash-completion/completions-core/chflags.bash /usr/share/bash-completion/completions-fallback/mdbook.bash /usr/share/bash-completion/completions-core/py.test-2.bash /usr/share/bash-completion/completions-core/py.test-3.bash /usr/share/bash-completion/completions-fallback/dagger.bash /usr/share/bash-completion/completions-core/abook.bash /usr/share/bash-completion/completions-core/grpck.bash /usr/share/bash-completion/completions-fallback/datree.bash /usr/share/bash-completion/completions-core/chrpath.bash /usr/
- share/bash-completion/completions-core/g++-7.bash /usr/share/bash-completion/completions-core/gcc-7.bash /usr/share/bash-completion/completions-core/appdata-validate.bash /usr/share/bash-completion/completions-core/apt-cache.bash /usr/share/bash-completion/completions-core/lua54.bash /usr/share/bash-completion/completions-core/ping4.bash /usr/share/bash-completion/completions-core/ping.bash /usr/share/bash-completion/completions-core/list_lists.bash /usr/share/bash-completion/completions-core/psql.bash /usr/share/bash-completion/completions-core/pwck.bash /usr/share/bash-completion/completions-core/pwdx.bash /usr/share/bash-completion/completions-core/pypy.bash /usr/share/bash-completion/completions-core/cfagent.bash /usr/share/bash-completion/completions-core/arping.bash /usr/share/bash-completion/completions-core/l2ping.bash /usr/share/bash-completion/completions-core/muttng.bash /usr/share/bash-completion/completions-core/slabtop.bash /usr/share/bash-completion/completions-core/d
- eja-dup.bash /usr/share/bash-completion/completions-core/wol.bash /usr/share/bash-completion/completions-core/spovray.bash /usr/share/bash-completion/completions-core/snownews.bash /usr/share/bash-completion/completions-core/rpmbuild-md5.bash /usr/share/bash-completion/completions-core/wtf.bash /usr/share/bash-completion/completions-core/py.test.bash /usr/share/bash-completion/completions-core/xpovray.bash /usr/share/bash-completion/completions-core/autorpm.bash /usr/share/bash-completion/completions-core/list_owners.bash /usr/share/bash-completion/completions-fallback/starship.bash /usr/share/bash-completion/completions-core/asciidoc.py.bash /usr/share/bash-completion/completions-core/links2.bash /usr/share/bash-completion/completions-core/pydocstyle.bash /usr/share/bash-completion/completions-fallback/wasmer-headless.bash /usr/share/bash-completion/completions-core/avahi-browse.bash /usr/share/bash-completion/completions-core/munin-node-configure.bash /usr/share/bash-completion/co
- mpletions-fallback/look.bash /usr/share/bash-completion/completions-fallback/nerdctl.bash /usr/share/bash-completion/completions-fallback/umount.linux.bash /usr/share/bash-completion/completions-fallback/syncthing.bash /usr/share/bash-completion/completions-fallback/ionice.bash /usr/share/bash-completion/completions-core/chmod.bash /usr/share/bash-completion/completions-core/nload.bash /usr/share/bash-completion/completions-core/cksfv.bash /usr/share/bash-completion/completions-core/iconv.bash /usr/share/bash-completion/completions-core/ifstat.bash /usr/share/bash-completion/completions-core/pushd.bash /usr/share/bash-completion/completions-core/update-rc.d.bash /usr/share/bash-completion/completions-core/vmstat.bash /usr/share/bash-completion/completions-fallback/trash-list.bash /usr/share/bash-completion/completions-core/qemu-system-i386.bash /usr/share/bash-completion/completions-core/mdecrypt.bash /usr/share/bash-completion/completions-core/valgrind.bash /usr/share/bash-completi
- on/completions-fallback/deck.bash /usr/share/bash-completion/completions-core/fsnotifywatch.bash /usr/share/bash-completion/completions-fallback/deno.bash /usr/share/bash-completion/completions-core/gendiff.bash /usr/share/bash-completion/completions-core/rcsdiff.bash /usr/share/bash-completion/completions-fallback/tilt.bash /usr/share/bash-completion/completions-core/lua5.1.bash /usr/share/bash-completion/completions-core/smbcacls.bash /usr/share/bash-completion/completions-fallback/pnpm.bash /usr/share/bash-completion/completions-core/puppetca.bash /usr/share/bash-completion/completions-core/puppetqd.bash /usr/share/bash-completion/completions-core/sh.bash /usr/share/bash-completion/completions-core/ss.bash /usr/share/bash-completion/completions-core/ecryptfs-migrate-home.bash /usr/share/bash-completion/completions-core/sudoedit.bash /usr/share/bash-completion/completions-core/xz.bash /usr/share/bash-completion/completions-core/g++-6.bash /usr/share/bash-completion/completions-cor
- e/gcc-6.bash /usr/share/bash-completion/completions-core/ping6.bash /usr/share/bash-completion/completions-core/stream.bash /usr/share/bash-completion/completions-core/aclocal-1.18.bash /usr/share/bash-completion/completions-core/aclocal-1.10.bash /usr/share/bash-completion/completions-core/aclocal-1.11.bash /usr/share/bash-completion/completions-core/aclocal-1.12.bash /usr/share/bash-completion/completions-core/aclocal-1.13.bash /usr/share/bash-completion/completions-core/aclocal-1.14.bash /usr/share/bash-completion/completions-core/aclocal-1.15.bash /usr/share/bash-completion/completions-core/aclocal-1.16.bash /usr/share/bash-completion/completions-core/aclocal-1.17.bash /usr/share/bash-completion/completions-core/unpack200.bash /usr/share/bash-completion/completions-fallback/nfpm.bash /usr/share/bash-completion/completions-fallback/sops.bash /usr/share/bash-completion/completions-core/userdel.bash /usr/share/bash-completion/completions-core/convert.bash /usr/share/bash-completion
- /completions-core/lua5.3.bash /usr/share/bash-completion/completions-core/groupmems.bash /usr/share/bash-completion/completions-fallback/tox.bash /usr/share/bash-completion/completions-fallback/crc.bash /usr/share/bash-completion/completions-core/file-roller.bash /usr/share/bash-completion/completions-core/sqlite3.bash /usr/share/bash-completion/completions-core/jsonschema.bash /usr/share/bash-completion/completions-core/hping3.bash /usr/share/bash-completion/completions-core/smartctl.bash /usr/share/bash-completion/completions-fallback/zola.bash /usr/share/bash-completion/completions-fallback/flux.bash /usr/share/bash-completion/completions-core/pyston3.bash /usr/share/bash-completion/completions-core/python3.bash /usr/share/bash-completion/completions-fallback/glances.bash /usr/share/bash-completion/completions-fallback/ruff.bash /usr/share/bash-completion/completions-core/rfcomm.bash /usr/share/bash-completion/completions-core/ktutil.bash /usr/share/bash-completion/completions-fa
- llback/git-bump.bash /usr/share/bash-completion/completions-fallback/gitleaks.bash /usr/share/bash-completion/completions-core/ulimit.bash /usr/share/bash-completion/completions-core/invoke-rc.d.bash /usr/share/bash-completion/completions-core/ssh-keyscan.bash /usr/share/bash-completion/completions-fallback/mado.bash /usr/share/bash-completion/completions-fallback/mago.bash /usr/share/bash-completion/completions-core/sysctl.bash /usr/share/bash-completion/completions-core/qemu-kvm.bash /usr/share/bash-completion/completions-core/ldapdelete.bash /usr/share/bash-completion/completions-core/autoscan.bash /usr/share/bash-completion/completions-core/htpasswd.bash /usr/share/bash-completion/completions-core/chpasswd.bash /usr/share/bash-completion/completions-core/mcrypt.bash /usr/share/bash-completion/completions-core/growisofs.bash /usr/share/bash-completion/completions-core/zopfli.bash /usr/share/bash-completion/completions-core/apt-mark.bash /usr/share/bash-completion/completions-core
- /automake.bash /usr/share/bash-completion/completions-core/gnatmake.bash /usr/share/bash-completion/completions-fallback/stripe.bash /usr/share/bash-completion/completions-fallback/hexdump.bash /usr/share/bash-completion/completions-fallback/gaiad.bash /usr/share/bash-completion/completions-core/openssl.bash /usr/share/bash-completion/completions-core/yum-arch.bash /usr/share/bash-completion/completions-core/sbopkg.bash /usr/share/bash-completion/completions-core/badblocks.bash /usr/share/bash-completion/completions-core/munin-run.bash /usr/share/bash-completion/completions-core/alternatives.bash /usr/share/bash-completion/completions-core/ipsec.bash /usr/share/bash-completion/completions-core/javac.bash /usr/share/bash-completion/completions-core/nproc.bash /usr/share/bash-completion/completions-core/pydoc.bash /usr/share/bash-completion/completions-core/rsync.bash /usr/share/bash-completion/completions-core/dropuser.bash /usr/share/bash-completion/completions-core/xzdec.bash /usr/
- share/bash-completion/completions-fallback/op.bash /usr/share/bash-completion/completions-fallback/zitadel.bash /usr/share/bash-completion/completions-core/animate.bash /usr/share/bash-completion/completions-core/ntpdate.bash /usr/share/bash-completion/completions-fallback/glab.bash /usr/share/bash-completion/completions-fallback/glen.bash /usr/share/bash-completion/completions-fallback/glow.bash /usr/share/bash-completion/completions-fallback/kubemqctl.bash /usr/share/bash-completion/completions-core/ldapcompare.bash /usr/share/bash-completion/completions-core/ssh-copy-id.bash /usr/share/bash-completion/completions-core/montage.bash /usr/share/bash-completion/completions-core/mailmanctl.bash /usr/share/bash-completion/completions-core/influx.bash /usr/share/bash-completion/completions-fallback/odo.bash /usr/share/bash-completion/completions-core/installpkg.bash /usr/share/bash-completion/completions-fallback/kompose.bash /usr/share/bash-completion/completions-fallback/kontena.bash 
- /usr/share/bash-completion/completions-core/ether-wake.bash /usr/share/bash-completion/completions-core/fusermount.bash /usr/share/bash-completion/completions-core/gfortran-5.bash /usr/share/bash-completion/completions-core/gfortran-6.bash /usr/share/bash-completion/completions-core/gfortran-7.bash /usr/share/bash-completion/completions-core/gfortran-8.bash /usr/share/bash-completion/completions-core/gnokii.bash /usr/share/bash-completion/completions-core/groupadd.bash /usr/share/bash-completion/completions-core/gfortran.bash /usr/share/bash-completion/completions-core/vgsplit.bash /usr/share/bash-completion/completions-core/autoheader.bash /usr/share/bash-completion/completions-core/apache2ctl.bash /usr/share/bash-completion/completions-fallback/docker.bash /usr/share/bash-completion/completions-fallback/dasel.bash /usr/share/bash-completion/completions-core/pydoc3.13.bash /usr/share/bash-completion/completions-core/pydoc3.14.bash /usr/share/bash-completion/completions-core/pydoc3.
- 15.bash /usr/share/bash-completion/completions-core/puppetd.bash /usr/share/bash-completion/completions-core/tree.bash /usr/share/bash-completion/completions-core/gnome-screenshot.bash /usr/share/bash-completion/completions-core/pm-suspend.bash /usr/share/bash-completion/completions-core/cvs.bash /usr/share/bash-completion/completions-core/ebtables.bash /usr/share/bash-completion/completions-core/iptables.bash /usr/share/bash-completion/completions-core/list_admins.bash /usr/share/bash-completion/completions-core/inotifywait.bash /usr/share/bash-completion/completions-fallback/ngrok.bash /usr/share/bash-completion/completions-fallback/encore.bash /usr/share/bash-completion/completions-fallback/secret-tool.bash /usr/share/bash-completion/completions-core/vgcfgbackup.bash /usr/share/bash-completion/completions-fallback/go-licenses.bash /usr/share/bash-completion/completions-core/compare.bash /usr/share/bash-completion/completions-core/chrome.bash /usr/share/bash-completion/completions
- -core/declare.bash /usr/share/bash-completion/completions-core/alias.bash /usr/share/bash-completion/completions-core/cvsps.bash /usr/share/bash-completion/completions-core/links.bash /usr/share/bash-completion/completions-core/qdbus.bash /usr/share/bash-completion/completions-core/sshfs.bash /usr/share/bash-completion/completions-core/compgen.bash /usr/share/bash-completion/completions-fallback/minikube.bash /usr/share/bash-completion/completions-fallback/sinker.bash /usr/share/bash-completion/completions-core/brctl.bash /usr/share/bash-completion/completions-core/mysql.bash /usr/share/bash-completion/completions-core/pkill.bash /usr/share/bash-completion/completions-fallback/crane.bash /usr/share/bash-completion/completions-core/lua50.bash /usr/share/bash-completion/completions-core/xgamma.bash /usr/share/bash-completion/completions-fallback/ghorg.bash /usr/share/bash-completion/completions-fallback/vault.bash /usr/share/bash-completion/completions-fallback/oc.bash /usr/share/bash
- -completion/completions-core/gmplayer.bash /usr/share/bash-completion/completions-fallback/mockery.bash /usr/share/bash-completion/completions-fallback/modinfo.bash /usr/share/bash-completion/completions-fallback/modules.bash /usr/share/bash-completion/completions-core/rpm2txz.bash /usr/share/bash-completion/completions-core/aptitude-curses.bash /usr/share/bash-completion/completions-core/puppetmasterd.bash /usr/share/bash-completion/completions-core/mysqladmin.bash /usr/share/bash-completion/completions-fallback/opa.bash /usr/share/bash-completion/completions-core/automake-1.17.bash /usr/share/bash-completion/completions-core/cowthink.bash /usr/share/bash-completion/completions-core/fsnotifywait.bash /usr/share/bash-completion/helpers-core/python /usr/share/bash-completion/completions-core/automake-1.11.bash /usr/share/bash-completion/completions-fallback/diffoci.bash /usr/share/bash-completion/completions-fallback/black.bash /usr/share/bash-completion/completions-core/groupdel.bas
- h /usr/share/bash-completion/completions-core/function.bash /usr/share/bash-completion/completions-core/identify.bash /usr/share/bash-completion/completions-core/perltidy.bash /usr/share/bash-completion/completions-core/btdownloadgui.py.bash /usr/share/bash-completion/completions-core/ifdown.bash /usr/share/bash-completion/completions-fallback/bosh.bash /usr/share/bash-completion/completions-fallback/packer.bash /usr/share/bash-completion/completions-core/bmake.bash /usr/share/bash-completion/completions-core/brave.bash /usr/share/bash-completion/completions-core/chage.bash /usr/share/bash-completion/completions-core/gmake.bash /usr/share/bash-completion/completions-core/pmake.bash /usr/share/bash-completion/completions-core/route.bash /usr/share/bash-completion/completions-core/unace.bash /usr/share/bash-completion/completions-fallback/k3s.bash /usr/share/bash-completion/completions-core/hping.bash /usr/share/bash-completion/completions-core/phing.bash /usr/share/bash-completion/co
- mpletions-fallback/jungle.bash /usr/share/bash-completion/completions-fallback/goreleaser.bash /usr/share/bash-completion/completions-fallback/mock.bash /usr/share/bash-completion/completions-core/xvnc4viewer.bash /usr/share/bash-completion/completions-core/nmap.bash /usr/share/bash-completion/completions-core/perl.bash /usr/share/bash-completion/completions-core/pigz.bash /usr/share/bash-completion/completions-core/pine.bash /usr/share/bash-completion/completions-core/java.bash /usr/share/bash-completion/completions-core/kcov.bash /usr/share/bash-completion/completions-core/kill.bash /usr/share/bash-completion/completions-core/koji.bash /usr/share/bash-completion/completions-core/lftp.bash /usr/share/bash-completion/completions-core/lilo.bash /usr/share/bash-completion/completions-fallback/sopstool.bash /usr/share/bash-completion/completions-core/config_list.bash /usr/share/bash-completion/completions-fallback/trash-restore.bash /usr/share/bash-completion/completions-core/inotifywa
- tch.bash /usr/share/bash-completion/completions-fallback/buf.bash /usr/share/bash-completion/completions-fallback/cue.bash /usr/share/bash-completion/completions-core/lvresize.bash /usr/share/bash-completion/completions-core/vncviewer.bash /usr/share/bash-completion/completions-core/gpasswd.bash /usr/share/bash-completion/completions-core/genisoimage.bash /usr/share/bash-completion/completions-fallback/insmod.bash /usr/share/bash-completion/completions-core/inject.bash /usr/share/bash-completion/completions-core/faillog.bash /usr/share/bash-completion/completions-core/lastlog.bash /usr/share/bash-completion/completions-fallback/dpkg-query.bash /usr/share/bash-completion/completions-core/luac5.4.bash /usr/share/bash-completion/completions-core/env.bash /usr/share/bash-completion/completions-core/eog.bash /usr/share/bash-completion/completions-core/f77.bash /usr/share/bash-completion/completions-core/f95.bash /usr/share/bash-completion/completions-core/fbi.bash /usr/share/bash-complet
- ion/completions-core/7za.bash /usr/share/bash-completion/completions-fallback/hwclock.bash /usr/share/bash-completion/completions-core/7zr.bash /usr/share/bash-completion/completions-core/7zz.bash /usr/share/bash-completion/completions-core/a2x.bash /usr/share/bash-completion/completions-core/python3.7.bash /usr/share/bash-completion/completions-core/getconf.bash /usr/share/bash-completion/completions-core/pkgconf.bash /usr/share/bash-completion/completions-core/gphoto2.bash /usr/share/bash-completion/completions-core/prelink.bash /usr/share/bash-completion/completions-fallback/gsctl.bash /usr/share/bash-completion/completions-core/ccze.bash /usr/share/bash-completion/completions-core/cpio.bash /usr/share/bash-completion/completions-core/curl.bash /usr/share/bash-completion/completions-fallback/kapp.bash /usr/share/bash-completion/completions-core/vgmknodes.bash /usr/share/bash-completion/completions-core/rpmbuild.bash /usr/share/bash-completion/completions-core/mfiutil.bash /usr/sh
- are/bash-completion/completions-core/sudo.ws.bash /usr/share/bash-completion/completions-core/sha1sum.bash /usr/share/bash-completion/completions-fallback/furyctl.bash /usr/share/bash-completion/completions-fallback/slsa-verifier.bash /usr/share/bash-completion/completions-core/apt-build.bash /usr/share/bash-completion/completions-fallback/incus.bash /usr/share/bash-completion/completions-fallback/dpkg-deb.bash /usr/share/bash-completion/completions-fallback/kyverno.bash /usr/share/bash-completion/completions-core/filebucket.bash /usr/share/bash-completion/completions-core/medusa.bash /usr/share/bash-completion/completions-fallback/steampipe.bash /usr/share/bash-completion/completions-core/remove_members.bash /usr/share/bash-completion/completions-fallback/vacuum.bash /usr/share/bash-completion/completions-core/nslookup.bash /usr/share/bash-completion/completions-core/luac53.bash /usr/share/bash-completion/completions-fallback/shtab.bash /usr/share/bash-completion/completions-fallba
- ck/infracost.bash /usr/share/bash-completion/completions-fallback/virtctl.bash /usr/share/bash-completion/completions-fallback/gitsign.bash /usr/share/bash-completion/completions-fallback/notation.bash /usr/share/bash-completion/completions-core/htop.bash /usr/share/bash-completion/completions-core/mktemp.bash /usr/share/bash-completion/completions-core/mdtool.bash /usr/share/bash-completion/completions-fallback/polygon-edge.bash /usr/share/bash-completion/completions-core/dmypy.bash /usr/share/bash-completion/completions-core/iwspy.bash /usr/share/bash-completion/completions-core/hostname.bash /usr/share/bash-completion/completions-core/lvrename.bash /usr/share/bash-completion/completions-core/msgsnarf.bash /usr/share/bash-completion/completions-core/urlsnarf.bash /usr/share/bash-completion/completions-core/vgrename.bash /usr/share/bash-completion/helpers-core/perl /usr/share/bash-completion/completions-core/tune2fs.bash /usr/share/bash-completion/completions-fallback/todoist.bash 
- /usr/share/bash-completion/completions-core/ldappasswd.bash /usr/share/bash-completion/completions-core/pkg-config.bash /usr/share/bash-completion/completions-fallback/udevadm.bash /usr/share/bash-completion/completions-core/strings.bash /usr/share/bash-completion/completions-fallback/lefthook.bash /usr/share/bash-completion/completions-fallback/jreleaser.bash /usr/share/bash-completion/completions-fallback/regal.bash /usr/share/bash-completion/completions-fallback/rumdl.bash /usr/share/bash-completion/completions-fallback/dive.bash /usr/share/bash-completion/completions-fallback/dyff.bash /usr/share/bash-completion/completions-fallback/gopass.bash /usr/share/bash-completion/completions-core/mplayer2.bash /usr/share/bash-completion/completions-core/quotaoff.bash /usr/share/bash-completion/completions-fallback/tanzu.bash /usr/share/bash-completion/completions-core/automake-1.18.bash /usr/share/bash-completion/completions-fallback/kubescape.bash /usr/share/bash-completion/completions-
- fallback/kustomize.bash /usr/share/bash-completion/completions-core/fprintd-delete.bash /usr/share/bash-completion/completions-core/fprintd-list.bash /usr/share/bash-completion/completions-fallback/adb.bash /usr/share/bash-completion/completions-fallback/sshi.bash /usr/share/bash-completion/completions-core/hddtemp.bash /usr/share/bash-completion/completions-fallback/kubelogin.bash /usr/share/bash-completion/completions-core/lintian.bash /usr/share/bash-completion/completions-fallback/pitchfork.bash /usr/share/bash-completion/completions-core/tar.bash /usr/share/bash-completion/completions-core/lua.bash /usr/share/bash-completion/completions-core/lvm.bash /usr/share/bash-completion/completions-core/lvs.bash /usr/share/bash-completion/completions-core/lz4.bash /usr/share/bash-completion/completions-core/man.bash /usr/share/bash-completion/completions-core/mtx.bash /usr/share/bash-completion/completions-core/svk.bash /usr/share/bash-completion/completions-core/scp.bash /usr/share/bash
- -completion/completions-core/set.bash /usr/share/bash-completion/completions-fallback/okteto.bash /usr/share/bash-completion/completions-core/removepkg.bash /usr/share/bash-completion/completions-fallback/popeye.bash /usr/share/bash-completion/completions-core/etherwake.bash /usr/share/bash-completion/completions-core/protoc.bash /usr/share/bash-completion/completions-fallback/apko.bash /usr/share/bash-completion/completions-core/helium.bash /usr/share/bash-completion/completions-core/md5sum.bash /usr/share/bash-completion/completions-core/shasum.bash /usr/share/bash-completion/completions-core/conjure.bash /usr/share/bash-completion/completions-core/munindoc.bash /usr/share/bash-completion/completions-core/pylint-2.bash /usr/share/bash-completion/completions-core/pylint-3.bash /usr/share/bash-completion/completions-core/dnssec-keygen.bash /usr/share/bash-completion/completions-core/postmap.bash /usr/share/bash-completion/completions-core/xmodmap.bash /usr/share/bash-completion/comp
- letions-core/firefox-esr.bash /usr/share/bash-completion/completions-core/configure.bash /usr/share/bash-completion/completions-core/jarsigner.bash /usr/share/bash-completion/completions-core/minicom.bash /usr/share/bash-completion/completions-fallback/rfkill.bash /usr/share/bash-completion/completions-core/btdownloadheadless.py.bash /usr/share/bash-completion/completions-fallback/ko.bash /usr/share/bash-completion/completions-core/luserdel.bash /usr/share/bash-completion/completions-core/geoiplookup.bash /usr/share/bash-completion/completions-fallback/arduino-cli.bash /usr/share/bash-completion/completions-core/gnumake.bash /usr/share/bash-completion/completions-core/iwpriv.bash /usr/share/bash-completion/completions-core/lvchange.bash /usr/share/bash-completion/completions-core/pvchange.bash /usr/share/bash-completion/completions-core/vgchange.bash /usr/share/bash-completion/completions-fallback/kool.bash /usr/share/bash-completion/completions-core/cleanarch.bash /usr/share/bash-c
- ompletion/completions-fallback/kops.bash /usr/share/bash-completion/completions-core/repquota.bash /usr/share/bash-completion/completions-core/setquota.bash /usr/share/bash-completion/completions-core/qemu-system-x86_64.bash /usr/share/bash-completion/completions-core/smbpasswd.bash /usr/share/bash-completion/completions-core/iwlist.bash /usr/share/bash-completion/completions-core/pytest.bash /usr/share/bash-completion/completions-core/rmlist.bash /usr/share/bash-completion/completions-core/tsig-keygen.bash /usr/share/bash-completion/completions-core/lua51.bash /usr/share/bash-completion/completions-fallback/kata-runtime.bash /usr/share/bash-completion/completions-core/avctrl.bash /usr/share/bash-completion/completions-core/groupmod.bash /usr/share/bash-completion/completions-core/chromium-browser.bash /usr/share/bash-completion/completions-core/ciptool.bash /usr/share/bash-completion/completions-core/dfutool.bash /usr/share/bash-completion/completions-core/change_pw.bash /usr/share
- /bash-completion/completions-core/hcitool.bash /usr/share/bash-completion/completions-core/pkgtool.bash /usr/share/bash-completion/completions-core/rrdtool.bash /usr/share/bash-completion/completions-core/sdptool.bash /usr/share/bash-completion/completions-fallback/ansible-console.bash /usr/share/bash-completion/completions-core/g++-8.bash /usr/share/bash-completion/completions-core/gcc-8.bash /usr/share/bash-completion/completions-fallback/dmesg.bash /usr/share/bash-completion/completions-fallback/vela.bash /usr/share/bash-completion/completions-fallback/aqua.bash /usr/share/bash-completion/completions-core/makepkg.bash /usr/share/bash-completion/completions-core/chronyc.bash /usr/share/bash-completion/completions-core/lua5.2.bash /usr/share/bash-completion/completions-fallback/svnadmin.bash /usr/share/bash-completion/completions-fallback/container-structure-test.bash /usr/share/bash-completion/completions-core/mkisofs.bash /usr/share/bash-completion/completions-core/gccgo-7.bash /
- usr/share/bash-completion/completions-fallback/wasmer.bash /usr/share/bash-completion/completions-core/ssh-keygen.bash /usr/share/bash-completion/completions-fallback/conftest.bash /usr/share/bash-completion/completions-fallback/ssh-inscribe.bash /usr/share/bash-completion/completions-fallback/k9s.bash /usr/share/bash-completion/completions-fallback/skupper.bash /usr/share/bash-completion/completions-core/python3.8.bash /usr/share/bash-completion/completions-core/python3.9.bash /usr/share/bash-completion/completions-core/chkconfig.bash /usr/share/bash-completion/completions-core/hciconfig.bash /usr/share/bash-completion/completions-core/python2.7.bash /usr/share/bash-completion/completions-core/python2.bash /usr/share/bash-completion/completions-core/python3.3.bash /usr/share/bash-completion/completions-core/python3.4.bash /usr/share/bash-completion/completions-core/python3.5.bash /usr/share/bash-completion/completions-core/python3.6.bash /usr/share/bash-completion/completions-fallb
- ack/yum.bash /usr/share/bash-completion/helpers-core/make-extract-targets.awk /usr/share/bash-completion/completions-fallback/qrpc.bash /usr/share/bash-completion/completions-core/tcpnice.bash /usr/share/bash-completion/completions-fallback/opencode.bash /usr/share/bash-completion/completions-fallback/fx.bash /usr/share/bash-completion/completions-core/automake-1.13.bash /usr/share/bash-completion/completions-core/tcpdump.bash /usr/share/bash-completion/completions-core/vgmerge.bash /usr/share/bash-completion/completions-core/mrsasutil.bash /usr/share/bash-completion/completions-core/postsuper.bash /usr/share/bash-completion/completions-core/vgconvert.bash /usr/share/bash-completion/completions-core/kplayer.bash /usr/share/bash-completion/completions-core/mplayer.bash /usr/share/bash-completion/completions-fallback/bao.bash /usr/share/bash-completion/completions-core/postfix.bash /usr/share/bash-completion/completions-core/sshow.bash /usr/share/bash-completion/completions-core/pyven
- v-3.10.bash /usr/share/bash-completion/completions-core/pyvenv-3.11.bash /usr/share/bash-completion/completions-fallback/kubebuilder.bash /usr/share/bash-completion/completions-core/pngfix.bash /usr/share/bash-completion/completions-core/cppcheck.bash /usr/share/bash-completion/completions-core/pyvenv-3.12.bash /usr/share/bash-completion/completions-core/pyvenv-3.13.bash /usr/share/bash-completion/completions-fallback/hd.bash /usr/share/bash-completion/completions-core/pyvenv-3.14.bash /usr/share/bash-completion/completions-core/pyvenv-3.15.bash /usr/share/bash-completion/completions-fallback/syft.bash /usr/share/bash-completion/completions-core/rpmcheck.bash /usr/share/bash-completion/completions-core/carton.bash /usr/share/bash-completion/completions-core/pyston.bash /usr/share/bash-completion/completions-core/python.bash /usr/share/bash-completion/completions-core/mii-diag.bash /usr/share/bash-completion/completions-fallback/just.bash /usr/share/bash-completion/completions-core/l
- dapsearch.bash /usr/share/bash-completion/completions-fallback/k3sup.bash /usr/share/bash-completion/completions-fallback/kconf.bash /usr/share/bash-completion/completions-fallback/dprint.bash /usr/share/bash-completion/completions-core/createdb.bash /usr/share/bash-completion/completions-core/aptitude.bash /usr/share/bash-completion/completions-core/lvextend.bash /usr/share/bash-completion/completions-core/printenv.bash /usr/share/bash-completion/completions-core/vgextend.bash /usr/share/bash-completion/completions-fallback/ansible-pull.bash /usr/share/bash-completion/completions-fallback/mmctl.bash /usr/share/bash-completion/completions-fallback/colima.bash /usr/share/bash-completion/completions-fallback/consul.bash /usr/share/bash-completion/completions-fallback/cosign.bash /usr/share/bash-completion/completions-fallback/pulumi.bash /usr/share/bash-completion/completions-core/checksec.bash /usr/share/bash-completion/completions-core/mencoder.bash /usr/share/bash-completion/comple
- tions-core/e2label.bash /usr/share/bash-completion/completions-core/pydoc3.bash /usr/share/bash-completion/completions-core/firefox.bash /usr/share/bash-completion/completions-core/luac5.3.bash /usr/share/bash-completion/completions-core/slogin.bash /usr/share/bash-completion/completions-core/wine64-development.bash /usr/share/bash-completion/completions-core/pm-hibernate.bash /usr/share/bash-completion/completions-core/chgrp.bash /usr/share/bash-completion/completions-core/clisp.bash /usr/share/bash-completion/completions-core/clzip.bash /usr/share/bash-completion/completions-core/iftop.bash /usr/share/bash-completion/completions-core/lrzip.bash /usr/share/bash-completion/completions-core/ncftp.bash /usr/share/bash-completion/completions-core/newusers.bash /usr/share/bash-completion/completions-core/ngrep.bash /usr/share/bash-completion/completions-core/pgrep.bash /usr/share/bash-completion/completions-core/pm-suspend-hybrid.bash /usr/share/bash-completion/completions-fallback/svnl
- ook.bash /usr/share/bash-completion/completions-core/quotaon.bash /usr/share/bash-completion/completions-fallback/caddy.bash /usr/share/bash-completion/completions-fallback/cargo.bash /usr/share/bash-completion/completions-fallback/dpkg.bash /usr/share/bash-completion/completions-core/edquota.bash /usr/share/bash-completion/completions-core/co.bash /usr/share/bash-completion/completions-core/jq.bash /usr/share/bash-completion/completions-core/mc.bash /usr/share/bash-completion/completions-core/mr.bash /usr/share/bash-completion/completions-fallback/watchexec.bash /usr/share/bash-completion/completions-core/nc.bash /usr/share/bash-completion/completions-core/p4.bash /usr/share/bash-completion/completions-core/ps.bash /usr/share/bash-completion/completions-core/pv.bash /usr/share/bash-completion/completions-core/ri.bash /usr/share/bash-completion/completions-fallback/ansible-inventory.bash /usr/share/bash-completion/completions-core/lua53.bash /usr/share/bash-completion/completions-co
- re/ifstatus.bash /usr/share/bash-completion/completions-core/pypy3.bash /usr/share/bash-completion/completions-fallback/tfctl.bash /usr/share/bash-completion/completions-fallback/pip3.bash /usr/share/bash-completion/completions-core/filesnarf.bash /usr/share/bash-completion/completions-core/iperf3.bash /usr/share/bash-completion/completions-core/mailsnarf.bash /usr/share/bash-completion/completions-core/ccache.bash /usr/share/bash-completion/completions-core/flake8.bash /usr/share/bash-completion/completions-core/withlist.bash /usr/share/bash-completion/completions-core/xev.bash /usr/share/bash-completion/completions-core/xxd.bash /usr/share/bash-completion/completions-core/automake-1.15.bash /usr/share/bash-completion/completions-core/unrar.bash /usr/share/bash-completion/completions-core/gccgo.bash /usr/share/bash-completion/completions-core/pinfo.bash /usr/share/bash-completion/completions-fallback/k0sctl.bash /usr/share/bash-completion/completions-core/munin-update.bash /usr/sha
- re/bash-completion/completions-fallback/keyring.bash /usr/share/bash-completion/completions-fallback/kubeadm.bash /usr/share/bash-completion/completions-fallback/kubectl.bash /usr/share/bash-completion/completions-fallback/kubesec.bash /usr/share/bash-completion/completions-fallback/kubespy.bash /usr/share/bash-completion/completions-fallback/diesel.bash /usr/share/bash-completion/completions-core/clone_member.bash /usr/share/bash-completion/completions-fallback/velero.bash /usr/share/bash-completion/completions-fallback/stern.bash /usr/share/bash-completion/completions-core/ipcalc.bash /usr/share/bash-completion/completions-fallback/ansible-galaxy.bash /usr/share/bash-completion/completions-core/wine64.bash /usr/share/bash-completion/completions-core/pvmove.bash /usr/share/bash-completion/completions-fallback/write.bash /usr/share/bash-completion/completions-core/gkrellm.bash /usr/share/bash-completion/completions-core/gcl.bash /usr/share/bash-completion/completions-core/gdb.bash /
- usr/share/bash-completion/completions-core/gpc.bash /usr/share/bash-completion/completions-core/gpg.bash /usr/share/bash-completion/completions-core/qrunner.bash /usr/share/bash-completion/completions-core/timeout.bash /usr/share/bash-completion/completions-core/fprintd-enroll.bash /usr/share/bash-completion/completions-core/lsscsi.bash /usr/share/bash-completion/completions-fallback/slackpkg.bash /usr/share/bash-completion/completions-fallback/tkn-pac.bash /usr/share/bash-completion/completions-fallback/nmcli.bash /usr/share/bash-completion/completions-fallback/interdiff.bash /usr/share/bash-completion/completions-core/reportbug.bash /usr/share/bash-completion/completions-core/tightvncviewer.bash /usr/share/bash-completion/completions-fallback/chamber.bash /usr/share/bash-completion/completions-fallback/changie.bash /usr/share/bash-completion/completions-fallback/chezmoi.bash /usr/share/bash-completion/completions-core/pytest-2.bash /usr/share/bash-completion/completions-core/pytes
- t-3.bash /usr/share/bash-completion/completions-fallback/esc.bash /usr/share/bash-completion/completions-core/jpegoptim.bash /usr/share/bash-completion/completions-fallback/random.bash /usr/share/bash-completion/completions-core/lua5.4.bash /usr/share/bash-completion/completions-fallback/ignite.bash /usr/share/bash-completion/completions-core/wine-development.bash /usr/share/bash-completion/completions-core/sbcl.bash /usr/share/bash-completion/completions-core/sftp.bash /usr/share/bash-completion/completions-core/star.bash /usr/share/bash-completion/completions-core/sudo.bash /usr/share/bash-completion/completions-core/lzip.bash /usr/share/bash-completion/completions-core/lzma.bash /usr/share/bash-completion/completions-core/lzop.bash /usr/share/bash-completion/completions-core/make.bash /usr/share/bash-completion/completions-core/mutt.bash /usr/share/bash-completion/completions-core/mypy.bash /usr/share/bash-completion/completions-core/dropdb.bash /usr/share/bash-completion/complet
- ions-core/dumpdb.bash /usr/share/bash-completion/completions-fallback/httpx.bash /usr/share/bash-completion/completions-core/luseradd.bash /usr/share/bash-completion/completions-core/dhclient.bash /usr/share/bash-completion/completions-core/luac5.2.bash /usr/share/bash-completion/completions-fallback/gcrane.bash /usr/share/bash-completion/completions-fallback/task.bash /usr/share/bash-completion/completions-core/pyflakes.bash /usr/share/bash-completion/completions-fallback/eject.bash /usr/share/bash-completion/completions-fallback/kubeshark.bash /usr/share/bash-completion/completions-fallback/timoni.bash /usr/share/bash-completion/completions-fallback/melange.bash /usr/share/bash-completion/completions-core/vgs.bash /usr/share/bash-completion/completions-core/gkrellm2.bash /usr/share/bash-completion/completions-core/xmllint.bash /usr/share/bash-completion/completions-core/luac50.bash /usr/share/bash-completion/completions-fallback/atlas.bash /usr/share/bash-completion/completions-fa
- llback/atmos.bash /usr/share/bash-completion/completions-core/freeciv-gtk2.bash /usr/share/bash-completion/completions-core/shellcheck.bash /usr/share/bash-completion/completions-core/freeciv-gtk3.bash /usr/share/bash-completion/completions-fallback/chfn.bash /usr/share/bash-completion/completions-fallback/chsh.bash /usr/share/bash-completion/completions-core/cfrun.bash /usr/share/bash-completion/completions-core/chown.bash /usr/share/bash-completion/completions-core/autossh.bash /usr/share/bash-completion/completions-core/pwgen.bash /usr/share/bash-completion/completions-core/pm-powersave.bash /usr/share/bash-completion/completions-fallback/kubecm.bash /usr/share/bash-completion/completions-fallback/talhelper.bash /usr/share/bash-completion/completions-fallback/gh.bash /usr/share/bash-completion/completions-fallback/xc.bash /usr/share/bash-completion/completions-core/cryptsetup.bash /usr/share/bash-completion/completions-fallback/kafkactl.bash /usr/share/bash-completion/completions
- -core/sidedoor.bash /usr/share/bash-completion/completions-fallback/etcdctl.bash /usr/share/bash-completion/completions-fallback/etcdutl.bash /usr/share/bash-completion/completions-core/tracepath.bash /usr/share/bash-completion/completions-core/json_xs.bash /usr/share/bash-completion/completions-core/autoconf.bash /usr/share/bash-completion/completions-core/cdrecord.bash /usr/share/bash-completion/completions-core/postconf.bash /usr/share/bash-completion/completions-core/sitecopy.bash /usr/share/bash-completion/completions-fallback/moldy.bash /usr/share/bash-completion/completions-fallback/mount.bash /usr/share/bash-completion/completions-core/lvscan.bash /usr/share/bash-completion/completions-core/pvscan.bash /usr/share/bash-completion/completions-core/vgscan.bash /usr/share/bash-completion/completions-core/vgcfgrestore.bash /usr/share/bash-completion/completions-core/wvdial.bash /usr/share/bash-completion/completions-fallback/minishift.bash /usr/share/bash-completion/completions-c
- ore/autoupdate.bash /usr/share/bash-completion/completions-fallback/mise.bash /usr/share/bash-completion/completions-core/crontab.bash /usr/share/bash-completion/completions-core/postcat.bash /usr/share/bash-completion/completions-fallback/uv.bash /usr/share/bash-completion/completions-fallback/yq.bash /usr/share/bash-completion/completions-fallback/copilot.bash /usr/share/bash-completion/completions-core/gssdp-device-sniffer.bash"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PKGSIZE changed from 150458 to 1048173 (+597%)
-packages/x86-64-v3-poky-linux/bash-completion/bash-completion: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion: PV changed from "2.17.0" to "2.18.0"
-packages/x86-64-v3-poky-linux/bash-completion: PKGV changed from 2.17.0 [default] to 2.18.0 [default]
-packages/x86-64-v3-poky-linux/bash-completion: SRC_URI changed from "https://github.com/scop/bash-completion/releases/download/2.17.0/bash-completion-2.17.0.tar.xz" to "https://github.com/scop/bash-completion/releases/download/2.18.0/bash-completion-2.18.0.tar.xz"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dbg: PKGSIZE changed from 10945296 to 10949880 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dbg: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dbg: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dev: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dev: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-doc: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-doc: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ab: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ab: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-af: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-af: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-am: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-am: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-an: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-an: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ar: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ar: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-as: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-as: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ast: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ast: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-az: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-az: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be+latin: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be+latin: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be: PKGSIZE changed from 116685 to 125754 (+8%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bg: PKGSIZE changed from 129093 to 129090 (-0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bg: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bg: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn-in: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn-in: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-br: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-br: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bs: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bs: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca+valencia: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca+valencia: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ckb: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ckb: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cs: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cs: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cy: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cy: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-da: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-da: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-de: PKGSIZE changed from 100834 to 101152 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-de: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-de: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-dz: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-dz: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-el: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-el: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en+shaw: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en+shaw: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-ca: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-ca: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-gb: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-gb: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eo: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eo: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-es: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-es: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-et: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-et: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eu: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eu: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fa: PKGSIZE changed from 117488 to 119198 (+1%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fa: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fa: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fi: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fi: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fr: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fr: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fur: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fur: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fy: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fy: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ga: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ga: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gl: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gl: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gu: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gu: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gv: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gv: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-he: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-he: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hi: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hi: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hr: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hr: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hu: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hu: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hy: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hy: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ia: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ia: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-id: PKGSIZE changed from 94232 to 94289 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-id: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-id: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ie: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ie: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ig: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ig: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-is: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-is: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-it: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-it: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ja: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ja: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ka: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ka: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kab: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kab: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kk: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kk: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-km: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-km: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kn: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kn: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ko: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ko: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ku: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ku: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-li: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-li: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lt: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lt: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lv: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lv: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mai: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mai: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mg: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mg: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mi: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mi: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mk: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mk: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ml: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ml: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mn: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mn: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mr: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mr: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ms: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ms: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-my: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-my: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nb: PKGSIZE changed from 68584 to 71635 (+4%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nb: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nb: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nds: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nds: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ne: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ne: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nl: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nl: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nn: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nn: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-oc: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-oc: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-or: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-or: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pa: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pa: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pl: PKGSIZE changed from 100038 to 100179 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pl: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pl: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ps: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ps: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt-br: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt-br: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ro: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ro: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ru: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ru: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-rw: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-rw: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-si: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-si: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sk: PKGSIZE changed from 100442 to 100441 (-0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sk: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sk: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sl: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sl: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sq: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sq: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr+latin: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr+latin: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sv: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sv: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ta: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ta: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-te: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-te: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tg: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tg: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-th: PKGSIZE changed from 118004 to 145891 (+24%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-th: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-th: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tk: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tk: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tr: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tr: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ug: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ug: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uk: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uk: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-vi: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-vi: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-wa: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-wa: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-yo: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-yo: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-cn: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-cn: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-hk: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-hk: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-tw: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-tw: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: PKGSIZE changed from 32638282 to 32643480 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: FILELIST: directory renamed /usr/src/debug/epiphany/50.4/src/preferences -> /usr/src/debug/epiphany/50.6/src/preferences, directory renamed /usr/src/debug/epiphany/50.4/lib/autofill -> /usr/src/debug/epiphany/50.6/lib/autofill, directory renamed /usr/src/debug/epiphany/50.4/src/profile-migrator -> /usr/src/debug/epiphany/50.6/src/profile-migrator, directory renamed /usr/src/debug/epiphany/50.4/embed -> /usr/src/debug/epiphany/50.6/embed, directory renamed /usr/src/debug/epiphany/50.4/src/search-provider -> /usr/src/debug/epiphany/50.6/src/search-provider, directory renamed /usr/src/debug/epiphany/50.4/src/webapp-provider -> /usr/src/debug/epiphany/50.6/src/webapp-provider, directory renamed /usr/src/debug/epiphany/50.4/lib/sync -> /usr/src/debug/epiphany/50.6/lib/sync, directory renamed /usr/src/debug/epiphany/50.4/src/webextension/api -> /usr/src/debug/epiphany/50.6/src/webextension/api, directory renamed /usr/src/debug/epiphany/5
+ 0.4/embed/web-process-extension -> /usr/src/debug/epiphany/50.6/embed/web-process-extension, directory renamed /usr/src/debug/epiphany/50.4/lib/history -> /usr/src/debug/epiphany/50.6/lib/history, directory renamed /usr/src/debug/epiphany/50.4/lib/contrib -> /usr/src/debug/epiphany/50.6/lib/contrib, directory renamed /usr/src/debug/epiphany/50.4/third-party/gvdb -> /usr/src/debug/epiphany/50.6/third-party/gvdb, directory renamed /usr/src/debug/epiphany/50.4/lib/sync/debug -> /usr/src/debug/epiphany/50.6/lib/sync/debug, directory renamed /usr/src/debug/epiphany/50.4/src/webextension -> /usr/src/debug/epiphany/50.6/src/webextension, directory renamed /usr/src/debug/epiphany/50.4/src -> /usr/src/debug/epiphany/50.6/src, directory renamed /usr/src/debug/epiphany/50.4/third-party -> /usr/src/debug/epiphany/50.6/third-party, directory renamed /usr/src/debug/epiphany/50.4/src/bookmarks -> /usr/src/debug/epiphany/50.6/src/bookmarks, directory renamed /usr/src/debug/epiphany/50.4/lib -> /usr
+ /src/debug/epiphany/50.6/lib
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-staticdev: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-staticdev: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany/epiphany: PKGSIZE changed from 6693874 to 6695714 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany: PV changed from "50.4" to "50.6"
+packages/x86-64-v3-poky-linux/epiphany: SRC_URI changed from "https://download.gnome.org/sources//epiphany/50/epiphany-50.4.tar.xz;name=archive file://0002-help-meson.build-disable-the-use-of-yelp.patch file://migrator.patch file://distributor.patch" to "https://download.gnome.org/sources//epiphany/50/epiphany-50.6.tar.xz;name=archive file://0002-help-meson.build-disable-the-use-of-yelp.patch file://migrator.patch file://distributor.patch"
+packages/x86-64-v3-poky-linux/epiphany: PACKAGES: added "epiphany-locale-lo"
+packages/x86-64-v3-poky-linux/epiphany: PKGV changed from 50.4 [default] to 50.6 [default]
+packages/x86-64-v3-poky-linux/epiphany: PV changed from "50.4" to "50.6"
 
---===============5714043520528367112==--
+--===============4149441841723606521==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 955 .bb files complete (0 cached, 955 parsed). 1984 targets, 63 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-54c19fc7ac41af4d52f0b6df7e3d779477377959"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:54c19fc7ac41af4d52f0b6df7e3d779477377959"
+meta-yocto-bsp       
+meta-poky            = "master:30756f716a1f527a74a9e12bad8f6e0e756ed9a4"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1508 Local 933 Mirrors 0 Missed 575 Current 471 (61% match, 70% complete)
+done.
+Removing 4 stale sstate objects for arch allarch...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 544 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_50.6.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 662 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gnome/adwaita-icon-theme_50.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 671 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 678 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 684 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 696 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/groff/groff_1.24.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 699 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 711 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 714 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 754 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 756 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 769 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 790 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libadwaita/libadwaita_1.9.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 795 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 799 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 809 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe adwaita-icon-theme-50.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe epiphany-50.6-r0: task do_populate_lic_setscene: Started
+NOTE: recipe nettle-4.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe nettle-4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe coreutils-9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libfyaml-0.9.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libcap-2.78-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libadwaita-1.9.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-packaging-26.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe groff-native-1.24.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe adwaita-icon-theme-50.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 814 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 830 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_create_spdx_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 831 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_create_spdx_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe epiphany-50.6-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 840 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_recipe_qa_setscene)
+NOTE: recipe nettle-4.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 842 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 843 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 864 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libfyaml-0.9.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libadwaita-1.9.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 869 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_create_spdx_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-packaging-26.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libcap-2.78-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe groff-native-1.24.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 870 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gnome/adwaita-icon-theme_50.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 873 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 877 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libadwaita/libadwaita_1.9.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 879 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 882 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/iso-codes/iso-codes_4.20.1.bb:do_create_spdx_setscene)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 895 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libportal/libportal_0.10.0.bb:do_recipe_qa_setscene)
+NOTE: recipe nettle-4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 899 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cargo-c/cargo-c_0.10.24+cargo-0.98.0.bb:do_create_spdx_setscene)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_create_spdx_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcr-4.4.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe adwaita-icon-theme-50.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe p11-kit-0.26.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe iso-codes-4.20.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libical-native-4.0.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libadwaita-1.9.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libportal-0.10.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 900 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 904 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_recipe_qa_setscene)
+NOTE: recipe readline-8.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 906 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gcr-4.4.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 907 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe p11-kit-0.26.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe json-glib-1.10.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 909 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 912 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 917 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 918 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libical-native-4.0.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libadwaita-1.9.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 924 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/shaderc/shaderc_2026.3.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 925 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland-protocols_1.49.bb:do_create_spdx_setscene)
+NOTE: recipe iso-codes-4.20.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 928 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_50.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libportal-0.10.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe coreutils-9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe adwaita-icon-theme-50.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 932 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 934 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/groff/groff_1.24.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 935 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libarchive-3.8.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 943 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb:do_recipe_qa_setscene)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-packaging-26.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe appstream-1.1.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libcap-2.78-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe wayland-protocols-1.49-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gsettings-desktop-schemas-50.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libfyaml-0.9.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cargo-c-native-0.10.24+cargo-0.98.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe nettle-4.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libarchive-3.8.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shaderc-native-2026.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 944 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libnotify/libnotify_0.8.8.bb:do_recipe_qa_setscene)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe groff-native-1.24.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-packaging-26.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 952 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 955 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 957 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe appstream-1.1.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe webkitgtk-2.52.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 958 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe wayland-protocols-1.49-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libcap-2.78-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 961 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 971 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libgpg-error-1.61-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 973 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.7.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 979 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/groff/groff_1.24.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gsettings-desktop-schemas-50.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 984 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe cargo-c-native-0.10.24+cargo-0.98.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe nettle-4.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe shaderc-native-2026.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1002 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-docutils_0.23.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1006 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1016 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.20.2.bb:do_create_spdx_setscene)
+NOTE: recipe libnotify-0.8.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe webkitgtk-2.52.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1018 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxt-1_1.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libfyaml-0.9.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1022 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
+NOTE: recipe orc-native-0.4.42-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe shadow-4.20.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe groff-native-1.24.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libnotify-0.8.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1024 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/libwpe_1.16.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-docutils-native-0.23-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gdk-pixbuf-native-2.44.7-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxt-1_1.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1027 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxslt-1.1.45-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1029 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1032 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_recipe_qa_setscene)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1035 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe orc-native-0.4.42-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1036 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/iso-codes/iso-codes_4.20.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe groff-native-1.24.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe groff-native-1.24.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1040 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb:do_recipe_qa_setscene)
+NOTE: recipe readline-8.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1046 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_packagedata_setscene)
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1055 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libsecret/libsecret_0.21.7.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-docutils-native-0.23-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1059 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/wpebackend-fdo_1.16.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1060 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe shadow-4.20.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gdk-pixbuf-native-2.44.7-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libwpe-1.16.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1062 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1064 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe appstream-1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1069 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_create_spdx_setscene)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsoup-3.6.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxt-1_1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1072 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe iso-codes-4.20.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1073 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libwpe-1.16.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe p11-kit-0.26.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wpebackend-fdo-1.16.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1078 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe libsecret-0.21.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe nghttp2-1.70.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe nettle-4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe appstream-1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1080 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/libwpe_1.16.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libxt-1_1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1081 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe tiff-4.7.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe iso-codes-4.20.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libsoup-3.6.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe json-glib-1.10.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1083 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1087 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1089 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cargo-c/cargo-c_0.10.24+cargo-0.98.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe shared-mime-info-native-2.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe p11-kit-0.26.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1090 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1091 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/enchant/enchant2_2.8.19.bb:do_recipe_qa_setscene)
+NOTE: recipe libsecret-0.21.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe wpebackend-fdo-1.16.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe nghttp2-1.70.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1092 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1096 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_recipe_qa_setscene)
+NOTE: recipe nettle-4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1098 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe hicolor-icon-theme-0.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gtk4-4.22.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1099 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1102 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.20.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libwpe-1.16.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe tiff-4.7.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libfyaml-0.9.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1103 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_create_spdx_setscene)
+NOTE: recipe shared-mime-info-native-2.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1110 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe enchant2-2.8.19-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gtk4-4.22.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe sbc-2.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1111 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libwebp-1.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libical-native-4.0.4-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libwpe-1.16.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1120 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_create_spdx_setscene)
+NOTE: recipe libfyaml-0.9.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1125 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-native-4.20.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1131 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1132 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libtasn1-4.21.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe enchant2-2.8.19-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1133 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/aspell/aspell_0.60.8.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxslt-1.1.45-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe icu-native-78.3-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1135 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libical-native-4.0.4-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1140 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1142 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1144 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_create_spdx_setscene)
+NOTE: recipe shadow-native-4.20.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe cargo-c-native-0.10.24+cargo-0.98.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1146 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/groff/groff_1.24.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libxmlb-0.3.28-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sbc-2.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1151 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libwebp-1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1152 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_recipe_qa_setscene)
+NOTE: recipe flac-1.5.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe openssl-native-3.5.7-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1157 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb:do_recipe_qa_setscene)
+NOTE: recipe graphene-1.10.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1159 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_create_spdx_setscene)
+NOTE: recipe icu-native-78.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe aspell-0.60.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1168 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_create_spdx_setscene)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe icu-78.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe cargo-c-native-0.10.24+cargo-0.98.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxmlb-0.3.28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1170 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1172 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe openssl-native-3.5.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1173 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.20.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe flac-1.5.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe nghttp2-1.70.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe aspell-0.60.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1180 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libsoup-3.6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1185 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe groff-native-1.24.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gtk4-4.22.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe graphene-1.10.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe update-rc.d-native-0.8+git-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1189 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe acl-2.4.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1191 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1192 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1195 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_create_spdx_setscene)
+NOTE: recipe icu-78.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1196 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe tiff-4.7.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe groff-native-1.24.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe nghttp2-1.70.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libsoup-3.6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1199 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1202 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_recipe_qa_setscene)
+NOTE: recipe shadow-4.20.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1203 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_populate_sysroot_setscene)
+NOTE: recipe libfyaml-0.9.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gtk4-4.22.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe update-rc.d-native-0.8+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1204 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1206 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-mako_1.4.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gtk+3-3.24.52-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe acl-2.4.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1213 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe tiff-4.7.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1217 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.357.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libusb1-1.0.30-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1220 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/xmlto/xmlto_0.0.29.bb:do_create_spdx_setscene)
+NOTE: recipe libfyaml-0.9.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1226 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_packagedata_setscene)
+NOTE: recipe libogg-1.3.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe shadow-4.20.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1227 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_create_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1229 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/chrpath/chrpath_0.18.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libxmlb-0.3.28-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gtk+3-3.24.52-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1235 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1237 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1240 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libusb1-1.0.30-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1243 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-pyyaml-native-6.0.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-mako-native-1.4.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1244 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland-protocols_1.49.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe xmlto-native-0.0.29-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1259 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_populate_sysroot_setscene)
+NOTE: recipe glslang-native-1_1.4.357.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxmlb-0.3.28-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1260 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/makedepend_1.0.9.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe librsvg-2.62.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-pyyaml-native-6.0.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe python3-mako-native-1.4.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1273 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe chrpath-native-0.18-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe acl-2.4.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1283 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_recipe_qa_setscene)
+NOTE: recipe libgudev-238-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gtk+3-3.24.52-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-protocols-1.49-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xmlto-native-0.0.29-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1285 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe glslang-native-1_1.4.357.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1288 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1289 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libcap-2.78-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe librsvg-2.62.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1290 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_create_spdx_setscene)
+NOTE: recipe chrpath-native-0.18-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1294 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libpam-1.7.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libgudev-238-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1297 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe wayland-protocols-1.49-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libwebp-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe makedepend-native-1_1.0.9-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1298 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1299 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gtk+3-3.24.52-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe acl-2.4.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1300 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_create_spdx_setscene)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1304 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1308 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe graphene-1.10.8-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1316 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_recipe_qa_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe makedepend-native-1_1.0.9-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe shared-mime-info-native-2.5.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe attr-2.6.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1317 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1319 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe graphene-1.10.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1325 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_create_spdx_setscene)
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.78-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1327 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb:do_recipe_qa_setscene)
+NOTE: recipe curl-8.21.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1329 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1332 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe shared-mime-info-native-2.5.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1333 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe attr-2.6.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1334 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.87.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1335 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libcap-ng-0.9.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1336 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe bash-completion-2.17.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1344 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1345 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe curl-8.21.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1347 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1353 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1354 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxslt-native-1.1.45-r0: task do_create_spdx_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1357 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libpam-1.7.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libwebp-1.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1358 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_create_spdx_setscene)
+NOTE: recipe librsvg-2.62.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bluez5-5.87-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe sbc-2.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1360 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libxslt-native-1.1.45-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1361 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_recipe_qa_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1363 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/iso-codes/iso-codes_4.20.1.bb:do_packagedata_setscene)
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1365 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libwebp-1.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe librsvg-2.62.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bluez5-5.87-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1372 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe sbc-2.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1374 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.58.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1378 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1382 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1387 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1389 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_create_spdx_setscene)
+NOTE: recipe attr-2.6.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1397 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_recipe_qa_setscene)
+NOTE: recipe libusb1-1.0.30-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1399 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_create_spdx_setscene)
+NOTE: recipe libxml2-2.15.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1400 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_create_spdx_setscene)
+NOTE: recipe readline-8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe iso-codes-4.20.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1404 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1410 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libusb1-1.0.30-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe pango-1.58.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1411 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe attr-2.6.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1412 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_create_spdx_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1416 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_recipe_qa_setscene)
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe openssl-native-3.5.7-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1417 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe pango-1.58.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1420 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/xmlto/xmlto_0.0.29.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1425 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20260512-3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1427 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_create_spdx_setscene)
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1429 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe sbc-2.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1432 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1433 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe openssl-native-3.5.7-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1438 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1440 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libffi-3.8.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1441 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1443 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libgpg-error-1.61-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1444 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.60.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sbc-2.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1446 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xmlto-native-0.0.29-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1447 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libglu-2_9.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1450 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe curl-8.21.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpsl-0.23.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1454 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libxft-1_2.3.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xmlto-native-0.0.29-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1456 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1460 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1462 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1463 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1464 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.48-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1465 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe curl-8.21.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpsl-0.23.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1467 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/compiler-rt_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1468 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1469 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1472 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1473 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe flac-1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1474 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_recipe_qa_setscene)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1476 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.7.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libical-native-4.0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe compiler-rt-22.1.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1478 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/compiler-rt_git.bb:do_packagedata_setscene)
+NOTE: recipe libedit-20260512-3.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1481 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1483 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1486 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1488 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_create_spdx_setscene)
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe bash-completion-2.17.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libffi-3.8.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1491 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1492 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1493 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe flac-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libedit-20260512-3.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1494 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe compiler-rt-22.1.8-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1495 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1498 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.87.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1499 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_recipe_qa_setscene)
+NOTE: recipe compiler-rt-22.1.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.5.7-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1503 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libgpg-error-1.61-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libical-native-4.0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1504 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1507 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe orc-0.4.42-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxslt-native-1.1.45-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe util-macros-native-1_1.20.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bluez5-5.87-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.7-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1508 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtheora-1.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1510 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_recipe_qa_setscene)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe orc-0.4.42-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libsndfile1-1.2.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1511 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe compiler-rt-22.1.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1512 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_recipe_qa_setscene)
+NOTE: recipe iso-codes-4.20.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxslt-native-1.1.45-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1514 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe util-macros-native-1_1.20.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1515 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.58.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1516 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_create_spdx_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1518 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1527 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.60.6.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1528 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe mesa-2_26.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bluez5-5.87-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1531 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1532 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1538 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libical-4.0.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-2.78-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1543 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_recipe_qa_setscene)
+NOTE: recipe libpcre2-10.47-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe pango-1.58.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_26.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1548 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1549 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libcxx-22.1.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpsl-0.23.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1550 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libical-4.0.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1552 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland-protocols_1.49.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.78-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1553 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_create_spdx_setscene)
+NOTE: recipe libpcre2-10.47-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe pango-1.58.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1556 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1557 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1558 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1559 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb:do_recipe_qa_setscene)
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1560 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_recipe_qa_setscene)
+NOTE: recipe libidn2-2.3.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1561 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe flac-1.5.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1562 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpsl-0.23.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1564 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libcxx-22.1.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1566 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe wayland-protocols-1.49-r0: task do_packagedata_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1567 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/xmlto/xmlto_0.0.29.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1570 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libxft-1_2.3.9-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-native-2025.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe flac-1.5.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1572 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_recipe_qa_setscene)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1573 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1576 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe kmod-34.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe wayland-protocols-1.49-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1580 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1581 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_recipe_qa_setscene)
+NOTE: recipe xorgproto-native-2025.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1583 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xmlto-native-0.0.29-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1585 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1588 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/compiler-rt_git.bb:do_package_setscene)
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.48-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxtst-1_1.2.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libical-native-4.0.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe orc-0.4.42-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe kmod-34.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe dbus-1.16.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtool-cross-2.6.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libical-native-4.0.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe orc-0.4.42-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xmlto-native-0.0.29-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1589 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1591 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1592 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.20.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1593 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1595 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1599 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1600 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1601 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1603 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1605 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1608 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libtool-cross-2.6.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1614 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1616 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 1619 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe mesa-2_26.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1620 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe shadow-4.20.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe docbook-xml-dtd4-native-4.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe kmod-34.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe harfbuzz-14.3.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-macros-native-1_1.20.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1621 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1622 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.20.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1623 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libdrm-2.4.134-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1624 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
+NOTE: recipe kmod-34.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1627 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1631 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1632 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe ncurses-6.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1633 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe util-macros-native-1_1.20.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1634 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1635 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1636 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1637 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe harfbuzz-14.3.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1638 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxi-1_1.8.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe docbook-xml-dtd4-native-4.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1639 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_recipe_qa_setscene)
+NOTE: recipe shadow-4.20.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe flac-1.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1642 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_recipe_qa_setscene)
+NOTE: recipe icu-78.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1643 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1646 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1648 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1649 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe flac-1.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1650 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1651 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1654 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1657 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libsm-1_1.2.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1659 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe shadow-4.20.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1665 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libogg-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1667 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtool-cross-2.6.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1668 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_recipe_qa_setscene)
+NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libical-4.0.4-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1669 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_recipe_qa_setscene)
+NOTE: recipe vala-0.56.19-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe cairo-1.18.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe compiler-rt-22.1.8-r0: task do_package_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libical-4.0.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-4.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1670 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.6.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1671 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe xorgproto-native-2025.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vala-0.56.19-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1672 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe dbus-1.16.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe cairo-1.18.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1673 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1677 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1678 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1680 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1682 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_recipe_qa_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1684 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe icu-78.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1685 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe shadow-4.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1687 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1688 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxi-1_1.8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xorgproto-native-2025.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1695 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libsm-1_1.2.6-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1696 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_recipe_qa_setscene)
+NOTE: recipe libogg-1.3.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1697 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe docbook-xsl-stylesheets-native-1.79.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe acl-2.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe update-rc.d-native-0.8+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vala-0.56.19-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1698 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe harfbuzz-14.3.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1699 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_packagedata_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libdrm-2.4.134-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1700 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vala-0.56.19-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1701 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1702 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1707 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1708 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1711 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1712 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb:do_recipe_qa_setscene)
+NOTE: recipe update-rc.d-native-0.8+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe harfbuzz-14.3.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1715 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1716 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1718 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/xmlto/xmlto_0.0.29.bb:do_recipe_qa_setscene)
+NOTE: recipe acl-2.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1720 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe acl-2.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe compiler-rt-22.1.8-r0: task do_package_setscene: Succeeded
+NOTE: recipe libogg-1.3.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1721 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 1722 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe docbook-xml-dtd4-native-4.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe icu-78.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fontconfig-2.18.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1723 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xmlto-native-0.0.29-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1725 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.19-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1726 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1727 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1728 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1731 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_spdx_setscene)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1735 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_packagedata_setscene)
+NOTE: recipe docbook-xml-dtd4-native-4.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1736 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-2.42.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe icu-78.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1737 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/compiler-rt_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe acl-2.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xmlto-native-0.0.29-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1739 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/compiler-rt_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1741 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1743 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe docbook-xsl-stylesheets-native-1.79.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1745 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_recipe_qa_setscene)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-1.26.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe update-rc.d-0.8+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1746 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1751 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe compiler-rt-22.1.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe compiler-rt-22.1.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe update-rc.d-0.8+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe wayland-1.26.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1753 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_recipe_qa_setscene)
+NOTE: recipe fontconfig-2.18.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpciaccess-0.19-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1755 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1758 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1759 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1760 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe cairo-1.18.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1761 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_packagedata_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1762 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_recipe_qa_setscene)
+NOTE: recipe compiler-rt-22.1.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe compiler-rt-22.1.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1764 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1765 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libpcre2-10.47-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1766 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1767 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_packagedata_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1772 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
+NOTE: recipe libpciaccess-0.19-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1773 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_recipe_qa_setscene)
+NOTE: recipe freetype-2.14.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe icu-78.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1774 of 1979 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe attr-2.6.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1775 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe docbook-xsl-stylesheets-native-1.79.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1776 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe attr-2.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe freetype-2.14.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe icu-78.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1777 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_create_spdx_setscene)
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1778 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1780 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe wayland-1.26.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1782 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1783 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_recipe_qa_setscene)
+NOTE: recipe update-rc.d-native-0.8+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe docbook-xsl-stylesheets-native-1.79.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running setscene task 1785 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1787 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_recipe_qa_setscene)
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxml2-2.15.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe wayland-1.26.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1789 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1791 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_recipe_qa_setscene)
+NOTE: recipe attr-2.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe update-rc.d-native-0.8+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 1792 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1793 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_recipe_qa_setscene)
+NOTE: recipe freetype-2.14.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe acl-2.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1794 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe attr-2.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1803 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxml2-2.15.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1805 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe freetype-2.14.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1806 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libx11-1_1.8.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpng-1.6.58-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1810 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1811 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe acl-2.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1817 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1819 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1821 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1822 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1823 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe libpng-1.6.58-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxml2-2.15.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1827 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe attr-2.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1828 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1829 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1831 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_package_setscene)
+NOTE: Running setscene task 1832 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1833 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1834 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1835 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1836 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_package_setscene)
+NOTE: Running setscene task 1837 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1838 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.47.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1842 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1844 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_package_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_package_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpcre2-10.47-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1855 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1856 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1857 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1858 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 664 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_fetch)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_fetch: Started
+NOTE: Running task 818 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_write_config)
+NOTE: Running task 883 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_fetch)
+NOTE: Running task 885 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_fetch)
+NOTE: Running task 887 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_fetch)
+NOTE: Running task 891 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_fetch)
+NOTE: Running task 893 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_fetch)
+NOTE: Running task 903 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_fetch)
+NOTE: Running task 916 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_write_config)
+NOTE: Running task 921 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_write_config)
+NOTE: Running task 933 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_write_config)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_write_config: Started
+NOTE: Running task 947 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_fetch)
+NOTE: Running task 949 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_fetch)
+NOTE: Running task 952 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_fetch)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_fetch: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_fetch: Started
+NOTE: recipe libpng-1.6.58-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_write_config: Succeeded
+NOTE: recipe libxml2-2.15.3-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_fetch: Started
+NOTE: Running task 953 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_fetch)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_write_config: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_write_config: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_fetch: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_fetch: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_write_config: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_write_config: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_write_config: Succeeded
+NOTE: Running task 955 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_fetch)
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_write_config: Succeeded
+NOTE: Running task 957 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_fetch)
+NOTE: recipe libxau-1_1.0.12-r0: task do_fetch: Started
+NOTE: Running task 975 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_fetch)
+NOTE: recipe libxcb-1.17.0-r0: task do_fetch: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_fetch: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_fetch: Succeeded
+NOTE: Running task 976 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_unpack)
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_fetch: Succeeded
+NOTE: Running task 977 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_unpack)
+NOTE: Running task 978 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_unpack)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_unpack: Succeeded
+NOTE: Running task 979 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_patch)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_patch: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_fetch: Succeeded
+NOTE: Running task 980 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_unpack)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_patch: Succeeded
+NOTE: Running task 1005 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_fetch)
+NOTE: recipe libxml2-2.15.3-r0: task do_unpack: Started
+NOTE: recipe icu-78.3-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1006 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_patch)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_patch: Started
+NOTE: recipe libpng-1.6.58-r0: task do_fetch: Succeeded
+NOTE: Running task 1007 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_unpack)
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1008 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_patch)
+NOTE: recipe libpng-1.6.58-r0: task do_unpack: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1009 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_patch)
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_patch: Started
+NOTE: recipe libpng-1.6.58-r0: task do_unpack: Succeeded
+NOTE: Running task 1010 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_patch)
+NOTE: recipe libxml2-2.15.3-r0: task do_patch: Started
+NOTE: recipe libpng-1.6.58-r0: task do_patch: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1011 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_unpack)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_unpack: Started
+NOTE: recipe libpng-1.6.58-r0: task do_patch: Succeeded
+NOTE: recipe libxml2-2.15.3-r0: task do_patch: Succeeded
+NOTE: Running task 1012 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_deploy_source_date_epoch)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1022 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_patch)
+NOTE: Running task 1044 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_fetch)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_patch: Succeeded
+NOTE: Running task 1045 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe libpng-1.6.58-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_patch: Started
+NOTE: recipe freetype-2.14.3-r0: task do_fetch: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1046 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_unpack)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_unpack: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1047 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_patch)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_patch: Succeeded
+NOTE: recipe libpng-1.6.58-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_deploy_source_date_epoch unihash changed to 03c97a87b876ced2ccf933d0f316eecf03265bcd4b3484be2c2da60ab6d7dc13
+NOTE: recipe libpthread-stubs-0.5-r0: task do_patch: Started
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_patch: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_patch: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_deploy_source_date_epoch unihash changed to 7402e63ce220cb3b0334222083e15fe253c713faa2f6adf53667c03c8f1762c2
+NOTE: recipe util-macros-1_1.20.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_fetch: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1057 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_unpack)
+NOTE: Running task 1058 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1059 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_unpack)
+NOTE: Running task 1060 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_unpack)
+NOTE: Running task 1061 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_unpack)
+NOTE: Running task 1072 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_write_config)
+NOTE: Running task 1074 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_fetch)
+NOTE: Running task 1096 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_fetch)
+NOTE: Running task 1098 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_fetch)
+NOTE: recipe python3-3.14.7-r0: task do_package_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_unpack: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_unpack: Started
+NOTE: Running setscene task 1859 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxau-1_1.0.12-r0: task do_unpack: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_unpack: Started
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_fetch: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_write_config: Started
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 1860 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_fetch: Started
+NOTE: recipe wayland-1.26.0-r0: task do_fetch: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_unpack: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 1861 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1862 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.12-r0: task do_write_config: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 1863 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1864 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1865 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: recipe libedit-20260512-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1866 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 1867 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1869 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1870 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.8.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xz-5.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1871 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_deploy_source_date_epoch unihash changed to 7402e63ce220cb3b0334222083e15fe253c713faa2f6adf53667c03c8f1762c2
+NOTE: Running setscene task 1724 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe openssl-3.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe icu-78.3-r0: task do_fetch: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.8.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_fetch: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe wayland-1.26.0-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 1728 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1729 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1730 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1731 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_package_setscene)
+NOTE: Running setscene task 1732 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1735 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_package_setscene)
+NOTE: Running setscene task 1759 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1761 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1787 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 1099 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_patch)
+NOTE: Running task 1100 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_unpack)
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe expat-2.8.3-r0: task do_package_setscene: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_patch: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_unpack: Started
+NOTE: recipe openssl-3.5.7-r0: task do_package_setscene: Started
+NOTE: recipe libffi-3.8.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xz-5.8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1889 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_recipe_qa_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1892 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
+NOTE: Running task 1116 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_patch)
+NOTE: recipe xorgproto-2025.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1117 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_patch)
+NOTE: Running task 1118 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_patch)
+NOTE: Running task 1119 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_patch)
+NOTE: recipe libedit-20260512-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1894 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1120 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_unpack)
+NOTE: Running setscene task 1896 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_patch: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1122 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_unpack)
+NOTE: recipe libxau-1_1.0.12-r0: task do_patch: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_patch: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_patch: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_patch: Started
+NOTE: recipe libedit-20260512-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_unpack: Started
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1128 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_unpack)
+NOTE: recipe libedit-20260512-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe icu-78.3-r0: task do_unpack: Started
+NOTE: recipe python3-3.14.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1132 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_fetch)
+NOTE: Running task 1136 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_patch)
+NOTE: Running task 1138 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.7.bb:do_fetch)
+NOTE: recipe libxau-1_1.0.12-r0: task do_patch: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-2.42.2-r0: task do_package_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_patch: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_patch: Succeeded
+NOTE: Running setscene task 1897 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1898 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1899 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1900 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1901 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_unpack: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_patch: Succeeded
+NOTE: Running setscene task 1902 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.8.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 1903 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_patch: Started
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_fetch: Started
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_fetch: Started
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1904 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_fetch: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 1905 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1906 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_patch: Succeeded
+NOTE: Running setscene task 1907 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1908 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1909 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-2.42.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.7.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1911 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 1913 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: Running task 1151 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_unpack)
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.9.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1915 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1916 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.8.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1918 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_unpack: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1919 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_recipe_qa_setscene)
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1921 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 1924 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.4.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1926 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.9.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1929 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-completion-2.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1159 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_patch)
+NOTE: recipe expat-2.8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.9.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1931 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1933 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.17.0.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.53.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-2.42.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1162 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_fetch)
+NOTE: recipe util-linux-libuuid-2.42.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.6.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_fetch: Succeeded
+NOTE: Running task 1173 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_fetch)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_patch: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1936 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1217 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_fetch)
+NOTE: Running task 1227 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_fetch)
+NOTE: Running task 1229 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_fetch)
+NOTE: Running task 1230 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_unpack)
+NOTE: recipe expat-2.8.3-r0: task do_fetch: Started
+NOTE: recipe bash-completion-2.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_fetch: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1236 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.7.bb:do_unpack)
+NOTE: Running task 1237 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_unpack)
+NOTE: recipe util-linux-2.42.2-r0: task do_fetch: Started
+NOTE: Running task 1255 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_write_config)
+NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.6.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1938 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-2.42.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_fetch: Started
+NOTE: Running task 1256 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_unpack)
+NOTE: recipe libxext-1_1.3.7-r0: task do_fetch: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_fetch: Started
+NOTE: recipe wayland-1.26.0-r0: task do_unpack: Started
+NOTE: recipe libpam-1.7.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.3-r0: task do_unpack: Started
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_unpack: Started
+NOTE: recipe libtool-cross-2.6.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe freetype-2.14.3-r0: task do_write_config: Started
+NOTE: Running task 1275 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_fetch)
+NOTE: recipe wayland-1.26.0-r0: task do_unpack: Succeeded
+NOTE: recipe util-linux-2.42.2-r0: task do_unpack: Started
+NOTE: Running task 1276 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_patch)
+NOTE: recipe freetype-2.14.3-r0: task do_write_config: Succeeded
+NOTE: recipe libtool-cross-2.6.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1285 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_fetch)
+NOTE: Running task 1308 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_write_config)
+NOTE: recipe pixman-1_0.46.4-r0: task do_fetch: Started
+NOTE: recipe expat-2.8.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1309 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_patch)
+NOTE: recipe wayland-1.26.0-r0: task do_patch: Started
+NOTE: recipe cairo-1.18.4-r0: task do_fetch: Started
+NOTE: recipe wayland-1.26.0-r0: task do_write_config: Started
+NOTE: recipe expat-2.8.3-r0: task do_patch: Started
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1310 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.7.bb:do_patch)
+NOTE: recipe wayland-1.26.0-r0: task do_write_config: Succeeded
+NOTE: Running task 1312 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_generate_toolchain_file)
+NOTE: recipe expat-2.8.3-r0: task do_patch: Succeeded
+NOTE: Running task 1315 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_write_config)
+NOTE: recipe wayland-1.26.0-r0: task do_patch: Succeeded
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_patch: Started
+NOTE: Running task 1317 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.7.bb:do_write_config)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_write_config: Started
+NOTE: Running task 1339 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_fetch)
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_write_config: Started
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_write_config: Succeeded
+NOTE: Running task 1343 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_write_config)
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_write_config: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_fetch: Started
+NOTE: Running task 1345 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_fetch)
+NOTE: recipe initscripts-1.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1347 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_fetch)
+NOTE: recipe gdk-pixbuf-2.44.7-r0: task do_patch: Succeeded
+NOTE: Running task 1352 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe icu-78.3-r0: task do_unpack: Succeeded
+NOTE: recipe fontconfig-2.18.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1353 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_patch)
+NOTE: recipe fontconfig-2.18.3-r0: task do_write_config: Started
+NOTE: Running task 1354 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_unpack)
+NOTE: recipe libice-1_1.1.2-r0: task do_fetch: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_write_config: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_fetch: Started
+NOTE: Running task 1360 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_fetch)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe fontconfig-2.18.3-r0: task do_unpack: Started
+NOTE: recipe icu-78.3-r0: task do_patch: Started
+NOTE: Running task 1371 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_create_recipe_spdx)
+NOTE: recipe dbus-1.16.2-r0: task do_fetch: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_fetch: Succeeded
+NOTE: Running task 1372 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_unpack)
+NOTE: recipe fontconfig-2.18.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1373 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_patch)
+NOTE: recipe util-linux-2.42.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1374 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_patch)
+NOTE: recipe libx11-1_1.8.13-r0: task do_unpack: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_patch: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_patch: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1380 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_unpack)
+NOTE: recipe python3-3.14.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1381 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_patch)
+NOTE: recipe fontconfig-2.18.3-r0: task do_patch: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_unpack: Started
+NOTE: recipe icu-78.3-r0: task do_patch: Succeeded
+NOTE: Running task 1410 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_fetch)
+NOTE: Running task 1413 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_fetch)
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_fetch: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_unpack: Succeeded
+NOTE: Running task 1414 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_patch)
+NOTE: Running task 1415 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_unpack)
+NOTE: recipe python3-3.14.7-r0: task do_patch: Started
+NOTE: recipe vala-0.56.19-r0: task do_fetch: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_fetch: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_patch: Started
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_unpack: Started
+NOTE: recipe initscripts-1.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1416 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_patch)
+NOTE: recipe util-linux-2.42.2-r0: task do_patch: Succeeded
+NOTE: Running task 1420 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: recipe initscripts-1.0-r0: task do_patch: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_patch: Succeeded
+NOTE: Running task 1423 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_write_config)
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe initscripts-1.0-r0: task do_patch: Succeeded
+NOTE: Running task 1429 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_fetch)
+NOTE: recipe pixman-1_0.46.4-r0: task do_write_config: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1430 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe pixman-1_0.46.4-r0: task do_write_config: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_fetch: Started
+NOTE: Running task 1432 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb:do_fetch)
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe harfbuzz-14.3.0-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1436 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_fetch)
+NOTE: recipe python3-3.14.7-r0: task do_patch: Succeeded
+NOTE: Running task 1439 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_fetch)
+NOTE: recipe vala-0.56.19-r0: task do_fetch: Succeeded
+NOTE: Running task 1440 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_write_config)
+NOTE: recipe fribidi-1.0.16-r0: task do_fetch: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_fetch: Started
+NOTE: recipe cairo-1.18.4-r0: task do_write_config: Started
+NOTE: recipe cairo-1.18.4-r0: task do_write_config: Succeeded
+NOTE: Running task 1443 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.58.0.bb:do_fetch)
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1444 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_patch)
+NOTE: recipe pango-1.58.0-r0: task do_fetch: Started
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_patch: Started
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_patch: Succeeded
+NOTE: Running task 1454 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb:do_fetch)
+NOTE: recipe openssl-3.5.7-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 1939 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe librsvg-2.62.3-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1941 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe fribidi-1.0.16-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 1942 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_fetch: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 1943 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_packagedata_setscene)
+NOTE: Running task 1455 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_unpack)
+NOTE: recipe openssl-3.5.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe pango-1.58.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1456 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_unpack)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_unpack: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.5.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1944 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1945 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_recipe_qa_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 1947 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxext-1_1.3.7-r0: task do_unpack: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_unpack: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_fetch: Succeeded
+NOTE: Running task 1457 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_patch)
+NOTE: recipe libice-1_1.1.2-r0: task do_fetch: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1458 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_patch)
+NOTE: Running task 1459 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_unpack)
+NOTE: recipe openssl-3.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1949 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1461 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_fetch)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_patch: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_patch: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_unpack: Started
+NOTE: Running task 1467 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_unpack)
+NOTE: recipe harfbuzz-14.3.0-r0: task do_fetch: Succeeded
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1469 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_fetch)
+NOTE: recipe libice-1_1.1.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1470 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_patch)
+NOTE: recipe openssl-3.5.7-r0: task do_fetch: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_patch: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_patch: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_unpack: Started
+NOTE: Running task 1480 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_unpack)
+NOTE: recipe openssl-3.5.7-r0: task do_fetch: Succeeded
+NOTE: Running task 1489 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1490 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_unpack)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_fetch: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1951 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libsm-1_1.2.6-r0: task do_unpack: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_patch: Started
+NOTE: Running task 1491 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_patch)
+NOTE: recipe vala-0.56.19-r0: task do_unpack: Started
+NOTE: recipe initscripts-1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1953 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe openssl-3.5.7-r0: task do_unpack: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running setscene task 1954 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libice-1_1.1.2-r0: task do_patch: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_patch: Started
+NOTE: Running task 1493 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_configure)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1956 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_configure: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_patch: Succeeded
+NOTE: Running setscene task 1957 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 1958 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_configure: Succeeded
+NOTE: Running task 1497 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_compile)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1959 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_compile: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 1960 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_compile: Succeeded
+NOTE: Running task 1500 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb:do_unpack)
+NOTE: recipe vala-0.56.19-r0: task do_unpack: Succeeded
+NOTE: Running task 1501 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_install)
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1502 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_patch)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1506 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_unpack)
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe harfbuzz-14.3.0-r0: task do_unpack: Started
+NOTE: recipe vala-0.56.19-r0: task do_patch: Started
+NOTE: recipe initscripts-1.0-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_unpack: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1511 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_fetch)
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1965 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe vala-0.56.19-r0: task do_patch: Succeeded
+NOTE: Running setscene task 1966 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_fetch: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 1970 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: recipe fribidi-1.0.16-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 1972 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1975 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1523 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_unpack)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1977 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1529 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_patch)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_unpack: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_patch: Started
+NOTE: Running task 1535 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.58.0.bb:do_unpack)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1536 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_patch)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: Running noexec task 1559 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_fetch)
+NOTE: Running task 1560 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_generate_toolchain_file)
+NOTE: recipe fribidi-1.0.16-r0: task do_patch: Succeeded
+NOTE: recipe pango-1.58.0-r0: task do_unpack: Started
+NOTE: Running noexec task 1566 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_fetch)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_patch: Started
+NOTE: Running task 1572 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_generate_toolchain_file: Started
+NOTE: recipe openssl-3.5.7-r0: task do_unpack: Succeeded
+NOTE: Running task 1573 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_patch)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libcxx-22.1.8-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1703 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe openssl-3.5.7-r0: task do_patch: Started
+NOTE: Running task 1727 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1734 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1735 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.58.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1736 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libpng-1.6.58-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_fetch: Succeeded
+NOTE: Running task 1737 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe initscripts-1.0-r0: task do_install: Succeeded
+NOTE: recipe openssl-3.5.7-r0: task do_patch: Succeeded
+NOTE: Running task 1746 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1757 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1758 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_configure)
+NOTE: recipe libpng-1.6.58-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1759 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_configure)
+NOTE: recipe libxml2-2.15.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-3.14.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_configure: Started
+NOTE: recipe libpng-1.6.58-r0: task do_configure: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1760 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_configure)
+NOTE: recipe xorgproto-2025.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1761 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_configure)
+NOTE: recipe harfbuzz-14.3.0-r0: task do_unpack: Succeeded
+NOTE: recipe util-linux-2.42.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1762 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxml2-2.15.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1763 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_configure)
+NOTE: Running task 1764 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_configure)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_configure: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1765 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_configure)
+NOTE: recipe xorgproto-2025.1-r0: task do_configure: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1771 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxml2-2.15.3-r0: task do_configure: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_configure: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_configure: Started
+NOTE: recipe icu-78.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-3.14.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1772 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_configure)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1779 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe icu-78.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_configure: Started
+NOTE: Running task 1780 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_make_icudata)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1781 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_configure)
+NOTE: recipe icu-78.3-r0: task do_make_icudata: Started
+NOTE: recipe icu-78.3-r0: task do_make_icudata: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_configure: Started
+NOTE: Running task 1782 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_configure)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1783 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_configure)
+NOTE: recipe icu-78.3-r0: task do_configure: Started
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_configure: Started
+NOTE: recipe dbus-1.16.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1788 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_unpack)
+NOTE: recipe pixman-1_0.46.4-r0: task do_unpack: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1789 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_patch)
+NOTE: recipe pixman-1_0.46.4-r0: task do_patch: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_patch: Succeeded
+NOTE: Running task 1799 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pixman-1_0.46.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_configure: Succeeded
+NOTE: Running task 1800 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_compile)
+NOTE: recipe xorgproto-2025.1-r0: task do_compile: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_compile: Succeeded
+NOTE: Running task 1801 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_install)
+NOTE: recipe pixman-1_0.46.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1802 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_configure)
+NOTE: recipe xorgproto-2025.1-r0: task do_install: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_configure: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_configure: Succeeded
+NOTE: Running task 1803 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_compile)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_compile: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_compile: Succeeded
+NOTE: Running task 1804 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_install)
+NOTE: recipe xorgproto-2025.1-r0: task do_install: Succeeded
+NOTE: Running task 1805 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_populate_sysroot)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_configure: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_install: Started
+NOTE: Running task 1806 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_package)
+NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_package: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_install: Succeeded
+NOTE: Running task 1808 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_populate_sysroot unihash changed to 94864a23337098b66d7d28800297309699c80d8956e529c47582b761593b266a
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_populate_sysroot became valid
+NOTE: recipe xtrans-1_1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_configure: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_configure: Succeeded
+NOTE: Running setscene task 1935 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1974 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1809 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_compile)
+NOTE: Running task 1810 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsm-1_1.2.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_compile: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_compile: Succeeded
+NOTE: Running task 1811 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_install)
+NOTE: recipe libsm-1_1.2.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1812 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_install: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_package unihash changed to 2464ae88886128826b1d44b1410d5e61efa0bbd6a98978edaf7927d0a56edf34
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_packagedata became valid
+NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_configure: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_install: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_packagedata_setscene)
+NOTE: Running task 1813 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_configure)
+NOTE: Running task 1814 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_configure)
+NOTE: Running task 1815 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_compile)
+NOTE: Running task 1817 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_configure)
+NOTE: Running task 1818 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_package)
+NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_configure: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_configure: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_compile: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_configure: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_package: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe xcb-proto-1.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 1820 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_compile)
+NOTE: Running task 1821 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_install)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_compile: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_install: Started
+NOTE: recipe icu-78.3-r0: task do_configure: Succeeded
+NOTE: Running task 1822 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_configure_ptest_base)
+NOTE: recipe icu-78.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe icu-78.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1823 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_compile)
+NOTE: recipe icu-78.3-r0: task do_compile: Started
+NOTE: recipe libpng-1.6.58-r0: task do_configure: Succeeded
+NOTE: Running task 1824 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_configure_ptest_base)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_install: Succeeded
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1825 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_compile)
+NOTE: Running task 1826 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot)
+NOTE: recipe libpng-1.6.58-r0: task do_configure_ptest_base: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_configure: Succeeded
+NOTE: Running task 1827 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_compile)
+NOTE: recipe libpng-1.6.58-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1828 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_compile)
+NOTE: recipe pixman-1_0.46.4-r0: task do_compile: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_compile: Started
+NOTE: recipe libpng-1.6.58-r0: task do_compile: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_package unihash changed to fd385479c884f28fd493080625708c3583d11a384490efc68315e21e48266397
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_create_spdx became valid
+NOTE: recipe libxau-1_1.0.12-r0: task do_compile: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxml2-2.15.3-r0: task do_configure: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot unihash changed to cab931cbfdfa6328577dedd88c50710ffbec74edd4a9ce56eb7aa0673f685d13
+NOTE: Running setscene task 1934 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_create_spdx_setscene)
+NOTE: Running task 1829 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_configure_ptest_base)
+NOTE: Running task 1830 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_install)
+NOTE: Running task 1832 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_unpack)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe dbus-1.16.2-r0: task do_unpack: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_install: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1833 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_compile)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
+NOTE: recipe dbus-1.16.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1834 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_patch)
+NOTE: recipe libxml2-2.15.3-r0: task do_compile: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_patch: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1837 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_package)
+NOTE: recipe dbus-1.16.2-r0: task do_patch: Succeeded
+NOTE: Running task 1838 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_unpack)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_package: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_unpack: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_install: Succeeded
+NOTE: Running task 1839 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot)
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot unihash changed to d9e293e257dfde2ada0550844464d3755a0448dd1ea13cb92789a041455d5e77
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot became valid
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_unpack: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_configure: Succeeded
+NOTE: Running setscene task 1977 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1840 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_compile)
+NOTE: Running task 1841 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_patch)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_package: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_compile: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_patch: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_package unihash changed to aac821da5608e1a1409fac3591d8577eb65c369bdd0774c483b17127d46cd82d
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_create_spdx became valid
+NOTE: recipe xtrans-1_1.6.0-r0: task do_compile: Succeeded
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_patch: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_compile: Succeeded
+NOTE: Running setscene task 1946 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_create_spdx_setscene)
+NOTE: Running task 1842 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_install)
+NOTE: Running task 1843 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_install)
+NOTE: Running task 1845 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_package)
+NOTE: Running task 1846 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_package)
+NOTE: recipe libpthread-stubs-0.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libpng-1.6.58-r0: task do_compile: Succeeded
+NOTE: Running task 1847 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_compile_ptest_base)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_install: Started
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_install: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_package: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_package: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: recipe pixman-1_0.46.4-r0: task do_compile: Succeeded
+NOTE: Running task 1848 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_install)
+NOTE: recipe libpng-1.6.58-r0: task do_compile_ptest_base: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.58-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1849 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_install)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_install: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_install: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1857 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb:do_patch)
+NOTE: Running task 1859 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_unpack)
+NOTE: Running task 1861 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_package)
+NOTE: recipe libpng-1.6.58-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_unpack: Started
+NOTE: recipe harfbuzz-14.3.0-r0: task do_patch: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_unpack: Succeeded
+NOTE: Running task 1862 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_patch)
+NOTE: recipe harfbuzz-14.3.0-r0: task do_patch: Succeeded
+NOTE: Running task 1863 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.58.0.bb:do_patch)
+NOTE: recipe libxft-1_2.3.9-r0: task do_patch: Started
+NOTE: recipe pango-1.58.0-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_patch: Succeeded
+NOTE: Running task 1869 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.58.0-r0: task do_patch: Succeeded
+NOTE: Running task 1870 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_unpack)
+NOTE: recipe libcxx-22.1.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libpng-1.6.58-r0: task do_install: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_unpack: Started
+NOTE: Running task 1871 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_install_ptest_base)
+NOTE: recipe pixman-1_0.46.4-r0: task do_install: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1872 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_patch)
+NOTE: Running task 1873 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_populate_sysroot)
+NOTE: recipe libpng-1.6.58-r0: task do_install_ptest_base: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_patch: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_patch: Succeeded
+NOTE: Running task 1874 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_package: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_package unihash changed to a13f4779d34e689c147a34108b63428fb752486f389f7bf42b67696092b8a55f
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata became valid
+NOTE: recipe libcxx-22.1.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_package unihash changed to 527b79f35f8f0af6007c43bbb88398590658bd57eb7070d1060ba42732daa205
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_populate_sysroot unihash changed to 67730b5410bc6e6cc4b122c3f97763ef17de56c55e5e791c2c3e3aa35803dd39
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata became valid
+NOTE: recipe cairo-1.18.4-r0: task do_fetch: Succeeded
+NOTE: recipe libpng-1.6.58-r0: task do_install_ptest_base: Succeeded
+NOTE: Running setscene task 1978 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running task 1875 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_populate_sysroot)
+NOTE: Running task 1876 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_unpack)
+NOTE: Running task 1877 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_configure)
+NOTE: Running task 1878 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_configure)
+NOTE: Running task 1886 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_package: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.58-r0: task do_populate_sysroot: Started
+NOTE: recipe cairo-1.18.4-r0: task do_unpack: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_configure: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_package unihash changed to 394a0082abd0521ffe43c4874090e2903b9d0db4a019e6e6c9f1caeee080fff8
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_create_spdx became valid
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_configure: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_configure: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.58-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_populate_sysroot unihash changed to 39a69377f24cd66c7ad8dbc3b1f786cdc7b137715a2603202851263d70ce2c46
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_configure: Succeeded
+NOTE: Running setscene task 1941 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_create_spdx_setscene)
+NOTE: Running task 1887 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_configure_ptest_base)
+NOTE: Running task 1888 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_compile)
+NOTE: Running task 1892 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: Running task 1910 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_write_config)
+NOTE: Running task 1915 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_fetch)
+NOTE: Running task 1918 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_fetch)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_compile: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: recipe dbus-1.16.2-r0: task do_write_config: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 1919 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libgpg-error-1.61-r0: task do_fetch: Started
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata_setscene)
+NOTE: recipe libgpg-error-1.61-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1925 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_fetch)
+NOTE: Running task 1926 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_compile)
+NOTE: recipe dbus-1.16.2-r0: task do_write_config: Succeeded
+NOTE: Running task 1938 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_unpack)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_compile: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_unpack: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1942 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb:do_fetch)
+NOTE: recipe cairo-1.18.4-r0: task do_unpack: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1943 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_patch)
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_fetch: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_compile: Succeeded
+NOTE: Running task 1944 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_install)
+NOTE: recipe libunistring-1.4.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1945 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_patch)
+NOTE: recipe cairo-1.18.4-r0: task do_patch: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_install: Started
+NOTE: Running task 1946 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe cairo-1.18.4-r0: task do_patch: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_patch: Succeeded
+NOTE: Running task 1949 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_fetch)
+NOTE: Running task 1951 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_fetch)
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_compile: Succeeded
+NOTE: Running task 1952 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_compile_ptest_base)
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_fetch: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_fetch: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_fetch: Started
+NOTE: Running task 1963 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_fetch)
+NOTE: recipe libidn2-2.3.8-r0: task do_fetch: Succeeded
+NOTE: Running task 1967 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_fetch)
+NOTE: recipe libxml2-2.15.3-r0: task do_compile_ptest_base: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_fetch: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe kmod-34.2-r0: task do_fetch: Started
+NOTE: Running task 1968 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_install)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_install: Succeeded
+NOTE: Running task 1970 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe kmod-34.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1971 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_package)
+NOTE: recipe libxml2-2.15.3-r0: task do_install: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 56f86136d7a4cf1994dc4410aea1740546a49f4519d7112a9e473f8c6a2f81f4
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_package: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 1977 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_fetch)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_fetch: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1978 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_configure)
+NOTE: recipe libpciaccess-0.19-r0: task do_fetch: Succeeded
+NOTE: Running task 1979 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_fetch)
+NOTE: recipe libxcb-1.17.0-r0: task do_configure: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_fetch: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_install: Succeeded
+NOTE: Running task 1980 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_install_ptest_base)
+NOTE: recipe libxml2-2.15.3-r0: task do_install_ptest_base: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_fetch: Succeeded
+NOTE: recipe xrandr-1_1.5.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1981 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_fetch)
+NOTE: Running task 1987 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb:do_write_config)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-14.3.0-r0: task do_write_config: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_fetch: Succeeded
+NOTE: Running task 1989 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_write_config)
+NOTE: recipe harfbuzz-14.3.0-r0: task do_write_config: Succeeded
+NOTE: Running task 1991 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_fetch)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_write_config: Started
+NOTE: recipe eudev-3.2.14-r0: task do_fetch: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_write_config: Succeeded
+NOTE: Running task 1992 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_write_config)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1993 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe fribidi-1.0.16-r0: task do_write_config: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_write_config: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1999 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_unpack)
+NOTE: recipe freetype-2.14.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2000 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_unpack)
+NOTE: recipe libgpg-error-1.61-r0: task do_unpack: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_package unihash changed to e437dd59acc4f9a2801fdcd3fdc9fe728924b3cb9220f5c429ac3ac78047a2e1
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata became valid
+NOTE: recipe freetype-2.14.3-r0: task do_unpack: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_unpack: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_fetch: Succeeded
+NOTE: recipe freetype-2.14.3-r0: task do_unpack: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running setscene task 1947 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running task 2001 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_patch)
+NOTE: Running task 2002 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2003 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_configure)
+NOTE: recipe librsvg-2.62.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2004 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_patch)
+NOTE: Running task 2005 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb:do_unpack)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.14.3-r0: task do_patch: Started
+NOTE: recipe freetype-2.14.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_configure: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_patch: Started
+NOTE: recipe freetype-2.14.3-r0: task do_patch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 2011 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_write_config)
+NOTE: Setscene tasks completed
+NOTE: recipe librsvg-2.62.3-r0: task do_unpack: Started
+NOTE: Running task 2017 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_unpack)
+NOTE: recipe libxft-1_2.3.9-r0: task do_write_config: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_patch: Succeeded
+NOTE: recipe libpciaccess-0.19-r0: task do_unpack: Started
+NOTE: Running task 2019 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.58.0.bb:do_write_config)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_fetch: Succeeded
+NOTE: recipe libxft-1_2.3.9-r0: task do_write_config: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2020 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_create_recipe_spdx)
+NOTE: Running task 2021 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_create_recipe_spdx)
+NOTE: recipe libpciaccess-0.19-r0: task do_unpack: Succeeded
+NOTE: Running task 2022 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_patch)
+NOTE: recipe pango-1.58.0-r0: task do_write_config: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_patch: Started
+NOTE: recipe pango-1.58.0-r0: task do_write_config: Succeeded
+NOTE: Running task 2023 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_create_recipe_spdx)
+NOTE: recipe freetype-2.14.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2024 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_configure)
+NOTE: recipe libpciaccess-0.19-r0: task do_patch: Succeeded
+NOTE: Running task 2027 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_fetch)
+NOTE: recipe libxau-1_1.0.12-r0: task do_create_recipe_spdx: Started
+NOTE: recipe freetype-2.14.3-r0: task do_configure: Started
+NOTE: recipe libogg-1.3.6-r0: task do_fetch: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2083 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_fetch)
+NOTE: Running task 2085 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_rust_gen_targets)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_rust_gen_targets: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_rust_gen_targets: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_fetch: Started
+NOTE: Running task 2094 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_write_config)
+NOTE: recipe mesa-2_26.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2100 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_unpack)
+NOTE: Running task 2101 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_recipe_spdx)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_write_config: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_unpack: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_write_config: Succeeded
+NOTE: Running task 2102 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_unpack)
+NOTE: recipe libdrm-2.4.134-r0: task do_unpack: Succeeded
+NOTE: Running task 2103 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb:do_unpack)
+NOTE: recipe libidn2-2.3.8-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_unpack: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2104 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_patch)
+NOTE: recipe libidn2-2.3.8-r0: task do_unpack: Succeeded
+NOTE: Running task 2105 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_patch)
+NOTE: recipe libdrm-2.4.134-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2106 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb:do_patch)
+NOTE: recipe libidn2-2.3.8-r0: task do_patch: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_patch: Succeeded
+NOTE: Running task 2110 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_generate_toolchain_file)
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_patch: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_patch: Succeeded
+NOTE: Running task 2111 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 2119 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_unpack)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_unpack: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2120 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_patch)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_patch: Succeeded
+NOTE: Running task 2122 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_unpack)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2123 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_configure)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_patch: Succeeded
+NOTE: Running task 2124 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_unpack)
+NOTE: recipe kmod-34.2-r0: task do_unpack: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_configure: Started
+NOTE: recipe kmod-34.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2125 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_patch)
+NOTE: recipe fribidi-1.0.16-r0: task do_configure: Succeeded
+NOTE: recipe xrandr-1_1.5.4-r0: task do_unpack: Started
+NOTE: Running task 2126 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_compile)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2127 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_unpack)
+NOTE: recipe kmod-34.2-r0: task do_patch: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_compile: Started
+NOTE: recipe kmod-34.2-r0: task do_patch: Succeeded
+NOTE: Running task 2128 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_unpack)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_unpack: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2129 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_patch)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_unpack: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_unpack: Succeeded
+NOTE: recipe xrandr-1_1.5.4-r0: task do_patch: Started
+NOTE: Running task 2130 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_patch)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_patch: Succeeded
+NOTE: Running task 2131 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_patch)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_patch: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_configure: Succeeded
+NOTE: Running task 2132 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_compile)
+NOTE: recipe libxml2-2.15.3-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_patch: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_patch: Succeeded
+NOTE: Running task 2134 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2136 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_unpack)
+NOTE: recipe freetype-2.14.3-r0: task do_configure: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_patch: Succeeded
+NOTE: Running task 2137 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_package)
+NOTE: Running task 2138 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_compile)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_compile: Started
+NOTE: recipe wayland-1.26.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe eudev-3.2.14-r0: task do_unpack: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_compile: Succeeded
+NOTE: Running task 2139 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_install)
+NOTE: recipe freetype-2.14.3-r0: task do_compile: Started
+NOTE: recipe libpng-1.6.58-r0: task do_package: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_fetch: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2140 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_unpack)
+NOTE: recipe eudev-3.2.14-r0: task do_unpack: Succeeded
+NOTE: Running task 2141 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_patch)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_install: Started
+NOTE: recipe libogg-1.3.6-r0: task do_fetch: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_unpack: Started
+NOTE: Running task 2142 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_create_recipe_spdx)
+NOTE: recipe eudev-3.2.14-r0: task do_patch: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_recipe_spdx: Started
+NOTE: recipe wayland-1.26.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2143 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_configure)
+NOTE: recipe eudev-3.2.14-r0: task do_patch: Succeeded
+NOTE: Running task 2145 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe wayland-1.26.0-r0: task do_configure: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_install: Succeeded
+NOTE: Running task 2152 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_fetch)
+NOTE: recipe libunistring-1.4.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2153 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_unpack)
+NOTE: recipe fribidi-1.0.16-r0: task do_compile: Succeeded
+NOTE: Running task 2154 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_install)
+NOTE: recipe libical-4.0.4-r0: task do_fetch: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_configure: Succeeded
+NOTE: Running task 2155 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_compile)
+NOTE: recipe libogg-1.3.6-r0: task do_unpack: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2156 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_configure)
+NOTE: recipe fribidi-1.0.16-r0: task do_install: Started
+NOTE: recipe libogg-1.3.6-r0: task do_unpack: Succeeded
+NOTE: Running task 2158 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_patch)
+NOTE: recipe libcxx-22.1.8-r0: task do_compile: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2159 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_patch)
+NOTE: recipe libunistring-1.4.2-r0: task do_configure: Started
+NOTE: recipe libogg-1.3.6-r0: task do_patch: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_patch: Started
+NOTE: recipe libogg-1.3.6-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_patch: Succeeded
+NOTE: Running task 2164 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_fetch)
+NOTE: Running task 2173 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_unpack)
+NOTE: recipe libpsl-0.23.1-r0: task do_fetch: Started
+NOTE: recipe libpsl-0.23.1-r0: task do_fetch: Succeeded
+NOTE: recipe libical-4.0.4-r0: task do_fetch: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_unpack: Started
+NOTE: Running task 2203 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_fetch)
+NOTE: Running task 2215 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_create_spdx)
+NOTE: recipe curl-8.21.0-r0: task do_fetch: Started
+NOTE: recipe curl-8.21.0-r0: task do_fetch: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_create_spdx: Started
+NOTE: Running task 2221 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libgpg-error-1.61-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_install: Succeeded
+NOTE: Running task 2222 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot)
+NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2232 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_write_config)
+NOTE: recipe libgpg-error-1.61-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_compile: Succeeded
+NOTE: Running task 2233 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_configure)
+NOTE: Running task 2234 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_compile_ptest_base)
+NOTE: recipe libpciaccess-0.19-r0: task do_write_config: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_configure: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_configure: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_compile_ptest_base: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 2235 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_compile)
+NOTE: recipe libpciaccess-0.19-r0: task do_write_config: Succeeded
+NOTE: Running task 2236 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2237 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_install)
+NOTE: recipe libice-1_1.1.2-r0: task do_compile: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot unihash changed to 86dfcc83b663640a4b489cea723e1670ec1cdcbe8d6accd533940c2ae848e2cb
+NOTE: Setscene tasks completed
+NOTE: Running task 2243 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_unpack)
+NOTE: recipe libical-4.0.4-r0: task do_unpack: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2244 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_configure)
+NOTE: recipe librsvg-2.62.3-r0: task do_unpack: Succeeded
+NOTE: recipe libical-4.0.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2245 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_patch)
+NOTE: recipe util-linux-2.42.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2246 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb:do_patch)
+NOTE: Running task 2247 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_configure_ptest_base)
+NOTE: recipe libpciaccess-0.19-r0: task do_configure: Started
+NOTE: recipe libical-4.0.4-r0: task do_patch: Started
+NOTE: recipe librsvg-2.62.3-r0: task do_patch: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2248 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_compile)
+NOTE: recipe libical-4.0.4-r0: task do_patch: Succeeded
+NOTE: recipe freetype-2.14.3-r0: task do_compile: Succeeded
+NOTE: Running task 2249 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_create_recipe_spdx)
+NOTE: Running task 2250 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_install)
+NOTE: recipe util-linux-2.42.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe wayland-1.26.0-r0: task do_configure: Succeeded
+NOTE: Running task 2251 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_configure_ptest_base)
+NOTE: recipe librsvg-2.62.3-r0: task do_patch: Succeeded
+NOTE: recipe freetype-2.14.3-r0: task do_install: Started
+NOTE: Running task 2254 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_fetch)
+NOTE: recipe libusb1-1.0.30-r0: task do_fetch: Started
+NOTE: recipe wayland-1.26.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2255 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.87.bb:do_fetch)
+NOTE: recipe wayland-1.26.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2256 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_compile)
+NOTE: recipe wayland-1.26.0-r0: task do_compile: Started
+NOTE: recipe bluez5-5.87-r0: task do_fetch: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_compile: Succeeded
+NOTE: Running task 2257 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_install)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_install: Succeeded
+NOTE: recipe libusb1-1.0.30-r0: task do_fetch: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_install: Started
+NOTE: Running task 2261 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb:do_write_config)
+NOTE: Running task 2262 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_install_ptest_base)
+NOTE: recipe bluez5-5.87-r0: task do_fetch: Succeeded
+NOTE: Running task 2263 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb:do_rust_gen_targets)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_install_ptest_base: Started
+NOTE: recipe freetype-2.14.3-r0: task do_install: Succeeded
+NOTE: recipe librsvg-2.62.3-r0: task do_write_config: Started
+NOTE: Running task 2264 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_populate_sysroot)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe librsvg-2.62.3-r0: task do_write_config: Succeeded
+NOTE: Running task 2272 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb:do_write_config)
+NOTE: Running task 2273 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_populate_sysroot)
+NOTE: recipe librsvg-2.62.3-r0: task do_rust_gen_targets: Started
+NOTE: recipe librsvg-2.62.3-r0: task do_rust_gen_targets: Succeeded
+NOTE: Running task 2274 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_unpack)
+NOTE: recipe freetype-2.14.3-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libice-1_1.1.2-r0: task do_install: Succeeded
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_write_config: Started
+NOTE: Running task 2276 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libpsl-0.23.1-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-1.28.5-r0: task do_write_config: Succeeded
+NOTE: Running task 2277 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_write_config)
+NOTE: recipe libsm-1_1.2.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_write_config: Started
+NOTE: recipe wayland-1.26.0-r0: task do_compile: Succeeded
+NOTE: recipe libdrm-2.4.134-r0: task do_write_config: Succeeded
+NOTE: Running task 2278 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_compile_ptest_base)
+NOTE: Running task 2287 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_generate_toolchain_file)
+NOTE: recipe libpsl-0.23.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2288 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_patch)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe wayland-1.26.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe freetype-2.14.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_populate_sysroot unihash changed to a6a902644ba4cca4e29fc40e83cbca8b363a1411d2446899204c6194e74078ef
+NOTE: recipe libxcb-1.17.0-r0: task do_configure: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe wayland-1.26.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe libpsl-0.23.1-r0: task do_patch: Started
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libpsl-0.23.1-r0: task do_patch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_populate_sysroot unihash changed to 46b961f2504ac92bee310a2e4132a6a40966863bdfc466a8f15e121e0113aa50
+NOTE: recipe libpciaccess-0.19-r0: task do_configure: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libpng-1.6.58-r0: task do_package: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2289 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_compile)
+NOTE: Running task 2290 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_install)
+NOTE: Running task 2291 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_configure)
+NOTE: Running task 2292 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_packagedata)
+NOTE: Running task 2293 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_patch)
+NOTE: Running task 2294 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_compile)
+NOTE: Running task 2295 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_unpack)
+NOTE: Running task 2297 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_write_config)
+NOTE: Running task 2303 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_write_config)
+NOTE: Running task 2304 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsm-1_1.2.6-r0: task do_configure: Started
+NOTE: recipe libpng-1.6.58-r0: task do_packagedata: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_compile: Started
+NOTE: recipe mesa-2_26.2.0-r0: task do_patch: Started
+NOTE: recipe wayland-1.26.0-r0: task do_install: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_compile: Started
+NOTE: recipe curl-8.21.0-r0: task do_unpack: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_write_config: Started
+NOTE: recipe kmod-34.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe kmod-34.2-r0: task do_write_config: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_write_config: Succeeded
+NOTE: Running task 2321 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_write_config)
+NOTE: recipe kmod-34.2-r0: task do_write_config: Succeeded
+NOTE: Running task 2322 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_write_config)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_write_config: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_write_config: Started
+NOTE: recipe libpng-1.6.58-r0: task do_packagedata: Succeeded
+NOTE: recipe xrandr-1_1.5.4-r0: task do_write_config: Succeeded
+NOTE: Running task 2328 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_fetch)
+NOTE: Running task 2329 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_package)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_write_config: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_patch: Succeeded
+NOTE: recipe curl-8.21.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2349 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.8.3-r0: task do_fetch: Started
+NOTE: Running task 2350 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.21.0.bb:do_patch)
+NOTE: Running task 2356 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_unpack)
+NOTE: recipe freetype-2.14.3-r0: task do_package: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_compile: Succeeded
+NOTE: recipe libogg-1.3.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe kmod-34.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2357 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_install)
+NOTE: Running task 2358 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_configure)
+NOTE: recipe curl-8.21.0-r0: task do_patch: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_unpack: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_unpack: Succeeded
+NOTE: recipe wayland-1.26.0-r0: task do_install: Succeeded
+NOTE: Running task 2359 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.87.bb:do_unpack)
+NOTE: recipe kmod-34.2-r0: task do_configure: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_install: Started
+NOTE: Running task 2360 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_install_ptest_base)
+NOTE: recipe curl-8.21.0-r0: task do_patch: Succeeded
+NOTE: Running task 2376 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_patch)
+NOTE: recipe libogg-1.3.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2377 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_configure)
+NOTE: recipe bluez5-5.87-r0: task do_unpack: Started
+NOTE: recipe wayland-1.26.0-r0: task do_install_ptest_base: Started
+NOTE: recipe libogg-1.3.6-r0: task do_configure: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_patch: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_patch: Succeeded
+NOTE: Running task 2460 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_create_recipe_spdx)
+NOTE: recipe wayland-1.26.0-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe bluez5-5.87-r0: task do_unpack: Succeeded
+NOTE: Running task 2461 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.87.bb:do_patch)
+NOTE: Running task 2462 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_populate_sysroot)
+NOTE: recipe bluez5-5.87-r0: task do_patch: Started
+NOTE: recipe python3-3.14.7-r0: task do_create_recipe_spdx: Started
+NOTE: recipe wayland-1.26.0-r0: task do_populate_sysroot: Started
+NOTE: recipe bluez5-5.87-r0: task do_patch: Succeeded
+NOTE: recipe libpciaccess-0.19-r0: task do_install: Succeeded
+NOTE: Running task 2464 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_package)
+NOTE: Running task 2465 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_populate_sysroot)
+NOTE: recipe python3-3.14.7-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2466 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_create_recipe_spdx)
+NOTE: recipe libpciaccess-0.19-r0: task do_populate_sysroot: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_package: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe wayland-1.26.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2467 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_create_recipe_spdx)
+NOTE: recipe libpng-1.6.58-r0: task do_create_recipe_spdx: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2470 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
+NOTE: recipe libpciaccess-0.19-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxi-1_1.8.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2471 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_fetch)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_populate_sysroot unihash changed to 29cc0224e96b3f7ee8cea26189e435564223705bc2d4188748de2c120f873368
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
+NOTE: recipe libpng-1.6.58-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_fetch: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 2472 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2478 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_recipe_spdx)
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2480 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_fetch)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2484 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_unpack)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_fetch: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_unpack: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2485 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_patch)
+NOTE: recipe libdrm-2.4.134-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2486 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_configure)
+NOTE: recipe libxi-1_1.8.3-r0: task do_patch: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_configure: Started
+NOTE: recipe freetype-2.14.3-r0: task do_package: Succeeded
+NOTE: recipe libxi-1_1.8.3-r0: task do_patch: Succeeded
+NOTE: Running task 2490 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.1.bb:do_write_config)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_package unihash changed to f8a545532287e0fbc87a1175cef81f1cb4c0d4b1ef7ae80fec9978f4995981d4
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_packagedata became valid
+NOTE: recipe libpsl-0.23.1-r0: task do_write_config: Started
+NOTE: recipe libpsl-0.23.1-r0: task do_write_config: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_packagedata_setscene)
+NOTE: Running task 2495 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_fetch)
+NOTE: recipe freetype-2.14.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2496 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_create_recipe_spdx)
+NOTE: recipe freetype-2.14.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe freetype-2.14.3-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 2503 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_fetch)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_fetch: Started
+NOTE: recipe freetype-2.14.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe kmod-34.2-r0: task do_configure: Succeeded
+NOTE: Running task 2504 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_unpack)
+NOTE: Running task 2505 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_compile)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_unpack: Started
+NOTE: recipe kmod-34.2-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2506 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_patch)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_patch: Succeeded
+NOTE: Running task 2509 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_fetch)
+NOTE: recipe flac-1.5.0-r0: task do_fetch: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2510 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_install)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_fetch: Succeeded
+NOTE: Running task 2540 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_unpack)
+NOTE: recipe python3-3.14.7-r0: task do_configure: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_install: Started
+NOTE: Running task 2541 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_configure_ptest_base)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_unpack: Started
+NOTE: recipe kmod-34.2-r0: task do_compile: Succeeded
+NOTE: Running task 2542 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_install)
+NOTE: recipe python3-3.14.7-r0: task do_configure_ptest_base: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_unpack: Succeeded
+NOTE: Running task 2543 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_create_recipe_spdx)
+NOTE: recipe python3-3.14.7-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe kmod-34.2-r0: task do_install: Started
+NOTE: Running task 2544 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_compile)
+NOTE: recipe libxext-1_1.3.7-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-3.14.7-r0: task do_compile: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
+NOTE: Running task 2545 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
+NOTE: recipe libxext-1_1.3.7-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2546 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_patch)
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_patch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2547 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_patch: Succeeded
+NOTE: Running task 2557 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_4.0.4.bb:do_generate_toolchain_file)
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
+NOTE: recipe libical-4.0.4-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libical-4.0.4-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 2567 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_rust_gen_targets)
+NOTE: recipe libdrm-2.4.134-r0: task do_configure: Succeeded
+NOTE: Running task 2568 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_compile)
+NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
+NOTE: Running task 2569 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_write_config)
+NOTE: recipe kmod-34.2-r0: task do_install: Succeeded
+NOTE: Running task 2570 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_populate_sysroot)
+NOTE: recipe mesa-2_26.2.0-r0: task do_rust_gen_targets: Started
+NOTE: recipe mesa-2_26.2.0-r0: task do_rust_gen_targets: Succeeded
+NOTE: Running task 2572 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_fetch)
+NOTE: recipe libdrm-2.4.134-r0: task do_compile: Started
+NOTE: recipe kmod-34.2-r0: task do_populate_sysroot: Started
+NOTE: recipe mesa-2_26.2.0-r0: task do_write_config: Started
+NOTE: recipe orc-0.4.42-r0: task do_fetch: Started
+NOTE: recipe mesa-2_26.2.0-r0: task do_write_config: Succeeded
+NOTE: Running task 2573 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_create_recipe_spdx)
+NOTE: recipe orc-0.4.42-r0: task do_fetch: Succeeded
+NOTE: Running task 2580 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_create_recipe_spdx)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 2588 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_fetch)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_fetch: Started
+NOTE: recipe kmod-34.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_populate_sysroot unihash changed to e075b03fcf6cff6bab75cd269e249b7f247cd3c26574043f958dfdb2f2ef9dc2
+NOTE: recipe util-linux-2.42.2-r0: task do_compile: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe glib-2.0-1_2.88.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2589 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_compile_ptest_base)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2597 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_unpack)
+NOTE: Running task 2600 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_unpack)
+NOTE: Running task 2601 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_package)
+NOTE: Running task 2608 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_fetch)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_unpack: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_fetch: Started
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_unpack: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_package: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2609 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_patch)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_patch: Started
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2610 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_patch)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_patch: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_configure: Succeeded
+NOTE: Running task 2611 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_configure_ptest_base)
+NOTE: recipe flac-1.5.0-r0: task do_fetch: Succeeded
+NOTE: recipe libdrm-2.4.134-r0: task do_compile: Succeeded
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_patch: Succeeded
+NOTE: Running task 2612 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_unpack)
+NOTE: Running task 2614 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_create_spdx)
+NOTE: recipe libgpg-error-1.61-r0: task do_configure_ptest_base: Started
+NOTE: Running task 2615 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_install)
+NOTE: recipe libxcb-1.17.0-r0: task do_install: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2617 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2618 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_package)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_patch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.5.0-r0: task do_unpack: Started
+NOTE: Running task 2619 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_compile)
+NOTE: recipe libdrm-2.4.134-r0: task do_install: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_package: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_compile: Started
+NOTE: recipe flac-1.5.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2620 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_patch)
+NOTE: recipe flac-1.5.0-r0: task do_patch: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_fetch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2621 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_create_spdx)
+NOTE: Running task 2622 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_create_spdx)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_create_spdx: Started
+NOTE: recipe flac-1.5.0-r0: task do_patch: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_create_spdx: Started
+NOTE: Running task 2626 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_package)
+NOTE: recipe pixman-1_0.46.4-r0: task do_package: Succeeded
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_package: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_package unihash changed to 1114d36e09252c3919164cf8250347a74c801abda6fb37d4b81b5feca11ce533
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_packagedata became valid
+NOTE: recipe xcb-proto-1.17.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_create_spdx: Succeeded
+NOTE: recipe libdrm-2.4.134-r0: task do_install: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_packagedata_setscene)
+NOTE: Running task 2627 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_configure)
+NOTE: Running task 2628 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_populate_sysroot)
+NOTE: Running task 2630 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_fetch)
+NOTE: Running task 2639 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_unpack)
+NOTE: recipe util-linux-2.42.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2640 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_install)
+NOTE: recipe libx11-1_1.8.13-r0: task do_configure: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_populate_sysroot: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe orc-0.4.42-r0: task do_unpack: Started
+NOTE: recipe libxmlb-0.3.28-r0: task do_fetch: Started
+NOTE: recipe orc-0.4.42-r0: task do_unpack: Succeeded
+NOTE: Running task 2641 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_patch)
+NOTE: recipe util-linux-2.42.2-r0: task do_install: Started
+NOTE: recipe orc-0.4.42-r0: task do_patch: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2650 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_unpack)
+NOTE: recipe orc-0.4.42-r0: task do_patch: Succeeded
+NOTE: Running task 2654 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_fetch)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_unpack: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_configure: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_fetch: Started
+NOTE: Running task 2655 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_compile)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2656 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_fetch)
+NOTE: recipe libogg-1.3.6-r0: task do_configure: Succeeded
+NOTE: Running task 2657 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_compile)
+NOTE: recipe libsm-1_1.2.6-r0: task do_compile: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_fetch: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_populate_sysroot unihash changed to 897895293e06a909c232227eb43790096021d158beb4338b310c36e6c65cb491
+NOTE: recipe libglu-2_9.0.3-r0: task do_fetch: Succeeded
+NOTE: recipe libogg-1.3.6-r0: task do_compile: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 2658 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_fetch)
+NOTE: Running task 2659 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_patch)
+NOTE: recipe libtheora-1.2.0-r0: task do_fetch: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_patch: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_compile: Succeeded
+NOTE: Running task 2660 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_install)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_package: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_install: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_package unihash changed to cf0afb2ef95565e68b77e6d2686e15bb6dc9ca55b9329edda2b3c22d01f036db
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_packagedata became valid
+NOTE: recipe libsndfile1-1.2.2-r0: task do_patch: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_packagedata_setscene)
+NOTE: Running task 2667 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxmlb-0.3.28-r0: task do_fetch: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_install: Succeeded
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 2669 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_fetch)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2682 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_fetch)
+NOTE: recipe libogg-1.3.6-r0: task do_compile: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_fetch: Started
+NOTE: Running task 2683 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_install)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_fetch: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2685 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.60.6.bb:do_fetch)
+NOTE: recipe libogg-1.3.6-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2686 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_configure)
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_fetch: Started
+NOTE: recipe libxv-1.0.13-r0: task do_fetch: Succeeded
+NOTE: Running task 2692 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_write_config)
+NOTE: recipe libepoxy-1.5.10-r0: task do_fetch: Succeeded
+NOTE: Running task 2693 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_prepare_recipe_sysroot)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_write_config: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_write_config: Succeeded
+NOTE: Running task 2696 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_unpack)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_unpack: Started
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_fetch: Succeeded
+NOTE: Running task 2698 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_create_recipe_spdx)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2699 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_patch)
+NOTE: recipe fontconfig-2.18.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libogg-1.3.6-r0: task do_install: Succeeded
+NOTE: recipe libxtst-1_1.2.5-r0: task do_patch: Started
+NOTE: Running task 2701 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_patch: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2706 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_unpack)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2707 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_configure)
+NOTE: recipe fontconfig-2.18.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2710 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_fetch)
+NOTE: recipe libxmlb-0.3.28-r0: task do_unpack: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_configure: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_fetch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2711 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_install: Succeeded
+NOTE: Running task 2712 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_install_ptest_base)
+NOTE: recipe libxslt-1.1.45-r0: task do_fetch: Succeeded
+NOTE: Running task 2714 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_fetch)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_fetch: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_install_ptest_base: Started
+NOTE: recipe libxmlb-0.3.28-r0: task do_unpack: Succeeded
+NOTE: Running task 2715 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_patch)
+NOTE: recipe libxmlb-0.3.28-r0: task do_patch: Started
+NOTE: recipe libxmlb-0.3.28-r0: task do_patch: Succeeded
+NOTE: Running task 2718 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_package)
+NOTE: recipe libpciaccess-0.19-r0: task do_package: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_fetch: Succeeded
+NOTE: Running task 2719 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.3.bb:do_create_spdx)
+NOTE: recipe expat-2.8.3-r0: task do_create_spdx: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_compile: Succeeded
+NOTE: Running task 2720 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_install)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_configure: Succeeded
+NOTE: Running task 2721 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_compile)
+NOTE: recipe libcxx-22.1.8-r0: task do_install: Started
+NOTE: recipe expat-2.8.3-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2724 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb:do_fetch)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_compile: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2725 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_fetch)
+NOTE: recipe libwebp-1.6.0-r0: task do_fetch: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2726 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_populate_sysroot)
+NOTE: recipe libwebp-1.6.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2731 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb:do_create_spdx)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_compile: Succeeded
+NOTE: Running task 2732 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_install)
+NOTE: recipe util-linux-2.42.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_package: Succeeded
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_create_spdx: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_package unihash changed to aafeef1f682e15966f5c7b7945674447d33df4bf5d55ec0a0e3c881ec7912c18
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_packagedata became valid
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_fetch: Succeeded
+NOTE: recipe xkeyboard-config-2.48-r0: task do_install: Started
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_packagedata_setscene)
+NOTE: recipe glib-2.0-initial-1_2.88.3-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2737 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_package)
+NOTE: Running task 2741 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_unpack)
+NOTE: recipe libpciaccess-0.19-r0: task do_packagedata_setscene: Started
+NOTE: recipe libogg-1.3.6-r0: task do_package: Started
+NOTE: recipe libxv-1.0.13-r0: task do_unpack: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2742 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_unpack)
+NOTE: recipe libxv-1.0.13-r0: task do_unpack: Succeeded
+NOTE: Running task 2743 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_unpack)
+NOTE: recipe util-linux-2.42.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_populate_sysroot unihash changed to 96c7313061a0480d101711bdd3a1cf36caf5d4163b8d1726b6eb67c5bef9da8d
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot became valid
+NOTE: recipe libpciaccess-0.19-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libglu-2_9.0.3-r0: task do_unpack: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_unpack: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_unpack: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 1935 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_populate_sysroot_setscene)
+NOTE: Running task 2744 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2746 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_package)
+NOTE: Running task 2748 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_create_recipe_spdx)
+NOTE: recipe libusb1-1.0.30-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_compile: Succeeded
+NOTE: Running task 2749 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_compile_ptest_base)
+NOTE: recipe fontconfig-2.18.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_package: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_install: Succeeded
+NOTE: Running task 2750 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_patch)
+NOTE: recipe libgpg-error-1.61-r0: task do_compile_ptest_base: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxv-1.0.13-r0: task do_patch: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2751 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_install)
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_patch: Succeeded
+NOTE: Running task 2752 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_patch)
+NOTE: Running task 2753 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_patch)
+NOTE: recipe libgpg-error-1.61-r0: task do_install: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_patch: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_patch: Started
+NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2754 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe fontconfig-2.18.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2755 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_configure)
+NOTE: recipe libglu-2_9.0.3-r0: task do_patch: Succeeded
+NOTE: Running task 2756 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_populate_sysroot)
+NOTE: recipe libtheora-1.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 2758 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_unpack)
+NOTE: recipe eudev-3.2.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_populate_sysroot: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_unpack: Started
+NOTE: recipe eudev-3.2.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2759 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_configure)
+NOTE: recipe eudev-3.2.14-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_populate_sysroot unihash changed to 5bb6a5a0e33fc63cbb4d63ad840ffd9e48fdfac7c4a434502f5b02d87d4e7898
+NOTE: Setscene tasks completed
+NOTE: Running task 2762 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_fetch)
+NOTE: recipe libepoxy-1.5.10-r0: task do_unpack: Succeeded
+NOTE: Running task 2763 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_fetch)
+NOTE: recipe libgpg-error-1.61-r0: task do_install: Succeeded
+NOTE: recipe sbc-2.2-r0: task do_fetch: Started
+NOTE: Running task 2764 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.61.bb:do_install_ptest_base)
+NOTE: recipe libgudev-238-r0: task do_fetch: Started
+NOTE: recipe libgpg-error-1.61-r0: task do_install_ptest_base: Started
+NOTE: recipe sbc-2.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2766 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_write_config)
+NOTE: recipe libogg-1.3.6-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_package unihash changed to 24c0fe83e7df958743ba778ab5d252605c5d1315d185128e6cfb1c79cd12b3a9
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_create_spdx became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_packagedata became valid
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_write_config: Started
+NOTE: recipe libgudev-238-r0: task do_fetch: Succeeded
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_write_config: Succeeded
+NOTE: recipe libgpg-error-1.61-r0: task do_install_ptest_base: Succeeded
+NOTE: Running setscene task 1966 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_create_spdx_setscene)
+NOTE: Running task 2768 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2769 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2770 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_patch)
+NOTE: recipe libogg-1.3.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_install: Succeeded
+NOTE: recipe libepoxy-1.5.10-r0: task do_patch: Started
+NOTE: Running task 2771 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_populate_sysroot)
+NOTE: recipe libogg-1.3.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_packagedata_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_patch: Succeeded
+NOTE: Running task 2772 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libcxx-22.1.8-r0: task do_populate_sysroot: Started
+NOTE: recipe libogg-1.3.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe flac-1.5.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2773 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_configure)
+NOTE: recipe libogg-1.3.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 2775 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_unpack)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_unpack: Started
+NOTE: recipe flac-1.5.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2776 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_configure)
+NOTE: Running task 2777 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_configure)
+NOTE: Running task 2778 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.60.6.bb:do_unpack)
+NOTE: recipe libdrm-2.4.134-r0: task do_package: Succeeded
+NOTE: recipe flac-1.5.0-r0: task do_configure: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_package: Succeeded
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_unpack: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_package unihash changed to a271c7c666e005ded22e0b8b611f500f583301f9a4d4e9d991553f88dd63c8b6
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata became valid
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_configure: Started
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_unpack: Succeeded
+NOTE: recipe libcxx-22.1.8-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_package unihash changed to b1ba3e6ae32cfdf27b514d1a7c752f1762c0e5fbc5ad18807a5b03f9e5fdc4b6
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_populate_sysroot unihash changed to 65b2bfab3d362c63672efb0466fc4456ce60a616ba3ab87f1405cec71429aace
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_packagedata became valid
+NOTE: Running setscene task 1957 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1970 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running task 2779 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2780 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_create_recipe_spdx)
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_packagedata_setscene: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe wayland-1.26.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libdrm-2.4.134-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 2782 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_patch)
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2784 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_patch: Started
+NOTE: recipe wayland-1.26.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx: Started
+NOTE: Running task 2785 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.60.6.bb:do_patch)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_patch: Succeeded
+NOTE: Running task 2791 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_unpack)
+NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2792 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_patch: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_unpack: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2793 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_write_config)
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_patch: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
+NOTE: Running task 2794 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_prepare_recipe_sysroot)
+NOTE: recipe orc-0.4.42-r0: task do_write_config: Started
+NOTE: recipe orc-0.4.42-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe orc-0.4.42-r0: task do_write_config: Succeeded
+NOTE: Running task 2801 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_unpack)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2802 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_rust_create_wrappers)
+NOTE: recipe libxslt-1.1.45-r0: task do_unpack: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_rust_create_wrappers: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_unpack: Succeeded
+NOTE: Running task 2803 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_patch)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_rust_create_wrappers: Succeeded
+NOTE: Running task 2804 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_configure)
+NOTE: recipe orc-0.4.42-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2805 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_configure)
+NOTE: recipe libxslt-1.1.45-r0: task do_patch: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_configure: Started
+NOTE: recipe orc-0.4.42-r0: task do_configure: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_patch: Succeeded
+NOTE: Running task 2806 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_patch)
+NOTE: recipe libx11-1_1.8.13-r0: task do_configure: Succeeded
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2807 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_compile)
+NOTE: Running task 2808 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_compile)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_patch: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_configure: Succeeded
+NOTE: Running task 2809 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_compile)
+NOTE: recipe libx11-1_1.8.13-r0: task do_compile: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_compile: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_patch: Succeeded
+NOTE: Running task 2810 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_create_recipe_spdx)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_compile: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe pixman-1_0.46.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2811 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_package)
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2813 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb:do_unpack)
+NOTE: recipe fontconfig-2.18.3-r0: task do_configure: Succeeded
+NOTE: Running task 2814 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_compile)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_package: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
+NOTE: Running task 2815 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_unpack: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_compile: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2816 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_unpack)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2817 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_compile)
+NOTE: recipe libwebp-1.6.0-r0: task do_unpack: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2818 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_create_recipe_spdx)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_compile: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2819 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb:do_patch)
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_patch: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
+NOTE: Running task 2821 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_patch)
+NOTE: recipe libwebp-1.6.0-r0: task do_patch: Started
+NOTE: recipe orc-0.4.42-r0: task do_configure: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_patch: Succeeded
+NOTE: recipe libwebp-1.6.0-r0: task do_patch: Succeeded
+NOTE: Running task 2825 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_package)
+NOTE: Running task 2826 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_compile)
+NOTE: Running task 2830 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.7.bb:do_create_spdx)
+NOTE: recipe orc-0.4.42-r0: task do_compile: Started
+NOTE: recipe initscripts-1.0-r0: task do_package: Started
+NOTE: recipe openssl-3.5.7-r0: task do_create_spdx: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_package unihash changed to 0bcbadaa6da4dd3905d470fcdf0f2d436a74d23e697eabe9ad1f25ae099dcbe3
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_packagedata became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_create_spdx became valid
+NOTE: Running setscene task 1958 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_create_spdx_setscene)
+NOTE: recipe libxml2-2.15.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_packagedata_setscene)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_package unihash changed to 8bd1a5936becd70f9104063993c847443d5eae294c3288b0ddee26cbe069587c
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_packagedata became valid
+NOTE: recipe libxml2-2.15.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.15.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 2832 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_package)
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-78.3-r0: task do_compile: Succeeded
+NOTE: Running task 2833 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_compile_ptest_base)
+NOTE: recipe wayland-1.26.0-r0: task do_package: Started
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2842 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_fetch)
+NOTE: recipe icu-78.3-r0: task do_compile_ptest_base: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_fetch: Started
+NOTE: recipe orc-0.4.42-r0: task do_compile: Succeeded
+NOTE: Running task 2843 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_install)
+NOTE: recipe initscripts-1.0-r0: task do_package: Succeeded
+NOTE: recipe orc-0.4.42-r0: task do_install: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_package unihash changed to ee6788872592d41cda3f6318b317bb9ff6b2a10f4a2ce3271c2f42c688906491
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata became valid
+NOTE: Running setscene task 1978 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx_setscene)
+NOTE: recipe python3-3.14.7-r0: task do_compile: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 2844 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_compile_ptest_base)
+NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.7-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-3.14.7-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2845 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_install)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_fetch: Succeeded
+NOTE: Running task 2846 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb:do_fetch)
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2847 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_fetch)
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2848 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_fetch)
+NOTE: recipe graphene-1.10.8-r0: task do_fetch: Started
+NOTE: recipe python3-3.14.7-r0: task do_install: Started
+NOTE: recipe orc-0.4.42-r0: task do_install: Succeeded
+NOTE: Running task 2850 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_create_recipe_spdx)
+NOTE: recipe tiff-4.7.2-r0: task do_fetch: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe graphene-1.10.8-r0: task do_fetch: Succeeded
+NOTE: Running task 2860 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_fetch)
+NOTE: recipe nettle-4.0-r0: task do_fetch: Started
+NOTE: recipe nettle-4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2861 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_fetch)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_compile: Succeeded
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2862 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_install)
+NOTE: Running task 2863 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_fetch)
+NOTE: recipe openssl-3.5.7-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2868 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.2.bb:do_create_spdx)
+NOTE: recipe json-glib-1.10.8-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.8.9-r0: task do_fetch: Started
+NOTE: recipe wayland-1.26.0-r0: task do_package: Succeeded
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_install: Started
+NOTE: Running task 2869 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_packagedata)
+NOTE: recipe util-linux-2.42.2-r0: task do_create_spdx: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_configure: Succeeded
+NOTE: Running task 2870 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_compile)
+NOTE: recipe wayland-1.26.0-r0: task do_packagedata: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_compile: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_fetch: Succeeded
+NOTE: Running task 2871 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_package)
+NOTE: recipe fribidi-1.0.16-r0: task do_package: Started
+NOTE: recipe wayland-1.26.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2873 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_unpack)
+NOTE: recipe sbc-2.2-r0: task do_unpack: Started
+NOTE: recipe sbc-2.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2874 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_unpack)
+NOTE: recipe libgudev-238-r0: task do_unpack: Started
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_install: Succeeded
+NOTE: Running task 2875 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_populate_sysroot)
+NOTE: recipe libgudev-238-r0: task do_unpack: Succeeded
+NOTE: Running task 2877 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_create_recipe_spdx)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_populate_sysroot: Started
+NOTE: recipe cairo-1.18.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_compile: Succeeded
+NOTE: Running task 2878 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_install)
+NOTE: recipe cairo-1.18.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2880 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_patch)
+NOTE: recipe fontconfig-2.18.3-r0: task do_install: Started
+NOTE: recipe sbc-2.2-r0: task do_patch: Started
+NOTE: recipe sbc-2.2-r0: task do_patch: Succeeded
+NOTE: Running task 2881 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_patch)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe tiff-4.7.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2896 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.58.bb:do_create_spdx)
+NOTE: Running task 2899 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb:do_write_config)
+NOTE: recipe libgudev-238-r0: task do_patch: Started
+NOTE: recipe libpng-1.6.58-r0: task do_create_spdx: Started
+NOTE: recipe libxmlb-0.3.28-r0: task do_write_config: Started
+NOTE: recipe libxmlb-0.3.28-r0: task do_write_config: Succeeded
+NOTE: recipe libgudev-238-r0: task do_patch: Succeeded
+NOTE: Running task 2908 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_populate_sysroot)
+NOTE: Running task 2920 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/libwpe_1.16.3.bb:do_fetch)
+NOTE: recipe libwpe-1.16.3-r0: task do_fetch: Started
+NOTE: recipe orc-0.4.42-r0: task do_populate_sysroot: Started
+NOTE: recipe libwpe-1.16.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2922 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_package)
+NOTE: recipe libice-1_1.1.2-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_package unihash changed to 5f74d8b8f6b3943fc2e0bff79f71d0cc7c466bc1483def3588859c140a55332e
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata became valid
+NOTE: recipe libpng-1.6.58-r0: task do_create_spdx: Succeeded
+NOTE: recipe orc-0.4.42-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe fontconfig-2.18.3-r0: task do_install: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_populate_sysroot unihash changed to 2d1d9e5ed94d761c0adbb08c72936f47dd0268ee2193692817c44a21922c1a35
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata_setscene)
+NOTE: Running task 2923 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_populate_sysroot)
+NOTE: Running task 2924 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_package)
+NOTE: Running task 2926 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_fetch)
+NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe eudev-3.2.14-r0: task do_configure: Succeeded
+NOTE: recipe fontconfig-2.18.3-r0: task do_populate_sysroot: Started
+NOTE: recipe nghttp2-1.70.0-r0: task do_fetch: Started
+NOTE: Running task 2927 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_compile)
+NOTE: recipe fontconfig-2.18.3-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2939 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_write_config)
+NOTE: recipe eudev-3.2.14-r0: task do_compile: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_write_config: Started
+NOTE: recipe libglu-2_9.0.3-r0: task do_write_config: Succeeded
+NOTE: Running task 2940 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libtheora-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2942 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_unpack)
+NOTE: recipe nghttp2-1.70.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2943 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb:do_unpack)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_unpack: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2944 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_unpack)
+NOTE: Running task 2945 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_configure)
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_unpack: Started
+NOTE: recipe graphene-1.10.8-r0: task do_unpack: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_configure: Started
+NOTE: recipe util-linux-2.42.2-r0: task do_create_spdx: Succeeded
+NOTE: recipe graphene-1.10.8-r0: task do_unpack: Succeeded
+NOTE: Running task 2946 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_unpack)
+NOTE: Running task 2949 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb:do_fetch)
+NOTE: recipe tiff-4.7.2-r0: task do_unpack: Started
+NOTE: recipe gtk4-4.22.4-r0: task do_fetch: Started
+NOTE: recipe gtk4-4.22.4-r0: task do_fetch: Succeeded
+NOTE: Running task 2950 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_write_config)
+NOTE: recipe tiff-4.7.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2951 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_patch)
+NOTE: recipe libepoxy-1.5.10-r0: task do_write_config: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_patch: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_write_config: Succeeded
+NOTE: Running task 2952 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_patch)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_patch: Succeeded
+NOTE: Running task 2953 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_patch)
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2954 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb:do_patch)
+NOTE: recipe graphene-1.10.8-r0: task do_patch: Started
+NOTE: recipe tiff-4.7.2-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_patch: Started
+NOTE: recipe graphene-1.10.8-r0: task do_patch: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure: Succeeded
+NOTE: Running task 2956 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_unpack)
+NOTE: Running task 2957 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_configure_ptest_base)
+NOTE: recipe tiff-4.7.2-r0: task do_patch: Succeeded
+NOTE: Running task 2958 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_unpack)
+NOTE: recipe nettle-4.0-r0: task do_unpack: Started
+NOTE: recipe flac-1.5.0-r0: task do_configure: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure_ptest_base: Started
+NOTE: Running task 2959 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_compile)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe json-glib-1.10.8-r0: task do_unpack: Started
+NOTE: Running task 2960 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_compile)
+NOTE: recipe nettle-4.0-r0: task do_unpack: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_package: Succeeded
+NOTE: Running task 2961 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_patch)
+NOTE: recipe flac-1.5.0-r0: task do_compile: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_package unihash changed to c121e0dc6b85e895f84f873ac0e6b1864a656006fde2fd4aed75a9a2c20d13ca
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata became valid
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_patch: Succeeded
+NOTE: recipe nettle-4.0-r0: task do_patch: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_compile: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata_setscene)
+NOTE: Running task 2962 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_patch)
+NOTE: Running task 2966 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/freetype/freetype_2.14.3.bb:do_create_spdx)
+NOTE: recipe nettle-4.0-r0: task do_patch: Succeeded
+NOTE: Running task 2967 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpciaccess_0.19.bb:do_create_recipe_spdx)
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_patch: Started
+NOTE: recipe freetype-2.14.3-r0: task do_create_spdx: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_create_recipe_spdx: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_patch: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 2969 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_write_config)
+NOTE: Setscene tasks completed
+NOTE: Running task 2971 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_package)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_write_config: Started
+NOTE: recipe libpciaccess-0.19-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 2972 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.60.6.bb:do_write_config)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_write_config: Succeeded
+NOTE: recipe libsm-1_1.2.6-r0: task do_package: Started
+NOTE: Running task 2980 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_prepare_recipe_sysroot)
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_write_config: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe at-spi2-core-2.60.6-r0: task do_write_config: Succeeded
+NOTE: Running task 2982 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_fetch)
+NOTE: recipe fontconfig-2.18.3-r0: task do_package: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_fetch: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2983 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_packagedata)
+NOTE: Running task 2984 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/libwpe_1.16.3.bb:do_unpack)
+NOTE: recipe libxslt-1.1.45-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2985 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_configure)
+NOTE: recipe freetype-2.14.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe fontconfig-2.18.3-r0: task do_packagedata: Started
+NOTE: Running task 2992 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_unpack)
+NOTE: recipe libwpe-1.16.3-r0: task do_unpack: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_compile: Succeeded
+NOTE: Running task 2993 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_install)
+NOTE: recipe libwpe-1.16.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2994 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/libwpe_1.16.3.bb:do_patch)
+NOTE: recipe libxslt-1.1.45-r0: task do_configure: Started
+NOTE: recipe nghttp2-1.70.0-r0: task do_unpack: Started
+NOTE: recipe libwpe-1.16.3-r0: task do_patch: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_install: Started
+NOTE: recipe libwpe-1.16.3-r0: task do_patch: Succeeded
+NOTE: Running task 3001 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.134.bb:do_create_recipe_spdx)
+NOTE: recipe nghttp2-1.70.0-r0: task do_unpack: Succeeded
+NOTE: recipe fontconfig-2.18.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 3002 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_patch)
+NOTE: Running task 3003 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb:do_write_config)
+NOTE: recipe libdrm-2.4.134-r0: task do_create_recipe_spdx: Started
+NOTE: recipe nghttp2-1.70.0-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.28.5-r0: task do_write_config: Succeeded
+NOTE: recipe nghttp2-1.70.0-r0: task do_patch: Succeeded
+NOTE: Running task 3004 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3039 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_package)
+NOTE: recipe libdrm-2.4.134-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3040 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_create_recipe_spdx)
+NOTE: recipe libwebp-1.6.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_package: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3041 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_configure)
+NOTE: Running task 3042 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_package)
+NOTE: recipe libwebp-1.6.0-r0: task do_configure: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_compile: Succeeded
+NOTE: Running task 3043 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_install)
+NOTE: recipe kmod-34.2-r0: task do_package: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_install: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_install: Succeeded
+NOTE: Running task 3047 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_package unihash changed to 6944c6e7fea43e2cb80753fc5051c3a5abec7e3050c0142a8cc413b6ecbd1d22
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_packagedata became valid
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_packagedata_setscene)
+NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3049 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_package)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_package: Started
+NOTE: recipe kmod-34.2-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_package unihash changed to 8ff5bf39a061b7457d02044ecca676fa0099b33d3bed70b0f3b332e5649c622a
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_packagedata became valid
+NOTE: Running setscene task 1971 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_packagedata_setscene)
+NOTE: recipe kmod-34.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe kmod-34.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3054 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb:do_fetch)
+NOTE: recipe gtk+3-3.24.52-r0: task do_fetch: Started
+NOTE: recipe gtk+3-3.24.52-r0: task do_fetch: Succeeded
+NOTE: Running task 3055 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_create_recipe_spdx)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3056 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb:do_unpack)
+NOTE: recipe eudev-3.2.14-r0: task do_compile: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3057 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_install)
+NOTE: recipe gtk4-4.22.4-r0: task do_unpack: Started
+NOTE: recipe eudev-3.2.14-r0: task do_install: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package unihash changed to 59ef2b00a3b440a83b155c0ab10b9600076b84e9399f0b3fb8921ca1284e9151
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata became valid
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_install: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3058 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libgudev/libgudev_238.bb:do_write_config)
+NOTE: Running task 3059 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_populate_sysroot)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_package: Succeeded
+NOTE: recipe gtk4-4.22.4-r0: task do_unpack: Succeeded
+NOTE: Running task 3060 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_package)
+NOTE: recipe libgudev-238-r0: task do_write_config: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_package unihash changed to caa113357bacca328cce493d3fe3223971fe0c7cf572b5669840c33d9bc537ad
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_packagedata became valid
+NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot: Started
+NOTE: recipe libgudev-238-r0: task do_write_config: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_package: Started
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_packagedata_setscene)
+NOTE: Running task 3062 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe eudev-3.2.14-r0: task do_install: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 3063 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_compile)
+NOTE: Running task 3065 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_compile: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_populate_sysroot unihash changed to 5711a374acca9247a57d99374ae5ff79c072788b05c6c91637a0189566389f35
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_populate_sysroot became valid
+NOTE: recipe xkeyboard-config-2.48-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libusb1-1.0.30-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_package unihash changed to 5b5d384362881f740486eff1717732ba73c2a9c5f9e778686e1edffdfd9e0f87
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_create_spdx became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_packagedata became valid
+NOTE: Running setscene task 1861 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1876 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1929 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1949 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxt-1_1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1966 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb:do_packagedata_setscene)
+NOTE: recipe libxv-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1974 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxt-1_1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1978 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 3066 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.16.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3067 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 3068 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_prepare_recipe_sysroot)
+NOTE: Setscene tasks completed
+NOTE: Running task 3069 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3070 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_configure)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3071 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_configure)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3072 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_configure)
+NOTE: Running task 3073 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_configure)
+NOTE: recipe libxext-1_1.3.7-r0: task do_configure: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_configure: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_configure: Started
+NOTE: recipe flac-1.5.0-r0: task do_compile: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_configure: Started
+NOTE: Running task 3074 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_configure)
+NOTE: recipe libusb1-1.0.30-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 3075 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_install)
+NOTE: recipe flac-1.5.0-r0: task do_install: Started
+NOTE: recipe libtheora-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 3076 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_install)
+NOTE: recipe libtheora-1.2.0-r0: task do_install: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_configure: Succeeded
+NOTE: Running task 3078 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb:do_patch)
+NOTE: recipe gtk4-4.22.4-r0: task do_patch: Started
+NOTE: recipe gtk4-4.22.4-r0: task do_patch: Succeeded
+NOTE: Running task 3084 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 01601c830bf0505dffefe38b59daca3ab016e10d573425e9e20abf8724f20aa7
+NOTE: Setscene tasks completed
+NOTE: recipe libtheora-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 3086 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_package)
+NOTE: Running task 3088 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_package)
+NOTE: recipe libgcrypt-1.12.2-r0: task do_compile: Succeeded
+NOTE: recipe eudev-3.2.14-r0: task do_package: Started
+NOTE: Running task 3093 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_create_recipe_spdx)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_configure: Succeeded
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_package: Started
+NOTE: Running task 3094 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_compile)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_compile: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_configure: Succeeded
+NOTE: Running task 3095 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_compile)
+NOTE: recipe libwebp-1.6.0-r0: task do_compile: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3097 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_create_recipe_spdx)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 3098 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_install)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_install: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3100 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_create_recipe_spdx)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3108 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_unpack)
+NOTE: recipe libtasn1-4.21.0-r0: task do_unpack: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_unpack: Succeeded
+NOTE: Running task 3109 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb:do_create_recipe_spdx)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_install: Succeeded
+NOTE: Running task 3110 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_populate_sysroot)
+NOTE: recipe flac-1.5.0-r0: task do_install: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 3112 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_package: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.2.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_package unihash changed to 8803839f338924bd16033000a4e4efa5083746d181a296c2dfab8727cb18a257
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_packagedata became valid
+NOTE: recipe libsndfile1-1.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_populate_sysroot unihash changed to c1dc0eb3287ece4c9bdbb31ae57524001036d506c2f75fca3fcefb3a857bfdb9
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_populate_sysroot became valid
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 1921 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1937 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1978 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_packagedata_setscene)
+NOTE: Running task 3113 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_package: Succeeded
+NOTE: Running task 3114 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_configure)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_configure: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 3116 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_package)
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_populate_sysroot_setscene)
+NOTE: Running task 3117 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_create_spdx)
+NOTE: recipe libxi-1_1.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_package: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_spdx: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3118 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_packagedata)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_packagedata: Started
+NOTE: Running task 3119 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_configure)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_configure: Started
+NOTE: recipe libxkbcommon-1.13.2-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.2.bb:do_packagedata unihash changed to 4a338e365e123cc4edc8b550d5f54784e57deaafb99f7f92aeac9502c8c73b31
+NOTE: recipe eudev-3.2.14-r0: task do_package: Succeeded
+NOTE: Running task 3120 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_patch)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_package unihash changed to 3393b013b4c1bf0cf06b18c855edce308bea7d8136bcc429254bf4e968db8858
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata became valid
+NOTE: recipe libtasn1-4.21.0-r0: task do_patch: Started
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata_setscene)
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_patch: Succeeded
+NOTE: Running task 3123 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_compile_ptest_base)
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_spdx: Succeeded
+NOTE: Running task 3133 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.6.bb:do_fetch)
+NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_compile_ptest_base: Started
+NOTE: Running task 3138 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_14.3.0.bb:do_create_recipe_spdx)
+NOTE: recipe libsoup-3.6.6-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 3139 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_install)
+NOTE: recipe harfbuzz-14.3.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_package: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_install: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_package unihash changed to a681b3f99586842b5562d15d226f7bce149c267e522b2a4766996e2d699bee8a
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_packagedata became valid
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_packagedata_setscene)
+NOTE: recipe libsoup-3.6.6-r0: task do_fetch: Succeeded
+NOTE: Running task 3145 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_create_recipe_spdx)
+NOTE: recipe harfbuzz-14.3.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3149 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_fetch)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libfyaml-0.9.6-r0: task do_fetch: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3151 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/aspell/aspell_0.60.8.2.bb:do_fetch)
+NOTE: recipe aspell-0.60.8.2-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3164 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_write_config)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_configure: Succeeded
+NOTE: recipe libgcrypt-1.12.2-r0: task do_install: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3165 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_compile)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_write_config: Started
+NOTE: Running task 3166 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb:do_write_config)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_write_config: Succeeded
+NOTE: Running task 3167 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_write_config)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_compile: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.28.5-r0: task do_write_config: Succeeded
+NOTE: recipe graphene-1.10.8-r0: task do_write_config: Started
+NOTE: Running task 3168 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe graphene-1.10.8-r0: task do_write_config: Succeeded
+NOTE: Running task 3169 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_create_recipe_spdx)
+NOTE: recipe tiff-4.7.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_compile: Succeeded
+NOTE: recipe libfyaml-0.9.6-r0: task do_fetch: Succeeded
+NOTE: Running task 3170 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3171 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_install)
+NOTE: recipe mesa-2_26.2.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe nettle-4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_install: Started
+NOTE: recipe tiff-4.7.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3172 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_configure)
+NOTE: recipe tiff-4.7.2-r0: task do_configure: Started
+NOTE: recipe nettle-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3173 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_write_config)
+NOTE: Running task 3174 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_configure)
+NOTE: recipe nettle-4.0-r0: task do_configure: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_write_config: Started
+NOTE: recipe json-glib-1.10.8-r0: task do_write_config: Succeeded
+NOTE: Running task 3182 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb:do_unpack)
+NOTE: recipe gtk+3-3.24.52-r0: task do_unpack: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_install: Succeeded
+NOTE: Running task 3183 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_populate_sysroot)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_populate_sysroot unihash changed to f8739de3c6c97db84af1da9f688391d7386b651121ecd13aa0d6c48f603d7aa5
+NOTE: recipe libxrender-1_0.9.12-r0: task do_configure: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_configure: Succeeded
+NOTE: recipe gtk+3-3.24.52-r0: task do_unpack: Succeeded
+NOTE: recipe libusb1-1.0.30-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3184 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_compile)
+NOTE: Running task 3185 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_compile)
+NOTE: Running task 3186 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_configure_ptest_base)
+NOTE: Running task 3187 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_package)
+NOTE: Running task 3191 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_create_recipe_spdx)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_configure: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_compile: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_compile: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 3192 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_compile)
+NOTE: recipe libusb1-1.0.30-r0: task do_configure_ptest_base: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 3193 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_compile)
+NOTE: recipe libxshmfence-1.3.3-r0: task do_compile: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3194 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb:do_patch)
+NOTE: recipe gtk+3-3.24.52-r0: task do_patch: Started
+NOTE: recipe gtk+3-3.24.52-r0: task do_patch: Succeeded
+NOTE: Running task 3197 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.18.3.bb:do_create_spdx)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_compile: Succeeded
+NOTE: Running task 3198 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_install)
+NOTE: recipe fontconfig-2.18.3-r0: task do_create_spdx: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_compile: Succeeded
+NOTE: Running task 3199 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_install)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_install: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_compile: Succeeded
+NOTE: Running task 3200 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_install)
+NOTE: recipe libwebp-1.6.0-r0: task do_compile: Succeeded
+NOTE: Running task 3201 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/webp/libwebp_1.6.0.bb:do_install)
+NOTE: recipe libxext-1_1.3.7-r0: task do_install: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_install: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_install: Started
+NOTE: recipe fontconfig-2.18.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_install: Succeeded
+NOTE: Running task 3202 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_package)
+NOTE: Running task 3204 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libusb1-1.0.30-r0: task do_compile: Succeeded
+NOTE: Running task 3205 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_package)
+NOTE: recipe flac-1.5.0-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_install: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_install: Succeeded
+NOTE: Running task 3207 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_package)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_package: Started
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_package: Succeeded
+NOTE: Running task 3209 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_prepare_recipe_sysroot)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_package unihash changed to 8d8e43c5b1a885bfdad923c71ef72c73eaccce5d823bf1bd205958de36256689
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_packagedata became valid
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_package: Started
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.7.bb:do_packagedata_setscene)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3210 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_configure)
+NOTE: recipe libxdamage-1_1.1.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3211 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_package)
+NOTE: recipe libxft-1_2.3.9-r0: task do_configure: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_package: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3212 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_configure)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_configure: Started
+NOTE: recipe libwebp-1.6.0-r0: task do_install: Succeeded
+NOTE: Running task 3213 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe nettle-4.0-r0: task do_configure: Succeeded
+NOTE: Running task 3214 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3215 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_configure)
+NOTE: recipe libxi-1_1.8.3-r0: task do_configure: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3216 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_configure)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_configure: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_configure: Succeeded
+NOTE: Running task 3217 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_compile)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_package unihash changed to 5f0221ecfc7d6b3762709e7a13606e29f86095390420fa5463ae825ccae64b3b
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata became valid
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_configure: Succeeded
+NOTE: recipe libxft-1_2.3.9-r0: task do_compile: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_package unihash changed to 9594b9e8abc903610865bb46bdd9eb6d4b9cb0d4e2d74fb15ff7e83af9c99e96
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_packagedata became valid
+NOTE: Running setscene task 1972 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
+NOTE: Running task 3218 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_compile)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_compile: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_package unihash changed to b11fc4c31f54c70067171e83a801e270ea2cd0dcedbbba302f45faa6a463970d
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_packagedata became valid
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.9-r0: task do_compile: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_configure: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_compile: Succeeded
+NOTE: recipe flac-1.5.0-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_package unihash changed to 8a2f69fe56d5920c246edd55e2cc6a21887b7b36e26cf2f8fcdc8549a66ddbf2
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_packagedata became valid
+NOTE: Running setscene task 1932 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_packagedata_setscene)
+NOTE: Running task 3219 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_install)
+NOTE: Running task 3220 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_install)
+NOTE: Running task 3222 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_compile)
+NOTE: Running task 3225 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_compile_ptest_base)
+NOTE: Running task 3226 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_prepare_recipe_sysroot)
+NOTE: recipe flac-1.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_install: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_compile: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_install: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_compile_ptest_base: Started
+NOTE: recipe libxv-1.0.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe flac-1.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3227 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3229 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_create_spdx)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_create_spdx: Started
+NOTE: recipe libxv-1.0.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libusb1-1.0.30-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 3230 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_install)
+NOTE: Running task 3231 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_configure)
+NOTE: recipe libxv-1.0.13-r0: task do_configure: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_install: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_compile: Succeeded
+NOTE: Running task 3232 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_install)
+NOTE: recipe libxext-1_1.3.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_install: Started
+NOTE: Running task 3233 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_install: Succeeded
+NOTE: Running task 3234 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_configure)
+NOTE: Running task 3235 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_populate_sysroot)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_install: Succeeded
+NOTE: Running task 3236 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_populate_sysroot)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_configure: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libusb1-1.0.30-r0: task do_install: Succeeded
+NOTE: Running task 3237 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_package)
+NOTE: recipe libxft-1_2.3.9-r0: task do_populate_sysroot: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3238 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_package)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_package: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_populate_sysroot unihash changed to 752b853eb3cc3d2950d09fc3db20f28537b81ec833771c5688c307cb4677e670
+NOTE: recipe libxft-1_2.3.9-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_install: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3239 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3240 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3241 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_populate_sysroot)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3242 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_configure)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_populate_sysroot unihash changed to 4c33474522f595839884e16c9b1d9a8281042af71c9098247dd9e58486cfd8b8
+NOTE: recipe xrandr-1_1.5.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_configure: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_package: Succeeded
+NOTE: Running task 3243 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_configure)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_configure: Succeeded
+NOTE: Running task 3244 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_package)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_package unihash changed to 792fb01946284e5d025024bf5533c3513bdcceafda0c51d50c5e43b22577b30f
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_packagedata became valid
+NOTE: recipe xrandr-1_1.5.4-r0: task do_configure: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_package: Started
+NOTE: Running setscene task 1971 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_packagedata_setscene)
+NOTE: Running task 3245 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_compile)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-78.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_compile: Started
+NOTE: Running task 3246 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_install)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3248 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_configure)
+NOTE: recipe icu-78.3-r0: task do_install: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_configure: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_compile: Succeeded
+NOTE: Running task 3249 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_install)
+NOTE: recipe libxft-1_2.3.9-r0: task do_package: Succeeded
+NOTE: Running task 3250 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_packagedata)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_configure: Succeeded
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_packagedata: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 3251 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_compile)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_compile: Succeeded
+NOTE: Running task 3252 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_install)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_compile: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.9-r0: task do_packagedata: Succeeded
+NOTE: recipe tiff-4.7.2-r0: task do_configure: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxft_2.3.9.bb:do_packagedata unihash changed to 6d11edf1b5326953131a136b5508b08281b2ce38aaea76c6f5806edccff08c14
+NOTE: Running task 3253 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_create_spdx)
+NOTE: Running task 3254 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libusb/libusb1_1.0.30.bb:do_install_ptest_base)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_install: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx: Started
+NOTE: Running task 3255 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_populate_sysroot)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_package: Succeeded
+NOTE: recipe libusb1-1.0.30-r0: task do_install_ptest_base: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_package unihash changed to e6d3237c3d74066820bd68ff1fcdf6ac62e7a29cb26e8345372df784c27c1786
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_packagedata became valid
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_populate_sysroot: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_install: Succeeded
+NOTE: recipe libusb1-1.0.30-r0: task do_install_ptest_base: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.7.bb:do_packagedata_setscene)
+NOTE: Running task 3256 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_populate_sysroot)
+NOTE: Running task 3259 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx: Succeeded
+NOTE: Running task 3260 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_compile)
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_configure: Succeeded
+NOTE: recipe libstd-rs-1.96.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 3261 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_compile)
+NOTE: recipe tiff-4.7.2-r0: task do_compile: Started
+NOTE: recipe libxxf86vm-1_1.1.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3263 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_package)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe xrandr-1_1.5.4-r0: task do_compile: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_populate_sysroot unihash changed to a6c6bba6b3c0eb71d9e44b9f1704e943603ec0ca882bd2d7fd3052ac148d1f30
+NOTE: recipe libsndfile1-1.2.2-r0: task do_configure: Succeeded
+NOTE: recipe libcxx-22.1.8-r0: task do_package: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 3264 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_compile)
+NOTE: Running task 3265 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_package)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_compile: Started
+NOTE: recipe orc-0.4.42-r0: task do_package: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3266 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_configure)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_configure: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_populate_sysroot unihash changed to 1299c3688fdd44c2b6728c0f795614b09c9c09195eeb4fff4fda3edebf6be557
+NOTE: Setscene tasks completed
+NOTE: Running task 3267 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_configure_ptest_base)
+NOTE: recipe libxslt-1.1.45-r0: task do_configure_ptest_base: Started
+NOTE: recipe libxslt-1.1.45-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 3268 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_compile)
+NOTE: recipe libxslt-1.1.45-r0: task do_compile: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_compile: Succeeded
+NOTE: Running task 3269 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_install)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_install: Started
+NOTE: recipe icu-78.3-r0: task do_install: Succeeded
+NOTE: recipe libxi-1_1.8.3-r0: task do_configure: Succeeded
+NOTE: Running task 3270 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_compile)
+NOTE: Running task 3271 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_install_ptest_base)
+NOTE: recipe libxi-1_1.8.3-r0: task do_compile: Started
+NOTE: recipe orc-0.4.42-r0: task do_package: Succeeded
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_configure: Succeeded
+NOTE: recipe icu-78.3-r0: task do_install_ptest_base: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_package unihash changed to 6d0f340e0f38d75918c5ee1a534ecb2be637a008ab815f9f305addc76534e5c1
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_packagedata became valid
+NOTE: recipe xrandr-1_1.5.4-r0: task do_install: Succeeded
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/orc/orc_0.4.42.bb:do_packagedata_setscene)
+NOTE: Running task 3272 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_compile)
+NOTE: Running task 3273 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_populate_sysroot)
+NOTE: recipe orc-0.4.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_compile: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_populate_sysroot: Started
+NOTE: recipe orc-0.4.42-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3274 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_package)
+NOTE: recipe icu-78.3-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 3276 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_78.3.bb:do_package)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_compile: Succeeded
+NOTE: Running task 3277 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_install)
+NOTE: recipe xrandr-1_1.5.4-r0: task do_package: Started
+NOTE: recipe icu-78.3-r0: task do_package: Started
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_install: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_populate_sysroot unihash changed to 2390f74f42a68d0616e882bb2141432209941e18664be38a3bba36d70b1b9169
+NOTE: Setscene tasks completed
+NOTE: Running task 3278 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_create_recipe_spdx)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 3279 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_install)
+NOTE: recipe libice-1_1.1.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_install: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_compile: Succeeded
+NOTE: Running task 3280 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_install)
+NOTE: recipe libice-1_1.1.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3281 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/clang-cross_git.bb:do_create_recipe_spdx)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_install: Succeeded
+NOTE: Running task 3285 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_create_spdx)
+NOTE: recipe clang-cross-arm-git-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_install: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_spdx: Started
+NOTE: recipe clang-cross-arm-git-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3289 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.58.0.bb:do_create_recipe_spdx)
+NOTE: recipe pango-1.58.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_install: Succeeded
+NOTE: Running task 3291 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_spdx: Succeeded
+NOTE: recipe libsndfile1-1.2.2-r0: task do_install: Succeeded
+NOTE: recipe xrandr-1_1.5.4-r0: task do_package: Succeeded
+NOTE: Running task 3292 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_package)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_package unihash changed to f0c9ff3bdee910f476b203e83e326d17758cf280dbbe48979e8905fdef749773
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_packagedata became valid
+NOTE: recipe libxtst-1_1.2.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.58.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libxslt-1.1.45-r0: task do_compile: Succeeded
+NOTE: recipe libxi-1_1.8.3-r0: task do_package: Started
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-app/xrandr_1.5.4.bb:do_packagedata_setscene)
+NOTE: Running task 3294 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3295 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_package)
+NOTE: Running task 3300 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb:do_create_recipe_spdx)
+WARNING: libarchive-3.8.9-r0 do_fetch: Failed to fetch URL https://libarchive.org/downloads/libarchive-3.8.9.tar.gz, attempting MIRRORS if available
+NOTE: recipe xrandr-1_1.5.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe sbc-2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxtst-1_1.2.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libsndfile1-1.2.2-r0: task do_package: Started
+NOTE: Running task 3301 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_configure)
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe xrandr-1_1.5.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3303 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_create_spdx)
+NOTE: recipe libxtst-1_1.2.5-r0: task do_configure: Started
+NOTE: Running task 3304 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_compile)
+NOTE: recipe sbc-2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3305 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.2.bb:do_configure)
+NOTE: recipe wayland-1.26.0-r0: task do_create_spdx: Started
+NOTE: recipe libxv-1.0.13-r0: task do_compile: Started
+NOTE: recipe shared-mime-info-2.5.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3306 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.6.bb:do_unpack)
+NOTE: recipe sbc-2.2-r0: task do_configure: Started
+NOTE: recipe libsoup-3.6.6-r0: task do_unpack: Started
+NOTE: recipe libsoup-3.6.6-r0: task do_unpack: Succeeded
+NOTE: Running task 3307 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_create_recipe_spdx)
+NOTE: recipe wayland-1.26.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 3311 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_create_recipe_spdx)
+NOTE: recipe libxi-1_1.8.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxv-1.0.13-r0: task do_compile: Succeeded
+NOTE: Running task 3312 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_install)
+NOTE: recipe libxi-1_1.8.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3317 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.6.bb:do_patch)
+NOTE: recipe libsm-1_1.2.6-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3320 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_unpack)
+NOTE: recipe libxv-1.0.13-r0: task do_install: Started
+NOTE: recipe libsoup-3.6.6-r0: task do_patch: Started
+NOTE: recipe libfyaml-0.9.6-r0: task do_unpack: Started
+NOTE: recipe libfyaml-0.9.6-r0: task do_unpack: Succeeded
+NOTE: Running task 3321 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_patch)
+NOTE: recipe libfyaml-0.9.6-r0: task do_patch: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_compile: Succeeded
+NOTE: Running task 3322 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_install)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_install: Started
+NOTE: recipe libxv-1.0.13-r0: task do_install: Succeeded
+NOTE: Running task 3331 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb:do_fetch)
+NOTE: recipe libfyaml-0.9.6-r0: task do_patch: Succeeded
+NOTE: Running task 3332 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.5.bb:do_fetch)
+NOTE: recipe libsoup-3.6.6-r0: task do_patch: Succeeded
+NOTE: Running task 3333 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxt_1.3.1.bb:do_fetch)
+NOTE: recipe p11-kit-0.26.5-r0: task do_fetch: Started
+NOTE: recipe appstream-1.1.5-r0: task do_fetch: Started
+NOTE: recipe appstream-1.1.5-r0: task do_fetch: Succeeded
+NOTE: recipe libxt-1_1.3.1-r0: task do_fetch: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_install: Succeeded
+NOTE: Running task 3334 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/wpebackend-fdo_1.16.1.bb:do_fetch)
+NOTE: Running task 3335 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_populate_sysroot)
+NOTE: recipe wpebackend-fdo-1.16.1-r0: task do_fetch: Started
+NOTE: recipe wpebackend-fdo-1.16.1-r0: task do_fetch: Succeeded
+NOTE: Running task 3336 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_package)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_package: Started
+NOTE: recipe p11-kit-0.26.5-r0: task do_fetch: Succeeded
+NOTE: Running task 3337 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libsecret/libsecret_0.21.7.bb:do_fetch)
+NOTE: recipe libsecret-0.21.7-r0: task do_fetch: Started
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 3338 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.8.3-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_package unihash changed to fb2a6ad769d685c1454d5526c28aa15ac1b8e33c4ca4a0eed0df7a1e341a4d08
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_packagedata became valid
+NOTE: recipe mesa-2_26.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running setscene task 1978 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb:do_packagedata_setscene)
+NOTE: recipe libxi-1_1.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsecret-0.21.7-r0: task do_fetch: Succeeded
+NOTE: Running task 3339 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libnotify/libnotify_0.8.8.bb:do_fetch)
+NOTE: recipe libnotify-0.8.8-r0: task do_fetch: Started
+NOTE: recipe libxi-1_1.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3341 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/enchant/enchant2_2.8.19.bb:do_fetch)
+NOTE: recipe libsndfile1-1.2.2-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_package unihash changed to a6377f0f39fbb90388a37930a7da98b21616cae9fefc7f45b6113099e719715a
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_packagedata became valid
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_configure: Succeeded
+NOTE: recipe enchant2-2.8.19-r0: task do_fetch: Started
+NOTE: recipe libcxx-22.1.8-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_package unihash changed to f4d0a30170b579b6d4b186573267b07e0cf439fa99b0b80a6bc7eb6e9f80f780
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_packagedata became valid
+NOTE: recipe tiff-4.7.2-r0: task do_compile: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running setscene task 1973 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/libcxx_git.bb:do_packagedata_setscene)
+NOTE: Running task 3342 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_rust_create_wrappers)
+NOTE: Running task 3343 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_compile)
+NOTE: Running task 3344 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb:do_install)
+NOTE: recipe libcxx-22.1.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_compile: Started
+NOTE: recipe mesa-2_26.2.0-r0: task do_rust_create_wrappers: Started
+NOTE: recipe tiff-4.7.2-r0: task do_install: Started
+NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3346 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_populate_sysroot)
+NOTE: recipe libcxx-22.1.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3348 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_package)
+NOTE: recipe mesa-2_26.2.0-r0: task do_rust_create_wrappers: Succeeded
+NOTE: Running task 3349 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_configure)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_package: Started
+NOTE: recipe enchant2-2.8.19-r0: task do_fetch: Succeeded
+NOTE: Running task 3351 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_create_recipe_spdx)
+NOTE: recipe mesa-2_26.2.0-r0: task do_configure: Started
+NOTE: recipe vala-0.56.19-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libnotify-0.8.8-r0: task do_fetch: Succeeded
+NOTE: Running task 3355 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb:do_write_config)
+NOTE: recipe libxinerama-1_1.1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.6.bb:do_populate_sysroot unihash changed to 4770f9e9e9c4023f43f7aa6e1076a371ed1abf50b576cca84cdc29a163755b80
+NOTE: recipe gtk4-4.22.4-r0: task do_write_config: Started
+NOTE: recipe vala-0.56.19-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe gtk4-4.22.4-r0: task do_write_config: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_package: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3356 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_packagedata)
+NOTE: Running task 3357 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_package)
+NOTE: Running task 3375 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_create_recipe_spdx)
+NOTE: Running task 3376 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_packagedata: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe kmod-34.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_package: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_compile: Succeeded
+NOTE: Running task 3377 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_install)
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_install: Started
+NOTE: recipe kmod-34.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe vulkan-loader-1.4.357.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 3378 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/libwpe_1.16.3.bb:do_generate_toolchain_file)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.357.0.bb:do_packagedata unihash changed to fdafd9df393ea9db95e76a088e7d9a471a707f85a863b47b50277c7b95b261b0
+NOTE: recipe libwpe-1.16.3-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libwpe-1.16.3-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3379 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_configure)
+NOTE: Running task 3380 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_install_ptest_base)
+NOTE: Running task 3381 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_generate_toolchain_file)
+NOTE: recipe libtasn1-4.21.0-r0: task do_configure: Started
+NOTE: recipe nghttp2-1.70.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_install_ptest_base: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_install: Succeeded
+NOTE: recipe libxt-1_1.3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 3382 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 3384 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_package)
+NOTE: recipe nghttp2-1.70.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 3385 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_create_spdx)
+NOTE: recipe nghttp2-1.70.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_package: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_spdx: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 3392 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb:do_fetch)
+NOTE: recipe nghttp2-1.70.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_spdx: Succeeded
+NOTE: Running task 3393 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb:do_configure)
+NOTE: Running task 3394 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxv_1.0.13.bb:do_package)
+NOTE: recipe webkitgtk-2.52.5-r0: task do_fetch: Started
+NOTE: recipe webkitgtk-2.52.5-r0: task do_fetch: Succeeded
+NOTE: Running task 3395 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb:do_package)
+NOTE: recipe nghttp2-1.70.0-r0: task do_configure: Started
+NOTE: recipe libxv-1.0.13-r0: task do_package: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_package: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_package: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_package unihash changed to 0dc8d8d017e32661f3268089af7337a8935bb16e6028a65cee5e78cc528c5717
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_packagedata became valid
+NOTE: recipe libstd-rs-1.96.1-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_package unihash changed to ef52f7ff1d8de2a7231219a99c41d3d58d08acb69bc11b7d53101f875a817f66
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_packagedata became valid
+NOTE: Running setscene task 1974 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 1979 of 1979 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/libstd-rs_1.96.1.bb:do_packagedata_setscene)
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libstd-rs-1.96.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 3397 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.357.0.bb:do_create_spdx)
+NOTE: recipe libstd-rs-1.96.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 3399 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_create_recipe_spdx)
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_create_spdx: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 3405 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb:do_create_recipe_spdx)
+NOTE: recipe libarchive-3.8.9-r0: task do_fetch: Failed
+NOTE: Running task 3406 of 4615 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb:do_create_spdx)
+NOTE: recipe xkeyboard-config-2.48-r0: task do_create_recipe_spdx: Started
+NOTE: recipe vulkan-headers-1.4.357.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_create_spdx: Started
+NOTE: recipe xkeyboard-config-2.48-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe sbc-2.2-r0: task do_configure: Succeeded
+NOTE: recipe pixman-1_0.46.4-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_package: Succeeded
+NOTE: recipe icu-78.3-r0: task do_package: Succeeded
+NOTE: recipe libxv-1.0.13-r0: task do_package: Succeeded
+NOTE: recipe libtheora-1.2.0-r0: task do_package: Succeeded
+NOTE: recipe nghttp2-1.70.0-r0: task do_configure: Succeeded
+NOTE: recipe tiff-4.7.2-r0: task do_install: Succeeded
+NOTE: recipe libxtst-1_1.2.5-r0: task do_configure: Succeeded
+NOTE: recipe mesa-2_26.2.0-r0: task do_configure: Succeeded
+NOTE: recipe aspell-0.60.8.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-3.14.7-r0: task do_install: Succeeded
+NOTE: recipe libunistring-1.4.2-r0: task do_compile: Succeeded
+NOTE: recipe libtasn1-4.21.0-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 3406 tasks of which 2592 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260814062350.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260814062350.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_fetch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libarchive/3.8.9/temp/log.do_fetch.1309567
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: libarchive-3.8.9-r0 do_fetch: Fetcher failure: Fetch command ['wget', '--tries=2', '--timeout=100', '--output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/libarchive-3.8.9.tar.gz.tmp', '--continue', '--directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads', 'https://libarchive.org/downloads/libarchive-3.8.9.tar.gz', '--progress=dot', '--verbose'] failed with exit code 4, see logfile for output
+ERROR: libarchive-3.8.9-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://libarchive.org/downloads/libarchive-3.8.9.tar.gz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libarchive/3.8.9/temp/log.do_fetch.1309567
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_fetch) failed with exit code '1'
+
+--===============4149441841723606521==--
 
