@@ -1,101 +1,84 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE0CC5CFC1
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 15:46:13 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16003.1786722369989389229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 090C9C5CFCF
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 16:26:54 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16934.1786724811017805786
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 08:46:10 -0700
+ Fri, 14 Aug 2026 09:26:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Xtz7d5x2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gdhLLYU7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a000f3bdcf-c80d90ed-1d78-4f45-8a27-42687c0a03a4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786722369; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=vBymBfgk5tmg8/CNttLNWdDWwAAxHAMqhwKxBdtywfY=;
-	b=Xtz7d5x2H3+Gx2zTRngSiKj7ojUvkrp1PoWTe+viMa5AOirqhS4N7Q0R0NWOxVGD
-	uZGi4C5WNrRdDq7BCYX1doOpNgc4dsXi1giyTFwSbzIKh9onh/kDIbROMTJP1gxpzp5
-	2IQuZ392ZLNVKCHMP6M9Cf+XC6mXlrjdypb893Nc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786722369;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=vBymBfgk5tmg8/CNttLNWdDWwAAxHAMqhwKxBdtywfY=;
-	b=gdhLLYU7gMZCPCNrwwF/dfRrr7Z7gSflc4OPQOpoR0RldkOQ8UI/E/KFNjgjUzC1
-	XlfiDs1hxK+9x/p6SYzk/lvV2CNPE6T1XUmeEqD9J270YgqE/awnaeRhdc3SXp3D8Gg
-	hA2i84TJVRXcQjR5EBHWe5KdzeIKxQq6VnlFlS9s=
-From: patchtest@automation.yoctoproject.org
-To: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][wrynose][PATCH] perl: upgrade 5.42.0 -> 5.44.0
-In-Reply-To: <20260814153052.2863858-1-Abhishek.Bachiphale@windriver.com>
-References: <20260814153052.2863858-1-Abhishek.Bachiphale@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a000f3bdcf-c80d90ed-1d78-4f45-8a27-42687c0a03a4-000000@us-west-2.amazonses.com>
-Date: Fri, 14 Aug 2026 15:46:08 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.14-54.240.27.29
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=O16BroEz;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3254C1A1644
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 16:26:49 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0731B6046D
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 16:26:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 549EB11C4EED3;
+	Fri, 14 Aug 2026 18:26:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786724804; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=mPUBUuTIf5ambjrX9Ou+s6wx623AJJlrCNAiTmNbZ58=;
+	b=O16BroEzEWXOEySpnRvtAhtjROLPAxHKl2H8c4e9PsiZQbL7LG0dAzeyFhNtfLNQwRUcF6
+	vKGBN1nqU6j875OwIEqY43ng7Q+PH2AeotToSlvdHCjmUo4c/ksffgOKVo3AU7nkfxNsLR
+	+9UzH2Ppx9IB6sV1eUU9/MXvEWmJqbrjeFXYvm5zK6vUKt1T6kHqXMoBbmc0NC+CFfDF0d
+	JXNAMHCa5+rxuaaMqxSuxz8vHE4mvObx4WTlg8q+N/uVipwPNmU9JiZnTPL380mttbh8f7
+	pOYRPPE63Vf8F86rEah9OdPHt8NU88T1pXFIVOaAGfsho9qMjdlsMme50BTyLA==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Fri, 14 Aug 2026 18:26:34 +0200
+Subject: [PATCH 1/4] scripts: scriptutils: Use LicenseRef-Proprietary
+ LICENSE while fetching
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260814-mathieu-devtool-v1-1-985e81a17bb3@bootlin.com>
+References: <20260814-mathieu-devtool-v1-0-985e81a17bb3@bootlin.com>
+In-Reply-To: <20260814-mathieu-devtool-v1-0-985e81a17bb3@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786724798; l=1093;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=kugYCJkFv7tigxtIoB6AOg2o04XNAOY5y1ApF1OQGu0=;
+ b=euIwVn9uulgPMgYInd2tziDnPtxaOoRegg3AVPKwr3fQWB7kRuv1kuxK/qKOulk8F3RTURn6d
+ 6up8APSMCzTAchM3y2eiVlJyyAdgkqGXd7pIN4AxlhUvqUaO2XVI7Rj
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 15:46:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243458
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 16:26:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243460
 
---NextPart
-Content-Type: text/plain
+Switching away of the "CLOSED" license, as devtool users would encounter
+deprecation warnings on "devtool add" command.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
-Testing patch /home/patchtest/share/mboxes/wrynose-perl-upgrade-5.42.0---5.44.0.patch
+ scripts/lib/scriptutils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+index 32e749dbb1a2..b4fb6cc1845f 100644
+--- a/scripts/lib/scriptutils.py
++++ b/scripts/lib/scriptutils.py
+@@ -170,7 +170,7 @@ def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False, mirr
+             logger.debug('Generating initial recipe %s for fetching' % fetchrecipe)
+             with open(fetchrecipe, 'w') as f:
+                 # We don't want to have to specify LIC_FILES_CHKSUM
+-                f.write('LICENSE = "CLOSED"\n')
++                f.write('LICENSE = "LicenseRef-Proprietary"\n')
+                 # We don't need the cross-compiler
+                 f.write('INHIBIT_DEFAULT_DEPS = "1"\n')
+                 # We don't have the checksums yet so we can't require them
 
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+-- 
+2.47.3
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
