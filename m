@@ -2,65 +2,65 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36EFAC5B572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66976C5CFCF
 	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 06:48:58 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7674.1786690127736168358
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7676.1786690132722745584
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 23:48:48 -0700
+ Thu, 13 Aug 2026 23:48:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=xN/dXD5h;
- spf=pass (domain: linaro.org, ip: 209.85.167.54, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aeba09900bso472783e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 23:48:47 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=S4PQHlva;
+ spf=pass (domain: linaro.org, ip: 209.85.167.43, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5b015532f7bso593494e87.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 23:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1786690126; x=1787294926; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1786690131; x=1787294931; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oPC3jntb+AJAKQU4njVSNWkn9rEvY6ZvWFgIfdpX8rQ=;
-        b=xN/dXD5hyHLLYceCGiD+SOVb8xdXjEwy47zAA7DlL1EqrmtznBw3ZOtg3uNVfNAgPG
-         y5NljxgeWplZhMOnM4yol4t5AJytwYNSL/plZo8uM9pPNUGIxmQXdZGUd5n2plMCNghI
-         7T3CxFi4wTUpBmKljpifVf9EkRwDP44GB+D8YSwRl82wytf+GbwXNZIn/QTg+W4bxqLs
-         iND4J2nyPZJe86zlI2a4Poc50n/VlLh68iXSZHV7gPXY+qJ9MHJAfYvpC645pWKFjYMw
-         Gm6FknjO0GjHBBN9q3TP59WxdRy41NW5XyNy9hJG9z7Uqk5u28rRGKdyvKUEdhiCAFcD
-         OFIg==
+        bh=KAEJvNzyT+T8wj7BDyrFo7D3PZ2ay8janR3FEANRM8E=;
+        b=S4PQHlvaxrnGeGc409jwH0VrIhgbAjrC6PXAylRmlRrBo2A9lGAJ3AW+Q3DqSqfHUb
+         z+z5UDiRWnHx0Pf7viXpymaRKusZkOzWWZHTOqPgyzcuLsxKR9kvYtciT5oEQVgVz1wy
+         vV6GfbcfKWbe8pVOE/ejU+esZPfNWjIs5IWksDB14vtOEgxDYWjq0GMHCQuTrRmumtc0
+         TqWfwk0wSf4T2cWb3b0orD3bTxf5Sp0r4NKW2t/vpPs5YCmHam1kuFkoUPcMU+wbrmDi
+         lAUtok4Ljd4ST/zOyTFpwyn06byyR+BiMYvQH4Q8bXjxZ/rUw6rNRXouyGjcFfscHBeK
+         NZ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786690126; x=1787294926;
+        d=1e100.net; s=20251104; t=1786690131; x=1787294931;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oPC3jntb+AJAKQU4njVSNWkn9rEvY6ZvWFgIfdpX8rQ=;
-        b=ZSsq0Tt0tIy+gNu4NWQJFEc5lpF8Uy3HR+40aM5KFxktIbwQTWi3JCRaMQoJf1hg+y
-         42FIuB9ynreAF67kwcVAypYn5Wqx9KAap/N6TqG+7isHlesLGcYcTP6DsLEca9BxDt1O
-         yzXK4jQRA18GHFk4ogFCG40HWFq1nQ4DDwUI25GfASfmqgVfs3v5DWEK942dmc3ROQMi
-         Br2gUzeIRbJNCwRzOWHq4QEfkZA6JbM6pp5XTFSGccMQYL4y7N/1BfYCU5mrnAqsr11B
-         PU9Qvx0Bylveq8hAxqqJFa68WCwlfwb4O4Q5V+zNctON14dh2PLaVoRKpUglvo4VkyzH
-         dhJQ==
-X-Gm-Message-State: AOJu0YwwtDNOMoPOvnf7dNXNK7uP7WmEZR8cY6Tw8U9XiZK4p8gA55om
-	Y0aC31nTBD75T/zXiHFx/gTYLIQ3Dwd7LRAwFIEyiZju46lOFJ7oJuuYV6w4oZYpLre8tuot7lb
-	xMmnE
-X-Gm-Gg: AR+sD103gZkw8FruIXCf0W5N0DduedJ7Mv9PhwwW/4v3cXMTzP4LP7j2lWNCqDnka2a
-	vHPd0HgcNTNsu0lxfziwmyc3SVGN7hbNaWau/fYdSnK5yUM6CiJCsS3+MNOk5p8r5qCIcnTPNMc
-	4UkteotZkFg+htECLNa64VUPQM6cjGPuLZ6PU/g2SXCaeevGNoSqCiLv1FGEIrBJof5o2DaY6bh
-	Zj9de4zeICUSfvWZMmVLsNGuNH1h1VvTFP2HS477SIHORqTJf7bjwHPa6R8k1yRy4Dw3DWCOIxj
-	BH948jFRVdsOLN0HeMWYCfqL15kDbY+CpX99H9sG6q72h9IZZRsSxOMMOLUq5KbdsR5YPAJ+/AX
-	tAMrk7h2Fqas7Fl464kcVYHUSaYtiz/as4YgxThXtlMHskH4Mrj0B3qxbaz4dfsj3lUE+ywEVHH
-	72S0t9cxuJXHYu4nJmlTLsGsk4XsOZ1GGUVUR3W+/RvsV63Ya/zXVyvkgNJEaEwzBAZ8ekwC2V2
-	iFXj5pX07Wfndw=
-X-Received: by 2002:a05:6512:6ce:b0:5b3:12b1:cb8c with SMTP id 2adb3069b0e04-5b459190005mr448859e87.51.1786690125676;
-        Thu, 13 Aug 2026 23:48:45 -0700 (PDT)
+        bh=KAEJvNzyT+T8wj7BDyrFo7D3PZ2ay8janR3FEANRM8E=;
+        b=l1dHkPpujVT+Its/gBIZC5jjKWQ4SvGio3ekxVQHxpR0xH6KCNYNwC4SYhC2sY+EJp
+         mL4CD8YUVN4QSHKL4sSaqWuHZUB2XjIQ1EPtEX+aJ+kXC+NHs/UbbdafU0z5DExkSR3K
+         TgBDpj8uqpbF8sy8kbpj05tYA+4dPqYm1eoDOtREhBTa5HecZKI+lVHxD1/0yXoR38CI
+         FR/Y7JMxNoPc79f3rxaUXG6YM3sPypXZ4SoGQbuj4QKw0ddsah4IrEmvsuj8zI44qudc
+         yJII1tWzAYoANPL6uqz4Z2otbU3uh7/3g/Wj+/p+N4dCcpsBGvUUNUdylKHHqLfJCgB0
+         7ywg==
+X-Gm-Message-State: AOJu0YyKMRUb9Eghhf1dGjYHxjSi1+e83EEIA5k4nPLv3ENZNHbMllWK
+	CFLbYBFwK5mQO9RhzyYePJoKAON3H+LJDwucxfXJoOcYeEEZu4CjX3bHzUbZrWwmBsXEqoKg7qC
+	N+Oo7
+X-Gm-Gg: AR+sD126ZQ9Zl9veXLVs3xdHjRvKS/Z1EC3V9DJiKoBtA6bYRG5MMUAFe0uL2jTnUEO
+	TauZSXD3yC9685sb2IfhCTxK9f7uTBbTDEPWUQFC4+vqqiRnbnpV15Giy6LH2Z8Fjvr0dwReOQz
+	NSSjRTAC3ohqCERdJS9CYX37Armh1mGfVYAX2y33nrsKlMmrNym9fvT6bJDYp913rdUM0LgF42i
+	zuilIMzlzVgRVlzhhojjvJBxANoCKBquH4bs9qyMbI+wk1a+d1yXbjlscAH1mS2QMCWOuw/igGx
+	Q+G4LedDXSUz7kc5yncp3Ib7WdorI5y2R3F8aS1qbo1oNYMOs/zeQYSZVksa8W0qauD5faeoUQz
+	TocQV9wpecQthD04Oszcs+WFgEFdWc7MLDIEki2qFkMdroPyxSQd8fKQJkb3B2WckjWVt/XE3P5
+	Nx4xIVLIk9JRTxqpfSRAQe3nPACtr829yyHUw17rFEbMsQieE111cSBOqUP41PgUWsbf5yvWCc2
+	vmxsVMQH1QQLYU=
+X-Received: by 2002:a05:6512:3409:b0:5ae:b136:acdc with SMTP id 2adb3069b0e04-5b45917eafamr400631e87.35.1786690130653;
+        Thu, 13 Aug 2026 23:48:50 -0700 (PDT)
 Received: from nuoska (78-27-71-225.bb.dnainternet.fi. [78.27.71.225])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458c0e9dasm349285e87.78.2026.08.13.23.48.45
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458c0e9dasm349285e87.78.2026.08.13.23.48.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 23:48:45 -0700 (PDT)
+        Thu, 13 Aug 2026 23:48:50 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
 	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [PATCH 1/4] lttng-modules: update from 2.15.2 to 2.16.0-rc2
-Date: Fri, 14 Aug 2026 09:48:09 +0300
-Message-ID: <20260814064812.1071873-2-mikko.rapeli@linaro.org>
+Subject: [PATCH 4/4] kernel-devsrc: copy kernel/sched/ext directory
+Date: Fri, 14 Aug 2026 09:48:12 +0300
+Message-ID: <20260814064812.1071873-5-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260814064812.1071873-1-mikko.rapeli@linaro.org>
 References: <20260814064812.1071873-1-mikko.rapeli@linaro.org>
@@ -70,52 +70,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 06:48:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243419
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243422
 
-To support kernel version 7.2. Fixes build error:
+ext_* files were moved there in upstream commit
+bba2c3615bd sched_ext: Move sources under kernel/sched/ext/
 
-| lttng-syscalls.c: In function 'lttng_syscall_event_enabler_create_event':
-| lttng-syscalls.c:612:17: error: implicit declaration of function 'strncpy' [-Wimplicit-function-declaration]
-|   612 |                 strncpy(ev.name, desc->event_name, LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
-|       |                 ^~~~~~~
-| lttng-syscalls.c:101:1: note: include '<string.h>' or provide a declaration of 'strncpy'
-|   100 | #include <instrumentation/syscalls/syscalls_unknown.h>
-|   +++ |+#include <string.h>
-|   101 | #undef TRACE_SYSTEM
-| lttng-syscalls.c:612:17: warning: incompatible implicit declaration of built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
-|   612 |                 strncpy(ev.name, desc->event_name, LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
-|       |                 ^~~~~~~
-| lttng-syscalls.c:612:17: note: include '<string.h>' or provide a declaration of 'strncpy'
-| lttng-syscalls.c:704:17: warning: incompatible implicit declaration of built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
-|   704 |                 strncpy(ev.name, desc->event_name, LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
-|       |                 ^~~~~~~
-| lttng-syscalls.c:704:17: note: include '<string.h>' or provide a declaration of 'strncpy'
+Fixes oeqa kernelmodule.py failure with 7.2 kernel:
+
+  CC      kernel/sched/rq-offsets.s
+In file included from kernel/sched/rq-offsets.c:5:
+kernel/sched/sched.h:4214:10: fatal error: ext/ext.h: No such file or directory
+ 4214 | #include "ext/ext.h"
+      |          ^~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.build:184: kernel/sched/rq-offsets.s] Error 1
+make[1]: *** [/usr/lib/modules/7.2.0-rc7-yoctodev-standard/build/Makefile:1408: prepare0] Error 2
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- .../{lttng-modules_2.15.2.bb => lttng-modules_2.16.0-rc2.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.15.2.bb => lttng-modules_2.16.0-rc2.bb} (94%)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.16.0-rc2.bb
-similarity index 94%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.16.0-rc2.bb
-index bfa1fc619a..e19850d4f8 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.15.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.16.0-rc2.bb
-@@ -20,8 +20,9 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 0b52f5d48c..da33e9facb 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -368,6 +368,9 @@ do_install() {
+         cp -a --parents kernel/sched/ext.h $kerneldir/build 2>/dev/null || :
+         cp -a --parents kernel/workqueue_internal.h $kerneldir/build 2>/dev/null || :
  
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
--                "
--SRC_URI[sha256sum] = "a8fbe5f76a89856505a4310c549952b7a47350b1115679c59fd303ac457444a8"
-+                 "
++        # 7.1+
++        cp -a --parents kernel/sched/ext $kerneldir/build 2>/dev/null || :
 +
-+SRC_URI[sha256sum] = "43c05267526257464c9a048087dc7ac73363bb4ca4ed7a961bcf655e012595d7"
- 
- export INSTALL_MOD_DIR = "kernel/lttng-modules"
- 
+         if [ "${ARCH}" = "mips" ]; then
+             cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
+             cp --parents $(find -type f -name "Platform") $kerneldir/build
 -- 
 2.55.0
 
