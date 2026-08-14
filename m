@@ -1,129 +1,130 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09052C5CFC1
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 10:48:56 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10379.1786704515892351912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC94C5DF67
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 11:03:46 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.58])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10467.1786705420470764022
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 03:48:36 -0700
+ Fri, 14 Aug 2026 04:03:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ggck/9rC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4813ea321cdso1305983f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786704514; x=1787309314; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=EUEKAM3oIQdu0KNsOtyx7mTdq7F8qaoXFQR9ZNBcTmE=;
-        b=ggck/9rCJPOKEo/EmkUpiGWonSBnBF6WPx9mGE5waGwXPn1WoSGhxen40mzxfK/hWk
-         I1zy/DHTB2v4dhhQZj0fUb3WbLlwNQ8qvEzB2XlmjwPsRLHmJ7bNZpEKmpHEj3PntBPL
-         chvqsqSe2ssmbli2sYa03E6p7V3gUX6SkXQSU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786704514; x=1787309314;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EUEKAM3oIQdu0KNsOtyx7mTdq7F8qaoXFQR9ZNBcTmE=;
-        b=pyc4AIq88k9dwhMaLOmtsDsDZ2Olz5TprWqRKdAVMa/LiUf871lYn9rYQEf6yAJGSe
-         aWoL7WJ2tb0KF6WzIW5cuiWBQfuPRqE/IB+wSeSoTii6S8BYEAtAMy6B8lj0wFfqN0u/
-         gjwSBIgNNht38vc9m0X9Vh9OT+rZIsfm0lsbf4XbYIopnsEyNhOkKKHVK1qTzzS5KTgv
-         fJLHtjnpVH1coJ8RNXHBulcn6wThpWQe8xLN86tyh9/n8vJmdXwpc0umrp563W/ztOAw
-         yYc+QMMuS3iWlecnatPbDX1Ku1f4LmlPcTJzMRFSJNdSbqoUPQ1UIaBCBvyU/IBy8Mvw
-         QIZQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrJq8Rlkk7eOx4KvPzyUhdVopRMHVHikHglMxnsxWmrwxZUveUD7wNwvfbmT8gwk3OR+T/W9u6N4eeUY4LWrQc0/g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxLzUbTf5uyyhscBoZlTXI0KzVyTcKsG2MuvcYJ8k/SOOz51iwy
-	/rXOnOUTmC7jEpx2nxjTzmpyCgrKSTSy+vsR53KgOwtmSfRJS08RDY4Lxqhtt9Ggal0zgHBWhj8
-	sVpo1lVk=
-X-Gm-Gg: AR+sD10oz2N37Kt3Y8s5KbDTqMyFho5rZA6K4E5XLIS5dWWj93lfAMOjsf/ehCNGE5e
-	NhYB9roBHzdupSfLieYpbrqKyL81kGL3PGNpzhQZldqI40fMCEgeGXpt8AJZJ32Q1dYHPHPbK/m
-	tcRcelpv3IMCOPhMXOZNLv+g9MJsDyyUOHC3u4RUKMg9F26pNyUNqWHKA9vp3ZpbXTci5JV4+Y4
-	T7LM95P8Y2JSRmpLda/EkDdSLqEJpXNmI+iNOyQGr0+B9ZgKMhbgFVQlek17q8YTBYqVC5S4u0/
-	n3+avGNcEOpJCRITIauVsn1yKhwU/4CZGnXaBofKYSNc1PmKqgbuQoPhs9kxiaiUb63GVG1n5Kf
-	meKAsSXKt+MRdmi4f1/mhxI9+EpmjnsC1qrAXjvSzJObanFOZu/KgL64Ie1g1sHDmB0vlViKZLX
-	6CkWRTUYZ5t7ksYYGypevgxvtwSafCxfKxm4zU6y9H4e6kjCnCgeib1IuAZjtY4GBCdIPdbXeSl
-	Zy5OF8znXnF7l4p3hh86PcN3w3FAQtm01o2Th9BuJ2kNeaNlPEa2Q==
-X-Received: by 2002:a05:600c:ce:b0:499:7f37:cb74 with SMTP id 5b1f17b1804b1-499821546afmr151007685e9.1.1786704513982;
-        Fri, 14 Aug 2026 03:48:33 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9095:412f:3012:ddca? ([2001:8b0:aba:5f3c:9095:412f:3012:ddca])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2b13c3sm5867370f8f.19.2026.08.14.03.48.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 03:48:33 -0700 (PDT)
-Message-ID: <2b6fbd07547d07ddb00539fc0bf7b8434633f26e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/4] lttng-modules: update from 2.15.2 to
- 2.16.0-rc2
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 14 Aug 2026 11:48:32 +0100
-In-Reply-To: <20260814064812.1071873-2-mikko.rapeli@linaro.org>
-References: <20260814064812.1071873-1-mikko.rapeli@linaro.org>
-	 <20260814064812.1071873-2-mikko.rapeli@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=B1qt3Yh6;
+ spf=pass (domain: est.tech, ip: 52.101.70.58, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J2Bjq13aq8NDGmLSzGNbDR3o8k0Gb0mswtgPN1GreE0f6JuZHqeBsGLmExL7z0MltSa8ZmMuX7P/CC0sElJllFbZfH1jsCKTK0iZ6E3BZ2RPKAl2z56aNh2R+w5hHqmfLyz99YmqboXcwmsM4N5wdNNkA/+T/gHfHUjbTQWnOXi3uc7QdcbZqWD+B0h2cUKlKCTvoM2nc83uIEPcgu1pKSebdvXwYvVGlo7NrxYJS3SfYFRcFZAkcFXmIeK1ZmWLMp1d9yBINoK85ltU5KHnvrFdm/4vPuR47b/lwu2AEvNLLI8YsqQ8Z7w7ShbLrQ9jtu33B+AWFRACQd5/p/gj+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3bGruWQ1NLt/l/f7su2iAKwbhijpHwJ6C6aUQbi1xN4=;
+ b=y8Lih9EDbxFC3wi/bm31UaTJWxALsCnL6zJpAhXFj7XZLpFZqoWvvFDqnl8k8dCr6gUuyIj0Spub/RxBwg4nbRYTmbe4J83HFYSZbB/usYWhL2yZ9sjAgmuqdDe5gcxOuk1D83LZDciJVYDo45hNqITtmgWexKTbKJ0A39Bu62IYp7crpVgyrK6HQD8W2Z3F5Ql2EY0sFUR5qlBPpr3J21/cwcTGsYkENkgKAyCKNQSpnFKic0paotR39SZT3mXR2u3AmHJDHcVS+UQZ7K6le4HQga0ScSJ0xo4uBgl5eXdrXLog9TqDf6qTLTIyH4C/iqHNANEcXYYOgbKuhBxIbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3bGruWQ1NLt/l/f7su2iAKwbhijpHwJ6C6aUQbi1xN4=;
+ b=B1qt3Yh6Y8UgzFXa1LBPHTex+I+nXfhk/gjUeYppl7iN0vv+zL6BvtgyBuoyi8hpo6MUU84WmOV9oKoDQj1tXE3f9sIyvwIRyjT2FZ4LhRHu5X7Apdtr/Bwacni5iV2n1n5xPXSEb+m4Wt6fYwSMJ9w5LiMNZVis/yaShhLP6+Jz++XgPBQzV4YzId+FI2U12uAhjXuOosSZyiIVOwUlH6N19iSgqVXoPKH5bzBZaQurCQgIov1PT+LJPQQyQFAtMXjjE2qVxjKq0o9CArVTgJVEO6WlFc2gGAy4lDZk+d3yP39cKMR97yJEtPHaMs4prUFbbTxiclGYeK3siJ7s+A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by PA3P189MB3263.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4ad::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.3; Fri, 14 Aug
+ 2026 11:03:35 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.004; Fri, 14 Aug 2026
+ 11:03:35 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [PATCH 0/3] python packages upgrade
+Date: Fri, 14 Aug 2026 13:03:29 +0200
+Message-ID: <20260814110332.38407-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0194.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:318::9) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PA3P189MB3263:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd639361-4eea-437a-0f98-08def9f3afb9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|56012099006|10067099003|6133799003|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	bRUgcPzZzgGNDVmEvcbk2mjlc1WY+AgzaEMNbWoplnLqQqugcWjVZ6cCPisGk6CfEitd5FKowTBIHrd9FfTZnPq+odDlQoWiJCvslFiLTC2/f015Anc+YiHx7Pjxt7w0FYVNFQX4A4QqLanIO4kmgdp/mdPBTVJ8ZjqnM5Co5o1mihvjF7a42xREfAHzIuAJ5qOERT0GBA9kbAR7UAajQz1DMgY2RInFK3zKUpdZi3Gu+1D13Fjn37BMpDTgVwGVbo5rCOqq8mvdOCtF4Wwac7Ylcl+zHodafJUvhULRkZloc4KWcb6LWXOxNCVCuKqnTduOtfJqkzPoW2YpwQqhpiGm8053IFeJUqTAifxb99IsALmgxEwnYmhDnXadrs/JqDZGwa1NaYsQFTbeLnxsUsAi5KSg2hg3olMGTeE6Qa+H15mWzUS6Kb0YvEibC/kxLHcI7JGAWOUlp0YVALbJTkmEdGdz09XGao821zsTadu5o9Q1oFWvMV++nV9n7id8X1laINIBDG1gAJJ2ke25/vNpE112VXxGrX168hlZnhQaDEqlHdsBIXxVF6S/5WRUGTsb5lHMYjK1ARiCHfvW8mwCULTsyI0QRYzLg9OzMhH+oZdlRZE1Apej1ri+Y7LYBrLO9EWSIl2baElBc1ahVv/aJp6jmKjt+zSJjUZVgO4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(56012099006)(10067099003)(6133799003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?SCyKokSZWguRS4kQHtQ028S6tiUpu/nuxHHqbKFM4EFKe50vWG23oi7cMxVy?=
+ =?us-ascii?Q?s/bOpWTvznuI1b+WsQe0Z1oVLgcJRuAYKnqZov/fq9hdbYKeYS9Bmszf7vhX?=
+ =?us-ascii?Q?2oXQW4s3lKLBkSmi5FKFk1do+R/5PnwiYXjr78t3ESEXqqY0YEO1MddgCx3g?=
+ =?us-ascii?Q?IpPOzDokojQ8X2h9zk/l56n97iISNY3M/xDMbTvyFoSv3yadqc1KghVTC2ch?=
+ =?us-ascii?Q?C2JYrN0yFdKGq5O+HHKIxmHF1KCH/LtafG+/0+uPOzbILeCX2MCCdpQqH3gc?=
+ =?us-ascii?Q?7Yj5Trtm0VWF8/MGBrvTgDLanVz7pr/G72fUPg90go7QFCWsYsTL8mKRuzPR?=
+ =?us-ascii?Q?z6vhoxD6wZxN6qxpYOK9x8GJp43pMg3Z6bI6FJ5N6Cgc9L4Sz4D/LmwE/ZSK?=
+ =?us-ascii?Q?MMcSFoHShdvtfMKqC/najeoG8m92Y2Iu3mo7i4PPaecRE+o0X1AdXJI+AiYG?=
+ =?us-ascii?Q?w+e7NkUwuSGJSHl/Um1NNn/Akri+V5p9YGT0nLgF355exYB03L4bI5DCfGFb?=
+ =?us-ascii?Q?bWgllMaA57kFdB1C6UcaPOpelzyi+pmHEZYlf99nSzNd5D8uCge4pipWQdSW?=
+ =?us-ascii?Q?QKnKCGFpAKn7YZXiy7y9i4hisaJ7hmi2BzLRA1QLm/NctfDQkSdKNZS3cv1V?=
+ =?us-ascii?Q?yPtp/wp1NhyvQqcmSpvXOsWKZ8M9B+umFEHvCYRX0OhALMx1OFCju2fez4ig?=
+ =?us-ascii?Q?1LNqyaz2rr+kTWagLWGz87qQuKtpCsU9aK1/VshRh6pjcoaed6sm4C035Wq5?=
+ =?us-ascii?Q?nM/zXkVuON3krRzW4zveRBtmbYKe5BZ749jDuk6xPfmqUMLhMTvPhQ6VRWpD?=
+ =?us-ascii?Q?14s9YbUh023hQEPf1XKp7cyJgAjhV6jspqJoCRxUrJKQ/STY/fUoMRqqPijR?=
+ =?us-ascii?Q?8TCl8vVtmND12nIbpyM07glWnKrUddPQpwNR7S3gDdAvAnMM8vaW+mHMhPz3?=
+ =?us-ascii?Q?OlVBSFJhAvq/jVVq+sTgslEPspOcxJ//rgwJH6SjAQn3paZjhB6QbggnCeQw?=
+ =?us-ascii?Q?HZGSSXNvz3IcjRqaCddtySHL1oxyS9m9szGmMY8VgSdmMF+rdIhIJhyEXIpa?=
+ =?us-ascii?Q?0A4Ymq5bGaN/oa3EkTg5fDYPFDz6ge5GW6wWyhHWNLfK2CWwFp9qREBQ6snN?=
+ =?us-ascii?Q?QvB26YEJhp8zcLW70kIrglQbrThYNyJCoddUhsRFmxOJ39hAlBMXFtPgovpA?=
+ =?us-ascii?Q?ADrqDcwkEqicqyb8I1SMhtayZCNbjij3X6fq88ONivP+r+WmsCJMcAg5zT0k?=
+ =?us-ascii?Q?go7AQhtfE7TCNYjg5J5MX9hQQvMsI7Md6pE7uatoXlWLQmUJ8lrjS1Hm0shw?=
+ =?us-ascii?Q?R5tvC0WVIFYo1VCqIIpIvyZSNcZ6I7LM6i+svHDK7YbcuUiGoVlD5fwzbrbJ?=
+ =?us-ascii?Q?W1D2zRaKIJ/ltjtHofAh/kDTdJKCOVyIH+CEFdzLUjcGAKQ5MlzRcIqd8GQQ?=
+ =?us-ascii?Q?QW5yxIeuX5Zr/L/fGYQULUYItjssEfd5j4l91aExuYG9TLQmjU1SvlCf+cEC?=
+ =?us-ascii?Q?Qbq8zutEzXNImbQaRvT46Afd2467iyW23AfcXIIZqI81pAR/l2WYen1sBBu1?=
+ =?us-ascii?Q?cuO0EWuvXxJtuRx05sLXMQ3zebW7GWHcIi1jedWtaaomfyEt2WoHx3QXvGoj?=
+ =?us-ascii?Q?VuepsedNXaim4nO8RTzhxMJAx9fbSJ30Am4M8VO/zr9OVgMCT3a4hpOOU/1f?=
+ =?us-ascii?Q?6ODn7I+lDZbq88g72zx9daKxkzahCxZNXytxgdFJmjWpfD+sHl/XBSjG0q1f?=
+ =?us-ascii?Q?godWMcGL4INxZC22B00KLxvQ5MW70/4=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd639361-4eea-437a-0f98-08def9f3afb9
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 11:03:35.5434
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FJvNviuiAof91thzKxp/i4lFhXAM7sGHCSd2GMftNhGusmc4Amo7Hl17skfR/AQg2U1sKjCGTkp4vX+bUN1t1QRhnqX5KoCVDtlpULZk3Jo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA3P189MB3263
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 10:48:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243438
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 11:03:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243439
 
-On Fri, 2026-08-14 at 09:48 +0300, Mikko Rapeli via lists.openembedded.org =
-wrote:
-> To support kernel version 7.2. Fixes build error:
->=20
-> > lttng-syscalls.c: In function 'lttng_syscall_event_enabler_create_event=
-':
-> > lttng-syscalls.c:612:17: error: implicit declaration of function 'strnc=
-py' [-Wimplicit-function-declaration]
-> > =C2=A0 612 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 strncpy(ev.name, desc->event_name, =
-LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~
-> > lttng-syscalls.c:101:1: note: include '<string.h>' or provide a declara=
-tion of 'strncpy'
-> > =C2=A0 100 | #include <instrumentation/syscalls/syscalls_unknown.h>
-> > =C2=A0 +++ |+#include <string.h>
-> > =C2=A0 101 | #undef TRACE_SYSTEM
-> > lttng-syscalls.c:612:17: warning: incompatible implicit declaration of =
-built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
-> > =C2=A0 612 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 strncpy(ev.name, desc->event_name, =
-LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~
-> > lttng-syscalls.c:612:17: note: include '<string.h>' or provide a declar=
-ation of 'strncpy'
-> > lttng-syscalls.c:704:17: warning: incompatible implicit declaration of =
-built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
-> > =C2=A0 704 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 strncpy(ev.name, desc->event_name, =
-LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~
-> > lttng-syscalls.c:704:17: note: include '<string.h>' or provide a declar=
-ation of 'strncpy'
->=20
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
-> =C2=A0.../{lttng-modules_2.15.2.bb =3D> lttng-modules_2.16.0-rc2.bb} | 5 =
-+++--
-> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
-> =C2=A0rename meta/recipes-kernel/lttng/{lttng-modules_2.15.2.bb =3D> lttn=
-g-modules_2.16.0-rc2.bb} (94%)
+Jaipaul Cheernam (3):
+  python3-pbr: upgrade 7.0.3 -> 7.1.0
+  python3-uv-build: upgrade 0.12.3 -> 0.12.4
+  python3-hypothesis: upgrade 6.165.2 -> 6.165.6
 
-This probably needs to have a PV of 2.16.0~rc2 else the version sorting
-when we upgrade to the release won't work...
+ .../python/python3-hypothesis-crates.inc      | 20 +++---
+ ...165.2.bb =3D> python3-hypothesis_6.165.6.bb} |  2 +-
+ ...hon3-pbr_7.0.3.bb =3D> python3-pbr_7.1.0.bb} |  2 +-
+ .../python/python3-uv-build-crates.inc        | 72 +++++++++++++++----
+ ...d_0.12.3.bb =3D> python3-uv-build_0.12.4.bb} |  2 +-
+ 5 files changed, 73 insertions(+), 25 deletions(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.165.2.bb =3D> py=
+thon3-hypothesis_6.165.6.bb} (92%)
+ rename meta/recipes-devtools/python/{python3-pbr_7.0.3.bb =3D> python3-pbr=
+_7.1.0.bb} (83%)
+ rename meta/recipes-devtools/python/{python3-uv-build_0.12.3.bb =3D> pytho=
+n3-uv-build_0.12.4.bb} (92%)
 
-Do we know how far off the final release is?
-
-Cheers,
-
-Richard
 
