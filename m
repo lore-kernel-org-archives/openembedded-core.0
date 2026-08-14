@@ -1,112 +1,106 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64767C5CFC1
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 09:54:25 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9735.1786701257649018831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6DCC5CFC1
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 10:01:35 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9667.1786701690267615142
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 02:54:17 -0700
+ Fri, 14 Aug 2026 03:01:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=KQvBKFDr;
- spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cace91f112so10347425ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 02:54:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=hWdY0Kik;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-936623c6dd3so111000585a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:01:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786701689; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qMvcfSkTwAUH7gpIkS3iSAzsQVf0GC2XfO6vnZ3PrLUsctDriZVKD3MhV/7CAYH12N
+         0JeWHlZLonowunejNFBI6hGgn5Req6C+M0wjHR/I6LgCP/2eeio1a3hK6cDMvhv/krdE
+         w7ey40QQ0zMk+dJgvR3/KCEqNAYBcNhKVKL6e9VGhJ3hDa5JW/Kj0+WcMnF5obo7H1dx
+         ybiGHDAqiCxVw/YDPZVo17jaloJ+QwkUdIEm5c+yLp5B+Rwd4HfP8A16eznX1SNhwfkp
+         NXLO+vkDU3u4rx/+p0NouJeYH/bFST8RagwqUQtIjRwQ1OR0vrM7VcYfCTM23qWz5Ybp
+         BkkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jjfuG/+JAIMq+YdILGWo3ydEqTyT23/vuvsfOT9I+8I=;
+        fh=Ru948Ime0O2QXPwmK4rYL/b+8iZYkNuW5TMJedgBtMU=;
+        b=lF2d0bfraHvqw6tRoVBSH2Nj+aW/O4IMGDEGGNGcf/9c0HEtsxCbPFhmLFvJUc3g07
+         qpUgNuWkwKT8KtuZyTgH2ETydKKUf5UjXz8XRD9UZk6jaVaoBeN2xwF/7TSzdRmvinRu
+         lMwQvTBxCY3hmOs+n6GeekGTPCQA3E4V9g2/oIYRI0ucBee64HtuaNy1lyfFggqOWnG3
+         Ql2ckhghK4kQ1EHsafgvDGYqbyaZc0ftymU9nfdJjtiAC7fKKKvDdGgXhibAMetQ7yZz
+         pX8PDgjw/QWMt6/bcaC65McYgn02Zp6159x6FNVkbVNrrV2zcIVQzdteU+Y82XVPxq6m
+         QQxQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1786701257; x=1787306057; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=T+wfr2IHzNFzFT71yx6rDWn3OPEbQfIwP66Q/hQGLh4=;
-        b=KQvBKFDr6VYB85Ja0dd8tOEnLy7lYVWQErMWb9m2MBvmxEKCEBWl91fZFBEUgQzvtw
-         p5Pu4WXkS4U8OsG3xSTTj3dWblSf1bKW+Fn7tZ+R2HiPt7L+uFZknfc5I9AROV4DkuPp
-         YuRHdlMdhNsAeo2ZUMaU0xG80rhfgMgdXcApk=
+        d=gmail.com; s=20251104; t=1786701689; x=1787306489; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jjfuG/+JAIMq+YdILGWo3ydEqTyT23/vuvsfOT9I+8I=;
+        b=hWdY0KikqB2HZvaMLY+FJoovkycPcG0lNHBid/N2esgY9FKEiMTrVVWEbEdHNOoudW
+         Lar48M08S24bbxGXp/CYuHFKO/H/E8VNE3tuhZuMSAh/HsyAEgk3Qu4znHd+wUC5eWK8
+         xGL8cHo9BKdt9Pvkm4O9ycgNjHr13uCJ5vNr2wrvghiA0qIsw9btv4ESZrTFwBoAj8mM
+         no2A/I/PLOwkdRbeJdnrzREEpl2TgWdmDiXm9j/tZkPaOwZwBHdGZRRqTKqZINFZRlu5
+         9pnM1YLbSRmyNeN8c4MMiCQYLtyt0q8YLIz6wdGTyBj6nRfPN44UX7FQt5+It9XbMF9k
+         pUAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786701257; x=1787306057;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=T+wfr2IHzNFzFT71yx6rDWn3OPEbQfIwP66Q/hQGLh4=;
-        b=O0HJ4Ybqt82JSLFyJeEkbndNTFxBIutOnrxSWzaxllPjFB/gyJQjBroMnDfwDOfG78
-         RiuLOfVtw2DhTRNmSVBLWuoC/JnuwmqoyPJIbM9e2ZXZOvr5sYTUa3lDy3ko9O8BQM/H
-         gHFIpkybc2SDssgpgn8sKNGD948Rjo3P+47VDLgpaN2r8ueXix9tn/6Sp+P1VP39PAyG
-         JitTg5FDT4PdqJsldlMcBtBigr4j5aaqMuki1hnasBRXQmiHuL/U38+vIb53/1HqiJ+z
-         0x3w2Rl+sPpcqfIq6vZGae8KyW/Qql8odbb8VyodBIZTsNkHmy/A4OX8FRGPtzzXKwGe
-         tegA==
-X-Gm-Message-State: AOJu0Yxj6BdOvJIfO0n5TazHP6NuH0s59wWBE6B8jkW5JmJySMw4XKwn
-	z9LjZ7QffOjYm7bfFiMNvA8RIX2+2noXr1SBD7skBKcXqZm0UC2ldAAAWW6X7HRKg3oJHzeAjvj
-	oilQjVyU=
-X-Gm-Gg: AR+sD11lN8TwYAX07GWY6tmVGesfDJh3+tF7dHRg0uB6f8+4RA78Qrj7//EvayAAKZ2
-	IupfLgJ8n/V+TyqFhOhBNyIwLpvHdvkK5rKg/2GEm2jjaG3wMZZeHw/tKZtDsWFW6psjrDliS+c
-	EIahMlleBgL3VjomurZmYH1hqoVp+eDDbO7vjFhZilv9uOAAXMPy8vKTIZMbhOeQVOgXXujkeCQ
-	JStZNCacciAPSbWJc7xBOlAmaO2fvQ8YnnjZA5orKTWfdoHfh8MKlhXBWliISP95l+wp9RyAIqz
-	V+eVvTgY5WNlX80+OrGq2Z0TBcv22cyzuGXqivzGNK+DwRhrKQN/JBnyAyB5EeT7ouKtiDOFg6y
-	jGYVkjwqdouJPWcfDqylWPFOTYEWxAUyM0iq3VdjLlfu02rzvGiSTtmU/CVfOMpoLHZqpgiwpKD
-	sMYSDEMcRcd2Afk8ReBSK2T2rEaIGDF/RzgKLak/lHylKO/mJoXetsKOessQ80VkyWLZ/ZAz8FR
-	fiX82ki/1fJJNhQ
-X-Received: by 2002:a17:903:3d05:b0:2c9:aae1:a611 with SMTP id d9443c01a7336-2d3b0fc1d57mr56222395ad.23.1786701256835;
-        Fri, 14 Aug 2026 02:54:16 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1cc4:a7de:e349:c3d5:7c44:1c80])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-320d5bda546sm2916336eec.6.2026.08.14.02.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 02:54:15 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Michal Sieron <michalwsieron@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][wrynose][patch 2/2] rpcbind: Drop dependency on quota
-Date: Fri, 14 Aug 2026 15:23:56 +0530
-Message-ID: <20260814095356.775418-2-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260814095356.775418-1-vanusuri@mvista.com>
-References: <20260814095356.775418-1-vanusuri@mvista.com>
+        d=1e100.net; s=20251104; t=1786701689; x=1787306489;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jjfuG/+JAIMq+YdILGWo3ydEqTyT23/vuvsfOT9I+8I=;
+        b=ZcKmbyjj0UoY+BLu8K6l4ITNbu7RDp8AM9j3Ar38J6RDTXLlPp8zLqhmYkJprBls8p
+         zZgPUGQfSoQCMg8ary+SLT2hYf7fTD/ZP/5Dsehe7jFD4hSqC+78gpoGZSrwv50D8K8I
+         xLcH1kNszFKUo5AwbUOHuspjMxVbZsWr+Zz0L1r60o0twIMeLbY2CF7F4bZlQQebke/v
+         9Do93ScctM0B9FBupkmFao00C99FXlSnTKB6/GFwtcpAeso3/Sk5HxrbJYqqU9PD/evQ
+         HIUWoJ/jHIGVkiS9F6wBchOqQ5+fM83RaubG02K5EMEqNKAlFSYgD2lWvnxgMYhWUqTo
+         D2lw==
+X-Gm-Message-State: AOJu0YxJZngFH60/esOhc48rmcx3ZT4ySLaoE/u0gi/UqG/Eli1H5tM1
+	rMQLDWZFMGC7QYuv4OvdIWQk1LlB9M78VFaN5lbOyeDEJ5ZfxOJgE+6wFYWaesQ1hjlGOJUBzsr
+	7uDEzmwC2fJ6awJ1J23dvtK0QwmGDMAc=
+X-Gm-Gg: AR+sD11AVMIDDxTDBujPgBFPeSLeHqqv+zXsXIFOCxqGqtpB9Y5d0Z0lnZLuO64+Bu0
+	SnNSmUpMCXW0PFTm/IIE+bXlU8qNuK9L9mBX2xfvGQRoA91J3Yp26JTmHS4eXuy3Ha1ChdI+/PP
+	znMrhPnfjUP/f9SgcthXsafXaN6hsWrBTjeUqyk905I0p0EkbLH/XU6qptVQxWHNsNrCYWLidXg
+	iA9mvGKMUG3aYSLGRdAy+WXoB4kVlb8bbHbEC4ZtRTHcphmdceLplmMP5QuEmGo7YjNW1ZpUl2h
+	nq77F+1vZnbmxJZZ1lTY3QArGmgoGixgIEZaqKKlneDJln4yOVyUc89HnZd2nG2Uaj6p3Yev7BW
+	Naj4=
+X-Received: by 2002:a05:6214:4187:b0:8f1:77b7:9bdc with SMTP id
+ 6a1803df08f44-90a90f0ca8bmr47938056d6.1.1786701689191; Fri, 14 Aug 2026
+ 03:01:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260812-fix-boost-v2-0-cbcb65f5e186@windriver.com>
+ <20260812-fix-boost-v2-2-cbcb65f5e186@windriver.com> <CANNYZj_P9HgDR037FQcABPGMJvjNRMN9XZV1KCeHLjBKcy6VoQ@mail.gmail.com>
+ <CAGAhMBy9quOTS6Tg1bgC413UqkXcGG89rJRTHmD-mmH2VDqQhw@mail.gmail.com>
+In-Reply-To: <CAGAhMBy9quOTS6Tg1bgC413UqkXcGG89rJRTHmD-mmH2VDqQhw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 14 Aug 2026 12:01:16 +0200
+X-Gm-Features: AUfX_myW_AugLwH-U5Is4gaTLuO_oNb9ilmpPibPMTQ4a_6-FXPHoBmjW-yoR78
+Message-ID: <CANNYZj8x+RGR-=aJ_xCQhp9_hB4LRm-40z98X-jMuc-XFdS6dQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/3] boost-build-native: Add
+ python-numpy-include feature
+To: Rob Woolley <rob.woolleywr@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 09:54:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243429
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 10:01:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243430
 
-From: Michal Sieron <michalwsieron@gmail.com>
+On Fri, 14 Aug 2026 at 02:23, Rob Woolley <rob.woolleywr@gmail.com> wrote:
+> Thanks for taking a look at this.  I have submitted the patch here ( https://github.com/bfgroup/b2/pull/611 ) and will revise the Upstream-Status in the next series.
+>
+> Do you have any technical concerns with the changes?
 
-Originally added to provide rpcsvc/rquota.h header [1], it is no longer
-needed since at least v1.2.6 where [2] was merged.
-Not sure why, but distros like Arch and Ubuntu (possibly others too) did
-not have this dependency at any point from what I could find.
-Anyway, this builds just fine without quota present.
+Thanks. The patch itself is fine.
 
-[1]: https://git.openembedded.org/openembedded-core/commit/?h=4771f4af5926d724958ba7cf46b937c53babfc7c
-[2]: git://linux-nfs.org/~steved/rpcbind
-     8bf0ce4a1858b5cd00440e416ecfe0fd74662a01
-     rpcbind: always use inline rpcsvc constants
+We're trying to get the amount of Pending patches to zero in oe-core
+:) Historically it's been misused to solve the submitter's immediate
+problem without taking the trouble of actual upstream submission (or
+opening a ticket if the patch is clearly inappropriate).
 
-Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4339890671f86119f7f85cb23ec84af8141f893d)
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
-index 692c421cd9..000ffe3704 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "The rpcbind utility is a server that converts RPC \
- SECTION = "console/network"
- HOMEPAGE = "http://sourceforge.net/projects/rpcbind/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=201237&atid=976751"
--DEPENDS = "libtirpc quota"
-+DEPENDS = "libtirpc"
- 
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
--- 
-2.43.0
-
+Alex
 
