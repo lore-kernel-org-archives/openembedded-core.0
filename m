@@ -2,125 +2,125 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1957C5CFCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4436C5CFC1
 	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 06:22:46 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4408.1786670845862976394
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4152.1786669912690363755
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 18:27:25 -0700
+ Thu, 13 Aug 2026 18:11:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=p3J3nu2B;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=geJCzmGl;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: hangtian.zhu@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E19S0n748262
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 01:27:25 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=FOSnlqFf;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Gvgk2dq7;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: hangtian.zhu@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67DLWla63981758
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 01:03:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=RZvbfnAkbyH2EJSFONI1VpdodQDfUtq6nYp
-	RJNPd9lk=; b=p3J3nu2BWvzVQ4rDIHtUvsorxg5WxgsIUng4FGkZmdvwddL9Mup
-	lVb6ZtZHyUQ2TMIFJqIg49RTO2g9lEdX3UoMz7DPiEBii8Y+HVnukSZVmEUOEK2z
-	lrmDBQnsCFaOr6XIsxd+HBL1SfHRpdoDzrGlUBPBysP6bW9SuWpvfbscNXCSXCju
-	ojpyy85MTVW8ol4Rf6oIo2AsG4+/L5jIREAr75oOQ3yGPX2so0Y7Sq2LXkMGy9AQ
-	H+FQWKPVM+myAM3ziurWur8D16Iyml3N+8JugR+AvsKJ6DokYrhBZaj1Xf/vp8LM
-	4apQbzkBImRgGglnTMSlHNYWeDkBxS0NykQ==
+	:subject:to; s=qcppdkim1; bh=Ak8IjCPiVj7NKI/7pb2kzlJVfzDSqLEdajl
+	fhT5Wlnc=; b=FOSnlqFf5x6v59z2nmjUKwAaL3aAN7OVF/kqWe2RDckuSuqeKYO
+	kg6YhyzDw3pOI02ejUCarQdTHhz2j9eUtvq42Qex7zFgOb0+5Ojf7O8YKeWsFtZ+
+	8N3oQAMDqyM+5Gifs+GofBkx7NzLdgg/ivJra4QUsl/5q425itIR9jdrmeujxynb
+	cf2k5SHkRdiPesJmTRs4PqkFfOkKNI4U2/Mhgn6tv1/9PLzIcOknxhUpEwG70kte
+	i8xkhbBY+B5QWPUK8B29U4vTH5IKxisDN1r9DnWGq90hyGcXjZjMKyWGcYERaV7e
+	1woNECcohejGVzDAQfzu2XSdu9zQLjGZ0Uw==
 Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g1nugrm1u-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g1h1ut1jt-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 01:27:25 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38f57e31b6eso425153a91.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 18:27:25 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 01:03:54 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e7b87ce77so806698a91.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 18:03:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786670844; x=1787275644; darn=lists.openembedded.org;
+        d=oss.qualcomm.com; s=google; t=1786669434; x=1787274234; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RZvbfnAkbyH2EJSFONI1VpdodQDfUtq6nYpRJNPd9lk=;
-        b=geJCzmGlIShvCMruUKOe5jBWfHmVsXsBwXr9TWSBUGGEMBDMVGHH3iUreLQvPTyKfl
-         kdCHznep7T4kPPjhY3nua8LQclpaU3IPxsxc5Z6RTM5+wZdlw5qorQNaR3yv5pFicYM6
-         7FTxAmu1wi+Y8LOPHrSLyhGEDop3cC69KLQM3b8OOxmrtwsacVWrRgZJWNcKS73xM4S1
-         qdWVsncQ7u5DqaipUxAFfRaV3oVqFuD9GF7hh9ReMKRk+fnoStggmQjY70id9LooKy5R
-         uxpFDiGUouge6oqwdN3nX7rRSlQVDuoISyGbr170aFiYSJDEZytPFMyAhEYqYLr8QJzV
-         FDpA==
+        bh=Ak8IjCPiVj7NKI/7pb2kzlJVfzDSqLEdajlfhT5Wlnc=;
+        b=Gvgk2dq76DOPtx5IQRd1UhJttBvbxCYgjtAPc2Q4r8DhGP5jHpAIfd+8j95LOjW7O+
+         CEolo3sEkWTUxbI/ad2w6N2CCmxMkIM8RUGke8kCcG1pB2HWtrzmQo8XqZL/bz8xTIm+
+         aW7WnCNuxAKCw2ieS04RoppXXiPZiGalX1SFDuQDbg56isSq/Ev9XmfivNh+NBbVmU5s
+         ipLHlDTZzoa2c68i5S/ShM+Qept5Ix5y70PaALF0h+MDTzlfQPg4Yr9gJ+CFv6fqIqBt
+         Xs4zXQzMEIy3iXDl0d7pRZdaVytgtNUSbPGyOOy/bn8InumAEpLGo6HIYmEVKHGAojjk
+         JMvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786670844; x=1787275644;
+        d=1e100.net; s=20251104; t=1786669434; x=1787274234;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=RZvbfnAkbyH2EJSFONI1VpdodQDfUtq6nYpRJNPd9lk=;
-        b=gzvZj5BbBE07TN6wj2j9RRuEKXEHFvlMPYUc9j0ldiJ7Wn5Kb8XJIDAhEVynTFi8Ng
-         3OVboOXRr7ZuOvUJ/d6B2hlTyP8d+AqXfZUWxH1KUDxLe+Ub4Ljc1ss2nfljNX4pkbe3
-         oPWrDh9LcSg1XZKk6hQSG9xhJwxmSZzmImzbgk0JIu9y0zvE1guPYjbPG6yrZ4axfFHM
-         DR/g/eyd3w65zc10K/+LR3eFMUuPWBj3hgpl98xFF1wtNu+fWQyFtXeLj45fVueBtOvk
-         xin+mKxx1p8XE8QOGHSAx7ssDODMf0a72tkJ59AS0Pi/PjIQgI9wLuWyiDn7afNlhSd7
-         hLaA==
-X-Gm-Message-State: AOJu0YwLaluYbHf7/V8J25z83RuX5X+oCIRy5x5bt/AHm0Hl1wN/cTsR
-	gIboCoBx2FlB3rTI/40Aze+xfuoh1WgaDSE8xDMly2cpBIkBhZp58QzXlT/azk9/wEX+2Un5Svk
-	q6EDqpFKbPJBD3lF3fqtiO7A+G4Yl9hv2VP+B6RGk3Z1bF63bf8lOZEDQ2n6Du4Kid7cZ8kePoN
-	v9FbEF/ZQNHS2o0vo=
-X-Gm-Gg: AR+sD12enup6St4Xhy78mszaI4OJFNFguHKIFpG175nXFwivHPi4Lx5oY8YHEJ/LQfy
-	nP3cHWS3Y7xHhu8nSUOBhFsZiREUViCkupWJYT/gnoo8MXEt1LitPIVlB1NLIcBw7CiSUlnNxE1
-	M9KYMVZ11NxCEuIot2ZYqM3Z0w3EygpEUICXt/ExYKwaAbzYxgHHWpr2ytBqMd+I1PXoqxTNnoA
-	c7tiPdjmrD9ePWmwV4m8toOaHfdqhQeQQ9UVz0qzr7IRaUmFQRo50nrllSCZ8Y+RNveYX4HejQP
-	2RLsQ2fUGY4QPqyDFOY74YCKJ8FSjUNIQMRwqpiM6sf+/74eT5SXC4MYhsYZ6Y47qgY6MRO42Bm
-	nSn/V3l/dr+l8qX6R5aPOdsppH175sufkSTLXLBOIKEIwyK2PrEfCgNIERDTP3hjV
-X-Received: by 2002:a17:90b:2245:b0:37d:f983:7b5 with SMTP id 98e67ed59e1d1-3933cb9859cmr1970961a91.9.1786670844025;
-        Thu, 13 Aug 2026 18:27:24 -0700 (PDT)
-X-Received: by 2002:a17:90b:2245:b0:37d:f983:7b5 with SMTP id 98e67ed59e1d1-3933cb9859cmr1970934a91.9.1786670843336;
-        Thu, 13 Aug 2026 18:27:23 -0700 (PDT)
+        bh=Ak8IjCPiVj7NKI/7pb2kzlJVfzDSqLEdajlfhT5Wlnc=;
+        b=a9Ow5XJkCCNBbuF67RofOOxBjfs5LKBMnvKyMdjbwZ7YBD4qjA9Sj/v7NK1cTdJql8
+         Y8RJ/04uMpBrtZnwYfYT44eJl37DUzzPaeYNm1mwB4bATbmebLSmB3UCYTKz5jWf0qVJ
+         8C4sIjfhAj7U75BFgeziGR/jXC3DGeJn1THcTgseUCLGnBg4YUAVq2E8NSlPdPPuHJ6S
+         0Zp32WVt2ZcAEM0y7XMsmDU19X1jPNpxe+jDH3A+tPbeti0sTAuQGyWBucq3aWfXyNyJ
+         OgduAJov65tKJCqcx8vLVmKk4Q+5LmFa9qNUY2VthcOOOCApo7EFv94Fef3QRpPisLS6
+         w9+g==
+X-Gm-Message-State: AOJu0Yx2nPYObtB+cXVE193hSO7tDnD4Vx4PpJ/mWKh1S39sa2JkFJWM
+	hFiBuW/KHLGYPYMg4+5ntA+YL1E/dPmUpBka80kBNFX+SR/qsgEoQy2l4z6LG/2yml4Raga+9KL
+	dsg4ZOWggV8LaZFFI30M0TAONSeUX2rQNsa2AI+DtCFjrjl7hiMopFYgXzL74KBjkOri8Y5arZ/
+	OG/E7r2SqwdypLDp0=
+X-Gm-Gg: AR+sD13e3YmokxrVUREu7F5wQvLWmUSepLf+dq1xidoewUVsuGqRNmIGMVCKxjk9mGu
+	BBx8265xsAsmDcYtm1UzlbAuhgymTRv2JLa4+ZtHYxOTyivoKx4kPDJULuBW0JK+5DuXMLbZTfu
+	6TRro/qMqFv1B+QIlV6nY1l4Iw6Y1lg6dcYSEtH1CbP42rhiHQ8OWzKJDEuKEWK3O5YXDej/iHq
+	KqqTYPehA0Rt2ai+vaSTlKRPsM3PEn46JgUIEOgRPA4sWXxdnxBv1V86QUwI37tE45XrOKLRZ/u
+	0QK+TcOIciCG0hu4sSCmJDgv+w4StqJodS7xOowuUks8dqJzfYoKraaVvA3U3CKdVq3LPuwCo37
+	dVLBa3fkBfP49CYDF+uR75WQw3N3wIixhoAPGChWymxDll8WEJggJlOY/tknpOzi0
+X-Received: by 2002:a17:90b:134c:b0:38d:ef48:b04 with SMTP id 98e67ed59e1d1-3933b8721a1mr2224523a91.10.1786669433384;
+        Thu, 13 Aug 2026 18:03:53 -0700 (PDT)
+X-Received: by 2002:a17:90b:134c:b0:38d:ef48:b04 with SMTP id 98e67ed59e1d1-3933b8721a1mr2224424a91.10.1786669432487;
+        Thu, 13 Aug 2026 18:03:52 -0700 (PDT)
 Received: from hangtian-z2-2004.ap.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39339ce3016sm470890a91.1.2026.08.13.18.27.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-394ebb888cbsm229953a91.9.2026.08.13.18.03.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 18:27:22 -0700 (PDT)
+        Thu, 13 Aug 2026 18:03:51 -0700 (PDT)
 From: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: qli_sdc_iot_wlan_host_oss.external@qti.qualcomm.com
-Subject: [wrynose] wpa-supplicant: upgrade 2.11 to 2.12
-Date: Fri, 14 Aug 2026 09:27:19 +0800
-Message-Id: <20260814012719.293852-1-hangtian.zhu@oss.qualcomm.com>
+Subject: [PATCH] wpa-supplicant: upgrade 2.11 to 2.12
+Date: Fri, 14 Aug 2026 09:03:48 +0800
+Message-Id: <20260814010348.286460-1-hangtian.zhu@oss.qualcomm.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDAxMCBTYWx0ZWRfXwSmu+AZoMldg
- 2QihjXf6WBArOc7XcxhnHktFxq8nL+vjTqR6cnwFFfFIBXoxtUzdpLvD+sW9tUyz5ausGH707gE
- PSfA/W5nuQsCAYJB4t/ZHq3dEJtMCMhTu6Geuj/LeaYaLf//Ff826rang/KN79f8cY/IQ3ayTOV
- Xtl++EXggMUSyc9WiosHwTGaVy+FCkcD73F4TbG+buXcMVRzW4wKvRHnAePNxjO73Y0FIBj84nn
- G3RZFDAHQ4RB5ROYWiZZ169G/afNrPDkoo6x7tBUmYv2nBNd7uXZ8oB4a1SNv2MMqM7eOwio/Ms
- iq7DC2TmO1sWbN7VX6MhoysBlbmhR8HcCj/rLlsKDYWDqBob+5P2Dk/WiBfAGZx0iG/823qHGbN
- gCSbn0W6NOeI/ESo/MkXtk55J0MVVV95u/eTiu4ALuQxaiziV3txvNO7FhzVIhvbNGgVbOCH9No
- alNU6AoQHoL75F05lyg==
-X-Authority-Analysis: v=2.4 cv=drfrzVg4 c=1 sm=1 tr=0 ts=6a7e6efd cx=c_pps
+X-Proofpoint-GUID: jgZXi-OLbRoNTmTPamo9TjC6Fu1LWL_x
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDAwNiBTYWx0ZWRfX0EDKZaT6lcI0
+ +n4TCQ/nNPn5PdwthVJGQKvUJgGiXEz+jJd9LTMTLzS3dLqx6mAqBjym4bmf4snhCgENwHwIZ7j
+ zJac8hE6QPxfJivlKJQNd3Gu+LUpNIp1wxP7rVxJXBhrLml2b+/IMgvk44CqL4tyKmU3JZ/OvMW
+ ynSuP78/EX6Qarb6RsVEwRCIHUV0kHvsFWnQTlo4EvRCKYOaCTdF5WoafQH40l7fP2f0tSELm75
+ HVJE5V/p6VAUifqHO/VtLnhFkBl+tFRqJqMr6z60wpPXpBce2reo7pte4GdTdf+ZS9vgbVqjxPR
+ iCAxZcg5Lm4GkWsF1kKx5SM6tMRBoEfhu1w0mfIfDvbvT7q05HTsX4yej/lWvgrB/xM8eQWITAa
+ 0aZ4wS2srcyMmxdR900iURki4LTtKp0YshA6hr5qjDadkIcudP1bhT167nU1nM2gdnSxa6aByPY
+ iwMFFzEEzaQYA36pSiQ==
+X-Proofpoint-ORIG-GUID: jgZXi-OLbRoNTmTPamo9TjC6Fu1LWL_x
+X-Authority-Analysis: v=2.4 cv=HMjz0Itv c=1 sm=1 tr=0 ts=6a7e697a cx=c_pps
  a=0uOsjrqzRL749jD1oC5vDA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
  a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=NEAV23lmAAAA:8
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=NEAV23lmAAAA:8
  a=BoJB4dgYAAAA:8 a=yaAG3qJ-AAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8
- a=a_U1oVfrAAAA:8 a=COk6AnOGAAAA:8 a=d40a-sj9VC8ABmxQAuAA:9
- a=3dgbxg9j6h1huQL5:21 a=mQ_c8vxmzFEMiUWkPHU9:22 a=zGR_d48pMUbmtCY1HACo:22
+ a=COk6AnOGAAAA:8 a=a_U1oVfrAAAA:8 a=YXZQECZBNtwQtKW0rLgA:9
+ a=qpw-KnXiqMnvxuTB:21 a=mQ_c8vxmzFEMiUWkPHU9:22 a=zGR_d48pMUbmtCY1HACo:22
  a=oLVlbjkABFOu4cUI0CGI:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: acuKhcIbylWDXpGzQWkHIfiiXskXp4bb
-X-Proofpoint-GUID: acuKhcIbylWDXpGzQWkHIfiiXskXp4bb
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDAxMCBTYWx0ZWRfX8NAfoLPQxTpQ
- re5WIb/zsOdDsbUwA9mq/SuARcqolfoFpNBO8s3MrZupkOc7E3sXdtI/6jLn3V5MyTYTuwJNChC
- hU3rpUFqtjN87jYqwGydCjX7M7wpkn4=
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDAwNiBTYWx0ZWRfXzSkxXkBW4H1X
+ 0Z45y712zu4NVyZFOL49/rg7q/3p8IPLOtCB6CJDlMQ2rctmR7hi8aW/F5oWUWojNBXaWUaJwgq
+ +TdE+upm0KDpl71jRhmT3q3Xm0KnHlQ=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-14_01,2026-08-12_01,2025-10-01_01
+ definitions=2026-08-13_07,2026-08-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
- clxscore=1015 bulkscore=0 spamscore=0 priorityscore=1501 suspectscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 impostorscore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140010
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140006
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 06:22:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243406
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243405
 
 Rename the recipe to 2.12 and update the upstream source checksum.
 Refresh LIC_FILES_CHKSUM for README changes in the new release.
 
 Drop local backports no longer needed with 2.12: macsec offload
-header guard fixes, OWE/802.11be defconfig updates, and the
-CVE-2025-24912 RADIUS fixes.
+header guard fixes, OWE/802.11be defconfig updates, WNM operating
+class workaround, and the CVE-2025-24912 RADIUS fixes.
 
 Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
 ---
@@ -128,17 +128,19 @@ Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
  ...-Opportunistic-Wireless-Encryption-O.patch | 39 ---------
  ...nt-IEEE-802.11be-as-a-published-amen.patch | 34 --------
  ...onfig-Uncomment-CONFIG_IEEE80211BE-y.patch | 32 --------
+ ...r-broken-AP-operating-class-behavior.patch | 39 ---------
  .../wpa-supplicant/CVE-2025-24912-01.patch    | 79 -------------------
  .../wpa-supplicant/CVE-2025-24912-02.patch    | 70 ----------------
- ...plicant_2.11.bb => wpa-supplicant_2.12.bb} | 10 +--
- 7 files changed, 2 insertions(+), 315 deletions(-)
+ ...plicant_2.11.bb => wpa-supplicant_2.12.bb} | 11 +--
+ 8 files changed, 2 insertions(+), 355 deletions(-)
  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch
  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-defconfig-Update-Opportunistic-Wireless-Encryption-O.patch
  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-defconfig-Document-IEEE-802.11be-as-a-published-amen.patch
  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-defconfig-Uncomment-CONFIG_IEEE80211BE-y.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-WNM-Extend-workaround-for-broken-AP-operating-class-behavior.patch
  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch
  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-02.patch
- rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.11.bb => wpa-supplicant_2.12.bb} (89%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.11.bb => wpa-supplicant_2.12.bb} (88%)
 
 diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch
 deleted file mode 100644
@@ -322,6 +324,51 @@ index 9ed7342bdc..0000000000
 --- 
 -2.34.1
 -
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-WNM-Extend-workaround-for-broken-AP-operating-class-behavior.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-WNM-Extend-workaround-for-broken-AP-operating-class-behavior.patch
+deleted file mode 100644
+index 47fe1b4c9f..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-WNM-Extend-workaround-for-broken-AP-operating-class-behavior.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 72ac0ee026d9f6f9cd031d7859ea0b343b34e61d Mon Sep 17 00:00:00 2001
+-From: "Yu Zhang(Yuriy)" <quic_yuzha@quicinc.com>
+-Date: Thu, 1 Aug 2024 18:37:25 +0800
+-Subject: [PATCH] WNM: Extend workaround for broken AP operating class behavior
+-
+-Some APs do not advertise operating classes correctly for BSS Transition
+-Management. Try to determine the most likely operating frequency based
+-on the channel number (1..14 --> 2.4 GHz; 36..177 --> 5 GHz) if invalid
+-op_class == 255 is received in a BSS Transition Management Request. This
+-speeds up the following operating by avoiding a full scan due to an
+-unknown channel.
+-
+-This extends the workaround that was added in commit 80ce804e8824 ("WNM:
+-Workaround for broken AP operating class behavior") for invalid
+-operating class 0 to cover another observed case with invalid operating
+-class 255.
+-
+-Signed-off-by: Yu Zhang(Yuriy) <quic_yuzha@quicinc.com>
+-Upstream-Status: Backport [https://w1.fi/cgit/hostap.git/commit/?id=72ac0ee026d9f6f9cd031d7859ea0b343b34e61d]
+----
+- wpa_supplicant/wnm_sta.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/wpa_supplicant/wnm_sta.c b/wpa_supplicant/wnm_sta.c
+-index 58a124c00..662f6089e 100644
+---- a/wpa_supplicant/wnm_sta.c
+-+++ b/wpa_supplicant/wnm_sta.c
+-@@ -555,7 +555,7 @@ static int wnm_nei_get_chan(struct wpa_supplicant *wpa_s, u8 op_class, u8 chan)
+- 	}
+- 
+- 	freq = ieee80211_chan_to_freq(country, op_class, chan);
+--	if (freq <= 0 && op_class == 0) {
+-+	if (freq <= 0 && (op_class == 0 || op_class == 255)) {
+- 		/*
+- 		 * Some APs do not advertise correct operating class
+- 		 * information. Try to determine the most likely operating
+--- 
+-2.34.1
+-
 diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch
 deleted file mode 100644
 index 36660b5880..0000000000
@@ -484,10 +531,10 @@ index add2e47048..0000000000
 - 				prev_req->next = req->next;
 - 			else
 diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.12.bb
-similarity index 89%
+similarity index 88%
 rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
 rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.12.bb
-index 7c7a8bd9c1..920413e8f3 100644
+index adb8467786..9c2d716c03 100644
 --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
 +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.12.bb
 @@ -5,7 +5,7 @@ BUGTRACKER = "http://w1.fi/security/"
@@ -499,7 +546,7 @@ index 7c7a8bd9c1..920413e8f3 100644
                      file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=f5ccd57ea91e04800edb88267bf8eae4"
  
  DEPENDS = "dbus libnl"
-@@ -15,14 +15,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
+@@ -15,15 +15,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
             file://wpa_supplicant.conf \
             file://wpa_supplicant.conf-sane \
             file://99_wpa_supplicant \
@@ -507,6 +554,7 @@ index 7c7a8bd9c1..920413e8f3 100644
 -           file://0002-defconfig-Update-Opportunistic-Wireless-Encryption-O.patch \
 -           file://0003-defconfig-Document-IEEE-802.11be-as-a-published-amen.patch \
 -           file://0004-defconfig-Uncomment-CONFIG_IEEE80211BE-y.patch \
+-           file://0005-WNM-Extend-workaround-for-broken-AP-operating-class-behavior.patch \
 -           file://CVE-2025-24912-01.patch \
 -           file://CVE-2025-24912-02.patch \
             "
@@ -516,7 +564,7 @@ index 7c7a8bd9c1..920413e8f3 100644
  S = "${UNPACKDIR}/wpa_supplicant-${PV}"
  
 
-base-commit: f09a0f28aeb54ddd90415dd458338e1565bb5a49
+base-commit: 2bb062e403c7093734de6467c49503a7d8970d9e
 -- 
 2.25.1
 
