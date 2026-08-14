@@ -1,195 +1,123 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF10C5CFC1
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 11:19:36 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10676.1786706369074605946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61410C5B572
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 11:27:46 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10943.1786706862784423872
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 04:19:29 -0700
+ Fri, 14 Aug 2026 04:27:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=aoZBZkcJ;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8f1a8e914a9so5218236d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 04:19:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786706368; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ssuSe1CGeb29P5S4sfdk82IOPWeZ0lvD2CH47AaG4PSEVDeihKSOlndBQPReapmPPz
-         OTAu7r3o09Qg81/I8ajWJxhBamKDvjhmx/bSgOFIaSK38TJVPszv4osVCwcwNVHzRNSH
-         43+P+kjFEA+8SdziHNXMLzY0hsPXVqilWtVFXPCaiuQzwZHyhzwmyHuq0Tood1w2Jwyx
-         0q8JMVHqoI7oMGIhynThMMXuixJrIP+E0hljU37rbfrrh7P60iWOX0fOhVIVTSGOEDSO
-         s5bqAFXe9P4+DLx0PVEkbrjV91kFhKg2wgQi+QeVQ5bMgwnACYcxO3iKFcHKFiVX9kzU
-         /NkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=aJPgw6tl5MIKv8isD4iDASiez6kwglOUzn5ivKx0ozA=;
-        fh=d1o4Rmg6R3TuMHb6AmBGGt2UIRF9p6WtNjccVS3Q7lM=;
-        b=FeUmVogvpZHSWE0odKq3VyKwEJT7ePrv76C4kvbc99IP0Pf/rEVQa44DKoZqFBK+0Y
-         E+TH/ux4Ke15ys9sAAAbN7SlMOjGYbt7vMoCYujOHPd54KQAOYU/r0OhOpMq2XuLepva
-         OhFY/LL9V6+PVxePDlAno8b+wqNSDG32RlbTauIfPTBOLGV7inDaWCaCNnHQWkckQYPM
-         1/peb0DfNfKSKmNQjOeQpzYnan5nlA9loCcatC4eBE4lJruSNAJ4nj1D92EX7WNmqVQf
-         TqlTooPu/IvvX1jVRNDgaR3KIfGEpWUDaWtRAg1Z342dcu/h9Yufhu/VoaOd6rCIWxzJ
-         0Kaw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linaro.org header.s=google header.b=YOU4e64/;
+ spf=pass (domain: linaro.org, ip: 209.85.216.41, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38759bcd877so1054739a91.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 04:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786706368; x=1787311168; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aJPgw6tl5MIKv8isD4iDASiez6kwglOUzn5ivKx0ozA=;
-        b=aoZBZkcJN8m/yXMBRRVug8YRGOLXtulFhxNUgMUwneI669oMOvJbryL50RSyial3VB
-         H9ngAM/vUaEwCku78dSoZw4cW7lrKABNFDdO7zTNn//7R+EafcnW6B1OIOHk6kTue3Bm
-         dWY46PuX//QFp8J7k0JbfKnJwz7wqZmsFpetmL8U0BwlSeqYA99O0mq2BQPNo5FHtW8n
-         lpfRGo7KUXSkl6shq6PVYIRGIkr+ZcCfWQd5XhFob/saCTcaGAxZxcP3wG58ZDWEE6EW
-         Km5jCZ+61JlAJLBOIBxrGdS0HAHIPKAgDm9ouCKkeEbDZ2ccVyCRk4AZFNdVObGlyRaB
-         VpLg==
+        d=linaro.org; s=google; t=1786706862; x=1787311662; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/dnT4esdwXxBizb8ySbDXQ8Eu0RgXGEhQVNyFc8RD00=;
+        b=YOU4e64/CUXneQfWv4ISTcQf0Xl9pB+uzlEgBsynD5/SaTamn/9XOZs0KhesmW3H1H
+         GVEftZ1J5f8+tPerZ6ji0vKGtPCAIRtAsgLlmIQ8N5wV4ih+Mb0MXzyhdOPbyQeACOJH
+         t/rOGvrwPSf163++LGO7QB1Il2KrHzkNEPr+bPTXv8r6SyS4Jxi3fnc0mTEFzthhF/Hi
+         MbNdm1EX9vVikVupD9K1Omb18krYCCwoBD3gaA+BWwG8sOH1pHGQ8PsV15FU4/WbR2m2
+         d+stIk/MzWvgZFmpSmrawIY2/s/X6WbiM1hXoG9hC3mFS0qGHclW9PmmQKFFjk6p78Dz
+         W/8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786706368; x=1787311168;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=aJPgw6tl5MIKv8isD4iDASiez6kwglOUzn5ivKx0ozA=;
-        b=haiDnUFhd9/HGIVizser1ym5YQNk6OIeUPKmxvXkM+R8EBwCZ4AkFKdZaM9wAYiUlg
-         9RXt6ym6DbnPDXLO1Y9+OzEBe+kxzuPdU7zjatbiK+6oXDEMWr3CFO0t7nkcn+khSZE9
-         7MJKCt/rPNHLX+QZKeuP8hrsVwbbxniTb2y9maGxCtrcoA99cX3jyASQzDvlEm1+4gfL
-         t7QU2NPhHd0//FCITcbHln+/1RmNwylifRdDgB0V3AxfBmEX4ZXkNR4LK3NmSOhLTfcv
-         aJIpRZInkZJvca6y1R5XchUj0TPitAT9foMVT0vhfSHAqKSVyBm1XoSN+wecAQNfWS7L
-         cvUQ==
-X-Gm-Message-State: AOJu0Yxy1hwfkj46VMvPn0pqDU0YKh67G92zKVwDj0fKGqPPeKD8+8JC
-	K8aO4GxgIX60ORB6UsE4AWEVcXclMd1Ut4wVIfuXFbdZs2Uzf+RgtceDZam4ZegYRN3kQXc6Qpp
-	4pAcqZo4ZiUOFtw74+Js0TL5wxn5zQ0s=
-X-Gm-Gg: AR+sD13tfPz0WwV4kgNHs30tjFLvWuic94bepH+uTeZ90R6yZ8mhlqVK+CEhwqH4yP2
-	HCNQel0riNdoNfuRP5O1zhASovQqtIbxrlnrP9amxwnU0Jzz/kq/lyKPysygBNciPovg9tkmm4h
-	ZLBkZQ27p3GmIAejUL3xAUjfKZ9COpK+NFC98+Y549j8OEq3LZKU7PEPyJ8eXqND8Yp9YPs49yf
-	OmNDw+qzrBus4arGybEkNgDuEb851BV3mIS24ACYcQgmdvtHALenQnQyxlfTMY5afAdnRBftF58
-	aaq6AAL07X7NUExf/yJSuDu4AndkgpfM678LteaFGerDYYx8tUZSmVDmfQfyyvUsYmcpEiMFoFY
-	K++21f3Z+87VKtg==
-X-Received: by 2002:a05:6214:48f:b0:8a0:d08c:a720 with SMTP id
- 6a1803df08f44-90a91d63d6bmr51246426d6.17.1786706367713; Fri, 14 Aug 2026
- 04:19:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786706862; x=1787311662;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/dnT4esdwXxBizb8ySbDXQ8Eu0RgXGEhQVNyFc8RD00=;
+        b=h1MQE77KLsRvHBxepiCMYI6IPQI6gv1rxnAS0d6Wi4M5ijIBWVUbjjcJPYE8BUTVtD
+         SEfMg8S+DYaNiovSgWo9L4FWZa+NCfq690H7G9ZpC+TShM6JJ7Lzi3upKOUg7maJHH3Y
+         4zWHXGoP7yXyYGkwjWyh1q/Ke5338ZxflI9yJerVeH54x9YXlTJYLc9odbIBMNgOPcZ8
+         id/ZL6On9Xxj7RRaJ/hdVQfojCk9RAPflT48TNRLBaeJUxNsTScWU3tIONMFVQlmwb+Q
+         Scj4zw+08pho/uSUZBqW9Nwe/Z6QYnJT67c/xHFRMniu5L69OrrF44jec33T7sn5PfhQ
+         791A==
+X-Gm-Message-State: AOJu0YwUXqcnJipChJjEuZz3C4hqlgXlh6REqaRLWXQcpDYIxRXiq/Dy
+	o4fa9RP1adolO2CE3zktggk2lMx7f2PQP+wJ2fLXwhDXThiIbk0KJgyZQWtR8brM9eI=
+X-Gm-Gg: AR+sD13QhklzB6JB/LFaI91rJGuRHXXcgCWa1lCdXkmqI4aQsqItCurhisfWNG9mi+u
+	z2zneeHl9ceChISLw17EZht89vtx2RaeIho3Wptvvq+LDY4yApoFi8M3K4jYlLr/RqdBnf+Nbcb
+	esi6lNYXBIP1rauN1Kku3u8UaFODygFPs5Jitwi/OeRwjf2v6x1pik98sLKXa4CkXTQUBVgvosA
+	EyS2itqpyBn+6u6IuvmB7loNmDIvVHsB//CMMZVmxZIxsH1acAqMkDKAJFT19etExHQqJWGnemw
+	gGdi5XpWJUIYTFS6UpU8PCA1JbUchkHL/LsBWr0S7RFvWKLUVvaET7+ZWfcunGLP9kIzA9PnDMR
+	KwutxrVkxJOYVhLJD9v6PAP5L0Ox1JLFVGYeBp5Vx+PU8JnVju9e9EDpNJa0bfUFagX49pnwxjV
+	pdvcqHVf+EJ7mUPyCclHXKSJu669yaVb8DQB1KHYyaAger55qpIKZaPfqlbFOLP1FI8ldp1Ipxr
+	yKrDyjLinYZ5ses1ZQSYyvKSodziKw=
+X-Received: by 2002:a17:90b:5803:b0:38f:18f9:785 with SMTP id 98e67ed59e1d1-3933cb3b889mr5703896a91.8.1786706861953;
+        Fri, 14 Aug 2026 04:27:41 -0700 (PDT)
+Received: from nuoska (78-27-71-225.bb.dnainternet.fi. [78.27.71.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-394ea9a12ddsm2486064a91.6.2026.08.14.04.27.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 04:27:41 -0700 (PDT)
+Date: Fri, 14 Aug 2026 14:27:37 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/4] lttng-modules: update from 2.15.2 to
+ 2.16.0-rc2
+Message-ID: <an77qXLFBuw245kW@nuoska>
+References: <20260814064812.1071873-1-mikko.rapeli@linaro.org>
+ <20260814064812.1071873-2-mikko.rapeli@linaro.org>
+ <2b6fbd07547d07ddb00539fc0bf7b8434633f26e.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20260814073851.3797172-1-jaeyoon.jung@lge.com>
-In-Reply-To: <20260814073851.3797172-1-jaeyoon.jung@lge.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 14 Aug 2026 13:19:16 +0200
-X-Gm-Features: AUfX_myXDfAv8psEYI51SMeK3dX7JyrLfyAXyUVy2qyq8vulo9I__eO-SnM19Dk
-Message-ID: <CANNYZj_4x7HQHqDbqtSHVvxEfFLEjFz3dwFo-5cSPsxBCPY5Dw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: use nonarch_libdir for openssldir
-To: jaeyoon.jung@lge.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2b6fbd07547d07ddb00539fc0bf7b8434633f26e.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 11:19:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243445
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 11:27:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243446
 
-I'm not sure. They are not binaries, but that does not mean they are
-architecture independent, as they may contain settings for the
-particular build of openssl, and in multilib setup those do need to go
-to a architecture-specific directory to avoid installation conflicts.
-Can you set up multilib and confirm that both lib32 and lib64 files
-are identical?
+Hi,
 
-Alex
+On Fri, Aug 14, 2026 at 11:48:32AM +0100, Richard Purdie wrote:
+> On Fri, 2026-08-14 at 09:48 +0300, Mikko Rapeli via lists.openembedded.org wrote:
+> > To support kernel version 7.2. Fixes build error:
+> > 
+> > > lttng-syscalls.c: In function 'lttng_syscall_event_enabler_create_event':
+> > > lttng-syscalls.c:612:17: error: implicit declaration of function 'strncpy' [-Wimplicit-function-declaration]
+> > > � 612 |���������������� strncpy(ev.name, desc->event_name, LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
+> > > ����� |���������������� ^~~~~~~
+> > > lttng-syscalls.c:101:1: note: include '<string.h>' or provide a declaration of 'strncpy'
+> > > � 100 | #include <instrumentation/syscalls/syscalls_unknown.h>
+> > > � +++ |+#include <string.h>
+> > > � 101 | #undef TRACE_SYSTEM
+> > > lttng-syscalls.c:612:17: warning: incompatible implicit declaration of built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
+> > > � 612 |���������������� strncpy(ev.name, desc->event_name, LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
+> > > ����� |���������������� ^~~~~~~
+> > > lttng-syscalls.c:612:17: note: include '<string.h>' or provide a declaration of 'strncpy'
+> > > lttng-syscalls.c:704:17: warning: incompatible implicit declaration of built-in function 'strncpy' [-Wbuiltin-declaration-mismatch]
+> > > � 704 |���������������� strncpy(ev.name, desc->event_name, LTTNG_KERNEL_ABI_SYM_NAME_LEN - 1);
+> > > ����� |���������������� ^~~~~~~
+> > > lttng-syscalls.c:704:17: note: include '<string.h>' or provide a declaration of 'strncpy'
+> > 
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> > �.../{lttng-modules_2.15.2.bb => lttng-modules_2.16.0-rc2.bb} | 5 +++--
+> > �1 file changed, 3 insertions(+), 2 deletions(-)
+> > �rename meta/recipes-kernel/lttng/{lttng-modules_2.15.2.bb => lttng-modules_2.16.0-rc2.bb} (94%)
+> 
+> This probably needs to have a PV of 2.16.0~rc2 else the version sorting
+> when we upgrade to the release won't work...
 
-On Fri, 14 Aug 2026 at 09:39, Jaeyoon Jung (LGE) via
-lists.openembedded.org <jaeyoon.jung=lge.com@lists.openembedded.org>
-wrote:
->
-> From: Jaeyoon Jung <jaeyoon.jung@lge.com>
->
-> Set openssldir to ${nonarch_libdir}/ssl-3 instead of ${libdir}/ssl-3
-> since files in this directory are architecture-independent.
->
-> Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
-> ---
->  .../openssl/openssl_3.5.7.bb                  | 28 +++++++++----------
->  1 file changed, 14 insertions(+), 14 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-> index b95c734f1d..2dd23c9da0 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-> @@ -153,7 +153,7 @@ do_configure () {
->         PERLEXTERNAL="$(realpath ${S}/external/perl/Text-Template-*/lib)"
->         test -d "$PERLEXTERNAL" || bberror "PERLEXTERNAL '$PERLEXTERNAL' not found!"
->         HASHBANGPERL="/usr/bin/env perl" PERL=perl PERL5LIB="$PERLEXTERNAL" \
-> -       perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=${prefix} --openssldir=${libdir}/ssl-3 --libdir=${baselib} $target
-> +       perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} ${DEPRECATED_CRYPTO_FLAGS} --prefix=${prefix} --openssldir=${nonarch_libdir}/ssl-3 --libdir=${baselib} $target
->         perl ${B}/configdata.pm --dump
->  }
->
-> @@ -175,20 +175,20 @@ do_install () {
->         # Create SSL structure for packages such as ca-certificates which
->         # contain hard-coded paths to /etc/ssl. Debian does the same.
->         install -d ${D}${sysconfdir}/ssl
-> -       mv ${D}${libdir}/ssl-3/certs \
-> -          ${D}${libdir}/ssl-3/private \
-> -          ${D}${libdir}/ssl-3/openssl.cnf \
-> +       mv ${D}${nonarch_libdir}/ssl-3/certs \
-> +          ${D}${nonarch_libdir}/ssl-3/private \
-> +          ${D}${nonarch_libdir}/ssl-3/openssl.cnf \
->            ${D}${sysconfdir}/ssl/
->
->         # Although absolute symlinks would be OK for the target, they become
->         # invalid if native or nativesdk are relocated from sstate.
-> -       ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/certs')} ${D}${libdir}/ssl-3/certs
-> -       ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/private')} ${D}${libdir}/ssl-3/private
-> -       ln -sf ${@oe.path.relative('${libdir}/ssl-3', '${sysconfdir}/ssl/openssl.cnf')} ${D}${libdir}/ssl-3/openssl.cnf
-> +       ln -sf ${@oe.path.relative('${nonarch_libdir}/ssl-3', '${sysconfdir}/ssl/certs')} ${D}${nonarch_libdir}/ssl-3/certs
-> +       ln -sf ${@oe.path.relative('${nonarch_libdir}/ssl-3', '${sysconfdir}/ssl/private')} ${D}${nonarch_libdir}/ssl-3/private
-> +       ln -sf ${@oe.path.relative('${nonarch_libdir}/ssl-3', '${sysconfdir}/ssl/openssl.cnf')} ${D}${nonarch_libdir}/ssl-3/openssl.cnf
->
->         # Generate fipsmodule.cnf in pkg_postinst_ontarget
->         if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
-> -               rm -f ${D}${libdir}/ssl-3/fipsmodule.cnf
-> +               rm -f ${D}${nonarch_libdir}/ssl-3/fipsmodule.cnf
->         fi
->  }
->
-> @@ -201,9 +201,9 @@ do_install:append:class-target () {
->
->  do_install:append:class-native () {
->         create_wrapper ${D}${bindir}/openssl \
-> -           OPENSSL_CONF=\${OPENSSL_CONF:-${libdir}/ssl-3/openssl.cnf} \
-> -           SSL_CERT_DIR=\${SSL_CERT_DIR:-${libdir}/ssl-3/certs} \
-> -           SSL_CERT_FILE=\${SSL_CERT_FILE:-${libdir}/ssl-3/cert.pem} \
-> +           OPENSSL_CONF=\${OPENSSL_CONF:-${nonarch_libdir}/ssl-3/openssl.cnf} \
-> +           SSL_CERT_DIR=\${SSL_CERT_DIR:-${nonarch_libdir}/ssl-3/certs} \
-> +           SSL_CERT_FILE=\${SSL_CERT_FILE:-${nonarch_libdir}/ssl-3/cert.pem} \
->             OPENSSL_ENGINES=\${OPENSSL_ENGINES:-${libdir}/engines-3} \
->             OPENSSL_MODULES=\${OPENSSL_MODULES:-${libdir}/ossl-modules}
->
-> @@ -275,15 +275,15 @@ PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN}-ossl-m
->  FILES:libcrypto = "${libdir}/libcrypto${SOLIBS}"
->  FILES:libssl = "${libdir}/libssl${SOLIBS}"
->  FILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf* \
-> -                      ${libdir}/ssl-3/openssl.cnf* \
-> +                      ${nonarch_libdir}/ssl-3/openssl.cnf* \
->                        "
->  FILES:${PN}-engines = "${libdir}/engines-3"
->  # ${prefix} comes from what we pass into --prefix at configure time (which is used for INSTALLTOP)
->  FILES:${PN}-engines:append:mingw32:class-nativesdk = " ${prefix}${libdir}/engines-3"
-> -FILES:${PN}-misc = "${libdir}/ssl-3/misc ${bindir}/c_rehash"
-> +FILES:${PN}-misc = "${nonarch_libdir}/ssl-3/misc ${bindir}/c_rehash"
->  FILES:${PN}-ossl-module-legacy = "${libdir}/ossl-modules/legacy.so"
->  FILES:${PN}-ossl-module-fips = "${libdir}/ossl-modules/fips.so"
-> -FILES:${PN} =+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
-> +FILES:${PN} =+ "${nonarch_libdir}/ssl-3/* ${libdir}/ossl-modules/"
->  FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
->
->  CONFFILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243426): https://lists.openembedded.org/g/openembedded-core/message/243426
-> Mute This Topic: https://lists.openembedded.org/mt/120745838/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Then the version is different compared to upstream tags. For CVEs I can set
+CVE_VERSION.
+
+> Do we know how far off the final release is?
+
+Honestly I don't know. Past releases seem to have around six weeks between
+last release candidate and actual release. v2.16.0-rc1 was tagged 7 weeks ago,
+v2.16.0-rc2 just two weeks ago so feels like it is quite close now.
+
+Cheers,
+
+-Mikko
 
