@@ -1,208 +1,383 @@
-Return-Path: <ricardo.salveti@oss.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6138BC5DF66
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 03:03:43 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5390.1786676621403627423
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F76FC5CFC1
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 03:32:55 +0000 (UTC)
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5756.1786678365408044984
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 20:03:41 -0700
+ Thu, 13 Aug 2026 20:32:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hzudDaY2;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Mgu0V+Aq;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E19br1241803
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:03:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=rHKiORMflsvgbyrsvDyc+ss5lq4T/J69ijM
-	jF4o8JYM=; b=hzudDaY2+ioq2qYjz290ejwOlD8190rR4CkT7qQC5AeYSj4jF8y
-	HuUZ5MTyCbvR5S2irS+xcz8Ixka7vVvcc3MapGLiQmVSv3Je+1IV+qvpmMIcza9X
-	91kLhbSh1nT4G2ONSFR+EmgKVBO/Bd0D/F3Y5W6IYN48sipCIOq55mut3jyZuBKG
-	RspMJRW3XNpYrKiqxgJM3rUpBXuCq5M/b3qOgOuK5jdAMNEVWgUBn046X2/SgLze
-	7lQ2HNGCFVafOFmR4ed5WeLpFVcxh6RdA/6XDD3mJvZhjSU+jTLugzaDTDuRJeaj
-	bNCTqloM1pMpOtU1OIoI5Y56dLmlLaQEUAA==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g1h1utcha-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:03:40 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-84a251c2e3eso1914058b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 20:03:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=CtRhRdQu;
+ spf=pass (domain: gmail.com, ip: 74.125.224.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66c744a00edso309830d50.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 20:32:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786678364; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dfduSStAhQYXYAaIb8kxWxejwQ9wGPjijeJ1dU2Ra+E6XptLNAOeMlN177sO7xCHFf
+         8zSA8041S7ZF13XJoCsyLI+9Fq9SgZJtKYsjQrGEjd8090dtAUJfr0s2PzIMUubIUqBk
+         G5dgf+TiaSlmS1N86VJPCZkcdOTSMyDkD39y72rpp2cjLBmPOzao3UOVtwxlxfyNCn6R
+         4zW6ZG3gx2JVfQTWaXtsMTNTqpJzcs8z0A3beRhno30ITtk+k23VkctO7jj3CZq3z+qq
+         yb4n07jBFyx43DXfX5ZRJ+H+Y4O5CPLeD4e8lz5Rp9/yUEMPhyQlweQDiZh4ruPjaZkv
+         cVfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=px6XSCpS+ZYoIcfCBwYiNA0yb+JevTZKCt/uYLazFH8=;
+        fh=coVZbaCw8hvtjBz5969ejPOOx8fdA5mxvDsHgB4adj8=;
+        b=axDOFzYDmUFSJAeeROoPUVWB+paeYOYTn6Wc5B9gpvsMxbRbI+n56wcjUamNgpekma
+         s02iIoUXY3Ch/p6TeFAEjc9JfLpNaFJxAtJULm2Pz57EzQ9if9VTjNI2G1Au/4CpynR4
+         029XqAJr71jVD7IMDHHCot3g1wKblEIL6oEfRbX6/VubZ/ScGuL341g5HNPuEaGb7LF+
+         vGn2rAJ+0yTq4Sjg3A/eYB4k6FTkYyVEiOJRFPDGnQQIbD/E5O7CT0agb2caCuX1h9vH
+         FOGElZjt4rVKQkanLcGl+1kaFwceUSImlbQpGkhpH8yhc4RQ2/eWRpdJhMrdOssPK//z
+         lzAQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786676619; x=1787281419; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rHKiORMflsvgbyrsvDyc+ss5lq4T/J69ijMjF4o8JYM=;
-        b=Mgu0V+Aqkf0mGzCPQDEpAPnu6m0Xb4Lhf5dutkaRGXD2CukcWjvBeIVDCyliq6ou0E
-         melyvNflGDNfL5duurw12uSZRmZMX/yxOX6+Cr62YZGTWGHn50MYi0I5bvhru0m5rZRb
-         v7PXfHXVJcJCIawr3oPRA0lmtSAMnE6CrF51kCf6/oBQ5XsWt86HaaU60N/18Izf4FE5
-         F0t9/WdbbKS5cDgzuBOA/D+Lps2ej94huh48OCz2C4T/QfxNiCXffjDAIKVT+LdkvELb
-         GDd2B+gfWcQoAnzPDz5ceqoPusJnxP39vmOZGzywHmWPR4S0Yj1X0jSlKBBauRS6qV4m
-         5lMA==
+        d=gmail.com; s=20251104; t=1786678364; x=1787283164; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=px6XSCpS+ZYoIcfCBwYiNA0yb+JevTZKCt/uYLazFH8=;
+        b=CtRhRdQun9jr4Ym/RDxE7RghfUSq3xI70rsoytemds804/4ZN3xI8H4Frfhb4naxfO
+         WBMouEikaoTiNnTcGwV863UhDg7ATH/iJx06eZ9L4n8+Cn97cfXtnLbCnaMUeTimtaDZ
+         ppKe7pJO/3a122VBuOXFIMu7i1rW/q20lhEqb1ep4+rNXXXHvHRRqzsKTTBLTeMtaADN
+         d5DA0IC3+a49YUaeMyWAQem59AtIKNU5LSqigDr7h/OS+Al3SIr0ww5aQS6j4d1dq8Ce
+         WV8zY+d+UMHDx1HQ9k54uZG1j8V9Mu268kHkUI5hFTDwARrJwKvtcyR641eVPT5JNvo/
+         jsBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786676619; x=1787281419;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=rHKiORMflsvgbyrsvDyc+ss5lq4T/J69ijMjF4o8JYM=;
-        b=sApUk1ec3t5q3zK5gsf55Mn7nEn6Y9mJAE6WE4h6b7xgUISYqgDjlXPYJeuHMkoeP5
-         6pkc9bT0MwnKdEaPXfeIv4oeTTnwVvMIQtHkKxh3W+xwPPh4eu0aj5mY5vqiiM24O7vE
-         SUimhUuZ6vGJSI6BZf3rkFB5YNRN1ozKzAW97gI4UHtnm0rJfIgRzuPtOlHoG0Q3vmL2
-         nDeyBhH3zeHLV37LKiqqD/jjoUbBGrZiM4RIAEINAiEIaCs+Es7WBil1O2XlQGqlk+/u
-         JazgIItps0fJP+mXQWWQXMH5PIe97Yywml6lc0o6I9xr6LD2LVB4Tvcl/Nd4QoIL1Xlz
-         ep6A==
-X-Gm-Message-State: AOJu0YxMjrYMKVc09LNyDVQ8rBssu+rn0lwAFwMC4FtDv4xzNDLuZQj8
-	km0W9opdMaKmSpKplP4ojniw1D0E6iqKUD0Vk61DlGyUIymcB2Geiz8FYuRjO6flOWJqG4sQU4J
-	/DIAhstrB2GhdDrCDGuq2ilGPVw3HZE7NwkwWKWXgzmfKRiqucuglk4vQB5SOROz8P5MpexPXBM
-	bGWp1I/isoqiGiFKAWRw==
-X-Gm-Gg: AR+sD11GIaOcBL2vb9RJWFMCITGbf2jW/wcmsw8fuvMZhFMgjPPLQlm9oNdAxA63rNC
-	fUT60D4h6EEEVkbRN49+Wn6a7RtvHUsDJJUdZau6i+dO0R2hzE3qAVVP7VJ+qMHk1QZpxnmjxvQ
-	AxoR8iKOzhdLPPEkOkWYSsb0Wgs7S9g9tukG9i9/7qACS7+TWlfngSrludBreBT6Ggim8uNXCOD
-	fOShepjcZSLJQpPwZRADCofgiQ2ry5Yls1VTIZOS1R7e2JIt2tdiehMb6iVNfPSes4OmaYeDAOv
-	vtwsQStieEAbsbz3PTRbrb27h6+R2qCl9dnLaZZzdFTwevBwavGoY/23fqkn+RFFvNEJF0ntHwy
-	5BBEyqtgbO0oquSULAD8o0hzJmnF4TedRMt84fQimwFEN1YHoJszYx+D4NgRh+98LdZ6ept9yhJ
-	dVOmU1rUkU/1i+eyuAXkdD/RbetOkWzBkrrEMfcKc=
-X-Received: by 2002:a05:6a00:6c87:b0:84a:29af:a0eb with SMTP id d2e1a72fcca58-84fdc77ab89mr2750945b3a.9.1786676619017;
-        Thu, 13 Aug 2026 20:03:39 -0700 (PDT)
-X-Received: by 2002:a05:6a00:6c87:b0:84a:29af:a0eb with SMTP id d2e1a72fcca58-84fdc77ab89mr2750878b3a.9.1786676618153;
-        Thu, 13 Aug 2026 20:03:38 -0700 (PDT)
-Received: from ip-172-31-25-255.us-west-2.compute.internal (ec2-35-83-207-173.us-west-2.compute.amazonaws.com. [35.83.207.173])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fc5a4e828sm1550081b3a.44.2026.08.13.20.03.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 20:03:37 -0700 (PDT)
-From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] uboot-sign: list the TEE loadable behind U-Boot
-Date: Fri, 14 Aug 2026 03:03:28 +0000
-Message-ID: <20260814030328.192752-1-ricardo.salveti@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1786678364; x=1787283164;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=px6XSCpS+ZYoIcfCBwYiNA0yb+JevTZKCt/uYLazFH8=;
+        b=KCe0ZapJEv/Z0weTcN1qb2kPVIpVaSK783HNWj9qHZCWo83zqRpW1IaYuQRQ23k4Gk
+         i91eZwumz1d5YfVpTDU5y6LwE9KrgzU0iE1K/tGohiyLC4BjVadZ7bQDjfERqi+IcrCU
+         PwM5MD928mD0kbQYYVYuyueJskh5bbbYFBiNyonT2Xo913AyjnWWiM5FtQhPuJaeciGW
+         YEF6OpPGhMkfDpYgKYR4e7hdH/C2d2YaXCUcpKUHhjpoU8xVclbvAMWqgbtuRbI7siS2
+         Pt0SFrCxnn1JF1bDoQbrQj4P+RNbQQcDTipCW9lRJrLhV9GBBwPWpR79ax9eKBkJW7/t
+         Uimg==
+X-Gm-Message-State: AOJu0YxBfv54KMXa/ZTcTWAhERyU40wZjInq+NOJDXs9wo03TW+2Dtlo
+	Qlx8AexHoY6kGJ/Yy/XQxLqYgCEnxKIZKW+Dljt7yVs1Q1ELCuoGa7QEqdkrlaQ3EVwHM2oGDD+
+	FvZGyjfTocs0su48mtNVs56pCk5c9l4k=
+X-Gm-Gg: AR+sD115Rgx9hksQO8vl47ZxK/kEohaOO4EFe21Zcw9BOhGhbdKmFXxKLuMDJRVAWQx
+	T4UDzDEMF2Lk6rj/6ZOlD8bopMDTmL3aJYvbpoVFgQreHpVJ4NJb0MCSF9QH1Y8ANNcGVRY04Ad
+	VG1/z8BZ+/9/6RxTOMUNtRvnGJrbEeco39VeB7PSazeUUjUS7ymKwZzHDPIfMV5zprDe4Nr+6/0
+	SjUap6SEqjhVfKirbYv7RTbS0Xgx+NQDxhgQ+djE3gT7qPViUpT6TO3PHeNHLvVRGy+xFUFt967
+	g3YB3QpiERbS2A887qhDpUrPJZJxLwPLck89WRKfyHARut8wasS1503q2ILQiz2rCZeUugsyzxI
+	N4jDck3aGjKJqeGqkVtmybkEu1abxLSNwiRld+1uQzTxuv7Qnd+rR80K3thF70uO9p+MgUj7kBU
+	jGJ65PNE1nPxOyKXravMhrdnH71P2VDa4v7PglhMb7L0S6WHXGtoVyL+8TFy9GFIf9op/Hmc6Ln
+	ZrasZ5cduB4BQOu6m+I1IbLng==
+X-Received: by 2002:a05:690e:4551:20b0:667:97c4:7058 with SMTP id
+ 956f58d0204a3-66c72cdde42mr916491d50.37.1786678364267; Thu, 13 Aug 2026
+ 20:32:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 0o6GrIk7sBB2nJg06Xkr71c9m2bsL302
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDAyNCBTYWx0ZWRfX2yNyz6aIdrcu
- 1hnJXd7kIdvY+2lvsKZc7s/LuB/66f7zSpMDCJv4gANdpH5/WooEV7pjJCnjMsPy/++DJQ4/8km
- sbij3aeBbKwlGvP6mXZtd0bDfjEK2EK+OwNW7Q5FXsHvt+EnjLSzr/3WA5txNkPhsUEhlSTdD9T
- frn19VC7kF20ukkV8ah7nTPrxoW7fnKZOdtrHZ2WGob+zFQEPOqXClbYhlHMzhpKwEfYL4Me50d
- Lq5SVuCTsCSpUylYEgTHG6N+jBcyjzUDi+VX4UdtYfN+gzmvXCx9+aqrYVHvuFxK9DhiBmNEvIB
- NrM6VONWrtSPQ55AAy82ihX02iIxnuIzbcMNYFAXVBhVnfiFef73PaXkvGBmqYwjCKQZVAoTMQm
- wwPMYj4pBZh22028geYg3Duk3aA5DTzOsuQQSiEe1HpI5MYfF3rn5+29WemPrQ+767YhwEPV4L/
- 5h9a1qzhkYnCDUhRSbQ==
-X-Proofpoint-ORIG-GUID: 0o6GrIk7sBB2nJg06Xkr71c9m2bsL302
-X-Authority-Analysis: v=2.4 cv=HMjz0Itv c=1 sm=1 tr=0 ts=6a7e858c cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=P2/bgbqRawb6I1+7fxbs5g==:17
- a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
- a=VTT31UuMaAZhFUJcaEgA:9 a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDAyNCBTYWx0ZWRfXwUcOTN1FA8GO
- L40jfKyzl7EFXbk+EkHQz6n6t44gXQF14cANItCDVcMCU0AX3zmUMvq/1PLoeKNkIohqP5W4qX8
- 6HQ7tQSxleBtqZFobRdgsX0X3gYTEqw=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-14_01,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 priorityscore=1501
- suspectscore=0 clxscore=1015 impostorscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140024
+References: <20260812125954.688985-1-peter.marko@siemens.com>
+In-Reply-To: <20260812125954.688985-1-peter.marko@siemens.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Aug 2026 20:32:18 -0700
+X-Gm-Features: AUfX_mwthJIJ7Y2vRoicJUKaVLU7UqCyDC4rBG36VeUFsaglLqm3Ut1Qcpbn1-Y
+Message-ID: <CAMKF1sqJQuxMD_LWL9hfH0XUUVszT4dW6LF61_C+nhhQhuY3zA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] toolchain/clang: prepend target host-sys to HOST_CC_ARCH
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Khem Raj <khem.raj@oss.qualcomm.com>
+Content-Type: multipart/alternative; boundary="0000000000003ae88f0658f9794a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:03:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243393
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:32:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243394
 
-uboot_fitimage_assemble() prepends the TEE image to the "loadables"
-property of the configuration, which puts it ahead of U-Boot. That order
-is not only cosmetic.
+--0000000000003ae88f0658f9794a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-An SPL that hands off to the ARM Trusted Firmware (CONFIG_SPL_ATF)
-describes the images it loaded to the next stage through the /fit-images
-node of the device tree it passes on, and common/spl/spl_fit.c only
-records a loadable there once spl_image->fdt_addr is set. That happens
-when it loads an image os_takes_devicetree() accepts, which is U-Boot.
-Images listed ahead of U-Boot are therefore loaded but never described,
-and spl_invoke_atf() in common/spl/spl_atf.c, which looks up the BL32
-entry point by searching /fit-images for an IH_OS_TEE image, finds
-nothing. BL31 is then entered without a BL32 entry point and OP-TEE is
-never started.
+On Wed, Aug 12, 2026 at 6:00=E2=80=AFAM Peter Marko via lists.openembedded.=
+org
+<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
 
-Append the TEE image instead, so that the assembled order becomes "atf",
-"uboot", "tee".
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> This assignment was present in scarthgap meta-clang.
+> * commit adding it: [1]
+> * commit removing it from native case: [2]
+> * it was removed completely when migrating clang to oe-core
+>
+> After migration from scarthgap to wrynose (or current master), clang
+> extra tools like clang-tidy do not work anymore.
+>
+> Test recipe used for fix validation:
+>
+> test-recipe.bb:
+>   SUMMARY =3D "clang-tidy demonstration program"
+>   SECTION =3D "examples"
+>   HOMEPAGE =3D "n/a"
+>   LICENSE =3D "GPL-2.0-only"
+>   LIC_FILES_CHKSUM =3D
+> "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=3D801f809=
+80d171dd6425610833a22dbe6"
+>   SRC_URI =3D "file://CMakeLists.txt file://hello-world.cpp"
+>   S =3D "${UNPACKDIR}"
+>   TOOLCHAIN =3D "clang"
+>   inherit cmake
+>
+> CMakeLists.txt
+>   project(hello-world)
+>   cmake_minimum_required(VERSION 3.5)
+>   find_program(CLANG_TIDY NAMES clang-tidy)
+>   set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY}" "--checks=3D*")
+>   add_executable(${PROJECT_NAME} hello-world.cpp)
+>
+> hello-world.cpp
+>   #include <iostream>
+>   int main() {
+>     std::cout << "Hello World!";
+>     return 0;
+>   }
+>
+> I have asked AI agent to analyze clang sources for side-effects which
+> are mentioned in patch removing this with following result:
+>
+> When a cmake recipe uses CMAKE_CXX_CLANG_TIDY (or runs clang-tidy in any
+> mode that passes the compile command via -- on the command line), CMake
+> invokes clang-tidy through its __run_co_compile path. This path
+> constructs a FixedCompilationDatabase from the arguments following --.
+> Inside FixedCompilationDatabase::loadFromCommandLine() the original
+> cross-compiler binary name (e.g. x86_64-poky-linux-clang++) is stripped
+> by stripPositionalArgs() and replaced with a dummy argv[0]. As a result
+> the target triple encoded in the cross-compiler name is never seen by
+> clang-tidy.
+>
+> JSONCompilationDatabase (used when clang-tidy is run with -p <build_dir>)
+> wraps its commands with inferTargetAndDriverMode(), which calls
+> addTargetAndModeForProgramName() and would correctly inject
+> --target=3Dx86_64-poky-linux. FixedCompilationDatabase has no equivalent
+> step, so the native clang-tidy falls back to the build-host default
+> triple and cannot locate C++ headers under the target sysroot:
+>
+>   hello-world.cpp:1:10: error: 'iostream' file not found
+>
+> The fix is to make the -target flag explicit in the compile commands.
+> The cross-compiler already has LLVM_DEFAULT_TARGET_TRIPLE compiled in as
+> HOST_SYS, so adding -target ${HOST_SYS} to HOST_CC_ARCH is a no-op for
+> the compiler itself. For clang-tidy and other Clang-based tools that
+> parse compile commands but do not inherit the binary's baked-in default
+> triple the flag is the only reliable channel to communicate the intended
+> target.
+>
+> On a typical GNU/Linux host the GCC runtime is installed under a
+> vendor-qualified tuple (e.g. aarch64-linux-gnu/) that clang probes at
+> runtime. Providing an explicit -target aarch64-linux overrides that
+> probe and prevents clang-native from finding libgcc and crt objects,
+> which was the original motivation for removing the assignment.
+>
+> [1]
+> https://github.com/kraj/meta-clang/commit/503aa977b27be0506fb6ac21fbf9e8b=
+049b82247
+> [2]
+> https://github.com/kraj/meta-clang/commit/6da0abaa33b458a37b97f42e3755245=
+e3220bf27
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  meta/classes/toolchain/clang.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/classes/toolchain/clang.bbclass
+> b/meta/classes/toolchain/clang.bbclass
+> index 9a3cd0e584..862ecb5e10 100644
+> --- a/meta/classes/toolchain/clang.bbclass
+> +++ b/meta/classes/toolchain/clang.bbclass
+> @@ -34,6 +34,9 @@ LDFLAGS:append:class-nativesdk:x86-64 =3D "
+> -Wl,-dynamic-linker,${base_libdir}/ld-
+>  LDFLAGS:append:class-nativesdk:aarch64 =3D "
+> -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
+>  LDFLAGS:append:class-cross-canadian =3D "
+> -Wl,-dynamic-linker,${base_libdir}/placeholder/to/be/rewritten/by/sdk/ins=
+taller"
+>
+> +# helps extra tools like clang-tidy to find arch-specific macros and
+> headers in a cross compile environment
+> +HOST_CC_ARCH:prepend =3D "-target ${HOST_SYS} "
+>
 
-This does not regress the configurations that work today:
+This will impact all variants of clang compiler invocations e.g.
+native/nativesdk etc. I hope it does not impact sstate sharing.
 
-- Where U-Boot is the image selected as firmware, it is loaded before the
-  loop over the loadables runs, so the device tree is already in place and
-  every loadable is recorded whatever its position. This is the shape of
-  the FIT that arch/arm/dts/imx8mm-u-boot.dtsi describes, with
-  firmware = "uboot" and loadables = "atf", "tee".
+> +
+>  # do_populate_sysroot needs STRIP, do_package_qa needs OBJDUMP
+>  POPULATESYSROOTDEPS:append:class-target =3D "
+> llvm-native:do_populate_sysroot"
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#243286):
+> https://lists.openembedded.org/g/openembedded-core/message/243286
+> Mute This Topic: https://lists.openembedded.org/mt/120717002/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-- Where the ARM Trusted Firmware is the firmware, U-Boot has to come
-  first among the loadables, which is what this change produces. The
-  binman description in arch/arm/dts/rockchip-u-boot.dtsi already ends up
-  in that order: it selects fit,firmware = "atf-1", "u-boot" and generates
-  the loadables from its images node, where the U-Boot entry precedes the
-  OP-TEE one.
+--0000000000003ae88f0658f9794a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- Nothing else in the SPL depends on the position of the TEE image. An
-  arm32 OP-TEE image is recorded by spl_fit_image_record_arm32_optee()
-  wherever it appears, and the fallback that takes the entry point from
-  the first loadable only applies when the image selected as firmware
-  carries none, while every image generated here is emitted with one.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 12,=
+ 2026 at 6:00=E2=80=AFAM Peter Marko via <a href=3D"http://lists.openembedd=
+ed.org">lists.openembedded.org</a> &lt;peter.marko=3D<a href=3D"mailto:siem=
+ens.com@lists.openembedded.org">siemens.com@lists.openembedded.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Pet=
+er Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" target=3D"_blank">p=
+eter.marko@siemens.com</a>&gt;<br>
+<br>
+This assignment was present in scarthgap meta-clang.<br>
+* commit adding it: [1]<br>
+* commit removing it from native case: [2]<br>
+* it was removed completely when migrating clang to oe-core<br>
+<br>
+After migration from scarthgap to wrynose (or current master), clang<br>
+extra tools like clang-tidy do not work anymore.<br>
+<br>
+Test recipe used for fix validation:<br>
+<br>
+<a href=3D"http://test-recipe.bb" rel=3D"noreferrer" target=3D"_blank">test=
+-recipe.bb</a>:<br>
+=C2=A0 SUMMARY =3D &quot;clang-tidy demonstration program&quot;<br>
+=C2=A0 SECTION =3D &quot;examples&quot;<br>
+=C2=A0 HOMEPAGE =3D &quot;n/a&quot;<br>
+=C2=A0 LICENSE =3D &quot;GPL-2.0-only&quot;<br>
+=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common-lice=
+nses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br>
+=C2=A0 SRC_URI =3D &quot;file://CMakeLists.txt file://hello-world.cpp&quot;=
+<br>
+=C2=A0 S =3D &quot;${UNPACKDIR}&quot;<br>
+=C2=A0 TOOLCHAIN =3D &quot;clang&quot;<br>
+=C2=A0 inherit cmake<br>
+<br>
+CMakeLists.txt<br>
+=C2=A0 project(hello-world)<br>
+=C2=A0 cmake_minimum_required(VERSION 3.5)<br>
+=C2=A0 find_program(CLANG_TIDY NAMES clang-tidy)<br>
+=C2=A0 set(CMAKE_CXX_CLANG_TIDY &quot;${CLANG_TIDY}&quot; &quot;--checks=3D=
+*&quot;)<br>
+=C2=A0 add_executable(${PROJECT_NAME} hello-world.cpp)<br>
+<br>
+hello-world.cpp<br>
+=C2=A0 #include &lt;iostream&gt;<br>
+=C2=A0 int main() {<br>
+=C2=A0 =C2=A0 std::cout &lt;&lt; &quot;Hello World!&quot;;<br>
+=C2=A0 =C2=A0 return 0;<br>
+=C2=A0 }<br>
+<br>
+I have asked AI agent to analyze clang sources for side-effects which<br>
+are mentioned in patch removing this with following result:<br>
+<br>
+When a cmake recipe uses CMAKE_CXX_CLANG_TIDY (or runs clang-tidy in any<br=
+>
+mode that passes the compile command via -- on the command line), CMake<br>
+invokes clang-tidy through its __run_co_compile path. This path<br>
+constructs a FixedCompilationDatabase from the arguments following --.<br>
+Inside FixedCompilationDatabase::loadFromCommandLine() the original<br>
+cross-compiler binary name (e.g. x86_64-poky-linux-clang++) is stripped<br>
+by stripPositionalArgs() and replaced with a dummy argv[0]. As a result<br>
+the target triple encoded in the cross-compiler name is never seen by<br>
+clang-tidy.<br>
+<br>
+JSONCompilationDatabase (used when clang-tidy is run with -p &lt;build_dir&=
+gt;)<br>
+wraps its commands with inferTargetAndDriverMode(), which calls<br>
+addTargetAndModeForProgramName() and would correctly inject<br>
+--target=3Dx86_64-poky-linux. FixedCompilationDatabase has no equivalent<br=
+>
+step, so the native clang-tidy falls back to the build-host default<br>
+triple and cannot locate C++ headers under the target sysroot:<br>
+<br>
+=C2=A0 hello-world.cpp:1:10: error: &#39;iostream&#39; file not found<br>
+<br>
+The fix is to make the -target flag explicit in the compile commands.<br>
+The cross-compiler already has LLVM_DEFAULT_TARGET_TRIPLE compiled in as<br=
+>
+HOST_SYS, so adding -target ${HOST_SYS} to HOST_CC_ARCH is a no-op for<br>
+the compiler itself. For clang-tidy and other Clang-based tools that<br>
+parse compile commands but do not inherit the binary&#39;s baked-in default=
+<br>
+triple the flag is the only reliable channel to communicate the intended<br=
+>
+target.<br>
+<br>
+On a typical GNU/Linux host the GCC runtime is installed under a<br>
+vendor-qualified tuple (e.g. aarch64-linux-gnu/) that clang probes at<br>
+runtime. Providing an explicit -target aarch64-linux overrides that<br>
+probe and prevents clang-native from finding libgcc and crt objects,<br>
+which was the original motivation for removing the assignment.<br>
+<br>
+[1] <a href=3D"https://github.com/kraj/meta-clang/commit/503aa977b27be0506f=
+b6ac21fbf9e8b049b82247" rel=3D"noreferrer" target=3D"_blank">https://github=
+.com/kraj/meta-clang/commit/503aa977b27be0506fb6ac21fbf9e8b049b82247</a><br=
+>
+[2] <a href=3D"https://github.com/kraj/meta-clang/commit/6da0abaa33b458a37b=
+97f42e3755245e3220bf27" rel=3D"noreferrer" target=3D"_blank">https://github=
+.com/kraj/meta-clang/commit/6da0abaa33b458a37b97f42e3755245e3220bf27</a><br=
+>
+<br>
+Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
+arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/toolchain/clang.bbclass | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchain/=
+clang.bbclass<br>
+index 9a3cd0e584..862ecb5e10 100644<br>
+--- a/meta/classes/toolchain/clang.bbclass<br>
++++ b/meta/classes/toolchain/clang.bbclass<br>
+@@ -34,6 +34,9 @@ LDFLAGS:append:class-nativesdk:x86-64 =3D &quot; -Wl,-dyn=
+amic-linker,${base_libdir}/ld-<br>
+=C2=A0LDFLAGS:append:class-nativesdk:aarch64 =3D &quot; -Wl,-dynamic-linker=
+,${base_libdir}/ld-linux-aarch64.so.1&quot;<br>
+=C2=A0LDFLAGS:append:class-cross-canadian =3D &quot; -Wl,-dynamic-linker,${=
+base_libdir}/placeholder/to/be/rewritten/by/sdk/installer&quot;<br>
+<br>
++# helps extra tools like clang-tidy to find arch-specific macros and heade=
+rs in a cross compile environment<br>
++HOST_CC_ARCH:prepend =3D &quot;-target ${HOST_SYS} &quot;<br></blockquote>=
+<div><br></div><div><span style=3D"background-color:transparent">This will =
+impact all variants of clang compiler invocations e.g. native/nativesdk etc=
+. I hope it does not impact sstate sharing.=C2=A0</span></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
++<br>
+=C2=A0# do_populate_sysroot needs STRIP, do_package_qa needs OBJDUMP<br>
+=C2=A0POPULATESYSROOTDEPS:append:class-target =3D &quot; llvm-native:do_pop=
+ulate_sysroot&quot;<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#243286): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/243286" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/243286</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120717002/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/120717002/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-The images in the FIT and their contents are unchanged; only the order in
-which they are named in the property differs. Update the order the
-selftest expects accordingly.
-
-AI-Generated: Uses Claude Code
-
-Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
----
- meta/classes-recipe/uboot-sign.bbclass   | 5 ++++-
- meta/lib/oeqa/selftest/cases/fitimage.py | 4 ++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 33f9abdb79..66d8171c9f 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -458,7 +458,10 @@ EOF
-         };
- EOF
- 	if [ "${UBOOT_FIT_TEE}" = "1" ] ; then
--		conf_loadables="\"tee\", ${conf_loadables}"
-+		# Listed behind U-Boot: an SPL handing off to the ARM Trusted
-+		# Firmware only describes the images it loaded to the next stage
-+		# once it has loaded the one it appends the device tree to.
-+		conf_loadables="${conf_loadables}, \"tee\""
- 		uboot_fitimage_tee
- 	fi
- 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 451878aafd..3d8bdc4a74 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -1798,7 +1798,7 @@ class UBootFitImageTests(FitImageTestCase):
-                 'entry = <%s>;' % bb_vars['UBOOT_FIT_TEE_ENTRYPOINT'],
-                 'compression = "none";',
-             ]
--            loadables.insert(0, "tee")
-+            loadables.append("tee")
-         if bb_vars['UBOOT_FIT_ARM_TRUSTED_FIRMWARE'] == "1":
-             its_field_check += [
-                 'description = "ARM Trusted Firmware";',
-@@ -1850,7 +1850,7 @@ class UBootFitImageTests(FitImageTestCase):
-             }
-         }
-         if bb_vars['UBOOT_FIT_TEE'] == "1":
--            loadables.insert(0, "tee")
-+            loadables.append("tee")
-             req_sections['tee'] = {
-                 "Type": "Trusted Execution Environment Image",
-                 # "Load Address": bb_vars['UBOOT_FIT_TEE_LOADADDRESS'], not printed by mkimage?
--- 
-2.43.0
-
+--0000000000003ae88f0658f9794a--
 
