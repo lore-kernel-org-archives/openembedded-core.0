@@ -1,112 +1,103 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90640C5B572
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 10:06:15 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9737.1786701973179166459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB58FC5CFDB
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 10:20:05 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9891.1786702800050588828
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 03:06:13 -0700
+ Fri, 14 Aug 2026 03:20:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=aCtDlsen;
- spf=pass (domain: snapchat.com, ip: 209.85.128.43, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so7986015e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:06:12 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=d0FMSu3f;
+ spf=pass (domain: mvista.com, ip: 209.85.216.44, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38e42560ebcso699837a91.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 03:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1786701971; x=1787306771; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1786702799; x=1787307599; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m4CsjNsOQ+jvDcBgMDcCcrr80thaRKk+h6HkVmXvhwE=;
-        b=aCtDlsen80C1lEkohCBcRkuXOeuSYbXyxvut429Zs7kZ0j+mjr/NbWcXpXv671c6KU
-         7gnmadKZAxeK2upOPLqRK+N46Oyb015Mb4akZyXLiTFJeH63o7zhTTvDl41qnvq5KUsi
-         x6ADKd0wpom0LqRyAn5jmaHqVbWg+RuMcm82w=
+        bh=bSMojl6mQaQOqvIFayGjgug1jYnSMNgFcJAxNYkkIKs=;
+        b=d0FMSu3fj9S4IqUgSGhy2vimz7h0IOSmOsTJ4fYoxrMQW/QIkqfEegBSZmMTX4lOHt
+         spsE8Fs/WsvtmVbV3Mc4s69t+/2P/rIxvk2rj6rFKXbEXQvNr4B9t4JldAXHo/Dord/N
+         USRSWj/jCyJvaU3n8gKyBXxcF9sadAMDusitc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786701971; x=1787306771;
+        d=1e100.net; s=20251104; t=1786702799; x=1787307599;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=m4CsjNsOQ+jvDcBgMDcCcrr80thaRKk+h6HkVmXvhwE=;
-        b=L8dNpW6KCV9ODym3QHgMFRT1ttd632AePyUuXLmUCWYmHYdL68yum3Gu4GXCYZ5+Lp
-         yUZ38egbgC49udETlEY+JmjcutozJA4S6b6xuui0aoI+kPjZ7IwQnr3FvlgaCuWowtoD
-         74jlkErcDKo4NOWsgDYdDKabevjE+cdKMAWrerCbdRjK+tCsL4bztL9g1T9jEsSt7qpI
-         VJEhV8COJ59s+QDD15w1Wv9qANNQKw0x0Licl9hDEdPpfJAKVGFILqng8SIotal0R/0x
-         /3w8Y9DWcd7Aw5jfu+W6p3yfLgNX2xxnqOfqFjxj7zE8Rjl9JNvl9JM+nlnx0AhMYzpg
-         g2Tg==
-X-Gm-Message-State: AOJu0YyJSsYrAs+GGBnnIr66FkAfwH0wVEFTLXFGLKvUzOycntQhQUVh
-	Y0tS/Sn+KexgYa5u5kXedTLeT+RWvHTpgacBKv6O7NQCj2j7CF4PhG70HTwFJbPs5YmzT9LuhtK
-	pj5I51CM=
-X-Gm-Gg: AR+sD12jXauo+2FmSHMZh7fiPzm4EbnnmIHrYwDdKfrastuGAqgzAsn1nla0YUYNfKg
-	ktDZiry0IyYH374p9PogXiG8hJME9uQzSxuSCuysek3hYy3K/sW8FPXonKgv0IJQjgHL6NY8hy+
-	5a6qHIDP6gUVV2EsH4YtUX2ERsnoRWSK3gYRVvrZQMsLycL7parVavx5thaBkQlycLn1ZmlBDFR
-	r+NpguKf0LQv7pNun4Bk0fgdtP4MnNhC6KUN8lHSll0HxukvOi5uo1p7un5Uf07ESlGFO5DzyLP
-	obOlstLx/n3b3OT+Oqh1Ao2z2oOoIPggQFWJkqpVcXUWnNC7whM+gDLG5SS1OIR9ucktcmGu+E6
-	vY8uq7rw1WuTbLss0Kopd7NQ4CtTQVhLSmjb5Bos0bx9h+rqmknNLI1EPYDR+pTLpPLicdX5Vis
-	B6hz0zC5DZNHsDakkIdgKLStCouPimIjZHF7E3P+nTUGmxI48xk14K2kMoZUZLjCiA5cuB+o8nY
-	HkuGm2dAr3Uc3ed3yghCGZHqCf3IBVokN8RJk+pdYTu
-X-Received: by 2002:a05:600c:8b6b:b0:495:4689:1e98 with SMTP id 5b1f17b1804b1-4998795eb1cmr69301435e9.10.1786701971146;
-        Fri, 14 Aug 2026 03:06:11 -0700 (PDT)
-Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2c0a75sm7362013f8f.25.2026.08.14.03.06.10
+        bh=bSMojl6mQaQOqvIFayGjgug1jYnSMNgFcJAxNYkkIKs=;
+        b=kQ+jq7qRJ/fdfq3cGPhg86lWbX7nSNMB2foKmpFKdqMS46j1msxUGeoBniMyttAd4y
+         euHm8NZJvrC+Amy2h5LwLf6LdTx5D46LXCL9dWYjzy8Ssb8iu8GCD/hb+yVDTppGnl8T
+         QB7ZdObvv/ngXFliixNJ+hkWyu9xlGvZ8be94/QAqKAPi76bwDcF4ef66PHiwYsenJjp
+         etipvxhzkI51yNIoHmUHiWljRQ4fjDqyd4bNM6/kFCOCOfySd6Sa7B/EVYh18ILEWj1l
+         NiHt0VuEC0MSJYLf5nTypoYcEXJGkTAhmr4GNqTR/ChhjaUfIwU6f83ROZUnRV5mBBoo
+         i+eg==
+X-Gm-Message-State: AOJu0Yxi5V6UTApLe6+x4Kh+2DFjSFazchKha3thYoAeU+W6Ug3reY2K
+	GkNyI+R2vHR273p00ZwSpEJySQScbuMaFmBw4sKw0xDX0G+gYJlTrcWFibfrhTAtDDMowUacKNc
+	QGjTA3/k=
+X-Gm-Gg: AR+sD13aktwT7lr7Mfx63MAHxnwEOqfC7xS4EAqo0LWK+KV/5wo0+6RcABEzhRiHk6h
+	XwMgY8gbyLTUQ0CH8/1u2pea/iySSoHPlc0VWwoPdYm+N5MC23ehlkNGBnMjStnskRSkREKE7wd
+	TkFxckQvUu7gzZkJgOBU1KLzUW3pTEjZ817s++KWZwIEF9REDZpoIZCjDLgi1Im3dqDzgGMFSrR
+	p1/PXNF1ao9hC1WQc4q38dWGFUXPDLA8wRAKzcrudccT9zK5SI2K6O8pIjWyh87c0S6xdRI6Zn+
+	lXngmTW2S3WfNd6yUKKlGmH4mEsG9CmA0tCZBbaLub3BmDzmGztV4nIjPi2cu57qPuKeYpYD7O4
+	8GBwK3mUjbmssNhQBosziDonSR0F7zlyRvBHPdJAaQ8dGAm61N64EiP75KeapwkZXfvWKbYeY03
+	yQyDu0WSVId39mBkzd8ub4qudFeLWfXH9ExEiiF3FIse8GjqZjX2Faj8/DvJoDXYzG411HzJJQ8
+	A5QiE+1WXwrmvA=
+X-Received: by 2002:a17:90b:3d45:b0:37f:fd1f:d30f with SMTP id 98e67ed59e1d1-3933b9157eemr5152221a91.12.1786702799318;
+        Fri, 14 Aug 2026 03:19:59 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([2401:4900:1cc4:a7de:e349:c3d5:7c44:1c80])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141386a039asm7889333c88.0.2026.08.14.03.19.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 03:06:10 -0700 (PDT)
-From: ecordonnier@snap.com
+        Fri, 14 Aug 2026 03:19:58 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [scarthgap][PATCH] bitbake.conf: add TMPDIR to GIT_CEILING_DIRECTORIES
-Date: Fri, 14 Aug 2026 12:05:55 +0200
-Message-ID: <20260814100555.856374-1-ecordonnier@snap.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][wrynose][patch 1/3] p11-kit: upgrade 0.26.2 -> 0.26.4
+Date: Fri, 14 Aug 2026 15:49:39 +0530
+Message-ID: <20260814101941.873295-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 10:06:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243431
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 10:20:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243432
 
-From: Ross Burton <ross.burton@arm.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We export GIT_CEILING_DIRECTORIES=WORKDIR to ensure that git calls
-inside the builds don't find oe-core when they're meant to be looking
-for the git repository of the source code.
+ChangeLog:
+https://github.com/p11-glue/p11-kit/releases/tag/0.26.4
+https://github.com/p11-glue/p11-kit/releases/tag/0.26.3
 
-However, this breaks for recipes that use work-shared (such as llvm), as
-their working directory is outside of WORKDIR.
+Fixes CVE-2026-13757
 
-Solve this by adding TMPDIR to the list as a final catch, but keeping
-WORKDIR first so that git will stop sooner in the general case.
-
-This solves reproduciblity problems in LLVM, where for example lld's
-version string would contain the URL and commit hash of the poky repo
-being built.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+(cherry picked from commit 4e58b57cdc5e25d6cb12b658f09fea7c91835430)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- meta/conf/bitbake.conf | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../p11-kit/{p11-kit_0.26.2.bb => p11-kit_0.26.4.bb}            | 2 ++
+ 1 file changed, 2 insertions(+)
+ rename meta/recipes-support/p11-kit/{p11-kit_0.26.2.bb => p11-kit_0.26.4.bb} (94%)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e20b17fad6..3fd442edbd 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -786,9 +786,9 @@ export PKG_CONFIG_DISABLE_UNINSTALLED = "yes"
- export PKG_CONFIG_SYSTEM_LIBRARY_PATH = "${base_libdir}:${libdir}"
- export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.26.2.bb b/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+similarity index 94%
+rename from meta/recipes-support/p11-kit/p11-kit_0.26.2.bb
+rename to meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+index 5f553f11bb..ecf7500b13 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.26.2.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+@@ -13,6 +13,8 @@ DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''
+ SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https;tag=${PV} \
+            "
+ SRCREV = "8e6e4e6d64d9fe91c62b0052c105b2b72d4c24ef"
++SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https;tag=${PV}"
++SRCREV = "a14788849d1ef44422d679534a13821eab5bb5f4"
  
--# Don't allow git to chdir up past WORKDIR so that it doesn't detect the OE
--# repository when building a recipe
--export GIT_CEILING_DIRECTORIES = "${WORKDIR}"
-+# Don't allow git to chdir up past WORKDIR or TMPDIR so that it doesn't detect the OE
-+# repository when building a recipe.
-+export GIT_CEILING_DIRECTORIES = "${WORKDIR}:${TMPDIR}"
- 
- ###
- ### Config file processing
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
 -- 
 2.43.0
 
