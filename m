@@ -1,164 +1,164 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DFFC5CFC1
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 12:09:06 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11411.1786709340037118594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B713FC5CFDB
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 12:49:06 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12153.1786711739302818248
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 05:09:01 -0700
+ Fri, 14 Aug 2026 05:48:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=qnjValIt;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id B8F621A14FE;
-	Fri, 14 Aug 2026 12:08:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 87B2E6046D;
-	Fri, 14 Aug 2026 12:08:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1B2D211C4EC31;
-	Fri, 14 Aug 2026 14:08:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1786709332; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=SolEAtV/tPDFtPcwlbibr0i5oO5CSoclyk+lzVzh93o=;
-	b=qnjValItnYhinbK4o38FICEzAUics+8fslJItz4K4uxvuhN0RkiIebgNaTXZZNUJ/VFSIc
-	P87Kn97c1J1aBe61ESm0zf418sTK9F3pEHBYSXPnQgzU2rnkSZZ1J4ZYqdVQbzQzu27tJt
-	n7G6x7NMhoXLkZ8GXffdthcf8h9sAYUvqBLwLQhdkUTrW4gGbWdu/JZxeTVXmniYGcsIzH
-	+ryaQxn6V7KjWKRIz/70XtUJ4YcrCrZjmVW8GKiDsFFwEsdxP9Q2coszf8uVJsMWPUE1CE
-	Lorp+dgKKem0va671v7oGcxKglSY6txUMiVo6ydgecOh/k8xX+z1jTjegDqr2Q==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
-To: 
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Paul Barker <paul@pbarker.dev>,
- "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Yoann Congal <yoann.congal@smile.fr>, Ross Burton <ross.burton@arm.com>
-Subject: Re: [wrynose][RFC PATCH 00/11] sbom-cve-check update
-Date: Fri, 14 Aug 2026 14:08:49 +0200
-Message-ID: <T8RuCurQSHGCk8QRPy2f9A@bootlin.com>
-In-Reply-To: 
- <AS8PR10MB5073987C262BD37F31AA9174FDDB2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <20260808105147.42294-1-peter.marko@siemens.com>
- <DTPlCxvbRoqnuQ1EM7zERg@bootlin.com>
- <AS8PR10MB5073987C262BD37F31AA9174FDDB2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=daQnNAvX;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-81ff017d420so27159217b3.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 05:48:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786711738; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rEEggYYq9UlnQrMY69H4uM4kl5xrthQvS6ruaE4rOZcTtVUkUTikL8G/niAllNNdlA
+         WhhYGH5BYS6kUaW6NSErvwHeUuOgRxPqgWf7VihejvVVYjqfVWK6YEm9wuVw/cBFZOsY
+         W6Q5rwqlAQ43C7IakfI2drf8yYbYM9n4GEWkKckioCHbzjNbhdr4onPU5mBqVOLzry40
+         5cybv+rzwrtWFF4vtISpa0wEVN/SY4fijrhH1Z9fruBRUFUy2nIohDvZfEHlvz1ssuz+
+         bS042tcFsC6zl4+M0hExvFRki+nn2H2gHSk4xIxiWLkRHCTPdAzu/SXxfD2zYU6D/r1c
+         iNcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dlseqNNW/YeH5QA5KupLBmSsSsxGPT2DXOS/LV8zGF0=;
+        fh=kWKt4UINZ1F4UonjK/V/OyGHrn7Nboyn6VF2ZUoMrMc=;
+        b=fNAQ6BGuArHmpaBEhlMDVZ005XzJ2sb45c8IVhU84hKs62PUUMqFw9O9GQoFQRw6E9
+         zM1WmiUDI4wDYc7WVFA/s+CnEIgpR7nKuvkDMoyWicWLsdMG/RepL01f0xIDpCNOFJZe
+         0/6d9AuPQribbxjP8SbenWtnK4LqZJnzBJCeD8+TyyQm60AOUbkADA0xNeCrXlecmhE9
+         tSVsJKkzRbyanD1Mxh6n+7bj9BlY+lyK7sNGKbWn6m8AzNLzf22qpQvLXFgDXguCVt9G
+         H8ijant3290T4OkwcPB6+/0DG754goCJ+Ht2h5HL62EQHUx/kS6HJ/GgU3biz+W33czh
+         hZgQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786711738; x=1787316538; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dlseqNNW/YeH5QA5KupLBmSsSsxGPT2DXOS/LV8zGF0=;
+        b=daQnNAvX+FlzbTRzhB3AYlReZ1o/+y6RWOnSnyLjc0jrcvujVj3ZLQkEDTqaeQPeiL
+         THSHsWiGNrOyhypx5E4UZ4/7R5wojWST+9nF0R+y5NNLI135uMzbvne/RFXKa/Ctc3Hj
+         R91A6MeU+CPICIvm37A3TqETz6oeprrKD/O8rv10uEGPegglQf/JZfLpqRz79p/fdlgy
+         GxVAgAm+K87uYR3nBgu2tWhLvpXZSz/c/DA5oK0PmKOH/Iqvjsxjc3Cq2bE/Y/jywT2v
+         a/6ABOT3Wxhzx+2jPaKOHdh1/regzQjMZFzgpfaZGnGRI/k08zU1K2raDQ8cEtYkQIkv
+         SSXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786711738; x=1787316538;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dlseqNNW/YeH5QA5KupLBmSsSsxGPT2DXOS/LV8zGF0=;
+        b=loPtegneIoyq4ttfuekHEhCQVWdCLSMpY4SoUjuhydgBOky7ZY2BCoCf22qRCQ9BVq
+         WLwJBrLpVhD1zCKWNwM1lhZ4IDsXI1nHNy4v5cRAwChNR7KJcYS8OmjrdCwPa60YmPR2
+         oeXkjXr+XNiV4kXVwgnHw4bmFKU8s8EnHWtwOUK/0E988NDFgzAWkhKGFPqy+3augoAZ
+         ICrmvrXxnfl3XjOq6SRZ01Bj9OO8udY8psuBmhGBUS/MIY4xgGjjhWjAZnloPCASdS0b
+         faxoobGTFnYSzDyVn9bvKhCq3ClJi2KfO6AyUvgCWgdgsJrTRdCtqlC3uR64eoRhr1JJ
+         1Fuw==
+X-Gm-Message-State: AOJu0YxRluaCEtoakh8vJjOCFq+EOt5A5rsn7IrQHefM4Hcf28GhMXm/
+	UvuvLCXs8S0Ctv5/Kr+BYIWTOY9qYPGR1ILw63RQQ09i+GkMOj486dwQRA0niiS3w9ufe+jHbiZ
+	CeWC2HGvsVPblunDp42PN4i239knfKDg=
+X-Gm-Gg: AR+sD12k88QGkrTwa8kVNI8jv7d6A7F83qDjBKsXhuHkeKrF2IMVC0l5QB+03+CAlrT
+	qTK4J7XNtKd9b1nq5c/gTNjh0sGFRxNC7FkiBM3caN17FMmuMUhpjru+kadKbE3HwijHiqbeCOg
+	LCfPB/qlFcOnSAT/N07e8s3D5MF2e60A4U7KpmJhXR0NS7Mw3I3ncxgLXstxPOUpBSUL8uC9MMy
+	BIFWoUP20p82mlYE8/oLrQ2LEiTzFTXlj3v5iqOQXpCOEyZilUjdLBG91JRVa/1bBhV6wpudGgO
+	e0k2Qq3qj14ibh2Dj3PMBecpiBfhLr6JxCT8RWoQEWhqUVa+dgFmIep3eQK6jlxspV8Vjmp1Y2E
+	+vqp95jdbjHvEifcW7ARZHboQpzbJ7hzqcRJqKFcNfJM8xkfS3fgVeB1c0SbDkcw=
+X-Received: by 2002:a05:690c:c510:b0:834:fadf:603c with SMTP id
+ 00721157ae682-8370d7e9fefmr22553657b3.2.1786711738212; Fri, 14 Aug 2026
+ 05:48:58 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260814064812.1071873-1-mikko.rapeli@linaro.org> <20260814064812.1071873-5-mikko.rapeli@linaro.org>
+In-Reply-To: <20260814064812.1071873-5-mikko.rapeli@linaro.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 14 Aug 2026 08:48:45 -0400
+X-Gm-Features: AUfX_mz-GXpCQoyG0_hqCWpxry_hHCmEZ-ZMGe24ym0F45iTOwxh2PDzYpd2-iA
+Message-ID: <CADkTA4OfiyTA=V+6s_nu+27HK6PZXcojwm=H7AkOch1huwFDHQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/4] kernel-devsrc: copy kernel/sched/ext directory
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 12:09:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243448
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 12:49:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243449
 
-On Friday, August 14, 2026 at 12:05=E2=80=AFAM, Marko, Peter wrote:
+On Fri, Aug 14, 2026 at 2:48=E2=80=AFAM Mikko Rapeli via
+lists.openembedded.org
+<mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
+>
+> ext_* files were moved there in upstream commit
+> bba2c3615bd sched_ext: Move sources under kernel/sched/ext/
+>
+> Fixes oeqa kernelmodule.py failure with 7.2 kernel:
+>
+>   CC      kernel/sched/rq-offsets.s
+> In file included from kernel/sched/rq-offsets.c:5:
+> kernel/sched/sched.h:4214:10: fatal error: ext/ext.h: No such file or dir=
+ectory
+>  4214 | #include "ext/ext.h"
+>       |          ^~~~~~~~~~~
+> compilation terminated.
+> make[2]: *** [scripts/Makefile.build:184: kernel/sched/rq-offsets.s] Erro=
+r 1
+> make[1]: *** [/usr/lib/modules/7.2.0-rc7-yoctodev-standard/build/Makefile=
+:1408: prepare0] Error 2
+>
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-ke=
+rnel/linux/kernel-devsrc.bb
+> index 0b52f5d48c..da33e9facb 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -368,6 +368,9 @@ do_install() {
+>          cp -a --parents kernel/sched/ext.h $kerneldir/build 2>/dev/null =
+|| :
+>          cp -a --parents kernel/workqueue_internal.h $kerneldir/build 2>/=
+dev/null || :
+>
+> +        # 7.1+
+> +        cp -a --parents kernel/sched/ext $kerneldir/build 2>/dev/null ||=
+ :
 
-> > On Thursday, August 13, 2026 at 1:46=E2=80=AFPM, Paul Barker wrote:
-> > > On Sat, 2026-08-08 at 12:51 +0200, Peter Marko wrote:
-> > > > This series updates sbom-cve-check tooling in wrynose to current ma=
-ster.
-> > > > Unfortunately it shows that having cve-check tooling in upstream
-> > > > components violates LTS patch acceptance policies.
-> > > >
-> > > > In this case the most visible is python3-shacl2code (1.0.1 -> 1.1.0=
-),
-> > > > but also sbom-cve-check-update-nvd-native introduces new features
-> > > > (which is actually the reason why this upgrade is wanted).
-> > > > For now this should not be a big issue as all the dependencies are =
-very
-> > > > new and used exclusively in cve-check, however by time they may be =
-used
-> > > > in other recipes or tooling, too.
-> > > >
-> > > > So I am sending this series as RFC to discuss future of CVE checkin=
-g on
-> > > > LTS branches.
-> > > > * should we go with this series as is (possibly updating policy tex=
-t)?
-> > > > * or are we stuck with old code for next 3.5 years?
-> > > > * or separate the tooling to meta-sbom-cve-check which would only h=
-ave
-> > > >   master branch to service all currently supported releases?
-> > > > * or create mixins layer (to be also used by AB cve-metrics jobs)?
-> > > > * or are there some other suggestions how to rework this series?
-> > > >
-> > > > My preference would be to have cve-check aligned for all supported
-> > > > releases (even scarthgap), so I would welcome opinions and discussi=
-on
-> > > > on this topic.
-> >=20
-> > Hello Peter,
-> >=20
-> > Thank you for taking the time to create this series. I had been planning
-> > to work on it, but I was a bit busy :)
-> >=20
-> > >
-> > > Hi Peter,
-> > >
-> > > The TSC has discussed this series and is happy for sbom-cve-check to =
-be
-> > > updated on wrynose. It's in line with the expectations we had when
-> > > wrynose was released, and the upstream maintainer is involved.
-> > >
-> > > For scarthgap it's a different question. That still has the
-> > > cve-check.bbclass implementation instead of sbom-cve-check, this would
-> > > be whole new framework rather than a set of updates. I wonder if this
-> > > can be handled via an LTS mixin layer instead of a backport in OE-cor=
-e?
->=20
-> Paul,
->=20
-> as the meta-sbom-cve-check layer shows, sbom-cve-check can co-exist with =
-the old cve-check.
-> It does not have to be the super-invasive with breaking change.
->=20
-> So in theory it should be pretty easy to copy 3 classes and bunch of supp=
-ort recipes.
-> But I'm also fine with having an external layer for that.
->=20
-> Question is if Yocto project would also switch cve-metrics to the sbom-cv=
-e-check.
-> That would of course highly increase the open CVE numbers but would also =
-help identify missing CVE fixes.
->=20
-> >=20
-> > Hello Paul,
-> >=20
-> > Technically, I think we could backport sbom-cve-check to scarthgap, but
-> > indeed it still has the cve-check.bbclass implementation.
-> >=20
-> > sbom-cve-check can be run outside of Yocto, but if you want it integrat=
-ed
-> > into Yocto, there's already a layer for that:
-> > https://github.com/bootlin/meta-sbom-cve-check
->=20
-> Benjamin,
->=20
-> This is super cool.
-> However, cve-metrics uses sbom-cve-check-recipe, which is not part of thi=
-s layer.
-> When updating, please consider adding it.
->=20
-> Peter
+Is it actually all of the files we need from the directory ?
 
-Peter,
+We avoid full directory copies wherever possible.
 
-I will be on vacation, so I won=E2=80=99t have time to work on this.
-=46eel free to create a PR to add this feature. I don't know if it's possib=
-le
-to simply add `sbom-cve-check-recipe` to Scarthgap=E2=80=94I haven't checke=
-d yet=E2=80=94but
-I have some slight doubts about it (though I could be completely wrong).
+Bruce
+
+> +
+>          if [ "${ARCH}" =3D "mips" ]; then
+>              cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
+>              cp --parents $(find -type f -name "Platform") $kerneldir/bui=
+ld
+> --
+> 2.55.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#243422): https://lists.openembedded.org/g/openembedde=
+d-core/message/243422
+> Mute This Topic: https://lists.openembedded.org/mt/120745544/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
+uce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
 
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
