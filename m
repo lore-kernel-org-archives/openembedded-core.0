@@ -2,162 +2,199 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C6CBC5B572
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 11:03:46 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.58])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10467.1786705420470764022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B30AC5CFC1
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 11:03:56 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10469.1786705427982081674
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 04:03:41 -0700
+ Fri, 14 Aug 2026 04:03:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Mg62rJGu;
- spf=pass (domain: est.tech, ip: 52.101.70.58, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=DQaLq+CU;
+ spf=pass (domain: est.tech, ip: 40.107.162.23, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZqDCoKghwCu+FRe0I/XrALKZeQ3xD39sDtn2ST7NpxVExFkDW9TM0o1wJ46ph46rrRXmxQBE9Go6OSajmpHmdtoGFezMKf31eZVp2FBx65iGeLVfS/5KDpY+lk1UDN5CGOFsO+VAB5HDkMFhSaNxIOyrDH1JYSAQxqMckubWuVl/5ZeQQ3IqVvk2dRXJy1QR8azkiqb2zA7Nr2Sexskya07G5xsrHvCblTXWyhh4oZw1Ty9Lg6LZbwhiobrH6OYUrhgzln5X2Rb+GkWMO/A85Cx4Q4xz7hX0zMVlvj0977ENiNFLbOFznmIM9Nrszn3TI0WTVPktL1sTxB/qvoC7Mw==
+ b=MyjwcguNT3dLLbSYCWfSZJJUvkeI9NWDvlrj4n2wkKYYWICVnzm4qd4zH+MwWmHD4K/IwPpymezm3eyhus+lOn52KjZUyU+Nc7+YBW9KFb2h9BGhmdkeD3dGOQ1dD9DOtcZGaeMDvavcC2lB9ogRa8vP89MIexHTXY8ReHnvgXLKvo3JZxD2g+qcy4cCgyN55BGFKyQRfC7zLxV9jJOgpmvvK96LvSW3MKryo4JwiQOLgGpL1X0fNkzdex+PTQk2gP3bgTBYx7nAvDeRbHEWG1+7AtAgLPAloSEjsNivES2cQUDOReo9HKx+TfmxSdWyDEDX344kuJeLhZQ7h/eraA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/m0mRv1JOVEFEelk7QUnGPsedFj4Ia6ZO1KIl3ryOeI=;
- b=rBUo08TRNaW4M2qsjPTTt16W0cJ3F2Ajl5oaP2RJ4hC24YCj0i0FSS+FnQDz+6b6ELk6EQfYQgtxPB/6d1mEtcZYYVv/uyCDJgrgTM+u4ZKyYMWm57RGChyknf55EztnrwcnfkBh0ATimkfkEbJLnto1XKb9Os1tJ2x8BsOhDnqpu9+sHOJpHDN0nEBQC5IsolffqBvXXy/ckknwjIhgTit/NtBk7hTEHDnO3pJHrijDLF/5yRbZDoctWC8+pOvX1Msi1tqsY705vBL8RGWNyM8Z5jejqWp/r54IkQlDglJseilVmfXDxpQdJgtajN498vRFMvDfQt3rcShzjXGpSg==
+ bh=WYkAmYzBiY14+Z4SXpPY2nM8VLvEfLJI6DYzhaPC4zA=;
+ b=tcqgCgTI/Nyt39y6IYOiwKE2GDDIDznCATAKZuE0OHYgVTMmMWg25+gv6cYCuTNUbpdll3rnUx3/5YCamMeoZY6pmYp6lL2BzQ34uJFPrWvslwLSw/slL6ARDfyBYRAgn+3P+NdzNckIxAmnUEx8S3YVZhZv15oQoj2KojQZmeuf0xGGbGAxLYPr8plBiLzPlWyo9kXj+lh6wE6WbKULCIf0RvKBH3xkZ6FGKcNpwCAYuRNNpparpRs4agF3JDRVGlgbRqpKakyW8Kxj3Qi5CmXo7HwbeJooYrYSeGCCdXHfVMT1tmZsMl7IvgasmBNjI4d4fIdhsQlAAeI5B3+NwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/m0mRv1JOVEFEelk7QUnGPsedFj4Ia6ZO1KIl3ryOeI=;
- b=Mg62rJGuefmoCCB2VCwBJk/CS6sCw5zxweJbfDWsST6j4qlHecxf5JgOT3TxwYLOjapXbfs+UkBQ5RRQK8DpCnFvkAKUodSRRlXlFjucXenYE7DINwJSkoS0+VaKUD2AVaI7e4KB5MWyqPKboFlCmUGxMEWYDQQN9DTU/d0YP1zEffyxDmIzfe1q4LTT8RdxHS47xQkhi6pfRV33EEnw4s5OBTN3F8HzHnmzkquzcdc0YApq8IdK0knK/hXRD0spgJV+0rTHoq96kMlkiV7q7lpZN7jiT2Em1zCnoaMV6uGcEZDWCAb3Nuaycrf8kLOPSu5jcxr9HamGIjgNsvofwg==
+ bh=WYkAmYzBiY14+Z4SXpPY2nM8VLvEfLJI6DYzhaPC4zA=;
+ b=DQaLq+CUmT/urNW7RNiM0C4LJb/yUxtLQL07o/+UJcZzqmamK8QdKM7IIBL3iAYehTDQXym/bTYjQ+hIYz0MvngfmbYIMNbqZ3CHvTY2Gf6UtYbRUu73JH4AMBmMiBDKdX0s89TzOJYBoRsuLqqpUG9C1m7Q2PvPMx9j8ooT2eMHBh9+gkXy3RhhPdJMalveZdnqvHGAEPyoLrou835Kjdbx2flwgz0/kkBlsx8qDUn0Wyl4Pri8LzbraKiOAvv3cCCZvcsJLrfH4ridD/gkLb1qm/jKb5LbMwGtFnkfpSBH8erNTiun9DwYqVL8A6z3QkrM7wno88kYOKZQDbq3Xw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by PA3P189MB3263.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4ad::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.3; Fri, 14 Aug
- 2026 11:03:40 +0000
+ 2026 11:03:47 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.004; Fri, 14 Aug 2026
- 11:03:39 +0000
+ 11:03:47 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH 1/3] python3-pbr: upgrade 7.0.3 -> 7.1.0
-Date: Fri, 14 Aug 2026 13:03:30 +0200
-Message-ID: <20260814110332.38407-2-jaipaul.cheernam@est.tech>
+Subject: [PATCH 3/3] python3-hypothesis: upgrade 6.165.2 -> 6.165.6
+Date: Fri, 14 Aug 2026 13:03:32 +0200
+Message-ID: <20260814110332.38407-4-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260814110332.38407-1-jaipaul.cheernam@est.tech>
 References: <20260814110332.38407-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0345.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18d::8) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P265CA0051.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ac::13) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PA3P189MB3263:EE_
-X-MS-Office365-Filtering-Correlation-Id: d908c7cb-5432-47a7-232d-08def9f3b20b
+X-MS-Office365-Filtering-Correlation-Id: cfff83c8-004f-4a66-500a-08def9f3b6ce
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|22082099003|18002099003|56012099006|3023799007|10067099003|6133799003|11063799006;
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|22082099003|18002099003|56012099006|10067099003|6133799003|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	FXw5ddZiiEbH5l1w/sWdR5G6Qg7SuxdBw7Roa8OJ5xWU4Lj0+kJOhHTwvcNiCdtF4is+GFxAPi7VO82dqWNzZG0Lvq32qHTn3hm0gGSUQqR7HQj1h/oL9bpyUyIRNt9NJf9ZRfsfdVMMdvHQ/XSo5Q34P6H4q1vB4UDPFYsnMeu86XVUDNOMVoDuATfWO1G+EJeVNnVsIn7N1t6vLupaqd8cw3GpcHX8jE4nOxgB0gBLOY2K5J9KF6ylQUCjSNz4FHx9PBrT6SnPdF6Xv/AGr7gUxY4QzFb+IBPdlXSsYeYmxgHnWKoemWx4Ol9I2RRZTNiegaE5YcBXAr969ibBVDAB6w71Dts5XpjPwkuHiOIB7ra22DwnC0IImW53ZzNLa/9CI3JNG508r+d1CYdr6H3GbNFOOXzhBM1aT2mYRLqz8zdKzDkMk4nHZlzUtEh1hWTsLvJtIjxW5fMWKEFUDmyYLKYarr5O7fT8gs9YxhaxnHsZ6GkcVsz8GMOMK6ptMkB5rk9FAi8w+SR8DhgfFnc/2toCMgWE7SQO4GifsfsYFHMF0MuXfdSGQv7rHkmKcefoLCd9oG3sYwNhq2EluWyRtdQGEyF+VE4vJtxh6HUc3WSMuZGa9w4FQ3qOFEpV
+	C6p9RV2krPOQjwGUzPL5DR0jd2XwNrKbtCCh6AVLJP27wQrOor8OkdH+IuHw4xvwlNTfNfhMwaeryF5doGIyCrMYDzOWyhuzNQEzomL7o2xsRFI8f6mOSNadQKiwIZXS8UgfFMkowlYZku/LlV6cMeNcPXoQK8dmdgrHsw3LJNGlTEa0ogg4srZEa+rKwOzfAxApYwLb/v/StDbzWEGj0M2Xt7yxktouURAFIn9MnTStxrqLNm0HEgdmkRhauV/HhQZkxY5vc1yeIxPY4xCtyPh38JiejkLT6RXZmIfuBZIXqKpAH4kHYRLwT4uz9/TKhjV/S7lxrK3CNqgyCM+6mUPduo+nofPlAd7NEqde9L3mSO+kDcuY0Gbk0hcE2Ta4Mtn55YVlo98D0VB6w0a+oXPLC5Tl/aKL7SzEq62J7F6geAFL+qCTm4ih1GXCSX9CUf2lFvfd0EMH//tPg4uZdeXYfdmx4/89vXJLXisBJblBORA/y+LhWSLipFHeoGXfMzGo7s8t+VZf9hObugO51z8/kiHPwmNxTQw6RJPdp69am0Qnv7g4DJQVRea8tJvOEAX5j2iHWIe/76LA04wZg2PJoO7JET+onAWXR38EC+Q=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(22082099003)(18002099003)(56012099006)(3023799007)(10067099003)(6133799003)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(22082099003)(18002099003)(56012099006)(10067099003)(6133799003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?oxHaJeauwEL1ev37K9vML9NZtv9oDR72wHTFiTDXryLFiKlKlkeAqoO9xDhT?=
- =?us-ascii?Q?7WlAFp7lhmO+8vwEjnYdIP2DZf1nyixHh35BNCZxYKaNejTubJ1JUeOxrIsu?=
- =?us-ascii?Q?4mJf0mmr5or06k4iIpCIpwRMKIotGD2D+YYKqf8WOxuA8q+pqcTsXZtWIkmk?=
- =?us-ascii?Q?nIkOqy2f/8psRk0upymfd9SApREYl2TqWNB1uUqTdvRjQSnr3QHXdsA+F/Hs?=
- =?us-ascii?Q?S3hI3uIMCFB7cYPi3SN1IC/BkuiI7AKI2XoWeTr7AQqrRUI46qr3g67sVpu2?=
- =?us-ascii?Q?raSrvQGcQyz28D33AVUSK4IRiSeGRlUAOKWKiHrCcXYET2a2hhHwTQGrd4na?=
- =?us-ascii?Q?THS8gkIbPuwQ77VcJJslfsWNZxhf7UaZcjlCDjy3cOoH1Jrv5O9UwPHjoCgn?=
- =?us-ascii?Q?/GkR7uZI6HRyi+AlmXcDk3cW1v/PBpKy23u537Ii5MzWmeI8aJmH1UBZUMD7?=
- =?us-ascii?Q?3jO3Y2HgvUG8iFxQ1FpoHd0QhaGPnpaFY97vATKNfbbNGfr5+wNM/ZyjJPKV?=
- =?us-ascii?Q?ALrYey8yJHDFTAJYxOgsd1wDcg4PlBMf4ORZ8Rpo5zyIovEkHv7vRPk2zJME?=
- =?us-ascii?Q?O7uCRSwxjEDjL1RFJlgP0Ayj9GTIDp3kE1cnlZNNEj9V3aMYwpQdcCj1mu9K?=
- =?us-ascii?Q?hyea0eblS+AUlxPT1VAdS2kipSE98xwh0HnZCjjU0Y0L0e9vEluh7cOxIBq3?=
- =?us-ascii?Q?7C7cooWAB9K03o1I9cR1cC1FCZdl+OY81275spIGmg+GUNF3Boza8KwkgxR/?=
- =?us-ascii?Q?xA15HdQjvmILXsBwqWeDqp7xLzA+bc8NrWoDJFjob3nT1vZtfjaVfr+Z0/DI?=
- =?us-ascii?Q?3gXSYqd9RIRnVvZ31neSumiI02FwT9q4Pwa5oo8T63zM48i3D1zxeT/noZ3l?=
- =?us-ascii?Q?OZO9A3NDMYXB7GfwUqQBS6jgMqjRUtaD751yQU0Aowh5GBwK7apGIt8o/piE?=
- =?us-ascii?Q?rODXnYlt7MEYxygOfs/aZx4q8vfD0kJDEUAwfZzCRwRieif4LbD01vNfzc1c?=
- =?us-ascii?Q?vQtaPoCx6ppIVNAAyP9fokqv74hrCNg7qEAmNbSzM3XsjKwVcHpq5HNltTRn?=
- =?us-ascii?Q?XZIgoalora+DXJ9/IcJnSqxgdO+hz3tFOlp0HWcyWvcv8kt+hT4ErBWLe3a9?=
- =?us-ascii?Q?37RzxO1oISJ2/s4v1jBclM+cTiOtIezhHZzeWWSC6veXIzPvZHClKus0yXJ0?=
- =?us-ascii?Q?iBTluPPR5xuebwlirG33fObfoWeK20lm2vopn2zA/xnb7s8RcI9jlhyxNcR5?=
- =?us-ascii?Q?0cbYIiKbJzMavJX+keVMZBUOeA/sVCI7TKwcPx0CdZTGrcNb9mx1XOIPb2VT?=
- =?us-ascii?Q?iLdJOhk6WdpJCUUuUpF+zYCaCLE/6XW4EwpxmN3xlXBNfxUf/AwEVpkSeK2y?=
- =?us-ascii?Q?/hpmoCPAvYnCtMt8qHdEgSTwO2cXe6JI1YPrNXORoT2PJdfgeRUYS6Zn5sFR?=
- =?us-ascii?Q?0Zbxrl0YOlXwKQdiKeYqK9ewLDzHYu3O82BxG4M/JkrS0rh+1/EpSLQgez3C?=
- =?us-ascii?Q?ids+eU/6Vg2dFMahMgGQweqqpTrMyep0AWVPAKw5M/90ej/87Y04I1avhPgb?=
- =?us-ascii?Q?RETeFwLPRT0I2nyBlHfHMrduMk/bqUS1No+iowujHNjL0/Qlfh2ckGis1Xmf?=
- =?us-ascii?Q?oQ0KDBxLZVgB7A0K4xaM/axOChJnIR2ToKJH5coJK8wzGu0yx2Id86cg7F36?=
- =?us-ascii?Q?LE+0ffWoBaBtCLvmpTUCBFQD34O6ij5FSRMvafYj8rMd5gu4xnSpQqDy3gUz?=
- =?us-ascii?Q?pVzcmlrzlp/2OpkBDaJvgzdnChWZTa8=3D?=
+	=?us-ascii?Q?dk1+nDfr8aOFeyIP+vgJ/GbaP0p8DN1LX0H5rNz10wbm16bTNeq+NQBxOd1G?=
+ =?us-ascii?Q?avi/5hYtCsCcBB3LnsMl1udjLonnKaZkT3SoCZROUUizmalzA5ot976sg+w/?=
+ =?us-ascii?Q?0Wi95V/M/n8YGecoq6KKQ2Z6jUW57qkNg73gS3LHlu2lVGz3sghXnbwzfr3J?=
+ =?us-ascii?Q?l/hF0jQqROrVBFkj+l9itHQepXYzJJYQd3ER9c+pCooT9vJDL9oXdW6yhxcU?=
+ =?us-ascii?Q?cvMtppmopao7RVoyeRZUJG3j1WNPs9/kTDlnmFcDOgMW3EnvwyZA7KSZtoGF?=
+ =?us-ascii?Q?nHqulJxcqR6uKgKzI+bX3+Qltl4cH1rqJApsPNXJxmKFvG7IHpOtUsS9lYm1?=
+ =?us-ascii?Q?YpS/hxHe6M06zOqevvdHpzrrrb5nlZLY/3KM0cmsUzAI1M1EadQyPQ0lhgyo?=
+ =?us-ascii?Q?45fYUBGDNUS2a+20oWBbepjqkJawfrCQz/6hqDQ6tKOf/yC8oYIBxX6uBAqZ?=
+ =?us-ascii?Q?oaJYCHJKvNx/j3jWLGIh1pUkQaEsGFfAj+xs3LHrTGXGa2ZUpUCvmy6DOJO1?=
+ =?us-ascii?Q?UNN6QX/u0eLh1++DDXnh/ynYBDAbeOFhS1WLyl/k92i6SxrIsqJ/cfJ0Zn27?=
+ =?us-ascii?Q?ps0JzWlQ6f4SlERIfG6PvMGcn8ykHuNgEtQJ4vaECBwzL6YEW0Z3smQVC+qa?=
+ =?us-ascii?Q?SBfoeMaA47oR8MFoZlpmCqcgL8WyBie+GK6lxz+oaN45r+vcaZF7ErcmpPOm?=
+ =?us-ascii?Q?KfwN6ddCa2krPhfKqLWBGUwLeJRXO7Rgbo3Ik5PvbT+B1r1bmzk+rP44EKXC?=
+ =?us-ascii?Q?/sPdgTDv385476tO07/g+SnGLh5byYQEnTbejJYNXM8B7gOAi7su2L5k2Gjx?=
+ =?us-ascii?Q?uLFxPCWVOhTcKnodJIIaDkPDZgPsPgGacBEPXnfYg7Qhb+LJAlWvdappiaNe?=
+ =?us-ascii?Q?YSi8tUY3B/Ff/LUFntzz4q5vrFILG9Syslxto9jwxgkiNk137HtMYFmgwzJd?=
+ =?us-ascii?Q?fVVy+cCp8sItVkTkT/e7B2MeZlCJm+0cMFGc3KlLRfVq78KIA9TLxVI2WJth?=
+ =?us-ascii?Q?4mp5wtQnLOqQvcOSzcALqDwu4NbWLF++lPhJg9cnqnf/CPML8y36aCgHxQB+?=
+ =?us-ascii?Q?ogQvFifQbeFd7kRNZ0igKzL1fT2q6gm5s2c+7tZgbfiHIMx3+YB8TrP2tdEk?=
+ =?us-ascii?Q?3cLfyaB68h1aeWrVXuKv5Nx59NEyMmr6o4TXR7+K6SAZvwW4h/SR+fQbCjwo?=
+ =?us-ascii?Q?rA2urmVmV2+bxzm/tZd0JhcOhrDbU39VgPp2FbehlJKBKAmg9wFGGGwWs9/i?=
+ =?us-ascii?Q?gJ+VO0aKAT32OMO4HEgPByME9G/6tcb0iRwFfu3m29BHFKEwx1+TlIBBQ/fj?=
+ =?us-ascii?Q?H9oTsCGmGs9PLkaGahcRxHoa3bIjP6hX5zNtBsLKcFavRELx8PhgjLnbA5dP?=
+ =?us-ascii?Q?CtciHbVgmhn+DK5Dm9obNF5KysxFLVHYHmRRLCjBBVPgOV1pgHdxcp8yXRbY?=
+ =?us-ascii?Q?hR8e7Dci+wSNhYui3i1/1z9gZfTLcJv5OHN63Vm8tCu223IjEtvfGx6ISdGY?=
+ =?us-ascii?Q?eAKaAyeMICqRn2gKcwwq7hesHl5qm6cTfaRrHTONeWcZ/wQOnSnTn/HBV274?=
+ =?us-ascii?Q?PLYykLa57eVkclushhssBwK9VllsLIn5fGNSjT7IzolzMNXg5mMdkEd4aRKP?=
+ =?us-ascii?Q?cTn3NbpHC7HRxbGa3h0VQ6obpQ/rVifgQlNueeivVMDGLhwcdl8qszN/aUt2?=
+ =?us-ascii?Q?/+gbsGG5gY2L8zFVobcSRMZFaWRopABxlXVQ4O8hdORDGCiQ25xRBo2jrvap?=
+ =?us-ascii?Q?P+jLpffXmM5FrIy4z1jPrwnBlpky52A=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: d908c7cb-5432-47a7-232d-08def9f3b20b
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfff83c8-004f-4a66-500a-08def9f3b6ce
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 11:03:39.3617
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 11:03:47.3501
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zA6itRq8wQo/SizjEv8RBieYi9MznRbULqpLHUuBYUjNkk86n2n7XV1yH00IRUyL8K5v2BZpA5RUgyycf/0oVCUaPOuf8ndD3x4lgS9BPL0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: V+bTR0+vXnwsqoFgydi4PeuzbUMioQ42AADdq6of7trhR/nncGtvyB5DbXZ8+lIJUJLtAnn+XM3oxuqjNyPGGNUWjDwVTZTgtcRQ0t3z9Us=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA3P189MB3263
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 11:03:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243440
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 11:03:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243442
 
-ChangeLog: https://docs.openstack.org/pbr/latest/user/history.html#id1
-
-Source: ChangeLog
-
-7.1.0
------
-
-* Move pyproject.toml to the top of usage docs
-* Docs and release note for setup.cfg/py removal
-* Use PEP 508 inline markers for wheel builds
-* Add support for local version as defined in PEP 440
-* Add testing on resolute 3.15 (dev)
-* Add python 3.14 support and testing
-* functional tests: extend PYTHONPATH rather than replace it
-* Hook in LocalSDist override
-* Convert CapturedSubprocess, Venv fixtures to context managers
-* Remove need for setup.cfg, setup.py
-* Remove more unused code
-* Avoid warning about setup.py deprecation
-* Fix misspelled tests\_require in REMOVED\_KEYWORDS
-* Fix tests
-* Drop Jammy testing
-* Add classifiers for latest Python
-
-* Run py27 job with default ansible
+ChangeLog: https://hypothesis.readthedocs.io/en/latest/changelog.html#v6-16=
+5-6
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../python/{python3-pbr_7.0.3.bb =3D> python3-pbr_7.1.0.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pbr_7.0.3.bb =3D> python3-pbr=
-_7.1.0.bb} (83%)
+ .../python/python3-hypothesis-crates.inc      | 20 +++++++++----------
+ ...165.2.bb =3D> python3-hypothesis_6.165.6.bb} |  2 +-
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.165.2.bb =3D> py=
+thon3-hypothesis_6.165.6.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-pbr_7.0.3.bb b/meta/recip=
-es-devtools/python/python3-pbr_7.1.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-pbr_7.0.3.bb
-rename to meta/recipes-devtools/python/python3-pbr_7.1.0.bb
-index 80092999fa..7fc227e6bb 100644
---- a/meta/recipes-devtools/python/python3-pbr_7.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pbr_7.1.0.bb
-@@ -13,4 +13,4 @@ RDEPENDS:${PN} +=3D "python3-setuptools"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis-crates.inc b/m=
+eta/recipes-devtools/python/python3-hypothesis-crates.inc
+index efce454843..080e6ed7f4 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis-crates.inc
++++ b/meta/recipes-devtools/python/python3-hypothesis-crates.inc
+@@ -12,11 +12,11 @@ SRC_URI +=3D " \
+     crate://crates.io/portable-atomic/1.13.1 \
+     crate://crates.io/ppv-lite86/0.2.21 \
+     crate://crates.io/proc-macro2/1.0.106 \
+-    crate://crates.io/pyo3/0.29.0 \
+-    crate://crates.io/pyo3-build-config/0.29.0 \
+-    crate://crates.io/pyo3-ffi/0.29.0 \
+-    crate://crates.io/pyo3-macros/0.29.0 \
+-    crate://crates.io/pyo3-macros-backend/0.29.0 \
++    crate://crates.io/pyo3/0.29.2 \
++    crate://crates.io/pyo3-build-config/0.29.2 \
++    crate://crates.io/pyo3-ffi/0.29.2 \
++    crate://crates.io/pyo3-macros/0.29.2 \
++    crate://crates.io/pyo3-macros-backend/0.29.2 \
+     crate://crates.io/quote/1.0.46 \
+     crate://crates.io/r-efi/5.3.0 \
+     crate://crates.io/rand/0.9.4 \
+@@ -41,11 +41,11 @@ SRC_URI[once_cell-1.21.4.sha256sum] =3D "9f7c3e4beb33f8=
+5d45ae3e3a1792185706c8e16d0
+ SRC_URI[portable-atomic-1.13.1.sha256sum] =3D "c33a9471896f1c69cecef8d20cb=
+e2f7accd12527ce60845ff44c153bb2a21b49"
+ SRC_URI[ppv-lite86-0.2.21.sha256sum] =3D "85eae3c4ed2f50dcfe72643da4befc30=
+deadb458a9b590d720cde2f2b1e97da9"
+ SRC_URI[proc-macro2-1.0.106.sha256sum] =3D "8fd00f0bb2e90d81d1044c2b32617f=
+68fcb9fa3bb7640c23e9c748e53fb30934"
+-SRC_URI[pyo3-0.29.0.sha256sum] =3D "cd274650b21d4bfc26a0a47587962c1edb425f=
+69287324355cd040c3ea66071c"
+-SRC_URI[pyo3-build-config-0.29.0.sha256sum] =3D "c5e2a7d2f0d013342f295c048=
+ad19237add5154a55b1c5a254c0ec93d4109078"
+-SRC_URI[pyo3-ffi-0.29.0.sha256sum] =3D "ca85c467da1bbc8d866eea5deff9cf29ea=
+5f7785054a17da36e65bda9c05845b"
+-SRC_URI[pyo3-macros-0.29.0.sha256sum] =3D "9ac53762fd065daa3194dd09337a38b=
+d793a188100fd1a9304c4ab312d901771"
+-SRC_URI[pyo3-macros-backend-0.29.0.sha256sum] =3D "4ca3a1557399783172dc5bf=
+39cfca835157732532cba56b71d2292161e53b362"
++SRC_URI[pyo3-0.29.2.sha256sum] =3D "4688ddedf473e32662b9b067670129a8afb8c1=
+8e351482c70d62ba4a88171e8b"
++SRC_URI[pyo3-build-config-0.29.2.sha256sum] =3D "f41027e41b4bd03f6e60f9f41=
+7fe24a6341a6bb744edd62b6f709f2a52ea30e9"
++SRC_URI[pyo3-ffi-0.29.2.sha256sum] =3D "e591a95526fead067432c3b3a33fc74770=
+b87b1e04e73671090d9c2055a2b327"
++SRC_URI[pyo3-macros-0.29.2.sha256sum] =3D "73225868fc1cd84eef2c3c230ddb912=
+73bf1de46aeb8a4248da76d32a0924a1c"
++SRC_URI[pyo3-macros-backend-0.29.2.sha256sum] =3D "571575aa3749fa6216757dd=
+47d2a3e7ef360f329a40f0666a9fbd14889024952"
+ SRC_URI[quote-1.0.46.sha256sum] =3D "dfbc457d0c7a0759a614551b11a6409e5951f=
+6c7537be1f1b7682b9ae9230368"
+ SRC_URI[r-efi-5.3.0.sha256sum] =3D "69cdb34c158ceb288df11e18b4bd39de994f66=
+57d83847bdffdbd7f346754b0f"
+ SRC_URI[rand-0.9.4.sha256sum] =3D "44c5af06bb1b7d3216d91932aed5265164bf384=
+dc89cd6ba05cf59a35f5f76ea"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.165.2.bb b/m=
+eta/recipes-devtools/python/python3-hypothesis_6.165.6.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.165.2.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.165.6.bb
+index 0776519a10..2de6a9c069 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.165.2.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.165.6.bb
+@@ -17,7 +17,7 @@ SRC_URI +=3D " \
+     file://test_rle.py \
+     "
 =20
- BBCLASSEXTEND =3D "native nativesdk"
+-SRC_URI[sha256sum] =3D "680a1adf523ac792b46064f425b112ce6c08a7a8f50e65d08e=
+029de6aa11df95"
++SRC_URI[sha256sum] =3D "35d6e462a7827fbce9e833efc48921d7879391dd1f742431da=
+48ba71bafe2a59"
 =20
--SRC_URI[sha256sum] =3D "b46004ec30a5324672683ec848aed9e8fc500b0d261d40a322=
-9c2d2bbfcedc29"
-+SRC_URI[sha256sum] =3D "66ece3a2f5c4f05e5f37569213e755193f6e00b8aa361bfb19=
-0533ea8ee8b10c"
+ RDEPENDS:${PN} +=3D " \
+     python3-attrs \
 
