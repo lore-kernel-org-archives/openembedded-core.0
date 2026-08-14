@@ -1,299 +1,523 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF9CC5CFC1
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 05:31:16 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.21])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6912.1786685466807137557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1957C5CFCF
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 06:22:46 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4408.1786670845862976394
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2026 22:31:07 -0700
+ Thu, 13 Aug 2026 18:27:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=jdXn9/W7;
- spf=pass (domain: est.tech, ip: 52.101.84.21, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bNYU/2su2thEH0N3Fc6Nf8KIaO39RphkyPXvTgIrvLa4hAS12QoJtqR62xVLO48/izWEEEgxuT+CC/yv9TsRTadM9P+CFd96MoAp5Cof3d3XX1uomrpYQpGwgsoymoZOxtyVYPndXlN4qB9fpS1LYRKSmZP2PrJKpRSzgAZcs8jmUMsjDQN0F+CAD+DsPxYDDiPEjP324Bm8Z7tlUYm5dTePX9Dwx+3j5xtxq/yQ8p5PHiHSd6f1FZIvL2RHta5R2HOXcq/y5r3aXg82SOJbtFUztyce+4J8HKyPUsxKUQ8RgIQDKHtj32p+G1I8TQ8RF1CFz4ZQE9aFfJ6AA1FjXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q6H0lfBpnMS01eZK08cM5j6vIUNTK/4NsMndPyMJw8A=;
- b=KxoqjQ65Va46MGXw1ZaLW+WoNS/hieqRFzoR6VhEWsBuQ9j+d47zIJ5ozKENCr/k1YMTZE+qnUtARS6yWeCDCKCJhywoWrFLBYzdSDB/w+q2GYonqp6w5q/zUjPbVLuUrrZoJFTB8QVgDwe6LL6M8j7KRUJsZrhAj09Pu1cwqu0hhspGP1bE9NHdGmUv3kC43gBBbK68WqMPwmXXCXH5ojzELqSPZvZRolv36VW0yEsfHrvmF4xj3y2J8bs24Q8GXi18chZBmRUSXhVDs14v8I+5YXZC3+eJapRH9AS9c3uFj4FisNvYaetVPAVeu5JEy2vPTEb5Bhp5BOP8yurnYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q6H0lfBpnMS01eZK08cM5j6vIUNTK/4NsMndPyMJw8A=;
- b=jdXn9/W7Uj9C2lbZrA2QnBcUXuVpdNcXL36BdEKJfIaohgoQs200XY0RGLzYnJ/dKUdLcik+knUM8AgowL1qpJ3WtK2jRYHgK1ADxH1uCb6wvEaCQxUBZyDvaQzAiWRzTmgFUcFesana+53D+NFVAK9s3S/NrB2wA3Is840p/AtqCZHozVQVaZ5u8HgLL9xPILO0VuaKE6rfCFhvym81ot/0ZWsIcHo+kuhDbEcC6tXJDUq/yXmQx9LPAPrCrDM7mJuUqroNjrmFLjB812ZUz0JiSo7TEr6DGeujUf++Qt/reBaBD641tlCBBobF5mAa9kXsAX4FjryrD6CVU1SPTw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by PA1P189MB3145.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4e8::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.3; Fri, 14 Aug
- 2026 05:31:02 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.004; Fri, 14 Aug 2026
- 05:31:02 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=p3J3nu2B;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=geJCzmGl;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: hangtian.zhu@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E19S0n748262
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 01:27:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=RZvbfnAkbyH2EJSFONI1VpdodQDfUtq6nYp
+	RJNPd9lk=; b=p3J3nu2BWvzVQ4rDIHtUvsorxg5WxgsIUng4FGkZmdvwddL9Mup
+	lVb6ZtZHyUQ2TMIFJqIg49RTO2g9lEdX3UoMz7DPiEBii8Y+HVnukSZVmEUOEK2z
+	lrmDBQnsCFaOr6XIsxd+HBL1SfHRpdoDzrGlUBPBysP6bW9SuWpvfbscNXCSXCju
+	ojpyy85MTVW8ol4Rf6oIo2AsG4+/L5jIREAr75oOQ3yGPX2so0Y7Sq2LXkMGy9AQ
+	H+FQWKPVM+myAM3ziurWur8D16Iyml3N+8JugR+AvsKJ6DokYrhBZaj1Xf/vp8LM
+	4apQbzkBImRgGglnTMSlHNYWeDkBxS0NykQ==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g1nugrm1u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 01:27:25 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38f57e31b6eso425153a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2026 18:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1786670844; x=1787275644; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RZvbfnAkbyH2EJSFONI1VpdodQDfUtq6nYpRJNPd9lk=;
+        b=geJCzmGlIShvCMruUKOe5jBWfHmVsXsBwXr9TWSBUGGEMBDMVGHH3iUreLQvPTyKfl
+         kdCHznep7T4kPPjhY3nua8LQclpaU3IPxsxc5Z6RTM5+wZdlw5qorQNaR3yv5pFicYM6
+         7FTxAmu1wi+Y8LOPHrSLyhGEDop3cC69KLQM3b8OOxmrtwsacVWrRgZJWNcKS73xM4S1
+         qdWVsncQ7u5DqaipUxAFfRaV3oVqFuD9GF7hh9ReMKRk+fnoStggmQjY70id9LooKy5R
+         uxpFDiGUouge6oqwdN3nX7rRSlQVDuoISyGbr170aFiYSJDEZytPFMyAhEYqYLr8QJzV
+         FDpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786670844; x=1787275644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RZvbfnAkbyH2EJSFONI1VpdodQDfUtq6nYpRJNPd9lk=;
+        b=gzvZj5BbBE07TN6wj2j9RRuEKXEHFvlMPYUc9j0ldiJ7Wn5Kb8XJIDAhEVynTFi8Ng
+         3OVboOXRr7ZuOvUJ/d6B2hlTyP8d+AqXfZUWxH1KUDxLe+Ub4Ljc1ss2nfljNX4pkbe3
+         oPWrDh9LcSg1XZKk6hQSG9xhJwxmSZzmImzbgk0JIu9y0zvE1guPYjbPG6yrZ4axfFHM
+         DR/g/eyd3w65zc10K/+LR3eFMUuPWBj3hgpl98xFF1wtNu+fWQyFtXeLj45fVueBtOvk
+         xin+mKxx1p8XE8QOGHSAx7ssDODMf0a72tkJ59AS0Pi/PjIQgI9wLuWyiDn7afNlhSd7
+         hLaA==
+X-Gm-Message-State: AOJu0YwLaluYbHf7/V8J25z83RuX5X+oCIRy5x5bt/AHm0Hl1wN/cTsR
+	gIboCoBx2FlB3rTI/40Aze+xfuoh1WgaDSE8xDMly2cpBIkBhZp58QzXlT/azk9/wEX+2Un5Svk
+	q6EDqpFKbPJBD3lF3fqtiO7A+G4Yl9hv2VP+B6RGk3Z1bF63bf8lOZEDQ2n6Du4Kid7cZ8kePoN
+	v9FbEF/ZQNHS2o0vo=
+X-Gm-Gg: AR+sD12enup6St4Xhy78mszaI4OJFNFguHKIFpG175nXFwivHPi4Lx5oY8YHEJ/LQfy
+	nP3cHWS3Y7xHhu8nSUOBhFsZiREUViCkupWJYT/gnoo8MXEt1LitPIVlB1NLIcBw7CiSUlnNxE1
+	M9KYMVZ11NxCEuIot2ZYqM3Z0w3EygpEUICXt/ExYKwaAbzYxgHHWpr2ytBqMd+I1PXoqxTNnoA
+	c7tiPdjmrD9ePWmwV4m8toOaHfdqhQeQQ9UVz0qzr7IRaUmFQRo50nrllSCZ8Y+RNveYX4HejQP
+	2RLsQ2fUGY4QPqyDFOY74YCKJ8FSjUNIQMRwqpiM6sf+/74eT5SXC4MYhsYZ6Y47qgY6MRO42Bm
+	nSn/V3l/dr+l8qX6R5aPOdsppH175sufkSTLXLBOIKEIwyK2PrEfCgNIERDTP3hjV
+X-Received: by 2002:a17:90b:2245:b0:37d:f983:7b5 with SMTP id 98e67ed59e1d1-3933cb9859cmr1970961a91.9.1786670844025;
+        Thu, 13 Aug 2026 18:27:24 -0700 (PDT)
+X-Received: by 2002:a17:90b:2245:b0:37d:f983:7b5 with SMTP id 98e67ed59e1d1-3933cb9859cmr1970934a91.9.1786670843336;
+        Thu, 13 Aug 2026 18:27:23 -0700 (PDT)
+Received: from hangtian-z2-2004.ap.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39339ce3016sm470890a91.1.2026.08.13.18.27.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 18:27:22 -0700 (PDT)
+From: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH] rsync: upgrade 3.4.4 -> 3.5.0
-Date: Fri, 14 Aug 2026 07:30:55 +0200
-Message-ID: <20260814053055.35232-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0118.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:192::15) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+Cc: qli_sdc_iot_wlan_host_oss.external@qti.qualcomm.com
+Subject: [wrynose] wpa-supplicant: upgrade 2.11 to 2.12
+Date: Fri, 14 Aug 2026 09:27:19 +0800
+Message-Id: <20260814012719.293852-1-hangtian.zhu@oss.qualcomm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PA1P189MB3145:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ff72992-ea78-488d-298f-08def9c53ab7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|10070799003|366016|1800799024|10067099003|56012099006|11063799006|6133799003|12006099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	It46UAko2cYgUgeZbDnsUYHS7UXwh3tjoALWkM0EEnlqzuLTbCjbKb6h+ZpYKVAYAlkqicYZ6n+y/kVnoa5mDDsPOnac+vprgRBOBZJxaTxgADdOUM7nPTFflj4VbgY3jGc4JqzbxEuL6R+mQHJIcVwDZYsGbYK4rEKvETyfip9QJzg/6mm3pe1QyeLrzC7ViB9tGGTsks1EkFpCzfb3l/7KWUfGhlILI+KWFtUJUguRxcF+LLBSvNoSweEOFdJMuDW2h0DrHPvJSy4zEt6idf9uu2oh0W0fJz7vZmdC62zdIurV2Qqpmz2r7sjwktSoLViBsQFpBkwVkR+K/H1MZ4wsy5Zet9GyRUEFC25PV30hfnDjhMJpPaw+LVi7bAaUGx8fQTHrOAZ9f+wYyPz1QTW3/hbxvBLImI4aWnmA8eitnB8CiN63LjVfJOyXoGXEMYZ6TRnMMcptq0D4VlWJGNNnbvJGB2ZiPF9Qu2uBJwwPnCKhQGD4JR+8Q3FI5rrbuwdotZOgVWzQn46MW749MhkOxiSXbK7By1nh3KrK71RImffw3WxdYDI7z9jU9JPt00cT8savPsn8QIYtt2T9I8K1oHdgOrm0jzPRXWTNy4z64QHTqp66YJn4qHht7JpeVJZ++Rs4R8dC/mvY8NdTKAgmak/0Ds4GMtoMocAhLEY=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(10070799003)(366016)(1800799024)(10067099003)(56012099006)(11063799006)(6133799003)(12006099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?R06Vq/deqiCg4hqWT5ogAvfBRW/Zx8QCVzUaniOPRIQDT071w78bzUlFniYF?=
- =?us-ascii?Q?Kvk0igx4QadnZtCRGYBU9BsDNiGJEzqNjVxpWUyZS8bU2w1EJlDrYF3cCN+I?=
- =?us-ascii?Q?AeI95xwihZSkP/HXU+8ptGGZFP2FOkDQJ50SYQvgtSC4My8eBULy4al57EXO?=
- =?us-ascii?Q?7HImJcVIZWRbdRvomrDXRowiEBe6+o9tVccBEoCuvRebvQuEf4P2k1InGD6Z?=
- =?us-ascii?Q?DUO5SSbmGi1GvFTXoF2W+ABBYhjJYYYKHsJEy1Jnz5BkNKzwVG7s/lmO0MOh?=
- =?us-ascii?Q?eLv3JjysApaQa1jg5m0c/osOw5EkQAOWZ3tLu4/p5g5nPvYqoBXAikNfTsdP?=
- =?us-ascii?Q?KcIlPRG8cwQ32Inn8JUz/ULoIcPjV0I/oGIB3Kotp33ELvt8h0u4gY4tO0SV?=
- =?us-ascii?Q?8M4VsgXw9VtDequ4Bax+IAbkzUFzRTx4EQ9DkLiGQY1xoU5Noe+rpJ/8Z4Oy?=
- =?us-ascii?Q?ROg4UiRsvY0jJFyfft5lDRr/UDXVzvpx0TbmSU+y2M4oXgtllTW6ebs9HXUb?=
- =?us-ascii?Q?RS2QnFO7MlYviOW87r2X2KOSdRImNHTRBe+elecsB9qog9obMHGhXT+kGArb?=
- =?us-ascii?Q?EYYR3ByrfGjKWUy7GrAwg1G9w5exJCqWnhTtqgEorQIwFQSPdpcRy+brLgJl?=
- =?us-ascii?Q?1Pu17PiDlUCam8SvhFlUFvJUEw7OdyirKSKtTf6BoEml7EyPWw2ELXaQf+iY?=
- =?us-ascii?Q?1PmIdtQz9pGxBTCBYsNTOU1m6IVluWF5zj05jU8eknz6F8WUPtj9oQ3JjyRv?=
- =?us-ascii?Q?R/7bRqg9fF/llk4KCvdDPh7labkuche6Nt9Q5EpDNGXFaZssN7QkaMSkY/kP?=
- =?us-ascii?Q?YsMeeR1YxMOURWt7arWKhMzwBA3DbRpLsO0jdTon6Cxv24JygHL65rIasXok?=
- =?us-ascii?Q?gaHBaRojk6+dKaCgwXwFolarMBSu4MNxP4aurFOZKcX+DmYK3zo31ZJK30qp?=
- =?us-ascii?Q?DeEAfmyMXydLlCwFLnDQMNq2pVoh0SKVFgtV85iu9ZX8rdhLrxLQRsid/fX5?=
- =?us-ascii?Q?gpZzxeFPOGO8pJUDC+IHj3VFowyFAwbxPzyB0RresMNfvIvsuxDFwVaqJyxx?=
- =?us-ascii?Q?sjN0UcjDx5xI+NpFWSLZozntEGEUilwjJcQp++YyzHTNlaiSYumct2MpbsK4?=
- =?us-ascii?Q?JqPbGb1ZLQyMbnnWrGDILXcQcDNAqIageen72QNXXqT7hD/XHIkSM7bwcuko?=
- =?us-ascii?Q?Y1QCDS2HGBYj2gERyWJXLopF13gBnyCpD6M77YHt+IXj1nA3bCA5xVeIY6LH?=
- =?us-ascii?Q?1ugKsNng1qVi42VkLB+Tgtv/XLEQkZf3xQ+7RX/sqnmYQfmQgSykT6WLSzMl?=
- =?us-ascii?Q?pks98RbupeYFJN11FQvZy8K/rsfKDfXedmw2UYpM111g8jZrxOaItzVxMsbx?=
- =?us-ascii?Q?vdFImxkCbC6brt1p/JhlpGjwaxaOZpfKDoWV48jSNQlsACnUAw6yCBtHrzN4?=
- =?us-ascii?Q?OpoCKeN5nJGtMFvEZNEbO3BxicELLurs3p/QtCSKOZMnHC32kooSYwTbYBCz?=
- =?us-ascii?Q?FuJWnWfhiDZHFlWeK8kleRqKvF3hXyO5ED4QLEuH1hs8pmSoojFKBSzgKskT?=
- =?us-ascii?Q?Iya/ivo8C6za11+teQqQd8q3kyY/nlKeV2AOFwNqoGu4sA/+ZIfxzqiqmW6x?=
- =?us-ascii?Q?KuIE45FVEtLm/YYZ2OR6WW13nbEaQnhtbYGsXd03Qvm/QJBijkClikgBIREn?=
- =?us-ascii?Q?9yN/R4Mc4Qm3dDCj3ckFpwv5Ieefkc6nUVn5qQOyR2b1hBZPJaFdKH4I4r37?=
- =?us-ascii?Q?AOGnE/GBXCbsKLRx4GNw0425OYsiZZcGP1ANNw4tJLn1lLrC8k66r0N5oUB9?=
-X-MS-Exchange-AntiSpam-MessageData-1: 5lvDHwGhA89/exnrzDfkJKiDK8e8+IAy8Lk=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ff72992-ea78-488d-298f-08def9c53ab7
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 05:31:02.3117
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kOnESa86jF/4Q8+M2jnShfy2XVuBsZK/+apCf2P0SZ5LiHEO8WuyBFnHwszeQ7WpYEEgbSRjsvNIaXujAvQMHbpdYtIAj4BchEaQE9euGYk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB3145
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDAxMCBTYWx0ZWRfXwSmu+AZoMldg
+ 2QihjXf6WBArOc7XcxhnHktFxq8nL+vjTqR6cnwFFfFIBXoxtUzdpLvD+sW9tUyz5ausGH707gE
+ PSfA/W5nuQsCAYJB4t/ZHq3dEJtMCMhTu6Geuj/LeaYaLf//Ff826rang/KN79f8cY/IQ3ayTOV
+ Xtl++EXggMUSyc9WiosHwTGaVy+FCkcD73F4TbG+buXcMVRzW4wKvRHnAePNxjO73Y0FIBj84nn
+ G3RZFDAHQ4RB5ROYWiZZ169G/afNrPDkoo6x7tBUmYv2nBNd7uXZ8oB4a1SNv2MMqM7eOwio/Ms
+ iq7DC2TmO1sWbN7VX6MhoysBlbmhR8HcCj/rLlsKDYWDqBob+5P2Dk/WiBfAGZx0iG/823qHGbN
+ gCSbn0W6NOeI/ESo/MkXtk55J0MVVV95u/eTiu4ALuQxaiziV3txvNO7FhzVIhvbNGgVbOCH9No
+ alNU6AoQHoL75F05lyg==
+X-Authority-Analysis: v=2.4 cv=drfrzVg4 c=1 sm=1 tr=0 ts=6a7e6efd cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=NEAV23lmAAAA:8
+ a=BoJB4dgYAAAA:8 a=yaAG3qJ-AAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8
+ a=a_U1oVfrAAAA:8 a=COk6AnOGAAAA:8 a=d40a-sj9VC8ABmxQAuAA:9
+ a=3dgbxg9j6h1huQL5:21 a=mQ_c8vxmzFEMiUWkPHU9:22 a=zGR_d48pMUbmtCY1HACo:22
+ a=oLVlbjkABFOu4cUI0CGI:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: acuKhcIbylWDXpGzQWkHIfiiXskXp4bb
+X-Proofpoint-GUID: acuKhcIbylWDXpGzQWkHIfiiXskXp4bb
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDAxMCBTYWx0ZWRfX8NAfoLPQxTpQ
+ re5WIb/zsOdDsbUwA9mq/SuARcqolfoFpNBO8s3MrZupkOc7E3sXdtI/6jLn3V5MyTYTuwJNChC
+ hU3rpUFqtjN87jYqwGydCjX7M7wpkn4=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-14_01,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 spamscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140010
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 05:31:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243404
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 06:22:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243406
 
-NEWS: https://download.samba.org/pub/rsync/NEWS#3.5.0
+Rename the recipe to 2.12 and update the upstream source checksum.
+Refresh LIC_FILES_CHKSUM for README changes in the new release.
 
-CVE:
+Drop local backports no longer needed with 2.12: macsec offload
+header guard fixes, OWE/802.11be defconfig updates, and the
+CVE-2025-24912 RADIUS fixes.
 
-CVE-2026-53802
-CVE-2026-53803
-CVE-2026-53785
-CVE-2026-53784
-CVE-2026-53793
-CVE-2026-53795
-CVE-2026-53796
-CVE-2026-53797
-CVE-2026-53799
-CVE-2026-53800
-CVE-2026-53801
-CVE-2026-53783
-CVE-2026-53786
-CVE-2026-53798
-CVE-2026-53788
-CVE-2026-53789
-CVE-2026-53791
-CVE-2026-53790
-CVE-2026-53792
-CVE-2026-53794
-CVE-2026-70461
-CVE-2026-70458
-CVE-2026-70456
-CVE-2026-70457
-CVE-2026-70459
-CVE-2026-70464
-CVE-2026-70455
-CVE-2026-70453
-CVE-2026-70452
-CVE-2026-70463
-CVE-2026-70460
-CVE-2026-70462
-CVE-2026-70454
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
 ---
- ...g-prototypes-to-function-declarations.patch | 18 +++++++++---------
- .../rsync/files/determism.patch                |  4 ++--
- .../rsync/files/makefile-no-rebuild.patch      |  6 +++---
- .../rsync/{rsync_3.4.4.bb =3D> rsync_3.5.0.bb}   |  2 +-
- 4 files changed, 15 insertions(+), 15 deletions(-)
- rename meta/recipes-devtools/rsync/{rsync_3.4.4.bb =3D> rsync_3.5.0.bb} (9=
-7%)
+ ...dware-offload-requires-Linux-headers.patch | 53 -------------
+ ...-Opportunistic-Wireless-Encryption-O.patch | 39 ---------
+ ...nt-IEEE-802.11be-as-a-published-amen.patch | 34 --------
+ ...onfig-Uncomment-CONFIG_IEEE80211BE-y.patch | 32 --------
+ .../wpa-supplicant/CVE-2025-24912-01.patch    | 79 -------------------
+ .../wpa-supplicant/CVE-2025-24912-02.patch    | 70 ----------------
+ ...plicant_2.11.bb => wpa-supplicant_2.12.bb} | 10 +--
+ 7 files changed, 2 insertions(+), 315 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-defconfig-Update-Opportunistic-Wireless-Encryption-O.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-defconfig-Document-IEEE-802.11be-as-a-published-amen.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-defconfig-Uncomment-CONFIG_IEEE80211BE-y.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-02.patch
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.11.bb => wpa-supplicant_2.12.bb} (89%)
 
-diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-=
-to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add=
--missing-prototypes-to-function-declarations.patch
-index ede0238b2e..5aed93e458 100644
---- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-func=
-tion-declarations.patch
-+++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-func=
-tion-declarations.patch
-@@ -1,4 +1,4 @@
--From c05cc113f925bda645c8e51b83e9dc30b0543bad Mon Sep 17 00:00:00 2001
-+From 64e62c659649593239ed39ed40a3ae689bf2d593 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 29 Aug 2022 19:53:28 -0700
- Subject: [PATCH] Add missing prototypes to function declarations
-@@ -24,10 +24,10 @@ Signed-off-by: Archana Polampalli <archana.polampalli@w=
-indriver.com>
-  4 files changed, 4 insertions(+), 4 deletions(-)
-=20
- diff --git a/checksum.c b/checksum.c
--index 24e46bf..6ae3178 100644
-+index 4c91c2b..b3635a0 100644
- --- a/checksum.c
- +++ b/checksum.c
--@@ -778,7 +778,7 @@ static void verify_digest(struct name_num_item *nni, B=
-OOL check_auth_list)
-+@@ -796,7 +796,7 @@ static void verify_digest(struct name_num_item *nni, B=
-OOL check_auth_list)
-  }
-  #endif
- =20
-@@ -37,10 +37,10 @@ index 24e46bf..6ae3178 100644
-  #if defined SUPPORT_XXH3 || defined USE_OPENSSL
-  	struct name_num_item *nni;
- diff --git a/exclude.c b/exclude.c
--index 24de64f..a787488 100644
-+index 7476f6a..b939a0c 100644
- --- a/exclude.c
- +++ b/exclude.c
--@@ -363,7 +363,7 @@ void implied_include_partial_string(const char *s_star=
-t, const char *s_end)
-+@@ -460,7 +460,7 @@ void implied_include_partial_string(const char *s_star=
-t, const char *s_end)
-  	memcpy(partial_string_buf, s_start, partial_string_len);
-  }
- =20
-@@ -50,10 +50,10 @@ index 24de64f..a787488 100644
-  	if (partial_string_buf) {
-  		if (partial_string_len)
- diff --git a/log.c b/log.c
--index b948f16..afca81d 100644
-+index 889b57b..19e5e98 100644
- --- a/log.c
- +++ b/log.c
--@@ -131,7 +131,7 @@ static void logit(int priority, const char *buf)
-+@@ -140,7 +140,7 @@ static void logit(int priority, const char *buf)
-  	}
-  }
- =20
-@@ -63,10 +63,10 @@ index b948f16..afca81d 100644
-  	int options =3D LOG_PID;
- =20
- diff --git a/main.c b/main.c
--index 229a889..aa158ad 100644
-+index 6050d0e..45722c4 100644
- --- a/main.c
- +++ b/main.c
--@@ -246,7 +246,7 @@ void read_del_stats(int f)
-+@@ -250,7 +250,7 @@ void read_del_stats(int f)
-  	stats.deleted_files +=3D stats.deleted_specials =3D read_varint_bounded(=
-f, 0, MAX_WIRE_DEL_STAT, "deleted_specials");
-  }
- =20
-diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recip=
-es-devtools/rsync/files/determism.patch
-index a8fee5ba0a..2eea267bb2 100644
---- a/meta/recipes-devtools/rsync/files/determism.patch
-+++ b/meta/recipes-devtools/rsync/files/determism.patch
-@@ -1,4 +1,4 @@
--From 32852028e95cdf78d09f1bd867f3b46b4728f9e3 Mon Sep 17 00:00:00 2001
-+From c4c9b52a864c3b9ff67771b9d881a78276448100 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Sun, 21 Feb 2021 09:45:48 +0000
- Subject: [PATCH] rsync: Fix a file sorting determinism issue
-@@ -25,7 +25,7 @@ https://github.com/WayneD/rsync/commit/d3085f7add38a5cf83=
-3a0b31cb0637ff46c80f8d
-  1 file changed, 5 insertions(+)
-=20
- diff --git a/Makefile.in b/Makefile.in
--index 0ba2d5c..b9c5438 100644
-+index 91807d6..c18b4be 100644
- --- a/Makefile.in
- +++ b/Makefile.in
- @@ -27,6 +27,11 @@ MKDIR_P=3D@MKDIR_P@
-diff --git a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch b/=
-meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
-index 914b50a7b7..4ff070ea3c 100644
---- a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
-+++ b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
-@@ -1,4 +1,4 @@
--From 50ef5ccd9149cee27bae29e767ff1c2e76bdc879 Mon Sep 17 00:00:00 2001
-+From bab7abb3c7c1c1db8ef6c3084c1ffb5152f5bf1e Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Tue, 12 Apr 2016 15:51:54 +0100
- Subject: [PATCH] rsync: remove upstream's rebuild logic
-@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  1 file changed, 54 deletions(-)
-=20
- diff --git a/Makefile.in b/Makefile.in
--index 79060b3..0ba2d5c 100644
-+index 801e864..91807d6 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -200,60 +200,6 @@ conf: configure.sh config.h.in
-+@@ -265,60 +265,6 @@ conf: configure.sh config.h.in
-  .PHONY: gen
-  gen: conf proto.h man git-version.h
- =20
-diff --git a/meta/recipes-devtools/rsync/rsync_3.4.4.bb b/meta/recipes-devt=
-ools/rsync/rsync_3.5.0.bb
-similarity index 97%
-rename from meta/recipes-devtools/rsync/rsync_3.4.4.bb
-rename to meta/recipes-devtools/rsync/rsync_3.5.0.bb
-index fa9a61778f..d9a4884d96 100644
---- a/meta/recipes-devtools/rsync/rsync_3.4.4.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.5.0.bb
-@@ -16,7 +16,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/src/${=
-BP}.tar.gz \
-            file://determism.patch \
-            file://0001-Add-missing-prototypes-to-function-declarations.pat=
-ch \
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch
+deleted file mode 100644
+index f9634e47c9..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From 809d9d8172db8e2a08ff639875f838b5b86d2641 Mon Sep 17 00:00:00 2001
+-From: Sergey Matyukevich <geomatsi@gmail.com>
+-Date: Thu, 22 Aug 2024 00:03:41 +0300
+-Subject: [PATCH] macsec_linux: Hardware offload requires Linux headers >= v5.7
+-
+-Hardware offload in Linux macsec driver is enabled in compile time if
+-libnl version is >= v3.6. This is not sufficient for successful build
+-since enum 'macsec_offload' has been added to Linux header if_link.h
+-in kernels v5.6 and v5.7, see commits:
+-- https://github.com/torvalds/linux/commit/21114b7feec29e4425a3ac48a037569c016a46c8
+-- https://github.com/torvalds/linux/commit/76564261a7db80c5f5c624e0122a28787f266bdf
+-
+-New libnl with older Linux headers is a valid combination. This is how
+-hostapd build failure has been detected by Buildroot autobuilder, see:
+-- http://autobuild.buildroot.net/results/b59d5bc5bd17683a3a1e3577c40c802e81911f84/
+-
+-Extend compile time condition for the enablement of the macsec hardware
+-offload adding Linux headers version check.
+-
+-Fixes: 40c139664439 ("macsec_linux: Add support for MACsec hardware offload")
+-Signed-off-by: Sergey Matyukevich <geomatsi@gmail.com>
+-
+-Upstream-Status: Backport [https://w1.fi/cgit/hostap/patch/?id=809d9d8172db8e2a08ff639875f838b5b86d2641]
+-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+----
+- src/drivers/driver_macsec_linux.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/drivers/driver_macsec_linux.c b/src/drivers/driver_macsec_linux.c
+-index c867154981e9..fad47a292f9f 100644
+---- a/src/drivers/driver_macsec_linux.c
+-+++ b/src/drivers/driver_macsec_linux.c
+-@@ -19,6 +19,7 @@
+- #include <netlink/route/link.h>
+- #include <netlink/route/link/macsec.h>
+- #include <linux/if_macsec.h>
+-+#include <linux/version.h>
+- #include <inttypes.h>
+- 
+- #include "utils/common.h"
+-@@ -32,7 +33,8 @@
+- 
+- #define UNUSED_SCI 0xffffffffffffffff
+- 
+--#if LIBNL_VER_NUM >= LIBNL_VER(3, 6)
+-+#if (LIBNL_VER_NUM >= LIBNL_VER(3, 6) && \
+-+     LINUX_VERSION_CODE >= KERNEL_VERSION(5, 7, 0))
+- #define LIBNL_HAS_OFFLOAD
+- #endif
+- 
+--- 
+-2.39.2
+-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-defconfig-Update-Opportunistic-Wireless-Encryption-O.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-defconfig-Update-Opportunistic-Wireless-Encryption-O.patch
+deleted file mode 100644
+index 7311b76b6f..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-defconfig-Update-Opportunistic-Wireless-Encryption-O.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From fb043a27324ba81502b8986a31222f38aa414bbf Mon Sep 17 00:00:00 2001
+-From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+-Date: Thu, 18 Dec 2025 09:46:03 +0800
+-Subject: [PATCH 1/3] defconfig: Update Opportunistic Wireless Encryption (OWE)
+- state
+-
+-OWE enhances privacy in public and enterprise environments where open
+-networks are prevalent. Enabling OWE aligns with modern security best
+-practices and supports the testing and development of OWE-capable
+-devices.
+-
+-OWE is now standardized in IEEE Std 802.11-2024 while it was originally
+-specified in IETF RFC 8110 (updated by RFC 9672). It is not experimental
+-anymore, i.e., there has been significant interoperability testing and
+-there are deployed cases.
+-
+-Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+-Upstream-Status: Backport [https://git.w1.fi/cgit/hostap/commit/?id=39db92dcf301793ce45a8ebf85c425f67c670058]
+----
+- wpa_supplicant/defconfig | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
+-index 52befd8..044604a 100644
+---- a/wpa_supplicant/defconfig
+-+++ b/wpa_supplicant/defconfig
+-@@ -638,8 +638,7 @@ CONFIG_BGSCAN_SIMPLE=y
+- #CONFIG_BGSCAN_LEARN=y
+- 
+- # Opportunistic Wireless Encryption (OWE)
+--# Experimental implementation of draft-harkins-owe-07.txt
+--#CONFIG_OWE=y
+-+CONFIG_OWE=y
+- 
+- # Device Provisioning Protocol (DPP) (also known as Wi-Fi Easy Connect)
+- CONFIG_DPP=y
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-defconfig-Document-IEEE-802.11be-as-a-published-amen.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-defconfig-Document-IEEE-802.11be-as-a-published-amen.patch
+deleted file mode 100644
+index b474b8437f..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-defconfig-Document-IEEE-802.11be-as-a-published-amen.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From aebbf87ca7311f543bd849020b97402c49f3cf24 Mon Sep 17 00:00:00 2001
+-From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+-Date: Thu, 18 Dec 2025 09:39:39 +0800
+-Subject: [PATCH 2/3] defconfig: Document IEEE 802.11be as a published
+- amendment
+-
+-The comment about the IEEE 802.11be functionality being experimental
+-and based on a not yet finalized standard is not accurate anymore
+-since IEEE Std 802.11be-2024 has already been published. Remove this
+-outdated comment.
+-
+-Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+-Upstream-Status: Backport [https://git.w1.fi/cgit/hostap/commit/?id=2887a975b12de9256ed6fdbd0da1dbb78c7a25c4]
+----
+- wpa_supplicant/defconfig | 3 ---
+- 1 file changed, 3 deletions(-)
+-
+-diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
+-index 044604a..7efb9e6 100644
+---- a/wpa_supplicant/defconfig
+-+++ b/wpa_supplicant/defconfig
+-@@ -507,9 +507,6 @@ CONFIG_IEEE80211AX=y
+- 
+- # IEEE 802.11be EHT support (mainly for AP mode)
+- # CONFIG_IEEE80211AX is mandatory for setting CONFIG_IEEE80211BE.
+--# Note: This is experimental and work in progress. The definitions are still
+--# subject to change and this should not be expected to interoperate with the
+--# final IEEE 802.11be version.
+- #CONFIG_IEEE80211BE=y
+- 
+- # Wireless Network Management (IEEE Std 802.11v-2011)
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-defconfig-Uncomment-CONFIG_IEEE80211BE-y.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-defconfig-Uncomment-CONFIG_IEEE80211BE-y.patch
+deleted file mode 100644
+index 9ed7342bdc..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-defconfig-Uncomment-CONFIG_IEEE80211BE-y.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From be5ffd2084b8690f5b974c5b6ff7409fbfaacfb7 Mon Sep 17 00:00:00 2001
+-From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+-Date: Thu, 11 Dec 2025 15:07:31 +0800
+-Subject: [PATCH 3/3] defconfig: Uncomment CONFIG_IEEE80211BE=y
+-
+-wpa_supplicant has supported IEEE 802.11be (Wi-Fi 7) for over three
+-years. With growing market demand for Wi-Fi 7, it is now an appropriate
+-time to enable IEEE 802.11be support. This is needed mainly to enable AP
+-mode functionality in wpa_supplicant.
+-
+-Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+-Upstream-Status: Backport [https://git.w1.fi/cgit/hostap/commit/?id=e623edd9b73a521b8a4438c600c9a8fb0ac5febe]
+----
+- wpa_supplicant/defconfig | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
+-index 7efb9e6..84ac8ba 100644
+---- a/wpa_supplicant/defconfig
+-+++ b/wpa_supplicant/defconfig
+-@@ -507,7 +507,7 @@ CONFIG_IEEE80211AX=y
+- 
+- # IEEE 802.11be EHT support (mainly for AP mode)
+- # CONFIG_IEEE80211AX is mandatory for setting CONFIG_IEEE80211BE.
+--#CONFIG_IEEE80211BE=y
+-+CONFIG_IEEE80211BE=y
+- 
+- # Wireless Network Management (IEEE Std 802.11v-2011)
+- # Note: This is experimental and not complete implementation.
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch
+deleted file mode 100644
+index 36660b5880..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-From 726432d7622cc0088ac353d073b59628b590ea44 Mon Sep 17 00:00:00 2001
+-From: Jouni Malinen <j@w1.fi>
+-Date: Sat, 25 Jan 2025 11:21:16 +0200
+-Subject: [PATCH] RADIUS: Drop pending request only when accepting the response
+-
+-The case of an invalid authenticator in a RADIUS response could imply
+-that the response is not from the correct RADIUS server and as such,
+-such a response should be discarded without changing internal state for
+-the pending request. The case of an unknown response (RADIUS_RX_UNKNOWN)
+-is somewhat more complex since it could have been indicated before
+-validating the authenticator. In any case, it seems better to change the
+-state for the pending request only when we have fully accepted the
+-response.
+-
+-Allowing the internal state of pending RADIUS request to change based on
+-responses that are not fully validation could have allow at least a
+-theoretical DoS attack if an attacker were to have means for injecting
+-RADIUS messages to the network using the IP address of the real RADIUS
+-server and being able to do so more quickly than the real server and
+-with the matching identifier from the request header (i.e., either by
+-flooding 256 responses quickly or by having means to capture the RADIUS
+-request). These should not really be realistic options in a properly
+-protected deployment, but nevertheless it is good to be more careful in
+-processing RADIUS responses.
+-
+-Remove a pending RADIUS request from the internal list only when having
+-fully accepted a matching RADIUS response, i.e., after one of the
+-registered handlers has confirmed that the authenticator is valid and
+-processing of the response has succeeded.
+-
+-Signed-off-by: Jouni Malinen <j@w1.fi>
+-
+-CVE: CVE-2025-24912
+-Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=726432d7622cc0088ac353d073b59628b590ea44]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- src/radius/radius_client.c | 15 +++++++--------
+- 1 file changed, 7 insertions(+), 8 deletions(-)
+-
+-diff --git a/src/radius/radius_client.c b/src/radius/radius_client.c
+-index 2a7f36170..7909b29a7 100644
+---- a/src/radius/radius_client.c
+-+++ b/src/radius/radius_client.c
+-@@ -1259,13 +1259,6 @@ static void radius_client_receive(int sock, void *eloop_ctx, void *sock_ctx)
+- 		       roundtrip / 100, roundtrip % 100);
+- 	rconf->round_trip_time = roundtrip;
+- 
+--	/* Remove ACKed RADIUS packet from retransmit list */
+--	if (prev_req)
+--		prev_req->next = req->next;
+--	else
+--		radius->msgs = req->next;
+--	radius->num_msgs--;
+--
+- 	for (i = 0; i < num_handlers; i++) {
+- 		RadiusRxResult res;
+- 		res = handlers[i].handler(msg, req->msg, req->shared_secret,
+-@@ -1276,6 +1269,13 @@ static void radius_client_receive(int sock, void *eloop_ctx, void *sock_ctx)
+- 			radius_msg_free(msg);
+- 			/* fall through */
+- 		case RADIUS_RX_QUEUED:
+-+			/* Remove ACKed RADIUS packet from retransmit list */
+-+			if (prev_req)
+-+				prev_req->next = req->next;
+-+			else
+-+				radius->msgs = req->next;
+-+			radius->num_msgs--;
+-+
+- 			radius_client_msg_free(req);
+- 			return;
+- 		case RADIUS_RX_INVALID_AUTHENTICATOR:
+-@@ -1297,7 +1297,6 @@ static void radius_client_receive(int sock, void *eloop_ctx, void *sock_ctx)
+- 		       msg_type, hdr->code, hdr->identifier,
+- 		       invalid_authenticator ? " [INVALID AUTHENTICATOR]" :
+- 		       "");
+--	radius_client_msg_free(req);
+- 
+-  fail:
+- 	radius_msg_free(msg);
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-02.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-02.patch
+deleted file mode 100644
+index add2e47048..0000000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-02.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 339a334551ca911187cc870f4f97ef08e11db109 Mon Sep 17 00:00:00 2001
+-From: Jouni Malinen <quic_jouni@quicinc.com>
+-Date: Wed, 5 Feb 2025 19:23:39 +0200
+-Subject: [PATCH] RADIUS: Fix pending request dropping
+-
+-A recent change to this moved the place where the processed RADIUS
+-request was removed from the pending list to happen after the message
+-handler had been called. This did not take into account possibility of
+-the handler adding a new pending request in the list and the prev_req
+-pointer not necessarily pointing to the correct entry anymore. As such,
+-some of the pending requests could have been lost and that would result
+-in not being able to process responses to those requests and also, to a
+-memory leak.
+-
+-Fix this by determining prev_req at the point when the pending request
+-is being removed, i.e., after the handler function has already added a
+-new entry.
+-
+-Fixes: 726432d7622c ("RADIUS: Drop pending request only when accepting the response")
+-Signed-off-by: Jouni Malinen <quic_jouni@quicinc.com>
+-
+-CVE: CVE-2025-24912
+-Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=339a334551ca911187cc870f4f97ef08e11db109]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- src/radius/radius_client.c | 10 +++++++---
+- 1 file changed, 7 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/radius/radius_client.c b/src/radius/radius_client.c
+-index 7909b29a7..d4faa7936 100644
+---- a/src/radius/radius_client.c
+-+++ b/src/radius/radius_client.c
+-@@ -1099,7 +1099,7 @@ static void radius_client_receive(int sock, void *eloop_ctx, void *sock_ctx)
+- 	struct radius_hdr *hdr;
+- 	struct radius_rx_handler *handlers;
+- 	size_t num_handlers, i;
+--	struct radius_msg_list *req, *prev_req;
+-+	struct radius_msg_list *req, *prev_req, *r;
+- 	struct os_reltime now;
+- 	struct hostapd_radius_server *rconf;
+- 	int invalid_authenticator = 0;
+-@@ -1224,7 +1224,6 @@ static void radius_client_receive(int sock, void *eloop_ctx, void *sock_ctx)
+- 		break;
+- 	}
+- 
+--	prev_req = NULL;
+- 	req = radius->msgs;
+- 	while (req) {
+- 		/* TODO: also match by src addr:port of the packet when using
+-@@ -1236,7 +1235,6 @@ static void radius_client_receive(int sock, void *eloop_ctx, void *sock_ctx)
+- 		    hdr->identifier)
+- 			break;
+- 
+--		prev_req = req;
+- 		req = req->next;
+- 	}
+- 
+-@@ -1270,6 +1268,12 @@ static void radius_client_receive(int sock, void *eloop_ctx, void *sock_ctx)
+- 			/* fall through */
+- 		case RADIUS_RX_QUEUED:
+- 			/* Remove ACKed RADIUS packet from retransmit list */
+-+			prev_req = NULL;
+-+			for (r = radius->msgs; r; r = r->next) {
+-+				if (r == req)
+-+					break;
+-+				prev_req = r;
+-+			}
+- 			if (prev_req)
+- 				prev_req->next = req->next;
+- 			else
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.12.bb
+similarity index 89%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.12.bb
+index 7c7a8bd9c1..920413e8f3 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.12.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "http://w1.fi/security/"
+ SECTION = "network"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5ebcb90236d1ad640558c3d3cd3035df \
+-                    file://README;beginline=1;endline=56;md5=6e4b25e7d74bfc44a32ba37bdf5210a6 \
++                    file://README;beginline=1;endline=56;md5=155e35cb3d6ab0d6a17524f48f4e761c \
+                     file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=f5ccd57ea91e04800edb88267bf8eae4"
+ 
+ DEPENDS = "dbus libnl"
+@@ -15,14 +15,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
+            file://wpa_supplicant.conf \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
+-           file://0001-macsec_linux-Hardware-offload-requires-Linux-headers.patch \
+-           file://0002-defconfig-Update-Opportunistic-Wireless-Encryption-O.patch \
+-           file://0003-defconfig-Document-IEEE-802.11be-as-a-published-amen.patch \
+-           file://0004-defconfig-Uncomment-CONFIG_IEEE80211BE-y.patch \
+-           file://CVE-2025-24912-01.patch \
+-           file://CVE-2025-24912-02.patch \
             "
--SRC_URI[sha256sum] =3D "bd88cf82fa653da32314fb229136407c5c90f80d1758d8f4b0=
-91767877d8fa96"
-+SRC_URI[sha256sum] =3D "c7ffd1ef653e99540f661e47cb00b7f9cad1ee6b972399b16f=
-93d672656e0d33"
-=20
- # Out-of-tree builds don't install the documentation currently
- # https://github.com/RsyncProject/rsync/issues/846
+-SRC_URI[sha256sum] = "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc5d75dee6c81ac7fc0a"
++SRC_URI[sha256sum] = "08e23937e16d0155e55cab2b51f51fbe10d80a1aa91c4e15442645059b737ef6"
+ 
+ S = "${UNPACKDIR}/wpa_supplicant-${PV}"
+ 
+
+base-commit: f09a0f28aeb54ddd90415dd458338e1565bb5a49
+-- 
+2.25.1
+
 
