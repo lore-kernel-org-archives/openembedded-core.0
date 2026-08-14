@@ -1,101 +1,75 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60650C5DF6A
-	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 16:32:34 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17058.1786725145479099133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E6ABC5CFCF
+	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 17:13:26 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17739.1786727597325022405
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 09:32:25 -0700
+ Fri, 14 Aug 2026 10:13:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RUDbeXf9;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vBYaKvGh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0011e17e5-fb473366-5f84-4211-bbe4-20301ef2526c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786725144; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=aEsFUXW7YJkYaavZjhVbhta8TMpTWeeNABXu/hj0BWQ=;
-	b=RUDbeXf9BlLX+2jJoldBfUWiyXtCrzBoWPToQSKUeR5PI/i9B5oll1XS9RQrbDKR
-	rlbHKVeoG0P4OfgKXFHwc6uPwETtugX2U0PMzdvnbBP98Axfb7kGy06Mvzz9C0WKsjo
-	6e/Kgs1c0MOVU99BgmR75nZ3hwM5Q0dQ3PrEWfUQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786725144;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=aEsFUXW7YJkYaavZjhVbhta8TMpTWeeNABXu/hj0BWQ=;
-	b=vBYaKvGhdet24aXqY+/jWzy4mZj02NuRZjjE0p7Vm0E7ICa+ZrNMTKGVAlBqQ8/C
-	4YjHrPClrC5uFaNIe+H74FwRe2ie6/p96PIvH0QtlLVjTB1stDwNb1Z5Be2K4gsv5OM
-	zs5/MvuRK2Oqi+ekSlBXTMu79ZM49WCtd+ssK2ZQ=
-From: patchtest@automation.yoctoproject.org
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/4] devtool: standard: Fix file copy on finish --force
-In-Reply-To: <20260814-mathieu-devtool-v1-2-985e81a17bb3@bootlin.com>
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=flsY/Jg6;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3AD551A1647;
+	Fri, 14 Aug 2026 17:13:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0C368604AA;
+	Fri, 14 Aug 2026 17:13:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EDBC111C4EF36;
+	Fri, 14 Aug 2026 19:13:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786727590; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=bSZdrWUTQ/obWw26Tbrzkibz2HNRDmrugLffkWdcLis=;
+	b=flsY/Jg6wSa5DpJePkeaabcESuWHyJsG3LBtE3wQUuWGA0t1q/1UJKZKDZupsXz4qEGR82
+	OXq0oSrjk8eq2S4TmbJQ5SJYoIZPlIFnP8LL5Iq8IdGBc95ewSzhTN28LIh1txzPJKXYzR
+	+xOzYZFZERBYYHtRYrZyJVBDpGSz66uUV69VlnXMYBJYvKFdMTmKXeIZnRH2NL/U0ybKKA
+	3CDt6qUeVqkmvHmCcxeriODIoDxKV0wrhPT+jEm+PHJbTBinvAaj63IDD65SXhCjmGFg9v
+	S3rGHkrYD+aTMr0cSSzm8nK8WMyR7e8U0bSsvEchX4AwCe6YmbZ4GoMjLLftwg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 14 Aug 2026 19:13:09 +0200
+Message-Id: <DKOU2J4G3W9Z.2EJ4TA6UU8CK4@bootlin.com>
+Subject: Re: [OE-core] Patchtest results for [PATCH 2/4] devtool: standard:
+ Fix file copy on finish --force
+Cc: <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <patchtest@automation.yoctoproject.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20260814-mathieu-devtool-v1-2-985e81a17bb3@bootlin.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0011e17e5-fb473366-5f84-4211-bbe4-20301ef2526c-000000@us-west-2.amazonses.com>
-Date: Fri, 14 Aug 2026 16:32:24 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.14-54.240.27.29
+ <010101a0011e17e5-fb473366-5f84-4211-bbe4-20301ef2526c-000000@us-west-2.amazonses.com>
+In-Reply-To: <010101a0011e17e5-fb473366-5f84-4211-bbe4-20301ef2526c-000000@us-west-2.amazonses.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 16:32:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243464
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 17:13:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243467
 
---NextPart
-Content-Type: text/plain
+On Fri Aug 14, 2026 at 6:32 PM CEST, Patchtest via lists.openembedded.org w=
+rote:
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
+>
+> ---
+> Testing patch /home/patchtest/share/mboxes/2-4-devtool-standard-Fix-file-=
+copy-on-finish---force.patch
+>
+> FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it =
+manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_of=
+f_by_presence)
+>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Not sure how I managed to skip the Signed-off-by. I will fix it in my
+branch...
 
----
-Testing patch /home/patchtest/share/mboxes/2-4-devtool-standard-Fix-file-copy-on-finish---force.patch
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
