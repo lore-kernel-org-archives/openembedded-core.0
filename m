@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44C7CC5CFC1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60650C5DF6A
 	for <webhook@archiver.kernel.org>; Fri, 14 Aug 2026 16:32:34 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16860.1786725146290388565
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17058.1786725145479099133
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 09:32:26 -0700
+ Fri, 14 Aug 2026 09:32:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=F3uVG+5r;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OwimdS6A;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a0011e1b3e-34160e53-d2af-47ac-bab4-b3039baefbe6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RUDbeXf9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vBYaKvGh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0011e17e5-fb473366-5f84-4211-bbe4-20301ef2526c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786725145; i=@automation.yoctoproject.org;
+	t=1786725144; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=sFkBCxioYl+2oJ0STD2Skfk3uLloLs1M/JUoZnAhSPE=;
-	b=F3uVG+5ruqCBQlO+nMzLPvPaUz/zSPQjzwo4u4lWAvB4cZx0hiweM9E5KXUX0B2k
-	9U6/4j0hHq5wcuIx//4SMxAfHb5xJTQBARNxGM2TEu5jScb2mSBzdusXpwHfD3emV6V
-	TPUF+HDfJsFYRhIHhvgua3sb2lXnkErbRGKKcX2k=
+	bh=aEsFUXW7YJkYaavZjhVbhta8TMpTWeeNABXu/hj0BWQ=;
+	b=RUDbeXf9BlLX+2jJoldBfUWiyXtCrzBoWPToQSKUeR5PI/i9B5oll1XS9RQrbDKR
+	rlbHKVeoG0P4OfgKXFHwc6uPwETtugX2U0PMzdvnbBP98Axfb7kGy06Mvzz9C0WKsjo
+	6e/Kgs1c0MOVU99BgmR75nZ3hwM5Q0dQ3PrEWfUQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786725145;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786725144;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=sFkBCxioYl+2oJ0STD2Skfk3uLloLs1M/JUoZnAhSPE=;
-	b=OwimdS6ASGMAnFYMW8Qst7DeFW7pDdad1ZUaQXLVAqAc7+Gqmht2YlaydEVYPnHk
-	NqzNtPoSs9zWwl85KfKpSzeI9KKcEqS+oJqgGo6Q5pPy+nsLyZaIfJ5EpPV11DrDFB6
-	rRgChUcuwarS+Kjmr5IR+qu+2abcpHgQogGnKnEY=
+	bh=aEsFUXW7YJkYaavZjhVbhta8TMpTWeeNABXu/hj0BWQ=;
+	b=vBYaKvGhdet24aXqY+/jWzy4mZj02NuRZjjE0p7Vm0E7ICa+ZrNMTKGVAlBqQ8/C
+	4YjHrPClrC5uFaNIe+H74FwRe2ie6/p96PIvH0QtlLVjTB1stDwNb1Z5Be2K4gsv5OM
+	zs5/MvuRK2Oqi+ekSlBXTMu79ZM49WCtd+ssK2ZQ=
 From: patchtest@automation.yoctoproject.org
 To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/4] devtool: standard: Remove unused variable
-In-Reply-To: <20260814-mathieu-devtool-v1-3-985e81a17bb3@bootlin.com>
-References: <20260814-mathieu-devtool-v1-3-985e81a17bb3@bootlin.com>
+Subject: Patchtest results for [PATCH 2/4] devtool: standard: Fix file copy on finish --force
+In-Reply-To: <20260814-mathieu-devtool-v1-2-985e81a17bb3@bootlin.com>
+References: <20260814-mathieu-devtool-v1-2-985e81a17bb3@bootlin.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0011e1b3e-34160e53-d2af-47ac-bab4-b3039baefbe6-000000@us-west-2.amazonses.com>
-Date: Fri, 14 Aug 2026 16:32:25 +0000
+Message-ID: <010101a0011e17e5-fb473366-5f84-4211-bbe4-20301ef2526c-000000@us-west-2.amazonses.com>
+Date: Fri, 14 Aug 2026 16:32:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.14-54.240.27.30
+X-SES-Outgoing: 2026.08.14-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2026 16:32:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243465
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243464
 
 --NextPart
 Content-Type: text/plain
@@ -53,14 +53,14 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/3-4-devtool-standard-Remove-unused-variable.patch
+Testing patch /home/patchtest/share/mboxes/2-4-devtool-standard-Fix-file-copy-on-finish---force.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
 PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
