@@ -1,93 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 153E7C5AD5A
-	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 12:46:37 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8166.1786797986918087616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C23C5AD5A
+	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 13:02:37 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8433.1786798948039537010
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2026 05:46:27 -0700
+ Sat, 15 Aug 2026 06:02:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gsrAALDE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-482938466a7so847798f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 05:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786797985; x=1787402785; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=e+IV9apLKlzH+6/S9VuTrP+g76IDtgsSPGn+LpYfdq8=;
-        b=gsrAALDE8UgRsaD2VtKqbkXrEj8x2L0jJkP2bvWMdgY5nmoY8Ap1iZ9+C6o6y8p9xj
-         iCUc13r6tRI/Bw9r//dlxli1YsGDl9baoTNP43PxdXbGGl2R1AZ7Pdasmp7evQXhLZeL
-         fypr3NAEqrfnwKHMxA3yI7uhXVZf3aJ67qIOE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786797985; x=1787402785;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=e+IV9apLKlzH+6/S9VuTrP+g76IDtgsSPGn+LpYfdq8=;
-        b=WIA3WkSR4LHC0v/cr9HWwoajzPU9eW/FSU4RBF2nF2kZ7VfFsXGiaxz3hL5OefXZGB
-         oyaNQvKVdsCRB4zS6MKp5wkvjCQVzij5yysUyQzteKErTNA3bdbjRpI11ddw6n79Z3Le
-         J4RD6RpaTuyhDYWJboGOHZ+NR/Uy2toavDOpQbJGbSer7W5efBuoilGXiMugzuvrn9Ni
-         4oTc7zBy2KLFcjDH5MwDxDhOW6cmqrbEqjwvaoRjXAukEO39VHLOEC8u9X/6Vp61YsG+
-         6Qdsf60vwerFljoZPjU/g14KyhqJSzHTNKwUwvJbITxzzz9NwZYhBDRhbwxWwf4ZIq3g
-         52Fw==
-X-Gm-Message-State: AOJu0YzJ5wCPl7Lcx4ZWrMxlHqLGY+BcB5373jO6incNbS3CeWF+dwWj
-	rE7BXG9KRmosFZjtP50Ax9mXgMjnWCh9LPb2mkArt15Pfk2of1bVLGd0/Banz2JIRTSGVRr+xk3
-	lS5sKNv4=
-X-Gm-Gg: AR+sD128cw3TVE2hgTp0rY6eaIWUQW5ySNn5VMX0SnYb9BpnaYp+R9Zx1RtVssMLdKz
-	VfeetAXhT7JF/zP7VoCcQlFg3vgv6wYKCq+PEflxFRocMTk2zYw9ZeqwvvW5eBOYUQyHD/4aIQD
-	qupfWLgavGPXGPG9bjtk+eOOPBOQc9cE1dC2UjSSlJ6Lxi6DpylLud1EhsedYrU/lNpl0luSmwG
-	OwsC+MEWU3g2Rm6eUZe373yBSZeubgdCvnjcpbZ05bY5NN4F/wxaJ5B678nVLqoa6Z/vOYDAp32
-	7DfiKMQ8CbOpYWIEZyp1hPSUEWpkk8mTN/4Rc3K0WwagWi6eFdVhK7qijYxBea2deymolWFRrOz
-	/V6N/JJPZWFRBb/csXMRLqyeA68hTKCJO0KXH6wi37SDb559z9zNLqVnOaSLQ1K+XurDUVXM0AO
-	lqb69O1gO8IPY5zIAt6UnmWz6pJTaMgb5Gvpb1NR/Ya3YzWMn032ONH2sUqBTt9mYTTjQOeYsrV
-	Jp8ZXCA8UIq8WWcwUJOl7NwVKA=
-X-Received: by 2002:a5d:4d0e:0:b0:481:4f9b:282b with SMTP id ffacd0b85a97d-48160764a5amr16024221f8f.21.1786797985191;
-        Sat, 15 Aug 2026 05:46:25 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:76a9:d146:8f01:f2e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f200752sm17245267f8f.1.2026.08.15.05.46.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Aug 2026 05:46:24 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] diffoscope: upgrade 327 -> 328
-Date: Sat, 15 Aug 2026 13:46:20 +0100
-Message-ID: <20260815124622.3666801-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260815124622.3666801-1-richard.purdie@linuxfoundation.org>
-References: <20260815124622.3666801-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Hh8ZH/hz;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VcTgqRIE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a005843b22-e3e22fbf-5de2-4d10-ba6a-f51024b0e62c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1786798947; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=TOBrcNpKQpW9AQnEZbrp0dLOi0UvGpZXiJh3PiSZxfA=;
+	b=Hh8ZH/hz6W+nVIP5qX+pUvvQEJ5UPDG6LDJgql5hx8LrywlSEi3ljOmbrL0o6042
+	lHDosCjmlRMXMsfiEfJFx5HjYmAQRLgQVcdt56YkKJNhqS1I2Xa+XTBNfJSqvHEc01S
+	TJ1tN2yX1tZZ8D87mLxoBZQX4cduHfTZcAOA66ao=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786798947;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=TOBrcNpKQpW9AQnEZbrp0dLOi0UvGpZXiJh3PiSZxfA=;
+	b=VcTgqRIEyMuefLirTldmGQ5nKKASlC+oAy9Dsy4UF3nLw4MOqL6oIc4EkOwlS5bb
+	hSnald/z3bAWMkQ83Gawvj53pf1tJPHuAv139EC4csI9YU4XAzjerI9wvw5xtntjI9U
+	Mh7oE4bfB1HDJC2HHXZUswnTuA/gYGUMNt49Gi/U=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/4] python3-hypothesis: upgrade 6.165.2 -> 6.165.9
+In-Reply-To: <20260815124622.3666801-3-richard.purdie@linuxfoundation.org>
+References: <20260815124622.3666801-3-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a005843b22-e3e22fbf-5de2-4d10-ba6a-f51024b0e62c-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Aug 2026 13:02:27 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 12:46:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243483
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 13:02:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243487
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../diffoscope/{diffoscope_327.bb => diffoscope_328.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_327.bb => diffoscope_328.bb} (93%)
+Testing patch /home/patchtest/share/mboxes/3-4-python3-hypothesis-upgrade-6.165.2---6.165.9.patch
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_327.bb b/meta/recipes-support/diffoscope/diffoscope_328.bb
-similarity index 93%
-rename from meta/recipes-support/diffoscope/diffoscope_327.bb
-rename to meta/recipes-support/diffoscope/diffoscope_328.bb
-index 30d33732f6e..7b4bd7640b0 100644
---- a/meta/recipes-support/diffoscope/diffoscope_327.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_328.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "b5a398de17b180637cf091ba5c3c9fecde9dc8f5c2c80204ff8dd78e1b9d5358"
-+SRC_URI[sha256sum] = "8480ddffa8cc4860c6ada3c9c80a8169e75d6a39ad971662851f1ad776512870"
- 
- RDEPENDS:${PN} += "\
-         binutils \
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
