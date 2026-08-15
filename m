@@ -2,66 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0952C5CFC1
-	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 09:45:49 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5943.1786787140012400556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBB20C5CFC1
+	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 09:57:49 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6039.1786787859913509104
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2026 02:45:40 -0700
+ Sat, 15 Aug 2026 02:57:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tqe6GYhI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso22458465e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 02:45:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RzER30pF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4956242332dso18977835e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 02:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1786787138; x=1787391938; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1786787858; x=1787392658; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=8sUsvBt6N6PcVJPW5dVfsXO3YHO11GeAqflNAgue6vo=;
-        b=Tqe6GYhIl3HsOcvovAc8I/8rFzpa4ac2cYSzurIYZ0CH78s8qxDklxRolE7Q7XDNpK
-         b1EA/mTsieqfoG1PUSXT+1Sj8yi+3SX8eg+7nRGKTWfL13nQipTFLSnjkSWlRPkfj8nT
-         mpUdBM/ETUJlSdNzMRGJULeVrA+i5/3Xzd7Ds=
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=paMjvd7NHFYt2s7j7xtp6MagC4qixJnrqMjDRvWS/TY=;
+        b=RzER30pFI71ZE+ZbYxQWCtwmiCG9rJGHz2qqE/s6zns/6lm5/oJ83jS3shSQNhAmez
+         aw+wlg1BHPZiyMCaEZv91wdotr1t/Cka0QwX5HbdvlxpcX5looSJY2UJrDZGso4zzbb7
+         eRYd2TwF0EMH6wKHPMBMs7brm5crjOdJ/mOcA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786787138; x=1787391938;
+        d=1e100.net; s=20251104; t=1786787858; x=1787392658;
         h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8sUsvBt6N6PcVJPW5dVfsXO3YHO11GeAqflNAgue6vo=;
-        b=PE8bAdiVeBCRQ8gdzoATlt+sC3qTWU6jgHdNDAVR4mMXAiOMkyoHI9BtHctDhjYiks
-         64yPpS80j9kLhwgMmBTwrjEdAQwJufms2+gxvnwp9NldZkPQQmh15ZpcOPRNBpJNFZQr
-         /jLIfGeBRWDs7wrMqhY/Wiu28pUS9VuP0jPbqep+f1K4c+qKUKe4jA0e+vDVHf6bLDD9
-         qG64vz69k75lvRkppFKsXBPZYbxZre9MQ/TekA1vgq16iLgS3jWaGriZDoMkxiHXoTOn
-         AyVvMn1onSHnJWFN15oOb97eyRtWACsexsA/kKjhWq5BLAS/65in0IChmzwrQEVxxMIa
-         gssQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrrOy1YAvgL1LG/ZwLLSHnldpiR/7SsKIJddZ0x7DCbh83slaVxNpfqWXoJrQwG16BbHUBy3HbAUFZqZpDWHNS60Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw2KbeEtada4bh0XLSbaE0VD/yTGN5LOVAQJoEeO9JFOhSIr8HR
-	qycn/3+okvdUAKWkzO+7GRDPf8KDBNW/92Q87YvuMAhdOgQojdbdPUQPNqAANtkTtA4=
-X-Gm-Gg: AR+sD11Lh/p9qka3im4Q2sABfSffxlvoGKeT5CP4ZwU+515Epgq1j11NTkZ4hujjGdH
-	bQjXBydsrmG0oMFsY+OR+RonnaGjgzENqFU4akpUrJgZXxROoDja/iaIc+Z2bLlapOH8QKMyrDI
-	aAmoCTUowlLU/9Otw3I/9TMlxhDEcbiaJ/M6RTefwKNUPbSk7sw2YQxd4QwBTkglkOJjeTVdkPm
-	zhW5sGsiMdk/cEFwkMGOyDbzQWfBWpUT2kjXQjbEL0RPmZBtEP810kCHFlZy6J10HXsHWmhBQvV
-	PGRz1GLjpkQ9eBBd4aHsb159/PnWNS0ivdL2Vf9bntWV4615+o4nl80ZJD+inGK6IFcokQUuy2O
-	OH4Di0n5ifeZl2WbW84cdC6CqbPy2rUBMjS/cHUmeIF7jSPBAi1SFhpkRUSORlPqXucrgf3txG2
-	X90VwsDMtlT7OQL+17sdXCbltQMO9t1spngaVBYnecBALAHge8pemTxYXpiYm1jWBeVDZB7POFh
-	tsJohpnjv7nytuaIFkT0AYGJiknwwaSgS9Ox+M4rElHE91dleLXAkhwALBQYw==
-X-Received: by 2002:a05:600c:1546:b0:499:484a:98e7 with SMTP id 5b1f17b1804b1-49987974700mr155365095e9.14.1786787138229;
-        Sat, 15 Aug 2026 02:45:38 -0700 (PDT)
+        bh=paMjvd7NHFYt2s7j7xtp6MagC4qixJnrqMjDRvWS/TY=;
+        b=JD6tomKkWdlPMu4NQqlVCii53VsKyJToVCyXEgLk7kOslQLQCdvQR0CLg+mjgzyET0
+         M/Gq8d8dnYFxsgJVTYGR5NgQ56NVB+jIYVG4RvYbjixBYrPnpRkFzufavHjpPGW+YgTL
+         0ZVgWMZPkKWIQVpmqoHzJ5M2zVo94CKKNFNkvSBJ89MzXQSY/4l72YdBae4F1t2/YvJW
+         Dy6YO0CBXPv+/LvJjXo0+21M4cZx7iMbQSUm68T/zUjniZ3v506WyC+2HjSx8kQj2bBC
+         aqHvwRCcVfeR+ZDD4ZH1vz0GjiCspzZwDi4uCi0WX+VOc3H0tt2CRk56HlOOR/iVWtHs
+         YIKA==
+X-Gm-Message-State: AOJu0YyPwT8XrqtTLEOe4O1BaTLzVlIth/qDuaS1UE83MbpisqEdwyK3
+	p+e9S3E8qdynXB87YVjy9hQ5/jtSdrPfV1nyvs01NUaLrCobK0nP6oCCHj/O1VIMjOE=
+X-Gm-Gg: AR+sD11AHjveYqhKY3ojXh2oQXThY4m4ec0nM+I34NUCKVOuTyo5shQkkrBFcwNFZbr
+	GAhlFtHcnizazg54eBYNEPha9yaTpcqbwiWxI0j2qSp749TV+NMKjSaO8N7Rhq2ncIinPRGli2x
+	7Q4v1vjaJfnPpHli4a/4aJ+yA7rNxjs7rUmQwW+VPcJ9yhkoxMmzgDLLK+JU24Fzw8MSPq/rCOq
+	WK3x/kLj7PJ+Ui+PM96ujiCFbLBj+Vrw0T7+gJ/sBcgctKWn3XpB4EPtD1B3Z7Ojqqmh+zl4DaY
+	cyb/xisBIp9pAMjKYlEFcoJ7C81ndrAAUjYugtgFJwnQwLQ9RZyhTfWRzwmCXLyTfhTHYR1KuI1
+	0qnxUwgjZ3HHOt90YgrkGPLwui+hYT+KuatPk55eJZCeWomL09KAoYf/P8nUcwk+/h+J2P0eh10
+	lYenPcvukEHABSMuyF/yZ3Euy4AauPq9JZZtMoMQzA+PX1Fpf4s2JsOyegfTsdHYzuEr5LlTUNz
+	uLrhYtWQnBMhDnB4hXrs1X6ucBRmsB2NVaoIpwn6ektLxDlIzU=
+X-Received: by 2002:a05:600c:3596:b0:499:8ed2:8234 with SMTP id 5b1f17b1804b1-4998ed286c1mr54302265e9.0.1786787858084;
+        Sat, 15 Aug 2026 02:57:38 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:76a9:d146:8f01:f2e? ([2001:8b0:aba:5f3c:76a9:d146:8f01:f2e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499899b5ad0sm102782275e9.4.2026.08.15.02.45.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4999130d9a4sm37794225e9.15.2026.08.15.02.57.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Aug 2026 02:45:37 -0700 (PDT)
-Message-ID: <e74690c49e74e845426781e4bcaf2d78da537d69.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/5] meta: fix trailing whitespace across
- classes, conf and recipes
+        Sat, 15 Aug 2026 02:57:37 -0700 (PDT)
+Message-ID: <4f17e3e48cff0a208f4a7280407940d9e35e5a32.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [AUH] diffoscope: upgrading to 328 FAILED
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mathieu.dubois-briand@bootlin.com, Jaipaul Cheernam
-	 <jaipaul.cheernam@est.tech>, openembedded-core@lists.openembedded.org
-Date: Sat, 15 Aug 2026 10:45:36 +0100
-In-Reply-To: <DKPBS41I2VXL.13RDKB81EOENQ@bootlin.com>
-References: <20260813191615.34122-1-jaipaul.cheernam@est.tech>
-	 <DKPBS41I2VXL.13RDKB81EOENQ@bootlin.com>
+To: auh@yoctoproject.org, Joshua Watt <JPEWhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Aug 2026 10:57:36 +0100
+In-Reply-To: <010101a003e69350-aa8df6dd-eb11-48d8-b004-da9840868a1b-000000@us-west-2.amazonses.com>
+References: 
+	<010101a003e69350-aa8df6dd-eb11-48d8-b004-da9840868a1b-000000@us-west-2.amazonses.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -69,32 +67,28 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 09:45:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243478
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 09:57:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243479
 
-On Sat, 2026-08-15 at 09:05 +0200, Mathieu Dubois-Briand via lists.openembe=
-dded.org wrote:
-> On Thu Aug 13, 2026 at 9:16 PM CEST, Jaipaul Cheernam wrote:
-> > Fix all trailing whitespace warnings reported by bitbake during parsing=
-.
-> > These were flagged on the Yocto autobuilder:
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4405
-> >=20
-> > 53 files fixed across 5 patches, split by category:
-> > - classes-global (7 files)
-> > - classes-recipe (11 files)
-> > - classes (2 files)
-> > - conf (2 files)
-> > - recipes (31 files)
+On Sat, 2026-08-15 at 05:30 +0000, Auto Upgrade Helper via lists.openembedd=
+ed.org wrote:
+> Hello,
 >=20
-> It looks like you missed some of these:
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe(s) *diffoscope* to *328*=
+ has Failed(do_compile).
 >=20
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4480/s=
-teps/22/logs/warnings
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/4402/st=
-eps/14/logs/warnings
+> Detailed error information:
+>=20
+> do_compile failed
+>=20
 
-I merged the whitespace tweaks and went ahead and fixed the above too.
+The autobuilder downloads config changed recently to stop weird loops
+with mirrors. Some jobs (like auh) do need the mirrors setup as setup
+their down DL_DIR. We should configure a PREMIRROR when we do that, I
+added the config to do so to ab-helper.
+
+It does mean some jobs failed which probably shouldn't have done...
 
 Cheers,
 
