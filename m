@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F7FFC5AD5A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D8B1C5DF70
 	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 05:30:43 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3799.1786771838469669150
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3718.1786771835376986084
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2026 22:30:38 -0700
+ Fri, 14 Aug 2026 22:30:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NcLWWzaZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4jMI953r;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a003e692d4-ac920552-ac8f-4870-9201-c1a0658301ea-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=alxCzg1S;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SL9AAkTv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a003e685c2-406a6317-70b3-4029-a797-4482a0844b47-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786771837;
+	t=1786771834;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=6d48XOYqoVb675qQkZP49Z4TxydInZXAp0VHiQejU4M=;
-	b=NcLWWzaZkNHkTAo+I980q3bcR85ZIN1jXSZru4gO2WVlUcJL4b8JjF598HbTDagy
-	Q8IoSd+RFfMAl9YsJE/JWBQCmQQxGQQrR7uz4fWA7z8H9WJORYP+Hv4KMRsI78xsxuc
-	rBd0Au7ohGtpjSkgrldAq6uHvbVlR+/KL/iw7Km8=
+	bh=iYDKQRnSMCIxqzpArPOHEja5KC23z32L+Y5AkMaAbLc=;
+	b=alxCzg1S/Ha+WD/AX8uUS8rSl6MGICjY2dXNio8mUth1DXfKmv4WqUXdFUvsHfwS
+	ZZ7cKa9ra+n1Ul7Rdk5r9kQ2sqL88/BpjUjxS7R8w0fXuttMqIS1NjZOia3ahAxROVs
+	HS47BH0DhuS00UuHlbaklQSz/rzTPgXQ36FPC80E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786771837;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786771834;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=6d48XOYqoVb675qQkZP49Z4TxydInZXAp0VHiQejU4M=;
-	b=4jMI953rQgpQJmjiLWfmM8zXbVMQcdiL3VNaqplr4Lehy/z2jTPqHWZ464s3GR3x
-	PJs+JNfnyIGCfYBdyG/DB+7qz8+hStZf5/9Mwq1tYOpIMtyJRFrnc2Rk3z1Z8x2WMfk
-	N41Vlm2zuXBeeiJAmpMWCPRIlrrtgghUp9fsXCAs=
-Content-Type: multipart/mixed; boundary="===============9008838270443896408=="
+	bh=iYDKQRnSMCIxqzpArPOHEja5KC23z32L+Y5AkMaAbLc=;
+	b=SL9AAkTvMI2wtpZ7/x7iMscqZxeW9bkoEwXesMHuYAAooV79rUsRNA8VPiEpT0eX
+	Fn6K97O0kHLYkN+OZlyWOijv0dDRkSzw+fmCXVW434//N6CR4XTsIgPhNJmj55icXoa
+	WLiicuPo7HLya4fB5ygR+b5qbD4gjqZcDNc+1X84=
+Content-Type: multipart/mixed; boundary="===============5951879776452920221=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpsl: upgrading to 0.23.3 SUCCEEDED
-Message-ID: <010101a003e692d4-ac920552-ac8f-4870-9201-c1a0658301ea-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Aug 2026 05:30:37 +0000
+Subject: [AUH] elfutils: upgrading to 0.196 FAILED
+Message-ID: <010101a003e685c2-406a6317-70b3-4029-a797-4482a0844b47-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Aug 2026 05:30:34 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.15-54.240.27.30
+X-SES-Outgoing: 2026.08.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 05:30:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243473
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243470
 
---===============9008838270443896408==
+--===============5951879776452920221==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,142 +50,165 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpsl* to *0.23.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *elfutils* to *0.196* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libpsl-upgrade-0.23.1-0.23.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe elfutils failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 955 .bb files complete (0 cached, 955 parsed). 1984 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-dd003e147db548d9c86821a08450d6461d061cea"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:dd003e147db548d9c86821a08450d6461d061cea"
+meta-yocto-bsp       
+meta-poky            = "master:30756f716a1f527a74a9e12bad8f6e0e756ed9a4"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 22 Local 22 Mirrors 0 Missed 0 Current 8 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...WARNING: /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/recipetool/tmp-recipetool-4oqqcw6q.bb: tmp-recipetool-4oqqcw6q: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-4oqqcw6q-CLOSED"
+done.
+Parsing of 956 .bb files complete (0 cached, 956 parsed). 1985 targets, 40 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-dd003e147db548d9c86821a08450d6461d061cea"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:dd003e147db548d9c86821a08450d6461d061cea"
+meta-yocto-bsp       
+meta-poky            = "master:30756f716a1f527a74a9e12bad8f6e0e756ed9a4"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-4oqqcw6q: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-4oqqcw6q-CLOSED"
+WARNING: tmp-recipetool-4oqqcw6q: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-4oqqcw6q-CLOSED"
+WARNING: tmp-recipetool-4oqqcw6q: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-4oqqcw6q-CLOSED"
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: tmp-recipetool-4oqqcw6q: LICENSE is using "CLOSED", which is deprecated. Convert to using a license ref pointing to an actual license file, e.g.
+LICENSE = "LicenseRef-tmp-recipetool-4oqqcw6q-CLOSED"
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching https://sourceware.org/elfutils/ftp/0.196/elfutils-0.196.tar.bz2...
+INFO: Rebasing devtool onto 14042dfa7a557296cfd678ae71dce8586a9f51f6
+INFO: Rebasing devtool-override-libc-musl onto 14042dfa7a557296cfd678ae71dce8586a9f51f6
+WARNING: Command 'git rebase 14042dfa7a557296cfd678ae71dce8586a9f51f6' failed:
+Auto-merging src/elfcompress.c
+CONFLICT (content): Merge conflict in src/elfcompress.c
+Auto-merging src/strip.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/elfutils
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/elfutils/elfutils_0.196.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/elfutils.txt
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 3a4679a5026e7a9c9efc65a064d5ea9c3c91c3b9 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Aug 2026 05:30:31 +0000
-Subject: [PATCH] libpsl: upgrade 0.23.1 -> 0.23.3
-
-Source: NEWS
-
-14.08.2026 Release V0.23.3
-  * meson: make copyright_prog work for cross builds
-
-10.08.2026 Release V0.23.2
-  * meson: Use compatible C code instead of 'date'
-  * configure.ac: Fix typo that broke SOURCE_DATE_EPOCH for COPYRIGHT_YEAR
----
- .../libpsl/{libpsl_0.23.1.bb => libpsl_0.23.3.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libpsl/{libpsl_0.23.1.bb => libpsl_0.23.3.bb} (91%)
-
-diff --git a/meta/recipes-support/libpsl/libpsl_0.23.1.bb b/meta/recipes-support/libpsl/libpsl_0.23.3.bb
-similarity index 91%
-rename from meta/recipes-support/libpsl/libpsl_0.23.1.bb
-rename to meta/recipes-support/libpsl/libpsl_0.23.3.bb
-index 3baeb9d77a..1bba67ad96 100644
---- a/meta/recipes-support/libpsl/libpsl_0.23.1.bb
-+++ b/meta/recipes-support/libpsl/libpsl_0.23.3.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=49296c1806ef92c28297fb264163d81e \
-                     "
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz"
--SRC_URI[sha256sum] = "8fbb03054556498ba9c4cc48fcaa36a4483748c6504a65bdb9ba348f555b0e56"
-+SRC_URI[sha256sum] = "93941f85a1e7bd593fa94f299233cb5dfc91cd144fd9a78a6ceb75001c5b03be"
- 
- GITHUB_BASE_URI = "https://github.com/rockdaboot/libpsl/releases"
- 
--- 
-2.47.1
-
-
---===============9008838270443896408==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libpsl-upgrade-0.23.1-0.23.3.patch"
-
-RnJvbSAzYTQ2NzlhNTAyNmU3YTljOWVmYzY1YTA2NGQ1ZWE5YzNjOTFjM2I5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgQXVnIDIwMjYgMDU6MzA6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJwc2w6IHVwZ3JhZGUgMC4yMy4xIC0+IDAuMjMuMwoKU291cmNlOiBORVdTCgoxNC4wOC4yMDI2
-IFJlbGVhc2UgVjAuMjMuMwogICogbWVzb246IG1ha2UgY29weXJpZ2h0X3Byb2cgd29yayBmb3Ig
-Y3Jvc3MgYnVpbGRzCgoxMC4wOC4yMDI2IFJlbGVhc2UgVjAuMjMuMgogICogbWVzb246IFVzZSBj
-b21wYXRpYmxlIEMgY29kZSBpbnN0ZWFkIG9mICdkYXRlJwogICogY29uZmlndXJlLmFjOiBGaXgg
-dHlwbyB0aGF0IGJyb2tlIFNPVVJDRV9EQVRFX0VQT0NIIGZvciBDT1BZUklHSFRfWUVBUgotLS0K
-IC4uLi9saWJwc2wve2xpYnBzbF8wLjIzLjEuYmIgPT4gbGlicHNsXzAuMjMuMy5iYn0gICAgICAg
-ICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBzbC97bGlicHNsXzAuMjMuMS5i
-YiA9PiBsaWJwc2xfMC4yMy4zLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2xpYnBzbC9saWJwc2xfMC4yMy4xLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
-cHNsL2xpYnBzbF8wLjIzLjMuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGlicHNsL2xpYnBzbF8wLjIzLjEuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L2xpYnBzbC9saWJwc2xfMC4yMy4zLmJiCmluZGV4IDNiYWViOWQ3N2Eu
-LjFiYmE2N2FkOTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBzbC9saWJw
-c2xfMC4yMy4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBzbC9saWJwc2xfMC4y
-My4zLmJiCkBAIC0xMiw3ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VO
-U0U7bWQ1PTQ5Mjk2YzE4MDZlZjkyYzI4Mjk3ZmIyNjQxNjNkODFlIFwKICAgICAgICAgICAgICAg
-ICAgICAgIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS8k
-e0JQfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGZiYjAzMDU0NTU2NDk4YmE5YzRj
-YzQ4ZmNhYTM2YTQ0ODM3NDhjNjUwNGE2NWJkYjliYTM0OGY1NTViMGU1NiIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICI5Mzk0MWY4NWExZTdiZDU5M2ZhOTRmMjk5MjMzY2I1ZGZjOTFjZDE0NGZkOWE3
-OGE2Y2ViNzUwMDFjNWIwM2JlIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIu
-Y29tL3JvY2tkYWJvb3QvbGlicHNsL3JlbGVhc2VzIgogCi0tIAoyLjQ3LjEKCg==
-
---===============9008838270443896408==
+--===============5951879776452920221==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libpsl-changelog.txt"
+Content-Disposition: attachment; filename="elfutils-changelog.txt"
 
-Changelog for libpsl: 0.23.1 -> 0.23.3
+Changelog for elfutils: 0.195 -> 0.196
 Source: NEWS
 
-14.08.2026 Release V0.23.3
-  * meson: make copyright_prog work for cross builds
+Version 0.196 "Split Personality"
 
-10.08.2026 Release V0.23.2
-  * meson: Use compatible C code instead of 'date'
-  * configure.ac: Fix typo that broke SOURCE_DATE_EPOCH for COPYRIGHT_YEAR
+debuginfod: The $DEBUGINFOD_TIMEOUT environment variable is now enforced
+            when establishing a connection to a server.
 
---===============9008838270443896408==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+libdw: New functions dwarf_begin_type, dwarf_begin_elf_type and
+       dwarf_get_type plus new enum Dwarf_Type.  Used to select between
+       plain DWARF, split DWARF (.dwo/.dwp) and GNU LTO when opening a
+       file.
 
-packages/x86-64-v3-poky-linux/libpsl: SRC_URI changed from "https://github.com/rockdaboot/libpsl/releases/download/0.23.1/libpsl-0.23.1.tar.gz" to "https://github.com/rockdaboot/libpsl/releases/download/0.23.3/libpsl-0.23.3.tar.gz"
-packages/x86-64-v3-poky-linux/libpsl: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl-bin: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl-bin: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl-dbg: PKGSIZE changed from 158520 to 158568 (+0%)
-packages/x86-64-v3-poky-linux/libpsl/libpsl-dbg: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl-dbg: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl-dev: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl-dev: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl-doc: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl-doc: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl-locale: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl-locale: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl-src: FILELIST: directory renamed /usr/src/debug/libpsl/0.23.1/src -> /usr/src/debug/libpsl/0.23.3/src, directory renamed /usr/src/debug/libpsl/0.23.1/include -> /usr/src/debug/libpsl/0.23.3/include, directory renamed /usr/src/debug/libpsl/0.23.1/tools -> /usr/src/debug/libpsl/0.23.3/tools
-packages/x86-64-v3-poky-linux/libpsl/libpsl-src: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl-src: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl-staticdev: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl-staticdev: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
-packages/x86-64-v3-poky-linux/libpsl/libpsl: PV changed from "0.23.1" to "0.23.3"
-packages/x86-64-v3-poky-linux/libpsl/libpsl: PKGV changed from 0.23.1 [default] to 0.23.3 [default]
+       Added support for DWARF5 supplementary files (.debug_sup) and
+       associated DW_FORM_ref_sup4/8 and DW_FORM_strp_sup forms.
 
---===============9008838270443896408==--
+       Added support for split DWARF debug data when contained in the
+       same file as the skeleton.
+
+libdwelf: New functions dwelf_dwarf_debug_sup and dwelf_dwarf_debug_dwp
+          for querying .debug_sup and .debug_dwp section data.
+
+libdwfl: Now correctly handles Linux kernel module sections that are
+         not present in sysfs.
+
+libdwfl_stacktrace: New functions dwflst_arch_from_uname,
+                    dwflst_arch_expected_frame_nregs,
+                    dwflst_arch_sp_dwarf_reg and dwflst_arch_sp_perf_reg
+                    providing per-architecture constants.  The
+                    libdwfl_stacktrace interface is experimental and may
+                    be subject to API/ABI changes.
+
+stackprof: New profiling tool for collecting systemwide stacktrace
+           profiles.  Replaces the eu-stacktrace tool.  Requires
+           a C++20 capable compiler.
+
+stacktrace: This experimental tool has been removed and replaced with
+            eu-stackprof.
+
+srcfiles: Now handles CU names and files from split DWARF.
+
+strip: Fixed bug where a section's sh_link or sh_info reference could
+       be missing from the debug file.
+
+version.h: New macro _ELFUTILS_THREAD_SAFE added to <elfutils/version.h>.
+           Defined to 1 when the elfutils libraries are built with thread
+           safety support enabled.  Otherwise it is left undefined.
+           Thread safety support is experimental and is not yet officially
+           supported.
+
+--===============5951879776452920221==--
 
