@@ -2,202 +2,283 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A65A2C5DF67
-	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 14:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB67C5DF6A
+	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 14:52:21 +0000 (UTC)
 Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10171.1786805516465173703
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10236.1786805532856292366
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2026 07:51:58 -0700
+ Sat, 15 Aug 2026 07:52:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=AWy4dWsM;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260815145153538d96f1c200020767-fwsk0s@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260815145153538d96f1c200020767
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=TueODn2M;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260815145211d345a1a31e0002078a-jq22hy@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260815145211d345a1a31e0002078a
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 15 Aug 2026 16:51:53 +0200
+        Sat, 15 Aug 2026 16:52:11 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=Iz5Yx+X8Tx15BuXEwIY7Js3Ggi/fGnqNX/etOKc1N+s=;
- b=AWy4dWsMA2xKisgN8uzc7Dloobk3V3ggBvWmqMuNFEkYC+liNdSaT1X2GlMSdpWG8tHZn3
- 50Xy3BjMuBiMzsji9D2cAwJGB/V0kr5LTyyrZhEaVzMNLXU48yyamejdfyLiPgXwz3bJ1WoL
- L46gUODfQj1b9rqZxkT0Wte/9gh0PF1d1yfAK/umzyCKbG74650wiOU+EUcndPJCGwKzd+4L
- 5GfQUxMNHesyAaJjOOkAYHIJtz915pLb2+ZpjRuJFBh1vROB2TCCmFkp5R4Q8Xj4MDVBH0B9
- iXkLbBo4TjVRDB6+xwlb8+++Dxzsw52ZLEGELOl77xYg/LzbLpdOAaxg==;
+ bh=zAPe2TKKkCXoWm5fRwiU5O0AT6oS5sO21lOQPEDqSIc=;
+ b=TueODn2M70kFAdz8Uyw2Kl0Xzwz4BBxW1e3acOC0gQZrTGWQymuTdt1DMgB0jI/1kQJj/D
+ d6zW7QbreEJI1kJ1PraxNJVuJUsUhFyqBJ89mWN8DmVhyRB2M8s0hBkk8/btBLMJiF8g3178
+ /LtXhsyHiaiV0SxN6uZOPz7Gb9y0wzg+m2j5RsQkTjfsL4s6TTf6peLxHAoi1cEAJ+NPK2NM
+ XqN0I/Q6uPwIQubNH+dJP1mpoNu+f5lUf18r6Eae9IGJdipoLbLOyf9/ZM9MO6GvmnjIIL4z
+ ymCsKcxCCTQfnOLfbtbrPytMEk/+I8nuNw7VHJRu6vwmm2TBwaznIIOQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] diffutils: patch CVE-2026-53910
-Date: Sat, 15 Aug 2026 16:51:46 +0200
-Message-ID: <20260815145147.1046875-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH 1/3] cpio: patch CVE-2026-66485
+Date: Sat, 15 Aug 2026 16:52:00 +0200
+Message-ID: <20260815145202.1046902-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 14:52:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243490
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 14:52:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243491
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patches mentioned in NVD CVE report.
-
-Adapt NEWS file to apply one of the patches.
-Add special code to prevent build error dues to rebuild of manpage.
+Pick patch mentioned in NVD CVE description.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 3406d85634e5d793eb5c4f5ec9b7f03774a86d65)
+(From OE-Core rev: c105fbf82e2f50b05dc680e0601bf0ea3198e58c)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../diffutils/CVE-2026-53910-01.patch         | 67 +++++++++++++++++++
- .../diffutils/CVE-2026-53910-02.patch         | 35 ++++++++++
- .../diffutils/diffutils_3.12.bb               |  9 +++
- 3 files changed, 111 insertions(+)
- create mode 100644 meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch
- create mode 100644 meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch
+ meta/recipes-extended/cpio/cpio_2.15.bb       |   1 +
+ .../cpio/files/CVE-2026-66485.patch           | 210 ++++++++++++++++++
+ 2 files changed, 211 insertions(+)
+ create mode 100644 meta/recipes-extended/cpio/files/CVE-2026-66485.patch
 
-diff --git a/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch
-new file mode 100644
-index 0000000000..b2da72b04c
---- /dev/null
-+++ b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch
-@@ -0,0 +1,67 @@
-+From 73ed7ce85cc78effb94daf028c9af6b4e5252e50 Mon Sep 17 00:00:00 2001
-+From: Collin Funk <collin.funk1@gmail.com>
-+Date: Mon, 20 Apr 2026 23:43:51 -0700
-+Subject: [PATCH] diff3: check for integer overflows when reading line numbers
-+ from diff
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Reported by Michał Majchrowicz.
-+* NEWS: Mention the bug fix.
-+* src/diff3.c (readnum): Return nullptr if the line number would
-+overflow.
-+
-+CVE: CVE-2026-53910
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/diffutils.git/commit/?id=73ed7ce85cc78effb94daf028c9af6b4e5252e50]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ NEWS        | 8 ++++++++
-+ THANKS      | 1 +
-+ src/diff3.c | 3 ++-
-+ 3 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/NEWS b/NEWS
-+index a8115f7..bfe20d4 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,5 +1,13 @@
-+ GNU diffutils NEWS                                    -*- outline -*-
-+ 
-++ * Noteworthy changes in release ?.? (????-??-??) [?]
-++
-++** Bug fixes
-++
-++  diff3 no longer overflows integers when reading line numbers from the
-++  diff program.
-++  [bug present since "the beginning"]
-++
-+ * Noteworthy changes in release 3.12 (2025-04-08) [stable]
-+ 
-+ ** Bug fixes
-+diff --git a/THANKS b/THANKS
-+index a96b68d..a372954 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -13,6 +13,7 @@ Chris Hanson <cph@gnu.org>
-+ Jim Kingdon  <kingdon@panix.com>
-+ Tom Lord  <lord@gnu.org>
-+ David J. MacKenzie  <djm@gnu.org>
-++Michał Majchrowicz  <mmajchrowicz@afine.com>
-+ Roland McGrath  <roland@redhat.com>
-+ Jim Meyering  <jim@meyering.net>
-+ Gene Myers  <gene@eecs.berkeley.edu>
-+diff --git a/src/diff3.c b/src/diff3.c
-+index 1dfba37..1a74407 100644
-+--- a/src/diff3.c
-++++ b/src/diff3.c
-+@@ -1020,7 +1020,8 @@ readnum (char *s, lin *pnum)
-+ 
-+   do
-+     {
-+-      num = c - '0' + num * 10;
-++      if (ckd_mul (&num, num, 10) || ckd_add (&num, num, c - '0'))
-++        return nullptr;
-+       c = *++s;
-+     }
-+   while (c_isdigit (c));
-diff --git a/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch
-new file mode 100644
-index 0000000000..7f87893f51
---- /dev/null
-+++ b/meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch
-@@ -0,0 +1,35 @@
-+From 9ff04d5b84743e331e80b589335a52c5480d1815 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Tue, 21 Apr 2026 00:30:50 -0700
-+Subject: [PATCH] diff3: prevent overflow in line offsets
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Problem reported by Michał Majchrowicz.
-+* src/diff3.c (readnum): Limit line numbers to LIN_MAX / 2.
-+
-+CVE: CVE-2026-53910
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/diffutils.git/commit/?id=9ff04d5b84743e331e80b589335a52c5480d1815]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/diff3.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/src/diff3.c b/src/diff3.c
-+index 4fed6a8..d32e6ad 100644
-+--- a/src/diff3.c
-++++ b/src/diff3.c
-+@@ -1026,6 +1026,12 @@ readnum (char *s, lin *pnum)
-+     }
-+   while (c_isdigit (c));
-+ 
-++  /* Simplify overflow checking later, so that we can always add a
-++     line number and a line count, or subtract two line numbers and
-++     add 1 to the result, without worrying about overflow.  */
-++  if (LIN_MAX / 2 < num)
-++    return nullptr;
-++
-+   *pnum = num;
-+   return s;
-+ }
-diff --git a/meta/recipes-extended/diffutils/diffutils_3.12.bb b/meta/recipes-extended/diffutils/diffutils_3.12.bb
-index d00dd772ad..5bf0540eab 100644
---- a/meta/recipes-extended/diffutils/diffutils_3.12.bb
-+++ b/meta/recipes-extended/diffutils/diffutils_3.12.bb
-@@ -6,6 +6,8 @@ require diffutils.inc
- SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+diff --git a/meta/recipes-extended/cpio/cpio_2.15.bb b/meta/recipes-extended/cpio/cpio_2.15.bb
+index fa011251e2..808a122210 100644
+--- a/meta/recipes-extended/cpio/cpio_2.15.bb
++++ b/meta/recipes-extended/cpio/cpio_2.15.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
             file://run-ptest \
-            file://0001-Skip-strip-trailing-cr-test-case.patch \
-+           file://CVE-2026-53910-01.patch \
-+           file://CVE-2026-53910-02.patch \
+            file://test.sh \
++           file://CVE-2026-66485.patch \
             "
  
- SRC_URI[sha256sum] = "7c8b7f9fc8609141fdea9cece85249d308624391ff61dedaf528fcb337727dfd"
-@@ -21,6 +23,13 @@ inherit ptest
- 
- RDEPENDS:${PN}-ptest += "make perl"
- 
-+# patch for CVE-2026-53910 touches source file, so build is trying to
-+# refresh the manual, which is failing in cross-compile environment;
-+# remove this code on next upgrade
-+do_compile:prepend() {
-+    touch ${S}/man/diff3.1
-+}
+ SRC_URI[sha256sum] = "efa50ef983137eefc0a02fdb51509d624b5e3295c980aa127ceee4183455499e"
+diff --git a/meta/recipes-extended/cpio/files/CVE-2026-66485.patch b/meta/recipes-extended/cpio/files/CVE-2026-66485.patch
+new file mode 100644
+index 0000000000..f9c0f48281
+--- /dev/null
++++ b/meta/recipes-extended/cpio/files/CVE-2026-66485.patch
+@@ -0,0 +1,210 @@
++From 3cd514031371d8aeeaf2048aa10103e02831aaa9 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Fri, 1 May 2026 08:19:41 +0300
++Subject: [PATCH] Minor fixes
 +
- do_install_ptest() {
- 	t=${D}${PTEST_PATH}
- 	install -D ${S}/build-aux/test-driver $t/build-aux/test-driver
++* src/makepath.c: Don't use alloca.
++* src/userspec.c: Likewise.
++
++CVE: CVE-2026-66485
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/cpio.git/commit/?id=3cd514031371d8aeeaf2048aa10103e02831aaa9]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/makepath.c | 31 ++++++++++++++---------
++ src/userspec.c | 67 +++++++++++++++++++++++++-------------------------
++ 2 files changed, 53 insertions(+), 45 deletions(-)
++
++diff --git a/src/makepath.c b/src/makepath.c
++index 35dbc73..c6329bf 100644
++--- a/src/makepath.c
+++++ b/src/makepath.c
++@@ -47,24 +47,19 @@
++    Return 0 if ARGPATH exists as a directory with the proper
++    ownership and permissions when done, otherwise 1.  */
++ 
++-int
++-make_path (char const *argpath,
++-	   uid_t owner,
++-	   gid_t group,
++-	   const char *verbose_fmt_string)
+++static int
+++make_path0 (char *dirpath,
+++	    uid_t owner,
+++	    gid_t group,
+++	    const char *verbose_fmt_string)
++ {
++-  char *dirpath;		/* A copy we can scribble NULs on.  */
++   struct stat stats;
++-  int retval = 0;
++   mode_t tmpmode;
++   mode_t invert_permissions;
++   int we_are_root = getuid () == 0;
++-  dirpath = alloca (strlen (argpath) + 1);
++-
++-  strcpy (dirpath, argpath);
++ 
++   if (stat (dirpath, &stats))
++-    {
+++  {
++       tmpmode = MODE_RWX & ~ newdir_umask;
++       invert_permissions = we_are_root ? 0 : MODE_WXUSR & ~ tmpmode;
++ 
++@@ -157,5 +152,19 @@ make_path (char const *argpath,
++ 
++     }
++ 
+++  return 0;
+++}
+++
+++int
+++make_path (char const *argpath,
+++	   uid_t owner,
+++	   gid_t group,
+++	   const char *verbose_fmt_string)
+++{
+++  char *dirpath = xstrdup (argpath);
+++  int retval = make_path0 (dirpath, owner, group, verbose_fmt_string);
+++  free (dirpath);
++   return retval;
++ }
+++
+++
++diff --git a/src/userspec.c b/src/userspec.c
++index 2a2b324..1a2bfa0 100644
++--- a/src/userspec.c
+++++ b/src/userspec.c
++@@ -19,7 +19,6 @@
++ /* Written by David MacKenzie <djm@gnu.ai.mit.edu>.  */
++ 
++ #include <system.h>
++-#include <alloca.h>
++ #include <stdio.h>
++ #include <ctype.h>
++ #include <sys/types.h>
++@@ -33,18 +32,6 @@
++ # define endgrent()
++ #endif
++ 
++-/* Perform the equivalent of the statement `dest = strdup (src);',
++-   but obtaining storage via alloca instead of from the heap.  */
++-
++-#define V_STRDUP(dest, src)						\
++-  do									\
++-    {									\
++-      int _len = strlen ((src));					\
++-      (dest) = (char *) alloca (_len + 1);				\
++-      strcpy (dest, src);						\
++-    }									\
++-  while (0)
++-
++ /* Return nonzero if STR represents an unsigned decimal integer,
++    otherwise return 0. */
++ 
++@@ -57,6 +44,18 @@ isnumber_p (const char *str)
++   return 1;
++ }
++ 
+++static void
+++store_string (char **bufptr, size_t *buflen, char *str)
+++{
+++  size_t len = strlen (str) + 1;
+++  if (len > *buflen)
+++    {
+++      *bufptr = xrealloc (*bufptr, len);
+++      *buflen = len;
+++    }
+++  strcpy (*bufptr, str);
+++}
+++
++ /* Extract from NAME, which has the form "[user][:.][group]",
++    a USERNAME, UID U, GROUPNAME, and GID G.
++    Either user or group, or both, must be present.
++@@ -70,23 +69,21 @@ isnumber_p (const char *str)
++    Return NULL if successful, a static error message string if not.  */
++ 
++ const char *
++-parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
++-		 char **username_arg, char **groupname_arg)
+++parse_user_spec0 (char *spec, uid_t *uid, gid_t *gid,
+++		  char **username_arg, char **groupname_arg)
++ {
++   static const char *tired = "virtual memory exhausted";
++   const char *error_msg;
++-  char *spec;			/* A copy we can write on.  */
++   struct passwd *pwd;
++   struct group *grp;
++   char *g, *u, *separator;
++-  char *groupname;
+++  char *groupname = NULL;
+++  size_t grouplen = 0;
++ 
++   error_msg = NULL;
++   *username_arg = *groupname_arg = NULL;
++   groupname = NULL;
++ 
++-  V_STRDUP (spec, spec_arg);
++-
++   /* Find the separator if there is one.  */
++   separator = strchr (spec, ':');
++   if (separator == NULL)
++@@ -143,11 +140,12 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
++ 	      if (grp == NULL)
++ 		{
++ 		  char nbuf[UINTMAX_STRSIZE_BOUND];
++-		  V_STRDUP (groupname, umaxtostr (pwd->pw_gid, nbuf));
+++		  store_string (&groupname, &grouplen,
+++				umaxtostr (pwd->pw_gid, nbuf));
++ 		}
++ 	      else
++ 		{
++-		  V_STRDUP (groupname, grp->gr_name);
+++		  store_string (&groupname, &grouplen, grp->gr_name);
++ 		}
++ 	      endgrent ();
++ 	    }
++@@ -178,7 +176,7 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
++       endgrent ();		/* Save a file descriptor.  */
++ 
++       if (error_msg == NULL)
++-	V_STRDUP (groupname, g);
+++	store_string (&groupname, &grouplen, g);
++     }
++ 
++   if (error_msg == NULL)
++@@ -191,23 +189,24 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
++ 	}
++ 
++       if (groupname != NULL && error_msg == NULL)
++-	{
++-	  *groupname_arg = strdup (groupname);
++-	  if (*groupname_arg == NULL)
++-	    {
++-	      if (*username_arg != NULL)
++-		{
++-		  free (*username_arg);
++-		  *username_arg = NULL;
++-		}
++-	      error_msg = tired;
++-	    }
++-	}
+++	*groupname_arg = groupname;
++     }
+++  else
+++    free (groupname);
++ 
++   return error_msg;
++ }
++ 
+++const char *
+++parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
+++		 char **username, char **groupname)
+++{
+++  char *spec = xstrdup (spec_arg);
+++  const char *retval = parse_user_spec0 (spec, uid, gid, username, groupname);
+++  free (spec);
+++  return retval;
+++}
+++
++ #ifdef TEST
++ 
++ #define NULL_CHECK(s) ((s) == NULL ? "(null)" : (s))
 
