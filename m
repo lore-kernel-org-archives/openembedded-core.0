@@ -2,130 +2,103 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9769FC5AD5A
-	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 19:08:27 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14251.1786820899643192001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5A5C5AD5A
+	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 19:08:37 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14254.1786820913004701320
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2026 12:08:20 -0700
+ Sat, 15 Aug 2026 12:08:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=W1tlTnTt;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202608151908164b3b508b830002079f-5svxeu@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202608151908164b3b508b830002079f
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=jxXv4hTv;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202608151908351d0103e08200020715-3drfnl@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202608151908351d0103e08200020715
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 15 Aug 2026 21:08:17 +0200
+        Sat, 15 Aug 2026 21:08:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=vS8n52PUxwjDUYDj8ouwJU7MGoujZp32eZuCMgcMQL8=;
- b=W1tlTnTtsXC6wVrSOhTchOJYET5HmFWyzWumT87qXWs2kS/U2ZvkHwnwmP0gyN0TA3aDbA
- ogm3acz94BFLQO1mO1vQvq8Y1qY2DamkPbo68hddqdHZB953hVr5nvVzshyd0engACQG6w1k
- iu0dP8zdGsd1aJXJ+Ma1aQJnpxD9ycfKlzZ8bs0SJIZReJAZhUIKXvrw0cnZ6SJZZV9gxRpu
- qGvdGMPkHMTkD7KS0QIrIKsKYH0VwzvT8GD8gqR1Vns4MNNUf8iNvU1RK2FWz8OassQUzTo/
- 8qGWTO77LKHGUg+suzKKfZh6eYj2NMMb04FbL9WLJBYuNBqd1yHhurqg==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=LtQzwPx7KApi63xadVrrx9UASijl0/wdQp/YtUyE2Tg=;
+ b=jxXv4hTvuHWk1SHs2Wby1VaKNKisGNhMvCn0lTUpTESzxpwgX6r4F8GVcma5Itm/qOv+rP
+ ISAzU/bKVnpWKUjeyP/WErbYHsi0f8UKnJmjCgwA4bUjKFkgbffxr608g2lN355uLP2NNOTx
+ tTw77WQivynLIxZO8D8iKhLgWceCNBdqvKrkvw7/+7A9DaQbw5I05rdtUnZ0rxJrijtFEm5Q
+ k84LK/QBWwVNIHDfVIdMNBu6VaSD6U9dmTDC3Ds95eWQavw3fhi/F5ED2W99TSaGGSad/WiL
+ F7MG2uLOqXEdb6Dc4zWBChTh58qxTGvzlrslP26VYFRAhXIulzs+CCcw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] bison: patch CVE-2026-56389
-Date: Sat, 15 Aug 2026 21:08:09 +0200
-Message-ID: <20260815190810.2980859-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 2/3] cpio: patch CVE-2026-66484
+Date: Sat, 15 Aug 2026 21:08:23 +0200
+Message-ID: <20260815190824.2980891-2-peter.marko@siemens.com>
+In-Reply-To: <20260815190824.2980891-1-peter.marko@siemens.com>
+References: <20260815190824.2980891-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 19:08:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243498
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 19:08:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243500
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch mentioned in NVD CVE report.
+Pick patch mentioned in NVD CVE description.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 6c99410bd7f0bc4e2ed41ef5afe7d6b5fcb99837)
+(From OE-Core rev: a49025d54fe7723df999710e7a385aaeb42303a2)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../bison/bison/CVE-2026-56389.patch          | 56 +++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.8.2.bb    |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56389.patch
+ meta/recipes-extended/cpio/cpio_2.15.bb       |  1 +
+ .../cpio/files/CVE-2026-66484.patch           | 28 +++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-extended/cpio/files/CVE-2026-66484.patch
 
-diff --git a/meta/recipes-devtools/bison/bison/CVE-2026-56389.patch b/meta/recipes-devtools/bison/bison/CVE-2026-56389.patch
+diff --git a/meta/recipes-extended/cpio/cpio_2.15.bb b/meta/recipes-extended/cpio/cpio_2.15.bb
+index f4b562fdc2c..62dcd444d5e 100644
+--- a/meta/recipes-extended/cpio/cpio_2.15.bb
++++ b/meta/recipes-extended/cpio/cpio_2.15.bb
+@@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+            file://run-ptest \
+            file://test.sh \
+            file://CVE-2026-66485.patch \
++           file://CVE-2026-66484.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "efa50ef983137eefc0a02fdb51509d624b5e3295c980aa127ceee4183455499e"
+diff --git a/meta/recipes-extended/cpio/files/CVE-2026-66484.patch b/meta/recipes-extended/cpio/files/CVE-2026-66484.patch
 new file mode 100644
-index 00000000000..ac827f6314a
+index 00000000000..97ce9a785cf
 --- /dev/null
-+++ b/meta/recipes-devtools/bison/bison/CVE-2026-56389.patch
-@@ -0,0 +1,56 @@
-+From 3169c1e7a2c6acc4c59dfcf8b089896d6881925b Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 23 Apr 2026 09:20:43 -0700
-+Subject: [PATCH] html: use xsltproc from PATH
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-extended/cpio/files/CVE-2026-66484.patch
+@@ -0,0 +1,28 @@
++From e2b9cbdd3354d2b1569b7390d1bc15c1930559ad Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Thu, 23 Jul 2026 15:55:46 +0300
++Subject: [PATCH] The --no-absolute-filenames option affects hard link targets
++ too.
 +
-+* src/print-xml.c (print_html):
-+* src/reader.c (prepare_percent_define_front_end_variables):
-+Drop undocumented support for lines like ‘%define tool.xsltproc
-+"whatever"’, as this can cause more trouble than it cures.
++* src/tar.c (stash_tar_linkname): Apply cpio_safer_name_suffix.
 +
-+CVE: CVE-2026-56389
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=3169c1e7a2c6acc4c59dfcf8b089896d6881925b]
++CVE: CVE-2026-66485
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/cpio.git/commit/?id=e2b9cbdd3354d2b1569b7390d1bc15c1930559ad]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/print-xml.c | 4 +---
-+ src/reader.c    | 1 -
-+ 2 files changed, 1 insertion(+), 4 deletions(-)
++ src/tar.c | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/src/print-xml.c b/src/print-xml.c
-+index 8da6da0d..79bfa88d 100644
-+--- a/src/print-xml.c
-++++ b/src/print-xml.c
-+@@ -543,10 +543,9 @@ print_html (void)
-+   assert (xml_flag);
++diff --git a/src/tar.c b/src/tar.c
++index 493f299..a1fc60a 100644
++--- a/src/tar.c
+++++ b/src/tar.c
++@@ -37,6 +37,8 @@ stash_tar_linkname (char *linkname)
 + 
-+   char *xml2html = xpath_join (pkgdatadir (), "xslt/xml2xhtml.xsl");
-+-  char *xsltproc = muscle_percent_define_get ("tool.xsltproc");
-+   char const *argv[11];
-+   int i = 0;
-+-  argv[i++] = xsltproc;
-++  argv[i++] = "xsltproc";
-+   argv[i++] = "-o";
-+   argv[i++] = spec_html_file;
-+   argv[i++] = xml2html;
-+@@ -572,6 +571,5 @@ print_html (void)
-+                /* termsigp */ NULL);
-+   if (status)
-+     complain (NULL, complaint, _("%s failed with status %d"), argv[0], status);
-+-  free (xsltproc);
-+   free (xml2html);
++   strncpy (hold_tar_linkname, linkname, TARLINKNAMESIZE);
++   hold_tar_linkname[TARLINKNAMESIZE] = '\0';
+++  cpio_safer_name_suffix (hold_tar_linkname, true, !no_abs_paths_flag,
+++  			  false);
++   return hold_tar_linkname;
 + }
-+diff --git a/src/reader.c b/src/reader.c
-+index 862d7293..cb2a7f69 100644
-+--- a/src/reader.c
-++++ b/src/reader.c
-+@@ -788,7 +788,6 @@ prepare_percent_define_front_end_variables (void)
-+       muscle_percent_define_default ("lr.default-reduction", "accepting");
-+     free (lr_type);
-+   }
-+-  muscle_percent_define_default ("tool.xsltproc", "xsltproc");
 + 
-+   /* Check %define front-end variables.  */
-+   {
-diff --git a/meta/recipes-devtools/bison/bison_3.8.2.bb b/meta/recipes-devtools/bison/bison_3.8.2.bb
-index da138e35874..9808a96e993 100644
---- a/meta/recipes-devtools/bison/bison_3.8.2.bb
-+++ b/meta/recipes-devtools/bison/bison_3.8.2.bb
-@@ -12,6 +12,7 @@ DEPENDS = "bison-native flex-native"
- SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://autoconf-2.73.patch \
-            file://add-with-bisonlocaledir.patch \
-+           file://CVE-2026-56389.patch \
-            "
- SRC_URI[sha256sum] = "9bba0214ccf7f1079c5d59210045227bcf619519840ebfa80cd3849cff5a5bf2"
- 
 
