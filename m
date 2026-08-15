@@ -1,158 +1,99 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2482AC5AD5A
-	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 12:39:37 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8054.1786797573586451329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AA2C5AD5A
+	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 12:46:26 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8152.1786797986124993878
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2026 05:39:35 -0700
+ Sat, 15 Aug 2026 05:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DIDrqTl6;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202608151239303412ce5d3e00020751-frmohl@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202608151239303412ce5d3e00020751
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 15 Aug 2026 14:39:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=XcJXvcfAOGNaZ+c0lMQoNf/l1wGUxxTTrk9jZbP+hjc=;
- b=DIDrqTl6Z6RJ3/6oRltFig0MAeEr2++vievO8jvdGuVRy8A8ULqTK2e5AaOWO3XFnZosut
- jqDEQkzBEBT144f2FrUhaMz5hRmpSMLm0NrUHiNd5e84YPWmhlaHoE9DuGGVJnP+UP87U3Ew
- GJEgnUOeiL9Ol9Vh8AVcgZ8IhLar3zgYlkFreQikWXvTQud1Cb/B0lCeEGOQ8za9qZkPX1uC
- bkbFWMZYnZIMCDYBdJ2Bxf4nwePkezVV/L9MorljsPaymNT7DSI6khSytjsJLEi2G3klA5be
- cyX3KMzbC8y2qr/6h1PXyIZekC1Z0KJzQgCpBIQLQ9YgFdW2oq/kcwyg==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CMpgBQ+Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47fde295992so1403572f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 05:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1786797984; x=1787402784; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iMdGAgcaOZzhxoGotffmFSRon37SnX6BVi9L7Nk2+oc=;
+        b=CMpgBQ+QTzx9NekJmsFKf2wUn6AfRIgDgIS3BHcIuI76yW0hFkTiVrB1UHAjYkqN1T
+         07iXCX3oZZIs6nl5XAaBodpjvzOUmK83NV4iEo2ZfMlLrACva8Yg9HLfe1GTUsUDVhJZ
+         Ogv7NjYE/GomSnYxLLJgvjo2FMOAbByw9DsrI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786797984; x=1787402784;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=iMdGAgcaOZzhxoGotffmFSRon37SnX6BVi9L7Nk2+oc=;
+        b=IQ6MNIbCRnuG5FQS90gl0PzjfDixjX9S0qt6fcFYUoWdw5struRrmaleNeB1Mf+oOZ
+         NLtlbHJJmo1017UVLufERf0ZQx0qNpILbBLKzdBa5gWQUqvQ+czXlR+290yi48ZySNLE
+         AqBFSItS9/MQx4utXxdTZpmOFWJxTJF8sjlbKM0Wwf7fb9DQMS57Ay4t9OeHzjkxNtSw
+         ZRC5TrgwGjHKiSIDjcKBEDPnjepiR7Hp1SS+CJ0aYuqBxQn9xVzNcGZ/29ByCydnyt1R
+         iLY07EhwD3/5OPIw5LSjv/dJTK+FEUkSWrTLo7qVVJ9too3xKNExlBnVWrNyTkPTzNCE
+         R9Gg==
+X-Gm-Message-State: AOJu0Yy9E2eYoIvcyppIiJuEUZGhCuv7nR3p7zWR+7G7NpvOqoUpBG7L
+	HUeG8JCwVNFDmhar+YjvQGdwu0ewEjtjdKIQrmNMT1IG2IOPzb+ayeIlx+f6aUVe7fgM5vHpori
+	jRyo7Mq8=
+X-Gm-Gg: AR+sD134P5dUIEmBqMKBAoLPl1SR66tR0TKldiEFDacJ5eMbkMdVCt0rmsNIjsKSFJD
+	75lyyRFChd73/6VZhKh+cvLK8+Ck2ElZJujvj47iAhGAIhVu+jAQGp46IKlDYHknts3Pw37YR3a
+	ahv6l7zzDutTEzO4WeBXBnvhR011XSd7NBSYB8ne4bwIAKqBYVuEo2VbQUAur1bJijif79RxxQQ
+	traleS/GiRWQtkN3FGhBJ0Dce/hUkOOGeqKOgv+6H1qngliUH1jd05Rg++1U4SENyfqVFCB7C9k
+	c2o4pf4qeRY4NS+tCf+ScZE9viaaOHLU+pC8LXjMPWhKmT7MEw/pJtdnONyfkwghpRXqzL6afcC
+	2Q3fCAc/jD75of4SskPHG0BiMq8PNJ4asDy7Vev/vO96AHgYi7aHdSMLdnQ7oLY4hGBNOgPl24r
+	x6LkeBbSb6HJDsUtJqyHSHrxCdorMxCqzWVrYsqenBdObE7tq4HFwC2QVHOzlCyo6T4pLULNtdR
+	Y4XSRHa0MPenzQE
+X-Received: by 2002:a05:6000:1865:b0:47f:71a0:c060 with SMTP id ffacd0b85a97d-4815a4de806mr31147618f8f.2.1786797984151;
+        Sat, 15 Aug 2026 05:46:24 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:76a9:d146:8f01:f2e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f200752sm17245267f8f.1.2026.08.15.05.46.22
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2026 05:46:23 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] go: upgrade 1.26.5 -> 1.26.6
-Date: Sat, 15 Aug 2026 14:38:52 +0200
-Message-ID: <20260815123852.586354-1-peter.marko@siemens.com>
+Subject: [PATCH 1/4] libpsl: upgrade 0.23.1 -> 0.23.3
+Date: Sat, 15 Aug 2026 13:46:19 +0100
+Message-ID: <20260815124622.3666801-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 12:39:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243481
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 12:46:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243482
 
-From: Peter Marko <peter.marko@siemens.com>
+Source: NEWS
 
-Upgrade to latest 1.26.x release [1]:
+14.08.2026 Release V0.23.3
+  * meson: make copyright_prog work for cross builds
 
-$ git --no-pager log --oneline go1.26.5..go1.26.6
-1ea5a71ad8 (tag: go1.26.6) [release-branch.go1.26] go1.26.6
-115eb476aa [release-branch.go1.26] cmd/vendor: fix CVE-2026-56865 in x/mod
-9f6980fd5c [release-branch.go1.26] cmd/vendor: fix CVE-2026-56864 in x/mod
-6ec908dd24 [release-branch.go1.26] encoding/asn1: enforce maximum recursion depth
-9918f26ab3 [release-branch.go1.26] encoding/xml: fix depth processing in (*Decoder).unmarshal
-33ecb966ca [release-branch.go1.26] html/template: fix JavaScript regexp tracking
-128893dbf9 [release-branch.go1.26] net/url: avoid quadratic complexity in resolvePath
-13c194062c [release-branch.go1.26] cmd/compile: do not elide riscv64 sign extension of unsigned values
-52e5e2f22a [release-branch.go1.26] cmd/compile: fix time traveling proofs in prove
-db38ee7121 [release-branch.go1.26] cmd/compile: fix prove to generate Const64 for 64bits slicemasks
-f5bf46f361 [release-branch.go1.26] cmd/compile: fix mips64le bigger than 32bits pointer offsets
-f8d4fa6213 [release-branch.go1.26] runtime: fix frame pointer adjustment around injected calls
-efc79671b1 [release-branch.go1.26] cmd/compile: do not home mul/div results in HI/LO
-605fd48711 [release-branch.go1.26] crypto/tls: add fips140ems GODEBUG setting to disable EMS enforcement
-100fb8f023 [release-branch.go1.26] cmd/link: quote PE .def library name
-4d522f275f [release-branch.go1.26] cmd/compile: tighten mergelocals address use analysis
-0e8a244fe5 [release-branch.go1.26] all: update x/net
-019fcb0152 [release-branch.go1.26] cmd/compile: don't require Heapaddr for heap vars in dead code
-b6432317a1 [release-branch.go1.26] crypto/tls: do not count handshake messages as state-advancing post-handshake
-ae63e27897 [release-branch.go1.26] runtime: fix uninitialized 7th argument in mach_vm_region_trampoline
-88bf57924f [release-branch.go1.26] runtime: don't emit write barrier for code pointers in itabInit
-4238449188 [release-branch.go1.26] os: strip trailing slashes in RemoveAll on Plan 9
-28f27d64cf [release-branch.go1.26] os: properly handle trailing / in Root.MkdirAll
-cc312256f8 [release-branch.go1.26] runtime: be sure to scan small frame introduced by (*sigctxt).pushCall
-07a0bbba1b [release-branch.go1.26] os: don't expect an error from Root.ReadFile from a directory on NetBSD
-a42fec40ab [release-branch.go1.26] all: update x/net
-5bbd22ff78 [release-branch.go1.26] net/http: apply header timeout to server's unencrypted HTTP/2 check
+10.08.2026 Release V0.23.2
+  * meson: Use compatible C code instead of 'date'
+  * configure.ac: Fix typo that broke SOURCE_DATE_EPOCH for COPYRIGHT_YEAR
 
-Fixes CVE-2026-56865, CVE-2026-56864, CVE-2026-56859, CVE-2026-56853,
-      CVE-2026-56860, CVE-2026-46600, CVE-2026-56862, CVE-2026-56858,
-      CVE-2026-39821 and CVE-2026-33818.
-
-Release information: [2]
-
-[1] https://github.com/golang/go/compare/go1.26.5...go1.26.6
-[2] https://groups.google.com/g/golang-announce/c/94pEornpRlI
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: cae8a33abfda172e65166811eeb1bc7ad2d129a3)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/go/{go-1.26.5.inc => go-1.26.6.inc}   | 2 +-
- ...o-binary-native_1.26.5.bb => go-binary-native_1.26.6.bb} | 6 +++---
- ...cross-canadian_1.26.5.bb => go-cross-canadian_1.26.6.bb} | 0
- .../go/{go-cross_1.26.5.bb => go-cross_1.26.6.bb}           | 0
- .../go/{go-crosssdk_1.26.5.bb => go-crosssdk_1.26.6.bb}     | 0
- .../go/{go-runtime_1.26.5.bb => go-runtime_1.26.6.bb}       | 0
- meta/recipes-devtools/go/{go_1.26.5.bb => go_1.26.6.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.26.5.inc => go-1.26.6.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.5.bb => go-binary-native_1.26.6.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.5.bb => go-cross-canadian_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.5.bb => go-cross_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.5.bb => go-crosssdk_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.5.bb => go-runtime_1.26.6.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.5.bb => go_1.26.6.bb} (100%)
+ .../libpsl/{libpsl_0.23.1.bb => libpsl_0.23.3.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libpsl/{libpsl_0.23.1.bb => libpsl_0.23.3.bb} (91%)
 
-diff --git a/meta/recipes-devtools/go/go-1.26.5.inc b/meta/recipes-devtools/go/go-1.26.6.inc
-similarity index 90%
-rename from meta/recipes-devtools/go/go-1.26.5.inc
-rename to meta/recipes-devtools/go/go-1.26.6.inc
-index a4302b2790..fa6b0a50a1 100644
---- a/meta/recipes-devtools/go/go-1.26.5.inc
-+++ b/meta/recipes-devtools/go/go-1.26.6.inc
-@@ -16,4 +16,4 @@ SRC_URI += "\
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
- "
--SRC_URI[main.sha256sum] = "495be4bc87176ac567392e5b4116abd98466d33d7b49d41e764ccc6976b2dc42"
-+SRC_URI[main.sha256sum] = "a0721c54c688901448d77ad9b3ec7ea7c474730755ff891382e92ecb93ff2cb1"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.5.bb b/meta/recipes-devtools/go/go-binary-native_1.26.6.bb
-similarity index 80%
-rename from meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.26.6.bb
-index 97a8270be2..2913fb6515 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.26.6.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-support/libpsl/libpsl_0.23.1.bb b/meta/recipes-support/libpsl/libpsl_0.23.3.bb
+similarity index 91%
+rename from meta/recipes-support/libpsl/libpsl_0.23.1.bb
+rename to meta/recipes-support/libpsl/libpsl_0.23.3.bb
+index 3baeb9d77aa..1bba67ad960 100644
+--- a/meta/recipes-support/libpsl/libpsl_0.23.1.bb
++++ b/meta/recipes-support/libpsl/libpsl_0.23.3.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=49296c1806ef92c28297fb264163d81e \
+                     "
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053"
--SRC_URI[go_linux_arm64.sha256sum] = "fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49"
--SRC_URI[go_linux_ppc64le.sha256sum] = "c5d60e2b303bb612f20cd82786594b64874e73b35134025e27d3390bf284ae43"
-+SRC_URI[go_linux_amd64.sha256sum] = "708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89"
-+SRC_URI[go_linux_arm64.sha256sum] = "d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "232b65543a42eda95df6a63f76235c1795bb535eba5c74e509faec71bc648388"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "8fbb03054556498ba9c4cc48fcaa36a4483748c6504a65bdb9ba348f555b0e56"
++SRC_URI[sha256sum] = "93941f85a1e7bd593fa94f299233cb5dfc91cd144fd9a78a6ceb75001c5b03be"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.26.5.bb b/meta/recipes-devtools/go/go-cross_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.26.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.26.5.bb b/meta/recipes-devtools/go/go-runtime_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.26.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.26.6.bb
-diff --git a/meta/recipes-devtools/go/go_1.26.5.bb b/meta/recipes-devtools/go/go_1.26.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.26.5.bb
-rename to meta/recipes-devtools/go/go_1.26.6.bb
+ GITHUB_BASE_URI = "https://github.com/rockdaboot/libpsl/releases"
+ 
 
