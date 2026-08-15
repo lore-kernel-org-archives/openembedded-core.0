@@ -1,101 +1,158 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0344C5CFDB
-	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 10:01:09 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6011.1786788064922347881
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2482AC5AD5A
+	for <webhook@archiver.kernel.org>; Sat, 15 Aug 2026 12:39:37 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8054.1786797573586451329
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2026 03:01:05 -0700
+ Sat, 15 Aug 2026 05:39:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IVtTIJRJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=3PBDEc3V;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a004de2ad3-a1fc5769-79f6-46f6-85d3-824bd598a3b9-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786788064; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ifQK55u90exVh0BTpfRXNiloT2AhDhPRm8JnbghPQto=;
-	b=IVtTIJRJUmFm0DvmdURoNdAXKBr+mxuJXpHVV68gO1apMjyglXMPOCQhSzK5rDWq
-	+PoshxFQi81p5L5Dl6Tl4z75YIzVSJ0fHV5mUNTWgSQ3eUVCN5PAkfX+yfheqEqjB1P
-	3Fxvue0VgAEzxnLJmtMpDlP3kpctt0KV5JUltFE4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786788064;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ifQK55u90exVh0BTpfRXNiloT2AhDhPRm8JnbghPQto=;
-	b=3PBDEc3VvwjEqrzYqd8J7d8n2LNLQ9numIgdFXGOQXSHHMYyiT3mmEpm+nhebmZa
-	dOi96hJJHwLAXClLyDGGk34fuJT/Ow//qnuaX6/+qtX9NBsHDZ6VYPP6KrkiHhDHcTm
-	YRL0aBa6ryDvaM/gAWfNq5Kpr51c4a1egDuRHlts=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] meta/meta-selftest: Further trailing whitespace removal
-In-Reply-To: <20260815094448.3475188-1-richard.purdie@linuxfoundation.org>
-References: <20260815094448.3475188-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a004de2ad3-a1fc5769-79f6-46f6-85d3-824bd598a3b9-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Aug 2026 10:01:03 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.15-54.240.27.45
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DIDrqTl6;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202608151239303412ce5d3e00020751-frmohl@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202608151239303412ce5d3e00020751
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 15 Aug 2026 14:39:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=XcJXvcfAOGNaZ+c0lMQoNf/l1wGUxxTTrk9jZbP+hjc=;
+ b=DIDrqTl6Z6RJ3/6oRltFig0MAeEr2++vievO8jvdGuVRy8A8ULqTK2e5AaOWO3XFnZosut
+ jqDEQkzBEBT144f2FrUhaMz5hRmpSMLm0NrUHiNd5e84YPWmhlaHoE9DuGGVJnP+UP87U3Ew
+ GJEgnUOeiL9Ol9Vh8AVcgZ8IhLar3zgYlkFreQikWXvTQud1Cb/B0lCeEGOQ8za9qZkPX1uC
+ bkbFWMZYnZIMCDYBdJ2Bxf4nwePkezVV/L9MorljsPaymNT7DSI6khSytjsJLEi2G3klA5be
+ cyX3KMzbC8y2qr/6h1PXyIZekC1Z0KJzQgCpBIQLQ9YgFdW2oq/kcwyg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [wrynose][PATCH] go: upgrade 1.26.5 -> 1.26.6
+Date: Sat, 15 Aug 2026 14:38:52 +0200
+Message-ID: <20260815123852.586354-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 10:01:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243480
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2026 12:39:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243481
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Upgrade to latest 1.26.x release [1]:
 
+$ git --no-pager log --oneline go1.26.5..go1.26.6
+1ea5a71ad8 (tag: go1.26.6) [release-branch.go1.26] go1.26.6
+115eb476aa [release-branch.go1.26] cmd/vendor: fix CVE-2026-56865 in x/mod
+9f6980fd5c [release-branch.go1.26] cmd/vendor: fix CVE-2026-56864 in x/mod
+6ec908dd24 [release-branch.go1.26] encoding/asn1: enforce maximum recursion depth
+9918f26ab3 [release-branch.go1.26] encoding/xml: fix depth processing in (*Decoder).unmarshal
+33ecb966ca [release-branch.go1.26] html/template: fix JavaScript regexp tracking
+128893dbf9 [release-branch.go1.26] net/url: avoid quadratic complexity in resolvePath
+13c194062c [release-branch.go1.26] cmd/compile: do not elide riscv64 sign extension of unsigned values
+52e5e2f22a [release-branch.go1.26] cmd/compile: fix time traveling proofs in prove
+db38ee7121 [release-branch.go1.26] cmd/compile: fix prove to generate Const64 for 64bits slicemasks
+f5bf46f361 [release-branch.go1.26] cmd/compile: fix mips64le bigger than 32bits pointer offsets
+f8d4fa6213 [release-branch.go1.26] runtime: fix frame pointer adjustment around injected calls
+efc79671b1 [release-branch.go1.26] cmd/compile: do not home mul/div results in HI/LO
+605fd48711 [release-branch.go1.26] crypto/tls: add fips140ems GODEBUG setting to disable EMS enforcement
+100fb8f023 [release-branch.go1.26] cmd/link: quote PE .def library name
+4d522f275f [release-branch.go1.26] cmd/compile: tighten mergelocals address use analysis
+0e8a244fe5 [release-branch.go1.26] all: update x/net
+019fcb0152 [release-branch.go1.26] cmd/compile: don't require Heapaddr for heap vars in dead code
+b6432317a1 [release-branch.go1.26] crypto/tls: do not count handshake messages as state-advancing post-handshake
+ae63e27897 [release-branch.go1.26] runtime: fix uninitialized 7th argument in mach_vm_region_trampoline
+88bf57924f [release-branch.go1.26] runtime: don't emit write barrier for code pointers in itabInit
+4238449188 [release-branch.go1.26] os: strip trailing slashes in RemoveAll on Plan 9
+28f27d64cf [release-branch.go1.26] os: properly handle trailing / in Root.MkdirAll
+cc312256f8 [release-branch.go1.26] runtime: be sure to scan small frame introduced by (*sigctxt).pushCall
+07a0bbba1b [release-branch.go1.26] os: don't expect an error from Root.ReadFile from a directory on NetBSD
+a42fec40ab [release-branch.go1.26] all: update x/net
+5bbd22ff78 [release-branch.go1.26] net/http: apply header timeout to server's unencrypted HTTP/2 check
+
+Fixes CVE-2026-56865, CVE-2026-56864, CVE-2026-56859, CVE-2026-56853,
+      CVE-2026-56860, CVE-2026-46600, CVE-2026-56862, CVE-2026-56858,
+      CVE-2026-39821 and CVE-2026-33818.
+
+Release information: [2]
+
+[1] https://github.com/golang/go/compare/go1.26.5...go1.26.6
+[2] https://groups.google.com/g/golang-announce/c/94pEornpRlI
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(From OE-Core rev: cae8a33abfda172e65166811eeb1bc7ad2d129a3)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/meta-meta-selftest-Further-trailing-whitespace-removal.patch
+ meta/recipes-devtools/go/{go-1.26.5.inc => go-1.26.6.inc}   | 2 +-
+ ...o-binary-native_1.26.5.bb => go-binary-native_1.26.6.bb} | 6 +++---
+ ...cross-canadian_1.26.5.bb => go-cross-canadian_1.26.6.bb} | 0
+ .../go/{go-cross_1.26.5.bb => go-cross_1.26.6.bb}           | 0
+ .../go/{go-crosssdk_1.26.5.bb => go-crosssdk_1.26.6.bb}     | 0
+ .../go/{go-runtime_1.26.5.bb => go-runtime_1.26.6.bb}       | 0
+ meta/recipes-devtools/go/{go_1.26.5.bb => go_1.26.6.bb}     | 0
+ 7 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.26.5.inc => go-1.26.6.inc} (90%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.26.5.bb => go-binary-native_1.26.6.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.26.5.bb => go-cross-canadian_1.26.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.26.5.bb => go-cross_1.26.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.26.5.bb => go-crosssdk_1.26.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.26.5.bb => go-runtime_1.26.6.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.26.5.bb => go_1.26.6.bb} (100%)
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/go/go-1.26.5.inc b/meta/recipes-devtools/go/go-1.26.6.inc
+similarity index 90%
+rename from meta/recipes-devtools/go/go-1.26.5.inc
+rename to meta/recipes-devtools/go/go-1.26.6.inc
+index a4302b2790..fa6b0a50a1 100644
+--- a/meta/recipes-devtools/go/go-1.26.5.inc
++++ b/meta/recipes-devtools/go/go-1.26.6.inc
+@@ -16,4 +16,4 @@ SRC_URI += "\
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+ "
+-SRC_URI[main.sha256sum] = "495be4bc87176ac567392e5b4116abd98466d33d7b49d41e764ccc6976b2dc42"
++SRC_URI[main.sha256sum] = "a0721c54c688901448d77ad9b3ec7ea7c474730755ff891382e92ecb93ff2cb1"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.5.bb b/meta/recipes-devtools/go/go-binary-native_1.26.6.bb
+similarity index 80%
+rename from meta/recipes-devtools/go/go-binary-native_1.26.5.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.26.6.bb
+index 97a8270be2..2913fb6515 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.26.6.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053"
+-SRC_URI[go_linux_arm64.sha256sum] = "fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "c5d60e2b303bb612f20cd82786594b64874e73b35134025e27d3390bf284ae43"
++SRC_URI[go_linux_amd64.sha256sum] = "708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89"
++SRC_URI[go_linux_arm64.sha256sum] = "d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e"
++SRC_URI[go_linux_ppc64le.sha256sum] = "232b65543a42eda95df6a63f76235c1795bb535eba5c74e509faec71bc648388"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.26.5.bb b/meta/recipes-devtools/go/go-cross_1.26.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.26.5.bb
+rename to meta/recipes-devtools/go/go-cross_1.26.6.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.26.6.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.26.5.bb b/meta/recipes-devtools/go/go-runtime_1.26.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.26.5.bb
+rename to meta/recipes-devtools/go/go-runtime_1.26.6.bb
+diff --git a/meta/recipes-devtools/go/go_1.26.5.bb b/meta/recipes-devtools/go/go_1.26.6.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.26.5.bb
+rename to meta/recipes-devtools/go/go_1.26.6.bb
 
