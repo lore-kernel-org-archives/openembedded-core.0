@@ -1,169 +1,140 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BE7C5B572
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 16:21:57 +0000 (UTC)
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12670.1786897315417457056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14DAEC5B572
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 16:26:27 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.26])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12743.1786897581017369743
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 09:21:55 -0700
+ Sun, 16 Aug 2026 09:26:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=hwCkdAzu;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Dg47M3uT;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.147, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 836B4EC0228;
-	Sun, 16 Aug 2026 12:21:54 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Sun, 16 Aug 2026 12:21:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1786897314;
-	 x=1786983714; bh=n3IyioIEFMI5UZRUZeSb4jQ8voeBUGT8ad8W1vUdUeI=; b=
-	hwCkdAzuNTWuofxTPpuVLcNKuQoeQ9axZl/FZt1xcmrkYbdHrDbimTZy7zGQ+IIv
-	laYf6KpDuqXjP+HUys+tURlfOw68x2nZOwg8+HVR4pXDUJ44JMNq5jSO8EMBAHRH
-	s420rElGICR4BT0SP7pb7+aUnZI9oZtc8OjXFAYbKy4sVVVLhw5+vyQPGOpq5/AY
-	h+5RNcop9pn3yQleDjhU9stfJCwkViifzcHLvj1Nr35xCmsSTYRcXvZF5eC24RS6
-	DMQ9q8Fi274FqacN6oPx9Yo6IEANd7X12sxncJTo6bLq7NyteTMDM5d5I3dv8F+X
-	2c/8AVqJqfrkURbKJgeoRQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1786897314; x=1786983714; bh=n
-	3IyioIEFMI5UZRUZeSb4jQ8voeBUGT8ad8W1vUdUeI=; b=Dg47M3uT3b2R5Oadj
-	LDOIRofY+L18mBy/PR9Ov7VHPI14rHirTtsIguh8lh7clmligWMi0ebgW1Z2vlZd
-	Sgj9atp5WWsHT+0o15sIriPhU0fM2USahjeUoDENmPkxTeQnDV7iVj2Mq8u1I13e
-	0VvJAOzgFDDPegYVOegrg/UNxNtw8C7mOnSjoDCiDueMgk0gVJ1snlZ6EBP1iaVl
-	e+LwJa/hnD0JNg9R98mXi7/yMFjHSdwVQUWYsTQ8PiJmT/+8JE5wr0PmL376sZ6D
-	Y6Bta+WxThmOcWJk0S5qyCKvyFu41t6xoj+qDT69mxM5+9BETa1ELKBNeR5uzZGm
-	fa2aw==
-X-ME-Sender: <xms:ouOBag0RTqjqCYu9vcrKcajI-o6yq8ccPv-28xy_wveB1T0ZVxjMpA>
-    <xme:ouOBahGQHqPd0zulfLJ02RkrZbPFICkMtIo_KCEcWyZXIICj668A-OzT2CzF4txWB
-    m7Kh4NxA3Nu1PvEAFHhHO6RcIBbTJeKzSFvQuvIRkVjIJFXc69lWS9i>
-X-ME-Received: <xmr:ouOBamiTZ6tLPIDM20AePU_gQakTJKLcsNJbmjdEgkToGLH3wHA1Q2X9Mg0EYS3R6wo-7pTUS2jHLHoxFtiz1oQjfcihlJb3Ia8y73Oh4-CU>
-X-ME-Proxy-Cause: dmFkZTEKRZIz7LCnkUyKsnho8O0UJTmUvojjGy+rA3Ke7R/EdbmjYMK3FXOb7QhgVTlqIK
-    Rl38Xz4jrVIkdI+idveGIeipvTTxvyi8jka0jAS9TpUkGKrHTbpFB9nnz5b2soG8IjFBAA
-    zFZVvQ9LWzfOWTeoEID79LjYY33lfkseO3Y6LXTdvZHHbVnenaSv7biNcmIbyQs2SJtV6Y
-    LJWcdI9rUU4znPdYJ7mTpGGwn48vMemd23fJVy6/tpRNW4ydiGyY7gC0I8vyee4Uf+4P2e
-    fzBNESOHc55MXgZGrlCgi5bbohcy181GzRdn+KvDIvNMenKVRIWW1EXLBJFJelAMxzlmli
-    Fxi9nF1IS1kfDeuLfU5prSGx9fMmSjHD95BapPFl7HDyAWMIzMjavWslzUqk4PlJHI1i2A
-    dinMQBOLz9VAbNJnP0AVifFYjiR90FbBH7OaSWVkm7IABc8IgMtrClHcuE4tAf7LfEZF8Q
-    7q9t3I0w7tNpI2wOV0Go5k9Q/p70OgIxMKaYbGR7j6Nu+p8+RTGYDdg4iwCEKZaNGveZMy
-    Iu/dbPNUXWNOBw+pAkjYXKC4KGJVmzVzwll+V/etirCRnH5EbwMmJRcQVw1khnLn2f2K8c
-    AZonXeXMFQ0VDDqwRCXWNGFqFI6JQUtbJHiskloN2AMTIjGYIrC4yOTu14Jg
-X-ME-Proxy: <xmx:ouOBak98Q0XNTlfUX3yj43X-2usJxMcSUQtFg-CDUxSX4IGVEIMGTQ>
-    <xmx:ouOBalplBST-h6c3TTanVIcTFxqwNZu3NnoRhvql65VvrOsNlmWBEQ>
-    <xmx:ouOBar_u6kcb1cpJUMEei1M757HShxR1EXv5LtuoCRwCfuHY9Cqo3Q>
-    <xmx:ouOBahX0L0fF3bYtzg8aPwKZoj4tRjMe-Lk3qnWcbU-jpuH_jquwDw>
-    <xmx:ouOBaqZiC4xk7fstFY1jhiSDAPyYSK1y0_J1VAAIWJHHn_a4iW-uR9lv>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Aug 2026 12:21:53 -0400 (EDT)
-Message-ID: <1ffababa08333e0eb2963289daba44c562bb1acf.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH v3 5/9] cve-exclusions: set status for
- CVE-2022-1247
-From: Paul Barker <paul@pbarker.dev>
-To: Junjie Cao <junjie.cao@linux.dev>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 16 Aug 2026 17:21:52 +0100
-In-Reply-To: <20260812072842.1176341-6-junjie.cao@linux.dev>
-References: <20260812072842.1176341-1-junjie.cao@linux.dev>
-	 <20260812072842.1176341-6-junjie.cao@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=mt7vT/9R;
+ spf=pass (domain: est.tech, ip: 40.107.162.26, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lEc8/nKuBT1BYXhjPOaTA2aa0Tg7Onun7fdtwXiHRZw8wKr5df+TaV73LfYtM6JifHoDJWuGJDWnBxHTFeUS38YiVbVX7/JXZVNDnbNfq8NIiHfPwAfhsZ+JZ4ZQw/2Hur15iAbC5xRJ960pGjvmbtYPue4GsZCq5V+Z9q9Qmf7wTK2ngEFflpcwWesdCRS+QgIjELGqarX4to1XwcvTjKk2qNsNhT4vGpsikHpS1n95b9bg0rRZFaUkEFSMjpeZvmJCGYEO9q+uaz60NiU6fsfLUaqLu4Jhuw5NgvMhu0BgRWu10TJ2HEKwgiU7dohT7muioUtHyqRQnZjFmIo+cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RwrcTOuN//5qoQWTtNO4Jn1HILiJ4krKDZGKV5QEqP8=;
+ b=c5bmC0Q+oPpn0f2GEO1L+5s2QTZKWfqZU4Z38CKKdTr+676kZnkZDzYGAunxLZ+iowedJxTlwMLJn2X3HX2/xAcey0v94Uwm/Dgv8GmQLlKf4FTglTB6khsTb9LNBvu/CtUWB7rQnqeufWOMIMmy0iylaUylGv4CjI05Ur8X4l/ZaFmywkTua2QugAECs/LwOJdvLH13w/q0K2L/X1Jf/3k4F1h2tXw+Rjp2bLmC8QSryGmKhyHy55yUMRpgBAKs+c80elGirNRymshZ9rUYtzIXMfFf0iRxMBLoJ9XKZK9FlZv2kTeWlp0ShcTKobKxgHi4KLorRsyVulbqCyk8ZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RwrcTOuN//5qoQWTtNO4Jn1HILiJ4krKDZGKV5QEqP8=;
+ b=mt7vT/9Rk6tIBoVW4jV7JndAY+Cu/HiIC4nW0mUXGO3jzHJtaFd82GxOMMB7LzxSqOyVlArSPRnZ+m4PtsGpbnHEiLHjYYOXNNQVek1s/F5OZs22xR5lkXr1f+O0SlPreNlCHdd9R/1rA/3DD39mvvXKmbRCvpj9D2Q9/QgF0poa9uRVFe/a9MwAFhf92eoFWjVA8CSyjsHfa3kkyTm4wDMSCD7U6x1t9A7e7Z4SEWOEV768RLXpV3EmFWdonvCaLc+U/r1rRwJ2FG3esR2fs1fSvVT/ptBaQ5Knwj4oF+VP0qiZT5OZVYc36fEPF32+cAnU9TzIO2rpI33dPIBMXA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by GVXP189MB2751.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:1fd::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Sun, 16 Aug
+ 2026 16:26:14 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.007; Sun, 16 Aug 2026
+ 16:26:14 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [PATCH 0/2] boost: upgrade 1.91.0 -> 1.92.0
+Date: Sun, 16 Aug 2026 18:26:09 +0200
+Message-ID: <20260816162611.41933-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0081.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46a::6) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GVXP189MB2751:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a8ee919-8e59-4a19-e4bf-08defbb31729
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|10070799003|23010399003|1800799024|376014|10067099003|56012099006|3023799007|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	g7RwAkAA0LuXRUMM4PRjNXKkfnm/PN7Im2GwMzqd7Jbp3kvbS4gshpgr/IAGjbXKHn1ZQCLNirQYvEbAd9RX7bVbBqOXWhghqaa3fgeyk6R00g+UkuKkaq7vPRjeLBOu/EoSMEBqETwH0bm+DGUL7le4qCwH2JoCQKiF+Te1s4gCfnfusSRi0o8DI5UYSj6B8Z9VYr0JBhK/6jPuNnJFBxLzxmRmrrxKE3vqs4KK8+auVCswbKkuoph1o0zQHfd5L1h/6OcvGM6IxQizJUM/HFDB/acjWDXfw4lNlU9T7Sb/SHgZryTDihxYBL+vSTUyDOXa7RJZL2MsoHcPizHwChJkCQA7oHHW7ntbM8Ig37duxttFKigHrNkLt8gn1KDCPFvMsDz3C0doyNFfsPehpH/n8V/wl+Jyu2jhvWZHHlflzvJOBII0cQu86ves2zwyhv8Kw7qFubVRq0p/o/OYbws6kjWF22+yxPLXIEK5qG0f0SKE4tbiwaFMRG8LTT94LTUlkrdY4SMaczADyTVfUUaTIahKp1xdyUkzjV2JJEuO+egHMdpL9LoTXj+8ldHMKoynfnPei9OEEV9c+lsVlc2vLYn5hGzRsV+ZL9aJ0UStGLgBH1Nuv4odIWu0SER45i/AsYHF0WdUAFKWUazzkFtp61s+xotgZklaEFxmE24=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(23010399003)(1800799024)(376014)(10067099003)(56012099006)(3023799007)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?l550Mex4kc9OSa7DbQ0qwl3J0yvrdvJ1VFSw6nIGaVgavD2GITE+4KhLqrJ7?=
+ =?us-ascii?Q?Y9rIWXLCrVdDGzz7BRlvQQ/0jPGVPzfjmOXBJ95fHacMt7CY6qYtuQiom71u?=
+ =?us-ascii?Q?1sOIN9C9R6g4jZEIWmR+AztiAIXYUpEy+d362rQf0KIGjNXfYuRCbg0zIQFR?=
+ =?us-ascii?Q?1Cn+urNA2evP6A9XGcLL0bPW72TRtUT8PxP8ZBFmp2j6z6NGxdD/OD025y2J?=
+ =?us-ascii?Q?vUgX2qqVQ3cF0Xw6CVGGaZAt8TadZEwuP2254LT6Cz6yFgYno0VV+0Em5Xdb?=
+ =?us-ascii?Q?6kpjLWg2jYDtJFBnax6gehSAh+esyxoBQLzRv/jky73B9djXUHmb6lhZp6Yt?=
+ =?us-ascii?Q?Lfxx7ID8DVcSCTVMZvDaCkR+GUsTQfsq2Al+kbCUJ5gwFbuCXhBemH6o747c?=
+ =?us-ascii?Q?eItRQH5ZPeF997Ujdz6xrj5hFTVUWdevIJWRIgmW15jzOnxlnP6wdqnLy9w3?=
+ =?us-ascii?Q?hXGuQFXkA5x38zUY/ouw19/mNNQE5/khwMx3IzD4CknOQBFet+NEnMe3TD1I?=
+ =?us-ascii?Q?eM3ZO/0Ks4mqsBcJS17sr006HHAbePt8qAs2lEtH6q6XzggcrLviwLypqPss?=
+ =?us-ascii?Q?/Fsz+9JnuDOKyM/r9x9M4KTbILPIFCIa4Skz+Wi0wh0Nxr4XCP+1YtIlrMZz?=
+ =?us-ascii?Q?3uCneTdw+1PPPZGDzob7NLyLTdKaGpVERxcHiJu7f2ymrr6p/FJ8Sd+g21z1?=
+ =?us-ascii?Q?9cyh9UybXSxKWdhDoK5VSg2R7dsYStJQsM+LO5RZk18EF/IflzTBQZRI5I2l?=
+ =?us-ascii?Q?UjQzLCx4oT/Krt6VPI3LRwSwlEWqYWViosscrbPurDkAffFKB43xKv3Pe2hc?=
+ =?us-ascii?Q?VFARv7LnYTaUYdc1H0JsKyw9g2+cNGgasc5uw6JiWOzV6EM/IO8QpN4eXzEr?=
+ =?us-ascii?Q?Dsa+HvYAKaP8omSOm12ggE4XuE7+OJEo3sSrVtc9RCgU3NyJXmOVuHCnHDOz?=
+ =?us-ascii?Q?Bm2KybBVMw5qQ5A7g3uHkDB0Gbam2/kdI5Fmilxdx/tPj+sbTIuGJZf/IMBF?=
+ =?us-ascii?Q?e+iOM8+sf5RbvVtVNuahe+6Wfrs5E86EVz3+vX5ruTbVoeJ1+OrprKkuKzDj?=
+ =?us-ascii?Q?snqCvLH3rDQDwNE8qqJhIi3mmMmxs/BviW8ty7Wr96ElUQsGvMEtE7n/q5XF?=
+ =?us-ascii?Q?11RtrsrMCiTuUuJ1htM4kk/pe918cTMPBI6fWO9HGfkrOPZJmTED3UH20j1f?=
+ =?us-ascii?Q?MLDQN3PgjPvAfYKqcQ2qzUymrgNFRIRF3JDxOWcQPav2Rfqj8WMgomB37usy?=
+ =?us-ascii?Q?p/c5FQJ/IR88nYeZl/A6T3axrqtV5hKK5IPG7dhOdKSjlDu5AnLiVTVwvgb6?=
+ =?us-ascii?Q?DG6CBrcqqQ+MU2ll7oIB6X/4TC2aSbPltf6rm1IGA5MS8csqPoOwWg5BvLoD?=
+ =?us-ascii?Q?RbVwwi0AjoSsFM1dt66/d1FHuS7mBAw6QsBZha1FOnIza5XKMhKxZCxMe1mm?=
+ =?us-ascii?Q?VMdXzQnt3xBkv/nciiRkePeMa+vTYwqdSacMCflSQIvfRgxTIq9Lse58jhGq?=
+ =?us-ascii?Q?2RgNmu+wh+KIm5v4h73Kc5lpliiEnQhhdUljUmO0GnrVqRSF57fqsfCmRHMp?=
+ =?us-ascii?Q?wBsr0tLyQrEYWrp94q4eOKdZebtzuEHRcIL28y15DX22UbneXdldvF8T2AOx?=
+ =?us-ascii?Q?ApbPvpVWhj/NPzfxT91usrsBBZ3GEMZJVDq/MJiRNjfqMqrWaNLj+IxaE990?=
+ =?us-ascii?Q?d+sZBY2W91wVwUzaoPSM50ivXUwKv2wzAnl+WHX16holDjN6BvVZx+ZV35fB?=
+ =?us-ascii?Q?0ZPS6XP8JiECwl+J0Sd9ZuoMi0a+X5qCq+rCweFsctANCMImqH2maxS1Jv6F?=
+X-MS-Exchange-AntiSpam-MessageData-1: BvcSTVAtKUSWifRNtaDFv1vfr3Ly6hPUTVg=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a8ee919-8e59-4a19-e4bf-08defbb31729
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2026 16:26:14.0746
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wHGekvYTknQeG4nTXuzovfBdkMbDay9z1kPnTsVVP2+TaA6ZG7KaJ4hq3aSQD863SKr9p8kHffd9jy45GXE/TGFxJJI5AYDeV/suBzBZAjY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB2751
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 16:21:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243535
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 16:26:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243536
 
-On Wed, 2026-08-12 at 02:28 -0500, Junjie Cao wrote:
-> The CVE describes a race between rose_connect() and the code that frees
-> a rose_neigh once its count and use fields reach zero.
->=20
-> net/rose, and rose_connect() with it, was removed entirely in v7.1:
->=20
->   https://git.kernel.org/linus/dd8d4bc28ad7252610d8e79c1313a2d1e3499a51
->   ("net: remove ax25 and amateur radio (hamradio) subsystem", v7.1)
->=20
-> The linux-yocto kernel on master is 6.18, which still carries net/rose.
-> There the race is closed by Takamitsu Iwai's August 2025 refcount
-> conversion, which converts the 'use' field to refcount_t and removes the
-> unlocked rose->neighbour->use++ in rose_connect() that the CVE describes:
->=20
->   https://git.kernel.org/linus/d860d1faa6b2ce3becfdb8b0c2b048ad31800061
->   ("net: rose: convert 'use' field to refcount_t", v6.17)
->   https://git.kernel.org/linus/da9c9c877597170b929a6121a68dcd3dd9a80f45
->   ("net: rose: include node references in rose_neigh refcount", v6.17)
->=20
-> Both are in v6.17 and were backported to 6.1.y, 6.6.y, 6.12.y and 6.16.y
-> in the 2025-09-02 stable round. Upstream assigned these two commits their
-> own identifiers, CVE-2025-39826 and CVE-2025-39827 (both fixed in
-> v6.17-rc4), so the identification does not rest on this reading of the
-> diff alone. The Red Hat record for CVE-2022-1247 still shows it open and
-> lists no fix.
+Upgrade boost and boost-build-native to 1.92.0.
 
-We can simplify the explanation here. The issue reported in
-CVE-2022-1247 was independently fixed in v6.17 via two commits, these
-were assigned CVE-2025-39826 & CVE-2025-39827 by the Linux kernel CVE
-assignment team. The race condition described in the original report for
-CVE-2022-1247 [1] exactly matches what was fixed.
+Includes a backport for boost.histogram build failure and a fix
+for boost.predef installing unneeded b2 tooling.
 
-[1]: https://bugzilla.redhat.com/show_bug.cgi?id=3D2066799
+Jaipaul Cheernam (2):
+  boost-build-native: upgrade 1.91.0 -> 1.92.0
+  boost: upgrade 1.91.0 -> 1.92.0
 
->=20
-> CC: Paul Barker <paul@pbarker.dev>
-> AI-Generated: Uses Claude (claude-opus-5)
-> Signed-off-by: Junjie Cao <junjie.cao@linux.dev>
-> ---
-> v3:
-> - lead with the v7.1 removal of net/rose per review; keep the v6.17
->   commits, which are what covers the 6.18 kernel on master
-> - cite the upstream CVE-2025-39826 / CVE-2025-39827 assignments for
->   the two fixing commits instead of relying on the diff match alone
->=20
-> v2: https://lore.kernel.org/openembedded-core/20260803084827.1348810-1-ju=
-njie.cao@linux.dev/
->=20
->  meta/recipes-kernel/linux/cve-exclusion.inc | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-k=
-ernel/linux/cve-exclusion.inc
-> index be74672..b08eaa1 100644
-> --- a/meta/recipes-kernel/linux/cve-exclusion.inc
-> +++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-> @@ -221,3 +221,11 @@ exploitation requires a relative kernel.core_pattern=
-"
->  # https://bugzilla.redhat.com/show_bug.cgi?id=3D2044575
->  CVE_STATUS[CVE-2022-0400] =3D "disputed: the reported net/smc out-of-bou=
-nds read \
->  was never substantiated and was closed as not-a-bug by Red Hat, SUSE and=
- Debian"
-> +
-> +# net/rose and rose_connect() were removed entirely in v7.1 (dd8d4bc28ad=
-7).
-> +# The 6.18 kernel on master still carries net/rose; there the race is
-> +# closed by the v6.17 refcount conversion, which upstream tracks as
-> +# CVE-2025-39826 / CVE-2025-39827.
-> +# Fix https://git.kernel.org/linus/d860d1faa6b2ce3becfdb8b0c2b048ad31800=
-061
-> +# Fix https://git.kernel.org/linus/da9c9c877597170b929a6121a68dcd3dd9a80=
-f45
-> +CVE_STATUS[CVE-2022-1247] =3D "fixed-version: Fixed from version 6.17"
-
-The comment and CVE_STATUS wording looks good to me. We don't need a
-triage date on this one as we're effectively resolving it.
-
-Best regards,
-
---=20
-Paul Barker
+ .../{boost-1.91.0.inc =3D> boost-1.92.0.inc}    |  2 +-
+ ...1.91.0.bb =3D> boost-build-native_1.92.0.bb} |  2 +-
+ meta/recipes-support/boost/boost.inc          |  4 +
+ ...h-instruction-set-flags-we-do-that-o.patch |  4 +-
+ ...01-dont-setup-compiler-flags-m32-m64.patch |  4 +-
+ ...b2-project-requirements-out-of-build.patch | 85 +++++++++++++++++++
+ .../boost-math-disable-pch-for-gcc.patch      |  2 +-
+ .../{boost_1.91.0.bb =3D> boost_1.92.0.bb}      |  1 +
+ 8 files changed, 97 insertions(+), 7 deletions(-)
+ rename meta/recipes-support/boost/{boost-1.91.0.inc =3D> boost-1.92.0.inc}=
+ (90%)
+ rename meta/recipes-support/boost/{boost-build-native_1.91.0.bb =3D> boost=
+-build-native_1.92.0.bb} (92%)
+ create mode 100644 meta/recipes-support/boost/boost/0001-histogram-move-b2=
+-project-requirements-out-of-build.patch
+ rename meta/recipes-support/boost/{boost_1.91.0.bb =3D> boost_1.92.0.bb} (=
+76%)
 
 
