@@ -1,104 +1,101 @@
-Return-Path: <emailaddress.ashish@gmail.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30620C5DF66
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 19:18:31 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15792.1786907910087193092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A73C5DF6D
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 19:41:41 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16145.1786909295039502537
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 12:18:30 -0700
+ Sun, 16 Aug 2026 12:41:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=g3/wiO42;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: emailaddress.ashish@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso3632057a91.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 12:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786907909; x=1787512709; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6tdd1ysq987Zu/LGsgaMyKmYDTdsACG7r1we3zQm2ps=;
-        b=g3/wiO422lj8M9O7NYD+s5klnY53ZaIOYqefXuX6FOf8Jp8KOUnAT8wqVuprYBcVrz
-         YnM50OTBjoa5Q3b6mBijjOpPM6NnebHhr7JCekABHmdVrRMagP6Fn6e/KP+RgjUmoiG9
-         G1VuLTYzAWC22OHluoPL/O7lB0+LPKOzx7t83roExWcxWPRgemGjq/baIh0aXBZaCv3n
-         xYMNo507H8C8MfKRAtcOAGkMFMcTIfSm1/oDcKKDHIp7OA/5CThpxZ+PztzNAPrUiWfH
-         BpvnnRhI31yyEI+7PSQkWqYLld+9U+VtOKxtkLxGsgvH70Yo5eRewdGUbsfoBScqo2iO
-         z5kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786907909; x=1787512709;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6tdd1ysq987Zu/LGsgaMyKmYDTdsACG7r1we3zQm2ps=;
-        b=pV252qiqWUbfWe0fHHx60Bxmj/+BNbjTiXtHpVwxd7DGMXcTsTAtK0usKNVi2tWzW+
-         clOdOLNL6+npNdrL3hO5EkFUykCgE4lI9zeCinRibdcQ70Ea4m4sOmpNmc12VXE0ymuA
-         6RFj2G+ypyDe/+A2HWwiqhrsV87ekrtjc9NUFjH9CfExfPDEkaQKD2uXEcwnPR6okjfI
-         LQgWgsbCADsR/PA35xRWLezGDBlwUgCfrUOY965BWyoyAPwO4jr9XSFWG+jdUUcinj85
-         TXxN2RMBqQHXLQNpa1imaHQ0dB9uvSZZ8kq9bqIM4rQq16VCVFNyv6MXl+mH9vmSnOj3
-         1C8g==
-X-Gm-Message-State: AOJu0Yw2a22cUxysNdUK1db5F0lesXnIMVlFo9CyQwMqoSm7wtWdQUrp
-	xAwIl2YgC42PQvnWghQGBqFGg8N862zBGrhxaJxEk4oqtUcoqzwZG0u2zGJuYA==
-X-Gm-Gg: AR+sD125H+gVqMtED41os5iG5N2Pdny5reJ6AfJNO7l+7XGmhA83ncVSRKo+xtoQ9BS
-	8fPh+b+ZxuamIMizkkXEyPJoNiETW2QJ1VLDtxShjmih/jP78BrVHGmPz8SjSlOyRwUnQFSwrwJ
-	+A0waa44tSnukL61NyBDX2S4loD0a7AkQNNrwFJRzDFucNk+QGlZE5CpGS+2mPGnZP8SyE/uUFW
-	URvmlW2Wy9RN5lwarrqL8OptQNVKyeuO0hYmjEURIX/SlFe8nFbeXFQ23LBg7eG+qWGoQQsFYdl
-	fIlRO2c0or3TFM3Q/fSQEPMPgdbTGFDJqveyGOPp2IDjNGxOS43dNrgLCvpVf3pPOxD7JwJRhBn
-	NNlo9TOEq18kDJ/Ozry2b9bIrh6n7YxUEEr+0WDmLH+khJzH4zpJcRl6T0wG4aWLk6h/ZYNJSTg
-	TCFn2quOo86NX/uitjF+qkFzywRxha+qHeMkGxsjlkje2ppccWglCqJruHDu+Rw9drrQ7TfcZLK
-	r1//A==
-X-Received: by 2002:a17:90b:4405:b0:381:792d:f993 with SMTP id 98e67ed59e1d1-3933b8c4cf1mr18385067a91.17.1786907909406;
-        Sun, 16 Aug 2026 12:18:29 -0700 (PDT)
-Received: from ashishkumar.. ([2406:7400:12b:e084:b6f8:986:840e:67a4])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141387ac9b1sm36947839c88.2.2026.08.16.12.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 12:18:29 -0700 (PDT)
-From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=XVq5WyUe;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-2026081619413293fb5464dc000207c4-fhbn3c@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026081619413293fb5464dc000207c4
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 16 Aug 2026 21:41:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=tF9kmAJxWcRoTEXgu2vR8LvSN5T/1sdatjBT61iZ390=;
+ b=XVq5WyUeW9Y1ghMVPYWBR/NNPff0fypA5T3g8X9XKlNKAq7dDJ3ead53Flmf6pwJVucIfb
+ dVHA84hNDN3od2OaCg1lu/PUOw+GUyF7rmHV2bopcGPc9lMSm/tTwxaH8LewriKVE5MfBltc
+ 7UnTRqcpMgpjJ4ykpahAAotdDciwMtBqO8oFBSmKoTPV5I4s5j7RqCXs6Ms6njTEXDVB540n
+ /hVS4Us9cVNaRzslXLTPh+kH14K84rZy74aLaNIP/1RW3CvLZpANsmnHzm4sTFeCskuYdBC6
+ 9kfX2HFUV6JKq8qxqDgmwdQI18UfpKVsf7IdBTbbZfI9vCmRcnUdrA8Q==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: AshishKumar Mishra <emailaddress.ashish@gmail.com>
-Subject: [PATCH] mesa: align x86 mesa config with LLVM graphics
-Date: Mon, 17 Aug 2026 00:47:43 +0530
-Message-ID: <20260816191743.2021262-1-emailaddress.ashish@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 07/14] devtool: ide-sdk: default to all modified recipes
+Date: Sun, 16 Aug 2026 21:40:50 +0200
+Message-ID: <20260816194127.86607-8-adrian.freihofer@siemens.com>
+In-Reply-To: <20260816194127.86607-1-adrian.freihofer@siemens.com>
+References: <20260816194127.86607-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 19:18:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243546
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 19:41:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243560
 
-This change makes the x86 and native mesa PACKAGECONFIG appends conditional
-on the same DISTRO_FEATURES check used by LLVM.
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-As a result, graphics-related Mesa and LLVM options are only added when the
-distro explicitly enables a graphics stack, while leaving non-graphics
-minimal images unchanged.
+Simplify ide-sdk usage in modified mode: keep the image recipe explicit,
+but when no modified recipe is passed, take all modified recipes from
+<workspace>/appends/*.bbappend.
 
-Signed-off-by: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/recipes-graphics/mesa/mesa.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/lib/devtool/ide_sdk.py | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.bb b/meta/recipes-graphics/mesa/mesa.bb
-index 66c8f9c372..a646c16af7 100644
---- a/meta/recipes-graphics/mesa/mesa.bb
-+++ b/meta/recipes-graphics/mesa/mesa.bb
-@@ -13,10 +13,10 @@ PACKAGECONFIG = " \
- 	zlib \
- "
- 
--PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
--PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
--PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
--PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
-+PACKAGECONFIG:append:x86 = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm intel amd nouveau svga', '', d)}"
-+PACKAGECONFIG:append:x86-64 = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm intel amd nouveau svga', '', d)}"
-+PACKAGECONFIG:append:i686 = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm intel amd nouveau svga', '', d)}"
-+PACKAGECONFIG:append:class-native = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm amd nouveau svga', '', d)}"
- 
- GLPROVIDES = " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 42b6e381c5..ab2bba5d39 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -1258,6 +1258,15 @@ def ide_setup(args, config, basepath, workspace):
+                     recipes_modified_names))
+                 invalid_params = True
+         if args.mode == DevtoolIdeMode.modified:
++            if not recipes_modified_names:
++                appends_dir = os.path.join(config.workspace_path, 'appends')
++                recipes_modified_names = sorted(
++                    os.path.splitext(os.path.basename(path))[0]
++                    for path in glob.glob(os.path.join(appends_dir, '*.bbappend')))
++                if recipes_modified_names:
++                    logger.info(
++                        "No modified recipes specified, using workspace bbappends from %s: %s",
++                        appends_dir, ', '.join(recipes_modified_names))
+             if len(recipes_other_names):
+                 logger.error("Only in shared sysroots mode not modified recipes %s can be handled." % str(
+                     recipes_other_names))
+@@ -1266,6 +1275,11 @@ def ide_setup(args, config, basepath, workspace):
+                 logger.error(
+                     "One image recipe is required as the rootfs for the remote development.")
+                 invalid_params = True
++            if not recipes_modified_names:
++                logger.error(
++                    "At least one modified recipe is required or must be guessable from %s." %
++                    os.path.join(config.workspace_path, 'appends'))
++                invalid_params = True
+             for modified_recipe_name in recipes_modified_names:
+                 if modified_recipe_name.startswith('nativesdk-') or modified_recipe_name.endswith('-native'):
+                     logger.error(
+@@ -1422,7 +1436,9 @@ def register_commands(subparsers, context):
+                                            help='Setup the SDK and configure the IDE')
+     parser_ide_sdk.add_argument(
+         'recipenames', nargs='+', help='Generate an IDE configuration suitable to work on the given recipes.\n'
+-        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.')
++        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.\n'
++        'In modified mode at least the image recipe is required; if no modified recipe is passed, '
++        'all modified recipes are taken from <workspace>/appends/*.bbappend.')
+     parser_ide_sdk.add_argument(
+         '-m', '--mode', type=DevtoolIdeMode, default=DevtoolIdeMode.modified,
+         help='Different SDK types are supported:\n'
 -- 
-2.43.0
+2.55.0
 
 
