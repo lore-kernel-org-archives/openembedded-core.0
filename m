@@ -2,77 +2,77 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0494EC5DF6D
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 16:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BE7C5B572
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 16:21:57 +0000 (UTC)
 Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12366.1786896899940942730
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12670.1786897315417457056
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 09:15:00 -0700
+ Sun, 16 Aug 2026 09:21:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=WtDWqUK/;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Z1VUxV78;
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=hwCkdAzu;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Dg47M3uT;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.147, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id CB900EC0014;
-	Sun, 16 Aug 2026 12:14:58 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sun, 16 Aug 2026 12:14:58 -0400
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 836B4EC0228;
+	Sun, 16 Aug 2026 12:21:54 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Sun, 16 Aug 2026 12:21:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1786896898;
-	 x=1786983298; bh=cKpcX1i9HhcAdf4v4HxNRXFjbS7efLV+wX3Bd5JnJFo=; b=
-	WtDWqUK/C4agLBIOwlFbnrJGPpls64zgQ0Pot5EdJBKxMwP47FTh5mUjpEBpYaG2
-	7IK4FPlDRwSc3lAyZtpCcDEF2vB1n/kxxh7585JQTNwl+qGsFXU24uVYaNYv63l+
-	kH1gVxaqrZJwijwS0zvgYNikp4hKCYW2z1aERyadyuTpjrfg20yPOUDi2c4nweW9
-	s1wpuSvaKQi73bOZOXUg4ldT1t/oNmEUIpV8zP2q6k6b5LYo+MWpIyraZy2tKvGM
-	m8TPS/9cMglAWV46R+Ua/5+bhItQBLWdmT4qhqhrp410YgJtIMf+nYsB+0B3834r
-	g6nPe3tD0ePhbEi1gThgEQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1786897314;
+	 x=1786983714; bh=n3IyioIEFMI5UZRUZeSb4jQ8voeBUGT8ad8W1vUdUeI=; b=
+	hwCkdAzuNTWuofxTPpuVLcNKuQoeQ9axZl/FZt1xcmrkYbdHrDbimTZy7zGQ+IIv
+	laYf6KpDuqXjP+HUys+tURlfOw68x2nZOwg8+HVR4pXDUJ44JMNq5jSO8EMBAHRH
+	s420rElGICR4BT0SP7pb7+aUnZI9oZtc8OjXFAYbKy4sVVVLhw5+vyQPGOpq5/AY
+	h+5RNcop9pn3yQleDjhU9stfJCwkViifzcHLvj1Nr35xCmsSTYRcXvZF5eC24RS6
+	DMQ9q8Fi274FqacN6oPx9Yo6IEANd7X12sxncJTo6bLq7NyteTMDM5d5I3dv8F+X
+	2c/8AVqJqfrkURbKJgeoRQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1786896898; x=1786983298; bh=c
-	KpcX1i9HhcAdf4v4HxNRXFjbS7efLV+wX3Bd5JnJFo=; b=Z1VUxV78QGqI2F5VH
-	IsYMeuRNghMVUAP91UJWDoNyrszf9fkMFvrn6TMoWz0NKP/WRqPa6A1/JcNrDh92
-	W8RwNonSZ3fLUjakn8/rLaXNLyG29K6qJdBLx97SOBonwaIlQaoicnb0Bm44qJmu
-	fD81Pk2XvPr9wIWW0VgRhUgeB2tsX8bymXSDMmcy5PsQtz+gsm6G4Fjeqco2Dwwv
-	4/LOYxytszplsxqOlAJr7+rhihmbM91dkpY/IpoROfBxEQX6gtkXyqElIAvN1xTb
-	z502oYF123dcFo0NBboeczrUNhoH8vMNun+KoATvF1ZDm1iIspNpHN1EVkB++tll
-	tEzWA==
-X-ME-Sender: <xms:AuKBaqSNsaCpJrapcnHHA6LlDqOPANjp13an8vLgedi6-3Dn9KnWrg>
-    <xme:AuKBalxGnpRXCFd8OhNahItYUGyux2uxUTevYg1_psAjvhA1DlqwUKTJ629G2Xx09
-    _U4h2Z0fS9fwymwnjjdc7Xc9USADHZdc1VF_NT26A6-pnylYe0V08dQ>
-X-ME-Received: <xmr:AuKBaleTs1OwCg3jsQOuDjRA_SFkQAQFmPwoiXxZSpATBZTfhv0XfuYNaCgXoUNXxre5AR4qe812syg9CzzvqGMhfqk1dr7rzhahR8bemoxa>
-X-ME-Proxy-Cause: dmFkZTEJpFCEnd21A/wFynvobxxDR+2Ha/e1AJPJVIsfniVwUZ6GiUokJF4c8ucrubVeQA
-    0ftgnRrxxmCUsyQIl0JgUaHbCjP4EkV/NNy0VrYhPd8t5NNjds9Y0/OCQIYrGqAoarqgXr
-    +oQCyA+BkPef7LRhPO+ZPLBO8opARdUuiUoQ4/a1PJ0UmrCqfdcNICK7q35Tqe9gaLZy9m
-    s7O8wtCLPoLV/3tPb+1ORtY71hLZtfVgt44c7qNCuXTp4h74HfygQ7rZWOngnpCkWN8srC
-    IhivtYVpXtz1OggVqxdBZnvmG5new+lrYTu/EGvkXd0yP4e+xxz4Sf06/BXM6WENlbj/VD
-    rKsAUPuYFDBLj9Lnb+AVzuvbjdUnwFHqYVq2xZQU3ArlCFK9pCJ+D/2EOjEqn7RL47WZ1p
-    5N4WxLAcWXSVHdEKtv7knxm7gFPN26HmdYLAQ2ZGFifj0h/y/SSOO1IGHDywbpesw+JMOT
-    Wdl8ASSXAf1Md9jp8GPEaw1xD9XpQ2wqFBFJHGNOgUR2KRrz495+Ed2xLwnRgauUaUFo4k
-    CGKbgEt0FISCm6POpSzuY/+qtxruHjZqnOAaCLBBQwg4MbL9pkZjSfMHkcjmLe56IAzmXD
-    xTLd0jteY5MNnigej9wI+nyHV4kLPHYHi2f3Sl1Y1tAPgALevFTVb0b3O7XA
-X-ME-Proxy: <xmx:AuKBahIv5GdU7MoppEGHOqF8LbVYcICfxnpOxVS5EMmJB6wFuYCSVw>
-    <xmx:AuKBamG00CggXYlCtu8Ckqt5zhzslhx7vWL6EGhsGpjO4E4H4aceeQ>
-    <xmx:AuKBarre7-ebkrZDG0RJUigGgozv0p90HGQ9sdGI7jql-s5HYjYBWQ>
-    <xmx:AuKBavSjSb6Hrhe5AePdCrH4KDs3ly7o14kvtTjS9_aIN16BR2GMSw>
-    <xmx:AuKBai3BJYjb3XtIkcPVG9X8heZPcc7PiSWvO1HZuYGWwjFLJ3JTnQ0T>
+	:x-me-sender:x-sasl-enc; s=fm3; t=1786897314; x=1786983714; bh=n
+	3IyioIEFMI5UZRUZeSb4jQ8voeBUGT8ad8W1vUdUeI=; b=Dg47M3uT3b2R5Oadj
+	LDOIRofY+L18mBy/PR9Ov7VHPI14rHirTtsIguh8lh7clmligWMi0ebgW1Z2vlZd
+	Sgj9atp5WWsHT+0o15sIriPhU0fM2USahjeUoDENmPkxTeQnDV7iVj2Mq8u1I13e
+	0VvJAOzgFDDPegYVOegrg/UNxNtw8C7mOnSjoDCiDueMgk0gVJ1snlZ6EBP1iaVl
+	e+LwJa/hnD0JNg9R98mXi7/yMFjHSdwVQUWYsTQ8PiJmT/+8JE5wr0PmL376sZ6D
+	Y6Bta+WxThmOcWJk0S5qyCKvyFu41t6xoj+qDT69mxM5+9BETa1ELKBNeR5uzZGm
+	fa2aw==
+X-ME-Sender: <xms:ouOBag0RTqjqCYu9vcrKcajI-o6yq8ccPv-28xy_wveB1T0ZVxjMpA>
+    <xme:ouOBahGQHqPd0zulfLJ02RkrZbPFICkMtIo_KCEcWyZXIICj668A-OzT2CzF4txWB
+    m7Kh4NxA3Nu1PvEAFHhHO6RcIBbTJeKzSFvQuvIRkVjIJFXc69lWS9i>
+X-ME-Received: <xmr:ouOBamiTZ6tLPIDM20AePU_gQakTJKLcsNJbmjdEgkToGLH3wHA1Q2X9Mg0EYS3R6wo-7pTUS2jHLHoxFtiz1oQjfcihlJb3Ia8y73Oh4-CU>
+X-ME-Proxy-Cause: dmFkZTEKRZIz7LCnkUyKsnho8O0UJTmUvojjGy+rA3Ke7R/EdbmjYMK3FXOb7QhgVTlqIK
+    Rl38Xz4jrVIkdI+idveGIeipvTTxvyi8jka0jAS9TpUkGKrHTbpFB9nnz5b2soG8IjFBAA
+    zFZVvQ9LWzfOWTeoEID79LjYY33lfkseO3Y6LXTdvZHHbVnenaSv7biNcmIbyQs2SJtV6Y
+    LJWcdI9rUU4znPdYJ7mTpGGwn48vMemd23fJVy6/tpRNW4ydiGyY7gC0I8vyee4Uf+4P2e
+    fzBNESOHc55MXgZGrlCgi5bbohcy181GzRdn+KvDIvNMenKVRIWW1EXLBJFJelAMxzlmli
+    Fxi9nF1IS1kfDeuLfU5prSGx9fMmSjHD95BapPFl7HDyAWMIzMjavWslzUqk4PlJHI1i2A
+    dinMQBOLz9VAbNJnP0AVifFYjiR90FbBH7OaSWVkm7IABc8IgMtrClHcuE4tAf7LfEZF8Q
+    7q9t3I0w7tNpI2wOV0Go5k9Q/p70OgIxMKaYbGR7j6Nu+p8+RTGYDdg4iwCEKZaNGveZMy
+    Iu/dbPNUXWNOBw+pAkjYXKC4KGJVmzVzwll+V/etirCRnH5EbwMmJRcQVw1khnLn2f2K8c
+    AZonXeXMFQ0VDDqwRCXWNGFqFI6JQUtbJHiskloN2AMTIjGYIrC4yOTu14Jg
+X-ME-Proxy: <xmx:ouOBak98Q0XNTlfUX3yj43X-2usJxMcSUQtFg-CDUxSX4IGVEIMGTQ>
+    <xmx:ouOBalplBST-h6c3TTanVIcTFxqwNZu3NnoRhvql65VvrOsNlmWBEQ>
+    <xmx:ouOBar_u6kcb1cpJUMEei1M757HShxR1EXv5LtuoCRwCfuHY9Cqo3Q>
+    <xmx:ouOBahX0L0fF3bYtzg8aPwKZoj4tRjMe-Lk3qnWcbU-jpuH_jquwDw>
+    <xmx:ouOBaqZiC4xk7fstFY1jhiSDAPyYSK1y0_J1VAAIWJHHn_a4iW-uR9lv>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Aug 2026 12:14:58 -0400 (EDT)
-Message-ID: <dbfa3de3eea4d27cc3bbca18fb183f88c83145f0.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH v3 9/9] cve-exclusions: set status for
- CVE-2023-6240
+ 16 Aug 2026 12:21:53 -0400 (EDT)
+Message-ID: <1ffababa08333e0eb2963289daba44c562bb1acf.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH v3 5/9] cve-exclusions: set status for
+ CVE-2022-1247
 From: Paul Barker <paul@pbarker.dev>
 To: Junjie Cao <junjie.cao@linux.dev>, 
 	openembedded-core@lists.openembedded.org
-Date: Sun, 16 Aug 2026 17:14:57 +0100
-In-Reply-To: <20260812072842.1176341-10-junjie.cao@linux.dev>
+Date: Sun, 16 Aug 2026 17:21:52 +0100
+In-Reply-To: <20260812072842.1176341-6-junjie.cao@linux.dev>
 References: <20260812072842.1176341-1-junjie.cao@linux.dev>
-	 <20260812072842.1176341-10-junjie.cao@linux.dev>
+	 <20260812072842.1176341-6-junjie.cao@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
@@ -80,36 +80,42 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 16:15:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243534
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 16:21:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243535
 
 On Wed, 2026-08-12 at 02:28 -0500, Junjie Cao wrote:
-> "Marvin" is Hubert Kario's Bleichenbacher-style timing oracle research:
+> The CVE describes a race between rose_connect() and the code that frees
+> a rose_neigh once its count and use fields reach zero.
 >=20
->   https://people.redhat.com/~hkario/marvin/
+> net/rose, and rose_connect() with it, was removed entirely in v7.1:
 >=20
-> The affected code is the generic software RSA PKCS#1 v1.5 unpadding in
-> crypto/rsa-pkcs1pad.c. pkcs1pad_decrypt_complete() has three
-> secret-dependent early exits (leading zero byte, block type, minimum
-> padding length) and a loop whose trip count depends on the position of
-> the separator, so the time taken reveals padding validity. There is no
-> constant-time unpadding or implicit-rejection fallback in the tree.
+>   https://git.kernel.org/linus/dd8d4bc28ad7252610d8e79c1313a2d1e3499a51
+>   ("net: remove ax25 and amateur radio (hamradio) subsystem", v7.1)
 >=20
-> Red Hat classifies it CWE-203 and has shipped fixes only in RHEL errata
-> (RHSA-2024:2758, RHSA-2024:3618 and others); the bugzilla is still NEW.
-> Ubuntu records it unfixed upstream as of 2024-08-24 and Debian lists
-> src:linux vulnerable in all suites:
+> The linux-yocto kernel on master is 6.18, which still carries net/rose.
+> There the race is closed by Takamitsu Iwai's August 2025 refcount
+> conversion, which converts the 'use' field to refcount_t and removes the
+> unlocked rose->neighbour->use++ in rose_connect() that the CVE describes:
 >=20
->   https://access.redhat.com/security/cve/CVE-2023-6240
->   https://ubuntu.com/security/CVE-2023-6240
->   https://security-tracker.debian.org/tracker/CVE-2023-6240
+>   https://git.kernel.org/linus/d860d1faa6b2ce3becfdb8b0c2b048ad31800061
+>   ("net: rose: convert 'use' field to refcount_t", v6.17)
+>   https://git.kernel.org/linus/da9c9c877597170b929a6121a68dcd3dd9a80f45
+>   ("net: rose: include node references in rose_neigh refcount", v6.17)
 >=20
-> Practical exposure is narrow: kernel PKCS#1 v1.5 use is dominated by
-> signature verification rather than decryption, and an attacker needs a
-> service driving KEYCTL_PKEY_DECRYPT with a long-lived key. The leaky
-> primitive is nevertheless reachable.
+> Both are in v6.17 and were backported to 6.1.y, 6.6.y, 6.12.y and 6.16.y
+> in the 2025-09-02 stable round. Upstream assigned these two commits their
+> own identifiers, CVE-2025-39826 and CVE-2025-39827 (both fixed in
+> v6.17-rc4), so the identification does not rest on this reading of the
+> diff alone. The Red Hat record for CVE-2022-1247 still shows it open and
+> lists no fix.
 
-I'd drop this paragraph. Validating its claims would be time consuming.
+We can simplify the explanation here. The issue reported in
+CVE-2022-1247 was independently fixed in v6.17 via two commits, these
+were assigned CVE-2025-39826 & CVE-2025-39827 by the Linux kernel CVE
+assignment team. The race condition described in the original report for
+CVE-2022-1247 [1] exactly matches what was fixed.
+
+[1]: https://bugzilla.redhat.com/show_bug.cgi?id=3D2066799
 
 >=20
 > CC: Paul Barker <paul@pbarker.dev>
@@ -117,53 +123,43 @@ I'd drop this paragraph. Validating its claims would be time consuming.
 > Signed-off-by: Junjie Cao <junjie.cao@linux.dev>
 > ---
 > v3:
-> - drop the Marvell/s390 aside and the unrelated e8829ef1f73f paragraph
->   flagged in review as LLM confusion artifacts
+> - lead with the v7.1 removal of net/rose per review; keep the v6.17
+>   commits, which are what covers the 6.18 kernel on master
+> - cite the upstream CVE-2025-39826 / CVE-2025-39827 assignments for
+>   the two fixing commits instead of relying on the diff match alone
 >=20
 > v2: https://lore.kernel.org/openembedded-core/20260803084827.1348810-1-ju=
 njie.cao@linux.dev/
 >=20
->  meta/recipes-kernel/linux/cve-exclusion.inc | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  meta/recipes-kernel/linux/cve-exclusion.inc | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >=20
 > diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-k=
 ernel/linux/cve-exclusion.inc
-> index 35e0a66..637f8b6 100644
+> index be74672..b08eaa1 100644
 > --- a/meta/recipes-kernel/linux/cve-exclusion.inc
 > +++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-> @@ -252,3 +252,10 @@ affected fs/jfs txEnd()/lmLogClose() unmount race is=
- unchanged"
->  # https://lore.kernel.org/linux-nvme/20231016060519.231880-1-joshi.k@sam=
-sung.com/
->  CVE_STATUS[CVE-2023-6238] =3D "unpatched: the proposed fix was applied t=
-o \
->  nvme-6.6 and then reverted, no upstream fix has landed since"
+> @@ -221,3 +221,11 @@ exploitation requires a relative kernel.core_pattern=
+"
+>  # https://bugzilla.redhat.com/show_bug.cgi?id=3D2044575
+>  CVE_STATUS[CVE-2022-0400] =3D "disputed: the reported net/smc out-of-bou=
+nds read \
+>  was never substantiated and was closed as not-a-bug by Red Hat, SUSE and=
+ Debian"
 > +
-> +# "Marvin": the PKCS#1 v1.5 unpadding in crypto/rsa-pkcs1pad.c branches =
-on
-> +# secret-derived data, leaking padding validity by timing. Still present=
- in
-> +# mainline; fixed only in RHEL errata.
-> +# https://people.redhat.com/~hkario/marvin/
-> +CVE_STATUS[CVE-2023-6240] =3D "unpatched: Bleichenbacher-style timing or=
-acle in \
-> +crypto/rsa-pkcs1pad.c is still present in mainline, fixed only downstrea=
-m in RHEL"
+> +# net/rose and rose_connect() were removed entirely in v7.1 (dd8d4bc28ad=
+7).
+> +# The 6.18 kernel on master still carries net/rose; there the race is
+> +# closed by the v6.17 refcount conversion, which upstream tracks as
+> +# CVE-2025-39826 / CVE-2025-39827.
+> +# Fix https://git.kernel.org/linus/d860d1faa6b2ce3becfdb8b0c2b048ad31800=
+061
+> +# Fix https://git.kernel.org/linus/da9c9c877597170b929a6121a68dcd3dd9a80=
+f45
+> +CVE_STATUS[CVE-2022-1247] =3D "fixed-version: Fixed from version 6.17"
 
-Recommended wording, links and include triage date:
-
-    # Triaged August 2026 - "Marvin" attack, Red Hat reports this fixed but=
- the
-    # exact patch is unidentified (see RHSA-2024:2758, RHSA-2024:3618 & oth=
-ers).
-    # Unfixed in Debian, "Needs evaluation" in Ubuntu.
-    # https://people.redhat.com/~hkario/marvin/
-    # https://access.redhat.com/security/cve/cve-2023-6240
-    # https://security-tracker.debian.org/tracker/CVE-2023-6240
-    # https://ubuntu.com/security/CVE-2023-6240
-    CVE_STATUS[CVE-2023-6240] =3D "unpatched: Fixed in RHEL but patch not i=
-dentified \
-    publicly"
+The comment and CVE_STATUS wording looks good to me. We don't need a
+triage date on this one as we're effectively resolving it.
 
 Best regards,
 
