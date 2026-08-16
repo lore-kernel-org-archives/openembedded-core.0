@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F9EC5B572
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 19:41:41 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16146.1786909295039585359
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B97C2C5DF79
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 19:41:42 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16147.1786909295039641110
  for <openembedded-core@lists.openembedded.org>;
  Sun, 16 Aug 2026 12:41:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=MvJY0uh/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260816194132f6bb76be2d00020772-sjdrl_@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260816194132f6bb76be2d00020772
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=bWA6QbxZ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202608161941337894109740000207f2-rbb012@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202608161941337894109740000207f2
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 16 Aug 2026 21:41:32 +0200
+        Sun, 16 Aug 2026 21:41:33 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=UB7eVCqupIConBytoa/cucXR0nlNYoUrSRPxeIrccyk=;
- b=MvJY0uh/jaL56q2Q/R86qrzf9eSwen1Q1sLzMuCagpIeZ10DLmHuMhh8IHv8PX+fO3C5LS
- nvYAc/tQMaqkXjtl5ZMaa87rbgupJFFKFLfdyE8PWWJLNjQbJeCrR/DgYp17VuwYD5oXlQtO
- u11JrRftQMnmIrbqk7Q5P25z3/HtPehcwoklUCpSawC7u2JzYQBv2abUVmnJoR30vsrlqHX1
- 9jQTZ7pGcRftWHLF3a0Hex4dgc4Nn3Wm7XPMqmBYY3nQWSPtuzChvA99hZuJbh9FNLPj2Swe
- 6qV3J68W+nLxndHly06rOv+s5vFsdIygOMmrfaW4FIktrsAxuSJO/tnQ==;
+ bh=QMISVk6pfFFVobY/G982l2WwDFAoVsk8Bx8dKHcsqvM=;
+ b=bWA6QbxZu0qHcstdhdwz44614HgldHzUmVnXN5FBQtaqwurPDBEjmN0Imrrkgcb+vVCsSl
+ s+CU11eT76VYofjmsbl7JcXfrImdKUND5pzyDldDSaB3/8kuCAGokjXmLK9i3YVU+INXhlvW
+ DWh3XAPg6QRpwRR5dSd22XURZwHxgINwZC9zftjBhmRq3eMZZP2klfl5Y7eArkV/Qfx6fLUP
+ o/YUwolZftGl8yjn0mLjJEswGpzK27qLegsewdDHHTN02KEUoIr5PlXFe4Ypl2K4ewtoDl4L
+ zq5HrnNDmSzubcxNtBOIncl63c2bDw2AEGN9g9PlENd+trR9kcd7DWsQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 08/14] devtool: ide-sdk: let gdbserver reuse the shared debug server wait helper
-Date: Sun, 16 Aug 2026 21:40:51 +0200
-Message-ID: <20260816194127.86607-9-adrian.freihofer@siemens.com>
+Subject: [PATCH 11/14] oe-selftest: devtool ide-sdk: wait for gdbserver readiness
+Date: Sun, 16 Aug 2026 21:40:54 +0200
+Message-ID: <20260816194127.86607-12-adrian.freihofer@siemens.com>
 In-Reply-To: <20260816194127.86607-1-adrian.freihofer@siemens.com>
 References: <20260816194127.86607-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,62 +38,72 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 19:41:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243561
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 19:41:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243558
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-GdbCrossConfig open coded its own copy of the loop which waits for the
-debug server to listen on its port, while LldbServerConfig already used
-the _target_wait_for_tcp_port_cmd() helper of the common base class.
-
-Use the helper for gdbserver too, which requires capturing the gdbserver
-pid in a shell variable so the helper can refer to it, and defining
-DEBUG_SERVER_NAME for GdbCrossConfig.
-
-Beside removing the duplication this also gives gdbserver the two things
-the helper already did for lldb-server: the server is killed instead of
-left behind when it never starts listening, and the reason is printed
-rather than exiting silently.
+Replace the fixed delay and process-list probe for GDB background tasks
+with a wait for the readiness marker generated in tasks.json. This
+verifies the same background-task contract VS Code uses before starting
+the debugger session.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_plugins/__init__.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 33 +++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
-index 63e9682e73..5211df5806 100644
---- a/scripts/lib/devtool/ide_plugins/__init__.py
-+++ b/scripts/lib/devtool/ide_plugins/__init__.py
-@@ -139,6 +139,7 @@ class GdbCrossConfig(DebuggerCrossConfig):
-     gdbinit / gdb wrapper scripts used by ide=none as well as the
-     target-side tmp/pid/log paths consumed by the gdbserver start command.
-     """
-+    DEBUG_SERVER_NAME = "gdbserver"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index a07214f8b3..493889aa51 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2753,6 +2753,20 @@ class RunCmdBackground:
  
-     def __init__(self, image_recipe, modified_recipe, binary,
-                  default_mode=DebuggerServerModes.MULTI):
-@@ -193,14 +194,13 @@ class GdbCrossConfig(DebuggerCrossConfig):
-             else:
-                 raise DevtoolError("Cannot use gdbserver attach mode for binary %s. No PID found." % self.binary.binary_path)
-         elif server_mode == DebuggerServerModes.MULTI:
--            hex_port = "%04X" % self.debug_server_port
--            gdbserver_cmd_start = "grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null && exit 0; " % hex_port
-+            gdbserver_cmd_start = self._target_tcp_port_check_cmd() + " && exit 0; "
-             gdbserver_cmd_start += "mkdir -p %s; " % self._gdbserver_tmp_dir(server_mode)
--            gdbserver_cmd_start += "%s --multi :%s > %s 2>&1 & " % (
--                self.debugger_cross.debug_server_path, self.debug_server_port, self._gdbserver_log_file(server_mode))
--            gdbserver_cmd_start += "echo \\$! > %s; " % self._gdbserver_pid_file(server_mode)
--            gdbserver_cmd_start += "_w=0; while ! grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null; " % hex_port
--            gdbserver_cmd_start += "do _w=\\$((_w+1)); [ \\$_w -lt 100 ] || exit 1; sleep 0.1; done;"
-+            gdbserver_cmd_start += "%s --multi :%s > %s 2>&1 & _gdbserver_pid=\\$!; " % (
-+                self.debugger_cross.debug_server_path, self.debug_server_port,
-+                self._gdbserver_log_file(server_mode))
-+            gdbserver_cmd_start += "echo \\$_gdbserver_pid > %s; " % self._gdbserver_pid_file(server_mode)
-+            gdbserver_cmd_start += self._target_wait_for_tcp_port_cmd("gdbserver_pid")
-         else:
-             raise DevtoolError("Unsupported gdbserver mode: %s" % server_mode)
-         return "\"/bin/sh -c '" + gdbserver_cmd_start + "'\""
+     def __enter__(self):
+         self.cmd.run()
++        return self
++
++    def wait_for_output(self, pattern, timeout):
++        pattern = re.compile(pattern, re.MULTILINE)
++        deadline = time.monotonic() + timeout
++        while time.monotonic() < deadline:
++            output = b"".join(self.cmd._output_chunks).decode(
++                "utf-8", errors="replace")
++            if pattern.search(output):
++                return True
++            if self.cmd.process.poll() is not None:
++                break
++            time.sleep(0.1)
++        return False
+ 
+     def __exit__(self, exc_type, exc_val, exc_tb):
+         self.cmd.stop()
+@@ -3533,16 +3547,15 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         if len(ssh_gdbserver_cmd) > 0 and ssh_gdbserver_cmd[-1].startswith('"') and ssh_gdbserver_cmd[-1].endswith('"'):
+             ssh_gdbserver_cmd[-1] = ssh_gdbserver_cmd[-1][1:-1].replace('\\$', '$')  # Remove surrounding quotes
+         self.logger.debug(f"Starting gdbserver with command: {' '.join(ssh_gdbserver_cmd)}")
+-        with RunCmdBackground(ssh_gdbserver_cmd, output_log=self._cmd_logger):
+-            # Give gdbserver a moment to start
+-            time.sleep(1)
+-
+-            # Verify gdbserver is running on target and listening on expected port
+-            result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'), output_log=self._cmd_logger)
+-            self.assertEqual(result.status, 0, "Failed to check processes on target")
+-            self.assertIn("gdbserver", result.output, "gdbserver should be running on target")
+-            _, server_port = server_addr.split(':')
+-            self.assertIn(server_port, result.output, f"gdbserver should be listening on port {server_port}")
++        _, server_port = server_addr.split(':')
++        with RunCmdBackground(ssh_gdbserver_cmd, output_log=self._cmd_logger) as gdbserver:
++            ready_pattern = prelaunch_task["problemMatcher"][0]["background"]["endsPattern"]
++            # Must exceed the target side budget (TARGET_START_RETRIES * 0.1s),
++            # otherwise this gives up while the target is still waiting and its
++            # diagnostics never make it into the failure.
++            self.assertTrue(
++                gdbserver.wait_for_output(ready_pattern, timeout=60),
++                "gdbserver did not report readiness on port %s" % server_port)
+ 
+             if debug_func and debug_check_func:
+                 # Do a gdb remote session using the once configuration
 -- 
 2.55.0
 
