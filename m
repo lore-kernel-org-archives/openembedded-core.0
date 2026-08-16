@@ -2,39 +2,39 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CDCC5DF66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B75F5C5DF70
 	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 23:11:42 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19457.1786921893455914659
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19456.1786921892909135763
  for <openembedded-core@lists.openembedded.org>;
  Sun, 16 Aug 2026 16:11:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=A3phbCok;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cy0Pfe/A;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=26887e2f0c=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67GMj2oK1220072
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 23:11:32 GMT
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67GMikgT722970
+	for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 23:11:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=QGvlrlWArdVviZENMUVVcISa3tiJlqfQvViIAGrgaho=; b=
-	A3phbCokHm/2a0tKBRotwMYSv/aaXWzkkUklS/v80AlKbdOHxn25H84aWO8PBn8T
-	sh67B9LKpb/J2/3gTjQOOXaBPJtizzL976WY3Y86TEeAiXRE0qu6g/fwdmY6Lzyc
-	HHuHxssVHri3FjXTD0PpBD7dJeK9ZseKnoAIN6i3q9WGmJUHckvqPoDfMJ9a9q66
-	tr6STFMVqeL2iYEpW1anNDpF+B+IOVpZ3IHwaOHNIZRHYzm6nYqaZrO0AQr6Ycta
-	6Jc6GFzU1DO/QBSutBqZEifGQqBUYpR5cLTe6hjeGkg/467X5b/nSQgx+kYd4FwX
-	UckXZMHm9qUGuCtmY5hm1A==
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023140.outbound.protection.outlook.com [40.107.201.140])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4g2eeb9t51-1
+	PPS06212021; bh=WHsFlDnBtena1qCHH8eCi4Tx1XKYcbsYr7x+WiBIImw=; b=
+	cy0Pfe/AhcbiYS4hWtKrXUHgUGOy9jytkMdKxVXbLAcfOelCrc1K3Fyj2lilhdlC
+	JynyEoLtw6mopEDOAD0FwhkkhEHQcdVrqo7HdHy3h6RjuLD1XX1zDfAzq5ZMaUpR
+	LhMVemVEclXEfTUMi56E3UPFWp+rb+WUbdsjaU3Ds7gM8aC/QiNPWGVEScX7WZ1V
+	wSQ+Cq0SJ07I/8j+BMlNPMoJEBXWw27kixpA9P0RlarEGmIiZFo6ybd/VP6+cPIP
+	En9+GEUHu2By+9ZYmVfTqXyvyF1qi2PLrFN6+bbkO24Ri2EtDmeSuQaM310r7nkm
+	uM7VE+3x3HlkpjRCQbmw4w==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023124.outbound.protection.outlook.com [40.107.201.124])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4g2f33ss4x-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Sun, 16 Aug 2026 23:11:31 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zVU5NTyGwa152lWwAVNVNi74zuRMDFeDcmEX5gb8KmeoxXa7iqduOyK30C94rkoUfz/Y13ee2coVz27cahCBEpK0x2ZppIMfoy+PWqcbP4OEF0b0DGfGjbNgI0hjz2UnLqSxHL0KFK0saCD3O0m7Bck9UvSLj800KH92KPbNLq5zX61JFqqrIFR39vQbOnMb1Sqr2ra+/h7EbDEewaXfbOPywC/VruVbQDhj64TAglw2rGqZhRg5H73sZroKvRRayF9kTunTfq0/xXalUfE8qUsW0c2v7rckmw51PT54aBKjOCl1VbXT0q6zncto95+JuNP/ul+lnVFE8qc7LB3CtQ==
+ b=rzKEKqRVZCbEF1rTxcpmsyigjGNM0wz1pefKVVDn0I9d8wf4T7E8QH4FfnXgki0AVKczHJQSzH/dRSTLOz1CR0exTQ6c6DPlS2EIawMP5KA3EjHZ/8zlfnr6Hc+pie8qpF+mWZIY5gVltwjy24wDgZZJsdPrqhfHsGBrqZhua01OBT2xbcGzx5IJ79UmjSjnCVr2/ZaHGTNxfkKKHfT+2UyYk+pBDEyElWG9kZCzd/dDwUDDEyEsKns43w0Jp2hNCmPM4ZH59ChRWANgsI8N/PuzUDoDZ85ZGd3QeZv1G6iKD8rRP7BrLD/wKLGhyhnh6/v9kzp0N19uqAGayU2aqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QGvlrlWArdVviZENMUVVcISa3tiJlqfQvViIAGrgaho=;
- b=Rsit7W+tLTXIaYDZ+9z6JeifpEqAtFwvXtk+jUG6e3LvufcMJpXhnwZ7Z3DDAoBClxJ4f3WCQgKB9n+CMi1DxE2VIDkevdo2uzqF5iSwaMaOyEuOAtXBIVESd9VZDeQsGgNT0xlXK38EW/ZRlwnT83kjDj0tYZu3Q4Y7XuA3nnj/nwZg7LtR4+pgx242wzb4wIyuENnq1fx5DfXfJ2X/oS11MLRKcD3hKtN5xg9MdkYOAf9h7azwbJ2qFhOjvJu/OWRJoIyI33w+BIBtqVUU1cEnFhGXozHNFvJWozVapcd5g4TnzPXATUVbohezNUL46GIf24Nsi2+kPjzhB0YUqQ==
+ bh=WHsFlDnBtena1qCHH8eCi4Tx1XKYcbsYr7x+WiBIImw=;
+ b=y4FrmBJtIY20ps3ihPCFYiYkFGBdaSTmDkuue8JVL7mm+KxLd5dNfRFFhZdm+EQ3B0FRFAqqU20uyySgqOTvaug7E8SIQ0sf2z3VNEq4GtebsSkX9ENijt4C495lfBWVCL/0sb8zOU39h/QnzaO/98A+hgBGsdbI95zKA9aWTcyW9PGlqRm+n3ymi8U9YfBDdOGjjbGvOuBAPdjAtbAm8nIUlLfpv1Q+Mp8GmE5sHj+eONDVmy3+AclGF7F3aUxMZgrUT4aMfNEAeB2ynQCcRY6YPyZBQMPdcAfoDljHqWA7KyoFAv8PcTM4EP89CQ5aXZxThKZpn9canpW+eyntBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
  by IA3PR11MB9158.namprd11.prod.outlook.com (2603:10b6:208:57d::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Sun, 16 Aug
- 2026 23:11:30 +0000
+ 2026 23:11:29 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0315.014; Sun, 16 Aug 2026
- 23:11:30 +0000
+ 23:11:29 +0000
 From: Sumanth Gavini <sumanth.gavini@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
         mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
         randy.macleod@windriver.com
-Subject: [PATCH v15 11/12] package_rpm.bbclass: Suppress pkgconfig() Requires for sstate compatibility
-Date: Sun, 16 Aug 2026 16:11:03 -0700
-Message-ID: <20260816231104.3871015-12-sumanth.gavini@windriver.com>
+Subject: [PATCH v15 10/12] libarchive: Disable RPM filter auto-bidding and update huge_rpm test
+Date: Sun, 16 Aug 2026 16:11:02 -0700
+Message-ID: <20260816231104.3871015-11-sumanth.gavini@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260816231104.3871015-1-sumanth.gavini@windriver.com>
 References: <20260816231104.3871015-1-sumanth.gavini@windriver.com>
@@ -66,147 +66,300 @@ X-ClientProxiedBy: SJ0PR13CA0084.namprd13.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|IA3PR11MB9158:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39b97360-f025-4fdf-0cfe-08defbebb494
+X-MS-Office365-Filtering-Correlation-Id: 39e20ccd-b2bf-4654-4d37-08defbebb40b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|23010399003|1800799024|376014|366016|38350700014|10067099003|11063799006|5023799004|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|52116014|23010399003|1800799024|376014|366016|38350700014|6133799003|10067099003|11063799006|56012099006|22082099003|12006099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	kk807H3//VfXLmCdRmin9uZApPfmRIHrobrKIu9bwnpVgMAapI2GdGCNRZLq/N6z1fgQKrFEhLJr+6yyzFGWMRkwH0F+5fhHAwr+jRTzqIn1fXoWGScLPYJjvh/xTe4BQvlJfUqfncU1c/KO1lQwNv2XvzB7drZFx0+hBHQXacGBdF+O/NpkuSHAa45OalMSsVtHmbqJ97Agc88+t+VMQ5y2sJ4pYoZd0R5iQlvEjfWzdYUZupGnvPjNE+NV2RbRY0mVpZbaS+HOKyK6kMZPSpeY5nY46GV6LJXyPW/hpUajB0zZRMeOvHo9Z69gS7FA0VMPpeAAPzkQKSuuHrptA1mmAHt7SCzJ7k9vQA9yq7QmIUH3n2KeOA0arbei6WzTJ6eFPmgkyqwnCNVAr2yidmX8VbKcIl8RPcnZxBUOdoNkqJEm8FB8WyO5FhcDJPPV68D+ZcfaxGTmjG6IV8ggNUUa1ii9C6hPq3+Y29ZvzBgMRinvvzFlP0pBG4Vn2Ini32rAgSDI5u6c0/XkGvl5GLieVyaSe2rfwriFJes0xlpU28Tj20U5MFazDhDW6c+sXtg79XX1cnFM011CzT0UxIDnSAtF3kayoj6HFFo+eP+48sORoxgrS/orRI30J6Z62ZM0ZpmgSZbLGebdAVrFlXWFu2MD6tqGwzHMH1jUjn3otgk2AqugyoDOrhH58/w16+GbylN1wC2/NntrnjJXobplFMu2qcIxUgID5QVpdoM=
+	AXx41EBaBi7moVWD++J64yXTfYjPS+jfpBcUAm1ZFBHQKqkS4A9gKJf4DGDnSKBomRESDhYRqKc8QmOBClF5MGOjDdd5ualIX1tpuekTmZfP256oYfUz9ycXK6uwb5g2aGEs3hu8oU15nrbJSR/7l9tKNLk9amklLuR6T2o4WEIb2stlOdcd3iirt061ci5hu9RmYPYq4f7s24b5NwnV/xfISiNliUPLbBNE2z+Ky1B7ufn0r1iej19TkbPnrKcjr4GPLJAC6d4vtztyxibAQNAcxXP06t4l6L/ffKhuUO3g8l+3Sj8E0fw3PsO/vDO1nIyeJxGC9hihbeW69X6JZWtp4eNOH0NPTmAsT/soLX5ZXHasVKuJIwhgCGv5E0qFpLltb0XozdNprXp6BOlvycYEMlw3NXR5I9TTkFzaRqrGxHprAc6AeurHF/s9/mv++M+6bC2Sz4s6uHjXAG21hL9A34DHXGjp6lf2b42g0XyZ8pyAFncKi5vQsEBHKH7jCzkantyqOlrSLiHyl6PIBUxtdrC0AFvRnnKzYOT/wI5LU0C7Ts5T2Sw4rvF9KYPThhWt67nhD3zfaJsOBStMP/nSVHTUiePpIRXFIhkPzgbTFTjv2oSJQ9AvVQke+xLGeEH3kQ1OPU2p+ATwrltuFkUVX+04Vi5QVU6yB4KUQIU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(23010399003)(1800799024)(376014)(366016)(38350700014)(10067099003)(11063799006)(5023799004)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(23010399003)(1800799024)(376014)(366016)(38350700014)(6133799003)(10067099003)(11063799006)(56012099006)(22082099003)(12006099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?HyZVtTV6JLntnT/elTRuE4p7tmSBVtDoM3dQIcN4D/tL7Qnl2QxFIf/pk7oU?=
- =?us-ascii?Q?q7QVC9tdkrHa/MmW1b1ZsXlj9U/yCG0UISioBSncC+ZqYvZjE4Vcc4vjk2wB?=
- =?us-ascii?Q?UgvQ/KrgVivDeFxKbA5ygsVUoFUlfjp/CJpxowJIveIPvw7wM8tXV4S3HV3O?=
- =?us-ascii?Q?7OL49JInOU/9jySiXtUH7Q2eHvwLNahlHMUq3v5zDKGEbpztMccs9uaY9JSi?=
- =?us-ascii?Q?9wiwz5sTpwp3Cxn1H9vFoqPBh6LmMXWzCWWqiW463lEsoKvzJNPGTWXgFx6/?=
- =?us-ascii?Q?hk1j4g//jhhs3JILiRhtblpe0zh5OLR5nNL1e7LPFlZmsFomUN/h0CTpvaFI?=
- =?us-ascii?Q?VPXcbQTKmbMLb59XLk8yCQ96YVa24QPo+klybKs5IxbqaxcjfOjCtB4Drl8O?=
- =?us-ascii?Q?CPXOROc7d5i91/j7+BOyVsZrDqF28EC2uLtM/TEKsLyXqutky9ONFoR4yxdh?=
- =?us-ascii?Q?HIPrYQW/E/FS+T/eKI52xA3LHJRcaSgA/8PlsJ/qD8EMt4dXn2UriWbdaXMa?=
- =?us-ascii?Q?XK3sroukh431A39sSpuUHvhbxky25ff1k5McGrWblEN2xQKv9doRGbIn9lXg?=
- =?us-ascii?Q?Phy6LlukQbUtI1zJPAwXb/GSignkM1g94SFVOgwnSWFF4BvYPFXN1mn3eCbn?=
- =?us-ascii?Q?CO6q1T06ojyp6MxiCrD+Z+hDeTrpnaC/yOgr7cITkdGFzurokXMMaxK6T7dy?=
- =?us-ascii?Q?cfoHwcG9l6nJAH73Hl1mOar46Di2o1LeSogPUc3Mf+ZYv0IkIzVD/tJDiryF?=
- =?us-ascii?Q?KsnEg/lPRS8y1zXKhEGWHI80QS/QauyQz7jL/kfe2eLnuJdUO2l7O9w5Dkm7?=
- =?us-ascii?Q?fx/pmqO2boB0lkkIF4lBdS6HD8qoAnaOxqqLVBTdjjMs/+XKKLb8Zj9PlyGP?=
- =?us-ascii?Q?3CBmOt0ipXja211MG0EV7tNKR/cdTBKnCu98mIhT120Q3/dOQtmBS3LR74Ax?=
- =?us-ascii?Q?MXReHO7tsSzDJ7jPKUvFoztqI6CymWXlGwc4ew/uDN7h1me/gjcl/gdixwIl?=
- =?us-ascii?Q?JjKdKIHgs9yiYt34KkPVDnfee4vTYlqLjAbLy2Ke081NJwqASzOQzTDr6a2K?=
- =?us-ascii?Q?3Sp0pd1zeIe7LN8LxUAxaDfMfAQ7jg7Qo0e3a2tTS925r9WZPt7kHADxPCJY?=
- =?us-ascii?Q?bVIDF1B8duta9NkkkKleoqNckRSL3fVowgJYRIDB+B0vk3ocKkfdsFYNi0Nu?=
- =?us-ascii?Q?TyvhCb1LvykMQqeNXIdNbCQlb5FyCiyULrX+RPYbMyKvZDldJ3n7fIUZHThF?=
- =?us-ascii?Q?4TL42lWMfonlDt5b1dPX1IAnhUEte/uJnf2WdO+gaR+mhZ8+8Kk8qoKl8+2b?=
- =?us-ascii?Q?ETcdACbnJShaqy6aYj0M0VdbMz4HDEsdeQjrE4S8bagtKK/d9d1YsQtncXrK?=
- =?us-ascii?Q?qxABkJY2waWWHHt0og1hKSkFWTpKd7vwgxVTNxR1U8715tS76yx6Vl67Lbv0?=
- =?us-ascii?Q?wK9/3PZ/5W1LSJ4HZuzAeLabyUzddYH7gNFza702LROzChfgHGcdd8PiIlHX?=
- =?us-ascii?Q?ynZB6TpBVXLgswdQ1X+BDfSVv0zrcvdVtflaIfwAMjQpTVadpfyWwYY/kReS?=
- =?us-ascii?Q?7EYa45Yy36zsPpiAu96d9Tk2MW0qjC+tKD63jPDKs8Af4/Mj8E3oYg3OsRD+?=
- =?us-ascii?Q?IWcd7kRvHBUx5+2MP9l+NKgb9jzbt8Mdi9MNbnGX7+8nKNnwlJWBkaPDGL2m?=
- =?us-ascii?Q?lVn4nsybjNCAhbd56izvnrjJcUbHFWPNKMHao5sCnB6huHnjVmx2WIeIXIk2?=
- =?us-ascii?Q?ikvHz8OgGwlQ0Ni6CLYMaWQs0nICA3I=3D?=
+	=?us-ascii?Q?6idd9OXFhupS6rpX7LGH7LTu7svXBxOu7wsCsIwVwoCMU9OqoPmu2ET8mJpz?=
+ =?us-ascii?Q?S/AAdDOXSgKjuNsQ8qKlGjF/ct4qQ2r8vuJLd1Q4dFGnmk9p0Md/8MLJHsdK?=
+ =?us-ascii?Q?wJ/bRgpbdLjeucE+0VmENbF46te1PmduCGRak2iaz1YIwAw+9gEpIAr8YiJD?=
+ =?us-ascii?Q?6p6nRoJP5N7WjxSegq+PSO9IpH48HuSmB5meEae9BwsuTK93MD07WsqwhGAE?=
+ =?us-ascii?Q?M91130NoAe70OQXwm/mO/Lp51oRuYNWFhx7urg+Cv3y44QsQopvNWnWoergz?=
+ =?us-ascii?Q?3I6U0jkpqYDLPTzMG0qWgq2rbnQgw3gfKBwCK7Tlq3VqgdgTxpdwaGiPDA2B?=
+ =?us-ascii?Q?jUUWWSu94rjdNk0SY1Z9375zYpaGsyJTAx6foctU3CJY3YWO4bL8PNp4IAYI?=
+ =?us-ascii?Q?nFCChG6/AJQyi7pkLZcErrQdzmyh/JzBDS0PSp5YxAhucscNCl2yd5f12OHR?=
+ =?us-ascii?Q?ONqJvEBpq3hk/8dmiFFJcDTh2sMyGjaOEKePRcezeDUDnZTN57LWjsNQC2sf?=
+ =?us-ascii?Q?d0Bo9ZpZUcGFX5QUHRkb9pZ6pDEmM+8TGwRdgQ64IDKRXN8qKhyPMWlFf7A0?=
+ =?us-ascii?Q?wHW9VE+epG0X2KclvFO6APKsOKZWB9Du+RJFNCYHxzkX621aoX7M8fv48w2u?=
+ =?us-ascii?Q?ZYCFzfyJPKqPorBtZlVdvTdHyHuMoC/YcjhdQ9lCfb+skXzXLRnrD0DLPEAI?=
+ =?us-ascii?Q?Zu0y2EnLhxyP/91o6vcy/EPm/TSAEkZ+92275EYxnRlmF+iu+Dfl8y9LFB16?=
+ =?us-ascii?Q?BiPeLQs0lHFQR8/jepyPrDtwBow4mgY4HhgyG9Q+eAVUMGdhuwIwEw90N1jq?=
+ =?us-ascii?Q?plriuuV8tD3MMs1qDNPHH0QlVsMBs+X3WM7TQyLYyl/usWY1bnXyz4uyZm+z?=
+ =?us-ascii?Q?DOmEX2TpYxw181/ssPMgwSeCdKneNI9JuoK1q2/m6qlSzYshrls0rYZmnttZ?=
+ =?us-ascii?Q?OBs3qvDiAIgpyyGJd36RVGVOrpkkecxkX7t5FptIkrlfKMymAP7Ry+M12jHQ?=
+ =?us-ascii?Q?hTUUq+YiiTojnNRyO61teZAavfW9aWgkDJgVhiUgrAC0Pmnn92caJVUmBzZk?=
+ =?us-ascii?Q?polTI4o0inMwO2jPD5UQvUDEJGuEz9higxbevEhCRuwYUXAsESQ7P6s8fKm0?=
+ =?us-ascii?Q?W7Tk3rHsDB7isXaDPM25LXod/YiC+eg+Mbr5+OUG1Yjys6n5/p7OHvhGmtDb?=
+ =?us-ascii?Q?C2P6hO4n3OOXljCYfhhVMkbAb7a4vaxzPiEzKAXBdNtp3Bvk/i54MGCIzRyg?=
+ =?us-ascii?Q?znK+rrqLKzHAQvhwGYnlbPSv0mHr+I5roujYCg9vRN4Sq/J6W6tg4A+yfx7C?=
+ =?us-ascii?Q?XOR9tVW1QJ3AA1YsDY9dtJ213WuYYuXNjmL+R9FA8DeqwrWwR2sw70JySD0S?=
+ =?us-ascii?Q?GnPYGEWbJ5xGIMn6eWKwlI4jhMzZJtMsKnrCtY7zsjcgNNMRnjvbQVaHIzAE?=
+ =?us-ascii?Q?492pIOH2Q8hpBNJ6BqIu0gMkrVJyl25V54L+udagg7Ltdfe+aEFC/j9qOzH/?=
+ =?us-ascii?Q?WsoVDrGrQB0re+YI9tAgVCCXpsxIHzEiR+ZG5YcKMv/wWi7SN6BjjQ4e6ceK?=
+ =?us-ascii?Q?aSfD+ATRMKBwKhmRmOBWN3ge7oo0kDw7s003LYQJddn1r7yewUK3zZNJ4glY?=
+ =?us-ascii?Q?KHEMVchdpOPdt7MjLIYZexD8bf3XKu8o1NX3EzXEKxPVvj4GbiLc1x5WPHjX?=
+ =?us-ascii?Q?MvUEjNi6D2jt5cpmNiDKtaRoQKi5Oec8qV7/Gmc0ynXSWRYY5lr0lp5OlI1Y?=
+ =?us-ascii?Q?VbBkXSMAEIApCbthvhj/aH0+4aCe3Dk=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	UY5fYOTvgiMJpVAnENj80Zy38r89sxaol3CuTfXJByvtka95LvYqjhTZaFOd5dtSCJtCpm9LJHPHp6rHVSOLUALQUUraMawGo8SzzWmA/Xz4nf5VKTHSDCspKphvNyWNtD+3mJ99Xkr91+k6KdgaEwwAA5683kGc5/KfcT5lX5PZT1kUF2toyRwGt1qAe3c8YXF0CqiOhvKglvYjn5DQkm8C/fzlEur9YWx6m3BpwN1+i69BW/SfYNiKqVQ2HnzFGc+vmcRm81fcxzuWB3tENVDVJVDpGABkbR205WNjhTfL2tI4p9XqdB8fQZfZ7vVN6QYy1stfHv72ZGfJc/kDCQ==
+	QzzJNSZRzA9bz8mV38SzjCVxLy188IUDxbj7O6Kg/Bvz+EoHmYlutdX4T8SJHoppi2kTieBeEbHyRJLECQdwyecEhIuHxASd1YqMSD7V/DNawaaF6ouLC27QwY9ilvcmkJWq248jnzeEbxCx/tsRkWQtyXnU85JOF2F54sfibdXd4XFUzP4jsAUNV8tMZSxAXl3OCm5ONUPE77ZfbH/XiX/ucubu4B59W/KE/lIWix13Dptbw2MX8kZvXzii0wA6ewyXAbBVJ4fJqy+3DC1moSWXsW0Awon0VIE6ZrFhtqpNLAzjzmKDLDOF33z+aZl6Ms668IEgOuDF2vH9ne7AKA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39b97360-f025-4fdf-0cfe-08defbebb494
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39e20ccd-b2bf-4654-4d37-08defbebb40b
 X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2026 23:11:29.9461
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2026 23:11:29.0873
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E1U3mTedwBQ3CICsowPLll7Th7BCCs/66TD5gJzuT7M95gupTZOLtDZHLlxq33/VEr2gJsOhlEr4XZre9zRyE4E4/HYpz60VnD1jgJU2VH8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6zrJNvxPibgt+wOOFvDtOEd1m9ovZYKksEAPlQ4JrK3ntj0haCMLEaerb03l4/Xz/zrJkhGL8442zNvB82FZvJGbW8LU7eHdS98hws8AzxY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9158
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: Cqi4XIWoJVy0xxEiu708EIeVK2XJ4Zek
-X-Authority-Analysis: v=2.4 cv=DLy/JSNb c=1 sm=1 tr=0 ts=6a8243a4 cx=c_pps
- a=DX7yn1dTRzwlA/k+0Vei2w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfXxq8F9U+tYQc4
+ 4txfAvk6+o67CNCH5wGkaN4Qij4wusMc0kMBOGCuX+dLKbqZpYrYy6DKvt7y1kt0Tzb71vVspei
+ 3+UwUlcHL2VQRDTh/jLrtvf6F/g/3GXLnU6l3jytR14X9PC7yZuXN5XBRudmBVQN27hjG15gjiM
+ qmrT/c8BmHB9UtKVmcNdEUb0Q64C7V50F5if4MOlxLY/CMpG3PHja050krU2lm834rCdyPL6NZh
+ qXlc/15HwNacPHIBMvC77YtAj32xBras9Vs0xGzfbJYHMdWwbBtg8XO4vXOMVOHBJMyB5yS70s+
+ I6Ug9F+71jAO3l6QYhMEm+NLTRYm2IhpYLSkwZXxK0vfoKv1PXu4jjLR0w6tz42hnyAo7sX9Qbp
+ 2UHPmzkCGnYu02gQeTY+BfW+yfQuYq4E9/zJXWe3qAtG4WhCuK18v8wGFE2KiIQTaKVP++WbQKy
+ JdOmI01mZrHdjchm0Hg==
+X-Authority-Analysis: v=2.4 cv=JYuMa0KV c=1 sm=1 tr=0 ts=6a8243a3 cx=c_pps
+ a=6mrLUOsRrbGUgCFc9Veheg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
- a=0YVC25x4kLZrtsW4MIcA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfX0SdoIVY0sHDi
- HOPONjucbys0jCI62oYJVsBP+5pA/f7qp2UJH6GhYVJNTGj6w5WQCra5Bv5WLqRtuIi/G67YSbJ
- NJB7nAQnumUraKBCW1G/dN4BSNy9r5hR5XFBDoBnICodTmZdLk7lRpXmbqcQ+KmMf55glsVf5Lr
- 71aJRSG2kGfA9G4Y25DTrpqNvXQRl9gBPHLr+QzYFyNadh0iFQULJohSXJ1lkSW6tvDl96HX09Q
- SvL/omh7zL0Iikm3pmBQNPoy7yICu/8MpDDZ4BBcMqoHjX7DbqhBAk1u0iD1Ob7H2W80wI5feIF
- Fv2dfL2/EmTvzTCoF71ut8SwKtdzvG4/1GTGhJ7bKtxjIcOSQ/V4TM4/stvxAtLvkPHCI8BK/Kt
- 6FvV/6ZqqieYSPk10S/riJRDYUwhbBQ0S1sbevExEftia/6lL38aLBYcanAIT/V+Vx9KpPGo9YE
- OMpH1C+T36KcfDyW9Tg==
-X-Proofpoint-ORIG-GUID: 4Hit1RiOEOdgNtBe1uPQ7r8u3Tg2oqGi
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfX5GMmXMZXbHAJ
- 1SZaYnbDP1bNnFuwzCiR2bao4gXZemCqoKll+FrlRpiEM3/3qng+wMWxQEZ1ihWoys92KgzCdxQ
- cMe+p461MYkVP99vBKgZdZWGXo3GjqUPA56PoQDR/YPQ7YwhlVmr
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=NzkYBEk6AAAA:8
+ a=NEAV23lmAAAA:8 a=3uWsZ661AAAA:8 a=t7CeM3EgAAAA:8 a=9_fcTNOi7W61J8-o3-UA:9
+ a=DC3Xf0KLC0SIM7_k:21 a=zqED95DPWUTvcrp2mxve:22 a=fYNom5PXsM5enKJDCoVv:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: NWxEoNwbi_qcFnO0mSNQgah0wH4-dZLe
+X-Proofpoint-GUID: Gu5m-GZoI6jWZlBk1r5gTEUfxfxQfDyn
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfX4LttNlzCAK01
+ rLMLMSEVRfYOMC0EWvvA2ePqfoNhyuALFUGHWn5foyArji4nfoq/gRThXO9pke8MWd+q10ZjcDh
+ OoMhDp8WhgfHp31YlLaAMJ13kz5AsuPH8zGUUXP7p4YFmhQ2x8WI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-16_06,2026-08-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 suspectscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608160188
+ priorityscore=1501 impostorscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608160188
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 23:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243577
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243576
 
-rpm 4 had two dependency generation systems: an external generator
-(System 1) and an internal fileattr-based generator (System 2).
-OE used System 1 and disabled everything via:
+ * Add 0005-Disable-RPM-filter-auto-bidding.patch:
+   - RPM is now handled by the format reader. Disable the filter's automatic
+     bidding (return 0) so it never intercepts RPM files during normal
+     archive opening. The filter remains functional when explicitly requested
+     via archive_read_append_filter(ARCHIVE_FILTER_RPM).
 
-  --define '_use_internal_dependency_generator 0'
-  --define '__find_requires %{nil}'
-  --define '__find_provides %{nil}'
+     This ensures debuginfod and other tools that use
+     archive_read_support_format_all() will use the new RPM format reader
+     for RPM 6 packages, while maintaining API compatibility.
 
-This meant pkgconfigdeps.sh (part of System 2) never ran in OE builds.
-
-rpm 6 removed System 1 entirely. For v6-format packages it only runs
-the fileattr system (System 2), and _use_internal_dependency_generator
-is ignored.  So __find_requires %{nil} no longer works, and
-pkgconfigdeps.sh now runs for the first time in OE builds.
-
-pkgconfigdeps.sh --requires generates both "Requires:/usr/bin/pkg-config"
-and "Requires: pkgconfig(foo)" for each .pc dependency.  This creates a
-sstate compatibility problem: packages built before the pkgconfigdeps.sh
-fix (which unsets PKG_CONFIG_SYSROOT_DIR) have no "Provides:pkgconfig(foo)"
-because pkg-config was failing silently.  When DNF installs a mix of old
-sstate packages (no Provides) and new packages (now generating
-Requires),
-it fails with:
-
-  nothing provides pkgconfig(zlib) needed by elfutils-dev
-  nothing provides pkgconfig(x11) needed by libdrm-dev
-
-In rpm 6, the correct way to suppress a specific fileattr generator is
-via its per-generator macro.  Set __pkgconfig_requires %{nil} so new
-packages don't generate Requires that old sstate packages can't satisfy.
-Provides generation (__pkgconfig_provides) is kept so packages still
-advertise their pkgconfig modules.
-
-OE manages build and runtime deps via DEPENDS/RDEPENDS; auto-generated
-pkgconfig() Requires from rpmbuild are not needed.  This follows the
-same pattern as the existing __font_provides %{nil}.
+ * Update 0004-Convert-RPM-reader-into-a-proper-format.patch:
+   - Include the test_read_format_huge_rpm.c changes from upstream PR #2846.
+     With the filter no longer auto-bidding, the format reader handles the
+     truncated test RPM: opens successfully (ARCHIVE_OK), returns ARCHIVE_EOF
+     on next_header, and identifies the format as ARCHIVE_FORMAT_RPM.
 
 Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
 ---
- meta/classes-global/package_rpm.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../meta/nativesdk-sdk-provides-dummy.bb      |  1 -
+ .../recipes-devtools/pkgconf/pkgconf_3.0.5.bb |  2 +-
+ ...vert-RPM-reader-into-a-proper-format.patch | 42 ++++++++++-
+ ...0005-Disable-RPM-filter-auto-bidding.patch | 73 +++++++++++++++++++
+ .../libarchive/libarchive_3.8.9.bb            |  1 +
+ 5 files changed, 116 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0005-Disable-RPM-filter-auto-bidding.patch
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 51ad195baa..1e016971f5 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -599,6 +599,7 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd = cmd + " --define '_buildhost reproducible'"
-     cmd = cmd + " --define '__font_provides %{nil}'"
-+    cmd = cmd + " --define '__pkgconfig_requires %{nil}'"
-     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
+diff --git a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
+index 6075770bf0..37dad54409 100644
+--- a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
+@@ -11,7 +11,6 @@ DUMMYPROVIDES = "\
+     /bin/sh \
+     /bin/bash \
+     /usr/bin/env \
+-    /usr/bin/pkg-config \
+     libGL.so()(64bit) \
+     libGL.so \
+ "
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_3.0.5.bb b/meta/recipes-devtools/pkgconf/pkgconf_3.0.5.bb
+index 79ac3208d3..3343857867 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_3.0.5.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_3.0.5.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://pkgconf.org"
+ BUGTRACKER = "https://github.com/pkgconf/pkgconf/issues"
+ SECTION = "devel"
+ PROVIDES += "pkgconfig"
+-RPROVIDES:${PN} += "pkgconfig"
++RPROVIDES:${PN} += "pkgconfig /usr/bin/pkg-config"
+ 
+ # The pkgconf license seems to be functionally equivalent to BSD-2-Clause or
+ # ISC, but has different wording, so needs its own name.
+diff --git a/meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch b/meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch
+index 29d12bb539..03a207f33f 100644
+--- a/meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch
++++ b/meta/recipes-extended/libarchive/libarchive/0004-Convert-RPM-reader-into-a-proper-format.patch
+@@ -11,6 +11,14 @@ Without this patch, debuginfod cannot scan RPM 6 packages:
+   libarchive error: cannot open archive from pipe: Unrecognized
+   archive format
+ 
++The test_read_format_huge_rpm test is updated from upstream PR #2846
++to match the format reader behavior: the format reader opens the
++truncated RPM successfully (ARCHIVE_OK), returns ARCHIVE_EOF on
++next_header (no valid entries in the crafted file), and correctly
++identifies the format as ARCHIVE_FORMAT_RPM. This test requires the
++companion 0005 patch (which disables the filter's auto-bidding) so
++that the format reader handles the file instead of the filter.
++
+ Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/2846]
+ 
+ Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+@@ -29,7 +37,8 @@ Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
+  libarchive/test/test_archive_read_support.c   |    2 +-
+  .../test_read_format_cpio_svr4_bzip2_rpm.c    |    4 +-
+  .../test_read_format_cpio_svr4_gzip_rpm.c     |    4 +-
+- 14 files changed, 1162 insertions(+), 15 deletions(-)
++ libarchive/test/test_read_format_huge_rpm.c   |   13 +-
++ 15 files changed, 1169 insertions(+), 20 deletions(-)
+  create mode 100644 libarchive/archive_read_support_format_rpm.c
+ 
+ diff --git a/Makefile.am b/Makefile.am
+@@ -1398,3 +1407,34 @@ index 6062c48..11dbbb4 100644
+   
+  	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+  	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
++diff --git a/libarchive/test/test_read_format_huge_rpm.c b/libarchive/test/test_read_format_huge_rpm.c
++index 51208c7..10c7fb7 100644
++--- a/libarchive/test/test_read_format_huge_rpm.c
+++++ b/libarchive/test/test_read_format_huge_rpm.c
++@@ -26,6 +26,7 @@
++ 
++ DEFINE_TEST(test_read_format_huge_rpm)
++ {
+++	struct archive_entry *ae;
++ 	struct archive *a;
++ 	const char *name = "test_read_format_huge_rpm.rpm";
++ 
++@@ -33,11 +34,13 @@ DEFINE_TEST(test_read_format_huge_rpm)
++         assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
++ 	extract_reference_file(name);
++-	/* This archive is truncated -- if it has data, the bid has screwed up */
++-	assertEqualIntA(a, ARCHIVE_FATAL, archive_read_open_filename(a, name, 2));
++-	assertEqualStringA(a, "Truncated input file "
++-	    "(needed 34359738384 bytes, only 10256 available)",
++-	    archive_error_string(a));
+++	assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, name, 2));
+++
+++	/* This archive should have no entries -- if it has entries, the bid has screwed up */
+++	assertEqualIntA(a, ARCHIVE_EOF, archive_read_next_header(a, &ae));
+++
+++	/* Verify that the format detection worked. */
+++	assertEqualInt(ARCHIVE_FORMAT_RPM, archive_format(a));
++ 
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
++ 	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
+diff --git a/meta/recipes-extended/libarchive/libarchive/0005-Disable-RPM-filter-auto-bidding.patch b/meta/recipes-extended/libarchive/libarchive/0005-Disable-RPM-filter-auto-bidding.patch
+new file mode 100644
+index 0000000000..26a0159908
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0005-Disable-RPM-filter-auto-bidding.patch
+@@ -0,0 +1,73 @@
++From 882166d7fa113f0c2108864b8a579d01816e1fce Mon Sep 17 00:00:00 2001
++From: Sumanth Gavini <sumanth.gavini@windriver.com>
++Date: Tue, 11 Aug 2026 12:02:31 -0700
++Subject: [PATCH] libarchive: Disable RPM filter auto-bidding
++
++RPM is now handled by the format reader (archive_read_support_format_rpm).
++Disable the filter's automatic bidding so it never intercepts RPM files
++during normal archive opening. The filter remains functional when
++explicitly requested via archive_read_append_filter(ARCHIVE_FILTER_RPM).
++
++This ensures debuginfod and other tools that use archive_read_support_format_all()
++will use the new RPM format reader for RPM 6 packages, while maintaining
++API compatibility for code that explicitly appends the RPM filter.
++
++Upstream-Status: Inappropriate [OE specific - keep filter for API compat while format reader handles RPM 6]
++
++Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
++---
++ libarchive/archive_read_support_filter_rpm.c | 37 ++++----------------
++ 1 file changed, 6 insertions(+), 31 deletions(-)
++
++diff --git a/libarchive/archive_read_support_filter_rpm.c b/libarchive/archive_read_support_filter_rpm.c
++index 01bd1bf..8e90da3 100644
++--- a/libarchive/archive_read_support_filter_rpm.c
+++++ b/libarchive/archive_read_support_filter_rpm.c
++@@ -79,39 +79,14 @@ static int
++ rpm_bidder_bid(struct archive_read_filter_bidder *b,
++     struct archive_read_filter *f)
++ {
++-	const unsigned char *p;
++-	int bits_checked;
++-
++ 	(void)b; /* UNUSED */
+++	(void)f; /* UNUSED */
++ 
++-	p = __archive_read_filter_ahead(f, 8, NULL);
++-	if (p == NULL)
++-		return (0);
++-
++-	bits_checked = 0;
++-	/*
++-	 * Verify Header Magic Bytes : 0XED 0XAB 0XEE 0XDB
++-	 */
++-	if (memcmp(p, "\xED\xAB\xEE\xDB", 4) != 0)
++-		return (0);
++-	bits_checked += 32;
++-	/*
++-	 * Check major version.
++-	 */
++-	if (p[4] != 3 && p[4] != 4)
++-		return (0);
++-	bits_checked += 8;
++-	/*
++-	 * Check package type; binary or source.
++-	 */
++-	if (p[6] != 0)
++-		return (0);
++-	bits_checked += 8;
++-	if (p[7] != 0 && p[7] != 1)
++-		return (0);
++-	bits_checked += 8;
++-
++-	return (bits_checked);
+++	/* RPM is now handled by the format reader
+++	 * (archive_read_support_format_rpm). Return 0 so the filter never
+++	 * wins automatic bidding. The filter still works when explicitly
+++	 * appended via archive_read_append_filter(ARCHIVE_FILTER_RPM). */
+++	return (0);
++ }
++ 
++ static const struct archive_read_filter_vtable
++-- 
++2.49.0
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
+index 3b3824e778..2eefa28532 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
+@@ -36,6 +36,7 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://0001-append_filter-Verify-that-bidder-and-filter-match.patch \
+            file://0003-Remove-bidder-name.patch \
+            file://0004-Convert-RPM-reader-into-a-proper-format.patch \
++           file://0005-Disable-RPM-filter-auto-bidding.patch \
+           "
+ UPSTREAM_CHECK_URI = "https://www.libarchive.org/"
+ 
 
