@@ -1,196 +1,107 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDF3C5B572
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 17:07:50 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.9])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13514.1786900067066568225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D7A8C5DF6D
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 17:22:10 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13749.1786900926552658896
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 10:07:47 -0700
+ Sun, 16 Aug 2026 10:22:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=oGw4XE/Y;
- spf=pass (domain: est.tech, ip: 52.101.65.9, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o3FrKaWcDb+aViL/O82wIL6LhAz2dKYWV5I+UXfpz/cMN4gPUVy1aPrEr+xdRsi78vMR/VUw/MSjFxBEyBjB6M4UHmXRXh0FeBwRUELRCs0QezgM6sBU1gkBziJmWT4/ra6IM9cUohZkVGga/AMCojlkq1jFkRoymSMk44ZQ045UtXJPw6NJosbxI0gwC7SmoLXIfy2v6kJwoSCaUqXyzIkjCTi2fodrXQs0I67O4VgokzvAW1TEdfiDArxwCi4ewftY+k5ggDfqIDKTYP4WRAFC2ZA8vpJnAQ8uAXa6YN2QdKQQl8rOA+0WHY/In1W5pWfHwYN+9AcP3D3RyzGm4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nQTKUIYW/+H8UGmR3cksANtc0aKABm6GXASJkVJwGdw=;
- b=O1YF5y+mIuo5GeKEyni487ynNCuLQXpgyFOmrghie//Bjqvjx7KNRJMxMmtmA33kzoNlD++nCPkO1s/z3UBHuJ0D88rUYN67Kp8RxTPJa3JouXrHfK7brw1rH2QIBGBwaMc/qO7qPlPHzAd2J/vXh0B5IiUwzCcuHoNuEqufhclLCV0WeEG3IDBeqOROVzFPoxjPvEV3cbOXfb1Kg1kCMKzQhgRpHiU/DLWSKXB6omZr+2mLgNUFy86fiyMLTVICW9SsVI4gqVpB2yGFrmPRWCPdHBlHkK+JahinHb2GP5vyg6ketae0wHOXV3hV3OX3NNgFEyrf40zJhaW1VAc9gA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nQTKUIYW/+H8UGmR3cksANtc0aKABm6GXASJkVJwGdw=;
- b=oGw4XE/YIEvOrApgdlXW4E/GQOV1J2oWxnoTsmqkhelfkuNSMJhYGQ9NKUGYioPQHKS3+Ah2DQDE3gyeWlnMiZF+8jMarW8F9mKhvG9rroYRIUnJ88MJLivLz7UWamEfjs7v3UCCWvrJ+ZUZQo4M6Rg/9h21PcmTMoktZcNOrWvIjFtjKJwZzjzciVrRqYbTku/VWqJlBhNATTRtbU3UdhrssTuHkoS//JD/7ruEbXZtxBR75f1E2fiCA7XHfKQAAAmGTqqXpB6j0MVj2NlSdLkCRzOLTrjFg9rTzMF1GspaX59M6jBzwcjdMvZwRtTTAxrXdCaj/8adjRBJfvhJCQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by AMBP189MB3363.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ab::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Sun, 16 Aug
- 2026 17:07:43 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.007; Sun, 16 Aug 2026
- 17:07:43 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [wrynose][PATCH] glibc: stable 2.43 branch updates
-Date: Sun, 16 Aug 2026 19:07:37 +0200
-Message-ID: <20260816170737.42198-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO3P123CA0016.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:ba::21) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Bmh4Z0PV;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cbee3777e1cso1397345a12.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 10:22:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786900926; x=1787505726; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mItYwKp4Y7NPuv1HDs4dVRO2G7zsuKykHOrAGtgVvP8=;
+        b=Bmh4Z0PVSIQjgl3NT7NKMZrgsyw4iKIowko6QUFN7V+UGr16+c5Rax5l1fKgf2jr9J
+         61Itv8Mk3stDUcDqGRSNanym2HHoP/kR3wOj7bgwjwJPqXpeBnsKFMy4mdEKopIrX4e1
+         oupFtqxkEZabemqtftPUr7X1epW8aQwIHT6oTen7crkhALM6hIlk8AIblkfjhN9Sdx5S
+         SCgNvCib07HYHmIYbZkZPxcJNLPzGvkhUjnM8cxAFFL3WCBY8kGIXp236rKFCzjjrLzD
+         iNjPq/q/eIJlIuMnxfmKSpv+j4RuM2Q210+u7UyzmtE8EJLA5aMUX9FG+PZO8diDT94c
+         2JFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786900926; x=1787505726;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=mItYwKp4Y7NPuv1HDs4dVRO2G7zsuKykHOrAGtgVvP8=;
+        b=U/RdXKBdTtsUf+TVt7YaLuKOhsAT+SfNSpyCxd5xbc5IATfDnnyoiMdXgzbHJOXoCz
+         lhamrnYWt6vVDR6qiA5HDULvy5dUG1XPCZsKy9ztZWlWq0d0+Bz6rC7ygFC2a6rZhWw+
+         O2lytdE1kPfvv9BM0KXtOGQBHFS0IRe7GGD1XK7o+4UZRXu0WsQLHisPCgJW/4y1lZaR
+         u5Ay/x5lgm6s1ORzeZsLSu1XErPNonLU59mrVoe5AXDjL+PmmDdIPt/pUIYCoENWNDw2
+         jjNCY4exJlSbAn219N1PVbz/QjCUIXEj2OrIpDTyUutMXiS1hAxwdkE6CzAn+5f5dl7/
+         //Lg==
+X-Forwarded-Encrypted: i=1; AHgh+RqiHLyjFtiiOjQWMqbW6qv8sAridHkvFXhTOyaz7zV65roDyUrsnCw/jKxrnaeUWcu02WAAEJk68frSdMtGpr7Jgg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyWndu7Q62offvhnWzZblzfWvraTw1JS7fh+x+YBiQEcqv16BXq
+	e2EV5Ittv3B/jS5m2vXEE1E4llroNtZlqTIfGBkqcxd5Saw4hKC/gh4N
+X-Gm-Gg: AR+sD12xmp5eJ2OQsHB2thpxg/b5OQ6D+9b+5wKGmECLvwZpgGywUYsownKYAOr3q7i
+	Y6Tp1Gvwe6liDkZtf+m4txxu661z4Vqk4ph0CPZQtP12kwH0SxTtsrodsyMUM5NQLSLpeP8iId7
+	/2USOirkaQFbTuZ9HAHNLVfsyowyt05vCyV9vmrMl+++LrEcv9XpFpyZAuhD2QHJFVN6Jf4HI5R
+	SokD7m3HFz2Diwt91l2lRG1VpVtt6X4NAsRS6M2bDh2/u7G/u9bsTPAOkEi91VCQhmZ3wTj4Z8A
+	6swnC85hCWrkB91pQr8XsVZ6O4d8hH7T9YMV5UxfQpG6x2uHMDqqEJ2hnk2qV8x1o9QMjfE4wXQ
+	+IG4LCtXwctASyLqPlQSieW5c2iAcwgzRUD1zB0fG5rplG4eZ29kB7877ZTjbC70G0ljeyFG9Yd
+	aOsnLR4pWMh+0aAzNX7WJgKWGBt0TpJVRTjnmoc3xFKRKqf4r5NfTSrsU9K++5ddzsFkg5GQL0d
+	Cc+7Iuu/9lH3zkVP2Ao6OsBhevVna4q
+X-Received: by 2002:a05:6a21:6e82:b0:3cb:9594:91b8 with SMTP id adf61e73a8af0-3cc71dc08b7mr21957575637.35.1786900925755;
+        Sun, 16 Aug 2026 10:22:05 -0700 (PDT)
+Received: from chiron.local (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc12f6060adsm719212a12.4.2026.08.16.10.22.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2026 10:22:03 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+Date: Sun, 16 Aug 2026 10:22:01 -0700
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "auh@yoctoproject.org" <auh@yoctoproject.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [AUH] python3-flit-core: upgrading to 4.0.2 FAILED
+Message-ID: <7pj6pqlux2goqu5gbav6zkqdppc4qwbe5qa6x2tamlywgqjpy3@svwiu3macwtb>
+References: <0101019fd0766ffe-d5e0ac69-362b-441d-838b-ea7141881f91-000000@us-west-2.amazonses.com>
+ <CAOyo-86ZM7wu8Dd6h9sj=RQQ4swwV3DEbX3PfYujuTP5bttnbQ@mail.gmail.com>
+ <03F623D6-66CF-47BB-B016-CEF891A5CB16@arm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AMBP189MB3363:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5492bc9-089b-4af4-45ee-08defbb8e2ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|10070799003|376014|56012099006|10067099003|3023799007|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	/DSBXuW0DThx08Fwn01mCX0mu/YFr2jG2xq4/g90Iun0Ua9s9ALgT/ZXgDXGaHVwz9Lifm6u03RYzbx2zomVbmBroHUCqG79dcL6Alfb8jZeX0MPaTAdO9Vys4q+3pGvqA0YdA9QPtUfvlGTWH2CYDrbbrUw6Hb3yvFrgtddosGIVhz4ZnH/N+bwSsC/3trKuequsitGJwJgdQ76NXGD7xQaoZzr96fcMx+SdPhM2yr5FwQOre2tcfJ6PIkNzWJiv314v4J4l8+iMxDeqaXgDMHzt3theDWRB0yu6xz9zevPxelPbX7wmiZmA0hJa4rxjGtIjHN5Ykeitp34N+Cm5O+gW+SXTWqJO/Q5yJ87pNVHJeU0gu6QqnhD1VNHYLTtJqR0ZemYSOqDO8DR+UrnCc8IIVE8hd3MPZrU0FjQxtWC5AdE/orRksi/9LHSr4MeHruMZ5k/upzaU9V776fNtqehaalkBdzzWnag/uwsZyXm4qWc656FuIYMnjzAt2K6k1lN7ZNfJyLZ62bdVgWoKq2y30kTywUeof8HuWNwKQANen1FVNMRYBtkWPSN2TA+cF2ehYHWCiGsjS6/v7LPLaRYEURp/Tn51mwvaniyODbY/p4v9zfMROmo8AwpetBSNjiMpfpcQnL6MYdj+XX8jhidXGj2HgWyXi6OdBCa6+I=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(10070799003)(376014)(56012099006)(10067099003)(3023799007)(18002099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?XfaGu0nMddYDcEOqTr/F5kgsaObF9vh3mRgmXAdpXUv3Vo+T3X0HxJ4xJN2f?=
- =?us-ascii?Q?fY6hAdfVUIPgzz0MKP4jnXXOHL4icSjStYTbGxIsj82fMA/0CvRDqxM3Mf23?=
- =?us-ascii?Q?5JXcnehp2ctPX1aDnvKsTLrdwpGFg5lCWuJpItyKrxOIdPMP/q1YgU+oyCOo?=
- =?us-ascii?Q?yluA2L2nwI57xb/rtN08/0mzK/XD1PWgPHUln0dPDSKHnPeOx6GKFWaa4l8b?=
- =?us-ascii?Q?KOz/Ubig0w6nb5aLfZGFCPv4jSnSA2u6R8KsA0LOR524IbtmOhZluRTQePjR?=
- =?us-ascii?Q?sOQ1769h1Ncer2NxuAa1V7xVgPEWWoSPBgnonnLb04y2zcCocD7j8PV1pxQL?=
- =?us-ascii?Q?VX71IT1BFBkTMJ+XExDNO2R8rdYvFHWtOXMxw8caZcgI1w/gVxxHu5XWlyXn?=
- =?us-ascii?Q?ucKSh515ZJYWQEWnlnt12XHtvTLuHyrdwY9e2d3a+H6sLRqsUpbw5IhkDpUq?=
- =?us-ascii?Q?A6anY5ndMk6NkaOv8B0NVQjkzl8tbikJh0ch4sy9x5Ofn5RMTwVS+Hr61YpA?=
- =?us-ascii?Q?e79MpIolhJBKba45zV8g/3efhPg/v06FGkPNxC6vXnY9Xj08s+VWryGK2WuE?=
- =?us-ascii?Q?8ZNOM3LmkBX+vWjDo3q+N0vsVxFOcqBccLsTTEHYbTJOGDmLqtnCn6O0XL1c?=
- =?us-ascii?Q?CM3BHbkE/Oyq5vSQatmRf0MlIxrxcRRQS51aeuxBtTKYyCT3QtrJRsR0d58X?=
- =?us-ascii?Q?CXT8fQVab1HPBHhM7CZN1FcZe0SUsF8p/WLppBv8CPoLDMOPEm+fL9kQWEzi?=
- =?us-ascii?Q?W8HFP+4WT5iDc9P6y4lro85D+m60T5r+lkSzD+SMf8+QpNmIxhxwyVf+BeeX?=
- =?us-ascii?Q?qT01/Lq2ql5i8cPAKjSs4BkR91Zl0MDIBR4/zhauvvNwzs4BzoCRIDQdJFha?=
- =?us-ascii?Q?wJDkoLshxS597OCJoDPb68ab7alTwm9sCVX+uOvnyzIMQbn7tMeLTt7ztPV7?=
- =?us-ascii?Q?bXG12AKwz0AIi2lOrUwFn+s6x8LOK3Fw4PtlsXAs3Xnk7Gk+T0CHM8cVWlLO?=
- =?us-ascii?Q?qo28vGnjaSSBgg0fiB+VXBTNPlqYngP/j8L44K/ojlD3NEzuVGYXJd+I0kZh?=
- =?us-ascii?Q?AQk4hzYK6Pw+yxWthcVa7/axMez9i9tMvgnuOxD00fuqxgd0eGEQ+5ejbAw5?=
- =?us-ascii?Q?P2uYWrrQYaD4SgZFDkbPG/71LX6G2ICu+DLeFw3X5kzt2hVNoSO4C75kzJx6?=
- =?us-ascii?Q?DPCWzFFqMx3kn8RuXwt8yA69JbXz/CllZi0PxjTe6OphLaP2tO+TKCL8FtQo?=
- =?us-ascii?Q?lHqFmgwu9ktwRYfdxrvJmDzNXzYHm2H6oZaFxYxDCFeEzW94DDg8CqvxXv4y?=
- =?us-ascii?Q?wWuJCrHRTD3lemQGxss0tWeWgZc8+dI+sbv+d5I6JGx/R3W5vEVqbqaZQiIH?=
- =?us-ascii?Q?NOldVggJ4L/oZAJwBvCmvyXKwnyxkc60OiZtSa8ekEW36G6XeBXJ4afZdOyO?=
- =?us-ascii?Q?auZXO8Ik8q9Atxjfbvrp2idnhtILfP5Y2qKxEA4ZJfiSwItYW35IOYGo6Jjq?=
- =?us-ascii?Q?1icTP5mUcHEyPirj0EFjie7KoKLYGG6cmuCPQxW2b9B5b8ZHvwYJsyahtpB4?=
- =?us-ascii?Q?bQ86IgDxhvGLSP94sCiqoVZqO9oIFyXo05ehWH5k7dSeupeVemDZcO9v+ZKq?=
- =?us-ascii?Q?WPlHbg3uldqg4Gt82zGCfcrPzye2gB9wcfoBquYt4B52nn/KlfgGigL73ET5?=
- =?us-ascii?Q?PE9d1pwDz3JXhQl73n/P2tslLHMSKqHN4rrb7pY+vmBe3n3+/uM0XSkqecsS?=
- =?us-ascii?Q?sq1pVy0FwKcyU7JEv8c9RHWp3ZXXqZTM+VMcQ14i5Y/0Kqa2nxubGybb8kvz?=
-X-MS-Exchange-AntiSpam-MessageData-1: LsLdDBaquKqLXwYOEsXV89/tEv797oxAxI4=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5492bc9-089b-4af4-45ee-08defbb8e2ac
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2026 17:07:42.9817
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HxiULKpJq1hZcgnqWoPou/Og/mdE+jkD08XSG91RN7aMAPldhLgkvggpBn3W06lbooT9b5kZ7vTAQ8uHGcKet8cQCYxFCf8KEUQZe+PhFEo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP189MB3363
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <03F623D6-66CF-47BB-B016-CEF891A5CB16@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 17:07:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243541
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 17:22:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243542
 
-$ git log --oneline e9517114acc77c0b8af9da6700107df16882b701..7d26579873791=
-748c20d874adb66e877412175dd
-7d26579873 malloc: Show hugetlb tunable default in --list-tunables
-8017bcfc4d m68k: Fix fmod/fmodf infinite recursion (BZ 34508)
-a388c4002d posix: Fix wordexp WRDE_APPEND to preserve state on non-NOSPACE =
-errors (BZ 34090, CVE-2026-6368)
-bc95068f5f ppc64le: Restore optimized memchr for power10 [BZ #34300]
-1c9988e525 rtld: cache cpuid results on the stack for intel
-dae425b554 posix: Fix stack overflow in wordexp tilde expansion (BZ 34091, =
-CVE-2026-6791)
-8759917de5 resolv: Add test case tst-ns_sprintrr (bug 34033, bug 34069)
-3a418da6a3 resolv: Fix buffer overreads in ns_sprintrrf (CVE-2026-6238)
-e64ae5a591 resolv: More types as unknown in ns_sprintrrf (CVE-2026-5435)
-c9225a3e73 resolv: Check for inet_ntop failure in ns_sprintrrf
-c46f7b2fd6 resolv: Improve formatting of unknown records in ns_sprintrrf
-1d7d1a16b0 resolv: Fix ns_sprintrrf formatting of class, type values (bug 3=
-4289)
-349297a4eb resolv: Declare __p_class_syms, __p_type_syms for internal use
-fdf10644d6 hppa: Fix missing call to __feraiseexcept (BZ 34306)
-a6fa9a9594 arm: Save/restore VFP registers in PLT trampolines (BZ 34144, BZ=
- 15792)
-fe0ccc9564 iconv: Suppress intermediate errors with //TRANSLIT (bug 34236)
-22f3d24a6b Hurd: restore some SIOC ioctls
-a13ebdbc7e Hurd: comment ioctls which cannot currently compile
-446f708e4c Hurd: comment PF_ROUTE/AF_ROUTE defines
-ced45fd472 Hurd: comment PF_LINK/AF_LINK defines
-89cbf46693 elf: don't clobber ld.so.conf in tst-glibc-hwcaps-prepend-cache =
-[BZ #34210]
-18b97b03b7 Rename __unused fields to __glibc_reserved.
-a47b5b2b3e math: Fix fma alignment when exponent difference is exactly 64 (=
-BZ 34183)
-4070d808be stdio-common: Fix buffer overflow in scanf %mc [BZ #34008]
-2890b35cd3 libio: Fix ungetwc operating on byte stream [BZ #33998]
 
-Testing Results (make check on x86-64 host):
-+--------------+--------+--------+------+
-| Result       | Before | After  | Diff |
-+--------------+--------+--------+------+
-| PASS         | 7262   | 7267   | +5   |
-| XPASS        | 4      | 4      |  0   |
-| FAIL         | 3      | 3      |  0   |
-| XFAIL        | 16     | 16     |  0   |
-| UNSUPPORTED  | 41     | 41     |  0   |
-+--------------+--------+--------+------+
+On Thu, Aug 06, 2026 at 02:02:53PM +0000, Ross Burton wrote:
+> On 5 Aug 2026, at 16:31, Tim Orling via lists.openembedded.org <tim.orling=konsulko.com@lists.openembedded.org> wrote:
+> > 
+> > Several consumers are not yet ready for flit_core 4.x (range is
+> > limited to < 4 in pyproject.toml etc.):
+> > 
+> > python3-pyparsing_3.3.2.bb
+> > python3-typing-extensions_4.16.0.bb
+> > python3-jinja2_3.1.6.bb
+> > python3-wheel_0.47.0.bb
+> 
+> I suspect we’re going to have this problem for a long time and might just need to have python3-flit-core-3 and python3-flit-core-4 recipes, and then a way for the flit class to pick between them (FLIT_VERSION ?= “3” maybe).
 
-Changes in failed testcases:
-(no changes, same 3 environment-specific failures in both runs)
+Fedora Python SIG is also trying to figure out how to handle this situation:
+https://lists.fedoraproject.org/archives/list/python-devel@lists.fedoraproject.org/thread/WEIYY23R2H4KHCK7KSJLTJIFH5SJKD7Y/
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- meta/recipes-core/glibc/glibc_2.43.bb     | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+I don't really relish creating a compatibility python3-flit-core "3" version.
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
-glibc/glibc-version.inc
-index af3db54cee..22a3d4d141 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?=3D "release/2.43/master"
- PV =3D "2.43+git"
--SRCREV_glibc ?=3D "e9517114acc77c0b8af9da6700107df16882b701"
-+SRCREV_glibc ?=3D "7d26579873791748c20d874adb66e877412175dd"
- SRCREV_localedef ?=3D "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
-=20
- GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glib=
-c/glibc_2.43.bb
-index b84c55ca17..2ffff0b62b 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -19,6 +19,7 @@ easier access for another. 'ASLR bypass itself is not a v=
-ulnerability.'"
- CVE_STATUS_GROUPS +=3D "CVE_STATUS_STABLE_BACKPORTS"
- CVE_STATUS_STABLE_BACKPORTS =3D "CVE-2025-15281 CVE-2026-0861 CVE-2026-091=
-5 CVE-2026-4437 CVE-2026-4438 \
-     CVE-2026-4046 \
-+    CVE-2026-5435 CVE-2026-6238 CVE-2026-6368 CVE-2026-6791 \
- "
- CVE_STATUS_STABLE_BACKPORTS[status] =3D "cpe-stable-backport: fix availabl=
-e in used git hash"
-=20
+I also do NOT feel strongly motivated to patch all the python packages that
+**might** be able to be built with "4", but have not updated to indicate said
+compatibility.
+
+> 
+> Ross
+> 
+> 
 
