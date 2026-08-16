@@ -2,39 +2,39 @@ Return-Path: <sumanth.gavini@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6754C5B572
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 23:11:31 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19646.1786921889447547940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AEB9C5DF7A
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 23:11:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19455.1786921886888304392
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 16:11:29 -0700
+ Sun, 16 Aug 2026 16:11:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gnDdTzih;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=26887e2f0c=sumanth.gavini@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67GMXLqx1095533
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 16:11:29 -0700
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Hw8RNBgl;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=26887e2f0c=sumanth.gavini@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67GMikgS722970
+	for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 23:11:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=XdMqEUZTMTUVZfQmnzmYhqouDJTd7RYT1b0MFw8peJg=; b=
-	gnDdTzihIQSGR5TGlyuRMoLdaDgPPK6CU5xmrKyR90N6v2AZBD9YFpgtR0HZrcVj
-	KGc76HnoTc/th4jfagsZYwgaxdadlYnkTHeAhxClU11OuwA0mqz3NedoBg2mlq4G
-	Vci9PJdAFSMDPwlZhe3D6Q41IgzfU1l7h1pNBtUw0nbu1QIQe/qzDCc/nTxk8ZpL
-	u4yQ5OlR95T2/UBZqUPdVRRWlXPkjPASbrJsVCh+pqvUW171BDolgshBrOTtUT4E
-	NAnRxHyc31H8IYgbBiZQzDX7yRHaxBwNr3WnPNvpf/k4folm9lbC6bm61PA/HFop
-	9jWpPT2h0PuyEiO/2x/Psg==
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023099.outbound.protection.outlook.com [40.107.201.99])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4g2qmgse1x-1
+	PPS06212021; bh=4ntQPVOd48AJ5abFxC2AGkFC59Olg5pau4BaGvPLcKk=; b=
+	Hw8RNBglfITv958NBgpPkRa3n32a2dSFzyE4+5bSu2X8wXENZUlBmuiZ4psE1k+h
+	zg39Dzl4huv/h9bZALqS0PtTwBqEz3r7rrtiUWuaDvjyUp9pRIW2MpZn5i8X/GT7
+	zWL57qygJfLRhujP1z3cTVF7MCZp08maX0nEUXkj0oZRdlH0z3LlCnL33sYQGusf
+	DG8LkCJjC+/kJ+qyMo9Qp8/uC2xvsacntnwniXGPp6DPOEzhhEaNhVTYAX+j6xOA
+	lpdbE/kYnwtVSOTj8DPxNQbTiStbC6atV7ns35432ihyuTTQzPkcvrhNC0qkYFbb
+	oa2E1WMXq48YqxmMQfV5Rw==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023104.outbound.protection.outlook.com [40.107.201.104])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4g2f33ss4t-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 16 Aug 2026 16:11:28 -0700 (PDT)
+	Sun, 16 Aug 2026 23:11:25 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f0jI567q8D+bhS5zKvwb3V0vsT20FPQlPxNDf2526yyFvN2wUmRi0q4P2w5stSKd6bFQEKhJHm4xCuCTZrzMTLWpoJ2qplqPkTIrUd3t9Hn8/pap+25aOYd8EJ2/sAyZUSqasPgYjExadX2Si4mziM2TlXdzkOJ8oxspqAygr52CG/MY/6O57FHnl8l49dApsk308JEN7eDvXbAA38CH8/wdtoKHx85okKpHr9wy3ACP8tLU2rnJ4PGu5fRi7KPZmS0o0O8kwFHrLoOArAPToJRNW3O2QkhRE/lUh+kgx7dftufzmxgK+AdJqYJQjGtswAE0zDjo6kCEik6b1RTCLQ==
+ b=mSno4GqocP4wmvWo7+9xF8PDdS5FxlZ+Ct5W13b4GtIF+f0uReeL0N6yPwHdY1s0hxM2+YRv3bV9ovdC9chBYK9MLbiALaQqXcwg5xCth/QCwMTiqT3B+ADJoB5EtxhHgP+V2ffKk326nbyuy4vTJ0bwGcmNwFj1ohTxFrWbnJLgvw/WIhZalVdqH3vaeSac99ZVGEwTZ/ltp7JeJRd6uidwDXjek+YJOA9/MlFcGOZrlQGTV1+ibuhBRe0KuaISN9ET5KBYexYeKFhMZMVfYC9UnDdZByQe2ZOnhLBtGBuS14PYDj4RmfhXbwf5zj8aVi0dIqTMQDYQEuyIHjnavw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XdMqEUZTMTUVZfQmnzmYhqouDJTd7RYT1b0MFw8peJg=;
- b=qy5Sr4bnqXRiQx96Q+8HC1feMHTTSm3iuNRa98UR18VsEWuKlGQhttNQo66RoSkEMM5SSDs3w3SWFlQ1CcVVUMnur6bT2A6O3oSY2NCAs892vMYvBV9UAwMyRg0CZRH9RsBlPrTbvnLjvMNe1SM3z9ONgJH0Nr1qx4WCmIT6ShpObk9EuXgEZV1nbtXH9rTADzXokm+uMMaMQvq+6MhpcY8wFtjN7fhwhRpuMOO5IohkNEy38PCsODj8D4KzbNZkelmgsJVtRa8OIyADpHTkUPCPikHVPMSIvfCHJNbDKi8tN83VSir+ysCwbpRqaQ3XLB9JR+BosC0bx9WM1ptd1Q==
+ bh=4ntQPVOd48AJ5abFxC2AGkFC59Olg5pau4BaGvPLcKk=;
+ b=QX7+5doeaB7h1w86md81AuMCWlymYSemc8twb/Sua/4ZWJ+sq5lWzCDGVHbsFFze2CHaEVC2AwEe07E+hOd7tftYyfDZAAfgN78UoaEVxNEXeYZDoqt9tY37WqW6cYyI6p+bBO37qSKvSh1v60Mfdo4p/xidoPDAPF2Dx//1R9i8lnklAe0Fm/hnpdtTRV2PgU/v8xDOyOGv+RZ6yB+XzSdrUEMOHOeEfgQgl1fhaJmkKj4A56IaY0OczK3DB0E6424459/TVDPckn3/+MD2m389zVxU5bWrq4GSPVTCMf7MhWG/vMJZVYLgbBnEuyA/HwGSZVz1rdm2nMwG/IX0sw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from IA3PR11MB9256.namprd11.prod.outlook.com (2603:10b6:208:57f::21)
  by IA3PR11MB9158.namprd11.prod.outlook.com (2603:10b6:208:57d::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Sun, 16 Aug
- 2026 23:11:26 +0000
+ 2026 23:11:23 +0000
 Received: from IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23]) by IA3PR11MB9256.namprd11.prod.outlook.com
  ([fe80::8355:9462:c4fe:5a23%4]) with mapi id 15.21.0315.014; Sun, 16 Aug 2026
- 23:11:26 +0000
+ 23:11:23 +0000
 From: Sumanth Gavini <sumanth.gavini@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com, mathieu.dubois-briand@bootlin.com,
         mattware@cisco.com, esparlin@cisco.com, peter.marko@siemens.com,
         randy.macleod@windriver.com
-Subject: [PATCH v15 07/12] libarchive: Make it work with rpm 6.0.2
-Date: Sun, 16 Aug 2026 16:10:59 -0700
-Message-ID: <20260816231104.3871015-8-sumanth.gavini@windriver.com>
+Subject: [PATCH v15 04/12] lib/oe/package.py: Don't redirect stderr
+Date: Sun, 16 Aug 2026 16:10:56 -0700
+Message-ID: <20260816231104.3871015-5-sumanth.gavini@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260816231104.3871015-1-sumanth.gavini@windriver.com>
 References: <20260816231104.3871015-1-sumanth.gavini@windriver.com>
@@ -66,503 +66,113 @@ X-ClientProxiedBy: SJ0PR13CA0084.namprd13.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: IA3PR11MB9256:EE_|IA3PR11MB9158:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd3bb0f3-8729-42f4-10b3-08defbebb25c
+X-MS-Office365-Filtering-Correlation-Id: 83195384-5a67-4392-c8c8-08defbebb085
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|23010399003|1800799024|376014|366016|13003099007|38350700014|6133799003|10067099003|11063799006|56012099006|22082099003|12006099003|18002099003;
+	BCL:0;ARA:13230040|52116014|23010399003|1800799024|376014|366016|38350700014|10067099003|11063799006|56012099006|22082099003|18002099003|3023799007;
 X-Microsoft-Antispam-Message-Info: 
-	FG5xZihRKYYPHU34pjwmW22kUvr/lnBC5ZdHabpEcaU6eYRHUZAYD2FKC0IZ86Tu4pnw14G/KXsqAOTztzcs5Cf892niPWbAePaFqm5R0U7TFVM0jrTxa20Xsxs0kaUEeMYjja7W6U5Myb7N9dVxcx31M8BXyuUZxGPPMPJiy+JhTBr+zMpzlhEHbdJtiXbVC2iSna8F0WsZnc/0wXnTijjJdJThYgqaP2KrOtX6kbbsCUIMWKeYuc2zHd+ChQc6W1lHVqJZrE6pMpQYaVudKDU0v719cWWscV9DBFYyxRvmIian7Sww8EzeqpScFfyYvE/oOXff5AucrAh84r7McNLY27VTcZoE/KjFzmWkk0ZwddljiHXSI6xGj3oL1NsMbiYkLL1rZU/GsWizg5U7OUsxOupJUCLOI44xCc0qnLi6XrbvXMrj/wdCrZITiYPXGU0dNIQmCXdUKtviowbesetbI3UDUpHbNaZrUR7GwlWOAk0D7O03TVjbhhnkKrf1Y4qfKFpmaY9QSmT1hxHtjUqIsttVni5EwMqHvtpYBUjTdl5qFadT5AiZBLeM2PQXcLhfGVYap8VzHwBNdoNTDdkCWsyQPszcMMd1LJdb4ynyHBPWZAY2d0wIYuQBV8UhSPrTTA5ZnS5x9W3uuH/R3D1tathX8zSCUAmUnWSJThY=
+	lnQuqTcYcZ6DPCUr6o7fHDoqNRNv8h+XJhcyMqksRFQPsNX+qyFk1xp5WiUi2YPDZkm0oBgveA3gpP2lNZyaMWocjlevKhjosgn6AaRZnntl+uVOfRM1AvA5Efu0pcPr3jcy7k6FYinkgjuyfdRDx054+CdHuSLLdV55UFBQAE2Bi57YNqwDBQz1rPhLt+RgWkLEsYPz/WaDJXt/GMFrvHkRdptm5QpZ/f6r3QyDVAbE5yH1ssHUwTQNWls2A0txCkvwxa3wmz9M1cyvCvRymU2eZzWFyaoEYywGm4dR/rvn6SsinSICzQY75KoaKUazGSw6F/9ElcHGh6Gs/j4veT5r17fXTpIENp3gTVPYcUB3ckuVxRRYGvViRoxtFa+DjxJxfowpQFfrdk3de6aIXQihAQUlUAwckeXlTTjwloi1aPOySdi7qpLe0hZ6vy7n2zUQeWPburtOu9jgoCV8iF0Y9UO8nSylnfsyQnzRR7mh+bxD1JAu1pxbVL9fDidnySfdU0uVLBcohHgLa8X/kXMF/AB8lNA73GbPMP2heziFSISKL9s8c5KP1EPNVN9f3R6KCYk/+6Ppl8bCEE4LyevH6RWPwTWDj5k3bEYWfx+BxnlvhUgcZN5IwN3j2ZHDvePGPhf9LJCAsxdPx+/MiTMdV4fIh1M7jCS0jmjrWfuzzLoxMs+JkpZBhJFfeEVQSmoKUMaS3erYvf29HaOylJ3orG7N2/qtXrzKLcT7CFs=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(23010399003)(1800799024)(376014)(366016)(13003099007)(38350700014)(6133799003)(10067099003)(11063799006)(56012099006)(22082099003)(12006099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB9256.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(23010399003)(1800799024)(376014)(366016)(38350700014)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6hn+OU/6s4pdEAt49ZrCMCPuGmoGotFcLN/zrYOWHlYoeDAczME1FlSb+Lxi?=
- =?us-ascii?Q?4YacpX5kirK8f81zO77BPXnh+nyIw3zVaQ635Fyr2nCcYEvZEipvaSzTFulY?=
- =?us-ascii?Q?/tp42rSt2J3pz0a5WjJALWElpPMF+t4L6laJc3NyTuDy46ZM7fHpBjeFzc5i?=
- =?us-ascii?Q?1+C2X0O+6vCzyXozaB03FhxJ4Cct+HTElMFL70xahgv/qMTwEbRn+8ebILMi?=
- =?us-ascii?Q?MYKKWulY/tm2p0/xqxTL6797EPH2qun3WivLhGaorSBHM5ICDbF7k8aB5cKV?=
- =?us-ascii?Q?Y2MzypOsqjjNZD8MXNMiWqXlmsKvIQDYRCZql1Cpi5XsfPjlwuG6tTELBHBP?=
- =?us-ascii?Q?NeTDJkRRyysKREz9YV3/49tI9fXRikfj8J3fPZ+g54FLw8ktqw1j95OkBIjN?=
- =?us-ascii?Q?IQ80iMkK4fH11exCIYc+cDrZC3fjlTT3ciB/pYPgWENFF7rv1e6WM5kgy8+v?=
- =?us-ascii?Q?o/TtI4NMU5DVBKanoTX2Cbh26LYM9oTGas9wu0vnVxZU7EQrjaTUuKBNgWEo?=
- =?us-ascii?Q?7ls7TkmbxIai/yHHrHnul0F5p2nXDP0KZtPHvJ3RWwllHdZDkLCKDKcuKCnf?=
- =?us-ascii?Q?0roaqoyKqt2Mfu5/s48Ncl6KGDi0Bl3fQT28LJOpDgkPLncKWd+to3CLpSN5?=
- =?us-ascii?Q?2gXU54K7lNZny1pTSBfjh/etUUDPHOPhIJSdZQrnOCU+FzmpEBrJCe2ZtinJ?=
- =?us-ascii?Q?qxYXOEvFt44voBX3sn4AfDOIfImtcBVGRFwb7kTPv3pUmVCBXQvZzwYBweus?=
- =?us-ascii?Q?3v5ApKmU/dKrqs1sknCrRn1OuwdP7OmWpk8llmnyGVT/cPPxCr1vCmTbI52U?=
- =?us-ascii?Q?PN9mmMWgdBtAQZUaV4RtyhXEaGLCVQrzHh5TCncYL/5KhxcFQkeNAsYI6NvQ?=
- =?us-ascii?Q?/voyJMgPoLOZQt7FAOw6BFJhQ1QM4UpZOyynAqFmzfTLPnCstYN+XeIl0Nhq?=
- =?us-ascii?Q?i2ooMv/z3682kIKFGJZTJeKXXAx1d+jPbABeVf03XrOV2ToSag6z/hIQeTHP?=
- =?us-ascii?Q?N/mUmJe3LMjPS54WOQHGZZaHrQknm/dR7TI5hfm6cvt9DPKDoYwLPzYnrBpi?=
- =?us-ascii?Q?uSpeYy2I9DFB5JmFPYfYvR2uElAxzkk6XqJG58lUM7ibD6ibeDufclEWDxDb?=
- =?us-ascii?Q?ApnSfRGALinmA+vQ7Jf+dV1UMqiOr8b5x5aZEGZcGfH0zqifXI9CCKeOL6Tt?=
- =?us-ascii?Q?kLM+nQqprqbA1473z+Nepy8/K3DI1BtBS/T0uV+jQjXPaZHrTGVdSyZ9a4Yn?=
- =?us-ascii?Q?TIcHzysJ7uVtQmugOlCkPibmITAWXgXdB6cg87hrGKQmjbeUJFO54O/+GxKJ?=
- =?us-ascii?Q?V9Ut4dAQuUmUIpLct1ij7O9hZyO5tyWgx81SAE+GXpq4ZoXNkHWJgade/knk?=
- =?us-ascii?Q?+JZYAk6x3GVR7I9kWZojKsIyJlJnsMtPVePfgBTNYbntAlb3ULdiCBWU7Rxn?=
- =?us-ascii?Q?cIDjVXwarPEh5jJVAIeTelDAsnkyyFDcXn9EUraiGvSDvrQf4tyu8MuucSmT?=
- =?us-ascii?Q?Q+mvP3GzkZj7Ybd+hZR6CralaZbNL0bPpQt4k9eKXRURzRFo3CDBJT2xX0/o?=
- =?us-ascii?Q?aChNoYCZN6Z1j0KGZfAnF5iwq8kIERnKZzxPJx67SmYaJwB1oi5dSJQwaXGg?=
- =?us-ascii?Q?4FB0ZIA6sroajJsUAdj4zn92DTIN6zYH8djvtaygwzKRxbyO2Dkj5MEVGXLk?=
- =?us-ascii?Q?s5NGRSNNoPgLz8TOAKZ54Y8mxAmKRh1QB0/D+2vVd7GEZgLMstUOO6zERCT+?=
- =?us-ascii?Q?esjMHKXmSspPJXmol+h5Axx6yLR+RCg=3D?=
+	=?us-ascii?Q?RZjYz+OsFPUgnwg5PuVD41q36PoFLzOoDitfjX9uSYJiCsqR9QC2TBQ1BC8I?=
+ =?us-ascii?Q?2nH1PJ1yIwfNrNjnVwBYNvLBKM2qmEvpIJTXEDLyCY6Dsfg3ueV9vB1zOwqm?=
+ =?us-ascii?Q?oudszGMeWr/j7xKPnuZ82jo+vwpsE2acWG/irao6DA4OfeZD6nVLyuTZdBkP?=
+ =?us-ascii?Q?rM9gcLr94TlGoYLWO2k5bfow6IKbyNXnr+cUhioU3l0ae/vorU6x65LAzz52?=
+ =?us-ascii?Q?mqVIOIDSykb/JmatjUSlyEUk1x158oX1UZEG2H3O1VcrBmgNftrRvssY6aVk?=
+ =?us-ascii?Q?4muEClRggAwCuy7TmkSzMDs1nqhBHnZ8RjuxZBFANXio8SWYWvA9PVrSyX7C?=
+ =?us-ascii?Q?dNCgSQPf0FeIk8QZQPZFnbS00sVN9xcZKqHskqBpQpY+DXu/S/D3qU8UfBFK?=
+ =?us-ascii?Q?53GHZaVCsQgXDbiOIG5zqthHhNcet34QjkfFS6H9k+j5Wh95fZf7ek8d4mPn?=
+ =?us-ascii?Q?Gy9tC02I6aUw0h9W7X1dgN1FjC+NUe4ZWP48yiIQw2AIzr1sWpJQygAXJGd0?=
+ =?us-ascii?Q?2p2ULSSqdGbBlC9vRDyRi3u0EiMya6ssHuQv46fk/1yeF7+or7oiFCyBCTfU?=
+ =?us-ascii?Q?UJzuXl5Lzo8UYa8sy8yl5t8USTSdjcwIOZzUdW8nIVyGbGqESfI1O36KB7Xm?=
+ =?us-ascii?Q?xKE3bDRkXg0OUsHCsrrNgAI6GyTOKLgitP52/L1YkipN6byrGm/H/EDQHXej?=
+ =?us-ascii?Q?NhW1NJJ9oUhfJ2lXl/OHQ7A9eNavF0mrbcbAsVrt3qkZ1cfW72rb00SoBZvR?=
+ =?us-ascii?Q?RiFKfZjrKp2T2DmyfYvnZ7/k6o11QYMLcZ0JlcWZvJ8BbVWawQz4S28BTb0V?=
+ =?us-ascii?Q?XOMREopqPclcSbLD1X0biCKpJzT6HDHWXKiYr58PqU9aC7mUPw9Mltoy561e?=
+ =?us-ascii?Q?h1GGsNVf5gqFIMlaJ4cCtbMVqxJ9s8VuSudbCJquZyF77a5Cyb5eHOhDAt9h?=
+ =?us-ascii?Q?Q4o3Qsa3rDbk/aCLJzhBEqoTQBc3z+gH4vd60BRxxgTyBTq0p30v2glD8jpi?=
+ =?us-ascii?Q?1r97brImgkTMFQS1LuoskuNKVzNG5hL1j29CiVYjW31wgySeswjd6ouW37+r?=
+ =?us-ascii?Q?mShVOUBNqeFxMTLJnz8mVUDK0oxCTjPsDkTNPTsKQjMma+y+C7pOiqH7tGW4?=
+ =?us-ascii?Q?CtV03P2DqwOX/vUQ8Sw304LYJuK3+nI4dCefjxS9OnPyk32qdxy9wbxDw0PB?=
+ =?us-ascii?Q?43GTs4enLbp5xCKhO6imCg2FqcxWGhwsAufXilNlNu67C0B99wHa/JPT1m0c?=
+ =?us-ascii?Q?+augH6tG7RQnU7EkSQkX3BTnlOOmui6jI2vUc47LpilEVwULc0JI1W+qty1S?=
+ =?us-ascii?Q?UXj+m7G8E3Jy8cmIYg0GAxVTXD+30Y+SRNE53tYjpuWWcHMN5XSCe9gFl3Kz?=
+ =?us-ascii?Q?GiMGIsTDXr3PrJLzN67laJaySBnfCllqJcMaOkK84+L8/dgsj/JLb5713CLh?=
+ =?us-ascii?Q?p0i541rXtii0l30zw758bjbdOi+5iR4f7NBx0XWTT2hIIRhrOVI3NJ2lm35m?=
+ =?us-ascii?Q?SCndqi9lXc2EkwCI0sFwLLl64aPrME+0eCHpaSYnvT/JOcQ8CGWClOeWtn2l?=
+ =?us-ascii?Q?hEM1cJCr6LhYO9LDEnncC46pm2MSW0ei7NULSRK8oU84NnELBezLAbm0Nm+7?=
+ =?us-ascii?Q?1wb6+mZaLJFU9fR9pmc8UthPJBF3QEd6hF8WvIZxTnfCcgrl4bfmDBQnEgR7?=
+ =?us-ascii?Q?VPRkj6WCkpgAQnn3Q4BE48J7v6A0anJQ4M/sK8NhZhC1RKiwocFaOyGLLOCw?=
+ =?us-ascii?Q?nFm4rsbF2UR3KnyFTB3rfErSJdfFgWs=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	Wsqp6oZxOUi6+eN1CLV3fxN2ZSYqQu81uhY1MjlGNUXT9/cK0mkCf6+/2epy0SwltRmrmOB3R/kPzl1S77djZgjPjoGV0e4d6yZ0RIWP+U1SjKK+k99rZACT8r6b9SnE0x2KPEMshxvWjQTALBkFI0cJ2NjOZCsFmi4e3BaaqPh68DKp9b2YuLBBXTX4bKue2ztoyeO6Ch6hqT7MKjHGVmVxk4bcWLef5GL59Tq+FeISeOtxj4ZHxkcJgJygsJtvxS5/Fy27dKeZFFCiDaM0SvS/9MaXT1Gh7wU27QAkOYyPQSY09JuX37FbIxCg9mpNbZoaZEIflrUky9EGgV/mZg==
+	WMfxAFvRXRAbpaLPRg/uo/O0/d7VBeMM7KRnu0EZYor5lGhm4bh3d+Z8L9IXAJBov6r64zp2bZUcO6C9DZ1tx9bwb9u9EARtxmntZ8Cv8VLUXbfyCr6MWlJXlDoWAjALrsd5JOcYJEAZkO2tjyDCumczdQU02Md1tvffeunaDg/hohmT7cHjD7l5O8v7UsCluHZfErYYuVaBwavFH1TKKYVryOPfvZLBpUw55+PinSKYJ1cOFMMi+/rAdHbChfRlR2DjS+gsOEqw2FOR9TZGM2RY8sOu+eXtrxXAviB/ha9rGh9qan5XtUP3mJPBjjz6Q1GMbJL95Fu5EoeneS4l2g==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd3bb0f3-8729-42f4-10b3-08defbebb25c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83195384-5a67-4392-c8c8-08defbebb085
 X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB9256.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2026 23:11:26.2975
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2026 23:11:23.3154
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 31VFDmHTzJB8FOlVZ60zkzPVP8htRbzZhcBfmeDogV9W7N1P/gBXl7tSlXO5Eet8RRi1+8KUlcJqgZ5xNoQAd58AphLXSTgayLdAHzE6Z1c=
+X-MS-Exchange-CrossTenant-UserPrincipalName: g50mIVlX/d3aj5nb7zlw4mwo9s8B3G5lVQ4xdywOXGLPOc/eqCDBXuYml3r00LUZwZw/BPG3WCAbvZuds5rKu3SYsRPZCcbHClcBQRvMhII=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9158
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=br98wkai c=1 sm=1 tr=0 ts=6a8243a0 cx=c_pps
- a=swu9HWZHTc4gAW/9Xzq+iQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfXxhoGT1FLW0xa
+ fGMNvPX7JZAMIo+ehwWxE8S9E62Z7V+FFsWkric47Lpsq+RKi2gPv05EUaYo8e4p5Q1ZjuhgdLE
+ iDLRpY0Ycjvx+L1zq2dkwWZEVsoP1NuCWg3roGZtX+rtWiwyxxR+W8WV6C5Qi8sCSWRNz6qg5uc
+ 95VXSeZ3yi2/x2sY9i+DeB1p0QOkqH3MhO1PDLem2zOohFrnJ2hvWJOniNBBO5QxevXLBP2ahbA
+ SKak0LgtNQw6pOgoc0vCYYks+V7UO6cuG/V3/O9w7VhhwFgzj3NUJDAl9s0/LgWVpR6ftixikLn
+ ymJ1nZME7mNjaoWpsXonFk1Vaxzm8dxf+MI3cdobgDgjCDL9jev27r0AbJM98b20RRq3xMUSaGH
+ Sy0qNWS6O9hVp7NgmC7q+mw4o6e0KtMMOUm6F/JozVbzshYBdQliX9vOXZZ+Btzb+d/XJ2ogI2S
+ 3RvCPMA4MlHDqKahwTg==
+X-Authority-Analysis: v=2.4 cv=JYuMa0KV c=1 sm=1 tr=0 ts=6a82439d cx=c_pps
+ a=0aASrZ1Sr5nz2ag1/hSaPw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=NEAV23lmAAAA:8
- a=3uWsZ661AAAA:8 a=t7CeM3EgAAAA:8 a=tyuvAb6jAAAA:8 a=yC51jOswJ7eKArgWbMgA:9
- a=fYNom5PXsM5enKJDCoVv:22 a=FdTzh2GWekK77mhwV6Dw:22 a=vMd6T1JfvD_20K6YSfI9:22
-X-Proofpoint-GUID: p6QpKpawDWShDb7QPMQ4BkZLPIJ3rxkw
-X-Proofpoint-ORIG-GUID: N-IMDH-zVD63aCgsq-U8CWfRnkZ_Zz-e
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfX/3t7bSAyZs9P
- Zd9DREE6DyLNUZIC0yUNxPzOPC47xuiUKRTxGXEeVz3T0rPUX5FI8BixLEKGuvtQqC0Xkxp9Mqo
- SSYojXwfxmPv1j7wXeHtYLhwxdYuQbgezSZhuRoArF5DQh5w+yCOKbF41y+TdMBZ83R9/UVeA+n
- J3yaCSDJFMgX+dKCWsMMBJ1DtZJAgPuHtt1pwaMJZqk2OgtLULTzAUkwZWEmYnxUXbsbgE7Ulg9
- QpYSuN1r/ykALI7a6RPzUmf68wzL1ET2jppocrVoXVyEwBhsJdvA1M6IFctg4Yaze/3/I4Fe1qa
- FXyBQPMBmnRutYhxgO4ptrpfaKmEPRAo0Z6FOKzCihntlIxJyGIZRGsC+9JGO7VimV0hjZiLzJI
- WMjLqBg5jNIbFTdPKvVLjJ0URedgPvU4oFbWSEzy0WPxU5eRqXhoJeTRasRx2DX+kkM6oLb7a4C
- sR4jqPFggohQqBmffAA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfX2KbADJyC9CnS
- Nqtc4DGQA50EeF76g+EQ24qy9hhUNFmDFBbrM/akQqZSdmXf5yBBt1MOllzbeDv5+Mm3q4fBqkN
- dR6OBNXhpHQ9kIl8Uh6ZOXtyfnfXjgDvCfUMYHq7Yegn3R75loL7
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
+ a=gZyeYKPtWqWysoXHKEgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: QxWemH26AEmWQ4BDCQ05FrFmhkBEAAJ0
+X-Proofpoint-GUID: UDUuWIzK82wWTtHm4pbXjmBZh_fPmDEm
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE2MDE4OCBTYWx0ZWRfX3/4AdyszTNWE
+ t7R2nc8ZM+LoPyfSAHJtk3V+lAohTl/rhIEVYVK8AbmZMIGgmp7G4p/VR6+QkOsM6yzMm+wfH7G
+ DVp2GIu5EIRxswAGZBSAEoSlKG05mCReQnL7c+OBLa1aBvKac7y4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-16_06,2026-08-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608160188
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 23:11:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243573
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 23:11:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243570
 
-The patch is from:
-https://github.com/libarchive/libarchive/pull/3346/
+This can make the debug easier.
 
-Fixed:
-$ oe-selftest -r debuginfod.Debuginfod.test_debuginfod_native
-
-cannot open archive from pipe
-/path/to/tmp-debuginfod/work/x86-64-v3-poky-linux/xz/5.8.2/localpkgfeed/x86_64_v3/bash-locale-vi-5.3-r0.x86_64_v3.rpm
-libarchive error: cannot open archive from pipe: Unrecognized archive format
-exceptions encountered during archive scan
-
-Note: 0001-append_filter-Use-last-bidder-for-filter.patch was already
-present from upstream, so only the remaining two PR #3346 patches are
-added here.
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
 ---
- ...-Verify-that-bidder-and-filter-match.patch | 103 +++++++
- .../libarchive/0003-Remove-bidder-name.patch  | 258 ++++++++++++++++++
- .../libarchive/libarchive_3.8.9.bb            |   2 +
- 3 files changed, 363 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-append_filter-Verify-that-bidder-and-filter-match.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0003-Remove-bidder-name.patch
+ meta/lib/oe/package.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-append_filter-Verify-that-bidder-and-filter-match.patch b/meta/recipes-extended/libarchive/libarchive/0001-append_filter-Verify-that-bidder-and-filter-match.patch
-new file mode 100644
-index 0000000000..a91f518207
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/0001-append_filter-Verify-that-bidder-and-filter-match.patch
-@@ -0,0 +1,103 @@
-+From db4fb440792278cd01e0829c93f6b62f567b704b Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Sun, 2 Aug 2026 14:26:22 +0200
-+Subject: [PATCH 1/3] append_filter: Verify that bidder and filter match
-+
-+Make sure that appending a filter always matches its supposed bidder.
-+
-+Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/3346]
-+Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
-+---
-+ Makefile.am                                   |  1 +
-+ libarchive/test/CMakeLists.txt                |  1 +
-+ .../test/test_archive_read_append_filter.c    | 54 +++++++++++++++++++
-+ 3 files changed, 56 insertions(+)
-+ create mode 100644 libarchive/test/test_archive_read_append_filter.c
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 2fb4fdf4..c96b3bc6 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -404,6 +404,7 @@ libarchive_test_SOURCES= \
-+ 	libarchive/test/test_archive_pathmatch_oob.c \
-+ 	libarchive/test/test_archive_read.c \
-+ 	libarchive/test/test_archive_read_add_passphrase.c \
-++	libarchive/test/test_archive_read_append_filter.c \
-+ 	libarchive/test/test_archive_read_close_twice.c \
-+ 	libarchive/test/test_archive_read_multiple_data_objects.c \
-+ 	libarchive/test/test_archive_read_next_header_empty.c \
-+diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
-+index 44f839f8..c4102c3d 100644
-+--- a/libarchive/test/CMakeLists.txt
-++++ b/libarchive/test/CMakeLists.txt
-+@@ -33,6 +33,7 @@ IF(ENABLE_TEST)
-+     test_archive_pathmatch_oob.c
-+     test_archive_read.c
-+     test_archive_read_add_passphrase.c
-++    test_archive_read_append_filter.c
-+     test_archive_read_close_twice.c
-+     test_archive_read_multiple_data_objects.c
-+     test_archive_read_next_header_empty.c
-+diff --git a/libarchive/test/test_archive_read_append_filter.c b/libarchive/test/test_archive_read_append_filter.c
-+new file mode 100644
-+index 00000000..5c301d52
-+--- /dev/null
-++++ b/libarchive/test/test_archive_read_append_filter.c
-+@@ -0,0 +1,54 @@
-++/*-
-++ * Copyright (c) 2026 Tobias Stoeckmann
-++ * All rights reserved.
-++ *
-++ * Redistribution and use in source and binary forms, with or without
-++ * modification, are permitted provided that the following conditions
-++ * are met:
-++ * 1. Redistributions of source code must retain the above copyright
-++ *    notice, this list of conditions and the following disclaimer.
-++ * 2. Redistributions in binary form must reproduce the above copyright
-++ *    notice, this list of conditions and the following disclaimer in the
-++ *    documentation and/or other materials provided with the distribution.
-++ *
-++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
-++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
-++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-++ */
-++
-++#include "archive.h"
-++#include "test.h"
-++
-++DEFINE_TEST(test_archive_read_append_filter)
-++{
-++	struct archive *a;
-++	int r;
-++
-++	a = archive_read_new();
-++	assert(a != NULL);
-++
-++	/* Append a program bidder (without filter). */
-++	assertEqualIntA(a, ARCHIVE_OK,
-++	    archive_read_support_filter_program(a, "prog1"));
-++
-++	/* Append a filter program which comes with its own bidder. */
-++	r = archive_read_append_filter_program(a, "prog2");
-++
-++	/* Verify that filter uses its own bidder. */
-++	if (r == ARCHIVE_FATAL) {
-++		assertEqualStringA(a, "Can't initialize filter; unable to run program \"prog2\"",
-++			archive_error_string(a));
-++	} else {
-++		assertEqualIntA(a, ARCHIVE_OK, r);
-++		assertEqualStringA(a, "Program: prog2", archive_filter_name(a, 0));
-++	}
-++
-++	archive_read_free(a);
-++}
-+-- 
-+2.49.0
-diff --git a/meta/recipes-extended/libarchive/libarchive/0003-Remove-bidder-name.patch b/meta/recipes-extended/libarchive/libarchive/0003-Remove-bidder-name.patch
-new file mode 100644
-index 0000000000..bbd2478577
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/0003-Remove-bidder-name.patch
-@@ -0,0 +1,258 @@
-+From 76c7142bd2595184826722063598fddf62031cca Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Sun, 2 Aug 2026 14:31:33 +0200
-+Subject: [PATCH 3/3] Remove bidder name
-+
-+The name was only needed to find the appropriate bidder for a filter.
-+Since this has been resolved by accessing the last bidder, since in these
-+situations the bidder is added first, then the filter, the name is not
-+needed anymore.
-+
-+Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/3346]
-+Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Signed-off-by: Sumanth Gavini <sumanth.gavini@windriver.com>
-+---
-+ libarchive/archive_read.c                         | 2 --
-+ libarchive/archive_read_append_filter.c           | 1 -
-+ libarchive/archive_read_private.h                 | 3 ---
-+ libarchive/archive_read_support_filter_bzip2.c    | 2 +-
-+ libarchive/archive_read_support_filter_compress.c | 2 +-
-+ libarchive/archive_read_support_filter_grzip.c    | 2 +-
-+ libarchive/archive_read_support_filter_gzip.c     | 2 +-
-+ libarchive/archive_read_support_filter_lrzip.c    | 2 +-
-+ libarchive/archive_read_support_filter_lz4.c      | 2 +-
-+ libarchive/archive_read_support_filter_lzop.c     | 2 +-
-+ libarchive/archive_read_support_filter_program.c  | 2 +-
-+ libarchive/archive_read_support_filter_rpm.c      | 2 +-
-+ libarchive/archive_read_support_filter_uu.c       | 2 +-
-+ libarchive/archive_read_support_filter_xz.c       | 6 +++---
-+ libarchive/archive_read_support_filter_zstd.c     | 2 +-
-+ 15 files changed, 14 insertions(+), 20 deletions(-)
-+
-+diff --git a/libarchive/archive_read.c b/libarchive/archive_read.c
-+index e844e42d..406d84de 100644
-+--- a/libarchive/archive_read.c
-++++ b/libarchive/archive_read.c
-+@@ -1290,7 +1290,6 @@ __archive_read_register_format(struct archive_read *a,
-+ int
-+ __archive_read_register_bidder(struct archive_read *a,
-+ 	void *bidder_data,
-+-	const char *name,
-+ 	const struct archive_read_filter_bidder_vtable *vtable)
-+ {
-+ 	struct archive_read_filter_bidder *bidder;
-+@@ -1307,7 +1306,6 @@ __archive_read_register_bidder(struct archive_read *a,
-+ 		memset(a->bidders + i, 0, sizeof(a->bidders[0]));
-+ 		bidder = (a->bidders + i);
-+ 		bidder->data = bidder_data;
-+-		bidder->name = name;
-+ 		bidder->vtable = vtable;
-+ 		if (bidder->vtable->bid == NULL || bidder->vtable->init == NULL) {
-+ 			archive_set_error(&a->archive, ARCHIVE_ERRNO_PROGRAMMER,
-+diff --git a/libarchive/archive_read_append_filter.c b/libarchive/archive_read_append_filter.c
-+index 9dd9f536..5cc8ff55 100644
-+--- a/libarchive/archive_read_append_filter.c
-++++ b/libarchive/archive_read_append_filter.c
-+@@ -174,7 +174,6 @@ archive_read_append_filter_program_signature(struct archive *_a,
-+     __archive_read_free_filters(a);
-+     return (ARCHIVE_FATAL);
-+   }
-+-  b->name = a->filter->name;
-+ 
-+   a->bypass_filter_bidding = 1;
-+   return r;
-+diff --git a/libarchive/archive_read_private.h b/libarchive/archive_read_private.h
-+index 3bd8de2d..e30b6c2b 100644
-+--- a/libarchive/archive_read_private.h
-++++ b/libarchive/archive_read_private.h
-+@@ -68,8 +68,6 @@ struct archive_read_filter_bidder_vtable {
-+ struct archive_read_filter_bidder {
-+ 	/* Configuration data for the bidder. */
-+ 	void *data;
-+-	/* Name of the filter */
-+-	const char *name;
-+ 	const struct archive_read_filter_bidder_vtable *vtable;
-+ };
-+ 
-+@@ -250,7 +248,6 @@ int	__archive_read_register_format(struct archive_read *a,
-+ 
-+ int __archive_read_register_bidder(struct archive_read *a,
-+ 		void *bidder_data,
-+-		const char *name,
-+ 		const struct archive_read_filter_bidder_vtable *vtable);
-+ 
-+ const void *__archive_read_ahead(struct archive_read *, size_t, ssize_t *);
-+diff --git a/libarchive/archive_read_support_filter_bzip2.c b/libarchive/archive_read_support_filter_bzip2.c
-+index 588953f2..1cfc55dc 100644
-+--- a/libarchive/archive_read_support_filter_bzip2.c
-++++ b/libarchive/archive_read_support_filter_bzip2.c
-+@@ -91,7 +91,7 @@ archive_read_support_filter_bzip2(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "bzip2",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&bzip2_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+diff --git a/libarchive/archive_read_support_filter_compress.c b/libarchive/archive_read_support_filter_compress.c
-+index 4e1f1dc5..4763995e 100644
-+--- a/libarchive/archive_read_support_filter_compress.c
-++++ b/libarchive/archive_read_support_filter_compress.c
-+@@ -160,7 +160,7 @@ archive_read_support_filter_compress(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	return __archive_read_register_bidder(a, NULL, "compress (.Z)",
-++	return __archive_read_register_bidder(a, NULL,
-+ 			&compress_bidder_vtable);
-+ }
-+ 
-+diff --git a/libarchive/archive_read_support_filter_grzip.c b/libarchive/archive_read_support_filter_grzip.c
-+index 9d9ad46e..8457ec7c 100644
-+--- a/libarchive/archive_read_support_filter_grzip.c
-++++ b/libarchive/archive_read_support_filter_grzip.c
-+@@ -62,7 +62,7 @@ archive_read_support_filter_grzip(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "grzip",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&grzip_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+diff --git a/libarchive/archive_read_support_filter_gzip.c b/libarchive/archive_read_support_filter_gzip.c
-+index 89ae0f37..34b174b7 100644
-+--- a/libarchive/archive_read_support_filter_gzip.c
-++++ b/libarchive/archive_read_support_filter_gzip.c
-+@@ -96,7 +96,7 @@ archive_read_support_filter_gzip(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "gzip",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&gzip_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+diff --git a/libarchive/archive_read_support_filter_lrzip.c b/libarchive/archive_read_support_filter_lrzip.c
-+index 33910fe1..a1d45d77 100644
-+--- a/libarchive/archive_read_support_filter_lrzip.c
-++++ b/libarchive/archive_read_support_filter_lrzip.c
-+@@ -61,7 +61,7 @@ archive_read_support_filter_lrzip(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "lrzip",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&lrzip_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+diff --git a/libarchive/archive_read_support_filter_lz4.c b/libarchive/archive_read_support_filter_lz4.c
-+index 19086a1f..28189a07 100644
-+--- a/libarchive/archive_read_support_filter_lz4.c
-++++ b/libarchive/archive_read_support_filter_lz4.c
-+@@ -118,7 +118,7 @@ archive_read_support_filter_lz4(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "lz4",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&lz4_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+diff --git a/libarchive/archive_read_support_filter_lzop.c b/libarchive/archive_read_support_filter_lzop.c
-+index ebfaf01e..5a552fce 100644
-+--- a/libarchive/archive_read_support_filter_lzop.c
-++++ b/libarchive/archive_read_support_filter_lzop.c
-+@@ -109,7 +109,7 @@ archive_read_support_filter_lzop(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "lzop",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&lzop_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+diff --git a/libarchive/archive_read_support_filter_program.c b/libarchive/archive_read_support_filter_program.c
-+index cf7c3613..a9e02a32 100644
-+--- a/libarchive/archive_read_support_filter_program.c
-++++ b/libarchive/archive_read_support_filter_program.c
-+@@ -156,7 +156,7 @@ archive_read_support_filter_program_signature(struct archive *_a,
-+ 		memcpy(state->signature, signature, signature_len);
-+ 	}
-+ 
-+-	if (__archive_read_register_bidder(a, state, NULL,
-++	if (__archive_read_register_bidder(a, state,
-+ 				&program_bidder_vtable) != ARCHIVE_OK) {
-+ 		free_state(state);
-+ 		return (ARCHIVE_FATAL);
-+diff --git a/libarchive/archive_read_support_filter_rpm.c b/libarchive/archive_read_support_filter_rpm.c
-+index 01bd1bf7..1cfddf75 100644
-+--- a/libarchive/archive_read_support_filter_rpm.c
-++++ b/libarchive/archive_read_support_filter_rpm.c
-+@@ -71,7 +71,7 @@ archive_read_support_filter_rpm(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	return __archive_read_register_bidder(a, NULL, "rpm",
-++	return __archive_read_register_bidder(a, NULL,
-+ 			&rpm_bidder_vtable);
-+ }
-+ 
-+diff --git a/libarchive/archive_read_support_filter_uu.c b/libarchive/archive_read_support_filter_uu.c
-+index c0f6f48e..10d49648 100644
-+--- a/libarchive/archive_read_support_filter_uu.c
-++++ b/libarchive/archive_read_support_filter_uu.c
-+@@ -92,7 +92,7 @@ archive_read_support_filter_uu(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	return __archive_read_register_bidder(a, NULL, "uu",
-++	return __archive_read_register_bidder(a, NULL,
-+ 			&uudecode_bidder_vtable);
-+ }
-+ 
-+diff --git a/libarchive/archive_read_support_filter_xz.c b/libarchive/archive_read_support_filter_xz.c
-+index 7c8e0cb5..b00ba543 100644
-+--- a/libarchive/archive_read_support_filter_xz.c
-++++ b/libarchive/archive_read_support_filter_xz.c
-+@@ -115,7 +115,7 @@ archive_read_support_filter_xz(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "xz",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&xz_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+@@ -147,7 +147,7 @@ archive_read_support_filter_lzma(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "lzma",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&lzma_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+@@ -180,7 +180,7 @@ archive_read_support_filter_lzip(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "lzip",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&lzip_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-+diff --git a/libarchive/archive_read_support_filter_zstd.c b/libarchive/archive_read_support_filter_zstd.c
-+index 12eac04c..163f54b5 100644
-+--- a/libarchive/archive_read_support_filter_zstd.c
-++++ b/libarchive/archive_read_support_filter_zstd.c
-+@@ -87,7 +87,7 @@ archive_read_support_filter_zstd(struct archive *_a)
-+ {
-+ 	struct archive_read *a = (struct archive_read *)_a;
-+ 
-+-	if (__archive_read_register_bidder(a, NULL, "zstd",
-++	if (__archive_read_register_bidder(a, NULL,
-+ 				&zstd_bidder_vtable) != ARCHIVE_OK)
-+ 		return (ARCHIVE_FATAL);
-+ 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
-index 868086e319..01a5249a88 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.8.9.bb
-@@ -33,6 +33,8 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://run-ptest \
-            file://0001-append_filter-Use-last-bidder-for-filter.patch \
-            file://0001-test-skip-ppmd8-aes256-streaming-test-when-no-crypto.patch \
-+           file://0001-append_filter-Verify-that-bidder-and-filter-match.patch \
-+           file://0003-Remove-bidder-name.patch \
-           "
- UPSTREAM_CHECK_URI = "https://www.libarchive.org/"
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 8ccd89a190..d8862ae92d 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -277,7 +277,7 @@ def filedeprunner(pkg, pkgfiles, rpmdeps, pkgdest):
  
+         return provides, requires
+ 
+-    output = subprocess.check_output(shlex.split(rpmdeps) + pkgfiles, stderr=subprocess.STDOUT).decode("utf-8")
++    output = subprocess.check_output(shlex.split(rpmdeps) + pkgfiles).decode("utf-8")
+     provides, requires = process_deps(output, pkg, pkgdest, provides, requires)
+ 
+     return (pkg, provides, requires)
 
