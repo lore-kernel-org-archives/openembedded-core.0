@@ -2,139 +2,122 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A02C5B572
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 17:25:10 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13808.1786901107458078711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E385AC5B572
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 18:23:30 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14807.1786904606409004924
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 10:25:07 -0700
+ Sun, 16 Aug 2026 11:23:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=nyYbGYrG;
- spf=pass (domain: konsulko.com, ip: 209.85.216.50, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38e08baf860so2625932a91.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 10:25:07 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=IeP/LOeW;
+ spf=pass (domain: konsulko.com, ip: 209.85.216.47, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso3604469a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 11:23:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1786901107; x=1787505907; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1786904606; x=1787509406; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CCnwB0yHGo3K339yBeini8RmUYVwl8XT8szv0R3s1IE=;
-        b=nyYbGYrGJxxTVJ1etAueUUmkdrAq0+WsFNPhs/wH0mIolVbwxGqo1LQr2PaaKm+W+U
-         v5nYUkol74BEFqnXlos8OQ+E13H3LuVpW2TkgK0QsYZRWnxYYq63NfOGr4vyXelvE3gA
-         1V79yVLPLTtF+rToh/fSORTt+mdrQmtBB5+24=
+        bh=XiAi11IEF4NNORgKdINztt9s8/GJe/VYJtQSfM02Jdg=;
+        b=IeP/LOeWXBPgdRTW8jUaw4oBhztJUk+/aBuWcmb/q3Bqwj1MS5HrymdbcmUJKx7mMk
+         e+/bBYTud2rVYh3P2M4DKA5+O0RVQWcJba+xKMUxT/UeXobNZUccPnWFOjGVLbIR//82
+         Om79miOiF33ZLe+UrWamxr8s0OxuqPl3TGhVo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786901107; x=1787505907;
+        d=1e100.net; s=20251104; t=1786904606; x=1787509406;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CCnwB0yHGo3K339yBeini8RmUYVwl8XT8szv0R3s1IE=;
-        b=PukrMsd9zYMoBmNSCHIwfm2No/Yk2zSaOQ0IzZFRB2wkSkQnWVRQssJLRsSe0olffK
-         JdacvDhVhFZrvWRvbb4caGTEDmWMsUwiAKmjdP1bjBn6QBtneendIBGmWQ3OnvbXKD9t
-         IVOkk5qHPpvWI8k4fP93JykiyZVMuYyDSarBfLdBfdyWoMxezncXVZtihkjhyIKC7tpi
-         tZs8gF6ToGZZe8i6KxY3xzCgS8IBsbLxwFbArFmt1FWFpvp5GtoYr5+DvClmljt/M9WY
-         23MkGdKbxDMPusYTww7/h1v/KZf4WwMWG5/HN4UZz7jbhYtoFG7jpn10Up6+GgIwcYtB
-         2bAA==
-X-Gm-Message-State: AOJu0YyeOEgqHZrBFixOUh4ntDEHdnAk7n2T9iHBspn1CjMQmrSJ3JVH
-	11OKG8UNoREDFkK3vl325mX71z8Gt811+2dQyGOGZL53H7k4bNK92LYfJ8oxP/tED//itoo+enW
-	oqrlp
-X-Gm-Gg: AR+sD11jtsDk88YIFrm6Apmgsx6xeAnJDoWMO6F08e7Y7xOD7z5xiWJH1SWBRYLg1Zw
-	XB7YB63rjCb4emfByh5FU8WpywYQ70jj01IRwtjzrym3rFqlpnriPtwQ4WD3bk4QfcGllj2+oMy
-	aktEQIrEjFU22A9DG4jwEYUqHPkaIXjegcfATuY3cSPtjEtbw18WtOyHFVk1SHw8mM4HC0XkMmh
-	Aqdrts7cKSqoU9zvNJjlwTzc1c4pc/OM3JlKIHNYdRRl6jUBu/tKsSToQ4cm4dpr++QGEnsoqSp
-	Gd1NJ3DnZqK/B8yyBAr36QyQWS6qIsIboQVeuVUf6LqehKh4h/vwkqV7QcGzEPSdvcaWb6MUFrP
-	5p3dnVmQz2yj1EoHmazOamhee0wKfgiGtfJ8P/R7+Z9YjtN82JytVrg/8zSpkBBEZOP2vJaTJRo
-	+d7BQGDa/BcoXCnWThrYfX6OwIdieSIUsNG58i0m715eLqgl/78NLBkuIOnpL2luiDtD2fJ4S+k
-	hXolnQ=
-X-Received: by 2002:a17:90b:4f:b0:38e:ad9d:1161 with SMTP id 98e67ed59e1d1-3933b833613mr23759263a91.0.1786901106593;
-        Sun, 16 Aug 2026 10:25:06 -0700 (PDT)
+        bh=XiAi11IEF4NNORgKdINztt9s8/GJe/VYJtQSfM02Jdg=;
+        b=NPSsAp6y+uEeNtKBdZTYM5dXRnYKEDhYwl/FiX8wqs+HsErG5bCH5gTmwML9A/LlA5
+         gf0cWDmCtspZT0ULpcCkjCxd8Pkaw05EamuYYgiiyZYb4VUrKY9ZDXXm8XXdvpLpGGpE
+         gE+iHPvd3Hu3e25m4+3jzv9nBm/nZQ/8MbHEMN0xJaaFKvU6smXM8sZjFUFv87GCaaFD
+         C6URUpYTZYgs8KgRB1HwmI9QYsKxUzqSJhkTmCTj0CONw784jGHQQ4rmB49CWBteTnLv
+         lBV09eWRggn7mmjyAMfGzBDRIEQ7/0XrwtsDxFMY6PpYK2YW32r0+dwsmJPbQ27G/g7M
+         h2LQ==
+X-Gm-Message-State: AOJu0YzzITiylM3rBzxriOwUS2pjhe7kgssyPV6MiqflPBhfgdy2kPHb
+	SS/hk5jSJAiYQ4fY3gKXZvkQj7K0s+uZsBWxS4qgbalaFRrwioTa+aXy/rhFVoNyKZeG5W2rkoX
+	4JCYu
+X-Gm-Gg: AR+sD10oOMz3pfWa1/zhtXbQBeDBQ/oEtt1YIL5gsWkRIxgu/CHI2BSvreIvkKadBea
+	9m1AB1x1p2iM5QzPNUWgCG/e4Y4ZlL8ry9xIdcRn/dLfQKpReP/PQVzn6U5UTnq9T8nrsAJgUvp
+	4+GQTNP67GjFgbo4wneThbTnwt5QCB5vYZsiS4UFcuyorlfvgzfjFEtiJgkKAlmfzA02GXD5iJ4
+	AGPDmsvulww8wUNZoOkXEilTdOR8rXBez7+HTC3GGch5VLwyK2xHiTy5DPwCOTrrfcZqBLBxIxK
+	lLy43XfxTdk84aMRDVA5UAPhtejaMj8Og3Pg6svmdBcXl5DKMpVsb262FRs15aSZP8b54xophW8
+	n45fo824RV4P3LCgIanNE/cR+dE2PDVjf1GogEG2j+o3O8sMfx1iIG2BqqiX7ZL1fBvqeVGIVkE
+	Usmp9zGj/nnjDZbQNp/xe8vL4W7elqiz+q20FDYmwPWs2O0+GaWaZqV1RN5orpPyEpFJxSQX4lI
+	CoVg//eHhkmQqV4
+X-Received: by 2002:a17:90b:5101:b0:36d:b424:4f17 with SMTP id 98e67ed59e1d1-3933b6d0deamr24425394a91.1.1786904605665;
+        Sun, 16 Aug 2026 11:23:25 -0700 (PDT)
 Received: from thetis.home.local ([2606:c800:6024:2000:9a1e:93e3:2a6f:adab])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39531fba7e8sm1959650a91.11.2026.08.16.10.25.05
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39531fba7e8sm2065295a91.11.2026.08.16.11.23.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 10:25:06 -0700 (PDT)
+        Sun, 16 Aug 2026 11:23:25 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-scons: upgrade 4.10.1 -> 4.11.0
-Date: Sun, 16 Aug 2026 10:25:03 -0700
-Message-ID: <20260816172503.621607-1-tim.orling@konsulko.com>
+Subject: [PATCH] python3-wheel: upgrade 0.47.0 -> 0.48.0
+Date: Sun, 16 Aug 2026 11:19:06 -0700
+Message-ID: <20260816181905.1791912-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 17:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243543
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 18:23:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243544
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-For a full comparison of changes (311 commits, 1736 files changed) see:
-https://github.com/SCons/scons/compare/4.10.1...4.11.0
+For a full comparison of changes (9 commits, 12 files changed) see:
+https://github.com/pypa/wheel/compare/0.47.0...0.48.0
 
-Release announcement/notes:
-https://scons.org/scons-4110-is-available.html
+Release notes:
+https://wheel.readthedocs.io/en/stable/news.html
 
-**Highlights** from a summary of the changes since 4.10.1:
+Source: docs/news.rst
 
-DEPRECATED FUNCTIONALITY
-========================
+**0.48.0** (2026-08-12)
 
-* Deprecated Python 3.7 & 3.8 support.
-* Deprecated using signature-file-per-directory (aka old-style SConsign)
-  via the SConsignFile(name=None) call.
-* The legacy job scheduler, which was superseded by a new scheduler in
-  SCons 4.7 but remained available as a fallback, is deprecated and will
-  be removed in the next release. The --experimental feature flag to
-  select the legacy scheduler is renamed to "legacy_sched_deprecated" to
-  give a clear indication of the status change; the flag will also be
-  removed in the next release.
-
-REMOVED FUNCTIONALITY
-=====================
-
-* The qt3 tool module, deprecated since version 4.3, is removed due to
-  the general unavailability of the obsolete build-time Qt3 package.
-
-CHANGED/ENHANCED EXISTING FUNCTIONALITY
-=======================================
-
-* The tool search order now prefers clang over gcc on FreeBSD and OpenBSD.
-
-FIXES
-=====
-
-* Fix --debug=includes for case of multiple source files.
-* Adjust race protection for CacheDir - now uses a unique temporary
-  directory for each writer before doing the move, instead of depending
-  on a one-time uuid to make a path to the file.
-* Fix handling of AddOption for option-arguments with spaces (when
-  omitting the = sign or when an option takes multiple option-arguments).
-  Arguments unknown at the time the first pass splits the command line
-  into arguments and targets would put such arguments into targets, and
-  they remained there even after the AddOption calls were seen.
-* Fix CPPDEFINES test using pkg-config, which was failing on GH Actions.
-* Fix -n / --no-exec support when using ninja tool
+- Added a ``--local-version`` option to ``wheel pack`` to add, replace, or remove a
+  PEP 440 local version identifier from a wheel
+  (`#570 <https://github.com/pypa/wheel/issues/570>`_)
+- Fixed ``wheel convert`` unnecessarily upgrading compatible core metadata versions
+  (`#643 <https://github.com/pypa/wheel/issues/643>`_)
+- Fixed ``wheel tags`` producing invalid archives when retagging wheels whose
+  entries use ZIP64, by dropping the central-directory ZIP64 extra field that is
+  not valid in a local file header
+  (`#692 <https://github.com/pypa/wheel/issues/692>`_)
+- Fixed ``wheel convert`` writing the converted wheel outside the destination
+  directory when the input archive contained a maliciously crafted project name
+  or version with path separators (arbitrary file write / path traversal)
+  (`GHSA-vgq5-9859-3mmw <https://github.com/pypa/wheel/security/advisories/GHSA-vgq5-9859-3mmw>`_)
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../python/{python3-scons_4.10.1.bb => python3-scons_4.11.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-scons_4.10.1.bb => python3-scons_4.11.0.bb} (88%)
+All ptests pass on qemux86-64 with core-image-ptest-python3-wheel
 
-diff --git a/meta/recipes-devtools/python/python3-scons_4.10.1.bb b/meta/recipes-devtools/python/python3-scons_4.11.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-scons_4.10.1.bb
-rename to meta/recipes-devtools/python/python3-scons_4.11.0.bb
-index 5fb896f8bc..585cad271c 100644
---- a/meta/recipes-devtools/python/python3-scons_4.10.1.bb
-+++ b/meta/recipes-devtools/python/python3-scons_4.11.0.bb
+The AUH run failed for an unrelated transient fetching of libarchive
+reason:
+ERROR: libarchive-native-3.8.9-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://libarchive.org/downloads/libarchive-3.8.9.tar.gz')
+
+ .../python/{python3-wheel_0.47.0.bb => python3-wheel_0.48.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-wheel_0.47.0.bb => python3-wheel_0.48.0.bb} (89%)
+
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.47.0.bb b/meta/recipes-devtools/python/python3-wheel_0.48.0.bb
+similarity index 89%
+rename from meta/recipes-devtools/python/python3-wheel_0.47.0.bb
+rename to meta/recipes-devtools/python/python3-wheel_0.48.0.bb
+index 4320442729..21c9c7464c 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.47.0.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.48.0.bb
 @@ -4,7 +4,7 @@ SECTION = "devel/python"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d903b0b8027f461402bac9b5169b36f7"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7ffb0db04527cfe380e4f2726bd05ebf"
  
--SRC_URI[sha256sum] = "99c0e94a42a2c1182fa6859b0be697953db07ba936ecc9817ae0d218ced20b15"
-+SRC_URI[sha256sum] = "5ba48f9e2eb6b9178cabdc9893792418e6970c84f43f4b027e4468e20616a89c"
+-SRC_URI[sha256sum] = "cc72bd1009ba0cf63922e28f94d9d83b920aa2bb28f798a31d0691b02fa3c9b3"
++SRC_URI[sha256sum] = "94800765601e9171bf5d58d066e640662842bcedcbab982b2c90787a2c987322"
  
- inherit pypi python_setuptools_build_meta
+ inherit python_flit_core pypi ptest-python-pytest
  
 -- 
 2.47.3
