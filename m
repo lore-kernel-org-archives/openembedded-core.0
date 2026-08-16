@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A73C5DF6D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F9EC5B572
 	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 19:41:41 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16145.1786909295039502537
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16146.1786909295039585359
  for <openembedded-core@lists.openembedded.org>;
  Sun, 16 Aug 2026 12:41:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=XVq5WyUe;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-2026081619413293fb5464dc000207c4-fhbn3c@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026081619413293fb5464dc000207c4
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=MvJY0uh/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260816194132f6bb76be2d00020772-sjdrl_@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260816194132f6bb76be2d00020772
         for <openembedded-core@lists.openembedded.org>;
         Sun, 16 Aug 2026 21:41:32 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=tF9kmAJxWcRoTEXgu2vR8LvSN5T/1sdatjBT61iZ390=;
- b=XVq5WyUeW9Y1ghMVPYWBR/NNPff0fypA5T3g8X9XKlNKAq7dDJ3ead53Flmf6pwJVucIfb
- dVHA84hNDN3od2OaCg1lu/PUOw+GUyF7rmHV2bopcGPc9lMSm/tTwxaH8LewriKVE5MfBltc
- 7UnTRqcpMgpjJ4ykpahAAotdDciwMtBqO8oFBSmKoTPV5I4s5j7RqCXs6Ms6njTEXDVB540n
- /hVS4Us9cVNaRzslXLTPh+kH14K84rZy74aLaNIP/1RW3CvLZpANsmnHzm4sTFeCskuYdBC6
- 9kfX2HFUV6JKq8qxqDgmwdQI18UfpKVsf7IdBTbbZfI9vCmRcnUdrA8Q==;
+ bh=UB7eVCqupIConBytoa/cucXR0nlNYoUrSRPxeIrccyk=;
+ b=MvJY0uh/jaL56q2Q/R86qrzf9eSwen1Q1sLzMuCagpIeZ10DLmHuMhh8IHv8PX+fO3C5LS
+ nvYAc/tQMaqkXjtl5ZMaa87rbgupJFFKFLfdyE8PWWJLNjQbJeCrR/DgYp17VuwYD5oXlQtO
+ u11JrRftQMnmIrbqk7Q5P25z3/HtPehcwoklUCpSawC7u2JzYQBv2abUVmnJoR30vsrlqHX1
+ 9jQTZ7pGcRftWHLF3a0Hex4dgc4Nn3Wm7XPMqmBYY3nQWSPtuzChvA99hZuJbh9FNLPj2Swe
+ 6qV3J68W+nLxndHly06rOv+s5vFsdIygOMmrfaW4FIktrsAxuSJO/tnQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 07/14] devtool: ide-sdk: default to all modified recipes
-Date: Sun, 16 Aug 2026 21:40:50 +0200
-Message-ID: <20260816194127.86607-8-adrian.freihofer@siemens.com>
+Subject: [PATCH 08/14] devtool: ide-sdk: let gdbserver reuse the shared debug server wait helper
+Date: Sun, 16 Aug 2026 21:40:51 +0200
+Message-ID: <20260816194127.86607-9-adrian.freihofer@siemens.com>
 In-Reply-To: <20260816194127.86607-1-adrian.freihofer@siemens.com>
 References: <20260816194127.86607-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,62 +39,61 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 19:41:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243560
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243561
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Simplify ide-sdk usage in modified mode: keep the image recipe explicit,
-but when no modified recipe is passed, take all modified recipes from
-<workspace>/appends/*.bbappend.
+GdbCrossConfig open coded its own copy of the loop which waits for the
+debug server to listen on its port, while LldbServerConfig already used
+the _target_wait_for_tcp_port_cmd() helper of the common base class.
+
+Use the helper for gdbserver too, which requires capturing the gdbserver
+pid in a shell variable so the helper can refer to it, and defining
+DEBUG_SERVER_NAME for GdbCrossConfig.
+
+Beside removing the duplication this also gives gdbserver the two things
+the helper already did for lldb-server: the server is killed instead of
+left behind when it never starts listening, and the reason is printed
+rather than exiting silently.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/ide_plugins/__init__.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 42b6e381c5..ab2bba5d39 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -1258,6 +1258,15 @@ def ide_setup(args, config, basepath, workspace):
-                     recipes_modified_names))
-                 invalid_params = True
-         if args.mode == DevtoolIdeMode.modified:
-+            if not recipes_modified_names:
-+                appends_dir = os.path.join(config.workspace_path, 'appends')
-+                recipes_modified_names = sorted(
-+                    os.path.splitext(os.path.basename(path))[0]
-+                    for path in glob.glob(os.path.join(appends_dir, '*.bbappend')))
-+                if recipes_modified_names:
-+                    logger.info(
-+                        "No modified recipes specified, using workspace bbappends from %s: %s",
-+                        appends_dir, ', '.join(recipes_modified_names))
-             if len(recipes_other_names):
-                 logger.error("Only in shared sysroots mode not modified recipes %s can be handled." % str(
-                     recipes_other_names))
-@@ -1266,6 +1275,11 @@ def ide_setup(args, config, basepath, workspace):
-                 logger.error(
-                     "One image recipe is required as the rootfs for the remote development.")
-                 invalid_params = True
-+            if not recipes_modified_names:
-+                logger.error(
-+                    "At least one modified recipe is required or must be guessable from %s." %
-+                    os.path.join(config.workspace_path, 'appends'))
-+                invalid_params = True
-             for modified_recipe_name in recipes_modified_names:
-                 if modified_recipe_name.startswith('nativesdk-') or modified_recipe_name.endswith('-native'):
-                     logger.error(
-@@ -1422,7 +1436,9 @@ def register_commands(subparsers, context):
-                                            help='Setup the SDK and configure the IDE')
-     parser_ide_sdk.add_argument(
-         'recipenames', nargs='+', help='Generate an IDE configuration suitable to work on the given recipes.\n'
--        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.')
-+        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.\n'
-+        'In modified mode at least the image recipe is required; if no modified recipe is passed, '
-+        'all modified recipes are taken from <workspace>/appends/*.bbappend.')
-     parser_ide_sdk.add_argument(
-         '-m', '--mode', type=DevtoolIdeMode, default=DevtoolIdeMode.modified,
-         help='Different SDK types are supported:\n'
+diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
+index 63e9682e73..5211df5806 100644
+--- a/scripts/lib/devtool/ide_plugins/__init__.py
++++ b/scripts/lib/devtool/ide_plugins/__init__.py
+@@ -139,6 +139,7 @@ class GdbCrossConfig(DebuggerCrossConfig):
+     gdbinit / gdb wrapper scripts used by ide=none as well as the
+     target-side tmp/pid/log paths consumed by the gdbserver start command.
+     """
++    DEBUG_SERVER_NAME = "gdbserver"
+ 
+     def __init__(self, image_recipe, modified_recipe, binary,
+                  default_mode=DebuggerServerModes.MULTI):
+@@ -193,14 +194,13 @@ class GdbCrossConfig(DebuggerCrossConfig):
+             else:
+                 raise DevtoolError("Cannot use gdbserver attach mode for binary %s. No PID found." % self.binary.binary_path)
+         elif server_mode == DebuggerServerModes.MULTI:
+-            hex_port = "%04X" % self.debug_server_port
+-            gdbserver_cmd_start = "grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null && exit 0; " % hex_port
++            gdbserver_cmd_start = self._target_tcp_port_check_cmd() + " && exit 0; "
+             gdbserver_cmd_start += "mkdir -p %s; " % self._gdbserver_tmp_dir(server_mode)
+-            gdbserver_cmd_start += "%s --multi :%s > %s 2>&1 & " % (
+-                self.debugger_cross.debug_server_path, self.debug_server_port, self._gdbserver_log_file(server_mode))
+-            gdbserver_cmd_start += "echo \\$! > %s; " % self._gdbserver_pid_file(server_mode)
+-            gdbserver_cmd_start += "_w=0; while ! grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null; " % hex_port
+-            gdbserver_cmd_start += "do _w=\\$((_w+1)); [ \\$_w -lt 100 ] || exit 1; sleep 0.1; done;"
++            gdbserver_cmd_start += "%s --multi :%s > %s 2>&1 & _gdbserver_pid=\\$!; " % (
++                self.debugger_cross.debug_server_path, self.debug_server_port,
++                self._gdbserver_log_file(server_mode))
++            gdbserver_cmd_start += "echo \\$_gdbserver_pid > %s; " % self._gdbserver_pid_file(server_mode)
++            gdbserver_cmd_start += self._target_wait_for_tcp_port_cmd("gdbserver_pid")
+         else:
+             raise DevtoolError("Unsupported gdbserver mode: %s" % server_mode)
+         return "\"/bin/sh -c '" + gdbserver_cmd_start + "'\""
 -- 
 2.55.0
 
