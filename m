@@ -1,138 +1,101 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85C8FC5B572
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 11:13:05 +0000 (UTC)
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8202.1786878772044190142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B78C5B572
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 11:17:25 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8116.1786879044411504591
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 04:12:52 -0700
+ Sun, 16 Aug 2026 04:17:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=e7+RcvG9;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=MiHO7yuo;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.147, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id 4297F1D00098;
-	Sun, 16 Aug 2026 07:12:51 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Sun, 16 Aug 2026 07:12:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1786878771;
-	 x=1786965171; bh=70QJ1/vg+lILnJPsSM7XaSBiDO5cP0FnZQO7Ok9fJ+A=; b=
-	e7+RcvG9Gr3YlBaPcb0ARAB7O8hyzGrx4zlz2fT7XYSCIG58Ks6V7lVuQLr3W6+7
-	/uVatN2Ojvwfa7yyu/UB7rKImJ+srtkWKpadfxA9/0Cfu1pX0FMSEE5iOnsuvvSH
-	yBCfk+Kg/jS6PYXrc70vVbpTO7LWR3Wm7vUkabH1UW3J6OLYr/v6fcetSAc5DSwl
-	D0HVW9sz5ETYhLOJxkeDNnmwICCMGhI7bJPw1zenMo2Mu+2guw+D6O89hPQN1ZIR
-	sNXVq1FUJMNUrxlYb6yog5L9eSV5yy6UNXtFDEs8L8ADcBjZ4bGop0gaoKDZd6bQ
-	G/p1X9nx1YyjL5r/jClqmw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1786878771; x=1786965171; bh=7
-	0QJ1/vg+lILnJPsSM7XaSBiDO5cP0FnZQO7Ok9fJ+A=; b=MiHO7yuoo6G9oiNuQ
-	urBQHQjWlUXYxEvv+ZZ9fTTqGwy7Xy+ZcNHLdbjPfU/bU7s5+y24axCY/fBYJcoC
-	jMi4kRHX2G4K1bDXlTZdn4biPtEG7ItmQnAZAyJMRNWo9x5gV3LqOpB/N7vnYqho
-	InbvXG5Hh3ks1VYf7dlvbH1BP15bKhDKaEgxJaemGzKyGWQcPHOvb0xkstF5hCUM
-	ti7KaBSQuybG5r0BPOipj/StsZQ8wAx/LUJz70H2zVVPZbwYd3RadzKUADq/kdbV
-	QXaGJBJ7XHmd6VunE74DzISVLCp/2AnkVwyGYs5UbRu2Iep8uTPq8/XzHzlWBbZd
-	TV1yw==
-X-ME-Sender: <xms:MpuBagrdlVya-pzZgyWoj9ZcpDVhggahUuKHEbcjuXiCxyy53Ql1fg>
-    <xme:MpuBasq4MVq7GVyr1y_Pkkb5ORSa-817y0vidvOix_9-vdMWw-qBY-UHO7pIkiBoA
-    nIyE_c1j-IwCUntx9OHA55yeXzCjLnDurEgdC1EUJHiUNTeK6b7FVw>
-X-ME-Received: <xmr:MpuBai0gss1ZLcSfJWZ3Xz7cqaiH6L3EJvIh3jjrx4M1wpKzOE4to-BpJ20SI6ebufsdKqjTYdF051jLasd83LRwZBzVgATv7Y51yYPFtP3j>
-X-ME-Proxy-Cause: dmFkZTEcds6nSpJiHj6qCyL+AQjnX156EkG+NiGxQa94Cef6B/1a3313XKFrGMm2fZ+3Sf
-    LVkKaaX/Cm4KjPrii5DiBhcUWcFnnrF0RiSWRz1wSTBir+BQiNQsh5SwYXk21ab4gBiXn1
-    uSSPk0EoDj+FE/YclQeEwLlTvRnUD8jXA5D0tve1sNBIX7PIBMCXbB6+WuedgGoy4AUdgN
-    jItFrr7FcnS+oiQWthw0sQgmUIRauYK9Lg49QINhYw1Q1KXTilgGwUkpDkC/oZdvY8AK8b
-    Ki7HkzBE2/0AnX7ZpNlbXrCAEWEir0olkhcvDwowTCdyOWvoULKKcqtkYlj5sPUJvW8zpp
-    BzTv8O4g+YD+HXXLUHOJ+pp4yf3dsLqsoKzRfmRwqkuokWDEg0NRmU0WEdSkHgE16UCcbU
-    1Lp6+qDHBivKdz6NXIxnwyZ4fRkk0YxFd06uqaMSJv4IFMq4y6BvVT1HTPrFOkSFa0sq2m
-    qvjjzOwlbnBDC1CVnZxeg5yCbRZOmWPMQdmkBD4jzJpzh7XyiwW9XFMC92MqNjeQRU9mx9
-    lwaYjkvfoARmcHLLnb/kty+Te2L7wQLaywkkk8IxEyNBECPDVNmdzU2XhRgL57dlrbkpoY
-    PFQetdswWczbg+G/SlZjRD+d0M0RsTiwyqfTaSPUraRJEYlEWF5JCKnqAVvg
-X-ME-Proxy: <xmx:M5uBajBqFnUJSS-9ACmCTyoxzxU1hK4vs7bb4Pjk2cmBYrl1hU3-VA>
-    <xmx:M5uBaifU-GtDMl2zNnl3L0cCyvtSEX4caNPxOdtblJI0LTqO4tJDXQ>
-    <xmx:M5uBaghKGYupAbqEBzrb1sgwx3Jr6m8kYIMfjd-phTeV6ASh6anXXA>
-    <xmx:M5uBaipoPP19PGKvDdjI0cn47STZm_NpWANvtkT-f0XfOxxLoOPzyg>
-    <xmx:M5uBar4fLJfn-wMnPaMUL7pKyvTFIdCi9r2lXr_ezx-HQzWCqBIt-zFn>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Aug 2026 07:12:50 -0400 (EDT)
-Message-ID: <7fc0bf78c8046ad9c23e49f80d8ed93103db3317.camel@pbarker.dev>
-Subject: Re: [PATCH v2 1/2] oeqa/sdk: update cryptodev to a revision that
- builds on kernel 6.18
-From: Paul Barker <paul@pbarker.dev>
-To: Trevor Woerner <twoerner@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 16 Aug 2026 12:12:49 +0100
-In-Reply-To: <20260813030515.1028627-2-twoerner@gmail.com>
-References: <20260813030515.1028627-1-twoerner@gmail.com>
-	 <20260813030515.1028627-2-twoerner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
-MIME-Version: 1.0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=m9aNM3aB;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TLwO2rHZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a00a4a6795-2975fc4a-274b-4c95-a469-140b4a090ed3-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1786879043; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=z3YuswXvAU90+D3i/BMD0wUam24i2TYqO0snFuS1c5Q=;
+	b=m9aNM3aBrb9JQyc3NhgQ+bUbM26c/qUOhWs17FXDk1k0ShcTR/mEkMTiYjMIUTUD
+	HqEnSUckYYJhxnVKQFoaVEQlhVDLDrEpNkJDhKvAvw7jI1wj+dp4jJAns7ksw1mn0Uu
+	sVZGKTjgs+nlOyCl92KqfU8JoJn/l6JgOz+KiG7I=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786879043;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=z3YuswXvAU90+D3i/BMD0wUam24i2TYqO0snFuS1c5Q=;
+	b=TLwO2rHZtPMVkz5Vef08mjQtDfegUvbUrrAbXAU0N0jni6U/4MjrimFJ8qW6yn5f
+	FKGXvlMyCkN0IUFxJsc0BEoEdRccxBdk0d8EucnsC+T+fDlxuksP/aQuMjXSLCUfYcV
+	m+icgUECsN7ace9J41K33BysfqvdxYrY4M80zbYc=
+From: patchtest@automation.yoctoproject.org
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 3/4] devtool: standard: Remove unused variable
+In-Reply-To: <20260816-mathieu-devtool-v2-3-13c943abf48e@bootlin.com>
+References: <20260816-mathieu-devtool-v2-3-13c943abf48e@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a00a4a6795-2975fc4a-274b-4c95-a469-140b4a090ed3-000000@us-west-2.amazonses.com>
+Date: Sun, 16 Aug 2026 11:17:23 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.16-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 11:13:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243522
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 11:17:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243523
 
-On Wed, 2026-08-12 at 23:05 -0400, Trevor Woerner wrote:
-> The out-of-tree kernel module test pins a cryptodev-linux revision from
-> before the 1.14 release, which predates the removal of
-> crypto_ahash_alignmask() from the kernel and so no longer compiles:
->=20
->   cryptlib.c:384:28: error: implicit declaration of function
->   'crypto_ahash_alignmask' [-Wimplicit-function-declaration]
->=20
-> Move to upstream's "Fix build for Linux 6.18-rc1", which is the revision
-> that restores compatibility.
->=20
-> AI-Generated: codex/claude-opus 5 (xhigh)
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> ---
-> changes in v2:
-> - none
-> ---
->  meta/lib/oeqa/sdk/cases/kmod.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/lib/oeqa/sdk/cases/kmod.py b/meta/lib/oeqa/sdk/cases/km=
-od.py
-> index 0c4d8ddb543f..1be23e994fd2 100644
-> --- a/meta/lib/oeqa/sdk/cases/kmod.py
-> +++ b/meta/lib/oeqa/sdk/cases/kmod.py
-> @@ -31,8 +31,8 @@ class KernelModuleTest(OESDKTestCase):
-> =20
->          with tempfile.TemporaryDirectory(prefix=3D"cryptodev", dir=3Dsel=
-f.tc.sdk_dir) as testdir:
->              git_url =3D "https://github.com/cryptodev-linux/cryptodev-li=
-nux"
-> -            # This is a knnown-good commit post-1.13 that builds with ke=
-rnel 6.7+
-> -            git_sha =3D "bb8bc7cf60d2c0b097c8b3b0e807f805b577a53f"
-> +            # This is a known-good commit post-1.14 that builds with ker=
-nel 6.18+
-> +            git_sha =3D "08644db02d43478f802755903212f5ee506af73b"
-> =20
->              sourcedir =3D os.path.join(testdir, "cryptodev-linux")
->              subprocess.check_output(["git", "clone", git_url, sourcedir]=
-, stderr=3Dsubprocess.STDOUT)
+--NextPart
+Content-Type: text/plain
 
-Hi Trevor,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-I'm wondering why we haven't spotted this issue previously, we've been
-using Linux 6.18 for months now. Are we missing a test case?
+---
+Testing patch /home/patchtest/share/mboxes/v2-3-4-devtool-standard-Remove-unused-variable.patch
 
-Best regards,
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
---=20
-Paul Barker
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
