@@ -2,70 +2,70 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F9CC5B572
-	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 10:59:15 +0000 (UTC)
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8060.1786877954584601722
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 982CAC5B572
+	for <webhook@archiver.kernel.org>; Sun, 16 Aug 2026 11:05:35 +0000 (UTC)
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7996.1786878325851202451
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 03:59:15 -0700
+ Sun, 16 Aug 2026 04:05:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=o2diYTq/;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Z9Ls9tHs;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.147, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfout.stl.internal (Postfix) with ESMTP id B43871D0009D;
-	Sun, 16 Aug 2026 06:59:13 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Sun, 16 Aug 2026 06:59:13 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=PNsJdbmN;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=HlhnHVa2;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id E5BC87A003E;
+	Sun, 16 Aug 2026 07:05:24 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Sun, 16 Aug 2026 07:05:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1786877953;
-	 x=1786964353; bh=P+2tx04+zLn+eAuMZMkXRKGJWpZBByo7Lk8UjWozrWU=; b=
-	o2diYTq/9ImShrEUi5sTieSVqcwg4H8QzvamYdkXvtqOZZtRv5IJMc7pZa9rIjBl
-	2QoLzhY/dXcXogmvRWxZqZ/wVFN1bh8zSVsSxMoEVeiZ8ZmtQ+7YSWNSg40W/iXZ
-	7SuVOI+bHIRHixkzpgwkJCm1nlkGvaxr63m8N4+Cw0wLtN1nCYRRLJhy1MCXde3T
-	D8TjRuIxHLQe5jZoNY3zG6Mq4i2tjkvbdXRaJviqMKsNLRjoBXK7YvNqHRvrDMdk
-	jVetzwioYTFHFWiJMscHgH/zLpeKnXdQXq5Q+7eDUjUxY0o4oq9n4h34bmQdCRlj
-	qChbPQkDpNA0F6+bvueTPg==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1786878324;
+	 x=1786964724; bh=I8a9JzzSsHDFaCKGW7m8xAOY9ObTq+oQgD6Hm3SqWOc=; b=
+	PNsJdbmNQhnd9UcGVCHx0h1yAserunzfwhFRgNtIWzmqMpYUyzC53flQ8l1788kg
+	pqgw0SSCHlkVlk4Zw2pgVDlDMYs0lKxgOZaKe/8OS8VbHauyXhWhfRH2x/dpkPG+
+	ZuX5rQVH/Cn24XI7z9btbDZyjks2ony44VxZgMs2L7xc5rNIps5YvFMVgv/tVwgp
+	T/MDxJQLPfkTmK1wZLhtYubHHJyHeexiyBuzKTdB+nC5oPb+j9PGy88/PfxrkNrZ
+	omFePYb8lYMg8lHbKmUbgD5ZhpOMaWbXtk2T1ChOskrKzcuCAVOro7xh4KnR5yaG
+	BqOVxVOlrLDiNqwTpTSdDQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786877953; x=
-	1786964353; bh=P+2tx04+zLn+eAuMZMkXRKGJWpZBByo7Lk8UjWozrWU=; b=Z
-	9Ls9tHsJE7cpLRCr7pYf6DrUFLpmd8TfCtxsgWljT84C4MO0dpHK4ZMuuwqBySqn
-	0eubWjx35EOnK9eCRfF7hF2Qfc8cEtx61sD6hy1fCoYzr6uMYV1aCrdXqVW4YFqZ
-	I2niZNcq1gXn2Yoo8junckeEUKrb9nDDKofs/IfDILSq8ol3IccVuqDjfxwtA1la
-	ENQ5jXmR00CVj8qSPEBt6yPxdjvXegVdC3hCDMZfoVHf3ir8mu4XXFiP3RUSqX6a
-	I79+ZOse6Pb0PFyCnknpx6zphLvzLv8D6WlRpaEfTNQo4dThkjv0xOvCeLnWt0SG
-	lCsBqBxWTUCqEQikSY+xA==
-X-ME-Sender: <xms:AZiBauC6NADcuPlCGNxB_46TkFZjWGQY-P4AHZ8qtYEI1LX-9nMRMA>
-    <xme:AZiBava3BRhHEZ-JNEZzVZtE4Q1tRSALyxkGST-wltQmShyEKhL_4jrBX3k9MwvuS
-    V_trtJt3IQcp-YtCseCbu2uRnGJBjx_n2BXUNvMWnr9hJ5cvrPoeqs>
-X-ME-Received: <xmr:AZiBap7qkOuDEx3ytaI6YH2-hbDk2cISBAEkLxqxsFItjdSxFg7sV8zg8ilTXyX04tIMgLTmYW73acNvAjKfXec5xV8HA-qLFZz0JoxnFXbJ>
-X-ME-Proxy-Cause: dmFkZTGbOEqIZYhHeLz+bpReTkChjYptpXJ3ywbSTY4vUAkbsY52boTtDbQyiReBPXsHqM
-    T0/oN/a8YKtsXKFgreWkkS9rtBJF2fRkN1BZ6LkBblYUGybC0Ky8BYquyRGwfzSCAIXt7L
-    e6QD52HnY+dVow2ZglF1yRwcVl7BSde/JZ1JqcxGYo6pRyPL8z1Z/0W97PisDnvKzaWKfd
-    SVXSzYtbX03KgnYp5O9UFzIDIA1eqkCzE/3k92Sz+ygRTKmrwMkMxjuwyOwQ6O/UGMU4HV
-    GNBLl6eFCvyDx9YovoEDLRkvy1pTQhe0O7iZ3erSsAj5kSjH2qDdOAapC+H2wpZmvbCQRV
-    3n4qAKyr627GNA4CyTRFspIPxLqrEboxRAesjoqjcKqANzLdOsDfyAQ8hEeU8UtRC9L7kD
-    SrGgmT5RxNpGCPt80rsTEyrqp4Z7UPHspb/NB2z9pFbmnLU03u+6pU91rZDow/pVZK9jbi
-    1E1tkVq5I54LziKv3f6GI0iKgO2gX3qt05t04HNwv3erkB7tOJZdgm/I9OMaK8QVdwuymc
-    /h86bC7j0AVefvU6AR5rwLzZztYXWWejqtjziOcBm2oabzCcsUuJP6oKHo/HBQMAUst2+f
-    ITyPNpLyWxLeCEZX1XTcPtIO3YZFbFRyh7DMfDddRw/4PSVxn1SHf3PEz3/Q
-X-ME-Proxy: <xmx:AZiBaoYDx1Il5Pml22aadKnc0CB1iwy9EI04h-R1z0B0ajpazJIjCA>
-    <xmx:AZiBagihhLQOV3ZFPgGGtNJPiyNc99YMFAyeaWMlFs43LMkyAicLKQ>
-    <xmx:AZiBah8agmxvBUcC6SlTeFiGGYiXzMNcSCa6Mg4vSFJm2N0-OLvCzA>
-    <xmx:AZiBajpBqmPce09I8PcJQX3kGyarFEmcZaw8f_Rp8-WUpeRnJywo4A>
-    <xmx:AZiBav-Ir8Drm_g9aCTqyjs1q6aq5--7pVqCSgOj1ZAYvEmJkq3a_js1>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786878324; x=
+	1786964724; bh=I8a9JzzSsHDFaCKGW7m8xAOY9ObTq+oQgD6Hm3SqWOc=; b=H
+	lhnHVa2Tu0Z/gM1wh1JS1B5UpumICdKRfQR+E9gkF/CMkKxq5XDCFXDO3hyd3dUS
+	NXamZfrgP3VM4ojHoCLDZs4RT1ZxwCZell8LVtj+6SZxps6TlHaXw51IFz8mCPNn
+	Lb0TIaMMWTtDYGtk/BTqdsw6I+Oer6+talO4cCnMWwcQlYMrd+dUanf1ATfDqJLz
+	l5Dx8k7ipCsF+Sbckwu/BRS3/rUwqOxVXiG6bBFrEsETdmYIphl5cJzfmXHIwpqO
+	nz7bO2sV7uJLiAyOGG2ezzerkEKJ6xh8HnHWNnnF5Pi1eILsJUR0W+8OlKOM3z65
+	S04Xa8jNOIbOSscuzEvvg==
+X-ME-Sender: <xms:dJmBaugwy4imYb91e59ixVayLbrTfUrjSqWWoSWQ-cqbAHEzsqXIjg>
+    <xme:dJmBal4pgS2C4tKtMDKU2fNZxRZprGk72DDmhSXlH_hkHa1o2p8obTRAfcqOfjYpW
+    TjqklwR5XsBeyNmmeUAZM-kdWv547vU26BBh72QJKSY6v09zx8mJX0>
+X-ME-Received: <xmr:dJmBauaj47Rua5fmv4TLJxo7kdbcA5x7RkyN-tMGhqUAXqRbi2AQ6hiScg2cSBlNBGmdacemIF7PEUsu6lLs9BdFWeCyz6iGrVN3JkQFnyx9>
+X-ME-Proxy-Cause: dmFkZTFaLjvjZQaEqAV25+/F4Fofow03nCwcEkyb6bjWwaiEKrePgztg+moEm+A2hHHdpW
+    8xqW4SLSBgenCzMeRhc2W/JgKvhnjKdR1SbJGTvSJqJI33YRMTeBaZ9YPTf4pAa6nCoHxt
+    WsAVycTcQhP1UtDipUaJVrD3CdB9clL5Y8WMCngvTo4cBmTqRF2AWrClnrUNn9nuzOOs40
+    +W3wQVsrg0eNdqlOfNUYu+Ur1VEaBdAVe0TYgq0NwUZnvkEEl/ZYFVLz39vrKw92jvcS2o
+    cjkCBZeUt3y4NNnSs7kXuQOs54xbBYkuBLF6codN6qatssiJrINTABBBrsjUYoyWnV9DHy
+    a6NGpnK2Bz6eJx8LF5osYhzJimJ860T1rANjIk82c2hR8K+hE9LawA+KdfXUM6hWjLwroq
+    GSFt9jyEB/QCJAlESnk6mTGcY9HEb5qg48kfNpFsJKvzOZ0UO0Qp88zKAhyQFoUWvLmFTi
+    l+4tmrlZeSwDtqHoIaUz9P8KngI9MtG+CmmpyHEhvWLmEiEF9qWQ4dmVPS0OycQmkb/IUE
+    lbeLiUX9mB8DQqJdfNE0CHAVvdydjFCiaIvBbICo1096rSlidfJBhSKs77CiSryfZWmTZN
+    5YgejmgdODdHik1YXpLZjdbBy84BYnrbzqTEjJ8ioIRZUsJWo0ueRIfdIH2g
+X-ME-Proxy: <xmx:dJmBai6X1pv3KtV-LrV4tAxx-fy8LLN2MXhm1VJUtBotpM-rcZxoWg>
+    <xmx:dJmBapBvr52_ja3ye7p4nTjh7tkbxC3ThjNYTqXtOmBYfml1fYtpmw>
+    <xmx:dJmBagc6qn78gqRn9PsWjvga0Z4PvVphPx3_CjOB-Qj_6kKO2YPzxg>
+    <xmx:dJmBagJHSsVrJGlayjluZjSeUkweoh79Qm6hAHyuIg9Q6IyWXJ1rOA>
+    <xmx:dJmBamd2r4O778jBRAcNTK9MmcAvfrEYAVjU_Gj9Mr73DliSVcnqbLNt>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Aug 2026 06:59:12 -0400 (EDT)
-Message-ID: <43b1bcd191c3153ebfa58ad6e85c0eb1764a10b7.camel@pbarker.dev>
-Subject: Re: [PATCH v4 2/5] devtool: Register nested git repos before the
- initial commit
+ 16 Aug 2026 07:05:23 -0400 (EDT)
+Message-ID: <635943cc71265dc13179dd575ec89467eeb2fbf0.camel@pbarker.dev>
+Subject: Re: [PATCH v4 3/5] devtool-source: Make nested destsuffix git repos
+ standalone
 From: Paul Barker <paul@pbarker.dev>
 To: Jamin Lin <jamin_lin@aspeedtech.com>, 
  "openembedded-core@lists.openembedded.org"
@@ -73,10 +73,10 @@ To: Jamin Lin <jamin_lin@aspeedtech.com>,
 	 <alex.kanavin@gmail.com>, "mathieu.dubois-briand@bootlin.com"
 	 <mathieu.dubois-briand@bootlin.com>
 Cc: Troy Lee <troy_lee@aspeedtech.com>
-Date: Sun, 16 Aug 2026 11:59:11 +0100
-In-Reply-To: <20260731092634.1127862-3-jamin_lin@aspeedtech.com>
+Date: Sun, 16 Aug 2026 12:05:22 +0100
+In-Reply-To: <20260731092634.1127862-4-jamin_lin@aspeedtech.com>
 References: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
-	 <20260731092634.1127862-3-jamin_lin@aspeedtech.com>
+	 <20260731092634.1127862-4-jamin_lin@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
@@ -84,74 +84,128 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 10:59:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243513
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 11:05:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243514
 
 On Fri, 2026-07-31 at 09:26 +0000, Jamin Lin wrote:
-> setup_git_repo() is meant to convert a git repo that a recipe unpacks
-> inside S (e.g. via multiple git SRC_URI entries with different
-> destsuffix values) into a regular git submodule, so devtool can later
-> tag branches on it and extract patches from it via finish/update.
+> When a recipe uses multiple git SRC_URI entries with different destsuffix
+> values (e.g. recipes with separate repositories for the kernel, modules
+> and application), do_unpack clones each source tree with
+> 'git clone -n -s'.
 >=20
-> That detection never actually triggered, because of the order the
-> function ran things in when it had to create the workspace repo itself:
+> The -s flag uses git's shared-object mechanism:
+> instead of copying objects locally it writes a .git/objects/info/alternat=
+es file
+> pointing back to the bare repository under the downloads directory (DL_DI=
+R/git2/).
 >=20
->   1. 'git init'
->   2. 'git add -A .' + initial commit  <- commits the nested repo as a
->                                          bare, unregistered gitlink
->   3. checkout devbranch, tag basetag
->   4. scan 'git status --porcelain' for still-untracked directories
->      ("?? <dir>/") and convert any that are git repos into submodules
+> scriptutils.git_convert_standalone_clone() is called by devtool_post_unpa=
+ck to
+> make the top-level source directory standalone: it runs 'git repack -a' t=
+o copy
+> all objects into the local object store and then removes the alternates f=
+ile.
 >=20
-> By the time step 4 ran, the nested repo had already been swept up by
-> step 2's 'git add -A .': git treats a directory containing its own .git
-> as an embedded repo and stages it as a gitlink pointing at its current
-> HEAD, without registering it as a submodule. Once that gitlink is
-> committed, 'git status --porcelain' reports it as e.g. " M <dir>"
-> (already tracked) rather than "?? <dir>/" (untracked), so step 4's
-> "line.endswith('/')" check could never match it and the conversion to a
-> real submodule silently never happened.
+> However it only processes the top-level source directory. Each nested git=
+ repo
+> created by a separate SRC_URI entry retains its own alternates file still
+> pointing into downloads/.
 >=20
-> There is also a second entry path with the same root cause: when the
-> recipe's top-level source is itself fetched via git://, repodir is
-> already a git repo, so the 'if not .git' block above (init + initial
-> commit) is skipped entirely - and so was the detection that lived inside
-> it. In that case the nested repo instead gets committed as a bare
-> gitlink later, by patch_task_postfunc's 'git add' after do_patch.
+> Steps to reproduce:
+>   1. devtool modify <recipe-with-multiple-git-SRC_URI>
+>   2. bitbake -c cleanall <recipe>
+>   3. bitbake <recipe>
 >=20
-> Fix this by extracting the detection into a helper and calling it before
-> anything can commit the nested repo as a bare gitlink, in both cases:
->   - freshly-created workspace repo: right after 'git init', before
->     'git add -A .' and the initial commit;
->   - repodir already a git repo: at function entry, before the later
->     'git add' in patch_task_postfunc.
-> At those points the nested repo is still untracked and reported with a
-> trailing "/", so it is correctly picked up and registered via
-> 'git submodule add'.
+> At step 2, 'bitbake -c cleanall' calls fetcher.clean() which deletes
+> the bare repositories from downloads/git2/. The top-level workspace
+> repo is standalone (alternates already removed by the original code),
+> but the nested repos still hold alternates pointing to the now-deleted
+> paths.
 >=20
-> Nested repos are discovered top-down (so a repo that manages its own
-> submodules via .gitmodules can be skipped rather than descended into),
-> but registered bottom-up (deepest first): a parent's commit recording
-> its child's HEAD must happen after that child is fully finalized,
-> otherwise registering a still-deeper repo afterwards moves the child's
-> HEAD forward again and leaves the parent pointing at a stale revision.
+> At step 3, srctree_hash_files() runs 'git add -A .' with a custom
+> GIT_INDEX_FILE. Git internally calls 'git status --porcelain=3D2' on
+> each nested repo to check for changes; this fails with exit 128 because
+> the nested alternates are broken:
+>   error: unable to normalize alternate object path:
+>          .../downloads/git2/github.com.example.module//objects
+>   fatal: bad object HEAD
+>   fatal: 'git status --porcelain=3D2' failed in submodule modules/lib/mod=
+ule
+>=20
+> This halts the BitBake parse phase with a CalledProcessError and leaves
+> the workspace in an unrecoverable state without manual intervention.
+>=20
+> Fix by having devtool_post_unpack() look at the recipe's SRC_URI directly=
+:
+> any git entry with an explicit destsuffix param names an additional
+> checkout nested under the source tree, so convert each of those to a
+> standalone clone the same way as the top-level tree.
+>=20
+> This is deliberately metadata-driven rather than walking the unpacked
+> source tree looking for '.git' directories: a directory walk has no way
+> to tell a nested checkout from an ordinary subdirectory of one, so it
+> either has to stop at the first git repo it finds - which then misses a
+> destsuffix repo nested inside another repo's own working tree - or keep
+> walking into every repo's contents, which is wasted work for large trees.
+> Reading SRC_URI instead gives the exact, authoritative set of paths that
+> need converting, regardless of how they happen to be nested on disk.
+>=20
+> Only entries with an explicit destsuffix are handled, since that is the
+> only way a recipe ends up with more than one git checkout under S; this
+> also avoids having to duplicate the git fetcher's internal logic for
+> computing an implicit default destsuffix (which depends on the subdir/
+> subpath params and BB_GIT_DEFAULT_DESTSUFFIX).
 >=20
 > Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+> ---
+>  meta/classes/devtool-source.bbclass | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>=20
+> diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-s=
+ource.bbclass
+> index f29f40588f..940cdedbac 100644
+> --- a/meta/classes/devtool-source.bbclass
+> +++ b/meta/classes/devtool-source.bbclass
+> @@ -97,6 +97,22 @@ python devtool_post_unpack() {
+> =20
+>      scriptutils.git_convert_standalone_clone(srcsubdir)
+> =20
+> +    # Recipes can use multiple git SRC_URI entries with an explicit dest=
+suffix to
+> +    # unpack several repositories as nested subdirectories of the source=
+ tree
+> +    # (e.g. recipes with separate repos for the kernel, modules and
+> +    # application). Each such entry is unpacked as its own 'git clone -s=
+' and
+> +    # needs the same standalone conversion as srcsubdir above, otherwise=
+ it keeps
+> +    # referencing objects in the downloads dir that 'bitbake -c cleanall=
+' removes.
+> +    # We only look at entries with an explicit destsuffix param, since t=
+hat's the
+> +    # only way a recipe ends up with more than one git checkout under S =
+- this
+> +    # avoids having to duplicate the fetcher's internal default-destsuff=
+ix logic.
+> +    import bb.fetch2
+> +    fetch =3D bb.fetch2.Fetch(d.getVar('SRC_URI').split(), d)
+> +    for url in fetch.urls:
+> +        ud =3D fetch.ud[url]
+> +        if ud.type =3D=3D 'git' and ud.parm.get('destsuffix'):
+> +            scriptutils.git_convert_standalone_clone(os.path.join(unpack=
+dir, ud.parm['destsuffix']))
+> +
+>      # Make sure that srcsubdir exists
+>      bb.utils.mkdirhier(srcsubdir)
+>      if not os.listdir(srcsubdir):
 
-This commit is doing three things:
-- Refactoring existing code into register_nested_git_submodules()
-- Modifying the refactored code
-- Moving the call site earlier
+Why still handle srcsubdir separately above this loop?
 
-It's very hard to review this commit and be confident that it is
-correct. This should be split into a two or three logical steps with
-simpler commit messages.
+What about SRC_URI containing multiple git repositories that unpack
+side-by-side instead of nested?
 
-The wall-of-text commit message and comment suggests to me this may be
-generated with AI. Have you read the contributor guide [1]?
-
-[1]: https://docs.yoctoproject.org/contributor-guide/submit-changes.html#ac=
-ceptance-of-ai-generated-code
+It may be better to just iterate through all git repositories in SRC_URI
+rather than just the nested ones.
 
 Best regards,
 
