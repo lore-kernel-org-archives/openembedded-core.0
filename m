@@ -2,117 +2,660 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D164C5DF6E
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 05:06:57 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23632.1786943208720366473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB70EC5B572
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 05:06:55 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23634.1786943213147556476
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 22:06:49 -0700
+ Sun, 16 Aug 2026 22:06:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ktsJdAfS;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49978908b35so23266395e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 22:06:48 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=y/Qm0ghI;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so22092395e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2026 22:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1786943207; x=1787548007; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=y+qG67VJtrQnfN2oe2kv8QHU0UGMlNq8A2H3NHQnH7w=;
-        b=ktsJdAfSriz/7fxEEoYvCzc/zoz/s66IpBbrMwcQeKV5pxDAOl56sssaFGcVtQl+3n
-         aPzDWX9PV3RBjsUiVfo12mG9U7RviJTaY1wjuacwVmQUyszugj5HQnYB5CqgFeWdtEWQ
-         MKO2WkF6ksuCDoyHSEQUHDp3fk20lOIPY9tYg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786943207; x=1787548007;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1786943211; x=1787548011; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=y+qG67VJtrQnfN2oe2kv8QHU0UGMlNq8A2H3NHQnH7w=;
-        b=hhLYo27eWS2J1urB82FSvItgqnUm1ik9mLHiWsV4ASI+zUOLR/d70tVbeUrR/k/QEt
-         5gLNUM1LEU6U7kj81JChTDZKFVP5zp2EmZyk6qL8x9D1ZpbubJG2tpcG7biv9JFo3fQo
-         ul7UoMylD61SU4rCgiTA9oI96tBe/ROFPK3SAOJY8NHtDdzpnox1cPEkarimuCV6Adxz
-         ZIjsHNiCoW4+OlCquPd0V2CXq7GEmeZw7kGTSqmfFdmFIfRhwYbQFHUg9bOs/6GOwf+9
-         Ifykyq85V84dX4h5yHywQI5uTBb6RZDgt8pOMIzLlh7O1vdrur2tKO352yPWnqfqMyIn
-         cB1Q==
-X-Gm-Message-State: AOJu0Yzl9sv2jGiDNVMviBxglTDoRsnMERVHX1AoxvUkEDZpYGmRQ7tf
-	YivSEwyhK3kQpT8SVp9EQEWF6KcMIFXyAX0BqFP02qDeNG4QjZIcg9vtWqDrfH/9QzuJOpy+mqT
-	nKnbGYSQ=
-X-Gm-Gg: AR+sD13gi5DmMF0+GWavCHhc0lD4gSPHz0mMHHAs1QM0k2bVpWqAdH+7oHZqlQzoiqV
-	uEZPoUkqcpLtF3eKH0dVb1fWyEsEecnZysZNh2qyqzlBPTmKMhsMwvXV6hVU/oNXcYLo3ppPo5v
-	5HkmJVeu6ZVrzBB3Pf5H56lS0+vt/S0YAgBagBNIP4rIWAvD+wKz1V2iKSFIWrRxcL3UFCl1W8v
-	dy1fKbciIRazqLas0jYaFc7rmxZnk5UC3uffcFYNxjoMVwxWiz3R/mQcrG28FAfHhtMqWGlqteJ
-	PQlZ+W4xQyOiSGUawiXBGtbxA4d3cgC9uUC4G54XfhSdyXZmv6ASRDdmdcIm8qJQBmi6sqZ1/XE
-	wAanZIyCSMiwIegDiZs5Pc9ArcvBfDkxf+nt+aH0SAfcHS+bWFSEs4kJCUWJXVWRlpErMulaiTN
-	qMmFSanLEStj/Mkqb/uOQ7lByrDw2SPdbXcWgedfpLMlviVDa4t9WjrPR9WbDjC72VUe2Rpn8Tr
-	ar6gcC5THCa7nB7/h62HAHglo9HIwNS0CsaMHW8vjPnSWgq+Wjty2tYW54FdgzHa4qh9oU9eRyJ
-	hhlD0EZPA2jQggaQg3n9mIcjIvtXgMlf
-X-Received: by 2002:a05:600c:68ca:b0:495:641a:bd3f with SMTP id 5b1f17b1804b1-49987995272mr269560145e9.13.1786943206116;
-        Sun, 16 Aug 2026 22:06:46 -0700 (PDT)
+        bh=C5L72QUge8OgwNzLP0t7mkjUGq8LhnhumxRLPk5xS4o=;
+        b=y/Qm0ghIO9VpcIPjXfpqwUaj8qR79PmOKjuX+yluYaO8bXYjIqns1KboXsGq510J/8
+         6fJDKXoYbalZBa10wsHxtQbpdH5L0fAYaMRtdJZlW0QLiOoCmNdf5HOiuceyARwehwy3
+         XPbwAtMlJH8LSgKubmODa1pBE+G0ehTHx3gOo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786943211; x=1787548011;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=C5L72QUge8OgwNzLP0t7mkjUGq8LhnhumxRLPk5xS4o=;
+        b=tZjZpLIeEE5y567fgRYZ/7fnopoLf/e+Y0p3G64C8kM6yhQc0k4/m1ULAfJNKjtRKk
+         0NsDB0fO61W/8bMlaB8E/1yWdfRWbI8H4PU0tujGSg9FwCIPXuQj6N78BsycwJBTjKiS
+         amaqLX2D9vg5096tyodKd32xGQr+w2mSwGpzENDaR5XWw+572Z3CqYLvjjQjmlWI4/RF
+         TRdC+ovkhiAG9o5I2KmaUT3BWrEVjbiCxHiMmxzArxfiFD/TAggXrwlucGAxTiLA10ur
+         55+BLjM3ElIdACcDpjkxSXRZvOS+NbhERtwZSOLbCBlat8RaAROZJaNuHRVz6IegF/xn
+         Jccg==
+X-Gm-Message-State: AOJu0YyfyA1skTzlLEjoYO/MsuLcstomrGQOXgaRQfKEcqn/aOZ88qWV
+	NhqOs0n896fYK5dCl/QWbTfmxQTt3EcloIacxffVhEKI/EvH+kZbLtvwZ1/nIa8qpv4hNV0w7qk
+	NIWOL71U=
+X-Gm-Gg: AR+sD10Xpilp8cGBIR3qXLJ42MQ19PYS8/fbobwm5Tl74BfBoKJPiHU242NrMZkvPy/
+	kiLFY+OfdOg7jvfOLgO4j+8Xn8xZ1sUoSlM4Oo3237u+aFRbRf+g7LXFW70E9glvofLHy2PAcVF
+	XwB8eDZGioNqvYAetYerWaKXNjQvgY6YRj/UtarMb1NoxP9x9OO4e3sXoCWCWGkvlprAPQSYohq
+	spKdPZvbSNPPHO+J7cULpVXk/lERROnerrv1YI4/AjRILBCpF/vP7QMjlNqYpoahnJqoaSwWZxb
+	v1AqW53WRIpb+v4YjbZc7ZldXrcmNXSRZFHxak9bTKI4UQLNtJfAkvl+xd+8FNVR+CvDI8OdhCd
+	YlIWm2sEfWrKiLdcwv06xY280nzyJKXE4bL4KpxyVNQz+DIa4+mlHKz2GpvQiWBYtbj4Hv3fxh7
+	TRKwxpT5iXSDhmLEGVRUD52ANZ7pYg1ZCfIb0ORldfqVR6mbbFbgAvTV7wQWjb94kgSHHHiaQhe
+	H0iAHIBHefs/35aKsvb9rnjdRFUSLQQGkiYKEr/GCsqz5q3UEtWVYsYeYd4p6DERoLItvOxa9Pb
+	FFPl+b4wSmY9t0O1kXXTlDb3Rlk0+ZZZ
+X-Received: by 2002:a05:600c:848d:b0:499:48bb:417e with SMTP id 5b1f17b1804b1-4998933fd6emr316577265e9.2.1786943208589;
+        Sun, 16 Aug 2026 22:06:48 -0700 (PDT)
 Received: from runner-glrt-sin-project-19509-concurrent-0.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b50869sm133985875e9.0.2026.08.16.22.06.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49987b50869sm133985875e9.0.2026.08.16.22.06.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 22:06:45 -0700 (PDT)
+        Sun, 16 Aug 2026 22:06:47 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: OE-Core ML <openembedded-core@lists.openembedded.org>,
 	Yocto Security ML <yocto-security@lists.yoctoproject.org>
-Subject: OE-core CVE metrics for master on Mon Aug 17 03:04:21 2026
-Date: Mon, 17 Aug 2026 05:06:42 +0000
-Message-ID: <20260817050644.20-1-yoann.congal@smile.fr>
+Subject: OE-core CVE metrics for wrynose on Mon Aug 17 03:05:02 2026
+Date: Mon, 17 Aug 2026 05:06:44 +0000
+Message-ID: <20260817050644.20-3-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260817050644.20-1-yoann.congal@smile.fr>
+References: <20260817050644.20-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 05:06:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243587
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 05:06:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243589
 
-Branch: master
+Branch: wrynose
 
-New this week: 236 CVEs
+New this week: 1150 CVEs
+CVE-2026-6791 (CVSSv4: 6.6): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-6791 *
 CVE-2026-14456 (CVSSv3: 7.5): openssl:openssl-native https://nvd.nist.gov/vuln/detail/CVE-2026-14456 *
 CVE-2026-18477 (CVSSv3: 4.4): tar https://nvd.nist.gov/vuln/detail/CVE-2026-18477 *
+CVE-2026-18503 (CVSSv4: 2.4): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-18503 *
+CVE-2026-33818 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-33818 *
+CVE-2026-39821 (CVSSv3: 9.6): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-39821 *
+CVE-2026-53783 (CVSSv3: 8.1, CVSSv4: 8.6): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53783 *
+CVE-2026-53784 (CVSSv3: 7.1, CVSSv4: 8.4): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53784 *
+CVE-2026-53785 (CVSSv3: 7.1, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53785 *
+CVE-2026-53786 (CVSSv3: 6.5, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53786 *
+CVE-2026-53788 (CVSSv3: 6.5, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53788 *
+CVE-2026-53789 (CVSSv3: 6.5, CVSSv4: 7.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53789 *
+CVE-2026-53790 (CVSSv3: 8.1, CVSSv4: 9.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53790 *
+CVE-2026-53791 (CVSSv3: 9.1, CVSSv4: 9.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53791 *
+CVE-2026-53792 (CVSSv3: 6.5, CVSSv4: 7.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53792 *
+CVE-2026-53793 (CVSSv3: 7.4, CVSSv4: 9.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53793 *
+CVE-2026-53794 (CVSSv3: 5.3, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53794 *
+CVE-2026-53795 (CVSSv3: 8.1, CVSSv4: 7.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53795 *
+CVE-2026-53796 (CVSSv3: 6.3, CVSSv4: 5.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53796 *
+CVE-2026-53797 (CVSSv3: 4.7, CVSSv4: 5.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53797 *
+CVE-2026-53798 (CVSSv3: 5.3, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53798 *
+CVE-2026-53799 (CVSSv3: 6.3, CVSSv4: 7.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53799 *
+CVE-2026-53800 (CVSSv3: 4.7, CVSSv4: 5.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53800 *
+CVE-2026-53801 (CVSSv3: 5.9, CVSSv4: 8.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53801 *
+CVE-2026-53802 (CVSSv3: 7.1, CVSSv4: 8.4): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53802 *
+CVE-2026-53803 (CVSSv3: 7.8, CVSSv4: 8.5): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53803 *
+CVE-2026-56853 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56853 *
+CVE-2026-56858 (CVSSv3: 6.1): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56858 *
+CVE-2026-56859 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56859 *
+CVE-2026-56860 (CVSSv3: 5.9): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56860 *
+CVE-2026-56862 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56862 *
+CVE-2026-56864 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56864 *
+CVE-2026-56865 (CVSSv3: 8.4): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56865 *
 CVE-2026-64123 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64123 *
+CVE-2026-66484 (CVSSv4: 4.6): cpio https://nvd.nist.gov/vuln/detail/CVE-2026-66484 *
+CVE-2026-66485 (CVSSv4: 4.6): cpio https://nvd.nist.gov/vuln/detail/CVE-2026-66485 *
+CVE-2026-66486 (CVSSv4: 4.6): cpio https://nvd.nist.gov/vuln/detail/CVE-2026-66486 *
+CVE-2026-68083 (CVSSv3: 9.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68083 *
 CVE-2026-68086 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68086 *
+CVE-2026-68093 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68093 *
+CVE-2026-68095 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68095 *
+CVE-2026-68096 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68096 *
+CVE-2026-68097 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68097 *
+CVE-2026-68098 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68098 *
+CVE-2026-68099 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68099 *
+CVE-2026-68100 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68100 *
+CVE-2026-68102 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68102 *
 CVE-2026-68103 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68103 *
+CVE-2026-68104 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68104 *
 CVE-2026-68105 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68105 *
+CVE-2026-68106 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68106 *
+CVE-2026-68107 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68107 *
+CVE-2026-68108 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68108 *
+CVE-2026-68110 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68110 *
+CVE-2026-68111 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68111 *
+CVE-2026-68112 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68112 *
+CVE-2026-68113 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68113 *
 CVE-2026-68114 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68114 *
+CVE-2026-68115 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68115 *
+CVE-2026-68116 (CVSSv3: 7.9): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68116 *
+CVE-2026-68117 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68117 *
+CVE-2026-68118 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68118 *
+CVE-2026-68119 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68119 *
+CVE-2026-68120 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68120 *
+CVE-2026-68121 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68121 *
+CVE-2026-68122 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68122 *
+CVE-2026-68123 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68123 *
+CVE-2026-68124 (CVSSv3: 9.6): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68124 *
+CVE-2026-68125 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68125 *
+CVE-2026-68126 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68126 *
+CVE-2026-68127 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68127 *
+CVE-2026-68128 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68128 *
+CVE-2026-68129 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68129 *
+CVE-2026-68130 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68130 *
+CVE-2026-68131 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68131 *
+CVE-2026-68132 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68132 *
+CVE-2026-68133 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68133 *
+CVE-2026-68134 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68134 *
+CVE-2026-68135 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68135 *
+CVE-2026-68136 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68136 *
+CVE-2026-68137 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68137 *
 CVE-2026-68138 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68138 *
+CVE-2026-68139 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68139 *
+CVE-2026-68140 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68140 *
+CVE-2026-68141 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68141 *
+CVE-2026-68142 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68142 *
+CVE-2026-68143 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68143 *
+CVE-2026-68144 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68144 *
+CVE-2026-68145 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68145 *
+CVE-2026-68146 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68146 *
+CVE-2026-68147 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68147 *
+CVE-2026-68148 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68148 *
+CVE-2026-68149 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68149 *
+CVE-2026-68150 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68150 *
+CVE-2026-68151 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68151 *
+CVE-2026-68152 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68152 *
+CVE-2026-68153 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68153 *
+CVE-2026-68154 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68154 *
+CVE-2026-68155 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68155 *
+CVE-2026-68156 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68156 *
+CVE-2026-68157 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68157 *
+CVE-2026-68158 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68158 *
 CVE-2026-68159 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68159 *
+CVE-2026-68160 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68160 *
+CVE-2026-68161 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68161 *
+CVE-2026-68162 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68162 *
+CVE-2026-68164 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68164 *
+CVE-2026-68165 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68165 *
 CVE-2026-68166 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68166 *
+CVE-2026-68168 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68168 *
+CVE-2026-68169 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68169 *
+CVE-2026-68172 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68172 *
+CVE-2026-68173 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68173 *
+CVE-2026-68174 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68174 *
+CVE-2026-68175 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68175 *
+CVE-2026-68176 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68176 *
+CVE-2026-68178 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68178 *
+CVE-2026-68179 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68179 *
+CVE-2026-68180 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68180 *
+CVE-2026-68181 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68181 *
+CVE-2026-68182 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68182 *
+CVE-2026-68183 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68183 *
+CVE-2026-68184 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68184 *
+CVE-2026-68185 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68185 *
+CVE-2026-68186 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68186 *
+CVE-2026-68187 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68187 *
+CVE-2026-68188 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68188 *
+CVE-2026-68189 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68189 *
+CVE-2026-68190 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68190 *
+CVE-2026-68192 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68192 *
+CVE-2026-68193 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68193 *
+CVE-2026-68194 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68194 *
+CVE-2026-68195 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68195 *
+CVE-2026-68196 (CVSSv3: 8.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68196 *
+CVE-2026-68197 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68197 *
+CVE-2026-68198 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68198 *
+CVE-2026-68199 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68199 *
+CVE-2026-68200 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68200 *
+CVE-2026-68201 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68201 *
+CVE-2026-68202 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68202 *
+CVE-2026-68203 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68203 *
+CVE-2026-68204 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68204 *
+CVE-2026-68205 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68205 *
+CVE-2026-68206 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68206 *
+CVE-2026-68207 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68207 *
+CVE-2026-68209 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68209 *
+CVE-2026-68210 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68210 *
+CVE-2026-68211 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68211 *
+CVE-2026-68212 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68212 *
+CVE-2026-68213 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68213 *
+CVE-2026-68214 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68214 *
+CVE-2026-68215 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68215 *
+CVE-2026-68216 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68216 *
+CVE-2026-68217 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68217 *
+CVE-2026-68218 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68218 *
+CVE-2026-68219 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68219 *
+CVE-2026-68220 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68220 *
+CVE-2026-68221 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68221 *
+CVE-2026-68222 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68222 *
+CVE-2026-68223 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68223 *
+CVE-2026-68225 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68225 *
+CVE-2026-68226 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68226 *
+CVE-2026-68227 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68227 *
+CVE-2026-68228 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68228 *
+CVE-2026-68229 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68229 *
+CVE-2026-68230 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68230 *
+CVE-2026-68231 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68231 *
+CVE-2026-68232 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68232 *
+CVE-2026-68233 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68233 *
+CVE-2026-68234 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68234 *
+CVE-2026-68235 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68235 *
+CVE-2026-68236 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68236 *
+CVE-2026-68238 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68238 *
+CVE-2026-68239 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68239 *
 CVE-2026-68240 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68240 *
+CVE-2026-68241 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68241 *
 CVE-2026-68242 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68242 *
+CVE-2026-68243 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68243 *
+CVE-2026-68244 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68244 *
+CVE-2026-68245 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68245 *
+CVE-2026-68246 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68246 *
+CVE-2026-68247 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68247 *
+CVE-2026-68248 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68248 *
+CVE-2026-68249 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68249 *
+CVE-2026-68250 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68250 *
+CVE-2026-68251 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68251 *
+CVE-2026-68252 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68252 *
+CVE-2026-68253 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68253 *
 CVE-2026-68254 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68254 *
+CVE-2026-68255 (CVSSv3: 7.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68255 *
+CVE-2026-68256 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68256 *
+CVE-2026-68257 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68257 *
+CVE-2026-68258 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68258 *
+CVE-2026-68259 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68259 *
+CVE-2026-68260 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68260 *
+CVE-2026-68261 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68261 *
+CVE-2026-68262 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68262 *
+CVE-2026-68263 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68263 *
 CVE-2026-68264 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68264 *
 CVE-2026-68265 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68265 *
+CVE-2026-68266 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68266 *
 CVE-2026-68267 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68267 *
+CVE-2026-68268 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68268 *
+CVE-2026-68269 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68269 *
+CVE-2026-68270 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68270 *
+CVE-2026-68271 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68271 *
+CVE-2026-68272 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68272 *
 CVE-2026-68273 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68273 *
 CVE-2026-68274 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68274 *
+CVE-2026-68275 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68275 *
+CVE-2026-68276 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68276 *
+CVE-2026-68277 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68277 *
+CVE-2026-68278 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68278 *
+CVE-2026-68279 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68279 *
+CVE-2026-68280 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68280 *
+CVE-2026-68281 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68281 *
+CVE-2026-68282 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68282 *
+CVE-2026-68284 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68284 *
 CVE-2026-68286 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68286 *
 CVE-2026-68287 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68287 *
 CVE-2026-68288 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68288 *
 CVE-2026-68289 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68289 *
+CVE-2026-68290 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68290 *
 CVE-2026-68291 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68291 *
+CVE-2026-68292 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68292 *
+CVE-2026-68293 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68293 *
+CVE-2026-68294 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68294 *
 CVE-2026-68295 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68295 *
+CVE-2026-68296 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68296 *
+CVE-2026-68297 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68297 *
+CVE-2026-68298 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68298 *
+CVE-2026-68299 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68299 *
+CVE-2026-68300 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68300 *
+CVE-2026-68301 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68301 *
+CVE-2026-68302 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68302 *
 CVE-2026-68303 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68303 *
+CVE-2026-68304 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68304 *
 CVE-2026-68305 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68305 *
+CVE-2026-68306 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68306 *
+CVE-2026-68307 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68307 *
+CVE-2026-68308 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68308 *
+CVE-2026-68309 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68309 *
+CVE-2026-68310 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68310 *
+CVE-2026-68311 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68311 *
 CVE-2026-68312 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68312 *
+CVE-2026-68313 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68313 *
+CVE-2026-68314 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68314 *
+CVE-2026-68315 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68315 *
+CVE-2026-68317 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68317 *
+CVE-2026-68318 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68318 *
+CVE-2026-68319 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68319 *
+CVE-2026-68320 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68320 *
+CVE-2026-68321 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68321 *
 CVE-2026-68322 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68322 *
 CVE-2026-68323 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68323 *
+CVE-2026-68324 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68324 *
+CVE-2026-68325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68325 *
+CVE-2026-68326 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68326 *
+CVE-2026-68327 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68327 *
+CVE-2026-68328 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68328 *
+CVE-2026-68329 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68329 *
+CVE-2026-68330 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68330 *
+CVE-2026-68331 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68331 *
+CVE-2026-68332 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68332 *
+CVE-2026-68333 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68333 *
+CVE-2026-68334 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68334 *
+CVE-2026-68335 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68335 *
+CVE-2026-68336 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68336 *
 CVE-2026-68337 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68337 *
+CVE-2026-68338 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68338 *
+CVE-2026-68339 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68339 *
+CVE-2026-68340 (CVSSv3: 7.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68340 *
+CVE-2026-68341 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68341 *
+CVE-2026-68342 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68342 *
+CVE-2026-68343 (CVSSv3: 9.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68343 *
+CVE-2026-68346 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68346 *
+CVE-2026-68348 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68348 *
+CVE-2026-68349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68349 *
+CVE-2026-68350 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68350 *
+CVE-2026-68351 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68351 *
+CVE-2026-68352 (CVSSv3: 8.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68352 *
+CVE-2026-68353 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68353 *
+CVE-2026-68354 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68354 *
+CVE-2026-68355 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68355 *
+CVE-2026-68356 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68356 *
+CVE-2026-68357 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68357 *
+CVE-2026-68358 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68358 *
+CVE-2026-68359 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68359 *
+CVE-2026-68360 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68360 *
+CVE-2026-68361 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68361 *
+CVE-2026-68362 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68362 *
+CVE-2026-68363 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68363 *
 CVE-2026-68364 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68364 *
+CVE-2026-68365 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68365 *
+CVE-2026-68366 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68366 *
+CVE-2026-68367 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68367 *
+CVE-2026-68368 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68368 *
+CVE-2026-68369 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68369 *
+CVE-2026-68370 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68370 *
+CVE-2026-68371 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68371 *
+CVE-2026-68372 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68372 *
+CVE-2026-68373 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68373 *
+CVE-2026-68374 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68374 *
 CVE-2026-68375 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68375 *
+CVE-2026-68376 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68376 *
+CVE-2026-68377 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68377 *
+CVE-2026-68378 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68378 *
+CVE-2026-68379 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68379 *
+CVE-2026-68380 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68380 *
+CVE-2026-68381 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68381 *
+CVE-2026-68384 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68384 *
+CVE-2026-68385 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68385 *
+CVE-2026-68386 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68386 *
+CVE-2026-68387 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68387 *
+CVE-2026-68388 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68388 *
+CVE-2026-68389 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68389 *
+CVE-2026-68391 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68391 *
+CVE-2026-68392 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68392 *
+CVE-2026-68393 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68393 *
+CVE-2026-68394 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68394 *
+CVE-2026-68395 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68395 *
+CVE-2026-68396 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68396 *
+CVE-2026-68397 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68397 *
+CVE-2026-68398 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68398 *
 CVE-2026-68399 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68399 *
+CVE-2026-68400 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68400 *
+CVE-2026-68401 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68401 *
+CVE-2026-68402 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68402 *
+CVE-2026-68403 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68403 *
 CVE-2026-68404 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68404 *
+CVE-2026-68405 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68405 *
+CVE-2026-68406 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68406 *
+CVE-2026-68407 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68407 *
+CVE-2026-68408 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68408 *
+CVE-2026-68409 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68409 *
+CVE-2026-68410 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68410 *
+CVE-2026-68411 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68411 *
+CVE-2026-68412 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68412 *
+CVE-2026-68413 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68413 *
+CVE-2026-68414 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68414 *
+CVE-2026-68415 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68415 *
+CVE-2026-68416 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68416 *
+CVE-2026-68417 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68417 *
+CVE-2026-68418 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68418 *
+CVE-2026-68419 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68419 *
+CVE-2026-68420 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68420 *
+CVE-2026-68421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68421 *
+CVE-2026-68422 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68422 *
+CVE-2026-68425 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68425 *
+CVE-2026-68426 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68426 *
+CVE-2026-68427 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68427 *
+CVE-2026-68428 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68428 *
+CVE-2026-68429 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68429 *
+CVE-2026-68430 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68430 *
+CVE-2026-68432 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68432 *
+CVE-2026-68433 (CVSSv3: 8.6): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68433 *
+CVE-2026-68434 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68434 *
+CVE-2026-68435 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68435 *
 CVE-2026-68436 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68436 *
+CVE-2026-68437 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68437 *
+CVE-2026-68439 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68439 *
 CVE-2026-68441 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68441 *
+CVE-2026-68442 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68442 *
+CVE-2026-68443 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68443 *
+CVE-2026-68444 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68444 *
+CVE-2026-68445 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68445 *
+CVE-2026-68446 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68446 *
 CVE-2026-68447 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68447 *
+CVE-2026-68448 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68448 *
+CVE-2026-68449 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68449 *
+CVE-2026-68450 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68450 *
 CVE-2026-68451 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68451 *
 CVE-2026-68452 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68452 *
 CVE-2026-68453 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68453 *
+CVE-2026-68454 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68454 *
+CVE-2026-68456 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68456 *
+CVE-2026-68457 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68457 *
+CVE-2026-68458 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68458 *
+CVE-2026-68463 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68463 *
+CVE-2026-68464 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68464 *
+CVE-2026-68465 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68465 *
+CVE-2026-68466 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68466 *
+CVE-2026-68467 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68467 *
+CVE-2026-68469 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68469 *
 CVE-2026-68470 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68470 *
+CVE-2026-68471 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68471 *
+CVE-2026-68472 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68472 *
+CVE-2026-68474 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68474 *
+CVE-2026-68475 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68475 *
+CVE-2026-68476 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68476 *
+CVE-2026-68477 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68477 *
+CVE-2026-68478 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68478 *
+CVE-2026-68479 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68479 *
+CVE-2026-70452 (CVSSv3: 7.4, CVSSv4: 9.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70452 *
+CVE-2026-70453 (CVSSv3: 7.5, CVSSv4: 8.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70453 *
+CVE-2026-70454 (CVSSv3: 8.0, CVSSv4: 7.6): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70454 *
+CVE-2026-70456 (CVSSv3: 8.2, CVSSv4: 8.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70456 *
+CVE-2026-70457 (CVSSv3: 6.5, CVSSv4: 8.3): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70457 *
+CVE-2026-70458 (CVSSv3: 8.2, CVSSv4: 8.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70458 *
+CVE-2026-70459 (CVSSv3: 5.3, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70459 *
+CVE-2026-70460 (CVSSv3: 8.1, CVSSv4: 9.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70460 *
+CVE-2026-70461 (CVSSv3: 8.2, CVSSv4: 8.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70461 *
+CVE-2026-70462 (CVSSv3: 6.5, CVSSv4: 7.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70462 *
+CVE-2026-70463 (CVSSv3: 8.1, CVSSv4: 8.6): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70463 *
+CVE-2026-70464 (CVSSv3: 7.5, CVSSv4: 8.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70464 *
+CVE-2026-72003 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72003 *
+CVE-2026-72004 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72004 *
+CVE-2026-72005 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72005 *
+CVE-2026-72006 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72006 *
+CVE-2026-72007 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72007 *
+CVE-2026-72009 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72009 *
+CVE-2026-72010 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72010 *
+CVE-2026-72011 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72011 *
+CVE-2026-72012 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72012 *
+CVE-2026-72013 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72013 *
+CVE-2026-72014 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72014 *
+CVE-2026-72015 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72015 *
+CVE-2026-72016 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72016 *
+CVE-2026-72017 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72017 *
+CVE-2026-72018 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72018 *
+CVE-2026-72019 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72019 *
+CVE-2026-72020 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72020 *
+CVE-2026-72021 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72021 *
+CVE-2026-72022 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72022 *
+CVE-2026-72023 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72023 *
+CVE-2026-72024 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72024 *
+CVE-2026-72025 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72025 *
+CVE-2026-72026 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72026 *
+CVE-2026-72027 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72027 *
+CVE-2026-72028 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72028 *
+CVE-2026-72029 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72029 *
+CVE-2026-72030 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72030 *
 CVE-2026-72031 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72031 *
+CVE-2026-72032 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72032 *
+CVE-2026-72033 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72033 *
+CVE-2026-72034 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72034 *
+CVE-2026-72035 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72035 *
+CVE-2026-72036 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72036 *
+CVE-2026-72037 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72037 *
+CVE-2026-72038 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72038 *
+CVE-2026-72039 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72039 *
+CVE-2026-72040 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72040 *
+CVE-2026-72041 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72041 *
+CVE-2026-72042 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72042 *
+CVE-2026-72043 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72043 *
+CVE-2026-72045 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72045 *
+CVE-2026-72046 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72046 *
+CVE-2026-72047 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72047 *
+CVE-2026-72048 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72048 *
+CVE-2026-72049 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72049 *
+CVE-2026-72050 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72050 *
+CVE-2026-72051 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72051 *
+CVE-2026-72052 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72052 *
+CVE-2026-72053 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72053 *
+CVE-2026-72054 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72054 *
+CVE-2026-72055 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72055 *
+CVE-2026-72056 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72056 *
+CVE-2026-72057 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72057 *
+CVE-2026-72058 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72058 *
+CVE-2026-72059 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72059 *
+CVE-2026-72060 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72060 *
+CVE-2026-72061 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72061 *
+CVE-2026-72062 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72062 *
+CVE-2026-72063 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72063 *
 CVE-2026-72064 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72064 *
+CVE-2026-72065 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72065 *
+CVE-2026-72066 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72066 *
+CVE-2026-72067 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72067 *
+CVE-2026-72068 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72068 *
+CVE-2026-72069 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72069 *
+CVE-2026-72070 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72070 *
+CVE-2026-72071 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72071 *
+CVE-2026-72072 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72072 *
+CVE-2026-72073 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72073 *
+CVE-2026-72074 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72074 *
+CVE-2026-72075 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72075 *
+CVE-2026-72076 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72076 *
+CVE-2026-72077 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72077 *
+CVE-2026-72078 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72078 *
+CVE-2026-72079 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72079 *
+CVE-2026-72080 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72080 *
+CVE-2026-72081 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72081 *
+CVE-2026-72082 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72082 *
+CVE-2026-72083 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72083 *
+CVE-2026-72084 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72084 *
+CVE-2026-72085 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72085 *
+CVE-2026-72086 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72086 *
+CVE-2026-72087 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72087 *
+CVE-2026-72088 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72088 *
+CVE-2026-72089 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72089 *
 CVE-2026-72091 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72091 *
+CVE-2026-72092 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72092 *
+CVE-2026-72093 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72093 *
+CVE-2026-72095 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72095 *
+CVE-2026-72096 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72096 *
+CVE-2026-72097 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72097 *
+CVE-2026-72098 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72098 *
+CVE-2026-72099 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72099 *
+CVE-2026-72100 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72100 *
+CVE-2026-72101 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72101 *
+CVE-2026-72102 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72102 *
+CVE-2026-72103 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72103 *
+CVE-2026-72104 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72104 *
+CVE-2026-72105 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72105 *
+CVE-2026-72106 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72106 *
+CVE-2026-72107 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72107 *
+CVE-2026-72108 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72108 *
+CVE-2026-72109 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72109 *
+CVE-2026-72110 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72110 *
+CVE-2026-72111 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72111 *
+CVE-2026-72113 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72113 *
+CVE-2026-72114 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72114 *
+CVE-2026-72115 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72115 *
+CVE-2026-72116 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72116 *
+CVE-2026-72117 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72117 *
+CVE-2026-72118 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72118 *
+CVE-2026-72119 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72119 *
+CVE-2026-72120 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72120 *
+CVE-2026-72121 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72121 *
+CVE-2026-72122 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72122 *
+CVE-2026-72123 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72123 *
+CVE-2026-72124 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72124 *
+CVE-2026-72125 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72125 *
+CVE-2026-72126 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72126 *
+CVE-2026-72127 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72127 *
+CVE-2026-72128 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72128 *
+CVE-2026-72129 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72129 *
+CVE-2026-72130 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72130 *
+CVE-2026-72131 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72131 *
+CVE-2026-72132 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72132 *
+CVE-2026-72133 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72133 *
+CVE-2026-72135 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72135 *
+CVE-2026-72136 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72136 *
+CVE-2026-72137 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72137 *
+CVE-2026-72138 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72138 *
+CVE-2026-72139 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72139 *
+CVE-2026-72140 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72140 *
+CVE-2026-72141 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72141 *
+CVE-2026-72142 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72142 *
+CVE-2026-72143 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72143 *
+CVE-2026-72144 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72144 *
+CVE-2026-72146 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72146 *
+CVE-2026-72147 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72147 *
+CVE-2026-72148 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72148 *
+CVE-2026-72149 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72149 *
+CVE-2026-72150 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72150 *
+CVE-2026-72151 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72151 *
+CVE-2026-72152 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72152 *
+CVE-2026-72153 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72153 *
+CVE-2026-72154 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72154 *
+CVE-2026-72155 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72155 *
+CVE-2026-72156 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72156 *
+CVE-2026-72157 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72157 *
+CVE-2026-72158 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72158 *
+CVE-2026-72159 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72159 *
+CVE-2026-72160 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72160 *
+CVE-2026-72161 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72161 *
+CVE-2026-72162 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72162 *
+CVE-2026-72163 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72163 *
+CVE-2026-72164 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72164 *
+CVE-2026-72165 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72165 *
+CVE-2026-72166 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72166 *
+CVE-2026-72167 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72167 *
+CVE-2026-72168 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72168 *
+CVE-2026-72169 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72169 *
+CVE-2026-72170 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72170 *
+CVE-2026-72171 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72171 *
+CVE-2026-72172 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72172 *
+CVE-2026-72174 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72174 *
+CVE-2026-72175 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72175 *
+CVE-2026-72176 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72176 *
+CVE-2026-72177 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72177 *
+CVE-2026-72178 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72178 *
+CVE-2026-72179 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72179 *
+CVE-2026-72181 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72181 *
+CVE-2026-72182 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72182 *
+CVE-2026-72183 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72183 *
+CVE-2026-72191 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72191 *
+CVE-2026-72192 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72192 *
+CVE-2026-72193 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72193 *
+CVE-2026-72194 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72194 *
+CVE-2026-72195 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72195 *
+CVE-2026-72196 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72196 *
+CVE-2026-72197 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72197 *
 CVE-2026-72198 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72198 *
 CVE-2026-72199 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72199 *
 CVE-2026-72200 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72200 *
@@ -126,57 +669,430 @@ CVE-2026-72207 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-202
 CVE-2026-72208 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72208 *
 CVE-2026-72210 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72210 *
 CVE-2026-72211 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72211 *
+CVE-2026-72212 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72212 *
+CVE-2026-72213 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72213 *
+CVE-2026-72214 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72214 *
+CVE-2026-72215 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72215 *
+CVE-2026-72216 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72216 *
+CVE-2026-72217 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72217 *
+CVE-2026-72218 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72218 *
+CVE-2026-72219 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72219 *
+CVE-2026-72220 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72220 *
+CVE-2026-72221 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72221 *
+CVE-2026-72222 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72222 *
+CVE-2026-72223 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72223 *
+CVE-2026-72224 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72224 *
+CVE-2026-72225 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72225 *
+CVE-2026-72226 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72226 *
+CVE-2026-72227 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72227 *
+CVE-2026-72228 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72228 *
+CVE-2026-72229 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72229 *
+CVE-2026-72230 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72230 *
+CVE-2026-72231 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72231 *
+CVE-2026-72232 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72232 *
+CVE-2026-72233 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72233 *
+CVE-2026-72234 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72234 *
+CVE-2026-72235 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72235 *
+CVE-2026-72236 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72236 *
+CVE-2026-72237 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72237 *
+CVE-2026-72238 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72238 *
+CVE-2026-72240 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72240 *
+CVE-2026-72241 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72241 *
+CVE-2026-72242 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72242 *
+CVE-2026-72243 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72243 *
+CVE-2026-72244 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72244 *
+CVE-2026-72245 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72245 *
+CVE-2026-72247 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72247 *
+CVE-2026-72250 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72250 *
+CVE-2026-72251 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72251 *
+CVE-2026-72252 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72252 *
+CVE-2026-72253 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72253 *
+CVE-2026-72254 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72254 *
+CVE-2026-72255 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72255 *
+CVE-2026-72256 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72256 *
+CVE-2026-72257 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72257 *
+CVE-2026-72258 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72258 *
+CVE-2026-72259 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72259 *
+CVE-2026-72260 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72260 *
+CVE-2026-72261 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72261 *
+CVE-2026-72262 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72262 *
+CVE-2026-72264 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72264 *
+CVE-2026-72265 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72265 *
+CVE-2026-72266 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72266 *
+CVE-2026-72267 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72267 *
+CVE-2026-72268 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72268 *
+CVE-2026-72269 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72269 *
+CVE-2026-72270 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72270 *
+CVE-2026-72271 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72271 *
+CVE-2026-72272 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72272 *
+CVE-2026-72273 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72273 *
+CVE-2026-72274 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72274 *
+CVE-2026-72275 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72275 *
+CVE-2026-72276 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72276 *
+CVE-2026-72277 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72277 *
+CVE-2026-72278 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72278 *
+CVE-2026-72279 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72279 *
+CVE-2026-72280 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72280 *
+CVE-2026-72282 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72282 *
+CVE-2026-72283 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72283 *
+CVE-2026-72284 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72284 *
+CVE-2026-72286 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72286 *
+CVE-2026-72288 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72288 *
+CVE-2026-72289 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72289 *
+CVE-2026-72290 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72290 *
+CVE-2026-72294 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72294 *
+CVE-2026-72295 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72295 *
+CVE-2026-72296 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72296 *
+CVE-2026-72297 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72297 *
+CVE-2026-72298 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72298 *
+CVE-2026-72299 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72299 *
+CVE-2026-72300 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72300 *
+CVE-2026-72301 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72301 *
+CVE-2026-72302 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72302 *
+CVE-2026-72304 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72304 *
+CVE-2026-72305 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72305 *
+CVE-2026-72306 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72306 *
+CVE-2026-72307 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72307 *
+CVE-2026-72308 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72308 *
+CVE-2026-72310 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72310 *
+CVE-2026-72312 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72312 *
+CVE-2026-72314 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72314 *
 CVE-2026-72315 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72315 *
+CVE-2026-72316 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72316 *
+CVE-2026-72317 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72317 *
+CVE-2026-72318 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72318 *
+CVE-2026-72319 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72319 *
+CVE-2026-72320 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72320 *
+CVE-2026-72321 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72321 *
+CVE-2026-72322 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72322 *
+CVE-2026-72323 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72323 *
+CVE-2026-72324 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72324 *
+CVE-2026-72325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72325 *
+CVE-2026-72326 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72326 *
+CVE-2026-72327 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72327 *
+CVE-2026-72328 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72328 *
 CVE-2026-72329 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72329 *
+CVE-2026-72330 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72330 *
 CVE-2026-72331 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72331 *
+CVE-2026-72333 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72333 *
 CVE-2026-72334 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72334 *
+CVE-2026-72335 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72335 *
+CVE-2026-72336 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72336 *
 CVE-2026-72337 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72337 *
+CVE-2026-72338 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72338 *
+CVE-2026-72339 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72339 *
+CVE-2026-72340 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72340 *
+CVE-2026-72341 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72341 *
+CVE-2026-72342 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72342 *
+CVE-2026-72343 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72343 *
 CVE-2026-72345 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72345 *
+CVE-2026-72347 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72347 *
+CVE-2026-72348 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72348 *
+CVE-2026-72349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72349 *
+CVE-2026-72350 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72350 *
+CVE-2026-72351 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72351 *
+CVE-2026-72352 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72352 *
 CVE-2026-72355 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72355 *
+CVE-2026-72356 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72356 *
+CVE-2026-72357 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72357 *
+CVE-2026-72360 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72360 *
+CVE-2026-72361 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72361 *
+CVE-2026-72362 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72362 *
+CVE-2026-72363 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72363 *
+CVE-2026-72364 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72364 *
+CVE-2026-72365 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72365 *
+CVE-2026-72366 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72366 *
+CVE-2026-72367 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72367 *
+CVE-2026-72369 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72369 *
 CVE-2026-72370 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72370 *
+CVE-2026-72371 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72371 *
+CVE-2026-72372 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72372 *
+CVE-2026-72373 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72373 *
+CVE-2026-72374 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72374 *
+CVE-2026-72375 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72375 *
+CVE-2026-72376 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72376 *
 CVE-2026-72377 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72377 *
+CVE-2026-72378 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72378 *
+CVE-2026-72379 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72379 *
 CVE-2026-72380 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72380 *
+CVE-2026-72381 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72381 *
+CVE-2026-72382 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72382 *
+CVE-2026-72383 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72383 *
+CVE-2026-72384 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72384 *
+CVE-2026-72385 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72385 *
+CVE-2026-72386 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72386 *
+CVE-2026-72387 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72387 *
 CVE-2026-72388 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72388 *
+CVE-2026-72389 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72389 *
+CVE-2026-72390 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72390 *
+CVE-2026-72391 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72391 *
+CVE-2026-72392 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72392 *
+CVE-2026-72393 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72393 *
+CVE-2026-72394 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72394 *
+CVE-2026-72395 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72395 *
+CVE-2026-72396 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72396 *
 CVE-2026-72397 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72397 *
+CVE-2026-72398 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72398 *
+CVE-2026-72399 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72399 *
+CVE-2026-72400 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72400 *
 CVE-2026-72402 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72402 *
+CVE-2026-72403 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72403 *
 CVE-2026-72404 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72404 *
+CVE-2026-72405 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72405 *
+CVE-2026-72406 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72406 *
+CVE-2026-72409 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72409 *
+CVE-2026-72410 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72410 *
 CVE-2026-72413 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72413 *
+CVE-2026-72414 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72414 *
+CVE-2026-72416 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72416 *
+CVE-2026-72418 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72418 *
+CVE-2026-72419 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72419 *
+CVE-2026-72420 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72420 *
+CVE-2026-72421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72421 *
+CVE-2026-72422 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72422 *
 CVE-2026-72423 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72423 *
+CVE-2026-72424 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72424 *
+CVE-2026-72425 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72425 *
+CVE-2026-72427 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72427 *
+CVE-2026-72428 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72428 *
+CVE-2026-72429 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72429 *
+CVE-2026-72430 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72430 *
+CVE-2026-72431 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72431 *
+CVE-2026-72433 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72433 *
+CVE-2026-72434 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72434 *
+CVE-2026-72435 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72435 *
+CVE-2026-72436 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72436 *
+CVE-2026-72437 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72437 *
 CVE-2026-72440 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72440 *
+CVE-2026-72441 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72441 *
+CVE-2026-72443 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72443 *
+CVE-2026-72444 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72444 *
+CVE-2026-72445 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72445 *
+CVE-2026-72446 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72446 *
+CVE-2026-72447 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72447 *
+CVE-2026-72448 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72448 *
+CVE-2026-72449 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72449 *
+CVE-2026-72450 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72450 *
+CVE-2026-72451 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72451 *
+CVE-2026-72452 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72452 *
 CVE-2026-72454 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72454 *
+CVE-2026-72455 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72455 *
+CVE-2026-72457 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72457 *
+CVE-2026-72458 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72458 *
+CVE-2026-72459 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72459 *
+CVE-2026-72460 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72460 *
+CVE-2026-72461 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72461 *
+CVE-2026-72462 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72462 *
 CVE-2026-72463 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72463 *
+CVE-2026-72464 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72464 *
+CVE-2026-72466 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72466 *
+CVE-2026-72467 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72467 *
+CVE-2026-72468 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72468 *
+CVE-2026-72469 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72469 *
+CVE-2026-72470 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72470 *
+CVE-2026-72472 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72472 *
+CVE-2026-72473 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72473 *
+CVE-2026-72474 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72474 *
+CVE-2026-72475 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72475 *
+CVE-2026-72476 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72476 *
 CVE-2026-72477 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72477 *
+CVE-2026-72478 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72478 *
+CVE-2026-72479 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72479 *
+CVE-2026-72480 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72480 *
+CVE-2026-72481 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72481 *
+CVE-2026-72482 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72482 *
+CVE-2026-72483 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72483 *
+CVE-2026-72484 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72484 *
 CVE-2026-72485 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72485 *
+CVE-2026-72486 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72486 *
+CVE-2026-72487 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72487 *
+CVE-2026-72488 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72488 *
+CVE-2026-72489 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72489 *
+CVE-2026-72491 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72491 *
+CVE-2026-72492 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72492 *
 CVE-2026-72494 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72494 *
+CVE-2026-72495 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72495 *
 CVE-2026-72496 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72496 *
 CVE-2026-72497 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72497 *
+CVE-2026-72498 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72498 *
 CVE-2026-72499 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72499 *
+CVE-2026-72500 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72500 *
+CVE-2026-72501 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72501 *
+CVE-2026-72502 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72502 *
+CVE-2026-72522 (CVSSv3: 6.2): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2026-72522 *
+CVE-2026-73070 (CVSSv4: 6.8): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73070 *
 CVE-2026-73071 (CVSSv3: 3.3): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73071 *
 CVE-2026-73072 (CVSSv4: 8.5): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73072 *
+CVE-2026-73074 (CVSSv4: 7.1): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73074 *
+CVE-2026-73075 (CVSSv4: 4.6): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73075 *
 CVE-2026-73076 (CVSSv4: 8.4): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73076 *
+CVE-2026-73077 (CVSSv4: 8.4): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73077 *
+CVE-2026-73078 (CVSSv4: 8.6): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73078 *
+CVE-2026-73281 (CVSSv3: 3.5): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-73281 *
+CVE-2026-73282 (CVSSv3: 4.8): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-73282 *
+CVE-2026-73283 (CVSSv3: 2.5): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-73283 *
+CVE-2026-74255 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74255 *
+CVE-2026-74256 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74256 *
+CVE-2026-74257 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74257 *
 CVE-2026-74258 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74258 *
+CVE-2026-74259 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74259 *
 CVE-2026-74260 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74260 *
+CVE-2026-74261 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74261 *
+CVE-2026-74262 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74262 *
+CVE-2026-74263 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74263 *
+CVE-2026-74264 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74264 *
+CVE-2026-74265 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74265 *
+CVE-2026-74266 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74266 *
+CVE-2026-74267 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74267 *
+CVE-2026-74268 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74268 *
+CVE-2026-74270 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74270 *
+CVE-2026-74271 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74271 *
 CVE-2026-74272 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74272 *
 CVE-2026-74273 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74273 *
+CVE-2026-74276 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74276 *
 CVE-2026-74277 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74277 *
+CVE-2026-74278 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74278 *
+CVE-2026-74279 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74279 *
+CVE-2026-74280 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74280 *
+CVE-2026-74281 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74281 *
+CVE-2026-74282 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74282 *
+CVE-2026-74283 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74283 *
+CVE-2026-74284 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74284 *
+CVE-2026-74286 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74286 *
+CVE-2026-74287 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74287 *
+CVE-2026-74288 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74288 *
 CVE-2026-74289 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74289 *
+CVE-2026-74290 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74290 *
 CVE-2026-74291 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74291 *
+CVE-2026-74292 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74292 *
+CVE-2026-74293 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74293 *
 CVE-2026-74294 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74294 *
+CVE-2026-74295 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74295 *
+CVE-2026-74296 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74296 *
+CVE-2026-74297 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74297 *
+CVE-2026-74300 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74300 *
+CVE-2026-74301 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74301 *
+CVE-2026-74302 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74302 *
+CVE-2026-74303 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74303 *
+CVE-2026-74305 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74305 *
+CVE-2026-74306 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74306 *
 CVE-2026-74307 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74307 *
+CVE-2026-74308 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74308 *
+CVE-2026-74309 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74309 *
+CVE-2026-74310 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74310 *
+CVE-2026-74311 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74311 *
+CVE-2026-74312 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74312 *
+CVE-2026-74313 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74313 *
+CVE-2026-74316 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74316 *
 CVE-2026-74317 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74317 *
+CVE-2026-74318 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74318 *
+CVE-2026-74320 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74320 *
+CVE-2026-74321 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74321 *
+CVE-2026-74322 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74322 *
+CVE-2026-74323 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74323 *
+CVE-2026-74324 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74324 *
+CVE-2026-74325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74325 *
+CVE-2026-74327 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74327 *
+CVE-2026-74329 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74329 *
+CVE-2026-74330 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74330 *
+CVE-2026-74331 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74331 *
+CVE-2026-74332 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74332 *
+CVE-2026-74333 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74333 *
 CVE-2026-74334 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74334 *
+CVE-2026-74335 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74335 *
 CVE-2026-74336 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74336 *
+CVE-2026-74337 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74337 *
 CVE-2026-74338 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74338 *
+CVE-2026-74339 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74339 *
+CVE-2026-74340 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74340 *
+CVE-2026-74341 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74341 *
 CVE-2026-74342 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74342 *
+CVE-2026-74344 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74344 *
+CVE-2026-74345 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74345 *
+CVE-2026-74346 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74346 *
 CVE-2026-74347 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74347 *
+CVE-2026-74348 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74348 *
+CVE-2026-74349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74349 *
 CVE-2026-74350 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74350 *
+CVE-2026-74351 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74351 *
+CVE-2026-74352 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74352 *
+CVE-2026-74353 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74353 *
 CVE-2026-74354 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74354 *
+CVE-2026-74355 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74355 *
+CVE-2026-74356 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74356 *
+CVE-2026-74358 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74358 *
+CVE-2026-74359 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74359 *
+CVE-2026-74360 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74360 *
+CVE-2026-74361 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74361 *
+CVE-2026-74362 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74362 *
+CVE-2026-74363 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74363 *
+CVE-2026-74364 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74364 *
+CVE-2026-74365 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74365 *
+CVE-2026-74366 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74366 *
 CVE-2026-74367 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74367 *
+CVE-2026-74371 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74371 *
+CVE-2026-74372 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74372 *
 CVE-2026-74373 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74373 *
 CVE-2026-74374 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74374 *
 CVE-2026-74375 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74375 *
+CVE-2026-74376 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74376 *
+CVE-2026-74377 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74377 *
+CVE-2026-74378 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74378 *
+CVE-2026-74379 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74379 *
+CVE-2026-74380 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74380 *
+CVE-2026-74381 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74381 *
+CVE-2026-74382 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74382 *
+CVE-2026-74383 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74383 *
+CVE-2026-74384 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74384 *
+CVE-2026-74385 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74385 *
+CVE-2026-74386 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74386 *
+CVE-2026-74387 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74387 *
+CVE-2026-74388 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74388 *
+CVE-2026-74389 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74389 *
+CVE-2026-74390 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74390 *
+CVE-2026-74391 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74391 *
+CVE-2026-74393 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74393 *
+CVE-2026-74394 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74394 *
+CVE-2026-74395 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74395 *
+CVE-2026-74396 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74396 *
+CVE-2026-74397 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74397 *
+CVE-2026-74398 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74398 *
+CVE-2026-74399 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74399 *
+CVE-2026-74400 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74400 *
+CVE-2026-74401 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74401 *
+CVE-2026-74402 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74402 *
+CVE-2026-74404 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74404 *
+CVE-2026-74405 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74405 *
+CVE-2026-74406 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74406 *
 CVE-2026-74407 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74407 *
+CVE-2026-74408 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74408 *
+CVE-2026-74409 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74409 *
+CVE-2026-74410 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74410 *
+CVE-2026-74411 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74411 *
+CVE-2026-74412 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74412 *
+CVE-2026-74413 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74413 *
+CVE-2026-74416 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74416 *
+CVE-2026-74417 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74417 *
 CVE-2026-74419 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74419 *
+CVE-2026-74420 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74420 *
+CVE-2026-74421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74421 *
+CVE-2026-74423 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74423 *
+CVE-2026-74424 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74424 *
+CVE-2026-74425 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74425 *
+CVE-2026-74426 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74426 *
+CVE-2026-74427 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74427 *
+CVE-2026-74428 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74428 *
+CVE-2026-74429 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74429 *
+CVE-2026-74430 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74430 *
+CVE-2026-74431 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74431 *
+CVE-2026-74432 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74432 *
+CVE-2026-74433 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74433 *
+CVE-2026-74434 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74434 *
+CVE-2026-74435 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74435 *
+CVE-2026-74436 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74436 *
+CVE-2026-74437 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74437 *
+CVE-2026-74438 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74438 *
+CVE-2026-74439 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74439 *
 CVE-2026-74440 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74440 *
 CVE-2026-74441 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74441 *
 CVE-2026-74442 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74442 *
@@ -305,22 +1221,15 @@ CVE-2026-74574 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-202
 CVE-2026-74575 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74575 *
 CVE-2026-74576 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74576 *
 CVE-2026-74577 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74577 *
+CVE-2026-74578 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74578 *
 
-Removed this week: 9 CVEs
-CVE-2024-6519 (CVSSv3: 8.2): qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2024-6519 *
-CVE-2025-12801 (CVSSv3: 6.5): nfs-utils https://nvd.nist.gov/vuln/detail/CVE-2025-12801 *
-CVE-2025-49506 (CVSSv3: 7.5): apr-util https://nvd.nist.gov/vuln/detail/CVE-2025-49506 *
-CVE-2026-32327 (CVSSv3: 9.1): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-32327 *
-CVE-2026-34191 (CVSSv3: 9.1): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-34191 *
-CVE-2026-34501 (CVSSv3: 7.5): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-34501 *
-CVE-2026-34502 (CVSSv3: 7.5): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-34502 *
-CVE-2026-58050 (CVSSv3: 7.5, CVSSv4: 8.3): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-58050 *
+Removed this week: 1 CVEs
 CVE-2026-63872 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63872 *
 
-Full list: Found 403 unpatched CVEs
+Full list: Found 1532 unpatched CVEs
 CVE-2011-3374 (CVSSv2: 4.3, CVSSv3: 3.7): apt https://nvd.nist.gov/vuln/detail/CVE-2011-3374 *
+CVE-2013-10036 (CVSSv4: 8.4): connman https://nvd.nist.gov/vuln/detail/CVE-2013-10036 *
 CVE-2019-14899 (CVSSv2: 4.9, CVSSv3: 7.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2019-14899 *
-CVE-2020-10774 (CVSSv2: 2.1, CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2020-10774 *
 CVE-2021-3714 (CVSSv3: 5.9): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2021-3714 *
 CVE-2021-3864 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2021-3864 *
 CVE-2022-0400 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2022-0400 *
@@ -332,30 +1241,92 @@ CVE-2023-4010 (CVSSv3: 4.6): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-20
 CVE-2023-6238 (CVSSv3: 6.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-6238 *
 CVE-2023-6240 (CVSSv3: 6.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-6240 *
 CVE-2024-2236 (CVSSv3: 5.9): libgcrypt:libgcrypt-native https://nvd.nist.gov/vuln/detail/CVE-2024-2236 *
+CVE-2024-43802 (CVSSv3: 4.5): vim https://nvd.nist.gov/vuln/detail/CVE-2024-43802 *
 CVE-2024-47850 (CVSSv3: 7.5): cups https://nvd.nist.gov/vuln/detail/CVE-2024-47850 *
 CVE-2024-50613 (CVSSv3: 6.5): libsndfile1 https://nvd.nist.gov/vuln/detail/CVE-2024-50613 *
+CVE-2024-52005 (CVSSv3: 8.8, CVSSv4: 7.5): git:git-native https://nvd.nist.gov/vuln/detail/CVE-2024-52005 *
+CVE-2025-15366 (CVSSv4: 5.9): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2025-15366 *
 CVE-2025-15367 (CVSSv4: 5.9): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2025-15367 *
+CVE-2025-49506 (CVSSv3: 7.5): apr-util https://nvd.nist.gov/vuln/detail/CVE-2025-49506 *
 CVE-2025-50422 (CVSSv3: 2.9): cairo:cairo-native https://nvd.nist.gov/vuln/detail/CVE-2025-50422 *
 CVE-2025-52194 (CVSSv3: 7.5): libsndfile1 https://nvd.nist.gov/vuln/detail/CVE-2025-52194 *
+CVE-2025-56005 (CVSSv3: 9.8): python3-ply https://nvd.nist.gov/vuln/detail/CVE-2025-56005 *
+CVE-2025-59529 (CVSSv3: 5.5): avahi https://nvd.nist.gov/vuln/detail/CVE-2025-59529 *
+CVE-2025-66382 (CVSSv3: 5.5): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2025-66382 *
+CVE-2025-69693 (CVSSv3: 5.4): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2025-69693 *
 CVE-2025-71074 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71074 *
 CVE-2025-71306 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71306 *
 CVE-2025-71308 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71308 *
 CVE-2025-71313 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2025-71313 *
+CVE-2026-0864 (CVSSv4: 4.1): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-0864 *
+CVE-2026-2625 (CVSSv3: 5.5): rpm-sequoia https://nvd.nist.gov/vuln/detail/CVE-2026-2625 *
 CVE-2026-3099 (CVSSv3: 7.3): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3099 *
+CVE-2026-3184 (CVSSv3: 5.3): util-linux:util-linux-libuuid:util-linux-libuuid-native:util-linux-native https://nvd.nist.gov/vuln/detail/CVE-2026-3184 *
+CVE-2026-3195 (CVSSv3: 7.4): qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2026-3195 *
+CVE-2026-3196 (CVSSv3: 5.5): qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2026-3196 *
 CVE-2026-3441 (CVSSv3: 7.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-3441 *
 CVE-2026-3442 (CVSSv3: 7.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-3442 *
 CVE-2026-3632 (CVSSv3: 5.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3632 *
 CVE-2026-3633 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3633 *
 CVE-2026-3634 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3634 *
+CVE-2026-3842 (CVSSv3: 7.8): qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2026-3842 *
+CVE-2026-4271 (CVSSv3: 7.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-4271 *
+CVE-2026-4360 (CVSSv3: 5.3, CVSSv4: 2.0): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-4360 *
+CVE-2026-4873 (CVSSv3: 5.9): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-4873 *
+CVE-2026-5056 (CVSSv3: 7.8): gstreamer1.0 https://nvd.nist.gov/vuln/detail/CVE-2026-5056 *
+CVE-2026-5201 (CVSSv3: 7.5): gdk-pixbuf:gdk-pixbuf-native https://nvd.nist.gov/vuln/detail/CVE-2026-5201 *
+CVE-2026-5435 (CVSSv3: 7.3): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-5435 *
+CVE-2026-5450 (CVSSv3: 9.8): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-5450 *
 CVE-2026-5673 (CVSSv3: 7.1): libtheora https://nvd.nist.gov/vuln/detail/CVE-2026-5673 *
+CVE-2026-5928 (CVSSv3: 7.5): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-5928 *
+CVE-2026-6238 (CVSSv3: 6.5): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-6238 *
+CVE-2026-6732 (CVSSv3: 7.5): libxml2:libxml2-native https://nvd.nist.gov/vuln/detail/CVE-2026-6732 *
+CVE-2026-6791 (CVSSv4: 6.6): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-6791 *
 CVE-2026-6844 (CVSSv3: 5.5): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-6844 *
 CVE-2026-6845 (CVSSv3: 5.0): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-6845 *
+CVE-2026-6879 (CVSSv4: 2.0): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-6879 *
+CVE-2026-7009 (CVSSv3: 5.3): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-7009 *
+CVE-2026-8286 (CVSSv3: 8.1): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-8286 *
+CVE-2026-8458 (CVSSv3: 6.5): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-8458 *
+CVE-2026-8461 (CVSSv3: 8.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-8461 *
+CVE-2026-8924 (CVSSv3: 9.1): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-8924 *
+CVE-2026-8925 (CVSSv3: 9.8): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-8925 *
+CVE-2026-8926 (CVSSv3: 9.1): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-8926 *
+CVE-2026-8927 (CVSSv3: 9.1): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-8927 *
+CVE-2026-8932 (CVSSv3: 7.5): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-8932 *
+CVE-2026-9079 (CVSSv3: 9.8): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-9079 *
+CVE-2026-9080 (CVSSv3: 7.3): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-9080 *
+CVE-2026-9539 (CVSSv3: 6.5): libslirp:libslirp-native https://nvd.nist.gov/vuln/detail/CVE-2026-9539 *
+CVE-2026-9545 (CVSSv3: 7.5): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-9545 *
+CVE-2026-9546 (CVSSv3: 7.5): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-9546 *
+CVE-2026-9547 (CVSSv3: 7.4): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-9547 *
+CVE-2026-10723 (CVSSv3: 6.8): bind https://nvd.nist.gov/vuln/detail/CVE-2026-10723 *
+CVE-2026-10822 (CVSSv3: 6.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-10822 *
+CVE-2026-11331 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11331 *
+CVE-2026-11352 (CVSSv3: 7.5): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-11352 *
+CVE-2026-11564 (CVSSv3: 9.1): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-11564 *
+CVE-2026-11586 (CVSSv3: 7.5): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-11586 *
+CVE-2026-11605 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11605 *
+CVE-2026-11622 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11622 *
+CVE-2026-11721 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-11721 *
+CVE-2026-11856 (CVSSv3: 9.8): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-11856 *
+CVE-2026-12003 (CVSSv4: 5.3): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-12003 *
+CVE-2026-12064 (CVSSv3: 7.5): curl:curl-native https://nvd.nist.gov/vuln/detail/CVE-2026-12064 *
 CVE-2026-12549 (CVSSv3: 4.8): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-12549 *
+CVE-2026-12617 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-12617 *
+CVE-2026-12891 (CVSSv3: 4.3): gstreamer1.0 https://nvd.nist.gov/vuln/detail/CVE-2026-12891 *
+CVE-2026-12892 (CVSSv3: 4.4): gstreamer1.0 https://nvd.nist.gov/vuln/detail/CVE-2026-12892 *
+CVE-2026-13204 (CVSSv3: 7.5): bind https://nvd.nist.gov/vuln/detail/CVE-2026-13204 *
+CVE-2026-13221 (CVSSv3: 9.1): perl:perl-native https://nvd.nist.gov/vuln/detail/CVE-2026-13221 *
+CVE-2026-13321 (CVSSv3: 8.6): bind https://nvd.nist.gov/vuln/detail/CVE-2026-13321 *
+CVE-2026-13595 (CVSSv3: 6.8): util-linux:util-linux-libuuid:util-linux-libuuid-native:util-linux-native https://nvd.nist.gov/vuln/detail/CVE-2026-13595 *
+CVE-2026-13757 (CVSSv3: 6.2): p11-kit:p11-kit-native https://nvd.nist.gov/vuln/detail/CVE-2026-13757 *
 CVE-2026-14456 (CVSSv3: 7.5): openssl:openssl-native https://nvd.nist.gov/vuln/detail/CVE-2026-14456 *
 CVE-2026-15308 (CVSSv3: 7.5, CVSSv4: 8.7): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-15308 *
 CVE-2026-15534 (CVSSv3: 5.7): perl:perl-native https://nvd.nist.gov/vuln/detail/CVE-2026-15534 *
 CVE-2026-18477 (CVSSv3: 4.4): tar https://nvd.nist.gov/vuln/detail/CVE-2026-18477 *
 CVE-2026-18487 (CVSSv3: 5.4): epiphany https://nvd.nist.gov/vuln/detail/CVE-2026-18487 *
+CVE-2026-18503 (CVSSv4: 2.4): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-18503 *
 CVE-2026-18739 (CVSSv3: 2.5): popt:popt-native https://nvd.nist.gov/vuln/detail/CVE-2026-18739 *
 CVE-2026-18839 (CVSSv3: 2.2): popt:popt-native https://nvd.nist.gov/vuln/detail/CVE-2026-18839 *
 CVE-2026-23328 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-23328 *
@@ -363,12 +1334,30 @@ CVE-2026-23374 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2
 CVE-2026-23377 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-23377 *
 CVE-2026-23459 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-23459 *
 CVE-2026-28529 (CVSSv4: 8.5): cryptodev-linux https://nvd.nist.gov/vuln/detail/CVE-2026-28529 *
+CVE-2026-29518 (CVSSv3: 7.8, CVSSv4: 7.3): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-29518 *
+CVE-2026-30922 (CVSSv3: 7.5): python3-pyasn1 https://nvd.nist.gov/vuln/detail/CVE-2026-30922 *
+CVE-2026-30997 (CVSSv3: 7.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-30997 *
+CVE-2026-30998 (CVSSv3: 7.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-30998 *
+CVE-2026-30999 (CVSSv3: 7.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-30999 *
 CVE-2026-31501 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-31501 *
 CVE-2026-31771 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-31771 *
 CVE-2026-31777 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-31777 *
+CVE-2026-32327 (CVSSv3: 9.1): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-32327 *
+CVE-2026-33818 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-33818 *
+CVE-2026-33845 (CVSSv3: 9.1): gnutls:gnutls-native https://nvd.nist.gov/vuln/detail/CVE-2026-33845 *
+CVE-2026-34073 (CVSSv3: 5.3, CVSSv4: 1.7): python3-cryptography https://nvd.nist.gov/vuln/detail/CVE-2026-34073 *
+CVE-2026-34191 (CVSSv3: 9.1): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-34191 *
+CVE-2026-34501 (CVSSv3: 7.5): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-34501 *
+CVE-2026-34502 (CVSSv3: 7.5): apr-util https://nvd.nist.gov/vuln/detail/CVE-2026-34502 *
 CVE-2026-38752 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38752 *
 CVE-2026-38753 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38753 *
+CVE-2026-38754 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38754 *
 CVE-2026-38755 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38755 *
+CVE-2026-39821 (CVSSv3: 9.6): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-39821 *
+CVE-2026-39892 (CVSSv3: 9.8, CVSSv4: 6.9): python3-cryptography https://nvd.nist.gov/vuln/detail/CVE-2026-39892 *
+CVE-2026-40962 (CVSSv3: 9.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-40962 *
+CVE-2026-41035 (CVSSv3: 7.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-41035 *
+CVE-2026-41066 (CVSSv3: 7.5): python3-lxml:python3-lxml-native https://nvd.nist.gov/vuln/detail/CVE-2026-41066 *
 CVE-2026-43009 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43009 *
 CVE-2026-43022 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43022 *
 CVE-2026-43042 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43042 *
@@ -390,12 +1379,21 @@ CVE-2026-43344 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2
 CVE-2026-43391 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43391 *
 CVE-2026-43414 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43414 *
 CVE-2026-43443 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-43443 *
+CVE-2026-43617 (CVSSv3: 4.8, CVSSv4: 6.3): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-43617 *
+CVE-2026-43618 (CVSSv3: 8.1, CVSSv4: 6.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-43618 *
+CVE-2026-43619 (CVSSv3: 6.3, CVSSv4: 7.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-43619 *
+CVE-2026-43620 (CVSSv3: 6.5, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-43620 *
+CVE-2026-44432 (CVSSv3: 7.5, CVSSv4: 8.9): python3-urllib3 https://nvd.nist.gov/vuln/detail/CVE-2026-44432 *
+CVE-2026-45232 (CVSSv3: 3.7, CVSSv4: 2.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-45232 *
+CVE-2026-45897 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45897 *
+CVE-2026-45901 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45901 *
 CVE-2026-45961 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45961 *
 CVE-2026-45963 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45963 *
 CVE-2026-45991 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-45991 *
 CVE-2026-46008 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46008 *
 CVE-2026-46017 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46017 *
 CVE-2026-46032 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46032 *
+CVE-2026-46130 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46130 *
 CVE-2026-46153 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46153 *
 CVE-2026-46210 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46210 *
 CVE-2026-46245 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46245 *
@@ -403,18 +1401,34 @@ CVE-2026-46298 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2
 CVE-2026-46302 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46302 *
 CVE-2026-46311 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46311 *
 CVE-2026-46330 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-46330 *
+CVE-2026-46727 (CVSSv3: 8.1): ruby:ruby-native https://nvd.nist.gov/vuln/detail/CVE-2026-46727 *
+CVE-2026-48863 (CVSSv3: 7.5): libsolv https://nvd.nist.gov/vuln/detail/CVE-2026-48863 *
+CVE-2026-48914 (CVSSv3: 6.7): qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2026-48914 *
+CVE-2026-50219 (CVSSv3: 5.9): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2026-50219 *
+CVE-2026-50256 (CVSSv3: 7.8): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50256 *
+CVE-2026-50257 (CVSSv3: 7.8): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50257 *
+CVE-2026-50258 (CVSSv3: 7.8): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50258 *
+CVE-2026-50259 (CVSSv3: 7.8): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50259 *
+CVE-2026-50260 (CVSSv3: 7.8): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50260 *
+CVE-2026-50261 (CVSSv3: 7.8): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50261 *
+CVE-2026-50262 (CVSSv3: 5.5): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50262 *
+CVE-2026-50263 (CVSSv3: 5.5): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50263 *
+CVE-2026-50264 (CVSSv3: 7.8): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-50264 *
 CVE-2026-52949 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52949 *
 CVE-2026-52956 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52956 *
 CVE-2026-52960 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52960 *
 CVE-2026-52965 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52965 *
 CVE-2026-52988 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-52988 *
+CVE-2026-53005 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53005 *
 CVE-2026-53007 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53007 *
 CVE-2026-53008 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53008 *
 CVE-2026-53009 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53009 *
 CVE-2026-53017 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53017 *
 CVE-2026-53024 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53024 *
 CVE-2026-53025 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53025 *
+CVE-2026-53078 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53078 *
 CVE-2026-53089 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53089 *
+CVE-2026-53090 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53090 *
 CVE-2026-53091 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53091 *
 CVE-2026-53102 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53102 *
 CVE-2026-53106 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53106 *
@@ -424,21 +1438,82 @@ CVE-2026-53124 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2
 CVE-2026-53178 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53178 *
 CVE-2026-53222 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53222 *
 CVE-2026-53257 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53257 *
+CVE-2026-53260 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53260 *
 CVE-2026-53285 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53285 *
 CVE-2026-53292 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53292 *
 CVE-2026-53308 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53308 *
 CVE-2026-53313 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53313 *
 CVE-2026-53401 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-53401 *
-CVE-2026-55654 (CVSSv3: 3.7): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-55654 *
-CVE-2026-55655 (CVSSv3: 6.1): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-55655 *
+CVE-2026-53783 (CVSSv3: 8.1, CVSSv4: 8.6): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53783 *
+CVE-2026-53784 (CVSSv3: 7.1, CVSSv4: 8.4): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53784 *
+CVE-2026-53785 (CVSSv3: 7.1, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53785 *
+CVE-2026-53786 (CVSSv3: 6.5, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53786 *
+CVE-2026-53788 (CVSSv3: 6.5, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53788 *
+CVE-2026-53789 (CVSSv3: 6.5, CVSSv4: 7.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53789 *
+CVE-2026-53790 (CVSSv3: 8.1, CVSSv4: 9.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53790 *
+CVE-2026-53791 (CVSSv3: 9.1, CVSSv4: 9.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53791 *
+CVE-2026-53792 (CVSSv3: 6.5, CVSSv4: 7.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53792 *
+CVE-2026-53793 (CVSSv3: 7.4, CVSSv4: 9.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53793 *
+CVE-2026-53794 (CVSSv3: 5.3, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53794 *
+CVE-2026-53795 (CVSSv3: 8.1, CVSSv4: 7.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53795 *
+CVE-2026-53796 (CVSSv3: 6.3, CVSSv4: 5.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53796 *
+CVE-2026-53797 (CVSSv3: 4.7, CVSSv4: 5.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53797 *
+CVE-2026-53798 (CVSSv3: 5.3, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53798 *
+CVE-2026-53799 (CVSSv3: 6.3, CVSSv4: 7.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53799 *
+CVE-2026-53800 (CVSSv3: 4.7, CVSSv4: 5.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53800 *
+CVE-2026-53801 (CVSSv3: 5.9, CVSSv4: 8.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53801 *
+CVE-2026-53802 (CVSSv3: 7.1, CVSSv4: 8.4): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53802 *
+CVE-2026-53803 (CVSSv3: 7.8, CVSSv4: 8.5): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-53803 *
+CVE-2026-53910 (CVSSv4: 2.1): diffutils https://nvd.nist.gov/vuln/detail/CVE-2026-53910 *
+CVE-2026-54369 (CVSSv3: 7.1, CVSSv4: 8.4): acl:acl-native https://nvd.nist.gov/vuln/detail/CVE-2026-54369 *
+CVE-2026-54370 (CVSSv3: 6.3, CVSSv4: 7.2): acl:acl-native https://nvd.nist.gov/vuln/detail/CVE-2026-54370 *
+CVE-2026-54371 (CVSSv3: 7.1, CVSSv4: 8.4): attr:attr-native https://nvd.nist.gov/vuln/detail/CVE-2026-54371 *
+CVE-2026-55693 (CVSSv3: 7.8, CVSSv4: 5.7): vim https://nvd.nist.gov/vuln/detail/CVE-2026-55693 *
+CVE-2026-55895 (CVSSv3: 7.8, CVSSv4: 5.7): vim https://nvd.nist.gov/vuln/detail/CVE-2026-55895 *
+CVE-2026-55999 (CVSSv3: 8.5): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-55999 *
+CVE-2026-56000 (CVSSv3: 7.8, CVSSv4: 9.0): xserver-xorg:xwayland https://nvd.nist.gov/vuln/detail/CVE-2026-56000 *
+CVE-2026-56001 (CVSSv3: 8.8): libxfont2 https://nvd.nist.gov/vuln/detail/CVE-2026-56001 *
+CVE-2026-56002 (CVSSv3: 8.8): libxfont:libxfont2 https://nvd.nist.gov/vuln/detail/CVE-2026-56002 *
+CVE-2026-56003 (CVSSv3: 8.8): libxfont2 https://nvd.nist.gov/vuln/detail/CVE-2026-56003 *
+CVE-2026-56109 (CVSSv3: 6.8, CVSSv4: 7.0): alsa-lib:alsa-lib-native https://nvd.nist.gov/vuln/detail/CVE-2026-56109 *
+CVE-2026-56131 (CVSSv3: 4.9): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2026-56131 *
+CVE-2026-56288 (CVSSv3: 5.5, CVSSv4: 4.6): patch https://nvd.nist.gov/vuln/detail/CVE-2026-56288 *
+CVE-2026-56289 (CVSSv3: 5.5, CVSSv4: 4.6): patch https://nvd.nist.gov/vuln/detail/CVE-2026-56289 *
+CVE-2026-56389 (CVSSv4: 6.8): bison:bison-native https://nvd.nist.gov/vuln/detail/CVE-2026-56389 *
 CVE-2026-56390 (CVSSv4: 4.6): bison:bison-native https://nvd.nist.gov/vuln/detail/CVE-2026-56390 *
-CVE-2026-58049 (CVSSv3: 8.6, CVSSv4: 8.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-58049 *
+CVE-2026-56391 (CVSSv4: 4.6): coreutils:coreutils-native https://nvd.nist.gov/vuln/detail/CVE-2026-56391 *
+CVE-2026-56392 (CVSSv4: 1.8): coreutils:coreutils-native https://nvd.nist.gov/vuln/detail/CVE-2026-56392 *
+CVE-2026-56412 (CVSSv3: 5.9): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2026-56412 *
+CVE-2026-56853 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56853 *
+CVE-2026-56858 (CVSSv3: 6.1): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56858 *
+CVE-2026-56859 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56859 *
+CVE-2026-56860 (CVSSv3: 5.9): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56860 *
+CVE-2026-56862 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56862 *
+CVE-2026-56864 (CVSSv3: 7.5): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56864 *
+CVE-2026-56865 (CVSSv3: 8.4): go:go-binary-native:go-cross-x86-64-v3:go-runtime https://nvd.nist.gov/vuln/detail/CVE-2026-56865 *
+CVE-2026-57432 (CVSSv3: 8.4): perl:perl-native https://nvd.nist.gov/vuln/detail/CVE-2026-57432 *
+CVE-2026-57451 (CVSSv3: 6.1): vim https://nvd.nist.gov/vuln/detail/CVE-2026-57451 *
+CVE-2026-57453 (CVSSv3: 7.3): vim https://nvd.nist.gov/vuln/detail/CVE-2026-57453 *
+CVE-2026-57454 (CVSSv3: 6.1, CVSSv4: 6.8): vim https://nvd.nist.gov/vuln/detail/CVE-2026-57454 *
+CVE-2026-57455 (CVSSv3: 7.8, CVSSv4: 4.0): vim https://nvd.nist.gov/vuln/detail/CVE-2026-57455 *
+CVE-2026-57456 (CVSSv3: 7.8, CVSSv4: 8.4): vim https://nvd.nist.gov/vuln/detail/CVE-2026-57456 *
+CVE-2026-58050 (CVSSv3: 7.5, CVSSv4: 8.3): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-58050 *
 CVE-2026-58051 (CVSSv3: 6.5, CVSSv4: 8.3): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-58051 *
+CVE-2026-58055 (CVSSv3: 5.4, CVSSv4: 6.3): nghttp2 https://nvd.nist.gov/vuln/detail/CVE-2026-58055 *
+CVE-2026-58469 (CVSSv3: 7.5, CVSSv4: 8.7): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58469 *
 CVE-2026-58470 (CVSSv3: 5.3, CVSSv4: 6.9): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58470 *
 CVE-2026-58471 (CVSSv3: 7.1, CVSSv4: 6.0): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58471 *
+CVE-2026-58472 (CVSSv3: 7.1, CVSSv4: 6.0): wget https://nvd.nist.gov/vuln/detail/CVE-2026-58472 *
+CVE-2026-59856 (CVSSv3: 7.8, CVSSv4: 8.4): vim https://nvd.nist.gov/vuln/detail/CVE-2026-59856 *
+CVE-2026-59857 (CVSSv3: 5.5, CVSSv4: 5.6): vim https://nvd.nist.gov/vuln/detail/CVE-2026-59857 *
+CVE-2026-59858 (CVSSv3: 7.8, CVSSv4: 8.4): vim https://nvd.nist.gov/vuln/detail/CVE-2026-59858 *
+CVE-2026-59884 (CVSSv3: 7.5): python3-pyasn1 https://nvd.nist.gov/vuln/detail/CVE-2026-59884 *
+CVE-2026-59885 (CVSSv3: 7.5): python3-pyasn1 https://nvd.nist.gov/vuln/detail/CVE-2026-59885 *
+CVE-2026-59886 (CVSSv3: 7.5): python3-pyasn1 https://nvd.nist.gov/vuln/detail/CVE-2026-59886 *
 CVE-2026-63811 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63811 *
 CVE-2026-63839 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63839 *
 CVE-2026-63879 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63879 *
+CVE-2026-63923 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63923 *
 CVE-2026-63941 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63941 *
 CVE-2026-63977 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63977 *
 CVE-2026-63978 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-63978 *
@@ -459,13 +1534,84 @@ CVE-2026-64123 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2
 CVE-2026-64146 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64146 *
 CVE-2026-64154 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64154 *
 CVE-2026-64160 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64160 *
+CVE-2026-64192 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64192 *
 CVE-2026-64210 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64210 *
+CVE-2026-64227 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64227 *
 CVE-2026-64283 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64283 *
+CVE-2026-64287 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64287 *
+CVE-2026-64292 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64292 *
 CVE-2026-64325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64325 *
 CVE-2026-64341 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64341 *
+CVE-2026-64349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64349 *
+CVE-2026-64352 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64352 *
+CVE-2026-64353 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64353 *
+CVE-2026-64361 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64361 *
+CVE-2026-64371 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64371 *
+CVE-2026-64375 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64375 *
 CVE-2026-64388 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64388 *
+CVE-2026-64389 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64389 *
+CVE-2026-64390 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64390 *
+CVE-2026-64421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64421 *
+CVE-2026-64438 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64438 *
+CVE-2026-64441 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64441 *
+CVE-2026-64472 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64472 *
+CVE-2026-64510 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64510 *
 CVE-2026-64523 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64523 *
+CVE-2026-64530 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64530 *
+CVE-2026-64531 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64531 *
+CVE-2026-64532 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64532 *
+CVE-2026-64533 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64533 *
+CVE-2026-64534 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64534 *
+CVE-2026-64535 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64535 *
+CVE-2026-64537 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64537 *
+CVE-2026-64538 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64538 *
+CVE-2026-64539 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64539 *
+CVE-2026-64540 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64540 *
+CVE-2026-64541 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64541 *
+CVE-2026-64542 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64542 *
+CVE-2026-64543 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64543 *
+CVE-2026-64544 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64544 *
+CVE-2026-64545 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64545 *
+CVE-2026-64546 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64546 *
+CVE-2026-64547 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64547 *
+CVE-2026-64548 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64548 *
+CVE-2026-64549 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64549 *
+CVE-2026-64550 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64550 *
+CVE-2026-64551 (CVSSv3: 9.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64551 *
+CVE-2026-64552 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64552 *
+CVE-2026-64553 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64553 *
+CVE-2026-64554 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64554 *
+CVE-2026-64555 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64555 *
+CVE-2026-64557 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64557 *
+CVE-2026-64558 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64558 *
+CVE-2026-64559 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64559 *
+CVE-2026-64560 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64560 *
+CVE-2026-64561 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64561 *
+CVE-2026-64562 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64562 *
+CVE-2026-64563 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64563 *
+CVE-2026-64564 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64564 *
+CVE-2026-64565 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64565 *
+CVE-2026-64566 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64566 *
+CVE-2026-64567 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64567 *
+CVE-2026-64568 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64568 *
+CVE-2026-64569 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64569 *
+CVE-2026-64570 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64570 *
+CVE-2026-64571 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64571 *
+CVE-2026-64572 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64572 *
+CVE-2026-64573 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64573 *
+CVE-2026-64574 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64574 *
+CVE-2026-64575 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64575 *
+CVE-2026-64576 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64576 *
+CVE-2026-64577 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64577 *
+CVE-2026-64578 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64578 *
+CVE-2026-64579 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64579 *
+CVE-2026-64580 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64580 *
+CVE-2026-64582 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64582 *
+CVE-2026-64583 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64583 *
+CVE-2026-64584 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64584 *
+CVE-2026-64585 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64585 *
 CVE-2026-64586 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64586 *
+CVE-2026-64594 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-64594 *
 CVE-2026-64830 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64830 *
 CVE-2026-64831 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64831 *
 CVE-2026-64832 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-64832 *
@@ -476,59 +1622,577 @@ CVE-2026-65703 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/deta
 CVE-2026-65704 (CVSSv3: 7.8, CVSSv4: 7.3): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-65704 *
 CVE-2026-65705 (CVSSv3: 7.8, CVSSv4: 7.3): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-65705 *
 CVE-2026-65706 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-65706 *
+CVE-2026-66032 (CVSSv3: 8.8, CVSSv4: 8.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66032 *
+CVE-2026-66033 (CVSSv3: 7.5, CVSSv4: 8.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66033 *
+CVE-2026-66034 (CVSSv3: 7.5, CVSSv4: 7.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66034 *
+CVE-2026-66035 (CVSSv3: 7.5, CVSSv4: 7.7): libssh2:libssh2-native https://nvd.nist.gov/vuln/detail/CVE-2026-66035 *
 CVE-2026-66036 (CVSSv3: 8.8, CVSSv4: 7.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66036 *
 CVE-2026-66037 (CVSSv3: 6.5, CVSSv4: 7.1): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66037 *
 CVE-2026-66038 (CVSSv3: 6.5, CVSSv4: 7.1): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66038 *
 CVE-2026-66039 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66039 *
 CVE-2026-66040 (CVSSv3: 8.8, CVSSv4: 8.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66040 *
 CVE-2026-66041 (CVSSv3: 8.8, CVSSv4: 7.7): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-66041 *
+CVE-2026-66484 (CVSSv4: 4.6): cpio https://nvd.nist.gov/vuln/detail/CVE-2026-66484 *
+CVE-2026-66485 (CVSSv4: 4.6): cpio https://nvd.nist.gov/vuln/detail/CVE-2026-66485 *
+CVE-2026-66486 (CVSSv4: 4.6): cpio https://nvd.nist.gov/vuln/detail/CVE-2026-66486 *
+CVE-2026-68081 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68081 *
 CVE-2026-68082 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68082 *
+CVE-2026-68083 (CVSSv3: 9.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68083 *
 CVE-2026-68086 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68086 *
+CVE-2026-68093 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68093 *
+CVE-2026-68095 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68095 *
+CVE-2026-68096 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68096 *
+CVE-2026-68097 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68097 *
+CVE-2026-68098 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68098 *
+CVE-2026-68099 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68099 *
+CVE-2026-68100 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68100 *
+CVE-2026-68102 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68102 *
 CVE-2026-68103 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68103 *
+CVE-2026-68104 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68104 *
 CVE-2026-68105 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68105 *
+CVE-2026-68106 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68106 *
+CVE-2026-68107 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68107 *
+CVE-2026-68108 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68108 *
+CVE-2026-68110 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68110 *
+CVE-2026-68111 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68111 *
+CVE-2026-68112 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68112 *
+CVE-2026-68113 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68113 *
 CVE-2026-68114 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68114 *
+CVE-2026-68115 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68115 *
+CVE-2026-68116 (CVSSv3: 7.9): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68116 *
+CVE-2026-68117 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68117 *
+CVE-2026-68118 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68118 *
+CVE-2026-68119 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68119 *
+CVE-2026-68120 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68120 *
+CVE-2026-68121 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68121 *
+CVE-2026-68122 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68122 *
+CVE-2026-68123 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68123 *
+CVE-2026-68124 (CVSSv3: 9.6): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68124 *
+CVE-2026-68125 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68125 *
+CVE-2026-68126 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68126 *
+CVE-2026-68127 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68127 *
+CVE-2026-68128 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68128 *
+CVE-2026-68129 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68129 *
+CVE-2026-68130 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68130 *
+CVE-2026-68131 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68131 *
+CVE-2026-68132 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68132 *
+CVE-2026-68133 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68133 *
+CVE-2026-68134 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68134 *
+CVE-2026-68135 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68135 *
+CVE-2026-68136 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68136 *
+CVE-2026-68137 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68137 *
 CVE-2026-68138 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68138 *
+CVE-2026-68139 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68139 *
+CVE-2026-68140 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68140 *
+CVE-2026-68141 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68141 *
+CVE-2026-68142 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68142 *
+CVE-2026-68143 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68143 *
+CVE-2026-68144 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68144 *
+CVE-2026-68145 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68145 *
+CVE-2026-68146 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68146 *
+CVE-2026-68147 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68147 *
+CVE-2026-68148 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68148 *
+CVE-2026-68149 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68149 *
+CVE-2026-68150 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68150 *
+CVE-2026-68151 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68151 *
+CVE-2026-68152 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68152 *
+CVE-2026-68153 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68153 *
+CVE-2026-68154 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68154 *
+CVE-2026-68155 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68155 *
+CVE-2026-68156 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68156 *
+CVE-2026-68157 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68157 *
+CVE-2026-68158 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68158 *
 CVE-2026-68159 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68159 *
+CVE-2026-68160 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68160 *
+CVE-2026-68161 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68161 *
+CVE-2026-68162 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68162 *
+CVE-2026-68164 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68164 *
+CVE-2026-68165 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68165 *
 CVE-2026-68166 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68166 *
+CVE-2026-68168 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68168 *
+CVE-2026-68169 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68169 *
+CVE-2026-68172 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68172 *
+CVE-2026-68173 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68173 *
+CVE-2026-68174 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68174 *
+CVE-2026-68175 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68175 *
+CVE-2026-68176 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68176 *
+CVE-2026-68178 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68178 *
+CVE-2026-68179 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68179 *
+CVE-2026-68180 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68180 *
+CVE-2026-68181 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68181 *
+CVE-2026-68182 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68182 *
+CVE-2026-68183 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68183 *
+CVE-2026-68184 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68184 *
+CVE-2026-68185 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68185 *
+CVE-2026-68186 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68186 *
+CVE-2026-68187 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68187 *
+CVE-2026-68188 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68188 *
+CVE-2026-68189 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68189 *
+CVE-2026-68190 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68190 *
+CVE-2026-68192 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68192 *
+CVE-2026-68193 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68193 *
+CVE-2026-68194 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68194 *
+CVE-2026-68195 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68195 *
+CVE-2026-68196 (CVSSv3: 8.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68196 *
+CVE-2026-68197 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68197 *
+CVE-2026-68198 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68198 *
+CVE-2026-68199 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68199 *
+CVE-2026-68200 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68200 *
+CVE-2026-68201 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68201 *
+CVE-2026-68202 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68202 *
+CVE-2026-68203 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68203 *
+CVE-2026-68204 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68204 *
+CVE-2026-68205 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68205 *
+CVE-2026-68206 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68206 *
+CVE-2026-68207 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68207 *
+CVE-2026-68209 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68209 *
+CVE-2026-68210 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68210 *
+CVE-2026-68211 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68211 *
+CVE-2026-68212 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68212 *
+CVE-2026-68213 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68213 *
+CVE-2026-68214 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68214 *
+CVE-2026-68215 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68215 *
+CVE-2026-68216 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68216 *
+CVE-2026-68217 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68217 *
+CVE-2026-68218 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68218 *
+CVE-2026-68219 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68219 *
+CVE-2026-68220 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68220 *
+CVE-2026-68221 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68221 *
+CVE-2026-68222 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68222 *
+CVE-2026-68223 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68223 *
+CVE-2026-68225 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68225 *
+CVE-2026-68226 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68226 *
+CVE-2026-68227 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68227 *
+CVE-2026-68228 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68228 *
+CVE-2026-68229 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68229 *
+CVE-2026-68230 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68230 *
+CVE-2026-68231 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68231 *
+CVE-2026-68232 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68232 *
+CVE-2026-68233 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68233 *
+CVE-2026-68234 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68234 *
+CVE-2026-68235 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68235 *
+CVE-2026-68236 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68236 *
+CVE-2026-68238 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68238 *
+CVE-2026-68239 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68239 *
 CVE-2026-68240 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68240 *
+CVE-2026-68241 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68241 *
 CVE-2026-68242 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68242 *
+CVE-2026-68243 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68243 *
+CVE-2026-68244 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68244 *
+CVE-2026-68245 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68245 *
+CVE-2026-68246 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68246 *
+CVE-2026-68247 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68247 *
+CVE-2026-68248 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68248 *
+CVE-2026-68249 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68249 *
+CVE-2026-68250 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68250 *
+CVE-2026-68251 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68251 *
+CVE-2026-68252 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68252 *
+CVE-2026-68253 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68253 *
 CVE-2026-68254 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68254 *
+CVE-2026-68255 (CVSSv3: 7.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68255 *
+CVE-2026-68256 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68256 *
+CVE-2026-68257 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68257 *
+CVE-2026-68258 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68258 *
+CVE-2026-68259 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68259 *
+CVE-2026-68260 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68260 *
+CVE-2026-68261 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68261 *
+CVE-2026-68262 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68262 *
+CVE-2026-68263 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68263 *
 CVE-2026-68264 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68264 *
 CVE-2026-68265 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68265 *
+CVE-2026-68266 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68266 *
 CVE-2026-68267 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68267 *
+CVE-2026-68268 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68268 *
+CVE-2026-68269 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68269 *
+CVE-2026-68270 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68270 *
+CVE-2026-68271 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68271 *
+CVE-2026-68272 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68272 *
 CVE-2026-68273 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68273 *
 CVE-2026-68274 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68274 *
+CVE-2026-68275 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68275 *
+CVE-2026-68276 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68276 *
+CVE-2026-68277 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68277 *
+CVE-2026-68278 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68278 *
+CVE-2026-68279 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68279 *
+CVE-2026-68280 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68280 *
+CVE-2026-68281 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68281 *
+CVE-2026-68282 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68282 *
+CVE-2026-68284 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68284 *
 CVE-2026-68286 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68286 *
 CVE-2026-68287 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68287 *
 CVE-2026-68288 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68288 *
 CVE-2026-68289 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68289 *
+CVE-2026-68290 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68290 *
 CVE-2026-68291 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68291 *
+CVE-2026-68292 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68292 *
+CVE-2026-68293 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68293 *
+CVE-2026-68294 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68294 *
 CVE-2026-68295 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68295 *
+CVE-2026-68296 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68296 *
+CVE-2026-68297 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68297 *
+CVE-2026-68298 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68298 *
+CVE-2026-68299 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68299 *
+CVE-2026-68300 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68300 *
+CVE-2026-68301 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68301 *
+CVE-2026-68302 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68302 *
 CVE-2026-68303 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68303 *
+CVE-2026-68304 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68304 *
 CVE-2026-68305 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68305 *
+CVE-2026-68306 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68306 *
+CVE-2026-68307 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68307 *
+CVE-2026-68308 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68308 *
+CVE-2026-68309 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68309 *
+CVE-2026-68310 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68310 *
+CVE-2026-68311 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68311 *
 CVE-2026-68312 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68312 *
+CVE-2026-68313 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68313 *
+CVE-2026-68314 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68314 *
+CVE-2026-68315 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68315 *
+CVE-2026-68317 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68317 *
+CVE-2026-68318 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68318 *
+CVE-2026-68319 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68319 *
+CVE-2026-68320 (CVSSv3: 7.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68320 *
+CVE-2026-68321 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68321 *
 CVE-2026-68322 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68322 *
 CVE-2026-68323 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68323 *
+CVE-2026-68324 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68324 *
+CVE-2026-68325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68325 *
+CVE-2026-68326 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68326 *
+CVE-2026-68327 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68327 *
+CVE-2026-68328 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68328 *
+CVE-2026-68329 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68329 *
+CVE-2026-68330 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68330 *
+CVE-2026-68331 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68331 *
+CVE-2026-68332 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68332 *
+CVE-2026-68333 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68333 *
+CVE-2026-68334 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68334 *
+CVE-2026-68335 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68335 *
+CVE-2026-68336 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68336 *
 CVE-2026-68337 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68337 *
+CVE-2026-68338 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68338 *
+CVE-2026-68339 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68339 *
+CVE-2026-68340 (CVSSv3: 7.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68340 *
+CVE-2026-68341 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68341 *
+CVE-2026-68342 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68342 *
+CVE-2026-68343 (CVSSv3: 9.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68343 *
+CVE-2026-68346 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68346 *
+CVE-2026-68348 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68348 *
+CVE-2026-68349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68349 *
+CVE-2026-68350 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68350 *
+CVE-2026-68351 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68351 *
+CVE-2026-68352 (CVSSv3: 8.3): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68352 *
+CVE-2026-68353 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68353 *
+CVE-2026-68354 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68354 *
+CVE-2026-68355 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68355 *
+CVE-2026-68356 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68356 *
+CVE-2026-68357 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68357 *
+CVE-2026-68358 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68358 *
+CVE-2026-68359 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68359 *
+CVE-2026-68360 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68360 *
+CVE-2026-68361 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68361 *
+CVE-2026-68362 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68362 *
+CVE-2026-68363 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68363 *
 CVE-2026-68364 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68364 *
+CVE-2026-68365 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68365 *
+CVE-2026-68366 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68366 *
+CVE-2026-68367 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68367 *
+CVE-2026-68368 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68368 *
+CVE-2026-68369 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68369 *
+CVE-2026-68370 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68370 *
+CVE-2026-68371 (CVSSv3: 8.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68371 *
+CVE-2026-68372 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68372 *
+CVE-2026-68373 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68373 *
+CVE-2026-68374 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68374 *
 CVE-2026-68375 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68375 *
+CVE-2026-68376 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68376 *
+CVE-2026-68377 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68377 *
+CVE-2026-68378 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68378 *
+CVE-2026-68379 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68379 *
+CVE-2026-68380 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68380 *
+CVE-2026-68381 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68381 *
+CVE-2026-68384 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68384 *
+CVE-2026-68385 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68385 *
+CVE-2026-68386 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68386 *
+CVE-2026-68387 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68387 *
+CVE-2026-68388 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68388 *
+CVE-2026-68389 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68389 *
+CVE-2026-68391 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68391 *
+CVE-2026-68392 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68392 *
+CVE-2026-68393 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68393 *
+CVE-2026-68394 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68394 *
+CVE-2026-68395 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68395 *
+CVE-2026-68396 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68396 *
+CVE-2026-68397 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68397 *
+CVE-2026-68398 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68398 *
 CVE-2026-68399 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68399 *
+CVE-2026-68400 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68400 *
+CVE-2026-68401 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68401 *
+CVE-2026-68402 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68402 *
+CVE-2026-68403 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68403 *
 CVE-2026-68404 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68404 *
+CVE-2026-68405 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68405 *
+CVE-2026-68406 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68406 *
+CVE-2026-68407 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68407 *
+CVE-2026-68408 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68408 *
+CVE-2026-68409 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68409 *
+CVE-2026-68410 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68410 *
+CVE-2026-68411 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68411 *
+CVE-2026-68412 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68412 *
+CVE-2026-68413 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68413 *
+CVE-2026-68414 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68414 *
+CVE-2026-68415 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68415 *
+CVE-2026-68416 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68416 *
+CVE-2026-68417 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68417 *
+CVE-2026-68418 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68418 *
+CVE-2026-68419 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68419 *
+CVE-2026-68420 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68420 *
+CVE-2026-68421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68421 *
+CVE-2026-68422 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68422 *
+CVE-2026-68425 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68425 *
+CVE-2026-68426 (CVSSv3: 9.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68426 *
+CVE-2026-68427 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68427 *
+CVE-2026-68428 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68428 *
+CVE-2026-68429 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68429 *
+CVE-2026-68430 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68430 *
+CVE-2026-68432 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68432 *
+CVE-2026-68433 (CVSSv3: 8.6): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68433 *
+CVE-2026-68434 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68434 *
+CVE-2026-68435 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68435 *
 CVE-2026-68436 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68436 *
+CVE-2026-68437 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68437 *
+CVE-2026-68439 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68439 *
 CVE-2026-68441 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68441 *
+CVE-2026-68442 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68442 *
+CVE-2026-68443 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68443 *
+CVE-2026-68444 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68444 *
+CVE-2026-68445 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68445 *
+CVE-2026-68446 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68446 *
 CVE-2026-68447 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68447 *
+CVE-2026-68448 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68448 *
+CVE-2026-68449 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68449 *
+CVE-2026-68450 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68450 *
 CVE-2026-68451 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68451 *
 CVE-2026-68452 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68452 *
 CVE-2026-68453 (CVSSv3: 7.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68453 *
+CVE-2026-68454 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68454 *
+CVE-2026-68456 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68456 *
+CVE-2026-68457 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68457 *
+CVE-2026-68458 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68458 *
+CVE-2026-68463 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68463 *
+CVE-2026-68464 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68464 *
+CVE-2026-68465 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68465 *
+CVE-2026-68466 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68466 *
+CVE-2026-68467 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68467 *
+CVE-2026-68469 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68469 *
 CVE-2026-68470 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68470 *
+CVE-2026-68471 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68471 *
+CVE-2026-68472 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68472 *
+CVE-2026-68474 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68474 *
+CVE-2026-68475 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68475 *
+CVE-2026-68476 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68476 *
+CVE-2026-68477 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68477 *
+CVE-2026-68478 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68478 *
+CVE-2026-68479 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68479 *
+CVE-2026-68480 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68480 *
+CVE-2026-69247 (CVSSv4: 8.2): python3-cryptography https://nvd.nist.gov/vuln/detail/CVE-2026-69247 *
+CVE-2026-69248 (CVSSv4: 6.9): python3-cryptography https://nvd.nist.gov/vuln/detail/CVE-2026-69248 *
+CVE-2026-69249 (CVSSv4: 8.7): python3-cryptography https://nvd.nist.gov/vuln/detail/CVE-2026-69249 *
+CVE-2026-70452 (CVSSv3: 7.4, CVSSv4: 9.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70452 *
+CVE-2026-70453 (CVSSv3: 7.5, CVSSv4: 8.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70453 *
+CVE-2026-70454 (CVSSv3: 8.0, CVSSv4: 7.6): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70454 *
+CVE-2026-70456 (CVSSv3: 8.2, CVSSv4: 8.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70456 *
+CVE-2026-70457 (CVSSv3: 6.5, CVSSv4: 8.3): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70457 *
+CVE-2026-70458 (CVSSv3: 8.2, CVSSv4: 8.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70458 *
+CVE-2026-70459 (CVSSv3: 5.3, CVSSv4: 6.9): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70459 *
+CVE-2026-70460 (CVSSv3: 8.1, CVSSv4: 9.2): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70460 *
+CVE-2026-70461 (CVSSv3: 8.2, CVSSv4: 8.8): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70461 *
+CVE-2026-70462 (CVSSv3: 6.5, CVSSv4: 7.1): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70462 *
+CVE-2026-70463 (CVSSv3: 8.1, CVSSv4: 8.6): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70463 *
+CVE-2026-70464 (CVSSv3: 7.5, CVSSv4: 8.7): rsync:rsync-native https://nvd.nist.gov/vuln/detail/CVE-2026-70464 *
 CVE-2026-70628 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-70628 *
 CVE-2026-70629 (CVSSv3: 5.5, CVSSv4: 6.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-70629 *
 CVE-2026-70630 (CVSSv3: 5.5, CVSSv4: 6.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-70630 *
 CVE-2026-70631 (CVSSv3: 5.5, CVSSv4: 6.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-70631 *
 CVE-2026-70632 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-70632 *
+CVE-2026-72003 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72003 *
+CVE-2026-72004 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72004 *
+CVE-2026-72005 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72005 *
+CVE-2026-72006 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72006 *
+CVE-2026-72007 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72007 *
+CVE-2026-72009 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72009 *
+CVE-2026-72010 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72010 *
+CVE-2026-72011 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72011 *
+CVE-2026-72012 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72012 *
+CVE-2026-72013 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72013 *
+CVE-2026-72014 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72014 *
+CVE-2026-72015 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72015 *
+CVE-2026-72016 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72016 *
+CVE-2026-72017 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72017 *
+CVE-2026-72018 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72018 *
+CVE-2026-72019 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72019 *
+CVE-2026-72020 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72020 *
+CVE-2026-72021 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72021 *
+CVE-2026-72022 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72022 *
+CVE-2026-72023 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72023 *
+CVE-2026-72024 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72024 *
+CVE-2026-72025 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72025 *
+CVE-2026-72026 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72026 *
+CVE-2026-72027 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72027 *
+CVE-2026-72028 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72028 *
+CVE-2026-72029 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72029 *
+CVE-2026-72030 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72030 *
 CVE-2026-72031 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72031 *
+CVE-2026-72032 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72032 *
+CVE-2026-72033 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72033 *
+CVE-2026-72034 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72034 *
+CVE-2026-72035 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72035 *
+CVE-2026-72036 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72036 *
+CVE-2026-72037 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72037 *
+CVE-2026-72038 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72038 *
+CVE-2026-72039 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72039 *
+CVE-2026-72040 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72040 *
+CVE-2026-72041 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72041 *
+CVE-2026-72042 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72042 *
+CVE-2026-72043 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72043 *
+CVE-2026-72045 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72045 *
+CVE-2026-72046 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72046 *
+CVE-2026-72047 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72047 *
+CVE-2026-72048 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72048 *
+CVE-2026-72049 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72049 *
+CVE-2026-72050 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72050 *
+CVE-2026-72051 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72051 *
+CVE-2026-72052 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72052 *
+CVE-2026-72053 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72053 *
+CVE-2026-72054 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72054 *
+CVE-2026-72055 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72055 *
+CVE-2026-72056 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72056 *
+CVE-2026-72057 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72057 *
+CVE-2026-72058 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72058 *
+CVE-2026-72059 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72059 *
+CVE-2026-72060 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72060 *
+CVE-2026-72061 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72061 *
+CVE-2026-72062 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72062 *
+CVE-2026-72063 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72063 *
 CVE-2026-72064 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72064 *
+CVE-2026-72065 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72065 *
+CVE-2026-72066 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72066 *
+CVE-2026-72067 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72067 *
+CVE-2026-72068 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72068 *
+CVE-2026-72069 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72069 *
+CVE-2026-72070 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72070 *
+CVE-2026-72071 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72071 *
+CVE-2026-72072 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72072 *
+CVE-2026-72073 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72073 *
+CVE-2026-72074 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72074 *
+CVE-2026-72075 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72075 *
+CVE-2026-72076 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72076 *
+CVE-2026-72077 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72077 *
+CVE-2026-72078 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72078 *
+CVE-2026-72079 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72079 *
+CVE-2026-72080 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72080 *
+CVE-2026-72081 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72081 *
+CVE-2026-72082 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72082 *
+CVE-2026-72083 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72083 *
+CVE-2026-72084 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72084 *
+CVE-2026-72085 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72085 *
+CVE-2026-72086 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72086 *
+CVE-2026-72087 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72087 *
+CVE-2026-72088 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72088 *
+CVE-2026-72089 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72089 *
 CVE-2026-72091 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72091 *
+CVE-2026-72092 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72092 *
+CVE-2026-72093 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72093 *
+CVE-2026-72095 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72095 *
+CVE-2026-72096 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72096 *
+CVE-2026-72097 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72097 *
+CVE-2026-72098 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72098 *
+CVE-2026-72099 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72099 *
+CVE-2026-72100 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72100 *
+CVE-2026-72101 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72101 *
+CVE-2026-72102 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72102 *
+CVE-2026-72103 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72103 *
+CVE-2026-72104 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72104 *
+CVE-2026-72105 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72105 *
+CVE-2026-72106 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72106 *
+CVE-2026-72107 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72107 *
+CVE-2026-72108 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72108 *
+CVE-2026-72109 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72109 *
+CVE-2026-72110 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72110 *
+CVE-2026-72111 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72111 *
+CVE-2026-72113 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72113 *
+CVE-2026-72114 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72114 *
+CVE-2026-72115 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72115 *
+CVE-2026-72116 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72116 *
+CVE-2026-72117 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72117 *
+CVE-2026-72118 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72118 *
+CVE-2026-72119 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72119 *
+CVE-2026-72120 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72120 *
+CVE-2026-72121 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72121 *
+CVE-2026-72122 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72122 *
+CVE-2026-72123 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72123 *
+CVE-2026-72124 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72124 *
+CVE-2026-72125 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72125 *
+CVE-2026-72126 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72126 *
+CVE-2026-72127 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72127 *
+CVE-2026-72128 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72128 *
+CVE-2026-72129 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72129 *
+CVE-2026-72130 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72130 *
+CVE-2026-72131 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72131 *
+CVE-2026-72132 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72132 *
+CVE-2026-72133 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72133 *
+CVE-2026-72135 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72135 *
+CVE-2026-72136 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72136 *
+CVE-2026-72137 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72137 *
+CVE-2026-72138 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72138 *
+CVE-2026-72139 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72139 *
+CVE-2026-72140 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72140 *
+CVE-2026-72141 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72141 *
+CVE-2026-72142 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72142 *
+CVE-2026-72143 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72143 *
+CVE-2026-72144 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72144 *
+CVE-2026-72146 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72146 *
+CVE-2026-72147 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72147 *
+CVE-2026-72148 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72148 *
+CVE-2026-72149 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72149 *
+CVE-2026-72150 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72150 *
+CVE-2026-72151 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72151 *
+CVE-2026-72152 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72152 *
+CVE-2026-72153 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72153 *
+CVE-2026-72154 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72154 *
+CVE-2026-72155 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72155 *
+CVE-2026-72156 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72156 *
+CVE-2026-72157 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72157 *
+CVE-2026-72158 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72158 *
+CVE-2026-72159 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72159 *
+CVE-2026-72160 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72160 *
+CVE-2026-72161 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72161 *
+CVE-2026-72162 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72162 *
+CVE-2026-72163 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72163 *
+CVE-2026-72164 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72164 *
+CVE-2026-72165 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72165 *
+CVE-2026-72166 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72166 *
+CVE-2026-72167 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72167 *
+CVE-2026-72168 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72168 *
+CVE-2026-72169 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72169 *
+CVE-2026-72170 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72170 *
+CVE-2026-72171 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72171 *
+CVE-2026-72172 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72172 *
+CVE-2026-72174 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72174 *
+CVE-2026-72175 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72175 *
+CVE-2026-72176 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72176 *
+CVE-2026-72177 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72177 *
+CVE-2026-72178 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72178 *
+CVE-2026-72179 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72179 *
+CVE-2026-72181 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72181 *
+CVE-2026-72182 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72182 *
+CVE-2026-72183 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72183 *
+CVE-2026-72191 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72191 *
+CVE-2026-72192 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72192 *
+CVE-2026-72193 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72193 *
+CVE-2026-72194 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72194 *
+CVE-2026-72195 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72195 *
+CVE-2026-72196 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72196 *
+CVE-2026-72197 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72197 *
 CVE-2026-72198 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72198 *
 CVE-2026-72199 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72199 *
 CVE-2026-72200 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72200 *
@@ -542,57 +2206,430 @@ CVE-2026-72207 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-202
 CVE-2026-72208 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72208 *
 CVE-2026-72210 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72210 *
 CVE-2026-72211 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72211 *
+CVE-2026-72212 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72212 *
+CVE-2026-72213 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72213 *
+CVE-2026-72214 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72214 *
+CVE-2026-72215 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72215 *
+CVE-2026-72216 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72216 *
+CVE-2026-72217 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72217 *
+CVE-2026-72218 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72218 *
+CVE-2026-72219 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72219 *
+CVE-2026-72220 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72220 *
+CVE-2026-72221 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72221 *
+CVE-2026-72222 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72222 *
+CVE-2026-72223 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72223 *
+CVE-2026-72224 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72224 *
+CVE-2026-72225 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72225 *
+CVE-2026-72226 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72226 *
+CVE-2026-72227 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72227 *
+CVE-2026-72228 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72228 *
+CVE-2026-72229 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72229 *
+CVE-2026-72230 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72230 *
+CVE-2026-72231 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72231 *
+CVE-2026-72232 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72232 *
+CVE-2026-72233 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72233 *
+CVE-2026-72234 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72234 *
+CVE-2026-72235 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72235 *
+CVE-2026-72236 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72236 *
+CVE-2026-72237 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72237 *
+CVE-2026-72238 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72238 *
+CVE-2026-72240 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72240 *
+CVE-2026-72241 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72241 *
+CVE-2026-72242 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72242 *
+CVE-2026-72243 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72243 *
+CVE-2026-72244 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72244 *
+CVE-2026-72245 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72245 *
+CVE-2026-72247 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72247 *
+CVE-2026-72250 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72250 *
+CVE-2026-72251 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72251 *
+CVE-2026-72252 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72252 *
+CVE-2026-72253 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72253 *
+CVE-2026-72254 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72254 *
+CVE-2026-72255 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72255 *
+CVE-2026-72256 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72256 *
+CVE-2026-72257 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72257 *
+CVE-2026-72258 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72258 *
+CVE-2026-72259 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72259 *
+CVE-2026-72260 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72260 *
+CVE-2026-72261 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72261 *
+CVE-2026-72262 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72262 *
+CVE-2026-72264 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72264 *
+CVE-2026-72265 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72265 *
+CVE-2026-72266 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72266 *
+CVE-2026-72267 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72267 *
+CVE-2026-72268 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72268 *
+CVE-2026-72269 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72269 *
+CVE-2026-72270 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72270 *
+CVE-2026-72271 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72271 *
+CVE-2026-72272 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72272 *
+CVE-2026-72273 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72273 *
+CVE-2026-72274 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72274 *
+CVE-2026-72275 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72275 *
+CVE-2026-72276 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72276 *
+CVE-2026-72277 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72277 *
+CVE-2026-72278 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72278 *
+CVE-2026-72279 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72279 *
+CVE-2026-72280 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72280 *
+CVE-2026-72282 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72282 *
+CVE-2026-72283 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72283 *
+CVE-2026-72284 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72284 *
+CVE-2026-72286 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72286 *
+CVE-2026-72288 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72288 *
+CVE-2026-72289 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72289 *
+CVE-2026-72290 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72290 *
+CVE-2026-72294 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72294 *
+CVE-2026-72295 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72295 *
+CVE-2026-72296 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72296 *
+CVE-2026-72297 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72297 *
+CVE-2026-72298 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72298 *
+CVE-2026-72299 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72299 *
+CVE-2026-72300 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72300 *
+CVE-2026-72301 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72301 *
+CVE-2026-72302 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72302 *
+CVE-2026-72304 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72304 *
+CVE-2026-72305 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72305 *
+CVE-2026-72306 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72306 *
+CVE-2026-72307 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72307 *
+CVE-2026-72308 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72308 *
+CVE-2026-72310 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72310 *
+CVE-2026-72312 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72312 *
+CVE-2026-72314 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72314 *
 CVE-2026-72315 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72315 *
+CVE-2026-72316 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72316 *
+CVE-2026-72317 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72317 *
+CVE-2026-72318 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72318 *
+CVE-2026-72319 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72319 *
+CVE-2026-72320 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72320 *
+CVE-2026-72321 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72321 *
+CVE-2026-72322 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72322 *
+CVE-2026-72323 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72323 *
+CVE-2026-72324 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72324 *
+CVE-2026-72325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72325 *
+CVE-2026-72326 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72326 *
+CVE-2026-72327 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72327 *
+CVE-2026-72328 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72328 *
 CVE-2026-72329 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72329 *
+CVE-2026-72330 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72330 *
 CVE-2026-72331 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72331 *
+CVE-2026-72333 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72333 *
 CVE-2026-72334 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72334 *
+CVE-2026-72335 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72335 *
+CVE-2026-72336 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72336 *
 CVE-2026-72337 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72337 *
+CVE-2026-72338 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72338 *
+CVE-2026-72339 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72339 *
+CVE-2026-72340 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72340 *
+CVE-2026-72341 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72341 *
+CVE-2026-72342 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72342 *
+CVE-2026-72343 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72343 *
 CVE-2026-72345 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72345 *
+CVE-2026-72347 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72347 *
+CVE-2026-72348 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72348 *
+CVE-2026-72349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72349 *
+CVE-2026-72350 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72350 *
+CVE-2026-72351 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72351 *
+CVE-2026-72352 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72352 *
 CVE-2026-72355 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72355 *
+CVE-2026-72356 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72356 *
+CVE-2026-72357 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72357 *
+CVE-2026-72360 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72360 *
+CVE-2026-72361 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72361 *
+CVE-2026-72362 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72362 *
+CVE-2026-72363 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72363 *
+CVE-2026-72364 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72364 *
+CVE-2026-72365 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72365 *
+CVE-2026-72366 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72366 *
+CVE-2026-72367 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72367 *
+CVE-2026-72369 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72369 *
 CVE-2026-72370 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72370 *
+CVE-2026-72371 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72371 *
+CVE-2026-72372 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72372 *
+CVE-2026-72373 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72373 *
+CVE-2026-72374 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72374 *
+CVE-2026-72375 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72375 *
+CVE-2026-72376 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72376 *
 CVE-2026-72377 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72377 *
+CVE-2026-72378 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72378 *
+CVE-2026-72379 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72379 *
 CVE-2026-72380 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72380 *
+CVE-2026-72381 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72381 *
+CVE-2026-72382 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72382 *
+CVE-2026-72383 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72383 *
+CVE-2026-72384 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72384 *
+CVE-2026-72385 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72385 *
+CVE-2026-72386 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72386 *
+CVE-2026-72387 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72387 *
 CVE-2026-72388 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72388 *
+CVE-2026-72389 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72389 *
+CVE-2026-72390 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72390 *
+CVE-2026-72391 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72391 *
+CVE-2026-72392 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72392 *
+CVE-2026-72393 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72393 *
+CVE-2026-72394 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72394 *
+CVE-2026-72395 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72395 *
+CVE-2026-72396 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72396 *
 CVE-2026-72397 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72397 *
+CVE-2026-72398 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72398 *
+CVE-2026-72399 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72399 *
+CVE-2026-72400 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72400 *
 CVE-2026-72402 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72402 *
+CVE-2026-72403 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72403 *
 CVE-2026-72404 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72404 *
+CVE-2026-72405 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72405 *
+CVE-2026-72406 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72406 *
+CVE-2026-72409 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72409 *
+CVE-2026-72410 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72410 *
 CVE-2026-72413 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72413 *
+CVE-2026-72414 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72414 *
+CVE-2026-72416 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72416 *
+CVE-2026-72418 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72418 *
+CVE-2026-72419 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72419 *
+CVE-2026-72420 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72420 *
+CVE-2026-72421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72421 *
+CVE-2026-72422 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72422 *
 CVE-2026-72423 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72423 *
+CVE-2026-72424 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72424 *
+CVE-2026-72425 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72425 *
+CVE-2026-72427 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72427 *
+CVE-2026-72428 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72428 *
+CVE-2026-72429 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72429 *
+CVE-2026-72430 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72430 *
+CVE-2026-72431 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72431 *
+CVE-2026-72433 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72433 *
+CVE-2026-72434 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72434 *
+CVE-2026-72435 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72435 *
+CVE-2026-72436 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72436 *
+CVE-2026-72437 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72437 *
 CVE-2026-72440 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72440 *
+CVE-2026-72441 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72441 *
+CVE-2026-72443 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72443 *
+CVE-2026-72444 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72444 *
+CVE-2026-72445 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72445 *
+CVE-2026-72446 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72446 *
+CVE-2026-72447 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72447 *
+CVE-2026-72448 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72448 *
+CVE-2026-72449 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72449 *
+CVE-2026-72450 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72450 *
+CVE-2026-72451 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72451 *
+CVE-2026-72452 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72452 *
 CVE-2026-72454 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72454 *
+CVE-2026-72455 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72455 *
+CVE-2026-72457 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72457 *
+CVE-2026-72458 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72458 *
+CVE-2026-72459 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72459 *
+CVE-2026-72460 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72460 *
+CVE-2026-72461 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72461 *
+CVE-2026-72462 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72462 *
 CVE-2026-72463 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72463 *
+CVE-2026-72464 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72464 *
+CVE-2026-72466 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72466 *
+CVE-2026-72467 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72467 *
+CVE-2026-72468 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72468 *
+CVE-2026-72469 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72469 *
+CVE-2026-72470 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72470 *
+CVE-2026-72472 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72472 *
+CVE-2026-72473 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72473 *
+CVE-2026-72474 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72474 *
+CVE-2026-72475 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72475 *
+CVE-2026-72476 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72476 *
 CVE-2026-72477 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72477 *
+CVE-2026-72478 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72478 *
+CVE-2026-72479 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72479 *
+CVE-2026-72480 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72480 *
+CVE-2026-72481 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72481 *
+CVE-2026-72482 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72482 *
+CVE-2026-72483 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72483 *
+CVE-2026-72484 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72484 *
 CVE-2026-72485 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72485 *
+CVE-2026-72486 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72486 *
+CVE-2026-72487 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72487 *
+CVE-2026-72488 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72488 *
+CVE-2026-72489 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72489 *
+CVE-2026-72491 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72491 *
+CVE-2026-72492 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72492 *
 CVE-2026-72494 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72494 *
+CVE-2026-72495 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72495 *
 CVE-2026-72496 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72496 *
 CVE-2026-72497 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72497 *
+CVE-2026-72498 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72498 *
 CVE-2026-72499 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72499 *
+CVE-2026-72500 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72500 *
+CVE-2026-72501 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72501 *
+CVE-2026-72502 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-72502 *
+CVE-2026-72522 (CVSSv3: 6.2): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2026-72522 *
+CVE-2026-73070 (CVSSv4: 6.8): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73070 *
 CVE-2026-73071 (CVSSv3: 3.3): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73071 *
 CVE-2026-73072 (CVSSv4: 8.5): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73072 *
+CVE-2026-73074 (CVSSv4: 7.1): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73074 *
+CVE-2026-73075 (CVSSv4: 4.6): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73075 *
 CVE-2026-73076 (CVSSv4: 8.4): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73076 *
+CVE-2026-73077 (CVSSv4: 8.4): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73077 *
+CVE-2026-73078 (CVSSv4: 8.6): vim https://nvd.nist.gov/vuln/detail/CVE-2026-73078 *
+CVE-2026-73281 (CVSSv3: 3.5): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-73281 *
+CVE-2026-73282 (CVSSv3: 4.8): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-73282 *
+CVE-2026-73283 (CVSSv3: 2.5): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-73283 *
+CVE-2026-74255 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74255 *
+CVE-2026-74256 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74256 *
+CVE-2026-74257 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74257 *
 CVE-2026-74258 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74258 *
+CVE-2026-74259 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74259 *
 CVE-2026-74260 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74260 *
+CVE-2026-74261 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74261 *
+CVE-2026-74262 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74262 *
+CVE-2026-74263 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74263 *
+CVE-2026-74264 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74264 *
+CVE-2026-74265 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74265 *
+CVE-2026-74266 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74266 *
+CVE-2026-74267 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74267 *
+CVE-2026-74268 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74268 *
+CVE-2026-74270 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74270 *
+CVE-2026-74271 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74271 *
 CVE-2026-74272 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74272 *
 CVE-2026-74273 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74273 *
+CVE-2026-74276 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74276 *
 CVE-2026-74277 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74277 *
+CVE-2026-74278 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74278 *
+CVE-2026-74279 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74279 *
+CVE-2026-74280 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74280 *
+CVE-2026-74281 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74281 *
+CVE-2026-74282 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74282 *
+CVE-2026-74283 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74283 *
+CVE-2026-74284 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74284 *
+CVE-2026-74286 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74286 *
+CVE-2026-74287 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74287 *
+CVE-2026-74288 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74288 *
 CVE-2026-74289 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74289 *
+CVE-2026-74290 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74290 *
 CVE-2026-74291 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74291 *
+CVE-2026-74292 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74292 *
+CVE-2026-74293 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74293 *
 CVE-2026-74294 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74294 *
+CVE-2026-74295 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74295 *
+CVE-2026-74296 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74296 *
+CVE-2026-74297 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74297 *
+CVE-2026-74300 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74300 *
+CVE-2026-74301 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74301 *
+CVE-2026-74302 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74302 *
+CVE-2026-74303 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74303 *
+CVE-2026-74305 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74305 *
+CVE-2026-74306 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74306 *
 CVE-2026-74307 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74307 *
+CVE-2026-74308 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74308 *
+CVE-2026-74309 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74309 *
+CVE-2026-74310 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74310 *
+CVE-2026-74311 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74311 *
+CVE-2026-74312 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74312 *
+CVE-2026-74313 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74313 *
+CVE-2026-74316 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74316 *
 CVE-2026-74317 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74317 *
+CVE-2026-74318 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74318 *
+CVE-2026-74320 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74320 *
+CVE-2026-74321 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74321 *
+CVE-2026-74322 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74322 *
+CVE-2026-74323 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74323 *
+CVE-2026-74324 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74324 *
+CVE-2026-74325 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74325 *
+CVE-2026-74327 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74327 *
+CVE-2026-74329 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74329 *
+CVE-2026-74330 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74330 *
+CVE-2026-74331 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74331 *
+CVE-2026-74332 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74332 *
+CVE-2026-74333 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74333 *
 CVE-2026-74334 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74334 *
+CVE-2026-74335 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74335 *
 CVE-2026-74336 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74336 *
+CVE-2026-74337 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74337 *
 CVE-2026-74338 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74338 *
+CVE-2026-74339 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74339 *
+CVE-2026-74340 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74340 *
+CVE-2026-74341 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74341 *
 CVE-2026-74342 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74342 *
+CVE-2026-74344 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74344 *
+CVE-2026-74345 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74345 *
+CVE-2026-74346 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74346 *
 CVE-2026-74347 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74347 *
+CVE-2026-74348 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74348 *
+CVE-2026-74349 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74349 *
 CVE-2026-74350 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74350 *
+CVE-2026-74351 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74351 *
+CVE-2026-74352 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74352 *
+CVE-2026-74353 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74353 *
 CVE-2026-74354 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74354 *
+CVE-2026-74355 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74355 *
+CVE-2026-74356 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74356 *
+CVE-2026-74358 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74358 *
+CVE-2026-74359 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74359 *
+CVE-2026-74360 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74360 *
+CVE-2026-74361 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74361 *
+CVE-2026-74362 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74362 *
+CVE-2026-74363 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74363 *
+CVE-2026-74364 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74364 *
+CVE-2026-74365 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74365 *
+CVE-2026-74366 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74366 *
 CVE-2026-74367 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74367 *
+CVE-2026-74371 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74371 *
+CVE-2026-74372 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74372 *
 CVE-2026-74373 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74373 *
 CVE-2026-74374 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74374 *
 CVE-2026-74375 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74375 *
+CVE-2026-74376 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74376 *
+CVE-2026-74377 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74377 *
+CVE-2026-74378 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74378 *
+CVE-2026-74379 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74379 *
+CVE-2026-74380 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74380 *
+CVE-2026-74381 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74381 *
+CVE-2026-74382 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74382 *
+CVE-2026-74383 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74383 *
+CVE-2026-74384 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74384 *
+CVE-2026-74385 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74385 *
+CVE-2026-74386 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74386 *
+CVE-2026-74387 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74387 *
+CVE-2026-74388 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74388 *
+CVE-2026-74389 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74389 *
+CVE-2026-74390 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74390 *
+CVE-2026-74391 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74391 *
+CVE-2026-74393 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74393 *
+CVE-2026-74394 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74394 *
+CVE-2026-74395 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74395 *
+CVE-2026-74396 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74396 *
+CVE-2026-74397 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74397 *
+CVE-2026-74398 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74398 *
+CVE-2026-74399 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74399 *
+CVE-2026-74400 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74400 *
+CVE-2026-74401 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74401 *
+CVE-2026-74402 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74402 *
+CVE-2026-74404 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74404 *
+CVE-2026-74405 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74405 *
+CVE-2026-74406 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74406 *
 CVE-2026-74407 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74407 *
+CVE-2026-74408 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74408 *
+CVE-2026-74409 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74409 *
+CVE-2026-74410 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74410 *
+CVE-2026-74411 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74411 *
+CVE-2026-74412 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74412 *
+CVE-2026-74413 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74413 *
+CVE-2026-74416 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74416 *
+CVE-2026-74417 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74417 *
 CVE-2026-74419 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74419 *
+CVE-2026-74420 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74420 *
+CVE-2026-74421 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74421 *
+CVE-2026-74423 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74423 *
+CVE-2026-74424 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74424 *
+CVE-2026-74425 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74425 *
+CVE-2026-74426 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74426 *
+CVE-2026-74427 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74427 *
+CVE-2026-74428 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74428 *
+CVE-2026-74429 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74429 *
+CVE-2026-74430 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74430 *
+CVE-2026-74431 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74431 *
+CVE-2026-74432 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74432 *
+CVE-2026-74433 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74433 *
+CVE-2026-74434 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74434 *
+CVE-2026-74435 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74435 *
+CVE-2026-74436 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74436 *
+CVE-2026-74437 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74437 *
+CVE-2026-74438 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74438 *
+CVE-2026-74439 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74439 *
 CVE-2026-74440 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74440 *
 CVE-2026-74441 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74441 *
 CVE-2026-74442 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74442 *
@@ -721,31 +2758,69 @@ CVE-2026-74574 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-202
 CVE-2026-74575 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74575 *
 CVE-2026-74576 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74576 *
 CVE-2026-74577 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74577 *
+CVE-2026-74578 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-74578 *
 
 Summary of CVE counts by recipe:
-  linux-yocto: 344
-  ffmpeg: 22
-  libsoup: 5
+  linux-yocto: 1283
+  rsync:rsync-native: 39
+  ffmpeg: 27
+  vim: 19
+  curl:curl-native: 19
+  xserver-xorg:xwayland: 11
+  bind: 9
+  go:go-binary-native:go-cross-x86-64-v3:go-runtime: 9
+  python3:python3-native: 8
+  libsoup: 6
+  libssh2:libssh2-native: 6
+  apr-util: 5
+  expat:expat-native: 5
+  glibc: 5
+  python3-cryptography: 5
+  qemu:qemu-native:qemu-system-native: 4
   binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 4
-  busybox: 3
-  vim: 3
+  python3-pyasn1: 4
+  busybox: 4
+  wget: 4
+  gstreamer1.0: 3
+  perl:perl-native: 3
+  cpio: 3
+  openssh: 3
   libsndfile1: 2
-  python3:python3-native: 2
+  util-linux:util-linux-libuuid:util-linux-libuuid-native:util-linux-native: 2
   popt:popt-native: 2
-  openssh: 2
-  wget: 2
+  acl:acl-native: 2
+  libxfont2: 2
+  patch: 2
+  bison:bison-native: 2
+  coreutils:coreutils-native: 2
   apt: 1
+  connman: 1
   libgcrypt:libgcrypt-native: 1
   cups: 1
+  git:git-native: 1
   cairo:cairo-native: 1
+  python3-ply: 1
+  avahi: 1
+  rpm-sequoia: 1
+  gdk-pixbuf:gdk-pixbuf-native: 1
   libtheora: 1
+  libxml2:libxml2-native: 1
+  libslirp:libslirp-native: 1
+  p11-kit:p11-kit-native: 1
   openssl:openssl-native: 1
-  perl:perl-native: 1
   tar: 1
   epiphany: 1
   cryptodev-linux: 1
-  bison:bison-native: 1
-  libssh2:libssh2-native: 1
+  gnutls:gnutls-native: 1
+  python3-lxml:python3-lxml-native: 1
+  python3-urllib3: 1
+  ruby:ruby-native: 1
+  libsolv: 1
+  diffutils: 1
+  attr:attr-native: 1
+  libxfont:libxfont2: 1
+  alsa-lib:alsa-lib-native: 1
+  nghttp2: 1
 
 For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
