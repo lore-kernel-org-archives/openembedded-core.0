@@ -1,138 +1,124 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA6ABC5DF66
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 10:59:54 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.18])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27793.1786964392774091073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD7EC5B572
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 11:02:24 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27643.1786964541191132843
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2026 03:59:53 -0700
+ Mon, 17 Aug 2026 04:02:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=E+fOYzIk;
- spf=pass (domain: ericsson.com, ip: 52.101.65.18, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UsopNYGavkOX7+ReW3HJgmBRY7aFO4F3qwrF1/sHpsnPxTbu7kDzEpz5k7B4o+Fq6PEnxdUGNSQHP4dK0ucx7P4ceP4RwReyRl4IknoJtdOnlCyciaPauFG3XNX7F++2mUUNPks6rJFyuH4St9awHo+KxNjesktCyc87mInnJ6FC+lFDHL4Sl1Lk8vJ8R+qW5b3ea90UFl1pvV+QymL8lsxiKhkeAcpl5UP6vbVYh4PG6MwJMjYBUUli4SGARR0uC1AjQox7bmxRxwoOWJ0F/LCJ+6OAEviOFW/2aJrFd5Djs6gxlteSZt/4liX+qbHZBKBqTIifeDPBY/9ytia+1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PGqdKgiyhES3lNBGj/yqu8VcO9mar3foUC72keMytNA=;
- b=ZZbXjWkHAgYpW7rdrmPhMHo3kx4sPz85QrBS63wODU/t2ohhBdsSCo2rKu2A8MaPeILXQQ/x1jy5nL4woEXQm/9+xulvXJy26Zrm9lxCd8Zxv2Qlln0/cBjascCu1fmmw+P6zIQfFSxM23A2iVNoJ7JM9Qt96y8gsAurXa89XlbOvQ3EbJl6wZHmVyJ8IpwkhQa/mnSACLnIjSvmx/c1R6QrsmEHBzpY5ZJxfKw4xvRcgolbraqx1FlLXc/FTZ9C4Fi90q6v/sky/6dYKVB3jjP9Movses9qPdqWiwBvv35adgXQuOp4Dg6vrfNTnHE4j8vLhO3XMT9GwwuZE2nYvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PGqdKgiyhES3lNBGj/yqu8VcO9mar3foUC72keMytNA=;
- b=E+fOYzIk81qu+TS2KqtsqwCwlB6ah6hMtxp/XVqT0TnlujOqDqdMCHYRdf0X5qQXlAv8UAkTjF6S9VDRiKtRR04OG+qr+QJ3N99o2/lEIe64XycOAcQHq+MPW9fAyOwN7MLWey2KYTQh+GMbBrr5HoS9f6XP2knfGozgzugsdxA3HLeGl7xoONAHeaGgeysW5zwkyW2uJDvzzFdMTzgl6PXv65gbE5d8qJkbquqn32DOCEcP7BPY8/wKq+17YpG5IUjXATzIOD6r5wggx61/X7sBAoZIRHZfjOEWwbStO1txXO1WMdnDyBe5AXf0Mxr+76xalinCESFrkKZ6EB9OYQ==
-Received: from AS4P250CA0005.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:5df::16)
- by AM9PR07MB7713.eurprd07.prod.outlook.com (2603:10a6:20b:2ff::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Mon, 17 Aug
- 2026 10:59:47 +0000
-Received: from AM3PEPF0000A78E.eurprd04.prod.outlook.com
- (2603:10a6:20b:5df:cafe::1f) by AS4P250CA0005.outlook.office365.com
- (2603:10a6:20b:5df::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.17 via Frontend Transport; Mon,
- 17 Aug 2026 10:59:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM3PEPF0000A78E.mail.protection.outlook.com (10.167.16.117) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.339.3 via Frontend Transport; Mon, 17 Aug 2026 10:59:47 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 17 Aug 2026 12:59:46 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 23AC74020B46;
-	Mon, 17 Aug 2026 12:59:46 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id E02CF700CF25; Mon, 17 Aug 2026 12:59:45 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <paul@pbarker.dev>, Daniel Turull <daniel.turull@ericsson.com>
-Subject: [wrynose][PATCH] libarchive: mark CVE-2026-14164 as not-applicable-platform
-Date: Mon, 17 Aug 2026 12:59:42 +0200
-Message-ID: <20260817105942.2295192-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@linaro.org header.s=google header.b=JRmzUVut;
+ spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b28c91fba5so3867844e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 04:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1786964539; x=1787569339; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4YBWujUsfTSGrFu88rhgd7JPp8h2Vm1CkAZdvw6dXSo=;
+        b=JRmzUVutPZADaWjue3xcquOcvnjpRY+rLPRj8r6/XtGqG5nzpRbYJFscprnnPGL/Hn
+         m2ohHsqIUlKis4DxeXuK2aPuvNfON9EBDmZRWbqcMGEf2ezLWSPzm/nEPko7aTRh/dyp
+         YdWUM65tVFywP41016TzRTWpeWZ1bF+oMUdjciCUTdmvV8McJEAKaabo0IyPeblPSBS1
+         7ASdaVWjR47mDlJ939dsKxKsX8l1lk2H5Kf7QZ6ElfxXuyQMTaHV9VVftRYpP3aimHat
+         qNpV9l/LdJwDytV4/TRmGHEhH1EpJGPkvjLAfDuadmLkWWLVkML2USk1G/AAiCkjBw70
+         pCMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786964539; x=1787569339;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4YBWujUsfTSGrFu88rhgd7JPp8h2Vm1CkAZdvw6dXSo=;
+        b=eTohiIKwzXlpACTworq7pBaBIAz5P5x6RZt0qvJMm7vn9Ezha7JoooR27mG8+bcisH
+         iBkKuLUY+4bQW0xcVfqhfMHYoApoJVkJcYZIJtjq0zd4NJ/5YwQJiW3fUWWgxrTlD+Vo
+         aKsFgrklbv9jfB1vTtmWGpJJc+HVRArCh4NAILd4wIFcifjvBqCGu8PrVXjnYJyIbqUz
+         imwjolH3yFWJ0OOzmBemrHsM8R3/msGI9XoIVNUL3lB1tWwcBOcQQ73S7O29xoN3DwX9
+         zPng4QbOg1na6O6fGMJ84HVK3nD66FeBCkI6iwOsVB9TnX6foLLwReUz5oNCb5LqTC+R
+         WfKg==
+X-Gm-Message-State: AOJu0YzEtMx/sRF0Vbxsul0yIZMjersm18Z+nxsXe4XYplVFanVE67I9
+	F+tIU3+5LNTjv6wpzDdh+17w/0IsyP/DxwaVEhuaqVC65WQGjoynpfVA07NsO9VWHyc=
+X-Gm-Gg: AR+sD10vWsN4q4s2bDl9Nlh+PYXiRtTbw0CYKpQ+mimuDqpzFXweMV8chB3ZcwEYUUF
+	CuIVY8eDdCR+6t2SjJLmvLVcP2Zx8rf8zvDbXL8g1GpDsrR9Lj74ikXAFjK0pWVpkZmzGWLguCX
+	2zP8qLVJQE4S27zhN4hKJMHeUvc1xBblGP7GcX1tB4Snj5zdGRMAodj2/OWYmGF4V1jao1IhgAx
+	XfV2d0T5m0kgmEfX9IyN9rsg7lTOCV61I0brYoFu75cfCnuKqy0kyyH8WtJFZS6QstRLKnW3Mv/
+	N5NaQ/qTgHwn8eNiSW89QOgzjJwx6EBoT3abYVDwVjCuq5vI+ZKblrFXNvLswerk/eYRzHcOu0d
+	h54IsCuWgq00IHdi41qbhpRRcHY4j25wJb91uQc5/m3ZtVc8jCI1ZLmSyiZtG2UAb/w5ID2LoPf
+	PFemWc1YddELPUViYf92NmpIxk/OSg/rVaj9k2GheshgjO4gFzmaHcp3BSrRw1KnZPEn34Ikzox
+	Tu9aUWJDvjf9JI=
+X-Received: by 2002:a05:6512:32c6:b0:5b4:5c2c:7b73 with SMTP id 2adb3069b0e04-5b45c2c7f3amr3682860e87.19.1786964538981;
+        Mon, 17 Aug 2026 04:02:18 -0700 (PDT)
+Received: from nuoska (78-27-71-225.bb.dnainternet.fi. [78.27.71.225])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b46cfa12c1sm312427e87.24.2026.08.17.04.02.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 04:02:18 -0700 (PDT)
+Date: Mon, 17 Aug 2026 14:02:16 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 4/4] kernel-devsrc: copy kernel/sched/ext
+ directory
+Message-ID: <aoLqOHiulqm3hxZo@nuoska>
+References: <20260814064812.1071873-1-mikko.rapeli@linaro.org>
+ <20260814064812.1071873-5-mikko.rapeli@linaro.org>
+ <CADkTA4OfiyTA=V+6s_nu+27HK6PZXcojwm=H7AkOch1huwFDHQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF0000A78E:EE_|AM9PR07MB7713:EE_
-X-MS-Office365-Filtering-Correlation-Id: 714c4766-7743-4d5d-29df-08defc4ea742
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|23010399003|82310400026|1800799024|376014|13003099007|10067099003|11063799006|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	7Z0LqhkrPkVFzNphdwvG5ah0fqNTWxKWKoof2kWPuiytAjcXueo2TxzlXhuQAm1GEIKI6LqqpYEdcjhUnNQFyhEFIBP4js7KGmZ3L2CSkKLxy29OAFO3IDDOtt2k16xnepFQplmbRJ7vM8Iei9fx0vwar/B3tzfpFEratZT57O9FOwhm/HXLZ5jxLHP4jX96nnsnsEx3Y7SNodKuJEgcjdc/NS9k2XFt4jtftP/+n17NgdtajH06QriNw+sSALalBLaBzyFu1M29OV/qb6eAi8DoyUb4xhJJMz81HRoVF+sjw9f+9iKhviiDKlfd6ndw3FpX5cAEMWiPpK58UJERn4seHXB1Kazl5LQLeiqA/VWrJEFiZ3z5sJTnUdYYWVSPV0C3uqMxnaYZMgzS+EHTAHL13NgAYh2JQOoJdtR/n64c9tIZG4qOVdSZ+OUjT+ZibIHxHPCX8Ofo59EvPMtlfGu3MfzrrBZm3fhHcZVvelPAuVPqVuQPSeceDmkDSbupr+Ly605ttIxeQFPTbs0eKwe/Ye7YK5hD+Olfx+E8H+Hn4s6yBLQnn7+xVMOREuNMyjWIokM7UrZmIaDAHEI28COwcmMm0x4gg/VZRfJVTsSCiqBmBUAvba1M8VcOvRvKsDFovlEkfRYrldUxINBxyHSZ/O6Mhe6QPoPI+sB9Ah1nKtu+4uOFrbqX5ZYOygEN1ow6MGE//gRbZtxeuanT/g==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(82310400026)(1800799024)(376014)(13003099007)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	LdWqagsmdBTFJ4tc7ujen80Td8DZYBBjP94Iw9A8V2UXM5vbz2Z/kbu28AhcNrCmg8mOq59H2q39ClaTGyojT0u+PDNUe4PGAqx55B+4tPexvpP0gWK1PXoJsb17GmvgUEJ/AdbAiRQw8DzOfn2OhrK+ukmhYJ2dRysDfTIXDWzeqziWy+6PIaHPPyVAhosW4fV2m6RfVcsxzTYTjMW8UTRi4XYVcjns0kRBrH7FnpspRuWqFqldT7joiT9z/Y47vaDPKnxsbTWqC5OrCrvIk6m12vDtpORjiwwlOmSKQMBg470ZPvUvI/smNfHX0uO42WI+OC5sUPMEP4wFqHau237vMh9ab74O1vQtR4MLl8ZHASGN7PDNoY6swiAKjXvL2BPTcbB3Y0kTCAsa6VsXpTynIS5RNm+w1GaayNCR6YehSHF0E6p2IMFshvY1XQvW
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 10:59:47.6346
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 714c4766-7743-4d5d-29df-08defc4ea742
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF0000A78E.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR07MB7713
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADkTA4OfiyTA=V+6s_nu+27HK6PZXcojwm=H7AkOch1huwFDHQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 10:59:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243608
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 11:02:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243609
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+Hi,
 
-- The RAR5 double-free in init_unpack() is a regression introduced
-  upstream by commit 620bdafa on 2026-05-16 and existed only
-  on the git master branch until it was fixed by PR #3071 (commit
-  1c914cdf) on 2026-05-24. It was never part of an upstream release.
-- The upstream release tarballs (3.6.x/3.7.x/3.8.6) use the older
-  init_unpack() with unchecked calloc and no early-return path, so the
-  freed window_buf/filtered_buf pointers are never left dangling and the
-  double-free cannot occur.
+On Fri, Aug 14, 2026 at 08:48:45AM -0400, Bruce Ashfield wrote:
+> On Fri, Aug 14, 2026 at 2:48 AM Mikko Rapeli via
+> lists.openembedded.org
+> <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> >
+> > ext_* files were moved there in upstream commit
+> > bba2c3615bd sched_ext: Move sources under kernel/sched/ext/
+> >
+> > Fixes oeqa kernelmodule.py failure with 7.2 kernel:
+> >
+> >   CC      kernel/sched/rq-offsets.s
+> > In file included from kernel/sched/rq-offsets.c:5:
+> > kernel/sched/sched.h:4214:10: fatal error: ext/ext.h: No such file or directory
+> >  4214 | #include "ext/ext.h"
+> >       |          ^~~~~~~~~~~
+> > compilation terminated.
+> > make[2]: *** [scripts/Makefile.build:184: kernel/sched/rq-offsets.s] Error 1
+> > make[1]: *** [/usr/lib/modules/7.2.0-rc7-yoctodev-standard/build/Makefile:1408: prepare0] Error 2
+> >
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> >  meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> > index 0b52f5d48c..da33e9facb 100644
+> > --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> > +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> > @@ -368,6 +368,9 @@ do_install() {
+> >          cp -a --parents kernel/sched/ext.h $kerneldir/build 2>/dev/null || :
+> >          cp -a --parents kernel/workqueue_internal.h $kerneldir/build 2>/dev/null || :
+> >
+> > +        # 7.1+
+> > +        cp -a --parents kernel/sched/ext $kerneldir/build 2>/dev/null || :
+> 
+> Is it actually all of the files we need from the directory ?
+> 
+> We avoid full directory copies wherever possible.
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-14164
+Only kernel/sched/ext/ext.h seems to be needed. I will the copy to that in v2.
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- meta/recipes-extended/libarchive/libarchive_3.8.7.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.7.bb b/meta/re=
-cipes-extended/libarchive/libarchive_3.8.7.bb
-index e8c3a3bfe3..0926acd8f9 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.8.7.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.8.7.bb
-@@ -92,3 +92,7 @@ RDEPENDS:${PN}-ptest +=3D "bsdtar bsdcpio"
- CVE_STATUS[CVE-2026-4426] =3D "fixed-version: fixed since 3.8.7"
- CVE_STATUS[CVE-2026-5121] =3D "fixed-version: fixed since 3.8.7"
- CVE_STATUS[CVE-2026-5745] =3D "fixed-version: fixed since 3.8.6"
-+CVE_STATUS[CVE-2026-14164] =3D "not-applicable-platform: Double-free regre=
-ssion in the RAR5\
-+ reader's init_unpack() was introduced upstream by commit 620bdafa (2026-0=
-5-16) and existed\
-+ only on the git master branch until the fix in PR #3071 (commit 1c914cdf,=
- 2026-05-24). It was\
-+ never part of an upstream release tarball."
+-Mikko
 
