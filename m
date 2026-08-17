@@ -1,101 +1,105 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2992C5DF70
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 09:31:14 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26516.1786959066031305365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6645C5DF66
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 10:13:44 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27028.1786961614974940937
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2026 02:31:06 -0700
+ Mon, 17 Aug 2026 03:13:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=D3XUAbG3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ptc92F2F;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a00f0f6fa3-1f427c66-7bfc-427e-a36c-780dcf5c0a25-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786959065; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=td0vqFTvtBPV0Vf1IB1Ve+4hOHLSEJ1knewyu67quuo=;
-	b=D3XUAbG37PK9GXiuFOQUpi1k79eA4cn3gS2/MwgKysBBsi8PbJnOsgEkub6sVjSd
-	SB8FfgG1tD8ahg+vrFDHexiJCnMFSyy98iqbswUxqw3BoM6mkMhpoxiPkrNQHd5aPCn
-	LmQDgVZPhtPMHOo5ktf6BLCCN8xc8nwaEu5KwiEE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786959065;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=td0vqFTvtBPV0Vf1IB1Ve+4hOHLSEJ1knewyu67quuo=;
-	b=ptc92F2FlflhDEC8Pym1eXU2xLDskqJQtPbuITDxopm+8GbBFYhCpLtMFdqVOt0W
-	KhhYEN8PzYFZXXYMSKeOPjAbLvaELe85L0tJy0naqaaaCwb/W7dsWiHtaP74EvVOz/c
-	bXa9Atxupk+n0ozjlR82W8r583BmzjyfehXBKVQU=
-From: patchtest@automation.yoctoproject.org
-To: Thorsten Schmelzer <t.schmelzer@phytec.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][PATCH] linux-firmware: split out iwlwifi 5000-5 firmware
-In-Reply-To: <20260817091529.2406140-1-t.schmelzer@phytec.de>
-References: <20260817091529.2406140-1-t.schmelzer@phytec.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a00f0f6fa3-1f427c66-7bfc-427e-a36c-780dcf5c0a25-000000@us-west-2.amazonses.com>
-Date: Mon, 17 Aug 2026 09:31:04 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.17-54.240.27.45
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=QMHmyJIj;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C5F5E1A16DE
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 10:13:32 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 95FA260352
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 10:13:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6902111C4FFDD;
+	Mon, 17 Aug 2026 12:13:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1786961608; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=DIFjRsFcv35m7hKw+EQMspv2LKX1FxtPr+k32pZ/e4s=;
+	b=QMHmyJIjwvytU82Mgv8hbAdaRKRU+IbSBaOKEmGzpiJ2ji+L+bMobmNXMDOYEA+/JAeRcL
+	Cj4EqMfVUNqRxCxaGWTPwzZV7Zg8EhLpqiUvyVhC/dzQdYgHPkbFptlISdLeZ01et8jkbS
+	4c6jpJUjJDkIJApMDllitt75lMKh8hjvqVZCwGF4RyIV02dlsLOC34QFcWc1iGrYwnbLmM
+	oiAdKHk+ZojwfGXjbdfzbk1YVTeQ+JtmvuxR3smc7CTdrnfxbQ/+gVsfd3oc6lxTbW3ggo
+	TpoyFpisQmSwN9e+yZwfzj+2aRguzI6pKSXSx7B0epk0y+OtHq7E+AAgegEtMw==
+From: Antonin Godard <antonin.godard@bootlin.com>
+Date: Mon, 17 Aug 2026 12:13:20 +0200
+Subject: [PATCH] python3-pygments: update 2.20.0 -> 2.21.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260817-update-pygments-v1-1-da836eab9640@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ5AMBBA4avIrDVRSf1dRSyowUhU0ykh4u6K5
+ bd47wJGR8hQRRc43IlpNQEyjkBPrRlRUB8MaZJmSSFzsdm+9SjsOS5oPAvZqbwsCzUoLSFU1uF
+ Ax3esm9+8dTNq/27gvh8X5lo5cwAAAA==
+X-Change-ID: 20260817-update-pygments-1b579985f5c1
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Antonin Godard <antonin.godard@bootlin.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1437;
+ i=antonin.godard@bootlin.com; h=from:subject:message-id;
+ bh=EOaxL6uUdiuNuyzXJG3zkiamIuiiSJhetEM9lGfC9NY=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqgt7HS3pwFbRaGlux4XJZZ/ljuD5IekG98HSVd
+ d89tN8XdkKJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCaoLexwAKCRDRgEFAKaOo
+ NtaqEACdnGY71xFuC64QJ86YiuJF0SVqca2s49wQNwAdshviPpN7F9xlzJPsr+ZLqOV9VOdlN9I
+ dmvuscGUksXiPnK5kabEyIEsc2KYI36mkPN0Ut3EQ/xFMC/ci3FbW4/bWtUAraYb6itlmTT2CzZ
+ jz4bvjaPSEtHtapVa7cHAvZYNUcBT2rh+Pm2nXkGiJfBG6AB8lMy7m+y+gB4ThcKlrA2kH4zYCW
+ p9F5T/45E/u+IwQ5Oz1qlCS/SUME60bR7UyllE7hN2AdADNJemrkRUJToy05cIxHo8Xyt36ILRY
+ R6Hjx3XDiFo2fXWd4QO2pVZTLtLa4H0R9ZEilezOa0C/iHbAjuGjKGMrsCYOYv35Uw3Kye4s3Ku
+ Xe3HZS51RlMW0GTko2FxbiEkVJEqr0OfgShZuv8J8sS9fP/Pv5S5UeB2YhbYNOofIZoWnj0UdTh
+ xktBNZL0uhjoXRZFiCEcA4trNqMDZ1mKAHskZzo83kT4eu9dicekPb2jOvUrq86EBW1OQy8bLfv
+ 8aTb4pdUzNShvwThwXCIR3cAiafQyIiL/yGN7D09HmwZeq7vdNpuuZcYwD49O+LH9OTps1NvI5v
+ hAMTo+oazhFRSCpsgQC+D04bNkIUuydPNvCwlzui9cbgMl4DX30wXLT42zvWpIVYO/gvQ1Z5Z9v
+ C8RYKUfKtLW6EBw==
+X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
+ fpr=8648725188DD401BB9A0D3FFD180414029A3A836
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 09:31:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243603
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 10:13:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243604
 
---NextPart
-Content-Type: text/plain
+One notable change from this update is the addition of a Bitbake lexer,
+which will allow us to do proper Bitbake syntax coloring in our
+documentation.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Full list of changes:
+https://github.com/pygments/pygments/releases/tag/2.21.0
+
+Tested using this version for the documentation with our
+buildtools-docs-tarball recipe.
+
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+---
+ .../python/{python3-pygments_2.20.0.bb => python3-pygments_2.21.0.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/python/python3-pygments_2.20.0.bb b/meta/recipes-devtools/python/python3-pygments_2.21.0.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-pygments_2.20.0.bb
+rename to meta/recipes-devtools/python/python3-pygments_2.21.0.bb
+index abe6205292..044014b134 100644
+--- a/meta/recipes-devtools/python/python3-pygments_2.20.0.bb
++++ b/meta/recipes-devtools/python/python3-pygments_2.21.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
+ 
+ inherit python_hatchling
+-SRC_URI[sha256sum] = "6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f"
++SRC_URI[sha256sum] = "610ca751c9bc2492b38eb9a38a7fbc93edbbb2d7182edaf34e66ae493dee5c8c"
+ 
+ inherit pypi
+ 
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-oe-linux-firmware-split-out-iwlwifi-5000-5-firmware.patch
+base-commit: 07a342aa80c7349dd014f743a695a5e006add8df
+change-id: 20260817-update-pygments-1b579985f5c1
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
