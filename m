@@ -1,222 +1,215 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D00BC5CFC1
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 05:38:39 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23862.1786945108693264514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8618FC5CFC1
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 06:43:39 +0000 (UTC)
+Received: from TYDPR03CU002.outbound.protection.outlook.com (TYDPR03CU002.outbound.protection.outlook.com [52.101.127.121])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24679.1786949015038686275
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 22:38:29 -0700
+ Sun, 16 Aug 2026 23:43:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=nJEJGy/I;
- spf=pass (domain: est.tech, ip: 52.101.66.31, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=jUdK++cA;
+ spf=pass (domain: aspeedtech.com, ip: 52.101.127.121, mailfrom: jamin_lin@aspeedtech.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MUw9HxKhkvRSFuVPld1VcQt7da4OF+zyNOPsjGQjoQFBsqt3NToAIhdKVa+rEYFVWlrJ7PLoPFAfh8M1OAOK+zk0UZ+VAeZlXz3ZYNR8H3rMjhYILpN3T6Y95X+kjPE85g8+zCNLecqYT1cU5TjlbhBSW8tGRRJkWyEowLdzqX4CKLdrOea7pu+0wtJTcmxbl0u4QCOf1ZLIuKNk4AJCGNswreFXF/Jn+ORVXytmr+78a5o6m6hzYQV2XTJ8zvCVKmYOuxswLYjmJmo8aJMdNNR5vjStZAPn1vhqUVSNFVL5Tn0t59OQJG/4DTDb44bHSAwqyCfpifys1zmYxxgkCw==
+ b=l1V2AoUZZdccW+d0xQEtrT+VA0+pEYhhaptzUcFSonQvOLLluUagPB1C8JWW7JC3ojqpzEYmsOZijPSJKJ/pdVcM2MOLzV8TnHIUCP5g8qUPpvAJx6xJqhBZpr+BVNqjWjXFglVEwUfl039DDiH7BrVk4JH2ujei7KBMZy7sfoPqunIw1fQFjbtw1Fd4UL9FTVdB0g1jtNniCsg+iFc2TXkTruxWDKmWrb9FrAT9TKzJpuMBilqbBFPWScIyRkPO8UcX6rcd7ua0eriNHffnNJoFciLIwCBXGcblC8HWnY5GILZfMSruLQ3tjv8l5nmw+mjzVOmp4JNazF/cIfHxQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=86vy7XXUOjynMYqfBCwsEESxG/nbDSNSEUdlGPJ2kBY=;
- b=kc0zgZpSNnGM1XfncvJEF9smBbrHw+D1ZMQXCawR8UJ1uRV+1o57fD/UpF9QUsBA+7vvvPjX9fNSrF11tjobGl1vF3zPdnrFunihB86mjV2qRPzksdaqzUgwYAZ2Va7jv0uqoDvCybPdOKS5UGiCYWe93yZttYm1uKtbQubEo3PnZyBSG7yjbhX9GuaKok7+Bg2O6s/bWjvK3OraApQ441XYwyC2/caITnOcDJ4oVF0rLf513YHvpwyegaoCkIrpNBq1LCAvHRVi9TXepQfLoN8/RFJ1Wrd7GvfSjHXheh1LgIHVX7hsYnY9qQoP2MvgmdQ4pas9c652avLrcEhqhg==
+ bh=Vhb17QGHGj2Teoyixrm+DS4EW5HodSmIfW4trzVeo7M=;
+ b=GAvT8ybo6TkQEL378d8YjGrJDbFiZyd7CGGYhWLzV+hF56A5KgxeJ3O7r/cEUYgRIYObrmD5l2PcNlIf6bjFhfIK47Ak+mMRCuRwXBq+Lh0k18RwGfvA4/Lmd/SuILcifRg82ITT/9GHVPsuE9AiOlKBM3xaNMPksM5a2QYJLc6nnBTfaj0PVzRTIAFJKr+gsTSItc1O1yg5SxQIQ95hUHS/VHxHhN1sgTO7ispFJZh1zYgdWroNG4JYIGWDJcacgJTfaq9Mmk2vahXVggsJlvelEU1ev6dI3FE+2Rdr/HrcBcOJeOPIWd7dev83OHeVjS+gBGZBK/Lcd+r7LbF93g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=86vy7XXUOjynMYqfBCwsEESxG/nbDSNSEUdlGPJ2kBY=;
- b=nJEJGy/Ijnn4RgpNsPZM6c/b73VFMFdY8kIPASmB7fnhlAwaPCiPXE54TlkXRn+e3RiW4DEPbjFFyAnkRONQe8pWFdrHvQQDv5uIZE55V7VObaIf4hHx9yuwFvrEt0jZr/GjWfPOGS+nIeHshH+mdI/n+kpfFXgIiHlM/rmxH2PahiqDQezdH+wcvVVLYAec95EjxJ1t3WU/9HTx5wreRxDxnXQzAfoH6O4Voc1/KEwvspArSZ/V0ATldj8/4MnDp12lrBdy+HZ2OP/qeVEdXJFI0zNt7rMOrbY+rj9SaiH+4YbVdHfh13HnuKccbiEoTvY8svQXuUXsK9hslh0xGg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by GVXP189MB1984.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6e::7) with
+ bh=Vhb17QGHGj2Teoyixrm+DS4EW5HodSmIfW4trzVeo7M=;
+ b=jUdK++cAG0hFY5lYys+3Aa2Cmc8OeTKVLICKgNVTcfWEWJZp7UbV/DFNx6BhHfh95YtlNbmRowY3sNJbeLwIzxcO5QwHJsoxYfPVz09bIx2SzAeYglmJtZdlyj/C1HoXoO+PZ2CTpO8eiyifbN45/ZapLJJ/NmnnH/H/R5LKcXuFQCGCofJdRyN3O6ZM2lEuUqFmcdQzr0IExUqSEiBIdCXuYsAh/0LLdo22YOSEdpdO0OfMHFi7fRo7vBk4wcJkPsah4/RZ/31chSvR0gYaXcim4gB+lx2+q2+bTv5wiHF95TB+2nFNTnjzn9eaYZnQ2MOLIvkxzNY/rYRnYskGtA==
+Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
+ by SEZPR06MB6781.apcprd06.prod.outlook.com (2603:1096:101:17a::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.3; Mon, 17 Aug
- 2026 05:38:22 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.007; Mon, 17 Aug 2026
- 05:38:22 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH] ca-certificates: upgrade 20260601 -> 20260816
-Date: Mon, 17 Aug 2026 07:38:18 +0200
-Message-ID: <20260817053818.43614-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
+ 2026 06:43:29 +0000
+Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
+ ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
+ ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
+ 06:43:28 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
+	<alex.kanavin@gmail.com>, "paul@pbarker.dev" <paul@pbarker.dev>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+CC: Troy Lee <troy_lee@aspeedtech.com>
+Subject: RE: [PATCH v4 0/5] devtool: fix standalone clone conversion for
+ nested git repos
+Thread-Topic: [PATCH v4 0/5] devtool: fix standalone clone conversion for
+ nested git repos
+Thread-Index: AQHdIM6uAQWEu7O8G0OxcM2jd3A8oLah5S2A
+Date: Mon, 17 Aug 2026 06:43:28 +0000
+Message-ID: 
+ <TYZPR06MB4980EA2BEFAD03E6815F3DA8FCA72@TYZPR06MB4980.apcprd06.prod.outlook.com>
+References: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
+In-Reply-To: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|SEZPR06MB6781:EE_
+x-ms-office365-filtering-correlation-id: c03d1763-29c4-48c7-cc89-08defc2ad8b7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|38070700021|56012099006|10067099003|5023799004|22082099003|18002099003;
+x-microsoft-antispam-message-info: 
+ RXQy2gBDwrvq3nkORO7/5FeF/Hftu2Pmww9thSa9c3v9V6vpg1wa07r/5b46MtTSvFrhXmws0LHx3cdLvUShEwY5QO0SRpvX1WD2sc4oPwHyAr3zDl7cgvtrluWaAbi3gfyhvn2/WyJillvBRdLI0VQDh2/8gBEq4vAgxD3XOlzRAbXzXeJwJUs8vQH2CMXTuHBknH0ejxMcFoUwa7qoB3yn3PTwLEf5B4w+jcHOQ+OXv7ufb0pCZ8sBUIJziyKPg8RqUH65LE6AicYHcbvAduEJKcCT80xlXLa7WDFA8XhtbqtXT3QC2pB6KUHUOqHblyvzkkrsdPoG17fMyIb2WBYvB56Bj2SJgtAxxYiykvIBouJZ8sWSl8d+z+xN4ruVYgDK2oAQIU5Kal5uaS23mCxQkdbwct39Ss/x1L2TFRljCUF1GhX+ZBSyCUTOR42y4ldDhrtXMPQWk8CL8ViY7MZJA4i0PtCiOrdP+FXUbfByTvT7O7UvGw+0QXzHCC/lnjMstSfIo4sLitpTxyOrghSueuCVwjeBtNsDPXOa8dbDqXC8ozzBm8U7vHO9PvbkCSNLQtem754BdTrhipZlJz+aqfnufgiYe7+OdPVG+7DkW+r6Z4lmAzHyF3Jp4kxevXnXMtAxvb2QQ2sz2r/eDubvxarWwdDLKiGUXFTT3gtoAI6mzYH4gtSLGrWMBT6MRevm6OjyO4sA4f2wggkciktukEwr8oAdY0n9+reCBZw=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(38070700021)(56012099006)(10067099003)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?TpaWZ/TlrK6pV3C38yEXGl0XlZtljud/C58d/eWCvIXaLFNjyQoZGemxj+1u?=
+ =?us-ascii?Q?XdCXSF6ahCTDM9LSFpg3P6dV67hLjhqV79Qb7npLsu4YgLeF3wWg3ZdBurnS?=
+ =?us-ascii?Q?uX34TqsfFvWuJKA5CcFXAUH7AIdSS+gQjTE9ryv+vVp4+tuwKUIpZS0I3aQS?=
+ =?us-ascii?Q?1un5ksccMywjnDVE6SmvtFd44qoc2UECnPZh1d+Fw35xzQI0CRn6+YtJDuzu?=
+ =?us-ascii?Q?bGevzPN10lPdAFy3HM38fmp7l5JGA6R9iVwTIyvuUxildjsRvNGY75OS73Zv?=
+ =?us-ascii?Q?oZuAvukVRbrOFBYnWls8D33QKmy2rN9S4GQOB707W5cB5OG8kG/OuAq+LmMO?=
+ =?us-ascii?Q?wox9PjKxb246Xz6TqIKD0Q4okIpZZqemrHzwZkRXNQGeYtZXaceOvZgZTarI?=
+ =?us-ascii?Q?4I/L0q9Syn0xKAOHqzSW1U5cGs+VMZg/F6j8MkfR7kt2KY0F3Fk9EeT36oBl?=
+ =?us-ascii?Q?QFnJvZ2v5YtTGjOfcp8yWO3asUog4RFXIsOOGYmI5jGeI+dVRxACZEZPsBwV?=
+ =?us-ascii?Q?9kj/ELfOZx1XHmo5metHkbaCaCpZdps3CEeLgejq3X0Gt89sCEHCK0Cx+UK7?=
+ =?us-ascii?Q?RHDKouFOL3rSc6MmJgX/z7nUJgirRFanD1MNwgPEip75P7vqgJHmBO4/hG0Y?=
+ =?us-ascii?Q?D6EVjxACWs48YD0775C53R5iakFqJoTXRy/igEvAby8j+RcbSHSVMp1sgas0?=
+ =?us-ascii?Q?vAQARKZP1YAhUGUNwS3JF1CplMjfnRaxL7Wrs/N4et+4AublyMmn9Ob0XAWr?=
+ =?us-ascii?Q?K0aqXbimQArbwKhdph1EUAVV8pW4tldtzc9rdB/AR33VJHKM8o+V1CjkAk/q?=
+ =?us-ascii?Q?71lL/IZTurk+rShkFCOxKilzyP/fHB++N1ea213AZ48XjKGQa+xGgttWyfNK?=
+ =?us-ascii?Q?WVtarHF1/ezWLNpQiVmQlDJp7mdlXIoekh/MtU/uIW4fBUP1M5M9OIILbpmi?=
+ =?us-ascii?Q?4kpgb5SbmEBwP+IK+/62C1rbVCT7tVkGfi3KSPSCHiMEgkDHAzS4QVa8DCka?=
+ =?us-ascii?Q?4tmohd5gq2RB4vTufuzVXGdByQC9YdL5nnfHn9KQmrlrSqM3qE1OA4ZkysIe?=
+ =?us-ascii?Q?Hm8pX4g+WzcM31dLxalazZwslh9oY9Kgmv1cRkXUlHhTtjEzqh70gg7ty6x2?=
+ =?us-ascii?Q?mkH2mougsT9YskmPtnnpczEfrm3sX6gF2CGxT2zSALfZrkGEVXppW6IGW3Ni?=
+ =?us-ascii?Q?duZVafivAe3KTzd1kZBPjZPKzWQMwbX/HBQl8X8lichK1SvBMPRe2rZkdq7v?=
+ =?us-ascii?Q?PujSNmB++zbgdKvF4c5V93xFEHNXy9gtvDune0sgNhj9cjK1aYCflI5SPpEE?=
+ =?us-ascii?Q?TozBT18K6+lXy8AZ6w+56RXUR0G5Usx2ttDAhhiUfAOF5FxQ3rHrD0RcRtKg?=
+ =?us-ascii?Q?B6vdqopJ+hK2rNxbQQXgxkSIXBqjskcAyPguHFvMBXILCv/CfDO8IXWzfZ7D?=
+ =?us-ascii?Q?cQXh8FTU4/15uwth6g8Z+1d4Vw3yhRgMaVOr5MeD3/RhxmDDzChamxHRNDT8?=
+ =?us-ascii?Q?vu9+LRjpTdHh7Ix5KLT881l+IJ6jHRb6W4mqJ7gC4Zxe0Ay5k+tKYcpj9Lw4?=
+ =?us-ascii?Q?EV73pZzGfZB8694RBbyM9mZoUnxBp4L9yea6bx4RqM3C2psrIMzvQ2HtBZZZ?=
+ =?us-ascii?Q?/vLGnGMyq26jBfgbD4gp3gvYc0gyB44gVhW5HRkUA6V1OamnpnO0RQnAemEV?=
+ =?us-ascii?Q?oEmRYuxIMA4YM0DdGyODPXlNZcCaEJJvLbCXRbrvPu3GHHsvS57iXapHe4Pa?=
+ =?us-ascii?Q?+hsKOFViUw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0232.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::21) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GVXP189MB1984:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32f9dc6c-d8a4-4f0e-b892-08defc21c047
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|23010399003|18002099003|56012099006|10067099003|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	d9Rv7W3oP/W5xsPfhS6AAj/moefIpFGl9kfUsPD+mVM+986+h+m52Ko+DZ1TW6wqPys1g1dEsN4ShtqjTSu4mEGr9PYaHU33J3lttd+utiF8GBpuJyeb5MDHQOY0NxaK7Wqw6u/2Wh9i1xuj8z+3NGQ5rV4ozNosWtOYPFjiIIEZ48pI5DhjWsH5jIUxTcGjLrGNmuOVWpDhVskRfZYOQyCqm8OHZUaXVi7I1KEzF/35RrKsoy6BGZo2upiKjPsDzU2xa4FAUsQzgjJ39lgV8tLSfVgafnsjx2CzQlhFe9jZ1gKkQb2+HF5O0xypve0pnYsA80CGIaMkoka6DW95NicbxXuAxUk9tfyg8TfMCmV9jPhCg/kF02XhLcRvsh+Kcr+MtkCnG+33AQK4NjHy+xsf8Quqixav6Iw04C5T2p3v2g21rTWK1ndjKJ72L+UcZ3e6ZGWA/UY3p9CWZ1FvKD/sdp2fKkz8efRjNycb6aHl8K4XJc8z4snCOqQZi9WzZUWA4VyAg1L2XYIfd8w21o0LnMhq3CBOYwTgw1T8AFOS9z6v5uWaIdPrREZPJuZG4GzSk7SszWxK57qpZUmN3fypbrGovFHdsynsQHzldTpLY3Kz5zPWfpxqrdiYOCH0g0kz03cJaiPwiJTKLCYIDadJWeSINcFRHcOPqUj/Crs=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(23010399003)(18002099003)(56012099006)(10067099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?b1mwXYiDbxSElZ4YmbBqxrRChnEkjN0wpfUZIAGj2L/xlPTf/XAl7yb6ZAHS?=
- =?us-ascii?Q?ISyzVT/xpZFmK9CJEOkIU9LiJTWogGJoLeZCd3PqI9eOXkZ+RSIIJJPk9nZk?=
- =?us-ascii?Q?upSPqN8luN0VDSVZSGDBrlK6BxzZye8o0QKQwm4pMUUcH5FRtXs2+LxqRN+q?=
- =?us-ascii?Q?U4afpOfQoicyw+ITKRzKvWHZ2thSGCGnptXhSL0OpSedYRgf9983j72sIctT?=
- =?us-ascii?Q?8htzdGK6Vn2Jre3JdwQc81JJbXhRC8f+LPjU8cf5IEXP5uC4pBbSj6H9XwVY?=
- =?us-ascii?Q?cSWvEmRtBc7leZdEywagKftnNkVGCJJIbMrPjtHqkb/btsKuGW+AYFO4VcQ2?=
- =?us-ascii?Q?qrC6B3nN346P/lNWlG5psSyCKZH3PjetP+5tkKg6q3yPcCPgqhVYj1fiqnYW?=
- =?us-ascii?Q?veZuQnr5I7xPRbugfademdFyUHQYW3Guqg/XzYUhdrs0No0zHugsmfxeSsCz?=
- =?us-ascii?Q?+ZOymC6zMTcf+StxTW7rMhv3FrhkjDe9Vc1socjfrx48VyATPrFD4bAq8f6G?=
- =?us-ascii?Q?j6AxmlVYEdGCmxsnCsl04597vFjWTs/+lUVwtuGyV7nDSRlLIS0e7Ft7IJYQ?=
- =?us-ascii?Q?Uf2YSq25WKKQ4JpTeMkgRsoyWn/rOyfuhaw/KPZpiIQcS8Zxfh44iRR17h6B?=
- =?us-ascii?Q?Lf0eZ9vQW/9kgyDCtYlN+XCbiH2GyZRxFPZk009ayg/AIOuVI3oiIy3HWi28?=
- =?us-ascii?Q?XKvqfK7Gkaunyhs3+5QUYM7mvlIxkey52D+JQLad0ixZpRv2JgD+NGl8iqEs?=
- =?us-ascii?Q?4vSIPWd4GnJvz2YiydEjOSfMQzh87LhX7blmwJRBg/rm9hGNAiM4iDCxCF62?=
- =?us-ascii?Q?N9c2x8Dan+ZfvJ5WrVE9U0ZTZeSzmTryPlw2YVuO7NGoCwntDBxtMxztrBDq?=
- =?us-ascii?Q?lux3X4fTQIg4cQharkL8JbWpYBhx31vwnx0fskvCfCcgznSJGuztSPSNOgCz?=
- =?us-ascii?Q?ROd8EsPEjK/hru6jJkoNQYib/2jglwawJNmw+sRCb6i6gEGo/XNOymincwSQ?=
- =?us-ascii?Q?Wg/x1MDfafs9ge9l+/RIagJbRMB9igI6vgL5As5DJgPtZwa28mDkksouSIOA?=
- =?us-ascii?Q?kYRl+ZUjUybAI/t9C6zwszyIE9MNPyxTWDkTogVSmYjxUq65czZNPEOGOFLt?=
- =?us-ascii?Q?1mAz7APueOxSsIvQPc0xPYxwJhgt854sjPLw+KqgSyxsmIDaKgnszksIVigr?=
- =?us-ascii?Q?i2UuhuUhlWxYJUeSYvokHiC2z6xwCIUbyVyGxs4h2nRchi0x9k62jsIHaJUD?=
- =?us-ascii?Q?AjUlYCI+Mfvmjjl8wKsSyR52ilVD/+K525TI+O2H4Ne2492U/No0c7XwE/a2?=
- =?us-ascii?Q?dxMaSeHVu6OrZ4DbalcLD05RQHiSP10EPOxJjCVnUNdIJ6AQL3WbvoEIqE+/?=
- =?us-ascii?Q?wNrXwCgivFMpK1hw2xi4ng/gEbglsdvhFzXQhiC0RrBNUxCogw5y55DEgJdd?=
- =?us-ascii?Q?qL1e6M9nBpNM/DYyWmvUkvBPWdXEqNKqXGs8ZU2Fupnl1fXZlCXov0v0up3x?=
- =?us-ascii?Q?QKyDq5kFNZzSqssLXN9LOqpvVSeM1f1+HlJcpsDNqXq6ImN3Bcjbmzx8gaUX?=
- =?us-ascii?Q?gsZ0Qd6mlntkyOfr3yXhmAdhrzWaTUfY9vGwQqP9Vqmw0oWR1XyXySOHvYY9?=
- =?us-ascii?Q?ByPHondineAWpqkggljGzp15vToQARsLEUQ9oWKdjcC6mV05e+MaQUPxsFRg?=
- =?us-ascii?Q?voO8HZ9OT4a4Z6GdPIwQMr1CJ1CPMFHJ9/E+CehhLki/eVeiT8eOpaoVlGjr?=
- =?us-ascii?Q?gnCf1vJL5+3TpSYiO6teMybOlA3v5I3pHZ8vn4T9opbBny124wyUkMVrAdIY?=
-X-MS-Exchange-AntiSpam-MessageData-1: tF7xfOPIi+lBGlc4/0ENmvB1DS2b7lT1qVU=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32f9dc6c-d8a4-4f0e-b892-08defc21c047
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-Exchange-RoutingPolicyChecked: 
+	gZQobzCCrZIJuBe4XbxIwvdc0NujCw7vH7eI3/pMYytm5JnfUsvGw/r8JKClkJ528uH4MgDsck2WF/UqTSMjwmBcTq364L3PLVCCwpFtZSDk6PypuUlG9bLM+3fUowJVw+MpGddlymbqk+X7TGR9KLU6blkVKkVcVkyFEmErf0EAAr5Ch4hvcX7Jlm14gfMUD9VT9pxPSf0S6eUoXX4O9ivH5fg5q/ezkZ6UPovVbLywjEEYjoyPirT1dL+MM/av8NuYvd1O+/pVqUPrTcQ/uNIZeoGHiJVV/jObgxskLWDGW0lFrE1I+xrO49IXu92HDxyWRw34Wjaxf5WZ9jyMLg==
+X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 05:38:22.4472
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c03d1763-29c4-48c7-cc89-08defc2ad8b7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2026 06:43:28.7604
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AMf233iqKW3iHrgiMEq+CBzaHuq04J5HzoY+hiGSwi6jDW3jRhdv4IcG5HM8X5V0i/fk0sNMDeh+UGpTZ5q2LDU9eWJhdjh8X5hLAtbti6s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB1984
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3jSQQsjc4n/L7kFAIiuRsiClxb54wI8Zr84NLKQzePcRndwKB52RDgQMnFDX6w6qBH847bG/igiTN0s7hcRKyH8aMj9MBmiTDjFdlmVwpdE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6781
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 05:38:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243595
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 06:43:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243596
 
-Source: debian/changelog
+All,
 
-ca-certificates (20260816) unstable; urgency=3Dmedium
+Thanks all for the review and the time you spent on this.
 
-  * Update Mozilla certificate authority bundle to version 2.90
-    The following certificate authorities were added (+):
-    + "SECOM TLS ECC Root CA 2024"
-    + "SECOM TLS RSA Root CA 2024"
-    + "Telia EC TLS Root CA v3"
-    + "Telia RSA TLS Root CA v3"
-    The following certificate authorities were removed (-):
-    - "Atos TrustedRoot 2011"
-    - "Entrust Root Certification Authority"
-    - "SecureSign Root CA12"
-    - "ePKI Root Certification Authority"
+I originally ran into this problem myself and used AI to help put
+together the fix. However, the design questions raised here have gone
+beyond my own understanding of this code and its original intent, and I
+don't feel I can properly stand behind the patches or address the review
+comments with confidence.=20
 
- -- Julien Cristau <jcristau@debian.org>  Sun, 16 Aug 2026 23:04:36 +0200
+So I'm going to drop this series rather than submit something I can't fully=
+ explain.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- ...vert-mozilla-certdata2pem.py-print-a-warning-for-e.patch | 6 +++---
- ...date-ca-certificates-don-t-use-Debianisms-in-run-p.patch | 2 +-
- ...date-ca-certificates-use-relative-symlinks-from-ET.patch | 2 +-
- ...certificates_20260601.bb =3D> ca-certificates_20260816.bb} | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-support/ca-certificates/{ca-certificates_20260601.bb =
-=3D> ca-certificates_20260816.bb} (97%)
+For anyone who hits the same issue: as a workaround, use
+'bitbake -c cleansstate <recipe>' instead of 'bitbake -c cleanall'.
+cleansstate does not delete the bare repositories under DL_DIR/git2/,
+so the nested repos' alternates stay valid and the devtool workspace
+keeps working.
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-Reve=
-rt-mozilla-certdata2pem.py-print-a-warning-for-e.patch b/meta/recipes-suppo=
-rt/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-prin=
-t-a-warning-for-e.patch
-index 1226508c98..001b468624 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozi=
-lla-certdata2pem.py-print-a-warning-for-e.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozi=
-lla-certdata2pem.py-print-a-warning-for-e.patch
-@@ -1,4 +1,4 @@
--From 743774cd53ed1c45bb660eddacf6dadb5ee3e145 Mon Sep 17 00:00:00 2001
-+From 8ea56b7d5eadb04309dc3cf1e6b0d94d1d053d80 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Mon, 18 Oct 2021 12:05:49 +0200
- Subject: [PATCH] Revert "mozilla/certdata2pem.py: print a warning for expi=
-red
-@@ -16,10 +16,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  3 files changed, 1 insertion(+), 13 deletions(-)
-=20
- diff --git a/debian/changelog b/debian/changelog
--index dbe3e9c..496e05d 100644
-+index 7ad495f..058ef5e 100644
- --- a/debian/changelog
- +++ b/debian/changelog
--@@ -156,7 +156,6 @@ ca-certificates (20211004) unstable; urgency=3Dlow
-+@@ -234,7 +234,6 @@ ca-certificates (20211004) unstable; urgency=3Dlow
-      - "Trustis FPS Root CA"
-      - "Staat der Nederlanden Root CA - G3"
-    * Blacklist expired root certificate "DST Root CA X3" (closes: #995432)
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-upda=
-te-ca-certificates-don-t-use-Debianisms-in-run-p.patch b/meta/recipes-suppo=
-rt/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-De=
-bianisms-in-run-p.patch
-index 1a29da756f..dcfa355411 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-c=
-ertificates-don-t-use-Debianisms-in-run-p.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-c=
-ertificates-don-t-use-Debianisms-in-run-p.patch
-@@ -1,4 +1,4 @@
--From 63086d41f76b1c3357e23c6509df72d3f75af20c Mon Sep 17 00:00:00 2001
-+From bab2e13b69af12c1864cccf371ebc4ef57a6fec2 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 6 Jul 2015 15:19:41 +0100
- Subject: [PATCH] ca-certificates: remove Debianism in run-parts invocation
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-upda=
-te-ca-certificates-use-relative-symlinks-from-ET.patch b/meta/recipes-suppo=
-rt/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative=
--symlinks-from-ET.patch
-index 929945b56f..4d97c81b0d 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-c=
-ertificates-use-relative-symlinks-from-ET.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-c=
-ertificates-use-relative-symlinks-from-ET.patch
-@@ -1,4 +1,4 @@
--From a69933f96a8675369de702bdb55e57dc21f65e7f Mon Sep 17 00:00:00 2001
-+From 8a5b4e2dd1479de0338db7a7234d037ef0f71c2f Mon Sep 17 00:00:00 2001
- From: =3D?UTF-8?q?Andr=3DC3=3DA9=3D20Draszik?=3D <andre.draszik@jci.com>
- Date: Wed, 28 Mar 2018 16:45:05 +0100
- Subject: [PATCH] update-ca-certificates: use relative symlinks from
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20260601.=
-bb b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
-similarity index 97%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20260601.b=
-b
-rename to meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
-index 90a8568947..c9702d545a 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20260601.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
-@@ -14,7 +14,7 @@ DEPENDS:class-nativesdk =3D "openssl-native"
- # Need rehash from openssl and run-parts from debianutils
- PACKAGE_WRITE_DEPS +=3D "openssl-native debianutils-native"
-=20
--SRC_URI[sha256sum] =3D "7ab6301f7f34eef90a4d278647c260bc0762e0e14561f46498=
-54cf4b0d4bea21"
-+SRC_URI[sha256sum] =3D "d939bcdd0cb058712cf4175bac76997676eb8b68fe9473765e=
-1b40fb3d5b186a"
- SRC_URI =3D "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
-            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-=
-p.patch \
-            file://0003-update-ca-certificates-use-relative-symlinks-from-E=
-T.patch \
+Thanks again for the review.
+
+Jamin
+
+> -----Original Message-----
+> From: Jamin Lin
+> Sent: Friday, July 31, 2026 5:27 PM
+> To: openembedded-core@lists.openembedded.org; alex.kanavin@gmail.com;
+> paul@pbarker.dev; mathieu.dubois-briand@bootlin.com
+> Cc: Troy Lee <troy_lee@aspeedtech.com>; Jamin Lin
+> <jamin_lin@aspeedtech.com>
+> Subject: [PATCH v4 0/5] devtool: fix standalone clone conversion for nest=
+ed git
+> repos
+>=20
+> When a recipe has multiple git SRC_URI entries with destsuffix values nes=
+ted
+> inside S, devtool modify left all but the top-level repo with
+> a .git/objects/info/alternates file pointing into the downloads cache.
+>=20
+> Running 'bitbake -c cleanall' then removed those shared objects, breaking=
+ all
+> subsequent git operations in the workspace.
+> Fix git_convert_standalone_clone() to walk all git repos nested inside S =
+and
+> repack each one to a fully standalone clone.
+>=20
+> v1:
+>   - Fix git_convert_standalone_clone() to walk all git repos nested
+>     inside S and repack each one to a standalone clone
+> v2:
+>   - Add selftest recipe devtool-test-multi-destsuffix with six nested
+>     git SRC_URI entries to reproduce the scenario
+>   - Add test_devtool_modify_multi_git_destsuffix_standalone to verify
+>     all nested repos have their alternates removed after devtool modify
+>     and remain usable after 'bitbake -c cleanall'
+> v3:
+>   - Read SRC_URI directly instead of walking the tree for '.git' dirs -
+>     also fixes repos nested inside another repo's own working tree
+>   - Fix setup_git_repo() to register nested repos as submodules before
+>     the initial commit (was dead code), processing bottom-up to avoid
+>     stale submodule references
+>   - Fix commitIgnored() to skip committing when nothing is staged, so
+>     do_patch no longer fails on a submodule that's dirty only because
+>     of its own nested content
+>   - Simplify test recipe to three genuinely-nested destsuffix entries
+>     (level1/level1/level2/level1/level2/level3), update selftest to match
+> v4:
+>    - Fix regression from v3:
+>     setup_git_repo() now detects nested repos both for fresh workspace
+>     repos and for recipes whose source is already a git repo (fixes
+>     test_devtool_modify_nested_gitsm).
+>=20
+> Jamin Lin (5):
+>   oe/patch: Skip commitIgnored when nothing is actually staged
+>   devtool: Register nested git repos before the initial commit
+>   devtool-source: Make nested destsuffix git repos standalone
+>   meta-selftest: Add devtool-test-multi-destsuffix recipe
+>   oeqa/selftest/devtool: Add test for multiple nested git destsuffix
+>     repos
+>=20
+>  .../devtool-test-multi-destsuffix_git.bb      | 27 +++++++
+>  meta/classes/devtool-source.bbclass           | 16 ++++
+>  meta/lib/oe/patch.py                          | 12 +++
+>  meta/lib/oeqa/selftest/cases/devtool.py       | 64 +++++++++++++++
+>  scripts/lib/devtool/__init__.py               | 79 +++++++++++++------
+>  5 files changed, 175 insertions(+), 23 deletions(-)  create mode 100644
+> meta-selftest/recipes-test/devtool/devtool-test-multi-destsuffix_git.bb
+>=20
+> --
+> 2.43.0
 
