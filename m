@@ -1,162 +1,139 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB1CC5DF66
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 18:22:08 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1633.1786990924805197042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D472BC5DF66
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 19:10:58 +0000 (UTC)
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2602.1786993857709569313
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2026 11:22:04 -0700
+ Mon, 17 Aug 2026 12:10:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lneOwx61;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso2644426a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 11:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786990924; x=1787595724; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7ndC0eF2qaThqT+p1MskoWSaZEcpcE8Xh4WATQG6oOc=;
-        b=lneOwx614KGwJ7rlKWRdlKDvBMS5Fzko49SZiiz1XhWZfF8QF6ytSaUJzAHOMYW5TZ
-         I30rVtmBrXh53Xz6YtiXv+M22+1vZY+2NOh0jE+PQgXVlO7tXnJ1KfJ+/CAlo5utYx6n
-         n/mrzUMij2r5ATKupiRA5ATLoogD417vMzVKuxaeZeK/fku2F+9no173oYdQLJCLUrp8
-         ioJh7dpGETkUAfJhEy5gL6UxhsiOtRvDs78P8fQdIyS/CfsvHDMTW0T/r6XJzLfbLy3e
-         MK6iRzffZwz17DHILDOvX1qpvGCXcuoG3n6FNrrdqO5jiDjHxED5MKGIsr3knZV8Qxzy
-         NixA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786990924; x=1787595724;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7ndC0eF2qaThqT+p1MskoWSaZEcpcE8Xh4WATQG6oOc=;
-        b=O3AF8t79i2fSpTu3dMRDpaWpd5SG9QDtAHcwy9Rb2E4y2ImhSSP4Q3b7qOSVbZTw+c
-         PBm08rxJIVX9QfFDNwiKQ4Zq9NPznRjja9PkhEL6kRHbE57WSHPYOGQvBkyMuCFMcUf+
-         2mlG98GaXN++7GSJAF/iYPkyEMC5NtkMpeJ3shLJpWlTVkLxQBJE7SRS1DyBObVQU31y
-         Dht6wE8P3LkxvcvcH3b4VN9krcuDTFYl2Q7kt9kBxzIJSWU+YMf/xgztvqtIfWN+pRd6
-         pNpgsLxnSA9ab2MUrU2keIY3INlv9+gIlp95IQ6i81PQt6EIr2jFz0uzkmsVxo86YrjB
-         4Vzg==
-X-Gm-Message-State: AOJu0YycawVkY+wgP5A4A4bO9ryDbTJ/QgROGq426ZEv5DzCi/qdZqVq
-	/HXTeu63Tij5jhHPDWxT2HhMfseHzqwaI+rNsy4cIUmgepXGcwLnQC8Rsz0SsUhk
-X-Gm-Gg: AR+sD13x2MnPDbumcd0PkH7y7cxjJmzAuqp4ggtBC1EUK+q6Dd9mxPsDFSTNrqADXxa
-	HuKdsHAcu53TC6hJk2pfKMJSVoZzOlT5vfxUal1xc2mzMUj7usZG71jBoFdNaVlby48kLGN5mBp
-	uzLfhEskSEJadHx8Z87fE93czLanJhjUxjueqrFyYhiajTcAE6fOp4sNzascbfjQ6cLjROm30is
-	9BgAKKREBTvZj9408NmIG2EOJu6yA5OzmxyMfTJbVYsbUNCnSByncN4DxRL8ogLGL8uPGL9gq4Y
-	FAqNp4kcJ76atIq5FGq6KHZ6cn8VXGHXyx9zv8H6ESjwxaHRN0BzTmAE+xJATrHFPjYSwKO2OAy
-	J7mn0/TSBP9RiXj8wlkS3NSkot8ilhOKgKK77CcCV6NvD3EvRbLoPG07Xp5XmxJweNmsbTbKqwT
-	Pkfm7aSXni0D9FJa9aFnmxVc4gUaRWzx/uN/G2a2ojbbtuGiQ4KZLNUbKPEC+7jdJQdH9eklRi7
-	Ac69cow2VY6L2gOpKiJLLXjD/DqT2PyA2H1i6apz9/kwmbOf+JJ7McK0HQ9X7IF02b2lmI7wELd
-	JbS14xOl+GTLYChg/We5iuIUDathc9MBjgLWdoadW1ueFIYcJc+OL9gFq42tp/PWJyt0XKGNMFA
-	Fhh/m5fErOCa1H0WLSn4OaXicw66t5FR/0KQafPsUbmaxQA==
-X-Received: by 2002:a05:6a21:2d46:b0:3c3:a41f:ce7d with SMTP id adf61e73a8af0-3ccda54b66cmr2458079637.0.1786990924047;
-        Mon, 17 Aug 2026 11:22:04 -0700 (PDT)
-Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326761d3539sm7624964eec.0.2026.08.17.11.22.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 11:22:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] mesa: fix clang+lld link failure in addrlib AVX2 detection
-Date: Mon, 17 Aug 2026 11:22:01 -0700
-Message-ID: <20260817182201.2388973-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=NAzxb/Ax;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=mS1nEa0Z;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.145, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id BE2181D00194;
+	Mon, 17 Aug 2026 15:10:56 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 17 Aug 2026 15:10:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1786993856;
+	 x=1787080256; bh=97zfpdE0HKHt6su3/iwth4gqYzOHaBx1wdSU5Fbdsvc=; b=
+	NAzxb/Ax7MLr4eFeU4T9NdcHXnUs5JZSrGJxxhVGMXxpkatbSpyt8bpOoeiDYCV2
+	WfjZq4qZqnVOF/ZOUpLv9S8dH2mx1rX7TuLutBDubkphfBfU1DK+qatu3L7QkHf+
+	y4XduVU5JNArUJRKUC6b1lfbNxULiuRIR6N32pfFaNSNILpk4qa2nt1oz1A6Rjdf
+	1ZfvDNcy8tg/HDNOT7rKs/rcznBlIJPgde3aywmuRG1zuIxmkbzJWLthFm/8HERJ
+	qYArm8FeRkC7C+thiNCGskHH2dOOlh3MxZAcJ5FvISZiXQNEWS0hNl4fFyMIeF5L
+	enlPwMmfWlDRi6pWnzLqmg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1786993856; x=1787080256; bh=9
+	7zfpdE0HKHt6su3/iwth4gqYzOHaBx1wdSU5Fbdsvc=; b=mS1nEa0ZGnID/Pmpo
+	8FHVHO8wcNTbqazk9EQpBFQG9r5M8loMCFomq6UR2Hb3ObHJTHr2BoM5hnxCC7Y6
+	OSyybVdpMkFSlCthYrEVQbiP0X0oi21JjNQLrK5Su4O/XAgalC63cKHnAfEMPEN5
+	hCSDRBMLQsCx7uUTQTIGao+8ZadBW+RhKQNsT3rcWaPKHNhuY2Z2+HJ2PzMYQuw6
+	mZr+cg6X0sjY427Dg7Rt/GNd5Ky4oqk8oxJSUH4GMrn77e0zoNuYb4tZeF1aS2oC
+	+JWL5WAmSmDI/zuy8sAMe4ciO+rAXUS7/F8M0pFSyWVt7+UQziYh1ISOztp2Uvhf
+	j/VGg==
+X-ME-Sender: <xms:wFyDao9YNjjTYKWrHbLv0i96x8CY2NoYPZIktqNn_ssK5XIipxPGRg>
+    <xme:wFyDamvOG0F_EtKC1SNHenjc55qx78oLa4zQuUXm7LbWB-urboxNjesy4mnpf3Ult
+    arf1rKz3l9oU7LM0xqA8sSVmm4fdsOCqpQ7XK_sAyv2IO0lpA_2I35I>
+X-ME-Received: <xmr:wFyDarr7N_18_jAkejh5B49_7UmzH348aqvSfUQCdHZmOM6BzdUC-4jZLp4Xz20-Bs_wP4ifyOVMc9cGE49_6WoyV6NaksPEp5TJslQ>
+X-ME-Proxy-Cause: dmFkZTGX2/fuCSdYEEmdT0blr9gKByqVFSBSMfh3CcrO6cW61FJzG1js2i8zLYADBWKru4
+    DGegIsJuWuJ+O9WXBC/8KYyjdnmZpNDSiI/J+giD8fUbBzGnI1mSE2yhdiMuLgHE4PsvZb
+    bthUu0qJ/Dv8erJEGEx9S4PkBX13ejXuKYkBrp/1ui6QJbjrXWEpzQDOyijUwsXVczx312
+    pIX1jgHSsUCXzdKBORMoXdtmjczDtX+waeIrb2AZeZkV7t7OLfkYBFcpuULkFUc/5JYT/G
+    REWrrW2/VpL8XmjdSmTjXcF3nkIOKXKx3RpIiC2UKQyDUaQNId/1jd7hhfCTTqRXTaDdRJ
+    1oPFDk1tGcj0L4hoeL+LFWueZp/U3COez937Ge1gg7RV9Ah8Q/dlFfMtMycvuDRpLl35UK
+    UB7bIAaf336JSyPQszgA3hj8vLLecr1ZKvX4SMh8LrCVusI+HkhRnsA4hvaEHB+mJg+w+a
+    nBb3h3oVPXcZRGfqqPxkELh51dZ8bVwtYPxYnMZr1k+F8cMHbImTZikhXU265nC42Pw0SX
+    yke93MVoH1MhsWFcghUTr0Z7s7qIoLbpcOvDcg0qN8sdrGtcHzgwwn9AHVnjan7CF4lXOD
+    oC+e8tCekInNji0zzjBniY346/kUUdFb31g5+W209bOlQfPlx6Yuj8tx6ixQ
+X-ME-Proxy: <xmx:wFyDajmTUaAOLWe0UqCWJMDYEWgSYwXCxLCeofjcX2p0eaWdKlj1pA>
+    <xmx:wFyDavxiU51J00JZ875WkCD46imhFTTg0l6VPUqWOfGT16F1tB3s8A>
+    <xmx:wFyDarl4V03tNcNzxEjw48iv918ywnltu8C0bFP6WkOOKta-oTcMWw>
+    <xmx:wFyDaodP1RgQ045DfbviTaynFmaAaRVQHp9u51JMQdwxqDEDyMD9NA>
+    <xmx:wFyDauPTcKBUw_AURLyNOzluxfQXwmzy0ERCVnLPJQvrUYVr1rZs0tlA>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 17 Aug 2026 15:10:55 -0400 (EDT)
+Message-ID: <483e1f11846c0941d287a3a9228bd759a1310bdd.camel@pbarker.dev>
+Subject: Re: [PATCH] classes/sbom-cve-check: fall back to the stable SBOM
+ symlink
+From: Paul Barker <paul@pbarker.dev>
+To: roosesweb@gmail.com, openembedded-core@lists.openembedded.org
+Date: Mon, 17 Aug 2026 20:10:54 +0100
+In-Reply-To: <20260804112437.3357583-1-roosesweb@gmail.com>
+References: <20260804112437.3357583-1-roosesweb@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 18:22:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243635
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 19:10:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243636
 
-Fixes
+On Tue, 2026-08-04 at 13:24 +0200, roosesweb@gmail.com wrote:
+> do_sbom_cve_check builds its input path from ${IMAGE_NAME}, which carries
+> ${IMAGE_VERSION_SUFFIX} and so ${DATETIME}. That value is excluded from t=
+ask
+> hashes but changes on every bitbake invocation, so the path is only corre=
+ct when
+> do_create_image_sbom_spdx ran in the same invocation.
+>=20
+> It does not when the class is newly enabled on an existing build tree: th=
+e image
+> SBOM is already deployed and stamped from an earlier build, do_sbom_cve_c=
+heck has
+> never run, so bitbake executes only the latter and it looks for a file wh=
+ose
+> timestamp belongs to the current invocation. The same happens on any forc=
+ed re-run
+> of just this task:
+>=20
+>   $ bitbake -f -c sbom_cve_check core-image-minimal
+>   ERROR: core-image-minimal-1.0-r0 do_sbom_cve_check: sbom-cve-check fail=
+ed: [...]
+>   sbom-cve-check: error: [Errno 2] No such file or directory:
+>     '.../core-image-minimal-qemux86-64.rootfs-20260804101106.spdx.json'
+>=20
+>   $ ls tmp/deploy/images/qemux86-64/*.spdx.json
+>   core-image-minimal-qemux86-64.rootfs-20260804095834.spdx.json
+>   core-image-minimal-qemux86-64.rootfs.spdx.json -> ...-20260804095834.sp=
+dx.json
+>=20
+> The file is there under ${IMAGE_LINK_NAME}, the symlink do_create_image_s=
+bom_spdx
+> maintains. Keep preferring the timestamped name, so behaviour is unchange=
+d whenever
+> it exists, and fall back to the symlink rather than failing. Guarded on l=
+ink_name
+> being set, since IMAGE_LINK_NAME can be empty.
+>=20
+> Signed-off-by: Thomas Roos <roosesweb@gmail.com>
 
-ld.lld: error: relocation R_X86_64_PC32 cannot be used against
-symbol '__cpu_model'; recompile with -fPIC
+Hi Thomas,
 
-Check CPUID directly instead, avoiding the __cpu_model reference
-entirely.
+This code has already changed recently in commit 2a80840a4fe0
+("sbom-cve-check: Fix breakage with empty IMAGE_LINK_NAME"). Perhaps we
+should have just added a fallback to IMAGE_NAME if IMAGE_LINK_NAME is
+unset.
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
- ...uiltin_cpu_supports-for-avx2-detecti.patch | 56 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
+A quick scan of the code shows that there are other places where it is
+assumed that IMAGE_LINK_NAME is valid, such as vex.bbclass.
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch b/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
-new file mode 100644
-index 0000000000..7234f76b39
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
-@@ -0,0 +1,56 @@
-+From: Khem Raj <khem.raj@oss.qualcomm.com>
-+Date: Thu, 13 Aug 2026 00:00:00 +0000
-+Subject: [PATCH] addrlib: avoid __builtin_cpu_supports for avx2 detection
-+
-+__builtin_cpu_supports("avx2") lowers to a PC-relative reference to the
-+libgcc/compiler-rt __cpu_model global. With clang+lld, linking that
-+reference into a shared library fails because __cpu_model is treated as
-+preemptible there:
-+
-+  relocation R_X86_64_PC32 cannot be used against symbol '__cpu_model';
-+  recompile with -fPIC
-+
-+Check CPUID directly instead, which avoids the __cpu_model reference
-+entirely and works with both GCC and Clang.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43820]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ src/amd/addrlib/src/core/addrswizzlersimd.h | 15 +++++++++++++--
-+ 1 file changed, 13 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/amd/addrlib/src/core/addrswizzlersimd.h b/src/amd/addrlib/src/core/addrswizzlersimd.h
-+index fd53e40..ce30204 100644
-+--- a/src/amd/addrlib/src/core/addrswizzlersimd.h
-++++ b/src/amd/addrlib/src/core/addrswizzlersimd.h
-+@@ -57,6 +57,8 @@
-+ #if ADDR_HAS_AVX2
-+ #if _MSC_VER
-+ #include <Windows.h>
-++#else
-++#include <cpuid.h>
-+ #endif
-+ #include <immintrin.h>
-+
-+@@ -85,7 +87,18 @@ static inline bool CpuSupportsAvx2() {
-+ #if _MSC_VER
-+     return IsProcessorFeaturePresent(PF_AVX2_INSTRUCTIONS_AVAILABLE);
-+ #elif defined(__GNUC__)
-+-    return __builtin_cpu_supports("avx2");
-++    // __builtin_cpu_supports() lowers to a PC-relative reference to the
-++    // libgcc/compiler-rt __cpu_model global, which some clang+lld
-++    // configurations reject when linking into a shared library (the
-++    // symbol is treated as preemptible: "relocation R_X86_64_PC32 cannot
-++    // be used against symbol '__cpu_model'"). Check CPUID directly instead.
-++    unsigned int eax, ebx, ecx, edx;
-++    if (__get_cpuid_max(0, nullptr) < 7)
-++    {
-++        return false;
-++    }
-++    __cpuid_count(7, 0, eax, ebx, ecx, edx);
-++    return (ebx & bit_AVX2) != 0;
-+ #else
-+ #error "What platform is this?"
-+ #endif
-+--
-+2.43.0
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index a139ebb176..8ee7db50ed 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,6 +19,7 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
-            file://0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch \
-            file://0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch \
-+           file://0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch \
-            "
- 
- SRC_URI[sha256sum] = "efd4bb08cdb7c365a812cd4e6c9202ab55b2f22cdcd13c7d6c4f9647b799a4ef"
+Best regards,
+
+--=20
+Paul Barker
+
+
 
