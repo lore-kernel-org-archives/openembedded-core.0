@@ -1,220 +1,211 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 631D2C5CFC1
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 04:02:05 +0000 (UTC)
-Received: from SEYPR02CU001.outbound.protection.outlook.com (SEYPR02CU001.outbound.protection.outlook.com [40.107.44.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23380.1786939315002451433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4076C5CFC1
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 04:43:15 +0000 (UTC)
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23400.1786941785720410081
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2026 21:01:55 -0700
+ Sun, 16 Aug 2026 21:43:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=BBkbEs9M;
- spf=pass (domain: aspeedtech.com, ip: 40.107.44.116, mailfrom: jamin_lin@aspeedtech.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cwsz34OWwuMbhRJTT+9/CrjTxG/5vnlEAe6GdP8OjZUceY0fFpgWWK16/q2u5AgBAihmJkPZ9R5xvDuZAVq7ODP5um48e70Xh9uqCmdJnY6TMOOsHZIp8nMk5WeKZ8+xBZ8wk9ycNvgOsXx1Mr+kGhJM/d9ijByMNz9Mey9X7G9Hd7Ub6tYqdP6xZyrWxhO41aPRYneBd+EK/eLMZkULj25fv08K21P8YBn/UPyz8SEtI8Iwq6/yQ9njC7IJ8tz7C5hzZb+zz2w6vc/zOse73kixdm/2Q+L+cl6Vev7fhLV63WGXxZ/dFmccs9FlCXlPyCQHYFsRe4TLuqbaQMeSLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=grIaYA1m5rQxtr+1HLMH3lPk5gtADyQCW9NhXxoNkUk=;
- b=mIA/DSC79US/EtOq93Yi39c11MNnTmDcPi7UQGrKV3qQ5W1tqQvw/gAOuOT6YIE7iq7Cc8dHB2oOSYLxteEAVXT5uxU2fgxUyHR1WBCYUAKVG1Ssy74cti2IpHADlE5s/iQBI1NEDh4sobD2KnivXZbbo94pvtsGXweIxM3ePDc6ZI20ZLR3d8ZEKCEnsXWFv+5LwYdfKYQ03HLZxEnLnzl2JCMwTTy7D5pZYnDfwH752ZF1XJaHQCi7Lbq6ecZ9kjK/LABIoeGxYJ1XZruWAaQ/tmTn3Q5uVgHpX0M0ZEcwKSfYo0j/zPT22VdwhBJEJrOuQ87Lg5cVTdlVLD9+HQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=grIaYA1m5rQxtr+1HLMH3lPk5gtADyQCW9NhXxoNkUk=;
- b=BBkbEs9M74s2MV7ZXAI9hB3L5YpzjJA7wppK9enyW98S7IMiyxdKnR8cPjNjSAeM9FKIZRvP1eau8SmbF1rjoXCuW94RsimnOR8gqASub7xgv3bAwYG+3Oez7mYV3aC3O+8MVD1BvqMroXlCQSdPNJmnHoKD5SvnyZPLhQyQ/ngFIVqcalVxy72sKbam+53mqJ/baWGp67blu1X5SZO9+pPFbMo9dRJGvD/KPkKMHij3iy/NIT3Tp25ep0LLk2elO4ofsGH+K5C9ONnnhQzOoH37jESD0AfZBO1eVZaAaz+Xej77GP8KRMqmGTGrEpnGFlqQBIXtae9/0AnEybeLjw==
-Received: from TYZPR06MB4980.apcprd06.prod.outlook.com (2603:1096:400:1cc::10)
- by PS1PPFEFCBCC15E.apcprd06.prod.outlook.com (2603:1096:308::26d) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.16; Mon, 17 Aug
- 2026 04:01:46 +0000
-Received: from TYZPR06MB4980.apcprd06.prod.outlook.com
- ([fe80::ea8a:7cb7:4822:2fb3]) by TYZPR06MB4980.apcprd06.prod.outlook.com
- ([fe80::ea8a:7cb7:4822:2fb3%6]) with mapi id 15.21.0315.016; Mon, 17 Aug 2026
- 04:01:46 +0000
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
-	<alex.kanavin@gmail.com>, "mathieu.dubois-briand@bootlin.com"
-	<mathieu.dubois-briand@bootlin.com>
-CC: Troy Lee <troy_lee@aspeedtech.com>
-Subject: RE: [PATCH v4 5/5] oeqa/selftest/devtool: Add test for multiple
- nested git destsuffix repos
-Thread-Topic: [PATCH v4 5/5] oeqa/selftest/devtool: Add test for multiple
- nested git destsuffix repos
-Thread-Index: AQHdIM6xV2rzgBG+Ak2NuxjiXSpMbragnaGAgAEa2nA=
-Date: Mon, 17 Aug 2026 04:01:46 +0000
-Message-ID: 
- <TYZPR06MB49804653A5AA136C57C24CD7FCA72@TYZPR06MB4980.apcprd06.prod.outlook.com>
-References: <20260731092634.1127862-1-jamin_lin@aspeedtech.com>
-	 <20260731092634.1127862-6-jamin_lin@aspeedtech.com>
- <a9062529d1d715e7a7054b75a86f726a5149185c.camel@pbarker.dev>
-In-Reply-To: <a9062529d1d715e7a7054b75a86f726a5149185c.camel@pbarker.dev>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB4980:EE_|PS1PPFEFCBCC15E:EE_
-x-ms-office365-filtering-correlation-id: 62661e34-b6ae-4224-d663-08defc1441a5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|10067099003|56012099006|3023799007|22082099003|18002099003|4143699003|38070700021;
-x-microsoft-antispam-message-info: 
- qgoWomOrALA5HeorCkU/wGDCO0X+RYpwwOQkVxNFXSYNk9HWQ/GVwU30zp9fGBgUPl2niIrlQjCY+R8IF7p2tplTAQjqu2bBFH5b5vI2fVS20x/VqS3u6jO5okBsCN4Fw6WgfZu8CgbtivVKVE34ho7nhjPTVbeugW0RUXUnYcHyK/VseLz1UpBijo8AvHPbGCfGYgiBF8+2FkHQKaeRhThHvv5x0F/9aGQFwjvmnHGkBB1WSL/9JZyOHYSdSCHTJ1YzGtH+ANbyt1BfOkgo0NfmtLDx+Yaf7YT2GNGY5VmQ3sZ4Os5WCsGp6dnjouOWv8jxxCWtCkUaBZXXZXNQX4eT+748Wcad8jKfA2GmvD4a3MDZC1jsWVf3Jn3OAWyfjVFYuZuTVVGMMt1sNEFV3G1X/g8X3pcS33s7QyfZ3Q5Kfgg5aUXz8uyHc++TcnusnWg9ZhnWZy7RXng3PXWvyV52SFNCQVh8DjeohhEM5voJkU42KV+ll6PkliEViL52QOFisOs+Af/od0p0js2MSf4diz89N478UrYcoI5E+XbfA2a0BPBheMu6Ce27/gj6COef9jPKS3hUnRM7lbX27EHRNWdpnMQryjzESVv1pB53k3lPru3rkzGCTE5quE+4xoudLuAwnpYL2pDH5lzteApVyZ3p2JFyRxQRxhjaPJqv8P5MMtWfetsDWcnA7nsueFhzJLErkuhWdgFR/dfroD6/o/uQAmfcOFzhQ2tEFMA=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4980.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(10067099003)(56012099006)(3023799007)(22082099003)(18002099003)(4143699003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?VTNMTnczUVVYNHNkSjBKV0pKbytYOG1rcGRsUjJZQ0QyaU5yTFBPTE1FT1RX?=
- =?utf-8?B?bFJYNi9ZMjNRTlNyVGtYUWcyRGYxK0tnQUlBM1ZjNDc0bHZ5ODQ4MmxyZVJI?=
- =?utf-8?B?ZGtkdEZQMDV6a0dseTRWRjBmUU1JczZJSXk3ZFRLV29VMGZ2QzlWaUtJYjJ3?=
- =?utf-8?B?bHltaHlzaUtIWFVSQkRlVG1CNFAwWDBySS9sQVZKTy91YW1TdVBvUGppckxk?=
- =?utf-8?B?ODNzUUw4V2R3UjRqSjQ0RzNIMmltNVZZcXZYNUJMSzAybFhnNHl0R3FlTnY0?=
- =?utf-8?B?VUNCVWxvMFYvNnhKYXkwK1AreTBrLzBuT2FMTzk4MzlZdnJ3Q1JHdE5PWDIy?=
- =?utf-8?B?cTBVOVR0U0VyMzlUN1pOQTN1Rkl1QTB2TGVSV0RpZkdFREI3dm00ejFreUVZ?=
- =?utf-8?B?TDJENlQrY1lhNUlMZUJLeE5qa0RUQzFxQndWRmpXUGYvZmRSbUFMZHV2ek9M?=
- =?utf-8?B?OEFFQVQ4a2VEKytldmgvZk13VCtTeXZucDl1K0t3UWswaWdTc0VJaUZIQjlo?=
- =?utf-8?B?eWxBZ2dnVDNoV2hiVkxxUVFQVUp6VTQ2b0RMc0hZaERKcUFMZFZzeGJiU3M1?=
- =?utf-8?B?NVl2MGFMVEJvQ082Vk93NGttWmJucjlFSU5LK3pSWGtuRmdNeU94QTRXWjBE?=
- =?utf-8?B?MFVweC84NmRkbHZiNjl3SE9FcWNzOHFlMVh2U1VuVk41SE9Vd3JENElObTJF?=
- =?utf-8?B?cEhqaGFKbGVrNjZBWnRjY3NtZTRjckZrVEx1VE5PS3JLZ1ZZVVBMTW1RaHJv?=
- =?utf-8?B?QUtocmRrSzlWK3N2eW9LSEZCRVp2b1JzajhDbUxQOVFDaFBBVzJ6ZzdOa2Rm?=
- =?utf-8?B?L3lQQ0lJeXIza3p1N1FXUDNEZjVYWHVDTmtHNTRlbDJMbVhRYXljSmRwc1k1?=
- =?utf-8?B?M20wREJKaW9FMmVFRy8yYzk2UTRGYnpLQ0pSWURZSnVyNVVtL3p6RHhHVEdW?=
- =?utf-8?B?VkgzUXdhVnlVWlpvcklWTE5wVVUyZjRvWlFjYllvK0s5Y2RlTDhGZUgvdnl6?=
- =?utf-8?B?UTJveVN1aXc1S1FETjZIdXpNVU11WTRBSjB5elIwQXorTU5QOGtPOXR3cTRW?=
- =?utf-8?B?VWhHOXNQOEFzKzB3UE41REZPNVJPRldYTHZVNjlVNmo5S3hNcG1LNlovL000?=
- =?utf-8?B?K01peWd0eHcyVUcrdVI4aFRMVzlyUE9oaEVZTGlEK0wwTkJQVW5kd3lDWndv?=
- =?utf-8?B?NExRSDRneHFCUGdpcUdMSzVDb2xEUXFZcjZ2c0JCR3BVYzZXKzBVV2lxcm56?=
- =?utf-8?B?ZEw0M1R0aFg0S3dJd25QbHRGQkVNdDFnU1dTRVRrUXRJVDVXNWtWcm54M0pv?=
- =?utf-8?B?SXJLdXB5alNWS1NsN0JZdm9UWFVKRlozd1h3ODVEbXVHaFF5dll5V1FmNlZp?=
- =?utf-8?B?NEcvSU9nVGVlM1lWaGg1bG5UWXNFc3lFZ0tYbmsyeTYzYzJMM1VoMEptR0VP?=
- =?utf-8?B?U2poa2ZlRDhFNlp5akdEZytlQU5JZk5zNnZQdFVWR3MreGdIUEhpejU2MWEw?=
- =?utf-8?B?RFBDLzNkTE92ZlN0ZUFRbWlZYTdveVhRcGVOMlVUUENncW1RcmZ2RzJpb05u?=
- =?utf-8?B?RG9RZ2RscjBrTXVwNzlqelBpMHJ6ZWRZQmJOOWRtNndTalNhMlEzUDNRblVk?=
- =?utf-8?B?MTV5akZzOUVQYmZqZkNWd040WHhlc3NFVWo4cFJLaDYvbXlNTlZmcnp2N2lu?=
- =?utf-8?B?a3dMaStGeDUweGhoVEs2cDM5ZUsySk9EYlNEbTVnb2dmcTJBUjZ5dERRQ2FC?=
- =?utf-8?B?c2d3bUwzNVduRC91bDRRbVlRQ0loRkRPWEwyWDJWaUp3YmRVRXNXUGx1cE54?=
- =?utf-8?B?QWlYaUFsZTl2N2x0b1lnT0pyWHI5bVpMZXBPZlp2R2hoSkdwRTRnMk5ncDJF?=
- =?utf-8?B?WEY2SUlwMTZtbEVaZ2NaM2xTYnVwR0xFNXIyMGo1N0hGcExMU2ZHNjhJMVRG?=
- =?utf-8?B?dDJKbFYyUFFCbm53Skd6dm41bGZqaTJGcHZjVzJ0dWRMd2hZUG5hVHR1TFhL?=
- =?utf-8?B?c05FbHdDN3pHNThKVGNqS2kzVU5FclU4OXRJWHVBZVZxY1Z4NHg0UHQzR2dm?=
- =?utf-8?B?V2hMRWNKVzJxUXZVYXBlUHRSVGlIcWo5d0NPc3RRRWFmenVQQnFTaDNXUExD?=
- =?utf-8?B?NEhKT1oySGRIcmQvbWxBcHZYMXdKOGhMeTJuNzc2OTZkeGI1MmlieEIrRDNk?=
- =?utf-8?B?OWlaLzNtekJDRlFDb05vb1Nla0JyVEtndUEvaWxiZW9EalVDdVF4eXkxVnE3?=
- =?utf-8?B?S1pHSEFNUGdUeUlPVXdPZlFCWS80Y1ZScjhGMitXRnpqVjlvNFUwNjVJUGVx?=
- =?utf-8?B?dUFNOUVSVnNZZlcxUldsVmU0b2x2MUp1aU4zdGV2Z0ZVY25sNTNzUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=WIlEGW2J;
+ spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: hthakar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=4869; q=dns/txt;
+  s=iport01; t=1786941785; x=1788151385;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5JJbnEI1mmDuuN+TkuDEs5VTALV2fV54pKMiPxw71SY=;
+  b=WIlEGW2JoEzuTyAp3m7kT6SThV3cZGrhURNibSNzZW2Myydw7/OjEVXN
+   YFyMBWgHD5lXQXaFFIjI+5zqZkDh+OWx1rcYAgF75yfxvUKs+T1OWBrz8
+   gBB1a4e9Zaj3o/B98nZxM9avgFcfXlmsUjaXOSB5snV0rEGvM35zAHkoB
+   lzlhFxJi1uBkPie+Q6fC8qNAPLkxoxl1ICQrg5RKOTqhPDLtTsv95mKJb
+   uiWWRXll1m9Q85loqZw8k3zubRoRslj8KoR62sLI9TmJcpEVejp2JdB63
+   QLetEqvCG3uUQBxDarXccSsYbNt1OO+5pcgX+SiO26Nb1wUnvp9IYUzTt
+   Q==;
+X-CSE-ConnectionGUID: ap+ym8VwTmWfcFvh9k59cA==
+X-CSE-MsgGUID: MlVH7RjbTA6cRWTcItYrjg==
+X-IPAS-Result: =?us-ascii?q?A0BHAgBHkIJq/44QJK1aglmCV3ReQ0mVXmyLZ5I3gX4PA?=
+ =?us-ascii?q?QEBD0QNBAEBhQWNawImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2GWgECASoLARgBLSwDAQJPCyMhGoJoAYI6AzcDEcQvgXkzgQGDK?=
+ =?us-ascii?q?AExBYEe2EsNglgBCxQBgTiFP4J/hSNdGAGEfCcbG4FygRWDaYEFgRoYKgKBJ?=
+ =?us-ascii?q?4Z+BIINFXoSgVqBLYUZinFIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4Xg?=
+ =?us-ascii?q?Q0bBgWBHYEohDcjGTZ8gQlegSsqYQESF4EJggoCgnOCBgIBSQ4LGA1IESw3F?=
+ =?us-ascii?q?BkEPm4HjhcggkeBDgErF4FxKQqjRoIhoB5xCiiDdowhjz6FfBozhASBV6URm?=
+ =?us-ascii?q?QiCWYsxhAmSR4RpgWg8gVlwFTuCZwlKGQ+OLgoLg2CFZMZVJzICCTIBAQcCB?=
+ =?us-ascii?q?w4DC4FokAACJgeBTwEB?=
+IronPort-Data: A9a23:bpWRBa7k883E7sxum4CWUAxRtG/GchMFZxGqfqrLsTDasY5as4F+v
+ mVJXG6Pbv+ONjPxft0nO9ux8ExSv8WAyNZmQAc4pSs8Zn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa+1H1dOe9/RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/qUzBHf/g2QqajJNtPrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eNJVb6+MnP35y8
+ MMWIx4TbkGA2rO96efuIgVsrpxLwMjDNYcbvDRkiDreF/tjGc2FSKTR7tge1zA17ixMNa+BP
+ IxCN3w2MlKZP0cn1lQ/UPrSmM+omnn2cDRCgFmUvqEwpWPUyWSd1ZC9aoaEIIzXHZg9ckCwg
+ 2b43zvDABsmHYKU8wW5+VOwt/XNknauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJZF+k8rQXIwa3O7kPBWy4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:3cJoZKnf7DaPbvlodpNWUF3kzsbpDfIa3DAbv31ZSRFFG/FwWf
+ rAoB19726QtN9/YhAdcLy7VZVoIkmsl6Kdn7NwAV7KZmCP0wGVxepZg7cKrQeNJ8SHzJ8/6Y
+ 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHNuQ8bpE0dKz2DrMpbnmBENjo=
+X-Talos-CUID: =?us-ascii?q?9a23=3A+NypUmhrwtLVKpehZ9uyPxzubjJue2We3XKAHVC?=
+ =?us-ascii?q?EDFlnQ5OLSQ6TpfJvup87?=
+X-Talos-MUID: 9a23:S6z00gsUqe/+CNh0682noTVcFJhS4a6SIR4Gq6o6sOiYBDZyNGLI
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,228,1779148800"; 
+   d="scan'208";a="824928505"
+Received: from alln-l-core-05.cisco.com ([173.36.16.142])
+  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 17 Aug 2026 04:43:03 +0000
+Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-05.cisco.com (Postfix) with ESMTPS id 5CAF218000DC3;
+	Mon, 17 Aug 2026 04:43:03 +0000 (GMT)
+Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
+	id EF2C9CCA79B; Sun, 16 Aug 2026 21:43:02 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-@cisco.com, external@cisco.com,
+	Hetvi Thakar <hthakar@cisco.com>
+Subject: [OE-core][wrynose][PATCH] python3-pip: Fix CVE-2026-8643
+Date: Sun, 16 Aug 2026 21:42:31 -0700
+Message-Id: <20260817044231.127184-1-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	ZgasG2ijSpqVfIcDofo+G9lTCHbK3SGsaIsDwyMl8OXqmAY+RK5k2dXL07HGEiM7HkvfURjGWkhH1ugj6ZVmfSCLTFh2xwOivXPSmg1wnNvNnz+aaruh2p38O+q+iKIzvbcElnW5t1ak2h/AD6vBzkIGmRemvQdljWFQotjti2PYDIHjcQc20drWMwyzFV6ctgwZVHZknWC+ErtNAEdk9fJttAB6BWmWH9Jmuh6OdfF5BSLkSDKzWLP9WiyPyhCCv0mDoJlUzDNid8JkFT+kq301cmedyZbmFEbrNuhzwqMBsUb84xoWU28RhwHKK6l5dKxLldarJDy9rD5NsyXbZw==
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4980.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62661e34-b6ae-4224-d663-08defc1441a5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2026 04:01:46.4065
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: v1hsqQXy9cgjKq3ltXzy9vG7h0BcZ/L/1Fu06xZTyjR6Q/XGL3VeZ0L8Q7Y9yBg3ii68r0rzC5TfDfUmIPfCeb9dKol4Yv4wTiGzU+epfuM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PPFEFCBCC15E
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Node: alln-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 04:02:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243584
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 04:43:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243585
 
-DQo+IE9uIEZyaSwgMjAyNi0wNy0zMSBhdCAwOToyNiArMDAwMCwgSmFtaW4gTGluIHdyb3RlOg0K
-PiA+IEFkZCB0ZXN0X2RldnRvb2xfbW9kaWZ5X211bHRpX2dpdF9kZXN0c3VmZml4X3N0YW5kYWxv
-bmUgdG8gdmVyaWZ5IHRoYXQNCj4gPiBkZXZ0b29sIG1vZGlmeSBjb252ZXJ0cyBhbGwgbmVzdGVk
-IGdpdCByZXBvcyAoZnJvbSBtdWx0aXBsZSBTUkNfVVJJDQo+ID4gZ2l0IGVudHJpZXMgd2l0aCBk
-aWZmZXJlbnQgZGVzdHN1ZmZpeCB2YWx1ZXMsIGluY2x1ZGluZyBhIHJlcG8gbmVzdGVkDQo+ID4g
-aW5zaWRlIGFub3RoZXIgcmVwbydzIG93biB3b3JraW5nIHRyZWUpIHRvIHN0YW5kYWxvbmUgY2xv
-bmVzIHNvIHRoZQ0KPiA+IHdvcmtzcGFjZSBzdXJ2aXZlcyAnYml0YmFrZSAtYyBjbGVhbmFsbCcu
-DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKYW1pbiBMaW4gPGphbWluX2xpbkBhc3BlZWR0ZWNo
-LmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9kZXZ0b29s
-LnB5IHwgNjQNCj4gPiArKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFu
-Z2VkLCA2NCBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9saWIvb2Vx
-YS9zZWxmdGVzdC9jYXNlcy9kZXZ0b29sLnB5DQo+ID4gYi9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0
-L2Nhc2VzL2RldnRvb2wucHkNCj4gPiBpbmRleCBhMTBlYjBjNzg0Li5kZTczYTJlNjIwIDEwMDY0
-NA0KPiA+IC0tLSBhL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZGV2dG9vbC5weQ0KPiA+
-ICsrKyBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZGV2dG9vbC5weQ0KPiA+IEBAIC0x
-MjY1LDYgKzEyNjUsNzAgQEAgY2xhc3MgRGV2dG9vbE1vZGlmeVRlc3RzKERldnRvb2xCYXNlKToN
-Cj4gPiAgICAgICAgICBzZWxmLmFzc2VydEV4aXN0cyhvcy5wYXRoLmpvaW4oc291cmNlX3JlcG9f
-Z2l0c21fZ2l0bW9kdWxlcywNCj4gJ2JpdGJha2UnKSwgJ1N1Ym1vZHVsZSBub3QgZm91bmQnKQ0K
-PiA+ICAgICAgICAgIHNlbGYuYXNzZXJ0RXhpc3RzKG9zLnBhdGguam9pbihzb3VyY2VfcmVwb19n
-aXRzbV9naXRtb2R1bGVzLA0KPiA+ICdiaXRiYWtlLWdpdHNtLXRlc3QxJyksICdTdWJtb2R1bGUg
-bm90IGZvdW5kJykNCj4gPg0KPiA+ICsgICAgZGVmIHRlc3RfZGV2dG9vbF9tb2RpZnlfbXVsdGlf
-Z2l0X2Rlc3RzdWZmaXhfc3RhbmRhbG9uZShzZWxmKToNCj4gPiArICAgICAgICAiIiINCj4gPiAr
-ICAgICAgICBWZXJpZnkgdGhhdCBkZXZ0b29sIG1vZGlmeSBjb252ZXJ0cyBhbGwgbmVzdGVkIGdp
-dCByZXBvcyAoZnJvbQ0KPiBtdWx0aXBsZQ0KPiA+ICsgICAgICAgIFNSQ19VUkkgZ2l0IGVudHJp
-ZXMgd2l0aCBkaWZmZXJlbnQgZGVzdHN1ZmZpeCB2YWx1ZXMpIHRvIHN0YW5kYWxvbmUNCj4gY2xv
-bmVzDQo+ID4gKyAgICAgICAgc28gdGhhdCAnYml0YmFrZSAtYyBjbGVhbmFsbCcgZG9lcyBub3Qg
-YnJlYWsgdGhlIGRldnRvb2wgd29ya3NwYWNlLg0KPiA+ICsNCj4gPiArICAgICAgICBUaGUgcmVj
-aXBlIChkZXZ0b29sLXRlc3QtbXVsdGktZGVzdHN1ZmZpeCkgaGFzIHRocmVlIGdpdCBTUkNfVVJJ
-DQo+IGVudHJpZXMNCj4gPiArICAgICAgICB3aXRoIFMgPSAke1VOUEFDS0RJUn0sIGVhY2ggbmVz
-dGVkIGluc2lkZSB0aGUgcHJldmlvdXMgcmVwbydzDQo+IG93bg0KPiA+ICsgICAgICAgIHdvcmtp
-bmcgdHJlZToNCj4gPiArICAgICAgICAgICAgZGVzdHN1ZmZpeD1sZXZlbDEgICAgICAgICAgICAg
-ICAtPiBzcmNkaXIvbGV2ZWwxLw0KPiA+ICsgICAgICAgICAgICBkZXN0c3VmZml4PWxldmVsMS9s
-ZXZlbDIgICAgICAgIC0+IHNyY2Rpci9sZXZlbDEvbGV2ZWwyLw0KPiA+ICsgICAgICAgICAgICBk
-ZXN0c3VmZml4PWxldmVsMS9sZXZlbDIvbGV2ZWwzIC0+DQo+ID4gKyBzcmNkaXIvbGV2ZWwxL2xl
-dmVsMi9sZXZlbDMvDQo+ID4gKw0KPiA+ICsgICAgICAgIFRoaXMgbWlycm9ycyByZWFsLXdvcmxk
-IHJlY2lwZXMgdGhhdCBlbWJlZCBtdWx0aXBsZSBtb2R1bGUgcmVwb3MNCj4gPiArICAgICAgICBh
-cyBuZXN0ZWQgc3ViZGlyZWN0b3JpZXMgb2YgdGhlIHByaW1hcnkgc291cmNlIHRyZWUsIGluY2x1
-ZGluZyB0aGUNCj4gPiArICAgICAgICBjYXNlIHdoZXJlIG9uZSByZXBvJ3MgY2hlY2tvdXQgbGl2
-ZXMgaW5zaWRlIGFub3RoZXIgcmVwbydzDQo+IHdvcmtpbmcNCj4gPiArICAgICAgICB0cmVlIHJh
-dGhlciB0aGFuIG1lcmVseSB1bmRlciBhIHNoYXJlZCBwbGFpbiBkaXJlY3RvcnkuDQo+ID4gKyAg
-ICAgICAgIiIiDQo+ID4gKyAgICAgICAgdGVzdHJlY2lwZSA9ICdkZXZ0b29sLXRlc3QtbXVsdGkt
-ZGVzdHN1ZmZpeCcNCj4gPiArICAgICAgICBzcmNfdXJpID0gZ2V0X2JiX3ZhcignU1JDX1VSSScs
-IHRlc3RyZWNpcGUpDQo+ID4gKyAgICAgICAgc2VsZi5hc3NlcnRJbignZ2l0Oi8vJywgc3JjX3Vy
-aSwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICdUaGlzIHRlc3QgZXhwZWN0cyAlcyB0byBo
-YXZlIGdpdCBTUkNfVVJJIGVudHJpZXMnDQo+ICUgdGVzdHJlY2lwZSkNCj4gPiArICAgICAgICBz
-ZWxmLnRyYWNrX2Zvcl9jbGVhbnVwKHNlbGYud29ya3NwYWNlZGlyKQ0KPiA+ICsgICAgICAgIHNl
-bGYuYWRkX2NvbW1hbmRfdG9fdGVhckRvd24oJ2RldnRvb2wgcmVzZXQgJXMnICUgdGVzdHJlY2lw
-ZSkNCj4gPiArICAgICAgICBzZWxmLmFkZF9jb21tYW5kX3RvX3RlYXJEb3duKCdiaXRiYWtlLWxh
-eWVycyByZW1vdmUtbGF5ZXINCj4gKi93b3Jrc3BhY2UnKQ0KPiA+ICsgICAgICAgIHJlc3VsdCA9
-IHJ1bkNtZCgnZGV2dG9vbCBtb2RpZnkgJXMnICUgdGVzdHJlY2lwZSkNCj4gPiArICAgICAgICBz
-ZWxmLmFzc2VydEVxdWFsKHJlc3VsdC5zdGF0dXMsIDAsDQo+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgICAnZGV2dG9vbCBtb2RpZnkgZmFpbGVkOiAlcycgJSByZXN1bHQub3V0cHV0KQ0KPiA+
-ICsgICAgICAgIHNyY2RpciA9IG9zLnBhdGguam9pbihzZWxmLndvcmtzcGFjZWRpciwgJ3NvdXJj
-ZXMnLCB0ZXN0cmVjaXBlKQ0KPiA+ICsgICAgICAgIG5lc3RlZF9wYXRocyA9IFsNCj4gPiArICAg
-ICAgICAgICAgKCdsZXZlbDEnLCAnbGV2ZWwxJyksDQo+ID4gKyAgICAgICAgICAgICgnbGV2ZWwy
-JywgJ2xldmVsMS9sZXZlbDInKSwNCj4gPiArICAgICAgICAgICAgKCdsZXZlbDMnLCAnbGV2ZWwx
-L2xldmVsMi9sZXZlbDMnKSwNCj4gPiArICAgICAgICBdDQo+ID4gKw0KPiA+ICsgICAgICAgIGZv
-ciBuYW1lLCBzdWJwYXRoIGluIG5lc3RlZF9wYXRoczoNCj4gPiArICAgICAgICAgICAgcmVwb19w
-YXRoID0gb3MucGF0aC5qb2luKHNyY2Rpciwgc3VicGF0aCkNCj4gPiArICAgICAgICAgICAgc2Vs
-Zi5hc3NlcnRFeGlzdHMob3MucGF0aC5qb2luKHJlcG9fcGF0aCwgJy5naXQnKSwNCj4gPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgJ1JlcG8gJXMgKC5naXQpIG5vdCBmb3VuZCBpbiBk
-ZXZ0b29sDQo+ID4gKyB3b3Jrc3BhY2UnICUgbmFtZSkNCj4gPiArDQo+ID4gKyAgICAgICAgIyBL
-ZXkgYXNzZXJ0aW9uOiBubyBuZXN0ZWQgcmVwbyBzaG91bGQgcmV0YWluIGEgZ2l0IGFsdGVybmF0
-ZXMgZmlsZS4NCj4gPiArICAgICAgICAjIGRldnRvb2wgbW9kaWZ5IG11c3QgcmVwYWNrIG9iamVj
-dHMgbG9jYWxseSBzbyB0aGUgd29ya3NwYWNlDQo+IGRvZXMgbm90DQo+ID4gKyAgICAgICAgIyBk
-ZXBlbmQgb24gdGhlIGRvd25sb2FkcyBjYWNoZSwgd2hpY2ggJ2JpdGJha2UgLWMgY2xlYW5hbGwn
-IHdpbGwNCj4gZGVsZXRlLg0KPiA+ICsgICAgICAgIGZvciBuYW1lLCBzdWJwYXRoIGluIG5lc3Rl
-ZF9wYXRoczoNCj4gPiArICAgICAgICAgICAgcmVwb19wYXRoID0gb3MucGF0aC5qb2luKHNyY2Rp
-ciwgc3VicGF0aCkNCj4gPiArICAgICAgICAgICAgYWx0ZXJuYXRlc19maWxlID0gb3MucGF0aC5q
-b2luKHJlcG9fcGF0aCwgJy5naXQnLCAnb2JqZWN0cycsDQo+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAnaW5mbycsICdhbHRlcm5hdGVzJykNCj4gPiArICAg
-ICAgICAgICAgc2VsZi5hc3NlcnROb3RFeGlzdHMoYWx0ZXJuYXRlc19maWxlLA0KPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAnUmVwbyAlcyBzdGlsbCBoYXMgYSBnaXQgYWx0
-ZXJuYXRlcw0KPiBmaWxlIGFmdGVyICcNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgJ2RldnRvb2wgbW9kaWZ5JyAlIG5hbWUpDQo+ID4gKw0KPiA+ICsgICAgICAgICMgVmVy
-aWZ5IHRoZSB3b3Jrc3BhY2Ugc3Vydml2ZXMgY2xlYW5hbGwsIHdoaWNoIHJlbW92ZXMgdGhlDQo+
-IHNoYXJlZA0KPiA+ICsgICAgICAgICMgb2JqZWN0cyBpbiB0aGUgZG93bmxvYWRzIGNhY2hlIHRo
-YXQgYWx0ZXJuYXRlcyB3b3VsZCByZWZlcmVuY2UuDQo+ID4gKyAgICAgICAgYml0YmFrZSgnJXMg
-LWMgY2xlYW5hbGwnICUgdGVzdHJlY2lwZSkNCj4gDQpXaWxsIHJlbW92ZSBjbGVhbmFsbCB0ZXN0
-Lg0KDQo+IFdlIGNhbid0IHVzZSBjbGVhbmFsbCBoZXJlIGFzIGl0IGRlbGV0ZXMgZGF0YSBmcm9t
-IHRoZSBtYWluIGRvd25sb2Fkcw0KPiBkaXJlY3RvcnkuIElzIHRoZSBhYm92ZSBjaGVjayBmb3Ig
-YW4gYWx0ZXJuYXRlcyBmaWxlIG5vdCBzdWZmaWNpZW50PyBJZiBub3QgdGhlbg0KPiB0aGlzIHRl
-c3QgbmVlZHMgdG8gdXNlIGFuIGlzb2xhdGVkIGRvd25sb2FkcyBkaXJlY3RvcnkuDQo+IA0KPiBC
-ZXN0IHJlZ2FyZHMsDQo+IA0KPiAtLQ0KPiBQYXVsIEJhcmtlcg0KDQo=
+From: Hetvi Thakar <hthakar@cisco.com>
+
+This patch backports the upstream fix for CVE-2026-8643. The
+commit is included in pip 26.1.2 and referenced in [1]. The public
+CVE advisory is referenced in [2].
+
+The selected commit is self-contained. Later upstream commits refactor
+the validation to use a shared containment helper and update release
+notes; they are not prerequisites for this fix.
+
+[1] https://github.com/pypa/pip/commit/8eb178480bd1a2b223f509fc430796b265158dfb
+[2] https://github.com/advisories/GHSA-wf93-45jw-7689
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+---
+ .../python/python3-pip/CVE-2026-8643.patch    | 80 +++++++++++++++++++
+ .../python/python3-pip_26.0.1.bb              |  4 +-
+ 2 files changed, 83 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643.patch
+
+diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2026-8643.patch b/meta/recipes-devtools/python/python3-pip/CVE-2026-8643.patch
+new file mode 100644
+index 0000000000..2f38ad0207
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pip/CVE-2026-8643.patch
+@@ -0,0 +1,80 @@
++From 483d83c13c9d69c1916c06cab29991f6c2725cee Mon Sep 17 00:00:00 2001
++From: Damian Shaw <damian.peter.shaw@gmail.com>
++Date: Wed, 20 May 2026 15:20:25 -0400
++Subject: [PATCH] Reject entry point names that escape scripts dir (#14000)
++
++* Reject entry point names that escape scripts dir
++
++* NEWS ENTRY
++
++CVE: CVE-2026-8643
++Upstream-Status: Backport [https://github.com/pypa/pip/commit/8eb178480bd1a2b223f509fc430796b265158dfb]
++
++Backport Changes:
++- Omitted tests/unit/test_wheel.py because the pip 26.0.1 PyPI sdist
++  does not ship the upstream test suite and the OE recipe does not
++  enable ptest.
++
++(cherry picked from commit 8eb178480bd1a2b223f509fc430796b265158dfb)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ news/14000.bugfix.rst                         |  2 ++
++ src/pip/_internal/operations/install/wheel.py | 26 ++++++++++++++++---
++ 2 files changed, 25 insertions(+), 3 deletions(-)
++ create mode 100644 news/14000.bugfix.rst
++
++diff --git a/news/14000.bugfix.rst b/news/14000.bugfix.rst
++new file mode 100644
++index 000000000..3b86f1b3b
++--- /dev/null
+++++ b/news/14000.bugfix.rst
++@@ -0,0 +1,2 @@
+++Reject ``console_scripts`` and ``gui_scripts`` entry points whose name would
+++install a script outside the scripts directory.
++diff --git a/src/pip/_internal/operations/install/wheel.py b/src/pip/_internal/operations/install/wheel.py
++index 40097d6a7..231e40065 100644
++--- a/src/pip/_internal/operations/install/wheel.py
+++++ b/src/pip/_internal/operations/install/wheel.py
++@@ -397,11 +397,31 @@ class MissingCallableSuffix(InstallationError):
++         )
++ 
++ 
++-def _raise_for_invalid_entrypoint(specification: str) -> None:
+++def _script_within_dir(name: str, scripts_dir: str) -> bool:
+++    """Return whether script ``name`` resolves to a path inside the ``scripts_dir``.
+++
+++    distlib joins the entry point name onto the scripts directory, so a name
+++    with path separators or ``..`` components can resolve elsewhere.
+++    """
+++    root = os.path.normpath(scripts_dir)
+++    dest = os.path.normpath(os.path.join(scripts_dir, name))
+++    return dest.startswith(root + os.sep)
+++
+++
+++def _raise_for_invalid_entrypoint(specification: str, scripts_dir: str) -> None:
++     entry = get_export_entry(specification)
++-    if entry is not None and entry.suffix is None:
+++    if entry is None:
+++        return
+++
+++    if entry.suffix is None:
++         raise MissingCallableSuffix(str(entry))
++ 
+++    if not _script_within_dir(entry.name, scripts_dir):
+++        raise InstallationError(
+++            f"Invalid script entry point name {entry.name!r}: the script "
+++            f"would be installed outside the scripts directory ({scripts_dir})."
+++        )
+++
++ 
++ class PipScriptMaker(ScriptMaker):
++     # Override distlib's default script template with one that
++@@ -419,7 +439,7 @@ class PipScriptMaker(ScriptMaker):
++     def make(
++         self, specification: str, options: dict[str, Any] | None = None
++     ) -> list[str]:
++-        _raise_for_invalid_entrypoint(specification)
+++        _raise_for_invalid_entrypoint(specification, self.target_dir)
++         return super().make(specification, options)
++ 
++ 
+diff --git a/meta/recipes-devtools/python/python3-pip_26.0.1.bb b/meta/recipes-devtools/python/python3-pip_26.0.1.bb
+index 28af8f7ec7..3bea989958 100644
+--- a/meta/recipes-devtools/python/python3-pip_26.0.1.bb
++++ b/meta/recipes-devtools/python/python3-pip_26.0.1.bb
+@@ -24,7 +24,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=63ec52baf95163b597008bb46db68030 \
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI += "file://no_shebang_mangling.patch"
++SRC_URI += "file://no_shebang_mangling.patch \
++            file://CVE-2026-8643.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "c4037d8a277c89b320abe636d59f91e6d0922d08a05b60e85e53b296613346d8"
+ 
+-- 
+2.35.6
+
 
