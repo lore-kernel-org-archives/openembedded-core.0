@@ -2,144 +2,372 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DE2C5B572
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 13:03:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA952C5DF66
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 13:03:28 +0000 (UTC)
 Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.70])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.29723.1786971798729159557
  for <openembedded-core@lists.openembedded.org>;
  Mon, 17 Aug 2026 06:03:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=jkHyCSCZ;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=LZrg0fAZ;
  spf=pass (domain: est.tech, ip: 40.107.159.70, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eTVWoMDrxwob1LJPeVAEHtPR/BLITm6Kyn088M9uQ3Sy2qzVeXnJcI3zagkCEZTPDI8z39qPoFSauHl0Pdy9fj08c4ZnNvnnpla9K5DOS40SK+C3t3EqC7e/eXwp+ePq702aootVqWOlCYzYOnAkdJ9tHQPVTcV0Yqc7+bj40U776E/eObsHQwIuIIQn9nQld9nRQHwFAoX4WmjNdvC3ZUpNXEpSectA8dSnOLpjnMv2iKVqbijR0MYTROiSOEJWa9jDrs8S7RM1RBs+QuOB8Na8LlNNErWF3iE/6ocvYK5BLEumBGenydJ9F44/Ax2cxdNJh7o6HIDBjjBI6TUGrg==
+ b=DARWy+I/cpLkTqBKoIWRhGsfYaIESFHXfuajnrNwLAxEMXYsnWebV4WNpX1VJro2/EpovagZDm4jxy/SCdWpLdz/Ts30yDZ9Y9Z57ycs0Yyc3rlH8qilJluFU9SMozvMJw+YFqWv6qUoBmPrJUQs+CnxT46+Kq18zyOHwxaWJaDOXteOGtcpb+3wX6Ps7/xFaKbkMHBdmp+h3/LwQ9xPsYymoqltD53nihS+ixTP8Hl1HuvLXLeXsfMInl7orW2ZBc2zU4XNC/FtcAtI11efHqbZCApDrOutqiIhJmjRHcxOTE8bxMI775210ILnH1i+5mNYsxxXBTptLl2M8Yh8Sg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mOBzU1nBiG/ZUEQwiBarGkqtursSxdci1xtVWz5Zq5o=;
- b=s08U4dviISUXZ505sQCt80RK84Z9kTiAMRcLOQuWzpHfo5kHCbkKfMqH+5X3+VR0agX0RhwNlyAZt4LqevWzJLIqx/gL1537EfTdLzlNSlKeg6ZUkb5OVxucuzxAns54XyJiocD3qh4Nc6bCjsrhhINHirejI0INSTOFXr2P4QX+diKZadFsGXRGn5ivmizoKLIbBdQol882143L1pHUJwLesfAc2qCwR7CbjFNqTjYp3799SfiT0cxK77bHqLcGfEl+zIFU3o7Um+u0jAJa2PmF4BGliIz4O/ejl5mN4/oh16WnxdI/ecFe8JdECnqF3X/jP/HtgRPuQ95VskezWg==
+ bh=PuinQiIIuWW0JOgBx69jXZv/4i1mZmhSzia+OafTpd0=;
+ b=ucsZjdUE/4WrSTGC0Og18T/AT4BBCegFcgSpqRPS6K1ejIOGuQzn57pLK7DlZ1CPJTdKQ9S3yp9CXFSNdCYhzVqXA4XrdoIrBYuBzVaRguF4DCn9VoPMCzKekyaU4sHO4I2t9LJPm+nOSOuwKNgfclH7WLat0FLln4ZiHDUs/kJEe1h/ZEHf+20QmGACrg+IbZt8QpHGRkXF1IuZQdzJgck4zTvKB6OyuKhDV3xcX66OYUCCdkq+n8or2BmUzdnJGTX9EV/89bPD9oqPP+bh5OfM+TfeheoEVCA5W0esfYhBItGWqq0XsagYCYH5//d6q3jPITS6h2MkSlXF0KVDsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mOBzU1nBiG/ZUEQwiBarGkqtursSxdci1xtVWz5Zq5o=;
- b=jkHyCSCZCSyxZlfFt0q+pp4Jp6qjX20dEc1ANfVfHn0iokcULorVyLJLVYmT6UeZXZCYt6NN0pv3yqHqszujLa6KO38hYZZq8Note/OW+/egSwvhEvPCertmkIgEjQy5k2/Dhe1uITcBoMC76B+KY9OhZYDf7I0+EyZmznfj/sHvjXz36AHAO7VKIV+SHggc08UYF/L1XH7raV14lwt4QFsMEMeKZzCaXrxoPT9yXguAyumG/jE6gM9NE41NqLK9DyPpQi2MFdEqcWxH6sDJHIuo/lScWTIgr8xzNEpAOGQXWsO32kA/lWXSWqmcm4WHydY4xg07CA/Dz5Yz3u4CZQ==
+ bh=PuinQiIIuWW0JOgBx69jXZv/4i1mZmhSzia+OafTpd0=;
+ b=LZrg0fAZFjNRnBM1ljHwRBjifmuPwWhPtMd+/uyMsgRWv6vJ9ZEs46bLxw0eVr+kErbd8qEwB3Dg/wmz94fpWCtViJIC9zLd6f+XCoaLgWw1GIcbhPbXRE85ojHm7E7b5WqIv+Oe1xBcQBtW5sin95BcLhBLwyf8JbYPpJwSDiJWaYrX5XIqKU+5WAVaOgf9RH89VPfXtYPkxj5bJ4bK9oDqE+nAS6HSHanjpW2sMG0yzsNTfz6qGpAyc1r6xNEzRrExI3pjYNHKr6cs7wh7EOoU8T8SyS3BTIt6vWNOViNe8+IVXnf8vOeWPRXMvKKoCxDTAwu6w818l/Xeg3NhuQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by PR3P189MB0972.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4e::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Mon, 17 Aug
- 2026 13:03:09 +0000
+ 2026 13:03:15 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0339.007; Mon, 17 Aug 2026
- 13:03:09 +0000
+ 13:03:15 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH v2 0/2] boost: upgrade 1.91.0 -> 1.92.0
-Date: Mon, 17 Aug 2026 15:02:58 +0200
-Message-ID: <20260817130300.47761-1-jaipaul.cheernam@est.tech>
+Subject: [PATCH v2 2/2] boost: upgrade 1.91.0 -> 1.92.0
+Date: Mon, 17 Aug 2026 15:03:00 +0200
+Message-ID: <20260817130300.47761-3-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260816162611.41933-1-jaipaul.cheernam@est.tech>
+In-Reply-To: <20260817130300.47761-1-jaipaul.cheernam@est.tech>
 References: <20260816162611.41933-1-jaipaul.cheernam@est.tech>
+ <20260817130300.47761-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU7P189CA0012.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:552::15) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DB8P191CA0017.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:130::27) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PR3P189MB0972:EE_
-X-MS-Office365-Filtering-Correlation-Id: b98ac170-1e11-41aa-7d1d-08defc5fe2dc
+X-MS-Office365-Filtering-Correlation-Id: 43f5ea4c-01f2-4cfd-ce6c-08defc5fe6bd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|6133799003|3023799007|56012099006|10067099003|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|6133799003|3023799007|12006099003|56012099006|10067099003|5023799004|11063799006|4143699003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	wk/J2yOszfwOBzp3v8ZGEXqsTmpFUlD1CcivxO6kKoDv2TvzrMCEBHuaHUdN+z3EtRqnlvEIUzVUGC09D54XP4PAkoGQ/gS1xeT3KPp0t5ESH5r7T79G69giv+PlQ8tT6R4t3b/+15B8yYZhEcoiYGKWSTxfUjVqaj6lFOClI30GzG2/LYt8HWOXihq2SNmZdXyIOt/N8Opd21bNEPSBCjvGa2FjGIBqME1O52yNm3pC0j5RfYFmG/I6MgsMrdCKFPW9mwNzx1iPhoRyVx/Bc8Tgid3bCmCq4tuum4mkS44KbAOSLB8x+AUcohuOcb/XvlkFvnVDj+VtNn2H8wK6RnPSUckM5BIyFcGQXb8jp/eF6TUqvhDmhRZmGDMaYDAyl1BXKokQ1PRYa0xCH8noDDwdG9OnIi7T0zzGX4yZBNPDFqRzIaGN7PGOXVUp/tY5pysWKwretmNa++mEGi+69qure2kh0yIbaye7Q0zVaRtwodJTuScgC1ni7nqcB9YvF3ezDLHpIgAFkQ5kzEzS4vj5qJxaGj0+5wGONcUC61db0yFGCz8YnCKma42UjCc7HGmv+PKXBC+SZJ35FNm6K3A1rVeT2CLA85eCjMY0MJ6UmgAof+QNQwiJadJQMdHDoxOWNkRrOrKt+E+wDIWtLEIkf9lW1J5r7zbXEKkN8VI=
+	c0VjAh2VkC8bW7mDYE7fd4pvpBkLXlifHXiayDwBcUCwcwybetmXsRTUCKDLJ8aECMZCLlWc6L+564bPwx10OW652Qi12p/cmmYvD60Ti3RslKqFVdgEKhyo3CY3HrxbcZXnkATERFO9TyDH6NS4SBXO5nWtQC+Y8ZL3Nc0PNOa25wD8j5mz8kkJicdA0EU+ynpuqrJmcWCMsU3U/uDhXyE9EpZS5EydcI470Hh4Pd0ea2nKO1jaI3nZdGncAFJOphtriMELrpQuUGD4oNd30s3SgFebe/XhAEQ6rJSyncOEQdUnJwhl6lsVFKI6UztB0fz+b9QRrepN2zqALZCMb3trJyrGHuK9lG8o1WVhV19Zpgj/j/bsDJuVdJuiyrqDaH8NOUMSknNXLnU3Zg/qwaOjmkQVUgStVVPiLc85o5zhgIeh0oFNT4yqpfkEKqdGpljpgsQi+4XYZCpzwiJFBqFVGrpqgfpfzw9TAJ5dp0WlTXZs3n3I0Mm9SdwAltkci7eAcdMHY66QmtJbBX8DeX4WtjHT16DbrjlWkurm6X1aPVyZyYn0S1m1yNmRr+9P9CED2pYW5mFSkJnpfsaibz4w6vqxUrbhvznKXyplphA=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(6133799003)(3023799007)(56012099006)(10067099003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(6133799003)(3023799007)(12006099003)(56012099006)(10067099003)(5023799004)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?JV7Z30s+9bXY5j/su5AfbveBBOE45rWvyXMIqKhBbxAi4KwOWXyl5yF8H07Z?=
- =?us-ascii?Q?FHKlVP2g0656KoSt2wQ469WzKAkx2rQqng5VAHCHj3Rs/hbsQd2Uk+ZRaRU3?=
- =?us-ascii?Q?Ew6bNaV1NcPT7jWyfjEuJ8yWLvScKqofYDRUyQce4nQgeh6+CY1opULi+X3K?=
- =?us-ascii?Q?PETtjhGLcFTzvywK+bCM+OgxIILcAtZm7At5T7zs1EHtHLVuodCVY06101qT?=
- =?us-ascii?Q?4l39qGUEJ1rq4uxRiu1HkcLnrH8mwUB23YtuAUiz1d/FiGIxJ6PFC3Z6VAI/?=
- =?us-ascii?Q?fNz44KNmPYdyzQTeF3f0kvBcGj9vQnPlTQS+JkxilRi8080hMMrZUp2mmhh4?=
- =?us-ascii?Q?wVtZ5IFtczhLKmTCFgEqCSzWJhIb/O65u58o8Ug13gBjzltjKZ5ndvydQqt2?=
- =?us-ascii?Q?WmPsMuDe1B6qUyOYydeHN+Bsqwzdk5Jff66FHB0MthvHZRNoEkvsUD6EmOQz?=
- =?us-ascii?Q?YqJmpwIAZHYOCQPzZy0kKd2IasWB1WPLgSyeTH2NtwE2RY+FN5C9ekv3lAVG?=
- =?us-ascii?Q?YP924tr+5yOjgZZaOXhFE7jnVVk9V9JUOLxIGiYfEsi4NH/488oyVnEUmQTk?=
- =?us-ascii?Q?uruQ2hwk9Wg55agdpnqSe5Pm2g/5SvzIW3Dr2/+Rdis/4CW+/ZeL/ZP0wE14?=
- =?us-ascii?Q?XEeMDf+PO5b2wEbnpNKbn07l2d+DODu2+nV0Bvcu8t0AQWE5+5ts8ZTop6ab?=
- =?us-ascii?Q?nIyqa8A2uNXd90TeIrOrnHX+PHZjzGTALL3D1vz7fiDT+nIrkS/qUAEwEoBS?=
- =?us-ascii?Q?mY7EX2EbqgjN5mwgk0/lOuiRCyUfOb9Ga1SL9lJXsGtUCaHkBefuzd5JPGcR?=
- =?us-ascii?Q?dD2a2bTXNftSYYPGpwUAmazDEI/AgvyjRHrKWH/JiCeWzT+/wn2bFS5Wti/q?=
- =?us-ascii?Q?YnkWHq3L7VMJdandnjrksFba6d288wOu+N8b7gm/qO86r5lirVPntvG49/Vd?=
- =?us-ascii?Q?vdje+WfA+Rw3IvGVLAV2sEEOkQJ/bNU1D1h85/EquOruuL1hCMwAFjphHIqY?=
- =?us-ascii?Q?36cTghBD7BUA4vh2KQUr29RtwsVGpdJ3ZtbRd5L+43jo7s072Y+z3SnDbANz?=
- =?us-ascii?Q?pi8NSzVudNchL6lZEq9XZHn4kCh/u9IZ3lN8EFjoifNjig9H2anqiwxKDORC?=
- =?us-ascii?Q?NJDP+OQz5mbFxxls+xtGLVqchEQLLh5lMoMCuxV/ehc9sACu/ewzEDRwXoLd?=
- =?us-ascii?Q?g8UV/leu0owtj776Xl3A6Gt9PI6NNSJoVJ7DsDMP5XfS2MVYDlWb9IMpxNHv?=
- =?us-ascii?Q?o1A9GUWEQyiQrjYtFcG5ofhExwzHjkTAAS9GYvzTfjX/Mw2t0AjAfM6GPy2K?=
- =?us-ascii?Q?P/XOJO/SGEsCq1hItEPxY9qvXOFKgO+r93bvqd380gKB5GfN4aYJohvHfsnQ?=
- =?us-ascii?Q?ZWXajmvvNiRkUD/x9t+jBhyUmfbxgHGXPUpjlsdX1M9iyxecyxdeOqhShswS?=
- =?us-ascii?Q?33+b8haQx5iIZqmeFUNy8uzR2slsiHKn+UoBZhts424Zn3VAmRT9DgfMMJki?=
- =?us-ascii?Q?F2TKrlUqmsdiRUleBlKrdFFGSTUMWWHLoGrY4CEpZsKK0yWw2vjU1AQgT7qS?=
- =?us-ascii?Q?jKN4UvGVG4XO8kjXlRnGr216LfCULGvAfsT0+lMMD2LN8JJv+BT7IlouHewu?=
- =?us-ascii?Q?rLV9CsScsgVY5JMpqLmMEURlbcO67+QLd1VywQv5b/FCXWczekAow4VJlI8G?=
- =?us-ascii?Q?yiuJWUiQwDcGqBL1lPR8iEgIK2CpQU+n3ixgM50Yx+R6qmujjgqCWi4wUVGR?=
- =?us-ascii?Q?qTypIHPLkYv0nfuWWtU6nkldsAHwLG8=3D?=
+	=?us-ascii?Q?KwuGRov3K/IpaPZR7hqIKetIHW/BQ2j8qlHspfFMkFuUMDUfC0tNPLzx383L?=
+ =?us-ascii?Q?2zXlXY9ScILKpVsBTKyr4sVDrVOdXdzOY7EvxZAfouOhUUG1L/jbUKcGRq3E?=
+ =?us-ascii?Q?VWt9Lt0M/qq2tOadtxsTtsLSelRkyPRXfr1nFF+1D5J556b1b+RBlRH+fr7e?=
+ =?us-ascii?Q?tChjMePT2hCpxayPzgC1lMMQIiusyvuPPdaTgl+ZfN1e15c9O+pMVP0Luju7?=
+ =?us-ascii?Q?RBiJ/9blURUBU7RpetB/x/2kKNUOEqYedGb34L1iFcdueEwJ7rc9k4fdtfhy?=
+ =?us-ascii?Q?O/VUI+Eh4gOu8vrtZKkme1pUyWmpKRQSk88/z2OT4EhiQKNUZPAgyGgjakfB?=
+ =?us-ascii?Q?4a+McH1olfq+53RiEwVyJ4AjY0pJYEvonqf+Eiutn1tGOQozrzXQGTWR1jcE?=
+ =?us-ascii?Q?b2ZY0Vh3noF7Iy0nJ9gMTrFJHraf/pA7vhFt26T+39ypWLtv5i/kWCzlKaQG?=
+ =?us-ascii?Q?p/s69MBTiwkwHKVbz+JiC/0tWjyLKGBLuBzHmea+29tTuI+p3QYrkIL3jxpr?=
+ =?us-ascii?Q?o7Y5Ft1xg39YKUF/NYu4lHRj33wbyJNHaWqPJzr/2mfoV3yFB1gx97ON9ofl?=
+ =?us-ascii?Q?vcUrfZZm+3ISLVmD7sFvgGDdaSufRN7n22gW72FTCmR7uGi59YaOvhR2HZrh?=
+ =?us-ascii?Q?XXPHF4yu/E+kFNYQWaBUT69ysSf+hryRQiAvW/frAhDjiPb+wayqN/72qz8f?=
+ =?us-ascii?Q?7fZ98TSCU1h6QeWaYGPvmC6+wnkzMWSMi/fcFeTMYZsdXukI+UmfR3+2wDRr?=
+ =?us-ascii?Q?cZfbgfLVX+4ZXct+1feBcytyUP/7EpfiBoqkuIrKcjJ0jVzYQlh5vUgfV5Bm?=
+ =?us-ascii?Q?ISPdpu/cp9B4Q/I5GM6CNDy3z1mhe+H7mhAtWiIXhC9MMkdPF1jjP8rp4vS/?=
+ =?us-ascii?Q?zLOjEmNnUvsadb9+vTApxVnSVrBLHarKL91rlnn+WrxKld5Axj46e8ljZvV8?=
+ =?us-ascii?Q?5BchPcEyy1w4BSHNDAonZDLAYP8EeHRBextbVcYSNACPGutyIMVsJcqKhtax?=
+ =?us-ascii?Q?6YcO6YSoXwfGH5d+56fzDr8bJyzBr8U4dAkFoKl00W3/vW0q73LFnE91CVLj?=
+ =?us-ascii?Q?hcN3abeb1hCf+xp9oPunDozGT/pOML6tAzd/XuY7WC7r9jSRtZ3k/hWRo8kQ?=
+ =?us-ascii?Q?gpfGAqUL3v5PD/lETYPjb/9xhFfp7UsV7SgpxV2ppIj0xiy85rKGPMF+xwCo?=
+ =?us-ascii?Q?v1cwBT+/25j5u4L91+1cJjEgIUbLEB+CqL63QDAePYTZYyVOCkwxbQgv/Izi?=
+ =?us-ascii?Q?VqhvkSZ/lFn88sgZmpCfMnvbvuUWHequ3Ors2fJQX6AU/2v6ZhxVhE4UMz+v?=
+ =?us-ascii?Q?zAg4pu86GpzYscDKzA9AfD2602IuyHEn6S0qwLxYBgr7g1qcV2IlM9kcez7w?=
+ =?us-ascii?Q?idCEqoCOYDYMt8Co6WIrh5TYaG/pEJwEyEMD/YrBUDVJ8TMhS0Olt+4TcHqZ?=
+ =?us-ascii?Q?v6YpO5NaunJRYinjoSKNPXZenQ1m2CjFzeEcP1VyeOG9x4FTxQKYdR+wOSVL?=
+ =?us-ascii?Q?f/AEbq4R3bp5cnFFMZCz13YaEwxv8Zg+6gby+Z3iFzU05Rze14iZqt3k+I8k?=
+ =?us-ascii?Q?1k2Bz3CsZ3d03ujU1NX9TDw5Oy6lYIDcZI/qXtRhRiTY4+8ZSvLQEohQMtrK?=
+ =?us-ascii?Q?kHPaU6gbO8bvvbJie3BIj5RtoXZb3jEfmes+RvyZcOLiUogvtDKjn22X7sTw?=
+ =?us-ascii?Q?gEvaY6IwhSCDKzEkPu/hYqLYc8DxShsIrVePta2bFwrQjxqSy/zn6nrXUuIl?=
+ =?us-ascii?Q?lEX5vEESjBby3aAmKnNylxsPO6ji6+E=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: b98ac170-1e11-41aa-7d1d-08defc5fe2dc
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43f5ea4c-01f2-4cfd-ce6c-08defc5fe6bd
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 13:03:09.3004
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 13:03:15.7817
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l3NfVgTksnwj3ka1nGX3M5dF4zqBTcaqnzB94aI1YXpEc6sUBeTUJMMun0Xlbg3cTFTotOYAOasEJhSOcSPyjsepLgjZAARPxWHzlv7TS5Y=
+X-MS-Exchange-CrossTenant-UserPrincipalName: d9/KP1Wktcmp+27I8uWett/h1I17fPOgwWdcAb8pljKZrCaw3b6UXTHQncv/GSGB0Rl1pk3zMbgm/rD2pSRUZqTsbvtI8lVftgDVmjdU2VM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB0972
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 13:03:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243621
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 13:03:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243622
 
-Upgrade boost and boost-build-native to 1.92.0.
+ChangeLog: https://www.boost.org/users/history/version_1_92_0.html
 
-Includes a backport for boost.histogram build failure and a fix
-for boost.predef's newly triggered install-data target.
+CompareLog: https://github.com/boostorg/boost/compare/boost-1.91.0...boost-=
+1.92.0
 
+Backport fix from upstream for boost.histogram build failure caused by
+<local-visibility>hidden leaking into install targets (boostorg/histogram#4=
+25).
+
+B2 1.92.0 now triggers boost.predef's install-data target during install,
+which was not invoked in previous versions. Add --prefix to do_install so
+the files install into the image directory correctly. Ship the predef b2
+check tooling in boost-dev alongside other build-time files.
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
 Changes since v1:
 - Drop rm -rf ${datadir}; ship predef b2 check tooling in boost-dev
-  instead of removing it
-
-Jaipaul Cheernam (2):
-  boost-build-native: upgrade 1.91.0 -> 1.92.0
-  boost: upgrade 1.91.0 -> 1.92.0
 
  .../{boost-1.91.0.inc =3D> boost-1.92.0.inc}    |  2 +-
- ...1.91.0.bb =3D> boost-build-native_1.92.0.bb} |  2 +-
  meta/recipes-support/boost/boost.inc          |  3 +-
  ...h-instruction-set-flags-we-do-that-o.patch |  4 +-
  ...01-dont-setup-compiler-flags-m32-m64.patch |  4 +-
  ...b2-project-requirements-out-of-build.patch | 85 +++++++++++++++++++
  .../boost-math-disable-pch-for-gcc.patch      |  2 +-
  .../{boost_1.91.0.bb =3D> boost_1.92.0.bb}      |  1 +
- 8 files changed, 95 insertions(+), 8 deletions(-)
+ 7 files changed, 94 insertions(+), 7 deletions(-)
  rename meta/recipes-support/boost/{boost-1.91.0.inc =3D> boost-1.92.0.inc}=
  (90%)
- rename meta/recipes-support/boost/{boost-build-native_1.91.0.bb =3D> boost=
--build-native_1.92.0.bb} (92%)
  create mode 100644 meta/recipes-support/boost/boost/0001-histogram-move-b2=
 -project-requirements-out-of-build.patch
  rename meta/recipes-support/boost/{boost_1.91.0.bb =3D> boost_1.92.0.bb} (=
 76%)
 
+diff --git a/meta/recipes-support/boost/boost-1.91.0.inc b/meta/recipes-sup=
+port/boost/boost-1.92.0.inc
+similarity index 90%
+rename from meta/recipes-support/boost/boost-1.91.0.inc
+rename to meta/recipes-support/boost/boost-1.92.0.inc
+index dc68d7a336..98c2ec5aa2 100644
+--- a/meta/recipes-support/boost/boost-1.91.0.inc
++++ b/meta/recipes-support/boost/boost-1.92.0.inc
+@@ -12,7 +12,7 @@ BOOST_MAJ =3D "${@"_".join(d.getVar("PV").split(".")[0:2]=
+)}"
+ BOOST_P =3D "boost_${BOOST_VER}"
+=20
+ SRC_URI =3D "https://archives.boost.io/release/${PV}/source/${BOOST_P}.tar=
+.bz2"
+-SRC_URI[sha256sum] =3D "de5e6b0e4913395c6bdfa90537febd9028ea4c0735d2cdb0cd=
+9b45d5f51264f5"
++SRC_URI[sha256sum] =3D "5c1d40cb8e19adbf740a4ec2da35b3e58f3f5804b1dce44deb=
+53df72193cbc6c"
+=20
+ UPSTREAM_CHECK_URI =3D "http://www.boost.org/users/download/"
+ UPSTREAM_CHECK_REGEX =3D "release/(?P<pver>.*)/source/"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/bo=
+ost/boost.inc
+index 7a343e54f6..6cff7c0f8e 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -89,7 +89,7 @@ FILES:${PN}-test =3D "${libdir}/libboost_prg_exec_monitor=
+*.so.* \
+=20
+ # -dev last to pick up the remaining stuff
+ PACKAGES +=3D "${PN}-dev ${PN}-staticdev"
+-FILES:${PN}-dev =3D "${includedir} ${libdir}/libboost_*.so ${libdir}/cmake=
+"
++FILES:${PN}-dev =3D "${includedir} ${libdir}/libboost_*.so ${libdir}/cmake=
+ ${datadir}"
+ FILES:${PN}-staticdev =3D "${libdir}/libboost_*.a"
+=20
+ # "boost" is a metapackage which pulls in all boost librabries
+@@ -200,6 +200,7 @@ do_compile() {
+ do_install() {
+ 	cd ${S}
+ 	b2 ${BJAM_OPTS} \
++		--prefix=3D${D}${prefix} \
+ 		--libdir=3D${D}${libdir} \
+ 		--includedir=3D${D}${includedir} \
+ 		install
+diff --git a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instru=
+ction-set-flags-we-do-that-o.patch b/meta/recipes-support/boost/boost/0001-=
+Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+index 92bb6e55b3..672a41cf45 100644
+--- a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-s=
+et-flags-we-do-that-o.patch
++++ b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-s=
+et-flags-we-do-that-o.patch
+@@ -1,4 +1,4 @@
+-From 98fff479c074472833dcacb815115f247e9023c7 Mon Sep 17 00:00:00 2001
++From d43269dab039cefe841c7fe9804d0cb6b5bbc393 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 18 Dec 2018 15:42:57 +0100
+ Subject: [PATCH] Don't set up arch/instruction-set flags, we do that
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 153 deletions(-)
+=20
+ diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
+-index acf02ce26..becd0ad05 100644
++index 5359b018d..ac313ce0d 100644
+ --- a/tools/build/src/tools/gcc.jam
+ +++ b/tools/build/src/tools/gcc.jam
+ @@ -1150,156 +1150,3 @@ local rule cpu-flags ( toolset variable : architec=
+ture : instruction-set + :
+diff --git a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flag=
+s-m32-m64.patch b/meta/recipes-support/boost/boost/0001-dont-setup-compiler=
+-flags-m32-m64.patch
+index 229e5ab8ea..271220e589 100644
+--- a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m=
+64.patch
++++ b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m=
+64.patch
+@@ -1,4 +1,4 @@
+-From 03ec6a66ad60d224d56c0b85eae843b469b572e0 Mon Sep 17 00:00:00 2001
++From c10c18b6d48304efd7e9d07fc46ab6db932f9694 Mon Sep 17 00:00:00 2001
+ From: Anuj Mittal <anuj.mittal@intel.com>
+ Date: Thu, 14 Nov 2019 10:13:53 +0800
+ Subject: [PATCH] dont setup compiler flags -m32/-m64
+@@ -13,7 +13,7 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+  1 file changed, 16 deletions(-)
+=20
+ diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
+-index becd0ad05..e39bf8454 100644
++index ac313ce0d..9221f8615 100644
+ --- a/tools/build/src/tools/gcc.jam
+ +++ b/tools/build/src/tools/gcc.jam
+ @@ -375,22 +375,6 @@ local rule compile-link-flags ( * )
+diff --git a/meta/recipes-support/boost/boost/0001-histogram-move-b2-projec=
+t-requirements-out-of-build.patch b/meta/recipes-support/boost/boost/0001-h=
+istogram-move-b2-project-requirements-out-of-build.patch
+new file mode 100644
+index 0000000000..ee3324f95b
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/0001-histogram-move-b2-project-requi=
+rements-out-of-build.patch
+@@ -0,0 +1,85 @@
++From 6f9d9d2c7c9736a8932460ee6c03244d55d24539 Mon Sep 17 00:00:00 2001
++From: Henry Schreiner <henryfs@princeton.edu>
++Date: Thu, 23 Jul 2026 10:12:17 -0400
++Subject: [PATCH] fix: move b2 project requirements out of build.jam
++
++<local-visibility>hidden as a global project requirement leaks into the
++install targets that boost-library generates and breaks alternative
++selection when building the Boost superproject. The warning flags,
++/bigobj, and hidden visibility only matter when compiling tests and
++examples, so move them into test/Jamfile and examples/Jamfile.
++
++Fixes #425
++
++Assisted-by: ClaudeCode:claude-fable-5
++
++Upstream-Status: Backport [https://github.com/boostorg/histogram/commit/6f=
+9d9d2c7c9736a8932460ee6c03244d55d24539]
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ libs/histogram/build.jam        | 11 +----------
++ libs/histogram/examples/Jamfile |  7 +++++++
++ libs/histogram/test/Jamfile     |  7 +++++++
++ 3 files changed, 15 insertions(+), 10 deletions(-)
++
++diff --git a/libs/histogram/build.jam b/libs/histogram/build.jam
++index 3adb8997..4aa62f46 100644
++--- a/libs/histogram/build.jam
+++++ b/libs/histogram/build.jam
++@@ -19,16 +19,7 @@ constant boost_dependencies :
++     /boost/throw_exception//boost_throw_exception
++     /boost/variant2//boost_variant2 ;
++=20
++-project /boost/histogram
++-    : requirements
++-        <toolset>clang:<cxxflags>"-Wsign-compare -Wstrict-aliasing -fstri=
+ct-aliasing -Wvexing-parse -Wfloat-conversion"
++-        <toolset>gcc:<cxxflags>"-Wsign-compare -Wstrict-aliasing -fstrict=
+-aliasing -Wfloat-conversion"
++-        <toolset>msvc:<cxxflags>"/bigobj"
++-        <toolset>intel-win:<cxxflags>"/bigobj"
++-        <local-visibility>hidden
++-    : default-build
++-        <warnings>extra
++-    ;
+++project /boost/histogram ;
++=20
++ explicit
++     [ alias boost_histogram : : :
++diff --git a/libs/histogram/examples/Jamfile b/libs/histogram/examples/Jam=
+file
++index 655c0228..33b98d0f 100644
++--- a/libs/histogram/examples/Jamfile
+++++ b/libs/histogram/examples/Jamfile
++@@ -20,6 +20,13 @@ project
++       # list could go on...
++     ]
++     <library>/boost/format//boost_format
+++    <toolset>clang:<cxxflags>"-Wsign-compare -Wstrict-aliasing -fstrict-a=
+liasing -Wvexing-parse -Wfloat-conversion"
+++    <toolset>gcc:<cxxflags>"-Wsign-compare -Wstrict-aliasing -fstrict-ali=
+asing -Wfloat-conversion"
+++    <toolset>msvc:<cxxflags>"/bigobj"
+++    <toolset>intel-win:<cxxflags>"/bigobj"
+++    <local-visibility>hidden
+++    : default-build
+++    <warnings>extra
++     ;
++=20
++ alias cxx14 :
++diff --git a/libs/histogram/test/Jamfile b/libs/histogram/test/Jamfile
++index f69299dc..c156e124 100644
++--- a/libs/histogram/test/Jamfile
+++++ b/libs/histogram/test/Jamfile
++@@ -30,6 +30,13 @@ project
++       cxx14_constexpr cxx14_decltype_auto cxx14_generic_lambdas cxx14_ret=
+urn_type_deduction cxx11_user_defined_literals
++       # list could go on...
++     ]
+++    <toolset>clang:<cxxflags>"-Wsign-compare -Wstrict-aliasing -fstrict-a=
+liasing -Wvexing-parse -Wfloat-conversion"
+++    <toolset>gcc:<cxxflags>"-Wsign-compare -Wstrict-aliasing -fstrict-ali=
+asing -Wfloat-conversion"
+++    <toolset>msvc:<cxxflags>"/bigobj"
+++    <toolset>intel-win:<cxxflags>"/bigobj"
+++    <local-visibility>hidden
+++    : default-build
+++    <warnings>extra
++     ;
++=20
++ # Check consistency of build systems
++--=20
++2.34.1
++
+diff --git a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gc=
+c.patch b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.p=
+atch
+index 178c1dd416..eb6781f3b7 100644
+--- a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
++++ b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
+@@ -1,4 +1,4 @@
+-From 2dd80802e0b9747ed32f45a886c7ad21b7fa61be Mon Sep 17 00:00:00 2001
++From 698ccf919d6facfbacdeeeceb7aeff1431d12316 Mon Sep 17 00:00:00 2001
+ From: Jackie Huang <jackie.huang@windriver.com>
+ Date: Fri, 23 Sep 2016 01:04:50 -0700
+ Subject: [PATCH] boost-math: disable pch for gcc
+diff --git a/meta/recipes-support/boost/boost_1.91.0.bb b/meta/recipes-supp=
+ort/boost/boost_1.92.0.bb
+similarity index 76%
+rename from meta/recipes-support/boost/boost_1.91.0.bb
+rename to meta/recipes-support/boost/boost_1.92.0.bb
+index 4b580d078b..01fc6bea66 100644
+--- a/meta/recipes-support/boost/boost_1.91.0.bb
++++ b/meta/recipes-support/boost/boost_1.92.0.bb
+@@ -4,4 +4,5 @@ require boost.inc
+ SRC_URI +=3D "file://boost-math-disable-pch-for-gcc.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-=
+o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
++           file://0001-histogram-move-b2-project-requirements-out-of-build=
+.patch \
+            "
 
