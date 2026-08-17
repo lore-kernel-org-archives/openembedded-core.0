@@ -1,101 +1,162 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2D8C5DF7E
-	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 18:17:18 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1484.1786990631040013538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB1CC5DF66
+	for <webhook@archiver.kernel.org>; Mon, 17 Aug 2026 18:22:08 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1633.1786990924805197042
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2026 11:17:11 -0700
+ Mon, 17 Aug 2026 11:22:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mZ5/OgbS;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1ztZWAsR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a010f114f9-e1fbedda-3635-47a0-baa8-e22bdd391148-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1786990630; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=o/xveaOFQy123A/MRzqwabXFSDuWye2EaTXV0sfWWYM=;
-	b=mZ5/OgbSxj8T2nelQ4eJkq2RJuPWJ2urLTrrLtBjQrFKDf8a8T5NnFWtgwlCVaG3
-	2o/kLjwZEUGc36OQBtLiWlFIGArpLHsyPa8s+QZvxvcV0bbqMvS2V6wHnM+Izz9TTJ8
-	Rq8GsQAqraTig4M1b5gtdkRbR9dX6ELoTDorarWo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1786990630;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=o/xveaOFQy123A/MRzqwabXFSDuWye2EaTXV0sfWWYM=;
-	b=1ztZWAsRw7kA9QLIpNLPLkLP592R7oeniohVwX/mFNpg/TVNXcgLSzi2J9LunSH9
-	JsFQz5GOXoRFcMAst1tljMgRq9ITmTPO4PjnCx2C9Gso4FipvO0CU0/gY9DFnG+h/wD
-	ZYhsgZGjuwL4qXCoGpTaJw95QPbezQ5y/DeLalJ4=
-From: patchtest@automation.yoctoproject.org
-To: Rob Woolley <rob.woolley@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v3 1/3] boost: Use python3-native executable
-In-Reply-To: <20260817-fix-boost-v3-1-499c48e4fa56@windriver.com>
-References: <20260817-fix-boost-v3-1-499c48e4fa56@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a010f114f9-e1fbedda-3635-47a0-baa8-e22bdd391148-000000@us-west-2.amazonses.com>
-Date: Mon, 17 Aug 2026 18:17:10 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.17-54.240.27.191
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=lneOwx61;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso2644426a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 11:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786990924; x=1787595724; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7ndC0eF2qaThqT+p1MskoWSaZEcpcE8Xh4WATQG6oOc=;
+        b=lneOwx614KGwJ7rlKWRdlKDvBMS5Fzko49SZiiz1XhWZfF8QF6ytSaUJzAHOMYW5TZ
+         I30rVtmBrXh53Xz6YtiXv+M22+1vZY+2NOh0jE+PQgXVlO7tXnJ1KfJ+/CAlo5utYx6n
+         n/mrzUMij2r5ATKupiRA5ATLoogD417vMzVKuxaeZeK/fku2F+9no173oYdQLJCLUrp8
+         ioJh7dpGETkUAfJhEy5gL6UxhsiOtRvDs78P8fQdIyS/CfsvHDMTW0T/r6XJzLfbLy3e
+         MK6iRzffZwz17DHILDOvX1qpvGCXcuoG3n6FNrrdqO5jiDjHxED5MKGIsr3knZV8Qxzy
+         NixA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786990924; x=1787595724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7ndC0eF2qaThqT+p1MskoWSaZEcpcE8Xh4WATQG6oOc=;
+        b=O3AF8t79i2fSpTu3dMRDpaWpd5SG9QDtAHcwy9Rb2E4y2ImhSSP4Q3b7qOSVbZTw+c
+         PBm08rxJIVX9QfFDNwiKQ4Zq9NPznRjja9PkhEL6kRHbE57WSHPYOGQvBkyMuCFMcUf+
+         2mlG98GaXN++7GSJAF/iYPkyEMC5NtkMpeJ3shLJpWlTVkLxQBJE7SRS1DyBObVQU31y
+         Dht6wE8P3LkxvcvcH3b4VN9krcuDTFYl2Q7kt9kBxzIJSWU+YMf/xgztvqtIfWN+pRd6
+         pNpgsLxnSA9ab2MUrU2keIY3INlv9+gIlp95IQ6i81PQt6EIr2jFz0uzkmsVxo86YrjB
+         4Vzg==
+X-Gm-Message-State: AOJu0YycawVkY+wgP5A4A4bO9ryDbTJ/QgROGq426ZEv5DzCi/qdZqVq
+	/HXTeu63Tij5jhHPDWxT2HhMfseHzqwaI+rNsy4cIUmgepXGcwLnQC8Rsz0SsUhk
+X-Gm-Gg: AR+sD13x2MnPDbumcd0PkH7y7cxjJmzAuqp4ggtBC1EUK+q6Dd9mxPsDFSTNrqADXxa
+	HuKdsHAcu53TC6hJk2pfKMJSVoZzOlT5vfxUal1xc2mzMUj7usZG71jBoFdNaVlby48kLGN5mBp
+	uzLfhEskSEJadHx8Z87fE93czLanJhjUxjueqrFyYhiajTcAE6fOp4sNzascbfjQ6cLjROm30is
+	9BgAKKREBTvZj9408NmIG2EOJu6yA5OzmxyMfTJbVYsbUNCnSByncN4DxRL8ogLGL8uPGL9gq4Y
+	FAqNp4kcJ76atIq5FGq6KHZ6cn8VXGHXyx9zv8H6ESjwxaHRN0BzTmAE+xJATrHFPjYSwKO2OAy
+	J7mn0/TSBP9RiXj8wlkS3NSkot8ilhOKgKK77CcCV6NvD3EvRbLoPG07Xp5XmxJweNmsbTbKqwT
+	Pkfm7aSXni0D9FJa9aFnmxVc4gUaRWzx/uN/G2a2ojbbtuGiQ4KZLNUbKPEC+7jdJQdH9eklRi7
+	Ac69cow2VY6L2gOpKiJLLXjD/DqT2PyA2H1i6apz9/kwmbOf+JJ7McK0HQ9X7IF02b2lmI7wELd
+	JbS14xOl+GTLYChg/We5iuIUDathc9MBjgLWdoadW1ueFIYcJc+OL9gFq42tp/PWJyt0XKGNMFA
+	Fhh/m5fErOCa1H0WLSn4OaXicw66t5FR/0KQafPsUbmaxQA==
+X-Received: by 2002:a05:6a21:2d46:b0:3c3:a41f:ce7d with SMTP id adf61e73a8af0-3ccda54b66cmr2458079637.0.1786990924047;
+        Mon, 17 Aug 2026 11:22:04 -0700 (PDT)
+Received: from apollo.localdomain ([208.95.233.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326761d3539sm7624964eec.0.2026.08.17.11.22.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 11:22:03 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] mesa: fix clang+lld link failure in addrlib AVX2 detection
+Date: Mon, 17 Aug 2026 11:22:01 -0700
+Message-ID: <20260817182201.2388973-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 18:17:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243633
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2026 18:22:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243635
 
---NextPart
-Content-Type: text/plain
+Fixes
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+ld.lld: error: relocation R_X86_64_PC32 cannot be used against
+symbol '__cpu_model'; recompile with -fPIC
 
+Check CPUID directly instead, avoiding the __cpu_model reference
+entirely.
+
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-1-3-boost-Use-python3-native-executable.patch
+ ...uiltin_cpu_supports-for-avx2-detecti.patch | 56 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
 
-FAIL: test max line length: Patch line too long (current length 240, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch b/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
+new file mode 100644
+index 0000000000..7234f76b39
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
+@@ -0,0 +1,56 @@
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Thu, 13 Aug 2026 00:00:00 +0000
++Subject: [PATCH] addrlib: avoid __builtin_cpu_supports for avx2 detection
++
++__builtin_cpu_supports("avx2") lowers to a PC-relative reference to the
++libgcc/compiler-rt __cpu_model global. With clang+lld, linking that
++reference into a shared library fails because __cpu_model is treated as
++preemptible there:
++
++  relocation R_X86_64_PC32 cannot be used against symbol '__cpu_model';
++  recompile with -fPIC
++
++Check CPUID directly instead, which avoids the __cpu_model reference
++entirely and works with both GCC and Clang.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43820]
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
++---
++ src/amd/addrlib/src/core/addrswizzlersimd.h | 15 +++++++++++++--
++ 1 file changed, 13 insertions(+), 2 deletions(-)
++
++diff --git a/src/amd/addrlib/src/core/addrswizzlersimd.h b/src/amd/addrlib/src/core/addrswizzlersimd.h
++index fd53e40..ce30204 100644
++--- a/src/amd/addrlib/src/core/addrswizzlersimd.h
+++++ b/src/amd/addrlib/src/core/addrswizzlersimd.h
++@@ -57,6 +57,8 @@
++ #if ADDR_HAS_AVX2
++ #if _MSC_VER
++ #include <Windows.h>
+++#else
+++#include <cpuid.h>
++ #endif
++ #include <immintrin.h>
++
++@@ -85,7 +87,18 @@ static inline bool CpuSupportsAvx2() {
++ #if _MSC_VER
++     return IsProcessorFeaturePresent(PF_AVX2_INSTRUCTIONS_AVAILABLE);
++ #elif defined(__GNUC__)
++-    return __builtin_cpu_supports("avx2");
+++    // __builtin_cpu_supports() lowers to a PC-relative reference to the
+++    // libgcc/compiler-rt __cpu_model global, which some clang+lld
+++    // configurations reject when linking into a shared library (the
+++    // symbol is treated as preemptible: "relocation R_X86_64_PC32 cannot
+++    // be used against symbol '__cpu_model'"). Check CPUID directly instead.
+++    unsigned int eax, ebx, ecx, edx;
+++    if (__get_cpuid_max(0, nullptr) < 7)
+++    {
+++        return false;
+++    }
+++    __cpuid_count(7, 0, eax, ebx, ecx, edx);
+++    return (ebx & bit_AVX2) != 0;
++ #else
++ #error "What platform is this?"
++ #endif
++--
++2.43.0
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index a139ebb176..8ee7db50ed 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,6 +19,7 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+            file://0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch \
+            file://0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch \
++           file://0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "efd4bb08cdb7c365a812cd4e6c9202ab55b2f22cdcd13c7d6c4f9647b799a4ef"
 
