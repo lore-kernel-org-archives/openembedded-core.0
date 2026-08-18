@@ -1,213 +1,330 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F386C5DF74
-	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 01:14:52 +0000 (UTC)
-Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9510.1787015691488836348
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DAFC5DF74
+	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 05:28:49 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2753.1787030922726474063
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2026 18:14:52 -0700
+ Mon, 17 Aug 2026 22:28:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=proofpoint-05-2026 header.b=XJgHsTeT;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=o+yXEQtN;
- spf=pass (domain: ti.com, ip: 148.163.154.28, mailfrom: reatmon@ti.com)
-Received: from pps.filterd (m0374955.ppops.net [127.0.0.1])
-	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67HLo2Sd2179922;
-	Mon, 17 Aug 2026 20:14:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	proofpoint-05-2026; bh=MME8Bv1BGhp45PEVUS5XuM8x+lsI0yQEOWTALnYVI
-	yk=; b=XJgHsTeTMXnLOfuXvVK8gKFi6x2fr9cfk4Sv70oUg2uf+vE8u0DDyGeXA
-	6ZMmnQd7RiwUy7JKjPXOU1gR6R4/tgIoLvNLmXVeIHTu1i95XmgOTae+caFW0KsO
-	0ZH2WRFof3u41S57pHvYJSXByajM9lIUZQCuUMgCo1ZktKrS/5JkvreA0+pwCNRf
-	zhRZ4yaF98hjjprnN4aMF6RGZ3sTb/QcBHp7JRtMwygg/MkuVel82zoX4umEPLjM
-	Z/nTi4MvvoCT3H6wot72m1Q4yGsuLIHwpdFvm7todfhS9zX96zVHJUjc7dXxUPhP
-	JdH5yzO2TQDDjUE7OCcmQU+AX3WJg==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010067.outbound.protection.outlook.com [52.101.85.67])
-	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4g40dj4y4n-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 17 Aug 2026 20:14:40 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nmdLw3cXFWEaeWJmjD8gfSqAKoOtiCG5Qe8HQwdAQEP3VMTzwuzFhr83JYpr2bkQiktmoGbnoqGjuO4pSsNvhtRzvzj/f4jtcilvlY1AkEV3qOuhlUm0YADBpdX94tAOaMxKJ+6MkOQtTgnBdXtbRBhnp8OfG6eVeTMWPZkxvDMRqCjk3Kz2WQMG+kYV8wVKlb4/FTMoGxYJ24UrfCH4fWhJuvy7Fzzem6iOuRQrfaaKcKP76nWqTVpzERW7yZeH0MVB5PYiLHkSmRIlXTKwvb+jCeaRLwKETxJamsQdq6S1Xd5MXl6J+WHUjXqldIMsC7WL8KGAcf7XmDFTgoWvXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MME8Bv1BGhp45PEVUS5XuM8x+lsI0yQEOWTALnYVIyk=;
- b=i1674x/GTJaUNiRw4woXkXCieKHzlrjPsbXV30+3BP4XL/91K6EB1fJ4QRbMd9jJhCB+nAdUSHfVi5Ebfhz5AePMW9nLmxRgv4eX3mZT5kxK2l3mjwfgruVrLbSDcQI+0I8YsWqPcYNGniyAZwgy2uwAcTK/Qwv5gJpH9k2rHK4JYJ7UfcAXXWclzeetdxp1wDvi3vjUSF5raDTirY/2BIGATEEtaQqErfHv6PDCy/rf005LoTMiRyNMQ8oP1q6q36qFWRIfQ0IduqAhoT9A+Tfk4WtF9cF+KyR2T2IFnMCG+VJdm+Ae+DAK5zIZ2eh60lvzujDhM9BJi8VhwotvXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=windriver.com smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MME8Bv1BGhp45PEVUS5XuM8x+lsI0yQEOWTALnYVIyk=;
- b=o+yXEQtN0zcN+tNtP103YccmAzmIv5wgorzgfotEksRqWwJ6a+XWwaX1moGi1RhP9yXWs+eJ4jmo/F2pR5S0YJl3s8vTeSt+l9b7NRBs0fq1k7LAZlLMuUl7uh1VR2Xr8rzTFL2yujITC8hmlU8lOd53lBlnwUP27v6w0eIfD+w=
-Received: from PH8PR22CA0002.namprd22.prod.outlook.com (2603:10b6:510:2d1::26)
- by PH5PR10MB997710.namprd10.prod.outlook.com (2603:10b6:510:39d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Tue, 18 Aug
- 2026 01:14:38 +0000
-Received: from CY4PEPF0000EE3F.namprd03.prod.outlook.com
- (2603:10b6:510:2d1:cafe::a6) by PH8PR22CA0002.outlook.office365.com
- (2603:10b6:510:2d1::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.17 via Frontend Transport; Tue,
- 18 Aug 2026 01:14:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- CY4PEPF0000EE3F.mail.protection.outlook.com (10.167.242.17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.339.3 via Frontend Transport; Tue, 18 Aug 2026 01:14:36 +0000
-Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 17 Aug
- 2026 20:13:57 -0500
-Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 17 Aug
- 2026 20:13:56 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
- Transport; Mon, 17 Aug 2026 20:13:56 -0500
-Received: from [10.249.32.188] ([10.249.32.188])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 67I1DuWW482972;
-	Mon, 17 Aug 2026 20:13:56 -0500
-Message-ID: <48685035-4165-421f-b57f-7746e242221c@ti.com>
-Date: Mon, 17 Aug 2026 20:13:56 -0500
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jsYtxp3w;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Y+yXuAzv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a01357e224-0fa6c02d-69b6-4cc7-b8e4-eec55957244f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1787030921;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=MrKxugtMdZIqMY4bO3Yhr0+zBUHS/hKV4Z+FV9yY03c=;
+	b=jsYtxp3ww5Ha/Bw6ex6XRq0ty3LrXfCLOoRv0g6KPa/7cPqgmbsmM+6vd6/re66B
+	BdO6V50SeD0gCGj+KSYqxjtiOtdXueOR78iEyM/H2/k+qXm4j5wSc/h6jP/S6g6qIYp
+	KCyaPVmJ9PQ1TOMKTjolGLbVb6X5KYoisYyH4aFU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787030921;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=MrKxugtMdZIqMY4bO3Yhr0+zBUHS/hKV4Z+FV9yY03c=;
+	b=Y+yXuAzvHUUmGx+OxidT53kVt7U7ZDH3rMjMbN9zkj9JTJv14wukjgoStSNw8qwB
+	zGOklsjrKtQtAHDl5UmgeS2KBINmSCUPnvc7HUqCtiXVW4gvrh5wL6nbK9eFI3O/VUi
+	5NEk0ps1pPpcHVtURCdEqFTSXfX05e9vHPBzavwY=
+Content-Type: multipart/mixed; boundary="===============3626964565826267874=="
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v15 00/12] rpm: 4.20.1 -> 6.0.2
-To: <richard.purdie@linuxfoundation.org>, <sumanth.gavini@windriver.com>,
-        <openembedded-core@lists.openembedded.org>
-CC: <alex.kanavin@gmail.com>, <mathieu.dubois-briand@bootlin.com>,
-        <mattware@cisco.com>, <esparlin@cisco.com>, <peter.marko@siemens.com>,
-        <randy.macleod@windriver.com>
-References: <20260816231104.3871015-1-sumanth.gavini@windriver.com>
- <9b1d36c0af04de14a7f59695e40f513dc454d7a4.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <9b1d36c0af04de14a7f59695e40f513dc454d7a4.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3F:EE_|PH5PR10MB997710:EE_
-X-MS-Office365-Filtering-Correlation-Id: b30ee3fd-b7fc-4f4a-d19f-08defcc611d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|4022899009|82310400026|36860700016|376014|1800799024|23010399003|13003099007|3023799007|56012099006|10067099003|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	1u2AehdKHtcbnBWz3ma5lEDr4TioKbRkzuqJNUfOsbghDojGex7nRhkoI8NrJ2dsOg8Be9uDkd3B+KwyPOaVBIkkxipNQu4Ujxzwo0s2Z62rb+MWar7ySctdqzSq9RowQUR19VK+9ylNXBIPFT4Q41K6i30l8UjYDzARPxcTwQ5mW1QCuOVxj9CZp0x30pTR1FigTNxVz9W6+wM7BenDwIoLv5BlCJM0jmnWkGr4eMite2eGRZFuGlLKPJb0dUkwC0NQ6OBNJFrJVYPeGSv/In4p6xwR/u46RseB546/ZvSVw7mqdIJUK3vVFbgwLSM9ygRKtQRyv170dwKZ7/hzehMuJVzPrt4l+jeznUndsuOZGXgjL4xV1j/g0dweHO2ouMDpIWfGNSp2+EWZQ9u37tLH8nyKFEA/P1gBuhJLMBDVfG+ZnJ4cHs3sEdNC6e8au7KUViv1aMLak8woX5dm53CvUUhRW7M0KimmIg/kseMgkhD2KaV4WT20SL9IhbsAhxR5qhcRD+IhpXTAcLL9u5XgjGStyhIuQlZZM0obAA5ZNqrNop9qyRvTbt2nGrQ+Bzlx9sUWEJgvvAIie8tNCb5pO2D/el1Ft+nokzAM1sVM/MHAP0Fa3bbHADLHThWeMBzs+V1Olk1CyrbvehtBng==
-X-Forefront-Antispam-Report: 
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(4022899009)(82310400026)(36860700016)(376014)(1800799024)(23010399003)(13003099007)(3023799007)(56012099006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	xcB+yr03AAIRTQHv6k2IBxTxNolzb1GW/IF9VFDloOXxiyn4a17mgGFt0zmIhTfCUpE8F5PsRsZk5NXubvwKJq7rjVAnDBM2XXrfwuUPwzgOOS6mP9dPcgk5NBzHDaHkro5CK5l7n1w6FivQE+Qy64s2FN7b98xL2boMW8V1VR+WYzdI80+8MsvC614V9pO68GbQaNU1xyVxYe0s26YUvsmcycwtRN6oVcENHh/yuaexVaHf0W3op33KJ7npD+Aj1BoL5Fq0lpdh9I0g+NRqOdr0QKcUsW7lCgaXVGsOH5TwuIrKK6yhQkeW8ql1vMwKw89B9n2lVY2vYBJyMYz1gGtA3k1gBRl9XbKtxHPn47mpHpsnDO8KdPNcmTW7RRoSYAXUQYjcf7HfRF1lMqCKU04sVOoPNGYrdHiTt1BGUPAdXMqMNVk/qlubGitXGxqW
-X-Exchange-RoutingPolicyChecked: 
-	V/vZKebl/3ZrCtJmY8l7urImg/WQKl5mPhgnkINE/C/qx81J9vIOEQoYdsQCgHqCBz8vBWTqCVra4GUd/pPkiDNYBRtDn6p+9igfmMz4JYxGDYtdyagBXrMLXQbCvjeDAx+xzBCUqRrsB986pydHyVFpJHO28gCXgDQzXKfgBjFA+wVLGuDvsIsEE6TEt6gOG/jafAf9HQ6iiqk4Fx4V8oDZaw1HvWl19EYJCO8jhmVhJqkCw+jqGPTBixqaO5Q568LJmNfZ+wLlQ2E26/u9GVdHjXcE7kMXvvH+ms3TctA8yR5c518CblAFbVzRmeliL/wZLdqwd1BFX+g10+WhYQ==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2026 01:14:36.4920
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b30ee3fd-b7fc-4f4a-d19f-08defcc611d0
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CY4PEPF0000EE3F.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH5PR10MB997710
-X-Proofpoint-ORIG-GUID: z2glQZdgTMPsZHkI0mQ0bJVLOGkpV-V8
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDAwNiBTYWx0ZWRfX7/jcb1N+91b5
- GeAEZDEO4od3aoOSZ/sizYhlx4pAkUapdPGuYRyqH0bSwfLC8kNhk3TymsODcdsV2PNRYvOlTt+
- ZNV75Ly1ZeZ6bw+9SEnfj2z8zDR6HSQ=
-X-Authority-Analysis: v=2.4 cv=aO3Ab79m c=1 sm=1 tr=0 ts=6a83b200 cx=c_pps
- a=7HTsEC4o+G4Ts3XEwqQVug==:117 a=iwqwCZQqcuTv3JOpYdM7/Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10
- a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
- a=fPAWb5peG099m5CrUpKH:22 a=Q4-j1AaZAAAA:8 a=sozttTNsAAAA:8
- a=4jueDUEfbsPAgZO8_EMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: z2glQZdgTMPsZHkI0mQ0bJVLOGkpV-V8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDAwNiBTYWx0ZWRfX7vFLOrpQ2Rva
- zikIdluHP7rnp2szSpmX0/kknr/oONotJ37l7jEKaD+ovxO1Esl3J4nkLTcRDy73M9D5076+dnr
- d8Kr4diEBIqhk3k2rsNz0xjZf5HtiY7LwHwSxtgayUnlyTzND06JFpBEWQSWMB1BHb5suf3Cxts
- aIbcneYbo6HnxBJgLqeXq52G/b9+lumsopECnWzvypMWSfWnlRtvO9sgbhnIw3yrRw1lTwIwtse
- V/lK7sMk/wfp6crkYsEHjcYuRyNgCjMiswp1iFjgk/K5tfKSNJR2F/VayEwPAZr05hWIJXCetV7
- vKfDZ9B9Rc5HZdgm+foy04/Ryqz8ifkK5IDxDNdeFAvvoHiKoxtiPJ7Sdbu1IqiU64JVJkEGZQF
- N5JBwZHKnQVkDa3sBZGbBAXmoDf0Izej5OnvKYjY5+hEeE+EYE/cburk8fNI04z9gbiEUmtJumT
- cn0Ok+UYgqA4cQG47Kg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-17_04,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 malwarescore=0 suspectscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 clxscore=1011
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608180006
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0b-0002e601.pphosted.com id 67HLo2Sd2179922
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] dhcpcd: upgrading to 10.5.2 SUCCEEDED
+Message-ID: <010101a01357e224-0fa6c02d-69b6-4cc7-b8e4-eec55957244f-000000@us-west-2.amazonses.com>
+Date: Tue, 18 Aug 2026 05:28:41 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.18-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 01:14:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243641
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 05:28:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243643
+
+--===============3626964565826267874==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *dhcpcd* to *10.5.2* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-dhcpcd-upgrade-10.5.0-10.5.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 1e999a70c29695e3658f905406c3d6abc744a622 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 18 Aug 2026 05:12:51 +0000
+Subject: [PATCH] dhcpcd: upgrade 10.5.0 -> 10.5.2
+
+7c50b51a Release dhcpcd-10.5.2
+c8887d0d IPv6: Allocate the interface state before adding a static address
+03091088 Fix build
+2bb381e9 Release dhcpcd-10.5.1
+b19746fd configure: Generate .clangd
+23b6790d privsep: Fix capsicum support on the control socket
+a14857d1 privsep: re-enable capsicum and pledge
+50857dd2 hooks: Document that new_delegated_dhcp6_prefix contains addresses
+f6dabfe2 control: Harden the socket the the fs level
+97b50d2e Improve the IDE experience
+9cd9d2df DHCP: script reason should be RELEASE on RELEASE, not STOP
+79936c28 linux: workaround a gcc compile warning issue
+dfaaa5ea remove accidental debug
+737091d2 ipv4: clear added state if we didn't delete the address
+b83fe28c compat: define __STDC_WANT_LIB_EXT1__ 1 before including config
+0c1f4074 ipv6nd: don't leave a carrier expiry timeout on a freed interface
+fadc4ed6 compat: call setprogname during early init
+7c87dfdf privsep: Allow __NR__llseek as well as __NR_llseek on linux
+8d499db1 route: keep acquisition timestamp when matched route isn't updated
+c5605040 DHCP6: Mirror the prior DHCP rapid commit fix to DHCPv6
+0406dd87 DHCP: Only send the rapid commit option when configured to
+eb9fd7df control: Fix non privsep builds
+---
+ .../dhcpcd/{dhcpcd_10.5.0.bb => dhcpcd_10.5.2.bb}             | 2 +-
+ ...20-resolv.conf-improve-the-sitation-of-working-with-.patch | 2 +-
+ ...001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch | 2 +-
+ .../0001-remove-INCLUDEDIR-to-prevent-build-issues.patch      | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.5.0.bb => dhcpcd_10.5.2.bb} (97%)
+
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.5.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.5.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.5.0.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.5.2.bb
+index 73f55969cd..d8017693e7 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.5.0.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.5.2.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+            "
+ 
+-SRCREV = "1d608519abb398006b77f11c7b720147adf4cfcc"
++SRCREV = "7c50b51a142ca5e8cbbf8f65cd8111d6f200608a"
+ 
+ # Doesn't use automake so we can't do out-of-tree builds
+ inherit pkgconfig autotools-brokensep systemd useradd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+index 04c1d92897..e5483c747d 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+@@ -1,4 +1,4 @@
+-From a3e397d3764fdb779e2f995b690ba365956612f5 Mon Sep 17 00:00:00 2001
++From 5f9b3c4aa7965cf9edf7d6adc8626f50462ad979 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 9 Nov 2022 16:33:18 +0800
+ Subject: [PATCH] 20-resolv.conf: improve the sitation of working with systemd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+index c2afb83b54..17d5685334 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+@@ -1,4 +1,4 @@
+-From d3e517be04e660d72233cde91b44c3cf705126e2 Mon Sep 17 00:00:00 2001
++From e9b462a5b3fe875effc05a246948533da1c5baaf Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@fujitsu.com>
+ Date: Fri, 10 Mar 2023 03:48:46 +0000
+ Subject: [PATCH] dhcpcd.8: Fix conflict error when enable multilib.
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+index 69ebc6026f..ed412c3d94 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+@@ -1,4 +1,4 @@
+-From 278ef78e007ab74c701961e108262d9d733a3975 Mon Sep 17 00:00:00 2001
++From ab9ae52e0b7cf53266c99fd00d23d9c2f9cb308e Mon Sep 17 00:00:00 2001
+ From: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+ Date: Sun, 13 Jan 2019 01:50:52 +0100
+ Subject: [PATCH] remove INCLUDEDIR to prevent build issues
+@@ -11,7 +11,7 @@ Signed-off-by: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+  1 file changed, 5 deletions(-)
+ 
+ diff --git a/configure b/configure
+-index 32bf96ef..ab4aa901 100755
++index 43a40a7d..71707073 100755
+ --- a/configure
+ +++ b/configure
+ @@ -29,7 +29,6 @@ BUILD=
+-- 
+2.47.1
 
 
+--===============3626964565826267874==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-On 8/17/2026 5:20 PM, Richard Purdie via lists.openembedded.org wrote:
-> On Sun, 2026-08-16 at 16:10 -0700, Sumanth Gavini via lists.openembedde=
-d.org wrote:
->> Sumanth Gavini (12):
->>  =C2=A0 package_rpm.bbclass: Drop external dependency generator to sup=
-port rpm
->>  =C2=A0=C2=A0=C2=A0 6
->=20
-> I am still worried about what this means. We've focused on build
-> failures and trying to get this to test out ok, but what are the
-> implications of the internal vs. external rpmdeps change?
->=20
-> What it means is that we go from these dependencies being present for
-> all package backends to them only working for rpm.
->=20
-> If you use rpm, great, it probably doesn't matter so much to you. If
-> you use ipk or deb, bad luck.
->=20
-> Do we really want to have different dependencies between packages
-> depending on which backend you select?
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-dbg: PKGSIZE changed from 1422328 to 1423120 (+0%)
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-dbg: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-dbg: PV changed from "10.5.0" to "10.5.2"
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-dev: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-dev: PV changed from "10.5.0" to "10.5.2"
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-doc: PKGSIZE changed from 68511 to 68535 (+0%)
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-doc: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-doc: PV changed from "10.5.0" to "10.5.2"
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-locale: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-locale: PV changed from "10.5.0" to "10.5.2"
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-src: PKGSIZE changed from 1153555 to 1155889 (+0%)
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-src: FILELIST: directory renamed /usr/src/debug/dhcpcd/10.5.0/src/dev -> /usr/src/debug/dhcpcd/10.5.2/src/dev, directory renamed /usr/src/debug/dhcpcd/10.5.0/compat/crypt_openssl -> /usr/src/debug/dhcpcd/10.5.2/compat/crypt_openssl, directory renamed /usr/src/debug/dhcpcd/10.5.0/src -> /usr/src/debug/dhcpcd/10.5.2/src, directory renamed /usr/src/debug/dhcpcd/10.5.0/vendor -> /usr/src/debug/dhcpcd/10.5.2/vendor, removed "/usr/src/debug/dhcpcd/10.5.0/compat/getpeereid.h /usr/src/debug/dhcpcd/10.5.0/compat/pidfile.h /usr/src/debug/dhcpcd/10.5.0/compat/pidfile.c /usr/src/debug/dhcpcd/10.5.0/compat/getpeereid.c /usr/src/debug/dhcpcd/10.5.0/compat/endian.h /usr/src/debug/dhcpcd/10.5.0/compat/consttime_memequal.h /usr/src/debug/dhcpcd/10.5.0/compat/setproctitle.c /usr/src/debug/dhcpcd/10.5.0/compat/_strtoi.h /usr/src/debug/dhcpcd/10.5.0/compat/getprogname.h /usr/src/debug/dhcpcd/10.5.0/compat/strtoi.h /usr/src/debug/dhcpcd/10.5.0/compat/getprognam
+ e.c /usr/src/debug/dhcpcd/10.5.0/compat/setproctitle.h /usr/src/debug/dhcpcd/10.5.0/compat/bitops.h", added "/usr/src/debug/dhcpcd/10.5.2/compat/progname.c /usr/src/debug/dhcpcd/10.5.2/compat/getpeereid.h /usr/src/debug/dhcpcd/10.5.2/compat/pidfile.h /usr/src/debug/dhcpcd/10.5.2/compat/progname.h /usr/src/debug/dhcpcd/10.5.2/compat/pidfile.c /usr/src/debug/dhcpcd/10.5.2/compat/endian.h /usr/src/debug/dhcpcd/10.5.2/compat/getpeereid.c /usr/src/debug/dhcpcd/10.5.2/compat/consttime_memequal.h /usr/src/debug/dhcpcd/10.5.2/compat/setproctitle.c /usr/src/debug/dhcpcd/10.5.2/compat/_strtoi.h /usr/src/debug/dhcpcd/10.5.2/compat/strtoi.h /usr/src/debug/dhcpcd/10.5.2/compat/setproctitle.h /usr/src/debug/dhcpcd/10.5.2/compat/bitops.h"
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-src: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-src: PV changed from "10.5.0" to "10.5.2"
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-staticdev: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd-staticdev: PV changed from "10.5.0" to "10.5.2"
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd/dhcpcd: PV changed from "10.5.0" to "10.5.2"
+packages/x86-64-v3-poky-linux/dhcpcd: SRC_URI changed from "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=master;tag=v10.5.0 file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch file://0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch file://dhcpcd.service file://dhcpcd@.service file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch" to "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=master;tag=v10.5.2 file://0001-remove-INCLUDEDIR-to-prevent-build-issues.patch file://0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch file://dhcpcd.service file://dhcpcd@.service file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch"
+packages/x86-64-v3-poky-linux/dhcpcd: PKGV changed from 10.5.0 [default] to 10.5.2 [default]
+packages/x86-64-v3-poky-linux/dhcpcd: PV changed from "10.5.0" to "10.5.2"
 
-I would think not.  Part of the purpose of a project like Yocto is to=20
-provide consistency regardless of which backend you choose.  And that=20
-would include init system (sysvinit vs systemd), windowing system,=20
-audio, and even packaging.
+--===============3626964565826267874==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="dhcpcd-changelog.txt"
 
+Changelog for dhcpcd: 10.5.0 -> 10.5.2
 
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243640): https://lists.openembedded.org/g/openembed=
-ded-core/message/243640
-> Mute This Topic: https://lists.openembedded.org/mt/120783173/6551054
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-reatmon@ti.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+7c50b51a Release dhcpcd-10.5.2
+c8887d0d IPv6: Allocate the interface state before adding a static address
+03091088 Fix build
+2bb381e9 Release dhcpcd-10.5.1
+b19746fd configure: Generate .clangd
+23b6790d privsep: Fix capsicum support on the control socket
+a14857d1 privsep: re-enable capsicum and pledge
+50857dd2 hooks: Document that new_delegated_dhcp6_prefix contains addresses
+f6dabfe2 control: Harden the socket the the fs level
+97b50d2e Improve the IDE experience
+9cd9d2df DHCP: script reason should be RELEASE on RELEASE, not STOP
+79936c28 linux: workaround a gcc compile warning issue
+dfaaa5ea remove accidental debug
+737091d2 ipv4: clear added state if we didn't delete the address
+b83fe28c compat: define __STDC_WANT_LIB_EXT1__ 1 before including config
+0c1f4074 ipv6nd: don't leave a carrier expiry timeout on a freed interface
+fadc4ed6 compat: call setprogname during early init
+7c87dfdf privsep: Allow __NR__llseek as well as __NR_llseek on linux
+8d499db1 route: keep acquisition timestamp when matched route isn't updated
+c5605040 DHCP6: Mirror the prior DHCP rapid commit fix to DHCPv6
+0406dd87 DHCP: Only send the rapid commit option when configured to
+eb9fd7df control: Fix non privsep builds
 
---=20
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
+--===============3626964565826267874==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-dhcpcd-upgrade-10.5.0-10.5.2.patch"
+
+RnJvbSAxZTk5OWE3MGMyOTY5NWUzNjU4ZjkwNTQwNmMzZDZhYmM3NDRhNjIyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTggQXVnIDIwMjYgMDU6MTI6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+aGNwY2Q6IHVwZ3JhZGUgMTAuNS4wIC0+IDEwLjUuMgoKN2M1MGI1MWEgUmVsZWFzZSBkaGNwY2Qt
+MTAuNS4yCmM4ODg3ZDBkIElQdjY6IEFsbG9jYXRlIHRoZSBpbnRlcmZhY2Ugc3RhdGUgYmVmb3Jl
+IGFkZGluZyBhIHN0YXRpYyBhZGRyZXNzCjAzMDkxMDg4IEZpeCBidWlsZAoyYmIzODFlOSBSZWxl
+YXNlIGRoY3BjZC0xMC41LjEKYjE5NzQ2ZmQgY29uZmlndXJlOiBHZW5lcmF0ZSAuY2xhbmdkCjIz
+YjY3OTBkIHByaXZzZXA6IEZpeCBjYXBzaWN1bSBzdXBwb3J0IG9uIHRoZSBjb250cm9sIHNvY2tl
+dAphMTQ4NTdkMSBwcml2c2VwOiByZS1lbmFibGUgY2Fwc2ljdW0gYW5kIHBsZWRnZQo1MDg1N2Rk
+MiBob29rczogRG9jdW1lbnQgdGhhdCBuZXdfZGVsZWdhdGVkX2RoY3A2X3ByZWZpeCBjb250YWlu
+cyBhZGRyZXNzZXMKZjZkYWJmZTIgY29udHJvbDogSGFyZGVuIHRoZSBzb2NrZXQgdGhlIHRoZSBm
+cyBsZXZlbAo5N2I1MGQyZSBJbXByb3ZlIHRoZSBJREUgZXhwZXJpZW5jZQo5Y2Q5ZDJkZiBESENQ
+OiBzY3JpcHQgcmVhc29uIHNob3VsZCBiZSBSRUxFQVNFIG9uIFJFTEVBU0UsIG5vdCBTVE9QCjc5
+OTM2YzI4IGxpbnV4OiB3b3JrYXJvdW5kIGEgZ2NjIGNvbXBpbGUgd2FybmluZyBpc3N1ZQpkZmFh
+YTVlYSByZW1vdmUgYWNjaWRlbnRhbCBkZWJ1Zwo3MzcwOTFkMiBpcHY0OiBjbGVhciBhZGRlZCBz
+dGF0ZSBpZiB3ZSBkaWRuJ3QgZGVsZXRlIHRoZSBhZGRyZXNzCmI4M2ZlMjhjIGNvbXBhdDogZGVm
+aW5lIF9fU1REQ19XQU5UX0xJQl9FWFQxX18gMSBiZWZvcmUgaW5jbHVkaW5nIGNvbmZpZwowYzFm
+NDA3NCBpcHY2bmQ6IGRvbid0IGxlYXZlIGEgY2FycmllciBleHBpcnkgdGltZW91dCBvbiBhIGZy
+ZWVkIGludGVyZmFjZQpmYWRjNGVkNiBjb21wYXQ6IGNhbGwgc2V0cHJvZ25hbWUgZHVyaW5nIGVh
+cmx5IGluaXQKN2M4N2RmZGYgcHJpdnNlcDogQWxsb3cgX19OUl9fbGxzZWVrIGFzIHdlbGwgYXMg
+X19OUl9sbHNlZWsgb24gbGludXgKOGQ0OTlkYjEgcm91dGU6IGtlZXAgYWNxdWlzaXRpb24gdGlt
+ZXN0YW1wIHdoZW4gbWF0Y2hlZCByb3V0ZSBpc24ndCB1cGRhdGVkCmM1NjA1MDQwIERIQ1A2OiBN
+aXJyb3IgdGhlIHByaW9yIERIQ1AgcmFwaWQgY29tbWl0IGZpeCB0byBESENQdjYKMDQwNmRkODcg
+REhDUDogT25seSBzZW5kIHRoZSByYXBpZCBjb21taXQgb3B0aW9uIHdoZW4gY29uZmlndXJlZCB0
+bwplYjlmZDdkZiBjb250cm9sOiBGaXggbm9uIHByaXZzZXAgYnVpbGRzCi0tLQogLi4uL2RoY3Bj
+ZC97ZGhjcGNkXzEwLjUuMC5iYiA9PiBkaGNwY2RfMTAuNS4yLmJifSAgICAgICAgICAgICB8IDIg
+Ky0KIC4uLjIwLXJlc29sdi5jb25mLWltcHJvdmUtdGhlLXNpdGF0aW9uLW9mLXdvcmtpbmctd2l0
+aC0ucGF0Y2ggfCAyICstCiAuLi4wMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVycm9yLXdoZW4t
+ZW5hYmxlLW11bHRpbGliLnBhdGNoIHwgMiArLQogLi4uLzAwMDEtcmVtb3ZlLUlOQ0xVREVESVIt
+dG8tcHJldmVudC1idWlsZC1pc3N1ZXMucGF0Y2ggICAgICB8IDQgKystLQogNCBmaWxlcyBjaGFu
+Z2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9kaGNwY2Qve2RoY3BjZF8xMC41LjAuYmIgPT4gZGhjcGNkXzEwLjUuMi5i
+Yn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9k
+aGNwY2RfMTAuNS4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZGhjcGNk
+XzEwLjUuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L2RoY3BjZC9kaGNwY2RfMTAuNS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9kaGNwY2RfMTAuNS4yLmJiCmluZGV4IDczZjU1OTY5Y2Qu
+LmQ4MDE3NjkzZTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNk
+L2RoY3BjZF8xMC41LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2Qv
+ZGhjcGNkXzEwLjUuMi5iYgpAQCAtMTcsNyArMTcsNyBAQCBTUkNfVVJJID0gImdpdDovL2dpdGh1
+Yi5jb20vTmV0d29ya0NvbmZpZ3VyYXRpb24vZGhjcGNkO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1t
+YQogICAgICAgICAgICBmaWxlOi8vMDAwMS1kaGNwY2QuOC1GaXgtY29uZmxpY3QtZXJyb3Itd2hl
+bi1lbmFibGUtbXVsdGlsaWIucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ1JFViA9ICIxZDYw
+ODUxOWFiYjM5ODAwNmI3N2YxMWM3YjcyMDE0N2FkZjRjZmNjIgorU1JDUkVWID0gIjdjNTBiNTFh
+MTQyY2E1ZThjYmJmOGY2NWNkODExMWQ2ZjIwMDYwOGEiCiAKICMgRG9lc24ndCB1c2UgYXV0b21h
+a2Ugc28gd2UgY2FuJ3QgZG8gb3V0LW9mLXRyZWUgYnVpbGRzCiBpbmhlcml0IHBrZ2NvbmZpZyBh
+dXRvdG9vbHMtYnJva2Vuc2VwIHN5c3RlbWQgdXNlcmFkZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS0yMC1yZXNvbHYuY29uZi1pbXByb3Zl
+LXRoZS1zaXRhdGlvbi1vZi13b3JraW5nLXdpdGgtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS0yMC1yZXNvbHYuY29uZi1pbXByb3ZlLXRoZS1zaXRh
+dGlvbi1vZi13b3JraW5nLXdpdGgtLnBhdGNoCmluZGV4IDA0YzFkOTI4OTcuLmU1NDgzYzc0N2Qg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEt
+MjAtcmVzb2x2LmNvbmYtaW1wcm92ZS10aGUtc2l0YXRpb24tb2Ytd29ya2luZy13aXRoLS5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLTIwLXJl
+c29sdi5jb25mLWltcHJvdmUtdGhlLXNpdGF0aW9uLW9mLXdvcmtpbmctd2l0aC0ucGF0Y2gKQEAg
+LTEsNCArMSw0IEBACi1Gcm9tIGEzZTM5N2QzNzY0ZmRiNzc5ZTJmOTk1YjY5MGJhMzY1OTU2NjEy
+ZjUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDVmOWIzYzRhYTc5NjVjZjllZGY3ZDZh
+ZGM4NjI2ZjUwNDYyYWQ5NzkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaGVuIFFp
+IDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDkgTm92IDIwMjIgMTY6MzM6MTgg
+KzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gMjAtcmVzb2x2LmNvbmY6IGltcHJvdmUgdGhlIHNpdGF0
+aW9uIG9mIHdvcmtpbmcgd2l0aCBzeXN0ZW1kCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLWRoY3BjZC44LUZpeC1jb25mbGljdC1lcnJvci13
+aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhj
+cGNkL2ZpbGVzLzAwMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVycm9yLXdoZW4tZW5hYmxlLW11
+bHRpbGliLnBhdGNoCmluZGV4IGMyYWZiODNiNTQuLjE3ZDU2ODUzMzQgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtZGhjcGNkLjgtRml4LWNv
+bmZsaWN0LWVycm9yLXdoZW4tZW5hYmxlLW11bHRpbGliLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVy
+cm9yLXdoZW4tZW5hYmxlLW11bHRpbGliLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkM2U1
+MTdiZTA0ZTY2MGQ3MjIzM2NkZTkxYjQ0YzNjZjcwNTEyNmUyIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSBlOWI0NjJhNWIzZmU4NzVlZmZjMDVhMjQ2OTQ4NTMzZGExYzViYWFmIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGZ1aml0c3Uu
+Y29tPgogRGF0ZTogRnJpLCAxMCBNYXIgMjAyMyAwMzo0ODo0NiArMDAwMAogU3ViamVjdDogW1BB
+VENIXSBkaGNwY2QuODogRml4IGNvbmZsaWN0IGVycm9yIHdoZW4gZW5hYmxlIG11bHRpbGliLgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1y
+ZW1vdmUtSU5DTFVERURJUi10by1wcmV2ZW50LWJ1aWxkLWlzc3Vlcy5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2ZpbGVzLzAwMDEtcmVtb3ZlLUlOQ0xVREVESVItdG8t
+cHJldmVudC1idWlsZC1pc3N1ZXMucGF0Y2gKaW5kZXggNjllYmM2MDI2Zi4uZWQ0MTJjM2Q5NCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZmlsZXMvMDAwMS1y
+ZW1vdmUtSU5DTFVERURJUi10by1wcmV2ZW50LWJ1aWxkLWlzc3Vlcy5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9maWxlcy8wMDAxLXJlbW92ZS1JTkNMVURFRElS
+LXRvLXByZXZlbnQtYnVpbGQtaXNzdWVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyNzhl
+Zjc4ZTAwN2FiNzRjNzAxOTYxZTEwODI2MmQ5ZDczM2EzOTc1IE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSBhYjlhZTUyZTBiN2NmNTMyNjZjOTlmZDAwZDIzZDljMmY5Y2IzMDhlIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU3RlZmFubyBDYXBwYSA8c3RlZmFuby5jYXBwYS5r
+czg5QGdtYWlsLmNvbT4KIERhdGU6IFN1biwgMTMgSmFuIDIwMTkgMDE6NTA6NTIgKzAxMDAKIFN1
+YmplY3Q6IFtQQVRDSF0gcmVtb3ZlIElOQ0xVREVESVIgdG8gcHJldmVudCBidWlsZCBpc3N1ZXMK
+QEAgLTExLDcgKzExLDcgQEAgU2lnbmVkLW9mZi1ieTogU3RlZmFubyBDYXBwYSA8c3RlZmFuby5j
+YXBwYS5rczg5QGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNSBkZWxldGlvbnMoLSkKIAog
+ZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZSBiL2NvbmZpZ3VyZQotaW5kZXggMzJiZjk2ZWYuLmFiNGFh
+OTAxIDEwMDc1NQoraW5kZXggNDNhNDBhN2QuLjcxNzA3MDczIDEwMDc1NQogLS0tIGEvY29uZmln
+dXJlCiArKysgYi9jb25maWd1cmUKIEBAIC0yOSw3ICsyOSw2IEBAIEJVSUxEPQotLSAKMi40Ny4x
+Cgo=
+
+--===============3626964565826267874==--
 
